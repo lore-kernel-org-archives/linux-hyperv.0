@@ -2,520 +2,175 @@ Return-Path: <SRS0=lZBM=Q5=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7C1C43381
-	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Feb 2019 03:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FE3C43381
+	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Feb 2019 12:14:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF08B2080F
-	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Feb 2019 03:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ADE52075A
+	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Feb 2019 12:14:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HOWRADAg"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="hEqvh4pG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725961AbfBVDrT (ORCPT
+        id S1726400AbfBVMOz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 21 Feb 2019 22:47:19 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:42240 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbfBVDrT (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 21 Feb 2019 22:47:19 -0500
-Received: by mail-io1-f66.google.com with SMTP id p196so696383iod.9;
-        Thu, 21 Feb 2019 19:47:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BQuESBBgEdDBLGscfHgDkzpT5CHyQmlsLpoKrk/wzJs=;
-        b=HOWRADAg2COkmgx5CcKJOhVAOmxCih1v5N05AT2Sv8lrC3edjKmGmLkURFEV7IuD7x
-         PD+ujiU2AEmNFUSHaVdKeC3tsU94eVSLloCIsmF9E/wF7WowgCr0CECk0a5IrkTmOmTv
-         z5Gv/lw8wpYAKFJeufvHHyIsiTFXzB81lqHi0wO1q+tLkhaN1WxeHASmhF+Zfaypsexo
-         cagB/j9NBYS4/PppvKSLcYH7o8M813LBh9+x/fM0QJMODz0YA9REzoJ33QS0F1sPUD3G
-         8Kzv4nb48tgsJXutmZdP8Dmd3ApGvMbz+3u8oNDuHDnnUNfZ51VDDhW3hwCpACgNG2VV
-         pXcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BQuESBBgEdDBLGscfHgDkzpT5CHyQmlsLpoKrk/wzJs=;
-        b=WhDvxdurKrexDVKjrxbbELzCWvN7v7iLYQpOgERqBO7aI7z875HMeh7TYrDc9JkMTp
-         2uxdw3bbQki4004wL9TJe6gJlgQHmJntkCihBKaNGLBtexGlABT27BYSrFhvDXs+AWHw
-         938pFrwGpvSigwch3MFr2h84UsIJKZvRlGhOam1QsO9ZjybSHGgfu8JdQyMnb44nP+rX
-         kCrvhoKrT5mgfilknL97uWIsz0IB9Ob4PI7AcuCGS850BdtrYZ0jlthK35KO+wht2ydb
-         baAl2gn4bL+sR1qvXvto1O0DpQaloETGFA3+VAbbDVU5CuYlaY6g/vEKXAyA8MIk7EO/
-         OCfg==
-X-Gm-Message-State: AHQUAuawsS+zfnB9/9y/w1Fz+YdvAmZXZLTQbhAUwnAhzCiLEFIDu8+r
-        0eqzZtLTSIhs0OHZKXt9LFE=
-X-Google-Smtp-Source: AHgI3IZcBPnxQYg1C3c8tLiDXHRLN8r2jiYkHLaVcRW6NEKEVqtA/hJs20ok8BU6fGXx8Cgzg6CDeA==
-X-Received: by 2002:a5e:a611:: with SMTP id q17mr1112532ioi.17.1550807237406;
-        Thu, 21 Feb 2019 19:47:17 -0800 (PST)
-Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
-        by smtp.gmail.com with ESMTPSA id t1sm153174ioc.45.2019.02.21.19.47.16
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 21 Feb 2019 19:47:16 -0800 (PST)
-Date:   Thu, 21 Feb 2019 22:47:14 -0500
-From:   Kimberly Brown <kimbrownkd@gmail.com>
+        Fri, 22 Feb 2019 07:14:55 -0500
+Received: from mail-eopbgr1300095.outbound.protection.outlook.com ([40.107.130.95]:57312
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725926AbfBVMOy (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 22 Feb 2019 07:14:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BOEHeiitidRh6DEMmcbodYuE0mYazYgp5jAEtGt7+CQ=;
+ b=hEqvh4pGv6p/UnwYk1BLKNjKhgLzLbY8xcalOIMQZVvwHif6zYMZPRem+eSaz/CaufyGgYEmgKv5BnOvIf/cY0Vf5gUTjYTcEDPj1x8InQ/e5/4JvzRxhkPMJ2XVzLPJ/7EbLO2mGmbOjDeUmXE1q1y9ddlImkmBhYER2xHUuhw=
+Received: from TY2P153MB0222.APCP153.PROD.OUTLOOK.COM (20.178.148.142) by
+ TY2P153MB0223.APCP153.PROD.OUTLOOK.COM (20.178.148.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1665.1; Fri, 22 Feb 2019 12:14:35 +0000
+Received: from TY2P153MB0222.APCP153.PROD.OUTLOOK.COM
+ ([fe80::54d7:8208:977f:821f]) by TY2P153MB0222.APCP153.PROD.OUTLOOK.COM
+ ([fe80::54d7:8208:977f:821f%10]) with mapi id 15.20.1665.007; Fri, 22 Feb
+ 2019 12:14:35 +0000
+From:   Tianyu Lan <Tianyu.Lan@microsoft.com>
 To:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] Drivers: hv: vmbus: Add a channel ring buffer mutex
- lock
-Message-ID: <c18bc31987ba67b8418fa2118f65bb258cb8899b.1550806305.git.kimbrownkd@gmail.com>
-References: <20190122020759.GA4054@ubu-Virtual-Machine>
- <cover.1550806305.git.kimbrownkd@gmail.com>
+        "lantianyu1986@gmail.com" <lantianyu1986@gmail.com>
+CC:     "joro@8bytes.org" <joro@8bytes.org>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        vkuznets <vkuznets@redhat.com>,
+        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+        "sashal@kernel.org" <sashal@kernel.org>,
+        "dan.carpenter@oracle.com" <dan.carpenter@oracle.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: [PATCH V4 2/3] HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
+Thread-Topic: [PATCH V4 2/3] HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
+Thread-Index: AQHUwhUE84k2Ey/KM0eLU3rWu6n1HqXqkU+AgAE6mZA=
+Date:   Fri, 22 Feb 2019 12:14:34 +0000
+Message-ID: <TY2P153MB0222F0ED0743B87BB103705C927F0@TY2P153MB0222.APCP153.PROD.OUTLOOK.COM>
+References: <1549894824-26623-1-git-send-email-Tianyu.Lan@microsoft.com>
+ <1549894824-26623-3-git-send-email-Tianyu.Lan@microsoft.com>
+ <DM5PR2101MB091885D1CD3761322191CAAFD77E0@DM5PR2101MB0918.namprd21.prod.outlook.com>
+In-Reply-To: <DM5PR2101MB091885D1CD3761322191CAAFD77E0@DM5PR2101MB0918.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-02-21T17:27:35.7497325Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=2314f9d2-8068-4997-b1ee-d7df58594c90;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+x-originating-ip: [167.220.255.60]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6fe61798-e9dc-4825-849f-08d698bf4f0b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600110)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TY2P153MB0223;
+x-ms-traffictypediagnostic: TY2P153MB0223:
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-exchange-diagnostics: =?us-ascii?Q?1;TY2P153MB0223;23:aGbDaec5q+OGwhoTE30l+PfvG+/U76xd3U8+rITf0?=
+ =?us-ascii?Q?xVeTXygCkcjbEq234YNPEoFifEdbt+4EtfuwCHcS5Q0wAaBI8YZ5XnigCaI5?=
+ =?us-ascii?Q?JTrmZMWJEEx25V6uJLDgPaQWXUDneHApj7ssJBsshaeKtu85ZmLkitzABKUg?=
+ =?us-ascii?Q?EVSJ9WZ1hAUpTgAade9ls8DQ7krJ3AJSjX/ABZ4Kaj4KPR97OtAg39huJ+LP?=
+ =?us-ascii?Q?lbBR6JQxTNsJIgPDbQO2FhviZIRbp0rEtAVzyZteM8OTZHjSTVC565Ax4XVZ?=
+ =?us-ascii?Q?i1Tu+q7wA333w5cIv1jFijkS5BGHQWKVjDg95vq+A31sE2em8SUZxDWePBIX?=
+ =?us-ascii?Q?R7Rnb3yiY+Rf84zfA90fj2alanztm7pLTkhRWWfWw/ywGACUUUXOHOzajrWr?=
+ =?us-ascii?Q?L5nWp72UCnMzzT2R4kztGW+0jPS9s8JheuZSwlmohEr4VhBSreUSyp4sUQsl?=
+ =?us-ascii?Q?yA1H+Yhl80Jeoc3rEbG2oD8FHnLx0eP0XrjGoYvZ8WfvXoR0L5DpwwQmWoVI?=
+ =?us-ascii?Q?EcVo1l1sFJydO1xVJVF1PReFzIQsCgpDJfQPBbEHSxMVDaLsFk8Mvvt129xx?=
+ =?us-ascii?Q?1nSY9Dw5dy58B2pTVARi12+GoIrpzIdHepkWmn/3bIktvPOxJIaIZ//1iF+h?=
+ =?us-ascii?Q?BpOn/lVZB7yPOmyzfV/d9x3P/NH8Rv7/ziF9Qv+lQ8F0s4RNwJW5KpB0BCDF?=
+ =?us-ascii?Q?RXV6UwDkV+mDiOYynz1VtIEVbUoTK03haxLkgBUvM2gkKws2LCtEFEZ8WENb?=
+ =?us-ascii?Q?2RTeTqE3z6w3N4Jvv3/RbEsLiMtTMZeitVRgW8PXAdYhdZ/pil6sFZmqtv8T?=
+ =?us-ascii?Q?Qx/F5kxBxoMWCG7B7J6MgDR9wL8dvzMKUnMlyBbrchbtrOuC6VgmA9NxFWcM?=
+ =?us-ascii?Q?g4cmi76EfQFr6RlVsXhj1k13YfWEScsrDnsLrr6QN77nJ0Ny+mnlPAamRXSw?=
+ =?us-ascii?Q?Kh/A8gcijFWHjT94ILkQFBRuA5ort9G4KQmrivi08Y1RpUDuX8KHlQWPLSMG?=
+ =?us-ascii?Q?Uk8QocFNpSor3w0fNJJboS7VwGD8ndQq+XWYph+hVFMTRk09OSRJzAQLIWdw?=
+ =?us-ascii?Q?jWow1J9qtFvznMbLomPxl85SsCAj8Ss9oQhoQwrJMYcg0XDcphDcJZjmaaoS?=
+ =?us-ascii?Q?KFbBm4Vs6VeccXJUT8O3yE9wA5FxZ9gQ3BVcZP7hyXdHTbZ9wrMdPfwngO5y?=
+ =?us-ascii?Q?1HCz2ZbA3hiYyg07E7WprzSH4B7tsKP0Y+ThTDLAm/MXLsXRRYEIbfMTqDFW?=
+ =?us-ascii?Q?2RBVZN3X/ptYb1MgT690+DGx3h5zNTeLsJVnEiZV9FXA4qhp5cAIgPXPpipI?=
+ =?us-ascii?Q?2C2Z4Ow6jJSQ64t54BhSiRLfby77I6cw1iDNQDqOyaqFXoMe7qyVS5Z8vDrR?=
+ =?us-ascii?Q?VuPKPRuMqSOWHq7MhnA4PkLg7KTdW/3zutPeoBg6+BRFBJythHh84P032cyT?=
+ =?us-ascii?Q?/TstqsO4VbUpguV+X4hnnIzB8JnGAu17f1GX0zNL8f2APUO3RrY?=
+x-microsoft-antispam-prvs: <TY2P153MB0223DC82BD778C3766635D92927F0@TY2P153MB0223.APCP153.PROD.OUTLOOK.COM>
+x-forefront-prvs: 09565527D6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(366004)(39860400002)(346002)(396003)(136003)(189003)(13464003)(199004)(66066001)(55016002)(76176011)(9686003)(25786009)(6436002)(7696005)(316002)(72206003)(22452003)(54906003)(86362001)(68736007)(305945005)(71200400001)(5660300002)(2906002)(71190400001)(86612001)(4326008)(6246003)(110136005)(10290500003)(8990500004)(478600001)(99286004)(10090500001)(14454004)(7736002)(81166006)(7416002)(229853002)(1511001)(106356001)(81156014)(26005)(6116002)(186003)(6346003)(8936002)(3846002)(102836004)(33656002)(53546011)(11346002)(476003)(8676002)(105586002)(97736004)(74316002)(53936002)(446003)(2501003)(486006)(256004)(6506007);DIR:OUT;SFP:1102;SCL:1;SRVR:TY2P153MB0223;H:TY2P153MB0222.APCP153.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Tianyu.Lan@microsoft.com; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: qtuUqYQUC8DP60bNMdx6suoF2TIj4ZNLCfApO/QKksSOy1GuTG1OsQbqHWBuMIs+cS4LAuYvhajIKEljKxaGSikrCrs09ViG6VkJCMctRr9627zrRFfKkvimjXXviCWIjszRfEoE4hJj1t02LZowlM3BFlvTYt+SXs/ic7nAVXj4/iRa7MEPjaqSoJK2SA5gnRhQylPM61+t6sQUMORsgiTWGuueXhvencX50DMGqh9BiQbtb0VEQul9qXTuptG6OleiUkMO1dY/QADtnoS4RmUY4iJH4hqwl4XF91ODiCBR0PMQNx1RZr1GFmNwq5cOeWLs88rO1wKnm2iHlQS7mEj1SEFMrB04BGVE5Syc73IDosWesp2pHEhv1BNVq85kjxnC+iRpgK5FzmwOMMHKiz9pmaiVL3HpdKfOn7jcI6k=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1550806305.git.kimbrownkd@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fe61798-e9dc-4825-849f-08d698bf4f0b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2019 12:14:34.7256
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2P153MB0223
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The "_show" functions that access channel ring buffer data are
-vulnerable to a race condition that can result in a NULL pointer
-dereference. This problem was discussed here:
-https://lkml.org/lkml/2018/10/18/779
+Hi Michael:
+               Thanks for your review.
 
-To prevent this from occurring, add a new mutex lock,
-"ring_buffer_mutex", to the vmbus_channel struct.
+-----Original Message-----
+From: Michael Kelley <mikelley@microsoft.com>=20
+Sent: Friday, February 22, 2019 1:28 AM
+To: lantianyu1986@gmail.com
+Cc: Tianyu Lan <Tianyu.Lan@microsoft.com>; joro@8bytes.org; mchehab+samsung=
+@kernel.org; davem@davemloft.net; gregkh@linuxfoundation.org; nicolas.ferre=
+@microchip.com; arnd@arndb.de; linux-kernel@vger.kernel.org; iommu@lists.li=
+nux-foundation.org; KY Srinivasan <kys@microsoft.com>; vkuznets <vkuznets@r=
+edhat.com>; alex.williamson@redhat.com; sashal@kernel.org; dan.carpenter@or=
+acle.com; linux-hyperv@vger.kernel.org
+Subject: RE: [PATCH V4 2/3] HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
 
-Acquire/release "ring_buffer_mutex" in the functions that can set the
-ring buffer pointer to NULL: vmbus_free_ring() and __vmbus_open().
+From: lantianyu1986@gmail.com <lantianyu1986@gmail.com> Sent: Monday, Febru=
+ary 11, 2019 6:20 AM
+> +	/*
+> +	 * Hyper-V doesn't provide irq remapping function for
+> +	 * IO-APIC and so IO-APIC only accepts 8-bit APIC ID.
+> +	 * Cpu's APIC ID is read from ACPI MADT table and APIC IDs
+> +	 * in the MADT table on Hyper-v are sorted monotonic increasingly.
+> +	 * APIC ID reflects cpu topology. There maybe some APIC ID
+> +	 * gaps when cpu number in a socket is not power of two. Prepare
+> +	 * max cpu affinity for IOAPIC irqs. Scan cpu 0-255 and set cpu
+> +	 * into ioapic_max_cpumask if its APIC ID is less than 256.
+> +	 */
+> +	for (i =3D min_t(unsigned int, num_possible_cpus(), 255); i >=3D 0; i--=
+)
 
-Acquire/release "ring_buffer_mutex" in the four channel-level "_show"
-functions that access ring buffer data. Remove the "const" qualifier
-from the "struct vmbus_channel *chan" parameter of the channel-level
-"_show" functions so that "ring_buffer_mutex" can be acquired/released
-in these functions.
+The above isn't quite right.  For example, if num_possible_cpus() is 8, the=
+n the loop will be executed 9 times, for values 8 down through 0.
+It should be executed for values 7 down through 0.
 
-Acquire/release "ring_buffer_mutex" in hv_ringbuffer_get_debuginfo().
-Pass the channel pointer to hv_ringbuffer_get_debuginfo() so that
-"ring_buffer_mutex" can be accessed in this function.
+Yes, fix this in the V5. Thanks.
 
-Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
----
- drivers/hv/channel.c      |   5 ++
- drivers/hv/channel_mgmt.c |   1 +
- drivers/hv/ring_buffer.c  |  11 +++-
- drivers/hv/vmbus_drv.c    | 111 ++++++++++++++++++++++++--------------
- include/linux/hyperv.h    |  10 +++-
- 5 files changed, 96 insertions(+), 42 deletions(-)
+> +		if (cpu_physical_id(i) < 256)
+> +			cpumask_set_cpu(i, &ioapic_max_cpumask);
+> +
+> +	return 0;
+> +}
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 23381c41d087..7770e97e4202 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -82,8 +82,10 @@ EXPORT_SYMBOL_GPL(vmbus_setevent);
- /* vmbus_free_ring - drop mapping of ring buffer */
- void vmbus_free_ring(struct vmbus_channel *channel)
- {
-+	mutex_lock(&channel->ring_buffer_mutex);
- 	hv_ringbuffer_cleanup(&channel->outbound);
- 	hv_ringbuffer_cleanup(&channel->inbound);
-+	mutex_unlock(&channel->ring_buffer_mutex);
- 
- 	if (channel->ringbuffer_page) {
- 		__free_pages(channel->ringbuffer_page,
-@@ -241,8 +243,11 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- 	vmbus_teardown_gpadl(newchannel, newchannel->ringbuffer_gpadlhandle);
- 	newchannel->ringbuffer_gpadlhandle = 0;
- error_clean_ring:
-+	mutex_lock(&newchannel->ring_buffer_mutex);
- 	hv_ringbuffer_cleanup(&newchannel->outbound);
- 	hv_ringbuffer_cleanup(&newchannel->inbound);
-+	mutex_unlock(&newchannel->ring_buffer_mutex);
-+
- 	newchannel->state = CHANNEL_OPEN_STATE;
- 	return err;
- }
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 62703b354d6d..769873cddfe5 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -329,6 +329,7 @@ static struct vmbus_channel *alloc_channel(void)
- 
- 	spin_lock_init(&channel->lock);
- 	init_completion(&channel->rescind_event);
-+	mutex_init(&channel->ring_buffer_mutex);
- 
- 	INIT_LIST_HEAD(&channel->sc_list);
- 	INIT_LIST_HEAD(&channel->percpu_list);
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 9e8b31ccc142..35de60d2c1e8 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -167,13 +167,18 @@ hv_get_ringbuffer_availbytes(const struct hv_ring_buffer_info *rbi,
- 
- /* Get various debug metrics for the specified ring buffer. */
- int hv_ringbuffer_get_debuginfo(const struct hv_ring_buffer_info *ring_info,
--				struct hv_ring_buffer_debug_info *debug_info)
-+				struct hv_ring_buffer_debug_info *debug_info,
-+				struct vmbus_channel *channel)
- {
- 	u32 bytes_avail_towrite;
- 	u32 bytes_avail_toread;
- 
--	if (!ring_info->ring_buffer)
-+	mutex_lock(&channel->ring_buffer_mutex);
-+
-+	if (!ring_info->ring_buffer) {
-+		mutex_unlock(&channel->ring_buffer_mutex);
- 		return -EINVAL;
-+	}
- 
- 	hv_get_ringbuffer_availbytes(ring_info,
- 				     &bytes_avail_toread,
-@@ -184,6 +189,8 @@ int hv_ringbuffer_get_debuginfo(const struct hv_ring_buffer_info *ring_info,
- 	debug_info->current_write_index = ring_info->ring_buffer->write_index;
- 	debug_info->current_interrupt_mask
- 		= ring_info->ring_buffer->interrupt_mask;
-+	mutex_unlock(&channel->ring_buffer_mutex);
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(hv_ringbuffer_get_debuginfo);
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index b02bcf1a9380..1ff767795d0a 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -345,9 +345,8 @@ static ssize_t out_intr_mask_show(struct device *dev,
- 
- 	if (!hv_dev->channel)
- 		return -ENODEV;
--
- 	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->outbound,
--					  &outbound);
-+					  &outbound, hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -366,7 +365,7 @@ static ssize_t out_read_index_show(struct device *dev,
- 		return -ENODEV;
- 
- 	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->outbound,
--					  &outbound);
-+					  &outbound, hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 	return sprintf(buf, "%d\n", outbound.current_read_index);
-@@ -385,7 +384,7 @@ static ssize_t out_write_index_show(struct device *dev,
- 		return -ENODEV;
- 
- 	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->outbound,
--					  &outbound);
-+					  &outbound, hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 	return sprintf(buf, "%d\n", outbound.current_write_index);
-@@ -404,7 +403,7 @@ static ssize_t out_read_bytes_avail_show(struct device *dev,
- 		return -ENODEV;
- 
- 	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->outbound,
--					  &outbound);
-+					  &outbound, hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 	return sprintf(buf, "%d\n", outbound.bytes_avail_toread);
-@@ -423,7 +422,7 @@ static ssize_t out_write_bytes_avail_show(struct device *dev,
- 		return -ENODEV;
- 
- 	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->outbound,
--					  &outbound);
-+					  &outbound, hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 	return sprintf(buf, "%d\n", outbound.bytes_avail_towrite);
-@@ -440,7 +439,8 @@ static ssize_t in_intr_mask_show(struct device *dev,
- 	if (!hv_dev->channel)
- 		return -ENODEV;
- 
--	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound);
-+	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound,
-+					  hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -458,7 +458,8 @@ static ssize_t in_read_index_show(struct device *dev,
- 	if (!hv_dev->channel)
- 		return -ENODEV;
- 
--	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound);
-+	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound,
-+					  hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -476,7 +477,8 @@ static ssize_t in_write_index_show(struct device *dev,
- 	if (!hv_dev->channel)
- 		return -ENODEV;
- 
--	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound);
-+	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound,
-+					  hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -495,7 +497,8 @@ static ssize_t in_read_bytes_avail_show(struct device *dev,
- 	if (!hv_dev->channel)
- 		return -ENODEV;
- 
--	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound);
-+	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound,
-+					  hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -514,7 +517,8 @@ static ssize_t in_write_bytes_avail_show(struct device *dev,
- 	if (!hv_dev->channel)
- 		return -ENODEV;
- 
--	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound);
-+	ret = hv_ringbuffer_get_debuginfo(&hv_dev->channel->inbound, &inbound,
-+					  hv_dev->channel);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -1409,7 +1413,7 @@ static void vmbus_chan_release(struct kobject *kobj)
- 
- struct vmbus_chan_attribute {
- 	struct attribute attr;
--	ssize_t (*show)(const struct vmbus_channel *chan, char *buf);
-+	ssize_t (*show)(struct vmbus_channel *chan, char *buf);
- 	ssize_t (*store)(struct vmbus_channel *chan,
- 			 const char *buf, size_t count);
- };
-@@ -1428,7 +1432,7 @@ static ssize_t vmbus_chan_attr_show(struct kobject *kobj,
- {
- 	const struct vmbus_chan_attribute *attribute
- 		= container_of(attr, struct vmbus_chan_attribute, attr);
--	const struct vmbus_channel *chan
-+	struct vmbus_channel *chan
- 		= container_of(kobj, struct vmbus_channel, kobj);
- 
- 	if (!attribute->show)
-@@ -1441,58 +1445,89 @@ static const struct sysfs_ops vmbus_chan_sysfs_ops = {
- 	.show = vmbus_chan_attr_show,
- };
- 
--static ssize_t out_mask_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t out_mask_show(struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->outbound;
-+	ssize_t ret;
-+
-+	mutex_lock(&channel->ring_buffer_mutex);
- 
--	if (!rbi->ring_buffer)
-+	if (!rbi->ring_buffer) {
-+		mutex_unlock(&channel->ring_buffer_mutex);
- 		return -EINVAL;
-+	}
- 
--	return sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
-+	ret = sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
-+	mutex_unlock(&channel->ring_buffer_mutex);
-+
-+	return ret;
- }
- static VMBUS_CHAN_ATTR_RO(out_mask);
- 
--static ssize_t in_mask_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t in_mask_show(struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->inbound;
-+	ssize_t ret;
- 
--	if (!rbi->ring_buffer)
-+	mutex_lock(&channel->ring_buffer_mutex);
-+
-+	if (!rbi->ring_buffer) {
-+		mutex_unlock(&channel->ring_buffer_mutex);
- 		return -EINVAL;
-+	}
-+
-+	ret = sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
-+	mutex_unlock(&channel->ring_buffer_mutex);
- 
--	return sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
-+	return ret;
- }
- static VMBUS_CHAN_ATTR_RO(in_mask);
- 
--static ssize_t read_avail_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t read_avail_show(struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->inbound;
-+	ssize_t ret;
-+
-+	mutex_lock(&channel->ring_buffer_mutex);
- 
--	if (!rbi->ring_buffer)
-+	if (!rbi->ring_buffer) {
-+		mutex_unlock(&channel->ring_buffer_mutex);
- 		return -EINVAL;
-+	}
-+
-+	ret = sprintf(buf, "%u\n", hv_get_bytes_to_read(rbi));
-+	mutex_unlock(&channel->ring_buffer_mutex);
- 
--	return sprintf(buf, "%u\n", hv_get_bytes_to_read(rbi));
-+	return ret;
- }
- static VMBUS_CHAN_ATTR_RO(read_avail);
- 
--static ssize_t write_avail_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t write_avail_show(struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->outbound;
-+	ssize_t ret;
- 
--	if (!rbi->ring_buffer)
-+	mutex_lock(&channel->ring_buffer_mutex);
-+
-+	if (!rbi->ring_buffer) {
-+		mutex_unlock(&channel->ring_buffer_mutex);
- 		return -EINVAL;
-+	}
- 
--	return sprintf(buf, "%u\n", hv_get_bytes_to_write(rbi));
-+	ret = sprintf(buf, "%u\n", hv_get_bytes_to_write(rbi));
-+	mutex_unlock(&channel->ring_buffer_mutex);
-+
-+	return ret;
- }
- static VMBUS_CHAN_ATTR_RO(write_avail);
- 
--static ssize_t show_target_cpu(const struct vmbus_channel *channel, char *buf)
-+static ssize_t show_target_cpu(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%u\n", channel->target_cpu);
- }
- static VMBUS_CHAN_ATTR(cpu, S_IRUGO, show_target_cpu, NULL);
- 
--static ssize_t channel_pending_show(const struct vmbus_channel *channel,
--				    char *buf)
-+static ssize_t channel_pending_show(struct vmbus_channel *channel, char *buf)
- {
- 	if (!channel->offermsg.monitor_allocated)
- 		return -EINVAL;
-@@ -1503,8 +1538,7 @@ static ssize_t channel_pending_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(pending, S_IRUGO, channel_pending_show, NULL);
- 
--static ssize_t channel_latency_show(const struct vmbus_channel *channel,
--				    char *buf)
-+static ssize_t channel_latency_show(struct vmbus_channel *channel, char *buf)
- {
- 	if (!channel->offermsg.monitor_allocated)
- 		return -EINVAL;
-@@ -1515,19 +1549,19 @@ static ssize_t channel_latency_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(latency, S_IRUGO, channel_latency_show, NULL);
- 
--static ssize_t channel_interrupts_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t channel_interrupts_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%llu\n", channel->interrupts);
- }
- static VMBUS_CHAN_ATTR(interrupts, S_IRUGO, channel_interrupts_show, NULL);
- 
--static ssize_t channel_events_show(const struct vmbus_channel *channel, char *buf)
-+static ssize_t channel_events_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%llu\n", channel->sig_events);
- }
- static VMBUS_CHAN_ATTR(events, S_IRUGO, channel_events_show, NULL);
- 
--static ssize_t channel_intr_in_full_show(const struct vmbus_channel *channel,
-+static ssize_t channel_intr_in_full_show(struct vmbus_channel *channel,
- 					 char *buf)
- {
- 	return sprintf(buf, "%llu\n",
-@@ -1535,7 +1569,7 @@ static ssize_t channel_intr_in_full_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(intr_in_full, 0444, channel_intr_in_full_show, NULL);
- 
--static ssize_t channel_intr_out_empty_show(const struct vmbus_channel *channel,
-+static ssize_t channel_intr_out_empty_show(struct vmbus_channel *channel,
- 					   char *buf)
- {
- 	return sprintf(buf, "%llu\n",
-@@ -1543,7 +1577,7 @@ static ssize_t channel_intr_out_empty_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(intr_out_empty, 0444, channel_intr_out_empty_show, NULL);
- 
--static ssize_t channel_out_full_first_show(const struct vmbus_channel *channel,
-+static ssize_t channel_out_full_first_show(struct vmbus_channel *channel,
- 					   char *buf)
- {
- 	return sprintf(buf, "%llu\n",
-@@ -1551,7 +1585,7 @@ static ssize_t channel_out_full_first_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(out_full_first, 0444, channel_out_full_first_show, NULL);
- 
--static ssize_t channel_out_full_total_show(const struct vmbus_channel *channel,
-+static ssize_t channel_out_full_total_show(struct vmbus_channel *channel,
- 					   char *buf)
- {
- 	return sprintf(buf, "%llu\n",
-@@ -1559,7 +1593,7 @@ static ssize_t channel_out_full_total_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(out_full_total, 0444, channel_out_full_total_show, NULL);
- 
--static ssize_t subchannel_monitor_id_show(const struct vmbus_channel *channel,
-+static ssize_t subchannel_monitor_id_show(struct vmbus_channel *channel,
- 					  char *buf)
- {
- 	if (!channel->offermsg.monitor_allocated)
-@@ -1569,8 +1603,7 @@ static ssize_t subchannel_monitor_id_show(const struct vmbus_channel *channel,
- }
- static VMBUS_CHAN_ATTR(monitor_id, S_IRUGO, subchannel_monitor_id_show, NULL);
- 
--static ssize_t subchannel_id_show(const struct vmbus_channel *channel,
--				  char *buf)
-+static ssize_t subchannel_id_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%u\n",
- 		       channel->offermsg.offer.sub_channel_index);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 64698ec8f2ac..6a6f79d7beba 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -934,6 +934,13 @@ struct vmbus_channel {
- 	 * full outbound ring buffer.
- 	 */
- 	u64 out_full_first;
-+
-+	/*
-+	 * The mutex lock that protects the channel's ring buffers. It's used to
-+	 * prevent the ring buffer pointers from being set to NULL while a
-+	 * function is accessing ring buffer data.
-+	 */
-+	struct mutex ring_buffer_mutex;
- };
- 
- static inline bool is_hvsock_channel(const struct vmbus_channel *c)
-@@ -1207,7 +1214,8 @@ struct hv_ring_buffer_debug_info {
- 
- 
- int hv_ringbuffer_get_debuginfo(const struct hv_ring_buffer_info *ring_info,
--				struct hv_ring_buffer_debug_info *debug_info);
-+				struct hv_ring_buffer_debug_info *debug_info,
-+				struct vmbus_channel *channel);
- 
- /* Vmbus interface */
- #define vmbus_driver_register(driver)	\
--- 
-2.17.1
-
+Michael
