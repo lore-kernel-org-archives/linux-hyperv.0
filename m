@@ -2,110 +2,142 @@ Return-Path: <SRS0=S9PY=Q6=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,USER_AGENT_MUTT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5D05C43381
-	for <linux-hyperv@archiver.kernel.org>; Sat, 23 Feb 2019 15:55:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF9CC10F0B
+	for <linux-hyperv@archiver.kernel.org>; Sat, 23 Feb 2019 16:46:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 896F1206B6
-	for <linux-hyperv@archiver.kernel.org>; Sat, 23 Feb 2019 15:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1550937336;
-	bh=+Ays36zEFHBmxXkJpu0R3jWM526SktwiDLIwElTU+3c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=gtR9kgAFKajcPP54GdB9pC3SuDoe2JhQH2aGLp2Pq3jYYiLDV/5ksUcr1AuP0Sc04
-	 dSdDigtIlLohnbAul23j9FJRzUHYgqPB0zbiZrQ9kOMSTpSdmwA9SlgOZAC6a/Hj/Y
-	 7kBcCi1kWQpCN9iXQnDmW8Edc2X/Q3jTG2Jbc6Mk=
+	by mail.kernel.org (Postfix) with ESMTP id 6DB4D20665
+	for <linux-hyperv@archiver.kernel.org>; Sat, 23 Feb 2019 16:46:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="AncxuAb6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725920AbfBWPzg (ORCPT
+        id S1726370AbfBWQqe (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 23 Feb 2019 10:55:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37166 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725859AbfBWPzf (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 23 Feb 2019 10:55:35 -0500
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9E52C20675;
-        Sat, 23 Feb 2019 15:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1550937334;
-        bh=+Ays36zEFHBmxXkJpu0R3jWM526SktwiDLIwElTU+3c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QM/AA0oKUw5NBMESEeAHzsgtEtw1GepbY+FEwTckfKBI8h5MwSrIix6uDYoTGOT2g
-         FWyMjc194ug7h2JvC27ri3ejuTjLoXEjKU2j/ovj4czWX8Lgr+80EkjDdgcJKhAOXy
-         t6at+9x6Py0xrPKRgxDfR19fXmz5XHKr2QJkkcVI=
-Date:   Sat, 23 Feb 2019 10:55:33 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@microsoft.com, linux-hyperv@vger.kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        Sat, 23 Feb 2019 11:46:34 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:45436 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727525AbfBWQq3 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 23 Feb 2019 11:46:29 -0500
+Received: by mail-pf1-f194.google.com with SMTP id v21so2495089pfm.12
+        for <linux-hyperv@vger.kernel.org>; Sat, 23 Feb 2019 08:46:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2tqvMGNGecekmRBMhWxcCbgkjDH0E0cWlXiOAYIkicQ=;
+        b=AncxuAb6VmxEHCMCfnlHnFv7ycW0twGHcjGW5aayXJk7VX1A081i2rx+NbzVer9wye
+         9+iHAdSkp3a0bs6KR9qEMEU9v5XmOVYpdIRqfhyRtvtP57RAlbG8jyU1Cs+uxczrdcxt
+         LCgv3QYLuk6XI+xgM9ann/5ClFZKSAxW8ziUgoTKzb52ogjF7g3k3Dm4HlS0t0bRgrOu
+         8sra4eEW6nc4mAsHm+EjiSmF/ziienzj8jJ0J2E6UoUsLl3a3G7EvvnNzJuylfsI/yo6
+         /malusikt+BA+DCMPMM2CUorsEXKtGYcnfDDfP7kB+g56c+ZSc96YPKsh0psoZhCfPxf
+         YKNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2tqvMGNGecekmRBMhWxcCbgkjDH0E0cWlXiOAYIkicQ=;
+        b=rORA9lzVQt8NbO3aNzCNxGJMBh9E0hvsBlBeVE9akxdAHa/+NzIWtW8vJHRSxALdpl
+         VfRTkK9koprHfe1BkD5Na7Y4UUHVR4W5+w6SXWmFx3PdfAut59zcEsxw38lIVnn/H/Lz
+         CgEoEiUw8w4k+20LPsN5PNspGrxpVM/cf6um/46vOW8Ew5Y0C4xV5Zx1yEpKC/fZ4sRi
+         tqL3x+0du6OzebsLmGd/bCLNEXi2mFtH3X+SxkSgr6lhWklNObJW+C7OICqxuiXRytw8
+         gYr1Chdy+Wj6wc9pjK5fw2iZioGxDsMyYfKJrV0aa9IBxWkGKBPG78hIR5uNPA5yM8LL
+         Yvmw==
+X-Gm-Message-State: AHQUAubda0YSQv5uOIbJGPqDvm0oK7uOj2ri+Si4OmMtXDEC6W7j0TOq
+        qPeqHmicOWzUKa6uxl9mTnKFCA==
+X-Google-Smtp-Source: AHgI3IaU523gIjoHB2EhTWDud8WZI/ynj1FZXghUhuprmUeB0zQI5pmnA7AVAO/70UshsdVjaIZZxw==
+X-Received: by 2002:a63:7f46:: with SMTP id p6mr9565771pgn.54.1550940388010;
+        Sat, 23 Feb 2019 08:46:28 -0800 (PST)
+Received: from shemminger-XPS-13-9360 (204-195-22-127.wavecable.com. [204.195.22.127])
+        by smtp.gmail.com with ESMTPSA id 33sm14689464pgs.81.2019.02.23.08.46.27
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 23 Feb 2019 08:46:27 -0800 (PST)
+Date:   Sat, 23 Feb 2019 08:46:24 -0800
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Haiyang Zhang <haiyangz@linuxonhyperv.com>
+Cc:     haiyangz@microsoft.com, sashal@kernel.org,
+        linux-hyperv@vger.kernel.org, kys@microsoft.com,
+        sthemmin@microsoft.com, olaf@aepfle.de, vkuznets@redhat.com,
+        davem@davemloft.net, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL v3] Hyper-V commits for 5.0-rc
-Message-ID: <20190223155533.GE10616@sasha-vm>
-References: <20190223031226.AB912206A3@mail.kernel.org>
- <20190223085715.GA22149@kroah.com>
+Subject: Re: [PATCH hyperv-fixes] hv_netvsc: Fix IP header checksum for
+ coalesced packets
+Message-ID: <20190223084624.0d0c60a0@shemminger-XPS-13-9360>
+In-Reply-To: <20190222182503.12160-1-haiyangz@linuxonhyperv.com>
+References: <20190222182503.12160-1-haiyangz@linuxonhyperv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190223085715.GA22149@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sat, Feb 23, 2019 at 09:57:15AM +0100, Greg KH wrote:
->On Fri, Feb 22, 2019 at 10:12:25PM -0500, Sasha Levin wrote:
->> -----BEGIN PGP SIGNED MESSAGE-----
->> Hash: SHA512
->>
->> The following changes since commit 8834f5600cf3c8db365e18a3d5cac2c2780c81e5:
->>
->>   Linux 5.0-rc5 (2019-02-03 13:48:04 -0800)
->>
->> are available in the Git repository at:
->>
->>   git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
->>
->> for you to fetch changes up to b2946cd86f3c1b5b1262c0ec06068110c2328fe6:
->>
->>   MAINTAINERS: Change mailing list for Hyper-V CORE AND DRIVERS (2019-02-22 21:46:37 -0500)
->>
->> - ----------------------------------------------------------------
->> Two fixes:
->>
->> 1. A fix for a race condition reading sysfs entries while a device is
->> being added, by Kimberly Brown.
->>
->> 2. Update the Hyper-V mailing list to a new one created on
->> vger.kernel.org, by Haiyang Zhang.
->>
->> - ----------------------------------------------------------------
->> Haiyang Zhang (1):
->>       MAINTAINERS: Change mailing list for Hyper-V CORE AND DRIVERS
->>
->> Kimberly Brown (2):
->>       Drivers: hv: vmbus: Change server monitor_pages index to 0
->>       Drivers: hv: vmbus: Return -EINVAL if monitor_allocated not set
->
->I objected to this last patch when it was posted on the list.  The sysfs
->file should just not be present if the functionality is not there, no
->need to add the "-EINVAL" logic to it instead.
->
->Having a sysfs file that says it can be read, and then rejecting that
->read with an error is NOT ok.
+On Fri, 22 Feb 2019 18:25:03 +0000
+Haiyang Zhang <haiyangz@linuxonhyperv.com> wrote:
 
-Hm, I'm sorry but I didn't see an objection on the thread
-(https://lore.kernel.org/lkml/20190122020759.GA4054@ubu-Virtual-Machine/)
-which is why it was sent in like this.
+> From: Haiyang Zhang <haiyangz@microsoft.com>
+> 
+> Incoming packets may have IP header checksum verified by the host.
+> They may not have IP header checksum computed after coalescing.
+> This patch re-compute the checksum when necessary, otherwise the
+> packets may be dropped, because Linux network stack always checks it.
+> 
+> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+> ---
+>  drivers/net/hyperv/netvsc_drv.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+> index 256adbd044f5..cf4897043e83 100644
+> --- a/drivers/net/hyperv/netvsc_drv.c
+> +++ b/drivers/net/hyperv/netvsc_drv.c
+> @@ -744,6 +744,14 @@ void netvsc_linkstatus_callback(struct net_device *net,
+>  	schedule_delayed_work(&ndev_ctx->dwork, 0);
+>  }
+>  
+> +static void netvsc_comp_ipcsum(struct sk_buff *skb)
+> +{
+> +	struct iphdr *iph = (struct iphdr *)skb->data;
 
-Could you please point me to it so we can get the patch fixed up?
+Can you use iphdr(skb) here?
 
---
-Thanks,
-Sasha
+> +
+> +	iph->check = 0;
+> +	iph->check = ip_fast_csum(iph, iph->ihl);
+> +}
+> +
+>  static struct sk_buff *netvsc_alloc_recv_skb(struct net_device *net,
+>  					     struct netvsc_channel *nvchan)
+>  {
+> @@ -770,9 +778,17 @@ static struct sk_buff *netvsc_alloc_recv_skb(struct net_device *net,
+>  	/* skb is already created with CHECKSUM_NONE */
+>  	skb_checksum_none_assert(skb);
+>  
+> -	/*
+> -	 * In Linux, the IP checksum is always checked.
+> -	 * Do L4 checksum offload if enabled and present.
+> +	/* Incoming packets may have IP header checksum verified by the host.
+> +	 * They may not have IP header checksum computed after coalescing.
+> +	 * We compute it here if the flags are set, because on Linux, the IP
+> +	 * checksum is always checked.
+> +	 */
+> +	if (csum_info && csum_info->receive.ip_checksum_value_invalid &&
+> +	    csum_info->receive.ip_checksum_succeeded &&
+> +	    skb->protocol == htons(ETH_P_IP))
+> +		netvsc_comp_ipcsum(skb);
+
+Does this still handle for coalesced and non-coalesced packets
+which are received with bad IP checksum?  My concern is that you are
+potentially correcting the checksum for a packet whose received checksum was bad.
+
+
+> +	/* Do L4 checksum offload if enabled and present.
+>  	 */
+>  	if (csum_info && (net->features & NETIF_F_RXCSUM)) {
+>  		if (csum_info->receive.tcp_checksum_succeeded ||
+
