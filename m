@@ -2,158 +2,151 @@ Return-Path: <SRS0=i+7F=Q7=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2EA8C43381
-	for <linux-hyperv@archiver.kernel.org>; Sun, 24 Feb 2019 16:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EB0C43381
+	for <linux-hyperv@archiver.kernel.org>; Sun, 24 Feb 2019 17:37:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A7F20205C9
-	for <linux-hyperv@archiver.kernel.org>; Sun, 24 Feb 2019 16:54:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FDAF20661
+	for <linux-hyperv@archiver.kernel.org>; Sun, 24 Feb 2019 17:37:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="JTlGThxr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WScTtTRw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728453AbfBXQyI (ORCPT
+        id S1726489AbfBXRhS (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 24 Feb 2019 11:54:08 -0500
-Received: from mail-eopbgr750108.outbound.protection.outlook.com ([40.107.75.108]:29286
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728179AbfBXQyI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 24 Feb 2019 11:54:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JRCN4KiKd9aYMdvScn8MzFxPdh54+vtN/BbIW17yB2c=;
- b=JTlGThxrS1WUd49ITDwrDx2nngas54Zo5nvqHzgNRMgu9hEYRaNX0VKnwf5OD/4Zlg/i5beD9R5Y0OyZaJDYPDbYo7wVM+/BtTv65KKSILW517gZ5/LvG6cjCIuiiXiP+VuSYzjjna7xt/pBvPRAEY8yxex7MdxgsihwybutapA=
-Received: from DM5PR2101MB0918.namprd21.prod.outlook.com (52.132.132.163) by
- DM5PR2101MB1030.namprd21.prod.outlook.com (52.132.128.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1665.4; Sun, 24 Feb 2019 16:54:04 +0000
-Received: from DM5PR2101MB0918.namprd21.prod.outlook.com
- ([fe80::ec2d:d32b:e611:553f]) by DM5PR2101MB0918.namprd21.prod.outlook.com
- ([fe80::ec2d:d32b:e611:553f%8]) with mapi id 15.20.1686.003; Sun, 24 Feb 2019
- 16:54:03 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     kimbrownkd <kimbrownkd@gmail.com>, Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] Drivers: hv: vmbus: Refactor chan->state if
- statement
-Thread-Topic: [PATCH v2 1/2] Drivers: hv: vmbus: Refactor chan->state if
- statement
-Thread-Index: AQHUymFJafr//wA1P0WAFfBXe7I1j6XvLhRA
-Date:   Sun, 24 Feb 2019 16:54:03 +0000
-Message-ID: <DM5PR2101MB0918C0F4B89F715C2C643ECBD7790@DM5PR2101MB0918.namprd21.prod.outlook.com>
-References: <20190122020759.GA4054@ubu-Virtual-Machine>
- <cover.1550806305.git.kimbrownkd@gmail.com>
- <1bb109543adc60c1f349e0c6f290591804b4289a.1550806305.git.kimbrownkd@gmail.com>
-In-Reply-To: <1bb109543adc60c1f349e0c6f290591804b4289a.1550806305.git.kimbrownkd@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-02-24T16:54:02.1428765Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=6ee00396-5cdc-4133-9c7a-10b5444b7874;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5dfd4c30-9589-4948-a18a-08d69a78aed4
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600110)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM5PR2101MB1030;
-x-ms-traffictypediagnostic: DM5PR2101MB1030:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-exchange-diagnostics: =?utf-8?B?MTtETTVQUjIxMDFNQjEwMzA7MjM6Zy9vK2dsMWRkNGpwK3hsWnhMeHVTRmI0?=
- =?utf-8?B?ZEJYRS8wV1hVZFNSV3JvTFJQcjZ3WE9jQjRXeWJIZ1RXV1ptMW9IMTJ6b1hq?=
- =?utf-8?B?TDdMeVBlQ2hzMVFyamJ1UWtsNW5mM1dpMGRBcXlSaUdFbXEyb2s1LzRNQ0Rm?=
- =?utf-8?B?M2V4b1FNTCtQZEJvNGdpQ082Nk1MSGtrRHM5RTJ2MG1lVE1xd2tyWWVoZDdH?=
- =?utf-8?B?ZDhOdCtyN2JKZTdMZk1udGdzOXU3clExTThxR2xIeGpTU0FEUngwZ1VJRTlh?=
- =?utf-8?B?MGZGdzYyc1VYMWZGZmRRUXNWYnp1eTlCalFVcmx6YnBmMUxvOFB4OCtUdjVw?=
- =?utf-8?B?VjU3RGZBYjBDY0pyS2R4Mk42YlZZUmY2ZmFtOVovYVVONDlSS2hDUlozYWph?=
- =?utf-8?B?MVNCVmkvSU96elo0TTlDTXphWHpTSllZVWJyc2pyVW90R1VLbnh2OWFjWUpP?=
- =?utf-8?B?S2daektQMFQvUjIvMEw5V0ZpRnRxbGltOGk5NlE5YkZXNWpFTEdLd3NNb1hQ?=
- =?utf-8?B?WkE3V0dCcU5qQkJkdHA2aDR3Z090bkEyeFViMkg0QlhhK1pQbXFtVnpXSVZN?=
- =?utf-8?B?ZUYyd04rVkVoQTRCZWM3ZnBkVXQ2ZlU5cGFvZ1gweDJUSG5CQ1k5VUxScGlY?=
- =?utf-8?B?RlpyMUZuUVYyQ3pENzB6L1FvNVpoM2t5YjRkV2dPZXd4WDVLUXFuRG9TNzIr?=
- =?utf-8?B?bjEydzF6RTN2NmNxWTJnNUZ6MHFhVDd5aXMwUjMzSjlmRllwc2krbzVtbjM3?=
- =?utf-8?B?eFNHV2dKb3NVSkhaUmlpNkh0U08vVENYSUJzRmJOcFpqbkFsdEUxNGhsOEs1?=
- =?utf-8?B?cnZpZWdVWFN0UFhOTUhPa1ZLdmVSbXFUdDA2dkViTzEyS05oVC9yU0NsVFBI?=
- =?utf-8?B?NkJ2bUc5UEE1WG1SNHhmN0h2c3ZDTVlSVjhZQzhZSHBLQVRrUnd5dlNTakZv?=
- =?utf-8?B?S2wwYkhwWTRUN3dUZmMwcWVneGs2bjJ6cm5CQkUwSUhKNVRya2RkS3JmakUr?=
- =?utf-8?B?aGlLdnpRS0NoQVYxcDhWL2xKS29ZTUJta3ZIZUd1dk00Ulo4cTBEV25FT3JX?=
- =?utf-8?B?eGdGNEFCZTRQWGxCdmk3M3FRT2pka1Q4eGprMmk4T1hUekVhWFlkdGtmSnNT?=
- =?utf-8?B?blNnQkhIbnlQellwdjhsZ1NtQm5zNTk5a1B4WjA3alRjRGtvdkI1ZU80cGEy?=
- =?utf-8?B?b1pnWUcySG9VUjgzVjkvWFEzVVRTRTQ3YmFuWjJPRXNnSVdFSTRpOWFuaS90?=
- =?utf-8?B?NXlRQlByMGRXUStKNHNGdzlCdTZuM2czWmZEeTBuQ2FSWDFnRmdsRkM4cWdp?=
- =?utf-8?B?OFVJRHJvcW9tU3JIRHc2NVJVMzlvdEhYazBwUzhUS3VkOW9pd3cyN1VROExn?=
- =?utf-8?B?MkFjaXBaSzZGbkNsclFIOVIxZHhFRDhWUTNVSmxDKzNNb3V2OXBpdFFxcDJW?=
- =?utf-8?B?VUx4K3VnZ2NFcVpORDJNSm50bXZ0TStXUnZvU3dCZXBNWlJxTlk5My9Ud1pW?=
- =?utf-8?B?cWlYOUdBdlNjVmtHN2ZTSVd4bFdVY3Bua3Y2cTZacHU0M3JUUEY1bFdzaUJS?=
- =?utf-8?B?ckNTR0x2bGtldlN2V1BTaWpsanpIVTV3RDd3ZWFuMURKK2U2QlJKclVodnlG?=
- =?utf-8?B?RmFYc28vdFQvKy93bVVYSlZRWjFMUlpaVzNoWmlRR1NIVzVhdVkxU2NpaWl6?=
- =?utf-8?B?WWgxRngvcGYrNWpZV2FVK1J4ZHJvcm1CNnVGeVRZMjdhc09PSnQ4WHowbzZD?=
- =?utf-8?B?WXFDUVJHWUR4Z3I1T2FFVlpZTmNKdWUxTmFON3N2cTFYUkhteXk4YTFISnNC?=
- =?utf-8?B?RnphdDQ1NGRmOFVYU3JnTkQ2bjJVNDlmbzJ3Skc1eVhJdjhuRXVNNlRLUitU?=
- =?utf-8?B?ODhpS0NpeXZRcXltWmd0cjNuRFpYQm9neXk0ZzRqbmhkaHZJR3dhTHRxdjFW?=
- =?utf-8?B?NmF4di9xZTV3Snc9PQ==?=
-x-microsoft-antispam-prvs: <DM5PR2101MB103043ED16F0CD6AD4F4FA40D7790@DM5PR2101MB1030.namprd21.prod.outlook.com>
-x-forefront-prvs: 09583628E0
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(39860400002)(376002)(136003)(346002)(199004)(189003)(8990500004)(4326008)(186003)(1511001)(74316002)(81156014)(54906003)(97736004)(110136005)(7736002)(305945005)(8676002)(81166006)(6436002)(33656002)(256004)(229853002)(102836004)(14444005)(6506007)(10090500001)(26005)(316002)(6116002)(3846002)(2906002)(68736007)(71190400001)(6346003)(9686003)(22452003)(71200400001)(86612001)(25786009)(7696005)(478600001)(10290500003)(476003)(66066001)(486006)(6246003)(6636002)(99286004)(86362001)(8936002)(76176011)(446003)(55016002)(11346002)(53936002)(106356001)(14454004)(105586002)(5660300002)(52536013);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB1030;H:DM5PR2101MB0918.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: UyQx5LOFRUllSy2TkGpl13/BYGrSBHSdr4kG0OrF3aJ8NtPpBIGK8p8CFM1qIVWlKpHZQjkQ/XLlwWXZLAKP4c40sAKLImfQxQueqJp10VWH+fH2cG+ZIBnpugqnYclg6x9+A8jO3ZU7OZ+46oWiCUcaYSOaYv+VrdNxL+/O32S56c39swmi9IUSPmhftP4uX/h1gnCyxjSRyshX+yo4RSIcHTybAZNE8fmr6i+RoCMi/xo8c//D992Da9cHzDALD/8+VglnoP+h4MPzBgoAgGC4t5SiJA9KUxHZzx84smfa6pxs1XI3+pIJZjCuHkBxksgNzzCFbidMj6DADYlBpyeKm6FrM2lzb7HTOOjskuXh6/EL+6cXk8z1YlX3AYCaaaGXPGQyJNXZjx8ktsCkMMIGp6AZZBejw2a3rl0eIZU=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Sun, 24 Feb 2019 12:37:18 -0500
+Received: from mail-it1-f196.google.com ([209.85.166.196]:54862 "EHLO
+        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726206AbfBXRhR (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 24 Feb 2019 12:37:17 -0500
+Received: by mail-it1-f196.google.com with SMTP id w18so8425015itj.4;
+        Sun, 24 Feb 2019 09:37:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Gl/k8hSB2GiGWr+iJYWwe+4RNPO8X8l+5GaBoNrGveM=;
+        b=WScTtTRwCsEVFIGen6XM4MA95kZlHOwpjKNT06knvTxeOgZ9D1lU9Z+GbHFeGkZ0e+
+         2RQ0I7d4Hl/+M7GSEgrhW48CGSpRL3xXmV6Wu775ZfbdEFZmcL/L6wgNvgOaX2XtR8PT
+         UDLPEyP0ZEhlddqwDpMO0ocjW1+2FFwaK+winvNH12alIg0F73vRUcdCQUBgFm3twhqR
+         sxR9WJa8aXQqaegPN6y5W7CpuCY9+n5W69zty5OHoqWXgwx6ZdQ42T5saToeJpqc4Brf
+         6RrHXisAGGBy3/KZhqzXfMchpLqJjx8OoWniVhzX4nrWOWFl0PyyMtejkBA+bfE8HS3p
+         Yfqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Gl/k8hSB2GiGWr+iJYWwe+4RNPO8X8l+5GaBoNrGveM=;
+        b=OG4CkY9KciWQlY3ix1rkz0rFhp0CPPHa5SLJWyutfhkI1sUFBTxbuRLuFX8aLk7Vjl
+         R/M61n0W3qVUCSjCXOPNtziNh1wOy5FIG0ZlUTS8H58Yvk9CiJjIpDXFSLH2VCV9pLlm
+         DKEjFt7s8zX9rZrmGrTQtRZeUi1aWT4eSaq9AlgJMvuhgtk0RvEOIuYxOoHE2DNBRvXa
+         8vo6e0dFy2d95rE1c0z31evtXzq+ciOGYV5ld+2uzAeKOBveVjkBGrRwR7KWLvamPjH1
+         j9YrnW3Eq/DwtXXgUOmKItfElNH6R8Z0TcdoL22TZjamNrVRsYxyKjepbwQx85TuSMj8
+         Y3yQ==
+X-Gm-Message-State: AHQUAuZz3FlMNiqTNY7z2bXH7zvPLu3mULPmjS9tJQ7N6exhcidFye4V
+        t778E+PmUYj5mJH/dFNSOc0=
+X-Google-Smtp-Source: AHgI3Ibt/TY3H3b/3IQjdmDyX0hmdO1t+ueL56XjcArsphCOlxeLbnxlL1uZqMnRy4ZDzBYl2/4Y9Q==
+X-Received: by 2002:a02:56d4:: with SMTP id u81mr7237883jad.1.1551029836389;
+        Sun, 24 Feb 2019 09:37:16 -0800 (PST)
+Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
+        by smtp.gmail.com with ESMTPSA id w8sm3867832ita.21.2019.02.24.09.37.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 24 Feb 2019 09:37:15 -0800 (PST)
+Date:   Sun, 24 Feb 2019 12:37:13 -0500
+From:   Kimberly Brown <kimbrownkd@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@microsoft.com,
+        linux-hyperv@vger.kernel.org, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [GIT PULL v3] Hyper-V commits for 5.0-rc
+Message-ID: <20190224173713.GA2243@ubu-Virtual-Machine>
+References: <20190223031226.AB912206A3@mail.kernel.org>
+ <20190223085715.GA22149@kroah.com>
+ <20190223155533.GE10616@sasha-vm>
+ <20190224081710.GA23894@kroah.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5dfd4c30-9589-4948-a18a-08d69a78aed4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2019 16:54:03.8138
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB1030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190224081710.GA23894@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-RnJvbTogS2ltYmVybHkgQnJvd24gPGtpbWJyb3dua2RAZ21haWwuY29tPiAgU2VudDogVGh1cnNk
-YXksIEZlYnJ1YXJ5IDIxLCAyMDE5IDc6NDcgUE0NCj4gDQo+IFRoZSBjaGFuLT5zdGF0ZSAiaWYg
-c3RhdGVtZW50IiB3YXMgaW50cm9kdWNlZCBpbiBjb21taXQgNjcxMmNjOWMyMjExDQo+ICgidm1i
-dXM6IGRvbid0IHJldHVybiB2YWx1ZXMgZm9yIHVuaW5pdGFsaXplZCBjaGFubmVscyIpLiBUaGF0
-IGNvbW1pdA0KPiBzdGF0ZXMgdGhhdCB0aGUgcHVycG9zZSBvZiB0aGUgY2hhbi0+c3RhdGUgImlm
-IHN0YXRlbWVudCIgaXMgdG8gcHJldmVudA0KPiByZXR1cm5pbmcgZ2FyYmFnZSBvciBjYXVzaW5n
-IGEga2VybmVsIE9PUFMgd2hlbiB0aGUgY2hhbm5lbCByaW5nIGJ1ZmZlcg0KPiBpcyBub3QgaW5p
-dGlhbGl6ZWQuIFRoZSBjaGFuZ2VzIGluIHRoaXMgcGF0Y2ggcHJvdmlkZSB0aGUgc2FtZQ0KPiBw
-cm90ZWN0aW9uLg0KPiANCj4gUmVmYWN0b3IgdGhlIGNoYW4tPnN0YXRlIOKAnGlmIHN0YXRlbWVu
-dOKAnSBpbiB2bWJ1c19jaGFuX2F0dHJfc2hvdygpOg0KPiAgLSBJbnN0ZWFkIG9mIGNoZWNraW5n
-IHRoZSBjaGFubmVsIHN0YXRlIGluIHRoZSAiaWYgc3RhdGVtZW50IiwgY2hlY2sNCj4gICAgd2hl
-dGhlciB0aGUgY2hhbm5lbCByaW5nIGJ1ZmZlciBwb2ludGVyIGlzIE5VTEwuIENoZWNraW5nIHRo
-ZQ0KPiAgICByaW5nIGJ1ZmZlciBwb2ludGVyIG1ha2VzIHRoaXMgY29kZSBjb25zaXN0ZW50IHdp
-dGgNCj4gICAgaHZfcmluZ2J1ZmZlcl9nZXRfZGVidWdpbmZvKCkuDQo+IA0KPiAgLSBNb3ZlIHRo
-ZSAiaWYgc3RhdGVtZW50IiB0byB0aGUgZm91ciAiX3Nob3ciIGZ1bmN0aW9ucyB0aGF0IGFjY2Vz
-cyBhDQo+ICAgIGNoYW5uZWwgcmluZyBidWZmZXIuIE9ubHkgZm91ciBvZiB0aGUgY2hhbm5lbC1s
-ZXZlbCAiX3Nob3ciIGZ1bmN0aW9ucw0KPiAgICBhY2Nlc3MgYSByaW5nIGJ1ZmZlci4gVGhlIHJp
-bmcgYnVmZmVyIHBvaW50ZXIgZG9lcyBub3QgbmVlZCB0byBiZQ0KPiAgICBjaGVja2VkIGJlZm9y
-ZSBjYWxsaW5nIHRoZSBvdGhlciAiX3Nob3ciIGZ1bmN0aW9ucywgYW5kIG1vdmluZyB0aGUNCj4g
-ICAgcmluZyBidWZmZXIgcG9pbnRlciAiaWYgc3RhdGVtZW50IiB0byB0aGUgIl9zaG93IiBmdW5j
-dGlvbnMgdGhhdA0KPiAgICBhY2Nlc3MgYSByaW5nIGJ1ZmZlciBtYWtlcyB0aGUgcHVycG9zZSBv
-ZiB0aGUgImlmIHN0YXRlbWVudCIgY2xlYXIuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLaW1iZXJs
-eSBCcm93biA8a2ltYnJvd25rZEBnbWFpbC5jb20+DQoNClJldmlld2VkLWJ5OiBNaWNoYWVsIEtl
-bGxleSA8bWlrZWxsZXlAbWljcm9zb2Z0LmNvbT4NCg==
+On Sun, Feb 24, 2019 at 09:17:10AM +0100, Greg KH wrote:
+> On Sat, Feb 23, 2019 at 10:55:33AM -0500, Sasha Levin wrote:
+> > On Sat, Feb 23, 2019 at 09:57:15AM +0100, Greg KH wrote:
+> > > On Fri, Feb 22, 2019 at 10:12:25PM -0500, Sasha Levin wrote:
+> > > > -----BEGIN PGP SIGNED MESSAGE-----
+> > > > Hash: SHA512
+> > > > 
+> > > > The following changes since commit 8834f5600cf3c8db365e18a3d5cac2c2780c81e5:
+> > > > 
+> > > >   Linux 5.0-rc5 (2019-02-03 13:48:04 -0800)
+> > > > 
+> > > > are available in the Git repository at:
+> > > > 
+> > > >   git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
+> > > > 
+> > > > for you to fetch changes up to b2946cd86f3c1b5b1262c0ec06068110c2328fe6:
+> > > > 
+> > > >   MAINTAINERS: Change mailing list for Hyper-V CORE AND DRIVERS (2019-02-22 21:46:37 -0500)
+> > > > 
+> > > > - ----------------------------------------------------------------
+> > > > Two fixes:
+> > > > 
+> > > > 1. A fix for a race condition reading sysfs entries while a device is
+> > > > being added, by Kimberly Brown.
+> > > > 
+> > > > 2. Update the Hyper-V mailing list to a new one created on
+> > > > vger.kernel.org, by Haiyang Zhang.
+> > > > 
+> > > > - ----------------------------------------------------------------
+> > > > Haiyang Zhang (1):
+> > > >       MAINTAINERS: Change mailing list for Hyper-V CORE AND DRIVERS
+> > > > 
+> > > > Kimberly Brown (2):
+> > > >       Drivers: hv: vmbus: Change server monitor_pages index to 0
+> > > >       Drivers: hv: vmbus: Return -EINVAL if monitor_allocated not set
+> > > 
+> > > I objected to this last patch when it was posted on the list.  The sysfs
+> > > file should just not be present if the functionality is not there, no
+> > > need to add the "-EINVAL" logic to it instead.
+> > > 
+> > > Having a sysfs file that says it can be read, and then rejecting that
+> > > read with an error is NOT ok.
+> > 
+> > Hm, I'm sorry but I didn't see an objection on the thread
+> > (https://lore.kernel.org/lkml/20190122020759.GA4054@ubu-Virtual-Machine/)
+> > which is why it was sent in like this.
+> > 
+> > Could you please point me to it so we can get the patch fixed up?
+> 
+> My response was Message-ID: <20190219061748.GA5819@kroah.com> sent:
+> 	Date: Tue, 19 Feb 2019 07:17:48 +0100
+> but for some reason I do not see it on lore.kernel.org at all :(
+> 
+> I don't know what happened to it, sorry, it was also cc: to you.
+> 
+> Anyway, it just said what I said here, don't do this type of thing, if
+> the sysfs file is not valid for a specific device, just do not create
+> it, do not mess around with returning error values when trying to read
+> from it.
+> 
+
+I didn't receive that email either.
+
+Thanks for the feedback. I'll start looking into a new fix for this.
+
+Kim
+
+> thanks,
+> 
+> greg k-h
