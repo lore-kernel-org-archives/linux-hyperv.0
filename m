@@ -2,273 +2,152 @@ Return-Path: <SRS0=GgkG=RB=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C052C43381
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 05:35:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 381F9C43381
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 06:24:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 144562173C
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 05:35:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F28182173C
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 06:24:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irBqeNBS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sEI+ndgy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725970AbfBZFff (ORCPT
+        id S1726082AbfBZGYz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 26 Feb 2019 00:35:35 -0500
-Received: from mail-it1-f196.google.com ([209.85.166.196]:52248 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725881AbfBZFff (ORCPT
+        Tue, 26 Feb 2019 01:24:55 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:40623 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfBZGYz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 26 Feb 2019 00:35:35 -0500
-Received: by mail-it1-f196.google.com with SMTP id r11so2202401itc.2;
-        Mon, 25 Feb 2019 21:35:34 -0800 (PST)
+        Tue, 26 Feb 2019 01:24:55 -0500
+Received: by mail-io1-f65.google.com with SMTP id p17so9622125iol.7;
+        Mon, 25 Feb 2019 22:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=ZCw4CMYjZjFf6MkmHznRnDSt4WHxHp44cJfFeywAXz0=;
-        b=irBqeNBSWdh8c5wYo5+wxBwwS2Qa+qfesDdtMwORPQnzcUhewYDK4oKmi5+wmBILUD
-         fwsyq0EnCmw5LIsHg4f8y4XgY+F0zqK+/LBkhrMj+IGGNkjfW8Ty/+ifRRqOzSIGkydU
-         fT50aRd1XldO4KPi/+jsBjNbOKb0v8Xu7f9ok/vdZl6F7tBHkbfD+JhAVP+dgOrT3cK0
-         w8averYwsv6E+mkCpeYS+ceMnVZq83uz9bIGTBmmiuHrmC8T58aoUwd9WbmLPenGDz6N
-         O75AiUx/9PKnnivQJxqSRmvG8WEXqrRplZTxBaRfomkBvUTxP0Wj/NcdNr+2iAAr/nSL
-         1F3g==
+        bh=Cyqp8ogM4qWY6528hpiIHcgsFIxgO2ZDoWzsD72g5yI=;
+        b=sEI+ndgy9ALErdMMYk6OamcmHP+TfagJ323l3quu7BwD7YMwzuJ3qhuMOJ61RGBXuS
+         89J7eT/HiX13IQuvi9NazQRXO2q3ks9ffUQby4+6NiBD+G8X8anBM8mfrhonzETxepni
+         5CmapjYubvEm0H7k4FzfKgMu33EAkbcg9vCSTMnWN+U9sV0NKRNhjO1oWXl7Uy9v5l0O
+         ZT1ibGjcu2CKQeInf2XXUUAstLecJ7KuGLEJ5i91wU8Rnndi/XJvO2tPTEoB2HEia/3x
+         4H+U/AUiQvEYWbKX2csIfxiCFdsAtefMEhyQeGvLBfpsp4eqQg/rcMk8NM0lc/9N030u
+         oFMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZCw4CMYjZjFf6MkmHznRnDSt4WHxHp44cJfFeywAXz0=;
-        b=I9LUthsb/j07PjrNFtJWYWZgKIAp1+yxzd7HgdxUVeL2d/9EH4HTZJ6mzo3c1DJj8W
-         rO/AhKhCAYfPaSwrdhbEBLofjI/nVzCPB0AXNOgJJuw6uMz6JksoEQcyIOmIiMwoJ2Ub
-         ZHdbjszk9anM9lb8K/E0JBWyEAh11eIhGsLVMFS4NWHmOl08XzfWtAVsFC6/IxmQ+dK7
-         5KUuc/gQz9QtGK3mFgljPGs+pz7M/3wS3ecNKyomxrA8vv5F9iorAdP0LS27tRT/SQZg
-         cWwhGqCxFDAlCqQBMlWibBvUmFEmQ8evz7qbzvhWSnG99R+nfVIbLcg2lNEgDdreCQfR
-         q/+g==
-X-Gm-Message-State: AHQUAuYzqNOPOKNNZ1FXgnMFI6JQPWf9gFFU4yssP/f/0TMSDhb77Zg3
-        7SWCptNYxnCIB6ccSh6IB+Y=
-X-Google-Smtp-Source: AHgI3IZ7TeRYXhEH+Oj1TFTwyVGhrEZsirPVDZx6ZSO7QuuDOHl3j4aa0NLIZYNxVorWUOXXuV6zbQ==
-X-Received: by 2002:a02:58d:: with SMTP id 13mr12183797jal.100.1551159333903;
-        Mon, 25 Feb 2019 21:35:33 -0800 (PST)
+        bh=Cyqp8ogM4qWY6528hpiIHcgsFIxgO2ZDoWzsD72g5yI=;
+        b=UVVy/YyEzisndQYorh93Cir4+VIubYNHhzImfy/qNCNaaDQjEehokg2qSg+pit30t/
+         doXYUzIJls1gn3v8canp5EH/BwDjtgo6kLaL5Pej4ZIQ8MXhCUK1gd6xfaitLKRvwqyB
+         kk3JHYfbEGoZyk9Z9NGAqNqKrmSGZzqhHS0zPvCmICn5yshILEiz3+ZyNW2AmB1nuKeL
+         o/V3O3SqJtACybySyEZlk88GEopssJ8RzPFxnL1KxR43e6mQI4A8RaOh3kUb9cuqVf1O
+         19QSuP10TZg6sfTYH3zahSXp13YAmo5lyfdZxvp1EjpnDhSIL/2lf4zbZJCPZHhxxyA5
+         rHmg==
+X-Gm-Message-State: AHQUAuZx41XrtTP0811ipzwEMI8/6pOR6peLLsbqRaC182nzsib/lM2t
+        E1YJcTzFykkLR0XT7+063Zo=
+X-Google-Smtp-Source: AHgI3Ibl0id/DXcmf1+oH3vqg1zC58ojCMHXqC5N7grFZj9LpPHGEpqvcpqOVXkdG1lVqlbH1YiUvQ==
+X-Received: by 2002:a6b:6d18:: with SMTP id a24mr12572989iod.292.1551162293972;
+        Mon, 25 Feb 2019 22:24:53 -0800 (PST)
 Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
-        by smtp.gmail.com with ESMTPSA id b36sm4898061itd.2.2019.02.25.21.35.32
+        by smtp.gmail.com with ESMTPSA id a21sm4791589iod.63.2019.02.25.22.24.52
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 25 Feb 2019 21:35:33 -0800 (PST)
-Date:   Tue, 26 Feb 2019 00:35:30 -0500
+        Mon, 25 Feb 2019 22:24:53 -0800 (PST)
+Date:   Tue, 26 Feb 2019 01:24:51 -0500
 From:   Kimberly Brown <kimbrownkd@gmail.com>
-To:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     Long Li <longli@microsoft.com>,
         Sasha Levin <Alexander.Levin@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>, gregkh@linuxfoundation.org
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] Drivers: hv: vmbus: Expose monitor data when channel uses
- monitor pages
-Message-ID: <20190226053530.GA2897@ubu-Virtual-Machine>
-References: <7481d15f52427917a5f620e29308c1aa5c63f3eb.1550554279.git.kimbrownkd@gmail.com>
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: Add a channel ring buffer
+ mutex lock
+Message-ID: <20190226062450.GA33641@ubu-Virtual-Machine>
+References: <20190122020759.GA4054@ubu-Virtual-Machine>
+ <cover.1550806305.git.kimbrownkd@gmail.com>
+ <c18bc31987ba67b8418fa2118f65bb258cb8899b.1550806305.git.kimbrownkd@gmail.com>
+ <DM5PR2101MB0918921A96F16D862BA2AF0FD7790@DM5PR2101MB0918.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7481d15f52427917a5f620e29308c1aa5c63f3eb.1550554279.git.kimbrownkd@gmail.com>
+In-Reply-To: <DM5PR2101MB0918921A96F16D862BA2AF0FD7790@DM5PR2101MB0918.namprd21.prod.outlook.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-There are two methods for signaling the host: the monitor page mechanism
-and hypercalls. The monitor page mechanism is used by performance
-critical channels (storage, networking, etc.) because it provides
-improved throughput. However, latency is increased. Monitor pages are
-allocated to these channels.
+On Sun, Feb 24, 2019 at 04:53:03PM +0000, Michael Kelley wrote:
+> From: Kimberly Brown <kimbrownkd@gmail.com> Sent: Thursday, February 21, 2019 7:47 PM
+> > 
+> > The "_show" functions that access channel ring buffer data are
+> > vulnerable to a race condition that can result in a NULL pointer
+> > dereference. This problem was discussed here:
+> > https://lkml.org/lkml/2018/10/18/779 
+> >
+> > To prevent this from occurring, add a new mutex lock,
+> > "ring_buffer_mutex", to the vmbus_channel struct.
+> > 
+> > Acquire/release "ring_buffer_mutex" in the functions that can set the
+> > ring buffer pointer to NULL: vmbus_free_ring() and __vmbus_open().
+> > 
+> > Acquire/release "ring_buffer_mutex" in the four channel-level "_show"
+> > functions that access ring buffer data. Remove the "const" qualifier
+> > from the "struct vmbus_channel *chan" parameter of the channel-level
+> > "_show" functions so that "ring_buffer_mutex" can be acquired/released
+> > in these functions.
+> > 
+> > Acquire/release "ring_buffer_mutex" in hv_ringbuffer_get_debuginfo().
+> > Pass the channel pointer to hv_ringbuffer_get_debuginfo() so that
+> > "ring_buffer_mutex" can be accessed in this function.
+> > 
+> > Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
+> 
+> I've reviewed the code.  I believe it is correct and fixes the race
+> condition.  Unfortunately, the code ended up being messier than I
+> had hoped, and in particular, the need to pass the channel pointer
+> into the ring buffer functions is distasteful.  An alternate idea is to
+> put the new mutex into the hv_ring_buffer_info structure.  This results
+> in two mutex's since there's a separate hv_ring_buffer_info structure for
+> the "in" ring and the "out" ring.  But it makes the ring buffer functions
+> more self-contained and able to operate without knowledge of the
+> channel.   The mutex can be obtained in hv_ringbuffer_cleanup() instead
+> of in the vmbus functions, and hv_ringbuffer_get_debuginfo() doesn't
+> need the channel pointer.
+> 
+> The "const" still has to dropped from the channel pointer because
+> the hv_ring_buffer_info structures are inline in the channel structure,
+> but that's less objectionable.   The extra memory for two mutex's isn't
+> really a problem, and none of the code paths are performance
+> sensitive.
+> 
+> It's a tradeoff.  I think I slightly prefer moving the mutex to the
+> hv_ring_buffer_info structure, but could also be persuaded to
+> take it like it is.
+> 
 
-Monitor pages are not allocated to channels that do not use the monitor
-page mechanism. Therefore, these channels do not have a valid monitor id
-or valid monitor page data. In these cases, some of the "_show"
-functions return incorrect data. They return an invalid monitor id and
-data that is beyond the bounds of the hv_monitor_page array fields.
+Thanks for the feedback! I don't have a compelling reason to keep the
+lock in the vmbus_channel struct. I chose this approach because only one
+lock would be required, rather than two. But, as you noted, using one
+lock requires some tradeoffs.
 
-The "channel->offermsg.monitor_allocated" value can be used to determine
-whether monitor pages have been allocated to a channel.
+I've looked through the changes that would be required to use two locks,
+and I agree with you; I prefer using two locks. I'll submit a v3 for this
+patch.
 
-Move the device-level monitor page attributes to a separate
-attribute_group struct. If the channel uses the monitor page mechanism,
-set up the sysfs files for these attributes in vmbus_device_register().
+Thanks,
+Kim
 
-Move the channel-level monitor page attributes to a separate
-attribute_group struct. If the channel uses the monitor page mechanism,
-set up the sysfs files for these attributes in vmbus_add_channel_kobj().
 
-Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
----
-Changes in v3:
-The monitor "_show" functions no longer return an error when a channel
-does not use the monitor page mechanism. Instead, the monitor page sysfs
-files are created only when a channel uses the monitor page mechanism.
-This change was suggested by G. Kroah-Hartman.
 
-Note: this patch was originally patch 2/2 in a patchset. Patch 1/2 has
-already been added to char-misc-testing, so I'm not resending it.
-
-Changes in v2:
- - Changed the return value for cases where monitor_allocated is not set
-   to "-EINVAL".
- - Updated the commit message to provide more details about the monitor
-   page mechanism.
- - Updated the sysfs documentation to describe the new return value.
-
- Documentation/ABI/stable/sysfs-bus-vmbus | 12 ++++--
- drivers/hv/vmbus_drv.c                   | 52 +++++++++++++++++++-----
- 2 files changed, 51 insertions(+), 13 deletions(-)
-
-diff --git a/Documentation/ABI/stable/sysfs-bus-vmbus b/Documentation/ABI/stable/sysfs-bus-vmbus
-index 826689dcc2e6..6d5cb195b119 100644
---- a/Documentation/ABI/stable/sysfs-bus-vmbus
-+++ b/Documentation/ABI/stable/sysfs-bus-vmbus
-@@ -81,7 +81,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/latency
- Date:		September. 2017
- KernelVersion:	4.14
- Contact:	Stephen Hemminger <sthemmin@microsoft.com>
--Description:	Channel signaling latency
-+Description:	Channel signaling latency. This file is available only for
-+		performance critical channels (storage, network, etc.) that use
-+		the monitor page mechanism.
- Users:		Debugging tools
- 
- What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/out_mask
-@@ -95,7 +97,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/pending
- Date:		September. 2017
- KernelVersion:	4.14
- Contact:	Stephen Hemminger <sthemmin@microsoft.com>
--Description:	Channel interrupt pending state
-+Description:	Channel interrupt pending state. This file is available only for
-+                performance critical channels (storage, network, etc.) that use
-+                the monitor page mechanism.
- Users:		Debugging tools
- 
- What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/read_avail
-@@ -137,7 +141,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/monitor_id
- Date:		January. 2018
- KernelVersion:	4.16
- Contact:	Stephen Hemminger <sthemmin@microsoft.com>
--Description:	Monitor bit associated with channel
-+Description:	Monitor bit associated with channel. This file is available only
-+		for performance critical channels (storage, network, etc.) that
-+		use the monitor page mechanism.
- Users:		Debugging tools and userspace drivers
- 
- What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/ring
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 000b53e5a17a..ede858b0ee46 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -601,19 +601,12 @@ static DEVICE_ATTR_RW(driver_override);
- static struct attribute *vmbus_dev_attrs[] = {
- 	&dev_attr_id.attr,
- 	&dev_attr_state.attr,
--	&dev_attr_monitor_id.attr,
- 	&dev_attr_class_id.attr,
- 	&dev_attr_device_id.attr,
- 	&dev_attr_modalias.attr,
- #ifdef CONFIG_NUMA
- 	&dev_attr_numa_node.attr,
- #endif
--	&dev_attr_server_monitor_pending.attr,
--	&dev_attr_client_monitor_pending.attr,
--	&dev_attr_server_monitor_latency.attr,
--	&dev_attr_client_monitor_latency.attr,
--	&dev_attr_server_monitor_conn_id.attr,
--	&dev_attr_client_monitor_conn_id.attr,
- 	&dev_attr_out_intr_mask.attr,
- 	&dev_attr_out_read_index.attr,
- 	&dev_attr_out_write_index.attr,
-@@ -632,6 +625,22 @@ static struct attribute *vmbus_dev_attrs[] = {
- };
- ATTRIBUTE_GROUPS(vmbus_dev);
- 
-+/*
-+ *  Set up per device monitor page attributes. These attributes are used only by
-+ *  channels that use the monitor page mechanism.
-+ */
-+static struct attribute *vmbus_dev_monitor_attrs[] = {
-+	&dev_attr_monitor_id.attr,
-+	&dev_attr_server_monitor_pending.attr,
-+	&dev_attr_client_monitor_pending.attr,
-+	&dev_attr_server_monitor_latency.attr,
-+	&dev_attr_client_monitor_latency.attr,
-+	&dev_attr_server_monitor_conn_id.attr,
-+	&dev_attr_client_monitor_conn_id.attr,
-+	NULL
-+};
-+ATTRIBUTE_GROUPS(vmbus_dev_monitor);
-+
- /*
-  * vmbus_uevent - add uevent for our device
-  *
-@@ -1537,19 +1546,30 @@ static struct attribute *vmbus_chan_attrs[] = {
- 	&chan_attr_read_avail.attr,
- 	&chan_attr_write_avail.attr,
- 	&chan_attr_cpu.attr,
--	&chan_attr_pending.attr,
--	&chan_attr_latency.attr,
- 	&chan_attr_interrupts.attr,
- 	&chan_attr_events.attr,
- 	&chan_attr_intr_in_full.attr,
- 	&chan_attr_intr_out_empty.attr,
- 	&chan_attr_out_full_first.attr,
- 	&chan_attr_out_full_total.attr,
--	&chan_attr_monitor_id.attr,
- 	&chan_attr_subchannel_id.attr,
- 	NULL
- };
- 
-+/* Set up per channel monitor page attributes. These attributes are used only by
-+ * channels that use the monitor page mechanism.
-+ */
-+static struct attribute *vmbus_chan_monitor_attrs[] = {
-+	&chan_attr_pending.attr,
-+	&chan_attr_latency.attr,
-+	&chan_attr_monitor_id.attr,
-+	NULL
-+};
-+
-+static struct attribute_group vmbus_chan_monitor_attr_group = {
-+	.attrs = vmbus_chan_monitor_attrs,
-+};
-+
- static struct kobj_type vmbus_chan_ktype = {
- 	.sysfs_ops = &vmbus_chan_sysfs_ops,
- 	.release = vmbus_chan_release,
-@@ -1571,6 +1591,15 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
- 	if (ret)
- 		return ret;
- 
-+	if (channel->offermsg.monitor_allocated) {
-+		ret = sysfs_create_group(kobj, &vmbus_chan_monitor_attr_group);
-+		if (ret) {
-+			pr_err("Unable to set up monitor page sysfs files");
-+			kobject_put(kobj);
-+			return ret;
-+		}
-+	}
-+
- 	kobject_uevent(kobj, KOBJ_ADD);
- 
- 	return 0;
-@@ -1615,6 +1644,9 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	child_device_obj->device.parent = &hv_acpi_dev->dev;
- 	child_device_obj->device.release = vmbus_device_release;
- 
-+	if (child_device_obj->channel->offermsg.monitor_allocated)
-+		child_device_obj->device.groups = vmbus_dev_monitor_groups;
-+
- 	/*
- 	 * Register with the LDM. This will kick off the driver/device
- 	 * binding...which will eventually call vmbus_match() and vmbus_probe()
--- 
-2.17.1
-
+> Thoughts?
+> 
+> Michael
+> 
