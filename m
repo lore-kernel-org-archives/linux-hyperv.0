@@ -2,105 +2,138 @@ Return-Path: <SRS0=GgkG=RB=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F52BC43381
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 13:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BDCC43381
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 14:09:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2E3A6217F5
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 13:24:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1C03217F9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 14:09:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9uERepV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o6RsOIS1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726151AbfBZNYt (ORCPT
+        id S1726507AbfBZOJh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 26 Feb 2019 08:24:49 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36884 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbfBZNYs (ORCPT
+        Tue, 26 Feb 2019 09:09:37 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33808 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726020AbfBZOJh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 26 Feb 2019 08:24:48 -0500
-Received: by mail-pf1-f195.google.com with SMTP id s22so6259028pfh.4;
-        Tue, 26 Feb 2019 05:24:48 -0800 (PST)
+        Tue, 26 Feb 2019 09:09:37 -0500
+Received: by mail-pl1-f194.google.com with SMTP id d15so6315715plr.1;
+        Tue, 26 Feb 2019 06:09:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8wsOqzk17/c7HujJ1r9qF6cPtSjMUoUBeFErS+XcOSU=;
-        b=m9uERepVd5k6YSLSHFo48SCfiQf7E3e0wiym0oWHP5HhXwWkHXtWkdMWS7JNPpE+vq
-         9zcl61raOz2r8tuR9zvyN4M5kc3H6fL+ib+2E9ke6hLibbU6cBYDSYb2927MMZlJx5uo
-         pL4dagOHZJ17RF6TfaOmVUwulrFNg4lV5zieB1hUskanXPSiZhackibzwABRx1EkNVnP
-         QZohP0R+BDGVA33BEaJAclR9ita1R60mcjZvUwC9izS52JiukliZ7LYd2BL/ugDnKDcH
-         iVGIgWZcpMtMscpsqXfn3qEfP+wKtfYAK5arY+f2xMELKY5hfFS5eVgdFCVJ0OwEukoG
-         SIMQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=uhliVxb4ys30IUASAOX1iohI7f1IEN6Ho0oCZTBoeuE=;
+        b=o6RsOIS1ya7DtnttYYfCtj8BEMGgkAA/bW0z4DvTp7k2Ps2D9BUPxvPluBVbvTU7yA
+         yJ9ad4Opx/7kXtaeES2ynO+1vhOXHMX0Zv7NUdTyHXBunZiOrohtVZQVxoDFAdZvwXsM
+         XMmsq3iEIQ9OAOcX8UEfeMavv5xe0aqX48C0jtuxuuqSpE+Qt0rnMOt8+p6nKcVd0StJ
+         kBl3cuKrAYwEfWHidI19Tpo0IX3vF+KmQwE+Qh8tIerDKHltNHOm5D1KLR/GJWCe6zqH
+         Lv/KPpBb9ANKlbyEFqO9KELiRYaSrYQGMlK3anuUwBFd7sagc4zGl7zkIxtfnzjZQrFk
+         SIEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8wsOqzk17/c7HujJ1r9qF6cPtSjMUoUBeFErS+XcOSU=;
-        b=i6Ze+P3ljUIFHRdApHeTZrgKwnlbGWQqpRHZyYtQh0rDFKz2M3pYc8WdiqdyS20v1n
-         V/orcDUnt30AFvfqysdHodNNkeRSm+UBdOBZ7gZ8P3ssVmU2CLceszGsbJYaLoCdw2Wb
-         96UJJZqwr6pG9iBTDOCW0lWgzhAJLkzwlwv3InjAj39lb1wKudwi3jvstJzG1SF0QcAI
-         lYtk9nec2h1ks6S6a+AX4gUejXpECsJ9VRrSQl409lwBRU7eMwbFEOH/jVhA4xJ+ZpLg
-         VDG7P0CjtwUrpXIlzjMAU4GeTj0rUUiJfJICRWQUxoUXILjWKlHvWYhEQ34jh/yiAWT3
-         9GHA==
-X-Gm-Message-State: AHQUAuZ5RQKucaPxv7bSbIiQQ8tYTgbdox6bUfCAAx3Ct4K7tkqbW/9F
-        nv7YccbFt+2twaE7rsg+oSsF2c6ARQq+/icczgA=
-X-Google-Smtp-Source: AHgI3IZh/PxGw4qY5MXuDINjjH15KxTtZPGQypt0BpzPmbl62vLhkCoXHfVLE6JFM18gznjk6YHkgONEuaYN289D8sY=
-X-Received: by 2002:a65:614f:: with SMTP id o15mr14941244pgv.383.1551187488065;
- Tue, 26 Feb 2019 05:24:48 -0800 (PST)
-MIME-Version: 1.0
-References: <1551182840-15069-1-git-send-email-Tianyu.Lan@microsoft.com> <20190226130741.GD32526@8bytes.org>
-In-Reply-To: <20190226130741.GD32526@8bytes.org>
-From:   Tianyu Lan <lantianyu1986@gmail.com>
-Date:   Tue, 26 Feb 2019 21:24:37 +0800
-Message-ID: <CAOLK0pzrnukw8jPpO_aFT6SeXDopK1KespFPogQKBf-kjs6N9A@mail.gmail.com>
-Subject: Re: [Resend PATCH V5 0/3] x86/Hyper-V/IOMMU: Add Hyper-V IOMMU driver
- to support x2apic mode
-To:     Joerg Roedel <joro@8bytes.org>
-Cc:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        mchehab+samsung@kernel.org, davem@davemloft.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.ferre@microchip.com, Arnd Bergmann <arnd@arndb.de>,
-        michael.h.kelley@microsoft.com,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        devel@linuxdriverproject.org, iommu@lists.linux-foundation.org,
-        "linux-kernel@vger kernel org" <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=uhliVxb4ys30IUASAOX1iohI7f1IEN6Ho0oCZTBoeuE=;
+        b=WJ1c3OHxP4UT2do1Pr22oJY2LjQTySBKPtXQxWdYXa8GLeutiDbAGZU3DRdsvUPCLh
+         3SgBmmhkzmShnyM3UcIzYWifytV0Kf7YuZhQEQePVcyuNFyxcfOo1fUifb9WdYQr3JpQ
+         yfgTlk8JFuANbRL4i8XGjyM+wt/hXrtRYNi0N9aENHDICbXssmmepLCuIRQIDPkCAS29
+         qnPw6gmfEV9wTx7emqhFwMroJfdHotEm6ztcOpTJKQcIFrnyWH1q/ryc7AVKjRRtjxpd
+         OZvbAyoyBEUEzslxF0TBn8TeHD39FT+5gZYRI/hMpyzPBD39zbhRwoa5ADGRu7X4pKOY
+         Fh4w==
+X-Gm-Message-State: AHQUAuYq2Z6S9JCltuCCujGakqtVezFrHDeI5JDfjBVEWf19gWUTVm8x
+        lqI2sFaaLRxoyhR+Vn0PwvA=
+X-Google-Smtp-Source: AHgI3IaFWOIt2VMGD6s8omAMJOP4iMJqxdqAm1SpDNPUCTZP4gSETd4fRTr2KqsWntm1fLoEHy7pOw==
+X-Received: by 2002:a17:902:6b47:: with SMTP id g7mr26987198plt.100.1551190176895;
+        Tue, 26 Feb 2019 06:09:36 -0800 (PST)
+Received: from localhost.corp.microsoft.com ([167.220.255.67])
+        by smtp.googlemail.com with ESMTPSA id k64sm41773182pfj.69.2019.02.26.06.09.31
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 26 Feb 2019 06:09:36 -0800 (PST)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org, pbonzini@redhat.com,
+        rkrcmar@redhat.com, michael.h.kelley@microsoft.com,
+        vkuznets@redhat.com
+Cc:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [Update PATCH V3 1/10] X86/Hyper-V: Add parameter offset for hyperv_fill_flush_guest_mapping_list()
+Date:   Tue, 26 Feb 2019 22:09:16 +0800
+Message-Id: <20190226140916.22369-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.4
+In-Reply-To: <20190222150637.2337-2-Tianyu.Lan@microsoft.com>
+References: <20190222150637.2337-2-Tianyu.Lan@microsoft.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Feb 26, 2019 at 9:07 PM Joerg Roedel <joro@8bytes.org> wrote:
->
-> On Tue, Feb 26, 2019 at 08:07:17PM +0800, lantianyu1986@gmail.com wrote:
-> > Lan Tianyu (3):
-> >   x86/Hyper-V: Set x2apic destination mode to physical when x2apic is
-> >      available
-> >   HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
-> >   MAINTAINERS: Add Hyper-V IOMMU driver into Hyper-V CORE AND DRIVERS
-> >     scope
->
-> Applied (patch 2 with slight subject changes
-> 'HYPERV/IOMMU' -> 'iommu/hyper-v'), thanks.
+From: Lan Tianyu <Tianyu.Lan@microsoft.com>
 
-Great. Thanks.
+Add parameter offset to specify start position to add flush ranges in
+guest address list of struct hv_guest_mapping_flush_list.
 
+Signed-off-by: Lan Tianyu <Tianyu.Lan@microsoft.com>
+---
+Update "offset" parameter's type of hyperv_fill_flush_guest_mapping_list()
+
+ arch/x86/hyperv/nested.c        | 4 ++--
+ arch/x86/include/asm/mshyperv.h | 2 +-
+ arch/x86/kvm/vmx/vmx.c          | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/hyperv/nested.c b/arch/x86/hyperv/nested.c
+index dd0a843f766d..d54c2276c922 100644
+--- a/arch/x86/hyperv/nested.c
++++ b/arch/x86/hyperv/nested.c
+@@ -58,11 +58,11 @@ EXPORT_SYMBOL_GPL(hyperv_flush_guest_mapping);
+ 
+ int hyperv_fill_flush_guest_mapping_list(
+ 		struct hv_guest_mapping_flush_list *flush,
+-		u64 start_gfn, u64 pages)
++		u32 offset, u64 start_gfn, u64 pages)
+ {
+ 	u64 cur = start_gfn;
+ 	u64 additional_pages;
+-	int gpa_n = 0;
++	int gpa_n = offset;
+ 
+ 	do {
+ 		/*
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index cc60e617931c..8b63ed95780e 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -357,7 +357,7 @@ int hyperv_flush_guest_mapping_range(u64 as,
+ 		hyperv_fill_flush_list_func fill_func, void *data);
+ int hyperv_fill_flush_guest_mapping_list(
+ 		struct hv_guest_mapping_flush_list *flush,
+-		u64 start_gfn, u64 end_gfn);
++		u32 offset, u64 start_gfn, u64 end_gfn);
+ 
+ #ifdef CONFIG_X86_64
+ void hv_apic_init(void);
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 4950bb20e06a..77b5379e3655 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -433,7 +433,7 @@ static int kvm_fill_hv_flush_list_func(struct hv_guest_mapping_flush_list *flush
+ {
+ 	struct kvm_tlb_range *range = data;
+ 
+-	return hyperv_fill_flush_guest_mapping_list(flush, range->start_gfn,
++	return hyperv_fill_flush_guest_mapping_list(flush, 0, range->start_gfn,
+ 			range->pages);
+ }
+ 
 -- 
-Best regards
-Tianyu Lan
+2.14.4
+
