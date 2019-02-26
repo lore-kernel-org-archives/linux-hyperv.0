@@ -7,67 +7,69 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 911AEC43381
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 12:08:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED1EC4360F
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 12:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D1D1217F9
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 12:08:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3246321852
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Feb 2019 12:08:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JeNwlmZI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qZXMAOF+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbfBZMHu (ORCPT
+        id S1726795AbfBZMHo (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 26 Feb 2019 07:07:50 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40580 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728303AbfBZMHt (ORCPT
+        Tue, 26 Feb 2019 07:07:44 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:34675 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728070AbfBZMHn (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 26 Feb 2019 07:07:49 -0500
-Received: by mail-pg1-f195.google.com with SMTP id u9so6129942pgo.7;
-        Tue, 26 Feb 2019 04:07:48 -0800 (PST)
+        Tue, 26 Feb 2019 07:07:43 -0500
+Received: by mail-pl1-f195.google.com with SMTP id d15so6171694plr.1;
+        Tue, 26 Feb 2019 04:07:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=mM69a5v4xYkkl+Y+6aMxnY/GZUQI0q5NMyLLZarSqcs=;
-        b=JeNwlmZIbLi7QRo5Ltu6bfPe+KnqtipI6SGhe44gKKK/iqQ4yf/mVnaf6mwQv3Gex5
-         9q6Pprb6tUZDqlCvdG0oqxOo8Xs38wrCyOlbmCKZWkuq8X3VupIFcHVSlbw8560zKD2j
-         RxNlYL3pU6r//NDpEKqNTdX8MHL0/eTvn6x7rP8xIeYJhxB+XyaZ6y31OpWb+zHmJav1
-         6fgltgG1fXtvtDyKub2ox/M54zdrl0ft80VavYdjb8SHtTjbe8eyiTLTySvkJoC9s5uH
-         RKjOIFnR7dbsNI2uuvMwBD95hntIMAKD9xYO0IvyYXv2cPfb1h2YYxj1+otKFAWqPy7P
-         KZSg==
+        bh=qU1GABYYyeuPRZGX8LPlndQ7q8L8YfsCQ19TD+5FHqc=;
+        b=qZXMAOF+D6SCoEM+v2PEd8vxnfcBFFbYa8iiwhgGDOSZofWuj+lzIoVy6LUyQlhq2s
+         U91FXDhq6AcC4Oq93WoME0GPHCupoh+h70f/qR+FZ2LDt/xoS0bP1JvcqY8VLK0l69PA
+         OrN7CRbkXvP99wezM4e73XB4Kd4iIEmDjxiJ8eWf8MkHftPltUmI8Em4OBa3Fdb5zfR1
+         DP7v0eIrZnuVNFodlhGu9l/OO6Gu8+wReKUAISiQpH6VxgpzkUsc3mSVPephrCtnsDhI
+         TowgLt+zXZJoM9oGGU2xRZRq08HAAg2WjvbqJVAjMosOdRjnwXagyZm7fEPoC1acGrNe
+         4OSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=mM69a5v4xYkkl+Y+6aMxnY/GZUQI0q5NMyLLZarSqcs=;
-        b=aMVDyx5ALfARVOngXLFB9ofuLMi9iq0TPiAit5RXFEg7TmAlpUSB5LqaD2tigk84Hw
-         AR3Rv+jUS/VoyQMv1qG+mtxYhbdbzOccUdoP5Q3UQJN0bTfzISONnjTAN5jmzGsuz+a6
-         bZNlRYrrr1W7EnTkUB5F+AJ2Tyi4K3z2/kz88p+hLI0XZtOd1eReVnHGQ+peJLzQzOqI
-         d3CP+qPzySx39gX6BWp3ER57rE5P/+9U3L64dIMRYi4jH/r0RZNzQhvEvDRz0Q0EqWo/
-         Ya9KNgV+r6v/VGxomyH0MJ/cR6wWEVjq0Wa2LwUS3H6WnOaN5aVQd/5dv3WPi2dsMart
-         Bl7A==
-X-Gm-Message-State: AHQUAuYyFmIyNedLkyGH54Z7fvT5x4jccMSwTN3LqXlZeezqmMll94fV
-        eFOuHRWu2XyNf1Sj6hnsl+0=
-X-Google-Smtp-Source: AHgI3IbL1rCl+ECLnJJGxqb+vOVbOzRT+Q70qeO40nRnfM/9CpxsSfAcmzQ9pJW/zmXvYg7+cuD+NQ==
-X-Received: by 2002:a62:e911:: with SMTP id j17mr25133387pfh.107.1551182868292;
-        Tue, 26 Feb 2019 04:07:48 -0800 (PST)
+        bh=qU1GABYYyeuPRZGX8LPlndQ7q8L8YfsCQ19TD+5FHqc=;
+        b=MbOKdgtug5BJ6FZiAQCKLWeQUVWT2TF/S3CmS9il8Sbb3NP5EBqPu5zRB5fRInSTor
+         ErPNDXChdUrY29zLh5US7o9a/dyP4z0zVkusl72xf9RuBDdIzNG8BZK6nNXXr+O6F36j
+         L/uShm36ubrAxMBWEOHFFgUlthxRhNXSsFa0Xeq5plU/Oq8OXa+s4pYcgvaBY8rDVei9
+         mL4hpSVCRnMvBYN0TLYib9ZtKh6ZyUwj3TJhlaFP2YnkvYtCDNTefzalAkirvgF9/Lgz
+         ug6+/4j4Alrrm24rJrUXwrWVozea2iQ4mEQ/h9O1RkWNMLKIUmKU1zAyjw10AeLY1UmV
+         IOUw==
+X-Gm-Message-State: AHQUAua/kgj5qDTApuJPBLW+JmqhpqwEMNFMdtdgJGTEU/Jjjzp55/sH
+        IcFTI7P4xYRBJeBrL61LJeFzRV2g
+X-Google-Smtp-Source: AHgI3Iajo/2Za+PSZHrYfraGQ2jzZC6VGQ6gc07Rk5zmAxKvwkIN/nNmZLMxDbglUJujWiEDeSj3cg==
+X-Received: by 2002:a17:902:1101:: with SMTP id d1mr25034824pla.19.1551182863114;
+        Tue, 26 Feb 2019 04:07:43 -0800 (PST)
 Received: from tianyukernel.corp.microsoft.com ([167.220.255.93])
-        by smtp.googlemail.com with ESMTPSA id e21sm30889423pfh.45.2019.02.26.04.07.43
+        by smtp.googlemail.com with ESMTPSA id e21sm30889423pfh.45.2019.02.26.04.07.36
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 26 Feb 2019 04:07:47 -0800 (PST)
+        Tue, 26 Feb 2019 04:07:42 -0800 (PST)
 From:   lantianyu1986@gmail.com
 X-Google-Original-From: Tianyu.Lan@microsoft.com
-To:     joro@8bytes.org, mchehab+samsung@kernel.org, davem@davemloft.net,
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org, joro@8bytes.org,
+        mchehab+samsung@kernel.org, davem@davemloft.net,
         gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
-        arnd@arndb.de, michael.h.kelley@microsoft.com, kys@microsoft.com,
-        vkuznets@redhat.com, alex.williamson@redhat.com, sashal@kernel.org,
-        dan.carpenter@oracle.com
+        arnd@arndb.de, michael.h.kelley@microsoft.com, vkuznets@redhat.com,
+        alex.williamson@redhat.com, dan.carpenter@oracle.com
 Cc:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-hyperv@vger.kernel.org
-Subject: [Resend PATCH V5 2/3] HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
-Date:   Tue, 26 Feb 2019 20:07:19 +0800
-Message-Id: <1551182840-15069-3-git-send-email-Tianyu.Lan@microsoft.com>
+        linux-kernel@vger.kernel.org, devel@linuxdriverproject.org,
+        iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org
+Subject: [Resend PATCH V5 1/3] x86/Hyper-V: Set x2apic destination mode to physical when x2apic is available
+Date:   Tue, 26 Feb 2019 20:07:18 +0800
+Message-Id: <1551182840-15069-2-git-send-email-Tianyu.Lan@microsoft.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1551182840-15069-1-git-send-email-Tianyu.Lan@microsoft.com>
 References: <1551182840-15069-1-git-send-email-Tianyu.Lan@microsoft.com>
@@ -78,306 +80,45 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Lan Tianyu <Tianyu.Lan@microsoft.com>
 
-On the bare metal, enabling X2APIC mode requires interrupt remapping
-function which helps to deliver irq to cpu with 32-bit APIC ID.
-Hyper-V doesn't provide interrupt remapping function so far and Hyper-V
-MSI protocol already supports to deliver interrupt to the CPU whose
-virtual processor index is more than 255. IO-APIC interrupt still has
-8-bit APIC ID limitation.
+Hyper-V doesn't provide irq remapping for IO-APIC. To enable x2apic,
+set x2apic destination mode to physcial mode when x2apic is available
+and Hyper-V IOMMU driver makes sure cpus assigned with IO-APIC irqs have
+8-bit APIC id.
 
-This patch is to add Hyper-V stub IOMMU driver in order to enable
-X2APIC mode successfully in Hyper-V Linux guest. The driver returns X2APIC
-interrupt remapping capability when X2APIC mode is available. Otherwise,
-it creates a Hyper-V irq domain to limit IO-APIC interrupts' affinity
-and make sure cpus assigned with IO-APIC interrupt have 8-bit APIC ID.
-
-Define 24 IO-APIC remapping entries because Hyper-V only expose one
-single IO-APIC and one IO-APIC has 24 pins according IO-APIC spec(
-https://pdos.csail.mit.edu/6.828/2016/readings/ia32/ioapic.pdf).
-
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Lan Tianyu <Tianyu.Lan@microsoft.com>
 ---
-Change since v4:
-       - Fix the loop of scan cpu's APIC id
-
-Change since v3:
-       - Make Hyper-V IOMMU as Hyper-V default driver
-       - Fix hypervisor_is_type() input parameter
-       - Check possible cpu numbers during scan 0~255 cpu's apic id.
-
 Change since v2:
-       - Improve comment about why save IO-APIC entry in the irq chip data.
-       - Some code improvement.
-       - Improve statement in the IOMMU Kconfig.
-
+       - Fix compile error due to x2apic_phys
+       - Fix comment indent
 Change since v1:
-      - Remove unused pr_fmt
-      - Make ioapic_ir_domain as static variable
-      - Remove unused variables cfg and entry in the hyperv_irq_remapping_alloc()
-      - Fix comments
+       - Remove redundant extern for x2apic_phys
 
 ---
- drivers/iommu/Kconfig         |   9 ++
- drivers/iommu/Makefile        |   1 +
- drivers/iommu/hyperv-iommu.c  | 194 ++++++++++++++++++++++++++++++++++++++++++
- drivers/iommu/irq_remapping.c |   3 +
- drivers/iommu/irq_remapping.h |   1 +
- 5 files changed, 208 insertions(+)
- create mode 100644 drivers/iommu/hyperv-iommu.c
+ arch/x86/kernel/cpu/mshyperv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 45d7021..6f07f3b 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -437,4 +437,13 @@ config QCOM_IOMMU
- 	help
- 	  Support for IOMMU on certain Qualcomm SoCs.
- 
-+config HYPERV_IOMMU
-+	bool "Hyper-V x2APIC IRQ Handling"
-+	depends on HYPERV
-+	select IOMMU_API
-+	default HYPERV
-+	help
-+	  Stub IOMMU driver to handle IRQs as to allow Hyper-V Linux
-+	  guests to run with x2APIC mode enabled.
-+
- endif # IOMMU_SUPPORT
-diff --git a/drivers/iommu/Makefile b/drivers/iommu/Makefile
-index a158a68..8c71a15 100644
---- a/drivers/iommu/Makefile
-+++ b/drivers/iommu/Makefile
-@@ -32,3 +32,4 @@ obj-$(CONFIG_EXYNOS_IOMMU) += exynos-iommu.o
- obj-$(CONFIG_FSL_PAMU) += fsl_pamu.o fsl_pamu_domain.o
- obj-$(CONFIG_S390_IOMMU) += s390-iommu.o
- obj-$(CONFIG_QCOM_IOMMU) += qcom_iommu.o
-+obj-$(CONFIG_HYPERV_IOMMU) += hyperv-iommu.o
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-new file mode 100644
-index 0000000..eb358e9
---- /dev/null
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -0,0 +1,194 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Hyper-V stub IOMMU driver.
-+ *
-+ * Copyright (C) 2019, Microsoft, Inc.
-+ *
-+ * Author : Lan Tianyu <Tianyu.Lan@microsoft.com>
-+ */
-+
-+#include <linux/types.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/iommu.h>
-+#include <linux/module.h>
-+
-+#include <asm/hw_irq.h>
-+#include <asm/io_apic.h>
-+#include <asm/irq_remapping.h>
-+#include <asm/hypervisor.h>
-+
-+#include "irq_remapping.h"
-+
-+#ifdef CONFIG_IRQ_REMAP
-+
-+/*
-+ * According 82093AA IO-APIC spec , IO APIC has a 24-entry Interrupt
-+ * Redirection Table. Hyper-V exposes one single IO-APIC and so define
-+ * 24 IO APIC remmapping entries.
-+ */
-+#define IOAPIC_REMAPPING_ENTRY 24
-+
-+static cpumask_t ioapic_max_cpumask = { CPU_BITS_NONE };
-+static struct irq_domain *ioapic_ir_domain;
-+
-+static int hyperv_ir_set_affinity(struct irq_data *data,
-+		const struct cpumask *mask, bool force)
-+{
-+	struct irq_data *parent = data->parent_data;
-+	struct irq_cfg *cfg = irqd_cfg(data);
-+	struct IO_APIC_route_entry *entry;
-+	int ret;
-+
-+	/* Return error If new irq affinity is out of ioapic_max_cpumask. */
-+	if (!cpumask_subset(mask, &ioapic_max_cpumask))
-+		return -EINVAL;
-+
-+	ret = parent->chip->irq_set_affinity(parent, mask, force);
-+	if (ret < 0 || ret == IRQ_SET_MASK_OK_DONE)
-+		return ret;
-+
-+	entry = data->chip_data;
-+	entry->dest = cfg->dest_apicid;
-+	entry->vector = cfg->vector;
-+	send_cleanup_vector(cfg);
-+
-+	return 0;
-+}
-+
-+static struct irq_chip hyperv_ir_chip = {
-+	.name			= "HYPERV-IR",
-+	.irq_ack		= apic_ack_irq,
-+	.irq_set_affinity	= hyperv_ir_set_affinity,
-+};
-+
-+static int hyperv_irq_remapping_alloc(struct irq_domain *domain,
-+				     unsigned int virq, unsigned int nr_irqs,
-+				     void *arg)
-+{
-+	struct irq_alloc_info *info = arg;
-+	struct irq_data *irq_data;
-+	struct irq_desc *desc;
-+	int ret = 0;
-+
-+	if (!info || info->type != X86_IRQ_ALLOC_TYPE_IOAPIC || nr_irqs > 1)
-+		return -EINVAL;
-+
-+	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
-+	if (ret < 0)
-+		return ret;
-+
-+	irq_data = irq_domain_get_irq_data(domain, virq);
-+	if (!irq_data) {
-+		irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+		return -EINVAL;
-+	}
-+
-+	irq_data->chip = &hyperv_ir_chip;
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index e81a2db..0c29e4e 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -328,6 +328,16 @@ static void __init ms_hyperv_init_platform(void)
+ # ifdef CONFIG_SMP
+ 	smp_ops.smp_prepare_boot_cpu = hv_smp_prepare_boot_cpu;
+ # endif
 +
 +	/*
-+	 * If there is interrupt remapping function of IOMMU, setting irq
-+	 * affinity only needs to change IRTE of IOMMU. But Hyper-V doesn't
-+	 * support interrupt remapping function, setting irq affinity of IO-APIC
-+	 * interrupts still needs to change IO-APIC registers. But ioapic_
-+	 * configure_entry() will ignore value of cfg->vector and cfg->
-+	 * dest_apicid when IO-APIC's parent irq domain is not the vector
-+	 * domain.(See ioapic_configure_entry()) In order to setting vector
-+	 * and dest_apicid to IO-APIC register, IO-APIC entry pointer is saved
-+	 * in the chip_data and hyperv_irq_remapping_activate()/hyperv_ir_set_
-+	 * affinity() set vector and dest_apicid directly into IO-APIC entry.
++	 * Hyper-V doesn't provide irq remapping for IO-APIC. To enable x2apic,
++	 * set x2apic destination mode to physcial mode when x2apic is available
++	 * and Hyper-V IOMMU driver makes sure cpus assigned with IO-APIC irqs
++	 * have 8-bit APIC id.
 +	 */
-+	irq_data->chip_data = info->ioapic_entry;
++	if (IS_ENABLED(CONFIG_X86_X2APIC) && x2apic_supported())
++		x2apic_phys = 1;
 +
-+	/*
-+	 * Hypver-V IO APIC irq affinity should be in the scope of
-+	 * ioapic_max_cpumask because no irq remapping support.
-+	 */
-+	desc = irq_data_to_desc(irq_data);
-+	cpumask_copy(desc->irq_common_data.affinity, &ioapic_max_cpumask);
-+
-+	return 0;
-+}
-+
-+static void hyperv_irq_remapping_free(struct irq_domain *domain,
-+				 unsigned int virq, unsigned int nr_irqs)
-+{
-+	irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+}
-+
-+static int hyperv_irq_remapping_activate(struct irq_domain *domain,
-+			  struct irq_data *irq_data, bool reserve)
-+{
-+	struct irq_cfg *cfg = irqd_cfg(irq_data);
-+	struct IO_APIC_route_entry *entry = irq_data->chip_data;
-+
-+	entry->dest = cfg->dest_apicid;
-+	entry->vector = cfg->vector;
-+
-+	return 0;
-+}
-+
-+static struct irq_domain_ops hyperv_ir_domain_ops = {
-+	.alloc = hyperv_irq_remapping_alloc,
-+	.free = hyperv_irq_remapping_free,
-+	.activate = hyperv_irq_remapping_activate,
-+};
-+
-+static int __init hyperv_prepare_irq_remapping(void)
-+{
-+	struct fwnode_handle *fn;
-+	int i;
-+
-+	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
-+	    !x2apic_supported())
-+		return -ENODEV;
-+
-+	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
-+	if (!fn)
-+		return -ENOMEM;
-+
-+	ioapic_ir_domain =
-+		irq_domain_create_hierarchy(arch_get_ir_parent_domain(),
-+				0, IOAPIC_REMAPPING_ENTRY, fn,
-+				&hyperv_ir_domain_ops, NULL);
-+
-+	irq_domain_free_fwnode(fn);
-+
-+	/*
-+	 * Hyper-V doesn't provide irq remapping function for
-+	 * IO-APIC and so IO-APIC only accepts 8-bit APIC ID.
-+	 * Cpu's APIC ID is read from ACPI MADT table and APIC IDs
-+	 * in the MADT table on Hyper-v are sorted monotonic increasingly.
-+	 * APIC ID reflects cpu topology. There maybe some APIC ID
-+	 * gaps when cpu number in a socket is not power of two. Prepare
-+	 * max cpu affinity for IOAPIC irqs. Scan cpu 0-255 and set cpu
-+	 * into ioapic_max_cpumask if its APIC ID is less than 256.
-+	 */
-+	for (i = min_t(unsigned int, num_possible_cpus() - 1, 255); i >= 0; i--)
-+		if (cpu_physical_id(i) < 256)
-+			cpumask_set_cpu(i, &ioapic_max_cpumask);
-+
-+	return 0;
-+}
-+
-+static int __init hyperv_enable_irq_remapping(void)
-+{
-+	return IRQ_REMAP_X2APIC_MODE;
-+}
-+
-+static struct irq_domain *hyperv_get_ir_irq_domain(struct irq_alloc_info *info)
-+{
-+	if (info->type == X86_IRQ_ALLOC_TYPE_IOAPIC)
-+		return ioapic_ir_domain;
-+	else
-+		return NULL;
-+}
-+
-+struct irq_remap_ops hyperv_irq_remap_ops = {
-+	.prepare		= hyperv_prepare_irq_remapping,
-+	.enable			= hyperv_enable_irq_remapping,
-+	.get_ir_irq_domain	= hyperv_get_ir_irq_domain,
-+};
-+
-+#endif
-diff --git a/drivers/iommu/irq_remapping.c b/drivers/iommu/irq_remapping.c
-index b94ebd4..81cf290 100644
---- a/drivers/iommu/irq_remapping.c
-+++ b/drivers/iommu/irq_remapping.c
-@@ -103,6 +103,9 @@ int __init irq_remapping_prepare(void)
- 	else if (IS_ENABLED(CONFIG_AMD_IOMMU) &&
- 		 amd_iommu_irq_ops.prepare() == 0)
- 		remap_ops = &amd_iommu_irq_ops;
-+	else if (IS_ENABLED(CONFIG_HYPERV_IOMMU) &&
-+		 hyperv_irq_remap_ops.prepare() == 0)
-+		remap_ops = &hyperv_irq_remap_ops;
- 	else
- 		return -ENOSYS;
- 
-diff --git a/drivers/iommu/irq_remapping.h b/drivers/iommu/irq_remapping.h
-index 0afef6e..f8609e9 100644
---- a/drivers/iommu/irq_remapping.h
-+++ b/drivers/iommu/irq_remapping.h
-@@ -64,6 +64,7 @@ struct irq_remap_ops {
- 
- extern struct irq_remap_ops intel_irq_remap_ops;
- extern struct irq_remap_ops amd_iommu_irq_ops;
-+extern struct irq_remap_ops hyperv_irq_remap_ops;
- 
- #else  /* CONFIG_IRQ_REMAP */
+ #endif
+ }
  
 -- 
 2.7.4
