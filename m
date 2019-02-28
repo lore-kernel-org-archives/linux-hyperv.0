@@ -2,66 +2,100 @@ Return-Path: <SRS0=MLR3=RD=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA7C1C43381
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:14:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E95EC10F00
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:56:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B086521850
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:14:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59512218E0
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732285AbfB1KOd (ORCPT
+        id S1731675AbfB1K4T (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Feb 2019 05:14:33 -0500
-Received: from 8bytes.org ([81.169.241.247]:55866 "EHLO theia.8bytes.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732282AbfB1KOd (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Feb 2019 05:14:33 -0500
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id 37FC74A3; Thu, 28 Feb 2019 11:14:31 +0100 (CET)
-Date:   Thu, 28 Feb 2019 11:14:29 +0100
-From:   Joerg Roedel <joro@8bytes.org>
-To:     lantianyu1986@gmail.com
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org, davem@davemloft.net,
-        mchehab+samsung@kernel.org, gregkh@linuxfoundation.org,
-        nicolas.ferre@microchip.com, arnd@arndb.de,
-        michael.h.kelley@microsoft.com, vkuznets@redhat.com,
-        alex.williamson@redhat.com, dan.carpenter@oracle.com,
-        Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH V6 0/3] x86/Hyper-V/IOMMU: Add Hyper-V IOMMU driver to
- support x2apic mode
-Message-ID: <20190228101429.GA6303@8bytes.org>
-References: <1551279245-25888-1-git-send-email-Tianyu.Lan@microsoft.com>
+        Thu, 28 Feb 2019 05:56:19 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38151 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730645AbfB1K4S (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 28 Feb 2019 05:56:18 -0500
+Received: by mail-wr1-f66.google.com with SMTP id g12so9342639wrm.5
+        for <linux-hyperv@vger.kernel.org>; Thu, 28 Feb 2019 02:56:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=5X885l+x/iXoxDZHmd26qKVUeYFleR0kw+jBUUsd7HM=;
+        b=HF3DORXEJV83PtJN4cjoBlkIdS6eFNmSGciehMlb+x6BqJIsnFMIykvsQ19C2W2+W4
+         rHmqPPqHP9muLsDh7KuaFqSfQf/HT1VJDo/LlKii5XITJ5GVbdt06uGRnE6WphtfHdP+
+         /3IEJFVjeutqkf3Wc497M0YnOPnUhziSbksX74UvN2LJwcsQbrexdtqPdLTzm7yC5MPA
+         A0oLPtPTf2EwGvtc7WJ36w92Dsj0MalHnlc6gZB7KxEXnFGOKSwmIJfmBhu7/tTv62SJ
+         YO+YAsUykr6faxe109WRPTOtvYtk4ZLdcfpZ3j2WFn96JZ+u1/fFIJ+enmvgfZKChjg+
+         54yA==
+X-Gm-Message-State: APjAAAUMimw3MZg9E4P097yQwOrT6pRqYrmwZ4W1O90kTXhSBDRvyEtY
+        zAHBFs6Nev4rWrN8CDvfIF9Gog==
+X-Google-Smtp-Source: APXvYqwBacWFFRHnJ+rOtxAgoHyxQTM9PFhycb6WStlyVsZMG3m2lDOsEjq9/db/7q9/iGHIYuwn/Q==
+X-Received: by 2002:adf:8224:: with SMTP id 33mr5979521wrb.264.1551351376972;
+        Thu, 28 Feb 2019 02:56:16 -0800 (PST)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id 93sm55544517wrh.15.2019.02.28.02.56.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 28 Feb 2019 02:56:16 -0800 (PST)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Maya Nakamura <m.maya.nakamura@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, haiyangz@microsoft.com,
+        marcelo.cerri@canonical.com, linux-hyperv@vger.kernel.org,
+        lorenzo.pieralisi@arm.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, kys@microsoft.com,
+        sthemmin@microsoft.com, olaf@aepfle.de, apw@canonical.com,
+        jasowang@redhat.com, mikelley@microsoft.com,
+        Alexander.Levin@microsoft.com
+Subject: Re: [PATCH v4 0/2] PCI: hv: Refactor hv_irq_unmask() to use hv_vpset and cpumask_to_vpset()
+In-Reply-To: <cover.1551319643.git.m.maya.nakamura@gmail.com>
+References: <cover.1551319643.git.m.maya.nakamura@gmail.com>
+Date:   Thu, 28 Feb 2019 11:56:15 +0100
+Message-ID: <87d0nckwq8.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1551279245-25888-1-git-send-email-Tianyu.Lan@microsoft.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Feb 27, 2019 at 10:54:02PM +0800, lantianyu1986@gmail.com wrote:
-> Lan Tianyu (3):
->   x86/Hyper-V: Set x2apic destination mode to physical when x2apic is   
->      available
->   HYPERV/IOMMU: Add Hyper-V stub IOMMU driver
->   MAINTAINERS: Add Hyper-V IOMMU driver into Hyper-V CORE AND DRIVERS
->     scope
+Maya Nakamura <m.maya.nakamura@gmail.com> writes:
 
-Okay, replaced the patches in the iommu-tree by these patches. Please
-send future fixes on-top of the hyper-v branch in the iommu tree. Also
-note that I am going to exclude this branch from my next pull-request in
-case more issues are found.
+> This patchset removes a duplicate definition of VP set (hv_vp_set) and
+> uses the common definition (hv_vpset) that is used in other places. It
+> changes the order of the members in struct hv_pcibus_device due to
+> flexible array in hv_vpset.
+>
+> It also removes the duplicate implementation of cpumask_to_vpset(), uses
+> the shared implementation, and exports hv_max_vp_index, which is
+> required by cpumask_to_vpset().
+>
+> Based on Vitaly's findings, two changes were applied: replace GFP_KERNEL
+> with GFP_ATOMIC for alloc_cpumask_var() because hv_irq_unmask() runs
+> while a spinlock is held, and add __aligned(8) to struct
+> retarget_msi_interrupt because Hyper-V requires that hypercall arguments
+> be aligned on an 8 byte boundary.
+>
+> Vitaly, thank you for finding the issues, and Lorenzo and Michael, thank
+> you for your guidance and support!
+>
 
-Regards,
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Tested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-	Joerg
+I, however, agree with Lorenzo that '__aligned(8)' change deserves its
+own patch as it fixes an already present issue (which may actually be
+masked but still present).
 
+Going forward I'd like to get rid of the newly added cpumask allocation:
+while it is very unlikely to fail and it only happens when we reassign
+IRQs to some different CPU (thus it's not a hotpath or anything)
+failures are still possible. This work can definitely be postponed, I
+don't think it should block your patches.
+
+-- 
+Vitaly
