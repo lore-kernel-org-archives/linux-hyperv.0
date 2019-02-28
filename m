@@ -1,141 +1,109 @@
-Return-Path: <SRS0=Gp0b=RC=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=MLR3=RD=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1882C43381
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Feb 2019 18:51:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1488C43381
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 02:32:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 629162184A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Feb 2019 18:51:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 781F420863
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 02:32:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="mH4nCL3r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vCbDcmF6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727240AbfB0Svk (ORCPT
+        id S1730663AbfB1CcD (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Feb 2019 13:51:40 -0500
-Received: from mail-eopbgr790121.outbound.protection.outlook.com ([40.107.79.121]:21526
-        "EHLO NAM03-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726894AbfB0Svj (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Feb 2019 13:51:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zryiOFKIJTYTcIQOqLlHyUjq3pZdlJ1Rs47u4Hu1CYY=;
- b=mH4nCL3r/mOsUZRBUYfdBDqEM8ejfGoDqdVQ130XrxcvHFsJ/4aCaNcPUglix6WU6hcI80sKoIcK3WUrdsSurhjOTx/eIzOKNhiOJkMnLwSqKZncnI1WY3nd4lTkpNms/0bjsX0Sr2DqJ7KPz21V3KmRIBEzg5XqqA40uJXIA4w=
-Received: from DM5PR2101MB0918.namprd21.prod.outlook.com (52.132.132.163) by
- DM5PR2101MB0725.namprd21.prod.outlook.com (10.167.107.167) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1686.4; Wed, 27 Feb 2019 18:51:35 +0000
-Received: from DM5PR2101MB0918.namprd21.prod.outlook.com
- ([fe80::ec2d:d32b:e611:553f]) by DM5PR2101MB0918.namprd21.prod.outlook.com
- ([fe80::ec2d:d32b:e611:553f%8]) with mapi id 15.20.1686.003; Wed, 27 Feb 2019
- 18:51:35 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>
-CC:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: linux-next: Tree for Feb 27 (mshyperv)
-Thread-Topic: linux-next: Tree for Feb 27 (mshyperv)
-Thread-Index: AQHUzsF4gZUpmHqus0On6lHAoyxD1qXz/Dnw
-Date:   Wed, 27 Feb 2019 18:51:35 +0000
-Message-ID: <DM5PR2101MB09184DFB7037015F99C5EB93D7740@DM5PR2101MB0918.namprd21.prod.outlook.com>
-References: <20190227174427.4e8f7f24@canb.auug.org.au>
- <a6cfb923-c21e-b0e3-44e1-33197aac2625@infradead.org>
-In-Reply-To: <a6cfb923-c21e-b0e3-44e1-33197aac2625@infradead.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-02-27T18:51:34.0629772Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0d5e4ef7-677e-46ff-86c7-2af0f2826932;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d45d526d-e9e9-4524-8690-08d69ce49932
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DM5PR2101MB0725;
-x-ms-traffictypediagnostic: DM5PR2101MB0725:
-x-microsoft-exchange-diagnostics: =?us-ascii?Q?1;DM5PR2101MB0725;23:j118zkcHeTxaZKkBa8HZkY4K92gvp1XaWadrDZo?=
- =?us-ascii?Q?oj3K66Y+zMAB9x2OVORjm6qyLau6IQLGEYN0EiBb5BKG8rovb62cMnwkaSUz?=
- =?us-ascii?Q?bMbx0JHMMR28GxK+joyRs3/RNiQbmGCSSB+s/p/HZboEy7ReHt/i/PpNxS8h?=
- =?us-ascii?Q?tkYMHZ9S8RZIP0fIcM+MgiUVlU17T5/vDaQdUCgbnB1hBFGg8PvXk+GOfTfS?=
- =?us-ascii?Q?2PFixR29x+QKp04sWnJUu7ayxYCAFu7AZoys3MVDPuUUGob73QxQZ+num4Cy?=
- =?us-ascii?Q?qk8V1JKHjb1Urvy3wKjU6VF67v7MgxAXb1VZMFH+XaSuhetWk9cU3HZAMz/W?=
- =?us-ascii?Q?eblwpL4VED+tcSXa6Nc2sg7kJfdo9itd1/Sdt8iuAi4WEJIyWYsSZ23aRcIx?=
- =?us-ascii?Q?CgkWN7zvCDmrM5uG89X6lg4OaPHKuGEV/65tVXrQHGKFm+Ht4q31O39OBhv1?=
- =?us-ascii?Q?2alBoFYeIgwZO/mp8uAzYELMFx4b4pzTIGf9whS8Ks5VsRBP05PeHV9OJLRk?=
- =?us-ascii?Q?01UpPGxvOuFgMkp2F0akDVVL41tMd1f6byQbHX195n6TwQuQZ3XsN8FfN5Cf?=
- =?us-ascii?Q?yGUSqesIkph8JdddneNjEPGKYznUETBNe8dqPomUNVjnSRXatO9aLr3aJpYs?=
- =?us-ascii?Q?Ij62zOA0CvvmMLSg5LckjSUqtF+DvNPg3pQY1MQQoxBwa3v6/4/c3C3Y1fRF?=
- =?us-ascii?Q?D0P6lO1uddldwFsirPI2lWf49Gxk78k26CcBPbH2X/l2ASmvvjP8qpMeQvuW?=
- =?us-ascii?Q?il9KcF08cZWxbqVPMFe4TejUNmaoOHijCRwqmg+e54f5ko+xaTWqlgYD/T1F?=
- =?us-ascii?Q?Hz4KdLvzjxAwLup6Kh4BtQZ/edVag7trxEkldNSt29HmwqBMrTNSjjcYJwVf?=
- =?us-ascii?Q?M29/yAhuQOjAa6WFhRGgH4HER62vXZam8QUBrcUYgn7RzQXo06IoHDrFfI4c?=
- =?us-ascii?Q?G9ryS37EPuyHW9PCtB0kjieO690dRgp6Asp9pb5mhy6wNj7fcKo6CXszXhZV?=
- =?us-ascii?Q?2dLDe3sZsXZH9bL0W5ywQpXhwD/hfeVJXKg0MntxHASR7Rfxzn/i5SUoed2H?=
- =?us-ascii?Q?L15Hdzmkj5TcS319YEgHyGc0ZfD0h27//EKmVd5W06Yam7p0Bcj3hRwDev76?=
- =?us-ascii?Q?U2AgRKi2pqLiZN+FJKYz2mkbdAyxozefPjTsLY8iVY4oyS78sEUzn+sHTi1F?=
- =?us-ascii?Q?n6OXbfp6fGv5u6xuB8whvh1CkAqpqTg5VM8D4xmwvRA3T3yumWKwJplGzTO/?=
- =?us-ascii?Q?D3oi3Jjv+Bhq075XoOlusZy6dIrVAKxvho83eKQ3BwF04XKNAW0qmUO8aKTJ?=
- =?us-ascii?Q?UWME4J93izME2wGxeiUkiQSZSpLuQsytkHp35oD59kxmZww+815uCGxRHaN4?=
- =?us-ascii?Q?goUhwofW7idfVxdpoCIrXh1qYRS3C4BUK/qHvnJCioA//AZKg/Iw1sKDzl3Q?=
- =?us-ascii?Q?5I3kfwmiVf9zDGyFrUgbgnQZ8v8uBjQI=3D?=
-x-microsoft-antispam-prvs: <DM5PR2101MB07254CF574C5E4499FE5AABFD7740@DM5PR2101MB0725.namprd21.prod.outlook.com>
-x-forefront-prvs: 0961DF5286
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(136003)(376002)(346002)(366004)(396003)(189003)(199004)(110136005)(11346002)(446003)(66066001)(33656002)(476003)(8676002)(316002)(53936002)(74316002)(3846002)(486006)(6116002)(54906003)(10090500001)(26005)(5660300002)(6506007)(4744005)(76176011)(1511001)(81166006)(81156014)(8936002)(186003)(102836004)(68736007)(22452003)(6346003)(99286004)(7736002)(52536013)(8990500004)(105586002)(106356001)(256004)(71200400001)(71190400001)(305945005)(55016002)(9686003)(7696005)(4326008)(6636002)(25786009)(229853002)(86362001)(6436002)(2906002)(86612001)(14454004)(6246003)(478600001)(2501003)(97736004)(10290500003);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0725;H:DM5PR2101MB0918.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: XTFHLKI/RS+EWUVqbmOM29Ez2shbw5QVL2MF1JXBrJqqTMU/+1XNBGAujTL+qTPnm4JM+V64orISfGmEZd6lBuRrZOxOx8c5tNKEvSmgd4SKrip5EQ3Kzqq91Ez/+gjN/MHQti5s/hmNR5ypHaHLXiOqEfVp2hbEkxJW+1O6K3iXfZeUDFyzCunhhF/cozRIXwHGKIdYiVJ1v0aepJw4dqbDIUQHYxEVwjMzeR8f8vq/QCK+4XHT9AEnr1aWs3szMIIaCq4PF0i7EQ8zMiBrE13po6v64UovJ7C6Nb2mfvo7kHaOakznFFUTDCqoRUM1Lo2GHt2xvfSLOBZVu1Gj4arJNzoAZGPd8V2YlZUyN5U+/nY8fBekvQ3gXHMy8PVtDSN06KOtnTnp0gRQJTmA7tMgbtdqx7iLchA3vYMrMDY=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 27 Feb 2019 21:32:03 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:45113 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730341AbfB1CcC (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 27 Feb 2019 21:32:02 -0500
+Received: by mail-pl1-f196.google.com with SMTP id r14so8948222pls.12;
+        Wed, 27 Feb 2019 18:32:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=9fb7ulQzUjFrkS4BsHjJTXR9fBvG6ZDDHxB1iOz56mc=;
+        b=vCbDcmF64enXQA3g6wu0hTdSeF0EeQQRnBEZ80nu+CphWXhJSZzIWSBfYUXF+nA1Oq
+         t+rUp24De3z+CWNY25Zd9wIO4O5mnA0OXlOwFlCwHdZDBK7kquEh36g4hlI3W+VMlkW9
+         S/Dc2Xfz7F9SnjVGirXYMgzvrdrNFX/kiEfzZvkm9//y66amQqCU6CN/buubDmqOQUGQ
+         Lu+al7FkSkn+6MIvLLuCUEY5+mNOi1rQusz4ESR0fMUdQu8isXEoZ5LGqtfEuPq1o7oh
+         5e5qxziau9rqZBhjQlYpjJP/Zj3dFFaIIpOxmHBINSfWSjt++131XXT+r2pymXT/KhnY
+         SlrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=9fb7ulQzUjFrkS4BsHjJTXR9fBvG6ZDDHxB1iOz56mc=;
+        b=YBCL33vt0bfrHrF31dAB3og55f48Cg7L07u3afO3/0M5aB67n4db244Pk+s58oCYnN
+         EXaL3l9cso/7l5dgNVN/U6d368QtHoUR9daOcg6DEScKcxF1apckpysumGAohOoIopGZ
+         y342clxsNB5WhMvU6I5OqQeko/GmEnj58dnIBNmA9FlCxWv2KrSH4IH+ArdpF+dy8UOo
+         +/36HGRnPRIqunHFLDcl1A5ieoYEFZVJgqNQfWJT7IjgLycwTy+7FdILOliY9qjH2bZA
+         tleYKZC9SX6Dj0oLsM+9eeBInb9NvdjtXPTuos6mqxX9RVowkAUdPpxueLpfAk1vXZK8
+         A0zg==
+X-Gm-Message-State: AHQUAuZnHnzvqoIOYJzS8BT79JKanu4c7ErSUFoQ6R1zALPAnnKsRT+F
+        aR+o0TukiUcHyCe4qp7doflr8VfpQfp3+w==
+X-Google-Smtp-Source: AHgI3IaCy2JPUgJYk96eaieQgS9nGzkn3Bx4ZYHnRiAdKogQgJLOZ3UzwTCbdlhfIPtmPanarYvoSg==
+X-Received: by 2002:a17:902:5992:: with SMTP id p18mr5477363pli.231.1551321121917;
+        Wed, 27 Feb 2019 18:32:01 -0800 (PST)
+Received: from maya190131 ([52.247.237.14])
+        by smtp.gmail.com with ESMTPSA id d86sm10043549pfm.18.2019.02.27.18.32.01
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 27 Feb 2019 18:32:01 -0800 (PST)
+Date:   Thu, 28 Feb 2019 02:32:00 +0000
+From:   Maya Nakamura <m.maya.nakamura@gmail.com>
+To:     lorenzo.pieralisi@arm.com, bhelgaas@google.com,
+        linux-pci@vger.kernel.org, kys@microsoft.com,
+        sthemmin@microsoft.com, olaf@aepfle.de, apw@canonical.com,
+        jasowang@redhat.com, mikelley@microsoft.com,
+        Alexander.Levin@microsoft.com
+Cc:     linux-kernel@vger.kernel.org, haiyangz@microsoft.com,
+        vkuznets@redhat.com, marcelo.cerri@canonical.com,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH v4 0/2] PCI: hv: Refactor hv_irq_unmask() to use hv_vpset and
+ cpumask_to_vpset()
+Message-ID: <cover.1551319643.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d45d526d-e9e9-4524-8690-08d69ce49932
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2019 18:51:35.4976
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0725
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org> Sent: Wednesday, February 27, 20=
-19 9:25 AM
->
-> on i386:
->=20
-> ../arch/x86/kernel/cpu/mshyperv.c: In function 'ms_hyperv_init_platform':
-> ../arch/x86/kernel/cpu/mshyperv.c:339:3: error: 'x2apic_phys' undeclared =
-(first use in this
-> function)
->    x2apic_phys =3D 1;
->    ^
+This patchset removes a duplicate definition of VP set (hv_vp_set) and
+uses the common definition (hv_vpset) that is used in other places. It
+changes the order of the members in struct hv_pcibus_device due to
+flexible array in hv_vpset.
 
-FYI, the kbuild test robot flagged this issue overnight, and Tianyu Lan sub=
-mitted a
-fix earlier this morning.
+It also removes the duplicate implementation of cpumask_to_vpset(), uses
+the shared implementation, and exports hv_max_vp_index, which is
+required by cpumask_to_vpset().
 
-Michael
+Based on Vitaly's findings, two changes were applied: replace GFP_KERNEL
+with GFP_ATOMIC for alloc_cpumask_var() because hv_irq_unmask() runs
+while a spinlock is held, and add __aligned(8) to struct
+retarget_msi_interrupt because Hyper-V requires that hypercall arguments
+be aligned on an 8 byte boundary.
 
+Vitaly, thank you for finding the issues, and Lorenzo and Michael, thank
+you for your guidance and support!
+
+Maya Nakamura (2):
+  PCI: hv: Replace hv_vp_set with hv_vpset
+  PCI: hv: Refactor hv_irq_unmask() to use cpumask_to_vpset()
+
+ arch/x86/hyperv/hv_init.c           |  1 +
+ drivers/pci/controller/pci-hyperv.c | 61 +++++++++++++----------------
+ 2 files changed, 29 insertions(+), 33 deletions(-)
+
+-- 
+2.17.1
 
