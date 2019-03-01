@@ -1,101 +1,105 @@
-Return-Path: <SRS0=MLR3=RD=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=e6q8=RE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E95EC10F00
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 107B1C43381
+	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Mar 2019 06:54:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 59512218E0
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Feb 2019 10:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3B792186A
+	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Mar 2019 06:54:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DOw3HGUv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731675AbfB1K4T (ORCPT
+        id S1727644AbfCAGyr (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Feb 2019 05:56:19 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38151 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730645AbfB1K4S (ORCPT
+        Fri, 1 Mar 2019 01:54:47 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43208 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725290AbfCAGyr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Feb 2019 05:56:18 -0500
-Received: by mail-wr1-f66.google.com with SMTP id g12so9342639wrm.5
-        for <linux-hyperv@vger.kernel.org>; Thu, 28 Feb 2019 02:56:17 -0800 (PST)
+        Fri, 1 Mar 2019 01:54:47 -0500
+Received: by mail-pf1-f196.google.com with SMTP id q17so10961500pfh.10;
+        Thu, 28 Feb 2019 22:54:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=oXEfPEGL+Zj75A5a3F8V80z9LeMcoj/Klqsodz0w0Eo=;
+        b=DOw3HGUvyL8LkrkxcIwaECvG5vd+yUTfNIJM5C6+dybHFL0DMuu5191QjD3KhLjETT
+         ENcwZb1K4hqigvIsGR7MyGcIWVZlKYtDNpwJB+ad+qNPD6TngKT69XEnYF9tvNclyi0s
+         WEVNBmc3fjbXt1ndqpdUmjXgXszS6MnKAvXN7u1yjjwk5mHb8W4INCaCqswfea1aI3Bk
+         zaWy0kA4Vdj3al27bFK8Z+3UmYOvwJt4hDZ9rY9CHb02DZWYMZXgIPCsDb92Z7eN6wOq
+         eKw2lvFgx7XLENb3Iu/09sixuheUiqXBzcl0xjD/Z8BRX0dvTs5lFFxNe9J/Av63QmbH
+         JvcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=5X885l+x/iXoxDZHmd26qKVUeYFleR0kw+jBUUsd7HM=;
-        b=HF3DORXEJV83PtJN4cjoBlkIdS6eFNmSGciehMlb+x6BqJIsnFMIykvsQ19C2W2+W4
-         rHmqPPqHP9muLsDh7KuaFqSfQf/HT1VJDo/LlKii5XITJ5GVbdt06uGRnE6WphtfHdP+
-         /3IEJFVjeutqkf3Wc497M0YnOPnUhziSbksX74UvN2LJwcsQbrexdtqPdLTzm7yC5MPA
-         A0oLPtPTf2EwGvtc7WJ36w92Dsj0MalHnlc6gZB7KxEXnFGOKSwmIJfmBhu7/tTv62SJ
-         YO+YAsUykr6faxe109WRPTOtvYtk4ZLdcfpZ3j2WFn96JZ+u1/fFIJ+enmvgfZKChjg+
-         54yA==
-X-Gm-Message-State: APjAAAUMimw3MZg9E4P097yQwOrT6pRqYrmwZ4W1O90kTXhSBDRvyEtY
-        zAHBFs6Nev4rWrN8CDvfIF9Gog==
-X-Google-Smtp-Source: APXvYqwBacWFFRHnJ+rOtxAgoHyxQTM9PFhycb6WStlyVsZMG3m2lDOsEjq9/db/7q9/iGHIYuwn/Q==
-X-Received: by 2002:adf:8224:: with SMTP id 33mr5979521wrb.264.1551351376972;
-        Thu, 28 Feb 2019 02:56:16 -0800 (PST)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id 93sm55544517wrh.15.2019.02.28.02.56.15
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=oXEfPEGL+Zj75A5a3F8V80z9LeMcoj/Klqsodz0w0Eo=;
+        b=Ie46g3f6yTgH3ImS2B/ICwYOyym/LoXapD83Hro1kjMmgnnhCOb9gl2yBtC1WQ69Vh
+         FIFYy41dwG9sah4Ld+7Bik6pDL75svApQhFe7LT217ygHvjAqov4qzLR18IzmcfDgyj2
+         yiRmHVVqSjmgSDXuSGgR23qoUdCjEXc0N1Kb5JLAT1tFMpdI45HyLxbuY/eCIMTYX4yS
+         T391QhYsK89tx/Mrt2oUtTAQRVoytHB9WxhweA4SDbgPAStdz6j/d6dCn+etyQG3+UJL
+         6dC/ckTcuiGDAfDL8hjKi5WxMGLbvYCWLbCLX3LGV3eHKVaEY0nWiyL73btEPD2DUxrt
+         n/3A==
+X-Gm-Message-State: AHQUAuZLIobiEVYWBQIJJYvhDFe6iNRBjgh1c1Aig1hRWKceq2IJYFu9
+        rZ+LCZupwWO5v37AQfyWTCk=
+X-Google-Smtp-Source: AHgI3IYqJ2/1pxz/XxLtGjRL5eqzEUSI95cTJPkqnQJzFH9WXViShXguZHcx30uhm3begF46omTckQ==
+X-Received: by 2002:aa7:8597:: with SMTP id w23mr3925636pfn.87.1551423286942;
+        Thu, 28 Feb 2019 22:54:46 -0800 (PST)
+Received: from maya190131 ([52.247.206.249])
+        by smtp.gmail.com with ESMTPSA id s4sm19649505pfe.16.2019.02.28.22.54.46
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 28 Feb 2019 02:56:16 -0800 (PST)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Maya Nakamura <m.maya.nakamura@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, haiyangz@microsoft.com,
-        marcelo.cerri@canonical.com, linux-hyperv@vger.kernel.org,
-        lorenzo.pieralisi@arm.com, bhelgaas@google.com,
+        Thu, 28 Feb 2019 22:54:46 -0800 (PST)
+Date:   Fri, 1 Mar 2019 06:54:45 +0000
+From:   Maya Nakamura <m.maya.nakamura@gmail.com>
+To:     lorenzo.pieralisi@arm.com, bhelgaas@google.com,
         linux-pci@vger.kernel.org, kys@microsoft.com,
         sthemmin@microsoft.com, olaf@aepfle.de, apw@canonical.com,
         jasowang@redhat.com, mikelley@microsoft.com,
         Alexander.Levin@microsoft.com
-Subject: Re: [PATCH v4 0/2] PCI: hv: Refactor hv_irq_unmask() to use hv_vpset and cpumask_to_vpset()
-In-Reply-To: <cover.1551319643.git.m.maya.nakamura@gmail.com>
-References: <cover.1551319643.git.m.maya.nakamura@gmail.com>
-Date:   Thu, 28 Feb 2019 11:56:15 +0100
-Message-ID: <87d0nckwq8.fsf@vitty.brq.redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        haiyangz@microsoft.com, vkuznets@redhat.com,
+        marcelo.cerri@canonical.com
+Subject: [PATCH v5 0/3] PCI: hv: Refactor hv_irq_unmask() to use hv_vpset and
+ cpumask_to_vpset()
+Message-ID: <cover.1551421809.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Maya Nakamura <m.maya.nakamura@gmail.com> writes:
+This patchset removes a duplicate definition of VP set (hv_vp_set) and
+uses the common definition (hv_vpset) that is used in other places. It
+changes the order of the members in struct hv_pcibus_device due to
+flexible array in hv_vpset.
 
-> This patchset removes a duplicate definition of VP set (hv_vp_set) and
-> uses the common definition (hv_vpset) that is used in other places. It
-> changes the order of the members in struct hv_pcibus_device due to
-> flexible array in hv_vpset.
->
-> It also removes the duplicate implementation of cpumask_to_vpset(), uses
-> the shared implementation, and exports hv_max_vp_index, which is
-> required by cpumask_to_vpset().
->
-> Based on Vitaly's findings, two changes were applied: replace GFP_KERNEL
-> with GFP_ATOMIC for alloc_cpumask_var() because hv_irq_unmask() runs
-> while a spinlock is held, and add __aligned(8) to struct
-> retarget_msi_interrupt because Hyper-V requires that hypercall arguments
-> be aligned on an 8 byte boundary.
->
-> Vitaly, thank you for finding the issues, and Lorenzo and Michael, thank
-> you for your guidance and support!
->
+It also removes the duplicate implementation of cpumask_to_vpset(), uses
+the shared implementation, and exports hv_max_vp_index, which is
+required by cpumask_to_vpset().
 
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Tested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+It adds __aligned(8) to struct retarget_msi_interrupt because Hyper-V
+requires that hypercall arguments be aligned on an 8 byte boundary. This
+is now a new patch, separate from one of the previous patches.
 
-I, however, agree with Lorenzo that '__aligned(8)' change deserves its
-own patch as it fixes an already present issue (which may actually be
-masked but still present).
+Maya Nakamura (3):
+  PCI: hv: Add __aligned(8) to struct retarget_msi_interrupt
+  PCI: hv: Replace hv_vp_set with hv_vpset
+  PCI: hv: Refactor hv_irq_unmask() to use cpumask_to_vpset()
 
-Going forward I'd like to get rid of the newly added cpumask allocation:
-while it is very unlikely to fail and it only happens when we reassign
-IRQs to some different CPU (thus it's not a hotpath or anything)
-failures are still possible. This work can definitely be postponed, I
-don't think it should block your patches.
+ arch/x86/hyperv/hv_init.c           |  1 +
+ drivers/pci/controller/pci-hyperv.c | 61 +++++++++++++----------------
+ 2 files changed, 29 insertions(+), 33 deletions(-)
 
 -- 
-Vitaly
+2.17.1
+
