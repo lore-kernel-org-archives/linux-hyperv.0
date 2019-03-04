@@ -2,157 +2,131 @@ Return-Path: <SRS0=2GwH=RH=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB8BC43381
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 07:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB0CEC43381
+	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:34:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D4BD206B8
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 07:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1551685127;
-	bh=TiJMTXFuaHWrUlW1vJUoJQrBvqZ48J3PLcmDJMexoEQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=axz5CtN1zEmgseAeUcTXpX1XSwy3WrmcE1KaGkSCQa+rROWuZDDK5lpNJ2O5c1cW3
-	 91vVi+jxYoE0C1n1LUjOeTipAvph3nIE1OfbjMntugINzc8CN70LPrtCAyV5dpMFN8
-	 cYEG9X4/Gp2Ihn0iWDHVg0V0y2AId/dVBnZpq5nY=
+	by mail.kernel.org (Postfix) with ESMTP id A249E20663
+	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:34:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="NCuq2q3b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbfCDHir (ORCPT
+        id S1726091AbfCDVev (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 4 Mar 2019 02:38:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35638 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725938AbfCDHiq (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 4 Mar 2019 02:38:46 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 10107206B8;
-        Mon,  4 Mar 2019 07:38:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1551685125;
-        bh=TiJMTXFuaHWrUlW1vJUoJQrBvqZ48J3PLcmDJMexoEQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Jg7sTjbPfZYQJT35IddXy73ojYHr7NX9CxSJhgla0tRKfWkfdDI3D51azLOLkoOCX
-         VKOaS+x6EGznU75wxvuZq5ByD+Q54yYOZUY36qqr1bfLB78OhX5TsyCYLKlCWKXit4
-         ynVSPtfrAN/EohVrW+Gv0q1ewFK4VLFTReH535LM=
-Date:   Mon, 4 Mar 2019 08:38:42 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kimberly Brown <kimbrownkd@gmail.com>
-Cc:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Mon, 4 Mar 2019 16:34:51 -0500
+Received: from mail-eopbgr770121.outbound.protection.outlook.com ([40.107.77.121]:59715
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726038AbfCDVev (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 4 Mar 2019 16:34:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1P7Bc+bOKvdeNhDLyzSUaD60OzD7G4kA9Id04or4820=;
+ b=NCuq2q3buzi7OOtyKslOP4fYP3amKTwEeU/iiaMxPskltUbf9Ohby25c2UdCLp0gLP80O62+YzMxXWOMbIxQPIM3lEDhJLtglireuh3ZFv5cRXrkVFHcEAhUi0XKEb4fdtJHzj+FK893MWDMK9qIR25GRiGkDXgkTNYkiPhleS4=
+Received: from MN2PR21MB1296.namprd21.prod.outlook.com (20.179.21.154) by
+ MN2PR21MB1183.namprd21.prod.outlook.com (20.179.20.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1709.4; Mon, 4 Mar 2019 21:34:47 +0000
+Received: from MN2PR21MB1296.namprd21.prod.outlook.com
+ ([fe80::8d7a:2ffa:8916:69c3]) by MN2PR21MB1296.namprd21.prod.outlook.com
+ ([fe80::8d7a:2ffa:8916:69c3%3]) with mapi id 15.20.1709.002; Mon, 4 Mar 2019
+ 21:34:47 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>
+CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "driverdev-devel@linuxdriverproject.org" 
+        <driverdev-devel@linuxdriverproject.org>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Drivers: hv: vmbus: Expose monitor data only when
- monitor pages are used
-Message-ID: <20190304073842.GD23573@kroah.com>
-References: <20190226053530.GA2897@ubu-Virtual-Machine>
- <20190301191824.GA4108@ubu-Virtual-Machine>
- <20190303080543.GA32186@kroah.com>
- <20190303211128.GA2071@ubu-Virtual-Machine>
+        "olaf@aepfle.de" <olaf@aepfle.de>,
+        "apw@canonical.com" <apw@canonical.com>,
+        "jasowang@redhat.com" <jasowang@redhat.com>,
+        vkuznets <vkuznets@redhat.com>,
+        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
+        "jackm@mellanox.com" <jackm@mellanox.com>,
+        Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH 0/3] pci-hyperv: fix memory leak and add pci_destroy_slot()
+Thread-Topic: [PATCH 0/3] pci-hyperv: fix memory leak and add
+ pci_destroy_slot()
+Thread-Index: AQHU0tIXpoMWrIasuUiIcSagCuoTRA==
+Date:   Mon, 4 Mar 2019 21:34:47 +0000
+Message-ID: <20190304213357.16652-1-decui@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BN6PR11CA0010.namprd11.prod.outlook.com
+ (2603:10b6:405:2::20) To MN2PR21MB1296.namprd21.prod.outlook.com
+ (2603:10b6:208:3e::26)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.19.1
+x-originating-ip: [107.180.71.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7db59db7-f9c6-4805-3ac9-08d6a0e9396d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:MN2PR21MB1183;
+x-ms-traffictypediagnostic: MN2PR21MB1183:
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <MN2PR21MB1183AC2ED0DC4C5991BB2305BF710@MN2PR21MB1183.namprd21.prod.outlook.com>
+x-forefront-prvs: 09669DB681
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(346002)(366004)(396003)(199004)(189003)(26005)(25786009)(6346003)(2501003)(476003)(22452003)(10090500001)(2616005)(486006)(99286004)(6116002)(3846002)(14454004)(478600001)(81156014)(81166006)(316002)(8676002)(7736002)(6506007)(386003)(1511001)(106356001)(105586002)(53936002)(6512007)(186003)(7416002)(66066001)(54906003)(110136005)(107886003)(52116002)(305945005)(6486002)(36756003)(6436002)(102836004)(8936002)(4326008)(68736007)(71200400001)(6636002)(97736004)(86362001)(14444005)(256004)(2906002)(2201001)(71190400001)(5660300002)(50226002)(10290500003)(1076003)(86612001);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR21MB1183;H:MN2PR21MB1296.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: M9KspP+3NvEQufhHNMxeFCnsiBKSg6BVWlgIFvkOJXIUYr3oE/ulnMMevKm2Sh8rumn9xg6eKG2QcyoLsji/cYtK7GtXrQ6QdNVBPn5LYlREaKEg9Z6O/9fVy55fztaxO+ko1WTJ486URi+C5m79ujQ+9KHkI3qtzjP+NFIom9Jx5GZmCvBAvaixFwY6CJTS3ga3nxgqNxn08V+6Gu2l/aFs1oIO2pKfJ0l71PorktmVeQJ7fB0VIYgseEGBKhBukoLXQlxCZe0Hp5HaqDg+1cHdDgJopeZ0EPtEhy2+BlRN5ahRJx+7tseI8rwOX7K4jJzV8GkOcu4jwn2akfwAqELs2IT553t0oZzwLb0zGwpL/eCFY0/EwQykyUbmJLXVvQCz1K7rkDIEql3+J/xmD0gGWdZxyq8BxyEYFure0AU=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190303211128.GA2071@ubu-Virtual-Machine>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7db59db7-f9c6-4805-3ac9-08d6a0e9396d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2019 21:34:47.4810
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1183
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sun, Mar 03, 2019 at 04:11:28PM -0500, Kimberly Brown wrote:
-> On Sun, Mar 03, 2019 at 09:05:43AM +0100, Greg KH wrote:
-> > On Fri, Mar 01, 2019 at 02:18:24PM -0500, Kimberly Brown wrote:
-> > > +/*
-> > > + * Channel-level attribute_group callback function. Returns the permission for
-> > > + * each attribute, and returns 0 if an attribute is not visible.
-> > > + */
-> > > +static umode_t vmbus_chan_attr_is_visible(struct kobject *kobj,
-> > > +					  struct attribute *attr, int idx)
-> > > +{
-> > > +	const struct vmbus_channel *channel =
-> > > +		container_of(kobj, struct vmbus_channel, kobj);
-> > > +
-> > > +	/* Hide the monitor attributes if the monitor mechanism is not used. */
-> > > +	if (!channel->offermsg.monitor_allocated &&
-> > > +	    (attr == &chan_attr_pending.attr ||
-> > > +	     attr == &chan_attr_latency.attr ||
-> > > +	     attr == &chan_attr_monitor_id.attr))
-> > > +		return 0;
-> > > +
-> > > +	return attr->mode;
-> > > +}
-> > > +
-> > > +static struct attribute_group vmbus_chan_group = {
-> > > +	.attrs = vmbus_chan_attrs,
-> > > +	.is_visible = vmbus_chan_attr_is_visible
-> > > +};
-> > > +
-> > >  static struct kobj_type vmbus_chan_ktype = {
-> > >  	.sysfs_ops = &vmbus_chan_sysfs_ops,
-> > >  	.release = vmbus_chan_release,
-> > > -	.default_attrs = vmbus_chan_attrs,
-> > 
-> > Why did you remove this line?
->  
-> I removed the default attributes because vmbus_chan_attrs contains
-> non-default attributes. You suggested that I use one attribute_group and
-> an is_visible() callback for the device-level attributes (see
-> https://lore.kernel.org/lkml/20190226081848.GA15659@kroah.com/). I
-> assumed (possibly incorrectly) that I should do the same for these
-> channel-level attributes.
+Patch #1 fixes a memory leak caused by incorrectly-maintained hpdev->refs.
 
-That is fine to have a callback, but why did you have to remove the
-default attribute pointer?  The two should have nothing to do with each
-other.
+Patch #2 and #3 make sure the "slot" is removed in all the scenarios.
+Without them, in the quick hot-add/hot-remove test, systemd-dev may easily
+crash when trying to access a dangling sys file in /sys/bus/pci/slots/:
+"BUG: unable to handle kernel paging request".
 
-> > >  };
-> > >  
-> > >  /*
-> > > @@ -1571,6 +1624,12 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
-> > >  	if (ret)
-> > >  		return ret;
-> > >  
-> > > +	ret = sysfs_create_group(kobj, &vmbus_chan_group);
-> > 
-> > Why are you adding these "by hand"?  What was wrong with using the
-> > default attribute group pointer?  You also are not removing the
-> > attributes :(
-> 
-> Are you referring to default_attrs in kobj_type? It's not an
-> attribute_group pointer, it's a pointer to an attribute pointer array.
-> The problem with using default_attrs is that all of the attributes are
-> visible.
+BTW, Patch #2 was posted on Feb 7, 2019, and this is the v2: the change
+to hv_eject_device_work() in v1 is removed, as the change is only needed
+when we hot-remove the device and remove the pci-hyperv driver at the=20
+same time. It looks more work is required to make this scenaro work
+correctly, and since removing the driver is not really a "usual" usage,
+we can address this scenario in the future.
 
-It shouldn't, the is_visable() callback will be called on each attribute
-when the group is created by the core.  Did that not work properly when
-you tested this?
+Please review the patchset.
 
-> I'm fairly certain that the monitor attributes are being removed.
-> sysfs_create_group() uses the attribute_group's is_visible() callback to
-> control the attribute visibility. And, when I look at the sysfs files, I
-> can see that the monitor sysyfs files are removed.
+Dexuan Cui (3):
+  PCI: hv: Fix a memory leak in hv_eject_device_work()
+  PCI: hv: Add hv_pci_remove_slots() when we unload the driver
+  PCI: hv: Add pci_destroy_slot() in pci_devices_present_work(), if
+    necessary
 
-I mean you are not removing the group when the device goes away, not
-that the individual files are not present.  If you leave the pointer to
-default_attributes there, the core will properly remove the sysfs
-attributes when the device is removed from the system.  Otherwise you
-just "get lucky" if the attributes are removed or not.
+ drivers/pci/controller/pci-hyperv.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-> In v3, I proposed moving the monitor attributes to a special
-> attribute_group and adding that group manually when needed. Do you
-> prefer that approach for the channel-level monitor attributes?
+--=20
+2.19.1
 
-No need for a special group here, just use the is_visable() callback
-like you currently are, all should be fine.  I think you are adding more
-code than you need to in order to get this to all work properly :)
-
-thanks,
-
-greg k-h
