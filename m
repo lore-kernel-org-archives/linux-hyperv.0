@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4A7AC43381
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A25C43381
+	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 65FE320663
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C052D20663
+	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="QfjL84f8"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="UA0aR2p4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbfCDVez (ORCPT
+        id S1726308AbfCDVex (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 4 Mar 2019 16:34:55 -0500
+        Mon, 4 Mar 2019 16:34:53 -0500
 Received: from mail-eopbgr770121.outbound.protection.outlook.com ([40.107.77.121]:59715
         "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726038AbfCDVey (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 4 Mar 2019 16:34:54 -0500
+        id S1726069AbfCDVew (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 4 Mar 2019 16:34:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zOKmRkSCHwSKpBV4HFslL4NSXTh0ODmXdhgq+pzjjqM=;
- b=QfjL84f8YP1v7iyb7drmZBa8HniNCjdy4H0HS4MHUCBP2rm9JBak5oV6UK0WUzntYzSg5usSNJ9+xOYkVKwTD0ct5XB+2g3QQkmZ6g94Tup0O3wPtLsFmWN6zjuGizOeWrIT4rIeg7RdPmKR0E7iE4Rok5M7qTduH8ygsJbfG20=
+ bh=FV2iDe/3zcuJlZP73YTp/epx2GJ8zJucxhOV+U8fQl8=;
+ b=UA0aR2p4mjHNnldl4ggKCvuJT/F6BWuj7kV8hQ+FNGaiLd4EEbDIQTJ4WBWDQf5x2mcFC5tGvMh6CcR1bOzbaEOmLtz3oTjlTS/hxFsfOHtShnIw9Og3ruu2UAYl1ykdDV7Fbw1Ot8sLkebY44HHTT0E6gJZxzGke2JpzJTzmLE=
 Received: from MN2PR21MB1296.namprd21.prod.outlook.com (20.179.21.154) by
  MN2PR21MB1183.namprd21.prod.outlook.com (20.179.20.14) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1709.4; Mon, 4 Mar 2019 21:34:49 +0000
+ 15.20.1709.4; Mon, 4 Mar 2019 21:34:48 +0000
 Received: from MN2PR21MB1296.namprd21.prod.outlook.com
  ([fe80::8d7a:2ffa:8916:69c3]) by MN2PR21MB1296.namprd21.prod.outlook.com
  ([fe80::8d7a:2ffa:8916:69c3%3]) with mapi id 15.20.1709.002; Mon, 4 Mar 2019
- 21:34:49 +0000
+ 21:34:48 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
@@ -57,13 +57,11 @@ CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "jackm@mellanox.com" <jackm@mellanox.com>,
         Dexuan Cui <decui@microsoft.com>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: [PATCH 2/3] PCI: hv: Add hv_pci_remove_slots() when we unload the
- driver
-Thread-Topic: [PATCH 2/3] PCI: hv: Add hv_pci_remove_slots() when we unload
- the driver
-Thread-Index: AQHU0tIYYM00GlnBAUeAnbzMfj5zdw==
+Subject: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
+Thread-Topic: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
+Thread-Index: AQHU0tIXarlyp3h9mUiQyALKGUsSIA==
 Date:   Mon, 4 Mar 2019 21:34:48 +0000
-Message-ID: <20190304213357.16652-3-decui@microsoft.com>
+Message-ID: <20190304213357.16652-2-decui@microsoft.com>
 References: <20190304213357.16652-1-decui@microsoft.com>
 In-Reply-To: <20190304213357.16652-1-decui@microsoft.com>
 Accept-Language: en-US
@@ -77,26 +75,26 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.19.1
 x-originating-ip: [107.180.71.197]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9ab0dda4-ce2a-40ec-6f9d-08d6a0e93a5b
+x-ms-office365-filtering-correlation-id: fc123403-2d2b-4d6e-9962-08d6a0e939df
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:MN2PR21MB1183;
 x-ms-traffictypediagnostic: MN2PR21MB1183:
 x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MN2PR21MB1183C1A115987CDC82A19D7EBF710@MN2PR21MB1183.namprd21.prod.outlook.com>
+x-microsoft-antispam-prvs: <MN2PR21MB118386CC7C942682900CCB5CBF710@MN2PR21MB1183.namprd21.prod.outlook.com>
 x-forefront-prvs: 09669DB681
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(346002)(366004)(396003)(40224003)(199004)(189003)(26005)(25786009)(6346003)(2501003)(476003)(22452003)(10090500001)(446003)(2616005)(486006)(11346002)(99286004)(6116002)(3846002)(14454004)(478600001)(81156014)(81166006)(316002)(8676002)(7736002)(76176011)(6506007)(386003)(1511001)(106356001)(105586002)(53936002)(6512007)(186003)(7416002)(66066001)(54906003)(110136005)(52116002)(305945005)(6486002)(36756003)(6436002)(102836004)(8936002)(4326008)(68736007)(71200400001)(6636002)(97736004)(86362001)(14444005)(256004)(2906002)(2201001)(71190400001)(5660300002)(50226002)(10290500003)(1076003)(86612001);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR21MB1183;H:MN2PR21MB1296.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(346002)(366004)(396003)(199004)(189003)(26005)(25786009)(6346003)(2501003)(476003)(22452003)(10090500001)(446003)(2616005)(486006)(11346002)(99286004)(6116002)(3846002)(14454004)(478600001)(81156014)(81166006)(316002)(8676002)(7736002)(76176011)(6506007)(386003)(1511001)(106356001)(105586002)(53936002)(6512007)(186003)(7416002)(66066001)(54906003)(110136005)(52116002)(305945005)(6486002)(36756003)(6436002)(102836004)(8936002)(4326008)(68736007)(71200400001)(6636002)(97736004)(86362001)(256004)(2906002)(2201001)(71190400001)(5660300002)(50226002)(10290500003)(1076003)(86612001);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR21MB1183;H:MN2PR21MB1296.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=decui@microsoft.com; 
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ywYzU7CyfTFriQQs9sNaGiPOzyPI3usV8PhR7nNQRNWcRv6iCsTXja4FSkwrtv8aRG7tQyUrf0vsgm5MKqXmUsqam4mMbnqUaBQcZYYVmLCHW59Z1lnNCVbqVTnCcU/XDWUnVyoMZ/CwicG1TI9W0OB0jgAMirxXioEIyUtiz3C+Yoe5QhNt1EVxeZbERyvf4/O9FwGUSQBjiw/TBe1VlBZxXSUL5IcaWrulkfjy4Ubo4lFfuStYsVNkQWdsN1eTF+7e6fV2AS2ViveP+wRwf65jK0H5IC8lNxzm4b+mBTRbLCyX7l/PZZmPu07QTTNJZe+aHoOqzdfdk1pdW7+gOZys/ym8DKqFPr4sjfZqBV7CuN6yQrA6/PlNzbLNtQfupwCD7EIJDysuzGXfUpOzo/GaQbOkgQ4u0f+ehKvVJ+M=
+x-microsoft-antispam-message-info: 4VJ0Bts1nPTgpFD843v0SlDzsa27c/am9p4hpRmjL1Ztpr1Rup/1GfjWVEUdRYMtfVql7u0PUjPVpbXuLZ24XEzHdGVen/iDkG0xp+SADlYAILPpY42UbfpdOCWVww8BNy/JXBbNDZz0zco2YJpQ7zX0rxg4l/UHbtMt9XDKH3qlX7+V5/A4pYhnTfwoyuqdS8C8FwJEJVkSVjtgk8tGbWYlbhXi2gFs4Wh3Lv4/Hnjhx6Osz1/geDrfeKmkuv2pdh6LzurHQgqaSQSNCn2WKPs5ktOYji26rOxvvSAn+OmyB62WZIPFYBTtoqB0f8elckyDHyq+bHfOglc60TJx5sc3H/+kYVxlk0EuMMkwLwRJLlHQTiBnowInVpBDjxaUv52oDRaghIMbbcxHjzSR6qlZ5pCVroqDeJKzMEcNjQw=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ab0dda4-ce2a-40ec-6f9d-08d6a0e93a5b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2019 21:34:48.9421
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc123403-2d2b-4d6e-9962-08d6a0e939df
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2019 21:34:48.2876
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
@@ -107,67 +105,46 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When we unload pci-hyperv, the host doesn't send us a PCI_EJECT message.
-In this case we also need to make sure the sysfs pci slot directory
-is removed, otherwise "cat /sys/bus/pci/slots/2/address" will trigger
-"BUG: unable to handle kernel paging request" (I noticed the issue when
-systemd-dev crashed for me when I unloaded the driver). And, if we
-unload/reload the driver several times, we'll have multiple pci slot
-directories in /sys/bus/pci/slots/ like this:
+After a device is just created in new_pcichild_device(), hpdev->refs is set
+to 2 (i.e. the initial value of 1 plus the get_pcichild()).
 
-root@localhost:~# ls -rtl  /sys/bus/pci/slots/
-total 0
-drwxr-xr-x 2 root root 0 Feb  7 10:49 2
-drwxr-xr-x 2 root root 0 Feb  7 10:49 2-1
-drwxr-xr-x 2 root root 0 Feb  7 10:51 2-2
+When we hot remove the device from the host, in Linux VM we first call
+hv_pci_eject_device(), which increases hpdev->refs by get_pcichild() and
+then schedules a work of hv_eject_device_work(), so hpdev->refs becomes 3
+(let's ignore the paired get/put_pcichild() in other places). But in
+hv_eject_device_work(), currently we only call put_pcichild() twice,
+meaning the 'hpdev' struct can't be freed in put_pcichild(). This patch
+adds one put_pcichild() to fix the memory leak.
 
-The patch adds the missing code.
+BTW, the device can also be removed when we run "rmmod pci-hyperv". On this
+path (hv_pci_remove() -> hv_pci_bus_exit() -> hv_pci_devices_present()),
+hpdev->refs is 2, and we do correctly call put_pcichild() twice in
+pci_devices_present_work().
 
-Fixes: a15f2c08c708 ("PCI: hv: support reporting serial number as slot info=
-rmation")
+Fixes: 4daace0d8ce8 ("PCI: hv: Add paravirtual PCI front-end for Microsoft =
+Hyper-V VMs")
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Acked-by: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: stable@vger.kernel.org
+Cc: <stable@vger.kernel.org>
 ---
- drivers/pci/controller/pci-hyperv.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/pci/controller/pci-hyperv.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/p=
 ci-hyperv.c
-index 30f16b882746..b489412e3502 100644
+index 95441a35eceb..30f16b882746 100644
 --- a/drivers/pci/controller/pci-hyperv.c
 +++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1486,6 +1486,21 @@ static void hv_pci_assign_slots(struct hv_pcibus_dev=
-ice *hbus)
- 	}
- }
+@@ -1900,6 +1900,9 @@ static void hv_eject_device_work(struct work_struct *=
+work)
+ 			 sizeof(*ejct_pkt), (unsigned long)&ctxt.pkt,
+ 			 VM_PKT_DATA_INBAND, 0);
 =20
-+/*
-+ * Remove entries in sysfs pci slot directory.
-+ */
-+static void hv_pci_remove_slots(struct hv_pcibus_device *hbus)
-+{
-+	struct hv_pci_dev *hpdev;
-+
-+	list_for_each_entry(hpdev, &hbus->children, list_entry) {
-+		if (!hpdev->pci_slot)
-+			continue;
-+		pci_destroy_slot(hpdev->pci_slot);
-+		hpdev->pci_slot =3D NULL;
-+	}
-+}
-+
- /**
-  * create_root_hv_pci_bus() - Expose a new root PCI bus
-  * @hbus:	Root PCI bus, as understood by this driver
-@@ -2680,6 +2695,7 @@ static int hv_pci_remove(struct hv_device *hdev)
- 		pci_lock_rescan_remove();
- 		pci_stop_root_bus(hbus->pci_bus);
- 		pci_remove_root_bus(hbus->pci_bus);
-+		hv_pci_remove_slots(hbus);
- 		pci_unlock_rescan_remove();
- 		hbus->state =3D hv_pcibus_removed;
- 	}
++	/* For the get_pcichild() in hv_pci_eject_device() */
++	put_pcichild(hpdev);
++	/* For the two refs got in new_pcichild_device() */
+ 	put_pcichild(hpdev);
+ 	put_pcichild(hpdev);
+ 	put_hvpcibus(hpdev->hbus);
 --=20
 2.19.1
 
