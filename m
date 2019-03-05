@@ -1,150 +1,123 @@
-Return-Path: <SRS0=2GwH=RH=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=bnLS=RI=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A25C43381
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54809C00319
+	for <linux-hyperv@archiver.kernel.org>; Tue,  5 Mar 2019 18:27:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C052D20663
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Mar 2019 21:35:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 163142087C
+	for <linux-hyperv@archiver.kernel.org>; Tue,  5 Mar 2019 18:27:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="UA0aR2p4"
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="KGLPKqPp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726308AbfCDVex (ORCPT
+        id S1726604AbfCES1g (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 4 Mar 2019 16:34:53 -0500
-Received: from mail-eopbgr770121.outbound.protection.outlook.com ([40.107.77.121]:59715
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726069AbfCDVew (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 4 Mar 2019 16:34:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FV2iDe/3zcuJlZP73YTp/epx2GJ8zJucxhOV+U8fQl8=;
- b=UA0aR2p4mjHNnldl4ggKCvuJT/F6BWuj7kV8hQ+FNGaiLd4EEbDIQTJ4WBWDQf5x2mcFC5tGvMh6CcR1bOzbaEOmLtz3oTjlTS/hxFsfOHtShnIw9Og3ruu2UAYl1ykdDV7Fbw1Ot8sLkebY44HHTT0E6gJZxzGke2JpzJTzmLE=
-Received: from MN2PR21MB1296.namprd21.prod.outlook.com (20.179.21.154) by
- MN2PR21MB1183.namprd21.prod.outlook.com (20.179.20.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1709.4; Mon, 4 Mar 2019 21:34:48 +0000
-Received: from MN2PR21MB1296.namprd21.prod.outlook.com
- ([fe80::8d7a:2ffa:8916:69c3]) by MN2PR21MB1296.namprd21.prod.outlook.com
- ([fe80::8d7a:2ffa:8916:69c3%3]) with mapi id 15.20.1709.002; Mon, 4 Mar 2019
- 21:34:48 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        Tue, 5 Mar 2019 13:27:36 -0500
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35710 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726261AbfCES1g (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 5 Mar 2019 13:27:36 -0500
+Received: by mail-pg1-f194.google.com with SMTP id e17so6203614pgd.2
+        for <linux-hyperv@vger.kernel.org>; Tue, 05 Mar 2019 10:27:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Xqn+Yf+5gP/Zaqja+Mz3g2jhch0LiFfd+n+wsWAt/6A=;
+        b=KGLPKqPpx9wi4Hrhx6oW22RKrj95iWOfLj1SKFe/bPEgs8Bxtee/rRMVHbFhxJKiFR
+         25vweCDQ56eWUv1tYK34TUXim4jCfODDjCzD/dqes4fg0+7iwjn4EOHUwLCj0e9QrsT5
+         bPy9Thrq72xihaScYweclCNhdvZpOZBm+Cu4bbD94LRx9i86cyQkA5ZKdPL0MBfLGyrT
+         dqHL0szhZmNjq1B0I2awgQjje6desCrJf9TWiV2de0lZu5QUKNhQjTFQFE/kjAB9O2xH
+         5dCPg5SA7A6u/Jm4Gtee4TFePmQsEuwEkArF37+qNBUGxV/5sTivu7ILbHlvC2BNulmA
+         4NPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Xqn+Yf+5gP/Zaqja+Mz3g2jhch0LiFfd+n+wsWAt/6A=;
+        b=tuPyUPmMOeJ7yRyBrtV8cz2A/0b+juzyGkcb8/Q7HqR8vEdbkHT3m4Bf+b/QAULIfw
+         VtEPo0Y3rgmlr23v5Yp+rrGE/MGSJZNgXekcrR7VDO+t0TLJy1sKiY+eOtO2EwRWNjJT
+         NEChg9SLNCyibPjncbqmZ+ENTKbptggUizJRZnB9Cf1S/ZMh0Qq0LWvv6hODL7hgQJGR
+         mNSrhFlOtnIjmMXEq+ytr1srjYkcfZ3e35EoOOnq71lMgPnUnOajV7/FalgWRlRuMMYM
+         /75G6lBTEasKHL87bzw/2LIk+l4iRgxLlOYop5F764IJvQoLEdzY08lpXW8OEfrnjImb
+         0svg==
+X-Gm-Message-State: APjAAAXBMHCs+0+Pms+flPnIUNQnjoZuEbIOWVFOLvzx8nUeKTHB72so
+        6Kevmp6TO2vEbTcvAP09ek1+pQ==
+X-Google-Smtp-Source: APXvYqzrpQZg1n82nmEhHNyq5fq8ItBMmGNBXZdJ4Z9iuRfUiErmuSbgRGyLwYBJ25NHvS5ZenLLHw==
+X-Received: by 2002:a17:902:ea06:: with SMTP id cu6mr2569398plb.187.1551810455001;
+        Tue, 05 Mar 2019 10:27:35 -0800 (PST)
+Received: from shemminger-XPS-13-9360 ([167.220.56.187])
+        by smtp.gmail.com with ESMTPSA id 73sm16653605pga.19.2019.03.05.10.27.34
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 05 Mar 2019 10:27:34 -0800 (PST)
+Date:   Tue, 5 Mar 2019 10:27:33 -0800
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
         "bhelgaas@google.com" <bhelgaas@google.com>,
         "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
         KY Srinivasan <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>
-CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         "driverdev-devel@linuxdriverproject.org" 
         <driverdev-devel@linuxdriverproject.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jackm@mellanox.com" <jackm@mellanox.com>,
+        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
         "olaf@aepfle.de" <olaf@aepfle.de>,
         "apw@canonical.com" <apw@canonical.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
         vkuznets <vkuznets@redhat.com>,
-        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
-        "jackm@mellanox.com" <jackm@mellanox.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
-Thread-Topic: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
-Thread-Index: AQHU0tIXarlyp3h9mUiQyALKGUsSIA==
-Date:   Mon, 4 Mar 2019 21:34:48 +0000
-Message-ID: <20190304213357.16652-2-decui@microsoft.com>
-References: <20190304213357.16652-1-decui@microsoft.com>
+        "jasowang@redhat.com" <jasowang@redhat.com>
+Subject: Re: [PATCH 0/3] pci-hyperv: fix memory leak and add
+ pci_destroy_slot()
+Message-ID: <20190305102733.30e25dae@shemminger-XPS-13-9360>
 In-Reply-To: <20190304213357.16652-1-decui@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BN6PR11CA0010.namprd11.prod.outlook.com
- (2603:10b6:405:2::20) To MN2PR21MB1296.namprd21.prod.outlook.com
- (2603:10b6:208:3e::26)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.19.1
-x-originating-ip: [107.180.71.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fc123403-2d2b-4d6e-9962-08d6a0e939df
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:MN2PR21MB1183;
-x-ms-traffictypediagnostic: MN2PR21MB1183:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MN2PR21MB118386CC7C942682900CCB5CBF710@MN2PR21MB1183.namprd21.prod.outlook.com>
-x-forefront-prvs: 09669DB681
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(346002)(366004)(396003)(199004)(189003)(26005)(25786009)(6346003)(2501003)(476003)(22452003)(10090500001)(446003)(2616005)(486006)(11346002)(99286004)(6116002)(3846002)(14454004)(478600001)(81156014)(81166006)(316002)(8676002)(7736002)(76176011)(6506007)(386003)(1511001)(106356001)(105586002)(53936002)(6512007)(186003)(7416002)(66066001)(54906003)(110136005)(52116002)(305945005)(6486002)(36756003)(6436002)(102836004)(8936002)(4326008)(68736007)(71200400001)(6636002)(97736004)(86362001)(256004)(2906002)(2201001)(71190400001)(5660300002)(50226002)(10290500003)(1076003)(86612001);DIR:OUT;SFP:1102;SCL:1;SRVR:MN2PR21MB1183;H:MN2PR21MB1296.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=decui@microsoft.com; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 4VJ0Bts1nPTgpFD843v0SlDzsa27c/am9p4hpRmjL1Ztpr1Rup/1GfjWVEUdRYMtfVql7u0PUjPVpbXuLZ24XEzHdGVen/iDkG0xp+SADlYAILPpY42UbfpdOCWVww8BNy/JXBbNDZz0zco2YJpQ7zX0rxg4l/UHbtMt9XDKH3qlX7+V5/A4pYhnTfwoyuqdS8C8FwJEJVkSVjtgk8tGbWYlbhXi2gFs4Wh3Lv4/Hnjhx6Osz1/geDrfeKmkuv2pdh6LzurHQgqaSQSNCn2WKPs5ktOYji26rOxvvSAn+OmyB62WZIPFYBTtoqB0f8elckyDHyq+bHfOglc60TJx5sc3H/+kYVxlk0EuMMkwLwRJLlHQTiBnowInVpBDjxaUv52oDRaghIMbbcxHjzSR6qlZ5pCVroqDeJKzMEcNjQw=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+References: <20190304213357.16652-1-decui@microsoft.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc123403-2d2b-4d6e-9962-08d6a0e939df
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2019 21:34:48.2876
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1183
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-After a device is just created in new_pcichild_device(), hpdev->refs is set
-to 2 (i.e. the initial value of 1 plus the get_pcichild()).
+On Mon, 4 Mar 2019 21:34:47 +0000
+Dexuan Cui <decui@microsoft.com> wrote:
 
-When we hot remove the device from the host, in Linux VM we first call
-hv_pci_eject_device(), which increases hpdev->refs by get_pcichild() and
-then schedules a work of hv_eject_device_work(), so hpdev->refs becomes 3
-(let's ignore the paired get/put_pcichild() in other places). But in
-hv_eject_device_work(), currently we only call put_pcichild() twice,
-meaning the 'hpdev' struct can't be freed in put_pcichild(). This patch
-adds one put_pcichild() to fix the memory leak.
+> Patch #1 fixes a memory leak caused by incorrectly-maintained hpdev->refs.
+> 
+> Patch #2 and #3 make sure the "slot" is removed in all the scenarios.
+> Without them, in the quick hot-add/hot-remove test, systemd-dev may easily
+> crash when trying to access a dangling sys file in /sys/bus/pci/slots/:
+> "BUG: unable to handle kernel paging request".
+> 
+> BTW, Patch #2 was posted on Feb 7, 2019, and this is the v2: the change
+> to hv_eject_device_work() in v1 is removed, as the change is only needed
+> when we hot-remove the device and remove the pci-hyperv driver at the 
+> same time. It looks more work is required to make this scenaro work
+> correctly, and since removing the driver is not really a "usual" usage,
+> we can address this scenario in the future.
+> 
+> Please review the patchset.
+> 
+> Dexuan Cui (3):
+>   PCI: hv: Fix a memory leak in hv_eject_device_work()
+>   PCI: hv: Add hv_pci_remove_slots() when we unload the driver
+>   PCI: hv: Add pci_destroy_slot() in pci_devices_present_work(), if
+>     necessary
+> 
+>  drivers/pci/controller/pci-hyperv.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 
-BTW, the device can also be removed when we run "rmmod pci-hyperv". On this
-path (hv_pci_remove() -> hv_pci_bus_exit() -> hv_pci_devices_present()),
-hpdev->refs is 2, and we do correctly call put_pcichild() twice in
-pci_devices_present_work().
 
-Fixes: 4daace0d8ce8 ("PCI: hv: Add paravirtual PCI front-end for Microsoft =
-Hyper-V VMs")
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Cc: <stable@vger.kernel.org>
----
- drivers/pci/controller/pci-hyperv.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks for fixing this.
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/p=
-ci-hyperv.c
-index 95441a35eceb..30f16b882746 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1900,6 +1900,9 @@ static void hv_eject_device_work(struct work_struct *=
-work)
- 			 sizeof(*ejct_pkt), (unsigned long)&ctxt.pkt,
- 			 VM_PKT_DATA_INBAND, 0);
-=20
-+	/* For the get_pcichild() in hv_pci_eject_device() */
-+	put_pcichild(hpdev);
-+	/* For the two refs got in new_pcichild_device() */
- 	put_pcichild(hpdev);
- 	put_pcichild(hpdev);
- 	put_hvpcibus(hpdev->hbus);
---=20
-2.19.1
-
+Reviewed-by: Stephen Hemminger <stephen@networkplumber.org>
