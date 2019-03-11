@@ -1,129 +1,116 @@
-Return-Path: <SRS0=dnxS=RM=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=nv2F=RO=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EA9C43381
-	for <linux-hyperv@archiver.kernel.org>; Sat,  9 Mar 2019 07:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09E64C43381
+	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Mar 2019 07:23:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DC7672081B
-	for <linux-hyperv@archiver.kernel.org>; Sat,  9 Mar 2019 07:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1552116103;
-	bh=qlv+LrDu6CgHaITWEndrpEiHYRBHefecu/t1KhNbGU4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wJ+rwqaIeOR3EcLkY5+mzoKzUVI+V12ebHnLoqHwhef9RiLihrzKjBkfnKeKchnNm
-	 n9THSwxgtL0cxBtix/ytU0UoDobq10KoG5Ofh3WEhEeI50cwSfpCH33HV7yXB6K5sx
-	 +CTozBupI0RoEJfVWqSDBvX1DdWvGxpk1lbtXSnk=
+	by mail.kernel.org (Postfix) with ESMTP id CC672206DF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Mar 2019 07:23:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=umn.edu header.i=@umn.edu header.b="jV4CgfA6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbfCIHVi (ORCPT
+        id S1726675AbfCKHXv (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 9 Mar 2019 02:21:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43166 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725787AbfCIHVi (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 9 Mar 2019 02:21:38 -0500
-Received: from localhost (5356596B.cm-6-7b.dynamic.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 11 Mar 2019 03:23:51 -0400
+Received: from mta-p6.oit.umn.edu ([134.84.196.206]:59330 "EHLO
+        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726605AbfCKHXv (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 11 Mar 2019 03:23:51 -0400
+X-Greylist: delayed 388 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 Mar 2019 03:23:50 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 16C6DB74
+        for <linux-hyperv@vger.kernel.org>; Mon, 11 Mar 2019 07:17:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id uJ6kY6-2SE8S for <linux-hyperv@vger.kernel.org>;
+        Mon, 11 Mar 2019 02:17:20 -0500 (CDT)
+Received: from mail-it1-f199.google.com (mail-it1-f199.google.com [209.85.166.199])
+        (using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6AB022081B;
-        Sat,  9 Mar 2019 07:21:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1552116097;
-        bh=qlv+LrDu6CgHaITWEndrpEiHYRBHefecu/t1KhNbGU4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=srjpvoOqsvXxd8+/KQo92zOr0aERrQDaDVpbajsiG19zsIwF3VJHQ+4XGEJzjK+Dn
-         KeUSppvVG/ujqU2dNGF4OOQPfwr6e/40NXsTt5Gun2ErM/rZJQL01mdHDysjzv4iGV
-         DAFTFODH9FN1RY7aOWoqxx7ilx1nMGJV4Qnq0fEs=
-Date:   Sat, 9 Mar 2019 08:21:35 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kimberly Brown <kimbrownkd@gmail.com>
-Cc:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id DC2ADB5D
+        for <linux-hyperv@vger.kernel.org>; Mon, 11 Mar 2019 02:17:20 -0500 (CDT)
+Received: by mail-it1-f199.google.com with SMTP id v12so4299374itv.9
+        for <linux-hyperv@vger.kernel.org>; Mon, 11 Mar 2019 00:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=GfdWM9SSU7KfpdKIZzPpOpuTjbGIrvUY//TTRkRyo1k=;
+        b=jV4CgfA6f2NefhvsNAU/w+b5T4RciwZ5dS2A3aL6ae2pRzAxY7i15mvt8wExlwQV0r
+         kR/sXSuBNw/Ak/5wvSW33yV+nOAy0L8VIdl9n1/tqAXJgYcIpKPXJ7yRI+isnC9Pv91n
+         XElnjo1se8m04cFtnKF2R5PIfUjmu98QmNHkRR8d0dP3nlqB+ria6/tczrfPgE3Wd5SA
+         eH1590NEX8Qc/oYN085b9KFbl9UOGrJ8TAMfKUjCCnbkjdz0qnrvrHxfGf3NMAs0bfrB
+         z6DPGQX2k9nGlaD5xToVyrEHsimyawsu1JQxrMmqfjkLUyhQyvL4y24GJ7420DsApHQt
+         Qb8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GfdWM9SSU7KfpdKIZzPpOpuTjbGIrvUY//TTRkRyo1k=;
+        b=SMUsQi136403LtWnERbLAlpyQmqBF27ydDhCr/xtL4MFrypo2uBwTJ6zELk5Txk8n2
+         MBPGjMhBFweiHAbdAjQ8TNfqiBzUmMyWuf72VImcYfU6zQCKFMLz/MW9MPymWes5DAmN
+         1Jk0oow5opB7mfYhoeJ3eMtlrJcAI1xKAFrdtb5NsjfasLzRXdlQH2ltYzrRHSlb8mDR
+         uCpf+EsMeHBRlTIzFLH07VpF7yz2qvPXCgP7TPL9mlH17ycCXXq48I01OwVZIN/wcYcC
+         T/XIWy3Kk7xK8wHsb8S/AyizcLHTGnfKJngt/vVqxy+cKSVylDVonPuyDfbvyr9qXfOj
+         rvtw==
+X-Gm-Message-State: APjAAAV5WhsgxH7wPd4SPfgQgROQ8PPJRqbEVmWomET+gd24k/Wn8QAO
+        d02lBTq2+N1SRWqP9yB4/TD5+pQqkfItLXa9Fok5Z74BDxUTjLHhKA1JKyqkZ8ySsXpwnlWDf+I
+        lAboXpAWXJ5LI1ZKn+4h9m8fFJNKg
+X-Received: by 2002:a24:304a:: with SMTP id q71mr14174678itq.4.1552288640458;
+        Mon, 11 Mar 2019 00:17:20 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzhgP+5Pcqts1uhb1NOGNfIh7ZtlSVnPxZ14MmPbLw70Gon2mCf3VtNmkYbdnowiHzSx5/Hpw==
+X-Received: by 2002:a24:304a:: with SMTP id q71mr14174664itq.4.1552288640200;
+        Mon, 11 Mar 2019 00:17:20 -0700 (PDT)
+Received: from bee.dtc.umn.edu (cs-bee-u.cs.umn.edu. [128.101.106.63])
+        by smtp.gmail.com with ESMTPSA id y10sm2103420iom.9.2019.03.11.00.17.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 11 Mar 2019 00:17:19 -0700 (PDT)
+From:   Kangjie Lu <kjlu@umn.edu>
+To:     kjlu@umn.edu
+Cc:     pakki001@umn.edu, "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] Drivers: hv: vmbus: Expose monitor data only when
- monitor pages are used
-Message-ID: <20190309072135.GG3882@kroah.com>
-References: <20190301191824.GA4108@ubu-Virtual-Machine>
- <20190308224611.GA3047@ubu-Virtual-Machine>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190308224611.GA3047@ubu-Virtual-Machine>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] net: hyperv: fix a NULL pointer dereference
+Date:   Mon, 11 Mar 2019 02:17:14 -0500
+Message-Id: <20190311071714.28631-1-kjlu@umn.edu>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Mar 08, 2019 at 05:46:11PM -0500, Kimberly Brown wrote:
->  static struct kobj_type vmbus_chan_ktype = {
->  	.sysfs_ops = &vmbus_chan_sysfs_ops,
->  	.release = vmbus_chan_release,
-> -	.default_attrs = vmbus_chan_attrs,
+In case kvmalloc_array fails, we should stop using it to avoid
+NULL pointer dereference.
 
-As discussed on IRC, a kobj_type needs to get an attribute group one of
-these days, not just a attribute list :)
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+---
+ drivers/net/hyperv/netvsc_drv.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-So thanks for persisting with this, sorry for the earlier review
-comments, you were totally right about this, nice work.
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index cf4897043e83..4b3a03029fe8 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -1426,6 +1426,9 @@ static void netvsc_get_ethtool_stats(struct net_device *dev,
+ 	pcpu_sum = kvmalloc_array(num_possible_cpus(),
+ 				  sizeof(struct netvsc_ethtool_pcpu_stats),
+ 				  GFP_KERNEL);
++	if (!pcpu_sum)
++		return;
++
+ 	netvsc_get_pcpu_stats(dev, pcpu_sum);
+ 	for_each_present_cpu(cpu) {
+ 		struct netvsc_ethtool_pcpu_stats *this_sum = &pcpu_sum[cpu];
+-- 
+2.17.1
 
-Minor review comments below:
-
->  };
->  
->  /*
-> @@ -1571,11 +1624,34 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
->  	if (ret)
->  		return ret;
->  
-> +	ret = sysfs_create_group(kobj, &vmbus_chan_group);
-> +	channel->sysfs_group_ready = !ret;
-
-Why do you need this flag?
-
-> +
-> +	if (ret) {
-> +		/*
-> +		 * If an error is returned to the calling functions, those
-> +		 * functions will call kobject_put() on the channel kobject,
-> +		 * which will cleanup the empty channel directory created by
-> +		 * kobject_init_and_add().
-
-Why is this comment needed?
-
-> +		 */
-> +		pr_err("Unable to set up channel sysfs files\n");
-
-dev_err() to show who had the problem with the files?
-
-> +		return ret;
-> +	}
-> +
->  	kobject_uevent(kobj, KOBJ_ADD);
->  
->  	return 0;
->  }
->  
-> +/*
-> + * vmbus_remove_channel_attr_group - remove the channel's attribute group
-> + */
-> +void vmbus_remove_channel_attr_group(struct vmbus_channel *channel)
-> +{
-> +	if (channel->sysfs_group_ready)
-> +		sysfs_remove_group(&channel->kobj, &vmbus_chan_group);
-
-You should be able to just always remove these, no need for a flag to
-say you have created them or not, right?
-
-thanks,
-
-greg k-h
