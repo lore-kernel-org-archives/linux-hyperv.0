@@ -1,137 +1,167 @@
-Return-Path: <SRS0=nv2F=RO=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=mRNI=RP=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C51FC43381
-	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Mar 2019 19:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C46DC43381
+	for <linux-hyperv@archiver.kernel.org>; Tue, 12 Mar 2019 00:04:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0EA8620643
-	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Mar 2019 19:50:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C4432075C
+	for <linux-hyperv@archiver.kernel.org>; Tue, 12 Mar 2019 00:04:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="oMIfweH/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRq2K6gI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727147AbfCKTt5 (ORCPT
+        id S1725861AbfCLAEy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 11 Mar 2019 15:49:57 -0400
-Received: from mail-eopbgr760113.outbound.protection.outlook.com ([40.107.76.113]:52032
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726977AbfCKTt5 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 11 Mar 2019 15:49:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c7wb889HenTXKtjFY8P2GNRbCN2S5cuqwm+VFfWP+64=;
- b=oMIfweH/l+hwKZEppTCZuw9968zf2KwuJlUtg2srrdh8zkTwNyM/p/8CfaJlBiRjfkWZux7SOq7EB7GkmUuUk98/wjaZUxs+Gpz9GMNipo6ZtNBL25COWaTcyDFKDxfCtygKYnQkFUU0iYpLtMex+MA22XNyY6LSyD9rPe+7JW8=
-Received: from DM5PR2101MB0725.namprd21.prod.outlook.com (10.167.107.167) by
- DM5PR2101MB1111.namprd21.prod.outlook.com (52.132.132.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1730.0; Mon, 11 Mar 2019 19:49:54 +0000
-Received: from DM5PR2101MB0725.namprd21.prod.outlook.com
- ([fe80::a884:b1f0:d91:f29a]) by DM5PR2101MB0725.namprd21.prod.outlook.com
- ([fe80::a884:b1f0:d91:f29a%8]) with mapi id 15.20.1730.000; Mon, 11 Mar 2019
- 19:49:54 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     Haiyang Zhang <haiyangz@microsoft.com>, Kangjie Lu <kjlu@umn.edu>
-CC:     "pakki001@umn.edu" <pakki001@umn.edu>,
-        KY Srinivasan <kys@microsoft.com>,
+        Mon, 11 Mar 2019 20:04:54 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:53587 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725850AbfCLAEy (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 11 Mar 2019 20:04:54 -0400
+Received: by mail-it1-f195.google.com with SMTP id x189so1569693itd.3;
+        Mon, 11 Mar 2019 17:04:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2/2Qa2e4UEqK/boVPhIKwaqF0oM6VtVD5qsDfr70Dho=;
+        b=mRq2K6gITp61ApN0SLj4S9OAELSAcR8/59tG2kyQZVSHEjGwC2rEBEUPXPDx+zNZvO
+         eHD6v7/RbUEwR7Bhg5PrwgSEKeFOrcCxC1keBovmW9YULHcbmEPrsFWlFjp4o6UJd2i6
+         YXgOFc9O0xA18SCJdFHqZx+nOY/A84tdTbisYCx2vJ/eXyui2oQFBZbHj9PtGpRiFLYi
+         rWfsOXNUi1AdO9Zf8nGvRHUvkoeOMBYCwcl6CAp0s+9v0sC9EvUv5dMpTwcUOtHTO7yM
+         woroS54Ua/ASXjwae3vkHjTQxoWty9yGiCJ2CJ1Nq2/qqzL5dRkKGUPq9sWUVZt58y/n
+         cacg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2/2Qa2e4UEqK/boVPhIKwaqF0oM6VtVD5qsDfr70Dho=;
+        b=c2FsJ77RkX+ATvC578Z0/IyuTcJ9jkWGq7W/FLJL8ItFgLpMOYKSl5V2HyRl4NqKZe
+         +M3nXY3AWmdBfw21S6SjJGQfWeYLAe9XhujJp1CAz52ikpsQNSIfBTTSSeKxaZsMbwp+
+         +hg8ebd5r05kkqxfB182/rNj3UCogBPqndcvByrKkshF7r10TvP98SDuPS230YhDKYxe
+         WDwzgEO2AVGmPCuhnMhbwIz4ZHe4qfvigx6Q8qKvs4V40CJzapYeZB2O2HlK67gebKjk
+         gdY2x+Uz8ry5gR9g37Rtb71bC31eBNoRIMrb6oxYNEf1i2a/O7Wv/XKvTgyeZdNVLEQJ
+         z2TA==
+X-Gm-Message-State: APjAAAVRb/UWo6HBqDJ/RVPf6fMePhfJkS8adfm5beUVo4uSf7lSq2Q0
+        f9eG1Eol9UCoBt1j3OKDvOg=
+X-Google-Smtp-Source: APXvYqw240U8b/x+Mo2SnrQZ5DICtP17icV7c6TUoSyd3a9bWbPZcMzTdBw9lYI911XetX/kYxd3MQ==
+X-Received: by 2002:a24:4290:: with SMTP id i138mr542504itb.24.1552349093561;
+        Mon, 11 Mar 2019 17:04:53 -0700 (PDT)
+Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
+        by smtp.gmail.com with ESMTPSA id d139sm430774itc.44.2019.03.11.17.04.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 11 Mar 2019 17:04:52 -0700 (PDT)
+Date:   Mon, 11 Mar 2019 20:04:50 -0400
+From:   Kimberly Brown <kimbrownkd@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Michael Kelley <mikelley@microsoft.com>,
+        Long Li <longli@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] net: hyperv: fix a NULL pointer dereference
-Thread-Topic: [PATCH] net: hyperv: fix a NULL pointer dereference
-Thread-Index: AQHU19p5yQFnSUaxQECHIYx36L0CYKYG1fFQgAAAz2A=
-Date:   Mon, 11 Mar 2019 19:49:53 +0000
-Message-ID: <DM5PR2101MB0725E206EC1B6AA6CE2DB8E6CA480@DM5PR2101MB0725.namprd21.prod.outlook.com>
-References: <20190311071714.28631-1-kjlu@umn.edu>
- <DM5PR2101MB0725705F1CDDD3D1631CD509CA480@DM5PR2101MB0725.namprd21.prod.outlook.com>
-In-Reply-To: <DM5PR2101MB0725705F1CDDD3D1631CD509CA480@DM5PR2101MB0725.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=haiyangz@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-03-11T19:46:40.8860394Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=79f2344b-338a-4c8b-a294-bd4cb40f3c8a;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [96.61.92.94]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0aed8ddb-6ecb-4505-8447-08d6a65abb6b
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600127)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM5PR2101MB1111;
-x-ms-traffictypediagnostic: DM5PR2101MB1111:
-x-microsoft-antispam-prvs: <DM5PR2101MB1111E62CFB9448F8942D6C01CA480@DM5PR2101MB1111.namprd21.prod.outlook.com>
-x-forefront-prvs: 09730BD177
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(366004)(346002)(396003)(39860400002)(189003)(13464003)(199004)(14454004)(110136005)(26005)(9686003)(22452003)(66066001)(99286004)(52536013)(68736007)(2171002)(86362001)(93156006)(6246003)(10290500003)(229853002)(446003)(8936002)(54906003)(6116002)(106356001)(478600001)(3846002)(186003)(305945005)(11346002)(256004)(7736002)(53936002)(81156014)(8990500004)(1511001)(476003)(102836004)(74316002)(5660300002)(8676002)(86612001)(2906002)(53546011)(105586002)(4326008)(6506007)(2940100002)(55016002)(316002)(71190400001)(6436002)(71200400001)(81166006)(6346003)(25786009)(7696005)(33656002)(97736004)(76176011)(486006)(10090500001);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB1111;H:DM5PR2101MB0725.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=haiyangz@microsoft.com; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 37IU8uS6wQ+7r4DYFsy0bMVBgfnFdau47/+qlZGtPg3zgAde0BdlWDSnVx695q/mGCzerzMS4K7ES2GFeu0zKUBzIhSwQvcyQqLLR1QYPcE3+H3Z4NI/bjoVzpERX6ZscobAAc8dbBLOq/0Y3q5RBHnWw44olB03kghQxS8N4DntXTwxCsu2is6AfUkBA2NZw3Fhj8pc6GpbWDk+bHFJTm5bm+d3HI3BYb1Yb58flqZWMlWss86wB/L+atFQrr3QOHQ5pjPwWLfgjT30hLHQtIkzr2T/vaCdC7t1T/YbvNgZY8qUEirq93dNWpTWcmcbwGuUMBeblVYSINq3DTwx8+rcr69AYLToPuaoyMRaPSSMIPhZx7g2mLdhdmAFdi30ctIDP9mmd6JzRdNr9F/ILVddAQr5Dm4u6nVbK7pTFyw=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Dexuan Cui <decui@microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Drivers: hv: vmbus: Expose monitor data only when
+ monitor pages are used
+Message-ID: <20190312000449.GA2741@ubu-Virtual-Machine>
+References: <20190301191824.GA4108@ubu-Virtual-Machine>
+ <20190308224611.GA3047@ubu-Virtual-Machine>
+ <20190309072135.GG3882@kroah.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0aed8ddb-6ecb-4505-8447-08d6a65abb6b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2019 19:49:53.9887
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB1111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190309072135.GG3882@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+On Sat, Mar 09, 2019 at 08:21:35AM +0100, Greg KH wrote:
+> On Fri, Mar 08, 2019 at 05:46:11PM -0500, Kimberly Brown wrote:
+> >  static struct kobj_type vmbus_chan_ktype = {
+> >  	.sysfs_ops = &vmbus_chan_sysfs_ops,
+> >  	.release = vmbus_chan_release,
+> > -	.default_attrs = vmbus_chan_attrs,
+> 
+> As discussed on IRC, a kobj_type needs to get an attribute group one of
+> these days, not just a attribute list :)
+> 
+> So thanks for persisting with this, sorry for the earlier review
+> comments, you were totally right about this, nice work.
+> 
+> Minor review comments below:
+> 
+> >  };
+> >  
+> >  /*
+> > @@ -1571,11 +1624,34 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > +	ret = sysfs_create_group(kobj, &vmbus_chan_group);
+> > +	channel->sysfs_group_ready = !ret;
+> 
+> Why do you need this flag?
+> 
+
+I added this flag to prevent sysfs_remove_group() from being called if
+sysfs_create_group() or the earlier call to kobject_init_and_add()
+failed. However, it looks like that would just lead to WARN() being
+called, which seems appropriate. I'll remove this flag.
 
 
-> -----Original Message-----
-> From: linux-hyperv-owner@vger.kernel.org <linux-hyperv-
-> owner@vger.kernel.org> On Behalf Of Haiyang Zhang
-> Sent: Monday, March 11, 2019 3:47 PM
-> To: Kangjie Lu <kjlu@umn.edu>
-> Cc: pakki001@umn.edu; KY Srinivasan <kys@microsoft.com>; Stephen
-> Hemminger <sthemmin@microsoft.com>; Sasha Levin <sashal@kernel.org>;
-> David S. Miller <davem@davemloft.net>; linux-hyperv@vger.kernel.org;
-> netdev@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: RE: [PATCH] net: hyperv: fix a NULL pointer dereference
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Kangjie Lu <kjlu@umn.edu>
-> > Sent: Monday, March 11, 2019 3:17 AM
-> > To: kjlu@umn.edu
-> > Cc: pakki001@umn.edu; KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
-> > <haiyangz@microsoft.com>; Stephen Hemminger
-> <sthemmin@microsoft.com>;
-> > Sasha Levin <sashal@kernel.org>; David S. Miller
-> > <davem@davemloft.net>; linux-hyperv@vger.kernel.org;
-> > netdev@vger.kernel.org; linux- kernel@vger.kernel.org
-> > Subject: [PATCH] net: hyperv: fix a NULL pointer dereference
-> >
-> > In case kvmalloc_array fails, we should stop using it to avoid NULL
-> > pointer dereference.
-> >
-> > Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-> > ---
->=20
-Also, please change the subject to be more specific:
-	hv_netvsc: fix a possible NULL pointer dereference in netvsc_get_ethtool_s=
-tats()
+> > +
+> > +	if (ret) {
+> > +		/*
+> > +		 * If an error is returned to the calling functions, those
+> > +		 * functions will call kobject_put() on the channel kobject,
+> > +		 * which will cleanup the empty channel directory created by
+> > +		 * kobject_init_and_add().
+> 
+> Why is this comment needed?
+> 
 
-Thanks.
+Another reviewer asked why the empty directory created by
+kobject_init_and_add() isn't removed here when sysfs_create_group()
+fails. We decided that a comment would help clear up any future
+confusion.
+
+
+> > +		 */
+> > +		pr_err("Unable to set up channel sysfs files\n");
+> 
+> dev_err() to show who had the problem with the files?
+>
+
+Yes, good point. I'll change this.
+
+
+> > +		return ret;
+> > +	}
+> > +
+> >  	kobject_uevent(kobj, KOBJ_ADD);
+> >  
+> >  	return 0;
+> >  }
+> >  
+> > +/*
+> > + * vmbus_remove_channel_attr_group - remove the channel's attribute group
+> > + */
+> > +void vmbus_remove_channel_attr_group(struct vmbus_channel *channel)
+> > +{
+> > +	if (channel->sysfs_group_ready)
+> > +		sysfs_remove_group(&channel->kobj, &vmbus_chan_group);
+> 
+> You should be able to just always remove these, no need for a flag to
+> say you have created them or not, right?
+> 
+> thanks,
+> 
+> greg k-h
