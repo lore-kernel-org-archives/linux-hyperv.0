@@ -7,58 +7,56 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6E5C43381
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Mar 2019 20:05:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC096C43381
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Mar 2019 20:05:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 909EE2082F
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Mar 2019 20:05:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C83D2082F
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Mar 2019 20:05:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exYUW6Hj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fYuDqEDq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbfCNUFF (ORCPT
+        id S1727715AbfCNUFM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Mar 2019 16:05:05 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:51698 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726444AbfCNUFF (ORCPT
+        Thu, 14 Mar 2019 16:05:12 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:54628 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726444AbfCNUFM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Mar 2019 16:05:05 -0400
-Received: by mail-it1-f196.google.com with SMTP id e24so6756941itl.1;
-        Thu, 14 Mar 2019 13:05:04 -0700 (PDT)
+        Thu, 14 Mar 2019 16:05:12 -0400
+Received: by mail-it1-f193.google.com with SMTP id w18so6731005itj.4;
+        Thu, 14 Mar 2019 13:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Wp80+44UXTvBPR/J8XZ3iMpuK3pkq3Zm7DfnTwZPdLE=;
-        b=exYUW6Hj+2ZNKqs1phgx8NJ53TnESHzjVYoTDXHlWA1NQppEtSlEnw9QHHz4rSy7qd
-         +tkqWIIo/tDYgwx/gCYvWmWZ4+o+2RfmdYWCPUFNfEAB3FgcnMr9jCXHCWBwVGvHy3py
-         gU0TXViySqQVbLcqyMUpKkGwBPUFUhBUH5A8ouELCNz+5971kr+lrRSIzu6Y3Pxp4l6X
-         8ldxqmFzkyWr6G25P8I1Y4CwCSb3VrXqgziuGb8o1bPEjqDMvHmFERwgTwhLa+cvlhXi
-         soaQrXv98KeftfccIFceWh/88GYUdyN/uYCZBaQmKXjVynZx6AlJJ3WIRhh/eBimXV6n
-         /qCQ==
+         :content-disposition:in-reply-to:user-agent;
+        bh=YzEHB5aWwddSacdYRHdX6XA8+uBycjteGJ3ShNLj/h8=;
+        b=fYuDqEDqaFllJimzzH4XOIal12h3MYLDQXRZKYam6QylBveXFnAvrk1Pfcoj68ZHu2
+         k/AGlZIwkpfbd86H0bflsFlKjur3mKbk20q5k5t8nEvnGhoMDABxN4VFgITnFCtd8aCj
+         OCMjty2gI7V+0l98YQQazQS3PY2TSrqo83CklENE6lU/LeHMbctb/kGGhEDFw1wQY6J3
+         Q3vGOOXflQ01Dn8amDviUvY1Bs3TmF2vX8PEZ1udKCyqAsuhWxQvbmcgn+OI79l5o5bN
+         wOd91zUv7lklO3NEaPUIpuSeG8kPUkb9Rp3cSlrHOsC0BIzUmLJv1pfq95lThTqtVc+v
+         T/vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Wp80+44UXTvBPR/J8XZ3iMpuK3pkq3Zm7DfnTwZPdLE=;
-        b=csi4W1aOq6fw+iYnN3OIHi3mx+jpN+xALoCW3RjyZURsIw0ydU7y9qY0j9DpDCthxh
-         0T+16/x9ZIPVf/gVDsFgosxpHdm2AYBhkqZ3UvhKBTRpCHvchpRFldeMricoMTjxd62t
-         x+Jvu36VjkfTAOzaZVDwjLmQJ820zBWdiK7q4L6xSPkn88IDcbPPQq41yPWPGrzojsL0
-         iGrhJmcglHmcTSWS8GK89w8G6L0Os3EmTwIq1pJHycZdbxB4+Qkq3zQJ6PWKAh3EPWJD
-         nIHoFxIgP6ouQgI2WsWAXs8x4twoaw4PVr+yD9Rnbbx59faHjEFqhR/YB5oeOha4F3Ht
-         3EVw==
-X-Gm-Message-State: APjAAAWjFpMGneAp1BF2sKO2dGtZLnylDGaUG2umZ09YGLAzTzG6r0TQ
-        6diXbaovdhjjHxwVslHhKgMTKFkA
-X-Google-Smtp-Source: APXvYqxjqmAxfQBWUgRfjBKD0RoijwZRxjrJX1Lahafpf09OAM0y+DDVUA8qV+PegqNtxGY7q3zXHw==
-X-Received: by 2002:a02:6206:: with SMTP id d6mr57957jac.84.1552593903773;
-        Thu, 14 Mar 2019 13:05:03 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YzEHB5aWwddSacdYRHdX6XA8+uBycjteGJ3ShNLj/h8=;
+        b=dv610K7biAKXJ56Ypz2LOorHuSW9YWtxsZG4eGz7DPw0gt9Ezor1h4P2tzFioGWXI1
+         qA42xgNFKZGQQWKZPXJ9DG9euMbi1Y4yRWxdCPBDXDJQCBZqgVmpU/Dn8aiy26thWixT
+         3fcxAcV91XqCliUqV4jwWH/srcD9EuVQgKTgJwWP6vpQ4o24fU4atUTEw45pQl+gvo8C
+         pg5JmB2aw8lol6AVpNvXxOQM0EMd8vV9E1Je8G7ZR6oy6w+n2emSy9qmHjjETDp9f1ND
+         KLrNfvJH5QnqWHUWcP9zGAxhcYrEO21YiFcg79exhtke6XiS7Xu4Zt2BST91vPf+xAs/
+         kapg==
+X-Gm-Message-State: APjAAAU5JrDgBgwvRVSgS82PGXQxI/QywawPLf+KeHfU018Gc948p9wC
+        GBkkX5m2yfn2v4enlRIhbHw=
+X-Google-Smtp-Source: APXvYqx4/u7fqsCeU0tdJ2C7+5usj/VXrA0xXklmm/GMGUeWXBZq8o/+PIYg1N8hCg2BeIaY9NMdQQ==
+X-Received: by 2002:a24:9491:: with SMTP id j139mr189689ite.9.1552593910743;
+        Thu, 14 Mar 2019 13:05:10 -0700 (PDT)
 Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
-        by smtp.gmail.com with ESMTPSA id m23sm5006622ioh.29.2019.03.14.13.05.01
+        by smtp.gmail.com with ESMTPSA id k133sm1719566itk.9.2019.03.14.13.05.09
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 14 Mar 2019 13:05:02 -0700 (PDT)
-Date:   Thu, 14 Mar 2019 16:05:00 -0400
+        Thu, 14 Mar 2019 13:05:10 -0700 (PDT)
+Date:   Thu, 14 Mar 2019 16:05:07 -0400
 From:   Kimberly Brown <kimbrownkd@gmail.com>
 To:     Michael Kelley <mikelley@microsoft.com>,
         Long Li <longli@microsoft.com>,
@@ -68,14 +66,14 @@ To:     Michael Kelley <mikelley@microsoft.com>,
 Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] Drivers: hv: vmbus: Refactor chan->state if statement
-Message-ID: <fcc9f3d305bb53c419090925932793ad01011dcd.1552592620.git.kimbrownkd@gmail.com>
+Subject: [PATCH v3 2/3] Drivers: hv: vmbus: Set ring_info field to 0 and
+ remove memset
+Message-ID: <b9b604327b885d82ddad2991f55d1b54be6eb1c8.1552592620.git.kimbrownkd@gmail.com>
 References: <cover.1550806305.git.kimbrownkd@gmail.com>
  <cover.1552592620.git.kimbrownkd@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <cover.1552592620.git.kimbrownkd@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -83,86 +81,36 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The chan->state "if statement" was introduced in commit 6712cc9c2211
-("vmbus: don't return values for uninitalized channels"). That commit
-states that the purpose of the chan->state "if statement" is to prevent
-returning garbage or causing a kernel OOPS when the channel ring buffer
-is not initialized. The changes in this patch provide the same
-protection.
-
-Refactor the chan->state “if statement” in vmbus_chan_attr_show():
- - Instead of checking the channel state in the "if statement", check
-   whether the channel ring buffer pointer is NULL. Checking the
-   ring buffer pointer makes this code consistent with
-   hv_ringbuffer_get_debuginfo().
-
- - Move the "if statement" to the four "_show" functions that access a
-   channel ring buffer. Only four of the channel-level "_show" functions
-   access a ring buffer. The ring buffer pointer does not need to be
-   checked before calling the other "_show" functions, and moving the
-   ring buffer pointer "if statement" to the "_show" functions that
-   access a ring buffer makes the purpose of the "if statement" clear.
+Set "ring_info->priv_read_index" to 0. Now, all of ring_info's fields
+are explicitly set in this function. The memset() call is no longer
+necessary, so remove it.
 
 Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
- drivers/hv/vmbus_drv.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/hv/ring_buffer.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index a7bb709870a8..7f15c41d952e 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1435,9 +1435,6 @@ static ssize_t vmbus_chan_attr_show(struct kobject *kobj,
- 	if (!attribute->show)
- 		return -EIO;
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 9e8b31ccc142..0386ff48c5ea 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -197,8 +197,6 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
  
--	if (chan->state != CHANNEL_OPENED_STATE)
--		return -EINVAL;
+ 	BUILD_BUG_ON((sizeof(struct hv_ring_buffer) != PAGE_SIZE));
+ 
+-	memset(ring_info, 0, sizeof(struct hv_ring_buffer_info));
 -
- 	return attribute->show(chan, buf);
- }
+ 	/*
+ 	 * First page holds struct hv_ring_buffer, do wraparound mapping for
+ 	 * the rest.
+@@ -232,6 +230,7 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+ 		reciprocal_value(ring_info->ring_size / 10);
+ 	ring_info->ring_datasize = ring_info->ring_size -
+ 		sizeof(struct hv_ring_buffer);
++	ring_info->priv_read_index = 0;
  
-@@ -1449,6 +1446,9 @@ static ssize_t out_mask_show(const struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->outbound;
+ 	spin_lock_init(&ring_info->ring_lock);
  
-+	if (!rbi->ring_buffer)
-+		return -EINVAL;
-+
- 	return sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
- }
- static VMBUS_CHAN_ATTR_RO(out_mask);
-@@ -1457,6 +1457,9 @@ static ssize_t in_mask_show(const struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->inbound;
- 
-+	if (!rbi->ring_buffer)
-+		return -EINVAL;
-+
- 	return sprintf(buf, "%u\n", rbi->ring_buffer->interrupt_mask);
- }
- static VMBUS_CHAN_ATTR_RO(in_mask);
-@@ -1465,6 +1468,9 @@ static ssize_t read_avail_show(const struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->inbound;
- 
-+	if (!rbi->ring_buffer)
-+		return -EINVAL;
-+
- 	return sprintf(buf, "%u\n", hv_get_bytes_to_read(rbi));
- }
- static VMBUS_CHAN_ATTR_RO(read_avail);
-@@ -1473,6 +1479,9 @@ static ssize_t write_avail_show(const struct vmbus_channel *channel, char *buf)
- {
- 	const struct hv_ring_buffer_info *rbi = &channel->outbound;
- 
-+	if (!rbi->ring_buffer)
-+		return -EINVAL;
-+
- 	return sprintf(buf, "%u\n", hv_get_bytes_to_write(rbi));
- }
- static VMBUS_CHAN_ATTR_RO(write_avail);
 -- 
 2.17.1
 
