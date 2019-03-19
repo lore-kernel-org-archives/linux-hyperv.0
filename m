@@ -1,379 +1,359 @@
-Return-Path: <SRS0=wL2l=RU=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=7etu=RW=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC9BC4360F
-	for <linux-hyperv@archiver.kernel.org>; Sun, 17 Mar 2019 19:06:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C25C43381
+	for <linux-hyperv@archiver.kernel.org>; Tue, 19 Mar 2019 04:04:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D052320872
-	for <linux-hyperv@archiver.kernel.org>; Sun, 17 Mar 2019 19:06:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A43F20854
+	for <linux-hyperv@archiver.kernel.org>; Tue, 19 Mar 2019 04:04:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="eQC+KfxE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qTvgi+/V"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbfCQTGo (ORCPT
+        id S1726002AbfCSEEG (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 17 Mar 2019 15:06:44 -0400
-Received: from mail-eopbgr760124.outbound.protection.outlook.com ([40.107.76.124]:35201
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727361AbfCQTGo (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 17 Mar 2019 15:06:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F0Sv4v+C/STgLalgTjTt23+Q+u5NeJL/evuUJMLPGOE=;
- b=eQC+KfxEnq+6XsUwYCQYhWqNmUjglAquX7fqynnIbYTZoM4dG2O392zcSOejfKPMgeMR7dIaFxqZ7ZWNoiq7/MJ1WAHWcuRRRvTvwDVhN1mwBV+pe9iVOlpViLowUmZZFK3E8rmJv/kVjPfQMzwJW5fDhnTo99WK49boNtLhUqk=
-Received: from BN6PR21MB0466.namprd21.prod.outlook.com (10.172.111.144) by
- BN6PR21MB0788.namprd21.prod.outlook.com (10.175.132.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1730.0; Sun, 17 Mar 2019 19:06:24 +0000
-Received: from BN6PR21MB0466.namprd21.prod.outlook.com
- ([fe80::f458:691d:54a:b05c]) by BN6PR21MB0466.namprd21.prod.outlook.com
- ([fe80::f458:691d:54a:b05c%13]) with mapi id 15.20.1730.008; Sun, 17 Mar 2019
- 19:06:24 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     "will.deacon@arm.com" <will.deacon@arm.com>,
-        "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "olaf@aepfle.de" <olaf@aepfle.de>,
-        "apw@canonical.com" <apw@canonical.com>,
-        vkuznets <vkuznets@redhat.com>,
-        "jasowang@redhat.com" <jasowang@redhat.com>,
-        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>
-CC:     Michael Kelley <mikelley@microsoft.com>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>
-Subject: [PATCH v2 2/2] Drivers: hv: Move Hyper-V clocksource code to new
- clocksource driver
-Thread-Topic: [PATCH v2 2/2] Drivers: hv: Move Hyper-V clocksource code to new
- clocksource driver
-Thread-Index: AQHU3PSD5lYEoJXKoEW76qK4czu/dA==
-Date:   Sun, 17 Mar 2019 19:06:24 +0000
-Message-ID: <1552849512-10063-3-git-send-email-mikelley@microsoft.com>
-References: <1552849512-10063-1-git-send-email-mikelley@microsoft.com>
-In-Reply-To: <1552849512-10063-1-git-send-email-mikelley@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CO2PR18CA0050.namprd18.prod.outlook.com
- (2603:10b6:104:2::18) To BN6PR21MB0466.namprd21.prod.outlook.com
- (2603:10b6:404:b2::16)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 1.8.3.1
-x-originating-ip: [167.220.2.136]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 528fb3e7-e19b-4ff7-2c74-08d6ab0ba60b
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:BN6PR21MB0788;
-x-ms-traffictypediagnostic: BN6PR21MB0788:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <BN6PR21MB0788838DF6C2637F28FBF37CD7460@BN6PR21MB0788.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-forefront-prvs: 09796A1B83
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(366004)(346002)(376002)(136003)(396003)(189003)(199004)(99286004)(486006)(8676002)(5660300002)(81166006)(81156014)(102836004)(26005)(52116002)(6506007)(8936002)(97736004)(76176011)(386003)(30864003)(6486002)(50226002)(6346003)(305945005)(86612001)(14454004)(7736002)(6636002)(7416002)(106356001)(186003)(36756003)(71190400001)(22452003)(10290500003)(54906003)(105586002)(6436002)(2906002)(478600001)(66066001)(71200400001)(110136005)(316002)(2501003)(4326008)(68736007)(6512007)(86362001)(1511001)(10090500001)(53946003)(6116002)(2616005)(4720700003)(25786009)(256004)(476003)(14444005)(446003)(53936002)(3846002)(11346002)(2201001)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN6PR21MB0788;H:BN6PR21MB0466.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Yf+N+fcO611WmlxQFxst01W2sOnB8WK2Dv3sRZKNJB6QG2SDu11ePydWpyeFS/5aqRNpWEdXefARSbFN0mHu5OEonfOaGmBZbfWularNQ0daOYJZBRpeuPa+vDh383Ixi6vgSuNhLDvZU9vstO8qQzWc5nEyKzddXVst6OgGhbwjZYHCaZzi5JDdsFw49vsRcLVyKnf93YCCX3bDokojlpl1n4SSILzggtev0f13ASHKMX3vncxm3BCj3RA5mR/TsP/+HOqxh97itf/bnBLAdvCWl45FE1ej3jin19D4h8+rqqK2MW31lkqySGTR1StB60NwF0XKmHyJtEjrJT97MML8j/EO6mFHGS2bBz+eSoHhJaNcjDkkOQLLsbaKka3T/GH4oLt9i/YGYqli81H7VhuohOLVCpoo0Fa2Ue1+Dgo=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 19 Mar 2019 00:04:06 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:45424 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725905AbfCSEEG (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 19 Mar 2019 00:04:06 -0400
+Received: by mail-io1-f68.google.com with SMTP id x9so16446562iog.12;
+        Mon, 18 Mar 2019 21:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=muBSWe3x1lDU5VtJ3m8DQZD4Epd2BJiMfY/RBjW12V0=;
+        b=qTvgi+/V0O6GHGfHq2WujdCoaHlGxBBu8GPPQTs8yrovP0pGAUqk1LS4EKFh9R9vQd
+         UXLdKKfkej5HMptNr8R2rg31E/YPe4G8jaOMasirizyiqCSZulB36a5aTL6eZn+s1ngv
+         /ENMTsmF/27Fkc3VL8It0iHUOflErMSoZrBUyfpENOPZ2vb6clPobYkTvaK2/ly/qc9d
+         seIkJVmvn+LypGLJzXb97KD3qviDOCAwM0YTqni1pz/oZYSm/ULkHzmYgmLBSjiEK0Lz
+         8xcySkPJjegdDAqkJUJ6e6x7ED3hqIvYtzIymIR0U/2WNHC0w1ArPgLE7iAVCVoNddnp
+         FMeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=muBSWe3x1lDU5VtJ3m8DQZD4Epd2BJiMfY/RBjW12V0=;
+        b=BUmFBX7PUI4bQ+0987veyulNu5splHW8GVli4nQpKKcf1sBgeEdBjMYJOr4lkTiUrR
+         djDRN0mcxwskT2VtY54iV0OTmVxy7v2Z7eRNgM3r5imOuzBspcMsWpHdUfTbH8X5qW3V
+         92hfU4nqEJr4ZX7mo5dN67LlQjCZwRwD3/rykcSZAuOhBMle0TEGRLbNNp2AKaesYDfj
+         3bkiWtGZppTIxWlP2C3/jQb1oK73rDd4BmguFiVew0z9MHWKugmidedDDrk7G4aQV+AN
+         VqGrk6WoZAltGQWrPvxYHDJno+WVICj+6VluY2dxVtX8xOh+7xaPJ6eEQxfiEMEqdS7T
+         Go2g==
+X-Gm-Message-State: APjAAAUgpYyEwK3lsePbHIjR5mNFzCKA1E2sjrHU4sRXjgcvcU/agAB6
+        G5BuycTpUl6NeVx3EzY8gwI=
+X-Google-Smtp-Source: APXvYqxLHNO1WJwkMQvG/xw6Tzb5CEzeeRrBjpSJ4aaS8ZX1E/LsNFbb8aBsN+gmTPAP8Vf7p9JlPw==
+X-Received: by 2002:a6b:6201:: with SMTP id f1mr186260iog.47.1552968244971;
+        Mon, 18 Mar 2019 21:04:04 -0700 (PDT)
+Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
+        by smtp.gmail.com with ESMTPSA id e72sm5353034iof.13.2019.03.18.21.04.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 18 Mar 2019 21:04:04 -0700 (PDT)
+Date:   Tue, 19 Mar 2019 00:04:01 -0400
+From:   Kimberly Brown <kimbrownkd@gmail.com>
+To:     Michael Kelley <mikelley@microsoft.com>,
+        Long Li <longli@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6] Drivers: hv: vmbus: Expose monitor data only when monitor
+ pages are used
+Message-ID: <20190319040401.GA3050@ubu-Virtual-Machine>
+References: <20190308224611.GA3047@ubu-Virtual-Machine>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 528fb3e7-e19b-4ff7-2c74-08d6ab0ba60b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2019 19:06:24.0916
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR21MB0788
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190308224611.GA3047@ubu-Virtual-Machine>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Q29kZSBmb3IgdGhlIEh5cGVyLVYgc3BlY2lmaWMgY2xvY2tzb3VyY2VzIGlzIGN1cnJlbnRseSBt
-aXhlZA0KaW4gd2l0aCBvdGhlciBIeXBlci1WIGNvZGUuIE1vdmUgdGhlIGNvZGUgdG8gdGhlIEh5
-cGVyLVYgc3BlY2lmaWMNCmRyaXZlciBpbiB0aGUgImNsb2Nrc291cmNlIiBkaXJlY3RvcnksIHdo
-aWxlIHNlcGFyYXRpbmcgb3V0DQpJU0EgZGVwZW5kZW5jaWVzIHNvIHRoYXQgdGhlIGNsb2Nrc291
-cmNlIGRyaXZlciByZW1haW5zIElTQQ0KaW5kZXBlbmRlbnQuIFVwZGF0ZSB0aGUgSHlwZXItViBp
-bml0aWFsaXphdGlvbiBjb2RlIHRvIGNhbGwNCmluaXRpYWxpemF0aW9uIGFuZCBjbGVhbnVwIHJv
-dXRpbmVzIHNpbmNlIHRoZSBIeXBlci1WIHN5bnRoZXRpYw0KdGltZXJzIGFyZSBub3QgaW5kZXBl
-bmRlbnRseSBlbnVtZXJhdGVkIGluIEFDUEkuIFVwZGF0ZSBIeXBlci1WDQpjbG9ja3NvdXJjZSB1
-c2VycyBLVk0gYW5kIFZEU08gdG8gZ2V0IGRlZmluaXRpb25zIGZyb20gYSBuZXcNCmluY2x1ZGUg
-ZmlsZS4NCg0KTm8gYmVoYXZpb3IgaXMgY2hhbmdlZCBhbmQgbm8gbmV3IGZ1bmN0aW9uYWxpdHkg
-aXMgYWRkZWQuDQoNClN1Z2dlc3RlZC1ieTogTWFyYyBaeW5naWVyIDxtYXJjLnp5bmdpZXJAYXJt
-LmNvbT4NClNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgS2VsbGV5IDxtaWtlbGxleUBtaWNyb3NvZnQu
-Y29tPg0KLS0tDQogYXJjaC94ODYvZW50cnkvdmRzby92Y2xvY2tfZ2V0dGltZS5jIHwgICAxICsN
-CiBhcmNoL3g4Ni9lbnRyeS92ZHNvL3ZtYS5jICAgICAgICAgICAgfCAgIDIgKy0NCiBhcmNoL3g4
-Ni9oeXBlcnYvaHZfaW5pdC5jICAgICAgICAgICAgfCAgOTEgKystLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0NCiBhcmNoL3g4Ni9pbmNsdWRlL2FzbS9tc2h5cGVydi5oICAgICAgfCAgODAgKysrKy0t
-LS0tLS0tLS0tLS0tLS0tLS0NCiBhcmNoL3g4Ni9rdm0veDg2LmMgICAgICAgICAgICAgICAgICAg
-fCAgIDEgKw0KIGRyaXZlcnMvY2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVyLmMgICB8IDEyMiArKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KIGluY2x1ZGUvY2xvY2tzb3VyY2UvaHlw
-ZXJ2X3RpbWVyLmggICB8ICA3OCArKysrKysrKysrKysrKysrKysrKysrDQogNyBmaWxlcyBjaGFu
-Z2VkLCAyMTkgaW5zZXJ0aW9ucygrKSwgMTU2IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEv
-YXJjaC94ODYvZW50cnkvdmRzby92Y2xvY2tfZ2V0dGltZS5jIGIvYXJjaC94ODYvZW50cnkvdmRz
-by92Y2xvY2tfZ2V0dGltZS5jDQppbmRleCAwMDdiM2ZlOS4uNTliYjVkMSAxMDA2NDQNCi0tLSBh
-L2FyY2gveDg2L2VudHJ5L3Zkc28vdmNsb2NrX2dldHRpbWUuYw0KKysrIGIvYXJjaC94ODYvZW50
-cnkvdmRzby92Y2xvY2tfZ2V0dGltZS5jDQpAQCAtMjEsNiArMjEsNyBAQA0KICNpbmNsdWRlIDxs
-aW51eC9tYXRoNjQuaD4NCiAjaW5jbHVkZSA8bGludXgvdGltZS5oPg0KICNpbmNsdWRlIDxsaW51
-eC9rZXJuZWwuaD4NCisjaW5jbHVkZSA8Y2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVyLmg+DQogDQog
-I2RlZmluZSBndG9kICgmVlZBUih2c3lzY2FsbF9ndG9kX2RhdGEpKQ0KIA0KZGlmZiAtLWdpdCBh
-L2FyY2gveDg2L2VudHJ5L3Zkc28vdm1hLmMgYi9hcmNoL3g4Ni9lbnRyeS92ZHNvL3ZtYS5jDQpp
-bmRleCBiYWJjNGU3Li45OWIzOGU5IDEwMDY0NA0KLS0tIGEvYXJjaC94ODYvZW50cnkvdmRzby92
-bWEuYw0KKysrIGIvYXJjaC94ODYvZW50cnkvdmRzby92bWEuYw0KQEAgLTIyLDcgKzIyLDcgQEAN
-CiAjaW5jbHVkZSA8YXNtL3BhZ2UuaD4NCiAjaW5jbHVkZSA8YXNtL2Rlc2MuaD4NCiAjaW5jbHVk
-ZSA8YXNtL2NwdWZlYXR1cmUuaD4NCi0jaW5jbHVkZSA8YXNtL21zaHlwZXJ2Lmg+DQorI2luY2x1
-ZGUgPGNsb2Nrc291cmNlL2h5cGVydl90aW1lci5oPg0KIA0KICNpZiBkZWZpbmVkKENPTkZJR19Y
-ODZfNjQpDQogdW5zaWduZWQgaW50IF9fcmVhZF9tb3N0bHkgdmRzbzY0X2VuYWJsZWQgPSAxOw0K
-ZGlmZiAtLWdpdCBhL2FyY2gveDg2L2h5cGVydi9odl9pbml0LmMgYi9hcmNoL3g4Ni9oeXBlcnYv
-aHZfaW5pdC5jDQppbmRleCA3YWJiMDllLi44ZTIwOWMzIDEwMDY0NA0KLS0tIGEvYXJjaC94ODYv
-aHlwZXJ2L2h2X2luaXQuYw0KKysrIGIvYXJjaC94ODYvaHlwZXJ2L2h2X2luaXQuYw0KQEAgLTI3
-LDY0ICsyNywxMyBAQA0KICNpbmNsdWRlIDxsaW51eC92ZXJzaW9uLmg+DQogI2luY2x1ZGUgPGxp
-bnV4L3ZtYWxsb2MuaD4NCiAjaW5jbHVkZSA8bGludXgvbW0uaD4NCi0jaW5jbHVkZSA8bGludXgv
-Y2xvY2tjaGlwcy5oPg0KICNpbmNsdWRlIDxsaW51eC9oeXBlcnYuaD4NCiAjaW5jbHVkZSA8bGlu
-dXgvc2xhYi5oPg0KICNpbmNsdWRlIDxsaW51eC9jcHVob3RwbHVnLmg+DQotDQotI2lmZGVmIENP
-TkZJR19IWVBFUlZfVFNDUEFHRQ0KLQ0KLXN0YXRpYyBzdHJ1Y3QgbXNfaHlwZXJ2X3RzY19wYWdl
-ICp0c2NfcGc7DQotDQotc3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqaHZfZ2V0X3RzY19wYWdl
-KHZvaWQpDQotew0KLQlyZXR1cm4gdHNjX3BnOw0KLX0NCi1FWFBPUlRfU1lNQk9MX0dQTChodl9n
-ZXRfdHNjX3BhZ2UpOw0KLQ0KLXN0YXRpYyB1NjQgcmVhZF9odl9jbG9ja190c2Moc3RydWN0IGNs
-b2Nrc291cmNlICphcmcpDQotew0KLQl1NjQgY3VycmVudF90aWNrID0gaHZfcmVhZF90c2NfcGFn
-ZSh0c2NfcGcpOw0KLQ0KLQlpZiAoY3VycmVudF90aWNrID09IFU2NF9NQVgpDQotCQlyZG1zcmwo
-SFZfWDY0X01TUl9USU1FX1JFRl9DT1VOVCwgY3VycmVudF90aWNrKTsNCi0NCi0JcmV0dXJuIGN1
-cnJlbnRfdGljazsNCi19DQotDQotc3RhdGljIHN0cnVjdCBjbG9ja3NvdXJjZSBoeXBlcnZfY3Nf
-dHNjID0gew0KLQkJLm5hbWUJCT0gImh5cGVydl9jbG9ja3NvdXJjZV90c2NfcGFnZSIsDQotCQku
-cmF0aW5nCQk9IDQwMCwNCi0JCS5yZWFkCQk9IHJlYWRfaHZfY2xvY2tfdHNjLA0KLQkJLm1hc2sJ
-CT0gQ0xPQ0tTT1VSQ0VfTUFTSyg2NCksDQotCQkuZmxhZ3MJCT0gQ0xPQ0tfU09VUkNFX0lTX0NP
-TlRJTlVPVVMsDQotfTsNCi0jZW5kaWYNCi0NCi1zdGF0aWMgdTY0IHJlYWRfaHZfY2xvY2tfbXNy
-KHN0cnVjdCBjbG9ja3NvdXJjZSAqYXJnKQ0KLXsNCi0JdTY0IGN1cnJlbnRfdGljazsNCi0JLyoN
-Ci0JICogUmVhZCB0aGUgcGFydGl0aW9uIGNvdW50ZXIgdG8gZ2V0IHRoZSBjdXJyZW50IHRpY2sg
-Y291bnQuIFRoaXMgY291bnQNCi0JICogaXMgc2V0IHRvIDAgd2hlbiB0aGUgcGFydGl0aW9uIGlz
-IGNyZWF0ZWQgYW5kIGlzIGluY3JlbWVudGVkIGluDQotCSAqIDEwMCBuYW5vc2Vjb25kIHVuaXRz
-Lg0KLQkgKi8NCi0JcmRtc3JsKEhWX1g2NF9NU1JfVElNRV9SRUZfQ09VTlQsIGN1cnJlbnRfdGlj
-ayk7DQotCXJldHVybiBjdXJyZW50X3RpY2s7DQotfQ0KLQ0KLXN0YXRpYyBzdHJ1Y3QgY2xvY2tz
-b3VyY2UgaHlwZXJ2X2NzX21zciA9IHsNCi0JLm5hbWUJCT0gImh5cGVydl9jbG9ja3NvdXJjZV9t
-c3IiLA0KLQkucmF0aW5nCQk9IDQwMCwNCi0JLnJlYWQJCT0gcmVhZF9odl9jbG9ja19tc3IsDQot
-CS5tYXNrCQk9IENMT0NLU09VUkNFX01BU0soNjQpLA0KLQkuZmxhZ3MJCT0gQ0xPQ0tfU09VUkNF
-X0lTX0NPTlRJTlVPVVMsDQotfTsNCisjaW5jbHVkZSA8Y2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVy
-Lmg+DQogDQogdm9pZCAqaHZfaHlwZXJjYWxsX3BnOw0KIEVYUE9SVF9TWU1CT0xfR1BMKGh2X2h5
-cGVyY2FsbF9wZyk7DQotc3RydWN0IGNsb2Nrc291cmNlICpoeXBlcnZfY3M7DQotRVhQT1JUX1NZ
-TUJPTF9HUEwoaHlwZXJ2X2NzKTsNCiANCiB1MzIgKmh2X3ZwX2luZGV4Ow0KIEVYUE9SVF9TWU1C
-T0xfR1BMKGh2X3ZwX2luZGV4KTsNCkBAIC0zNDksNDEgKzI5OCwxMSBAQCB2b2lkIF9faW5pdCBo
-eXBlcnZfaW5pdCh2b2lkKQ0KIAl4ODZfaW5pdC5wY2kuYXJjaF9pbml0ID0gaHZfcGNpX2luaXQ7
-DQogDQogCS8qDQotCSAqIFJlZ2lzdGVyIEh5cGVyLVYgc3BlY2lmaWMgY2xvY2tzb3VyY2UuDQor
-CSAqIFJlZ2lzdGVyIEh5cGVyLVYgc3BlY2lmaWMgY2xvY2tzb3VyY2UuIFBhc3MgJ2ZhbHNlJyBh
-cyB0aGUNCisJICogYXJndWVtbnQsIGluZGljYXRpbmcgdG8gbm90IHJlZ2lzdGVyIHRoZSBjbG9j
-a3NvdXJjZSBhcyB0aGUNCisJICogc2NoZWQgY2xvY2suDQogCSAqLw0KLSNpZmRlZiBDT05GSUdf
-SFlQRVJWX1RTQ1BBR0UNCi0JaWYgKG1zX2h5cGVydi5mZWF0dXJlcyAmIEhWX01TUl9SRUZFUkVO
-Q0VfVFNDX0FWQUlMQUJMRSkgew0KLQkJdW5pb24gaHZfeDY0X21zcl9oeXBlcmNhbGxfY29udGVu
-dHMgdHNjX21zcjsNCi0NCi0JCXRzY19wZyA9IF9fdm1hbGxvYyhQQUdFX1NJWkUsIEdGUF9LRVJO
-RUwsIFBBR0VfS0VSTkVMKTsNCi0JCWlmICghdHNjX3BnKQ0KLQkJCWdvdG8gcmVnaXN0ZXJfbXNy
-X2NzOw0KLQ0KLQkJaHlwZXJ2X2NzID0gJmh5cGVydl9jc190c2M7DQotDQotCQlyZG1zcmwoSFZf
-WDY0X01TUl9SRUZFUkVOQ0VfVFNDLCB0c2NfbXNyLmFzX3VpbnQ2NCk7DQotDQotCQl0c2NfbXNy
-LmVuYWJsZSA9IDE7DQotCQl0c2NfbXNyLmd1ZXN0X3BoeXNpY2FsX2FkZHJlc3MgPSB2bWFsbG9j
-X3RvX3Bmbih0c2NfcGcpOw0KLQ0KLQkJd3Jtc3JsKEhWX1g2NF9NU1JfUkVGRVJFTkNFX1RTQywg
-dHNjX21zci5hc191aW50NjQpOw0KLQ0KLQkJaHlwZXJ2X2NzX3RzYy5hcmNoZGF0YS52Y2xvY2tf
-bW9kZSA9IFZDTE9DS19IVkNMT0NLOw0KLQ0KLQkJY2xvY2tzb3VyY2VfcmVnaXN0ZXJfaHooJmh5
-cGVydl9jc190c2MsIE5TRUNfUEVSX1NFQy8xMDApOw0KLQkJcmV0dXJuOw0KLQl9DQotcmVnaXN0
-ZXJfbXNyX2NzOg0KLSNlbmRpZg0KLQkvKg0KLQkgKiBGb3IgMzIgYml0IGd1ZXN0cyBqdXN0IHVz
-ZSB0aGUgTVNSIGJhc2VkIG1lY2hhbmlzbSBmb3IgcmVhZGluZw0KLQkgKiB0aGUgcGFydGl0aW9u
-IGNvdW50ZXIuDQotCSAqLw0KLQ0KLQloeXBlcnZfY3MgPSAmaHlwZXJ2X2NzX21zcjsNCi0JaWYg
-KG1zX2h5cGVydi5mZWF0dXJlcyAmIEhWX01TUl9USU1FX1JFRl9DT1VOVF9BVkFJTEFCTEUpDQot
-CQljbG9ja3NvdXJjZV9yZWdpc3Rlcl9oeigmaHlwZXJ2X2NzX21zciwgTlNFQ19QRVJfU0VDLzEw
-MCk7DQotDQorCWh2X2luaXRfY2xvY2tzb3VyY2UoZmFsc2UpOw0KIAlyZXR1cm47DQogDQogcmVt
-b3ZlX2NwdWhwX3N0YXRlOg0KZGlmZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL21zaHlw
-ZXJ2LmggYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tc2h5cGVydi5oDQppbmRleCBjYzYwZTYxLi45
-MzI2Njg5IDEwMDY0NA0KLS0tIGEvYXJjaC94ODYvaW5jbHVkZS9hc20vbXNoeXBlcnYuaA0KKysr
-IGIvYXJjaC94ODYvaW5jbHVkZS9hc20vbXNoeXBlcnYuaA0KQEAgLTEwNSw2ICsxMDUsMTcgQEAg
-c3RhdGljIGlubGluZSB2b2lkIHZtYnVzX3NpZ25hbF9lb20oc3RydWN0IGh2X21lc3NhZ2UgKm1z
-ZywgdTMyIG9sZF9tc2dfdHlwZSkNCiAjZGVmaW5lIGh2X2dldF9jcmFzaF9jdGwodmFsKSBcDQog
-CXJkbXNybChIVl9YNjRfTVNSX0NSQVNIX0NUTCwgdmFsKQ0KIA0KKyNkZWZpbmUgaHZfZ2V0X3Rp
-bWVfcmVmX2NvdW50KHZhbCkgXA0KKwlyZG1zcmwoSFZfWDY0X01TUl9USU1FX1JFRl9DT1VOVCwg
-dmFsKQ0KKw0KKyNkZWZpbmUgaHZfZ2V0X3JlZmVyZW5jZV90c2ModmFsKSBcDQorCXJkbXNybChI
-Vl9YNjRfTVNSX1JFRkVSRU5DRV9UU0MsIHZhbCkNCisjZGVmaW5lIGh2X3NldF9yZWZlcmVuY2Vf
-dHNjKHZhbCkgXA0KKwl3cm1zcmwoSFZfWDY0X01TUl9SRUZFUkVOQ0VfVFNDLCB2YWwpDQorI2Rl
-ZmluZSBodl9zZXRfY2xvY2tzb3VyY2VfdmRzbyh2YWwpIFwNCisJKCh2YWwpLmFyY2hkYXRhLnZj
-bG9ja19tb2RlID0gVkNMT0NLX0hWQ0xPQ0spDQorI2RlZmluZSBodl9nZXRfcmF3X3RpbWVyKCkg
-cmR0c2Nfb3JkZXJlZCgpDQorDQogdm9pZCBoeXBlcnZfY2FsbGJhY2tfdmVjdG9yKHZvaWQpOw0K
-IHZvaWQgaHlwZXJ2X3JlZW5saWdodGVubWVudF92ZWN0b3Iodm9pZCk7DQogI2lmZGVmIENPTkZJ
-R19UUkFDSU5HDQpAQCAtMzg3LDczICszOTgsNCBAQCBzdGF0aWMgaW5saW5lIGludCBoeXBlcnZf
-Zmx1c2hfZ3Vlc3RfbWFwcGluZ19yYW5nZSh1NjQgYXMsDQogfQ0KICNlbmRpZiAvKiBDT05GSUdf
-SFlQRVJWICovDQogDQotI2lmZGVmIENPTkZJR19IWVBFUlZfVFNDUEFHRQ0KLXN0cnVjdCBtc19o
-eXBlcnZfdHNjX3BhZ2UgKmh2X2dldF90c2NfcGFnZSh2b2lkKTsNCi1zdGF0aWMgaW5saW5lIHU2
-NCBodl9yZWFkX3RzY19wYWdlX3RzYyhjb25zdCBzdHJ1Y3QgbXNfaHlwZXJ2X3RzY19wYWdlICp0
-c2NfcGcsDQotCQkJCSAgICAgICB1NjQgKmN1cl90c2MpDQotew0KLQl1NjQgc2NhbGUsIG9mZnNl
-dDsNCi0JdTMyIHNlcXVlbmNlOw0KLQ0KLQkvKg0KLQkgKiBUaGUgcHJvdG9jb2wgZm9yIHJlYWRp
-bmcgSHlwZXItViBUU0MgcGFnZSBpcyBzcGVjaWZpZWQgaW4gSHlwZXJ2aXNvcg0KLQkgKiBUb3At
-TGV2ZWwgRnVuY3Rpb25hbCBTcGVjaWZpY2F0aW9uIHZlci4gMy4wIGFuZCBhYm92ZS4gVG8gZ2V0
-IHRoZQ0KLQkgKiByZWZlcmVuY2UgdGltZSB3ZSBtdXN0IGRvIHRoZSBmb2xsb3dpbmc6DQotCSAq
-IC0gUkVBRCBSZWZlcmVuY2VUc2NTZXF1ZW5jZQ0KLQkgKiAgIEEgc3BlY2lhbCAnMCcgdmFsdWUg
-aW5kaWNhdGVzIHRoZSB0aW1lIHNvdXJjZSBpcyB1bnJlbGlhYmxlIGFuZCB3ZQ0KLQkgKiAgIG5l
-ZWQgdG8gdXNlIHNvbWV0aGluZyBlbHNlLiBUaGUgY3VycmVudGx5IHB1Ymxpc2hlZCBzcGVjaWZp
-Y2F0aW9uDQotCSAqICAgdmVyc2lvbnMgKHVwIHRvIDQuMGIpIGNvbnRhaW4gYSBtaXN0YWtlIGFu
-ZCB3cm9uZ2x5IGNsYWltICctMScNCi0JICogICBpbnN0ZWFkIG9mICcwJyBhcyB0aGUgc3BlY2lh
-bCB2YWx1ZSwgc2VlIGNvbW1pdCBjMzViODJlZjAyOTQuDQotCSAqIC0gUmVmZXJlbmNlVGltZSA9
-DQotCSAqICAgICAgICAoKFJEVFNDKCkgKiBSZWZlcmVuY2VUc2NTY2FsZSkgPj4gNjQpICsgUmVm
-ZXJlbmNlVHNjT2Zmc2V0DQotCSAqIC0gUkVBRCBSZWZlcmVuY2VUc2NTZXF1ZW5jZSBhZ2Fpbi4g
-SW4gY2FzZSBpdHMgdmFsdWUgaGFzIGNoYW5nZWQNCi0JICogICBzaW5jZSBvdXIgZmlyc3QgcmVh
-ZGluZyB3ZSBuZWVkIHRvIGRpc2NhcmQgUmVmZXJlbmNlVGltZSBhbmQgcmVwZWF0DQotCSAqICAg
-dGhlIHdob2xlIHNlcXVlbmNlIGFzIHRoZSBoeXBlcnZpc29yIHdhcyB1cGRhdGluZyB0aGUgcGFn
-ZSBpbg0KLQkgKiAgIGJldHdlZW4uDQotCSAqLw0KLQlkbyB7DQotCQlzZXF1ZW5jZSA9IFJFQURf
-T05DRSh0c2NfcGctPnRzY19zZXF1ZW5jZSk7DQotCQlpZiAoIXNlcXVlbmNlKQ0KLQkJCXJldHVy
-biBVNjRfTUFYOw0KLQkJLyoNCi0JCSAqIE1ha2Ugc3VyZSB3ZSByZWFkIHNlcXVlbmNlIGJlZm9y
-ZSB3ZSByZWFkIG90aGVyIHZhbHVlcyBmcm9tDQotCQkgKiBUU0MgcGFnZS4NCi0JCSAqLw0KLQkJ
-c21wX3JtYigpOw0KLQ0KLQkJc2NhbGUgPSBSRUFEX09OQ0UodHNjX3BnLT50c2Nfc2NhbGUpOw0K
-LQkJb2Zmc2V0ID0gUkVBRF9PTkNFKHRzY19wZy0+dHNjX29mZnNldCk7DQotCQkqY3VyX3RzYyA9
-IHJkdHNjX29yZGVyZWQoKTsNCi0NCi0JCS8qDQotCQkgKiBNYWtlIHN1cmUgd2UgcmVhZCBzZXF1
-ZW5jZSBhZnRlciB3ZSByZWFkIGFsbCBvdGhlciB2YWx1ZXMNCi0JCSAqIGZyb20gVFNDIHBhZ2Uu
-DQotCQkgKi8NCi0JCXNtcF9ybWIoKTsNCi0NCi0JfSB3aGlsZSAoUkVBRF9PTkNFKHRzY19wZy0+
-dHNjX3NlcXVlbmNlKSAhPSBzZXF1ZW5jZSk7DQotDQotCXJldHVybiBtdWxfdTY0X3U2NF9zaHIo
-KmN1cl90c2MsIHNjYWxlLCA2NCkgKyBvZmZzZXQ7DQotfQ0KLQ0KLXN0YXRpYyBpbmxpbmUgdTY0
-IGh2X3JlYWRfdHNjX3BhZ2UoY29uc3Qgc3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqdHNjX3Bn
-KQ0KLXsNCi0JdTY0IGN1cl90c2M7DQotDQotCXJldHVybiBodl9yZWFkX3RzY19wYWdlX3RzYyh0
-c2NfcGcsICZjdXJfdHNjKTsNCi19DQotDQotI2Vsc2UNCi1zdGF0aWMgaW5saW5lIHN0cnVjdCBt
-c19oeXBlcnZfdHNjX3BhZ2UgKmh2X2dldF90c2NfcGFnZSh2b2lkKQ0KLXsNCi0JcmV0dXJuIE5V
-TEw7DQotfQ0KLQ0KLXN0YXRpYyBpbmxpbmUgdTY0IGh2X3JlYWRfdHNjX3BhZ2VfdHNjKGNvbnN0
-IHN0cnVjdCBtc19oeXBlcnZfdHNjX3BhZ2UgKnRzY19wZywNCi0JCQkJICAgICAgIHU2NCAqY3Vy
-X3RzYykNCi17DQotCUJVRygpOw0KLQlyZXR1cm4gVTY0X01BWDsNCi19DQotI2VuZGlmDQogI2Vu
-ZGlmDQpkaWZmIC0tZ2l0IGEvYXJjaC94ODYva3ZtL3g4Ni5jIGIvYXJjaC94ODYva3ZtL3g4Ni5j
-DQppbmRleCA5NDFmOTMyLi45ZTJiMmM2IDEwMDY0NA0KLS0tIGEvYXJjaC94ODYva3ZtL3g4Ni5j
-DQorKysgYi9hcmNoL3g4Ni9rdm0veDg2LmMNCkBAIC03MCw2ICs3MCw3IEBADQogI2luY2x1ZGUg
-PGFzbS9tc2h5cGVydi5oPg0KICNpbmNsdWRlIDxhc20vaHlwZXJ2aXNvci5oPg0KICNpbmNsdWRl
-IDxhc20vaW50ZWxfcHQuaD4NCisjaW5jbHVkZSA8Y2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVyLmg+
-DQogDQogI2RlZmluZSBDUkVBVEVfVFJBQ0VfUE9JTlRTDQogI2luY2x1ZGUgInRyYWNlLmgiDQpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9jbG9ja3NvdXJjZS9oeXBlcnZfdGltZXIuYyBiL2RyaXZlcnMv
-Y2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVyLmMNCmluZGV4IGU4NTY1MjkuLjk1ZWQ4MjggMTAwNjQ0
-DQotLS0gYS9kcml2ZXJzL2Nsb2Nrc291cmNlL2h5cGVydl90aW1lci5jDQorKysgYi9kcml2ZXJz
-L2Nsb2Nrc291cmNlL2h5cGVydl90aW1lci5jDQpAQCAtMTQsNiArMTQsOCBAQA0KICNpbmNsdWRl
-IDxsaW51eC9wZXJjcHUuaD4NCiAjaW5jbHVkZSA8bGludXgvY3B1bWFzay5oPg0KICNpbmNsdWRl
-IDxsaW51eC9jbG9ja2NoaXBzLmg+DQorI2luY2x1ZGUgPGxpbnV4L2Nsb2Nrc291cmNlLmg+DQor
-I2luY2x1ZGUgPGxpbnV4L3NjaGVkX2Nsb2NrLmg+DQogI2luY2x1ZGUgPGxpbnV4L2NwdWhvdHBs
-dWcuaD4NCiAjaW5jbHVkZSA8bGludXgvbW0uaD4NCiAjaW5jbHVkZSA8Y2xvY2tzb3VyY2UvaHlw
-ZXJ2X3RpbWVyLmg+DQpAQCAtMjA0LDMgKzIwNiwxMjMgQEAgdm9pZCBodl9zdGltZXJfZ2xvYmFs
-X2NsZWFudXAodm9pZCkNCiAJaHZfc3RpbWVyX2ZyZWUoKTsNCiB9DQogRVhQT1JUX1NZTUJPTF9H
-UEwoaHZfc3RpbWVyX2dsb2JhbF9jbGVhbnVwKTsNCisNCisvKg0KKyAqIENvZGUgYW5kIGRlZmlu
-aXRpb25zIGZvciB0aGUgSHlwZXItViBjbG9ja3NvdXJjZXMuICBUd28NCisgKiBjbG9ja3NvdXJj
-ZXMgYXJlIGRlZmluZWQ6IG9uZSB0aGF0IHJlYWRzIHRoZSBIeXBlci1WIGRlZmluZWQgTVNSLCBh
-bmQNCisgKiB0aGUgb3RoZXIgdGhhdCB1c2VzIHRoZSBUU0MgcmVmZXJlbmNlIHBhZ2UgZmVhdHVy
-ZSBhcyBkZWZpbmVkIGluIHRoZQ0KKyAqIFRMRlMuICBUaGUgTVNSIHZlcnNpb24gaXMgZm9yIGNv
-bXBhdGliaWxpdHkgd2l0aCBvbGQgdmVyc2lvbnMgb2YNCisgKiBIeXBlci1WIGFuZCAzMi1iaXQg
-eDg2LiAgVGhlIFRTQyByZWZlcmVuY2UgcGFnZSB2ZXJzaW9uIGlzIHByZWZlcnJlZC4NCisgKi8N
-CisNCitzdHJ1Y3QgY2xvY2tzb3VyY2UgKmh5cGVydl9jczsNCitFWFBPUlRfU1lNQk9MX0dQTCho
-eXBlcnZfY3MpOw0KKw0KKyNpZmRlZiBDT05GSUdfSFlQRVJWX1RTQ1BBR0UNCisNCitzdGF0aWMg
-c3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqdHNjX3BnOw0KKw0KK3N0cnVjdCBtc19oeXBlcnZf
-dHNjX3BhZ2UgKmh2X2dldF90c2NfcGFnZSh2b2lkKQ0KK3sNCisJcmV0dXJuIHRzY19wZzsNCit9
-DQorRVhQT1JUX1NZTUJPTF9HUEwoaHZfZ2V0X3RzY19wYWdlKTsNCisNCitzdGF0aWMgdTY0IHJl
-YWRfaHZfc2NoZWRfY2xvY2tfdHNjKHZvaWQpDQorew0KKwl1NjQgY3VycmVudF90aWNrID0gaHZf
-cmVhZF90c2NfcGFnZSh0c2NfcGcpOw0KKw0KKwlpZiAoY3VycmVudF90aWNrID09IFU2NF9NQVgp
-DQorCQlodl9nZXRfdGltZV9yZWZfY291bnQoY3VycmVudF90aWNrKTsNCisNCisJcmV0dXJuIGN1
-cnJlbnRfdGljazsNCit9DQorDQorc3RhdGljIHU2NCByZWFkX2h2X2Nsb2NrX3RzYyhzdHJ1Y3Qg
-Y2xvY2tzb3VyY2UgKmFyZykNCit7DQorCXJldHVybiByZWFkX2h2X3NjaGVkX2Nsb2NrX3RzYygp
-Ow0KK30NCisNCitzdGF0aWMgc3RydWN0IGNsb2Nrc291cmNlIGh5cGVydl9jc190c2MgPSB7DQor
-CQkubmFtZQkJPSAiaHlwZXJ2X2Nsb2Nrc291cmNlX3RzY19wYWdlIiwNCisJCS5yYXRpbmcJCT0g
-NDAwLA0KKwkJLnJlYWQJCT0gcmVhZF9odl9jbG9ja190c2MsDQorCQkubWFzawkJPSBDTE9DS1NP
-VVJDRV9NQVNLKDY0KSwNCisJCS5mbGFncwkJPSBDTE9DS19TT1VSQ0VfSVNfQ09OVElOVU9VUywN
-Cit9Ow0KKyNlbmRpZg0KKw0KK3N0YXRpYyB1NjQgcmVhZF9odl9zY2hlZF9jbG9ja19tc3Iodm9p
-ZCkNCit7DQorCXU2NCBjdXJyZW50X3RpY2s7DQorCS8qDQorCSAqIFJlYWQgdGhlIHBhcnRpdGlv
-biBjb3VudGVyIHRvIGdldCB0aGUgY3VycmVudCB0aWNrIGNvdW50LiBUaGlzIGNvdW50DQorCSAq
-IGlzIHNldCB0byAwIHdoZW4gdGhlIHBhcnRpdGlvbiBpcyBjcmVhdGVkIGFuZCBpcyBpbmNyZW1l
-bnRlZCBpbg0KKwkgKiAxMDAgbmFub3NlY29uZCB1bml0cy4NCisJICovDQorCWh2X2dldF90aW1l
-X3JlZl9jb3VudChjdXJyZW50X3RpY2spOw0KKwlyZXR1cm4gY3VycmVudF90aWNrOw0KK30NCisN
-CitzdGF0aWMgdTY0IHJlYWRfaHZfY2xvY2tfbXNyKHN0cnVjdCBjbG9ja3NvdXJjZSAqYXJnKQ0K
-K3sNCisJcmV0dXJuIHJlYWRfaHZfc2NoZWRfY2xvY2tfbXNyKCk7DQorfQ0KKw0KK3N0YXRpYyBz
-dHJ1Y3QgY2xvY2tzb3VyY2UgaHlwZXJ2X2NzX21zciA9IHsNCisJLm5hbWUJCT0gImh5cGVydl9j
-bG9ja3NvdXJjZV9tc3IiLA0KKwkucmF0aW5nCQk9IDQwMCwNCisJLnJlYWQJCT0gcmVhZF9odl9j
-bG9ja19tc3IsDQorCS5tYXNrCQk9IENMT0NLU09VUkNFX01BU0soNjQpLA0KKwkuZmxhZ3MJCT0g
-Q0xPQ0tfU09VUkNFX0lTX0NPTlRJTlVPVVMsDQorfTsNCisNCit2b2lkIF9faW5pdCBodl9pbml0
-X2Nsb2Nrc291cmNlKGJvb2wgcmVnX3NjaGVkX2Nsb2NrKQ0KK3sNCisjaWZkZWYgQ09ORklHX0hZ
-UEVSVl9UU0NQQUdFDQorCWlmIChtc19oeXBlcnYuZmVhdHVyZXMgJiBIVl9NU1JfUkVGRVJFTkNF
-X1RTQ19BVkFJTEFCTEUpIHsNCisNCisJCXU2NAkJdHNjX21zcjsNCisJCXBoeXNfYWRkcl90CXBo
-eXNfYWRkcjsNCisNCisJCXRzY19wZyA9IHZtYWxsb2MoUEFHRV9TSVpFKTsNCisJCWlmICghdHNj
-X3BnKQ0KKwkJCWdvdG8gcmVnaXN0ZXJfbXNyX2NzOw0KKw0KKwkJaHlwZXJ2X2NzID0gJmh5cGVy
-dl9jc190c2M7DQorCQlwaHlzX2FkZHIgPSBwYWdlX3RvX3BoeXModm1hbGxvY190b19wYWdlKHRz
-Y19wZykpOw0KKw0KKwkJLyogVGhlIEh5cGVyLVYgVExGUyBzcGVjaWZpZXMgdG8gcHJlc2VydmUg
-dGhlIHZhbHVlIG9mDQorCQkgKiByZXNlcnZlZCBiaXRzIGluIHJlZ2lzdGVycy4gIFNvIHJlYWQg
-dGhlIGV4aXN0aW5nDQorCQkgKiB2YWx1ZSwgcHJlc2VydmUgdGhlIGxvdyBvcmRlciAxMiBiaXRz
-LCBhbmQgYWRkIGluDQorCQkgKiB0aGUgZ3Vlc3QgcGh5c2ljYWwgYWRkcmVzcyAod2hpY2ggYWxy
-ZWFkeSBoYXMgYXQNCisJCSAqIGxlYXN0IHRoZSBsb3cgMTIgYml0cyBzZXQgdG8gemVybyBzaW5j
-ZSBpdCBpcyBwYWdlDQorCQkgKiBhbGlnbmVkKS4gQWxzbyBzZXQgdGhlICJlbmFibGUiIGJpdCwg
-d2hpY2ggaXMgYml0IDAuDQorCQkgKi8NCisJCWh2X2dldF9yZWZlcmVuY2VfdHNjKHRzY19tc3Ip
-Ow0KKwkJdHNjX21zciAmPSBHRU5NQVNLX1VMTCgxMSwgMCk7DQorCQl0c2NfbXNyID0gdHNjX21z
-ciB8IDB4MSB8ICh1NjQpcGh5c19hZGRyOw0KKwkJaHZfc2V0X3JlZmVyZW5jZV90c2ModHNjX21z
-cik7DQorDQorCQlodl9zZXRfY2xvY2tzb3VyY2VfdmRzbyhoeXBlcnZfY3NfdHNjKTsNCisJCWNs
-b2Nrc291cmNlX3JlZ2lzdGVyX2h6KCZoeXBlcnZfY3NfdHNjLCBOU0VDX1BFUl9TRUMvMTAwKTsN
-CisJCWlmIChyZWdfc2NoZWRfY2xvY2spDQorCQkJc2NoZWRfY2xvY2tfcmVnaXN0ZXIocmVhZF9o
-dl9zY2hlZF9jbG9ja190c2MsDQorCQkJCQkJNjQsIEhWX0NMT0NLX0haKTsNCisJCXJldHVybjsN
-CisJfQ0KK3JlZ2lzdGVyX21zcl9jczoNCisjZW5kaWYNCisJLyoNCisJICogRm9yIDMyIGJpdCBn
-dWVzdHMganVzdCB1c2UgdGhlIE1TUiBiYXNlZCBtZWNoYW5pc20gZm9yIHJlYWRpbmcNCisJICog
-dGhlIHBhcnRpdGlvbiBjb3VudGVyLg0KKwkgKi8NCisJaHlwZXJ2X2NzID0gJmh5cGVydl9jc19t
-c3I7DQorCWlmIChtc19oeXBlcnYuZmVhdHVyZXMgJiBIVl9NU1JfVElNRV9SRUZfQ09VTlRfQVZB
-SUxBQkxFKSB7DQorCQljbG9ja3NvdXJjZV9yZWdpc3Rlcl9oeigmaHlwZXJ2X2NzX21zciwgTlNF
-Q19QRVJfU0VDLzEwMCk7DQorCQlpZiAocmVnX3NjaGVkX2Nsb2NrKQ0KKwkJCXNjaGVkX2Nsb2Nr
-X3JlZ2lzdGVyKHJlYWRfaHZfc2NoZWRfY2xvY2tfbXNyLA0KKwkJCQkJCTY0LCBIVl9DTE9DS19I
-Wik7DQorCX0NCit9DQorRVhQT1JUX1NZTUJPTF9HUEwoaHZfaW5pdF9jbG9ja3NvdXJjZSk7DQpk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9jbG9ja3NvdXJjZS9oeXBlcnZfdGltZXIuaCBiL2luY2x1ZGUv
-Y2xvY2tzb3VyY2UvaHlwZXJ2X3RpbWVyLmgNCmluZGV4IDFhNTY5OGMuLjNjMTFlMmIgMTAwNjQ0
-DQotLS0gYS9pbmNsdWRlL2Nsb2Nrc291cmNlL2h5cGVydl90aW1lci5oDQorKysgYi9pbmNsdWRl
-L2Nsb2Nrc291cmNlL2h5cGVydl90aW1lci5oDQpAQCAtMTMsNiArMTMsMTAgQEANCiAjaWZuZGVm
-IF9fQ0xLU09VUkNFX0hZUEVSVl9USU1FUl9IDQogI2RlZmluZSBfX0NMS1NPVVJDRV9IWVBFUlZf
-VElNRVJfSA0KIA0KKyNpbmNsdWRlIDxsaW51eC9jbG9ja3NvdXJjZS5oPg0KKyNpbmNsdWRlIDxs
-aW51eC9tYXRoNjQuaD4NCisjaW5jbHVkZSA8YXNtL21zaHlwZXJ2Lmg+DQorDQogI2RlZmluZSBI
-Vl9NQVhfTUFYX0RFTFRBX1RJQ0tTIDB4ZmZmZmZmZmYNCiAjZGVmaW5lIEhWX01JTl9ERUxUQV9U
-SUNLUyAxDQogDQpAQCAtMjMsNCArMjcsNzggQEANCiBleHRlcm4gdm9pZCBodl9zdGltZXJfZ2xv
-YmFsX2NsZWFudXAodm9pZCk7DQogZXh0ZXJuIHZvaWQgaHZfc3RpbWVyMF9pc3Iodm9pZCk7DQog
-DQorI2lmIElTX0VOQUJMRUQoQ09ORklHX0hZUEVSVikNCitleHRlcm4gc3RydWN0IGNsb2Nrc291
-cmNlICpoeXBlcnZfY3M7DQorZXh0ZXJuIHZvaWQgaHZfaW5pdF9jbG9ja3NvdXJjZShib29sIHJl
-Z19zY2hlZF9jbG9jayk7DQorI2VuZGlmIC8qIENPTkZJR19IWVBFUlYgKi8NCisNCisjaWZkZWYg
-Q09ORklHX0hZUEVSVl9UU0NQQUdFDQorZXh0ZXJuIHN0cnVjdCBtc19oeXBlcnZfdHNjX3BhZ2Ug
-Kmh2X2dldF90c2NfcGFnZSh2b2lkKTsNCitzdGF0aWMgaW5saW5lIHU2NCBodl9yZWFkX3RzY19w
-YWdlX3RzYyhjb25zdCBzdHJ1Y3QgbXNfaHlwZXJ2X3RzY19wYWdlICp0c2NfcGcsDQorCQkJCSAg
-ICAgICB1NjQgKmN1cl90c2MpDQorew0KKwl1NjQgc2NhbGUsIG9mZnNldDsNCisJdTMyIHNlcXVl
-bmNlOw0KKw0KKwkvKg0KKwkgKiBUaGUgcHJvdG9jb2wgZm9yIHJlYWRpbmcgSHlwZXItViBUU0Mg
-cGFnZSBpcyBzcGVjaWZpZWQgaW4gSHlwZXJ2aXNvcg0KKwkgKiBUb3AtTGV2ZWwgRnVuY3Rpb25h
-bCBTcGVjaWZpY2F0aW9uIHZlci4gMy4wIGFuZCBhYm92ZS4gVG8gZ2V0IHRoZQ0KKwkgKiByZWZl
-cmVuY2UgdGltZSB3ZSBtdXN0IGRvIHRoZSBmb2xsb3dpbmc6DQorCSAqIC0gUkVBRCBSZWZlcmVu
-Y2VUc2NTZXF1ZW5jZQ0KKwkgKiAgIEEgc3BlY2lhbCAnMCcgdmFsdWUgaW5kaWNhdGVzIHRoZSB0
-aW1lIHNvdXJjZSBpcyB1bnJlbGlhYmxlIGFuZCB3ZQ0KKwkgKiAgIG5lZWQgdG8gdXNlIHNvbWV0
-aGluZyBlbHNlLiBUaGUgY3VycmVudGx5IHB1Ymxpc2hlZCBzcGVjaWZpY2F0aW9uDQorCSAqICAg
-dmVyc2lvbnMgKHVwIHRvIDQuMGIpIGNvbnRhaW4gYSBtaXN0YWtlIGFuZCB3cm9uZ2x5IGNsYWlt
-ICctMScNCisJICogICBpbnN0ZWFkIG9mICcwJyBhcyB0aGUgc3BlY2lhbCB2YWx1ZSwgc2VlIGNv
-bW1pdCBjMzViODJlZjAyOTQuDQorCSAqIC0gUmVmZXJlbmNlVGltZSA9DQorCSAqICAgICAgICAo
-KFJEVFNDKCkgKiBSZWZlcmVuY2VUc2NTY2FsZSkgPj4gNjQpICsgUmVmZXJlbmNlVHNjT2Zmc2V0
-DQorCSAqIC0gUkVBRCBSZWZlcmVuY2VUc2NTZXF1ZW5jZSBhZ2Fpbi4gSW4gY2FzZSBpdHMgdmFs
-dWUgaGFzIGNoYW5nZWQNCisJICogICBzaW5jZSBvdXIgZmlyc3QgcmVhZGluZyB3ZSBuZWVkIHRv
-IGRpc2NhcmQgUmVmZXJlbmNlVGltZSBhbmQgcmVwZWF0DQorCSAqICAgdGhlIHdob2xlIHNlcXVl
-bmNlIGFzIHRoZSBoeXBlcnZpc29yIHdhcyB1cGRhdGluZyB0aGUgcGFnZSBpbg0KKwkgKiAgIGJl
-dHdlZW4uDQorCSAqLw0KKwlkbyB7DQorCQlzZXF1ZW5jZSA9IFJFQURfT05DRSh0c2NfcGctPnRz
-Y19zZXF1ZW5jZSk7DQorCQlpZiAoIXNlcXVlbmNlKQ0KKwkJCXJldHVybiBVNjRfTUFYOw0KKwkJ
-LyoNCisJCSAqIE1ha2Ugc3VyZSB3ZSByZWFkIHNlcXVlbmNlIGJlZm9yZSB3ZSByZWFkIG90aGVy
-IHZhbHVlcyBmcm9tDQorCQkgKiBUU0MgcGFnZS4NCisJCSAqLw0KKwkJc21wX3JtYigpOw0KKw0K
-KwkJc2NhbGUgPSBSRUFEX09OQ0UodHNjX3BnLT50c2Nfc2NhbGUpOw0KKwkJb2Zmc2V0ID0gUkVB
-RF9PTkNFKHRzY19wZy0+dHNjX29mZnNldCk7DQorCQkqY3VyX3RzYyA9IGh2X2dldF9yYXdfdGlt
-ZXIoKTsNCisNCisJCS8qDQorCQkgKiBNYWtlIHN1cmUgd2UgcmVhZCBzZXF1ZW5jZSBhZnRlciB3
-ZSByZWFkIGFsbCBvdGhlciB2YWx1ZXMNCisJCSAqIGZyb20gVFNDIHBhZ2UuDQorCQkgKi8NCisJ
-CXNtcF9ybWIoKTsNCisNCisJfSB3aGlsZSAoUkVBRF9PTkNFKHRzY19wZy0+dHNjX3NlcXVlbmNl
-KSAhPSBzZXF1ZW5jZSk7DQorDQorCXJldHVybiBtdWxfdTY0X3U2NF9zaHIoKmN1cl90c2MsIHNj
-YWxlLCA2NCkgKyBvZmZzZXQ7DQorfQ0KKw0KK3N0YXRpYyBpbmxpbmUgdTY0IGh2X3JlYWRfdHNj
-X3BhZ2UoY29uc3Qgc3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqdHNjX3BnKQ0KK3sNCisJdTY0
-IGN1cl90c2M7DQorDQorCXJldHVybiBodl9yZWFkX3RzY19wYWdlX3RzYyh0c2NfcGcsICZjdXJf
-dHNjKTsNCit9DQorDQorI2Vsc2UgLyogQ09ORklHX0hZUEVSVl9UU0NfUEFHRSAqLw0KK3N0YXRp
-YyBpbmxpbmUgc3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqaHZfZ2V0X3RzY19wYWdlKHZvaWQp
-DQorew0KKwlyZXR1cm4gTlVMTDsNCit9DQorDQorc3RhdGljIGlubGluZSB1NjQgaHZfcmVhZF90
-c2NfcGFnZV90c2MoY29uc3Qgc3RydWN0IG1zX2h5cGVydl90c2NfcGFnZSAqdHNjX3BnLA0KKwkJ
-CQkgICAgICAgdTY0ICpjdXJfdHNjKQ0KK3sNCisJcmV0dXJuIFU2NF9NQVg7DQorfQ0KKyNlbmRp
-ZiAvKiBDT05GSUdfSFlQRVJWX1RTQ1BBR0UgKi8NCisNCiAjZW5kaWYNCi0tIA0KMS44LjMuMQ0K
-DQo=
+There are two methods for signaling the host: the monitor page mechanism
+and hypercalls. The monitor page mechanism is used by performance
+critical channels (storage, networking, etc.) because it provides
+improved throughput. However, latency is increased. Monitor pages are
+allocated to these channels.
+
+Monitor pages are not allocated to channels that do not use the monitor
+page mechanism. Therefore, these channels do not have a valid monitor id
+or valid monitor page data. In these cases, some of the "_show"
+functions return incorrect data. They return an invalid monitor id and
+data that is beyond the bounds of the hv_monitor_page array fields.
+
+The "channel->offermsg.monitor_allocated" value can be used to determine
+whether monitor pages have been allocated to a channel.
+
+Add "is_visible()" callback functions for the device-level and
+channel-level attribute groups. These functions will hide the monitor
+sysfs files when the monitor mechanism is not used.
+
+Remove ".default_attributes" from "vmbus_chan_attrs" and create a
+channel-level attribute group. These changes allow the new
+"is_visible()" callback function to be applied to the channel-level
+attributes.
+
+Call "sysfs_create_group()" in "vmbus_add_channel_kobj()" to create the
+channel's sysfs files. Add a new function,
+“vmbus_remove_channel_attr_group()”, and call it in "free_channel()" to
+remove the channel's sysfs files when the channel is closed.
+
+Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
+---
+
+Changes in v6:
+ - Removed the “sysfs_group_ready” flag proposed in v5. The flag was
+   used to verify that the attribute group was created, which is
+   unnecessary; sysfs_remove_group() can be called even when
+   sysfs_create_group() fails.
+ - Replaced pr_err() with dev_err() as suggested by G. Kroah-Hartman.
+ - Shortened the error path comment in vmbus_add_channel_kobj().
+ - Updated the commit message.
+
+Changes in v5:
+ - Added the “bool sysfs_group_ready” field to vmbus_channel.
+ - Added the “vmbus_remove_channel_attr_group()” function which calls
+   "sysfs_remove_group()".
+ - Added a comment to "vmbus_add_channel_kobj()" to describe how the
+   empty directory is removed if "sysfs_create_group()" returns an
+   error.
+ - Updated the commit message.
+
+NOTE: “.default_attrs” must be removed from vmbus_chan_ktype in order to
+use the is_visible() function because "default_attrs" is an array of
+attributes, not an attribute_group.
+
+Changes in v4:
+ - Added “is_visible()” callback functions for the device-level and
+   channel-level attribute groups.
+ - Removed the separate monitor attribute groups proposed in v3. They’re
+   no longer needed because the “is_visible()” callbacks are used to
+   determine the attribute visibility.
+ - Removed "default_attributes" from "vmbus_chan_attrs" and created a
+   channel-level attribute group.
+ - Removed the "kobject_put(kobj)" call proposed in v3. The calling
+   functions take care of calling "kobject_put(channel->kobj)" if an
+   error is returned by "vmbus_add_channel_kobj()".
+ - Updated the commit message and subject for clarity and to reflect the
+   new changes in v4.
+
+Changes in v3:
+ - The monitor "_show" functions no longer return an error when a
+   channel does not use the monitor page mechanism. Instead, the monitor
+   page sysfs files are created only when a channel uses the monitor
+   page mechanism. This change was suggested by G. Kroah-Hartman.
+
+Note: this patch was originally patch 2/2 in a patchset. Patch 1/2 has
+already been added to char-misc-testing, so I'm not resending it.
+
+Changes in v2:
+ - Changed the return value for cases where monitor_allocated is not set
+   to "-EINVAL".
+ - Updated the commit message to provide more details about the monitor
+   page mechanism.
+ - Updated the sysfs documentation to describe the new return value.
+
+
+Documentation/ABI/stable/sysfs-bus-vmbus | 12 +++-
+ drivers/hv/channel_mgmt.c                |  1 +
+ drivers/hv/hyperv_vmbus.h                |  2 +
+ drivers/hv/vmbus_drv.c                   | 77 +++++++++++++++++++++++-
+ 4 files changed, 87 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/ABI/stable/sysfs-bus-vmbus b/Documentation/ABI/stable/sysfs-bus-vmbus
+index 826689dcc2e6..8e8d167eca31 100644
+--- a/Documentation/ABI/stable/sysfs-bus-vmbus
++++ b/Documentation/ABI/stable/sysfs-bus-vmbus
+@@ -81,7 +81,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/latency
+ Date:		September. 2017
+ KernelVersion:	4.14
+ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
+-Description:	Channel signaling latency
++Description:	Channel signaling latency. This file is available only for
++		performance critical channels (storage, network, etc.) that use
++		the monitor page mechanism.
+ Users:		Debugging tools
+ 
+ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/out_mask
+@@ -95,7 +97,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/pending
+ Date:		September. 2017
+ KernelVersion:	4.14
+ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
+-Description:	Channel interrupt pending state
++Description:	Channel interrupt pending state. This file is available only for
++		performance critical channels (storage, network, etc.) that use
++		the monitor page mechanism.
+ Users:		Debugging tools
+ 
+ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/read_avail
+@@ -137,7 +141,9 @@ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/monitor_id
+ Date:		January. 2018
+ KernelVersion:	4.16
+ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
+-Description:	Monitor bit associated with channel
++Description:	Monitor bit associated with channel. This file is available only
++		for performance critical channels (storage, network, etc.) that
++		use the monitor page mechanism.
+ Users:		Debugging tools and userspace drivers
+ 
+ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>/ring
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index f174b38f390f..3fc0b247a807 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -347,6 +347,7 @@ static struct vmbus_channel *alloc_channel(void)
+ static void free_channel(struct vmbus_channel *channel)
+ {
+ 	tasklet_kill(&channel->callback_event);
++	vmbus_remove_channel_attr_group(channel);
+ 
+ 	kobject_put(&channel->kobj);
+ }
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 50fabf4dcb75..e5467b821f41 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -322,6 +322,8 @@ void vmbus_device_unregister(struct hv_device *device_obj);
+ int vmbus_add_channel_kobj(struct hv_device *device_obj,
+ 			   struct vmbus_channel *channel);
+ 
++void vmbus_remove_channel_attr_group(struct vmbus_channel *channel);
++
+ struct vmbus_channel *relid2channel(u32 relid);
+ 
+ void vmbus_free_channels(void);
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 41f782af73ea..aa25f3bcbdea 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -630,7 +630,36 @@ static struct attribute *vmbus_dev_attrs[] = {
+ 	&dev_attr_driver_override.attr,
+ 	NULL,
+ };
+-ATTRIBUTE_GROUPS(vmbus_dev);
++
++/*
++ * Device-level attribute_group callback function. Returns the permission for
++ * each attribute, and returns 0 if an attribute is not visible.
++ */
++static umode_t vmbus_dev_attr_is_visible(struct kobject *kobj,
++					 struct attribute *attr, int idx)
++{
++	struct device *dev = kobj_to_dev(kobj);
++	const struct hv_device *hv_dev = device_to_hv_device(dev);
++
++	/* Hide the monitor attributes if the monitor mechanism is not used. */
++	if (!hv_dev->channel->offermsg.monitor_allocated &&
++	    (attr == &dev_attr_monitor_id.attr ||
++	     attr == &dev_attr_server_monitor_pending.attr ||
++	     attr == &dev_attr_client_monitor_pending.attr ||
++	     attr == &dev_attr_server_monitor_latency.attr ||
++	     attr == &dev_attr_client_monitor_latency.attr ||
++	     attr == &dev_attr_server_monitor_conn_id.attr ||
++	     attr == &dev_attr_client_monitor_conn_id.attr))
++		return 0;
++
++	return attr->mode;
++}
++
++static const struct attribute_group vmbus_dev_group = {
++	.attrs = vmbus_dev_attrs,
++	.is_visible = vmbus_dev_attr_is_visible
++};
++__ATTRIBUTE_GROUPS(vmbus_dev);
+ 
+ /*
+  * vmbus_uevent - add uevent for our device
+@@ -1583,10 +1612,34 @@ static struct attribute *vmbus_chan_attrs[] = {
+ 	NULL
+ };
+ 
++/*
++ * Channel-level attribute_group callback function. Returns the permission for
++ * each attribute, and returns 0 if an attribute is not visible.
++ */
++static umode_t vmbus_chan_attr_is_visible(struct kobject *kobj,
++					  struct attribute *attr, int idx)
++{
++	const struct vmbus_channel *channel =
++		container_of(kobj, struct vmbus_channel, kobj);
++
++	/* Hide the monitor attributes if the monitor mechanism is not used. */
++	if (!channel->offermsg.monitor_allocated &&
++	    (attr == &chan_attr_pending.attr ||
++	     attr == &chan_attr_latency.attr ||
++	     attr == &chan_attr_monitor_id.attr))
++		return 0;
++
++	return attr->mode;
++}
++
++static struct attribute_group vmbus_chan_group = {
++	.attrs = vmbus_chan_attrs,
++	.is_visible = vmbus_chan_attr_is_visible
++};
++
+ static struct kobj_type vmbus_chan_ktype = {
+ 	.sysfs_ops = &vmbus_chan_sysfs_ops,
+ 	.release = vmbus_chan_release,
+-	.default_attrs = vmbus_chan_attrs,
+ };
+ 
+ /*
+@@ -1594,6 +1647,7 @@ static struct kobj_type vmbus_chan_ktype = {
+  */
+ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
+ {
++	const struct device *device = &dev->device;
+ 	struct kobject *kobj = &channel->kobj;
+ 	u32 relid = channel->offermsg.child_relid;
+ 	int ret;
+@@ -1604,11 +1658,30 @@ int vmbus_add_channel_kobj(struct hv_device *dev, struct vmbus_channel *channel)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = sysfs_create_group(kobj, &vmbus_chan_group);
++
++	if (ret) {
++		/*
++		 * The calling functions' error handling paths will cleanup the
++		 * empty channel directory.
++		 */
++		dev_err(device, "Unable to set up channel sysfs files\n");
++		return ret;
++	}
++
+ 	kobject_uevent(kobj, KOBJ_ADD);
+ 
+ 	return 0;
+ }
+ 
++/*
++ * vmbus_remove_channel_attr_group - remove the channel's attribute group
++ */
++void vmbus_remove_channel_attr_group(struct vmbus_channel *channel)
++{
++	sysfs_remove_group(&channel->kobj, &vmbus_chan_group);
++}
++
+ /*
+  * vmbus_device_create - Creates and registers a new child device
+  * on the vmbus.
+-- 
+2.17.1
+
