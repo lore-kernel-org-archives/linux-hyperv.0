@@ -2,115 +2,124 @@ Return-Path: <SRS0=DxZm=RX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73CC9C43381
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 15:50:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2FF8C43381
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 20:06:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4369C2175B
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 15:50:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B645121841
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 20:06:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="Bv+2fjNr";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="TRz00Ypf"
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="JfVC2UZ3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727117AbfCTPu3 (ORCPT
+        id S1727140AbfCTUGX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Mar 2019 11:50:29 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:33406 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbfCTPu1 (ORCPT
+        Wed, 20 Mar 2019 16:06:23 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42525 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbfCTUGX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Mar 2019 11:50:27 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 59FD0607C3; Wed, 20 Mar 2019 15:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1553097025;
-        bh=eJcfw1KaXjciYxRLIgRlNwUK0l3sz2sP031q6+VXl+w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Bv+2fjNrmyoVBVxlUuwV2h5D58RVnF7k6+226vKYNYJPzeWHLic/boYk7j9P7bfx7
-         NvwsvXvzTOwx5KdMT22ZTqmqxii3kO11XH5VCO4U/G1jhF66WWlyE1SecypAIV0UkR
-         Ws3yZb9gwqyeXdWSKV7AiEQelq9JmfqRC9gPQXNc=
-Received: from [10.204.79.83] (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: mojha@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E0888606DB;
-        Wed, 20 Mar 2019 15:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1553097024;
-        bh=eJcfw1KaXjciYxRLIgRlNwUK0l3sz2sP031q6+VXl+w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=TRz00YpfzggTbp1D5x/z3TB5ylRbw6wzo+vTNrAFJW4YApo87tB+coa5du2g6Fo1a
-         7rOjBV5hrb9GH52falFQacSrJKCZcTpm2RN7Go9brO50kCpgo/cSoPteN241zOMtge
-         LcUutYLysRdZ7jb7fgGwuZ/yz7xN++pqOz5TkLQA=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E0888606DB
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=mojha@codeaurora.org
-Subject: Re: [PATCH] hyperv: a potential NULL pointer dereference
-To:     Kangjie Lu <kjlu@umn.edu>
-Cc:     pakki001@umn.edu, "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wed, 20 Mar 2019 16:06:23 -0400
+Received: by mail-pf1-f193.google.com with SMTP id r15so2687125pfn.9
+        for <linux-hyperv@vger.kernel.org>; Wed, 20 Mar 2019 13:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xdDPEIia79uGc35RkRI3ur8MSsWm0kMcfVaI5TTx+RA=;
+        b=JfVC2UZ3idGczEJfuKhFb6uueH8DsRD90IWXap15PjjPUEQ/wGnAhKyQm4trxg6KZ/
+         6Zgwl+ch6gTyuGc9qGkFeFl93J1D+d+wAmZW+Ho4YNhe2b5T0y7tHQH3DBkWQ6fJbA2C
+         0n4dFne4HxAKBDrv5Cufv5ZAKWx0ELuAIhkWZFcAstSPUoi2yWMwhax1MIS77KfgkLej
+         UW/pWfnIfUGQ5YxSUBjtrkng1yrESMvw4Z1B0IdgLC43X/mACMGliwnJdRJcIRttlF1o
+         cfwYF5Fg4oq9FojaMoOARf7XoHxM+qkS3fe4rATMrX3dIZUTsPM/muRnrSaxajvEUISJ
+         8g8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xdDPEIia79uGc35RkRI3ur8MSsWm0kMcfVaI5TTx+RA=;
+        b=F2pvMaLqWPHlKJCYlmRaGDPg3OyaA3YBmK4RaNraH/XQYS9JFCjeMNztuDF8vrWWf2
+         IIctIPJ32Tl1JWqAE2R397YXJsCTNsVlXNyVDEXqXVntkA17nwwV2iwmmOidG9vB2vJc
+         eZDxxWKHEYXdO43jXZZ5+MKHiILtNysbSArBdt65rFTLU7gN5xq+h3FbwwU+juPnE1V6
+         +r+I3VdpPvT9EBbXvaC6Gy008r/J6p0Vrnl/5z6pxAA0pjEX8GYNiXFLeCG0BaKvfPcs
+         SnkefninuBFvp4PFqCmNkR697jEUL2afPWqWk2n3IoB0tC5yZveTc5vs9lVSawHHObtK
+         FyKA==
+X-Gm-Message-State: APjAAAW/+dEfrPcCwBBjCqpK/9/hk4jpqF8TPMxQ8BPhjMS2HcR9RpKa
+        OPsqIecOQxDEk80VIuPZ4gq4Fg==
+X-Google-Smtp-Source: APXvYqzVedx5gZe6dfDZ+RS3y+wJAKBZ1Y145g8sZk5aggQU82ObyiBMnLWSTbtOXiv/TNQWDIrGSA==
+X-Received: by 2002:a65:6483:: with SMTP id e3mr9477237pgv.273.1553112382216;
+        Wed, 20 Mar 2019 13:06:22 -0700 (PDT)
+Received: from shemminger-XPS-13-9360 (204-195-22-127.wavecable.com. [204.195.22.127])
+        by smtp.gmail.com with ESMTPSA id g67sm7237602pfg.13.2019.03.20.13.06.21
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 20 Mar 2019 13:06:22 -0700 (PDT)
+Date:   Wed, 20 Mar 2019 13:06:19 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Kimberly Brown <kimbrownkd@gmail.com>
+Cc:     Michael Kelley <mikelley@microsoft.com>,
+        Long Li <longli@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        Dexuan Cui <decui@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190314054651.1315-1-kjlu@umn.edu>
-From:   Mukesh Ojha <mojha@codeaurora.org>
-Message-ID: <24cbb2df-6510-2ed8-deca-670ea934db68@codeaurora.org>
-Date:   Wed, 20 Mar 2019 21:20:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+Subject: Re: [PATCH v3 3/3] Drivers: hv: vmbus: Fix race condition with new
+ ring_buffer_info mutex
+Message-ID: <20190320130619.07e49c97@shemminger-XPS-13-9360>
+In-Reply-To: <20190317014927.GA60356@ubu-Virtual-Machine>
+References: <cover.1550806305.git.kimbrownkd@gmail.com>
+        <cover.1552592620.git.kimbrownkd@gmail.com>
+        <262046fa9e89d5f483ecd5972d86f4f9608dbcc3.1552592620.git.kimbrownkd@gmail.com>
+        <20190314154533.17c8a362@shemminger-XPS-13-9360>
+        <20190317014927.GA60356@ubu-Virtual-Machine>
 MIME-Version: 1.0
-In-Reply-To: <20190314054651.1315-1-kjlu@umn.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+On Sat, 16 Mar 2019 21:49:28 -0400
+Kimberly Brown <kimbrownkd@gmail.com> wrote:
 
-On 3/14/2019 11:16 AM, Kangjie Lu wrote:
-> In case alloc_page, the fix returns -ENOMEM to avoid the potential
-> NULL pointer dereference.
->
-> Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-> ---
->   arch/x86/hyperv/hv_init.c | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index 7abb09e2eeb8..dfdb4ce1ae9c 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -102,9 +102,13 @@ static int hv_cpu_init(unsigned int cpu)
->   	u64 msr_vp_index;
->   	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
->   	void **input_arg;
-> +	struct page *pg;
->   
->   	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
-> -	*input_arg = page_address(alloc_page(GFP_KERNEL));
-> +	pg = alloc_page(GFP_KERNEL);
-> +	if (unlikely(!pg))
-> +		return -ENOMEM;
-> +	*input_arg = page_address(pg);
->   
->   	hv_get_vp_index(msr_vp_index);
+> On Thu, Mar 14, 2019 at 03:45:33PM -0700, Stephen Hemminger wrote:
+> > On Thu, 14 Mar 2019 13:05:15 -0700
+> > "Kimberly Brown" <kimbrownkd@gmail.com> wrote:
+> >   
+> > > Fix a race condition that can result in a ring buffer pointer being set
+> > > to null while a "_show" function is reading the ring buffer's data. This
+> > > problem was discussed here:
+> > > https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Flkml.org
+> > > %2Flkml%2F2018%2F10%2F18%2F779&amp;data=02%7C01%7Csthemmin%40microsoft.com
+> > > %7C1d7557d667b741bdbb6008d6a8b8620f%7C72f988bf86f141af91ab2d7cd011db47%7C1
+> > > %7C0%7C636881907217609564&amp;sdata=1bUbLaxsODANM7lCBR8lxyYajNpufuwUW%2FOl
+> > > vtGu2hU%3D&amp;reserved=0
+> > > 
+> > > To fix the race condition, add a new mutex lock to the
+> > > "hv_ring_buffer_info" struct. Add a new function,
+> > > "hv_ringbuffer_pre_init()", where a channel's inbound and outbound
+> > > ring_buffer_info mutex locks are initialized.
+> > >
+> > >  ... snip ...    
+> > 
+> > Adding more locks will solve the problem but it seems like overkill.
+> > Why not either use a reference count or an RCU style access for the
+> > ring buffer?  
+> 
+> I agree that a reference count or RCU could also solve this problem.
+> Using mutex locks seemed like the most straightforward solution, but
+> I'll certainly switch to a different approach if it's better!
+> 
+> Are you concerned about the extra memory required for the mutex locks,
+> read performance, or something else?
 
+Locks in control path are ok, but my concern is performance of the
+data path which puts packets in/out of rings. To keep reasonable performance,
+no additional locking should be added in those paths.
 
-
-Looks good to me.
-Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
-
-
-Thanks.
-Mukesh
-
-
->   
+So if data path is using RCU, can/should the control operations also
+use it?
