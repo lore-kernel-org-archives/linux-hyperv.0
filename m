@@ -6,55 +6,63 @@ X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02354C43381
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 20:18:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56FE7C43381
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 21:37:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BAAE921873
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 20:18:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0696F218AE
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Mar 2019 21:37:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="FYm6Ljdk"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="hxrl7QjY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbfCTUSp (ORCPT
+        id S1727383AbfCTVhy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Mar 2019 16:18:45 -0400
-Received: from mail-eopbgr690101.outbound.protection.outlook.com ([40.107.69.101]:15746
-        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
+        Wed, 20 Mar 2019 17:37:54 -0400
+Received: from mail-eopbgr770131.outbound.protection.outlook.com ([40.107.77.131]:20558
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726006AbfCTUSp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Mar 2019 16:18:45 -0400
+        id S1727381AbfCTVhy (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 20 Mar 2019 17:37:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CNzdCBRI9SINYOxsdlHWR5H1QNSsHqLu1BfZAHq59f4=;
- b=FYm6Ljdkj8FxR40sA8JSs0ul0gouyV8jhH7ojkH1/MgQeHmPz7+2ecAIPjnW0HLt1Is9T4X1XUEnaxpDUByWG7tv57PWy397zUPkn9xgWIKp9gjqQxk+5jxCqAH0lrVqJlzlSZq+Ck9WFEKz4/wOVFLs94yYAyvulkFdbTEEMW8=
+ bh=72O19RTsI1ctsnsQ5beIAK5lCvWm+ee/hJdcjd5NDQc=;
+ b=hxrl7QjYZnTubCAqaRp/8p++nSkpCbcO8JEPNOEu1p+0l75FugGnEYztcOZv7KCijYbr8ifYVk1hnI6CyJE2P6rIm6KfSD3qp94mKDPrW1EcMlSHq2V806HwmoapjuL6YShGryIgSZKC4OS+Ags4YoaaQTOiflD7Ma+GKgjiffI=
 Received: from DM5PR2101MB0918.namprd21.prod.outlook.com (52.132.132.163) by
- DM5PR2101MB1093.namprd21.prod.outlook.com (52.132.130.15) with Microsoft SMTP
+ DM5PR2101MB0967.namprd21.prod.outlook.com (52.132.133.25) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1750.5; Wed, 20 Mar 2019 20:18:41 +0000
+ 15.20.1750.5; Wed, 20 Mar 2019 21:37:50 +0000
 Received: from DM5PR2101MB0918.namprd21.prod.outlook.com
  ([fe80::c92a:a5e0:ee92:5f6]) by DM5PR2101MB0918.namprd21.prod.outlook.com
  ([fe80::c92a:a5e0:ee92:5f6%5]) with mapi id 15.20.1730.008; Wed, 20 Mar 2019
- 20:18:41 +0000
+ 21:37:50 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
-To:     kimbrownkd <kimbrownkd@gmail.com>, Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
+To:     Dexuan Cui <decui@microsoft.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-CC:     KY Srinivasan <kys@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>
+CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "driverdev-devel@linuxdriverproject.org" 
+        <driverdev-devel@linuxdriverproject.org>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v6] Drivers: hv: vmbus: Expose monitor data only when
- monitor pages are used
-Thread-Topic: [PATCH v6] Drivers: hv: vmbus: Expose monitor data only when
- monitor pages are used
-Thread-Index: AQHU3gjNNES1C2iNXEige4oL1t6+MaYU99WA
-Date:   Wed, 20 Mar 2019 20:18:41 +0000
-Message-ID: <DM5PR2101MB0918806B98B074BCEA1889DED7410@DM5PR2101MB0918.namprd21.prod.outlook.com>
-References: <20190308224611.GA3047@ubu-Virtual-Machine>
- <20190319040401.GA3050@ubu-Virtual-Machine>
-In-Reply-To: <20190319040401.GA3050@ubu-Virtual-Machine>
+        "olaf@aepfle.de" <olaf@aepfle.de>,
+        "apw@canonical.com" <apw@canonical.com>,
+        "jasowang@redhat.com" <jasowang@redhat.com>,
+        vkuznets <vkuznets@redhat.com>,
+        "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>,
+        "jackm@mellanox.com" <jackm@mellanox.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
+Thread-Topic: [PATCH 1/3] PCI: hv: Fix a memory leak in hv_eject_device_work()
+Thread-Index: AQHU0tIYcblOk9ffn0yRsYTt0Z4pWaYVIKsQ
+Date:   Wed, 20 Mar 2019 21:37:49 +0000
+Message-ID: <DM5PR2101MB0918F6A089C461EEA4457998D7410@DM5PR2101MB0918.namprd21.prod.outlook.com>
+References: <20190304213357.16652-1-decui@microsoft.com>
+ <20190304213357.16652-2-decui@microsoft.com>
+In-Reply-To: <20190304213357.16652-2-decui@microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -62,73 +70,99 @@ X-MS-TNEF-Correlator:
 msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-03-20T20:18:38.7027304Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-03-20T21:37:46.2345424Z;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
  Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=ff6591b4-d5d6-44a7-b37a-74063e763a43;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=e434203d-b77d-43fb-8540-83db36fb089c;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
 x-originating-ip: [24.22.167.197]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bcfb2474-13b9-43d0-6e81-08d6ad713ed1
+x-ms-office365-filtering-correlation-id: 1b897d5c-575a-4146-da8d-08d6ad7c4d1c
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DM5PR2101MB1093;
-x-ms-traffictypediagnostic: DM5PR2101MB1093:
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DM5PR2101MB0967;
+x-ms-traffictypediagnostic: DM5PR2101MB0967:
 x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <DM5PR2101MB10930DD59BF24B10765E2588D7410@DM5PR2101MB1093.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-microsoft-antispam-prvs: <DM5PR2101MB096737ED8E6B152B3A1F2DFFD7410@DM5PR2101MB0967.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 098291215C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(376002)(346002)(136003)(366004)(39860400002)(189003)(199004)(33656002)(81166006)(76176011)(14454004)(5660300002)(66066001)(14444005)(6506007)(256004)(81156014)(7696005)(99286004)(8936002)(26005)(186003)(2906002)(10290500003)(52536014)(6116002)(6346003)(478600001)(7736002)(102836004)(305945005)(3846002)(68736007)(74316002)(86362001)(6436002)(11346002)(10090500001)(86612001)(4326008)(476003)(486006)(229853002)(53936002)(105586002)(6246003)(316002)(54906003)(55016002)(71200400001)(106356001)(8676002)(25786009)(9686003)(71190400001)(446003)(97736004)(22452003)(8990500004)(1511001)(110136005);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB1093;H:DM5PR2101MB0918.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(366004)(376002)(346002)(136003)(396003)(199004)(189003)(486006)(99286004)(446003)(2906002)(33656002)(8936002)(6116002)(10090500001)(3846002)(476003)(22452003)(6636002)(105586002)(478600001)(316002)(2501003)(66066001)(256004)(11346002)(106356001)(1511001)(110136005)(54906003)(305945005)(7736002)(6246003)(74316002)(186003)(4326008)(26005)(14454004)(2201001)(71190400001)(71200400001)(7416002)(25786009)(6436002)(55016002)(81156014)(81166006)(52536014)(8676002)(9686003)(53936002)(5660300002)(86612001)(97736004)(76176011)(86362001)(8990500004)(6506007)(102836004)(6346003)(68736007)(10290500003)(229853002)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0967;H:DM5PR2101MB0918.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=mikelley@microsoft.com; 
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: piz7qVrfrCZzrhvEN8K5sJUx96yKCGqOtJVHjWtpQEh09cyegNAmsFlmJ5JV/G2qUuL0blarY4DyxPzUhwJ2hP3c5GwWhBLITaDeFjJTxbkLiLgDbCIpzKd7/lEBSB1cGRbkA14JvaFAqIS4ejsHR3302ANzQWWZmX4guZ6wXjaRPeKWyug+SLhm+06/JFlHL8LkqKK7jaIcy9cqrqFAm5E03EFwDI00NiurQDFbY2/KJVbfx2/ZlcsFHR76xlFoMchSUycywZouYsa28K/q2UJ/f9GZCs53DbHOfTSC4CYVhSftH1+AE7WfYdUOxVnIS3xNCpqlZ+UeFUPchaIH6fkXgsdoeesg5ek2y8B4G61y77tWRX0o/GDam79ieSU6mYdtPVqkgExKKjdBM8+VfYgilvULG01KbpJi+Ftmvsc=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: B0iAlPyXXcXlWe6h6Y6uOf/jcE4EeWaMof0wXHRcDcnpSmeznxI0CMI//0bJCNS53S/xzz7VLBaXBqe794Q254bNVxyG9BdO+keAT+YB2LG6VMbIyDL4j5WyF6OMS83BqPhZWWzuUsr4fGrxSolUffmN3TALTOeBvMEeS8aztiRSpDlwqKLbDYqZJivIF9uQ6oGzz7Vq13E1/b3fbbMSz6QLF0I/BNCmDigpBVDOPpbP8XN1xf+gLlfb6B0tNSP4tGVRVq5iS5RGFcFOJUToHnAtgTLA+qbDJXX4d0EmOKUG/Pvet3K79bcITh0OA19o/8MhvIxcCVzGYTScqWNHAEjPYaxdVGkjyXVyzSVIOJ2WaFKyTvYQsf13Npj8DR7QyppD6wkOSenIvSCwHkIDUBloQd4LJ3OHPn9tPjoE1VI=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcfb2474-13b9-43d0-6e81-08d6ad713ed1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2019 20:18:41.4537
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b897d5c-575a-4146-da8d-08d6ad7c4d1c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2019 21:37:49.3704
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB1093
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0967
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-RnJvbTogS2ltYmVybHkgQnJvd24gPGtpbWJyb3dua2RAZ21haWwuY29tPiBTZW50OiBNb25kYXks
-IE1hcmNoIDE4LCAyMDE5IDk6MDQgUE0NCj4gDQo+IFRoZXJlIGFyZSB0d28gbWV0aG9kcyBmb3Ig
-c2lnbmFsaW5nIHRoZSBob3N0OiB0aGUgbW9uaXRvciBwYWdlIG1lY2hhbmlzbQ0KPiBhbmQgaHlw
-ZXJjYWxscy4gVGhlIG1vbml0b3IgcGFnZSBtZWNoYW5pc20gaXMgdXNlZCBieSBwZXJmb3JtYW5j
-ZQ0KPiBjcml0aWNhbCBjaGFubmVscyAoc3RvcmFnZSwgbmV0d29ya2luZywgZXRjLikgYmVjYXVz
-ZSBpdCBwcm92aWRlcw0KPiBpbXByb3ZlZCB0aHJvdWdocHV0LiBIb3dldmVyLCBsYXRlbmN5IGlz
-IGluY3JlYXNlZC4gTW9uaXRvciBwYWdlcyBhcmUNCj4gYWxsb2NhdGVkIHRvIHRoZXNlIGNoYW5u
-ZWxzLg0KPiANCj4gTW9uaXRvciBwYWdlcyBhcmUgbm90IGFsbG9jYXRlZCB0byBjaGFubmVscyB0
-aGF0IGRvIG5vdCB1c2UgdGhlIG1vbml0b3INCj4gcGFnZSBtZWNoYW5pc20uIFRoZXJlZm9yZSwg
-dGhlc2UgY2hhbm5lbHMgZG8gbm90IGhhdmUgYSB2YWxpZCBtb25pdG9yIGlkDQo+IG9yIHZhbGlk
-IG1vbml0b3IgcGFnZSBkYXRhLiBJbiB0aGVzZSBjYXNlcywgc29tZSBvZiB0aGUgIl9zaG93Ig0K
-PiBmdW5jdGlvbnMgcmV0dXJuIGluY29ycmVjdCBkYXRhLiBUaGV5IHJldHVybiBhbiBpbnZhbGlk
-IG1vbml0b3IgaWQgYW5kDQo+IGRhdGEgdGhhdCBpcyBiZXlvbmQgdGhlIGJvdW5kcyBvZiB0aGUg
-aHZfbW9uaXRvcl9wYWdlIGFycmF5IGZpZWxkcy4NCj4gDQo+IFRoZSAiY2hhbm5lbC0+b2ZmZXJt
-c2cubW9uaXRvcl9hbGxvY2F0ZWQiIHZhbHVlIGNhbiBiZSB1c2VkIHRvIGRldGVybWluZQ0KPiB3
-aGV0aGVyIG1vbml0b3IgcGFnZXMgaGF2ZSBiZWVuIGFsbG9jYXRlZCB0byBhIGNoYW5uZWwuDQo+
-IA0KPiBBZGQgImlzX3Zpc2libGUoKSIgY2FsbGJhY2sgZnVuY3Rpb25zIGZvciB0aGUgZGV2aWNl
-LWxldmVsIGFuZA0KPiBjaGFubmVsLWxldmVsIGF0dHJpYnV0ZSBncm91cHMuIFRoZXNlIGZ1bmN0
-aW9ucyB3aWxsIGhpZGUgdGhlIG1vbml0b3INCj4gc3lzZnMgZmlsZXMgd2hlbiB0aGUgbW9uaXRv
-ciBtZWNoYW5pc20gaXMgbm90IHVzZWQuDQo+IA0KPiBSZW1vdmUgIi5kZWZhdWx0X2F0dHJpYnV0
-ZXMiIGZyb20gInZtYnVzX2NoYW5fYXR0cnMiIGFuZCBjcmVhdGUgYQ0KPiBjaGFubmVsLWxldmVs
-IGF0dHJpYnV0ZSBncm91cC4gVGhlc2UgY2hhbmdlcyBhbGxvdyB0aGUgbmV3DQo+ICJpc192aXNp
-YmxlKCkiIGNhbGxiYWNrIGZ1bmN0aW9uIHRvIGJlIGFwcGxpZWQgdG8gdGhlIGNoYW5uZWwtbGV2
-ZWwNCj4gYXR0cmlidXRlcy4NCj4gDQo+IENhbGwgInN5c2ZzX2NyZWF0ZV9ncm91cCgpIiBpbiAi
-dm1idXNfYWRkX2NoYW5uZWxfa29iaigpIiB0byBjcmVhdGUgdGhlDQo+IGNoYW5uZWwncyBzeXNm
-cyBmaWxlcy4gQWRkIGEgbmV3IGZ1bmN0aW9uLA0KPiDigJx2bWJ1c19yZW1vdmVfY2hhbm5lbF9h
-dHRyX2dyb3VwKCnigJ0sIGFuZCBjYWxsIGl0IGluICJmcmVlX2NoYW5uZWwoKSIgdG8NCj4gcmVt
-b3ZlIHRoZSBjaGFubmVsJ3Mgc3lzZnMgZmlsZXMgd2hlbiB0aGUgY2hhbm5lbCBpcyBjbG9zZWQu
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLaW1iZXJseSBCcm93biA8a2ltYnJvd25rZEBnbWFpbC5j
-b20+DQoNClJldmlld2VkLWJ5OiBNaWNoYWVsIEtlbGxleSA8bWlrZWxsZXlAbWljcm9zb2Z0LmNv
-bT4NCg==
+From: Dexuan Cui <decui@microsoft.com>
+>
+> After a device is just created in new_pcichild_device(), hpdev->refs is s=
+et
+> to 2 (i.e. the initial value of 1 plus the get_pcichild()).
+>=20
+> When we hot remove the device from the host, in Linux VM we first call
+> hv_pci_eject_device(), which increases hpdev->refs by get_pcichild() and
+> then schedules a work of hv_eject_device_work(), so hpdev->refs becomes 3
+> (let's ignore the paired get/put_pcichild() in other places). But in
+> hv_eject_device_work(), currently we only call put_pcichild() twice,
+> meaning the 'hpdev' struct can't be freed in put_pcichild(). This patch
+> adds one put_pcichild() to fix the memory leak.
+>=20
+> BTW, the device can also be removed when we run "rmmod pci-hyperv". On th=
+is
+> path (hv_pci_remove() -> hv_pci_bus_exit() -> hv_pci_devices_present()),
+> hpdev->refs is 2, and we do correctly call put_pcichild() twice in
+> pci_devices_present_work().
+>=20
+> Fixes: 4daace0d8ce8 ("PCI: hv: Add paravirtual PCI front-end for Microsof=
+t Hyper-V VMs")
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> Cc: <stable@vger.kernel.org>
+
+Exiting new_pcichild_device() with hpdev->refs set to 2 seems OK to me.
+There is the reference in the hbus->children list, and there is the referen=
+ce that
+is returned to the caller.  But what is strange is that pci_devices_present=
+_work()
+overwrites the reference returned in local variable hpdev without doing a
+put_pcichild().  It seems like the "normal" reference count should be 1 whe=
+n the
+child device is not being manipulated, not 2.  The fix would be to add a ca=
+ll to
+put_pcichild() when the return value from new_pcichild_device() is overwrit=
+ten.
+Then remove the call to put_pcichild() in pci_device_present_work() when mi=
+ssing
+children are moved to the local list. The children have been moved from one=
+ list
+to another, so there's no need to decrement the reference count.  Then when
+everything in the local list is deleted, the reference is correctly decreme=
+nted,
+presumably freeing the memory.
+
+With this approach, the code in hv_eject_device_work() is correct.  There's
+one call to put_pcichild() to reflect removing the child device from the hb=
+us->
+children list, and one call to put_pcichild() to pair with the get_pcichild=
+() in
+hv_pci_eject_device().
+
+Your patch works, but to me it leaves the ref count in an unnatural state
+most of the time.
+
+Michael
