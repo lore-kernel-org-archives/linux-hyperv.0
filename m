@@ -1,124 +1,102 @@
-Return-Path: <SRS0=tP0O=R4=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=N7CS=R5=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68742C43381
-	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Mar 2019 21:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964CBC43381
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Mar 2019 06:28:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3D4932070D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Mar 2019 21:31:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6584320856
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Mar 2019 06:28:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o3tr4I3f"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730084AbfCYVbY (ORCPT
+        id S1726238AbfCZG2c (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 25 Mar 2019 17:31:24 -0400
-Received: from smtprelay0096.hostedemail.com ([216.40.44.96]:50422 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730012AbfCYVbX (ORCPT
+        Tue, 26 Mar 2019 02:28:32 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37942 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbfCZG2c (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 25 Mar 2019 17:31:23 -0400
-X-Greylist: delayed 364 seconds by postgrey-1.27 at vger.kernel.org; Mon, 25 Mar 2019 17:31:23 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave01.hostedemail.com (Postfix) with ESMTP id C345C1804D8BA
-        for <linux-hyperv@vger.kernel.org>; Mon, 25 Mar 2019 21:25:20 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 0D63B1804E3D4;
-        Mon, 25 Mar 2019 21:25:19 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: plant67_111b552e3740e
-X-Filterd-Recvd-Size: 3465
-Received: from joe-laptop.perches.com (unknown [47.151.153.53])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Mon, 25 Mar 2019 21:25:17 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
-        Michael Kelley <mikelley@microsoft.com>,
-        Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        Joerg Roedel <jroedel@suse.de>
-Subject: Bad file pattern in MAINTAINERS section 'Hyper-V CORE AND DRIVERS'
-Date:   Mon, 25 Mar 2019 14:25:16 -0700
-Message-Id: <20190325212516.26489-1-joe@perches.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <7cd8d12f59bcacd18a78f599b46dac555f7f16c0.camel@perches.com>
-References: <7cd8d12f59bcacd18a78f599b46dac555f7f16c0.camel@perches.com>
+        Tue, 26 Mar 2019 02:28:32 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g37so1149496plb.5;
+        Mon, 25 Mar 2019 23:28:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=9klk9DlyPNX6ZYfIChAqq8jdp3QwCHVRJFf8Xe5M+PU=;
+        b=o3tr4I3fu98XpgbdXY3MbFjsf36sDedDYTqOYZriNzQ21G6mXd4ZsNeyNOBEDqrYuD
+         L2XkewXa0bWHkS2rBOmWrA098acUvKbeYN29Gd3rPqbdttzu0kDBf1QfJUwmH9V9gAUL
+         U3SCwf3RlE2hTzNQlpcWeqNV12qHyAFs4sjD0rGXmy3tQDGvfs5psYOsUzuBrxMxUmh+
+         IgHddDrs6fTCcmamAz0So8b6J7T5sGn6jEskRhPPAkhXsKK3HPu7/Wnh97LnARTpZ0q6
+         qpy+1NxYxIxsmVOqpcSjIEjki4xkyr5H4nYb3RWEJ3VzDaK2mxc2ttfR6Rsblb+ZM+1A
+         qRig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=9klk9DlyPNX6ZYfIChAqq8jdp3QwCHVRJFf8Xe5M+PU=;
+        b=ovxOKbDSVSbZHtdvaWIDw4mwL6CXYmB5YT4Qa/6/TuHhlZ90QzefDFoAkSCPok++Kf
+         /U0aCX/be5qk3A8BfynjJrlWpXltA6ckfrIQpGnWPhklqFPo4sahCFeOHLDWmHpYcRwh
+         Y//OBndCpE3+4FV4WCY3hmXqvO6+/fIjI8LdZIomCTFREX8VIZQUGc1kFAJSJKKAS1Ob
+         7f8PXSCqxl1ARkpObTzkd/SBElAAvxLcar2lz5ljt49f7B+E8Nesro7YbFOlJBjV6DwI
+         cdhubOeJrFXxu3TULfvejfvX2Y9gqdOHVdJPKiNbSzeksu3oo4PjZLWUX3Zv9Gc9XNLn
+         GJEQ==
+X-Gm-Message-State: APjAAAW8xKLcFh/IIqSf1o6ghasUt5sqz/C0AXqjeyfiSJyST4KrOIRm
+        B3pFPbgGtf+Mxb7cy3XhrtQ=
+X-Google-Smtp-Source: APXvYqxOA/AuPgKigjA5FxvfAC2vKsjFbZCbDGg4XxjJXykV2VKg0jlhMvDbvvqLnqvIKAZJjKRObg==
+X-Received: by 2002:a17:902:8d8b:: with SMTP id v11mr29974203plo.241.1553581712068;
+        Mon, 25 Mar 2019 23:28:32 -0700 (PDT)
+Received: from tianyukernel.corp.microsoft.com ([167.220.255.93])
+        by smtp.googlemail.com with ESMTPSA id e123sm26171542pfe.35.2019.03.25.23.28.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 25 Mar 2019 23:28:30 -0700 (PDT)
+From:   lantianyu1986@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     davem@davemloft.net, mchehab+samsung@kernel.org,
+        gregkh@linuxfoundation.org, nicolas.ferre@microchip.com,
+        tglx@linutronix.de, mingo@kernel.org, konrad.wilk@oracle.com,
+        jpoimboe@redhat.com, peterz@infradead.org, mojha@codeaurora.org,
+        jkosina@suse.cz, riel@surriel.com, peterz@infraded.org,
+        Tianyu.Lan@microsoft.com, luto@kernel.org,
+        michael.h.kelley@microsoft.com, kys@microsoft.com,
+        sashal@kernel.org, joe@perches.com
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Subject: [PATCH] MAINTAINERS: Fix Hyperv vIOMMU driver file name
+Date:   Tue, 26 Mar 2019 14:28:21 +0800
+Message-Id: <1553581701-25250-1-git-send-email-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-A file pattern line in this section of the MAINTAINERS file in linux-next
-does not have a match in the linux source files.
+From: Lan Tianyu <Tianyu.Lan@microsoft.com>
 
-This could occur because a matching filename was never added, was deleted
-or renamed in some other commit.
+The Hyperv vIOMMU file name should be "hyperv-iommu.c" rather
+than "hyperv_iommu.c". This patch is to fix it.
 
-The commits that added and if found renamed or removed the file pattern
-are shown below.
+Signed-off-by: Lan Tianyu <Tianyu.Lan@microsoft.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please fix this defect appropriately.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e17ebf7..403247d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7175,7 +7175,7 @@ F:	drivers/net/hyperv/
+ F:	drivers/scsi/storvsc_drv.c
+ F:	drivers/uio/uio_hv_generic.c
+ F:	drivers/video/fbdev/hyperv_fb.c
+-F:	drivers/iommu/hyperv_iommu.c
++F:	drivers/iommu/hyperv-iommu.c
+ F:	net/vmw_vsock/hyperv_transport.c
+ F:	include/linux/hyperv.h
+ F:	include/uapi/linux/hyperv.h
+-- 
+2.7.4
 
-1: ---------------------------------------------------------------------------
-
-linux-next MAINTAINERS section:
-
-	7164	Hyper-V CORE AND DRIVERS
-	7165	M:	"K. Y. Srinivasan" <kys@microsoft.com>
-	7166	M:	Haiyang Zhang <haiyangz@microsoft.com>
-	7167	M:	Stephen Hemminger <sthemmin@microsoft.com>
-	7168	M:	Sasha Levin <sashal@kernel.org>
-	7169	T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
-	7170	L:	linux-hyperv@vger.kernel.org
-	7171	S:	Supported
-	7172	F:	Documentation/networking/device_drivers/microsoft/netvsc.txt
-	7173	F:	arch/x86/include/asm/mshyperv.h
-	7174	F:	arch/x86/include/asm/trace/hyperv.h
-	7175	F:	arch/x86/include/asm/hyperv-tlfs.h
-	7176	F:	arch/x86/kernel/cpu/mshyperv.c
-	7177	F:	arch/x86/hyperv
-	7178	F:	drivers/hid/hid-hyperv.c
-	7179	F:	drivers/hv/
-	7180	F:	drivers/input/serio/hyperv-keyboard.c
-	7181	F:	drivers/pci/controller/pci-hyperv.c
-	7182	F:	drivers/net/hyperv/
-	7183	F:	drivers/scsi/storvsc_drv.c
-	7184	F:	drivers/uio/uio_hv_generic.c
-	7185	F:	drivers/video/fbdev/hyperv_fb.c
--->	7186	F:	drivers/iommu/hyperv_iommu.c
-	7187	F:	net/vmw_vsock/hyperv_transport.c
-	7188	F:	include/linux/hyperv.h
-	7189	F:	include/uapi/linux/hyperv.h
-	7190	F:	tools/hv/
-	7191	F:	Documentation/ABI/stable/sysfs-bus-vmbus
-
-2: ---------------------------------------------------------------------------
-
-The most recent commit that added or modified file pattern 'drivers/iommu/hyperv_iommu.c':
-
-commit 32d5860a9e3c98b5043716fff05a7b20b15918f9
-Author: Lan Tianyu <Tianyu.Lan@microsoft.com>
-Date:   Wed Feb 27 22:54:05 2019 +0800
-
-    MAINTAINERS: Add Hyper-V IOMMU driver into Hyper-V CORE AND DRIVERS scope
-    
-    This patch is to add Hyper-V IOMMU driver file into Hyper-V CORE and
-    DRIVERS scope.
-    
-    Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-    Signed-off-by: Lan Tianyu <Tianyu.Lan@microsoft.com>
-    Signed-off-by: Joerg Roedel <jroedel@suse.de>
-
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-3: ---------------------------------------------------------------------------
-
-No commit with file pattern 'drivers/iommu/hyperv_iommu.c' was found
