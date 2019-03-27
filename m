@@ -4,40 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC224C10F00
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 18:10:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5363C10F00
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 19:32:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7D27921871
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 18:10:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A79AB2075C
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 19:32:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1553710258;
-	bh=wVUETQHDiou0k6as7Fe9sQVT27TspykKTPXvNz1Lqys=;
+	s=default; t=1553715132;
+	bh=PUA1LnDi4edmet7U8OlkBDruuRPientmusEN8OTIQis=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xVH42rlWjiP4PYjrgMwv+QkvSmhzs+i4AohPcE1LE0kdH2aBy2DEEGUCH7kwLqPU6
-	 NQuAIf8M7n0vkuZSDTeMXZYCaRk0EXmyZPYDCUlH4E7SlVw0xC1WDWzHI8HiWaOSDZ
-	 ByLuDH/x4am4NXmcpDCayg+UT9vux6y/VOs1NLqI=
+	b=ayBon6oA4YGV8rAPuzzax7ZOhZPrO/6qNkadfdlNFmol1FBVsyC2d+GioZF9QmTUq
+	 eULuzezv7tYVwGKDFzFFiJHNmmCidvinAoH6QwNEifrX80BQiJFtDrne7EkXIfrxT2
+	 itxMhypvO3Md260GvD7vzGr0CwjJ6YUWEFi9AE7I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388479AbfC0SK5 (ORCPT
+        id S1731442AbfC0SCq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Mar 2019 14:10:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53086 "EHLO mail.kernel.org"
+        Wed, 27 Mar 2019 14:02:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42670 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388927AbfC0SKz (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Mar 2019 14:10:55 -0400
+        id S1731250AbfC0SCp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 27 Mar 2019 14:02:45 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A970218A3;
-        Wed, 27 Mar 2019 18:10:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DE2DD2087C;
+        Wed, 27 Mar 2019 18:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553710253;
-        bh=wVUETQHDiou0k6as7Fe9sQVT27TspykKTPXvNz1Lqys=;
+        s=default; t=1553709764;
+        bh=PUA1LnDi4edmet7U8OlkBDruuRPientmusEN8OTIQis=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b2aAZFhA6iglzIyKUgHYLHmvdjJf1vf9YKxaJifkY8qzVRqdSnneNkYeecBYcRyyw
-         cNeE1tSoU3yuOqZgpOY7aLVN0u9USlXNoQJKs+8wX07YskakVYwFM8NisUxdL4jyCr
-         W/XwYHGq6FM5HTTbrtxxHz6ZzZVfxGggwz/7Eq6Q=
+        b=HnYiaGT6mdbM8o+bofFzx/WzFTxUYvIJjT0ygiJ9CqG5lKo65f3Jdt15u4g8rf5QY
+         4rCer/u0rKHLqRoOhgtKEY0qAYM2GH9WkWLv1oVVEPnuket3DvnneJ1YbUkK4IDEAF
+         kuw/v+ICJKQwbj2mZRRhtrBLTe3nhfLshHBPSNW0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kairui Song <kasong@redhat.com>,
@@ -51,12 +52,12 @@ Cc:     Kairui Song <kasong@redhat.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         Dave Young <dyoung@redhat.com>, devel@linuxdriverproject.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 019/192] x86/hyperv: Fix kernel panic when kexec on HyperV
-Date:   Wed, 27 Mar 2019 14:07:31 -0400
-Message-Id: <20190327181025.13507-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 028/262] x86/hyperv: Fix kernel panic when kexec on HyperV
+Date:   Wed, 27 Mar 2019 13:58:03 -0400
+Message-Id: <20190327180158.10245-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190327181025.13507-1-sashal@kernel.org>
-References: <20190327181025.13507-1-sashal@kernel.org>
+In-Reply-To: <20190327180158.10245-1-sashal@kernel.org>
+References: <20190327180158.10245-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -116,10 +117,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 20c876c7c5bf..87abd5145cc9 100644
+index 7abb09e2eeb8..d3f42b6bbdac 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -387,6 +387,13 @@ void hyperv_cleanup(void)
+@@ -406,6 +406,13 @@ void hyperv_cleanup(void)
  	/* Reset our OS id */
  	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
  
