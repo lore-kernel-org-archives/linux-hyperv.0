@@ -2,108 +2,137 @@ Return-Path: <SRS0=AyMY=R6=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96300C43381
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 14:09:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC224C10F00
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 18:10:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62C6D2075E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 14:09:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="lXaOMOMd";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="b6AVA+5F"
+	by mail.kernel.org (Postfix) with ESMTP id 7D27921871
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 18:10:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1553710258;
+	bh=wVUETQHDiou0k6as7Fe9sQVT27TspykKTPXvNz1Lqys=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=xVH42rlWjiP4PYjrgMwv+QkvSmhzs+i4AohPcE1LE0kdH2aBy2DEEGUCH7kwLqPU6
+	 NQuAIf8M7n0vkuZSDTeMXZYCaRk0EXmyZPYDCUlH4E7SlVw0xC1WDWzHI8HiWaOSDZ
+	 ByLuDH/x4am4NXmcpDCayg+UT9vux6y/VOs1NLqI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728167AbfC0OJW (ORCPT
+        id S2388479AbfC0SK5 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Mar 2019 10:09:22 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41944 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbfC0OJW (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Mar 2019 10:09:22 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 73AC660C72; Wed, 27 Mar 2019 14:09:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1553695761;
-        bh=qozMxbzqqU/cnJ5mUxhiDDHpTdrfvXkQOCxg/VHLYpY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=lXaOMOMdTsN65xKpunCRki8bn1ACBp0xFBp4TDy9Ptj2k5qRL42OYOosQuAYM/DKf
-         5TtXeYDazb34tUg1nASgs+mhpYzy7VQlmX4+HIWmYxTARlWwbKY85wZfdbe3x9vlot
-         NJ/QM+7i9IUA7UZfpTRvHIBAD5J45kb9hUfDsRlk=
-Received: from [10.204.79.83] (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        Wed, 27 Mar 2019 14:10:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53086 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388927AbfC0SKz (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 27 Mar 2019 14:10:55 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        (Authenticated sender: mojha@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 15B8F6079C;
-        Wed, 27 Mar 2019 14:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1553695758;
-        bh=qozMxbzqqU/cnJ5mUxhiDDHpTdrfvXkQOCxg/VHLYpY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=b6AVA+5FuzZOJLscHCqVUNiAycNv7tHEhLnRVahCev2DGWQ7mVbp6GyrrFz8ZjGue
-         wFSp+thyKJOhHw3RpyuAHZ3MxWFAwGSnOg/zgXR50x9kNqzBw8kLXgU7I3Tc+hXLvL
-         qidXWmDtzKvnUmSXxaQn1yYWra5IQj6cQBYl/1/U=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 15B8F6079C
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=mojha@codeaurora.org
-Subject: Re: [PATCH] MAINTAINERS: Fix Hyperv vIOMMU driver file name
-To:     lantianyu1986@gmail.com, davem@davemloft.net,
-        mchehab+samsung@kernel.org, gregkh@linuxfoundation.org,
-        nicolas.ferre@microchip.com, tglx@linutronix.de, mingo@kernel.org,
-        konrad.wilk@oracle.com, jpoimboe@redhat.com, peterz@infradead.org,
-        jkosina@suse.cz, riel@surriel.com, peterz@infraded.org,
-        Tianyu.Lan@microsoft.com, luto@kernel.org,
-        michael.h.kelley@microsoft.com, kys@microsoft.com,
-        sashal@kernel.org, joe@perches.com
-Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-References: <1553581701-25250-1-git-send-email-Tianyu.Lan@microsoft.com>
-From:   Mukesh Ojha <mojha@codeaurora.org>
-Message-ID: <fe945246-b915-97b2-ab04-4f1951b45352@codeaurora.org>
-Date:   Wed, 27 Mar 2019 19:39:02 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.0
+        by mail.kernel.org (Postfix) with ESMTPSA id 4A970218A3;
+        Wed, 27 Mar 2019 18:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1553710253;
+        bh=wVUETQHDiou0k6as7Fe9sQVT27TspykKTPXvNz1Lqys=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=b2aAZFhA6iglzIyKUgHYLHmvdjJf1vf9YKxaJifkY8qzVRqdSnneNkYeecBYcRyyw
+         cNeE1tSoU3yuOqZgpOY7aLVN0u9USlXNoQJKs+8wX07YskakVYwFM8NisUxdL4jyCr
+         W/XwYHGq6FM5HTTbrtxxHz6ZzZVfxGggwz/7Eq6Q=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Kairui Song <kasong@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Dave Young <dyoung@redhat.com>, devel@linuxdriverproject.org,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 019/192] x86/hyperv: Fix kernel panic when kexec on HyperV
+Date:   Wed, 27 Mar 2019 14:07:31 -0400
+Message-Id: <20190327181025.13507-19-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190327181025.13507-1-sashal@kernel.org>
+References: <20190327181025.13507-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1553581701-25250-1-git-send-email-Tianyu.Lan@microsoft.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+From: Kairui Song <kasong@redhat.com>
 
-On 3/26/2019 11:58 AM, lantianyu1986@gmail.com wrote:
-> From: Lan Tianyu <Tianyu.Lan@microsoft.com>
->
-> The Hyperv vIOMMU file name should be "hyperv-iommu.c" rather
-s/vIOMMU /IOMMU
-> than "hyperv_iommu.c". This patch is to fix it.
->
-> Signed-off-by: Lan Tianyu <Tianyu.Lan@microsoft.com>
+[ Upstream commit 179fb36abb097976997f50733d5b122a29158cba ]
 
+After commit 68bb7bfb7985 ("X86/Hyper-V: Enable IPI enlightenments"),
+kexec fails with a kernel panic:
 
-Othewise looks fine.
-Reviewed-by: Mukesh Ojha <mojha@codeaurora.org>
+kexec_core: Starting new kernel
+BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v3.0 03/02/2018
+RIP: 0010:0xffffc9000001d000
 
--Mukesh
+Call Trace:
+ ? __send_ipi_mask+0x1c6/0x2d0
+ ? hv_send_ipi_mask_allbutself+0x6d/0xb0
+ ? mp_save_irq+0x70/0x70
+ ? __ioapic_read_entry+0x32/0x50
+ ? ioapic_read_entry+0x39/0x50
+ ? clear_IO_APIC_pin+0xb8/0x110
+ ? native_stop_other_cpus+0x6e/0x170
+ ? native_machine_shutdown+0x22/0x40
+ ? kernel_kexec+0x136/0x156
 
-> ---
->   MAINTAINERS | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e17ebf7..403247d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7175,7 +7175,7 @@ F:	drivers/net/hyperv/
->   F:	drivers/scsi/storvsc_drv.c
->   F:	drivers/uio/uio_hv_generic.c
->   F:	drivers/video/fbdev/hyperv_fb.c
-> -F:	drivers/iommu/hyperv_iommu.c
-> +F:	drivers/iommu/hyperv-iommu.c
->   F:	net/vmw_vsock/hyperv_transport.c
->   F:	include/linux/hyperv.h
->   F:	include/uapi/linux/hyperv.h
+That happens if hypercall based IPIs are used because the hypercall page is
+reset very early upon kexec reboot, but kexec sends IPIs to stop CPUs,
+which invokes the hypercall and dereferences the unusable page.
+
+To fix his, reset hv_hypercall_pg to NULL before the page is reset to avoid
+any misuse, IPI sending will fall back to the non hypercall based
+method. This only happens on kexec / kdump so just setting the pointer to
+NULL is good enough.
+
+Fixes: 68bb7bfb7985 ("X86/Hyper-V: Enable IPI enlightenments")
+Signed-off-by: Kairui Song <kasong@redhat.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Dave Young <dyoung@redhat.com>
+Cc: devel@linuxdriverproject.org
+Link: https://lkml.kernel.org/r/20190306111827.14131-1-kasong@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/x86/hyperv/hv_init.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 20c876c7c5bf..87abd5145cc9 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -387,6 +387,13 @@ void hyperv_cleanup(void)
+ 	/* Reset our OS id */
+ 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
+ 
++	/*
++	 * Reset hypercall page reference before reset the page,
++	 * let hypercall operations fail safely rather than
++	 * panic the kernel for using invalid hypercall page
++	 */
++	hv_hypercall_pg = NULL;
++
+ 	/* Reset the hypercall page */
+ 	hypercall_msr.as_uint64 = 0;
+ 	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+-- 
+2.19.1
+
