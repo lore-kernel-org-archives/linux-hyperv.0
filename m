@@ -6,44 +6,43 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A87C43381
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71DA2C43381
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:42:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 05323206B7
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:28:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 400222173C
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:42:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfC1T26 (ORCPT
+        id S1725994AbfC1TmB (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Mar 2019 15:28:58 -0400
-Received: from a2nlsmtp01-05.prod.iad2.secureserver.net ([198.71.225.49]:57982
-        "EHLO a2nlsmtp01-05.prod.iad2.secureserver.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725885AbfC1T26 (ORCPT
+        Thu, 28 Mar 2019 15:42:01 -0400
+Received: from a2nlsmtp01-03.prod.iad2.secureserver.net ([198.71.225.37]:39588
+        "EHLO a2nlsmtp01-03.prod.iad2.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725885AbfC1TmB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Mar 2019 15:28:58 -0400
-X-Greylist: delayed 675 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 Mar 2019 15:28:58 EDT
+        Thu, 28 Mar 2019 15:42:01 -0400
 Received: from linuxonhyperv2.linuxonhyperv.com ([107.180.71.197])
         by : HOSTING RELAY : with ESMTP
-        id 9aW2hv8iAO8d99aW2hfRls; Thu, 28 Mar 2019 12:16:42 -0700
+        id 9atYhx8qEiCMn9atYhXhYx; Thu, 28 Mar 2019 12:41:00 -0700
 x-originating-ip: 107.180.71.197
 Received: from haiyangz by linuxonhyperv2.linuxonhyperv.com with local (Exim 4.91)
         (envelope-from <haiyangz@linuxonhyperv2.linuxonhyperv.com>)
-        id 1h9aW2-0001kg-8E; Thu, 28 Mar 2019 12:16:42 -0700
+        id 1h9atY-0001uA-BI; Thu, 28 Mar 2019 12:41:00 -0700
 From:   Haiyang Zhang <haiyangz@linuxonhyperv.com>
 To:     sashal@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     haiyangz@microsoft.com, kys@microsoft.com, sthemmin@microsoft.com,
         olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH hyperv-fixes,v2] hv_netvsc: Fix unwanted wakeup after tx_disable
-Date:   Thu, 28 Mar 2019 19:16:37 +0000
-Message-Id: <20190328191637.6698-1-haiyangz@linuxonhyperv.com>
+Subject: [PATCH hyperv-fixes,v3] hv_netvsc: Fix unwanted wakeup after tx_disable
+Date:   Thu, 28 Mar 2019 19:40:36 +0000
+Message-Id: <20190328194036.7279-1-haiyangz@linuxonhyperv.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfHnRjMqhpcL5yd3zLhFpxwp6QiyLwtVgV6++hxTnPSgFOJqcQzeJ11YqFaNJTPA9MBxNYjCgSrVYSngfFjELSUsHBokeiVIkAzAluOZW4TD9vsWdRBVH
- 9DRaAkMRClKGIkpYsjT++rQxerug1opm0RGhs5hRRK8N2Qw391veUT3+u3O0yoUw8MLDWAUvhM4n/wG7Px2407ttdlDxApmgiUC8b4cdQT5CvX8i8MntRs5G
- gR/lirCO5ib9g5I71FbFSoP2Ne9qpQlhkzhbdyoVu1PakuLHmZioNpJ6T5vPgayVXUyA5PvnBq2ObjdZSBjsqydcBd2DdFHdpbBZ2CFhSeaLxzaevu5d8b+y
- uVOIQKlIfbBBG5MomJNeJerc3AbE/0vqNTQzbDddNF9qS3Q6Nl+moWo48jMiJ5F7sXS3rsFNpqg/hxB49W70ROIlndXxlLvQW3q2PkyJHKm9hV9VKIuBzi28
- aShPKi/WQ3t+ypGe7TGbYe84zTRKCsYTBHKR1O+ZEqSXshr69YeVttVSiQ4=
+X-CMAE-Envelope: MS4wfBOp1j2z4ArOwV8Un/m56/ERQosGUiIGZI7HvErqR1JxOVzz9NlVyq6HLBkLwgwZSIWgOkR5SpbUbG5X6zgCGcdWIgDHKQhHxgc4MCf/zbYsklWUo/Sw
+ Pc0YYVdEoyxXJenHe4gFdmvLsztDo8khxP8ZD4XjFuDNpJO7bE11fQpJZVJ6mrRZZtWeWmyR0RKurvxRVKulVrOz6kkBcimMk5s+ZeRmCGXttUPiASmrQSOC
+ EjCYgTmfenc930lCwjqWTbzMgxksRt/YEvVyXqayY2zf1XUeYHvhD7rLVVr92tFaCh5utGFrfjK0ygZ+/H8bQGmreLVf1+A2aqbzRJ87ZvheKUbRfNPiqPvI
+ Hw1UAvkXEzlvkVjx7il/bzt0d44gt+YbUIMiTMyU0ZUKx02R+C08Sx2qSwBjt6WkpYLKNdk8JaZrO6ganmCUwxsAvbwgeMHIPvsL9PWVp5H18eInQv+38YCA
+ AXfQTdzaIxvrPjL/8kYs+njRwO6H1EpUg5E2RGDZnwnbtgq16itjFN+MW4I=
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
@@ -112,15 +111,15 @@ index 813d195..e0dce37 100644
  			ndev_ctx->eth_stats.wake_queue++;
  			ret = -ENOSPC;
 diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 1a08679..ffb7922 100644
+index 1a08679..06393b2 100644
 --- a/drivers/net/hyperv/netvsc_drv.c
 +++ b/drivers/net/hyperv/netvsc_drv.c
 @@ -109,6 +109,15 @@ static void netvsc_set_rx_mode(struct net_device *net)
  	rcu_read_unlock();
  }
  
-+static inline void netvsc_tx_enable(struct netvsc_device *nvscdev,
-+				    struct net_device *ndev)
++static void netvsc_tx_enable(struct netvsc_device *nvscdev,
++			     struct net_device *ndev)
 +{
 +	nvscdev->tx_disable = false;
 +	virt_wmb(); /* ensure queue wake up mechanism is on */
@@ -144,8 +143,8 @@ index 1a08679..ffb7922 100644
  	}
  }
  
-+static inline void netvsc_tx_disable(struct netvsc_device *nvscdev,
-+				     struct net_device *ndev)
++static void netvsc_tx_disable(struct netvsc_device *nvscdev,
++			      struct net_device *ndev)
 +{
 +	if (nvscdev) {
 +		nvscdev->tx_disable = true;
