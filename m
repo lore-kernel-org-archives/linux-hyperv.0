@@ -1,139 +1,134 @@
-Return-Path: <SRS0=AyMY=R6=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=/rR5=R7=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5363C10F00
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 19:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 807F6C43381
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 04:31:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A79AB2075C
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Mar 2019 19:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1553715132;
-	bh=PUA1LnDi4edmet7U8OlkBDruuRPientmusEN8OTIQis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ayBon6oA4YGV8rAPuzzax7ZOhZPrO/6qNkadfdlNFmol1FBVsyC2d+GioZF9QmTUq
-	 eULuzezv7tYVwGKDFzFFiJHNmmCidvinAoH6QwNEifrX80BQiJFtDrne7EkXIfrxT2
-	 itxMhypvO3Md260GvD7vzGr0CwjJ6YUWEFi9AE7I=
+	by mail.kernel.org (Postfix) with ESMTP id 4AF35206C0
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 04:31:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="omDPTgo0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731442AbfC0SCq (ORCPT
+        id S1725796AbfC1EbC (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Mar 2019 14:02:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42670 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731250AbfC0SCp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Mar 2019 14:02:45 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DE2DD2087C;
-        Wed, 27 Mar 2019 18:02:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553709764;
-        bh=PUA1LnDi4edmet7U8OlkBDruuRPientmusEN8OTIQis=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HnYiaGT6mdbM8o+bofFzx/WzFTxUYvIJjT0ygiJ9CqG5lKo65f3Jdt15u4g8rf5QY
-         4rCer/u0rKHLqRoOhgtKEY0qAYM2GH9WkWLv1oVVEPnuket3DvnneJ1YbUkK4IDEAF
-         kuw/v+ICJKQwbj2mZRRhtrBLTe3nhfLshHBPSNW0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kairui Song <kasong@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        Thu, 28 Mar 2019 00:31:02 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:36354 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725777AbfC1EbB (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 28 Mar 2019 00:31:01 -0400
+Received: by mail-io1-f67.google.com with SMTP id f6so16080740iop.3;
+        Wed, 27 Mar 2019 21:31:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=D+/belK3ejYzZvvz9x7FiTI3PQoVx/Ow2x/QOwiUhUk=;
+        b=omDPTgo0Bk1VdYEtxiVyT0fGl3cTpcw+pFHUoXeuC3deY4aw65tO8CKlwcoHU2rVUL
+         Sme/FH6oTQHzT4nKU5bvEQa3JG5vT/kM3kZx6/CW1U7ZcyohFJWsRuQ8JZJfL11D2G8C
+         Lf45Sd5IRMllo+rcE6vnusYCjwsmYTqYKYgHQ1562VPx8fbR7beJDusyQFkYQtHjtzEH
+         RXnGQYvJGRiBkPFVqtXnT/lfPcat2unIL8POgB5Cz0jcrj2HCMWEIBD3PQ1H8RWsJmYb
+         DE0uyZxoDNsEYrYhPr5a6CG75OJa+z8qgNYc4LJE17ib9caekbNSke4XLV8UcTNHrQRA
+         Al5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=D+/belK3ejYzZvvz9x7FiTI3PQoVx/Ow2x/QOwiUhUk=;
+        b=E8vd6q5+EvADwVEeBdH1hGLWHPDHRdToElGdbEAKGpIA5YZC6OZfGHXQ5GqQJoUsQt
+         EndaHcU4q07ZugQBuBfRzuvmBOdHA5YPrYeNw465GN1KEUCcqIfhE/JjXF7fPvYGn6En
+         ak68GJ5H3cDcSuz+p/ig1/RuzT6E+wKjSoYG1dBAT5wNfHb4qJVg0uf7g0xzYOGKkran
+         rlCHMN9sKH7gkfWpyy3bCb3dJLg7BhZ9+lTVPZp1PnSZgo/oGoCpjj01Wo3G1UWddlCf
+         uWU41aKIZTTXlZOwEPGRdKRQT/FwwMTOOduwYB49VHlr0qJ4u15cINK8St+1kKwoWM46
+         jqIw==
+X-Gm-Message-State: APjAAAXQsx8WoyyO4SNqkfq0CPiSpXtZTLFUC3Ky+EfF8ALCOoBIF3Yc
+        ESLemS7XpCwpoVWrJ3+izw89sK2I
+X-Google-Smtp-Source: APXvYqyns6Vff7kUH+rUID8tZln8mRJVj8o+3pPaCd4oFy0P3i40MDaw4ppYbnTc2ER0O6dZ4KZmgw==
+X-Received: by 2002:a5d:87d3:: with SMTP id q19mr27223875ios.29.1553747460974;
+        Wed, 27 Mar 2019 21:31:00 -0700 (PDT)
+Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
+        by smtp.gmail.com with ESMTPSA id u204sm1237526ita.33.2019.03.27.21.30.59
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 27 Mar 2019 21:31:00 -0700 (PDT)
+Date:   Thu, 28 Mar 2019 00:30:57 -0400
+From:   Kimberly Brown <kimbrownkd@gmail.com>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     Michael Kelley <mikelley@microsoft.com>,
+        Long Li <longli@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Dave Young <dyoung@redhat.com>, devel@linuxdriverproject.org,
-        linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.0 028/262] x86/hyperv: Fix kernel panic when kexec on HyperV
-Date:   Wed, 27 Mar 2019 13:58:03 -0400
-Message-Id: <20190327180158.10245-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190327180158.10245-1-sashal@kernel.org>
-References: <20190327180158.10245-1-sashal@kernel.org>
+        Dexuan Cui <decui@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 3/3] Drivers: hv: vmbus: Fix race condition with new
+ ring_buffer_info mutex
+Message-ID: <20190328043057.GA2258@ubu-Virtual-Machine>
+References: <cover.1550806305.git.kimbrownkd@gmail.com>
+ <cover.1552592620.git.kimbrownkd@gmail.com>
+ <262046fa9e89d5f483ecd5972d86f4f9608dbcc3.1552592620.git.kimbrownkd@gmail.com>
+ <20190314154533.17c8a362@shemminger-XPS-13-9360>
+ <20190317014927.GA60356@ubu-Virtual-Machine>
+ <20190320130619.07e49c97@shemminger-XPS-13-9360>
+ <20190321034752.GA6828@ubu-Virtual-Machine>
+ <DM5PR2101MB091851BC7C55093D388514D9D7420@DM5PR2101MB0918.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM5PR2101MB091851BC7C55093D388514D9D7420@DM5PR2101MB0918.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Kairui Song <kasong@redhat.com>
+On Thu, Mar 21, 2019 at 04:04:20PM +0000, Michael Kelley wrote:
+> From: Kimberly Brown <kimbrownkd@gmail.com>  Sent: Wednesday, March 20, 2019 8:48 PM
+> > > > > Adding more locks will solve the problem but it seems like overkill.
+> > > > > Why not either use a reference count or an RCU style access for the
+> > > > > ring buffer?
+> > > >
+> > > > I agree that a reference count or RCU could also solve this problem.
+> > > > Using mutex locks seemed like the most straightforward solution, but
+> > > > I'll certainly switch to a different approach if it's better!
+> > > >
+> > > > Are you concerned about the extra memory required for the mutex locks,
+> > > > read performance, or something else?
+> > >
+> > > Locks in control path are ok, but my concern is performance of the
+> > > data path which puts packets in/out of rings. To keep reasonable performance,
+> > > no additional locking should be added in those paths.
+> > >
+> > > So if data path is using RCU, can/should the control operations also
+> > > use it?
+> > 
 
-[ Upstream commit 179fb36abb097976997f50733d5b122a29158cba ]
 
-After commit 68bb7bfb7985 ("X86/Hyper-V: Enable IPI enlightenments"),
-kexec fails with a kernel panic:
+Hi Stephen,
 
-kexec_core: Starting new kernel
-BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
-Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v3.0 03/02/2018
-RIP: 0010:0xffffc9000001d000
+Do you have any additional questions or suggestions for this race
+condition and the mutex locks? I think that your initial questions were
+addressed in the responses below. If there's anything else, please let
+me know!
 
-Call Trace:
- ? __send_ipi_mask+0x1c6/0x2d0
- ? hv_send_ipi_mask_allbutself+0x6d/0xb0
- ? mp_save_irq+0x70/0x70
- ? __ioapic_read_entry+0x32/0x50
- ? ioapic_read_entry+0x39/0x50
- ? clear_IO_APIC_pin+0xb8/0x110
- ? native_stop_other_cpus+0x6e/0x170
- ? native_machine_shutdown+0x22/0x40
- ? kernel_kexec+0x136/0x156
+Thanks,
+Kim
 
-That happens if hypercall based IPIs are used because the hypercall page is
-reset very early upon kexec reboot, but kexec sends IPIs to stop CPUs,
-which invokes the hypercall and dereferences the unusable page.
 
-To fix his, reset hv_hypercall_pg to NULL before the page is reset to avoid
-any misuse, IPI sending will fall back to the non hypercall based
-method. This only happens on kexec / kdump so just setting the pointer to
-NULL is good enough.
-
-Fixes: 68bb7bfb7985 ("X86/Hyper-V: Enable IPI enlightenments")
-Signed-off-by: Kairui Song <kasong@redhat.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Sasha Levin <sashal@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Dave Young <dyoung@redhat.com>
-Cc: devel@linuxdriverproject.org
-Link: https://lkml.kernel.org/r/20190306111827.14131-1-kasong@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/x86/hyperv/hv_init.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 7abb09e2eeb8..d3f42b6bbdac 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -406,6 +406,13 @@ void hyperv_cleanup(void)
- 	/* Reset our OS id */
- 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
- 
-+	/*
-+	 * Reset hypercall page reference before reset the page,
-+	 * let hypercall operations fail safely rather than
-+	 * panic the kernel for using invalid hypercall page
-+	 */
-+	hv_hypercall_pg = NULL;
-+
- 	/* Reset the hypercall page */
- 	hypercall_msr.as_uint64 = 0;
- 	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
--- 
-2.19.1
-
+> > The data path doesn't use RCU to protect the ring buffers.
+> 
+> My $.02:  The mutex is obtained only in the sysfs path and the "delete
+> ringbuffers" path, neither of which is performance or concurrency sensitive. 
+> There's no change to any path that reads or writes data from/to the ring
+> buffers.  It seems like the mutex is the most straightforward solution to
+> preventing sysfs from accessing the ring buffer info while the memory is
+> being freed as part of "delete ringbuffers".
+> 
+> Michael
