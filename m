@@ -2,133 +2,206 @@ Return-Path: <SRS0=/rR5=R7=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 807F6C43381
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 04:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DF7C10F06
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 17:50:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4AF35206C0
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 04:31:02 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="omDPTgo0"
+	by mail.kernel.org (Postfix) with ESMTP id A862721773
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 17:50:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725796AbfC1EbC (ORCPT
+        id S1726969AbfC1RuL (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Mar 2019 00:31:02 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:36354 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725777AbfC1EbB (ORCPT
+        Thu, 28 Mar 2019 13:50:11 -0400
+Received: from a2nlsmtp01-02.prod.iad2.secureserver.net ([198.71.225.36]:59536
+        "EHLO a2nlsmtp01-02.prod.iad2.secureserver.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726034AbfC1RuL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Mar 2019 00:31:01 -0400
-Received: by mail-io1-f67.google.com with SMTP id f6so16080740iop.3;
-        Wed, 27 Mar 2019 21:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=D+/belK3ejYzZvvz9x7FiTI3PQoVx/Ow2x/QOwiUhUk=;
-        b=omDPTgo0Bk1VdYEtxiVyT0fGl3cTpcw+pFHUoXeuC3deY4aw65tO8CKlwcoHU2rVUL
-         Sme/FH6oTQHzT4nKU5bvEQa3JG5vT/kM3kZx6/CW1U7ZcyohFJWsRuQ8JZJfL11D2G8C
-         Lf45Sd5IRMllo+rcE6vnusYCjwsmYTqYKYgHQ1562VPx8fbR7beJDusyQFkYQtHjtzEH
-         RXnGQYvJGRiBkPFVqtXnT/lfPcat2unIL8POgB5Cz0jcrj2HCMWEIBD3PQ1H8RWsJmYb
-         DE0uyZxoDNsEYrYhPr5a6CG75OJa+z8qgNYc4LJE17ib9caekbNSke4XLV8UcTNHrQRA
-         Al5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=D+/belK3ejYzZvvz9x7FiTI3PQoVx/Ow2x/QOwiUhUk=;
-        b=E8vd6q5+EvADwVEeBdH1hGLWHPDHRdToElGdbEAKGpIA5YZC6OZfGHXQ5GqQJoUsQt
-         EndaHcU4q07ZugQBuBfRzuvmBOdHA5YPrYeNw465GN1KEUCcqIfhE/JjXF7fPvYGn6En
-         ak68GJ5H3cDcSuz+p/ig1/RuzT6E+wKjSoYG1dBAT5wNfHb4qJVg0uf7g0xzYOGKkran
-         rlCHMN9sKH7gkfWpyy3bCb3dJLg7BhZ9+lTVPZp1PnSZgo/oGoCpjj01Wo3G1UWddlCf
-         uWU41aKIZTTXlZOwEPGRdKRQT/FwwMTOOduwYB49VHlr0qJ4u15cINK8St+1kKwoWM46
-         jqIw==
-X-Gm-Message-State: APjAAAXQsx8WoyyO4SNqkfq0CPiSpXtZTLFUC3Ky+EfF8ALCOoBIF3Yc
-        ESLemS7XpCwpoVWrJ3+izw89sK2I
-X-Google-Smtp-Source: APXvYqyns6Vff7kUH+rUID8tZln8mRJVj8o+3pPaCd4oFy0P3i40MDaw4ppYbnTc2ER0O6dZ4KZmgw==
-X-Received: by 2002:a5d:87d3:: with SMTP id q19mr27223875ios.29.1553747460974;
-        Wed, 27 Mar 2019 21:31:00 -0700 (PDT)
-Received: from ubu-Virtual-Machine (66-188-57-61.dhcp.bycy.mi.charter.com. [66.188.57.61])
-        by smtp.gmail.com with ESMTPSA id u204sm1237526ita.33.2019.03.27.21.30.59
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 27 Mar 2019 21:31:00 -0700 (PDT)
-Date:   Thu, 28 Mar 2019 00:30:57 -0400
-From:   Kimberly Brown <kimbrownkd@gmail.com>
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 3/3] Drivers: hv: vmbus: Fix race condition with new
- ring_buffer_info mutex
-Message-ID: <20190328043057.GA2258@ubu-Virtual-Machine>
-References: <cover.1550806305.git.kimbrownkd@gmail.com>
- <cover.1552592620.git.kimbrownkd@gmail.com>
- <262046fa9e89d5f483ecd5972d86f4f9608dbcc3.1552592620.git.kimbrownkd@gmail.com>
- <20190314154533.17c8a362@shemminger-XPS-13-9360>
- <20190317014927.GA60356@ubu-Virtual-Machine>
- <20190320130619.07e49c97@shemminger-XPS-13-9360>
- <20190321034752.GA6828@ubu-Virtual-Machine>
- <DM5PR2101MB091851BC7C55093D388514D9D7420@DM5PR2101MB0918.namprd21.prod.outlook.com>
+        Thu, 28 Mar 2019 13:50:11 -0400
+Received: from linuxonhyperv2.linuxonhyperv.com ([107.180.71.197])
+        by : HOSTING RELAY : with ESMTP
+        id 9Z9JhVvWdO5E59Z9JhQc8T; Thu, 28 Mar 2019 10:49:09 -0700
+x-originating-ip: 107.180.71.197
+Received: from haiyangz by linuxonhyperv2.linuxonhyperv.com with local (Exim 4.91)
+        (envelope-from <haiyangz@linuxonhyperv2.linuxonhyperv.com>)
+        id 1h9Z9J-0001GA-2c; Thu, 28 Mar 2019 10:49:09 -0700
+From:   Haiyang Zhang <haiyangz@linuxonhyperv.com>
+To:     sashal@kernel.org, linux-hyperv@vger.kernel.org
+Cc:     haiyangz@microsoft.com, kys@microsoft.com, sthemmin@microsoft.com,
+        olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH hyperv-fixes] hv_netvsc: Fix unwanted wakeup after tx_disable
+Date:   Thu, 28 Mar 2019 17:48:45 +0000
+Message-Id: <20190328174845.4799-1-haiyangz@linuxonhyperv.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM5PR2101MB091851BC7C55093D388514D9D7420@DM5PR2101MB0918.namprd21.prod.outlook.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfMZltb/sB/e4UFgHZssbiqMVSxMBg9AEbr636/S1oQ8KsXQsBgkLBRKZ/UGFHIUHnpqPbg8WYWhK0FjV7KYU1om1AERIXUCiQL+IC388fmc83N88XzIz
+ K7lVMgJLkBQnBSRsOJX3ixnNvn21rJVRT14hwWEZh9TymyHp3W8TMWjblycauAJ5t11F1bvzBJewElSGeXtKnSpIBkjuAdP5+XlY9707Zu+Ks1a/+VtUYANb
+ hIkIla+gc7BqMoqo8tc5ZlGHxS5lq8djKsUDyIFo/rC0L+A1aztSQq4J/x+Qs43XRM8jdjB5a1myyC46lNaAAzhsZdqeKYchN6CBTAifdZyk4fF+kKuRhLAH
+ nlZxYA9ileifSvTJXCnUeV5MzRl2gtyYmNgNJpfflR8wvzzgoc/7crh7AhsQYxMALXs5olUMWVPbLD2DWEn7x+GrDLCHb8NwSGJcqo2Ma5BYqlpcxmKdFz2X
+ x6HKPxmftdVpexfuDQG/zezAmGMMOV/jM0LgATFT1WoFEfKUpClO45VGB5Q=
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Mar 21, 2019 at 04:04:20PM +0000, Michael Kelley wrote:
-> From: Kimberly Brown <kimbrownkd@gmail.com>  Sent: Wednesday, March 20, 2019 8:48 PM
-> > > > > Adding more locks will solve the problem but it seems like overkill.
-> > > > > Why not either use a reference count or an RCU style access for the
-> > > > > ring buffer?
-> > > >
-> > > > I agree that a reference count or RCU could also solve this problem.
-> > > > Using mutex locks seemed like the most straightforward solution, but
-> > > > I'll certainly switch to a different approach if it's better!
-> > > >
-> > > > Are you concerned about the extra memory required for the mutex locks,
-> > > > read performance, or something else?
-> > >
-> > > Locks in control path are ok, but my concern is performance of the
-> > > data path which puts packets in/out of rings. To keep reasonable performance,
-> > > no additional locking should be added in those paths.
-> > >
-> > > So if data path is using RCU, can/should the control operations also
-> > > use it?
-> > 
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
+After queue stopped, the wakeup mechanism may wake it up again
+when ring buffer usage is lower than a threshold. This may cause
+send path panic on NULL pointer when we stopped all tx queues in
+netvsc_detach and start removing the netvsc device.
 
-Hi Stephen,
+This patch fix it by adding a tx_disable flag to prevent unwanted
+queue wakeup.
 
-Do you have any additional questions or suggestions for this race
-condition and the mutex locks? I think that your initial questions were
-addressed in the responses below. If there's anything else, please let
-me know!
+Fixes: 7b2ee50c0cd5 ("hv_netvsc: common detach logic")
+Reported-by: Mohammed Gamal <mgamal@redhat.com>
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ drivers/net/hyperv/hyperv_net.h |  1 +
+ drivers/net/hyperv/netvsc.c     |  6 ++++--
+ drivers/net/hyperv/netvsc_drv.c | 32 ++++++++++++++++++++++++++------
+ 3 files changed, 31 insertions(+), 8 deletions(-)
 
-Thanks,
-Kim
+diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
+index e859ae2..49f41b6 100644
+--- a/drivers/net/hyperv/hyperv_net.h
++++ b/drivers/net/hyperv/hyperv_net.h
+@@ -987,6 +987,7 @@ struct netvsc_device {
+ 
+ 	wait_queue_head_t wait_drain;
+ 	bool destroy;
++	bool tx_disable; /* if true, do not wake up queue again */
+ 
+ 	/* Receive buffer allocated by us but manages by NetVSP */
+ 	void *recv_buf;
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 813d195..e0dce37 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -110,6 +110,7 @@ static struct netvsc_device *alloc_net_device(void)
+ 
+ 	init_waitqueue_head(&net_device->wait_drain);
+ 	net_device->destroy = false;
++	net_device->tx_disable = false;
+ 
+ 	net_device->max_pkt = RNDIS_MAX_PKT_DEFAULT;
+ 	net_device->pkt_align = RNDIS_PKT_ALIGN_DEFAULT;
+@@ -719,7 +720,7 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
+ 	} else {
+ 		struct netdev_queue *txq = netdev_get_tx_queue(ndev, q_idx);
+ 
+-		if (netif_tx_queue_stopped(txq) &&
++		if (netif_tx_queue_stopped(txq) && !net_device->tx_disable &&
+ 		    (hv_get_avail_to_write_percent(&channel->outbound) >
+ 		     RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) {
+ 			netif_tx_wake_queue(txq);
+@@ -874,7 +875,8 @@ static inline int netvsc_send_pkt(
+ 	} else if (ret == -EAGAIN) {
+ 		netif_tx_stop_queue(txq);
+ 		ndev_ctx->eth_stats.stop_queue++;
+-		if (atomic_read(&nvchan->queue_sends) < 1) {
++		if (atomic_read(&nvchan->queue_sends) < 1 &&
++		    !net_device->tx_disable) {
+ 			netif_tx_wake_queue(txq);
+ 			ndev_ctx->eth_stats.wake_queue++;
+ 			ret = -ENOSPC;
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index 1a08679..0824155 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -109,6 +109,15 @@ static void netvsc_set_rx_mode(struct net_device *net)
+ 	rcu_read_unlock();
+ }
+ 
++static inline void netvsc_tx_enable(struct netvsc_device *nvscdev,
++				    struct net_device *ndev)
++{
++	nvscdev->tx_disable = false;
++	mb(); /* ensure queue wake up mechanism is on */
++
++	netif_tx_wake_all_queues(ndev);
++}
++
+ static int netvsc_open(struct net_device *net)
+ {
+ 	struct net_device_context *ndev_ctx = netdev_priv(net);
+@@ -129,7 +138,7 @@ static int netvsc_open(struct net_device *net)
+ 	rdev = nvdev->extension;
+ 	if (!rdev->link_state) {
+ 		netif_carrier_on(net);
+-		netif_tx_wake_all_queues(net);
++		netvsc_tx_enable(nvdev, net);
+ 	}
+ 
+ 	if (vf_netdev) {
+@@ -184,6 +193,17 @@ static int netvsc_wait_until_empty(struct netvsc_device *nvdev)
+ 	}
+ }
+ 
++static inline void netvsc_tx_disable(struct netvsc_device *nvscdev,
++				     struct net_device *ndev)
++{
++	if (nvscdev) {
++		nvscdev->tx_disable = true;
++		mb(); /* ensure txq will not wake up after stop */
++	}
++
++	netif_tx_disable(ndev);
++}
++
+ static int netvsc_close(struct net_device *net)
+ {
+ 	struct net_device_context *net_device_ctx = netdev_priv(net);
+@@ -192,7 +212,7 @@ static int netvsc_close(struct net_device *net)
+ 	struct netvsc_device *nvdev = rtnl_dereference(net_device_ctx->nvdev);
+ 	int ret;
+ 
+-	netif_tx_disable(net);
++	netvsc_tx_disable(nvdev, net);
+ 
+ 	/* No need to close rndis filter if it is removed already */
+ 	if (!nvdev)
+@@ -918,7 +938,7 @@ static int netvsc_detach(struct net_device *ndev,
+ 
+ 	/* If device was up (receiving) then shutdown */
+ 	if (netif_running(ndev)) {
+-		netif_tx_disable(ndev);
++		netvsc_tx_disable(nvdev, ndev);
+ 
+ 		ret = rndis_filter_close(nvdev);
+ 		if (ret) {
+@@ -1906,7 +1926,7 @@ static void netvsc_link_change(struct work_struct *w)
+ 		if (rdev->link_state) {
+ 			rdev->link_state = false;
+ 			netif_carrier_on(net);
+-			netif_tx_wake_all_queues(net);
++			netvsc_tx_enable(net_device, net);
+ 		} else {
+ 			notify = true;
+ 		}
+@@ -1916,7 +1936,7 @@ static void netvsc_link_change(struct work_struct *w)
+ 		if (!rdev->link_state) {
+ 			rdev->link_state = true;
+ 			netif_carrier_off(net);
+-			netif_tx_stop_all_queues(net);
++			netvsc_tx_disable(net_device, net);
+ 		}
+ 		kfree(event);
+ 		break;
+@@ -1925,7 +1945,7 @@ static void netvsc_link_change(struct work_struct *w)
+ 		if (!rdev->link_state) {
+ 			rdev->link_state = true;
+ 			netif_carrier_off(net);
+-			netif_tx_stop_all_queues(net);
++			netvsc_tx_disable(net_device, net);
+ 			event->event = RNDIS_STATUS_MEDIA_CONNECT;
+ 			spin_lock_irqsave(&ndev_ctx->lock, flags);
+ 			list_add(&event->list, &ndev_ctx->reconfig_events);
+-- 
+1.8.3.1
 
-
-> > The data path doesn't use RCU to protect the ring buffers.
-> 
-> My $.02:  The mutex is obtained only in the sysfs path and the "delete
-> ringbuffers" path, neither of which is performance or concurrency sensitive. 
-> There's no change to any path that reads or writes data from/to the ring
-> buffers.  It seems like the mutex is the most straightforward solution to
-> preventing sysfs from accessing the ring buffer info while the memory is
-> being freed as part of "delete ringbuffers".
-> 
-> Michael
