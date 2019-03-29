@@ -1,216 +1,122 @@
-Return-Path: <SRS0=/rR5=R7=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=+9KR=SA=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18159C43381
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:59:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA6A8C43381
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Mar 2019 16:01:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CDEED2173C
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Mar 2019 19:59:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEDB32070B
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Mar 2019 16:01:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="GZofP13G"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="aIyUIqj6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726140AbfC1T7J (ORCPT
+        id S1729463AbfC2QBo (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Mar 2019 15:59:09 -0400
-Received: from mail-eopbgr700091.outbound.protection.outlook.com ([40.107.70.91]:26988
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        Fri, 29 Mar 2019 12:01:44 -0400
+Received: from mail-eopbgr770132.outbound.protection.outlook.com ([40.107.77.132]:50863
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725885AbfC1T7J (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Mar 2019 15:59:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mQshc3/5uYAYoIMKyIc6lsHJfIZlDsaCsfQlo+M+SUk=;
- b=GZofP13G1xXjphZe2dyalSLtFSAAvbV8I7k/A0r27RNxnQH3hOyt797ifj0ZJAkAgvimfYFL9wtrOvty1cbHwoTUS4jpkhV1XxoFh5oPvvWtx46E+gvBtTQZa/ZvbA6uaZ3fOQIv+GpVXkPrSQLKGgB0e1ZNSVpEph0yqRIAZxE=
+        id S1728815AbfC2QBn (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 29 Mar 2019 12:01:43 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
- b=ZBpnawZ2xJIZicbbbXOowTrSCQjN4DK3u1Waiu/p0xi2MmqNci4rq8QsLbFfPTe6gf6qLW8bDmKvh9ZNhc1B28Gn8gQhno79N7QO4EE35UOmxhQe9Y+83Wbd/QgulIQNfONYiIp9v4OwHgjfLopLFrWnaY1ennUKFqTJK6t7EL8=
+ b=ECIDmgR3bjlMJ09b8H5ln4C/78WWmDR7Q6lmstnf0y3DWuu0K//2eIEMT2CbTo4wzz2q1L3xiqS3Rdou+KodjaHp61oLA/BVsV9uKKsWH1WcTtwrNOi0jz4kwYkaTPuYE5yUrAoqP7IpzHvrMmWgqHwl5MAlzGvRaO9SYdrCk4I=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=testarcselector01;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mQshc3/5uYAYoIMKyIc6lsHJfIZlDsaCsfQlo+M+SUk=;
- b=uw8cvcpAdS58m51IYUAKkjG+vliXTw3YQskWmi9JQsGnBfgjvFasH3Or7hEmRGPcQacD3DrH+qmDHgGQn3qpjtyEC7s2AmPdzAjbYhdLTIgkJDiqMS7P8ze51talt+pORSAAYzUntKhe8FjeKluu+4ESTZjG12C1rr8w7XolEyM=
+ bh=A5e1pifl3TplLKcZa20iG0t6NI7GIl6krltsNBkW5RM=;
+ b=XQ7W4j5tqsw2fRN9gpQOGZxZ/QiRWzieSTly2nDOOva8zDQg7RtOARxLBGavSAma7XbOIK+jbb+yXUwARTZoP+XgihHGf9qkcTNd4ZHrG7IAEGNo/Y8Gj606E7ft/R3dkrPar++BHbaiqXj+Q8ky58xwljSSBV3qHoUl70f99js=
 ARC-Authentication-Results: =?us-ascii?Q?i=3D1;_test.office365.com_1;=0D=0A=09=09dmarc=3Dnone_action?=
  =?us-ascii?Q?=3Dnone_header.from=3Dmicrosoft.com;=0D=0A=09=09arc=3Dnone?=
-Received: from DM6PR21MB1337.namprd21.prod.outlook.com (20.179.53.80) by
- DM6PR21MB1241.namprd21.prod.outlook.com (20.179.50.85) with Microsoft SMTP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A5e1pifl3TplLKcZa20iG0t6NI7GIl6krltsNBkW5RM=;
+ b=aIyUIqj6wifOyn5llcx/Xuvu1QqhZz1/hFcAEcZPfcUexjQf198eQLBOvjbEdcesfcBIHGvDZA4xnWqHIrtCMMaJq6hepA0Rv3xMpmGdRj0ojx7JDbmTRHgXuqSTnYwGc6lmZzAUYL/i9Of/kNWbpbDa6YUGNEXfQAlW3CafP54=
+Received: from DM5PR2101MB0918.namprd21.prod.outlook.com (52.132.132.163) by
+ DM5PR2101MB0872.namprd21.prod.outlook.com (10.167.111.39) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1771.2; Thu, 28 Mar 2019 19:59:05 +0000
-Received: from DM6PR21MB1337.namprd21.prod.outlook.com
- ([fe80::a8f3:221a:ccfe:f049]) by DM6PR21MB1337.namprd21.prod.outlook.com
- ([fe80::a8f3:221a:ccfe:f049%8]) with mapi id 15.20.1771.007; Thu, 28 Mar 2019
- 19:59:05 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     Stephen Hemminger <stephen@networkplumber.org>
-CC:     "sashal@kernel.org" <sashal@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
+ 15.20.1771.8; Fri, 29 Mar 2019 16:01:41 +0000
+Received: from DM5PR2101MB0918.namprd21.prod.outlook.com
+ ([fe80::41f8:5e99:8d3:1370]) by DM5PR2101MB0918.namprd21.prod.outlook.com
+ ([fe80::41f8:5e99:8d3:1370%5]) with mapi id 15.20.1771.007; Fri, 29 Mar 2019
+ 16:01:41 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     kimbrownkd <kimbrownkd@gmail.com>, Long Li <longli@microsoft.com>,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Dexuan Cui <decui@microsoft.com>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH hyperv-fixes] hv_netvsc: Fix unwanted wakeup after
- tx_disable
-Thread-Topic: [PATCH hyperv-fixes] hv_netvsc: Fix unwanted wakeup after
- tx_disable
-Thread-Index: AQHU5Y6yCEd0RmutM0qGiubebdJ5HaYhX7uAgAAB3SCAAA/vgIAAAuNg
-Date:   Thu, 28 Mar 2019 19:59:05 +0000
-Message-ID: <DM6PR21MB13373F19D06D1FB27B65A9F6CA590@DM6PR21MB1337.namprd21.prod.outlook.com>
-References: <20190328174845.4799-1-haiyangz@linuxonhyperv.com>
-        <20190328113823.3c9b3599@shemminger-XPS-13-9360>
-        <DM6PR21MB1337250A47CEE73D1EFE0AB7CA590@DM6PR21MB1337.namprd21.prod.outlook.com>
- <20190328124205.42f5f337@shemminger-XPS-13-9360>
-In-Reply-To: <20190328124205.42f5f337@shemminger-XPS-13-9360>
+Subject: RE: [PATCH v3 2/3] Drivers: hv: vmbus: Set ring_info field to 0 and
+ remove memset
+Thread-Topic: [PATCH v3 2/3] Drivers: hv: vmbus: Set ring_info field to 0 and
+ remove memset
+Thread-Index: AQHU2qE7Abdico24WESRHskWgspSF6Yi2++Q
+Date:   Fri, 29 Mar 2019 16:01:40 +0000
+Message-ID: <DM5PR2101MB09187D0E1373E3E9830903A0D75A0@DM5PR2101MB0918.namprd21.prod.outlook.com>
+References: <cover.1550806305.git.kimbrownkd@gmail.com>
+ <cover.1552592620.git.kimbrownkd@gmail.com>
+ <b9b604327b885d82ddad2991f55d1b54be6eb1c8.1552592620.git.kimbrownkd@gmail.com>
+In-Reply-To: <b9b604327b885d82ddad2991f55d1b54be6eb1c8.1552592620.git.kimbrownkd@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=haiyangz@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-03-28T19:59:02.1667228Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-03-29T16:01:39.2622860Z;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
  Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=5d2617ba-bcbb-4296-b2e6-29b7d9ef9028;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0bf8cfbd-bc3a-400b-b13e-146a5b42d4d7;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-x-originating-ip: [96.61.92.94]
+x-originating-ip: [24.22.167.197]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eb24fa0a-4973-4654-3b97-08d6b3b7d50b
+x-ms-office365-filtering-correlation-id: fad0ed48-1e73-4ead-0f44-08d6b45fd53f
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600127)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM6PR21MB1241;
-x-ms-traffictypediagnostic: DM6PR21MB1241:
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600138)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM5PR2101MB0872;
+x-ms-traffictypediagnostic: DM5PR2101MB0872:
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mikelley@microsoft.com; 
 x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <DM6PR21MB124117C4D678D7FCAAB944CFCA590@DM6PR21MB1241.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0990C54589
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(376002)(366004)(136003)(346002)(199004)(189003)(13464003)(71200400001)(229853002)(74316002)(68736007)(8990500004)(305945005)(6916009)(7736002)(6436002)(81156014)(446003)(8676002)(71190400001)(81166006)(11346002)(26005)(97736004)(14444005)(256004)(52536014)(478600001)(86612001)(6246003)(66066001)(55016002)(9686003)(53936002)(4326008)(86362001)(22452003)(5660300002)(6116002)(476003)(33656002)(54906003)(10090500001)(186003)(25786009)(10290500003)(14454004)(7696005)(106356001)(6506007)(53546011)(316002)(8936002)(6346003)(76176011)(105586002)(102836004)(2906002)(3846002)(486006)(93886005)(99286004)(26123001);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR21MB1241;H:DM6PR21MB1337.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-microsoft-antispam-prvs: <DM5PR2101MB08725DAE4CD6E37A479429C7D75A0@DM5PR2101MB0872.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1751;
+x-forefront-prvs: 0991CAB7B3
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(39860400002)(376002)(346002)(136003)(366004)(199004)(189003)(305945005)(6246003)(8936002)(478600001)(10290500003)(66066001)(7696005)(97736004)(486006)(71190400001)(71200400001)(22452003)(316002)(25786009)(105586002)(86362001)(1511001)(8676002)(86612001)(54906003)(110136005)(81166006)(229853002)(6636002)(2906002)(106356001)(33656002)(476003)(9686003)(6436002)(68736007)(3846002)(55016002)(558084003)(26005)(81156014)(14454004)(99286004)(4326008)(74316002)(256004)(76176011)(446003)(6116002)(8990500004)(11346002)(10090500001)(7736002)(5660300002)(53936002)(186003)(52536014)(6506007)(102836004);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0872;H:DM5PR2101MB0918.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=haiyangz@microsoft.com; 
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: tsIL0N7kwi+82B1xBil0RzIRPadrwCvD4j852LQkmpaTRRVsWB8AY6l0CwCRMpVSgdSLf3BRyfGMllmPJNtLwaGTy/ridL3MisqDv2L5d5JDjxC01f7nHRabHH024MwsKLneEhIBe9L2xxgnoNuqjhSFDCpcnegX3b3Tev4dkvIkTOUlvag1iS0U4TUoDYKDWci1vb+0UQRIVz51XMLIGNQGSQQLOohnh6wYjcJz84+UfTpzQq52x9gpvKNs28ejDGsRWYrdbT26iXj0uCWo2siTxJN0r2IKJNJfGHRyUbH3j6+g/Hco6GuneDWMnpScpSb21fti7NY90il2Gt7NAmUQO21/SHkoukLlhilUROF2Hsz+yzNnkWpGogBarWSAICwXNx9sC5qSQVfQl6luEmi/xsAplyNGCbcaq39Ju7M=
+x-microsoft-antispam-message-info: /Lgaa5WRHK/5OPMJfQf67iIJ2dWipelPlvu7ccItddK508QzrvT6eSmFXYnWsl8qJ8yilREhlkUFy5sR0lTnlgWRYA9MVwSfjspvQEy0H3oCRub0BVs5iLYwh+o2ik1hqIiFN+2EQ9xV7vRPTr89tQTGjXNz8CZfx4u1ToHYftENzStQSh6/xNi3/GVTxDEZ/HO+mt5aMUEzfcmuLtGqQ83U3MRX8YxqdVq+VF4L+jzW0FFUfEaCDCxG/GtWH9c6vYSohM7Rt/j7YHkwu3nsWZiDzNhS5TVD/rcTo6BzZvLi6dOckNwKsLUp9XAuSl3BlEpGjBbslKzWp9z/wRL3P1OjPgDxkuxswaZR42wh4jqBkO5LxMcQ7KBMyyCpIUsULezWoVoXXQ13uHeB0i3ru6bBRAWxan7Y3knUL7rIMVU=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb24fa0a-4973-4654-3b97-08d6b3b7d50b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Mar 2019 19:59:05.2943
+X-MS-Exchange-CrossTenant-Network-Message-Id: fad0ed48-1e73-4ead-0f44-08d6b45fd53f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Mar 2019 16:01:41.0497
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1241
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0872
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: Stephen Hemminger <stephen@networkplumber.org>
-> Sent: Thursday, March 28, 2019 3:42 PM
-> To: Haiyang Zhang <haiyangz@microsoft.com>
-> Cc: Haiyang Zhang <haiyangz@linuxonhyperv.com>; sashal@kernel.org;
-> linux-hyperv@vger.kernel.org; KY Srinivasan <kys@microsoft.com>; Stephen
-> Hemminger <sthemmin@microsoft.com>; olaf@aepfle.de; vkuznets
-> <vkuznets@redhat.com>; davem@davemloft.net; netdev@vger.kernel.org;
-> linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH hyperv-fixes] hv_netvsc: Fix unwanted wakeup after
-> tx_disable
+From: Kimberly Brown <kimbrownkd@gmail.com> Sent: Thursday, March 14, 2019 =
+1:05 PM
 >=20
-> On Thu, 28 Mar 2019 19:00:18 +0000
-> Haiyang Zhang <haiyangz@microsoft.com> wrote:
+> Set "ring_info->priv_read_index" to 0. Now, all of ring_info's fields
+> are explicitly set in this function. The memset() call is no longer
+> necessary, so remove it.
 >=20
-> > > -----Original Message-----
-> > > From: Stephen Hemminger <stephen@networkplumber.org>
-> > > Sent: Thursday, March 28, 2019 2:38 PM
-> > > To: Haiyang Zhang <haiyangz@linuxonhyperv.com>
-> > > Cc: sashal@kernel.org; linux-hyperv@vger.kernel.org; Haiyang Zhang
-> > > <haiyangz@microsoft.com>; KY Srinivasan <kys@microsoft.com>;
-> Stephen
-> > > Hemminger <sthemmin@microsoft.com>; olaf@aepfle.de; vkuznets
-> > > <vkuznets@redhat.com>; davem@davemloft.net;
-> netdev@vger.kernel.org;
-> > > linux-kernel@vger.kernel.org
-> > > Subject: Re: [PATCH hyperv-fixes] hv_netvsc: Fix unwanted wakeup
-> > > after tx_disable
-> > >
-> > > On Thu, 28 Mar 2019 17:48:45 +0000
-> > > Haiyang Zhang <haiyangz@linuxonhyperv.com> wrote:
-> > >
-> > > > +static inline void netvsc_tx_enable(struct netvsc_device *nvscdev,
-> > > > +				    struct net_device *ndev)
-> > > > +{
-> > > > +	nvscdev->tx_disable =3D false;
-> > > > +	mb(); /* ensure queue wake up mechanism is on */
-> > > > +
-> > > > +	netif_tx_wake_all_queues(ndev);
-> > > > +}
-> > >
-> > > You don't need a full mb(). virt_wmb() should be sufficient.
-> >
-> > I will make this change.
-> >
-> > > Could I suggest an alternative approach.
-> > > You don't need to introduce a local tx_disable flag, the only place
-> > > where a wakeup could cause problems is after a send_completion was
-> > > processed during detach state.
-> > >
-> > > Instead, just avoid wakeup in that place.
-> >
-> > In netvsc_detach(), after netif_tx_disable(), we call
-> > netvsc_wait_until_empty(nvdev); TX patch should not be waken up again
-> while waiting for in/out ring to becomes empty.
-> >
-> > In my tests before this patch, there are wakeup happens before
-> > netif_device_detach(), so netif_device_present(ndev) is still true at t=
-hat
-> time.
-> >
-> > In other places, like netvsc_close(), link_change(), we also don't want
-> wakeup after tx_disable.
-> >
-> > Thanks.
-> > - Haiyang
-> >
-> > >
-> > > --- a/drivers/net/hyperv/netvsc.c
-> > > +++ b/drivers/net/hyperv/netvsc.c
-> > > @@ -720,6 +720,7 @@ static void netvsc_send_tx_complete(struct
-> > > net_device *ndev,
-> > >                 struct netdev_queue *txq =3D netdev_get_tx_queue(ndev=
-,
-> > > q_idx);
-> > >
-> > >                 if (netif_tx_queue_stopped(txq) &&
-> > > +                   netif_device_present(ndev) &&
-> > >                     (hv_get_avail_to_write_percent(&channel->outbound=
-) >
-> > >                      RING_AVAIL_PERCENT_HIWATER || queue_sends < 1)) =
-{
-> > >                         netif_tx_wake_queue(txq);
->=20
->=20
-> Then what about doing netif_detach earlier in netvsc_detach.
->=20
-> The state management is already (too) complex in netvsc and adding anothe=
-r
-> boolean flag just makes it harder to understand.
+> Signed-off-by: Kimberly Brown <kimbrownkd@gmail.com>
 
-If we move netif_device_detach() before the netvsc_wait_until_empty(), the =
-remaining
-Packets in the receive buffer will be passed to a detached device.
-
-Also, in case of netvsc_close() and link_change(), we don't call netif_devi=
-ce_detach().
-
-Thanks,
-- Haiyang
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
