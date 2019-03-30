@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE65C43381
-	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Mar 2019 01:04:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41436C10F05
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Mar 2019 01:08:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 663FB2064A
-	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Mar 2019 01:04:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A38A2184C
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Mar 2019 01:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1553907899;
-	bh=sF6Tmw0XpqrPxv///1QK5vQUUsVfGIvHzt95QALa2Ow=;
+	s=default; t=1553908134;
+	bh=S5PeUGUAYe/Kz+Y3zj+oBMXsduxpAypjMN641UXFObk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CoJaeaPiFvO9PvA1URIetI6TK9G2hneTuJZcFx0PmCAcG4aNPEQ94q2NkgjkZr/dK
-	 /yGovfrb3wbM8VeKoYAuMfZVUAyw7U+h43v8c72kKpRnI/b0qtmGjPJnUl68617k4C
-	 gOLA6PR279OK/C/9uf6t5L1E4FNnw3bx/VKT2Id0=
+	b=RKtu8xtftelw2AbcZjlCpAwTamKvA+ri7B0grGsfufhgVkD9l5QgoHMK37qe6vBqP
+	 LLSE/jYsSwWI5xppFSpye0SpeAK4V1bXhqP61S9DpixAh8Y7DZpM9h8P5QhudmAMER
+	 v/xiROUAn4NTz1cg5PNqqyvLczujvGdmnah+9eOE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731486AbfC3AyZ (ORCPT
+        id S1730648AbfC3Awm (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 29 Mar 2019 20:54:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33350 "EHLO mail.kernel.org"
+        Fri, 29 Mar 2019 20:52:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59396 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731514AbfC3AyY (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 29 Mar 2019 20:54:24 -0400
+        id S1730317AbfC3Awl (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 29 Mar 2019 20:52:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F3927218D3;
-        Sat, 30 Mar 2019 00:54:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 06DAE218AC;
+        Sat, 30 Mar 2019 00:52:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1553907264;
-        bh=sF6Tmw0XpqrPxv///1QK5vQUUsVfGIvHzt95QALa2Ow=;
+        s=default; t=1553907161;
+        bh=S5PeUGUAYe/Kz+Y3zj+oBMXsduxpAypjMN641UXFObk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=x5kw87K8//FTh50yP0ll598JJrh/DCgzWfJWzVdGmpxCE/a0onuRNLUbgCHhfyUdm
-         GREci1Y6ddl2Q2JIfxvCjh8drhk6Rm9QGBWczl68IpjgP+SXXF6nLkcQhZ6WxaaEIM
-         HQ03Cd7gOAKys+EcgonF5TnQkaQs8ZX6ihgFfKeI=
+        b=LknTNTIkfhX23GX8bggquQkorWICpG20z2swaDNn8hEK9orcqi50YdnFkTBdzVHLZ
+         Vmcwey0FDxLQrmRfh61YIDvgoth/nDTNwRQc/tDFBsMHQUzyrREhJF/C3PaWqkBZnp
+         KqBEYHBMKyOtQG8duK306gHJalTK1laaAykVI6Rw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kangjie Lu <kjlu@umn.edu>, Thomas Gleixner <tglx@linutronix.de>,
@@ -47,12 +47,12 @@ Cc:     Kangjie Lu <kjlu@umn.edu>, Thomas Gleixner <tglx@linutronix.de>,
         Sasha Levin <sashal@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
         "H. Peter Anvin" <hpa@zytor.com>, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 45/52] x86/hyperv: Prevent potential NULL pointer dereference
-Date:   Fri, 29 Mar 2019 20:52:52 -0400
-Message-Id: <20190330005301.26868-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.0 57/67] x86/hyperv: Prevent potential NULL pointer dereference
+Date:   Fri, 29 Mar 2019 20:50:37 -0400
+Message-Id: <20190330005047.25998-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190330005301.26868-1-sashal@kernel.org>
-References: <20190330005301.26868-1-sashal@kernel.org>
+In-Reply-To: <20190330005047.25998-1-sashal@kernel.org>
+References: <20190330005047.25998-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -91,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 20c876c7c5bf..5a81a8edff12 100644
+index 7abb09e2eeb8..dfdb4ce1ae9c 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -101,9 +101,13 @@ static int hv_cpu_init(unsigned int cpu)
+@@ -102,9 +102,13 @@ static int hv_cpu_init(unsigned int cpu)
  	u64 msr_vp_index;
  	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
  	void **input_arg;
