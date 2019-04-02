@@ -2,135 +2,103 @@ Return-Path: <SRS0=Cz6W=SE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A70EBC4360F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Apr 2019 09:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0DAC4360F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Apr 2019 14:13:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 727CC207E0
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Apr 2019 09:10:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D0792070B
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Apr 2019 14:13:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="t5Ohdgk4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ds6lyNlw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729783AbfDBJK1 (ORCPT
+        id S1729004AbfDBOND (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 2 Apr 2019 05:10:27 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:22833 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729162AbfDBJK0 (ORCPT
+        Tue, 2 Apr 2019 10:13:03 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:34812 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726903AbfDBOND (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Apr 2019 05:10:26 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x3298VSZ007626;
-        Tue, 2 Apr 2019 18:08:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x3298VSZ007626
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1554196113;
-        bh=EAXKI8xuU8IlM0GjkRwXsx7k4dD562vpzZxwsiCOtOY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=t5Ohdgk47kaYLy5jMmLNtp2C+KaJs0Yof76QBkFUx2e2iECi4EATjKYso9lb8FiIb
-         /FyshpraRsqHqdZSDoSygB++IntV63cWnHOrnGnhufUUZMfn4FEqMHk+0wrcjKScsV
-         ip5jnjmok0zcuWgieChwBXkpZAQb8MQwo5yoWwgl2BYTekW/ECbbnXTdXnLaH/ol5V
-         5ZcEseI6OZUSDHERhKACExgZd4DZbFc8r8tDc518b/7Bu8WkPZllPdlA+wzUOdbpk7
-         zTngzozMALddTivC0aDWCVpMO/BtyG1mNCQIeCg6h34uzeyAtkVVqFqICqqDlbC2Mr
-         bYu3GRwLpvjqQ==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Karthikeyan Ramasubramanian <kramasub@codeaurora.org>,
-        =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andy Gross <andy.gross@linaro.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Girish Mahadevan <girishm@codeaurora.org>,
-        Sagar Dharia <sdharia@codeaurora.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-arch@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        Tue, 2 Apr 2019 10:13:03 -0400
+Received: by mail-pf1-f195.google.com with SMTP id b3so6459136pfd.1;
+        Tue, 02 Apr 2019 07:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3hnOwdjxBlqNg7VVcRE/8zfPc8TAr8TXpOT6LOY3G4o=;
+        b=Ds6lyNlwphhXHT/y7a/K0YfLwcunPEf6SojJZ89eDyl02SIpIMr/AmmWzZ4tHRY8MX
+         ru16fW4Fy2T5QwxbY2TMmQR1cfo11YBzP6ODfV70TJPVSC+/AMhZwDES/3gq57OzHsCr
+         TkgtYloz/SgpV7FC0HFxN5u7aLzOOHL3f+mBds5/TuyiLVdH94YSdqeNO1Lkh9sAPnM4
+         N7txlgms6sEVKayvqS0oteJr5aqVLbdBJpFtCF3QmyRNaaX5jxlk8QZqE/5cAvEUqSH+
+         Y1shfdcg2pMg3S4HDzb9NZXzuwjWscxQ1tDCWTr/YSFbPeONzCrnxibzHgvuxCRYPWKx
+         Cv6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3hnOwdjxBlqNg7VVcRE/8zfPc8TAr8TXpOT6LOY3G4o=;
+        b=H8qbFt90gEIAx20fd1cdCSZ1ODL5LlMa8+fQeOrtPb0iIX2+3WgDtTvQuq+l8piQL0
+         kKJvtAqvKZQQasYoV7WdWuYzJaj5SWNDSLSG51EFIRvBdJkSXqJr8Im04ui29bUJudj0
+         qa1hYCHPLgoFi7YXQ186lAgAG8IFh9BgEBO/Y+vSL5vjLRfJQOfnYPYzlnczHXZ/m8+y
+         ua/rAeSJK5jV55E4JFMOkfpxRXM1LfO5OR9IBMUgel3xhL/YY5kBifIwccT1Y0/SCY6M
+         qaLcK5onW2FTBh6bukx2oNcQyU2eU6xDVUnXCDZ/Z329iIjEX0pImde40ONTTeLKyoVi
+         OR7g==
+X-Gm-Message-State: APjAAAXRWsldHnkPgAUAVTAoNjOvkK1mxJYFWH0w9/gpp4Sfbfz++aW6
+        LbdMSHRTflZknga0pQBS93o=
+X-Google-Smtp-Source: APXvYqxuaBKoeAgLVDxk/VT+gKkQ3JDb6ApBCpzEiCiQrHUJwmEArHIwMhd1CwB18qNmeVVrW/g5pw==
+X-Received: by 2002:a63:2a8f:: with SMTP id q137mr66340969pgq.31.1554214382126;
+        Tue, 02 Apr 2019 07:13:02 -0700 (PDT)
+Received: from zhlao-linux.corp.microsoft.com ([167.220.232.97])
+        by smtp.gmail.com with ESMTPSA id p34sm15940286pgb.18.2019.04.02.07.12.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Apr 2019 07:13:01 -0700 (PDT)
+From:   Zhongcheng Lao <laozhongcheng@gmail.com>
+X-Google-Original-From: Zhongcheng Lao <Zhongcheng.Lao@microsoft.com>
+To:     haiyangz@microsoft.com
+Cc:     Zhongcheng Lao <Zhongcheng.Lao@microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Ingo Molnar <mingo@redhat.com>
-Subject: [PATCH v2] Remove SPDX "WITH Linux-syscall-note" from kernel-space headers
-Date:   Tue,  2 Apr 2019 18:08:24 +0900
-Message-Id: <1554196104-3522-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Do not overwrite CFLAG passed into makefile
+Date:   Tue,  2 Apr 2019 22:11:22 +0800
+Message-Id: <20190402141123.97941-1-Zhongcheng.Lao@microsoft.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The "WITH Linux-syscall-note" should be added to headers exported to
-the user-space.
+It is necessary to pass a custom value for KVP_SCRIPTS_PATH
+because of the directory structure differences in Linux distros.
+Current makefile does not allow this.
 
-Some kernel-space headers have "WITH Linux-syscall-note", which seems
-a mistake.
+The patch fixes the issue.
 
-[1] arch/x86/include/asm/hyperv-tlfs.h
-
-5a4858032217 ("x86/hyper-v: move hyperv.h out of uapi") moved this file
-out of uapi, but missed to update the SPDX License tag.
-
-[2] include/asm-generic/shmparam.h
-
-76ce2a80a28e ("Rename include/{uapi => }/asm-generic/shmparam.h really")
-moved this file out of uapi, but missed to update the SPDX License tag.
-
-[3] include/linux/qcom-geni-se.h
-
-eddac5af0654 ("soc: qcom: Add GENI based QUP Wrapper driver") added this
-file, but I do not see a good reason why its license tag must include
-"WITH Linux-syscall-note".
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Signed-off-by: Zhongcheng Lao <Zhongcheng.Lao@microsoft.com>
 ---
+ tools/hv/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-  - Fix a typo in commit log
-
- arch/x86/include/asm/hyperv-tlfs.h | 2 +-
- include/asm-generic/shmparam.h     | 2 +-
- include/linux/qcom-geni-se.h       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 2bdbbbc..cdf44aa 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/* SPDX-License-Identifier: GPL-2.0 */
+diff --git a/tools/hv/Makefile b/tools/hv/Makefile
+index 5db5e62cebda..058c3dbb7824 100644
+--- a/tools/hv/Makefile
++++ b/tools/hv/Makefile
+@@ -2,7 +2,7 @@
+ # Makefile for Hyper-V tools
  
- /*
-  * This file contains definitions from Hyper-V Hypervisor Top-Level Functional
-diff --git a/include/asm-generic/shmparam.h b/include/asm-generic/shmparam.h
-index 8b78c0b..b8f9035 100644
---- a/include/asm-generic/shmparam.h
-+++ b/include/asm-generic/shmparam.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/* SPDX-License-Identifier: GPL-2.0 */
- #ifndef __ASM_GENERIC_SHMPARAM_H
- #define __ASM_GENERIC_SHMPARAM_H
+ WARNINGS = -Wall -Wextra
+-CFLAGS = $(WARNINGS) -g $(shell getconf LFS_CFLAGS)
++CFLAGS += $(WARNINGS) -g $(shell getconf LFS_CFLAGS)
  
-diff --git a/include/linux/qcom-geni-se.h b/include/linux/qcom-geni-se.h
-index 3bcd67f..dd46494 100644
---- a/include/linux/qcom-geni-se.h
-+++ b/include/linux/qcom-geni-se.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-  */
+ CFLAGS += -D__EXPORTED_HEADERS__ -I../../include/uapi -I../../include
+ 
 -- 
-2.7.4
+2.21.0
 
