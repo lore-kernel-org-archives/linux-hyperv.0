@@ -7,64 +7,63 @@ X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC4EC4360F
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 01:17:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1BCBC4360F
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 01:19:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C3448217D4
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 01:17:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6AAA217D4
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 01:19:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zg5jLbOe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N94eNoEN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729635AbfDEBRg (ORCPT
+        id S1728762AbfDEBTU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 4 Apr 2019 21:17:36 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41677 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728762AbfDEBRg (ORCPT
+        Thu, 4 Apr 2019 21:19:20 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33195 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727053AbfDEBTU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 4 Apr 2019 21:17:36 -0400
-Received: by mail-pf1-f195.google.com with SMTP id 188so2298017pfd.8;
-        Thu, 04 Apr 2019 18:17:35 -0700 (PDT)
+        Thu, 4 Apr 2019 21:19:20 -0400
+Received: by mail-pl1-f194.google.com with SMTP id t16so2102273plo.0;
+        Thu, 04 Apr 2019 18:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=jvMszzSvwdbU169l8LvoLjhC1NstQr9xJXp3myImfk4=;
-        b=Zg5jLbOeo+d2lxIqbDXi30suPNEdjxilVEpOCIKMjJiEJTyqnGv1jmy8IuezZIJ9+l
-         T5s2ZvUfhghICE7e+WaPCpp0F0yvYXkgj6eDcPbx8Bd2BVGp8Ny/Gx5xzqU9iQqzLmk3
-         LNdrawSPsR5mS5SiOtFLe0siIj5KVeFrGu5hrThxOoowDBXPDgg4Zd/zQxYsqPtFzk8P
-         t9DLr/89wyPIA1SdBeox8h3lbXTiAqsvvOwXhA3U7Tbss5oCf42kJfTAPSXLX4D6eq/o
-         G9olpYgyumBVfDTJ836Wejp4Gsw0aK4yLJOZ4R01xpC6UMm2gWWhzRZX8H1Haj7Q4ZI1
-         E0RA==
+        bh=MjJ+/VCasb87xuya0ajNHcY368TAHJh1oTyxs8T+FF8=;
+        b=N94eNoENGdv7ajtDeK8QwR8+Tu/9Z4wKDvHS+ZPwaDGGtvuBWhcAR1gCno5TtMKU3a
+         oGmT+od36mGp7iWlpxyOCuRKdGdBC/0Ybv34ey3cZMblkiSLrQUEthEwiKtL+RozPSIq
+         a+0dgcqjfvhtacds/QbUpBcUWXBn6l/vQbcTZzSwiAioExfGTqK2EBNX0T44FjPiWqFT
+         nUqo0xqlRemB9rwMJa13lcHrZzhjcXjVxJj3VLKAVAkxF+WptRJugM8LQemq/yytW/cd
+         oFOzXPRMmpUZVtAZ3Nf6Wvoi44SXpQue0r54/HjjyXEgdzf5iMBrSv4jWeo6QxCyD5QY
+         Nagw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jvMszzSvwdbU169l8LvoLjhC1NstQr9xJXp3myImfk4=;
-        b=PUAP3BPiaEGMA/uY8I76dJac9CX7HZkNtN2xD7BcD5CGIKusvDWTyhdC6WIYSGGu+C
-         2PipJkHJm5AZiGKuPGeTlwV5IuNvRa2S6oq9CabxekjK7Ks9FDE+mVVCTyAKHbfYVsKs
-         TUunR0nxRDW+3438XXrCgrze/kKRtwekgY4ifI7NKkKonVTWfSUgqxQo0C1/3ydkOWrX
-         +8LBkt09rL15Ar1nrb3L2dnJWwu9ouzqFIA0SV15Q/HUYlbgg5XAsLRst2HxBCf6iyza
-         6jpp7jyB/BXsNCWQwxwhY5TIbYvL6s1SuGPYc0wGK+k/NeItcXDRincGQoR51GpBsN94
-         3eXg==
-X-Gm-Message-State: APjAAAWeeWUhxJm6mT5t+xKQaoHMUBspt88Rln5l0zS2Q1YPC+MWZlJ+
-        LAbFArUpC0eEe8j3CL7erpnbZqZ5skrO1A==
-X-Google-Smtp-Source: APXvYqzwEZLbhrdHPLY36xpVEaWqvTMw9pJhqhTZDytiwln67ACdsqdnRmOuCcWNsR7s9GeBaSV3GQ==
-X-Received: by 2002:a62:4351:: with SMTP id q78mr9610568pfa.86.1554427055364;
-        Thu, 04 Apr 2019 18:17:35 -0700 (PDT)
+        bh=MjJ+/VCasb87xuya0ajNHcY368TAHJh1oTyxs8T+FF8=;
+        b=gGnOH8o2FPIwpO3sh35hs7SMHvIUoxICuu/zjxVFjz/7b3xTMsUtszaZNEtv78CA3W
+         0W8qDurV/NVmUHOoT4WDNEhOBxcsgXgd1O/x99r920MnKfpQTw0c1yWGkwUttF5cXB46
+         YP9rrZj97/5xdXcpPEJqCyMYBhumBvv6Juc7qXYcpYIKd1IBO0wnwkWU48P1n0YYUVGw
+         zOUFQfcBQlAISC7ipv3Fc9kWCCrjfzygSH7jHpZYc6x4rC259lcjp5B0G9LhPIQ6By6X
+         1BevRyQpCwAj/CjurK5HS4AOY/cplW2sRpGlNV8GrGMkyWM7bpVZRWk8/cLzj6VavX/v
+         29aQ==
+X-Gm-Message-State: APjAAAWsEJ7FtxReg14rmS6pRScyM4KBpTO9pm802E2dZAGuEvfXbpFe
+        bXLTkS02ovlZP3nIX3Mn5REoXTEYOzzyVw==
+X-Google-Smtp-Source: APXvYqytchKq5SQPjQ/5tKpRW9OSsmEITdARMHmLQ0z7uxyaSnutdxbTp36Tx+aHNxevMdA6n2MHkQ==
+X-Received: by 2002:a17:902:a413:: with SMTP id p19mr6329327plq.138.1554427159599;
+        Thu, 04 Apr 2019 18:19:19 -0700 (PDT)
 Received: from maya190131 ([52.250.109.216])
-        by smtp.gmail.com with ESMTPSA id f63sm23830902pfc.180.2019.04.04.18.17.34
+        by smtp.gmail.com with ESMTPSA id f3sm35097882pfn.100.2019.04.04.18.19.19
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 04 Apr 2019 18:17:34 -0700 (PDT)
-Date:   Fri, 5 Apr 2019 01:17:33 +0000
+        Thu, 04 Apr 2019 18:19:19 -0700 (PDT)
+Date:   Fri, 5 Apr 2019 01:19:18 +0000
 From:   Maya Nakamura <m.maya.nakamura@gmail.com>
 To:     mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
         sthemmin@microsoft.com, sashal@kernel.org
 Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] x86: hv: mmu.c: Replace page definitions with Hyper-V
- specific ones
-Message-ID: <3bc5d60092473815fbd90422875233fb6075285b.1554426040.git.m.maya.nakamura@gmail.com>
+Subject: [PATCH 5/6] HID: hv: Remove dependencies on PAGE_SIZE for ring buffer
+Message-ID: <4d5599a835c1ce37b5def62543ea9c9fe3f30329.1554426040.git.m.maya.nakamura@gmail.com>
 References: <cover.1554426039.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -76,70 +75,29 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Replace PAGE_SHIFT, PAGE_SIZE, and PAGE_MASK with HV_HYP_PAGE_SHIFT,
-HV_HYP_PAGE_SIZE, and HV_HYP_PAGE_MASK, respectively, because the guest
-page size and hypervisor page size concepts are different, even though
-they happen to be the same value on x86.
+Define the ring buffer size as a constant expression because it should
+not depend on the guest page size.
 
 Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
 ---
- arch/x86/hyperv/mmu.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/hid/hid-hyperv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
-index e65d7fe6489f..175f6dcc7362 100644
---- a/arch/x86/hyperv/mmu.c
-+++ b/arch/x86/hyperv/mmu.c
-@@ -15,7 +15,7 @@
- #include <asm/trace/hyperv.h>
+diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+index 704049e62d58..4d0b63bf8b33 100644
+--- a/drivers/hid/hid-hyperv.c
++++ b/drivers/hid/hid-hyperv.c
+@@ -112,8 +112,8 @@ struct synthhid_input_report {
  
- /* Each gva in gva_list encodes up to 4096 pages to flush */
--#define HV_TLB_FLUSH_UNIT (4096 * PAGE_SIZE)
-+#define HV_TLB_FLUSH_UNIT (4096 * HV_HYP_PAGE_SIZE)
+ #pragma pack(pop)
  
- static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
- 				      const struct flush_tlb_info *info);
-@@ -32,15 +32,15 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
- 	do {
- 		diff = end > cur ? end - cur : 0;
+-#define INPUTVSC_SEND_RING_BUFFER_SIZE		(10*PAGE_SIZE)
+-#define INPUTVSC_RECV_RING_BUFFER_SIZE		(10*PAGE_SIZE)
++#define INPUTVSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
++#define INPUTVSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
  
--		gva_list[gva_n] = cur & PAGE_MASK;
-+		gva_list[gva_n] = cur & HV_HYP_PAGE_MASK;
- 		/*
- 		 * Lower 12 bits encode the number of additional
- 		 * pages to flush (in addition to the 'cur' page).
- 		 */
- 		if (diff >= HV_TLB_FLUSH_UNIT)
--			gva_list[gva_n] |= ~PAGE_MASK;
-+			gva_list[gva_n] |= ~HV_HYP_PAGE_MASK;
- 		else if (diff)
--			gva_list[gva_n] |= (diff - 1) >> PAGE_SHIFT;
-+			gva_list[gva_n] |= (diff - 1) >> HV_HYP_PAGE_SHIFT;
  
- 		cur += HV_TLB_FLUSH_UNIT;
- 		gva_n++;
-@@ -129,7 +129,8 @@ static void hyperv_flush_tlb_others(const struct cpumask *cpus,
- 	 * We can flush not more than max_gvas with one hypercall. Flush the
- 	 * whole address space if we were asked to do more.
- 	 */
--	max_gvas = (PAGE_SIZE - sizeof(*flush)) / sizeof(flush->gva_list[0]);
-+	max_gvas = (HV_HYP_PAGE_SIZE - sizeof(*flush)) /
-+		    sizeof(flush->gva_list[0]);
- 
- 	if (info->end == TLB_FLUSH_ALL) {
- 		flush->flags |= HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY;
-@@ -200,9 +201,9 @@ static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
- 	 * whole address space if we were asked to do more.
- 	 */
- 	max_gvas =
--		(PAGE_SIZE - sizeof(*flush) - nr_bank *
-+		(HV_HYP_PAGE_SIZE - sizeof(*flush) - nr_bank *
- 		 sizeof(flush->hv_vp_set.bank_contents[0])) /
--		sizeof(flush->gva_list[0]);
-+		 sizeof(flush->gva_list[0]);
- 
- 	if (info->end == TLB_FLUSH_ALL) {
- 		flush->flags |= HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY;
+ enum pipe_prot_msg_type {
 -- 
 2.17.1
 
