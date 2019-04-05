@@ -6,53 +6,53 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 656FAC4360F
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 11:10:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8B59C4360F
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 11:31:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3D5D82186A
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 11:10:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 971232186A
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Apr 2019 11:31:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730715AbfDELKt (ORCPT
+        id S1730755AbfDELbH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 5 Apr 2019 07:10:49 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53063 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730546AbfDELKt (ORCPT
+        Fri, 5 Apr 2019 07:31:07 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45070 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730642AbfDELbH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 Apr 2019 07:10:49 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a184so6197897wma.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 05 Apr 2019 04:10:48 -0700 (PDT)
+        Fri, 5 Apr 2019 07:31:07 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s15so7505863wra.12
+        for <linux-hyperv@vger.kernel.org>; Fri, 05 Apr 2019 04:31:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
          :message-id:mime-version;
-        bh=nw4byI8wl4u5RByJyIYhrTxED0BA1Q5a4JjGb2r3NJM=;
-        b=uDUt4PoCQa5EZqbhVwU4xsWTjPhfbUE6BOc7cVl/kl1BaZaasYq34CQ214S4p3g1a8
-         zL9Gp4//qdR/KgXnASSqoc+qhW2hkaYJmiEwF+hZix4GQ/QRtgqaEKhYSPli/1xCi8LK
-         c13Za/8GwDwNrdjRNVRelCwWiqPzfMNYZbYoBqBTjdjv7MjO7MoSgSCb+jBKsR7E7Dsc
-         0eFGVkydnBE5xFhPT7uyoTYmMUJihCBvjwlRiW15UcO2Vg3QEB7BJUSrkNr1VW0jtmj0
-         ZvFj1OiCW2afdyc3hQIL5sl/3Hsj1Ob3awMRKYu9L9T4XkusqygdwcFD2XLScAgZyVub
-         IkVQ==
-X-Gm-Message-State: APjAAAXU9k08h5RuveyKvXLu6948tPmrfbpjU5E2ijYF12E6mjliQes6
-        yvk4BsDEEW+Z3KzN9yRl4T1kHA==
-X-Google-Smtp-Source: APXvYqyaepktI4unLI1mrcLgEOg9achbNy+5FFcyBwaxHCD8K3Hi8IYouC6KhIhti4fV4uP+8QfkAA==
-X-Received: by 2002:a05:600c:291:: with SMTP id 17mr7087148wmk.17.1554462648238;
-        Fri, 05 Apr 2019 04:10:48 -0700 (PDT)
+        bh=fTBOSUKpnb4iZC2klHF3NUVyOEn0t9VM8wGyJuSdIy8=;
+        b=pc/wtmFO8mogPzxZTYyeK0Yx0QKaloV2nFGmsXOh6VcmbT+Q73ZTjPu01PcN5JYIQe
+         wRcIUTc1fVKfB6iSiJrozMBvyBYJ4HefixyAlTB+B/Uli4q8eLTli0ApwQ7oZ8sfHiSI
+         6Y8deLD4RsTVs1TqOT5qlqb0xTFlonzC3k53Wa3s9jH9XZv4ed5mI4V34GRDykT/MJvp
+         sH0Qd83CwQfLjCN2zFtl+JsJN08/Q+btCC70bwTdHAVO0e2NWuKOg7/vJcmvYL7X94kY
+         7axZ+3TIij5LFfjz3YMQVWzoHASu+YgPnGULkNAT2yIdeAJ2uMX73sCcQzEi55aSCMaN
+         WRIQ==
+X-Gm-Message-State: APjAAAV1acdFBn6haf2wxs8QAcrRlu+wxquWqMCgGMc8nu0b46kFRLLn
+        LVGRbKY8XtGF7Tm5uIf85LUztQ==
+X-Google-Smtp-Source: APXvYqyJQZLVhgZzXy/XWh1fpOWWyB0nheoKBglixP6Qy62FKpVOi6lD5zuIcn1Q1VOF2xT804tUzw==
+X-Received: by 2002:adf:eb02:: with SMTP id s2mr8649900wrn.29.1554463864618;
+        Fri, 05 Apr 2019 04:31:04 -0700 (PDT)
 Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id 7sm76640266wrc.81.2019.04.05.04.10.46
+        by smtp.gmail.com with ESMTPSA id n13sm25207808wrw.67.2019.04.05.04.31.03
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Apr 2019 04:10:47 -0700 (PDT)
+        Fri, 05 Apr 2019 04:31:03 -0700 (PDT)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     Maya Nakamura <m.maya.nakamura@gmail.com>, mikelley@microsoft.com,
         kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         sashal@kernel.org
 Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] x86: hv: mmu.c: Replace page definitions with Hyper-V specific ones
-In-Reply-To: <3bc5d60092473815fbd90422875233fb6075285b.1554426040.git.m.maya.nakamura@gmail.com>
-References: <cover.1554426039.git.m.maya.nakamura@gmail.com> <3bc5d60092473815fbd90422875233fb6075285b.1554426040.git.m.maya.nakamura@gmail.com>
-Date:   Fri, 05 Apr 2019 13:10:46 +0200
-Message-ID: <87zhp4iu6h.fsf@vitty.brq.redhat.com>
+Subject: Re: [PATCH 2/6] x86: hv: hv_init.c: Replace alloc_page() with kmem_cache_alloc()
+In-Reply-To: <bdbacc872e369762a877af4415ad1b07054826db.1554426040.git.m.maya.nakamura@gmail.com>
+References: <cover.1554426039.git.m.maya.nakamura@gmail.com> <bdbacc872e369762a877af4415ad1b07054826db.1554426040.git.m.maya.nakamura@gmail.com>
+Date:   Fri, 05 Apr 2019 13:31:02 +0200
+Message-ID: <87wok8it8p.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -62,75 +62,159 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 Maya Nakamura <m.maya.nakamura@gmail.com> writes:
 
-> Replace PAGE_SHIFT, PAGE_SIZE, and PAGE_MASK with HV_HYP_PAGE_SHIFT,
-> HV_HYP_PAGE_SIZE, and HV_HYP_PAGE_MASK, respectively, because the guest
-> page size and hypervisor page size concepts are different, even though
-> they happen to be the same value on x86.
+> Switch from the function that allocates a single Linux guest page to a
+> different one to use a Hyper-V page because the guest page size and
+> hypervisor page size concepts are different, even though they happen to
+> be the same value on x86.
 >
 > Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
 > ---
->  arch/x86/hyperv/mmu.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
+>  arch/x86/hyperv/hv_init.c | 38 +++++++++++++++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
 >
-> diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
-> index e65d7fe6489f..175f6dcc7362 100644
-> --- a/arch/x86/hyperv/mmu.c
-> +++ b/arch/x86/hyperv/mmu.c
-> @@ -15,7 +15,7 @@
->  #include <asm/trace/hyperv.h>
+> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+> index e4ba467a9fc6..5f946135aa18 100644
+> --- a/arch/x86/hyperv/hv_init.c
+> +++ b/arch/x86/hyperv/hv_init.c
+> @@ -31,6 +31,7 @@
+>  #include <linux/hyperv.h>
+>  #include <linux/slab.h>
+>  #include <linux/cpuhotplug.h>
+> +#include <asm/set_memory.h>
 >  
->  /* Each gva in gva_list encodes up to 4096 pages to flush */
-> -#define HV_TLB_FLUSH_UNIT (4096 * PAGE_SIZE)
-> +#define HV_TLB_FLUSH_UNIT (4096 * HV_HYP_PAGE_SIZE)
+>  #ifdef CONFIG_HYPERV_TSCPAGE
 >  
->  static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
->  				      const struct flush_tlb_info *info);
-> @@ -32,15 +32,15 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
->  	do {
->  		diff = end > cur ? end - cur : 0;
+> @@ -98,18 +99,20 @@ EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+>  u32 hv_max_vp_index;
+>  EXPORT_SYMBOL_GPL(hv_max_vp_index);
 >  
-> -		gva_list[gva_n] = cur & PAGE_MASK;
-> +		gva_list[gva_n] = cur & HV_HYP_PAGE_MASK;
+> +struct kmem_cache *cachep;
+> +EXPORT_SYMBOL_GPL(cachep);
+> +
+>  static int hv_cpu_init(unsigned int cpu)
+>  {
+>  	u64 msr_vp_index;
+>  	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
+>  	void **input_arg;
+> -	struct page *pg;
+>  
+>  	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+> -	pg = alloc_page(GFP_KERNEL);
+> -	if (unlikely(!pg))
+> +	*input_arg = kmem_cache_alloc(cachep, GFP_KERNEL);
 
-I'm not sure this is correct: here we're expressing guest virtual
-addresses in need of flushing, this should be unrelated to the
-hypervisor page size.
+I'm not sure use of kmem_cache is justified here: pages we allocate are
+not cache-line and all these allocations are supposed to persist for the
+lifetime of the guest. In case you think that even on x86 it will be
+possible to see PAGE_SIZE != HV_HYP_PAGE_SIZE you can use alloc_pages()
+instead.
 
->  		/*
->  		 * Lower 12 bits encode the number of additional
->  		 * pages to flush (in addition to the 'cur' page).
->  		 */
->  		if (diff >= HV_TLB_FLUSH_UNIT)
-> -			gva_list[gva_n] |= ~PAGE_MASK;
-> +			gva_list[gva_n] |= ~HV_HYP_PAGE_MASK;
->  		else if (diff)
-> -			gva_list[gva_n] |= (diff - 1) >> PAGE_SHIFT;
-> +			gva_list[gva_n] |= (diff - 1) >> HV_HYP_PAGE_SHIFT;
+Also, in case the idea is to generalize stuff, what will happen if
+PAGE_SIZE > HV_HYP_PAGE_SIZE? Who will guarantee proper alignment?
+
+I think we can leave hypercall arguments, vp_assist and similar pages
+alone for now: the code is not going to be shared among architectures
+anyways.
+
+> +
+> +	if (unlikely(!*input_arg))
+>  		return -ENOMEM;
+> -	*input_arg = page_address(pg);
 >  
->  		cur += HV_TLB_FLUSH_UNIT;
->  		gva_n++;
-> @@ -129,7 +129,8 @@ static void hyperv_flush_tlb_others(const struct cpumask *cpus,
->  	 * We can flush not more than max_gvas with one hypercall. Flush the
->  	 * whole address space if we were asked to do more.
+>  	hv_get_vp_index(msr_vp_index);
+>  
+> @@ -122,14 +125,12 @@ static int hv_cpu_init(unsigned int cpu)
+>  		return 0;
+>  
+>  	if (!*hvp)
+> -		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL);
+> +		*hvp = kmem_cache_alloc(cachep, GFP_KERNEL);
+>  
+>  	if (*hvp) {
+>  		u64 val;
+>  
+> -		val = vmalloc_to_pfn(*hvp);
+> -		val = (val << HV_X64_MSR_VP_ASSIST_PAGE_ADDRESS_SHIFT) |
+> -			HV_X64_MSR_VP_ASSIST_PAGE_ENABLE;
+> +		val = virt_to_phys(*hvp) | HV_X64_MSR_VP_ASSIST_PAGE_ENABLE;
+>  
+>  		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, val);
+>  	}
+> @@ -233,17 +234,22 @@ static int hv_cpu_die(unsigned int cpu)
+>  	unsigned long flags;
+>  	void **input_arg;
+>  	void *input_pg = NULL;
+> +	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[cpu];
+>  
+>  	local_irq_save(flags);
+>  	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+>  	input_pg = *input_arg;
+>  	*input_arg = NULL;
+>  	local_irq_restore(flags);
+> -	free_page((unsigned long)input_pg);
+> +	kmem_cache_free(cachep, input_pg);
+> +	input_pg = NULL;
+>  
+>  	if (hv_vp_assist_page && hv_vp_assist_page[cpu])
+>  		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
+>  
+> +	kmem_cache_free(cachep, *hvp);
+> +	*hvp = NULL;
+> +
+>  	if (hv_reenlightenment_cb == NULL)
+>  		return 0;
+>  
+> @@ -325,6 +331,11 @@ void __init hyperv_init(void)
+>  		goto free_vp_index;
+>  	}
+>  
+> +	cachep = kmem_cache_create("hyperv_pages", HV_HYP_PAGE_SIZE,
+> +				   HV_HYP_PAGE_SIZE, 0, NULL);
+> +	if (!cachep)
+> +		goto free_vp_assist_page;
+> +
+>  	cpuhp = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "x86/hyperv_init:online",
+>  				  hv_cpu_init, hv_cpu_die);
+>  	if (cpuhp < 0)
+> @@ -338,7 +349,10 @@ void __init hyperv_init(void)
+>  	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
+>  	wrmsrl(HV_X64_MSR_GUEST_OS_ID, guest_id);
+>  
+> -	hv_hypercall_pg  = __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL_RX);
+> +	hv_hypercall_pg = kmem_cache_alloc(cachep, GFP_KERNEL);
+> +	if (hv_hypercall_pg)
+> +		set_memory_x((unsigned long)hv_hypercall_pg, 1);
+
+_RX is not writeable, right?
+
+> +
+>  	if (hv_hypercall_pg == NULL) {
+>  		wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
+>  		goto remove_cpuhp_state;
+> @@ -346,7 +360,8 @@ void __init hyperv_init(void)
+>  
+>  	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+>  	hypercall_msr.enable = 1;
+> -	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+> +	hypercall_msr.guest_physical_address = virt_to_phys(hv_hypercall_pg) >>
+> +		HV_HYP_PAGE_SHIFT;
+>  	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+>  
+>  	hv_apic_init();
+> @@ -416,6 +431,7 @@ void hyperv_cleanup(void)
+>  	 * let hypercall operations fail safely rather than
+>  	 * panic the kernel for using invalid hypercall page
 >  	 */
-> -	max_gvas = (PAGE_SIZE - sizeof(*flush)) / sizeof(flush->gva_list[0]);
-> +	max_gvas = (HV_HYP_PAGE_SIZE - sizeof(*flush)) /
-> +		    sizeof(flush->gva_list[0]);
+> +	kmem_cache_free(cachep, hv_hypercall_pg);
+
+Please don't do that: hyperv_cleanup() is called on kexec/kdump and
+we're trying to do the bare minimum to allow next kernel to boot. Doing
+excessive work here will likely lead to consequent problems (we're
+already crashing the case it's kdump!).
+
+>  	hv_hypercall_pg = NULL;
 >  
->  	if (info->end == TLB_FLUSH_ALL) {
->  		flush->flags |= HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY;
-> @@ -200,9 +201,9 @@ static u64 hyperv_flush_tlb_others_ex(const struct cpumask *cpus,
->  	 * whole address space if we were asked to do more.
->  	 */
->  	max_gvas =
-> -		(PAGE_SIZE - sizeof(*flush) - nr_bank *
-> +		(HV_HYP_PAGE_SIZE - sizeof(*flush) - nr_bank *
->  		 sizeof(flush->hv_vp_set.bank_contents[0])) /
-> -		sizeof(flush->gva_list[0]);
-> +		 sizeof(flush->gva_list[0]);
->  
->  	if (info->end == TLB_FLUSH_ALL) {
->  		flush->flags |= HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY;
+>  	/* Reset the hypercall page */
 
 -- 
 Vitaly
