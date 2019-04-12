@@ -1,114 +1,100 @@
-Return-Path: <SRS0=4LCR=SM=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=mnmO=SO=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA4DC10F11
-	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Apr 2019 22:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A7C6C10F0E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 12 Apr 2019 06:58:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 224A3217D4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Apr 2019 22:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554937170;
-	bh=RyqPxAal45Pdz7I8FwfjoEgf8r/UWZ4dWguC7k2YtlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=DpkOvqnAmXQe6StzgmBgVst4sr2ti9vhu/tOME/CiF+TVXfqRrOsafaW/f5QTO9kN
-	 WViWERGqrtQ2+cE3T2xZOGgV/48ZlssLC/n/rR4PSgTUmWELOZAPg0J/sauAhCgiiG
-	 4HcFzh7LcETAGVZU4QMUGObvNw9iFZV4gD+UZxq4=
+	by mail.kernel.org (Postfix) with ESMTP id 56D2D20850
+	for <linux-hyperv@archiver.kernel.org>; Fri, 12 Apr 2019 06:58:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725981AbfDJW73 (ORCPT
+        id S1726954AbfDLG6S (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 10 Apr 2019 18:59:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41974 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725782AbfDJW73 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 10 Apr 2019 18:59:29 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B5BC2083E;
-        Wed, 10 Apr 2019 22:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1554937168;
-        bh=RyqPxAal45Pdz7I8FwfjoEgf8r/UWZ4dWguC7k2YtlE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qn9NYKIziqNrx85z9YXkDHc7ZOSu0DO8LY9OmwwwaUxCJF/yk+gwHPCMd+HnKnTBe
-         rUJQONp62Q0SUz3AZFQHQL8TlcgTsmKZC9JUluaVXvvjbwAaFdXfocp5b9bDhEJ2D2
-         vnmFwWgm5EWoF5wfhB4am1IDC3jAYOminPUXl8LA=
-Date:   Wed, 10 Apr 2019 18:59:27 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Kimberly Brown <kimbrownkd@gmail.com>
-Cc:     Michael Kelley <mikelley@microsoft.com>,
-        Long Li <longli@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Fri, 12 Apr 2019 02:58:18 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:36536 "EHLO
+        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726217AbfDLG6S (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 12 Apr 2019 02:58:18 -0400
+Received: by mail-wr1-f54.google.com with SMTP id y13so10505721wrd.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 11 Apr 2019 23:58:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=lbP1KVcl3zMO4rpwUxV8R4hbYaY9Zu6yn4TXp52qwX4=;
+        b=ZbjcFi1cHYm2HrlstHtyFaJBMvUzdF29OgEl6A790kxOJ7MHhh5rbJZOkLDySUNo82
+         8jk+SPQa4ctC/WA07o3MoBofaGmSnM+KopAz9NENXmITlRRFazakZ74HpancCHNgoFP/
+         3EVtHLXagbzRm+vYyy196jdvq+EAv20ye1Z69mboHHcOewQ9zhZ3uJO+9o+qQCpPs3MZ
+         mLkZOgeamNHss6ocAs+k/TxSK+hftLtjvG9WfJC/s+TAqATErMn+NVjW+F2KaLexEswJ
+         lgqink5mnZZtWZhKDlZd643hWEWy5a1zLERjW5aJTXpcuzfP7ABeLj0s/ogT6Y+xKdO4
+         PNvw==
+X-Gm-Message-State: APjAAAXbmc9ZNKNBtf9i8rQGAYJAVvY5N3JccaTghWhTb8j+UEKkkT5C
+        5ZXnb35zGggf9mFt80+uywOUnQ==
+X-Google-Smtp-Source: APXvYqxkYmsvyFzoX6xsL4SLQMf6iCeiDE0Hs6yL7+F4sD0doPHEvepjfCFZWUhjkEJYB8+E2g7Apg==
+X-Received: by 2002:a5d:6706:: with SMTP id o6mr36654089wru.36.1555052296554;
+        Thu, 11 Apr 2019 23:58:16 -0700 (PDT)
+Received: from vitty.brq.redhat.com (ip-213-220-248-130.net.upcbroadband.cz. [213.220.248.130])
+        by smtp.gmail.com with ESMTPSA id i28sm113343371wrc.32.2019.04.11.23.58.15
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Apr 2019 23:58:15 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Michael Kelley <mikelley@microsoft.com>,
+        "m.maya.nakamura" <m.maya.nakamura@gmail.com>
+Cc:     "x86\@kernel.org" <x86@kernel.org>,
+        "linux-hyperv\@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Drivers: hv: vmbus: Fix a race condition in
- "_show" functions
-Message-ID: <20190410225927.GF11568@sasha-vm>
-References: <cover.1550806305.git.kimbrownkd@gmail.com>
- <cover.1552592620.git.kimbrownkd@gmail.com>
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "sashal\@kernel.org" <sashal@kernel.org>
+Subject: RE: [PATCH 4/6] x86: hv: mmu.c: Replace page definitions with Hyper-V specific ones
+In-Reply-To: <DM5PR2101MB091843B6DD7A11C2C27917F1D7280@DM5PR2101MB0918.namprd21.prod.outlook.com>
+References: <cover.1554426039.git.m.maya.nakamura@gmail.com> <3bc5d60092473815fbd90422875233fb6075285b.1554426040.git.m.maya.nakamura@gmail.com> <87zhp4iu6h.fsf@vitty.brq.redhat.com> <DM5PR2101MB091843B6DD7A11C2C27917F1D7280@DM5PR2101MB0918.namprd21.prod.outlook.com>
+Date:   Fri, 12 Apr 2019 08:58:15 +0200
+Message-ID: <87v9zjg16g.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1552592620.git.kimbrownkd@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Mar 14, 2019 at 04:04:52PM -0400, Kimberly Brown wrote:
->This patchset fixes a race condition in the "_show" functions that
->access the channel ring buffers.
->
->Changes in v3:
->Patch 1: Drivers: hv: vmbus: Refactor chan->state if statement
-> - Added the “reviewed-by” line from v2.
->
->Patch 2: Drivers: hv: vmbus: Set ring_info field to 0 and remove memset
-> - This patch is new. This change allows the new mutex locks in patch 3
->   to be initialized when the channel is initialized.
->
->Patch 3: Drivers: hv: vmbus: Fix race condition with new
->         ring_buffer_info mutex
-> - Added two ring buffer info mutex locks instead of the single channel
->   mutex lock that was proposed in v2.
-> - Changed the mutex acquire/release calls as needed for the new ring
->   buffer info mutex locks.
-> - Updated the commit message.
->
->
->Changes in v2:
-> - In v1, I proposed using “vmbus_connection.channel_mutex” in the
->   “_show” functions to prevent the race condition. However, using this
->   mutex could result in a deadlock, so a new approach is proposed in
->   this patchset.
-> - Patch 1 is new and consists of refactoring an if statement.
-> - Patch 2 introduces a new mutex lock in the “vmbus_channel” struct,
->   which is used to eliminate the race condition.
->
->Kimberly Brown (3):
->  Drivers: hv: vmbus: Refactor chan->state if statement
->  Drivers: hv: vmbus: Set ring_info field to 0 and remove memset
->  Drivers: hv: vmbus: Fix race condition with new ring_buffer_info mutex
->
-> drivers/hv/channel_mgmt.c |  2 +
-> drivers/hv/hyperv_vmbus.h |  1 +
-> drivers/hv/ring_buffer.c  | 22 ++++++++--
-> drivers/hv/vmbus_drv.c    | 89 +++++++++++++++++++++++++++------------
-> include/linux/hyperv.h    |  7 ++-
-> 5 files changed, 88 insertions(+), 33 deletions(-)
+Michael Kelley <mikelley@microsoft.com> writes:
 
-Queued up, thanks Kimberly!
+> From: Vitaly Kuznetsov <vkuznets@redhat.com>  Sent: Friday, April 5, 2019 4:11 AM
+>> >
+>> > @@ -32,15 +32,15 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
+>> >  	do {
+>> >  		diff = end > cur ? end - cur : 0;
+>> >
+>> > -		gva_list[gva_n] = cur & PAGE_MASK;
+>> > +		gva_list[gva_n] = cur & HV_HYP_PAGE_MASK;
+>> 
+>> I'm not sure this is correct: here we're expressing guest virtual
+>> addresses in need of flushing, this should be unrelated to the
+>> hypervisor page size.
+>> 
+>
+> I talked to the Hyper-V guys about this.  They have not implemented
+> the HvFlushVirtualAddressList hypercalls for ARM64 yet.  But when they
+> do, they expect the GVA list will need to be in terms of the Hyper-V
+> page size.  They don't want to have to figure out the guest page size
+> and adjust their arithmetic on a per-guest basis.
 
---
-Thanks,
-Sasha
+Understood, thanks! However, what I wanted to say is that this code is
+x86-specific (arch/x86/hyperv/mmu.c) and the implementation is
+hard-wired to the spec, namely we use lower 12 bits (there's even a
+comment in the code about this which the patch doesn't change) to encode
+the number of pages to flush. We can speculate that when these
+hypercalls are implemented on ARM they'll have similar requirements but
+I'd suggest we leave it as-is for now and fix this when (and, actually,
+if) we decide to move this to arch-independent part. We may need to do
+additional adjustments - and we don't know about them yet because
+there's no spec published.
+
+-- 
+Vitaly
