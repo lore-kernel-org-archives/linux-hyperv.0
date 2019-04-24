@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17361C282CE
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Apr 2019 14:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 145AFC282E1
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Apr 2019 14:53:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D8242218FC
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Apr 2019 14:50:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD671218FC
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Apr 2019 14:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556117407;
-	bh=vXZl1tBqgZCBTtlHpOam6CTDmIbgK4mmylHJMbB3+zA=;
+	s=default; t=1556117624;
+	bh=7cCZG3QLYNgLUoP+2BngOwLndCTzuwSL1u/KF1QZNUg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=E4KxxKyyecbXzttrQUkFYxspT6ipgSbNMUeT2Cp0svkANFZBw+2iuR1j1arEf22mN
-	 rQhVK9vkeaknG7E0fo8JaxEsYzA02v9jONf/ovVkN4tWF8oh81b87g84i8MLGofFim
-	 WnngrdWPdyKaGRQX9PS+JKloZ4vlOWV0aXW2HvBI=
+	b=vDbUEZjaBgjj8oQjz78ASz+M5a+fmwMnwmVMSYd+8Xy6dg0mbkwwtLnhq0HjDv+QI
+	 gpogazCK/X66eQVHexqwTiojU0TfooZWvTkJR5nHQbIMMRCEyH4WJL4xW2JJef89bY
+	 rEL4MP8r2l0AEAsioXrmFiJqN1bbb1iWRyFNefec=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731178AbfDXOsH (ORCPT
+        id S1732257AbfDXOxo (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Apr 2019 10:48:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47678 "EHLO mail.kernel.org"
+        Wed, 24 Apr 2019 10:53:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52902 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732369AbfDXOsE (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Apr 2019 10:48:04 -0400
+        id S1733037AbfDXOxR (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 24 Apr 2019 10:53:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F18C0218FE;
-        Wed, 24 Apr 2019 14:48:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8653B218FE;
+        Wed, 24 Apr 2019 14:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556117283;
-        bh=vXZl1tBqgZCBTtlHpOam6CTDmIbgK4mmylHJMbB3+zA=;
+        s=default; t=1556117596;
+        bh=7cCZG3QLYNgLUoP+2BngOwLndCTzuwSL1u/KF1QZNUg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kB4QjUEcb77BIYSffN+cV3UORu/0mKUNs+XZOz3U66DYBzcrkOdrf8NjP3BgCu8+K
-         AtjSxBHQc1EErGyt8j0S2T9I/xFmNbVyV8AoXLKOx2380O4OeraQIoN+sQNoXtDwzn
-         8oFG94Q9x71G8HRMuoYv3jHxZPJ7/xujrSOIUFig=
+        b=aGIMnCIHUlDoZ2tgOVBo8hK/6mx79vQ9ZvfULjU5LpDb4KrUchxpwcLMLWWbRVKc0
+         Tzqj9xtCQ/b5mTsyAD48SNNoBEErfxWS0F5h++mzxWC94OondO9vMcbbFcSP9Zygtc
+         IF2XILb9tqwxPvbQ8XI7l7CQTpLEA76cC0JQ4NQ8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Kelley <mikelley@microsoft.com>,
         "Martin K . Petersen" <martin.petersen@oracle.com>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
         linux-scsi@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 23/35] scsi: storvsc: Fix calculation of sub-channel count
-Date:   Wed, 24 Apr 2019 10:46:57 -0400
-Message-Id: <20190424144709.30215-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 3.18 06/10] scsi: storvsc: Fix calculation of sub-channel count
+Date:   Wed, 24 Apr 2019 10:52:55 -0400
+Message-Id: <20190424145259.31639-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190424144709.30215-1-sashal@kernel.org>
-References: <20190424144709.30215-1-sashal@kernel.org>
+In-Reply-To: <20190424145259.31639-1-sashal@kernel.org>
+References: <20190424145259.31639-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,10 +83,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index beb585ddc07d..5adeb1e4b186 100644
+index 96c6e75bbfe6..bc29b571e3fb 100644
 --- a/drivers/scsi/storvsc_drv.c
 +++ b/drivers/scsi/storvsc_drv.c
-@@ -658,13 +658,22 @@ static void handle_sc_creation(struct vmbus_channel *new_sc)
+@@ -788,13 +788,22 @@ static void handle_sc_creation(struct vmbus_channel *new_sc)
  static void  handle_multichannel_storage(struct hv_device *device, int max_chns)
  {
  	struct storvsc_device *stor_device;
