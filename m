@@ -1,75 +1,134 @@
-Return-Path: <SRS0=vgga=S3=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=R5Az=TA=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,USER_AGENT_MUTT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0DEBC10F03
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Apr 2019 09:27:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00745C04AA6
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Apr 2019 19:29:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBD26214C6
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Apr 2019 09:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556184450;
-	bh=SX3fEzBEiup92Fmtw52ospjzrzbfJ38p0MwjLEGFxBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=X1s8ZFhz9NNr8LgFZEgWcBAWdz9L+DrvWDzhCq1LqCJcoHaW6JUqmz4njrFWhBvEB
-	 6H1w/I2kGGiFbdLtFl6j9Dk0snuZXS3SjcJJUPngn14FrRBE75gfrIu3+so269jnVm
-	 eDLCpAjCcJQftLLph38wcavXhwJnzqKg+zs39DfQ=
+	by mail.kernel.org (Postfix) with ESMTP id B8CB22063F
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Apr 2019 19:29:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="NJ7wDqK1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725988AbfDYJ1a (ORCPT
+        id S1726024AbfD3T3M (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 25 Apr 2019 05:27:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56476 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbfDYJ1a (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 25 Apr 2019 05:27:30 -0400
-Received: from localhost (62-193-50-229.as16211.net [62.193.50.229])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27F4E20675;
-        Thu, 25 Apr 2019 09:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556184449;
-        bh=SX3fEzBEiup92Fmtw52ospjzrzbfJ38p0MwjLEGFxBY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pjau3TDusofoqdOaW+QkKd/EWDISG5ttg6gnaaEUbV7q4ktT/aDdi4P3yHrWVRwZt
-         tHcVw85GaSNFLnROKA3qYWvTbmWVBrbuxPVL8atpD5piA7gANyEdXaASctI4k36vzh
-         49NkJNrTIOY8vO65SIwuH79ppsEJUob0KeAIAm90=
-Date:   Thu, 25 Apr 2019 11:27:12 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@microsoft.com, linux-hyperv@vger.kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] Hyper-V commits for 5.1
-Message-ID: <20190425092712.GA5959@kroah.com>
-References: <20190417013452.438FA20821@mail.kernel.org>
+        Tue, 30 Apr 2019 15:29:12 -0400
+Received: from mail-eopbgr730127.outbound.protection.outlook.com ([40.107.73.127]:50016
+        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725996AbfD3T3L (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 30 Apr 2019 15:29:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
+ b=RA+rP/mGKb968X10GMmf/gQYF7R0Tpftzl6f2gETh8mNw5izXu4Uljx2bK5JPsrYWLxdNfFuiWKsv0ZxbZ8vvQ5/DsSyZKO65Prt7r4p5O3ZAIoCBCy8ITnjBNqUPZ24NXgNGa+icgKtO6fsC+s6aAtR/qmm3M7bk9ypMNtqod0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=testarcselector01;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rrOpdnV7pmTKvCj1dk+AdVcU18cwSimy+eA3wTIepns=;
+ b=qV4vqUMZdkTWHwu04sVkAG+xc3wvVCwh0Uor0QaYm8az6XBC6LKiZtqsWrJfcF1r4ddNlcdhLW/nAKh46BUUlJr7RnioIf3phk2dRs+CDFNvpk3EIw+SBuYltWHjFK8ciwgpMxQAACg2tAus6EZ3d3OSE9HNKtd+WXVD9mKBa8s=
+ARC-Authentication-Results: i=1; test.office365.com 1;spf=none;dmarc=none
+ action=none header.from=microsoft.com;dkim=none (message not signed);arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rrOpdnV7pmTKvCj1dk+AdVcU18cwSimy+eA3wTIepns=;
+ b=NJ7wDqK1lYsYGUEYaOKSE+IQ67qk+9iltDif6u8vOikkLjgKTWdEUV29Ee7waJ3abRtWSDK1JoNnP+SUMCJhen0/MSfMBldEBt0YzSPKKpT55Xc/sPNri4zfW2v1Cep6YFEhL/Dv9CP6hGEdeEDMlxF8Na+c7Kzu0DikWrBsXXM=
+Received: from DM6PR21MB1242.namprd21.prod.outlook.com (20.179.50.86) by
+ DM6PR21MB1307.namprd21.prod.outlook.com (20.179.52.96) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.1; Tue, 30 Apr 2019 19:29:08 +0000
+Received: from DM6PR21MB1242.namprd21.prod.outlook.com
+ ([fe80::fda6:f2da:f9ce:f26d]) by DM6PR21MB1242.namprd21.prod.outlook.com
+ ([fe80::fda6:f2da:f9ce:f26d%3]) with mapi id 15.20.1856.004; Tue, 30 Apr 2019
+ 19:29:08 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     "sashal@kernel.org" <sashal@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     Haiyang Zhang <haiyangz@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH hyperv-fixes] hv_netvsc: fix race that may miss tx queue
+ wakeup
+Thread-Topic: [PATCH hyperv-fixes] hv_netvsc: fix race that may miss tx queue
+ wakeup
+Thread-Index: AQHU/4r6KRj7uKGITUSbj+ZaAecFfQ==
+Date:   Tue, 30 Apr 2019 19:29:07 +0000
+Message-ID: <1556652525-83155-1-git-send-email-haiyangz@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CO2PR18CA0059.namprd18.prod.outlook.com
+ (2603:10b6:104:2::27) To DM6PR21MB1242.namprd21.prod.outlook.com
+ (2603:10b6:5:169::22)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=lkmlhyz@microsoft.com; 
+x-ms-exchange-messagesentrepresentingtype: 2
+x-mailer: git-send-email 1.8.3.1
+x-originating-ip: [13.77.154.182]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 77f5db9b-792e-4b24-14e4-08d6cda21d1b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:DM6PR21MB1307;
+x-ms-traffictypediagnostic: DM6PR21MB1307:
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <DM6PR21MB1307FB8FA739EA2FEB36BC40AC3A0@DM6PR21MB1307.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-forefront-prvs: 00235A1EEF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(346002)(376002)(39860400002)(136003)(199004)(189003)(2616005)(25786009)(476003)(2201001)(386003)(7736002)(10090500001)(73956011)(53936002)(6506007)(6512007)(256004)(10290500003)(97736004)(6486002)(26005)(305945005)(8676002)(14444005)(486006)(102836004)(4326008)(86612001)(8936002)(2906002)(186003)(81156014)(81166006)(66476007)(68736007)(52116002)(5660300002)(22452003)(14454004)(7846003)(99286004)(66556008)(50226002)(478600001)(64756008)(6392003)(6436002)(2501003)(110136005)(3846002)(66066001)(54906003)(316002)(66946007)(6116002)(36756003)(4720700003)(71190400001)(66446008)(71200400001);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR21MB1307;H:DM6PR21MB1242.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: +440/iKDFPA2rOdrS4GWqejoM5xo8X0rd0pMkLoc8Udcu+Ab3jzZI0Nw7+w9VOKXCXH1kqgWrLdsta8S7gbmbo9ENt9kr1me9q6ug4CrNAFqHjsBwBJ30YwRcUAH7AxVpaoXxG9YA/xNV9EqHXD96k7Luavz+mIAbK3ledrMbCgxHIw+nZZO3VJdy0Ko1iDY5SVSMlBZbKAWTew558HG7QRMNnCStfjhnRwoEQVvC8JAn4Yrwu6oNwhpZo69crKsWYk0j/IOfYjm2cwOEP2II20gu6tZqCp4t5TLZ1nboWGvtqEU7Q41Ige7aWzQFQ4jNQ5KWQeUQziQT/tbLkxpXizFXr8UFbQpicxUxitoN/t0+3tCXEawZ1OZsOm4d3Pvx8PAMOgY7Ug2ow3oZh85aH0vNktKeiX1XJTBr7kPsjM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190417013452.438FA20821@mail.kernel.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77f5db9b-792e-4b24-14e4-08d6cda21d1b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 19:29:08.1660
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1307
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 09:34:51PM -0400, Sasha Levin wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA512
-> 
-> The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
-> 
->   Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
-
-Now pulled and pushed out, thanks.
-
-greg k-h
+V2hlbiB0aGUgcmluZyBidWZmZXIgaXMgYWxtb3N0IGZ1bGwgZHVlIHRvIFJYIGNvbXBsZXRpb24g
+bWVzc2FnZXMsIGENClRYIHBhY2tldCBtYXkgcmVhY2ggdGhlICJsb3cgd2F0ZXJtYXJrIiBhbmQg
+Y2F1c2UgdGhlIHF1ZXVlIHN0b3BwZWQuDQpJZiB0aGUgVFggY29tcGxldGlvbiBhcnJpdmVzIGVh
+cmxpZXIgdGhhbiBxdWV1ZSBzdG9wcGluZywgdGhlIHdha2V1cA0KbWF5IGJlIG1pc3NlZC4NCg0K
+VGhpcyBwYXRjaCBtb3ZlcyB0aGUgY2hlY2sgZm9yIHRoZSBsYXN0IHBlbmRpbmcgcGFja2V0IHRv
+IGNvdmVyIGJvdGgNCkVBR0FJTiBhbmQgc3VjY2VzcyBjYXNlcywgc28gdGhlIHF1ZXVlIHdpbGwg
+YmUgcmVsaWFibHkgd2FrZWQgdXAgd2hlbg0KbmVjZXNzYXJ5Lg0KDQpSZXBvcnRlZC1hbmQtdGVz
+dGVkLWJ5OiBTdGVwaGFuIEtsZWluIDxzdGVwaGFuLmtsZWluQHdlZ2ZpbmRlci5hdD4NClNpZ25l
+ZC1vZmYtYnk6IEhhaXlhbmcgWmhhbmcgPGhhaXlhbmd6QG1pY3Jvc29mdC5jb20+DQotLS0NCiBk
+cml2ZXJzL25ldC9oeXBlcnYvbmV0dnNjLmMgfCAxNSArKysrKysrKystLS0tLS0NCiAxIGZpbGUg
+Y2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9uZXQvaHlwZXJ2L25ldHZzYy5jIGIvZHJpdmVycy9uZXQvaHlwZXJ2L25ldHZzYy5j
+DQppbmRleCBmZGJlYjcwLi5lZTE5ODYwIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9uZXQvaHlwZXJ2
+L25ldHZzYy5jDQorKysgYi9kcml2ZXJzL25ldC9oeXBlcnYvbmV0dnNjLmMNCkBAIC04NzUsMTIg
+Kzg3NSw2IEBAIHN0YXRpYyBpbmxpbmUgaW50IG5ldHZzY19zZW5kX3BrdCgNCiAJfSBlbHNlIGlm
+IChyZXQgPT0gLUVBR0FJTikgew0KIAkJbmV0aWZfdHhfc3RvcF9xdWV1ZSh0eHEpOw0KIAkJbmRl
+dl9jdHgtPmV0aF9zdGF0cy5zdG9wX3F1ZXVlKys7DQotCQlpZiAoYXRvbWljX3JlYWQoJm52Y2hh
+bi0+cXVldWVfc2VuZHMpIDwgMSAmJg0KLQkJICAgICFuZXRfZGV2aWNlLT50eF9kaXNhYmxlKSB7
+DQotCQkJbmV0aWZfdHhfd2FrZV9xdWV1ZSh0eHEpOw0KLQkJCW5kZXZfY3R4LT5ldGhfc3RhdHMu
+d2FrZV9xdWV1ZSsrOw0KLQkJCXJldCA9IC1FTk9TUEM7DQotCQl9DQogCX0gZWxzZSB7DQogCQlu
+ZXRkZXZfZXJyKG5kZXYsDQogCQkJICAgIlVuYWJsZSB0byBzZW5kIHBhY2tldCBwYWdlcyAldSBs
+ZW4gJXUsIHJldCAlZFxuIiwNCkBAIC04ODgsNiArODgyLDE1IEBAIHN0YXRpYyBpbmxpbmUgaW50
+IG5ldHZzY19zZW5kX3BrdCgNCiAJCQkgICByZXQpOw0KIAl9DQogDQorCWlmIChuZXRpZl90eF9x
+dWV1ZV9zdG9wcGVkKHR4cSkgJiYNCisJICAgIGF0b21pY19yZWFkKCZudmNoYW4tPnF1ZXVlX3Nl
+bmRzKSA8IDEgJiYNCisJICAgICFuZXRfZGV2aWNlLT50eF9kaXNhYmxlKSB7DQorCQluZXRpZl90
+eF93YWtlX3F1ZXVlKHR4cSk7DQorCQluZGV2X2N0eC0+ZXRoX3N0YXRzLndha2VfcXVldWUrKzsN
+CisJCWlmIChyZXQgPT0gLUVBR0FJTikNCisJCQlyZXQgPSAtRU5PU1BDOw0KKwl9DQorDQogCXJl
+dHVybiByZXQ7DQogfQ0KIA0KLS0gDQoxLjguMy4xDQoNCg==
