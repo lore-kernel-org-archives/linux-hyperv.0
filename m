@@ -1,65 +1,100 @@
-Return-Path: <SRS0=8zAK=TE=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=Qb9M=TG=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83B2DC43219
-	for <linux-hyperv@archiver.kernel.org>; Sat,  4 May 2019 03:51:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7994BC004C9
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 May 2019 03:31:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 46E3020675
-	for <linux-hyperv@archiver.kernel.org>; Sat,  4 May 2019 03:51:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 49C482087F
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 May 2019 03:31:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1557113473;
+	bh=M9uXTWCd59i3yL6Lq9BMIF3NB6ZynI9y1lfWYrkc0Po=;
+	h=From:Date:To:Cc:Cc:Cc:Cc:Cc:Cc:Subject:List-ID:From;
+	b=uwP52YLFfjJeuiyMIohzoXX8HqhCjpCYsfnz7Eeam5QyoLyipMEO14aUSTiTpg+6D
+	 EO+I6JJk3aNv1JZzNyRhA7ED+DH/WnD7UVhpmCF6IfyG+O8d7HTJlyrKFxVhTMGuRM
+	 oOVchmJSVk6ulO0DVI0nmp+fgvmSt30+WgDsjMbk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbfEDDvK (ORCPT
+        id S1725834AbfEFDbN (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 3 May 2019 23:51:10 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:55514 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbfEDDvK (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 3 May 2019 23:51:10 -0400
-Received: from localhost (unknown [75.104.87.19])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 0F7C214D6CFDF;
-        Fri,  3 May 2019 20:51:01 -0700 (PDT)
-Date:   Fri, 03 May 2019 23:50:57 -0400 (EDT)
-Message-Id: <20190503.235057.2159507077297286948.davem@davemloft.net>
-To:     haiyangz@microsoft.com
-Cc:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, kys@microsoft.com, sthemmin@microsoft.com,
-        olaf@aepfle.de, vkuznets@redhat.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH hyperv-fixes] hv_netvsc: fix race that may miss tx
- queue wakeup
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <1556652525-83155-1-git-send-email-haiyangz@microsoft.com>
-References: <1556652525-83155-1-git-send-email-haiyangz@microsoft.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 03 May 2019 20:51:10 -0700 (PDT)
+        Sun, 5 May 2019 23:31:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35786 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725813AbfEFDbM (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 5 May 2019 23:31:12 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A3EBA205F4;
+        Mon,  6 May 2019 03:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557113471;
+        bh=M9uXTWCd59i3yL6Lq9BMIF3NB6ZynI9y1lfWYrkc0Po=;
+        h=From:Date:To:Cc:Cc:Cc:Cc:Cc:Cc:Subject:From;
+        b=JFm/4GN5qJ//IwxVQwrSW4GpzikcmvWf1kHLPKjVxc9IF7GBd8BIMSmR7PjhngIQQ
+         Vyp3JOLnsH0xy8ejoOiPYitbqBaAMWRFuaL5jXSy8IjIqS8GCVmn3bOHRfJU7OL4vJ
+         6kXEjlieB3L3g2fkaw1jRhu9dNh1Fx0h4OTSNI14=
+From:   Sasha Levin <sashal@kernel.org>
+Date:   Sun, 05 May 2019 23:31:04 -0400
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@microsoft.com
+Cc:     linux-hyperv@vger.kernel.org
+Cc:     kys@microsoft.com
+Cc:     haiyangz@microsoft.com
+Cc:     sthemmin@microsoft.com
+Cc:     linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Hyper-V commits for 5.2
+Message-Id: <20190506033111.A3EBA205F4@mail.kernel.org>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
-Date: Tue, 30 Apr 2019 19:29:07 +0000
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
 
-> When the ring buffer is almost full due to RX completion messages, a
-> TX packet may reach the "low watermark" and cause the queue stopped.
-> If the TX completion arrives earlier than queue stopping, the wakeup
-> may be missed.
-> 
-> This patch moves the check for the last pending packet to cover both
-> EAGAIN and success cases, so the queue will be reliably waked up when
-> necessary.
-> 
-> Reported-and-tested-by: Stephan Klein <stephan.klein@wegfinder.at>
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
 
-Applied, thanks.
+  Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed
+
+for you to fetch changes up to a3fb7bf369efa296c1fc68aead1b6fb3c735573b:
+
+  drivers: input: serio: Add a module desription to the hyperv_keyboard driver (2019-04-23 15:41:40 -0400)
+
+- ----------------------------------------------------------------
+Adding module description to various hyper-v modules
+
+- ----------------------------------------------------------------
+Joseph Salisbury (3):
+      drivers: hid: Add a module description line to the hid_hyperv driver
+      drivers: hv: Add a module description line to the hv_vmbus driver
+      drivers: input: serio: Add a module desription to the hyperv_keyboard driver
+
+ drivers/hid/hid-hyperv.c              | 2 ++
+ drivers/hv/vmbus_drv.c                | 1 +
+ drivers/input/serio/hyperv-keyboard.c | 2 ++
+ 3 files changed, 5 insertions(+)
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE4n5dijQDou9mhzu83qZv95d3LNwFAlzPqkQACgkQ3qZv95d3
+LNwABg//b9MataFZTizTER4WnV5+PWOeK+gEh5nlpM63vgzkx9G3WYT7XydhdoT4
+vaw77zNEMHChyxIEn6s4BLpOk8nAP3L8VyvgxUDSemmjV9/FCDz4D98IoFMeWuWO
+97HER2DUC9r/RejYz7qb2lGMesIkAFZkYAFdcg8coswP1WWS5dM0CnyTFb7wjvFu
+MVRHCH3W6i55sZVid2YE2qm2gmza8wIJYkggoTUwKeRcOWyz1s9VNknpTi/8BaeK
+0dsnrvfw7jdYL89QKkU4J4n8EycyNopibK2d35kj/6KiMrUs91YXTlncdS68WZ+t
+8OhLs7Vk4XV5yxT+LApX0teON7NI5irVzrLNBPkNUcBRwRWD0oJhHCfy4p5ulEQ2
+yKWEHJ4noZNGeJvrjEuhEn+mGKxjk8zvxY39qXUddWT2MXyjVyUtyxykDlYFLd+H
+b3a3qDIrR/QM5jTmA/xoxjwFoqJnjcMakdz2kZAVqeNVHEi20lQrZJFa1RBw4dD/
+hw1SOZUI6thDn4QCTPVJiva4w+zEqCocm1+qwoFevMig0LSH7+IymBde5S7heha6
+Hj0BTKKsQndhD/utA8HWpBebfmZSqA0vK8SSfIcPLlAxU9QVeiYU/0qgLEpqFN5/
+LCmbe0THf4RdryqJWjZbLe8qRzrhNEetSQibEPY+QuiiOeZJBjw=
+=vWC7
+-----END PGP SIGNATURE-----
