@@ -2,66 +2,91 @@ Return-Path: <SRS0=H8mT=UE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A52C28CC5
-	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:07:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF468C46460
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:09:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 92B7320717
-	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:07:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C19062075C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:09:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OaTjMp4c"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W7YRuVdb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbfFETHY (ORCPT
+        id S1726795AbfFETJF (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 5 Jun 2019 15:07:24 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42968 "EHLO
+        Wed, 5 Jun 2019 15:09:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45636 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726537AbfFETHY (ORCPT
+        with ESMTP id S1726791AbfFETJF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 5 Jun 2019 15:07:24 -0400
+        Wed, 5 Jun 2019 15:09:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=4sSZMnbHl7rMQg4gM/HXXx/UDEBLFqxqrgmk6RB6L/k=; b=OaTjMp4c4WxcsKLyczDk2G2+y
-        0xKVcj+OU3Ow+TGJFrVyLwDcYr0YhSHMpADcfnLK6THqppTVaTZADsUmw0GtGCJYKrcg/jvHHL7Rj
-        TCUHfBOvn52FC9op1ZInyqgCkZDQiE0/bipxe/DowFRfNxQWH2P2XOyEd7k1H5Yn0qBISqpCIBCVb
-        cFdGpOVrHUOWb0CtRcWsvfIScC0Few/cglm4cuTR71nPg3tRt6uPnzWpGxd1yqFeGvdQTmdjU1ZkJ
-        p5CHsmnc7mE+s8yPnTuDA2F+tpn72YV9AjbyYMybJrz1XvdC9zeUogWYGQJm688jUIIX6A1NktZXm
-        IOYXPjXtg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYbFr-00059F-6C; Wed, 05 Jun 2019 19:07:23 +0000
-Date:   Wed, 5 Jun 2019 12:07:23 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     Christoph Hellwig <hch@infradead.org>, linux-scsi@vger.kernel.org,
-        linux-hyperv@vger.kernel.org,
-        Stephen Hemminger <sthemmin@microsoft.com>
-Subject: Re: [PATCH] revert async probing of VMBus scsi device
-Message-ID: <20190605190722.GA19684@infradead.org>
-References: <20190605185205.12583-1-sthemmin@microsoft.com>
- <20190605185637.GA31439@infradead.org>
- <20190605120640.00358689@hermes.lan>
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
+        :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=mMOG10avCayPSFkRYQ6YVcJcMwUlFe5SMMCCEccPUfo=; b=W7YRuVdbazKsMEw8dyvRjXv4Ly
+        xl6+S4k0JUCRHVbPmWWd7w/RU0QH5qCUlMd9gNjIdFrFb4u9jRR5WZm9os9UMnoDsaOFX20pNfKDq
+        wKkB1lpAkuT6foBwoq0/yzk5fqv8oDMahY8GoIL8xJh2W6YD0dLeMN2PJMmk0n49w6RTd2QYtVKOZ
+        UkDCIOQjnk6wLJPpD5lULo4r/LCOoK3P6JnUx5axF7Srpj0cWaq8A9tVEMp70mfCF8NIC6HB3PV+L
+        ucuf4RN0DI9i+Opumq7WADBGGy8kEMLR8USCrTsZOKQZQqWSMkIrd1sA882xvpc+pGeeTBcBqT2Xi
+        7NqcKgPw==;
+Received: from 089144193064.atnat0002.highway.a1.net ([89.144.193.64] helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hYbHK-0005QW-0o; Wed, 05 Jun 2019 19:08:55 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Sebastian Ott <sebott@linux.ibm.com>,
+        Sagi Grimberg <sagi@grimberg.me>,
+        Max Gurtovoy <maxg@mellanox.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>, linux-block@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
+        megaraidlinux.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
+        linux-hyperv@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+Subject: [PATCH 04/13] mmc: also set max_segment_size in the device
+Date:   Wed,  5 Jun 2019 21:08:27 +0200
+Message-Id: <20190605190836.32354-5-hch@lst.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190605190836.32354-1-hch@lst.de>
+References: <20190605190836.32354-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190605120640.00358689@hermes.lan>
-User-Agent: Mutt/1.9.2 (2017-12-15)
+Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Jun 05, 2019 at 12:06:40PM -0700, Stephen Hemminger wrote:
-> > Which is true for every device, and why we use UUIDs or label for
-> > mounts that are supposed to be stable.
-> 
-> Not everyone is smart enough to do that.
+If we only set the max_segment_size on the queue an IOMMU merge might
+create bigger segments again, so limit the IOMMU merges as well.
 
-Sure.  But they should not get a way out for just one specific driver.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/mmc/core/queue.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+index b5b9c6142f08..92900a095796 100644
+--- a/drivers/mmc/core/queue.c
++++ b/drivers/mmc/core/queue.c
+@@ -377,6 +377,8 @@ static void mmc_setup_queue(struct mmc_queue *mq, struct mmc_card *card)
+ 	blk_queue_max_segment_size(mq->queue,
+ 			round_down(host->max_seg_size, block_size));
+ 
++	dma_set_max_seg_size(mmc_dev(host), queue_max_segment_size(mq->queue));
++
+ 	INIT_WORK(&mq->recovery_work, mmc_mq_recovery_handler);
+ 	INIT_WORK(&mq->complete_work, mmc_blk_mq_complete_work);
+ 
+-- 
+2.20.1
+
