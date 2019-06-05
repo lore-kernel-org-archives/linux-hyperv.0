@@ -2,42 +2,41 @@ Return-Path: <SRS0=H8mT=UE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DD3C28CC5
-	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6005C28CC5
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:10:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B1102075C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:10:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E5BF20717
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 Jun 2019 19:10:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ELWyStyy"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MqJkkcnx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726875AbfFETJ0 (ORCPT
+        id S1726684AbfFETIz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 5 Jun 2019 15:09:26 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48110 "EHLO
+        Wed, 5 Jun 2019 15:08:55 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44422 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726752AbfFETJZ (ORCPT
+        with ESMTP id S1726421AbfFETIy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 5 Jun 2019 15:09:25 -0400
+        Wed, 5 Jun 2019 15:08:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
-        :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=BZynmndmGYCWQ7WGzgFBa5UwSeviNORnIHKuHoOiZgI=; b=ELWyStyyodCbtc4qhQmbuCcIUN
-        wh3ZVf2OSIPH0gIf3fMg4Ip6F+Vhfu90uqR70s8bj/9BGX6DPZeiU0kJFMwseFvv+QO8NX6t4fb1Y
-        Q5t146rOhFqQjVGS3COL970Km1QpopnQQKGxs+6L9Ls5jmvRVxU6fGplwYaOpgqhHDPPJrYjMdGaE
-        3xmDfTxvxQtn2GSJAP1paKNtiv8PryOAYKjfbl3LEKeKC0PpF90Ar2Ppja/QLcnBO3M5lnoqHePTa
-        IsTDSONs9p756x0mWrUEVNNvCHEVOMNY+HggY5gDgfV2AyIQL62W9B/8bcmvEZLwSi6w5G7ZJh4Z8
-        3WRs4LLw==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=aXk533Y40BLOyImNad0BaK/HkvfBpi+VFKiLovkq2FY=; b=MqJkkcnxuMst8SfYFH0p/H0sS
+        Lyndhu8pTjyjfQyCjGGLFai29f329X1ePrgtN/YiqkHPIN0jszBGe0NaFysyaLUT8iQXMi77kr3Ek
+        VK9dgOqwdzPw6Acy6G9wKOUedXKcUzEoKGZWxrXhzwj0M/MSx7rRNoFuVUIWqQsLzx2BOQ9Z5aGKa
+        E1OsE0J46lx96G9b7y4w7pjA57wrq6KmUpVXPoT6CN1Zwy/HvcQQB4OQD57GDHUtGETcm1tOVobgA
+        82otTB9t6FSATrXnlqA+euiivNTTfNlrFuP4C+PcevHuUSUXXHc8/huT8lQNz6KUokynQWTV5UM5L
+        ++qe37rJw==;
 Received: from 089144193064.atnat0002.highway.a1.net ([89.144.193.64] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hYbHd-0005ug-Su; Wed, 05 Jun 2019 19:09:14 +0000
+        id 1hYbH4-0005Cx-Qz; Wed, 05 Jun 2019 19:08:39 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Jens Axboe <axboe@kernel.dk>
 Cc:     Sebastian Ott <sebott@linux.ibm.com>,
@@ -52,12 +51,10 @@ Cc:     Sebastian Ott <sebott@linux.ibm.com>,
         megaraidlinux.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
         linux-hyperv@vger.kernel.org, linux-usb@vger.kernel.org,
         usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/13] IB/srp: set virt_boundary_mask in the scsi host
-Date:   Wed,  5 Jun 2019 21:08:32 +0200
-Message-Id: <20190605190836.32354-10-hch@lst.de>
+Subject: properly communicate queue limits to the DMA layer
+Date:   Wed,  5 Jun 2019 21:08:23 +0200
+Message-Id: <20190605190836.32354-1-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190605190836.32354-1-hch@lst.de>
-References: <20190605190836.32354-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -66,57 +63,27 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This ensures all proper DMA layer handling is taken care of by the
-SCSI midlayer.
+Hi Jens,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/infiniband/ulp/srp/ib_srp.c | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+we've always had a bit of a problem communicating the block layer
+queue limits to the DMA layer, which needs to respect them when
+an IOMMU that could merge segments is used.  Unfortunately most
+drivers don't get this right.  Oddly enough we've been mostly
+getting away with it, although lately dma-debug has been catching
+a few of those issues.
 
-diff --git a/drivers/infiniband/ulp/srp/ib_srp.c b/drivers/infiniband/ulp/srp/ib_srp.c
-index be9ddcad8f28..944fe8eee1ea 100644
---- a/drivers/infiniband/ulp/srp/ib_srp.c
-+++ b/drivers/infiniband/ulp/srp/ib_srp.c
-@@ -3061,20 +3061,6 @@ static int srp_target_alloc(struct scsi_target *starget)
- 	return 0;
- }
- 
--static int srp_slave_alloc(struct scsi_device *sdev)
--{
--	struct Scsi_Host *shost = sdev->host;
--	struct srp_target_port *target = host_to_target(shost);
--	struct srp_device *srp_dev = target->srp_host->srp_dev;
--	struct ib_device *ibdev = srp_dev->dev;
--
--	if (!(ibdev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG))
--		blk_queue_virt_boundary(sdev->request_queue,
--					~srp_dev->mr_page_mask);
--
--	return 0;
--}
--
- static int srp_slave_configure(struct scsi_device *sdev)
- {
- 	struct Scsi_Host *shost = sdev->host;
-@@ -3277,7 +3263,6 @@ static struct scsi_host_template srp_template = {
- 	.name				= "InfiniBand SRP initiator",
- 	.proc_name			= DRV_NAME,
- 	.target_alloc			= srp_target_alloc,
--	.slave_alloc			= srp_slave_alloc,
- 	.slave_configure		= srp_slave_configure,
- 	.info				= srp_target_info,
- 	.queuecommand			= srp_queuecommand,
-@@ -3812,6 +3797,9 @@ static ssize_t srp_create_target(struct device *dev,
- 	target_host->max_cmd_len = sizeof ((struct srp_cmd *) (void *) 0L)->cdb;
- 	target_host->max_segment_size = ib_dma_max_seg_size(ibdev);
- 
-+	if (!(ibdev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG))
-+		target_host->virt_boundary_mask = ~srp_dev->mr_page_mask;
-+
- 	target = host_to_target(target_host);
- 
- 	target->net		= kobj_ns_grab_current(KOBJ_NS_TYPE_NET);
--- 
-2.20.1
+The segment merging fix for devices with PRP-like structures seems
+to have escalated this a bit.  The first patch fixes the actual
+report from Sebastian, while the rest fix every drivers that appears
+to have the problem based on a code audit looking for drivers using
+blk_queue_max_segment_size, blk_queue_segment_boundary or
+blk_queue_virt_boundary and calling dma_map_sg eventually.  Note
+that for SCSI drivers I've taken the blk_queue_virt_boundary setting
+to the SCSI core, similar to how we did it for the other two settings
+a while ago.  This also deals with the fact that the DMA layer
+settings are on a per-device granularity, so the per-device settings
+in a few SCSI drivers can't actually work in an IOMMU environment.
 
+It would be nice to eventually pass these limits as arguments to
+dma_map_sg, but that is a far too big series for the 5.2 merge
+window.
