@@ -2,116 +2,123 @@ Return-Path: <SRS0=G4Ks=UQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F899C31E57
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 09:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AED8C31E57
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 64A5C2080C
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 09:10:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C38220861
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="ZVXe7pF/"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JKaeP9Ev"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbfFQJK2 (ORCPT
+        id S1726121AbfFQMUM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Jun 2019 05:10:28 -0400
-Received: from mail-io1-f54.google.com ([209.85.166.54]:44819 "EHLO
-        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727323AbfFQJK2 (ORCPT
+        Mon, 17 Jun 2019 08:20:12 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59160 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfFQMUL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Jun 2019 05:10:28 -0400
-Received: by mail-io1-f54.google.com with SMTP id s7so19483735iob.11
-        for <linux-hyperv@vger.kernel.org>; Mon, 17 Jun 2019 02:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:references:in-reply-to:mime-version:thread-index:date
-         :message-id:subject:to:cc;
-        bh=Mj+s4plNnZbEVe10BIzmZ1IijmMEuCHawFgLwkcZqoI=;
-        b=ZVXe7pF/DKKbAtg0BLq1kHz+Yf8AmgubdjAQekKwZeBkWQQeo+lrwMdIAePBmlOgcE
-         WJ3paACJ9GsoxC9mAywQ6EfBHW7Qhb1RZpLg6OjDRo0//12nX9SRpN+HRZNsKHbLnYNY
-         mXR2sr52mBeN/pkOHc0Q5eeZBCOpWx8hMerKU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:references:in-reply-to:mime-version
-         :thread-index:date:message-id:subject:to:cc;
-        bh=Mj+s4plNnZbEVe10BIzmZ1IijmMEuCHawFgLwkcZqoI=;
-        b=qvzQc+3z2rc8EkLRsosuti3qwS0XGowqkGI30CS5OeUlr8FbcxFyw1ZS7YP+gK4q74
-         Tx4IUolxRxOUHErI11YWNIlA8hQUM6Bz5HKYvd7LCywp55pTqcKe4iB1PihH0P6UIUPw
-         df8NLBpm2pTgwZ2cTj2y+5J8r+YeFmcBlwTYVcLif7qHV/2iccbbLIfg9vQECwiEvAtL
-         CJBpqkMCtzFtQ6GA28TD3A8Sd/40Hfh70sVJu6pU9zN1HeGI41fjpYLbgc7SOOvmSrv+
-         ApqvShKtk1CzS+bzEbTkHbeaoBQ9mltYBif0G9Ps+FOwwCHZlAUKSlWf3FdmUROpfU8Q
-         tOJA==
-X-Gm-Message-State: APjAAAWSqtZBhUajSDJ3jkXQCcyKZZsCM/WJS+i8ikC6dKn5HC8DcwHt
-        f4ernnnawLFlnM6YEqacNh76dJCMI1lmN//Ilptkhg==
-X-Google-Smtp-Source: APXvYqwKR2USXudxvvKfOK55glU2D5y5FMiBAo7oI/W/qo2pfnh4b2Kx5on0RhBtIfzYHBRJ2BHKN9CUkaC5PBmqWrM=
-X-Received: by 2002:a02:298b:: with SMTP id p133mr87239176jap.37.1560762627424;
- Mon, 17 Jun 2019 02:10:27 -0700 (PDT)
-From:   Kashyap Desai <kashyap.desai@broadcom.com>
-References: <20190605190836.32354-1-hch@lst.de> <20190605190836.32354-11-hch@lst.de>
- <cd713506efb9579d1f69a719d831c28d@mail.gmail.com> <20190608081400.GA19573@lst.de>
- <98f6557ae91a7cdfe8069fcf7d788c88@mail.gmail.com> <20190617084433.GA7969@lst.de>
-In-Reply-To: <20190617084433.GA7969@lst.de>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQNLjZIO2zMn7N+9xPobnDbFSu4o5gI2RJdJAgF+bYgBfxw4kQGu5dmvAzKBgtajXfsrgA==
-Date:   Mon, 17 Jun 2019 14:40:25 +0530
-Message-ID: <e7443be50725bbdcdb6f1f4cc73955aa@mail.gmail.com>
-Subject: RE: [PATCH 10/13] megaraid_sas: set virt_boundary_mask in the scsi host
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jens Axboe <axboe@kernel.dk>, Sebastian Ott <sebott@linux.ibm.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Max Gurtovoy <maxg@mellanox.com>,
+        Mon, 17 Jun 2019 08:20:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
+        :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=EgU5lGgALUASevuDqm6D+3fpiqvPjFDOViczDZXWl1A=; b=JKaeP9Ev7LiZHvrRPLqNumCtMl
+        dquHp4cwMR0898RYkYJA8f51GaGPh3BxiQM89zTUVNPybDX6jDLLRDW5CqVLksUSOuWUa+cvlQ8mk
+        w9+KucND1Falz8nRMx1eEiY/2FPE6GUXvE3fUrbXkfvZtktVAvZJfKbjk10t1X2wwp3HNlKjVsbpZ
+        nMr9nNh18ZxuzY8Ik4oSxBPB7725XgTyT6ZIEblhmsG12E/PRS/MYGjE99RsOlElZePtDTxT6AaKH
+        G9uBZDtdvoB23crxPIQyhDLWCvDkzrjlIZ2DeF0DZ3caY8IZmNvK/38nJ2OM3XrG9DtbudCa8IxV/
+        cZ8Z0C4w==;
+Received: from clnet-p19-102.ikbnet.co.at ([83.175.77.102] helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hcqcI-00047i-MP; Mon, 17 Jun 2019 12:20:07 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     "Martin K . Petersen" <martin.petersen@oracle.com>
+Cc:     Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
         Bart Van Assche <bvanassche@acm.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Oliver Neukum <oneukum@suse.com>, linux-block@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        "PDL,MEGARAIDLINUX" <megaraidlinux.pdl@broadcom.com>,
-        PDL-MPT-FUSIONLINUX <mpt-fusionlinux.pdl@broadcom.com>,
-        linux-hyperv@vger.kernel.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        megaraidlinux.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/8] scsi: add a host / host template field for the virt boundary
+Date:   Mon, 17 Jun 2019 14:19:53 +0200
+Message-Id: <20190617122000.22181-2-hch@lst.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190617122000.22181-1-hch@lst.de>
+References: <20190617122000.22181-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
->
-> On Fri, Jun 14, 2019 at 01:28:47AM +0530, Kashyap Desai wrote:
-> > Is there any changes in API  blk_queue_virt_boundary? I could not find
-> > relevant code which account for this. Can you help ?
-> > Which git repo shall I use for testing ? That way I can confirm, I
-> > didn't miss relevant changes.
->
-> Latest mainline plus the series (which is about to get resent).
-> blk_queue_virt_boundary now forced an unlimited max_hw_sectors as that
-is
-> how PRP-like schemes work, to work around a block driver merging bug.
-But
-> we also need to communicate that limit to the DMA layer so that we don't
-set
-> a smaller iommu segment size limitation.
->
-> > >From your above explanation, it means (after this patch) max segment
-> > >size
-> > of the MR controller will be set to 4K.
-> > Earlier it is possible to receive single SGE of 64K datalength (Since
-> > max seg size was 64K), but now the same buffer will reach the driver
-> > having 16 SGEs (Each SGE will contain 4K length).
->
-> No, there is no more limit for the size of the segment at all, as for
-PRPs each
-> PRP is sort of a segment from the hardware perspective.
-> We just require the segments to not have gaps, as PRPs don't allow for
-that.
-Thanks for clarification. I have also observed that max_segment_size Is
-unchanged and it is 64K.
->
-> That being said I think these patches are wrong for the case of megaraid
-or
-> mpt having both NVMe and SAS/ATA devices behind a single controller.
-> Is that a valid configuration?
-Yes. This is a valid configuration.
+This allows drivers setting it up easily instead of branching out to
+block layer calls in slave_alloc, and ensures the upgraded
+max_segment_size setting gets picked up by the DMA layer.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/scsi/hosts.c     | 3 +++
+ drivers/scsi/scsi_lib.c  | 3 ++-
+ include/scsi/scsi_host.h | 3 +++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
+index ff0d8c6a8d0c..55522b7162d3 100644
+--- a/drivers/scsi/hosts.c
++++ b/drivers/scsi/hosts.c
+@@ -462,6 +462,9 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
+ 	else
+ 		shost->dma_boundary = 0xffffffff;
+ 
++	if (sht->virt_boundary_mask)
++		shost->virt_boundary_mask = sht->virt_boundary_mask;
++
+ 	device_initialize(&shost->shost_gendev);
+ 	dev_set_name(&shost->shost_gendev, "host%d", shost->host_no);
+ 	shost->shost_gendev.bus = &scsi_bus_type;
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 65d0a10c76ad..d333bb6b1c59 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1775,7 +1775,8 @@ void __scsi_init_queue(struct Scsi_Host *shost, struct request_queue *q)
+ 	dma_set_seg_boundary(dev, shost->dma_boundary);
+ 
+ 	blk_queue_max_segment_size(q, shost->max_segment_size);
+-	dma_set_max_seg_size(dev, shost->max_segment_size);
++	blk_queue_virt_boundary(q, shost->virt_boundary_mask);
++	dma_set_max_seg_size(dev, queue_max_segment_size(q));
+ 
+ 	/*
+ 	 * Set a reasonable default alignment:  The larger of 32-byte (dword),
+diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
+index a5fcdad4a03e..cc139dbd71e5 100644
+--- a/include/scsi/scsi_host.h
++++ b/include/scsi/scsi_host.h
+@@ -369,6 +369,8 @@ struct scsi_host_template {
+ 	 */
+ 	unsigned long dma_boundary;
+ 
++	unsigned long virt_boundary_mask;
++
+ 	/*
+ 	 * This specifies "machine infinity" for host templates which don't
+ 	 * limit the transfer size.  Note this limit represents an absolute
+@@ -587,6 +589,7 @@ struct Scsi_Host {
+ 	unsigned int max_sectors;
+ 	unsigned int max_segment_size;
+ 	unsigned long dma_boundary;
++	unsigned long virt_boundary_mask;
+ 	/*
+ 	 * In scsi-mq mode, the number of hardware queues supported by the LLD.
+ 	 *
+-- 
+2.20.1
+
