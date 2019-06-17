@@ -2,27 +2,27 @@ Return-Path: <SRS0=G4Ks=UQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54545C31E57
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 13:08:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AB5C31E57
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 13:09:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2CC9820861
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 13:08:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64A6220861
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 13:09:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726065AbfFQNIc (ORCPT
+        id S1726362AbfFQNJZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Jun 2019 09:08:32 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:46023 "EHLO
+        Mon, 17 Jun 2019 09:09:25 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:46051 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726061AbfFQNIb (ORCPT
+        with ESMTP id S1726286AbfFQNJY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Jun 2019 09:08:31 -0400
+        Mon, 17 Jun 2019 09:09:24 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 12BC88025E; Mon, 17 Jun 2019 15:08:18 +0200 (CEST)
-Date:   Mon, 17 Jun 2019 15:08:28 +0200
+        id B9A7E8025E; Mon, 17 Jun 2019 15:09:11 +0200 (CEST)
+Date:   Mon, 17 Jun 2019 15:09:21 +0200
 From:   Pavel Machek <pavel@ucw.cz>
 To:     Dexuan Cui <decui@microsoft.com>
 Cc:     Michael Kelley <mikelley@microsoft.com>,
@@ -48,13 +48,13 @@ Cc:     Michael Kelley <mikelley@microsoft.com>,
         "marcelo.cerri@canonical.com" <marcelo.cerri@canonical.com>
 Subject: Re: [PATCH] ACPI: PM: Export the function
  acpi_sleep_state_supported()
-Message-ID: <20190617130828.GB21113@amd>
+Message-ID: <20190617130921.GC21113@amd>
 References: <1560536224-35338-1-git-send-email-decui@microsoft.com>
  <BL0PR2101MB134895BADA1D8E0FA631D532D7EE0@BL0PR2101MB1348.namprd21.prod.outlook.com>
  <PU1P153MB01699020B5BC4287C58F5335BFEE0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="i9LlY+UWpKt15+FH"
+        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
 Content-Disposition: inline
 In-Reply-To: <PU1P153MB01699020B5BC4287C58F5335BFEE0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 User-Agent: Mutt/1.5.23 (2014-03-12)
@@ -64,25 +64,12 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 
---i9LlY+UWpKt15+FH
+--69pVuxX8awAiJ7fD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
 
-> > > In a Linux VM running on Hyper-V, when ACPI S4 is enabled, the balloon
-> > > driver (drivers/hv/hv_balloon.c) needs to ask the host not to do memo=
-ry
-> > > hot-add/remove.
-> > >
-> > > So let's export acpi_sleep_state_supported() for the hv_balloon drive=
-r.
-> > > This might also be useful to the other drivers in the future.
-> > >
-> > > Signed-off-by: Dexuan Cui <decui@microsoft.com>
-
-> >=20
 > > It seems that sleep.c isn't built when on the ARM64 architecture.  Using
 > > acpi_sleep_state_supported() directly in hv_balloon.c will be problemat=
 ic
@@ -104,11 +91,8 @@ his
 > It looks ARM does not support the ACPI S4 state, then how do we know=20
 > if an ARM host supports hibernation or not?
 
-You should be able to do hibernation without ACPI S4 support. All you
-need is ability to powerdown...
-
-It is well possible that noone tested hibernation on ARM.. people
-usually do suspend-to-ram there.
+But actually... I remember ELCE talk about hibernation or ARM32. Not
+sure if patches are mainline, but someone was working on that.
 
 									Pavel
 --=20
@@ -116,16 +100,16 @@ usually do suspend-to-ram there.
 (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
 g.html
 
---i9LlY+UWpKt15+FH
+--69pVuxX8awAiJ7fD
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iEYEARECAAYFAl0HkMwACgkQMOfwapXb+vLW8gCfb8sq1/PCXpx+Gk0syVPC0p7I
-g6sAn2pPwcNXL+jTiD/bs2aoDQtOdAFZ
-=u/TZ
+iEYEARECAAYFAl0HkQEACgkQMOfwapXb+vJUqACbBRbrUMu0nfAR+ZaWSWjQrS1t
+6DEAn3UmgaE6hq2ub8ECCopo61cXUVxu
+=V6Tb
 -----END PGP SIGNATURE-----
 
---i9LlY+UWpKt15+FH--
+--69pVuxX8awAiJ7fD--
