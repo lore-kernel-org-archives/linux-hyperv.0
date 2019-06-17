@@ -2,42 +2,42 @@ Return-Path: <SRS0=G4Ks=UQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F4CC31E57
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9414BC31E57
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5B2F42084D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60A132084D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jun 2019 12:20:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QkZ4Xgh5"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WbZMNH56"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727749AbfFQMUk (ORCPT
+        id S1726005AbfFQMUS (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Jun 2019 08:20:40 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59218 "EHLO
+        Mon, 17 Jun 2019 08:20:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59198 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727483AbfFQMUT (ORCPT
+        with ESMTP id S1727428AbfFQMUQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Jun 2019 08:20:19 -0400
+        Mon, 17 Jun 2019 08:20:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
         :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=rAru/g/esClPI2WAaX3PUnaPhvPum8MkxndH0C4U79k=; b=QkZ4Xgh5y91dYvFuT64YOH0Xwn
-        u5bqL9vAPRDcR+CsmKyese77tj7wJfgFvWsq9gy4tOsq/V+EmewMoDFVVsZnoObZwzIGLgVMHpRaH
-        hHC+CHJlrDMjnz/JjVWhBMbcIwuxWndBXhYHOyBibnjsLyU4Ucnp0W79+87ZlBaoLVOMlxCvUKVA9
-        iW9/n3virNs6E0IQOtb09OH4lzUVb5NMXTbyg+ngIU/XY359SDDH1+59PmtIrSAql2wPkRLNNyXXR
-        RKZF1GaRe3Fnqb/oof9Kvit4WOM/7jWEqov8Cawxc9SuQsOHK2hLnJQtWZxN2LaptfnJ68D1x3j0P
-        LwxzQ1ZA==;
+        bh=tcdrMn143Ts78QpGHmQeJDKDdB3ysuM20BTYoXIK2ys=; b=WbZMNH56ewuVfs/dzNTmQLvHdi
+        zfK3X8Cyjf8E7/DCsud9mKrqUTseRKQ8JgwzZ56tGuR+LwIbVBhrWgPE3QB3n/Ux9IKKDjhoGleOG
+        bil9Fs7KWBtBNEMV6EaA8p91CTmUj0EcQPjLdNApAaYGfZXJ2HZYb8EkqsEDtrkS3ZSk4LrO3zvt0
+        iTw0b8Qx+8GG9pYGVAfHcRAagg1hy5DUVIFwo5d+01Jek6vJN6tV8x3OeNoBhIUQIwIEJjhwMlxi2
+        JoazszsoqQx//nwLhMvzSGkbyKx3/mag8wD9rAMv4sUFqv/cI2w+ro81ba1ll3Ef+n/PcI6SD7G+d
+        k9uZsq4w==;
 Received: from clnet-p19-102.ikbnet.co.at ([83.175.77.102] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hcqcR-0004gJ-Lt; Mon, 17 Jun 2019 12:20:16 +0000
+        id 1hcqcN-0004fd-4P; Mon, 17 Jun 2019 12:20:11 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     "Martin K . Petersen" <martin.petersen@oracle.com>
 Cc:     Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
@@ -45,9 +45,9 @@ Cc:     Sagi Grimberg <sagi@grimberg.me>, Max Gurtovoy <maxg@mellanox.com>,
         linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
         megaraidlinux.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/8] IB/iser: set virt_boundary_mask in the scsi host
-Date:   Mon, 17 Jun 2019 14:19:57 +0200
-Message-Id: <20190617122000.22181-6-hch@lst.de>
+Subject: [PATCH 3/8] ufshcd: set max_segment_size in the scsi host template
+Date:   Mon, 17 Jun 2019 14:19:55 +0200
+Message-Id: <20190617122000.22181-4-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617122000.22181-1-hch@lst.de>
 References: <20190617122000.22181-1-hch@lst.de>
@@ -59,88 +59,35 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This ensures all proper DMA layer handling is taken care of by the
-SCSI midlayer.
+We need to also mirror the value to the device to ensure IOMMU merging
+doesn't undo it, and the SCSI host level parameter will ensure that.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/infiniband/ulp/iser/iscsi_iser.c | 35 +++++-------------------
- 1 file changed, 7 insertions(+), 28 deletions(-)
+ drivers/scsi/ufs/ufshcd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/infiniband/ulp/iser/iscsi_iser.c b/drivers/infiniband/ulp/iser/iscsi_iser.c
-index 9c185a8dabd3..841b66397a57 100644
---- a/drivers/infiniband/ulp/iser/iscsi_iser.c
-+++ b/drivers/infiniband/ulp/iser/iscsi_iser.c
-@@ -613,6 +613,7 @@ iscsi_iser_session_create(struct iscsi_endpoint *ep,
- 	struct Scsi_Host *shost;
- 	struct iser_conn *iser_conn = NULL;
- 	struct ib_conn *ib_conn;
-+	struct ib_device *ib_dev;
- 	u32 max_fr_sectors;
+diff --git a/drivers/scsi/ufs/ufshcd.c b/drivers/scsi/ufs/ufshcd.c
+index 3fe3029617a8..505d625ed28d 100644
+--- a/drivers/scsi/ufs/ufshcd.c
++++ b/drivers/scsi/ufs/ufshcd.c
+@@ -4587,8 +4587,6 @@ static int ufshcd_slave_configure(struct scsi_device *sdev)
+ 	struct request_queue *q = sdev->request_queue;
  
- 	shost = iscsi_host_alloc(&iscsi_iser_sht, 0, 0);
-@@ -643,16 +644,19 @@ iscsi_iser_session_create(struct iscsi_endpoint *ep,
- 		}
- 
- 		ib_conn = &iser_conn->ib_conn;
-+		ib_dev = ib_conn->device->ib_device;
- 		if (ib_conn->pi_support) {
--			u32 sig_caps = ib_conn->device->ib_device->attrs.sig_prot_cap;
-+			u32 sig_caps = ib_dev->attrs.sig_prot_cap;
- 
- 			scsi_host_set_prot(shost, iser_dif_prot_caps(sig_caps));
- 			scsi_host_set_guard(shost, SHOST_DIX_GUARD_IP |
- 						   SHOST_DIX_GUARD_CRC);
- 		}
- 
--		if (iscsi_host_add(shost,
--				   ib_conn->device->ib_device->dev.parent)) {
-+		if (!(ib_dev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG))
-+			shost->virt_boundary_mask = ~MASK_4K;
-+
-+		if (iscsi_host_add(shost, ib_dev->dev.parent)) {
- 			mutex_unlock(&iser_conn->state_mutex);
- 			goto free_host;
- 		}
-@@ -958,30 +962,6 @@ static umode_t iser_attr_is_visible(int param_type, int param)
+ 	blk_queue_update_dma_pad(q, PRDT_DATA_BYTE_COUNT_PAD - 1);
+-	blk_queue_max_segment_size(q, PRDT_DATA_BYTE_COUNT_MAX);
+-
  	return 0;
  }
  
--static int iscsi_iser_slave_alloc(struct scsi_device *sdev)
--{
--	struct iscsi_session *session;
--	struct iser_conn *iser_conn;
--	struct ib_device *ib_dev;
--
--	mutex_lock(&unbind_iser_conn_mutex);
--
--	session = starget_to_session(scsi_target(sdev))->dd_data;
--	iser_conn = session->leadconn->dd_data;
--	if (!iser_conn) {
--		mutex_unlock(&unbind_iser_conn_mutex);
--		return -ENOTCONN;
--	}
--	ib_dev = iser_conn->ib_conn.device->ib_device;
--
--	if (!(ib_dev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG))
--		blk_queue_virt_boundary(sdev->request_queue, ~MASK_4K);
--
--	mutex_unlock(&unbind_iser_conn_mutex);
--
--	return 0;
--}
--
- static struct scsi_host_template iscsi_iser_sht = {
- 	.module                 = THIS_MODULE,
- 	.name                   = "iSCSI Initiator over iSER",
-@@ -994,7 +974,6 @@ static struct scsi_host_template iscsi_iser_sht = {
- 	.eh_device_reset_handler= iscsi_eh_device_reset,
- 	.eh_target_reset_handler = iscsi_eh_recover_target,
- 	.target_alloc		= iscsi_target_alloc,
--	.slave_alloc            = iscsi_iser_slave_alloc,
- 	.proc_name              = "iscsi_iser",
- 	.this_id                = -1,
+@@ -6991,6 +6989,7 @@ static struct scsi_host_template ufshcd_driver_template = {
+ 	.sg_tablesize		= SG_ALL,
+ 	.cmd_per_lun		= UFSHCD_CMD_PER_LUN,
+ 	.can_queue		= UFSHCD_CAN_QUEUE,
++	.max_segment_size	= PRDT_DATA_BYTE_COUNT_MAX,
+ 	.max_host_blocked	= 1,
  	.track_queue_depth	= 1,
+ 	.sdev_groups		= ufshcd_driver_groups,
 -- 
 2.20.1
 
