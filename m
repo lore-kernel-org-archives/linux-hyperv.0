@@ -2,122 +2,112 @@ Return-Path: <SRS0=Fjb5=UR=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7101AC31E51
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:09:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BEDC31E51
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:16:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 431A02080A
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:09:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D92020679
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:16:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BXa+wzoz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+ThJ5pC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfFRHJc (ORCPT
+        id S1726676AbfFRHQX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jun 2019 03:09:32 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46819 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbfFRHJb (ORCPT
+        Tue, 18 Jun 2019 03:16:23 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42778 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbfFRHQX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jun 2019 03:09:31 -0400
-Received: by mail-oi1-f195.google.com with SMTP id 65so8252992oid.13;
-        Tue, 18 Jun 2019 00:09:31 -0700 (PDT)
+        Tue, 18 Jun 2019 03:16:23 -0400
+Received: by mail-pl1-f196.google.com with SMTP id ay6so3083807plb.9;
+        Tue, 18 Jun 2019 00:16:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=lrt8d9CAxmtJXKTskrcOzMVi/9alFFJL9btIk5KPwBA=;
-        b=BXa+wzozUTJ40dhrLI0q0wNeWpg9JApCN+gkavRZH8mOwWBcce94Z7D0SHgg+4AnE0
-         zy9UoviQcsutrd1T+TOmQ6fDtjqmQ1xd7pLmVGFZsA+g4krzBMG94UXcfGsmW6ZXfFMR
-         /jt9ajgFjFo1nUwI89g2pCqcHTUY/z9hmjBE/xMSLCbD1Ut0oP3S8niXiJi4vOvzt4iN
-         c4dJSuYnn7ZJ4W9Folaow9kCujidWDQ0kmg91qp7xUB6VoG1lvCdag07H8RYdUWPPTY0
-         cO5W3QFdCcJqDogCmUoh3wGNzAZicDvr8Ci/pL6t1D8ua+cZ8ouA3jyInReaKHePQmVa
-         mG6Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=HNJi6hiuYdfL3u8IXlFr2ptQbwtW7ZdNyo5Hq+iVFb0=;
+        b=Y+ThJ5pCj+BAiwHO4j2p2nYITjKlpl+FSuLSTNOe+TBAgWSMDCYqb8cPLlvg0F1dth
+         HnhM5kNjqYivCUy7GrQd16xPch7qNWQX18sl65tAEEtv2Df2RwLmv2I0D+LUcee1jdVX
+         KGaclhr/o20kE66rX6k4zqkjW2TIjWOUzINkK/LYswE9neLxBEuDN+PAnIUsgXtgSBgx
+         AQPuhtt8NnsINJQNjvoNXPgmbajWFp9UtDyJ2kZSvPNkmyi+964tUXmqTiwhy21ZhtPT
+         AvgX+EE4PPKYe1X/jfll6qk8oltbqEu4yW3hADikabGGGThnwh0+BNCoQXmNd2V37UEi
+         aorg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=lrt8d9CAxmtJXKTskrcOzMVi/9alFFJL9btIk5KPwBA=;
-        b=drJt2U5egWwPtsBGWzdE8ryanRzk91DCb+U7QqYnPpwqBEAVzi7kH8D5yYqUIqFmEJ
-         KOmhi4zxaExZzPFwvCuDmm5ZgmP75hCPpu00wgPYFw62FbNR+qrm1jsuRqCJzEvnG1gl
-         PrszXFmFwEfYW1CMb1ccwlJnx9ryGRADHuEhoPZPrjW7XTvw8B+g7wgwBzjoOJ8jH6ki
-         ggbvtGDCiAYao4ZTdSjt5cMBDGJndsCzwPUK1crI4GNXPcrHUsUivmn2gwXpd75VisXW
-         5UT5r+V/Gek/8b4Tkwm8Um1IFMLd5Rx1J49QMqYxlue3M/k6IFdhbffQoDAEEJoa9mah
-         SQ0Q==
-X-Gm-Message-State: APjAAAVgfacdq4TqE3FFrICWE7ShxDZAcoQz7z3iKClU67dBu61luf6v
-        qkZv+vjZnRHpfGtbEVWkownoMaP1itM=
-X-Google-Smtp-Source: APXvYqxIM5BUHJqfcb6TtvdsBS/ZQiLqfMJq4RMBwCcxPckgeMNAvLcvsVtocQalhZYYt4sv5zi2rw==
-X-Received: by 2002:a63:e70a:: with SMTP id b10mr1082577pgi.26.1560838152279;
-        Mon, 17 Jun 2019 23:09:12 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HNJi6hiuYdfL3u8IXlFr2ptQbwtW7ZdNyo5Hq+iVFb0=;
+        b=NAdxBpHrDzKwyjsqWUqBvfN78Soq1paImQTbXMniFZ7uDQVL5obhxofqHM+w5VakJz
+         UgssxdH7goOMeaCwQkZkwNn3uZrAZzquh5KV0TBfmT8x6HcBX66brZoT/UV+hT7jA2B9
+         BSR68vjXg5+H53+qqXPYVNNaXZi9h0wN9q/0Dc6mlyu190SDNUaVUKbpEO9gtWKtZ+7H
+         g85D7W/ZfgtEXxhE+ues1iR7trCP2CQ7MTbL2g9f+sY4dEqs5C85UvU169S8Riiqv0l7
+         ZgPwbNfRpMhnOgAV/d9jLGVN+vhCaASCpChk7CnFVSEEpXTdWuj/UX84WLPDdA6zEbDl
+         CWpQ==
+X-Gm-Message-State: APjAAAUQ3rhkujsWpTPHtfs/hsfKua0ISM9swD7/520xKAhH7OEMxsbE
+        q/AVNiC6ofEWrSecF5PVvRFUeMSxm8Y=
+X-Google-Smtp-Source: APXvYqzQY3y9xEauwLFI59PlhTMcKf6K26shYUvaumGkoTV5SyH8/M3fZ5Z05bsG0ptz3yCTmUM1sg==
+X-Received: by 2002:a17:902:d715:: with SMTP id w21mr112846469ply.234.1560838478885;
+        Mon, 17 Jun 2019 23:14:38 -0700 (PDT)
 Received: from maya190131 ([13.66.160.195])
-        by smtp.gmail.com with ESMTPSA id l20sm12505501pff.102.2019.06.17.23.09.11
+        by smtp.gmail.com with ESMTPSA id a7sm13038951pgj.42.2019.06.17.23.14.38
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 23:09:11 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 06:09:11 +0000
+        Mon, 17 Jun 2019 23:14:38 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 06:14:38 +0000
 From:   Maya Nakamura <m.maya.nakamura@gmail.com>
 To:     mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
         sthemmin@microsoft.com, sashal@kernel.org
 Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/5] hv: Remove dependencies on guest page size
-Message-ID: <cover.1560837096.git.m.maya.nakamura@gmail.com>
+Subject: [PATCH v3 3/5] hv: vmbus: Replace page definition with Hyper-V
+ specific one
+Message-ID: <aef1958c0b0a5d005899620d205a55b2c91f7f78.1560837096.git.m.maya.nakamura@gmail.com>
+References: <cover.1560837096.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1560837096.git.m.maya.nakamura@gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The Linux guest page size and hypervisor page size concepts are
-different, even though they happen to be the same value on x86. Hyper-V
-code mixes up the two, so this patchset begins to address that by
-creating and using a set of Hyper-V specific page definitions.
+Replace PAGE_SIZE with HV_HYP_PAGE_SIZE because the guest page size may
+not be 4096 on all architectures and Hyper-V always runs with a page
+size of 4096.
 
-A major benefit of those new definitions is that they support non-x86
-architectures, such as ARM64, that use different page sizes. On ARM64,
-the guest page size may not be 4096, and Hyper-V always runs with a
-page size of 4096.
+Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ drivers/hv/hyperv_vmbus.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-In this patchset, the first two patches lay the foundation for the
-others, creating definitions and preparing for allocation of memory with
-the size and alignment that Hyper-V expects as a page. Patch 3 applies
-the page size definition where the guest VM and Hyper-V communicate, and
-where the code intends to use the Hyper-V page size. The last two
-patches set the ring buffer size to a fixed value, removing the
-dependency on the guest page size.
-
-This is the initial set of changes to the Hyper-V code, and future
-patches will make additional changes using the same foundation, for
-example, replace __vmalloc() and related functions when Hyper-V pages
-are intended.
-
-Changes in v3:
-- [PATCH v2 2/5] Simplify expression for BUILD_BUG_ON().
-- Add Link and Reviewed-by tags.
-
-Change in v2:
-- [PATCH 2/5] Replace with a new patch.
-
-Maya Nakamura (5):
-  x86: hv: hyperv-tlfs.h: Create and use Hyper-V page definitions
-  x86: hv: hv_init.c: Add functions to allocate/deallocate page for
-    Hyper-V
-  hv: vmbus: Replace page definition with Hyper-V specific one
-  HID: hv: Remove dependencies on PAGE_SIZE for ring buffer
-  Input: hv: Remove dependencies on PAGE_SIZE for ring buffer
-
- arch/x86/hyperv/hv_init.c             | 14 ++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h    | 12 +++++++++++-
- drivers/hid/hid-hyperv.c              |  4 ++--
- drivers/hv/hyperv_vmbus.h             |  8 ++++----
- drivers/input/serio/hyperv-keyboard.c |  4 ++--
- 5 files changed, 33 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 362e70e9d145..019469c3cbca 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -192,11 +192,11 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
+ 		       u64 *requestid, bool raw);
+ 
+ /*
+- * Maximum channels is determined by the size of the interrupt page
+- * which is PAGE_SIZE. 1/2 of PAGE_SIZE is for send endpoint interrupt
+- * and the other is receive endpoint interrupt
++ * Maximum channels, 16348, is determined by the size of the interrupt page,
++ * which is HV_HYP_PAGE_SIZE. 1/2 of HV_HYP_PAGE_SIZE is to send endpoint
++ * interrupt, and the other is to receive endpoint interrupt.
+  */
+-#define MAX_NUM_CHANNELS	((PAGE_SIZE >> 1) << 3)	/* 16348 channels */
++#define MAX_NUM_CHANNELS	((HV_HYP_PAGE_SIZE >> 1) << 3)
+ 
+ /* The value here must be in multiple of 32 */
+ /* TODO: Need to make this configurable */
 -- 
 2.17.1
 
