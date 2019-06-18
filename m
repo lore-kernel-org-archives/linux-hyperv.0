@@ -5,67 +5,67 @@ X-Spam-Level:
 X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9569EC31E51
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADCEC31E51
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6882120652
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3324120665
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+DeHlH3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ADV+E6Np"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfFRGpX (ORCPT
+        id S1726413AbfFRGpc (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jun 2019 02:45:23 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:42399 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbfFRGpW (ORCPT
+        Tue, 18 Jun 2019 02:45:32 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:44122 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726158AbfFRGpb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jun 2019 02:45:22 -0400
-Received: by mail-pl1-f196.google.com with SMTP id ay6so3048444plb.9;
-        Mon, 17 Jun 2019 23:45:22 -0700 (PDT)
+        Tue, 18 Jun 2019 02:45:31 -0400
+Received: by mail-vk1-f196.google.com with SMTP id w186so2571389vkd.11;
+        Mon, 17 Jun 2019 23:45:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=hZ8XQcqFPiBgKnC9B3u3J7ZO1DNl4k/Ar4Bg2fpOBFk=;
-        b=g+DeHlH3i22he3fU6/lH59AjJFzbciZYgDVDBDw2FQtFbNaEDquenyOb5vVGobtuJp
-         1t+LiL0ZrN0nOfgnignrVMCO6D5na5B03ayBT+oU5h+zo3Y+Pzgcn1N5ZEhKZKmK/yAW
-         qfDD/ds9scJIRzAuGC4x1ux7iQYll2fRNMQjWtqZgkwinJM0laBPTDrYaJFsYq2MDhuS
-         Z5i0y8kgn3LZlUTgSM6w2kKpZHV70EjZ0GOYpLnjC0oSzA7utzwlmH34r9canOfHoPVN
-         RZrDbodnXpnz9s9Y9+vw89HRGjM1SFSq1sKYDNwfuL5rU05ZHu0PN7JkJuicg00yPURR
-         qzLA==
+        bh=ReyzkEJ0mqgLcwXEOt1orApmxGBjw7txCjk9AIkHxWA=;
+        b=ADV+E6NpxQ50gJHp6hd6dI8C+jQrTYyObZBldrnzIVa2WLszDwucTA6CiLBcDnQN8X
+         frAmZ+MA9IHvI6SgjVQ2/FWtdzYAIe694fBaqFbSgJVFAntiKq+9xDjM7s7YJB/6NYy8
+         cwu/oggvpOHjdlFzfMvswb8dkQp4bEUN49s9uhxnhIu5+st3CiIlBvfi5v/36zNgVnAm
+         Ju4rLyYDS9/RXQa1+R/Qy+v/HMgA4mmtdqXvBUKFj58eprQ8q6GqLAqc8hGd70x8RIc4
+         hfqGJ0zshAxEBeH0exILboBmbeo/1cE14rKdd3TYx6ioCx+QVF0G9fqq819K9D0L5Py7
+         YOjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hZ8XQcqFPiBgKnC9B3u3J7ZO1DNl4k/Ar4Bg2fpOBFk=;
-        b=rUKeJNMsZFQY+zAlNVvnOyZ5IG5uFBz95/KGu2mlit9f03UV2tn/uKbzntl2qiFJP8
-         ipPvol2AlWrbZ1Hq9d/aiIRIMS5T+4+w+mpxr7pM1hPYG5csnQkJcy+HodUCtoJNzoE+
-         aDdkDQpcT9vf2CIce3SY+NK2TtFdq4NYOlIhl7QkhMnnV8kejz82vfpKpv+oRXzA0YIN
-         oCgkw5YVyGDLuXoj0sW1KKZngOyW7UIanxWPQWBG/8jdHbciQsXOysk4dFTu5viOSj6+
-         weA+zEOXxTk+7KEOAYZC3PHuygMjSByn+8pJXriQa5PSLSevx2NfI+Re1jV8AiEsIWhT
-         bpJg==
-X-Gm-Message-State: APjAAAXOOOeXPX2Ou9SJ56YrTzQXR2eRmy7zHqUAGp1cEkNZCDFS+bfs
-        IRH44pDtNwVzdyV57IbCRS25OmRMFSM=
-X-Google-Smtp-Source: APXvYqz7xoZJqn7yLoEwJtmtpeY0s0NA0MhsdA1HFNqdRLk0rNzXAzouA2aKGFczPZUqsPXPpSKFeA==
-X-Received: by 2002:a17:902:ac1:: with SMTP id 59mr34477675plp.168.1560838555927;
-        Mon, 17 Jun 2019 23:15:55 -0700 (PDT)
+        bh=ReyzkEJ0mqgLcwXEOt1orApmxGBjw7txCjk9AIkHxWA=;
+        b=PBC9pdiUUlXEfP0n1f0RVRvp5KgFqYNg59alKMpldhkwfPNbH/d+K97yjPQIAct0H1
+         vF8nuGm/vpsNtaOxIv2PHWEVbmHR34NmDjcsW5XSBupjfYW4OIC+9mTAZTGmPJEbphgq
+         JUau1MjmcoDzz2hIIFC/B+1kJ+/8h3NKYfHwJPC4iVdrZUPpdSUXF6qV8iPahhvvhb/F
+         OP23TbczqLK1YgXL7vbTrs4kyf9innKz7BYF4FOlFVRjUkA75Qt9Vn//4piJppwQ1Flw
+         wS/SZbzMQyIyUTD2pTLZem2Fa5WXmQ0sc3DX/rStyQsk8YIqdsVPBhiPxPXWnv8mB7O3
+         7VJQ==
+X-Gm-Message-State: APjAAAWhwNdKLCj91WudWf+2KNKwf+D2v6EnS3x6+lRCtws79gIieY/7
+        jxhQQsZVfqcsuclopvatG/1UZRVuFHk=
+X-Google-Smtp-Source: APXvYqwlkXGD+qYFV6HV681y30CFFECs91e5IG9gbYhPtEYIiiGhdfnV9MsIND0ZgcRhLhSp6r4tDQ==
+X-Received: by 2002:a63:e649:: with SMTP id p9mr1109979pgj.276.1560838389298;
+        Mon, 17 Jun 2019 23:13:09 -0700 (PDT)
 Received: from maya190131 ([13.66.160.195])
-        by smtp.gmail.com with ESMTPSA id g5sm21029593pfm.54.2019.06.17.23.15.55
+        by smtp.gmail.com with ESMTPSA id z74sm6415835pgz.41.2019.06.17.23.13.09
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 23:15:55 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 06:15:55 +0000
+        Mon, 17 Jun 2019 23:13:09 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 06:13:08 +0000
 From:   Maya Nakamura <m.maya.nakamura@gmail.com>
 To:     mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
         sthemmin@microsoft.com, sashal@kernel.org
 Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/5] HID: hv: Remove dependencies on PAGE_SIZE for ring
- buffer
-Message-ID: <8e244063840664b7d54d545e73e9c6d83f7913e6.1560837096.git.m.maya.nakamura@gmail.com>
+Subject: [PATCH v3 2/5] x86: hv: hv_init.c: Add functions to
+ allocate/deallocate page for Hyper-V
+Message-ID: <d19c28cda88bf1706baff883380dfd321da30a68.1560837096.git.m.maya.nakamura@gmail.com>
 References: <cover.1560837096.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,30 +77,46 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Define the ring buffer size as a constant expression because it should
-not depend on the guest page size.
+Introduce two new functions, hv_alloc_hyperv_page() and
+hv_free_hyperv_page(), to allocate/deallocate memory with the size and
+alignment that Hyper-V expects as a page. Although currently they are
+not used, they are ready to be used to allocate/deallocate memory on x86
+when their ARM64 counterparts are implemented, keeping symmetry between
+architectures with potentially different guest page sizes.
 
+Link: https://lore.kernel.org/lkml/87muindr9c.fsf@vitty.brq.redhat.com/
 Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/hid/hid-hyperv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/x86/hyperv/hv_init.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-index 7795831d37c2..cc5b09b87ab0 100644
---- a/drivers/hid/hid-hyperv.c
-+++ b/drivers/hid/hid-hyperv.c
-@@ -104,8 +104,8 @@ struct synthhid_input_report {
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 0e033ef11a9f..e8960a83add7 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -37,6 +37,20 @@ EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+ u32 hv_max_vp_index;
+ EXPORT_SYMBOL_GPL(hv_max_vp_index);
  
- #pragma pack(pop)
- 
--#define INPUTVSC_SEND_RING_BUFFER_SIZE		(10*PAGE_SIZE)
--#define INPUTVSC_RECV_RING_BUFFER_SIZE		(10*PAGE_SIZE)
-+#define INPUTVSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
-+#define INPUTVSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
- 
- 
- enum pipe_prot_msg_type {
++void *hv_alloc_hyperv_page(void)
++{
++	BUILD_BUG_ON(PAGE_SIZE != HV_HYP_PAGE_SIZE);
++
++	return (void *)__get_free_page(GFP_KERNEL);
++}
++EXPORT_SYMBOL_GPL(hv_alloc_hyperv_page);
++
++void hv_free_hyperv_page(unsigned long addr)
++{
++	free_page(addr);
++}
++EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
++
+ static int hv_cpu_init(unsigned int cpu)
+ {
+ 	u64 msr_vp_index;
 -- 
 2.17.1
 
