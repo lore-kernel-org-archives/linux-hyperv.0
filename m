@@ -2,111 +2,105 @@ Return-Path: <SRS0=Fjb5=UR=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4640CC31E5B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 00:46:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9569EC31E51
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 20B5920663
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 00:46:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6882120652
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 06:45:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="icnDnXp2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+DeHlH3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbfFRAqy (ORCPT
+        id S1726546AbfFRGpX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Jun 2019 20:46:54 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33338 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbfFRAqy (ORCPT
+        Tue, 18 Jun 2019 02:45:23 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42399 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbfFRGpW (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Jun 2019 20:46:54 -0400
-Received: by mail-wm1-f68.google.com with SMTP id h19so1100775wme.0;
-        Mon, 17 Jun 2019 17:46:52 -0700 (PDT)
+        Tue, 18 Jun 2019 02:45:22 -0400
+Received: by mail-pl1-f196.google.com with SMTP id ay6so3048444plb.9;
+        Mon, 17 Jun 2019 23:45:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8040MIo3hoL1siZlh+IJp6lN+yzLI4mFWNXimyvlAT8=;
-        b=icnDnXp2u0Gupr9hz5qzVK3sx/3roplA+0k5zd87GQng1nhz6SqoI9E/novxYoKwEE
-         lDapE2xsyKXmDEcfKzyyGSJO4UvZdJOviYjvwxqimwFPQ1Wa2/Ht/iE79Gmve6jMIEtC
-         Jvao9tinNnvRSJ5Zj1z/RquntQwL2Bria4lsckZyZPjw+qLyXD9VLXzZxG/6M+0Hwe8b
-         +qOcMZi/96TSSJ9iMyTLyNhuBaMOapSTjmP/ho9zdnB9PqViGM1v6uyXqEQAPL8vAtQ8
-         weaAmGBCWsrh+SFbRgt46IDw/hRb6T5hP9PQPFWkggP/47wl84BjQ2hQyAtgeD6z0c8K
-         Gf3g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hZ8XQcqFPiBgKnC9B3u3J7ZO1DNl4k/Ar4Bg2fpOBFk=;
+        b=g+DeHlH3i22he3fU6/lH59AjJFzbciZYgDVDBDw2FQtFbNaEDquenyOb5vVGobtuJp
+         1t+LiL0ZrN0nOfgnignrVMCO6D5na5B03ayBT+oU5h+zo3Y+Pzgcn1N5ZEhKZKmK/yAW
+         qfDD/ds9scJIRzAuGC4x1ux7iQYll2fRNMQjWtqZgkwinJM0laBPTDrYaJFsYq2MDhuS
+         Z5i0y8kgn3LZlUTgSM6w2kKpZHV70EjZ0GOYpLnjC0oSzA7utzwlmH34r9canOfHoPVN
+         RZrDbodnXpnz9s9Y9+vw89HRGjM1SFSq1sKYDNwfuL5rU05ZHu0PN7JkJuicg00yPURR
+         qzLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8040MIo3hoL1siZlh+IJp6lN+yzLI4mFWNXimyvlAT8=;
-        b=g6a3jcIr10lG78mzNFPDkSlvCptboKvI3zrBetvr4slCXMuJirzwm9415SgijUbhH8
-         tlb6rzjZuUgBvWcVKtVFxbX1P+/Vtxy8IuPyPVDxPpjLE0pg0Je3MAXiO1yUuEYmjyjp
-         0ql7KA5zxhMuHa/C1iJE+sYJ1/mTFyuL/JRwJAHCYIZi4Uo4433RvhGbCTDyQAug3zao
-         1FOqRnDyZEhSEA1G2GSVRfWXECXDhR69MN4UWxj1a6yFYkiDFLPmMzoa3/Z9xwRdIkpe
-         6dpMkP/lp5hKGqRURbTVAMuPc+72vxgld25otYdA/qX1tI1pefuzhT1cLuPGp/x4GPQX
-         w8Ww==
-X-Gm-Message-State: APjAAAUZzW1qNvg+mx6em+MVbKvLpTL0Y6S+WLs8BLhUTiWbhBXwD+rE
-        G6VOcmahaXkLaXibAgFsdJ70X635RAqHIyD/S+I=
-X-Google-Smtp-Source: APXvYqxMSUnTcEGSu/iiFpFg9Mxu8aSAdN3/6SxVGuAWKQLmuwThyhLKW85M76Jcf4jRiGyxe2H+tYw93p+WDXmfkhQ=
-X-Received: by 2002:a05:600c:204c:: with SMTP id p12mr813975wmg.121.1560818811702;
- Mon, 17 Jun 2019 17:46:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hZ8XQcqFPiBgKnC9B3u3J7ZO1DNl4k/Ar4Bg2fpOBFk=;
+        b=rUKeJNMsZFQY+zAlNVvnOyZ5IG5uFBz95/KGu2mlit9f03UV2tn/uKbzntl2qiFJP8
+         ipPvol2AlWrbZ1Hq9d/aiIRIMS5T+4+w+mpxr7pM1hPYG5csnQkJcy+HodUCtoJNzoE+
+         aDdkDQpcT9vf2CIce3SY+NK2TtFdq4NYOlIhl7QkhMnnV8kejz82vfpKpv+oRXzA0YIN
+         oCgkw5YVyGDLuXoj0sW1KKZngOyW7UIanxWPQWBG/8jdHbciQsXOysk4dFTu5viOSj6+
+         weA+zEOXxTk+7KEOAYZC3PHuygMjSByn+8pJXriQa5PSLSevx2NfI+Re1jV8AiEsIWhT
+         bpJg==
+X-Gm-Message-State: APjAAAXOOOeXPX2Ou9SJ56YrTzQXR2eRmy7zHqUAGp1cEkNZCDFS+bfs
+        IRH44pDtNwVzdyV57IbCRS25OmRMFSM=
+X-Google-Smtp-Source: APXvYqz7xoZJqn7yLoEwJtmtpeY0s0NA0MhsdA1HFNqdRLk0rNzXAzouA2aKGFczPZUqsPXPpSKFeA==
+X-Received: by 2002:a17:902:ac1:: with SMTP id 59mr34477675plp.168.1560838555927;
+        Mon, 17 Jun 2019 23:15:55 -0700 (PDT)
+Received: from maya190131 ([13.66.160.195])
+        by smtp.gmail.com with ESMTPSA id g5sm21029593pfm.54.2019.06.17.23.15.55
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 17 Jun 2019 23:15:55 -0700 (PDT)
+Date:   Tue, 18 Jun 2019 06:15:55 +0000
+From:   Maya Nakamura <m.maya.nakamura@gmail.com>
+To:     mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, sashal@kernel.org
+Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 4/5] HID: hv: Remove dependencies on PAGE_SIZE for ring
+ buffer
+Message-ID: <8e244063840664b7d54d545e73e9c6d83f7913e6.1560837096.git.m.maya.nakamura@gmail.com>
+References: <cover.1560837096.git.m.maya.nakamura@gmail.com>
 MIME-Version: 1.0
-References: <20190617122000.22181-1-hch@lst.de> <20190617122000.22181-8-hch@lst.de>
-In-Reply-To: <20190617122000.22181-8-hch@lst.de>
-From:   Ming Lei <tom.leiming@gmail.com>
-Date:   Tue, 18 Jun 2019 08:46:40 +0800
-Message-ID: <CACVXFVObpdjN6V9qS-C9NG5xcrPqmx-X22qVamOSZf81Vog6zw@mail.gmail.com>
-Subject: Re: [PATCH 7/8] mpt3sas: set an unlimited max_segment_size for SAS
- 3.0 HBAs
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Sagi Grimberg <sagi@grimberg.me>,
-        Max Gurtovoy <maxg@mellanox.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Linux SCSI List <linux-scsi@vger.kernel.org>,
-        megaraidlinux.pdl@broadcom.com, MPT-FusionLinux.pdl@broadcom.com,
-        linux-hyperv@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1560837096.git.m.maya.nakamura@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 8:21 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> When using a virt_boundary_mask, as done for NVMe devices attached to
-> mpt3sas controllers we require an unlimited max_segment_size, as the
-> virt boundary merging code assumes that.  But we also need to propagate
-> that to the DMA mapping layer to make dma-debug happy.  The SCSI layer
-> takes care of that when using the per-host virt_boundary setting, but
-> given that mpt3sas only wants to set the virt_boundary for actual
-> NVMe devices we can't rely on that.  The DMA layer maximum segment
-> is global to the HBA however, so we have to set it explicitly.  This
-> patch assumes that mpt3sas does not have a segment size limitation,
-> which seems true based on the SGL format, but will need to be verified.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/scsi/mpt3sas/mpt3sas_scsih.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-> index 1ccfbc7eebe0..c719b807f6d8 100644
-> --- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-> +++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-> @@ -10222,6 +10222,7 @@ static struct scsi_host_template mpt3sas_driver_template = {
->         .this_id                        = -1,
->         .sg_tablesize                   = MPT3SAS_SG_DEPTH,
->         .max_sectors                    = 32767,
-> +       .max_segment_size               = 0xffffffff,
+Define the ring buffer size as a constant expression because it should
+not depend on the guest page size.
 
-.max_segment_size should be aligned, either setting it here correctly or
-forcing to make it aligned in scsi-core.
+Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+---
+ drivers/hid/hid-hyperv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Ming Lei
+diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+index 7795831d37c2..cc5b09b87ab0 100644
+--- a/drivers/hid/hid-hyperv.c
++++ b/drivers/hid/hid-hyperv.c
+@@ -104,8 +104,8 @@ struct synthhid_input_report {
+ 
+ #pragma pack(pop)
+ 
+-#define INPUTVSC_SEND_RING_BUFFER_SIZE		(10*PAGE_SIZE)
+-#define INPUTVSC_RECV_RING_BUFFER_SIZE		(10*PAGE_SIZE)
++#define INPUTVSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
++#define INPUTVSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
+ 
+ 
+ enum pipe_prot_msg_type {
+-- 
+2.17.1
+
