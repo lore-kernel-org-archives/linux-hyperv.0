@@ -1,125 +1,99 @@
-Return-Path: <SRS0=Fjb5=UR=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=h5FT=US=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 407C6C31E51
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:18:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA40C31E5B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jun 2019 01:09:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 070CE20679
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jun 2019 07:18:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5C0421479
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jun 2019 01:09:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lb4q+R/U"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ALiwAPeH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725919AbfFRHS5 (ORCPT
+        id S1726037AbfFSBJK (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jun 2019 03:18:57 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:46526 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbfFRHS5 (ORCPT
+        Tue, 18 Jun 2019 21:09:10 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:36508 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725988AbfFSBJK (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jun 2019 03:18:57 -0400
-Received: by mail-pl1-f193.google.com with SMTP id e5so5298741pls.13;
-        Tue, 18 Jun 2019 00:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=9SP9uqBfa577y4F42b9AqTEJcR+B1XMFG1PF2pX07MA=;
-        b=lb4q+R/UEvyQZ08PlnQSuDevHiuHIIzSn3Yj2DIGmGAmeFS4FEmMtMhFckfnYzUQzY
-         QCHqN8k0Hw7suErE73R1n6sI7J3TAlgJYrIIgD69u89pgJFmriA8Zdas3ZVnjnXBCyyJ
-         wUqDlAVj1R8nfl/Q79fu5ntbUOoReEnibFyntGAf/KQPeUTLQR8DnqZ/hRfa6LI2K5DR
-         ynRXu3b5B38DE91u/jsOgfpvPEtCpeQJ4zkyd1HR5uVqaM1v6WXIrokR1E+fLUdIH/ZM
-         zxNsrmj2Wy/CZXdBAZuXu/KcyPDHYIWb8bWV/VwV6b5BneJP5P2vBo/iOOntaWbeIxf3
-         ET4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9SP9uqBfa577y4F42b9AqTEJcR+B1XMFG1PF2pX07MA=;
-        b=AIDApinv4ZFTNVVgVkfE5yLR0ZHcEjuh0oiOmn+onLfutt24vy6aWdEgFxp218Rrpx
-         HLg/991rpa+lpSSOMb6XnjKWeDN3Q97Zfv6vuXBWnBSDO6YZXSFNKXtSHAVsAE48iM3s
-         P+w/kxvBh1fFxpRWJFGo5vVaRpJxoRgcqHwt5k8td/L1Pw/x3UzvkJ84g+PtmbjnuLds
-         86aK7QMpHBKOqIe6niBMuZam0W0ntf1FMYXIn6z4h+5iIGosL+uvbU7uqpKVDf1k7Ryo
-         hQGvJqZlU/dT8sFmOQGI6Qp+bcWVPmHAGZhs9rkiVA91OlrhAIopJ/IthBHDH1OJcPi5
-         7foQ==
-X-Gm-Message-State: APjAAAUcYHUVqHhCxQeAX+jYnn0NoMBsC1ckHotBYhTYDwKUdhnSLJ99
-        VZZoM+S7HTWaQqnKqovnKEMvgLJvpBk=
-X-Google-Smtp-Source: APXvYqz60fEoiLIuJqC3LO7Hilm9ePItQ9CaC2RXYfG74Fs73qPxiydc3yBZyWxTxPkAY/XPAuXN7A==
-X-Received: by 2002:a17:902:3103:: with SMTP id w3mr2257057plb.84.1560838283094;
-        Mon, 17 Jun 2019 23:11:23 -0700 (PDT)
-Received: from maya190131 ([13.66.160.195])
-        by smtp.gmail.com with ESMTPSA id c26sm13070476pfr.71.2019.06.17.23.11.22
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 23:11:23 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 06:11:22 +0000
-From:   Maya Nakamura <m.maya.nakamura@gmail.com>
-To:     mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
-        sthemmin@microsoft.com, sashal@kernel.org
-Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
+        Tue, 18 Jun 2019 21:09:10 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J14MIZ192415;
+        Wed, 19 Jun 2019 01:09:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2018-07-02;
+ bh=O0Ag6RZRGGfE7EiTJNqvl7FmPVNtYsR6M0cJqHhvRaQ=;
+ b=ALiwAPeHZpWcQeuIU/Mw8YWcHJAqhKvNc03R+vD3Cs0hShAYykcS9Jm9olLHk3qoOgXg
+ KJVoGBCzJwcX9ukQqnBrKlCPF6BSBYJ6Kb8Mj2UI12qb8ywbabgV40WzNS+ZyZA2Mqo7
+ 53QywJU5BHQF6yfqlgNHrr6Aact1yLyfETrV4x8K5wagWXjJ3+27cxCY3ynYPPt6LPIo
+ L/lu87YGuVgOSkZlqdlrlih9R5+cnsSmqkYs0FOy0MSe08fpOm5eW51gjRt0JzgmaGYG
+ 5B9YOpBiuhSGVKRXSucurFnqeZurTLBxDhWGFVAe6Ozw8Udv6cxw9Y7Y9liQMBljjcOX IA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2t78098fyp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jun 2019 01:09:03 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J17dQ8051946;
+        Wed, 19 Jun 2019 01:09:03 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2t77yn1yxb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 19 Jun 2019 01:09:03 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5J192bR005720;
+        Wed, 19 Jun 2019 01:09:02 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 18 Jun 2019 18:09:01 -0700
+To:     Branden Bonaby <brandonbonaby94@gmail.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/5] x86: hv: hyperv-tlfs.h: Create and use Hyper-V page
- definitions
-Message-ID: <01d19ae7b855d72f6f4fa09bd954aeb3863d170f.1560837096.git.m.maya.nakamura@gmail.com>
-References: <cover.1560837096.git.m.maya.nakamura@gmail.com>
+Subject: Re: [PATCH] scsi: storvsc: Add ability to change scsi queue depth
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20190614234822.5193-1-brandonbonaby94@gmail.com>
+Date:   Tue, 18 Jun 2019 21:08:59 -0400
+In-Reply-To: <20190614234822.5193-1-brandonbonaby94@gmail.com> (Branden
+        Bonaby's message of "Fri, 14 Jun 2019 19:48:22 -0400")
+Message-ID: <yq1fto6xtxw.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1560837096.git.m.maya.nakamura@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=798
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906190007
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=862 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906190007
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Define HV_HYP_PAGE_SHIFT, HV_HYP_PAGE_SIZE, and HV_HYP_PAGE_MASK because
-the Linux guest page size and hypervisor page size concepts are
-different, even though they happen to be the same value on x86.
 
-Also, replace PAGE_SIZE with HV_HYP_PAGE_SIZE.
+Branden,
 
-Signed-off-by: Maya Nakamura <m.maya.nakamura@gmail.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/include/asm/hyperv-tlfs.h | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+> Adding functionality to allow the SCSI queue depth to be changed, by
+> utilizing the "scsi_change_queue_depth" function.
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index af78cd72b8f3..4097edf552b3 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -12,6 +12,16 @@
- #include <linux/types.h>
- #include <asm/page.h>
- 
-+/*
-+ * While not explicitly listed in the TLFS, Hyper-V always runs with a page size
-+ * of 4096. These definitions are used when communicating with Hyper-V using
-+ * guest physical pages and guest physical page addresses, since the guest page
-+ * size may not be 4096 on all architectures.
-+ */
-+#define HV_HYP_PAGE_SHIFT	12
-+#define HV_HYP_PAGE_SIZE	BIT(HV_HYP_PAGE_SHIFT)
-+#define HV_HYP_PAGE_MASK	(~(HV_HYP_PAGE_SIZE - 1))
-+
- /*
-  * The below CPUID leaves are present if VersionAndFeatures.HypervisorPresent
-  * is set by CPUID(HvCpuIdFunctionVersionAndFeatures).
-@@ -847,7 +857,7 @@ union hv_gpa_page_range {
-  * count is equal with how many entries of union hv_gpa_page_range can
-  * be populated into the input parameter page.
-  */
--#define HV_MAX_FLUSH_REP_COUNT ((PAGE_SIZE - 2 * sizeof(u64)) /	\
-+#define HV_MAX_FLUSH_REP_COUNT ((HV_HYP_PAGE_SIZE - 2 * sizeof(u64)) / \
- 				sizeof(union hv_gpa_page_range))
- 
- struct hv_guest_mapping_flush_list {
+Applied to 5.3/scsi-queue. Please run checkpatch before submission. I
+fixed it up this time.
+
+Thanks!
+
 -- 
-2.17.1
-
+Martin K. Petersen	Oracle Linux Engineering
