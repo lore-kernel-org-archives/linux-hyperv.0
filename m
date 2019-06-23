@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C06C43613
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 01:57:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FFCC48BE4
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 02:47:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72529205C9
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 01:57:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD29E20652
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 02:47:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="iH/Ezv8D"
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="STw7GXtd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbfFXB51 (ORCPT
+        id S1727260AbfFXCr1 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 23 Jun 2019 21:57:27 -0400
-Received: from ozlabs.org ([203.11.71.1]:52193 "EHLO ozlabs.org"
+        Sun, 23 Jun 2019 22:47:27 -0400
+Received: from ozlabs.org ([203.11.71.1]:39711 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726382AbfFXB50 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 23 Jun 2019 21:57:26 -0400
+        id S1727239AbfFXCr0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 23 Jun 2019 22:47:26 -0400
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 45XBLP6CHyz9sP1;
-        Mon, 24 Jun 2019 11:20:29 +1000 (AEST)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 45X5sS035Qz9s7h;
+        Mon, 24 Jun 2019 07:58:35 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1561339233;
-        bh=tHpKwuHkDaYhqmZgfsFoheh7ykmCSOsO+dlIAnOp5YA=;
+        s=201702; t=1561327121;
+        bh=OEzrTpMB7aWMwD/2sS5vZldGTePP04H0y9EeyaLzovc=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=iH/Ezv8DzLvBwG2s0LQ7ZBM1welnN8fckpARVHddhZPLxtjELZrJzSp8tZYjclIHj
-         OiHAqv6wiLW5pCCaa9reiSr+VLvDsU4HFF6hKpNdx8mwP/+TMKGiaHvPmRS70uMSfT
-         1d2b5DZrek2rF+dHmCPF7+4RWTaw19TsknadJ7KEg7DKURj+1IWE29q0rY6TQJX8Sn
-         POZsWqoDp3665q0EDKriozuPffzKfV0xQPt73rUTT1gXEDINFIaMrUugDMEm1sekUa
-         z3I7ArxUhv/hmTqmhwVj5cIwMdm5dOfjhnHdboIGIkHiUyOXUgMKUsG/AJ7wTubPYC
-         7dJqjoN7uByRA==
-Date:   Mon, 24 Jun 2019 11:20:29 +1000
+        b=STw7GXtdl0hhKZc7avfNGQZx8rjA2X4imUkcFt/0Xu83toQpsqKVjKCQXMHBai2f0
+         qbBHXM/MCOz3fVJ7rNM/Wb2oHZfWbYtRCCc/4X4LgFqXlK9V5WlxvXxPLx9OPxsm7z
+         55mtFkcA7IYAGWZXVhWGTZ9gqYXYnlgz5A/UARAcW1kEWWON76Mu9gyMagsKrLaaep
+         Cu7z/0WcoztngBuqPWNlkbEcOKlDNWDHC5QBiIPl69aLQde3WfZq3+ITIUGaTpIcVH
+         cP38mBIcP0BVFLC++foZruiHor0YAMOzUyGUOCGVReL4fch6yyq6tK3wqamP01pjIM
+         ieWL9SnCN88nA==
+Date:   Mon, 24 Jun 2019 07:58:34 +1000
 From:   Stephen Rothwell <sfr@canb.auug.org.au>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
@@ -64,8 +64,8 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Huw Davies <huw@codeweavers.com>, linux-hyperv@vger.kernel.org,
         Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH v6 18/19] x86: Add support for generic vDSO
-Message-ID: <20190624112029.4f42a8cd@canb.auug.org.au>
-In-Reply-To: <20190624002430.GN2226@sasha-vm>
+Message-ID: <20190624075834.2491a61a@canb.auug.org.au>
+In-Reply-To: <20190623190929.GL2226@sasha-vm>
 References: <20190530141531.43462-1-vincenzo.frascino@arm.com>
         <20190530141531.43462-19-vincenzo.frascino@arm.com>
         <BYAPR21MB1221D54FCEC97509EEF7395CD7180@BYAPR21MB1221.namprd21.prod.outlook.com>
@@ -73,46 +73,46 @@ References: <20190530141531.43462-1-vincenzo.frascino@arm.com>
         <20190614211710.GQ1513@sasha-vm>
         <alpine.DEB.2.21.1906221542270.5503@nanos.tec.linutronix.de>
         <20190623190929.GL2226@sasha-vm>
-        <20190624075834.2491a61a@canb.auug.org.au>
-        <20190624002430.GN2226@sasha-vm>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/UW6IjEE3Jj_YtxhGwam1e.t"; protocol="application/pgp-signature"
+ boundary="Sig_/CR.if9_1Fi5MEdkDk1BLyhb"; protocol="application/pgp-signature"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
---Sig_/UW6IjEE3Jj_YtxhGwam1e.t
+--Sig_/CR.if9_1Fi5MEdkDk1BLyhb
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi Sasha,
 
-On Sun, 23 Jun 2019 20:24:30 -0400 Sasha Levin <sashal@kernel.org> wrote:
+On Sun, 23 Jun 2019 15:09:29 -0400 Sasha Levin <sashal@kernel.org> wrote:
 >
-> Pushed now. For some reason the airport wifi was blocking ssh :/
+> Appologies about this. I ended up with way more travel than I would have
+> liked (writing this from an airport). I've reset our hyperv-next branch
+> to remove these 3 commits until we figure this out.
 
-Thanks.
+But not pushed out, yet?
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/UW6IjEE3Jj_YtxhGwam1e.t
+--Sig_/CR.if9_1Fi5MEdkDk1BLyhb
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0QJV0ACgkQAVBC80lX
-0GwUBQf/e/6tJWyAWMaopYMBDqN2qz4oN/vHsi0Cl4cEtZikDfm20K5/e1B/rwg4
-3AdDGd4MfB2z5/yvCCH0gZcA3R8U8r/OX6rpU6BHD6jewnLN813ja7GesU+lgWGE
-fDznHmIHmGaN2LljjUA34WkBymJGMDsOcA30q6ZIdO48ABULY+FstQOahDrTFMde
-Btm0wVAvmSOP5iIIXt64JWYPhNzGJljLoW9Y5SzpAQOIrTCzYaTIcKceQsBXmPoK
-XH6Ypn5GZCfCNZD/9reOW8IG8CNsSN+7OBdtFFC9W7/OGZdAmMz9n6eX+a/9WS3x
-VqP7o7p8NE5G2ug+cDsnFn1aIkDb6g==
-=/UhR
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0P9goACgkQAVBC80lX
+0GyfOQf+KDEXgXOC5E+iMk6d4D73wD02MBcwff9B0zoCSHO7wBwHMfcazt0CBgJn
+kDTyqzDFLcuCIPrA89xcZybdoNMg4aIooHEbEzdjaXFpm/Fs7d+jo+KVC0CoYEw5
+pqOio0r0q85NiYk6eENxVa+j+yfmvnxKcVJO5s+T2ifWbWq06fhziMUkf3ZEytHl
+1n48f9Hc2L5Zp4SoYWSF27Ro4Mo0H9aUH7RPvlt1tZkHN0OdfRS3NR84FN+w+KVU
+TZpFLuislCHo8QKh/5OMv1AxaWP/RX2vJael9DguO+6hZyYBglxTK6+E1IIYe9C/
+h0h8OPDTSELsQJmcd9Mda8F4vKV6qA==
+=/eNi
 -----END PGP SIGNATURE-----
 
---Sig_/UW6IjEE3Jj_YtxhGwam1e.t--
+--Sig_/CR.if9_1Fi5MEdkDk1BLyhb--
