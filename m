@@ -2,112 +2,121 @@ Return-Path: <SRS0=Kt8c=UX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2038C48BE8
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B466CC43613
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 12:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D5D092133F
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89C452146E
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 12:58:51 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fMa51adx"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727829AbfFXEbn (ORCPT
+        id S1730080AbfFXM6l (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 24 Jun 2019 00:31:43 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:34713 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbfFXEbn (ORCPT
+        Mon, 24 Jun 2019 08:58:41 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40208 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729956AbfFXM6k (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 24 Jun 2019 00:31:43 -0400
-Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hfAj1-0007Ex-1q; Mon, 24 Jun 2019 00:12:40 +0200
-Date:   Mon, 24 Jun 2019 00:12:37 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Sasha Levin <sashal@kernel.org>
-cc:     Michael Kelley <mikelley@microsoft.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Paul Burton <paul.burton@mips.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Mark Salyzyn <salyzyn@android.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Dmitry Safonov <0x7f454c46@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Huw Davies <huw@codeweavers.com>, linux-hyperv@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v6 18/19] x86: Add support for generic vDSO
-In-Reply-To: <20190623190929.GL2226@sasha-vm>
-Message-ID: <alpine.DEB.2.21.1906240006090.32342@nanos.tec.linutronix.de>
-References: <20190530141531.43462-1-vincenzo.frascino@arm.com> <20190530141531.43462-19-vincenzo.frascino@arm.com> <BYAPR21MB1221D54FCEC97509EEF7395CD7180@BYAPR21MB1221.namprd21.prod.outlook.com> <alpine.DEB.2.21.1906141313150.1722@nanos.tec.linutronix.de>
- <20190614211710.GQ1513@sasha-vm> <alpine.DEB.2.21.1906221542270.5503@nanos.tec.linutronix.de> <20190623190929.GL2226@sasha-vm>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+        Mon, 24 Jun 2019 08:58:40 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5OCsCOt134804;
+        Mon, 24 Jun 2019 12:58:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
+ bh=+Q4pzzrxZoJXh+xVOIj14v8jnXjgdLST/W4xS1dW8sQ=;
+ b=fMa51adxpe2xRi74bVyNtxKNrVqVbNu56QNXztXbNDMdlbocpv7FNVwpzCuTCbi/0XZ4
+ IXCJ7KPjWBAz6PREBQzE3auHgTQLSkzWLv9R5B3oovhX2uNlvvgsqmMO0YseCJjqmvhI
+ 7DKW3KLrsqYkjd7ZXJDUysuy8dHJM8e8/95E/u+CBHBsaZyb68huRAOZGYVx9/IohwAI
+ 7AkZfzeSo8ZpTeoeApGJBClWaGA7UzAZ5fnNJ7iTHAsXGxkaKSfkK2vvb73T23ebyNIL
+ 52lQzFD7kn851uvBlQ3+oM47WJMSkOpRZmycPF7Kg59wF24M0yFpokegjP8ADLEHuVUj zw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2t9brsx9a2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 Jun 2019 12:58:25 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5OCw9Ws042162;
+        Mon, 24 Jun 2019 12:58:24 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 2t9acbg5r9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 24 Jun 2019 12:58:23 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5OCwNcK024881;
+        Mon, 24 Jun 2019 12:58:23 GMT
+Received: from z2.cn.oracle.com (/10.182.69.87)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 24 Jun 2019 05:58:23 -0700
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@kernel.org, bp@alien8.de, hpa@zytor.com,
+        boris.ostrovsky@oracle.com, jgross@suse.com,
+        sstabellini@kernel.org, Zhenzhong Duan <zhenzhong.duan@oracle.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
+Subject: [PATCH 5/6] locking/spinlocks, paravirt, hyperv: Correct the hv_nopvspin case
+Date:   Sun, 23 Jun 2019 21:01:42 +0800
+Message-Id: <1561294903-6166-5-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1561294903-6166-1-git-send-email-zhenzhong.duan@oracle.com>
+References: <1561294903-6166-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9297 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906240106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9297 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906240105
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Sasha,
+With the boot parameter "hv_nopvspin" specified a Hyperv guest should
+not make use of paravirt spinlocks, but behave as if running on bare
+metal. This is not true, however, as the qspinlock code will fall back
+to a test-and-set scheme when it is detecting a hypervisor.
 
-On Sun, 23 Jun 2019, Sasha Levin wrote:
-> On Sat, Jun 22, 2019 at 04:46:28PM +0200, Thomas Gleixner wrote:
-> > Folks, please stop chosing Cc lists as you like. We have well established
-> > rules for that. And please stop queueing random unreviewed patches in
-> > next. Next is not a playground for not ready and unreviewed stuff. No, the
-> > hyper-v inbreed Reviewed-by is not sufficient for anything x86 and
-> > clocksource related.
-> 
-> I'm sorry for this, you were supposed to be Cc'ed on these patches and I
-> see that you were not.
+In order to avoid this disable the virt_spin_lock_key.
 
-All good. I've vented steam and am back to normal pressure :)
+Same change for XEN is already in Commit e6fd28eb3522
+("locking/spinlocks, paravirt, xen: Correct the xen_nopvspin case")
 
-> > After chasing and looking at those patches, which have horrible subject
-> > lines and changelogs btw, I was not able to judge quickly whether that
-> > stuff is self contained or not. So no, I fixed up the fallout and rebased
-> > Vincenzos VDSO stuff on mainline w/o those hyperv changes simply because if
-> > they are not self contained they will break bisection badly.
-> > 
-> > I'm going to push out the VDSO series later today. That will nicely break
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: linux-hyperv@vger.kernel.org
+---
+ arch/x86/hyperv/hv_spinlock.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Not yet, but soon :)
+diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
+index 07f21a0..210495b 100644
+--- a/arch/x86/hyperv/hv_spinlock.c
++++ b/arch/x86/hyperv/hv_spinlock.c
+@@ -64,6 +64,9 @@ __visible bool hv_vcpu_is_preempted(int vcpu)
+ 
+ void __init hv_init_spinlocks(void)
+ {
++	if (!hv_pvspin)
++		static_branch_disable(&virt_spin_lock_key);
++
+ 	if (!hv_pvspin || !apic ||
+ 	    !(ms_hyperv.hints & HV_X64_CLUSTER_IPI_RECOMMENDED) ||
+ 	    !(ms_hyperv.features & HV_X64_MSR_GUEST_IDLE_AVAILABLE)) {
+-- 
+1.8.3.1
 
-> > in combination with the hyper-next branch. Stephen, please drop that and do
-> > not try to handle the fallout. That stuff needs to go through the proper
-> > channels or at least be acked/reviewed by the relevant maintainers. So the
-> > hyper-v folks can rebase themself and post it proper.
-> 
-> Okay, thank you. We'll rebase and resend.
-
-I have no objections if you collect hyper-v stuff, quite the contrary, but
-changes which touch other subsystems need to be coordinated upfront. That's
-all I'm asking for.
-
-Btw, that clocksource stuff looks good code wise, just the change logs need
-some care and after the VDSO stuff hits next we need to sort out the
-logistics. I hope these changes are completely self contained. If not we'll
-find a solution.
-
-Thanks,
-
-	tglx
