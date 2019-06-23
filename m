@@ -2,34 +2,33 @@ Return-Path: <SRS0=Kt8c=UX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5CDC43613
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2038C48BE8
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDDF4208E4
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5D092133F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jun 2019 04:31:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727172AbfFXEbg (ORCPT
+        id S1727829AbfFXEbn (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 24 Jun 2019 00:31:36 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:34711 "EHLO
+        Mon, 24 Jun 2019 00:31:43 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:34713 "EHLO
         Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbfFXEbg (ORCPT
+        with ESMTP id S1726812AbfFXEbn (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 24 Jun 2019 00:31:36 -0400
-X-Greylist: delayed 5399 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Jun 2019 00:31:34 EDT
+        Mon, 24 Jun 2019 00:31:43 -0400
 Received: from p5b06daab.dip0.t-ipconnect.de ([91.6.218.171] helo=nanos)
         by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
         (Exim 4.80)
         (envelope-from <tglx@linutronix.de>)
-        id 1hfCnK-0000Kk-5Z; Mon, 24 Jun 2019 02:25:14 +0200
-Date:   Mon, 24 Jun 2019 02:25:12 +0200 (CEST)
+        id 1hfAj1-0007Ex-1q; Mon, 24 Jun 2019 00:12:40 +0200
+Date:   Mon, 24 Jun 2019 00:12:37 +0200 (CEST)
 From:   Thomas Gleixner <tglx@linutronix.de>
-To:     Michael Kelley <mikelley@microsoft.com>
-cc:     Sasha Levin <sashal@kernel.org>,
+To:     Sasha Levin <sashal@kernel.org>
+cc:     Michael Kelley <mikelley@microsoft.com>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
         "linux-arm-kernel@lists.infradead.org" 
@@ -49,16 +48,14 @@ cc:     Sasha Levin <sashal@kernel.org>,
         Shuah Khan <shuah@kernel.org>,
         Dmitry Safonov <0x7f454c46@gmail.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Huw Davies <huw@codeweavers.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Huw Davies <huw@codeweavers.com>, linux-hyperv@vger.kernel.org,
         Greg KH <gregkh@linuxfoundation.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: RE: [PATCH v6 18/19] x86: Add support for generic vDSO
-In-Reply-To: <BYAPR21MB135202F46C4B023B51EBBFD0D7E00@BYAPR21MB1352.namprd21.prod.outlook.com>
-Message-ID: <alpine.DEB.2.21.1906240221550.32342@nanos.tec.linutronix.de>
+Subject: Re: [PATCH v6 18/19] x86: Add support for generic vDSO
+In-Reply-To: <20190623190929.GL2226@sasha-vm>
+Message-ID: <alpine.DEB.2.21.1906240006090.32342@nanos.tec.linutronix.de>
 References: <20190530141531.43462-1-vincenzo.frascino@arm.com> <20190530141531.43462-19-vincenzo.frascino@arm.com> <BYAPR21MB1221D54FCEC97509EEF7395CD7180@BYAPR21MB1221.namprd21.prod.outlook.com> <alpine.DEB.2.21.1906141313150.1722@nanos.tec.linutronix.de>
- <20190614211710.GQ1513@sasha-vm> <alpine.DEB.2.21.1906221542270.5503@nanos.tec.linutronix.de> <20190623190929.GL2226@sasha-vm> <alpine.DEB.2.21.1906240006090.32342@nanos.tec.linutronix.de>
- <BYAPR21MB135202F46C4B023B51EBBFD0D7E00@BYAPR21MB1352.namprd21.prod.outlook.com>
+ <20190614211710.GQ1513@sasha-vm> <alpine.DEB.2.21.1906221542270.5503@nanos.tec.linutronix.de> <20190623190929.GL2226@sasha-vm>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -70,39 +67,46 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, 24 Jun 2019, Michael Kelley wrote:
-> From: Thomas Gleixner <tglx@linutronix.de> Sent: Sunday, June 23, 2019 3:13 PM
-> > 
-> > I have no objections if you collect hyper-v stuff, quite the contrary, but
-> > changes which touch other subsystems need to be coordinated upfront. That's
-> > all I'm asking for.
-> > 
-> > Btw, that clocksource stuff looks good code wise, just the change logs need
-> > some care and after the VDSO stuff hits next we need to sort out the
-> > logistics. I hope these changes are completely self contained. If not we'll
-> > find a solution.
-> >
+Sasha,
+
+On Sun, 23 Jun 2019, Sasha Levin wrote:
+> On Sat, Jun 22, 2019 at 04:46:28PM +0200, Thomas Gleixner wrote:
+> > Folks, please stop chosing Cc lists as you like. We have well established
+> > rules for that. And please stop queueing random unreviewed patches in
+> > next. Next is not a playground for not ready and unreviewed stuff. No, the
+> > hyper-v inbreed Reviewed-by is not sufficient for anything x86 and
+> > clocksource related.
 > 
-> In my view, the only thing that potentially needs a solution is where the
-> Hyper-V clock code used by VDSO ends up in the code tree.  I think the
-> right long term place is include/clocksource/hyperv_timer.h.   That location
-> is architecture neutral, and the same Hyper-V clock code will be shared by
-> the Hyper-V on ARM64 support that's in process.
+> I'm sorry for this, you were supposed to be Cc'ed on these patches and I
+> see that you were not.
+
+All good. I've vented steam and am back to normal pressure :)
+
+> > After chasing and looking at those patches, which have horrible subject
+> > lines and changelogs btw, I was not able to judge quickly whether that
+> > stuff is self contained or not. So no, I fixed up the fallout and rebased
+> > Vincenzos VDSO stuff on mainline w/o those hyperv changes simply because if
+> > they are not self contained they will break bisection badly.
+> > 
+> > I'm going to push out the VDSO series later today. That will nicely break
+
+Not yet, but soon :)
+
+> > in combination with the hyper-next branch. Stephen, please drop that and do
+> > not try to handle the fallout. That stuff needs to go through the proper
+> > channels or at least be acked/reviewed by the relevant maintainers. So the
+> > hyper-v folks can rebase themself and post it proper.
 > 
-> Vincenzo's patch set creates a new file arch/x86/include/asm/mshyperv-tsc.h,
-> which I will want to move when creating the separate Hyper-V clocksource
-> driver.   If you're OK with that file existing for a release and then going away,
-> that's fine.  Alternatively, put the code in include/clocksource/hyperv_timer.h
-> now as part of the VDSO patch set so it's in the right place from the start.  My
-> subsequent patch set will add a few additional tweaks to remove x86-isms
-> and fully integrate with the separate Hyper-V clocksource driver.
+> Okay, thank you. We'll rebase and resend.
 
-I don't care whether this goes into 5.3 or later. If you can provide me
-rebased self contained patches on top of
+I have no objections if you collect hyper-v stuff, quite the contrary, but
+changes which touch other subsystems need to be coordinated upfront. That's
+all I'm asking for.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-
-I'm happy to pull them in on top.
+Btw, that clocksource stuff looks good code wise, just the change logs need
+some care and after the VDSO stuff hits next we need to sort out the
+logistics. I hope these changes are completely self contained. If not we'll
+find a solution.
 
 Thanks,
 
