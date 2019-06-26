@@ -1,103 +1,128 @@
-Return-Path: <SRS0=GfP6=UZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=5qZY=U2=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FF8C48BD3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Jun 2019 03:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44AEDC48BD6
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jun 2019 08:55:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F503205ED
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Jun 2019 03:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561521083;
-	bh=bZ1G2S3PGPwXnzJ2rk9+AJfTR7RiYbBDCp2Ne0/fTPM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=as5FXfwnPWKa8imUxmS2W+40mxRWd9EOHI0Px0U3MekJf0Qy7J3uYXto0W9OZ75Bo
-	 EbOZeBxvBwjclmUkqV+raY8/rtOo9ODSTO1BaTRWlMVimvIX/vxnd4lybhZ4zzr/4n
-	 i/+FR6cml2y9XiIKpPMkUWE4rUwDmYQAUL16qrSo=
+	by mail.kernel.org (Postfix) with ESMTP id 14D2120656
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jun 2019 08:55:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ZLYYb7UF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbfFZDvS (ORCPT
+        id S1726059AbfF0IzH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 25 Jun 2019 23:51:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36722 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726778AbfFZDvS (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:51:18 -0400
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 76E232177B
-        for <linux-hyperv@vger.kernel.org>; Wed, 26 Jun 2019 03:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561521077;
-        bh=bZ1G2S3PGPwXnzJ2rk9+AJfTR7RiYbBDCp2Ne0/fTPM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hDpnehLLZWYQsb4aX9YZYzguXD8TTUSAIhULp729n8DAd3sPSpCCjjH+HzCPLwdZd
-         b7eIz7p7jzWRuAZuJf+gL4x8oEpDDZ1WHdrxlJzrAbNnzfkQ4tgX4ZJLAL3u/PvZx1
-         JmoDEivgDpfzwuzPz30YkfqmKdCjBVNxvm3Drhkk=
-Received: by mail-wr1-f42.google.com with SMTP id p11so911294wre.7
-        for <linux-hyperv@vger.kernel.org>; Tue, 25 Jun 2019 20:51:17 -0700 (PDT)
-X-Gm-Message-State: APjAAAWNNAo/mmi60u/9uqCPVZLGy+jzqwzlEVk14oNORQctJa6mb53C
-        oindhRZZ+paoYG3HvMPQmx5WNrxVbTC7rhS9qwDKvw==
-X-Google-Smtp-Source: APXvYqxhbwnXC+HHtbgLXKDHMg8L3l+e67NPNctbsjFY5QgqxzbbdaPZPdECVjYrpk2ZK2KQAYoaSiz68v0i6AaL3z0=
-X-Received: by 2002:adf:f606:: with SMTP id t6mr1183395wrp.265.1561521076028;
- Tue, 25 Jun 2019 20:51:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190613064813.8102-1-namit@vmware.com> <20190613064813.8102-5-namit@vmware.com>
- <CALCETrXyJ8y7PSqf+RmGKjM4VSLXmNEGi6K=Jzw4jmckRQECTg@mail.gmail.com> <28C3D489-54E4-4670-B726-21B09FA469EE@vmware.com>
-In-Reply-To: <28C3D489-54E4-4670-B726-21B09FA469EE@vmware.com>
-From:   Andy Lutomirski <luto@kernel.org>
-Date:   Tue, 25 Jun 2019 20:51:05 -0700
-X-Gmail-Original-Message-ID: <CALCETrUicyG0NJfj309zU6SX1Xdq6gcmC9+zGLqW4iFkodnWjw@mail.gmail.com>
-Message-ID: <CALCETrUicyG0NJfj309zU6SX1Xdq6gcmC9+zGLqW4iFkodnWjw@mail.gmail.com>
-Subject: Re: [PATCH 4/9] x86/mm/tlb: Flush remote and local TLBs concurrently
-To:     Nadav Amit <namit@vmware.com>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        Thu, 27 Jun 2019 04:55:07 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:41116 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725385AbfF0IzH (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 27 Jun 2019 04:55:07 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5R8sCA5058141;
+        Thu, 27 Jun 2019 08:54:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=5KptyXNJmsTfP77XZt6SnuUAhHI9DQzGxKm5f7pgB/c=;
+ b=ZLYYb7UFwgWFaRYyu6JpYhO5fd6M2quAU8xGVS5kQ8hcr2oFJ38wen5HoT81YUMJpqyE
+ 6oxiA5DRsjp4irhvb5WgbndwNQyfZx6wtw3Cv/VgPxTsen4zZKRjvKtrqdlmAZG59DPc
+ RZeeoQEUXg3IVo2If1FgItoTJxeaYPqssea6Ukl20L4ejILxLuSZosnH1LQDNDYEUpVF
+ FWCdid540riv/M6bRtOirnUh57w6PhS6Erf3GFLjcgjkd1oRd0yTvZoHGSv2odX5K+wZ
+ 09yg2cXJ4Ce1Awma+6PcOTpAB/qWNsZrNlGnyw7ILBzbYUCr50WkAgWV1vp/uf45P5my jA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2120.oracle.com with ESMTP id 2t9c9py1ks-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 Jun 2019 08:54:23 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5R8pvea017707;
+        Thu, 27 Jun 2019 08:52:23 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2t99f4w3j3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 Jun 2019 08:52:23 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5R8qLWd027247;
+        Thu, 27 Jun 2019 08:52:21 GMT
+Received: from z2.cn.oracle.com (/10.182.69.87)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 27 Jun 2019 01:52:20 -0700
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     Zhenzhong Duan <zhenzhong.duan@oracle.com>,
+        Waiman Long <longman@redhat.com>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
-        Juergen Gross <jgross@suse.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Linux Virtualization <virtualization@lists.linux-foundation.org>,
-        kvm list <kvm@vger.kernel.org>,
-        xen-devel <xen-devel@lists.xenproject.org>
-Content-Type: text/plain; charset="UTF-8"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH RESEND] locking/spinlocks, paravirt, hyperv: Correct the hv_nopvspin case
+Date:   Wed, 26 Jun 2019 16:56:01 +0800
+Message-Id: <1561539361-29313-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9300 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906270104
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9300 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906270105
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Jun 25, 2019 at 8:48 PM Nadav Amit <namit@vmware.com> wrote:
->
-> > On Jun 25, 2019, at 8:36 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> >
-> > On Wed, Jun 12, 2019 at 11:49 PM Nadav Amit <namit@vmware.com> wrote:
-> >> To improve TLB shootdown performance, flush the remote and local TLBs
-> >> concurrently. Introduce flush_tlb_multi() that does so. The current
-> >> flush_tlb_others() interface is kept, since paravirtual interfaces need
-> >> to be adapted first before it can be removed. This is left for future
-> >> work. In such PV environments, TLB flushes are not performed, at this
-> >> time, concurrently.
-> >
-> > Would it be straightforward to have a default PV flush_tlb_multi()
-> > that uses flush_tlb_others() under the hood?
->
-> I prefer not to have a default PV implementation that should anyhow go away.
->
-> I can create unoptimized untested versions for Xen and Hyper-V, if you want.
->
+With the boot parameter "hv_nopvspin" specified a Hyperv guest should
+not make use of paravirt spinlocks, but behave as if running on bare
+metal. This is not true, however, as the qspinlock code will fall back
+to a test-and-set scheme when it is detecting a hypervisor.
 
-I think I prefer that approach.  We should be able to get the
-maintainers to test it.  I don't love having legacy paths in there,
-ahem, UV.
+In order to avoid this disable the virt_spin_lock_key.
+
+Same change for XEN is already in Commit e6fd28eb3522
+("locking/spinlocks, paravirt, xen: Correct the xen_nopvspin case")
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Peter Zijlstra (Intel) <peterz@infradead.org>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: linux-hyperv@vger.kernel.org
+---
+ arch/x86/hyperv/hv_spinlock.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
+index 07f21a0..d90b4b0 100644
+--- a/arch/x86/hyperv/hv_spinlock.c
++++ b/arch/x86/hyperv/hv_spinlock.c
+@@ -64,6 +64,9 @@ __visible bool hv_vcpu_is_preempted(int vcpu)
+ 
+ void __init hv_init_spinlocks(void)
+ {
++	if (unlikely(!hv_pvspin))
++		static_branch_disable(&virt_spin_lock_key);
++
+ 	if (!hv_pvspin || !apic ||
+ 	    !(ms_hyperv.hints & HV_X64_CLUSTER_IPI_RECOMMENDED) ||
+ 	    !(ms_hyperv.features & HV_X64_MSR_GUEST_IDLE_AVAILABLE)) {
+-- 
+1.8.3.1
+
