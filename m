@@ -2,95 +2,193 @@ Return-Path: <SRS0=vugJ=VA=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.9 required=3.0 tests=DATE_IN_PAST_06_12,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8957CC5B578
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Jul 2019 05:05:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF0FAC5B578
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Jul 2019 07:14:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5B42A21882
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Jul 2019 05:05:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SFkzNcwp"
+	by mail.kernel.org (Postfix) with ESMTP id 7FC012187F
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Jul 2019 07:14:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfGCFFj (ORCPT
+        id S1727025AbfGCHOE (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 3 Jul 2019 01:05:39 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47004 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725785AbfGCFFj (ORCPT
+        Wed, 3 Jul 2019 03:14:04 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42908 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726236AbfGCHOD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 3 Jul 2019 01:05:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=xEl2+/JTzzBOI/KV08MgmserEhjFmkUWQJwBIctYK4M=; b=SFkzNcwpjtj88+RFf39lES3Nd
-        UpEcUpbr23nX5AEzz3vL5og98hLt9afZrefE1veDbp33W2fNzY6fiTDq/ZJFVjhy8BllljujBxzWS
-        yaLerA+zNO8n0GkdayN//eyGJEMgsEuGAHkd56kiBBCaMIJsoj2KmKlRvpF+HAYJ+nIIwUk/ma7sZ
-        Z0cFW8szsaDtrvg6Xcm6y+X7hqBshGj6AqlCQveshLz891vkxCojG2foWThJYXK2pUqzcv5OK0Xet
-        TMhCxUfwjxawsGr/NcgAYfeOulsmWaQdu7vy2Qh+1c16wohWxtsy8NKAj8B/v2f+pZke8Fsvdlnbd
-        EBXhfvzfg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=dragon.dunlab)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hiXSZ-0008SV-NI; Wed, 03 Jul 2019 05:05:36 +0000
-Subject: Re: [PATCH] PCI: hv: fix pci-hyperv build, depends on SYSFS
-To:     Dexuan Cui <decui@microsoft.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jake Oshins <jakeo@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
+        Wed, 3 Jul 2019 03:14:03 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so760331pff.9;
+        Wed, 03 Jul 2019 00:14:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=B1kQvrQoHFPsOT1yXoo85QIU6lm9lrhuL5yM9gcXKZ0=;
+        b=JxLUAig19YnjUmw6ALYfzgLrHOVjeo17HvEdychfmCmtybaGadTrbQYN3LyWwk7Wh8
+         gNgPlRn+3SP41Nx1QXz+LUkeHziuOMY/GbX7QH5wfBJcMR7AcfmJii3hvOLuUnjZWIdZ
+         ho0UBvwZZA8BLZnx3v3PwhWbM7Wms5kfZqbMjV+Z5pmz7oSMEf9gO53yPQrP1hY9jcbY
+         ptvL0DN5BR51wI6MivzqiXjslUKqLzmo4cpeIlda7hpPYHqS9Po7lOhS8Uz1tlYSpCn6
+         Y2/7CN1uHo+4kFdzY1Uo7Nkfz4Wl0PST7h0XzUv+0oyFZJk5p96mUAzGShaOkFFGuR+j
+         DKQQ==
+X-Gm-Message-State: APjAAAW0I2skziGMJK8aBQE6bg1PWdHIwyLy1hAuwsC5cAbG4spf9Nv5
+        utTeYli6jEnyy/qq675++68=
+X-Google-Smtp-Source: APXvYqwUyamaUZpHybk6nfj2wr4zAu1x6OPqmfFZEMCShOUOWld0YXW8Rb4mD/UbT+YdTI4jAfzbyg==
+X-Received: by 2002:a17:90a:22ef:: with SMTP id s102mr11149274pjc.2.1562138042451;
+        Wed, 03 Jul 2019 00:14:02 -0700 (PDT)
+Received: from sc2-haas01-esx0118.eng.vmware.com ([66.170.99.1])
+        by smtp.gmail.com with ESMTPSA id j21sm1256593pfh.86.2019.07.03.00.14.00
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 03 Jul 2019 00:14:01 -0700 (PDT)
+From:   Nadav Amit <namit@vmware.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Nadav Amit <namit@vmware.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Rik van Riel <riel@surriel.com>,
         Sasha Levin <sashal@kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-References: <69c25bc3-da00-2758-92ee-13c82b51fc45@infradead.org>
- <PU1P153MB016931FDE7BF095FB85783EEBFFB0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <99059dd0-3b53-a8b8-5573-18edf449085a@infradead.org>
-Date:   Tue, 2 Jul 2019 22:05:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <PU1P153MB016931FDE7BF095FB85783EEBFFB0@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: [PATCH v2 0/9] x86: Concurrent TLB flushes
+Date:   Tue,  2 Jul 2019 16:51:42 -0700
+Message-Id: <20190702235151.4377-1-namit@vmware.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 7/2/19 9:33 PM, Dexuan Cui wrote:
->> From: linux-hyperv-owner@vger.kernel.org
->> <linux-hyperv-owner@vger.kernel.org> On Behalf Of Randy Dunlap
->> Sent: Tuesday, July 2, 2019 4:25 PM
->> ERROR: "pci_destroy_slot" [drivers/pci/controller/pci-hyperv.ko] undefined!
->> ERROR: "pci_create_slot" [drivers/pci/controller/pci-hyperv.ko] undefined!
->>
->> drivers/pci/slot.o is only built when SYSFS is enabled, so
->> pci-hyperv.o has an implicit dependency on SYSFS.
->> Make that explicit.
->>
->> Also, depending on X86 && X86_64 is not needed, so just change that
->> to depend on X86_64.
->>
->> Fixes: 4daace0d8ce8 ("PCI: hv: Add paravirtual PCI front-end for Microsoft
->> Hyper-V VMs")
-> 
-> I think the Fixes tag should be:
-> Fixes: a15f2c08c708 ("PCI: hv: support reporting serial number as slot information")
-> 
-> Thanks,
-> -- Dexuan
-> 
+Currently, local and remote TLB flushes are not performed concurrently,
+which introduces unnecessary overhead - each INVLPG can take 100s of
+cycles. This patch-set allows TLB flushes to be run concurrently: first
+request the remote CPUs to initiate the flush, then run it locally, and
+finally wait for the remote CPUs to finish their work.
 
-Thanks.  I did have a little trouble with that.
+In addition, there are various small optimizations to avoid unwarranted
+false-sharing and atomic operations.
+
+The proposed changes should also improve the performance of other
+invocations of on_each_cpu(). Hopefully, no one has relied on this
+behavior of on_each_cpu() that invoked functions first remotely and only
+then locally [Peter says he remembers someone might do so, but without
+further information it is hard to know how to address it].
+
+Running sysbench on dax/ext4 w/emulated-pmem, write-cache disabled on
+2-socket, 48-logical-cores (24+SMT) Haswell-X, 5 repetitions:
+
+ sysbench fileio --file-total-size=3G --file-test-mode=rndwr \
+  --file-io-mode=mmap --threads=X --file-fsync-mode=fdatasync run
+
+  Th.	tip-jun28 avg (stdev)	+patch-set avg (stdev)	change
+  ---	---------------------	----------------------	------
+  1	1267765 (14146)		1299253 (5715)		+2.4%
+  2	1734644 (11936)		1799225 (19577)		+3.7%
+  4	2821268 (41184)		2919132 (40149)		+3.4%
+  8	4171652 (31243)		4376925 (65416)		+4.9%
+  16	5590729 (24160)		5829866 (8127)		+4.2%
+  24	6250212 (24481)		6522303 (28044)		+4.3%
+  32	3994314 (26606)		4077543 (10685)		+2.0%
+  48	4345177 (28091)		4417821 (41337)		+1.6%
+
+(Note that on configurations with up to 24 threads numactl was used to
+set all threads on socket 1, which explains the drop in performance when
+going to 32 threads).
+
+Running the same benchmark with security mitigations disabled (PTI,
+Spectre, MDS):
+
+  Th.	tip-jun28 avg (stdev)	+patch-set avg (stdev)	change
+  ---	---------------------	----------------------	------
+  1	1598896 (5174)		1607903 (4091)		+0.5%
+  2	2109472 (17827)		2224726 (4372)		+5.4%
+  4	3448587 (11952)		3668551 (30219)		+6.3%
+  8	5425778 (29641)		5606266 (33519)		+3.3%
+  16	6931232 (34677)		7054052 (27873)		+1.7%
+  24	7612473 (23482)		7783138 (13871)		+2.2%
+  32	4296274 (18029)		4283279 (32323)		-0.3%
+  48	4770029 (35541)		4764760 (13575)		-0.1%
+
+Presumably, PTI requires two invalidations of each mapping, which allows
+to get higher benefits from concurrency when PTI is on. At the same
+time, when mitigations are on, other overheads reduce the potential
+speedup.
+
+I tried to reduce the size of the code of the main patch, which required
+restructuring of the series.
+
+v1 -> v2:
+* Removing the patches that Thomas took [tglx]
+* Adding hyper-v, Xen compile-tested implementations [Dave]
+* Removing UV [Andy]
+* Adding lazy optimization, removing inline keyword [Dave]
+* Restructuring patch-set
+
+RFCv2 -> v1:
+* Fix comment on flush_tlb_multi [Juergen]
+* Removing async invalidation optimizations [Andy]
+* Adding KVM support [Paolo]
+
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Rik van Riel <riel@surriel.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: kvm@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+Cc: x86@kernel.org
+Cc: xen-devel@lists.xenproject.org
+
+Nadav Amit (9):
+  smp: Run functions concurrently in smp_call_function_many()
+  x86/mm/tlb: Remove reason as argument for flush_tlb_func_local()
+  x86/mm/tlb: Open-code on_each_cpu_cond_mask() for tlb_is_not_lazy()
+  x86/mm/tlb: Flush remote and local TLBs concurrently
+  x86/mm/tlb: Privatize cpu_tlbstate
+  x86/mm/tlb: Do not make is_lazy dirty for no reason
+  cpumask: Mark functions as pure
+  x86/mm/tlb: Remove UV special case
+  x86/mm/tlb: Remove unnecessary uses of the inline keyword
+
+ arch/x86/hyperv/mmu.c                 |  13 ++-
+ arch/x86/include/asm/paravirt.h       |   6 +-
+ arch/x86/include/asm/paravirt_types.h |   4 +-
+ arch/x86/include/asm/tlbflush.h       |  48 +++++----
+ arch/x86/include/asm/trace/hyperv.h   |   2 +-
+ arch/x86/kernel/kvm.c                 |  11 +-
+ arch/x86/kernel/paravirt.c            |   2 +-
+ arch/x86/mm/init.c                    |   2 +-
+ arch/x86/mm/tlb.c                     | 147 ++++++++++++++++----------
+ arch/x86/xen/mmu_pv.c                 |  20 ++--
+ include/linux/cpumask.h               |   6 +-
+ include/linux/smp.h                   |  27 +++--
+ include/trace/events/xen.h            |   2 +-
+ kernel/smp.c                          | 133 +++++++++++------------
+ 14 files changed, 245 insertions(+), 178 deletions(-)
 
 -- 
-~Randy
+2.17.1
+
