@@ -4,48 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABBA4C606B0
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 05:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 558BDC606B0
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 05:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7993F214AF
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 05:29:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24225214AF
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 05:29:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="R3Ao0vQy"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="n6KNY/je"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727327AbfGIF3f (ORCPT
+        id S1727379AbfGIF3h (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Jul 2019 01:29:35 -0400
-Received: from mail-eopbgr820117.outbound.protection.outlook.com ([40.107.82.117]:5824
-        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
+        Tue, 9 Jul 2019 01:29:37 -0400
+Received: from mail-eopbgr720099.outbound.protection.outlook.com ([40.107.72.99]:55635
+        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725905AbfGIF3e (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Jul 2019 01:29:34 -0400
+        id S1725961AbfGIF3g (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 9 Jul 2019 01:29:36 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g9W/w9+ppnQsOoBbSUcOMynr/YcLaufdTiykDPyjeqLEPFG8G2b6sr6IyOZJ2P4xL856UpeaSrdXDS2fvDx4GTsHPX4Rcf7ENNp4fxs2pKNXfA0HEsSUUDYfkxZpTx4FJGscnQ5V9ZtKPwOvvpaRyd6a1oKrxcxiHpsLR0fh8I3XCSTJYV/TpAKySRZRQ4J/dUc5MC7TSULJOHx57J+ya+KRpV6fjB0CfswmUkdyrT8a2mRPRr1VjfiIKQ8o78t5V94xCONaKg8SBqDkgCZOam5LdXIUgEf5/2TqdQxA3BNvnLsjNLR1aFc3CFaQtJbnEk/682Yb3w4YBaW1nAUFlQ==
+ b=XUQptm6n9q6cZWDUry98k4frdG4Qjhs0WzD5khd0AOHQhf7ZQSgYQ0dkPiP0ybSX/nQEp+qcOZ2NFkdlyug4ukpnMCVJAbfZjqtGX4HRH+fUXfO7U8LZMoISQtmJigE+wGI9Flaa7vRZGp+9616cvTcyjwK52m8TVj0Rwz5HrP8r4gkttF5Q3d08ySHQAXTWSh3kEpHmJNiTLZKrJmbr/e8tqLjSzhW3wJxMvEpHfex8M6IWMe5IJvsM33nxv7H6kdtQmk29XTarB8bNRizDKPOv5msBuLY2rIxcXu0ZPW2qY8O4RezcYK5d3PrP70IAy+aD/5MKixDD3BMkz9GNGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfGMCdiGHcLljipkTqhs/LomNvYqJHyFZYW1JVurKz0=;
- b=fkxew46iTKSAIxElVoxDVnQOzPGKP8XEsUxDbNLI3gv/0ocWK1TD/zbubb8mPq+hFp2zj4ZdrlUevbxRUVZVNnFgWxrYAvpmGJCVhG/HhbagkA5MS3vzYLI0r9ILGwmvqXrNgDehRvnKEj5acg9xkqK7SMiwQZv/8V/hJFW+UClaknRoq5m7EyUwYVNmVzDVHQr3jMw0DG7SKtCPcfjXYQrJT0iz12xCzBxj/ayYxRPpJOwfD8X1bmDypOoiUKYpm/KeKYmWvB1T+8GDspD5FZ4tkv15CzbgY6H4qy282qWSxTrVMCIEWg73SfWGgFszFAeMbVmZuZ93gUASbgS0Ug==
+ bh=br526JqVriplqZX5tyLLYPaTpEzoeF2R8HL/goCMxpw=;
+ b=g6abPa8zVAmurbINmVHmScVrdnttw1x0ReAEhwQ7pY93XWFemc+wZ25qg55R1PdXbxr2/HKewR5zFqmcnZJzrgrFGXvELCBHEw4pq/3VbtL79bPmcgaT7tpuqZFona0B47FufWQWCJSthiVa8Mq88XVOKGWq2/4vfR0zCrbQwqLM5ypt1PGDERmOUnHqZd+8AmJe6tREE9QvAOk56yoo2iEry3ErFS1y+2s+MZ8ijGkvuJBMTO62ob8RBceuzsc9RSuLSCUX9bO570c1nHFwgaOevHjlzy4yGqgiw6o6NR6+CdU4qZ1kilw9lJ55Flt5DMp4SIhjFnr5I3qZ9M20SQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
  smtp.mailfrom=microsoft.com;dmarc=pass action=none
  header.from=microsoft.com;dkim=pass header.d=microsoft.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfGMCdiGHcLljipkTqhs/LomNvYqJHyFZYW1JVurKz0=;
- b=R3Ao0vQyzj5pFWTwoTmw3k2GD8wcp705zkHDP1nMXatiSkz4L28INpp0ANFt2ToOtSTiLCR5XWRyo2usuNgmfmbrySiZsTn1JsD9ALxbsimJtesHYUJoKCb4iEybD/5WPbazg1TNiQ+WZRXPgyOI4H7CCLYoPdLPQAbF0HjLBHA=
+ bh=br526JqVriplqZX5tyLLYPaTpEzoeF2R8HL/goCMxpw=;
+ b=n6KNY/jeF7t51rkr2+Tbe3k0eHyNbSgJFVvprs5EFOc16ihFgXosS/FA6WpT3EVn4+/Zs0ZXyI9S0dce+0oWrAXaEB22mgIX6fg37zmTzysb4kLYQ4KIWBUoUmgayxokCC9eZGkz0HR2vBcsfAarog3R+qfZeEs4a5F/90Clvn8=
 Received: from SN6PR2101MB0942.namprd21.prod.outlook.com (52.132.114.19) by
- SN6PR2101MB1040.namprd21.prod.outlook.com (52.132.115.13) with Microsoft SMTP
+ SN6PR2101MB1358.namprd21.prod.outlook.com (20.178.200.84) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2094.3; Tue, 9 Jul 2019 05:29:26 +0000
+ 15.20.2094.3; Tue, 9 Jul 2019 05:29:30 +0000
 Received: from SN6PR2101MB0942.namprd21.prod.outlook.com
  ([fe80::60d7:a692:61f4:e6ab]) by SN6PR2101MB0942.namprd21.prod.outlook.com
  ([fe80::60d7:a692:61f4:e6ab%3]) with mapi id 15.20.2094.001; Tue, 9 Jul 2019
- 05:29:26 +0000
+ 05:29:30 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
@@ -58,13 +58,13 @@ To:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "tglx@linutronix.de" <tglx@linutronix.de>
 CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH 2/7] clocksource/drivers: Suspend/resume Hyper-V clocksource
+Subject: [PATCH 6/7] Drivers: hv: vmbus: Suspend/resume the vmbus itself for
+ hibernation
+Thread-Topic: [PATCH 6/7] Drivers: hv: vmbus: Suspend/resume the vmbus itself
  for hibernation
-Thread-Topic: [PATCH 2/7] clocksource/drivers: Suspend/resume Hyper-V
- clocksource for hibernation
-Thread-Index: AQHVNhdGnJjyF98260ebvjc6bcOKoQ==
-Date:   Tue, 9 Jul 2019 05:29:26 +0000
-Message-ID: <1562650084-99874-3-git-send-email-decui@microsoft.com>
+Thread-Index: AQHVNhdIaCRxdcnDs0SlXIWXfIwT/Q==
+Date:   Tue, 9 Jul 2019 05:29:30 +0000
+Message-ID: <1562650084-99874-7-git-send-email-decui@microsoft.com>
 References: <1562650084-99874-1-git-send-email-decui@microsoft.com>
 In-Reply-To: <1562650084-99874-1-git-send-email-decui@microsoft.com>
 Reply-To: Dexuan Cui <decui@microsoft.com>
@@ -81,87 +81,141 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 1.8.3.1
 x-originating-ip: [13.77.154.182]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4872ea9f-a34e-41f8-2f87-08d7042e687a
+x-ms-office365-filtering-correlation-id: 799f113b-bcb6-40c4-e688-08d7042e6ad0
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR2101MB1040;
-x-ms-traffictypediagnostic: SN6PR2101MB1040:|SN6PR2101MB1040:
-x-microsoft-antispam-prvs: <SN6PR2101MB10404B8121367C0F455F28A1BFF10@SN6PR2101MB1040.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN6PR2101MB1358;
+x-ms-traffictypediagnostic: SN6PR2101MB1358:|SN6PR2101MB1358:
+x-microsoft-antispam-prvs: <SN6PR2101MB13587C159FF8BCCE1CE453CEBFF10@SN6PR2101MB1358.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1775;
 x-forefront-prvs: 0093C80C01
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(346002)(376002)(396003)(136003)(39860400002)(199004)(189003)(6436002)(10290500003)(43066004)(2906002)(2501003)(4720700003)(316002)(54906003)(110136005)(6486002)(22452003)(64756008)(1511001)(66556008)(256004)(66446008)(66476007)(478600001)(73956011)(14444005)(476003)(66946007)(52116002)(66066001)(305945005)(8676002)(81156014)(81166006)(5660300002)(76176011)(486006)(4326008)(36756003)(6116002)(3846002)(71190400001)(71200400001)(25786009)(99286004)(8936002)(50226002)(446003)(107886003)(10090500001)(2616005)(6512007)(14454004)(26005)(11346002)(53936002)(68736007)(186003)(3450700001)(7736002)(386003)(6506007)(15650500001)(102836004)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1040;H:SN6PR2101MB0942.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(376002)(366004)(39860400002)(346002)(136003)(199004)(189003)(86362001)(6512007)(4326008)(53936002)(110136005)(25786009)(66066001)(4720700003)(1511001)(107886003)(52116002)(99286004)(6116002)(3846002)(316002)(22452003)(54906003)(43066004)(50226002)(2906002)(3450700001)(6436002)(6486002)(6506007)(386003)(66476007)(68736007)(76176011)(186003)(10090500001)(102836004)(26005)(14444005)(2501003)(256004)(5660300002)(64756008)(66556008)(10290500003)(305945005)(7736002)(36756003)(73956011)(478600001)(66946007)(66446008)(81166006)(8936002)(11346002)(446003)(2616005)(476003)(14454004)(71190400001)(486006)(8676002)(71200400001)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1358;H:SN6PR2101MB0942.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: EOKFU1UJe7JVwHZ0UKsvC8N6rcFspXfuHcxDlgg8pzY41P7q9Tq8glva7qbGQlq62MoqHIbU4A7jKhEnBL1fjqZ7ev7AE3jeoJtxUTujvdnMUivTy/esv5KgwTLKhNhfljgVVfVMsERviiQHthrfIi6EapPCGZmONrP8pODD9v8PSz4UI+Z3GbsQI4M/rJ5TbtwZ2wWHVm5hdbRVI+FeCiBcZ+lNw3afdgyGrRGdqz+gJIonlYQ8mNTuYd+7gQnhjrGOkl25UMJe6yfSxyJT67rkq/XayHgaSoSDjlZ0G9rDcQz9IjEfbYOF0kmeIP6wRMYJ0T8ROZ42WHITXXEezMWEeZAJb4FdxKuCEIw+uiMQVo1/UZdQxOrq0KzOD5h9vMFoDuLO4VDi+M8fn0dqosAVo0jmafCGF4DKePLDt6s=
+x-microsoft-antispam-message-info: HKgFHLjgwgWHu0rur8LkdDlzheIxD0ySR52oX4UXJ5yImy9B6uioG/Fh3KGzjrMKhtCO4am4mqJk6ONH+YsK69IG51PQxXAPVHHItL31aqubi2gusTqmB7Ys81oyhc00suV10XzsG4H/09D6jiKfh4LGwcyi3TQWTUYonX1x0WlKXNJDb/kL1PViaZ9TXrL1adLRnIY4L7wA4QBr4l3VhF6AgdOB9YdYW+UzHewO+COQBO2kHCQrx6IwaP0/kWXDyKipGQUCSZMMqtuwAN02GjC+P+YPSSFHc7LCKgP/D2ouhbT39rWbateZ+A8c8qqzXxZP79hX3zQwi9RevXM44spzuKsMiy3rXnQFRzt3d1k7OOFATjVg8bx0MaM79N6e+HgMHtF6j2MwMbb4l/gKTXjBC0OKtFKHzY+qrQB7ras=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4872ea9f-a34e-41f8-2f87-08d7042e687a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 05:29:26.6387
+X-MS-Exchange-CrossTenant-Network-Message-Id: 799f113b-bcb6-40c4-e688-08d7042e6ad0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2019 05:29:30.5575
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: lkmldc@microsoft.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1040
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1358
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is needed for hibernation, e.g. when we resume the old kernel, we need
-to disable the "current" kernel's TSC page and then resume the old kernel's=
-.
+This is needed when we resume the old kernel from the "current" kernel.
 
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
 ---
- drivers/clocksource/hyperv_timer.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/hv/connection.c   |  3 +--
+ drivers/hv/hyperv_vmbus.h |  2 ++
+ drivers/hv/vmbus_drv.c    | 40 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyper=
-v_timer.c
-index ba2c79e6..41c31a7 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -237,12 +237,37 @@ static u64 read_hv_clock_tsc(struct clocksource *arg)
- 	return read_hv_sched_clock_tsc();
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 09829e1..806319c 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -59,8 +59,7 @@ static __u32 vmbus_get_next_version(__u32 current_version=
+)
+ 	}
  }
 =20
-+static void suspend_hv_clock_tsc(struct clocksource *arg)
-+{
-+	u64 tsc_msr;
-+
-+	/* Disable the TSC page */
-+	hv_get_reference_tsc(tsc_msr);
-+	tsc_msr &=3D ~BIT_ULL(0);
-+	hv_set_reference_tsc(tsc_msr);
-+}
-+
-+
-+static void resume_hv_clock_tsc(struct clocksource *arg)
-+{
-+	phys_addr_t phys_addr =3D page_to_phys(vmalloc_to_page(tsc_pg));
-+	u64 tsc_msr;
-+
-+	/* Re-enable the TSC page */
-+	hv_get_reference_tsc(tsc_msr);
-+	tsc_msr &=3D GENMASK_ULL(11, 0);
-+	tsc_msr |=3D BIT_ULL(0) | (u64)phys_addr;
-+	hv_set_reference_tsc(tsc_msr);
-+}
-+
- static struct clocksource hyperv_cs_tsc =3D {
- 	.name	=3D "hyperv_clocksource_tsc_page",
- 	.rating	=3D 400,
- 	.read	=3D read_hv_clock_tsc,
- 	.mask	=3D CLOCKSOURCE_MASK(64),
- 	.flags	=3D CLOCK_SOURCE_IS_CONTINUOUS,
-+	.suspend=3D suspend_hv_clock_tsc,
-+	.resume	=3D resume_hv_clock_tsc,
- };
- #endif
+-static int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo,
+-					__u32 version)
++int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 ver=
+sion)
+ {
+ 	int ret =3D 0;
+ 	unsigned int cur_cpu;
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 26ea161..e657197 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -274,6 +274,8 @@ struct vmbus_msginfo {
 =20
+ extern struct vmbus_connection vmbus_connection;
+=20
++int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 ver=
+sion);
++
+ static inline void vmbus_send_interrupt(u32 relid)
+ {
+ 	sync_set_bit(relid, vmbus_connection.send_int_page);
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 1c2d935..1730e7b 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2045,6 +2045,41 @@ static int vmbus_acpi_add(struct acpi_device *device=
+)
+ 	return ret_val;
+ }
+=20
++static int vmbus_bus_suspend(struct device *dev)
++{
++	vmbus_initiate_unload(false);
++
++	vmbus_connection.conn_state =3D DISCONNECTED;
++
++	return 0;
++}
++
++static int vmbus_bus_resume(struct device *dev)
++{
++	struct vmbus_channel_msginfo *msginfo;
++	size_t msgsize;
++	int ret;
++
++	msgsize =3D sizeof(*msginfo) +
++		  sizeof(struct vmbus_channel_initiate_contact);
++
++	msginfo =3D kzalloc(msgsize, GFP_KERNEL);
++
++	if (msginfo =3D=3D NULL)
++		return -ENOMEM;
++
++	ret =3D vmbus_negotiate_version(msginfo, vmbus_proto_version);
++
++	kfree(msginfo);
++
++	if (ret !=3D 0)
++		return ret;
++
++	vmbus_request_offers();
++
++	return 0;
++}
++
+ static const struct acpi_device_id vmbus_acpi_device_ids[] =3D {
+ 	{"VMBUS", 0},
+ 	{"VMBus", 0},
+@@ -2052,6 +2087,10 @@ static int vmbus_acpi_add(struct acpi_device *device=
+)
+ };
+ MODULE_DEVICE_TABLE(acpi, vmbus_acpi_device_ids);
+=20
++static const struct dev_pm_ops vmbus_bus_pm =3D {
++	SET_SYSTEM_SLEEP_PM_OPS(vmbus_bus_suspend, vmbus_bus_resume)
++};
++
+ static struct acpi_driver vmbus_acpi_driver =3D {
+ 	.name =3D "vmbus",
+ 	.ids =3D vmbus_acpi_device_ids,
+@@ -2059,6 +2098,7 @@ static int vmbus_acpi_add(struct acpi_device *device)
+ 		.add =3D vmbus_acpi_add,
+ 		.remove =3D vmbus_acpi_remove,
+ 	},
++	.drv.pm =3D &vmbus_bus_pm,
+ };
+=20
+ static void hv_kexec_handler(void)
 --=20
 1.8.3.1
 
