@@ -1,90 +1,51 @@
-Return-Path: <SRS0=Gl9G=VG=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=jMgs=VH=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE976C73C67
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 23:47:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1204FC73C63
+	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Jul 2019 00:29:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BD9E820693
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jul 2019 23:47:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="Q/RoaNRg"
+	by mail.kernel.org (Postfix) with ESMTP id DD77320693
+	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Jul 2019 00:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbfGIXrS (ORCPT
+        id S1726776AbfGJA3l (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Jul 2019 19:47:18 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34956 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726284AbfGIXrR (ORCPT
+        Tue, 9 Jul 2019 20:29:41 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:48384 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbfGJA3l (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Jul 2019 19:47:17 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w24so207554plp.2
-        for <linux-hyperv@vger.kernel.org>; Tue, 09 Jul 2019 16:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iL18xnFSpk6ptM8YAmoMi2iKWd1SLqXYtP/FCRGWav8=;
-        b=Q/RoaNRgQ0bfuVZO6pPdiS54Ias6oBekAYBmwoJjMckKbKNA6454iquKh8eut0Ttr+
-         bHXuqKeFInzzcfc3baQo0VS5LiyQfBykfnHu8j05DjOLkGoLQ0PFp9S8Zu6+LMNhtNxY
-         GZSl7HRj4cHGDeoiEl7QIrm+fVJC1HYHl4HuuRaXuCTMzlQxTX+8zf1lwuxFrCM/l19m
-         nL7uk75lGOj8zZoAXABKhqXGjBiHeKf6bpLuTyI5suP29zxb+3H3F24S6lXx8oKwU78I
-         XRLQ3CMG/X4/9nh9MVVHBpUtU9iODOb/3ofC9t616yOCYyV8YJIlYnhi5ITzag2XtxMW
-         JJng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iL18xnFSpk6ptM8YAmoMi2iKWd1SLqXYtP/FCRGWav8=;
-        b=j4g0dc4Vu/PGy07dZcOigwN9mOxWMFZibwD4UbjfumlxYNv+DMJ6SiYOdbLDO/UlMf
-         RdB/u4CfUKUmevr0A0TD6kurdlv6VNWn6EjJKaqNbk8sHujx8BXllaU9l216k5TlthOr
-         MsV1niW8rfC/fJbHiBLXvhR98BXIT/+iSAh61KxK8g8UiTL1utVVV6CllK2S8yYTddSv
-         /aj++kWraOzlh4RI8Nm4TpC8VfbPXQ4KHkn8Z3HJHEHsH9pbINAvccJJZfSNOP0hg3fe
-         pwxPjVf5QNCnhM4Q/h18Jz4Nk6z/1RC9r3V4L5yWczas0WSoAcHaTLdWIAQT6TVjbhCe
-         1HrA==
-X-Gm-Message-State: APjAAAVY6/gGiYFANfqub1yIJtA+trnyM+yJvFup4x6edtG4Bw1Q9JFO
-        JVooG2GNbQ5Onxa6cOZCs/2SDg==
-X-Google-Smtp-Source: APXvYqyORHvLs9KYDreBAMDfudmnHv3DL836iujhdLjZRsI5WKxIcNSD4anrJCkjYa22pZMESWRMbQ==
-X-Received: by 2002:a17:902:7088:: with SMTP id z8mr29145504plk.125.1562716037090;
-        Tue, 09 Jul 2019 16:47:17 -0700 (PDT)
-Received: from hermes.lan (204-195-22-127.wavecable.com. [204.195.22.127])
-        by smtp.gmail.com with ESMTPSA id r196sm151543pgr.84.2019.07.09.16.47.15
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 09 Jul 2019 16:47:16 -0700 (PDT)
-Date:   Tue, 9 Jul 2019 16:47:14 -0700
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     "sashal@kernel.org" <sashal@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Tue, 9 Jul 2019 20:29:41 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::d71])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id ABB561455244B;
+        Tue,  9 Jul 2019 17:29:40 -0700 (PDT)
+Date:   Tue, 09 Jul 2019 17:29:36 -0700 (PDT)
+Message-Id: <20190709.172936.1666884223446806217.davem@davemloft.net>
+To:     haiyangz@microsoft.com
+Cc:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
+        netdev@vger.kernel.org, kys@microsoft.com, sthemmin@microsoft.com,
+        olaf@aepfle.de, vkuznets@redhat.com, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH net-next] Name NICs based on vmbus offer and enable
  async probe by default
-Message-ID: <20190709164714.70774c92@hermes.lan>
+From:   David Miller <davem@davemloft.net>
 In-Reply-To: <1562712932-79936-1-git-send-email-haiyangz@microsoft.com>
 References: <1562712932-79936-1-git-send-email-haiyangz@microsoft.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 09 Jul 2019 17:29:41 -0700 (PDT)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, 9 Jul 2019 22:56:30 +0000
-Haiyang Zhang <haiyangz@microsoft.com> wrote:
 
-> -				VRSS_CHANNEL_MAX);
-> +	if (probe_type == PROBE_PREFER_ASYNCHRONOUS) {
-> +		snprintf(name, IFNAMSIZ, "eth%d", dev->channel->dev_num);
-
-What about PCI passthrough or VF devices that are also being probed and
-consuming the ethN names.  Won't there be a collision?
+The net-next tree, if you are reading netdev today, has been closed.
