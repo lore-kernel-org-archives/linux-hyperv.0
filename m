@@ -2,156 +2,76 @@ Return-Path: <SRS0=A67M=WJ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97EF0C433FF
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Aug 2019 12:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F7E9C32750
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Aug 2019 13:56:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 733C3206C2
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Aug 2019 12:59:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 618442084D
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Aug 2019 13:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728682AbfHMM7c (ORCPT
+        id S1728442AbfHMN4z (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Aug 2019 08:59:32 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:38052 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728289AbfHMM7c (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:59:32 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id A4520AA611A670BAC016;
-        Tue, 13 Aug 2019 20:43:46 +0800 (CST)
-Received: from [127.0.0.1] (10.133.213.239) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Tue, 13 Aug 2019
- 20:43:41 +0800
-Subject: Re: [PATCH] PCI: hv: Fix build error without CONFIG_SYSFS
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-References: <20190531150923.12376-1-yuehaibing@huawei.com>
- <BYAPR21MB12211EEA95200F437C8E37ECD71A0@BYAPR21MB1221.namprd21.prod.outlook.com>
- <7d8ca05e-7519-45d8-e694-d31e221696d5@huawei.com>
- <b049b0f9-e31e-897a-6f2e-e30d6d865f24@huawei.com>
- <20190813101845.GB14977@e121166-lin.cambridge.arm.com>
-CC:     Michael Kelley <mikelley@microsoft.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
+        Tue, 13 Aug 2019 09:56:55 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35938 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729163AbfHMN4z (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 13 Aug 2019 09:56:55 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g67so1542298wme.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 13 Aug 2019 06:56:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=9SWKHAYzBe41Ol9gswyfxjexOkRqsX5G/TdknhMFVq8=;
+        b=EmaXdOSC8zGzm0KgjO8PtB2xteUjXZ7dZuaz/QX/Il1CA9JhrT4gr739v7yKrzvm3u
+         61qj0B7axTQ4O2AYpxZHD/Hjozn2VXAebOPoDgPALOqEwtmvxdEuKkzR9oSVJBOC7T3l
+         RgOTv3cZtW6A+JCIa6EX/XszRcL4pIrqt2dw2/D8tVELclZRoYF2sLYVaDsA6Gw3OL7j
+         gkIlP3Cm1xoTDJqtvWMnBaRmJHNkliEN3bK43oLHHVfsL1pmn5vysgJC+LynWd0WXtK3
+         E7I+OGtEnubSi8GeY9LT8mUFIubEBOW/XL+m3i3465MPhc3Pnv+jIK6Sla4WpxWqip4P
+         5Ztg==
+X-Gm-Message-State: APjAAAWwD7LiTfD0/IogImlQEs51Uhgq6vRytDS16B7e2ac7K4zSlc80
+        FU5Fq53+7YX2jSeqVyF0QHtaIQ==
+X-Google-Smtp-Source: APXvYqzkcyUcteVlgxvQGBrtOPqeRLtcHQb+IMNCpUQGwbWcEyBW+FrNU3lnylGez+r6EeY7H5WxyA==
+X-Received: by 2002:a05:600c:21c1:: with SMTP id x1mr2969799wmj.37.1565704613440;
+        Tue, 13 Aug 2019 06:56:53 -0700 (PDT)
+Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
+        by smtp.gmail.com with ESMTPSA id m23sm2203685wml.41.2019.08.13.06.56.52
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 13 Aug 2019 06:56:52 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-From:   Yuehaibing <yuehaibing@huawei.com>
-Message-ID: <7c651711-7bf6-f2ca-cd4e-edcc0a7438e2@huawei.com>
-Date:   Tue, 13 Aug 2019 20:43:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+        linux-hyperv@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH v1] Tools: hv: move to tools buildsystem
+In-Reply-To: <20190812182716.GS30120@smile.fi.intel.com>
+References: <20190628170542.28481-1-andriy.shevchenko@linux.intel.com> <20190812182716.GS30120@smile.fi.intel.com>
+Date:   Tue, 13 Aug 2019 15:56:49 +0200
+Message-ID: <87lfvx9nj2.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190813101845.GB14977@e121166-lin.cambridge.arm.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 2019/8/13 18:18, Lorenzo Pieralisi wrote:
-> On Sat, Jun 15, 2019 at 02:48:24PM +0800, Yuehaibing wrote:
->> +cc Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> 
-> Can we drop this patch and merge:
-> 
-> https://patchwork.ozlabs.org/patch/1131444/
-> 
-> instead ?
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> writes:
 
-Ok, it looks good to me, thanks!
+> On Fri, Jun 28, 2019 at 08:05:42PM +0300, Andy Shevchenko wrote:
+>> There is a nice buildsystem dedicated for userspace tools in Linux kernel tree.
+>> Switch gpio target to be built by it.
+>> 
+>
+> Any comments on this?
+>
 
-> 
-> Thanks,
-> Lorenzo
-> 
->>
->> On 2019/6/15 14:18, Yuehaibing wrote:
->>>
->>> On 2019/6/2 6:59, Michael Kelley wrote:
->>>> From: YueHaibing <yuehaibing@huawei.com>  Sent: Friday, May 31, 2019 8:09 AM
->>>>>
->>>>> while building without CONFIG_SYSFS, fails as below:
->>>>>
->>>>> drivers/pci/controller/pci-hyperv.o: In function 'hv_pci_assign_slots':
->>>>> pci-hyperv.c:(.text+0x40a): undefined reference to 'pci_create_slot'
->>>>> drivers/pci/controller/pci-hyperv.o: In function 'pci_devices_present_work':
->>>>> pci-hyperv.c:(.text+0xc02): undefined reference to 'pci_destroy_slot'
->>>>> drivers/pci/controller/pci-hyperv.o: In function 'hv_pci_remove':
->>>>> pci-hyperv.c:(.text+0xe50): undefined reference to 'pci_destroy_slot'
->>>>> drivers/pci/controller/pci-hyperv.o: In function 'hv_eject_device_work':
->>>>> pci-hyperv.c:(.text+0x11f9): undefined reference to 'pci_destroy_slot'
->>>>>
->>>>> Select SYSFS while PCI_HYPERV is set to fix this.
->>>>>
->>>>
->>>> I'm wondering if is the right way to fix the problem.  Conceptually
->>>> is it possible to setup & operate virtual PCI devices like 
->>>> pci-hyperv.c does, even if sysfs is not present?  Or is it right to
->>>> always required sysfs?
->>>>
->>>> The function pci_dev_assign_slot() in slot.c has a null implementation
->>>> in include/linux/pci.h when CONFIG_SYSFS is not defined, which
->>>> seems to be trying to solve the same problem for that function.  And
->>>> if CONFIG_HOTPLUG_PCI is defined but CONFIG_SYSFS is not,
->>>> pci_hp_create_module_link() and pci_hp_remove_module_link()
->>>> look like they would have the same problem.  Maybe there should
->>>> be degenerate implementations of pci_create_slot() and
->>>> pci_destroy_slot() for cases when CONFIG_SYSFS is not defined?
->>>>
->>>> But I'll admit I don't know the full story behind how PCI slots
->>>> are represented and used, so maybe I'm off base.  I just noticed
->>>> the inconsistency in how other functions in slot.c are handled.
->>>>
->>>> Thoughts?
->>>
->>> 268a03a42d33 ("PCI: drivers/pci/slot.c should depend on CONFIG_SYSFS")
->>>
->>> make slot.o depends CONFIG_SYSFS
->>>
->>> commit 268a03a42d3377d5fb41e6e7cbdec4e0b65cab2e
->>> Author: Alex Chiang <achiang@hp.com>
->>> Date:   Wed Jun 17 19:03:57 2009 -0600
->>>
->>>     PCI: drivers/pci/slot.c should depend on CONFIG_SYSFS
->>>
->>>     There is no way to interact with a physical PCI slot without
->>>     sysfs, so encode the dependency and prevent this build error:
->>>
->>>         drivers/pci/slot.c: In function 'pci_hp_create_module_link':
->>>         drivers/pci/slot.c:327: error: 'module_kset' undeclared
->>>
->>>     This patch _should_ make pci-sysfs.o depend on CONFIG_SYSFS too,
->>>     but we cannot (yet) because the PCI core merrily assumes the
->>>     existence of sysfs:
->>>
->>>         drivers/built-in.o: In function `pci_bus_add_device':
->>>         drivers/pci/bus.c:89: undefined reference to `pci_create_sysfs_dev_files'
->>>         drivers/built-in.o: In function `pci_stop_dev':
->>>         drivers/pci/remove.c:24: undefined reference to `pci_remove_sysfs_dev_files'
->>>
->>>     So do the minimal bit for now and figure out how to untangle it
->>>     later.
->>>
->>> If No CONFIG_SYSFS, slot.o is not build
->>>
->>>>
->>>> Michael
->>>>
->>>>
->>>
->>>
->>> .
->>>
->>
-> 
-> .
-> 
+Minor nit: "gpio target" in the commit message should be replaced with
+"Hyper-V daemons".
 
+-- 
+Vitaly
