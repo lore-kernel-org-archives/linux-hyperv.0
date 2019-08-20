@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF70C3A589
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE225C3A589
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B6E3622DA7
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A4D422DA7
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566308622;
-	bh=+GpJ6hCkPxj3nzmJ3U386dLprsd+bv2NsXfze3k/pao=;
+	s=default; t=1566308624;
+	bh=4/L2wx3XUlichasHvmRlE6mRfe8WWhpTpxf7i/61zhM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=PyYYDdzz9gNPzrDjdNNCF/2Y7n+uKYAi4BjepR7f3TlsRz5CqiatZON+PA5rjB7yL
-	 yobRuP4Fo9GE2CbMzxRcdZH5S9pRMilyZDoBdhsstmrOvZ+sQo7p9WCbvOXmDgN80F
-	 2A0eaQRQKIf/But8DWK2h293UbsEMsYcn1M06qfQ=
+	b=dkpwRIqz3E7mduY81hRsSDGTKZ/9GzVn1HD7cxzDb95MWrvzEKlY0zpm1iPpUeCZI
+	 l1AFwg0CXJOINCCw6uHFBy9iefcoLbhjT2erollzMo83gTIekOsuyjgUbNCgYmJdJG
+	 HiJnsaBv3MkeaEu83bUFRSLW5+QO0OtP3xkuMdbI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730883AbfHTNnd (ORCPT
+        id S1730867AbfHTNn3 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 20 Aug 2019 09:43:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39352 "EHLO mail.kernel.org"
+        Tue, 20 Aug 2019 09:43:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39200 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730875AbfHTNnc (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:43:32 -0400
+        id S1730166AbfHTNnZ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 20 Aug 2019 09:43:25 -0400
 Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C3A52087E;
-        Tue, 20 Aug 2019 13:43:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35CAE22DA9;
+        Tue, 20 Aug 2019 13:43:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566308611;
-        bh=+GpJ6hCkPxj3nzmJ3U386dLprsd+bv2NsXfze3k/pao=;
+        s=default; t=1566308605;
+        bh=4/L2wx3XUlichasHvmRlE6mRfe8WWhpTpxf7i/61zhM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oY8jktVMQRPSJFoH0HNr+qv8zz2+nH56vbOJYZUzuL5MLUKq7yYCeiHh2+Y68Wagn
-         mxx60y1EIIrNOGBpaXXvT+vqbU5cnB9I5s5btRirAze4h5V7Gv7CHBDqNugObToIQn
-         YYdbV5hd5TWRD3H7ZgjyIA1IMnih1ZIYK9z3it5s=
+        b=rOnuL08J8JBavo1oOWtgvBaYq7XlrgMjGSUU0b0xoBxggCc3lUFIqhhyVBuyaACf5
+         IapMY8XotmH9Ppb1UKvI1Qu+WjONEr0QgcxuvOtbAozidva8JN9IeW8biU6qFaGsUT
+         3Mnlv41nzrXPd7E1UZtBhSuhZNMKvGGCDEyNb9kw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Adrian Vladu <avladu@cloudbasesolutions.com>,
@@ -48,12 +48,12 @@ Cc:     Adrian Vladu <avladu@cloudbasesolutions.com>,
         Sasha Levin <sashal@kernel.org>,
         Alessandro Pilotti <apilotti@cloudbasesolutions.com>,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 4/4] tools: hv: fix KVP and VSS daemons exit code
-Date:   Tue, 20 Aug 2019 09:43:25 -0400
-Message-Id: <20190820134325.11825-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 7/7] tools: hv: fix KVP and VSS daemons exit code
+Date:   Tue, 20 Aug 2019 09:43:15 -0400
+Message-Id: <20190820134315.11720-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134325.11825-1-sashal@kernel.org>
-References: <20190820134325.11825-1-sashal@kernel.org>
+In-Reply-To: <20190820134315.11720-1-sashal@kernel.org>
+References: <20190820134315.11720-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -97,7 +97,7 @@ index 1774800668168..fffc7c4184599 100644
  			print_usage(argv);
  			exit(EXIT_FAILURE);
 diff --git a/tools/hv/hv_vss_daemon.c b/tools/hv/hv_vss_daemon.c
-index 5d51d6ff08e6a..b5465f92ed50e 100644
+index e0829809c8970..bdc1891e0a9a3 100644
 --- a/tools/hv/hv_vss_daemon.c
 +++ b/tools/hv/hv_vss_daemon.c
 @@ -164,6 +164,8 @@ int main(int argc, char *argv[])
