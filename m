@@ -2,224 +2,212 @@ Return-Path: <SRS0=O+13=WS=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F2A5C3A5A2
-	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Aug 2019 14:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD609C3A5A1
+	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Aug 2019 17:38:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7C40233FE
-	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Aug 2019 14:30:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGV/rUAD"
+	by mail.kernel.org (Postfix) with ESMTP id 9444B20870
+	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Aug 2019 17:38:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1566495502;
+	bh=1RdMJqxneLcxedqNQefzh8Rya2X6L0fY5oAISMkgdPY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1hhsebb5LrpAIxnud/KPMaCLymnfs1we4FkEYonNLHrPr4GlkqVbGLd1y6eqjIUrS
+	 XS/2Eek7gsjn5G2GV0gy3TubhDqgx8eJC4U2WMuP5p4q2+1lDqFXmab4N1CXpbwzaO
+	 YvWTvqIXI5yF16SmFCgYUrLAdD/aJV0HXflox9RA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388936AbfHVOav (ORCPT
+        id S2392991AbfHVRiR (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 22 Aug 2019 10:30:51 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:38243 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732001AbfHVOau (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 22 Aug 2019 10:30:50 -0400
-Received: by mail-pf1-f195.google.com with SMTP id o70so4096014pfg.5;
-        Thu, 22 Aug 2019 07:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=RNQC63n6Fm1YHdNyfk/Lkjcq7Nl47jl6vkcYe0yjErw=;
-        b=FGV/rUADkx1Ag2pr0ZUnYBp4s5HZiWYJbL4+qHCxALt/HRjVy2un3gdFifvB6gqh/P
-         zKdLLnWlFRz6waWazEmp5OGCGKyhxJ4mvHQDCoI3Cm5Uz/wxaWiPiOXrcftIKm2irK7w
-         ZzI0npbJU8d/wOnsZAStvPR2hQT9T0OSEjwSCjX5wHRXUDTE6VShqYEAztQsdVwNwE74
-         hbyyN1huEuuF2YjcRwP50AEkecFaFf/jgKte7Fr7am4rt+Vp+y2GaGDTHUhFTvUDh4rt
-         jtHzaElm0QBh+A7aOdtvxM+mFObTwyh/0mbCgAYTtWiZG1Uc9twcLjA2cjM2IBVr6pE5
-         vvlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=RNQC63n6Fm1YHdNyfk/Lkjcq7Nl47jl6vkcYe0yjErw=;
-        b=D4xg+Cy8plzd1Ya1uCP8M/11/FkvskfCzczEs39adHTsJ9CxP9SKDS129H8D3tsb4R
-         UX3mDl+MmXFqykG5cmCucxdp7QrTxhNIHAVw1j3Fegs8LdSpV4XA2VxKa9o7xfQ6YER1
-         r3nBbN1X8Z8bxvWHssfnlJLQ2tdwrZ2AF/LUk5hkYVDAkjDpE+2bCjalkqTT7kq2hhYg
-         DzjnGdormPG7K/P3gz9ce6x9b09nP9yyg/BFdhYvjH4iSmPdU9mDqaLlHYIyymG38KbF
-         ifgSaXBOX75NkvZ1SqngZ0Vlw3/nwjlK5CgfkiF8OODRztz+jXQusxKHBlZpTX0IV/hn
-         Psvw==
-X-Gm-Message-State: APjAAAU6vYC84H1962XK6mEaYCDHswjlPJtJgLMCKorwSrpltjw7QBYI
-        OByyCLZf27m4fIjFfdBfi4c=
-X-Google-Smtp-Source: APXvYqwDJfZNu6EwzOKImb8bvki8/OzBGcRQs5XbOsBD2vgDzlOQILxY05wKvTHb58QPq3+NNIs/Ww==
-X-Received: by 2002:a65:49cc:: with SMTP id t12mr31774650pgs.83.1566484250068;
-        Thu, 22 Aug 2019 07:30:50 -0700 (PDT)
-Received: from localhost.corp.microsoft.com ([167.220.255.114])
-        by smtp.googlemail.com with ESMTPSA id r23sm32263161pfg.10.2019.08.22.07.30.45
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 22 Aug 2019 07:30:49 -0700 (PDT)
-From:   lantianyu1986@gmail.com
-X-Google-Original-From: Tianyu.Lan@microsoft.com
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org, pbonzini@redhat.com,
-        rkrcmar@redhat.com, michael.h.kelley@microsoft.com
-Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, Tianyu Lan <Tianyu.Lan@microsoft.com>
-Subject: [PATCH V4 3/3] KVM/Hyper-V/VMX: Add direct tlb flush support
-Date:   Thu, 22 Aug 2019 22:30:21 +0800
-Message-Id: <20190822143021.7518-4-Tianyu.Lan@microsoft.com>
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
-References: <20190822143021.7518-1-Tianyu.Lan@microsoft.com>
+        Thu, 22 Aug 2019 13:38:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34614 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392985AbfHVRiQ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 22 Aug 2019 13:38:16 -0400
+Received: from localhost (wsip-184-188-36-2.sd.sd.cox.net [184.188.36.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CA63620856;
+        Thu, 22 Aug 2019 17:38:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566495495;
+        bh=1RdMJqxneLcxedqNQefzh8Rya2X6L0fY5oAISMkgdPY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UK+kYTQMVztH4W3mAUZjJ6Kjzmyf8+T37Y+rX1b6xgR3OljbmcU8sKi4O3CD9FBwb
+         7w4wDl9KlCf6EiTsNr5cw9Zf1hYzs/UViPb/SyU9kkoyD1laLE1JKekqQem8eam1+T
+         kUkpFprQo01LKQHU9Klek5erL00Q980eaPftiDHY=
+Date:   Thu, 22 Aug 2019 20:38:13 +0300
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     "sashal@kernel.org" <sashal@kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "saeedm@mellanox.com" <saeedm@mellanox.com>,
+        "eranbe@mellanox.com" <eranbe@mellanox.com>,
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next,v4, 3/6] net/mlx5: Add wrappers for HyperV PCIe
+ operations
+Message-ID: <20190822173813.GM29433@mtr-leonro.mtl.com>
+References: <1566450236-36757-1-git-send-email-haiyangz@microsoft.com>
+ <1566450236-36757-4-git-send-email-haiyangz@microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1566450236-36757-4-git-send-email-haiyangz@microsoft.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+On Thu, Aug 22, 2019 at 05:05:47AM +0000, Haiyang Zhang wrote:
+> From: Eran Ben Elisha <eranbe@mellanox.com>
+>
+> Add wrapper functions for HyperV PCIe read / write /
+> block_invalidate_register operations.  This will be used as an
+> infrastructure in the downstream patch for software communication.
+>
+> This will be enabled by default if CONFIG_PCI_HYPERV_INTERFACE is set.
+>
+> Signed-off-by: Eran Ben Elisha <eranbe@mellanox.com>
+> Signed-off-by: Saeed Mahameed <saeedm@mellanox.com>
+> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+> ---
+>  drivers/net/ethernet/mellanox/mlx5/core/Makefile |  1 +
+>  drivers/net/ethernet/mellanox/mlx5/core/lib/hv.c | 64 ++++++++++++++++++++++++
+>  drivers/net/ethernet/mellanox/mlx5/core/lib/hv.h | 22 ++++++++
+>  3 files changed, 87 insertions(+)
+>  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/lib/hv.c
+>  create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/lib/hv.h
+>
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+> index bcf3655..fd32a5b 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
+> @@ -45,6 +45,7 @@ mlx5_core-$(CONFIG_MLX5_ESWITCH)   += eswitch.o eswitch_offloads.o eswitch_offlo
+>  mlx5_core-$(CONFIG_MLX5_MPFS)      += lib/mpfs.o
+>  mlx5_core-$(CONFIG_VXLAN)          += lib/vxlan.o
+>  mlx5_core-$(CONFIG_PTP_1588_CLOCK) += lib/clock.o
+> +mlx5_core-$(CONFIG_PCI_HYPERV_INTERFACE) += lib/hv.o
+>
+>  #
+>  # Ipoib netdev
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.c
+> new file mode 100644
+> index 0000000..cf08d02
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.c
+> @@ -0,0 +1,64 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+> +// Copyright (c) 2018 Mellanox Technologies
+> +
+> +#include <linux/hyperv.h>
+> +#include "mlx5_core.h"
+> +#include "lib/hv.h"
+> +
+> +static int mlx5_hv_config_common(struct mlx5_core_dev *dev, void *buf, int len,
+> +				 int offset, bool read)
+> +{
+> +	int rc = -EOPNOTSUPP;
+> +	int bytes_returned;
+> +	int block_id;
+> +
+> +	if (offset % HV_CONFIG_BLOCK_SIZE_MAX || len % HV_CONFIG_BLOCK_SIZE_MAX)
+> +		return -EINVAL;
+> +
+> +	block_id = offset / HV_CONFIG_BLOCK_SIZE_MAX;
+> +
+> +	rc = read ?
+> +	     hyperv_read_cfg_blk(dev->pdev, buf,
+> +				 HV_CONFIG_BLOCK_SIZE_MAX, block_id,
+> +				 &bytes_returned) :
+> +	     hyperv_write_cfg_blk(dev->pdev, buf,
+> +				  HV_CONFIG_BLOCK_SIZE_MAX, block_id);
+> +
+> +	/* Make sure len bytes were read successfully  */
+> +	if (read)
+> +		rc |= !(len == bytes_returned);
 
-Hyper-V provides direct tlb flush function which helps
-L1 Hypervisor to handle Hyper-V tlb flush request from
-L2 guest. Add the function support for VMX.
+Unclear what do you want to achieve here, for read == true, "rc" will
+have result of hyperv_read_cfg_blk(), which can be an error too.
+It means that your "rc |= .." will give interesting results.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
-Change since v3:
-       - Update changlog
-Change since v2:
-       - Move hv assist page(hv_pa_pg) from struct kvm  to struct kvm_hv.
----
- arch/x86/include/asm/hyperv-tlfs.h |  4 ++++
- arch/x86/include/asm/kvm_host.h    |  2 ++
- arch/x86/kvm/vmx/evmcs.h           |  2 ++
- arch/x86/kvm/vmx/vmx.c             | 39 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 47 insertions(+)
+> +
+> +	if (rc) {
+> +		mlx5_core_err(dev, "Failed to %s hv config, err = %d, len = %d, offset = %d\n",
+> +			      read ? "read" : "write", rc, len,
+> +			      offset);
+> +		return rc;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int mlx5_hv_read_config(struct mlx5_core_dev *dev, void *buf, int len,
+> +			int offset)
+> +{
+> +	return mlx5_hv_config_common(dev, buf, len, offset, true);
+> +}
+> +
+> +int mlx5_hv_write_config(struct mlx5_core_dev *dev, void *buf, int len,
+> +			 int offset)
+> +{
+> +	return mlx5_hv_config_common(dev, buf, len, offset, false);
+> +}
+> +
+> +int mlx5_hv_register_invalidate(struct mlx5_core_dev *dev, void *context,
+> +				void (*block_invalidate)(void *context,
+> +							 u64 block_mask))
+> +{
+> +	return hyperv_reg_block_invalidate(dev->pdev, context,
+> +					   block_invalidate);
+> +}
+> +
+> +void mlx5_hv_unregister_invalidate(struct mlx5_core_dev *dev)
+> +{
+> +	hyperv_reg_block_invalidate(dev->pdev, NULL, NULL);
+> +}
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.h b/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.h
+> new file mode 100644
+> index 0000000..f9a4557
+> --- /dev/null
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/hv.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
+> +/* Copyright (c) 2019 Mellanox Technologies. */
+> +
+> +#ifndef __LIB_HV_H__
+> +#define __LIB_HV_H__
+> +
+> +#if IS_ENABLED(CONFIG_PCI_HYPERV_INTERFACE)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index cf0b2a04271d..d53d6e4a6210 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -171,6 +171,7 @@
- #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
- 
- /* Nested features. These are HYPERV_CPUID_NESTED_FEATURES.EAX bits. */
-+#define HV_X64_NESTED_DIRECT_FLUSH			BIT(17)
- #define HV_X64_NESTED_GUEST_MAPPING_FLUSH		BIT(18)
- #define HV_X64_NESTED_MSR_BITMAP			BIT(19)
- 
-@@ -882,4 +883,7 @@ struct hv_tlb_flush_ex {
- 	u64 gva_list[];
- } __packed;
- 
-+struct hv_partition_assist_pg {
-+	u32 tlb_lock_count;
-+};
- #endif
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 667d154e89d4..ad4b5c02db0e 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -840,6 +840,8 @@ struct kvm_hv {
- 
- 	/* How many vCPUs have VP index != vCPU index */
- 	atomic_t num_mismatched_vp_indexes;
-+
-+	struct hv_partition_assist_pg *hv_pa_pg;
- };
- 
- enum kvm_irqchip_mode {
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index 39a24eec8884..07ebf6882a45 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -178,6 +178,8 @@ static inline void evmcs_load(u64 phys_addr)
- 	struct hv_vp_assist_page *vp_ap =
- 		hv_get_vp_assist_page(smp_processor_id());
- 
-+	if (current_evmcs->hv_enlightenments_control.nested_flush_hypercall)
-+		vp_ap->nested_control.features.directhypercall = 1;
- 	vp_ap->current_nested_vmcs = phys_addr;
- 	vp_ap->enlighten_vmentry = 1;
- }
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 84f8d49a2fd2..ed8056049070 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -486,6 +486,35 @@ static int hv_remote_flush_tlb(struct kvm *kvm)
- 	return hv_remote_flush_tlb_with_range(kvm, NULL);
- }
- 
-+static int hv_enable_direct_tlbflush(struct kvm_vcpu *vcpu)
-+{
-+	struct hv_enlightened_vmcs *evmcs;
-+	struct hv_partition_assist_pg **p_hv_pa_pg =
-+			&vcpu->kvm->arch.hyperv.hv_pa_pg;
-+	/*
-+	 * Synthetic VM-Exit is not enabled in current code and so All
-+	 * evmcs in singe VM shares same assist page.
-+	 */
-+	if (!*p_hv_pa_pg) {
-+		*p_hv_pa_pg = kzalloc(PAGE_SIZE, GFP_KERNEL);
-+		if (!*p_hv_pa_pg)
-+			return -ENOMEM;
-+		pr_debug("KVM: Hyper-V: allocated PA_PG for %llx\n",
-+		       (u64)&vcpu->kvm);
-+	}
-+
-+	evmcs = (struct hv_enlightened_vmcs *)to_vmx(vcpu)->loaded_vmcs->vmcs;
-+
-+	evmcs->partition_assist_page =
-+		__pa(*p_hv_pa_pg);
-+	evmcs->hv_vm_id = (u64)vcpu->kvm;
-+	evmcs->hv_enlightenments_control.nested_flush_hypercall = 1;
-+
-+	pr_debug("KVM: Hyper-V: enabled DIRECT flush for %llx\n",
-+		 (u64)vcpu->kvm);
-+	return 0;
-+}
-+
- #endif /* IS_ENABLED(CONFIG_HYPERV) */
- 
- /*
-@@ -6516,6 +6545,9 @@ static void vmx_vcpu_run(struct kvm_vcpu *vcpu)
- 		current_evmcs->hv_clean_fields |=
- 			HV_VMX_ENLIGHTENED_CLEAN_FIELD_ALL;
- 
-+	if (static_branch_unlikely(&enable_evmcs))
-+		current_evmcs->hv_vp_id = vcpu->arch.hyperv.vp_index;
-+
- 	/* MSR_IA32_DEBUGCTLMSR is zeroed on vmexit. Restore it if needed */
- 	if (vmx->host_debugctlmsr)
- 		update_debugctlmsr(vmx->host_debugctlmsr);
-@@ -6583,6 +6615,7 @@ static struct kvm *vmx_vm_alloc(void)
- 
- static void vmx_vm_free(struct kvm *kvm)
- {
-+	kfree(kvm->arch.hyperv.hv_pa_pg);
- 	vfree(to_kvm_vmx(kvm));
- }
- 
-@@ -7815,6 +7848,7 @@ static void vmx_exit(void)
- 			if (!vp_ap)
- 				continue;
- 
-+			vp_ap->nested_control.features.directhypercall = 0;
- 			vp_ap->current_nested_vmcs = 0;
- 			vp_ap->enlighten_vmentry = 0;
- 		}
-@@ -7854,6 +7888,11 @@ static int __init vmx_init(void)
- 			pr_info("KVM: vmx: using Hyper-V Enlightened VMCS\n");
- 			static_branch_enable(&enable_evmcs);
- 		}
-+
-+		if (ms_hyperv.nested_features & HV_X64_NESTED_DIRECT_FLUSH)
-+			vmx_x86_ops.enable_direct_tlbflush
-+				= hv_enable_direct_tlbflush;
-+
- 	} else {
- 		enlightened_vmcs = false;
- 	}
--- 
-2.14.5
+The common way to write it if(IS_ENABLED(CONFIG_FOO)) inside the code
+and #ifdef CONFIG_FOO for header files.
 
+> +
+> +#include <linux/hyperv.h>
+> +#include <linux/mlx5/driver.h>
+> +
+> +int mlx5_hv_read_config(struct mlx5_core_dev *dev, void *buf, int len,
+> +			int offset);
+> +int mlx5_hv_write_config(struct mlx5_core_dev *dev, void *buf, int len,
+> +			 int offset);
+> +int mlx5_hv_register_invalidate(struct mlx5_core_dev *dev, void *context,
+> +				void (*block_invalidate)(void *context,
+> +							 u64 block_mask));
+> +void mlx5_hv_unregister_invalidate(struct mlx5_core_dev *dev);
+> +#endif
+> +
+> +#endif /* __LIB_HV_H__ */
+> --
+> 1.8.3.1
+>
