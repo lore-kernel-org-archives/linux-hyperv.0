@@ -1,185 +1,202 @@
-Return-Path: <SRS0=R4m1=WT=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=YA3A=WU=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DATE_IN_PAST_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9E1C3A5A2
-	for <linux-hyperv@archiver.kernel.org>; Fri, 23 Aug 2019 20:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05E8AC3A5A4
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Aug 2019 06:02:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EBE842173B
-	for <linux-hyperv@archiver.kernel.org>; Fri, 23 Aug 2019 20:25:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="D7z8XMVU"
+	by mail.kernel.org (Postfix) with ESMTP id BF0C922CE3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Aug 2019 06:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389577AbfHWUZH (ORCPT
+        id S1726018AbfHXGCm (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 23 Aug 2019 16:25:07 -0400
-Received: from mail-eopbgr710136.outbound.protection.outlook.com ([40.107.71.136]:45952
-        "EHLO NAM05-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389571AbfHWUZH (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 23 Aug 2019 16:25:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iJlePm7RLZMvp7uJaTSuWAZD6lYLfdCd00OO/HwEB35hu5tNTM4Hz3MMvXEX/hw6tdFIPYwCIlNJQY9y311FPe2KZf5TrhfmmwPIO9ceiXA+K6nj2q6sjhSKAmzEilSUK1F5oSoZ5kZENBFA7XizVsEpCoBp+1CyXZl9/4SIKeR6M44k2uf+/gkoM/F2bozI17HTscswcSLBv5p7yd0qNYuCRyghknWCPHXkCQk3ipZUpmylptW1wTc5trqpVULAIk9nWHdJpWlo5SQhWxdgjdznkzTWSKcU7dLJ32FBWM582cv888fz85XmllhBoEugQhPaVm0UJztfIxkAcAq3JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wgsZoAKU8iXXU441HwTaOHTfE8iGYjGF0KB6FhAyVYc=;
- b=epaDykyS52Y/xrOuRCheWsGX+LliK3iBhBEdFuRijJkajFHHM6FFJRmUA3Zs888AYs3xqeua7noyN7Qm2y/OmZHIyvnr7Cf+IQvT0Tm3tkv/YwHIjDMYDDleyfVUpITmhIlFI6YXv3Camk3g7+PlWQdGtr04zuFCQux18V07ulgT+ugSV/qZjegV2UuG0bwwuHGLJcl+8O6pLq63GQxz9yjNE/8qoFHqNtYXD7Ma83OiO4KtmltEU4kes9o8GAFrYr1U59Rk2ylq7U98NkZUFFbRRAF+vuO7Ed48L3yfCNJvck1+mKVswJdaqW2tnUGYfL8iYftCxsC7OV7niui7tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wgsZoAKU8iXXU441HwTaOHTfE8iGYjGF0KB6FhAyVYc=;
- b=D7z8XMVUgkGoGWmx87f/mWMskjOPf9ZtK03VOcc7wcepoi+XxpDJPLDp7gl5SBa2DvDuQKg9Ek06AguI8K3VgKUGEQEQMfImGqrZejJKYqkDjbmDFos78JhBzZWzZqUQywWR4f96HQQeE9/tyUWyecqj2WK9NZQYtOuG6NgzS5k=
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com (10.173.173.12) by
- DM5PR21MB0140.namprd21.prod.outlook.com (10.173.173.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.4; Fri, 23 Aug 2019 20:25:03 +0000
-Received: from DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::8985:a319:f21:530e]) by DM5PR21MB0137.namprd21.prod.outlook.com
- ([fe80::c437:6219:efcc:fb8a%8]) with mapi id 15.20.2220.000; Fri, 23 Aug 2019
- 20:25:03 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Dexuan Cui <decui@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>,
+        Sat, 24 Aug 2019 02:02:42 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:36284 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725616AbfHXGCl (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 24 Aug 2019 02:02:41 -0400
+Received: by mail-pl1-f194.google.com with SMTP id f19so6876971plr.3;
+        Fri, 23 Aug 2019 23:02:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=PBhfWEbouVzAKjWN+Pc+TxdOjUmjwfquupK+iz/fQ4A=;
+        b=EnTwEhE4eOYxQ1U6tV59etlY0TArtp3YiUp6pDGsDdUusgJf9v5EvhiMZzZlcTj9of
+         cTsyLFhQYDBlRAPOIT2A6EE3zdK2JujbOn6pQ5p9RPDSnm2Z0YjYn+h7XT0yZOQmpaOx
+         StZJHvdGDp8p2joX0lLtZJHJNMIcE/R8C53EpASNOGYRF8h9HY9wRjltsv3J+VFxzww5
+         E2bM9YrVyzdVCEIAOv5Rr5xlLzqbkxxHh0OMRM1vnqbNDrgcDJl6erZEk6asYRkXm/cB
+         xPcThFZ/T0fugr0p8czJ4Dc/L1T7ymj7CjjhBspxcMxrjM0i8UWonX1XFR6mgvH8+NaJ
+         fjAA==
+X-Gm-Message-State: APjAAAW79wxZPOV/iKloAOIOdQTbMsazbkXCmT1mdAvR5KGQjEluTdwR
+        bho1LciBlzftAW/rOAAOACY29fgear4b5g==
+X-Google-Smtp-Source: APXvYqxyv6SnHafwAq2wDS1W1xROCWpkM31he4PdrXfsHzhw8ccWshBnDB7Isij98lfCJIj1o8scog==
+X-Received: by 2002:a17:902:248:: with SMTP id 66mr8776408plc.19.1566626560378;
+        Fri, 23 Aug 2019 23:02:40 -0700 (PDT)
+Received: from sc2-haas01-esx0118.eng.vmware.com ([66.170.99.1])
+        by smtp.gmail.com with ESMTPSA id i11sm6505645pfk.34.2019.08.23.23.02.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Aug 2019 23:02:39 -0700 (PDT)
+From:   Nadav Amit <namit@vmware.com>
+To:     Andy Lutomirski <luto@kernel.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>
+Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Nadav Amit <namit@vmware.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 12/12] Drivers: hv: vmbus: Resume after fixing up old
- primary channels
-Thread-Topic: [PATCH v3 12/12] Drivers: hv: vmbus: Resume after fixing up old
- primary channels
-Thread-Index: AQHVVvnhnZYV8iEJF0ORPS4BQ7lYm6cJMgUQ
-Date:   Fri, 23 Aug 2019 20:25:02 +0000
-Message-ID: <DM5PR21MB01370691E881D59773B9EF60D7A40@DM5PR21MB0137.namprd21.prod.outlook.com>
-References: <1566265863-21252-1-git-send-email-decui@microsoft.com>
- <1566265863-21252-13-git-send-email-decui@microsoft.com>
-In-Reply-To: <1566265863-21252-13-git-send-email-decui@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-08-23T20:25:01.1543000Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=ed8325f3-7994-47a0-9ecc-2c1fc987ecca;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c8f073f4-1e54-44ae-dfe1-08d72807fa9e
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:DM5PR21MB0140;
-x-ms-traffictypediagnostic: DM5PR21MB0140:|DM5PR21MB0140:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR21MB01407F39E3FD7548ACDFB95CD7A40@DM5PR21MB0140.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0138CD935C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(366004)(136003)(396003)(346002)(199004)(189003)(305945005)(26005)(446003)(11346002)(14444005)(81156014)(8676002)(102836004)(6506007)(256004)(81166006)(186003)(486006)(476003)(7696005)(7736002)(76176011)(22452003)(4326008)(74316002)(6246003)(3846002)(6116002)(9686003)(10090500001)(55016002)(1511001)(8990500004)(2906002)(66066001)(6436002)(53936002)(5660300002)(14454004)(110136005)(316002)(86362001)(478600001)(2201001)(66476007)(71200400001)(71190400001)(76116006)(66556008)(10290500003)(66946007)(99286004)(25786009)(64756008)(33656002)(66446008)(2501003)(8936002)(229853002)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR21MB0140;H:DM5PR21MB0137.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: /hXv5Oc/lqKv5+Ka+T8AgRzyU0fFzVcnKOmNeT3de2vDacxwd5gijvPKZye+ZqUVGFv8W50Z3UsFipGyy/767RPO+IIfAqcgVpYWPAWpYiL7sypO7nYQ+zu+BJieW5mn+5JZy/cnIdjIktnSvguYh0MeR0T1GJf330fAA40SODGuqDeDmMVKJ9nvyxr0k16nlgq5ScborERs3S99YclYxBjXYlWitbuxctbClNq9zwswv+k2H/CCpRiVSGPn/hv6t3pgx3CvDXNcMlLAElovjlgfJBterAMbaH0wuFBi4ZptoLRpL6FQ8Hcwmd4NcNVv1BkAQV6dhaR87Z5Bch9VWuU6yl4RFsaO3ubkogMnpWbHAST0GwUz98BC4o2qQw6/uwXfGGDJ3Pa36drO0Kpu4SwPliO2NVN05NHdS0qsqTg=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8f073f4-1e54-44ae-dfe1-08d72807fa9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Aug 2019 20:25:03.0062
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rBwIMEeqCakkQtuOYrCsrt3b2ZCeWDxN5QYiAeloZhAj8sRYdVjLcmRIrKwRgeKWHyAbllOwBimBC5RSAv3gzHkR5EvT1LGGB0oDcckDCIs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0140
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Juergen Gross <jgross@suse.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Rik van Riel <riel@surriel.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: [PATCH v4 0/9] x86/tlb: Concurrent TLB flushes
+Date:   Fri, 23 Aug 2019 15:41:44 -0700
+Message-Id: <20190823224153.15223-1-namit@vmware.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Dexuan Cui <decui@microsoft.com> Sent: Monday, August 19, 2019 6:52 P=
-M
->=20
-> When the host re-offers the primary channels upon resume, the host only
-> guarantees the Instance GUID  doesn't change, so vmbus_bus_suspend()
-> should invalidate channel->offermsg.child_relid and figure out the
-> number of primary channels that need to be fixed up upon resume.
->=20
-> Upon resume, vmbus_onoffer() finds the old channel structs, and maps
-> the new offers to the old channels, and fixes up the old structs,
-> and finally the resume callbacks of the VSC drivers will re-open
-> the channels.
->=20
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
-> ---
->  drivers/hv/channel_mgmt.c | 76 +++++++++++++++++++++++++++++++++++------=
-------
->  drivers/hv/connection.c   |  2 ++
->  drivers/hv/hyperv_vmbus.h | 14 +++++++++
->  drivers/hv/vmbus_drv.c    | 17 +++++++++++
->  include/linux/hyperv.h    |  3 ++
->  5 files changed, 93 insertions(+), 19 deletions(-)
->=20
-> @@ -875,12 +913,21 @@ static void vmbus_onoffer(struct
-> vmbus_channel_message_header *hdr)
->  		atomic_dec(&vmbus_connection.offer_in_progress);
->=20
->  		/*
-> -		 * We're resuming from hibernation: we expect the host to send
-> -		 * exactly the same offers that we had before the hibernation.
-> +		 * We're resuming from hibernation: all the sub-channel and
-> +		 * hv_sock channels we had before the hibernation should have
-> +		 * been cleaned up, and now we must be seeing a re-offered
-> +		 * primary channel that we had before the hibernation.
->  		 */
-> +
-> +		WARN_ON(oldchannel->offermsg.child_relid !=3D INVALID_RELID);
-> +		/* Fix up the relid. */
-> +		oldchannel->offermsg.child_relid =3D offer->child_relid;
-> +
->  		offer_sz =3D sizeof(*offer);
-> -		if (memcmp(offer, &oldchannel->offermsg, offer_sz) =3D=3D 0)
-> +		if (memcmp(offer, &oldchannel->offermsg, offer_sz) =3D=3D 0) {
-> +			check_ready_for_resume_event();
->  			return;
-> +		}
->=20
->  		pr_debug("Mismatched offer from the host (relid=3D%d)\n",
->  			 offer->child_relid);
-> @@ -890,6 +937,11 @@ static void vmbus_onoffer(struct
-> vmbus_channel_message_header *hdr)
->  				     false);
->  		print_hex_dump_debug("New vmbus offer: ", DUMP_PREFIX_OFFSET,
->  				     16, 4, offer, offer_sz, false);
-> +
-> +		vmbus_setup_channel_state(oldchannel, offer);
-> +
-> +		check_ready_for_resume_event();
+[ Similar cover-letter to v3 with updated performance numbers on skylake.
+  Sorry for the time it since the last version. ]
 
-This is the error case where the new offer didn't match some aspect of
-the old offer.  Is the intent to proceed and use the new offer?   I can see
-that check_ready_for_resume_event() has to be called in the error case,
-otherwise the resume operation will hang forever, but I'm not sure about
-setting up the channel state and then proceeding as if all is good.
+Currently, local and remote TLB flushes are not performed concurrently,
+which introduces unnecessary overhead - each PTE flushing can take 100s
+of cycles. This patch-set allows TLB flushes to be run concurrently:
+first request the remote CPUs to initiate the flush, then run it
+locally, and finally wait for the remote CPUs to finish their work.
 
-> +
->  		return;
->  	}
->=20
+In addition, there are various small optimizations to avoid, for
+example, unwarranted false-sharing.
+
+The proposed changes should also improve the performance of other
+invocations of on_each_cpu(). Hopefully, no one has relied on this
+behavior of on_each_cpu() that invoked functions first remotely and only
+then locally [Peter says he remembers someone might do so, but without
+further information it is hard to know how to address it].
+
+Running sysbench on dax/ext4 w/emulated-pmem, write-cache disabled on
+2-socket, 56-logical-cores (28+SMT) Skylake, 5 repetitions:
+
+sysbench fileio --file-total-size=3G --file-test-mode=rndwr \
+ --file-io-mode=mmap --threads=X --file-fsync-mode=fdatasync run
+
+ Th.   tip-aug22 avg (stdev)   +patch-set avg (stdev)  change
+ ---   ---------------------   ----------------------  ------
+ 1	1152920 (7453)		1169469 (9059)		+1.4%
+ 2	1545832 (12555)		1584172 (10484) 	+2.4%
+ 4	2480703 (12039)		2518641 (12875)		+1.5%
+ 8	3684486 (26007)		3840343 (44144)		+4.2%
+ 16	4981567 (23565)		5125756 (15458)		+2.8%
+ 32	5679542 (10116)		5887826 (6121)		+3.6%
+ 56	5630944 (17937)		5812514 (26264)		+3.2%
+
+(Note that on configurations with up to 28 threads numactl was used to
+set all threads on socket 1, which explains the drop in performance when
+going to 32 threads).
+
+Running the same benchmark with security mitigations disabled (PTI,
+Spectre, MDS):
+
+ Th.   tip-aug22 avg (stdev)   +patch-set avg (stdev)  change
+ ---   ---------------------   ----------------------  ------
+ 1	1444119 (8524)		1469606 (10527)		+1.7%
+ 2	1921540 (24169)		1961899 (14450)		+2.1%
+ 4	3073716 (21786)		3199880 (16774)		+4.1%
+ 8	4700698 (49534)		4802312 (11043)		+2.1%
+ 16	6005180 (6366)		6006656 (31624)		   0%
+ 32	6826466 (10496)		6886622 (19110)		+0.8%
+ 56	6832344 (13468)		6885586 (20646)		+0.8%
+
+The results are somewhat different than the results that have been obtained on
+Haswell-X, which were sent before and the maximum performance improvement is
+smaller. However, the performance improvement is significant.
+
+v3 -> v4:
+  * Merge flush_tlb_func_local and flush_tlb_func_remote() [Peter]
+  * Prevent preemption on_each_cpu(). It is not needed, but it prevents
+    concerns. [Peter/tglx]
+  * Adding acked-, review-by tags
+
+v2 -> v3:
+* Open-code the remote/local-flush decision code [Andy]
+* Fix hyper-v, Xen implementations [Andrew]
+* Fix redundant TLB flushes.
+
+v1 -> v2:
+* Removing the patches that Thomas took [tglx]
+* Adding hyper-v, Xen compile-tested implementations [Dave]
+* Removing UV [Andy]
+* Adding lazy optimization, removing inline keyword [Dave]
+* Restructuring patch-set
+
+RFCv2 -> v1:
+* Fix comment on flush_tlb_multi [Juergen]
+* Removing async invalidation optimizations [Andy]
+* Adding KVM support [Paolo]
+
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Josh Poimboeuf <jpoimboe@redhat.com>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Rik van Riel <riel@surriel.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: kvm@vger.kernel.org
+Cc: linux-hyperv@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+Cc: x86@kernel.org
+Cc: xen-devel@lists.xenproject.org
+
+Nadav Amit (9):
+  smp: Run functions concurrently in smp_call_function_many()
+  x86/mm/tlb: Unify flush_tlb_func_local() and flush_tlb_func_remote()
+  x86/mm/tlb: Open-code on_each_cpu_cond_mask() for tlb_is_not_lazy()
+  x86/mm/tlb: Flush remote and local TLBs concurrently
+  x86/mm/tlb: Privatize cpu_tlbstate
+  x86/mm/tlb: Do not make is_lazy dirty for no reason
+  cpumask: Mark functions as pure
+  x86/mm/tlb: Remove UV special case
+  x86/mm/tlb: Remove unnecessary uses of the inline keyword
+
+ arch/x86/hyperv/mmu.c                 |  10 +-
+ arch/x86/include/asm/paravirt.h       |   6 +-
+ arch/x86/include/asm/paravirt_types.h |   4 +-
+ arch/x86/include/asm/tlbflush.h       |  52 +++----
+ arch/x86/include/asm/trace/hyperv.h   |   2 +-
+ arch/x86/kernel/kvm.c                 |  11 +-
+ arch/x86/kernel/paravirt.c            |   2 +-
+ arch/x86/mm/init.c                    |   2 +-
+ arch/x86/mm/tlb.c                     | 195 ++++++++++++++------------
+ arch/x86/xen/mmu_pv.c                 |  11 +-
+ include/linux/cpumask.h               |   6 +-
+ include/linux/smp.h                   |  34 ++++-
+ include/trace/events/xen.h            |   2 +-
+ kernel/smp.c                          | 138 +++++++++---------
+ 14 files changed, 254 insertions(+), 221 deletions(-)
+
+-- 
+2.17.1
+
