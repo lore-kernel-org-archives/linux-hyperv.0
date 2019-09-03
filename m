@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD36C3A5A7
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 16:26:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3A1C3A5A5
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 16:39:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45E2A23711
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 16:26:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48853233A1
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 16:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567527960;
-	bh=h+d4u5kndta5HqWAnAN9o4gvTNOwWTJ5yg5EuUBs6as=;
+	s=default; t=1567528747;
+	bh=VUr8/gL+HwNDBli2Fr8nY5NVsSZHaE0f72ury9fFXfw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cnlu5fH8zD/4I0/eVEID9G+G9WQ3EOOuJkh+O6TnPOPLzM5p3q/N/34R2sBbhLqsi
-	 PsdXmfmci52GYeIgyxW34s5K6WxSAjCIqC8UrAsqRplJaS5fD3N5bVzV9JBUKoqf9N
-	 Mi/aeQBygNjGphQYA9U0GLTfDAt3HKJ+2BOID7fU=
+	b=ZR+X1mSJClecoroxU2JLCRwR4N3Gx9yKqgejMehlXUtTHScV8+Z/jrpVhIGyt0n/2
+	 2gfpCQES2Wr7t4eXhCGE2exK+m5LuwVML5T5hxed2aVW19wqQM74sdMLPxziOJMgCU
+	 jg70TTaEE/G+6XVGQryTGBCRqCvHt8fNwpEMwX6c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730105AbfICQZ6 (ORCPT
+        id S1730681AbfICQjG (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 3 Sep 2019 12:25:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46242 "EHLO mail.kernel.org"
+        Tue, 3 Sep 2019 12:39:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46272 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730513AbfICQZ4 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 3 Sep 2019 12:25:56 -0400
+        id S1730510AbfICQZz (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 3 Sep 2019 12:25:55 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D549C23717;
-        Tue,  3 Sep 2019 16:25:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 83AC22377B;
+        Tue,  3 Sep 2019 16:25:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567527955;
-        bh=h+d4u5kndta5HqWAnAN9o4gvTNOwWTJ5yg5EuUBs6as=;
+        s=default; t=1567527954;
+        bh=VUr8/gL+HwNDBli2Fr8nY5NVsSZHaE0f72ury9fFXfw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bSdQDpKJYc2lN4Tw1RMTGAEluKXNuoctTjeICF9iHnjz7A6H7zlUubdOk8yiREz/q
-         D6NdaIFr0VcQBH8JO+DEpeOY1RNgLs8G5DnwgcuyFVf2JD3sJpQfUSYXeEN1zNtubl
-         HaOit7XRT8w26wWHK5QGaTn+rNng7o66AoE2CPks=
+        b=Et7Q+O0X6m0ZczvgyvYdi6V894pTw8uZA/j0GeMkst25+W46Q1Nv/xrAP2PQCPllC
+         dRR+BpV6XJFY8szimomAe/dPtrwoqOoz+pVRetiupm+MWb0XCIEvl8L5XmsEC7UfTP
+         9nHQ2gtvoyMoI0yv39aUojhUc5374K07wHmchnLE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dexuan Cui <decui@microsoft.com>,
         "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>, Stable@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 021/167] Drivers: hv: kvp: Fix the recent regression caused by incorrect clean-up
-Date:   Tue,  3 Sep 2019 12:22:53 -0400
-Message-Id: <20190903162519.7136-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 020/167] Drivers: hv: kvp: Fix the indentation of some "break" statements
+Date:   Tue,  3 Sep 2019 12:22:52 -0400
+Message-Id: <20190903162519.7136-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903162519.7136-1-sashal@kernel.org>
 References: <20190903162519.7136-1-sashal@kernel.org>
@@ -64,95 +64,58 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Dexuan Cui <decui@microsoft.com>
 
-[ Upstream commit e670de54c813b5bc3672dd1c67871dc60e9206f4 ]
+[ Upstream commit d544c22d6951be3386ac59bb9a99c9bc566b3f09 ]
 
-In kvp_send_key(), we do need call process_ib_ipinfo() if
-message->kvp_hdr.operation is KVP_OP_GET_IP_INFO, because it turns out
-the userland hv_kvp_daemon needs the info of operation, adapter_id and
-addr_family. With the incorrect fc62c3b1977d, the host can't get the
-VM's IP via KVP.
+No functional change.
 
-And, fc62c3b1977d added a "break;", but actually forgot to initialize
-the key_size/value in the case of KVP_OP_SET, so the default key_size of
-0 is passed to the kvp daemon, and the pool files
-/var/lib/hyperv/.kvp_pool_* can't be updated.
-
-This patch effectively rolls back the previous fc62c3b1977d, and
-correctly fixes the "this statement may fall through" warnings.
-
-This patch is tested on WS 2012 R2 and 2016.
-
-Fixes: fc62c3b1977d ("Drivers: hv: kvp: Fix two "this statement may fall through" warnings")
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
 Cc: K. Y. Srinivasan <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
 Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: <Stable@vger.kernel.org>
 Signed-off-by: K. Y. Srinivasan <kys@microsoft.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hv/hv_kvp.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ drivers/hv/hv_kvp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
-index a7513a8a8e372..d6106e1a0d4af 100644
+index 57715a0c81202..a7513a8a8e372 100644
 --- a/drivers/hv/hv_kvp.c
 +++ b/drivers/hv/hv_kvp.c
-@@ -353,6 +353,9 @@ static void process_ib_ipinfo(void *in_msg, void *out_msg, int op)
- 
- 		out->body.kvp_ip_val.dhcp_enabled = in->kvp_ip_val.dhcp_enabled;
- 
-+		/* fallthrough */
-+
-+	case KVP_OP_GET_IP_INFO:
- 		utf16s_to_utf8s((wchar_t *)in->kvp_ip_val.adapter_id,
- 				MAX_ADAPTER_ID_SIZE,
+@@ -420,7 +420,7 @@ kvp_send_key(struct work_struct *dummy)
  				UTF16_LITTLE_ENDIAN,
-@@ -405,7 +408,11 @@ kvp_send_key(struct work_struct *dummy)
- 		process_ib_ipinfo(in_msg, message, KVP_OP_SET_IP_INFO);
- 		break;
- 	case KVP_OP_GET_IP_INFO:
--		/* We only need to pass on message->kvp_hdr.operation.  */
-+		/*
-+		 * We only need to pass on the info of operation, adapter_id
-+		 * and addr_family to the userland kvp daemon.
-+		 */
-+		process_ib_ipinfo(in_msg, message, KVP_OP_GET_IP_INFO);
- 		break;
- 	case KVP_OP_SET:
- 		switch (in_msg->body.kvp_set.data.value_type) {
-@@ -446,9 +453,9 @@ kvp_send_key(struct work_struct *dummy)
+ 				message->body.kvp_set.data.value,
+ 				HV_KVP_EXCHANGE_MAX_VALUE_SIZE - 1) + 1;
+-				break;
++			break;
  
- 		}
- 
--		break;
--
--	case KVP_OP_GET:
-+		/*
-+		 * The key is always a string - utf16 encoding.
-+		 */
- 		message->body.kvp_set.data.key_size =
- 			utf16s_to_utf8s(
- 			(wchar_t *)in_msg->body.kvp_set.data.key,
-@@ -456,6 +463,17 @@ kvp_send_key(struct work_struct *dummy)
+ 		case REG_U32:
+ 			/*
+@@ -456,7 +456,7 @@ kvp_send_key(struct work_struct *dummy)
  			UTF16_LITTLE_ENDIAN,
  			message->body.kvp_set.data.key,
  			HV_KVP_EXCHANGE_MAX_KEY_SIZE - 1) + 1;
-+
+-			break;
 +		break;
-+
-+	case KVP_OP_GET:
-+		message->body.kvp_get.data.key_size =
-+			utf16s_to_utf8s(
-+			(wchar_t *)in_msg->body.kvp_get.data.key,
-+			in_msg->body.kvp_get.data.key_size,
-+			UTF16_LITTLE_ENDIAN,
-+			message->body.kvp_get.data.key,
-+			HV_KVP_EXCHANGE_MAX_KEY_SIZE - 1) + 1;
- 		break;
  
  	case KVP_OP_DELETE:
+ 		message->body.kvp_delete.key_size =
+@@ -466,12 +466,12 @@ kvp_send_key(struct work_struct *dummy)
+ 			UTF16_LITTLE_ENDIAN,
+ 			message->body.kvp_delete.key,
+ 			HV_KVP_EXCHANGE_MAX_KEY_SIZE - 1) + 1;
+-			break;
++		break;
+ 
+ 	case KVP_OP_ENUMERATE:
+ 		message->body.kvp_enum_data.index =
+ 			in_msg->body.kvp_enum_data.index;
+-			break;
++		break;
+ 	}
+ 
+ 	kvp_transaction.state = HVUTIL_USERSPACE_REQ;
 -- 
 2.20.1
 
