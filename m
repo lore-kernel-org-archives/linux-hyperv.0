@@ -5,47 +5,47 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0E1C3A59E
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 00:23:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FEEC3A59E
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 00:23:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ECE4622DCC
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 00:23:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D223221897
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Sep 2019 00:23:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="OVwA78Gd"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="AmfaEP/j"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728116AbfICAXc (ORCPT
+        id S1728157AbfICAXh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 2 Sep 2019 20:23:32 -0400
+        Mon, 2 Sep 2019 20:23:37 -0400
 Received: from mail-eopbgr730136.outbound.protection.outlook.com ([40.107.73.136]:5728
         "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728004AbfICAXb (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 2 Sep 2019 20:23:31 -0400
+        id S1728120AbfICAXf (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 2 Sep 2019 20:23:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BfPWDR0IMDSdqbVUS66Riq3ikugInHhdburWrpvRwa0kBlmdH3K1tUDpAb9Ab+bLnBnX+TZEiegmODyTK9ZVPbGASx6i1Lq0tQy7UiXj3ALBa+D/BXboTbJr0taq2mxQo6iKypNFtcVB6bWvN0IYMPso+OPgh4Wqw1F4a6ixV+6j4xYVlf+lqP1O3sXqiB94Cesy96ZwcaBD0Zt7IJ9zxwogJzZpIJEvkEvBysqyNiRBHkXEgVuQJtgMlOjEcOXk9VbhQYxSGAbujW0BYcKMoKKhIIVm2U5JQYxtO9u1DDDRqQcrw7OnE7Wbu8y9MhOMQ914qkkf6zFxrPXiUngt9A==
+ b=CaRj82GvFabTjWFFk9Zg4sQOpMFEOL0b+pi6qIdNITwi9eVLlgxG0Xd2yzOAXpFLFGg2EJ4mhCxxATMaQqCcrkFawY4c/qcNJVYgclqy3BNYqIOazbk6lY455OR4hmZz/h+hJGnB+yDE9xDrti0+EsAQ+J2F0hIqTOhOB/zJAt+vWFPjhghaMcA1U0T+aQUJhfZF7vDDVkuAC89lhPFRAaYKN6ToYsRyXC9wiiETzCzasdQORu5xamPWhmsZRe4sJRZWamvQ939h7HzhTHIZCII4MVBoZnJYzPOMEXfY1cqnPXKELHb4dtLCJIN7kB4gmrx/C80VUCnP6ebUIwM/ug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JFFFx0pp2PDfN82xOMl48rxCSsjMmLuLhecljYjQsyI=;
- b=D34Yh7SIFBUN1OUM7YvORNJtXmlJMmuXc01clLPMMS/r0iUq+S06NU0wienvuVH59awLDKbPLfkTLTgRjTt0qoMqglwaPGIoi8P+Pj73BiES/rFySCIhLq0BQ6qsKVLrKQmozLY/b98i621WMvfpEW6+KuAMYPLL+oU2joJ22cbwQDtGPZCtFfc2tkHxLAP4bxPLM9Q1lb/Jy55XuodA+qP10nZVT97/850KncX34y3X1FhVFkHeiUcYB+KtNmjg93TLYQuIlk3UJGhjqDxw0JPeQuo0s0dICAhKRB7RNc1AU1e+POI7vtJpMwIM+O+5ycZtUDD5b7+ndQJmxj7odQ==
+ bh=1yB6X7+2VJkyBW6oNR/EbjwmQgg90DjczJQ+/bX2nGI=;
+ b=X4gJwL+lwLupvBMaWGhWVjJMJ6tzhX8+o0tnMxIfa/jsyoQJzlKCORZtPwT7HnwjDrpvSxke4EmzXPPMF3hTIg17QDnSTz9YlMGFYK2xcj6VL8FEGN7qstO14HTWFiUvKvL7LQompgRVZFXxq4rpAh41EQGZfYunH6/MR6NcYcSgASTRKnpN3K2aWM2Kf1MTP71suJ+9nMk48OTmXFZjMeU5c2JV+xUiZcVTCPKRkjHKrJsgQ8VOdD/xzd106LE1BxzgK6zQCFgOymxibb8k+Dn9VcT+BZXMWBtz2NpgGmJnOeOm+2qNHvENAy1nbn37rat4PUbPY4Dp+EBpUE+ibg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JFFFx0pp2PDfN82xOMl48rxCSsjMmLuLhecljYjQsyI=;
- b=OVwA78GdWVgis2JkOhBcj67kULcCyRRiFrSEOPAQHOVgKgFQvUuuXmFXMdHe+wgq6RM/M9T59ZiT4LQtprDGKFzQ0tyepPaYfiT/0KoQM/Fps0tEvtIAxq43mijiLMLObu2Jz8/A5kQ3nPHx0cWQuInPb0cyxdPGhwtY+t5MZZA=
+ bh=1yB6X7+2VJkyBW6oNR/EbjwmQgg90DjczJQ+/bX2nGI=;
+ b=AmfaEP/jANpCJoC2siOm0EkvNqEpMRW4DAKEYqpz+vaSYEi75Klpmsw6h0TVmDqMeT+Ar3hKjIQ5yBWVDKK5itrQRmXSWPuYK2EnC/YnWWo7O9meVLr4OfNFHNlQFKplzdatZ3kklZnHKntMX9D/qU0yms24Jofy223/En/0Qzk=
 Received: from SN6PR2101MB0942.namprd21.prod.outlook.com (52.132.114.19) by
  SN6PR2101MB1054.namprd21.prod.outlook.com (52.132.115.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.2; Tue, 3 Sep 2019 00:23:23 +0000
+ 15.20.2241.2; Tue, 3 Sep 2019 00:23:24 +0000
 Received: from SN6PR2101MB0942.namprd21.prod.outlook.com
  ([fe80::dd56:aa4f:204f:86a4]) by SN6PR2101MB0942.namprd21.prod.outlook.com
  ([fe80::dd56:aa4f:204f:86a4%3]) with mapi id 15.20.2263.005; Tue, 3 Sep 2019
- 00:23:23 +0000
+ 00:23:24 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
@@ -58,13 +58,13 @@ To:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "tglx@linutronix.de" <tglx@linutronix.de>
 CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v4 08/12] Drivers: hv: vmbus: Ignore the offers when resuming
- from hibernation
-Thread-Topic: [PATCH v4 08/12] Drivers: hv: vmbus: Ignore the offers when
- resuming from hibernation
-Thread-Index: AQHVYe3LvlwHTq/V6k6K8lKoCGifpQ==
-Date:   Tue, 3 Sep 2019 00:23:22 +0000
-Message-ID: <1567470139-119355-9-git-send-email-decui@microsoft.com>
+Subject: [PATCH v4 10/12] Drivers: hv: vmbus: Clean up hv_sock channels by
+ force upon suspend
+Thread-Topic: [PATCH v4 10/12] Drivers: hv: vmbus: Clean up hv_sock channels
+ by force upon suspend
+Thread-Index: AQHVYe3M11QygrJEL0K8AAqTpa/5Qg==
+Date:   Tue, 3 Sep 2019 00:23:24 +0000
+Message-ID: <1567470139-119355-11-git-send-email-decui@microsoft.com>
 References: <1567470139-119355-1-git-send-email-decui@microsoft.com>
 In-Reply-To: <1567470139-119355-1-git-send-email-decui@microsoft.com>
 Reply-To: Dexuan Cui <decui@microsoft.com>
@@ -81,134 +81,132 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 1.8.3.1
 x-originating-ip: [13.77.154.182]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3f4ca02e-5a1d-4742-e28b-08d73004ee0d
+x-ms-office365-filtering-correlation-id: d0e9105a-1ed0-4432-4cf2-08d73004ef18
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:SN6PR2101MB1054;
 x-ms-traffictypediagnostic: SN6PR2101MB1054:|SN6PR2101MB1054:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR2101MB1054B5D7DB64D5BB05DCD004BFB90@SN6PR2101MB1054.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-microsoft-antispam-prvs: <SN6PR2101MB1054D47DC59B0077405417F0BFB90@SN6PR2101MB1054.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
 x-forefront-prvs: 01494FA7F7
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(199004)(189003)(6512007)(66476007)(66556008)(478600001)(10290500003)(8936002)(3450700001)(52116002)(81166006)(81156014)(7736002)(305945005)(14454004)(25786009)(8676002)(50226002)(53936002)(446003)(76176011)(107886003)(2906002)(71200400001)(3846002)(1511001)(2616005)(476003)(71190400001)(6116002)(486006)(11346002)(2501003)(66066001)(86362001)(36756003)(22452003)(110136005)(64756008)(386003)(6506007)(316002)(186003)(54906003)(10090500001)(4720700003)(102836004)(6436002)(6486002)(43066004)(4326008)(5660300002)(99286004)(256004)(14444005)(66446008)(66946007)(26005);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1054;H:SN6PR2101MB0942.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(366004)(199004)(189003)(6512007)(66476007)(66556008)(478600001)(10290500003)(8936002)(3450700001)(52116002)(15650500001)(81166006)(81156014)(7736002)(305945005)(14454004)(25786009)(8676002)(50226002)(53936002)(446003)(76176011)(107886003)(2906002)(71200400001)(3846002)(1511001)(2616005)(476003)(71190400001)(6116002)(486006)(11346002)(2501003)(66066001)(86362001)(36756003)(22452003)(110136005)(64756008)(386003)(6506007)(316002)(186003)(54906003)(10090500001)(4720700003)(102836004)(6436002)(6486002)(43066004)(4326008)(5660300002)(99286004)(256004)(14444005)(66446008)(66946007)(26005);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1054;H:SN6PR2101MB0942.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Hc5bdbkYDkQtKDXBuDwO3X8QER1zGaRwzJyzZCp7YS2cf1vonlvUdzf7FJ5MiPSVL1+zinBwFkgaxHecsTZ3U0ZmYZVpgqx35AioHiJazzW1O1kcu9Xtbft2g6TAg7DfD03fUrLXY5ycCJGU8XoDv4ZkzB9iXbqaI7wgYxYKNEJI2zBPiBZCNecKPBI6Nf1EWAUeFGu21/WdSFWY8iLXU7PfgKt1ZxnUWM6Pu0aAM9eaRlIR1yF/yL5xZdg57w2lG40lO+aJgPUbHgI5QkCu1B8z3y7X8+tu+rwUUA+mG7f5M8SUTfw4ohhy+toqosygbUb/J2Y7ingQ/H2da383mtbf+P/WeuZHQRFZqkheHzSiZarxUwDxqihzrGFvd+UFP0t1l2b4r9XzswleQRPrTpizUNQr1JKs1bgTdI603BA=
+x-microsoft-antispam-message-info: K8IFj90M8TJp02aYR4KXdJEMUvUE21sDTVXnP4FDQcFPsCiGBnKrS4ckN59nK2RQNI6B22YGP7NDij/MMXZf4INtCNPLyrFScBu2YlZbMGnLe5VutwzZgnw9bALyPzNAk+sdW91IAA8alt5soMpsA71w+njUkqHsOxkh7fpQwZedQQd6+xGF2nMuq8trMJF1MExGEbsgz3t2NfCqjy/qDuXl67No889TFP6E33qD//kGsHyTS6CWHzhxvDv1JYL/bxHW6DhvoWSCWm7LzICLmAIDeRpONcounRXP6MFBcWnMNEVKMBTxbS1o6LFVSeTeMFHXPRsUrFvUXF3IxyznpaUj3jBgQ+GgoQ5UVeiaRUJXeaek2aq7Y+CJoCxn/SXWvMNCbD8OvZAlTRXoqkyGpeKoq0ZIOLvklrn4AvhGrEw=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4ca02e-5a1d-4742-e28b-08d73004ee0d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 00:23:22.9873
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0e9105a-1ed0-4432-4cf2-08d73004ef18
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 00:23:24.7303
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q3LKDyJORmTnvS3rj8KXG5xjDVZQCN1uGtE5G169q14v2Yc9gyNSXnmIce8AKqwLf4HkNFcH2kS4xPRhPSxC4w==
+X-MS-Exchange-CrossTenant-userprincipalname: UBy3scg2cwYf6IOyg27MoxBEcHNQse+PiDI3OEZy6hiLBOk35zXgcHGQwT51HXhQ9a+MojxSyn1lVwl9Qjq/0Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1054
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When the VM resumes, the host re-sends the offers. We should not add the
-offers to the global vmbus_connection.chn_list again.
-
-This patch assumes the RELIDs of the channels don't change across
-hibernation. Actually this is not always true, especially in the case of
-NIC SR-IOV the VF vmbus device's RELID sometimes can change. A later patch
-will address this issue by mapping the new offers to the old channels and
-fixing up the old channels, if necessary.
+Fake RESCIND_CHANNEL messages to clean up hv_sock channels by force for
+hibernation. There is no better method to clean up the channels since
+some of the channels may still be referenced by the userspace apps when
+hibernation is triggered: in this case, with this patch, the "rescind"
+fields of the channels are set, and the apps will thoroughly destroy
+the channels after hibernation.
 
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
- drivers/hv/channel_mgmt.c | 58 +++++++++++++++++++++++++++++++++++++++++++=
-+++-
- 1 file changed, 57 insertions(+), 1 deletion(-)
+ drivers/hv/vmbus_drv.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++=
+++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index addcef5..44b92fa 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -848,18 +848,74 @@ void vmbus_initiate_unload(bool crash)
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index ce9974b..45b976e 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -24,6 +24,7 @@
+ #include <linux/sched/task_stack.h>
+=20
+ #include <asm/mshyperv.h>
++#include <linux/delay.h>
+ #include <linux/notifier.h>
+ #include <linux/ptrace.h>
+ #include <linux/screen_info.h>
+@@ -1069,6 +1070,41 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 	vmbus_signal_eom(msg, message_type);
  }
 =20
- /*
-+ * find_primary_channel_by_offer - Get the channel object given the new of=
-fer.
-+ * This is only used in the resume path of hibernation.
++/*
++ * Fake RESCIND_CHANNEL messages to clean up hv_sock channels by force for
++ * hibernation, because hv_sock connections can not persist across hiberna=
+tion.
 + */
-+static struct vmbus_channel *
-+find_primary_channel_by_offer(const struct vmbus_channel_offer_channel *of=
-fer)
++static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
 +{
-+	struct vmbus_channel *channel =3D NULL, *iter;
-+	const guid_t *inst1, *inst2;
++	struct onmessage_work_context *ctx;
++	struct vmbus_channel_rescind_offer *rescind;
 +
-+	/* Ignore sub-channel offers. */
-+	if (offer->offer.sub_channel_index !=3D 0)
-+		return NULL;
++	WARN_ON(!is_hvsock_channel(channel));
++
++	/*
++	 * sizeof(*ctx) is small and the allocation should really not fail,
++	 * otherwise the state of the hv_sock connections ends up in limbo.
++	 */
++	ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL | __GFP_NOFAIL);
++
++	/*
++	 * So far, these are not really used by Linux. Just set them to the
++	 * reasonable values conforming to the definitions of the fields.
++	 */
++	ctx->msg.header.message_type =3D 1;
++	ctx->msg.header.payload_size =3D sizeof(*rescind);
++
++	/* These values are actually used by Linux. */
++	rescind =3D (struct vmbus_channel_rescind_offer *)ctx->msg.u.payload;
++	rescind->header.msgtype =3D CHANNELMSG_RESCIND_CHANNELOFFER;
++	rescind->child_relid =3D channel->offermsg.child_relid;
++
++	INIT_WORK(&ctx->work, vmbus_onmessage_work);
++
++	queue_work_on(vmbus_connection.connect_cpu,
++		      vmbus_connection.work_queue,
++		      &ctx->work);
++}
+=20
+ /*
+  * Direct callback for channels using other deferred processing
+@@ -2091,6 +2127,25 @@ static int vmbus_acpi_add(struct acpi_device *device=
+)
+=20
+ static int vmbus_bus_suspend(struct device *dev)
+ {
++	struct vmbus_channel *channel;
++
++	while (atomic_read(&vmbus_connection.offer_in_progress) !=3D 0) {
++		/*
++		 * We wait here until the completion of any channel
++		 * offers that are currently in progress.
++		 */
++		msleep(1);
++	}
 +
 +	mutex_lock(&vmbus_connection.channel_mutex);
++	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
++		if (!is_hvsock_channel(channel))
++			continue;
 +
-+	list_for_each_entry(iter, &vmbus_connection.chn_list, listentry) {
-+		inst1 =3D &iter->offermsg.offer.if_instance;
-+		inst2 =3D &offer->offer.if_instance;
-+
-+		if (guid_equal(inst1, inst2)) {
-+			channel =3D iter;
-+			break;
-+		}
++		vmbus_force_channel_rescinded(channel);
 +	}
-+
 +	mutex_unlock(&vmbus_connection.channel_mutex);
 +
-+	return channel;
-+}
-+
-+/*
-  * vmbus_onoffer - Handler for channel offers from vmbus in parent partiti=
-on.
-  *
-  */
- static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
- {
- 	struct vmbus_channel_offer_channel *offer;
--	struct vmbus_channel *newchannel;
-+	struct vmbus_channel *oldchannel, *newchannel;
-+	size_t offer_sz;
+ 	vmbus_initiate_unload(false);
 =20
- 	offer =3D (struct vmbus_channel_offer_channel *)hdr;
-=20
- 	trace_vmbus_onoffer(offer);
-=20
-+	oldchannel =3D find_primary_channel_by_offer(offer);
-+
-+	if (oldchannel !=3D NULL) {
-+		atomic_dec(&vmbus_connection.offer_in_progress);
-+
-+		/*
-+		 * We're resuming from hibernation: we expect the host to send
-+		 * exactly the same offers that we had before the hibernation.
-+		 */
-+		offer_sz =3D sizeof(*offer);
-+		if (memcmp(offer, &oldchannel->offermsg, offer_sz) =3D=3D 0)
-+			return;
-+
-+		pr_debug("Mismatched offer from the host (relid=3D%d)\n",
-+			 offer->child_relid);
-+
-+		print_hex_dump_debug("Old vmbus offer: ", DUMP_PREFIX_OFFSET,
-+				     16, 4, &oldchannel->offermsg, offer_sz,
-+				     false);
-+		print_hex_dump_debug("New vmbus offer: ", DUMP_PREFIX_OFFSET,
-+				     16, 4, offer, offer_sz, false);
-+		return;
-+	}
-+
- 	/* Allocate the channel object and save this offer. */
- 	newchannel =3D alloc_channel();
- 	if (!newchannel) {
+ 	vmbus_connection.conn_state =3D DISCONNECTED;
 --=20
 1.8.3.1
 
