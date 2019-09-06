@@ -2,92 +2,105 @@ Return-Path: <SRS0=+QIS=XB=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7364AC43331
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Sep 2019 20:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18814C43140
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Sep 2019 20:08:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3DC36208C3
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Sep 2019 20:03:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA5FC208C3
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Sep 2019 20:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567800210;
-	bh=mExBVNjiBRxzB4QV3B2LFfejWgHVMRDf7/4uEQllzqg=;
+	s=default; t=1567800508;
+	bh=rB2nTwjhUiu0Mgcy94TeRmJDmlGu0zjrG/3qdk2pnBI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GF1T29UMsTwG4RnM3Xk31NmDUupUJbj7aN21gPmZ4flRbQrvakTx6olLV+3ILX5zG
-	 FLPciQH6nbha7rFUVHIqn96fafupYgkRxqNZ/xDKnmhlalRVnvHq/kp2/I871WB+zg
-	 OocAGGZZooeM7EC/jxZm9OoW9DhevwU9j5YlD7aE=
+	b=hPG2/tGZSTW/Tejgvjxii86zmQVCxL82bmHuB1JhYIwuEVG9ai0OOoR6+YCx7E+y1
+	 dnwDC8nFEGoMJJyvzXnwL6Ri+282Ad+MLC8NIsj/xAhdEzfipnPDOnU5JigpAmYnfC
+	 ypoRbJFcVF2daEDiCZ3tHOTQ6mlZR91FdBuxWdKU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbfIFUDa (ORCPT
+        id S2394376AbfIFUIY (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 6 Sep 2019 16:03:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39808 "EHLO mail.kernel.org"
+        Fri, 6 Sep 2019 16:08:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726008AbfIFUD3 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 6 Sep 2019 16:03:29 -0400
+        id S2391991AbfIFUIX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 6 Sep 2019 16:08:23 -0400
 Received: from localhost (unknown [62.28.240.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0756320854;
-        Fri,  6 Sep 2019 20:03:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6DE1320854;
+        Fri,  6 Sep 2019 20:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567800209;
-        bh=mExBVNjiBRxzB4QV3B2LFfejWgHVMRDf7/4uEQllzqg=;
+        s=default; t=1567800503;
+        bh=rB2nTwjhUiu0Mgcy94TeRmJDmlGu0zjrG/3qdk2pnBI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rEIu4cj6eimR+r4plydg3wHpJIMOiwvK6XrHsYRaOs4dQsfN0uk78ZiL6V3YSwksz
-         e8R3pr+zjo+P+2bOo3HzNg0jPQ1CCaeFesjbTbohQVdAknaLloZE4KD1wWJ7CQbbMK
-         +NtWn7507V4tVg48WnPew19qIk4/p1cXTy3rHdoA=
-Date:   Fri, 6 Sep 2019 16:03:26 -0400
+        b=E6ErQprQExdNgpxnCv5HbF1D9e4KhGGaPR+WNG19EJyNqgqjEV8JqjEZxrfzgbC2T
+         ywk8fA31BTzcZYmcuAkzMJsxVR8dsi9wdy+Lw6+u+qhqvnGtR5IpOGjnofoSYaHSz9
+         G2hkeyNWYJWZJieeRKRneInH45rdt6XkmVkAl91c=
+Date:   Fri, 6 Sep 2019 16:08:20 -0400
 From:   Sasha Levin <sashal@kernel.org>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
+To:     longli@linuxonhyperv.com
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 0/9] Enhance the hv_vmbus driver to support hibernation
-Message-ID: <20190906200325.GD1528@sasha-vm>
-References: <1567724446-30990-1-git-send-email-decui@microsoft.com>
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-hyperv@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Long Li <longli@microsoft.com>
+Subject: Re: [Patch v4] storvsc: setup 1:1 mapping between hardware queue and
+ CPU queue
+Message-ID: <20190906200820.GE1528@sasha-vm>
+References: <1567790660-48142-1-git-send-email-longli@linuxonhyperv.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <1567724446-30990-1-git-send-email-decui@microsoft.com>
+In-Reply-To: <1567790660-48142-1-git-send-email-longli@linuxonhyperv.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Sep 05, 2019 at 11:01:14PM +0000, Dexuan Cui wrote:
->This patchset (consisting of 9 patches) was part of the v4 patchset (consisting
->of 12 patches):
->    https://lkml.org/lkml/2019/9/2/894
+On Fri, Sep 06, 2019 at 10:24:20AM -0700, longli@linuxonhyperv.com wrote:
+>From: Long Li <longli@microsoft.com>
 >
->The other 3 patches in v4 are posted in another patchset, which will go
->through the tip.git tree.
+>storvsc doesn't use a dedicated hardware queue for a given CPU queue. When
+>issuing I/O, it selects returning CPU (hardware queue) dynamically based on
+>vmbus channel usage across all channels.
 >
->All the 9 patches here are now rebased to the hyperv tree's hyperv-next branch:
->https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=hyperv-next
->, and all the 9 patches have Michael Kelley's Signed-off-by's.
+>This patch advertises num_present_cpus() as number of hardware queues. This
+>will have upper layer setup 1:1 mapping between hardware queue and CPU queue
+>and avoid unnecessary locking when issuing I/O.
 >
->Please review.
+>Signed-off-by: Long Li <longli@microsoft.com>
+>---
+>
+>Changes:
+>v2: rely on default upper layer function to map queues. (suggested by Ming Lei
+><tom.leiming@gmail.com>)
+>v3: use num_present_cpus() instead of num_online_cpus(). Hyper-v doesn't
+>support hot-add CPUs. (suggested by Michael Kelley <mikelley@microsoft.com>)
+>v4: move change logs to after Signed-of-by
+>
+> drivers/scsi/storvsc_drv.c | 3 +--
+> 1 file changed, 1 insertion(+), 2 deletions(-)
+>
+>diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+>index b89269120a2d..cf987712041a 100644
+>--- a/drivers/scsi/storvsc_drv.c
+>+++ b/drivers/scsi/storvsc_drv.c
+>@@ -1836,8 +1836,7 @@ static int storvsc_probe(struct hv_device *device,
+> 	/*
+> 	 * Set the number of HW queues we are supporting.
+> 	 */
+>-	if (stor_device->num_sc != 0)
+>-		host->nr_hw_queues = stor_device->num_sc + 1;
+>+	host->nr_hw_queues = num_present_cpus();
 
-Given that these two series depend on each other, I'd much prefer for
-them to go through one tree.
-
-But, I may be wrong, and I'm going to see if a scenario such as this
-make sense. I've queued this one to the hyperv-next, but I'll wait for
-the x86 folks to send their pull request to Linus first before I do it
-for these patches.
-
-Usually cases such as these are the exception, but for Hyper-V it seems
-to be the norm, so I'm curious to see how this will unfold.
+Just looking at the change notes for v3: why isn't this
+num_active_cpus() then? One can still isolate CPUs on hyper-v, no?
 
 --
 Thanks,
