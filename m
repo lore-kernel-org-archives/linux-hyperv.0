@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=DATE_IN_PAST_06_12,
 	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25CABC4740C
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Sep 2019 22:16:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F17C4740A
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Sep 2019 22:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E72BE21D6C
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Sep 2019 22:16:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15F9721D6C
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Sep 2019 22:18:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568067376;
-	bh=sgpC2KLS/4Rjhn2ZMgXWoTc6xu05EmuS7/jOsnoo6nI=;
+	s=default; t=1568067502;
+	bh=SD+/dPytZJTVINNwhSYESFDl7e+W+IhKtgomcj9nMj0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jBgovdJI2aa5judm89DHh5vB28BwUZdDtJ8b+P484DqkbZPtZqapRexoRTaFc/buT
-	 odXpCIjNdN7dPkSblJmEKyv5jhekAeFhAABl3k6NFKoG++12k6/2duS+KlFcKkXX7d
-	 PL1VWzLEH7hyg+sB3ITVq0a9GQh2+GMtU//sxD2w=
+	b=U3sEQ+Wts3eyQD+mf5ByWNSSe5dz+tUyj5lmOdCMTbygz767PAypZTUylGC6vu1N+
+	 IiZW7gp02TZt95elZzgx9tIUsLZraYIkZMF+W/E8JT2hTzUI5isMH31+JpMEd/Ap7E
+	 1DAe7tZDvtXkAi0eAwEXtcQj8uMNN8ZnBziD4l2g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392023AbfIIWQP (ORCPT
+        id S1731557AbfIIWSR (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 9 Sep 2019 18:16:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44996 "EHLO mail.kernel.org"
+        Mon, 9 Sep 2019 18:18:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46062 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388675AbfIIWQO (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 9 Sep 2019 18:16:14 -0400
+        id S2406323AbfIIWRG (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 9 Sep 2019 18:17:06 -0400
 Received: from sasha-vm.mshome.net (unknown [62.28.240.114])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D8A4F2171F;
-        Mon,  9 Sep 2019 22:16:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A7E5521D79;
+        Mon,  9 Sep 2019 22:17:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568067374;
-        bh=sgpC2KLS/4Rjhn2ZMgXWoTc6xu05EmuS7/jOsnoo6nI=;
+        s=default; t=1568067425;
+        bh=SD+/dPytZJTVINNwhSYESFDl7e+W+IhKtgomcj9nMj0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BLUr5BTSCND9B9C+eHv5gcT3OHgdBnaPQonF6MYtVbQSb9ui5qWf2GcM6bitQvcnd
-         3q5EPLrTgK7YoqwOKJSf0h1mb5bkUeKji4Xgsm3MPq2ORB9nHsHqjYo0nhkEiAC1XM
-         i0ZibcmY7CsMcRPTxYBPNPtAx9t1P9YagAKI4Ep8=
+        b=KvYhKFWS/2CAYw1F65A0jEayrUeC8/6KEol+azhi/a5K+0ldzNvOPukHGcZI/OS+b
+         zWi+HYU8oOuCNSohsz+BpJOtK7HGPA65Occk3lphOx/3rtdRSdD8q59WUqORpGSQfC
+         XW8ZNrXo/Mh0YHMiqm67sK10W6wTbyNUWDcH4hus=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
@@ -50,12 +50,12 @@ Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 05/12] x86/hyper-v: Fix overflow bug in fill_gva_list()
-Date:   Mon,  9 Sep 2019 11:40:45 -0400
-Message-Id: <20190909154052.30941-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 4/8] x86/hyper-v: Fix overflow bug in fill_gva_list()
+Date:   Mon,  9 Sep 2019 11:41:41 -0400
+Message-Id: <20190909154145.31263-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190909154052.30941-1-sashal@kernel.org>
-References: <20190909154052.30941-1-sashal@kernel.org>
+In-Reply-To: <20190909154145.31263-1-sashal@kernel.org>
+References: <20190909154145.31263-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -94,10 +94,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
-index e65d7fe6489f3..5208ba49c89a9 100644
+index 56c9ebac946fe..47718fff0b797 100644
 --- a/arch/x86/hyperv/mmu.c
 +++ b/arch/x86/hyperv/mmu.c
-@@ -37,12 +37,14 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
+@@ -57,12 +57,14 @@ static inline int fill_gva_list(u64 gva_list[], int offset,
  		 * Lower 12 bits encode the number of additional
  		 * pages to flush (in addition to the 'cur' page).
  		 */
