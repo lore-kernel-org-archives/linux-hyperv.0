@@ -2,81 +2,114 @@ Return-Path: <SRS0=a8RD=XW=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 704A4C388F3
-	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:29:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC196C4360C
+	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 12:05:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47D3321920
-	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:29:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE6BF21850
+	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 12:05:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569585915;
+	bh=W3Fut34UYd87648+dZlDGceVMqrfwS5SkthrB6eivls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=kSTj6NR3eHcLCXZCJS0ZwNgEK39AncS8RwW77zSO1WwKAS6twlHQ7q+v8JO6IgLQn
+	 F05rInkAKyHbTOaddThaPXxw2xyGbxsK0QkeAUPMHHuuODIAlnfBch/fk9ifqd1FWC
+	 6fc0V/Ewy1v9CMtLtWx4xKWLz4AbXm8DDjOVxZJA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727383AbfI0L2Y (ORCPT
+        id S1726809AbfI0MFP (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 27 Sep 2019 07:28:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36532 "EHLO mx1.redhat.com"
+        Fri, 27 Sep 2019 08:05:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59988 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727674AbfI0L2X (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 27 Sep 2019 07:28:23 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1726087AbfI0MFP (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 27 Sep 2019 08:05:15 -0400
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 56D743060399;
-        Fri, 27 Sep 2019 11:28:23 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-117-249.ams2.redhat.com [10.36.117.249])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 536095D9C3;
-        Fri, 27 Sep 2019 11:28:20 +0000 (UTC)
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-hyperv@vger.kernel.org,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        virtualization@lists.linux-foundation.org,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 2946B217D7;
+        Fri, 27 Sep 2019 12:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569585914;
+        bh=W3Fut34UYd87648+dZlDGceVMqrfwS5SkthrB6eivls=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ov8RUuH/Vluia5z9gTayuY3fyS6jNImzZIAwMUryKnJXG9Lz+T6yOD54+T8IViSYH
+         ws3GBi0RdsNwQHXG8jHxP0g6HRX8a0Ng5XvGjjHRQflxFecx/K2v+5LpzwWkajR52v
+         +NW866OC9BVmZ6l3ic09nwkjI57H/1UtS4EdqK10=
+Date:   Fri, 27 Sep 2019 08:05:13 -0400
+From:   Sasha Levin <sashal@kernel.org>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Jorgen Hansen <jhansen@vmware.com>
-Subject: [RFC PATCH 09/13] hv_sock: set VMADDR_CID_HOST in the hvs_remote_addr_init()
-Date:   Fri, 27 Sep 2019 13:26:59 +0200
-Message-Id: <20190927112703.17745-10-sgarzare@redhat.com>
-In-Reply-To: <20190927112703.17745-1-sgarzare@redhat.com>
-References: <20190927112703.17745-1-sgarzare@redhat.com>
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [PATCH] HID: hyperv: Add the support of hibernation
+Message-ID: <20190927120513.GM8171@sasha-vm>
+References: <1568244952-66716-1-git-send-email-decui@microsoft.com>
+ <PU1P153MB01695CEE01D65E8CD5CFA4E9BF870@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+ <nycvar.YFH.7.76.1909261521410.24354@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.1909261522380.24354@cbobk.fhfr.pm>
+ <PU1P153MB016973F30CC1A52E46D15230BF810@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Fri, 27 Sep 2019 11:28:23 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <PU1P153MB016973F30CC1A52E46D15230BF810@PU1P153MB0169.APCP153.PROD.OUTLOOK.COM>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Remote peer is always the host, so we set VMADDR_CID_HOST as
-remote CID instead of VMADDR_CID_ANY.
+On Fri, Sep 27, 2019 at 05:42:31AM +0000, Dexuan Cui wrote:
+>> From: Jiri Kosina <jikos@kernel.org>
+>> Sent: Thursday, September 26, 2019 6:23 AM
+>> To: Dexuan Cui <decui@microsoft.com>
+>>
+>> On Thu, 26 Sep 2019, Jiri Kosina wrote:
+>>
+>> > > > This patch is basically a pure Hyper-V specific change and it has a
+>> > > > build dependency on the commit 271b2224d42f ("Drivers: hv: vmbus:
+>> > > > Implement
+>> > > > suspend/resume for VSC drivers for hibernation"), which is on Sasha
+>> Levin's
+>> > > > Hyper-V tree's hyperv-next branch [ ... snipped ...]
+>> > > >
+>> > > > I request this patch should go through Sasha's tree rather than the
+>> > > > input subsystem's tree.
+>> > > >
+>> > > > Hi Jiri, Benjamin, can you please Ack?
+>> > >
+>> > > Hi Jiri, Benjamin,
+>> > > Can you please take a look at the patch?
+>> >
+>> > Hi Dexuan,
+>> >
+>> > I am planning to process it once 5.4 merge window is over and thus hid.git
+>> > is open again for 5.5 material.
+>>
+>> Ah, now I see you asked for this go through hyperv tree. For that, feel
+>> free to add
+>> 	Acked-by: Jiri Kosina <jkosina@suse.cz>
+>> Jiri Kosina
+>
+>Thanks for the Ack, Jiri!
+>
+>I have a bunch of patches, including this one, to support Linux VM's hibernation
+>when the VM runs on Hyper-V. I just feel it would be better for all of them to
+>go through the Hyper-V tree. :-)
 
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- net/vmw_vsock/hyperv_transport.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thank Dexuan, Jiri,
 
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index 4f47af2054dd..306310794522 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -186,7 +186,8 @@ static void hvs_remote_addr_init(struct sockaddr_vm *remote,
- 	static u32 host_ephemeral_port = MIN_HOST_EPHEMERAL_PORT;
- 	struct sock *sk;
- 
--	vsock_addr_init(remote, VMADDR_CID_ANY, VMADDR_PORT_ANY);
-+	/* Remote peer is always the host */
-+	vsock_addr_init(remote, VMADDR_CID_HOST, VMADDR_PORT_ANY);
- 
- 	while (1) {
- 		/* Wrap around ? */
--- 
-2.21.0
+Dexuan, I've been silently ignoring your patches for the past few weeks
+for the same reason as Jiri has mentioned. I'll pick them all up once
+the 5.4 merge window closes in a few days.
 
+--
+Thanks,
+Sasha
