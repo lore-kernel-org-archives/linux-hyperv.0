@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D51DC4360C
-	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 704A4C388F3
+	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:29:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44C3D21848
-	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:28:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47D3321920
+	for <linux-hyperv@archiver.kernel.org>; Fri, 27 Sep 2019 11:29:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727815AbfI0L2m (ORCPT
+        id S1727383AbfI0L2Y (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 27 Sep 2019 07:28:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:64723 "EHLO mx1.redhat.com"
+        Fri, 27 Sep 2019 07:28:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36532 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727835AbfI0L2l (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 27 Sep 2019 07:28:41 -0400
+        id S1727674AbfI0L2X (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 27 Sep 2019 07:28:23 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 47D5C18C428E;
-        Fri, 27 Sep 2019 11:28:41 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 56D743060399;
+        Fri, 27 Sep 2019 11:28:23 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-117-249.ams2.redhat.com [10.36.117.249])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 47A785D9C3;
-        Fri, 27 Sep 2019 11:28:38 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 536095D9C3;
+        Fri, 27 Sep 2019 11:28:20 +0000 (UTC)
 From:   Stefano Garzarella <sgarzare@redhat.com>
 To:     netdev@vger.kernel.org
 Cc:     linux-hyperv@vger.kernel.org,
@@ -41,56 +41,42 @@ Cc:     linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
         Jorgen Hansen <jhansen@vmware.com>
-Subject: [RFC PATCH 13/13] vsock: fix bind() behaviour taking care of CID
-Date:   Fri, 27 Sep 2019 13:27:03 +0200
-Message-Id: <20190927112703.17745-14-sgarzare@redhat.com>
+Subject: [RFC PATCH 09/13] hv_sock: set VMADDR_CID_HOST in the hvs_remote_addr_init()
+Date:   Fri, 27 Sep 2019 13:26:59 +0200
+Message-Id: <20190927112703.17745-10-sgarzare@redhat.com>
 In-Reply-To: <20190927112703.17745-1-sgarzare@redhat.com>
 References: <20190927112703.17745-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.62]); Fri, 27 Sep 2019 11:28:41 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Fri, 27 Sep 2019 11:28:23 +0000 (UTC)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When we are looking for a socket bound to a specific address,
-we also have to take into account the CID.
-
-This patch is useful with multi-transports support because it
-allows the binding of the same port with different CID, and
-it prevents a connection to a wrong socket bound to the same
-port, but with different CID.
+Remote peer is always the host, so we set VMADDR_CID_HOST as
+remote CID instead of VMADDR_CID_ANY.
 
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- net/vmw_vsock/af_vsock.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ net/vmw_vsock/hyperv_transport.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 750b62711b01..bffa6fa7b8e5 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -230,10 +230,16 @@ static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
- {
- 	struct vsock_sock *vsk;
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+index 4f47af2054dd..306310794522 100644
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -186,7 +186,8 @@ static void hvs_remote_addr_init(struct sockaddr_vm *remote,
+ 	static u32 host_ephemeral_port = MIN_HOST_EPHEMERAL_PORT;
+ 	struct sock *sk;
  
--	list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table)
--		if (addr->svm_port == vsk->local_addr.svm_port)
-+	list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
-+		if (vsock_addr_equals_addr(addr, &vsk->local_addr))
- 			return sk_vsock(vsk);
+-	vsock_addr_init(remote, VMADDR_CID_ANY, VMADDR_PORT_ANY);
++	/* Remote peer is always the host */
++	vsock_addr_init(remote, VMADDR_CID_HOST, VMADDR_PORT_ANY);
  
-+		if (addr->svm_port == vsk->local_addr.svm_port &&
-+		    (vsk->local_addr.svm_cid == VMADDR_CID_ANY ||
-+		     addr->svm_cid == VMADDR_CID_ANY))
-+			return sk_vsock(vsk);
-+	}
-+
- 	return NULL;
- }
- 
+ 	while (1) {
+ 		/* Wrap around ? */
 -- 
 2.21.0
 
