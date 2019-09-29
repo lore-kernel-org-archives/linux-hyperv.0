@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55320C4360C
-	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Sep 2019 17:42:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9465FC47404
+	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Sep 2019 17:43:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2CDD521835
-	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Sep 2019 17:42:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FFE1218AC
+	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Sep 2019 17:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569778927;
+	s=default; t=1569779029;
 	bh=qa0mUQv2VHTLNbiFSyncuiRPcluh1c6Y3izKC1A5WRY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HLWGnqBLfijdxX6fvm/QkReTfjayvDi0FI3/txnzAOTu+kUB0qBKsNHUuMjkaQv5p
-	 8ByeoP8AaFXmyurHE/KncdlwBExugNhku5LR2nNdfUX+Wqqd5csDSu7qkD9Isx6Nv0
-	 EgUoKgpLtXOBy5fcV71JZeBc+Zx7/tYuNh2R5zgg=
+	b=fJ55yNaq64Wih9gJSN2h+L8EcUU0u6mKwkqYh9VqI+g164GgO7d/qrSv1lH1VqBzD
+	 47iI3VbuWnUOSWfjWiJqvzKkvzIyVUJL2ZcftFtrxm3OlT3cWh3t3lVi1jlNP38mMM
+	 HuH+jYyzww62hwocKxenKbbM2n8ZS7R7vtcky7+E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729600AbfI2RmC (ORCPT
+        id S1729247AbfI2RbV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 29 Sep 2019 13:42:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44308 "EHLO mail.kernel.org"
+        Sun, 29 Sep 2019 13:31:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41794 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729925AbfI2RdJ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 29 Sep 2019 13:33:09 -0400
+        id S1729238AbfI2RbV (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 29 Sep 2019 13:31:21 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B0CC721835;
-        Sun, 29 Sep 2019 17:33:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D791D218DE;
+        Sun, 29 Sep 2019 17:31:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569778389;
+        s=default; t=1569778280;
         bh=qa0mUQv2VHTLNbiFSyncuiRPcluh1c6Y3izKC1A5WRY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JIL2nbMY9LzekjLJPQKLtPmXxDjpkfgLpZnziDG71+8ksYe7etnldgcQuavmO/VR5
-         C6KvGGnRBvoRgwHT6qqLbbJS709njK0s3zjUv69EHT+rdxgVJiG6PdfjGvmMOcNylz
-         9gSiRSeKO1PQ18ZDr0rsvZTkbDpidz7V74zulpCU=
+        b=k9QedUbUurHXTdRUQ6Nljn8O1vMgE33NShOBJ0q8AmhGV3YjPA/8ffzI/5fChNPis
+         JM6Wjv/YilIuVHKlUzTp/hGFtyc9wPRSUwf6YqSygRFwD17BJq6oBlx5u3nXIprAoD
+         aHA7uWzFeYX1asbzlbzT+ljVDa22a7U9TzUwDsVU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -52,12 +52,12 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Sasha Levin <sashal@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
         linux-hyperv@vger.kernel.org, Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH AUTOSEL 5.2 10/42] PCI: pci-hyperv: Fix build errors on non-SYSFS config
-Date:   Sun, 29 Sep 2019 13:32:09 -0400
-Message-Id: <20190929173244.8918-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 11/49] PCI: pci-hyperv: Fix build errors on non-SYSFS config
+Date:   Sun, 29 Sep 2019 13:30:11 -0400
+Message-Id: <20190929173053.8400-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190929173244.8918-1-sashal@kernel.org>
-References: <20190929173244.8918-1-sashal@kernel.org>
+In-Reply-To: <20190929173053.8400-1-sashal@kernel.org>
+References: <20190929173053.8400-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
