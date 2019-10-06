@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54A0AC10F14
-	for <linux-hyperv@archiver.kernel.org>; Sun,  6 Oct 2019 17:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80826C10F14
+	for <linux-hyperv@archiver.kernel.org>; Sun,  6 Oct 2019 17:54:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F94E2053B
-	for <linux-hyperv@archiver.kernel.org>; Sun,  6 Oct 2019 17:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59C0120673
+	for <linux-hyperv@archiver.kernel.org>; Sun,  6 Oct 2019 17:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570384039;
+	s=default; t=1570384446;
 	bh=qa0mUQv2VHTLNbiFSyncuiRPcluh1c6Y3izKC1A5WRY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BzjP4w0kWF0vP3o/v5g+Xpwy3elHn6IXMzh1gCUGtX1E5y77tFXy3YDbKqyzEVb4y
-	 I7niGtsab0lkN+FjNen4J6GCMywyYjHYbv0Ro5rFfr0Q2hO7/HK1BDgTXqhAm13Yrx
-	 Quyo+eCU+/MzIzdrNrPz8l5v88KghJ2Z6RAjVGbM=
+	b=zORoeahWYgYn2EzLu5Cd3EakSCLdUAvPkVY+aLyEyCVW5G/lUmppPBcNAsUBAkbrm
+	 IdlxImeL8zRz1dvX23mCASSsyJy1fER/+dkcDPPENiBva1YCyCbF7o4oSRJID7vwSs
+	 vAOnEODsIqLJZ+i0QzPPNshVEP/V/Jm03UZyIhVA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730546AbfJFRo4 (ORCPT
+        id S1727131AbfJFRyA (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 6 Oct 2019 13:44:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45188 "EHLO mail.kernel.org"
+        Sun, 6 Oct 2019 13:54:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730889AbfJFRou (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 6 Oct 2019 13:44:50 -0400
+        id S1730366AbfJFRg7 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 6 Oct 2019 13:36:59 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C2A420700;
-        Sun,  6 Oct 2019 17:44:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96B392080F;
+        Sun,  6 Oct 2019 17:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570383889;
+        s=default; t=1570383419;
         bh=qa0mUQv2VHTLNbiFSyncuiRPcluh1c6Y3izKC1A5WRY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=atCKIrHk8g6cJJCVmN8vbTXu6etg6yFMtujkJhu9DFu7dRKUWVfCJCn1h1AgPvCRy
-         ea3OtWl/laZF4IAUoorLwB2rUHLaXpab5w3UY6T55YcEVoLwLd6dkGedsrhFScxhDH
-         XyfPOUabX443orTXD71yIycl7KRYmMIl+ktzGXxo=
+        b=YFzfaQt9sPA+htKi2JqIREy5jAWDcSXimrPi4/NVfrOBZQi1fdBqS5H3S4JxLZMPE
+         64kS5mMp+/dGWmrOnIX6d81QSP+sR8nyCHeVLSEVLHeDrOzMkJkPFFCVX3uqfQIRsG
+         raytlzBFFWMA0UF90OwBoG6pkmjwI8WtsbQvBhHI=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -53,12 +53,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
         linux-hyperv@vger.kernel.org, Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH 5.3 091/166] PCI: pci-hyperv: Fix build errors on non-SYSFS config
-Date:   Sun,  6 Oct 2019 19:20:57 +0200
-Message-Id: <20191006171221.203974787@linuxfoundation.org>
+Subject: [PATCH 5.2 098/137] PCI: pci-hyperv: Fix build errors on non-SYSFS config
+Date:   Sun,  6 Oct 2019 19:21:22 +0200
+Message-Id: <20191006171217.062322810@linuxfoundation.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191006171212.850660298@linuxfoundation.org>
-References: <20191006171212.850660298@linuxfoundation.org>
+In-Reply-To: <20191006171209.403038733@linuxfoundation.org>
+References: <20191006171209.403038733@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
