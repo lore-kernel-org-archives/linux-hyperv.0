@@ -2,155 +2,154 @@ Return-Path: <SRS0=9DMl=YB=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DATE_IN_PAST_12_24,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6FDC4360C
-	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Oct 2019 09:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E20C9C4360C
+	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Oct 2019 12:41:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 91C7E206B6
-	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Oct 2019 09:04:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6593206B6
+	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Oct 2019 12:41:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ug0V9g2/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQ/feqhK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729790AbfJHJEH (ORCPT
+        id S1730605AbfJHMle (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 8 Oct 2019 05:04:07 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:39164 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727724AbfJHJEH (ORCPT
+        Tue, 8 Oct 2019 08:41:34 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:39012 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730332AbfJHMle (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 8 Oct 2019 05:04:07 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x988hY9d149324;
-        Tue, 8 Oct 2019 09:01:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=IGWEYxl9bWVz7EM8e449J5MsQV400hBu8xSSmkfuH5Y=;
- b=Ug0V9g2/xFiWAJ9gcJT8JwES+xE+q3crBqwiDt+3vEZjyAEiYxPiOJCW0sL7jN4S7hcH
- 9aTMssjDRoIPNznIfnd81gstSNC5WWpOb54GtDMRMvPL6lPjF96gJIyHmlwUXTAVJ4ID
- HyBRfAEfQftQ3Ew9mNEpv17J4iBx+y/9AJ+oXvGO64kseVDmURntDsqKi7XA7soTVPyL
- yWRJ50BYI2Vo+VBkcQoOPjGyx623d5GY2TzhIZ/HgcGJpYfmOdxeSBVxN9mT0JZJrtqO
- Z9+ZKU4M9UOCp/aAQqxfWSg4qkVAwvk07DSVnVnCMxAAVUOxXMxeW/CHUjM9KQE544jO ag== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 2vek4qc3ds-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 08 Oct 2019 09:01:59 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x988hvL1027599;
-        Tue, 8 Oct 2019 08:59:58 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 2vg205ur7t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 08 Oct 2019 08:59:58 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x988xtpe023595;
-        Tue, 8 Oct 2019 08:59:55 GMT
-Received: from z2.cn.oracle.com (/10.182.71.205)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 08 Oct 2019 01:59:55 -0700
-From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     vkuznets@redhat.com, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
-        sthemmin@microsoft.com, sashal@kernel.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, pbonzini@redhat.com,
-        rkrcmar@redhat.com, sean.j.christopherson@intel.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        boris.ostrovsky@oracle.com, jgross@suse.com,
-        sstabellini@kernel.org, peterz@infradead.org,
-        Zhenzhong Duan <zhenzhong.duan@oracle.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v5 1/5] Revert "KVM: X86: Fix setup the virt_spin_lock_key before static key get initialized"
-Date:   Mon,  7 Oct 2019 17:04:27 +0800
-Message-Id: <1570439071-9814-2-git-send-email-zhenzhong.duan@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1570439071-9814-1-git-send-email-zhenzhong.duan@oracle.com>
-References: <1570439071-9814-1-git-send-email-zhenzhong.duan@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9403 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910080089
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9403 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910080089
+        Tue, 8 Oct 2019 08:41:34 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v17so2959586wml.4;
+        Tue, 08 Oct 2019 05:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=IX48zcw0hHbQ+qkGCrH/k9CNB0tesSY9qolmQpCaa38=;
+        b=kQ/feqhKZqOhEiMl9EqpWN3ZBcmBBS5KZKhjLd9WrsivqVclKascK3kYXKIcsU/cYL
+         7Gr+h/pY5FRQXLcOFyUbeg9WMQLwIEZanYZ227fQQx/JFTBYaOzVpdxcyo3SLV2uy+hi
+         T791PwKBRrGoMF1VptlWAewkQTpfTptEFFfAGDsxxVnOHKy61jmHWPFRvs3300cfbtWq
+         cw5MDItifsTCnX3ZUX7A/j0ejrabrl/dmCtLqY/jo+BSTHGafV+cQPXgSio9hUtyHkyp
+         N6C0iaDbsawugInLQwA5GBAeXN39KKB1n3wk7HHZFkL0fxYivwomcTRtG3UMv2unDDji
+         VYYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=IX48zcw0hHbQ+qkGCrH/k9CNB0tesSY9qolmQpCaa38=;
+        b=NaZgC7Kxj95ACBZRkTZymKUvVWlUcaIqkx4AJxJ41F4O6uy8dmSt8vL8Za83u+KX/b
+         KrgV2iySqcHJ+3dLOKk/PUfwtEPxy6AUZ+nddsQSlYhOq1ouzmkB2n+6RhCB4qMzN7Vg
+         F6shmPz0FZX8ZqFnPwYKNwqqo78E33hlfH0I5dJP8HQt3RgC9O4RVL3+bEefVIw04W3w
+         1WnRv8Sb1NO+a8HkJ4pL1Ys+wbDJ3Sah50tsOtcrYoqIM4X102O3NN1auS9ODFpXoHxC
+         wn2vFe8LHmYuQrCitZKLH/F1Vq8iUT+Goegq/ckIz7iQF0kkO+so7PzBKE/qavA/iAH0
+         kA7Q==
+X-Gm-Message-State: APjAAAXDa6MysbBcFd22/n0OtmCrBxAyJqY5N38oPfGCN5EuTkEYp+v0
+        gobJjrH0sIDSwW56cn67ssk=
+X-Google-Smtp-Source: APXvYqzzN3+65OFEz9NJyk6+7y5N2iq7FEG+F5NSQb4S8qN+rFA2TF9Zp0DHZS0bWsSWO96xq1TIUA==
+X-Received: by 2002:a7b:cd95:: with SMTP id y21mr3732775wmj.53.1570538491517;
+        Tue, 08 Oct 2019 05:41:31 -0700 (PDT)
+Received: from andrea.guest.corp.microsoft.com ([2a01:110:8012:1012:c582:959a:923b:9ec])
+        by smtp.gmail.com with ESMTPSA id w5sm19765471wrs.34.2019.10.08.05.41.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 05:41:30 -0700 (PDT)
+Date:   Tue, 8 Oct 2019 14:41:24 +0200
+From:   Andrea Parri <parri.andrea@gmail.com>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>
+Subject: Re: [PATCH 1/2] Drivers: hv: vmbus: Introduce table of VMBus
+ protocol versions
+Message-ID: <20191008124052.GA11245@andrea.guest.corp.microsoft.com>
+References: <20191007163115.26197-1-parri.andrea@gmail.com>
+ <20191007163115.26197-2-parri.andrea@gmail.com>
+ <87eezo1nrr.fsf@vitty.brq.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87eezo1nrr.fsf@vitty.brq.redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This reverts commit 34226b6b70980a8f81fff3c09a2c889f77edeeff.
+> > @@ -244,21 +234,18 @@ int vmbus_connect(void)
+> >  	 * version.
+> >  	 */
+> >  
+> > -	version = VERSION_CURRENT;
+> > +	for (i = 0; ; i++) {
+> > +		version = vmbus_versions[i];
+> > +		if (version == VERSION_INVAL)
+> > +			goto cleanup;
+> 
+> If you use e.g. ARRAY_SIZE() you can get rid of VERSION_INVAL - and make
+> this code look more natural.
 
-Commit 8990cac6e5ea ("x86/jump_label: Initialize static branching
-early") adds jump_label_init() call in setup_arch() to make static
-keys initialized early, so we could use the original simpler code
-again.
+Thank you for pointing this out, Vitaly.
 
-The similar change for XEN is in commit 090d54bcbc54 ("Revert
-"x86/paravirt: Set up the virt_spin_lock_key after static keys get
-initialized"")
+IIUC, you're suggesting that I do:
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Radim Krcmar <rkrcmar@redhat.com>
-Cc: Sean Christopherson <sean.j.christopherson@intel.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Cc: Jim Mattson <jmattson@google.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
----
- arch/x86/kernel/kvm.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+	for (i = 0; i < ARRAY_SIZE(vmbus_versions); i++) {
+		version = vmbus_versions[i];
 
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index e820568..3bc6a266 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -527,13 +527,6 @@ static void kvm_smp_send_call_func_ipi(const struct cpumask *mask)
- 	}
- }
- 
--static void __init kvm_smp_prepare_cpus(unsigned int max_cpus)
--{
--	native_smp_prepare_cpus(max_cpus);
--	if (kvm_para_has_hint(KVM_HINTS_REALTIME))
--		static_branch_disable(&virt_spin_lock_key);
--}
--
- static void __init kvm_smp_prepare_boot_cpu(void)
- {
- 	/*
-@@ -633,7 +626,6 @@ static void __init kvm_guest_init(void)
- 		apic_set_eoi_write(kvm_guest_apic_eoi_write);
- 
- #ifdef CONFIG_SMP
--	smp_ops.smp_prepare_cpus = kvm_smp_prepare_cpus;
- 	smp_ops.smp_prepare_boot_cpu = kvm_smp_prepare_boot_cpu;
- 	if (kvm_para_has_feature(KVM_FEATURE_PV_SCHED_YIELD) &&
- 	    !kvm_para_has_hint(KVM_HINTS_REALTIME) &&
-@@ -835,8 +827,10 @@ void __init kvm_spinlock_init(void)
- 	if (!kvm_para_has_feature(KVM_FEATURE_PV_UNHALT))
- 		return;
- 
--	if (kvm_para_has_hint(KVM_HINTS_REALTIME))
-+	if (kvm_para_has_hint(KVM_HINTS_REALTIME)) {
-+		static_branch_disable(&virt_spin_lock_key);
- 		return;
-+	}
- 
- 	/* Don't use the pvqspinlock code if there is only 1 vCPU. */
- 	if (num_possible_cpus() == 1)
--- 
-1.8.3.1
+		ret = vmbus_negotiate_version(msginfo, version);
+		if (ret == -ETIMEDOUT)
+			goto cleanup;
 
+		if (vmbus_connection.conn_state == CONNECTED)
+			break;
+	}
+
+	if (vmbus_connection.conn_state != CONNECTED)
+		break;
+
+and that I remove VERSION_INVAL from vmbus_versions, yes?
+
+Looking at the uses of VERSION_INVAL, I find one remaining occurrence
+of this macro in vmbus_bus_resume(), which does:
+
+	if (vmbus_proto_version == VERSION_INVAL ||
+	    vmbus_proto_version == 0) {
+		...
+	}
+
+TBH I'm looking at vmbus_bus_resume() and vmbus_bus_suspend() for the
+first time and I'm not sure about how to change such check yet... any
+suggestions?
+
+Mmh, I see that vmbus_bus_resume() and vmbus_bus_suspend() can access
+vmbus_connection.conn_state: can such accesses race with a concurrent
+vmbus_connect()?
+
+Thanks,
+  Andrea
+
+
+> >  
+> > -	do {
+> >  		ret = vmbus_negotiate_version(msginfo, version);
+> >  		if (ret == -ETIMEDOUT)
+> >  			goto cleanup;
+> >  
+> >  		if (vmbus_connection.conn_state == CONNECTED)
+> >  			break;
+> > -
+> > -		version = vmbus_get_next_version(version);
+> > -	} while (version != VERSION_INVAL);
+> > -
+> > -	if (version == VERSION_INVAL)
+> > -		goto cleanup;
+> > +	}
+> >  
+> >  	vmbus_proto_version = version;
+> >  	pr_info("Vmbus version:%d.%d\n",
