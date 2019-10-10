@@ -6,99 +6,109 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C99E3C4360C
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Oct 2019 13:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AFEC4360C
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Oct 2019 14:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A6A2A20679
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Oct 2019 13:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5569206B6
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Oct 2019 14:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387794AbfJJNEn (ORCPT
+        id S1726088AbfJJO3i (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 10 Oct 2019 09:04:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37960 "EHLO mx1.redhat.com"
+        Thu, 10 Oct 2019 10:29:38 -0400
+Received: from mga05.intel.com ([192.55.52.43]:13781 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387469AbfJJNEn (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 10 Oct 2019 09:04:43 -0400
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com [209.85.221.70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1BE28C054C58
-        for <linux-hyperv@vger.kernel.org>; Thu, 10 Oct 2019 13:04:43 +0000 (UTC)
-Received: by mail-wr1-f70.google.com with SMTP id i2so2752251wrv.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 10 Oct 2019 06:04:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2MtH4zvS+teTx0r1qM2asg1XxOF0qUFTTboopmawOE4=;
-        b=FoqnibWGMLfo+xnbJb7/VM0FohfpKz+o+SvZvUUKqb6/fjlIk7C3tpXnlVq91PK59P
-         bxnJCz+x4Je9nYe2nK0lltBjhvRZTjJTivdXdy3wmz2KjKT8wnO258igT5JrYgwggk+U
-         H8UkPSSm/U2ZLv+CDZPBAnm/Q3ftAqSHfH17+VgmFmNSe3BlcYVF58DIalPlL6Eouvey
-         ok5sgU21uotW22HwZHUBIWiTicVt6E/OyVy3gbaCrzw+ey3jv4Ug8RLRZpP3TXk/+Hx4
-         3zP/ayB/MxWHdGQkirns4yM3R0gJcXKxbOtpPQVMXHRuQNUrBMUm5XZDyP/YM8uczbEo
-         Femw==
-X-Gm-Message-State: APjAAAVqAw7z2fPueHGTEXh+M/HAJvSYV2KnEZ5j1mV7x/XBsUnuVFBB
-        CUmrdwSuitwXINVCiepIG/Q/kzNMZocqMLt2Gu6a+vGJPZ8Mwsn7rNrVlmFtZd/CpUf1bVFwKoR
-        PVYTGIafbO/c3Lgd9bbXP9VUF
-X-Received: by 2002:a05:600c:2549:: with SMTP id e9mr7070287wma.74.1570712681808;
-        Thu, 10 Oct 2019 06:04:41 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqyKWS9Yagf4LaasayMPOMgQigEaVeXAInUpVNhLSOAsaDv27fYHGGISL/SEaullOo401iX5OQ==
-X-Received: by 2002:a05:600c:2549:: with SMTP id e9mr7070261wma.74.1570712681580;
-        Thu, 10 Oct 2019 06:04:41 -0700 (PDT)
-Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it. [79.52.200.174])
-        by smtp.gmail.com with ESMTPSA id r7sm4504378wrt.28.2019.10.10.06.04.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 06:04:40 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 15:04:38 +0200
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     Stefan Hajnoczi <stefanha@gmail.com>
-Cc:     netdev@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        linux-hyperv@vger.kernel.org,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jorgen Hansen <jhansen@vmware.com>
-Subject: Re: [RFC PATCH 11/13] vsock: add 'transport_hg' to handle g2h\h2g
- transports
-Message-ID: <20191010130438.3hbv33fgslmlprtf@steredhat>
-References: <20190927112703.17745-1-sgarzare@redhat.com>
- <20190927112703.17745-12-sgarzare@redhat.com>
- <20191009131643.GL5747@stefanha-x1.localdomain>
+        id S1726007AbfJJO3i (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 10 Oct 2019 10:29:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2019 07:29:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,280,1566889200"; 
+   d="scan'208";a="198370364"
+Received: from svsearig-mobl.amr.corp.intel.com (HELO [10.251.1.55]) ([10.251.1.55])
+  by orsmga006.jf.intel.com with ESMTP; 10 Oct 2019 07:29:36 -0700
+Subject: Re: [PATCH] mm/resource: Move child to new resource when release mem
+ region.
+To:     lantianyu1986@gmail.com, dan.j.williams@intel.com,
+        dave.hansen@linux.intel.com, mingo@kernel.org, mpe@ellerman.id.au,
+        pasha.tatashin@soleen.com, osalvador@suse.de,
+        richardw.yang@linux.intel.com, Tianyu.Lan@microsoft.com,
+        christophe.leroy@c-s.fr, bp@suse.de, rdunlap@infradead.org,
+        michael.h.kelley@microsoft.com, kys@microsoft.com,
+        sashal@kernel.org
+Cc:     linux-kernel@vger.kernel.org, vkuznets@redhat.com,
+        linux-hyperv@vger.kernel.org
+References: <20191010072856.20079-1-Tianyu.Lan@microsoft.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+Message-ID: <77e08231-0687-8d8d-0faf-c490a8b510d4@intel.com>
+Date:   Thu, 10 Oct 2019 07:29:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191009131643.GL5747@stefanha-x1.localdomain>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20191010072856.20079-1-Tianyu.Lan@microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 02:16:43PM +0100, Stefan Hajnoczi wrote:
-> On Fri, Sep 27, 2019 at 01:27:01PM +0200, Stefano Garzarella wrote:
-> > VMCI transport provides both g2h and h2g behaviors in a single
-> > transport.
-> > We are able to set (or not) the g2h behavior, detecting if we
-> > are in a VMware guest (or not), but the h2g feature is always set.
-> > This prevents to load other h2g transports while we are in a
-> > VMware guest.
-> 
-> In the vhost_vsock.ko case we only register the h2g transport when
-> userspace has loaded the module (by opening /dev/vhost-vsock).
-> 
-> VMCI has something kind of similar: /dev/vmci and the
-> vmci_host_active_users counter.  Maybe we can use this instead of
-> introducing the transport_hg concept?
+On 10/10/19 12:28 AM, lantianyu1986@gmail.com wrote:
+> When release mem region, old mem region may be splited to
+> two regions. Current allocate new struct resource for high
+> end mem region but not move child resources whose ranges are
+> in the high end range to new resource. When adjust old mem
+> region's range, adjust_resource() detects child region's range
+> is out of new range and return error. Move child resources to
+> high end resource before adjusting old mem range.
 
-Yes, maybe we can register the host in the vmci_host_do_init_context().
+From the comment, it appears the old code intended to have the behavior
+that you are changing.  Could you explain _why_ this has become a
+problem for you?
 
-I also don't like a lot the transport_hg concept, so I'll try to found
-an alternative.
-
-Thanks,
-Stefano
