@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B7E2C4CECE
-	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:22:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD56BECE58C
+	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:22:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 32E6020873
-	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:22:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B53D620873
+	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:22:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="HqLer+gB"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="QHutwQe0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727429AbfJOBWC (ORCPT
+        id S1727439AbfJOBWJ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Oct 2019 21:22:02 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:43214 "EHLO
+        Mon, 14 Oct 2019 21:22:09 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43332 "EHLO
         userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727011AbfJOBWB (ORCPT
+        with ESMTP id S1727011AbfJOBWJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Oct 2019 21:22:01 -0400
+        Mon, 14 Oct 2019 21:22:09 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1Engi020488;
-        Tue, 15 Oct 2019 01:20:05 GMT
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1ENab020114;
+        Tue, 15 Oct 2019 01:19:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=qaL3Wn/zckv6LbHPeF9PDceDQSnByrsojCND7DKPF+c=;
- b=HqLer+gByhJIIhBjiqUZrkNPYDgTnjFixD7gfaldOPGtnV1GsPPTiGsHJjFX5J1JuyWI
- Lcq7JPzx57/URxOaw4wAajAdHu8SsSHJgMCEGFHpyNn+Qwc3aDgpe7ACgAiPnVr7WNub
- RT+vnAfN+ERBY6TRSve+xjUwKHTxqo4FoqnvQ8yKFEfes3wXGQ5cUHdHLWfoqCoFtYzq
- HbxcaeOrxT0pPHD+f2V2XVaRGe0K1reR2wix1blcCIazW3B84usp7Q+JANSVycC4kdKK
- noxmFNr8uPvqVck4TR8H0FOLHrt8JsxstMZyxcjrj9DOlVrl8tlgYVqf3hel7ioEAMOC qw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 2vk7fr48rd-1
+ bh=Rba9xErGxwUOOcVXLsuAqyh9LPvNTmKNCGcbMviKams=;
+ b=QHutwQe0QynFPLhWhntUiulAcR/rIgytbG17sJdB6uPK69w3U3jziPJT/eSRzd2JvWq9
+ eH54OB/MILbxuE3pREaHHkzUHgjBM6UMVdrA3trCK2pmyJizcPFrbqQawsml27Bi44Nv
+ 0brq+4WujMm7g8AZLcBUIPX0BqDWCl1zBFF+df5M0ujXvRa/okbm+l0Kh+ZV8KzXWsr+
+ tyiqG7hn2zoM+Ir+u9b52Vf2wLuvQ8scgqe51DVl7b7WQcvuGbfA8fcuXNksJ/NsL14M
+ 68yvBwv2JxO7tnMYT8ggRbSBVECpqrzVjaD7p1SPj0F1ixObGu5sj12dKNVR7rarN0lx 0A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 2vk7fr48qa-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 15 Oct 2019 01:20:05 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1IX51083193;
-        Tue, 15 Oct 2019 01:20:04 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 2vkry7jykt-1
+        Tue, 15 Oct 2019 01:19:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1IYj5129321;
+        Tue, 15 Oct 2019 01:19:46 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 2vks07txqb-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 15 Oct 2019 01:20:04 +0000
+        Tue, 15 Oct 2019 01:19:46 +0000
 Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9F1K38c011482;
-        Tue, 15 Oct 2019 01:20:03 GMT
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9F1Jdn5030242;
+        Tue, 15 Oct 2019 01:19:41 GMT
 Received: from z2.cn.oracle.com (/10.182.70.159)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 14 Oct 2019 18:20:02 -0700
+        with ESMTP ; Mon, 14 Oct 2019 18:19:39 -0700
 From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     vkuznets@redhat.com, linux-hyperv@vger.kernel.org,
@@ -62,11 +62,10 @@ Cc:     vkuznets@redhat.com, linux-hyperv@vger.kernel.org,
         boris.ostrovsky@oracle.com, jgross@suse.com,
         sstabellini@kernel.org, peterz@infradead.org,
         Zhenzhong Duan <zhenzhong.duan@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v6 5/5] x86/hyperv: Mark "hv_nopvspin" parameter obsolete
-Date:   Tue, 15 Oct 2019 09:19:27 +0800
-Message-Id: <1571102367-31595-6-git-send-email-zhenzhong.duan@oracle.com>
+Subject: [PATCH v6 1/5] Revert "KVM: X86: Fix setup the virt_spin_lock_key before static key get initialized"
+Date:   Tue, 15 Oct 2019 09:19:23 +0800
+Message-Id: <1571102367-31595-2-git-send-email-zhenzhong.duan@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1571102367-31595-1-git-send-email-zhenzhong.duan@oracle.com>
 References: <1571102367-31595-1-git-send-email-zhenzhong.duan@oracle.com>
@@ -86,70 +85,72 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Map "hv_nopvspin" to "nopvspin".
+This reverts commit 34226b6b70980a8f81fff3c09a2c889f77edeeff.
+
+Commit 8990cac6e5ea ("x86/jump_label: Initialize static branching
+early") adds jump_label_init() call in setup_arch() to make static
+keys initialized early, so we could use the original simpler code
+again.
+
+The similar change for XEN is in commit 090d54bcbc54 ("Revert
+"x86/paravirt: Set up the virt_spin_lock_key after static keys get
+initialized"")
 
 Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Sasha Levin <sashal@kernel.org>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Radim Krcmar <rkrcmar@redhat.com>
+Cc: Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>
+Cc: Jim Mattson <jmattson@google.com>
+Cc: Joerg Roedel <joro@8bytes.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: "H. Peter Anvin" <hpa@zytor.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 6 +++++-
- arch/x86/hyperv/hv_spinlock.c                   | 4 ++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ arch/x86/kernel/kvm.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 85059dd..78648bb 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1436,6 +1436,10 @@
- 	hv_nopvspin	[X86,HYPER_V] Disables the paravirt spinlock optimizations
- 				      which allow the hypervisor to 'idle' the
- 				      guest on lock contention.
-+				      This parameter is obsoleted by "nopvspin"
-+				      parameter, which has equivalent effect for
-+				      HYPER_V platform.
-+
- 
- 	keep_bootcon	[KNL]
- 			Do not unregister boot console at start. This is only
-@@ -5335,7 +5339,7 @@
- 			as generic guest with no PV drivers. Currently support
- 			XEN HVM, KVM, HYPER_V and VMWARE guest.
- 
--	nopvspin	[X86,XEN,KVM]
-+	nopvspin	[X86,XEN,KVM,HYPER_V]
- 			Disables the qspinlock slow path using PV optimizations
- 			which allow the hypervisor to 'idle' the guest on lock
- 			contention.
-diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
-index 07f21a0..47c7d6c 100644
---- a/arch/x86/hyperv/hv_spinlock.c
-+++ b/arch/x86/hyperv/hv_spinlock.c
-@@ -64,6 +64,9 @@ __visible bool hv_vcpu_is_preempted(int vcpu)
- 
- void __init hv_init_spinlocks(void)
- {
-+	if (nopvspin)
-+		hv_pvspin = false;
-+
- 	if (!hv_pvspin || !apic ||
- 	    !(ms_hyperv.hints & HV_X64_CLUSTER_IPI_RECOMMENDED) ||
- 	    !(ms_hyperv.features & HV_X64_MSR_GUEST_IDLE_AVAILABLE)) {
-@@ -82,6 +85,7 @@ void __init hv_init_spinlocks(void)
- 
- static __init int hv_parse_nopvspin(char *arg)
- {
-+	pr_notice("\"hv_nopvspin\" is deprecated, please use \"nopvspin\" instead\n");
- 	hv_pvspin = false;
- 	return 0;
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index e820568..3bc6a266 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -527,13 +527,6 @@ static void kvm_smp_send_call_func_ipi(const struct cpumask *mask)
+ 	}
  }
+ 
+-static void __init kvm_smp_prepare_cpus(unsigned int max_cpus)
+-{
+-	native_smp_prepare_cpus(max_cpus);
+-	if (kvm_para_has_hint(KVM_HINTS_REALTIME))
+-		static_branch_disable(&virt_spin_lock_key);
+-}
+-
+ static void __init kvm_smp_prepare_boot_cpu(void)
+ {
+ 	/*
+@@ -633,7 +626,6 @@ static void __init kvm_guest_init(void)
+ 		apic_set_eoi_write(kvm_guest_apic_eoi_write);
+ 
+ #ifdef CONFIG_SMP
+-	smp_ops.smp_prepare_cpus = kvm_smp_prepare_cpus;
+ 	smp_ops.smp_prepare_boot_cpu = kvm_smp_prepare_boot_cpu;
+ 	if (kvm_para_has_feature(KVM_FEATURE_PV_SCHED_YIELD) &&
+ 	    !kvm_para_has_hint(KVM_HINTS_REALTIME) &&
+@@ -835,8 +827,10 @@ void __init kvm_spinlock_init(void)
+ 	if (!kvm_para_has_feature(KVM_FEATURE_PV_UNHALT))
+ 		return;
+ 
+-	if (kvm_para_has_hint(KVM_HINTS_REALTIME))
++	if (kvm_para_has_hint(KVM_HINTS_REALTIME)) {
++		static_branch_disable(&virt_spin_lock_key);
+ 		return;
++	}
+ 
+ 	/* Don't use the pvqspinlock code if there is only 1 vCPU. */
+ 	if (num_possible_cpus() == 1)
 -- 
 1.8.3.1
 
