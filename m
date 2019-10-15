@@ -1,327 +1,143 @@
-Return-Path: <SRS0=fol1=YH=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=J8zZ=YI=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3ECC4CECE
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Oct 2019 23:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB46ECE58C
+	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:21:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72511217F9
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Oct 2019 23:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571094142;
-	bh=8d8h/+mvd5XsMBxMGLCeuGPUppFk4H1Hca/+Tehjdrg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=srZdpUIqS2iB84y2eHeI2lnID5gCC9aK9j61zPHjPd1VvVpr8SY1ykwhZbh3dE1+T
-	 lv6zGiyID9qkzUqb3T+KFA7MkQacupA2tu9N/5Ukc7Pq06c1uCidgM6qm0fJuCE4lu
-	 haCZdrFfqLV4naxe5NYNVVOpbGiCRVejOLy9MtiY=
+	by mail.kernel.org (Postfix) with ESMTP id 3105D20873
+	for <linux-hyperv@archiver.kernel.org>; Tue, 15 Oct 2019 01:21:27 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fZKvlsdV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726339AbfJNXCI (ORCPT
+        id S1727334AbfJOBV0 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Oct 2019 19:02:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52386 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726366AbfJNXCF (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Oct 2019 19:02:05 -0400
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C27C21835;
-        Mon, 14 Oct 2019 23:02:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571094124;
-        bh=8d8h/+mvd5XsMBxMGLCeuGPUppFk4H1Hca/+Tehjdrg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=il/L9pC+73O9Ib+OPXA+++8AwZ6uJFWVcbgIOplFlrFLXw3AzdxBfqDrPgtFl5ia3
-         I0Hu2EH8zAgSq0dG3rlra3HW3/2eF908RpHkqeYilGrmcOek37GNo+9Zov6eNCLxA/
-         GePRY+f3zR2EE3CP78MI7Jp9K2A5bK0+JQGwuctw=
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>, olaf@aepfle.de,
-        apw@canonical.com, jasowang@redhat.com, vkuznets@redhat.com,
-        marcelo.cerri@canonical.com, jackm@mellanox.com,
-        linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        driverdev-devel@linuxdriverproject.org,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH 5/7] PCI/PM: Make power management op coding style consistent
-Date:   Mon, 14 Oct 2019 18:00:14 -0500
-Message-Id: <20191014230016.240912-6-helgaas@kernel.org>
-X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
-In-Reply-To: <20191014230016.240912-1-helgaas@kernel.org>
-References: <20191014230016.240912-1-helgaas@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 14 Oct 2019 21:21:26 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42718 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727225AbfJOBV0 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 14 Oct 2019 21:21:26 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1EY4r020318;
+        Tue, 15 Oct 2019 01:19:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2019-08-05;
+ bh=og0nReRT1S8qBVN5P7l1DoHNjDEWAEndMK6ePaGXWpk=;
+ b=fZKvlsdVEtC4diYLDfLOjEQp5brudI20L4g8Rd/9prh0hvl0la2YUoJDGTsMr1BJ7M+l
+ g6QUGaC/uSFLtRe61VKLmtmVRwhLJsfEpiwhty5i3RCxIguFawBrVe9cq67vG6xiBIxl
+ RdIglSeCvNYwB3BRDbIU6sosF06L8+32tIADlVCJAQQNaPCvRUhDY4ZlDwZHsjIQOa1t
+ FjnZMmNnIKrOa63MhW2ydwXuHcrwzM3zo3QopzNzbAty6uMHYCwRHYp1UQblr/dfH5+X
+ z1Cy8kK2jiGCL+wphe+tJmduFe+qkAUCOAc5bcq0lXXKoqTi6AhtPo+4cuKx57TV/0LG CA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2vk7fr48q5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 01:19:43 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9F1J6jU152922;
+        Tue, 15 Oct 2019 01:19:42 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 2vkrbkx3jn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 15 Oct 2019 01:19:42 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9F1JYme011219;
+        Tue, 15 Oct 2019 01:19:40 GMT
+Received: from z2.cn.oracle.com (/10.182.70.159)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 14 Oct 2019 18:19:33 -0700
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     vkuznets@redhat.com, linux-hyperv@vger.kernel.org,
+        kvm@vger.kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, sashal@kernel.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, pbonzini@redhat.com,
+        rkrcmar@redhat.com, sean.j.christopherson@intel.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        boris.ostrovsky@oracle.com, jgross@suse.com,
+        sstabellini@kernel.org, peterz@infradead.org,
+        Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Subject: [PATCH v6 0/5] Add a unified parameter "nopvspin"
+Date:   Tue, 15 Oct 2019 09:19:22 +0800
+Message-Id: <1571102367-31595-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910150010
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9410 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910150010
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+There are cases folks want to disable spinlock optimization for
+debug/test purpose. Xen and hyperv already have parameters "xen_nopvspin"
+and "hv_nopvspin" to support that, but kvm doesn't.
 
-Some of the power management ops use this style:
+The first patch adds that feature to KVM guest with "nopvspin".
 
-  struct device_driver *drv = dev->driver;
-  if (drv && drv->pm && drv->pm->prepare(dev))
-    drv->pm->prepare(dev);
+For compatibility reason original parameters "xen_nopvspin" and
+"hv_nopvspin" are retained and marked obsolete.
 
-while others use this:
+v6:
+PATCH1: add Reviewed-by                                  [Vitaly Kuznetsov]
+PATCH2: change 'pv' to 'PV', add Reviewed-by             [Vitaly Kuznetsov]
+PATCH3: refactor 'if' branch in kvm_spinlock_init()      [Vitaly Kuznetsov]
 
-  const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-  if (pm && pm->runtime_resume)
-    pm->runtime_resume(dev);
+v5:
+PATCH1: new patch to revert a currently unnecessory commit,
+        code is simpler a bit after that change.         [Boris Ostrovsky]
+PATCH3: fold 'if' statement,add comments on virt_spin_lock_key,
+        reorder with PATCH2 to better reflect dependency                               
+PATCH4: fold 'if' statement, add Reviewed-by             [Boris Ostrovsky]
+PATCH5: add Reviewed-by                                  [Michael Kelley]
 
-Convert the first style to the second so they're all consistent.  Remove
-local "error" variables when unnecessary.  No functional change intended.
+v4:
+PATCH1: use variable name nopvspin instead of pvspin and
+        defined it as __initdata, changed print message,
+        updated patch description                     [Sean Christopherson]
+PATCH2: remove Suggested-by, use "kvm-guest:" prefix  [Sean Christopherson]
+PATCH3: make variable nopvsin and xen_pvspin coexist
+        remove Reviewed-by due to code change         [Sean Christopherson]
+PATCH4: make variable nopvsin and hv_pvspin coexist   [Sean Christopherson]
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
----
- drivers/pci/pci-driver.c | 76 +++++++++++++++++++---------------------
- 1 file changed, 36 insertions(+), 40 deletions(-)
+v3:
+PATCH2: Fix indentation
 
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index 55acb658273f..abbf5c39cb9c 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -679,11 +679,11 @@ static bool pci_has_legacy_pm_support(struct pci_dev *pci_dev)
- 
- static int pci_pm_prepare(struct device *dev)
- {
--	struct device_driver *drv = dev->driver;
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
- 
--	if (drv && drv->pm && drv->pm->prepare) {
--		int error = drv->pm->prepare(dev);
-+	if (pm && pm->prepare) {
-+		int error = pm->prepare(dev);
- 		if (error < 0)
- 			return error;
- 
-@@ -917,8 +917,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
- static int pci_pm_resume_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
--	struct device_driver *drv = dev->driver;
--	int error = 0;
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
- 
- 	if (dev_pm_may_skip_resume(dev))
- 		return 0;
-@@ -946,17 +945,16 @@ static int pci_pm_resume_noirq(struct device *dev)
- 	if (pci_has_legacy_pm_support(pci_dev))
- 		return pci_legacy_resume_early(dev);
- 
--	if (drv && drv->pm && drv->pm->resume_noirq)
--		error = drv->pm->resume_noirq(dev);
-+	if (pm && pm->resume_noirq)
-+		return pm->resume_noirq(dev);
- 
--	return error;
-+	return 0;
- }
- 
- static int pci_pm_resume(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
--	int error = 0;
- 
- 	/*
- 	 * This is necessary for the suspend error path in which resume is
-@@ -972,12 +970,12 @@ static int pci_pm_resume(struct device *dev)
- 
- 	if (pm) {
- 		if (pm->resume)
--			error = pm->resume(dev);
-+			return pm->resume(dev);
- 	} else {
- 		pci_pm_reenable_device(pci_dev);
- 	}
- 
--	return error;
-+	return 0;
- }
- 
- #else /* !CONFIG_SUSPEND */
-@@ -1038,16 +1036,16 @@ static int pci_pm_freeze(struct device *dev)
- static int pci_pm_freeze_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
--	struct device_driver *drv = dev->driver;
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
- 
- 	if (pci_has_legacy_pm_support(pci_dev))
- 		return pci_legacy_suspend_late(dev, PMSG_FREEZE);
- 
--	if (drv && drv->pm && drv->pm->freeze_noirq) {
-+	if (pm && pm->freeze_noirq) {
- 		int error;
- 
--		error = drv->pm->freeze_noirq(dev);
--		suspend_report_result(drv->pm->freeze_noirq, error);
-+		error = pm->freeze_noirq(dev);
-+		suspend_report_result(pm->freeze_noirq, error);
- 		if (error)
- 			return error;
- 	}
-@@ -1066,8 +1064,8 @@ static int pci_pm_freeze_noirq(struct device *dev)
- static int pci_pm_thaw_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
--	struct device_driver *drv = dev->driver;
--	int error = 0;
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-+	int error;
- 
- 	if (pcibios_pm_ops.thaw_noirq) {
- 		error = pcibios_pm_ops.thaw_noirq(dev);
-@@ -1091,10 +1089,10 @@ static int pci_pm_thaw_noirq(struct device *dev)
- 	if (pci_has_legacy_pm_support(pci_dev))
- 		return pci_legacy_resume_early(dev);
- 
--	if (drv && drv->pm && drv->pm->thaw_noirq)
--		error = drv->pm->thaw_noirq(dev);
-+	if (pm && pm->thaw_noirq)
-+		return pm->thaw_noirq(dev);
- 
--	return error;
-+	return 0;
- }
- 
- static int pci_pm_thaw(struct device *dev)
-@@ -1165,24 +1163,24 @@ static int pci_pm_poweroff_late(struct device *dev)
- static int pci_pm_poweroff_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
--	struct device_driver *drv = dev->driver;
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
- 
- 	if (dev_pm_smart_suspend_and_suspended(dev))
- 		return 0;
- 
--	if (pci_has_legacy_pm_support(to_pci_dev(dev)))
-+	if (pci_has_legacy_pm_support(pci_dev))
- 		return pci_legacy_suspend_late(dev, PMSG_HIBERNATE);
- 
--	if (!drv || !drv->pm) {
-+	if (!pm) {
- 		pci_fixup_device(pci_fixup_suspend_late, pci_dev);
- 		return 0;
- 	}
- 
--	if (drv->pm->poweroff_noirq) {
-+	if (pm->poweroff_noirq) {
- 		int error;
- 
--		error = drv->pm->poweroff_noirq(dev);
--		suspend_report_result(drv->pm->poweroff_noirq, error);
-+		error = pm->poweroff_noirq(dev);
-+		suspend_report_result(pm->poweroff_noirq, error);
- 		if (error)
- 			return error;
- 	}
-@@ -1208,8 +1206,8 @@ static int pci_pm_poweroff_noirq(struct device *dev)
- static int pci_pm_restore_noirq(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
--	struct device_driver *drv = dev->driver;
--	int error = 0;
-+	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-+	int error;
- 
- 	if (pcibios_pm_ops.restore_noirq) {
- 		error = pcibios_pm_ops.restore_noirq(dev);
-@@ -1223,17 +1221,16 @@ static int pci_pm_restore_noirq(struct device *dev)
- 	if (pci_has_legacy_pm_support(pci_dev))
- 		return pci_legacy_resume_early(dev);
- 
--	if (drv && drv->pm && drv->pm->restore_noirq)
--		error = drv->pm->restore_noirq(dev);
-+	if (pm && pm->restore_noirq)
-+		return pm->restore_noirq(dev);
- 
--	return error;
-+	return 0;
- }
- 
- static int pci_pm_restore(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
--	int error = 0;
- 
- 	/*
- 	 * This is necessary for the hibernation error path in which restore is
-@@ -1249,12 +1246,12 @@ static int pci_pm_restore(struct device *dev)
- 
- 	if (pm) {
- 		if (pm->restore)
--			error = pm->restore(dev);
-+			return pm->restore(dev);
- 	} else {
- 		pci_pm_reenable_device(pci_dev);
- 	}
- 
--	return error;
-+	return 0;
- }
- 
- #else /* !CONFIG_HIBERNATE_CALLBACKS */
-@@ -1330,9 +1327,9 @@ static int pci_pm_runtime_suspend(struct device *dev)
- 
- static int pci_pm_runtime_resume(struct device *dev)
- {
--	int rc = 0;
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
-+	int error = 0;
- 
- 	/*
- 	 * Restoring config space is necessary even if the device is not bound
-@@ -1348,18 +1345,17 @@ static int pci_pm_runtime_resume(struct device *dev)
- 	pci_pm_default_resume(pci_dev);
- 
- 	if (pm && pm->runtime_resume)
--		rc = pm->runtime_resume(dev);
-+		error = pm->runtime_resume(dev);
- 
- 	pci_dev->runtime_d3cold = false;
- 
--	return rc;
-+	return error;
- }
- 
- static int pci_pm_runtime_idle(struct device *dev)
- {
- 	struct pci_dev *pci_dev = to_pci_dev(dev);
- 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
--	int ret = 0;
- 
- 	/*
- 	 * If pci_dev->driver is not set (unbound), the device should
-@@ -1372,9 +1368,9 @@ static int pci_pm_runtime_idle(struct device *dev)
- 		return -ENOSYS;
- 
- 	if (pm->runtime_idle)
--		ret = pm->runtime_idle(dev);
-+		return pm->runtime_idle(dev);
- 
--	return ret;
-+	return 0;
- }
- 
- static const struct dev_pm_ops pci_dev_pm_ops = {
+v2:
+PATCH1: pick the print code change into separate PATCH2,
+        updated patch description             [Vitaly Kuznetsov]
+PATCH2: new patch with print code change      [Vitaly Kuznetsov]
+PATCH3: add Reviewed-by                       [Juergen Gross]
+
+Zhenzhong Duan (5):
+  Revert "KVM: X86: Fix setup the virt_spin_lock_key before static key
+    get initialized"
+  x86/kvm: Change print code to use pr_*() format
+  x86/kvm: Add "nopvspin" parameter to disable PV spinlocks
+  xen: Mark "xen_nopvspin" parameter obsolete
+  x86/hyperv: Mark "hv_nopvspin" parameter obsolete
+
+ Documentation/admin-guide/kernel-parameters.txt | 14 ++++-
+ arch/x86/hyperv/hv_spinlock.c                   |  4 ++
+ arch/x86/include/asm/qspinlock.h                |  1 +
+ arch/x86/kernel/kvm.c                           | 76 ++++++++++++++++---------
+ arch/x86/xen/spinlock.c                         |  4 +-
+ kernel/locking/qspinlock.c                      |  7 +++
+ 6 files changed, 75 insertions(+), 31 deletions(-)
+
 -- 
-2.23.0.700.g56cf767bdb-goog
+1.8.3.1
 
