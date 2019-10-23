@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A18CA9EB7
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C707ACA9EB7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:58:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CD6EF2064A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:58:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BEE32064B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:58:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OaUOSs3O"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DPLNSqOF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391087AbfJWJ6f (ORCPT
+        id S2404190AbfJWJ6R (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 23 Oct 2019 05:58:35 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41203 "EHLO
+        Wed, 23 Oct 2019 05:58:17 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46309 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404293AbfJWJ6e (ORCPT
+        with ESMTP id S2404200AbfJWJ6M (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 23 Oct 2019 05:58:34 -0400
+        Wed, 23 Oct 2019 05:58:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571824714;
+        s=mimecast20190719; t=1571824692;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4hlyQY7efj0/bE9XNJxDmJdAwsinzkA8wmlvgDq7ouo=;
-        b=OaUOSs3ODaJcJPW6C6mx4swHbhOEj3CVUBPTBfGpgLtNGARWoJq702VIs96clJu8R9l76f
-        CTFsv5/dbkLoX3pXUpznGRUVyAFkwVNh3zF8gd3Cjouwa4vncBm4DkVbbLiktkIIu8mVqq
-        ziUrhPdKeOk6EVy1p6LloSCDvm5w1Rk=
+        bh=QqZmsfhJMgpWrzF5n+cfQZ/T/oXxyaU+Am+8Hcv5VFQ=;
+        b=DPLNSqOFfRApWeMx8beiNAYyqWemO3A7oGFKSnQ0AEInUNxZddRBxfLA6413rnb02IT6Vo
+        JwMZWmUiVCrU4E+gLvEQGXxzzITUCa4+Rfi0VY2x4UGKi/jAhCzlEXAsIAuE1MxlFMPO0G
+        oF/xSbSxqAAilT4rLcPNiD0Ok6k8w/I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-ra2LyVtEPBinyv25NmhJEg-1; Wed, 23 Oct 2019 05:58:27 -0400
+ us-mta-13-cVbbATTHN12aGfLo4s-bgw-1; Wed, 23 Oct 2019 05:58:08 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5DE41005500;
-        Wed, 23 Oct 2019 09:58:25 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42A38476;
+        Wed, 23 Oct 2019 09:58:06 +0000 (UTC)
 Received: from steredhat.redhat.com (unknown [10.36.118.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 156735C1B2;
-        Wed, 23 Oct 2019 09:58:19 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7347B5C1B2;
+        Wed, 23 Oct 2019 09:58:00 +0000 (UTC)
 From:   Stefano Garzarella <sgarzare@redhat.com>
 To:     netdev@vger.kernel.org
 Cc:     "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
@@ -60,14 +60,14 @@ Cc:     "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         virtualization@lists.linux-foundation.org
-Subject: [PATCH net-next 14/14] vsock: fix bind() behaviour taking care of CID
-Date:   Wed, 23 Oct 2019 11:55:54 +0200
-Message-Id: <20191023095554.11340-15-sgarzare@redhat.com>
+Subject: [PATCH net-next 10/14] hv_sock: set VMADDR_CID_HOST in the hvs_remote_addr_init()
+Date:   Wed, 23 Oct 2019 11:55:50 +0200
+Message-Id: <20191023095554.11340-11-sgarzare@redhat.com>
 In-Reply-To: <20191023095554.11340-1-sgarzare@redhat.com>
 References: <20191023095554.11340-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: ra2LyVtEPBinyv25NmhJEg-1
+X-MC-Unique: cVbbATTHN12aGfLo4s-bgw-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,44 +76,32 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When we are looking for a socket bound to a specific address,
-we also have to take into account the CID.
+Remote peer is always the host, so we set VMADDR_CID_HOST as
+remote CID instead of VMADDR_CID_ANY.
 
-This patch is useful with multi-transports support because it
-allows the binding of the same port with different CID, and
-it prevents a connection to a wrong socket bound to the same
-port, but with different CID.
-
+Reviewed-by: Dexuan Cui <decui@microsoft.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- net/vmw_vsock/af_vsock.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ net/vmw_vsock/hyperv_transport.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 1f2e707cae66..7183de277072 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -228,10 +228,16 @@ static struct sock *__vsock_find_bound_socket(struct =
-sockaddr_vm *addr)
- {
- =09struct vsock_sock *vsk;
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transp=
+ort.c
+index 0ce792a1bf6c..fc7e61765a4a 100644
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -188,7 +188,8 @@ static void hvs_remote_addr_init(struct sockaddr_vm *re=
+mote,
+ =09static u32 host_ephemeral_port =3D MIN_HOST_EPHEMERAL_PORT;
+ =09struct sock *sk;
 =20
--=09list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table)
--=09=09if (addr->svm_port =3D=3D vsk->local_addr.svm_port)
-+=09list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
-+=09=09if (vsock_addr_equals_addr(addr, &vsk->local_addr))
- =09=09=09return sk_vsock(vsk);
+-=09vsock_addr_init(remote, VMADDR_CID_ANY, VMADDR_PORT_ANY);
++=09/* Remote peer is always the host */
++=09vsock_addr_init(remote, VMADDR_CID_HOST, VMADDR_PORT_ANY);
 =20
-+=09=09if (addr->svm_port =3D=3D vsk->local_addr.svm_port &&
-+=09=09    (vsk->local_addr.svm_cid =3D=3D VMADDR_CID_ANY ||
-+=09=09     addr->svm_cid =3D=3D VMADDR_CID_ANY))
-+=09=09=09return sk_vsock(vsk);
-+=09}
-+
- =09return NULL;
- }
-=20
+ =09while (1) {
+ =09=09/* Wrap around ? */
 --=20
 2.21.0
 
