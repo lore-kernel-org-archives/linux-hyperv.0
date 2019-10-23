@@ -2,134 +2,155 @@ Return-Path: <SRS0=Ed9U=YQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2576CA9EB7
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F24CA9EB7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 11:19:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 986662064B
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 09:59:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 272982064A
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 11:19:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bGQafF94"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VTpYw8tR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390920AbfJWJ7E (ORCPT
+        id S2404687AbfJWLTT (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 23 Oct 2019 05:59:04 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23192 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2404164AbfJWJ6G (ORCPT
+        Wed, 23 Oct 2019 07:19:19 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:52694 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404682AbfJWLTT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 23 Oct 2019 05:58:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571824685;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EqP3dJ1brA8cGs8/CpAJOebSHgUeA3445b36b/tPldY=;
-        b=bGQafF94Ck8ePqBhwFS7/Y4CoaEexh4606NxCyDAy867lY9Z9HBjLLf/WAzPUvlE/sgf1S
-        NazwyGBKs4wVdS+2kx/qvVt8KzVax9TFpIP8mMhZBOB90eCIQlar696MQYHU52r+CQ6Wzi
-        pZoXkVbdJHtd/AVNFoXqbso9FaoHrFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-qOIRmXb2Pr6t1CnVGBFM1A-1; Wed, 23 Oct 2019 05:58:02 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 226C6107AD33;
-        Wed, 23 Oct 2019 09:58:00 +0000 (UTC)
-Received: from steredhat.redhat.com (unknown [10.36.118.164])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BF2B05C1B2;
-        Wed, 23 Oct 2019 09:57:56 +0000 (UTC)
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     "Michael S. Tsirkin" <mst@redhat.com>, kvm@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Wang <jasowang@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dexuan Cui <decui@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Jorgen Hansen <jhansen@vmware.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        linux-hyperv@vger.kernel.org,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        virtualization@lists.linux-foundation.org
-Subject: [PATCH net-next 09/14] vsock: move vsock_insert_unbound() in the vsock_create()
-Date:   Wed, 23 Oct 2019 11:55:49 +0200
-Message-Id: <20191023095554.11340-10-sgarzare@redhat.com>
-In-Reply-To: <20191023095554.11340-1-sgarzare@redhat.com>
-References: <20191023095554.11340-1-sgarzare@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: qOIRmXb2Pr6t1CnVGBFM1A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+        Wed, 23 Oct 2019 07:19:19 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9NB9FxV066143;
+        Wed, 23 Oct 2019 11:17:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
+ bh=qaL3Wn/zckv6LbHPeF9PDceDQSnByrsojCND7DKPF+c=;
+ b=VTpYw8tRc38lzsY/V+r+EwxfBM+uHwJpcsFCbJVtVpRvlxs53tSk3M0ZnlRLl9Lf2scb
+ ohjWLBqGavS0nMX+SBpzORc8XtSrZvtK3/4RsK00qVwpcqduGP8PCOUGhl+r18+5sacV
+ FCoQIc9ps8jqm+/mlGK4RzU+dm5+wUxvihRukD3bmSWVVQBkCCzGPiteEzXtT89DeJ2+
+ vyppriMrsP6Fn/5x9qs8vo/G7ELQdGE27dJpvxGHOAOZZP3SO3h4N4JmEHOPYouDP9N9
+ SxFEir08iWO09DejOFVMdsBXZYdKeGa+LqddfQWLCStMFo8gL24AVbtIQzN3lwkEXXj+ tQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 2vqswtmrg4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 23 Oct 2019 11:17:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9NBCw91047239;
+        Wed, 23 Oct 2019 11:17:33 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2vtjkffemh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 23 Oct 2019 11:17:32 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9NBHV3r000778;
+        Wed, 23 Oct 2019 11:17:31 GMT
+Received: from z2.cn.oracle.com (/10.182.71.218)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 23 Oct 2019 04:17:31 -0700
+From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        pbonzini@redhat.com, rkrcmar@redhat.com,
+        sean.j.christopherson@intel.com, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        boris.ostrovsky@oracle.com, jgross@suse.com, peterz@infradead.org,
+        will@kernel.org, linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, sashal@kernel.org,
+        Zhenzhong Duan <zhenzhong.duan@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v8 5/5] x86/hyperv: Mark "hv_nopvspin" parameter obsolete
+Date:   Wed, 23 Oct 2019 19:16:24 +0800
+Message-Id: <1571829384-5309-6-git-send-email-zhenzhong.duan@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1571829384-5309-1-git-send-email-zhenzhong.duan@oracle.com>
+References: <1571829384-5309-1-git-send-email-zhenzhong.duan@oracle.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9418 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910230114
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9418 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910230114
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-vsock_insert_unbound() was called only when 'sock' parameter of
-__vsock_create() was not null. This only happened when
-__vsock_create() was called by vsock_create().
+Map "hv_nopvspin" to "nopvspin".
 
-In order to simplify the multi-transports support, this patch
-moves vsock_insert_unbound() at the end of vsock_create().
-
-Reviewed-by: Dexuan Cui <decui@microsoft.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Sasha Levin <sashal@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
 ---
- net/vmw_vsock/af_vsock.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 6 +++++-
+ arch/x86/hyperv/hv_spinlock.c                   | 4 ++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 95878bed2c67..d89381166028 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -634,9 +634,6 @@ static struct sock *__vsock_create(struct net *net,
- =09=09return NULL;
- =09}
-=20
--=09if (sock)
--=09=09vsock_insert_unbound(vsk);
--
- =09return sk;
- }
-=20
-@@ -1889,6 +1886,8 @@ static const struct proto_ops vsock_stream_ops =3D {
- static int vsock_create(struct net *net, struct socket *sock,
- =09=09=09int protocol, int kern)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 85059dd..78648bb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1436,6 +1436,10 @@
+ 	hv_nopvspin	[X86,HYPER_V] Disables the paravirt spinlock optimizations
+ 				      which allow the hypervisor to 'idle' the
+ 				      guest on lock contention.
++				      This parameter is obsoleted by "nopvspin"
++				      parameter, which has equivalent effect for
++				      HYPER_V platform.
++
+ 
+ 	keep_bootcon	[KNL]
+ 			Do not unregister boot console at start. This is only
+@@ -5335,7 +5339,7 @@
+ 			as generic guest with no PV drivers. Currently support
+ 			XEN HVM, KVM, HYPER_V and VMWARE guest.
+ 
+-	nopvspin	[X86,XEN,KVM]
++	nopvspin	[X86,XEN,KVM,HYPER_V]
+ 			Disables the qspinlock slow path using PV optimizations
+ 			which allow the hypervisor to 'idle' the guest on lock
+ 			contention.
+diff --git a/arch/x86/hyperv/hv_spinlock.c b/arch/x86/hyperv/hv_spinlock.c
+index 07f21a0..47c7d6c 100644
+--- a/arch/x86/hyperv/hv_spinlock.c
++++ b/arch/x86/hyperv/hv_spinlock.c
+@@ -64,6 +64,9 @@ __visible bool hv_vcpu_is_preempted(int vcpu)
+ 
+ void __init hv_init_spinlocks(void)
  {
-+=09struct sock *sk;
++	if (nopvspin)
++		hv_pvspin = false;
 +
- =09if (!sock)
- =09=09return -EINVAL;
-=20
-@@ -1908,7 +1907,13 @@ static int vsock_create(struct net *net, struct sock=
-et *sock,
-=20
- =09sock->state =3D SS_UNCONNECTED;
-=20
--=09return __vsock_create(net, sock, NULL, GFP_KERNEL, 0, kern) ? 0 : -ENOM=
-EM;
-+=09sk =3D __vsock_create(net, sock, NULL, GFP_KERNEL, 0, kern);
-+=09if (!sk)
-+=09=09return -ENOMEM;
-+
-+=09vsock_insert_unbound(vsock_sk(sk));
-+
-+=09return 0;
+ 	if (!hv_pvspin || !apic ||
+ 	    !(ms_hyperv.hints & HV_X64_CLUSTER_IPI_RECOMMENDED) ||
+ 	    !(ms_hyperv.features & HV_X64_MSR_GUEST_IDLE_AVAILABLE)) {
+@@ -82,6 +85,7 @@ void __init hv_init_spinlocks(void)
+ 
+ static __init int hv_parse_nopvspin(char *arg)
+ {
++	pr_notice("\"hv_nopvspin\" is deprecated, please use \"nopvspin\" instead\n");
+ 	hv_pvspin = false;
+ 	return 0;
  }
-=20
- static const struct net_proto_family vsock_family_ops =3D {
---=20
-2.21.0
+-- 
+1.8.3.1
 
