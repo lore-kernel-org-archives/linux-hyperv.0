@@ -2,219 +2,267 @@ Return-Path: <SRS0=Ed9U=YQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C55CA9EB7
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 11:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E57CA9EB7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 15:08:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EB6992064A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 11:20:53 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="EWqv7r28"
+	by mail.kernel.org (Postfix) with ESMTP id 22A2321906
+	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Oct 2019 15:08:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404708AbfJWLUu (ORCPT
+        id S2404070AbfJWPIH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 23 Oct 2019 07:20:50 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:46348 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404560AbfJWLUt (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 23 Oct 2019 07:20:49 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9NB9GGJ044717;
-        Wed, 23 Oct 2019 11:17:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=UvoZC17z4284FoT4ZT1N/BIRqNabbWYVhhWc94yiWJo=;
- b=EWqv7r28HdJ2qzsBBvNjtVvcdJh/uc4W8hTYmnyAoaxYGyW2U+xxaZovHgMIS2u9Rd9b
- ccZcKkyQzJd/mUbTh+ziykcejNqF5lpcc4OkZEBds32UEd0unEMvbKG3ZYOw4CfwZO+f
- YJb5/hCoomkHIIRl8pL+aUDUdEWAaAB/2Wab9lT9QL/XAMB34LLo6rkhVvzy5I9++6Y9
- 7F2d+J8gtorWwyQfT8y8vg1JeZT2b43LMEMcXVPGcnB7m3DvNw6fxlTmYxEEDVQVcYzh
- sJXJdnzlBA6UXpNhHaWQlGJiO74D3nRnx2bQKD6fj0mSlFJZkLwI6p7L9di9vlMbXbR8 VA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 2vqu4qvepf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Oct 2019 11:17:17 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9NBDU2h145955;
-        Wed, 23 Oct 2019 11:17:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 2vt2hf4b0j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 23 Oct 2019 11:17:16 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9NBHElQ014998;
-        Wed, 23 Oct 2019 11:17:14 GMT
-Received: from z2.cn.oracle.com (/10.182.71.218)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 23 Oct 2019 04:17:14 -0700
-From:   Zhenzhong Duan <zhenzhong.duan@oracle.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        pbonzini@redhat.com, rkrcmar@redhat.com,
-        sean.j.christopherson@intel.com, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        boris.ostrovsky@oracle.com, jgross@suse.com, peterz@infradead.org,
-        will@kernel.org, linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
-        mikelley@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
-        sthemmin@microsoft.com, sashal@kernel.org,
-        Zhenzhong Duan <zhenzhong.duan@oracle.com>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v8 2/5] x86/kvm: Change print code to use pr_*() format
-Date:   Wed, 23 Oct 2019 19:16:21 +0800
-Message-Id: <1571829384-5309-3-git-send-email-zhenzhong.duan@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1571829384-5309-1-git-send-email-zhenzhong.duan@oracle.com>
-References: <1571829384-5309-1-git-send-email-zhenzhong.duan@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9418 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910230114
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9418 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910230114
+        Wed, 23 Oct 2019 11:08:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:25787 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392409AbfJWPIH (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 23 Oct 2019 11:08:07 -0400
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 392CEC0495A3
+        for <linux-hyperv@vger.kernel.org>; Wed, 23 Oct 2019 15:08:06 +0000 (UTC)
+Received: by mail-wr1-f71.google.com with SMTP id s9so11109522wrw.23
+        for <linux-hyperv@vger.kernel.org>; Wed, 23 Oct 2019 08:08:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1L6W+k0nNg/tQAHowWr/1ED2GuKCPT//Gnu5zgyCNAI=;
+        b=tEkUBw40A3UKaJmSnUeGYCczQqbj7mOqKFX1PmeM5u60VxlhdfI0N8TEuJlorUEDaH
+         iyGX5dylEppECQWXQBAwLMFFSacgbonaS/sNl+fPizSe7t13sFyqTXCU2yyWb15lFslP
+         FXydLtWEKrCp4f+KN0pgmgmoRQqqf6ftbjx+BUTuyUZ7xH4v4qdFI11dtb8BjXdq0ToW
+         bT78Rsx1ssYuyI9fsot/tfmtXMXeLIloIsTmoNBPTt50GekeOoGroLF2+9bHSAN4JdJZ
+         EptBX59skFpySE9Uj1M2oZvLSeL0iIAaod//AHtehGdW7MPxp7B3fgstt1M6aM4qRCQh
+         eQzw==
+X-Gm-Message-State: APjAAAUdfcY0JJCYmiCxOjbg3hy91mOyIqCwlhvqFWSjN8bfAuzRyt91
+        yucQeCcIXRdP51MCzSCe4QNFeJik088Pl5TCHjiNLvgQjyjwcMIrbKpQujkmCWiUJrfjUaPs7/n
+        rTa5pUbCTUTzArz7+BsDDyM1R
+X-Received: by 2002:a5d:55c2:: with SMTP id i2mr1459749wrw.176.1571843284747;
+        Wed, 23 Oct 2019 08:08:04 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqx1BkWFgjFt13kSOZhC5tHhC1h/h69jYbIAHFEuvb5Y1HTNMeyVSdSK6hLWHxU9/yDmdywCwA==
+X-Received: by 2002:a5d:55c2:: with SMTP id i2mr1459721wrw.176.1571843284393;
+        Wed, 23 Oct 2019 08:08:04 -0700 (PDT)
+Received: from steredhat (host174-200-dynamic.52-79-r.retail.telecomitalia.it. [79.52.200.174])
+        by smtp.gmail.com with ESMTPSA id x2sm20845980wrn.81.2019.10.23.08.08.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 08:08:03 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 17:08:01 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     netdev@vger.kernel.org, Jorgen Hansen <jhansen@vmware.com>
+Cc:     Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Arnd Bergmann <arnd@arndb.de>, kvm <kvm@vger.kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dexuan Cui <decui@microsoft.com>, linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH net-next 11/14] vsock: add multi-transports support
+Message-ID: <CAGxU2F7n48kBy_y2GB=mcvraK=mw_2Jn8=2hvQnEOWqWuT9OjA@mail.gmail.com>
+References: <20191023095554.11340-1-sgarzare@redhat.com>
+ <20191023095554.11340-12-sgarzare@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191023095554.11340-12-sgarzare@redhat.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-pr_*() is preferred than printk(KERN_* ...), after change all the print
-in arch/x86/kernel/kvm.c will have "kvm-guest: xxx" style.
+On Wed, Oct 23, 2019 at 11:59 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> This patch adds the support of multiple transports in the
+> VSOCK core.
+>
+> With the multi-transports support, we can use vsock with nested VMs
+> (using also different hypervisors) loading both guest->host and
+> host->guest transports at the same time.
+>
+> Major changes:
+> - vsock core module can be loaded regardless of the transports
+> - vsock_core_init() and vsock_core_exit() are renamed to
+>   vsock_core_register() and vsock_core_unregister()
+> - vsock_core_register() has a feature parameter (H2G, G2H, DGRAM)
+>   to identify which directions the transport can handle and if it's
+>   support DGRAM (only vmci)
+> - each stream socket is assigned to a transport when the remote CID
+>   is set (during the connect() or when we receive a connection request
+>   on a listener socket).
+>   The remote CID is used to decide which transport to use:
+>   - remote CID > VMADDR_CID_HOST will use host->guest transport
+>   - remote CID <= VMADDR_CID_HOST will use guest->host transport
+> - listener sockets are not bound to any transports since no transport
+>   operations are done on it. In this way we can create a listener
+>   socket, also if the transports are not loaded or with VMADDR_CID_ANY
+>   to listen on all transports.
+> - DGRAM sockets are handled as before, since only the vmci_transport
+>   provides this feature.
+>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+> RFC -> v1:
+> - documented VSOCK_TRANSPORT_F_* flags
+> - fixed vsock_assign_transport() when the socket is already assigned
+>   (e.g connection failed)
+> - moved features outside of struct vsock_transport, and used as
+>   parameter of vsock_core_register()
+> ---
+>  drivers/vhost/vsock.c                   |   5 +-
+>  include/net/af_vsock.h                  |  17 +-
+>  net/vmw_vsock/af_vsock.c                | 237 ++++++++++++++++++------
+>  net/vmw_vsock/hyperv_transport.c        |  26 ++-
+>  net/vmw_vsock/virtio_transport.c        |   7 +-
+>  net/vmw_vsock/virtio_transport_common.c |  28 ++-
+>  net/vmw_vsock/vmci_transport.c          |  31 +++-
+>  7 files changed, 270 insertions(+), 81 deletions(-)
+>
+> diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+> index 6d7e4f022748..b235f4bbe8ea 100644
+> --- a/drivers/vhost/vsock.c
+> +++ b/drivers/vhost/vsock.c
+> @@ -831,7 +831,8 @@ static int __init vhost_vsock_init(void)
+>  {
+>         int ret;
+>
+> -       ret = vsock_core_init(&vhost_transport.transport);
+> +       ret = vsock_core_register(&vhost_transport.transport,
+> +                                 VSOCK_TRANSPORT_F_H2G);
+>         if (ret < 0)
+>                 return ret;
+>         return misc_register(&vhost_vsock_misc);
+> @@ -840,7 +841,7 @@ static int __init vhost_vsock_init(void)
+>  static void __exit vhost_vsock_exit(void)
+>  {
+>         misc_deregister(&vhost_vsock_misc);
+> -       vsock_core_exit();
+> +       vsock_core_unregister(&vhost_transport.transport);
+>  };
+>
+>  module_init(vhost_vsock_init);
+> diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+> index fa1570dc9f5c..27a3463e4892 100644
+> --- a/include/net/af_vsock.h
+> +++ b/include/net/af_vsock.h
+> @@ -91,6 +91,14 @@ struct vsock_transport_send_notify_data {
+>         u64 data2; /* Transport-defined. */
+>  };
+>
+> +/* Transport features flags */
+> +/* Transport provides host->guest communication */
+> +#define VSOCK_TRANSPORT_F_H2G          0x00000001
+> +/* Transport provides guest->host communication */
+> +#define VSOCK_TRANSPORT_F_G2H          0x00000002
+> +/* Transport provides DGRAM communication */
+> +#define VSOCK_TRANSPORT_F_DGRAM                0x00000004
+> +
+>  struct vsock_transport {
+>         /* Initialize/tear-down socket. */
+>         int (*init)(struct vsock_sock *, struct vsock_sock *);
+> @@ -154,12 +162,8 @@ struct vsock_transport {
+>
+>  /**** CORE ****/
+>
+> -int __vsock_core_init(const struct vsock_transport *t, struct module *owner);
+> -static inline int vsock_core_init(const struct vsock_transport *t)
+> -{
+> -       return __vsock_core_init(t, THIS_MODULE);
+> -}
+> -void vsock_core_exit(void);
+> +int vsock_core_register(const struct vsock_transport *t, int features);
+> +void vsock_core_unregister(const struct vsock_transport *t);
+>
+>  /* The transport may downcast this to access transport-specific functions */
+>  const struct vsock_transport *vsock_core_get_transport(struct vsock_sock *vsk);
+> @@ -190,6 +194,7 @@ struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
+>                                          struct sockaddr_vm *dst);
+>  void vsock_remove_sock(struct vsock_sock *vsk);
+>  void vsock_for_each_connected_socket(void (*fn)(struct sock *sk));
+> +int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk);
+>
+>  /**** TAP ****/
+>
+> diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+> index d89381166028..dddd85d9a147 100644
+> --- a/net/vmw_vsock/af_vsock.c
+> +++ b/net/vmw_vsock/af_vsock.c
+> @@ -130,7 +130,12 @@ static struct proto vsock_proto = {
+>  #define VSOCK_DEFAULT_BUFFER_MAX_SIZE (1024 * 256)
+>  #define VSOCK_DEFAULT_BUFFER_MIN_SIZE 128
+>
+> -static const struct vsock_transport *transport_single;
+> +/* Transport used for host->guest communication */
+> +static const struct vsock_transport *transport_h2g;
+> +/* Transport used for guest->host communication */
+> +static const struct vsock_transport *transport_g2h;
+> +/* Transport used for DGRAM communication */
+> +static const struct vsock_transport *transport_dgram;
+>  static DEFINE_MUTEX(vsock_register_mutex);
+>
+>  /**** UTILS ****/
+> @@ -182,7 +187,7 @@ static int vsock_auto_bind(struct vsock_sock *vsk)
+>         return __vsock_bind(sk, &local_addr);
+>  }
+>
+> -static int __init vsock_init_tables(void)
+> +static void vsock_init_tables(void)
+>  {
+>         int i;
+>
+> @@ -191,7 +196,6 @@ static int __init vsock_init_tables(void)
+>
+>         for (i = 0; i < ARRAY_SIZE(vsock_connected_table); i++)
+>                 INIT_LIST_HEAD(&vsock_connected_table[i]);
+> -       return 0;
+>  }
+>
+>  static void __vsock_insert_bound(struct list_head *list,
+> @@ -376,6 +380,62 @@ void vsock_enqueue_accept(struct sock *listener, struct sock *connected)
+>  }
+>  EXPORT_SYMBOL_GPL(vsock_enqueue_accept);
+>
+> +/* Assign a transport to a socket and call the .init transport callback.
+> + *
+> + * Note: for stream socket this must be called when vsk->remote_addr is set
+> + * (e.g. during the connect() or when a connection request on a listener
+> + * socket is received).
+> + * The vsk->remote_addr is used to decide which transport to use:
+> + *  - remote CID > VMADDR_CID_HOST will use host->guest transport
+> + *  - remote CID <= VMADDR_CID_HOST will use guest->host transport
+> + */
+> +int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
+> +{
+> +       const struct vsock_transport *new_transport;
+> +       struct sock *sk = sk_vsock(vsk);
+> +
+> +       switch (sk->sk_type) {
+> +       case SOCK_DGRAM:
+> +               new_transport = transport_dgram;
+> +               break;
+> +       case SOCK_STREAM:
+> +               if (vsk->remote_addr.svm_cid > VMADDR_CID_HOST)
+> +                       new_transport = transport_h2g;
+> +               else
+> +                       new_transport = transport_g2h;
 
-No functional change.
+I just noticed that this break the loopback in the guest.
+As a fix, we should use 'transport_g2h' when remote_cid <= VMADDR_CID_HOST
+or remote_cid is the id of 'transport_g2h'.
 
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Radim Krcmar <rkrcmar@redhat.com>
-Cc: Sean Christopherson <sean.j.christopherson@intel.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Cc: Jim Mattson <jmattson@google.com>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
----
- arch/x86/kernel/kvm.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+To do that we also need to avoid that L2 guests can have the same CID of L1.
+For vhost_vsock I can call vsock_find_cid() in vhost_vsock_set_cid()
 
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 3bc6a266..6562886 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -7,6 +7,8 @@
-  *   Authors: Anthony Liguori <aliguori@us.ibm.com>
-  */
- 
-+#define pr_fmt(fmt) "kvm-guest: " fmt
-+
- #include <linux/context_tracking.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
-@@ -286,8 +288,8 @@ static void kvm_register_steal_time(void)
- 		return;
- 
- 	wrmsrl(MSR_KVM_STEAL_TIME, (slow_virt_to_phys(st) | KVM_MSR_ENABLED));
--	pr_info("kvm-stealtime: cpu %d, msr %llx\n",
--		cpu, (unsigned long long) slow_virt_to_phys(st));
-+	pr_info("stealtime: cpu %d, msr %llx\n", cpu,
-+		(unsigned long long) slow_virt_to_phys(st));
- }
- 
- static DEFINE_PER_CPU_DECRYPTED(unsigned long, kvm_apic_eoi) = KVM_PV_EOI_DISABLED;
-@@ -321,8 +323,7 @@ static void kvm_guest_cpu_init(void)
- 
- 		wrmsrl(MSR_KVM_ASYNC_PF_EN, pa);
- 		__this_cpu_write(apf_reason.enabled, 1);
--		printk(KERN_INFO"KVM setup async PF for cpu %d\n",
--		       smp_processor_id());
-+		pr_info("setup async PF for cpu %d\n", smp_processor_id());
- 	}
- 
- 	if (kvm_para_has_feature(KVM_FEATURE_PV_EOI)) {
-@@ -347,8 +348,7 @@ static void kvm_pv_disable_apf(void)
- 	wrmsrl(MSR_KVM_ASYNC_PF_EN, 0);
- 	__this_cpu_write(apf_reason.enabled, 0);
- 
--	printk(KERN_INFO"Unregister pv shared memory for cpu %d\n",
--	       smp_processor_id());
-+	pr_info("unregister PV shared memory for cpu %d\n", smp_processor_id());
- }
- 
- static void kvm_pv_guest_cpu_reboot(void *unused)
-@@ -469,7 +469,8 @@ static void __send_ipi_mask(const struct cpumask *mask, int vector)
- 		} else {
- 			ret = kvm_hypercall4(KVM_HC_SEND_IPI, (unsigned long)ipi_bitmap,
- 				(unsigned long)(ipi_bitmap >> BITS_PER_LONG), min, icr);
--			WARN_ONCE(ret < 0, "KVM: failed to send PV IPI: %ld", ret);
-+			WARN_ONCE(ret < 0, "kvm-guest: failed to send PV IPI: %ld",
-+				  ret);
- 			min = max = apic_id;
- 			ipi_bitmap = 0;
- 		}
-@@ -479,7 +480,8 @@ static void __send_ipi_mask(const struct cpumask *mask, int vector)
- 	if (ipi_bitmap) {
- 		ret = kvm_hypercall4(KVM_HC_SEND_IPI, (unsigned long)ipi_bitmap,
- 			(unsigned long)(ipi_bitmap >> BITS_PER_LONG), min, icr);
--		WARN_ONCE(ret < 0, "KVM: failed to send PV IPI: %ld", ret);
-+		WARN_ONCE(ret < 0, "kvm-guest: failed to send PV IPI: %ld",
-+			  ret);
- 	}
- 
- 	local_irq_restore(flags);
-@@ -509,7 +511,7 @@ static void kvm_setup_pv_ipi(void)
- {
- 	apic->send_IPI_mask = kvm_send_ipi_mask;
- 	apic->send_IPI_mask_allbutself = kvm_send_ipi_mask_allbutself;
--	pr_info("KVM setup pv IPIs\n");
-+	pr_info("setup PV IPIs\n");
- }
- 
- static void kvm_smp_send_call_func_ipi(const struct cpumask *mask)
-@@ -631,11 +633,11 @@ static void __init kvm_guest_init(void)
- 	    !kvm_para_has_hint(KVM_HINTS_REALTIME) &&
- 	    kvm_para_has_feature(KVM_FEATURE_STEAL_TIME)) {
- 		smp_ops.send_call_func_ipi = kvm_smp_send_call_func_ipi;
--		pr_info("KVM setup pv sched yield\n");
-+		pr_info("setup PV sched yield\n");
- 	}
- 	if (cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN, "x86/kvm:online",
- 				      kvm_cpu_online, kvm_cpu_down_prepare) < 0)
--		pr_err("kvm_guest: Failed to install cpu hotplug callbacks\n");
-+		pr_err("failed to install cpu hotplug callbacks\n");
- #else
- 	sev_map_percpu_data();
- 	kvm_guest_cpu_init();
-@@ -738,7 +740,7 @@ static __init int kvm_setup_pv_tlb_flush(void)
- 			zalloc_cpumask_var_node(per_cpu_ptr(&__pv_tlb_mask, cpu),
- 				GFP_KERNEL, cpu_to_node(cpu));
- 		}
--		pr_info("KVM setup pv remote TLB flush\n");
-+		pr_info("setup PV remote TLB flush\n");
- 	}
- 
- 	return 0;
-@@ -866,8 +868,8 @@ static void kvm_enable_host_haltpoll(void *i)
- void arch_haltpoll_enable(unsigned int cpu)
- {
- 	if (!kvm_para_has_feature(KVM_FEATURE_POLL_CONTROL)) {
--		pr_err_once("kvm: host does not support poll control\n");
--		pr_err_once("kvm: host upgrade recommended\n");
-+		pr_err_once("host does not support poll control\n");
-+		pr_err_once("host upgrade recommended\n");
- 		return;
- 	}
- 
--- 
-1.8.3.1
+@Jorgen: for vmci we need to do the same? or it is guaranteed, since
+it's already support nested VMs, that a L2 guests cannot have the
+same CID as the L1.
 
+I'll send a v2 with this fix, but I'll wait a bit for other comments.
+
+Thanks,
+Stefano
