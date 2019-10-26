@@ -1,142 +1,110 @@
-Return-Path: <SRS0=qGef=YS=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=fupU=YT=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B912CCA9EBD
-	for <linux-hyperv@archiver.kernel.org>; Fri, 25 Oct 2019 17:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89BA9CA9EB9
+	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:26:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9668121D7B
-	for <linux-hyperv@archiver.kernel.org>; Fri, 25 Oct 2019 17:26:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 526D7206DD
+	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:26:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572096376;
+	bh=U6HFSLK8B3LhppeobNpVbWvQmbuqRJyH+5DZKjc7zO0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=isfG4wR5dXT4H203/TZn5WXhlFIohCor4sMeK0ia8CJjB2/Jp8iZ6WMh/n75WciPe
+	 4zy2Cn4oteGtBuI1B9212mGuxxzKQv9mgWu+YPgFidBb3ToeGyb8HzqTc5/ItyN/f7
+	 MA4YAC6kBBJfc4dgmuW5huHVOX+ZauJsQvvDh4a4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502738AbfJYR0I (ORCPT
+        id S1729286AbfJZN0G (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 25 Oct 2019 13:26:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55908 "EHLO mx1.redhat.com"
+        Sat, 26 Oct 2019 09:26:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43898 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2409965AbfJYR0I (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 25 Oct 2019 13:26:08 -0400
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+        id S1729328AbfJZNWI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:22:08 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5A1F4369AC
-        for <linux-hyperv@vger.kernel.org>; Fri, 25 Oct 2019 17:26:07 +0000 (UTC)
-Received: by mail-wr1-f72.google.com with SMTP id k10so1586670wrl.22
-        for <linux-hyperv@vger.kernel.org>; Fri, 25 Oct 2019 10:26:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=40gRyfBb4ps5SH5tASPj5Wk8vxcVXH98oDEoIsITulQ=;
-        b=XVDzh5SjMES/Gn6g7hCRff/yrdzS6Vd/FIsmFc7hciwZ/wuMjPK8vGUwYUN9Wi1VGG
-         oDRRS04d7y3ExnlL3i4aKSdsMoBaPuvaipIZayVuVG+VtVYGwBPrlnucwyO0+rchb+Gr
-         6AGOxVt11uM8MmVzuFjCAkuCFo/V5R7tWGYZGD3IfJ5dBtASLTlGqcWfXjjK9I/PayfR
-         Q8R+s9PM0VpzPyFLDwml+C0c1E1CovrY5xVEEpkr9UJ1mZ7we2OlrNNr/2g0FBC/EDa/
-         cOhTDfBqIBFowLZICT4/WVbqCGDHbhfQUdVe6E1kPsomhtkv1YvU8ik7U8U/Iu/rA7mj
-         2vNQ==
-X-Gm-Message-State: APjAAAXWITBRH8IA8ozx0vedIS3dW9mV2p0ihq9w16h+Gr+dFjksfBEz
-        UuZMW+jPmj702ZF2Zx4Cc4TGXbvBy1JZnP2I4WVMuT4Ccmj4Ym8zzCpvf/YAY0sj7ZadN81DuJ5
-        Z6T/fHQpQgv8EVgvrMGixnw5H
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr4608875wmg.89.1572024366076;
-        Fri, 25 Oct 2019 10:26:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqxN6NZZxBLFYMg5YHl9+sqn9c0uaU2sjYqWfRCptqslqcRU1mKlyZb4SjVt3gCTKPUbIwuexA==
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr4608851wmg.89.1572024365828;
-        Fri, 25 Oct 2019 10:26:05 -0700 (PDT)
-Received: from vitty.brq.redhat.com ([95.82.135.134])
-        by smtp.gmail.com with ESMTPSA id z189sm3996981wmc.25.2019.10.25.10.26.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2019 10:26:05 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Michael Kelley <mikelley@microsoft.com>,
-        "linux-hyperv\@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Cc:     "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86\@kernel.org" <x86@kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 778CB222BE;
+        Sat, 26 Oct 2019 13:22:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572096127;
+        bh=U6HFSLK8B3LhppeobNpVbWvQmbuqRJyH+5DZKjc7zO0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=uE2ssZ7uMywAv3tiKOZwCSGAXIa4hP6Gcm8rGJNkDfylfoH+DL+sEjOosO/29usXq
+         keFfCVVgZOC5jdtoRmteTF6Ax2ShsV/LGhAqBbMvOoJTUvwzyrC+1zDGbcDVRkk2f3
+         yhwyVB0OBhmSqmA6pPYFIJ0uGIlfucUFSgqb42m0=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Andrea Parri <parri.andrea@gmail.com>,
+        Michael Kelley <mikelley@microsoft.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Roman Kagan <rkagan@virtuozzo.com>,
-        Joe Perches <joe@perches.com>
-Subject: RE: [PATCH v2] x86/hyper-v: micro-optimize send_ipi_one case
-In-Reply-To: <DM5PR21MB013707183D9E271E60FBD435D7650@DM5PR21MB0137.namprd21.prod.outlook.com>
-References: <20191025131546.18794-1-vkuznets@redhat.com> <DM5PR21MB013707183D9E271E60FBD435D7650@DM5PR21MB0137.namprd21.prod.outlook.com>
-Date:   Fri, 25 Oct 2019 19:26:03 +0200
-Message-ID: <877e4sbutw.fsf@vitty.brq.redhat.com>
+        Wei Liu <wei.liu@kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>,
+        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 29/33] x86/hyperv: Set pv_info.name to "Hyper-V"
+Date:   Sat, 26 Oct 2019 09:21:06 -0400
+Message-Id: <20191026132110.4026-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191026132110.4026-1-sashal@kernel.org>
+References: <20191026132110.4026-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Michael Kelley <mikelley@microsoft.com> writes:
+From: Andrea Parri <parri.andrea@gmail.com>
 
-> From: Vitaly Kuznetsov <vkuznets@redhat.com>
->> 
->> When sending an IPI to a single CPU there is no need to deal with cpumasks.
->> With 2 CPU guest on WS2019 I'm seeing a minor (like 3%, 8043 -> 7761 CPU
->> cycles) improvement with smp_call_function_single() loop benchmark. The
->> optimization, however, is tiny and straitforward. Also, send_ipi_one() is
->> important for PV spinlock kick.
->> 
->> I was also wondering if it would make sense to switch to using regular
->> APIC IPI send for CPU > 64 case but no, it is twice as expesive (12650 CPU
->> cycles for __send_ipi_mask_ex() call, 26000 for orig_apic.send_IPI(cpu,
->> vector)).
->> 
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->> Changes since v1:
->>  - Style changes [Roman, Joe]
->> ---
->>  arch/x86/hyperv/hv_apic.c           | 13 ++++++++++---
->>  arch/x86/include/asm/trace/hyperv.h | 15 +++++++++++++++
->>  2 files changed, 25 insertions(+), 3 deletions(-)
->> 
->> diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
->> index e01078e93dd3..fd17c6341737 100644
->> --- a/arch/x86/hyperv/hv_apic.c
->> +++ b/arch/x86/hyperv/hv_apic.c
->> @@ -194,10 +194,17 @@ static bool __send_ipi_mask(const struct cpumask *mask, int
->> vector)
->> 
->>  static bool __send_ipi_one(int cpu, int vector)
->>  {
->> -	struct cpumask mask = CPU_MASK_NONE;
->> +	trace_hyperv_send_ipi_one(cpu, vector);
->> 
->> -	cpumask_set_cpu(cpu, &mask);
->> -	return __send_ipi_mask(&mask, vector);
->> +	if (!hv_hypercall_pg || (vector < HV_IPI_LOW_VECTOR) ||
->> +	    (vector > HV_IPI_HIGH_VECTOR))
->> +		return false;
->> +
->> +	if (cpu >= 64)
->> +		return __send_ipi_mask_ex(cpumask_of(cpu), vector);
->
-> The above test should be checking the VP number, not the CPU
-> number,
+[ Upstream commit f7c0f50f1857c1cf013466fcea4dc98d116bf456 ]
 
-Oops, of course, thanks for catching this! v3 is coming!
+Michael reported that the x86/hyperv initialization code prints the
+following dmesg when running in a VM on Hyper-V:
 
->  since the VP number is used to form the bitmap argument
-> to the hypercall.  In all current implementations of Hyper-V, the CPU number
-> and VP number are the same as far as I am aware, but that's not guaranteed in 
-> the future.
->
-> Michael
->
->> +
->> +	return !hv_do_fast_hypercall16(HVCALL_SEND_IPI, vector,
->> +			       BIT_ULL(hv_cpu_number_to_vp_number(cpu)));
->>  }
->> 
+  [    0.000738] Booting paravirtualized kernel on bare hardware
 
+Let the x86/hyperv initialization code set pv_info.name to "Hyper-V" so
+dmesg reports correctly:
+
+  [    0.000172] Booting paravirtualized kernel on Hyper-V
+
+[ tglx: Folded build fix provided by Yue ]
+
+Reported-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Andrea Parri <parri.andrea@gmail.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Cc: YueHaibing <yuehaibing@huawei.com>
+Link: https://lkml.kernel.org/r/20191015103502.13156-1-parri.andrea@gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/x86/kernel/cpu/mshyperv.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index c0201b11e9e2a..4e7adccf812d4 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -171,6 +171,10 @@ static void __init ms_hyperv_init_platform(void)
+ 	int hv_host_info_ecx;
+ 	int hv_host_info_edx;
+ 
++#ifdef CONFIG_PARAVIRT
++	pv_info.name = "Hyper-V";
++#endif
++
+ 	/*
+ 	 * Extract the features and hints
+ 	 */
 -- 
-Vitaly
+2.20.1
+
