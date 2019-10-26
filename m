@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89BA9CA9EB9
-	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96651CA9EB9
+	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:28:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 526D7206DD
-	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:26:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6459420867
+	for <linux-hyperv@archiver.kernel.org>; Sat, 26 Oct 2019 13:28:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096376;
-	bh=U6HFSLK8B3LhppeobNpVbWvQmbuqRJyH+5DZKjc7zO0=;
+	s=default; t=1572096511;
+	bh=sT9oGxFDElGkZpBJtg+vMBwQFwRn09b3hp6SSHi9yxk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=isfG4wR5dXT4H203/TZn5WXhlFIohCor4sMeK0ia8CJjB2/Jp8iZ6WMh/n75WciPe
-	 4zy2Cn4oteGtBuI1B9212mGuxxzKQv9mgWu+YPgFidBb3ToeGyb8HzqTc5/ItyN/f7
-	 MA4YAC6kBBJfc4dgmuW5huHVOX+ZauJsQvvDh4a4=
+	b=vvNKCR2Cvo+Lq1ASNSWaO+vOG5DOkURs9Su+oI8tVSRE3V969JyG+UvsFJ+MWGISo
+	 O6MK8p/GEyoZ85ra76TFMvIShh78U5hF/zm9ljU9H3hG2A+MnsD6qUZl1ea0BVdMBZ
+	 ss7aIy/hfL/dm3RVKRhytfnU/G8DBZFRZS5qXvow=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729286AbfJZN0G (ORCPT
+        id S1728760AbfJZNVA (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 26 Oct 2019 09:26:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43898 "EHLO mail.kernel.org"
+        Sat, 26 Oct 2019 09:21:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42672 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729328AbfJZNWI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:22:08 -0400
+        id S1728757AbfJZNU7 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:20:59 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 778CB222BE;
-        Sat, 26 Oct 2019 13:22:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 38A3821E6F;
+        Sat, 26 Oct 2019 13:20:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572096127;
-        bh=U6HFSLK8B3LhppeobNpVbWvQmbuqRJyH+5DZKjc7zO0=;
+        s=default; t=1572096059;
+        bh=sT9oGxFDElGkZpBJtg+vMBwQFwRn09b3hp6SSHi9yxk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uE2ssZ7uMywAv3tiKOZwCSGAXIa4hP6Gcm8rGJNkDfylfoH+DL+sEjOosO/29usXq
-         keFfCVVgZOC5jdtoRmteTF6Ax2ShsV/LGhAqBbMvOoJTUvwzyrC+1zDGbcDVRkk2f3
-         yhwyVB0OBhmSqmA6pPYFIJ0uGIlfucUFSgqb42m0=
+        b=KC+N4/aC2kUGG8T18Mvm4CVFxR4hMdeScTQ25YXYSP7giTugnj7PrglAd6ik8gsH/
+         SUdYO4RkRM1drFFHb/eGcdHlKB02/dRzSr+8cQbrNBeiIFjfmcU4L+zQYGe3qT19jI
+         cqFD2oIhHxxRPZT+ZYNLsYZO8AZPL7uNHR6tx0lw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Andrea Parri <parri.andrea@gmail.com>,
@@ -47,12 +47,12 @@ Cc:     Andrea Parri <parri.andrea@gmail.com>,
         Wei Liu <wei.liu@kernel.org>,
         YueHaibing <yuehaibing@huawei.com>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 29/33] x86/hyperv: Set pv_info.name to "Hyper-V"
-Date:   Sat, 26 Oct 2019 09:21:06 -0400
-Message-Id: <20191026132110.4026-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 55/59] x86/hyperv: Set pv_info.name to "Hyper-V"
+Date:   Sat, 26 Oct 2019 09:19:06 -0400
+Message-Id: <20191026131910.3435-55-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191026132110.4026-1-sashal@kernel.org>
-References: <20191026132110.4026-1-sashal@kernel.org>
+In-Reply-To: <20191026131910.3435-1-sashal@kernel.org>
+References: <20191026131910.3435-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -91,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index c0201b11e9e2a..4e7adccf812d4 100644
+index 852e74e48890b..1bec5e4bb1fa9 100644
 --- a/arch/x86/kernel/cpu/mshyperv.c
 +++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -171,6 +171,10 @@ static void __init ms_hyperv_init_platform(void)
+@@ -207,6 +207,10 @@ static void __init ms_hyperv_init_platform(void)
  	int hv_host_info_ecx;
  	int hv_host_info_edx;
  
