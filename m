@@ -2,139 +2,152 @@ Return-Path: <SRS0=3PvP=YU=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=3.0 tests=DATE_IN_PAST_06_12,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85646CA9EAF
-	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Oct 2019 14:44:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C97CA9EBC
+	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Oct 2019 15:19:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5AFF1222C2
-	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Oct 2019 14:44:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nywAXHaY"
+	by mail.kernel.org (Postfix) with ESMTP id CFE5521850
+	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Oct 2019 15:19:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbfJ0Ond (ORCPT
+        id S1727125AbfJ0PTp (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 27 Oct 2019 10:43:33 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42530 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbfJ0Onc (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 27 Oct 2019 10:43:32 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r1so7217328wrs.9;
-        Sun, 27 Oct 2019 07:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YTHjpx5tynN5ysNBWnDF8q0AZsL3oz0jYtEIvTs3UB8=;
-        b=nywAXHaYFmYMIY+hAOelcPD7dFa0WvtZ4hopNPXAcgcSOOWBR3qexe4p3jR+opMRem
-         lCugMtCFnPAa3bYeCi5XUQ9nsJjqAlyMBdtErBu6QfX4HiRClOJ9XlX/YzaCltObVthY
-         kmmcXvFX9SHiQPo0V8Unp3F6q7o//WoKIRf54n4rgXnKWx+n76nNudLg2fyVX0LLKjl/
-         PT3bvONLPl3UJdPbe/wn9J2+LWtGQS93qOk5kt8AjOXmyRaf7eStSgqKHH+1RGIB+vJI
-         cYBywcXCz6MGJOcKDf2v81F7FSxmlhMvDjS20n5zV5P+PuVCUmoFOu+G1edytmO2HiIq
-         fAEw==
+        Sun, 27 Oct 2019 11:19:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54266 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726814AbfJ0PTp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 27 Oct 2019 11:19:45 -0400
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com [209.85.221.72])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 903B45945B
+        for <linux-hyperv@vger.kernel.org>; Sun, 27 Oct 2019 15:19:44 +0000 (UTC)
+Received: by mail-wr1-f72.google.com with SMTP id f15so4811365wrs.13
+        for <linux-hyperv@vger.kernel.org>; Sun, 27 Oct 2019 08:19:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YTHjpx5tynN5ysNBWnDF8q0AZsL3oz0jYtEIvTs3UB8=;
-        b=hbznPDJfkTNrC9Ntt4U37iS7KHe77nmsA2yqUe2KJTWUzdfbyiIehJdoRj7OnWSnPO
-         1uSrOWMVZVmJUVCb2qhRGg/Jc0ObHU3kVHgHHIfd/A6uBvrCCEASm18lXV3TgG6ZoIJQ
-         gh0YCO1TXBy9GMF0OtVTSW4FWmKECKIir8QYiKrPkddMkCfgIR9iEwSBOPrVzocNKrxj
-         kPCVXP3tvfAGBxsP6iIMPUA00GIzEKlcFm+foh8GTn6em1/d2M4jE7We3N4rHPgwE3Lq
-         1RvVxVYJHrIl9onzMTu0L9rJu3ySNSsO/To/zfXNcz7Vu9D/N/27e8zjdlMN4tse/CYP
-         4TTQ==
-X-Gm-Message-State: APjAAAWkP05kOCZmplb7+lnt5T94vGIUzDCmcRVQ8S8fH6rqV7FUz0B/
-        tNUMXjQBChZCCgmrcpusD60=
-X-Google-Smtp-Source: APXvYqwJ+H4xcrTifNRyujk7kct3/jugAiLCESyoG4j0g4CEAKEOyPB8CuSko//m+TkPGmo0KYgcvQ==
-X-Received: by 2002:a5d:4705:: with SMTP id y5mr11261749wrq.364.1572187410396;
-        Sun, 27 Oct 2019 07:43:30 -0700 (PDT)
-Received: from localhost (94.222.26.109.rev.sfr.net. [109.26.222.94])
-        by smtp.gmail.com with ESMTPSA id n17sm7655453wmc.41.2019.10.27.07.43.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JvVHDWrg8kpWgm0TThMdqhOJom1+KkBM1yfK666tdK4=;
+        b=WpJ6mNw/NA09aKxTt4JP753SBhrgjnLa1hMe4Z7GBP+wefuTuRawkW1CQTZGFQFYif
+         xyWiNmM7GlAH8oCbYkwWE48mgthb86WgRlxKUlT/jgdA8qTuZRNgwAxOYYKl8ikVlCtM
+         SuzLi3Wad/TZ8BTVrlxzQ/pZbdxKRS3oNdTIwI0GiSSor3lDEXmEhRCr/yDnWW0QVuaQ
+         9zLNMFunzqXNTjDjLhGdnmKW2i5dg2f0Fmgx0CMr9hbms6OwDGmz2xXHNC0PpbIXOpPd
+         hK1Q0P0lG+1HP3HdTKKPXjD6+S8Kx6BuHm1QetyMDely8L66kc878TIFEKvSON1umkvz
+         UC+A==
+X-Gm-Message-State: APjAAAUykP8zkzcTauaNZCvcLZ6iELYoMTxDy1jELRQqvvi39+50j1vm
+        J7AYI+TczRD+IgqhBvv2HBXPreeqiYOC/p0PINO9vLuA1Wk3rdCrCnkDoD4yZUXN2sYD8qjKOwH
+        dEfi2JR2LkwEKZejrHkkriU/L
+X-Received: by 2002:adf:94e2:: with SMTP id 89mr10328945wrr.259.1572189583018;
+        Sun, 27 Oct 2019 08:19:43 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzvdVn0aiYq7FrT5RVLqx0MXimGTzauHTpKqpbORHqbfFJoV/X9338sWHQK9x3m/KY2jVMJ9Q==
+X-Received: by 2002:adf:94e2:: with SMTP id 89mr10328926wrr.259.1572189582760;
+        Sun, 27 Oct 2019 08:19:42 -0700 (PDT)
+Received: from vitty.brq.redhat.com ([193.43.158.229])
+        by smtp.gmail.com with ESMTPSA id l15sm3649473wmh.18.2019.10.27.08.19.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2019 07:43:29 -0700 (PDT)
-Date:   Sun, 27 Oct 2019 09:01:46 +0100
-From:   Stefan Hajnoczi <stefanha@gmail.com>
-To:     Stefano Garzarella <sgarzare@redhat.com>
-Cc:     netdev@vger.kernel.org, Sasha Levin <sashal@kernel.org>,
-        linux-hyperv@vger.kernel.org,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Arnd Bergmann <arnd@arndb.de>, kvm@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dexuan Cui <decui@microsoft.com>, linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
+        Sun, 27 Oct 2019 08:19:41 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     linux-hyperv@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, x86@kernel.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jorgen Hansen <jhansen@vmware.com>
-Subject: Re: [PATCH net-next 00/14] vsock: add multi-transports support
-Message-ID: <20191027080146.GA4472@stefanha-x1.localdomain>
-References: <20191023095554.11340-1-sgarzare@redhat.com>
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Roman Kagan <rkagan@virtuozzo.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Joe Perches <joe@perches.com>
+Subject: [PATCH v3] x86/hyper-v: micro-optimize send_ipi_one case
+Date:   Sun, 27 Oct 2019 16:19:38 +0100
+Message-Id: <20191027151938.7296-1-vkuznets@redhat.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
-Content-Disposition: inline
-In-Reply-To: <20191023095554.11340-1-sgarzare@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+When sending an IPI to a single CPU there is no need to deal with cpumasks.
+With 2 CPU guest on WS2019 I'm seeing a minor (like 3%, 8043 -> 7761 CPU
+cycles) improvement with smp_call_function_single() loop benchmark. The
+optimization, however, is tiny and straitforward. Also, send_ipi_one() is
+important for PV spinlock kick.
 
---1yeeQ81UyVL57Vl7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I was also wondering if it would make sense to switch to using regular
+APIC IPI send for CPU > 64 case but no, it is twice as expesive (12650 CPU
+cycles for __send_ipi_mask_ex() call, 26000 for orig_apic.send_IPI(cpu,
+vector)).
 
-On Wed, Oct 23, 2019 at 11:55:40AM +0200, Stefano Garzarella wrote:
-> This series adds the multi-transports support to vsock, following
-> this proposal: https://www.spinics.net/lists/netdev/msg575792.html
->=20
-> With the multi-transports support, we can use VSOCK with nested VMs
-> (using also different hypervisors) loading both guest->host and
-> host->guest transports at the same time.
-> Before this series, vmci-transport supported this behavior but only
-> using VMware hypervisor on L0, L1, etc.
->=20
-> RFC: https://patchwork.ozlabs.org/cover/1168442/
-> RFC -> v1:
-> - Added R-b/A-b from Dexuan and Stefan
-> - Fixed comments and typos in several patches (Stefan)
-> - Patch 7: changed .notify_buffer_size return to void (Stefan)
-> - Added patch 8 to simplify the API exposed to the transports (Stefan)
-> - Patch 11:
->   + documented VSOCK_TRANSPORT_F_* flags (Stefan)
->   + fixed vsock_assign_transport() when the socket is already assigned
->   + moved features outside of struct vsock_transport, and used as
->     parameter of vsock_core_register() as a preparation of Patch 12
-> - Removed "vsock: add 'transport_hg' to handle g2h\h2g transports" patch
-> - Added patch 12 to register vmci_transport only when VMCI guest/host
->   are active
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+Changes since v2:
+ - Check VP number instead of CPU number against >= 64 [Michael]
+ - Check for VP_INVAL
+---
+ arch/x86/hyperv/hv_apic.c           | 16 +++++++++++++---
+ arch/x86/include/asm/trace/hyperv.h | 15 +++++++++++++++
+ 2 files changed, 28 insertions(+), 3 deletions(-)
 
-Has there been feedback from Jorgen or someone else from VMware?  A
-Reviewed-by or Acked-by would be nice since this patch series affects
-VMCI AF_VSOCK.
+diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
+index e01078e93dd3..40e0e322161d 100644
+--- a/arch/x86/hyperv/hv_apic.c
++++ b/arch/x86/hyperv/hv_apic.c
+@@ -194,10 +194,20 @@ static bool __send_ipi_mask(const struct cpumask *mask, int vector)
+ 
+ static bool __send_ipi_one(int cpu, int vector)
+ {
+-	struct cpumask mask = CPU_MASK_NONE;
++	int vp = hv_cpu_number_to_vp_number(cpu);
+ 
+-	cpumask_set_cpu(cpu, &mask);
+-	return __send_ipi_mask(&mask, vector);
++	trace_hyperv_send_ipi_one(cpu, vector);
++
++	if (!hv_hypercall_pg || (vp == VP_INVAL))
++		return false;
++
++	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
++		return false;
++
++	if (vp >= 64)
++		return __send_ipi_mask_ex(cpumask_of(cpu), vector);
++
++	return !hv_do_fast_hypercall16(HVCALL_SEND_IPI, vector, BIT_ULL(vp));
+ }
+ 
+ static void hv_send_ipi(int cpu, int vector)
+diff --git a/arch/x86/include/asm/trace/hyperv.h b/arch/x86/include/asm/trace/hyperv.h
+index ace464f09681..4d705cb4d63b 100644
+--- a/arch/x86/include/asm/trace/hyperv.h
++++ b/arch/x86/include/asm/trace/hyperv.h
+@@ -71,6 +71,21 @@ TRACE_EVENT(hyperv_send_ipi_mask,
+ 		      __entry->ncpus, __entry->vector)
+ 	);
+ 
++TRACE_EVENT(hyperv_send_ipi_one,
++	    TP_PROTO(int cpu,
++		     int vector),
++	    TP_ARGS(cpu, vector),
++	    TP_STRUCT__entry(
++		    __field(int, cpu)
++		    __field(int, vector)
++		    ),
++	    TP_fast_assign(__entry->cpu = cpu;
++			   __entry->vector = vector;
++		    ),
++	    TP_printk("cpu %d vector %x",
++		      __entry->cpu, __entry->vector)
++	);
++
+ #endif /* CONFIG_HYPERV */
+ 
+ #undef TRACE_INCLUDE_PATH
+-- 
+2.20.1
 
-Stefan
-
---1yeeQ81UyVL57Vl7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl21TucACgkQnKSrs4Gr
-c8jY1wf9G0k0TNCkBEFILNq2f7qw5oF5+pTf1Of9V+p/S4tsTcWiHPLrYThBzZui
-QJ/Zws7KFQcXB/7+e8RQ4SXI/iMLoPtaEFK3euKQg0N48xlULtw2XuiMVuaAsTsl
-iaEmsyI21PQlM7zeMFTfqt0wxt2H6MebdP4DyrfhbKvFKmzAAy7v0Xq3vtv6/ZX6
-AIVIDuKDo19J9oe9ZKF51lvMe4Ndd7ynKNDD+2s2ZrrF31/uuQkE6K2ZUMjTDQVR
-zcK2K/aHtAnz+98XtneyrQAlc4JV0lTIZOMB2aTS4ZQ1sHssYiwGbF/j4fR2Dj0n
-iFHeCiwo4mQ5+1RKCoFZbtObs2ilQw==
-=wYuh
------END PGP SIGNATURE-----
-
---1yeeQ81UyVL57Vl7--
