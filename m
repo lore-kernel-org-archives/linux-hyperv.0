@@ -2,130 +2,316 @@ Return-Path: <SRS0=Evx3=YV=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF33CA9EC1
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Oct 2019 21:08:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09078CA9EC0
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Oct 2019 21:33:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EFFB32196F
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Oct 2019 21:08:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB1A6217D6
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Oct 2019 21:33:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="FZToOhpq"
+	dkim=pass (2048-bit key) header.d=netronome-com.20150623.gappssmtp.com header.i=@netronome-com.20150623.gappssmtp.com header.b="bdl88kZF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730204AbfJ1VGv (ORCPT
+        id S1730838AbfJ1Vd3 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 28 Oct 2019 17:06:51 -0400
-Received: from mail-eopbgr750117.outbound.protection.outlook.com ([40.107.75.117]:7891
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389764AbfJ1VGu (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 28 Oct 2019 17:06:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EbEGSbGBwaVR6untkf8uJV6G4EqhbrwZcxR6jzZcalQInxwTNRQSseU4bIKkSKSI3e8dzr7RtTcRCcPSQltLRO1lnw8s1Qxzgi3awSbVinJr0wXJs9IsONEsbHVSbFmQ4xbIf376Ro3d/Y46Xdk7cHHPVJREHvfj8Xhw/ldiITLMl+zoPcREme4ZnoT9xtzEyXNl0H2uUVWZnd5sTyBjVCmtIh6S+W70HUaNfHkH8nwb23gJiVq4gPhPVAZmBFUsm984bwt50Bw57StHfUJ8ia5paY6p/jd1cMxMu4qCZPZ7NIIlK/nKzieEh/rDoJKaaOyWJEnvvjnPs2mpDVo0xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PMQHH992GH6xm7PefP3WLRh4uhfxzuoIrpD1II7fCHU=;
- b=KjOVWwQhYgvEyI/nWGo2TfiHfPoOJBaKuDT0jgtO7HhnoSYMT6Sl69ZkYglUhauFusmIyCUPDN2Rh8EOpTGhhxJtbjxl9WMUqSwqW1dSUbzsNM/BMwhXVFGoJ/cCPiVctKyd33/w1j/9RPbPjUSPiqbaP++tpOKWgR7b0Io20vzZAnuTfKGNxT+gWP8AfN50v+HqM8nl83nKExE/ncjWJ1nXEcy475ke5EU/98Y8QxlXQx0qNJq7YJME24g0Qpt10a1mOVfOXbAVfp1R084GtbJE151BpB83fERTYTnKcjjisHdtLMWut7vRJb6GQuS2dmzkoN4eAAyOQpJoUyFZxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PMQHH992GH6xm7PefP3WLRh4uhfxzuoIrpD1II7fCHU=;
- b=FZToOhpqg4oo1fjAAPe4KTW9tmhM4a7sds2ZwmVoryH8rz7nNY2h+/+LItSa9hIR1/+sdhLIgQgOiqD8e3BViaLg/sAh3vezHtG7QRpPKwDPCtFhSawvyL2QKW7rUjFGBC1ALOVBnvtaDbqMGwgGBRiB43RWH0QL/zMZU6dJpL0=
-Received: from DM6PR21MB1242.namprd21.prod.outlook.com (20.179.50.86) by
- DM6PR21MB1404.namprd21.prod.outlook.com (20.180.22.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.8; Mon, 28 Oct 2019 21:06:48 +0000
-Received: from DM6PR21MB1242.namprd21.prod.outlook.com
- ([fe80::756e:8d3f:e463:3bf7]) by DM6PR21MB1242.namprd21.prod.outlook.com
- ([fe80::756e:8d3f:e463:3bf7%3]) with mapi id 15.20.2408.016; Mon, 28 Oct 2019
- 21:06:48 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     "sashal@kernel.org" <sashal@kernel.org>,
+        Mon, 28 Oct 2019 17:33:29 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:40448 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730436AbfJ1Vd2 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 28 Oct 2019 17:33:28 -0400
+Received: by mail-pg1-f193.google.com with SMTP id 15so7846855pgt.7
+        for <linux-hyperv@vger.kernel.org>; Mon, 28 Oct 2019 14:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=jEdPM8+CeSN6YUxMRCSzn6h9zX/2P2PBOeSoWjOyGwU=;
+        b=bdl88kZF4sDffbc4FuxXRHGyWjQp7MkgkLicu4ygU8bjQP92Pk0Iz9iWsO9KDkuc4/
+         OWXgXpNgDaAyo15UFcQjqsHvBdmND76PEX359b0q8/jMTyJBJMTBx5b8QUaUG4ctQI8O
+         G1t8aNCXViLW/M6z74CJRHSjbi/PV17zzIy0jlj1JX1SSHZU8KmU8wohwGeDehZ1VXzE
+         /4wqibp0QVsR97msGf8JKGASqC1PIkhD59WPj2JwtDmSBr0kQpdlLO7doLn+B53l+eMZ
+         vkcj2cAn+t9m/hIRtyG8OA4RzULPw+QxE6ZpPUuGPRV1Q/7YwPWALUxGCTVUd/Y3woho
+         M6ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=jEdPM8+CeSN6YUxMRCSzn6h9zX/2P2PBOeSoWjOyGwU=;
+        b=rFI6dgqndJ6FKxExUMljb8Tu4GTTfqREAxf5ZnWJyiURK6Q/7QGAAq3HeBYnZLRbYK
+         7gI45pKLyV8iNibkkRnNza8j10SEfSQcbu2e4lTP4/RJhJ1hFSjrjYLvcgPLt/bxgNRh
+         hzPCflvGSg8Lns19htT/m7A6nBrEpLQJzqtxPgd2vqU2lTSwAeurUjBu6chFB3lCHMw7
+         0KLi8ps4tpuiZbfzVycdm0zMgG1Vdhp49fF6ZGQIbuV1jLPO/4cC8kOt65jF0TANN1vy
+         H9/nQVuNdEAnAux39dLct8sGMCeHGpxiOpfIWujq9hpkttFUDuqAkmbbQXeXB1oQZIHi
+         ollw==
+X-Gm-Message-State: APjAAAXwSWc/R4FC6OMROh137liOH1fNRj2h4n13PD9+dxTC+SReCKNd
+        HrNvb/V2k+lfbxyxiYVUoSXeog==
+X-Google-Smtp-Source: APXvYqy9OriwAtFJ734hHSc7dz3dHQ5c1a6LhaFVhJVlRYd1p7+V+rQWXdKlsj5AENvQYC6Tl4P2Gw==
+X-Received: by 2002:a17:90a:a882:: with SMTP id h2mr1782558pjq.1.1572298407836;
+        Mon, 28 Oct 2019 14:33:27 -0700 (PDT)
+Received: from cakuba.hsd1.ca.comcast.net ([66.60.152.14])
+        by smtp.gmail.com with ESMTPSA id b14sm11228415pfi.95.2019.10.28.14.33.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2019 14:33:27 -0700 (PDT)
+Date:   Mon, 28 Oct 2019 14:33:22 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     "sashal@kernel.org" <sashal@kernel.org>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     Haiyang Zhang <haiyangz@microsoft.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         KY Srinivasan <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>,
         "davem@davemloft.net" <davem@davemloft.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH net-next, 0/4] hv_netvsc: Add XDP support and some error
- handling fixes
-Thread-Topic: [PATCH net-next, 0/4] hv_netvsc: Add XDP support and some error
- handling fixes
-Thread-Index: AQHVjdOcwPSvQDuAFkynC/HiNk9eug==
-Date:   Mon, 28 Oct 2019 21:06:48 +0000
-Message-ID: <1572296801-4789-1-git-send-email-haiyangz@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CO2PR04CA0076.namprd04.prod.outlook.com
- (2603:10b6:102:1::44) To DM6PR21MB1242.namprd21.prod.outlook.com
- (2603:10b6:5:169::22)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=lkmlhyz@microsoft.com; 
-x-ms-exchange-messagesentrepresentingtype: 2
-x-mailer: git-send-email 1.8.3.1
-x-originating-ip: [13.77.154.182]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4a56b86f-245f-46d8-4087-08d75beabece
-x-ms-traffictypediagnostic: DM6PR21MB1404:|DM6PR21MB1404:|DM6PR21MB1404:
-x-ms-exchange-transport-forked: True
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <DM6PR21MB14046413FE5ED57964733B84AC660@DM6PR21MB1404.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2958;
-x-forefront-prvs: 0204F0BDE2
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(376002)(346002)(396003)(39860400002)(136003)(199004)(189003)(6512007)(4744005)(36756003)(54906003)(50226002)(486006)(22452003)(2616005)(476003)(305945005)(14454004)(478600001)(2501003)(6392003)(66066001)(7846003)(66476007)(66446008)(64756008)(66556008)(66946007)(10290500003)(6436002)(386003)(10090500001)(102836004)(7736002)(99286004)(52116002)(5660300002)(14444005)(186003)(26005)(6506007)(256004)(5024004)(8936002)(81156014)(81166006)(6116002)(6486002)(3846002)(4326008)(8676002)(2201001)(316002)(110136005)(25786009)(2906002)(4720700003)(71200400001)(71190400001);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR21MB1404;H:DM6PR21MB1242.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xQWEy85z6s2XSYoeUoDrdY8VyEbMO46slAPFHpD1CwPtAMcTiHT2JD1PvkFS5nGaQ9Ml/cVtWnL3yBqVhGtqBMOuKXjCBBmRs/vMaslVn84gENPe8BBzo625nUwY0ysb3Rs5RTTPCA79DGZ940Zl/CVyvwcsGZiYHEovedr0dwNDFYI6tJRRnXChRtD8cT2GHklx07ZT/iy+9MH5tEOS6to9k6NiTr4Tw7e5Beb4OUigJZl7W8RQjxpPkghR0TEDi7zWZhynkwaCN4uz1NYyPF+POTNr2txb6gk7MIsYHpUBVqIaVVxsKClog0XmH9GLRG4tWCZuYyii5TyHqI4E+Zmgp+Yw2ckz+enx81SOu5UaJRj2XwnRvACiiWgCknaT96fdmTuufVqWFRngY2RaE+tOJ/a6njcr601FJdm4wYiVdIVCGk2Tqz3geF5XTMZJ
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH net-next, 3/4] hv_netvsc: Add XDP support
+Message-ID: <20191028143322.45d81da4@cakuba.hsd1.ca.comcast.net>
+In-Reply-To: <1572296801-4789-4-git-send-email-haiyangz@microsoft.com>
+References: <1572296801-4789-1-git-send-email-haiyangz@microsoft.com>
+        <1572296801-4789-4-git-send-email-haiyangz@microsoft.com>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a56b86f-245f-46d8-4087-08d75beabece
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2019 21:06:48.0176
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VE6fkoSvQz96pacajjniyVqUL6mvF37YPeFMNM43tnperl7AesJY2wKCeptO1zB5EHaY/2AAQInHH01Ha4cuZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1404
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch set fixes some error handling issues in netvsc driver,
-and add XDP support.
+On Mon, 28 Oct 2019 21:07:04 +0000, Haiyang Zhang wrote:
+> This patch adds support of XDP in native mode for hv_netvsc driver, and
+> transparently sets the XDP program on the associated VF NIC as well.
+> 
+> XDP program cannot run with LRO (RSC) enabled, so you need to disable LRO
+> before running XDP:
+>         ethtool -K eth0 lro off
+> 
+> XDP actions not yet supported:
+>         XDP_TX, XDP_REDIRECT
 
-Haiyang Zhang (4):
-  hv_netvsc: Fix error handling in netvsc_set_features()
-  hv_netvsc: Fix error handling in netvsc_attach()
-  hv_netvsc: Add XDP support
-  hv_netvsc: Update document for XDP support
+I don't think we want to merge support without at least XDP_TX these
+days..
 
- .../networking/device_drivers/microsoft/netvsc.txt |  14 ++
- drivers/net/hyperv/Makefile                        |   2 +-
- drivers/net/hyperv/hyperv_net.h                    |  15 ++
- drivers/net/hyperv/netvsc.c                        |   8 +-
- drivers/net/hyperv/netvsc_bpf.c                    | 211 +++++++++++++++++=
-++++
- drivers/net/hyperv/netvsc_drv.c                    | 150 ++++++++++++---
- 6 files changed, 374 insertions(+), 26 deletions(-)
- create mode 100644 drivers/net/hyperv/netvsc_bpf.c
+And without the ability to prepend headers this may be the least
+complete initial XDP implementation we've seen :(
 
---=20
-1.8.3.1
+> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
 
+> diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+> index d22a36f..688487b 100644
+> --- a/drivers/net/hyperv/netvsc.c
+> +++ b/drivers/net/hyperv/netvsc.c
+> @@ -122,8 +122,10 @@ static void free_netvsc_device(struct rcu_head *head)
+>  	vfree(nvdev->send_buf);
+>  	kfree(nvdev->send_section_map);
+>  
+> -	for (i = 0; i < VRSS_CHANNEL_MAX; i++)
+> +	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
+> +		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
+>  		vfree(nvdev->chan_table[i].mrc.slots);
+> +	}
+>  
+>  	kfree(nvdev);
+>  }
+> @@ -1370,6 +1372,10 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
+>  		nvchan->net_device = net_device;
+>  		u64_stats_init(&nvchan->tx_stats.syncp);
+>  		u64_stats_init(&nvchan->rx_stats.syncp);
+> +
+> +		xdp_rxq_info_reg(&nvchan->xdp_rxq, ndev, i);
+> +		xdp_rxq_info_reg_mem_model(&nvchan->xdp_rxq,
+> +					   MEM_TYPE_PAGE_SHARED, NULL);
+
+These can fail.
+
+>  	}
+>  
+>  	/* Enable NAPI handler before init callbacks */
+> diff --git a/drivers/net/hyperv/netvsc_bpf.c b/drivers/net/hyperv/netvsc_bpf.c
+> new file mode 100644
+> index 0000000..4d235ac
+> --- /dev/null
+> +++ b/drivers/net/hyperv/netvsc_bpf.c
+> @@ -0,0 +1,211 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2019, Microsoft Corporation.
+> + *
+> + * Author:
+> + *   Haiyang Zhang <haiyangz@microsoft.com>
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/netdevice.h>
+> +#include <linux/etherdevice.h>
+> +#include <linux/ethtool.h>
+> +#include <linux/bpf.h>
+> +#include <linux/bpf_trace.h>
+> +#include <linux/kernel.h>
+> +#include <net/xdp.h>
+> +
+> +#include <linux/mutex.h>
+> +#include <linux/rtnetlink.h>
+> +
+> +#include "hyperv_net.h"
+> +
+> +u32 netvsc_run_xdp(struct net_device *ndev, struct netvsc_channel *nvchan,
+> +		   void **p_pbuf)
+> +{
+> +	struct page *page = NULL;
+> +	void *data = nvchan->rsc.data[0];
+> +	u32 len = nvchan->rsc.len[0];
+> +	void *pbuf = data;
+> +	struct bpf_prog *prog;
+> +	struct xdp_buff xdp;
+> +	u32 act = XDP_PASS;
+> +
+> +	*p_pbuf = NULL;
+> +
+> +	rcu_read_lock();
+> +	prog = rcu_dereference(nvchan->bpf_prog);
+> +
+> +	if (!prog || nvchan->rsc.cnt > 1)
+
+Can rsc.cnt == 1 not be ensured at setup time? This looks quite
+limiting if random frames could be forced to bypass the filter.
+
+> +		goto out;
+> +
+> +	/* copy to a new page buffer if data are not within a page */
+> +	if (virt_to_page(data) != virt_to_page(data + len - 1)) {
+> +		page = alloc_page(GFP_ATOMIC);
+> +		if (!page)
+> +			goto out;
+
+Returning XDP_PASS on allocation failure seems highly questionable.
+
+> +		pbuf = page_address(page);
+> +		memcpy(pbuf, nvchan->rsc.data[0], len);
+> +
+> +		*p_pbuf = pbuf;
+> +	}
+> +
+> +	xdp.data_hard_start = pbuf;
+> +	xdp.data = xdp.data_hard_start;
+
+This patch also doesn't add any headroom for XDP to prepend data :(
+
+> +	xdp_set_data_meta_invalid(&xdp);
+> +	xdp.data_end = xdp.data + len;
+> +	xdp.rxq = &nvchan->xdp_rxq;
+> +	xdp.handle = 0;
+> +
+> +	act = bpf_prog_run_xdp(prog, &xdp);
+> +
+> +	switch (act) {
+> +	case XDP_PASS:
+> +		/* Pass to upper layers */
+> +		break;
+> +
+> +	case XDP_ABORTED:
+> +		trace_xdp_exception(ndev, prog, act);
+> +		break;
+> +
+> +	case XDP_DROP:
+> +		break;
+> +
+> +	default:
+> +		bpf_warn_invalid_xdp_action(act);
+> +	}
+> +
+> +out:
+> +	rcu_read_unlock();
+> +
+> +	if (page && act != XDP_PASS) {
+> +		*p_pbuf = NULL;
+> +		__free_page(page);
+> +	}
+> +
+> +	return act;
+> +}
+> +
+> +unsigned int netvsc_xdp_fraglen(unsigned int len)
+> +{
+> +	return SKB_DATA_ALIGN(len) +
+> +	       SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
+> +}
+> +
+> +struct bpf_prog *netvsc_xdp_get(struct netvsc_device *nvdev)
+> +{
+> +	return rtnl_dereference(nvdev->chan_table[0].bpf_prog);
+> +}
+> +
+> +int netvsc_xdp_set(struct net_device *dev, struct bpf_prog *prog,
+> +		   struct netvsc_device *nvdev)
+> +{
+> +	struct bpf_prog *old_prog;
+> +	int frag_max, i;
+> +
+> +	old_prog = netvsc_xdp_get(nvdev);
+> +
+> +	if (!old_prog && !prog)
+> +		return 0;
+
+I think this case is now handled by the core.
+
+> +	frag_max = netvsc_xdp_fraglen(dev->mtu + ETH_HLEN);
+> +	if (prog && frag_max > PAGE_SIZE) {
+> +		netdev_err(dev, "XDP: mtu:%u too large, frag:%u\n",
+> +			   dev->mtu, frag_max);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (prog && (dev->features & NETIF_F_LRO)) {
+> +		netdev_err(dev, "XDP: not support LRO\n");
+
+Please report this via extack, that way users will see it in the console
+in which they're installing the program.
+
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (prog) {
+> +		prog = bpf_prog_add(prog, nvdev->num_chn);
+> +		if (IS_ERR(prog))
+> +			return PTR_ERR(prog);
+> +	}
+> +
+> +	for (i = 0; i < nvdev->num_chn; i++)
+> +		rcu_assign_pointer(nvdev->chan_table[i].bpf_prog, prog);
+> +
+> +	if (old_prog)
+> +		for (i = 0; i < nvdev->num_chn; i++)
+> +			bpf_prog_put(old_prog);
+> +
+> +	return 0;
+> +}
+> +
+> +int netvsc_vf_setxdp(struct net_device *vf_netdev, struct bpf_prog *prog)
+> +{
+> +	struct netdev_bpf xdp;
+> +	bpf_op_t ndo_bpf;
+> +
+> +	ASSERT_RTNL();
+> +
+> +	if (!vf_netdev)
+> +		return 0;
+> +
+> +	ndo_bpf = vf_netdev->netdev_ops->ndo_bpf;
+> +	if (!ndo_bpf)
+> +		return 0;
+> +
+> +	memset(&xdp, 0, sizeof(xdp));
+> +
+> +	xdp.command = XDP_SETUP_PROG;
+> +	xdp.prog = prog;
+> +
+> +	return ndo_bpf(vf_netdev, &xdp);
+
+IMHO the automatic propagation is not a good idea. Especially if the
+propagation doesn't make the entire installation fail if VF doesn't
+have ndo_bpf.
+
+> +}
