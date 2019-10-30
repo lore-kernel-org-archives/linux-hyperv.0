@@ -2,120 +2,155 @@ Return-Path: <SRS0=aQpu=YX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A64CA9EC5
-	for <linux-hyperv@archiver.kernel.org>; Wed, 30 Oct 2019 15:32:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B43EFCA9EC6
+	for <linux-hyperv@archiver.kernel.org>; Wed, 30 Oct 2019 15:40:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AAD920856
-	for <linux-hyperv@archiver.kernel.org>; Wed, 30 Oct 2019 15:32:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76F7A20856
+	for <linux-hyperv@archiver.kernel.org>; Wed, 30 Oct 2019 15:40:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="IDQuvb5U"
+	dkim=pass (1024-bit key) header.d=vmware.com header.i=@vmware.com header.b="P4sJgcQ7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727324AbfJ3PcJ (ORCPT
+        id S1726403AbfJ3PkK (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 30 Oct 2019 11:32:09 -0400
-Received: from mail-eopbgr770097.outbound.protection.outlook.com ([40.107.77.97]:47697
-        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        Wed, 30 Oct 2019 11:40:10 -0400
+Received: from mail-eopbgr700045.outbound.protection.outlook.com ([40.107.70.45]:63968
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727201AbfJ3PcI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 30 Oct 2019 11:32:08 -0400
+        id S1726302AbfJ3PkK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 30 Oct 2019 11:40:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TDxWWPAa6Gz0BZHtCdV0EvB6R8tGaEUiXM/otwMPFjCMs++SSeRJMJUOFO1tV167JAAGLzwyU2oP/+IuVcxKogIjO1wwGZU7aFPv5TL45xDNGepdDDUwWzeRVef00iRWdNJ8FZZJr30fhFIKFmEoHspJIStYWzWrTITTpKvFwDfC3VkYlstBfCW9kue7ptkCCZ2Wd/FFd/nhO2k/n/JnEZqkwxMQ8uSDSZV8UdbYL6VBFY7DzKwWzeqcTgXU8bdn0xoX1wffXOeOBg/TaLF2WXTEJ1v1BoRkkkrTbn8/MfHM8n84fMfFVlkbrxQqHk3vQYecgbFWkiV7YxuvdMfO3A==
+ b=BTWmVKCBvLcveUa7heIEJSz5GFAkv8nmmlQzRoqbZQrfACX3giVPstiON2J+0+SiKsyqhFFiIOE+WSd2NASAo74QPpdOvl9/sg7NtXWIAxH2aIMBr7GY6JsSNv5qhT++OiI2CzySnZ/cn5QczRHAzBCi02CI63+P0kOSmWqzcNx+mbyM1EvtkzoOdNlUineNJ7sN+IotzK35anOsmU0gwQFFVkeGTey07eO+6nCI36cz+UE+JnfHRU4aoDY8Dl5OTQnmtgOOPvXQ0TqrYVBNjrJzUqZeV3kfWnaLwD7Mys49d/4GNRfK+mpimcCKgaZIEWTIMjxn06WgbLzk/pK04w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RH+IFTFh1MtdP5mb8WuXy3H4/zp96T9vHC2n7oOu/+E=;
- b=CnMGIHBpaA2xnGDEU1P4g1F+N44wSGHEmVj1TwwksqxqDpMBeG/XrqOpmQRJ00isFJMApRDqFmipYyVQy0VlXyt+RTtygL4Djgn9ltDsMbGCGzOLBRUrKvUDvmmF7SzmLp8+++Mz2sfMg69v4M7A9u2+YD3PWSIo06DemNvtY0xS7GH7a/GfN4i4lyqYDdEqRg8suRO194Jr73wnY3PnbB7sM4Himq+8k9Ch4TrJK7eI15u0PGuk34FHVZLikR8lTz0xuioMtr6C8v75YWnyLFLptUPN5ZCoh+Rjl1AgKM6gIbZPe4LXLBinuUtfhu64UC0odrgQCPU0prpxeq5RxA==
+ bh=vc07ImVMgNVyLiULifycZRo6xqCv5Ysb5B4Llv8uH6k=;
+ b=ONv7/B3fU82AAHksjsl0HAQtr8IIPltC8D0TUR1cXDv+Hgg8Gp46U3LFLRLwBeM6kyxF1THqNctHoZAPF7+1GtTpOjBPpQpXeVbSnRvl2go2GIgg9NfxFmyLFpdaqnBbqyn+X9xsHdm32eDuB2zVOqlJe0Koe941Den1I0aYJ8HrVS5t00wyfp117+fJrOrvrOuE+DYZvA18OmkDjfF1zq5BMtXFkAolp2rNJoXGqBzuaHdZCVBMsdjlTiVbAkaruNCdS9VQwJK8T+Z1ltyD/4YoWTY7IsSa0lGwg38OSjspGD5LAlCGCKj5avwpO+n0U8+tsVoxOd1ALO6KGJkRcg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RH+IFTFh1MtdP5mb8WuXy3H4/zp96T9vHC2n7oOu/+E=;
- b=IDQuvb5U5PeOW7lufHr9X41OtWO8Mf2A+P/WiLN5OkTS8o9an5IGhF3qPRxCXRfzLM79eS6qd2/72eMLvtsq8qRtWDp7GvBl+fHFlnA5aHjwCXn+K/fBEgw9JB/Pm9d2qoRQqQhpgt+zy2XY7oyk393ZJaY4XNr0uePJFbSYs1Q=
-Received: from DM6PR21MB1242.namprd21.prod.outlook.com (20.179.50.86) by
- DM6PR21MB1323.namprd21.prod.outlook.com (20.179.53.74) with Microsoft SMTP
+ bh=vc07ImVMgNVyLiULifycZRo6xqCv5Ysb5B4Llv8uH6k=;
+ b=P4sJgcQ7fTR3kYfo4kNOmjNRxzxgjLpBaPNAciBibbddM0Fc9XpcCNOOZnppPEIDF3z4921YTb/fzJwid2OLzp3aRl2GxA0NejmLIvomW1MkGadp+UBYz9Dcz+IMB2Rm3DtJpwB6T3ogxZTAQUvyYL1M7bg1tmy604MOczB9oFk=
+Received: from MWHPR05MB3376.namprd05.prod.outlook.com (10.174.175.149) by
+ MWHPR05MB2957.namprd05.prod.outlook.com (10.168.246.11) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2408.9; Wed, 30 Oct 2019 15:32:06 +0000
-Received: from DM6PR21MB1242.namprd21.prod.outlook.com
- ([fe80::756e:8d3f:e463:3bf7]) by DM6PR21MB1242.namprd21.prod.outlook.com
- ([fe80::756e:8d3f:e463:3bf7%3]) with mapi id 15.20.2408.016; Wed, 30 Oct 2019
- 15:32:06 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     "sashal@kernel.org" <sashal@kernel.org>,
+ 15.20.2408.15; Wed, 30 Oct 2019 15:40:05 +0000
+Received: from MWHPR05MB3376.namprd05.prod.outlook.com
+ ([fe80::4098:2c39:d8d3:a209]) by MWHPR05MB3376.namprd05.prod.outlook.com
+ ([fe80::4098:2c39:d8d3:a209%7]) with mapi id 15.20.2408.018; Wed, 30 Oct 2019
+ 15:40:05 +0000
+From:   Jorgen Hansen <jhansen@vmware.com>
+To:     'Stefano Garzarella' <sgarzare@redhat.com>
+CC:     Sasha Levin <sashal@kernel.org>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH net, 0/2] hv_netvsc: fix error handling in
- netvsc_attach/set_features
-Thread-Topic: [PATCH net, 0/2] hv_netvsc: fix error handling in
- netvsc_attach/set_features
-Thread-Index: AQHVjzcvjnsDJtWSIUabk6TBDOaP1w==
-Date:   Wed, 30 Oct 2019 15:32:05 +0000
-Message-ID: <1572449471-5219-1-git-send-email-haiyangz@microsoft.com>
+        Arnd Bergmann <arnd@arndb.de>, kvm <kvm@vger.kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dexuan Cui <decui@microsoft.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH net-next 11/14] vsock: add multi-transports support
+Thread-Topic: [PATCH net-next 11/14] vsock: add multi-transports support
+Thread-Index: AQHViYhm3+s3qIN1EEmJgzgCfyvFAqdoVEGAgAsGKDA=
+Date:   Wed, 30 Oct 2019 15:40:05 +0000
+Message-ID: <MWHPR05MB3376E623764F54D39D8135A9DA600@MWHPR05MB3376.namprd05.prod.outlook.com>
+References: <20191023095554.11340-1-sgarzare@redhat.com>
+ <20191023095554.11340-12-sgarzare@redhat.com>
+ <CAGxU2F7n48kBy_y2GB=mcvraK=mw_2Jn8=2hvQnEOWqWuT9OjA@mail.gmail.com>
+In-Reply-To: <CAGxU2F7n48kBy_y2GB=mcvraK=mw_2Jn8=2hvQnEOWqWuT9OjA@mail.gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: MWHPR01CA0027.prod.exchangelabs.com (2603:10b6:300:101::13)
- To DM6PR21MB1242.namprd21.prod.outlook.com (2603:10b6:5:169::22)
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=lkmlhyz@microsoft.com; 
-x-ms-exchange-messagesentrepresentingtype: 2
-x-mailer: git-send-email 1.8.3.1
-x-originating-ip: [13.77.154.182]
+ smtp.mailfrom=jhansen@vmware.com; 
+x-originating-ip: [146.247.47.49]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 453eb235-655c-49d4-2cce-08d75d4e51c3
-x-ms-traffictypediagnostic: DM6PR21MB1323:|DM6PR21MB1323:|DM6PR21MB1323:
-x-ms-exchange-transport-forked: True
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <DM6PR21MB132391983D7D82151B32DA88AC600@DM6PR21MB1323.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-ms-office365-filtering-correlation-id: 0bc0d4f6-649e-4161-7d74-08d75d4f6fb3
+x-ms-traffictypediagnostic: MWHPR05MB2957:
+x-microsoft-antispam-prvs: <MWHPR05MB295719D2CCD818E455543E0DDA600@MWHPR05MB2957.namprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-forefront-prvs: 02065A9E77
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(39860400002)(376002)(366004)(396003)(346002)(189003)(199004)(5660300002)(2906002)(4720700003)(54906003)(110136005)(71190400001)(71200400001)(25786009)(10290500003)(8936002)(22452003)(2501003)(478600001)(6512007)(52116002)(4326008)(6436002)(7846003)(6392003)(8676002)(81156014)(6486002)(81166006)(10090500001)(486006)(476003)(66446008)(256004)(305945005)(2616005)(7736002)(5024004)(50226002)(186003)(66946007)(26005)(64756008)(66556008)(66476007)(6506007)(386003)(102836004)(2201001)(99286004)(3846002)(316002)(6116002)(66066001)(14454004)(4744005)(36756003);DIR:OUT;SFP:1102;SCL:1;SRVR:DM6PR21MB1323;H:DM6PR21MB1242.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(39860400002)(396003)(136003)(366004)(376002)(199004)(189003)(8936002)(66476007)(305945005)(64756008)(66446008)(316002)(7416002)(7736002)(66556008)(81166006)(81156014)(74316002)(478600001)(52536014)(55016002)(66066001)(8676002)(9686003)(54906003)(6246003)(86362001)(25786009)(66946007)(5660300002)(33656002)(4326008)(76116006)(6436002)(6506007)(14454004)(76176011)(6916009)(476003)(2906002)(7696005)(186003)(71200400001)(71190400001)(6116002)(99286004)(26005)(3846002)(102836004)(256004)(229853002)(446003)(486006)(14444005)(11346002);DIR:OUT;SFP:1101;SCL:1;SRVR:MWHPR05MB2957;H:MWHPR05MB3376.namprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: vmware.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9ZA3lF1VaMNluhrreh5jJroqa+vn7whiliEDetj7YQNjhJp+Keb/O7T8VLlxHrJ/S29mP6QaTkACN6rhxQkwG0mCnGO8kWmWf0MwHxKuOU38gcn2qwzFLVXi7/Z2vF7IurITQwoxFFdN93kvV+6oX7moPWgn/Ohva0nBUG9RiqPP5eVnjOCerNrcagBjo8LUcCT5EWM1iCqqrnv4eGwyytXAM/asZxmY9THUVKgiVUzDzhV7UeULOKIqifJL6hFTbmtS6a7Z3BnnV/hh9ssRIXhsQki+DiYx+e92k5+93jl9jV2o9odNHVAug5qevww+OMuFclMQGceGGyvA2/3J1C1yrg51AqmEXD8hHMeZY4FivP9cmDQXRJnvzV6u6ZWiFW7uGwrVCDZ8EB1KbCBsyqMI0U5s/GASvkjRFBHxwGttvn2y8xW5E2lQSPursiXS
-Content-Type: text/plain; charset="iso-8859-1"
+x-microsoft-antispam-message-info: lWTiDen5iXKOdLsNU+yjRrfkfy4j2Ny7Ga3uNA4mVYRmgAurEhkdxyahG/ldTgLkslcAbLp3lfkhNFOqWnS5uaFo8AUA0bTkElB0/fzbdv9sVc2OfnOJO67FNY82viBZcW0/8LQFU0ptaum1nnTJ6hDk7YuynnIz+loPrTdHOoX9uIpw+7DppTrOB52qwnwQAlST1M+/9Sobw2qGe6V1XVf6VPgqewSFNYJIFjx/t7lj3Ww5zwS2XZSCTtS7fAg7pqDFrr7YqyB4Y9x9wCzYj470kZFTGQ42lwxWtfcp/OXFySGH+sBByPCUo1rUD4aqK7iQu/NDcAsBnY2W6UFin05yKWB1H+G+ouo0c0idmHTzPXS6Ud3rNxp1xUct8FKPxAvgfgU4MrXqFkli31mwew/UHxnrbpkFRVDuygCRqA76KGUdsmWp+v5JZWpk2GXg
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 453eb235-655c-49d4-2cce-08d75d4e51c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2019 15:32:06.0200
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bc0d4f6-649e-4161-7d74-08d75d4f6fb3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2019 15:40:05.2998
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PbRgHlcc9EyR+72ffM/FdW3BdruFUrGvmtx1gY+WpE6omR0oBhYlD64usjarz0vIwW4rJQIK8HCgvyHngeGzZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1323
+X-MS-Exchange-CrossTenant-userprincipalname: Ri/s3DjZk4FvNg+1W27BHZSABEN1A34AsICGmdjBsfrxKBRrFkqV2yB8GZfZLBGk64e3FNuMcYv8s9nlESoi/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR05MB2957
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The error handling code path in these functions are not correct.
-This patch set fixes them.
+> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
+> > +/* Assign a transport to a socket and call the .init transport callbac=
+k.
+> > + *
+> > + * Note: for stream socket this must be called when vsk->remote_addr
+> > +is set
+> > + * (e.g. during the connect() or when a connection request on a
+> > +listener
+> > + * socket is received).
+> > + * The vsk->remote_addr is used to decide which transport to use:
+> > + *  - remote CID > VMADDR_CID_HOST will use host->guest transport
+> > + *  - remote CID <=3D VMADDR_CID_HOST will use guest->host transport
+> > +*/ int vsock_assign_transport(struct vsock_sock *vsk, struct
+> > +vsock_sock *psk) {
+> > +       const struct vsock_transport *new_transport;
+> > +       struct sock *sk =3D sk_vsock(vsk);
+> > +
+> > +       switch (sk->sk_type) {
+> > +       case SOCK_DGRAM:
+> > +               new_transport =3D transport_dgram;
+> > +               break;
+> > +       case SOCK_STREAM:
+> > +               if (vsk->remote_addr.svm_cid > VMADDR_CID_HOST)
+> > +                       new_transport =3D transport_h2g;
+> > +               else
+> > +                       new_transport =3D transport_g2h;
+>=20
+> I just noticed that this break the loopback in the guest.
+> As a fix, we should use 'transport_g2h' when remote_cid <=3D
+> VMADDR_CID_HOST or remote_cid is the id of 'transport_g2h'.
+>=20
+> To do that we also need to avoid that L2 guests can have the same CID of =
+L1.
+> For vhost_vsock I can call vsock_find_cid() in vhost_vsock_set_cid()
+>=20
+> @Jorgen: for vmci we need to do the same? or it is guaranteed, since it's
+> already support nested VMs, that a L2 guests cannot have the same CID as
+> the L1.
 
-Haiyang Zhang (2):
-  hv_netvsc: Fix error handling in netvsc_set_features()
-  hv_netvsc: Fix error handling in netvsc_attach()
-
- drivers/net/hyperv/netvsc_drv.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
---=20
-1.8.3.1
+As far as I can tell, we have the same issue with the current support for n=
+ested VMs in
+VMCI. If we have an L2 guest with the same CID as the L1 guest, we will alw=
+ays send to
+the L2 guest, and we may assign an L2 guest the same CID as L1. It should b=
+e straight
+forward to avoid this, though.
 
