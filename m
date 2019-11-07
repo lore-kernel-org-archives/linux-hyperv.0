@@ -2,116 +2,86 @@ Return-Path: <SRS0=tGuR=Y7=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F359C5DF61
-	for <linux-hyperv@archiver.kernel.org>; Thu,  7 Nov 2019 14:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 039C5FC6195
+	for <linux-hyperv@archiver.kernel.org>; Thu,  7 Nov 2019 21:21:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D56E6214D8
-	for <linux-hyperv@archiver.kernel.org>; Thu,  7 Nov 2019 14:44:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="atOJhmTi"
+	by mail.kernel.org (Postfix) with ESMTP id D02C721D7F
+	for <linux-hyperv@archiver.kernel.org>; Thu,  7 Nov 2019 21:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727142AbfKGOod (ORCPT
+        id S1725882AbfKGVVk (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 7 Nov 2019 09:44:33 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:47834 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726754AbfKGOod (ORCPT
+        Thu, 7 Nov 2019 16:21:40 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:49659 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727352AbfKGVVj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 7 Nov 2019 09:44:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573137872;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uokYutLXxZLmrspkhT2MmzUiCDD5/pP/FDqbke/Wsbo=;
-        b=atOJhmTiL4tnqM4j00PnLlT406NpbmVzn5I5ZeirZviTQOHfIjXEWu4mqSPdJQk+yB4YCt
-        Bb6nphQfcRNwdeDiINfWYfVNTT+1hMNYTzeWvoc2VutlEOCZq59+RJPLft+47gYO4jUGEu
-        De7IDW7/dx7kbDVnxnDy5SRXdlaU+Sw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-oiXkTUqxOzeVuCRjgHemNw-1; Thu, 07 Nov 2019 09:44:31 -0500
-Received: by mail-wr1-f71.google.com with SMTP id e7so1139170wro.22
-        for <linux-hyperv@vger.kernel.org>; Thu, 07 Nov 2019 06:44:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=gVCbv0LzqaX/qvKbIQst3PDmSY4xjmIqqe/yjz+5HCQ=;
-        b=E1B9xcF8J+0GOQZzLl/MfClr1qWOL91Rl4hLDEfzHWkWeqimz7Ld16UvSn+6qO/eTy
-         MXPkOPgnZRNWrPguSCA6lqwmK8+rfwmVSPpBNT74IP/wf8+vB+SxauXqI+yYtu5waTeP
-         CkHg54EX8UZgvn8n2gUy7q3BMTv9F/uH96JA+85/J4C8YdynVr4snXA4MmzeBro1s+iE
-         79Iu9hDO177ZpmyVLfiukr1PednIbVK02zM28oE9LqEMDQNRGeivrceRWUD//NDbVqjo
-         cFsIZySsQCOlkAP8T6JwHjGXRn4qK9yWovliqciGDTCStRxF3wGf3Lbbob6bnpwwLE7m
-         eyvA==
-X-Gm-Message-State: APjAAAXlKo2hkBNlmxyNBa/tdJMkdjjz6mdpjSl9TAwE/KlCZj8sxkIT
-        +TWhDUZxPjSUzrkjUCFJmHYMLzEb14SwKuJLNvpW3Ju7ixvEvBZGbPjPBdJeOKWlvOWLzb8GMuj
-        frDByAMsjzmuG6XuuPybLWybh
-X-Received: by 2002:adf:f048:: with SMTP id t8mr3418714wro.237.1573137869677;
-        Thu, 07 Nov 2019 06:44:29 -0800 (PST)
-X-Google-Smtp-Source: APXvYqxUI1JLHk53Xg60Bfi3+RoW23Um++7OLDP36Ol51PbWYQBdWIxnkrQYImvKgZXpd3GbH1R6MQ==
-X-Received: by 2002:adf:f048:: with SMTP id t8mr3418652wro.237.1573137868856;
-        Thu, 07 Nov 2019 06:44:28 -0800 (PST)
-Received: from vitty.brq.redhat.com (nat-pool-brq-t.redhat.com. [213.175.37.10])
-        by smtp.gmail.com with ESMTPSA id z14sm2475247wrl.60.2019.11.07.06.44.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 06:44:28 -0800 (PST)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Olaf Hering <olaf@aepfle.de>
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Thu, 7 Nov 2019 16:21:39 -0500
+Received: from p5b06da22.dip0.t-ipconnect.de ([91.6.218.34] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iSpDk-00061v-Lo; Thu, 07 Nov 2019 22:21:36 +0100
+Date:   Thu, 7 Nov 2019 22:21:35 +0100 (CET)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+cc:     Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "open list\:Hyper-V CORE AND DRIVERS" <linux-hyperv@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] tools/hv: async name resolution in kvp_daemon
-In-Reply-To: <20191107152059.6cae8f30.olaf@aepfle.de>
-References: <20191024144943.26199-1-olaf@aepfle.de> <874kzfbybk.fsf@vitty.brq.redhat.com> <20191107144850.37587edb.olaf@aepfle.de> <87zhh7ai26.fsf@vitty.brq.redhat.com> <20191107152059.6cae8f30.olaf@aepfle.de>
-Date:   Thu, 07 Nov 2019 15:44:27 +0100
-Message-ID: <87wocbagqc.fsf@vitty.brq.redhat.com>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Roman Kagan <rkagan@virtuozzo.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v3] x86/hyper-v: micro-optimize send_ipi_one case
+In-Reply-To: <877e4bbyw2.fsf@vitty.brq.redhat.com>
+Message-ID: <alpine.DEB.2.21.1911072220590.27903@nanos.tec.linutronix.de>
+References: <20191027151938.7296-1-vkuznets@redhat.com> <877e4bbyw2.fsf@vitty.brq.redhat.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-X-MC-Unique: oiXkTUqxOzeVuCRjgHemNw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Olaf Hering <olaf@aepfle.de> writes:
+On Thu, 7 Nov 2019, Vitaly Kuznetsov wrote:
 
-> Am Thu, 07 Nov 2019 15:15:45 +0100
-> schrieb Vitaly Kuznetsov <vkuznets@redhat.com>:
->
->> Looping forever with a permanent error is pretty unusual...
->
-> That might be true, but how would you detect a permanent error?
-> Just because the DNS server is gone for one hour does not mean it will be=
- gone forever.
+> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+> 
+> > When sending an IPI to a single CPU there is no need to deal with cpumasks.
+> > With 2 CPU guest on WS2019 I'm seeing a minor (like 3%, 8043 -> 7761 CPU
+> > cycles) improvement with smp_call_function_single() loop benchmark. The
+> > optimization, however, is tiny and straitforward. Also, send_ipi_one() is
+> > important for PV spinlock kick.
+> >
+> > I was also wondering if it would make sense to switch to using regular
+> > APIC IPI send for CPU > 64 case but no, it is twice as expesive (12650 CPU
+> > cycles for __send_ipi_mask_ex() call, 26000 for orig_apic.send_IPI(cpu,
+> > vector)).
+> >
+> > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > ---
+> > Changes since v2:
+> >  - Check VP number instead of CPU number against >= 64 [Michael]
+> >  - Check for VP_INVAL
+> 
+> Hi Sasha,
+> 
+> do you have plans to pick this up for hyperv-next or should we ask x86
+> folks to?
 
-'man 3 getaddrinfo' lists the following:
+I'm picking up the constant TSC one anyway, so I can just throw that in as
+well.
 
-       EAI_ADDRFAMILY
-       EAI_AGAIN
-       EAI_BADFLAGS
-       EAI_FAIL
-       EAI_FAMILY
-       EAI_MEMORY
-       EAI_NODATA
-       EAI_NONAME
-       EAI_SERVICE
-       EAI_SOCKTYPE
-       EAI_SYSTEM
+Thanks,
 
-I *think* what you're aiming at is EAI_AGAIN and EAI_FAIL, the rest
-should probably terminate the resolver thread (e.g. AF_INET is
-unsupported or something like that).
-
---=20
-Vitaly
-
+	tglx
