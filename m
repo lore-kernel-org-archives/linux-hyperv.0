@@ -4,108 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B1DC33CA1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD204C33CA3
 	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 16:16:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 737FD22492
-	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 15:39:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 719AF2343B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 16:00:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="ryDVLjY8"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="qpKTYPbW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727515AbfKMPjv (ORCPT
+        id S1727321AbfKMQAb (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 13 Nov 2019 10:39:51 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:27310 "EHLO
+        Wed, 13 Nov 2019 11:00:31 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:21085 "EHLO
         mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726957AbfKMPju (ORCPT
+        with ESMTP id S1727216AbfKMQAb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:39:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573659588;
+        Wed, 13 Nov 2019 11:00:31 -0500
+X-Greylist: delayed 376 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 Nov 2019 11:00:29 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573660828;
         s=strato-dkim-0002; d=aepfle.de;
         h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=IcWKXBk6OLF61eXvC2m4VfKEa190SInPY4yvpfHGVq8=;
-        b=ryDVLjY8KyB/NCNFYxPmfZGHBnzh75BV/lK76fu+GH3vZrwpKBsexachgbWUKK6a0l
-        53hW9sRuey2jyjm1VjyIVjXsyEr/n40eInEyIbsFlYlf5jGs+If3NqoOhC2l9FtX3Rhv
-        L+nPUOqgJmAw7yQyNlX1BdanHxvLD9abKmv+Oz7kEmDG/Ts8OieqXqx7PtnZGahZXPqa
-        CTpbpYAddMJq8fb0auBT8N1dkWDIDToFCgUXFb4PabqDEk92VjjnAZ9lQu50c8FW856A
-        K2lRuUUbivrkP5Crer8VL4fp7ix3FkjUZPwl1OCLECu8EdX/ELd1AGaDyjsW0wwULVGl
-        Uzmg==
+        bh=RdiTOqLL6TpP/1ppCJ5I+QMZbD8ieq03oQjLfF8v3IE=;
+        b=qpKTYPbWoJBGYh5ZgJRyMhXNOUK+dtNGeSCY1KoBAamHnNPh7yMkg+2mo8uKOEv37r
+        uvzEZ/BjHi+t89/SQc85xsjcxEvqLe5El5OPZs8aiXz8nrBFgSvAQcfXTSKZk2i50hrX
+        OPu6hTDpS9C1r9wAuFR0XuQh9OgC8bvI1RUMO/1U6qluL7tVlXmXiwf3KpfTTUqfslSx
+        1jB7+aXCXm3IuGloVL2kPl1w8I9Y42ukzIjYRM2A/Bv4zPGGWV+0tN3F1gxttXx1VUOo
+        HDe+LSxsgFj0h9lyQxwjjZ6bPxDBPu9uXQO+8O4VyAI5vpDrDjG37pcoSCluvJ0DRrM+
+        9p7Q==
 X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QED/SSGq+wjGiUC4AUztn93FPS2dyuY8hl6Q=="
 X-RZG-CLASS-ID: mo00
 Received: from sender
         by smtp.strato.de (RZmta 44.29.0 SBL|AUTH)
-        with ESMTPSA id 20735bvADFdmGbJ
+        with ESMTPSA id 20735bvADG0SGhN
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
         (Client did not present a certificate);
-        Wed, 13 Nov 2019 16:39:48 +0100 (CET)
-Date:   Wed, 13 Nov 2019 16:39:41 +0100
+        Wed, 13 Nov 2019 17:00:28 +0100 (CET)
+Date:   Wed, 13 Nov 2019 17:00:21 +0100
 From:   Olaf Hering <olaf@aepfle.de>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "open list\:Hyper-V CORE AND DRIVERS" <linux-hyperv@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] tools/hv: async name resolution in kvp_daemon
-Message-ID: <20191113163941.59124120.olaf@aepfle.de>
-In-Reply-To: <87wocbagqc.fsf@vitty.brq.redhat.com>
-References: <20191024144943.26199-1-olaf@aepfle.de>
-        <874kzfbybk.fsf@vitty.brq.redhat.com>
-        <20191107144850.37587edb.olaf@aepfle.de>
-        <87zhh7ai26.fsf@vitty.brq.redhat.com>
-        <20191107152059.6cae8f30.olaf@aepfle.de>
-        <87wocbagqc.fsf@vitty.brq.redhat.com>
+        Stephen Hemminger <sthemmin@microsoft.com>
+Cc:     Sasha Levin <sashal@kernel.org>,
+        linux-hyperv@vger.kernel.org (open list:Hyper-V CORE AND DRIVERS),
+        linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v2] tools/hv: async name resolution in kvp_daemon
+Message-ID: <20191113170021.2e98f1fb.olaf@aepfle.de>
+In-Reply-To: <20191113155400.25456-1-olaf@aepfle.de>
+References: <20191113155400.25456-1-olaf@aepfle.de>
 X-Mailer: Claws Mail 2019.05.18 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/jIGef0Ofd=8F/1tOqnM7Fbw"; protocol="application/pgp-signature"
+ boundary="Sig_/3x08emajI3SN.tG200Ioafb"; protocol="application/pgp-signature"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
---Sig_/jIGef0Ofd=8F/1tOqnM7Fbw
+--Sig_/3x08emajI3SN.tG200Ioafb
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Am Thu, 07 Nov 2019 15:44:27 +0100
-schrieb Vitaly Kuznetsov <vkuznets@redhat.com>:
+Am Wed, 13 Nov 2019 16:54:00 +0100
+schrieb Olaf Hering <olaf@aepfle.de>:
 
-> I *think* what you're aiming at is EAI_AGAIN and EAI_FAIL, the rest
-> should probably terminate the resolver thread (e.g. AF_INET is
-> unsupported or something like that).
+> During this time all "FullyQualifiedDomainName" requests will be
+> answered with an empty string.
 
-The thread aims for success. Resolving of the hostname can take some time.
-Maybe the network is not fully functional when the thread starts.
-Maybe the VM admin does further tweaks while the thread is running.
-IMO there is no downside to wait for success.
+> +			strcpy(key_value, full_domain_name ? : "");
+>  			strcpy(key_name, "FullyQualifiedDomainName");
+
+
+KY, Haiyang, Stephen,
+
+please check if the host side can actually handle such temporary, empty str=
+ing.
+If the tools cache the first result, the implemented approach can not work.
+If that is indeed the case, is there some sort of -ERETRY in the protocol?
 
 
 Olaf
 
---Sig_/jIGef0Ofd=8F/1tOqnM7Fbw
+--Sig_/3x08emajI3SN.tG200Ioafb
 Content-Type: application/pgp-signature
 Content-Description: Digitale Signatur von OpenPGP
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl3MI70ACgkQ86SN7mm1
-DoD+TA//UuW2hrqWiB33HTuz3g0RxmA7ZY1UuaEs+khSCMV/W8ktIEnYLgZkON5S
-JTGG2II0xGZhmNkV8GgwgwQbIuPhrgsYAdz1Z6G5q+zDpow82O4cGQeMUgKG6Xfi
-N1c+dQUJYMo2SuAkYfvHks/7L20TZBi3tw43ZpKQtoNyQG1w2RdYMFKLBhpHIMaJ
-BuL8GRo58x/n7YjLDVqWRurYC3Iu7FrkJT98g8ccrgGhh8hfNC9Mkvy/oJRdes4W
-+QooloWFEwmMRhkZZof2xCJg8fkXxOHFaEL8YxVed66OxlQjus8uv/pO++TTdaxf
-DKuxxfjkM/JOzFwKnObIJUXUbh3gEjQj+9/EFLNE/oJvXPQb2LVBFYnQLseF4t9C
-rg8tL1WPSZdTtPZCqKbS8Ng7CiKmwj/tYqG/ooQ3qDWp+lQ1mK9762XBO1+Q+PV8
-rm8LimGnIvUHo46rRP1F4ncoNZ+y8jKvwrG4AjzsQHwP2uLBvSIjs91GJem4oeSr
-qHC4VKeF0dzeuFaQZASI6nHomWyxn9JiMU7ED4C+vt0O7T3dv5gY175xCxDbg8pr
-2fryLn73oFOz+QVyI0Qe0Vf6uIW3s4mTnXNtAxlOgVFK8dxQlRk/OnEA/+X7ZmuE
-gPLrNZJWRpAya3fWob6dFBqv2nZ2d1jb7wZoYGJvpH5iaRCCatE=
-=88wJ
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl3MKJUACgkQ86SN7mm1
+DoDNUxAAj9Xsz8miILXi1nmy/CqbawpOYRBs2IxdOiPMHkxkqgyOvBd3KW5dJumq
+0hHPjemJaBS2u90ijPpeLjxGkgjSHH614QLz5BnTvMatkuW6AYYNy75L5eQ2tn26
+EaEgj8Bdv5tKzq0puj+CZLSywJeoH6g2gR6YNDS5EypIZsIBZ11I8+Y7Zrcot74N
+IXaI5tINChIKisVPGoft5HJrpC7I78+tpl9hp1jFefNA0J81td4pr4pDi+qn9IYs
+6m6Lz9B9ivKrsBhB+Sg5TdJLbpRRZ+ixmpVClFOllWqdCumQhMPdYnRdS5h2mCWU
+fxgPSa9Rzc43zTp94QQxBiojOJJr+kbrW0nJsQJ/YsVXLS0eLzesm8qleVDONekm
+Gm8S7vQiyYNi3QarBcKuQkHLP+3AV4uhxdr9pd1Whn6afxy9dYWD4lg2WqXbudt2
+Wbol3o9aN1KhP7iu69iaGg2UCCf+G6aFyxqFH0/B9dm92QbpJoTpDrRKcxr6+LX5
+NglvJxKH6TxSz2GLpjkkalrSZPWx6CfNmIMiaWViDxuf0gXxx+Iwn0nMDHvDeXEo
+r9DEB9u3lWcytSqyMegWfTk0mUjkisb2Od52SqDNO6gaTyg40qgorjtkEee69fek
+CPrDcAZbhGs1bDTvpBMi/ku+PI9vAccbM2b7OvteEQIEATeFDQc=
+=Ox4b
 -----END PGP SIGNATURE-----
 
---Sig_/jIGef0Ofd=8F/1tOqnM7Fbw--
+--Sig_/3x08emajI3SN.tG200Ioafb--
