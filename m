@@ -2,227 +2,202 @@ Return-Path: <SRS0=08hp=ZF=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F33EC4741A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 16:21:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A32C0C432C3
+	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 16:38:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5245322CE3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 15:57:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3F8620657
+	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Nov 2019 16:38:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="cyuf7T9i"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ck6WKRP6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727171AbfKMP5R (ORCPT
+        id S1728523AbfKMQiw (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 13 Nov 2019 10:57:17 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:21788 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfKMP5R (ORCPT
+        Wed, 13 Nov 2019 11:38:52 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57120 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728520AbfKMQiv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:57:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1573660634;
-        s=strato-dkim-0002; d=aepfle.de;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=/LGnKiYy7wgg2UQ6QDBC/em5eo8m26dky6ZlAzfrAsc=;
-        b=cyuf7T9i12p7uQf9BiRFWm9pDXkuuF3wpZ5PVtdyTo8ANoAJYOHxkzzeZJ1ZHiYg9u
-        Dh6Dat1TVQEoTzm9KhHqaxj9lH5h1Tu1vW6QW6TmwRyuOigpUJavGV4yud98/t4GE0Ea
-        v8vzNfVMJ+HwQ8C6FxnRSjhWVmwnXhrsJxrdyDbuEB+IsgZ7uzhKZQPKMmNAtxbKfVWQ
-        XaJ/FWFaavSjiDCII08nL2jYxd8UGn4rf5Ah672+8lXv+wAqur3WkuLPcI2qAfXy5oEM
-        uzUJhFJTpjvHSB6vh6rDGIeySER0WGNdciy64oyvOyK1CcTR1HdkVrLCJBFkinMlYkDO
-        cSag==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS325Pjw=="
-X-RZG-CLASS-ID: mo00
-Received: from sender
-        by smtp.strato.de (RZmta 44.29.0 SBL|AUTH)
-        with ESMTPSA id 20735bvADFsBGfU
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Wed, 13 Nov 2019 16:54:11 +0100 (CET)
-From:   Olaf Hering <olaf@aepfle.de>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Wed, 13 Nov 2019 11:38:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573663131;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QqzCZrrw+N1LqLUBngxMhEYqWKp5yMdHfOeTcezaP3c=;
+        b=ck6WKRP6pR+OweE3bLxOUrX+Ur1dWghtQZXNyE28NHEZ2kFGVMlhOyfjEnPPT9xKjseW+N
+        U0qU9KPtUgVwh80VBtIefOVvSo/nEHVM1DWzr/y9vpdghrDBVs0sRgtAp0ZGO+cNzp8Tbn
+        LWFRgfwbnoChSWsXdPPOmTxU2ah3HfI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-117-79iGMyOhO9SIbKVnpSubzA-1; Wed, 13 Nov 2019 11:38:48 -0500
+Received: by mail-wr1-f71.google.com with SMTP id v6so1861720wrm.18
+        for <linux-hyperv@vger.kernel.org>; Wed, 13 Nov 2019 08:38:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9rmRmGxbCej/NSmLlrw5qBptbx4sAiez+aV0DPKoxmk=;
+        b=kerdWGB3gFxhXLrSvTENVAZ59KxlIptwiV/dMo/MFuxix9j7h9TettDGFVlWLvghQS
+         B86rl5MXsatmrhUOhJu27NIJyLOlwdae13aSyj5QxEnZKvf2u4ScqCiUE8+vNsNJF/58
+         0SgOhFHGD38gU5/Ts0vw+kjKdAT/JAQxYsPgfaK5uDTNUmW0W1VtOOHHFU4YgTHUmF6e
+         0B4MTU71b1E2WuF4pY+eS34CkKUqIBb4r//OpraWZQ+p6d47x/K48BRXQsqdibcFAN0i
+         ckCvb6vIHZ8G7dMILzF1Gr7rypgzLKGQvjIpbsHX9Zz3pA0tTzbZhAlI3KslHxCREY6m
+         91gw==
+X-Gm-Message-State: APjAAAUYlmvaxvMwJLDwy58c6z02fKiamxnvDkjndLRqS82+UJPfmwmV
+        8n6f7bRub79qFiaeGSMqFMyuBMW02Ya+sC5ZsbyRltPcvHJga5WyREn4tCCq7+3g0SnTsZmspGC
+        o949kA+LlBsxZVp1NaIYBgRxv
+X-Received: by 2002:adf:f0c4:: with SMTP id x4mr2417505wro.217.1573663126802;
+        Wed, 13 Nov 2019 08:38:46 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxXrDaHddzqNUvTPvMV4jXm5tNoMjrSJ3IvH3rKSatkd4o3Pvp2hT95nFuBwmA+H3+NDewgsg==
+X-Received: by 2002:adf:f0c4:: with SMTP id x4mr2417472wro.217.1573663126527;
+        Wed, 13 Nov 2019 08:38:46 -0800 (PST)
+Received: from steredhat (a-nu5-32.tin.it. [212.216.181.31])
+        by smtp.gmail.com with ESMTPSA id q17sm2813058wmj.12.2019.11.13.08.38.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2019 08:38:45 -0800 (PST)
+Date:   Wed, 13 Nov 2019 17:38:42 +0100
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     Jorgen Hansen <jhansen@vmware.com>
+Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jason Wang <jasowang@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Dexuan Cui <decui@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
-        linux-hyperv@vger.kernel.org (open list:Hyper-V CORE AND DRIVERS),
-        linux-kernel@vger.kernel.org (open list)
-Cc:     Olaf Hering <olaf@aepfle.de>
-Subject: [PATCH v2] tools/hv: async name resolution in kvp_daemon
-Date:   Wed, 13 Nov 2019 16:54:00 +0100
-Message-Id: <20191113155400.25456-1-olaf@aepfle.de>
-X-Mailer: git-send-email 2.16.4
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>
+Subject: Re: [PATCH net-next 11/14] vsock: add multi-transports support
+Message-ID: <20191113163842.6byl2qul4nbjf5no@steredhat>
+References: <20191023095554.11340-1-sgarzare@redhat.com>
+ <20191023095554.11340-12-sgarzare@redhat.com>
+ <MWHPR05MB33761FE4DA27130C72FC5048DA740@MWHPR05MB3376.namprd05.prod.outlook.com>
+ <20191111171740.xwo7isdmtt7ywibo@steredhat>
+ <MWHPR05MB33764F82AFA882B921A11E56DA770@MWHPR05MB3376.namprd05.prod.outlook.com>
+ <20191112103630.vd3kbk7xnplv6rey@steredhat>
+ <MWHPR05MB3376560CFD2A710723843828DA760@MWHPR05MB3376.namprd05.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <MWHPR05MB3376560CFD2A710723843828DA760@MWHPR05MB3376.namprd05.prod.outlook.com>
+X-MC-Unique: 79iGMyOhO9SIbKVnpSubzA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The hostname is resolved just once since commit 58125210ab3b ("Tools:
-hv: cache FQDN in kvp_daemon to avoid timeouts") to make sure the VM
-responds within the timeout limits to requests from the host.
+On Wed, Nov 13, 2019 at 02:30:24PM +0000, Jorgen Hansen wrote:
+> > From: Stefano Garzarella [mailto:sgarzare@redhat.com]
+> > Sent: Tuesday, November 12, 2019 11:37 AM
+>=20
+> > > > > You already mentioned that you are working on a fix for loopback
+> > > > > here for the guest, but presumably a host could also do loopback.
+> > > >
+> > > > IIUC we don't support loopback in the host, because in this case th=
+e
+> > > > application will use the CID_HOST as address, but if we are in a ne=
+sted
+> > > > VM environment we are in trouble.
+> > >
+> > > If both src and dst CID are CID_HOST, we should be fairly sure that t=
+his
+> > > Is host loopback, no? If src is anything else, we would do G2H.
+> > >
+> >=20
+> > The problem is that we don't know the src until we assign a transport
+> > looking at the dst. (or if the user bound the socket to CID_HOST before
+> > the connect(), but it is not very common)
+> >=20
+> > So if we are in a L1 and the user uses the local guest CID, it works, b=
+ut if
+> > it uses the HOST_CID, the packet will go to the L0.
+> >=20
+> > If we are in L0, it could be simple, because we can simply check if G2H
+> > is not loaded, so any packet to CID_HOST, is host loopback.
+> >=20
+> > I think that if the user uses the IOCTL_VM_SOCKETS_GET_LOCAL_CID, to se=
+t
+> > the dest CID for the loopback, it works in both cases because we return=
+ the
+> > HOST_CID in L0, and always the guest CID in L1, also if a H2G is loaded=
+ to
+> > handle the L2.
+> >=20
+> > Maybe we should document this in the man page.
+>=20
+> Yeah, it seems like a good idea to flesh out the routing behavior for nes=
+ted
+> VMs in the man page.
 
-If for some reason getaddrinfo fails, the string returned by the
-"FullyQualifiedDomainName" request contains some error string, which is
-then used by tools on the host side.
+I'll do it.
 
-Adjust the code to resolve the current hostname in a separate thread.
-This thread loops until getaddrinfo returns success. During this time
-all "FullyQualifiedDomainName" requests will be answered with an empty
-string.
+>=20
+> >=20
+> > But I have a question: Does vmci support the host loopback?
+> > I've tried, and it seems not.
+>=20
+> Only for datagrams - not for stream sockets.
+> =20
 
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
----
+Ok, I'll leave the datagram loopback as before.
 
-v2:
-- link with -pthread instead of -lpthread
-- consider some errors from getaddrinfo fatal, log them via syslog
-- update also hostname in the loop
+> > Also vhost-vsock doesn't support it, but virtio-vsock does.
+> >=20
+> > > >
+> > > > Since several people asked about this feature at the KVM Forum, I w=
+ould
+> > like
+> > > > to add a new VMADDR_CID_LOCAL (i.e. using the reserved 1) and
+> > implement
+> > > > loopback in the core.
+> > > >
+> > > > What do you think?
+> > >
+> > > What kind of use cases are mentioned in the KVM forum for loopback?
+> > One concern
+> > > is that we have to maintain yet another interprocess communication
+> > mechanism,
+> > > even though other choices exist already  (and those are likely to be =
+more
+> > efficient
+> > > given the development time and specific focus that went into those). =
+To
+> > me, the
+> > > local connections are mainly useful as a way to sanity test the proto=
+col and
+> > transports.
+> > > However, if loopback is compelling, it would make sense have it in th=
+e core,
+> > since it
+> > > shouldn't need a specific transport.
+> >=20
+> > The common use cases is for developer point of view, and to test the
+> > protocol and transports as you said.
+> >=20
+> > People that are introducing VSOCK support in their projects, would like=
+ to
+> > test them on their own PC without starting a VM.
+> >=20
+> > The idea is to move the code to handle loopback from the virtio-vsock,
+> > in the core, but in another series :-)
+>=20
+> OK, that makes sense.
 
- tools/hv/Makefile        |  2 ++
- tools/hv/hv_kvp_daemon.c | 83 ++++++++++++++++++++++++++++++++++--------------
- 2 files changed, 62 insertions(+), 23 deletions(-)
+Thanks,
+Stefano
 
-diff --git a/tools/hv/Makefile b/tools/hv/Makefile
-index b57143d9459c..9bbab96ac06d 100644
---- a/tools/hv/Makefile
-+++ b/tools/hv/Makefile
-@@ -22,6 +22,8 @@ ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
- 
- ALL_SCRIPTS := hv_get_dhcp_info.sh hv_get_dns_info.sh hv_set_ifconfig.sh
- 
-+$(OUTPUT)hv_kvp_daemon: LDFLAGS += -pthread
-+
- all: $(ALL_PROGRAMS)
- 
- export srctree OUTPUT CC LD CFLAGS
-diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
-index e9ef4ca6a655..b930506a9632 100644
---- a/tools/hv/hv_kvp_daemon.c
-+++ b/tools/hv/hv_kvp_daemon.c
-@@ -41,6 +41,7 @@
- #include <net/if.h>
- #include <limits.h>
- #include <getopt.h>
-+#include <pthread.h>
- 
- /*
-  * KVP protocol: The user mode component first registers with the
-@@ -85,7 +86,7 @@ static char *processor_arch;
- static char *os_build;
- static char *os_version;
- static char *lic_version = "Unknown version";
--static char full_domain_name[HV_KVP_EXCHANGE_MAX_VALUE_SIZE];
-+static char *full_domain_name;
- static struct utsname uts_buf;
- 
- /*
-@@ -1327,27 +1328,67 @@ static int kvp_set_ip_info(char *if_name, struct hv_kvp_ipaddr_value *new_val)
- 	return error;
- }
- 
--
--static void
--kvp_get_domain_name(char *buffer, int length)
-+/*
-+ * Async retrival of Fully Qualified Domain Name because getaddrinfo takes an
-+ * unpredictable amount of time to finish.
-+ */
-+static void *kvp_getaddrinfo(void *p)
- {
--	struct addrinfo	hints, *info ;
--	int error = 0;
-+	char *tmp, **str_ptr = (char **)p;
-+	char hostname[HOST_NAME_MAX + 1];
-+	struct addrinfo	*info, hints = {
-+		.ai_family = AF_INET, /* Get only ipv4 addrinfo. */
-+		.ai_socktype = SOCK_STREAM,
-+		.ai_flags = AI_CANONNAME,
-+	};
-+	int ret;
- 
--	gethostname(buffer, length);
--	memset(&hints, 0, sizeof(hints));
--	hints.ai_family = AF_INET; /*Get only ipv4 addrinfo. */
--	hints.ai_socktype = SOCK_STREAM;
--	hints.ai_flags = AI_CANONNAME;
-+	do {
-+		if (gethostname(hostname, sizeof(hostname) - 1) < 0)
-+			goto out;
- 
--	error = getaddrinfo(buffer, NULL, &hints, &info);
--	if (error != 0) {
--		snprintf(buffer, length, "getaddrinfo failed: 0x%x %s",
--			error, gai_strerror(error));
-+		ret = getaddrinfo(hostname, NULL, &hints, &info);
-+		switch (ret) {
-+		case 0:
-+			break;
-+		case EAI_BADFLAGS:
-+		case EAI_MEMORY:
-+		case EAI_OVERFLOW:
-+		case EAI_SOCKTYPE:
-+		case EAI_SYSTEM:
-+			/* Permanent failure */
-+			syslog(LOG_ERR, "getaddrinfo failed: %d %s",
-+				ret, gai_strerror(ret));
-+			goto out;
-+		default:
-+			/* Temporary failure, aim for success. */
-+			sleep(1);
-+		}
-+	} while (ret);
-+
-+	ret = asprintf(&tmp, "%s", info->ai_canonname);
-+	freeaddrinfo(info);
-+	if (ret <= 0)
-+		goto out;
-+
-+	if (ret > HV_KVP_EXCHANGE_MAX_VALUE_SIZE)
-+		tmp[HV_KVP_EXCHANGE_MAX_VALUE_SIZE - 1] = '\0';
-+	*str_ptr = tmp;
-+
-+out:
-+	pthread_exit(NULL);
-+}
-+
-+static void kvp_obtain_domain_name(char **str_ptr)
-+{
-+	pthread_t t;
-+
-+	if (pthread_create(&t, NULL, kvp_getaddrinfo, str_ptr)) {
-+		syslog(LOG_ERR, "pthread_create failed; error: %d %s",
-+			errno, strerror(errno));
- 		return;
- 	}
--	snprintf(buffer, length, "%s", info->ai_canonname);
--	freeaddrinfo(info);
-+	pthread_detach(t);
- }
- 
- void print_usage(char *argv[])
-@@ -1412,11 +1453,7 @@ int main(int argc, char *argv[])
- 	 * Retrieve OS release information.
- 	 */
- 	kvp_get_os_info();
--	/*
--	 * Cache Fully Qualified Domain Name because getaddrinfo takes an
--	 * unpredictable amount of time to finish.
--	 */
--	kvp_get_domain_name(full_domain_name, sizeof(full_domain_name));
-+	kvp_obtain_domain_name(&full_domain_name);
- 
- 	if (kvp_file_init()) {
- 		syslog(LOG_ERR, "Failed to initialize the pools");
-@@ -1571,7 +1608,7 @@ int main(int argc, char *argv[])
- 
- 		switch (hv_msg->body.kvp_enum_data.index) {
- 		case FullyQualifiedDomainName:
--			strcpy(key_value, full_domain_name);
-+			strcpy(key_value, full_domain_name ? : "");
- 			strcpy(key_name, "FullyQualifiedDomainName");
- 			break;
- 		case IntegrationServicesVersion:
