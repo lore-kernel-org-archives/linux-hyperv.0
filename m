@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41EB6C43141
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:59:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5825C432C3
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 10:00:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1CE88206D9
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:59:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BBBE206D9
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 10:00:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LHVZvm1O"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VJoGSgAe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbfKNJ76 (ORCPT
+        id S1726901AbfKNJ6L (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Nov 2019 04:59:58 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44960 "EHLO
+        Thu, 14 Nov 2019 04:58:11 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29476 "EHLO
         us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726655AbfKNJ6X (ORCPT
+        with ESMTP id S1726330AbfKNJ6L (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Nov 2019 04:58:23 -0500
+        Thu, 14 Nov 2019 04:58:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573725503;
+        s=mimecast20190719; t=1573725490;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=T07opPBgFn11XBnpdKhY17+fMXO1mCcxC+fDaB2l29U=;
-        b=LHVZvm1OXtAWFlJo0pgErd5I3CBalD7WeQhbUjYx/sRmZT3ehRTVqC0wGgCtHGHzuE0wQj
-        cMEZi77nKIGXbFzCWVlDF358zw+be6DIbbcY6LBx9N5GKfqIlMQXAURLAJwBfjvieJMsFm
-        /WKbvxBIVgN7XeIFtMm9DfLY7Ic5GsA=
+        bh=ZC4IS+wABP7CjGBt1y2Fdpp5FeX+/EyGMLh5jKY6eME=;
+        b=VJoGSgAe2fDS2MxTtqy9S1dMZvkW9ZhkwcerJCFN/csMv5ZzrDtUWEtmq+W3Fd/zQi4ocQ
+        QjfyWs+giLEuVfVn2dVKhr3ZyopqO04dVAsApvFX2s5NMzoamrUcUHb/3dqtAF1jUPAtp2
+        j+4F1awA64wVaDbpNV5jSraAO8QgfwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-zyyF1A3KPmWdcoN01oaIkg-1; Thu, 14 Nov 2019 04:58:19 -0500
+ us-mta-424-crdwlIMvN4K-IxoPHTS3jQ-1; Thu, 14 Nov 2019 04:58:06 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79D591005509;
-        Thu, 14 Nov 2019 09:58:17 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9AAB107ACC5;
+        Thu, 14 Nov 2019 09:58:04 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-117-81.ams2.redhat.com [10.36.117.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F4FC165F6;
-        Thu, 14 Nov 2019 09:58:08 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 89442165D3;
+        Thu, 14 Nov 2019 09:57:59 +0000 (UTC)
 From:   Stefano Garzarella <sgarzare@redhat.com>
 To:     netdev@vger.kernel.org
 Cc:     Stephen Hemminger <sthemmin@microsoft.com>,
@@ -60,14 +60,14 @@ Cc:     Stephen Hemminger <sthemmin@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>, linux-hyperv@vger.kernel.org
-Subject: [PATCH net-next v2 03/15] vsock: remove include/linux/vm_sockets.h file
-Date:   Thu, 14 Nov 2019 10:57:38 +0100
-Message-Id: <20191114095750.59106-4-sgarzare@redhat.com>
+Subject: [PATCH net-next v2 01/15] vsock/vmci: remove unused VSOCK_DEFAULT_CONNECT_TIMEOUT
+Date:   Thu, 14 Nov 2019 10:57:36 +0100
+Message-Id: <20191114095750.59106-2-sgarzare@redhat.com>
 In-Reply-To: <20191114095750.59106-1-sgarzare@redhat.com>
 References: <20191114095750.59106-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: zyyF1A3KPmWdcoN01oaIkg-1
+X-MC-Unique: crdwlIMvN4K-IxoPHTS3jQ-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -76,78 +76,40 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This header file now only includes the "uapi/linux/vm_sockets.h".
-We can include directly it when needed.
+The VSOCK_DEFAULT_CONNECT_TIMEOUT definition was introduced with
+commit d021c344051af ("VSOCK: Introduce VM Sockets"), but it is
+never used in the net/vmw_vsock/vmci_transport.c.
 
+VSOCK_DEFAULT_CONNECT_TIMEOUT is used and defined in
+net/vmw_vsock/af_vsock.c
+
+Cc: Jorgen Hansen <jhansen@vmware.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Jorgen Hansen <jhansen@vmware.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- include/linux/vm_sockets.h            | 13 -------------
- include/net/af_vsock.h                |  2 +-
- include/net/vsock_addr.h              |  2 +-
- net/vmw_vsock/vmci_transport_notify.h |  1 -
- 4 files changed, 2 insertions(+), 16 deletions(-)
- delete mode 100644 include/linux/vm_sockets.h
+ net/vmw_vsock/vmci_transport.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/include/linux/vm_sockets.h b/include/linux/vm_sockets.h
-deleted file mode 100644
-index 7dd899ccb920..000000000000
---- a/include/linux/vm_sockets.h
-+++ /dev/null
-@@ -1,13 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * VMware vSockets Driver
-- *
-- * Copyright (C) 2007-2013 VMware, Inc. All rights reserved.
+diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.=
+c
+index 6ba98a1efe2e..cf3b78f0038f 100644
+--- a/net/vmw_vsock/vmci_transport.c
++++ b/net/vmw_vsock/vmci_transport.c
+@@ -78,11 +78,6 @@ static int PROTOCOL_OVERRIDE =3D -1;
+ #define VMCI_TRANSPORT_DEFAULT_QP_SIZE       262144
+ #define VMCI_TRANSPORT_DEFAULT_QP_SIZE_MAX   262144
+=20
+-/* The default peer timeout indicates how long we will wait for a peer res=
+ponse
+- * to a control message.
 - */
+-#define VSOCK_DEFAULT_CONNECT_TIMEOUT (2 * HZ)
 -
--#ifndef _VM_SOCKETS_H
--#define _VM_SOCKETS_H
--
--#include <uapi/linux/vm_sockets.h>
--
--#endif /* _VM_SOCKETS_H */
-diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
-index 80ea0f93d3f7..c660402b10f2 100644
---- a/include/net/af_vsock.h
-+++ b/include/net/af_vsock.h
-@@ -10,7 +10,7 @@
+ /* Helper function to convert from a VMCI error code to a VSock error code=
+. */
 =20
- #include <linux/kernel.h>
- #include <linux/workqueue.h>
--#include <linux/vm_sockets.h>
-+#include <uapi/linux/vm_sockets.h>
-=20
- #include "vsock_addr.h"
-=20
-diff --git a/include/net/vsock_addr.h b/include/net/vsock_addr.h
-index 57d2db5c4bdf..cf8cc140d68d 100644
---- a/include/net/vsock_addr.h
-+++ b/include/net/vsock_addr.h
-@@ -8,7 +8,7 @@
- #ifndef _VSOCK_ADDR_H_
- #define _VSOCK_ADDR_H_
-=20
--#include <linux/vm_sockets.h>
-+#include <uapi/linux/vm_sockets.h>
-=20
- void vsock_addr_init(struct sockaddr_vm *addr, u32 cid, u32 port);
- int vsock_addr_validate(const struct sockaddr_vm *addr);
-diff --git a/net/vmw_vsock/vmci_transport_notify.h b/net/vmw_vsock/vmci_tra=
-nsport_notify.h
-index 7843f08d4290..a1aa5a998c0e 100644
---- a/net/vmw_vsock/vmci_transport_notify.h
-+++ b/net/vmw_vsock/vmci_transport_notify.h
-@@ -11,7 +11,6 @@
- #include <linux/types.h>
- #include <linux/vmw_vmci_defs.h>
- #include <linux/vmw_vmci_api.h>
--#include <linux/vm_sockets.h>
-=20
- #include "vmci_transport.h"
-=20
+ static s32 vmci_transport_error_to_vsock_error(s32 vmci_error)
 --=20
 2.21.0
 
