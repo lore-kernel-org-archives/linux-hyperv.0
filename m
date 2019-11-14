@@ -2,46 +2,48 @@ Return-Path: <SRS0=hSrJ=ZG=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F64DC432C3
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:58:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CFAEC432C3
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:58:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52A50206D9
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:58:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03E48206D9
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Nov 2019 09:58:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WY7XwU4z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gXqQEl3x"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbfKNJ6F (ORCPT
+        id S1726988AbfKNJ6T (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Nov 2019 04:58:05 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53400 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726024AbfKNJ6E (ORCPT
+        Thu, 14 Nov 2019 04:58:19 -0500
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58659 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726977AbfKNJ6Q (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Nov 2019 04:58:04 -0500
+        Thu, 14 Nov 2019 04:58:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573725482;
+        s=mimecast20190719; t=1573725494;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=i+ghB/wyVNL5oaMuN4UVb/xQcoBfZlXxJT0AidebzUE=;
-        b=WY7XwU4zBL+GP+EBPahkfp7diEcPl0uG+32HHqFv2q7YHaoMsbSKIuVyBZbv5mEJdIZ+ce
-        3yuA6D6eIwfFcx+PqgMPc56oxOOmwA3gstThlbdKRVDOoZH5HoXk4UhNJ06ipn4iBXHxyH
-        JKSy447x4gi2clqIjQZFbWHVO7zzbLU=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fnsq7tDFsMeM2bW2mfSnMuHGo8jDj07T4KGT6z4t4ZE=;
+        b=gXqQEl3xlPT3tOeBmwsbkNsqqy0tZHr44OI0gl+vt5QrTyCgP9yixDLzNkD2rp04oiQ8mP
+        rBk7pGHNzRyixPq4WIlJaAP0nsmxsS9c3/4AaB3wU21XuYfV411BxpebssrfOi5VxJ89Ez
+        YaRNdXDUEc0UZ1gzWvvtzytmZztFT/w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-hkAcOLRiNvW9sTlvdhU7Sw-1; Thu, 14 Nov 2019 04:58:01 -0500
+ us-mta-71-A843iaCbNWGJZRawbJf9lg-1; Thu, 14 Nov 2019 04:58:11 -0500
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB44800EBE;
-        Thu, 14 Nov 2019 09:57:59 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9CCF1005509;
+        Thu, 14 Nov 2019 09:58:08 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-117-81.ams2.redhat.com [10.36.117.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1E6E0A7F1;
-        Thu, 14 Nov 2019 09:57:50 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 51FD2165D3;
+        Thu, 14 Nov 2019 09:58:05 +0000 (UTC)
 From:   Stefano Garzarella <sgarzare@redhat.com>
 To:     netdev@vger.kernel.org
 Cc:     Stephen Hemminger <sthemmin@microsoft.com>,
@@ -58,12 +60,14 @@ Cc:     Stephen Hemminger <sthemmin@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>, linux-hyperv@vger.kernel.org
-Subject: [PATCH net-next v2 00/15] vsock: add multi-transports support
-Date:   Thu, 14 Nov 2019 10:57:35 +0100
-Message-Id: <20191114095750.59106-1-sgarzare@redhat.com>
+Subject: [PATCH net-next v2 02/15] vsock: remove vm_sockets_get_local_cid()
+Date:   Thu, 14 Nov 2019 10:57:37 +0100
+Message-Id: <20191114095750.59106-3-sgarzare@redhat.com>
+In-Reply-To: <20191114095750.59106-1-sgarzare@redhat.com>
+References: <20191114095750.59106-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: hkAcOLRiNvW9sTlvdhU7Sw-1
+X-MC-Unique: A843iaCbNWGJZRawbJf9lg-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Transfer-Encoding: quoted-printable
@@ -72,105 +76,66 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Most of the patches are reviewed by Dexuan, Stefan, and Jorgen.
-The following patches need reviews:
-- [11/15] vsock: add multi-transports support
-- [12/15] vsock/vmci: register vmci_transport only when VMCI guest/host
-          are active
-- [15/15] vhost/vsock: refuse CID assigned to the guest->host transport
+vm_sockets_get_local_cid() is only used in virtio_transport_common.c.
+We can replace it calling the virtio_transport_get_ops() and
+using the get_local_cid() callback registered by the transport.
 
-RFC: https://patchwork.ozlabs.org/cover/1168442/
-v1: https://patchwork.ozlabs.org/cover/1181986/
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Jorgen Hansen <jhansen@vmware.com>
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ include/linux/vm_sockets.h              |  2 --
+ net/vmw_vsock/af_vsock.c                | 10 ----------
+ net/vmw_vsock/virtio_transport_common.c |  2 +-
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-v1 -> v2:
-- Patch 11:
-    + vmci_transport: sent reset when vsock_assign_transport() fails
-      [Jorgen]
-    + fixed loopback in the guests, checking if the remote_addr is the
-      same of transport_g2h->get_local_cid()
-    + virtio_transport_common: updated space available while creating
-      the new child socket during a connection request
-- Patch 12:
-    + removed 'features' variable in vmci_transport_init() [Stefan]
-    + added a flag to register only once the host [Jorgen]
-- Added patch 15 to refuse CID assigned to the guest->host transport in
-  the vhost_transport
-
-This series adds the multi-transports support to vsock, following
-this proposal: https://www.spinics.net/lists/netdev/msg575792.html
-
-With the multi-transports support, we can use VSOCK with nested VMs
-(using also different hypervisors) loading both guest->host and
-host->guest transports at the same time.
-Before this series, vmci_transport supported this behavior but only
-using VMware hypervisor on L0, L1, etc.
-
-The first 9 patches are cleanups and preparations, maybe some of
-these can go regardless of this series.
-
-Patch 10 changes the hvs_remote_addr_init(). setting the
-VMADDR_CID_HOST as remote CID instead of VMADDR_CID_ANY to make
-the choice of transport to be used work properly.
-
-Patch 11 adds multi-transports support.
-
-Patch 12 changes a little bit the vmci_transport and the vmci driver
-to register the vmci_transport only when there are active host/guest.
-
-Patch 13 prevents the transport modules unloading while sockets are
-assigned to them.
-
-Patch 14 fixes an issue in the bind() logic discoverable only with
-the new multi-transport support.
-
-Patch 15 refuses CID assigned to the guest->host transport in the
-vhost_transport.
-
-I've tested this series with nested KVM (vsock-transport [L0,L1],
-virtio-transport[L1,L2]) and with VMware (L0) + KVM (L1)
-(vmci-transport [L0,L1], vhost-transport [L1], virtio-transport[L2]).
-
-Dexuan successfully tested the RFC series on HyperV with a Linux guest.
-
-Stefano Garzarella (15):
-  vsock/vmci: remove unused VSOCK_DEFAULT_CONNECT_TIMEOUT
-  vsock: remove vm_sockets_get_local_cid()
-  vsock: remove include/linux/vm_sockets.h file
-  vsock: add 'transport' member in the struct vsock_sock
-  vsock/virtio: add transport parameter to the
-    virtio_transport_reset_no_sock()
-  vsock: add 'struct vsock_sock *' param to vsock_core_get_transport()
-  vsock: handle buffer_size sockopts in the core
-  vsock: add vsock_create_connected() called by transports
-  vsock: move vsock_insert_unbound() in the vsock_create()
-  hv_sock: set VMADDR_CID_HOST in the hvs_remote_addr_init()
-  vsock: add multi-transports support
-  vsock/vmci: register vmci_transport only when VMCI guest/host are
-    active
-  vsock: prevent transport modules unloading
-  vsock: fix bind() behaviour taking care of CID
-  vhost/vsock: refuse CID assigned to the guest->host transport
-
- drivers/misc/vmw_vmci/vmci_driver.c     |  67 +++++
- drivers/misc/vmw_vmci/vmci_driver.h     |   2 +
- drivers/misc/vmw_vmci/vmci_guest.c      |   2 +
- drivers/misc/vmw_vmci/vmci_host.c       |   7 +
- drivers/vhost/vsock.c                   | 102 ++++---
- include/linux/virtio_vsock.h            |  18 +-
- include/linux/vm_sockets.h              |  15 -
- include/linux/vmw_vmci_api.h            |   2 +
- include/net/af_vsock.h                  |  45 +--
- include/net/vsock_addr.h                |   2 +-
- net/vmw_vsock/af_vsock.c                | 382 ++++++++++++++++++------
- net/vmw_vsock/hyperv_transport.c        |  70 ++---
- net/vmw_vsock/virtio_transport.c        | 177 ++++++-----
- net/vmw_vsock/virtio_transport_common.c | 166 +++++-----
- net/vmw_vsock/vmci_transport.c          | 140 ++++-----
- net/vmw_vsock/vmci_transport.h          |   3 -
- net/vmw_vsock/vmci_transport_notify.h   |   1 -
- 17 files changed, 679 insertions(+), 522 deletions(-)
- delete mode 100644 include/linux/vm_sockets.h
-
+diff --git a/include/linux/vm_sockets.h b/include/linux/vm_sockets.h
+index 33f1a2ecd905..7dd899ccb920 100644
+--- a/include/linux/vm_sockets.h
++++ b/include/linux/vm_sockets.h
+@@ -10,6 +10,4 @@
+=20
+ #include <uapi/linux/vm_sockets.h>
+=20
+-int vm_sockets_get_local_cid(void);
+-
+ #endif /* _VM_SOCKETS_H */
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index 1f4fde4711b6..eb13693e9d04 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -129,16 +129,6 @@ static struct proto vsock_proto =3D {
+ static const struct vsock_transport *transport;
+ static DEFINE_MUTEX(vsock_register_mutex);
+=20
+-/**** EXPORTS ****/
+-
+-/* Get the ID of the local context.  This is transport dependent. */
+-
+-int vm_sockets_get_local_cid(void)
+-{
+-=09return transport->get_local_cid();
+-}
+-EXPORT_SYMBOL_GPL(vm_sockets_get_local_cid);
+-
+ /**** UTILS ****/
+=20
+ /* Each bound VSocket is stored in the bind hash table and each connected
+diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio=
+_transport_common.c
+index 828edd88488c..3edc373d2acc 100644
+--- a/net/vmw_vsock/virtio_transport_common.c
++++ b/net/vmw_vsock/virtio_transport_common.c
+@@ -168,7 +168,7 @@ static int virtio_transport_send_pkt_info(struct vsock_=
+sock *vsk,
+ =09struct virtio_vsock_pkt *pkt;
+ =09u32 pkt_len =3D info->pkt_len;
+=20
+-=09src_cid =3D vm_sockets_get_local_cid();
++=09src_cid =3D virtio_transport_get_ops()->transport.get_local_cid();
+ =09src_port =3D vsk->local_addr.svm_port;
+ =09if (!info->remote_cid) {
+ =09=09dst_cid=09=3D vsk->remote_addr.svm_cid;
 --=20
 2.21.0
 
