@@ -5,49 +5,49 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B22C432C3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA3EC43141
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4819D2243E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E2E82243E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="JtWbtlEv"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="JvIjHJks"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727175AbfKTHRa (ORCPT
+        id S1727889AbfKTHRX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Nov 2019 02:17:30 -0500
+        Wed, 20 Nov 2019 02:17:23 -0500
 Received: from mail-eopbgr720133.outbound.protection.outlook.com ([40.107.72.133]:51631
         "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727670AbfKTHR0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:17:26 -0500
+        id S1727670AbfKTHRW (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 20 Nov 2019 02:17:22 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GmDVQiFH8lBmcq9rVdmSRlglTrGgI3IQf7rfK9RArJjXRhBgCp53lspqH1SlcQGTsPI7cScS/Vy5+j/cIKufzw0xzG/N0Xrto0j4nwn81P55ydiHGkkT5wrURyqcmdydHi+SCpZdW4OZn0geR26gUm7ZlwHy5bl0OgvyjUUaxSI7GkWxd6AKfP3Q+ssshFETBCr+Q14R5Pt4qpm8GeoVAcrYKCWm5Ri3+1IwJq1EiucMixcc4ciQnVKjBF7K7RNT2Of1iHuSbwRDBDicMqTSBQxNRY/2b5ea6W4dayyxsNGew8GXHanz8BEdDFpOu/maP68G+zaLl8/FJkUzt1Z25g==
+ b=bBl+K/S4vYmfsBdQ/tyymdFRPNlmFznfiGHTtKWvAXHM5JoDkUwQ286u/qWSCoWeNi1zCz1HaUZXU0p7AwufuakSwyGjjB/ejtoo3ihFWWoT1hzz/RGwxWqTlTMThTqC75o0+uejbwznSE4fCtMR6zJeX96OMnV2PWGFQLhXewT1T7xXoaISMAIT98ypRs9EcT1dROebRUmF2/juH63VfShqhLLhggH4qDZf5njZHbn6g/Fh+01WRpu3jMKhMSQHHMrgFlk9C0hL6fGaFGpY9Pugdd9pAJo4VtFd7c2pO8oGnhcx2lP4Ed9ytam+LK9nkXRLGx9dlqUph8RyD4rUdA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a11YkNayM24x6XpnzvUOyD0iIziEh/6Kr4UhFQAGMaQ=;
- b=OuNyvJpqJSMunhTp4Z+xwCNCQ7LtqsH+z+AsDF9tZOPfe9nntBESPAaP9wShXbkEJayOZkQr2Ce98kJ8tFh85VT1Pig/Qs/7G0nPHkLJ7hVyPWAV7ALteIMdGrr0RpiVLyvbS8cvCR2E5wpDpjIRcojK5+lO+yLHlV2UT9d6AUgl6zETwmfLt7QmtX64WZxdqilhICx40UAGBJpMJPpyTWSDSXEWLa+LNNVn99rDtwrcANGmJtOcG5z6dYPbFaRphy6ljJQLGFAsEIW/2SUL7v1Of4+k/vAsl4Y2GORjV9W0DYWTWpzFupzdZRyKqsiVzgfZ8Ncc5TOOP6uNlywkVQ==
+ bh=QecmJbecI4m5UIXgnD35Z33oc/QS05Ga5gawtJStTZc=;
+ b=fO3SdOTwgei6FtSwWemEoIoL4/PR1oIx9hWtKNiGg2FKjcODjTarQjPrOnSPeVaAnyBtF4tvKew+CqkswZRKZmIBKQtnmSjBRF8Na4jQUr/QTSXnPUx/k05u8S4Bc4HJTTEO0cb6zlr0pEfAKPHSwUmwyaAbuSGp0yo0Sl2jcmPMWXCL2/QzCHn4KDOUkRo9eLz2i3wX7uFKTQmUzjvhDYf6HH7PgNKK2WhyLSRKUnVCWMNJXqUPJUsvQ3GlRPsd3cIRPVe39vMNtwpT3FiPEQE3Igeq7PeOSY8wMuzlAiID72XtG7UXNyl9EAzMG7d/HajUd7xD0fsq+KCOdtpHFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a11YkNayM24x6XpnzvUOyD0iIziEh/6Kr4UhFQAGMaQ=;
- b=JtWbtlEv0H4XIj7YzrXNxlcRdZ4Uc0R4TCPN8SgVRA0AR9N39mODWd5JZ6TT6GhD69P/RmPoEFPd+7lSz2/6VDgzhRqTxsb6iewsGAzz+bFy5dPGyfMe1Wo8URUyo81GyaBXMNumkw/yaJRuqH0XrujXMDeEEiYkL7pH2UxUte4=
+ bh=QecmJbecI4m5UIXgnD35Z33oc/QS05Ga5gawtJStTZc=;
+ b=JvIjHJkslOnrJRlfHz9HePG1Mb5OFzrnLqq/CKh89QtVwL7WvfDwofwZlXdPQiTsCdvPpgE/QaOIvmnYs7tyaEf3Fj2keHSEP/8mQvhXrK8XG/TmqQrcTlXuFXKJp3XLPmA8nhykc8BiZtWxJDGE1NOcVK4VJwikBLMc/Fv5q94=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=decui@microsoft.com; 
 Received: from BN8PR21MB1137.namprd21.prod.outlook.com (20.179.72.96) by
  BN8PR21MB1251.namprd21.prod.outlook.com (20.179.74.28) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.3; Wed, 20 Nov 2019 07:17:21 +0000
+ 15.20.2495.3; Wed, 20 Nov 2019 07:17:18 +0000
 Received: from BN8PR21MB1137.namprd21.prod.outlook.com
  ([fe80::c596:ecf5:7a6:734d]) by BN8PR21MB1137.namprd21.prod.outlook.com
  ([fe80::c596:ecf5:7a6:734d%2]) with mapi id 15.20.2495.006; Wed, 20 Nov 2019
- 07:17:21 +0000
+ 07:17:18 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         sashal@kernel.org, lorenzo.pieralisi@arm.com, bhelgaas@google.com,
@@ -55,9 +55,9 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         linux-kernel@vger.kernel.org, mikelley@microsoft.com,
         Alexander.Levin@microsoft.com
 Cc:     Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v2 4/4] PCI: hv: kmemleak: Track the page allocations for struct hv_pcibus_device
-Date:   Tue, 19 Nov 2019 23:16:58 -0800
-Message-Id: <1574234218-49195-5-git-send-email-decui@microsoft.com>
+Subject: [PATCH v2 2/4] PCI: hv: Add the support of hibernation
+Date:   Tue, 19 Nov 2019 23:16:56 -0800
+Message-Id: <1574234218-49195-3-git-send-email-decui@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1574234218-49195-1-git-send-email-decui@microsoft.com>
 References: <1574234218-49195-1-git-send-email-decui@microsoft.com>
@@ -67,109 +67,207 @@ X-ClientProxiedBy: MWHPR2001CA0022.namprd20.prod.outlook.com
  (2603:10b6:301:15::32) To BN8PR21MB1137.namprd21.prod.outlook.com
  (2603:10b6:408:71::32)
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR2001CA0022.namprd20.prod.outlook.com (2603:10b6:301:15::32) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 20 Nov 2019 07:17:20 +0000
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR2001CA0022.namprd20.prod.outlook.com (2603:10b6:301:15::32) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 20 Nov 2019 07:17:17 +0000
 X-Mailer: git-send-email 1.8.3.1
 X-Originating-IP: [13.77.154.182]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b0164f2a-1ed1-4430-5a85-08d76d89af2e
+X-MS-Office365-Filtering-Correlation-Id: 17d8c894-c9fe-4c03-e6d8-08d76d89ad6b
 X-MS-TrafficTypeDiagnostic: BN8PR21MB1251:|BN8PR21MB1251:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR21MB12516A73BEE4B9D5222D7957BF4F0@BN8PR21MB1251.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <BN8PR21MB1251FBA876FF5957C32AB73ABF4F0@BN8PR21MB1251.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 02272225C5
 X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(376002)(346002)(396003)(136003)(39860400002)(366004)(199004)(189003)(10090500001)(36756003)(8936002)(50226002)(81166006)(81156014)(8676002)(14444005)(6436002)(6486002)(1511001)(86362001)(7736002)(2906002)(5660300002)(478600001)(10290500003)(4720700003)(6636002)(3846002)(6116002)(25786009)(3450700001)(66946007)(66556008)(66476007)(305945005)(316002)(386003)(6666004)(4326008)(6506007)(22452003)(26005)(16586007)(186003)(16526019)(107886003)(76176011)(51416003)(52116002)(66066001)(48376002)(47776003)(50466002)(446003)(11346002)(43066004)(956004)(2616005)(476003)(486006)(6512007)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR21MB1251;H:BN8PR21MB1137.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1FZnyVBcMO4HC6UtvXGX3yDrXung2km9PPa+K9QeXtv2gpU5GbjMHWk8SSPx31nDdyuC6UyQLnWKheDh3eNk2Ev8qjg1NtuX68/ArjszxwXx2wLlpVJs9qK54Gq2fVZLcUmezq6yzlCVbQO8bgvQHDn/ckoMvHrA7OrJZD6wvH23uIB0IeGfqaG4iPwdihWu721J0JQiz9f5XXD59xSQ1oMclVWEL8eWkKLWyJ7kYOtNR2mZO2mMjHEKjAc4H7Ji8cYUAYNqW+DOQW5fQPjSxx2ssy6FRgLQBm/vEkvjLQVzoXJn/xmOYpDHPntnlSCeUenM36S2vpSQ6OSt19xBC30DiEBxFEIOa8i8plHdL9YYob7/4WbDppEpiw9QQs8OZTB91eqXbkAXRqlwd2soUwZS+O6bZ4gt2TfiXCIGPsD5drRENP41Uk2Xz1W6PhDT
+X-Microsoft-Antispam-Message-Info: WuOMyEb/BeQlcapCJR1LSb1XpUtNER3T/sgd61CZdZC+Y7PACrn5y9OQvaBMH3rw4eNg6CWZfiRS5xLNSQVxWGZ+IxfijaBdeO0pvmW1TM3YSgM6iMr8YgB38mYHxlgYhIZkhdlOu0Mj4KJnmwVpr8AlEdkHTe21mdcqVNE4jwskW8W702J01b3VMFBFbaKcqckmZ2L64hWM8HV4bGnVxKnB5zbuDEOaVrzclm/eNtS4KJ9Vh+a4mXvCDI5ZnULXRBdjrsd96OUCe7XRgE8O9m74R2qcsH7uiDtvV1sOfWQwidIBhjTQBSfIkI2pTrMHuC7G9Wnu2DTfBbbfA3XdS4AIrmwDaycK7RrhA4TvwZTsAzCdGbGCoZTB4CgsACZvWwRUdfnwH5QrQpYz0+eGzerP6ct6t47ki4gxq9k8pVqXJz2UMj3FPToRtqyroiP9
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0164f2a-1ed1-4430-5a85-08d76d89af2e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2019 07:17:21.6174
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17d8c894-c9fe-4c03-e6d8-08d76d89ad6b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2019 07:17:18.6823
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0hWydk/5vj+nKRMdpzMgrCu3E0xDLrMUz5Sr62lB0m1WnEEjoVt4zTwBTUWgbId0HT+NBqW6MNldcw6Quv6Qwg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: dUlEFDMdPsiwm8UQogxw0zoLrs1Tgcwf0f5Q2UcPcxsc1u2SmKjPqome6Fm+XTKhAKXG5S1s7TEf2P1FFM/AgQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR21MB1251
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The page allocated for struct hv_pcibus_device contains pointers to other
-slab allocations in new_pcichild_device(). Since kmemleak does not track
-and scan page allocations, the slab objects will be reported as leaks
-(false positives). Use the kmemleak APIs to allow tracking of such pages.
+Implement the suspend/resume callbacks.
 
-Reported-by: Lili Deng <v-lide@microsoft.com>
+We must make sure there is no pending work items before we call
+vmbus_close().
+
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
 ---
 
-This is actually v1. I use "v2" in the Subject just to be consistent with
-the other patches in the patchset.
+Changes in v2: this patch is a simple merge of 2 previous smaller patches,
+accordign to the suggestion of Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>.
 
-Without the patch, we can see the below warning in dmesg, if kmemleak is
-enabled: 
-
-kmemleak: 1 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
-
-and "cat /sys/kernel/debug/kmemleak" shows:
-
-unreferenced object 0xffff9217d1f2bec0 (size 192):
-  comm "kworker/u256:7", pid 100821, jiffies 4501481057 (age 61409.997s)
-  hex dump (first 32 bytes):
-    a8 60 b1 63 17 92 ff ff a8 60 b1 63 17 92 ff ff  .`.c.....`.c....
-    02 00 00 00 00 00 00 00 80 92 cd 61 17 92 ff ff  ...........a....
-  backtrace:
-    [<0000000006f7ae93>] pci_devices_present_work+0x326/0x5e0 [pci_hyperv]
-    [<00000000278eb88a>] process_one_work+0x15f/0x360
-    [<00000000c59501e6>] worker_thread+0x49/0x3c0
-    [<000000000a0a7a94>] kthread+0xf8/0x130
-[<000000007075c2e7>] ret_from_fork+0x35/0x40
-
- drivers/pci/controller/pci-hyperv.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/pci/controller/pci-hyperv.c | 107 +++++++++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index d7e05d436b5e..cc73f49c9e03 100644
+index 65f18f840ce9..e71eb6e0bfdd 100644
 --- a/drivers/pci/controller/pci-hyperv.c
 +++ b/drivers/pci/controller/pci-hyperv.c
-@@ -46,6 +46,7 @@
- #include <asm/irqdomain.h>
- #include <asm/apic.h>
- #include <linux/irq.h>
-+#include <linux/kmemleak.h>
- #include <linux/msi.h>
- #include <linux/hyperv.h>
- #include <linux/refcount.h>
-@@ -2907,6 +2908,16 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	hbus = (struct hv_pcibus_device *)get_zeroed_page(GFP_KERNEL);
- 	if (!hbus)
- 		return -ENOMEM;
-+
+@@ -455,6 +455,7 @@ enum hv_pcibus_state {
+ 	hv_pcibus_init = 0,
+ 	hv_pcibus_probed,
+ 	hv_pcibus_installed,
++	hv_pcibus_removing,
+ 	hv_pcibus_removed,
+ 	hv_pcibus_maximum
+ };
+@@ -1681,6 +1682,23 @@ static void prepopulate_bars(struct hv_pcibus_device *hbus)
+ 
+ 	spin_lock_irqsave(&hbus->device_list_lock, flags);
+ 
 +	/*
-+	 * kmemleak doesn't track page allocations as they are not commonly
-+	 * used for kernel data structures, but here hbus->children indeed
-+	 * contains pointers to hv_pci_dev structs, which are dynamically
-+	 * created in new_pcichild_device(). Allow kmemleak to scan the page
-+	 * so we don't get a false warning of memory leak.
++	 * Clear the memory enable bit, in case it's already set. This occurs
++	 * in the suspend path of hibernation, where the device is suspended,
++	 * resumed and suspended again: see hibernation_snapshot() and
++	 * hibernation_platform_enter().
++	 *
++	 * If the memory enable bit is already set, Hyper-V sliently ignores
++	 * the below BAR updates, and the related PCI device driver can not
++	 * work, because reading from the device register(s) always returns
++	 * 0xFFFFFFFF.
 +	 */
-+	kmemleak_alloc(hbus, PAGE_SIZE, 1, GFP_KERNEL);
++	list_for_each_entry(hpdev, &hbus->children, list_entry) {
++		_hv_pcifront_read_config(hpdev, PCI_COMMAND, 2, &command);
++		command &= ~PCI_COMMAND_MEMORY;
++		_hv_pcifront_write_config(hpdev, PCI_COMMAND, 2, command);
++	}
 +
- 	hbus->state = hv_pcibus_init;
+ 	/* Pick addresses for the BARs. */
+ 	do {
+ 		list_for_each_entry(hpdev, &hbus->children, list_entry) {
+@@ -2107,6 +2125,12 @@ static void hv_pci_devices_present(struct hv_pcibus_device *hbus,
+ 	unsigned long flags;
+ 	bool pending_dr;
  
- 	/*
-@@ -3133,6 +3144,8 @@ static int hv_pci_remove(struct hv_device *hdev)
++	if (hbus->state == hv_pcibus_removing) {
++		dev_info(&hbus->hdev->device,
++			 "PCI VMBus BUS_RELATIONS: ignored\n");
++		return;
++	}
++
+ 	dr_wrk = kzalloc(sizeof(*dr_wrk), GFP_NOWAIT);
+ 	if (!dr_wrk)
+ 		return;
+@@ -2223,11 +2247,19 @@ static void hv_eject_device_work(struct work_struct *work)
+  */
+ static void hv_pci_eject_device(struct hv_pci_dev *hpdev)
+ {
++	struct hv_pcibus_device *hbus = hpdev->hbus;
++	struct hv_device *hdev = hbus->hdev;
++
++	if (hbus->state == hv_pcibus_removing) {
++		dev_info(&hdev->device, "PCI VMBus EJECT: ignored\n");
++		return;
++	}
++
+ 	hpdev->state = hv_pcichild_ejecting;
+ 	get_pcichild(hpdev);
+ 	INIT_WORK(&hpdev->wrk, hv_eject_device_work);
+-	get_hvpcibus(hpdev->hbus);
+-	queue_work(hpdev->hbus->wq, &hpdev->wrk);
++	get_hvpcibus(hbus);
++	queue_work(hbus->wq, &hpdev->wrk);
+ }
  
- 	hv_put_dom_num(hbus->sysdata.domain);
- 
-+	/* Remove kmemleak object previously allocated in hv_pci_probe() */
-+	kmemleak_free(hbus);
- 	free_page((unsigned long)hbus);
+ /**
+@@ -3107,6 +3139,75 @@ static int hv_pci_remove(struct hv_device *hdev)
  	return ret;
  }
+ 
++static int hv_pci_suspend(struct hv_device *hdev)
++{
++	struct hv_pcibus_device *hbus = hv_get_drvdata(hdev);
++	enum hv_pcibus_state old_state;
++	int ret;
++
++	tasklet_disable(&hdev->channel->callback_event);
++
++	/* Change the hbus state to prevent new work items. */
++	old_state = hbus->state;
++	if (hbus->state == hv_pcibus_installed)
++		hbus->state = hv_pcibus_removing;
++
++	tasklet_enable(&hdev->channel->callback_event);
++
++	if (old_state != hv_pcibus_installed)
++		return -EINVAL;
++
++	flush_workqueue(hbus->wq);
++
++	ret = hv_pci_bus_exit(hdev, true);
++	if (ret)
++		return ret;
++
++	vmbus_close(hdev->channel);
++
++	return 0;
++}
++
++static int hv_pci_resume(struct hv_device *hdev)
++{
++	struct hv_pcibus_device *hbus = hv_get_drvdata(hdev);
++	enum pci_protocol_version_t version[1];
++	int ret;
++
++	hbus->state = hv_pcibus_init;
++
++	ret = vmbus_open(hdev->channel, pci_ring_size, pci_ring_size, NULL, 0,
++			 hv_pci_onchannelcallback, hbus);
++	if (ret)
++		return ret;
++
++	/* Only use the version that was in use before hibernation. */
++	version[0] = pci_protocol_version;
++	ret = hv_pci_protocol_negotiation(hdev, version, 1);
++	if (ret)
++		goto out;
++
++	ret = hv_pci_query_relations(hdev);
++	if (ret)
++		goto out;
++
++	ret = hv_pci_enter_d0(hdev);
++	if (ret)
++		goto out;
++
++	ret = hv_send_resources_allocated(hdev);
++	if (ret)
++		goto out;
++
++	prepopulate_bars(hbus);
++
++	hbus->state = hv_pcibus_installed;
++	return 0;
++out:
++	vmbus_close(hdev->channel);
++	return ret;
++}
++
+ static const struct hv_vmbus_device_id hv_pci_id_table[] = {
+ 	/* PCI Pass-through Class ID */
+ 	/* 44C4F61D-4444-4400-9D52-802E27EDE19F */
+@@ -3121,6 +3222,8 @@ static struct hv_driver hv_pci_drv = {
+ 	.id_table	= hv_pci_id_table,
+ 	.probe		= hv_pci_probe,
+ 	.remove		= hv_pci_remove,
++	.suspend	= hv_pci_suspend,
++	.resume		= hv_pci_resume,
+ };
+ 
+ static void __exit exit_hv_pci_drv(void)
 -- 
 2.19.1
 
