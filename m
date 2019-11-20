@@ -2,204 +2,209 @@ Return-Path: <SRS0=4qqU=ZM=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E46BAC432C0
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA4BC432C3
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3F862243E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:16:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 026912243E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Nov 2019 07:17:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="e2Js2Vam"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="a4DbWPHb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727738AbfKTHQl (ORCPT
+        id S1727825AbfKTHRZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Nov 2019 02:16:41 -0500
-Received: from mail-eopbgr730138.outbound.protection.outlook.com ([40.107.73.138]:20640
-        "EHLO NAM05-DM3-obe.outbound.protection.outlook.com"
+        Wed, 20 Nov 2019 02:17:25 -0500
+Received: from mail-eopbgr720133.outbound.protection.outlook.com ([40.107.72.133]:51631
+        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725854AbfKTHQk (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:16:40 -0500
+        id S1727175AbfKTHRZ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 20 Nov 2019 02:17:25 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fgTP5prfF1m5iiEGHljZEENW4qgunSG6vX+BxWXHNWLXuqde6IWZ5ZsjlFT4lHnupJj2TjMakyGsgs8z7CKy6Kf1Y6BKWJqoicAKsOLMfhUQicbGYvEAyzMW0C8EYuKxSVmoxxKr825I5Ruxw5GZpt2O60FXPaEUSSa7dMJCoJ+Dv/cYPrtTAU9IpYHZ1+D+FyJ3DMOCFajaf9AdYNYoHLpNyuJx7MlCoHU/MjzDFLgCcHH9kuK8KPwKVLn/hu9x6Zcwk+DClruoC13FBfn5Ot2aRfEYtBrt+f4RRxqGmFpVU9ZHPVmUHyTQy2g6O/MU6oWU26ASXMp5Rf8FelGq3A==
+ b=Khb9Gno50KEp7+JVEMyrdif5SYPdWDoZPTXXaqC0TCcMfWb4zmYWctD3dVI5XEtb0JJX1y4f41jtz2s8o4eaIBo92WabuvYLV2y3ogrE0MjuzBmS2nGFaJPIjlLMpvHRXTR63z65lMzBhDcKvHL0gZEM3csKChBeJSUgg589yFxhachBPjyFdexPDnuSpH1+ejDxfTSN76t4JrVMksNssVg44JeDsf6aqzA83gwg9SYHWw1DAIlMrKw/lV74p82mhJN4RAV1YoGnJeLHQkhMUgMRGgEqKfB2aLVowVuX8AQmX6C1xsglko5YjxlnWGR+N8ocm04ov7EO7iAn5LwWRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+1oSpsYNl2G0lkTls6l1PyuqgjDKKIHMm5G7Bdnvsu8=;
- b=lTs7Qir7C4U+18sFZ35q/leuP9JxvTjrloZk0jfhnbdQhhEDXm3rqJDPBl9BAYSoeWKkfzXY0RlgUi6+TjrgzYq4D9lk2XX2CdZUEyhusvbgiptG0EbKzYj73g2v6M2xj8rCVEUgcx/3N8k8w258+v6J/wggBzy2sPoWWp/1PjObRqWCF97VIiJSXC3WkHL3r5JYZbpBWxsLJyzqCpi2D0rJ5rfkonKks4ZlDJb8Ia+Evwf5kKjisFu8P7IJvviI+IIAFT/S6cj7a2G1H/sFxKib5pgEfqUDGidcCRVjUR1+btzc9vZS9T2qdTEdO2EXy5dz+/+7NtwFm5luzyNIUA==
+ bh=cL1RFQTRnF5ayLm4bMmyJ37tBq6H+wHVCPEN/ID/wcI=;
+ b=FTqfpDkhsR/YWltWMSuy8WCtPDQvF0Zdch+oQtGEKgT8kgTsQkLoceIM+KBQGPzyUmaJk1z1yx13KDcpfdbjykzITPpRnUiSKrBNV9M5G8v1aGT9wbFOCubDMzQknH6W55IOeO3csRdsV7oE8arktQo9ZP8zOiS49zDsO/1ZZvdBixujDID9vuVMv2+CKLtZxvrRNMkLNgpCwC7YDlolNXSc5zX6xKl3mIMfarV9tLaEb33BSWG/MneIXzWJaCRG5hWWBd6j78g44+hTqV66zjxZ2aX40CWn2VbF2EhDee9z3cxOYtGQOFBrxVNZuOAuCeUc4AgzvAL7aec4vv6Ajg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+1oSpsYNl2G0lkTls6l1PyuqgjDKKIHMm5G7Bdnvsu8=;
- b=e2Js2Vam+w7XmpRLDcqO4j/tIybn8erK23BouzsQn1Xo6esYQELZlO8xvOlFbNj55IlwgFBNm7IyRCBejRlVmb1wr0y4Mn23tXjqrOdNA6ls+6nFeLbte6LYSe8o7Px4aYhOslmol/1QRSfARXRKbsS+zqCIHp9c6DK5eOLXm4k=
+ bh=cL1RFQTRnF5ayLm4bMmyJ37tBq6H+wHVCPEN/ID/wcI=;
+ b=a4DbWPHbFteg77noxHkLtKneoIbPw2VT6nyyM9XyzGSvS+kKdtCJCYHpz0tSzzTK6KFLj6kaAg6z9NAg6F4XN1u2pDVzhW8GwT5GKVU6VD3Oy7fCCGGDkIhHw9y8HvxhdzoIi+BYEdqY3DFfcle1s+w4kn0/iABizVjr8VtotL0=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=decui@microsoft.com; 
 Received: from BN8PR21MB1137.namprd21.prod.outlook.com (20.179.72.96) by
  BN8PR21MB1251.namprd21.prod.outlook.com (20.179.74.28) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.3; Wed, 20 Nov 2019 07:16:36 +0000
+ 15.20.2495.3; Wed, 20 Nov 2019 07:17:20 +0000
 Received: from BN8PR21MB1137.namprd21.prod.outlook.com
  ([fe80::c596:ecf5:7a6:734d]) by BN8PR21MB1137.namprd21.prod.outlook.com
  ([fe80::c596:ecf5:7a6:734d%2]) with mapi id 15.20.2495.006; Wed, 20 Nov 2019
- 07:16:36 +0000
+ 07:17:20 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, linux-hyperv@vger.kernel.org,
+        sashal@kernel.org, lorenzo.pieralisi@arm.com, bhelgaas@google.com,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-kernel@vger.kernel.org, mikelley@microsoft.com,
-        david@redhat.com, arnd@arndb.de, bp@alien8.de,
-        daniel.lezcano@linaro.org, hpa@zytor.com, mingo@redhat.com,
-        tglx@linutronix.de, x86@kernel.org, Alexander.Levin@microsoft.com,
-        vkuznets@redhat.com
-Cc:     linux-arch@vger.kernel.org, Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v2 1/2] x86/hyperv: Implement hv_is_hibernation_supported()
-Date:   Tue, 19 Nov 2019 23:16:04 -0800
-Message-Id: <1574234165-49066-2-git-send-email-decui@microsoft.com>
+        Alexander.Levin@microsoft.com
+Cc:     Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH v2 3/4] PCI: hv: Change pci_protocol_version to per-hbus
+Date:   Tue, 19 Nov 2019 23:16:57 -0800
+Message-Id: <1574234218-49195-4-git-send-email-decui@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1574234165-49066-1-git-send-email-decui@microsoft.com>
-References: <1574234165-49066-1-git-send-email-decui@microsoft.com>
+In-Reply-To: <1574234218-49195-1-git-send-email-decui@microsoft.com>
+References: <1574234218-49195-1-git-send-email-decui@microsoft.com>
 Reply-To: decui@microsoft.com
 Content-Type: text/plain
-X-ClientProxiedBy: MWHPR20CA0036.namprd20.prod.outlook.com
- (2603:10b6:300:ed::22) To BN8PR21MB1137.namprd21.prod.outlook.com
+X-ClientProxiedBy: MWHPR2001CA0022.namprd20.prod.outlook.com
+ (2603:10b6:301:15::32) To BN8PR21MB1137.namprd21.prod.outlook.com
  (2603:10b6:408:71::32)
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR20CA0036.namprd20.prod.outlook.com (2603:10b6:300:ed::22) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 20 Nov 2019 07:16:34 +0000
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR2001CA0022.namprd20.prod.outlook.com (2603:10b6:301:15::32) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Wed, 20 Nov 2019 07:17:18 +0000
 X-Mailer: git-send-email 1.8.3.1
 X-Originating-IP: [13.77.154.182]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b845426d-5dbe-437a-bbdb-08d76d899458
-X-MS-TrafficTypeDiagnostic: BN8PR21MB1251:|BN8PR21MB1251:|BN8PR21MB1251:
+X-MS-Office365-Filtering-Correlation-Id: f33a61fd-a3d4-42d9-12e3-08d76d89ae4a
+X-MS-TrafficTypeDiagnostic: BN8PR21MB1251:|BN8PR21MB1251:
 X-MS-Exchange-Transport-Forked: True
-X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN8PR21MB125109EB214E03570BF10AA6BF4F0@BN8PR21MB1251.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <BN8PR21MB12517457AEC2C3ECA2290539BF4F0@BN8PR21MB1251.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-Forefront-PRVS: 02272225C5
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(376002)(346002)(396003)(136003)(39860400002)(366004)(199004)(189003)(10090500001)(36756003)(7416002)(8936002)(50226002)(81166006)(81156014)(8676002)(14444005)(6436002)(6486002)(1511001)(86362001)(7736002)(2906002)(5660300002)(478600001)(10290500003)(966005)(4720700003)(3846002)(6116002)(25786009)(3450700001)(66946007)(66556008)(66476007)(305945005)(316002)(386003)(6666004)(4326008)(6506007)(22452003)(26005)(16586007)(186003)(16526019)(107886003)(76176011)(51416003)(52116002)(66066001)(48376002)(47776003)(50466002)(446003)(11346002)(43066004)(956004)(2616005)(476003)(486006)(6512007)(6306002)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR21MB1251;H:BN8PR21MB1137.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(376002)(346002)(396003)(136003)(39860400002)(366004)(199004)(189003)(54534003)(10090500001)(36756003)(8936002)(50226002)(81166006)(81156014)(8676002)(14444005)(6436002)(6486002)(1511001)(86362001)(7736002)(2906002)(5660300002)(478600001)(10290500003)(4720700003)(6636002)(3846002)(6116002)(25786009)(3450700001)(66946007)(66556008)(66476007)(305945005)(316002)(386003)(6666004)(4326008)(6506007)(22452003)(26005)(16586007)(186003)(16526019)(107886003)(76176011)(51416003)(52116002)(66066001)(48376002)(47776003)(50466002)(446003)(11346002)(43066004)(956004)(2616005)(476003)(486006)(6512007)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR21MB1251;H:BN8PR21MB1137.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8Bq8SnqAzOXvaI8tVzbwZWedQoXyC3tZXJ6/sUFoYMQOr3Ok3KyTvXyyJGCd7/Zi4dy6q3lfqT+z8hNV27tsFeXD3eMvOwmHL7m+F0Pem9blSyk9+g/fP3wbnHvvOW7ewRLIE7jR97qXhRJcnASRB3N1MYsx+5gF1lq8rKtDXbFt0Nxi57pbQnR5CDKSvQhbj77Q3MS3JK1CFD7mmjws/EvIgoKebe3amKm6ncHu5Z5texppxQtsencevKUEdtGyBCeG9K+MwOfDi/AqofaPgN/WwrjtoHRMzknE1Bu3NBJNFNjFeeRj8IrPDHlGw/ANS863jnuSU8o+qx6fYY22uiGW3YHov9elJ407HeeUyreSfhX23HAxBL6MNd2ipWd4yZDrj4mSh/a3VdtewZ98vjTWlW1oKBGvMsP8EjONPpqo9aZ6/QAW1BQkk/gubvh7e9eyDo5Z0/zRGX1NLbUhNDQ1ThC6yENT2oeEowh8aPg=
+X-Microsoft-Antispam-Message-Info: nBXouDfOGn7ho25OxX4R9rHR82YM1/irY1BP+kJ7qTv3BAmtxqAqes3ZlFN1W7sRiUd+roUr+hSdBWsCzYbkCRXQybqu3pRDIIzuCWrM5JPS9NoOydNHcBaPRgKQwlJ1+clyWv55AUJTlD9VObCN07+XYMMzL/PVXZZVHjw2j0Dt54AI0NupWZD9OvMXCOHQRZZ/QuPJcdsblo51zioQOixVlq132/FfKRtP/uJjEDbNVfa0ua1huhG4kYvFsseYbH8NPuhjt44mI+SyzXTb3zevPtAi0TcUToYgqTIt3e2zw4MR9YOv2fGB053qZ1+d388XW4H4Gj06OIZ4yJBSVsR4aVjRSyacQ4LOp02TZIka0axChO0Q5AQ3R5wrDwVP6Ij3c9HYfnOWx7NAvSvAQx3KHYn44bFSEsJuPpCYObw/dWflly+zdARdSDUCNA4L
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b845426d-5dbe-437a-bbdb-08d76d899458
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2019 07:16:36.7257
+X-MS-Exchange-CrossTenant-Network-Message-Id: f33a61fd-a3d4-42d9-12e3-08d76d89ae4a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2019 07:17:20.1373
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ULoY+R5yfP72lLVCiKgEsltrZeVRPP1A2N0EKxkXdRkXkGPJyqEmS99JvR15MfIC4nZA2UdmPlQuEo3h6KH1/A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: bb9iKIMChth9X7o06dg/4VCWeuu+0B++NN5QxhCXwmnqjwUYV9GNxAeWqLrPou+PeBBkc7+HEnhNtdhXYPDFvA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR21MB1251
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The API will be used by the hv_balloon and hv_vmbus drivers.
-
-Balloon up/down and hot-add of memory must not be active if the user
-wants the Linux VM to support hibernation, because they are incompatible
-with hibernation according to Hyper-V team, e.g. upon suspend the
-balloon VSP doesn't save any info about the ballooned-out pages (if any);
-so, after Linux resumes, Linux balloon VSC expects that the VSP will
-return the pages if Linux is under memory pressure, but the VSP will
-never do that, since the VSP thinks it never stole the pages from the VM.
-
-So, if the user wants Linux VM to support hibernation, Linux must forbid
-balloon up/down and hot-add, and the only functionality of the balloon VSC
-driver is reporting the VM's memory pressure to the host.
-
-Ideally, when Linux detects that the user wants it to support hibernation,
-the balloon VSC should tell the VSP that it does not support ballooning
-and hot-add. However, the current version of the VSP requires the VSC
-should support these capabilities, otherwise the capability negotiation
-fails and the VSC can not load at all, so with the later changes to the
-VSC driver, Linux VM still reports to the VSP that the VSC supports these
-capabilities, but the VSC ignores the VSP's requests of balloon up/down
-and hot add, and reports an error to the VSP, when applicable. BTW, in
-the future the balloon VSP driver will allow the VSC to not support the
-capabilities of balloon up/down and hot add.
-
-The ACPI S4 state is not a must for hibernation to work, because Linux is
-able to hibernate as long as the system can shut down. However in practice
-we decide to artificially use the presence of the virtual ACPI S4 state as
-an indicator of the user's intent of using hibernation, because Linux VM
-must find a way to know if the user wants to use the hibernation feature
-or not.
-
-By default, Hyper-V does not enable the virtual ACPI S4 state; on recent
-Hyper-V hosts (e.g. RS5, 19H1), the administrator is able to enable the
-state for a VM by WMI commands.
-
-Once all the vmbus and VSC patches for the hibernation feature are
-accepted, an extra patch will be submitted to forbid hibernation if the
-virtual ACPI S4 state is absent, i.e. hv_is_hibernation_supported() is
-false.
+A VM can have multiple Hyper-V hbus. It's incorrect to set the global
+variable 'pci_protocol_version' when *every* hbus is initialized in
+hv_pci_protocol_negotiation(). This is not an issue in practice since
+every hbus should have the same value of hbus->protocol_version, but
+we should make the variable per-hbus, so in case we have busses
+with different protocol_versions, the driver can still work correctly.
 
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
 
-v2 is actually the same as v1. This is just a resend.
+changes in v2: Improved the changelog by making it clear that this patch
+fixes a potential bug if we have busses with different protocol_versions.
 
-I suggest this patch should go through the Hyper-V tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=hyperv-next
-because it's needed by
-[PATCH v2 2/2] hv_balloon: Add the support of hibernation
-and some upcoming patches.
+ drivers/pci/controller/pci-hyperv.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-This patch doesn't conflict with any patch in the tip.git tree.
-
- arch/x86/hyperv/hv_init.c      | 7 +++++++
- include/asm-generic/mshyperv.h | 2 ++
- 2 files changed, 9 insertions(+)
-
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index c170653da589..24a62d33067c 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -7,6 +7,7 @@
-  * Author : K. Y. Srinivasan <kys@microsoft.com>
-  */
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index e71eb6e0bfdd..d7e05d436b5e 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -76,11 +76,6 @@ static enum pci_protocol_version_t pci_protocol_versions[] = {
+ 	PCI_PROTOCOL_VERSION_1_1,
+ };
  
-+#include <linux/acpi.h>
- #include <linux/efi.h>
- #include <linux/types.h>
- #include <asm/apic.h>
-@@ -493,3 +494,9 @@ bool hv_is_hyperv_initialized(void)
- 	return hypercall_msr.enable;
- }
- EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
-+
-+bool hv_is_hibernation_supported(void)
-+{
-+	return acpi_sleep_state_supported(ACPI_STATE_S4);
-+}
-+EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index 18d8e2d8210f..b3f1082cc435 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -166,10 +166,12 @@ static inline int cpumask_to_vpset(struct hv_vpset *vpset,
- void hyperv_report_panic(struct pt_regs *regs, long err);
- void hyperv_report_panic_msg(phys_addr_t pa, size_t size);
- bool hv_is_hyperv_initialized(void);
-+bool hv_is_hibernation_supported(void);
- void hyperv_cleanup(void);
- void hv_setup_sched_clock(void *sched_clock);
- #else /* CONFIG_HYPERV */
- static inline bool hv_is_hyperv_initialized(void) { return false; }
-+static inline bool hv_is_hibernation_supported(void) { return false; }
- static inline void hyperv_cleanup(void) {}
- #endif /* CONFIG_HYPERV */
+-/*
+- * Protocol version negotiated by hv_pci_protocol_negotiation().
+- */
+-static enum pci_protocol_version_t pci_protocol_version;
+-
+ #define PCI_CONFIG_MMIO_LENGTH	0x2000
+ #define CFG_PAGE_OFFSET 0x1000
+ #define CFG_PAGE_SIZE (PCI_CONFIG_MMIO_LENGTH - CFG_PAGE_OFFSET)
+@@ -462,6 +457,8 @@ enum hv_pcibus_state {
  
+ struct hv_pcibus_device {
+ 	struct pci_sysdata sysdata;
++	/* Protocol version negotiated with the host */
++	enum pci_protocol_version_t protocol_version;
+ 	enum hv_pcibus_state state;
+ 	refcount_t remove_lock;
+ 	struct hv_device *hdev;
+@@ -1225,7 +1222,7 @@ static void hv_irq_unmask(struct irq_data *data)
+ 	 * negative effect (yet?).
+ 	 */
+ 
+-	if (pci_protocol_version >= PCI_PROTOCOL_VERSION_1_2) {
++	if (hbus->protocol_version >= PCI_PROTOCOL_VERSION_1_2) {
+ 		/*
+ 		 * PCI_PROTOCOL_VERSION_1_2 supports the VP_SET version of the
+ 		 * HVCALL_RETARGET_INTERRUPT hypercall, which also coincides
+@@ -1395,7 +1392,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ 	ctxt.pci_pkt.completion_func = hv_pci_compose_compl;
+ 	ctxt.pci_pkt.compl_ctxt = &comp;
+ 
+-	switch (pci_protocol_version) {
++	switch (hbus->protocol_version) {
+ 	case PCI_PROTOCOL_VERSION_1_1:
+ 		size = hv_compose_msi_req_v1(&ctxt.int_pkts.v1,
+ 					dest,
+@@ -2415,6 +2412,7 @@ static int hv_pci_protocol_negotiation(struct hv_device *hdev,
+ 				       enum pci_protocol_version_t version[],
+ 				       int num_version)
+ {
++	struct hv_pcibus_device *hbus = hv_get_drvdata(hdev);
+ 	struct pci_version_request *version_req;
+ 	struct hv_pci_compl comp_pkt;
+ 	struct pci_packet *pkt;
+@@ -2454,10 +2452,10 @@ static int hv_pci_protocol_negotiation(struct hv_device *hdev,
+ 		}
+ 
+ 		if (comp_pkt.completion_status >= 0) {
+-			pci_protocol_version = version[i];
++			hbus->protocol_version = version[i];
+ 			dev_info(&hdev->device,
+ 				"PCI VMBus probing: Using version %#x\n",
+-				pci_protocol_version);
++				hbus->protocol_version);
+ 			goto exit;
+ 		}
+ 
+@@ -2741,7 +2739,7 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
+ 	u32 wslot;
+ 	int ret;
+ 
+-	size_res = (pci_protocol_version < PCI_PROTOCOL_VERSION_1_2)
++	size_res = (hbus->protocol_version < PCI_PROTOCOL_VERSION_1_2)
+ 			? sizeof(*res_assigned) : sizeof(*res_assigned2);
+ 
+ 	pkt = kmalloc(sizeof(*pkt) + size_res, GFP_KERNEL);
+@@ -2760,7 +2758,7 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
+ 		pkt->completion_func = hv_pci_generic_compl;
+ 		pkt->compl_ctxt = &comp_pkt;
+ 
+-		if (pci_protocol_version < PCI_PROTOCOL_VERSION_1_2) {
++		if (hbus->protocol_version < PCI_PROTOCOL_VERSION_1_2) {
+ 			res_assigned =
+ 				(struct pci_resources_assigned *)&pkt->message;
+ 			res_assigned->message_type.type =
+@@ -3182,7 +3180,7 @@ static int hv_pci_resume(struct hv_device *hdev)
+ 		return ret;
+ 
+ 	/* Only use the version that was in use before hibernation. */
+-	version[0] = pci_protocol_version;
++	version[0] = hbus->protocol_version;
+ 	ret = hv_pci_protocol_negotiation(hdev, version, 1);
+ 	if (ret)
+ 		goto out;
 -- 
 2.19.1
 
