@@ -1,319 +1,139 @@
-Return-Path: <SRS0=46YW=ZU=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=QWCf=ZW=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E585C432C3
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Nov 2019 17:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19681C432C3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Nov 2019 04:30:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3C36B21739
-	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Nov 2019 17:15:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D381F2071F
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Nov 2019 04:30:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WoZ35YLm"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="K1kKnZI+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbfK1RPg (ORCPT
+        id S1727179AbfK3EaJ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Nov 2019 12:15:36 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:33532 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726933AbfK1RPg (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Nov 2019 12:15:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574961334;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EJ8wmKVAVGzwQy9RJeA/HRES3+N97aoUgTm4JmySAyU=;
-        b=WoZ35YLmpIA4mLtYJWzHwdpbUazCzX7k9wt8k+F7+0OucWXABbt+wb6PJJuvqHvzQTbvUl
-        kHwe3ugfUK7zk/I5Z2Rgs7reiXmOSVHHDp9LLWg08tYEtlkID1LywYMsnhmgHxUu4taSLc
-        bmiScLYcPl+Q9QDSrF4uGORWBjSMnhw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2--QKnLjt9PjOK2AeJ3ke5Mw-1; Thu, 28 Nov 2019 12:15:32 -0500
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B7C3107ACC4;
-        Thu, 28 Nov 2019 17:15:31 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-117-168.ams2.redhat.com [10.36.117.168])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9CB89600C8;
-        Thu, 28 Nov 2019 17:15:28 +0000 (UTC)
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dexuan Cui <decui@microsoft.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jorgen Hansen <jhansen@vmware.com>
-Subject: [RFC PATCH 1/3] vsock: add network namespace support
-Date:   Thu, 28 Nov 2019 18:15:17 +0100
-Message-Id: <20191128171519.203979-2-sgarzare@redhat.com>
-In-Reply-To: <20191128171519.203979-1-sgarzare@redhat.com>
-References: <20191128171519.203979-1-sgarzare@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: -QKnLjt9PjOK2AeJ3ke5Mw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=US-ASCII
+        Fri, 29 Nov 2019 23:30:09 -0500
+Received: from mail-eopbgr760128.outbound.protection.outlook.com ([40.107.76.128]:23105
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727142AbfK3EaJ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 29 Nov 2019 23:30:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LFoF2lOx/+6CKdThc6FxGMyi77v4mMQDbBLxbXudKiHVG3+BztWVvSxnnmHpmt8kM+ZTPKxPWaox6NNDgInZkHTmx6wd+nIvfDCzoCzhVf/8O7UyJ1WwOHUJfTXoqjk2+iergjAmOJW6TUHT1InSmvgoO15AaL5L7SS5y21gA1vNazRfPGPzzh9DPyqNDV7bU1K+g+t4cV3kb2D0iDQgFE316GuUlG+KM6hElQLvnNKNqPVSno3JR3+BImyiTfF8RF4oo78gbXQRBlBlFPN7tiaM6Kk4EOnrkHeR5QXJxpvmKTvnFsgVbUGQBYO6yCABDUkBcnvcchqMJpie2ssz6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ek599W0cnAadV7AeCqeQ+lVMhFk429fzqTmlmmlWTYs=;
+ b=h+XMkjndxzd0/HQ9tAL8Iy62lnlRO1n+eq1X2X0hWbjXMAKNoL7a/YoebsA/NIpN2x4+zASnxeQYCTGhkpBWhwACLBatMWoiQPuwHw/xYltWw+CYkLmGyuILD6AVWR5n2bC8IbCtI1g6i/7K+GwYfITs5YcCU3eETcw7eFfWDpCALh90VYOR2wg0Zqwz+NYqZ6Yo1OprGkb+d0s5KAFrzC2YKM7pqCr6idx7eupUVXkDyQJJ65zIY6MVguHF5dXWp9O6Snp7LcHy6pLYWzR8EVdkDgzGZs4Ime78KC+7kwL5zJRcMMvKeKn9eiPj4LOu5KcwjToT+O55q+Sk6kecjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ek599W0cnAadV7AeCqeQ+lVMhFk429fzqTmlmmlWTYs=;
+ b=K1kKnZI+U8xGS6mdbGDVpxgsIUl90EQIkqciTzTCWF9YS4WVUGNKSKD2YgXPF4EfUkuFzCh7t1CfUXO+vIk0W5lK3/7Lw5D5tMwymCFFvu+VUDBtE0ZwHD5LY1vT/4f2tiRZCutnH/Dt69F743Q8sCPxyregijshb5t+9XTsD5U=
+Received: from CY4PR21MB0629.namprd21.prod.outlook.com (10.175.115.19) by
+ CY4PR21MB0775.namprd21.prod.outlook.com (10.173.192.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.0; Sat, 30 Nov 2019 04:30:06 +0000
+Received: from CY4PR21MB0629.namprd21.prod.outlook.com
+ ([fe80::ed94:4b6d:5371:285c]) by CY4PR21MB0629.namprd21.prod.outlook.com
+ ([fe80::ed94:4b6d:5371:285c%4]) with mapi id 15.20.2516.003; Sat, 30 Nov 2019
+ 04:30:06 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Long Li <longli@microsoft.com>
+Subject: RE: [EXTERNAL] [PATCH 1/2] PCI: hv: decouple the func definition in
+ hv_dr_state from VSP message
+Thread-Topic: [EXTERNAL] [PATCH 1/2] PCI: hv: decouple the func definition in
+ hv_dr_state from VSP message
+Thread-Index: AQHVoaFcWphb3zmlG0OqjmKFjc5K8qejKdTQ
+Date:   Sat, 30 Nov 2019 04:30:05 +0000
+Message-ID: <CY4PR21MB06293F8FB8A8A1ADD628A8B8D7410@CY4PR21MB0629.namprd21.prod.outlook.com>
+References: <1574474229-44840-1-git-send-email-longli@linuxonhyperv.com>
+In-Reply-To: <1574474229-44840-1-git-send-email-longli@linuxonhyperv.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-11-30T04:30:03.2842035Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=739473f4-27c9-42d2-9236-15eb823f680e;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mikelley@microsoft.com; 
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: daf0c42b-df3d-40e5-f358-08d7754df9db
+x-ms-traffictypediagnostic: CY4PR21MB0775:|CY4PR21MB0775:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR21MB0775DBE1CC8737FBA3261135D7410@CY4PR21MB0775.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 02379661A3
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(376002)(396003)(136003)(39860400002)(346002)(189003)(199004)(99286004)(107886003)(102836004)(33656002)(2201001)(6246003)(86362001)(2906002)(7696005)(6436002)(110136005)(76176011)(22452003)(6506007)(2501003)(1511001)(4326008)(8990500004)(10090500001)(55016002)(9686003)(71200400001)(15650500001)(26005)(256004)(71190400001)(25786009)(5660300002)(4744005)(316002)(52536014)(10290500003)(76116006)(81166006)(81156014)(8936002)(14454004)(229853002)(305945005)(7736002)(74316002)(66476007)(66066001)(478600001)(11346002)(446003)(66946007)(8676002)(66556008)(186003)(66446008)(3846002)(6116002)(64756008)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR21MB0775;H:CY4PR21MB0629.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Y3CI/vYqDyZ9YvqXh3pNqKTViSEmo0yOorS7eHCPI1SoCZqgVPx8WiAH/HUh7lg7utIc7byYehMTk6x7uTbmU4YPpquoaxgoSpJwFtd5e4dYvivDB87oR3pjzc6fPM68a6PXPcnd4/J8fM9xhrfrOPSW9NkNlPFZt1va9QsmevgQZ3TX9Y0cD7RDjHuidv4o/LPoQfjlDcS0LSp+TxNMQzGYo0mt+CsV06RPGJJhksiiJUfSJ8goszDvVH73v8oWC4AP4o7XXm/gGsIV9lk1nFpWCEfyZJHssDSS8pywaGd3u42bQY4YKvr3wGrC2MpgUgoX52AAISRLbe9xbFn1icdGVVxYl5wcN4Ffh3MEzlRAjIyLeyrRaepBCeiL79prR2CZ/2n254R4mluvigT6cBOSwGfvLYr7IcEPRW/AFgu9ZGRV6jsqZVnbggPa8XRA
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: daf0c42b-df3d-40e5-f358-08d7754df9db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2019 04:30:05.7819
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SRuT7ChrdREyJLKwAC9yJJzwd73/GLtU7zDnjRI4XrM5SfAAjx1Yq8lKvikKzUQaWDAqSNN32qFB5xU4ZL1RUy3Icx7AApOHFvAJKXsrCYU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR21MB0775
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch adds a check of the "net" assigned to a socket during
-the vsock_find_bound_socket() and vsock_find_connected_socket()
-to support network namespace, allowing to share the same address
-(cid, port) across different network namespaces.
+From: longli@linuxonhyperv.com  Sent: Friday, November 22, 2019 5:57 PM
+>=20
+> From: Long Li <longli@microsoft.com>
+>=20
+> hv_dr_state is used to find present PCI devices on the bus. The structure
+> reuses struct pci_function_description from VSP message to describe a dev=
+ice.
+>=20
+> To prepare support for pci_function_description v2, we need to decouple t=
+his
+> dependence in hv_dr_state so it can work with both v1 and v2 VSP messages=
+.
+>=20
+> There is no functionality change.
+>=20
+> Signed-off-by: Long Li <longli@microsoft.com>
+> ---
+>  drivers/pci/controller/pci-hyperv.c | 100 +++++++++++++++++++---------
+>  1 file changed, 69 insertions(+), 31 deletions(-)
+>=20
 
-G2H transports will use the default network namepsace (init_net).
-H2G transports can use different network namespace for different
-VMs.
-
-This patch uses default network namepsace (init_net) in all
-transports.
-
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- include/net/af_vsock.h                  |  6 +++--
- net/vmw_vsock/af_vsock.c                | 31 ++++++++++++++++++-------
- net/vmw_vsock/hyperv_transport.c        |  5 ++--
- net/vmw_vsock/virtio_transport_common.c |  5 ++--
- net/vmw_vsock/vmci_transport.c          |  5 ++--
- 5 files changed, 35 insertions(+), 17 deletions(-)
-
-diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
-index b1c717286993..fb7dcf73af5b 100644
---- a/include/net/af_vsock.h
-+++ b/include/net/af_vsock.h
-@@ -193,13 +193,15 @@ void vsock_enqueue_accept(struct sock *listener, stru=
-ct sock *connected);
- void vsock_insert_connected(struct vsock_sock *vsk);
- void vsock_remove_bound(struct vsock_sock *vsk);
- void vsock_remove_connected(struct vsock_sock *vsk);
--struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr);
-+struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr, struct net =
-*net);
- struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
--=09=09=09=09=09 struct sockaddr_vm *dst);
-+=09=09=09=09=09 struct sockaddr_vm *dst,
-+=09=09=09=09=09 struct net *net);
- void vsock_remove_sock(struct vsock_sock *vsk);
- void vsock_for_each_connected_socket(void (*fn)(struct sock *sk));
- int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)=
-;
- bool vsock_find_cid(unsigned int cid);
-+struct net *vsock_default_net(void);
-=20
- /**** TAP ****/
-=20
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 9c5b2a91baad..b485b4a4e3e9 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -226,15 +226,18 @@ static void __vsock_remove_connected(struct vsock_soc=
-k *vsk)
- =09sock_put(&vsk->sk);
- }
-=20
--static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
-+static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr,
-+=09=09=09=09=09      struct net *net)
- {
- =09struct vsock_sock *vsk;
-=20
- =09list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
--=09=09if (vsock_addr_equals_addr(addr, &vsk->local_addr))
-+=09=09if (vsock_addr_equals_addr(addr, &vsk->local_addr) &&
-+=09=09    net_eq(net, sock_net(sk_vsock(vsk))))
- =09=09=09return sk_vsock(vsk);
-=20
- =09=09if (addr->svm_port =3D=3D vsk->local_addr.svm_port &&
-+=09=09    net_eq(net, sock_net(sk_vsock(vsk))) &&
- =09=09    (vsk->local_addr.svm_cid =3D=3D VMADDR_CID_ANY ||
- =09=09     addr->svm_cid =3D=3D VMADDR_CID_ANY))
- =09=09=09return sk_vsock(vsk);
-@@ -244,13 +247,15 @@ static struct sock *__vsock_find_bound_socket(struct =
-sockaddr_vm *addr)
- }
-=20
- static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
--=09=09=09=09=09=09  struct sockaddr_vm *dst)
-+=09=09=09=09=09=09  struct sockaddr_vm *dst,
-+=09=09=09=09=09=09  struct net *net)
- {
- =09struct vsock_sock *vsk;
-=20
- =09list_for_each_entry(vsk, vsock_connected_sockets(src, dst),
- =09=09=09    connected_table) {
- =09=09if (vsock_addr_equals_addr(src, &vsk->remote_addr) &&
-+=09=09    net_eq(net, sock_net(sk_vsock(vsk))) &&
- =09=09    dst->svm_port =3D=3D vsk->local_addr.svm_port) {
- =09=09=09return sk_vsock(vsk);
- =09=09}
-@@ -295,12 +300,12 @@ void vsock_remove_connected(struct vsock_sock *vsk)
- }
- EXPORT_SYMBOL_GPL(vsock_remove_connected);
-=20
--struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr)
-+struct sock *vsock_find_bound_socket(struct sockaddr_vm *addr, struct net =
-*net)
- {
- =09struct sock *sk;
-=20
- =09spin_lock_bh(&vsock_table_lock);
--=09sk =3D __vsock_find_bound_socket(addr);
-+=09sk =3D __vsock_find_bound_socket(addr, net);
- =09if (sk)
- =09=09sock_hold(sk);
-=20
-@@ -311,12 +316,13 @@ struct sock *vsock_find_bound_socket(struct sockaddr_=
-vm *addr)
- EXPORT_SYMBOL_GPL(vsock_find_bound_socket);
-=20
- struct sock *vsock_find_connected_socket(struct sockaddr_vm *src,
--=09=09=09=09=09 struct sockaddr_vm *dst)
-+=09=09=09=09=09 struct sockaddr_vm *dst,
-+=09=09=09=09=09 struct net *net)
- {
- =09struct sock *sk;
-=20
- =09spin_lock_bh(&vsock_table_lock);
--=09sk =3D __vsock_find_connected_socket(src, dst);
-+=09sk =3D __vsock_find_connected_socket(src, dst, net);
- =09if (sk)
- =09=09sock_hold(sk);
-=20
-@@ -488,6 +494,12 @@ bool vsock_find_cid(unsigned int cid)
- }
- EXPORT_SYMBOL_GPL(vsock_find_cid);
-=20
-+struct net *vsock_default_net(void)
-+{
-+=09return &init_net;
-+}
-+EXPORT_SYMBOL_GPL(vsock_default_net);
-+
- static struct sock *vsock_dequeue_accept(struct sock *listener)
- {
- =09struct vsock_sock *vlistener;
-@@ -586,6 +598,7 @@ static int __vsock_bind_stream(struct vsock_sock *vsk,
- {
- =09static u32 port;
- =09struct sockaddr_vm new_addr;
-+=09struct net *net =3D sock_net(sk_vsock(vsk));
-=20
- =09if (!port)
- =09=09port =3D LAST_RESERVED_PORT + 1 +
-@@ -603,7 +616,7 @@ static int __vsock_bind_stream(struct vsock_sock *vsk,
-=20
- =09=09=09new_addr.svm_port =3D port++;
-=20
--=09=09=09if (!__vsock_find_bound_socket(&new_addr)) {
-+=09=09=09if (!__vsock_find_bound_socket(&new_addr, net)) {
- =09=09=09=09found =3D true;
- =09=09=09=09break;
- =09=09=09}
-@@ -620,7 +633,7 @@ static int __vsock_bind_stream(struct vsock_sock *vsk,
- =09=09=09return -EACCES;
- =09=09}
-=20
--=09=09if (__vsock_find_bound_socket(&new_addr))
-+=09=09if (__vsock_find_bound_socket(&new_addr, net))
- =09=09=09return -EADDRINUSE;
- =09}
-=20
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transp=
-ort.c
-index 3c7d07a99fc5..fc48a861a0bc 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -201,7 +201,8 @@ static void hvs_remote_addr_init(struct sockaddr_vm *re=
-mote,
-=20
- =09=09remote->svm_port =3D host_ephemeral_port++;
-=20
--=09=09sk =3D vsock_find_connected_socket(remote, local);
-+=09=09sk =3D vsock_find_connected_socket(remote, local,
-+=09=09=09=09=09=09 vsock_default_net());
- =09=09if (!sk) {
- =09=09=09/* Found an available ephemeral port */
- =09=09=09return;
-@@ -350,7 +351,7 @@ static void hvs_open_connection(struct vmbus_channel *c=
-han)
- =09=09return;
-=20
- =09hvs_addr_init(&addr, conn_from_host ? if_type : if_instance);
--=09sk =3D vsock_find_bound_socket(&addr);
-+=09sk =3D vsock_find_bound_socket(&addr, vsock_default_net());
- =09if (!sk)
- =09=09return;
-=20
-diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio=
-_transport_common.c
-index 0e20b0f6eb65..10a8cbe39f61 100644
---- a/net/vmw_vsock/virtio_transport_common.c
-+++ b/net/vmw_vsock/virtio_transport_common.c
-@@ -1075,6 +1075,7 @@ virtio_transport_recv_listen(struct sock *sk, struct =
-virtio_vsock_pkt *pkt,
- void virtio_transport_recv_pkt(struct virtio_transport *t,
- =09=09=09       struct virtio_vsock_pkt *pkt)
- {
-+=09struct net *net =3D vsock_default_net();
- =09struct sockaddr_vm src, dst;
- =09struct vsock_sock *vsk;
- =09struct sock *sk;
-@@ -1102,9 +1103,9 @@ void virtio_transport_recv_pkt(struct virtio_transpor=
-t *t,
- =09/* The socket must be in connected or bound table
- =09 * otherwise send reset back
- =09 */
--=09sk =3D vsock_find_connected_socket(&src, &dst);
-+=09sk =3D vsock_find_connected_socket(&src, &dst, net);
- =09if (!sk) {
--=09=09sk =3D vsock_find_bound_socket(&dst);
-+=09=09sk =3D vsock_find_bound_socket(&dst, net);
- =09=09if (!sk) {
- =09=09=09(void)virtio_transport_reset_no_sock(t, pkt);
- =09=09=09goto free_pkt;
-diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.=
-c
-index 4b8b1150a738..3ad15d51b30b 100644
---- a/net/vmw_vsock/vmci_transport.c
-+++ b/net/vmw_vsock/vmci_transport.c
-@@ -669,6 +669,7 @@ static bool vmci_transport_stream_allow(u32 cid, u32 po=
-rt)
-=20
- static int vmci_transport_recv_stream_cb(void *data, struct vmci_datagram =
-*dg)
- {
-+=09struct net *net =3D vsock_default_net();
- =09struct sock *sk;
- =09struct sockaddr_vm dst;
- =09struct sockaddr_vm src;
-@@ -702,9 +703,9 @@ static int vmci_transport_recv_stream_cb(void *data, st=
-ruct vmci_datagram *dg)
- =09vsock_addr_init(&src, pkt->dg.src.context, pkt->src_port);
- =09vsock_addr_init(&dst, pkt->dg.dst.context, pkt->dst_port);
-=20
--=09sk =3D vsock_find_connected_socket(&src, &dst);
-+=09sk =3D vsock_find_connected_socket(&src, &dst, net);
- =09if (!sk) {
--=09=09sk =3D vsock_find_bound_socket(&dst);
-+=09=09sk =3D vsock_find_bound_socket(&dst, net);
- =09=09if (!sk) {
- =09=09=09/* We could not find a socket for this specified
- =09=09=09 * address.  If this packet is a RST, we just drop it.
---=20
-2.23.0
-
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
