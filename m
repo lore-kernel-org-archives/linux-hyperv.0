@@ -1,467 +1,229 @@
-Return-Path: <SRS0=7yiu=Z4=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=EwuU=Z5=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89BCEC43603
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Dec 2019 11:33:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C71C43603
+	for <linux-hyperv@archiver.kernel.org>; Sat,  7 Dec 2019 16:28:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49E9D20706
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Dec 2019 11:33:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C07824677
+	for <linux-hyperv@archiver.kernel.org>; Sat,  7 Dec 2019 16:28:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="EZV9uh+f"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="OxQPxA9b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726109AbfLFLdc (ORCPT
+        id S1726455AbfLGQ2f (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 6 Dec 2019 06:33:32 -0500
-Received: from mail-eopbgr700111.outbound.protection.outlook.com ([40.107.70.111]:39809
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        Sat, 7 Dec 2019 11:28:35 -0500
+Received: from mail-eopbgr760112.outbound.protection.outlook.com ([40.107.76.112]:31149
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726102AbfLFLdb (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 6 Dec 2019 06:33:31 -0500
+        id S1726414AbfLGQ2f (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 7 Dec 2019 11:28:35 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nPrSzPwXiyEeNZaZTJ24wrEInMCtEqHrGOfEdpQqpLTUzLLkuYiYcSkZXnDJ0K9wIU8vw/562FxCTXMmiGc4XdfgazEDarV0PmxHXWiObBKyn05LNP26BO3rL6BNUfh4ZRifbIVrSu+rerCnx/9wrNecTRO+BRMWgGVV3MMK0keXeS1KPFvq1DSPzanKW32VUDlhhOIRhvq3wQJf6mWP4SBPohUrUbNEpzjHeKiBvHvtVYckn9wA7dEogUe92WekE0/QIHCY6upG4nwKpLU6jCG0SDq0/XaioiIjXzPfqpQ2X8GofLAZCx1ceJrBj74RPBNEScbUzQz5QG0n+KERgQ==
+ b=h2eaV/dIXNq2Jt78SxRzb5cQ1jIhEmirTZ57xzsOj3ZvflXBRU3PtY394aTUIJ+LCvhVEU2nOkAWfqU61dj+3HaqXXZ8SxqBNaUEIPF7VHPhStz7CCDh7ZMTYMpNe6Lby/qz4iHSynKWxXHnVO130kMowPUEgbKvEuxvDmPd4oq7e9s94Xv8zH47AeTZCkTlS69SfQtHTKWjXcpwBbAqWz+5h89VtfK44HMrSMhXRR7CvXVDJBIXpcSi/j5uVclp1v1CM52bIi/NuTXpUBkjVCsYMM7hnbSNNxgr1HsaQ7mO28MO0elu7Emtj3nd+J9VCkc5Jn029EH11VwsNdhBDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jVBxUvKYpmg+Cp7rFHpJJHvaJNKpSzy0jIKkCnqYXdA=;
- b=W3N3IpG6lsm2pMJZsj+jXOi2gH6mMLbxtaFMbfKdYL41CQreBSZzqnF6FlH9Y0WufPBGf0VQ4IrRa5ImQqLxk+qIiZu1dzJDd93PB9QrxmKAktM9LGeDRHujU7jdsnGgAu8LR+eH3JakVI6vnMANB4uBNne2v2BH+GDWMrMFW+YwNis+SFNk9Ymsi2E1XOW1l3HkZNKExeqtWSqfXnW1Q0cq/muFOtQflU4P/Fm5vz6ayJN9Wt9JsB1lab9kVIehEpwUNgJp7bOtwYoRgIe8ydOtp8yHVkfQutIUoagwZxsEgCSuQPuXWOxBtdvPEL4dmHQK2HTsmxVsWslofwNCzQ==
+ bh=zDU1HHm83zVOITBPaC2iqmu/hy2Td4uNl0fWfJaBY28=;
+ b=BBPT9f9ck6Gxd+rV2yHR7kVUVfW0HKVlbOCS3i/MTDQ45Vxx3fYCV3SLC/sO9sc0inftS47Ps1EbF8lCG7keMUtg9KoZNVHroTbGCNRO1s8mbdktZKmHRh58+ggzTjj3dQNBilZr8cqFhABFI8oeCm22JkN3PrurwUVaVM96fPE5TDO4KAPAC7oFrMAB6btJsJlQ3V/NXs0sbPHNwCynx4SBxl2ezt8pr4UI5beVZRqRO51n8M34F2mJe1tnzNQnWJitObMioLcAQzDl2BCZZ/RuLH6kR+NrCMUj0cbJjBZJlxfFjF3unJ5xOo2I6cgGkdwELVotT+t5xdgYyUM1JA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jVBxUvKYpmg+Cp7rFHpJJHvaJNKpSzy0jIKkCnqYXdA=;
- b=EZV9uh+fu0zoZv4zRk9SQL7kr9g9cDxMYmHKYC1WNREqAbGfikbB3ghQP5H4nNmT+dUm+4AYkJtkzmfFPoQBOS9x64NdTFBJjP+usxuuWZG6YvxxI1oMZhpsxmLFtFr27aP1GQ4gxCrsna4fp4uUYyOVWY9p5aUw7NLweol4QJ8=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=weh@microsoft.com; 
-Received: from BN8PR21MB1284.namprd21.prod.outlook.com (20.179.74.150) by
- BN8PR21MB1234.namprd21.prod.outlook.com (20.179.73.222) with Microsoft SMTP
+ bh=zDU1HHm83zVOITBPaC2iqmu/hy2Td4uNl0fWfJaBY28=;
+ b=OxQPxA9brOxD7qpl3/ibBaDFP97rGQn7jKH5YFYlKZjX/0ak4ow3vfWxLt45TFfoPYpg92aRj2kgyGsLQHk7ViSS5W+dZx9RJSkApBP8ZGq9LDp3pkYZ8wnXXpspw6fukIonVmP6P6kHoMM6Fj7gmpgfwpVMhl+3e5EdswZMZd4=
+Received: from CY4PR21MB0629.namprd21.prod.outlook.com (10.175.115.19) by
+ CY4PR21MB0152.namprd21.prod.outlook.com (10.173.189.22) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.1; Fri, 6 Dec 2019 11:33:27 +0000
-Received: from BN8PR21MB1284.namprd21.prod.outlook.com
- ([fe80::6138:f167:f1e4:fd6e]) by BN8PR21MB1284.namprd21.prod.outlook.com
- ([fe80::6138:f167:f1e4:fd6e%3]) with mapi id 15.20.2538.005; Fri, 6 Dec 2019
- 11:33:26 +0000
-From:   Wei Hu <weh@microsoft.com>
-To:     b.zolnierkie@samsung.com, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, sashal@kernel.org,
-        hch@lst.de, m.szyprowski@samsung.com, mchehab+samsung@kernel.org,
-        sam@ravnborg.org, gregkh@linuxfoundation.org,
-        alexandre.belloni@bootlin.com, info@metux.net, arnd@arndb.de,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        decui@microsoft.com, mikelley@microsoft.com
-Cc:     Wei Hu <weh@microsoft.com>, kbuild test robot <lkp@intel.com>
-Subject: [PATCH v3] video: hyperv: hyperv_fb: Use physical memory for fb on HyperV Gen 1 VMs.
-Date:   Fri,  6 Dec 2019 19:32:20 +0800
-Message-Id: <20191206113220.1849-1-weh@microsoft.com>
-X-Mailer: git-send-email 2.20.1
-Reply-To: weh@microsoft.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0103.apcprd01.prod.exchangelabs.com
- (2603:1096:3:15::29) To BN8PR21MB1284.namprd21.prod.outlook.com
- (2603:10b6:408:a2::22)
-MIME-Version: 1.0
-Received: from weh-g1-u1904d-testwin10.corp.microsoft.com (167.220.255.49) by SG2PR01CA0103.apcprd01.prod.exchangelabs.com (2603:1096:3:15::29) with Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport; Fri, 6 Dec 2019 11:33:19 +0000
-X-Mailer: git-send-email 2.20.1
-X-Originating-IP: [167.220.255.49]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9721ed2a-1c83-4e9f-15a9-08d77a401be4
-X-MS-TrafficTypeDiagnostic: BN8PR21MB1234:|BN8PR21MB1234:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN8PR21MB1234A25D8633C1A55769F466BB5F0@BN8PR21MB1234.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-Forefront-PRVS: 0243E5FD68
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(346002)(366004)(39860400002)(396003)(136003)(376002)(189003)(199004)(51416003)(52116002)(186003)(26005)(25786009)(956004)(2616005)(16526019)(7696005)(50226002)(10090500001)(10290500003)(22452003)(66946007)(66476007)(66556008)(478600001)(305945005)(5660300002)(316002)(6636002)(7416002)(86362001)(3450700001)(2906002)(22746008)(30864003)(14444005)(6486002)(2870700001)(48376002)(50466002)(8936002)(81166006)(81156014)(1250700005)(8676002)(36756003)(54906003)(6666004)(4326008)(1076003)(43066004)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN8PR21MB1234;H:BN8PR21MB1284.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: microsoft.com does not designate
+ 15.20.2538.1; Sat, 7 Dec 2019 16:28:28 +0000
+Received: from CY4PR21MB0629.namprd21.prod.outlook.com
+ ([fe80::ed94:4b6d:5371:285c]) by CY4PR21MB0629.namprd21.prod.outlook.com
+ ([fe80::ed94:4b6d:5371:285c%4]) with mapi id 15.20.2516.003; Sat, 7 Dec 2019
+ 16:28:28 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Wei Hu <weh@microsoft.com>,
+        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "sashal@kernel.org" <sashal@kernel.org>, "hch@lst.de" <hch@lst.de>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "mchehab+samsung@kernel.org" <mchehab+samsung@kernel.org>,
+        "sam@ravnborg.org" <sam@ravnborg.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>,
+        "info@metux.net" <info@metux.net>, "arnd@arndb.de" <arnd@arndb.de>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Dexuan Cui <decui@microsoft.com>
+CC:     kbuild test robot <lkp@intel.com>
+Subject: RE: [PATCH v3] video: hyperv: hyperv_fb: Use physical memory for fb
+ on HyperV Gen 1 VMs.
+Thread-Topic: [PATCH v3] video: hyperv: hyperv_fb: Use physical memory for fb
+ on HyperV Gen 1 VMs.
+Thread-Index: AQHVrCj6DBOdT46Ti02yKFHky2sSFKeu2nXg
+Date:   Sat, 7 Dec 2019 16:28:28 +0000
+Message-ID: <CY4PR21MB0629C3DA1201A3FB51A7F486D75E0@CY4PR21MB0629.namprd21.prod.outlook.com>
+References: <20191206113220.1849-1-weh@microsoft.com>
+In-Reply-To: <20191206113220.1849-1-weh@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2019-12-07T16:28:26.6621293Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0161c020-b57f-47ae-89d9-4ca338008b7a;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mikelley@microsoft.com; 
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b53482a8-21e6-42fc-22fe-08d77b327e07
+x-ms-traffictypediagnostic: CY4PR21MB0152:|CY4PR21MB0152:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR21MB015299340C8D27D5DCBC9D9DD75E0@CY4PR21MB0152.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0244637DEA
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(39860400002)(136003)(396003)(346002)(376002)(189003)(199004)(305945005)(6636002)(186003)(71200400001)(5660300002)(10090500001)(6506007)(66476007)(66556008)(9686003)(64756008)(110136005)(71190400001)(316002)(52536014)(86362001)(26005)(74316002)(10290500003)(8990500004)(2906002)(7416002)(8936002)(102836004)(229853002)(7696005)(33656002)(8676002)(1250700005)(66946007)(99286004)(4326008)(81156014)(55016002)(76176011)(478600001)(81166006)(66446008)(76116006)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR21MB0152;H:CY4PR21MB0629.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cNNdb/GF5Etn3c1UNJxnpLtps9VXKd+4O7CkjIQQTwggvmmiKnFPgA0UdMCu1ZliMrx07HLIEhHSmn3oM64ImzsyvTh24lowYuK5v7ACgIB6uXbhtXwM3J7fKyls6ZRM7xBvblG5fD8qHLKmPVxxqJA0H26bIiuqCi081PKzznJsTpvYvicbdoa2df5NSgLzdIoTUnCka4ocFWVNDrC4l0PIMxBXIkrBTxATzU/8mPRLY6F/zzA6pLpr9fTN+a1S8phJgBd9C1xXA4PYoG12TRT7OCMfP6jOTN6AiDi6C3Mk/geS3xdMXQFPpDWbihXW6AqFe00cFmJr4pxRaBoNCKtjTQ5Qixt8xwwvoMyEhU/r12UPV70kL94XX9HeJ/PaHIzTNAtcTbi/JNVcdKjF5DsMCsLOqQ4If+NdHVd1zq5E15J8bs9n1sQYktM8xgoA+95249kePEMjtloWHGRHBeDMzw8YtQFhwq1obdBUMYPL7ftxMpp5/e+sHhvIVAqv
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: a5gHl9OrTfyDJ+7d5eD9EaVMrFBA/J4mZCYjR9oia5/XLUWR5YXA3kcMO46PZK4soqj70FGxwsDgqxTDz0T2DqqqIkRVlgdSv4bOmEqmojE8cfBgIJAQV24aNypLXbMBlN5+loy4TSK64EEdOh8WuUK7V3LZnjdnf8lUNDFZFQXLisQTNVZG+FazgXr8SVBtwqgIw1TqaRF5Mi7PiXrP3aDwUDGGJfv55bhqyhGWGZeaGRfelFhWviOGwGYJxR0WJfohK5RDuXOAWpLaokyjFB5LgGixOCBkwQQEoz3ZFdUbWlX6cbykAwq0DAl6oiZBkvbKLnrksyit9aTQ4lgiGX9hCGUnLJq2W4rBaKClIHt0ca7VVwjZzlDNmsw+cENjSoOqXNShA8yu8oa19tbncU+pM4HBuz1Tn6uFVFvcOLOl/0x93ksHH2uCCd7iolpR9016VytMLFswFPLYwZtOOkERMO/sfp2F9k5vP3luwManJZ2tDiYmur96XYTJ7xUs
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9721ed2a-1c83-4e9f-15a9-08d77a401be4
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2019 11:33:26.4960
+X-MS-Exchange-CrossTenant-Network-Message-Id: b53482a8-21e6-42fc-22fe-08d77b327e07
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2019 16:28:28.5024
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S7V5197AMqNMOMxyaLclrVeeE4mkFgQOepg45VCNAYDW99EyYlniI8R9uTO1heeeL4ehxgrO4IFQNk3U5POBFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR21MB1234
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TCs/WruEtQ+V+D/dnhQHW3EpsD5tjUOuu41ySIYNz10nMtx8cSFSayGB4u0v4lrgGRGAHAhedb0HcAK5CHqxoqEoPDF2IrVSY1i9xctRZqs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR21MB0152
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Hyper-V, Generation 1 VMs can directly use VM's physical memory for
-their framebuffers. This can improve the efficiency of framebuffer and
-overall performence for VM. The physical memory assigned to framebuffer
-must be contiguous. We use CMA allocator to get contiguouse physicial
-memory when the framebuffer size is greater than 4MB. For size under
-4MB, we use alloc_pages to achieve this.
+From: Wei Hu <weh@microsoft.com> Sent: Friday, December 6, 2019 3:32 AM
+>=20
+> On Hyper-V, Generation 1 VMs can directly use VM's physical memory for
+> their framebuffers. This can improve the efficiency of framebuffer and
+> overall performence for VM. The physical memory assigned to framebuffer
+> must be contiguous. We use CMA allocator to get contiguouse physicial
+> memory when the framebuffer size is greater than 4MB. For size under
+> 4MB, we use alloc_pages to achieve this.
+>=20
+> To enable framebuffer memory allocation from CMA, supply a kernel
+> parameter to give enough space to CMA allocator at boot time. For
+> example:
+>     cma=3D130m
+> This gives 130MB memory to CAM allocator that can be allocated to
+> framebuffer. If this fails, we fall back to the old way of using
+> mmio for framebuffer.
+>=20
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Signed-off-by: Wei Hu <weh@microsoft.com>
+> ---
 
-To enable framebuffer memory allocation from CMA, supply a kernel
-parameter to give enough space to CMA allocator at boot time. For
-example:
-    cma=130m
-This gives 130MB memory to CAM allocator that can be allocated to
-framebuffer. If this fails, we fall back to the old way of using
-mmio for framebuffer.
+[snip]
 
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Wei Hu <weh@microsoft.com>
----
-    v2: Incorporated review comments form hch@lst.de, Michael Kelley and
-    Dexuan Cui
-    - Use dma_alloc_coherent to allocate large contiguous memory
-    - Use phys_addr_t for physical addresses
-    - Corrected a few spelling errors and minor cleanups
-    - Also tested on 32 bit Ubuntu guest
-    v3: Fixed a build issue reported by kbuild test robot and incorported
-    some review comments from Michael Kelley
-    - Add CMA check to avoid link failure
-    - Fixed small memory leak introduced by alloc_apertures
-    - Cleaned up so code
+> +/*
+> + * Allocate enough contiguous physical memory.
+> + * Return physical address if succeeded or -1 if failed.
+> + */
+> +static phys_addr_t hvfb_get_phymem(struct hv_device *hdev,
+> +				   unsigned int request_size)
+> +{
+> +	struct page *page =3D NULL;
+> +	dma_addr_t dma_handle;
+> +	void *vmem;
+> +	unsigned int request_pages;
+> +	phys_addr_t paddr =3D 0;
+> +	unsigned int order =3D get_order(request_size);
+> +
+> +	if (request_size =3D=3D 0)
+> +		return -1;
+> +
+> +	if (order < MAX_ORDER) {
+> +		/* Call alloc_pages if the size is less than 2^MAX_ORDER */
+> +		page =3D alloc_pages(GFP_KERNEL | __GFP_ZERO, order);
+> +		if (!page)
+> +			return -1;
+> +
+> +		paddr =3D (page_to_pfn(page) << PAGE_SHIFT);
+> +		request_pages =3D (1 << order);
 
- drivers/video/fbdev/Kconfig     |   1 +
- drivers/video/fbdev/hyperv_fb.c | 187 +++++++++++++++++++++++++-------
- 2 files changed, 149 insertions(+), 39 deletions(-)
+The above line is no longer needed.  request_pages was previously an
+argument to a pr_info() statement, but that statement has appropriately
+been removed.
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index aa9541bf964b..f65991a67af2 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2215,6 +2215,7 @@ config FB_HYPERV
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
- 	select FB_DEFERRED_IO
-+	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
- 	help
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
- 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 3f60b7bc8589..7dff82c77551 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -31,6 +31,16 @@
-  * "set-vmvideo" command. For example
-  *     set-vmvideo -vmname name -horizontalresolution:1920 \
-  * -verticalresolution:1200 -resolutiontype single
-+ *
-+ * Gen 1 VMs also support direct using VM's physical memory for framebuffer.
-+ * It could improve the efficiency and performance for framebuffer and VM.
-+ * This requires to allocate contiguous physical memory from Linux kernel's
-+ * CMA memory allocator. To enable this, supply a kernel parameter to give
-+ * enough memory space to CMA allocator for framebuffer. For example:
-+ *    cma=130m
-+ * This gives 130MB memory to CMA allocator that can be allocated to
-+ * framebuffer. For reference, 8K resolution (7680x4320) takes about
-+ * 127MB memory.
-  */
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-@@ -227,7 +237,6 @@ struct synthvid_msg {
- } __packed;
- 
- 
--
- /* FB driver definitions and structures */
- #define HVFB_WIDTH 1152 /* default screen width */
- #define HVFB_HEIGHT 864 /* default screen height */
-@@ -256,12 +265,15 @@ struct hvfb_par {
- 	/* If true, the VSC notifies the VSP on every framebuffer change */
- 	bool synchronous_fb;
- 
-+	/* If true, need to copy from deferred IO mem to framebuffer mem */
-+	bool need_docopy;
-+
- 	struct notifier_block hvfb_panic_nb;
- 
- 	/* Memory for deferred IO and frame buffer itself */
- 	unsigned char *dio_vp;
- 	unsigned char *mmio_vp;
--	unsigned long mmio_pp;
-+	phys_addr_t mmio_pp;
- 
- 	/* Dirty rectangle, protected by delayed_refresh_lock */
- 	int x1, y1, x2, y2;
-@@ -432,7 +444,7 @@ static void synthvid_deferred_io(struct fb_info *p,
- 		maxy = max_t(int, maxy, y2);
- 
- 		/* Copy from dio space to mmio address */
--		if (par->fb_ready)
-+		if (par->fb_ready && par->need_docopy)
- 			hvfb_docopy(par, start, PAGE_SIZE);
- 	}
- 
-@@ -749,12 +761,12 @@ static void hvfb_update_work(struct work_struct *w)
- 		return;
- 
- 	/* Copy the dirty rectangle to frame buffer memory */
--	for (j = y1; j < y2; j++) {
--		hvfb_docopy(par,
--			    j * info->fix.line_length +
--			    (x1 * screen_depth / 8),
--			    (x2 - x1) * screen_depth / 8);
--	}
-+	if (par->need_docopy)
-+		for (j = y1; j < y2; j++)
-+			hvfb_docopy(par,
-+				    j * info->fix.line_length +
-+				    (x1 * screen_depth / 8),
-+				    (x2 - x1) * screen_depth / 8);
- 
- 	/* Refresh */
- 	if (par->fb_ready && par->update)
-@@ -799,7 +811,8 @@ static int hvfb_on_panic(struct notifier_block *nb,
- 	par = container_of(nb, struct hvfb_par, hvfb_panic_nb);
- 	par->synchronous_fb = true;
- 	info = par->info;
--	hvfb_docopy(par, 0, dio_fb_size);
-+	if (par->need_docopy)
-+		hvfb_docopy(par, 0, dio_fb_size);
- 	synthvid_update(info, 0, 0, INT_MAX, INT_MAX);
- 
- 	return NOTIFY_DONE;
-@@ -938,6 +951,67 @@ static void hvfb_get_option(struct fb_info *info)
- 	return;
- }
- 
-+/*
-+ * Allocate enough contiguous physical memory.
-+ * Return physical address if succeeded or -1 if failed.
-+ */
-+static phys_addr_t hvfb_get_phymem(struct hv_device *hdev,
-+				   unsigned int request_size)
-+{
-+	struct page *page = NULL;
-+	dma_addr_t dma_handle;
-+	void *vmem;
-+	unsigned int request_pages;
-+	phys_addr_t paddr = 0;
-+	unsigned int order = get_order(request_size);
-+
-+	if (request_size == 0)
-+		return -1;
-+
-+	if (order < MAX_ORDER) {
-+		/* Call alloc_pages if the size is less than 2^MAX_ORDER */
-+		page = alloc_pages(GFP_KERNEL | __GFP_ZERO, order);
-+		if (!page)
-+			return -1;
-+
-+		paddr = (page_to_pfn(page) << PAGE_SHIFT);
-+		request_pages = (1 << order);
-+	} else {
-+		/* Allocate from CMA */
-+		hdev->device.coherent_dma_mask = DMA_BIT_MASK(64);
-+
-+		request_pages = (round_up(request_size, PAGE_SIZE) >>
-+				 PAGE_SHIFT);
-+
-+		vmem = dma_alloc_coherent(&hdev->device,
-+					  request_pages * PAGE_SIZE,
-+					  &dma_handle,
-+					  GFP_KERNEL | __GFP_NOWARN);
-+
-+		if (!vmem)
-+			return -1;
-+
-+		paddr = virt_to_phys(vmem);
-+	}
-+
-+	return paddr;
-+}
-+
-+/* Release contiguous physical memory */
-+static void hvfb_release_phymem(struct hv_device *hdev,
-+				phys_addr_t paddr, unsigned int size)
-+{
-+	unsigned int order = get_order(size);
-+
-+	if (order < MAX_ORDER)
-+		__free_pages(pfn_to_page(paddr >> PAGE_SHIFT), order);
-+	else
-+		dma_free_coherent(&hdev->device,
-+				  round_up(size, PAGE_SIZE),
-+				  phys_to_virt(paddr),
-+				  paddr);
-+}
-+
- 
- /* Get framebuffer memory from Hyper-V video pci space */
- static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
-@@ -947,22 +1021,61 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	void __iomem *fb_virt;
- 	int gen2vm = efi_enabled(EFI_BOOT);
- 	resource_size_t pot_start, pot_end;
-+	phys_addr_t paddr;
- 	int ret;
- 
--	dio_fb_size =
--		screen_width * screen_height * screen_depth / 8;
-+	info->apertures = alloc_apertures(1);
-+	if (!info->apertures)
-+		return -ENOMEM;
- 
--	if (gen2vm) {
--		pot_start = 0;
--		pot_end = -1;
--	} else {
-+	if (!gen2vm) {
- 		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
--			      PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-+			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
- 		if (!pdev) {
- 			pr_err("Unable to find PCI Hyper-V video\n");
-+			kfree(info->apertures);
- 			return -ENODEV;
- 		}
- 
-+		info->apertures->ranges[0].base = pci_resource_start(pdev, 0);
-+		info->apertures->ranges[0].size = pci_resource_len(pdev, 0);
-+
-+		/*
-+		 * For Gen 1 VM, we can directly use the contiguous memory
-+		 * from VM. If we succeed, deferred IO happens directly
-+		 * on this allocated framebuffer memory, avoiding extra
-+		 * memory copy.
-+		 */
-+		paddr = hvfb_get_phymem(hdev, screen_fb_size);
-+		if (paddr != (phys_addr_t) -1) {
-+			par->mmio_pp = paddr;
-+			par->mmio_vp = par->dio_vp = __va(paddr);
-+
-+			info->fix.smem_start = paddr;
-+			info->fix.smem_len = screen_fb_size;
-+			info->screen_base = par->mmio_vp;
-+			info->screen_size = screen_fb_size;
-+
-+			par->need_docopy = false;
-+			goto getmem_done;
-+		}
-+		pr_info("Unable to allocate enough contiguous physical memory on Gen 1 VM. Using MMIO instead.\n");
-+	} else {
-+		info->apertures->ranges[0].base = screen_info.lfb_base;
-+		info->apertures->ranges[0].size = screen_info.lfb_size;
-+	}
-+
-+	/*
-+	 * Cannot use the contiguous physical memory.
-+	 * Allocate mmio space for framebuffer.
-+	 */
-+	dio_fb_size =
-+		screen_width * screen_height * screen_depth / 8;
-+
-+	if (gen2vm) {
-+		pot_start = 0;
-+		pot_end = -1;
-+	} else {
- 		if (!(pci_resource_flags(pdev, 0) & IORESOURCE_MEM) ||
- 		    pci_resource_len(pdev, 0) < screen_fb_size) {
- 			pr_err("Resource not available or (0x%lx < 0x%lx)\n",
-@@ -991,20 +1104,6 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	if (par->dio_vp == NULL)
- 		goto err3;
- 
--	info->apertures = alloc_apertures(1);
--	if (!info->apertures)
--		goto err4;
--
--	if (gen2vm) {
--		info->apertures->ranges[0].base = screen_info.lfb_base;
--		info->apertures->ranges[0].size = screen_info.lfb_size;
--		remove_conflicting_framebuffers(info->apertures,
--						KBUILD_MODNAME, false);
--	} else {
--		info->apertures->ranges[0].base = pci_resource_start(pdev, 0);
--		info->apertures->ranges[0].size = pci_resource_len(pdev, 0);
--	}
--
- 	/* Physical address of FB device */
- 	par->mmio_pp = par->mem->start;
- 	/* Virtual address of FB device */
-@@ -1015,13 +1114,15 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- 	info->screen_base = par->dio_vp;
- 	info->screen_size = dio_fb_size;
- 
-+getmem_done:
-+	remove_conflicting_framebuffers(info->apertures,
-+					KBUILD_MODNAME, false);
- 	if (!gen2vm)
- 		pci_dev_put(pdev);
-+	kfree(info->apertures);
- 
- 	return 0;
- 
--err4:
--	vfree(par->dio_vp);
- err3:
- 	iounmap(fb_virt);
- err2:
-@@ -1030,18 +1131,25 @@ static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
- err1:
- 	if (!gen2vm)
- 		pci_dev_put(pdev);
-+	kfree(info->apertures);
- 
- 	return -ENOMEM;
- }
- 
- /* Release the framebuffer */
--static void hvfb_putmem(struct fb_info *info)
-+static void hvfb_putmem(struct hv_device *hdev, struct fb_info *info)
- {
- 	struct hvfb_par *par = info->par;
- 
--	vfree(par->dio_vp);
--	iounmap(info->screen_base);
--	vmbus_free_mmio(par->mem->start, screen_fb_size);
-+	if (par->need_docopy) {
-+		vfree(par->dio_vp);
-+		iounmap(info->screen_base);
-+		vmbus_free_mmio(par->mem->start, screen_fb_size);
-+	} else {
-+		hvfb_release_phymem(hdev, info->fix.smem_start,
-+				    screen_fb_size);
-+	}
-+
- 	par->mem = NULL;
- }
- 
-@@ -1060,6 +1168,7 @@ static int hvfb_probe(struct hv_device *hdev,
- 	par = info->par;
- 	par->info = info;
- 	par->fb_ready = false;
-+	par->need_docopy = true;
- 	init_completion(&par->wait);
- 	INIT_DELAYED_WORK(&par->dwork, hvfb_update_work);
- 
-@@ -1145,7 +1254,7 @@ static int hvfb_probe(struct hv_device *hdev,
- 
- error:
- 	fb_deferred_io_cleanup(info);
--	hvfb_putmem(info);
-+	hvfb_putmem(hdev, info);
- error2:
- 	vmbus_close(hdev->channel);
- error1:
-@@ -1175,7 +1284,7 @@ static int hvfb_remove(struct hv_device *hdev)
- 	vmbus_close(hdev->channel);
- 	hv_set_drvdata(hdev, NULL);
- 
--	hvfb_putmem(info);
-+	hvfb_putmem(hdev, info);
- 	framebuffer_release(info);
- 
- 	return 0;
--- 
-2.20.1
+> +	} else {
+> +		/* Allocate from CMA */
+> +		hdev->device.coherent_dma_mask =3D DMA_BIT_MASK(64);
+> +
+> +		request_pages =3D (round_up(request_size, PAGE_SIZE) >>
+> +				 PAGE_SHIFT);
+> +
+> +		vmem =3D dma_alloc_coherent(&hdev->device,
+> +					  request_pages * PAGE_SIZE,
+> +					  &dma_handle,
+> +					  GFP_KERNEL | __GFP_NOWARN);
+
+With the request_pages value no longer being needed, there's wasted motion
+in doing a PAGE_SHIFT shift to calculate request_pages, and then multiplyin=
+g by
+PAGE_SIZE.  The second argument above could just be
+round_up(request_size, PAGE_SIZE).   Then it would be exactly parallel to
+the second argument to dma_free_coherent() below in hvfb_release_phymem().
+The request_pages variable can be eliminated entirely.
+
+> +
+> +		if (!vmem)
+> +			return -1;
+> +
+> +		paddr =3D virt_to_phys(vmem);
+> +	}
+> +
+> +	return paddr;
+> +}
+> +
+> +/* Release contiguous physical memory */
+> +static void hvfb_release_phymem(struct hv_device *hdev,
+> +				phys_addr_t paddr, unsigned int size)
+> +{
+> +	unsigned int order =3D get_order(size);
+> +
+> +	if (order < MAX_ORDER)
+> +		__free_pages(pfn_to_page(paddr >> PAGE_SHIFT), order);
+> +	else
+> +		dma_free_coherent(&hdev->device,
+> +				  round_up(size, PAGE_SIZE),
+> +				  phys_to_virt(paddr),
+> +				  paddr);
+> +}
+> +
+>=20
+
+Everything else looks good.  The most recent changes to hvfb_getmem() worke=
+d
+out very nicely.
+
+Michael
 
