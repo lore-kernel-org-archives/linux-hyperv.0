@@ -2,84 +2,83 @@ Return-Path: <SRS0=j/2i=2G=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B06C43603
-	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Dec 2019 00:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 144A4C3F68F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Dec 2019 00:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 786EF24681
-	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Dec 2019 00:19:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC2D024682
+	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Dec 2019 00:19:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gmb45a2r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWwtUpgd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbfLPATe (ORCPT
+        id S1726373AbfLPATi (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 15 Dec 2019 19:19:34 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:36747 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbfLPATd (ORCPT
+        Sun, 15 Dec 2019 19:19:38 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:34289 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726537AbfLPATh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 15 Dec 2019 19:19:33 -0500
-Received: by mail-qk1-f194.google.com with SMTP id a203so2879665qkc.3;
-        Sun, 15 Dec 2019 16:19:33 -0800 (PST)
+        Sun, 15 Dec 2019 19:19:37 -0500
+Received: by mail-qt1-f196.google.com with SMTP id 5so4428950qtz.1;
+        Sun, 15 Dec 2019 16:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZ6sGO0KS0Q8EYVwWz/tNENQC8GnXFZ6xRDHj7knL74=;
-        b=Gmb45a2redl2v2Psqc9UmK5BWjcPglzmbzjDpsikHLbmggLKdOVorJeLzaOihAp93n
-         dZuMPP9Yq0XhR4kkhOpXSkhSDgDY7Q1xUpGZhMf6Ogg+p7xlsNEqI8pOq07smNJIb729
-         KRa4FwyruYu+W4RNN1PJgXm4h6Ulv+MJjNPQcDIV0FZh4+eA8lE6SlNe6p65GE7u3Z6k
-         Wa+wg8XDsBh++bc/vo63jVSfEKICDmwU/S4INp786dJO2HHJnWsMRwktN9Y0UajVgbpm
-         NrNsEFU0hxV8nLsegKRlsf3oghWVDY2nCi+m+2Fp1dRlscQL+URlyVJ1jR+XgzFXJbZM
-         L3dw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/LWpy3sT0NojI+6lHGq8dZmjGNhrVEiL5TtdHICIZc4=;
+        b=YWwtUpgdB4C7Q4X0xMgmsDhu8K2YcKTpSy81xtryD588YUY101myAfwdgspbcp++85
+         6rUIKyZFgNjmsF4vh3aNwsJ/DIr5fJmGbJgJRAG4m5DMAcJVWbNmgUvu85ZRr82QbH7N
+         SjPcnTI82np5u2GBasGGK7q0ufep07XQTVE2LKC4dmpRPeGgmVk+Vbvn5SP5P+2/c0d+
+         PW4xPb5dY7sVukOSE6AtRQFyG1c3wP0wyFooKOHxnXx9A2gSO+syfVPBz/XUSPLqmuEH
+         O7l6gAeT6p4sbwV22GMICMLrj6hUwnTvwhKBHrhQNO6Z1EXh996On8A3IZd8QASa4dLh
+         Jl6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aZ6sGO0KS0Q8EYVwWz/tNENQC8GnXFZ6xRDHj7knL74=;
-        b=RnErxtQUu6V8GQqcCT9cxw1Dzbfxy9Zw7qMz5LihiSqjC/2S6X5kVf8A4Y+u5ZfTrA
-         niQFRWlZ6l55nxfTQuAVStRW6/vlP7gb30g0xVtsXAkgRpIq3tPxI3029ni0ZNUOAxVx
-         luDeucZEPdigHlD6Q72Lo8/mPBNuUEvwwQYdlFXRhsb9uV8XfYgoDuQCL4u0KH6lawFB
-         CpRLVpznKRwoLDW9okRfoTzH0dsilPI3/ZDd2ogC4GEaW+Ml3MlTmvlFQrJquCyhbU27
-         gQyLovPDUyGBUR+3TapqVNMQ6iUDyLll/g4Qcu4yETn8vesjlF1dG9Mlh3rJd9EgBvdb
-         Sg5A==
-X-Gm-Message-State: APjAAAUJqh3LZLZTq5fdoQ53OmGLG4QRwumxoUMXEKbNBZ/x2z+LAALj
-        tdOIBOzpXPI15skFakkhJ24=
-X-Google-Smtp-Source: APXvYqzAQwy89lyacoeuw+asSDBQYlTp0vqfLPII18paqb1S/uBBbW6TqUEv6w6/z3AIjjLrHyaopg==
-X-Received: by 2002:a37:48f:: with SMTP id 137mr24677846qke.25.1576455572728;
-        Sun, 15 Dec 2019 16:19:32 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/LWpy3sT0NojI+6lHGq8dZmjGNhrVEiL5TtdHICIZc4=;
+        b=NwGBw1DlmbzaIdM/lQ6xFOvhvfg2Wk03NRDTp3bHF7MoYi7mNLvoVNiylQoJA8yCFs
+         PgQULmxMNh3jtTcZH7wN5LswuMIZwoo17FpV7a2816X2PKR+MbLskReTP0HbIAbZ3AsG
+         vcp9OBBAq2yCj/XdgPvXMJWmvMB3T7thuyTvYlwGUXOMS3AJbEnXiZutmHDM2a42N9me
+         0hSeUaIjzo6CpPYWecEMcDxDDsoGxbQipmeasDRFglIbp9/NhnK18Q7gLthgvMGnAXAz
+         z1JOlCs0jNa4J9FN03jXry2rmgAzjAYt4rL6GrLxvHNsT5FCKcrp+pXtShz0iK27JSoJ
+         9yfg==
+X-Gm-Message-State: APjAAAXdB3HzzMn1qqmhjvs0ng3URaifwLcbD6sciKbuMz8kBOi81hB5
+        Bhi+Q0s0RFrp5PPw8+m+/TM=
+X-Google-Smtp-Source: APXvYqyhIIjZfzlpUFVMB/tiV3ydzxJugA4tfdYzQ1/oDFfstC6D6w9VTmT3ruQGJ7EWghnBfRjF2Q==
+X-Received: by 2002:aed:2bc2:: with SMTP id e60mr22652718qtd.115.1576455576496;
+        Sun, 15 Dec 2019 16:19:36 -0800 (PST)
 Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id e2sm5376739qkl.3.2019.12.15.16.19.31
+        by smtp.gmail.com with ESMTPSA id v125sm5409912qka.47.2019.12.15.16.19.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 15 Dec 2019 16:19:31 -0800 (PST)
+        Sun, 15 Dec 2019 16:19:36 -0800 (PST)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 7111D22430;
-        Sun, 15 Dec 2019 19:19:30 -0500 (EST)
+        by mailauth.nyi.internal (Postfix) with ESMTP id 77F3122434;
+        Sun, 15 Dec 2019 19:19:35 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sun, 15 Dec 2019 19:19:30 -0500
-X-ME-Sender: <xms:kc32XeNibvP_au8cm_jiN6rThl2eefciU1Jc-App3cBtSjKNtAWevA>
+  by compute6.internal (MEProxy); Sun, 15 Dec 2019 19:19:35 -0500
+X-ME-Sender: <xms:l832XfZQSIBODTOKHYP4OiihyxvNi_m-U8HmMcdMAJwD7fT-DlWZ1g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtgedgvddtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpefhvffufffkofgggfestdek
-    redtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgse
-    hgmhgrihhlrdgtohhmqeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhu
-    sgdrtghomhenucfkphephedvrdduheehrdduuddurdejudenucfrrghrrghmpehmrghilh
-    hfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieel
-    vdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtg
-    homhesfhhigihmvgdrnhgrmhgvnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:kc32Xdl8_zahWOQvooHUe9tKxDScPH3OeodcADOCpBCp0dUmiJjnvQ>
-    <xmx:kc32XQbukJFCvrLL7M4nc72CTroIKyNCxbhWdtmCCe5vP3l91CwIyQ>
-    <xmx:kc32XTTHwezsupdARHAEkG3utLJ_lpz0EFhC-pw3X_mCxe6pmXP0Eg>
-    <xmx:ks32XdWhDOQlVK8lfpDMef_v7K-YnFb-v4AwmCwl5TJhn4VnUW0LfBRLVg8>
+    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpefhvffufffkofgjfhgggfes
+    tdekredtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnh
+    hgsehgmhgrihhlrdgtohhmqeenucfkphephedvrdduheehrdduuddurdejudenucfrrghr
+    rghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrg
+    hlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeep
+    ghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:l832XfDsMu_b4P7cjdMpjiVhjWGLh_COxGdpGHu1Ng78W0-PKoIj6g>
+    <xmx:l832XdFRYH1QxOB5aK2Pny-EtgZguMv0iUEYiIAbwvBhn9J-hOp8hw>
+    <xmx:l832XaOm27CluqGyM6I7GBn5R-49iEMEdkx-rmXJKicVKLx1SwzaCw>
+    <xmx:l832XZNG7-vMXq9oqX4_jGmE5UiJ3XjAVM63umg-Sj4VkYZ4Dks7cHrGOzE>
 Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 992E780062;
-        Sun, 15 Dec 2019 19:19:28 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id A59FA80059;
+        Sun, 15 Dec 2019 19:19:34 -0500 (EST)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org
@@ -94,11 +93,14 @@ Cc:     Michael Kelley <mikelley@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
         xen-devel@lists.xenproject.org,
         Stefano Stabellini <sstabellini@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: [RFC 0/6] vDSO support for Hyper-V guest on ARM64
-Date:   Mon, 16 Dec 2019 08:19:16 +0800
-Message-Id: <20191216001922.23008-1-boqun.feng@gmail.com>
+        Boqun Feng <boqun.feng@gmail.com>,
+        Matteo Croce <mcroce@redhat.com>
+Subject: [RFC 2/6] arm64: vdso: Add support for multiple vDSO data pages
+Date:   Mon, 16 Dec 2019 08:19:18 +0800
+Message-Id: <20191216001922.23008-3-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191216001922.23008-1-boqun.feng@gmail.com>
+References: <20191216001922.23008-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -106,51 +108,125 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi,
+Split __vdso_abi::vdso_pages into nr_vdso_{data,code}_pages, so that
+__setup_additional_pages() could work with multiple vDSO data pages with
+the setup from __vdso_init().
 
-This is the RFC patchset for vDSO support in ARM64 Hyper-V guest. To
-test it, Michael's ARM64 support patchset:
+Multiple vDSO data pages are required when running in a virtualized
+environment, where the cycles read from cntvct at userspace need to
+be adjusted with some data from a page maintained by the hypervisor. For
+example, the TSC page in Hyper-V.
 
-	https://lore.kernel.org/linux-arm-kernel/1570129355-16005-1-git-send-email-mikelley@microsoft.com/
+This is a prerequisite for vDSO support in ARM64 on Hyper-V.
 
-is needed.
+Signed-off-by: Boqun Feng (Microsoft) <boqun.feng@gmail.com>
+---
+ arch/arm64/kernel/vdso.c | 43 ++++++++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 17 deletions(-)
 
-Similar as x86, Hyper-V on ARM64 use a TSC page for guests to read
-the virtualized hardware timer, this TSC page is read-only for the
-guests, so could be used for vDSO data page. And the vDSO (userspace)
-code could use the same code for timer reading as kernel, since
-they read the same TSC page.
+diff --git a/arch/arm64/kernel/vdso.c b/arch/arm64/kernel/vdso.c
+index 354b11e27c07..b9b5ec7a3084 100644
+--- a/arch/arm64/kernel/vdso.c
++++ b/arch/arm64/kernel/vdso.c
+@@ -50,7 +50,8 @@ struct __vdso_abi {
+ 	const char *name;
+ 	const char *vdso_code_start;
+ 	const char *vdso_code_end;
+-	unsigned long vdso_pages;
++	unsigned long nr_vdso_data_pages;
++	unsigned long nr_vdso_code_pages;
+ 	/* Data Mapping */
+ 	struct vm_special_mapping *dm;
+ 	/* Code Mapping */
+@@ -101,6 +102,8 @@ static int __vdso_init(enum arch_vdso_type arch_index)
+ {
+ 	int i;
+ 	struct page **vdso_pagelist;
++	struct page **vdso_code_pagelist;
++	unsigned long nr_vdso_pages;
+ 	unsigned long pfn;
+ 
+ 	if (memcmp(vdso_lookup[arch_index].vdso_code_start, "\177ELF", 4)) {
+@@ -108,14 +111,18 @@ static int __vdso_init(enum arch_vdso_type arch_index)
+ 		return -EINVAL;
+ 	}
+ 
+-	vdso_lookup[arch_index].vdso_pages = (
++	vdso_lookup[arch_index].nr_vdso_data_pages = 1;
++
++	vdso_lookup[arch_index].nr_vdso_code_pages = (
+ 			vdso_lookup[arch_index].vdso_code_end -
+ 			vdso_lookup[arch_index].vdso_code_start) >>
+ 			PAGE_SHIFT;
+ 
+-	/* Allocate the vDSO pagelist, plus a page for the data. */
+-	vdso_pagelist = kcalloc(vdso_lookup[arch_index].vdso_pages + 1,
+-				sizeof(struct page *),
++	nr_vdso_pages = vdso_lookup[arch_index].nr_vdso_data_pages +
++			vdso_lookup[arch_index].nr_vdso_code_pages;
++
++	/* Allocate the vDSO pagelist. */
++	vdso_pagelist = kcalloc(nr_vdso_pages, sizeof(struct page *),
+ 				GFP_KERNEL);
+ 	if (vdso_pagelist == NULL)
+ 		return -ENOMEM;
+@@ -123,15 +130,17 @@ static int __vdso_init(enum arch_vdso_type arch_index)
+ 	/* Grab the vDSO data page. */
+ 	vdso_pagelist[0] = phys_to_page(__pa_symbol(vdso_data));
+ 
+-
+ 	/* Grab the vDSO code pages. */
+ 	pfn = sym_to_pfn(vdso_lookup[arch_index].vdso_code_start);
+ 
+-	for (i = 0; i < vdso_lookup[arch_index].vdso_pages; i++)
+-		vdso_pagelist[i + 1] = pfn_to_page(pfn + i);
++	vdso_code_pagelist = vdso_pagelist +
++			     vdso_lookup[arch_index].nr_vdso_data_pages;
++
++	for (i = 0; i < vdso_lookup[arch_index].nr_vdso_code_pages; i++)
++		vdso_code_pagelist[i] = pfn_to_page(pfn + i);
+ 
+-	vdso_lookup[arch_index].dm->pages = &vdso_pagelist[0];
+-	vdso_lookup[arch_index].cm->pages = &vdso_pagelist[1];
++	vdso_lookup[arch_index].dm->pages = vdso_pagelist;
++	vdso_lookup[arch_index].cm->pages = vdso_code_pagelist;
+ 
+ 	return 0;
+ }
+@@ -141,26 +150,26 @@ static int __setup_additional_pages(enum arch_vdso_type arch_index,
+ 				    struct linux_binprm *bprm,
+ 				    int uses_interp)
+ {
+-	unsigned long vdso_base, vdso_text_len, vdso_mapping_len;
++	unsigned long vdso_base, vdso_text_len, vdso_data_len;
+ 	void *ret;
+ 
+-	vdso_text_len = vdso_lookup[arch_index].vdso_pages << PAGE_SHIFT;
+-	/* Be sure to map the data page */
+-	vdso_mapping_len = vdso_text_len + PAGE_SIZE;
++	vdso_data_len = vdso_lookup[arch_index].nr_vdso_data_pages << PAGE_SHIFT;
++	vdso_text_len = vdso_lookup[arch_index].nr_vdso_code_pages << PAGE_SHIFT;
+ 
+-	vdso_base = get_unmapped_area(NULL, 0, vdso_mapping_len, 0, 0);
++	vdso_base = get_unmapped_area(NULL, 0,
++				      vdso_data_len + vdso_text_len, 0, 0);
+ 	if (IS_ERR_VALUE(vdso_base)) {
+ 		ret = ERR_PTR(vdso_base);
+ 		goto up_fail;
+ 	}
+ 
+-	ret = _install_special_mapping(mm, vdso_base, PAGE_SIZE,
++	ret = _install_special_mapping(mm, vdso_base, vdso_data_len,
+ 				       VM_READ|VM_MAYREAD,
+ 				       vdso_lookup[arch_index].dm);
+ 	if (IS_ERR(ret))
+ 		goto up_fail;
+ 
+-	vdso_base += PAGE_SIZE;
++	vdso_base += vdso_data_len;
+ 	mm->context.vdso = (void *)vdso_base;
+ 	ret = _install_special_mapping(mm, vdso_base, vdso_text_len,
+ 				       VM_READ|VM_EXEC|
+-- 
+2.24.0
 
-This patchset therefore extends ARM64's __vsdo_init() to allow multiple
-data pages and introduces the vclock_mode concept similar to x86 to
-allow different platforms (bare-metal, Hyper-V, etc.) to switch to
-different __arch_get_hw_counter() implementations. The rest of this
-patchset does the necessary setup for Hyper-V guests: mapping tsc page,
-enabling userspace to read cntvct, etc. to enable vDSO.
-
-This patchset consists of 6 patches:
-
-patch #1 allows hv_get_raw_timer() definition to be overridden for
-userspace and kernel to share the same hv_read_tsc_page() definition.
-
-patch #2 extends ARM64 to support multiple vDSO data pages.
-
-patch #3 introduces vclock_mode similiar to x86 to allow different
-__arch_get_hw_counter() implementations for different clocksources.
-
-patch #4 maps Hyper-V TSC page into vDSO data page.
-
-patch #5 allows userspace to read cntvct, so that userspace can
-efficiently read the clocksource.
-
-patch #6 enables the vDSO for ARM64 Hyper-V guest.
-
-The whole patchset is based on v5.5-rc1 plus Michael's ARM64 support
-patchset, and I've done a few tests with:
-
-	https://github.com/nlynch-mentor/vdsotest
-
-Comments and suggestions are welcome!
-
-Regards,
-Boqun
