@@ -1,161 +1,98 @@
-Return-Path: <SRS0=Cf2b=2S=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=EDzJ=2T=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99FE5C2D0C8
-	for <linux-hyperv@archiver.kernel.org>; Sat, 28 Dec 2019 23:48:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0F08C2D0C8
+	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Dec 2019 00:14:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 620F62173E
-	for <linux-hyperv@archiver.kernel.org>; Sat, 28 Dec 2019 23:48:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D6DE20838
+	for <linux-hyperv@archiver.kernel.org>; Sun, 29 Dec 2019 00:14:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="aC6bsKc6"
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20150623.gappssmtp.com header.i=@networkplumber-org.20150623.gappssmtp.com header.b="voTsJ8vp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726377AbfL1Xr4 (ORCPT
+        id S1726400AbfL2AN2 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 28 Dec 2019 18:47:56 -0500
-Received: from mail-dm6nam10on2097.outbound.protection.outlook.com ([40.107.93.97]:20832
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726100AbfL1Xrz (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 28 Dec 2019 18:47:55 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H+ZHnzsTE2bbIFsyXe6Cp4lBLZbX5J2GEsXjx00LWkhytizNllIDDqDENtVsA1ONKZPmUDnLpqG3E4FWt0VgmCVcQ5VVeoyI5NGK+drgeKJqecx0kdEwFTfor59v0pl6VP1cV3UYZnwBBvJz1aMAZFKLEfe3FG2wGXeOq+WsWrYQTd9SaxDOB68mjQUMx+XWEkz+6S0rggzE9COgfbNXDFLDvJLSK97BdZgan4dUeA/l1NVRLkwgJhHIKRVxNMUJhGKYB73j388pz/n6nF/+4Q/QPDhHsaUof/4xXizu8sak3Wnfb7Z39WoIc+eWbB1AMAzxOoeUge4HcgfUm5xOoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FE+TeZ8HsTtCfcVx3oCCeYc6rM2U7eATcut/H80QDiY=;
- b=OT5eIGp/BqB976FJm7MEcC/9l+HWPuTDhk7qtSZ4P6fuKScq4r+ZQk36iF0Seg1UPBFVstHlWumPCBjNvPDVN/y9ktZimfGpOJL4vVrFJKsMwy9rPApME1HKIta+dgTDR31qsTZmrJk9ldyeyPK3jXrTPKTzju3asODTZ9WKUdpULJ2kVY+wyNSY7QD24LDxBQCPTMJV1UzazE85fitScxFrZVoEJ9Z6B+d+IOeKMWuAp1Nr8jzMekJhKseVl0nD9boyBGvsZYHITx3N8LYnAzFO0c4KMmbuZ31YzIkVLO0Ou947hMPPao8Dmpypah2xl/11B96gvuEJRyGXCGQlUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FE+TeZ8HsTtCfcVx3oCCeYc6rM2U7eATcut/H80QDiY=;
- b=aC6bsKc6ZwUho6KHAyLPMpihXpIVSszZaMAO7IfxI4Hk5up0e3ckycqY8njuK5ElcifFRCvYZ95SI4fqRdye2rYG/a626EWPe+TKyB+JGSUYcVxTNEDE9ygSsOj+DenZOjAPtBSeXNXbZhBVG45NMqRAwHLp0h5RLrSydlrTnJE=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=lkmlhyz@microsoft.com; 
-Received: from DM5PR2101MB0901.namprd21.prod.outlook.com (52.132.132.158) by
- DM5PR2101MB0727.namprd21.prod.outlook.com (10.167.110.39) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.1; Sat, 28 Dec 2019 23:47:18 +0000
-Received: from DM5PR2101MB0901.namprd21.prod.outlook.com
- ([fe80::6009:72e0:9d02:2f91]) by DM5PR2101MB0901.namprd21.prod.outlook.com
- ([fe80::6009:72e0:9d02:2f91%9]) with mapi id 15.20.2623.000; Sat, 28 Dec 2019
- 23:47:18 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org
-Cc:     haiyangz@microsoft.com, kys@microsoft.com, sthemmin@microsoft.com,
+        Sat, 28 Dec 2019 19:13:28 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42454 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbfL2AN1 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 28 Dec 2019 19:13:27 -0500
+Received: by mail-pf1-f194.google.com with SMTP id 4so16569844pfz.9
+        for <linux-hyperv@vger.kernel.org>; Sat, 28 Dec 2019 16:13:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=X87rhBd+UktpzxH/iAqEZuIOWe5HFUhDknwlJQzhfXU=;
+        b=voTsJ8vp2x4p14ymxvo5Co8MeX/z1qhzp6bl/TohpgNFc9WxmCWAQwghIETMHTZUv2
+         aBi+BnSePLkURSfUs0w3x8wB/1lGfEB85XpPg3VxQWxOiypONDGLPjgoRliHTozYJrjc
+         yRoUyfLK9/nFxMJRoj16JyEdX717VnqfnWcLa4pdgO6s0z7uvQ34ZS6cJLF9nnZXTKL5
+         3WhHb4l4wcG4r4KUXGcEFfwuinsNVKSd2ArSNHdyMf5JtCzACGd7ANp6hhW5aPt6r2+c
+         H82PthKARn9iHUG3OFb5whwJdGYtXcDx2FkeQ/hwhMbq2vKDV1jz1rES31/Wk8D8bmA4
+         pdfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=X87rhBd+UktpzxH/iAqEZuIOWe5HFUhDknwlJQzhfXU=;
+        b=HFof4eB9j0rGaIihxojD/9XKdisjjZDnpjoSQ/BOW3FgvT7pHqJKYRw1J96VGzFfnH
+         dZ/XTgkLfjdg7feB4j/QZbQDU/u2n4GkyKsS/g9tIS6VAqXB2/CUdwVINLOT2CbPMHrW
+         GLchriIwJmJ8CPw5ziLXsrCZLOZj3ggcDg+SrAMMg0yrkeIxFvh1BQ6/HfOu/Kt2JIQm
+         ZL17puQY5dYSV1JKpU3kot0HWh42pxyjS9pqf9kmp+jIwsfUKqs16iNMArdBMv+lJEcm
+         m/7GWRlWFWHqlyK8EfIDnRPkPsICpO5tWCxIj7fHgaPGp3A40ZYVpx+oxWt+J1Z/0CQT
+         sDYQ==
+X-Gm-Message-State: APjAAAXjCr4IJBNLx/uWfs5TgZI4eg4ONkYfzbQzU62/YAHdGzdLAiuw
+        7bV+xCUSturnK/dunQ1xWXu3mw==
+X-Google-Smtp-Source: APXvYqxYpEanaEjAq3YfrtPVToWCHD2GjlB8uSTs6QmtEb5DIbUkXwnG3gWJgVXEwxnYGpMG3f/uJQ==
+X-Received: by 2002:a62:e511:: with SMTP id n17mr19323713pff.187.1577578407183;
+        Sat, 28 Dec 2019 16:13:27 -0800 (PST)
+Received: from hermes.lan (204-195-22-127.wavecable.com. [204.195.22.127])
+        by smtp.gmail.com with ESMTPSA id f81sm46502970pfa.118.2019.12.28.16.13.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Dec 2019 16:13:26 -0800 (PST)
+Date:   Sat, 28 Dec 2019 16:13:18 -0800
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
+        netdev@vger.kernel.org, kys@microsoft.com, sthemmin@microsoft.com,
         olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
         linux-kernel@vger.kernel.org
-Subject: [PATCH net-next, 2/3] Drivers: hv: vmbus: Add dev_num to sysfs
-Date:   Sat, 28 Dec 2019 15:46:32 -0800
-Message-Id: <1577576793-113222-3-git-send-email-haiyangz@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1577576793-113222-1-git-send-email-haiyangz@microsoft.com>
+Subject: Re: [PATCH net-next, 3/3] hv_netvsc: Name NICs based on vmbus offer
+ sequence and use async probe
+Message-ID: <20191228161318.4501bb79@hermes.lan>
+In-Reply-To: <1577576793-113222-4-git-send-email-haiyangz@microsoft.com>
 References: <1577576793-113222-1-git-send-email-haiyangz@microsoft.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MWHPR1201CA0022.namprd12.prod.outlook.com
- (2603:10b6:301:4a::32) To DM5PR2101MB0901.namprd21.prod.outlook.com
- (2603:10b6:4:a7::30)
+        <1577576793-113222-4-git-send-email-haiyangz@microsoft.com>
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR1201CA0022.namprd12.prod.outlook.com (2603:10b6:301:4a::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend Transport; Sat, 28 Dec 2019 23:47:17 +0000
-X-Mailer: git-send-email 1.8.3.1
-X-Originating-IP: [13.77.154.182]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 91939a02-401a-46ff-3619-08d78bf04611
-X-MS-TrafficTypeDiagnostic: DM5PR2101MB0727:|DM5PR2101MB0727:|DM5PR2101MB0727:
-X-MS-Exchange-Transport-Forked: True
-X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB07273A9DF6D37B5198A370E9AC250@DM5PR2101MB0727.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-Forefront-PRVS: 02652BD10A
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(136003)(396003)(366004)(376002)(199004)(189003)(6666004)(478600001)(81156014)(10290500003)(6506007)(8936002)(4326008)(2616005)(36756003)(316002)(81166006)(52116002)(26005)(956004)(8676002)(2906002)(5660300002)(66556008)(186003)(66476007)(66946007)(16526019)(6512007)(6486002);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0727;H:DM5PR2101MB0901.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-Received-SPF: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fqRq1odeKpXEjBam5qaJz0SUNAE0g7HqhFd7x87CixNNIxZo1P5E+9UT2+5wem3PPGZVjQonDJnivwaIIgxkAU9D/1Lgv7AWx/3E84cGpcU0QiOiFge8c/xhM9K1PBO02KfRjGCVDy4wjOTsAiSa1rXJxT66lWBNHlLxzpkcMfxrWYuvTMlZNxMOisB4f+fYe23Zjjf3nNxe9kBqv9/rOlpXg03Mmhxs2yCfCbRJpyUgIVlcA4UL2xUxfjmNr2MLl3IGoJjnGej+Wak9U4RUFg7tBNaDvIwDemHn3dvt2+cWARMHzTpkAuP45R5L6tSsx+sRa+P6W35jVBtgAV5vprknPG1XxOqAw+ltFgDHBeV3foCD5m50t396xO/oi0SJPbZQxzRRLiPoairKCUZHJgtOxnhLLuFx2noz0YIpssyDIDqI4qaRDElFgrb8cCH4
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91939a02-401a-46ff-3619-08d78bf04611
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2019 23:47:18.1328
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pyiilgK/d0PieL3gyry15w+7mKPn0D8OqAMzC2oCSt85510h8y5oB/00lRNqPIwdRvghqKaa180lAhYy+YJ5jQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0727
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-It's a number based on the vmbus device offer sequence.
-Useful for device naming when using Async probing.
+On Sat, 28 Dec 2019 15:46:33 -0800
+Haiyang Zhang <haiyangz@microsoft.com> wrote:
 
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
----
- Documentation/ABI/stable/sysfs-bus-vmbus |  8 ++++++++
- drivers/hv/vmbus_drv.c                   | 13 +++++++++++++
- 2 files changed, 21 insertions(+)
+> -	net = alloc_etherdev_mq(sizeof(struct net_device_context),
+> -				VRSS_CHANNEL_MAX);
+> +	snprintf(name, IFNAMSIZ, "eth%d", dev->channel->dev_num);
+> +	net = alloc_netdev_mqs(sizeof(struct net_device_context), name,
+> +			       NET_NAME_ENUM, ether_setup,
+> +			       VRSS_CHANNEL_MAX, VRSS_CHANNEL_MAX);
+> +
 
-diff --git a/Documentation/ABI/stable/sysfs-bus-vmbus b/Documentation/ABI/stable/sysfs-bus-vmbus
-index 8e8d167..a42225d 100644
---- a/Documentation/ABI/stable/sysfs-bus-vmbus
-+++ b/Documentation/ABI/stable/sysfs-bus-vmbus
-@@ -49,6 +49,14 @@ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
- Description:	This NUMA node to which the VMBUS device is
- 		attached, or -1 if the node is unknown.
- 
-+What:           /sys/bus/vmbus/devices/<UUID>/dev_num
-+Date:		Dec 2019
-+KernelVersion:	5.5
-+Contact:	Haiyang Zhang <haiyangz@microsoft.com>
-+Description:	A number based on the vmbus device offer sequence.
-+		Useful for device naming when using Async probing.
-+Users:		Debugging tools and userspace drivers
-+
- What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>
- Date:		September. 2017
- KernelVersion:	4.14
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 4ef5a66..fe7aefa 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -214,6 +214,18 @@ static ssize_t numa_node_show(struct device *dev,
- static DEVICE_ATTR_RO(numa_node);
- #endif
- 
-+static ssize_t dev_num_show(struct device *dev,
-+			      struct device_attribute *attr, char *buf)
-+{
-+	struct hv_device *hv_dev = device_to_hv_device(dev);
-+
-+	if (!hv_dev->channel)
-+		return -ENODEV;
-+
-+	return sprintf(buf, "%d\n", hv_dev->channel->dev_num);
-+}
-+static DEVICE_ATTR_RO(dev_num);
-+
- static ssize_t server_monitor_pending_show(struct device *dev,
- 					   struct device_attribute *dev_attr,
- 					   char *buf)
-@@ -598,6 +610,7 @@ static ssize_t driver_override_show(struct device *dev,
- #ifdef CONFIG_NUMA
- 	&dev_attr_numa_node.attr,
- #endif
-+	&dev_attr_dev_num.attr,
- 	&dev_attr_server_monitor_pending.attr,
- 	&dev_attr_client_monitor_pending.attr,
- 	&dev_attr_server_monitor_latency.attr,
--- 
-1.8.3.1
+Naming is a hard problem, and best left to userspace.
+By choosing ethN as a naming policy, you potentially run into naming
+conflicts with other non netvsc devices like those passed through or
+SR-IOV devices.
 
+Better to have udev use dev_num and use something like envN or something.
+Udev also handles SRIOV devices in later versions.
+
+Fighting against systemd, netplan, etc is not going to be make friends.
