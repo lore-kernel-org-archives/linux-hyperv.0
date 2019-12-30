@@ -2,115 +2,159 @@ Return-Path: <SRS0=hrQv=2U=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5EEC2D0C3
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10267C2D0CE
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0CFD020409
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA6B620658
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="TuYiaApt"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="E3jpiXBt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727691AbfL3UN7 (ORCPT
+        id S1727756AbfL3UOh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 30 Dec 2019 15:13:59 -0500
-Received: from mail-eopbgr680109.outbound.protection.outlook.com ([40.107.68.109]:34285
+        Mon, 30 Dec 2019 15:14:37 -0500
+Received: from mail-eopbgr680093.outbound.protection.outlook.com ([40.107.68.93]:56482
         "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727667AbfL3UN7 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 30 Dec 2019 15:13:59 -0500
+        id S1727667AbfL3UOg (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 30 Dec 2019 15:14:36 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVTEwuYcsoWhobQDgZHGvuP1dFpJy+22Z3qEQG09DJsMYxJVsNTH+7fALrU+kkc15mEwX91NxRexV5IaWhqrKWlpodKAbEnLVhXt/ShSMwhSqviLt0uXeXuIurOmvLcKxE1nAVJUD7WGmFe8wMqYJaV89Z06OVijnjZLqQYz+EHk32/FGi+Wik1mqfeB+TF6b3QBvyHNBdicQFCAofdHvNq4D91eZjTTyX6/pzLGY009oPN/yaGoJpZD1BNaTHhsDnmIY3aoiSPsFvaq/x09WT79zGeu1trankcCKsHDKnCLzsASEFSGzhKq+WszWadY6a2suWLNo3pVQNZdBC8LCw==
+ b=UfJrSOQ+NK12XCnAVOSe23FDceNxkphjVgvd6IbCtPd0cxFWw97+wMDraux6t/YAm4ib7Z0mUL/SyJ1+qJkvSdTAbc1vtkDkAQ2BY5QiIWEfvaXzL/cedRiY2UV5Bv/6GmWdJAlqCt0y8W7IB64Tsb8XVz2AeKebtyq2xPpF8k3Ovy0nbPeEHQqVqtHmib0u3Qv3zjHByn/wDLwIvlH8fwewrBmv/FsXkMMC1TJKO1XXU2aBjSK2BVBnGQPRI6gWIwYw2peBwTuQYeJChdTloeftLcWkKBFV/JFiHPfEaOubxi52P8gwrFDF+Q0OUDmn6KaT3koPN4Ler1muHavukQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UgzFW3d4xFaTdzxuMn/y0TJwFzW6+RWghVCR3xZ3I/4=;
- b=k/WvPp98f5bYu7c6YcDDvlY4B5pS1qvNgcB09PHhCBYEOwLW/0ZAhhshv0LOEPQw/zyptKO8eIW0QArUftCFqGQ0ouIEFd+tMZVaitbNIvDPt/cXhOI9MWW6xv2K2Lz4sjkvb8PTkTIS1OzCfqP863J7vpzO84MUrE4mdfXvEABG4fx1oOoGHTkSvfKv/nkCoqESATZ33G0MPW7kBTkRWZODf6WIJ/eqCaYolLRu6fDwA70ji4JJ5sKL3vmKPVpQwKLmLG7qC2kNOrB6afzt2WIHnl53gXMv7wBh4no6fOZfutanqkPnt59iJ1DlMTrB7dUd+XMyEqvIXnyEunLyaw==
+ bh=FE+TeZ8HsTtCfcVx3oCCeYc6rM2U7eATcut/H80QDiY=;
+ b=gSLE4eVeUanjQoBaSkpJzu0wvj03UFKoVmN9a/LsD7c+4frb0SN+4WBFVHcyz/+B1+Dz3hBsiDPsD1kQvjTzveXPPZDwHS7jUyo5HIi+9Cto8l2ra+v33pCH5dcvWdkHcd0YzJxXqKWY6rGqgBlXG0LeY8JmlVn6mYjPd43hcaInROOaJBIU0KlRa9EhtvjkClxJVIrTEQWt7cGgpf0hLpfHyFI81pu4vYditVnObmw5lXtA/7+epj/s+6sM9br/KXmr8+unrpgLtwrivJPTUArUByzllOsekzU0V5r3x8xGl7kQRtoj/soHvlcmaH3pKxnA1yHVwebq3VqfWU+zPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UgzFW3d4xFaTdzxuMn/y0TJwFzW6+RWghVCR3xZ3I/4=;
- b=TuYiaAptDM3S1kQoOHFykEqzVRT/KYxwG78V3It2pdfFfiiFF6XNCFdqLwwBNn/qMGQlXhHCGDeJfGRAuov1DJkJQa5awUY+JKbe/NwWD+9kcWG+DL1LzaNZFl2bQ1y3ZUVDzj2o9xaDYudK4wGyDF6Fo5OJQ3tZeiX0Dahzihc=
+ bh=FE+TeZ8HsTtCfcVx3oCCeYc6rM2U7eATcut/H80QDiY=;
+ b=E3jpiXBtgru6nvmlRI2eLsI5V2sdb9kq2mqlfj5f/zKuexUqO9y6RNblXwqPJHWWrNEkPACtM48deLpnj4rTzfFRpyb8ZwOMQuoV5SP0FmPH6qT70IHc6KC4bkwRmTl3j6s6seCSSQCLXQtTGtliU+FWraawQz2Ha6hX6wBH6Yw=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=lkmlhyz@microsoft.com; 
 Received: from DM5PR2101MB0901.namprd21.prod.outlook.com (52.132.132.158) by
  DM5PR2101MB0936.namprd21.prod.outlook.com (52.132.131.166) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.8; Mon, 30 Dec 2019 20:13:55 +0000
+ 15.20.2602.8; Mon, 30 Dec 2019 20:14:22 +0000
 Received: from DM5PR2101MB0901.namprd21.prod.outlook.com
  ([fe80::6009:72e0:9d02:2f91]) by DM5PR2101MB0901.namprd21.prod.outlook.com
  ([fe80::6009:72e0:9d02:2f91%9]) with mapi id 15.20.2623.000; Mon, 30 Dec 2019
- 20:13:55 +0000
+ 20:14:22 +0000
 From:   Haiyang Zhang <haiyangz@microsoft.com>
 To:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
         netdev@vger.kernel.org
 Cc:     haiyangz@microsoft.com, kys@microsoft.com, sthemmin@microsoft.com,
         olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
         linux-kernel@vger.kernel.org
-Subject: [PATCH V2,net-next, 0/3] Add vmbus dev_num and enable netvsc async probing
-Date:   Mon, 30 Dec 2019 12:13:31 -0800
-Message-Id: <1577736814-21112-1-git-send-email-haiyangz@microsoft.com>
+Subject: [PATCH V2,net-next, 2/3] Drivers: hv: vmbus: Add dev_num to sysfs
+Date:   Mon, 30 Dec 2019 12:13:33 -0800
+Message-Id: <1577736814-21112-3-git-send-email-haiyangz@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1577736814-21112-1-git-send-email-haiyangz@microsoft.com>
+References: <1577736814-21112-1-git-send-email-haiyangz@microsoft.com>
+Content-Type: text/plain
 X-ClientProxiedBy: CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34)
  To DM5PR2101MB0901.namprd21.prod.outlook.com (2603:10b6:4:a7::30)
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend Transport; Mon, 30 Dec 2019 20:13:54 +0000
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend Transport; Mon, 30 Dec 2019 20:14:21 +0000
 X-Mailer: git-send-email 1.8.3.1
 X-Originating-IP: [13.77.154.182]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2ad1b826-c6f4-40ec-ff8e-08d78d64cb67
+X-MS-Office365-Filtering-Correlation-Id: be930b0a-f093-4054-ff23-08d78d64dbcb
 X-MS-TrafficTypeDiagnostic: DM5PR2101MB0936:|DM5PR2101MB0936:|DM5PR2101MB0936:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB0936F2D0C02E5698F9061214AC270@DM5PR2101MB0936.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-Microsoft-Antispam-PRVS: <DM5PR2101MB0936D0C194AED319EE4A2FA3AC270@DM5PR2101MB0936.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-Forefront-PRVS: 0267E514F9
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(136003)(396003)(376002)(366004)(189003)(199004)(5660300002)(52116002)(6506007)(66556008)(186003)(2616005)(956004)(6666004)(16526019)(4744005)(26005)(66946007)(66476007)(478600001)(2906002)(10290500003)(8936002)(36756003)(316002)(6512007)(8676002)(6486002)(4326008)(81166006)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0936;H:DM5PR2101MB0901.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(136003)(396003)(376002)(366004)(189003)(199004)(5660300002)(52116002)(6506007)(66556008)(186003)(2616005)(956004)(6666004)(16526019)(26005)(66946007)(66476007)(478600001)(2906002)(10290500003)(8936002)(36756003)(316002)(6512007)(8676002)(6486002)(4326008)(81166006)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0936;H:DM5PR2101MB0901.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 721nPN76q1jge6wSCTze1ofIEHEtBY7wmVGXLj4nDNkZJkB0b6rjzmYlknHyw+mlzqYNQ3BCYM9fvV9eeXbu937vwC1dP5SCJuuAFv+E4z5oXB7R4qNvb37bmQyvTZ0PLhFmPXqMYM2PrDGXtKz/1/+ni3z71gTLxnJjgMHHChXtSR0hWoXSYO2574NlXQyxn3kqUjUDahq3gUFZ8Cz9kfMuMYQlCIbR5DHvyS2Eqbw2TA4/Cs0ruqSl4JocmRY9TkYCOd6hiiRCb0A6bndNq7sduYXY8twXf4lEHQE6JZvTA2nMcVmjeEtmrVphdsWlW6c6VnyQ8OCMqDDl81q9SKHG1khYlR9a3tZ2hkkZ4h5PJrF/WF+5m/lUDmGJRX96QwZ2ST1dMGQnPKb5kjGbkZQ0AoCmH8QbK9XJF1fNiYxaYsTAonVbWvEp07QalwjS
+X-Microsoft-Antispam-Message-Info: GHsioYAEtr8HV+tT4jKpcBOiQlj0dUcwXQFnbPEpi1nfkOPBFqvAIBLXs58m/Z8kkbvg+oIn8pr4nE/GCgXPy3MFavrJwQdlTr5rACXW53fG39RdaieD5fZK8E9ihBz4JQb3PrF8ly1xscT+sN0FOOWrnrjvZo8GCyxyFpwCfi68Q5+RuZ+daSbfRQ/AP/ZftJp1Bm2XowfH9B1BL8PEz+zcrGKgqX+KijXma96EhYiNb14WYGSCbzxlDt5lKp37Zd0ScZ5H95zIV3pXYhGMcnjf1ECu5TSZj1IjksfVQQQOydMHhdcfjleLUYKB1gFfKVTm4329Z8iDcmR9wAYQVegNPjaIa2FecRZHLthUGeYitH9OS56euk9kca2gW7DuyzIN7RPLjWNDbUK5YBNEPBwYvqZQPt5csLekB9yqpnIg6YKwnRJglj4mU6/rnJUy
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ad1b826-c6f4-40ec-ff8e-08d78d64cb67
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 20:13:54.9608
+X-MS-Exchange-CrossTenant-Network-Message-Id: be930b0a-f093-4054-ff23-08d78d64dbcb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 20:14:22.1279
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6d6Hz75D50qJQ6JnJ/H+vluiTK92w9f4DgRn6tth62QtC8YnTr3lKeS/RaOY7Dxymgzsa2zhni6qv4TlCa2U9Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: lFksIEhvzvt9aznRAdN1G8jQRrkIh+uRaRu+PnRtFxMtkmz0FB592HbI4eELTy08AAzGcRgnhsimpM0n+F78Vg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0936
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add dev_num for vmbus device based on channel offer sequence.
-Use this number for nic naming, and enable async probing.
+It's a number based on the vmbus device offer sequence.
+Useful for device naming when using Async probing.
 
-Haiyang Zhang (3):
-  Drivers: hv: vmbus: Add a dev_num variable based on channel offer
-    sequence
-  Drivers: hv: vmbus: Add dev_num to sysfs
-  hv_netvsc: Name NICs based on vmbus offer sequence and use async probe
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ Documentation/ABI/stable/sysfs-bus-vmbus |  8 ++++++++
+ drivers/hv/vmbus_drv.c                   | 13 +++++++++++++
+ 2 files changed, 21 insertions(+)
 
- Documentation/ABI/stable/sysfs-bus-vmbus |  8 +++++++
- drivers/hv/channel_mgmt.c                | 38 ++++++++++++++++++++++++++++++--
- drivers/hv/vmbus_drv.c                   | 13 +++++++++++
- drivers/net/hyperv/netvsc_drv.c          | 18 ++++++++++++---
- include/linux/hyperv.h                   |  6 +++++
- 5 files changed, 78 insertions(+), 5 deletions(-)
-
+diff --git a/Documentation/ABI/stable/sysfs-bus-vmbus b/Documentation/ABI/stable/sysfs-bus-vmbus
+index 8e8d167..a42225d 100644
+--- a/Documentation/ABI/stable/sysfs-bus-vmbus
++++ b/Documentation/ABI/stable/sysfs-bus-vmbus
+@@ -49,6 +49,14 @@ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
+ Description:	This NUMA node to which the VMBUS device is
+ 		attached, or -1 if the node is unknown.
+ 
++What:           /sys/bus/vmbus/devices/<UUID>/dev_num
++Date:		Dec 2019
++KernelVersion:	5.5
++Contact:	Haiyang Zhang <haiyangz@microsoft.com>
++Description:	A number based on the vmbus device offer sequence.
++		Useful for device naming when using Async probing.
++Users:		Debugging tools and userspace drivers
++
+ What:		/sys/bus/vmbus/devices/<UUID>/channels/<N>
+ Date:		September. 2017
+ KernelVersion:	4.14
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 4ef5a66..fe7aefa 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -214,6 +214,18 @@ static ssize_t numa_node_show(struct device *dev,
+ static DEVICE_ATTR_RO(numa_node);
+ #endif
+ 
++static ssize_t dev_num_show(struct device *dev,
++			      struct device_attribute *attr, char *buf)
++{
++	struct hv_device *hv_dev = device_to_hv_device(dev);
++
++	if (!hv_dev->channel)
++		return -ENODEV;
++
++	return sprintf(buf, "%d\n", hv_dev->channel->dev_num);
++}
++static DEVICE_ATTR_RO(dev_num);
++
+ static ssize_t server_monitor_pending_show(struct device *dev,
+ 					   struct device_attribute *dev_attr,
+ 					   char *buf)
+@@ -598,6 +610,7 @@ static ssize_t driver_override_show(struct device *dev,
+ #ifdef CONFIG_NUMA
+ 	&dev_attr_numa_node.attr,
+ #endif
++	&dev_attr_dev_num.attr,
+ 	&dev_attr_server_monitor_pending.attr,
+ 	&dev_attr_client_monitor_pending.attr,
+ 	&dev_attr_server_monitor_latency.attr,
 -- 
 1.8.3.1
 
