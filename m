@@ -7,150 +7,199 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FF5C2D0C3
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47405C2D0D3
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F184320409
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 11CA920409
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Dec 2019 20:14:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="IO3XBgWm"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="RVwMQBwN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727774AbfL3UOo (ORCPT
+        id S1727691AbfL3UOe (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 30 Dec 2019 15:14:44 -0500
+        Mon, 30 Dec 2019 15:14:34 -0500
 Received: from mail-eopbgr680093.outbound.protection.outlook.com ([40.107.68.93]:56482
         "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727752AbfL3UOn (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 30 Dec 2019 15:14:43 -0500
+        id S1727667AbfL3UOe (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 30 Dec 2019 15:14:34 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QTikffz4l/RHwZMvEzPqwmdkO252Jph/EzRFztspp12yxAig7l5I+qVZ6q56BAypM7u1XOf/1IgbnpSywWEYm8dtiaNWmcR2xno6FF3fzd/6eKYbRLDY3GWkul9CJQBQgnXdn8Wfd9ZASwYSLhqpZx333FHYMXlfdPRQV+YL0tQXyYXDXSRpoOrBIc540neXRz3TVEBPr/sXpzHQWAXDHfriHfEp9JEGM2X1qx+5vg14LoYI774U07pd0QCg+VC/3d4OFCNlzFq7ZZcEngf9vZXgYahscOy1466OCspGJyWlGCFHE9GSZGScqfrLKraO1rrEm27Qf0f6qSJjxrcJDA==
+ b=P+YKAGtfj5P/fKDv39udaZG1uHhHCaMaq8X0pphUfxaKYcu8qDdPSmrwG74s5oyf58Midh7T/E0tFePpAs019mf0lLUcssbI5C3KWmXf0iUyRbKU6wrDAD5XQbrt5tc4MYPLJnJzAhQ/HmxKJu1K6m12c8CraPtfL5iFTJih8kNK9w9GIV+FuD2CtX/dQvewQZm7m7A/0yEsGk3qzv5AcvjhmzmRXtd14+0fapHJJBxctMLnveCWegp+wxyiowohKmq8DAS2piQrc7cCA35y6uwJm2GUgIYez5BXJ/EiqJ2QArg/6dP0voFREjZ7txPIYxex5Lx4eTLRMaJkud575w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SC1OJtV9c+6pbcT1qAqDjwkX3KsbzOKvcHWvlDdV9Lo=;
- b=l+bTp3WQuttqvP/3AK6ND9NStTEKBwWLiBCFwPnVc5xmtG2PH5sj/6bwJQ/htSkUm2xSaqaJwySIYZ9LF80/RJxgLPXbUc0S5tiHNqfb4bpFNSWVy0hH6D0DBYw7Vty5ScfXo5/+msmEXy7thou1KmvGlG9ilFC7uVcfe9rmaxADM2N2LcVQJNc3KHodlKrRQ4BjieqIUSwAukQenhI8Hcm5rnPzHjgFsvuDdXaHXLclR4zWqEWpJESolGmqkejW1cerNtMd+bXWJsnfYWk4NjiAnLpeIJ3E60FIYFFUJOXbKZUaGD2mVkZ+HBbs4L1Hkcu047GQ4sVs1k1khCgV3Q==
+ bh=1xcV1VUH/R2r1nO5EGIlEovl+3pTTd7nojlHr+vd+VA=;
+ b=UVN+FxaB0YG13CkFnRjPIKdo2ka8jx3J58deGduNND6W9EXmsV0Ag/+uAztUaRnt2rv4Jz+I6ceRwU7irj6gc9cVzMH3hc1p9Ql3u009masjwKk8oBe4PyWS7seuwgTZZtl0D8JgfBkH5juDR134NzTj76alRRGkxFc+s9O75qXMH1ec/D/rxN6tuiWySiS54enngfVuUyRTgQmpUTsp6zlUsMW4U3DacYtPd+p1KQ1jPUAcVGXKluVahaU9Q7ldYBhhsWYYWoES0ddsI9iTnrIQyDM/MgLHNT62QEyRPUFbVxCbxo2YFuLlC6pKbLTXe52z5wHcmnlrEZGNWjxZMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SC1OJtV9c+6pbcT1qAqDjwkX3KsbzOKvcHWvlDdV9Lo=;
- b=IO3XBgWmrZB3VWjyrcE+MWHGlqjPJ45x4JlnNFMXkVj1yM4IinvMji57phcMLMhAjdf1icqg33rsR4R6MfFLJPW6ADewhnbgcZXt8JEexiQhvxU2hG/D2ZtDQrGNRJhmDerWH9LD7jLczVyEMDPUrR6lHMD5R2c9WIgzACmkkao=
+ bh=1xcV1VUH/R2r1nO5EGIlEovl+3pTTd7nojlHr+vd+VA=;
+ b=RVwMQBwNw1FViZ1PNIDlwbcx5ZOs6veciW+ysfNFELbA8hgAHNKoYurwxgWWJ4JnCs1idBDeoihdFecTUjWl8EB1J4eB5CiTotdsQCnuc7T9DEDV/IIMsKRdCJUqjVlpC7NZwwV4g28I3ZVcVkhhYW3QEEx62Nm2/sRG5FhBpQA=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=lkmlhyz@microsoft.com; 
 Received: from DM5PR2101MB0901.namprd21.prod.outlook.com (52.132.132.158) by
  DM5PR2101MB0936.namprd21.prod.outlook.com (52.132.131.166) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2602.8; Mon, 30 Dec 2019 20:14:24 +0000
+ 15.20.2602.8; Mon, 30 Dec 2019 20:14:19 +0000
 Received: from DM5PR2101MB0901.namprd21.prod.outlook.com
  ([fe80::6009:72e0:9d02:2f91]) by DM5PR2101MB0901.namprd21.prod.outlook.com
  ([fe80::6009:72e0:9d02:2f91%9]) with mapi id 15.20.2623.000; Mon, 30 Dec 2019
- 20:14:24 +0000
+ 20:14:19 +0000
 From:   Haiyang Zhang <haiyangz@microsoft.com>
 To:     sashal@kernel.org, linux-hyperv@vger.kernel.org,
         netdev@vger.kernel.org
 Cc:     haiyangz@microsoft.com, kys@microsoft.com, sthemmin@microsoft.com,
         olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
         linux-kernel@vger.kernel.org
-Subject: [PATCH V2,net-next, 3/3] hv_netvsc: Name NICs based on vmbus offer sequence and use async probe
-Date:   Mon, 30 Dec 2019 12:13:34 -0800
-Message-Id: <1577736814-21112-4-git-send-email-haiyangz@microsoft.com>
+Subject: [PATCH V2,net-next, 1/3] Drivers: hv: vmbus: Add a dev_num variable based on channel offer sequence
+Date:   Mon, 30 Dec 2019 12:13:32 -0800
+Message-Id: <1577736814-21112-2-git-send-email-haiyangz@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1577736814-21112-1-git-send-email-haiyangz@microsoft.com>
 References: <1577736814-21112-1-git-send-email-haiyangz@microsoft.com>
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34)
  To DM5PR2101MB0901.namprd21.prod.outlook.com (2603:10b6:4:a7::30)
 MIME-Version: 1.0
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend Transport; Mon, 30 Dec 2019 20:14:23 +0000
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by CO2PR07CA0066.namprd07.prod.outlook.com (2603:10b6:100::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2581.11 via Frontend Transport; Mon, 30 Dec 2019 20:14:18 +0000
 X-Mailer: git-send-email 1.8.3.1
 X-Originating-IP: [13.77.154.182]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 10d6b2df-24cd-4a6f-7be6-08d78d64dd02
+X-MS-Office365-Filtering-Correlation-Id: fd4264d6-6864-41f3-b7d5-08d78d64da0c
 X-MS-TrafficTypeDiagnostic: DM5PR2101MB0936:|DM5PR2101MB0936:|DM5PR2101MB0936:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB0936EFCA4E469D469818AB80AC270@DM5PR2101MB0936.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <DM5PR2101MB09361C37407FEE039C7DE83AAC270@DM5PR2101MB0936.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:983;
 X-Forefront-PRVS: 0267E514F9
 X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(136003)(396003)(376002)(366004)(189003)(199004)(5660300002)(52116002)(6506007)(66556008)(186003)(2616005)(956004)(6666004)(16526019)(26005)(66946007)(66476007)(478600001)(2906002)(10290500003)(8936002)(36756003)(316002)(6512007)(8676002)(6486002)(4326008)(81166006)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:DM5PR2101MB0936;H:DM5PR2101MB0901.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AyFyOlzU1rgYfvWYyCs+BxBzNFRxTl+3c30xXeR8XxgBDmzKpuhiAFIQDlrFQnAJMEgFamUOBLmrxK+esZopGYPzjPVcewA0h0Sz2gCLFQZE1xaI+8vFDO3FNaCp9HpcRnsqzI0jTolIe6WywhBKqQZDKM0HO/IcJOmRtunGNn2HVKxg4fQuN106rQLaT0El3zEYhvrXR8lUcmIuEdxWbAiepu/6NBEce0pk2FdN7nMagiIa2P0QW67ofcRd6UBgl7vvQGX3mGQ0nm8jnTdZcd8s+pENz5lfBaEabUtKCbqIf+nU5Eud/KGQRS4jJZvSTg5jYfwj+4BvG81nS27N3oZIj6uSScqPV+YqNeVaZLx8L70gLycQgNUKBVfk3I3WkyaQqkixEAVSR5ZSAbS8zk+LVzkTkHNPZ94Vo2MxicoLMIVPnD6L5I/4caygDE+F
+X-Microsoft-Antispam-Message-Info: ve95T7ylK+hMPlLtW4YFvNjQzOfE7mY2mssXSl6oC0HHqs3w2hwRJpoFzC4e3B7hJEVuD3rzxaUDy+ntRUIyLjOuDHopSeRGtbxEYtvkFxuZZdx2KeSZPWKmajJG6rCzSSEwqbUl6cE7LQUha5dLgXzPpRaRmo2vA2EKPqTWur2t70IvwjI+Tu9FURGzd1Xv1tEZUTZrD1Zpo/9Bh4pP/K7OcgqdUm6Q2ZE4jzDcJQ24UFpFnqbh4cUpBcXsQm8BLUZWtZnheTb9JowpgE3aaPQXh/wuaqEo1emXYm3D5yGAJtlN2IkH3FxvPnwkmBogF/mP+TZwORhfFH2mIjC0kiwGSwkfyC5kven8RMc4kb6V+9I7eUUSDN2a0PMfwX86F9mRbfWVAtPBE0J2LN5Ag8fx/S84EgJ4VPufDVrsnwsYzK5pygvOHApvDfHPnkIO
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10d6b2df-24cd-4a6f-7be6-08d78d64dd02
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 20:14:24.1567
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd4264d6-6864-41f3-b7d5-08d78d64da0c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2019 20:14:19.2346
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AnnSS/9BuyQjEo5AJJklOo2REP6TK5Rn+oFgSAUqUWyUoqC2A4KCESXXlrazOwSSrITXYP4QK8nqj+cc/aaYew==
+X-MS-Exchange-CrossTenant-UserPrincipalName: fwdV2oENwypMpsfNA01CjZ86K1oCTfflJXxed+/Mn/t34MGmMm403J+g1ypumCU0B3o/eZTbD7vVMyyMmQebwA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0936
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The dev_num field in vmbus channel structure is assigned to the first
-available number when the channel is offered. So netvsc driver uses it
-for NIC naming based on channel offer sequence. Now re-enable the async
-probing mode for faster probing.
+This number is set to the first available number, starting from zero,
+when a vmbus device’s primary channel is offered.
+It will be used for stable naming when Async probing is used.
 
 Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
 ---
- drivers/net/hyperv/netvsc_drv.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+Changes
+V2:
+	Use nest loops in hv_set_devnum, instead of goto.
 
-diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index f3f9eb8..39c412f 100644
---- a/drivers/net/hyperv/netvsc_drv.c
-+++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2267,10 +2267,14 @@ static int netvsc_probe(struct hv_device *dev,
- 	struct net_device_context *net_device_ctx;
- 	struct netvsc_device_info *device_info = NULL;
- 	struct netvsc_device *nvdev;
-+	char name[IFNAMSIZ];
- 	int ret = -ENOMEM;
+ drivers/hv/channel_mgmt.c | 38 ++++++++++++++++++++++++++++++++++++--
+ include/linux/hyperv.h    |  6 ++++++
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 8eb1675..00fa2db 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -315,6 +315,8 @@ static struct vmbus_channel *alloc_channel(void)
+ 	if (!channel)
+ 		return NULL;
  
--	net = alloc_etherdev_mq(sizeof(struct net_device_context),
--				VRSS_CHANNEL_MAX);
-+	snprintf(name, IFNAMSIZ, "eth%d", dev->channel->dev_num);
-+	net = alloc_netdev_mqs(sizeof(struct net_device_context), name,
-+			       NET_NAME_ENUM, ether_setup,
-+			       VRSS_CHANNEL_MAX, VRSS_CHANNEL_MAX);
++	channel->dev_num = HV_DEV_NUM_INVALID;
 +
- 	if (!net)
- 		goto no_net;
+ 	spin_lock_init(&channel->lock);
+ 	init_completion(&channel->rescind_event);
  
-@@ -2355,6 +2359,14 @@ static int netvsc_probe(struct hv_device *dev,
- 		net->max_mtu = ETH_DATA_LEN;
+@@ -541,6 +543,36 @@ static void vmbus_add_channel_work(struct work_struct *work)
+ }
  
- 	ret = register_netdevice(net);
+ /*
++ * Get the first available device number of its type, then
++ * record it in the channel structure.
++ */
++static void hv_set_devnum(struct vmbus_channel *newchannel)
++{
++	struct vmbus_channel *channel;
++	int i = -1;
++	bool found;
 +
-+	if (ret == -EEXIST) {
-+		pr_info("NIC name %s exists, request another name.\n",
-+			net->name);
-+		strlcpy(net->name, "eth%d", IFNAMSIZ);
-+		ret = register_netdevice(net);
-+	}
++	BUG_ON(!mutex_is_locked(&vmbus_connection.channel_mutex));
 +
- 	if (ret != 0) {
- 		pr_err("Unable to register netdev.\n");
- 		goto register_failed;
-@@ -2496,7 +2508,7 @@ static int netvsc_resume(struct hv_device *dev)
- 	.suspend = netvsc_suspend,
- 	.resume = netvsc_resume,
- 	.driver = {
--		.probe_type = PROBE_FORCE_SYNCHRONOUS,
-+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- 	},
++	do {
++		i++;
++		found = false;
++
++		list_for_each_entry(channel, &vmbus_connection.chn_list,
++				    listentry) {
++			if (i == channel->dev_num &&
++			    guid_equal(&channel->offermsg.offer.if_type,
++				       &newchannel->offermsg.offer.if_type)) {
++				found = true;
++				break;
++			}
++		}
++	} while (found);
++
++	newchannel->dev_num = i;
++}
++
++/*
+  * vmbus_process_offer - Process the offer by creating a channel/device
+  * associated with this offer
+  */
+@@ -573,10 +605,12 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
+ 		}
+ 	}
+ 
+-	if (fnew)
++	if (fnew) {
++		hv_set_devnum(newchannel);
++
+ 		list_add_tail(&newchannel->listentry,
+ 			      &vmbus_connection.chn_list);
+-	else {
++	} else {
+ 		/*
+ 		 * Check to see if this is a valid sub-channel.
+ 		 */
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 26f3aee..4f110c5 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -718,6 +718,8 @@ struct vmbus_device {
+ 	bool perf_device;
  };
  
++#define HV_DEV_NUM_INVALID (-1)
++
+ struct vmbus_channel {
+ 	struct list_head listentry;
+ 
+@@ -849,6 +851,10 @@ struct vmbus_channel {
+ 	 */
+ 	struct vmbus_channel *primary_channel;
+ 	/*
++	 * Used for device naming based on channel offer sequence.
++	 */
++	int dev_num;
++	/*
+ 	 * Support per-channel state for use by vmbus drivers.
+ 	 */
+ 	void *per_channel_state;
 -- 
 1.8.3.1
 
