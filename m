@@ -2,31 +2,40 @@ Return-Path: <SRS0=XpDV=2Z=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 570F3C32770
-	for <linux-hyperv@archiver.kernel.org>; Sat,  4 Jan 2020 19:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 393F6C3F68F
+	for <linux-hyperv@archiver.kernel.org>; Sat,  4 Jan 2020 19:56:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A57A222C4
-	for <linux-hyperv@archiver.kernel.org>; Sat,  4 Jan 2020 19:53:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FC1C222C4
+	for <linux-hyperv@archiver.kernel.org>; Sat,  4 Jan 2020 19:56:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=narfation.org header.i=@narfation.org header.b="N1dTr9LK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727208AbgADTxT (ORCPT
+        id S1726204AbgADT4I (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 4 Jan 2020 14:53:19 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:42201 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727156AbgADTxT (ORCPT
+        Sat, 4 Jan 2020 14:56:08 -0500
+Received: from dvalin.narfation.org ([213.160.73.56]:48612 "EHLO
+        dvalin.narfation.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbgADT4I (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 4 Jan 2020 14:53:19 -0500
-Received: from orion.localdomain ([95.114.65.70]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MqJuP-1jS6EH3CRH-00nRo8; Sat, 04 Jan 2020 20:52:14 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     davem@davemloft.net, mareklindner@neomailbox.ch,
-        sw@simonwunderlich.de, a@unstable.cc, sven@narfation.org,
+        Sat, 4 Jan 2020 14:56:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=narfation.org;
+        s=20121; t=1578167764;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UqiZRCJx1oOd2eCd6cVZ2EAaLCuKduqQh59G4MIC1hI=;
+        b=N1dTr9LKpmbUm7jhHLkkAnSn4Uk0IqVABlm7QBukSZ6fiZ4vRyb1FBVnUMFlCclwuXXZBs
+        Qs/8lHhZ5okHVrmW+zHFlNga0CODN/5lEd+nPh2WpPavaDxm2l8AtpAymxY0O+OHx9Jeaq
+        96IXxU+T4mlDeBY0Zp8kN5wwL+CkiUg=
+From:   Sven Eckelmann <sven@narfation.org>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, davem@davemloft.net,
+        mareklindner@neomailbox.ch, sw@simonwunderlich.de, a@unstable.cc,
         marcel@holtmann.org, johan.hedberg@gmail.com,
         roopa@cumulusnetworks.com, nikolay@cumulusnetworks.com,
         edumazet@google.com, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
@@ -35,78 +44,92 @@ Cc:     davem@davemloft.net, mareklindner@neomailbox.ch,
         netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         tipc-discussion@lists.sourceforge.net,
         linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 7/8] net: vmw_vsock: remove unneeded MODULE_VERSION() usage
-Date:   Sat,  4 Jan 2020 20:51:30 +0100
-Message-Id: <20200104195131.16577-7-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200104195131.16577-1-info@metux.net>
-References: <20200104195131.16577-1-info@metux.net>
-X-Provags-ID: V03:K1:UTysyOOxsiPdVPKeBa5m/lJjiLYWW/Mu033dbYm6NG/oMc+j+aM
- o8+gaqw98Xrb+JaSKI3bjCkxM1a8CdUfW78TjAfonS5+h1ednSgOeJgFAoE2AI3RFulRNPq
- 60Ytf3YA/QmCHPLG0ZgndpxN4mxEeO2kAH+XNtZLbSoY3FE20Cb5r20aYnT5yZkXAlnvBFB
- EH78RusR1Y0ZKzHvpQ3xA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7gZ90otsdiY=:6ljOagr0u/5Ta8Q9AnGbia
- eThvRWgPJZ0D5JTYJ08SAB6n/coUQ7XYfRWP9iSv/LuDM4bryBoAEiuIovCHxy2ABgw3hdW5l
- Vhdb1MuV+Bvr0/DF3iGwHfP+eO93nPjfEj48rss0+aSf71hFHH3vnhAhNe3YikJ2TT8iVhQvv
- HRzHxaxH+yrkNlcllp9I7qC6zehtvkVcAbgLaiBrNrQ0j8QPOCnq+hXrtISLrN9BHSjeP2mUz
- so48KWiC8o6XUo10XNHqmLipTsCl68Tdj/TCzc2xzu7jR3K/66FByMs8g+41NXPUua6dSxkRF
- jjkb9pbQsgoh+urZmo30pSagEpRnhc/dPYFa74iWxSiaTs/SNy4tvLpymN4Y/oPzJUa4tybbt
- dDHr7dPvJr/GtR8Iu+zuz3PKP7YA6z2xYfjN1Sd0+j8EhiWYh0wIBqhVzjDQygDwW/IHVGXiI
- Q9sktP3SGoJYL7sYYPcnL2ybJES/rw3NOBVZgg1bFn9yZSGoNNekcaMYVjV9OPtksQQNGsUlm
- gB0N7HRREFLaXKbsQMsGXHRPCZ9qbgP12J/Ufqfe46tmjsIY+gCBXcfcFn/70+ZYrctadbaP3
- SkugpysLsL55CuBUaQs4grj+ojw1N9fokUA579mGapdt6Z0nQk1pSjmWauMtvz2JHX3p2nYag
- jto/acHgGWNLwbDIZcV973j1eu6cVrXbKHRvQ1LRzlbbttOHy4zuDpf1JKjrxPj/0XrBK1HiH
- UWN9WL/0LYaN7jr7GtqUcLKxMX3uJTk/S+D6gKoQsSu1HecR2NNkSS4qVK+LdHqmE3k3dkARt
- Fgtaxh6mYPNjUo2JcNJfkReu1Cg0q7nA1N5tHw0N36f0ELej5/yLuPS/P7yF3glaF+eFCqtjX
- CMIMNYSTa2glsdoebTKw==
+Subject: Re: [PATCH 4/8] net: ipv4: use netdev_info()/netdev_warn()
+Date:   Sat, 04 Jan 2020 20:55:56 +0100
+Message-ID: <1717918.JrPmCOKjZS@sven-edge>
+In-Reply-To: <20200104195131.16577-4-info@metux.net>
+References: <20200104195131.16577-1-info@metux.net> <20200104195131.16577-4-info@metux.net>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart6903353.xe3xGztRYD"; micalg="pgp-sha512"; protocol="application/pgp-signature"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Remove MODULE_VERSION(), as it isn't needed at all: the only version
-making sense is the kernel version.
+--nextPart6903353.xe3xGztRYD
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- net/vmw_vsock/af_vsock.c         | 1 -
- net/vmw_vsock/hyperv_transport.c | 1 -
- net/vmw_vsock/vmci_transport.c   | 1 -
- 3 files changed, 3 deletions(-)
+On Saturday, 4 January 2020 20:51:27 CET Enrico Weigelt, metux IT consult wrote:
+> Use netdev_info() / netdev_warn() instead of pr_info() / pr_warn()
+> for more consistent log output.
+> 
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+> ---
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 74db4cd637a7..7e0cd3220d42 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -2203,5 +2203,4 @@ module_exit(vsock_exit);
- 
- MODULE_AUTHOR("VMware, Inc.");
- MODULE_DESCRIPTION("VMware Virtual Socket Family");
--MODULE_VERSION("1.0.2.0-k");
- MODULE_LICENSE("GPL v2");
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index b3bdae74c243..f6cb66b62479 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -985,6 +985,5 @@ module_init(hvs_init);
- module_exit(hvs_exit);
- 
- MODULE_DESCRIPTION("Hyper-V Sockets");
--MODULE_VERSION("1.0.0");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS_NETPROTO(PF_VSOCK);
-diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.c
-index 644d32e43d23..f2f689b7ca9a 100644
---- a/net/vmw_vsock/vmci_transport.c
-+++ b/net/vmw_vsock/vmci_transport.c
-@@ -2140,7 +2140,6 @@ module_exit(vmci_transport_exit);
- 
- MODULE_AUTHOR("VMware, Inc.");
- MODULE_DESCRIPTION("VMCI transport for Virtual Sockets");
--MODULE_VERSION("1.0.5.0-k");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("vmware_vsock");
- MODULE_ALIAS_NETPROTO(PF_VSOCK);
--- 
-2.11.0
+Patch description has nothing to do with the actual patch.
+
+Kind regards,
+	Sven
+
+>  net/ipv4/tcp_cubic.c    | 1 -
+>  net/ipv4/tcp_illinois.c | 1 -
+>  net/ipv4/tcp_nv.c       | 1 -
+>  3 files changed, 3 deletions(-)
+> 
+> diff --git a/net/ipv4/tcp_cubic.c b/net/ipv4/tcp_cubic.c
+> index 1b3d032a4df2..83fda965186d 100644
+> --- a/net/ipv4/tcp_cubic.c
+> +++ b/net/ipv4/tcp_cubic.c
+> @@ -513,4 +513,3 @@ module_exit(cubictcp_unregister);
+>  MODULE_AUTHOR("Sangtae Ha, Stephen Hemminger");
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("CUBIC TCP");
+> -MODULE_VERSION("2.3");
+> diff --git a/net/ipv4/tcp_illinois.c b/net/ipv4/tcp_illinois.c
+> index 00e54873213e..8cc9967e82ef 100644
+> --- a/net/ipv4/tcp_illinois.c
+> +++ b/net/ipv4/tcp_illinois.c
+> @@ -355,4 +355,3 @@ module_exit(tcp_illinois_unregister);
+>  MODULE_AUTHOR("Stephen Hemminger, Shao Liu");
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("TCP Illinois");
+> -MODULE_VERSION("1.0");
+> diff --git a/net/ipv4/tcp_nv.c b/net/ipv4/tcp_nv.c
+> index 95db7a11ba2a..b3879fb24d33 100644
+> --- a/net/ipv4/tcp_nv.c
+> +++ b/net/ipv4/tcp_nv.c
+> @@ -499,4 +499,3 @@ module_exit(tcpnv_unregister);
+>  MODULE_AUTHOR("Lawrence Brakmo");
+>  MODULE_LICENSE("GPL");
+>  MODULE_DESCRIPTION("TCP NV");
+> -MODULE_VERSION("1.0");
+> 
+
+
+--nextPart6903353.xe3xGztRYD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEF10rh2Elc9zjMuACXYcKB8Eme0YFAl4Q7cwACgkQXYcKB8Em
+e0b7FxAApnNZqwnoUYpozOR6QRqjuLfnrOtYC07Y0PGVBxHQPzwQKI1qrHS5pnJY
+pRHVwNNnRqXnCj5Age/miVF5AZGtrHCJDHR/5lciyHudORjk3RXOizXUD2Jc6ksj
+ZNjSdQQqwyDGEsh4YYMPpGx6IsnXFSflYPulIOrAr1ekbrJr+4LUh2AtzzORwB7f
+nsGBypPneKIfOWl4kWQkPUtqIPQVyjZhCezTaZTcyDgvKPbltdJGZC6f93iC2W6/
+rwT86Fd7zJm7EvMlEC/3w6myVqyCgUJUID6bY9qEkn1X1qLESVYo+UTVkQlo22BG
+XRzletVGhxROCI45qZ8tSqUjQ2Nt9exO5hhIxa+Tbl6UrMqjKuPhqiRgu4JjqeVv
+Xks7x2aP/xPg74bzGQf0lhCUNSiAXQ99qw+P7J2ZMXR0AXLBL6ocyshKUwT+AVqE
+khwBENTIDO8/I9TaPm4dFCNr7gXJQiRCs/NiAZgCxZUgvPNMOBCDeQQh3oarvnLf
+IlyzO94Zbv57AYkM7zdLaLRLsqS8vdUSPFILSbFYXUU+tqH9F3loFgfic4e57h2l
+zEawSvYrME9uIOu5dfbpZ4uw7WHzC2CeHWLytnaxhwJYAntZaqHaTwU0l0N3v8sz
++epMGNYt+x8KRnthWBBYtK52trmTOXNT9pIUolp+LBDzeZre9Gc=
+=SIfr
+-----END PGP SIGNATURE-----
+
+--nextPart6903353.xe3xGztRYD--
+
+
 
