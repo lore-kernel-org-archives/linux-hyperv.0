@@ -1,106 +1,169 @@
-Return-Path: <SRS0=ygpy=3A=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=qJ2z=3B=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA0CAC33CA7
-	for <linux-hyperv@archiver.kernel.org>; Sat, 11 Jan 2020 23:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1913C33CA2
+	for <linux-hyperv@archiver.kernel.org>; Sun, 12 Jan 2020 16:28:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE34920866
-	for <linux-hyperv@archiver.kernel.org>; Sat, 11 Jan 2020 23:38:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B37AC214AF
+	for <linux-hyperv@archiver.kernel.org>; Sun, 12 Jan 2020 16:28:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUzzXi3u"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="gZvQMwfG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731694AbgAKXic (ORCPT
+        id S1729941AbgALQ2i (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 11 Jan 2020 18:38:32 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:46380 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731674AbgAKXib (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 11 Jan 2020 18:38:31 -0500
-Received: by mail-oi1-f194.google.com with SMTP id 13so5133123oij.13;
-        Sat, 11 Jan 2020 15:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c7HFrOGQ3phE12eoMeyUfOtwv87GN61OlvlGebweSPE=;
-        b=CUzzXi3uv6xXm/4UnggMbWvrrN2Up+aCdXgbjG6cA1RSh2Hsl7MaJGyUzdoMoTmd4R
-         ZrHmzvSIQzS9GFymrJPYSFUJoVbzF0PJ/iecYAh4HGcrfH/zwmd4F6x9nsoOeailYobC
-         MujffRFXqGvkpsurYLOjgR9qmZoZeeEk+kwuIIysdTEHyy0eM0MPpC10Mh0InyVmHn1v
-         5FsP+pOKLqj3MpjEbbWZWOZEilHIuIlxKrmee02exZm69I3xF9XolTxJTNhKMd4CPNUr
-         7TK8yRsQode2rHqJa9VpU78VxSiyf+Oi7TyRFsjn5WlXmrtjazYZe5Wjb+yrJwuo7Mdn
-         THlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c7HFrOGQ3phE12eoMeyUfOtwv87GN61OlvlGebweSPE=;
-        b=bxv7pUmTisUVgD+MUMFJzRwz7jTOyA95aKv2lnmdVyt683eTmk5lOAk+hHrc00fyEm
-         JUWSbjqtcPd5xfgOj9EORmlXwwrxOssY2VVyKUH3msazCFtTjFMiuU30JXwJqadflaph
-         KXec1c4uiPvqEWkdHI/U8P9CzU8yYNnKbvo0bgXQVU6DrrI8C/MmKfPJ3frpcuDB5v9O
-         Ys3q2nykxV1MWh4/XZ0Pjvt5KeWrUxmlmMbN2zUnWDGGY0C2uc3MH/e/QKqjRWgCJCk/
-         GSY5WdUcFAtZMyXyoOPjcfx98yjYQ6IWFabZhUna3F8IvdTTPWcuDTtW6qIpikE+ZtV7
-         cgmg==
-X-Gm-Message-State: APjAAAVyKkpUTAaea+nQZ/TAFNaaBgpNZUiwcxk0mtGSWA5TElDm34Vv
-        0BfM0CJQRD2yQe6Jj0oweVsYgg368fs77blTbaE=
-X-Google-Smtp-Source: APXvYqzdwu5h+fnSlpdGrTkZ59bgP9nPDYS+jBNWRgOtKGV1J84qw+h5nryOcSbFDC8q8K7HsV9LDhKqwf7dQGAQUsU=
-X-Received: by 2002:aca:1e11:: with SMTP id m17mr7953939oic.5.1578785910973;
- Sat, 11 Jan 2020 15:38:30 -0800 (PST)
+        Sun, 12 Jan 2020 11:28:38 -0500
+Received: from mail-eopbgr750135.outbound.protection.outlook.com ([40.107.75.135]:57089
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729018AbgALQ2i (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 12 Jan 2020 11:28:38 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IhojNpkRBe2612s5vsjYthDO/WmJNa7fNlohEGRMS5VB/C1BK/MmshfGySeYiqKbKcfPfxd6GElPyjyzX7qIcop+v4X5E1L+It8RYyS8Yau5ekj7y6qalWneu8Fzjd85fwVLkdUTA5sNfHPWWLUJufQW7SbtgpJGO/sUCoL3LSg/did2OGMhOw44TlpurfG7a5JCaXcsVlDqaZcKfSfw00lB6CNFef91jfIRc5dtGVtRi7wo5MYELctajATkCVZpkv/CyTPCWW/O2kR7hKhxu+L++yk/s2jOoAaWGtZkov4oXk5g2GmmUpfi5ip+zVemxCy7/iypnXgpLm+Vz2vx6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Jzi3TfnM6HT1uH2qcosWDL0B5gXLC17qX/qnoymLBk=;
+ b=Hdizp79iUAg7Fys9H5VzK/pQ6q7iRKcEF1jap0g9QLRvVj9Kq1cQkDnpZ4q3AL81ZAtmKQC/4/GtgYft/J/2kBqre0w8TsCa1mGyVYuBbfkgnW3/7Z1SIDkW4YbQ/nWfGX6OzPDhtP9mszu0XJKMgef+GzVKZ4L1GvDFKAAur3v2Yl7zt2Y5L5njBM4KhY6q/GCuvIKso60TCrMnuJ+dhIDsV5oNkfpWC0MsOHizUFHGNdwql4msP5UUQVnirjRCObJHbbpCUu/JFk5KlPlKBx6vsmzH7X67cYghhJP8s/VOOGkb6CHibMVsp0kK+IXNwLITJmyiDG8iXbWkPP9Ifg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0Jzi3TfnM6HT1uH2qcosWDL0B5gXLC17qX/qnoymLBk=;
+ b=gZvQMwfGf8zj6mwF6ySlgKN9k64De5imFLV2C+bYd9f91uFJJLiBMDD+QjyX/QdzVDpgjuY/b3cWbEM7BTnzu0/8HJSTor7btcUkc1AjcVNN7JofXZIMRj0RoFfEKfiJ88Eo0auEhKMSIOJ9+BYczKnRo7hjCI9IUYko8xJQ04U=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (52.132.149.16) by
+ MW2PR2101MB0892.namprd21.prod.outlook.com (52.132.152.24) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.6; Sun, 12 Jan 2020 16:27:55 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::f1bb:c094:cb30:ba1f]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::f1bb:c094:cb30:ba1f%6]) with mapi id 15.20.2644.011; Sun, 12 Jan 2020
+ 16:27:55 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Sasha Levin <sashal@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     Long Li <longli@microsoft.com>
+Subject: RE: [PATCH] scsi: storvsc: Correctly set number of hardware queues
+ for IDE disk
+Thread-Topic: [PATCH] scsi: storvsc: Correctly set number of hardware queues
+ for IDE disk
+Thread-Index: AQHVyFePib13rsBp3ki2r0uiVO4ISafnOM/Q
+Date:   Sun, 12 Jan 2020 16:27:55 +0000
+Message-ID: <MW2PR2101MB105213EDB40D8974CF45A8B6D73A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <1578730634-109961-1-git-send-email-longli@linuxonhyperv.com>
+In-Reply-To: <1578730634-109961-1-git-send-email-longli@linuxonhyperv.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-01-12T16:27:52.7146620Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8f411da8-28a5-40b9-a091-23693cfcc31b;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mikelley@microsoft.com; 
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e404c3d8-bdd7-4fdc-0619-08d7977c60cc
+x-ms-traffictypediagnostic: MW2PR2101MB0892:|MW2PR2101MB0892:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MW2PR2101MB089210CB55B020C8C558C152D73A0@MW2PR2101MB0892.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 02801ACE41
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(136003)(346002)(366004)(376002)(39860400002)(199004)(189003)(81156014)(5660300002)(81166006)(8936002)(52536014)(8676002)(107886003)(4326008)(86362001)(33656002)(10290500003)(478600001)(55016002)(9686003)(76116006)(64756008)(66446008)(66946007)(66556008)(66476007)(2906002)(316002)(8990500004)(110136005)(186003)(7696005)(26005)(6506007)(71200400001)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:MW2PR2101MB0892;H:MW2PR2101MB1052.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: aoYUPhyDFQCqXX9DNOSUJnQf41CEs3RQvYIMwolGR5sfYDU1jJ+TQmMJbE5GvjjiKFxPLASK/ArOuCAzTiKfwMYxsn2MUP+Hj/A/AHf8y5IMv2fAyralnphhSonydNmTpF2cSmWTpILQP3k8MAoS+YXscy/ThT9c9Zvx63woFO2qACmKl3Z6VqyaTfgytLq2wALyfQMta3NK2XfU/nSOHpfDxhqKv82Hdh9M2BG0CdqCIMumDhZbYxwVbFYf7ZtD6VgMUBlwI+1DQnMkPLjaET0O8RcN2AxvQM0JNTqme1yDNUC9OcANeppvANiCR/hjWEk07ozHgDoRWmcEC4Wn+2MDGQhvpX+TUGuGMfXLQXvf3LJHETXNEwCcz+Qhl66usMMS72/bAeM4TkLepxUBLKSfoxEr7+qpI8wQEkjryfzuVW9b596Ir8G3b7CAHhGOWslARt7rJxNpL0wk0G/lhqJRuW0ryZwKCAr8YuRiJpshkI/UtOHpHoRSFZ8vxEnG
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <000000000000a06985059be4002e@google.com>
-In-Reply-To: <000000000000a06985059be4002e@google.com>
-From:   Cong Wang <xiyou.wangcong@gmail.com>
-Date:   Sat, 11 Jan 2020 15:38:19 -0800
-Message-ID: <CAM_iQpWN-SKjjrG_7EQ-x+7UMiu6foaNWMJuwQuwN0BGmayB+A@mail.gmail.com>
-Subject: Re: WARNING: bad unlock balance in __dev_queue_xmit
-To:     syzbot <syzbot+ad4ea1dd5d26131a58a6@syzkaller.appspotmail.com>
-Cc:     a@unstable.cc, Alexander Aring <alex.aring@gmail.com>,
-        allison@lohutok.net, andrew@lunn.ch,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Taehee Yoo <ap420073@gmail.com>, ast@domdv.de,
-        b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux-foundation.org,
-        cleech@redhat.com, Daniel Borkmann <daniel@iogearbox.net>,
-        David Miller <davem@davemloft.net>,
-        David Ahern <dsa@cumulusnetworks.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Florian Westphal <fw@strlen.de>,
-        Greg KH <gregkh@linuxfoundation.org>, gustavo@embeddedor.com,
-        haiyangz@microsoft.com, info@metux.net,
-        Jay Vosburgh <j.vosburgh@gmail.com>, j@w1.fi,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Jamal Hadi Salim <jhs@mojatatu.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        John Hurley <john.hurley@netronome.com>, jwi@linux.ibm.com,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Kalle Valo <kvalo@codeaurora.org>, kys@microsoft.com,
-        linmiaohe@huawei.com,
-        linux-bluetooth <linux-bluetooth@vger.kernel.org>,
-        linux-hams <linux-hams@vger.kernel.org>,
-        linux-hyperv@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        linux-ppp@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-wpan@vger.kernel.org, Hangbin Liu <liuhangbin@gmail.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Marek Lindner <mareklindner@neomailbox.ch>,
-        Michal Kubecek <mkubecek@suse.cz>,
-        mmanning@vyatta.att-mail.com,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        Nikolay Aleksandrov <nikolay@cumulusnetworks.com>,
-        oss-drivers@netronome.com, Paolo Abeni <pabeni@redhat.com>,
-        Paul Mackerras <paulus@samba.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e404c3d8-bdd7-4fdc-0619-08d7977c60cc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jan 2020 16:27:55.0907
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0PjnC1qqzqr0KEjn7iD/ocdjkpBl5AjEIwxIH2lMA/WRFIUD7RuyL4RSaj2DhIY+4gQAmjYne/7EXJZxCqlcHlgGjP8Js3sG27LAkaLswHk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0892
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-#syz dup: WARNING: bad unlock balance in sch_direct_xmit
+From: Long Li <longli@microsoft.com>  Sent: Saturday, January 11, 2020 12:1=
+7 AM
+>=20
+> Commit 0ed881027690 ("scsi: storvsc: setup 1:1 mapping between hardware q=
+ueue and
+> CPU queue")
+> introduced a regression for disks attached to IDE. For these disks the ho=
+st VSP only offers
+> one VMBUS channel. Setting multiple queues can overload the VMBUS channel=
+ and result
+> in
+> performance drop for high queue depth workload on system with large numbe=
+r of CPUs.
+>=20
+> Fix it by leaving the number of hardware queues to 1 (default value) for =
+IDE
+> disks.
+>=20
+> Fixes: 0ed881027690 ("scsi: storvsc: setup 1:1 mapping between hardware q=
+ueue and CPU
+> queue")
+> Signed-off-by: Long Li <longli@microsoft.com>
+> ---
+>  drivers/scsi/storvsc_drv.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+> index f8faf8b3d965..992b28e40374 100644
+> --- a/drivers/scsi/storvsc_drv.c
+> +++ b/drivers/scsi/storvsc_drv.c
+> @@ -1842,9 +1842,11 @@ static int storvsc_probe(struct hv_device *device,
+>  	 */
+>  	host->sg_tablesize =3D (stor_device->max_transfer_bytes >> PAGE_SHIFT);
+>  	/*
+> +	 * For non-IDE disks, the host supports multiple channels.
+>  	 * Set the number of HW queues we are supporting.
+>  	 */
+> -	host->nr_hw_queues =3D num_present_cpus();
+> +	if (dev_id->driver_data !=3D IDE_GUID)
+
+This function already has a pre-computed value of this test in
+the local variable "dev_is_ide".   It would be more consistent
+to just use it.
+
+Michael
+
+> +		host->nr_hw_queues =3D num_present_cpus();
+>=20
+>  	/*
+>  	 * Set the error handler work queue.
+> --
+> 2.20.1
+
