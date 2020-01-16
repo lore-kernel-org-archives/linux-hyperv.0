@@ -2,133 +2,235 @@ Return-Path: <SRS0=Uaeg=3F=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A664C33CB3
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB70C33CB6
+	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:33:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 48A16214AF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9495206D9
+	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:33:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uM1d8VSm"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LHtIFCAH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405078AbgAPSXT (ORCPT
+        id S2392130AbgAPSdc (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 16 Jan 2020 13:23:19 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33787 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404190AbgAPSXS (ORCPT
+        Thu, 16 Jan 2020 13:33:32 -0500
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:33906 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2403824AbgAPRYw (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 16 Jan 2020 13:23:18 -0500
-Received: by mail-wr1-f67.google.com with SMTP id b6so20215498wrq.0
-        for <linux-hyperv@vger.kernel.org>; Thu, 16 Jan 2020 10:23:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Z9F6cbFc8MWLMRVXLq32wbzz9Kc9aRwk3yX4Xas8bss=;
-        b=uM1d8VSmZZEDzRFh4G+Dl1YcFQ3A4IkT4iX5O2Q5yIdRYJ4u11XY+kKfiARvf1Dxbm
-         AxWD5RspyGhLSTapb0Bk0W9/hPr3ay3FQwLPZi2P3pX3DSdldd0SZQt46Fqe3Q6fcz8Y
-         vpxloEvz2j5siGPCupbKWMRVfEx1nPoJlS9iUsbOs7waxMYjdJGglZzahSb3M77AFPEH
-         cWgX5YUYkOkUFzKGMrm3eWmAen/c8dGL6siCHMi0g6g4zKbCLYWqASlFDaKJzp6hO3bm
-         R2mdkbSPjg/V9huALrb+01zXL8B3X9JbvoAtpp5uZQ65P2jVWbOK/AVSyRluofc+Opkc
-         uFJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Z9F6cbFc8MWLMRVXLq32wbzz9Kc9aRwk3yX4Xas8bss=;
-        b=Uo8eWhdb/fh0KWdGvs13GeTnZbkOvq2DQ3B1VLFvFj9y7LYJNuGl76wQfILkaaBfbl
-         byS1b1nKBoOTvwsSNQ/i+b01vrDk4ipk9bSQ9F8VIEdCg0jhJChUEs6eFXCWciy2eo3p
-         CXcato1mBSoit1bxZnLNK2q6RwGYATq9zPenn5yoiMOhHi55S9tRSKFq3YAylYKxuOiL
-         sv1KyQUAj5GWQ3GZ/cnfdIF+L9tbSjslupYUsn/OPeHOZ+l/m/tJQnlfd9qDPYrT/Z19
-         ZRSe3GzGUxsI5G7kTKp5yVjE4YbRcvpAEwrW5mbSqcCe332pVPY/xZUcSW5GfKmw1iN2
-         1YNQ==
-X-Gm-Message-State: APjAAAURWfJ3cGY46Bl+Og3xsQ98n1tjMckSM5LMRMkq/z7dsiet576Y
-        L/k++aQMTQgGyI3qT3pMth5Kf0ttdLu0Cg==
-X-Google-Smtp-Source: APXvYqwoCn4hBCC+0/xS3tPJId3zBSKv5xWcoMMTaUBuT+gcV1DRDV3+D3pCf+Td4gXXKuNNsYYz3A==
-X-Received: by 2002:adf:f5cf:: with SMTP id k15mr4809753wrp.182.1579198996620;
-        Thu, 16 Jan 2020 10:23:16 -0800 (PST)
-Received: from mai.imgcgcw.net ([2a01:e34:ed2f:f020:6c63:1b50:1156:7f0f])
-        by smtp.gmail.com with ESMTPSA id b137sm1087920wme.26.2020.01.16.10.23.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2020 10:23:16 -0800 (PST)
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     tglx@linutronix.de
-Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-hyperv@vger.kernel.org (open list:Hyper-V CORE AND DRIVERS)
-Subject: [PATCH 01/17] clocksource/drivers/hyper-v: Suspend/resume Hyper-V clocksource for hibernation
-Date:   Thu, 16 Jan 2020 19:22:48 +0100
-Message-Id: <20200116182304.4926-1-daniel.lezcano@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <74bf7170-401f-2962-ea5a-1e21431a9349@linaro.org>
-References: <74bf7170-401f-2962-ea5a-1e21431a9349@linaro.org>
+        Thu, 16 Jan 2020 12:24:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1579195491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cbf0JDACQ1z0Tg+uGTmFGjFNBjOD4cliWg8yJbi8qUQ=;
+        b=LHtIFCAHg3/7qcTa8Sz08Q3rUJX4E4DGcN6dMo/xmJbK8VF1BudDd6fvU7D2yxrPipquNI
+        GIa2Oqp8X/ZbBcOLrMrgbEMIPzM+7iU30tTHtmVlcKO/85W5c6Kq/ge3kJwNWPpYL+WDDn
+        yTrwZXK5Liq5pFtOQBqzWXUCLXfVXck=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-bBiplUCvO5uGdLfoXn4TUQ-1; Thu, 16 Jan 2020 12:24:49 -0500
+X-MC-Unique: bBiplUCvO5uGdLfoXn4TUQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFB70800D4C;
+        Thu, 16 Jan 2020 17:24:47 +0000 (UTC)
+Received: from steredhat.redhat.com (ovpn-117-242.ams2.redhat.com [10.36.117.242])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 593AB5C1D8;
+        Thu, 16 Jan 2020 17:24:45 +0000 (UTC)
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     davem@davemloft.net, netdev@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jorgen Hansen <jhansen@vmware.com>,
+        Jason Wang <jasowang@redhat.com>, kvm@vger.kernel.org,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-hyperv@vger.kernel.org,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH net-next 2/3] vsock/virtio_transport_common: handle netns of received packets
+Date:   Thu, 16 Jan 2020 18:24:27 +0100
+Message-Id: <20200116172428.311437-3-sgarzare@redhat.com>
+In-Reply-To: <20200116172428.311437-1-sgarzare@redhat.com>
+References: <20200116172428.311437-1-sgarzare@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Dexuan Cui <decui@microsoft.com>
+This patch allows transports that use virtio_transport_common
+to specify the network namespace where a received packet is to
+be delivered.
 
-This is needed for hibernation, e.g. when we resume the old kernel, we need
-to disable the "current" kernel's TSC page and then resume the old kernel's.
+virtio_transport and vhost_transport, for now, use the default
+network namespace.
 
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Link: https://lore.kernel.org/r/1574233946-48377-1-git-send-email-decui@microsoft.com
+vsock_loopback uses the same network namespace of the transmitter.
+
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- drivers/clocksource/hyperv_timer.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/vhost/vsock.c                   |  1 +
+ include/linux/virtio_vsock.h            |  2 ++
+ net/vmw_vsock/virtio_transport.c        |  2 ++
+ net/vmw_vsock/virtio_transport_common.c | 13 ++++++++++---
+ 4 files changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index 287d8d58c21a..1aec08e82b7a 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -330,12 +330,37 @@ static u64 read_hv_sched_clock_tsc(void)
- 	return read_hv_clock_tsc(NULL) - hv_sched_clock_offset;
- }
- 
-+static void suspend_hv_clock_tsc(struct clocksource *arg)
-+{
-+	u64 tsc_msr;
+diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
+index c2d7d57e98cf..f1d39939d5e4 100644
+--- a/drivers/vhost/vsock.c
++++ b/drivers/vhost/vsock.c
+@@ -474,6 +474,7 @@ static void vhost_vsock_handle_tx_kick(struct vhost_w=
+ork *work)
+ 			continue;
+ 		}
+=20
++		pkt->net =3D vsock_default_net();
+ 		len =3D pkt->len;
+=20
+ 		/* Deliver to monitoring devices all received packets */
+diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
+index 71c81e0dc8f2..d4fc93e6e03e 100644
+--- a/include/linux/virtio_vsock.h
++++ b/include/linux/virtio_vsock.h
+@@ -43,6 +43,7 @@ struct virtio_vsock_pkt {
+ 	struct list_head list;
+ 	/* socket refcnt not held, only use for cancellation */
+ 	struct vsock_sock *vsk;
++	struct net *net;
+ 	void *buf;
+ 	u32 buf_len;
+ 	u32 len;
+@@ -54,6 +55,7 @@ struct virtio_vsock_pkt_info {
+ 	u32 remote_cid, remote_port;
+ 	struct vsock_sock *vsk;
+ 	struct msghdr *msg;
++	struct net *net;
+ 	u32 pkt_len;
+ 	u16 type;
+ 	u16 op;
+diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_tran=
+sport.c
+index dfbaf6bd8b1c..fb03a1535c21 100644
+--- a/net/vmw_vsock/virtio_transport.c
++++ b/net/vmw_vsock/virtio_transport.c
+@@ -527,6 +527,8 @@ static void virtio_transport_rx_work(struct work_stru=
+ct *work)
+ 			}
+=20
+ 			pkt->len =3D len - sizeof(pkt->hdr);
++			pkt->net =3D vsock_default_net();
 +
-+	/* Disable the TSC page */
-+	hv_get_reference_tsc(tsc_msr);
-+	tsc_msr &= ~BIT_ULL(0);
-+	hv_set_reference_tsc(tsc_msr);
-+}
-+
-+
-+static void resume_hv_clock_tsc(struct clocksource *arg)
-+{
-+	phys_addr_t phys_addr = virt_to_phys(&tsc_pg);
-+	u64 tsc_msr;
-+
-+	/* Re-enable the TSC page */
-+	hv_get_reference_tsc(tsc_msr);
-+	tsc_msr &= GENMASK_ULL(11, 0);
-+	tsc_msr |= BIT_ULL(0) | (u64)phys_addr;
-+	hv_set_reference_tsc(tsc_msr);
-+}
-+
- static struct clocksource hyperv_cs_tsc = {
- 	.name	= "hyperv_clocksource_tsc_page",
- 	.rating	= 400,
- 	.read	= read_hv_clock_tsc,
- 	.mask	= CLOCKSOURCE_MASK(64),
- 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
-+	.suspend= suspend_hv_clock_tsc,
-+	.resume	= resume_hv_clock_tsc,
- };
- 
- static u64 notrace read_hv_clock_msr(struct clocksource *arg)
--- 
-2.17.1
+ 			virtio_transport_deliver_tap_pkt(pkt);
+ 			virtio_transport_recv_pkt(&virtio_transport, pkt);
+ 		}
+diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virt=
+io_transport_common.c
+index cecdfd91ed00..6402dea62e45 100644
+--- a/net/vmw_vsock/virtio_transport_common.c
++++ b/net/vmw_vsock/virtio_transport_common.c
+@@ -63,6 +63,7 @@ virtio_transport_alloc_pkt(struct virtio_vsock_pkt_info=
+ *info,
+ 	pkt->hdr.len		=3D cpu_to_le32(len);
+ 	pkt->reply		=3D info->reply;
+ 	pkt->vsk		=3D info->vsk;
++	pkt->net		=3D info->net;
+=20
+ 	if (info->msg && len > 0) {
+ 		pkt->buf =3D kmalloc(len, GFP_KERNEL);
+@@ -273,6 +274,7 @@ static int virtio_transport_send_credit_update(struct=
+ vsock_sock *vsk,
+ 		.op =3D VIRTIO_VSOCK_OP_CREDIT_UPDATE,
+ 		.type =3D type,
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	return virtio_transport_send_pkt_info(vsk, &info);
+@@ -622,6 +624,7 @@ int virtio_transport_connect(struct vsock_sock *vsk)
+ 		.op =3D VIRTIO_VSOCK_OP_REQUEST,
+ 		.type =3D VIRTIO_VSOCK_TYPE_STREAM,
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	return virtio_transport_send_pkt_info(vsk, &info);
+@@ -638,6 +641,7 @@ int virtio_transport_shutdown(struct vsock_sock *vsk,=
+ int mode)
+ 			 (mode & SEND_SHUTDOWN ?
+ 			  VIRTIO_VSOCK_SHUTDOWN_SEND : 0),
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	return virtio_transport_send_pkt_info(vsk, &info);
+@@ -665,6 +669,7 @@ virtio_transport_stream_enqueue(struct vsock_sock *vs=
+k,
+ 		.msg =3D msg,
+ 		.pkt_len =3D len,
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	return virtio_transport_send_pkt_info(vsk, &info);
+@@ -687,6 +692,7 @@ static int virtio_transport_reset(struct vsock_sock *=
+vsk,
+ 		.type =3D VIRTIO_VSOCK_TYPE_STREAM,
+ 		.reply =3D !!pkt,
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	/* Send RST only if the original pkt is not a RST pkt */
+@@ -707,6 +713,7 @@ static int virtio_transport_reset_no_sock(const struc=
+t virtio_transport *t,
+ 		.op =3D VIRTIO_VSOCK_OP_RST,
+ 		.type =3D le16_to_cpu(pkt->hdr.type),
+ 		.reply =3D true,
++		.net =3D pkt->net,
+ 	};
+=20
+ 	/* Send RST only if the original pkt is not a RST pkt */
+@@ -991,6 +998,7 @@ virtio_transport_send_response(struct vsock_sock *vsk=
+,
+ 		.remote_port =3D le32_to_cpu(pkt->hdr.src_port),
+ 		.reply =3D true,
+ 		.vsk =3D vsk,
++		.net =3D sock_net(sk_vsock(vsk)),
+ 	};
+=20
+ 	return virtio_transport_send_pkt_info(vsk, &info);
+@@ -1088,7 +1096,6 @@ virtio_transport_recv_listen(struct sock *sk, struc=
+t virtio_vsock_pkt *pkt,
+ void virtio_transport_recv_pkt(struct virtio_transport *t,
+ 			       struct virtio_vsock_pkt *pkt)
+ {
+-	struct net *net =3D vsock_default_net();
+ 	struct sockaddr_vm src, dst;
+ 	struct vsock_sock *vsk;
+ 	struct sock *sk;
+@@ -1116,9 +1123,9 @@ void virtio_transport_recv_pkt(struct virtio_transp=
+ort *t,
+ 	/* The socket must be in connected or bound table
+ 	 * otherwise send reset back
+ 	 */
+-	sk =3D vsock_find_connected_socket(&src, &dst, net);
++	sk =3D vsock_find_connected_socket(&src, &dst, pkt->net);
+ 	if (!sk) {
+-		sk =3D vsock_find_bound_socket(&dst, net);
++		sk =3D vsock_find_bound_socket(&dst, pkt->net);
+ 		if (!sk) {
+ 			(void)virtio_transport_reset_no_sock(t, pkt);
+ 			goto free_pkt;
+--=20
+2.24.1
 
