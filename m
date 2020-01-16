@@ -2,102 +2,127 @@ Return-Path: <SRS0=Uaeg=3F=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-11.8 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D84BC33CAF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B92C33CAF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 21:31:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C0B32053B
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 18:53:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579200826;
-	bh=/XjjuyJM66nJZY8ruIXznJGpNYS9Xd7bRF1x7oYOdMc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dEppRqex+rPwuIQgUfsC8LR06uNc4uTP150mM+o2cRpsJQLq03K0/FjSoTJ2eACVk
-	 yZeoS2cUCflcWdH6Tu0KqllXBCmWR7aURX+CJRWbBewNk9wNB3IEr5FoUrtOvaNCzv
-	 cW/c/3aqM3A/IlI+6Mx+/hogLENGYFun9RfRYNhk=
+	by mail.kernel.org (Postfix) with ESMTP id 82E9D21D56
+	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Jan 2020 21:31:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389315AbgAPRIL (ORCPT
+        id S2389012AbgAPVbJ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 16 Jan 2020 12:08:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41342 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389310AbgAPRIL (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:08:11 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F48924686;
-        Thu, 16 Jan 2020 17:08:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194490;
-        bh=/XjjuyJM66nJZY8ruIXznJGpNYS9Xd7bRF1x7oYOdMc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rJxnw3WiL4f436IlJC2FVyarxFu7/wONI4VOa8Xx4KQ7kxIN6IAF1gz29HRl/aSAW
-         sBncG4ROk9MGlUp3FVhIg6SEK0wpoq3BZPJh92+q3Lw+8C3ABpGLi5z/8ztPNooiP9
-         +cdgrb98m6T2DlY+NMy6t112OzF7H35ENUKDqfWs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephen Hemminger <stephen@networkplumber.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 389/671] netvsc: unshare skb in VF rx handler
-Date:   Thu, 16 Jan 2020 12:00:27 -0500
-Message-Id: <20200116170509.12787-126-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
-References: <20200116170509.12787-1-sashal@kernel.org>
+        Thu, 16 Jan 2020 16:31:09 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:53555 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388967AbgAPVbI (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 16 Jan 2020 16:31:08 -0500
+Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tip-bot2@linutronix.de>)
+        id 1isCjI-0001YR-HB; Thu, 16 Jan 2020 22:31:04 +0100
+Received: from [127.0.1.1] (localhost [IPv6:::1])
+        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id A163B1C198E;
+        Thu, 16 Jan 2020 22:31:02 +0100 (CET)
+Date:   Thu, 16 Jan 2020 21:31:02 -0000
+From:   "tip-bot2 for Boqun Feng" <tip-bot2@linutronix.de>
+Reply-to: linux-kernel@vger.kernel.org
+To:     linux-tip-commits@vger.kernel.org
+Subject: [tip: timers/core] clocksource/drivers/hyper-v: Reserve PAGE_SIZE
+ space for tsc page
+Cc:     "Boqun Feng (Microsoft)" <boqun.feng@gmail.com>,
+        linux-hyperv@vger.kernel.org,
+        Michael Kelley <mikelley@microsoft.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        x86 <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
+In-Reply-To: <20191126021723.4710-1-boqun.feng@gmail.com>
+References: <20191126021723.4710-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Message-ID: <157921026244.396.8479855058532744201.tip-bot2@tip-bot2>
+X-Mailer: tip-git-log-daemon
+Robot-ID: <tip-bot2.linutronix.de>
+Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Stephen Hemminger <stephen@networkplumber.org>
+The following commit has been merged into the timers/core branch of tip:
 
-[ Upstream commit 996ed04741467f6d1552440c92988b132a9487ec ]
+Commit-ID:     ddc61bbc45017726a2b450350d476b4dc5ae25ce
+Gitweb:        https://git.kernel.org/tip/ddc61bbc45017726a2b450350d476b4dc5ae25ce
+Author:        Boqun Feng <boqun.feng@gmail.com>
+AuthorDate:    Tue, 26 Nov 2019 10:17:20 +08:00
+Committer:     Daniel Lezcano <daniel.lezcano@linaro.org>
+CommitterDate: Thu, 16 Jan 2020 19:07:09 +01:00
 
-The netvsc VF skb handler should make sure that skb is not
-shared. Similar logic already exists in bonding and team device
-drivers.
+clocksource/drivers/hyper-v: Reserve PAGE_SIZE space for tsc page
 
-This is not an issue in practice because the VF devicex
-does not send up shared skb's. But the netvsc driver
-should do the right thing if it did.
+Currently, the reserved size for a tsc page is 4K, which is enough for
+communicating with hypervisor. However, in the case where we want to
+export the tsc page to userspace (e.g. for vDSO to read the
+clocksource), the tsc page should be at least PAGE_SIZE, otherwise, when
+PAGE_SIZE is larger than 4K, extra kernel data will be mapped into
+userspace, which means leaking kernel information.
 
-Fixes: 0c195567a8f6 ("netvsc: transparent VF management")
-Signed-off-by: Stephen Hemminger <sthemmin@microsoft.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Therefore reserve PAGE_SIZE space for tsc_pg as a preparation for the
+vDSO support of ARM64 in the future. Also, while at it, replace all
+reference to tsc_pg with hv_get_tsc_page() since it should be the only
+interface to access tsc page.
+
+Signed-off-by: Boqun Feng (Microsoft) <boqun.feng@gmail.com>
+Cc: linux-hyperv@vger.kernel.org
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Link: https://lore.kernel.org/r/20191126021723.4710-1-boqun.feng@gmail.com
 ---
- drivers/net/hyperv/netvsc_drv.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/clocksource/hyperv_timer.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 1f9f7fcdb0eb..54670c9905c7 100644
---- a/drivers/net/hyperv/netvsc_drv.c
-+++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2004,6 +2004,12 @@ static rx_handler_result_t netvsc_vf_handle_frame(struct sk_buff **pskb)
- 	struct netvsc_vf_pcpu_stats *pcpu_stats
- 		 = this_cpu_ptr(ndev_ctx->vf_stats);
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index 1aec08e..12d75b5 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -307,17 +307,20 @@ EXPORT_SYMBOL_GPL(hv_stimer_global_cleanup);
+ struct clocksource *hyperv_cs;
+ EXPORT_SYMBOL_GPL(hyperv_cs);
  
-+	skb = skb_share_check(skb, GFP_ATOMIC);
-+	if (unlikely(!skb))
-+		return RX_HANDLER_CONSUMED;
-+
-+	*pskb = skb;
-+
- 	skb->dev = ndev;
+-static struct ms_hyperv_tsc_page tsc_pg __aligned(PAGE_SIZE);
++static union {
++	struct ms_hyperv_tsc_page page;
++	u8 reserved[PAGE_SIZE];
++} tsc_pg __aligned(PAGE_SIZE);
  
- 	u64_stats_update_begin(&pcpu_stats->syncp);
--- 
-2.20.1
-
+ struct ms_hyperv_tsc_page *hv_get_tsc_page(void)
+ {
+-	return &tsc_pg;
++	return &tsc_pg.page;
+ }
+ EXPORT_SYMBOL_GPL(hv_get_tsc_page);
+ 
+ static u64 notrace read_hv_clock_tsc(struct clocksource *arg)
+ {
+-	u64 current_tick = hv_read_tsc_page(&tsc_pg);
++	u64 current_tick = hv_read_tsc_page(hv_get_tsc_page());
+ 
+ 	if (current_tick == U64_MAX)
+ 		hv_get_time_ref_count(current_tick);
+@@ -397,7 +400,7 @@ static bool __init hv_init_tsc_clocksource(void)
+ 		return false;
+ 
+ 	hyperv_cs = &hyperv_cs_tsc;
+-	phys_addr = virt_to_phys(&tsc_pg);
++	phys_addr = virt_to_phys(hv_get_tsc_page());
+ 
+ 	/*
+ 	 * The Hyper-V TLFS specifies to preserve the value of reserved
