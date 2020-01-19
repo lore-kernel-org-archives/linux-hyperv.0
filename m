@@ -1,224 +1,202 @@
-Return-Path: <SRS0=kNLn=3H=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=DUld=3I=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86950C32771
-	for <linux-hyperv@archiver.kernel.org>; Sat, 18 Jan 2020 19:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251FDC33CAF
+	for <linux-hyperv@archiver.kernel.org>; Sun, 19 Jan 2020 23:29:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4EAD724679
-	for <linux-hyperv@archiver.kernel.org>; Sat, 18 Jan 2020 19:29:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E03B42051A
+	for <linux-hyperv@archiver.kernel.org>; Sun, 19 Jan 2020 23:29:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="df0GpXq7"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="CCUuTYF0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbgART3c (ORCPT
+        id S1728895AbgASX35 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 18 Jan 2020 14:29:32 -0500
-Received: from mail-dm6nam10on2138.outbound.protection.outlook.com ([40.107.93.138]:63962
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        Sun, 19 Jan 2020 18:29:57 -0500
+Received: from mail-dm6nam12on2092.outbound.protection.outlook.com ([40.107.243.92]:19425
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726806AbgART3b (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 18 Jan 2020 14:29:31 -0500
+        id S1728886AbgASX35 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 19 Jan 2020 18:29:57 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lBtBvB1lD7GOgPkfSbGIJFBj5e6//AT3fZPXmVioVvMhhtfMKv1rbV1pj8mr+ELg9vTd2KbxOOFOl6DKCNLXuXq6VYjyIdX4/eUfTLrb+3Py/xSX/Zi7hLe99sGBBnHII2DfX3GnmQwh9Tm7b7vZaGme82YHyewfRfrs6lbSA96B90BDB67vivLuaE+RDQPL14ybR1KzLO36Axpfn4GrpLyJZZF1G5wadKhlV0fL68v68mWpISMePngcQdnMMDJaaS4r3i3FT8SSmeonfl1ZIAjaVr6W6famtLGLLRhc2jGQxRzN21TWbOUI60I5y4kXcMuw+ogvv8oieJaBDiTjEw==
+ b=RY9anz3ReA5vStzdyn7+Z/jN6vrVpI9gB+JSiZLycdrpdbTToYi8aWWeyvdfpN6hdJxpH1RlUEPEDLe+mHRg0ZsbCKj8ar7Lq3FRa9XroEsNcN2Oy3T3dgSPAeY6neou5Dv9swCDjNNyZBoVf1swxoriz+XMhfyJPeOfq80xbfwE9dq3FCOTeBUWGQ8eYg6rH5PtSdsWhHlu0rnktZBnqjdsUJ/A2c0YqdEOCHAUYkHh1fIxo1z2n7yJVelQVW3SyGhrJ20myvEY0p/q4d9BxjggdsTd99TmooiFisHqEG/uhu7gGTl0tJXtVKDp3KQ4ZuYrRwz2/vCAEoPL1BqpDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qvQXSTONABnpWNd33pVwgZD/aMU5i0BZrnt5B+W9FCw=;
- b=nF4AkD3SRC70Had1kTQvhdXjtIf2bwBD0LLkbUQ7IQNBjcd1iulc0E/WzyS0WYk01BAfqV5ZMCwPYT8Z7c8JAzONtIc8oSdplhlyYVXYP1YdE5R4YiWcPxXyISrmcma7n72gwSv+VQ5ElUTRMmOBrOjtOoUwPz4ttcWA1x3TAR0h4KGz6aQCf4mcjMiFq3rLYYlORFOgYWM6yFvOp8/+p8CdiWVSiV69ZSB9RiMbQiSrMM6SXDojVS+2gRFsmuC6md8lANs48DmD8FqaZ+MAoZJOho/4WzF+9OszNbTsuBBYVO+/+XXl0xl6oR7oVLpdVuI94fj4GAZoGnSL9DTJtQ==
+ bh=El6qEesUZ02ULdUNMQW/zW482zv8eKBU/6d3uHZX8gc=;
+ b=d2qi1Ee8sfN+SZ6CZzmfwxpfcfR7b89J488noST5m2iBld1ATe/i7J+lqU+vEKSDnlE10WVAj9Ld6Ag3asyawhkRHNJ9Eosegri1GuikqbpKQYLrFQ/4WOM6cA3frnwQLpXE1gZFKGnOCWIMYqAhCRswjcE6mM1wD0HnwN4s8g9Tyq2GqSfIbd8+FDstHL42+iWEEKyzn06PGN6mvcmbau75nn6/Rw3RjtpJzkzJaxxKCw+EQeXeIvOZpfXr5MCSs+QcAOTs5XNFiqqtJiAi153SRSIqVxThtXrrHri0xM6DQjoYkAktflUNZColo52S0Y/TsntLRd28cAIqwpGMVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qvQXSTONABnpWNd33pVwgZD/aMU5i0BZrnt5B+W9FCw=;
- b=df0GpXq7x22PRzlY86x3HeFghI2r1Y2eUS+jFCAAjLn5/u0arD6+l2o20a61jFg8Ul4Y6P4itFnzJ2fGPLZ9Mq0JsvmNXAT6XSWABAhqc7ZLe+KokPyHUTckren38xGVUE4h7Jd9sN4IRuZuFSxjtDnRVnGh0oys7tn14QzmjdM=
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (52.132.149.16) by
- MW2PR2101MB0940.namprd21.prod.outlook.com (52.132.146.13) with Microsoft SMTP
+ bh=El6qEesUZ02ULdUNMQW/zW482zv8eKBU/6d3uHZX8gc=;
+ b=CCUuTYF0hJ0gjq1lvGNb+NzDkNkAnLtLLEuhLedYh8IK+ht/lMD6wBjRBKU2STalQ5bZMjpDR+QzzNtf0RXpUf8xReRjCel/VMUqvGtQtX1eTeYc+Wjzg4GeA3mpNln6tf+H7xnQFS3f/hmnEAs3jqcFpFSkEBw1Tq0itg/Ny20=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+Received: from CY4PR21MB0775.namprd21.prod.outlook.com (10.173.192.21) by
+ CY4PR21MB0502.namprd21.prod.outlook.com (10.172.122.12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2644.4; Sat, 18 Jan 2020 19:29:27 +0000
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::f1bb:c094:cb30:ba1f]) by MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::f1bb:c094:cb30:ba1f%6]) with mapi id 15.20.2644.015; Sat, 18 Jan 2020
- 19:29:27 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     "lantianyu1986@gmail.com" <lantianyu1986@gmail.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "sashal@kernel.org" <sashal@kernel.org>
-CC:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        vkuznets <vkuznets@redhat.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH V2] x86/Hyper-V: Balloon up according to request page
- number
-Thread-Topic: [PATCH V2] x86/Hyper-V: Balloon up according to request page
- number
-Thread-Index: AQHVzHeBeCcAgW5Bc0OpEv2JOO+xBKfwzQOg
-Date:   Sat, 18 Jan 2020 19:29:27 +0000
-Message-ID: <MW2PR2101MB10520A27DC77E3B2F15EC75FD7300@MW2PR2101MB1052.namprd21.prod.outlook.com>
-References: <20200116141600.23391-1-Tianyu.Lan@microsoft.com>
-In-Reply-To: <20200116141600.23391-1-Tianyu.Lan@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-01-18T19:29:24.8895054Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=20eeef19-b79d-4e67-97db-f5edc5648f20;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=mikelley@microsoft.com; 
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 51104d43-e1ba-40a9-29aa-08d79c4cbbbe
-x-ms-traffictypediagnostic: MW2PR2101MB0940:|MW2PR2101MB0940:|MW2PR2101MB0940:
-x-ms-exchange-transport-forked: True
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MW2PR2101MB0940F7C5C844E4F6F9786B82D7300@MW2PR2101MB0940.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0286D7B531
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(346002)(366004)(136003)(39860400002)(376002)(189003)(199004)(81166006)(33656002)(5660300002)(81156014)(10290500003)(186003)(52536014)(478600001)(9686003)(6506007)(26005)(8990500004)(316002)(8676002)(71200400001)(66556008)(76116006)(7696005)(66446008)(4326008)(86362001)(2906002)(54906003)(8936002)(66946007)(66476007)(110136005)(64756008)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:MW2PR2101MB0940;H:MW2PR2101MB1052.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7CZ2t0jBEpyJyKOm1Rx5QKa8cC3aSBPV1vm2EmHguw+M6ZMV164Y1HguLe/VkNF9WRDw+xCw5G8cbTnSFR9RogJp8rD5aO0o4+2F3H6C4eGd6LIIXAygPbMVSNCEZJXLJqR+CnYJpolhGnN1RfP1iHYFbaBoE9XawA5SH3MWwqN3NRcInocKmo2gOReUipobEIR8NogPUgz6deAx78XdxgffRCKFt298gEh1pw9T16vSWlOd4CpJjkcDPpYSUScIDEZDqbCVbnKYz61kacO2L+05TgtlKqQEksF1Cr0FuGepnSc2EGcbEgrC+hvf+5CIigy0LNYB9vHZL9w9qK+M69mnOeGqHHzo1zUOSgY/ANuNTx9QTGiyziBcz8HfAWyNzdWZb/nYSYqPdUy7NyLcHEpnMoaG3XJMSB9SKiaNmFQzIrtXXKSDrON4Vz+DvRzK
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.20.2686.3; Sun, 19 Jan 2020 23:29:54 +0000
+Received: from CY4PR21MB0775.namprd21.prod.outlook.com
+ ([fe80::6155:bc1d:1d39:977b]) by CY4PR21MB0775.namprd21.prod.outlook.com
+ ([fe80::6155:bc1d:1d39:977b%8]) with mapi id 15.20.2644.024; Sun, 19 Jan 2020
+ 23:29:53 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        sashal@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
+        Alexander.Levin@microsoft.com
+Cc:     sunilmut@microsoft.com, Andrea.Parri@microsoft.com,
+        weh@microsoft.com, Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH v2] Drivers: hv: vmbus: Ignore CHANNELMSG_TL_CONNECT_RESULT(23)
+Date:   Sun, 19 Jan 2020 15:29:22 -0800
+Message-Id: <1579476562-125673-1-git-send-email-decui@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Reply-To: decui@microsoft.com
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR11CA0046.namprd11.prod.outlook.com
+ (2603:10b6:300:115::32) To CY4PR21MB0775.namprd21.prod.outlook.com
+ (2603:10b6:903:b8::21)
 MIME-Version: 1.0
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (13.77.154.182) by MWHPR11CA0046.namprd11.prod.outlook.com (2603:10b6:300:115::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.18 via Frontend Transport; Sun, 19 Jan 2020 23:29:53 +0000
+X-Mailer: git-send-email 1.8.3.1
+X-Originating-IP: [13.77.154.182]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b93688e8-f67f-42a5-9ac6-08d79d377cb2
+X-MS-TrafficTypeDiagnostic: CY4PR21MB0502:|CY4PR21MB0502:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CY4PR21MB0502BAE4EA90D4CE9B2F24D8BF330@CY4PR21MB0502.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0287BBA78D
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(346002)(396003)(366004)(136003)(376002)(189003)(199004)(316002)(6486002)(86362001)(186003)(26005)(10290500003)(66946007)(52116002)(478600001)(6506007)(6666004)(66476007)(66556008)(6512007)(5660300002)(2906002)(16526019)(107886003)(3450700001)(81166006)(8676002)(8936002)(81156014)(2616005)(36756003)(4326008)(6636002)(956004);DIR:OUT;SFP:1102;SCL:1;SRVR:CY4PR21MB0502;H:CY4PR21MB0775.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ZZrrviadH03D3DwWr7S52uEp7QVSiyBXiC6mC1Sfgm8LHx7fMdnxWdDXdYEWx3jFLlDaU3bXuWTZvkfa6Z0ldgdf5ZhIrpiuP2mQB4+GPl9yTpZG73ysdKdUezJKeWFWVSXv5/n6hC4sdQdUhKFQmbBTpJIB3dyWt/78F6Jwreb/nGdykvkL8q1+dKKVBFPMHqSqpKMVNr5nUXvsGBMJ01vE2iJtyXdyPHCBE7NrBgi0JbUgKlbWssqK2l1DXcgU0LGGW/Htq0fsmBkwv32ETK7xno18jSimv+gZjaQG2FNGzow6H/5wEWCqaXMH7Dz9YOuRfja6VP8hle+GXdA/5CCuGM3O/GF6e/uHjSIFk+hqoG21PynbS61PLTExIK76/vfo1Wz4NmseTL66H368HxyAgSUe9i3ZdX4Wc6FC7dO00c6cTnDeJKmmiJvdMtOi
+X-MS-Exchange-AntiSpam-MessageData: DZEwSShZslJsVOLWvdBlgYe1eNs4zyH5lJqEjoWUJxFQ9nlDs3O3gLiCz0KHe64dPLo4PrXmVJfAzNfzLCi/7naW+FXRSD9hZMmStrXy1oxED5bUsXtHbtuM08lwCOEm17y5PsZ04LOBd140HmCaaQ==
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51104d43-e1ba-40a9-29aa-08d79c4cbbbe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2020 19:29:27.5934
+X-MS-Exchange-CrossTenant-Network-Message-Id: b93688e8-f67f-42a5-9ac6-08d79d377cb2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2020 23:29:53.8785
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K6EjvkPm4Ld31anXM4jo0mm2Rs6VUUjb+PBcfV2Xh2zBqam/brD4ovDo6etJ8LyOg3+zjdTFYVevlLOfCpE71LZMA7Dw/SEmK6xojctgt2E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0940
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s9oliTmAc3iTzyQ5Njtltr4fJUlUUMsPkj6C1XGjgMbPnvGTafME/SZw6ToI2JvJmnw+/+Xyfb5wIAVxtP8aXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR21MB0502
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com> Sent: Thursday, January 16, 202=
-0 6:16 AM
->=20
-> Current code has assumption that balloon request memory size aligns
-> with 2MB. But actually Hyper-V doesn't guarantee such alignment. When
-> balloon driver receives non-aligned balloon request, it produces warning
-> and balloon up more memory than requested in order to keep 2MB alignment.
-> Remove the warning and balloon up memory according to actual requested
-> memory size.
->=20
-> Fixes: f6712238471a ("hv: hv_balloon: avoid memory leak on alloc_error of=
- 2MB memory
-> block")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
-> ---
-> Change since v2:
->     - Change logic of switching alloc_unit from 2MB to 4KB
->     in the balloon_up() to avoid redundant iteration when
->     handle non-aligned page request.
->     - Remove 2MB alignment operation and comment in balloon_up()
-> ---
->  drivers/hv/hv_balloon.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-> index 7f3e7ab22d5d..536807efbc35 100644
-> --- a/drivers/hv/hv_balloon.c
-> +++ b/drivers/hv/hv_balloon.c
-> @@ -1684,7 +1684,7 @@ static unsigned int alloc_balloon_pages(struct
-> hv_dynmem_device *dm,
->  	if (num_pages < alloc_unit)
->  		return 0;
+When a Linux hv_sock app tries to connect to a Service GUID on which no
+host app is listening, a recent host (RS3+) sends a
+CHANNELMSG_TL_CONNECT_RESULT (23) message to Linux and this triggers such
+a warning:
 
-The above test is no longer necessary.  The num_pages < alloc_unit
-case is handled implicitly by your new 'for' loop condition.
+unknown msgtype=23
+WARNING: CPU: 2 PID: 0 at drivers/hv/vmbus_drv.c:1031 vmbus_on_msg_dpc
 
->=20
-> -	for (i =3D 0; (i * alloc_unit) < num_pages; i++) {
-> +	for (i =3D 0; i < num_pages / alloc_unit; i++) {
->  		if (bl_resp->hdr.size + sizeof(union dm_mem_page_range) >
->  			HV_HYP_PAGE_SIZE)
->  			return i * alloc_unit;
-> @@ -1722,7 +1722,7 @@ static unsigned int alloc_balloon_pages(struct
-> hv_dynmem_device *dm,
->=20
->  	}
->=20
-> -	return num_pages;
-> +	return i * alloc_unit;
->  }
->=20
->  static void balloon_up(union dm_msg_info *msg_info)
-> @@ -1737,9 +1737,6 @@ static void balloon_up(union dm_msg_info *msg_info)
->  	long avail_pages;
->  	unsigned long floor;
->=20
-> -	/* The host balloons pages in 2M granularity. */
-> -	WARN_ON_ONCE(num_pages % PAGES_IN_2M !=3D 0);
-> -
->  	/*
->  	 * We will attempt 2M allocations. However, if we fail to
->  	 * allocate 2M chunks, we will go back to PAGE_SIZE allocations.
-> @@ -1749,14 +1746,13 @@ static void balloon_up(union dm_msg_info *msg_inf=
-o)
->  	avail_pages =3D si_mem_available();
->  	floor =3D compute_balloon_floor();
->=20
-> -	/* Refuse to balloon below the floor, keep the 2M granularity. */
-> +	/* Refuse to balloon below the floor. */
->  	if (avail_pages < num_pages || avail_pages - num_pages < floor) {
->  		pr_warn("Balloon request will be partially fulfilled. %s\n",
->  			avail_pages < num_pages ? "Not enough memory." :
->  			"Balloon floor reached.");
->=20
->  		num_pages =3D avail_pages > floor ? (avail_pages - floor) : 0;
-> -		num_pages -=3D num_pages % PAGES_IN_2M;
->  	}
->=20
->  	while (!done) {
-> @@ -1770,7 +1766,7 @@ static void balloon_up(union dm_msg_info *msg_info)
->  		num_ballooned =3D alloc_balloon_pages(&dm_device, num_pages,
->  						    bl_resp, alloc_unit);
->=20
-> -		if (alloc_unit !=3D 1 && num_ballooned =3D=3D 0) {
-> +		if (alloc_unit !=3D 1 && num_ballooned !=3D num_pages) {
+Actually Linux can safely ignore the message because the Linux app's
+connect() will time out in 2 seconds: see VSOCK_DEFAULT_CONNECT_TIMEOUT
+and vsock_stream_connect(). We don't bother to make use of the message
+because: 1) it's only supported on recent hosts; 2) a non-trivial effort
+is required to use the message in Linux, but the benefit is small.
 
-Maybe I'm missing something, but I don't think Vitaly's optimization works.=
-  If
-alloc_unit specifies 2 Mbytes, and num_pages specifies 3 Mbytes, then num_b=
-allooned
-will come back as 2 Mbytes, which is correct.  But if we revert alloc_unit =
-to 1 page and
-"continue" in that case, we will lose the 2 Mbytes of memory (it's not free=
-d), and the
-next time through the loop will try to allocate only 1 Mbyte (because num_p=
-ages
-will be decremented by num_ballooned).  I think the original code does the =
-right thing.
+So, let's not see the warning by silently ignoring the message.
 
-Michael
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
+---
 
->  			alloc_unit =3D 1;
->  			continue;
->  		}
-> --
-> 2.14.5
+In v2 (followed Michael Kelley's suggestions):
+    Removed the redundant code in vmbus_onmessage()
+    Added the new enries into channel_message_table[].
+
+ drivers/hv/channel_mgmt.c | 21 +++++++--------------
+ drivers/hv/vmbus_drv.c    |  4 ++++
+ include/linux/hyperv.h    |  2 ++
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 8eb167540b4f..0370364169c4 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -1351,6 +1351,8 @@ channel_message_table[CHANNELMSG_COUNT] = {
+ 	{ CHANNELMSG_19,			0, NULL },
+ 	{ CHANNELMSG_20,			0, NULL },
+ 	{ CHANNELMSG_TL_CONNECT_REQUEST,	0, NULL },
++	{ CHANNELMSG_22,			0, NULL },
++	{ CHANNELMSG_TL_CONNECT_RESULT,		0, NULL },
+ };
+ 
+ /*
+@@ -1362,25 +1364,16 @@ void vmbus_onmessage(void *context)
+ {
+ 	struct hv_message *msg = context;
+ 	struct vmbus_channel_message_header *hdr;
+-	int size;
+ 
+ 	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
+-	size = msg->header.payload_size;
+ 
+ 	trace_vmbus_on_message(hdr);
+ 
+-	if (hdr->msgtype >= CHANNELMSG_COUNT) {
+-		pr_err("Received invalid channel message type %d size %d\n",
+-			   hdr->msgtype, size);
+-		print_hex_dump_bytes("", DUMP_PREFIX_NONE,
+-				     (unsigned char *)msg->u.payload, size);
+-		return;
+-	}
+-
+-	if (channel_message_table[hdr->msgtype].message_handler)
+-		channel_message_table[hdr->msgtype].message_handler(hdr);
+-	else
+-		pr_err("Unhandled channel message type %d\n", hdr->msgtype);
++	/*
++	 * vmbus_on_msg_dpc() makes sure the hdr->msgtype here can not go
++	 * out of bound and the message_handler pointer can not be NULL.
++	 */
++	channel_message_table[hdr->msgtype].message_handler(hdr);
+ }
+ 
+ /*
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 4ef5a66df680..029378c27421 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1033,6 +1033,10 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 	}
+ 
+ 	entry = &channel_message_table[hdr->msgtype];
++
++	if (!entry->message_handler)
++		goto msg_handled;
++
+ 	if (entry->handler_type	== VMHT_BLOCKING) {
+ 		ctx = kmalloc(sizeof(*ctx), GFP_ATOMIC);
+ 		if (ctx == NULL)
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 8fa0938f9aee..692c89ccf5df 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -425,6 +425,8 @@ enum vmbus_channel_message_type {
+ 	CHANNELMSG_19				= 19,
+ 	CHANNELMSG_20				= 20,
+ 	CHANNELMSG_TL_CONNECT_REQUEST		= 21,
++	CHANNELMSG_22				= 22,
++	CHANNELMSG_TL_CONNECT_RESULT		= 23,
+ 	CHANNELMSG_COUNT
+ };
+ 
+-- 
+2.19.1
 
