@@ -2,83 +2,83 @@ Return-Path: <SRS0=DPqf=3X=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0676DC33C9E
-	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Feb 2020 05:03:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF387C33C9E
+	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Feb 2020 05:03:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C8A0C2082F
-	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Feb 2020 05:03:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD77F20842
+	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Feb 2020 05:03:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkuwH2bu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Je3IggfF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbgBCFDX (ORCPT
+        id S1725973AbgBCFD0 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 3 Feb 2020 00:03:23 -0500
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:33810 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbgBCFDX (ORCPT
+        Mon, 3 Feb 2020 00:03:26 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:41707 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbgBCFDZ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 3 Feb 2020 00:03:23 -0500
-Received: by mail-qt1-f196.google.com with SMTP id h12so10520246qtu.1;
-        Sun, 02 Feb 2020 21:03:22 -0800 (PST)
+        Mon, 3 Feb 2020 00:03:25 -0500
+Received: by mail-qt1-f195.google.com with SMTP id l19so10461864qtq.8;
+        Sun, 02 Feb 2020 21:03:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PWETuN1Ct/aBktiJB2sFTwNGzVs9/Rhblhe4P3oaRJY=;
-        b=HkuwH2bub7iIvO57E0i9lDHUF3m+LwVNRVnbSdehpOMJ+PDBp0xVO3m0rG1ykfB5FU
-         B7K3kVzledfBK17Mz5U+DPvWX1uJ0XWN9QpePcYnui0zfLUz9kLPU8Qn+oraz1LtjgSU
-         AbfXOOxCFhifOISWKDh2xaQ0+qISmretXlYVTHbpVGksN8+2nsi7PFXtmsxWKaV2G927
-         ViaAZLe/Ogu1KTKFcdPiqwvuH1dCng+FdGSf/iBgWOog8c60qKymxzGADt9f5dEfbzzv
-         tDov8kA2Sb9hYLx/IMKWtJIeVRK10k76i3tioZX0JelH/PwsfBfNFkgdO9AaTgF0KfRQ
-         j1tQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VWTud8x7OEQoKdUBzIWswexdHpo1+5LgfuhOzNRvQBY=;
+        b=Je3IggfFJOMJPyKlJs2Q26RgeI8BKzwhWYUwEY4gEBeVY8aUpxD7JfaatuG/QPzVyi
+         QTC6uC85PbWUOOYlTZMwUKvDMueLZiQuNfIT5PU3rSefJf3WgVOKgbXMW0UFG0KXzQQy
+         qi8KpEu27q0Yhngm00UL5U8S6fBgkJoyihzyzi8hZ9RvVd3RnlKtjgodfQgatu5uansU
+         slmwvbmPzqgTQTDf32r/pXndLhudg0FP8euKBBaefsE46CLvsZbo8vCGgudYdDE9VPKq
+         UOidPibovyBJ9M29M4FY5Qn7tIYD/cedG3bbU/nqgOJ1CFB1vjiQTE29BuusDc3Hl1aW
+         f3Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PWETuN1Ct/aBktiJB2sFTwNGzVs9/Rhblhe4P3oaRJY=;
-        b=LwHiaQSa65Vw6FW8TlpE9M4WGoVgAF64qLkRKc249kDC49JxRvTPOiySRqXQuq3qrz
-         6GWQPS7yprsKJZ8p7bBqgJNyCUqfGBMjpqG9tINyRr9x8+1TthTGJpf6J2KEJcce4VeM
-         Vo/Xc+fGYRkz9wlcztjFqZcyzAYMw+4coO6nyu0518mG9F5gSsxYY3DbV4FH3buL3fQp
-         n2ZPdC01NA1dhS/5sz4bDi1rC0uXezy1nqlvCMWXRl8j71p7B8TdwpQuBuMGhqUdH5c0
-         NKX9Yo6eoE23Ys9+QN3/sSwsBfhFDan51R2mf+UMY/9nX2XA84CB+C0z3z91hyDp3pjl
-         Jyxw==
-X-Gm-Message-State: APjAAAWTXRY04UihLQJSXg+vqC9oRGrhLQ4CTISvhGECXnGKR8/orVE/
-        sUeDYQVhilDk1pFfkBouh2A=
-X-Google-Smtp-Source: APXvYqx5jpsXp9AeJcxrEs21tUX1LfSm/Td+nyy+2Xg93XES6+FgF0WKPll2zf0C6SmJAwoxK/g+wA==
-X-Received: by 2002:ac8:108:: with SMTP id e8mr22244723qtg.101.1580706202246;
-        Sun, 02 Feb 2020 21:03:22 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VWTud8x7OEQoKdUBzIWswexdHpo1+5LgfuhOzNRvQBY=;
+        b=m4gP1rQdtt18lnWcPcSqdwOaWOhIlwKLtnZnjgd25mNVmHgCDQV9uFLA5pfX7QEMx0
+         WfGEcX+aFO9lv+/5T9OQ1UGeuP+TDV/FsgS4ZiM0bIuVWUOCVWNdGxOo8UZ17BS6AWxh
+         6TGuDt+1v6B5sCKdgRn5d0WC+HBiSHVmHRiOVL2sSH5GfDTVRfa9oHnLzXbo8ytVNIHr
+         uQDtGnvV1kn2xBoiyoQLeI/iDgCGzqNPQCKb51dyqie5448eRJ4wP1szjyyxQzesmZkh
+         KAMN8od+kq4isfo572gvdKlWtx1dNi1mIWTOBTpgQA0cDUVS1o6bCLA4dF2eyFdspl1M
+         hmUA==
+X-Gm-Message-State: APjAAAXW9TkR8sKjFQpbpmgCLv4CaEN2G6oa55t7Svuqx4UbdyuiEnWT
+        52z/Urt04kRCqYEVOCRTHz4=
+X-Google-Smtp-Source: APXvYqwboCZJ5lFuPhz/tLmhxKhBFD4U0mNl9YWEQSDdEh+OvX94B8R9XB4kbmFQ7CDo5vJUoDMLAw==
+X-Received: by 2002:aed:3e0e:: with SMTP id l14mr22512050qtf.163.1580706204616;
+        Sun, 02 Feb 2020 21:03:24 -0800 (PST)
 Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id v2sm9435343qto.73.2020.02.02.21.03.20
+        by smtp.gmail.com with ESMTPSA id o187sm8804094qkf.26.2020.02.02.21.03.23
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 02 Feb 2020 21:03:21 -0800 (PST)
+        Sun, 02 Feb 2020 21:03:24 -0800 (PST)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 54C3E21EC3;
-        Mon,  3 Feb 2020 00:03:18 -0500 (EST)
+        by mailauth.nyi.internal (Postfix) with ESMTP id A11C121F40;
+        Mon,  3 Feb 2020 00:03:23 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 03 Feb 2020 00:03:18 -0500
-X-ME-Sender: <xms:lKk3XnS7TAJMSrraTFkuhbT-Xmy7nggDlkHu41dzguP_BhJxkHmxdQ>
+  by compute6.internal (MEProxy); Mon, 03 Feb 2020 00:03:23 -0500
+X-ME-Sender: <xms:m6k3Xg9JKj5EJC6oPQCMOWm45P0a5uL3e9SAef3k6y39MSPeFr_Prw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrgeeigdejjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
-    fuohhrthgvugftvggtihhpvdculdegtddmnecujfgurhephffvufffkffoggfgsedtkeer
-    tdertddtnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesgh
-    hmrghilhdrtghomheqnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphephedv
-    rdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithih
-    qdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrih
-    hlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:lKk3Xt8KCi63j6F2Q-uEdywfZMtbCYGspogt7A7kyJcxsh8a7SGNuw>
-    <xmx:lKk3XtOFZkqp6zCJmR4qgUpZUE0RJYje7Ha-ylVJLiSj5nvnwICY2w>
-    <xmx:lKk3XgHciIXfgh-o06VN2x4mhgIqpffW0PapUfy3hukGfyQGoj5zjA>
-    <xmx:lqk3XoXgRmlF_qzXVCzXkAVoNLIf1u3j_wDK2sABnOmyYXVNXgDx5DSmm2U>
+    fuohhrthgvugftvggtihhpvdculdegtddmnecujfgurhephffvufffkffojghfggfgsedt
+    keertdertddtnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghngh
+    esghhmrghilhdrtghomheqnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhs
+    thgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvsh
+    hmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheeh
+    vddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:m6k3XszC-TSW3VNaVPvL-8gAUH2PNmZtN1gGDkMXRfnw1sknmn7bAw>
+    <xmx:m6k3XguxfY6J4c_GX-a0g37BqeXVS0JBnXeZVIbQCtLxfPW6f8NorA>
+    <xmx:m6k3XvzZGgX-fgqjk4zYKwH3JkCap2mv_-ir6YSyuR66ozq8WP2xOw>
+    <xmx:m6k3XnS7sXeX82VmER4SNbTbi-hauoCgdPC6yeHB7UfSoZ3fAT7rJNTiR3I>
 Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 5119D328005E;
-        Mon,  3 Feb 2020 00:03:16 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 22030328005A;
+        Mon,  3 Feb 2020 00:03:22 -0500 (EST)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     linux-pci@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
@@ -94,10 +94,12 @@ Cc:     Michael Kelley <mikelley@microsoft.com>,
         Andrew Murray <andrew.murray@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Boqun Feng <boqun.feng@gmail.com>
-Subject: [PATCH v2 0/3] PCI: hv: Generify pci-hyperv.c
-Date:   Mon,  3 Feb 2020 13:03:10 +0800
-Message-Id: <20200203050313.69247-1-boqun.feng@gmail.com>
+Subject: [PATCH v2 3/3] PCI: hv: Introduce hv_msi_entry
+Date:   Mon,  3 Feb 2020 13:03:13 +0800
+Message-Id: <20200203050313.69247-4-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200203050313.69247-1-boqun.feng@gmail.com>
+References: <20200203050313.69247-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -105,45 +107,80 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi,
+Add a new structure (hv_msi_entry), which is also defined int tlfs, to
+describe the msi entry for HVCALL_RETARGET_INTERRUPT. The structure is
+needed because its layout may be different from architecture to
+architecture.
 
-This is the first part for virtual PCI support of Hyper-V guest on
-ARM64. The whole patchset doesn't have any functional change, but only
-refactors the pci-hyperv.c code to make it more arch-independent.
+Also add a new generic interface hv_set_msi_address_from_desc() to allow
+different archs to set the msi address from msi_desc.
 
-Previous version:
-v1: https://lore.kernel.org/lkml/20200121015713.69691-1-boqun.feng@gmail.com/
+No functional change, only preparation for the future support of virtual
+PCI on non-x86 architectures.
 
-Changes since v1:
+Signed-off-by: Boqun Feng (Microsoft) <boqun.feng@gmail.com>
+---
+ arch/x86/include/asm/hyperv-tlfs.h  | 11 +++++++++--
+ arch/x86/include/asm/mshyperv.h     |  5 +++++
+ drivers/pci/controller/pci-hyperv.c |  4 ++--
+ 3 files changed, 16 insertions(+), 4 deletions(-)
 
-*	Reword the commit log and adjust the title as per Bjorn's
-	suggestion
-
-*	Split patch #2 into two patches (one for moving and one for
-	adding new structure) as per Bjorn's suggestion
-
-*	Remove unnecesarry #if guard as per Vitaly's suggestion.
-
-*	Add explanation for adding hv_set_msi_address_from_desc().
-
-I've done compile and boot test of this patchset, also done some tests
-with a pass-through NVMe device.
-
-Suggestions and comments are welcome!
-
-Regards,
-Boqun
-
-Boqun Feng (3):
-  PCI: hv: Move hypercall related definitions into tlfs header
-  PCI: hv: Move retarget related structures into tlfs header
-  PCI: hv: Introduce hv_msi_entry
-
- arch/x86/include/asm/hyperv-tlfs.h  | 41 +++++++++++++++++++++++++++
- arch/x86/include/asm/mshyperv.h     |  5 ++++
- drivers/pci/controller/pci-hyperv.c | 44 +++--------------------------
- 3 files changed, 50 insertions(+), 40 deletions(-)
-
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 4a76e442481a..953b3ad38746 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -912,11 +912,18 @@ struct hv_partition_assist_pg {
+ 	u32 tlb_lock_count;
+ };
+ 
++union hv_msi_entry {
++	u64 as_uint64;
++	struct {
++		u32 address;
++		u32 data;
++	} __packed;
++};
++
+ struct hv_interrupt_entry {
+ 	u32 source;			/* 1 for MSI(-X) */
+ 	u32 reserved1;
+-	u32 address;
+-	u32 data;
++	union hv_msi_entry msi_entry;
+ } __packed;
+ 
+ /*
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 6b79515abb82..3bdaa3b6e68f 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -240,6 +240,11 @@ bool hv_vcpu_is_preempted(int vcpu);
+ static inline void hv_apic_init(void) {}
+ #endif
+ 
++#define hv_set_msi_address_from_desc(msi_entry, msi_desc)	\
++do {								\
++	(msi_entry)->address = (msi_desc)->msg.address_lo;	\
++} while (0)
++
+ #else /* CONFIG_HYPERV */
+ static inline void hyperv_init(void) {}
+ static inline void hyperv_setup_mmu_ops(void) {}
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 0d9b74503577..2240f2b3643e 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1170,8 +1170,8 @@ static void hv_irq_unmask(struct irq_data *data)
+ 	memset(params, 0, sizeof(*params));
+ 	params->partition_id = HV_PARTITION_ID_SELF;
+ 	params->int_entry.source = 1; /* MSI(-X) */
+-	params->int_entry.address = msi_desc->msg.address_lo;
+-	params->int_entry.data = msi_desc->msg.data;
++	hv_set_msi_address_from_desc(&params->int_entry.msi_entry, msi_desc);
++	params->int_entry.msi_entry.data = msi_desc->msg.data;
+ 	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
+ 			   (hbus->hdev->dev_instance.b[4] << 16) |
+ 			   (hbus->hdev->dev_instance.b[7] << 8) |
 -- 
 2.24.1
 
