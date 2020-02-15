@@ -1,128 +1,177 @@
-Return-Path: <SRS0=Hh99=4C=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=CCKn=4D=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E30C2BA83
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Feb 2020 17:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBD27C352A3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 15 Feb 2020 05:24:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8F6C320848
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Feb 2020 17:57:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581703068;
-	bh=gSWMBptURQOv6a2L0gBtCD6ZnyHnluDS87v6Rf/xuQQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UNuV/qKV+yXZt4vG/7+dhuIeya/RMY0iHpci07PxdVdGvOnRhRmV4qveHzlK0l1cj
-	 O1qgHwYU2K4RKOs17C4BZNr1G2eQivw7V9ztyMIsvJIhd7QpHBxgtU0XkVjsGaa8Gk
-	 +O6Ug75q0unOBxpT4uDFrEDPRe3Vc29LQyWJbwRU=
+	by mail.kernel.org (Postfix) with ESMTP id B9F532082F
+	for <linux-hyperv@archiver.kernel.org>; Sat, 15 Feb 2020 05:24:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="E3oW9mDN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388162AbgBNR5k (ORCPT
+        id S1725937AbgBOFYB (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Feb 2020 12:57:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388174AbgBNP5S (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:57:18 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 19B6F222C4;
-        Fri, 14 Feb 2020 15:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695837;
-        bh=gSWMBptURQOv6a2L0gBtCD6ZnyHnluDS87v6Rf/xuQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s1JfQqo6U9BD2vSSlRLBsLw40q6ubCjZIzJ1/kYF7GFAATWd/nTzVYGke0gbOTFbU
-         2nOk7fL9qYKl9yo/AeI9wtEs8YXC4iwKrDGrVWNxM52tRT+kIJk/3npoYmKMue517f
-         u5W0wog3cDJxeQEaNc9y8MKIFSEzppC3Nt6UOQrI=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Boqun Feng <boqun.feng@gmail.com>, linux-hyperv@vger.kernel.org,
-        Michael Kelley <mikelley@microsoft.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH AUTOSEL 5.5 389/542] clocksource/drivers/hyper-v: Reserve PAGE_SIZE space for tsc page
-Date:   Fri, 14 Feb 2020 10:46:21 -0500
-Message-Id: <20200214154854.6746-389-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+        Sat, 15 Feb 2020 00:24:01 -0500
+Received: from mail-eopbgr1300103.outbound.protection.outlook.com ([40.107.130.103]:24928
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725795AbgBOFYA (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 15 Feb 2020 00:24:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WvAHt6cY9m/GgDEl5DMqkDI/UtvNEdSb5xar1Yi5RGQMT5iWa4pYahl0awUARFUh24keLTKLaZvYpEXJOqfw3SJsqr0u3oEXB0mTzn1FQBIgj4oD4rnc3NbdJiLo6tJYZJrpP3XEeSP+EoMuRUnfxfLiI8Ty9RsPwi/SxzTjeD927+2N6jx0guVi6wzwdBmCVom6tFkMdUbBwpBPV20FsHPbsw6j1k0qWsNsyzLlMnJIHhx1gQTO0ZH19+3qbCd+5sPW63zWJmzJCuKAMgZKvuPdy0ak62RpeV+0DVSGDlizjx2A/+DU9Z2TvdMcP6w9Ot/PEXgjlSKaiMAc4IbX6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+TNbtH8Sw3Pdb3j14YmnUVQSiji3nf1c8Pvcdspoyk=;
+ b=B0hr/PYRm7WXgGP4iseUjAap7UdHIdt5TK0sUxV8xyrXTbe45Jhiz8Y4b+3czHWz3h+lpd1g44jwopol0qA2bOF5Z+R2b8to2k0yUc0hlDkeL1loW7jjbDDaq6ypLNqYP9LPnvyG4VNhW04BOAUTZgEOIi39Q5yG4QOroVjcAL5FfwKdB0fOmEW8DxmwVl6PIvYg3GqJCPziLX8Q5WLt0gWqcReWGDBAxHmLj8BYZ7bZxD3uZlqvVQD0IqqZP9G5w8M1QNP7XBepaOobZyQuI76cyi1PTC2DUr+QMp55FmiLR2v3fUNR4P9ae9uTldZoc7U0E/WJCwx4PuTgUNoJvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X+TNbtH8Sw3Pdb3j14YmnUVQSiji3nf1c8Pvcdspoyk=;
+ b=E3oW9mDNsHnMhuo4cRu4lHVTOehAZiAR14euZX3lguPmhFOsZvWv0tXMmdHxeM2ljMNbStP/C4OFxcO/ZxLM3/ZAi2WVgBf1zvOrAtp4oTNWutQZLXpf1jI7qcm82QSvBMi/FxA/W/GS+PKPR89zXQYQNJ0YmJDuDi+UanHgjpA=
+Received: from HK0P153MB0148.APCP153.PROD.OUTLOOK.COM (52.133.156.139) by
+ HK0P153MB0244.APCP153.PROD.OUTLOOK.COM (10.255.253.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.4; Sat, 15 Feb 2020 05:23:55 +0000
+Received: from HK0P153MB0148.APCP153.PROD.OUTLOOK.COM
+ ([fe80::58ea:c6ae:4ea3:8432]) by HK0P153MB0148.APCP153.PROD.OUTLOOK.COM
+ ([fe80::58ea:c6ae:4ea3:8432%5]) with mapi id 15.20.2750.014; Sat, 15 Feb 2020
+ 05:23:55 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: Is it safe for a NIC driver to use all the 48 bytes of skb->cb?
+Thread-Topic: Is it safe for a NIC driver to use all the 48 bytes of skb->cb?
+Thread-Index: AdXjukH6tGicVKR8QjWZ+wsQCSffGw==
+Date:   Sat, 15 Feb 2020 05:23:55 +0000
+Message-ID: <HK0P153MB0148311C48144413792A0FBEBF140@HK0P153MB0148.APCP153.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=decui@microsoft.com;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-02-15T05:23:53.1818868Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=0bdb99fb-ade9-4625-91de-e48aae6b21ec;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=decui@microsoft.com; 
+x-originating-ip: [2001:4898:80e8:9:9a10:13a:9851:57b7]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c2a50d69-2c84-4673-5dd9-08d7b1d740bd
+x-ms-traffictypediagnostic: HK0P153MB0244:|HK0P153MB0244:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0P153MB02449C4A5664FA6810D0DAFEBF140@HK0P153MB0244.APCP153.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 03142412E2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(346002)(39860400002)(376002)(396003)(136003)(189003)(199004)(71200400001)(8676002)(7696005)(4326008)(6506007)(86362001)(186003)(33656002)(2906002)(8936002)(81156014)(81166006)(64756008)(66446008)(316002)(66946007)(66556008)(55016002)(76116006)(10290500003)(66476007)(5660300002)(9686003)(478600001)(110136005)(8990500004)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:HK0P153MB0244;H:HK0P153MB0148.APCP153.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: x37SN1arD31duZQnj7GgD4PT8/7K/L6CE6C0vW/xBByIp9y6P4kgd+V5JNk8xdcLjb4NvmcP7w/3dXEbd+vbvMluX/ISQFuEijlcip23iQmb5Fpf2zGHn9J9UO7WvC7hmOJcLILKEoKo3p4kOpCzKZyOPxKEEHn/t+9tNPRBxJMgHAsd/ZVX4mvm0wsX0YYj+jykKiFdO+mSNSyxUrvJuHIyUtF8gzBP57mWwpM/+8d20DPzQe7czZj3HXvd9LMt8MKhRhepP0JWlmFB5w4TaI3o2eu+qYKLJiAiU6tmtufd3sEwTXrOChWLCKKdoVoVx9NI3xpvRnHITLEE3isiqqZuApcMVf7w9n0dFxo/ADC/gUkDsgrYAY9c4ZojndYqPjkDGUrWElO/LCoBZ21xrMKH3X7CWlIs0ZSVNXpK+hfjpBXOPDicpm3iG5OuoWIq
+x-ms-exchange-antispam-messagedata: NbtndxpGpAXFjUrT0dcL81y/HPrFjJNOsOigRgtvW1gJWa7i3ao6tbha5HcFgu7uvcVV+P3F1gcJ2F5ypIYBnLo9KsiWmRrFsgtz1+AVM7m8iLeY6tBfxtwFY0gUfZ+gulKZ+SeOaV/DKDD8N/lYSPAZkgYLjz8k2iDUt95sWHNkA9KHDEB8zr/9iMvySdgjH690nX+3YyO0nycyK8LF4A==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2a50d69-2c84-4673-5dd9-08d7b1d740bd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2020 05:23:55.4443
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BEshrHY2NbAwqj4OpjbB5ngdtWpR7n147rW2qY7Ui4LOZc3cb2F1gA/7us2kEv2XUI+LtgCfd2PHlBneU6CWAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0P153MB0244
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Boqun Feng <boqun.feng@gmail.com>
+Hi,
+It looks all the layers of drivers among the network stack can use the 48-b=
+yte
+skb->cb array. Is there any rule how they should coordinate with each other=
+?
 
-[ Upstream commit ddc61bbc45017726a2b450350d476b4dc5ae25ce ]
+I noticed the last 16 bytes are used by struct skb_gso_cb:
 
-Currently, the reserved size for a tsc page is 4K, which is enough for
-communicating with hypervisor. However, in the case where we want to
-export the tsc page to userspace (e.g. for vDSO to read the
-clocksource), the tsc page should be at least PAGE_SIZE, otherwise, when
-PAGE_SIZE is larger than 4K, extra kernel data will be mapped into
-userspace, which means leaking kernel information.
+include/linux/skbuff.h:
+struct skb_gso_cb {
+        union {
+                int     mac_offset;
+                int     data_offset;
+        };
+        int     encap_level;
+        __wsum  csum;
+        __u16   csum_start;
+};
+#define SKB_SGO_CB_OFFSET       32
+#define SKB_GSO_CB(skb) ((struct skb_gso_cb *)((skb)->cb + SKB_SGO_CB_OFFSE=
+T))
 
-Therefore reserve PAGE_SIZE space for tsc_pg as a preparation for the
-vDSO support of ARM64 in the future. Also, while at it, replace all
-reference to tsc_pg with hv_get_tsc_page() since it should be the only
-interface to access tsc page.
+Does this mean a low level NIC driver (e.g. hv_netvsc) should only use
+the first 32 bytes? What if the upper layer network stack starts to take up
+more space in the future?=20
 
-Signed-off-by: Boqun Feng (Microsoft) <boqun.feng@gmail.com>
-Cc: linux-hyperv@vger.kernel.org
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Link: https://lore.kernel.org/r/20191126021723.4710-1-boqun.feng@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/clocksource/hyperv_timer.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Now hv_netvsc assumes it can use all of the 48-bytes, though it uses only=20
+20 bytes, but just in case the struct hv_netvsc_packet grows to >32 bytes i=
+n the
+future, should we change the BUILD_BUG_ON() in netvsc_start_xmit() to
+ BUILD_BUG_ON(sizeof(struct hv_netvsc_packet) > SKB_SGO_CB_OFFSET);
+? =20
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index 287d8d58c21ac..b6ea3a2093c56 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -307,17 +307,20 @@ EXPORT_SYMBOL_GPL(hv_stimer_global_cleanup);
- struct clocksource *hyperv_cs;
- EXPORT_SYMBOL_GPL(hyperv_cs);
- 
--static struct ms_hyperv_tsc_page tsc_pg __aligned(PAGE_SIZE);
-+static union {
-+	struct ms_hyperv_tsc_page page;
-+	u8 reserved[PAGE_SIZE];
-+} tsc_pg __aligned(PAGE_SIZE);
- 
- struct ms_hyperv_tsc_page *hv_get_tsc_page(void)
- {
--	return &tsc_pg;
-+	return &tsc_pg.page;
- }
- EXPORT_SYMBOL_GPL(hv_get_tsc_page);
- 
- static u64 notrace read_hv_clock_tsc(struct clocksource *arg)
- {
--	u64 current_tick = hv_read_tsc_page(&tsc_pg);
-+	u64 current_tick = hv_read_tsc_page(hv_get_tsc_page());
- 
- 	if (current_tick == U64_MAX)
- 		hv_get_time_ref_count(current_tick);
-@@ -372,7 +375,7 @@ static bool __init hv_init_tsc_clocksource(void)
- 		return false;
- 
- 	hyperv_cs = &hyperv_cs_tsc;
--	phys_addr = virt_to_phys(&tsc_pg);
-+	phys_addr = virt_to_phys(hv_get_tsc_page());
- 
- 	/*
- 	 * The Hyper-V TLFS specifies to preserve the value of reserved
--- 
-2.20.1
+struct hv_netvsc_packet {
+        /* Bookkeeping stuff */
+        u8 cp_partial; /* partial copy into send buffer */
+
+        u8 rmsg_size; /* RNDIS header and PPI size */
+        u8 rmsg_pgcnt; /* page count of RNDIS header and PPI */
+        u8 page_buf_cnt;
+
+        u16 q_idx;
+        u16 total_packets;
+
+        u32 total_bytes;
+        u32 send_buf_index;
+        u32 total_data_buflen;
+};
+
+static int netvsc_start_xmit(struct sk_buff *skb, struct net_device *net)
+{
+...
+        /*
+         * Place the rndis header in the skb head room and
+         * the skb->cb will be used for hv_netvsc_packet
+         * structure.
+         */
+        ret =3D skb_cow_head(skb, RNDIS_AND_PPI_SIZE);
+        if (ret)
+                goto no_memory;
+
+        /* Use the skb control buffer for building up the packet */
+        BUILD_BUG_ON(sizeof(struct hv_netvsc_packet) >
+                        FIELD_SIZEOF(struct sk_buff, cb));
+        packet =3D (struct hv_netvsc_packet *)skb->cb;
+
+Thanks,
+-- Dexuan
 
