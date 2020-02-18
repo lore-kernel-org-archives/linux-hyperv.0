@@ -2,63 +2,63 @@ Return-Path: <SRS0=7sFS=4G=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2578FC34026
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D87FC34026
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE8C922B48
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77F5C22B48
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 18:54:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mhl+g3cD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i26UeAYe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbgBRSy0 (ORCPT
+        id S1726715AbgBRSya (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Feb 2020 13:54:26 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41523 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbgBRSy0 (ORCPT
+        Tue, 18 Feb 2020 13:54:30 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53793 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726318AbgBRSy3 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Feb 2020 13:54:26 -0500
-Received: by mail-wr1-f68.google.com with SMTP id c9so25288618wrw.8;
-        Tue, 18 Feb 2020 10:54:24 -0800 (PST)
+        Tue, 18 Feb 2020 13:54:29 -0500
+Received: by mail-wm1-f67.google.com with SMTP id s10so3868838wmh.3;
+        Tue, 18 Feb 2020 10:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r+BjQ+2qeHRzwq563xO8WHAunXFGHBK9xvOKVsSVi74=;
-        b=mhl+g3cDhkTh8cc47iq87t0C9LHE681ndAKjC4TcbgXItv3EV1BNGcZxW5ApFu+dRD
-         rNmdhehJtbaguOOf2RdAwyBVCEGKnm1Ab+s4SScl3ZcEQ5v5P+SBZNsFqmJGVkX+39XZ
-         I+R8zvVLwGieoR+97B6rq2CJ6eL3TEgU9aUzu1j7uP/tcCLucNEqtlhiZ3vM7/sRTmks
-         f8aHHnPf5e4qDI1bdZ3x7w7kbT80hZoNEWa4iVISvQtJxdd6QUuQ0k71XHOsyWqQZeAs
-         CKAaG3WvJwmT3tDBXTiwdX57NNHHjDF7wrWkHr/RSQu/O5xfh4SxCdgkHp2ectLBNeE/
-         F3dQ==
+        bh=1dJr5fWtmgL5ZWKfudWGcy2nFnCOukxqjG9HGhea3rc=;
+        b=i26UeAYelCy7U1A8/lwfSWuKD6ty6MuaX0kbrq6tzijhBOyrJHSPcHPMflkjW4ctmg
+         dXOzg8z8CpuvzrqZRiqoJTViSk1VgSAzkRoasR83KQaslqB1kzObh37AkUQ3kcBFBri9
+         3SlMcjIG3y5o3BAvpVKCk6yOGFTS9VpnYv5qu5WMS/Z95Mm18CQljUcsP2/2KL88z3Rp
+         BauSmQyR5TGyrYyKDGfVzSAbcvcebAw4Hk8XsbOvk5/ngH+Oa/yLlW3wfCVDMSFPac7f
+         LnLryS8huIxPvunu7OoWrweZdRD86earFdvzrES3bJKxlMfySGH6LfBmlwBiSbRJUaFo
+         ZGaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=r+BjQ+2qeHRzwq563xO8WHAunXFGHBK9xvOKVsSVi74=;
-        b=r1fl9jFNGBXR0Af3v22D4ruQPFmxRTW1mgQNoUsZugbTYWzaVnndI4YMHU43shHAUi
-         Vj2tZTXXtPkY6Y9VZ74NHSw4Wsf8Hh6fJj+ZLHysnOWP0tzr5zUrwjqydrAy+JdI8p1z
-         I6ZTv1q09nwZGNCUp8PL35JZUMhlYoUWoSeE1Lhh4V3reoaFNNupgmf6VemvYC2Kw+Vj
-         cTm1X1+kNjrm8seEMxc2PGta3FKKN/8OAfrs73lHyTYgu3CtX6rvRhyB2moeKZ4tyDH3
-         8m2KY0i94wtEg/hR2km7CO8/TD8b/A1WExhKu0sgNVD1Isb7EQmJmZ6a7fafoAc9riTr
-         CUqA==
-X-Gm-Message-State: APjAAAV59woFsZMiDsUvBvbJ8c0iMw2gy06Ngy6hjylIjsvHcPRHwmmr
-        Bnr92SlVj9BZ3eDMLEaVhC0AbbyT9lo=
-X-Google-Smtp-Source: APXvYqzABYNfk9UgM05SPcBk6+APE0YnacggzTdBt6Oqs3cqUS9GbNk32+DfkE8bsypZSm0XV9Cwyw==
-X-Received: by 2002:adf:e88f:: with SMTP id d15mr29211606wrm.186.1582052063505;
-        Tue, 18 Feb 2020 10:54:23 -0800 (PST)
+        bh=1dJr5fWtmgL5ZWKfudWGcy2nFnCOukxqjG9HGhea3rc=;
+        b=PsArpl4FYXeU1u0fADXgTH/DqwqljOXkWd6IdgmyL4jVyTN5gsYBhMmUPee2MYOOYA
+         TYGz6IBNkgmbRUIWPsoId+LThVZecHiTBXbDI9RWEzR+iJ+ei1Gx/TVp7tvvw1fWos8K
+         ttrw+STElWP5WtSWMF2mZ6uMAzM1ftaRtF9OdnS1opnuajD92tJmKJa4O0suCCpgbIaY
+         HgtlU1a7W1hJG2RpG79LpyPMcUuP/Py5VFolGrMnMlTTVkmLuOps+nje97+RcoO1CCu+
+         Q0nlZmhTMr9bYSueZdKu0e/pMHzXlYZvvTocNOjkRLfCxTQ0C0yRtfxh08Tv/oe7TBKV
+         oAbg==
+X-Gm-Message-State: APjAAAVLIV9GBSBu3LDW1VI2dMuG+lMZtwdCvwQpo5KPHTX/C9L/M8AU
+        av/gxLlpeb6bjYHR00BIW0Fqa+n3vYM=
+X-Google-Smtp-Source: APXvYqxYgBXJufEEemNhgT0u53WakZwZ21MeNb7+y3FjScnyw0psrHFJLQKWd4DJGrX4UhzYbMWY6A==
+X-Received: by 2002:a05:600c:230d:: with SMTP id 13mr4828770wmo.12.1582052067709;
+        Tue, 18 Feb 2020 10:54:27 -0800 (PST)
 Received: from ?IPv6:2003:ea:8f29:6000:5cb0:582f:968:ec00? (p200300EA8F2960005CB0582F0968EC00.dip0.t-ipconnect.de. [2003:ea:8f29:6000:5cb0:582f:968:ec00])
-        by smtp.googlemail.com with ESMTPSA id c141sm4251997wme.41.2020.02.18.10.54.22
+        by smtp.googlemail.com with ESMTPSA id u14sm6925152wrm.51.2020.02.18.10.54.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 10:54:23 -0800 (PST)
-Subject: Re: [PATCH net-next 2/3] r8169: use new helper tcp_v6_gso_csum_prep
+        Tue, 18 Feb 2020 10:54:27 -0800 (PST)
+Subject: Re: [PATCH net-next 3/3] net: use new helper tcp_v6_gso_csum_prep
 To:     Alexander Duyck <alexander.duyck@gmail.com>
 Cc:     David Miller <davem@davemloft.net>,
         Realtek linux nic maintainers <nic_swsd@realtek.com>,
@@ -89,15 +89,15 @@ Cc:     David Miller <davem@davemloft.net>,
         linux-hyperv@vger.kernel.org,
         Linux USB Mailing List <linux-usb@vger.kernel.org>
 References: <76cd6cfc-f4f3-ece7-203a-0266b7f02a12@gmail.com>
- <02ea88e7-1a79-f779-d58c-bb1dced0b3b4@gmail.com>
- <CAKgT0UfaBpLxWQZO55-KE8QKJD9XgC2SCPAtzo=PA_MAwRxtuw@mail.gmail.com>
+ <9270ae4b-feb1-6a4d-8a22-fbe5e47b7617@gmail.com>
+ <CAKgT0UdP78GGnowWC85YiTAHOr63NiLa25=2TSckKBEzGBdeJA@mail.gmail.com>
 From:   Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <5dacf5fb-873b-79d5-326f-f30feb1ac645@gmail.com>
-Date:   Tue, 18 Feb 2020 19:45:53 +0100
+Message-ID: <e6b59cad-b6a6-73fc-7d75-3cc9ce6411ab@gmail.com>
+Date:   Tue, 18 Feb 2020 19:54:19 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAKgT0UfaBpLxWQZO55-KE8QKJD9XgC2SCPAtzo=PA_MAwRxtuw@mail.gmail.com>
+In-Reply-To: <CAKgT0UdP78GGnowWC85YiTAHOr63NiLa25=2TSckKBEzGBdeJA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -106,67 +106,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 18.02.2020 19:37, Alexander Duyck wrote:
-> On Mon, Feb 17, 2020 at 1:42 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+On 18.02.2020 19:34, Alexander Duyck wrote:
+> On Mon, Feb 17, 2020 at 1:43 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
 >>
->> Simplify the code by using new helper tcp_v6_gso_csum_prep.
+>> Use new helper tcp_v6_gso_csum_prep in additional network drivers.
 >>
 >> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 >> ---
->>  drivers/net/ethernet/realtek/r8169_main.c | 26 ++---------------------
->>  1 file changed, 2 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/realtek/r8169_main.c b/drivers/net/ethernet/realtek/r8169_main.c
->> index 5a9143b50..75ba10069 100644
->> --- a/drivers/net/ethernet/realtek/r8169_main.c
->> +++ b/drivers/net/ethernet/realtek/r8169_main.c
->> @@ -4108,29 +4108,6 @@ static bool rtl_test_hw_pad_bug(struct rtl8169_private *tp, struct sk_buff *skb)
->>         return skb->len < ETH_ZLEN && tp->mac_version == RTL_GIGA_MAC_VER_34;
->>  }
->>
->> -/* msdn_giant_send_check()
->> - * According to the document of microsoft, the TCP Pseudo Header excludes the
->> - * packet length for IPv6 TCP large packets.
->> - */
->> -static int msdn_giant_send_check(struct sk_buff *skb)
->> -{
->> -       const struct ipv6hdr *ipv6h;
->> -       struct tcphdr *th;
->> -       int ret;
->> -
->> -       ret = skb_cow_head(skb, 0);
->> -       if (ret)
->> -               return ret;
->> -
->> -       ipv6h = ipv6_hdr(skb);
->> -       th = tcp_hdr(skb);
->> -
->> -       th->check = 0;
->> -       th->check = ~tcp_v6_check(0, &ipv6h->saddr, &ipv6h->daddr, 0);
->> -
->> -       return ret;
->> -}
->> -
->>  static void rtl8169_tso_csum_v1(struct sk_buff *skb, u32 *opts)
->>  {
->>         u32 mss = skb_shinfo(skb)->gso_size;
->> @@ -4163,9 +4140,10 @@ static bool rtl8169_tso_csum_v2(struct rtl8169_private *tp,
->>                         break;
->>
->>                 case htons(ETH_P_IPV6):
->> -                       if (msdn_giant_send_check(skb))
->> +                       if (skb_cow_head(skb, 0))
->>                                 return false;
->>
->> +                       tcp_v6_gso_csum_prep(skb, false);
->>                         opts[0] |= TD1_GTSENV6;
->>                         break;
+>>  drivers/net/ethernet/atheros/alx/main.c       |  5 +---
+>>  .../net/ethernet/atheros/atl1c/atl1c_main.c   |  6 ++---
+>>  drivers/net/ethernet/brocade/bna/bnad.c       |  7 +----
+>>  drivers/net/ethernet/cisco/enic/enic_main.c   |  3 +--
+>>  drivers/net/ethernet/intel/e1000/e1000_main.c |  6 +----
+>>  drivers/net/ethernet/intel/e1000e/netdev.c    |  5 +---
+>>  drivers/net/ethernet/jme.c                    |  7 +----
+>>  .../net/ethernet/pensando/ionic/ionic_txrx.c  |  5 +---
+>>  drivers/net/ethernet/qualcomm/emac/emac-mac.c |  7 ++---
+>>  drivers/net/ethernet/socionext/netsec.c       |  6 +----
+>>  drivers/net/hyperv/netvsc_drv.c               |  5 +---
+>>  drivers/net/usb/r8152.c                       | 26 ++-----------------
+>>  drivers/net/vmxnet3/vmxnet3_drv.c             |  5 +---
+>>  13 files changed, 16 insertions(+), 77 deletions(-)
 >>
 > 
-> This change looks more or less identical to the one you made in
-> "drivers/net/usb/r8152.c" for patch 3. If you have to resubmit it
-> might make sense to pull that change out and include it here since
-> they are both essentially the same change.
+> It might make sense to break this up into several smaller patches
+> based on the maintainers for the various driver bits.
 > 
-Right, it's the same change. I just treated r8169 separately because
-I happen to be maintainer of it.
+OK
+
+> So the changes all look fine to me, but I am not that familiar with
+> the non-Intel drivers.
+> 
+> Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> 
+
