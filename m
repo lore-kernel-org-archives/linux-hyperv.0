@@ -1,140 +1,67 @@
-Return-Path: <SRS0=7sFS=4G=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=Ral5=4H=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BF0C34049
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 20:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0FBEC18E00
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3B22524655
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Feb 2020 20:17:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QXTAl6Ke"
+	by mail.kernel.org (Postfix) with ESMTP id 82C60208E4
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726567AbgBRUQL (ORCPT
+        id S1726754AbgBSTWF (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Feb 2020 15:16:11 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:34802 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbgBRUQL (ORCPT
+        Wed, 19 Feb 2020 14:22:05 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:46662 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726651AbgBSTWE (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Feb 2020 15:16:11 -0500
-Received: by mail-wr1-f68.google.com with SMTP id n10so23590979wrm.1;
-        Tue, 18 Feb 2020 12:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bFMbK7LyKRnHu/ZMhuK+JeN3P8TImavRX9bgAiZfMtk=;
-        b=QXTAl6KeEOAmHWG0qH4S6XmPJj4USYFkCIZ78dT/rmi09maEvpVOzZ//BmyS1kesW5
-         XI0TPXmZ4qZ31jlmuQf0h92ss4SwkWJD0CejHK2mP4ontx77GV16UeS5NSj1hJT9DdLM
-         7Jp/3ahcbfRwH6xUmZPVnPH/+DZFAaM5OFoXpCQUaqd7lr2KciD2f1UX97+D9esFaXeb
-         MHqm3+rmkAeECR3RkLCiE3l94YF4S6XbViZ/ur1ZSwK6SZ4lbKgVBkwNoCkeZWI37kMC
-         WmvS9n0GQIDsgnLwBpALegvqZ7pIl5NjrlFPcg6hlF7QDFnkxvHaaQKfgGjjT9VCyVBW
-         ytag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bFMbK7LyKRnHu/ZMhuK+JeN3P8TImavRX9bgAiZfMtk=;
-        b=EfB0TFcT1Y440VwWf/O2PCUs3cbQBmr5XoiW6Jg69qwiGoGb1LifHg5omOpVkFn1zT
-         mbt1NwSbpLFFlgri3aiX8YiNktex5L5iOnsNvqeoHm1rYbnxsF1v9mIOD7t2BoEaAZq9
-         Z5k6omMjPOiWsTIwZGF2KrPwqyFqYdYRJg+2TnBmB4IasF3EYZds+x6pt/5KJJ7HvxKG
-         QzbVylhYfHWLLsZ9xU0EQEO9ww0dY10RLQeIGWbmWHMZdcOFgJr7E84YZNWBDaSf85An
-         HVBtMik+zTH7X+TRvVbFhNoTYL/aaCZAUQqGjcjpXJmiixd3n3JHh7c/MzY7Ccv+VCCo
-         jQHA==
-X-Gm-Message-State: APjAAAUy7J+I4lg7sJ9avF+rqSVm3c2bnw9k1GNAOyfs/Ws7JP/C4C8L
-        I7J4ZSOfvvyrcg18rihpVWhyjm5NVqQ=
-X-Google-Smtp-Source: APXvYqx0o7TLaD/TAtGQo3xJ8sCR+Q65dDtECgJ0RmmNYCrQiqxI1MUf49p/dryUzt3jnppRFGzHDQ==
-X-Received: by 2002:adf:f28f:: with SMTP id k15mr30535210wro.230.1582056968961;
-        Tue, 18 Feb 2020 12:16:08 -0800 (PST)
-Received: from ?IPv6:2003:ea:8f29:6000:5cb0:582f:968:ec00? (p200300EA8F2960005CB0582F0968EC00.dip0.t-ipconnect.de. [2003:ea:8f29:6000:5cb0:582f:968:ec00])
-        by smtp.googlemail.com with ESMTPSA id p26sm4590202wmc.24.2020.02.18.12.16.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Feb 2020 12:16:08 -0800 (PST)
-Subject: [PATCH net-next v2 01/13] net: core: add helper tcp_v6_gso_csum_prep
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-To:     David Miller <davem@davemloft.net>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        Jay Cliburn <jcliburn@gmail.com>,
-        Chris Snook <chris.snook@gmail.com>,
-        Rasesh Mody <rmody@marvell.com>,
-        Sudarsana Kalluru <skalluru@marvell.com>,
-        GR-Linux-NIC-Dev@marvell.com,
-        Christian Benvenuti <benve@cisco.com>,
-        Govindarajulu Varadarajan <_govind@gmx.com>,
-        Parvi Kaustubhi <pkaustub@cisco.com>,
-        Jeff Kirsher <jeffrey.t.kirsher@intel.com>,
-        Guo-Fu Tseng <cooldavid@cooldavid.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Pensando Drivers <drivers@pensando.io>,
-        Timur Tabi <timur@kernel.org>,
-        Jassi Brar <jaswinder.singh@linaro.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Ronak Doshi <doshir@vmware.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org, linux-hyperv@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-References: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
-Message-ID: <82ba1653-6a88-edf2-b22f-938b64e46655@gmail.com>
-Date:   Tue, 18 Feb 2020 20:56:41 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
+        Wed, 19 Feb 2020 14:22:04 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1659D15AE0877;
+        Wed, 19 Feb 2020 11:22:03 -0800 (PST)
+Date:   Wed, 19 Feb 2020 11:22:02 -0800 (PST)
+Message-Id: <20200219.112202.41545263500542131.davem@davemloft.net>
+To:     hkallweit1@gmail.com
+Cc:     nic_swsd@realtek.com, jcliburn@gmail.com, chris.snook@gmail.com,
+        rmody@marvell.com, skalluru@marvell.com,
+        GR-Linux-NIC-Dev@marvell.com, benve@cisco.com, _govind@gmx.com,
+        pkaustub@cisco.com, jeffrey.t.kirsher@intel.com,
+        cooldavid@cooldavid.org, snelson@pensando.io, drivers@pensando.io,
+        timur@kernel.org, jaswinder.singh@linaro.org,
+        ilias.apalodimas@linaro.org, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com, sashal@kernel.org,
+        doshir@vmware.com, pv-drivers@vmware.com, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-hyperv@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/13] net: core: add helper
+ tcp_v6_gso_csum_prep
+From:   David Miller <davem@davemloft.net>
 In-Reply-To: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+References: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 19 Feb 2020 11:22:04 -0800 (PST)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Several network drivers for chips that support TSO6 share the same code
-for preparing the TCP header, so let's factor it out to a helper.
-A difference is that some drivers reset the payload_len whilst others
-don't do this. This value is overwritten by TSO anyway, therefore
-the new helper resets it in general.
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Date: Tue, 18 Feb 2020 20:55:18 +0100
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
----
- include/net/ip6_checksum.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> Several network drivers for chips that support TSO6 share the same code
+> for preparing the TCP header, so let's factor it out to a helper.
+> A difference is that some drivers reset the payload_len whilst others
+> don't do this. This value is overwritten by TSO anyway, therefore
+> the new helper resets it in general.
 
-diff --git a/include/net/ip6_checksum.h b/include/net/ip6_checksum.h
-index 7bec95df4..27ec612cd 100644
---- a/include/net/ip6_checksum.h
-+++ b/include/net/ip6_checksum.h
-@@ -76,6 +76,15 @@ static inline void __tcp_v6_send_check(struct sk_buff *skb,
- 	}
- }
- 
-+static inline void tcp_v6_gso_csum_prep(struct sk_buff *skb)
-+{
-+	struct ipv6hdr *ipv6h = ipv6_hdr(skb);
-+	struct tcphdr *th = tcp_hdr(skb);
-+
-+	ipv6h->payload_len = 0;
-+	th->check = ~tcp_v6_check(0, &ipv6h->saddr, &ipv6h->daddr, 0);
-+}
-+
- #if IS_ENABLED(CONFIG_IPV6)
- static inline void tcp_v6_send_check(struct sock *sk, struct sk_buff *skb)
- {
--- 
-2.25.1
-
-
+Series applied, thanks Heiner.
