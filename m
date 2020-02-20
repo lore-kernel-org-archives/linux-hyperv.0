@@ -1,67 +1,72 @@
-Return-Path: <SRS0=Ral5=4H=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=HA1c=4I=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0FBEC18E00
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 347B5C11D0C
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Feb 2020 17:34:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82C60208E4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Feb 2020 19:22:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A7782467A
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Feb 2020 17:34:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1582220051;
+	bh=1c3CW2q7VFBSmddI0CyeRQXbfNNVbuUebZ1kdB+IYG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=FrVKS8GCVrw5z1ZjTlnY8Hiq/DpNv1pt3noesurZgXB9G9o+txuR/ayA33XQ5UlgC
+	 PxyL9ofkyiaEnHyeHempg0Oy5BGYJLnW8m5d0VZlv/btdyK8Z4ppIaRhC9q8RYDjz9
+	 BoH2LAohdWwzLFHE4WnJctJJRXVODAeRuvbxiwGU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbgBSTWF (ORCPT
+        id S1728409AbgBTReK (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Feb 2020 14:22:05 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:46662 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726651AbgBSTWE (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Feb 2020 14:22:04 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 1659D15AE0877;
-        Wed, 19 Feb 2020 11:22:03 -0800 (PST)
-Date:   Wed, 19 Feb 2020 11:22:02 -0800 (PST)
-Message-Id: <20200219.112202.41545263500542131.davem@davemloft.net>
-To:     hkallweit1@gmail.com
-Cc:     nic_swsd@realtek.com, jcliburn@gmail.com, chris.snook@gmail.com,
-        rmody@marvell.com, skalluru@marvell.com,
-        GR-Linux-NIC-Dev@marvell.com, benve@cisco.com, _govind@gmx.com,
-        pkaustub@cisco.com, jeffrey.t.kirsher@intel.com,
-        cooldavid@cooldavid.org, snelson@pensando.io, drivers@pensando.io,
-        timur@kernel.org, jaswinder.singh@linaro.org,
-        ilias.apalodimas@linaro.org, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, sashal@kernel.org,
-        doshir@vmware.com, pv-drivers@vmware.com, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-hyperv@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH net-next v2 0/13] net: core: add helper
- tcp_v6_gso_csum_prep
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
-References: <fffc8b6d-68ed-7501-18f1-94cf548821fb@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Wed, 19 Feb 2020 11:22:04 -0800 (PST)
+        Thu, 20 Feb 2020 12:34:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36236 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727709AbgBTReK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 20 Feb 2020 12:34:10 -0500
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC29A24672;
+        Thu, 20 Feb 2020 17:34:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582220050;
+        bh=1c3CW2q7VFBSmddI0CyeRQXbfNNVbuUebZ1kdB+IYG0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CydWACu04SQXPcrHxR+KvmwQ0aaAQSOBGIsqALec7Ck6fevMttxeVp1HTsMm90Ab3
+         pQwnPu2gM0fkIhbcqlmlivf37fssrEpZPQ1uXsDwicidfDm0JZ7qma57JulqmeqNpX
+         gMQhJKoXy1tju088vIzqmFkWIjqGDgsQ7P0jbFhQ=
+Date:   Thu, 20 Feb 2020 12:34:08 -0500
+From:   Sasha Levin <sashal@kernel.org>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>
+Subject: Re: [PATCH AUTOSEL 5.5 389/542] clocksource/drivers/hyper-v: Reserve
+ PAGE_SIZE space for tsc page
+Message-ID: <20200220173408.GH1734@sasha-vm>
+References: <20200214154854.6746-1-sashal@kernel.org>
+ <20200214154854.6746-389-sashal@kernel.org>
+ <MW2PR2101MB10526693E43DF07E03D5EB0FD7150@MW2PR2101MB1052.namprd21.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <MW2PR2101MB10526693E43DF07E03D5EB0FD7150@MW2PR2101MB1052.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Date: Tue, 18 Feb 2020 20:55:18 +0100
+On Fri, Feb 14, 2020 at 04:11:03PM +0000, Michael Kelley wrote:
+>This patch does not need to be backported to any stable releases.  It is prep work for guests on Hyper-V ARM64 when the guest page size is 16K or 64K, and that functionality isn't upstream yet.
 
-> Several network drivers for chips that support TSO6 share the same code
-> for preparing the TCP header, so let's factor it out to a helper.
-> A difference is that some drivers reset the payload_len whilst others
-> don't do this. This value is overwritten by TSO anyway, therefore
-> the new helper resets it in general.
+Now dropped, thank you.
 
-Series applied, thanks Heiner.
+-- 
+Thanks,
+Sasha
