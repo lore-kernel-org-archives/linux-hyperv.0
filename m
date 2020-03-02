@@ -1,84 +1,130 @@
-Return-Path: <SRS0=T6m6=4R=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=VKKA=4T=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D5AC3F2CD
-	for <linux-hyperv@archiver.kernel.org>; Sat, 29 Feb 2020 22:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19DCCC3F2D2
+	for <linux-hyperv@archiver.kernel.org>; Mon,  2 Mar 2020 10:16:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B32DA222C2
-	for <linux-hyperv@archiver.kernel.org>; Sat, 29 Feb 2020 22:48:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583016513;
-	bh=xNgeY4nG0ylNLVw5tky/10aEMlQEXUmKMiFqiBgbx/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=vtFhlTFme/7Q3CdDDN2ErO5k3ISmJJ/FxZLz/zS8LD7UWG9zh7myye/6v21CdQrG4
-	 fbRl/St/w7+tkffgs7voQw1tttZ4KQCOZK/FQeCh1AaG8V8ZshMttclDlUQZCFbbm6
-	 MSP5LqrUV52hhxNhyOiDQTK4CHJku8Uxf+5hn5Sg=
+	by mail.kernel.org (Postfix) with ESMTP id DFE4B20CC7
+	for <linux-hyperv@archiver.kernel.org>; Mon,  2 Mar 2020 10:16:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Lz48/6Mr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbgB2Wsd (ORCPT
+        id S1727032AbgCBKQo (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 29 Feb 2020 17:48:33 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43944 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726786AbgB2Wsd (ORCPT
+        Mon, 2 Mar 2020 05:16:44 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46010 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726874AbgCBKQo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 29 Feb 2020 17:48:33 -0500
-Received: by mail-wr1-f67.google.com with SMTP id e10so6384486wrr.10;
-        Sat, 29 Feb 2020 14:48:31 -0800 (PST)
+        Mon, 2 Mar 2020 05:16:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1583144203;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=IXo+jOnMJnVg0BdBfAq0eKhEwbhNb8AEFiily5Isa3s=;
+        b=Lz48/6MrklQ1TgrAYgUnMvL5H84FnwqamDiw5QpMRvpI+KhLtT1OYWTXsdQKZb4YrC553c
+        pjGPssl6LbEcGWewxswEoLeP2tbCoQn2oasM5FaaNaSExMpoWniYULBixvqkNzdj+wCSl+
+        W1q7crQ1fFotjylPUNKyInhDV5VEHTs=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-2WsG81CfPLOOgxFHDOCqHg-1; Mon, 02 Mar 2020 05:16:41 -0500
+X-MC-Unique: 2WsG81CfPLOOgxFHDOCqHg-1
+Received: by mail-qk1-f200.google.com with SMTP id 205so8563901qkg.0
+        for <linux-hyperv@vger.kernel.org>; Mon, 02 Mar 2020 02:16:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bnQfnjDKjbuLk4iXEXKVzU4cM8t78hJujods7dtdoDY=;
-        b=MC94tTx30OOsidG2bXTG8W7lE/bx42mktdPBpYKWt3jvi6tlJ6o1DcAs04yP9MCJF3
-         7gef8tsUsIIUkjrc4VGu7AIl4svpCniHzO1PVqWv3f5j3KXDg+t6w8lYzAmne/UFs1bQ
-         kY/66axeLXtXb6vYRoCVGp5rYNBpRjJQY0MXwO/MeP2gDCfgw0iEsVFRcvbLPDWpf8yi
-         uxQnFB57Kc1KlBNiTNgqnul8ENOl7HFlbyZdVQX/+h340mBkXoL6tY9fSS92aMZhIfMF
-         ykHrWpzwxS6y6Uh4EPs8cIm95AtWwsmQXIM+dkq2r/kLhPGmhIPY1AYZHK38ZY7a/hjh
-         r1vg==
-X-Gm-Message-State: APjAAAVel8uilhsPdgye7qC6s5T74AU5iMlAljER2YdzMuuNwCEmST0S
-        wA/gX6eNe3CT72uQGQimbGk=
-X-Google-Smtp-Source: APXvYqz6nrk84CxcrOh2MlSn5TAAkrZg4dAqU73gg891ydj0/+V5JKrkpMVbXt6vx2rpwm5lVdMkqg==
-X-Received: by 2002:a5d:5301:: with SMTP id e1mr11617231wrv.44.1583016511090;
-        Sat, 29 Feb 2020 14:48:31 -0800 (PST)
-Received: from debian (41.142.6.51.dyn.plus.net. [51.6.142.41])
-        by smtp.gmail.com with ESMTPSA id d17sm7845287wmb.36.2020.02.29.14.48.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Feb 2020 14:48:30 -0800 (PST)
-Date:   Sat, 29 Feb 2020 22:48:28 +0000
-From:   Wei Liu <wei.liu@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IXo+jOnMJnVg0BdBfAq0eKhEwbhNb8AEFiily5Isa3s=;
+        b=iOOeeDrBbdV40KWxGvWZoPzm8cLBu6zGOSSK7vMcntrkQZ7FtQ2BbqcoHGVlMStN9t
+         IpvRNgYxXyrLSo/xLX0s1dgWPu+gC023bhUjrSn90iarbTtdu2fsAj69ls3fL18AqR4H
+         +koUeMvzQ1WaKLpFqs37CTQLjJE7Xb99JXljNwmVzd2/xQpZbs/fwm0U5lWIgyPXtU+N
+         xzYeO+FFGgp66VFq+jezjcimqvPBP2ybrOR9IYhIRq48q2FWKb4J58/DpVFmHj0pcLJ3
+         VRm2UkphaSEQhZU2axdv05IbluYFQFzDmvaDpqg5ZlcrH5s1ESvIBNDo0IOghlUtAXfZ
+         5HqA==
+X-Gm-Message-State: ANhLgQ1P2lP8f2zweXW9kxwR2eQo0Cey0dIooALZMfkr8glcYHoOgh7h
+        mIPrxP62qn1j8ZqxWyj+qUzAXqKG/lG1NlvZ1tPH2x6yQFKNWGByf1kAWh9EBYbwmQI01kdB1Te
+        JABleiOGS64H7toCFLwKcL8eNw6+QzTmgiz0s4a4/
+X-Received: by 2002:a05:620a:1517:: with SMTP id i23mr7903637qkk.459.1583144201401;
+        Mon, 02 Mar 2020 02:16:41 -0800 (PST)
+X-Google-Smtp-Source: ADFU+vvciVC+XX0L/bTNhtxk+6Nmcqb4gcKNRf+REB1cVh+9NmujV8iEZpeEbQ7bkpaxLzOlPc2RTSKI9C/8YAO1yK4=
+X-Received: by 2002:a05:620a:1517:: with SMTP id i23mr7903622qkk.459.1583144201197;
+ Mon, 02 Mar 2020 02:16:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20200229173007.61838-1-tanure@linux.com>
+In-Reply-To: <20200229173007.61838-1-tanure@linux.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 2 Mar 2020 11:16:30 +0100
+Message-ID: <CAO-hwJJDv=LnOQDbgWwg2sOccM9Tt-h=082Coi0aYdwG-CG-Kg@mail.gmail.com>
+Subject: Re: [PATCH] HID: hyperv: NULL check before some freeing functions is
+ not needed.
 To:     Lucas Tanure <tanure@linux.com>
 Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Sasha Levin <sashal@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH] HID: hyperv: NULL check before some freeing functions is
- not needed.
-Message-ID: <20200229224828.pnbtco2f6shvy2vh@debian>
-References: <20200229173007.61838-1-tanure@linux.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200229173007.61838-1-tanure@linux.com>
-User-Agent: NeoMutt/20180716
+        Jiri Kosina <jikos@kernel.org>, linux-hyperv@vger.kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sat, Feb 29, 2020 at 05:30:07PM +0000, Lucas Tanure wrote:
+On Sat, Feb 29, 2020 at 6:30 PM Lucas Tanure <tanure@linux.com> wrote:
+>
 > Fix below warnings reported by coccicheck:
 > drivers/hid/hid-hyperv.c:197:2-7: WARNING: NULL check before some freeing functions is not needed.
 > drivers/hid/hid-hyperv.c:211:2-7: WARNING: NULL check before some freeing functions is not needed.
-> 
+>
 > Signed-off-by: Lucas Tanure <tanure@linux.com>
+> ---
 
-Reviewed-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Sasha, do you prefer taking this through your tree or through the HID
+one. I don't think we have much scheduled for hyperv, so it's up to
+you.
+
+Cheers,
+Benjamin
+
+>  drivers/hid/hid-hyperv.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
+> index dddfca555df9..0b6ee1dee625 100644
+> --- a/drivers/hid/hid-hyperv.c
+> +++ b/drivers/hid/hid-hyperv.c
+> @@ -193,8 +193,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+>                 goto cleanup;
+>
+>         /* The pointer is not NULL when we resume from hibernation */
+> -       if (input_device->hid_desc != NULL)
+> -               kfree(input_device->hid_desc);
+> +       kfree(input_device->hid_desc);
+>         input_device->hid_desc = kmemdup(desc, desc->bLength, GFP_ATOMIC);
+>
+>         if (!input_device->hid_desc)
+> @@ -207,8 +206,7 @@ static void mousevsc_on_receive_device_info(struct mousevsc_dev *input_device,
+>         }
+>
+>         /* The pointer is not NULL when we resume from hibernation */
+> -       if (input_device->report_desc != NULL)
+> -               kfree(input_device->report_desc);
+> +       kfree(input_device->report_desc);
+>         input_device->report_desc = kzalloc(input_device->report_desc_size,
+>                                           GFP_ATOMIC);
+>
+> --
+> 2.25.1
+>
+
