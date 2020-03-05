@@ -4,53 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78492C3F2D7
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Mar 2020 17:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FC2C3F2D7
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Mar 2020 17:22:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 504BC20848
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Mar 2020 17:20:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4669207FD
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Mar 2020 17:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1583428815;
-	bh=lO1UH01J7A3H2aiiOH7025Kaf9ZfmBqsMYKoSCLkem0=;
+	s=default; t=1583428954;
+	bh=Ij2MEWRjjy9It1Ke61TFe1l8jjI4fJ1Dr5t94RjaqVQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=d3fHnaza5+hdyFzf5F16qnw6JNaVx54f/EFXlRdfQSft2kYuzZXq/XMCN8vFGCnlo
-	 EEuMGCAUcqYFdnZOsEbw6A2rGxL8VQDqmg2SAZwj2GMLuK7UsnVjLuc3SvB0Ts0yfk
-	 FmwgHsirJs8Uiwi2/FVGUrELbqatzj/ygmuFcc0o=
+	b=0j/XL9C2+/rtXpm2LhA4/XJbETo7ZTbEZ3pboeht5w2zsIec7Osa4I9jnr6qPWDYf
+	 CzfFU1bN9xlJ7YpNnbvDYzReofXiRW2IACnEuo8ShOB6qm5zZtjP2ivoghMlULU1Eg
+	 n7bkWm66hMdwtBPI/Hh3Yh+Kj77yHVRpjqYZ4U7M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbgCERT6 (ORCPT
+        id S1726498AbgCERWe (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 5 Mar 2020 12:19:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41432 "EHLO mail.kernel.org"
+        Thu, 5 Mar 2020 12:22:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727889AbgCERO4 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 5 Mar 2020 12:14:56 -0500
+        id S1726440AbgCERNy (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 5 Mar 2020 12:13:54 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68C1B208CD;
-        Thu,  5 Mar 2020 17:14:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4CE9E21556;
+        Thu,  5 Mar 2020 17:13:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583428496;
-        bh=lO1UH01J7A3H2aiiOH7025Kaf9ZfmBqsMYKoSCLkem0=;
+        s=default; t=1583428434;
+        bh=Ij2MEWRjjy9It1Ke61TFe1l8jjI4fJ1Dr5t94RjaqVQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MYZOWTiSvUF3k3vxP9c0j1rrQacjF8xP9HZBfBxgOLEsS6AR93BsCq7B/65Io8VdN
-         4KH2Tg/7ZupAPH2PsMnhT1M3DbSvucLinvxWFU1cbrZ14evmiUyfHmkkXTd0+6ir7L
-         Ci9oymwoIZPibkuSXcaf3kqSkaXa5gzY4AAakRwE=
+        b=A1oeuaHFdnpSz2VjTyPUIASebVfsTjl86hCgAisi3peDXP5NIiz3Pb/vMo3gklhqv
+         LnDyAMB8rJB+wfNd5OVhC1m2JLV6mGKK3JHeWYshMx+tKtxhglthqWuQsetTgv/qFZ
+         rWL6EyFp9SjnGdu+ePx8ipNdgWnck3hY5YVFO1Bc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Haiyang Zhang <haiyangz@microsoft.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 28/58] hv_netvsc: Fix unwanted wakeup in netvsc_attach()
-Date:   Thu,  5 Mar 2020 12:13:49 -0500
-Message-Id: <20200305171420.29595-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 32/67] hv_netvsc: Fix unwanted wakeup in netvsc_attach()
+Date:   Thu,  5 Mar 2020 12:12:33 -0500
+Message-Id: <20200305171309.29118-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200305171420.29595-1-sashal@kernel.org>
-References: <20200305171420.29595-1-sashal@kernel.org>
+In-Reply-To: <20200305171309.29118-1-sashal@kernel.org>
+References: <20200305171309.29118-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -102,10 +102,10 @@ index eab83e71567a9..6c0732fc8c250 100644
  	net_device->max_pkt = RNDIS_MAX_PKT_DEFAULT;
  	net_device->pkt_align = RNDIS_PKT_ALIGN_DEFAULT;
 diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 0dee358864f30..ca16ae8c83328 100644
+index f3f9eb8a402a2..ee1ad7ae75550 100644
 --- a/drivers/net/hyperv/netvsc_drv.c
 +++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -973,6 +973,7 @@ static int netvsc_attach(struct net_device *ndev,
+@@ -977,6 +977,7 @@ static int netvsc_attach(struct net_device *ndev,
  	}
  
  	/* In any case device is now ready */
@@ -113,7 +113,7 @@ index 0dee358864f30..ca16ae8c83328 100644
  	netif_device_attach(ndev);
  
  	/* Note: enable and attach happen when sub-channels setup */
-@@ -2350,6 +2351,8 @@ static int netvsc_probe(struct hv_device *dev,
+@@ -2354,6 +2355,8 @@ static int netvsc_probe(struct hv_device *dev,
  	else
  		net->max_mtu = ETH_DATA_LEN;
  
