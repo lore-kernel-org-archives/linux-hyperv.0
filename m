@@ -2,67 +2,67 @@ Return-Path: <SRS0=vIsq=4X=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72525C10F25
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5D2C10DCE
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4BD562072A
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B7842072A
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBql44M2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m68olRzY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgCFQjR (ORCPT
+        id S1726982AbgCFQjR (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Fri, 6 Mar 2020 11:39:17 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44417 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725873AbgCFQjQ (ORCPT
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36796 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726897AbgCFQjR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 6 Mar 2020 11:39:16 -0500
-Received: by mail-wr1-f68.google.com with SMTP id n7so3099345wrt.11;
-        Fri, 06 Mar 2020 08:39:15 -0800 (PST)
+        Fri, 6 Mar 2020 11:39:17 -0500
+Received: by mail-wr1-f66.google.com with SMTP id s17so2222252wrs.3;
+        Fri, 06 Mar 2020 08:39:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Po8ghn9sRSyYfmDTi+lZZbS3gjK6dyrUhJNG+tTwLV8=;
-        b=jBql44M21TnlUvBslRFIzmOeZwCiUQlau6sMsVF3bB0ewubmwCHU+D0qWV9uHVUlgW
-         TM+CHOF1gQqbmBFhdOaYQtdwO0k/muGaGtwNwj3IC1g0XW6WYycdSdchIUPPKNLnQTXi
-         gk3paS5PAe2gCLbVsC2FVUQLC980D2fIR6JHU3ZkY6UqSrwSskrhpsB86Waa8wf4GrpI
-         HHx0+jgiFwHoEDLu0r320UKhAR6qSVLeDmhrafx4vFMcEqgavxTFsm6vbChehZL316P/
-         YwtT13Eqp2cf6UExoHAd7nk0qutsZhtHDIiA7MeYJ0Rcqp2lxxnwLaWW/bU5fv3sMPCo
-         pG8A==
+        bh=mumUZlPS1DuDk/kBzMPd1gvBL9szwrk3UgU1tpddd2s=;
+        b=m68olRzY1+uibE7jz7dWfPJE3/60KLYYRUiw/K5t59ISTg4Crvawd3e43jJtiDiRpZ
+         1V72UxNQ1PGCMEx2TneUpZycjQEGQtTkxYZ39R6RdZVO3EWBE0bZ9VEJbjMX2pGTulM5
+         fI15vP4TxqAI3NT5tL0dQtprWJ9l/GxDAgMIFT/ZvQDjImxbm+86jIBT2gLGTJqbVe6h
+         1319Rcn5vmGozx7Prb2o++gWaYKlV1Q3P/KELwVJ4TSepe+5SNnNLc/xlA7oneo20sSn
+         z9Os+/uT7clWrJ7KlCPLa9EhNAeZAdlq+Iqe0EsrqMyY7/S3tTG6miisFCfxBBZYPHzd
+         ry1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Po8ghn9sRSyYfmDTi+lZZbS3gjK6dyrUhJNG+tTwLV8=;
-        b=hAzOMr/mLQh6VqL9uApqN01jXw87CvEi34dQsYdIsWVdojHo8S3pzmkckHgzHAh1td
-         U6CuCMCpBuBgI2EIIoF0LsfUcEFYe6gzcjmO1L3kmjtTl0YS61V/eluWhA54VBnpnFOQ
-         dxUndGhuzcxdfQ3vLDC8J2B5y+Pg1j1ANvkRjcWxRXfVhTYgpyw7EqajjQCPm5UKOGo/
-         Xuo6+joPrSpScvgoFVDNu3fMxGD73WoNGyF11z4QD7uv4cYs4n/xUpSAiThaGFO82V67
-         xD8CEVAkV1lRHGLH5tP+a+3Z7bJB+ArJN9+6W7QM1d1wmjw0mOW5nD6mUXIAxZ8UgCKy
-         BpQg==
-X-Gm-Message-State: ANhLgQ39fcbs3zqGZd/8y2pAcgooziuwm0lYtMC6bAIB+oSEEUPh4ty9
-        9Rpdq8tIBCwR06TCguKayp47AuKm
-X-Google-Smtp-Source: ADFU+vuCh1BLncWUkoQnSEtINCW5/ohoFUEgcWFy0HYC7rbc98C4PtmT6iHJT+Ky7GL/46s7ZJmhPA==
-X-Received: by 2002:adf:e808:: with SMTP id o8mr4735660wrm.8.1583512754719;
-        Fri, 06 Mar 2020 08:39:14 -0800 (PST)
+        bh=mumUZlPS1DuDk/kBzMPd1gvBL9szwrk3UgU1tpddd2s=;
+        b=KQsH1yj3MQasSBqohlXiDTtbLJm2QB5qEhMgP4hWf5ntqTDJKr2MyglaqhVaFhIJWf
+         hyda2SvaM5Yu6PNCM3W2b4IPBmRJimdjh8Zr4ry5uL4hl9D8GokghiKym7zr97MaIeG0
+         eXdvfAOzpgjP8UYGvqZC4ocZOp2lpzidarfrQ+AwhvZx3QLvyy25F7kdwv3qIZGyMnxX
+         TLTWYXgQ2ogPLkWGZH6MJg/Y3cn4zn3yVGVJQRB3MMAzZrADPKWaRrRDl/iABoQH8lUN
+         hvlwK+kQGWiJojqnYSLvgKlsqmL9cwdNFUu7RaxYozLE7cOJG/jjJmaJahppW/PkEeJO
+         4P6Q==
+X-Gm-Message-State: ANhLgQ1MxnNPpqch4AZZeBmuB9sYFseqOXISmMRuNQRJIm9w9WebkvPA
+        /1w0elGxlTvaZ8doEhAX+C1R2K0/
+X-Google-Smtp-Source: ADFU+vs48XPDJG8GPIoT2+OLkaN/t7YQlEbGAejG9ZP5YcWejjCFKvVLcuUff85fANZlbkONIe2Utg==
+X-Received: by 2002:adf:f604:: with SMTP id t4mr4946951wrp.96.1583512752204;
+        Fri, 06 Mar 2020 08:39:12 -0800 (PST)
 Received: from linux.local ([199.203.162.213])
-        by smtp.gmail.com with ESMTPSA id n24sm8812760wra.61.2020.03.06.08.39.13
+        by smtp.gmail.com with ESMTPSA id n24sm8812760wra.61.2020.03.06.08.39.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2020 08:39:14 -0800 (PST)
+        Fri, 06 Mar 2020 08:39:11 -0800 (PST)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v3 5/5] x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
-Date:   Fri,  6 Mar 2020 18:39:09 +0200
-Message-Id: <20200306163909.1020369-6-arilou@gmail.com>
+Subject: [PATCH v3 3/5] x86/kvm/hyper-v: Add support for synthetic debugger capability
+Date:   Fri,  6 Mar 2020 18:39:07 +0200
+Message-Id: <20200306163909.1020369-4-arilou@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200306163909.1020369-1-arilou@gmail.com>
 References: <20200306163909.1020369-1-arilou@gmail.com>
@@ -73,52 +73,403 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-There is another mode for the synthetic debugger which uses hypercalls
-to send/recv network data instead of the MSR interface.
+Add support for Hyper-V synthetic debugger (syndbg) interface.
+The syndbg interface is using MSRs to emulate a way to send/recv packets
+data.
 
-This interface is much slower and less recommended since you might get
-a lot of VMExits while KDVM polling for new packets to recv, rather
-than simply checking the pending page to see if there is data avialble
-and then request.
+The debug transport dll (kdvm/kdnet) will identify if Hyper-V is enabled
+and if it supports the synthetic debugger interface it will attempt to
+use it, instead of trying to initialize a network adapter.
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- arch/x86/kvm/hyperv.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ arch/x86/include/asm/kvm_host.h |  13 ++++
+ arch/x86/kvm/hyperv.c           | 134 +++++++++++++++++++++++++++++++-
+ arch/x86/kvm/hyperv.h           |   5 ++
+ arch/x86/kvm/trace.h            |  48 ++++++++++++
+ arch/x86/kvm/x86.c              |   9 +++
+ include/uapi/linux/kvm.h        |  10 +++
+ 6 files changed, 218 insertions(+), 1 deletion(-)
 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 98959e8cd448..f8e58e8866bb 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -854,6 +854,18 @@ struct kvm_apic_map {
+ 	struct kvm_lapic *phys_map[];
+ };
+ 
++/* Hyper-V synthetic debugger (SynDbg)*/
++struct kvm_hv_syndbg {
++	struct {
++		u64 control;
++		u64 status;
++		u64 send_page;
++		u64 recv_page;
++		u64 pending_page;
++	} control;
++	u64 options;
++};
++
+ /* Hyper-V emulation context */
+ struct kvm_hv {
+ 	struct mutex hv_lock;
+@@ -877,6 +889,7 @@ struct kvm_hv {
+ 	atomic_t num_mismatched_vp_indexes;
+ 
+ 	struct hv_partition_assist_pg *hv_pa_pg;
++	struct kvm_hv_syndbg hv_syndbg;
+ };
+ 
+ enum kvm_irqchip_mode {
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 67628796f514..ba3b1e3406ef 100644
+index a86fda7a1d03..554e78f961bc 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1820,6 +1820,28 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 		}
- 		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
- 		break;
-+	case HVCALL_POST_DEBUG_DATA:
-+	case HVCALL_RETRIEVE_DEBUG_DATA:
-+		if (unlikely(fast)) {
-+			ret = HV_STATUS_INVALID_PARAMETER;
-+			break;
-+		}
-+		/* fallthrough */
-+	case HVCALL_RESET_DEBUG_SESSION: {
-+		struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
-+		if (!(syndbg->options & HV_X64_SYNDBG_OPTION_USE_HCALLS)) {
-+			ret = HV_STATUS_OPERATION_DENIED;
-+			break;
-+		}
-+		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
-+		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
-+		vcpu->run->hyperv.u.hcall.input = param;
-+		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
-+		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
-+		vcpu->arch.complete_userspace_io =
-+				kvm_hv_hypercall_complete_userspace;
-+		return 0;
+@@ -266,6 +266,106 @@ static int synic_set_msr(struct kvm_vcpu_hv_synic *synic,
+ 	return ret;
+ }
+ 
++static int kvm_hv_syndbg_complete_userspace(struct kvm_vcpu *vcpu)
++{
++	struct kvm *kvm = vcpu->kvm;
++	struct kvm_hv *hv = &kvm->arch.hyperv;
++
++	if (vcpu->run->hyperv.u.syndbg.msr == HV_X64_MSR_SYNDBG_CONTROL)
++		hv->hv_syndbg.control.status =
++			vcpu->run->hyperv.u.syndbg.status;
++	return 1;
++}
++
++static void syndbg_exit(struct kvm_vcpu *vcpu, u32 msr)
++{
++	struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
++	struct kvm_vcpu_hv *hv_vcpu = &vcpu->arch.hyperv;
++
++	hv_vcpu->exit.type = KVM_EXIT_HYPERV_SYNDBG;
++	hv_vcpu->exit.u.syndbg.msr = msr;
++	hv_vcpu->exit.u.syndbg.control = syndbg->control.control;
++	hv_vcpu->exit.u.syndbg.send_page = syndbg->control.send_page;
++	hv_vcpu->exit.u.syndbg.recv_page = syndbg->control.recv_page;
++	hv_vcpu->exit.u.syndbg.pending_page = syndbg->control.pending_page;
++	vcpu->arch.complete_userspace_io =
++			kvm_hv_syndbg_complete_userspace;
++
++	kvm_make_request(KVM_REQ_HV_EXIT, vcpu);
++}
++
++static int syndbg_set_msr(struct kvm_vcpu *vcpu, u32 msr, u64 data)
++{
++	struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
++	int ret;
++
++	trace_kvm_hv_syndbg_set_msr(vcpu->vcpu_id,
++				    vcpu_to_hv_vcpu(vcpu)->vp_index, msr, data);
++	ret = 0;
++	switch (msr) {
++	case HV_X64_MSR_SYNDBG_CONTROL:
++		syndbg->control.control = data;
++		syndbg_exit(vcpu, msr);
++		break;
++	case HV_X64_MSR_SYNDBG_STATUS:
++		syndbg->control.status = data;
++		break;
++	case HV_X64_MSR_SYNDBG_SEND_BUFFER:
++		syndbg->control.send_page = data;
++		break;
++	case HV_X64_MSR_SYNDBG_RECV_BUFFER:
++		syndbg->control.recv_page = data;
++		break;
++	case HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++		syndbg->control.pending_page = data;
++		syndbg_exit(vcpu, msr);
++		break;
++	case HV_X64_MSR_SYNDBG_OPTIONS:
++		syndbg->options = data;
++		break;
++	default:
++		ret = 1;
++		break;
 +	}
- 	default:
- 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
++
++	return ret;
++}
++
++static int syndbg_get_msr(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata)
++{
++	struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
++	int ret;
++
++	trace_kvm_hv_syndbg_get_msr(vcpu->vcpu_id,
++				    vcpu_to_hv_vcpu(vcpu)->vp_index, msr);
++	ret = 0;
++	switch (msr) {
++	case HV_X64_MSR_SYNDBG_CONTROL:
++		*pdata = syndbg->control.control;
++		break;
++	case HV_X64_MSR_SYNDBG_STATUS:
++		*pdata = syndbg->control.status;
++		break;
++	case HV_X64_MSR_SYNDBG_SEND_BUFFER:
++		*pdata = syndbg->control.send_page;
++		break;
++	case HV_X64_MSR_SYNDBG_RECV_BUFFER:
++		*pdata = syndbg->control.recv_page;
++		break;
++	case HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++		*pdata = syndbg->control.pending_page;
++		break;
++	case HV_X64_MSR_SYNDBG_OPTIONS:
++		*pdata = syndbg->options;
++		break;
++	default:
++		ret = 1;
++		break;
++	}
++
++	return ret;
++}
++
+ static int synic_get_msr(struct kvm_vcpu_hv_synic *synic, u32 msr, u64 *pdata,
+ 			 bool host)
+ {
+@@ -800,6 +900,8 @@ static bool kvm_hv_msr_partition_wide(u32 msr)
+ 	case HV_X64_MSR_REENLIGHTENMENT_CONTROL:
+ 	case HV_X64_MSR_TSC_EMULATION_CONTROL:
+ 	case HV_X64_MSR_TSC_EMULATION_STATUS:
++	case HV_X64_MSR_SYNDBG_OPTIONS:
++	case HV_X64_MSR_SYNDBG_CONTROL ... HV_X64_MSR_SYNDBG_PENDING_BUFFER:
+ 		r = true;
  		break;
+ 	}
+@@ -1061,6 +1163,9 @@ static int kvm_hv_set_msr_pw(struct kvm_vcpu *vcpu, u32 msr, u64 data,
+ 		if (!host)
+ 			return 1;
+ 		break;
++	case HV_X64_MSR_SYNDBG_OPTIONS:
++	case HV_X64_MSR_SYNDBG_CONTROL ... HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++		return syndbg_set_msr(vcpu, msr, data);
+ 	default:
+ 		vcpu_unimpl(vcpu, "Hyper-V unhandled wrmsr: 0x%x data 0x%llx\n",
+ 			    msr, data);
+@@ -1227,6 +1332,9 @@ static int kvm_hv_get_msr_pw(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata)
+ 	case HV_X64_MSR_TSC_EMULATION_STATUS:
+ 		data = hv->hv_tsc_emulation_status;
+ 		break;
++	case HV_X64_MSR_SYNDBG_OPTIONS:
++	case HV_X64_MSR_SYNDBG_CONTROL ... HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++		return syndbg_get_msr(vcpu, msr, pdata);
+ 	default:
+ 		vcpu_unimpl(vcpu, "Hyper-V unhandled rdmsr: 0x%x\n", msr);
+ 		return 1;
+@@ -1797,6 +1905,9 @@ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 		{ .function = HYPERV_CPUID_ENLIGHTMENT_INFO },
+ 		{ .function = HYPERV_CPUID_IMPLEMENT_LIMITS },
+ 		{ .function = HYPERV_CPUID_NESTED_FEATURES },
++		{ .function = HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS },
++		{ .function = HYPERV_CPUID_SYNDBG_INTERFACE },
++		{ .function = HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES	},
+ 	};
+ 	int i, nent = ARRAY_SIZE(cpuid_entries);
+ 
+@@ -1821,7 +1932,7 @@ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 		case HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS:
+ 			memcpy(signature, "Linux KVM Hv", 12);
+ 
+-			ent->eax = HYPERV_CPUID_NESTED_FEATURES;
++			ent->eax = HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES;
+ 			ent->ebx = signature[0];
+ 			ent->ecx = signature[1];
+ 			ent->edx = signature[2];
+@@ -1856,9 +1967,12 @@ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 
+ 			ent->ebx |= HV_X64_POST_MESSAGES;
+ 			ent->ebx |= HV_X64_SIGNAL_EVENTS;
++			ent->ebx |= HV_X64_DEBUGGING;
+ 
+ 			ent->edx |= HV_FEATURE_FREQUENCY_MSRS_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
++			ent->edx |= HV_X64_GUEST_DEBUGGING_AVAILABLE;
++			ent->edx |= HV_FEATURE_DEBUG_MSRS_AVAILABLE;
+ 
+ 			/*
+ 			 * Direct Synthetic timers only make sense with in-kernel
+@@ -1903,6 +2017,24 @@ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 
+ 			break;
+ 
++		case HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS:
++			memcpy(signature, "Linux KVM Hv", 12);
++
++			ent->eax = 0;
++			ent->ebx = signature[0];
++			ent->ecx = signature[1];
++			ent->edx = signature[2];
++			break;
++
++		case HYPERV_CPUID_SYNDBG_INTERFACE:
++			memcpy(signature, "VS#1\0\0\0\0\0\0\0\0", 12);
++			ent->eax = signature[0];
++			break;
++
++		case HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES:
++			ent->eax |= HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING;
++			break;
++
+ 		default:
+ 			break;
+ 		}
+diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
+index 757cb578101c..6a86151fac53 100644
+--- a/arch/x86/kvm/hyperv.h
++++ b/arch/x86/kvm/hyperv.h
+@@ -46,6 +46,11 @@ static inline struct kvm_vcpu *synic_to_vcpu(struct kvm_vcpu_hv_synic *synic)
+ 	return hv_vcpu_to_vcpu(container_of(synic, struct kvm_vcpu_hv, synic));
+ }
+ 
++static inline struct kvm_hv_syndbg *vcpu_to_hv_syndbg(struct kvm_vcpu *vcpu)
++{
++	return &vcpu->kvm->arch.hyperv.hv_syndbg;
++}
++
+ int kvm_hv_set_msr_common(struct kvm_vcpu *vcpu, u32 msr, u64 data, bool host);
+ int kvm_hv_get_msr_common(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata, bool host);
+ 
+diff --git a/arch/x86/kvm/trace.h b/arch/x86/kvm/trace.h
+index f194dd058470..97f4edea0e71 100644
+--- a/arch/x86/kvm/trace.h
++++ b/arch/x86/kvm/trace.h
+@@ -1515,6 +1515,54 @@ TRACE_EVENT(kvm_nested_vmenter_failed,
+ 		__print_symbolic(__entry->err, VMX_VMENTER_INSTRUCTION_ERRORS))
+ );
+ 
++/*
++ * Tracepoint for syndbg_set_msr.
++ */
++TRACE_EVENT(kvm_hv_syndbg_set_msr,
++	TP_PROTO(int vcpu_id, u32 vp_index, u32 msr, u64 data),
++	TP_ARGS(vcpu_id, vp_index, msr, data),
++
++	TP_STRUCT__entry(
++		__field(int, vcpu_id)
++		__field(u32, vp_index)
++		__field(u32, msr)
++		__field(u64, data)
++	),
++
++	TP_fast_assign(
++		__entry->vcpu_id = vcpu_id;
++		__entry->vp_index = vp_index;
++		__entry->msr = msr;
++		__entry->data = data;
++	),
++
++	TP_printk("vcpu_id %d vp_index %u msr 0x%x data 0x%llx",
++		  __entry->vcpu_id, __entry->vp_index, __entry->msr,
++		  __entry->data)
++);
++
++/*
++ * Tracepoint for syndbg_get_msr.
++ */
++TRACE_EVENT(kvm_hv_syndbg_get_msr,
++	TP_PROTO(int vcpu_id, u32 vp_index, u32 msr),
++	TP_ARGS(vcpu_id, vp_index, msr),
++
++	TP_STRUCT__entry(
++		__field(int, vcpu_id)
++		__field(u32, vp_index)
++		__field(u32, msr)
++	),
++
++	TP_fast_assign(
++		__entry->vcpu_id = vcpu_id;
++		__entry->vp_index = vp_index;
++		__entry->msr = msr;
++	),
++
++	TP_printk("vcpu_id %d vp_index %u msr 0x%x",
++		  __entry->vcpu_id, __entry->vp_index, __entry->msr)
++);
+ #endif /* _TRACE_KVM_H */
+ 
+ #undef TRACE_INCLUDE_PATH
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 5de200663f51..619c24bac79e 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -1214,6 +1214,10 @@ static const u32 emulated_msrs_all[] = {
+ 	HV_X64_MSR_VP_ASSIST_PAGE,
+ 	HV_X64_MSR_REENLIGHTENMENT_CONTROL, HV_X64_MSR_TSC_EMULATION_CONTROL,
+ 	HV_X64_MSR_TSC_EMULATION_STATUS,
++	HV_X64_MSR_SYNDBG_OPTIONS,
++	HV_X64_MSR_SYNDBG_CONTROL, HV_X64_MSR_SYNDBG_STATUS,
++	HV_X64_MSR_SYNDBG_SEND_BUFFER, HV_X64_MSR_SYNDBG_RECV_BUFFER,
++	HV_X64_MSR_SYNDBG_PENDING_BUFFER,
+ 
+ 	MSR_KVM_ASYNC_PF_EN, MSR_KVM_STEAL_TIME,
+ 	MSR_KVM_PV_EOI_EN,
+@@ -2906,6 +2910,8 @@ int kvm_set_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+ 		 */
+ 		break;
+ 	case HV_X64_MSR_GUEST_OS_ID ... HV_X64_MSR_SINT15:
++	case HV_X64_MSR_SYNDBG_CONTROL ... HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++	case HV_X64_MSR_SYNDBG_OPTIONS:
+ 	case HV_X64_MSR_CRASH_P0 ... HV_X64_MSR_CRASH_P4:
+ 	case HV_X64_MSR_CRASH_CTL:
+ 	case HV_X64_MSR_STIMER0_CONFIG ... HV_X64_MSR_STIMER3_COUNT:
+@@ -3151,6 +3157,8 @@ int kvm_get_msr_common(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
+ 		msr_info->data = 0x20000000;
+ 		break;
+ 	case HV_X64_MSR_GUEST_OS_ID ... HV_X64_MSR_SINT15:
++	case HV_X64_MSR_SYNDBG_CONTROL ... HV_X64_MSR_SYNDBG_PENDING_BUFFER:
++	case HV_X64_MSR_SYNDBG_OPTIONS:
+ 	case HV_X64_MSR_CRASH_P0 ... HV_X64_MSR_CRASH_P4:
+ 	case HV_X64_MSR_CRASH_CTL:
+ 	case HV_X64_MSR_STIMER0_CONFIG ... HV_X64_MSR_STIMER3_COUNT:
+@@ -3323,6 +3331,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_HYPERV_TLBFLUSH:
+ 	case KVM_CAP_HYPERV_SEND_IPI:
+ 	case KVM_CAP_HYPERV_CPUID:
++	case KVM_CAP_HYPERV_DEBUGGING:
+ 	case KVM_CAP_PCI_SEGMENT:
+ 	case KVM_CAP_DEBUGREGS:
+ 	case KVM_CAP_X86_ROBUST_SINGLESTEP:
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 24b7c48ccc6f..97a208728b3d 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -188,6 +188,7 @@ struct kvm_s390_cmma_log {
+ struct kvm_hyperv_exit {
+ #define KVM_EXIT_HYPERV_SYNIC          1
+ #define KVM_EXIT_HYPERV_HCALL          2
++#define KVM_EXIT_HYPERV_SYNDBG         3
+ 	__u32 type;
+ 	union {
+ 		struct {
+@@ -202,6 +203,14 @@ struct kvm_hyperv_exit {
+ 			__u64 result;
+ 			__u64 params[2];
+ 		} hcall;
++		struct {
++			__u32 msr;
++			__u64 control;
++			__u64 status;
++			__u64 send_page;
++			__u64 recv_page;
++			__u64 pending_page;
++		} syndbg;
+ 	} u;
+ };
+ 
+@@ -1011,6 +1020,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_ARM_NISV_TO_USER 177
+ #define KVM_CAP_ARM_INJECT_EXT_DABT 178
+ #define KVM_CAP_S390_VCPU_RESETS 179
++#define KVM_CAP_HYPERV_DEBUGGING 180
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.24.1
 
