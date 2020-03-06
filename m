@@ -2,178 +2,94 @@ Return-Path: <SRS0=vIsq=4X=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE377C10DCE
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:36:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49D90C10F26
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF83D20658
-	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:36:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16B612072A
+	for <linux-hyperv@archiver.kernel.org>; Fri,  6 Mar 2020 16:39:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gv9J7c8A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNWeuQFw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbgCFQgF (ORCPT
+        id S1726751AbgCFQjM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 6 Mar 2020 11:36:05 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45654 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726359AbgCFQgF (ORCPT
+        Fri, 6 Mar 2020 11:39:12 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33705 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbgCFQjL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 6 Mar 2020 11:36:05 -0500
-Received: by mail-wr1-f65.google.com with SMTP id v2so3080426wrp.12;
-        Fri, 06 Mar 2020 08:36:03 -0800 (PST)
+        Fri, 6 Mar 2020 11:39:11 -0500
+Received: by mail-wr1-f66.google.com with SMTP id x7so3139610wrr.0;
+        Fri, 06 Mar 2020 08:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zJLtaUhpy8iKL7hNpXLQ4iAg1XiWGsEUwHdtM8xVwjU=;
-        b=gv9J7c8A/St5GnwUMwSrO6BduAF66YyYUQhSNMHfcB71fzmHBy2MhT3P4sUZJo3CPQ
-         6kRffKT6F2qSUK6M8s7+YBbrWpMg2+h+rNfIjS2P20GEUlv8yJAqhxKOBOWDbPaxb3y2
-         151tiV7Fn0uQC/FMnwqsI7NHw8PrCj7Mnw/94hSENnNo9ls6TkIoHlYnYDUueXKnin+/
-         IsyeTrPwwXw7adUinu+4rwPjsAwLNp6S8YOizzBFg6JLC666cRtQXgpzM55ePN5ySFSw
-         UBiB1M4sxOSiy4PiiDlUIieveXfzIxc8qpv5a9G528LmVgaTeSmHD5xA8Eyd7PC+LdTW
-         2jRA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cqBaz7Pqcjvqd8BzE+nwXVxffgaDXzbn0ymPrZ8bx5I=;
+        b=ZNWeuQFwBIvTe8w5V1YJ7K5Z6Uu46S0ZxGEZAY4hVwRfR305Iu/gbeKfetnAfBNPgI
+         8DzwxVoXrZUQ2NFGEq7plXlQHolqW+qSNR4ehqjlUNm3bdhyFOSeuMVVHh+U/PduMNlT
+         n75b04c8DeJbXpcl18LinJ07xHBbS0Rhx1cuOSvwnxYK7r6Op4Aub+IAkwSQRC8oqs5/
+         tx6OeVom0IetxxCro0quRNTy+T3ypiGa26ogoaJsPjnKm9ZWc67GqVPf1IDz777fSQwm
+         85TPnF34t+l25w63hgf6ek3xBpPXp08T7mHZiqz/wD8c+1ca5TASle1ytUTGZV7afNIq
+         9Gzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zJLtaUhpy8iKL7hNpXLQ4iAg1XiWGsEUwHdtM8xVwjU=;
-        b=OUoQh25W2tw9O9zmJ60QPrJQBdiuxo2wtCI4XbtdJaeyWfjqiGq6PJGZXyrSH2nuEd
-         7Jz+lPtdHgjgyA5Aldqy+S4zuVcGhjGpiNND0lgtjM/TFkIh9/UEIYO59maYMkd7o+0a
-         PcVyGSwmiX2xE2Of8ak49ql2Mop+y8/sIB1UMvdgF2URE+fS/7HdDlK2xuWi4/kPd6rr
-         2f/LRZn9OHVQZCPHJ+MuzIHBs1qMqTYMtpr6/NAoQ1qjDFamyk6M5Z83SJLRMjMMRint
-         4PGFbggThUOmuyxqWx9VTiclLm/AlgflvmdLPYYPuLfrl+ymO2qlc/+7VgVIU0vIHp2q
-         ZYsg==
-X-Gm-Message-State: ANhLgQ2giqf3P6DFA6JO+mySbqRMmWwT73X80gCqEJNAkItk6D1b7VAb
-        K0wkIMPAApUFUitAWEMnAPlmgi8h
-X-Google-Smtp-Source: ADFU+vvPU96yHv58UxqrlLN3lsarEdmjJM4v2v055HBl7ISbXeqVmK/TpPJnWevzqbdBjBRIpXXrYg==
-X-Received: by 2002:adf:a4d2:: with SMTP id h18mr2463222wrb.90.1583512563245;
-        Fri, 06 Mar 2020 08:36:03 -0800 (PST)
-Received: from jondnuc (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id f23sm14323454wmb.1.2020.03.06.08.36.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cqBaz7Pqcjvqd8BzE+nwXVxffgaDXzbn0ymPrZ8bx5I=;
+        b=N24onkn78bekmvRkr+j0aTAkL6M85MIJhjeg2aRK6zbm60/++gNR1S9iof2EloA40L
+         Zo6Lk1h2d4SloiHLZrJvnplg8oUg3NWDbqwKvAhFbAeyRmQvWKb95h1wIrQcASKGIcGP
+         yKuU43Jlt4q1uohruKrbI5wi17l4iDhSZ0u77R+VmbXqbd0AHv3AMwv3qQ0NIls0swUi
+         6EyuLEoJ69UtUp0kkThoFfzHvanN6tx3ZXU9kIFAxqqMm9orwg/5cRL7Re0qMVEw/E8W
+         1hL8M7zo9TEozU+bnB+Qe/HwN7JwQs2XHv0fJ6IoQvrB1QC9LPjMyZjpIrdeFV4Tax/S
+         xEQw==
+X-Gm-Message-State: ANhLgQ0klXP/Q6RZHoUeSRDM7r8uFsX3Xn5USXyV0yypCPoz/G9ukaFl
+        HAykQCDQ6OzMnPjS1bb8OdOYG5s9
+X-Google-Smtp-Source: ADFU+vu8PM8BfB/3tnpmAnl4QkKt8nOdKP/pQ6jqE9wlHwfOK4XvbbLSVru+j194LDNaN8YJVuc/lQ==
+X-Received: by 2002:a5d:410a:: with SMTP id l10mr4491955wrp.380.1583512750017;
+        Fri, 06 Mar 2020 08:39:10 -0800 (PST)
+Received: from linux.local ([199.203.162.213])
+        by smtp.gmail.com with ESMTPSA id n24sm8812760wra.61.2020.03.06.08.39.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2020 08:36:02 -0800 (PST)
-Date:   Fri, 6 Mar 2020 18:36:01 +0200
+        Fri, 06 Mar 2020 08:39:09 -0800 (PST)
 From:   Jon Doron <arilou@gmail.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] x86/kvm/hyper-v: Add support for synthetic
- debugger via hypercalls
-Message-ID: <20200306163601.GB3559120@jondnuc>
-References: <20200305140142.413220-1-arilou@gmail.com>
- <20200305140142.413220-5-arilou@gmail.com>
- <871rq5ebnx.fsf@vitty.brq.redhat.com>
+To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
+Subject: [PATCH v3 1/5] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
+Date:   Fri,  6 Mar 2020 18:39:05 +0200
+Message-Id: <20200306163909.1020369-2-arilou@gmail.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200306163909.1020369-1-arilou@gmail.com>
+References: <20200306163909.1020369-1-arilou@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <871rq5ebnx.fsf@vitty.brq.redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 06/03/2020, Vitaly Kuznetsov wrote:
->Jon Doron <arilou@gmail.com> writes:
->
->> There is another mode for the synthetic debugger which uses hypercalls
->> to send/recv network data instead of the MSR interface.
->>
->> This interface is much slower and less recommended since you might get
->> a lot of VMExits while KDVM polling for new packets to recv, rather
->> than simply checking the pending page to see if there is data avialble
->> and then request.
->>
->> Signed-off-by: Jon Doron <arilou@gmail.com>
->> ---
->>  arch/x86/include/asm/hyperv-tlfs.h |  5 +++++
->>  arch/x86/kvm/hyperv.c              | 17 +++++++++++++++++
->>  2 files changed, 22 insertions(+)
->>
->> diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
->> index 8efdf974c23f..4fa6bf3732a6 100644
->> --- a/arch/x86/include/asm/hyperv-tlfs.h
->> +++ b/arch/x86/include/asm/hyperv-tlfs.h
->> @@ -283,6 +283,8 @@
->>  #define HV_X64_MSR_SYNDBG_PENDING_BUFFER	0x400000F5
->>  #define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
->>
->> +#define HV_X64_SYNDBG_OPTION_USE_HCALLS		BIT(2)
->
->Nitpick: please add a comment like
->"These are HV_X64_MSR_SYNDBG_OPTIONS bits"
->just before the definition to make it to bluntly obvious.
->
+Signed-off-by: Jon Doron <arilou@gmail.com>
+---
+ include/uapi/linux/kvm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Done.
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 4b95f9a31a2f..24b7c48ccc6f 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -197,6 +197,7 @@ struct kvm_hyperv_exit {
+ 			__u64 msg_page;
+ 		} synic;
+ 		struct {
++			__u32 pad;
+ 			__u64 input;
+ 			__u64 result;
+ 			__u64 params[2];
+-- 
+2.24.1
 
->> +
->>  /* Hyper-V guest crash notification MSR's */
->>  #define HV_X64_MSR_CRASH_P0			0x40000100
->>  #define HV_X64_MSR_CRASH_P1			0x40000101
->> @@ -392,6 +394,9 @@ struct hv_tsc_emulation_status {
->>  #define HVCALL_SEND_IPI_EX			0x0015
->>  #define HVCALL_POST_MESSAGE			0x005c
->>  #define HVCALL_SIGNAL_EVENT			0x005d
->> +#define HVCALL_POST_DEBUG_DATA			0x0069
->> +#define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
->> +#define HVCALL_RESET_DEBUG_SESSION		0x006b
->>  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
->>  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
->>
->> diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
->> index d657a312004a..52517e11e643 100644
->> --- a/arch/x86/kvm/hyperv.c
->> +++ b/arch/x86/kvm/hyperv.c
->> @@ -1800,6 +1800,23 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
->>  		}
->>  		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
->>  		break;
->> +	case HVCALL_POST_DEBUG_DATA:
->> +	case HVCALL_RETRIEVE_DEBUG_DATA:
->> +	case HVCALL_RESET_DEBUG_SESSION: {
->> +		struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
->> +		if (!(syndbg->options & HV_X64_SYNDBG_OPTION_USE_HCALLS)) {
->> +			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
->
->In TLFS it is said that only HvResetDebugSession of these three can be
->'fast', others are regular hypercalls. We need to add something like
->
->     if (unlikely(fast && code != HVCALL_RESET_DEBUG_SESSION)) {
->            ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
->            break;
->     }
->
->also, I'm not sure HV_STATUS_INVALID_HYPERCALL_INPUT is always the right
->return value as TLFS describes this as
->
->"The rep count was incorrect (for example, a non-zero rep count was
->passed to a non-rep call or a zero rep count was passed to a rep call) or
->a reserved bit in the specified hypercall input value was non-zero."
->
->(we may actually be wrong even for existing hypercalls)
->
-
-You are right I believe in the next version I'm using a more proper 
-return code.
-
->> +			break;
->> +		}
->> +		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
->> +		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
->> +		vcpu->run->hyperv.u.hcall.input = param;
->> +		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
->> +		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
->> +		vcpu->arch.complete_userspace_io =
->> +				kvm_hv_hypercall_complete_userspace;
->> +		return 0;
->> +	}
->>  	default:
->>  		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
->>  		break;
->
->-- 
->Vitaly
->
