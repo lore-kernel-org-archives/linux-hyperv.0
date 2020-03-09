@@ -2,70 +2,67 @@ Return-Path: <SRS0=smVv=42=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B0FC18E5B
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6021C10F29
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E94D20578
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80F2B20578
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8Jok7sC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TNfw3tiI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727764AbgCISUh (ORCPT
+        id S1727747AbgCISUa (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 9 Mar 2020 14:20:37 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45142 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727500AbgCISUe (ORCPT
+        Mon, 9 Mar 2020 14:20:30 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:36694 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727491AbgCISU3 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 9 Mar 2020 14:20:34 -0400
-Received: by mail-wr1-f66.google.com with SMTP id m9so3483809wro.12;
-        Mon, 09 Mar 2020 11:20:33 -0700 (PDT)
+        Mon, 9 Mar 2020 14:20:29 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g62so434395wme.1;
+        Mon, 09 Mar 2020 11:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZuvV9ToDUH9Z7nRm33O7cyqYk/jzexuummxj9jXv5cY=;
-        b=m8Jok7sCQNWnwYNHKCfaVNpFBSYjbnw+4AXeXL6HRDg5w50lIMUOQXmdyRjOlCBjva
-         bWeEaeYa9bVR+z49/0syHHQdJAI6npbwKpKtmWoBEfaCVn+MIprqyVwzMFRzdHTcj2v4
-         4ekXOKViqSd79b55C1w76nxRsTalCb+Bz3E+/8OI7XtV3Y+vUNYAONlSTDpZzfCNgp5X
-         7e5H7Y5M8OmJRO/GmQ1Hi408DvYGOrm90uWNn15R7eeNdpCrTSPkSyZkrIJt75r/sIP2
-         e4YpxVix1tApIlm62wyxcSFJ5SPN+PE74o5SMcd/DI3scNj2c9V3l+ParZc2H69ffVNr
-         F4LA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CPhZKMawIEg0LF+8rUefvveQC7Pbb0atv6Urs3DG3g0=;
+        b=TNfw3tiIpweI6lD4bDTky927fZqaQA/LK1U5HfECEY5Eqydk2qkzgAXkFav1YIXisY
+         223HVSfNAuPQLJLGjWYKJl0kenee71inhl9QQrIY/YDyXgAx+Z42I6adHMF+uMmHCVis
+         N1TX2eO+gfHuhXnGYnYL4CV9g7+hmL5TdVcdZaKp48AmgA4RlEtoSNP6YU9xTZenBcKP
+         HXecdLfeWqjyCPxVDx71J9vDpEo7/cqTZvnIqDyTw2qdIBFHB0Xdyyz3meBxYsc44A59
+         r36/LbFhCeuCmqPldIV5dgm9rGvrwlNiMzEHxlbjxqLNJ5Wgbb1tSsLr6LXHuPziFr+2
+         vJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZuvV9ToDUH9Z7nRm33O7cyqYk/jzexuummxj9jXv5cY=;
-        b=dqQj50w6VAB8m/zMxutcit+bgCOBejPHFzZOjqA3MOyjq/Lzc64tUhWH0ijM+pSwpA
-         uMkzuMnqaXpdl+8R4fzJ9CzaxOlS1pnLt9nLTnT+ph1LbpGVZsiLD88MxAtHqoFgS9X4
-         A9bGis3SBlh6hd89/RvX6C0QZJ806qG+RqsF8KijBxGO5zLZpaL4egCuO5ZkaH26CLym
-         CPwswCwdKU+jZxovxfyyvf4wptaPFwA2TCzihqK4sB8VKauXqaboiyDfYJHPmCoqY/5Z
-         /0SuaaO4amUT1YeisbMsZ9+e9LMNVEJCzwMcfTaap3wyn4iWVL8fUmNWaj62m7xIBXRL
-         d7Jg==
-X-Gm-Message-State: ANhLgQ1tkT/WLSMYGDI51LgiBPULeTOECGHQFpANwAmGuki+M2QbRxBA
-        iZNiwevo0g0IXe12cAorD+lzgDuauNM=
-X-Google-Smtp-Source: ADFU+vugc8hnbGwfCv/PXiYp5Te6OiGBnMt3bbfftT/dAvQvdpTuMo1Bd4/ssIARyE1aJ7OlbNNWhw==
-X-Received: by 2002:adf:ed91:: with SMTP id c17mr20494288wro.388.1583778032488;
-        Mon, 09 Mar 2020 11:20:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CPhZKMawIEg0LF+8rUefvveQC7Pbb0atv6Urs3DG3g0=;
+        b=MK83Ue5DnMu+0m+yTlSKZ9dScvY8JB5eBhjBnVdKaFM++xDdnNQ9LTVNh067rGjj7C
+         JbFFGLdDc88Pd8vRM4WpAkIl/g26UbI0LzUD7E0KDitn5w78IeeE7VcAZQd0xJz+HJ8P
+         wI7x/bZwHuGf+T62vWn34cjSfLbYW9NPUhGdjf5cVGU9bi51ru3VYG3EXE8lMDUTQB5e
+         djiV3CN71j3mmq3vpldO5BKNRn2qGeZvBD3eySNLjaTOVJDzMkodSrpnYolxHUOhLEg/
+         UrygVjkKbSChB8nlZkjK+RA6pOAqTjAYL2Dd6FTK/y8S965nz6EyIzU7Al+qmLiVNYH3
+         f9DQ==
+X-Gm-Message-State: ANhLgQ3ldJ1UpbP1B+PJvej+66qPe2DteZT/s5FkqiMyN7MWMKoAEzwV
+        6kryRjuNlWVHXExW2FlNYAJeGOWqQEo=
+X-Google-Smtp-Source: ADFU+vtJJVp/SvpSTLWjaT/eQ+QNJuwwAQtNA4ugOEOmHSKxF8Ule/kJp4Tr/CBK/y+JuVLHgaxhPQ==
+X-Received: by 2002:a1c:f707:: with SMTP id v7mr479325wmh.121.1583778026969;
+        Mon, 09 Mar 2020 11:20:26 -0700 (PDT)
 Received: from linux.local ([31.154.166.148])
-        by smtp.gmail.com with ESMTPSA id t6sm8371828wrr.49.2020.03.09.11.20.31
+        by smtp.gmail.com with ESMTPSA id t6sm8371828wrr.49.2020.03.09.11.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 11:20:32 -0700 (PDT)
+        Mon, 09 Mar 2020 11:20:26 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v4 5/5] x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
-Date:   Mon,  9 Mar 2020 20:20:17 +0200
-Message-Id: <20200309182017.3559534-6-arilou@gmail.com>
+Subject: [PATCH v4 0/5] x86/kvm/hyper-v: add support for synthetic debugger
+Date:   Mon,  9 Mar 2020 20:20:12 +0200
+Message-Id: <20200309182017.3559534-1-arilou@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200309182017.3559534-1-arilou@gmail.com>
-References: <20200309182017.3559534-1-arilou@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -73,52 +70,50 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-There is another mode for the synthetic debugger which uses hypercalls
-to send/recv network data instead of the MSR interface.
+Add support for the synthetic debugger interface of hyper-v, the
+synthetic debugger has 2 modes.
+1. Use a set of MSRs to send/recv information
+2. Use hypercalls
 
-This interface is much slower and less recommended since you might get
-a lot of VMExits while KDVM polling for new packets to recv, rather
-than simply checking the pending page to see if there is data avialble
-and then request.
+The first mode is based the following MSRs:
+1. Control/Status MSRs which either asks for a send/recv .
+2. Send/Recv MSRs each holds GPA where the send/recv buffers are.
+3. Pending MSR, holds a GPA to a PAGE that simply has a boolean that
+   indicates if there is data pending to issue a recv VMEXIT.
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- arch/x86/kvm/hyperv.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+In the first patch the first mode is being implemented in the sense that
+it simply exits to user-space when a control MSR is being written and
+when the pending MSR is being set, then it's up-to userspace to
+implement the rest of the logic of sending/recving.
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 917b10a637fc..4a77ff61658b 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -1821,6 +1821,28 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 		}
- 		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
- 		break;
-+	case HVCALL_POST_DEBUG_DATA:
-+	case HVCALL_RETRIEVE_DEBUG_DATA:
-+		if (unlikely(fast)) {
-+			ret = HV_STATUS_INVALID_PARAMETER;
-+			break;
-+		}
-+		/* fallthrough */
-+	case HVCALL_RESET_DEBUG_SESSION: {
-+		struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
-+		if (!(syndbg->options & HV_X64_SYNDBG_OPTION_USE_HCALLS)) {
-+			ret = HV_STATUS_OPERATION_DENIED;
-+			break;
-+		}
-+		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
-+		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
-+		vcpu->run->hyperv.u.hcall.input = param;
-+		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
-+		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
-+		vcpu->arch.complete_userspace_io =
-+				kvm_hv_hypercall_complete_userspace;
-+		return 0;
-+	}
- 	default:
- 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
- 		break;
+In the second mode instead of using MSRs KNet will simply issue
+Hypercalls with the information to send/recv, in this mode the data
+being transferred is UDP encapsulated, unlike in the previous mode in
+which you get just the data to send.
+
+The new hypercalls will exit to userspace which will be incharge of
+re-encapsulating if needed the UDP packets to be sent.
+
+There is an issue though in which KDNet does not respect the hypercall
+page and simply issues vmcall/vmmcall instructions depending on the cpu
+type expecting them to be handled as it a real hypercall was issued.
+
+Jon Doron (5):
+  x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
+  x86/hyper-v: Add synthetic debugger definitions
+  x86/kvm/hyper-v: Add support for synthetic debugger capability
+  x86/kvm/hyper-v: enable hypercalls regardless of hypercall page
+  x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
+
+ arch/x86/include/asm/hyperv-tlfs.h |  26 +++++
+ arch/x86/include/asm/kvm_host.h    |  13 +++
+ arch/x86/kvm/hyperv.c              | 162 ++++++++++++++++++++++++++++-
+ arch/x86/kvm/hyperv.h              |   5 +
+ arch/x86/kvm/trace.h               |  51 +++++++++
+ arch/x86/kvm/x86.c                 |   9 ++
+ include/uapi/linux/kvm.h           |  11 ++
+ 7 files changed, 275 insertions(+), 2 deletions(-)
+
 -- 
 2.24.1
 
