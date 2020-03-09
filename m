@@ -2,128 +2,120 @@ Return-Path: <SRS0=smVv=42=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF60C10F27
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:11:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 604B4C10F27
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7609620578
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:11:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C0F120873
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Mar 2020 18:20:34 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JBRI00/u"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TbiGWwAh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgCISL3 (ORCPT
+        id S1727756AbgCISUd (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 9 Mar 2020 14:11:29 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35619 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726169AbgCISL3 (ORCPT
+        Mon, 9 Mar 2020 14:20:33 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:38661 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727752AbgCISUd (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 9 Mar 2020 14:11:29 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r7so12481194wro.2;
-        Mon, 09 Mar 2020 11:11:28 -0700 (PDT)
+        Mon, 9 Mar 2020 14:20:33 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n2so524034wmc.3;
+        Mon, 09 Mar 2020 11:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zNpV6O5ivA3Si8ar1S1KuJt1ygXwnM2oG0rkigXm7x4=;
-        b=JBRI00/uh/ses/SeUVzY3vSX8ROznzWZP4qPKV7MZj4CQI49MPIFIdWxymhBZNf25G
-         U5ABL2tqMu5q6D4+VRuzsw3xJ3Zk78Hz32N4PO4mq8QicxYRnKldVHd4Bv2EWtuHElIm
-         D4zJLQfi6Z0pr1ZUm3ATRftoOKcTGy05fA4GjXtkGq86+VLjW195R8zrexLTKdDm2LzU
-         V0hb40PTXmizWfvwIbPlfbQyR9t1g83B8fSATcvUJ1Pw4A5ipW77owKqGYQqnBb+BX8r
-         pnv8tqwqMU3Enn71hitKJBfh/4W/pRuQlJCyiqNKMURDn7HSQk2JIIhjA9sPkW2cwt7o
-         nlMA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=uHjQnX3gyUEuVprG/+YZpKO/PfRLqvF0oJQ7HCGTFS0=;
+        b=TbiGWwAhKVkXZDdUIAruKPooWBEa7jPJ0vXBZAvYvskkH4V6YNt34tLngLeXiGCuFK
+         5fvWMDUZF9dE7dg+tmaS03lY7BJWTC0E2qPILTG95KsuBP3Y+7p4xONMGIOPDQOBFgeq
+         a9q8xoBVua2Zs8C1YIXcIbmJXtcLWSn4Mx3t1E4tY9k8fVhk6BnHmU+UxWLyg7Rk4VWD
+         ZZB8NftRsfxkZPoZRW1vcXlbmhzncXTg3AUkhbYzOEb2ZSCqvq5yPelKlHJkJgDLBs/B
+         g2x9+K2QSSM6rrAofRKLukyEiVLoZJWaCdIR2CsF4E5jqxBGGe1kC+cSDslNgjK8KkPw
+         Ts8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zNpV6O5ivA3Si8ar1S1KuJt1ygXwnM2oG0rkigXm7x4=;
-        b=K4MHLUQOyFj/mVN/SszBwnY34SLs2lDn1pbfyBS4fmJwFPV4URtXePsQJO6SY66gX9
-         QIykdbhRygv554fOM6EX+6Xql9HTMwP7Qpw5rXs3WyKIwLE+9+MKHGX9/M6K0ehhBUAx
-         J/vIXpSszhHjZhUxvu0s7V+bil9qo3Yd9Vt5DZqFkySudLGhxaw5kIgpC1L1YkOkWo20
-         zbyGPH0DPLR6v8WYU73IFz3DE2yzDEFC7C7Ebu0mpNgLn7sfv60ZYjWiD7RU1jeAuWx+
-         inUX2sxVX4nNm+tYFa0YtuUdUtJ4bXWaTNm/hxF361iJqgpbUpE4MtRGoHsPMW0XaJF0
-         qVxQ==
-X-Gm-Message-State: ANhLgQ0OFBv7Jfl04VNmOQQwk42xRzIgWzvwxnYEpOww6LkIiPpC5Hsb
-        UnSeXwoY5YWsmeUDWLvHbT0=
-X-Google-Smtp-Source: ADFU+vscDulKO189yzGeCSJUrEBXThXgggVympv7I+OCNkEg2OD5wmtVBdAaUuoyClA2Y7GV3auAZA==
-X-Received: by 2002:adf:c40e:: with SMTP id v14mr4488963wrf.408.1583777487640;
-        Mon, 09 Mar 2020 11:11:27 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id k2sm31501062wrn.57.2020.03.09.11.11.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=uHjQnX3gyUEuVprG/+YZpKO/PfRLqvF0oJQ7HCGTFS0=;
+        b=G4WviDSynFpsEQXCF9Y5TOZseaa8gEXx1/bwb+Su9703ehw6NCot88hVqRew1ioLwM
+         nNCWJ9xnT1uINtdK6A4E0lbcog7KObeIuJb4bOBwuTTrZ/KslIjeNHrKw7AF3Gw7x6Ay
+         z8i06XFhje2OtQbnzPsRSyZZnm8d4UXd2VMPTw1G327QSDY42uBnUhfTfc3VJZ8mjHXU
+         i1VitLAovPvP4vStVMJqUNgcpRKuBTtz5/O/0tR1Ofi2Row9Hh3wH3g0DYLJKVI/Hrnw
+         7LLNNQy6RETFWBazYr5qYwWYBqK3Rh1K+UnyFdqMjAfuqEchycM9n/n5FrvM9s3/Q7gn
+         xszQ==
+X-Gm-Message-State: ANhLgQ3KD9ygalF7YWCRMXwKc7fQbI2PhiEOHdVm5XzlXZDFfdECm5DN
+        H2xnnKJ+z70Eg4eD98hxwxyoHztJew8=
+X-Google-Smtp-Source: ADFU+vv3/Rc5ZrG5moXweUn8xofLMZw614O4eZMqaKc6z/1MnyT6qObBiGZityNbI/Rm2B4TBUYbXQ==
+X-Received: by 2002:a1c:4642:: with SMTP id t63mr494064wma.164.1583778031408;
+        Mon, 09 Mar 2020 11:20:31 -0700 (PDT)
+Received: from linux.local ([31.154.166.148])
+        by smtp.gmail.com with ESMTPSA id t6sm8371828wrr.49.2020.03.09.11.20.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2020 11:11:26 -0700 (PDT)
-Date:   Mon, 9 Mar 2020 20:11:25 +0200
+        Mon, 09 Mar 2020 11:20:30 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v3 1/5] x86/kvm/hyper-v: Explicitly align hcall param for
- kvm_hyperv_exit
-Message-ID: <20200309181125.GA3755153@jondnuc>
-References: <20200306163909.1020369-1-arilou@gmail.com>
- <20200306163909.1020369-2-arilou@gmail.com>
- <87k13tcxrm.fsf@vitty.brq.redhat.com>
+To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
+Subject: [PATCH v4 4/5] x86/kvm/hyper-v: enable hypercalls regardless of hypercall page
+Date:   Mon,  9 Mar 2020 20:20:16 +0200
+Message-Id: <20200309182017.3559534-5-arilou@gmail.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200309182017.3559534-1-arilou@gmail.com>
+References: <20200309182017.3559534-1-arilou@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87k13tcxrm.fsf@vitty.brq.redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 09/03/2020, Vitaly Kuznetsov wrote:
->Jon Doron <arilou@gmail.com> writes:
->
->> Signed-off-by: Jon Doron <arilou@gmail.com>
->> ---
->>  include/uapi/linux/kvm.h | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index 4b95f9a31a2f..24b7c48ccc6f 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -197,6 +197,7 @@ struct kvm_hyperv_exit {
->>  			__u64 msg_page;
->>  		} synic;
->>  		struct {
->> +			__u32 pad;
->>  			__u64 input;
->>  			__u64 result;
->>  			__u64 params[2];
->
->This doesn't seem to be correct, __u64 get aligned at 8 byte boundary so
->implicitly you now (pre-patch) have the following:
->
->struct kvm_hyperv_exit {
->	__u32 type;
->        __u32 pad1;
->	union {
->		struct {
->			__u32 msr;
->                        __u32 pad2;
->			__u64 control;
->			__u64 evt_page;
->			__u64 msg_page;
->		} synic;
->		struct {
->			__u64 input;
->			__u64 result;
->			__u64 params[2];
->		} hcall;
->	} u;
->};
->
->and the suggestion is only to make it explicit. Adding something before
->'input' will actually break ABI.
->
->-- 
->Vitaly
->
+Microsoft's kdvm.dll dbgtransport module does not respect the hypercall
+page and simply identifies the CPU being used (AMD/Intel) and according
+to it simply makes hypercalls with the relevant instruction
+(vmmcall/vmcall respectively).
 
-Bah sorry guys :( not sure why this too so many iterations... will fix 
-it right in next version.
+The relevant function in kdvm is KdHvConnectHypervisor which first checks
+if the hypercall page has been enabled via HV_X64_MSR_HYPERCALL_ENABLE,
+and in case it was not it simply sets the HV_X64_MSR_GUEST_OS_ID to
+0x1000101010001 which means:
+build_number = 0x0001
+service_version = 0x01
+minor_version = 0x01
+major_version = 0x01
+os_id = 0x00 (Undefined)
+vendor_id = 1 (Microsoft)
+os_type = 0 (A value of 0 indicates a proprietary, closed source OS)
+
+and starts issuing the hypercall without setting the hypercall page.
+
+To resolve this issue simply enable hypercalls also if the guest_os_id
+is not 0.
+
+Signed-off-by: Jon Doron <arilou@gmail.com>
+---
+ arch/x86/kvm/hyperv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index b6a97abe2bc9..917b10a637fc 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -1639,7 +1639,10 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *current_vcpu, u64 ingpa, u64 outgpa,
+ 
+ bool kvm_hv_hypercall_enabled(struct kvm *kvm)
+ {
+-	return READ_ONCE(kvm->arch.hyperv.hv_hypercall) & HV_X64_MSR_HYPERCALL_ENABLE;
++	struct kvm_hv *hv = &kvm->arch.hyperv;
++
++	return READ_ONCE(hv->hv_hypercall) & HV_X64_MSR_HYPERCALL_ENABLE ||
++	       READ_ONCE(hv->hv_guest_os_id) != 0;
+ }
+ 
+ static void kvm_hv_hypercall_set_result(struct kvm_vcpu *vcpu, u64 result)
+-- 
+2.24.1
+
