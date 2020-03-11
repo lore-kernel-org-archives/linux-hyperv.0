@@ -1,115 +1,119 @@
-Return-Path: <SRS0=G7uX=43=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=3f3u=44=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6E1CC18E5B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 10 Mar 2020 17:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE14C18E5B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 11 Mar 2020 05:13:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A86DC24649
-	for <linux-hyperv@archiver.kernel.org>; Tue, 10 Mar 2020 17:14:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPr60n6O"
+	by mail.kernel.org (Postfix) with ESMTP id 3615E21D56
+	for <linux-hyperv@archiver.kernel.org>; Wed, 11 Mar 2020 05:13:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgCJROR (ORCPT
+        id S1726855AbgCKFNy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 10 Mar 2020 13:14:17 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36604 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbgCJROR (ORCPT
+        Wed, 11 Mar 2020 01:13:54 -0400
+Received: from smtprelay0137.hostedemail.com ([216.40.44.137]:42890 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726472AbgCKFNy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 10 Mar 2020 13:14:17 -0400
-Received: by mail-wr1-f67.google.com with SMTP id s5so12989936wrg.3;
-        Tue, 10 Mar 2020 10:14:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YxvAecFulSD8TnYu6Bdw3yluyHTPsAWlb/0EQPhybgQ=;
-        b=SPr60n6OSWbLna/pRLxYdMcGAsdyqT7XCIi+09nutJD29iRPlx6m8oVdZcK4iApRtG
-         32KAdMaO2Jg1mWSXym/DmureZCJ/qe0xzsc43FZIHpa3fjwf4IKfNfuEo7MIJoLhe29o
-         CfHEnQy1CRQbOSggcj1urjjYJ7QWJB4bgmCGbxziFgvBV5h1hJwHbts5FhOIicctDb9T
-         7rmZBDpsMH9msitNbBC6bKKlf6Hwxn6t9cNjKdhoupY6J1SPg/eYRg5P1xk3rmEciOiq
-         IZOLzaqiwYk9+rNcR2ZDHJu1zhwJm5eUwoY4ltmH1FbCM31wO8R/HZyyvLeq7j7UIz+E
-         O74Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YxvAecFulSD8TnYu6Bdw3yluyHTPsAWlb/0EQPhybgQ=;
-        b=oYDUz98Gvdit9NvWuifZisrVaoNk5WLjKgWYrWzWGEwBf9MgL5X6C1oiJjPBk6SRHz
-         H7ORrxY60MxfYTXtPJkyyJ+OiknFNXKIsCpjvSP6IqPoPeoNKvS80DEqYLXC3nzVHS7y
-         9C3I6pUJdZDwIwcatpRVG+zTdEZnyRmLqZ6QZyLV6M6GmjesABpkFXtjlyd8VaiUxrZ1
-         KA6LscbDPcTsB8FvxkLj2Cn2R23qsWjN1GrIfVRD7jl1CE81/P94LEyVJKGqpPxwaZlN
-         0AuVhoMxJ36GK/4/xSNsG2T6JB9/P7qfjF4Z2tHdkAi2eLOPFI7QfR7eRBiCpFMgdzFf
-         UhFQ==
-X-Gm-Message-State: ANhLgQ2bV4HWh/W/KmaeUFEXbJQAjo4/wwwd3KHcJLFgcvB34DqSvH4z
-        n5cK8uwiDh38FEupSVX5jKmzpIAKQBU=
-X-Google-Smtp-Source: ADFU+vthAIE2MZTZEesfjfcou/8n96q9par0YA5nRJM1HOgesSd20O6u7XfzN09curTSNmGTLof0zw==
-X-Received: by 2002:adf:9d8f:: with SMTP id p15mr25885968wre.160.1583860453844;
-        Tue, 10 Mar 2020 10:14:13 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id i6sm1963972wru.40.2020.03.10.10.14.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 10:14:13 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 19:14:12 +0200
-From:   Jon Doron <arilou@gmail.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v4 1/5] x86/kvm/hyper-v: Explicitly align hcall param for
- kvm_hyperv_exit
-Message-ID: <20200310171412.GC13767@jondnuc>
-References: <20200309182017.3559534-1-arilou@gmail.com>
- <20200309182017.3559534-2-arilou@gmail.com>
- <87k13sb14a.fsf@vitty.brq.redhat.com>
+        Wed, 11 Mar 2020 01:13:54 -0400
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave05.hostedemail.com (Postfix) with ESMTP id CEC3318074F14;
+        Wed, 11 Mar 2020 05:07:24 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 103FF10185974;
+        Wed, 11 Mar 2020 05:07:22 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: dolls43_23050b1e12945
+X-Filterd-Recvd-Size: 3010
+Received: from joe-laptop.perches.com (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 11 Mar 2020 05:07:20 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: [PATCH -next 019/491] Hyper-V CORE AND DRIVERS: Use fallthrough;
+Date:   Tue, 10 Mar 2020 21:51:33 -0700
+Message-Id: <84677022b8ec4ad14bddab57d871dcbfc0b4a1bf.1583896348.git.joe@perches.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <cover.1583896344.git.joe@perches.com>
+References: <cover.1583896344.git.joe@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87k13sb14a.fsf@vitty.brq.redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 10/03/2020, Vitaly Kuznetsov wrote:
->Jon Doron <arilou@gmail.com> writes:
->
->> Signed-off-by: Jon Doron <arilou@gmail.com>
->> ---
->>  include/uapi/linux/kvm.h | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index 4b95f9a31a2f..7acfd6a2569a 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -189,6 +189,7 @@ struct kvm_hyperv_exit {
->>  #define KVM_EXIT_HYPERV_SYNIC          1
->>  #define KVM_EXIT_HYPERV_HCALL          2
->>  	__u32 type;
->> +	__u32 pad;
->>  	union {
->>  		struct {
->>  			__u32 msr;
->
->Sorry if I missed something but I think the suggestion was to pad this
->'msr' too (in case we're aiming at making padding explicit for the whole
->structure). Or is there any reason to not do that?
->
->Also, I just noticed that we have a copy of this definition in
->Documentation/virt/kvm/api.rst - it will need to be updated (and sorry
->for not noticing it earlier).
->
->-- 
->Vitaly
->
+Convert the various uses of fallthrough comments to fallthrough;
 
-Heh sure no problem will fix in v5, but going to wait for a verdict on 
-the location for the new CPUID leafs and MSRs for the synthetic 
-debugger.
+Done via script
+Link: https://lore.kernel.org/lkml/b56602fcf79f849e733e7b521bb0e17895d390fa.1582230379.git.joe.com/
 
--- Jon.
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ drivers/hv/hv_kvp.c             | 4 +---
+ drivers/hv/vmbus_drv.c          | 2 +-
+ drivers/video/fbdev/hyperv_fb.c | 4 ++--
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
+index e74b144..da4686 100644
+--- a/drivers/hv/hv_kvp.c
++++ b/drivers/hv/hv_kvp.c
+@@ -353,9 +353,7 @@ static void process_ib_ipinfo(void *in_msg, void *out_msg, int op)
+ 				MAX_IP_ADDR_SIZE);
+ 
+ 		out->body.kvp_ip_val.dhcp_enabled = in->kvp_ip_val.dhcp_enabled;
+-
+-		/* fallthrough */
+-
++		fallthrough;
+ 	case KVP_OP_GET_IP_INFO:
+ 		utf16s_to_utf8s((wchar_t *)in->kvp_ip_val.adapter_id,
+ 				MAX_ADAPTER_ID_SIZE,
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 029378..0befc0 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1188,7 +1188,7 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 
+ 			case HV_CALL_BATCHED:
+ 				hv_begin_read(&channel->inbound);
+-				/* fallthrough */
++				fallthrough;
+ 			case HV_CALL_DIRECT:
+ 				tasklet_schedule(&channel->callback_event);
+ 			}
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index e4c3c8b..02411d 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -648,13 +648,13 @@ static int synthvid_connect_vsp(struct hv_device *hdev)
+ 		ret = synthvid_negotiate_ver(hdev, SYNTHVID_VERSION_WIN10);
+ 		if (!ret)
+ 			break;
+-		/* Fallthrough */
++		fallthrough;
+ 	case VERSION_WIN8:
+ 	case VERSION_WIN8_1:
+ 		ret = synthvid_negotiate_ver(hdev, SYNTHVID_VERSION_WIN8);
+ 		if (!ret)
+ 			break;
+-		/* Fallthrough */
++		fallthrough;
+ 	case VERSION_WS2008:
+ 	case VERSION_WIN7:
+ 		ret = synthvid_negotiate_ver(hdev, SYNTHVID_VERSION_WIN7);
+-- 
+2.24.0
+
