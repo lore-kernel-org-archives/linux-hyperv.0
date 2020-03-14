@@ -2,240 +2,129 @@ Return-Path: <SRS0=bNYE=5A=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D257DC1975A
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:30:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ECE6C0044D
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:31:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9BC7920637
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:30:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 754A220637
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:31:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="J8ENPY1R"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="UUIacZrL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbgCOBa3 (ORCPT
+        id S1727324AbgCOBbk (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 14 Mar 2020 21:30:29 -0400
-Received: from mail-eopbgr700109.outbound.protection.outlook.com ([40.107.70.109]:3776
-        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        Sat, 14 Mar 2020 21:31:40 -0400
+Received: from mail-mw2nam10on2097.outbound.protection.outlook.com ([40.107.94.97]:13053
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727206AbgCOBa2 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 14 Mar 2020 21:30:28 -0400
+        id S1727320AbgCOBbj (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 14 Mar 2020 21:31:39 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Eyh/rK7PqGfs1GTT04/xd7CFSGR+ZJ/BkoVZEd4feozNJzglKT6uzzFmfJRj2olemprZoOKIUOo/1t92WKvGsd0uKaUf/VuRQd5jVZ8sb4mCZtnM9xAFGhQz1Y3LB/2FKKpgX3KjK/SKOEDKOusAAxG/BT6xWPU3aUAMJNiSKvrYe0dFLwJZvQ9IkRzUxJxuRzJ4lg2OAL6gRtm5+cXEfq4H+V8D0KhRivTin277Vtiei2Zh1e1YfNoqr9mOjNPFNKUCax32T2zAE3xJyjJQol6lvMDMXBnyBQwR6UUE1qzoFNmWBU6hTr48FcB4GuE6fhqoiTR0G/LcZCVJM753GQ==
+ b=Ch1KfLqAGOu/pIdmuD08W6n6ANb6CZwrE4IL3YBMs2s//eKcK/Oruxr747wFvHXvic3jmLKtyNu9YXDJN4I6dn9htF7KSfqPl0gvPHHWKO53xpia+roBLbTzgmuWq+7/XSVHJdSghgOFko+QesX70RjB+MsQk6dpK1p/HUcpXQDAgT6jULfFDqToiaOU7ST6D2TRWYynPg6JkW0+f8eGLWRZX8q4+xvyZvXXUur70z5byE4nOlc0V9iWBoSgCllNVQPjjgWsfiyq50PacZ4YIj9b2+gvUlevbgyUsMxezYxHr9zzRpWUDGd8vdKQG+fpfw5xizfJktSc9ez5LHNVKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kDNDhKNMMl/elMotPjXPxRshnKot+EpSDmiev/+jHog=;
- b=HOJZbX3907AqC9R1b62n49kZHJUwE87PEr/K+rHiumiC7WJafbhn8hqLx2RrbeS+FTxMDsYdO3a+Gt0G+bcPM87EldvJvYHbLgVUJ7CHooBnWOjgIyIpqdhW9x6X+moZvgybP9izOOf5eS8ZGS4cUR/McGKf0IzScNCNuefqIQU6CvAZ2paMe2crgtRu4NuKkALvJDfkA7Gy8yT91hdL6y2mL8NFhl105ozIpPVOvF7BfvNUXOFYKBZkuN0XcYX1ud9/4AsLQVnmhxNNAlO0vRn37/9rhfKEF3xK+x/JcozKuIVgvcGZjQda+lyf8HIYQ8tQoGUHcp2+ValmLpR1Bg==
+ bh=+PV712g3ms28H2QFj0D+vWdL+gvp+JVKNUthg+fNuV4=;
+ b=Ce+b48i/FmDby3pP9lV4vSK0FVcitNhWRmsV2U7cv6Ir2KmCIZc5qvXxnfgkgxOjaDyXaJO5c8T21nOSOC0TAM/NAEBG4B8GXq/bwEkInj6pwCp3Z9BX/bAZKgBoe+8xD1U514uccEB7PCxThp/3AjgOQhpeNZMVF/LrPsQetZJDyJO+D10frtilfpLTcKuETyLiyUZmntCIfD+faguCj3IyBBBDQnawaIC/vP3+PICDD3e69Yoo+IJZEJFmaQ0ErSj7qkMRASts/DcNionF1oUzXYo6y7EqYfQh7SO6KKJya743/S+5BgTTeRIr0ut/FkL/t3nnlz8OeQMbh817pA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kDNDhKNMMl/elMotPjXPxRshnKot+EpSDmiev/+jHog=;
- b=J8ENPY1Rs+j+ZWIW99eJY9tydJ6GUYiq4o3TpgTOzrerv2Xuagpk9Kw8nMM/jHUEKRoKgP4QuM4N2U0qkRWM3D0qarNGh4DaPyQGfEcncQDT9LkIoe6Wg8PvOCfnUKvsvpLKH2bQqlAUSlumYm464oKqs48ymCaiFveQE+Blhko=
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
- by MW2PR2101MB0987.namprd21.prod.outlook.com (2603:10b6:302:4::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.2; Sat, 14 Mar
- 2020 14:14:41 +0000
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::71ee:121:71bd:6156]) by MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::71ee:121:71bd:6156%9]) with mapi id 15.20.2835.003; Sat, 14 Mar 2020
- 14:14:41 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Jon Doron <arilou@gmail.com>
-CC:     "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        vkuznets <vkuznets@redhat.com>
-Subject: RE: [PATCH v5 2/5] x86/hyper-v: Add synthetic debugger definitions
-Thread-Topic: [PATCH v5 2/5] x86/hyper-v: Add synthetic debugger definitions
-Thread-Index: AQHV+To/OcoVcvMEKUyFhrb80x2BNahG+0vAgACI2ICAAJ2b0A==
-Date:   Sat, 14 Mar 2020 14:14:41 +0000
-Message-ID: <MW2PR2101MB105281002BEE02E23A43D517D7FB0@MW2PR2101MB1052.namprd21.prod.outlook.com>
-References: <20200313132034.132315-1-arilou@gmail.com>
- <20200313132034.132315-3-arilou@gmail.com>
- <MW2PR2101MB10521050158699C7C96613F5D7FA0@MW2PR2101MB1052.namprd21.prod.outlook.com>
- <20200314044451.GA15879@jondnuc>
-In-Reply-To: <20200314044451.GA15879@jondnuc>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=mikelley@ntdev.microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-03-14T14:14:39.3506328Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=cbf0e3a3-3ab2-42b4-b7d6-f4742b40c351;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
+ bh=+PV712g3ms28H2QFj0D+vWdL+gvp+JVKNUthg+fNuV4=;
+ b=UUIacZrLAouOhySM2YNnfqUXVZT5ln+4MGb/SEGBV3Pg6H7WIpkCUN+tlVx5El2FOUz8GjrZFFOjhMstYiZ5GmG8/iHDCFzRz1nyrsPSjnd+KiZm1QhkjbgvkyckVIHcB4E+ZpedlTSeyXK+EsMwwDMzqjklrZV0wBL9pvTSKac=
+Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=mikelley@microsoft.com; 
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 99c06d0e-9967-43e0-fee2-08d7c82209b0
-x-ms-traffictypediagnostic: MW2PR2101MB0987:|MW2PR2101MB0987:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MW2PR2101MB098715E975D133394FE87B8CD7FB0@MW2PR2101MB0987.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 034215E98F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(346002)(136003)(376002)(396003)(366004)(199004)(478600001)(10290500003)(66946007)(81166006)(55016002)(7696005)(76116006)(71200400001)(8990500004)(5660300002)(66556008)(66446008)(9686003)(8676002)(64756008)(33656002)(6916009)(8936002)(186003)(66476007)(81156014)(6506007)(4326008)(316002)(26005)(54906003)(52536014)(86362001)(2906002);DIR:OUT;SFP:1102;SCL:1;SRVR:MW2PR2101MB0987;H:MW2PR2101MB1052.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-received-spf: None (protection.outlook.com: microsoft.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ViMIIhg3MWmj2P8Lk4fxq0LoUlDOtJ5ce/X/pVJY9TfuCltUTGGTk3HZ15BPsCLtKSTp2+UiuAmqcMLGVR+51eqOkg/fiv//JJHrf86sfChpSI3+VLCGzmz8uc1OXpezGIuU8Q2/aJGiXK/AGP1osFiZAXcp4JPF5JIFIhZx9QYqjnZq7YXEryvvLkuTHs2BfoyuC2fkT3N674v92w0O53kYBy4yk/GdXQerLpkEWBVyjNpHTsk44BRdXBC1Nc3xR7kSvVTw4r5FB1r3KLgqmJxtfVEEzuV1d5p70rW+kkk5+WlradmUMDuJ7Si56cmxuMTbwcirz9t59m+XbOM8KFNklJCwWcsRLATLgJ1dCCAAv6g5baaRQUh3ihOcBB8Kqeh/A7P/vrKCY36hBzBPiu2R1a9l12qmBmXo8YnMy57w6GM9pB/ckGHqJg4aMDEb
-x-ms-exchange-antispam-messagedata: MMQiIax0Xd1Z5KelQB/BmUSvX3xhoEULSJbsaHy5ELODGh6V9HfeUBRLy+YfahzJ/5tYpf51g3SIl5WfP/aWVD9cmiXbBuRwYggz7IgLAYaUoYWGhe+hoOjSiiGjZchDpk+zWUJFnbCeM8WRvWUxOQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from SN6PR2101MB0927.namprd21.prod.outlook.com (2603:10b6:805:a::18)
+ by SN6PR2101MB1632.namprd21.prod.outlook.com (2603:10b6:805:53::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.4; Sat, 14 Mar
+ 2020 15:36:04 +0000
+Received: from SN6PR2101MB0927.namprd21.prod.outlook.com
+ ([fe80::a819:6437:1733:17b3]) by SN6PR2101MB0927.namprd21.prod.outlook.com
+ ([fe80::a819:6437:1733:17b3%9]) with mapi id 15.20.2835.008; Sat, 14 Mar 2020
+ 15:36:04 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     will@kernel.org, ardb@kernel.org, arnd@arndb.de,
+        catalin.marinas@arm.com, mark.rutland@arm.com, maz@kernel.org,
+        linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
+        olaf@aepfle.de, apw@canonical.com, vkuznets@redhat.com,
+        jasowang@redhat.com, marcelo.cerri@canonical.com, kys@microsoft.com
+Cc:     mikelley@microsoft.com, sunilmut@microsoft.com,
+        boqun.feng@gmail.com
+Subject: [PATCH v6 02/10] arm/arm64: smccc-1.1: Add vendor specific owner definition
+Date:   Sat, 14 Mar 2020 08:35:11 -0700
+Message-Id: <1584200119-18594-3-git-send-email-mikelley@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1584200119-18594-1-git-send-email-mikelley@microsoft.com>
+References: <1584200119-18594-1-git-send-email-mikelley@microsoft.com>
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR22CA0047.namprd22.prod.outlook.com
+ (2603:10b6:300:69::33) To SN6PR2101MB0927.namprd21.prod.outlook.com
+ (2603:10b6:805:a::18)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mhkkerneltest.corp.microsoft.com (131.107.159.247) by MWHPR22CA0047.namprd22.prod.outlook.com (2603:10b6:300:69::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18 via Frontend Transport; Sat, 14 Mar 2020 15:36:02 +0000
+X-Mailer: git-send-email 1.8.3.1
+X-Originating-IP: [131.107.159.247]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4a134102-4fd6-4387-1abb-08d7c82d67d3
+X-MS-TrafficTypeDiagnostic: SN6PR2101MB1632:|SN6PR2101MB1632:|SN6PR2101MB1632:
+X-MS-Exchange-Transport-Forked: True
+X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+X-Microsoft-Antispam-PRVS: <SN6PR2101MB16326D7E357D07CD5FE99651D7FB0@SN6PR2101MB1632.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-Forefront-PRVS: 034215E98F
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(199004)(10290500003)(478600001)(2906002)(6486002)(36756003)(8936002)(66946007)(26005)(86362001)(2616005)(16526019)(186003)(956004)(66556008)(6636002)(66476007)(4326008)(7416002)(316002)(81166006)(8676002)(81156014)(52116002)(7696005)(6666004)(5660300002)(4744005)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1632;H:SN6PR2101MB0927.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+Received-SPF: None (protection.outlook.com: microsoft.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D0Kh8yFy3reWaUxLQCaMYY2ktWMPKpRky5Rlm5BsEF1biqj8PpWSBK2TLn+hPBLTfMde0w7IyW0W9Ty8UVLvs+kNqWdAsTMsCh5yGLFYYcC5TqQfa2ExI+x1PBG0zqTdx96dhbZOPUOQ91+42BgE7MMzurgXjl00PG7Oj4U4/GtKOYjGgjiJMV2p1Kj51C1C6nDmP6BHLPNpG7uwBVPpYgRxIsYT97+H+vrfOt9xDZ8oJXLIThZ0XJRVCyiHpvK2D8j4at5NcOvym7Um0SUDmFB/N87cezrI+yovBcovVfO+pF0bqe17f5GtOnbaeyjBvSpQOK5ls82W12s2fxrooibtmpr/PoILwvVzBs6Xb4nJxXEGw33xpN1G5Eh5A8GDEeJ+VquepkNginoEieEm57cDs0SailplvLhpMBHeXsu9hwXB1VCk5FVAXDmVjsNCJBwtRnKgBs4Mc+5Olnq2HqHWEgyF0RPnjHY0R2ym2h1crxck5433O5M+EDirQ0sj
+X-MS-Exchange-AntiSpam-MessageData: ci0tGJWaCSEryytksHgXytNUSd2e+/ZIuZIJY2k6vbgADmeuXnH5jxHsgRDgXKgkNuNxy0SRbl9dvWb6pmDZevMEqaGucEQDvxYjjEaS3No4Lnq+VnVaN6MDxA4gGrzeOaS2Cu0whF1jjxP6jODECw==
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99c06d0e-9967-43e0-fee2-08d7c82209b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Mar 2020 14:14:41.1693
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a134102-4fd6-4387-1abb-08d7c82d67d3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2020 15:36:03.9085
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uqJvnW02fUI2zqKVdLRd4F56aWd0jEkPJf1UybtscZtITmu3KM5zK4bP3GuY5Nod4/PMLl7sCEyyE2ZvZ5EtleDzTSZTkgnOfuJ1MMcDuCs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0987
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KBiuNiMTlIE2xu4JI+QkBi0HgPBOa5+EfYGpGXY/WIbWuROln+X0LuwLwO+N6s2ym/PHkeddSFJFOd1HfBuTMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1632
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Jon Doron <arilou@gmail.com>  Sent: Friday, March 13, 2020 9:45 PM
->=20
-> On 13/03/2020, Michael Kelley wrote:
-> >From: Jon Doron <arilou@gmail.com> Sent: Friday, March 13, 2020 6:21 AM
-> >>
-> >> Hyper-V synthetic debugger has two modes, one that uses MSRs and
-> >> the other that use Hypercalls.
-> >>
-> >> Add all the required definitions to both types of synthetic debugger
-> >> interface.
-> >>
-> >> Some of the required new CPUIDs and MSRs are not documented in the TLF=
-S
-> >> so they are in hyperv.h instead.
-> >>
-> >> Signed-off-by: Jon Doron <arilou@gmail.com>
-> >> ---
-> >>  arch/x86/include/asm/hyperv-tlfs.h |  6 ++++++
-> >>  arch/x86/kvm/hyperv.h              | 22 ++++++++++++++++++++++
-> >>  2 files changed, 28 insertions(+)
-> >>
-> >> diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm=
-/hyperv-tlfs.h
-> >> index 92abc1e42bfc..671ce2a39d4b 100644
-> >> --- a/arch/x86/include/asm/hyperv-tlfs.h
-> >> +++ b/arch/x86/include/asm/hyperv-tlfs.h
-> >> @@ -131,6 +131,8 @@
-> >>  #define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		BIT(8)
-> >>  /* Crash MSR available */
-> >>  #define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
-> >> +/* Support for debug MSRs available */
-> >> +#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
-> >>  /* stimer Direct Mode is available */
-> >>  #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
-> >>
-> >> @@ -376,6 +378,9 @@ struct hv_tsc_emulation_status {
-> >>  #define HVCALL_SEND_IPI_EX			0x0015
-> >>  #define HVCALL_POST_MESSAGE			0x005c
-> >>  #define HVCALL_SIGNAL_EVENT			0x005d
-> >> +#define HVCALL_POST_DEBUG_DATA			0x0069
-> >> +#define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
-> >> +#define HVCALL_RESET_DEBUG_SESSION		0x006b
-> >>  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
-> >>  #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
-> >>
-> >> @@ -419,6 +424,7 @@ enum HV_GENERIC_SET_FORMAT {
-> >>  #define HV_STATUS_INVALID_HYPERCALL_INPUT	3
-> >>  #define HV_STATUS_INVALID_ALIGNMENT		4
-> >>  #define HV_STATUS_INVALID_PARAMETER		5
-> >> +#define HV_STATUS_OPERATION_DENIED		8
-> >>  #define HV_STATUS_INSUFFICIENT_MEMORY		11
-> >>  #define HV_STATUS_INVALID_PORT_ID		17
-> >>  #define HV_STATUS_INVALID_CONNECTION_ID		18
-> >> diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-> >> index 757cb578101c..56bc3416b62f 100644
-> >> --- a/arch/x86/kvm/hyperv.h
-> >> +++ b/arch/x86/kvm/hyperv.h
-> >> @@ -23,6 +23,28 @@
-> >>
-> >>  #include <linux/kvm_host.h>
-> >>
-> >> +/* These defines are required by KDNet and they are not part of Hyper=
--V TLFS */
-> >
-> >I'm looking for a bit more info in the comment so that it's clear that t=
-he
-> >synthetic debugger functionality is not committed to be available going
-> >forward. Perhaps something along the lines of:
-> >
-> >/* The #defines related to the synthetic debugger are required by KDNet,=
- but
-> > * they are not documented in the Hyper-V TLFS because the synthetic deb=
-ugger
-> > * functionality has been deprecated and is subject to removal in future=
- versions
-> > * of Windows.
-> > */
-> >
-> >But with that additional comment text,
-> >
-> >Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-> >
->=20
-> Sure thing, but one quick question I have noticed that in the 6.0 TLFS
-> the bit indicating the DEBUG_MSRS are available is still documented is
-> that intentional or a juss a miss?
+In the SMCCC v1.1 spec, the Owning Entity Number in the Function
+Identifier may have a value of 6 for a vendor specific hypervisor
+service call. Add this #define.
 
-From the side conversation I had with the Hyper-V people, I think
-this is just a miss.  They took out the MSR definitions, but forgot to
-take out the flag indicating the presence of the MSRs.  As I think I
-mentioned in an earlier email, there will be future updates to the
-TLFS, and I've put this topic on my list of things to make sure get
-cleaned up.
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+---
+ include/linux/arm-smccc.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Michael
+diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
+index 59494df..8229203 100644
+--- a/include/linux/arm-smccc.h
++++ b/include/linux/arm-smccc.h
+@@ -46,6 +46,7 @@
+ #define ARM_SMCCC_OWNER_OEM		3
+ #define ARM_SMCCC_OWNER_STANDARD	4
+ #define ARM_SMCCC_OWNER_STANDARD_HYP	5
++#define ARM_SMCCC_OWNER_VENDOR_HYP	6
+ #define ARM_SMCCC_OWNER_TRUSTED_APP	48
+ #define ARM_SMCCC_OWNER_TRUSTED_APP_END	49
+ #define ARM_SMCCC_OWNER_TRUSTED_OS	50
+-- 
+1.8.3.1
 
->=20
-> Cheers,
-> -- Jon.
->=20
-> >> +#define HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS	0x40000080
-> >> +#define HYPERV_CPUID_SYNDBG_INTERFACE			0x40000081
-> >> +#define HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES	0x40000082
-> >> +
-> >> +/*
-> >> + * Hyper-V synthetic debugger platform capabilities
-> >> + * These are HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits.
-> >> + */
-> >> +#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	BIT(1)
-> >> +
-> >> +/* Hyper-V Synthetic debug options MSR */
-> >> +#define HV_X64_MSR_SYNDBG_CONTROL		0x400000F1
-> >> +#define HV_X64_MSR_SYNDBG_STATUS		0x400000F2
-> >> +#define HV_X64_MSR_SYNDBG_SEND_BUFFER		0x400000F3
-> >> +#define HV_X64_MSR_SYNDBG_RECV_BUFFER		0x400000F4
-> >> +#define HV_X64_MSR_SYNDBG_PENDING_BUFFER	0x400000F5
-> >> +#define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
-> >> +
-> >> +/* Hyper-V HV_X64_MSR_SYNDBG_OPTIONS bits */
-> >> +#define HV_X64_SYNDBG_OPTION_USE_HCALLS		BIT(2)
-> >> +
-> >>  static inline struct kvm_vcpu_hv *vcpu_to_hv_vcpu(struct kvm_vcpu *vc=
-pu)
-> >>  {
-> >>  	return &vcpu->arch.hyperv;
-> >> --
-> >> 2.24.1
-> >
