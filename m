@@ -2,53 +2,53 @@ Return-Path: <SRS0=bNYE=5A=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2F2C0044D
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:32:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3188C4CECE
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:32:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5CD6120771
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:32:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A12E32076A
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Mar 2020 01:32:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="Xq7cxraS"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="fbSqai0u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726505AbgCOBcN (ORCPT
+        id S1726826AbgCOBcW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 14 Mar 2020 21:32:13 -0400
-Received: from mail-mw2nam10on2123.outbound.protection.outlook.com ([40.107.94.123]:18974
+        Sat, 14 Mar 2020 21:32:22 -0400
+Received: from mail-mw2nam10on2097.outbound.protection.outlook.com ([40.107.94.97]:13053
         "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727401AbgCOBbx (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 14 Mar 2020 21:31:53 -0400
+        id S1726716AbgCOBcV (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 14 Mar 2020 21:32:21 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WN8Ehu4TOAFLkoX6fUVUNF8K2d3matrnLwfO4PeoXtb2ulwiCFNvDh1qXSW1Oh1VIdXdGq6xW4pjoGTs5rmFkEmpNrN/ZCUH2zOTu6Z2k9Lin1lPIsRUI0P+kZvbSG/G41jflfekJITc+LtXyCtGeP8vslIfS6U+nkD7jYpqy5+S8fJLbv/y3UICRRMGx0vfT/n+ruSfhGF+WSbpyFYSoCe3ZAVqpBauuK9q9cKY4FLGdUcLX3OCdk90jrZCAkMhJaOpqU+tA8PKqo9dmrbrrTPKTjmHsymqXG+7e3V53lLlNiOfJRmPzXw0uk45W7LDca/rLY+JH16WbOexSuSiXw==
+ b=cB1ToQbaikyQpiH3vOLKSgGHyVfK+9f388XH5VF4ZSy6CVNyabSEih6b1KVjB+tIlbV28EUyMGSLztsyeqcmRO8Ovms0u41ur51cLFlwLkp2RvNmrZnNloGxSGu1dAooBMgH/1WHWpdS2u+OoTL44M/lpvXNyJfpktFH8k0UuV1gBoVHSJ8ildBmDo2askuj3r7VPlKDP6PowsypwxQfOzEg0S+G23Pjh8Mnj2kOcy4U6ZgCvNPaBHXAtORTiFiyoloC+C7eTKFNqsQI9JCm+8+Hmrk/5NekwTT6OmSRkaZ9MtqE+yiFlMCfztgPHkPzKWNAlXlJH8ve79qcKiOr5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2V69NKeaHto3g1dhRW/YvOGh1RIGqgL7YLwR1BORBM=;
- b=nXjVWcu+vyTuntoWdADYZpFPrVEjfLoMc1eUKrII1yYwxhVFDVISdvf0WZoMltEjVfEMlSjvOPIg60Wor9iUp/xbmRNGqJjBhUWgNJmrSJcOzjx4cHXiv/0TwZmEneU9tQJipxKtalZZEQpCNGULJ1PGYGIemvpcttZtieRagk+PJxIlc1Z7/sfqFveIeXD0cpXu5EIoXr6Xikhn6QXpCh34J+O3U31KJntblzZKoVAfV9tKVWLNXSmIrCU5JvkHvFChvC7I4u20mGyghn6L/wX2IS/C6DauXgqkwsY1oBZIq4+pWSzDfi/Zs+DjscwKib0H9ePCZZM12wvh26A8LQ==
+ bh=NHV8a9pcFFWQTnd4HapIeaqDNPT6mfyCP7xMUlmD/L8=;
+ b=oR/p4XyyWT3bSqhmvWqVj3MmeIYtDNptqlPJlZdJz/7C5DZdnRQLQmyc2xSmwtpehJaT1RMeYJsUsKx39A4xdfIAGC90y/IehjBx14wkJBlLPpGSSR5dIiwNjziH4w74uhKvpZn7tPIWb5uyxAn/bRvD4Q6okKLRHTbR145jHt5MtK0hY7fJMC5OuWJC+WKBOdKvm8TFeFh2UTMrMHlAk7hbQlQXNLTNcQDDiBCqqSRegAHMDUfGkXNgN8sbYcngSzYkX4199AODTQAqWKFhHa+ckMY2GGNqC72MfXjlFNj/Qunhh7OaR+Drtl/zb4hW9LH5Odc2km6d5T562P+x/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2V69NKeaHto3g1dhRW/YvOGh1RIGqgL7YLwR1BORBM=;
- b=Xq7cxraSh/D5JHZe7aYoPO0iNxPIfiK/eE+TOsqL6lz5TB7kmb0RSISiG66REZsrRw8q8dM7DN70yeSOkzUDLPBPp+jZE6dV4Tp0pSFLn/PZlMwOFcIAZzacWEy+PmL6Wua0dWU2UWYaFfIe2e5kumDue7BWL7Swto2LVsNo0BA=
+ bh=NHV8a9pcFFWQTnd4HapIeaqDNPT6mfyCP7xMUlmD/L8=;
+ b=fbSqai0u0wL7pusbq5tfzTQuJDdOWMX3BX8NHKb5Ocru6drQcjUPlZoLct7BE37HZIBCs2cc7iGQPXv+r68pseSLo9OtE8WjSQNGXUboKHvso7EtsBzBXfn3C2dfDZcYPoIicUVkuE+i66VfHoqYDiQwqtYl1yl792feMQF1ySg=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=mikelley@microsoft.com; 
 Received: from SN6PR2101MB0927.namprd21.prod.outlook.com (2603:10b6:805:a::18)
  by SN6PR2101MB1632.namprd21.prod.outlook.com (2603:10b6:805:53::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.4; Sat, 14 Mar
- 2020 15:36:07 +0000
+ 2020 15:35:57 +0000
 Received: from SN6PR2101MB0927.namprd21.prod.outlook.com
  ([fe80::a819:6437:1733:17b3]) by SN6PR2101MB0927.namprd21.prod.outlook.com
  ([fe80::a819:6437:1733:17b3%9]) with mapi id 15.20.2835.008; Sat, 14 Mar 2020
- 15:36:07 +0000
+ 15:35:57 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     will@kernel.org, ardb@kernel.org, arnd@arndb.de,
         catalin.marinas@arm.com, mark.rutland@arm.com, maz@kernel.org,
@@ -59,131 +59,186 @@ To:     will@kernel.org, ardb@kernel.org, arnd@arndb.de,
         jasowang@redhat.com, marcelo.cerri@canonical.com, kys@microsoft.com
 Cc:     mikelley@microsoft.com, sunilmut@microsoft.com,
         boqun.feng@gmail.com
-Subject: [PATCH v6 04/10] arm64: hyperv: Add memory alloc/free functions for Hyper-V size pages
-Date:   Sat, 14 Mar 2020 08:35:13 -0700
-Message-Id: <1584200119-18594-5-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v6 00/10] Subject: Enable Linux guests on Hyper-V on ARM64
+Date:   Sat, 14 Mar 2020 08:35:09 -0700
+Message-Id: <1584200119-18594-1-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1584200119-18594-1-git-send-email-mikelley@microsoft.com>
-References: <1584200119-18594-1-git-send-email-mikelley@microsoft.com>
 Content-Type: text/plain
 X-ClientProxiedBy: MWHPR22CA0047.namprd22.prod.outlook.com
  (2603:10b6:300:69::33) To SN6PR2101MB0927.namprd21.prod.outlook.com
  (2603:10b6:805:a::18)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkkerneltest.corp.microsoft.com (131.107.159.247) by MWHPR22CA0047.namprd22.prod.outlook.com (2603:10b6:300:69::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18 via Frontend Transport; Sat, 14 Mar 2020 15:36:05 +0000
+Received: from mhkkerneltest.corp.microsoft.com (131.107.159.247) by MWHPR22CA0047.namprd22.prod.outlook.com (2603:10b6:300:69::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18 via Frontend Transport; Sat, 14 Mar 2020 15:35:56 +0000
 X-Mailer: git-send-email 1.8.3.1
 X-Originating-IP: [131.107.159.247]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 86ef4915-8e75-4bbf-dcdb-08d7c82d6999
+X-MS-Office365-Filtering-Correlation-Id: bca0b8a4-e0d2-4a10-f661-08d7c82d6400
 X-MS-TrafficTypeDiagnostic: SN6PR2101MB1632:|SN6PR2101MB1632:|SN6PR2101MB1632:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <SN6PR2101MB16328E4EB44CFFD346077C4DD7FB0@SN6PR2101MB1632.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <SN6PR2101MB1632CA9DBC2E079346B8144ED7FB0@SN6PR2101MB1632.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-Forefront-PRVS: 034215E98F
 X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(366004)(39860400002)(346002)(376002)(396003)(199004)(10290500003)(478600001)(2906002)(6486002)(36756003)(8936002)(66946007)(26005)(86362001)(2616005)(16526019)(186003)(956004)(66556008)(6636002)(66476007)(4326008)(7416002)(316002)(81166006)(8676002)(81156014)(52116002)(7696005)(6666004)(5660300002)(921003)(1121003);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR2101MB1632;H:SN6PR2101MB0927.namprd21.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xJTg6sD5zPlTVyE446APU6nwIRyZQF9KoJPCDN60PmHqCjj6OdxpIHhoerG0bvkItNUfMkn3SoT6JR0D8L2BmLNwHJetq7E+lMjPXk62wPHdrOtkogyuNenslbOOTb5Js5GHh9yb0AtTMPTeVPcTlOPQOWFJQZxY1EsjgPWrHlJIf+FBC0GfeOlD0jPBWZhfksa6hnutnRFChWpBRr2cROosu5o/vx9dHbysW2V6z8ooUbIbOo7RzHuEquew0xe0E/9l4AY2+S1+a73yaEY/hlNMEbM7V7blN99c4QLLRD4cnFCmCucvin0ufBUEh8prlUP78KKgqE+oh14j61JLegQVW6m1I5P92BL6qcHSDYiNZQFVLbvmSv2WfF5pYTL41PNWnJfAODDXF/S+tlIeHACvsOT+32fiTtDsYRSQenNzjUQBVA3TFtjMdhuxzIag9rj0yc9qjDUo9gJwndR4+UOPzhWqaQxA+Cfmv6IKVtwodj344zCa+QK8ZSaRlD1U
-X-MS-Exchange-AntiSpam-MessageData: CKq4bdrQuYVxw3um1J8bYVSNJ7VkvkENgp/rfN/B0ufJArfh4aYIy1U5To3A06RM5f/lFR2xqsgZgOd/sVkVn+g3xUGLRFrg1V7tzY5thAHV/pfQBjasaA1Wl5gKFNYWKN4ZfwGSJjDeMccV/aQzNg==
+X-Microsoft-Antispam-Message-Info: TIFQGL1u+bzpeThgYYrSTA/JZvZgmA7U+nY3pOmsgVioqxqRDWrBuNsVvZ/piqwwuLzk3mOgjP8EHcbqGrN8+iyIlL28skKtsalCBwd9VuYDB45q5n20dPlX9GK+/wBQQEvVEl4a3sobAijVa1VAsYHAOrOoPBVLXwwdPSGlTpv5cKTchPO3ELndQiGaBQOBXSssG6wlEi0UegSVfLvzasDJib9klQc9GXoEWZvIyGrXl+Ox9LxbPnvHJ6bYaHwgg148KfyDAJJJ+rKAQ70q4fUf//WR3N21a+/duQXV/QfIDcG+v3K2yIejsHouJzPy4oomf1SEaXPG/KC4yb9yklfQ/XluNvZb+dU4bkoS0ScSjhGIbx3AicZc7UQ+AX2uicbDaPsvtzBldRx5J0qOHwwYeYFCuBqhMyXUgv1l+60ziRfPLtdXqCMBJfYjJSkAh/nUvHsZPbZDTrNwOKIzQFcAXr8+ilPXKacWVeHCT3XXC5QzG/07I7EDzz55rfYK
+X-MS-Exchange-AntiSpam-MessageData: BUqqDMCRXJaTUfARN2oBsTyxAw6JBE5e2FlAcwG656L6K/vVB/IJeAtvZcN6IfErWhSvEwLhiPjTgI3rLGMzluZf+j7YVi3w/FvzQtns5FY7vcZNu0MBTY3skC94OusLUC11adeRdIF33LpY7qzBfw==
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86ef4915-8e75-4bbf-dcdb-08d7c82d6999
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2020 15:36:06.8578
+X-MS-Exchange-CrossTenant-Network-Message-Id: bca0b8a4-e0d2-4a10-f661-08d7c82d6400
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2020 15:35:57.4591
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5C0DXU9F/QfEdL2v8CKLs1UHzUYhWNqkJtrpzXgun5cAi4L32noayJ6xW3V78QOt/jxsAiIZ9/SvuW6+UazfJg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 09NTPQAhSjQKpAvO4SN/WQDoG5YmJ0el1nWyuescoHykE8Hq10k6Ym0bAUsCPsUSxd1lvgzcW4zyvbTxoSy7gg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1632
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add ARM64-specific code to allocate memory with HV_HYP_PAGE_SIZE
-size and alignment. These are for use when pages need to be shared
-with Hyper-V. Separate functions are needed as the page size used
-by Hyper-V may not be the same as the guest page size.
+This series enables Linux guests running on Hyper-V on ARM64
+hardware. New ARM64-specific code in arch/arm64/hyperv initializes
+Hyper-V, including its interrupts and hypercall mechanism.
+Existing architecture independent drivers for Hyper-V's VMbus and
+synthetic devices just work when built for ARM64. Hyper-V code is
+built and included in the image and modules only if CONFIG_HYPERV
+is enabled.
 
-This code is built only when CONFIG_HYPERV is enabled.
+The ten patches are organized as follows:
+1) Add include files that define the Hyper-V interface as
+   described in the Hyper-V Top Level Functional Spec (TLFS), plus
+   additional definitions specific to Linux running on Hyper-V.
 
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
----
- arch/arm64/hyperv/hv_core.c    | 34 ++++++++++++++++++++++++++++++++++
- include/asm-generic/mshyperv.h |  5 +++++
- 2 files changed, 39 insertions(+)
+2) Add #define for vendor specific owner definition to linux/arm-smccc.h
 
-diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
-index 272c348..4aa6b8f 100644
---- a/arch/arm64/hyperv/hv_core.c
-+++ b/arch/arm64/hyperv/hv_core.c
-@@ -17,12 +17,46 @@
- #include <linux/slab.h>
- #include <linux/hyperv.h>
- #include <linux/arm-smccc.h>
-+#include <linux/string.h>
- #include <asm-generic/bug.h>
- #include <asm/hyperv-tlfs.h>
- #include <asm/mshyperv.h>
- 
- 
- /*
-+ * Functions for allocating and freeing memory with size and
-+ * alignment HV_HYP_PAGE_SIZE. These functions are needed because
-+ * the guest page size may not be the same as the Hyper-V page
-+ * size. We depend upon kmalloc() aligning power-of-two size
-+ * allocations to the allocation size boundary, so that the
-+ * allocated memory appears to Hyper-V as a page of the size
-+ * it expects.
-+ *
-+ * These functions are used by arm64 specific code as well as
-+ * arch independent Hyper-V drivers.
-+ */
-+
-+void *hv_alloc_hyperv_page(void)
-+{
-+	BUILD_BUG_ON(PAGE_SIZE <  HV_HYP_PAGE_SIZE);
-+	return kmalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-+}
-+EXPORT_SYMBOL_GPL(hv_alloc_hyperv_page);
-+
-+void *hv_alloc_hyperv_zeroed_page(void)
-+{
-+	return kzalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-+}
-+EXPORT_SYMBOL_GPL(hv_alloc_hyperv_zeroed_page);
-+
-+void hv_free_hyperv_page(unsigned long addr)
-+{
-+	kfree((void *)addr);
-+}
-+EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
-+
-+
-+/*
-  * hv_do_hypercall- Invoke the specified hypercall
-  */
- u64 hv_do_hypercall(u64 control, void *input, void *output)
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index b3f1082..1a7c4c5 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -99,6 +99,11 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
- void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs));
- void hv_remove_crash_handler(void);
- 
-+void *hv_alloc_hyperv_page(void);
-+void *hv_alloc_hyperv_zeroed_page(void);
-+void hv_free_hyperv_page(unsigned long addr);
-+
-+
- #if IS_ENABLED(CONFIG_HYPERV)
- /*
-  * Hypervisor's notion of virtual processor ID is different from
+3) thru 7) Add core Hyper-V support on ARM64, including hypercalls,
+   interrupt handlers, kexec & panic handlers, and core hypervisor
+   initialization.
+
+8) Update the existing VMbus driver to generalize interrupt
+   management across x86/x64 and ARM64.
+
+9) Export screen_info so it may be used by the Hyper-V frame buffer
+   driver built as a module. It's already exported for x86,
+   powerpc, and alpha architectures.
+
+10) Make CONFIG_HYPERV selectable on ARM64 in addition to x86/x64.
+
+Some areas of Linux guests on Hyper-V on ARM64 are a work-
+in-progress:
+
+* Hyper-V on ARM64 currently runs with a 4 Kbyte page size, but
+  allows guests with 16K/64K page size. However, the Linux drivers
+  for Hyper-V synthetic devices assume the guest page size is 4K.
+  This patch set lays the groundwork for larger guest page sizes,
+  but additional patches are coming to update these drivers.
+
+* The Hyper-V vPCI driver at drivers/pci/host/pci-hyperv.c has
+  x86/x64-specific code and is not being built for ARM64. Fixing
+  this driver to enable vPCI devices on ARM64 will be done later.
+
+In a few cases, terminology from the x86/x64 world has been carried
+over into the ARM64 code ("MSR", "TSC").  Hyper-V still uses the
+x86/x64 terminology and has not replaced it with something more
+generic, so the code uses the Hyper-V terminology.  This will be
+fixed when Hyper-V updates the usage in the TLFS.
+
+This patch set is based on a 5.6-rc5 linux-next tree.
+
+Changes in v6:
+* Use SMCCC hypercall interface instead of direct invocation
+  of HVC instruction and the Hyper-V hypercall interface
+  [Marc Zyngier]
+* Reimplemented functions to alloc/free Hyper-V size pages
+  using kmalloc/kfree since kmalloc now guarantees alignment of
+  power of 2 size allocations [Marc Zyngier]
+* Export screen_info in arm64 architecture so it can be used
+  by the Hyper-V buffer driver built as a module
+* Renamed source file arch/arm64/hyperv/hv_init.c to hv_core.c
+  to better reflect its content
+* Fixed the bit position of certain feature flags presented by
+  Hyper-V to the guest.  The bit positions on ARM64 don't match
+  the position on x86 like originally thought.
+* Minor fixups to rebase to 5.6-rc5 linux-next
+
+Changes in v5:
+* Minor fixups to rebase to 5.4-rc1 linux-next
+
+Changes in v4:
+* Moved clock-related code into an architecture independent
+  Hyper-V clocksource driver that is already upstream. Clock
+  related code is removed from this patch set except for the
+  ARM64 specific interrupt handler. [Marc Zyngier]
+* Separately upstreamed the split of mshyperv.h into arch independent
+  and arch dependent portions. The arch independent portion has been
+  removed from this patch set.
+* Divided patch #2 of the series into multiple smaller patches
+  [Marc Zyngier]
+* Changed a dozen or so smaller things based on feedback
+  [Marc Zyngier, Will Deacon]
+* Added functions to alloc/free Hyper-V size pages for use by
+  drivers for Hyper-V synthetic devices when updated to not assume
+  guest page size and Hyper-v page size are the same
+
+Changes in v3:
+* Added initialization of hv_vp_index array like was recently
+  added on x86 branch [KY Srinivasan]
+* Changed Hyper-V ARM64 register symbols to be all uppercase 
+  instead of mixed case [KY Srinivasan]
+* Separated mshyperv.h into two files, one architecture
+  independent and one architecture dependent. After this code
+  is upstream, will make changes to the x86 code to use the
+  architecture independent file and remove duplication. And
+  once we have a multi-architecture Hyper-V TLFS, will do a
+  separate patch to split hyperv-tlfs.h in the same way.
+  [KY Srinivasan]
+* Minor tweaks to rebase to latest linux-next code
+
+Changes in v2:
+* Removed patch to implement slow_virt_to_phys() on ARM64.
+  Use of slow_virt_to_phys() in arch independent Hyper-V
+  drivers has been eliminated by commit 6ba34171bcbd
+  ("Drivers: hv: vmbus: Remove use of slow_virt_to_phys()")
+* Minor tweaks to rebase to latest linux-next code
+
+Michael Kelley (10):
+  arm64: hyperv: Add core Hyper-V include files
+  arm/arm64: smccc-1.1: Add vendor specific owner definition
+  arm64: hyperv: Add hypercall and register access functions
+  arm64: hyperv: Add memory alloc/free functions for Hyper-V size pages
+  arm64: hyperv: Add interrupt handlers for VMbus and stimer
+  arm64: hyperv: Add kexec and panic handlers
+  arm64: hyperv: Initialize hypervisor on boot
+  Drivers: hv: vmbus: Add hooks for per-CPU IRQ
+  arm64: efi: Export screen_info
+  Drivers: hv: Enable Hyper-V code to be built on ARM64
+
+ MAINTAINERS                          |   3 +
+ arch/arm64/Kbuild                    |   1 +
+ arch/arm64/hyperv/Makefile           |   2 +
+ arch/arm64/hyperv/hv_core.c          | 418 +++++++++++++++++++++++++++++++++++
+ arch/arm64/hyperv/mshyperv.c         | 165 ++++++++++++++
+ arch/arm64/include/asm/hyperv-tlfs.h | 413 ++++++++++++++++++++++++++++++++++
+ arch/arm64/include/asm/mshyperv.h    | 115 ++++++++++
+ arch/arm64/kernel/efi.c              |   1 +
+ arch/x86/include/asm/mshyperv.h      |   4 +
+ drivers/hv/Kconfig                   |   3 +-
+ drivers/hv/hv.c                      |   3 +
+ include/asm-generic/mshyperv.h       |   5 +
+ include/linux/arm-smccc.h            |   1 +
+ 13 files changed, 1133 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/hyperv/Makefile
+ create mode 100644 arch/arm64/hyperv/hv_core.c
+ create mode 100644 arch/arm64/hyperv/mshyperv.c
+ create mode 100644 arch/arm64/include/asm/hyperv-tlfs.h
+ create mode 100644 arch/arm64/include/asm/mshyperv.h
+
 -- 
 1.8.3.1
 
