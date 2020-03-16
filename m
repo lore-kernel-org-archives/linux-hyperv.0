@@ -2,52 +2,56 @@ Return-Path: <SRS0=7tuw=5B=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47680C0044D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Mar 2020 15:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5112C2BB1D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Mar 2020 15:25:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1112820679
-	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Mar 2020 15:23:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VfeYeehc"
+	by mail.kernel.org (Postfix) with ESMTP id B6ECB20663
+	for <linux-hyperv@archiver.kernel.org>; Mon, 16 Mar 2020 15:25:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584372303;
+	bh=lOR2Wr1LPtHIfMOOd9bYLnZUnwT+ZZbZQxEvvX/1hyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Si+wVfYitZ6DxV/Blxd718iLyjwAAXiYoNd5GssP4PYiHS1OkzCsQpR0jB8xNLkgb
+	 fuhd/IQy+DXCT1/bq4gA95rxkZgRjhKVxwHoAlB3A8WzwJVsMwDi9v0mFjplceBeJx
+	 Z+8Qa1tnrWku9ScaNejU7fqAEi+fnpy2mN8LjJhQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731511AbgCPPX0 (ORCPT
+        id S1731505AbgCPPZD (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 16 Mar 2020 11:23:26 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:44789 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731507AbgCPPX0 (ORCPT
+        Mon, 16 Mar 2020 11:25:03 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54942 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731483AbgCPPZD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 16 Mar 2020 11:23:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584372205;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=E8ywiGSlA2NyxsfZmZ1h8kdDQN92vhA26ZvHqYMVdBE=;
-        b=VfeYeehc3u45DH0W4iuXAt8YkmG24O46g9dyd7WCm1BqYllFtcNVrXY+fnw2B8V/hbbWzF
-        C5tn6yoxbEkiXZrK1Yt7VknQqIuahGUT+ZgIn8SgRbNrWQRk1KGySdN3nvJFCydSvAFyr4
-        rXOqly3GaNrR8DQKWrzhIsQGBawyrYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-sr1We4SCOau5EHR5pyhM9w-1; Mon, 16 Mar 2020 11:17:07 -0400
-X-MC-Unique: sr1We4SCOau5EHR5pyhM9w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41FAD10FB82D;
-        Mon, 16 Mar 2020 15:17:05 +0000 (UTC)
-Received: from [10.36.118.207] (ovpn-118-207.ams2.redhat.com [10.36.118.207])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E95C45C1B2;
-        Mon, 16 Mar 2020 15:17:02 +0000 (UTC)
-Subject: Re: [PATCH v1 1/5] drivers/base/memory: rename MMOP_ONLINE_KEEP to
- MMOP_ONLINE
-To:     Michal Hocko <mhocko@kernel.org>
+        Mon, 16 Mar 2020 11:25:03 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n8so18117874wmc.4;
+        Mon, 16 Mar 2020 08:25:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n/vSqbJLFSGGAzMuc9Ghgl2CCp2FLye+L7Ituywfqjo=;
+        b=HuQJKhrYDGj9WORZ3EwLWze5uISIFCjKql0IJRlqFobZ7+nG/st9ZI85DB+x91we7c
+         Ye3El03eF2FwNdZTwfXG7sRk3+TYevm3VpIOF5jkmt5nCyBaBI9Z9WjxVMquvSzDdbe0
+         FRZ373E5xnghbDXhqJaJnypYJ3yQ5ivP5jugYg/+AmvlygQLXcbIaba88XQ8pYtcFOn0
+         wcqd5I8kbBuU1BOAhBLQ6jG+5YEbmmROZ7FNVT38beBVBMfWubjTfb9cuMujYbnzkkr2
+         mUS4iqR6PiS1LovwtnCba7kK4wXc/ofh/uneBws5IplkF+TWE0NicOI/IXvNkiLjmRjR
+         1aoQ==
+X-Gm-Message-State: ANhLgQ1qSOM75COdEW8sHYkCJbSqq5Fa0lEfMLWu8EBEnDC48EorlEUQ
+        EoFRj++C3yqpvBBiORkRlho=
+X-Google-Smtp-Source: ADFU+vvsjT1C7lNgXq2aVZ5qSLcQDvUcsaTPiQ2+pP5WAHp0LquIvuG4Yo4sXMJ+KBJMSQrZOYGGvw==
+X-Received: by 2002:a1c:a584:: with SMTP id o126mr28710245wme.49.1584372300910;
+        Mon, 16 Mar 2020 08:25:00 -0700 (PDT)
+Received: from localhost ([37.188.132.163])
+        by smtp.gmail.com with ESMTPSA id q72sm48569wme.31.2020.03.16.08.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2020 08:25:00 -0700 (PDT)
+Date:   Mon, 16 Mar 2020 16:24:59 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -55,82 +59,47 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Oscar Salvador <osalvador@suse.de>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Baoquan He <bhe@redhat.com>,
-        Wei Yang <richard.weiyang@gmail.com>
+        Wei Yang <richard.weiyang@gmail.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v1 4/5] mm/memory_hotplug: convert memhp_auto_online to
+ store an online_type
+Message-ID: <20200316152459.GV11482@dhcp22.suse.cz>
 References: <20200311123026.16071-1-david@redhat.com>
- <20200311123026.16071-2-david@redhat.com>
- <20200316151223.GS11482@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <add54ef9-dfab-a589-0f00-0b2338779373@redhat.com>
-Date:   Mon, 16 Mar 2020 16:17:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <20200311123026.16071-5-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200316151223.GS11482@dhcp22.suse.cz>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200311123026.16071-5-david@redhat.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 16.03.20 16:12, Michal Hocko wrote:
-> On Wed 11-03-20 13:30:22, David Hildenbrand wrote:
->> The name is misleading. Let's just name it like the online_type name we
->> expose to user space ("online").
-> 
-> I would disagree the name is misleading. It just says that you want to
-> online and keep the zone type. Nothing I would insist on though.
+On Wed 11-03-20 13:30:25, David Hildenbrand wrote:
+[...]
+> diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
+> index d6d64f8718e6..e15a600cfa4d 100644
+> --- a/arch/powerpc/platforms/powernv/memtrace.c
+> +++ b/arch/powerpc/platforms/powernv/memtrace.c
+> @@ -235,7 +235,7 @@ static int memtrace_online(void)
+>  		 * If kernel isn't compiled with the auto online option
+>  		 * we need to online the memory ourselves.
+>  		 */
+> -		if (!memhp_auto_online) {
+> +		if (memhp_default_online_type == MMOP_OFFLINE) {
+>  			lock_device_hotplug();
+>  			walk_memory_blocks(ent->start, ent->size, NULL,
+>  					   online_mem_block);
 
-"online and keep the zone type" - that's not what's happening.
-
+Whut? This stinks, doesn't it. For your defense, the original code is
+fishy already but this just makes it even more ugly.
 -- 
-Thanks,
-
-David / dhildenb
-
+Michal Hocko
+SUSE Labs
