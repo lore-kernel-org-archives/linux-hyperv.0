@@ -2,108 +2,104 @@ Return-Path: <SRS0=V9un=5C=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EED8C18E5B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 11:21:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E1AC18E5B
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 13:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 134FA20658
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 11:21:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1584444079;
-	bh=zhLVa1RuVrgSJcdi9jqazTCZWV0efB+OSiSdFSi7HC4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=DZyKalAoV4TE69vP6wLEiy+a5S7rzCT0C//YIH9U5vIZ+hb8SYgo/4mQ8etddssKU
-	 pFnKxD4nx8QzmtZjgGoFVoBVPvm58MtzzmvIzrICtw1h4BGIyZW8YmHalC3GxMdAEE
-	 K8LvAohUBruFbiqiR7p1MHpcXfV6wdS3X0DBM7LU=
+	by mail.kernel.org (Postfix) with ESMTP id 591AC20738
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 13:25:31 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iG0Wk+45"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbgCQLVP (ORCPT
+        id S1726474AbgCQNZb (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 Mar 2020 07:21:15 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52735 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727427AbgCQK7S (ORCPT
+        Tue, 17 Mar 2020 09:25:31 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39844 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgCQNZa (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:59:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 11so20896232wmo.2;
-        Tue, 17 Mar 2020 03:59:16 -0700 (PDT)
+        Tue, 17 Mar 2020 09:25:30 -0400
+Received: by mail-pg1-f194.google.com with SMTP id b22so5748972pgb.6;
+        Tue, 17 Mar 2020 06:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=agG+dITcuAm3KPc+VwzNwpsgr+i8A6gZOBf/aTNCeRE=;
+        b=iG0Wk+45lpTMF6Qs9ptAuWGLvyCn/OdTa5ZWDJ7CrFZLWBOV7vQsaN+wETj/Ypzo8/
+         5+g1gwgRhqIIDY7bAGP+7sSPXhCqYE4CGiDNG4stIeOKHgHdZ0QP1OGU7Mbs40zcsfbd
+         meweTxGdlZ5pVXW01Jm7BAPxgUXoZJmWOUBe6phYUM+5z3aMhyT+o4bxug8EPSi+boGg
+         UrnhKwlf+VofnjUMkhdoGkZP8+AcA5ISstIsrVYoxsmwqBcOswUUdDyH0noKSLa+fHHa
+         h38JHOEbcLeP4ZLetyy9xB9qAR2zNOWSgw/ioSS9FLWRk31/bFWmMB3rtKU8226evWBI
+         cNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8HFvJMFCJYNvz0dXv6Ch2UJSZolJY7vrNfNN5EOFEwc=;
-        b=siBQzjg1amBaD6qNQZLm60/lFV7eQlgZx5i5Jza1wu++MWulSnauV8pDhZOXImsAIH
-         Z1bVBvvRhgM0QyabJBvWntUXDd8kR4yvji5u3PAMQMS3cYXqCMfqX724evPzTDpwRCmX
-         JkvluF76P0+f42xLSY2pWcAiPucwd10Vt6E4lFzcsx2YYvh8vWtZ5GLUxxV9PHQOcOWh
-         /gbjuEz08+GGBoQHnydlsmoRk5CntHC4mPqTABWLYUG9ilpPj6A7w86J2qAIIRtMGm1X
-         m7GCUCdyRf/J+k+a4Lo4EzlRuVJ4Jp2D/2btjxvwzwSKL4rns+N3GvQmWeaE97gtzkIQ
-         PLoA==
-X-Gm-Message-State: ANhLgQ0MbvcQSL/j39QOAgkZJT09anNIVhARv0SynHTFFpPz47HGGhFJ
-        HpVGJwpztK4Vj9xuOOAc5PJ/WXtl
-X-Google-Smtp-Source: ADFU+vuKcSeScQJxJfHf3Bzh98ayLivgd2aUQq71FVoJVb8q4dHZuM8Z1Syn9jMTiCpNxqkeFdgWRw==
-X-Received: by 2002:a1c:6285:: with SMTP id w127mr4938571wmb.133.1584442756028;
-        Tue, 17 Mar 2020 03:59:16 -0700 (PDT)
-Received: from localhost (ip-37-188-255-121.eurotel.cz. [37.188.255.121])
-        by smtp.gmail.com with ESMTPSA id m17sm4293118wrw.3.2020.03.17.03.59.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2020 03:59:15 -0700 (PDT)
-Date:   Tue, 17 Mar 2020 11:59:14 +0100
-From:   Michal Hocko <mhocko@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Baoquan He <bhe@redhat.com>,
-        Wei Yang <richard.weiyang@gmail.com>
-Subject: Re: [PATCH v2 6/8] mm/memory_hotplug: unexport memhp_auto_online
-Message-ID: <20200317105914.GL26018@dhcp22.suse.cz>
-References: <20200317104942.11178-1-david@redhat.com>
- <20200317104942.11178-7-david@redhat.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=agG+dITcuAm3KPc+VwzNwpsgr+i8A6gZOBf/aTNCeRE=;
+        b=UNsKLiyqkroO8ZcDUx/WQWZXdVXvl8KeuuN+WY7UjCm77zGPDcHgZcoFr53nduiqOI
+         GgZ2r9bgIhW9cMcAspiLOL4Jlu6XGVEW65EFiNoz4wXC5j71WEdpnrC11jfsybhoVm5z
+         iIKe7YC8kqLY1LxBAJ2u10T5L+GGSLv51KGoRqIWqiFsfUe9p+ECm55y0UPumLCrZT2x
+         M0T2+G9OvwvZ6OV24bGOKuAxPIOG3Agy6YZvLQyxfQQ+Wy+VIcgufXEARvzKmFuWZkn3
+         WzTKZf3kdTe68uSotX/v0DADzjD2Fh0Hr29yROgjqsmPooUNNCANzoGRhSFsmt77nsLN
+         wzfQ==
+X-Gm-Message-State: ANhLgQ3FYdyO5vrKfhuZZNoK/P9WZ5b7Y/Iu1VpES0Da3qrTWsU6T7I6
+        TjNAR86RJhN9IoJDrv4QZSQ=
+X-Google-Smtp-Source: ADFU+vsLRcmJ2YKpbw2In4/U3k6OYkKkfv94ONyzhv0jHQQnV+sSmfb3hOtExDusuMk9QBCfjQ4QnA==
+X-Received: by 2002:a63:348b:: with SMTP id b133mr5272049pga.372.1584451529546;
+        Tue, 17 Mar 2020 06:25:29 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.2.210])
+        by smtp.googlemail.com with ESMTPSA id e30sm2910902pga.6.2020.03.17.06.25.28
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 17 Mar 2020 06:25:28 -0700 (PDT)
+From:   ltykernel@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        liuwe@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vkuznets@redhat.com
+Subject: [PATCH 0/4] x86/Hyper-V: Panic code path fixes
+Date:   Tue, 17 Mar 2020 06:25:19 -0700
+Message-Id: <20200317132523.1508-1-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200317104942.11178-7-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue 17-03-20 11:49:40, David Hildenbrand wrote:
-> All in-tree users except the mm-core are gone. Let's drop the export.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> Cc: Baoquan He <bhe@redhat.com>
-> Cc: Wei Yang <richard.weiyang@gmail.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Acked-by: Michal Hocko <mhocko@suse.com>
+This patchset fixes some issues in the Hyper-V panic code path.
+Patch 1 resolves issue that panic system still responses network
+packets.
+Patch 2-3 resolves crash enlightenment issues.
+Patch 4 is to set crash_kexec_post_notifiers to true for Hyper-V
+VM in order to report crash data or kmsg to host before running
+kdump kernel.
 
-> ---
->  mm/memory_hotplug.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-> index 1a00b5a37ef6..2d2aae830b92 100644
-> --- a/mm/memory_hotplug.c
-> +++ b/mm/memory_hotplug.c
-> @@ -71,7 +71,6 @@ bool memhp_auto_online;
->  #else
->  bool memhp_auto_online = true;
->  #endif
-> -EXPORT_SYMBOL_GPL(memhp_auto_online);
->  
->  static int __init setup_memhp_default_state(char *str)
->  {
-> -- 
-> 2.24.1
+Tianyu Lan (4):
+  x86/Hyper-V: Unload vmbus channel in hv panic callback
+  x86/Hyper-V: Free hv_panic_page when fail to register kmsg dump
+  x86/Hyper-V: Trigger crash enlightenment only once during  system
+    crash.
+  x86/Hyper-V: Report crash register data or ksmg before running crash
+    kernel
+
+ arch/x86/kernel/cpu/mshyperv.c | 10 ++++++++++
+ drivers/hv/channel_mgmt.c      |  5 +++++
+ drivers/hv/vmbus_drv.c         | 35 +++++++++++++++++++++++++----------
+ 3 files changed, 40 insertions(+), 10 deletions(-)
 
 -- 
-Michal Hocko
-SUSE Labs
+2.14.5
+
