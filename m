@@ -2,132 +2,208 @@ Return-Path: <SRS0=V9un=5C=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D74C18E5B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 13:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F299C3F2CE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 16:29:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CE78C20738
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 13:25:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BF5F20663
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 16:29:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r6lEtRqd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cptiBHPh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbgCQNZp (ORCPT
+        id S1726016AbgCQQ3S (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 Mar 2020 09:25:45 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:38230 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726598AbgCQNZd (ORCPT
+        Tue, 17 Mar 2020 12:29:18 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:37622 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726473AbgCQQ3R (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Mar 2020 09:25:33 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w3so9630367plz.5;
-        Tue, 17 Mar 2020 06:25:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kvShCFneTqNWCShSIFRg6DQFBqujhrj5sjdHfCk9weg=;
-        b=r6lEtRqdkojIaCRzqksEKRqICnthfZXUavxesNwoNyv3H6rjq75b5EUE9AKoh0MhBS
-         6vIFmOM73ladz7zHK1QecXEe4WqzlgEk40azox9L5gP10rqNuIQPqrQR7JQfSVl4NB4p
-         j/KgRlWtwsbS8pae84BnC2RHoDTF0+7QNIu6L2qn01qtRtqP7WY+HzLP0QsMPiR4sDAk
-         Lfa10fcI9uYuOgLrDvAuLyrZI6/jXq5rh6W1VMMhLFb0LKNtL1vUrTLHbCCePukZchkk
-         PjNV5aD1iapF/p+z3AIbH5MR7VTaoKRY+06rIq/mjFLz58CQIBjN5bUuUTP9Mj56fSZD
-         n1Pg==
+        Tue, 17 Mar 2020 12:29:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1584462556;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=hJ9IRxNEXJZnQrunYJpAkXFYXEUKw/iYEqZiM94FqR4=;
+        b=cptiBHPhfZ2cGBgOSRZh7Sm/Fo1Ne2eAHWj/T2+gcTHlzvbxmjacUrQ6TmNywaSPtGj0NO
+        21GQHMu1dA9CG2qx0rjn8jtmijPlnlOt6YfMCjwX/OiZmLZek2WuJR0FdtDSIq0t4N5jCZ
+        tNm8j2u1CmYgdiVOw6DBXec7mS48akw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-i3V-N9UMOP2gSiAu-r_Qbg-1; Tue, 17 Mar 2020 12:29:15 -0400
+X-MC-Unique: i3V-N9UMOP2gSiAu-r_Qbg-1
+Received: by mail-wr1-f69.google.com with SMTP id 94so6253372wrr.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 17 Mar 2020 09:29:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=kvShCFneTqNWCShSIFRg6DQFBqujhrj5sjdHfCk9weg=;
-        b=kJ54M8ichXkjeP5TnBVI4NbdQxA+hXRG8M3Bv7xm53E8V3sYGQfU/VPXzn9lkqMWVY
-         Bj16afPnq3KLsJ6kmzUikkGxt76u36NpA44HcB6aFz6MJhFb0rKPOqywgjyXqO35+Hu3
-         wWcES+0OEkjB1U+fTjxk+hq3vmNGMzeLol81Eezt9LxSn0PqZ3UCUUP7Uuj9zZVU46ui
-         kzN4a+wvVyXJ/f1I6kFNy831CEQkFXY4FhRpXdC6Hl9/kViqGmfEQnn3MGu6/z+LVWjK
-         BEB3B1xxy/zUxwVvqQ1zmwubO/jxAfeyVEYgsp/2LUeb+yX8UNj+nI2Ho9Ph5XJKYJHK
-         qvWw==
-X-Gm-Message-State: ANhLgQ34lsbAhL3wqKtyrAw8EIViPCnc/6Oe2+bLu6l0daTKlbLoA/ko
-        2dAlbuNS/serRXu5oKltHl8=
-X-Google-Smtp-Source: ADFU+vteWXHd6n9nuJOFGQMBnhZ/il1kMyVw9aW2v4v52kZvfrF89ZHOa/PNnFOHez1jtvt8yhSkHQ==
-X-Received: by 2002:a17:902:b208:: with SMTP id t8mr4228476plr.94.1584451532323;
-        Tue, 17 Mar 2020 06:25:32 -0700 (PDT)
-Received: from localhost.corp.microsoft.com ([167.220.2.210])
-        by smtp.googlemail.com with ESMTPSA id e30sm2910902pga.6.2020.03.17.06.25.31
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 17 Mar 2020 06:25:31 -0700 (PDT)
-From:   ltykernel@gmail.com
-X-Google-Original-From: Tianyu.Lan@microsoft.com
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        liuwe@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
-        michael.h.kelley@microsoft.com
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vkuznets@redhat.com
-Subject: [PATCH 3/4] x86/Hyper-V: Trigger crash enlightenment only once during system crash.
-Date:   Tue, 17 Mar 2020 06:25:22 -0700
-Message-Id: <20200317132523.1508-4-Tianyu.Lan@microsoft.com>
-X-Mailer: git-send-email 2.14.5
-In-Reply-To: <20200317132523.1508-1-Tianyu.Lan@microsoft.com>
-References: <20200317132523.1508-1-Tianyu.Lan@microsoft.com>
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=hJ9IRxNEXJZnQrunYJpAkXFYXEUKw/iYEqZiM94FqR4=;
+        b=kf5GeJKairNyjHO/cEck/ywTPGTAt/1QeLDhP8QrLjiDXWw2wEEDQsJs8l6T/TDD/c
+         qS00Kqb12pkCC+R1TgbXYkLvshp5BobOjpG5HOnMI0foUNyfickDPHL1L3Bk9F5e1OL6
+         O2r/ovgQ06W3BAQS8Hb4Jeq3v/0EyyF082Ld/mZ/1BsqQTuuSfk3+zuZBd1rpLeC9akK
+         UvFve06wFtVMuSB5Xn4O0prQdIAaXQjsvpENy7k7CjqRYobfeF2yL7uBKkeqha1nPczB
+         6AhRuXa6g4j/kO9sZi9izk/Ur+CTbEG4GLf9DUnhwW8Kb95TciMt7bSETbF+D1Nit08L
+         yCuQ==
+X-Gm-Message-State: ANhLgQ2/DOl9XhasWpG+WUdKbg/a1nGPJrovclCN6ny11Y3XC2Si2SZF
+        TldEdYtHPT9jTMNMgPW2xn5eblsson5/PHjURTlyV7cI9YtZ7RS2TFLONbzusWadp0c3do1K2uu
+        rx5A8w3iL1mZ59kt1UCZA8HO5
+X-Received: by 2002:a1c:4c16:: with SMTP id z22mr155409wmf.50.1584462553802;
+        Tue, 17 Mar 2020 09:29:13 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vu7fxbd1NOj1Fd8X5IeMCfKPLtyDx4k9CrBADtVAaVO0WdO+/adOUSeBrq8Zo7JnejqPA35DQ==
+X-Received: by 2002:a1c:4c16:: with SMTP id z22mr155367wmf.50.1584462553538;
+        Tue, 17 Mar 2020 09:29:13 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id 19sm4550594wma.3.2020.03.17.09.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 09:29:11 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
+        linux-hyperv@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Baoquan He <bhe@redhat.com>,
+        Wei Yang <richard.weiyang@gmail.com>
+Subject: Re: [PATCH v2 5/8] hv_balloon: don't check for memhp_auto_online manually
+In-Reply-To: <20200317104942.11178-6-david@redhat.com>
+References: <20200317104942.11178-1-david@redhat.com> <20200317104942.11178-6-david@redhat.com>
+Date:   Tue, 17 Mar 2020 17:29:09 +0100
+Message-ID: <877dzj3pyi.fsf@vitty.brq.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+David Hildenbrand <david@redhat.com> writes:
 
-Hyper-V expects guest only triggers crash enlightenment.
-The second crash notify will be ignored by Hyper-V.
+> We get the MEM_ONLINE notifier call if memory is added right from the
+> kernel via add_memory() or later from user space.
+>
+> Let's get rid of the "ha_waiting" flag - the wait event has an inbuilt
+> mechanism (->done) for that. Initialize the wait event only once and
+> reinitialize before adding memory. Unconditionally call complete() and
+> wait_for_completion_timeout().
+>
+> If there are no waiters, complete() will only increment ->done - which
+> will be reset by reinit_completion(). If complete() has already been
+> called, wait_for_completion_timeout() will not wait.
+>
+> There is still the chance for a small race between concurrent
+> reinit_completion() and complete(). If complete() wins, we would not
+> wait - which is tolerable (and the race exists in current code as
+> well).
 
-Current code may trigger crash enlightenment during system
-panic twice.
-1) The enlightenment is triggered in hyperv_panic/die_event()
-via hyperv_report_panic().
-2) hv_kmsg_dump() reports kmsg to host via hyperv_report_panic_msg().
+How can we see concurent reinit_completion() and complete()? Obvioulsy,
+we are not onlining new memory in kernel and hv_mem_hot_add() calls are
+serialized, we're waiting up to 5*HZ for the added block to come online
+before proceeding to the next one. Or do you mean we actually hit this
+5*HZ timeout, proceeded to the next block and immediately after
+reinit_completion() we saw complete() for the previously added block?
+This is tolerable indeed, we're making forward progress (and this all is
+'best effort' anyway).
 
-Fix it. If kmsg dump is registered successfully, just report
-kmsg via hyperv_report_panic_msg() and not report register values
-via hyperv_report_panic().
+>
+> Note: We only wait for "some" memory to get onlined, which seems to be
+>       good enough for now.
+>
+> Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+> Cc: Haiyang Zhang <haiyangz@microsoft.com>
+> Cc: Stephen Hemminger <sthemmin@microsoft.com>
+> Cc: Wei Liu <wei.liu@kernel.org>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Wei Yang <richard.weiyang@gmail.com>
+> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Cc: linux-hyperv@vger.kernel.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  drivers/hv/hv_balloon.c | 25 ++++++++++---------------
+>  1 file changed, 10 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+> index a02ce43d778d..af5e09f08130 100644
+> --- a/drivers/hv/hv_balloon.c
+> +++ b/drivers/hv/hv_balloon.c
+> @@ -533,7 +533,6 @@ struct hv_dynmem_device {
+>  	 * State to synchronize hot-add.
+>  	 */
+>  	struct completion  ol_waitevent;
+> -	bool ha_waiting;
+>  	/*
+>  	 * This thread handles hot-add
+>  	 * requests from the host as well as notifying
+> @@ -634,10 +633,7 @@ static int hv_memory_notifier(struct notifier_block *nb, unsigned long val,
+>  	switch (val) {
+>  	case MEM_ONLINE:
+>  	case MEM_CANCEL_ONLINE:
+> -		if (dm_device.ha_waiting) {
+> -			dm_device.ha_waiting = false;
+> -			complete(&dm_device.ol_waitevent);
+> -		}
+> +		complete(&dm_device.ol_waitevent);
+>  		break;
+>  
+>  	case MEM_OFFLINE:
+> @@ -726,8 +722,7 @@ static void hv_mem_hot_add(unsigned long start, unsigned long size,
+>  		has->covered_end_pfn +=  processed_pfn;
+>  		spin_unlock_irqrestore(&dm_device.ha_lock, flags);
+>  
+> -		init_completion(&dm_device.ol_waitevent);
+> -		dm_device.ha_waiting = !memhp_auto_online;
+> +		reinit_completion(&dm_device.ol_waitevent);
+>  
+>  		nid = memory_add_physaddr_to_nid(PFN_PHYS(start_pfn));
+>  		ret = add_memory(nid, PFN_PHYS((start_pfn)),
+> @@ -753,15 +748,14 @@ static void hv_mem_hot_add(unsigned long start, unsigned long size,
+>  		}
+>  
+>  		/*
+> -		 * Wait for the memory block to be onlined when memory onlining
+> -		 * is done outside of kernel (memhp_auto_online). Since the hot
+> -		 * add has succeeded, it is ok to proceed even if the pages in
+> -		 * the hot added region have not been "onlined" within the
+> -		 * allowed time.
+> +		 * Wait for memory to get onlined. If the kernel onlined the
+> +		 * memory when adding it, this will return directly. Otherwise,
+> +		 * it will wait for user space to online the memory. This helps
+> +		 * to avoid adding memory faster than it is getting onlined. As
+> +		 * adding succeeded, it is ok to proceed even if the memory was
+> +		 * not onlined in time.
+>  		 */
+> -		if (dm_device.ha_waiting)
+> -			wait_for_completion_timeout(&dm_device.ol_waitevent,
+> -						    5*HZ);
+> +		wait_for_completion_timeout(&dm_device.ol_waitevent, 5 * HZ);
+>  		post_status(&dm_device);
+>  	}
+>  }
+> @@ -1707,6 +1701,7 @@ static int balloon_probe(struct hv_device *dev,
+>  #ifdef CONFIG_MEMORY_HOTPLUG
+>  	set_online_page_callback(&hv_online_page);
+>  	register_memory_notifier(&hv_memory_nb);
+> +	init_completion(&dm_device.ol_waitevent);
+>  #endif
+>  
+>  	hv_set_drvdata(dev, &dm_device);
 
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- drivers/hv/vmbus_drv.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index b043efea092a..1787d6246251 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -55,7 +55,12 @@ static int hyperv_panic_event(struct notifier_block *nb, unsigned long val,
- 
- 	vmbus_initiate_unload(true);
- 
--	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE) {
-+	/*
-+	 * Crash notify only can be triggered once. If crash notify
-+	 * message is available, just report kmsg to crash buffer.
-+	 */
-+	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE
-+	    && !hv_panic_page) {
- 		regs = current_pt_regs();
- 		hyperv_report_panic(regs, val);
- 	}
-@@ -68,7 +73,12 @@ static int hyperv_die_event(struct notifier_block *nb, unsigned long val,
- 	struct die_args *die = (struct die_args *)args;
- 	struct pt_regs *regs = die->regs;
- 
--	hyperv_report_panic(regs, val);
-+	/*
-+	 * Crash notify only can be triggered once. If crash notify
-+	 * message is available, just report kmsg to crash buffer.
-+	 */
-+	if (!hv_panic_page)
-+		hyperv_report_panic(regs, val);
- 	return NOTIFY_DONE;
- }
- 
 -- 
-2.14.5
+Vitaly
 
