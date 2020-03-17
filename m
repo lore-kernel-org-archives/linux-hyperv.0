@@ -4,65 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA56FC3F2CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1A6C5ACBF
 	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81B082073C
+	by mail.kernel.org (Postfix) with ESMTP id B1B9A20754
 	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jnp1a/LW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LZ0Yjlnc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgCQKu1 (ORCPT
+        id S1726569AbgCQKu1 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 17 Mar 2020 06:50:27 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:51095 "EHLO
+Received: from us-smtp-delivery-74.mimecast.com ([63.128.21.74]:42628 "EHLO
         us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726569AbgCQKuY (ORCPT
+        by vger.kernel.org with ESMTP id S1726598AbgCQKu0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:50:24 -0400
+        Tue, 17 Mar 2020 06:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584442223;
+        s=mimecast20190719; t=1584442226;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=V59E7vNQ/J1sWCSrCuIGfyF/JUs0k+zR/JYAQnnzPbY=;
-        b=Jnp1a/LWfhx7gT6hFxPxJ0+MvfNMbAZYlKlKUUpu7WDzkOqBnXkgZAUbkaW4aiOWBwtuKN
-        89hjzEgPRNxMHXBWesHxC4NbU3WxP+xXV1fCjj9SnRSgep7h5paMEPumPOC0g8PCJW1OaH
-        DMM1845RWhnpxWEMRaFoBc6C4V3QOVM=
+        bh=AjaeCf81lceD8DlSGIH9NtwuZALCWZfumKtaCdn7xfk=;
+        b=LZ0Yjlnck5Cx6uVn5zgHDi5T6jbsROfhGOrRM0vp+AIyVR5OXVSmheTihsMUO9AHSAR1GT
+        iG7wFz+G4aMKHp65IU6wuC6NqvUNz8YHc4cXjoKAXqg06qMGQc8wWqL57aHcYVk7XSNxEo
+        daoLFsC51jgA8qI+5KuV+zYa08nOvMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-_1sloA26MUOHIPosJgaWyQ-1; Tue, 17 Mar 2020 06:50:19 -0400
-X-MC-Unique: _1sloA26MUOHIPosJgaWyQ-1
+ us-mta-248-z9uSurr5O7GynBXxQ6BMFQ-1; Tue, 17 Mar 2020 06:50:24 -0400
+X-MC-Unique: z9uSurr5O7GynBXxQ6BMFQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2801100550E;
-        Tue, 17 Mar 2020 10:50:17 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED2091902EA0;
+        Tue, 17 Mar 2020 10:50:22 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BF30373865;
-        Tue, 17 Mar 2020 10:50:14 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 927D794940;
+        Tue, 17 Mar 2020 10:50:20 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
         linux-hyperv@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        Wei Yang <richard.weiyang@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Michal Hocko <mhocko@kernel.org>,
         Oscar Salvador <osalvador@suse.de>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Baoquan He <bhe@redhat.com>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: [PATCH v2 5/8] hv_balloon: don't check for memhp_auto_online manually
-Date:   Tue, 17 Mar 2020 11:49:39 +0100
-Message-Id: <20200317104942.11178-6-david@redhat.com>
+        Baoquan He <bhe@redhat.com>
+Subject: [PATCH v2 7/8] mm/memory_hotplug: convert memhp_auto_online to store an online_type
+Date:   Tue, 17 Mar 2020 11:49:41 +0100
+Message-Id: <20200317104942.11178-8-david@redhat.com>
 In-Reply-To: <20200317104942.11178-1-david@redhat.com>
 References: <20200317104942.11178-1-david@redhat.com>
 MIME-Version: 1.0
@@ -73,110 +69,115 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-We get the MEM_ONLINE notifier call if memory is added right from the
-kernel via add_memory() or later from user space.
+... and rename it to memhp_default_online_type. This is a preparation
+for more detailed default online behavior.
 
-Let's get rid of the "ha_waiting" flag - the wait event has an inbuilt
-mechanism (->done) for that. Initialize the wait event only once and
-reinitialize before adding memory. Unconditionally call complete() and
-wait_for_completion_timeout().
-
-If there are no waiters, complete() will only increment ->done - which
-will be reset by reinit_completion(). If complete() has already been
-called, wait_for_completion_timeout() will not wait.
-
-There is still the chance for a small race between concurrent
-reinit_completion() and complete(). If complete() wins, we would not
-wait - which is tolerable (and the race exists in current code as well).
-
-Note: We only wait for "some" memory to get onlined, which seems to be
-      good enough for now.
-
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
+Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: Michal Hocko <mhocko@kernel.org>
 Cc: Oscar Salvador <osalvador@suse.de>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Baoquan He <bhe@redhat.com>
 Cc: Wei Yang <richard.weiyang@gmail.com>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: linux-hyperv@vger.kernel.org
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/hv/hv_balloon.c | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+ drivers/base/memory.c          | 10 ++++------
+ include/linux/memory_hotplug.h |  3 ++-
+ mm/memory_hotplug.c            | 11 ++++++-----
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-index a02ce43d778d..af5e09f08130 100644
---- a/drivers/hv/hv_balloon.c
-+++ b/drivers/hv/hv_balloon.c
-@@ -533,7 +533,6 @@ struct hv_dynmem_device {
- 	 * State to synchronize hot-add.
- 	 */
- 	struct completion  ol_waitevent;
--	bool ha_waiting;
- 	/*
- 	 * This thread handles hot-add
- 	 * requests from the host as well as notifying
-@@ -634,10 +633,7 @@ static int hv_memory_notifier(struct notifier_block =
-*nb, unsigned long val,
- 	switch (val) {
- 	case MEM_ONLINE:
- 	case MEM_CANCEL_ONLINE:
--		if (dm_device.ha_waiting) {
--			dm_device.ha_waiting =3D false;
--			complete(&dm_device.ol_waitevent);
--		}
-+		complete(&dm_device.ol_waitevent);
- 		break;
-=20
- 	case MEM_OFFLINE:
-@@ -726,8 +722,7 @@ static void hv_mem_hot_add(unsigned long start, unsig=
-ned long size,
- 		has->covered_end_pfn +=3D  processed_pfn;
- 		spin_unlock_irqrestore(&dm_device.ha_lock, flags);
-=20
--		init_completion(&dm_device.ol_waitevent);
--		dm_device.ha_waiting =3D !memhp_auto_online;
-+		reinit_completion(&dm_device.ol_waitevent);
-=20
- 		nid =3D memory_add_physaddr_to_nid(PFN_PHYS(start_pfn));
- 		ret =3D add_memory(nid, PFN_PHYS((start_pfn)),
-@@ -753,15 +748,14 @@ static void hv_mem_hot_add(unsigned long start, uns=
-igned long size,
- 		}
-=20
- 		/*
--		 * Wait for the memory block to be onlined when memory onlining
--		 * is done outside of kernel (memhp_auto_online). Since the hot
--		 * add has succeeded, it is ok to proceed even if the pages in
--		 * the hot added region have not been "onlined" within the
--		 * allowed time.
-+		 * Wait for memory to get onlined. If the kernel onlined the
-+		 * memory when adding it, this will return directly. Otherwise,
-+		 * it will wait for user space to online the memory. This helps
-+		 * to avoid adding memory faster than it is getting onlined. As
-+		 * adding succeeded, it is ok to proceed even if the memory was
-+		 * not onlined in time.
- 		 */
--		if (dm_device.ha_waiting)
--			wait_for_completion_timeout(&dm_device.ol_waitevent,
--						    5*HZ);
-+		wait_for_completion_timeout(&dm_device.ol_waitevent, 5 * HZ);
- 		post_status(&dm_device);
- 	}
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 8a7f29c0bf97..8d3e16dab69f 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -386,10 +386,8 @@ static DEVICE_ATTR_RO(block_size_bytes);
+ static ssize_t auto_online_blocks_show(struct device *dev,
+ 				       struct device_attribute *attr, char *buf)
+ {
+-	if (memhp_auto_online)
+-		return sprintf(buf, "online\n");
+-	else
+-		return sprintf(buf, "offline\n");
++	return sprintf(buf, "%s\n",
++		       online_type_to_str[memhp_default_online_type]);
  }
-@@ -1707,6 +1701,7 @@ static int balloon_probe(struct hv_device *dev,
- #ifdef CONFIG_MEMORY_HOTPLUG
- 	set_online_page_callback(&hv_online_page);
- 	register_memory_notifier(&hv_memory_nb);
-+	init_completion(&dm_device.ol_waitevent);
+=20
+ static ssize_t auto_online_blocks_store(struct device *dev,
+@@ -397,9 +395,9 @@ static ssize_t auto_online_blocks_store(struct device=
+ *dev,
+ 					const char *buf, size_t count)
+ {
+ 	if (sysfs_streq(buf, "online"))
+-		memhp_auto_online =3D true;
++		memhp_default_online_type =3D MMOP_ONLINE;
+ 	else if (sysfs_streq(buf, "offline"))
+-		memhp_auto_online =3D false;
++		memhp_default_online_type =3D MMOP_OFFLINE;
+ 	else
+ 		return -EINVAL;
+=20
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplu=
+g.h
+index c2e06ed5e0e9..c6e090b34c4b 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -117,7 +117,8 @@ extern int arch_add_memory(int nid, u64 start, u64 si=
+ze,
+ 			struct mhp_restrictions *restrictions);
+ extern u64 max_mem_size;
+=20
+-extern bool memhp_auto_online;
++/* Default online_type (MMOP_*) when new memory blocks are added. */
++extern int memhp_default_online_type;
+ /* If movable_node boot option specified */
+ extern bool movable_node_enabled;
+ static inline bool movable_node_is_enabled(void)
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 2d2aae830b92..1975a2b99a2b 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -67,17 +67,17 @@ void put_online_mems(void)
+ bool movable_node_enabled =3D false;
+=20
+ #ifndef CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE
+-bool memhp_auto_online;
++int memhp_default_online_type =3D MMOP_OFFLINE;
+ #else
+-bool memhp_auto_online =3D true;
++int memhp_default_online_type =3D MMOP_ONLINE;
  #endif
 =20
- 	hv_set_drvdata(dev, &dm_device);
+ static int __init setup_memhp_default_state(char *str)
+ {
+ 	if (!strcmp(str, "online"))
+-		memhp_auto_online =3D true;
++		memhp_default_online_type =3D MMOP_ONLINE;
+ 	else if (!strcmp(str, "offline"))
+-		memhp_auto_online =3D false;
++		memhp_default_online_type =3D MMOP_OFFLINE;
+=20
+ 	return 1;
+ }
+@@ -990,6 +990,7 @@ static int check_hotplug_memory_range(u64 start, u64 =
+size)
+=20
+ static int online_memory_block(struct memory_block *mem, void *arg)
+ {
++	mem->online_type =3D memhp_default_online_type;
+ 	return device_online(&mem->dev);
+ }
+=20
+@@ -1062,7 +1063,7 @@ int __ref add_memory_resource(int nid, struct resou=
+rce *res)
+ 	mem_hotplug_done();
+=20
+ 	/* online pages if requested */
+-	if (memhp_auto_online)
++	if (memhp_default_online_type !=3D MMOP_OFFLINE)
+ 		walk_memory_blocks(start, size, NULL, online_memory_block);
+=20
+ 	return ret;
 --=20
 2.24.1
 
