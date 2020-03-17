@@ -7,58 +7,61 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A5EC18E5B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8398C10F29
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9442D206EC
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF43B20719
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HGaqh0MB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJZPdNWE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgCQKuf (ORCPT
+        id S1726549AbgCQKuU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 Mar 2020 06:50:35 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:49054 "EHLO
+        Tue, 17 Mar 2020 06:50:20 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:28932 "EHLO
         us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726678AbgCQKuf (ORCPT
+        by vger.kernel.org with ESMTP id S1726484AbgCQKuT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:50:35 -0400
+        Tue, 17 Mar 2020 06:50:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584442233;
+        s=mimecast20190719; t=1584442218;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=9Xl1YbByyYFiK6yfX6MmnHGP4uzRrFgfV39buVPYxCU=;
-        b=HGaqh0MBKRh249HTC/7BHv6fkaI7UimBOnpNIYbg899CqSXrv5zoNDLXdtdao5+lUGOlpr
-        tBoG+MTRbyUu1jMLe6kN+UN6K6KJ4GraoAak15uz+BzOhT6TVpK+7p3W1FGRMFVMwz6eC5
-        bTeQlr3GJJUtSSt6cTNqwaK29R4TgOU=
+        bh=gPScwWc0MLto9rn7jTvPnI1qZNGdOo3KB+ljMQuNaEQ=;
+        b=dJZPdNWE8omQmDRM1pmSZB7ypu28BwjisH/3ti0c76yX0WrKueel4ZTFzWHJ2OrWzcJcR6
+        GvbHd4/ZrVwoDNYmqF8Ke7m+j8+3LBQIAwHsX+WxFjyIlmBYLJeKlOfZlBVL+DXpd64CY9
+        PPmel1vmYzoL2ADN+2wVBuvv0+zorfU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-rOenjaorNYCyOoJ8e97dKw-1; Tue, 17 Mar 2020 06:50:30 -0400
-X-MC-Unique: rOenjaorNYCyOoJ8e97dKw-1
+ us-mta-175-BZIyATvIMf-ozD4_771P0g-1; Tue, 17 Mar 2020 06:50:16 -0400
+X-MC-Unique: BZIyATvIMf-ozD4_771P0g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8B8800D53;
-        Tue, 17 Mar 2020 10:50:28 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745FB8017DF;
+        Tue, 17 Mar 2020 10:50:14 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 44EFB93531;
-        Tue, 17 Mar 2020 10:50:23 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6CAA673865;
+        Tue, 17 Mar 2020 10:50:11 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
         linux-hyperv@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Michal Hocko <mhocko@kernel.org>,
         Oscar Salvador <osalvador@suse.de>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
-        Baoquan He <bhe@redhat.com>
-Subject: [PATCH v2 8/8] mm/memory_hotplug: allow to specify a default online_type
-Date:   Tue, 17 Mar 2020 11:49:42 +0100
-Message-Id: <20200317104942.11178-9-david@redhat.com>
+        Baoquan He <bhe@redhat.com>,
+        Wei Yang <richard.weiyang@gmail.com>
+Subject: [PATCH v2 4/8] powernv/memtrace: always online added memory blocks
+Date:   Tue, 17 Mar 2020 11:49:38 +0100
+Message-Id: <20200317104942.11178-5-david@redhat.com>
 In-Reply-To: <20200317104942.11178-1-david@redhat.com>
 References: <20200317104942.11178-1-david@redhat.com>
 MIME-Version: 1.0
@@ -69,112 +72,59 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For now, distributions implement advanced udev rules to essentially
-- Don't online any hotplugged memory (s390x)
-- Online all memory to ZONE_NORMAL (e.g., most virt environments like
-  hyperv)
-- Online all memory to ZONE_MOVABLE in case the zone imbalance is taken
-  care of (e.g., bare metal, special virt environments)
+Let's always try to online the re-added memory blocks. In case add_memory=
+()
+already onlined the added memory blocks, the first device_online() call
+will fail and stop processing the remaining memory blocks.
 
-In summary: All memory is usually onlined the same way, however, the
-kernel always has to ask user space to come up with the same answer.
-E.g., Hyper-V always waits for a memory block to get onlined before
-continuing, otherwise it might end up adding memory faster than
-hotplugging it, which can result in strange OOM situations. This waiting
-slows down adding of a bigger amount of memory.
+This avoids manually having to check memhp_auto_online.
 
-Let's allow to specify a default online_type, not just "online" and
-"offline". This allows distributions to configure the default online_type
-when booting up and be done with it.
+Note: PPC always onlines all hotplugged memory directly from the kernel
+as well - something that is handled by user space on other
+architectures.
 
-We can now specify "offline", "online", "online_movable" and
-"online_kernel" via
-- "memhp_default_state=3D" on the kernel cmdline
-- /sys/devices/system/memory/auto_online_blocks
-just like we are able to specify for a single memory block via
-/sys/devices/system/memory/memoryX/state
-
-Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
 Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Michal Hocko <mhocko@kernel.org>
 Cc: Oscar Salvador <osalvador@suse.de>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Baoquan He <bhe@redhat.com>
 Cc: Wei Yang <richard.weiyang@gmail.com>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- drivers/base/memory.c          | 11 +++++------
- include/linux/memory_hotplug.h |  2 ++
- mm/memory_hotplug.c            |  8 ++++----
- 3 files changed, 11 insertions(+), 10 deletions(-)
+ arch/powerpc/platforms/powernv/memtrace.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 8d3e16dab69f..2b09b68b9f78 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -35,7 +35,7 @@ static const char *const online_type_to_str[] =3D {
- 	[MMOP_ONLINE_MOVABLE] =3D "online_movable",
- };
+diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/pla=
+tforms/powernv/memtrace.c
+index d6d64f8718e6..13b369d2cc45 100644
+--- a/arch/powerpc/platforms/powernv/memtrace.c
++++ b/arch/powerpc/platforms/powernv/memtrace.c
+@@ -231,16 +231,10 @@ static int memtrace_online(void)
+ 			continue;
+ 		}
 =20
--static int memhp_online_type_from_str(const char *str)
-+int memhp_online_type_from_str(const char *str)
- {
- 	int i;
+-		/*
+-		 * If kernel isn't compiled with the auto online option
+-		 * we need to online the memory ourselves.
+-		 */
+-		if (!memhp_auto_online) {
+-			lock_device_hotplug();
+-			walk_memory_blocks(ent->start, ent->size, NULL,
+-					   online_mem_block);
+-			unlock_device_hotplug();
+-		}
++		lock_device_hotplug();
++		walk_memory_blocks(ent->start, ent->size, NULL,
++				   online_mem_block);
++		unlock_device_hotplug();
 =20
-@@ -394,13 +394,12 @@ static ssize_t auto_online_blocks_store(struct devi=
-ce *dev,
- 					struct device_attribute *attr,
- 					const char *buf, size_t count)
- {
--	if (sysfs_streq(buf, "online"))
--		memhp_default_online_type =3D MMOP_ONLINE;
--	else if (sysfs_streq(buf, "offline"))
--		memhp_default_online_type =3D MMOP_OFFLINE;
--	else
-+	const int online_type =3D memhp_online_type_from_str(buf);
-+
-+	if (online_type < 0)
- 		return -EINVAL;
-=20
-+	memhp_default_online_type =3D online_type;
- 	return count;
- }
-=20
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplu=
-g.h
-index c6e090b34c4b..ef55115320fb 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -117,6 +117,8 @@ extern int arch_add_memory(int nid, u64 start, u64 si=
-ze,
- 			struct mhp_restrictions *restrictions);
- extern u64 max_mem_size;
-=20
-+extern int memhp_online_type_from_str(const char *str);
-+
- /* Default online_type (MMOP_*) when new memory blocks are added. */
- extern int memhp_default_online_type;
- /* If movable_node boot option specified */
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 1975a2b99a2b..9916977b6ee1 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -74,10 +74,10 @@ int memhp_default_online_type =3D MMOP_ONLINE;
-=20
- static int __init setup_memhp_default_state(char *str)
- {
--	if (!strcmp(str, "online"))
--		memhp_default_online_type =3D MMOP_ONLINE;
--	else if (!strcmp(str, "offline"))
--		memhp_default_online_type =3D MMOP_OFFLINE;
-+	const int online_type =3D memhp_online_type_from_str(str);
-+
-+	if (online_type >=3D 0)
-+		memhp_default_online_type =3D online_type;
-=20
- 	return 1;
- }
+ 		/*
+ 		 * Memory was added successfully so clean up references to it
 --=20
 2.24.1
 
