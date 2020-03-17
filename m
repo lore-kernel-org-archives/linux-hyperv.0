@@ -2,129 +2,139 @@ Return-Path: <SRS0=V9un=5C=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8398C10F29
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3639C18E5B
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:58:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF43B20719
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:50:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dJZPdNWE"
+	by mail.kernel.org (Postfix) with ESMTP id 872D720719
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 Mar 2020 10:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1584442706;
+	bh=PGhDNIjgvnRx+kqhWi0bHWn9OU1H1TjQEqZUE0jMSa4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rcFV6QPn189bqDnIdWakHbbMm1hvUs/suSXbIg45/8yvopyH+a+X86MDhmdEAbtXg
+	 sAwoNHK+sLAB9xTMcXvVPkumcVqTrTnFDoWS7Nvk1TnGUINk2Y0UaE25zZyqZFPKpY
+	 E7MFxsbWh9g5RWdul9ZX4xiqzpR9m9ZMHWNcJ5Jc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbgCQKuU (ORCPT
+        id S1726781AbgCQK6Y (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 Mar 2020 06:50:20 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:28932 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726484AbgCQKuT (ORCPT
+        Tue, 17 Mar 2020 06:58:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34318 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726559AbgCQK6X (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:50:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584442218;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=gPScwWc0MLto9rn7jTvPnI1qZNGdOo3KB+ljMQuNaEQ=;
-        b=dJZPdNWE8omQmDRM1pmSZB7ypu28BwjisH/3ti0c76yX0WrKueel4ZTFzWHJ2OrWzcJcR6
-        GvbHd4/ZrVwoDNYmqF8Ke7m+j8+3LBQIAwHsX+WxFjyIlmBYLJeKlOfZlBVL+DXpd64CY9
-        PPmel1vmYzoL2ADN+2wVBuvv0+zorfU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-BZIyATvIMf-ozD4_771P0g-1; Tue, 17 Mar 2020 06:50:16 -0400
-X-MC-Unique: BZIyATvIMf-ozD4_771P0g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 745FB8017DF;
-        Tue, 17 Mar 2020 10:50:14 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6CAA673865;
-        Tue, 17 Mar 2020 10:50:11 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-hyperv@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+        Tue, 17 Mar 2020 06:58:23 -0400
+Received: by mail-wr1-f68.google.com with SMTP id z15so24988560wrl.1;
+        Tue, 17 Mar 2020 03:58:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GMaxJmgHFs3UkzWKRUJIGAMAuAis9ucYU7WNuhbnrM0=;
+        b=EV+NFq2tk5VjP3/+8I+LUS8cx+kdgaiY2lQ8Wdkjidaw9tTCeZfX0mj/IOm/HFIpHN
+         aeQBZV1k9AiiD4LYe3DwpLGhYwLeDIWeMXK2VSu1XM9ZwZD3qwg5dRhCY9z5c3fQ8Rrp
+         MeCZpu5PuH+UIetO/FxfZb/4VeIt7wAQjbxVSjV/k361b7ooXGV8tP603Bh0PgR0GJOn
+         o2/8+7hJBGyqyUZT/0IrMi+4TLrSHvmLNq+6h7zOm83ur+rAUNrak8cMeRg9ftx3AgG8
+         okHeXyNqM+w569z58GFNjmPpyLKfug9nQxKBG3bCsKDIfw1FJTlxEg8+5vsWvsR9xQ7G
+         nioA==
+X-Gm-Message-State: ANhLgQ0R3BoYJpXFDxxOlgAAx1TtpPbVPj1gbvZZSfwzC4MwStzrT9HQ
+        PRPcBvMJYI2kX2A4JB8HVVc=
+X-Google-Smtp-Source: ADFU+vuwMUcRYGkxYv04ItK19Y8hWebnnNI8rNDKcJ7IZEFzRgxAHrUzVDn0iHSETvqcL5o3Rxedng==
+X-Received: by 2002:a05:6000:1186:: with SMTP id g6mr5358405wrx.331.1584442700152;
+        Tue, 17 Mar 2020 03:58:20 -0700 (PDT)
+Received: from localhost (ip-37-188-255-121.eurotel.cz. [37.188.255.121])
+        by smtp.gmail.com with ESMTPSA id y189sm3615478wmb.26.2020.03.17.03.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 03:58:19 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 11:58:18 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Paul Mackerras <paulus@samba.org>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
         Oscar Salvador <osalvador@suse.de>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Baoquan He <bhe@redhat.com>,
         Wei Yang <richard.weiyang@gmail.com>
-Subject: [PATCH v2 4/8] powernv/memtrace: always online added memory blocks
-Date:   Tue, 17 Mar 2020 11:49:38 +0100
-Message-Id: <20200317104942.11178-5-david@redhat.com>
-In-Reply-To: <20200317104942.11178-1-david@redhat.com>
+Subject: Re: [PATCH v2 4/8] powernv/memtrace: always online added memory
+ blocks
+Message-ID: <20200317105818.GK26018@dhcp22.suse.cz>
 References: <20200317104942.11178-1-david@redhat.com>
+ <20200317104942.11178-5-david@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200317104942.11178-5-david@redhat.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Let's always try to online the re-added memory blocks. In case add_memory=
-()
-already onlined the added memory blocks, the first device_online() call
-will fail and stop processing the remaining memory blocks.
+On Tue 17-03-20 11:49:38, David Hildenbrand wrote:
+> Let's always try to online the re-added memory blocks. In case add_memory()
+> already onlined the added memory blocks, the first device_online() call
+> will fail and stop processing the remaining memory blocks.
+> 
+> This avoids manually having to check memhp_auto_online.
+> 
+> Note: PPC always onlines all hotplugged memory directly from the kernel
+> as well - something that is handled by user space on other
+> architectures.
+> 
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Wei Yang <richard.weiyang@gmail.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-This avoids manually having to check memhp_auto_online.
+Acked-by: Michal Hocko <mhocko@suse.com>
 
-Note: PPC always onlines all hotplugged memory directly from the kernel
-as well - something that is handled by user space on other
-architectures.
+> ---
+>  arch/powerpc/platforms/powernv/memtrace.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
+> index d6d64f8718e6..13b369d2cc45 100644
+> --- a/arch/powerpc/platforms/powernv/memtrace.c
+> +++ b/arch/powerpc/platforms/powernv/memtrace.c
+> @@ -231,16 +231,10 @@ static int memtrace_online(void)
+>  			continue;
+>  		}
+>  
+> -		/*
+> -		 * If kernel isn't compiled with the auto online option
+> -		 * we need to online the memory ourselves.
+> -		 */
+> -		if (!memhp_auto_online) {
+> -			lock_device_hotplug();
+> -			walk_memory_blocks(ent->start, ent->size, NULL,
+> -					   online_mem_block);
+> -			unlock_device_hotplug();
+> -		}
+> +		lock_device_hotplug();
+> +		walk_memory_blocks(ent->start, ent->size, NULL,
+> +				   online_mem_block);
+> +		unlock_device_hotplug();
+>  
+>  		/*
+>  		 * Memory was added successfully so clean up references to it
+> -- 
+> 2.24.1
 
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>
-Cc: linuxppc-dev@lists.ozlabs.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- arch/powerpc/platforms/powernv/memtrace.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
-
-diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/pla=
-tforms/powernv/memtrace.c
-index d6d64f8718e6..13b369d2cc45 100644
---- a/arch/powerpc/platforms/powernv/memtrace.c
-+++ b/arch/powerpc/platforms/powernv/memtrace.c
-@@ -231,16 +231,10 @@ static int memtrace_online(void)
- 			continue;
- 		}
-=20
--		/*
--		 * If kernel isn't compiled with the auto online option
--		 * we need to online the memory ourselves.
--		 */
--		if (!memhp_auto_online) {
--			lock_device_hotplug();
--			walk_memory_blocks(ent->start, ent->size, NULL,
--					   online_mem_block);
--			unlock_device_hotplug();
--		}
-+		lock_device_hotplug();
-+		walk_memory_blocks(ent->start, ent->size, NULL,
-+				   online_mem_block);
-+		unlock_device_hotplug();
-=20
- 		/*
- 		 * Memory was added successfully so clean up references to it
---=20
-2.24.1
-
+-- 
+Michal Hocko
+SUSE Labs
