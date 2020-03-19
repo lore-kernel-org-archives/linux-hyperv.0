@@ -2,157 +2,151 @@ Return-Path: <SRS0=tzXR=5E=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5BD1C4332D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 13:34:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3CBC4332B
+	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 14:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B92A920409
-	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 13:34:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D946F2145D
+	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 14:08:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XyOcn8LT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JRl6HA2/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728304AbgCSNen (ORCPT
+        id S1726785AbgCSOIQ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 19 Mar 2020 09:34:43 -0400
-Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:36480 "EHLO
-        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728965AbgCSNMk (ORCPT
+        Thu, 19 Mar 2020 10:08:16 -0400
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:33852 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727231AbgCSOIQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 19 Mar 2020 09:12:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1584623559;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rx1LvEZgAQgfY3xwuj9jjkM3L7Bytnt/zhNrUnrYFaE=;
-        b=XyOcn8LTy5JO/M4XH1AFBWfIcFJZyj9hQeXmmpryScyPYfHUFMnDkMEpOqYCYF0Ot3JmRp
-        wbn9VpPsaMpKr/GAmRKNTjd8eq5rMPgItB3hStEepQmsG8WvBscSzs+paepBhx/+qvubG5
-        6zGOWJsijAe2dfJ0hws4QmgtMveM3W8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-SKMNXm6IOPioc_5ZFsWhFQ-1; Thu, 19 Mar 2020 09:12:35 -0400
-X-MC-Unique: SKMNXm6IOPioc_5ZFsWhFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36C50800D53;
-        Thu, 19 Mar 2020 13:12:33 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9D50E60BF7;
-        Thu, 19 Mar 2020 13:12:30 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-hyperv@vger.kernel.org, David Hildenbrand <david@redhat.com>,
-        Wei Yang <richard.weiyang@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@kernel.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Baoquan He <bhe@redhat.com>
-Subject: [PATCH v3 1/8] drivers/base/memory: rename MMOP_ONLINE_KEEP to MMOP_ONLINE
-Date:   Thu, 19 Mar 2020 14:12:14 +0100
-Message-Id: <20200319131221.14044-2-david@redhat.com>
-In-Reply-To: <20200319131221.14044-1-david@redhat.com>
-References: <20200319131221.14044-1-david@redhat.com>
+        Thu, 19 Mar 2020 10:08:16 -0400
+Received: by mail-pj1-f67.google.com with SMTP id q16so2355121pje.1;
+        Thu, 19 Mar 2020 07:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=O7Q51zmRS7g4gxwj7MQtP4qiQBx0T9QoIdivgK4vLVI=;
+        b=JRl6HA2/zf7Vvf60cE21OWI9S0qRbhP70JRWPmuedNCx8LrcCrszbNh4+ftzFYTmiI
+         u5qM7hDwCykZmR4fwobtn0fOIN13LN3lBb71h9cICv3eUixaJFZwhjXjuomMhppv6Woz
+         ddR4Gmd3UmY9wg2zTq+PrcuF64C2ZP/51WzGe/413gChPM7GHzC4AtOYQ6kCXzHOabex
+         Sh+4TbPDJTkEWkgU30FR4mDdy05ZN6Us0fokChT6CY0ZqbzJWH9fXgAMtT6yvynQkiMF
+         EsFbg4yrkS+sxTYH6J+zydRLLb4/Lfs+Jj1yCmEwgjbhH9UoXdBzuSznM8L3Rm0a/MRc
+         tQaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=O7Q51zmRS7g4gxwj7MQtP4qiQBx0T9QoIdivgK4vLVI=;
+        b=igbPDBvUn6MeGTIiKTy+waY4/6MGdILJeJCI5LqfuQiXnblbZ3J6Zgv4z1HeivXlCg
+         qD+xXhAbDveGjsKKgGuVcltg+zyGS9Ee+O8GZmuWrkFrf1lgdQ4xTMNq8xyTg1v8TkFR
+         LUT/sDKpk8Rkne238GZuBN1+hqS6UIS7zUPPbD9vCaj/fS1Ptk5Dhxc3lk949ch5Yjnz
+         pyMCdrtd1E5jgUKTwdBKOcPV4mimHm2AojcdcdsNQiU9vNpYSGhYV0Hmed+K3Lf8smot
+         BHgHX4ur73lvOLLAFs5L0g8jysn+sxGoh/8gulH9mVEvcWf0q3Jo3Yk2mbFcUdM31omZ
+         Ea2A==
+X-Gm-Message-State: ANhLgQ0hDLH8Q4PYMsdp+A2QRLwiRbPnpBSCD6utSugtv34+sCuEicOn
+        0eFbPvxB+KAOkLVu6Aq3XD0=
+X-Google-Smtp-Source: ADFU+vt3Uom3z61eXimWi6EYH31AV5srNGn4SND8daBCtBbNg5Si/yyHZbXUD35dwdCBvZjiBbe1KQ==
+X-Received: by 2002:a17:902:82c2:: with SMTP id u2mr3682951plz.125.1584626894899;
+        Thu, 19 Mar 2020 07:08:14 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:6:8000::a31c? ([2404:f801:9000:1a:efeb::a31c])
+        by smtp.gmail.com with ESMTPSA id l11sm2434715pjy.44.2020.03.19.07.08.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2020 07:08:14 -0700 (PDT)
+Subject: Re: [PATCH 0/4] x86/Hyper-V: Panic code path fixes
+To:     Michael Kelley <mikelley@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <liuwe@microsoft.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        vkuznets <vkuznets@redhat.com>
+References: <20200317132523.1508-1-Tianyu.Lan@microsoft.com>
+ <MW2PR2101MB1052F185AF4134EB2BB9ECBFD7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <1d1bc90c-7fbe-6123-eeea-5f9a5aad77e4@gmail.com>
+Date:   Thu, 19 Mar 2020 22:08:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <MW2PR2101MB1052F185AF4134EB2BB9ECBFD7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The name is misleading and it's not really clear what is "kept". Let's ju=
-st
-name it like the online_type name we expose to user space ("online").
+Hi Michael:
+      Thanks for your review.
 
-Add some documentation to the types.
+On 3/19/2020 8:57 AM, Michael Kelley wrote:
+> From: ltykernel@gmail.com <ltykernel@gmail.com> Sent: Tuesday, March 17, 2020 6:25 AM
+>>
+>> This patchset fixes some issues in the Hyper-V panic code path.
+>> Patch 1 resolves issue that panic system still responses network
+>> packets.
+>> Patch 2-3 resolves crash enlightenment issues.
+>> Patch 4 is to set crash_kexec_post_notifiers to true for Hyper-V
+>> VM in order to report crash data or kmsg to host before running
+>> kdump kernel.
+> 
+> I still see an issue that isn't addressed by these patches.  The VMbus
+> driver registers a "die notifier" and a "panic notifier".   But die() will
+> eventually call panic() if panic_on_oops is set (which I think it typically
+> is).  If the CRASH_NOTIFY_MSG option is *not* enabled, then
+> hyperv_report_panic() could get called by the die notifier, and then
+> again by the panic notifier.
+> 
+> Do we even need the "die notifier"?  If it was removed, there would
+> not be any notification to Hyper-V via the die() path unless panic_on_oops
+> is set, which I think is actually the correct behavior.  I'm not
+> completely clear on what is supposed to happen in general to the
+> Linux kernel if panic_on_oops is not set. Does it try to continue to run?
+> If so, then we should not be notifying Hyper-V if panic_on_oops is not
+> set, and removing the die notifier is the right thing to do.
+> 
 
-Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@kernel.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- drivers/base/memory.c          | 9 +++++----
- include/linux/memory_hotplug.h | 6 +++++-
- 2 files changed, 10 insertions(+), 5 deletions(-)
+hyperv_report_panic() has re-enter check inside and so kernel only 
+reports crash register data once during die(). From comment in the
+hyperv_report_panic(), register value reported in die chain is more
+exact than value in panic chain. The register value in die chain is
+passed by die() caller. Register value reported in panic chain
+is collected in the hyperv_panic_event().
 
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 6448c9ece2cb..8c5ce42c0fc3 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -216,7 +216,7 @@ static int memory_subsys_online(struct device *dev)
- 	 * attribute and need to set the online_type.
- 	 */
- 	if (mem->online_type < 0)
--		mem->online_type =3D MMOP_ONLINE_KEEP;
-+		mem->online_type =3D MMOP_ONLINE;
-=20
- 	ret =3D memory_block_change_state(mem, MEM_ONLINE, MEM_OFFLINE);
-=20
-@@ -251,7 +251,7 @@ static ssize_t state_store(struct device *dev, struct=
- device_attribute *attr,
- 	else if (sysfs_streq(buf, "online_movable"))
- 		online_type =3D MMOP_ONLINE_MOVABLE;
- 	else if (sysfs_streq(buf, "online"))
--		online_type =3D MMOP_ONLINE_KEEP;
-+		online_type =3D MMOP_ONLINE;
- 	else if (sysfs_streq(buf, "offline"))
- 		online_type =3D MMOP_OFFLINE;
- 	else {
-@@ -262,7 +262,7 @@ static ssize_t state_store(struct device *dev, struct=
- device_attribute *attr,
- 	switch (online_type) {
- 	case MMOP_ONLINE_KERNEL:
- 	case MMOP_ONLINE_MOVABLE:
--	case MMOP_ONLINE_KEEP:
-+	case MMOP_ONLINE:
- 		/* mem->online_type is protected by device_hotplug_lock */
- 		mem->online_type =3D online_type;
- 		ret =3D device_online(&mem->dev);
-@@ -342,7 +342,8 @@ static ssize_t valid_zones_show(struct device *dev,
- 	}
-=20
- 	nid =3D mem->nid;
--	default_zone =3D zone_for_pfn_range(MMOP_ONLINE_KEEP, nid, start_pfn, n=
-r_pages);
-+	default_zone =3D zone_for_pfn_range(MMOP_ONLINE, nid, start_pfn,
-+					  nr_pages);
- 	strcat(buf, default_zone->name);
-=20
- 	print_allowed_zone(buf, nid, start_pfn, nr_pages, MMOP_ONLINE_KERNEL,
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplu=
-g.h
-index 3195d11876ea..3aaf00db224c 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -47,9 +47,13 @@ enum {
-=20
- /* Types for control the zone type of onlined and offlined memory */
- enum {
-+	/* Offline the memory. */
- 	MMOP_OFFLINE =3D -1,
--	MMOP_ONLINE_KEEP,
-+	/* Online the memory. Zone depends, see default_zone_for_pfn(). */
-+	MMOP_ONLINE,
-+	/* Online the memory to ZONE_NORMAL. */
- 	MMOP_ONLINE_KERNEL,
-+	/* Online the memory to ZONE_MOVABLE. */
- 	MMOP_ONLINE_MOVABLE,
- };
-=20
---=20
-2.24.1
 
+If panic_on_oops is not set, the task should be killed and kernel
+still runs. In this case, we may not trigger crash enlightenment.
+
+
+
+> Michael
+> 
+>>
+>> Tianyu Lan (4):
+>>    x86/Hyper-V: Unload vmbus channel in hv panic callback
+>>    x86/Hyper-V: Free hv_panic_page when fail to register kmsg dump
+>>    x86/Hyper-V: Trigger crash enlightenment only once during  system
+>>      crash.
+>>    x86/Hyper-V: Report crash register data or ksmg before running crash
+>>      kernel
+>>
+>>   arch/x86/kernel/cpu/mshyperv.c | 10 ++++++++++
+>>   drivers/hv/channel_mgmt.c      |  5 +++++
+>>   drivers/hv/vmbus_drv.c         | 35 +++++++++++++++++++++++++----------
+>>   3 files changed, 40 insertions(+), 10 deletions(-)
+>>
+>> --
+>> 2.14.5
+> 
