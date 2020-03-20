@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B89D9C4332E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF7FC4332B
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 93EB22076F
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4762120722
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8BJZ4XI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGKt4pQ4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgCTR2w (ORCPT
+        id S1727026AbgCTR2x (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Mar 2020 13:28:52 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42499 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbgCTR2v (ORCPT
+        Fri, 20 Mar 2020 13:28:53 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52070 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbgCTR2x (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 20 Mar 2020 13:28:51 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v11so8473082wrm.9;
-        Fri, 20 Mar 2020 10:28:50 -0700 (PDT)
+        Fri, 20 Mar 2020 13:28:53 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c187so7414264wme.1;
+        Fri, 20 Mar 2020 10:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qORovMW4qFXFXcdoIljFzjQs+83nq3xI2+7AeVXu0Jo=;
-        b=k8BJZ4XIzMUsdagDL0oFf2+WVUil6hLei1zA5A8UsReL31QvYybLJA3oP2gIlhD9b4
-         A1WHbLZbmJ02lpfpLj2rRRx19teXV/8qMfVkG5XDWYCOYbiYGY/WcxPrXhi3Mj6Egak2
-         EJpB8Vl7TEdh75LIgRVMdbPF/UdhGzcUzVmIAerMNuwegLdN+uvz+J0T4VyzRorPOnyu
-         ICUMnVmc1XcOeLiCG4FTYcGifqv09UtveNFKA0HLjxoNs2WyBmyU1lK4kGr5vjteKtTe
-         TjFJtY7ESlqxoJCirbrOGlAGsirbt/Ms9HuBHunZg2oSv4wFsyitmgkf5C1ilCTduHiv
-         7kAw==
+        bh=z3+1+dijIgsDdRQRSO438ZaqORDXumTy12HEHcvkxO4=;
+        b=JGKt4pQ46gQdOe6Umc8hcJbbrlURDLbLFG7pz1+bBdM9NSo9NHTsVXd0E95wfXdy0k
+         Vjl/mdFRGhIetQSfZmBXkSpD+QmSW4W30tAutCVrAFfBZKFxfgnPwS4GN15SmfLinUe4
+         RuxiPp4/iIlLbStssN7rDXA/I1qTmPhpxecPwYUlqzumFQEawcnrYGBIdfMBXBOMOVLl
+         n5U82LaTILsvC8USS0+umd+wwcFVD9ffoGN5U/hSm9JPtqGy7ru0GZLYW3RkeYq9+7U6
+         4AZe9Hoxx9/VFKaHNLMfYb0olpejisU2Cc/lezZ1Vmb1fdrCsQUYuXtQt7avBHEyKZrc
+         21Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qORovMW4qFXFXcdoIljFzjQs+83nq3xI2+7AeVXu0Jo=;
-        b=SdJe7WJF9LR13w5j2cGxD8pvqTygmX1DQOwnn47F1W9+0qAeRE9YfNkevUbXbLC6QP
-         EcL8w6pWxVRlzczeHDauq/aK8mXSplRIeHOJHiMNMYOl1RjAa9G6eSi8MuiZbTq9/c0V
-         ZRTepfSIQDpAsCEbg5hpf0ZHGwNL6vDIZmC51sNjVKq8PCHoqXGfCz3H3GLoqyqJOWl8
-         KcJOpwYy3zq9EUq2gVHqprWZhPYPiTFX7iF5vw/1/VbQUa3wvETav2UxzHCLgexzvPoP
-         0YjliNzTrGOlT8jTiKi9FO69E+OBJ++rA68TZ09YBdWI2VJo/cBVNpvtNb6BC2AU0qdH
-         wH3Q==
-X-Gm-Message-State: ANhLgQ183uxXiRylsQZ6TL1EY8Me0CoLdBSLGEjakGp32tKOAJpu+Czu
-        bKKsojL4l/tkVYrqBcbkgv9mZl5JATE=
-X-Google-Smtp-Source: ADFU+vtaj++CrMMhqZXo7hw9Nyt36fJSsYzaZNL6R8wlkUfeeJDDTJl7vl16D+1AoJDsCn6dr/sjzg==
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr12707952wrm.280.1584725329242;
-        Fri, 20 Mar 2020 10:28:49 -0700 (PDT)
+        bh=z3+1+dijIgsDdRQRSO438ZaqORDXumTy12HEHcvkxO4=;
+        b=XRehWXl0JF0sKINNtWvIo10DULz/v1rAAqPuC8ORYMhf9EKREcZ0yNOgc0QjxJn9Ds
+         kMTy6GH1e+qm8sp9dyVgSALPr06gqtwNaF50Lz/VDypwGdISldzV+BiXWzeMbb/9Ejsa
+         sopIyq1G2GYbxXXxHhS7r4KcYA4+UdJ7B8z6fEIb8GudHRcWPxyWHJoyYqFO+hxgWqmZ
+         TqfpLXl13hzvDINxlvXMeLP0sBA4rfm2/IAbI67MoI7SuKqp3Z3WUov9IggQTMx64C3s
+         N2XBdBQqAnmVI64a2bIFc4YjG21zTcwhLpM9ww/4nRV0HChDnCu86aZqVii4VKHmLo5t
+         9kWw==
+X-Gm-Message-State: ANhLgQ2xiFXPLZXnxWa/gKknYFefYbMb6PEz199omORAi5rXrX6rjGz0
+        dwqzMjpeAXfeIvNvIMzz96JKj+QZAhM=
+X-Google-Smtp-Source: ADFU+vvGlc6t3uMSiDoQ7l+WSYEqq9PiT/6TGsyn5rEyMslVGcowKKIRunNkpO4nninB6mGrMiK/Bg==
+X-Received: by 2002:a1c:56d5:: with SMTP id k204mr12051300wmb.13.1584725331323;
+        Fri, 20 Mar 2020 10:28:51 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id q4sm11028333wmj.1.2020.03.20.10.28.48
+        by smtp.gmail.com with ESMTPSA id q4sm11028333wmj.1.2020.03.20.10.28.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 10:28:48 -0700 (PDT)
+        Fri, 20 Mar 2020 10:28:50 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v9 1/6] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
-Date:   Fri, 20 Mar 2020 19:28:34 +0200
-Message-Id: <20200320172839.1144395-2-arilou@gmail.com>
+Subject: [PATCH v9 3/6] x86/hyper-v: Add synthetic debugger definitions
+Date:   Fri, 20 Mar 2020 19:28:36 +0200
+Message-Id: <20200320172839.1144395-4-arilou@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200320172839.1144395-1-arilou@gmail.com>
 References: <20200320172839.1144395-1-arilou@gmail.com>
@@ -73,64 +73,93 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The problem the patch is trying to address is the fact that 'struct
-kvm_hyperv_exit' has different layout on when compiling in 32 and 64 bit
-modes.
+Hyper-V synthetic debugger has two modes, one that uses MSRs and
+the other that use Hypercalls.
 
-In 64-bit mode the default alignment boundary is 64 bits thus
-forcing extra gaps after 'type' and 'msr' but in 32-bit mode the
-boundary is at 32 bits thus no extra gaps.
+Add all the required definitions to both types of synthetic debugger
+interface.
 
-This is an issue as even when the kernel is 64 bit, the userspace using
-the interface can be both 32 and 64 bit but the same 32 bit userspace has
-to work with 32 bit kernel.
+Some of the required new CPUIDs and MSRs are not documented in the TLFS
+so they are in hyperv.h instead.
 
-The issue is fixed by forcing the 64 bit layout, this leads to ABI
-change for 32 bit builds and while we are obviously breaking '32 bit
-userspace with 32 bit kernel' case, we're fixing the '32 bit userspace
-with 64 bit kernel' one.
-
-As the interface has no (known) users and 32 bit KVM is rather baroque
-nowadays, this seems like a reasonable decision.
+The reason they are not documented is because they are subjected to be
+removed in future versions of Windows.
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- Documentation/virt/kvm/api.rst | 2 ++
- include/uapi/linux/kvm.h       | 2 ++
- 2 files changed, 4 insertions(+)
+ arch/x86/include/asm/hyperv-tlfs.h |  6 ++++++
+ arch/x86/kvm/hyperv.h              | 27 +++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index ebd383fba939..4872c47bbcff 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5025,9 +5025,11 @@ EOI was received.
-   #define KVM_EXIT_HYPERV_SYNIC          1
-   #define KVM_EXIT_HYPERV_HCALL          2
- 			__u32 type;
-+			__u32 pad1;
- 			union {
- 				struct {
- 					__u32 msr;
-+					__u32 pad2;
- 					__u64 control;
- 					__u64 evt_page;
- 					__u64 msg_page;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 4b95f9a31a2f..7ee0ddc4c457 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -189,9 +189,11 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_HYPERV_SYNIC          1
- #define KVM_EXIT_HYPERV_HCALL          2
- 	__u32 type;
-+	__u32 pad1;
- 	union {
- 		struct {
- 			__u32 msr;
-+			__u32 pad2;
- 			__u64 control;
- 			__u64 evt_page;
- 			__u64 msg_page;
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 92abc1e42bfc..671ce2a39d4b 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -131,6 +131,8 @@
+ #define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		BIT(8)
+ /* Crash MSR available */
+ #define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
++/* Support for debug MSRs available */
++#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
+ /* stimer Direct Mode is available */
+ #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+ 
+@@ -376,6 +378,9 @@ struct hv_tsc_emulation_status {
+ #define HVCALL_SEND_IPI_EX			0x0015
+ #define HVCALL_POST_MESSAGE			0x005c
+ #define HVCALL_SIGNAL_EVENT			0x005d
++#define HVCALL_POST_DEBUG_DATA			0x0069
++#define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
++#define HVCALL_RESET_DEBUG_SESSION		0x006b
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+ 
+@@ -419,6 +424,7 @@ enum HV_GENERIC_SET_FORMAT {
+ #define HV_STATUS_INVALID_HYPERCALL_INPUT	3
+ #define HV_STATUS_INVALID_ALIGNMENT		4
+ #define HV_STATUS_INVALID_PARAMETER		5
++#define HV_STATUS_OPERATION_DENIED		8
+ #define HV_STATUS_INSUFFICIENT_MEMORY		11
+ #define HV_STATUS_INVALID_PORT_ID		17
+ #define HV_STATUS_INVALID_CONNECTION_ID		18
+diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
+index 757cb578101c..5e4780bf6dd7 100644
+--- a/arch/x86/kvm/hyperv.h
++++ b/arch/x86/kvm/hyperv.h
+@@ -23,6 +23,33 @@
+ 
+ #include <linux/kvm_host.h>
+ 
++/*
++ * The #defines related to the synthetic debugger are required by KDNet, but
++ * they are not documented in the Hyper-V TLFS because the synthetic debugger
++ * functionality has been deprecated and is subject to removal in future versions
++ * of Windows.
++ */
++#define HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS	0x40000080
++#define HYPERV_CPUID_SYNDBG_INTERFACE			0x40000081
++#define HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES	0x40000082
++
++/*
++ * Hyper-V synthetic debugger platform capabilities
++ * These are HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits.
++ */
++#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	BIT(1)
++
++/* Hyper-V Synthetic debug options MSR */
++#define HV_X64_MSR_SYNDBG_CONTROL		0x400000F1
++#define HV_X64_MSR_SYNDBG_STATUS		0x400000F2
++#define HV_X64_MSR_SYNDBG_SEND_BUFFER		0x400000F3
++#define HV_X64_MSR_SYNDBG_RECV_BUFFER		0x400000F4
++#define HV_X64_MSR_SYNDBG_PENDING_BUFFER	0x400000F5
++#define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
++
++/* Hyper-V HV_X64_MSR_SYNDBG_OPTIONS bits */
++#define HV_X64_SYNDBG_OPTION_USE_HCALLS		BIT(2)
++
+ static inline struct kvm_vcpu_hv *vcpu_to_hv_vcpu(struct kvm_vcpu *vcpu)
+ {
+ 	return &vcpu->arch.hyperv;
 -- 
 2.24.1
 
