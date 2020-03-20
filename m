@@ -5,64 +5,64 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF7FC4332B
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BEEBC4332D
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:29:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4762120722
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:28:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64D4E20722
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 17:29:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JGKt4pQ4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbkJQ8QQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727026AbgCTR2x (ORCPT
+        id S1727269AbgCTR27 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Mar 2020 13:28:53 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52070 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbgCTR2x (ORCPT
+        Fri, 20 Mar 2020 13:28:59 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35354 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727197AbgCTR27 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 20 Mar 2020 13:28:53 -0400
-Received: by mail-wm1-f67.google.com with SMTP id c187so7414264wme.1;
-        Fri, 20 Mar 2020 10:28:52 -0700 (PDT)
+        Fri, 20 Mar 2020 13:28:59 -0400
+Received: by mail-wm1-f68.google.com with SMTP id m3so7289552wmi.0;
+        Fri, 20 Mar 2020 10:28:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=z3+1+dijIgsDdRQRSO438ZaqORDXumTy12HEHcvkxO4=;
-        b=JGKt4pQ46gQdOe6Umc8hcJbbrlURDLbLFG7pz1+bBdM9NSo9NHTsVXd0E95wfXdy0k
-         Vjl/mdFRGhIetQSfZmBXkSpD+QmSW4W30tAutCVrAFfBZKFxfgnPwS4GN15SmfLinUe4
-         RuxiPp4/iIlLbStssN7rDXA/I1qTmPhpxecPwYUlqzumFQEawcnrYGBIdfMBXBOMOVLl
-         n5U82LaTILsvC8USS0+umd+wwcFVD9ffoGN5U/hSm9JPtqGy7ru0GZLYW3RkeYq9+7U6
-         4AZe9Hoxx9/VFKaHNLMfYb0olpejisU2Cc/lezZ1Vmb1fdrCsQUYuXtQt7avBHEyKZrc
-         21Tg==
+        bh=bF7ST+Uw4AP61YhxxvxFJK3psApCGN0GVo19aRVBb+k=;
+        b=RbkJQ8QQKdMX25KSA2Et2VsxBEOhkKWd8C0EPVQwzaiZAFN5g8J7DK9bEWXsyF7yTy
+         2tOt3nYaMcIz/ubNAvPxA/0N1a+jqG7MNrn/iJUNZcyEyTgvlQ4kktJpud4nlaBgt3Rf
+         lFOT3OCzL5KCHw5DDD9mUuxkGNeB7teAZ0UnkgZ6MpqtEI5o+jp1ltJOzwSGFBFz0zGx
+         EqXgy06s9AXVzxxze3adyYR7MJLR72LZL3V0tzAPXtMTR2nCdCnk0kYR5mEmmuxY75NJ
+         JejKiF89e3IOu/1ibgewwR2KfpR/B32rn5V6bbtcX4Hbh1u7SJXLgJAY/oVSujkZR8/Q
+         JSMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z3+1+dijIgsDdRQRSO438ZaqORDXumTy12HEHcvkxO4=;
-        b=XRehWXl0JF0sKINNtWvIo10DULz/v1rAAqPuC8ORYMhf9EKREcZ0yNOgc0QjxJn9Ds
-         kMTy6GH1e+qm8sp9dyVgSALPr06gqtwNaF50Lz/VDypwGdISldzV+BiXWzeMbb/9Ejsa
-         sopIyq1G2GYbxXXxHhS7r4KcYA4+UdJ7B8z6fEIb8GudHRcWPxyWHJoyYqFO+hxgWqmZ
-         TqfpLXl13hzvDINxlvXMeLP0sBA4rfm2/IAbI67MoI7SuKqp3Z3WUov9IggQTMx64C3s
-         N2XBdBQqAnmVI64a2bIFc4YjG21zTcwhLpM9ww/4nRV0HChDnCu86aZqVii4VKHmLo5t
-         9kWw==
-X-Gm-Message-State: ANhLgQ2xiFXPLZXnxWa/gKknYFefYbMb6PEz199omORAi5rXrX6rjGz0
-        dwqzMjpeAXfeIvNvIMzz96JKj+QZAhM=
-X-Google-Smtp-Source: ADFU+vvGlc6t3uMSiDoQ7l+WSYEqq9PiT/6TGsyn5rEyMslVGcowKKIRunNkpO4nninB6mGrMiK/Bg==
-X-Received: by 2002:a1c:56d5:: with SMTP id k204mr12051300wmb.13.1584725331323;
-        Fri, 20 Mar 2020 10:28:51 -0700 (PDT)
+        bh=bF7ST+Uw4AP61YhxxvxFJK3psApCGN0GVo19aRVBb+k=;
+        b=AbXBoOJ9YJuKh+Wej9mMnlmlRVu6HUiHBOgwUubkOjEDL6QlBVfCBAhVtORrP33kkR
+         +kiXVcPRpjINiMYTnCIZ3wtQm/L+9Deb5hjjO4uyepvYj3BntuA7HjTqhm3wuY3S68OM
+         C2/JlxW+cvTxLgF9JHkfUYPqRPu/EkJaElH4rdQIWuuYkPU9UPulfYRMXQ+ZMOXpTZDQ
+         d0T6D4a61PJdP9f8z9NIznXSaAQ9i9aN8JhFHuqwWZYTgmYpx9LXxjJzpgzT0g/fJuVy
+         4RnZMsJmFB16AmWTvuyu1Qioy9TB8OlT8dq0bA/vJIEkSiVyZV2Fq5ulq43Ce5osFGzZ
+         mQvA==
+X-Gm-Message-State: ANhLgQ15BPXmjlzjV3mV7tApoIPvv98tsNAcmvL70uZvMnDMc2B5C/NN
+        8Ji2vuGsrwZH38BY25DRy+Vyw+uYcc4=
+X-Google-Smtp-Source: ADFU+vuPRAkCXWQGqIt8DiRO6X0wzcHXMyKhfH4/qINz4oo0MU24Q2dX5qcB01+Hl39yU6ChI4eoZA==
+X-Received: by 2002:a1c:25c5:: with SMTP id l188mr12027372wml.105.1584725335196;
+        Fri, 20 Mar 2020 10:28:55 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id q4sm11028333wmj.1.2020.03.20.10.28.50
+        by smtp.gmail.com with ESMTPSA id q4sm11028333wmj.1.2020.03.20.10.28.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 10:28:50 -0700 (PDT)
+        Fri, 20 Mar 2020 10:28:54 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v9 3/6] x86/hyper-v: Add synthetic debugger definitions
-Date:   Fri, 20 Mar 2020 19:28:36 +0200
-Message-Id: <20200320172839.1144395-4-arilou@gmail.com>
+Subject: [PATCH v9 6/6] x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
+Date:   Fri, 20 Mar 2020 19:28:39 +0200
+Message-Id: <20200320172839.1144395-7-arilou@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200320172839.1144395-1-arilou@gmail.com>
 References: <20200320172839.1144395-1-arilou@gmail.com>
@@ -73,93 +73,58 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-V synthetic debugger has two modes, one that uses MSRs and
-the other that use Hypercalls.
+There is another mode for the synthetic debugger which uses hypercalls
+to send/recv network data instead of the MSR interface.
 
-Add all the required definitions to both types of synthetic debugger
-interface.
-
-Some of the required new CPUIDs and MSRs are not documented in the TLFS
-so they are in hyperv.h instead.
-
-The reason they are not documented is because they are subjected to be
-removed in future versions of Windows.
+This interface is much slower and less recommended since you might get
+a lot of VMExits while KDVM polling for new packets to recv, rather
+than simply checking the pending page to see if there is data avialble
+and then request.
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h |  6 ++++++
- arch/x86/kvm/hyperv.h              | 27 +++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+ arch/x86/kvm/hyperv.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 92abc1e42bfc..671ce2a39d4b 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -131,6 +131,8 @@
- #define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		BIT(8)
- /* Crash MSR available */
- #define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
-+/* Support for debug MSRs available */
-+#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
- /* stimer Direct Mode is available */
- #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
- 
-@@ -376,6 +378,9 @@ struct hv_tsc_emulation_status {
- #define HVCALL_SEND_IPI_EX			0x0015
- #define HVCALL_POST_MESSAGE			0x005c
- #define HVCALL_SIGNAL_EVENT			0x005d
-+#define HVCALL_POST_DEBUG_DATA			0x0069
-+#define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
-+#define HVCALL_RESET_DEBUG_SESSION		0x006b
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
- 
-@@ -419,6 +424,7 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_STATUS_INVALID_HYPERCALL_INPUT	3
- #define HV_STATUS_INVALID_ALIGNMENT		4
- #define HV_STATUS_INVALID_PARAMETER		5
-+#define HV_STATUS_OPERATION_DENIED		8
- #define HV_STATUS_INSUFFICIENT_MEMORY		11
- #define HV_STATUS_INVALID_PORT_ID		17
- #define HV_STATUS_INVALID_CONNECTION_ID		18
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 757cb578101c..5e4780bf6dd7 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -23,6 +23,33 @@
- 
- #include <linux/kvm_host.h>
- 
-+/*
-+ * The #defines related to the synthetic debugger are required by KDNet, but
-+ * they are not documented in the Hyper-V TLFS because the synthetic debugger
-+ * functionality has been deprecated and is subject to removal in future versions
-+ * of Windows.
-+ */
-+#define HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS	0x40000080
-+#define HYPERV_CPUID_SYNDBG_INTERFACE			0x40000081
-+#define HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES	0x40000082
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index c130a386f4c1..f17156d36419 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -1829,6 +1829,34 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+ 		}
+ 		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
+ 		break;
++	case HVCALL_POST_DEBUG_DATA:
++	case HVCALL_RETRIEVE_DEBUG_DATA:
++		if (unlikely(fast)) {
++			ret = HV_STATUS_INVALID_PARAMETER;
++			break;
++		}
++		fallthrough;
++	case HVCALL_RESET_DEBUG_SESSION: {
++		struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
 +
-+/*
-+ * Hyper-V synthetic debugger platform capabilities
-+ * These are HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits.
-+ */
-+#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	BIT(1)
++		if (!syndbg->active) {
++			ret = HV_STATUS_INVALID_HYPERCALL_CODE;
++			break;
++		}
 +
-+/* Hyper-V Synthetic debug options MSR */
-+#define HV_X64_MSR_SYNDBG_CONTROL		0x400000F1
-+#define HV_X64_MSR_SYNDBG_STATUS		0x400000F2
-+#define HV_X64_MSR_SYNDBG_SEND_BUFFER		0x400000F3
-+#define HV_X64_MSR_SYNDBG_RECV_BUFFER		0x400000F4
-+#define HV_X64_MSR_SYNDBG_PENDING_BUFFER	0x400000F5
-+#define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
-+
-+/* Hyper-V HV_X64_MSR_SYNDBG_OPTIONS bits */
-+#define HV_X64_SYNDBG_OPTION_USE_HCALLS		BIT(2)
-+
- static inline struct kvm_vcpu_hv *vcpu_to_hv_vcpu(struct kvm_vcpu *vcpu)
- {
- 	return &vcpu->arch.hyperv;
++		if (!(syndbg->options & HV_X64_SYNDBG_OPTION_USE_HCALLS)) {
++			ret = HV_STATUS_OPERATION_DENIED;
++			break;
++		}
++		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
++		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
++		vcpu->run->hyperv.u.hcall.input = param;
++		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
++		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
++		vcpu->arch.complete_userspace_io =
++				kvm_hv_hypercall_complete_userspace;
++		return 0;
++	}
+ 	default:
+ 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
+ 		break;
 -- 
 2.24.1
 
