@@ -1,135 +1,158 @@
-Return-Path: <SRS0=tzXR=5E=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=o8kh=5F=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EE3C4332D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 21:54:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98097C4332D
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 02:21:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8FCAF2076F
-	for <linux-hyperv@archiver.kernel.org>; Thu, 19 Mar 2020 21:54:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E71420752
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Mar 2020 02:21:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="ekBSHwEq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sniiSpXF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726964AbgCSVyh (ORCPT
+        id S1727183AbgCTCVY (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 19 Mar 2020 17:54:37 -0400
-Received: from gateway21.websitewelcome.com ([192.185.46.113]:40347 "EHLO
-        gateway21.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726785AbgCSVyh (ORCPT
+        Thu, 19 Mar 2020 22:21:24 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33992 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726867AbgCTCVX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 19 Mar 2020 17:54:37 -0400
-X-Greylist: delayed 1327 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Mar 2020 17:54:36 EDT
-Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway21.websitewelcome.com (Postfix) with ESMTP id 2E148400CE695
-        for <linux-hyperv@vger.kernel.org>; Thu, 19 Mar 2020 16:32:28 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id F2mCjjfLOAGTXF2mCj9bsG; Thu, 19 Mar 2020 16:32:28 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=7OWI7kXpJ9xuS3/+Cl21W6vkQdSrqWzkX2X1V586tTw=; b=ekBSHwEqXesQNQRR9hMEde+xuV
-        saKjyaK784yJyFcaDyOcMRg6qHmhV7mRC0yIT2kOBmg455XTjA/g5636mDF8KJkShHI35AeYDHhYy
-        PgZd/3DOkXHAEEov//737Cu4iZ15AsEieKpSk1Do99MglD/zK2w8prWrVY1bNI36QTVTWByR5577D
-        vviTMnTC4+UY6J8abHNWnIRHUoEB62BHYZR25gPxSa+1TvlS47VQaQSfZsOnqCBAOXsJfXuTkgYV8
-        hod3X7f8aECsQtJRxlxUdjxwGGRs1ahQCd8LW8AlmTy7dpmt1EHCIrYzHYQeo6CdxCEXkapiUHjQm
-        Lyxeu+MQ==;
-Received: from cablelink-189-218-116-241.hosts.intercable.net ([189.218.116.241]:53328 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1jF2mA-001doB-Nk; Thu, 19 Mar 2020 16:32:26 -0500
-Date:   Thu, 19 Mar 2020 16:32:26 -0500
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Thu, 19 Mar 2020 22:21:23 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 23so2465755pfj.1;
+        Thu, 19 Mar 2020 19:21:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1e0OIgkjQ6p7TmGWHOMEDLToq6DxMQ1K/qUCQ00OSsE=;
+        b=sniiSpXFwyTHUSlN47I3KABcFhKy/rESwfd4t4Rd4dStHstVZetNNbSwswCAfb8j6L
+         juUHZCKYi0M0rGjdNux6o+/PiDjbpALQc0LGbL9xw72TDuToXyA4qvpTtvmGhVmutuE4
+         22Hjra6h3wBuz5GDD8iigePpVyqwgMatho9bRqu/rM+xuUioBrNGFbA2GKZtZrbrnaji
+         +xLA/yV3qZw6jaThH4qACRmwA4L1ylfZIKVbAgqEcKLhbg3POVz66T3MLR964hU3NSJf
+         tzs+uWks4FyO0PHllKxiWFp1Dpz9pmbM4JX832ABORLtpjpfhRMZgsYPwedIXli71ivI
+         FZFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1e0OIgkjQ6p7TmGWHOMEDLToq6DxMQ1K/qUCQ00OSsE=;
+        b=Imhg+arP4WwkRge064mV7m62W09BY3XgZRTRpJGSK8LyLxvoi884+05xKwZq08e5ys
+         3sAjadEBSx10xEPiLMCkQfGPm2oJuzqMFrwaRa7wmlbbTiB7ffbESQm7RSJ/miYoQ+YD
+         GMQbneECpFeELPDECchc1kDXJaYplJGPTY2hKS7J4+ZT6jADsOHEfUC7Jtiv4YV4bNwP
+         s7DbsgO+IQc9UuypLM7p4GPwVKkW489J5YFEyv8QVy7o17E/U9PvRcsCrhnDgJ2FhOgi
+         pgNsPxeEXeyu63j2Hn+z6sskCPYnwJRpxLBke7AIMYedRs4wKi8SV379hi/BVmZEYCiU
+         bFJA==
+X-Gm-Message-State: ANhLgQ36d+lMrl1Ap/slDFO9OJMO1szO39zG4Lzh4dqktzgE++o4+799
+        GVXoh2wQi7HRLaTQIFt7uJ4=
+X-Google-Smtp-Source: ADFU+vuualpYOQw6rEp32Ouqr2sB1e7zLyk6l6RtfZWIicJH883ZIleH5bAUpRCRspDvex3tUpkStg==
+X-Received: by 2002:a63:5506:: with SMTP id j6mr6339246pgb.43.1584670881865;
+        Thu, 19 Mar 2020 19:21:21 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:6:8000::a31c? ([2404:f801:9000:1a:efeb::a31c])
+        by smtp.gmail.com with ESMTPSA id v123sm3537228pfb.85.2020.03.19.19.21.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2020 19:21:21 -0700 (PDT)
+Subject: Re: [PATCH 0/4] x86/Hyper-V: Panic code path fixes
+To:     Michael Kelley <mikelley@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH][next] hv: hyperv_vmbus.h: Replace zero-length array with
- flexible-array member
-Message-ID: <20200319213226.GA9536@embeddedor.com>
+        Wei Liu <liuwe@microsoft.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
+        "x86@kernel.org" <x86@kernel.org>
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        vkuznets <vkuznets@redhat.com>
+References: <20200317132523.1508-1-Tianyu.Lan@microsoft.com>
+ <MW2PR2101MB1052F185AF4134EB2BB9ECBFD7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <1d1bc90c-7fbe-6123-eeea-5f9a5aad77e4@gmail.com>
+ <MW2PR2101MB10524F27F366005959A1007FD7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <MW2PR2101MB1052A7AFC5222CC9D78FA77ED7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <66750077-bd3e-d24a-688c-f71c4eda30a3@gmail.com>
+Date:   Fri, 20 Mar 2020 10:21:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.218.116.241
-X-Source-L: No
-X-Exim-ID: 1jF2mA-001doB-Nk
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: cablelink-189-218-116-241.hosts.intercable.net (embeddedor) [189.218.116.241]:53328
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 30
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+In-Reply-To: <MW2PR2101MB1052A7AFC5222CC9D78FA77ED7F40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The current codebase makes use of the zero-length array language
-extension to the C90 standard, but the preferred mechanism to declare
-variable-length types such as these ones is a flexible array member[1][2],
-introduced in C99:
+On 3/20/2020 12:07 AM, Michael Kelley wrote:
+> From: Michael Kelley <mikelley@microsoft.com> Sent: Thursday, March 19, 2020 8:15 AM
+>>
+>> From: Tianyu Lan <Tianyu.Lan@microsoft.com> Sent: Thursday, March 19, 2020 7:08 AM
+>>>>>
+>>>>> This patchset fixes some issues in the Hyper-V panic code path.
+>>>>> Patch 1 resolves issue that panic system still responses network
+>>>>> packets.
+>>>>> Patch 2-3 resolves crash enlightenment issues.
+>>>>> Patch 4 is to set crash_kexec_post_notifiers to true for Hyper-V
+>>>>> VM in order to report crash data or kmsg to host before running
+>>>>> kdump kernel.
+>>>>
+>>>> I still see an issue that isn't addressed by these patches.  The VMbus
+>>>> driver registers a "die notifier" and a "panic notifier".   But die() will
+>>>> eventually call panic() if panic_on_oops is set (which I think it typically
+>>>> is).  If the CRASH_NOTIFY_MSG option is *not* enabled, then
+>>>> hyperv_report_panic() could get called by the die notifier, and then
+>>>> again by the panic notifier.
+>>>>
+>>>> Do we even need the "die notifier"?  If it was removed, there would
+>>>> not be any notification to Hyper-V via the die() path unless panic_on_oops
+>>>> is set, which I think is actually the correct behavior.  I'm not
+>>>> completely clear on what is supposed to happen in general to the
+>>>> Linux kernel if panic_on_oops is not set. Does it try to continue to run?
+>>>> If so, then we should not be notifying Hyper-V if panic_on_oops is not
+>>>> set, and removing the die notifier is the right thing to do.
+>>>>
+>>>
+>>> hyperv_report_panic() has re-enter check inside and so kernel only
+>>> reports crash register data once during die().
+>>
+>> Ah, yes, you are right.
+>>
+>>>  From comment in the
+>>> hyperv_report_panic(), register value reported in die chain is more
+>>> exact than value in panic chain. The register value in die chain is
+>>> passed by die() caller. Register value reported in panic chain
+>>> is collected in the hyperv_panic_event().
+>>>
+>>> If panic_on_oops is not set, the task should be killed and kernel
+>>> still runs. In this case, we may not trigger crash enlightenment.
+>>
+>> I'm not completely clear on your last statement.   It seems like there
+>> is still a problem in that die() will call hyperv_report_panic() even if
+>> panic_on_oops is not set.  We will have reported a panic to Hyper-V
+>> even though the VM did not stop running.
+>
+Yes, the die callback is still necessary and we should skip report
+if panic_on_oops isn't set.
 
-struct foo {
-        int stuff;
-        struct boo array[];
-};
+> 
+> There's one more issue to consider.  hv_kmsg_dump() skips calling
+> hyperv_report_panic_msg() if sysctl_record_panic_msg has been cleared
+> by a sysctl command.  (This sysctl option gives a customer the ability to
+> increase privacy by not having the VM's dmesg contents sent to Hyper-V.)
+> In this case, the earlier hyperv_report_panic() call should be used.  Otherwise,
+> there would not be any notification to Hyper-V about the panic.
+> 
 
-By making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-inadvertently introduced[3] to the codebase from now on.
+Nice catch. I will fix this in the next version.
 
-Also, notice that, dynamic memory allocations won't be affected by
-this change:
+Thanks.
 
-"Flexible array members have incomplete type, and so the sizeof operator
-may not be applied. As a quirk of the original implementation of
-zero-length arrays, sizeof evaluates to zero."[1]
-
-This issue was found with the help of Coccinelle.
-
-[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[2] https://github.com/KSPP/linux/issues/21
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/hv/hyperv_vmbus.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index f5fa3b3c9baf..70b30e223a57 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -292,7 +292,7 @@ struct vmbus_msginfo {
- 	struct list_head msglist_entry;
- 
- 	/* The message itself */
--	unsigned char msg[0];
-+	unsigned char msg[];
- };
- 
- 
--- 
-2.23.0
 
