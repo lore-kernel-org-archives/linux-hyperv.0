@@ -5,67 +5,69 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28807C54FCE
-	for <linux-hyperv@archiver.kernel.org>; Mon, 23 Mar 2020 13:09:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60012C4332B
+	for <linux-hyperv@archiver.kernel.org>; Mon, 23 Mar 2020 13:10:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F3A612072E
-	for <linux-hyperv@archiver.kernel.org>; Mon, 23 Mar 2020 13:09:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 371792072D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 23 Mar 2020 13:10:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FnkfqQvT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isxygoQk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728414AbgCWNJr (ORCPT
+        id S1728470AbgCWNJz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 23 Mar 2020 09:09:47 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:46236 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbgCWNJo (ORCPT
+        Mon, 23 Mar 2020 09:09:55 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:33080 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728423AbgCWNJo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 23 Mar 2020 09:09:44 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q3so2930130pff.13;
-        Mon, 23 Mar 2020 06:09:43 -0700 (PDT)
+Received: by mail-pl1-f193.google.com with SMTP id g18so5911041plq.0;
+        Mon, 23 Mar 2020 06:09:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=3NXnWBLRV4+ycqR57F21x0zLKmiRfwhohWhxRGGsA4g=;
-        b=FnkfqQvTCECL2JvXl4WJWyBq7XGHSZgx1NXO/su3aXyZG5KzFpuQJdNeWnLsDd1ClP
-         MMqYbHeOyorc/+1VDTnmBPtF5ycHnfOXFbaPi7mwcJxQYdFT/69hruMw4Qo1bvg6qiPN
-         Dzww9vKnHrCK/lnzMyM/MbdU2PfWd+7WIaxQVQxT1qRN0t8v0I5CtZzqGQawLyXOvDAV
-         1oPJ79BGbKuxlumunCcrO0DMZM81bau+a32XopER1S8npoONrVrS4Plhr7HPDAzSv9XY
-         Nha1d0+cZwBNR53wRZWzYmFMglfzQNmAgDr/hLJnpBZcyuk36V7FI5uJRlZcomwLF0Lw
-         vasA==
+        bh=Dg0exrkEoHo78ZPEniVivraP1002Vfe0bXH02uY3wQ0=;
+        b=isxygoQkQcjdj9FqpO4DKnpZYcMG/YwsFlVoandcd3y1BeftbSVw1thksLPO96ue43
+         JXfD4RtDrZDaBMSzrTSzT+uKzeo3e146IZAvqAVXDDXgn+AH9bhzCvdg1Hjifaoj20Qm
+         YEfXGKGtXw7XmbWdtVzlIUp0R+7cSARN5+jVUlSRh5vYCvkAmlQXTk/5e0J0g/jYv06I
+         xGYnBgLAyt5XahdWX5/9J8GjK/z1IUFB8YIbXmD9o1ANXaSu2dqdi4fUzaImIhxZdUbo
+         swK9tmCrqGIYW4PMJZvCrGT7dRHXV/dXn194aX+hHjwwoU7Mh82Bwc5zc4ySd7xsABL+
+         k7tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=3NXnWBLRV4+ycqR57F21x0zLKmiRfwhohWhxRGGsA4g=;
-        b=dnqrssPqkReI2bqmmWQQIQp4dRqCtAwLeShlXSpyReDJtYaYxX5w+feDpUioLL6j4t
-         pxf2OY9cxvRglklianZEUPAaDeSEr4RSeE09y+pkcWpJuPXNGWQbqgYcnSXJCFQ4ZijL
-         u+gP6tX6RY2sdBwR4oW5VGKpFbs7JJPgLySXQ/MzDn1Gh+nrMMYfoE0krEGbhbcpDBNQ
-         3+y8A/xidUGL26ZnExLr7f9IaH/3kbfD9D60Q6lkefunZNJXA0gpXW2h22CXJCv759Y3
-         ntTHNKvYDmbNs2HVCSkHUfGryXH7D7WW5NYNI94KZbEpugPyosnEP1JcaXQAlFyoo2fa
-         jQPw==
-X-Gm-Message-State: ANhLgQ2TM6j8z/KY/NOUudC+QmsetCvschn48ohCvv+5wy86u5ntIswI
-        MCIiqeyWVttMw6aiR3JTWNY=
-X-Google-Smtp-Source: ADFU+vuETYWvD07Qi6t5j/sbo0Ptqbzr6/4g3CV3KeEKSsRdb9/kzUl8wETafouEUSs9zFRv6ENvrw==
-X-Received: by 2002:a63:3083:: with SMTP id w125mr745553pgw.282.1584968983155;
-        Mon, 23 Mar 2020 06:09:43 -0700 (PDT)
+        bh=Dg0exrkEoHo78ZPEniVivraP1002Vfe0bXH02uY3wQ0=;
+        b=g4Lgqdvu2YUilYvkty9ubg4R9YOxyjgPyPMqA/bAmjp5IS1hNQ1gwFGh2Hg+Zmkjms
+         yWeb5ifuAamo9oYOyb3i30+yIKThG9nZ03090pDhvZLKyXTjCaBcTiy8jsCi6+77qBk4
+         xvt18ttysYD+4FTbDGePlJr/sMX31nLjjTzPbrj5RTvKAPuQisUYinTu06mX4Lrzxpl1
+         38X+WpgOwn2SeaQwv7ts/B8YddoBk77SieyZ9T+WJOdG+hrFGhr3x9OP61M7AH9UJp6p
+         q4glxNEYhuZdR/Ih6lGZbTxEENoScbn4a9ZFxclGZaWwEimK+WbmS0TnEaTZYpi4FxHF
+         QfhQ==
+X-Gm-Message-State: ANhLgQ2rEEhUjDDB7GLV9GihHLRgDOjvscaUTickiSbd79hk0zFIn7Tn
+        P2CWvJErQc4MPp1vBzhVcrc=
+X-Google-Smtp-Source: ADFU+vvbBMNbfCzNUGthBrNjznLtE7ty86z3O8KehDnDe7gozEG14WICAU3zqtzcu+Fxww0Vkh1jFQ==
+X-Received: by 2002:a17:90a:3a8f:: with SMTP id b15mr24631399pjc.178.1584968981754;
+        Mon, 23 Mar 2020 06:09:41 -0700 (PDT)
 Received: from localhost.corp.microsoft.com ([131.107.147.210])
-        by smtp.googlemail.com with ESMTPSA id u14sm12262034pgg.67.2020.03.23.06.09.42
+        by smtp.googlemail.com with ESMTPSA id u14sm12262034pgg.67.2020.03.23.06.09.40
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 23 Mar 2020 06:09:42 -0700 (PDT)
+        Mon, 23 Mar 2020 06:09:41 -0700 (PDT)
 From:   ltykernel@gmail.com
 X-Google-Original-From: Tianyu.Lan@microsoft.com
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        liuwe@microsoft.com, michael.h.kelley@microsoft.com
+        liuwe@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com
-Subject: [PATCH V2 6/6] x86/Hyper-V: Report crash data in die() when panic_on_oops is set
-Date:   Mon, 23 Mar 2020 06:09:24 -0700
-Message-Id: <20200323130924.2968-7-Tianyu.Lan@microsoft.com>
+Subject: [PATCH V2 4/6] x86/Hyper-V: Report crash register data or ksmg before running crash kernel
+Date:   Mon, 23 Mar 2020 06:09:22 -0700
+Message-Id: <20200323130924.2968-5-Tianyu.Lan@microsoft.com>
 X-Mailer: git-send-email 2.14.5
 In-Reply-To: <20200323130924.2968-1-Tianyu.Lan@microsoft.com>
 References: <20200323130924.2968-1-Tianyu.Lan@microsoft.com>
@@ -76,29 +78,45 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-When oops happens with panic_on_oops unset, the oops
-thread is killed by die() and system continues to run.
-In such case, guest should not report crash register
-data to host since system still runs. Fix it.
+When a guest VM panics, Hyper-V should be notified only once via the
+crash synthetic MSRs.  Current Linux code might write these crash MSRs
+twice during a system panic:
+1) hyperv_panic/die_event() calling hyperv_report_panic()
+2) hv_kmsg_dump() calling hyperv_report_panic_msg()
+
+Fix this by not calling hyperv_report_panic() if a kmsg dump has been
+successfully registered.  The notification will happen later via
+hyperv_report_panic_msg().
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/vmbus_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Change since v1:
+       Update commit log
+---
+ arch/x86/kernel/cpu/mshyperv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 00447175c040..ecdb64db0e4a 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -89,7 +89,7 @@ static int hyperv_die_event(struct notifier_block *nb, unsigned long val,
- 	 * Crash notify only can be triggered once. If crash notify
- 	 * message is available, just report kmsg to crash buffer.
- 	 */
--	if (hyperv_report_reg())
-+	if (hyperv_report_reg() && panic_on_oops)
- 		hyperv_report_panic(regs, val);
- 	return NOTIFY_DONE;
- }
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index caa032ce3fe3..5e296a7e6036 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -263,6 +263,16 @@ static void __init ms_hyperv_init_platform(void)
+ 			cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
+ 	}
+ 
++	/*
++	 * Hyper-V expects to get crash register data or kmsg when
++	 * crash enlightment is available and system crashes. Set
++	 * crash_kexec_post_notifiers to be true to make sure that
++	 * calling crash enlightment interface before running kdump
++	 * kernel.
++	 */
++	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE)
++		crash_kexec_post_notifiers = true;
++
+ #ifdef CONFIG_X86_LOCAL_APIC
+ 	if (ms_hyperv.features & HV_X64_ACCESS_FREQUENCY_MSRS &&
+ 	    ms_hyperv.misc_features & HV_FEATURE_FREQUENCY_MSRS_AVAILABLE) {
 -- 
 2.14.5
 
