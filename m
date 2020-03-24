@@ -8,287 +8,180 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D01AC41621
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADB7C4332B
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D887120735
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:45:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E92FF20724
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFZASXcc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="thMsXv5P"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgCXHpz (ORCPT
+        id S1726094AbgCXH53 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Mar 2020 03:45:55 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51620 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727420AbgCXHpz (ORCPT
+        Tue, 24 Mar 2020 03:57:29 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:34969 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbgCXH53 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Mar 2020 03:45:55 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c187so2096499wme.1;
-        Tue, 24 Mar 2020 00:45:53 -0700 (PDT)
+        Tue, 24 Mar 2020 03:57:29 -0400
+Received: by mail-pg1-f193.google.com with SMTP id 7so8647697pgr.2;
+        Tue, 24 Mar 2020 00:57:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=E4laWHPFyqBGUJvtxwe1Z3Lus6v9LWPN8EYUI93Rtls=;
-        b=nFZASXcc4nB9pmEFKaBvek+Sq0SW3tv6Wj0W7n/XOB/B5YSO9c+sZoE+xGcmDzBje2
-         4K7EhILSluLpuSQJMwQUB51akbPlheh9Je2Spf42qULN8NE+9+nxB9bJMDToS6/nl8N4
-         7D0GKq8osTZujE8SKlDMDct4IIAO6chO9DZXWbcJD71cC1wI183M4fxAv/ZhInG/KLS2
-         MunnpqXeEM3TqOYonSwxMGyYSI/ojD2R3CBXV6+Ozu3TyphvhwYH8G+vDmCIzIgIdY8i
-         euq5ac00stByd//KwXHxAH4nT+1+c8GVfBPsIiJvYgnEPw4IALdyHUkGiLcXXdNKB3Jz
-         9Oxw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=qNSw0t43yl8OfGIcV0+3jFhgZPDe/GWtbRMmZXFX2BM=;
+        b=thMsXv5PIel7RqJ29r33Vwiyqa/yDyRY/cO2kfdMAeaJcALlihfBdiTdCvRuy65Sbw
+         0cEAgEB0KxvVinH2WgemxF13Q2E9lvWBD4xa/PvRQMuFqhnGKXFBoaXkNPsa2KRLapcC
+         YUN9UTTbQquPnaa3TO1NbxQHXOcLjrk8GACJolfzvQSSFPx8RHFXjiU2baAUTHsiGVJ9
+         ba2hLCgw5o31v9uvCymPKyFikq9JIDMRG6AFGY4jpEbx6NuKa81xICOOeV1/J4nxlFYA
+         3clW2DeQUqEez+SdBhsMOsaiwwrAceOB+NXa9/lO3lIFur2OdpPRdNpl57GXtz/f+4kk
+         219w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=E4laWHPFyqBGUJvtxwe1Z3Lus6v9LWPN8EYUI93Rtls=;
-        b=UyjeC4RqIb7NtnIVKKbC3fF26c3HMa15U1iZAjQyASmFANU3DnXsxQLQSJLVUsrL9s
-         ICWuYT3JErGwNmGoecFQnnczGSPVFU6ajzedzK8zmLueTI/iNGNBbneQu6jWVF70H+ou
-         c+pqnkDWxjM5e3M4awkUhCcCZF/qflvgzoF2/ERvnxYQcocaZAWJN7E9wt3Zq17DGT2V
-         BYMfe6IsXk1hpcoM+lk6iteuyDmjsxYlkRrPHpogFbk2mjqRULXOikKMvAvA75BY+EER
-         oScBasmyS2IKLVOCI4uhXe4zZ+XgYfQSSeXpI360MdvBrSXE45IPJWF+7siyvmFybZ2C
-         1sqQ==
-X-Gm-Message-State: ANhLgQ1KTBCG21FFEWNsUZXbnV6yXNAmKNT6JE0Xx509La7c+zE5RNVd
-        +7+z6hceTDWBMFXvnWSyMPSEt76plVM=
-X-Google-Smtp-Source: ADFU+vtpNGYv/4s7yUPo07m4ysTE2tFOwDv7Lx1NTwyDE7zqmYAgfgiEp3lYnHEHZ50c0cYCH1s2wA==
-X-Received: by 2002:a05:600c:24c:: with SMTP id 12mr1867336wmj.186.1585035952218;
-        Tue, 24 Mar 2020 00:45:52 -0700 (PDT)
-Received: from jondnuc.lan (IGLD-84-229-155-229.inter.net.il. [84.229.155.229])
-        by smtp.gmail.com with ESMTPSA id r15sm22066122wra.19.2020.03.24.00.45.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 00:45:51 -0700 (PDT)
-From:   Jon Doron <arilou@gmail.com>
-To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc:     vkuznets@redhat.com
-Subject: [PATCH v10 7/7] KVM: selftests: update hyperv_cpuid with SynDBG tests
-Date:   Tue, 24 Mar 2020 09:43:41 +0200
-Message-Id: <20200324074341.1770081-8-arilou@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200324074341.1770081-1-arilou@gmail.com>
-References: <20200324074341.1770081-1-arilou@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+         :references;
+        bh=qNSw0t43yl8OfGIcV0+3jFhgZPDe/GWtbRMmZXFX2BM=;
+        b=g1UOhmKeAIpwb+nSQQbl49qR4O2oLISXda73dV4sujeMuVvewxLp9lhRw3oREYXYf2
+         yUawQTbiwhiGCjVqpTSGCUv3dEe7UW4srbcM2t0J0Ltc03NA6VR8mVXj/wR4Lh5RQkKO
+         AzgWyuJaE0nKLB1IyAYyj4UPQGacYGg9J6joI61hUl1rZS0mDMjkZAVxHQeAPRnRoVrL
+         /e3qUl89DdY5iHYRY/Bceir7y//EEnS5IN90mGzuNIooztdaY4WJ8jBeRSe3nw2wyVgn
+         PCvuwdWjyCmTJ+ySMp9407T0QEjDJNmSZsMHG3G3JM0BFQANSP2OZ9FDaXE+B6k0T6v4
+         CDbA==
+X-Gm-Message-State: ANhLgQ1hFZO7Zn/w5MghR8++IOHIVlb/JbGGE8Ao3EujYioNKmhzuVJH
+        2WNeZbfNlst20MYUbK5KYxU=
+X-Google-Smtp-Source: ADFU+vt2LokCHfy3Xj0kM+7egmxN9M9cxcz7Wn09cSMi5iRm4d6XlQY4kB16BYBjgXZVAT4RtiBRUg==
+X-Received: by 2002:a63:f141:: with SMTP id o1mr24906174pgk.92.1585036648060;
+        Tue, 24 Mar 2020 00:57:28 -0700 (PDT)
+Received: from localhost.corp.microsoft.com ([167.220.2.210])
+        by smtp.googlemail.com with ESMTPSA id x71sm15452076pfd.129.2020.03.24.00.57.27
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 24 Mar 2020 00:57:27 -0700 (PDT)
+From:   ltykernel@gmail.com
+X-Google-Original-From: Tianyu.Lan@microsoft.com
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        liuwe@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vkuznets@redhat.com
+Subject: [PATCH V3 1/6] x86/Hyper-V: Unload vmbus channel in hv panic callback
+Date:   Tue, 24 Mar 2020 00:57:15 -0700
+Message-Id: <20200324075720.9462-2-Tianyu.Lan@microsoft.com>
+X-Mailer: git-send-email 2.14.5
+In-Reply-To: <20200324075720.9462-1-Tianyu.Lan@microsoft.com>
+References: <20200324075720.9462-1-Tianyu.Lan@microsoft.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Vitaly Kuznetsov <vkuznets () redhat ! com>
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Test all four combinations with eVMCS and SynDBG capabilities,
-check that we get the right number of entries and that
-0x40000000.EAX always returns the correct max leaf.
+When kdump is not configured, a Hyper-V VM might still respond to
+network traffic after a kernel panic when kernel parameter panic=0.
+The panic CPU goes into an infinite loop with interrupts enabled,
+and the VMbus driver interrupt handler still works because the
+VMbus connection is unloaded only in the kdump path.  The network
+responses make the other end of the connection think the VM is
+still functional even though it has panic'ed, which could affect any
+failover actions that should be taken.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Fix this by unloading the VMbus connection during the panic process.
+vmbus_initiate_unload() could then be called twice (e.g., by
+hyperv_panic_event() and hv_crash_handler(), so reset the connection
+state in vmbus_initiate_unload() to ensure the unload is done only
+once.
+
+Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- .../selftests/kvm/x86_64/hyperv_cpuid.c       | 139 ++++++++++++------
- 1 file changed, 96 insertions(+), 43 deletions(-)
+Change since v1:
+	- Update change log
+	- Use xchg() to change vmbus connection status
+Change since v2:
+	- Update comment of registering panic callback.
+---
+ drivers/hv/channel_mgmt.c |  3 +++
+ drivers/hv/vmbus_drv.c    | 21 +++++++++++++--------
+ 2 files changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c b/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-index 443a2b54645b..e63b0e1c253d 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-@@ -26,18 +26,18 @@ static void guest_code(void)
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 0370364169c4..501c43c5851d 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -839,6 +839,9 @@ void vmbus_initiate_unload(bool crash)
  {
+ 	struct vmbus_channel_message_header hdr;
+ 
++	if (xchg(&vmbus_connection.conn_state, DISCONNECTED) == DISCONNECTED)
++		return;
++
+ 	/* Pre-Win2012R2 hosts don't support reconnect */
+ 	if (vmbus_proto_version < VERSION_WIN8_1)
+ 		return;
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 029378c27421..6478240d11ab 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -53,9 +53,12 @@ static int hyperv_panic_event(struct notifier_block *nb, unsigned long val,
+ {
+ 	struct pt_regs *regs;
+ 
+-	regs = current_pt_regs();
++	vmbus_initiate_unload(true);
+ 
+-	hyperv_report_panic(regs, val);
++	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE) {
++		regs = current_pt_regs();
++		hyperv_report_panic(regs, val);
++	}
+ 	return NOTIFY_DONE;
  }
  
--static int smt_possible(void)
-+static bool smt_possible(void)
- {
- 	char buf[16];
- 	FILE *f;
--	bool res = 1;
-+	bool res = true;
- 
- 	f = fopen("/sys/devices/system/cpu/smt/control", "r");
- 	if (f) {
- 		if (fread(buf, sizeof(*buf), sizeof(buf), f) > 0) {
- 			if (!strncmp(buf, "forceoff", 8) ||
- 			    !strncmp(buf, "notsupported", 12))
--				res = 0;
-+				res = false;
- 		}
- 		fclose(f);
- 	}
-@@ -45,30 +45,48 @@ static int smt_possible(void)
- 	return res;
- }
- 
-+void vcpu_enable_syndbg(struct kvm_vm *vm, int vcpu_id)
-+{
-+	struct kvm_enable_cap enable_syndbg_cap = {
-+		.cap = KVM_CAP_HYPERV_SYNDBG,
-+	};
-+
-+	vcpu_ioctl(vm, vcpu_id, KVM_ENABLE_CAP, &enable_syndbg_cap);
-+}
-+
- static void test_hv_cpuid(struct kvm_cpuid2 *hv_cpuid_entries,
--			  int evmcs_enabled)
-+			  bool evmcs_enabled, bool syndbg_enabled)
- {
- 	int i;
-+	int nent = 6;
-+	u32 test_val;
-+
-+	if (evmcs_enabled)
-+		nent += 1; /* 0x4000000A */
- 
--	if (!evmcs_enabled)
--		TEST_ASSERT(hv_cpuid_entries->nent == 6,
--			    "KVM_GET_SUPPORTED_HV_CPUID should return 6 entries"
--			    " when Enlightened VMCS is disabled (returned %d)",
--			    hv_cpuid_entries->nent);
--	else
--		TEST_ASSERT(hv_cpuid_entries->nent == 7,
--			    "KVM_GET_SUPPORTED_HV_CPUID should return 7 entries"
--			    " when Enlightened VMCS is enabled (returned %d)",
--			    hv_cpuid_entries->nent);
-+	if (syndbg_enabled)
-+		nent += 3; /* 0x40000080 - 0x40000082 */
-+
-+	TEST_ASSERT(hv_cpuid_entries->nent == nent,
-+		    "KVM_GET_SUPPORTED_HV_CPUID should return %d entries"
-+		    " with evmcs=%d syndbg=%d (returned %d)",
-+		    nent, evmcs_enabled, syndbg_enabled,
-+		    hv_cpuid_entries->nent);
- 
- 	for (i = 0; i < hv_cpuid_entries->nent; i++) {
- 		struct kvm_cpuid_entry2 *entry = &hv_cpuid_entries->entries[i];
- 
- 		TEST_ASSERT((entry->function >= 0x40000000) &&
--			    (entry->function <= 0x4000000A),
-+			    (entry->function <= 0x40000082),
- 			    "function %lx is our of supported range",
- 			    entry->function);
- 
-+		TEST_ASSERT(evmcs_enabled || (entry->function != 0x4000000A),
-+			    "0x4000000A leaf should not be reported");
-+
-+		TEST_ASSERT(syndbg_enabled || (entry->function <= 0x4000000A),
-+			    "SYNDBG leaves should not be reported");
-+
- 		TEST_ASSERT(entry->index == 0,
- 			    ".index field should be zero");
- 
-@@ -78,12 +96,27 @@ static void test_hv_cpuid(struct kvm_cpuid2 *hv_cpuid_entries,
- 		TEST_ASSERT(!entry->padding[0] && !entry->padding[1] &&
- 			    !entry->padding[2], "padding should be zero");
- 
--		if (entry->function == 0x40000004) {
--			int nononarchcs = !!(entry->eax & (1UL << 18));
--
--			TEST_ASSERT(nononarchcs == !smt_possible(),
-+		switch (entry->function) {
-+		case 0x40000000:
-+			test_val = 0x40000005;
-+			if (evmcs_enabled)
-+				test_val = 0x4000000A;
-+			if (syndbg_enabled)
-+				test_val = 0x40000082;
-+
-+			TEST_ASSERT(entry->eax == test_val,
-+				    "Wrong max leaf report in 0x40000000.EAX: %x"
-+				    " (evmcs=%d syndbg=%d)",
-+				    entry->eax, evmcs_enabled, syndbg_enabled
-+				);
-+			break;
-+		case 0x40000004:
-+			test_val = entry->eax & (1UL << 18);
-+
-+			TEST_ASSERT(!!test_val == !smt_possible(),
- 				    "NoNonArchitecturalCoreSharing bit"
- 				    " doesn't reflect SMT setting");
-+			break;
+@@ -1391,10 +1394,16 @@ static int vmbus_bus_init(void)
  		}
  
- 		/*
-@@ -133,8 +166,9 @@ struct kvm_cpuid2 *kvm_get_supported_hv_cpuid(struct kvm_vm *vm)
- int main(int argc, char *argv[])
- {
- 	struct kvm_vm *vm;
--	int rv;
-+	int rv, stage;
- 	struct kvm_cpuid2 *hv_cpuid_entries;
-+	bool evmcs_enabled, syndbg_enabled;
- 
- 	/* Tell stdout not to buffer its content */
- 	setbuf(stdout, NULL);
-@@ -151,32 +185,51 @@ int main(int argc, char *argv[])
- 
- 	test_hv_cpuid_e2big(vm);
- 
--	hv_cpuid_entries = kvm_get_supported_hv_cpuid(vm);
--	if (!hv_cpuid_entries)
--		return 1;
--
--	test_hv_cpuid(hv_cpuid_entries, 0);
-+	kvm_vm_free(vm);
- 
--	free(hv_cpuid_entries);
-+	for (stage = 0; stage < 5; stage++) {
-+		evmcs_enabled = false;
-+		syndbg_enabled = false;
-+
-+		vm = vm_create_default(VCPU_ID, 0, guest_code);
-+		switch (stage) {
-+		case 0:
-+			test_hv_cpuid_e2big(vm);
-+			continue;
-+		case 1:
-+			break;
-+		case 2:
-+			if (!kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS)) {
-+				print_skip("Enlightened VMCS is unsupported");
-+				continue;
-+			}
-+			vcpu_enable_evmcs(vm, VCPU_ID);
-+			evmcs_enabled = true;
-+			break;
-+		case 3:
-+			if (!kvm_check_cap(KVM_CAP_HYPERV_SYNDBG)) {
-+				print_skip("Synthetic debugger is unsupported");
-+				continue;
-+			}
-+			vcpu_enable_syndbg(vm, VCPU_ID);
-+			syndbg_enabled = true;
-+			break;
-+		case 4:
-+			if (!kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS) ||
-+			    !kvm_check_cap(KVM_CAP_HYPERV_SYNDBG))
-+				continue;
-+			vcpu_enable_evmcs(vm, VCPU_ID);
-+			vcpu_enable_syndbg(vm, VCPU_ID);
-+			evmcs_enabled = true;
-+			syndbg_enabled = true;
-+			break;
-+		}
- 
--	if (!kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS)) {
--		fprintf(stderr,
--			"Enlightened VMCS is unsupported, skip related test\n");
--		goto vm_free;
-+		hv_cpuid_entries = kvm_get_supported_hv_cpuid(vm);
-+		test_hv_cpuid(hv_cpuid_entries, evmcs_enabled, syndbg_enabled);
-+		free(hv_cpuid_entries);
-+		kvm_vm_free(vm);
+ 		register_die_notifier(&hyperv_die_block);
+-		atomic_notifier_chain_register(&panic_notifier_list,
+-					       &hyperv_panic_block);
  	}
  
--	vcpu_enable_evmcs(vm, VCPU_ID);
--
--	hv_cpuid_entries = kvm_get_supported_hv_cpuid(vm);
--	if (!hv_cpuid_entries)
--		return 1;
--
--	test_hv_cpuid(hv_cpuid_entries, 1);
--
--	free(hv_cpuid_entries);
--
--vm_free:
--	kvm_vm_free(vm);
--
++	/*
++	 * Always register the panic notifier because we need to unload
++	 * the VMbus channel connection to prevent any VMbus
++	 * activity after the VM panics.
++	 */
++	atomic_notifier_chain_register(&panic_notifier_list,
++			       &hyperv_panic_block);
++
+ 	vmbus_request_offers();
+ 
  	return 0;
- }
+@@ -2204,8 +2213,6 @@ static int vmbus_bus_suspend(struct device *dev)
+ 
+ 	vmbus_initiate_unload(false);
+ 
+-	vmbus_connection.conn_state = DISCONNECTED;
+-
+ 	/* Reset the event for the next resume. */
+ 	reinit_completion(&vmbus_connection.ready_for_resume_event);
+ 
+@@ -2289,7 +2296,6 @@ static void hv_kexec_handler(void)
+ {
+ 	hv_stimer_global_cleanup();
+ 	vmbus_initiate_unload(false);
+-	vmbus_connection.conn_state = DISCONNECTED;
+ 	/* Make sure conn_state is set as hv_synic_cleanup checks for it */
+ 	mb();
+ 	cpuhp_remove_state(hyperv_cpuhp_online);
+@@ -2306,7 +2312,6 @@ static void hv_crash_handler(struct pt_regs *regs)
+ 	 * doing the cleanup for current CPU only. This should be sufficient
+ 	 * for kdump.
+ 	 */
+-	vmbus_connection.conn_state = DISCONNECTED;
+ 	cpu = smp_processor_id();
+ 	hv_stimer_cleanup(cpu);
+ 	hv_synic_disable_regs(cpu);
 -- 
-2.24.1
+2.14.5
 
