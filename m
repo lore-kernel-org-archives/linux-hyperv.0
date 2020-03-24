@@ -8,64 +8,66 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F254C4332B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8B3CC10DCE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5831E20735
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B317C20735
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Mar 2020 07:57:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQ3h39Df"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tjbcyKL9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727564AbgCXH5c (ORCPT
+        id S1727523AbgCXH5b (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Mar 2020 03:57:32 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:37901 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727549AbgCXH5c (ORCPT
+        Tue, 24 Mar 2020 03:57:31 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:34022 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725905AbgCXH5a (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Mar 2020 03:57:32 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w3so7089947plz.5;
-        Tue, 24 Mar 2020 00:57:31 -0700 (PDT)
+        Tue, 24 Mar 2020 03:57:30 -0400
+Received: by mail-pg1-f196.google.com with SMTP id t3so8645743pgn.1;
+        Tue, 24 Mar 2020 00:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=E3NREOU6FK3nr+j2R5crx0apdf66/jFQFjfcexYbogM=;
-        b=PQ3h39DfnX6jjzOUNlM38M0hq++p0X6WL+L0zGuhvfWdFcxwpdjexfYhC11oVAawOJ
-         CbwyGAlT34Qh0mTSfjK4uwpDWVl91wJ0i7qE2c7JBfldfmlMAZsfjGWg5louZtmoW3YC
-         jwqsMDsVzjxtQmgPy9EAfwxUykMTHG8nU7BuTQcM8bWZAZeFlk3cByRmalRcbOwSK+IU
-         q4VkILK3dcfiJKWg0gbBzuEDNzSNqRnbNm1ROqyqU6ha8VYvtPe3cYAyQcnzfK8HC9VW
-         q270/74fcYsXAvNyBcagQDVf/RfD1GY4b/Z9RtnRSuB4GDGcg5cObrBwPPBg0VTJnJnG
-         He4A==
+        bh=Owh6HhA/Q9QOWdvcC38dwfeWoxaH/qECRayNHpurfWs=;
+        b=tjbcyKL9KrSWYEMZ/BjPzg/a53Vesi9kEP5IRQewrCOe+AJpqOzeDAdLfr8jF8ASWe
+         4EPM83OxU8uDjSU1bsLs8IzU4sZwUePlIu3adlwNWlLYr1M93t1a+dUe56M3jsxj9hEp
+         c/pPtRbP+1upCdVe4o3CWfRaMYIVYGqfwX3auy81rISMqiTWspDX/GekyE8f+s/xOx+h
+         rn641I9KUaivavk5QedtlPc9cZPCA7M3j2aDcsmjdMuEY5Jr6eXvJ63QPvx2X5OR2d2b
+         5teUh1u4x5OtqM3nvdlbQIVMaAnOzX1+veIF0X63sDJTfbtp5siKbcmWjC+ZSAHjrpgD
+         vXSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=E3NREOU6FK3nr+j2R5crx0apdf66/jFQFjfcexYbogM=;
-        b=gR9AVjkpp302dol6tZmtqxWMKck3QBmwwemvCw0O8gnO5GIYp13RwW0b+Wup+G1L1E
-         oQB9INxL0IB886oiSNZsFcROZo4kHK7TiLK2JSzBCXplJYLkfWtywsg7cix39P6/bGNL
-         h2Kh9MhFYB0SREy+piQM7ROLbDeyOYvXGWiyUbYlwVZLULeSeZrQ2i5nSzPxR+V6CxWY
-         /fIAYvokeYUHJN3ulRXTD2M+g3Kh4JBkHkL7MPd1TJiSJbB7sR96v8tR0qmdQKDtWL3i
-         qN4HK3MO+r+6M6mrC8cvmpsbMZG4bLCNzz8l4D5Y1ccqdpVJ2Njed8kOUP4rBV2PNMhs
-         ACBA==
-X-Gm-Message-State: ANhLgQ03BWsXGJgsnfAop/qm8ExtcmXaFpAVjqv3l5ITqMyQBJdOh55R
-        G4OOKDPal3MxxpjWQjimuu0=
-X-Google-Smtp-Source: ADFU+vsZaTBTf2YcxS56FAlB9q5pxPCsBnHGsiNPhOAg2axLvhCMVCeluxUp45eL2LNjIzjsZgc7oQ==
-X-Received: by 2002:a17:90a:ab0a:: with SMTP id m10mr3697941pjq.173.1585036651116;
-        Tue, 24 Mar 2020 00:57:31 -0700 (PDT)
+        bh=Owh6HhA/Q9QOWdvcC38dwfeWoxaH/qECRayNHpurfWs=;
+        b=jJAmohUD4bcgmgAZg8/XUrfRWxkxo4bW944lqkX1buhUPLb2qsJw7LsidVN4mAmlTO
+         WtdOTHFQXP4tW0qvhZIf3HnSwVgcwgyJ0JlTQYDvrc2WWTBmXCxGt0oGsbfygd8FT6CU
+         sKQnNsqjH9SNVsGZSDuj/g4AaufJjLU9tWZ8a8ty4Mwj4winMvyNOmWM/HtM6hCQJ48O
+         ThPtAgQLHoeFeymMlMcYwMzXS6CPzYzv2RXSJq/RA6gUrsF7JP086P0xrhUUz5RcUZHt
+         7Xhp0jWsZ+CeoOUtRnYQTVsXh3E6rmK+zSL9BoLrSuw9EMf8vJPR/9PkIVVWfolEyEdV
+         lS7w==
+X-Gm-Message-State: ANhLgQ07ZLAKxY1jY8fpqfRTi5NKDVUgN7wumFUfZktZXLkXcjLnxCxA
+        o930mvbmjtEK6F5WQ7y378jnrdhwRXk=
+X-Google-Smtp-Source: ADFU+vuXPBgH0kRfPgbnaTcaIb6cqSzdd3E5EhFzcD+Tj0pJkK+TgcnIxxNm0lM5rhNjRlEwQAVl0Q==
+X-Received: by 2002:a63:5847:: with SMTP id i7mr25804443pgm.127.1585036648851;
+        Tue, 24 Mar 2020 00:57:28 -0700 (PDT)
 Received: from localhost.corp.microsoft.com ([167.220.2.210])
-        by smtp.googlemail.com with ESMTPSA id x71sm15452076pfd.129.2020.03.24.00.57.30
+        by smtp.googlemail.com with ESMTPSA id x71sm15452076pfd.129.2020.03.24.00.57.28
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 24 Mar 2020 00:57:30 -0700 (PDT)
+        Tue, 24 Mar 2020 00:57:28 -0700 (PDT)
 From:   ltykernel@gmail.com
 X-Google-Original-From: Tianyu.Lan@microsoft.com
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        liuwe@microsoft.com, michael.h.kelley@microsoft.com
+        liuwe@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, x86@kernel.org,
+        michael.h.kelley@microsoft.com
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com
-Subject: [PATCH V3 5/6] x86/Hyper-V: Report crash register data when sysctl_record_panic_msg is not set
-Date:   Tue, 24 Mar 2020 00:57:19 -0700
-Message-Id: <20200324075720.9462-6-Tianyu.Lan@microsoft.com>
+Subject: [PATCH V3 2/6] x86/Hyper-V: Free hv_panic_page when fail to register kmsg dump
+Date:   Tue, 24 Mar 2020 00:57:16 -0700
+Message-Id: <20200324075720.9462-3-Tianyu.Lan@microsoft.com>
 X-Mailer: git-send-email 2.14.5
 In-Reply-To: <20200324075720.9462-1-Tianyu.Lan@microsoft.com>
 References: <20200324075720.9462-1-Tianyu.Lan@microsoft.com>
@@ -76,70 +78,45 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-When sysctl_record_panic_msg is not set, the panic will
-not be reported to Hyper-V via hyperv_report_panic_msg().
-So the crash should be reported via hyperv_report_panic().
+If kmsg_dump_register() fails, hv_panic_page will not be used
+anywhere.  So free and reset it.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/vmbus_drv.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+Change since v1:
+	- Update commit log
+	- Remove hv_free_hyperv_page() in the error path
+---
+ drivers/hv/vmbus_drv.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 333dad39b1c1..172ceae69abb 100644
+index 6478240d11ab..00a511f15926 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -48,6 +48,18 @@ static int hyperv_cpuhp_online;
+@@ -1385,9 +1385,13 @@ static int vmbus_bus_init(void)
+ 			hv_panic_page = (void *)hv_alloc_hyperv_zeroed_page();
+ 			if (hv_panic_page) {
+ 				ret = kmsg_dump_register(&hv_kmsg_dumper);
+-				if (ret)
++				if (ret) {
+ 					pr_err("Hyper-V: kmsg dump register "
+ 						"error 0x%x\n", ret);
++					hv_free_hyperv_page(
++					    (unsigned long)hv_panic_page);
++					hv_panic_page = NULL;
++				}
+ 			} else
+ 				pr_err("Hyper-V: panic message page memory "
+ 					"allocation failed");
+@@ -1416,7 +1420,6 @@ static int vmbus_bus_init(void)
+ 	hv_remove_vmbus_irq();
  
- static void *hv_panic_page;
- 
-+/*
-+ * Boolean to control whether to report panic messages over Hyper-V.
-+ *
-+ * It can be set via /proc/sys/kernel/hyperv/record_panic_msg
-+ */
-+static int sysctl_record_panic_msg = 1;
-+
-+static int hyperv_report_reg(void)
-+{
-+	return !sysctl_record_panic_msg || !hv_panic_page;
-+}
-+
- static int hyperv_panic_event(struct notifier_block *nb, unsigned long val,
- 			      void *args)
- {
-@@ -61,7 +73,7 @@ static int hyperv_panic_event(struct notifier_block *nb, unsigned long val,
- 	 * the notification here.
- 	 */
- 	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE
--	    && !hv_panic_page) {
-+	    && hyperv_report_reg()) {
- 		regs = current_pt_regs();
- 		hyperv_report_panic(regs, val);
- 	}
-@@ -79,7 +91,7 @@ static int hyperv_die_event(struct notifier_block *nb, unsigned long val,
- 	 * doing hyperv_report_panic_msg() later with kmsg data, don't do
- 	 * the notification here.
- 	 */
--	if (!hv_panic_page)
-+	if (hyperv_report_reg())
- 		hyperv_report_panic(regs, val);
- 	return NOTIFY_DONE;
- }
-@@ -1267,13 +1279,6 @@ static void vmbus_isr(void)
- 	add_interrupt_randomness(HYPERVISOR_CALLBACK_VECTOR, 0);
- }
- 
--/*
-- * Boolean to control whether to report panic messages over Hyper-V.
-- *
-- * It can be set via /proc/sys/kernel/hyperv/record_panic_msg
-- */
--static int sysctl_record_panic_msg = 1;
--
- /*
-  * Callback from kmsg_dump. Grab as much as possible from the end of the kmsg
-  * buffer and call into Hyper-V to transfer the data.
+ 	bus_unregister(&hv_bus);
+-	hv_free_hyperv_page((unsigned long)hv_panic_page);
+ 	unregister_sysctl_table(hv_ctl_table_hdr);
+ 	hv_ctl_table_hdr = NULL;
+ 	return ret;
 -- 
 2.14.5
 
