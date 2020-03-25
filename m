@@ -8,55 +8,55 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFBCC2D0E8
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DAE6C2D0E7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8B9032073E
+	by mail.kernel.org (Postfix) with ESMTP id C029C2076A
 	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2V0XBYv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pa7Qfqv2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727721AbgCYW4m (ORCPT
+        id S1727491AbgCYW4s (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 Mar 2020 18:56:42 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43646 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727705AbgCYW4m (ORCPT
+        Wed, 25 Mar 2020 18:56:48 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38437 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727751AbgCYW4s (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:56:42 -0400
-Received: by mail-wr1-f68.google.com with SMTP id b2so5543746wrj.10;
-        Wed, 25 Mar 2020 15:56:39 -0700 (PDT)
+        Wed, 25 Mar 2020 18:56:48 -0400
+Received: by mail-wr1-f65.google.com with SMTP id s1so5607051wrv.5;
+        Wed, 25 Mar 2020 15:56:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9eRddVGjZ9QS6CRQXETQabJAre8JiOTi1KDPoqB/i0k=;
-        b=F2V0XBYvlGKceaAuUmI5DGe6qBWz1VAW4uvcP8iJ9iuwEQMPaS5TClzWQxJhhILS2B
-         Z3eJCja1J4aITe7Phwyf05ytstmduNr+vuArmCJYcPfxwU+QTVEz95zobUy53YuO7Gyc
-         rIyH/Rr0WxbGBVoPr/yyZx/rbNYn2sVvqnn5Ys7+6II0SbFgUHn3gTqggVmOJt8nww2G
-         7dOcrSAu3tBS6DQZX457OTYerAaLaEVph5V/APqqmjIgnj2/da8xNqLrVE6g8oHMS14o
-         vUWiZxh5Q4S0uixkWN7DxDz610vQfV6UFIXzazGTLt2JwJm9fzoIDCGOzO4OZozVpp0w
-         tv8g==
+        bh=oVYtYG/cfa/erwJ/gL1Hydo8eogqGObbH1h/pbPwt/8=;
+        b=pa7Qfqv2hQJmqDGlJabR+PVCole9j/cbfUXWadSUlzo8xtD0VSlD4SinaieuAlCa6l
+         BIyAxIvZsfy5ZUQNkPdz+bfBN17fTZNRM1h+6LndSZy8Z9w+PnjSuU+SOobnqAPSIVH4
+         8Z+5ADqsKCjQbuIpUjJq/0JTD+dGYsXbdz14LbkwcPubSr/B1Hz7IXJVk00h5eXZmzYp
+         Y/VNGkzKrlQfZ+PD2IwiqblXX6WkZbFkeDjRt2Gp1J2a3lJdZxD2sbMhKwtZGE5BV8Wo
+         cZHoOIH5ByFt3ms+EWVHYAnJrkuYArvhx/r+mjIaO4az2vviZwDQu0n+2CkuipItilEX
+         5zaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9eRddVGjZ9QS6CRQXETQabJAre8JiOTi1KDPoqB/i0k=;
-        b=g/ZBqSeylxqAsQeU1zMPmO7Ok2C70jhzq4gqB0RMxSS64T/fPOcfgAnq9x/uqCjdZe
-         m0KClKxq1L3VlfuG6gWvshoe+5M0LK8QOsvY+4a++kbtr0IkGra9EsdDNhmgDd+nSYTj
-         jqWtdgPBCd4tPAEUrBuMuVhbi5RyV6vBgF4ww8s2eznN0Nm6RQqYMcdsOOMExz4rVlgE
-         1t0MGyei3Y2hObOJcgObIMEcbXVJ1/lP3/DkxAviryVC9KZ724/JdzadfovWfZSp+kXN
-         ajCwAiE4P1s0HRkGA/UUC1CrjuOv516GuXZKMGLtL6G44hGI6DrCiX5zSlWUiaBkdeCV
-         Cm5g==
-X-Gm-Message-State: ANhLgQ1N6zhpguCs/lKLJnD21Jyow6JP04GFcwkmxVWRKvzZHGQILHYE
-        V34Y9YutDu0WHPd81XxEP2FLbYdpvwUc7Jgb
-X-Google-Smtp-Source: ADFU+vtlZr9AtThTSReUpdW6JNSytLuRzsV6OcKALd8dmI8MlL+ynTXf60fCebSrmnF0bF6Bq/eUjw==
-X-Received: by 2002:adf:fa51:: with SMTP id y17mr1729342wrr.280.1585176998092;
-        Wed, 25 Mar 2020 15:56:38 -0700 (PDT)
+        bh=oVYtYG/cfa/erwJ/gL1Hydo8eogqGObbH1h/pbPwt/8=;
+        b=JUdk1kJ5KtSeUpuI7wPqnfsPDQcO+9j6m7Q56agOk4wfYmyVNYP+wOyxvxgFQLuFb5
+         jLgwzWDx7mXVQqLynlns1UNYv+QXyrlJ3MU2ZK+XUUpiUahDyqhD+GBZbVbEt6STHBfP
+         3skrbwqllLvoFSac/MUIOJ4maKoc3iGOpuAxtReIdz6is2ehZjnXpTVxjviK+I2QMxEW
+         j4vg7VdkxbHAtFjp8/0Ik4jH4iiqKsd14KWCzlACUWIPbnrZGqLWUkdRq/yj9lRUk8Ww
+         nBkh1v/uXpQBBF8t3wq/M/nYykJo/ETOVNHMtaBQnielzvNoELB2X4RATosUNFGbhmcx
+         yKTw==
+X-Gm-Message-State: ANhLgQ1/x4MZO/2PhBfeqRwdzJ+QqIzG2iodWJpzEsMZmA+CeZXv994q
+        7EBAOmXQz7NOEK2TZYMCQFP2q0QnQTnqFoP5
+X-Google-Smtp-Source: ADFU+vusZsrsq4iU+q3TOTH6VjjKoBt7TKAPUFQT/xJpssjSF1ShgIhfjmeOvTJMHrScKNXRZQ4SGA==
+X-Received: by 2002:a5d:46ca:: with SMTP id g10mr5689847wrs.290.1585177004065;
+        Wed, 25 Mar 2020 15:56:44 -0700 (PDT)
 Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.36
+        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 15:56:37 -0700 (PDT)
+        Wed, 25 Mar 2020 15:56:43 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [RFC PATCH 08/11] Drivers: hv: vmbus: Remove the unused HV_LOCALIZED channel affinity logic
-Date:   Wed, 25 Mar 2020 23:55:02 +0100
-Message-Id: <20200325225505.23998-9-parri.andrea@gmail.com>
+Subject: [RFC PATCH 10/11] Drivers: hv: vmbus: Introduce the CHANNELMSG_MODIFYCHANNEL message type
+Date:   Wed, 25 Mar 2020 23:55:04 +0100
+Message-Id: <20200325225505.23998-11-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200325225505.23998-1-parri.andrea@gmail.com>
 References: <20200325225505.23998-1-parri.andrea@gmail.com>
@@ -81,233 +81,289 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The logic is unused since commit 509879bdb30b8 ("Drivers: hv: Introduce
-a policy for controlling channel affinity").
+VMBus version 4.1 and later support the CHANNELMSG_MODIFYCHANNEL(22)
+message type which can be used to request Hyper-V to change the vCPU
+that a channel will interrupt.
 
-This logic assumes that a channel target_cpu doesn't change during the
-lifetime of a channel, but this assumption is incompatible with the new
-functionality that allows changing the vCPU a channel will interrupt.
+Introduce the CHANNELMSG_MODIFYCHANNEL message type, and define the
+vmbus_send_modifychannel() function to send CHANNELMSG_MODIFYCHANNEL
+requests to the host via a hypercall.  The function is then used to
+define a sysfs "store" operation, which allows to change the (v)CPU
+the channel will interrupt by using the sysfs interface.  The feature
+can be used for load balancing or other purposes.
 
+One interesting catch here is that Hyper-V can *not* currently ACK
+CHANNELMSG_MODIFYCHANNEL messages with the promise that (after the ACK
+is sent) the channel won't send any more interrupts to the "old" CPU.
+
+The peculiarity of the CHANNELMSG_MODIFYCHANNEL messages is problematic
+if the user want to take a CPU offline, since we don't want to take a
+CPU offline (and, potentially, "lose" channel interrupts on such CPU)
+if the host is still processing a CHANNELMSG_MODIFYCHANNEL message
+associated to that CPU.
+
+It is worth mentioning, however, that we have been unable to observe
+the above mentioned "race": in all our tests, CHANNELMSG_MODIFYCHANNEL
+requests appeared *as if* they were processed synchronously by the host.
+
+Suggested-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
- drivers/hv/channel_mgmt.c | 105 +++++++++-----------------------------
- include/linux/hyperv.h    |  27 ----------
- 2 files changed, 25 insertions(+), 107 deletions(-)
+ drivers/hv/channel.c      |  28 ++++++++++
+ drivers/hv/channel_mgmt.c |   2 +-
+ drivers/hv/hv_trace.h     |  19 +++++++
+ drivers/hv/vmbus_drv.c    | 108 +++++++++++++++++++++++++++++++++++++-
+ include/linux/hyperv.h    |  10 +++-
+ 5 files changed, 163 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 132e476f87b2e..90070b337c10d 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -289,6 +289,34 @@ int vmbus_send_tl_connect_request(const guid_t *shv_guest_servie_id,
+ }
+ EXPORT_SYMBOL_GPL(vmbus_send_tl_connect_request);
+ 
++/*
++ * Set/change the vCPU (@target_vp) the channel (@child_relid) will interrupt.
++ *
++ * CHANNELMSG_MODIFYCHANNEL messages are aynchronous.  Also, Hyper-V does not
++ * ACK such messages.  IOW we can't know when the host will stop interrupting
++ * the "old" vCPU and start interrupting the "new" vCPU for the given channel.
++ *
++ * The CHANNELMSG_MODIFYCHANNEL message type is supported since VMBus version
++ * VERSION_WIN10_V4_1.
++ */
++int vmbus_send_modifychannel(u32 child_relid, u32 target_vp)
++{
++	struct vmbus_channel_modifychannel conn_msg;
++	int ret;
++
++	memset(&conn_msg, 0, sizeof(conn_msg));
++	conn_msg.header.msgtype = CHANNELMSG_MODIFYCHANNEL;
++	conn_msg.child_relid = child_relid;
++	conn_msg.target_vp = target_vp;
++
++	ret = vmbus_post_msg(&conn_msg, sizeof(conn_msg), true);
++
++	trace_vmbus_send_modifychannel(&conn_msg, ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(vmbus_send_modifychannel);
++
+ /*
+  * create_gpadl_header - Creates a gpadl for the specified buffer
+  */
 diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index c53f58ba06dcf..8f34494bb53fb 100644
+index 34672dc2fc935..818a9d8bf649e 100644
 --- a/drivers/hv/channel_mgmt.c
 +++ b/drivers/hv/channel_mgmt.c
-@@ -412,14 +412,6 @@ void hv_process_channel_removal(struct vmbus_channel *channel)
- 		spin_unlock_irqrestore(&primary_channel->lock, flags);
- 	}
- 
--	/*
--	 * We need to free the bit for init_vp_index() to work in the case
--	 * of sub-channel, when we reload drivers like hv_netvsc.
--	 */
--	if (channel->affinity_policy == HV_LOCALIZED)
--		cpumask_clear_cpu(channel->target_cpu,
--				  &primary_channel->alloced_cpus_in_node);
--
- 	/*
- 	 * Upon suspend, an in-use hv_sock channel is marked as "rescinded" and
- 	 * the relid is invalidated; after hibernation, when the user-space app
-@@ -641,20 +633,21 @@ static DEFINE_SPINLOCK(bind_channel_to_cpu_lock);
- /*
-  * Starting with Win8, we can statically distribute the incoming
-  * channel interrupt load by binding a channel to VCPU.
-- * We distribute the interrupt loads to one or more NUMA nodes based on
-- * the channel's affinity_policy.
-  *
-  * For pre-win8 hosts or non-performance critical channels we assign the
-  * first CPU in the first NUMA node.
-+ *
-+ * Starting with win8, performance critical channels will be distributed
-+ * evenly among all the available NUMA nodes.  Once the node is assigned,
-+ * we will assign the CPU based on a simple round robin scheme.
-  */
- static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
- {
--	u32 cur_cpu;
- 	bool perf_chn = vmbus_devs[dev_type].perf_device;
--	struct vmbus_channel *primary = channel->primary_channel;
--	int next_node;
- 	cpumask_var_t available_mask;
- 	struct cpumask *alloced_mask;
-+	u32 target_cpu;
-+	int numa_node;
- 
- 	if ((vmbus_proto_version == VERSION_WS2008) ||
- 	    (vmbus_proto_version == VERSION_WIN7) || (!perf_chn) ||
-@@ -672,31 +665,27 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
- 		return;
- 	}
- 
--	spin_lock(&bind_channel_to_cpu_lock);
--
- 	/*
--	 * Based on the channel affinity policy, we will assign the NUMA
--	 * nodes.
-+	 * Serializes the accesses to the global variable next_numa_node_id.
-+	 * See also the header comment of the spin lock declaration.
- 	 */
-+	spin_lock(&bind_channel_to_cpu_lock);
- 
--	if ((channel->affinity_policy == HV_BALANCED) || (!primary)) {
--		while (true) {
--			next_node = next_numa_node_id++;
--			if (next_node == nr_node_ids) {
--				next_node = next_numa_node_id = 0;
--				continue;
--			}
--			if (cpumask_empty(cpumask_of_node(next_node)))
--				continue;
--			break;
-+	while (true) {
-+		numa_node = next_numa_node_id++;
-+		if (numa_node == nr_node_ids) {
-+			next_numa_node_id = 0;
-+			continue;
- 		}
--		channel->numa_node = next_node;
--		primary = channel;
-+		if (cpumask_empty(cpumask_of_node(numa_node)))
-+			continue;
-+		break;
- 	}
--	alloced_mask = &hv_context.hv_numa_map[primary->numa_node];
-+	channel->numa_node = numa_node;
-+	alloced_mask = &hv_context.hv_numa_map[numa_node];
- 
- 	if (cpumask_weight(alloced_mask) ==
--	    cpumask_weight(cpumask_of_node(primary->numa_node))) {
-+	    cpumask_weight(cpumask_of_node(numa_node))) {
- 		/*
- 		 * We have cycled through all the CPUs in the node;
- 		 * reset the alloced map.
-@@ -704,57 +693,13 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
- 		cpumask_clear(alloced_mask);
- 	}
- 
--	cpumask_xor(available_mask, alloced_mask,
--		    cpumask_of_node(primary->numa_node));
-+	cpumask_xor(available_mask, alloced_mask, cpumask_of_node(numa_node));
- 
--	cur_cpu = -1;
--
--	if (primary->affinity_policy == HV_LOCALIZED) {
--		/*
--		 * Normally Hyper-V host doesn't create more subchannels
--		 * than there are VCPUs on the node but it is possible when not
--		 * all present VCPUs on the node are initialized by guest.
--		 * Clear the alloced_cpus_in_node to start over.
--		 */
--		if (cpumask_equal(&primary->alloced_cpus_in_node,
--				  cpumask_of_node(primary->numa_node)))
--			cpumask_clear(&primary->alloced_cpus_in_node);
--	}
--
--	while (true) {
--		cur_cpu = cpumask_next(cur_cpu, available_mask);
--		if (cur_cpu >= nr_cpu_ids) {
--			cur_cpu = -1;
--			cpumask_copy(available_mask,
--				     cpumask_of_node(primary->numa_node));
--			continue;
--		}
--
--		if (primary->affinity_policy == HV_LOCALIZED) {
--			/*
--			 * NOTE: in the case of sub-channel, we clear the
--			 * sub-channel related bit(s) in
--			 * primary->alloced_cpus_in_node in
--			 * hv_process_channel_removal(), so when we
--			 * reload drivers like hv_netvsc in SMP guest, here
--			 * we're able to re-allocate
--			 * bit from primary->alloced_cpus_in_node.
--			 */
--			if (!cpumask_test_cpu(cur_cpu,
--					      &primary->alloced_cpus_in_node)) {
--				cpumask_set_cpu(cur_cpu,
--						&primary->alloced_cpus_in_node);
--				cpumask_set_cpu(cur_cpu, alloced_mask);
--				break;
--			}
--		} else {
--			cpumask_set_cpu(cur_cpu, alloced_mask);
--			break;
--		}
--	}
-+	target_cpu = cpumask_first(available_mask);
-+	cpumask_set_cpu(target_cpu, alloced_mask);
- 
--	channel->target_cpu = cur_cpu;
--	channel->target_vp = hv_cpu_number_to_vp_number(cur_cpu);
-+	channel->target_cpu = target_cpu;
-+	channel->target_vp = hv_cpu_number_to_vp_number(target_cpu);
- 
- 	spin_unlock(&bind_channel_to_cpu_lock);
- 
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index ce32ab186192f..f8e7c22d41a1a 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -689,11 +689,6 @@ union hv_connection_id {
- 	} u;
+@@ -1353,7 +1353,7 @@ channel_message_table[CHANNELMSG_COUNT] = {
+ 	{ CHANNELMSG_19,			0, NULL },
+ 	{ CHANNELMSG_20,			0, NULL },
+ 	{ CHANNELMSG_TL_CONNECT_REQUEST,	0, NULL },
+-	{ CHANNELMSG_22,			0, NULL },
++	{ CHANNELMSG_MODIFYCHANNEL,		0, NULL },
+ 	{ CHANNELMSG_TL_CONNECT_RESULT,		0, NULL },
  };
  
--enum hv_numa_policy {
--	HV_BALANCED = 0,
--	HV_LOCALIZED,
--};
--
- enum vmbus_device_type {
- 	HV_IDE = 0,
- 	HV_SCSI,
-@@ -808,10 +803,6 @@ struct vmbus_channel {
- 	u32 target_vp;
- 	/* The corresponding CPUID in the guest */
- 	u32 target_cpu;
--	/*
--	 * State to manage the CPU affiliation of channels.
--	 */
--	struct cpumask alloced_cpus_in_node;
- 	int numa_node;
- 	/*
- 	 * Support for sub-channels. For high performance devices,
-@@ -898,18 +889,6 @@ struct vmbus_channel {
- 	 */
- 	bool low_latency;
+diff --git a/drivers/hv/hv_trace.h b/drivers/hv/hv_trace.h
+index e70783e33680f..a43bc76c2d5d0 100644
+--- a/drivers/hv/hv_trace.h
++++ b/drivers/hv/hv_trace.h
+@@ -296,6 +296,25 @@ TRACE_EVENT(vmbus_send_tl_connect_request,
+ 		    )
+ 	);
  
--	/*
--	 * NUMA distribution policy:
--	 * We support two policies:
--	 * 1) Balanced: Here all performance critical channels are
--	 *    distributed evenly amongst all the NUMA nodes.
--	 *    This policy will be the default policy.
--	 * 2) Localized: All channels of a given instance of a
--	 *    performance critical service will be assigned CPUs
--	 *    within a selected NUMA node.
--	 */
--	enum hv_numa_policy affinity_policy;
--
- 	bool probe_done;
- 
- 	/*
-@@ -965,12 +944,6 @@ static inline bool is_sub_channel(const struct vmbus_channel *c)
- 	return c->offermsg.offer.sub_channel_index != 0;
++TRACE_EVENT(vmbus_send_modifychannel,
++	    TP_PROTO(const struct vmbus_channel_modifychannel *msg,
++		     int ret),
++	    TP_ARGS(msg, ret),
++	    TP_STRUCT__entry(
++		    __field(u32, child_relid)
++		    __field(u32, target_vp)
++		    __field(int, ret)
++		    ),
++	    TP_fast_assign(
++		    __entry->child_relid = msg->child_relid;
++		    __entry->target_vp = msg->target_vp;
++		    __entry->ret = ret;
++		    ),
++	    TP_printk("binding child_relid 0x%x to target_vp 0x%x, ret %d",
++		      __entry->child_relid, __entry->target_vp, __entry->ret
++		    )
++	);
++
+ DECLARE_EVENT_CLASS(vmbus_channel,
+ 	TP_PROTO(const struct vmbus_channel *channel),
+ 	TP_ARGS(channel),
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index ebe2716f583d2..84d2f22c569aa 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1550,8 +1550,24 @@ static ssize_t vmbus_chan_attr_show(struct kobject *kobj,
+ 	return attribute->show(chan, buf);
  }
  
--static inline void set_channel_affinity_state(struct vmbus_channel *c,
--					      enum hv_numa_policy policy)
--{
--	c->affinity_policy = policy;
--}
--
- static inline void set_channel_read_mode(struct vmbus_channel *c,
- 					enum hv_callback_mode mode)
++static ssize_t vmbus_chan_attr_store(struct kobject *kobj,
++				     struct attribute *attr, const char *buf,
++				     size_t count)
++{
++	const struct vmbus_chan_attribute *attribute
++		= container_of(attr, struct vmbus_chan_attribute, attr);
++	struct vmbus_channel *chan
++		= container_of(kobj, struct vmbus_channel, kobj);
++
++	if (!attribute->store)
++		return -EIO;
++
++	return attribute->store(chan, buf, count);
++}
++
+ static const struct sysfs_ops vmbus_chan_sysfs_ops = {
+ 	.show = vmbus_chan_attr_show,
++	.store = vmbus_chan_attr_store,
+ };
+ 
+ static ssize_t out_mask_show(struct vmbus_channel *channel, char *buf)
+@@ -1622,11 +1638,99 @@ static ssize_t write_avail_show(struct vmbus_channel *channel, char *buf)
+ }
+ static VMBUS_CHAN_ATTR_RO(write_avail);
+ 
+-static ssize_t show_target_cpu(struct vmbus_channel *channel, char *buf)
++static ssize_t target_cpu_show(struct vmbus_channel *channel, char *buf)
  {
+ 	return sprintf(buf, "%u\n", channel->target_cpu);
+ }
+-static VMBUS_CHAN_ATTR(cpu, S_IRUGO, show_target_cpu, NULL);
++static ssize_t target_cpu_store(struct vmbus_channel *channel,
++				const char *buf, size_t count)
++{
++	ssize_t ret = count;
++	u32 target_cpu;
++
++	if (vmbus_proto_version < VERSION_WIN10_V4_1)
++		return -EIO;
++
++	if (sscanf(buf, "%uu", &target_cpu) != 1)
++		return -EIO;
++
++	/* Validate target_cpu for the cpumask_test_cpu() operation below. */
++	if (target_cpu >= nr_cpumask_bits)
++		return -EINVAL;
++
++	/* No CPUs should come up or down during this. */
++	cpus_read_lock();
++
++	if (!cpumask_test_cpu(target_cpu, cpu_online_mask)) {
++		cpus_read_unlock();
++		return -EINVAL;
++	}
++
++	/*
++	 * Synchronizes target_cpu_store() and channel closure:
++	 *
++	 * { Initially: state = CHANNEL_OPENED }
++	 *
++	 * CPU1				CPU2
++	 *
++	 * [target_cpu_store()]		[vmbus_disconnect_ring()]
++	 *
++	 * LOCK channel_mutex		LOCK channel_mutex
++	 * LOAD r1 = state		LOAD r2 = state
++	 * IF (r1 == CHANNEL_OPENED)	IF (r2 == CHANNEL_OPENED)
++	 *   SEND MODIFYCHANNEL		  STORE state = CHANNEL_OPEN
++	 *   [...]			  SEND CLOSECHANNEL
++	 * UNLOCK channel_mutex		UNLOCK channel_mutex
++	 *
++	 * Forbids: r1 == r2 == CHANNEL_OPENED (i.e., CPU1's LOCK precedes
++	 * 		CPU2's LOCK) && CPU2's SEND precedes CPU1's SEND
++	 *
++	 * Note.  The host processes the channel messages "sequentially", in
++	 * the order in which they are received on a per-partition basis.
++	 */
++	mutex_lock(&vmbus_connection.channel_mutex);
++
++	/*
++	 * Hyper-V will ignore MODIFYCHANNEL messages for "non-open" channels;
++	 * avoid sending the message and fail here for such channels.
++	 */
++	if (channel->state != CHANNEL_OPENED_STATE) {
++		ret = -EIO;
++		goto cpu_store_unlock;
++	}
++
++	if (channel->target_cpu == target_cpu)
++		goto cpu_store_unlock;
++
++	if (vmbus_send_modifychannel(channel->offermsg.child_relid,
++				     hv_cpu_number_to_vp_number(target_cpu))) {
++		ret = -EIO;
++		goto cpu_store_unlock;
++	}
++
++	/*
++	 * Warning.  At this point, there is *no* guarantee that the host will
++	 * have successfully processed the vmbus_send_modifychannel() request.
++	 * See the header comment of vmbus_send_modifychannel() for more info.
++	 *
++	 * Lags in the processing of the above vmbus_send_modifychannel() can
++	 * result in missed interrupts if the "old" target CPU is taken offline
++	 * before Hyper-V starts sending interrupts to the "new" target CPU.
++	 * But apart from this offlining scenario, the code tolerates such
++	 * lags.  It will function correctly even if a channel interrupt comes
++	 * in on a CPU that is different from the channel target_cpu value.
++	 */
++
++	channel->target_cpu = target_cpu;
++	channel->target_vp = hv_cpu_number_to_vp_number(target_cpu);
++	channel->numa_node = cpu_to_node(target_cpu);
++
++cpu_store_unlock:
++	mutex_unlock(&vmbus_connection.channel_mutex);
++	cpus_read_unlock();
++	return ret;
++}
++static VMBUS_CHAN_ATTR(cpu, 0644, target_cpu_show, target_cpu_store);
+ 
+ static ssize_t channel_pending_show(struct vmbus_channel *channel,
+ 				    char *buf)
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index f8e7c22d41a1a..edfcd42319ef3 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -425,7 +425,7 @@ enum vmbus_channel_message_type {
+ 	CHANNELMSG_19				= 19,
+ 	CHANNELMSG_20				= 20,
+ 	CHANNELMSG_TL_CONNECT_REQUEST		= 21,
+-	CHANNELMSG_22				= 22,
++	CHANNELMSG_MODIFYCHANNEL		= 22,
+ 	CHANNELMSG_TL_CONNECT_RESULT		= 23,
+ 	CHANNELMSG_COUNT
+ };
+@@ -620,6 +620,13 @@ struct vmbus_channel_tl_connect_request {
+ 	guid_t host_service_id;
+ } __packed;
+ 
++/* Modify Channel parameters, cf. vmbus_send_modifychannel() */
++struct vmbus_channel_modifychannel {
++	struct vmbus_channel_message_header header;
++	u32 child_relid;
++	u32 target_vp;
++} __packed;
++
+ struct vmbus_channel_version_response {
+ 	struct vmbus_channel_message_header header;
+ 	u8 version_supported;
+@@ -1505,6 +1512,7 @@ extern __u32 vmbus_proto_version;
+ 
+ int vmbus_send_tl_connect_request(const guid_t *shv_guest_servie_id,
+ 				  const guid_t *shv_host_servie_id);
++int vmbus_send_modifychannel(u32 child_relid, u32 target_vp);
+ void vmbus_set_event(struct vmbus_channel *channel);
+ 
+ /* Get the start of the ring buffer. */
 -- 
 2.24.0
 
