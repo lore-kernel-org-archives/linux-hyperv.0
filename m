@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81765C2D0E7
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E723FC2D0E7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4F3F320775
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4F872076A
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUly8PIv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tYq/Evjq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgCYW4j (ORCPT
+        id S1727738AbgCYW4o (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 Mar 2020 18:56:39 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:35403 "EHLO
+        Wed, 25 Mar 2020 18:56:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34575 "EHLO
         mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727697AbgCYW4i (ORCPT
+        with ESMTP id S1727697AbgCYW4o (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:56:38 -0400
-Received: by mail-wr1-f65.google.com with SMTP id d5so5637833wrn.2;
-        Wed, 25 Mar 2020 15:56:37 -0700 (PDT)
+        Wed, 25 Mar 2020 18:56:44 -0400
+Received: by mail-wr1-f65.google.com with SMTP id 65so5643445wrl.1;
+        Wed, 25 Mar 2020 15:56:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Jlb744j2w7u2ywLc5KHbzcT2pUNmcNIuqeG5ekKAtx8=;
-        b=AUly8PIvhWjtE2l0wV1QPLQnt657O6G0eElEYwR02WnCThOwx95zp18LyfEZOsOBh5
-         JGo0zWWlsBD84citXhbo+2ipbNO/LrDdIjPLU2AZpw3kDT5H/091F6Hj0ALozou5el0n
-         YHQUGXejMOwBUF2CDjxdJjcBZZuVfqVDXWKmRxydxqWEjEgl4T+s6n93HwYeOrS5wxS4
-         X6HtICpO+L4Z6rpo2j9abIZY8AzrKWvIdCPHx+ffYZeOj7zUBjutlDBKIcmJFdlz9PAS
-         BdbKziJHRsUsQyuViypIiSwkDEPTU4AQVL1uT8QHTHDI7A6skA39+4SJFCKCTpVv8Ssa
-         wJQg==
+        bh=hLBzTI870tyJo2xhEeYNSV5PWYP/wK0k7a+dy5LksCc=;
+        b=tYq/EvjqKN8KuOhVBKIDvwedd9y8tlCE+grc5VtkoBUmgcyrVQQzbJAm13DZxhGDPV
+         7Qs6UnD8k75GGVW2Ief2gBFpioc1liaN2W7PGURzGtjOOptTipBJqDgA3L9E0gVmfNP4
+         2kUkgzx0bkWY0jmM1l1OFVNbj8mbxTufWyqnkBUr6huDfgSv2DVG0Z7kdXez+uzC5OhZ
+         Tg7XJyTAdnribIp8XLsDhJTjab72D1Xxz2La9kux0azg6r6exDZ/z5UXbXnx/m7u5LTB
+         ZxXPT/cW04VfebQQb8c/y1IrhlXIRPEfJkNdo/pN47kcKAlfkyjLInalJGwnJ1XFnGcC
+         AEow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Jlb744j2w7u2ywLc5KHbzcT2pUNmcNIuqeG5ekKAtx8=;
-        b=IeT4LpEreitfOvGIUUpmAoVTB7JWvRayLENPnnqUkM6k8BKlnJ/Z3Fvoag75KwyrIy
-         5TW/lwlPM9IsGmx2Bgb6zAacdO1OTzdihNTQ8LMxMlLe12z8cf0mRZGmspi+x0WoCV8T
-         Ma5pLWCiyEFG/0iwvIZ9glTax5/AcxqzRS4tUQC1h5JCgLzobuZej2yOMv68h9RVc/vr
-         zloyOsCsqxHu0ZRH3VFwwZF/zCsAFxBrseGbQbCx2LHdheavlXpOWTk+4VMBhJWaLOxz
-         KQcTZItNftw1PG1X3KXGfhO0UJwE1v7YL6R5QBaljd77/+89Z9wgaQyCfjykfE2QQUbo
-         HOYA==
-X-Gm-Message-State: ANhLgQ2x8Y2EabR9aBvhmwURuHPz7QSc8+8rJO6YqgjEauCAhfNvGeTW
-        Rb9qMInwJiKlXMMqasTApFzdiOJTMBEeNfyw
-X-Google-Smtp-Source: ADFU+vvCKKWp/Le9zvNpGN2UiufUZrzdbC2FjPNBMmtlK8XAAmFG+9xOImKkR5d8jjHzOiFnlW9cMA==
-X-Received: by 2002:a5d:6082:: with SMTP id w2mr5862380wrt.300.1585176996120;
-        Wed, 25 Mar 2020 15:56:36 -0700 (PDT)
+        bh=hLBzTI870tyJo2xhEeYNSV5PWYP/wK0k7a+dy5LksCc=;
+        b=JxBcqVkRSvfagNRjnbjrBzL0jsvUL2Z0JS/BtVkUrd0zQlhrRRGCzUgvQgBHs8/XYs
+         9mG2owggGcvAYqfndnr02sN6kWuPGDjr36hz2eR7SgAbjU8ZupzDQVOdTtG5YAdEZnkQ
+         POnxVskaSpm9A6cyoiO5q6yFpIWgRvKVY3p7FHFrrR58TaHrKDNWzw+5zWbLSp2Etzw7
+         /urK9gEQ+Vzw67nE4X38JX4CPXTM7GGjge+4mqdJECtipKyhTDMAabdhYiFBsVonw0a1
+         0T2tctAr2szIhvMsWz+bXYNdgzwTa9QQa9sDxZ3NuCn8oJ6riReN6CIpfNkbm6l2hWXB
+         DH8Q==
+X-Gm-Message-State: ANhLgQ2P+q3dthd6nrii6pZhZ8b9MgHpoSfYp8Z0ijlNT6NYd/J25B6g
+        zfbIAMQdQ3/Ps2hVDKgOiBG8eaWQNSwlqA+3
+X-Google-Smtp-Source: ADFU+vsy5gMCLz6pITNKhJPmsS63ImQkqBms+CRGPfCq8n//bu4NeGbiUir7Q4gx+4Frq+7WlVW7jw==
+X-Received: by 2002:adf:9321:: with SMTP id 30mr5691823wro.330.1585177000559;
+        Wed, 25 Mar 2020 15:56:40 -0700 (PDT)
 Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.34
+        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 15:56:35 -0700 (PDT)
+        Wed, 25 Mar 2020 15:56:40 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -67,13 +67,10 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
-Subject: [RFC PATCH 07/11] PCI: hv: Prepare hv_compose_msi_msg() for the VMBus-channel-interrupt-to-vCPU reassignment functionality
-Date:   Wed, 25 Mar 2020 23:55:01 +0100
-Message-Id: <20200325225505.23998-8-parri.andrea@gmail.com>
+        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+Subject: [RFC PATCH 09/11] Drivers: hv: vmbus: Synchronize init_vp_index() vs. CPU hotplug
+Date:   Wed, 25 Mar 2020 23:55:03 +0100
+Message-Id: <20200325225505.23998-10-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200325225505.23998-1-parri.andrea@gmail.com>
 References: <20200325225505.23998-1-parri.andrea@gmail.com>
@@ -84,137 +81,149 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The current implementation of hv_compose_msi_msg() is incompatible with
-the new functionality that allows changing the vCPU a VMBus channel will
-interrupt: if this function always calls hv_pci_onchannelcallback() in
-the polling loop, the interrupt going to a different CPU could cause
-hv_pci_onchannelcallback() to be running simultaneously in a tasklet,
-which will break.  The current code also has a problem in that it is not
-synchronized with vmbus_reset_channel_cb(): hv_compose_msi_msg() could
-be accessing the ring buffer via the call of hv_pci_onchannelcallback()
-well after the time that vmbus_reset_channel_cb() has finished.
+init_vp_index() may access the cpu_online_mask mask via its calls of
+cpumask_of_node().  Make sure to protect these accesses with a
+cpus_read_lock() critical section.
 
-Fix these issues as follows.  Disable the channel tasklet before
-entering the polling loop in hv_compose_msi_msg() and re-enable it when
-done.  This will prevent hv_pci_onchannelcallback() from running in a
-tasklet on a different CPU.  Moreover, poll by always calling
-hv_pci_onchannelcallback(), but check the channel callback function for
-NULL and invoke the callback within a sched_lock critical section.  This
-will prevent hv_compose_msi_msg() from accessing the ring buffer after
-vmbus_reset_channel_cb() has acquired the sched_lock spinlock.
+Also, remove some (hardcoded) instances of CPU(0) from init_vp_index()
+and replace them with VMBUS_CONNECT_CPU.  The connect CPU can not go
+offline, since Hyper-V does not provide a way to change it.
 
-Suggested-by: Michael Kelley <mikelley@microsoft.com>
+Finally, order the accesses of target_cpu from init_vp_index() and
+hv_synic_cleanup() by relying on the channel_mutex; this is achieved
+by moving the call of init_vp_index() into vmbus_process_offer().
+
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: <linux-pci@vger.kernel.org>
 ---
- drivers/pci/controller/pci-hyperv.c | 44 ++++++++++++++++++-----------
- 1 file changed, 28 insertions(+), 16 deletions(-)
+ drivers/hv/channel_mgmt.c | 47 ++++++++++++++++++++++++++++-----------
+ drivers/hv/hv.c           |  7 +++---
+ 2 files changed, 38 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 9977abff92fc5..e6020480a28b1 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1350,11 +1350,11 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- {
- 	struct irq_cfg *cfg = irqd_cfg(data);
- 	struct hv_pcibus_device *hbus;
-+	struct vmbus_channel *channel;
- 	struct hv_pci_dev *hpdev;
- 	struct pci_bus *pbus;
- 	struct pci_dev *pdev;
- 	struct cpumask *dest;
--	unsigned long flags;
- 	struct compose_comp_ctxt comp;
- 	struct tran_int_desc *int_desc;
- 	struct {
-@@ -1372,6 +1372,7 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 	dest = irq_data_get_effective_affinity_mask(data);
- 	pbus = pdev->bus;
- 	hbus = container_of(pbus->sysdata, struct hv_pcibus_device, sysdata);
-+	channel = hbus->hdev->channel;
- 	hpdev = get_pcichild_wslot(hbus, devfn_to_wslot(pdev->devfn));
- 	if (!hpdev)
- 		goto return_null_message;
-@@ -1428,43 +1429,52 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 		goto free_int_desc;
- 	}
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 8f34494bb53fb..34672dc2fc935 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -18,6 +18,7 @@
+ #include <linux/module.h>
+ #include <linux/completion.h>
+ #include <linux/delay.h>
++#include <linux/cpu.h>
+ #include <linux/hyperv.h>
+ #include <asm/mshyperv.h>
+ 
+@@ -445,13 +446,8 @@ static void vmbus_add_channel_work(struct work_struct *work)
+ 		container_of(work, struct vmbus_channel, add_channel_work);
+ 	struct vmbus_channel *primary_channel = newchannel->primary_channel;
+ 	unsigned long flags;
+-	u16 dev_type;
+ 	int ret;
+ 
+-	dev_type = hv_get_dev_type(newchannel);
+-
+-	init_vp_index(newchannel, dev_type);
+-
+ 	/*
+ 	 * This state is used to indicate a successful open
+ 	 * so that when we do close the channel normally, we
+@@ -483,7 +479,7 @@ static void vmbus_add_channel_work(struct work_struct *work)
+ 	if (!newchannel->device_obj)
+ 		goto err_deq_chan;
+ 
+-	newchannel->device_obj->device_id = dev_type;
++	newchannel->device_obj->device_id = hv_get_dev_type(newchannel);
+ 	/*
+ 	 * Add the new device to the bus. This will kick off device-driver
+ 	 * binding which eventually invokes the device driver's AddDevice()
+@@ -539,6 +535,25 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
+ 	unsigned long flags;
+ 	bool fnew = true;
  
 +	/*
-+	 * Prevents hv_pci_onchannelcallback() from running concurrently
-+	 * in the tasklet.
++	 * Initialize the target_CPU before inserting the channel in
++	 * the chn_list and sc_list lists, within the channel_mutex
++	 * critical section:
++	 *
++	 * CPU1				CPU2
++	 *
++	 * [vmbus_process_offer()]	[hv_syninc_cleanup()]
++	 *
++	 * STORE target_cpu		LOCK channel_mutex
++	 * LOCK channel_mutex		SEARCH chn_list
++	 * INSERT chn_list		LOAD target_cpu
++	 * UNLOCK channel_mutex		UNLOCK channel_mutex
++	 *
++	 * Forbids: CPU2's SEARCH from seeing CPU1's INSERT &&
++	 * 		CPU2's LOAD from *not* seing CPU1's STORE
 +	 */
-+	tasklet_disable(&channel->callback_event);
++	init_vp_index(newchannel, hv_get_dev_type(newchannel));
 +
- 	/*
- 	 * Since this function is called with IRQ locks held, can't
- 	 * do normal wait for completion; instead poll.
- 	 */
- 	while (!try_wait_for_completion(&comp.comp_pkt.host_event)) {
-+		unsigned long flags;
-+
- 		/* 0xFFFF means an invalid PCI VENDOR ID. */
- 		if (hv_pcifront_get_vendor_id(hpdev) == 0xFFFF) {
- 			dev_err_once(&hbus->hdev->device,
- 				     "the device has gone\n");
--			goto free_int_desc;
-+			goto enable_tasklet;
- 		}
+ 	mutex_lock(&vmbus_connection.channel_mutex);
  
+ 	/* Remember the channels that should be cleaned up upon suspend. */
+@@ -635,7 +650,7 @@ static DEFINE_SPINLOCK(bind_channel_to_cpu_lock);
+  * channel interrupt load by binding a channel to VCPU.
+  *
+  * For pre-win8 hosts or non-performance critical channels we assign the
+- * first CPU in the first NUMA node.
++ * VMBUS_CONNECT_CPU.
+  *
+  * Starting with win8, performance critical channels will be distributed
+  * evenly among all the available NUMA nodes.  Once the node is assigned,
+@@ -654,17 +669,22 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
+ 	    !alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
  		/*
--		 * When the higher level interrupt code calls us with
--		 * interrupt disabled, we must poll the channel by calling
--		 * the channel callback directly when channel->target_cpu is
--		 * the current CPU. When the higher level interrupt code
--		 * calls us with interrupt enabled, let's add the
--		 * local_irq_save()/restore() to avoid race:
--		 * hv_pci_onchannelcallback() can also run in tasklet.
-+		 * Make sure that the ring buffer data structure doesn't get
-+		 * freed while we dereference the ring buffer pointer.  Test
-+		 * for the channel's onchannel_callback being NULL within a
-+		 * sched_lock critical section.  See also the inline comments
-+		 * in vmbus_reset_channel_cb().
+ 		 * Prior to win8, all channel interrupts are
+-		 * delivered on cpu 0.
++		 * delivered on VMBUS_CONNECT_CPU.
+ 		 * Also if the channel is not a performance critical
+-		 * channel, bind it to cpu 0.
+-		 * In case alloc_cpumask_var() fails, bind it to cpu 0.
++		 * channel, bind it to VMBUS_CONNECT_CPU.
++		 * In case alloc_cpumask_var() fails, bind it to
++		 * VMBUS_CONNECT_CPU.
  		 */
--		local_irq_save(flags);
--
--		if (hbus->hdev->channel->target_cpu == smp_processor_id())
--			hv_pci_onchannelcallback(hbus);
--
--		local_irq_restore(flags);
-+		spin_lock_irqsave(&channel->sched_lock, flags);
-+		if (unlikely(channel->onchannel_callback == NULL)) {
-+			spin_unlock_irqrestore(&channel->sched_lock, flags);
-+			goto enable_tasklet;
-+		}
-+		hv_pci_onchannelcallback(hbus);
-+		spin_unlock_irqrestore(&channel->sched_lock, flags);
- 
- 		if (hpdev->state == hv_pcichild_ejecting) {
- 			dev_err_once(&hbus->hdev->device,
- 				     "the device is being ejected\n");
--			goto free_int_desc;
-+			goto enable_tasklet;
- 		}
- 
- 		udelay(100);
+-		channel->numa_node = 0;
+-		channel->target_cpu = 0;
+-		channel->target_vp = hv_cpu_number_to_vp_number(0);
++		channel->numa_node = cpu_to_node(VMBUS_CONNECT_CPU);
++		channel->target_cpu = VMBUS_CONNECT_CPU;
++		channel->target_vp =
++			hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
+ 		return;
  	}
  
-+	tasklet_enable(&channel->callback_event);
++	/* No CPUs can come up or down during this. */
++	cpus_read_lock();
 +
- 	if (comp.comp_pkt.completion_status < 0) {
- 		dev_err(&hbus->hdev->device,
- 			"Request for interrupt failed: 0x%x",
-@@ -1488,6 +1498,8 @@ static void hv_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 	put_pcichild(hpdev);
- 	return;
+ 	/*
+ 	 * Serializes the accesses to the global variable next_numa_node_id.
+ 	 * See also the header comment of the spin lock declaration.
+@@ -702,6 +722,7 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
+ 	channel->target_vp = hv_cpu_number_to_vp_number(target_cpu);
  
-+enable_tasklet:
-+	tasklet_enable(&channel->callback_event);
- free_int_desc:
- 	kfree(int_desc);
- drop_reference:
+ 	spin_unlock(&bind_channel_to_cpu_lock);
++	cpus_read_unlock();
+ 
+ 	free_cpumask_var(available_mask);
+ }
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index 17bf1f229152b..188b42b07f07b 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -256,9 +256,10 @@ int hv_synic_cleanup(unsigned int cpu)
+ 
+ 	/*
+ 	 * Search for channels which are bound to the CPU we're about to
+-	 * cleanup. In case we find one and vmbus is still connected we need to
+-	 * fail, this will effectively prevent CPU offlining. There is no way
+-	 * we can re-bind channels to different CPUs for now.
++	 * cleanup.  In case we find one and vmbus is still connected, we
++	 * fail; this will effectively prevent CPU offlining.
++	 *
++	 * TODO: Re-bind the channels to different CPUs.
+ 	 */
+ 	mutex_lock(&vmbus_connection.channel_mutex);
+ 	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
 -- 
 2.24.0
 
