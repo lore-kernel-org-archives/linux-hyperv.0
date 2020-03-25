@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F36CFC2D0E9
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D13C2D0E8
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CB0EB20719
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 012DC20775
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q4VR61dC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oVbQTDqT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727585AbgCYW4a (ORCPT
+        id S1727674AbgCYW4g (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 Mar 2020 18:56:30 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51163 "EHLO
+        Wed, 25 Mar 2020 18:56:36 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:56154 "EHLO
         mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727358AbgCYW43 (ORCPT
+        with ESMTP id S1727406AbgCYW4f (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:56:29 -0400
-Received: by mail-wm1-f68.google.com with SMTP id d198so4657617wmd.0;
-        Wed, 25 Mar 2020 15:56:28 -0700 (PDT)
+        Wed, 25 Mar 2020 18:56:35 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z5so4614199wml.5;
+        Wed, 25 Mar 2020 15:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gqq+iEQk0lZVQyUXxEQnFYPnI64DfK+xOeis6VQTmuE=;
-        b=q4VR61dCxBgohYEPkKRCQOIM9njZ7WHwbPCxRAzfHhBpBUwJvoouQnsnHnlpivflUH
-         UvaCYiPst365lEI/vTZ/iVKSmoGIPVjYVZwuTgMsbELnmfgyfPV2/8hi2+O45RG6PkSs
-         1ylQkyHfV3KbwL8Oh/N588A4fImAjiUnysKUj2WvlCuhsWkriCXlN4wrg6g9F2ToV25j
-         FhrWOkXUolrL9Ef7dxReJ88WGh18RCb4Iv7vpa9p9+hhrmtkjo8isnOEhb4X1VcCEf6n
-         kzknugsQsCon/JS3p5FT5HJjLaKfdgxAOjx8+oM+WZB7k7EFl3iCTSepHoQNiny396do
-         kqHg==
+        bh=ohAWFBJQsgkoA1nFpeh6U+WJa1ZEf4/+VDN1X50qyIM=;
+        b=oVbQTDqTgZY2HGawhmaH1+TiMveSbwgOVwkxKpq/04rig9hVLUrBksr6kHeDkuvQtV
+         EOof3lFD7j67Aid+jw1LLYgCBoeBwl0E17cOnKlwKAEyJ2bFuxffskWwDVTK6BYkw+XH
+         dHJUo4jKmLAg+OUWabf0ONig8kruE6AuhVoB+h7HrarLgdJb/RUVvpi40d4ayJiyGRqT
+         ZKHDFtvq8njmk2kC74Ub2bflo8fLjxwRIaNkoTRTrXzbLnj9OolpUCzVh4/qTPXCM/Qy
+         bZ34g/7Sgr8GWATaaXiYHMKDfmRA1AaMuggQUIUJhb9m7PZO1uOx/0j35eoe9c45aheE
+         CX+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gqq+iEQk0lZVQyUXxEQnFYPnI64DfK+xOeis6VQTmuE=;
-        b=IoKXomok/whtNFZ8sAHTgdW57GcCpl1VNDNXRIl/ciO25AWNOOq5iIk15mrBS1vB7a
-         U7VwWIRm4R1h1Es2GIk1e6CWFzQy1UjkPESQ0gdQuvQcT0l3ySvRtWP4AjaXnX3wcoIc
-         6fnWeW00er/Y0CI+YxslxsoCr8Eosiz6fOl8ocNHjl6sAWCIh18OOymmjoYvbD4O5uUp
-         R4VYhoSGjcwf2rhhHmLtJnlJ2DRj8uPqxq3OKHvW9Dc2TsnfDGlXHL62yG24/hICoWR0
-         mz8JtIWRqRwkSKQSU8mapn7QSz1HQXNUwjgqXSwLe6KjzsN1b+PpgQsTsMAepCdeyJr4
-         F5mA==
-X-Gm-Message-State: ANhLgQ3tt5d/+0s/vEGyFqIEYdEYZLhVt5oblVvKBOHJQ5NyDEBigJRV
-        yvEhwf6+eHjPIryCsGr5bCMKp+EVFVrvokHD
-X-Google-Smtp-Source: ADFU+vtWjgigRKaSwV3tAObFzQRLpgzZ00p3EIXLCXztBbzhVBlaaRYvJU8tYjngTITdXxv6Y7XUZw==
-X-Received: by 2002:a7b:c14d:: with SMTP id z13mr5583008wmi.94.1585176987072;
-        Wed, 25 Mar 2020 15:56:27 -0700 (PDT)
+        bh=ohAWFBJQsgkoA1nFpeh6U+WJa1ZEf4/+VDN1X50qyIM=;
+        b=qUzbXnfuMegK68DNEr+U6NQpR39VV8zD9Z3IRf7Mw/vkHGgxG7UfdvZmVCzvi2lJ4b
+         WCWZg9AmHRE5Z3e1N5/VGzfbq/nuQ8lpaRod87in9fFAVZ5ZwhU0QR4Y4wT+NxGzw+ga
+         o1OCEilCHZ8+rvhVHJVK8DbGoQqqauvkl5G9Zq18U+kSLNhI6NSrZ39O0OswCXPmV1Hm
+         l6MYkD+RmCJ+DOTZsjDNxPQZSHYf86On6QfyyPGDHo8ynqP244DPYQCQ4ydyCcaL+nOe
+         kZpriOOLmacul7tgP5e934ZpPppEHCtATUVEep/4y6co6oAzDsnwqI8Q/Fd8KM/ue1qc
+         3bNQ==
+X-Gm-Message-State: ANhLgQ2RfshJexs0kmFKRFi6r5ZeBD7IhAaAFGeqrAsUYZ/9zdPrKtDV
+        AZ4tQAcadvn7/BKpDEEoUsIg6WSPL4ebMW9k
+X-Google-Smtp-Source: ADFU+vudwAqUs7wYNGydB7CgfxRB2fT5ujoFDhG1I6FHb7TW1PrKOv+UJrt7necVm6QgGZMmz4JZTg==
+X-Received: by 2002:a1c:721a:: with SMTP id n26mr5788219wmc.25.1585176993094;
+        Wed, 25 Mar 2020 15:56:33 -0700 (PDT)
 Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.25
+        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 15:56:26 -0700 (PDT)
+        Wed, 25 Mar 2020 15:56:32 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -67,11 +67,10 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
-Subject: [RFC PATCH 04/11] hv_netvsc: Disable NAPI before closing the VMBus channel
-Date:   Wed, 25 Mar 2020 23:54:58 +0100
-Message-Id: <20200325225505.23998-5-parri.andrea@gmail.com>
+        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+Subject: [RFC PATCH 06/11] Drivers: hv: vmbus: Use a spin lock for synchronizing channel scheduling vs. channel removal
+Date:   Wed, 25 Mar 2020 23:55:00 +0100
+Message-Id: <20200325225505.23998-7-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200325225505.23998-1-parri.andrea@gmail.com>
 References: <20200325225505.23998-1-parri.andrea@gmail.com>
@@ -82,58 +81,172 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-vmbus_chan_sched() might call the netvsc driver callback function that
-ends up scheduling NAPI work.  This "work" can access the channel ring
-buffer, so we must ensure that any such work is completed and that the
-ring buffer is no longer being accessed before freeing the ring buffer
-data structure in the channel closure path.  To this end, disable NAPI
-before calling vmbus_close() in netvsc_device_remove().
+Since vmbus_chan_sched() dereferences the ring buffer pointer, we have
+to make sure that the ring buffer data structures don't get freed while
+such dereferencing is happening.  Current code does this by sending an
+IPI to the CPU that is allowed to access that ring buffer from interrupt
+level, cf., vmbus_reset_channel_cb().  But with the new functionality
+to allow changing the CPU that a channel will interrupt, we can't be
+sure what CPU will be running the vmbus_chan_sched() function for a
+particular channel, so the current IPI mechanism is infeasible.
+
+Instead synchronize vmbus_chan_sched() and vmbus_reset_channel_cb() by
+using the (newly introduced) per-channel spin lock "sched_lock".  Move
+the test for onchannel_callback being NULL before the "switch" control
+statement in vmbus_chan_sched(), in order to not access the ring buffer
+if the vmbus_reset_channel_cb() has been completed on the channel.
 
 Suggested-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: <netdev@vger.kernel.org>
 ---
- drivers/hv/channel.c        | 6 ++++++
- drivers/net/hyperv/netvsc.c | 7 +++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ drivers/hv/channel.c      | 24 +++++++-----------------
+ drivers/hv/channel_mgmt.c |  1 +
+ drivers/hv/vmbus_drv.c    | 30 +++++++++++++++++-------------
+ include/linux/hyperv.h    |  6 ++++++
+ 4 files changed, 31 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 23f358cb7f494..256ee90c74460 100644
+index 256ee90c74460..132e476f87b2e 100644
 --- a/drivers/hv/channel.c
 +++ b/drivers/hv/channel.c
-@@ -609,6 +609,12 @@ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
- 	 * the former is accessing channel->inbound.ring_buffer, the latter
- 	 * could be freeing the ring_buffer pages, so here we must stop it
- 	 * first.
-+	 *
-+	 * vmbus_chan_sched() might call the netvsc driver callback function
-+	 * that ends up scheduling NAPI work that accesses the ring buffer.
-+	 * At this point, we have to ensure that any such work is completed
-+	 * and that the channel ring buffer is no longer being accessed, cf.
-+	 * the calls to napi_disable() in netvsc_device_remove().
+@@ -594,15 +594,10 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+ }
+ EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
+ 
+-static void reset_channel_cb(void *arg)
+-{
+-	struct vmbus_channel *channel = arg;
+-
+-	channel->onchannel_callback = NULL;
+-}
+-
+ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
+ {
++	unsigned long flags;
++
+ 	/*
+ 	 * vmbus_on_event(), running in the per-channel tasklet, can race
+ 	 * with vmbus_close_internal() in the case of SMP guest, e.g., when
+@@ -618,17 +613,12 @@ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
  	 */
  	tasklet_disable(&channel->callback_event);
  
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 1b320bcf150a4..806cc85d10033 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -635,9 +635,12 @@ void netvsc_device_remove(struct hv_device *device)
+-	channel->sc_creation_callback = NULL;
++	/* See the inline comments in vmbus_chan_sched(). */
++	spin_lock_irqsave(&channel->sched_lock, flags);
++	channel->onchannel_callback = NULL;
++	spin_unlock_irqrestore(&channel->sched_lock, flags);
  
- 	RCU_INIT_POINTER(net_device_ctx->nvdev, NULL);
+-	/* Stop the callback asap */
+-	if (channel->target_cpu != get_cpu()) {
+-		put_cpu();
+-		smp_call_function_single(channel->target_cpu, reset_channel_cb,
+-					 channel, true);
+-	} else {
+-		reset_channel_cb(channel);
+-		put_cpu();
+-	}
++	channel->sc_creation_callback = NULL;
  
--	/* And disassociate NAPI context from device */
--	for (i = 0; i < net_device->num_chn; i++)
-+	/* Disable NAPI and disassociate its context from the device. */
-+	for (i = 0; i < net_device->num_chn; i++) {
-+		/* See also vmbus_reset_channel_cb(). */
-+		napi_disable(&net_device->chan_table[i].napi);
- 		netif_napi_del(&net_device->chan_table[i].napi);
-+	}
+ 	/* Re-enable tasklet for use on re-open */
+ 	tasklet_enable(&channel->callback_event);
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 9b1449c839575..c53f58ba06dcf 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -315,6 +315,7 @@ static struct vmbus_channel *alloc_channel(void)
+ 	if (!channel)
+ 		return NULL;
  
++	spin_lock_init(&channel->sched_lock);
+ 	spin_lock_init(&channel->lock);
+ 	init_completion(&channel->rescind_event);
+ 
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 301e3f484bb1a..ebe2716f583d2 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1147,18 +1147,6 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+ }
+ #endif /* CONFIG_PM_SLEEP */
+ 
+-/*
+- * Direct callback for channels using other deferred processing
+- */
+-static void vmbus_channel_isr(struct vmbus_channel *channel)
+-{
+-	void (*callback_fn)(void *);
+-
+-	callback_fn = READ_ONCE(channel->onchannel_callback);
+-	if (likely(callback_fn != NULL))
+-		(*callback_fn)(channel->channel_callback_context);
+-}
+-
+ /*
+  * Schedule all channels with events pending
+  */
+@@ -1189,6 +1177,7 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 		return;
+ 
+ 	for_each_set_bit(relid, recv_int_page, maxbits) {
++		void (*callback_fn)(void *context);
+ 		struct vmbus_channel *channel;
+ 
+ 		if (!sync_test_and_clear_bit(relid, recv_int_page))
+@@ -1214,13 +1203,26 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 		if (channel->rescind)
+ 			goto sched_unlock_rcu;
+ 
++		/*
++		 * Make sure that the ring buffer data structure doesn't get
++		 * freed while we dereference the ring buffer pointer.  Test
++		 * for the channel's onchannel_callback being NULL within a
++		 * sched_lock critical section.  See also the inline comments
++		 * in vmbus_reset_channel_cb().
++		 */
++		spin_lock(&channel->sched_lock);
++
++		callback_fn = channel->onchannel_callback;
++		if (unlikely(callback_fn == NULL))
++			goto sched_unlock;
++
+ 		trace_vmbus_chan_sched(channel);
+ 
+ 		++channel->interrupts;
+ 
+ 		switch (channel->callback_mode) {
+ 		case HV_CALL_ISR:
+-			vmbus_channel_isr(channel);
++			(*callback_fn)(channel->channel_callback_context);
+ 			break;
+ 
+ 		case HV_CALL_BATCHED:
+@@ -1230,6 +1232,8 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 			tasklet_schedule(&channel->callback_event);
+ 		}
+ 
++sched_unlock:
++		spin_unlock(&channel->sched_lock);
+ sched_unlock_rcu:
+ 		rcu_read_unlock();
+ 	}
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 6c794fd5c903e..ce32ab186192f 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -771,6 +771,12 @@ struct vmbus_channel {
+ 	void (*onchannel_callback)(void *context);
+ 	void *channel_callback_context;
+ 
++	/*
++	 * Synchronize channel scheduling and channel removal; see the inline
++	 * comments in vmbus_chan_sched() and vmbus_reset_channel_cb().
++	 */
++	spinlock_t sched_lock;
++
  	/*
- 	 * At this point, no one should be accessing net_device
+ 	 * A channel can be marked for one of three modes of reading:
+ 	 *   BATCHED - callback called from taslket and should read
 -- 
 2.24.0
 
