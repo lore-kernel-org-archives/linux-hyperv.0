@@ -1,369 +1,255 @@
-Return-Path: <SRS0=zzLa=5K=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=YEkK=5L=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DAE6C2D0E7
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB8FC43331
+	for <linux-hyperv@archiver.kernel.org>; Thu, 26 Mar 2020 14:05:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C029C2076A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Mar 2020 22:56:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31A29206F6
+	for <linux-hyperv@archiver.kernel.org>; Thu, 26 Mar 2020 14:05:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pa7Qfqv2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DeLoAWFi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727491AbgCYW4s (ORCPT
+        id S1727738AbgCZOF1 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 Mar 2020 18:56:48 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38437 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727751AbgCYW4s (ORCPT
+        Thu, 26 Mar 2020 10:05:27 -0400
+Received: from us-smtp-delivery-74.mimecast.com ([216.205.24.74]:60313 "EHLO
+        us-smtp-delivery-74.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727822AbgCZOF0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 Mar 2020 18:56:48 -0400
-Received: by mail-wr1-f65.google.com with SMTP id s1so5607051wrv.5;
-        Wed, 25 Mar 2020 15:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=oVYtYG/cfa/erwJ/gL1Hydo8eogqGObbH1h/pbPwt/8=;
-        b=pa7Qfqv2hQJmqDGlJabR+PVCole9j/cbfUXWadSUlzo8xtD0VSlD4SinaieuAlCa6l
-         BIyAxIvZsfy5ZUQNkPdz+bfBN17fTZNRM1h+6LndSZy8Z9w+PnjSuU+SOobnqAPSIVH4
-         8Z+5ADqsKCjQbuIpUjJq/0JTD+dGYsXbdz14LbkwcPubSr/B1Hz7IXJVk00h5eXZmzYp
-         Y/VNGkzKrlQfZ+PD2IwiqblXX6WkZbFkeDjRt2Gp1J2a3lJdZxD2sbMhKwtZGE5BV8Wo
-         cZHoOIH5ByFt3ms+EWVHYAnJrkuYArvhx/r+mjIaO4az2vviZwDQu0n+2CkuipItilEX
-         5zaA==
+        Thu, 26 Mar 2020 10:05:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1585231524;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iu8pP+Jj7yxXz+kaoKj+StMGIPihDf+lmC4twg0Tx8I=;
+        b=DeLoAWFirKmULSN7WIwguu86alZCfibn2T+DnJLn7OHJaABeFTV/lDdelJKGeTn93lE39J
+        GHbzoKmtgQBlFuHAjCV6sG0WQ22MsmwK3FsvomZ6waluakl8CHBvPBZ+kADoj11uPxsnKR
+        BrtCA8T8qXCddW+MG/UkCKeaaJa+Qp4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-2AAUK2ygN4GGiK8ioWh46w-1; Thu, 26 Mar 2020 10:05:23 -0400
+X-MC-Unique: 2AAUK2ygN4GGiK8ioWh46w-1
+Received: by mail-wr1-f69.google.com with SMTP id l17so3098639wro.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 26 Mar 2020 07:05:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=oVYtYG/cfa/erwJ/gL1Hydo8eogqGObbH1h/pbPwt/8=;
-        b=JUdk1kJ5KtSeUpuI7wPqnfsPDQcO+9j6m7Q56agOk4wfYmyVNYP+wOyxvxgFQLuFb5
-         jLgwzWDx7mXVQqLynlns1UNYv+QXyrlJ3MU2ZK+XUUpiUahDyqhD+GBZbVbEt6STHBfP
-         3skrbwqllLvoFSac/MUIOJ4maKoc3iGOpuAxtReIdz6is2ehZjnXpTVxjviK+I2QMxEW
-         j4vg7VdkxbHAtFjp8/0Ik4jH4iiqKsd14KWCzlACUWIPbnrZGqLWUkdRq/yj9lRUk8Ww
-         nBkh1v/uXpQBBF8t3wq/M/nYykJo/ETOVNHMtaBQnielzvNoELB2X4RATosUNFGbhmcx
-         yKTw==
-X-Gm-Message-State: ANhLgQ1/x4MZO/2PhBfeqRwdzJ+QqIzG2iodWJpzEsMZmA+CeZXv994q
-        7EBAOmXQz7NOEK2TZYMCQFP2q0QnQTnqFoP5
-X-Google-Smtp-Source: ADFU+vusZsrsq4iU+q3TOTH6VjjKoBt7TKAPUFQT/xJpssjSF1ShgIhfjmeOvTJMHrScKNXRZQ4SGA==
-X-Received: by 2002:a5d:46ca:: with SMTP id g10mr5689847wrs.290.1585177004065;
-        Wed, 25 Mar 2020 15:56:44 -0700 (PDT)
-Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id q72sm790278wme.31.2020.03.25.15.56.42
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=iu8pP+Jj7yxXz+kaoKj+StMGIPihDf+lmC4twg0Tx8I=;
+        b=r9chjLKcVrHW5xxCBKejDdGHREDRCYVdRGiWzjr/EEjHBlE58LjIGcw7IffkeTtc0d
+         vb+d19Z5+uvARToCpHV0SowwcemKbTJ1SIn2LBAS/Gb0XizH5J+WCouou+eMmseTBLY+
+         2IPodJoWG5kfWL3ve28GoGct1UHdmUvE7VrawdDkwfwfRmGpdJ0of9WDyGXy6DGw699D
+         5kmMcArKcYoPtOOXQYzZE/s03R6Xk/s6XaQkYaS+WiuG2x4xRNq1rgAPuFbSnDGpLGIm
+         1XTertHLOfTptUAWnVpHbHDwuUQK9J+LQrqwpASQ/v+AgsRDlmkr4jSUInqMeBesI/o2
+         OIhw==
+X-Gm-Message-State: ANhLgQ0J4GBs3iTE/NnLt4TMBg7fIrfH9y1Vy3MhX7AUPfezY9cXycAX
+        5LCnr7fxJ6qqEWR5siwZu3IFMuT+I3ZGtNve1NZOw1RUPZpBu1U6nRS/ZOY+SeTMNOTiVqkfS4n
+        NgSz6wYBmEGp/NyPX6ux8skdU
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr392177wrq.16.1585231520389;
+        Thu, 26 Mar 2020 07:05:20 -0700 (PDT)
+X-Google-Smtp-Source: ADFU+vvxFjrunOsSfd505meGyZf11k+WGz1I4Q9myCzJ3l75WCPrsGXFu9lrehOCOCF+g+IF36yJsQ==
+X-Received: by 2002:a5d:4611:: with SMTP id t17mr392144wrq.16.1585231520041;
+        Thu, 26 Mar 2020 07:05:20 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id r3sm3775853wrm.35.2020.03.26.07.05.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 15:56:43 -0700 (PDT)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     linux-kernel@vger.kernel.org
+        Thu, 26 Mar 2020 07:05:19 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     "Andrea Parri \(Microsoft\)" <parri.andrea@gmail.com>,
+        Dexuan Cui <decui@microsoft.com>
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org,
         Michael Kelley <mikelley@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [RFC PATCH 10/11] Drivers: hv: vmbus: Introduce the CHANNELMSG_MODIFYCHANNEL message type
-Date:   Wed, 25 Mar 2020 23:55:04 +0100
-Message-Id: <20200325225505.23998-11-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200325225505.23998-1-parri.andrea@gmail.com>
-References: <20200325225505.23998-1-parri.andrea@gmail.com>
+        Boqun Feng <boqun.feng@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 01/11] Drivers: hv: vmbus: Always handle the VMBus messages on CPU0
+In-Reply-To: <20200325225505.23998-2-parri.andrea@gmail.com>
+References: <20200325225505.23998-1-parri.andrea@gmail.com> <20200325225505.23998-2-parri.andrea@gmail.com>
+Date:   Thu, 26 Mar 2020 15:05:17 +0100
+Message-ID: <874kub5i02.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-VMBus version 4.1 and later support the CHANNELMSG_MODIFYCHANNEL(22)
-message type which can be used to request Hyper-V to change the vCPU
-that a channel will interrupt.
+"Andrea Parri (Microsoft)" <parri.andrea@gmail.com> writes:
 
-Introduce the CHANNELMSG_MODIFYCHANNEL message type, and define the
-vmbus_send_modifychannel() function to send CHANNELMSG_MODIFYCHANNEL
-requests to the host via a hypercall.  The function is then used to
-define a sysfs "store" operation, which allows to change the (v)CPU
-the channel will interrupt by using the sysfs interface.  The feature
-can be used for load balancing or other purposes.
+> A Linux guest have to pick a "connect CPU" to communicate with the
+> Hyper-V host.  This CPU can not be taken offline because Hyper-V does
+> not provide a way to change that CPU assignment.
+>
+> Current code sets the connect CPU to whatever CPU ends up running the
+> function vmbus_negotiate_version(), and this will generate problems if
+> that CPU is taken offine.
+>
+> Establish CPU0 as the connect CPU, and add logics to prevents the
+> connect CPU from being taken offline.   We could pick some other CPU,
+> and we could pick that "other CPU" dynamically if there was a reason to
+> do so at some point in the future.  But for now, #defining the connect
+> CPU to 0 is the most straightforward and least complex solution.
+>
+> While on this, add inline comments explaining "why" offer and rescind
+> messages should not be handled by a same serialized work queue.
+>
+> Suggested-by: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> ---
+>  drivers/hv/connection.c   | 20 +-------------------
+>  drivers/hv/hv.c           |  7 +++++++
+>  drivers/hv/hyperv_vmbus.h | 11 ++++++-----
+>  drivers/hv/vmbus_drv.c    | 20 +++++++++++++++++---
+>  4 files changed, 31 insertions(+), 27 deletions(-)
+>
+> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+> index 74e77de89b4f3..f4bd306d2cef9 100644
+> --- a/drivers/hv/connection.c
+> +++ b/drivers/hv/connection.c
+> @@ -69,7 +69,6 @@ MODULE_PARM_DESC(max_version,
+>  int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+>  {
+>  	int ret = 0;
+> -	unsigned int cur_cpu;
+>  	struct vmbus_channel_initiate_contact *msg;
+>  	unsigned long flags;
+>  
+> @@ -102,24 +101,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+>  
+>  	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
+>  	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
+> -	/*
+> -	 * We want all channel messages to be delivered on CPU 0.
+> -	 * This has been the behavior pre-win8. This is not
+> -	 * perf issue and having all channel messages delivered on CPU 0
+> -	 * would be ok.
+> -	 * For post win8 hosts, we support receiving channel messagges on
+> -	 * all the CPUs. This is needed for kexec to work correctly where
+> -	 * the CPU attempting to connect may not be CPU 0.
+> -	 */
+> -	if (version >= VERSION_WIN8_1) {
+> -		cur_cpu = get_cpu();
+> -		msg->target_vcpu = hv_cpu_number_to_vp_number(cur_cpu);
+> -		vmbus_connection.connect_cpu = cur_cpu;
+> -		put_cpu();
+> -	} else {
+> -		msg->target_vcpu = 0;
+> -		vmbus_connection.connect_cpu = 0;
+> -	}
+> +	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
+>  
+>  	/*
+>  	 * Add to list before we send the request since we may
+> diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+> index 6098e0cbdb4b0..e2b3310454640 100644
+> --- a/drivers/hv/hv.c
+> +++ b/drivers/hv/hv.c
+> @@ -249,6 +249,13 @@ int hv_synic_cleanup(unsigned int cpu)
+>  	bool channel_found = false;
+>  	unsigned long flags;
+>  
+> +	/*
+> +	 * Hyper-V does not provide a way to change the connect CPU once
+> +	 * it is set; we must prevent the connect CPU from going offline.
+> +	 */
+> +	if (cpu == VMBUS_CONNECT_CPU)
+> +		return -EBUSY;
+> +
+>  	/*
+>  	 * Search for channels which are bound to the CPU we're about to
+>  	 * cleanup. In case we find one and vmbus is still connected we need to
+> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+> index 70b30e223a578..67fb1edcbf527 100644
+> --- a/drivers/hv/hyperv_vmbus.h
+> +++ b/drivers/hv/hyperv_vmbus.h
+> @@ -212,12 +212,13 @@ enum vmbus_connect_state {
+>  
+>  #define MAX_SIZE_CHANNEL_MESSAGE	HV_MESSAGE_PAYLOAD_BYTE_COUNT
+>  
+> -struct vmbus_connection {
+> -	/*
+> -	 * CPU on which the initial host contact was made.
+> -	 */
+> -	int connect_cpu;
+> +/*
+> + * The CPU that Hyper-V will interrupt for VMBUS messages, such as
+> + * CHANNELMSG_OFFERCHANNEL and CHANNELMSG_RESCIND_CHANNELOFFER.
+> + */
+> +#define VMBUS_CONNECT_CPU	0
+>  
+> +struct vmbus_connection {
+>  	u32 msg_conn_id;
+>  
+>  	atomic_t offer_in_progress;
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 029378c27421d..7600615e13754 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -1056,14 +1056,28 @@ void vmbus_on_msg_dpc(unsigned long data)
+>  			/*
+>  			 * If we are handling the rescind message;
+>  			 * schedule the work on the global work queue.
+> +			 *
+> +			 * The OFFER message and the RESCIND message should
+> +			 * not be handled by the same serialized work queue,
+> +			 * because the OFFER handler may call vmbus_open(),
+> +			 * which tries to open the channel by sending an
+> +			 * OPEN_CHANNEL message to the host and waits for
+> +			 * the host's response; however, if the host has
+> +			 * rescinded the channel before it receives the
+> +			 * OPEN_CHANNEL message, the host just silently
+> +			 * ignores the OPEN_CHANNEL message; as a result,
+> +			 * the guest's OFFER handler hangs for ever, if we
+> +			 * handle the RESCIND message in the same serialized
+> +			 * work queue: the RESCIND handler can not start to
+> +			 * run before the OFFER handler finishes.
+>  			 */
+> -			schedule_work_on(vmbus_connection.connect_cpu,
+> +			schedule_work_on(VMBUS_CONNECT_CPU,
+>  					 &ctx->work);
+>  			break;
+>  
+>  		case CHANNELMSG_OFFERCHANNEL:
+>  			atomic_inc(&vmbus_connection.offer_in_progress);
+> -			queue_work_on(vmbus_connection.connect_cpu,
+> +			queue_work_on(VMBUS_CONNECT_CPU,
+>  				      vmbus_connection.work_queue,
+>  				      &ctx->work);
+>  			break;
+> @@ -1110,7 +1124,7 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+>  
+>  	INIT_WORK(&ctx->work, vmbus_onmessage_work);
+>  
+> -	queue_work_on(vmbus_connection.connect_cpu,
+> +	queue_work_on(VMBUS_CONNECT_CPU,
+>  		      vmbus_connection.work_queue,
+>  		      &ctx->work);
+>  }
 
-One interesting catch here is that Hyper-V can *not* currently ACK
-CHANNELMSG_MODIFYCHANNEL messages with the promise that (after the ACK
-is sent) the channel won't send any more interrupts to the "old" CPU.
+I tried to refresh my memory on why 'connect_cpu' was introduced and it
+all comes down to the following commit:
 
-The peculiarity of the CHANNELMSG_MODIFYCHANNEL messages is problematic
-if the user want to take a CPU offline, since we don't want to take a
-CPU offline (and, potentially, "lose" channel interrupts on such CPU)
-if the host is still processing a CHANNELMSG_MODIFYCHANNEL message
-associated to that CPU.
+commit 7268644734f6a300353a4c4ff8bf3e013ba80f89
+Author: Alex Ng <alexng@microsoft.com>
+Date:   Fri Feb 26 15:13:22 2016 -0800
 
-It is worth mentioning, however, that we have been unable to observe
-the above mentioned "race": in all our tests, CHANNELMSG_MODIFYCHANNEL
-requests appeared *as if* they were processed synchronously by the host.
+    Drivers: hv: vmbus: Support kexec on ws2012 r2 and above
 
-Suggested-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
----
- drivers/hv/channel.c      |  28 ++++++++++
- drivers/hv/channel_mgmt.c |   2 +-
- drivers/hv/hv_trace.h     |  19 +++++++
- drivers/hv/vmbus_drv.c    | 108 +++++++++++++++++++++++++++++++++++++-
- include/linux/hyperv.h    |  10 +++-
- 5 files changed, 163 insertions(+), 4 deletions(-)
+which for some unknown reason kept hardcoding '0' for pre-win2012-r2 (
+hv_context.vp_index[smp_processor_id()] in all cases would do exactly
+the same I guess ). Later, 'connect_cpu' appeared just to remember our
+choice, I can't see why we didn't go with CPU0 for simplicity.
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 132e476f87b2e..90070b337c10d 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -289,6 +289,34 @@ int vmbus_send_tl_connect_request(const guid_t *shv_guest_servie_id,
- }
- EXPORT_SYMBOL_GPL(vmbus_send_tl_connect_request);
- 
-+/*
-+ * Set/change the vCPU (@target_vp) the channel (@child_relid) will interrupt.
-+ *
-+ * CHANNELMSG_MODIFYCHANNEL messages are aynchronous.  Also, Hyper-V does not
-+ * ACK such messages.  IOW we can't know when the host will stop interrupting
-+ * the "old" vCPU and start interrupting the "new" vCPU for the given channel.
-+ *
-+ * The CHANNELMSG_MODIFYCHANNEL message type is supported since VMBus version
-+ * VERSION_WIN10_V4_1.
-+ */
-+int vmbus_send_modifychannel(u32 child_relid, u32 target_vp)
-+{
-+	struct vmbus_channel_modifychannel conn_msg;
-+	int ret;
-+
-+	memset(&conn_msg, 0, sizeof(conn_msg));
-+	conn_msg.header.msgtype = CHANNELMSG_MODIFYCHANNEL;
-+	conn_msg.child_relid = child_relid;
-+	conn_msg.target_vp = target_vp;
-+
-+	ret = vmbus_post_msg(&conn_msg, sizeof(conn_msg), true);
-+
-+	trace_vmbus_send_modifychannel(&conn_msg, ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(vmbus_send_modifychannel);
-+
- /*
-  * create_gpadl_header - Creates a gpadl for the specified buffer
-  */
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 34672dc2fc935..818a9d8bf649e 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -1353,7 +1353,7 @@ channel_message_table[CHANNELMSG_COUNT] = {
- 	{ CHANNELMSG_19,			0, NULL },
- 	{ CHANNELMSG_20,			0, NULL },
- 	{ CHANNELMSG_TL_CONNECT_REQUEST,	0, NULL },
--	{ CHANNELMSG_22,			0, NULL },
-+	{ CHANNELMSG_MODIFYCHANNEL,		0, NULL },
- 	{ CHANNELMSG_TL_CONNECT_RESULT,		0, NULL },
- };
- 
-diff --git a/drivers/hv/hv_trace.h b/drivers/hv/hv_trace.h
-index e70783e33680f..a43bc76c2d5d0 100644
---- a/drivers/hv/hv_trace.h
-+++ b/drivers/hv/hv_trace.h
-@@ -296,6 +296,25 @@ TRACE_EVENT(vmbus_send_tl_connect_request,
- 		    )
- 	);
- 
-+TRACE_EVENT(vmbus_send_modifychannel,
-+	    TP_PROTO(const struct vmbus_channel_modifychannel *msg,
-+		     int ret),
-+	    TP_ARGS(msg, ret),
-+	    TP_STRUCT__entry(
-+		    __field(u32, child_relid)
-+		    __field(u32, target_vp)
-+		    __field(int, ret)
-+		    ),
-+	    TP_fast_assign(
-+		    __entry->child_relid = msg->child_relid;
-+		    __entry->target_vp = msg->target_vp;
-+		    __entry->ret = ret;
-+		    ),
-+	    TP_printk("binding child_relid 0x%x to target_vp 0x%x, ret %d",
-+		      __entry->child_relid, __entry->target_vp, __entry->ret
-+		    )
-+	);
-+
- DECLARE_EVENT_CLASS(vmbus_channel,
- 	TP_PROTO(const struct vmbus_channel *channel),
- 	TP_ARGS(channel),
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index ebe2716f583d2..84d2f22c569aa 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1550,8 +1550,24 @@ static ssize_t vmbus_chan_attr_show(struct kobject *kobj,
- 	return attribute->show(chan, buf);
- }
- 
-+static ssize_t vmbus_chan_attr_store(struct kobject *kobj,
-+				     struct attribute *attr, const char *buf,
-+				     size_t count)
-+{
-+	const struct vmbus_chan_attribute *attribute
-+		= container_of(attr, struct vmbus_chan_attribute, attr);
-+	struct vmbus_channel *chan
-+		= container_of(kobj, struct vmbus_channel, kobj);
-+
-+	if (!attribute->store)
-+		return -EIO;
-+
-+	return attribute->store(chan, buf, count);
-+}
-+
- static const struct sysfs_ops vmbus_chan_sysfs_ops = {
- 	.show = vmbus_chan_attr_show,
-+	.store = vmbus_chan_attr_store,
- };
- 
- static ssize_t out_mask_show(struct vmbus_channel *channel, char *buf)
-@@ -1622,11 +1638,99 @@ static ssize_t write_avail_show(struct vmbus_channel *channel, char *buf)
- }
- static VMBUS_CHAN_ATTR_RO(write_avail);
- 
--static ssize_t show_target_cpu(struct vmbus_channel *channel, char *buf)
-+static ssize_t target_cpu_show(struct vmbus_channel *channel, char *buf)
- {
- 	return sprintf(buf, "%u\n", channel->target_cpu);
- }
--static VMBUS_CHAN_ATTR(cpu, S_IRUGO, show_target_cpu, NULL);
-+static ssize_t target_cpu_store(struct vmbus_channel *channel,
-+				const char *buf, size_t count)
-+{
-+	ssize_t ret = count;
-+	u32 target_cpu;
-+
-+	if (vmbus_proto_version < VERSION_WIN10_V4_1)
-+		return -EIO;
-+
-+	if (sscanf(buf, "%uu", &target_cpu) != 1)
-+		return -EIO;
-+
-+	/* Validate target_cpu for the cpumask_test_cpu() operation below. */
-+	if (target_cpu >= nr_cpumask_bits)
-+		return -EINVAL;
-+
-+	/* No CPUs should come up or down during this. */
-+	cpus_read_lock();
-+
-+	if (!cpumask_test_cpu(target_cpu, cpu_online_mask)) {
-+		cpus_read_unlock();
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * Synchronizes target_cpu_store() and channel closure:
-+	 *
-+	 * { Initially: state = CHANNEL_OPENED }
-+	 *
-+	 * CPU1				CPU2
-+	 *
-+	 * [target_cpu_store()]		[vmbus_disconnect_ring()]
-+	 *
-+	 * LOCK channel_mutex		LOCK channel_mutex
-+	 * LOAD r1 = state		LOAD r2 = state
-+	 * IF (r1 == CHANNEL_OPENED)	IF (r2 == CHANNEL_OPENED)
-+	 *   SEND MODIFYCHANNEL		  STORE state = CHANNEL_OPEN
-+	 *   [...]			  SEND CLOSECHANNEL
-+	 * UNLOCK channel_mutex		UNLOCK channel_mutex
-+	 *
-+	 * Forbids: r1 == r2 == CHANNEL_OPENED (i.e., CPU1's LOCK precedes
-+	 * 		CPU2's LOCK) && CPU2's SEND precedes CPU1's SEND
-+	 *
-+	 * Note.  The host processes the channel messages "sequentially", in
-+	 * the order in which they are received on a per-partition basis.
-+	 */
-+	mutex_lock(&vmbus_connection.channel_mutex);
-+
-+	/*
-+	 * Hyper-V will ignore MODIFYCHANNEL messages for "non-open" channels;
-+	 * avoid sending the message and fail here for such channels.
-+	 */
-+	if (channel->state != CHANNEL_OPENED_STATE) {
-+		ret = -EIO;
-+		goto cpu_store_unlock;
-+	}
-+
-+	if (channel->target_cpu == target_cpu)
-+		goto cpu_store_unlock;
-+
-+	if (vmbus_send_modifychannel(channel->offermsg.child_relid,
-+				     hv_cpu_number_to_vp_number(target_cpu))) {
-+		ret = -EIO;
-+		goto cpu_store_unlock;
-+	}
-+
-+	/*
-+	 * Warning.  At this point, there is *no* guarantee that the host will
-+	 * have successfully processed the vmbus_send_modifychannel() request.
-+	 * See the header comment of vmbus_send_modifychannel() for more info.
-+	 *
-+	 * Lags in the processing of the above vmbus_send_modifychannel() can
-+	 * result in missed interrupts if the "old" target CPU is taken offline
-+	 * before Hyper-V starts sending interrupts to the "new" target CPU.
-+	 * But apart from this offlining scenario, the code tolerates such
-+	 * lags.  It will function correctly even if a channel interrupt comes
-+	 * in on a CPU that is different from the channel target_cpu value.
-+	 */
-+
-+	channel->target_cpu = target_cpu;
-+	channel->target_vp = hv_cpu_number_to_vp_number(target_cpu);
-+	channel->numa_node = cpu_to_node(target_cpu);
-+
-+cpu_store_unlock:
-+	mutex_unlock(&vmbus_connection.channel_mutex);
-+	cpus_read_unlock();
-+	return ret;
-+}
-+static VMBUS_CHAN_ATTR(cpu, 0644, target_cpu_show, target_cpu_store);
- 
- static ssize_t channel_pending_show(struct vmbus_channel *channel,
- 				    char *buf)
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index f8e7c22d41a1a..edfcd42319ef3 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -425,7 +425,7 @@ enum vmbus_channel_message_type {
- 	CHANNELMSG_19				= 19,
- 	CHANNELMSG_20				= 20,
- 	CHANNELMSG_TL_CONNECT_REQUEST		= 21,
--	CHANNELMSG_22				= 22,
-+	CHANNELMSG_MODIFYCHANNEL		= 22,
- 	CHANNELMSG_TL_CONNECT_RESULT		= 23,
- 	CHANNELMSG_COUNT
- };
-@@ -620,6 +620,13 @@ struct vmbus_channel_tl_connect_request {
- 	guid_t host_service_id;
- } __packed;
- 
-+/* Modify Channel parameters, cf. vmbus_send_modifychannel() */
-+struct vmbus_channel_modifychannel {
-+	struct vmbus_channel_message_header header;
-+	u32 child_relid;
-+	u32 target_vp;
-+} __packed;
-+
- struct vmbus_channel_version_response {
- 	struct vmbus_channel_message_header header;
- 	u8 version_supported;
-@@ -1505,6 +1512,7 @@ extern __u32 vmbus_proto_version;
- 
- int vmbus_send_tl_connect_request(const guid_t *shv_guest_servie_id,
- 				  const guid_t *shv_host_servie_id);
-+int vmbus_send_modifychannel(u32 child_relid, u32 target_vp);
- void vmbus_set_event(struct vmbus_channel *channel);
- 
- /* Get the start of the ring buffer. */
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+
 -- 
-2.24.0
+Vitaly
 
