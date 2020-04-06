@@ -8,55 +8,55 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CC80C2BA17
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A39EC2BABC
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:17:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CDF6620731
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41BC52072F
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:17:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uBzpcRiN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ded1bEXS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728097AbgDFARM (ORCPT
+        id S1728005AbgDFAQz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 5 Apr 2020 20:17:12 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:37432 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728070AbgDFARE (ORCPT
+        Sun, 5 Apr 2020 20:16:55 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50663 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727992AbgDFAQx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 5 Apr 2020 20:17:04 -0400
-Received: by mail-wr1-f65.google.com with SMTP id w10so15392531wrm.4;
-        Sun, 05 Apr 2020 17:17:02 -0700 (PDT)
+        Sun, 5 Apr 2020 20:16:53 -0400
+Received: by mail-wm1-f66.google.com with SMTP id x25so1883270wmc.0;
+        Sun, 05 Apr 2020 17:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=68VyQPQisMup9xpkI1E9yTSymdvfN6wADz3YZ/tUUOA=;
-        b=uBzpcRiNtFwXZlzxFs9+M9kZy9Zfx8qDj0cZObXotSbiXN1+HJ/q3czNMTyEzPIXNj
-         H6/F5L11o/1UyaoorB19Tg7/HvnSw7DMefkzjTdzXnUBGSCAe0sUYV5hcxfnF9bPIMU5
-         C19j6lL7irp/WjRZGnGm1T7q83/ezQzWTplO5gQtyKIqVknpsCn9Hg0MCxq/myADCz8k
-         zgiGGeHv1Hcb6YKiFIYkVa7K7wL+SmTRoNCa/1b/NEKMOnTnup6dT9vud1+z3z3whZIO
-         yuAWgB3SO2P0r6lJKVNMCVC/3kmoDLTvub7omnefs4erU5OyQmEykMz143gbxraZX4mr
-         8vfg==
+        bh=AJixrAHmLSm9JlvLk/tktanq5R41sY9S5RTPPKZAKz8=;
+        b=ded1bEXSxJWca6rs1Ko/HJU44z6eWyPmJS57HBR9qKW8IdAb2papE+k21BIMXkBspt
+         9ueEmL8WxHwUjiCvzTc4/pNhsi+0tIkFUkd4w05m1Y4TO5QmapTcGAgmukyo5vk0gol2
+         vA1vhehom4n7ti9VJ5K+D8CCx1ZRWJsKIZ6DN982eqSpmm7ikMG28VqgNDnzU3h4mLnJ
+         nS1Pq8lMWW10hVl1m2UyaNtVIozUZudR8ysACNiYHh3hK8zoTjQl5grQGB9G69CTMKeg
+         eIIJmDNNz5SzHvXCzewmXlpCGA2OwDX3CMohbk+FyGOW/aM7VWt7VEBLjiR3zRNy+Vlq
+         R5+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=68VyQPQisMup9xpkI1E9yTSymdvfN6wADz3YZ/tUUOA=;
-        b=SdrRYb0VAloAQ50KH9suGYVyYziePOKP094bX9M7e1bEHk69mPnfKdneFHzp2kf8yW
-         fybA853jYMaR6vDeBFsM1D8ocJtOf3p+BiE9WU9QtiosuwyAF2p4wcz69+RIx9RzF+LR
-         XUgAV0Ls5EQBPeX9Q3JQw1BDYbDyS4snbqXVzyOoGjF2Pmp5n9rEZda7XwVPoC9Rh1R+
-         GfVWRDOGMuBUxXamHL7oRA32h3n5NPOJseZNk9FxrfLrGppGYb0yeqDah80zJ2HIpICa
-         fxieqi7r9lXGDtJTbtcC68L0SbMMcmRDYF+qyFOpidtF4/SZduQH4VSjz4MZ8M2AMvOI
-         M+Zw==
-X-Gm-Message-State: AGi0PuadcZI2m3nWx3HPgs7GalKdG3Sw0L1hZWjlFga3fZTKdYD9Fh16
-        erwDkxrJQODFb1lSkvN81ZrvDHXT3L+Okg==
-X-Google-Smtp-Source: APiQypLzSaFr2w94MliWZ/6zyGOJV15+9Jq/9iPnwr61BLd9jBMqDuMbh1lWC3F/rCLcJCp05yMTqA==
-X-Received: by 2002:adf:f78a:: with SMTP id q10mr3559818wrp.132.1586132221615;
-        Sun, 05 Apr 2020 17:17:01 -0700 (PDT)
+        bh=AJixrAHmLSm9JlvLk/tktanq5R41sY9S5RTPPKZAKz8=;
+        b=OtR1rE8oemUCKL9eq1VbVG2PxpK9hbeV4dhLHGS31fHtBAVNCIUjAJWFSO0hwJ5qlr
+         wnLCq0KgFBD2m+TeQ88+j3jvtX+2V/9NpfiFQv4XG4sQqufZEEFJ5dK7rr6haWEPJ88G
+         mUZmTzoBeFaMBxp0Ic7TJlNhLh7pH4arfthbuceEih1fKRjMIbCwQKsOHX+TzIsMPb/3
+         2kb0LplwI7V5TdU2JBvcio/KBuBh8Mw4C/wR7wHU0CoqobuWr3Th53Q/sTYPnTTxN3kg
+         QJBWHoyFFDRJvNiAz7c6n52ThKslSgJdynv4fCLJY/+G/BPzGPsuvrOk7Oel+NN5E5y5
+         BhuA==
+X-Gm-Message-State: AGi0PuZLiAquTBXe8kpiK5l8KwOPldn1vDqGfYATAQ8cBpqmDqcQQtFw
+        pcB0yUGhILskGMrsSftyp44FmkJMx+QLiA==
+X-Google-Smtp-Source: APiQypL+SC4YUWZAqxOGZsor7oNjVgG7hYdxPPj7yjthsvzbVSYYbgd+rKyzevtgiBwRlmIdg+1mdA==
+X-Received: by 2002:a05:600c:2c50:: with SMTP id r16mr20467271wmg.6.1586132211060;
+        Sun, 05 Apr 2020 17:16:51 -0700 (PDT)
 Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id j9sm817432wrn.59.2020.04.05.17.17.00
+        by smtp.gmail.com with ESMTPSA id j9sm817432wrn.59.2020.04.05.17.16.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2020 17:17:01 -0700 (PDT)
+        Sun, 05 Apr 2020 17:16:50 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 09/11] Drivers: hv: vmbus: Synchronize init_vp_index() vs. CPU hotplug
-Date:   Mon,  6 Apr 2020 02:15:12 +0200
-Message-Id: <20200406001514.19876-10-parri.andrea@gmail.com>
+Subject: [PATCH 06/11] Drivers: hv: vmbus: Use a spin lock for synchronizing channel scheduling vs. channel removal
+Date:   Mon,  6 Apr 2020 02:15:09 +0200
+Message-Id: <20200406001514.19876-7-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200406001514.19876-1-parri.andrea@gmail.com>
 References: <20200406001514.19876-1-parri.andrea@gmail.com>
@@ -81,149 +81,172 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-init_vp_index() may access the cpu_online_mask mask via its calls of
-cpumask_of_node().  Make sure to protect these accesses with a
-cpus_read_lock() critical section.
+Since vmbus_chan_sched() dereferences the ring buffer pointer, we have
+to make sure that the ring buffer data structures don't get freed while
+such dereferencing is happening.  Current code does this by sending an
+IPI to the CPU that is allowed to access that ring buffer from interrupt
+level, cf., vmbus_reset_channel_cb().  But with the new functionality
+to allow changing the CPU that a channel will interrupt, we can't be
+sure what CPU will be running the vmbus_chan_sched() function for a
+particular channel, so the current IPI mechanism is infeasible.
 
-Also, remove some (hardcoded) instances of CPU(0) from init_vp_index()
-and replace them with VMBUS_CONNECT_CPU.  The connect CPU can not go
-offline, since Hyper-V does not provide a way to change it.
+Instead synchronize vmbus_chan_sched() and vmbus_reset_channel_cb() by
+using the (newly introduced) per-channel spin lock "sched_lock".  Move
+the test for onchannel_callback being NULL before the "switch" control
+statement in vmbus_chan_sched(), in order to not access the ring buffer
+if the vmbus_reset_channel_cb() has been completed on the channel.
 
-Finally, order the accesses of target_cpu from init_vp_index() and
-hv_synic_cleanup() by relying on the channel_mutex; this is achieved
-by moving the call of init_vp_index() into vmbus_process_offer().
-
+Suggested-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
- drivers/hv/channel_mgmt.c | 47 ++++++++++++++++++++++++++++-----------
- drivers/hv/hv.c           |  7 +++---
- 2 files changed, 38 insertions(+), 16 deletions(-)
+ drivers/hv/channel.c      | 24 +++++++-----------------
+ drivers/hv/channel_mgmt.c |  1 +
+ drivers/hv/vmbus_drv.c    | 30 +++++++++++++++++-------------
+ include/linux/hyperv.h    |  6 ++++++
+ 4 files changed, 31 insertions(+), 30 deletions(-)
 
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 256ee90c74460..132e476f87b2e 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -594,15 +594,10 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+ }
+ EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
+ 
+-static void reset_channel_cb(void *arg)
+-{
+-	struct vmbus_channel *channel = arg;
+-
+-	channel->onchannel_callback = NULL;
+-}
+-
+ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
+ {
++	unsigned long flags;
++
+ 	/*
+ 	 * vmbus_on_event(), running in the per-channel tasklet, can race
+ 	 * with vmbus_close_internal() in the case of SMP guest, e.g., when
+@@ -618,17 +613,12 @@ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
+ 	 */
+ 	tasklet_disable(&channel->callback_event);
+ 
+-	channel->sc_creation_callback = NULL;
++	/* See the inline comments in vmbus_chan_sched(). */
++	spin_lock_irqsave(&channel->sched_lock, flags);
++	channel->onchannel_callback = NULL;
++	spin_unlock_irqrestore(&channel->sched_lock, flags);
+ 
+-	/* Stop the callback asap */
+-	if (channel->target_cpu != get_cpu()) {
+-		put_cpu();
+-		smp_call_function_single(channel->target_cpu, reset_channel_cb,
+-					 channel, true);
+-	} else {
+-		reset_channel_cb(channel);
+-		put_cpu();
+-	}
++	channel->sc_creation_callback = NULL;
+ 
+ 	/* Re-enable tasklet for use on re-open */
+ 	tasklet_enable(&channel->callback_event);
 diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 9041e5950e367..3785beead503d 100644
+index 8c179f6866ef7..46ea978e4222a 100644
 --- a/drivers/hv/channel_mgmt.c
 +++ b/drivers/hv/channel_mgmt.c
-@@ -18,6 +18,7 @@
- #include <linux/module.h>
- #include <linux/completion.h>
- #include <linux/delay.h>
-+#include <linux/cpu.h>
- #include <linux/hyperv.h>
- #include <asm/mshyperv.h>
+@@ -315,6 +315,7 @@ static struct vmbus_channel *alloc_channel(void)
+ 	if (!channel)
+ 		return NULL;
  
-@@ -466,13 +467,8 @@ static void vmbus_add_channel_work(struct work_struct *work)
- 		container_of(work, struct vmbus_channel, add_channel_work);
- 	struct vmbus_channel *primary_channel = newchannel->primary_channel;
- 	unsigned long flags;
--	u16 dev_type;
- 	int ret;
++	spin_lock_init(&channel->sched_lock);
+ 	spin_lock_init(&channel->lock);
+ 	init_completion(&channel->rescind_event);
  
--	dev_type = hv_get_dev_type(newchannel);
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 0e5a98ebe23b1..18bd1c0e09a83 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1174,18 +1174,6 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+ }
+ #endif /* CONFIG_PM_SLEEP */
+ 
+-/*
+- * Direct callback for channels using other deferred processing
+- */
+-static void vmbus_channel_isr(struct vmbus_channel *channel)
+-{
+-	void (*callback_fn)(void *);
 -
--	init_vp_index(newchannel, dev_type);
+-	callback_fn = READ_ONCE(channel->onchannel_callback);
+-	if (likely(callback_fn != NULL))
+-		(*callback_fn)(channel->channel_callback_context);
+-}
 -
- 	/*
- 	 * This state is used to indicate a successful open
- 	 * so that when we do close the channel normally, we
-@@ -504,7 +500,7 @@ static void vmbus_add_channel_work(struct work_struct *work)
- 	if (!newchannel->device_obj)
- 		goto err_deq_chan;
+ /*
+  * Schedule all channels with events pending
+  */
+@@ -1216,6 +1204,7 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 		return;
  
--	newchannel->device_obj->device_id = dev_type;
-+	newchannel->device_obj->device_id = hv_get_dev_type(newchannel);
- 	/*
- 	 * Add the new device to the bus. This will kick off device-driver
- 	 * binding which eventually invokes the device driver's AddDevice()
-@@ -560,6 +556,25 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
- 	unsigned long flags;
- 	bool fnew = true;
+ 	for_each_set_bit(relid, recv_int_page, maxbits) {
++		void (*callback_fn)(void *context);
+ 		struct vmbus_channel *channel;
+ 
+ 		if (!sync_test_and_clear_bit(relid, recv_int_page))
+@@ -1241,13 +1230,26 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 		if (channel->rescind)
+ 			goto sched_unlock_rcu;
+ 
++		/*
++		 * Make sure that the ring buffer data structure doesn't get
++		 * freed while we dereference the ring buffer pointer.  Test
++		 * for the channel's onchannel_callback being NULL within a
++		 * sched_lock critical section.  See also the inline comments
++		 * in vmbus_reset_channel_cb().
++		 */
++		spin_lock(&channel->sched_lock);
++
++		callback_fn = channel->onchannel_callback;
++		if (unlikely(callback_fn == NULL))
++			goto sched_unlock;
++
+ 		trace_vmbus_chan_sched(channel);
+ 
+ 		++channel->interrupts;
+ 
+ 		switch (channel->callback_mode) {
+ 		case HV_CALL_ISR:
+-			vmbus_channel_isr(channel);
++			(*callback_fn)(channel->channel_callback_context);
+ 			break;
+ 
+ 		case HV_CALL_BATCHED:
+@@ -1257,6 +1259,8 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 			tasklet_schedule(&channel->callback_event);
+ 		}
+ 
++sched_unlock:
++		spin_unlock(&channel->sched_lock);
+ sched_unlock_rcu:
+ 		rcu_read_unlock();
+ 	}
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 6c794fd5c903e..ce32ab186192f 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -771,6 +771,12 @@ struct vmbus_channel {
+ 	void (*onchannel_callback)(void *context);
+ 	void *channel_callback_context;
  
 +	/*
-+	 * Initialize the target_CPU before inserting the channel in
-+	 * the chn_list and sc_list lists, within the channel_mutex
-+	 * critical section:
-+	 *
-+	 * CPU1				CPU2
-+	 *
-+	 * [vmbus_process_offer()]	[hv_syninc_cleanup()]
-+	 *
-+	 * STORE target_cpu		LOCK channel_mutex
-+	 * LOCK channel_mutex		SEARCH chn_list
-+	 * INSERT chn_list		LOAD target_cpu
-+	 * UNLOCK channel_mutex		UNLOCK channel_mutex
-+	 *
-+	 * Forbids: CPU2's SEARCH from seeing CPU1's INSERT &&
-+	 * 		CPU2's LOAD from *not* seing CPU1's STORE
++	 * Synchronize channel scheduling and channel removal; see the inline
++	 * comments in vmbus_chan_sched() and vmbus_reset_channel_cb().
 +	 */
-+	init_vp_index(newchannel, hv_get_dev_type(newchannel));
-+
- 	mutex_lock(&vmbus_connection.channel_mutex);
- 
- 	/* Remember the channels that should be cleaned up upon suspend. */
-@@ -656,7 +671,7 @@ static DEFINE_SPINLOCK(bind_channel_to_cpu_lock);
-  * channel interrupt load by binding a channel to VCPU.
-  *
-  * For pre-win8 hosts or non-performance critical channels we assign the
-- * first CPU in the first NUMA node.
-+ * VMBUS_CONNECT_CPU.
-  *
-  * Starting with win8, performance critical channels will be distributed
-  * evenly among all the available NUMA nodes.  Once the node is assigned,
-@@ -675,17 +690,22 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
- 	    !alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
- 		/*
- 		 * Prior to win8, all channel interrupts are
--		 * delivered on cpu 0.
-+		 * delivered on VMBUS_CONNECT_CPU.
- 		 * Also if the channel is not a performance critical
--		 * channel, bind it to cpu 0.
--		 * In case alloc_cpumask_var() fails, bind it to cpu 0.
-+		 * channel, bind it to VMBUS_CONNECT_CPU.
-+		 * In case alloc_cpumask_var() fails, bind it to
-+		 * VMBUS_CONNECT_CPU.
- 		 */
--		channel->numa_node = 0;
--		channel->target_cpu = 0;
--		channel->target_vp = hv_cpu_number_to_vp_number(0);
-+		channel->numa_node = cpu_to_node(VMBUS_CONNECT_CPU);
-+		channel->target_cpu = VMBUS_CONNECT_CPU;
-+		channel->target_vp =
-+			hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
- 		return;
- 	}
- 
-+	/* No CPUs can come up or down during this. */
-+	cpus_read_lock();
++	spinlock_t sched_lock;
 +
  	/*
- 	 * Serializes the accesses to the global variable next_numa_node_id.
- 	 * See also the header comment of the spin lock declaration.
-@@ -723,6 +743,7 @@ static void init_vp_index(struct vmbus_channel *channel, u16 dev_type)
- 	channel->target_vp = hv_cpu_number_to_vp_number(target_cpu);
- 
- 	spin_unlock(&bind_channel_to_cpu_lock);
-+	cpus_read_unlock();
- 
- 	free_cpumask_var(available_mask);
- }
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 17bf1f229152b..188b42b07f07b 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -256,9 +256,10 @@ int hv_synic_cleanup(unsigned int cpu)
- 
- 	/*
- 	 * Search for channels which are bound to the CPU we're about to
--	 * cleanup. In case we find one and vmbus is still connected we need to
--	 * fail, this will effectively prevent CPU offlining. There is no way
--	 * we can re-bind channels to different CPUs for now.
-+	 * cleanup.  In case we find one and vmbus is still connected, we
-+	 * fail; this will effectively prevent CPU offlining.
-+	 *
-+	 * TODO: Re-bind the channels to different CPUs.
- 	 */
- 	mutex_lock(&vmbus_connection.channel_mutex);
- 	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
+ 	 * A channel can be marked for one of three modes of reading:
+ 	 *   BATCHED - callback called from taslket and should read
 -- 
 2.24.0
 
