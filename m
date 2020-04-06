@@ -2,65 +2,66 @@ Return-Path: <SRS0=uTv+=5W=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90BAAC2BA2B
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 10:42:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15082C2BA2B
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 10:42:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 61D7D2082F
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 10:42:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD0FB206C3
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 10:42:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QH8n09bt"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JG4A1Ryu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbgDFKmC (ORCPT
+        id S1727149AbgDFKmF (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Apr 2020 06:42:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47594 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726926AbgDFKmB (ORCPT
+        Mon, 6 Apr 2020 06:42:05 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47830 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727104AbgDFKmE (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Apr 2020 06:42:01 -0400
+        Mon, 6 Apr 2020 06:42:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586169720;
+        s=mimecast20190719; t=1586169723;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=FqGYEjIImdWTgee2fIf/zfTRdiurl1mO572U3AitAp0=;
-        b=QH8n09btlsvNIiBo8OYun0AOV70jz1uFFTPafaZzw8sYLdHTe+W+OJdu1Mga0JDnqnWhuG
-        lTOBku2gb29MU/EjbDUIWjKMIvYXaJf8qDJgwGVtMuWYngZDnZ7mBPCjAykE8VWFnxIgfx
-        uVfzQrhOmyW4jLwCppwqhbg3Ftw0C2s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-k2X3gRLGMJOSGA8yVoaxOA-1; Mon, 06 Apr 2020 06:41:58 -0400
-X-MC-Unique: k2X3gRLGMJOSGA8yVoaxOA-1
-Received: by mail-wm1-f72.google.com with SMTP id d134so1152280wmd.0
-        for <linux-hyperv@vger.kernel.org>; Mon, 06 Apr 2020 03:41:58 -0700 (PDT)
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nNCEzp8Xf9G/EJkWE4iVp8b4/dzBkQfiZaLwTbSfMe4=;
+        b=JG4A1RyuCZJyge53KM+EhZWPfMFg76uaEl5fa3bLX/YfkvI+CJFco1sJ0wE8fqs7T7GAB6
+        FEDQUw/5OoQqNSDlWhuN+Lf9S5/1I2VwiimqUzV1THgQ4DfzElnTMRSQacTHWda+VSNqyQ
+        QjR7Ddk3I8lZ3c2gqiemDt/fXlwDSZM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-k9LJQz7mPIygrjhNbZRMJQ-1; Mon, 06 Apr 2020 06:42:01 -0400
+X-MC-Unique: k9LJQz7mPIygrjhNbZRMJQ-1
+Received: by mail-wr1-f71.google.com with SMTP id y1so8147571wrn.10
+        for <linux-hyperv@vger.kernel.org>; Mon, 06 Apr 2020 03:42:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FqGYEjIImdWTgee2fIf/zfTRdiurl1mO572U3AitAp0=;
-        b=AOvMOu+UIQsdC0HLp2I4znzAhKNyIv34ZqcJljc03u3PheyxymWqMXNRTarH77QGnh
-         qUrXone//YgeaEbihe8KzmQVqhUi7P6WGpdeoEBPmdqlqSq1RIZP59f5xpP50aSI59i8
-         AU4ioAXPR5ToGECb4rRxWO4XlSxKHh0OmEg1iS6AVpktqbGzcCE2KIpV25R1UmQwK91x
-         ZNng4+ebzbBOhN0/9dSW0hYmvl4GcUjTN5RSEvEUAsiDFoWw79oZlCFEm2SKSRI+1ukC
-         o2z3aockyOtqTi+5p5BuLjZbee54iumShsHTEK+OMz+0WaeXFLLneAmqC3dw0SSvq2TP
-         JHlg==
-X-Gm-Message-State: AGi0Pubk8+foVbFIZfYTi9jbvG4AXVbPjaaI8sH8ZivtvKLvtRjXqDex
-        0Kd3cr6CGhOXkRi+sl5kMnkqQ7M+VXZit3BEc8Ykd3XPXLPHgiil802BKpWosA9b6TmrdlGhw0P
-        1nNh/Stj+UkD+VXdSrbUHIqyr
-X-Received: by 2002:a05:600c:2910:: with SMTP id i16mr21518941wmd.43.1586169717440;
-        Mon, 06 Apr 2020 03:41:57 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJPzINmfQ385QW26xQbfnWPsO2PkLIbN8craOWxA1Q9iUGl6xZlmMVJwWqmHJOQT0x2ogPi1A==
-X-Received: by 2002:a05:600c:2910:: with SMTP id i16mr21518922wmd.43.1586169717258;
-        Mon, 06 Apr 2020 03:41:57 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nNCEzp8Xf9G/EJkWE4iVp8b4/dzBkQfiZaLwTbSfMe4=;
+        b=A9j9XkkUG/tzlPuLxUe3qtOxSVRGecc1uAIEyzYbG1a/Iqecc7u9yXcBhN2aIlDQL+
+         hJz/Ip2tQ9RtXNKuKxAwvk/glVwrg8iW/nVaxcUjkXDzm5gR6in6OAsMxwWTZ8NOEITK
+         GQlUhj8+VfAMz/yaUeHE4SyMJLkS2Oil/69hXhdbBiDkywB8ppGXagDS8fFhwo195gDU
+         zVercEnjDyzd5l+zVyhr3qoBhmusckulgtJXVmIUJWplDR2p6bSdy2x+8OOB6zdKOXvm
+         r5aMQ0oAhA5+KcymFYo8L2n86sI+gQrdJLmHHxOPHx8AOnem/VOJx4Cp+UmxbR6gxrh/
+         /ugg==
+X-Gm-Message-State: AGi0PuZ9hvyZfhLzJy/H8OaUxYKINJCMZJGl3emosd1OkhT6eX89YCeK
+        G00KnsBlv35bu+aNV3F4Rpi/6E1UH3tknipf26iJkpzVnlXB6jHGgB1MjjEJrLSOiaRrmZJZRVC
+        6dHa39Blr9FHQqGVgFcego/oq
+X-Received: by 2002:a1c:98c2:: with SMTP id a185mr9801245wme.85.1586169720307;
+        Mon, 06 Apr 2020 03:42:00 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIVoZ4LLrlXceBRrGrczs27RRHIwL8V1sWT18u9g9ujFzu+ivzbGQ5OvFlPEr0gXDR0iFB7nA==
+X-Received: by 2002:a1c:98c2:: with SMTP id a185mr9801222wme.85.1586169720021;
+        Mon, 06 Apr 2020 03:42:00 -0700 (PDT)
 Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id a2sm17305337wra.71.2020.04.06.03.41.55
+        by smtp.gmail.com with ESMTPSA id a2sm17305337wra.71.2020.04.06.03.41.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 03:41:56 -0700 (PDT)
+        Mon, 06 Apr 2020 03:41:59 -0700 (PDT)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
@@ -70,10 +71,12 @@ Cc:     linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 0/5] Drivers: hv: cleanup VMBus messages handling
-Date:   Mon,  6 Apr 2020 12:41:49 +0200
-Message-Id: <20200406104154.45010-1-vkuznets@redhat.com>
+Subject: [PATCH v2 2/5] Drivers: hv: allocate the exact needed memory for messages
+Date:   Mon,  6 Apr 2020 12:41:51 +0200
+Message-Id: <20200406104154.45010-3-vkuznets@redhat.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200406104154.45010-1-vkuznets@redhat.com>
+References: <20200406104154.45010-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -81,30 +84,66 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-A small cleanup series mostly aimed at sanitizing memory we pass to
-message handlers: not passing garbage/lefrtovers from other messages
-and making sure we fail early when hypervisor misbehaves.
+When we need to pass a buffer with Hyper-V message we don't need to always
+allocate 256 bytes for the message: the real message length is known from
+the header. Change 'struct onmessage_work_context' to make it possible to
+not over-allocate.
 
-No (real) functional change intended.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+---
+ drivers/hv/vmbus_drv.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-Changes since v1:
-- Check that the payload size specified by the host is <= 240 bytes
-- Add Michael's R-b tags.
-
-Vitaly Kuznetsov (5):
-  Drivers: hv: copy from message page only what's needed
-  Drivers: hv: allocate the exact needed memory for messages
-  Drivers: hv: avoid passing opaque pointer to vmbus_onmessage()
-  Drivers: hv: make sure that 'struct vmbus_channel_message_header'
-    compiles correctly
-  Drivers: hv: check VMBus messages lengths
-
- drivers/hv/channel_mgmt.c | 61 ++++++++++++++++++++-------------------
- drivers/hv/hyperv_vmbus.h |  1 +
- drivers/hv/vmbus_drv.c    | 40 ++++++++++++++++++++-----
- include/linux/hyperv.h    |  2 +-
- 4 files changed, 66 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 943b23beb992..b114bb411d7e 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -991,7 +991,10 @@ static struct bus_type  hv_bus = {
+ 
+ struct onmessage_work_context {
+ 	struct work_struct work;
+-	struct hv_message msg;
++	struct {
++		struct hv_message_header header;
++		u8 payload[];
++	} msg;
+ };
+ 
+ static void vmbus_onmessage_work(struct work_struct *work)
+@@ -1044,7 +1047,8 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 		goto msg_handled;
+ 
+ 	if (entry->handler_type	== VMHT_BLOCKING) {
+-		ctx = kmalloc(sizeof(*ctx), GFP_ATOMIC);
++		ctx = kmalloc(sizeof(*ctx) + msg->header.payload_size,
++			      GFP_ATOMIC);
+ 		if (ctx == NULL)
+ 			return;
+ 
+@@ -1098,10 +1102,11 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+ 	WARN_ON(!is_hvsock_channel(channel));
+ 
+ 	/*
+-	 * sizeof(*ctx) is small and the allocation should really not fail,
++	 * Allocation size is small and the allocation should really not fail,
+ 	 * otherwise the state of the hv_sock connections ends up in limbo.
+ 	 */
+-	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL | __GFP_NOFAIL);
++	ctx = kzalloc(sizeof(*ctx) + sizeof(*rescind),
++		      GFP_KERNEL | __GFP_NOFAIL);
+ 
+ 	/*
+ 	 * So far, these are not really used by Linux. Just set them to the
+@@ -1111,7 +1116,7 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+ 	ctx->msg.header.payload_size = sizeof(*rescind);
+ 
+ 	/* These values are actually used by Linux. */
+-	rescind = (struct vmbus_channel_rescind_offer *)ctx->msg.u.payload;
++	rescind = (struct vmbus_channel_rescind_offer *)ctx->msg.payload;
+ 	rescind->header.msgtype = CHANNELMSG_RESCIND_CHANNELOFFER;
+ 	rescind->child_relid = channel->offermsg.child_relid;
+ 
 -- 
 2.25.1
 
