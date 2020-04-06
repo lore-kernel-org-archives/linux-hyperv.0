@@ -5,58 +5,58 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58DEBC2BA19
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:16:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9845AC2BA80
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:16:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2263520748
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:16:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7031A20780
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Apr 2020 00:16:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sQgWJaBR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="axToHqAO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727946AbgDFAQq (ORCPT
+        id S1727967AbgDFAQt (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 5 Apr 2020 20:16:46 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:37329 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727254AbgDFAQq (ORCPT
+        Sun, 5 Apr 2020 20:16:49 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44960 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727962AbgDFAQt (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 5 Apr 2020 20:16:46 -0400
-Received: by mail-wr1-f43.google.com with SMTP id w10so15392076wrm.4;
-        Sun, 05 Apr 2020 17:16:44 -0700 (PDT)
+        Sun, 5 Apr 2020 20:16:49 -0400
+Received: by mail-wr1-f67.google.com with SMTP id m17so15284771wrw.11;
+        Sun, 05 Apr 2020 17:16:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2+9S0jyo9MRQv/zHeTKhyTdeaIwkRelQt+B7vvYXTEg=;
-        b=sQgWJaBRA8YuYxu5qM/5cMbrQY+VLEPF98XVEuaNKb8L3Mx9K2OL01Hoa+5sl9wl2U
-         zgSfytI5qzVN8tMwRCBz5m90d0Emo6kP8+5HY4YDMUhO+9VoKhE8omtA8zEjAhOcVLfg
-         ABIPY+DgjW9VFH1RnqG5bj+r6hX53eA/TDMKhMTVl6kl9McRWn94jnx5kYHJZHY5cN/L
-         Y8bv+hoPjh3dfPGfJeVb4UiM5UcH385MqXWpJDtO+gsx+20XCq/w3g2aeNtemjVtK/Cu
-         Wx2Eu0EqkO4R5vykWPbDHj8TI0HUnOjjrwkf17zkoQNyiW5ZwyKJzoN9DQSR/HGezhUo
-         PwIQ==
+        bh=FvMvQjpl3mBryOKnAJVIyuL3RVW4h7gov14bS75FPXw=;
+        b=axToHqAOIoUW0tPCyPuw3kbwg+yxpmxuRs14EhH2H9LOXll04vRfBWWefKvv1mv3iK
+         p9qmgBefhF/WhX2V6ehkGx2pws6u3Q8E4DfQ7ljlaEWVZBZHujGmRN592sjuq8NceZOR
+         x6LSN/tyWbZBa4llilQohu4V7DpAp6bAsgI8CDLeSKscpcuZ33Ik94FJjltx67Bpvx+U
+         TNFyfso74w67dnugOYpkzBk8IDwyAkpmgWM3JgZxnzc7/WUUqDaAADpz2zTh/m6iijz0
+         zSUkbD9m2pz95T+Gooy7TswRBjnkGuIwXzO3EHIAEoSGw4ljVW4oJX23UJ+IMBORmzmW
+         Vk+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2+9S0jyo9MRQv/zHeTKhyTdeaIwkRelQt+B7vvYXTEg=;
-        b=amrOCEV+QEgDVUeQBHIttwGx2c9T+MOSZvyDTDJv2QklPYqhlV/C5K5uw1xzCPkGL9
-         C/+mnP/esORHWwE6KWY9SRMkphNwGgVSiVkpX83czzu/NSyXORb15h+ooJK4bfJllxdr
-         H+yoaBEM1eKsC7UNuM2GpdxS3e1QLUwfM8ppyDj4lHrQqPSffKPmH9sR25PKvJ90sdNS
-         pZG868U++uDV7UeVgH74V18waaaVQaG6yjxYpYe9z/Bq1dGa3vozsXZ/3Yd2wSOtXWnY
-         tp1GEpbRcDPACJpMzX4Cm6FyKtPz8SaGTC4ZfBx3b+YDqfDzp4FMQVek/NTPoBgIq3ny
-         LnBQ==
-X-Gm-Message-State: AGi0PuY485b3biJa/PC4whzY1yxD0CGMH6E0FyPbmP6L5uFrpGC31b/y
-        4Eonb9VtANnE5UehbOJQhW2w6k+CBeR19A==
-X-Google-Smtp-Source: APiQypL01b1gbOD3u2myb/BNfq5hGX/6HV/oqVlLSxtT65yzGZDG0TQwAbJg1WiTDrQUerKoIX0LzQ==
-X-Received: by 2002:a5d:6906:: with SMTP id t6mr21705637wru.64.1586132202839;
-        Sun, 05 Apr 2020 17:16:42 -0700 (PDT)
+        bh=FvMvQjpl3mBryOKnAJVIyuL3RVW4h7gov14bS75FPXw=;
+        b=GtyyrTzd0Snn5NSLJ1vuO9av4EtJxH6v8XXi6vGKB8l4nCMOP+4e5iGqnnaCwBxL+5
+         bXuCPPYlwFg5dS2qll1Jn4iJQW0O90cbfqwpVxKs7S55QKYYaHNndcOKWMZJ8OudRkcD
+         e2ISRiPCvoSWE7bNJvKJdvrrlIQSGKFk4k+hJn4qaOlVmRILkmQgB18g533C9qCuvrSk
+         Xe+/F0ppKVBuCInXcJgQr1eBl4h/19dJsPfQroy76NT6KMX5psmORLtjPjeH6hLfN7il
+         965kkauf5AGrfeWq0y0qTNPwgWTl1+H3waVygr71ZN9+QGoC0prMRFR4c8XmAG+i/Toe
+         as7Q==
+X-Gm-Message-State: AGi0Pub29Xfh5/YbwBcIOvN4RgG3RwAfuZvJGSccHqPCE69j2vaBV10d
+        SvPAKFWt6cDiO0XyKGdwoaxtrdcfOV0eZA==
+X-Google-Smtp-Source: APiQypK3XzE+6NIr8zjtUViz/a9SkhUeZK56DNz+xwEsJe995dzNDz2TX+wPuV7ulrdX0U7xICpdUQ==
+X-Received: by 2002:adf:e445:: with SMTP id t5mr21431205wrm.352.1586132207027;
+        Sun, 05 Apr 2020 17:16:47 -0700 (PDT)
 Received: from andrea.corp.microsoft.com ([86.61.236.197])
-        by smtp.gmail.com with ESMTPSA id j9sm817432wrn.59.2020.04.05.17.16.41
+        by smtp.gmail.com with ESMTPSA id j9sm817432wrn.59.2020.04.05.17.16.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2020 17:16:42 -0700 (PDT)
+        Sun, 05 Apr 2020 17:16:46 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -67,10 +67,12 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 02/11] Drivers: hv: vmbus: Don't bind the offer&rescind works to a specific CPU
-Date:   Mon,  6 Apr 2020 02:15:05 +0200
-Message-Id: <20200406001514.19876-3-parri.andrea@gmail.com>
+        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
+Subject: [PATCH 04/11] hv_netvsc: Disable NAPI before closing the VMBus channel
+Date:   Mon,  6 Apr 2020 02:15:07 +0200
+Message-Id: <20200406001514.19876-5-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200406001514.19876-1-parri.andrea@gmail.com>
 References: <20200406001514.19876-1-parri.andrea@gmail.com>
@@ -81,120 +83,59 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The offer and rescind works are currently scheduled on the so called
-"connect CPU".  However, this is not really needed: we can synchronize
-the works by relying on the usage of the offer_in_progress counter and
-of the channel_mutex mutex.  This synchronization is already in place.
-So, remove this unnecessary "bind to the connect CPU" constraint and
-update the inline comments accordingly.
+vmbus_chan_sched() might call the netvsc driver callback function that
+ends up scheduling NAPI work.  This "work" can access the channel ring
+buffer, so we must ensure that any such work is completed and that the
+ring buffer is no longer being accessed before freeing the ring buffer
+data structure in the channel closure path.  To this end, disable NAPI
+before calling vmbus_close() in netvsc_device_remove().
 
-Suggested-by: Dexuan Cui <decui@microsoft.com>
+Suggested-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Acked-by: Stephen Hemminger <stephen@networkplumber.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: <netdev@vger.kernel.org>
 ---
- drivers/hv/channel_mgmt.c | 21 ++++++++++++++++-----
- drivers/hv/vmbus_drv.c    | 39 ++++++++++++++++++++++++++++-----------
- 2 files changed, 44 insertions(+), 16 deletions(-)
+ drivers/hv/channel.c        | 6 ++++++
+ drivers/net/hyperv/netvsc.c | 7 +++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 501c43c5851dc..aed8db59a5ff8 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -1028,11 +1028,22 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
- 	 * offer comes in first and then the rescind.
- 	 * Since we process these events in work elements,
- 	 * and with preemption, we may end up processing
--	 * the events out of order. Given that we handle these
--	 * work elements on the same CPU, this is possible only
--	 * in the case of preemption. In any case wait here
--	 * until the offer processing has moved beyond the
--	 * point where the channel is discoverable.
-+	 * the events out of order.  We rely on the synchronization
-+	 * provided by offer_in_progress and by channel_mutex for
-+	 * ordering these events:
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 23f358cb7f494..256ee90c74460 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -609,6 +609,12 @@ void vmbus_reset_channel_cb(struct vmbus_channel *channel)
+ 	 * the former is accessing channel->inbound.ring_buffer, the latter
+ 	 * could be freeing the ring_buffer pages, so here we must stop it
+ 	 * first.
 +	 *
-+	 * { Initially: offer_in_progress = 1 }
-+	 *
-+	 * CPU1				CPU2
-+	 *
-+	 * [vmbus_process_offer()]	[vmbus_onoffer_rescind()]
-+	 *
-+	 * LOCK channel_mutex		WAIT_ON offer_in_progress == 0
-+	 * DECREMENT offer_in_progress	LOCK channel_mutex
-+	 * INSERT chn_list		SEARCH chn_list
-+	 * UNLOCK channel_mutex		UNLOCK channel_mutex
-+	 *
-+	 * Forbids: CPU2's SEARCH from *not* seeing CPU1's INSERT
++	 * vmbus_chan_sched() might call the netvsc driver callback function
++	 * that ends up scheduling NAPI work that accesses the ring buffer.
++	 * At this point, we have to ensure that any such work is completed
++	 * and that the channel ring buffer is no longer being accessed, cf.
++	 * the calls to napi_disable() in netvsc_device_remove().
  	 */
+ 	tasklet_disable(&channel->callback_event);
  
- 	while (atomic_read(&vmbus_connection.offer_in_progress) != 0) {
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index a491d44362f9f..41ec0c95df33f 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1075,8 +1075,9 @@ void vmbus_on_msg_dpc(unsigned long data)
- 		/*
- 		 * The host can generate a rescind message while we
- 		 * may still be handling the original offer. We deal with
--		 * this condition by ensuring the processing is done on the
--		 * same CPU.
-+		 * this condition by relying on the synchronization provided
-+		 * by offer_in_progress and by channel_mutex.  See also the
-+		 * inline comments in vmbus_onoffer_rescind().
- 		 */
- 		switch (hdr->msgtype) {
- 		case CHANNELMSG_RESCIND_CHANNELOFFER:
-@@ -1098,16 +1099,34 @@ void vmbus_on_msg_dpc(unsigned long data)
- 			 * work queue: the RESCIND handler can not start to
- 			 * run before the OFFER handler finishes.
- 			 */
--			schedule_work_on(VMBUS_CONNECT_CPU,
--					 &ctx->work);
-+			schedule_work(&ctx->work);
- 			break;
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 1b320bcf150a4..806cc85d10033 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -635,9 +635,12 @@ void netvsc_device_remove(struct hv_device *device)
  
- 		case CHANNELMSG_OFFERCHANNEL:
-+			/*
-+			 * The host sends the offer message of a given channel
-+			 * before sending the rescind message of the same
-+			 * channel.  These messages are sent to the guest's
-+			 * connect CPU; the guest then starts processing them
-+			 * in the tasklet handler on this CPU:
-+			 *
-+			 * VMBUS_CONNECT_CPU
-+			 *
-+			 * [vmbus_on_msg_dpc()]
-+			 * atomic_inc()  // CHANNELMSG_OFFERCHANNEL
-+			 * queue_work()
-+			 * ...
-+			 * [vmbus_on_msg_dpc()]
-+			 * schedule_work()  // CHANNELMSG_RESCIND_CHANNELOFFER
-+			 *
-+			 * We rely on the memory-ordering properties of the
-+			 * queue_work() and schedule_work() primitives, which
-+			 * guarantee that the atomic increment will be visible
-+			 * to the CPUs which will execute the offer & rescind
-+			 * works by the time these works will start execution.
-+			 */
- 			atomic_inc(&vmbus_connection.offer_in_progress);
--			queue_work_on(VMBUS_CONNECT_CPU,
--				      vmbus_connection.work_queue,
--				      &ctx->work);
--			break;
-+			fallthrough;
+ 	RCU_INIT_POINTER(net_device_ctx->nvdev, NULL);
  
- 		default:
- 			queue_work(vmbus_connection.work_queue, &ctx->work);
-@@ -1151,9 +1170,7 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+-	/* And disassociate NAPI context from device */
+-	for (i = 0; i < net_device->num_chn; i++)
++	/* Disable NAPI and disassociate its context from the device. */
++	for (i = 0; i < net_device->num_chn; i++) {
++		/* See also vmbus_reset_channel_cb(). */
++		napi_disable(&net_device->chan_table[i].napi);
+ 		netif_napi_del(&net_device->chan_table[i].napi);
++	}
  
- 	INIT_WORK(&ctx->work, vmbus_onmessage_work);
- 
--	queue_work_on(VMBUS_CONNECT_CPU,
--		      vmbus_connection.work_queue,
--		      &ctx->work);
-+	queue_work(vmbus_connection.work_queue, &ctx->work);
- }
- #endif /* CONFIG_PM_SLEEP */
- 
+ 	/*
+ 	 * At this point, no one should be accessing net_device
 -- 
 2.24.0
 
