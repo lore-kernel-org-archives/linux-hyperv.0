@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 590C2C2BA1A
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7FE9C2BA1A
+	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2CC6F20747
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 797F82082F
+	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O5jAerjD"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pyDdyMNB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729004AbgDHMBL (ORCPT
+        id S1728253AbgDHMBW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 8 Apr 2020 08:01:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51286 "EHLO
+        Wed, 8 Apr 2020 08:01:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52334 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726734AbgDHMBI (ORCPT
+        with ESMTP id S1729033AbgDHMBT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 8 Apr 2020 08:01:08 -0400
+        Wed, 8 Apr 2020 08:01:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=kSiif4wtedwpdt50zgS9p2DvMcuq0oyuGm5DAffS2Lc=; b=O5jAerjDMyDSpUBMTA/oevrNio
-        S+TlXAsFGadlEtQRn1K3WEKNHl4L8/5pvGWwOLyvixbzEcvd+/ni+/XU7d+F+gFhv2eHAswYI0p5y
-        3vblTkwNDKub9/GntTSs3x8s7XoXcgKJWPdjELcFB03oSS6bmMLVCycLYwliDuP1T49LyprcML2MU
-        I+lYkcJVsuhyarlTX3/yPf/XwGZTqxWVjwXdtAKHkAKx9VvIp4YlafGpxerk1luAU75O4vT1PQ0f6
-        jtPBngw3NtlCkVbEBYkQYZEyDSVKr4FEj31ywgR/Pkbn4h44juFzKCV/mmP8+2Spa1LpO8PFmgUYF
-        +AaNY5dQ==;
+        bh=+lcZXxZEHGVocLnAtFg5vca+ZcryIgWoBTFv1YYLF4g=; b=pyDdyMNBolOORlttG0Ow8hMuA8
+        buz5EeD0sjSvmJHQdIlYMloXGCUqtH/NgI1zYxqxslpC50LmuKkT2+rHdh9Zy0HSRo06czklbqt1u
+        UonmZgJX7dvVKYYlVmBu45Xwb108cTxn+IssXZhLq7pBnsEYZvMZ9OIGblW7pVBUtl8yETpwacET5
+        O3xVQLQEEVCxAMnU35vpWxF2yaWjY4jp5jnRit6Z6WZEXeSf7gPKmbHzd0MbHP1LjLzICE/Cead+4
+        CF/PVgJQtX89EiknsH5urF9gCmJ0Ccb6at4CUW7p3c8Rf4p2uJG/7FAohqFcDtc7MShP8AYKN+bo/
+        te1inlrQ==;
 Received: from [2001:4bb8:180:5765:65b6:f11e:f109:b151] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jM9Nw-0005cH-PA; Wed, 08 Apr 2020 12:00:49 +0000
+        id 1jM9OC-0005u0-OI; Wed, 08 Apr 2020 12:01:05 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -58,9 +58,9 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
         bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 22/28] mm: remove both instances of __vmalloc_node_flags
-Date:   Wed,  8 Apr 2020 13:59:20 +0200
-Message-Id: <20200408115926.1467567-23-hch@lst.de>
+Subject: [PATCH 27/28] s390: use __vmalloc_node in alloc_vm_stack
+Date:   Wed,  8 Apr 2020 13:59:25 +0200
+Message-Id: <20200408115926.1467567-28-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200408115926.1467567-1-hch@lst.de>
 References: <20200408115926.1467567-1-hch@lst.de>
@@ -72,106 +72,29 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The real version just had a few callers that can open code it and
-remove one layer of indirection.  The nommu stub was public but only
-had a single caller, so remove it and avoid a CONFIG_MMU ifdef in
-vmalloc.h.
+alloc_vm_stack can use a slightly higher level vmalloc function.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- include/linux/vmalloc.h |  9 ---------
- mm/nommu.c              |  3 ++-
- mm/vmalloc.c            | 20 ++++++--------------
- 3 files changed, 8 insertions(+), 24 deletions(-)
+ arch/powerpc/kernel/irq.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index c1b9d6eca05f..4a46d296e70d 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -115,17 +115,8 @@ extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
- 			unsigned long start, unsigned long end, gfp_t gfp_mask,
- 			pgprot_t prot, unsigned long vm_flags, int node,
- 			const void *caller);
--#ifndef CONFIG_MMU
--extern void *__vmalloc_node_flags(unsigned long size, int node, gfp_t flags);
--static inline void *__vmalloc_node_flags_caller(unsigned long size, int node,
--						gfp_t flags, void *caller)
--{
--	return __vmalloc_node_flags(size, node, flags);
--}
--#else
- extern void *__vmalloc_node_flags_caller(unsigned long size,
- 					 int node, gfp_t flags, void *caller);
--#endif
+diff --git a/arch/powerpc/kernel/irq.c b/arch/powerpc/kernel/irq.c
+index a25ed47087ee..4518fb1d6bf4 100644
+--- a/arch/powerpc/kernel/irq.c
++++ b/arch/powerpc/kernel/irq.c
+@@ -735,9 +735,8 @@ void do_IRQ(struct pt_regs *regs)
  
- extern void vfree(const void *addr);
- extern void vfree_atomic(const void *addr);
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 2df549adb22b..9553efa59787 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -150,7 +150,8 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
- }
- EXPORT_SYMBOL(__vmalloc);
- 
--void *__vmalloc_node_flags(unsigned long size, int node, gfp_t flags)
-+void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
-+		void *caller)
+ static void *__init alloc_vm_stack(void)
  {
- 	return __vmalloc(size, flags);
+-	return __vmalloc_node_range(THREAD_SIZE, THREAD_ALIGN, VMALLOC_START,
+-				    VMALLOC_END, THREADINFO_GFP, PAGE_KERNEL,
+-				     0, NUMA_NO_NODE, (void*)_RET_IP_);
++	return __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, THREADINFO_GFP,
++			      NUMA_NO_NODE, (void *)_RET_IP_);
  }
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index de7952959e82..3d59d848ad48 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2566,14 +2566,6 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
- }
- EXPORT_SYMBOL(__vmalloc);
  
--static inline void *__vmalloc_node_flags(unsigned long size,
--					int node, gfp_t flags)
--{
--	return __vmalloc_node(size, 1, flags, node,
--				__builtin_return_address(0));
--}
--
--
- void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
- 				  void *caller)
- {
-@@ -2594,8 +2586,8 @@ void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
-  */
- void *vmalloc(unsigned long size)
- {
--	return __vmalloc_node_flags(size, NUMA_NO_NODE,
--				    GFP_KERNEL);
-+	return __vmalloc_node(size, 1, GFP_KERNEL, NUMA_NO_NODE,
-+				__builtin_return_address(0));
- }
- EXPORT_SYMBOL(vmalloc);
- 
-@@ -2614,8 +2606,8 @@ EXPORT_SYMBOL(vmalloc);
-  */
- void *vzalloc(unsigned long size)
- {
--	return __vmalloc_node_flags(size, NUMA_NO_NODE,
--				GFP_KERNEL | __GFP_ZERO);
-+	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, NUMA_NO_NODE,
-+				__builtin_return_address(0));
- }
- EXPORT_SYMBOL(vzalloc);
- 
-@@ -2670,8 +2662,8 @@ EXPORT_SYMBOL(vmalloc_node);
-  */
- void *vzalloc_node(unsigned long size, int node)
- {
--	return __vmalloc_node_flags(size, node,
--			 GFP_KERNEL | __GFP_ZERO);
-+	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, node,
-+				__builtin_return_address(0));
- }
- EXPORT_SYMBOL(vzalloc_node);
- 
+ static void __init vmap_irqstack_init(void)
 -- 
 2.25.1
 
