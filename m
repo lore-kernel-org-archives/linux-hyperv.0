@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB947C2BA2B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:00:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9E2C2D0EA
+	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9FCD22137B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:00:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABA852166E
+	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Apr 2020 12:01:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oBXgOvfK"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KdDp3pBk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728968AbgDHMAv (ORCPT
+        id S1728984AbgDHMAx (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 8 Apr 2020 08:00:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:49672 "EHLO
+        Wed, 8 Apr 2020 08:00:53 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:50138 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728959AbgDHMAr (ORCPT
+        with ESMTP id S1728979AbgDHMAx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 8 Apr 2020 08:00:47 -0400
+        Wed, 8 Apr 2020 08:00:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=MdI7hYvB8H59wJUy/bDd3DLvQ/Y7NjDPTi/6Y1N+3xo=; b=oBXgOvfKuQ0cA1zrUU+9FZZdxI
-        Tw2KgK/EBdsvvKB2EjRHTs7YasIZU/GkBi/huPTCajO09wg0CGETLLloV0TI7bSWojpyNZ80xZPGK
-        OU3rCXXboUvLt3gNTnCJeKXU7mpUIpXYVvl5ytOz8s5BDpkGD0We5krcZQz4bQrM5quUkr+bNDo4I
-        Rlnv0VI+L4A+73DKzVs8UU733HXGiTIT49e173N8QcGPIX0wnWgmEOEdaMKXq1CBLLLecI3KVygXp
-        Wrg/eTQDDD0S4LhbOVgCFmk4rPX0HsxVFRFpyu3ylRpAgygvSJsww6vi/+a0Vgd1zF7YluEqwwjbW
-        OxqUj4Qw==;
+        bh=qIkaOi9YpNnkEAVP6F2gar58gdp83MyXCs59K6nspBs=; b=KdDp3pBk4+DSwEG0+rXYK/ZlQk
+        LW9cZZ1XU34vImXDe/8Cz4wkoVpF8TYZ0HVS74ywZQ2h2dJVTYSL4rQkyQmbg1TRRLKr4mq4A4b5Y
+        Ca7e2MuhU2roGLWZ5rjZUm9jpGU1AV+pXuEhAMY7UbeRgS1nu1kboGBYygdZa3YULVawoLo693bjw
+        nizcX9QkNm7Vl7Zd5pHm8bc9trFYXna3UVEEwT+bm4X+16sFF6EHwyWfkv+OSCmhQ4CzXIR/P5jVH
+        4+iJydI2V1HgfnDtZNEvEAF3s0CZeVic/ZXV+e8nWILvQb9DP5be3J7rtLFbfl1Uut/MXVFDDf7uj
+        KsvVoaUA==;
 Received: from [2001:4bb8:180:5765:65b6:f11e:f109:b151] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jM9Nc-00055R-Bm; Wed, 08 Apr 2020 12:00:29 +0000
+        id 1jM9Nj-0005ML-NB; Wed, 08 Apr 2020 12:00:37 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -58,9 +58,9 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
         bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 16/28] mm: remove unmap_vmap_area
-Date:   Wed,  8 Apr 2020 13:59:14 +0200
-Message-Id: <20200408115926.1467567-17-hch@lst.de>
+Subject: [PATCH 18/28] mm: enforce that vmap can't map pages executable
+Date:   Wed,  8 Apr 2020 13:59:16 +0200
+Message-Id: <20200408115926.1467567-19-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200408115926.1467567-1-hch@lst.de>
 References: <20200408115926.1467567-1-hch@lst.de>
@@ -72,41 +72,63 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This function just has a single caller, open code it there.
+To help enforcing the W^X protection don't allow remapping existing
+pages as executable.
+
+Based on patch from Peter Zijlstra <peterz@infradead.org>.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- mm/vmalloc.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ arch/x86/include/asm/pgtable_types.h | 6 ++++++
+ include/asm-generic/pgtable.h        | 4 ++++
+ mm/vmalloc.c                         | 2 +-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index 947867f112ea..2e7c442cc618 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -282,6 +282,12 @@ typedef struct pgprot { pgprotval_t pgprot; } pgprot_t;
+ 
+ typedef struct { pgdval_t pgd; } pgd_t;
+ 
++static inline pgprot_t pgprot_nx(pgprot_t prot)
++{
++	return __pgprot(pgprot_val(prot) | _PAGE_NX);
++}
++#define pgprot_nx pgprot_nx
++
+ #ifdef CONFIG_X86_PAE
+ 
+ /*
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 329b8c8ca703..8c5f9c29698b 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -491,6 +491,10 @@ static inline int arch_unmap_one(struct mm_struct *mm,
+ #define flush_tlb_fix_spurious_fault(vma, address) flush_tlb_page(vma, address)
+ #endif
+ 
++#ifndef pgprot_nx
++#define pgprot_nx(prot)	(prot)
++#endif
++
+ #ifndef pgprot_noncached
+ #define pgprot_noncached(prot)	(prot)
+ #endif
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index b0c7cdc8701a..258220b203f1 100644
+index 7356b3f07bd8..334c75251ddb 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
-@@ -1247,14 +1247,6 @@ int unregister_vmap_purge_notifier(struct notifier_block *nb)
- }
- EXPORT_SYMBOL_GPL(unregister_vmap_purge_notifier);
+@@ -2390,7 +2390,7 @@ void *vmap(struct page **pages, unsigned int count,
+ 	if (!area)
+ 		return NULL;
  
--/*
-- * Clear the pagetable entries of a given vmap_area
-- */
--static void unmap_vmap_area(struct vmap_area *va)
--{
--	unmap_kernel_range_noflush(va->va_start, va->va_end - va->va_start);
--}
--
- /*
-  * lazy_max_pages is the maximum amount of virtual address space we gather up
-  * before attempting to purge with a TLB flush.
-@@ -1416,7 +1408,7 @@ static void free_vmap_area_noflush(struct vmap_area *va)
- static void free_unmap_vmap_area(struct vmap_area *va)
- {
- 	flush_cache_vunmap(va->va_start, va->va_end);
--	unmap_vmap_area(va);
-+	unmap_kernel_range_noflush(va->va_start, va->va_end - va->va_start);
- 	if (debug_pagealloc_enabled_static())
- 		flush_tlb_kernel_range(va->va_start, va->va_end);
- 
+-	if (map_kernel_range((unsigned long)area->addr, size, prot,
++	if (map_kernel_range((unsigned long)area->addr, size, pgprot_nx(prot),
+ 			pages) < 0) {
+ 		vunmap(area->addr);
+ 		return NULL;
 -- 
 2.25.1
 
