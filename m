@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E562BC3815B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0302BC2BA19
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:15:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2A302063A
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:15:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1EB020732
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:15:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="efsgNLHp"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="My66LnNv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729733AbgDNNPI (ORCPT
+        id S2502796AbgDNNPZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 09:15:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54962 "EHLO
+        Tue, 14 Apr 2020 09:15:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502750AbgDNNPA (ORCPT
+        with ESMTP id S1729812AbgDNNPY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:15:00 -0400
+        Tue, 14 Apr 2020 09:15:24 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6981EC061A10;
-        Tue, 14 Apr 2020 06:14:59 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC2CBC061A0F;
+        Tue, 14 Apr 2020 06:15:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=tYFsPxnL5Cf0xutooZZA35BzCM3FXJLWimeyQwU4Geo=; b=efsgNLHpIN4Yqr2HXTNKVny1ja
-        RhW54NXX4njkSCMHQvjm7Ifv3W88BOeKN4BVJFdmqKBn+Hq39bpTnIk/9zF+3R7iZ5ADItXTYxs/T
-        GB+rmDWWsKteetqgaAAsSQFaXnWz7cfVUL4O3rb57CERc94sZm33IyCmii25oGkan0JESdDkCtWLD
-        9R7w8VTfPFqpoQoGM/uLMEXjDDeP4lLIFmaRZa0n7fbiJvWGNvpriyAoqbJzAxWzxGDaVIiKp6O9n
-        8UQVzDh4mbS8gOi5U1IUZXQH0by+DSTL/IUiHNEJFj2H1K3Vkwp9Lzn+tMtCKou/z5ti5OwdqIHpa
-        jlEnYuxg==;
+        bh=Kl69HLWQOnE04wC+uxhqbtds0xCIlpZipVtGnO7U4c0=; b=My66LnNvAAIlKiTBNDHFh9YpkC
+        z7lHK2mjnFfvdbpsnhzIplc0igKBHlccUmet+rWTnvHlHq/9jq22ujoAVkc1POdRaH8nAnI1fIf2D
+        iJyGHO+afJtdahjeo02n82UU9FZkVAIG06owOap0CGyAZyLRsI+ffP4OAob2AaVSIv5f9QETNgA+d
+        K0e+2WRQCZGCLar8kb3mgM70BVYScJ+P3YRBXFWyAGGZLEAGHUId6KaJ/FK2SkT4C1OKWx6UN6vlF
+        DZCyomhhIG5he2qHvfEI4S6kujIjTND1odx3bgNjkRIvmtofxAGY9CpJyFJJavsvWxyvTPznzFkjI
+        PnarSU2w==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jOLOl-0006yj-6V; Tue, 14 Apr 2020 13:14:43 +0000
+        id 1jOLOy-0007Ax-40; Tue, 14 Apr 2020 13:14:56 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -61,9 +61,9 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
         bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 15/29] mm: don't return the number of pages from map_kernel_range{,_noflush}
-Date:   Tue, 14 Apr 2020 15:13:34 +0200
-Message-Id: <20200414131348.444715-16-hch@lst.de>
+Subject: [PATCH 19/29] mm: enforce that vmap can't map pages executable
+Date:   Tue, 14 Apr 2020 15:13:38 +0200
+Message-Id: <20200414131348.444715-20-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -75,37 +75,80 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-None of the callers needs the number of pages, and a 0 / -errno return
-value is a lot more intuitive.
+To help enforcing the W^X protection don't allow remapping existing
+pages as executable.
+
+x86 bits from Peter Zijlstra <peterz@infradead.org>,
+arm64 bits from Mark Rutland <mark.rutland@arm.com>.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- mm/vmalloc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/include/asm/pgtable.h     | 3 +++
+ arch/x86/include/asm/pgtable_types.h | 6 ++++++
+ include/asm-generic/pgtable.h        | 4 ++++
+ mm/vmalloc.c                         | 2 +-
+ 4 files changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index 538c85e62f86..47095216d6a8 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -407,6 +407,9 @@ static inline pmd_t pmd_mkdevmap(pmd_t pmd)
+ #define __pgprot_modify(prot,mask,bits) \
+ 	__pgprot((pgprot_val(prot) & ~(mask)) | (bits))
+ 
++#define pgprot_nx(prot) \
++	__pgprot_modify(prot, 0, PTE_PXN)
++
+ /*
+  * Mark the prot value as uncacheable and unbufferable.
+  */
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index 947867f112ea..2e7c442cc618 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -282,6 +282,12 @@ typedef struct pgprot { pgprotval_t pgprot; } pgprot_t;
+ 
+ typedef struct { pgdval_t pgd; } pgd_t;
+ 
++static inline pgprot_t pgprot_nx(pgprot_t prot)
++{
++	return __pgprot(pgprot_val(prot) | _PAGE_NX);
++}
++#define pgprot_nx pgprot_nx
++
+ #ifdef CONFIG_X86_PAE
+ 
+ /*
+diff --git a/include/asm-generic/pgtable.h b/include/asm-generic/pgtable.h
+index 329b8c8ca703..8c5f9c29698b 100644
+--- a/include/asm-generic/pgtable.h
++++ b/include/asm-generic/pgtable.h
+@@ -491,6 +491,10 @@ static inline int arch_unmap_one(struct mm_struct *mm,
+ #define flush_tlb_fix_spurious_fault(vma, address) flush_tlb_page(vma, address)
+ #endif
+ 
++#ifndef pgprot_nx
++#define pgprot_nx(prot)	(prot)
++#endif
++
+ #ifndef pgprot_noncached
+ #define pgprot_noncached(prot)	(prot)
+ #endif
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index a3d810def567..ca8dc5d42580 100644
+index 7356b3f07bd8..334c75251ddb 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
-@@ -249,7 +249,7 @@ static int vmap_p4d_range(pgd_t *pgd, unsigned long addr,
-  * function.
-  *
-  * RETURNS:
-- * The number of pages mapped on success, -errno on failure.
-+ * 0 on success, -errno on failure.
-  */
- int map_kernel_range_noflush(unsigned long addr, unsigned long size,
- 			     pgprot_t prot, struct page **pages)
-@@ -269,7 +269,7 @@ int map_kernel_range_noflush(unsigned long addr, unsigned long size,
- 			return err;
- 	} while (pgd++, addr = next, addr != end);
+@@ -2390,7 +2390,7 @@ void *vmap(struct page **pages, unsigned int count,
+ 	if (!area)
+ 		return NULL;
  
--	return nr;
-+	return 0;
- }
- 
- static int map_kernel_range(unsigned long start, unsigned long size,
+-	if (map_kernel_range((unsigned long)area->addr, size, prot,
++	if (map_kernel_range((unsigned long)area->addr, size, pgprot_nx(prot),
+ 			pages) < 0) {
+ 		vunmap(area->addr);
+ 		return NULL;
 -- 
 2.25.1
 
