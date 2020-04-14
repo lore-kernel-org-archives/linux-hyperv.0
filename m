@@ -2,117 +2,71 @@ Return-Path: <SRS0=Xe0B=56=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE16DC3815B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 15:14:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31057C2BA19
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 15:24:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC6912076B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 15:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586877262;
-	bh=Q8QQg7yBPa9tNsP5I7eOgx8S0usoTULULNj+cyOrLXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=uvxIObPyDxEHs3g/AhRtVJeo0GqbxUYYrhVpreayyGfhY6v8wlbmaWYz+WFnUszRj
-	 RGVqWjw0/hLN++ND5VxpISF0C2OQLJfmQxq47dr5oIQpBIfJ4E/PV0wInpHLf2wAoa
-	 40NA0HvBMhku4oTqaiVl3IrVi1eOGbLoMK0oP7II=
+	by mail.kernel.org (Postfix) with ESMTP id 134F82063A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 15:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437531AbgDNPOS (ORCPT
+        id S2439458AbgDNPXu (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 11:14:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54473 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437681AbgDNPNt (ORCPT
+        Tue, 14 Apr 2020 11:23:50 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:53836 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439435AbgDNPXr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 11:13:49 -0400
-Received: by mail-wm1-f65.google.com with SMTP id h2so13341992wmb.4;
-        Tue, 14 Apr 2020 08:13:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HmBLSR0xc1v+9c640X8yq/gCGBtmZiJRhg2yrai8Uso=;
-        b=D14QHr9SaRvNqJrN7V4ylJqJZJppU9twbzkK/fNI+KX4UE4L+iib2DfQxpN0Kyf9k0
-         0jWxU8/32Xv3x3XlfJ86tDihFLVOxvOlzEi+ZMdwJLITS8dFK0BX1BnSFMbIukqCz67j
-         Ry1D6UKhhWu8p54BC/8irvBUyM3rgmP6+q/b2UJkE1sNp9+K1kUVaK3Hqvzd2UaPuxIZ
-         anSMQsSW2BVe26VRK/LLL2FrqobB6z1ttZtlJECb+JJs28wjdhWhRht82hzPbhtmGZQY
-         R0TVcuvCAw7BpJsD+qr74o0Ega4Th5Rzz6uz0/Q9BGJM7Sc2yzOzFgFMlpPGsGilpct1
-         7zIg==
-X-Gm-Message-State: AGi0PuZzw+k35gwrD6pHLwZlJLjT1GDlWp2uALnwrcBTshm1PN1umiRv
-        3/JHGYY/h+9WzdYhOwjiHQA=
-X-Google-Smtp-Source: APiQypKJS2zs752mK3EmkKLPxDY+LMikzE4AHuLMlZzMU6rlOFHrjCq5D1gZZCfYEUzJLxq6M+CEVA==
-X-Received: by 2002:a7b:c190:: with SMTP id y16mr393464wmi.50.1586877227391;
-        Tue, 14 Apr 2020 08:13:47 -0700 (PDT)
-Received: from debian (44.142.6.51.dyn.plus.net. [51.6.142.44])
-        by smtp.gmail.com with ESMTPSA id t67sm20386094wmg.40.2020.04.14.08.13.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 08:13:46 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 16:13:44 +0100
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Tue, 14 Apr 2020 11:23:47 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1jONPc-0005Mt-9D; Tue, 14 Apr 2020 15:23:44 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, x86@kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laura Abbott <labbott@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Nitin Gupta <ngupta@vflare.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Kelley <mikelley@microsoft.com>,
-        Gao Xiang <xiang@kernel.org>
-Subject: Re: [PATCH 21/29] mm: remove the pgprot argument to __vmalloc
-Message-ID: <20200414151344.zgt2pnq7cjq2bgv6@debian>
-References: <20200414131348.444715-1-hch@lst.de>
- <20200414131348.444715-22-hch@lst.de>
+        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drivers: hv: remove redundant assignment to pointer primary_channel
+Date:   Tue, 14 Apr 2020 16:23:43 +0100
+Message-Id: <20200414152343.243166-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200414131348.444715-22-hch@lst.de>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 03:13:40PM +0200, Christoph Hellwig wrote:
-> The pgprot argument to __vmalloc is always PROT_KERNEL now, so remove
-> it.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com> [hyperv]
-> Acked-by: Gao Xiang <xiang@kernel.org> [erofs]
-> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  arch/x86/hyperv/hv_init.c              |  3 +--
-[...]
-> 
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index 5a4b363ba67b..a3d689dfc745 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -95,8 +95,7 @@ static int hv_cpu_init(unsigned int cpu)
->  	 * not be stopped in the case of CPU offlining and the VM will hang.
->  	 */
->  	if (!*hvp) {
-> -		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO,
-> -				 PAGE_KERNEL);
-> +		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO);
->  	}
+From: Colin Ian King <colin.king@canonical.com>
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
+The pointer primary_channel is being assigned with a value that is never,
+The assignment is redundant and can be removed.
+
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/hv/channel_mgmt.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index ffd7fffa5f83..f7bbb8dc4b0f 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -425,8 +425,6 @@ void hv_process_channel_removal(struct vmbus_channel *channel)
+ 
+ 	if (channel->primary_channel == NULL) {
+ 		list_del(&channel->listentry);
+-
+-		primary_channel = channel;
+ 	} else {
+ 		primary_channel = channel->primary_channel;
+ 		spin_lock_irqsave(&primary_channel->lock, flags);
+-- 
+2.25.1
+
