@@ -2,43 +2,43 @@ Return-Path: <SRS0=Xe0B=56=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6213CC2BB86
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:34:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EAFC2BBC7
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:35:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BBA220575
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:34:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 969E02063A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:35:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TTGzefDl"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xq+K2mzi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732312AbgDNNdq (ORCPT
+        id S1732418AbgDNNfx (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 09:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55058 "EHLO
+        Tue, 14 Apr 2020 09:35:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502812AbgDNNPb (ORCPT
+        with ESMTP id S2502811AbgDNNPb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 14 Apr 2020 09:15:31 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E60EC061A41;
-        Tue, 14 Apr 2020 06:15:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD055C061A10;
+        Tue, 14 Apr 2020 06:15:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=mUi9tON4ej1ewdvxH/Y3Bh1Uu75foZsu5k8BSiOetPw=; b=TTGzefDlxM5zZ7ZI9vyPdQLQWU
-        8Co/GO5oQR1RbAWsucIza4bRrae0VkT1XczDcSY+opQD4yShZXYZRAV+jCBatoQN2iWJNJg6ZlEpN
-        FarRuTpqIjex3XQ+IfsMAaHzeOiiUKLLhCXfmUG8aiVfeq+JILJkmPRUkKAV/p/Jj2aw0kc1QLdWi
-        zRQBCGuk4frwrVFmUY/3lWKXa7u0GfeN2T9xEQBSjZFS8ka3ApgFA9sdsDCbOGIcfjCZWRZV0IUIo
-        M97ON7GyK6vpmBBd4ABS2BnT2HhsQ8xHuc5PX+MV2/FNsVWj/czHgRYmikUpENv48KzYfQFQby5Xc
-        8wfVpKbQ==;
+        bh=J3GKe+LnzmvEZkshr8z32ndR4j0MvDyZMMYBvJP8rpA=; b=Xq+K2mziXAcFNoeIFJDjPsWR53
+        oAquzR/7oWgic8OGSzzRE/7waOx7o8yen0eds5cCBH1Dn9GpzcPQoSIOcDIlZTtktp5R3ZhBgRN5L
+        8THhGnYNdNEtTlDwy/lHgbGULPOA2R3QO0U9Dxt7luDp+VIdZhgs+irFIyr9G57j0gu/fEvay/b/W
+        +2iWha7fJrWw+UJG2tvszEY3ndPnK5fStj7t6SAynZZTXtGSQxv3lQMxmx6ulM6hcJytqKouFn/Z1
+        CFezBjcKxPLVgbWu+/U57fiPEpQdDap+OrwdlO/ThiAOahflGAV/HAtuKETqVF5sUpy47K8OCINE/
+        7CQnrRMA==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jOLPG-0000Nu-Up; Tue, 14 Apr 2020 13:15:15 +0000
+        id 1jOLP0-0007EL-Uw; Tue, 14 Apr 2020 13:14:59 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -60,10 +60,11 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         linux-arch@vger.kernel.org, linux-mm@kvack.org,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 24/29] mm: remove __vmalloc_node_flags_caller
-Date:   Tue, 14 Apr 2020 15:13:43 +0200
-Message-Id: <20200414131348.444715-25-hch@lst.de>
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH 20/29] gpu/drm: remove the powerpc hack in drm_legacy_sg_alloc
+Date:   Tue, 14 Apr 2020 15:13:39 +0200
+Message-Id: <20200414131348.444715-21-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -75,114 +76,51 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Just use __vmalloc_node instead which gets and extra argument.  To be
-able to to use __vmalloc_node in all caller make it available outside
-of vmalloc and implement it in nommu.c.
+The non-cached vmalloc mapping was initially added as a hack for the
+first-gen amigaone platform (6xx/book32s), isn't fully supported
+upstream, and which used the legacy radeon driver together with
+non-coherent DMA. However this only ever worked reliably for DRI .
+
+Remove the hack as it is the last user of __vmalloc passing a page
+protection flag other than PAGE_KERNEL and didn't do anything for
+other platforms with non-coherent DMA.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- include/linux/vmalloc.h |  4 ++--
- kernel/bpf/syscall.c    |  5 ++---
- mm/nommu.c              |  4 ++--
- mm/util.c               |  2 +-
- mm/vmalloc.c            | 10 +---------
- 5 files changed, 8 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/drm_scatter.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index 4a46d296e70d..108f49b47756 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -115,8 +115,8 @@ extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
- 			unsigned long start, unsigned long end, gfp_t gfp_mask,
- 			pgprot_t prot, unsigned long vm_flags, int node,
- 			const void *caller);
--extern void *__vmalloc_node_flags_caller(unsigned long size,
--					 int node, gfp_t flags, void *caller);
-+void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
-+		int node, const void *caller);
+diff --git a/drivers/gpu/drm/drm_scatter.c b/drivers/gpu/drm/drm_scatter.c
+index ca520028b2cb..f4e6184d1877 100644
+--- a/drivers/gpu/drm/drm_scatter.c
++++ b/drivers/gpu/drm/drm_scatter.c
+@@ -43,15 +43,6 @@
  
- extern void vfree(const void *addr);
- extern void vfree_atomic(const void *addr);
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index 64783da34202..48d98ea8fad6 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -299,9 +299,8 @@ static void *__bpf_map_area_alloc(u64 size, int numa_node, bool mmapable)
- 		return vmalloc_user_node_flags(size, numa_node, GFP_KERNEL |
- 					       __GFP_RETRY_MAYFAIL | flags);
- 	}
--	return __vmalloc_node_flags_caller(size, numa_node,
--					   GFP_KERNEL | __GFP_RETRY_MAYFAIL |
--					   flags, __builtin_return_address(0));
-+	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_RETRY_MAYFAIL | flags,
-+			      numa_node, __builtin_return_address(0));
- }
+ #define DEBUG_SCATTER 0
  
- void *bpf_map_area_alloc(u64 size, int numa_node)
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 9553efa59787..81a86cd85893 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -150,8 +150,8 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
- }
- EXPORT_SYMBOL(__vmalloc);
- 
--void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
--		void *caller)
-+void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
-+		int node, const void *caller)
- {
- 	return __vmalloc(size, flags);
- }
-diff --git a/mm/util.c b/mm/util.c
-index 988d11e6c17c..6d5868adbe18 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -580,7 +580,7 @@ void *kvmalloc_node(size_t size, gfp_t flags, int node)
- 	if (ret || size <= PAGE_SIZE)
- 		return ret;
- 
--	return __vmalloc_node_flags_caller(size, node, flags,
-+	return __vmalloc_node(size, 1, flags, node,
- 			__builtin_return_address(0));
- }
- EXPORT_SYMBOL(kvmalloc_node);
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 3d59d848ad48..ae8249ef5821 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2400,8 +2400,6 @@ void *vmap(struct page **pages, unsigned int count,
- }
- EXPORT_SYMBOL(vmap);
- 
--static void *__vmalloc_node(unsigned long size, unsigned long align,
--			    gfp_t gfp_mask, int node, const void *caller);
- static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
- 				 pgprot_t prot, int node)
- {
-@@ -2552,7 +2550,7 @@ EXPORT_SYMBOL_GPL(__vmalloc_node_range);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--static void *__vmalloc_node(unsigned long size, unsigned long align,
-+void *__vmalloc_node(unsigned long size, unsigned long align,
- 			    gfp_t gfp_mask, int node, const void *caller)
- {
- 	return __vmalloc_node_range(size, align, VMALLOC_START, VMALLOC_END,
-@@ -2566,12 +2564,6 @@ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
- }
- EXPORT_SYMBOL(__vmalloc);
- 
--void *__vmalloc_node_flags_caller(unsigned long size, int node, gfp_t flags,
--				  void *caller)
+-static inline void *drm_vmalloc_dma(unsigned long size)
 -{
--	return __vmalloc_node(size, 1, flags, node, caller);
+-#if defined(__powerpc__) && defined(CONFIG_NOT_COHERENT_CACHE)
+-	return __vmalloc(size, GFP_KERNEL, pgprot_noncached_wc(PAGE_KERNEL));
+-#else
+-	return vmalloc_32(size);
+-#endif
 -}
 -
- /**
-  * vmalloc - allocate virtually contiguous memory
-  * @size:    allocation size
+ static void drm_sg_cleanup(struct drm_sg_mem * entry)
+ {
+ 	struct page *page;
+@@ -126,7 +117,7 @@ int drm_legacy_sg_alloc(struct drm_device *dev, void *data,
+ 		return -ENOMEM;
+ 	}
+ 
+-	entry->virtual = drm_vmalloc_dma(pages << PAGE_SHIFT);
++	entry->virtual = vmalloc_32(pages << PAGE_SHIFT);
+ 	if (!entry->virtual) {
+ 		kfree(entry->busaddr);
+ 		kfree(entry->pagelist);
 -- 
 2.25.1
 
