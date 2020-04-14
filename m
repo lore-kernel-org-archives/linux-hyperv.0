@@ -4,41 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82218C2BBC7
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AADB2C2BA19
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 611F0206A2
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82ED920732
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PRCCz3nC"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="edMRw8ll"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502672AbgDNNO1 (ORCPT
+        id S2502713AbgDNNOr (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 09:14:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54816 "EHLO
+        Tue, 14 Apr 2020 09:14:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502663AbgDNNOP (ORCPT
+        with ESMTP id S2502708AbgDNNOo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:14:15 -0400
+        Tue, 14 Apr 2020 09:14:44 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9080C061A0F;
-        Tue, 14 Apr 2020 06:14:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E9CC061A0F;
+        Tue, 14 Apr 2020 06:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=GwszGm7Al4JduoLxnut+TJvO0twqVDo/ztNQfK38N4k=; b=PRCCz3nCkFIexjpScpfc+3tCyX
-        35HuTa0DT1QZFoy55f6DYifah6KF22KulR1UnIvJvZ5R/Ro+LtMk0ObedFz/NVrmEYYS8YO6STYnf
-        AtNUcDHKuAP4eEC0QcNFoYeyB814s9v67or4SYvxh/qcJzQO6NVNYo0QW6gU9cZFYRk68SmOyZl7o
-        k4/FB4V8w3S/T8r3qCuu8DsV3UTjufxhfMBFjZQIiBGOiBnZaQ+hux0pI4n8oEy5AxDXgS/P06U9Q
-        G0D03q6EnJn80QoN/lB/GmOwmFdHqDLyBFhBZDpgBO6P+NYTbljFEEWFEbPeVOVOrfP7ynq8REEr1
-        s4wv01kw==;
+        bh=uQqCBWgeXPC9MRe923rq3Wbeap6XWEEy0ebXrAKkJzU=; b=edMRw8ll88Tb2qmbq9YycGwZPJ
+        BfKAAsx2dP0Up2jnYzxtRC2oZHpgLTewpDGQXgnCmeksOcsAevFJxXFWamcSwz/2MDzAoYhx0cSUN
+        zNA6uIFvUrl2ulzNQllUJevcnLQHohvn9gpsxxpNUN/hEBA2uIMPVCa5tAZdek+Q2l9DmZnavFcB8
+        NFYDyzvmc9GA3pb+uHjQ82tFPUOn3c4QnnKUeQXLaDnWs8QOeSMD0n4lhmwQ2LzVp35D/TrGXVrQG
+        vezJNSfXPLHbPKcOZw8ye7Vzfr99/JmcggO2IigkPSlICo5RdsLs0Mua0dcb0fba8ExbtnEDAUitO
+        XjO/OmXA==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jOLO0-0006Fi-N0; Tue, 14 Apr 2020 13:13:57 +0000
+        id 1jOLOK-0006VK-3Z; Tue, 14 Apr 2020 13:14:16 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -60,11 +60,10 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         linux-arch@vger.kernel.org, linux-mm@kvack.org,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH 01/29] x86/hyperv: use vmalloc_exec for the hypercall page
-Date:   Tue, 14 Apr 2020 15:13:20 +0200
-Message-Id: <20200414131348.444715-2-hch@lst.de>
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 07/29] powerpc: remove __ioremap_at and __iounmap_at
+Date:   Tue, 14 Apr 2020 15:13:26 +0200
+Message-Id: <20200414131348.444715-8-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -76,51 +75,178 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Use the designated helper for allocating executable kernel memory, and
-remove the now unused PAGE_KERNEL_RX define.
+These helpers are only used for remapping the ISA I/O base.  Replace
+the mapping side with a remap_isa_range helper in isa-bridge.c that
+hard codes all the known arguments, and just remove __iounmap_at in
+favour of open coding it in the only caller.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Acked-by: Wei Liu <wei.liu@kernel.org>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/hyperv/hv_init.c            | 2 +-
- arch/x86/include/asm/pgtable_types.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ arch/powerpc/include/asm/io.h    |  8 -----
+ arch/powerpc/kernel/isa-bridge.c | 28 +++++++++++++-----
+ arch/powerpc/mm/ioremap_64.c     | 50 --------------------------------
+ 3 files changed, 21 insertions(+), 65 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index b0da5320bcff..5a4b363ba67b 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -355,7 +355,7 @@ void __init hyperv_init(void)
- 	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
- 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, guest_id);
+diff --git a/arch/powerpc/include/asm/io.h b/arch/powerpc/include/asm/io.h
+index 91320985d33f..13f90dd03450 100644
+--- a/arch/powerpc/include/asm/io.h
++++ b/arch/powerpc/include/asm/io.h
+@@ -699,10 +699,6 @@ static inline void iosync(void)
+  *
+  * * iounmap undoes such a mapping and can be hooked
+  *
+- * * __ioremap_at (and the pending __iounmap_at) are low level functions to
+- *   create hand-made mappings for use only by the PCI code and cannot
+- *   currently be hooked. Must be page aligned.
+- *
+  * * __ioremap_caller is the same as above but takes an explicit caller
+  *   reference rather than using __builtin_return_address(0)
+  *
+@@ -729,10 +725,6 @@ void __iomem *do_ioremap(phys_addr_t pa, phys_addr_t offset, unsigned long size,
+ extern void __iomem *__ioremap_caller(phys_addr_t, unsigned long size,
+ 				      pgprot_t prot, void *caller);
  
--	hv_hypercall_pg  = __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL_RX);
-+	hv_hypercall_pg = vmalloc_exec(PAGE_SIZE);
- 	if (hv_hypercall_pg == NULL) {
- 		wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
- 		goto remove_cpuhp_state;
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index b6606fe6cfdf..947867f112ea 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -194,7 +194,6 @@ enum page_cache_mode {
- #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
- #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
- #define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
--#define __PAGE_KERNEL_RX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
- #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
- #define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
- #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
-@@ -220,7 +219,6 @@ enum page_cache_mode {
- #define PAGE_KERNEL_RO		__pgprot_mask(__PAGE_KERNEL_RO         | _ENC)
- #define PAGE_KERNEL_EXEC	__pgprot_mask(__PAGE_KERNEL_EXEC       | _ENC)
- #define PAGE_KERNEL_EXEC_NOENC	__pgprot_mask(__PAGE_KERNEL_EXEC       |    0)
--#define PAGE_KERNEL_RX		__pgprot_mask(__PAGE_KERNEL_RX         | _ENC)
- #define PAGE_KERNEL_NOCACHE	__pgprot_mask(__PAGE_KERNEL_NOCACHE    | _ENC)
- #define PAGE_KERNEL_LARGE	__pgprot_mask(__PAGE_KERNEL_LARGE      | _ENC)
- #define PAGE_KERNEL_LARGE_EXEC	__pgprot_mask(__PAGE_KERNEL_LARGE_EXEC | _ENC)
+-extern void __iomem * __ioremap_at(phys_addr_t pa, void *ea,
+-				   unsigned long size, pgprot_t prot);
+-extern void __iounmap_at(void *ea, unsigned long size);
+-
+ /*
+  * When CONFIG_PPC_INDIRECT_PIO is set, we use the generic iomap implementation
+  * which needs some additional definitions here. They basically allow PIO
+diff --git a/arch/powerpc/kernel/isa-bridge.c b/arch/powerpc/kernel/isa-bridge.c
+index 773671b512df..2257d24e6a26 100644
+--- a/arch/powerpc/kernel/isa-bridge.c
++++ b/arch/powerpc/kernel/isa-bridge.c
+@@ -18,6 +18,7 @@
+ #include <linux/init.h>
+ #include <linux/mm.h>
+ #include <linux/notifier.h>
++#include <linux/vmalloc.h>
+ 
+ #include <asm/processor.h>
+ #include <asm/io.h>
+@@ -38,6 +39,22 @@ EXPORT_SYMBOL_GPL(isa_bridge_pcidev);
+ #define ISA_SPACE_MASK 0x1
+ #define ISA_SPACE_IO 0x1
+ 
++static void remap_isa_base(phys_addr_t pa, unsigned long size)
++{
++	WARN_ON_ONCE(ISA_IO_BASE & ~PAGE_MASK);
++	WARN_ON_ONCE(pa & ~PAGE_MASK);
++	WARN_ON_ONCE(size & ~PAGE_MASK);
++
++	if (slab_is_available()) {
++		if (ioremap_page_range(ISA_IO_BASE, ISA_IO_BASE + size, pa,
++				pgprot_noncached(PAGE_KERNEL)))
++			unmap_kernel_range(ISA_IO_BASE, size);
++	} else {
++		early_ioremap_range(ISA_IO_BASE, pa, size,
++				pgprot_noncached(PAGE_KERNEL));
++	}
++}
++
+ static void pci_process_ISA_OF_ranges(struct device_node *isa_node,
+ 				      unsigned long phb_io_base_phys)
+ {
+@@ -105,15 +122,13 @@ static void pci_process_ISA_OF_ranges(struct device_node *isa_node,
+ 	if (size > 0x10000)
+ 		size = 0x10000;
+ 
+-	__ioremap_at(phb_io_base_phys, (void *)ISA_IO_BASE,
+-		     size, pgprot_noncached(PAGE_KERNEL));
++	remap_isa_base(phb_io_base_phys, size);
+ 	return;
+ 
+ inval_range:
+ 	printk(KERN_ERR "no ISA IO ranges or unexpected isa range, "
+ 	       "mapping 64k\n");
+-	__ioremap_at(phb_io_base_phys, (void *)ISA_IO_BASE,
+-		     0x10000, pgprot_noncached(PAGE_KERNEL));
++	remap_isa_base(phb_io_base_phys, 0x10000);
+ }
+ 
+ 
+@@ -248,8 +263,7 @@ void __init isa_bridge_init_non_pci(struct device_node *np)
+ 	 * and map it
+ 	 */
+ 	isa_io_base = ISA_IO_BASE;
+-	__ioremap_at(pbase, (void *)ISA_IO_BASE,
+-		     size, pgprot_noncached(PAGE_KERNEL));
++	remap_isa_base(pbase, size);
+ 
+ 	pr_debug("ISA: Non-PCI bridge is %pOF\n", np);
+ }
+@@ -297,7 +311,7 @@ static void isa_bridge_remove(void)
+ 	isa_bridge_pcidev = NULL;
+ 
+ 	/* Unmap the ISA area */
+-	__iounmap_at((void *)ISA_IO_BASE, 0x10000);
++	unmap_kernel_range(ISA_IO_BASE, 0x10000);
+ }
+ 
+ /**
+diff --git a/arch/powerpc/mm/ioremap_64.c b/arch/powerpc/mm/ioremap_64.c
+index 50a99d9684f7..ba5cbb0d66bd 100644
+--- a/arch/powerpc/mm/ioremap_64.c
++++ b/arch/powerpc/mm/ioremap_64.c
+@@ -4,56 +4,6 @@
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ 
+-/**
+- * Low level function to establish the page tables for an IO mapping
+- */
+-void __iomem *__ioremap_at(phys_addr_t pa, void *ea, unsigned long size, pgprot_t prot)
+-{
+-	int ret;
+-	unsigned long va = (unsigned long)ea;
+-
+-	/* We don't support the 4K PFN hack with ioremap */
+-	if (pgprot_val(prot) & H_PAGE_4K_PFN)
+-		return NULL;
+-
+-	if ((ea + size) >= (void *)IOREMAP_END) {
+-		pr_warn("Outside the supported range\n");
+-		return NULL;
+-	}
+-
+-	WARN_ON(pa & ~PAGE_MASK);
+-	WARN_ON(((unsigned long)ea) & ~PAGE_MASK);
+-	WARN_ON(size & ~PAGE_MASK);
+-
+-	if (slab_is_available()) {
+-		ret = ioremap_page_range(va, va + size, pa, prot);
+-		if (ret)
+-			unmap_kernel_range(va, size);
+-	} else {
+-		ret = early_ioremap_range(va, pa, size, prot);
+-	}
+-
+-	if (ret)
+-		return NULL;
+-
+-	return (void __iomem *)ea;
+-}
+-EXPORT_SYMBOL(__ioremap_at);
+-
+-/**
+- * Low level function to tear down the page tables for an IO mapping. This is
+- * used for mappings that are manipulated manually, like partial unmapping of
+- * PCI IOs or ISA space.
+- */
+-void __iounmap_at(void *ea, unsigned long size)
+-{
+-	WARN_ON(((unsigned long)ea) & ~PAGE_MASK);
+-	WARN_ON(size & ~PAGE_MASK);
+-
+-	unmap_kernel_range((unsigned long)ea, size);
+-}
+-EXPORT_SYMBOL(__iounmap_at);
+-
+ void __iomem *__ioremap_caller(phys_addr_t addr, unsigned long size,
+ 			       pgprot_t prot, void *caller)
+ {
 -- 
 2.25.1
 
