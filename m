@@ -7,38 +7,38 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E851C3815B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55285C2BB86
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5462A2076D
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 339C720768
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DI14kD1X"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m99mv6+L"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502717AbgDNNOr (ORCPT
+        id S2502735AbgDNNO5 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 09:14:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54910 "EHLO
+        Tue, 14 Apr 2020 09:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502712AbgDNNOp (ORCPT
+        with ESMTP id S2502731AbgDNNOx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:14:45 -0400
+        Tue, 14 Apr 2020 09:14:53 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 863FEC061A0C;
-        Tue, 14 Apr 2020 06:14:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EECC061A10;
+        Tue, 14 Apr 2020 06:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=mANdo6j2epctno1InF04j4Dw77xmPp8h8wAaCdRF8Vw=; b=DI14kD1XeS0W5KhA0t6BAHp3rd
-        S0XmRj6BN9qLSnyQW4BWceI286H+sdL6l5wXQlp/PagEahqNQoc/Vte3z0dkmoN7WyC3QSq5Nos84
-        1U7uvNkXXTqwdBB+sCYnGPpQyVchL29JLw12DGWfGNnoC2a1smEJ/BbCn+9fMvEZQqpo4LGRxbyRi
-        q3g7FqT9277low0bB3O+WlMpXc/HBUbKaqELKnzXOdaelj3NHsFnhWBELU6D3sN43uGKnUsH35Fcl
-        69oCltdRCL44kh1m43h+mvk3bQT0DCP+qBXhKFALQJtSDK19n3cB04OZpdAgN00ZPPjcchQ1N/Gd9
-        4u8hovcQ==;
+        bh=kDWxNR99BXM0mYvZJ8aft2fdXgy+jyVb2k5m2hDhDIg=; b=m99mv6+L6NEGc5NsA05meTZ7J4
+        pET4ii0TRtjQCrdWlxaL+Z3i+1UptXtFxQGlSdBzQ21ohBGQEpsm2M9Vft9jJlWjOu19cVSMmyEje
+        0W2E7OvYWUFCIVLO80Sg9o0BZPGaQA1gW/JQLBqCnSWgvbRsrUncgPC43+OGZ32lMwtrlOJABgpmP
+        dr9dO3PUdumoeIRhWb8CKqgTbCH+YaovAGUKzCjWGK+2U4vCn6pUJZSRIvNXmAxIaRcb8mHUrLnCb
+        kt1YUre6HJ0Ez+Ip2qdE7zqvvZHdZOwfghfirz0wiudpSSYO5JMcU+7yljHPY3nC7FtZMX6hoowY6
+        r5y6QnkA==;
 Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jOLOU-0006eH-Ny; Tue, 14 Apr 2020 13:14:27 +0000
+        id 1jOLOb-0006lI-8l; Tue, 14 Apr 2020 13:14:33 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -61,9 +61,9 @@ Cc:     Robin Murphy <robin.murphy@arm.com>,
         iommu@lists.linux-foundation.org,
         linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
         bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 10/29] mm: rename CONFIG_PGTABLE_MAPPING to CONFIG_ZSMALLOC_PGTABLE_MAPPING
-Date:   Tue, 14 Apr 2020 15:13:29 +0200
-Message-Id: <20200414131348.444715-11-hch@lst.de>
+Subject: [PATCH 12/29] mm: pass addr as unsigned long to vb_free
+Date:   Tue, 14 Apr 2020 15:13:31 +0200
+Message-Id: <20200414131348.444715-13-hch@lst.de>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200414131348.444715-1-hch@lst.de>
 References: <20200414131348.444715-1-hch@lst.de>
@@ -75,97 +75,68 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Rename the Kconfig variable to clarify the scope.
+Ever use of addr in vb_free casts to unsigned long first, and the caller
+has an unsigned long version of the address available anyway.  Just pass
+that and avoid all the casts.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Minchan Kim <minchan@kernel.org>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/arm/configs/omap2plus_defconfig | 2 +-
- include/linux/zsmalloc.h             | 2 +-
- mm/Kconfig                           | 2 +-
- mm/zsmalloc.c                        | 8 ++++----
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ mm/vmalloc.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 3cc3ca5fa027..583d8abd80a4 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -81,7 +81,7 @@ CONFIG_PARTITION_ADVANCED=y
- CONFIG_BINFMT_MISC=y
- CONFIG_CMA=y
- CONFIG_ZSMALLOC=m
--CONFIG_PGTABLE_MAPPING=y
-+CONFIG_ZSMALLOC_PGTABLE_MAPPING=y
- CONFIG_NET=y
- CONFIG_PACKET=y
- CONFIG_UNIX=y
-diff --git a/include/linux/zsmalloc.h b/include/linux/zsmalloc.h
-index 2219cce81ca4..0fdbf653b173 100644
---- a/include/linux/zsmalloc.h
-+++ b/include/linux/zsmalloc.h
-@@ -20,7 +20,7 @@
-  * zsmalloc mapping modes
-  *
-  * NOTE: These only make a difference when a mapped object spans pages.
-- * They also have no effect when PGTABLE_MAPPING is selected.
-+ * They also have no effect when ZSMALLOC_PGTABLE_MAPPING is selected.
-  */
- enum zs_mapmode {
- 	ZS_MM_RW, /* normal read-write mapping */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index c1acc34c1c35..09a9edfb8461 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -705,7 +705,7 @@ config ZSMALLOC
- 	  returned by an alloc().  This handle must be mapped in order to
- 	  access the allocated space.
- 
--config PGTABLE_MAPPING
-+config ZSMALLOC_PGTABLE_MAPPING
- 	bool "Use page table mapping to access object in zsmalloc"
- 	depends on ZSMALLOC
- 	help
-diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
-index 2f836a2b993f..ac0524330b9b 100644
---- a/mm/zsmalloc.c
-+++ b/mm/zsmalloc.c
-@@ -293,7 +293,7 @@ struct zspage {
- };
- 
- struct mapping_area {
--#ifdef CONFIG_PGTABLE_MAPPING
-+#ifdef CONFIG_ZSMALLOC_PGTABLE_MAPPING
- 	struct vm_struct *vm; /* vm area for mapping object that span pages */
- #else
- 	char *vm_buf; /* copy buffer for objects that span pages */
-@@ -1113,7 +1113,7 @@ static struct zspage *find_get_zspage(struct size_class *class)
- 	return zspage;
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 9183fc0d365a..aada9e9144bd 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -1664,7 +1664,7 @@ static void *vb_alloc(unsigned long size, gfp_t gfp_mask)
+ 	return vaddr;
  }
  
--#ifdef CONFIG_PGTABLE_MAPPING
-+#ifdef CONFIG_ZSMALLOC_PGTABLE_MAPPING
- static inline int __zs_cpu_up(struct mapping_area *area)
+-static void vb_free(const void *addr, unsigned long size)
++static void vb_free(unsigned long addr, unsigned long size)
  {
- 	/*
-@@ -1151,7 +1151,7 @@ static inline void __zs_unmap_object(struct mapping_area *area,
- 	unmap_kernel_range(addr, PAGE_SIZE * 2);
- }
+ 	unsigned long offset;
+ 	unsigned long vb_idx;
+@@ -1674,24 +1674,22 @@ static void vb_free(const void *addr, unsigned long size)
+ 	BUG_ON(offset_in_page(size));
+ 	BUG_ON(size > PAGE_SIZE*VMAP_MAX_ALLOC);
  
--#else /* CONFIG_PGTABLE_MAPPING */
-+#else /* CONFIG_ZSMALLOC_PGTABLE_MAPPING */
+-	flush_cache_vunmap((unsigned long)addr, (unsigned long)addr + size);
++	flush_cache_vunmap(addr, addr + size);
  
- static inline int __zs_cpu_up(struct mapping_area *area)
- {
-@@ -1233,7 +1233,7 @@ static void __zs_unmap_object(struct mapping_area *area,
- 	pagefault_enable();
- }
+ 	order = get_order(size);
  
--#endif /* CONFIG_PGTABLE_MAPPING */
-+#endif /* CONFIG_ZSMALLOC_PGTABLE_MAPPING */
+-	offset = (unsigned long)addr & (VMAP_BLOCK_SIZE - 1);
+-	offset >>= PAGE_SHIFT;
++	offset = (addr & (VMAP_BLOCK_SIZE - 1)) >> PAGE_SHIFT;
  
- static int zs_cpu_prepare(unsigned int cpu)
- {
+-	vb_idx = addr_to_vb_idx((unsigned long)addr);
++	vb_idx = addr_to_vb_idx(addr);
+ 	rcu_read_lock();
+ 	vb = radix_tree_lookup(&vmap_block_tree, vb_idx);
+ 	rcu_read_unlock();
+ 	BUG_ON(!vb);
+ 
+-	vunmap_page_range((unsigned long)addr, (unsigned long)addr + size);
++	vunmap_page_range(addr, addr + size);
+ 
+ 	if (debug_pagealloc_enabled_static())
+-		flush_tlb_kernel_range((unsigned long)addr,
+-					(unsigned long)addr + size);
++		flush_tlb_kernel_range(addr, addr + size);
+ 
+ 	spin_lock(&vb->lock);
+ 
+@@ -1791,7 +1789,7 @@ void vm_unmap_ram(const void *mem, unsigned int count)
+ 
+ 	if (likely(count <= VMAP_MAX_ALLOC)) {
+ 		debug_check_no_locks_freed(mem, size);
+-		vb_free(mem, size);
++		vb_free(addr, size);
+ 		return;
+ 	}
+ 
 -- 
 2.25.1
 
