@@ -2,118 +2,125 @@ Return-Path: <SRS0=Xe0B=56=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 198E0C2BA19
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 10:24:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82218C2BBC7
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2C3720656
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 10:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586859874;
-	bh=3R4LkW9m++BkyWApJ1YSbZWdvAzxY45mlsMH09crBBM=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=BsMrWXRN2cuPMgG/vPgKjO7b/PNlOmMsuJncXDhrvMADkoXuLovhDZ/tFD5g6Ao2M
-	 Qc4ZbMW+a+/G8F1v/0UQHtywadzHBmg3q4T5ByFxb+k5eoW4lmQ0dk7j8dMehFPlI7
-	 B5xF8g8HIXIDvE1CG2eFqn+J3XF32xE0yNCE+px4=
+	by mail.kernel.org (Postfix) with ESMTP id 611F0206A2
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 13:14:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PRCCz3nC"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438295AbgDNKYS (ORCPT
+        id S2502672AbgDNNO1 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 06:24:18 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45635 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438287AbgDNKVV (ORCPT
+        Tue, 14 Apr 2020 09:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502663AbgDNNOP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 06:21:21 -0400
-Received: by mail-wr1-f65.google.com with SMTP id t14so435278wrw.12;
-        Tue, 14 Apr 2020 03:21:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=EYaPeiECDQ5ZXShj8p9XCOhGGkLuneAOUv8e9e/QTQQ=;
-        b=BXtTxS6Nh9AGjbv+xl5m6pltKvjPF5MhpJyV1UeseGEI/3AHg1SbjFEAJPQkYpH/e+
-         BpVlbG7cEeX/35AMpXYA0cXNHEcpp31zKtJJOrlFVhYYNB3gJoknc2whOpbMj1MYkboM
-         46nFM2olpVR8VbTH8/LfUQDxDhSW7/p8DIYkO191Jhvbjx/jGxD8E3ADjVWsLN3VbB0L
-         +e1VU9+4OU+CFpfgN35AWFitjrjgEIPP6ShTFolWQQtNbqXAr+J+3F27WOWnP6KLaWBq
-         SZ41OVXt2S/3+rrmSfKR2Azdxh2Ao5UsQZ2ZlCZ4x5iShADVesNsmVmM2XxgfQmn8ZSH
-         FWXA==
-X-Gm-Message-State: AGi0PuYqkrFEOMhwiA4h3McYK0tM57tlSLOH0syLHo/SZ/Qscq3ntRhy
-        OW1f/n/0Z/F9anFIMi4xVfg=
-X-Google-Smtp-Source: APiQypJfL641U3oiX9dTXxf/ghp8OKYDWYbORn6FwzR3xNZYsyAebrfet+aQW3p3qkLc/MCFbrsuHA==
-X-Received: by 2002:a5d:6584:: with SMTP id q4mr11223043wru.403.1586859664926;
-        Tue, 14 Apr 2020 03:21:04 -0700 (PDT)
-Received: from debian (44.142.6.51.dyn.plus.net. [51.6.142.44])
-        by smtp.gmail.com with ESMTPSA id t16sm17621540wmi.27.2020.04.14.03.21.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 03:21:04 -0700 (PDT)
-Date:   Tue, 14 Apr 2020 11:21:02 +0100
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
-        sthemmin@microsoft.com, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
-        haiyangz@microsoft.com
-Subject: [GIT PULL] Hyper-V fixes for 5.7-rc1
-Message-ID: <20200414102102.7jci4pzsp5tdoifr@debian>
+        Tue, 14 Apr 2020 09:14:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9080C061A0F;
+        Tue, 14 Apr 2020 06:14:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=GwszGm7Al4JduoLxnut+TJvO0twqVDo/ztNQfK38N4k=; b=PRCCz3nCkFIexjpScpfc+3tCyX
+        35HuTa0DT1QZFoy55f6DYifah6KF22KulR1UnIvJvZ5R/Ro+LtMk0ObedFz/NVrmEYYS8YO6STYnf
+        AtNUcDHKuAP4eEC0QcNFoYeyB814s9v67or4SYvxh/qcJzQO6NVNYo0QW6gU9cZFYRk68SmOyZl7o
+        k4/FB4V8w3S/T8r3qCuu8DsV3UTjufxhfMBFjZQIiBGOiBnZaQ+hux0pI4n8oEy5AxDXgS/P06U9Q
+        G0D03q6EnJn80QoN/lB/GmOwmFdHqDLyBFhBZDpgBO6P+NYTbljFEEWFEbPeVOVOrfP7ynq8REEr1
+        s4wv01kw==;
+Received: from [2001:4bb8:180:384b:c70:4a89:bc61:2] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jOLO0-0006Fi-N0; Tue, 14 Apr 2020 13:13:57 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, x86@kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laura Abbott <labbott@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Nitin Gupta <ngupta@vflare.org>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        iommu@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: [PATCH 01/29] x86/hyperv: use vmalloc_exec for the hypercall page
+Date:   Tue, 14 Apr 2020 15:13:20 +0200
+Message-Id: <20200414131348.444715-2-hch@lst.de>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200414131348.444715-1-hch@lst.de>
+References: <20200414131348.444715-1-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Linus,
+Use the designated helper for allocating executable kernel memory, and
+remove the now unused PAGE_KERNEL_RX define.
 
-Please pull from the tag hyperv-fixes-signed for the first batch of
-Hyper-V fixes for 5.7-rc.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Acked-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ arch/x86/hyperv/hv_init.c            | 2 +-
+ arch/x86/include/asm/pgtable_types.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-The following changes since commit fb33c6510d5595144d585aa194d377cf74d31911:
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index b0da5320bcff..5a4b363ba67b 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -355,7 +355,7 @@ void __init hyperv_init(void)
+ 	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
+ 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, guest_id);
+ 
+-	hv_hypercall_pg  = __vmalloc(PAGE_SIZE, GFP_KERNEL, PAGE_KERNEL_RX);
++	hv_hypercall_pg = vmalloc_exec(PAGE_SIZE);
+ 	if (hv_hypercall_pg == NULL) {
+ 		wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
+ 		goto remove_cpuhp_state;
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index b6606fe6cfdf..947867f112ea 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -194,7 +194,6 @@ enum page_cache_mode {
+ #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
+ #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
+ #define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
+-#define __PAGE_KERNEL_RX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
+ #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
+ #define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
+ #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
+@@ -220,7 +219,6 @@ enum page_cache_mode {
+ #define PAGE_KERNEL_RO		__pgprot_mask(__PAGE_KERNEL_RO         | _ENC)
+ #define PAGE_KERNEL_EXEC	__pgprot_mask(__PAGE_KERNEL_EXEC       | _ENC)
+ #define PAGE_KERNEL_EXEC_NOENC	__pgprot_mask(__PAGE_KERNEL_EXEC       |    0)
+-#define PAGE_KERNEL_RX		__pgprot_mask(__PAGE_KERNEL_RX         | _ENC)
+ #define PAGE_KERNEL_NOCACHE	__pgprot_mask(__PAGE_KERNEL_NOCACHE    | _ENC)
+ #define PAGE_KERNEL_LARGE	__pgprot_mask(__PAGE_KERNEL_LARGE      | _ENC)
+ #define PAGE_KERNEL_LARGE_EXEC	__pgprot_mask(__PAGE_KERNEL_LARGE_EXEC | _ENC)
+-- 
+2.25.1
 
-  Linux 5.6-rc6 (2020-03-15 15:01:23 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
-
-for you to fetch changes up to f3a99e761efa616028b255b4de58e9b5b87c5545:
-
-  x86/Hyper-V: Report crash data in die() when panic_on_oops is set (2020-04-11 17:19:07 +0100)
-
-----------------------------------------------------------------
-hyperv-fixes for 5.7-rc1
-
-  - Patch series from Tianyu Lan to fix crash reporting on Hyper-V
-  - Three miscellaneous cleanup patches
-
-----------------------------------------------------------------
-Gustavo A. R. Silva (1):
-      hv: hyperv_vmbus.h: Replace zero-length array with flexible-array member
-
-Olaf Hering (1):
-      x86: hyperv: report value of misc_features
-
-Tianyu Lan (6):
-      x86/Hyper-V: Unload vmbus channel in hv panic callback
-      x86/Hyper-V: Free hv_panic_page when fail to register kmsg dump
-      x86/Hyper-V: Trigger crash enlightenment only once during system crash.
-      x86/Hyper-V: Report crash register data or kmsg before running crash kernel
-      x86/Hyper-V: Report crash register data when sysctl_record_panic_msg is not set
-      x86/Hyper-V: Report crash data in die() when panic_on_oops is set
-
-YueHaibing (1):
-      hv_debugfs: Make hv_debug_root static
-
- arch/x86/hyperv/hv_init.c      |  6 +++-
- arch/x86/kernel/cpu/mshyperv.c | 14 ++++++++--
- drivers/hv/channel_mgmt.c      |  3 ++
- drivers/hv/hv_debugfs.c        |  2 +-
- drivers/hv/hyperv_vmbus.h      |  2 +-
- drivers/hv/vmbus_drv.c         | 62 ++++++++++++++++++++++++++++++------------
- include/asm-generic/mshyperv.h |  2 +-
- 7 files changed, 67 insertions(+), 24 deletions(-)
