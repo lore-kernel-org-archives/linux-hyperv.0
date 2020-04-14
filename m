@@ -2,71 +2,92 @@ Return-Path: <SRS0=Xe0B=56=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D8CC2BB1D
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 19:27:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 585B3C352BE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 20:18:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 50CF52074D
-	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 19:27:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FCBF206E9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 14 Apr 2020 20:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1586892430;
-	bh=HMUCX6aWm71uge2BoPhYzk7fH+SUIkv3Ru9XRaQuLNU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=hJlqTT3kDAYcDhyINO8n8vinYtXR1EiJf/E/uW9/fwA6mW1dZUFvn6eYyYW06SwPV
-	 aveCiXF0DOV1xSY7XsdqruoSwLhWD6leYe5oOGvxQCIBTy5cZ2xTX1NzrhU7S10Zig
-	 jf0s+bDv/7AegiSBJK1LjP54lKE4s8piBqi9LPbo=
+	s=default; t=1586895527;
+	bh=es7UZcs6U7qjwp1MVb2MYyfcItfJMPKc5QpxSzQhGyY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Wat7mYM8CeMXaK7+9MNYhmz+lYzVNjE17jpr7HvL2kUnId9WJg2qyl9qCcddGtgXL
+	 A1z54N6dXO/IV4lmkEpGqSFBThjjqTDUgAG0JaI0yzS5Wr74Aog0+IjdH09wdOjMzV
+	 obElzI2QYxh/0srfabe9+yjr4T4ivMTFpCnb9+X8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504642AbgDNTY3 (ORCPT
+        id S2632986AbgDNUSq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 14 Apr 2020 15:24:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33968 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2504621AbgDNTYU (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 14 Apr 2020 15:24:20 -0400
-Subject: Re: [GIT PULL] Hyper-V fixes for 5.7-rc1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586891122;
-        bh=HMUCX6aWm71uge2BoPhYzk7fH+SUIkv3Ru9XRaQuLNU=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=z2Am7yZ9Y6qIZ+x31ILB+uyNWwcbIcSyLo9IF0AyGIWnM7Dh28PMl4sErQo+wDe95
-         0zWy1rp1oOAyF2hpudVmADjltiEqcmThWlQVOfvS66ktyD3pbV+3nXdTAnMdu3l2wp
-         1qQ8Ntaf6PiCB/Tu5J+iiBBgFWTiwGout1cny5xc=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200414102102.7jci4pzsp5tdoifr@debian>
-References: <20200414102102.7jci4pzsp5tdoifr@debian>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200414102102.7jci4pzsp5tdoifr@debian>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
- tags/hyperv-fixes-signed
-X-PR-Tracked-Commit-Id: f3a99e761efa616028b255b4de58e9b5b87c5545
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 8632e9b5645bbc2331d21d892b0d6961c1a08429
-Message-Id: <158689112259.29674.18320264839412857827.pr-tracker-bot@kernel.org>
-Date:   Tue, 14 Apr 2020 19:05:22 +0000
-To:     Wei Liu <wei.liu@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
-        sthemmin@microsoft.com, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
-        haiyangz@microsoft.com
+        Tue, 14 Apr 2020 16:18:46 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35893 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2632995AbgDNUSm (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 14 Apr 2020 16:18:42 -0400
+Received: by mail-wr1-f67.google.com with SMTP id u13so15570952wrp.3;
+        Tue, 14 Apr 2020 13:18:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VJK0Vudxo6/y/Xzt9pmWLOReg2AXAw6WAxsb6cK2B/Y=;
+        b=ItJshrp3HoaZSpcfEuqFDRomRVtr+s3oUL1iG52vnhdTofihJpNg2reeyvbIqHE+HY
+         ozsPvx7FTNL+ab4FEHtIkhphJjEVOltgZUk4hQS65FE/hOgA1Zv0akk6Pk9FgmMB3JgS
+         tj9/1UHtNYspUea5DKvyB7D2ZgU2r2KuVmd81el+bGCmL1wxgP6IhA9rSiSjhiEB41hW
+         QMJB1uyGs9qdWDKDOsvwNvdRgRj3Dkjxq3pNEnRiU9T5Ptq3iUepHrYd0ggb2NbN4aFh
+         TTKV/H11EcK26BDg1IrP0Ll+T4tlqB7L5EUkf2mwy+w+TCKO83GfhO9wClwqka/VO57/
+         dk2g==
+X-Gm-Message-State: AGi0PuY+xkFfs+P74PgPpw7Nuz8XFThs2zF6bql05oMjD/qX9TyyYmhn
+        i1GtEcnlWKXkx3c61mR2xqs=
+X-Google-Smtp-Source: APiQypI2wicuVpNhjwF5+CR27bkQ8vTSDr5qPsWXW74pMMzNU0KX7GDOUgj1ALCYmwp6aRY+m7xobQ==
+X-Received: by 2002:adf:fe03:: with SMTP id n3mr24655532wrr.315.1586895520195;
+        Tue, 14 Apr 2020 13:18:40 -0700 (PDT)
+Received: from debian (44.142.6.51.dyn.plus.net. [51.6.142.44])
+        by smtp.gmail.com with ESMTPSA id w11sm19415437wmi.32.2020.04.14.13.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 13:18:39 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 21:18:37 +0100
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Dexuan Cui <decui@microsoft.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
+        vkuznets@redhat.com, stable@vger.kernel.org
+Subject: Re: [PATCH v3] Drivers: hv: vmbus: Fix Suspend-to-Idle for
+ Generation-2 VM
+Message-ID: <20200414201837.yvmrz5nl5gxgjmqt@debian>
+References: <1586663435-36243-1-git-send-email-decui@microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1586663435-36243-1-git-send-email-decui@microsoft.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The pull request you sent on Tue, 14 Apr 2020 11:21:02 +0100:
+On Sat, Apr 11, 2020 at 08:50:35PM -0700, Dexuan Cui wrote:
+> Before the hibernation patchset (e.g. f53335e3289f), in a Generation-2
+> Linux VM on Hyper-V, the user can run "echo freeze > /sys/power/state" to
+> freeze the system, i.e. Suspend-to-Idle. The user can press the keyboard
+> or move the mouse to wake up the VM.
+> 
+> With the hibernation patchset, Linux VM on Hyper-V can hibernate to disk,
+> but Suspend-to-Idle is broken: when the synthetic keyboard/mouse are
+> suspended, there is no way to wake up the VM.
+> 
+> Fix the issue by not suspending and resuming the vmbus devices upon
+> Suspend-to-Idle.
+> 
+> Fixes: f53335e3289f ("Drivers: hv: vmbus: Suspend/resume the vmbus itself for hibernation")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
+Applied to hyperv-fixes. Thanks.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/8632e9b5645bbc2331d21d892b0d6961c1a08429
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+Wei.
