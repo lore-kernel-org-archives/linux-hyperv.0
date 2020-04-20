@@ -2,53 +2,54 @@ Return-Path: <SRS0=rTFj=6E=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	TVD_SUBJ_WIPE_DEBT,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B869DC3815B
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CF7C54FD2
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DF5E207FC
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 324C020BED
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="EQQZkakz"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="BpPbVUIM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbgDTRjb (ORCPT
+        id S1726902AbgDTRjh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Apr 2020 13:39:31 -0400
+        Mon, 20 Apr 2020 13:39:37 -0400
 Received: from mail-mw2nam12on2124.outbound.protection.outlook.com ([40.107.244.124]:36000
         "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725784AbgDTRja (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Apr 2020 13:39:30 -0400
+        id S1725784AbgDTRjf (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 20 Apr 2020 13:39:35 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a0kEVAU+26MikcVPIGUY7d9QkILx4cSTzoKSpShkPVzNKpw1YXZHh6vdwV7Pqr78oOPRtSZcRRIv++SdwRYgOBqHmP77Mwy5vz3u80GhzizhFBAmpzp7GCP5M1JSZ9LLOjN5wFbkyQvGBxx1G3QNpetJAA6vGz9S3mOufLGHaqr+Zbu+Ct2KtxOxWV2usmHFB+faUMUwGAkpi9sfSZO83dtmKggd7FhBbrPoaVqTGMSvGrKtslN18zOE7YLTn1/8kc7o2oE1QX/waeRYx1vxeiOtGtjVs/0MNPSYQ6jDZGtipix6uF5zQb7a+8Od/sUHAiMC89ksh8yiKWkfPZTm8A==
+ b=PeFDOG3srnAbwUbbMOH/pn/tyDFbfvLeoyD5xcGtHJqaSONKOBAUVNYyugEyeJJ1ZT2AKGytpbiLajHcTi3GluwQ0HDHxA9Z/DGcKTv9OmdbQMk1u0sLju8FdVZfGbzOivDokA70BLh2es++Up1mvzTYAKEV8wtS1JrwSB1Wt/H4YcWVjaLhZ9vCdSOUkCl417ClhuHAuwIN8gQqQm0oz5Qllj079UOHoW+J3afrzh7H6slh22+2GmsW5fAQ7Qel+dlked0CxqFnHmD+0y5eNhYwtmjuhsmfd8BFhRj5ulUKD7z4JhIUtySySYr1PxgNBQUfIsXtul7ag68u2t+eFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pHgI8OCcfCsswcCzMtNkQV8cRXz9+UcWflwB8c/Elrw=;
- b=dQUu/xcfwA1n9/+G1f5N3NaXys7awFhZSMjoHdBNeI1dgHD4HKxtLIRi0OglyOSOUHo80YyqDiZSmK+mWuTvPDkbAyi1g4ojFWDlR+BPCYN48enHtw6MpfeOgqhkcW7fB60aOweLrVOhlvSS9is4f1Kt9hTIQlEttT3kqIx4haCoNHigFZA8PeHkAh4qeb8MjfTuCq5dILXSGyU/WfbHWJAVqjkquN0fcIw3aLXmED7WRyxNVVpM6gIgbJZYsIukaFsrUerQ7WLrFo55XnbWufwM8bieFD/bjCJuxFA+CSXu1vY6wF4WHABB/9yho973CiclDdG072Sk7cmpdaT28A==
+ bh=n+FJPRWCBME3O7KGGef1+PrqQRgqyoCRq2kHsgRrvy0=;
+ b=VHrr8fSyQoc6FjjgZG28lIOKbp5CZVxJJ/EjYCx60h51EIylYhhc/KdKURF0f/u/EB3vLv/NNqidRrZgU5vGiqvHaVINL7DLXOm170xuUfhGEqzwpzW87W93Ix3HFxjiJNvumYdeFajmzuAFaw7RRGhLvbWNALGTtCrXnhDmWWtIHkkE4e7klcAWWjEjSX3LIFJgiLOzqFamdgiFXsJIwJ7IgOHJsxxcchojYL/qP2XkqTJFCGm+5rXtA863j9tpRvKloeGOCc6pw5TP6wkdoFLqRfYTJQoW466uoRQAHWcL/5Xbp/nBPiKTxRwv4z20IEiM0F8TGvltdSwAhI/PsQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pHgI8OCcfCsswcCzMtNkQV8cRXz9+UcWflwB8c/Elrw=;
- b=EQQZkakz8WgHueynn3oQX/ptSaAVv8ZilF7AU/dHT5Wmq/WbrQ7ycgW9kH/fcjhh2TUMV2DFmGuQbjeItFDupADL9ShM+ek+9DvXnuvkRwhNxkQFJ9d8uqAeMzmipr8zwh4L0hFulGS3GVk2WL+wLiKYYnMm7ULUWHwEgzS4ckc=
+ bh=n+FJPRWCBME3O7KGGef1+PrqQRgqyoCRq2kHsgRrvy0=;
+ b=BpPbVUIMGuEWlLg2jvPJvraaKP7NZVpZYBJPjAfuCu/HN4TMxCJfxn1ghOQ/hw2ZPkqieZ39L+5j3oXiMnK+GBva+DKaLqFiTTWE0mRxkKGlN9TZaWuaT3rtdYcPIADU7h4mWg8gycj/iL4KFS8g2wRrgkWTKrK5bi+Jcr6+Pcw=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=mikelley@microsoft.com; 
 Received: from BN6PR21MB0178.namprd21.prod.outlook.com (2603:10b6:404:94::12)
  by BN6PR21MB0691.namprd21.prod.outlook.com (2603:10b6:404:11b::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.2; Mon, 20 Apr
- 2020 17:39:26 +0000
+ 2020 17:39:30 +0000
 Received: from BN6PR21MB0178.namprd21.prod.outlook.com
  ([fe80::a97c:360c:9ed2:12ec]) by BN6PR21MB0178.namprd21.prod.outlook.com
  ([fe80::a97c:360c:9ed2:12ec%11]) with mapi id 15.20.2958.001; Mon, 20 Apr
- 2020 17:39:26 +0000
+ 2020 17:39:30 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
@@ -58,99 +59,76 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
 Cc:     mikelley@microsoft.com
-Subject: [PATCH 0/4] Split hyperv-tlfs.h into generic and arch specific files
-Date:   Mon, 20 Apr 2020 10:38:34 -0700
-Message-Id: <20200420173838.24672-1-mikelley@microsoft.com>
+Subject: [PATCH 2/4] x86/hyperv: Remove HV_PROCESSOR_POWER_STATE #defines
+Date:   Mon, 20 Apr 2020 10:38:36 -0700
+Message-Id: <20200420173838.24672-3-mikelley@microsoft.com>
 X-Mailer: git-send-email 2.18.2
+In-Reply-To: <20200420173838.24672-1-mikelley@microsoft.com>
+References: <20200420173838.24672-1-mikelley@microsoft.com>
 Content-Type: text/plain
 X-ClientProxiedBy: MWHPR08CA0047.namprd08.prod.outlook.com
  (2603:10b6:300:c0::21) To BN6PR21MB0178.namprd21.prod.outlook.com
  (2603:10b6:404:94::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from MHKdev.corp.microsoft.com (131.107.160.236) by MWHPR08CA0047.namprd08.prod.outlook.com (2603:10b6:300:c0::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend Transport; Mon, 20 Apr 2020 17:39:24 +0000
+Received: from MHKdev.corp.microsoft.com (131.107.160.236) by MWHPR08CA0047.namprd08.prod.outlook.com (2603:10b6:300:c0::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend Transport; Mon, 20 Apr 2020 17:39:28 +0000
 X-Mailer: git-send-email 2.18.2
 X-Originating-IP: [131.107.160.236]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 462032ab-83aa-4e45-e10d-08d7e551c53d
+X-MS-Office365-Filtering-Correlation-Id: 8872f935-c5ef-4940-f5f5-08d7e551c78d
 X-MS-TrafficTypeDiagnostic: BN6PR21MB0691:|BN6PR21MB0691:|BN6PR21MB0691:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN6PR21MB0691B8BB8652C0C92C74420BD7D40@BN6PR21MB0691.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <BN6PR21MB069174203767E7019AB92C89D7D40@BN6PR21MB0691.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-Forefront-PRVS: 03793408BA
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR21MB0178.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(7416002)(66556008)(66946007)(66476007)(6486002)(16526019)(36756003)(6666004)(1076003)(186003)(7696005)(52116002)(86362001)(26005)(5660300002)(4326008)(2616005)(10290500003)(8676002)(956004)(316002)(478600001)(2906002)(82960400001)(82950400001)(81156014)(8936002)(107886003)(41533002)(921003);DIR:OUT;SFP:1102;
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR21MB0178.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(7416002)(66556008)(66946007)(66476007)(6486002)(4744005)(16526019)(36756003)(6666004)(1076003)(186003)(7696005)(52116002)(86362001)(26005)(5660300002)(4326008)(2616005)(10290500003)(8676002)(956004)(316002)(478600001)(2906002)(82960400001)(82950400001)(81156014)(8936002)(107886003)(921003);DIR:OUT;SFP:1102;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1HPYSp8nQKro/B+hcKDEOcq3sfeU4IHPqru9HIzdqKTTC8sSnP4uAHGVff1cgt/wi3TNob2WnlfaC9Umk1pWY9/okD3+LBJXH7Tks2ytVu8r7XcKmaX/rvRME4P2xzkCHo1YljcloXMq/0N1GZrNEjwo7pIkfg4MU+B7x+yTESq1iz948Pg2SG+Nd5onWGx5GShBzeVEJ49/wQZwYuqJvamNmzXI9xjNZzGZ82h9RwNcHDdn5wTBqLuh+LeESxFr5WUate2Wfs9wy3fToSE2rlckUQGODykMW49bZWOnS7hwYgg319FQWEW05BrP+M2OR4O0rjJnCZWU5PxhEhTc9+gL5SoiLKHTwWGdqu78AJNTDZBQ71obdma2W+agR8TYFO4VnSoVqPA5Y27JKalXDr3218f1aV5eGEdukEoxWN1PytLT11pb26jDRVRc7tCo6SHM3AtjfKfyA2nmQWdwVry8oACcg4U1eO3QsBIzHKbon2+6Tyah21X/lsA72sPG
-X-MS-Exchange-AntiSpam-MessageData: slsrXF1biAjL3nvSrReTmmvKQEipGJQ8kESguvFpeS0XPiwDOzBz6rx3Zdvi/2z8ZQYJ8WHrfi5Qo3+g1+aXq3XOOk4JL75BpGiGkqQp4eORYZtkoExuSuX4yVrHEXme2FA4EzCvYfKpq9Zhmsmv89+KKky3BAHm4p4+v3SIl7LT47zhT9NXdbfeWrWMFVcQpjLSxJzI0txTRHF3ncOoDTVaSVZDaakB1sUF1jvOx+hC4i3CgRJ51+bYkmZ97AfjvIsopOrOeuyir65x+r0euHpSmpm9YmDv+wI5kSxP6UBSzuFwJrI3ErvURf98KgUACq/pLLXmFsWZYP3xjIdN1wiUA9D1mV91apNuXy4YMCARcoIgEefPieKuXTpj1avOGkVDcsEkfFloezAArAs7jzEh1c2OgkRHEA+P1jSnLqgukzoxfovjBxQ5ru7zLRNzPe2TvAxD7PdHrgxR6Y+Dbk23sTp2d3bKnJrYcpZYExm/QoxGj5nLktzT60uUOmFvNzq/t0rF72nXlq/6Su1HbS9wxxfD20sXHKCPLvxvYnTsIdJphuubQwuBUQSShG9pVfjIPlYgo0eOoUO/PcD3SgDFIeekkDYzB1fS8TT3NpRWgS/J/Fkogti9Y5iPRrcnNNpQ+ebu4ZSX1hj9NS98FkltDAcPnCc9UtDcwXtybDXkjlMB0T2TflaPT5pB26/grngg2DZfSTxWo2W5U8L77GtKpqtAkwV/YIBL+pdCIoASvcXjCe2EwEBPm5fs+D/PrxJOvg5Z01cEHK3diQreH0h4hth8YvHiYQi5xtEJA69JZbNHBWFr6esBvfmjq+mx
+X-Microsoft-Antispam-Message-Info: ZcBzknyZyo/Gfj8flV6mQld4BSlwEhDSvOiH+1k+qoKAJczqCuc7/+YSEbRsMeHMYs8ExDjInuMIBO5m4Ab1rZjQzMVBSxUkaC+SkVBtJkSZRcNsKZdx+xSOsyD8B056ApTVXZpSeBL/PIVqIxlAzriMwOySScvYGFagTtrcdLsJgw1BJGKS6qvHiQ3un1LPzS6JMtXoYT9x98SKfVR9QU9tFqHditFI6SVgAD5g+VM1zt710ojxoqsx0CQx/dZmRsHOZ3dreW4yy7bEbXC/9Ce7ymw589tpRKznRdPo1TnGz2jub0+GanJihdGLpGePctUCQUkjsZvm1BFzSXszlaSFANRDNcfHTQUVdAaBi7LLHswFVw/vkGcBlLxDUvKcR377ulvPjixyXjsNjqOcnPJb6H8W3aPxfliqZ+oPs+C8M+LOg5UWYmoiS6fN8OksIgRxCkf82AIUg1/TTlCnPo1pVZQzCpZQNNl20CiBBrs=
+X-MS-Exchange-AntiSpam-MessageData: BMRLLCPj2GRnbn49rEJoZMJmc/GRLFWnx3NdezGRf9wOBEXjw4sbdxcF04otkt1Prh63U1PtDyxqLGb/UAcTT10PN090beK9770RxCubiTYT42jHGVmNTIPYGUm8Cwg2zLEOgp1wlEqt8QFlCsgnKHTg0QA76K9r3cMd26P4/v+E5/Rt6egawEaJFYxys0naFVPq9yWzgFMgy8A1bVPcUxP1fzUjLbjnOnwB8d2IEYyXHU3FutFkUFkkMjZNsTen2rYamdLF1gOiChZLe0keluKG2Rh42azwz14hOzD3TE8cl4NPXgju5N9nHb7xEQ+06B3Y5+QS6Wws1pBh3dk7akcubDc8I6xmE4JCM9tCZ2NFeCq2P3aMJi4o9AI2ovJAcZ6xrud0vWunZl5DTpi8WHqzPJLmvmvyuuQ8rr/IcA5X+Q40C6Rg/Vm3azuc1drrg8zfEVXxy/Njl7T9odF7p7m9+bmfil6Q4Fi61g1bbrcciAIb/dvl5f9zjuUciknAZjgknNhu0d/NhG9myOGqCGnXJkl9r53Mb4jXndsBLM4rSEPnNvMFKYr3MRlFvoQbM54gsm6c0EFfzXMUEtr66ExOFFsiSZVQcuL1w88rpn5lqr5UAp4DykvZ3yrYfoC9xtoPr2pGmxtOheUYuhfV0Wqb8c721nGYkpZ84iKWRmAIFpxTpmUgfvONc4Nbni5AJ/A2gMtKXGDMdSw14DipBhN5JiIi+fpYy3+fnl2rZ1LG7cUmGDJ1i0TGoDVdxR8RTo1HR7j4vclGEochgFpRuQoSZjz8SbIq/Do78kFdIh/JTPNTKWuOLDOzeVtBTMjz
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 462032ab-83aa-4e45-e10d-08d7e551c53d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2020 17:39:26.2991
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8872f935-c5ef-4940-f5f5-08d7e551c78d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2020 17:39:30.1934
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XRwAK6aedeQAWHA+anZYm831+mWyZjPPM1uw6R4BEgMt7QR1pzFN6jBlbg/HkhOZOzV3XnBBjArg6TlWxnPGaA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: R84C3NGGbebtQVShMbDam0tdqYc7YKDiVwDnARWLucrbHBkmxynKPYKpUtyl2i0l/omyYaF3ArGTkUM4zs53Ng==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR21MB0691
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This series splits hyperv-tlfs.h into architecture independent and
-architecture specific files so that the arch independent portion can
-be shared between the x86/x64 and ARM64 code for Hyper-V.  While the
-Hyper-V team has not released a version of the TLFS document that
-clearly specifies which portions of the interface are arch independent,
-we can make a fairly good assessment based on implementation work done
-to support Linux guests on Hyper-V on ARM64, and on private communication
-with the Hyper-V team.  Definitions are considered arch independent if
-they are implemented by Hyper-V on both architectures (x86/x64 and ARM64),
-even if they are currently needed by Linux code only on one architecture.
+The HV_PROCESSOR_POWER_STATE_C<n> #defines date back to year 2010,
+but they are not in the TLFS v6.0 document and are not used anywhere
+in Linux.  Remove them.
 
-Many definitions in hyperv-tlfs.h have historically contained "X64" in the
-name, which doesn't make sense for architecture independent definitions.
-While many of the occurrences of "X64" have already been removed, some
-still remain in definitions that should be arch independent. The
-split removes the "X64" from the definitions so that the arch
-independent hyper-tlfs.h has no occurrences of "X64". However, to
-keep this patch set separate from a wider change in the names, aliases
-are added in the x86/x64 specific hyperv-tlfs.h so that existing code
-continues to compile.  The definitions can be fixed throughout the code
-in a more incremental fashion in separate patches, and then the aliases
-can be removed.
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+---
+ arch/x86/include/asm/hyperv-tlfs.h | 5 -----
+ 1 file changed, 5 deletions(-)
 
-Where it is not clear if definitions are arch independent, they have been
-kept in the x86/x64 specific file. The Hyper-V team is aiming to have a
-version of the TLFS document covering ARM64 by the end of calendar 2020,
-so additional definitions may be moved into the arch independent portion
-after the new TLFS document is released.
-
-The first two patches in the series clean up the existing hyperv-tlfs.h
-file a bit by removing duplicate or unnecessary definitions so they are
-not propagated across the split. The third patch does the split, and the
-fourth patch adds new definitions that are needed on ARM64 but are generic.
-
-These changes have no functional impact.
-
-Michael Kelley (4):
-  KVM: x86: hyperv: Remove duplicate definitions of Reference TSC Page
-  x86/hyperv: Remove HV_PROCESSOR_POWER_STATE #defines
-  x86/hyperv: Split hyperv-tlfs.h into arch dependent and independent
-    files
-  asm-generic/hyperv: Add definitions for Get/SetVpRegister hypercalls
-
- arch/x86/include/asm/hyperv-tlfs.h | 472 +++--------------------------
- arch/x86/include/asm/kvm_host.h    |   2 +-
- arch/x86/kvm/hyperv.c              |   4 +-
- include/asm-generic/hyperv-tlfs.h  | 470 ++++++++++++++++++++++++++++
- 4 files changed, 509 insertions(+), 439 deletions(-)
- create mode 100644 include/asm-generic/hyperv-tlfs.h
-
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 0e4d76920957..2dd1ceb2bcf8 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -390,11 +390,6 @@ struct hv_tsc_emulation_status {
+ #define HV_X64_MSR_TSC_REFERENCE_ENABLE		0x00000001
+ #define HV_X64_MSR_TSC_REFERENCE_ADDRESS_SHIFT	12
+ 
+-#define HV_PROCESSOR_POWER_STATE_C0		0
+-#define HV_PROCESSOR_POWER_STATE_C1		1
+-#define HV_PROCESSOR_POWER_STATE_C2		2
+-#define HV_PROCESSOR_POWER_STATE_C3		3
+-
+ #define HV_FLUSH_ALL_PROCESSORS			BIT(0)
+ #define HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES	BIT(1)
+ #define HV_FLUSH_NON_GLOBAL_MAPPINGS_ONLY	BIT(2)
 -- 
 2.18.2
 
