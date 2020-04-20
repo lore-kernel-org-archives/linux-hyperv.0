@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 282CCC54FD3
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42885C3815B
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0659C20BED
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2559221744
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Apr 2020 17:39:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="Gm3Iqql1"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="Vl4TIWfp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726813AbgDTRje (ORCPT
+        id S1727013AbgDTRjy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Apr 2020 13:39:34 -0400
+        Mon, 20 Apr 2020 13:39:54 -0400
 Received: from mail-mw2nam12on2124.outbound.protection.outlook.com ([40.107.244.124]:36000
         "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726021AbgDTRjd (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Apr 2020 13:39:33 -0400
+        id S1726889AbgDTRjx (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 20 Apr 2020 13:39:53 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G2tspkJ5QPOZzpHHZL3+YNleYT3Xqsg497ES5sP972QQAyWPkdxkUBMvhXWMyloOkLokxEW03GvZ2r2pwqbF+/98ehlIJ5YwWtAVhKSRwHfdW+KwdKqfSAX8tjj8afCUJCuOU9N+8oSwGe1c3wdMMggtGhvmD4HiKkGeRTbKjdGFCbYYg1ZF9O3YPWxGYfIo7vZGhuHzC+OuzRfuOk7/iwzJ+J7VCW//M2rmHPgkJeZ0j8/wyx0eew5lbTPoluBmbxANG9MxhbA/p/MdzmnNVPE+/iisHsuWQ/+By+SQCSmBCWFHze+fTkEkgiBYnTL0NjPRb0lk2+7eW9L0dw3/1g==
+ b=kWC4IffF44BuFkQLL8Z1l6GeySNNyGkHjz1FlmYgVsy0Ej8QA0V7arIflUpOGNUbdO5xD0ieYi6RMp+pXpk4JYX4OdjrOzN0QSEUfcV8N6BnMC5ZYZ3Nufa6V0/0Kv+tUMGwFcJ1u745JKqZUbO1u55/U/xOlEk7aSRpvvxmEdyRnJphC5/yxLEjt2SthFbdXOjAutUiJ+3yUH7j7DKVi9kpV7WbC1ubqkNMwX7cSK/gQ199PUIo539bagxYrnQFX73cpPDk5eo96lCembYUBKqhUKR0DwDRQGrPgM2vF76UfU9znEPAW042nGAzw4rYsfA1pI5flR9FN4IHMMLYlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rURpkildjr2k32/HcTJXbyFaUgkXhqE2Pfu/AMJr+e4=;
- b=WzcP70q0CSxzk3Y1dXHQoZC0YUDCB4+xLyyydTYI7gokJYyBvcK8qE4DO0EKtE5MdKEZ5chYApLzDt4b1BvffHBMR94DIg7LnYvjaMz0tIoNBKmYljJ+8gRSm8shsTRfMsKaRsEc+RNNak/GCylRzOHd3XUuwyZM4xF9Jsi1HRoH+SbX0NZQOYbqMNY1vqrQ0Xw9MZOSHhZHOuFo4AdAna8wu0q4suR9zxViXsG4N62qUNCba/13y2z049VAihZchtW1d/zPf/RaQnfmDo/3vmBELIaNMqGj0C2din6+LbIR+XGX2ypy/S5RWapr5ijtdUDnox7cEZav0LHGF0VjWw==
+ bh=t+pt8VAX0jgFaHjFciCb78lwoa6krrI0QI6TTtw3A1k=;
+ b=bRyHhGlo3XOyslLQu2+OD1q8Dfjvdxs4RsSHGSiPrmkBuU5EQVkeJucutUTIuHNpqpgBGWLaAN2zD/MQM0kgVtPhvsviOQgNAd3j6BD9txcwBiLIXUh8RUXOBTdUk5Ri9PCiyW/3nYsjC5c3e6CdJMwRFROmZVdwuM4QXz5R17BWoZSAHLpgDvL1lVULWV0HP1wU45lX49o/KGwtklNkYycjSJFM2YqMZCfKVuQgvWzE1WznymBaZWUxGylZnKOwbtvsmZ3CMYQyptJe0g1zBNZhyqWAXUoyjug99Pi2L6kDd8eV/9MDvyg5qoR+/8ObPKVT51vkAwr3z7a1JoBzPA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rURpkildjr2k32/HcTJXbyFaUgkXhqE2Pfu/AMJr+e4=;
- b=Gm3Iqql1yvUvGgs3xsHXgmv7vhjxUm6JJXnGNuWo1wWd5FN7Q4RSU69ahPyf7LQ6dUfdCU5ySyBe/fPOLxAAVlpXPlQ6DSjX2UT10dQGe6jn4z0vdq9fvQBciQnZr3JMaB6fb53J6xjMn9rApAPgRUmRbMZObk1S5uXQA40PqqA=
+ bh=t+pt8VAX0jgFaHjFciCb78lwoa6krrI0QI6TTtw3A1k=;
+ b=Vl4TIWfp00qhZmdeNp2Dx6D4b2cldtW9O82V2ctpd0vl3w0e64MWitJKvwJJk0/qrQaRzn3DfUO5jvJWyDi+HRCHT+SOCKhr5S+mQ7v5at9ajVCRvbLKbOh19VCjwVkpA8EtbznGRCLB5kxf/CLVuEDRbJB8fjfLq/Woymn7i3M=
 Authentication-Results: spf=none (sender IP is )
  smtp.mailfrom=mikelley@microsoft.com; 
 Received: from BN6PR21MB0178.namprd21.prod.outlook.com (2603:10b6:404:94::12)
  by BN6PR21MB0691.namprd21.prod.outlook.com (2603:10b6:404:11b::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.2; Mon, 20 Apr
- 2020 17:39:28 +0000
+ 2020 17:39:34 +0000
 Received: from BN6PR21MB0178.namprd21.prod.outlook.com
  ([fe80::a97c:360c:9ed2:12ec]) by BN6PR21MB0178.namprd21.prod.outlook.com
  ([fe80::a97c:360c:9ed2:12ec%11]) with mapi id 15.20.2958.001; Mon, 20 Apr
- 2020 17:39:28 +0000
+ 2020 17:39:34 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
@@ -58,9 +58,9 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
 Cc:     mikelley@microsoft.com
-Subject: [PATCH 1/4] KVM: x86: hyperv: Remove duplicate definitions of Reference TSC Page
-Date:   Mon, 20 Apr 2020 10:38:35 -0700
-Message-Id: <20200420173838.24672-2-mikelley@microsoft.com>
+Subject: [PATCH 4/4] asm-generic/hyperv: Add definitions for Get/SetVpRegister hypercalls
+Date:   Mon, 20 Apr 2020 10:38:38 -0700
+Message-Id: <20200420173838.24672-5-mikelley@microsoft.com>
 X-Mailer: git-send-email 2.18.2
 In-Reply-To: <20200420173838.24672-1-mikelley@microsoft.com>
 References: <20200420173838.24672-1-mikelley@microsoft.com>
@@ -70,119 +70,91 @@ X-ClientProxiedBy: MWHPR08CA0047.namprd08.prod.outlook.com
  (2603:10b6:404:94::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from MHKdev.corp.microsoft.com (131.107.160.236) by MWHPR08CA0047.namprd08.prod.outlook.com (2603:10b6:300:c0::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend Transport; Mon, 20 Apr 2020 17:39:26 +0000
+Received: from MHKdev.corp.microsoft.com (131.107.160.236) by MWHPR08CA0047.namprd08.prod.outlook.com (2603:10b6:300:c0::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend Transport; Mon, 20 Apr 2020 17:39:32 +0000
 X-Mailer: git-send-email 2.18.2
 X-Originating-IP: [131.107.160.236]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0597de61-168d-46bc-82eb-08d7e551c671
+X-MS-Office365-Filtering-Correlation-Id: 82796493-5300-44ea-65dc-08d7e551c9e1
 X-MS-TrafficTypeDiagnostic: BN6PR21MB0691:|BN6PR21MB0691:|BN6PR21MB0691:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <BN6PR21MB069162D3419ABB03EF26FF0BD7D40@BN6PR21MB0691.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <BN6PR21MB0691D99D37D82C2351D1B3C9D7D40@BN6PR21MB0691.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:335;
 X-Forefront-PRVS: 03793408BA
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR21MB0178.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(7416002)(66556008)(66946007)(66476007)(6486002)(16526019)(36756003)(6666004)(1076003)(186003)(7696005)(52116002)(86362001)(26005)(5660300002)(4326008)(2616005)(10290500003)(8676002)(956004)(316002)(478600001)(2906002)(82960400001)(82950400001)(81156014)(8936002)(107886003)(921003);DIR:OUT;SFP:1102;
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR21MB0178.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(6029001)(4636009)(39860400002)(366004)(376002)(136003)(396003)(346002)(7416002)(66556008)(66946007)(66476007)(6486002)(16526019)(36756003)(1076003)(186003)(7696005)(52116002)(86362001)(26005)(5660300002)(4326008)(2616005)(10290500003)(8676002)(956004)(316002)(478600001)(2906002)(82960400001)(82950400001)(81156014)(8936002)(107886003)(41533002)(921003);DIR:OUT;SFP:1102;
 Received-SPF: None (protection.outlook.com: microsoft.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jZeCwuwfbV6U01ZgoCdkjDEUVhVFn1XQ6nTbukuru7qtYoKE/oHoO/dsweZtDDxZZ8/ed2N5iSRDrLGjuAmv786C+iv2UkrlZKaLcwU6OyZ7Yf0xtqN7EOkz5cjrBWr4ZG3w8qkWH69Cf3kKxszg9QaBDLbe3h+sT+bNmGcmMK8FgUlKBvNa8G9tMTemaBRcCtpskWgOAoT59EcfcAlmDIFX6LLCpZDt7Q2u2zN/r9vtGOEe6pz+m38wPfB663S9dJPJdw8thQik6x9M2XGlELGcPldEzpVX0QtexeOu5KhGQdVspHzH+kH8dK0J7zlGghTVgNH1yLeEgjxqwGc/MFr9L/VrUnh0j5pMNX2Zy3sBoHThXjyIfN8FIBdQtX2Hd64ykVwkon+t+0jyQQAIGYHwmnmvqbJ+KFrGjg0qfXbjAu6o9I9iGIWjoRcvFqs+HWLEipQz5DdTaOpN9pC7dUj2gqiE3BecbQJXGzQMbtA=
-X-MS-Exchange-AntiSpam-MessageData: 1WuR1oguNIZ1njAjorC3PE5uWuQH4MA5m/X9+Wvd+c5pveSj8SDk3AZW1y9Y/VzlhOkIpMk2DKceHYAw89/VV3f1wGbSZSH30CdP+N3S9SnnGxHYxuXjfVLo7RO3RMC00NkHthAEGF9Rpl8qYRjhlQzij0E9VPT9wzGWN/UH/ejiu70qf7WN2CUv5J2jkifgrGuRcVGEwfhcw69WP0FFpySCqWrMcgJQdQgXWmvY9hXHtXCKHJV8F73OSJ39/98COYQHQVijjUXDJJRQjbm6zB5cK61UGW/n7q954ZQlpeLdMo4IRaUk4YqsqqG5ufwzHJF2BvRrdgduLqZZRaZ4QD0cny13nNfVTWJdMlWiScm1GJVJcXljrYTs/CxTeRmlxCUGWL4VYHRAfb433nJWDhXUOvmsKa+771/wrbtFh2O4pRoHJsgf3JWre2UK4hAqmb6v0c2nteyIS0atA9gN4reL3fG9oECD2NE32jR3udZMSuShkUbECfSgRZH1PiM/fHQSWeiO4qr98UHV3Q03iBJNMN18Y/P6QzasqMsFRsa28hHESsZQxDv7AvucD0r8bgoDq9Su17PjXhch5qltCy8IMALjI36HBZfJ2HcA6pYt1GuuCqqQl+xC9sxZQ7ds/WV4pY/4ss7R9q8LOfjSwqtZwkalOrRHQuqK5DcCQfROM4ADwMsNsIVgS0lelai0nR+6wKWzbxkClcBsOAlYrf6fHiFPoGY4OhMvT1tli/Vdi0B3X1z53R8ruxm1QNza+YwEvKMhAu653r6paKhaYAboKImad+R7rm0XjRUfP6gu2Q8J/CdnceJyTLL/qpfK
+X-Microsoft-Antispam-Message-Info: BMYgV7NEX4Vtvw7wZakJeoMMVWZn/Z84lp4cCqDabq4LHxTn4QKvNfROJB1mNH7dFzSFSMiP17jn63YaeIesNHbt1lk2LQQObAUbR9laUz/fcFZd271lkCXzL5JK04fQfTdVWvzsq7fyLCA+dy4E9ufD/DJsM5NuuxCJQn+/m1xwGTBlkuI0FtcFS3UwZ04EcLbDGFQDa37HeyPqUo/MY4EPSQcb93msuCIxdWdhRNacANA43+Px7WmWVQH2JPOfdfiu94sDKovfXPi1kFeDg9axOJjTdTqZs28K0LoC1Q4w2PN0EKOIu9ZwVZiRRccAYIgBv1HtzxzqCbrNhNODA+y/x538yGeMUnT2Rx3dOEsKyJAnEW/5/e8MtzXUkntX51CDTKQoPcQOGfdQ3oyQZe+VTiF5gofTBus1D70CINfWksTIFXfbgsdenR0NADgnHWR49N/7mRNKusQ6d/IAp+Ahjgp8Ix9QKppWv6zJbr+I0/aoR5uXLsEajP1lQw4v
+X-MS-Exchange-AntiSpam-MessageData: aOjqyUygsSc2EpDE1uqwnfagRddA8hK6c0tVGRDy3KrFcAWgc1y4kcgPK5QA58sN0fkrtkz2cyucvI80xmO35LkGGYVr8VxawwzbdVnWSNlnyOm47SFQxBbyrgCAslFPd8ODmPD+Qw49mQyIhIG8jD42XXTT7Z/RJ6zau7sN4Nonqu58nPaLwKbFYqjF32JRPH8QpdtSmXtWBfRIllYCl3+Y+EEYrqSEzHPRSZV4jrd2857XTeczJk3pPi9QYgUAfq33ZfS/tkK61MM/dmb05lTYqkHKcZAUUnxeegiyDeirCxveDWL+biow3w2jqTKazuVl2h5jCb2aBs7jyQeNBI9IJoMJeMZ8ftns3aGCdWxnbD403vFyiymKCouhwTuQkeawGkXsl70NW6ETE0nBvvrnRjRxi23jrytkTPA0d3FWa1vH+MNDmLkgu+mRMn9j3s12WmaQUzBU8yo36g3C245/vDnc7OLiY/BOXsxKjubZeb74wrntP1N9hjM2Eo6VME4yo4vG1APiQ5AAu+ZgSSAQrd22DugdkCt6dsUMbiZkVoTQB83nC/m5vrGwRzCV3134fApGAgl3Ge+C8FmIYNlHrBq0MRCQ8GjKj7wMG0g1+vT1Yw/Si78OSFtmiCctbWUtRXWWF5750zn6sLTEKsrBwLU4ldrf8e+eXVHQFeyE9thZlfbxG3flQABm/YQTdB7j4E9TGQdKoTajv8g85M8Vdozq7HAxIQOi/IuJBHsqax3WjDAKDYb1T7Rnq9cqgAp8/aCV+lgHWE4IOai5GyhTkc+gyOndiMEUeoNaSuZbMqxaiUV1M8Qv85kX+udF
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0597de61-168d-46bc-82eb-08d7e551c671
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2020 17:39:28.2393
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82796493-5300-44ea-65dc-08d7e551c9e1
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2020 17:39:33.9987
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k/iABEmlEjUlIr49f0J0P8ibccjxY/odeu06iD8gNtE/6HKpD+R3+6KxwXdWdvXOjiZyNkTJqhtUbgAu7y4Npg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: y8tKkIHq+AVRBM9/HKBP4tVsf/tOluh5qp0JpBru1CQ4e96ZxIiWOif25tGDuVqkiNf6Qu1Sq6kd7ZUzocy/JQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR21MB0691
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The Hyper-V Reference TSC Page structure is defined twice. struct
-ms_hyperv_tsc_page has padding out to a full 4 Kbyte page size. But
-the padding is not needed because the declaration includes a union
-with HV_HYP_PAGE_SIZE.  KVM uses the second definition, which is
-struct _HV_REFERENCE_TSC_PAGE, because it does not have the padding.
-
-Fix the duplication by removing the padding from ms_hyperv_tsc_page.
-Fix up the KVM code to use it. Remove the no longer used struct
-_HV_REFERENCE_TSC_PAGE.
-
-There is no functional change.
+Add definitions for GetVpRegister and SetVpRegister hypercalls, which
+are implemented for both x86 and ARM64.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 8 --------
- arch/x86/include/asm/kvm_host.h    | 2 +-
- arch/x86/kvm/hyperv.c              | 4 ++--
- 3 files changed, 3 insertions(+), 11 deletions(-)
+ include/asm-generic/hyperv-tlfs.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 29336574d0bc..0e4d76920957 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -303,7 +303,6 @@ struct ms_hyperv_tsc_page {
- 	u32 reserved1;
- 	volatile u64 tsc_scale;
- 	volatile s64 tsc_offset;
--	u64 reserved2[509];
- }  __packed;
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 1f92ef92eb56..29b60f5b6323 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -141,6 +141,8 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX	0x0014
+ #define HVCALL_SEND_IPI_EX			0x0015
++#define HVCALL_GET_VP_REGISTERS			0x0050
++#define HVCALL_SET_VP_REGISTERS			0x0051
+ #define HVCALL_POST_MESSAGE			0x005c
+ #define HVCALL_SIGNAL_EVENT			0x005d
+ #define HVCALL_RETARGET_INTERRUPT		0x007e
+@@ -439,4 +441,30 @@ struct hv_retarget_device_interrupt {
+ 	struct hv_device_interrupt_target int_target;
+ } __packed __aligned(8);
  
- /*
-@@ -433,13 +432,6 @@ enum HV_GENERIC_SET_FORMAT {
-  */
- #define HV_CLOCK_HZ (NSEC_PER_SEC/100)
- 
--typedef struct _HV_REFERENCE_TSC_PAGE {
--	__u32 tsc_sequence;
--	__u32 res1;
--	__u64 tsc_scale;
--	__s64 tsc_offset;
--}  __packed HV_REFERENCE_TSC_PAGE, *PHV_REFERENCE_TSC_PAGE;
--
- /* Define the number of synthetic interrupt sources. */
- #define HV_SYNIC_SINT_COUNT		(16)
- /* Define the expected SynIC version. */
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 42a2d0d3984a..4698343b9a05 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -865,7 +865,7 @@ struct kvm_hv {
- 	u64 hv_crash_param[HV_X64_MSR_CRASH_PARAMS];
- 	u64 hv_crash_ctl;
- 
--	HV_REFERENCE_TSC_PAGE tsc_ref;
-+	struct ms_hyperv_tsc_page tsc_ref;
- 
- 	struct idr conn_to_evt;
- 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index bcefa9d4e57e..1f3c6fd3cdaa 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -900,7 +900,7 @@ static int kvm_hv_msr_set_crash_data(struct kvm_vcpu *vcpu,
-  * These two equivalencies are implemented in this function.
-  */
- static bool compute_tsc_page_parameters(struct pvclock_vcpu_time_info *hv_clock,
--					HV_REFERENCE_TSC_PAGE *tsc_ref)
-+					struct ms_hyperv_tsc_page *tsc_ref)
- {
- 	u64 max_mul;
- 
-@@ -941,7 +941,7 @@ void kvm_hv_setup_tsc_page(struct kvm *kvm,
- 	u64 gfn;
- 
- 	BUILD_BUG_ON(sizeof(tsc_seq) != sizeof(hv->tsc_ref.tsc_sequence));
--	BUILD_BUG_ON(offsetof(HV_REFERENCE_TSC_PAGE, tsc_sequence) != 0);
-+	BUILD_BUG_ON(offsetof(struct ms_hyperv_tsc_page, tsc_sequence) != 0);
- 
- 	if (!(hv->hv_tsc_page & HV_X64_MSR_TSC_REFERENCE_ENABLE))
- 		return;
++
++/* HvGetVPRegister hypercall */
++struct hv_get_vp_register_input {
++	u64 partitionid;
++	u32 vpindex;
++	u8  inputvtl;
++	u8  padding[3];
++	u32 name0;
++	u32 name1;
++} __packed;
++
++struct hv_get_vp_register_output {
++	union {
++		struct {
++			u32 a;
++			u32 b;
++			u32 c;
++			u32 d;
++		} as32 __packed;
++		struct {
++			u64 low;
++			u64 high;
++		} as64 __packed;
++	};
++};
++
+ #endif
 -- 
 2.18.2
 
