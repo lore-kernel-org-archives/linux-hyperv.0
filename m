@@ -2,70 +2,73 @@ Return-Path: <SRS0=XtRY=6I=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE89C54FD0
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E2F6C55191
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECE2C20776
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DBF02084D
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vEYYXLYJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pBnlHnqW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgDXLiF (ORCPT
+        id S1726933AbgDXLiH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 24 Apr 2020 07:38:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43856 "EHLO
+        Fri, 24 Apr 2020 07:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbgDXLiF (ORCPT
+        with ESMTP id S1726667AbgDXLiG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:38:05 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2B9EC09B045;
-        Fri, 24 Apr 2020 04:38:03 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id r26so10349207wmh.0;
-        Fri, 24 Apr 2020 04:38:03 -0700 (PDT)
+        Fri, 24 Apr 2020 07:38:06 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A460C09B045;
+        Fri, 24 Apr 2020 04:38:06 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id j2so10381800wrs.9;
+        Fri, 24 Apr 2020 04:38:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YkoHdhSZDcS430ypnKrze+vC3RcbR1ZGrC/igE/91x0=;
-        b=vEYYXLYJjg13oRlH8NnKctuuUQ8aL0ZVuh8anZrEa4aRi9aheaYBq1CASYE6htsCmj
-         MDQGoIvrJolNA8izQix4L8fNk62GPbwyk1ELDNLMd9/cgy8/euUVTDR7dWWV7y0KnIVq
-         I30WNfmO6aQc9dI+nD5xP+TGnVjqGS9kLGpdlyAlQVlKdsip2k/oytmoAfRP70E+h0el
-         Ms6OlN+SDBgD4zHgpN3KA+5ClJ0ZY62cE56+hsmysHSWgKgMkkXqiw1WFPIZmvwG54fa
-         Ve9SlSskohZvC31uR1tFgyoo2mO3/uUzxZko9pSwB+bu9v50fI1nqS/nvFVWXlcr0AJP
-         2WGw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=mG9eU+aM3EiusgpSEHFIr98SypSKh+boePa08AAVfTc=;
+        b=pBnlHnqWhwtUfuxB+KkmmcbKIFYM3zo+4df6l5pFF1lyemTYVKYtek0RpiVwHydvhN
+         Q0VXcLlEuPDOixhiQMUXop6CEc9pQkHtHqYvRc00thuqow7QdkWKT+elWksyuvDv6tyg
+         WvDDl0FXj+iENxEOo+bkpOiq09vdTDpLi531ZW29rlArBb7GoHo6OQFp7RcunxRo256s
+         U9pUs0UQZ2XLd5m8x4tLdnQb9NvzLBcdfmMfogfzQpYBL7yd6UHV9+uYkrytlrqME/nh
+         VP+85551i0tp8U31KHqvCQmFbWt/74sKRHY/yqc1YdgUVG/fFF/xo6W1jYptPp8Ju/13
+         fzKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YkoHdhSZDcS430ypnKrze+vC3RcbR1ZGrC/igE/91x0=;
-        b=NLokmAoAYRH8be6CtdOelEUWoLHsOkWITRLtHkhD40hNa0uSz1P4dYi4tXADzEJTtJ
-         FAjpgjPdAl+5YCAmfNTG3uXjgKcWRkJox0DAiwl1yOULNVzbilnHjd+uDcB35zm496R/
-         gMx5fiOzdDupdDXKkb0garNa4aEMQZrJrPoxM9hooXR15yXT7V0EEKFHhsFZyy6pgonP
-         MAr9VX2MTqylwJWqAGFfWzy588z94xxcq2tvnIpnvjc0St8C/FP9K/ED88lavfhJRtIL
-         SdBFwXKTl0KIQKYqNTTxNaHBl3ecvx52CgAC50q1lCUaM08b5unLgHrifM+uX9UMVxq3
-         B5dQ==
-X-Gm-Message-State: AGi0PuajKwaEmZnCbtuKh2C7iNNdsBNZX5nyyW2vTx+KcMfgeDv8eTTl
-        HBJtrp48jR5PhNVXoKVh+MyWONfi73s=
-X-Google-Smtp-Source: APiQypK0OjvkogfSDfA9/2NWaPJ2MLr/q05Rpz5kWHZHQWjn95TFyi4oCUhDq3SVT2bJI/62hpDIUA==
-X-Received: by 2002:a1c:80c3:: with SMTP id b186mr10398913wmd.117.1587728282174;
-        Fri, 24 Apr 2020 04:38:02 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=mG9eU+aM3EiusgpSEHFIr98SypSKh+boePa08AAVfTc=;
+        b=TjrLd48JCZ2avz1T9FksV0Zo4nvDxeqi13qHmFL4GISQRMSwMkoGzKer1IW4P9n7c8
+         oPaN8YrbL0AMsL0KEKk9Wzd4GwkmHmt1nD92DaKwYJ/1qgEdiWn90TYIvtdFcmOpjBbg
+         q/KR1Yny4lLB/wYOtAXjglx2IxiuSCOEFN0fEoXRMhq22Sy9E0SV2sIFLQvldZhrlWby
+         KBXb4neBNAuheGWP9bEoBBKzQeoyoamGmcfY8GjAARo+WRRI0G4fZiAA/QGK26Zw9mC3
+         VSvvZg25HoH/zJ2K6RMsh7U4MpU8e5594hJT2RVUVnWwubWw5QOrnDsBjw2cx0+qXimA
+         Jv0w==
+X-Gm-Message-State: AGi0PuY8yA2Uk06/9YxEUVFw+9BfnTSqogMaRFqyAjcyPLlug1u6KC8x
+        UB3HTHrbbyaEH+Ytfx+PPDpP2Qxh/ME=
+X-Google-Smtp-Source: APiQypLtzruqxGMWb9iWkasbikxYsG/0rU/KRfjPLjHKXU3NafnPvqxWVI+Es/oGLYP2IQvWiRUigg==
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr11643554wro.347.1587728284593;
+        Fri, 24 Apr 2020 04:38:04 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
-        by smtp.gmail.com with ESMTPSA id w83sm2451007wmb.37.2020.04.24.04.38.00
+        by smtp.gmail.com with ESMTPSA id w83sm2451007wmb.37.2020.04.24.04.38.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 04:38:01 -0700 (PDT)
+        Fri, 24 Apr 2020 04:38:03 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v11 0/7] x86/kvm/hyper-v: add support for synthetic debugger
-Date:   Fri, 24 Apr 2020 14:37:39 +0300
-Message-Id: <20200424113746.3473563-1-arilou@gmail.com>
+Subject: [PATCH v11 2/7] x86/kvm/hyper-v: Simplify addition for custom cpuid leafs
+Date:   Fri, 24 Apr 2020 14:37:41 +0300
+Message-Id: <20200424113746.3473563-3-arilou@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200424113746.3473563-1-arilou@gmail.com>
+References: <20200424113746.3473563-1-arilou@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -73,64 +76,95 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add support for the synthetic debugger interface of hyper-v, the
-synthetic debugger has 2 modes.
-1. Use a set of MSRs to send/recv information (undocumented so it's not
-   going to the hyperv-tlfs.h)
-2. Use hypercalls
+Simlify the code to define a new cpuid leaf group by enabled feature.
 
-The first mode is based the following MSRs:
-1. Control/Status MSRs which either asks for a send/recv .
-2. Send/Recv MSRs each holds GPA where the send/recv buffers are.
-3. Pending MSR, holds a GPA to a PAGE that simply has a boolean that
-   indicates if there is data pending to issue a recv VMEXIT.
+This also fixes a bug in which the max cpuid leaf was always set to
+HYPERV_CPUID_NESTED_FEATURES regardless if nesting is supported or not.
 
-The first mode implementation is to simply exit to user-space when
-either the control MSR or the pending MSR are being set.
-Then it's up-to userspace to implement the rest of the logic of sending/recving.
+Any new CPUID group needs to consider the max leaf and be added in the
+correct order, in this method there are two rules:
+1. Each cpuid leaf group must be order in an ascending order
+2. The appending for the cpuid leafs by features also needs to happen by
+   ascending order.
 
-In the second mode instead of using MSRs KNet will simply issue
-Hypercalls with the information to send/recv, in this mode the data
-being transferred is UDP encapsulated, unlike in the previous mode in
-which you get just the data to send.
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Signed-off-by: Jon Doron <arilou@gmail.com>
+---
+ arch/x86/kvm/hyperv.c | 46 ++++++++++++++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 14 deletions(-)
 
-The new hypercalls will exit to userspace which will be incharge of
-re-encapsulating if needed the UDP packets to be sent.
-
-There is an issue though in which KDNet does not respect the hypercall
-page and simply issues vmcall/vmmcall instructions depending on the cpu
-type expecting them to be handled as it a real hypercall was issued.
-
-It's important to note that part of this feature has been subject to be
-removed in future versions of Windows, which is why some of the
-defintions will not be present the the TLFS but in the kvm hyperv header
-instead.
-
-v11:
-Fixed all reviewed by and rebased on latest origin/master
-
-Jon Doron (6):
-  x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
-  x86/kvm/hyper-v: Simplify addition for custom cpuid leafs
-  x86/hyper-v: Add synthetic debugger definitions
-  x86/kvm/hyper-v: Add support for synthetic debugger capability
-  x86/kvm/hyper-v: enable hypercalls without hypercall page with syndbg
-  x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
-
-Vitaly Kuznetsov (1):
-  KVM: selftests: update hyperv_cpuid with SynDBG tests
-
- Documentation/virt/kvm/api.rst                |  18 ++
- arch/x86/include/asm/hyperv-tlfs.h            |   6 +
- arch/x86/include/asm/kvm_host.h               |  14 +
- arch/x86/kvm/hyperv.c                         | 242 ++++++++++++++++--
- arch/x86/kvm/hyperv.h                         |  33 +++
- arch/x86/kvm/trace.h                          |  51 ++++
- arch/x86/kvm/x86.c                            |  13 +
- include/uapi/linux/kvm.h                      |  13 +
- .../selftests/kvm/x86_64/hyperv_cpuid.c       | 143 +++++++----
- 9 files changed, 468 insertions(+), 65 deletions(-)
-
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index bcefa9d4e57e..ab3e9dbcabbe 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -1785,27 +1785,45 @@ int kvm_vm_ioctl_hv_eventfd(struct kvm *kvm, struct kvm_hyperv_eventfd *args)
+ 	return kvm_hv_eventfd_assign(kvm, args->conn_id, args->fd);
+ }
+ 
++/* Must be sorted in ascending order by function */
++static struct kvm_cpuid_entry2 core_cpuid_entries[] = {
++	{ .function = HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS },
++	{ .function = HYPERV_CPUID_INTERFACE },
++	{ .function = HYPERV_CPUID_VERSION },
++	{ .function = HYPERV_CPUID_FEATURES },
++	{ .function = HYPERV_CPUID_ENLIGHTMENT_INFO },
++	{ .function = HYPERV_CPUID_IMPLEMENT_LIMITS },
++};
++
++static struct kvm_cpuid_entry2 evmcs_cpuid_entries[] = {
++	{ .function = HYPERV_CPUID_NESTED_FEATURES },
++};
++
++#define HV_MAX_CPUID_ENTRIES \
++	(ARRAY_SIZE(core_cpuid_entries) +\
++	 ARRAY_SIZE(evmcs_cpuid_entries))
++
+ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 				struct kvm_cpuid_entry2 __user *entries)
+ {
+ 	uint16_t evmcs_ver = 0;
+-	struct kvm_cpuid_entry2 cpuid_entries[] = {
+-		{ .function = HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS },
+-		{ .function = HYPERV_CPUID_INTERFACE },
+-		{ .function = HYPERV_CPUID_VERSION },
+-		{ .function = HYPERV_CPUID_FEATURES },
+-		{ .function = HYPERV_CPUID_ENLIGHTMENT_INFO },
+-		{ .function = HYPERV_CPUID_IMPLEMENT_LIMITS },
+-		{ .function = HYPERV_CPUID_NESTED_FEATURES },
+-	};
+-	int i, nent = ARRAY_SIZE(cpuid_entries);
++	struct kvm_cpuid_entry2 cpuid_entries[HV_MAX_CPUID_ENTRIES];
++	int i, nent = 0;
++
++	/* Set the core cpuid entries required for Hyper-V */
++	memcpy(&cpuid_entries[nent], &core_cpuid_entries,
++	       sizeof(core_cpuid_entries));
++	nent = ARRAY_SIZE(core_cpuid_entries);
+ 
+ 	if (kvm_x86_ops.nested_get_evmcs_version)
+ 		evmcs_ver = kvm_x86_ops.nested_get_evmcs_version(vcpu);
+ 
+-	/* Skip NESTED_FEATURES if eVMCS is not supported */
+-	if (!evmcs_ver)
+-		--nent;
++	if (evmcs_ver) {
++		/* EVMCS is enabled, add the required EVMCS CPUID leafs */
++		memcpy(&cpuid_entries[nent], &evmcs_cpuid_entries,
++		       sizeof(evmcs_cpuid_entries));
++		nent += ARRAY_SIZE(evmcs_cpuid_entries);
++	}
+ 
+ 	if (cpuid->nent < nent)
+ 		return -E2BIG;
+@@ -1821,7 +1839,7 @@ int kvm_vcpu_ioctl_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 		case HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS:
+ 			memcpy(signature, "Linux KVM Hv", 12);
+ 
+-			ent->eax = HYPERV_CPUID_NESTED_FEATURES;
++			ent->eax = cpuid_entries[nent - 1].function;
+ 			ent->ebx = signature[0];
+ 			ent->ecx = signature[1];
+ 			ent->edx = signature[2];
 -- 
 2.24.1
 
