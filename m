@@ -8,64 +8,65 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 864AEC55197
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF509C54FCB
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67E9420776
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A058D20700
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 11:38:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iI1PGy8n"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLcV57zK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726667AbgDXLiH (ORCPT
+        id S1727021AbgDXLiI (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 24 Apr 2020 07:38:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43864 "EHLO
+        Fri, 24 Apr 2020 07:38:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726888AbgDXLiG (ORCPT
+        with ESMTP id S1726888AbgDXLiH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:38:06 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF78C09B046;
-        Fri, 24 Apr 2020 04:38:04 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id g12so10305660wmh.3;
-        Fri, 24 Apr 2020 04:38:04 -0700 (PDT)
+        Fri, 24 Apr 2020 07:38:07 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D56C09B045;
+        Fri, 24 Apr 2020 04:38:07 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id x25so10079808wmc.0;
+        Fri, 24 Apr 2020 04:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hjT03eHhQ1dE3AJ2qMjxfwTNnQchau8BzAjB0MfMplY=;
-        b=iI1PGy8nES6hDeRdsF06GvtCVXNHa+2QyXXjpyPiG1P5m4oC6prwJFmvdtE/PleiWm
-         Da1h5SiXK/kFe8QaTEd/CEIJCM2eyiXGkRGeRnnJrxmtzrx9gHv61+gSPiRgrjSse1OZ
-         0+Uh/rJDDZrkeFrvSjeOnDc4I9O12LJnBDvU3245VktJ2vYprdD4/kObgf/YkfpvuWGf
-         ME63Ldi6EMtBW/sbsGGJFc7syeoxDiaN9MM5raf3hOVkL5DQtc2nxx8jDT7kW7uq7Tgn
-         JarzBz0obteBNH3nRefLstZ3topmgoJD0Ge9OTGsCN1u1vFFpSORRA+82CosLl5qvNTK
-         pCYg==
+        bh=jTDLY8IqM4gzoQ6wo3jww9wemhS46tpJf0MrInuAZDU=;
+        b=XLcV57zKn5sAdfqH55F25tcPxTyj8y2t0iixEbRB92e8EytGVzGv8pjnhuFmgytXtp
+         mEJrEAHkL6g502KFVuDKBinJMGorNk25MHAtit6RxdDUdBeMDFahYyg0DIT0Cq54D/4t
+         M2EFYEhvuecu3jHpZ6p3mgTh1PREfYc5jKQ/QhV1dEjsHDGByUQG3wPVUwiNPO3lZeNB
+         fMV/WPtCCBtacjrsqaQB8mMBVzD6ZBJjxxkIeUJB8igzDQmz5og7SHjMu5vWyQ/AwXGq
+         3rqD1T6oSEdpEoP/UwwShnDZa36huHh2ro/MWZjhzAvuitvGD9P3jQvciMWanvINjAJB
+         Uj8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hjT03eHhQ1dE3AJ2qMjxfwTNnQchau8BzAjB0MfMplY=;
-        b=ixkFAuR2yJ6p9FAa7C/qwnAeceZPqQzmcy22L68Diub2SWbMIFL+clJfmnjqv89bBM
-         +Be9eSWhS1QsCRTvQb2+u3RX+FPkCk7A5lvXF7nZqSMWDEXX4Tf03x/Lie6y4coVWYkA
-         /xDPK7xUT/nujryGY2mVTlhzwvGZW7NdayXVGY+TRz6fBBlSPGXyDrPVx5MOFSHPtWMQ
-         ete1WEQZKmFvd+nwvK6yAFsVET8R3Aonq12jeB0AyP+uuccKNqqs9kwRo35x8y0gwXqY
-         SxzJL4vCKIxMsFkyXp6nPIExTINT4MDFrqr+9uurMJNT04r5bYQ7MvTIFA0aFeJj5hOv
-         Kw5Q==
-X-Gm-Message-State: AGi0PuYIhLfDGbp2eHssUukynDow/URyDQllUPTFAkUtY6Cx6buJ39yn
-        oCKftNvasc183fTi2cwXH1lQTlyW5EI=
-X-Google-Smtp-Source: APiQypL/XYfWJE9aLnvUn5aWZDuAFV9fmnIFisczBW37nZ9lgKGN/1rGxyjDg3A5aw0GetlEYObSzw==
-X-Received: by 2002:a05:600c:2645:: with SMTP id 5mr9498220wmy.168.1587728283298;
-        Fri, 24 Apr 2020 04:38:03 -0700 (PDT)
+        bh=jTDLY8IqM4gzoQ6wo3jww9wemhS46tpJf0MrInuAZDU=;
+        b=tMHMGS6djzOhiJM4N4Ov1UAMJqKfVeIbVuaRT7EclTrculb89e+cpxn5aCGSTlSdZt
+         gVg8JBtJlHRv926/bKhYACLNoF7EJoZxUzmukve2KuJNWtCWtfO7JBY+s9Tn9IH+TiEX
+         hBfihKaKQ6712E78FAHxC/hgzdWLZcvy+DQcN+LIB0QSNYqIwXJOh1TQFRYmXIo3Yg3q
+         fNfrLNq5GmHlv/6+dEloN6VT1Sc4qLS6AS5cJ2OO0puculjaX7mZXsQDmExBpACSGi9t
+         32Tl65Uj6id5GLMhI0LHjM24PA2+KSuZZtjjOvRIAii+DnBZITaF6brE4yP2r3hKt0ln
+         9Ugw==
+X-Gm-Message-State: AGi0PuZtNYcdafQjGcwRa13c2buws90SEXUHEE4S0Q7c6OM1QWMu7RvW
+        x8dtMyHY1D+Msvb6aBLpW9rINRp7bkw=
+X-Google-Smtp-Source: APiQypKG4dCfzlxRcjPzxQr1yX2QvpfzJ8EKpO256vJv/7fVjkvHTyfVv1GtgkiWvlhDAAQR3+42IQ==
+X-Received: by 2002:a05:600c:2:: with SMTP id g2mr9939840wmc.85.1587728285630;
+        Fri, 24 Apr 2020 04:38:05 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
-        by smtp.gmail.com with ESMTPSA id w83sm2451007wmb.37.2020.04.24.04.38.02
+        by smtp.gmail.com with ESMTPSA id w83sm2451007wmb.37.2020.04.24.04.38.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 04:38:02 -0700 (PDT)
+        Fri, 24 Apr 2020 04:38:05 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>
-Subject: [PATCH v11 1/7] x86/kvm/hyper-v: Explicitly align hcall param for kvm_hyperv_exit
-Date:   Fri, 24 Apr 2020 14:37:40 +0300
-Message-Id: <20200424113746.3473563-2-arilou@gmail.com>
+Cc:     vkuznets@redhat.com, Jon Doron <arilou@gmail.com>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: [PATCH v11 3/7] x86/hyper-v: Add synthetic debugger definitions
+Date:   Fri, 24 Apr 2020 14:37:42 +0300
+Message-Id: <20200424113746.3473563-4-arilou@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200424113746.3473563-1-arilou@gmail.com>
 References: <20200424113746.3473563-1-arilou@gmail.com>
@@ -76,65 +77,94 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The problem the patch is trying to address is the fact that 'struct
-kvm_hyperv_exit' has different layout on when compiling in 32 and 64 bit
-modes.
+Hyper-V synthetic debugger has two modes, one that uses MSRs and
+the other that use Hypercalls.
 
-In 64-bit mode the default alignment boundary is 64 bits thus
-forcing extra gaps after 'type' and 'msr' but in 32-bit mode the
-boundary is at 32 bits thus no extra gaps.
+Add all the required definitions to both types of synthetic debugger
+interface.
 
-This is an issue as even when the kernel is 64 bit, the userspace using
-the interface can be both 32 and 64 bit but the same 32 bit userspace has
-to work with 32 bit kernel.
+Some of the required new CPUIDs and MSRs are not documented in the TLFS
+so they are in hyperv.h instead.
 
-The issue is fixed by forcing the 64 bit layout, this leads to ABI
-change for 32 bit builds and while we are obviously breaking '32 bit
-userspace with 32 bit kernel' case, we're fixing the '32 bit userspace
-with 64 bit kernel' one.
+The reason they are not documented is because they are subjected to be
+removed in future versions of Windows.
 
-As the interface has no (known) users and 32 bit KVM is rather baroque
-nowadays, this seems like a reasonable decision.
-
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- Documentation/virt/kvm/api.rst | 2 ++
- include/uapi/linux/kvm.h       | 2 ++
- 2 files changed, 4 insertions(+)
+ arch/x86/include/asm/hyperv-tlfs.h |  6 ++++++
+ arch/x86/kvm/hyperv.h              | 27 +++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index efbbe570aa9b..750d005a75bc 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -5067,9 +5067,11 @@ EOI was received.
-   #define KVM_EXIT_HYPERV_SYNIC          1
-   #define KVM_EXIT_HYPERV_HCALL          2
- 			__u32 type;
-+			__u32 pad1;
- 			union {
- 				struct {
- 					__u32 msr;
-+					__u32 pad2;
- 					__u64 control;
- 					__u64 evt_page;
- 					__u64 msg_page;
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 428c7dde6b4b..9cdc5356f542 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -189,9 +189,11 @@ struct kvm_hyperv_exit {
- #define KVM_EXIT_HYPERV_SYNIC          1
- #define KVM_EXIT_HYPERV_HCALL          2
- 	__u32 type;
-+	__u32 pad1;
- 	union {
- 		struct {
- 			__u32 msr;
-+			__u32 pad2;
- 			__u64 control;
- 			__u64 evt_page;
- 			__u64 msg_page;
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 29336574d0bc..53ef6b7bd380 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -131,6 +131,8 @@
+ #define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		BIT(8)
+ /* Crash MSR available */
+ #define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
++/* Support for debug MSRs available */
++#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
+ /* stimer Direct Mode is available */
+ #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+ 
+@@ -376,6 +378,9 @@ struct hv_tsc_emulation_status {
+ #define HVCALL_SEND_IPI_EX			0x0015
+ #define HVCALL_POST_MESSAGE			0x005c
+ #define HVCALL_SIGNAL_EVENT			0x005d
++#define HVCALL_POST_DEBUG_DATA			0x0069
++#define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
++#define HVCALL_RESET_DEBUG_SESSION		0x006b
+ #define HVCALL_RETARGET_INTERRUPT		0x007e
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+@@ -422,6 +427,7 @@ enum HV_GENERIC_SET_FORMAT {
+ #define HV_STATUS_INVALID_HYPERCALL_INPUT	3
+ #define HV_STATUS_INVALID_ALIGNMENT		4
+ #define HV_STATUS_INVALID_PARAMETER		5
++#define HV_STATUS_OPERATION_DENIED		8
+ #define HV_STATUS_INSUFFICIENT_MEMORY		11
+ #define HV_STATUS_INVALID_PORT_ID		17
+ #define HV_STATUS_INVALID_CONNECTION_ID		18
+diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
+index 757cb578101c..7f50ff0bad07 100644
+--- a/arch/x86/kvm/hyperv.h
++++ b/arch/x86/kvm/hyperv.h
+@@ -23,6 +23,33 @@
+ 
+ #include <linux/kvm_host.h>
+ 
++/*
++ * The #defines related to the synthetic debugger are required by KDNet, but
++ * they are not documented in the Hyper-V TLFS because the synthetic debugger
++ * functionality has been deprecated and is subject to removal in future
++ * versions of Windows.
++ */
++#define HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS	0x40000080
++#define HYPERV_CPUID_SYNDBG_INTERFACE			0x40000081
++#define HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES	0x40000082
++
++/*
++ * Hyper-V synthetic debugger platform capabilities
++ * These are HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX bits.
++ */
++#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	BIT(1)
++
++/* Hyper-V Synthetic debug options MSR */
++#define HV_X64_MSR_SYNDBG_CONTROL		0x400000F1
++#define HV_X64_MSR_SYNDBG_STATUS		0x400000F2
++#define HV_X64_MSR_SYNDBG_SEND_BUFFER		0x400000F3
++#define HV_X64_MSR_SYNDBG_RECV_BUFFER		0x400000F4
++#define HV_X64_MSR_SYNDBG_PENDING_BUFFER	0x400000F5
++#define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
++
++/* Hyper-V HV_X64_MSR_SYNDBG_OPTIONS bits */
++#define HV_X64_SYNDBG_OPTION_USE_HCALLS		BIT(2)
++
+ static inline struct kvm_vcpu_hv *vcpu_to_hv_vcpu(struct kvm_vcpu *vcpu)
+ {
+ 	return &vcpu->arch.hyperv;
 -- 
 2.24.1
 
