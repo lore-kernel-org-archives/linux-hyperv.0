@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD78C55197
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 12:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A935C54FD0
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 12:31:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C237D20776
-	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 12:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D765820700
+	for <linux-hyperv@archiver.kernel.org>; Fri, 24 Apr 2020 12:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1587731370;
-	bh=lX7GO5zZRgBAxgEabLCkym2MplVXRl3kwn5k981MtVQ=;
+	s=default; t=1587731466;
+	bh=5OSZRKzHocynd3cI10LxDkEipxQYslbPr+V2EF9QLlI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Tp2IR4ZiVRlxuOK4N4G2z8A1U6DGobHJuB2hItyPe7fC6YE8xpk10jF0NQPV3fd0s
-	 JktNPQBrMVtqFu6yn1meCiLyZ/KhSF+oUfQFs76RMBoY7PiE4vNm0+ObPUx/CGp7Ld
-	 5tT/CImhxCJSHEP/LTbXg7pkYXQp5iTbklppv8aw=
+	b=MZOhJVkRphppcg7UeK0AsFucCkDo9aSmuzXmFwafdiCTcA3nopuZWyLPviM7dlwsb
+	 hyWRL56N8lhLjrWAYzX+HA48BPivyrubTTjQBeHvv69MGMlfGge0+fIDR+BJGobovL
+	 EGPbfuHSFYygjEyrPnRYJ5mfj2tefxop5CXQsnpo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728332AbgDXM3a (ORCPT
+        id S1727124AbgDXMa5 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 24 Apr 2020 08:29:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54242 "EHLO mail.kernel.org"
+        Fri, 24 Apr 2020 08:30:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53284 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728222AbgDXMX7 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 24 Apr 2020 08:23:59 -0400
+        id S1727996AbgDXMX2 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 24 Apr 2020 08:23:28 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B845B21707;
-        Fri, 24 Apr 2020 12:23:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 59BB3215A4;
+        Fri, 24 Apr 2020 12:23:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587731038;
-        bh=lX7GO5zZRgBAxgEabLCkym2MplVXRl3kwn5k981MtVQ=;
+        s=default; t=1587731008;
+        bh=5OSZRKzHocynd3cI10LxDkEipxQYslbPr+V2EF9QLlI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QChqZ+OroKrCBLGeumwXaCArE8Egs+a+VUymVnkFbMDaHidLHTAVdg/a38IfIKWrG
-         P+xWsIYVkNtjgAbUgFEj4jeF5Vb3B6sjwadUr7yRw9jHCzqTlj9h2zMypU84CtWDsl
-         eDvBGe7oANGNJavmGns/JvCswYxTnIYaeJjmKyVg=
+        b=F4wxwg/WtgUtHYJF2PEApiciK7SZK2OTl8CxHAQ79bQl0dEAIM0Ls0Ykxbyf3QmPg
+         fVG+p6VH+rKVEivGk6F2Dmyi5k0vDuRzn0df+1/NrHVY2a034ntC3UzB79I+UJ/a3d
+         Wo/lASnZHpmLs0hyBewwiPqcrrYoY9dV6V1YZNlQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Olaf Hering <olaf@aepfle.de>, Wei Liu <wei.liu@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 02/18] x86: hyperv: report value of misc_features
-Date:   Fri, 24 Apr 2020 08:23:39 -0400
-Message-Id: <20200424122355.10453-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 03/26] x86: hyperv: report value of misc_features
+Date:   Fri, 24 Apr 2020 08:23:00 -0400
+Message-Id: <20200424122323.10194-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200424122355.10453-1-sashal@kernel.org>
-References: <20200424122355.10453-1-sashal@kernel.org>
+In-Reply-To: <20200424122323.10194-1-sashal@kernel.org>
+References: <20200424122323.10194-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index fc93ae3255153..f8b0fa2dbe374 100644
+index fc8814faae62c..1c2f9baf84832 100644
 --- a/arch/x86/kernel/cpu/mshyperv.c
 +++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -214,8 +214,8 @@ static void __init ms_hyperv_init_platform(void)
+@@ -227,8 +227,8 @@ static void __init ms_hyperv_init_platform(void)
  	ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
  	ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
  
