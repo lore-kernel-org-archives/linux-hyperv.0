@@ -2,40 +2,36 @@ Return-Path: <SRS0=GxS9=6O=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DD2C47254
-	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 16:04:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9F8C47247
+	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 16:37:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3359A2076D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 16:04:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C0B42082E
+	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 16:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgD3QE1 (ORCPT
+        id S1726576AbgD3QhQ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 30 Apr 2020 12:04:27 -0400
-Received: from mga17.intel.com ([192.55.52.151]:31780 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726350AbgD3QE0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 30 Apr 2020 12:04:26 -0400
-IronPort-SDR: Df8We27yhKqo7qpTknh7hRdrJQm27s3PXw/3A3CvYcPFbKTQZc5urqKQYIOE5egkv43DnN+BuO
- Kni/8a7Gavug==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2020 09:04:24 -0700
-IronPort-SDR: GGSzCMoySeYAUbJAzl2mHzLAbB6NpkILcMU5FKnDmI8Hd9CO4dZEQh8q2QgRszsoQswMn9gG6D
- vRptZ69zdrKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,336,1583222400"; 
-   d="scan'208";a="261827387"
-Received: from rariojas-mobl.amr.corp.intel.com (HELO [10.252.135.40]) ([10.252.135.40])
-  by orsmga006.jf.intel.com with ESMTP; 30 Apr 2020 09:04:23 -0700
-Subject: Re: [PATCH v2 2/3] mm/memory_hotplug: Introduce
- MHP_NO_FIRMWARE_MEMMAP
-To:     David Hildenbrand <david@redhat.com>,
-        "Eric W. Biederman" <ebiederm@xmission.com>
+        Thu, 30 Apr 2020 12:37:16 -0400
+Received: from out02.mta.xmission.com ([166.70.13.232]:56712 "EHLO
+        out02.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgD3QhP (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 30 Apr 2020 12:37:15 -0400
+Received: from in01.mta.xmission.com ([166.70.13.51])
+        by out02.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.90_1)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jUCBV-000583-GC; Thu, 30 Apr 2020 10:37:13 -0600
+Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=x220.xmission.com)
+        by in01.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.87)
+        (envelope-from <ebiederm@xmission.com>)
+        id 1jUCBT-0003Sj-B6; Thu, 30 Apr 2020 10:37:12 -0600
+From:   ebiederm@xmission.com (Eric W. Biederman)
+To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         virtio-dev@lists.oasis-open.org,
         virtualization@lists.linux-foundation.org,
@@ -50,76 +46,112 @@ Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
         Wei Yang <richard.weiyang@gmail.com>,
         Baoquan He <bhe@redhat.com>
 References: <20200430102908.10107-1-david@redhat.com>
- <20200430102908.10107-3-david@redhat.com>
- <87pnbp2dcz.fsf@x220.int.ebiederm.org>
- <1b49c3be-6e2f-57cb-96f7-f66a8f8a9380@redhat.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <c905918d-54f6-0f17-ca5b-cd3371ada788@intel.com>
-Date:   Thu, 30 Apr 2020 09:04:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        <20200430102908.10107-3-david@redhat.com>
+        <87pnbp2dcz.fsf@x220.int.ebiederm.org>
+        <1b49c3be-6e2f-57cb-96f7-f66a8f8a9380@redhat.com>
+Date:   Thu, 30 Apr 2020 11:33:53 -0500
+In-Reply-To: <1b49c3be-6e2f-57cb-96f7-f66a8f8a9380@redhat.com> (David
+        Hildenbrand's message of "Thu, 30 Apr 2020 17:52:35 +0200")
+Message-ID: <871ro52ary.fsf@x220.int.ebiederm.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1b49c3be-6e2f-57cb-96f7-f66a8f8a9380@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-XM-SPF: eid=1jUCBT-0003Sj-B6;;;mid=<871ro52ary.fsf@x220.int.ebiederm.org>;;;hst=in01.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
+X-XM-AID: U2FsdGVkX1/rjTp6/iiXIJNS/hMPK4PB5d8gU9GVdPg=
+X-SA-Exim-Connect-IP: 68.227.160.95
+X-SA-Exim-Mail-From: ebiederm@xmission.com
+Subject: Re: [PATCH v2 2/3] mm/memory_hotplug: Introduce MHP_NO_FIRMWARE_MEMMAP
+X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
+X-SA-Exim-Scanned: Yes (on in01.mta.xmission.com)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 4/30/20 8:52 AM, David Hildenbrand wrote:
+David Hildenbrand <david@redhat.com> writes:
+
+> On 30.04.20 17:38, Eric W. Biederman wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>> 
+>>> Some devices/drivers that add memory via add_memory() and friends (e.g.,
+>>> dax/kmem, but also virtio-mem in the future) don't want to create entries
+>>> in /sys/firmware/memmap/ - primarily to hinder kexec from adding this
+>>> memory to the boot memmap of the kexec kernel.
+>>>
+>>> In fact, such memory is never exposed via the firmware memmap as System
+>>> RAM (e.g., e820), so exposing this memory via /sys/firmware/memmap/ is
+>>> wrong:
+>>>  "kexec needs the raw firmware-provided memory map to setup the
+>>>   parameter segment of the kernel that should be booted with
+>>>   kexec. Also, the raw memory map is useful for debugging. For
+>>>   that reason, /sys/firmware/memmap is an interface that provides
+>>>   the raw memory map to userspace." [1]
+>>>
+>>> We don't have to worry about firmware_map_remove() on the removal path.
+>>> If there is no entry, it will simply return with -EINVAL.
+>>>
+>>> [1]
+>>> https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-firmware-memmap
+>> 
+>> 
+>> You know what this justification is rubbish, and I have previously
+>> explained why it is rubbish.
+>
+> Actually, no, I don't think it is rubbish. See patch #3 and the cover
+> letter why this is the right thing to do *for special memory*, *not
+> ordinary DIMMs*.
+>
+> And to be quite honest, I think your response is a little harsh. I don't
+> recall you replying to my virtio-mem-related comments.
+>
+>> 
+>> Nacked-by: "Eric W. Biederman" <ebiederm@xmission.com>
+>> 
+>> This needs to be based on weather the added memory is ultimately normal
+>> ram or is something special.
+>
+> Yes, that's what the caller are expected to decide, see patch #3.
+>
+> kexec should try to be as closely as possible to a real reboot - IMHO.
+
+That is very fuzzy in terms of hotplug memory.  The kexec'd kernel
+should see the hotplugged memory assuming it is ordinary memory.
+
+But kexec is not a reboot although it is quite similar.   Kexec is
+swapping one running kernel and it's state for another kernel without
+rebooting.
+
 >> Justifying behavior by documentation that does not consider memory
 >> hotplug is bad thinking.
+>
 > Are you maybe confusing this patch series with the arm64 approach? This
 > is not about ordinary hotplugged DIMMs.
-> 
-> I'd love to get Dan's, Dave's and Michal's opinion.
 
-The impact on kexec from the DAX "kmem" driver's use of hotplug was
-inadvertent and unfortunate.
+I think I am.
 
-The problem statement and solution seem pretty sane to me.
+My challenge is that I don't see anything in the description that says
+this isn't about ordinary hotplugged DIMMs.  All I saw was hotplug
+memory.
+
+If the class of memory is different then please by all means let's mark
+it differently in struct resource so everyone knows it is different.
+But that difference needs to be more than hotplug.
+
+That difference needs to be the hypervisor loaned us memory and might
+take it back at any time, or this memory is persistent and so it has
+these different characteristics so don't use it as ordinary ram.
+
+That information is also useful to other people looking at the system
+and seeing what is going on.
+
+Just please don't muddle the concepts, or assume that whatever subset of
+hotplug memory you are dealing with is the only subset.
+
+I didn't see that flag making the distinction about the kind of memory
+it is.
+
+Eric
+
+
+
+
