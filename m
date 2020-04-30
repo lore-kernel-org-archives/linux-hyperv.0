@@ -2,47 +2,49 @@ Return-Path: <SRS0=GxS9=6O=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD7BC8300E
-	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 10:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C51A4C8300B
+	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 10:29:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78B0320838
-	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 10:29:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2EC62137B
+	for <linux-hyperv@archiver.kernel.org>; Thu, 30 Apr 2020 10:29:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OVSlYlCZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GRc1AOxP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgD3K3q (ORCPT
+        id S1726866AbgD3K37 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 30 Apr 2020 06:29:46 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24542 "EHLO
+        Thu, 30 Apr 2020 06:29:59 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46254 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725280AbgD3K3q (ORCPT
+        by vger.kernel.org with ESMTP id S1726857AbgD3K35 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 30 Apr 2020 06:29:46 -0400
+        Thu, 30 Apr 2020 06:29:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588242584;
+        s=mimecast20190719; t=1588242596;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=F00GW0IDxO2YtXf8I1Htd7Li0LSvuJyIHlJhh9ba9cc=;
-        b=OVSlYlCZ2E3cHN0Js+7WHt5F1UfPjr1sI639y5jPoY/o5E2c0Rjfcnc2i8iymUtQTxujJU
-        R+c8aNGTDnYlI+DGUp6GNvmaDED+6ot8ymJwCGYeaYi7oJAPClpWpT89FDlvlR406D2UAR
-        zZTExmFEMkIxhq2XFZIg53dVl5iwqwk=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=cBxdneYzv1oFt6rUtmxHP8L8tmn6FMG5Rn0MO+hCbf0=;
+        b=GRc1AOxPVSP5nuHEWrXjyi/msXQ0zbqJmYJrnrUMnBMgWRZeMevzIvGaFLkugFIFcgkVrV
+        QVgvBqje0bXGeEMvcM98GRSr1ODO6I1j6l2GA54ykkDm7wIHNH/tL3iW/6Q7blEJBradq6
+        erGTZhdH6d8APCUbHXTN2O1RqAEuTzA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-F5xrMv_8M0upE38nqrJ6fA-1; Thu, 30 Apr 2020 06:29:37 -0400
-X-MC-Unique: F5xrMv_8M0upE38nqrJ6fA-1
+ us-mta-323-ZkDsTUQ-OxW7sjqOoV_anw-1; Thu, 30 Apr 2020 06:29:51 -0400
+X-MC-Unique: ZkDsTUQ-OxW7sjqOoV_anw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BD301899521;
-        Thu, 30 Apr 2020 10:29:32 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 920BB45F;
+        Thu, 30 Apr 2020 10:29:49 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-172.ams2.redhat.com [10.36.113.172])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 963F15D780;
-        Thu, 30 Apr 2020 10:29:16 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B43035EDEB;
+        Thu, 30 Apr 2020 10:29:40 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     linux-mm@kvack.org, virtio-dev@lists.oasis-open.org,
@@ -54,41 +56,16 @@ Cc:     linux-mm@kvack.org, virtio-dev@lists.oasis-open.org,
         Andrew Morton <akpm@linux-foundation.org>,
         "Michael S . Tsirkin" <mst@redhat.com>,
         David Hildenbrand <david@redhat.com>,
-        Baoquan He <bhe@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Juergen Gross <jgross@suse.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Len Brown <lenb@kernel.org>,
-        Leonardo Bras <leobras.c@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
         Michal Hocko <mhocko@suse.com>,
-        Nathan Lynch <nathanl@linux.ibm.com>,
-        Oscar Salvador <osalvador@suse.de>,
         Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Pavel Tatashin <pasha.tatashin@soleen.com>,
-        Pingfan Liu <kernelfans@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Wei Yang <richard.weiyang@gmail.com>
-Subject: [PATCH v2 0/3] mm/memory_hotplug: Allow to not create firmware memmap entries
-Date:   Thu, 30 Apr 2020 12:29:05 +0200
-Message-Id: <20200430102908.10107-1-david@redhat.com>
+        Wei Yang <richard.weiyang@gmail.com>,
+        Baoquan He <bhe@redhat.com>,
+        Eric Biederman <ebiederm@xmission.com>
+Subject: [PATCH v2 2/3] mm/memory_hotplug: Introduce MHP_NO_FIRMWARE_MEMMAP
+Date:   Thu, 30 Apr 2020 12:29:07 +0200
+Message-Id: <20200430102908.10107-3-david@redhat.com>
+In-Reply-To: <20200430102908.10107-1-david@redhat.com>
+References: <20200430102908.10107-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Content-Transfer-Encoding: quoted-printable
@@ -97,48 +74,74 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is the follow up of [1]:
-	[PATCH v1 0/3] mm/memory_hotplug: Make virtio-mem play nicely with
-	kexec-tools
+Some devices/drivers that add memory via add_memory() and friends (e.g.,
+dax/kmem, but also virtio-mem in the future) don't want to create entries
+in /sys/firmware/memmap/ - primarily to hinder kexec from adding this
+memory to the boot memmap of the kexec kernel.
 
-I realized that this is not only helpful for virtio-mem, but also for
-dax/kmem - it's a fix for that use case (see patch #3) of persistent
-memory.
+In fact, such memory is never exposed via the firmware memmap as System
+RAM (e.g., e820), so exposing this memory via /sys/firmware/memmap/ is
+wrong:
+ "kexec needs the raw firmware-provided memory map to setup the
+  parameter segment of the kernel that should be booted with
+  kexec. Also, the raw memory map is useful for debugging. For
+  that reason, /sys/firmware/memmap is an interface that provides
+  the raw memory map to userspace." [1]
 
-Also, while testing, I discovered that kexec-tools will *not* add dax/kme=
-m
-memory (anything not directly under the root when parsing /proc/iomem) to
-the elfcorehdr, so this memory will never get included in a dump. This
-probably has to be fixed in kexec-tools - virtio-mem will require this as
-well.
+We don't have to worry about firmware_map_remove() on the removal path.
+If there is no entry, it will simply return with -EINVAL.
 
-v1 -> v2:
-- Don't change the resource name
-- Rename the flag to MHP_NO_FIRMWARE_MEMMAP to reflect what it is doing
-- Rephrase subjects/descriptions
-- Use the flag for dax/kmem
+[1] https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-firmware-m=
+emmap
 
-I'll have to rebase virtio-mem on these changes, there will be a resend.
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Wei Yang <richard.weiyang@gmail.com>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Eric Biederman <ebiederm@xmission.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ include/linux/memory_hotplug.h | 8 ++++++++
+ mm/memory_hotplug.c            | 3 ++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-[1] https://lkml.kernel.org/r/20200429160803.109056-1-david@redhat.com
-
-David Hildenbrand (3):
-  mm/memory_hotplug: Prepare passing flags to add_memory() and friends
-  mm/memory_hotplug: Introduce MHP_NO_FIRMWARE_MEMMAP
-  device-dax: Add system ram (add_memory()) with MHP_NO_FIRMWARE_MEMMAP
-
- arch/powerpc/platforms/powernv/memtrace.c       |  2 +-
- arch/powerpc/platforms/pseries/hotplug-memory.c |  2 +-
- drivers/acpi/acpi_memhotplug.c                  |  2 +-
- drivers/base/memory.c                           |  2 +-
- drivers/dax/kmem.c                              |  3 ++-
- drivers/hv/hv_balloon.c                         |  2 +-
- drivers/s390/char/sclp_cmd.c                    |  2 +-
- drivers/xen/balloon.c                           |  2 +-
- include/linux/memory_hotplug.h                  | 15 ++++++++++++---
- mm/memory_hotplug.c                             | 14 ++++++++------
- 10 files changed, 29 insertions(+), 17 deletions(-)
-
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplu=
+g.h
+index 0151fb935c09..4ca418a731eb 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -68,6 +68,14 @@ struct mhp_params {
+ 	pgprot_t pgprot;
+ };
+=20
++/* Flags used for add_memory() and friends. */
++
++/*
++ * Don't create entries in /sys/firmware/memmap/. The memory is detected=
+ and
++ * added via a device driver, not via the initial (firmware) memmap.
++ */
++#define MHP_NO_FIRMWARE_MEMMAP		1
++
+ /*
+  * Zone resizing functions
+  *
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index c01be92693e3..e94ede9cad00 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1062,7 +1062,8 @@ int __ref add_memory_resource(int nid, struct resou=
+rce *res,
+ 	BUG_ON(ret);
+=20
+ 	/* create new memmap entry */
+-	firmware_map_add_hotplug(start, start + size, "System RAM");
++	if (!(flags & MHP_NO_FIRMWARE_MEMMAP))
++		firmware_map_add_hotplug(start, start + size, "System RAM");
+=20
+ 	/* device_online() will take the lock when calling online_pages() */
+ 	mem_hotplug_done();
 --=20
 2.25.3
 
