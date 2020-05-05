@@ -2,165 +2,167 @@ Return-Path: <SRS0=wjU0=6T=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CECFDC47254
-	for <linux-hyperv@archiver.kernel.org>; Tue,  5 May 2020 10:38:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EDA9C47254
+	for <linux-hyperv@archiver.kernel.org>; Tue,  5 May 2020 15:03:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABBFF20735
-	for <linux-hyperv@archiver.kernel.org>; Tue,  5 May 2020 10:38:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsnoShIC"
+	by mail.kernel.org (Postfix) with ESMTP id 11A012078C
+	for <linux-hyperv@archiver.kernel.org>; Tue,  5 May 2020 15:03:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728430AbgEEKiZ (ORCPT
+        id S1729474AbgEEPDX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 5 May 2020 06:38:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728238AbgEEKiZ (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 5 May 2020 06:38:25 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD099C061A0F;
-        Tue,  5 May 2020 03:38:24 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id u127so1766678wmg.1;
-        Tue, 05 May 2020 03:38:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qdvXRHV49KZiDqe+v5s5lVLMQu37AOtnKETx3EmPlpw=;
-        b=JsnoShICFFrQ+8QGcwDk46zqHVdYbrUXy1Kuqe88AnIJvMaDQS0DCTcKsxE6fhFReW
-         57z/KFzZ7ekwcmU2d8eXW1VXVgATQY3Nvb3yPL8DS36EpxlqT108jdaytJxeCZFtPPaw
-         vEe8tNqpptRhIviRvVfY/+FNvmKw32ihJOu0xytvKNX4Gec7HFKo8OAcQctF1czpUHrF
-         qwQbpXNJa+/o/sXtLTppmsJ3zS7pI3TdrFaoJZ2yD3WrCdRbx42Y/r23sE0XjZ+kzejN
-         jF/gM38m1tFxPtoVMdB00che32EOCtk0gQ5OhQFiC3PteM6+Fb9K/J2oQhlWpSBrU3fH
-         V9Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qdvXRHV49KZiDqe+v5s5lVLMQu37AOtnKETx3EmPlpw=;
-        b=j7xYFiQO2VZMEuLZrUmuT9S0XLufe99EBVl8lyUCxBs+bcUVZvDMyO3hfEq5OVMCNB
-         IjxHZL3OGXEKTIzihHy/D1OnUU2lC+MDWSC6QQjE3Wa66mzolnuCtLvMPfO2qVfMVQdi
-         38dfSffG6JpTO3wVcWK4g5/uXbAhTD85H6/KtIE6sTpLC8/wCBsU34X2pHkty4sv/pAn
-         /DX2ORi65XGeQTwgBY9JxmCVha3JyqbyTBwOOdIeYg0hsAKs567Jjbo7mXck8ZZH3T1m
-         iEk7SA9IvFopvvE2N3FBB4xFmB8wkK9Aa7Jy6+9nvWyaQJLldg0hj/Uot2J+R/GtokCo
-         fbQw==
-X-Gm-Message-State: AGi0PuZJci0nmWy3A/sGqzwlWNPpiMfaQh0pqalzZFfQnvECbXF/cyOn
-        Eabcy5IsCI19FYoTrm3ggZNl2Bm6dz8=
-X-Google-Smtp-Source: APiQypKGXYuyWK4FBwaqWCWPuo5VBCJNcCtPeJ1uRgXzanGAsJ2MSY9D794RDIm0MYPfDiHcgi850g==
-X-Received: by 2002:a1c:7d04:: with SMTP id y4mr2740141wmc.10.1588675103469;
-        Tue, 05 May 2020 03:38:23 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
-        by smtp.gmail.com with ESMTPSA id k9sm2625894wrd.17.2020.05.05.03.38.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 03:38:22 -0700 (PDT)
-Date:   Tue, 5 May 2020 13:38:21 +0300
-From:   Jon Doron <arilou@gmail.com>
-To:     Roman Kagan <rvkagan@yandex-team.ru>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>, kvm@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 0/1] x86/kvm/hyper-v: Add support to SYNIC exit on EOM
-Message-ID: <20200505103821.GB2862@jondnuc>
-References: <20200416083847.1776387-1-arilou@gmail.com>
- <20200416120040.GA3745197@rvkaganb>
- <20200416125430.GL7606@jondnuc>
- <20200417104251.GA3009@rvkaganb>
- <20200418064127.GB1917435@jondnuc>
- <20200424133742.GA2439920@rvkaganb>
- <20200425061637.GF1917435@jondnuc>
- <20200503191900.GA389956@rvkaganb>
- <87a72nelup.fsf@vitty.brq.redhat.com>
- <20200505080158.GA400685@rvkaganb>
+        Tue, 5 May 2020 11:03:23 -0400
+Received: from foss.arm.com ([217.140.110.172]:42644 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729832AbgEEPDX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 5 May 2020 11:03:23 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B10C01FB;
+        Tue,  5 May 2020 08:03:22 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B4BB3F68F;
+        Tue,  5 May 2020 08:03:21 -0700 (PDT)
+Date:   Tue, 5 May 2020 16:03:15 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Wei Hu <weh@microsoft.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, robh@kernel.org, bhelgaas@google.com,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, decui@microsoft.com,
+        mikelley@microsoft.com
+Subject: Re: [PATCH v2 1/2] PCI: hv: Fix the PCI HyperV probe failure path to
+ release resource properly
+Message-ID: <20200505150315.GA16228@e121166-lin.cambridge.arm.com>
+References: <20200501053617.24689-1-weh@microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200505080158.GA400685@rvkaganb>
+In-Reply-To: <20200501053617.24689-1-weh@microsoft.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 05/05/2020, Roman Kagan wrote:
->On Mon, May 04, 2020 at 05:55:10PM +0200, Vitaly Kuznetsov wrote:
->> Roman Kagan <rvkagan@yandex-team.ru> writes:
->>
->> > On Sat, Apr 25, 2020 at 09:16:37AM +0300, Jon Doron wrote:
->> >
->> >> If that's indeed the case then probably the only thing needs fixing in my
->> >> scenario is in QEMU where it should not really care for the SCONTROL if it's
->> >> enabled or not.
->> >
->> > Right.  However, even this shouldn't be necessary as SeaBIOS from that
->> > branch would enable SCONTROL and leave it that way when passing the
->> > control over to the bootloader, so, unless something explicitly clears
->> > SCONTROL, it should remain set thereafter.  I'd rather try going ahead
->> > with that scheme first, because making QEMU ignore SCONTROL appears to
->> > violate the spec.
->>
->> FWIW, I just checked 'genuine' Hyper-V 2016 with
->>
->> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
->> index fd51bac11b46..c5ea759728d9 100644
->> --- a/arch/x86/hyperv/hv_init.c
->> +++ b/arch/x86/hyperv/hv_init.c
->> @@ -314,10 +314,14 @@ void __init hyperv_init(void)
->>         u64 guest_id, required_msrs;
->>         union hv_x64_msr_hypercall_contents hypercall_msr;
->>         int cpuhp, i;
->> +       u64 val;
->>
->>         if (x86_hyper_type != X86_HYPER_MS_HYPERV)
->>                 return;
->>
->> +       hv_get_synic_state(val);
->> +       printk("Hyper-V: SCONTROL state: %llx\n", val);
->> +
->>         /* Absolutely required MSRs */
->>         required_msrs = HV_X64_MSR_HYPERCALL_AVAILABLE |
->>                 HV_X64_MSR_VP_INDEX_AVAILABLE;
->
->Thanks for having done this check!
->
->> and it seems the default state of HV_X64_MSR_SCONTROL is '1', we should
->> probably do the same.
->
->This is the state the OS sees, after the firmware.  You'd see the same
->with QEMU/KVM if you used Hyper-V-aware SeaBIOS or OVMF.
->
->> Is there any reason to *not* do this in KVM when
->> KVM_CAP_HYPERV_SYNIC[,2] is enabled?
->
->Yes there is: quoting Hyper-V TLFS v6.0 11.8.1:
->
->  At virtual processor creation time and upon processor reset, the value
->  of this SCONTROL (SynIC control register) is 0x0000000000000000. Thus,
->  message queuing and event flag notifications will be disabled.
->
->And, even if we decide to violate the spec it's better done in
->userspace, loading the initial value and adjusting the synic state at
->vcpu reset.
->
->However leaving it up to the guest (firmware or OS) looks more natural
->to me.
->
->Thanks,
->Roman.
+On Fri, May 01, 2020 at 01:36:17PM +0800, Wei Hu wrote:
+> Some error cases in hv_pci_probe() were not handled. Fix these error
+> paths to release the resourses and clean up the state properly.
 
-I under where you are coming from in the idea of leaving it to the OS 
-but I think in this specific case it does not make much sense, after all 
-HyperV has it's own proprietary BIOS which Windows assumes has setup 
-some of the MSRs, since we dont have that BIOS we need to "emulate" it's 
-behaviour.
+This patch does more than that. It adds a variable to store the
+number of slots actually allocated - I presume to free only
+allocated on slots on the exit path.
 
-I also feel like the best approach should be in QEMU in case VMBus 
-device exists it will also setup the SCONTROL to ENABLED, this way you 
-are not bound to have a special BIOS in case you have decided to use 
-HyperV advanced features like VMBus.
+Two patches required I am afraid.
 
-Cheers,
--- Jon.
+> Signed-off-by: Wei Hu <weh@microsoft.com>
+> ---
+>  drivers/pci/controller/pci-hyperv.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+> index e15022ff63e3..e6fac0187722 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -480,6 +480,9 @@ struct hv_pcibus_device {
+>  
+>  	struct workqueue_struct *wq;
+>  
+> +	/* Highest slot of child device with resources allocated */
+> +	int wslot_res_allocated;
+
+I don't understand why you need an int rather than a u32.
+
+Furthermore, I think a bitmap is more appropriate for what this
+variable is used for.
+
+> +
+>  	/* hypercall arg, must not cross page boundary */
+>  	struct hv_retarget_device_interrupt retarget_msi_interrupt_params;
+>  
+> @@ -2847,7 +2850,7 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
+>  	struct hv_pci_dev *hpdev;
+>  	struct pci_packet *pkt;
+>  	size_t size_res;
+> -	u32 wslot;
+> +	int wslot;
+>  	int ret;
+>  
+>  	size_res = (hbus->protocol_version < PCI_PROTOCOL_VERSION_1_2)
+> @@ -2900,6 +2903,8 @@ static int hv_send_resources_allocated(struct hv_device *hdev)
+>  				comp_pkt.completion_status);
+>  			break;
+>  		}
+> +
+> +		hbus->wslot_res_allocated = wslot;
+>  	}
+>  
+>  	kfree(pkt);
+> @@ -2918,10 +2923,10 @@ static int hv_send_resources_released(struct hv_device *hdev)
+>  	struct hv_pcibus_device *hbus = hv_get_drvdata(hdev);
+>  	struct pci_child_message pkt;
+>  	struct hv_pci_dev *hpdev;
+> -	u32 wslot;
+> +	int wslot;
+>  	int ret;
+>  
+> -	for (wslot = 0; wslot < 256; wslot++) {
+> +	for (wslot = hbus->wslot_res_allocated; wslot >= 0; wslot--) {
+>  		hpdev = get_pcichild_wslot(hbus, wslot);
+>  		if (!hpdev)
+>  			continue;
+> @@ -2936,8 +2941,12 @@ static int hv_send_resources_released(struct hv_device *hdev)
+>  				       VM_PKT_DATA_INBAND, 0);
+>  		if (ret)
+>  			return ret;
+> +
+> +		hbus->wslot_res_allocated = wslot - 1;
+
+Do you really need to set it at every loop iteration ?
+
+Moreover, I think a bitmap is better suited for what you are doing,
+given that you may skip some loop indexes on !hpdev.
+
+>  	}
+>  
+> +	hbus->wslot_res_allocated = -1;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -3037,6 +3046,7 @@ static int hv_pci_probe(struct hv_device *hdev,
+>  	if (!hbus)
+>  		return -ENOMEM;
+>  	hbus->state = hv_pcibus_init;
+> +	hbus->wslot_res_allocated = -1;
+>  
+>  	/*
+>  	 * The PCI bus "domain" is what is called "segment" in ACPI and other
+> @@ -3136,7 +3146,7 @@ static int hv_pci_probe(struct hv_device *hdev,
+>  
+>  	ret = hv_pci_allocate_bridge_windows(hbus);
+>  	if (ret)
+> -		goto free_irq_domain;
+> +		goto exit_d0;
+>  
+>  	ret = hv_send_resources_allocated(hdev);
+>  	if (ret)
+> @@ -3154,6 +3164,8 @@ static int hv_pci_probe(struct hv_device *hdev,
+>  
+>  free_windows:
+>  	hv_pci_free_bridge_windows(hbus);
+> +exit_d0:
+> +	(void) hv_pci_bus_exit(hdev, true);
+
+Remove the (void) cast.
+
+Lorenzo
+
+>  free_irq_domain:
+>  	irq_domain_remove(hbus->irq_domain);
+>  free_fwnode:
+> -- 
+> 2.20.1
+> 
