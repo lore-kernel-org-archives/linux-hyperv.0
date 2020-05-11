@@ -2,163 +2,110 @@ Return-Path: <SRS0=F6CK=6Z=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01225C54E4A
-	for <linux-hyperv@archiver.kernel.org>; Mon, 11 May 2020 14:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8993AC47255
+	for <linux-hyperv@archiver.kernel.org>; Mon, 11 May 2020 15:32:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBC2C206DB
-	for <linux-hyperv@archiver.kernel.org>; Mon, 11 May 2020 14:11:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="gk6cYpF4"
+	by mail.kernel.org (Postfix) with ESMTP id 673C92070B
+	for <linux-hyperv@archiver.kernel.org>; Mon, 11 May 2020 15:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1589211143;
+	bh=uyTGfOrf+hTSI5tCzivT3bP4dKGVf6P9K4c82/4I2Zg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1oa1sWYWtnAwdNJQUeHNbhoqwB/7zMciddiRV9rJLzw9UJgMG7nNyJ9EwN2OO0n7y
+	 nZZMWzuyLUby9Y1otUq0UKAxMFRAG2UL2TS1XRU1De6c9DPEJ9SxLoxP9jfG3b4dbv
+	 WMAB1QvBfFQm77GePliEGVbqIvrUtMJnE3rd6pr8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730412AbgEKOLb (ORCPT
+        id S1728089AbgEKPcU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 11 May 2020 10:11:31 -0400
-Received: from mail-eopbgr1320125.outbound.protection.outlook.com ([40.107.132.125]:63808
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730314AbgEKOL2 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 11 May 2020 10:11:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jh/Jgchc2XqvX4G+oKZL1WS+aKhxg3zJeRxYwqdUyi0sSEUTeEEyaAVtycy/reDYdQk+9+ohMwJIklTr9T0Gt9cv51Mdz6vqorjYgsIo5f4gTWPv5SskkBIvcMN0Zewi83XJSpm8pIZZfN/vJ15fYlkTh5VTajedysr8AeXS17yytFBuUm+CG4dbNRXLhtWLXa/o3Z2jpKUS9quUqqspU60NDwii+hxsfwYK9r3y4tGjx0MPxnDedA/10U/DNH5HwIqLrV210gQGVtr6oFdb04tuGfXHytKhIONbjxhS5CczpszzvjAp/hrJqZm9gG2NpGLZtP3YttgbmN9bgtOndA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gbtQKxVOAfiR4njrekkmCrT9W4lFFwM4LpR2xN6Bew8=;
- b=dIPFeRC+ze52jgCdONzn6QKa6VN8MFlnTINSBWSyjB143tpb6eXHy+T51r1JpPRNQP2VZK/4u0q+JZPxdJQim9NKvZOcOPR8g0YjQcvluQwMXkrMTFpikOqfw/Kj5BoxvUiE+k/wylVpvsbiky7XVQ5w7E9YO9wNS4fROwSuGPyV2vo8FGYfrZ55h1A0oqinzBi/0dV1sGPWO/uXWKRF6xUsUVvBrZHWKH20paEYqTjteLvhPIovN49vWoLQkmxhlBVysjzXPlgpx1OkZUWIpzVHOWNl23gJHjtotB42V6BsS5MaqCBppSChdXNS32HyUT+ymFQ3eZG1fz4CZAwAAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gbtQKxVOAfiR4njrekkmCrT9W4lFFwM4LpR2xN6Bew8=;
- b=gk6cYpF4guYDL8xFr/lmPCD2bqcoxW3CsI3U5iPeEHQYU0VzhYs8wK9HXajWEnXF/+/xCJEops0atI7o0JJaQzCu2sfDHdkpbAVVkXIhv0RIHS8JlFt0ncoFBPNWoEUxPulqxkYEzWw/wkRXj/YtkB/Q/dqa8uJKSRaqseNwkrU=
-Received: from SG2P153MB0213.APCP153.PROD.OUTLOOK.COM (2603:1096:4:8c::10) by
- SG2P153MB0270.APCP153.PROD.OUTLOOK.COM (2603:1096:4:ad::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3021.1; Mon, 11 May 2020 14:11:22 +0000
-Received: from SG2P153MB0213.APCP153.PROD.OUTLOOK.COM
- ([fe80::9979:a66f:c953:ce10]) by SG2P153MB0213.APCP153.PROD.OUTLOOK.COM
- ([fe80::9979:a66f:c953:ce10%5]) with mapi id 15.20.3021.002; Mon, 11 May 2020
- 14:11:22 +0000
-From:   Wei Hu <weh@microsoft.com>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     KY Srinivasan <kys@microsoft.com>,
+        Mon, 11 May 2020 11:32:20 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53978 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727994AbgEKPcT (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 11 May 2020 11:32:19 -0400
+Received: by mail-wm1-f65.google.com with SMTP id k12so18447355wmj.3;
+        Mon, 11 May 2020 08:32:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=4/5Nwk9mLhRZScYYCn9683XrSojxRsX8XSuLtfNRp8A=;
+        b=WGJDx612oqrb49MW8+SD+uUXyfJzvaTqDgPbb77Yl7WtLYJphJNU0/ChfaR8Q+LaNY
+         SwmkhK2s/XaJs8HhcguQQHHAwD5dd8XM3HgC48l5bqUzIB/o9yltQbzeru5BKgirMM2j
+         PLPufO8POanZakPa3Yk1HkdNEQM98hu/sT3Bcbc1ewo4QtYaAydHSE/eH4Akr6A7/dF+
+         Y6q28EETeP2m0nTO5CDaSmx2M8Tr6f0lFlbqjPc6jMtexNboYbFvgbwEfVePGe32JrMy
+         Tcet1Ks7dkPNbdOWfexVHYWpKQNSDTFJ0fngbxXcU4wMNnU9jSmlvUQVBWOsw6B7IAzT
+         YT6g==
+X-Gm-Message-State: AGi0PubbTtep7uHHrFqqcN8qbQfa/Z8ClorXAEatRHbZvSV3/tZCSOBX
+        UIB/mLLbQXPxtdnOVLz+YV6dqeC2
+X-Google-Smtp-Source: APiQypK85TB4whX36I8/SG1CyR1R9Kq/5evRMvh5tebUY7NF3E42iOhAs7jNrcK9J3lezxEIt9MiJw==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr31102935wmi.187.1589211137820;
+        Mon, 11 May 2020 08:32:17 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id 7sm20219591wra.50.2020.05.11.08.32.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 08:32:17 -0700 (PDT)
+Date:   Mon, 11 May 2020 15:32:15 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Wei Liu <wei.liu@kernel.org>, linux-pci@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: RE: [PATCH v3 2/2] PCI: hv: Retry PCI bus D0 entry when the first
- attempt failed with invalid device state
-Thread-Topic: [PATCH v3 2/2] PCI: hv: Retry PCI bus D0 entry when the first
- attempt failed with invalid device state
-Thread-Index: AQHWJCzash5RmaIcnEaW8yRfAeCuS6iixDMAgAAuD3A=
-Date:   Mon, 11 May 2020 14:11:21 +0000
-Message-ID: <SG2P153MB0213CB7EB0E1BE05F2D621CEBBA10@SG2P153MB0213.APCP153.PROD.OUTLOOK.COM>
-References: <20200507050300.10974-1-weh@microsoft.com>
- <20200511112112.GC24954@e121166-lin.cambridge.arm.com>
-In-Reply-To: <20200511112112.GC24954@e121166-lin.cambridge.arm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=True;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Owner=weh@microsoft.com;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-05-11T14:11:19.8431719Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=General;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=5dc7db8c-1ff0-4a09-8a09-1e83ea86ebaf;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Extended_MSFT_Method=Automatic
-authentication-results: arm.com; dkim=none (message not signed)
- header.d=none;arm.com; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [180.157.10.88]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: da23b11f-0327-4122-c509-08d7f5b52ef4
-x-ms-traffictypediagnostic: SG2P153MB0270:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SG2P153MB02703A3C9D4D71AB75A1796CBBA10@SG2P153MB0270.APCP153.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 04004D94E2
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c/WVSRO5fYpKioiFnaa7ebbE17wssSYj/tjO2hWfbQs1V+vJX3FkKz9GqXRjhzr+wfOFBs476XidpXyf5fZzjyBUYYzwNOLGhHxeeoLbsRUTH5ehJHEMCAagNG+//f19kbj5xhnjHAZOvEmyGV+rFMZic41VJ4+TIuHouNvykWKscwYLk057FFIQc+51y+e1O1ZsLToMptmWMe437Hv+3xfc/y2iM4o87qglslBfoGCJZpmdmDyZz7qWHIfXilhoxmzuokFNgV9mqZfZNg6zu/Yr4tkugM80wMIJ+IgWKIzYV9vCPxamvVuz+GLfpF99y8Ti2WD3YO2LmDj9D8fAf+PL5uylLDnmz8rpgsjI1bt1TMWKECtIC4RB6rSaYN55sgj765a8FulfdlavkpGDJlYlolJNAQNfHOZ9QAF8EOY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2P153MB0213.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(33430700001)(55016002)(8936002)(82950400001)(82960400001)(4326008)(76116006)(66446008)(66556008)(66946007)(2906002)(66476007)(10290500003)(64756008)(6916009)(52536014)(86362001)(478600001)(8676002)(107886003)(9686003)(316002)(71200400001)(5660300002)(53546011)(186003)(26005)(7696005)(33440700001)(33656002)(6506007)(8990500004)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: Yuk6/yGN/B4Wz0/pFWgnPilcMXbs3nfkutpmipwpU7rPCkK38b8/wRzbBfZYdkqUEKQnnTb5A0RpGOZZ8QOjC1/XE2Q/05hNXkiEZIYE57E6cU/YAgv2UKkePb0B/HI4/E+JjY2OvTIZjZUKezr5E5Fc8awYBaXR5Sm0TVI8q4UFZzp1U1KVX0Nj8kNG0ZTgQVxiuWukVvFHPZV6q4owgtyJJgctgE2TtB5IW+x3LhG90DZnS88IWGhqC5jF+xUDJTLFM6PPso7PaWWvOc+z9E21addVTRFZ8k6Pda73saIdUreByuzaLK+r+HoQzjByFb+Zy68HZN1kUaL7emq7UJqVmKhE791rGQKyP4IqswO1wl2+uYxiVa4toyvpFOhVati/dULkyVO29FW87TcyDbUqAnE0DXQjtVBKKA0cFatSSShdikUrwkOZqCHFZsuJzTCDx8iYDqbGEYHd97S0fZ4TEaJXfdSaqrTvOb0NYY8=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Enrico Weigelt <info@metux.net>
+Subject: Re: [PATCH] PCI: export and use pci_msi_get_hwirq in pci-hyperv.c
+Message-ID: <20200511153215.spcqylnde6p36n6j@liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net>
+References: <20200422195818.35489-1-wei.liu@kernel.org>
+ <20200507205831.GA30988@bogus>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da23b11f-0327-4122-c509-08d7f5b52ef4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2020 14:11:21.7675
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I4QPNRr5lL3tP0zZm6/+aAg89bQPqBnGJ57UviO/PZxAPc+NzVL9yg57YZrlNzvpr34d8pfgDFynPfopBiARKg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2P153MB0270
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507205831.GA30988@bogus>
+User-Agent: NeoMutt/20180716
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Sent: Monday, May 11, 2020 7:21 PM
-> To: Wei Hu <weh@microsoft.com>
-> Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
-> <haiyangz@microsoft.com>; Stephen Hemminger <sthemmin@microsoft.com>;
-> wei.liu@kernel.org; robh@kernel.org; bhelgaas@google.com; linux-
-> hyperv@vger.kernel.org; linux-pci@vger.kernel.org; linux-
-> kernel@vger.kernel.org; Dexuan Cui <decui@microsoft.com>; Michael Kelley
-> <mikelley@microsoft.com>
-> Subject: Re: [PATCH v3 2/2] PCI: hv: Retry PCI bus D0 entry when the firs=
-t
-> attempt failed with invalid device state
->=20
-> On Thu, May 07, 2020 at 01:03:00PM +0800, Wei Hu wrote:
-> > In the case of kdump, the PCI device was not cleanly shut down before
-> > the kdump kernel starts. This causes the initial attempt of entering
-> > D0 state in the kdump kernel to fail with invalid device state
-> > returned from Hyper-V host.
-> > When this happens, explicitly call PCI bus exit and retry to enter the
-> > D0 state.
-> >
-> > Signed-off-by: Wei Hu <weh@microsoft.com>
+On Thu, May 07, 2020 at 03:58:31PM -0500, Rob Herring wrote:
+> On Wed, Apr 22, 2020 at 07:58:15PM +0000, Wei Liu wrote:
+> > There is a functionally identical function in pci-hyperv.c. Drop it and
+> > use pci_msi_get_hwirq instead.
+> > 
+> > This requires exporting pci_msi_get_hwirq and declaring it in msi.h.
+> > 
+> > No functional change intended.
+> > 
+> > Signed-off-by: Wei Liu <wei.liu@kernel.org>
 > > ---
-> >     v2: Incorporate review comments from Michael Kelley, Dexuan Cui and
-> >     Bjorn Helgaas
-> >
-> >  drivers/pci/controller/pci-hyperv.c | 40
-> > +++++++++++++++++++++++++++--
-> >  1 file changed, 38 insertions(+), 2 deletions(-)
->=20
-> Subject: exceeded 80 chars and commit log needed rewording and paragraphs
-> rewrapping. I did it this time but please pay attention to commit log con=
-tent
-> (and format).
+> >  arch/x86/include/asm/msi.h          | 4 ++++
+> >  arch/x86/kernel/apic/msi.c          | 5 +++--
+> >  drivers/pci/controller/pci-hyperv.c | 8 +-------
+> >  3 files changed, 8 insertions(+), 9 deletions(-)
+> 
+> Would be better if done in a way to remove an x86 dependency. 
 
-Got it. Thanks much for correcting it for me this time!
+This is a good point, Rob. I will see what I can do.
 
-Wei
+Wei.
 
->=20
-> Thanks,
-> Lorenzo
->=20
-
+> 
+> I guess this would do it:
+> 
+> #define pci_msi_get_hwirq NULL
+> 
+> when GENERIC_MSI_DOMAIN_OPS is enabled.
