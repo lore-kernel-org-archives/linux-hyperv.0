@@ -1,103 +1,164 @@
-Return-Path: <SRS0=LZ5e=7F=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=cmJj=7H=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3F1C433DF
-	for <linux-hyperv@archiver.kernel.org>; Sat, 23 May 2020 09:04:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50546C433DF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 25 May 2020 16:38:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42E6120727
-	for <linux-hyperv@archiver.kernel.org>; Sat, 23 May 2020 09:04:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26F612078B
+	for <linux-hyperv@archiver.kernel.org>; Mon, 25 May 2020 16:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1590224648;
-	bh=Hp1tC5MycJ9XgfCfaud3YimEXsipBgcHUujsSOlD/DU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Z4vI1JvonavisCliiyXfhX9JbDQXHv7XfBH8wmZmKRi37ASFAa3YLXEtp4z6+U9TY
-	 kp/KXgbymGdfp9VmMklvLYFk6SzAC0pH0kcOvzkuwAIOUYwB1TNrjr2lMmT+Lf59jJ
-	 9VjCQiomtzy1iZ+iWIaNOJZ9JIEhgL8YOSsIvTJk=
+	s=default; t=1590424707;
+	bh=tyXYVbZ/KHxp0iFJ0teaN0huGpPC0vGPMko7EezkrzA=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=KSJ1z7QInOJ5FZIlDoxoIZ9+N2KaX1TeI78XGf0jahrSEtliXtXsCCCsI54MhQI0J
+	 wGyRXVQhDdMAYPSZNKMGwBMa7s51cakh+OeoMB97N93C3SZe0DH+1iV36JezGGmbET
+	 vvF0VftOA06cltF80twEUF/ev0mrvHYN4xgtrst8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387689AbgEWJEH (ORCPT
+        id S1731513AbgEYQi1 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 23 May 2020 05:04:07 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37556 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387498AbgEWJEH (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 23 May 2020 05:04:07 -0400
-Received: by mail-wr1-f66.google.com with SMTP id l17so12587824wrr.4;
-        Sat, 23 May 2020 02:04:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wHEVgPYbInrmivVdwVmS/wLcMCPWwyD58Nhe2wcQjfs=;
-        b=jKs1L/smdt6HZ/N/w6fAe2gFc4/U0gKsO7TuyY5l59qcVTDqNzcWZ1XAaVaBhXhQ/F
-         waLzR6HMUtrMXA65Y4TGoupqFIJAN5HqSB8rNiDIE/ihJzsMAJsJ/ssSq1e+M+d+5C2v
-         F7ZJPzSPl4nuLahNwyJYMabnbw2B0tWHqFklbfadHtMzW6gNfzYzXtcJ1/huHad0YMlk
-         DOAWt7HopPvLp3wT8FP7jiEB+7gA/hFnheOK/PrQT3p3NaDQhSLrPwTFLh0B69kIsFyy
-         UzyqL91/zn5mrDIdRSkjFr/nny/KS4q5okP1YJkTxhOkM8F9mvnlu4YMSlbG7laRtYdT
-         +zNg==
-X-Gm-Message-State: AOAM530DsqnkWwugULpeX4nntyDun10EIkByBZcoIL9OgQMqbn7ou9a8
-        hE+igou+8vFDwAJSFKp8g7Y=
-X-Google-Smtp-Source: ABdhPJwfXDlEVR+GjK8MD8CecRuUJ5OzBF1LGAGM+dByWZJ9G3u0arNxw5VIu+B5pcY8/pRP39nqsw==
-X-Received: by 2002:adf:810a:: with SMTP id 10mr7088226wrm.101.1590224645436;
-        Sat, 23 May 2020 02:04:05 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id z16sm2645612wmf.3.2020.05.23.02.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2020 02:04:04 -0700 (PDT)
-Date:   Sat, 23 May 2020 09:04:03 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Mon, 25 May 2020 12:38:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36936 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726308AbgEYQi0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 25 May 2020 12:38:26 -0400
+Received: from embeddedor (unknown [189.207.59.248])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C2962070A;
+        Mon, 25 May 2020 16:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590424706;
+        bh=tyXYVbZ/KHxp0iFJ0teaN0huGpPC0vGPMko7EezkrzA=;
+        h=Date:From:To:Cc:Subject:From;
+        b=T5N6Hm3fxSQ5UoU82qWAI8fyzyz3qLy2aRJsMML8xP/fjw/9NH2FS6WgCyA+itScw
+         HphVELVjW+M0hBu75OhUstD59nBKTjTujkMIHqjnLROltItOJ5tW+d5Nl6RcM2MF9L
+         ns+FcR3ZgCwGQHbXYRRIPva1kJYhiv/JioPTow/s=
+Date:   Mon, 25 May 2020 11:43:19 -0500
+From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: Re: [PATCH] VMBus channel interrupts reassignment - Fixes
-Message-ID: <20200523090403.hqyrdbbzgeckmi3q@liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net>
-References: <20200522171901.204127-1-parri.andrea@gmail.com>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Kees Cook <keescook@chromium.org>
+Subject: [PATCH] PCI: hv: Use struct_size() helper
+Message-ID: <20200525164319.GA13596@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200522171901.204127-1-parri.andrea@gmail.com>
-User-Agent: NeoMutt/20180716
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, May 22, 2020 at 07:18:59PM +0200, Andrea Parri (Microsoft) wrote:
-> Two fixes on top of the channel interrupts reassignment series, both
-> addressing race conditions between the initialization of the target
-> CPUs and the CPU hot removal path.   (Fixes: tags refer to commit IDs
-> from the hyperv tree and should be considered as placeholders; please
-> let me know how you'd prefer to handle these...)
+One of the more common cases of allocation size calculations is finding
+the size of a structure that has a zero-sized array at the end, along
+with memory for some number of elements for that array. For example:
 
-Thanks for the heads-up. I will change the tags if I end up rebasing
-hyperv-next.
+struct hv_dr_state {
+	...
+        struct hv_pcidev_description func[];
+};
 
-Wei.
+struct pci_bus_relations {
+	...
+        struct pci_function_description func[];
+} __packed;
 
-> 
-> Thanks,
->   Andrea
-> 
-> Andrea Parri (Microsoft) (2):
->   Drivers: hv: vmbus: Resolve race between init_vp_index() and CPU
->     hotplug
->   Drivers: hv: vmbus: Resolve more races involving init_vp_index()
-> 
->  drivers/hv/channel_mgmt.c | 66 +++++++++++++++++++--------------------
->  drivers/hv/hyperv_vmbus.h | 48 ++++++++++++++++++++++++++++
->  drivers/hv/vmbus_drv.c    | 19 +++++++----
->  include/linux/hyperv.h    |  7 +++++
->  4 files changed, 101 insertions(+), 39 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+Make use of the struct_size() helper instead of an open-coded version
+in order to avoid any potential type mistakes.
+
+So, replace the following forms:
+
+offsetof(struct hv_dr_state, func) +
+	(sizeof(struct hv_pcidev_description) *
+	(relations->device_count))
+
+offsetof(struct pci_bus_relations, func) +
+	(sizeof(struct pci_function_description) *
+	(bus_rel->device_count))
+
+with:
+
+struct_size(dr, func, relations->device_count)
+
+and
+
+struct_size(bus_rel, func, bus_rel->device_count)
+
+respectively.
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ drivers/pci/controller/pci-hyperv.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 892f3a742117a..bf40ff09c99d6 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -2213,10 +2213,8 @@ static void hv_pci_devices_present(struct hv_pcibus_device *hbus,
+ 	struct hv_dr_state *dr;
+ 	int i;
+ 
+-	dr = kzalloc(offsetof(struct hv_dr_state, func) +
+-		     (sizeof(struct hv_pcidev_description) *
+-		      (relations->device_count)), GFP_NOWAIT);
+-
++	dr = kzalloc(struct_size(dr, func, relations->device_count),
++		     GFP_NOWAIT);
+ 	if (!dr)
+ 		return;
+ 
+@@ -2250,10 +2248,8 @@ static void hv_pci_devices_present2(struct hv_pcibus_device *hbus,
+ 	struct hv_dr_state *dr;
+ 	int i;
+ 
+-	dr = kzalloc(offsetof(struct hv_dr_state, func) +
+-		     (sizeof(struct hv_pcidev_description) *
+-		      (relations->device_count)), GFP_NOWAIT);
+-
++	dr = kzalloc(struct_size(dr, func, relations->device_count),
++		     GFP_NOWAIT);
+ 	if (!dr)
+ 		return;
+ 
+@@ -2447,9 +2443,8 @@ static void hv_pci_onchannelcallback(void *context)
+ 
+ 				bus_rel = (struct pci_bus_relations *)buffer;
+ 				if (bytes_recvd <
+-				    offsetof(struct pci_bus_relations, func) +
+-				    (sizeof(struct pci_function_description) *
+-				     (bus_rel->device_count))) {
++					struct_size(bus_rel, func,
++						    bus_rel->device_count)) {
+ 					dev_err(&hbus->hdev->device,
+ 						"bus relations too small\n");
+ 					break;
+@@ -2462,9 +2457,8 @@ static void hv_pci_onchannelcallback(void *context)
+ 
+ 				bus_rel2 = (struct pci_bus_relations2 *)buffer;
+ 				if (bytes_recvd <
+-				    offsetof(struct pci_bus_relations2, func) +
+-				    (sizeof(struct pci_function_description2) *
+-				     (bus_rel2->device_count))) {
++					struct_size(bus_rel2, func,
++						    bus_rel2->device_count)) {
+ 					dev_err(&hbus->hdev->device,
+ 						"bus relations v2 too small\n");
+ 					break;
+-- 
+2.26.2
+
