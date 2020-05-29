@@ -5,68 +5,68 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2026BC433E0
-	for <linux-hyperv@archiver.kernel.org>; Fri, 29 May 2020 13:46:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BA5C433E0
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 May 2020 13:46:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBA63207BC
-	for <linux-hyperv@archiver.kernel.org>; Fri, 29 May 2020 13:46:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA744207BC
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 May 2020 13:46:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tMoL97qp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ny5DVi8D"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727056AbgE2NqF (ORCPT
+        id S1727035AbgE2NqF (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Fri, 29 May 2020 09:46:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33684 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726978AbgE2NqE (ORCPT
+        with ESMTP id S1726990AbgE2NqD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 29 May 2020 09:46:04 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C292C03E969;
-        Fri, 29 May 2020 06:46:04 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id k26so3618078wmi.4;
-        Fri, 29 May 2020 06:46:04 -0700 (PDT)
+        Fri, 29 May 2020 09:46:03 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E88E1C08C5C6;
+        Fri, 29 May 2020 06:46:02 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id r9so3351901wmh.2;
+        Fri, 29 May 2020 06:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f2W7JYL0AlKzHXRopAS228NJAzBggI+nNwpElzxyOvA=;
-        b=tMoL97qp+tyqWNtFdSIrwLbrnMDGEGBFnvBen8sQomXNZHxPZnHFItqfq5HBJ1Nk66
-         SXSLsEOahG9Us2d+CSygrRmw00jfBVKttznmcitg+g3P7vovqIxdgrNP/lPeT+goSo+y
-         5aiTP7CwlEOFT7LHduZbE7AiN/we2TMurGgaYsR5pIVp+B35L5j1Ep5QeBYXJss0b3FQ
-         o+HeV3hmxOPaxRK1gYBzWVl6tLcI4z51X/oCKZp/S6SQmQA8OvU9DbhTM4w3OrA7jwfL
-         cVvh9O4XRhzCLuZ4iHY7OvW8rQe0tyDE0/pimbepLfdlOl9oWcCvOjwowotj2TBrEbZR
-         tGLg==
+        bh=MuPhHrgZ0gxXOOVTE6NOopBZIol35VvCnUuGYFB1IB8=;
+        b=Ny5DVi8DnNNCd0VKnVKKO7bieJo6XhEwtnx5t11kJrXVvs9zJw7IB6WRggWdCm6lAv
+         oLVFQ+AG37U446G5jC70jk9dqjBM3wV3Q0pQHOIRZdsAEIsUUU6ZxaPregLw4BDE6DrE
+         pYdzZAPkifGRSqL97L+ffAwbBUceebpT4y0H7UaEsc0m2AmdawBoLAn1jdprU8bVq1Pq
+         FLD/lCiLxacXSYHThFXR/M7BTFsD3l+NoY5+ZnclXOFuc4/yF2pYYEOmBiFoebK+dBQC
+         ubE9L8KCi4KmU6O/nCXHPzd5wgf40a3u9j/V1TJCk4yqbMysRpReSaFAMqjsV+c/716E
+         yQAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=f2W7JYL0AlKzHXRopAS228NJAzBggI+nNwpElzxyOvA=;
-        b=tNEr5EmDK0DsWqp0VFKGMyTWU6G6gQ72znRncbKi1JnNEGA4vdIdJjlQmXw3vuwQPD
-         xeAtZXMusEofN9moLy4cAtyRqhdkSOdEg89h//69X/cNKvMYpofxkag32qV++gMUrbos
-         KKZFxLR/GTTri6tPKAQ3Juca3fS20DdrWXksaMYopyQebt2tkljFTlyoVnp0/SzF7MUF
-         Tk4rFpF2GPvejC+AtjDTXV7S+7XKEMxH0ByQZnlrlkGyDEk7PAWcIG1eQP597RRvwWRU
-         fXlI5KGkICEmFNigk70nULcEN3fNYitW46v+HMdWbigkJdd7TgExIR9wJodU/ZIuS8i2
-         NLCg==
-X-Gm-Message-State: AOAM53099SPFnyYf/fZzyIf0TTfO4RRUCL+ia/UIJrJAYW2pSS14JkZ7
-        TesC5qH8X2X0uG8KSNWVUCwQo3Yj
-X-Google-Smtp-Source: ABdhPJyM0LjmtsOeq0OD3YcjZWRHdyuoO15u9bmdP/6JCks8AUju+qHjEByiXg0VSbW4bOfzCFkRxg==
-X-Received: by 2002:a1c:23d2:: with SMTP id j201mr8568639wmj.186.1590759962768;
-        Fri, 29 May 2020 06:46:02 -0700 (PDT)
+        bh=MuPhHrgZ0gxXOOVTE6NOopBZIol35VvCnUuGYFB1IB8=;
+        b=hyTrQlm617B7QgHZlOSPI1eLZV2lKo/BJ2xZFjVityjLk3NZOZLJ9uWMuuyWg1nU7n
+         pPqaz0UVmpqKBtnB2tWKxGjrJsHuukeyaD50JTubGNvUe2V37MvUzKLGPP8fKpPlVbFe
+         ZmW7c66wUYavHMboIsL2c0TaXjjMChCsnMwc026cflkdCg0OpN/xMNcEHPPJPU6p+o3z
+         U52/qR6hNZHbPpZiqVJpDg7iTMlKBIubiHCoEOFzirqZdGFO5tN0fAZ7T4PiZvwA5bpv
+         CcjCyX7cObKHHwai794jLvJjvtl/nT5kKHgcDZS7abm7Aklkfi5gO1fP00dL4tn3Psmy
+         YzWg==
+X-Gm-Message-State: AOAM531Wa6fXfXp4XE4Ybqo5R6iWmgvZZFW2Yms7ldN4uuKtEsOgFl6C
+        glT422G3JydBSBbsy1XuRaiyaFle
+X-Google-Smtp-Source: ABdhPJx/8ZOnbjxyOvICQllXGuoGsrbsDLvG2n3pFtR/DIsEfVPMSxliR2VYMwEn98EMvJ/QaUpM6g==
+X-Received: by 2002:a1c:66d5:: with SMTP id a204mr8472587wmc.134.1590759961503;
+        Fri, 29 May 2020 06:46:01 -0700 (PDT)
 Received: from jondnuc.lan (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
-        by smtp.gmail.com with ESMTPSA id y37sm12347263wrd.55.2020.05.29.06.46.01
+        by smtp.gmail.com with ESMTPSA id y37sm12347263wrd.55.2020.05.29.06.46.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 06:46:02 -0700 (PDT)
+        Fri, 29 May 2020 06:46:01 -0700 (PDT)
 From:   Jon Doron <arilou@gmail.com>
 To:     kvm@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     vkuznets@redhat.com, pbonzini@redhat.com, rvkagan@yandex-team.ru,
         Jon Doron <arilou@gmail.com>
-Subject: [PATCH v12 5/6] x86/kvm/hyper-v: Add support for synthetic debugger via hypercalls
-Date:   Fri, 29 May 2020 16:45:42 +0300
-Message-Id: <20200529134543.1127440-6-arilou@gmail.com>
+Subject: [PATCH v12 4/6] x86/kvm/hyper-v: enable hypercalls regardless of hypercall page
+Date:   Fri, 29 May 2020 16:45:41 +0300
+Message-Id: <20200529134543.1127440-5-arilou@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200529134543.1127440-1-arilou@gmail.com>
 References: <20200529134543.1127440-1-arilou@gmail.com>
@@ -77,59 +77,47 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-There is another mode for the synthetic debugger which uses hypercalls
-to send/recv network data instead of the MSR interface.
+Microsoft's kdvm.dll dbgtransport module does not respect the hypercall
+page and simply identifies the CPU being used (AMD/Intel) and according
+to it simply makes hypercalls with the relevant instruction
+(vmmcall/vmcall respectively).
 
-This interface is much slower and less recommended since you might get
-a lot of VMExits while KDVM polling for new packets to recv, rather
-than simply checking the pending page to see if there is data avialble
-and then request.
+The relevant function in kdvm is KdHvConnectHypervisor which first checks
+if the hypercall page has been enabled via HV_X64_MSR_HYPERCALL_ENABLE,
+and in case it was not it simply sets the HV_X64_MSR_GUEST_OS_ID to
+0x1000101010001 which means:
+build_number = 0x0001
+service_version = 0x01
+minor_version = 0x01
+major_version = 0x01
+os_id = 0x00 (Undefined)
+vendor_id = 1 (Microsoft)
+os_type = 0 (A value of 0 indicates a proprietary, closed source OS)
+
+and starts issuing the hypercall without setting the hypercall page.
+
+To resolve this issue simply enable hypercalls also if the guest_os_id
+is not 0.
 
 Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- arch/x86/kvm/hyperv.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ arch/x86/kvm/hyperv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 3730c38f4f71..640fd98583b1 100644
+index dc7dd48621ca..3730c38f4f71 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1836,6 +1836,34 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 		}
- 		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
- 		break;
-+	case HVCALL_POST_DEBUG_DATA:
-+	case HVCALL_RETRIEVE_DEBUG_DATA:
-+		if (unlikely(fast)) {
-+			ret = HV_STATUS_INVALID_PARAMETER;
-+			break;
-+		}
-+		fallthrough;
-+	case HVCALL_RESET_DEBUG_SESSION: {
-+		struct kvm_hv_syndbg *syndbg = vcpu_to_hv_syndbg(vcpu);
-+
-+		if (!kvm_hv_is_syndbg_enabled(vcpu)) {
-+			ret = HV_STATUS_INVALID_HYPERCALL_CODE;
-+			break;
-+		}
-+
-+		if (!(syndbg->options & HV_X64_SYNDBG_OPTION_USE_HCALLS)) {
-+			ret = HV_STATUS_OPERATION_DENIED;
-+			break;
-+		}
-+		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
-+		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
-+		vcpu->run->hyperv.u.hcall.input = param;
-+		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
-+		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
-+		vcpu->arch.complete_userspace_io =
-+				kvm_hv_hypercall_complete_userspace;
-+		return 0;
-+	}
- 	default:
- 		ret = HV_STATUS_INVALID_HYPERCALL_CODE;
- 		break;
+@@ -1657,7 +1657,7 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *current_vcpu, u64 ingpa, u64 outgpa,
+ 
+ bool kvm_hv_hypercall_enabled(struct kvm *kvm)
+ {
+-	return READ_ONCE(kvm->arch.hyperv.hv_hypercall) & HV_X64_MSR_HYPERCALL_ENABLE;
++	return READ_ONCE(kvm->arch.hyperv.hv_guest_os_id) != 0;
+ }
+ 
+ static void kvm_hv_hypercall_set_result(struct kvm_vcpu *vcpu, u64 result)
 -- 
 2.24.1
 
