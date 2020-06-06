@@ -1,155 +1,306 @@
-Return-Path: <SRS0=96dG=7S=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=hbam=7T=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CA3C433E0
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Jun 2020 08:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8D1C433E0
+	for <linux-hyperv@archiver.kernel.org>; Sat,  6 Jun 2020 21:49:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47D55207D5
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 Jun 2020 08:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FF682074B
+	for <linux-hyperv@archiver.kernel.org>; Sat,  6 Jun 2020 21:49:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="MzzHx0N3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rUmvK9G5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbgFEIIU (ORCPT
+        id S1728510AbgFFVtV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 5 Jun 2020 04:08:20 -0400
-Received: from mail-eopbgr1320134.outbound.protection.outlook.com ([40.107.132.134]:33757
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726024AbgFEIIT (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 Jun 2020 04:08:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SrRxccQHCMWKwhwWJItiUfgzgb38mIKcWkab+V3TJILcXF1bimnn3J0880olrkgxtmt/ncSEcESnmSLDUyxivoYHsOQ6tlIbNZCx1gXhN0nO6iSyrSq88jWW0AwqQblJ20THQiJ8GxkD1/430qv4NTPJljnL94BUqzBuESNx5P4vgeVWN7EsA77YlTN95TPSlZjyJcTdvEledSXma9/KzFob+PJaNyB0N7WBYL6X/omjB6tWLJkkL3rKeDn28LeDj4GRZNQW9t+7yx93ot6tdN5cWUKXTCUAJ4raortOsYbI3Z//pDTV6E1SsqirHzJ5B8ReeQCzdtgLuFsl+MhI7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HDFMXAIl6aXHyjHTKS3V4aNdReoVw0GlhlTp7+6lAoQ=;
- b=d4LW6AHSdwow3gkLhuXMqjcKXwg4Gk89GSWLEteE5liKfRgCs8cpkNKEhbXYK/7sxLAlLO/D73V/cC6pnZiaWCorvuWpt4BHeTdSjZ2Q8D+r1rntjqbjKLAxO45aGIcqRXBgcv0kG+5nGSArFDsA4oraFe9a0kwsU8L7dhovs2sqEV7yjsj9WMwez1wxjHV5z5paX2Uh12auaDKnxiAf8a/+jmIcCjan/Yb3BFNY6rtO4Ol05DGSarNAUFVPl/eN91pdMcEgrYGEeCNfeiwKPH28BPBQ2Yub13PIVBikIy0H4rq/OrTT51qbfDRZXhFV4H9DWXRUYk3CMeajj8QjWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HDFMXAIl6aXHyjHTKS3V4aNdReoVw0GlhlTp7+6lAoQ=;
- b=MzzHx0N3LY9z7Jo60KewAoy0ptmh5q9ZB8k7B2ZOFK2kGL3jaFts7lAkRBxDbvV01faeFZuufv2qWfa26M/c2RbrJNtce5H91oAsPZU6jMw2HCRfEBQqyhvmTxw12S2rzMJLxWo18g1IuDx2d72MoosdgIWQinupkDHE0lA9cXg=
-Received: from HK0P153MB0322.APCP153.PROD.OUTLOOK.COM (2603:1096:203:b5::19)
- by HK0P153MB0179.APCP153.PROD.OUTLOOK.COM (2603:1096:203:29::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.3; Fri, 5 Jun
- 2020 08:07:56 +0000
-Received: from HK0P153MB0322.APCP153.PROD.OUTLOOK.COM
- ([fe80::e567:3a32:6574:8983]) by HK0P153MB0322.APCP153.PROD.OUTLOOK.COM
- ([fe80::e567:3a32:6574:8983%7]) with mapi id 15.20.3088.011; Fri, 5 Jun 2020
- 08:07:56 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     Denis Efremov <efremov@linux.com>,
-        Michael Kelley <mikelley@microsoft.com>
-CC:     "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Linux SCSI List <linux-scsi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] scsi: storvsc: Remove memset before memory freeing in
- storvsc_suspend()
-Thread-Topic: [PATCH] scsi: storvsc: Remove memset before memory freeing in
- storvsc_suspend()
-Thread-Index: AQHWOw9FnOyuSXdfiUiTPbK6Paq606jJqmCQ
-Date:   Fri, 5 Jun 2020 08:07:55 +0000
-Message-ID: <HK0P153MB03228CB6B766D5FF30FBF751BF860@HK0P153MB0322.APCP153.PROD.OUTLOOK.COM>
-References: <CAA42JLat6Ern5_mztmoBX9-ONtmz=gZE3YUphY+njTa+A=efVw@mail.gmail.com>
- <20200605075934.8403-1-efremov@linux.com>
-In-Reply-To: <20200605075934.8403-1-efremov@linux.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-06-05T08:07:53Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=32441352-9973-4b90-8951-239ca2a9e099;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
-authentication-results: linux.com; dkim=none (message not signed)
- header.d=none;linux.com; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [2601:600:a280:7f70:e404:4689:ed94:8298]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 998a2855-04c5-49a2-4754-08d809278e00
-x-ms-traffictypediagnostic: HK0P153MB0179:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <HK0P153MB0179DB49481F4F49BB19895CBF860@HK0P153MB0179.APCP153.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
-x-forefront-prvs: 0425A67DEF
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ++0BFT54S70KM22qW1dtfJPCAou/1km57TCFP6LwPQtgAfno8RbWz6ahAbWTPqEJI7mVs5VnQ0W6N0aQfRR4dVFH92Lm6TuPON2GC+GwqBf/PY4MTxTGxHcSzVobKzuPvMrTFgS5pJ5MCWpnLQa8BN6e9WBwp/iUSazDxsMdEjHgkSbXquzjTN4vDoFxcOcuukAaLOtjsZFoRvBXPBmcjhUlCE3MSQxRBAFo+5Q+gcqQI1x/+2P6PNWEz/9AByeqlytfBexBQwqk0ng06bPauTBc9l46hFBsLSJsxPj+0v99lpP1iR9ON7k30wOalfRRqIn1yuQajrrhLa2urucavA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HK0P153MB0322.APCP153.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(396003)(136003)(366004)(39860400002)(346002)(52536014)(8676002)(33656002)(55016002)(83380400001)(5660300002)(9686003)(186003)(66946007)(8936002)(6636002)(76116006)(64756008)(66556008)(66476007)(66446008)(4326008)(110136005)(86362001)(478600001)(7696005)(316002)(53546011)(6506007)(82950400001)(10290500003)(54906003)(82960400001)(71200400001)(2906002)(8990500004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: X4E2mZU2JVikIkir8/qpwVTTooi5Z/YbxsFbadroyuKLAvhSmGI0gd3+kmuQc1I8NcTsRJHzF1lzCKnNpFORkxV+Vgc/30apVDdR0vHvQE2DGWu5CTTqRBRPS1EVaoR0UzqCpYVT6UAtdIWtoDNZfNuUVzSbVjbdnGn9H/wp0QrBB1S/SxcnFlhvDn8nI7KsaxAEG7NnXgnF9IQJGTwjlL3KavtwKjvLr7sqO6JBIRLM6uj0y/7FuTSLl/WCrSwE/kETuHwhlBynm530AuZB/GPgjxf/FTTI7fHwFgdDXoHORXzNCPb+MAyAk6YIAfUu4SfW3JBMGL25Ots/gS1zpXctUSR3mn9Bu16X/fVURCC3OkZPW6eDytU2GTW63qd6K0QcUwMQGys9iRew/QYA6t2V4g/LymyyfCr1DE+oKsP829QPVfBJMQjbukHT+PkpPYkzfS22qF7R6YbU1UcTfRXoB5QlXAwvdL60uWDUGq7V7WayXiYXtc3b2MKVyOyTGZrpLVBJcWnz08O2DrzgfyLuKntuso0RjXc779RLCm9wEZnemds4i9fSYgKrTitW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Sat, 6 Jun 2020 17:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728479AbgFFVtV (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 6 Jun 2020 17:49:21 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C31C03E96A;
+        Sat,  6 Jun 2020 14:49:20 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id k8so10295855edq.4;
+        Sat, 06 Jun 2020 14:49:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VgP2+hVV/vkDoaX74ozw6bS7RaSefK4qnU1nlNlh2KY=;
+        b=rUmvK9G5CX58iNlQ+Vi8P0V249bdMA0niHCgNrgpcDEyj3/ryVX0Ut2DTZ2kjWkknL
+         ni0g2LndyqCguuuDE96Rame5trxY6EchsqV1UU4e88y2c1b4tBFo1oSlE6mQx9j+5ul+
+         wSFcOgtT2PuhoCVNJJtaqXtJH73/+QXfKNrycMUzzbEIMnyb1tvqbsC9v5sJsShq8Y2F
+         OadkSpP+wtlUi9azH1G2QRUjrvNiHLqrqRA0FWVd0ZO3bS4LkwgAMLNzxaKurenXCsRt
+         Ny5LTesJg3HeeOUTa5/pnbdu5BOjjY/qfBnSZBlQw13FfViXbKKuauHHpZ1h4hnGwOCU
+         ElPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VgP2+hVV/vkDoaX74ozw6bS7RaSefK4qnU1nlNlh2KY=;
+        b=WeIAvSBelZjeja9iiO7XTZetou7Hu4NI3fbCg2JHuYUPO2LAGWbbzGKsTrCWp3xPbG
+         6fV8JSY/K+kJr5AeJW0dPgfFXpt+AY28jYcixwSYZsVYk6+dQA062+0mw9i5B+bpbSSo
+         VbhpFwfO+Yels3zCGe+29DoQng1ZSRxoe99VIn6sF6SuywMFpNr1MYtV4Vl0s+2EBHdc
+         H+Nvnw5qhjsbL+v8nJDauzbofTGVcxpWTPGq6U6hYk+GsF3ixvchKDAQxeGx4Uh+vcAs
+         WaQL09LB8bJSCLCZisAqvd7MfJwl+HeoJy9iuUlFb9pcgcPP0FqnTlmjOrwVCtZnIVyH
+         DN0g==
+X-Gm-Message-State: AOAM530Ews8FtTON8qcxXRoaTiyhLkSfbVAn8AwZ6JLt8czXzfW4zWbP
+        LuZ29GSwxeK6LT65IDbwcb4=
+X-Google-Smtp-Source: ABdhPJxTi/f30QiIvxQcfBUT8nM9eLRx70mY91L3DfrqCAtS8xFMG8gGJPi+HlIoNjN+B9TcdrSz+w==
+X-Received: by 2002:a50:ee08:: with SMTP id g8mr14657896eds.267.1591480159057;
+        Sat, 06 Jun 2020 14:49:19 -0700 (PDT)
+Received: from andrea (ip-213-220-210-175.net.upcbroadband.cz. [213.220.210.175])
+        by smtp.gmail.com with ESMTPSA id 63sm7896084edm.48.2020.06.06.14.49.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Jun 2020 14:49:17 -0700 (PDT)
+Date:   Sat, 6 Jun 2020 23:49:09 +0200
+From:   Andrea Parri <parri.andrea@gmail.com>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Nuno Das Neves <Nuno.Das@microsoft.com>
+Subject: Re: [RFC PATCH 1/2] Drivers: hv: vmbus: Re-balance channel
+ interrupts across CPUs at CPU hotplug
+Message-ID: <20200606214909.GA28369@andrea>
+References: <20200526223218.184057-1-parri.andrea@gmail.com>
+ <20200526223218.184057-2-parri.andrea@gmail.com>
+ <SN6PR2101MB10562BB7B20846C8C711F2DDD78B0@SN6PR2101MB1056.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 998a2855-04c5-49a2-4754-08d809278e00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2020 08:07:55.9305
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oQtxlgFT16yRBwDatl5gyAZ80tA1S0STEB7diwxrLYFl37cmbrSarqI+ap5lXB80V6z7++QRqI/s16zo1+oKzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0P153MB0179
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR2101MB10562BB7B20846C8C711F2DDD78B0@SN6PR2101MB1056.namprd21.prod.outlook.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> From: Denis Efremov <efremov@linux.com>
-> Sent: Friday, June 5, 2020 1:00 AM
-> To: Dexuan Cui <decui@microsoft.com>; Michael Kelley
-> <mikelley@microsoft.com>
-> Cc: Denis Efremov <efremov@linux.com>; James E . J . Bottomley
-> <jejb@linux.ibm.com>; Martin K . Petersen <martin.petersen@oracle.com>;
-> linux-hyperv@vger.kernel.org; Linux SCSI List <linux-scsi@vger.kernel.org=
->;
-> Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-> Subject: [PATCH] scsi: storvsc: Remove memset before memory freeing in
-> storvsc_suspend()
->=20
-> Remove memset with 0 for stor_device->stor_chns in storvsc_suspend()
-> before the call to kfree() as the memory contains no sensitive informatio=
-n.
->=20
-> Fixes: 56fb10585934 ("scsi: storvsc: Add the support of hibernation")
-> Suggested-by: Dexuan Cui <decui@microsoft.com>
-> Signed-off-by: Denis Efremov <efremov@linux.com>
-> ---
->  drivers/scsi/storvsc_drv.c | 3 ---
->  1 file changed, 3 deletions(-)
->=20
-> diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-> index 072ed8728657..2d90cddd8ac2 100644
-> --- a/drivers/scsi/storvsc_drv.c
-> +++ b/drivers/scsi/storvsc_drv.c
-> @@ -2035,9 +2035,6 @@ static int storvsc_suspend(struct hv_device
-> *hv_dev)
->=20
->  	vmbus_close(hv_dev->channel);
->=20
-> -	memset(stor_device->stor_chns, 0,
-> -	       num_possible_cpus() * sizeof(void *));
-> -
->  	kfree(stor_device->stor_chns);
->  	stor_device->stor_chns =3D NULL;
->=20
-> --
+> > @@ -515,6 +519,8 @@ static void vmbus_add_channel_work(struct work_struct *work)
+> >  	if (ret != 0) {
+> >  		pr_err("unable to add child device object (relid %d)\n",
+> >  			newchannel->offermsg.child_relid);
+> > +		if (hv_is_perf_channel(newchannel))
+> > +			free_chn_counts(&newchannel->device_obj->chn_cnt);
+> 
+> You could drop the "if" condition and just always call free_chn_counts() since
+> it will do the right thing for non-perf channels where the memory was never
+> allocated.
 
-Denis, thank you for fixing this!
+Well, AFAICT, the above would do the "right" thing for non-perf channels
+without calling kfree() twice.  ;-)  It would also serve as a hard-coded
+"reminder" of the fact that there is no alloc_chn_counts() for them.  No
+strong opinions though, will drop for the next submission...
 
-Reviewed-by: Dexuan Cui <decui@microsoft.com>
 
+> > +static void filter_vp_index(struct hv_device *hv_dev, cpumask_var_t cpu_msk)
+> > +{
+> > +	/*
+> > +	 * The selection of the target CPUs is performed in two domains,
+> > +	 * the device domain and the connection domain.  At each domain,
+> > +	 * in turn, invalid CPUs are filtered out at two levels, the CPU
+> 
+> I would drop the word "invalid".  You are filtering out CPUs that meet the
+> criteria in the sentence starting after the colon below.
+
+Agreed, will drop.
+
+
+> > +static void balance_vp_index(struct vmbus_channel *chn,
+> > +			     struct hv_device *hv_dev, cpumask_var_t cpu_msk)
+> > +{
+> > +	u32 cur_cpu = chn->target_cpu, tgt_cpu = cur_cpu;
+> > +
+> > +	if (chn->state != CHANNEL_OPENED_STATE) {
+> > +		/*
+> > +		 * The channel may never have been opened or it may be in
+> > +		 * a closed/closing state; if so, do not touch the target
+> > +		 * CPU of this channel.
+> > +		 */
+> > +		goto update_chn_cnts;
+> > +	}
+> > +
+> > +	/*
+> > +	 * The channel was open, and it will remain open until we release
+> > +	 * channel_mutex, cf. the use of channel_mutex and channel->state
+> > +	 * in vmbus_disconnect_ring() -> vmbus_close_internal().
+> > +	 */
+> > +
+> > +	if (!hv_is_perf_channel(chn)) {
+> > +		/*
+> > +		 * Only used by the CPU hot removal path, remark that
+> > +		 * the connect CPU can not go offline.
+> 
+> To be super explicit in the comment:  If the channel is not a
+> performance channel, then it does not participate in the balancing,
+> and we move it back to interrupting the VMBUS_CONNECT_CPU for
+> lack of a better choice.  Because non-perf channels are initially set to 
+> interrupt the VMBUS_CONNECT_CPU, the only way a non-perf channel
+> could be found in this state (i.e., set to a CPU other than
+> VMBUS_CONNECT_CPU) is a manual change through the sysfs interface.
+
+The comment was indeed rather meant to make explicit a "please go read
+the caller, carefully..." where, among other things, at least parts of
+the remarks you pointed out above are spelled out.  But I won't be the
+one stingy with comments!  ;-)  Will apply, thanks for the suggestion.
+
+
+> > +void vmbus_balance_vp_indexes_at_cpuhp(unsigned int cpu, bool add)
+> > +{
+> > +	struct vmbus_channel *chn, *sc;
+> > +	cpumask_var_t cpu_msk;
+> > +
+> > +	lockdep_assert_cpus_held();
+> > +	lockdep_assert_held(&vmbus_connection.channel_mutex);
+> > +
+> > +	WARN_ON(!cpumask_test_cpu(cpu, cpu_online_mask));
+> > +
+> > +	/* See the header comment for vmbus_send_modifychannel(). */
+> > +	if (vmbus_proto_version < VERSION_WIN10_V4_1)
+> > +		return;
+> > +
+> > +	if (!alloc_cpumask_var(&cpu_msk, GFP_KERNEL))
+> > +		return;
+> > +
+> > +	reset_chn_counts(&vmbus_connection.chn_cnt);
+> > +
+> > +	list_for_each_entry(chn, &vmbus_connection.chn_list, listentry) {
+> > +		struct hv_device *dev = chn->device_obj;
+> > +
+> > +		/*
+> > +		 * The device may not have been allocated/assigned to
+> > +		 * the primary channel yet; if so, do not balance the
+> > +		 * channels associated to this device.  If dev != NULL,
+> > +		 * the synchronization on channel_mutex ensures that
+> > +		 * the device's chn_cnt has been (properly) allocated
+> > +		 * *and* initialized, cf. vmbus_add_channel_work().
+> > +		 */
+> > +		if (dev == NULL)
+> > +			continue;
+> > +
+> > +		/*
+> > +		 * By design, non-"perf" channels do not take part in
+> > +		 * the balancing process.
+> > +		 *
+> > +		 * The user may have assigned some non-"perf" channel
+> > +		 * to this CPU.  To satisfy the user's request to hot
+> > +		 * remove the CPU, we will re-assign such channels to
+> > +		 * the connect CPU; cf. balance_vp_index().
+> > +		 */
+> > +		if (!hv_is_perf_channel(chn)) {
+> > +			if (add)
+> > +				continue;
+> > +			/*
+> > +			 * Assume that the non-"perf" channel has no
+> > +			 * sub-channels.
+> > +			 */
+> 
+> The "if" statement below could use a bit further explanation to help
+> the reader. :-)  If this non-perf channel is assigned to some CPU other
+> than the one we are hot-removing, then we execute the "continue"
+> statement and leave its target CPU unchanged.  But if it is assigned
+> to the CPU we are hot removing, then we need to move the channel
+> to some other CPU.
+> 
+> I'm also not clear on how the above comment about having no
+> sub-channels is relevant.  Maybe a bit more explanation would
+> help.
+
+That comment was meant to simply stress the fact that we can "continue"
+without looping over/checking the sub-channels, because we know that the
+channel in question has no sub-channels.  ;-)  (BTW, for the very same
+reason, we have no "if (!hv_is_perf_channel(sc))..." in the loop below.)
+
+So, maybe something like:
+
+	/*
+	 * If this non-"perf" channel is assigned to some...
+	 * [your text/explanation above].
+	 */
+	if (chn->target_cpu != cpu) {
+		/*
+		 * Non-"perf" channels have no sub-channels:
+		 * no need to loop over sc_list.
+		 */
+		continue;
+	}
+
+??
+	 
+
+> > +			if (chn->target_cpu != cpu)
+> > +				continue;
+> > +		} else {
+> > +			reset_chn_counts(&dev->chn_cnt);
+> > +		}
+> > +
+> > +		cpumask_copy(cpu_msk, cpu_online_mask);
+> > +		if (!add)
+> > +			cpumask_clear_cpu(cpu, cpu_msk);
+> > +		balance_vp_index(chn, dev, cpu_msk);
+> > +
+> > +		list_for_each_entry(sc, &chn->sc_list, sc_list) {
+> > +			cpumask_copy(cpu_msk, cpu_online_mask);
+> > +			if (!add)
+> > +				cpumask_clear_cpu(cpu, cpu_msk);
+> > +			balance_vp_index(sc, dev, cpu_msk);
+> > +		}
+> > +	}
+> > +
+> > +	free_cpumask_var(cpu_msk);
+> > +}
+
+
+> >  int hv_synic_init(unsigned int cpu)
+> >  {
+> > +	/*
+> > +	 * The CPU has been hot added: try to re-balance the channels
+> > +	 * across the online CPUs (including "this" CPU), provided that
+> > +	 * the VMBus is connected; in part., avoid the re-balancing at
+> > +	 * the very first CPU initialization.
+> > +	 *
+> > +	 * See also inline comments in hv_synic_cleanup().
+> > +	 */
+> > +	if (vmbus_connection.conn_state == CONNECTED) {
+> > +		mutex_lock(&vmbus_connection.channel_mutex);
+> > +		vmbus_balance_vp_indexes_at_cpuhp(cpu, true);
+> 
+> Does the target CPU have its bit in cpu_online_mask set at the time this
+> is executed?  reset_chn_counts() does a for_each_online_cpu() loop, and
+> we want to make sure the count for this CPU gets reset to zero.
+
+Yes, it does:  We're here (in CPUHP_AP_ONLINE_DYN) near the end of the
+"CPU-online" process; IIUC, the bit in question is set earlier in this
+process/before the CPU reaches CPUHP_AP_ONLINE_IDLE.
+
+So, yeah, I think I would agree in saying that that:
+
+  WARN_ON(!cpumask_test_cpu(cpu, cpu_online_mask));
+
+(in vmbus_balance_vp_indexes_at_cpuhp()) is more about "paranoid" (for
+future changes/uses) than anything else.  I'm keeping that for now.
+
+
+> > @@ -980,6 +980,9 @@ static void vmbus_device_release(struct device *device)
+> >  	mutex_lock(&vmbus_connection.channel_mutex);
+> >  	hv_process_channel_removal(channel);
+> >  	mutex_unlock(&vmbus_connection.channel_mutex);
+> > +
+> > +	if (hv_is_perf_channel(channel))
+> > +		free_chn_counts(&hv_dev->chn_cnt);
+> 
+> Again, can drop the 'if' statement.
+
+As mentioned above, either way works for me.  Will drop it for the next
+version.
+
+Thanks,
+  Andrea
