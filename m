@@ -1,99 +1,225 @@
-Return-Path: <SRS0=K96Q=7U=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=+duP=7W=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B421DC433E0
-	for <linux-hyperv@archiver.kernel.org>; Sun,  7 Jun 2020 15:43:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C519C433E1
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jun 2020 00:08:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 815DB2067B
-	for <linux-hyperv@archiver.kernel.org>; Sun,  7 Jun 2020 15:43:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PURl8DuP"
+	by mail.kernel.org (Postfix) with ESMTP id 2DBF6207C3
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jun 2020 00:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1591661316;
+	bh=y4UdUA/9UkNQTvxeGrmO6D5zKgcdYnG2u60ay2utmTQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=LhA6JL/qDDjAdpwg3ud00rTSABnJOOSQJQbtE9pzU8NpCbyUrloYqq27aXRzk+0ri
+	 8iyfv/4hQofWyNoqp+rk4025AkU+xmodRqwVnFzQosSvXjUq/C/v8+zPLzfpF8yi5a
+	 DysDbKCKWX17U4GaHgTaBRRlS5s/tvBoK/j+bvw4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgFGPnO (ORCPT
+        id S1730999AbgFHXUi (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 7 Jun 2020 11:43:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgFGPnN (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 7 Jun 2020 11:43:13 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82DDCC08C5C3;
-        Sun,  7 Jun 2020 08:43:13 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id gl26so15464778ejb.11;
-        Sun, 07 Jun 2020 08:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QCe7MTPBluIQ+Z4ZBffv4cvKmqrkB70PcCAPj5Z/6/M=;
-        b=PURl8DuPm18P85nvRkNFBSVL56dyuzstSURexfOKdBK8mcAm3gyieRPV3BlgVa3SSE
-         N0wW8j4f11D+ttsY+i3qVNHBnXa39L8BSI62z7AM6JWKDZE+/gQzBa5Z6CHtV9xpgxV7
-         YkTVmcgCjU5DylWKrmJycRLfWKDJKvzUlt/Ul9DK/Q73l8RjJ8oWNTrbRqhifmZinZYM
-         jyMRBvVpbieP7ndnOv/6WHW9S3AZtGWDaH7O2U7ldJ/u97UESY9HZrWYYQYjOtV620+3
-         Lot10ftS5416syWttEH5NflrM0/vix58FQefD1dNP3lUa3aeRpDscZwAdI7GCmt5v4KS
-         2Smw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QCe7MTPBluIQ+Z4ZBffv4cvKmqrkB70PcCAPj5Z/6/M=;
-        b=EFFdoPEPLa5yuS2RbUMXsq0tq7HV1UPMf4IMuGznoy3nRJRAlZKulB/1bJh0QglsVW
-         KPRyFtnP1CZPsrE+FsPmOD5Ov7K/5QKYT7xJF6wKD2wXLAMmZlQ0wmdvTEk2WQcdLHSc
-         FQwgoRhCDVdSB+2sJ7XXYlsx4nyzatyZxYBdBQTOz8K5r3KG+HD3d4KBJ0aIvNZxV8j4
-         M869kppJWRJ7DqzfwoOpiKQCTto91giuU6XTvBRZIGnNXQHGclSoDnRyVjT3l25ZX74A
-         ry/kr9ipIS8k04FU93oU56wPzfNX8ocUMXNWe+rjRbxN98H/8SJDyInRurvGpORxJww6
-         1qnA==
-X-Gm-Message-State: AOAM530alrlj7rd7xqXoOZnU2ff9xT97jjgZpsXr2TbbVwZRGPhuTrKU
-        mChn7f0FIsAczIsW1oZklMEDo16cs6wGIw==
-X-Google-Smtp-Source: ABdhPJxNQ9+nxJwOsJeEozyjH/xmSciV4dHlbIHLKHmqctmbT0MNAgwDY4ybECcF32Vz8qtYUYKbKw==
-X-Received: by 2002:a17:907:20e5:: with SMTP id rh5mr17929162ejb.80.1591544591522;
-        Sun, 07 Jun 2020 08:43:11 -0700 (PDT)
-Received: from andrea (ip-213-220-210-175.net.upcbroadband.cz. [213.220.210.175])
-        by smtp.gmail.com with ESMTPSA id ce16sm8638425ejb.76.2020.06.07.08.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2020 08:43:10 -0700 (PDT)
-Date:   Sun, 7 Jun 2020 17:42:59 +0200
-From:   Andrea Parri <parri.andrea@gmail.com>
-To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        Mon, 8 Jun 2020 19:20:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730646AbgFHXUh (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:20:37 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E12F20872;
+        Mon,  8 Jun 2020 23:20:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591658437;
+        bh=y4UdUA/9UkNQTvxeGrmO6D5zKgcdYnG2u60ay2utmTQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=sNM0xLws5JdUTfUJbKbZpkbJBiqlZtmCYGbZJWCLPRgvEn8CrwgSeufH14y8KI6Gm
+         WUc+UfprwIIG1pHoOoPhKuJkN/wagMOjZ7ovzxzGHsBd3WjqtnSjofMwDbx2q2RgPL
+         lJVg/dRmCkASphgmmY33zocyHuCpmq9h6I6JIJyk=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Nuno Das Neves <nuno.das@microsoft.com>
-Subject: Re: [RFC PATCH 0/2] VMBus channel interrupts re-balancing
-Message-ID: <20200607154259.GA10780@andrea>
-References: <20200526223218.184057-1-parri.andrea@gmail.com>
+        Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 080/175] Drivers: hv: vmbus: Always handle the VMBus messages on CPU0
+Date:   Mon,  8 Jun 2020 19:17:13 -0400
+Message-Id: <20200608231848.3366970-80-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200608231848.3366970-1-sashal@kernel.org>
+References: <20200608231848.3366970-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200526223218.184057-1-parri.andrea@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> These changes originated from (and address /try to resolve) two known
-> limitations of the current interrupts-to-CPUs mapping scheme, that is,
-> (1) the "static" nature of this mapping scheme (that, e.g., can end up
-> preventing the hot removal of certain CPUs) and (2) the lack of global
-> visibility in such scheme (where devices/channels are mapped only "one
-> at a time"/as they are offered, with the end result that globally the
-> various interrupts are not always evenly spread across CPUs).
+From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 
-One thing I didn't mention here is that, well, we probably don't want
-any of this when CONFIG_SMP=n:  clearly, I didn't pay much attention
-to (optimize) this config in this RFC (FWIW, neither seems to do the
-current mapping scheme) but I'll look into this if there is interest
-on this regard (once back from vacation of course  ;-) and, probably,
-at the cost of adding some #ifdeffery to this RFC).
+[ Upstream commit 8a857c55420f29da4fc131adc22b12d474c48f4c ]
 
-Thanks,
-  Andrea
+A Linux guest have to pick a "connect CPU" to communicate with the
+Hyper-V host.  This CPU can not be taken offline because Hyper-V does
+not provide a way to change that CPU assignment.
+
+Current code sets the connect CPU to whatever CPU ends up running the
+function vmbus_negotiate_version(), and this will generate problems if
+that CPU is taken offine.
+
+Establish CPU0 as the connect CPU, and add logics to prevents the
+connect CPU from being taken offline.   We could pick some other CPU,
+and we could pick that "other CPU" dynamically if there was a reason to
+do so at some point in the future.  But for now, #defining the connect
+CPU to 0 is the most straightforward and least complex solution.
+
+While on this, add inline comments explaining "why" offer and rescind
+messages should not be handled by a same serialized work queue.
+
+Suggested-by: Dexuan Cui <decui@microsoft.com>
+Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Link: https://lore.kernel.org/r/20200406001514.19876-2-parri.andrea@gmail.com
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hv/connection.c   | 20 +-------------------
+ drivers/hv/hv.c           |  7 +++++++
+ drivers/hv/hyperv_vmbus.h | 11 ++++++-----
+ drivers/hv/vmbus_drv.c    | 20 +++++++++++++++++---
+ 4 files changed, 31 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 6e4c015783ff..c90d79096e8c 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -67,7 +67,6 @@ static __u32 vmbus_get_next_version(__u32 current_version)
+ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ {
+ 	int ret = 0;
+-	unsigned int cur_cpu;
+ 	struct vmbus_channel_initiate_contact *msg;
+ 	unsigned long flags;
+ 
+@@ -100,24 +99,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ 
+ 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
+ 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
+-	/*
+-	 * We want all channel messages to be delivered on CPU 0.
+-	 * This has been the behavior pre-win8. This is not
+-	 * perf issue and having all channel messages delivered on CPU 0
+-	 * would be ok.
+-	 * For post win8 hosts, we support receiving channel messagges on
+-	 * all the CPUs. This is needed for kexec to work correctly where
+-	 * the CPU attempting to connect may not be CPU 0.
+-	 */
+-	if (version >= VERSION_WIN8_1) {
+-		cur_cpu = get_cpu();
+-		msg->target_vcpu = hv_cpu_number_to_vp_number(cur_cpu);
+-		vmbus_connection.connect_cpu = cur_cpu;
+-		put_cpu();
+-	} else {
+-		msg->target_vcpu = 0;
+-		vmbus_connection.connect_cpu = 0;
+-	}
++	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
+ 
+ 	/*
+ 	 * Add to list before we send the request since we may
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index fcc52797c169..d6320022af15 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -249,6 +249,13 @@ int hv_synic_cleanup(unsigned int cpu)
+ 	bool channel_found = false;
+ 	unsigned long flags;
+ 
++	/*
++	 * Hyper-V does not provide a way to change the connect CPU once
++	 * it is set; we must prevent the connect CPU from going offline.
++	 */
++	if (cpu == VMBUS_CONNECT_CPU)
++		return -EBUSY;
++
+ 	/*
+ 	 * Search for channels which are bound to the CPU we're about to
+ 	 * cleanup. In case we find one and vmbus is still connected we need to
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index af9379a3bf89..cabcb66e7c5e 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -212,12 +212,13 @@ enum vmbus_connect_state {
+ 
+ #define MAX_SIZE_CHANNEL_MESSAGE	HV_MESSAGE_PAYLOAD_BYTE_COUNT
+ 
+-struct vmbus_connection {
+-	/*
+-	 * CPU on which the initial host contact was made.
+-	 */
+-	int connect_cpu;
++/*
++ * The CPU that Hyper-V will interrupt for VMBUS messages, such as
++ * CHANNELMSG_OFFERCHANNEL and CHANNELMSG_RESCIND_CHANNELOFFER.
++ */
++#define VMBUS_CONNECT_CPU	0
+ 
++struct vmbus_connection {
+ 	u32 msg_conn_id;
+ 
+ 	atomic_t offer_in_progress;
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 9cdd434bb340..160ff640485b 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1092,14 +1092,28 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 			/*
+ 			 * If we are handling the rescind message;
+ 			 * schedule the work on the global work queue.
++			 *
++			 * The OFFER message and the RESCIND message should
++			 * not be handled by the same serialized work queue,
++			 * because the OFFER handler may call vmbus_open(),
++			 * which tries to open the channel by sending an
++			 * OPEN_CHANNEL message to the host and waits for
++			 * the host's response; however, if the host has
++			 * rescinded the channel before it receives the
++			 * OPEN_CHANNEL message, the host just silently
++			 * ignores the OPEN_CHANNEL message; as a result,
++			 * the guest's OFFER handler hangs for ever, if we
++			 * handle the RESCIND message in the same serialized
++			 * work queue: the RESCIND handler can not start to
++			 * run before the OFFER handler finishes.
+ 			 */
+-			schedule_work_on(vmbus_connection.connect_cpu,
++			schedule_work_on(VMBUS_CONNECT_CPU,
+ 					 &ctx->work);
+ 			break;
+ 
+ 		case CHANNELMSG_OFFERCHANNEL:
+ 			atomic_inc(&vmbus_connection.offer_in_progress);
+-			queue_work_on(vmbus_connection.connect_cpu,
++			queue_work_on(VMBUS_CONNECT_CPU,
+ 				      vmbus_connection.work_queue,
+ 				      &ctx->work);
+ 			break;
+@@ -1146,7 +1160,7 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
+ 
+ 	INIT_WORK(&ctx->work, vmbus_onmessage_work);
+ 
+-	queue_work_on(vmbus_connection.connect_cpu,
++	queue_work_on(VMBUS_CONNECT_CPU,
+ 		      vmbus_connection.work_queue,
+ 		      &ctx->work);
+ }
+-- 
+2.25.1
+
