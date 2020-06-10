@@ -1,225 +1,99 @@
-Return-Path: <SRS0=+duP=7W=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=bpW3=7X=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BC8C433DF
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jun 2020 00:58:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3347DC433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Jun 2020 02:05:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC5FD20737
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Jun 2020 00:58:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1591664327;
-	bh=QUtRJ3Y0Rx9RwRzwhCcyvIfmN4BCTK68Ylczwl/VO/A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=od2snhUcI0mBVyS+G1qQ77v37El1+FhWJRSpPikKHpw7YM6lertUkhYFV/zBFrLU7
-	 yn8vU0973A0llQib4hjffzI+oyEW+RD5dO/wOwquDLk8aMglLCWeCynBnJAStGyh1s
-	 GZSnnSlH5Tv/f77Mpv2WSg/xP1iVodZoe0E7cXeU=
+	by mail.kernel.org (Postfix) with ESMTP id 11A372072E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 10 Jun 2020 02:05:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="O7/mtpNr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729629AbgFIA6A (ORCPT
+        id S1726038AbgFJCE7 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 8 Jun 2020 20:58:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54280 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728248AbgFHXIr (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:08:47 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 901FB208A7;
-        Mon,  8 Jun 2020 23:08:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657726;
-        bh=QUtRJ3Y0Rx9RwRzwhCcyvIfmN4BCTK68Ylczwl/VO/A=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ix3RRS7OgMD2gIKWruc1fzjR2Ionie4NHNz+0NQRYzWO43g9EQxKsHwaQTO07XWYt
-         dhUCRrMXCJcFkPPoJzDyqUZvSIFask1nw1t318CWNHZXs62PnuCuU7bz4zrFXNtovr
-         k2pIluOlt8DKr+WssDCUvOymwp2oSoUNtIEMB85I=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Tue, 9 Jun 2020 22:04:59 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42862 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbgFJCE7 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 9 Jun 2020 22:04:59 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05A234K5103033;
+        Wed, 10 Jun 2020 02:04:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=FUdwjuiVg3XI+SCI7aOabvDXllYR84w4agJas1BGNQ4=;
+ b=O7/mtpNr7Sxnp1ls3GcRwR5mz1EaSvsf56KLo8rwx6CbGwjBRXeZt6L9l7mPl7j6FYsK
+ qv5SmgF5GLjkuF5x+VhT3KoGv0l+W7+3SYbBZ8fbulqdpcIZby8tAhHhPxVU4QzBbAgh
+ QD/4jAZ+XURr8BOVn30ynBQTBKA2BZV7iZ8P5QG53vuYfXvtn41SzvvmNxewI1dVeDtW
+ U8VgmLbBLx2+3GlKvazzP9E8ACQrn5MmG50kMbW9uJhFvt++Z1GNHyciZ3SCzPH/0A1t
+ J79Tqtb0gYF5N9tmGBDEyq4gBcFDNF04ukvYOp0Eb92zdIw2KQVUUU/Sl5hH5+TpLyTN jw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 31g3smyr77-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 10 Jun 2020 02:04:54 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05A1wUNM021302;
+        Wed, 10 Jun 2020 02:02:54 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 31gmwsbn9u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 10 Jun 2020 02:02:54 +0000
+Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05A22rdK018484;
+        Wed, 10 Jun 2020 02:02:53 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 09 Jun 2020 19:02:52 -0700
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     Denis Efremov <efremov@linux.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 118/274] Drivers: hv: vmbus: Always handle the VMBus messages on CPU0
-Date:   Mon,  8 Jun 2020 19:03:31 -0400
-Message-Id: <20200608230607.3361041-118-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
+        Dexuan Cui <decui@microsoft.com>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        linux-hyperv@vger.kernel.org,
+        Linux SCSI List <linux-scsi@vger.kernel.org>
+Subject: Re: [PATCH] scsi: storvsc: Remove memset before memory freeing in storvsc_suspend()
+Date:   Tue,  9 Jun 2020 22:02:45 -0400
+Message-Id: <159175452258.16072.9133246889327928354.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200605075934.8403-1-efremov@linux.com>
+References: <CAA42JLat6Ern5_mztmoBX9-ONtmz=gZE3YUphY+njTa+A=efVw@mail.gmail.com> <20200605075934.8403-1-efremov@linux.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9647 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 spamscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=879 bulkscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006100013
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9647 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 cotscore=-2147483648 suspectscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0
+ mlxlogscore=918 clxscore=1011 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006100013
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+On Fri, 5 Jun 2020 10:59:34 +0300, Denis Efremov wrote:
 
-[ Upstream commit 8a857c55420f29da4fc131adc22b12d474c48f4c ]
+> Remove memset with 0 for stor_device->stor_chns in storvsc_suspend()
+> before the call to kfree() as the memory contains no sensitive information.
 
-A Linux guest have to pick a "connect CPU" to communicate with the
-Hyper-V host.  This CPU can not be taken offline because Hyper-V does
-not provide a way to change that CPU assignment.
+Applied to 5.8/scsi-queue, thanks!
 
-Current code sets the connect CPU to whatever CPU ends up running the
-function vmbus_negotiate_version(), and this will generate problems if
-that CPU is taken offine.
+[1/1] scsi: storvsc: Remove memset before memory freeing in storvsc_suspend()
+      https://git.kernel.org/mkp/scsi/c/f47c24033a1a
 
-Establish CPU0 as the connect CPU, and add logics to prevents the
-connect CPU from being taken offline.   We could pick some other CPU,
-and we could pick that "other CPU" dynamically if there was a reason to
-do so at some point in the future.  But for now, #defining the connect
-CPU to 0 is the most straightforward and least complex solution.
-
-While on this, add inline comments explaining "why" offer and rescind
-messages should not be handled by a same serialized work queue.
-
-Suggested-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Link: https://lore.kernel.org/r/20200406001514.19876-2-parri.andrea@gmail.com
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hv/connection.c   | 20 +-------------------
- drivers/hv/hv.c           |  7 +++++++
- drivers/hv/hyperv_vmbus.h | 11 ++++++-----
- drivers/hv/vmbus_drv.c    | 20 +++++++++++++++++---
- 4 files changed, 31 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 74e77de89b4f..f4bd306d2cef 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -69,7 +69,6 @@ MODULE_PARM_DESC(max_version,
- int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- {
- 	int ret = 0;
--	unsigned int cur_cpu;
- 	struct vmbus_channel_initiate_contact *msg;
- 	unsigned long flags;
- 
-@@ -102,24 +101,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 
- 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
- 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
--	/*
--	 * We want all channel messages to be delivered on CPU 0.
--	 * This has been the behavior pre-win8. This is not
--	 * perf issue and having all channel messages delivered on CPU 0
--	 * would be ok.
--	 * For post win8 hosts, we support receiving channel messagges on
--	 * all the CPUs. This is needed for kexec to work correctly where
--	 * the CPU attempting to connect may not be CPU 0.
--	 */
--	if (version >= VERSION_WIN8_1) {
--		cur_cpu = get_cpu();
--		msg->target_vcpu = hv_cpu_number_to_vp_number(cur_cpu);
--		vmbus_connection.connect_cpu = cur_cpu;
--		put_cpu();
--	} else {
--		msg->target_vcpu = 0;
--		vmbus_connection.connect_cpu = 0;
--	}
-+	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
- 
- 	/*
- 	 * Add to list before we send the request since we may
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 533c8b82b344..3a5648aa5599 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -245,6 +245,13 @@ int hv_synic_cleanup(unsigned int cpu)
- 	bool channel_found = false;
- 	unsigned long flags;
- 
-+	/*
-+	 * Hyper-V does not provide a way to change the connect CPU once
-+	 * it is set; we must prevent the connect CPU from going offline.
-+	 */
-+	if (cpu == VMBUS_CONNECT_CPU)
-+		return -EBUSY;
-+
- 	/*
- 	 * Search for channels which are bound to the CPU we're about to
- 	 * cleanup. In case we find one and vmbus is still connected we need to
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 70b30e223a57..67fb1edcbf52 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -212,12 +212,13 @@ enum vmbus_connect_state {
- 
- #define MAX_SIZE_CHANNEL_MESSAGE	HV_MESSAGE_PAYLOAD_BYTE_COUNT
- 
--struct vmbus_connection {
--	/*
--	 * CPU on which the initial host contact was made.
--	 */
--	int connect_cpu;
-+/*
-+ * The CPU that Hyper-V will interrupt for VMBUS messages, such as
-+ * CHANNELMSG_OFFERCHANNEL and CHANNELMSG_RESCIND_CHANNELOFFER.
-+ */
-+#define VMBUS_CONNECT_CPU	0
- 
-+struct vmbus_connection {
- 	u32 msg_conn_id;
- 
- 	atomic_t offer_in_progress;
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index e06c6b9555cf..ec173da45b42 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1098,14 +1098,28 @@ void vmbus_on_msg_dpc(unsigned long data)
- 			/*
- 			 * If we are handling the rescind message;
- 			 * schedule the work on the global work queue.
-+			 *
-+			 * The OFFER message and the RESCIND message should
-+			 * not be handled by the same serialized work queue,
-+			 * because the OFFER handler may call vmbus_open(),
-+			 * which tries to open the channel by sending an
-+			 * OPEN_CHANNEL message to the host and waits for
-+			 * the host's response; however, if the host has
-+			 * rescinded the channel before it receives the
-+			 * OPEN_CHANNEL message, the host just silently
-+			 * ignores the OPEN_CHANNEL message; as a result,
-+			 * the guest's OFFER handler hangs for ever, if we
-+			 * handle the RESCIND message in the same serialized
-+			 * work queue: the RESCIND handler can not start to
-+			 * run before the OFFER handler finishes.
- 			 */
--			schedule_work_on(vmbus_connection.connect_cpu,
-+			schedule_work_on(VMBUS_CONNECT_CPU,
- 					 &ctx->work);
- 			break;
- 
- 		case CHANNELMSG_OFFERCHANNEL:
- 			atomic_inc(&vmbus_connection.offer_in_progress);
--			queue_work_on(vmbus_connection.connect_cpu,
-+			queue_work_on(VMBUS_CONNECT_CPU,
- 				      vmbus_connection.work_queue,
- 				      &ctx->work);
- 			break;
-@@ -1152,7 +1166,7 @@ static void vmbus_force_channel_rescinded(struct vmbus_channel *channel)
- 
- 	INIT_WORK(&ctx->work, vmbus_onmessage_work);
- 
--	queue_work_on(vmbus_connection.connect_cpu,
-+	queue_work_on(VMBUS_CONNECT_CPU,
- 		      vmbus_connection.work_queue,
- 		      &ctx->work);
- }
 -- 
-2.25.1
-
+Martin K. Petersen	Oracle Linux Engineering
