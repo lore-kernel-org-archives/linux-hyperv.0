@@ -2,90 +2,78 @@ Return-Path: <SRS0=wn86=75=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C22C433E0
-	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Jun 2020 13:28:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FA8C433DF
+	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Jun 2020 14:39:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF34420C56
-	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Jun 2020 13:28:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592314101;
-	bh=o16TOGaXPe+mfeD5YOCp9VLSgp7Z61k04+2zqhJahyE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=JzV8USpTtReMy7Htc8wB5sGSdzM0DlHaHYyMyiJoEYgEItHKYKtSUQt6WMlU3o3MA
-	 N0xFaDBHRxX1U+MGlQR5UH2oK1c4U/bpqvj3TMfmtM0ZBTkNnMmRUkO+BRdh0tbYcw
-	 fYbBLcla2gxWXjvKHUdDWQoGNEwlXu9RG9lEwhto=
+	by mail.kernel.org (Postfix) with ESMTP id 714CE20644
+	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Jun 2020 14:39:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728553AbgFPN2V (ORCPT
+        id S1726817AbgFPOjq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 16 Jun 2020 09:28:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46000 "EHLO mail.kernel.org"
+        Tue, 16 Jun 2020 10:39:46 -0400
+Received: from verein.lst.de ([213.95.11.211]:38516 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726692AbgFPN2U (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 16 Jun 2020 09:28:20 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3B1112098B;
-        Tue, 16 Jun 2020 13:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592314100;
-        bh=o16TOGaXPe+mfeD5YOCp9VLSgp7Z61k04+2zqhJahyE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gmnWwjuC907MuTP3R+2w7BNh+0ddDUn+NqTB5TaBAoT7R2ybKpoEoWwLY0dd+TVCG
-         UduXuIMIx8j0qk8c0CJ2LoxjuS+pdutttJszGgZSDYkwQKoDV12+4BnAJuEhWkXpsz
-         YGAY/pQsAevEClH4v5C0DdhhMGZOvk8oZRgb+EdU=
-Date:   Tue, 16 Jun 2020 09:28:19 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
-        chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
-        Hawking.Zhang@amd.com, tvrtko.ursulin@intel.com,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, spronovo@microsoft.com, iourit@microsoft.com,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [RFC PATCH 0/4] DirectX on Linux
-Message-ID: <20200616132819.GP1931@sasha-vm>
-References: <20200519163234.226513-1-sashal@kernel.org>
- <55c57049-1869-7421-aa0f-3ce0b6a133cf@suse.de>
- <20200616105112.GC1718@bug>
+        id S1726341AbgFPOjp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 16 Jun 2020 10:39:45 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 08C8368AEF; Tue, 16 Jun 2020 16:39:41 +0200 (CEST)
+Date:   Tue, 16 Jun 2020 16:39:40 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Christoph Hellwig <hch@lst.de>, Dexuan Cui <decui@microsoft.com>,
+        vkuznets <vkuznets@redhat.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Ju-Hyoung Lee <juhlee@microsoft.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>
+Subject: Re: hv_hypercall_pg page permissios
+Message-ID: <20200616143940.GA15676@lst.de>
+References: <20200616072318.GA17600@lst.de> <20200616101807.GO2531@hirez.programming.kicks-ass.net> <20200616102350.GA29684@lst.de> <20200616102412.GB29684@lst.de> <20200616103137.GQ2531@hirez.programming.kicks-ass.net> <20200616103313.GA30833@lst.de> <20200616104032.GR2531@hirez.programming.kicks-ass.net> <20200616104230.GA31314@lst.de> <20200616105200.GA32175@lst.de> <20200616112415.GT2531@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200616105112.GC1718@bug>
+In-Reply-To: <20200616112415.GT2531@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 12:51:13PM +0200, Pavel Machek wrote:
->Hi!
->
->> > The driver creates the /dev/dxg device, which can be opened by user mode
->> > application and handles their ioctls. The IOCTL interface to the driver
->> > is defined in dxgkmthk.h (Dxgkrnl Graphics Port Driver ioctl
->> > definitions). The interface matches the D3DKMT interface on Windows.
->> > Ioctls are implemented in ioctl.c.
->>
->> Echoing what others said, you're not making a DRM driver. The driver should live outside
->> of the DRM code.
->>
->
->Actually, this sounds to me like "this should not be merged into linux kernel". I mean,
->we already have DRM API on Linux. We don't want another one, do we?
+On Tue, Jun 16, 2020 at 01:24:15PM +0200, Peter Zijlstra wrote:
+> > +void *module_alloc_prot(unsigned long size, pgprot_t prot)
+> >  {
+> > +	unsigned int flags = (pgprot_val(prot) & _PAGE_NX) ?
+> > +			0 : VM_FLUSH_RESET_PERMS;
+> >  	void *p;
+> >  
+> >  	if (PAGE_ALIGN(size) > MODULES_LEN)
+> > @@ -75,7 +77,7 @@ void *module_alloc(unsigned long size)
+> >  	p = __vmalloc_node_range(size, MODULE_ALIGN,
+> >  				    MODULES_VADDR + get_module_load_offset(),
+> >  				    MODULES_END, GFP_KERNEL,
+> > -				    PAGE_KERNEL, 0, NUMA_NO_NODE,
+> > +				    prot, flags, NUMA_NO_NODE,
+> >  				    __builtin_return_address(0));
+> >  	if (p && (kasan_module_alloc(p, size) < 0)) {
+> >  		vfree(p);
+> 
+> Hurmm.. Yes it would. It just doesn't feel right though. Can't we
+> unconditionally set the flag? At worst it makes free a little bit more
+> expensive.
+> 
+> The thing is, I don't think _NX is the only prot that needs restoring.
+> Any prot other than the default (RW IIRC) needs restoring.
 
-This driver doesn't have any display functionality.
-
->And at the very least... this misses API docs for /dev/dxg. Code can't really
->be reviewed without that.
-
-The docs live here: https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/d3dkmthk/
-
--- 
-Thanks,
-Sasha
+If that actually is the case I think we should just check for
+a non-default permission in __vmalloc_node_range itself and handle it
+there, which seems like a nice solution.
