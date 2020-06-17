@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9B44C433E3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF506C433E1
+	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:49:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B8C2921556
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:48:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F73021532
+	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:49:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baZKsS2P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OkfzEmkB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727029AbgFQQsF (ORCPT
+        id S1727039AbgFQQsK (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 17 Jun 2020 12:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52634 "EHLO
+        Wed, 17 Jun 2020 12:48:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727015AbgFQQsC (ORCPT
+        with ESMTP id S1727033AbgFQQsF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 17 Jun 2020 12:48:02 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C6EC06174E;
-        Wed, 17 Jun 2020 09:48:00 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id x6so3049567wrm.13;
-        Wed, 17 Jun 2020 09:48:00 -0700 (PDT)
+        Wed, 17 Jun 2020 12:48:05 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 684F9C06174E;
+        Wed, 17 Jun 2020 09:48:05 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id l17so2524053wmj.0;
+        Wed, 17 Jun 2020 09:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KgaamQcsTSd9AMXog0Hi7EO7KOr3psID2I79QRDOuPQ=;
-        b=baZKsS2PSQFJV4FGXbBDHaDDNGu50Q0QQj8+IWh1E0Wk3M37gdiUZ1KQ0Gz9vNQFCy
-         gjFGqdPgcyytw3YSKzxtsntZuKvSLDLaTwtxcGyx++7wuyIQmFHzYgMczfwhjpDJWxOk
-         yYqlzDhuBhg71YuNc37f6+LRYJbVnAQxeHe2fKlT06IKvE9UnTBAmoZ5YyQYgf+qbjKn
-         9Mb8Ilyob2jkz/mHGNMqkv1+6CU3QA/2dxp5pRhLcfE7N64r9h6bwz0N9bTP6cK5UZrb
-         zC47QMsh5cDX66rQfWW7XYe6BbA7CSiqVmYuB6YQoUGXK7KNmBYKCcRC6Zfa99tHmJeu
-         5UvQ==
+        bh=iaQWLjI5fwfFGmLCckr/wYP6bEsy7u4WBriUtSeoAnM=;
+        b=OkfzEmkBHCTsEkJzVex/aFcLll3H8vT+4nF+tYkC5s+bbr3MntTdGpx0O5K+8L8h/h
+         bwj7CwiFBq/bagZLqrHRHm7gY6fAX2RYRfdolTkSCQB+qOS6Mx9yEVhfml/Ei5iaTpOt
+         Q0w37kyIjLX5REjbUljOO0yPaDLqxH4Dwy7LE79DN6cSrPPohBbt7XA302U8BsthoFif
+         t7ZyQKjfdJ1QBrYOvi76LQF22LZHL9WfOJ+n1vCRPDNx9l63b8HsLALKoZ/Y2s3mD02l
+         owml6Y4mjKRBQfBzkw820AJEq7RbEM8X8CVhCTFAwsFkAHMTw3TFiT5ZOnAtUuWmJqGj
+         NLSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KgaamQcsTSd9AMXog0Hi7EO7KOr3psID2I79QRDOuPQ=;
-        b=R7aobpB+WEf66okJ37ZmBaTrk/Mv0y35JC2jws7SYDM/GqE/JTyMYelxfI/Zx8oFtz
-         0G0oNzaR2/MPi6PnTSk7/l0iezx96SVKB0B/SjKOeVB9wNnu7Q3HQDVHHX4niHKKv3LN
-         liUDw/W4v6wRv6NQfS/GZOpNeYCoQxm9t4sEDPgOQtWXeAPVMmLZYJZTpIo1rwpqpsod
-         naDVFJG5480OmCjSH5Fs18qtDtvaRSz82IzVRGG2ueYGNATOxEtrvvxTYjgaMjy0RsM3
-         +eJWP16takoJLvY2pNUr0lMlf/h2gfbrQbGzsmUIBgAP2CRq/pz6Osqd2BiloDXI3/LN
-         VAng==
-X-Gm-Message-State: AOAM532fKpgn+x2arEfN+ISvyQzPAg/3f3LVpY2RSpLXwetvAKgmFsAR
-        UNJQRBMFumnizHGLCEUvUCjHV3X0WWptYg==
-X-Google-Smtp-Source: ABdhPJxZQ8jYu5lHQEW10dBKw+VOWFH1nQ4BWKptVGtBEWTKr8fZ39vMFEwMn+iGriCJXW89Ng5kcw==
-X-Received: by 2002:a5d:500d:: with SMTP id e13mr189466wrt.150.1592412479190;
-        Wed, 17 Jun 2020 09:47:59 -0700 (PDT)
+        bh=iaQWLjI5fwfFGmLCckr/wYP6bEsy7u4WBriUtSeoAnM=;
+        b=b7jJzqz/k42Nc1ZLx+PNJmahTbjeIxCfNkMyIJLfq4S0mxa6LvxiVFiQY/DTK3h7k8
+         KTwTZQimCMvb5iy64KNUSSNf5621yFDRvnuLIWIiYd1Bshaewu9oVy29qgXFvrA5nIPg
+         5NIyfXpdlhqT2dTn5/BdkaadyccsjECgbnY3WJFyM8TyviCwxmB/xtL8tHNDVLOPMmAw
+         hheL/QZXWa8y2WTc1QlM2/ISjoREbVelC+We4F48Hi/td+3S+55OL6zfiaAtkyP8DFrl
+         U73xY7km/HOxKPVkr3U1THhKQU5GcIXmhyHot7W9eVMGosTFtEXcQesOlmNMbzJgC7Fq
+         ew9w==
+X-Gm-Message-State: AOAM5328s1SGyoFAgAEfRatvHkhCMZj8t1Fzr4uzERar6WX8pdlkpKb0
+        2SkHmAvojYtIpk5C2LcIIEoAvV29QzxAJg==
+X-Google-Smtp-Source: ABdhPJxNQBUBgHRWphU0wOYQEIoipIPkmiSZ2QsrfmXhuJ/Hr4tg1gCBPJ3jGCyvLYTFLQlCT03z8A==
+X-Received: by 2002:a1c:1946:: with SMTP id 67mr964176wmz.59.1592412483964;
+        Wed, 17 Jun 2020 09:48:03 -0700 (PDT)
 Received: from localhost.localdomain (ip-213-220-210-175.net.upcbroadband.cz. [213.220.210.175])
-        by smtp.gmail.com with ESMTPSA id g3sm199165wrb.46.2020.06.17.09.47.57
+        by smtp.gmail.com with ESMTPSA id g3sm199165wrb.46.2020.06.17.09.48.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 09:47:58 -0700 (PDT)
+        Wed, 17 Jun 2020 09:48:03 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -68,9 +68,9 @@ To:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>
 Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 5/8] Drivers: hv: vmbus: Use channel_mutex in channel_vp_mapping_show()
-Date:   Wed, 17 Jun 2020 18:46:39 +0200
-Message-Id: <20200617164642.37393-6-parri.andrea@gmail.com>
+Subject: [PATCH 7/8] scsi: storvsc: Introduce the per-storvsc_device spinlock
+Date:   Wed, 17 Jun 2020 18:46:41 +0200
+Message-Id: <20200617164642.37393-8-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200617164642.37393-1-parri.andrea@gmail.com>
 References: <20200617164642.37393-1-parri.andrea@gmail.com>
@@ -81,53 +81,79 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The primitive currently uses channel->lock to protect the loop over
-sc_list w.r.t. list additions/deletions but it doesn't protect the
-target_cpu(s) loads w.r.t. a concurrent target_cpu_store(): while the
-data races on target_cpu are hardly of any concern here, replace the
-channel->lock critical section with a channel_mutex critical section
-and extend the latter to include the loads of target_cpu; this same
-pattern is also used in hv_synic_cleanup().
+storvsc uses the spinlock of the hv_device's primary channel to
+serialize modifications of stor_chns[] performed by storvsc_do_io()
+and storvsc_change_target_cpu(), when it could/should use a (per-)
+storvsc_device spinlock: this change untangles the synchronization
+mechanism for the (storvsc-specific) stor_chns[] array from the
+"generic" VMBus code and data structures, clarifying the scope of
+this synchronization mechanism.
 
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
- drivers/hv/vmbus_drv.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/scsi/storvsc_drv.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index b5ae45eb8aef7..9e39692dc13ee 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -507,18 +507,17 @@ static ssize_t channel_vp_mapping_show(struct device *dev,
- {
- 	struct hv_device *hv_dev = device_to_hv_device(dev);
- 	struct vmbus_channel *channel = hv_dev->channel, *cur_sc;
--	unsigned long flags;
- 	int buf_size = PAGE_SIZE, n_written, tot_written;
- 	struct list_head *cur;
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index 072ed87286578..8ff21e69a8be8 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -462,6 +462,11 @@ struct storvsc_device {
+ 	 * Mask of CPUs bound to subchannels.
+ 	 */
+ 	struct cpumask alloced_cpus;
++	/*
++	 * Serializes modifications of stor_chns[] from storvsc_do_io()
++	 * and storvsc_change_target_cpu().
++	 */
++	spinlock_t lock;
+ 	/* Used for vsc/vsp channel reset process */
+ 	struct storvsc_cmd_request init_request;
+ 	struct storvsc_cmd_request reset_request;
+@@ -639,7 +644,7 @@ static void storvsc_change_target_cpu(struct vmbus_channel *channel, u32 old,
+ 		return;
  
- 	if (!channel)
- 		return -ENODEV;
+ 	/* See storvsc_do_io() -> get_og_chn(). */
+-	spin_lock_irqsave(&device->channel->lock, flags);
++	spin_lock_irqsave(&stor_device->lock, flags);
  
-+	mutex_lock(&vmbus_connection.channel_mutex);
-+
- 	tot_written = snprintf(buf, buf_size, "%u:%u\n",
- 		channel->offermsg.child_relid, channel->target_cpu);
+ 	/*
+ 	 * Determines if the storvsc device has other channels assigned to
+@@ -676,7 +681,7 @@ static void storvsc_change_target_cpu(struct vmbus_channel *channel, u32 old,
+ 	WRITE_ONCE(stor_device->stor_chns[new], channel);
+ 	cpumask_set_cpu(new, &stor_device->alloced_cpus);
  
--	spin_lock_irqsave(&channel->lock, flags);
--
- 	list_for_each(cur, &channel->sc_list) {
- 		if (tot_written >= buf_size - 1)
- 			break;
-@@ -532,7 +531,7 @@ static ssize_t channel_vp_mapping_show(struct device *dev,
- 		tot_written += n_written;
+-	spin_unlock_irqrestore(&device->channel->lock, flags);
++	spin_unlock_irqrestore(&stor_device->lock, flags);
+ }
+ 
+ static void handle_sc_creation(struct vmbus_channel *new_sc)
+@@ -1433,14 +1438,14 @@ static int storvsc_do_io(struct hv_device *device,
+ 			}
+ 		}
+ 	} else {
+-		spin_lock_irqsave(&device->channel->lock, flags);
++		spin_lock_irqsave(&stor_device->lock, flags);
+ 		outgoing_channel = stor_device->stor_chns[q_num];
+ 		if (outgoing_channel != NULL) {
+-			spin_unlock_irqrestore(&device->channel->lock, flags);
++			spin_unlock_irqrestore(&stor_device->lock, flags);
+ 			goto found_channel;
+ 		}
+ 		outgoing_channel = get_og_chn(stor_device, q_num);
+-		spin_unlock_irqrestore(&device->channel->lock, flags);
++		spin_unlock_irqrestore(&stor_device->lock, flags);
  	}
  
--	spin_unlock_irqrestore(&channel->lock, flags);
-+	mutex_unlock(&vmbus_connection.channel_mutex);
+ found_channel:
+@@ -1881,6 +1886,7 @@ static int storvsc_probe(struct hv_device *device,
+ 	init_waitqueue_head(&stor_device->waiting_to_drain);
+ 	stor_device->device = device;
+ 	stor_device->host = host;
++	spin_lock_init(&stor_device->lock);
+ 	hv_set_drvdata(device, stor_device);
  
- 	return tot_written;
- }
+ 	stor_device->port_number = host->host_no;
 -- 
 2.25.1
 
