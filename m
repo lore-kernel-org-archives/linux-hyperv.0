@@ -2,42 +2,43 @@ Return-Path: <SRS0=ecOg=77=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFEDC433DF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83710C433E0
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7B4620FC3
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59C022186A
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ooI5Spr2"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LoixPRyS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727990AbgFRGnZ (ORCPT
+        id S1727931AbgFRGnZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Thu, 18 Jun 2020 02:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39678 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbgFRGnY (ORCPT
+        with ESMTP id S1727109AbgFRGnY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Thu, 18 Jun 2020 02:43:24 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DBDC0613ED;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46BABC061755;
         Wed, 17 Jun 2020 23:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=MnNXAxpQLHOaMqStk9KRD+g+da8mFc/xMCqgIsVzzoQ=; b=ooI5Spr2GNPFCJmAN9ct2PlKo3
-        PUVMAre3WdizzapatnskE0YvKMD/jl2E7D+48mPdj+8fgkE4nGsxHaDaxqwan6OrJNH9ZPbxZTrnK
-        QbIBO13f86P3cdfNeTDkIczaP3MqoUkk12Q1bPokFEFzHbqF3/7sH/Y74RUNKylgasA5feZSUl9hG
-        BMXBEfBepXcl78GRzj+VXBmRLuP7UwADD7LUoESb74CXc9aWqylL2hnstmfu0ncNUOoW87x1SurcH
-        C5ap3uehlHPOuXkcx8JOWZv/btorO2yH8icOIe1Go+6NtcWbF4cjHBqej24X2KT6iU4VQEy+kgODF
-        QGzC3ncQ==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=rJN0H8/0nC5UPhILL9WR0pQNIdABbC5dw/uf3CUdzm0=; b=LoixPRySLyqh/93G323y4koNbl
+        fTkZcMyqx2tSrkPmAVyEZ62A8S63jBcuLr27BTsixPvJJFeAOULv7jF7FQ0GNnjWYNEYtHD7wntD3
+        aot98lYYu7v/oXbrS7LQeGdy2MeIT+B88XPW85A9pARg9OUG9HHApN226yfKWYOtwx1XaZkYTPNZ/
+        az5JzzYCjeCLjJ7pED3fwRNAIkR1fuZcEw7Yr2nPb6jeUOoGALZ07RabxXG2d3XeA8948BEOBmry1
+        1XXzKETKhPSL7NcRzjooA9Bcp6f+dORA7YRNAMN3F2UlTHz+PpL3ZBf53cibppF6wjymS3FyWjfc1
+        ShgbsCoA==;
 Received: from 195-192-102-148.dyn.cablelink.at ([195.192.102.148] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jloGU-0007vK-Cb; Thu, 18 Jun 2020 06:43:10 +0000
+        id 1jloGb-000803-Rs; Thu, 18 Jun 2020 06:43:18 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Dexuan Cui <decui@microsoft.com>,
@@ -48,10 +49,12 @@ Cc:     Dexuan Cui <decui@microsoft.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-mm@kvack.org
-Subject: fix a hyperv W^X violation and remove vmalloc_exec
-Date:   Thu, 18 Jun 2020 08:43:04 +0200
-Message-Id: <20200618064307.32739-1-hch@lst.de>
+Subject: [PATCH 2/3] arm64: use PAGE_KERNEL_ROX directly in alloc_insn_page
+Date:   Thu, 18 Jun 2020 08:43:06 +0200
+Message-Id: <20200618064307.32739-3-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200618064307.32739-1-hch@lst.de>
+References: <20200618064307.32739-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -60,18 +63,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all,
+Use PAGE_KERNEL_ROX directly instead of allocating RWX and setting the
+page read-only just after the allocation.
 
-Dexuan reported a W^X violation due to the fact that the hyper hypercall
-page due switching it to be allocated using vmalloc_exec.  The problem
-is that PAGE_KERNEL_EXEC as used by vmalloc_exec actually sets writable
-permissions in the pte.  This series fixes the issue by switching to the
-low-level __vmalloc_node_range interface that allows specifing more
-detailed permissions instead.  It then also open codes the other two
-callers and removes the somewhat confusing vmalloc_exec interface.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/arm64/kernel/probes/kprobes.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-Peter noted that the hyper hypercall page allocation also has another
-long standing issue in that it shouldn't use the full vmalloc but just
-the module space.  This issue is so far theoretical as the allocation is
-done early in the boot process.  I plan to fix it with another bigger
-series for 5.9.
+diff --git a/arch/arm64/kernel/probes/kprobes.c b/arch/arm64/kernel/probes/kprobes.c
+index d1c95dcf1d7833..cbe49cd117cfec 100644
+--- a/arch/arm64/kernel/probes/kprobes.c
++++ b/arch/arm64/kernel/probes/kprobes.c
+@@ -120,15 +120,9 @@ int __kprobes arch_prepare_kprobe(struct kprobe *p)
+ 
+ void *alloc_insn_page(void)
+ {
+-	void *page;
+-
+-	page = vmalloc_exec(PAGE_SIZE);
+-	if (page) {
+-		set_memory_ro((unsigned long)page, 1);
+-		set_vm_flush_reset_perms(page);
+-	}
+-
+-	return page;
++	return __vmalloc_node_range(PAGE_SIZE, 1, VMALLOC_START, VMALLOC_END,
++			GFP_KERNEL, PAGE_KERNEL_ROX, VM_FLUSH_RESET_PERMS,
++			NUMA_NO_NODE, __func__);
+ }
+ 
+ /* arm kprobe: install breakpoint in text */
+-- 
+2.26.2
+
