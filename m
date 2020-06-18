@@ -2,43 +2,42 @@ Return-Path: <SRS0=ecOg=77=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CDA1C433E0
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FFEDC433DF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE88E2186A
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7B4620FC3
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mk7UtqQR"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ooI5Spr2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728030AbgFRGn3 (ORCPT
+        id S1727990AbgFRGnZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 18 Jun 2020 02:43:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
+        Thu, 18 Jun 2020 02:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbgFRGn2 (ORCPT
+        with ESMTP id S1727115AbgFRGnY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 18 Jun 2020 02:43:28 -0400
+        Thu, 18 Jun 2020 02:43:24 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD3FC06174E;
-        Wed, 17 Jun 2020 23:43:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47DBDC0613ED;
+        Wed, 17 Jun 2020 23:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=dtJsCrnFHit/sIeBcuwVf3/K6OgLll85jPlFKT9SOgs=; b=mk7UtqQRF1PZuq+tu6pevUgyUL
-        S+xAyJgPEys2sAFlqj2AZjGk8iCUd7BVQgcH3JxLOWXe70bCx2n9JBQ7cRkxBxMGPsnOLg0M91PHR
-        PRmQicJ6mcFrDClEfljqw+XUe24Zb949cEdW8e/22bN6U21gEKrgHwrXhvQPQiVZswNxdCxcp+ZgL
-        ik2pLS/r8DP7koivurpTixni0zJg5Mk5LHr4W0j9o6PwseGCIKtiOjHIdhGoRugFFc+fcFxHdVsT9
-        TLypr9Rv4eh268xA9B0gJSxiQQDsyJNywegoHg/69gFdq1uhKCHWKvpwinTOvnKGpxhkR0rzkQPAs
-        aXc8Dxnw==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=MnNXAxpQLHOaMqStk9KRD+g+da8mFc/xMCqgIsVzzoQ=; b=ooI5Spr2GNPFCJmAN9ct2PlKo3
+        PUVMAre3WdizzapatnskE0YvKMD/jl2E7D+48mPdj+8fgkE4nGsxHaDaxqwan6OrJNH9ZPbxZTrnK
+        QbIBO13f86P3cdfNeTDkIczaP3MqoUkk12Q1bPokFEFzHbqF3/7sH/Y74RUNKylgasA5feZSUl9hG
+        BMXBEfBepXcl78GRzj+VXBmRLuP7UwADD7LUoESb74CXc9aWqylL2hnstmfu0ncNUOoW87x1SurcH
+        C5ap3uehlHPOuXkcx8JOWZv/btorO2yH8icOIe1Go+6NtcWbF4cjHBqej24X2KT6iU4VQEy+kgODF
+        QGzC3ncQ==;
 Received: from 195-192-102-148.dyn.cablelink.at ([195.192.102.148] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jloGe-00081Z-Qm; Thu, 18 Jun 2020 06:43:21 +0000
+        id 1jloGU-0007vK-Cb; Thu, 18 Jun 2020 06:43:10 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Dexuan Cui <decui@microsoft.com>,
@@ -49,12 +48,10 @@ Cc:     Dexuan Cui <decui@microsoft.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-mm@kvack.org
-Subject: [PATCH 3/3] mm: remove vmalloc_exec
-Date:   Thu, 18 Jun 2020 08:43:07 +0200
-Message-Id: <20200618064307.32739-4-hch@lst.de>
+Subject: fix a hyperv W^X violation and remove vmalloc_exec
+Date:   Thu, 18 Jun 2020 08:43:04 +0200
+Message-Id: <20200618064307.32739-1-hch@lst.de>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200618064307.32739-1-hch@lst.de>
-References: <20200618064307.32739-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -63,104 +60,18 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Merge vmalloc_exec into its only caller.  Note that for !CONFIG_MMU
-__vmalloc_node_range maps to __vmalloc, which directly clears the
-__GFP_HIGHMEM added by the vmalloc_exec stub anyway.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- include/linux/vmalloc.h |  1 -
- kernel/module.c         |  4 +++-
- mm/nommu.c              | 17 -----------------
- mm/vmalloc.c            | 20 --------------------
- 4 files changed, 3 insertions(+), 39 deletions(-)
+Dexuan reported a W^X violation due to the fact that the hyper hypercall
+page due switching it to be allocated using vmalloc_exec.  The problem
+is that PAGE_KERNEL_EXEC as used by vmalloc_exec actually sets writable
+permissions in the pte.  This series fixes the issue by switching to the
+low-level __vmalloc_node_range interface that allows specifing more
+detailed permissions instead.  It then also open codes the other two
+callers and removes the somewhat confusing vmalloc_exec interface.
 
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index 48bb681e6c2aed..0221f852a7e1a3 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -106,7 +106,6 @@ extern void *vzalloc(unsigned long size);
- extern void *vmalloc_user(unsigned long size);
- extern void *vmalloc_node(unsigned long size, int node);
- extern void *vzalloc_node(unsigned long size, int node);
--extern void *vmalloc_exec(unsigned long size);
- extern void *vmalloc_32(unsigned long size);
- extern void *vmalloc_32_user(unsigned long size);
- extern void *__vmalloc(unsigned long size, gfp_t gfp_mask);
-diff --git a/kernel/module.c b/kernel/module.c
-index e8a198588f26ee..0c6573b98c3662 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -2783,7 +2783,9 @@ static void dynamic_debug_remove(struct module *mod, struct _ddebug *debug)
- 
- void * __weak module_alloc(unsigned long size)
- {
--	return vmalloc_exec(size);
-+	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
-+			GFP_KERNEL, PAGE_KERNEL_EXEC, VM_FLUSH_RESET_PERMS,
-+			NUMA_NO_NODE, __func__);
- }
- 
- bool __weak module_init_section(const char *name)
-diff --git a/mm/nommu.c b/mm/nommu.c
-index cdcad5d61dd194..f32a69095d509e 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -290,23 +290,6 @@ void *vzalloc_node(unsigned long size, int node)
- }
- EXPORT_SYMBOL(vzalloc_node);
- 
--/**
-- *	vmalloc_exec  -  allocate virtually contiguous, executable memory
-- *	@size:		allocation size
-- *
-- *	Kernel-internal function to allocate enough pages to cover @size
-- *	the page level allocator and map them into contiguous and
-- *	executable kernel virtual space.
-- *
-- *	For tight control over page level allocator and protection flags
-- *	use __vmalloc() instead.
-- */
--
--void *vmalloc_exec(unsigned long size)
--{
--	return __vmalloc(size, GFP_KERNEL | __GFP_HIGHMEM);
--}
--
- /**
-  * vmalloc_32  -  allocate virtually contiguous memory (32bit addressable)
-  *	@size:		allocation size
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 3091c2ca60dfd1..f60948aac0d0e4 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2696,26 +2696,6 @@ void *vzalloc_node(unsigned long size, int node)
- }
- EXPORT_SYMBOL(vzalloc_node);
- 
--/**
-- * vmalloc_exec - allocate virtually contiguous, executable memory
-- * @size:	  allocation size
-- *
-- * Kernel-internal function to allocate enough pages to cover @size
-- * the page level allocator and map them into contiguous and
-- * executable kernel virtual space.
-- *
-- * For tight control over page level allocator and protection flags
-- * use __vmalloc() instead.
-- *
-- * Return: pointer to the allocated memory or %NULL on error
-- */
--void *vmalloc_exec(unsigned long size)
--{
--	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
--			GFP_KERNEL, PAGE_KERNEL_EXEC, VM_FLUSH_RESET_PERMS,
--			NUMA_NO_NODE, __builtin_return_address(0));
--}
--
- #if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
- #define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
- #elif defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA)
--- 
-2.26.2
-
+Peter noted that the hyper hypercall page allocation also has another
+long standing issue in that it shouldn't use the full vmalloc but just
+the module space.  This issue is so far theoretical as the allocation is
+done early in the boot process.  I plan to fix it with another bigger
+series for 5.9.
