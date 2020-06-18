@@ -1,107 +1,119 @@
-Return-Path: <SRS0=u1Wc=76=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=ecOg=77=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 673ADC433E0
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA8E8C433DF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4150521556
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Jun 2020 16:49:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2A2720FC3
+	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Jun 2020 06:43:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jyieeRfQ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kRMCd9CW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgFQQr5 (ORCPT
+        id S1727812AbgFRGnZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 17 Jun 2020 12:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52620 "EHLO
+        Thu, 18 Jun 2020 02:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726976AbgFQQr4 (ORCPT
+        with ESMTP id S1727010AbgFRGnY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 17 Jun 2020 12:47:56 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC50C06174E;
-        Wed, 17 Jun 2020 09:47:55 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id d128so2762500wmc.1;
-        Wed, 17 Jun 2020 09:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gVhmxQFIFClqMGdzVtOb6Jbh/xq4f9D9vI2PHG/g/+c=;
-        b=jyieeRfQpE8EHRM/R2i+3nUJ4FYKCu5/yHXrTi79yTAA51GM2AH0HoA5GipmmOXQE6
-         sLSqJn+jP7chgvl93Bklkai4T3d7pI1/ziRIdXYT7kzVPp6+xPXzivbxL2MBWyClPCsX
-         0i+ySWpKwZvF599veqjre9Y1opQ8W6/zD7TEKMT4o8WIwWwYN889czHXCyCWKGJDA2oV
-         hf0YfZCk36zK5C0dvqqC7CpJcGkywSSDxHDeM5g9nyFqNH/D9NdrNWoNGbuVYGeNevE2
-         HxOEGpW4TSXuHV5WsTqI9sOnKRnk1KjDZU55yzvb17hYaVvdubOptIvLqQMEA5sYAf5K
-         PccA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gVhmxQFIFClqMGdzVtOb6Jbh/xq4f9D9vI2PHG/g/+c=;
-        b=l5jBhoM1M6ipdi0aFq0kV8BiDtYDBT+IdT/liseqyzMAFGuWP3NLf9E+zVlDhzpbMG
-         JtnyENbz2Y9BeZcWWCnP6DErK0C8FYUvS0t91Q2azCBGR39rBbo14XlkRgO/SDE6zqgC
-         rT06Ta7gYaLkJ9jkVzIlsLpK+ADtjd/B6ARnQ5Hh+PyezXMaSGiNtGLdRAW1wpqQ4Za9
-         48uiPZrV8ABvEejIps/iJjTfhxLNCOT1keorhXUksZwAOpt5vrz1xZl4cBH1W/azeFsm
-         +bOKPZfnpgDZyvHh6FqyPT5Y/+13aV9fQBW10kdFoZdKraW1WJKL9hSE0asdqO7Yt0HO
-         L6PQ==
-X-Gm-Message-State: AOAM532lsfL8Ei9APqBpnryRPs3GGKXgl6OXlj/9WqzHXEmlV0Ms62wY
-        EVYZDR9I/jKWM93TEJC2M0g=
-X-Google-Smtp-Source: ABdhPJwpFr1lV1s6gM0gvMq5aYT6qZyCrxbVg5gighFnKTD/gPodBaHaYk+qI6UdRQzbAPwe2si88w==
-X-Received: by 2002:a1c:b654:: with SMTP id g81mr9321392wmf.128.1592412474438;
-        Wed, 17 Jun 2020 09:47:54 -0700 (PDT)
-Received: from localhost.localdomain (ip-213-220-210-175.net.upcbroadband.cz. [213.220.210.175])
-        by smtp.gmail.com with ESMTPSA id g3sm199165wrb.46.2020.06.17.09.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 09:47:53 -0700 (PDT)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 3/8] Drivers: hv: vmbus: Replace cpumask_test_cpu(, cpu_online_mask) with cpu_online()
-Date:   Wed, 17 Jun 2020 18:46:37 +0200
-Message-Id: <20200617164642.37393-4-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200617164642.37393-1-parri.andrea@gmail.com>
-References: <20200617164642.37393-1-parri.andrea@gmail.com>
+        Thu, 18 Jun 2020 02:43:24 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46713C06174E;
+        Wed, 17 Jun 2020 23:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-ID:Content-Description;
+        bh=SUoVkFQUmyi1QuSIWVOIlXHCGmT/Vk+Hj9VKkJNBZPM=; b=kRMCd9CWE8Z4zk7v4dWebOFH/W
+        roNF9rNUIbgg2q64rQLRFQwHvmw82StRDKY3X/rI0d7KpoX2jE+ogKTFOdkdiz4twv24zu4VKsAZo
+        5499ut/O2vfwhMrn70kSJZBCATzWSEl5TTiokYnci392puTnJv+Jiv3Ui7HUNMrsj1IT1Wt4aRH0+
+        EVB7hcYKvOMBkMM+iC+/K22ox6rh/ch1XZsf6ckiBXfUS2fZNxJFF3zxGrUrlFLfDhq1IfZbGjkfd
+        KzwWdJepf4rXaibEpUpx1M8Se4rmg/Bhx5ZCBCPhq7zAGMMzHiQNyUeRvfdyBEA+m857HXYvTkjyD
+        RdhhbR6w==;
+Received: from 195-192-102-148.dyn.cablelink.at ([195.192.102.148] helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jloGY-0007yl-M6; Thu, 18 Jun 2020 06:43:15 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Dexuan Cui <decui@microsoft.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: [PATCH 1/3] x86/hyperv: allocate the hypercall page with only read and execute bits
+Date:   Thu, 18 Jun 2020 08:43:05 +0200
+Message-Id: <20200618064307.32739-2-hch@lst.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200618064307.32739-1-hch@lst.de>
+References: <20200618064307.32739-1-hch@lst.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-A slight improvement in readability, and this does also remove one
-memory access when NR_CPUS == 1!  ;-)
+Avoid a W^X violation cause by the fact that PAGE_KERNEL_EXEC includes the
+writable bit.
 
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+For this resurrect the removed PAGE_KERNEL_RX definitіon, but as
+PAGE_KERNEL_ROX to match arm64 and powerpc.
+
+Fixes: 78bb17f76edc ("x86/hyperv: use vmalloc_exec for the hypercall page")
+Reported-by: Dexuan Cui <decui@microsoft.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Tested-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/hv/vmbus_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/hyperv/hv_init.c            | 4 +++-
+ arch/x86/include/asm/pgtable_types.h | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index c3205f40d1415..452c14c656e2a 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1702,7 +1702,7 @@ static ssize_t target_cpu_store(struct vmbus_channel *channel,
- 	/* No CPUs should come up or down during this. */
- 	cpus_read_lock();
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index a54c6a401581dd..2bdc72e6890eca 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -375,7 +375,9 @@ void __init hyperv_init(void)
+ 	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
+ 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, guest_id);
  
--	if (!cpumask_test_cpu(target_cpu, cpu_online_mask)) {
-+	if (!cpu_online(target_cpu)) {
- 		cpus_read_unlock();
- 		return -EINVAL;
- 	}
+-	hv_hypercall_pg = vmalloc_exec(PAGE_SIZE);
++	hv_hypercall_pg = __vmalloc_node_range(PAGE_SIZE, 1, VMALLOC_START,
++			VMALLOC_END, GFP_KERNEL, PAGE_KERNEL_ROX,
++			VM_FLUSH_RESET_PERMS, NUMA_NO_NODE, __func__);
+ 	if (hv_hypercall_pg == NULL) {
+ 		wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
+ 		goto remove_cpuhp_state;
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index 2da1f95b88d761..816b31c685505f 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -194,6 +194,7 @@ enum page_cache_mode {
+ #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
+ #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
+ #define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
++#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
+ #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
+ #define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
+ #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
+@@ -219,6 +220,7 @@ enum page_cache_mode {
+ #define PAGE_KERNEL_RO		__pgprot_mask(__PAGE_KERNEL_RO         | _ENC)
+ #define PAGE_KERNEL_EXEC	__pgprot_mask(__PAGE_KERNEL_EXEC       | _ENC)
+ #define PAGE_KERNEL_EXEC_NOENC	__pgprot_mask(__PAGE_KERNEL_EXEC       |    0)
++#define PAGE_KERNEL_ROX		__pgprot_mask(__PAGE_KERNEL_ROX        | _ENC)
+ #define PAGE_KERNEL_NOCACHE	__pgprot_mask(__PAGE_KERNEL_NOCACHE    | _ENC)
+ #define PAGE_KERNEL_LARGE	__pgprot_mask(__PAGE_KERNEL_LARGE      | _ENC)
+ #define PAGE_KERNEL_LARGE_EXEC	__pgprot_mask(__PAGE_KERNEL_LARGE_EXEC | _ENC)
 -- 
-2.25.1
+2.26.2
 
