@@ -2,128 +2,113 @@ Return-Path: <SRS0=4eFl=AE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1480C433DF
-	for <linux-hyperv@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A497DC433DF
+	for <linux-hyperv@archiver.kernel.org>; Tue, 23 Jun 2020 16:17:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD2C320738
-	for <linux-hyperv@archiver.kernel.org>; Tue, 23 Jun 2020 09:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1592906263;
-	bh=I6FXAd+dz0PTFAbZZ7Ggg1D9VAM+5cmaOuIX+WynUXY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=L5ZZQpMHf+BdjWq/9wYcnoxfnBqSE9PVMkgQFobbKdzROgLC5wHFg2GZjbEqy6HFD
-	 6/rH/LJfXdoNPmQSt3BfEUzf8oXJ14NFEzg97LKi8YLrjCBA9zleTEmiuSin1iFwVd
-	 wnfc0P8x6BqMVtpDL0WpojD3MVG9wXtUq4IV3Pxc=
+	by mail.kernel.org (Postfix) with ESMTP id 85E012076E
+	for <linux-hyperv@archiver.kernel.org>; Tue, 23 Jun 2020 16:17:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VstwaOSG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732100AbgFWJ5n (ORCPT
+        id S1729562AbgFWQRw (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 23 Jun 2020 05:57:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35592 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731947AbgFWJ5n (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 23 Jun 2020 05:57:43 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 23 Jun 2020 12:17:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52223 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1732640AbgFWQRv (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 23 Jun 2020 12:17:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592929070;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ev9nrM16MiclfzIlla2poCCvKsAQZMXql22WZ3Is1Yo=;
+        b=VstwaOSGH6xJ9OgZzZiS/uXnsDpTt5vpNolMCkg4HbK1ZWRXkfe5jVE19mrDXyzCyEsHC2
+        AZ/PZNV+qmd70KQ8nWpTxDtImuRQLiLHlWpXD4x9r2PZG4J/w5QGOPgblL2E6GcU0a+QzD
+        S7AspVgdXS7ou+zwV1fGbrXe0YWnsds=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-nLrOfufyNa2Ppi-JKyNCBw-1; Tue, 23 Jun 2020 12:17:45 -0400
+X-MC-Unique: nLrOfufyNa2Ppi-JKyNCBw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2380020771;
-        Tue, 23 Jun 2020 09:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592906263;
-        bh=I6FXAd+dz0PTFAbZZ7Ggg1D9VAM+5cmaOuIX+WynUXY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EkrUXXkMa7i2f43LSN2xaCpKDWrWjr9vOWsyZcdZfiB4wnJ0kZuDW76qe4YyJNbrA
-         aEg23Q87gKOMdnDv8U0QvRrDTW7qWtqkVsfHY073/OprQW1G+a9vHKzgntu2AxnTod
-         889AuqDXeVGDQuPIkRG0Lyv7qEbtZ0eDRJML51+w=
-Date:   Tue, 23 Jun 2020 10:57:38 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Jessica Yu <jeyu@kernel.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 2/3] arm64: use PAGE_KERNEL_ROX directly in
- alloc_insn_page
-Message-ID: <20200623095737.GD3743@willie-the-truck>
-References: <20200618064307.32739-1-hch@lst.de>
- <20200618064307.32739-3-hch@lst.de>
- <20200620191616.bae356186ba3329ade67bbf7@linux-foundation.org>
- <20200623090505.GA7518@lst.de>
- <20200623090757.GB3743@willie-the-truck>
- <20200623093714.GE4781@hirez.programming.kicks-ass.net>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21871106B250;
+        Tue, 23 Jun 2020 16:17:44 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-67.ams2.redhat.com [10.36.112.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AEDB178FD9;
+        Tue, 23 Jun 2020 16:17:43 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id BF7F6783B; Tue, 23 Jun 2020 18:17:42 +0200 (CEST)
+Date:   Tue, 23 Jun 2020 18:17:42 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Deepak Rawat <drawat.floss@gmail.com>,
+        linux-hyperv@vger.kernel.org,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        David Airlie <airlied@linux.ie>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, dri-devel@lists.freedesktop.org,
+        Michael Kelley <mikelley@microsoft.com>,
+        Jork Loeser <jloeser@microsoft.com>,
+        Wei Hu <weh@microsoft.com>, K Y Srinivasan <kys@microsoft.com>
+Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+Message-ID: <20200623161742.u6hnb7iodptv4s6t@sirius.home.kraxel.org>
+References: <20200622110623.113546-1-drawat.floss@gmail.com>
+ <20200622110623.113546-2-drawat.floss@gmail.com>
+ <20200622124622.yioa53bvipvd4c42@sirius.home.kraxel.org>
+ <f6923296368dc676df10e75593ebc18575efc476.camel@gmail.com>
+ <20200623094225.GJ20149@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200623093714.GE4781@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200623094225.GJ20149@phenom.ffwll.local>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 11:37:14AM +0200, Peter Zijlstra wrote:
-> On Tue, Jun 23, 2020 at 10:07:58AM +0100, Will Deacon wrote:
-> > On Tue, Jun 23, 2020 at 11:05:05AM +0200, Christoph Hellwig wrote:
-> > > On Sat, Jun 20, 2020 at 07:16:16PM -0700, Andrew Morton wrote:
-> > > > On Thu, 18 Jun 2020 08:43:06 +0200 Christoph Hellwig <hch@lst.de> wrote:
-> > > > > --- a/arch/arm64/kernel/probes/kprobes.c
-> > > > > +++ b/arch/arm64/kernel/probes/kprobes.c
-> > > > > @@ -120,15 +120,9 @@ int __kprobes arch_prepare_kprobe(struct kprobe *p)
-> > > > >  
-> > > > >  void *alloc_insn_page(void)
-> > > > >  {
-> > > > > -	void *page;
-> > > > > -
-> > > > > -	page = vmalloc_exec(PAGE_SIZE);
-> > > > > -	if (page) {
-> > > > > -		set_memory_ro((unsigned long)page, 1);
-> > > > > -		set_vm_flush_reset_perms(page);
-> > > > > -	}
-> > > > > -
-> > > > > -	return page;
-> > > > > +	return __vmalloc_node_range(PAGE_SIZE, 1, VMALLOC_START, VMALLOC_END,
-> > > > > +			GFP_KERNEL, PAGE_KERNEL_ROX, VM_FLUSH_RESET_PERMS,
-> > > > > +			NUMA_NO_NODE, __func__);
-> > > > >  }
-> > > > >  
-> > > > >  /* arm kprobe: install breakpoint in text */
-> > > > 
-> > > > But why.  I think this is just a cleanup, doesn't address any runtime issue?
+  Hi,
+
+> > > > +	msg->vram.user_ctx = msg->vram.vram_gpa = vram_pp;
+> > > > +	msg->vram.is_vram_gpa_specified = 1;
+> > > > +	synthvid_send(hdev, msg);
 > > > 
-> > > It doesn't "fix" an issue - it just simplifies and speeds up the code.
+> > > That suggests it is possible to define multiple framebuffers in vram,
+> > > then pageflip by setting vram.vram_gpa.  If that is the case I'm
+> > > wondering whenever vram helpers are a better fit maybe?  You don't
+> > > have
+> > > to blit each and every display update then.
 > > 
-> > Ok, but I don't understand the PLT comment from Peter in
-> > 20200618092754.GF576905@hirez.programming.kicks-ass.net:
-> > 
-> >   | I think this has the exact same range issue as the x86 user. But it
-> >   | might be less fatal if their PLT magic can cover the full range.
-> > 
-> > Peter, please could you elaborate on your concern? I feel like I'm missing
-> > some context.
-> 
-> On x86 we can only directly call code in a (signed) 32bit immediate
-> range (2G) and our kernel text and module range are constrained by that.
-> 
-> IIRC ARM64 has an even smaller immediate range and needs to play fixup
-> games with trampolines or somesuch (there was an ARM specific name for
-> it that I've misplaced again). Does that machinery cover the entire
-> vmalloc space or are you only able to fix up for a smaller range?
-> 
-> Your arch/arm64/kernel/module.c:module_alloc() implementation seems to
-> have an explicit module range different from the full vmalloc range, I'm
-> thinking this is for a reason.
+> > Thanks for the review. Unfortunately only the first vmbus message take
+> > effect and subsequent calls are ignored. I originally implemented using
+> > vram helpers but I figured out calling this vmbus message again won't
+> > change the vram location.
 
-Ah, gotcha. In this case, we're talking about the kprobe out-of-line
-buffer. We don't directly branch to that; instead we take a BRK exception
-and either exception return + singlestep the OOL buffer, or we simulate
-the instruction if it's doing anything PC-relative, so I don't see the
-need for a PLT.
+/me notices there also is user_ctx.  What is this?
 
-Will
+> I think that needs a very big comment. Maybe even enforce that with a
+> "vram_gpa_set" boolean in the device structure, and complain if we try to
+> do that twice.
+> 
+> Also I guess congrats to microsoft for defining things like that :-/
+
+I would be kind of surprised if the virtual device doesn't support
+pageflips.  Maybe setting vram_gpa just isn't the correct way to do
+it.  Is there a specification available?
+
+There are a number of microsoft folks in Cc:  Anyone willing to comment?
+
+thanks,
+  Gerd
+
+PS: And, yes, in case pageflips really don't work going with shmem
+    helpers + blits is reasonable.
+
