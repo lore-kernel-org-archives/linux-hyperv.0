@@ -2,111 +2,146 @@ Return-Path: <SRS0=RcqW=AK=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 489D2C433E0
-	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 20:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D8E0C433DF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:33:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26675206F1
-	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 20:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1593464288;
-	bh=6CG63SOW4yWuuwAUoqvLDpU/7RnOGM+gSBoHHWVONao=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=NSeiyPzMqo5mdCG2+h0Zmyslv0jWo1LcnrCD0PuSz0/F2cRlsS5nDn2OT7CWMN21K
-	 ZXR03gtUnIH3qjIgFKbLPM7SqyhCwphCSpKgH9aDi6tSwAh+w+PtRVI7afUi4b/mga
-	 l8JV5SZGf6XBrM4CNR9aNHyAWkwxWztroFdb66Fo=
+	by mail.kernel.org (Postfix) with ESMTP id 11F862073E
+	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:33:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="XyCXBNdv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731297AbgF2U6H (ORCPT
+        id S2391172AbgF2VdV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 29 Jun 2020 16:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730795AbgF2TNE (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:13:04 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27941C00861B;
-        Mon, 29 Jun 2020 03:32:26 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f7so13005273wrw.1;
-        Mon, 29 Jun 2020 03:32:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=uA93shaS3ROaZO1F/Theu2W+pMXUv937OHVYLQtQpJc=;
-        b=QK9tK1GHNBE7aDAP8tGPnrwMHTwrspXJNSldTfaw2XfVBowb4ndW3UB1CXE+lCXLiD
-         oZ3dwZ/LQQflwvqsBUPoydEzXLNhTeBeNUdbt1ugJZ2DwoylZp8MXRE4OInh8OKgUNZU
-         1W6IFepl8kW12d6/MYgcGQA+X+1d7L/Q05ntTPVWi2kgbPkiAsbfY1CmNyx/263kVp1u
-         5zP8ISuN6/7XyZ2oRH/ZkTBitJEFi6zWEgTnFnNRQ6JWhCdl/lAW62OS/gS7YnzoG/zy
-         f8wWRGRPVY/9ko9g4VMsV/UdbkPiQjAoWA8g/WdkqDBeppBUz+sCQVoUA2iSDbi2FrBF
-         pGPw==
-X-Gm-Message-State: AOAM530lsHdL+EFmCZzaqvdxSTzXEJ8hPA9m4vTuZ3Ev3foTsiIM6fnN
-        7SnYhW46nm9CqbKW3aUKe54=
-X-Google-Smtp-Source: ABdhPJyQVyWd7PiCVN+PqIz3jcQ5yfRgoN5qX/9YK1HLjlJOQ0zbG0Eh8/SqLuvv2dP6GWVZw170OA==
-X-Received: by 2002:adf:ee05:: with SMTP id y5mr16955076wrn.185.1593426744827;
-        Mon, 29 Jun 2020 03:32:24 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id r1sm14814942wrw.24.2020.06.29.03.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 03:32:24 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 10:32:23 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Joseph Salisbury <joseph.salisbury@microsoft.com>
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        sashal@kernel.org, wei.liu@kernel.org, mikelley@microsoft.com,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH][v2] Drivers: hv: Change flag to write log level in panic
- msg to false
-Message-ID: <20200629103223.ft7l76vbr45eec6x@liuwe-devbox-debian-v2>
-References: <1593210497-114310-1-git-send-email-joseph.salisbury@microsoft.com>
+        Mon, 29 Jun 2020 17:33:21 -0400
+Received: from mail-bn8nam11on2123.outbound.protection.outlook.com ([40.107.236.123]:57921
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727104AbgF2VdS (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 29 Jun 2020 17:33:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wzz5qr+ho1e7m8icAD9m9QxXCY2d2aT2NQPbdNkhEOFPJ0Cv+Wy4SLhdCcOB3afYexD6H4jizmN8qUusvxZqlw1Av2zCAs+Ow1dSBaKfWGcCZS9nlKHraKmz0QWcNlHHvHbgvCzjzP2OycGK6lDF+fVQJJiJDqktk6i2dOT7wXVQADpx6UAEpouCtWNU5LwNAduFlzkXCORIHJUreocqsWljNWhhFr2Jf9LCTeE6UEb1N4K4Hg4tnmYJDBRm8osVI0W8ktLUN5cNF7TBGVNc1FL2cPYGpsjDetgWH4+SyorZoOF89NAo7SqtzIAv/AINH29QXRxQ4H7ChV2zsc9nUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nYrnzxJcU8btIwH52PEAVCH0DUAGG2ywYc0GpEvYX+A=;
+ b=IN6/e3uvV7AdO/rXYgyeqFH7QRDc1bp3B0zOflawR7udRNrfzq8dX0e0rssmcMxUa2wcX9x6cHZSa8axQmLuiXNzFw6JKOs3sj0uDHG2iH1pdbENcE9B/TutS76dRyMVkgIchgyI6XSxwTyL0htitE+EZLZPcbwk+CdiDfnHja0fG8SgqyeBPiyQ3YJDm3QysZngy2kL6WyDd3l8NyT98lojGTz9vO9VavI326Gdb45leEVPi7zFj+lU2bnPW+lU41o44arJviZNXnsyreO2JvpYZQ12jGZB2vI6NcA1qmZStpAVyGOwoj/Hd1yrbmN/ZT0ET+v/KHKtxf56T/xCMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nYrnzxJcU8btIwH52PEAVCH0DUAGG2ywYc0GpEvYX+A=;
+ b=XyCXBNdvjlMo2vYcVgWLCRu17EEWyhbaVldDNbEpZgQUetlbKCCvnH/xT0tqclfcdGKtHScMqhhNQyDDCDshdTPXyh9ooDrjoTWUoBn3tXLRq5Ys02qFz+tmU9A3DO3+pLmRpa7JV+naY0UmwlvQHyw+hFs5W4rd6NARVuahnOI=
+Received: from BL0PR2101MB0930.namprd21.prod.outlook.com
+ (2603:10b6:207:30::18) by MN2PR21MB1502.namprd21.prod.outlook.com
+ (2603:10b6:208:20b::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.1; Mon, 29 Jun
+ 2020 21:33:16 +0000
+Received: from BL0PR2101MB0930.namprd21.prod.outlook.com
+ ([fe80::421:be5d:ef2e:26d2]) by BL0PR2101MB0930.namprd21.prod.outlook.com
+ ([fe80::421:be5d:ef2e:26d2%3]) with mapi id 15.20.3174.001; Mon, 29 Jun 2020
+ 21:33:15 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     Andres Beltran <t-mabelt@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>
+CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH v2 3/3] hv_netvsc: Use vmbus_requestor to generate
+ transaction IDs for VMBus hardening
+Thread-Topic: [PATCH v2 3/3] hv_netvsc: Use vmbus_requestor to generate
+ transaction IDs for VMBus hardening
+Thread-Index: AQHWTlBOt5wFAhylskCGZqmzM/7PA6jwHLwg
+Date:   Mon, 29 Jun 2020 21:33:15 +0000
+Message-ID: <BL0PR2101MB0930DB73E3B5A89DD3E55481CA6E0@BL0PR2101MB0930.namprd21.prod.outlook.com>
+References: <20200629200227.1518784-1-lkmlabelt@gmail.com>
+ <20200629200227.1518784-4-lkmlabelt@gmail.com>
+In-Reply-To: <20200629200227.1518784-4-lkmlabelt@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-06-29T21:33:14Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9edf559a-a80f-4927-b0c3-955bfc01ee57;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=microsoft.com;
+x-originating-ip: [96.61.83.132]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: cce00089-f3d2-4439-d2b8-08d81c7408a2
+x-ms-traffictypediagnostic: MN2PR21MB1502:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MN2PR21MB1502B797D725F0B00A3CAE75CA6E0@MN2PR21MB1502.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1upvecUw1LzG7CfIDxqgy15QxscDOxGbbMef1tN4ZPLxtsiFoGSmBtfCWwL5RhwFAoN/FWMcvXdozGBvRzUv3jWVzE5X1HlE5UQHMOhU9sDVfJKh2xXtObNsp1T9SbqmaGSHJYvf8GxU5/UWzcphG/6ZLqftFJ40Iue6fTHS+03ekt0CyIr8QEyVHUp3kMImsbexUKsOuOliE0OKClsyyf6NqnhuK79+/YCc68AKuAKBYzGErft6S5ENZycslrdzLVQn5oKnjRN4wdu8S/o/aebCso5vZWdwol3Z7KPS3I8p+OsWgCIVKQ50LsjtYu98K7cuMbieXQUFcZbt/o/Mmw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB0930.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(346002)(366004)(396003)(376002)(39860400002)(66946007)(9686003)(4326008)(76116006)(5660300002)(316002)(54906003)(110136005)(33656002)(4744005)(55016002)(66476007)(71200400001)(2906002)(66556008)(66446008)(64756008)(7696005)(26005)(6506007)(52536014)(8990500004)(478600001)(82960400001)(53546011)(186003)(86362001)(8676002)(10290500003)(83380400001)(8936002)(82950400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: YAUupRnuA5XO6E10eFCnln9xT/C8uPFk/9qoJPemZDK2Y4AFGJjLLO02HO/tR8VuTQGcY16FYvs9X64aDLqF8w7gKXvLb39A2ELDKDvopaNPiZd3jLq3lgJQerMXKjfREFuXXRqbMlQRnpXLMmNWXfWctTzTlwvKgS5zZs/ctUNslCJmUHBaol+Ov/bmqWRONI4F5aeaTrczYrc0RoVyJAzGSdAJcWCPkug6SwRDXVEmEr0F4GQ7eAqBRJTwpC4wEWj3DwiG4z3qdBQCIcdTPOpPvBMMlZlBtbZu8bJWhoDx95rhqneriOxDc55OA+VRaxvO/hQOKpAvtB4irTnMlsdwUJUZtXhxiwxsYXoqNPhX1V9PNwqsHXH6uthIVRe5x6XcSWTcSSo3gZ327BVTm1qDDMPHtdE7enDr6Um5OGnFEL33ZK4XUla1WxZtoR/qVUls3NCVDw3berkZCxD573TkE5uXQe/5agLUhDaSGkw=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1593210497-114310-1-git-send-email-joseph.salisbury@microsoft.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB0930.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cce00089-f3d2-4439-d2b8-08d81c7408a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 21:33:15.9078
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rYZmrx28L4ya1nj0K1AmyIN3Cp0iul/FFEmzx1n0uR4lxwdP/EUsuJqIHP6fQBnDuX0mRtQnwcpqqFuhlRXicg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1502
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Jun 26, 2020 at 03:28:17PM -0700, Joseph Salisbury wrote:
-> When the kernel panics, one page of kmsg data may be collected and sent to
-> Hyper-V to aid in diagnosing the failure.  The collected kmsg data typically
->  contains 50 to 100 lines, each of which has a log level prefix that isn't
-> very useful from a diagnostic standpoint.  So tell kmsg_dump_get_buffer()
-> to not include the log level, enabling more information that *is* useful to
-> fit in the page.
-> 
-> Requesting in stable kernels, since many kernels running in production are
-> stable releases.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Joseph Salisbury <joseph.salisbury@microsoft.com>
 
-Applied to hyperv-fixes with Michael's review from v1. Thanks.
 
-> ---
->  drivers/hv/vmbus_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 9147ee9d5f7d..d69f4efa3719 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -1368,7 +1368,7 @@ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
->  	 * Write dump contents to the page. No need to synchronize; panic should
->  	 * be single-threaded.
->  	 */
-> -	kmsg_dump_get_buffer(dumper, true, hv_panic_page, HV_HYP_PAGE_SIZE,
-> +	kmsg_dump_get_buffer(dumper, false, hv_panic_page, HV_HYP_PAGE_SIZE,
->  			     &bytes_written);
->  	if (bytes_written)
->  		hyperv_report_panic_msg(panic_pa, bytes_written);
-> -- 
-> 2.17.1
-> 
+> -----Original Message-----
+> From: Andres Beltran <lkmlabelt@gmail.com>
+> Sent: Monday, June 29, 2020 4:02 PM
+> To: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
+> <haiyangz@microsoft.com>; Stephen Hemminger <sthemmin@microsoft.com>;
+> wei.liu@kernel.org
+> Cc: linux-hyperv@vger.kernel.org; linux-kernel@vger.kernel.org; Michael
+> Kelley <mikelley@microsoft.com>; parri.andrea@gmail.com; Andres Beltran
+> <lkmlabelt@gmail.com>; David S . Miller <davem@davemloft.net>; Jakub
+> Kicinski <kuba@kernel.org>; netdev@vger.kernel.org
+> Subject: [PATCH v2 3/3] hv_netvsc: Use vmbus_requestor to generate
+> transaction IDs for VMBus hardening
+>=20
+> Currently, pointers to guest memory are passed to Hyper-V as
+> transaction IDs in netvsc. In the face of errors or malicious
+> behavior in Hyper-V, netvsc should not expose or trust the transaction
+> IDs returned by Hyper-V to be valid guest memory addresses. Instead,
+> use small integers generated by vmbus_requestor as requests
+> (transaction) IDs.
+>=20
+> Cc: David S. Miller <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
+
+Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+
+
