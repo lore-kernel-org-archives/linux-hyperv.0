@@ -2,165 +2,208 @@ Return-Path: <SRS0=RcqW=AK=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E31EC433E2
-	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:45:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C514C433E1
+	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:51:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28F082063A
-	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:45:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38D9F206A5
+	for <linux-hyperv@archiver.kernel.org>; Mon, 29 Jun 2020 21:51:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="NMbZJxwh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmKdj7zz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729508AbgF2Vpd (ORCPT
+        id S1726738AbgF2VvR (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 29 Jun 2020 17:45:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37546 "EHLO
+        Mon, 29 Jun 2020 17:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727768AbgF2Shm (ORCPT
+        with ESMTP id S1731828AbgF2VvP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:37:42 -0400
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2070f.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe5b::70f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835AAC033C04;
-        Mon, 29 Jun 2020 11:19:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DIW0mgVbQ7lznWL2uE+oUU21+PgPrUNG5DdeTaiUUfRzreunXJdWCUb/4CAnIvL5BzhdcRAtuL/2BEpc4sJrCetkicq8LFfZWjDWsYYZVOwRxdJOWYmU0jBR18F3vVWRevxZ765nsUsT4dSEigxnnuGrOT1dOSfFYaY8SAi86uMeZdtfm1seRoQ8q7RbrjbLp4bTHNSBfVBJ+ZJV+qEL6w5Hi3wLobdM9AWa2YiS+quAYN/VtL1VQ5gQf+LCZYbrMLBNp9juX9s2B2l+LiCUiRSzaKkOpoA9iPu1ozQrYREEt1B/HcV1OJPtBDYrK3m9LqaziqCusTTU9QXlpGKoqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RDVOpS4Zq4PbrFq84IfdgGkud64uuSfF/OuG/y6JjBQ=;
- b=Rywsbns31puqjE8/Ce3L91cMKV8DGJcadlhN294pvZ2IgACLlDW98UaWtaw2W1HWSXr08QQar3dxBNHlXLJdd0p6halE/8rsJXYrT91eTx6FX5040Pl17pAWWZLt1Ur7CS+9yYtN86RAzfLRabXmvgWbBRy/iCH3eN48W1mPDcsR/YTqCrbnMbBZObtRUVElWoh7C+gSVYJT7gPHQCdO1SiXWYEt8QcAlgyoDdH5kW7sju4bS2C3P85G9TWypo44xfXqnNqW0NFPPE+poxpkwzmR6XnWuUqSBDwGeNAnXjY32H9rx7geeICRKGLbLJIim5z/CHHzv8B7mouZVSLiEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RDVOpS4Zq4PbrFq84IfdgGkud64uuSfF/OuG/y6JjBQ=;
- b=NMbZJxwhiUDi0IdathPc84k3iXQvYKfOOYPqLD/nJMQ2vFwzfclUJHsNuHxj7d5wFJmAcVR6wH8FtkOVDjHV/XYbaF7a5jdoEb785KjX03jqS+zrH+oZyzKDyHPgo8Hh5hC/ttb+9Dw15ZZ8O6mixb7BufDxcGBIvDjTBAxhr2k=
-Received: from CH2PR21MB1494.namprd21.prod.outlook.com (2603:10b6:610:88::7)
- by CH2PR21MB1413.namprd21.prod.outlook.com (2603:10b6:610:8c::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.1; Mon, 29 Jun
- 2020 18:19:46 +0000
-Received: from CH2PR21MB1494.namprd21.prod.outlook.com
- ([fe80::38eb:8b9e:8de7:c954]) by CH2PR21MB1494.namprd21.prod.outlook.com
- ([fe80::38eb:8b9e:8de7:c954%7]) with mapi id 15.20.3174.003; Mon, 29 Jun 2020
- 18:19:46 +0000
-From:   Andres Beltran <t-mabelt@microsoft.com>
-To:     Wei Liu <wei.liu@kernel.org>, Andres Beltran <lkmlabelt@gmail.com>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>
-Subject: Re: [PATCH 1/3] Drivers: hv: vmbus: Add vmbus_requestor data
- structure for VMBus hardening
-Thread-Topic: [PATCH 1/3] Drivers: hv: vmbus: Add vmbus_requestor data
- structure for VMBus hardening
-Thread-Index: AdZOQUsO/cQOS8e4TziUV5xXjrfxNQ==
-Date:   Mon, 29 Jun 2020 18:19:46 +0000
-Message-ID: <CH2PR21MB149464F9EF20C516C6FB362A8B6E0@CH2PR21MB1494.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [129.22.22.76]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: cf10a0cd-0618-45d2-a06e-08d81c590123
-x-ms-traffictypediagnostic: CH2PR21MB1413:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR21MB14132173B1D3300E766ED0F68B6E0@CH2PR21MB1413.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 14Fgy03NiD7ib4NbWt+PWydkwG9JMFI8i0vgDpQeLyGXxCZLSgNBCZKzhZXLoRaSu653VRGMH2evUAfzVqzl6JYYDV5LU5FS3AKtgSlsjnlgB8QicZbSdgbvacDxGgZnJq7cOd8rGn4o3+N/5bF5ZUdApS14gA3F6PtBvYWo1cK2oHEAe8sYYPwc+O94pndmpkcCgfqjiU0/uhrB3WS5jU7SHx+ubSuqdbtZ+LGO93v9CcfDI685b2yJC6dGqTxk04V6cL2rrxSASqTEZhjfqZjKeDcTvjplq+zR1IZED+7ktZ1HC5XCO1yiEeLCv5mT
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR21MB1494.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(366004)(346002)(396003)(136003)(39860400002)(66446008)(9686003)(64756008)(66556008)(4326008)(478600001)(82950400001)(82960400001)(2906002)(55016002)(86362001)(66476007)(66946007)(76116006)(8676002)(8936002)(26005)(10290500003)(7696005)(33656002)(5660300002)(71200400001)(316002)(110136005)(83380400001)(54906003)(52536014)(6506007)(186003)(8990500004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: Psw4uNWZEdO16cUD8rjfLFpgL574dctsiqNSV6LbGIwih1PLpM+3PAZvHjNeBzoyF+tuBLV/jKfMTA4NEuqjlct73Jrs+BY65kyPPA/ZZn20WCUn7WRHOdbDYtLqkYJRsIGEslUMae2IetKKuWgNJ2jaJ5Gkold1CBwsCBESDg74IgQhc1DRIfcjE3eCn9NHB3EmVfspCEMq91JSift0uMKwFW5bzcpDFp8vCF2iUW805efDtTOCKgp3hq9xs+WeVz5yCPON9a2haI0ecvJyXstTplIjuj3n9dXoX1UvjCWohWIk4KYxHVFKWMmTWQlrVfFVhMdtVrzm30JR26rUr1DGAJKfAJ042b1d7IlWqZG+rG+r+r5ve4gZtemUzrEDJb7NSG571rq0uBw+Jg8+qW3RlqbJ6a6iODfq+xTQqdo=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 29 Jun 2020 17:51:15 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A62C061755;
+        Mon, 29 Jun 2020 14:51:15 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id d4so8928454pgk.4;
+        Mon, 29 Jun 2020 14:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QD5DEy/jVvw/j5XLElSOzb3HgHrMTHj6k7kJYHldTlE=;
+        b=UmKdj7zzQGovaJHoZDjRCUfbnKZO9fy/KOV7Ye7XkNX3XRaahNF/EOOZULEPDHzNFX
+         5O/UE8pbIdcVAEKrK2oVN4z3jBU40Zy0LPNPgMRfqmA3lDNqA0IXGmds2cG/Y38iIh17
+         9psRG4xwGUi4zqt161P5yEKou3mzHuY/2f74sM3JUp1n6NIHLg5gCCOTHJ0BEP/mm16q
+         8Rj4ByGJDje8G0YaHV5Ly4P+6AlGRPkT83d+oZiG+/Leog1eiWMLN7hEZH2axlfWSplZ
+         6Y5ml8nX/hh9/8slGJwiipD0bSU+PZrleBG58YzEvG/eebD3b6Z3VlGQU1B4FKrs/mOe
+         Virw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QD5DEy/jVvw/j5XLElSOzb3HgHrMTHj6k7kJYHldTlE=;
+        b=Cx5dfIprIQkcXxm53a0Rl9Eev3W0M1MWX6qbGaNTwQaS5+SOoidGLrHojsJqIgZ5AI
+         AZZS7HKAehwWyJsAd0y+higVEz1DlgLuuJOkfSkXpTWW78N+gy6kK1ZqMOFOwOzr1mKc
+         p51duAQ3g8vfuFnI7mWHNATJ8axXisEInNG41L7Z4qnnuXdGNG4PTJYIRV0mWXc2w4BG
+         pPvD8zaE9G6TCyzUVPZVjJ/unTYuw1RsrjFCd34sCjibUh+uttyWRIY+Zji56XuT3Lel
+         94fAiw9vYCkA18YXH7GUr5RMf2nR1QtQsX111EqppEgISYlcMiQcPuRnBoX1RaSuXfB8
+         iPgg==
+X-Gm-Message-State: AOAM5334UbxLhw/GX4m7/Aazqq1UQ0Q4cQnS7XSzscpsgEo6+S4/7Y30
+        MX+PTeP4RF9zscNKZ8tSHdQruXT9feVnbMchoj0=
+X-Google-Smtp-Source: ABdhPJxxUX+SId++y236FyrS13rQ65Xb1fQ62IsrNWMa+Tu1woI6xPPfiUo2cxoKlxyk5ZP5iW+ASe43unUJBUOWGr0=
+X-Received: by 2002:a63:db18:: with SMTP id e24mr8993393pgg.192.1593467475038;
+ Mon, 29 Jun 2020 14:51:15 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR21MB1494.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf10a0cd-0618-45d2-a06e-08d81c590123
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 18:19:46.9047
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KHCFVe+dJ1XvTTvlz0uLdD+eB+ZPcA5d9+SplQylOtZhPXnAyn90meqpVDd25cv2OJQRL5geu9RK+zggmqaLOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR21MB1413
+References: <20200629200227.1518784-1-lkmlabelt@gmail.com> <20200629200227.1518784-2-lkmlabelt@gmail.com>
+ <20200629204653.o6q3a2fufgq62pzo@liuwe-devbox-debian-v2>
+In-Reply-To: <20200629204653.o6q3a2fufgq62pzo@liuwe-devbox-debian-v2>
+From:   Andres Beltran <lkmlabelt@gmail.com>
+Date:   Mon, 29 Jun 2020 17:51:05 -0400
+Message-ID: <CAGpZZ6sUXOnggeQyPfxkdK50=1AhTUqbvBvc2bEs4qwwk+rSPg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] Drivers: hv: vmbus: Add vmbus_requestor data
+ structure for VMBus hardening
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     Andres Beltran <t-mabelt@microsoft.com>, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michael Kelley <mikelley@microsoft.com>,
+        Andrea Parri <parri.andrea@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: linux-hyperv-owner@vger.kernel.org <linux-hyperv-owner@vger.kernel.or=
-g> On Behalf
-Of Wei Liu. Sent: Friday, June 26, 2020 9:20 AM
-> >  static int __vmbus_open(struct vmbus_channel *newchannel,
-> >  		       void *userdata, u32 userdatalen,
-> >  		       void (*onchannelcallback)(void *context), void *context)
-> > @@ -122,6 +186,7 @@ static int __vmbus_open(struct vmbus_channel *newch=
-annel,
-> >  	u32 send_pages, recv_pages;
-> >  	unsigned long flags;
-> >  	int err;
-> > +	int rqstor;
+On Mon, Jun 29, 2020 at 4:46 PM Wei Liu <wei.liu@kernel.org> wrote:
+>
+> On Mon, Jun 29, 2020 at 04:02:25PM -0400, Andres Beltran wrote:
+> > Currently, VMbus drivers use pointers into guest memory as request IDs
+> > for interactions with Hyper-V. To be more robust in the face of errors
+> > or malicious behavior from a compromised Hyper-V, avoid exposing
+> > guest memory addresses to Hyper-V. Also avoid Hyper-V giving back a
+> > bad request ID that is then treated as the address of a guest data
+> > structure with no validation. Instead, encapsulate these memory
+> > addresses and provide small integers as request IDs.
 > >
-> >  	if (userdatalen > MAX_USER_DEFINED_BYTES)
-> >  		return -EINVAL;
-> > @@ -132,6 +197,14 @@ static int __vmbus_open(struct vmbus_channel *newc=
-hannel,
-> >  	if (newchannel->state !=3D CHANNEL_OPEN_STATE)
-> >  		return -EINVAL;
+> > Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
+> > ---
+> > Changes in v2:
+> >       - Get rid of "rqstor" variable in __vmbus_open().
 > >
-> > +	/* Create and init requestor */
-> > +	if (newchannel->rqstor_size) {
-> > +		rqstor =3D vmbus_alloc_requestor(&newchannel->requestor,
-> > +					       newchannel->rqstor_size);
->=20
-> You can simply use err here to store the return value or even get rid of
-> rqstor by doing
-
-Right. I will do that.
-
-> > @@ -937,3 +1014,75 @@ int vmbus_recvpacket_raw(struct vmbus_channel *ch=
-annel, void
-> *buffer,
-> >  				  buffer_actual_len, requestid, true);
+> >  drivers/hv/channel.c   | 146 +++++++++++++++++++++++++++++++++++++++++
+> >  include/linux/hyperv.h |  21 ++++++
+> >  2 files changed, 167 insertions(+)
+> >
+> > diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+> > index 3ebda7707e46..c89d57d0c2d2 100644
+> > --- a/drivers/hv/channel.c
+> > +++ b/drivers/hv/channel.c
+> > @@ -112,6 +112,70 @@ int vmbus_alloc_ring(struct vmbus_channel *newchannel,
 > >  }
-> >  EXPORT_SYMBOL_GPL(vmbus_recvpacket_raw);
+> >  EXPORT_SYMBOL_GPL(vmbus_alloc_ring);
+> >
+> > +/**
+> > + * request_arr_init - Allocates memory for the requestor array. Each slot
+> > + * keeps track of the next available slot in the array. Initially, each
+> > + * slot points to the next one (as in a Linked List). The last slot
+> > + * does not point to anything, so its value is U64_MAX by default.
+> > + * @size The size of the array
+> > + */
+> > +static u64 *request_arr_init(u32 size)
+> > +{
+> > +     int i;
+> > +     u64 *req_arr;
+> > +
+> > +     req_arr = kcalloc(size, sizeof(u64), GFP_KERNEL);
+> > +     if (!req_arr)
+> > +             return NULL;
+> > +
+> > +     for (i = 0; i < size - 1; i++)
+> > +             req_arr[i] = i + 1;
+> > +
+> > +     /* Last slot (no more available slots) */
+> > +     req_arr[i] = U64_MAX;
+> > +
+> > +     return req_arr;
+> > +}
 > > +
 > > +/*
-> > + * vmbus_next_request_id - Returns a new request id. It is also
-> > + * the index at which the guest memory address is stored.
-> > + * Uses a spin lock to avoid race conditions.
-> > + * @rqstor: Pointer to the requestor struct
-> > + * @rqst_add: Guest memory address to be stored in the array
+> > + * vmbus_alloc_requestor - Initializes @rqstor's fields.
+> > + * Slot at index 0 is the first free slot.
+> > + * @size: Size of the requestor array
 > > + */
-> > +u64 vmbus_next_request_id(struct vmbus_requestor *rqstor, u64 rqst_add=
-r)
+> > +static int vmbus_alloc_requestor(struct vmbus_requestor *rqstor, u32 size)
 > > +{
-> > +	unsigned long flags;
-> > +	u64 current_id;
+> > +     u64 *rqst_arr;
+> > +     unsigned long *bitmap;
 > > +
-> > +	spin_lock_irqsave(&rqstor->req_lock, flags);
->=20
-> Do you really need the irqsave variant here? I.e. is there really a
-> chance this code is reachable from an interrupt handler?
+> > +     rqst_arr = request_arr_init(size);
+> > +     if (!rqst_arr)
+> > +             return -ENOMEM;
+> > +
+> > +     bitmap = bitmap_zalloc(size, GFP_KERNEL);
+> > +     if (!bitmap) {
+> > +             kfree(rqst_arr);
+> > +             return -ENOMEM;
+> > +     }
+> > +
+> > +     rqstor->req_arr = rqst_arr;
+> > +     rqstor->req_bitmap = bitmap;
+> > +     rqstor->size = size;
+> > +     rqstor->next_request_id = 0;
+> > +     spin_lock_init(&rqstor->req_lock);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +/*
+> > + * vmbus_free_requestor - Frees memory allocated for @rqstor
+> > + * @rqstor: Pointer to the requestor struct
+> > + */
+> > +static void vmbus_free_requestor(struct vmbus_requestor *rqstor)
+> > +{
+> > +     kfree(rqstor->req_arr);
+> > +     bitmap_free(rqstor->req_bitmap);
+> > +}
+> > +
+> >  static int __vmbus_open(struct vmbus_channel *newchannel,
+> >                      void *userdata, u32 userdatalen,
+> >                      void (*onchannelcallback)(void *context), void *context)
+> > @@ -132,6 +196,12 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+> >       if (newchannel->state != CHANNEL_OPEN_STATE)
+> >               return -EINVAL;
+> >
+> > +     /* Create and init requestor */
+> > +     if (newchannel->rqstor_size) {
+> > +             if (vmbus_alloc_requestor(&newchannel->requestor, newchannel->rqstor_size))
+> > +                     return -ENOMEM;
+> > +     }
+> > +
+>
+> Sorry for not noticing this in the last round: this infrastructure is
+> initialized conditionally but used unconditionally.
+>
+> I can think of two options here:
+>
+>   1. Mandate rqstor_size to be non-zero. Always initialize this
+>      infra.
+>   2. Modify vmbus_next_request_id and vmbus_request_addr to deal with
+>      uninitialized state.
+>
+> For #2, you can simply check rqstor->size _before_ taking the lock
+> (because it may be uninitialized, and the assumption is ->size will not
+> change during the channel's lifetime, hence no lock is needed) and
+> simply return the same value to the caller.
+>
+> Wei.
 
-Other VMBus drivers will also need to use this functionality, and
-some of them will be called with interrupts disabled. So, I think
-we should keep the irqsave variant here.
+Right. I think option #2 would be preferable in this case, because #1 works
+if we had a default non-zero size for cases where rqstor_size has not been
+set to a non-zero value before calling vmbus_alloc_requestor(). For #2, what
+do you mean by "same value"? I think we would need to return
+VMBUS_RQST_ERROR if the size is 0, because otherwise we would be
+returning the same guest memory address which we don't want to expose.
 
 Andres.
-
