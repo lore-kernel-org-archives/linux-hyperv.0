@@ -1,120 +1,108 @@
-Return-Path: <SRS0=I4Ti=AT=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=xxfx=AV=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC6DC433DF
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Jul 2020 09:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3694C433DF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 10 Jul 2020 09:30:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1967320658
-	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Jul 2020 09:25:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1594200317;
-	bh=9P7yqkllILNHB0enkXbV3ddephYjxosBT/dqFb1WhtA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=k9DKrIy882pzbPWNa41iFG17KRJF9frz7V1Te4dr/gF/YegBF6PY5D9kGlaB9Yx3k
-	 8MjkPFDilWv9JIzjBOP41OtODb7VmcIBtG+7Dv7VibGNfUXCLrOOrz1KsFVIB0wV/O
-	 cdiCFA3CNpMvTTOH8/oCBw+6BA4DkPwvc+pNlw8M=
+	by mail.kernel.org (Postfix) with ESMTP id 44F3620767
+	for <linux-hyperv@archiver.kernel.org>; Fri, 10 Jul 2020 09:30:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="YIxYOkci"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727905AbgGHJZR (ORCPT
+        id S1726664AbgGJJat (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 8 Jul 2020 05:25:17 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33311 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgGHJZQ (ORCPT
+        Fri, 10 Jul 2020 05:30:49 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:10252 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726615AbgGJJat (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 8 Jul 2020 05:25:16 -0400
-Received: by mail-wr1-f68.google.com with SMTP id f18so40028466wrs.0;
-        Wed, 08 Jul 2020 02:25:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HHEXoSacTXtSlDKUw+15Jl9wo7TTVCqG6nV23+yAmOY=;
-        b=Kq21Rv+cNcUM9uVAoTM8ZD6HzjRyj8vTo636vyZCF7CFRZvmUS52zSeCMGKtytNzQi
-         9+Ahx1+VERT1Yqv6pBHLkkKcUsXrKKrt6HeIoVe/PeeKtn8+Hz/X3TXNr78XAZMHkFpy
-         TEH7BJwQRI0dTRSmhozndr3ybbNuA1dY7XzN6WRTSLwtSNge/v3k8XxBw3sQ3bnZc+FN
-         qU9BNxUIie9AmFzlVITpndZxHC8DGCdwrFg5ysSq/IyeVgUpMp0+Dh2dBqQH9yLJX5k/
-         ZPvEaz1oujEFJxU7O1FJkPWjnzmTibxoTPnsd9m/rR2K4/1TR02AdhRtZvaHDa7dHpDe
-         F56g==
-X-Gm-Message-State: AOAM531zx3ZB8Tk5uqssgDONu48BXPwuUSMosOdBuApCUA4qcsiU066S
-        36cnDCA4tD+EoQI5lfuEBCrNn3+X
-X-Google-Smtp-Source: ABdhPJzzs/pKIjoQFtFDc1tJJR5LO6koOXolKGudMz2NmyNrXczooElRgYoirakpBhV1oDJvMtDDAQ==
-X-Received: by 2002:adf:c185:: with SMTP id x5mr62928897wre.403.1594200314078;
-        Wed, 08 Jul 2020 02:25:14 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id k20sm5075886wmi.27.2020.07.08.02.25.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 02:25:13 -0700 (PDT)
-Date:   Wed, 8 Jul 2020 09:25:12 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     t-mabelt@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
-        sthemmin@microsoft.com, wei.liu@kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mikelley@microsoft.com, parri.andrea@gmail.com,
-        Andres Beltran <lkmlabelt@gmail.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] scsi: storvsc: Use vmbus_requestor to generate
- transaction IDs for VMBus hardening
-Message-ID: <20200708092512.muse7szgxyihazvv@liuwe-devbox-debian-v2>
-References: <20200701001221.2540-1-lkmlabelt@gmail.com>
- <20200701001221.2540-3-lkmlabelt@gmail.com>
- <20200707234700.GA218@Ryzen-9-3900X.localdomain>
- <20200708092105.7af7sf2olpaysh33@liuwe-devbox-debian-v2>
+        Fri, 10 Jul 2020 05:30:49 -0400
+X-Greylist: delayed 364 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Jul 2020 05:30:48 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1594373447;
+        s=strato-dkim-0002; d=aepfle.de;
+        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=6gtHIv8UTS2QIMu+DBcnOduo7G4i7G7T+gs+Ih2xJT0=;
+        b=YIxYOkciFBu/29TgpQ2trlmq3J8mJhOwq4+a2cdZ8qA7SstPu4pdLhlI1rQo7f1P17
+        J8G97dJhqa2OBTKe7DLL6xkpWSUgwu3WuGktEMRqfNzQQjv/Gkli5XoF5naVkCoZ26uJ
+        RqJLwFI1gHsBHIxciJ+X8jlqeV1ZhQ63WYS4uBDBmtR540bfDA2RRPArj7M3gfgLnoAh
+        a4am7skG3OdjvEqGkZjMGlhLk8ndiq4anyUJwV4YsuUAMBVC1G7o13OFeOU86AP2i+f9
+        RRiLymkPZYb33b+e/q0Bsomz9elck2ZGloA0X7TcGrwrQKVhfZzUQyQ1kVQAxlPUxAH0
+        41aQ==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS3QE="
+X-RZG-CLASS-ID: mo00
+Received: from aepfle.de
+        by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
+        with ESMTPSA id m032cfw6A9Ohzku
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Fri, 10 Jul 2020 11:24:43 +0200 (CEST)
+Date:   Fri, 10 Jul 2020 11:24:40 +0200
+From:   Olaf Hering <olaf@aepfle.de>
+To:     Joseph Salisbury <joseph.salisbury@microsoft.com>,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        mikelley@microsoft.com
+Cc:     wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Drivers: hv: Change flag to write log level in panic msg
+ to false
+Message-ID: <20200710092440.GA16562@aepfle.de>
+References: <1593193685-74615-1-git-send-email-joseph.salisbury@microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cWoXeonUoKmBZSoM"
 Content-Disposition: inline
-In-Reply-To: <20200708092105.7af7sf2olpaysh33@liuwe-devbox-debian-v2>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1593193685-74615-1-git-send-email-joseph.salisbury@microsoft.com>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 09:21:05AM +0000, Wei Liu wrote:
-[...]
-> > If I revert this commit, everything works fine:
-> > 
-> > PS C:\Users\natec> wsl --shutdown
-> > PS C:\Users\natec> wsl -d ubuntu -- /bin/bash
-> > nathan@Ryzen-9-3900X:/mnt/c/Users/natec$ cat /proc/version
-> > Linux version 5.8.0-rc4-next-20200707-microsoft-standard+ (nathan@Ryzen-9-3900X) (gcc (Ubuntu 9.3.0-10ubuntu2) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34) #1 SMP Tue Jul 7 16:35:06 MST 2020
-> > nathan@Ryzen-9-3900X:/mnt/c/Users/natec$ git -C ~/src/linux-next lo -2
-> > 0ff017dff922 (HEAD -> master) Revert "scsi: storvsc: Use vmbus_requestor to generate transaction IDs for VMBus hardening"
-> > 5b2a702f85b3 (tag: next-20200707, origin/master, origin/HEAD) Add linux-next specific files for 20200707
-> > nathan@Ryzen-9-3900X:/mnt/c/Users/natec$
-> > 
-> > The kernel was built using the following commands:
-> > 
-> > $ mkdir -p out/x86_64
-> > 
-> > $ curl -LSso out/x86_64/.config https://github.com/microsoft/WSL2-Linux-Kernel/raw/linux-msft-wsl-4.19.y/Microsoft/config-wsl
-> > 
-> > $ scripts/config --file out/x86_64/.config -d RAID6_PQ_BENCHMARK -e NET_9P_VIRTIO
-> > 
-> > $ make -skj"$(nproc)" O=out/x86_64 olddefconfig bzImage
-> > 
-> > I don't really know how to get more information than this as WSL seems
-> > rather opaque but I am happy to provide any information.
-> 
-> Linux kernel uses Hyper-V's crash reporting facility to spit out
-> information when it dies. It is said that you can see that information
-> in the "Event Viewer" program.
-> 
-> (I've never tried this though -- not using WSL2)
-> 
 
-If this doesn't work, another idea is to install a traditional VM on
-Hyper-V and replace the kernel with your own.
+--cWoXeonUoKmBZSoM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-With such setup, you should be able to add an emulated serial port to
-the VM and grab more information.
+On Fri, Jun 26, Joseph Salisbury wrote:
 
-Wei.
+> When the kernel panics, one page worth of kmsg data is written to an allocated
+> page.  The Hypervisor is notified of the page address trough the MSR.  This
+> panic information is collected on the host.  Since we are only collecting one
+> page of data, the full panic message may not be collected.
+
+Are the people who need to work with this tiny bit of information
+satisfied already, or did they already miss info even with this patch?
+
+I'm asking because kmsg_dump_get_buffer unconditionally includes the
+timestamp (unless it is enabled). I do wonder if there should be an API
+addition to omit the timestamp. Then even more dmesg output can be
+written into the 4k buffer.
+
+Olaf
+
+--cWoXeonUoKmBZSoM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl8IM9EACgkQ86SN7mm1
+DoADEg/+ObaMF8Ognj2sFIxdowc2+rGVM5s81nQz7FY7IuOZJ6wKfzoPSlaune42
+t0IY4ChbugrKPFuRu8WnfbMfFhSN5Y/vJnV0vt6bwN5RfeIep3W5IizRm/QMZ9Kv
+1JvKvta6m0PsTfedVq2hSnqQR/2w7vbs0+vvecxu42Afz3z37Dtoweklcqc5JPOz
+Y7iRPpKkR2pvIQpGXY643AthP9rzwSJoWUK2ejtZ0YVvTerEQm5u6gkv8zBfa5Wc
+eCjm/STRDgsfdIBVZSNQaLcHGL/Av9yIRRsXMFCjuJsXSCFHJGff29Qkc7HRzkJZ
+Q+hw2edSJ8AxUUt/dGEV0HrwZJlAFvGthwscGyl80YjQ8qygk6dDP44fyPdhtdff
+rpArbS8mt7FkQpZleFHDPYLuk8cztNsxCTJdzatzkuj7hD6Xwpz9r3RzGcRTRSLq
+N6EIki5cEFCG/kibknftoThJSxD+ZWvU8iym7mIUvS2z9ibmVrr3fr/U0PneyB1t
+RFL2knUXSomopps2zvyX2sSl2p/3fJ2RiExBD+vnWBpU0r0Vvrbn7fhDUiB31Xsk
+NHvbG5pycT/W9tHEu+5kyq8eWLA4dLAMGkXe/xu6iQAIJ28llupMG39+Abqr65fP
+0FxkTXFRiX4s8YzpK9QCzE676IN1g0m4mzkP2YU1C8Kqu5qVoFQ=
+=h+ud
+-----END PGP SIGNATURE-----
+
+--cWoXeonUoKmBZSoM--
