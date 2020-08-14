@@ -2,51 +2,50 @@ Return-Path: <SRS0=5ztu=BY=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2FBC433DF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEF9C433E1
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:57:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C93F2087D
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:55:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D035D2087D
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597409708;
-	bh=gw7rdxx7qRx6ls9E5NgLwr5dfYEgtMjHhpG+X4+ZMNQ=;
+	s=default; t=1597409829;
+	bh=TP+P9nfWKVvkUwmjSCx4BCEcuRAeVQe+bmzohmFGECY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=T2HZKIdqpaEy27VWHJrlM0G4EnlpoplDAB0MJL+AmtC/+OPZOhFZFOwQOqWN6mMf+
-	 Z7l+wCEJqVTIhTicqcx/PamyrBhiSCLNcVLytYU5gazGgcs70Gn8s6TgzD6/joXNlw
-	 MokyC7Oai1NQytZ4cF9Q4pE5608mgxfJpZZLZDDc=
+	b=Almfp9Aqtuzfa7t/5kVBfiQHpcWCYch68uq8g5VG7gT17GhbK/Y6zxTWZ1xp2zoCv
+	 kMgw/jCKLUstyIkREqSfYBJ2he/p7S563R7xr7MaLgmQWVUYRZ1X8K1vhWzjeCCcBf
+	 +cJ0zkN6HiRbSkrNo76LX3KaRyILiirwpJlnyf7o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728172AbgHNMzH (ORCPT
+        id S1728347AbgHNM5J (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Aug 2020 08:55:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56062 "EHLO mail.kernel.org"
+        Fri, 14 Aug 2020 08:57:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56748 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726313AbgHNMzG (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Aug 2020 08:55:06 -0400
+        id S1728224AbgHNM5J (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 14 Aug 2020 08:57:09 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3C622087D;
-        Fri, 14 Aug 2020 12:55:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D5ED92087D;
+        Fri, 14 Aug 2020 12:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597409706;
-        bh=gw7rdxx7qRx6ls9E5NgLwr5dfYEgtMjHhpG+X4+ZMNQ=;
+        s=default; t=1597409827;
+        bh=TP+P9nfWKVvkUwmjSCx4BCEcuRAeVQe+bmzohmFGECY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zpGs7qmzEQT7OcQlDZTfqYPK9uYlu8FApfGV+1wC6vlVyojHb8266I4ZviTV45lHm
-         iL0t6iF0wj1rTjUHdJjixr4lr2HjlVnmgwgyD2CKfRouGiNqcKnEK0WxB59G8SIRkS
-         kCYzZRi4NEOOBt6LIYKMXLKTG9FhGGDigCFMZT2o=
-Date:   Fri, 14 Aug 2020 14:55:28 +0200
+        b=YaQueDJdQ8b8HIFDT4cXha3uhm5ghbDmGc4cJKFJjhIJuQ9r1L97wgehp7V0HIh6o
+         AEjrINpDTxiJo/EKDf2yIiOZTh1s1x/VotefABzO4lq3H56zIfyl2bDE+4qMUnvVxv
+         nPxlRF9X319+Dc6dSiXXUebrJJWmEtOZ7oUuQSkA=
+Date:   Fri, 14 Aug 2020 14:57:29 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, iourit@microsoft.com,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
 Subject: Re: [PATCH 1/4] drivers: hv: dxgkrnl: core code
-Message-ID: <20200814125528.GA56456@kroah.com>
+Message-ID: <20200814125729.GB56456@kroah.com>
 References: <20200814123856.3880009-1-sashal@kernel.org>
  <20200814123856.3880009-2-sashal@kernel.org>
 MIME-Version: 1.0
@@ -61,52 +60,49 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 On Fri, Aug 14, 2020 at 08:38:53AM -0400, Sasha Levin wrote:
 > Add support for a Hyper-V based vGPU implementation that exposes the
 > DirectX API to Linux userspace.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Better, but what is this mess:
+Api questions:
 
-> +#define ISERROR(ret)					(ret < 0)
+> +struct d3dkmthandle {
+> +	union {
+> +		struct {
+> +			u32 instance	:  6;
+> +			u32 index	: 24;
+> +			u32 unique	: 2;
 
-?
+What is the endian of this?
 
-> +#define EINTERNALERROR					EINVAL
-
-And that?
-
+> +		};
+> +		u32 v;
+> +	};
+> +};
 > +
-> +#define DXGKRNL_ASSERT(exp)
-> +#define UNUSED(x) (void)(x)
-
-Ick, no, please.
-
-> +#undef pr_fmt
-
-In a .h file?
-
-> +#define pr_fmt(fmt)	"dxgk:err: " fmt
-> +#define pr_fmt1(fmt)	"dxgk: " fmt
-> +#define pr_fmt2(fmt)	"dxgk:    " fmt
-
-Why?
-
+> +extern const struct d3dkmthandle zerohandle;
 > +
-> +#define DXGKDEBUG 1
-> +/* #define USEPRINTK 1 */
+> +struct ntstatus {
+> +	union {
+> +		struct {
+> +			int code	: 16;
+> +			int facility	: 13;
+> +			int customer	: 1;
+> +			int severity	: 2;
+
+Same here.
+
+Are these things that cross the user/kernel boundry?
+
+And why int on one and u32 on the other?
+
+> +		};
+> +		int v;
+> +	};
+> +};
 > +
-> +#ifndef DXGKDEBUG
-> +#define TRACE_DEBUG(...)
-> +#define TRACE_DEFINE(...)
-> +#define TRACE_FUNC_ENTER(...)
-> +#define TRACE_FUNC_EXIT(...)
+> +struct winluid {
+> +	uint a;
+> +	uint b;
 
-No, please do not to custom "trace" printk messages, that is what ftrace
-is for, no individual driver should ever need to do that.
-
-Just use the normal dev_*() calls for error messages and the like, do
-not try to come up with a custom tracing framework for one tiny
-individual driver.  If every driver in kernel did that, we would have a
-nightmare...
+And now uint?  Come on, be consistent please :)
 
 thanks,
 
