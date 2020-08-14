@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D07CC433E1
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 935E9C433DF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37F8720866
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:39:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 724B920866
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Aug 2020 12:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1597408754;
-	bh=4V7/CqFsrxdA6kdFPpHDAIJXGjG47K7pqbvNTGXP7uM=;
+	s=default; t=1597408759;
+	bh=EegKnqHRZMQsA/pGucdJ5ay2rhbxOu1GzsIX8DvXDXc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zzDKpo4n5QyrbHNfp4/d38cXrjE5rqvl/XNALe3pSl3Vcg3uc8yMmI9DQaGrmjjRf
-	 KzriOg1QpmIoGzV7++1RUkBrAiM6Sbs3aG8SWqlHT2oyk4hVU13VJPr9WE+uBlW1L8
-	 GGXOLXud1OjVjysok39Nad1pGgTZtjPIu5F/6zOU=
+	b=Mcm6g0E4pT16+69SpKycVx+HcMiWhW4Q5bFIBJrej2x2Qyy1wgOIH2kfVKSSfWnBn
+	 P0lHkmhSXQWtL312sNNe9l5MEm2klIiQSrQnxYHOenpsSM9/Qg2810MTktWNoD3qwQ
+	 qhTNk7aNNtzyo5XjqdUcMjhr8axeQWl3b7qHRlo0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728293AbgHNMjN (ORCPT
+        id S1728347AbgHNMjS (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Aug 2020 08:39:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52306 "EHLO mail.kernel.org"
+        Fri, 14 Aug 2020 08:39:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52376 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726285AbgHNMjN (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Aug 2020 08:39:13 -0400
+        id S1728323AbgHNMjQ (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 14 Aug 2020 08:39:16 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A2BE22B49;
-        Fri, 14 Aug 2020 12:39:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8E7B120866;
+        Fri, 14 Aug 2020 12:39:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597408752;
-        bh=4V7/CqFsrxdA6kdFPpHDAIJXGjG47K7pqbvNTGXP7uM=;
+        s=default; t=1597408756;
+        bh=EegKnqHRZMQsA/pGucdJ5ay2rhbxOu1GzsIX8DvXDXc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cmenKQt4riv24xeraz8s7NQ6/O7Gkk+LAJW1/wrbi0jWR1Rv0PMa0bCM4hlqRf+KQ
-         h8IW2FIRqM90Bv72rQdLM4+0ZIwnFYGmKpvf+T8a1HI97JAiKRqP05/7gtG89JZGs0
-         nsdyvMNhK2+bN96wTbYO4YE7KhE/wUMn4aMtkSoU=
+        b=ECovbeo3YzEdHHFQby9dOpfrt3TtOdR4UCCK+HKYcMfeP8aNX3AH3IRBlCICJVu53
+         E3gQ5Md3Mb8l07clI/dOgEbYlIEmn6k6NLXOOPFy8GvDDYQa6t8B0bN0QOpJt+6e3H
+         qupz6y/jE409fwQG8/WDAtrEqfPuobn2D9914f+k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org
 Cc:     gregkh@linuxfoundation.org, iourit@microsoft.com,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 2/4] drivers: hv: dxgkrnl: hook up dxgkrnl
-Date:   Fri, 14 Aug 2020 08:38:54 -0400
-Message-Id: <20200814123856.3880009-3-sashal@kernel.org>
+Subject: [PATCH 4/4] drivers: hv: dxgkrnl: create a MAINTAINERS entry
+Date:   Fri, 14 Aug 2020 08:38:56 -0400
+Message-Id: <20200814123856.3880009-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200814123856.3880009-1-sashal@kernel.org>
 References: <20200814123856.3880009-1-sashal@kernel.org>
@@ -58,37 +58,29 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Connect the dxgkrnl module to the drivers/hv/ makefile and Kconfig.
-
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hv/Kconfig  | 2 ++
- drivers/hv/Makefile | 1 +
- 2 files changed, 3 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index 79e5356a737a..07d4e7c36e3a 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -26,4 +26,6 @@ config HYPERV_BALLOON
- 	help
- 	  Select this option to enable Hyper-V Balloon driver.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4e2698cc7e23..1e725a9e6335 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8003,6 +8003,13 @@ F:	Documentation/devicetree/bindings/mtd/ti,am654-hbmc.txt
+ F:	drivers/mtd/hyperbus/
+ F:	include/linux/mtd/hyperbus.h
  
-+source "drivers/hv/dxgkrnl/Kconfig"
++Hyper-V vGPU DRIVER
++M:	Sasha Levin <sashal@kernel.org>
++M:	Iouri Tarassov <iourit@microsoft.com>
++L:	linux-hyperv@vger.kernel.org
++S:	Supported
++F:	drivers/hv/dxgkrnl/
 +
- endmenu
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 94daf8240c95..2474b70c161d 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
- obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
- obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
-+obj-$(CONFIG_DXGKRNL)		+= dxgkrnl/
- 
- CFLAGS_hv_trace.o = -I$(src)
- CFLAGS_hv_balloon.o = -I$(src)
+ HYPERVISOR VIRTUAL CONSOLE DRIVER
+ L:	linuxppc-dev@lists.ozlabs.org
+ S:	Odd Fixes
 -- 
 2.25.1
 
