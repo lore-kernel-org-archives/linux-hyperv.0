@@ -8,57 +8,57 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43EC3C433DF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Aug 2020 09:19:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27AF3C433E4
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Aug 2020 09:19:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 224142072E
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Aug 2020 09:19:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 05396207FB
+	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Aug 2020 09:19:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q9//06Pp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLC6x/O1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727773AbgHQJTI (ORCPT
+        id S1728036AbgHQJTb (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Aug 2020 05:19:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32940 "EHLO
+        Mon, 17 Aug 2020 05:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbgHQJTE (ORCPT
+        with ESMTP id S1726676AbgHQJTa (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Aug 2020 05:19:04 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93DDFC061389;
-        Mon, 17 Aug 2020 02:19:04 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id s15so7821086pgc.8;
-        Mon, 17 Aug 2020 02:19:04 -0700 (PDT)
+        Mon, 17 Aug 2020 05:19:30 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75806C061389;
+        Mon, 17 Aug 2020 02:19:30 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id y10so5635257plr.11;
+        Mon, 17 Aug 2020 02:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=H53NItB96hhK0lZMvS5UWr62MZO4kDlJxK+OZQUxxIA=;
-        b=Q9//06PpCdzBcB5+2FmR3vcPX8ASc3s+ZqMBFaeRwEkDMjoO3ubFfEuRDvNyw69Dic
-         A+UvP5p7Sa7LwPskN9TiPkDaTIGuH2iea/lkrw98pDSnGmsaUfJX37kbIJa1u46YHB5f
-         Biss505SKwh0HAGB5MaLRxgXu1CO2EwXczixBc538BCK83Jyz086JRCbTSXgutB7e4FX
-         /W9NvIU4fSh/Ib/tv7t7BztqxaZ4vcJQgOiXTE1ktzbLpdXGu8a6uU6wMvjuhA4hl/Yv
-         klgo2KrIpjJmP8zUsX/rM/tO2Wej91r/JteBk1SMuYF1iBTXfyMg4piAFIrY2mqWn3/s
-         KsRg==
+        bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
+        b=QLC6x/O13MeP0lPsSOPKaI+ocf7oT0PGwI9jaqY5n+w05x+fnihg68gNW9IMTCYLmr
+         QP7/v8OCTappeLr1ZuVp0BsTJ1mH85ENUZ2a6AmLJxjUUhw01jO65HrM9m3jJ/8fkzOD
+         /S951cp1wfO+Ld6aPWrVxO7J0pQj6AA1qxc5UAopaYjDT3vKbgs6OuTAyMB506fY0UDH
+         5Vov97HYXFpYb/YY3HH4v98ijkrDRUNEPcHpqzt4ZRRsovwJz6805sBa4AZVV67aGl1m
+         cckpnrRBYuVhiBXYyB2AdVauJXp4muM3muUnNrrm5+mb6Juwp+3iKvIPDL2fSNnGn3kS
+         Vy6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=H53NItB96hhK0lZMvS5UWr62MZO4kDlJxK+OZQUxxIA=;
-        b=BJyEAzeViTQ566SNpvJI4o0+LVT/uI1GZkErhLRMu+vICYNNDe8kepBENm2jX3iVo5
-         l8wuA9HLVKDYaBS4ZtgRZpQ5V/E18ILJsqYN6mPBxMYe92T0ANiTDgNaYx3bOt+HN7xN
-         XaPuqE9MMhTxjB1lAJ4fUKWY7ZQ9sHzVE1eTZiDv/mIjdHZUd5FSLlmOk3n576n90lQs
-         l2JHXzpOletwhyUDS1uPmNIOnfHiryDmjrwxA695fqvlybLZ8Ajh5ysi8mOLnoRzft8m
-         o4p42O0B/bF33p+J+5RyYO6TdQ9tpWGYvZvpvv0BCUJ52Y32U0wR50AHm/Kjx34VPXPH
-         aZWA==
-X-Gm-Message-State: AOAM531J+KdnajAdOJeyh7wf21ejpNGlTAf1wzvfOHxVGtGWPlcrIzEe
-        wdoayt6l3iAUKCS4J3f9cpk=
-X-Google-Smtp-Source: ABdhPJwwv5IFUmxu6OFvp0ePee/WauDvfAGFpW7BnuWSsn7pFfdtUZETkOuz5u6jMhvkrLcgz5ASfg==
-X-Received: by 2002:a63:5552:: with SMTP id f18mr8843602pgm.298.1597655944120;
-        Mon, 17 Aug 2020 02:19:04 -0700 (PDT)
+        bh=ifLfIrBu1ltO21juvrs7/f94zIPbflxds2FmAIn0JZY=;
+        b=S2zM3R+rTji5Sy2aSEw8VnUzNnVaMCTkCZXvuLb8xwIRUr4o4MQt6PPfgozSkzzX8Y
+         k5+uwHjghyUDFv++6dcxGY8Q/FIAXdsFKvBaCpUKizDuZ3TjOy7A0Kxfxd9E+2Svwg6B
+         aNHEEjpyBsfbh49GI3UvdvI4kC19FfCtU+HwUJfiO5Nzx7hEFFksJP2ekXaPv0TzMnaA
+         qPObjNN2zUSS/E2pkOjSKPdaeVCPcV+TDwBoiLp21Y5aegqG/62BDQVFdxqYVD4Qmjqq
+         NRlA2LCCrNvs25vX9GmfefvET3cMSiClPyniloRvRWV77FB+AjmeVqjxO9xerATKp2vL
+         wihA==
+X-Gm-Message-State: AOAM530flyj8iCrJg8pVBxxwuPFhwNnLKdAKRD73tbGAXZeMJ9ibT1Cx
+        viO/8Ie7nx4ddSw4253Pr8o=
+X-Google-Smtp-Source: ABdhPJwQiN0j3I0XTBAoTEh/kHlRdKQRBPrBZjjvBv7FEdQfK+kQb/LL0lHsiyq2Kw2a6+jej7syqg==
+X-Received: by 2002:a17:90a:2210:: with SMTP id c16mr12291145pje.65.1597655969939;
+        Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.202.98])
-        by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.18.51
+        by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.19.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 02:19:03 -0700 (PDT)
+        Mon, 17 Aug 2020 02:19:29 -0700 (PDT)
 From:   Allen Pais <allen.cryptic@gmail.com>
 To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
         3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
@@ -83,9 +83,9 @@ Cc:     keescook@chromium.org, linux-um@lists.infradead.org,
         linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
         Allen Pais <allen.lkml@gmail.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: [PATCH 1/2] hsi: nokia-modem: convert tasklets to use new tasklet_setup() API
-Date:   Mon, 17 Aug 2020 14:46:06 +0530
-Message-Id: <20200817091617.28119-12-allen.cryptic@gmail.com>
+Subject: [PATCH 1/2] mailbox: bcm: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 17 Aug 2020 14:46:08 +0530
+Message-Id: <20200817091617.28119-14-allen.cryptic@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
@@ -104,37 +104,34 @@ and from_tasklet() to pass the tasklet pointer explicitly.
 Signed-off-by: Romain Perier <romain.perier@gmail.com>
 Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 ---
- drivers/hsi/clients/nokia-modem.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/mailbox/bcm-pdc-mailbox.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hsi/clients/nokia-modem.c b/drivers/hsi/clients/nokia-modem.c
-index cd7ebf4c2e2f..36d373f089ce 100644
---- a/drivers/hsi/clients/nokia-modem.c
-+++ b/drivers/hsi/clients/nokia-modem.c
-@@ -36,9 +36,10 @@ struct nokia_modem_device {
- 	struct hsi_client	*cmt_speech;
- };
- 
--static void do_nokia_modem_rst_ind_tasklet(unsigned long data)
-+static void do_nokia_modem_rst_ind_tasklet(struct tasklet_struct *t)
+diff --git a/drivers/mailbox/bcm-pdc-mailbox.c b/drivers/mailbox/bcm-pdc-mailbox.c
+index 53945ca5d785..5b375985f7b8 100644
+--- a/drivers/mailbox/bcm-pdc-mailbox.c
++++ b/drivers/mailbox/bcm-pdc-mailbox.c
+@@ -962,9 +962,9 @@ static irqreturn_t pdc_irq_handler(int irq, void *data)
+  * a DMA receive interrupt. Reenables the receive interrupt.
+  * @data: PDC state structure
+  */
+-static void pdc_tasklet_cb(unsigned long data)
++static void pdc_tasklet_cb(struct tasklet_struct *t)
  {
--	struct nokia_modem_device *modem = (struct nokia_modem_device *)data;
-+	struct nokia_modem_device *modem = from_tasklet(modem, t,
-+						nokia_modem_rst_ind_tasklet);
+-	struct pdc_state *pdcs = (struct pdc_state *)data;
++	struct pdc_state *pdcs = from_tasklet(pdcs, t, rx_tasklet);
  
- 	if (!modem)
- 		return;
-@@ -155,8 +156,8 @@ static int nokia_modem_probe(struct device *dev)
- 	modem->nokia_modem_rst_ind_irq = irq;
- 	pflags = irq_get_trigger_type(irq);
+ 	pdc_receive(pdcs);
  
--	tasklet_init(&modem->nokia_modem_rst_ind_tasklet,
--			do_nokia_modem_rst_ind_tasklet, (unsigned long)modem);
-+	tasklet_setup(&modem->nokia_modem_rst_ind_tasklet,
-+			do_nokia_modem_rst_ind_tasklet);
- 	err = devm_request_irq(dev, irq, nokia_modem_rst_ind_isr,
- 				pflags, "modem_rst_ind", modem);
- 	if (err < 0) {
+@@ -1589,7 +1589,7 @@ static int pdc_probe(struct platform_device *pdev)
+ 	pdc_hw_init(pdcs);
+ 
+ 	/* Init tasklet for deferred DMA rx processing */
+-	tasklet_init(&pdcs->rx_tasklet, pdc_tasklet_cb, (unsigned long)pdcs);
++	tasklet_setup(&pdcs->rx_tasklet, pdc_tasklet_cb);
+ 
+ 	err = pdc_interrupts_init(pdcs);
+ 	if (err)
 -- 
 2.17.1
 
