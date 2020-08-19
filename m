@@ -2,148 +2,83 @@ Return-Path: <SRS0=FEYt=B5=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D93F0C433E1
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Aug 2020 21:39:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7960BC433E1
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Aug 2020 22:20:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B812B2078D
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Aug 2020 21:39:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="QZWzNY/R";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="QZWzNY/R"
+	by mail.kernel.org (Postfix) with ESMTP id 53BD22067C
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Aug 2020 22:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726701AbgHSVjj (ORCPT
+        id S1726681AbgHSWUN (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Aug 2020 17:39:39 -0400
-Received: from bedivere.hansenpartnership.com ([66.63.167.143]:47048 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726482AbgHSVji (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Aug 2020 17:39:38 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 770738EE1F3;
-        Wed, 19 Aug 2020 14:39:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1597873176;
-        bh=P5Nf0m7rIb0VsmSGOAvsuubsuKdLazFJ3PWgYJpOQYo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=QZWzNY/RNv5GTOLC344QkDqvWPLVlJoIZZa/1SvyuRWg2n4Pm6sT1giNF3hS4dmal
-         2AgGeohtLxDuIx9MBYzKgKxS5vVGSeJVIhAssuqGCPXbCp5oJD0WlnV+VnG46ikJ5j
-         S3mk3MHG2hrcnsbyoMzE7CI3TS+/7QS3hnb2Remw=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id bHKZiEX-QbYl; Wed, 19 Aug 2020 14:39:36 -0700 (PDT)
-Received: from [153.66.254.174] (c-73-35-198-56.hsd1.wa.comcast.net [73.35.198.56])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 07F3F8EE0E9;
-        Wed, 19 Aug 2020 14:39:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hansenpartnership.com;
-        s=20151216; t=1597873176;
-        bh=P5Nf0m7rIb0VsmSGOAvsuubsuKdLazFJ3PWgYJpOQYo=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=QZWzNY/RNv5GTOLC344QkDqvWPLVlJoIZZa/1SvyuRWg2n4Pm6sT1giNF3hS4dmal
-         2AgGeohtLxDuIx9MBYzKgKxS5vVGSeJVIhAssuqGCPXbCp5oJD0WlnV+VnG46ikJ5j
-         S3mk3MHG2hrcnsbyoMzE7CI3TS+/7QS3hnb2Remw=
-Message-ID: <1597873172.4030.2.camel@HansenPartnership.com>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Allen <allen.lkml@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Kees Cook <keescook@chromium.org>,
-        Allen Pais <allen.cryptic@gmail.com>, jdike@addtoit.com,
-        richard@nod.at, anton.ivanov@cambridgegreys.com, 3chas3@gmail.com,
-        stefanr@s5r6.in-berlin.de, airlied@linux.ie,
-        Daniel Vetter <daniel@ffwll.ch>, sre@kernel.org,
-        kys@microsoft.com, deller@gmx.de, dmitry.torokhov@gmail.com,
-        jassisinghbrar@gmail.com, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, maximlevitsky@gmail.com, oakad@yahoo.com,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        mporter@kernel.crashing.org, alex.bou9@gmail.com,
-        broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
-        mitch@sfgoth.com, David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-um@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux1394-devel@lists.sourceforge.net,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-hyperv@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-ntb@googlegroups.com, linux-s390@vger.kernel.org,
-        linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
-        Romain Perier <romain.perier@gmail.com>
-Date:   Wed, 19 Aug 2020 14:39:32 -0700
-In-Reply-To: <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
-References: <20200817091617.28119-1-allen.cryptic@gmail.com>
-         <20200817091617.28119-2-allen.cryptic@gmail.com>
-         <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
-         <202008171228.29E6B3BB@keescook>
-         <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
-         <202008171246.80287CDCA@keescook>
-         <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
-         <1597780833.3978.3.camel@HansenPartnership.com>
-         <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
-         <1597849185.3875.7.camel@HansenPartnership.com>
-         <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Wed, 19 Aug 2020 18:20:13 -0400
+Received: from mga07.intel.com ([134.134.136.100]:55927 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726609AbgHSWUM (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 19 Aug 2020 18:20:12 -0400
+IronPort-SDR: 2S2kTevimqqvFTJpV6HPlMm9tzkfunytZH/5ksofdd6/ESPAREtmL6cFgat1xbwrCsDejXq1h8
+ PJEr2BK5fP0Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9718"; a="219512962"
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; 
+   d="scan'208";a="219512962"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2020 15:20:12 -0700
+IronPort-SDR: 9/d8CMzysNFwq9y5DmtgYn/TEPkHkC8RW/gAwyQVIvDOL+WwJUKtSsxkC3Kgr+qVkJ1lm8A3w1
+ fyFhOF0kJmeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,332,1592895600"; 
+   d="scan'208";a="310917914"
+Received: from lkp-server01.sh.intel.com (HELO 4cedd236b688) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 19 Aug 2020 15:20:10 -0700
+Received: from kbuild by 4cedd236b688 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1k8WRF-0000cp-DI; Wed, 19 Aug 2020 22:20:09 +0000
+Date:   Thu, 20 Aug 2020 06:19:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vineeth Pillai <viremana@linux.microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>
+Cc:     kbuild-all@lists.01.org,
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] hv_utils: HOST_TIMESYNC_DELAY_THRESH can be static
+Message-ID: <20200819221954.GA5103@4c77203cfb20>
+References: <20200819174527.47156-1-viremana@linux.microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200819174527.47156-1-viremana@linux.microsoft.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
-> > [...]
-> > > > Since both threads seem to have petered out, let me suggest in
-> > > > kernel.h:
-> > > > 
-> > > > #define cast_out(ptr, container, member) \
-> > > >     container_of(ptr, typeof(*container), member)
-> > > > 
-> > > > It does what you want, the argument order is the same as
-> > > > container_of with the only difference being you name the
-> > > > containing structure instead of having to specify its type.
-> > > 
-> > > Not to incessantly bike shed on the naming, but I don't like
-> > > cast_out, it's not very descriptive. And it has connotations of
-> > > getting rid of something, which isn't really true.
-> > 
-> > Um, I thought it was exactly descriptive: you're casting to the
-> > outer container.  I thought about following the C++ dynamic casting
-> > style, so out_cast(), but that seemed a bit pejorative.  What about
-> > outer_cast()?
-> > 
-> > > FWIW, I like the from_ part of the original naming, as it has
-> > > some clues as to what is being done here. Why not just
-> > > from_container()? That should immediately tell people what it
-> > > does without having to look up the implementation, even before
-> > > this becomes a part of the accepted coding norm.
-> > 
-> > I'm not opposed to container_from() but it seems a little less
-> > descriptive than outer_cast() but I don't really care.  I always
-> > have to look up container_of() when I'm using it so this would just
-> > be another macro of that type ...
-> > 
-> 
->  So far we have a few which have been suggested as replacement
-> for from_tasklet()
-> 
-> - out_cast() or outer_cast()
-> - from_member().
-> - container_from() or from_container()
-> 
-> from_container() sounds fine, would trimming it a bit work? like
-> from_cont().
 
-I'm fine with container_from().  It's the same form as container_of()
-and I think we need urgent agreement to not stall everything else so
-the most innocuous name is likely to get the widest acceptance.
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+ hv_util.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-James
-
+diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
+index 1357861fd8aee8..35d126e6f012db 100644
+--- a/drivers/hv/hv_util.c
++++ b/drivers/hv/hv_util.c
+@@ -290,7 +290,7 @@ static inline u64 reftime_to_ns(u64 reftime)
+ /*
+  * Hard coded threshold for host timesync delay: 600 seconds
+  */
+-const u64 HOST_TIMESYNC_DELAY_THRESH = 600 * NSEC_PER_SEC;
++static const u64 HOST_TIMESYNC_DELAY_THRESH = 600 * NSEC_PER_SEC;
+ 
+ static int hv_get_adj_host_time(struct timespec64 *ts)
+ {
