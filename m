@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 541DFC433E1
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE4AC433E3
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3431620855
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E6E1207BB
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XYwY5aZB";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SJFB1hWr"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RVJ7jdg6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N5lZvRWF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgHUCSL (ORCPT
+        id S1727924AbgHUCSY (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43562 "EHLO
+        Thu, 20 Aug 2020 22:18:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727926AbgHUCRU (ORCPT
+        with ESMTP id S1727921AbgHUCRR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:20 -0400
+        Thu, 20 Aug 2020 22:17:17 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D6D5C061387;
-        Thu, 20 Aug 2020 19:17:19 -0700 (PDT)
-Message-Id: <20200821002948.472642859@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4401C061385;
+        Thu, 20 Aug 2020 19:17:16 -0700 (PDT)
+Message-Id: <20200821002948.285988229@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976238;
+        s=2020; t=1597976235;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=YM0Jb+0jacRYeAAEIXyvt7LyQs4eenP0P8zOev+VYEA=;
-        b=XYwY5aZBZHc/cE8NoEwTRaXWx4kQ9d5LAVJKdZmLxtBDVRWBQIJ1CD55OOiD8/PaSIC/Qz
-        86xyuToyG6fI0SYmZSPxwoPMnRKptHaFKEijx8ccnzdBv83L4NnYP/UaMCRLf1xPIu9QD6
-        LnA+w+4x3Jkpbea1y5BQ1kxBaz1UJLA/aMDIsKy/If47+NLxbOJk4c2rnPclYU5gciOWt2
-        q7yABVl1IeaRUY1SCLr5pnWVG3Lc67GbPkqqE2Np8EEdfhi2F/dQu1naD6Hi5jWT+CBefq
-        9I1Ctkigd4ye/r+nFa9qaNWht25+BgwifwFgNJLDdwMDEhIbqsoywHttGKLZ8A==
+        bh=d5usA7gDCS+QKjQgidurX7gwz02tPHrPNFlTsx8P5CI=;
+        b=RVJ7jdg6yqLy3EH2woulQ/AnGnunH5RkP7bQGtS5XdVI4K+27I8sW5KQ4bwKh7oxBPDPSq
+        PUAD2IdzXQ1/gMpjYAGgnWRBlD1ug/Nr7V4kDQsNmxx72PzHQqt0VRrzXGsgMHEHo/aEqw
+        +5fPifkdsVz8w6lRpGdG5PB9Fql0LO1o1vs8GcIV1+SDwG+UmYqCCRUcsk40XG7tyVb416
+        TjQv0KlmwkyZO0egvzwn9A695hiD80Gh8xwRU56V/Fv+L0ugIMvBKuG/bfvsYr6kKvaGy0
+        XSylhJX9fuJ9fV7CIc03ykAgm+YWeklO8G4yCLGBhLNRjd5a6/SJVV5GeynM3w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976238;
+        s=2020e; t=1597976235;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=YM0Jb+0jacRYeAAEIXyvt7LyQs4eenP0P8zOev+VYEA=;
-        b=SJFB1hWrc9NTcS6nWGalTM0SJUTy+5x03Z372SqiJn9+JXrx5GkSr1rUnc2/RHr+HRLf5m
-        OPRQxTlNSr1y7xCA==
-Date:   Fri, 21 Aug 2020 02:24:56 +0200
+        bh=d5usA7gDCS+QKjQgidurX7gwz02tPHrPNFlTsx8P5CI=;
+        b=N5lZvRWFmQopSinQmJpoCZ2W17bx8ilN26GTqyVqlLtYE8S2UtjUuGKTBPXITNNvSpH5Qz
+        0bEjgomf8T1Os3BA==
+Date:   Fri, 21 Aug 2020 02:24:54 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, xen-devel@lists.xenproject.org,
+Cc:     x86@kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
         linux-pci@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -62,11 +62,10 @@ Cc:     x86@kernel.org, xen-devel@lists.xenproject.org,
         Steve Wahl <steve.wahl@hpe.com>,
         Dimitri Sivanich <sivanich@hpe.com>,
         Russ Anderson <rja@hpe.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
+        xen-devel@lists.xenproject.org, Juergen Gross <jgross@suse.com>,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
         Marc Zyngier <maz@kernel.org>,
@@ -80,95 +79,107 @@ Cc:     x86@kernel.org, xen-devel@lists.xenproject.org,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 32/38] x86/irq: Make most MSI ops XEN private
+Subject: [patch RFC 30/38] PCI/MSI: Allow to disable arch fallbacks
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Disposition: inline;
- filename="x86-irq--Make-most-MSI-ops-XEN-private.patch"
+ filename="PCI-MSI--Allow-to-disable-arch-fallbacks.patch"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Nothing except XEN uses the setup/teardown ops. Hide them there.
+If an architecture does not require the MSI setup/teardown fallback
+functions, then allow them to be replaced by stub functions which emit a
+warning.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: xen-devel@lists.xenproject.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org
 ---
- arch/x86/include/asm/x86_init.h |    2 --
- arch/x86/pci/xen.c              |   23 +++++++++++++++--------
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ drivers/pci/Kconfig |    3 +++
+ drivers/pci/msi.c   |    3 ++-
+ include/linux/msi.h |   31 ++++++++++++++++++++++++++-----
+ 3 files changed, 31 insertions(+), 6 deletions(-)
 
---- a/arch/x86/include/asm/x86_init.h
-+++ b/arch/x86/include/asm/x86_init.h
-@@ -276,8 +276,6 @@ struct x86_platform_ops {
- struct pci_dev;
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -56,6 +56,9 @@ config PCI_MSI_IRQ_DOMAIN
+ 	depends on PCI_MSI
+ 	select GENERIC_MSI_IRQ_DOMAIN
  
- struct x86_msi_ops {
--	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
--	void (*teardown_msi_irqs)(struct pci_dev *dev);
- 	void (*restore_msi_irqs)(struct pci_dev *dev);
- };
- 
---- a/arch/x86/pci/xen.c
-+++ b/arch/x86/pci/xen.c
-@@ -156,6 +156,13 @@ static int acpi_register_gsi_xen(struct
- struct xen_pci_frontend_ops *xen_pci_frontend;
- EXPORT_SYMBOL_GPL(xen_pci_frontend);
- 
-+struct xen_msi_ops {
-+	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
-+	void (*teardown_msi_irqs)(struct pci_dev *dev);
-+};
++config PCI_MSI_DISABLE_ARCH_FALLBACKS
++	bool
 +
-+static struct xen_msi_ops xen_msi_ops __ro_after_init;
+ config PCI_QUIRKS
+ 	default y
+ 	bool "Enable PCI quirk workarounds" if EXPERT
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -58,8 +58,8 @@ static void pci_msi_teardown_msi_irqs(st
+ #define pci_msi_teardown_msi_irqs	arch_teardown_msi_irqs
+ #endif
+ 
++#ifndef CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS
+ /* Arch hooks */
+-
+ int __weak arch_setup_msi_irq(struct pci_dev *dev, struct msi_desc *desc)
+ {
+ 	struct msi_controller *chip = dev->bus->msi;
+@@ -132,6 +132,7 @@ void __weak arch_teardown_msi_irqs(struc
+ {
+ 	return default_teardown_msi_irqs(dev);
+ }
++#endif /* !CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS */
+ 
+ static void default_restore_msi_irq(struct pci_dev *dev, int irq)
+ {
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -193,17 +193,38 @@ void pci_msi_mask_irq(struct irq_data *d
+ void pci_msi_unmask_irq(struct irq_data *data);
+ 
+ /*
+- * The arch hooks to setup up msi irqs. Those functions are
+- * implemented as weak symbols so that they /can/ be overriden by
+- * architecture specific code if needed.
++ * The arch hooks to setup up msi irqs. Default functions are implemented
++ * as weak symbols so that they /can/ be overriden by architecture specific
++ * code if needed.
++ *
++ * They can be replaced by stubs with warnings via
++ * CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS when the architecture fully
++ * utilizes direct irqdomain based setup.
+  */
++#ifndef CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS
+ int arch_setup_msi_irq(struct pci_dev *dev, struct msi_desc *desc);
+ void arch_teardown_msi_irq(unsigned int irq);
+ int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type);
+ void arch_teardown_msi_irqs(struct pci_dev *dev);
+-void arch_restore_msi_irqs(struct pci_dev *dev);
+-
+ void default_teardown_msi_irqs(struct pci_dev *dev);
++#else
++static inline int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
++{
++	WARN_ON_ONCE(1);
++	return -ENODEV;
++}
 +
- static int xen_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
- {
- 	int irq, ret, i;
-@@ -414,7 +421,7 @@ static int xen_msi_domain_alloc_irqs(str
- 	else
- 		type = PCI_CAP_ID_MSI;
++static inline void arch_teardown_msi_irqs(struct pci_dev *dev)
++{
++	WARN_ON_ONCE(1);
++}
++#endif
++
++/*
++ * The restore hooks are still available as they are useful even
++ * for fully irq domain based setups. Courtesy to XEN/X86.
++ */
++void arch_restore_msi_irqs(struct pci_dev *dev);
+ void default_restore_msi_irqs(struct pci_dev *dev);
  
--	return x86_msi.setup_msi_irqs(to_pci_dev(dev), nvec, type);
-+	return xen_msi_ops.setup_msi_irqs(to_pci_dev(dev), nvec, type);
- }
- 
- static void xen_msi_domain_free_irqs(struct irq_domain *domain,
-@@ -423,7 +430,7 @@ static void xen_msi_domain_free_irqs(str
- 	if (WARN_ON_ONCE(!dev_is_pci(dev)))
- 		return;
- 
--	x86_msi.teardown_msi_irqs(to_pci_dev(dev));
-+	xen_msi_ops.teardown_msi_irqs(to_pci_dev(dev));
- }
- 
- static struct msi_domain_ops xen_pci_msi_domain_ops = {
-@@ -461,17 +468,17 @@ static __init struct irq_domain *xen_cre
- static __init void xen_setup_pci_msi(void)
- {
- 	if (xen_initial_domain()) {
--		x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
--		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-+		xen_msi_ops.setup_msi_irqs = xen_initdom_setup_msi_irqs;
-+		xen_msi_ops.teardown_msi_irqs = xen_teardown_msi_irqs;
- 		x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
- 		pci_msi_ignore_mask = 1;
- 	} else if (xen_pv_domain()) {
--		x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
--		x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
-+		xen_msi_ops.setup_msi_irqs = xen_setup_msi_irqs;
-+		xen_msi_ops.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
- 		pci_msi_ignore_mask = 1;
- 	} else if (xen_hvm_domain()) {
--		x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
--		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-+		xen_msi_ops.setup_msi_irqs = xen_hvm_setup_msi_irqs;
-+		xen_msi_ops.teardown_msi_irqs = xen_teardown_msi_irqs;
- 	} else {
- 		WARN_ON_ONCE(1);
- 		return;
+ struct msi_controller {
 
