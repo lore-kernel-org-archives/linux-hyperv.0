@@ -7,48 +7,50 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9D1C433E1
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:17:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 857CAC433DF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C6DE2075E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:17:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 661A6207DE
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:17:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FiLeH5k1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vXln3vkM"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="q7dSxIfa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QYOx4xUy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727864AbgHUCRD (ORCPT
+        id S1727888AbgHUCRE (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:17:03 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:52488 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727116AbgHUCQ4 (ORCPT
+        Thu, 20 Aug 2020 22:17:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727854AbgHUCQ7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:16:56 -0400
-Message-Id: <20200821002946.594509001@linutronix.de>
+        Thu, 20 Aug 2020 22:16:59 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47B5C061385;
+        Thu, 20 Aug 2020 19:16:59 -0700 (PDT)
+Message-Id: <20200821002946.887237419@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976214;
+        s=2020; t=1597976218;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=F0DCbonLQEL0D8Df9OCMfcJxjv/hy8xJtmzGkTlqTvs=;
-        b=FiLeH5k11k/JQk52LH07+Ha7hk2n6XQvR9iMpdcvrX0tGljFYc9Qi7o0vZeoI2pUpr7GAQ
-        gWARnz+Dyy0o3UBEGQr7w05ek4rV/jDbOjy9VUToJ3LYHQk6KxCN+kV2Z5XvNluJsq3ZQJ
-        Ux4MZW6mDOuO0i5C+v696sSuJt9PUm1WyLWZFnLnChKRx7Ml9Gc11Q+UPrRLV1BSljsAu8
-        MFMNC756vte58E3bXdW0eBuOu1wEsLayoglkGDRvYc1qTKxi3JMTcMQaUH4uAHrFmwyU76
-        cwolBKYJBVyvOzB7TinHMZvwR2GuMsDX8+KplK43DzRvVoVZFiWeBehrxcNVLw==
+        bh=GYsCif/3llmuLBvpYPtjuTHhsKUK5MCMDeW2t2MJscU=;
+        b=q7dSxIfa2NAL9KD2teMyDV01SxnyZKzF6/JmWFSxrt4bg5x1doERDgaXnVj7u4mOEdz45i
+        s8eTgKutbpA8zbvLN5XbMOhfEhT83rB5QSmk3Nf0wJfsbCBE7O+H8RbvjPFoHLYvaj3PI5
+        0Ir3gWIVXdw7KlQi2QzmUFBvtwM6SWdulp/PPE8Spn9KjhcUnevfsg+y1085hUP5RhdjNK
+        F3NUTNp6L/aTcVNHc6YLFBxk5XAo5Pz16xMSpAOmFrmGxGLLpFdTuB0EtA14DMy8whOStx
+        rsDXjkHsk66HqrWp+bjMVgu9KVh7sP5kmRE4Up2Fo/rMlXBGcFLN0TtbKmh7Xw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976214;
+        s=2020e; t=1597976218;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=F0DCbonLQEL0D8Df9OCMfcJxjv/hy8xJtmzGkTlqTvs=;
-        b=vXln3vkM6Fevc/JOETlWU1DSFXrQ25Mc+B9Hb6i6fwkV0etAyK5QBWjFXhdiu4LrVkOWQu
-        2f7XTKsxazS0bBCA==
-Date:   Fri, 21 Aug 2020 02:24:37 +0200
+        bh=GYsCif/3llmuLBvpYPtjuTHhsKUK5MCMDeW2t2MJscU=;
+        b=QYOx4xUygE/UcllLug+eYgjWxrxLwQK7B3c3lbd2KZJMEHg+1hEG377sd9w4Vwj9eR08qW
+        BT1NC9ypZFV92bAg==
+Date:   Fri, 21 Aug 2020 02:24:40 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
-        Joerg Roedel <joro@8bytes.org>,
+Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
@@ -58,7 +60,7 @@ Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Steve Wahl <steve.wahl@hpe.com>,
         Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>,
+        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
         Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
@@ -77,85 +79,61 @@ Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 13/38] PCI: MSI: Rework pci_msi_domain_calc_hwirq()
+Subject: [patch RFC 16/38] x86/irq: Move apic_post_init() invocation to one place
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline;
- filename="PCI--MSI--Rework-pci_msi_domain_calc_hwirq--.patch"
+Content-Disposition: inline; filename="x86-irq--Move-apic_post_init"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Retrieve the PCI device from the msi descriptor instead of doing so at the
-call sites.
+No point to call it from both 32bit and 64bit implementations of
+default_setup_apic_routing(). Move it to the caller.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-pci@vger.kernel.org
 ---
- arch/x86/kernel/apic/msi.c |    2 +-
- drivers/pci/msi.c          |   13 ++++++-------
- include/linux/msi.h        |    3 +--
- 3 files changed, 8 insertions(+), 10 deletions(-)
+ arch/x86/kernel/apic/apic.c     |    3 +++
+ arch/x86/kernel/apic/probe_32.c |    3 ---
+ arch/x86/kernel/apic/probe_64.c |    3 ---
+ 3 files changed, 3 insertions(+), 6 deletions(-)
 
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -232,7 +232,7 @@ EXPORT_SYMBOL_GPL(pci_msi_prepare);
+--- a/arch/x86/kernel/apic/apic.c
++++ b/arch/x86/kernel/apic/apic.c
+@@ -1429,6 +1429,9 @@ void __init apic_intr_mode_init(void)
+ 		break;
+ 	}
  
- void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc)
- {
--	arg->msi_hwirq = pci_msi_domain_calc_hwirq(arg->msi_dev, desc);
-+	arg->msi_hwirq = pci_msi_domain_calc_hwirq(desc);
- }
- EXPORT_SYMBOL_GPL(pci_msi_set_desc);
- 
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1346,17 +1346,17 @@ void pci_msi_domain_write_msg(struct irq
- 
- /**
-  * pci_msi_domain_calc_hwirq - Generate a unique ID for an MSI source
-- * @dev:	Pointer to the PCI device
-  * @desc:	Pointer to the MSI descriptor
-  *
-  * The ID number is only used within the irqdomain.
-  */
--irq_hw_number_t pci_msi_domain_calc_hwirq(struct pci_dev *dev,
--					  struct msi_desc *desc)
-+irq_hw_number_t pci_msi_domain_calc_hwirq(struct msi_desc *desc)
- {
-+	struct pci_dev *pdev = msi_desc_to_pci_dev(desc);
++	if (x86_platform.apic_post_init)
++		x86_platform.apic_post_init();
 +
- 	return (irq_hw_number_t)desc->msi_attrib.entry_nr |
--		pci_dev_id(dev) << 11 |
--		(pci_domain_nr(dev->bus) & 0xFFFFFFFF) << 27;
-+		pci_dev_id(pdev) << 11 |
-+		(pci_domain_nr(pdev->bus) & 0xFFFFFFFF) << 27;
+ 	apic_bsp_setup(upmode);
  }
  
- static inline bool pci_msi_desc_is_multi_msi(struct msi_desc *desc)
-@@ -1406,8 +1406,7 @@ static void pci_msi_domain_set_desc(msi_
- 				    struct msi_desc *desc)
- {
- 	arg->desc = desc;
--	arg->hwirq = pci_msi_domain_calc_hwirq(msi_desc_to_pci_dev(desc),
--					       desc);
-+	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
+--- a/arch/x86/kernel/apic/probe_32.c
++++ b/arch/x86/kernel/apic/probe_32.c
+@@ -170,9 +170,6 @@ void __init default_setup_apic_routing(v
+ 
+ 	if (apic->setup_apic_routing)
+ 		apic->setup_apic_routing();
+-
+-	if (x86_platform.apic_post_init)
+-		x86_platform.apic_post_init();
  }
- #else
- #define pci_msi_domain_set_desc		NULL
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -369,8 +369,7 @@ void pci_msi_domain_write_msg(struct irq
- struct irq_domain *pci_msi_create_irq_domain(struct fwnode_handle *fwnode,
- 					     struct msi_domain_info *info,
- 					     struct irq_domain *parent);
--irq_hw_number_t pci_msi_domain_calc_hwirq(struct pci_dev *dev,
--					  struct msi_desc *desc);
-+irq_hw_number_t pci_msi_domain_calc_hwirq(struct msi_desc *desc);
- int pci_msi_domain_check_cap(struct irq_domain *domain,
- 			     struct msi_domain_info *info, struct device *dev);
- u32 pci_msi_domain_get_msi_rid(struct irq_domain *domain, struct pci_dev *pdev);
+ 
+ void __init generic_apic_probe(void)
+--- a/arch/x86/kernel/apic/probe_64.c
++++ b/arch/x86/kernel/apic/probe_64.c
+@@ -32,9 +32,6 @@ void __init default_setup_apic_routing(v
+ 			break;
+ 		}
+ 	}
+-
+-	if (x86_platform.apic_post_init)
+-		x86_platform.apic_post_init();
+ }
+ 
+ int __init default_acpi_madt_oem_check(char *oem_id, char *oem_table_id)
 
