@@ -7,48 +7,47 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099E6C433E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86492C433E1
 	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC3D32075E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64C6A2075E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DomSu6NW";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oneia6T1"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="T+XyenMQ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4zx9C0E2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728025AbgHUCR7 (ORCPT
+        id S1727929AbgHUCRV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:17:59 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:52582 "EHLO
+        Thu, 20 Aug 2020 22:17:21 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:52880 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727941AbgHUCRX (ORCPT
+        with ESMTP id S1727899AbgHUCRK (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:23 -0400
-Message-Id: <20200821002948.755000191@linutronix.de>
+        Thu, 20 Aug 2020 22:17:10 -0400
+Message-Id: <20200821002947.667887608@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976242;
+        s=2020; t=1597976228;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=KXAiwxi/7+KHEXLRwqgJcO0FvN7PQ13nbqh2Dv3IlbA=;
-        b=DomSu6NWbyTcu6RFy3xXtuWSfP0W3Tv8gt55Hn/sh+GWhjHXXgTmQt6Mvsr7xBWeu6zOwk
-        zImTgH6S7Ligv+UUvg/1wAjgJHEzTIyz/hcIavRvUKXc1CL3Bc2VUqfJJojl3Lk5aihA1H
-        5iKiKpWwMb4qHVLmWdVXexDkpRJ+N1kyIN49S09jiq6+AvlcfdcdTO5h/oY8PNexOn1EEU
-        vdT69zYrCMEy9dTaTQz4bno2KGJeMftQKVlfVxxXXa1BpXWtAP1EKCWzBdlheHCwkuY1Y2
-        CzQ4TjuMP48Qf1l9RFxY3ZBjycOVA3LggRVZSEzHnEg2rIeFeIZOD4qs7uUN/g==
+        bh=1YWqXAQnhLaq8z2CTV2oQb1to3QrIXhgk3UQ/jt5/4s=;
+        b=T+XyenMQhcXwPIrAu6+LQdPHrNvuw6KfRX7AbWzfUKPX+hEn+5sG8IsIQ4sPd1gIZp9rS2
+        1z0os/DOeDTB8EgUHw/ZlCKmz3rqSSPuz0Yxd/0oKGizSrWuR1tfOM85EMjS2LH6svSPnK
+        9dz26OnNJBmrC4FmWysE0OFjxccQiPYTOOVA9m98VOm0dZ6zq1b2K6+vvzGBMtom5Qi3/o
+        Kauv/W6SUDvroSg/SDb5zRjrZuG6DSllS1aAK31+DAI0vJaWLzAbkr96jlVOMISyHyz9eL
+        wxGXFOb+ZUMpUpCqyqDxA1/t6dYRwnf9+ZGmSW5cBfyrdhZpWf/TFxH6TVKnfg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976242;
+        s=2020e; t=1597976228;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=KXAiwxi/7+KHEXLRwqgJcO0FvN7PQ13nbqh2Dv3IlbA=;
-        b=oneia6T1+o5RIJelvR6r8Joibq3DXGPArZ9NPLD/c2Lp/2Flw4pntgzcXCjRW/z8tnc6QC
-        +CDbuxUsotAHrdBw==
-Date:   Fri, 21 Aug 2020 02:24:59 +0200
+        bh=1YWqXAQnhLaq8z2CTV2oQb1to3QrIXhgk3UQ/jt5/4s=;
+        b=4zx9C0E2ONuN3fSkvo8o1EUOUY+K6g22buI8VrqG0z3/BsjfzJ4sqkv9pFO3QOZ/xtSAQU
+        Vnk/lWNXZvciVGAw==
+Date:   Fri, 21 Aug 2020 02:24:48 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
+Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
@@ -67,6 +66,7 @@ Cc:     x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
         Marc Zyngier <maz@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>,
         Megha Dey <megha.dey@intel.com>,
         Jason Gunthorpe <jgg@mellanox.com>,
@@ -76,37 +76,117 @@ Cc:     x86@kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 35/38] platform-msi: Provide default irq_chip::ack
+Subject: [patch RFC 24/38] x86/xen: Consolidate XEN-MSI init
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline;
- filename="platform-msi--Provide-default-irq_chip--ack.patch"
+Content-Disposition: inline; filename=x86-xen--Consolidate-XEN-MSI-init.patch
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For the upcoming device MSI support it's required to have a default
-irq_chip::ack implementation (irq_chip_ack_parent) so the drivers do not
-need to care.
+X86 cannot store the irq domain pointer in struct device without breaking
+XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
+fallbacks.
+
+To achieve this XEN MSI interrupt management needs to be wrapped into an
+irq domain.
+
+Move the x86_msi ops setup into a single function to prepare for this.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/base/platform-msi.c |    2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/pci/xen.c |   51 ++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
---- a/drivers/base/platform-msi.c
-+++ b/drivers/base/platform-msi.c
-@@ -95,6 +95,8 @@ static void platform_msi_update_chip_ops
- 		chip->irq_mask = irq_chip_mask_parent;
- 	if (!chip->irq_unmask)
- 		chip->irq_unmask = irq_chip_unmask_parent;
-+	if (!chip->irq_ack)
-+		chip->irq_ack = irq_chip_ack_parent;
- 	if (!chip->irq_eoi)
- 		chip->irq_eoi = irq_chip_eoi_parent;
- 	if (!chip->irq_set_affinity)
+--- a/arch/x86/pci/xen.c
++++ b/arch/x86/pci/xen.c
+@@ -371,7 +371,10 @@ static void xen_initdom_restore_msi_irqs
+ 		WARN(ret && ret != -ENOSYS, "restore_msi -> %d\n", ret);
+ 	}
+ }
+-#endif
++#else /* CONFIG_XEN_DOM0 */
++#define xen_initdom_setup_msi_irqs	NULL
++#define xen_initdom_restore_msi_irqs	NULL
++#endif /* !CONFIG_XEN_DOM0 */
+ 
+ static void xen_teardown_msi_irqs(struct pci_dev *dev)
+ {
+@@ -403,7 +406,31 @@ static void xen_teardown_msi_irq(unsigne
+ 	WARN_ON_ONCE(1);
+ }
+ 
+-#endif
++static __init void xen_setup_pci_msi(void)
++{
++	if (xen_initial_domain()) {
++		x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
++		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++		x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
++		pci_msi_ignore_mask = 1;
++	} else if (xen_pv_domain()) {
++		x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
++		x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
++		pci_msi_ignore_mask = 1;
++	} else if (xen_hvm_domain()) {
++		x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
++		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++	} else {
++		WARN_ON_ONCE(1);
++		return;
++	}
++
++	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
++}
++
++#else /* CONFIG_PCI_MSI */
++static inline void xen_setup_pci_msi(void) { }
++#endif /* CONFIG_PCI_MSI */
+ 
+ int __init pci_xen_init(void)
+ {
+@@ -420,12 +447,7 @@ int __init pci_xen_init(void)
+ 	/* Keep ACPI out of the picture */
+ 	acpi_noirq_set();
+ 
+-#ifdef CONFIG_PCI_MSI
+-	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
+-	pci_msi_ignore_mask = 1;
+-#endif
++	xen_setup_pci_msi();
+ 	return 0;
+ }
+ 
+@@ -445,10 +467,7 @@ static void __init xen_hvm_msi_init(void
+ 		    ((eax & XEN_HVM_CPUID_APIC_ACCESS_VIRT) && boot_cpu_has(X86_FEATURE_APIC)))
+ 			return;
+ 	}
+-
+-	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
+-	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
++	xen_setup_pci_msi();
+ }
+ #endif
+ 
+@@ -481,13 +500,7 @@ int __init pci_xen_initial_domain(void)
+ {
+ 	int irq;
+ 
+-#ifdef CONFIG_PCI_MSI
+-	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
+-	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
+-	pci_msi_ignore_mask = 1;
+-#endif
++	xen_setup_pci_msi();
+ 	__acpi_register_gsi = acpi_register_gsi_xen;
+ 	__acpi_unregister_gsi = NULL;
+ 	/*
 
