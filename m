@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86492C433E1
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C531DC433E8
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 64C6A2075E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2C722075E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="T+XyenMQ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4zx9C0E2"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Of+Oxpkc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k0Z1yJ4b"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgHUCRV (ORCPT
+        id S1728105AbgHUCSK (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:17:21 -0400
+        Thu, 20 Aug 2020 22:18:10 -0400
 Received: from Galois.linutronix.de ([193.142.43.55]:52880 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727899AbgHUCRK (ORCPT
+        with ESMTP id S1727925AbgHUCRU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:10 -0400
-Message-Id: <20200821002947.667887608@linutronix.de>
+        Thu, 20 Aug 2020 22:17:20 -0400
+Message-Id: <20200821002948.567751188@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976228;
+        s=2020; t=1597976239;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=1YWqXAQnhLaq8z2CTV2oQb1to3QrIXhgk3UQ/jt5/4s=;
-        b=T+XyenMQhcXwPIrAu6+LQdPHrNvuw6KfRX7AbWzfUKPX+hEn+5sG8IsIQ4sPd1gIZp9rS2
-        1z0os/DOeDTB8EgUHw/ZlCKmz3rqSSPuz0Yxd/0oKGizSrWuR1tfOM85EMjS2LH6svSPnK
-        9dz26OnNJBmrC4FmWysE0OFjxccQiPYTOOVA9m98VOm0dZ6zq1b2K6+vvzGBMtom5Qi3/o
-        Kauv/W6SUDvroSg/SDb5zRjrZuG6DSllS1aAK31+DAI0vJaWLzAbkr96jlVOMISyHyz9eL
-        wxGXFOb+ZUMpUpCqyqDxA1/t6dYRwnf9+ZGmSW5cBfyrdhZpWf/TFxH6TVKnfg==
+        bh=M8CXLVbtrCnxGI3OFdEQLd/7Ux+Id3N4Amh65gKqT6A=;
+        b=Of+Oxpkc/LsAc1zkrOaY/uKmBg0Ssph3Hg8NPVLAZB6Rz4ocE9vRVizKVOKQId3+KRIf90
+        EB2oJ0aLVFoOhDlYnQBiu7v/j21qk+X+niz+Cb3Cz5sDtTnwNd+48E+T8kfxxv3tt/1zDc
+        wNumLL92ALO2+G7vNTpVvkuYV2b6mFMeonXF+86dMR7MNQFoHxp6ANnx8G/e5z5P1e7CTc
+        8FdOnl0ommSUtSQgIMRghQmP9UOuDDmwzVhV5s7ULRCExH0baLYOY+/fem/p8fjnKcWXTR
+        Fln/EO7YlEzne8pSeWCh4mQewsjAOK7KctGRD1IQO+fLPvTUfKsDmsUI6VUhSQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976228;
+        s=2020e; t=1597976239;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=1YWqXAQnhLaq8z2CTV2oQb1to3QrIXhgk3UQ/jt5/4s=;
-        b=4zx9C0E2ONuN3fSkvo8o1EUOUY+K6g22buI8VrqG0z3/BsjfzJ4sqkv9pFO3QOZ/xtSAQU
-        Vnk/lWNXZvciVGAw==
-Date:   Fri, 21 Aug 2020 02:24:48 +0200
+        bh=M8CXLVbtrCnxGI3OFdEQLd/7Ux+Id3N4Amh65gKqT6A=;
+        b=k0Z1yJ4bJH/hCS7rfYd8jth/G93GUHenXzRI9GKdPxPIMVwzL0csUPbX2oiphTlZcgDgrW
+        CzQcZs4FgbrM9lAg==
+Date:   Fri, 21 Aug 2020 02:24:57 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -76,117 +76,34 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 24/38] x86/xen: Consolidate XEN-MSI init
+Subject: [patch RFC 33/38] x86/irq: Add DEV_MSI allocation type
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline; filename=x86-xen--Consolidate-XEN-MSI-init.patch
+Content-Disposition: inline;
+ filename="x86-irq--Add-DEVMSI-allocation-type.patch"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-X86 cannot store the irq domain pointer in struct device without breaking
-XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
-fallbacks.
-
-To achieve this XEN MSI interrupt management needs to be wrapped into an
-irq domain.
-
-Move the x86_msi ops setup into a single function to prepare for this.
+For the upcoming device MSI support a new allocation type is
+required.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- arch/x86/pci/xen.c |   51 ++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+ arch/x86/include/asm/hw_irq.h |    1 +
+ 1 file changed, 1 insertion(+)
 
---- a/arch/x86/pci/xen.c
-+++ b/arch/x86/pci/xen.c
-@@ -371,7 +371,10 @@ static void xen_initdom_restore_msi_irqs
- 		WARN(ret && ret != -ENOSYS, "restore_msi -> %d\n", ret);
- 	}
- }
--#endif
-+#else /* CONFIG_XEN_DOM0 */
-+#define xen_initdom_setup_msi_irqs	NULL
-+#define xen_initdom_restore_msi_irqs	NULL
-+#endif /* !CONFIG_XEN_DOM0 */
- 
- static void xen_teardown_msi_irqs(struct pci_dev *dev)
- {
-@@ -403,7 +406,31 @@ static void xen_teardown_msi_irq(unsigne
- 	WARN_ON_ONCE(1);
- }
- 
--#endif
-+static __init void xen_setup_pci_msi(void)
-+{
-+	if (xen_initial_domain()) {
-+		x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
-+		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-+		x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
-+		pci_msi_ignore_mask = 1;
-+	} else if (xen_pv_domain()) {
-+		x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
-+		x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
-+		pci_msi_ignore_mask = 1;
-+	} else if (xen_hvm_domain()) {
-+		x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
-+		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-+	} else {
-+		WARN_ON_ONCE(1);
-+		return;
-+	}
-+
-+	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-+}
-+
-+#else /* CONFIG_PCI_MSI */
-+static inline void xen_setup_pci_msi(void) { }
-+#endif /* CONFIG_PCI_MSI */
- 
- int __init pci_xen_init(void)
- {
-@@ -420,12 +447,7 @@ int __init pci_xen_init(void)
- 	/* Keep ACPI out of the picture */
- 	acpi_noirq_set();
- 
--#ifdef CONFIG_PCI_MSI
--	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
--	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
--	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
--	pci_msi_ignore_mask = 1;
--#endif
-+	xen_setup_pci_msi();
- 	return 0;
- }
- 
-@@ -445,10 +467,7 @@ static void __init xen_hvm_msi_init(void
- 		    ((eax & XEN_HVM_CPUID_APIC_ACCESS_VIRT) && boot_cpu_has(X86_FEATURE_APIC)))
- 			return;
- 	}
--
--	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
--	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
--	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-+	xen_setup_pci_msi();
- }
- #endif
- 
-@@ -481,13 +500,7 @@ int __init pci_xen_initial_domain(void)
- {
- 	int irq;
- 
--#ifdef CONFIG_PCI_MSI
--	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
--	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
--	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
--	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
--	pci_msi_ignore_mask = 1;
--#endif
-+	xen_setup_pci_msi();
- 	__acpi_register_gsi = acpi_register_gsi_xen;
- 	__acpi_unregister_gsi = NULL;
- 	/*
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -40,6 +40,7 @@ enum irq_alloc_type {
+ 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
+ 	X86_IRQ_ALLOC_TYPE_DMAR,
+ 	X86_IRQ_ALLOC_TYPE_UV,
++	X86_IRQ_ALLOC_TYPE_DEV_MSI,
+ 	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
+ 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
+ };
 
