@@ -7,48 +7,52 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8EA9C433E3
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8381C433E5
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C071F207BB
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85A752075E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aKS5lAGS";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WDwJDz3X"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3Jzoygds";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JRFyeoXj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbgHUCT3 (ORCPT
+        id S1727905AbgHUCTj (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:19:29 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:52488 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727849AbgHUCRB (ORCPT
+        Thu, 20 Aug 2020 22:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727113AbgHUCQz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:01 -0400
-Message-Id: <20200821002946.982695529@linutronix.de>
+        Thu, 20 Aug 2020 22:16:55 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C122C061386;
+        Thu, 20 Aug 2020 19:16:55 -0700 (PDT)
+Message-Id: <20200821002946.500438544@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976219;
+        s=2020; t=1597976213;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=mCqKSi3fy8ExwYtATAttVbUTM8VvxHS3vlXvJsftOtw=;
-        b=aKS5lAGS5ICSii2yx/d+iI9vMr1TvMV6r1bAMpnFaLBPzLpprqV5C2sjipiRq2dRuzhRiY
-        Az6dslm3aVt4hPbEyKkI/D9eWyVHd27CLerF0Ton1pdq5TwNkWnNGd/kJISan8R49Ot7ZB
-        sWJoFZLYcCFpjGGPo7Jcov0/WMrmV8a45snuLmRBKEneXpuNC6PulemnGlTOjvmH52PJwN
-        P6J37XWmZ1FnqSkWFS4YJ5HsiRXDbni3J5QlKfWYvwc6g0xqojb7tE8NdT9asatHPJ1Rvm
-        BX9whaNMTWkolxgA+W6rN9UBEQ5UGb11Zi1AOgw7iX0qzCnAt9bA7MYUBjmGDA==
+        bh=yYVYsGIC1JN3QDzHJK9SuOYIPe5JO6p6NbW5fm8Jlzc=;
+        b=3Jzoygdsjx0fIGRNdM1ePUhTi24PE4EV/PGVMS1ezdy27BoMA+xbIyyXO2uodCxEr9aves
+        fdYpw1bs5rVsrgP7AzLM8VaaCXEyC8i2Zr1wpADi8xU69lwniResKlv7g7oG5aHC1Fr8HE
+        MtpzX8wYGt47BBbrgvWg11m9R1mmsqh3HIurWdDPM3yx3DeXrT77uOgsk8pzdGJw81uvPA
+        phYlOCS/IH9H5LQ0CraxSW2f02IkFbdRgyY8aAt6/Fr/DubfNsygAAnSMThNSyaErpwnWf
+        5tLuEswY3ROAjQOn17n/LEmT1mFyMC6m0ejSEVTWjyOjHqvukv0F3HIyr6ZBhQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976219;
+        s=2020e; t=1597976213;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=mCqKSi3fy8ExwYtATAttVbUTM8VvxHS3vlXvJsftOtw=;
-        b=WDwJDz3XYNRtoThpdQR9sTE4mZZIR7w9oJFDzo4JCrHmGb/5G0PJkUtPZlyqOmPU4yudO2
-        OY/aUoq64F7uSMDw==
-Date:   Fri, 21 Aug 2020 02:24:41 +0200
+        bh=yYVYsGIC1JN3QDzHJK9SuOYIPe5JO6p6NbW5fm8Jlzc=;
+        b=JRFyeoXjz8LdEzy20vpxzfwC4fdt3ZEVXh7UmgCH3f+U5Vn496TJ+YrPyDBzBms8MW+CzY
+        f0A7NXs3cE+IE1Bg==
+Date:   Fri, 21 Aug 2020 02:24:36 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
-        Joerg Roedel <joro@8bytes.org>,
+Cc:     x86@kernel.org, Steve Wahl <steve.wahl@hpe.com>,
+        Dimitri Sivanich <sivanich@hpe.com>,
+        Russ Anderson <rja@hpe.com>, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
@@ -56,10 +60,7 @@ Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
         Wei Liu <wei.liu@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
@@ -77,88 +78,117 @@ Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 17/38] x86/pci: Reducde #ifdeffery in PCI init code
+Subject: [patch RFC 12/38] x86/irq: Consolidate UV domain allocation
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Disposition: inline;
- filename="x86-pci--Reducde-#ifdeffery-in-PCI-init-code.patch"
+ filename="x86-irq--Consolidate-UV-domain-allocation.patch"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Adding a function call before the first #ifdef in arch_pci_init() triggers
-a 'mixed declarations and code' warning if PCI_DIRECT is enabled.
-
-Use stub functions and move the #ifdeffery to the header file where it is
-not in the way.
+Move the UV specific fields into their own struct for readability sake. Get
+rid of the #ifdeffery as it does not matter at all whether the alloc info
+is a couple of bytes longer or not.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-pci@vger.kernel.org
+Cc: Steve Wahl <steve.wahl@hpe.com>
+Cc:  Dimitri Sivanich <sivanich@hpe.com>
+Cc: Russ Anderson <rja@hpe.com>
 ---
- arch/x86/include/asm/pci_x86.h |   11 +++++++++++
- arch/x86/pci/init.c            |   10 +++-------
- 2 files changed, 14 insertions(+), 7 deletions(-)
+ arch/x86/include/asm/hw_irq.h |   21 ++++++++++++---------
+ arch/x86/platform/uv/uv_irq.c |   16 ++++++++--------
+ 2 files changed, 20 insertions(+), 17 deletions(-)
 
---- a/arch/x86/include/asm/pci_x86.h
-+++ b/arch/x86/include/asm/pci_x86.h
-@@ -114,9 +114,20 @@ extern const struct pci_raw_ops pci_dire
- extern bool port_cf9_safe;
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -53,6 +53,14 @@ struct ioapic_alloc_info {
+ 	struct IO_APIC_route_entry	*entry;
+ };
  
- /* arch_initcall level */
-+#ifdef CONFIG_PCI_DIRECT
- extern int pci_direct_probe(void);
- extern void pci_direct_init(int type);
-+#else
-+static inline int pci_direct_probe(void) { return -1; }
-+static inline  void pci_direct_init(int type) { }
-+#endif
++struct uv_alloc_info {
++	int		limit;
++	int		blade;
++	unsigned long	offset;
++	char		*name;
 +
-+#ifdef CONFIG_PCI_BIOS
- extern void pci_pcbios_init(void);
-+#else
-+static inline void pci_pcbios_init(void) { }
-+#endif
++};
 +
- extern void __init dmi_check_pciprobe(void);
- extern void __init dmi_check_skip_isa_align(void);
+ /**
+  * irq_alloc_info - X86 specific interrupt allocation info
+  * @type:	X86 specific allocation type
+@@ -64,7 +72,8 @@ struct ioapic_alloc_info {
+  * @data:	Allocation specific data
+  *
+  * @ioapic:	IOAPIC specific allocation data
+- */
++ * @uv:		UV specific allocation data
++*/
+ struct irq_alloc_info {
+ 	enum irq_alloc_type	type;
+ 	u32			flags;
+@@ -76,6 +85,8 @@ struct irq_alloc_info {
  
---- a/arch/x86/pci/init.c
-+++ b/arch/x86/pci/init.c
-@@ -8,11 +8,9 @@
-    in the right sequence from here. */
- static __init int pci_arch_init(void)
- {
--#ifdef CONFIG_PCI_DIRECT
--	int type = 0;
-+	int type;
- 
- 	type = pci_direct_probe();
+ 	union {
+ 		struct ioapic_alloc_info	ioapic;
++		struct uv_alloc_info		uv;
++
+ 		int		unused;
+ #ifdef	CONFIG_PCI_MSI
+ 		struct {
+@@ -83,14 +94,6 @@ struct irq_alloc_info {
+ 			irq_hw_number_t	msi_hwirq;
+ 		};
+ #endif
+-#ifdef	CONFIG_X86_UV
+-		struct {
+-			int		uv_limit;
+-			int		uv_blade;
+-			unsigned long	uv_offset;
+-			char		*uv_name;
+-		};
 -#endif
+ 	};
+ };
  
- 	if (!(pci_probe & PCI_PROBE_NOEARLY))
- 		pci_mmcfg_early_init();
-@@ -20,18 +18,16 @@ static __init int pci_arch_init(void)
- 	if (x86_init.pci.arch_init && !x86_init.pci.arch_init())
- 		return 0;
+--- a/arch/x86/platform/uv/uv_irq.c
++++ b/arch/x86/platform/uv/uv_irq.c
+@@ -90,15 +90,15 @@ static int uv_domain_alloc(struct irq_do
  
--#ifdef CONFIG_PCI_BIOS
- 	pci_pcbios_init();
--#endif
-+
- 	/*
- 	 * don't check for raw_pci_ops here because we want pcbios as last
- 	 * fallback, yet it's needed to run first to set pcibios_last_bus
- 	 * in case legacy PCI probing is used. otherwise detecting peer busses
- 	 * fails.
- 	 */
--#ifdef CONFIG_PCI_DIRECT
- 	pci_direct_init(type);
--#endif
-+
- 	if (!raw_pci_ops && !raw_pci_ext_ops)
- 		printk(KERN_ERR
- 		"PCI: Fatal: No config space access function found\n");
+ 	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
+ 	if (ret >= 0) {
+-		if (info->uv_limit == UV_AFFINITY_CPU)
++		if (info->uv.limit == UV_AFFINITY_CPU)
+ 			irq_set_status_flags(virq, IRQ_NO_BALANCING);
+ 		else
+ 			irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
+ 
+-		chip_data->pnode = uv_blade_to_pnode(info->uv_blade);
+-		chip_data->offset = info->uv_offset;
++		chip_data->pnode = uv_blade_to_pnode(info->uv.blade);
++		chip_data->offset = info->uv.offset;
+ 		irq_domain_set_info(domain, virq, virq, &uv_irq_chip, chip_data,
+-				    handle_percpu_irq, NULL, info->uv_name);
++				    handle_percpu_irq, NULL, info->uv.name);
+ 	} else {
+ 		kfree(chip_data);
+ 	}
+@@ -193,10 +193,10 @@ int uv_setup_irq(char *irq_name, int cpu
+ 
+ 	init_irq_alloc_info(&info, cpumask_of(cpu));
+ 	info.type = X86_IRQ_ALLOC_TYPE_UV;
+-	info.uv_limit = limit;
+-	info.uv_blade = mmr_blade;
+-	info.uv_offset = mmr_offset;
+-	info.uv_name = irq_name;
++	info.uv.limit = limit;
++	info.uv.blade = mmr_blade;
++	info.uv.offset = mmr_offset;
++	info.uv.name = irq_name;
+ 
+ 	return irq_domain_alloc_irqs(domain, 1,
+ 				     uv_blade_to_memory_nid(mmr_blade), &info);
 
