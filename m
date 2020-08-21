@@ -7,47 +7,48 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA32C433DF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8091C433E3
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC16620855
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B81DC207BB
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:19:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f6q/sjt6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="l1NNy7AG"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CryCUTKa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TuwW+F3T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbgHUCSw (ORCPT
+        id S1728226AbgHUCSx (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:18:52 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:53032 "EHLO
+        Thu, 20 Aug 2020 22:18:53 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:52658 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727897AbgHUCRI (ORCPT
+        with ESMTP id S1727887AbgHUCRG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:08 -0400
-Message-Id: <20200821002947.575838946@linutronix.de>
+        Thu, 20 Aug 2020 22:17:06 -0400
+Message-Id: <20200821002947.373714034@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976226;
+        s=2020; t=1597976224;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Y75c2FVJJci494EIeksaRxPMjifWJ0ThOK2FH5FONAw=;
-        b=f6q/sjt6MV1HcPa9lRMLdZeYQ0hfb23mVpk9n87dFWml+X/u456TXEL3KVxnI9CFXQFhko
-        NC8PKb93dixQU/GT2j9PYVBmX4QBP58PDRpMuFC4/CYbogcggvjiWLxJSOdErUDyBu/KPq
-        mNF4sNUNyvJO4nw/UvQN5UMiO2CDzKoZFl5XW5x92NHzAR8nfOrH9jQX7BVfAUOdrEd6je
-        dzqKVyw8XfqUj24SmoG/O7U8+lTc2fC6HzmTWwTlNkkZepcZTm8tcbB5apCi5otJaCfTng
-        43bCT4U4I3QqaaRWvEgj9R2MFib3qx1qOlIu9cQkS6iydE7TxRfJUyVWK2DeNA==
+        bh=reYnyh7jh+yv1GDoiXq7RNM83WC+1VYQVpYCVOOTMoA=;
+        b=CryCUTKazFP6s599DZ8seDe98Lq3ytoT7AnXMnvl0MqK5auZjh7l7ev5Glpg3b2Jaf6LEd
+        KB3L9RvTDX7Frs5Tgaj5q+40l6HQs+gI/8imc31WFyKqizOYD3QqETg6VrllcsdXOSr6KO
+        hU7V3fUx+wqM7A2G6+e0aMQJCTz0aN3XsHqd2ie+W4Rtqnl31nsOhv+QzsiDMyKycxlWrp
+        xwWzmd6VV0DuDyEmFbD7F3Iq+vSy7gNyhX4acto/HkvlgSpceqArTg8iKn9Yw0vSrU4QZn
+        lxUXRue9tJbWEPgnLjNYtnS/hsq7zQauzhBY2BQg3GR0q9zfgAvnhRAdAQsfJw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976226;
+        s=2020e; t=1597976224;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Y75c2FVJJci494EIeksaRxPMjifWJ0ThOK2FH5FONAw=;
-        b=l1NNy7AGh3T+fCtBtGLpx6A7jIa/X2MlC/NaAaOl4Otuq4j1ahRTgdkoqBSQ0xIkVdF7yy
-        MYAMivWyppl1DNBA==
-Date:   Fri, 21 Aug 2020 02:24:47 +0200
+        bh=reYnyh7jh+yv1GDoiXq7RNM83WC+1VYQVpYCVOOTMoA=;
+        b=TuwW+F3TicX0d31PeQeYxQl6anEIOdzcRuaGCUNWyZvMzGJVHaQ3q0eAgvoOznLCzeI2Is
+        M1MxM4FYQTvFykAQ==
+Date:   Fri, 21 Aug 2020 02:24:45 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
+Cc:     x86@kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
@@ -57,8 +58,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Steve Wahl <steve.wahl@hpe.com>,
         Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Russ Anderson <rja@hpe.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
@@ -76,98 +76,68 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 23/38] x86/xen: Rework MSI teardown
+Subject: [patch RFC 21/38] PCI: MSI: Provide pci_dev_has_special_msi_domain() helper
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline; filename=x86-xen--Rework-XEN-MSI-management.patch
+Content-Disposition: inline;
+ filename="genirq-msi--Provide-pci_dev_has_special_msi_domain"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-X86 cannot store the irq domain pointer in struct device without breaking
-XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
-fallbacks.
-
-XENs MSI teardown relies on default_teardown_msi_irqs() which invokes
-arch_teardown_msi_irq(). default_teardown_msi_irqs() is a trivial iterator
-over the msi entries associated to a device.
-
-Implement this loop in xen_teardown_msi_irqs() to prepare for removal of
-the fallbacks for X86.
-
-This is a preparatory step to wrap XEN MSI alloc/free into a irq domain
-which in turn allows to store the irq domain pointer in struct device and
-to use the irq domain functions directly.
+Provide a helper function to check whether a PCI device is handled by a
+non-standard PCI/MSI domain. This will be used to exclude such devices
+which hang of a special bus, e.g. VMD, to be excluded from the irq domain
+override in irq remapping.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
 ---
- arch/x86/pci/xen.c |   23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ drivers/pci/msi.c   |   22 ++++++++++++++++++++++
+ include/linux/msi.h |    1 +
+ 2 files changed, 23 insertions(+)
 
---- a/arch/x86/pci/xen.c
-+++ b/arch/x86/pci/xen.c
-@@ -376,20 +376,31 @@ static void xen_initdom_restore_msi_irqs
- static void xen_teardown_msi_irqs(struct pci_dev *dev)
- {
- 	struct msi_desc *msidesc;
-+	int i;
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -1553,4 +1553,26 @@ struct irq_domain *pci_msi_get_device_do
+ 					     DOMAIN_BUS_PCI_MSI);
+ 	return dom;
+ }
 +
-+	for_each_pci_msi_entry(msidesc, dev) {
-+		if (msidesc->irq) {
-+			for (i = 0; i < msidesc->nvec_used; i++)
-+				xen_destroy_irq(msidesc->irq + i);
-+		}
-+	}
++/**
++ * pci_dev_has_special_msi_domain - Check whether the device is handled by
++ *				    a non-standard PCI-MSI domain
++ * @pdev:	The PCI device to check.
++ *
++ * Returns: True if the device irqdomain or the bus irqdomain is
++ * non-standard PCI/MSI.
++ */
++bool pci_dev_has_special_msi_domain(struct pci_dev *pdev)
++{
++	struct irq_domain *dom = dev_get_msi_domain(&pdev->dev);
++
++	if (!dom)
++		dom = dev_get_msi_domain(&pdev->bus->dev);
++
++	if (!dom)
++		return true;
++
++	return dom->bus_token != DOMAIN_BUS_PCI_MSI;
 +}
 +
-+static void xen_pv_teardown_msi_irqs(struct pci_dev *dev)
-+{
-+	struct msi_desc *msidesc = first_pci_msi_entry(dev);
- 
--	msidesc = first_pci_msi_entry(dev);
- 	if (msidesc->msi_attrib.is_msix)
- 		xen_pci_frontend_disable_msix(dev);
- 	else
- 		xen_pci_frontend_disable_msi(dev);
- 
--	/* Free the IRQ's and the msidesc using the generic code. */
--	default_teardown_msi_irqs(dev);
-+	xen_teardown_msi_irqs(dev);
- }
- 
- static void xen_teardown_msi_irq(unsigned int irq)
+ #endif /* CONFIG_PCI_MSI_IRQ_DOMAIN */
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -374,6 +374,7 @@ int pci_msi_domain_check_cap(struct irq_
+ 			     struct msi_domain_info *info, struct device *dev);
+ u32 pci_msi_domain_get_msi_rid(struct irq_domain *domain, struct pci_dev *pdev);
+ struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev);
++bool pci_dev_has_special_msi_domain(struct pci_dev *pdev);
+ #else
+ static inline struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev)
  {
--	xen_destroy_irq(irq);
-+	WARN_ON_ONCE(1);
- }
- 
- #endif
-@@ -412,7 +423,7 @@ int __init pci_xen_init(void)
- #ifdef CONFIG_PCI_MSI
- 	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
- 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
--	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
-+	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
- 	pci_msi_ignore_mask = 1;
- #endif
- 	return 0;
-@@ -436,6 +447,7 @@ static void __init xen_hvm_msi_init(void
- 	}
- 
- 	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
-+	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
- 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
- }
- #endif
-@@ -472,6 +484,7 @@ int __init pci_xen_initial_domain(void)
- #ifdef CONFIG_PCI_MSI
- 	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
- 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-+	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
- 	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
- 	pci_msi_ignore_mask = 1;
- #endif
 
