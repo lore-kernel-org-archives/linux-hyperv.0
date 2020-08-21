@@ -2,203 +2,135 @@ Return-Path: <SRS0=8lvP=B7=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA15C433DF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5665BC433E1
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 10:34:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B21C82086A
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:20:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F6F3204EA
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 10:34:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hduGjMZb";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="54vZUbSC"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="domLTO7T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728381AbgHUCUL (ORCPT
+        id S1727870AbgHUKez (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:20:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727125AbgHUCQq (ORCPT
+        Fri, 21 Aug 2020 06:34:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40491 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727827AbgHUKex (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:16:46 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DE0C061386;
-        Thu, 20 Aug 2020 19:16:44 -0700 (PDT)
-Message-Id: <20200821002945.695825784@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976203;
+        Fri, 21 Aug 2020 06:34:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598006091;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=n+9JzjgCW829xt57cBjdIpc/3IF3JudgknsVK2IiGtk=;
-        b=hduGjMZbM0/qwLquCj86fWVEcSBPc0Iv1xA1asxyvWI+3WaJk/FZv3obiS9pdKi2N4Xi55
-        g2B24e5RBCG7WKFAQnorS3FWxwuVXn4z6S30wQ9GCVD8rtp+77IWCQCGVnhsf3znLjLhSM
-        aQmZw2lG8elAmC//IGUjNVWAb+xaLL0KKz9IZ14ZS5Czuz7wC08nu5Y+pBKinVQ49JiyCU
-        CXbMGhzaoeBIvlaaHMr23nvutvRUEOUuFrM649Lo5JGWcrMEOw972tIYLaoecwN/uLHyl2
-        R6g+Wh1VCvbaQYIhXKJhJnK8aiSLIDvD0enema4nF0KLI5Yj7n1BELeKwzCgbA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976203;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=n+9JzjgCW829xt57cBjdIpc/3IF3JudgknsVK2IiGtk=;
-        b=54vZUbSCVLbmLl/kEHzdwLB30JzHXmmLwe5GfkEeAMeKUbcsXnsiboZQzVlzf/vQeQ28JW
-        WkKbSmHVLKTXoHDw==
-Date:   Fri, 21 Aug 2020 02:24:28 +0200
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
-        linux-hyperv@vger.kernel.org, iommu@lists.linux-foundation.org,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Jon Derrick <jonathan.derrick@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Steve Wahl <steve.wahl@hpe.com>,
-        Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Jonathan Derrick <jonathan.derrick@intel.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        xen-devel@lists.xenproject.org, Juergen Gross <jgross@suse.com>,
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Lz1Dlp3n64jbr0nqc1nHMGKoG4tO/ALxoWb8NdfDDro=;
+        b=domLTO7T0SoEgJNLvoTf5fxtxm7/j/b/PjYBNPAWSQvtncee6HUCUlFZiq/u5kkhamEbac
+        hXYfmaM2s+D3E9gWdjUSca2fFOSRcOMJKpfp0lA7CiujOzAwGk35sEdcrc1IS6A0zGc5CJ
+        QUTv78gqQ2+geCdDAvOO2pM/vpFIog0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-tNVl4_PKOqOy6s0hWbWRxQ-1; Fri, 21 Aug 2020 06:34:47 -0400
+X-MC-Unique: tNVl4_PKOqOy6s0hWbWRxQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C4AA100CF73;
+        Fri, 21 Aug 2020 10:34:44 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-87.ams2.redhat.com [10.36.114.87])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D2F07756D7;
+        Fri, 21 Aug 2020 10:34:32 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
+        David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jason Wang <jasowang@redhat.com>,
+        Juergen Gross <jgross@suse.com>, Julien Grall <julien@xen.org>,
+        Kees Cook <keescook@chromium.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+        =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Megha Dey <megha.dey@intel.com>,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Jacob Pan <jacob.jun.pan@intel.com>,
-        Baolu Lu <baolu.lu@intel.com>,
-        Kevin Tian <kevin.tian@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 04/38] x86/irq: Add allocation type for parent domain retrieval
-References: <20200821002424.119492231@linutronix.de>
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Wei Liu <wei.liu@kernel.org>,
+        Wei Yang <richardw.yang@linux.intel.com>
+Subject: [PATCH v1 0/5] mm/memory_hotplug: selective merging of system ram resources
+Date:   Fri, 21 Aug 2020 12:34:26 +0200
+Message-Id: <20200821103431.13481-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Disposition: inline;
- filename="x86-irq--Add-allocation-flag-for-domain-retrieval.patch"
-Content-transfer-encoding: 8-bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-irq_remapping_ir_irq_domain() is used to retrieve the remapping parent
-domain for an allocation type. irq_remapping_irq_domain() is for retrieving
-the actual device domain for allocating interrupts for a device.
+This is the follow-up of "[PATCH RFCv1 0/5] mm/memory_hotplug: selective
+merging of memory resources" [1]
 
-The two functions are similar and can be unified by using explicit modes
-for parent irq domain retrieval.
+Some add_memory*() users add memory in small, contiguous memory blocks.
+Examples include virtio-mem, hyper-v balloon, and the XEN balloon.
 
-Add X86_IRQ_ALLOC_TYPE_IOAPIC/HPET_GET_PARENT and use it in the iommu
-implementations. Drop the parent domain retrieval for PCI_MSI/X as that is
-unused.
+This can quickly result in a lot of memory resources, whereby the actual
+resource boundaries are not of interest (e.g., it might be relevant for
+DIMMs, exposed via /proc/iomem to user space). We really want to merge
+added resources in this scenario where possible.
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: x86@kernel.org
-Cc: linux-hyperv@vger.kernel.org
-Cc: iommu@lists.linux-foundation.org
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Jon Derrick <jonathan.derrick@intel.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>
----
- arch/x86/include/asm/hw_irq.h       |    2 ++
- arch/x86/kernel/apic/io_apic.c      |    2 +-
- arch/x86/kernel/apic/msi.c          |    2 +-
- drivers/iommu/amd/iommu.c           |    8 ++++++++
- drivers/iommu/hyperv-iommu.c        |    2 +-
- drivers/iommu/intel/irq_remapping.c |    8 ++------
- 6 files changed, 15 insertions(+), 9 deletions(-)
+Resources are effectively stored in a list-based tree. Having a lot of
+resources not only wastes memory, it also makes traversing that tree more
+expensive, and makes /proc/iomem explode in size (e.g., requiring
+kexec-tools to manually merge resources when creating a kdump header. The
+current kexec-tools resource count limit does not allow for more than
+~100GB of memory with a memory block size of 128MB on x86-64).
 
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -40,6 +40,8 @@ enum irq_alloc_type {
- 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
- 	X86_IRQ_ALLOC_TYPE_DMAR,
- 	X86_IRQ_ALLOC_TYPE_UV,
-+	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
-+	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
- };
- 
- struct irq_alloc_info {
---- a/arch/x86/kernel/apic/io_apic.c
-+++ b/arch/x86/kernel/apic/io_apic.c
-@@ -2296,7 +2296,7 @@ static int mp_irqdomain_create(int ioapi
- 		return 0;
- 
- 	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC;
-+	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT;
- 	info.ioapic_id = mpc_ioapic_id(ioapic);
- 	parent = irq_remapping_get_ir_irq_domain(&info);
- 	if (!parent)
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -476,7 +476,7 @@ struct irq_domain *hpet_create_irq_domai
- 	domain_info->data = (void *)(long)hpet_id;
- 
- 	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_HPET;
-+	info.type = X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT;
- 	info.hpet_id = hpet_id;
- 	parent = irq_remapping_get_ir_irq_domain(&info);
- 	if (parent == NULL)
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3534,6 +3534,14 @@ static struct irq_domain *get_ir_irq_dom
- 	if (!info)
- 		return NULL;
- 
-+	switch (info->type) {
-+	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
-+	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
-+		break;
-+	default:
-+		return NULL;
-+	}
-+
- 	devid = get_devid(info);
- 	if (devid >= 0) {
- 		iommu = amd_iommu_rlookup_table[devid];
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -184,7 +184,7 @@ static int __init hyperv_enable_irq_rema
- 
- static struct irq_domain *hyperv_get_ir_irq_domain(struct irq_alloc_info *info)
- {
--	if (info->type == X86_IRQ_ALLOC_TYPE_IOAPIC)
-+	if (info->type == X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT)
- 		return ioapic_ir_domain;
- 	else
- 		return NULL;
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1109,16 +1109,12 @@ static struct irq_domain *intel_get_ir_i
- 		return NULL;
- 
- 	switch (info->type) {
--	case X86_IRQ_ALLOC_TYPE_IOAPIC:
-+	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
- 		iommu = map_ioapic_to_ir(info->ioapic_id);
- 		break;
--	case X86_IRQ_ALLOC_TYPE_HPET:
-+	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
- 		iommu = map_hpet_to_ir(info->hpet_id);
- 		break;
--	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
--	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		iommu = map_dev_to_ir(info->msi_dev);
--		break;
- 	default:
- 		BUG_ON(1);
- 		break;
+Let's allow to selectively merge system ram resources directly below a
+specific parent resource. Patch #3 contains a /proc/iomem example. Only
+tested with virtio-mem.
+
+Note: This gets the job done and is comparably simple. More complicated
+approaches would require introducing IORESOURCE_MERGEABLE and extending our
+add_memory*() interfaces with a flag, specifying that merging after adding
+succeeded is acceptable. I'd like to avoid that complexity and code churn
+for now.
+
+[1] https://lkml.kernel.org/r/20200731091838.7490-1-david@redhat.com
+
+RFC -> v1:
+- Switch from rather generic "merge_child_mem_resources()" where a resource
+  name has to be specified to "merge_system_ram_resources().
+- Smaller comment/documentation/patch description changes/fixes
+
+David Hildenbrand (5):
+  kernel/resource: make release_mem_region_adjustable() never fail
+  kernel/resource: merge_system_ram_resources() to merge resources after
+    hotplug
+  virtio-mem: try to merge system ram resources
+  xen/balloon: try to merge system ram resources
+  hv_balloon: try to merge system ram resources
+
+ drivers/hv/hv_balloon.c     |   3 ++
+ drivers/virtio/virtio_mem.c |  14 ++++-
+ drivers/xen/balloon.c       |   4 ++
+ include/linux/ioport.h      |   7 ++-
+ kernel/resource.c           | 101 ++++++++++++++++++++++++++++--------
+ mm/memory_hotplug.c         |  22 +-------
+ 6 files changed, 105 insertions(+), 46 deletions(-)
+
+-- 
+2.26.2
 
