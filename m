@@ -7,47 +7,51 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C531DC433E8
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D74C433E3
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2C722075E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD4AE20855
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Of+Oxpkc";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="k0Z1yJ4b"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lhEvEN53";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QHm30rz5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728105AbgHUCSK (ORCPT
+        id S1728115AbgHUCSL (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:18:10 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:52880 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727925AbgHUCRU (ORCPT
+        Thu, 20 Aug 2020 22:18:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727924AbgHUCRT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:20 -0400
-Message-Id: <20200821002948.567751188@linutronix.de>
+        Thu, 20 Aug 2020 22:17:19 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9865C061386;
+        Thu, 20 Aug 2020 19:17:18 -0700 (PDT)
+Message-Id: <20200821002948.379447552@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976239;
+        s=2020; t=1597976237;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=M8CXLVbtrCnxGI3OFdEQLd/7Ux+Id3N4Amh65gKqT6A=;
-        b=Of+Oxpkc/LsAc1zkrOaY/uKmBg0Ssph3Hg8NPVLAZB6Rz4ocE9vRVizKVOKQId3+KRIf90
-        EB2oJ0aLVFoOhDlYnQBiu7v/j21qk+X+niz+Cb3Cz5sDtTnwNd+48E+T8kfxxv3tt/1zDc
-        wNumLL92ALO2+G7vNTpVvkuYV2b6mFMeonXF+86dMR7MNQFoHxp6ANnx8G/e5z5P1e7CTc
-        8FdOnl0ommSUtSQgIMRghQmP9UOuDDmwzVhV5s7ULRCExH0baLYOY+/fem/p8fjnKcWXTR
-        Fln/EO7YlEzne8pSeWCh4mQewsjAOK7KctGRD1IQO+fLPvTUfKsDmsUI6VUhSQ==
+        bh=/s0W3ueaG6RtDzEeGUOI0RGBVruM5KofEMx/9DI9MLQ=;
+        b=lhEvEN53FVmm7WaATrlbrU5ndLFii2LKbFg5sOWGT7H+n7al6/w9HhdVruRVrDYtOIEFMv
+        JDlX8SKzQY5EyF2uM472V9qjU3IMvsqzbOWjOd6lcSAS2lis/6p6/43NObKcwJMcaROLRT
+        isNBG1VfW+VhAscmgCqMl6CbeQFaiqBUuhrbm4zGR06CHqJiGmm5tFrJul177II1iXHN6U
+        JqiLxD/1koJNOnYePuc93IRS5OQ3wiHQUabnterO5JENke8VWJNXDg7Kxk4q9L0IZdzV8Z
+        kO1OfD/dFzMjxmvoxXA6WcJ00IcS9QOm0WtLGabMefC5f/FLnv7iSqVJmJfmxA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976239;
+        s=2020e; t=1597976237;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=M8CXLVbtrCnxGI3OFdEQLd/7Ux+Id3N4Amh65gKqT6A=;
-        b=k0Z1yJ4bJH/hCS7rfYd8jth/G93GUHenXzRI9GKdPxPIMVwzL0csUPbX2oiphTlZcgDgrW
-        CzQcZs4FgbrM9lAg==
-Date:   Fri, 21 Aug 2020 02:24:57 +0200
+        bh=/s0W3ueaG6RtDzEeGUOI0RGBVruM5KofEMx/9DI9MLQ=;
+        b=QHm30rz5+fz6MVN5gJxMivl2CwMWIfo/V05Ng5lEi8dMBMkPwGvNfN6ORhWZ6ka1Rkg62S
+        pVIbqqFvU832pWBw==
+Date:   Fri, 21 Aug 2020 02:24:55 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
+Cc:     x86@kernel.org, xen-devel@lists.xenproject.org,
+        linux-pci@vger.kernel.org, Joerg Roedel <joro@8bytes.org>,
         iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
@@ -57,12 +61,12 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Steve Wahl <steve.wahl@hpe.com>,
         Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
+        Russ Anderson <rja@hpe.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        xen-devel@lists.xenproject.org, Juergen Gross <jgross@suse.com>,
+        Juergen Gross <jgross@suse.com>,
         Boris Ostrovsky <boris.ostrovsky@oracle.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
         Marc Zyngier <maz@kernel.org>,
@@ -76,34 +80,155 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 33/38] x86/irq: Add DEV_MSI allocation type
+Subject: [patch RFC 31/38] x86/irq: Cleanup the arch_*_msi_irqs() leftovers
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Disposition: inline;
- filename="x86-irq--Add-DEVMSI-allocation-type.patch"
+ filename="x86-irq--Cleanup-the-arch_msi_irqs-leftovers.patch"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For the upcoming device MSI support a new allocation type is
-required.
+Get rid of all the gunk and enable CONFIG_PCI_MSI_DISABLE_ARCH_FALLBACKS.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: xen-devel@lists.xenproject.org
+Cc: linux-pci@vger.kernel.org
 ---
- arch/x86/include/asm/hw_irq.h |    1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/Kconfig                |    1 +
+ arch/x86/include/asm/pci.h      |   11 -----------
+ arch/x86/include/asm/x86_init.h |    1 -
+ arch/x86/kernel/apic/msi.c      |   22 ----------------------
+ arch/x86/kernel/x86_init.c      |   18 ------------------
+ arch/x86/pci/xen.c              |    7 -------
+ 6 files changed, 1 insertion(+), 59 deletions(-)
 
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -40,6 +40,7 @@ enum irq_alloc_type {
- 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
- 	X86_IRQ_ALLOC_TYPE_DMAR,
- 	X86_IRQ_ALLOC_TYPE_UV,
-+	X86_IRQ_ALLOC_TYPE_DEV_MSI,
- 	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
- 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -225,6 +225,7 @@ config X86
+ 	select NEED_SG_DMA_LENGTH
+ 	select PCI_DOMAINS			if PCI
+ 	select PCI_LOCKLESS_CONFIG		if PCI
++	select PCI_MSI_DISABLE_ARCH_FALLBACKS
+ 	select PERF_EVENTS
+ 	select RTC_LIB
+ 	select RTC_MC146818_LIB
+--- a/arch/x86/include/asm/pci.h
++++ b/arch/x86/include/asm/pci.h
+@@ -105,17 +105,6 @@ static inline void early_quirks(void) {
+ 
+ extern void pci_iommu_alloc(void);
+ 
+-#ifdef CONFIG_PCI_MSI
+-/* implemented in arch/x86/kernel/apic/io_apic. */
+-struct msi_desc;
+-int native_setup_msi_irqs(struct pci_dev *dev, int nvec, int type);
+-void native_teardown_msi_irq(unsigned int irq);
+-void native_restore_msi_irqs(struct pci_dev *dev);
+-#else
+-#define native_setup_msi_irqs		NULL
+-#define native_teardown_msi_irq		NULL
+-#endif
+-
+ /* generic pci stuff */
+ #include <asm-generic/pci.h>
+ 
+--- a/arch/x86/include/asm/x86_init.h
++++ b/arch/x86/include/asm/x86_init.h
+@@ -277,7 +277,6 @@ struct pci_dev;
+ 
+ struct x86_msi_ops {
+ 	int (*setup_msi_irqs)(struct pci_dev *dev, int nvec, int type);
+-	void (*teardown_msi_irq)(unsigned int irq);
+ 	void (*teardown_msi_irqs)(struct pci_dev *dev);
+ 	void (*restore_msi_irqs)(struct pci_dev *dev);
  };
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -182,28 +182,6 @@ static struct irq_chip pci_msi_controlle
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE,
+ };
+ 
+-int native_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
+-{
+-	struct irq_domain *domain;
+-	struct irq_alloc_info info;
+-
+-	init_irq_alloc_info(&info, NULL);
+-	info.type = X86_IRQ_ALLOC_TYPE_PCI_MSI;
+-
+-	domain = irq_remapping_get_irq_domain(&info);
+-	if (domain == NULL)
+-		domain = x86_pci_msi_default_domain;
+-	if (domain == NULL)
+-		return -ENOSYS;
+-
+-	return msi_domain_alloc_irqs(domain, &dev->dev, nvec);
+-}
+-
+-void native_teardown_msi_irq(unsigned int irq)
+-{
+-	irq_domain_free_irqs(irq, 1);
+-}
+-
+ int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+ 		    msi_alloc_info_t *arg)
+ {
+--- a/arch/x86/kernel/x86_init.c
++++ b/arch/x86/kernel/x86_init.c
+@@ -145,28 +145,10 @@ EXPORT_SYMBOL_GPL(x86_platform);
+ 
+ #if defined(CONFIG_PCI_MSI)
+ struct x86_msi_ops x86_msi __ro_after_init = {
+-	.setup_msi_irqs		= native_setup_msi_irqs,
+-	.teardown_msi_irq	= native_teardown_msi_irq,
+-	.teardown_msi_irqs	= default_teardown_msi_irqs,
+ 	.restore_msi_irqs	= default_restore_msi_irqs,
+ };
+ 
+ /* MSI arch specific hooks */
+-int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
+-{
+-	return x86_msi.setup_msi_irqs(dev, nvec, type);
+-}
+-
+-void arch_teardown_msi_irqs(struct pci_dev *dev)
+-{
+-	x86_msi.teardown_msi_irqs(dev);
+-}
+-
+-void arch_teardown_msi_irq(unsigned int irq)
+-{
+-	x86_msi.teardown_msi_irq(irq);
+-}
+-
+ void arch_restore_msi_irqs(struct pci_dev *dev)
+ {
+ 	x86_msi.restore_msi_irqs(dev);
+--- a/arch/x86/pci/xen.c
++++ b/arch/x86/pci/xen.c
+@@ -401,11 +401,6 @@ static void xen_pv_teardown_msi_irqs(str
+ 	xen_teardown_msi_irqs(dev);
+ }
+ 
+-static void xen_teardown_msi_irq(unsigned int irq)
+-{
+-	WARN_ON_ONCE(1);
+-}
+-
+ static int xen_msi_domain_alloc_irqs(struct irq_domain *domain,
+ 				     struct device *dev,  int nvec)
+ {
+@@ -482,8 +477,6 @@ static __init void xen_setup_pci_msi(voi
+ 		return;
+ 	}
+ 
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-
+ 	/*
+ 	 * Override the PCI/MSI irq domain init function. No point
+ 	 * in allocating the native domain and never use it.
 
