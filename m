@@ -7,58 +7,58 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B39C433DF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F29C433E4
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 813A3207DE
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2E41207BB
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Aug 2020 02:18:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eUyv3sON";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="M2AaOXst"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N2+U2u4I";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ca4eWdnE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728140AbgHUCSZ (ORCPT
+        id S1728193AbgHUCSl (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Aug 2020 22:18:25 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:53204 "EHLO
+        Thu, 20 Aug 2020 22:18:41 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:52488 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727895AbgHUCRR (ORCPT
+        with ESMTP id S1727912AbgHUCRO (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Aug 2020 22:17:17 -0400
-Message-Id: <20200821002948.189324911@linutronix.de>
+        Thu, 20 Aug 2020 22:17:14 -0400
+Message-Id: <20200821002947.976983300@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1597976234;
+        s=2020; t=1597976231;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=eWBLX5XgA0aFXkIZkqQam70cKG8KNwwE8vYzAqD+WN4=;
-        b=eUyv3sONGiRpnc/zgIJAYkirhWZcZynKVLYkoQPXXP4A6ZnjjoBWLHzsTmHEEM4HCvy9jr
-        edi49BZCXKIqUXgHlYUZdl1AE9a4yg+xc1pZDfKbqK5UM72SrtIMeXAM8xa7KoQUn0KfzR
-        QTL59m0n4Owxi2cxF5vwj9hJQAq3MpMy7CxEwR9guh/hdlPrL3LL9DIcFn3F0sTM7vMZMS
-        06Zuob5KBzqYerYQ33uVsMGFbUQ6ZumEtRGXxklWClYS/T8IGHYIJGeoFrzTBLVqHTzo8Z
-        hLIwRJlEaxDg5e5oEKHQ6Q5LEmVf3JA63yBZfaOTXWLXqjyeizqcTRcqJwUwOg==
+        bh=SGz3jtzA9Q1y95hnVuLxxhCEaendeRp/03jNV4aYAm8=;
+        b=N2+U2u4I8yJg8VF+uL4FQq9guu91mSkYx2sWqM85NBILITb3QcvFgm3DFxyihU8cdO6L2r
+        tjLGN4ImjBGwPeuIZo27Ukf2dhXy/slZLMN6IOkVCA2U0KMUQrtgLJy8hFf3CWnR8A6uYW
+        t8Xgtgt7favibCuGa/mRXiQLNak7Xxj6xhZkiFkDTWwNRR0WIAnA6TMAGlUKDPc9uZoeM3
+        dCXAofwGcByhVxrZT++YN5qD88X6DPgym6vieG2bSZeSDJHGp+nyRpxD4houiQjBvXz9DH
+        gIJbh4Od3qhPa5HhYgTwFJo9kwDaUZ3hm5hVrna8JJwUYVfrgVppvdByPkSgmQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1597976234;
+        s=2020e; t=1597976231;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=eWBLX5XgA0aFXkIZkqQam70cKG8KNwwE8vYzAqD+WN4=;
-        b=M2AaOXstsi+4kBCSX8XCuM6S/HPc49K6W3zpC28X3vBu1VOwwAtybmVqDaJleAJgrIJwF+
-        eQ3UqKA/FTWlS8Bg==
-Date:   Fri, 21 Aug 2020 02:24:53 +0200
+        bh=SGz3jtzA9Q1y95hnVuLxxhCEaendeRp/03jNV4aYAm8=;
+        b=ca4eWdnEIOSuKlOGPK+65FKofe5JXsumdjO2jo0sJX45NwsOG0Tk62i1rXRTSyUBmVAOfx
+        wHjKYSP2PINyZoCA==
+Date:   Fri, 21 Aug 2020 02:24:51 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
+Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        linux-hyperv@vger.kernel.org,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Jon Derrick <jonathan.derrick@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
         Wei Liu <wei.liu@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Steve Wahl <steve.wahl@hpe.com>,
         Dimitri Sivanich <sivanich@hpe.com>,
-        Russ Anderson <rja@hpe.com>,
+        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
         Bjorn Helgaas <bhelgaas@google.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Jonathan Derrick <jonathan.derrick@intel.com>,
@@ -77,105 +77,90 @@ Cc:     x86@kernel.org, linux-pci@vger.kernel.org,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch RFC 29/38] x86/pci: Set default irq domain in pcibios_add_device()
+Subject: [patch RFC 27/38] iommm/vt-d: Store irq domain in struct device
 References: <20200821002424.119492231@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Disposition: inline;
- filename="x86-pci--Set-default-irq-domain-in-pcibios_add_device.patch"
+ filename="iommm-vt-d--Store-irq-domain-in-struct-device.patch"
 Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Now that interrupt remapping sets the irqdomain pointer when a PCI device
-is added it's possible to store the default irq domain in the device struct
-in pcibios_add_device().
+As a first step to make X86 utilize the direct MSI irq domain operations
+store the irq domain pointer in the device struct when a device is probed.
 
-If the bus to which a device is connected has an irq domain associated then
-this domain is used otherwise the default domain (PCI/MSI native or XEN
-PCI/MSI) is used. Using the bus domain ensures that special MSI bus domains
-like VMD work.
+This is done from dmar_pci_bus_add_dev() because it has to work even when
+DMA remapping is disabled. It only overrides the irqdomain of devices which
+are handled by a regular PCI/MSI irq domain which protects PCI devices
+behind special busses like VMD which have their own irq domain.
 
-This makes XEN and the non-remapped native case work solely based on the
-irq domain pointer in struct device for PCI/MSI and allows to remove the
-arch fallback and make most of the x86_msi ops private to XEN in the next
-steps.
+No functional change. It just avoids the redirection through
+arch_*_msi_irqs() and allows the PCI/MSI core to directly invoke the irq
+domain alloc/free functions instead of having to look up the irq domain for
+every single MSI interupt.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-pci@vger.kernel.org
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: iommu@lists.linux-foundation.org
+Cc: Lu Baolu <baolu.lu@linux.intel.com>
 ---
- arch/x86/include/asm/irqdomain.h |    2 ++
- arch/x86/kernel/apic/msi.c       |    2 +-
- arch/x86/pci/common.c            |   18 +++++++++++++++++-
- 3 files changed, 20 insertions(+), 2 deletions(-)
+ drivers/iommu/intel/dmar.c          |    3 +++
+ drivers/iommu/intel/irq_remapping.c |   16 ++++++++++++++++
+ include/linux/intel-iommu.h         |    5 +++++
+ 3 files changed, 24 insertions(+)
 
---- a/arch/x86/include/asm/irqdomain.h
-+++ b/arch/x86/include/asm/irqdomain.h
-@@ -53,9 +53,11 @@ extern int mp_irqdomain_ioapic_idx(struc
- #ifdef CONFIG_PCI_MSI
- void x86_create_pci_msi_domain(void);
- struct irq_domain *native_create_pci_msi_domain(void);
-+extern struct irq_domain *x86_pci_msi_default_domain;
- #else
- static inline void x86_create_pci_msi_domain(void) { }
- #define native_create_pci_msi_domain	NULL
-+#define x86_pci_msi_default_domain	NULL
- #endif
+--- a/drivers/iommu/intel/dmar.c
++++ b/drivers/iommu/intel/dmar.c
+@@ -316,6 +316,9 @@ static int dmar_pci_bus_add_dev(struct d
+ 	if (ret < 0 && dmar_dev_scope_status == 0)
+ 		dmar_dev_scope_status = ret;
  
- #endif
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -21,7 +21,7 @@
- #include <asm/apic.h>
- #include <asm/irq_remapping.h>
- 
--static struct irq_domain *x86_pci_msi_default_domain __ro_after_init;
-+struct irq_domain *x86_pci_msi_default_domain __ro_after_init;
- 
- static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
- {
---- a/arch/x86/pci/common.c
-+++ b/arch/x86/pci/common.c
-@@ -19,6 +19,7 @@
- #include <asm/smp.h>
- #include <asm/pci_x86.h>
- #include <asm/setup.h>
-+#include <asm/irqdomain.h>
- 
- unsigned int pci_probe = PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROBE_CONF2 |
- 				PCI_PROBE_MMCONF;
-@@ -633,8 +634,9 @@ static void set_dev_domain_options(struc
- 
- int pcibios_add_device(struct pci_dev *dev)
- {
--	struct setup_data *data;
- 	struct pci_setup_rom *rom;
-+	struct irq_domain *msidom;
-+	struct setup_data *data;
- 	u64 pa_data;
- 
- 	pa_data = boot_params.hdr.setup_data;
-@@ -661,6 +663,20 @@ int pcibios_add_device(struct pci_dev *d
- 		memunmap(data);
- 	}
- 	set_dev_domain_options(dev);
++	if (ret >= 0)
++		intel_irq_remap_add_device(info);
 +
-+	/*
-+	 * Setup the initial MSI domain of the device. If the underlying
-+	 * bus has a PCI/MSI irqdomain associated use the bus domain,
-+	 * otherwise set the default domain. This ensures that special irq
-+	 * domains e.g. VMD are preserved. The default ensures initial
-+	 * operation if irq remapping is not active. If irq remapping is
-+	 * active it will overwrite the domain pointer when the device is
-+	 * associated to a remapping domain.
-+	 */
-+	msidom = dev_get_msi_domain(&dev->bus->dev);
-+	if (!msidom)
-+		msidom = x86_pci_msi_default_domain;
-+	dev_set_msi_domain(&dev->dev, msidom);
- 	return 0;
+ 	return ret;
  }
  
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -1086,6 +1086,22 @@ static int reenable_irq_remapping(int ei
+ 	return -1;
+ }
+ 
++/*
++ * Store the MSI remapping domain pointer in the device if enabled.
++ *
++ * This is called from dmar_pci_bus_add_dev() so it works even when DMA
++ * remapping is disabled. Only update the pointer if the device is not
++ * already handled by a non default PCI/MSI interrupt domain. This protects
++ * e.g. VMD devices.
++ */
++void intel_irq_remap_add_device(struct dmar_pci_notify_info *info)
++{
++	if (!irq_remapping_enabled || pci_dev_has_special_msi_domain(info->dev))
++		return;
++
++	dev_set_msi_domain(&info->dev->dev, map_dev_to_ir(info->dev));
++}
++
+ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
+ {
+ 	memset(irte, 0, sizeof(*irte));
+--- a/include/linux/intel-iommu.h
++++ b/include/linux/intel-iommu.h
+@@ -439,6 +439,11 @@ struct ir_table {
+ 	struct irte *base;
+ 	unsigned long *bitmap;
+ };
++
++void intel_irq_remap_add_device(struct dmar_pci_notify_info *info);
++#else
++static inline void
++intel_irq_remap_add_device(struct dmar_pci_notify_info *info) { }
+ #endif
+ 
+ struct iommu_flush {
 
