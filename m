@@ -7,44 +7,47 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A65A2C433E4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9739DC433E1
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 860812087D
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 730A82071E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KU244bnL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="L0z/1eeN"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1Xqx86E3";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SfxmzM35"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729599AbgHZMLM (ORCPT
+        id S1729296AbgHZMMm (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:11:12 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57870 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729390AbgHZMBd (ORCPT
+        Wed, 26 Aug 2020 08:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35508 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729396AbgHZMBc (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:33 -0400
-Message-Id: <20200826112332.767707340@linutronix.de>
+        Wed, 26 Aug 2020 08:01:32 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD3EEC0613ED;
+        Wed, 26 Aug 2020 05:01:31 -0700 (PDT)
+Message-Id: <20200826112332.564274859@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443281;
+        s=2020; t=1598443278;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=dYN9jX79rKIWQfhP8dq1fK8m0T2bDgxKsf6OxKJhURs=;
-        b=KU244bnLCRTLggIkAhPoRrnNk4ecCLY5jSzkQr6tLrIl0Rk53IfMfXlDPNJwZMmLCFLGkD
-        FowqqLBIyHL7DDqMUmJGrs0bDiR0AEPQmJOlKQbIc6jWLyGSXeSScT/iGGqH3nE1lbwVJh
-        hDGEwBiQjs58m5lMA87cVjCA60Mx4YpaQoRKiP1/+tFJpURnzokJJNJm41O7i4z82WEpGq
-        mrTXb25RBx4IIwRjyNMumY46rKZFYwBOnn6FEiCJGF+9CJUHRlIIjM3XetbKQy3rPyH5W5
-        0oxvv87MCFdKOtE+q8tpyYW13CiWVcS8XxQGqRrfVTeqS/G6WRa8DXIZoOu31Q==
+        bh=i8DAYBEwyev5Sb9kBzuYKhZP/VSkuBj1GjlCA99AJoU=;
+        b=1Xqx86E3q2b2ZixfziDqUULh/NKjOj9iSwzOxek01OxyvIOgg8cUw3scQFIUzhIik+ULyn
+        eYFFOzQaAtAetJ50JADbspwYOvRf4DuZsIZmaC2YhkoUJhcr8Aw+N6rO1uVGgC7/3shr1d
+        OLBVnD9q8QM5PVW3FFw8KiTObe68Q+oWSoYrp0u3NbRzILlSdX1zl6PFApXfxKlDu7mgcY
+        VM+FjD84hB1Ylny24sp4NpcF0El5FTnNFvQ/lQe1ts3dGeGXohTL9r/sSDLTTc8KMOCHR9
+        EFTxeabk4c1fokQ9HBmZl2X1/37ciY0jgRDlOoW6Jicw2OjZ+uXg/oIDQCh3Sw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443281;
+        s=2020e; t=1598443278;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=dYN9jX79rKIWQfhP8dq1fK8m0T2bDgxKsf6OxKJhURs=;
-        b=L0z/1eeNvfqCZHeoL4JEuN1YMBW1Iiw6iNV20WAqkSdplzffASpgi2hZ4NMQTB/x3w87bA
-        czWHTCA8dXDh6gAw==
-Date:   Wed, 26 Aug 2020 13:16:49 +0200
+        bh=i8DAYBEwyev5Sb9kBzuYKhZP/VSkuBj1GjlCA99AJoU=;
+        b=SfxmzM35p6LRaIAQ/4CDORuaZiaqNGlLQeEksCh9t6iTSH1SdW+K2Nr2PXf5/KBUbLnT8s
+        4r2ubQSnF63IJVDg==
+Date:   Wed, 26 Aug 2020 13:16:47 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,7 +78,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 21/46] x86/pci: Reducde #ifdeffery in PCI init code
+Subject: [patch V2 19/46] x86/msi: Use generic MSI domain ops
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -87,77 +90,122 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-Adding a function call before the first #ifdef in arch_pci_init() triggers
-a 'mixed declarations and code' warning if PCI_DIRECT is enabled.
-
-Use stub functions and move the #ifdeffery to the header file where it is
-not in the way.
+pci_msi_get_hwirq() and pci_msi_set_desc are not longer special. Enable the
+generic MSI domain ops in the core and PCI MSI code unconditionally and get
+rid of the x86 specific implementations in the X86 MSI code and in the
+hyperv PCI driver.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
 ---
- arch/x86/include/asm/pci_x86.h |   11 +++++++++++
- arch/x86/pci/init.c            |   10 +++-------
- 2 files changed, 14 insertions(+), 7 deletions(-)
+ arch/x86/include/asm/msi.h          |    2 --
+ arch/x86/kernel/apic/msi.c          |   15 ---------------
+ drivers/pci/controller/pci-hyperv.c |    8 --------
+ drivers/pci/msi.c                   |    4 ----
+ kernel/irq/msi.c                    |    6 ------
+ 5 files changed, 35 deletions(-)
 
---- a/arch/x86/include/asm/pci_x86.h
-+++ b/arch/x86/include/asm/pci_x86.h
-@@ -114,9 +114,20 @@ extern const struct pci_raw_ops pci_dire
- extern bool port_cf9_safe;
+--- a/arch/x86/include/asm/msi.h
++++ b/arch/x86/include/asm/msi.h
+@@ -9,6 +9,4 @@ typedef struct irq_alloc_info msi_alloc_
+ int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+ 		    msi_alloc_info_t *arg);
  
- /* arch_initcall level */
-+#ifdef CONFIG_PCI_DIRECT
- extern int pci_direct_probe(void);
- extern void pci_direct_init(int type);
-+#else
-+static inline int pci_direct_probe(void) { return -1; }
-+static inline  void pci_direct_init(int type) { }
-+#endif
-+
-+#ifdef CONFIG_PCI_BIOS
- extern void pci_pcbios_init(void);
-+#else
-+static inline void pci_pcbios_init(void) { }
-+#endif
-+
- extern void __init dmi_check_pciprobe(void);
- extern void __init dmi_check_skip_isa_align(void);
+-void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc);
+-
+ #endif /* _ASM_X86_MSI_H */
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -204,12 +204,6 @@ void native_teardown_msi_irq(unsigned in
+ 	irq_domain_free_irqs(irq, 1);
+ }
  
---- a/arch/x86/pci/init.c
-+++ b/arch/x86/pci/init.c
-@@ -8,11 +8,9 @@
-    in the right sequence from here. */
- static __init int pci_arch_init(void)
+-static irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
+-					 msi_alloc_info_t *arg)
+-{
+-	return arg->hwirq;
+-}
+-
+ int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+ 		    msi_alloc_info_t *arg)
  {
--#ifdef CONFIG_PCI_DIRECT
--	int type = 0;
-+	int type;
+@@ -228,17 +222,8 @@ int pci_msi_prepare(struct irq_domain *d
+ }
+ EXPORT_SYMBOL_GPL(pci_msi_prepare);
  
- 	type = pci_direct_probe();
+-void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc)
+-{
+-	arg->desc = desc;
+-	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
+-}
+-EXPORT_SYMBOL_GPL(pci_msi_set_desc);
+-
+ static struct msi_domain_ops pci_msi_domain_ops = {
+-	.get_hwirq	= pci_msi_get_hwirq,
+ 	.msi_prepare	= pci_msi_prepare,
+-	.set_desc	= pci_msi_set_desc,
+ };
+ 
+ static struct msi_domain_info pci_msi_domain_info = {
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1531,16 +1531,8 @@ static struct irq_chip hv_msi_irq_chip =
+ 	.irq_unmask		= hv_irq_unmask,
+ };
+ 
+-static irq_hw_number_t hv_msi_domain_ops_get_hwirq(struct msi_domain_info *info,
+-						   msi_alloc_info_t *arg)
+-{
+-	return arg->hwirq;
+-}
+-
+ static struct msi_domain_ops hv_msi_ops = {
+-	.get_hwirq	= hv_msi_domain_ops_get_hwirq,
+ 	.msi_prepare	= pci_msi_prepare,
+-	.set_desc	= pci_msi_set_desc,
+ 	.msi_free	= hv_msi_free,
+ };
+ 
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -1401,16 +1401,12 @@ static int pci_msi_domain_handle_error(s
+ 	return error;
+ }
+ 
+-#ifdef GENERIC_MSI_DOMAIN_OPS
+ static void pci_msi_domain_set_desc(msi_alloc_info_t *arg,
+ 				    struct msi_desc *desc)
+ {
+ 	arg->desc = desc;
+ 	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
+ }
+-#else
+-#define pci_msi_domain_set_desc		NULL
 -#endif
  
- 	if (!(pci_probe & PCI_PROBE_NOEARLY))
- 		pci_mmcfg_early_init();
-@@ -20,18 +18,16 @@ static __init int pci_arch_init(void)
- 	if (x86_init.pci.arch_init && !x86_init.pci.arch_init())
- 		return 0;
+ static struct msi_domain_ops pci_msi_domain_ops_default = {
+ 	.set_desc	= pci_msi_domain_set_desc,
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -187,7 +187,6 @@ static const struct irq_domain_ops msi_d
+ 	.deactivate	= msi_domain_deactivate,
+ };
  
--#ifdef CONFIG_PCI_BIOS
- 	pci_pcbios_init();
--#endif
-+
- 	/*
- 	 * don't check for raw_pci_ops here because we want pcbios as last
- 	 * fallback, yet it's needed to run first to set pcibios_last_bus
- 	 * in case legacy PCI probing is used. otherwise detecting peer busses
- 	 * fails.
- 	 */
--#ifdef CONFIG_PCI_DIRECT
- 	pci_direct_init(type);
--#endif
-+
- 	if (!raw_pci_ops && !raw_pci_ext_ops)
- 		printk(KERN_ERR
- 		"PCI: Fatal: No config space access function found\n");
+-#ifdef GENERIC_MSI_DOMAIN_OPS
+ static irq_hw_number_t msi_domain_ops_get_hwirq(struct msi_domain_info *info,
+ 						msi_alloc_info_t *arg)
+ {
+@@ -206,11 +205,6 @@ static void msi_domain_ops_set_desc(msi_
+ {
+ 	arg->desc = desc;
+ }
+-#else
+-#define msi_domain_ops_get_hwirq	NULL
+-#define msi_domain_ops_prepare		NULL
+-#define msi_domain_ops_set_desc		NULL
+-#endif /* !GENERIC_MSI_DOMAIN_OPS */
+ 
+ static int msi_domain_ops_init(struct irq_domain *domain,
+ 			       struct msi_domain_info *info,
 
 
