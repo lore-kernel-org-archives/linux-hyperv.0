@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1308C433E3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 554DDC433DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A10CE20838
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2846C2071E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DLCrWRXa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d/g1akpo"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UoGPFS/7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sUrBzRDj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729402AbgHZMOh (ORCPT
+        id S1729784AbgHZMOt (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:14:37 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57116 "EHLO
+        Wed, 26 Aug 2020 08:14:49 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:57052 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729376AbgHZMBM (ORCPT
+        with ESMTP id S1729372AbgHZMBC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:12 -0400
-Message-Id: <20200826112331.047917603@linutronix.de>
+        Wed, 26 Aug 2020 08:01:02 -0400
+Message-Id: <20200826112330.806095671@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443260;
+        s=2020; t=1598443257;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=aNA6imWCCycyDoE7I/LUogJu92HNj5sOKiAANrwrDhI=;
-        b=DLCrWRXadgrQCf4qFjiJ+39EHne5FXGzCP9hiodZy6C8kQ1/WBZONwRpITcKeNKBrD1AWK
-        rF/EG4OJ4JLSWL/HoTIqnPXKvoPYzGcme0j15L3eojvZ2bWAiS7Mtp6MC3bxVEb0cBOUC9
-        yg4BEsBD55+FiJ8p6JF3228cFuTpo4myNllLNfJ6Fh7oNyAQy3Eqj0+p/pwh4qFx+ZTFbN
-        X8rK+gsgw02K975GfmmssF7oLxWMt/bW4zGm2/v0gmC9AwwlH59Uhn5HEaoAcw83sZ1qnk
-        6UwasHDKTy053t1sugGUnbd9oxc0qCPpErEWb9QDItLE7iM7JBH4ygOMbYregw==
+        bh=TWm8LKwbxOdbljCkicslqQNPr7yXxn0950j4VKvFXNo=;
+        b=UoGPFS/7WkvtfI0hX3punHqhBhP/UK4S88ikGD8RW/yf+AurFKJjX4P4EC3wMRQEo3XlUZ
+        LtujGPYmgVYq+2AdnyFhaPffxQeMmZLY5riQhmLkbyaNqb5/Tl2/vF8P4/flzxfoNve7Gd
+        HvMq+AchBIH/zXZpuCw50Xyw8kZUbXsTBX1z6AM0cPb4XUIN3ZT296ZxwMS9Ftls90RKIx
+        QYPHptNSZLVoIKxXnLJuhge/uZrOimnl1Bbl+174HzrumKwK3TJyXxS/LA+CUj9RLLCDum
+        tDilxjDbgeG8VP1uAjLlsZFPbkEndfzcYttDAx/NS1vPFTXjsmKgSZgpI1+3tQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443260;
+        s=2020e; t=1598443257;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=aNA6imWCCycyDoE7I/LUogJu92HNj5sOKiAANrwrDhI=;
-        b=d/g1akpo73oJHiKD3AFk+oXcaGgFtQKzORD6f4yN1CPu2he0HCayOxiJxkUBpk9OkfVzCq
-        JLPec94nQktRTKBQ==
-Date:   Wed, 26 Aug 2020 13:16:32 +0200
+        bh=TWm8LKwbxOdbljCkicslqQNPr7yXxn0950j4VKvFXNo=;
+        b=sUrBzRDj7jLvhAKHO3Jo5Tdws9M7K35CNKNa2DKprDj7HLmFAHquotUL5w484KVxZFblZx
+        8bAUtdxFXrHkzvDg==
+Date:   Wed, 26 Aug 2020 13:16:30 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,8 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 04/46] genirq/chip: Use the first chip in
- irq_chip_compose_msi_msg()
+Subject: [patch V2 02/46] x86/init: Remove unused init ops
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -86,99 +85,165 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The documentation of irq_chip_compose_msi_msg() claims that with
-hierarchical irq domains the first chip in the hierarchy which has an
-irq_compose_msi_msg() callback is chosen. But the code just keeps
-iterating after it finds a chip with a compose callback.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-The x86 HPET MSI implementation relies on that behaviour, but that does not
-make it more correct.
-
-The message should always be composed at the domain which manages the
-underlying resource (e.g. APIC or remap table) because that domain knows
-about the required layout of the message.
-
-On X86 the following hierarchies exist:
-
-1)   vector -------- PCI/MSI
-2)   vector -- IR -- PCI/MSI
-
-The vector domain has a different message format than the IR (remapping)
-domain. So obviously the PCI/MSI domain can't compose the message without
-having knowledge about the parent domain, which is exactly the opposite of
-what hierarchical domains want to achieve.
-
-X86 actually has two different PCI/MSI chips where #1 has a compose
-callback and #2 does not. #2 delegates the composition to the remap domain
-where it belongs, but #1 does it at the PCI/MSI level.
-
-For the upcoming device MSI support it's necessary to change this and just
-let the first domain which can compose the message take care of it. That
-way the top level chip does not have to worry about it and the device MSI
-code does not need special knowledge about topologies. It just sets the
-compose callback to NULL and lets the hierarchy pick the first chip which
-has one.
-
-Due to that the attempt to move the compose callback from the direct
-delivery PCI/MSI domain to the vector domain made the system fail to boot
-with interrupt remapping enabled because in the remapping case
-irq_chip_compose_msi_msg() keeps iterating and choses the compose callback
-of the vector domain which obviously creates the wrong format for the remap
-table.
-
-Break out of the loop when the first irq chip with a compose callback is
-found and fixup the HPET code temporarily. That workaround will be removed
-once the direct delivery compose callback is moved to the place where it
-belongs in the vector domain.
+Some past platform removal forgot to get rid of this unused ballast.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
-V2: New patch. Note, that this might break other stuff which relies on the
-    current behaviour, but the hierarchy composition of DT based chips is
-    really hard to follow.
----
- arch/x86/kernel/apic/msi.c |    7 +++++--
- kernel/irq/chip.c          |   12 +++++++++---
- 2 files changed, 14 insertions(+), 5 deletions(-)
 
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -479,10 +479,13 @@ struct irq_domain *hpet_create_irq_domai
- 	info.type = X86_IRQ_ALLOC_TYPE_HPET;
- 	info.hpet_id = hpet_id;
- 	parent = irq_remapping_get_ir_irq_domain(&info);
--	if (parent == NULL)
-+	if (parent == NULL) {
- 		parent = x86_vector_domain;
--	else
-+	} else {
- 		hpet_msi_controller.name = "IR-HPET-MSI";
-+		/* Temporary fix: Will go away */
-+		hpet_msi_controller.irq_compose_msi_msg = NULL;
-+	}
+---
+ arch/x86/include/asm/mpspec.h   |   10 ----------
+ arch/x86/include/asm/x86_init.h |   10 ----------
+ arch/x86/kernel/mpparse.c       |   26 ++++----------------------
+ arch/x86/kernel/x86_init.c      |    4 ----
+ 4 files changed, 4 insertions(+), 46 deletions(-)
+
+--- a/arch/x86/include/asm/mpspec.h
++++ b/arch/x86/include/asm/mpspec.h
+@@ -67,21 +67,11 @@ static inline void find_smp_config(void)
+ #ifdef CONFIG_X86_MPPARSE
+ extern void e820__memblock_alloc_reserved_mpc_new(void);
+ extern int enable_update_mptable;
+-extern int default_mpc_apic_id(struct mpc_cpu *m);
+-extern void default_smp_read_mpc_oem(struct mpc_table *mpc);
+-# ifdef CONFIG_X86_IO_APIC
+-extern void default_mpc_oem_bus_info(struct mpc_bus *m, char *str);
+-# else
+-#  define default_mpc_oem_bus_info NULL
+-# endif
+ extern void default_find_smp_config(void);
+ extern void default_get_smp_config(unsigned int early);
+ #else
+ static inline void e820__memblock_alloc_reserved_mpc_new(void) { }
+ #define enable_update_mptable 0
+-#define default_mpc_apic_id NULL
+-#define default_smp_read_mpc_oem NULL
+-#define default_mpc_oem_bus_info NULL
+ #define default_find_smp_config x86_init_noop
+ #define default_get_smp_config x86_init_uint_noop
+ #endif
+--- a/arch/x86/include/asm/x86_init.h
++++ b/arch/x86/include/asm/x86_init.h
+@@ -11,22 +11,12 @@ struct cpuinfo_x86;
  
- 	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
- 					      hpet_id);
---- a/kernel/irq/chip.c
-+++ b/kernel/irq/chip.c
-@@ -1544,10 +1544,16 @@ int irq_chip_compose_msi_msg(struct irq_
- 	struct irq_data *pos = NULL;
+ /**
+  * struct x86_init_mpparse - platform specific mpparse ops
+- * @mpc_record:			platform specific mpc record accounting
+  * @setup_ioapic_ids:		platform specific ioapic id override
+- * @mpc_apic_id:		platform specific mpc apic id assignment
+- * @smp_read_mpc_oem:		platform specific oem mpc table setup
+- * @mpc_oem_pci_bus:		platform specific pci bus setup (default NULL)
+- * @mpc_oem_bus_info:		platform specific mpc bus info
+  * @find_smp_config:		find the smp configuration
+  * @get_smp_config:		get the smp configuration
+  */
+ struct x86_init_mpparse {
+-	void (*mpc_record)(unsigned int mode);
+ 	void (*setup_ioapic_ids)(void);
+-	int (*mpc_apic_id)(struct mpc_cpu *m);
+-	void (*smp_read_mpc_oem)(struct mpc_table *mpc);
+-	void (*mpc_oem_pci_bus)(struct mpc_bus *m);
+-	void (*mpc_oem_bus_info)(struct mpc_bus *m, char *name);
+ 	void (*find_smp_config)(void);
+ 	void (*get_smp_config)(unsigned int early);
+ };
+--- a/arch/x86/kernel/mpparse.c
++++ b/arch/x86/kernel/mpparse.c
+@@ -46,11 +46,6 @@ static int __init mpf_checksum(unsigned
+ 	return sum & 0xFF;
+ }
  
- #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
--	for (; data; data = data->parent_data)
--#endif
--		if (data->chip && data->chip->irq_compose_msi_msg)
-+	for (; data; data = data->parent_data) {
-+		if (data->chip && data->chip->irq_compose_msi_msg) {
- 			pos = data;
-+			break;
-+		}
-+	}
-+#else
-+	if (data->chip && data->chip->irq_compose_msi_msg)
-+		pos = data;
-+#endif
- 	if (!pos)
- 		return -ENOSYS;
+-int __init default_mpc_apic_id(struct mpc_cpu *m)
+-{
+-	return m->apicid;
+-}
+-
+ static void __init MP_processor_info(struct mpc_cpu *m)
+ {
+ 	int apicid;
+@@ -61,7 +56,7 @@ static void __init MP_processor_info(str
+ 		return;
+ 	}
  
+-	apicid = x86_init.mpparse.mpc_apic_id(m);
++	apicid = m->apicid;
+ 
+ 	if (m->cpuflag & CPU_BOOTPROCESSOR) {
+ 		bootup_cpu = " (Bootup-CPU)";
+@@ -73,7 +68,7 @@ static void __init MP_processor_info(str
+ }
+ 
+ #ifdef CONFIG_X86_IO_APIC
+-void __init default_mpc_oem_bus_info(struct mpc_bus *m, char *str)
++static void __init mpc_oem_bus_info(struct mpc_bus *m, char *str)
+ {
+ 	memcpy(str, m->bustype, 6);
+ 	str[6] = 0;
+@@ -84,7 +79,7 @@ static void __init MP_bus_info(struct mp
+ {
+ 	char str[7];
+ 
+-	x86_init.mpparse.mpc_oem_bus_info(m, str);
++	mpc_oem_bus_info(m, str);
+ 
+ #if MAX_MP_BUSSES < 256
+ 	if (m->busid >= MAX_MP_BUSSES) {
+@@ -100,9 +95,6 @@ static void __init MP_bus_info(struct mp
+ 		mp_bus_id_to_type[m->busid] = MP_BUS_ISA;
+ #endif
+ 	} else if (strncmp(str, BUSTYPE_PCI, sizeof(BUSTYPE_PCI) - 1) == 0) {
+-		if (x86_init.mpparse.mpc_oem_pci_bus)
+-			x86_init.mpparse.mpc_oem_pci_bus(m);
+-
+ 		clear_bit(m->busid, mp_bus_not_pci);
+ #ifdef CONFIG_EISA
+ 		mp_bus_id_to_type[m->busid] = MP_BUS_PCI;
+@@ -198,8 +190,6 @@ static void __init smp_dump_mptable(stru
+ 			1, mpc, mpc->length, 1);
+ }
+ 
+-void __init default_smp_read_mpc_oem(struct mpc_table *mpc) { }
+-
+ static int __init smp_read_mpc(struct mpc_table *mpc, unsigned early)
+ {
+ 	char str[16];
+@@ -218,14 +208,7 @@ static int __init smp_read_mpc(struct mp
+ 	if (early)
+ 		return 1;
+ 
+-	if (mpc->oemptr)
+-		x86_init.mpparse.smp_read_mpc_oem(mpc);
+-
+-	/*
+-	 *      Now process the configuration blocks.
+-	 */
+-	x86_init.mpparse.mpc_record(0);
+-
++	/* Now process the configuration blocks. */
+ 	while (count < mpc->length) {
+ 		switch (*mpt) {
+ 		case MP_PROCESSOR:
+@@ -256,7 +239,6 @@ static int __init smp_read_mpc(struct mp
+ 			count = mpc->length;
+ 			break;
+ 		}
+-		x86_init.mpparse.mpc_record(1);
+ 	}
+ 
+ 	if (!num_processors)
+--- a/arch/x86/kernel/x86_init.c
++++ b/arch/x86/kernel/x86_init.c
+@@ -67,11 +67,7 @@ struct x86_init_ops x86_init __initdata
+ 	},
+ 
+ 	.mpparse = {
+-		.mpc_record		= x86_init_uint_noop,
+ 		.setup_ioapic_ids	= x86_init_noop,
+-		.mpc_apic_id		= default_mpc_apic_id,
+-		.smp_read_mpc_oem	= default_smp_read_mpc_oem,
+-		.mpc_oem_bus_info	= default_mpc_oem_bus_info,
+ 		.find_smp_config	= default_find_smp_config,
+ 		.get_smp_config		= default_get_smp_config,
+ 	},
+
 
