@@ -2,181 +2,226 @@ Return-Path: <SRS0=8BKv=CE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE45CC433DF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 10:01:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85861C433E4
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:01:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7BDC20838
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 10:01:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6679920838
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:01:58 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="pHUo6T87"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kcbYH/xL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iI5qSUQD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728493AbgHZKB2 (ORCPT
+        id S1729427AbgHZMBy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 06:01:28 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:33948 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728165AbgHZKBY (ORCPT
+        Wed, 26 Aug 2020 08:01:54 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:57906 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729395AbgHZMBe (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 06:01:24 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9rmML110211;
-        Wed, 26 Aug 2020 09:58:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=99lx5iUfIkT1H9yGqvvBxJOhPDkHKQlkIHLEmQ8PDXw=;
- b=pHUo6T87aN4HkyoolW4yELYhdaG6ZvSavIkxfBgUOj0Org1O9z1r+ZQOuET12WJ7H5Pc
- xnVCQfyl6qFGmQNX19oW+/bFETNvgM6pF7csHfuvBHB3cwqfsUd0O1/rGIc/5OQTnnFB
- MEojeNBzUtEmGEuqP0gM6P7/G+Nn01P+JHgzxPDBnzH/evLKYOeuFaI9EUmCauKOO4Dv
- zZppw57NrWnHoxtj9wH99M6dzm4GlspA3OSB7TYDhwfTGMPmrp1Qrwutr2AFfwHTZX4W
- mmUMO7IJxJ3uJAsWGpM1c6assMY729yLXVkHlFuUfSzlq1xzAsoVwPIWis3T8JNJMC4u Ng== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 333dbryf24-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 26 Aug 2020 09:58:06 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9odrR139540;
-        Wed, 26 Aug 2020 09:56:05 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 333rtywr8n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 26 Aug 2020 09:56:05 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07Q9tlAJ026067;
-        Wed, 26 Aug 2020 09:55:47 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 26 Aug 2020 02:55:46 -0700
-Date:   Wed, 26 Aug 2020 12:55:28 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Allen Pais <allen.cryptic@gmail.com>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
-        airlied@linux.ie, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, sre@kernel.org,
-        anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
-        linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
-        jassisinghbrar@gmail.com, linux-spi@vger.kernel.org,
-        3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
-        Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
-        jdike@addtoit.com, Kees Cook <keescook@chromium.org>,
-        oakad@yahoo.com, s.hauer@pengutronix.de,
-        linux-input@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-block@vger.kernel.org, broonie@kernel.org,
-        openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
-        linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
-        linux-mmc@vger.kernel.org, Allen <allen.lkml@gmail.com>,
-        linux-kernel@vger.kernel.org, alex.bou9@gmail.com,
-        stefanr@s5r6.in-berlin.de, Daniel Vetter <daniel@ffwll.ch>,
-        linux-ntb@googlegroups.com,
-        Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
-        David Miller <davem@davemloft.net>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-Message-ID: <20200826095528.GX1793@kadam>
-References: <202008171228.29E6B3BB@keescook>
- <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
- <202008171246.80287CDCA@keescook>
- <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
- <1597780833.3978.3.camel@HansenPartnership.com>
- <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
- <1597849185.3875.7.camel@HansenPartnership.com>
- <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
- <1597873172.4030.2.camel@HansenPartnership.com>
- <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
+        Wed, 26 Aug 2020 08:01:34 -0400
+Message-Id: <20200826112331.530546013@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1598443266;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=u1yYqnSZZDMMoV9tW/nQF0JmP98FzCrk6ksyf7BvRgs=;
+        b=kcbYH/xLrUAPJ6fWejOeJmxHcJDtKvq9rSmjVFfexK1fGAerVZEcPvhUq/Yew/wTSQUxQA
+        nYDgNz2x9gVWr9YdEQXXW0/VcVXT6+SYH6p8Pyg8LMws06CpAnLkPedYCmO3f2I9OLqFZC
+        16SjJaTyVMLuhEx4zWaHmggPOa/fosS1Fq7g8m+hzqpJbS1dA17hIkTlOSEM+4V1C3Wna4
+        KXGIFDSYKSWp2EXIYFP8vuYyh2bqmw9EgsOEgcMI4J/Dvpl40jcQyeoFMFpF2CAHjFrcVJ
+        TwP8ELN56HifujjCfZXWP2+C1SEu5/OwFOCAvmXbM99ahdOwcMZQk1h/7bsxwg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1598443266;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=u1yYqnSZZDMMoV9tW/nQF0JmP98FzCrk6ksyf7BvRgs=;
+        b=iI5qSUQDjqoguOE0M0yhLqFGsfgkjHhT91vZR8ljMovSZDUawcj8oW/wubtZ3EtOdx3Jc7
+        jK0U+RgVJOpYeYAg==
+Date:   Wed, 26 Aug 2020 13:16:37 +0200
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org, linux-hyperv@vger.kernel.org,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Jon Derrick <jonathan.derrick@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Steve Wahl <steve.wahl@hpe.com>,
+        Dimitri Sivanich <sivanich@hpe.com>,
+        Russ Anderson <rja@hpe.com>, linux-pci@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        xen-devel@lists.xenproject.org, Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Megha Dey <megha.dey@intel.com>,
+        Jason Gunthorpe <jgg@mellanox.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jacob Pan <jacob.jun.pan@intel.com>,
+        Baolu Lu <baolu.lu@intel.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: [patch V2 09/46] iommu/vt-d: Consolidate irq domain getter
+References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
- phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008260078
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1011
- priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008260079
+Content-Type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
-> On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
-> >
-> > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
-> > > > [...]
-> > > > > > Since both threads seem to have petered out, let me suggest in
-> > > > > > kernel.h:
-> > > > > >
-> > > > > > #define cast_out(ptr, container, member) \
-> > > > > >     container_of(ptr, typeof(*container), member)
-> > > > > >
-> > > > > > It does what you want, the argument order is the same as
-> > > > > > container_of with the only difference being you name the
-> > > > > > containing structure instead of having to specify its type.
-> > > > >
-> > > > > Not to incessantly bike shed on the naming, but I don't like
-> > > > > cast_out, it's not very descriptive. And it has connotations of
-> > > > > getting rid of something, which isn't really true.
-> > > >
-> > > > Um, I thought it was exactly descriptive: you're casting to the
-> > > > outer container.  I thought about following the C++ dynamic casting
-> > > > style, so out_cast(), but that seemed a bit pejorative.  What about
-> > > > outer_cast()?
-> > > >
-> > > > > FWIW, I like the from_ part of the original naming, as it has
-> > > > > some clues as to what is being done here. Why not just
-> > > > > from_container()? That should immediately tell people what it
-> > > > > does without having to look up the implementation, even before
-> > > > > this becomes a part of the accepted coding norm.
-> > > >
-> > > > I'm not opposed to container_from() but it seems a little less
-> > > > descriptive than outer_cast() but I don't really care.  I always
-> > > > have to look up container_of() when I'm using it so this would just
-> > > > be another macro of that type ...
-> > > >
-> > >
-> > >  So far we have a few which have been suggested as replacement
-> > > for from_tasklet()
-> > >
-> > > - out_cast() or outer_cast()
-> > > - from_member().
-> > > - container_from() or from_container()
-> > >
-> > > from_container() sounds fine, would trimming it a bit work? like
-> > > from_cont().
-> >
-> > I'm fine with container_from().  It's the same form as container_of()
-> > and I think we need urgent agreement to not stall everything else so
-> > the most innocuous name is likely to get the widest acceptance.
-> 
-> Kees,
-> 
->   Will you be  sending the newly proposed API to Linus? I have V2
-> which uses container_from()
-> ready to be sent out.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-I liked that James swapped the first two arguments so that it matches
-container_of().  Plus it's nice that when you have:
+The irq domain request mode is now indicated in irq_alloc_info::type.
 
-	struct whatever *foo = container_from(ptr, foo, member);
+Consolidate the two getter functions into one.
 
-Then it means that "ptr == &foo->member".
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
-regards,
-dan carpenter
+---
+ drivers/iommu/intel/irq_remapping.c |   67 ++++++++++++------------------------
+ 1 file changed, 24 insertions(+), 43 deletions(-)
+
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -204,35 +204,40 @@ static int modify_irte(struct irq_2_iomm
+ 	return rc;
+ }
+ 
+-static struct intel_iommu *map_hpet_to_ir(u8 hpet_id)
++static struct irq_domain *map_hpet_to_ir(u8 hpet_id)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < MAX_HPET_TBS; i++)
++	for (i = 0; i < MAX_HPET_TBS; i++) {
+ 		if (ir_hpet[i].id == hpet_id && ir_hpet[i].iommu)
+-			return ir_hpet[i].iommu;
++			return ir_hpet[i].iommu->ir_domain;
++	}
+ 	return NULL;
+ }
+ 
+-static struct intel_iommu *map_ioapic_to_ir(int apic)
++static struct intel_iommu *map_ioapic_to_iommu(int apic)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < MAX_IO_APICS; i++)
++	for (i = 0; i < MAX_IO_APICS; i++) {
+ 		if (ir_ioapic[i].id == apic && ir_ioapic[i].iommu)
+ 			return ir_ioapic[i].iommu;
++	}
+ 	return NULL;
+ }
+ 
+-static struct intel_iommu *map_dev_to_ir(struct pci_dev *dev)
++static struct irq_domain *map_ioapic_to_ir(int apic)
+ {
+-	struct dmar_drhd_unit *drhd;
++	struct intel_iommu *iommu = map_ioapic_to_iommu(apic);
+ 
+-	drhd = dmar_find_matched_drhd_unit(dev);
+-	if (!drhd)
+-		return NULL;
++	return iommu ? iommu->ir_domain : NULL;
++}
++
++static struct irq_domain *map_dev_to_ir(struct pci_dev *dev)
++{
++	struct dmar_drhd_unit *drhd = dmar_find_matched_drhd_unit(dev);
+ 
+-	return drhd->iommu;
++	return drhd ? drhd->iommu->ir_msi_domain : NULL;
+ }
+ 
+ static int clear_entries(struct irq_2_iommu *irq_iommu)
+@@ -996,7 +1001,7 @@ static int __init parse_ioapics_under_ir
+ 
+ 	for (ioapic_idx = 0; ioapic_idx < nr_ioapics; ioapic_idx++) {
+ 		int ioapic_id = mpc_ioapic_id(ioapic_idx);
+-		if (!map_ioapic_to_ir(ioapic_id)) {
++		if (!map_ioapic_to_iommu(ioapic_id)) {
+ 			pr_err(FW_BUG "ioapic %d has no mapping iommu, "
+ 			       "interrupt remapping will be disabled\n",
+ 			       ioapic_id);
+@@ -1101,47 +1106,23 @@ static void prepare_irte(struct irte *ir
+ 	irte->redir_hint = 1;
+ }
+ 
+-static struct irq_domain *intel_get_ir_irq_domain(struct irq_alloc_info *info)
++static struct irq_domain *intel_get_irq_domain(struct irq_alloc_info *info)
+ {
+-	struct intel_iommu *iommu = NULL;
+-
+ 	if (!info)
+ 		return NULL;
+ 
+ 	switch (info->type) {
+ 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
+-		iommu = map_ioapic_to_ir(info->ioapic_id);
+-		break;
++		return map_ioapic_to_ir(info->ioapic_id);
+ 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
+-		iommu = map_hpet_to_ir(info->hpet_id);
+-		break;
+-	default:
+-		BUG_ON(1);
+-		break;
+-	}
+-
+-	return iommu ? iommu->ir_domain : NULL;
+-}
+-
+-static struct irq_domain *intel_get_irq_domain(struct irq_alloc_info *info)
+-{
+-	struct intel_iommu *iommu;
+-
+-	if (!info)
+-		return NULL;
+-
+-	switch (info->type) {
++		return map_hpet_to_ir(info->hpet_id);
+ 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
+ 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
+-		iommu = map_dev_to_ir(info->msi_dev);
+-		if (iommu)
+-			return iommu->ir_msi_domain;
+-		break;
++		return map_dev_to_ir(info->msi_dev);
+ 	default:
+-		break;
++		WARN_ON_ONCE(1);
++		return NULL;
+ 	}
+-
+-	return NULL;
+ }
+ 
+ struct irq_remap_ops intel_irq_remap_ops = {
+@@ -1150,7 +1131,7 @@ struct irq_remap_ops intel_irq_remap_ops
+ 	.disable		= disable_irq_remapping,
+ 	.reenable		= reenable_irq_remapping,
+ 	.enable_faulting	= enable_drhd_fault_handling,
+-	.get_ir_irq_domain	= intel_get_ir_irq_domain,
++	.get_ir_irq_domain	= intel_get_irq_domain,
+ 	.get_irq_domain		= intel_get_irq_domain,
+ };
+ 
+
 
