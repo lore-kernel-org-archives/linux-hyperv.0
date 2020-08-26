@@ -2,52 +2,49 @@ Return-Path: <SRS0=8BKv=CE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C64BC433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A538AC433DF
 	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16D9820786
+	by mail.kernel.org (Postfix) with ESMTP id 7FDB920786
 	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2s4c2y6v";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3q3l2bUB"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PTt2WU+p";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hYGth7cW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729776AbgHZMJX (ORCPT
+        id S1729804AbgHZMJW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:09:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35548 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729416AbgHZMBn (ORCPT
+        Wed, 26 Aug 2020 08:09:22 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58254 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729418AbgHZMBr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:43 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6860C061756;
-        Wed, 26 Aug 2020 05:01:42 -0700 (PDT)
-Message-Id: <20200826112334.305699301@linutronix.de>
+        Wed, 26 Aug 2020 08:01:47 -0400
+Message-Id: <20200826112334.586607694@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443301;
+        s=2020; t=1598443304;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=NwMc6HHKOuHFHcs9NWEQ/BqYaKGLdBqNmeOK/gzAh14=;
-        b=2s4c2y6vMTA/ieuCUb5qVuGjCDXggTJgYejSfg0lcfKJYt5P4jPML4GNoFJfltIsMgj9J/
-        VsYGggzk6sZLyaSo1vduT1Cs8ZCZJF+gcFI5TysO5jNKER7ArJbOJSsKrAYyuBkOukGuOb
-        FQ1uwyKinluUzGE5jmKOqJ1Nn3myMvav7uegmQbKQ00Jnr5lAPorFBwcH4owHKpC4eqmcQ
-        nTCtjB4ARME8/+Eka6y5gKr8nqGuy7LuhYt+7/6KtE/SFCe8bHEMYab4NG78feBGLj58qW
-        zNS4V06IzETi4o9ul8bZJDO9OOlWl4cILudMLmaIif3jM3lc5O0/X0iLtZvTvA==
+        bh=g7DHu3XlO4NZfG0CcnfSe2nwDNXDP3IAgVMt5hiACQA=;
+        b=PTt2WU+p6zfz7V88lwJVqTwKEg75IwWC26uLjCoB9s/z9UAd0TkEUOZ29RhZSGDO4s3LOi
+        bWPe6BJss0s4Ns1yLeFAgNOc5kWjLQw1+huLXBQRR9pOr6VS3DjkLaPR3gx695JvZFRGPN
+        En9NsVjd9FecoDtv0u4frlgP+v7D/t2xuKziRMpn9XqtIdL0sjURRpLET4mgv0udxEETYE
+        GaN+Qses8Rv474fclMJB//XWzf2HncjF0i5g/Qw7CjiFd5h0+jF8DG8xK5sIHAMdU5yrRE
+        vD0QCxdXrEKE65c7LfAR1Pxge+I/whZ4NQS8h5pH4PhABIuN8WTZGc60QxJZ2Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443301;
+        s=2020e; t=1598443304;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=NwMc6HHKOuHFHcs9NWEQ/BqYaKGLdBqNmeOK/gzAh14=;
-        b=3q3l2bUBLfdN8GkRZWgvhVoU0iSm0dsQYXjNUnttHUPTMWchNTEnImRkpz4neyKjFHiPYO
-        cgmpPnzdfvDOXADA==
-Date:   Wed, 26 Aug 2020 13:17:05 +0200
+        bh=g7DHu3XlO4NZfG0CcnfSe2nwDNXDP3IAgVMt5hiACQA=;
+        b=hYGth7cWR27j87vnhr4XR39L/vq8tfhYbawC3DI7EzPmHFEZUwzddGvwlgUEiukU3rRaF1
+        Tuq8dUB9v4Yo85Cw==
+Date:   Wed, 26 Aug 2020 13:17:08 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -78,7 +75,8 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 37/46] iommu/vt-d: Remove domain search for PCI/MSI[X]
+Subject: [patch V2 40/46] x86/msi: Rename and rework pci_msi_prepare() to
+ cover non-PCI MSI
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -88,26 +86,109 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Now that the domain can be retrieved through device::msi_domain the domain
-search for PCI_MSI[X] is not longer required. Remove it.
+From: Thomas Gleixner <tglx@linutronix.de>
+
+Rename it to x86_msi_prepare() and handle the allocation type setup
+depending on the device type.
+
+Add a new arch_msi_prepare define which will be utilized by the upcoming
+device MSI support. Define it to NULL if not provided by an architecture in
+the generic MSI header.
+
+One arch specific function for MSI support is truly enough.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
-V2: New patch
+V2: Polish subject line
 ---
- drivers/iommu/intel/irq_remapping.c |    3 ---
- 1 file changed, 3 deletions(-)
+ arch/x86/include/asm/msi.h          |    4 +++-
+ arch/x86/kernel/apic/msi.c          |   27 ++++++++++++++++++++-------
+ drivers/pci/controller/pci-hyperv.c |    2 +-
+ include/linux/msi.h                 |    4 ++++
+ 4 files changed, 28 insertions(+), 9 deletions(-)
 
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1132,9 +1132,6 @@ static struct irq_domain *intel_get_irq_
- 		return map_ioapic_to_ir(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
- 		return map_hpet_to_ir(info->devid);
--	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
--	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		return map_dev_to_ir(msi_desc_to_pci_dev(info->desc));
- 	default:
- 		WARN_ON_ONCE(1);
- 		return NULL;
+--- a/arch/x86/include/asm/msi.h
++++ b/arch/x86/include/asm/msi.h
+@@ -6,7 +6,9 @@
+ 
+ typedef struct irq_alloc_info msi_alloc_info_t;
+ 
+-int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
++int x86_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+ 		    msi_alloc_info_t *arg);
+ 
++#define arch_msi_prepare		x86_msi_prepare
++
+ #endif /* _ASM_X86_MSI_H */
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -181,26 +181,39 @@ static struct irq_chip pci_msi_controlle
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE,
+ };
+ 
+-int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
+-		    msi_alloc_info_t *arg)
++static void pci_msi_prepare(struct device *dev, msi_alloc_info_t *arg)
+ {
+-	struct pci_dev *pdev = to_pci_dev(dev);
+-	struct msi_desc *desc = first_pci_msi_entry(pdev);
++	struct msi_desc *desc = first_msi_entry(dev);
+ 
+-	init_irq_alloc_info(arg, NULL);
+ 	if (desc->msi_attrib.is_msix) {
+ 		arg->type = X86_IRQ_ALLOC_TYPE_PCI_MSIX;
+ 	} else {
+ 		arg->type = X86_IRQ_ALLOC_TYPE_PCI_MSI;
+ 		arg->flags |= X86_IRQ_ALLOC_CONTIGUOUS_VECTORS;
+ 	}
++}
++
++static void dev_msi_prepare(struct device *dev, msi_alloc_info_t *arg)
++{
++	arg->type = X86_IRQ_ALLOC_TYPE_DEV_MSI;
++}
++
++int x86_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
++		    msi_alloc_info_t *arg)
++{
++	init_irq_alloc_info(arg, NULL);
++
++	if (dev_is_pci(dev))
++		pci_msi_prepare(dev, arg);
++	else
++		dev_msi_prepare(dev, arg);
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(pci_msi_prepare);
++EXPORT_SYMBOL_GPL(x86_msi_prepare);
+ 
+ static struct msi_domain_ops pci_msi_domain_ops = {
+-	.msi_prepare	= pci_msi_prepare,
++	.msi_prepare	= x86_msi_prepare,
+ };
+ 
+ static struct msi_domain_info pci_msi_domain_info = {
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1532,7 +1532,7 @@ static struct irq_chip hv_msi_irq_chip =
+ };
+ 
+ static struct msi_domain_ops hv_msi_ops = {
+-	.msi_prepare	= pci_msi_prepare,
++	.msi_prepare	= arch_msi_prepare,
+ 	.msi_free	= hv_msi_free,
+ };
+ 
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -430,4 +430,8 @@ static inline struct irq_domain *pci_msi
+ }
+ #endif /* CONFIG_PCI_MSI_IRQ_DOMAIN */
+ 
++#ifndef arch_msi_prepare
++# define arch_msi_prepare	NULL
++#endif
++
+ #endif /* LINUX_MSI_H */
 
