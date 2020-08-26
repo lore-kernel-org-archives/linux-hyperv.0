@@ -2,49 +2,49 @@ Return-Path: <SRS0=8BKv=CE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27197C433DF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1308C433E3
 	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F374A2071E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A10CE20838
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="itgEGCH2";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jQX1nfcb"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DLCrWRXa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d/g1akpo"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729709AbgHZMOh (ORCPT
+        id S1729402AbgHZMOh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Wed, 26 Aug 2020 08:14:37 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:56968 "EHLO
+Received: from Galois.linutronix.de ([193.142.43.55]:57116 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729363AbgHZMBC (ORCPT
+        with ESMTP id S1729376AbgHZMBM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:02 -0400
-Message-Id: <20200826111628.794979401@linutronix.de>
+        Wed, 26 Aug 2020 08:01:12 -0400
+Message-Id: <20200826112331.047917603@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443255;
+        s=2020; t=1598443260;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=1dVHGWlVLKe8Qbq+hsxoxDKyLgFehj4bg/2iuhvz548=;
-        b=itgEGCH2EzpbaFlCSN0K2oYg5CLEFENc6q3co7bhBruz4euEviEZAzZO5a/j+gLiSTVNYi
-        3VbpDIuO0f71j8jusJl+pz8zfoOKAPxl0ZiBSKO8hAOHE2808wxZR4DLH3Q57bnO9gbygy
-        nN6nh3CZL2WeZyV2bc6JFQXFwgcf6kQcwSbeBBFXPbKGHX/DJCyUz5PXbE+gKlr/tIKFIL
-        8YRsRO1izHB+wsCmHWwcn/mtGfRA/AVPhXtma7nQ8VDHQ3EDaHY+FrrXT6fbPBAWXingVv
-        Ybpb3NGiWx9eomJIsuWMLmcM1uG5/+DDmvRMR/InX6WcXy8QMIcaoFMTKEZyhw==
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=aNA6imWCCycyDoE7I/LUogJu92HNj5sOKiAANrwrDhI=;
+        b=DLCrWRXadgrQCf4qFjiJ+39EHne5FXGzCP9hiodZy6C8kQ1/WBZONwRpITcKeNKBrD1AWK
+        rF/EG4OJ4JLSWL/HoTIqnPXKvoPYzGcme0j15L3eojvZ2bWAiS7Mtp6MC3bxVEb0cBOUC9
+        yg4BEsBD55+FiJ8p6JF3228cFuTpo4myNllLNfJ6Fh7oNyAQy3Eqj0+p/pwh4qFx+ZTFbN
+        X8rK+gsgw02K975GfmmssF7oLxWMt/bW4zGm2/v0gmC9AwwlH59Uhn5HEaoAcw83sZ1qnk
+        6UwasHDKTy053t1sugGUnbd9oxc0qCPpErEWb9QDItLE7iM7JBH4ygOMbYregw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443255;
+        s=2020e; t=1598443260;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=1dVHGWlVLKe8Qbq+hsxoxDKyLgFehj4bg/2iuhvz548=;
-        b=jQX1nfcbMl4rnDTp2/mDJdszSt8UAxcBp/X1rcZbQLBpuHBU67ldyCtMUmpEbCjrwlsJCm
-        LETm99a7F7lunACQ==
-Date:   Wed, 26 Aug 2020 13:16:28 +0200
+         content-transfer-encoding:content-transfer-encoding:  references:references;
+        bh=aNA6imWCCycyDoE7I/LUogJu92HNj5sOKiAANrwrDhI=;
+        b=d/g1akpo73oJHiKD3AFk+oXcaGgFtQKzORD6f4yN1CPu2he0HCayOxiJxkUBpk9OkfVzCq
+        JLPec94nQktRTKBQ==
+Date:   Wed, 26 Aug 2020 13:16:32 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,112 +75,110 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 00/46] x86, PCI, XEN, genirq ...: Prepare for device MSI
+Subject: [patch V2 04/46] genirq/chip: Use the first chip in
+ irq_chip_compose_msi_msg()
+References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8-bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-VGhpcyBpcyB0aGUgc2Vjb25kIHZlcnNpb24gb2YgcHJvdmlkaW5nIGEgYmFzZSB0byBzdXBwb3J0
-IGRldmljZSBNU0kgKG5vbgpQQ0kgYmFzZWQpIGFuZCBvbiB0b3Agb2YgdGhhdCBzdXBwb3J0IGZv
-ciBJTVMgKEludGVycnVwdCBNZXNzYWdlIFN0b3JtKQpiYXNlZCBkZXZpY2VzIGluIGEgaGFsZndh
-eXMgYXJjaGl0ZWN0dXJlIGluZGVwZW5kZW50IHdheS4KClRoZSBmaXJzdCB2ZXJzaW9uIGNhbiBi
-ZSBmb3VuZCBoZXJlOgoKICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMDA4MjEwMDI0
-MjQuMTE5NDkyMjMxQGxpbnV0cm9uaXguZGUKCkl0J3Mgc3RpbGwgYSBtaXhlZCBiYWcgb2YgYnVn
-IGZpeGVzLCBjbGVhbnVwcyBhbmQgZ2VuZXJhbCBpbXByb3ZlbWVudHMKd2hpY2ggYXJlIHdvcnRo
-d2hpbGUgaW5kZXBlbmRlbnQgb2YgZGV2aWNlIE1TSS4KClRoZXJlIGFyZSBxdWl0ZSBhIGJ1bmNo
-IG9mIGlzc3VlcyB0byBzb2x2ZToKCiAgLSBYODYgZG9lcyBub3QgdXNlIHRoZSBkZXZpY2U6Om1z
-aV9kb21haW4gcG9pbnRlciBmb3IgaGlzdG9yaWNhbCByZWFzb25zCiAgICBhbmQgZHVlIHRvIFhF
-Tiwgd2hpY2ggbWFrZXMgaXQgaW1wb3NzaWJsZSB0byBjcmVhdGUgYW4gYXJjaGl0ZWN0dXJlCiAg
-ICBhZ25vc3RpYyBkZXZpY2UgTVNJIGluZnJhc3RydWN0dXJlLgoKICAtIFg4NiBoYXMgaXQncyBv
-d24gbXNpX2FsbG9jX2luZm8gZGF0YSB0eXBlIHdoaWNoIGlzIHBvaW50bGVzc2x5CiAgICBkaWZm
-ZXJlbnQgZnJvbSB0aGUgZ2VuZXJpYyB2ZXJzaW9uIGFuZCBkb2VzIG5vdCBhbGxvdyB0byBzaGFy
-ZSBjb2RlLgoKICAtIFRoZSBsb2dpYyBvZiBjb21wb3NpbmcgTVNJIG1lc3NhZ2VzIGluIGFuIGhp
-ZXJhcmNoeSBpcyBidXN0ZWQgYXQgdGhlCiAgICBjb3JlIGxldmVsIGFuZCBvZiBjb3Vyc2Ugc29t
-ZSAoeDg2KSBkcml2ZXJzIGRlcGVuZCBvbiB0aGF0LgoKICAtIEEgZmV3IG1pbm9yIHNob3J0Y29t
-aW5ncyBhcyB1c3VhbAoKVGhpcyBzZXJpZXMgYWRkcmVzc2VzIHRoYXQgaW4gc2V2ZXJhbCBzdGVw
-czoKCiAxKSBBY2NpZGVudGFsIGJ1ZyBmaXhlcwoKICAgICAgaW9tbXUvYW1kOiBQcmV2ZW50IE5V
-TEwgcG9pbnRlciBkZXJlZmVyZW5jZQoKIDIpIEphbml0b3JpbmcKCiAgICAgIHg4Ni9pbml0OiBS
-ZW1vdmUgdW51c2VkIGluaXQgb3BzCiAgICAgIFBDSTogdm1kOiBEb250IGFidXNlIHZlY3RvciBp
-cnFvbWFpbiBhcyBwYXJlbnQKICAgICAgeDg2L21zaTogUmVtb3ZlIHBvaW50bGVzcyB2Y3B1X2Fm
-ZmluaXR5IGNhbGxiYWNrCgogMykgU2FuaXRpemluZyB0aGUgY29tcG9zaXRpb24gb2YgTVNJIG1l
-c3NhZ2VzIGluIGEgaGllcmFyY2h5CiAKICAgICAgZ2VuaXJxL2NoaXA6IFVzZSB0aGUgZmlyc3Qg
-Y2hpcCBpbiBpcnFfY2hpcF9jb21wb3NlX21zaV9tc2coKQogICAgICB4ODYvbXNpOiBNb3ZlIGNv
-bXBvc2UgbWVzc2FnZSBjYWxsYmFjayB3aGVyZSBpdCBiZWxvbmdzCgogNCkgU2ltcGxpZmljYXRp
-b24gb2YgdGhlIHg4NiBzcGVjaWZpYyBpbnRlcnJ1cHQgYWxsb2NhdGlvbiBtZWNoYW5pc20KCiAg
-ICAgIHg4Ni9pcnE6IFJlbmFtZSBYODZfSVJRX0FMTE9DX1RZUEVfTVNJKiB0byByZWZsZWN0IFBD
-SSBkZXBlbmRlbmN5CiAgICAgIHg4Ni9pcnE6IEFkZCBhbGxvY2F0aW9uIHR5cGUgZm9yIHBhcmVu
-dCBkb21haW4gcmV0cmlldmFsCiAgICAgIGlvbW11L3Z0LWQ6IENvbnNvbGlkYXRlIGlycSBkb21h
-aW4gZ2V0dGVyCiAgICAgIGlvbW11L2FtZDogQ29uc29saWRhdGUgaXJxIGRvbWFpbiBnZXR0ZXIK
-ICAgICAgaW9tbXUvaXJxX3JlbWFwcGluZzogQ29uc29saWRhdGUgaXJxIGRvbWFpbiBsb29rdXAK
-CiA1KSBDb25zb2xpZGF0aW9uIG9mIHRoZSBYODYgc3BlY2lmaWMgaW50ZXJydXB0IGFsbG9jYXRp
-b24gbWVjaGFuaXNtIHRvIGJlIGFzIGNsb3NlCiAgICBhcyBwb3NzaWJsZSB0byB0aGUgZ2VuZXJp
-YyBNU0kgYWxsb2NhdGlvbiBtZWNoYW5pc20gd2hpY2ggYWxsb3dzIHRvIGdldCByaWQKICAgIG9m
-IHF1aXRlIGEgYnVuY2ggb2YgeDg2J2lzbXMgd2hpY2ggYXJlIHBvaW50bGVzcwoKICAgICAgeDg2
-L2lycTogUHJlcGFyZSBjb25zb2xpZGF0aW9uIG9mIGlycV9hbGxvY19pbmZvCiAgICAgIHg4Ni9t
-c2k6IENvbnNvbGlkYXRlIEhQRVQgYWxsb2NhdGlvbgogICAgICB4ODYvaW9hcGljOiBDb25zb2xp
-ZGF0ZSBJT0FQSUMgYWxsb2NhdGlvbgogICAgICB4ODYvaXJxOiBDb25zb2xpZGF0ZSBETUFSIGly
-cSBhbGxvY2F0aW9uCiAgICAgIHg4Ni9pcnE6IENvbnNvbGlkYXRlIFVWIGRvbWFpbiBhbGxvY2F0
-aW9uCiAgICAgIFBDSS9NU0k6IFJld29yayBwY2lfbXNpX2RvbWFpbl9jYWxjX2h3aXJxKCkKICAg
-ICAgeDg2L21zaTogQ29uc29saWRhdGUgTVNJIGFsbG9jYXRpb24KICAgICAgeDg2L21zaTogVXNl
-IGdlbmVyaWMgTVNJIGRvbWFpbiBvcHMKCiAgNikgeDg2IHNwZWNpZmljIGNsZWFudXBzIHRvIHJl
-bW92ZSB0aGUgZGVwZW5kZW5jeSBvbiBhcmNoXypfbXNpX2lycXMoKQoKICAgICAgeDg2L2lycTog
-TW92ZSBhcGljX3Bvc3RfaW5pdCgpIGludm9jYXRpb24gdG8gb25lIHBsYWNlCiAgICAgIHg4Ni9w
-Y2k6IFJlZHVjZGUgI2lmZGVmZmVyeSBpbiBQQ0kgaW5pdCBjb2RlCiAgICAgIHg4Ni9pcnE6IElu
-aXRpYWxpemUgUENJL01TSSBkb21haW4gYXQgUENJIGluaXQgdGltZQogICAgICBpcnFkb21haW4v
-bXNpOiBQcm92aWRlIERPTUFJTl9CVVNfVk1EX01TSQogICAgICBQQ0k6IHZtZDogTWFyayBWTUQg
-aXJxZG9tYWluIHdpdGggRE9NQUlOX0JVU19WTURfTVNJCiAgICAgIFBDSS9NU0k6IFByb3ZpZGUg
-cGNpX2Rldl9oYXNfc3BlY2lhbF9tc2lfZG9tYWluKCkgaGVscGVyCiAgICAgIHg4Ni94ZW46IE1h
-a2UgeGVuX21zaV9pbml0KCkgc3RhdGljIGFuZCByZW5hbWUgaXQgdG8geGVuX2h2bV9tc2lfaW5p
-dCgpCiAgICAgIHg4Ni94ZW46IFJld29yayBNU0kgdGVhcmRvd24KICAgICAgeDg2L3hlbjogQ29u
-c29saWRhdGUgWEVOLU1TSSBpbml0CiAgICAgIGlycWRvbWFpbi9tc2k6IEFsbG93IHRvIG92ZXJy
-aWRlIG1zaV9kb21haW5fYWxsb2MvZnJlZV9pcnFzKCkKICAgICAgeDg2L3hlbjogV3JhcCBYRU4g
-TVNJIG1hbmFnZW1lbnQgaW50byBpcnFkb21haW4KICAgICAgaW9tbW0vdnQtZDogU3RvcmUgaXJx
-IGRvbWFpbiBpbiBzdHJ1Y3QgZGV2aWNlCiAgICAgIGlvbW1tL2FtZDogU3RvcmUgaXJxIGRvbWFp
-biBpbiBzdHJ1Y3QgZGV2aWNlCiAgICAgIHg4Ni9wY2k6IFNldCBkZWZhdWx0IGlycSBkb21haW4g
-aW4gcGNpYmlvc19hZGRfZGV2aWNlKCkKICAgICAgUENJL01TSTogTWFrZSBhcmNoXy4qX21zaV9p
-cnFbc10gZmFsbGJhY2tzIHNlbGVjdGFibGUKICAgICAgeDg2L2lycTogQ2xlYW51cCB0aGUgYXJj
-aF8qX21zaV9pcnFzKCkgbGVmdG92ZXJzCiAgICAgIHg4Ni9pcnE6IE1ha2UgbW9zdCBNU0kgb3Bz
-IFhFTiBwcml2YXRlCiAgICAgIGlvbW11L3Z0LWQ6IFJlbW92ZSBkb21haW4gc2VhcmNoIGZvciBQ
-Q0kvTVNJW1hdCiAgICAgIGlvbW11L2FtZDogUmVtb3ZlIGRvbWFpbiBzZWFyY2ggZm9yIFBDSS9N
-U0kKCiAgNykgWDg2IHNwZWNpZmljIHByZXBhcmF0aW9uIGZvciBkZXZpY2UgTVNJCgogICAgICB4
-ODYvaXJxOiBBZGQgREVWX01TSSBhbGxvY2F0aW9uIHR5cGUKICAgICAgeDg2L21zaTogUmVuYW1l
-IGFuZCByZXdvcmsgcGNpX21zaV9wcmVwYXJlKCkgdG8gY292ZXIgbm9uLVBDSSBNU0kKCiAgOCkg
-R2VuZXJpYyBkZXZpY2UgTVNJIGluZnJhc3RydWN0dXJlCiAgICAgIHBsYXRmb3JtLW1zaTogUHJv
-dmlkZSBkZWZhdWx0IGlycV9jaGlwOjogQWNrCiAgICAgIGdlbmlycS9wcm9jOiBUYWtlIGJ1c2xv
-Y2sgb24gYWZmaW5pdHkgd3JpdGUKICAgICAgZ2VuaXJxL21zaTogUHJvdmlkZSBhbmQgdXNlIG1z
-aV9kb21haW5fc2V0X2RlZmF1bHRfaW5mb19mbGFncygpCiAgICAgIHBsYXRmb3JtLW1zaTogQWRk
-IGRldmljZSBNU0kgaW5mcmFzdHJ1Y3R1cmUKICAgICAgaXJxZG9tYWluL21zaTogUHJvdmlkZSBt
-c2lfYWxsb2MvZnJlZV9zdG9yZSgpIGNhbGxiYWNrcwoKICA5KSBQT0Mgb2YgSU1TIChJbnRlcnJ1
-cHQgTWVzc2FnZSBTdG9ybSkgaXJxIGRvbWFpbiBhbmQgaXJxY2hpcAogICAgIGltcGxlbWVudGF0
-aW9ucyBmb3IgYm90aCBkZXZpY2UgYXJyYXkgYW5kIHF1ZXVlIHN0b3JhZ2UuCgogICAgICBpcnFj
-aGlwOiBBZGQgSU1TIChJbnRlcnJ1cHQgTWVzc2FnZSBTdG9ybSkgZHJpdmVyIC0gTk9UIEZPUiBN
-RVJHSU5HCgpDaGFuZ2VzIHZzLiBWMToKCiAgIC0gQWRkcmVzc2VkIHZhcmlvdXMgcmV2aWV3IGNv
-bW1lbnRzIGFuZCBhZGRyZXNzZWQgdGhlIDBkYXkgZmFsbG91dC4KICAgICAtIENvcnJlY3RlZCB0
-aGUgWEVOIGxvZ2ljIChKw7xyZ2VuKQogICAgIC0gTWFrZSB0aGUgYXJjaCBmYWxsYmFjayBpbiBQ
-Q0kvTVNJIG9wdC1pbiBub3Qgb3B0LW91dCAoQmpvcm4pCgogICAtIEZpeGVkIHRoZSBjb21wb3Nl
-IE1TSSBtZXNzYWdlIGluY29uc2lzdGVuY3kKCiAgIC0gRW5zdXJlIHRoYXQgdGhlIG5lY2Vzc2Fy
-eSBmbGFncyBhcmUgc2V0IGZvciBkZXZpY2UgU01JCgogICAtIE1ha2UgdGhlIGlycSBidXMgbG9n
-aWMgd29yayBmb3IgYWZmaW5pdHkgc2V0dGluZyB0byBwcmVwYXJlCiAgICAgc3VwcG9ydCBmb3Ig
-SU1TIHN0b3JhZ2UgaW4gcXVldWUgbWVtb3J5LiBJdCB0dXJuZWQgb3V0IHRvIGJlCiAgICAgbGVz
-cyBzY2FyeSB0aGFuIEkgZmVhcmVkLgoKICAgLSBSZW1vdmUgbGVmdG92ZXJzIGluIGlvbW11L2lu
-dGVsfGFtZAoKICAgLSBSZXdvcmtlZCB0aGUgSU1TIFBPQyBkcml2ZXIgdG8gY292ZXIgcXVldWUg
-c3RvcmFnZSBzbyBKYXNvbiBjYW4gaGF2ZSBhCiAgICAgbG9vayB3aGV0aGVyIHRoYXQgZml0cyB0
-aGUgbmVlZHMgb2YgTUxYIGRldmljZXMuCgpUaGUgd2hvbGUgbG90IGlzIGFsc28gYXZhaWxhYmxl
-IGZyb20gZ2l0OgoKICAgZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
-Z2l0L3RnbHgvZGV2ZWwuZ2l0IGRldmljZS1tc2kKClRoaXMgaGFzIGJlZW4gdGVzdGVkIG9uIElu
-dGVsL0FNRC9LVk0gYnV0IGxhY2tzIHRlc3Rpbmcgb246CgogICAgLSBIWVBFUlYgKC1FTk9ERVYp
-CiAgICAtIFZNRCBlbmFibGVkIHN5c3RlbXMgKC1FTk9ERVYpCiAgICAtIFhFTiAoLUVOT0NMVUUp
-CiAgICAtIElNUyAoLUVOT0RFVikKCiAgICAtIEFueSBub24tWDg2IGNvZGUgd2hpY2ggbWlnaHQg
-ZGVwZW5kIG9uIHRoZSBicm9rZW4gY29tcG9zZSBNU0kgbWVzc2FnZQogICAgICBsb2dpYy4gTWFy
-YyBleGNwZWN0cyBub3QgbXVjaCBmYWxsb3V0LCBidXQgYWdyZWVzIHRoYXQgd2UgbmVlZCB0byBm
-aXgKICAgICAgaXQgYW55d2F5LgoKIzEgLSAjMyBzaG91bGQgYmUgYXBwbGllZCB1bmNvbmRpdGlv
-bmFsbHkgZm9yIG9idmlvdXMgcmVhc29ucwojNCAtICM2IGFyZSB3b3J0d2hpbGUgY2xlYW51cHMg
-d2hpY2ggc2hvdWxkIGJlIGRvbmUgaW5kZXBlbmRlbnQgb2YgZGV2aWNlIE1TSQoKIzcgLSAjOCBs
-b29rIHByb21pc2luZyB0byBjbGVhbnVwIHRoZSBwbGF0Zm9ybSBNU0kgaW1wbGVtZW50YXRpb24K
-ICAgICAJaW5kZXBlbmRlbnQgb2YgIzgsIGJ1dCBJIG5laXRoZXIgaGFkIGN5Y2xlcyBub3IgdGhl
-IHN0b21hY2ggdG8KICAgICAJdGFja2xlIHRoYXQuCgojOQlpcyBvYnZpb3VzbHkganVzdCBmb3Ig
-dGhlIGZvbGtzIGludGVyZXN0ZWQgaW4gSU1TCgpUaGFua3MsCgoJdGdseAo=
+The documentation of irq_chip_compose_msi_msg() claims that with
+hierarchical irq domains the first chip in the hierarchy which has an
+irq_compose_msi_msg() callback is chosen. But the code just keeps
+iterating after it finds a chip with a compose callback.
+
+The x86 HPET MSI implementation relies on that behaviour, but that does not
+make it more correct.
+
+The message should always be composed at the domain which manages the
+underlying resource (e.g. APIC or remap table) because that domain knows
+about the required layout of the message.
+
+On X86 the following hierarchies exist:
+
+1)   vector -------- PCI/MSI
+2)   vector -- IR -- PCI/MSI
+
+The vector domain has a different message format than the IR (remapping)
+domain. So obviously the PCI/MSI domain can't compose the message without
+having knowledge about the parent domain, which is exactly the opposite of
+what hierarchical domains want to achieve.
+
+X86 actually has two different PCI/MSI chips where #1 has a compose
+callback and #2 does not. #2 delegates the composition to the remap domain
+where it belongs, but #1 does it at the PCI/MSI level.
+
+For the upcoming device MSI support it's necessary to change this and just
+let the first domain which can compose the message take care of it. That
+way the top level chip does not have to worry about it and the device MSI
+code does not need special knowledge about topologies. It just sets the
+compose callback to NULL and lets the hierarchy pick the first chip which
+has one.
+
+Due to that the attempt to move the compose callback from the direct
+delivery PCI/MSI domain to the vector domain made the system fail to boot
+with interrupt remapping enabled because in the remapping case
+irq_chip_compose_msi_msg() keeps iterating and choses the compose callback
+of the vector domain which obviously creates the wrong format for the remap
+table.
+
+Break out of the loop when the first irq chip with a compose callback is
+found and fixup the HPET code temporarily. That workaround will be removed
+once the direct delivery compose callback is moved to the place where it
+belongs in the vector domain.
+
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+V2: New patch. Note, that this might break other stuff which relies on the
+    current behaviour, but the hierarchy composition of DT based chips is
+    really hard to follow.
+---
+ arch/x86/kernel/apic/msi.c |    7 +++++--
+ kernel/irq/chip.c          |   12 +++++++++---
+ 2 files changed, 14 insertions(+), 5 deletions(-)
+
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -479,10 +479,13 @@ struct irq_domain *hpet_create_irq_domai
+ 	info.type = X86_IRQ_ALLOC_TYPE_HPET;
+ 	info.hpet_id = hpet_id;
+ 	parent = irq_remapping_get_ir_irq_domain(&info);
+-	if (parent == NULL)
++	if (parent == NULL) {
+ 		parent = x86_vector_domain;
+-	else
++	} else {
+ 		hpet_msi_controller.name = "IR-HPET-MSI";
++		/* Temporary fix: Will go away */
++		hpet_msi_controller.irq_compose_msi_msg = NULL;
++	}
+ 
+ 	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
+ 					      hpet_id);
+--- a/kernel/irq/chip.c
++++ b/kernel/irq/chip.c
+@@ -1544,10 +1544,16 @@ int irq_chip_compose_msi_msg(struct irq_
+ 	struct irq_data *pos = NULL;
+ 
+ #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
+-	for (; data; data = data->parent_data)
+-#endif
+-		if (data->chip && data->chip->irq_compose_msi_msg)
++	for (; data; data = data->parent_data) {
++		if (data->chip && data->chip->irq_compose_msi_msg) {
+ 			pos = data;
++			break;
++		}
++	}
++#else
++	if (data->chip && data->chip->irq_compose_msi_msg)
++		pos = data;
++#endif
+ 	if (!pos)
+ 		return -ENOSYS;
+ 
+
