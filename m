@@ -2,49 +2,49 @@ Return-Path: <SRS0=8BKv=CE=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F49BC433E3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27197C433DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 331572071E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F374A2071E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bi6ae+Qa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="poejXw+K"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="itgEGCH2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jQX1nfcb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729971AbgHZMNg (ORCPT
+        id S1729709AbgHZMOh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:13:36 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57672 "EHLO
+        Wed, 26 Aug 2020 08:14:37 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:56968 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729383AbgHZMB0 (ORCPT
+        with ESMTP id S1729363AbgHZMBC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:26 -0400
-Message-Id: <20200826112332.054367732@linutronix.de>
+        Wed, 26 Aug 2020 08:01:02 -0400
+Message-Id: <20200826111628.794979401@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443272;
+        s=2020; t=1598443255;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=q9vSKDrOqohKYkNeLD6ODziVu1rzRk8Arbz67bnnio8=;
-        b=bi6ae+QaPxPwTrkC1XzSaha+eHYyP2bT20czS0jsMguEfISjmf7otsqdVqgibsvsA2E8Gi
-        f0bEiZRTPd152XFHWBab3KVNwmR5YczoVSx6DATUtsoG1C07Ew3uwLbIVh92dQeq66Ae5Q
-        usD1zAy7oF5SKhR4yVPmk9ncqhZSXsdQN0mm7CyFX7kpdPU8O3X8QYtIW6cRJdDC+o+/Xl
-        BE+ZwLKKeh2SrxoooymsRG9jncvLloS9a3oQnCDgNUWXyeTywZng5RXX2lMKJop4wllLs/
-        ECDidwRGwbayVE6MmFkmM+NCBBBcTaldxWv3bUe7hwV6fT+6VD42q6GWgL/4Qg==
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1dVHGWlVLKe8Qbq+hsxoxDKyLgFehj4bg/2iuhvz548=;
+        b=itgEGCH2EzpbaFlCSN0K2oYg5CLEFENc6q3co7bhBruz4euEviEZAzZO5a/j+gLiSTVNYi
+        3VbpDIuO0f71j8jusJl+pz8zfoOKAPxl0ZiBSKO8hAOHE2808wxZR4DLH3Q57bnO9gbygy
+        nN6nh3CZL2WeZyV2bc6JFQXFwgcf6kQcwSbeBBFXPbKGHX/DJCyUz5PXbE+gKlr/tIKFIL
+        8YRsRO1izHB+wsCmHWwcn/mtGfRA/AVPhXtma7nQ8VDHQ3EDaHY+FrrXT6fbPBAWXingVv
+        Ybpb3NGiWx9eomJIsuWMLmcM1uG5/+DDmvRMR/InX6WcXy8QMIcaoFMTKEZyhw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443272;
+        s=2020e; t=1598443255;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=q9vSKDrOqohKYkNeLD6ODziVu1rzRk8Arbz67bnnio8=;
-        b=poejXw+KTzJSfgaTLN9lf9WY/x0Tlcm1yHRKEe8PkTFY1cihmFuUVWATYb8SwgzTqADr7p
-        b5I+PHy14NPpNtDQ==
-Date:   Wed, 26 Aug 2020 13:16:42 +0200
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1dVHGWlVLKe8Qbq+hsxoxDKyLgFehj4bg/2iuhvz548=;
+        b=jQX1nfcbMl4rnDTp2/mDJdszSt8UAxcBp/X1rcZbQLBpuHBU67ldyCtMUmpEbCjrwlsJCm
+        LETm99a7F7lunACQ==
+Date:   Wed, 26 Aug 2020 13:16:28 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,361 +75,112 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 14/46] x86/ioapic: Consolidate IOAPIC allocation
-References: <20200826111628.794979401@linutronix.de>
+Subject: [patch V2 00/46] x86, PCI, XEN, genirq ...: Prepare for device MSI
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8-bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
-
-Move the IOAPIC specific fields into their own struct and reuse the common
-devid. Get rid of the #ifdeffery as it does not matter at all whether the
-alloc info is a couple of bytes longer or not.
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
----
- arch/x86/include/asm/hw_irq.h       |   23 ++++++-----
- arch/x86/kernel/apic/io_apic.c      |   70 ++++++++++++++++++------------------
- arch/x86/kernel/devicetree.c        |    4 +-
- drivers/iommu/amd/iommu.c           |   14 +++----
- drivers/iommu/hyperv-iommu.c        |    2 -
- drivers/iommu/intel/irq_remapping.c |   18 ++++-----
- 6 files changed, 66 insertions(+), 65 deletions(-)
-
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -44,6 +44,15 @@ enum irq_alloc_type {
- 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
- };
- 
-+struct ioapic_alloc_info {
-+	int				pin;
-+	int				node;
-+	u32				trigger : 1;
-+	u32				polarity : 1;
-+	u32				valid : 1;
-+	struct IO_APIC_route_entry	*entry;
-+};
-+
- /**
-  * irq_alloc_info - X86 specific interrupt allocation info
-  * @type:	X86 specific allocation type
-@@ -53,6 +62,8 @@ enum irq_alloc_type {
-  * @mask:	CPU mask for vector allocation
-  * @desc:	Pointer to msi descriptor
-  * @data:	Allocation specific data
-+ *
-+ * @ioapic:	IOAPIC specific allocation data
-  */
- struct irq_alloc_info {
- 	enum irq_alloc_type	type;
-@@ -64,6 +75,7 @@ struct irq_alloc_info {
- 	void			*data;
- 
- 	union {
-+		struct ioapic_alloc_info	ioapic;
- 		int		unused;
- #ifdef	CONFIG_PCI_MSI
- 		struct {
-@@ -71,17 +83,6 @@ struct irq_alloc_info {
- 			irq_hw_number_t	msi_hwirq;
- 		};
- #endif
--#ifdef	CONFIG_X86_IO_APIC
--		struct {
--			int		ioapic_id;
--			int		ioapic_pin;
--			int		ioapic_node;
--			u32		ioapic_trigger : 1;
--			u32		ioapic_polarity : 1;
--			u32		ioapic_valid : 1;
--			struct IO_APIC_route_entry *ioapic_entry;
--		};
--#endif
- #ifdef	CONFIG_DMAR_TABLE
- 		struct {
- 			int		dmar_id;
---- a/arch/x86/kernel/apic/io_apic.c
-+++ b/arch/x86/kernel/apic/io_apic.c
-@@ -860,10 +860,10 @@ void ioapic_set_alloc_attr(struct irq_al
- {
- 	init_irq_alloc_info(info, NULL);
- 	info->type = X86_IRQ_ALLOC_TYPE_IOAPIC;
--	info->ioapic_node = node;
--	info->ioapic_trigger = trigger;
--	info->ioapic_polarity = polarity;
--	info->ioapic_valid = 1;
-+	info->ioapic.node = node;
-+	info->ioapic.trigger = trigger;
-+	info->ioapic.polarity = polarity;
-+	info->ioapic.valid = 1;
- }
- 
- #ifndef CONFIG_ACPI
-@@ -878,32 +878,32 @@ static void ioapic_copy_alloc_attr(struc
- 
- 	copy_irq_alloc_info(dst, src);
- 	dst->type = X86_IRQ_ALLOC_TYPE_IOAPIC;
--	dst->ioapic_id = mpc_ioapic_id(ioapic_idx);
--	dst->ioapic_pin = pin;
--	dst->ioapic_valid = 1;
--	if (src && src->ioapic_valid) {
--		dst->ioapic_node = src->ioapic_node;
--		dst->ioapic_trigger = src->ioapic_trigger;
--		dst->ioapic_polarity = src->ioapic_polarity;
-+	dst->devid = mpc_ioapic_id(ioapic_idx);
-+	dst->ioapic.pin = pin;
-+	dst->ioapic.valid = 1;
-+	if (src && src->ioapic.valid) {
-+		dst->ioapic.node = src->ioapic.node;
-+		dst->ioapic.trigger = src->ioapic.trigger;
-+		dst->ioapic.polarity = src->ioapic.polarity;
- 	} else {
--		dst->ioapic_node = NUMA_NO_NODE;
-+		dst->ioapic.node = NUMA_NO_NODE;
- 		if (acpi_get_override_irq(gsi, &trigger, &polarity) >= 0) {
--			dst->ioapic_trigger = trigger;
--			dst->ioapic_polarity = polarity;
-+			dst->ioapic.trigger = trigger;
-+			dst->ioapic.polarity = polarity;
- 		} else {
- 			/*
- 			 * PCI interrupts are always active low level
- 			 * triggered.
- 			 */
--			dst->ioapic_trigger = IOAPIC_LEVEL;
--			dst->ioapic_polarity = IOAPIC_POL_LOW;
-+			dst->ioapic.trigger = IOAPIC_LEVEL;
-+			dst->ioapic.polarity = IOAPIC_POL_LOW;
- 		}
- 	}
- }
- 
- static int ioapic_alloc_attr_node(struct irq_alloc_info *info)
- {
--	return (info && info->ioapic_valid) ? info->ioapic_node : NUMA_NO_NODE;
-+	return (info && info->ioapic.valid) ? info->ioapic.node : NUMA_NO_NODE;
- }
- 
- static void mp_register_handler(unsigned int irq, unsigned long trigger)
-@@ -933,14 +933,14 @@ static bool mp_check_pin_attr(int irq, s
- 	 * pin with real trigger and polarity attributes.
- 	 */
- 	if (irq < nr_legacy_irqs() && data->count == 1) {
--		if (info->ioapic_trigger != data->trigger)
--			mp_register_handler(irq, info->ioapic_trigger);
--		data->entry.trigger = data->trigger = info->ioapic_trigger;
--		data->entry.polarity = data->polarity = info->ioapic_polarity;
-+		if (info->ioapic.trigger != data->trigger)
-+			mp_register_handler(irq, info->ioapic.trigger);
-+		data->entry.trigger = data->trigger = info->ioapic.trigger;
-+		data->entry.polarity = data->polarity = info->ioapic.polarity;
- 	}
- 
--	return data->trigger == info->ioapic_trigger &&
--	       data->polarity == info->ioapic_polarity;
-+	return data->trigger == info->ioapic.trigger &&
-+	       data->polarity == info->ioapic.polarity;
- }
- 
- static int alloc_irq_from_domain(struct irq_domain *domain, int ioapic, u32 gsi,
-@@ -1002,7 +1002,7 @@ static int alloc_isa_irq_from_domain(str
- 		if (!mp_check_pin_attr(irq, info))
- 			return -EBUSY;
- 		if (__add_pin_to_irq_node(irq_data->chip_data, node, ioapic,
--					  info->ioapic_pin))
-+					  info->ioapic.pin))
- 			return -ENOMEM;
- 	} else {
- 		info->flags |= X86_IRQ_ALLOC_LEGACY;
-@@ -2092,8 +2092,8 @@ static int mp_alloc_timer_irq(int ioapic
- 		struct irq_alloc_info info;
- 
- 		ioapic_set_alloc_attr(&info, NUMA_NO_NODE, 0, 0);
--		info.ioapic_id = mpc_ioapic_id(ioapic);
--		info.ioapic_pin = pin;
-+		info.devid = mpc_ioapic_id(ioapic);
-+		info.ioapic.pin = pin;
- 		mutex_lock(&ioapic_mutex);
- 		irq = alloc_isa_irq_from_domain(domain, 0, ioapic, pin, &info);
- 		mutex_unlock(&ioapic_mutex);
-@@ -2297,7 +2297,7 @@ static int mp_irqdomain_create(int ioapi
- 
- 	init_irq_alloc_info(&info, NULL);
- 	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT;
--	info.ioapic_id = mpc_ioapic_id(ioapic);
-+	info.devid = mpc_ioapic_id(ioapic);
- 	parent = irq_remapping_get_irq_domain(&info);
- 	if (!parent)
- 		parent = x86_vector_domain;
-@@ -2932,9 +2932,9 @@ int mp_ioapic_registered(u32 gsi_base)
- static void mp_irqdomain_get_attr(u32 gsi, struct mp_chip_data *data,
- 				  struct irq_alloc_info *info)
- {
--	if (info && info->ioapic_valid) {
--		data->trigger = info->ioapic_trigger;
--		data->polarity = info->ioapic_polarity;
-+	if (info && info->ioapic.valid) {
-+		data->trigger = info->ioapic.trigger;
-+		data->polarity = info->ioapic.polarity;
- 	} else if (acpi_get_override_irq(gsi, &data->trigger,
- 					 &data->polarity) < 0) {
- 		/* PCI interrupts are always active low level triggered. */
-@@ -2980,7 +2980,7 @@ int mp_irqdomain_alloc(struct irq_domain
- 		return -EINVAL;
- 
- 	ioapic = mp_irqdomain_ioapic_idx(domain);
--	pin = info->ioapic_pin;
-+	pin = info->ioapic.pin;
- 	if (irq_find_mapping(domain, (irq_hw_number_t)pin) > 0)
- 		return -EEXIST;
- 
-@@ -2988,7 +2988,7 @@ int mp_irqdomain_alloc(struct irq_domain
- 	if (!data)
- 		return -ENOMEM;
- 
--	info->ioapic_entry = &data->entry;
-+	info->ioapic.entry = &data->entry;
- 	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, info);
- 	if (ret < 0) {
- 		kfree(data);
-@@ -2996,7 +2996,7 @@ int mp_irqdomain_alloc(struct irq_domain
- 	}
- 
- 	INIT_LIST_HEAD(&data->irq_2_pin);
--	irq_data->hwirq = info->ioapic_pin;
-+	irq_data->hwirq = info->ioapic.pin;
- 	irq_data->chip = (domain->parent == x86_vector_domain) ?
- 			  &ioapic_chip : &ioapic_ir_chip;
- 	irq_data->chip_data = data;
-@@ -3006,8 +3006,8 @@ int mp_irqdomain_alloc(struct irq_domain
- 	add_pin_to_irq_node(data, ioapic_alloc_attr_node(info), ioapic, pin);
- 
- 	local_irq_save(flags);
--	if (info->ioapic_entry)
--		mp_setup_entry(cfg, data, info->ioapic_entry);
-+	if (info->ioapic.entry)
-+		mp_setup_entry(cfg, data, info->ioapic.entry);
- 	mp_register_handler(virq, data->trigger);
- 	if (virq < nr_legacy_irqs())
- 		legacy_pic->mask(virq);
---- a/arch/x86/kernel/devicetree.c
-+++ b/arch/x86/kernel/devicetree.c
-@@ -229,8 +229,8 @@ static int dt_irqdomain_alloc(struct irq
- 
- 	it = &of_ioapic_type[type_index];
- 	ioapic_set_alloc_attr(&tmp, NUMA_NO_NODE, it->trigger, it->polarity);
--	tmp.ioapic_id = mpc_ioapic_id(mp_irqdomain_ioapic_idx(domain));
--	tmp.ioapic_pin = fwspec->param[0];
-+	tmp.devid = mpc_ioapic_id(mp_irqdomain_ioapic_idx(domain));
-+	tmp.ioapic.pin = fwspec->param[0];
- 
- 	return mp_irqdomain_alloc(domain, virq, nr_irqs, &tmp);
- }
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3508,7 +3508,7 @@ static int get_devid(struct irq_alloc_in
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC:
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
--		return get_ioapic_devid(info->ioapic_id);
-+		return get_ioapic_devid(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_HPET:
- 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
- 		return get_hpet_devid(info->devid);
-@@ -3586,15 +3586,15 @@ static void irq_remapping_prepare_irte(s
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC:
- 		/* Setup IOAPIC entry */
--		entry = info->ioapic_entry;
--		info->ioapic_entry = NULL;
-+		entry = info->ioapic.entry;
-+		info->ioapic.entry = NULL;
- 		memset(entry, 0, sizeof(*entry));
- 		entry->vector        = index;
- 		entry->mask          = 0;
--		entry->trigger       = info->ioapic_trigger;
--		entry->polarity      = info->ioapic_polarity;
-+		entry->trigger       = info->ioapic.trigger;
-+		entry->polarity      = info->ioapic.polarity;
- 		/* Mask level triggered irqs. */
--		if (info->ioapic_trigger)
-+		if (info->ioapic.trigger)
- 			entry->mask = 1;
- 		break;
- 
-@@ -3680,7 +3680,7 @@ static int irq_remapping_alloc(struct ir
- 					iommu->irte_ops->set_allocated(table, i);
- 			}
- 			WARN_ON(table->min_index != 32);
--			index = info->ioapic_pin;
-+			index = info->ioapic.pin;
- 		} else {
- 			index = -ENOMEM;
- 		}
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -101,7 +101,7 @@ static int hyperv_irq_remapping_alloc(st
- 	 * in the chip_data and hyperv_irq_remapping_activate()/hyperv_ir_set_
- 	 * affinity() set vector and dest_apicid directly into IO-APIC entry.
- 	 */
--	irq_data->chip_data = info->ioapic_entry;
-+	irq_data->chip_data = info->ioapic.entry;
- 
- 	/*
- 	 * Hypver-V IO APIC irq affinity should be in the scope of
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1113,7 +1113,7 @@ static struct irq_domain *intel_get_irq_
- 
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
--		return map_ioapic_to_ir(info->ioapic_id);
-+		return map_ioapic_to_ir(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
- 		return map_hpet_to_ir(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
-@@ -1254,16 +1254,16 @@ static void intel_irq_remapping_prepare_
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC:
- 		/* Set source-id of interrupt request */
--		set_ioapic_sid(irte, info->ioapic_id);
-+		set_ioapic_sid(irte, info->devid);
- 		apic_printk(APIC_VERBOSE, KERN_DEBUG "IOAPIC[%d]: Set IRTE entry (P:%d FPD:%d Dst_Mode:%d Redir_hint:%d Trig_Mode:%d Dlvry_Mode:%X Avail:%X Vector:%02X Dest:%08X SID:%04X SQ:%X SVT:%X)\n",
--			info->ioapic_id, irte->present, irte->fpd,
-+			info->devid, irte->present, irte->fpd,
- 			irte->dst_mode, irte->redir_hint,
- 			irte->trigger_mode, irte->dlvry_mode,
- 			irte->avail, irte->vector, irte->dest_id,
- 			irte->sid, irte->sq, irte->svt);
- 
--		entry = (struct IR_IO_APIC_route_entry *)info->ioapic_entry;
--		info->ioapic_entry = NULL;
-+		entry = (struct IR_IO_APIC_route_entry *)info->ioapic.entry;
-+		info->ioapic.entry = NULL;
- 		memset(entry, 0, sizeof(*entry));
- 		entry->index2	= (index >> 15) & 0x1;
- 		entry->zero	= 0;
-@@ -1273,11 +1273,11 @@ static void intel_irq_remapping_prepare_
- 		 * IO-APIC RTE will be configured with virtual vector.
- 		 * irq handler will do the explicit EOI to the io-apic.
- 		 */
--		entry->vector	= info->ioapic_pin;
-+		entry->vector	= info->ioapic.pin;
- 		entry->mask	= 0;			/* enable IRQ */
--		entry->trigger	= info->ioapic_trigger;
--		entry->polarity	= info->ioapic_polarity;
--		if (info->ioapic_trigger)
-+		entry->trigger	= info->ioapic.trigger;
-+		entry->polarity	= info->ioapic.polarity;
-+		if (info->ioapic.trigger)
- 			entry->mask = 1; /* Mask level triggered irqs. */
- 		break;
- 
-
+VGhpcyBpcyB0aGUgc2Vjb25kIHZlcnNpb24gb2YgcHJvdmlkaW5nIGEgYmFzZSB0byBzdXBwb3J0
+IGRldmljZSBNU0kgKG5vbgpQQ0kgYmFzZWQpIGFuZCBvbiB0b3Agb2YgdGhhdCBzdXBwb3J0IGZv
+ciBJTVMgKEludGVycnVwdCBNZXNzYWdlIFN0b3JtKQpiYXNlZCBkZXZpY2VzIGluIGEgaGFsZndh
+eXMgYXJjaGl0ZWN0dXJlIGluZGVwZW5kZW50IHdheS4KClRoZSBmaXJzdCB2ZXJzaW9uIGNhbiBi
+ZSBmb3VuZCBoZXJlOgoKICAgIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyMDA4MjEwMDI0
+MjQuMTE5NDkyMjMxQGxpbnV0cm9uaXguZGUKCkl0J3Mgc3RpbGwgYSBtaXhlZCBiYWcgb2YgYnVn
+IGZpeGVzLCBjbGVhbnVwcyBhbmQgZ2VuZXJhbCBpbXByb3ZlbWVudHMKd2hpY2ggYXJlIHdvcnRo
+d2hpbGUgaW5kZXBlbmRlbnQgb2YgZGV2aWNlIE1TSS4KClRoZXJlIGFyZSBxdWl0ZSBhIGJ1bmNo
+IG9mIGlzc3VlcyB0byBzb2x2ZToKCiAgLSBYODYgZG9lcyBub3QgdXNlIHRoZSBkZXZpY2U6Om1z
+aV9kb21haW4gcG9pbnRlciBmb3IgaGlzdG9yaWNhbCByZWFzb25zCiAgICBhbmQgZHVlIHRvIFhF
+Tiwgd2hpY2ggbWFrZXMgaXQgaW1wb3NzaWJsZSB0byBjcmVhdGUgYW4gYXJjaGl0ZWN0dXJlCiAg
+ICBhZ25vc3RpYyBkZXZpY2UgTVNJIGluZnJhc3RydWN0dXJlLgoKICAtIFg4NiBoYXMgaXQncyBv
+d24gbXNpX2FsbG9jX2luZm8gZGF0YSB0eXBlIHdoaWNoIGlzIHBvaW50bGVzc2x5CiAgICBkaWZm
+ZXJlbnQgZnJvbSB0aGUgZ2VuZXJpYyB2ZXJzaW9uIGFuZCBkb2VzIG5vdCBhbGxvdyB0byBzaGFy
+ZSBjb2RlLgoKICAtIFRoZSBsb2dpYyBvZiBjb21wb3NpbmcgTVNJIG1lc3NhZ2VzIGluIGFuIGhp
+ZXJhcmNoeSBpcyBidXN0ZWQgYXQgdGhlCiAgICBjb3JlIGxldmVsIGFuZCBvZiBjb3Vyc2Ugc29t
+ZSAoeDg2KSBkcml2ZXJzIGRlcGVuZCBvbiB0aGF0LgoKICAtIEEgZmV3IG1pbm9yIHNob3J0Y29t
+aW5ncyBhcyB1c3VhbAoKVGhpcyBzZXJpZXMgYWRkcmVzc2VzIHRoYXQgaW4gc2V2ZXJhbCBzdGVw
+czoKCiAxKSBBY2NpZGVudGFsIGJ1ZyBmaXhlcwoKICAgICAgaW9tbXUvYW1kOiBQcmV2ZW50IE5V
+TEwgcG9pbnRlciBkZXJlZmVyZW5jZQoKIDIpIEphbml0b3JpbmcKCiAgICAgIHg4Ni9pbml0OiBS
+ZW1vdmUgdW51c2VkIGluaXQgb3BzCiAgICAgIFBDSTogdm1kOiBEb250IGFidXNlIHZlY3RvciBp
+cnFvbWFpbiBhcyBwYXJlbnQKICAgICAgeDg2L21zaTogUmVtb3ZlIHBvaW50bGVzcyB2Y3B1X2Fm
+ZmluaXR5IGNhbGxiYWNrCgogMykgU2FuaXRpemluZyB0aGUgY29tcG9zaXRpb24gb2YgTVNJIG1l
+c3NhZ2VzIGluIGEgaGllcmFyY2h5CiAKICAgICAgZ2VuaXJxL2NoaXA6IFVzZSB0aGUgZmlyc3Qg
+Y2hpcCBpbiBpcnFfY2hpcF9jb21wb3NlX21zaV9tc2coKQogICAgICB4ODYvbXNpOiBNb3ZlIGNv
+bXBvc2UgbWVzc2FnZSBjYWxsYmFjayB3aGVyZSBpdCBiZWxvbmdzCgogNCkgU2ltcGxpZmljYXRp
+b24gb2YgdGhlIHg4NiBzcGVjaWZpYyBpbnRlcnJ1cHQgYWxsb2NhdGlvbiBtZWNoYW5pc20KCiAg
+ICAgIHg4Ni9pcnE6IFJlbmFtZSBYODZfSVJRX0FMTE9DX1RZUEVfTVNJKiB0byByZWZsZWN0IFBD
+SSBkZXBlbmRlbmN5CiAgICAgIHg4Ni9pcnE6IEFkZCBhbGxvY2F0aW9uIHR5cGUgZm9yIHBhcmVu
+dCBkb21haW4gcmV0cmlldmFsCiAgICAgIGlvbW11L3Z0LWQ6IENvbnNvbGlkYXRlIGlycSBkb21h
+aW4gZ2V0dGVyCiAgICAgIGlvbW11L2FtZDogQ29uc29saWRhdGUgaXJxIGRvbWFpbiBnZXR0ZXIK
+ICAgICAgaW9tbXUvaXJxX3JlbWFwcGluZzogQ29uc29saWRhdGUgaXJxIGRvbWFpbiBsb29rdXAK
+CiA1KSBDb25zb2xpZGF0aW9uIG9mIHRoZSBYODYgc3BlY2lmaWMgaW50ZXJydXB0IGFsbG9jYXRp
+b24gbWVjaGFuaXNtIHRvIGJlIGFzIGNsb3NlCiAgICBhcyBwb3NzaWJsZSB0byB0aGUgZ2VuZXJp
+YyBNU0kgYWxsb2NhdGlvbiBtZWNoYW5pc20gd2hpY2ggYWxsb3dzIHRvIGdldCByaWQKICAgIG9m
+IHF1aXRlIGEgYnVuY2ggb2YgeDg2J2lzbXMgd2hpY2ggYXJlIHBvaW50bGVzcwoKICAgICAgeDg2
+L2lycTogUHJlcGFyZSBjb25zb2xpZGF0aW9uIG9mIGlycV9hbGxvY19pbmZvCiAgICAgIHg4Ni9t
+c2k6IENvbnNvbGlkYXRlIEhQRVQgYWxsb2NhdGlvbgogICAgICB4ODYvaW9hcGljOiBDb25zb2xp
+ZGF0ZSBJT0FQSUMgYWxsb2NhdGlvbgogICAgICB4ODYvaXJxOiBDb25zb2xpZGF0ZSBETUFSIGly
+cSBhbGxvY2F0aW9uCiAgICAgIHg4Ni9pcnE6IENvbnNvbGlkYXRlIFVWIGRvbWFpbiBhbGxvY2F0
+aW9uCiAgICAgIFBDSS9NU0k6IFJld29yayBwY2lfbXNpX2RvbWFpbl9jYWxjX2h3aXJxKCkKICAg
+ICAgeDg2L21zaTogQ29uc29saWRhdGUgTVNJIGFsbG9jYXRpb24KICAgICAgeDg2L21zaTogVXNl
+IGdlbmVyaWMgTVNJIGRvbWFpbiBvcHMKCiAgNikgeDg2IHNwZWNpZmljIGNsZWFudXBzIHRvIHJl
+bW92ZSB0aGUgZGVwZW5kZW5jeSBvbiBhcmNoXypfbXNpX2lycXMoKQoKICAgICAgeDg2L2lycTog
+TW92ZSBhcGljX3Bvc3RfaW5pdCgpIGludm9jYXRpb24gdG8gb25lIHBsYWNlCiAgICAgIHg4Ni9w
+Y2k6IFJlZHVjZGUgI2lmZGVmZmVyeSBpbiBQQ0kgaW5pdCBjb2RlCiAgICAgIHg4Ni9pcnE6IElu
+aXRpYWxpemUgUENJL01TSSBkb21haW4gYXQgUENJIGluaXQgdGltZQogICAgICBpcnFkb21haW4v
+bXNpOiBQcm92aWRlIERPTUFJTl9CVVNfVk1EX01TSQogICAgICBQQ0k6IHZtZDogTWFyayBWTUQg
+aXJxZG9tYWluIHdpdGggRE9NQUlOX0JVU19WTURfTVNJCiAgICAgIFBDSS9NU0k6IFByb3ZpZGUg
+cGNpX2Rldl9oYXNfc3BlY2lhbF9tc2lfZG9tYWluKCkgaGVscGVyCiAgICAgIHg4Ni94ZW46IE1h
+a2UgeGVuX21zaV9pbml0KCkgc3RhdGljIGFuZCByZW5hbWUgaXQgdG8geGVuX2h2bV9tc2lfaW5p
+dCgpCiAgICAgIHg4Ni94ZW46IFJld29yayBNU0kgdGVhcmRvd24KICAgICAgeDg2L3hlbjogQ29u
+c29saWRhdGUgWEVOLU1TSSBpbml0CiAgICAgIGlycWRvbWFpbi9tc2k6IEFsbG93IHRvIG92ZXJy
+aWRlIG1zaV9kb21haW5fYWxsb2MvZnJlZV9pcnFzKCkKICAgICAgeDg2L3hlbjogV3JhcCBYRU4g
+TVNJIG1hbmFnZW1lbnQgaW50byBpcnFkb21haW4KICAgICAgaW9tbW0vdnQtZDogU3RvcmUgaXJx
+IGRvbWFpbiBpbiBzdHJ1Y3QgZGV2aWNlCiAgICAgIGlvbW1tL2FtZDogU3RvcmUgaXJxIGRvbWFp
+biBpbiBzdHJ1Y3QgZGV2aWNlCiAgICAgIHg4Ni9wY2k6IFNldCBkZWZhdWx0IGlycSBkb21haW4g
+aW4gcGNpYmlvc19hZGRfZGV2aWNlKCkKICAgICAgUENJL01TSTogTWFrZSBhcmNoXy4qX21zaV9p
+cnFbc10gZmFsbGJhY2tzIHNlbGVjdGFibGUKICAgICAgeDg2L2lycTogQ2xlYW51cCB0aGUgYXJj
+aF8qX21zaV9pcnFzKCkgbGVmdG92ZXJzCiAgICAgIHg4Ni9pcnE6IE1ha2UgbW9zdCBNU0kgb3Bz
+IFhFTiBwcml2YXRlCiAgICAgIGlvbW11L3Z0LWQ6IFJlbW92ZSBkb21haW4gc2VhcmNoIGZvciBQ
+Q0kvTVNJW1hdCiAgICAgIGlvbW11L2FtZDogUmVtb3ZlIGRvbWFpbiBzZWFyY2ggZm9yIFBDSS9N
+U0kKCiAgNykgWDg2IHNwZWNpZmljIHByZXBhcmF0aW9uIGZvciBkZXZpY2UgTVNJCgogICAgICB4
+ODYvaXJxOiBBZGQgREVWX01TSSBhbGxvY2F0aW9uIHR5cGUKICAgICAgeDg2L21zaTogUmVuYW1l
+IGFuZCByZXdvcmsgcGNpX21zaV9wcmVwYXJlKCkgdG8gY292ZXIgbm9uLVBDSSBNU0kKCiAgOCkg
+R2VuZXJpYyBkZXZpY2UgTVNJIGluZnJhc3RydWN0dXJlCiAgICAgIHBsYXRmb3JtLW1zaTogUHJv
+dmlkZSBkZWZhdWx0IGlycV9jaGlwOjogQWNrCiAgICAgIGdlbmlycS9wcm9jOiBUYWtlIGJ1c2xv
+Y2sgb24gYWZmaW5pdHkgd3JpdGUKICAgICAgZ2VuaXJxL21zaTogUHJvdmlkZSBhbmQgdXNlIG1z
+aV9kb21haW5fc2V0X2RlZmF1bHRfaW5mb19mbGFncygpCiAgICAgIHBsYXRmb3JtLW1zaTogQWRk
+IGRldmljZSBNU0kgaW5mcmFzdHJ1Y3R1cmUKICAgICAgaXJxZG9tYWluL21zaTogUHJvdmlkZSBt
+c2lfYWxsb2MvZnJlZV9zdG9yZSgpIGNhbGxiYWNrcwoKICA5KSBQT0Mgb2YgSU1TIChJbnRlcnJ1
+cHQgTWVzc2FnZSBTdG9ybSkgaXJxIGRvbWFpbiBhbmQgaXJxY2hpcAogICAgIGltcGxlbWVudGF0
+aW9ucyBmb3IgYm90aCBkZXZpY2UgYXJyYXkgYW5kIHF1ZXVlIHN0b3JhZ2UuCgogICAgICBpcnFj
+aGlwOiBBZGQgSU1TIChJbnRlcnJ1cHQgTWVzc2FnZSBTdG9ybSkgZHJpdmVyIC0gTk9UIEZPUiBN
+RVJHSU5HCgpDaGFuZ2VzIHZzLiBWMToKCiAgIC0gQWRkcmVzc2VkIHZhcmlvdXMgcmV2aWV3IGNv
+bW1lbnRzIGFuZCBhZGRyZXNzZWQgdGhlIDBkYXkgZmFsbG91dC4KICAgICAtIENvcnJlY3RlZCB0
+aGUgWEVOIGxvZ2ljIChKw7xyZ2VuKQogICAgIC0gTWFrZSB0aGUgYXJjaCBmYWxsYmFjayBpbiBQ
+Q0kvTVNJIG9wdC1pbiBub3Qgb3B0LW91dCAoQmpvcm4pCgogICAtIEZpeGVkIHRoZSBjb21wb3Nl
+IE1TSSBtZXNzYWdlIGluY29uc2lzdGVuY3kKCiAgIC0gRW5zdXJlIHRoYXQgdGhlIG5lY2Vzc2Fy
+eSBmbGFncyBhcmUgc2V0IGZvciBkZXZpY2UgU01JCgogICAtIE1ha2UgdGhlIGlycSBidXMgbG9n
+aWMgd29yayBmb3IgYWZmaW5pdHkgc2V0dGluZyB0byBwcmVwYXJlCiAgICAgc3VwcG9ydCBmb3Ig
+SU1TIHN0b3JhZ2UgaW4gcXVldWUgbWVtb3J5LiBJdCB0dXJuZWQgb3V0IHRvIGJlCiAgICAgbGVz
+cyBzY2FyeSB0aGFuIEkgZmVhcmVkLgoKICAgLSBSZW1vdmUgbGVmdG92ZXJzIGluIGlvbW11L2lu
+dGVsfGFtZAoKICAgLSBSZXdvcmtlZCB0aGUgSU1TIFBPQyBkcml2ZXIgdG8gY292ZXIgcXVldWUg
+c3RvcmFnZSBzbyBKYXNvbiBjYW4gaGF2ZSBhCiAgICAgbG9vayB3aGV0aGVyIHRoYXQgZml0cyB0
+aGUgbmVlZHMgb2YgTUxYIGRldmljZXMuCgpUaGUgd2hvbGUgbG90IGlzIGFsc28gYXZhaWxhYmxl
+IGZyb20gZ2l0OgoKICAgZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
+Z2l0L3RnbHgvZGV2ZWwuZ2l0IGRldmljZS1tc2kKClRoaXMgaGFzIGJlZW4gdGVzdGVkIG9uIElu
+dGVsL0FNRC9LVk0gYnV0IGxhY2tzIHRlc3Rpbmcgb246CgogICAgLSBIWVBFUlYgKC1FTk9ERVYp
+CiAgICAtIFZNRCBlbmFibGVkIHN5c3RlbXMgKC1FTk9ERVYpCiAgICAtIFhFTiAoLUVOT0NMVUUp
+CiAgICAtIElNUyAoLUVOT0RFVikKCiAgICAtIEFueSBub24tWDg2IGNvZGUgd2hpY2ggbWlnaHQg
+ZGVwZW5kIG9uIHRoZSBicm9rZW4gY29tcG9zZSBNU0kgbWVzc2FnZQogICAgICBsb2dpYy4gTWFy
+YyBleGNwZWN0cyBub3QgbXVjaCBmYWxsb3V0LCBidXQgYWdyZWVzIHRoYXQgd2UgbmVlZCB0byBm
+aXgKICAgICAgaXQgYW55d2F5LgoKIzEgLSAjMyBzaG91bGQgYmUgYXBwbGllZCB1bmNvbmRpdGlv
+bmFsbHkgZm9yIG9idmlvdXMgcmVhc29ucwojNCAtICM2IGFyZSB3b3J0d2hpbGUgY2xlYW51cHMg
+d2hpY2ggc2hvdWxkIGJlIGRvbmUgaW5kZXBlbmRlbnQgb2YgZGV2aWNlIE1TSQoKIzcgLSAjOCBs
+b29rIHByb21pc2luZyB0byBjbGVhbnVwIHRoZSBwbGF0Zm9ybSBNU0kgaW1wbGVtZW50YXRpb24K
+ICAgICAJaW5kZXBlbmRlbnQgb2YgIzgsIGJ1dCBJIG5laXRoZXIgaGFkIGN5Y2xlcyBub3IgdGhl
+IHN0b21hY2ggdG8KICAgICAJdGFja2xlIHRoYXQuCgojOQlpcyBvYnZpb3VzbHkganVzdCBmb3Ig
+dGhlIGZvbGtzIGludGVyZXN0ZWQgaW4gSU1TCgpUaGFua3MsCgoJdGdseAo=
