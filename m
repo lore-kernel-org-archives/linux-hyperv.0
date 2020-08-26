@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C65EC433E1
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D90BDC433DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 196942071E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:13:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF2DC2071E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:14:10 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wxfQv6Oa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8tJ5SZ+n"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ioAWTpDP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0eV1hNfW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729517AbgHZMNx (ORCPT
+        id S1729381AbgHZMNv (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:13:53 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57538 "EHLO
+        Wed, 26 Aug 2020 08:13:51 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:57542 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729369AbgHZMBU (ORCPT
+        with ESMTP id S1729378AbgHZMBU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 26 Aug 2020 08:01:20 -0400
-Message-Id: <20200826112331.250130127@linutronix.de>
+Message-Id: <20200826112331.436350257@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443262;
+        s=2020; t=1598443265;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=1OGPpjWOZmr24XSSpz6Nc6JwYhMQbICDj4hspoAwZbU=;
-        b=wxfQv6OayK5u1H6FLXXIAcQEscg4HPJjeG+pstXl+pgdl31DNhEzs50ZOWpxyGkrMjOLQW
-        1o9FaSrwh83greTW5vyCTb8zGAVDs36ov93GPrm04pneHRj9I5V1gKWvrEoOOH7jQ4WymB
-        2dnYg73pm5Qf+NAJfV1VaexuVCwBhHU44wya2eXAw2Z+FnlfrDPKCol1dSx8jwE8+r40Me
-        gFhsh/HnjcO+3pm7neY65BLXMr3nyoULj1GDuHwk6obFDadT45ulfhicTAV256PX5YzSNc
-        dGaROF2c7TCDhfRvvityWK3X4gmliC/zDpfaFSui0jbwM5OFgjvjPhruWz0AMA==
+        bh=LUY6bepF5eim7BkWUhA3OwSWPbqokviVOoRM/Igptr8=;
+        b=ioAWTpDPlTteMzT1FEkboO63d5kq9hA1V+HXhkkXU/cJBtUIqlh0H5GJpaONmKMx01dkVC
+        cXLH8uDJKuqu6WJN8NqpjxKLQ6DEzsr/wu1O3AMNEwnJ5AdtrDNTmWChZFw14rroM9UORX
+        vhBrWXM5j4b7/5Ch5voZC1EAQlIHqUEk9621/7pwq0qdtyFz0spYN49aYibIQfgNfbpdXU
+        JL41HRyN1Bfw3dcGoXYrhckaLb6Pep/MNBZc7m/tQUuXU+f+dJOGhpUabTpO/wPeLP+Dxv
+        1O5ykMdao0srwY8Q42I8uveNL0+DGF4vu2tGBhJNCzTvz9KOy3lOJOy2NK6CpA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443262;
+        s=2020e; t=1598443265;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=1OGPpjWOZmr24XSSpz6Nc6JwYhMQbICDj4hspoAwZbU=;
-        b=8tJ5SZ+n+CTD4sQz2apdajCK0eVmBiC+58dr8L0pUzWdakVsmFSRzEYppLbMSxQkKBKFP2
-        zKDpRtN2h+Z7x/Ag==
-Date:   Wed, 26 Aug 2020 13:16:34 +0200
+        bh=LUY6bepF5eim7BkWUhA3OwSWPbqokviVOoRM/Igptr8=;
+        b=0eV1hNfWxwm4e+VS9L+QCLBWyodY+aOtuxJmr2j4yW1nKHrZNOrCVU4B114C71sSnoFFD4
+        eFjXZ9OCOIEXjbBQ==
+Date:   Wed, 26 Aug 2020 13:16:36 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,7 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 06/46] x86/msi: Remove pointless vcpu_affinity callback
+Subject: [patch V2 08/46] x86/irq: Add allocation type for parent domain retrieval
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -85,28 +85,111 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Setting the irq_set_vcpu_affinity() callback to
-irq_chip_set_vcpu_affinity_parent() is a pointless exercise because the
-function which utilizes it searchs the domain hierarchy to find a parent
-domain which has such a callback.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Remove the useless indirection.
+irq_remapping_ir_irq_domain() is used to retrieve the remapping parent
+domain for an allocation type. irq_remapping_irq_domain() is for retrieving
+the actual device domain for allocating interrupts for a device.
+
+The two functions are similar and can be unified by using explicit modes
+for parent irq domain retrieval.
+
+Add X86_IRQ_ALLOC_TYPE_IOAPIC/HPET_GET_PARENT and use it in the iommu
+implementations. Drop the parent domain retrieval for PCI_MSI/X as that is
+unused.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
-V2: New patch. The same is probably true for lots of other irq chips.
----
- arch/x86/kernel/apic/msi.c |    1 -
- 1 file changed, 1 deletion(-)
 
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -278,7 +278,6 @@ static struct irq_chip pci_msi_ir_contro
- 	.irq_mask		= pci_msi_mask_irq,
- 	.irq_ack		= irq_chip_ack_parent,
- 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
--	.irq_set_vcpu_affinity	= irq_chip_set_vcpu_affinity_parent,
- 	.flags			= IRQCHIP_SKIP_SET_WAKE,
+---
+ arch/x86/include/asm/hw_irq.h       |    2 ++
+ arch/x86/kernel/apic/io_apic.c      |    2 +-
+ arch/x86/kernel/apic/msi.c          |    2 +-
+ drivers/iommu/amd/iommu.c           |    8 ++++++++
+ drivers/iommu/hyperv-iommu.c        |    2 +-
+ drivers/iommu/intel/irq_remapping.c |    8 ++------
+ 6 files changed, 15 insertions(+), 9 deletions(-)
+
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -40,6 +40,8 @@ enum irq_alloc_type {
+ 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
+ 	X86_IRQ_ALLOC_TYPE_DMAR,
+ 	X86_IRQ_ALLOC_TYPE_UV,
++	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
++	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
  };
  
+ struct irq_alloc_info {
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -2296,7 +2296,7 @@ static int mp_irqdomain_create(int ioapi
+ 		return 0;
+ 
+ 	init_irq_alloc_info(&info, NULL);
+-	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC;
++	info.type = X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT;
+ 	info.ioapic_id = mpc_ioapic_id(ioapic);
+ 	parent = irq_remapping_get_ir_irq_domain(&info);
+ 	if (!parent)
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -476,7 +476,7 @@ struct irq_domain *hpet_create_irq_domai
+ 	domain_info->data = (void *)(long)hpet_id;
+ 
+ 	init_irq_alloc_info(&info, NULL);
+-	info.type = X86_IRQ_ALLOC_TYPE_HPET;
++	info.type = X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT;
+ 	info.hpet_id = hpet_id;
+ 	parent = irq_remapping_get_ir_irq_domain(&info);
+ 	if (parent == NULL)
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3534,6 +3534,14 @@ static struct irq_domain *get_ir_irq_dom
+ 	if (!info)
+ 		return NULL;
+ 
++	switch (info->type) {
++	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
++	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
++		break;
++	default:
++		return NULL;
++	}
++
+ 	devid = get_devid(info);
+ 	if (devid >= 0) {
+ 		iommu = amd_iommu_rlookup_table[devid];
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -184,7 +184,7 @@ static int __init hyperv_enable_irq_rema
+ 
+ static struct irq_domain *hyperv_get_ir_irq_domain(struct irq_alloc_info *info)
+ {
+-	if (info->type == X86_IRQ_ALLOC_TYPE_IOAPIC)
++	if (info->type == X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT)
+ 		return ioapic_ir_domain;
+ 	else
+ 		return NULL;
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -1109,16 +1109,12 @@ static struct irq_domain *intel_get_ir_i
+ 		return NULL;
+ 
+ 	switch (info->type) {
+-	case X86_IRQ_ALLOC_TYPE_IOAPIC:
++	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
+ 		iommu = map_ioapic_to_ir(info->ioapic_id);
+ 		break;
+-	case X86_IRQ_ALLOC_TYPE_HPET:
++	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
+ 		iommu = map_hpet_to_ir(info->hpet_id);
+ 		break;
+-	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
+-	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
+-		iommu = map_dev_to_ir(info->msi_dev);
+-		break;
+ 	default:
+ 		BUG_ON(1);
+ 		break;
+
 
