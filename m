@@ -7,47 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FDCC433E3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BDDEC433E4
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:11:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8F5A2087C
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:11:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 633EA20838
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:11:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HMD/wlLh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qa93UyHf"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MC7/0To0";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QHIuGUxy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729892AbgHZMLP (ORCPT
+        id S1729890AbgHZMLP (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Wed, 26 Aug 2020 08:11:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729397AbgHZMBd (ORCPT
+Received: from Galois.linutronix.de ([193.142.43.55]:57868 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729389AbgHZMBd (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 26 Aug 2020 08:01:33 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0FB9C061574;
-        Wed, 26 Aug 2020 05:01:31 -0700 (PDT)
-Message-Id: <20200826112332.466405395@linutronix.de>
+Message-Id: <20200826112332.859209894@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443277;
+        s=2020; t=1598443282;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=89XPEkckD89IfTs8VAAqcd4o41MEAYm/sOozj0geDOg=;
-        b=HMD/wlLhTHMvFXL2bx4mCcQOKT+ixvGwF2qI93R+aoOqNq4it4vzsMoz5TFAT7HNuF/Q4Z
-        ozbVP2cd0vtreGNQBzgsoW1kNQ4wK+hDkAuAwoNW9u9v0biQTJ7aVyQ+Qw4anhYj1c/4ib
-        7IG6A50E1d9ZWMkPKpyKbK/N7i+EUJdoHXnsOIIOp6Q9FAwFxEoVLdoLijAMICm+WCsVSS
-        +6m3acw50POm3JxDYeR2K9ABDzEnQswCh5pojcSKtzO7mJ0KGRVuSOECe1oq0sl40ZZdjD
-        YCeKdogswY1hLq7REUddMY+PV5cNlemDrTlZHi2lBVc9Sjvk0HxplhjiQuzgJA==
+        bh=9wVfyDYOAPWBVALbIjeuB/5+lB8M43JevsiG5wUvbJw=;
+        b=MC7/0To0WtlhO72Rb/Ni0Xi/EluPHJbJ9dEk1FnCnQjFBtoYfqZ/qvme4XXYsc6PpNtzmO
+        XIl4Y5zPJHSMAELUHVmGr5CpJGxS3G+bk1ruelrOjrz5ENsi7aPbwF+cDXFe2L52aYKuoB
+        dPXnhLCAGxSpxRnjw9MskRrw9XNuGgZjH/Cc43JB8/yj2VRLM+vIttPE6oAl6fQOk0jdP2
+        J6WwWIc8ExNYplol64VweCD45neH2/p+X8bslHeO6FZuZk96C1By+NB4PQfZvduX089j/k
+        oQ/RfgJ51ePj0KED7HGKxCKpo/MhicH9gdhrdXnHKbOt9cxd907X8x/fknt4rA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443277;
+        s=2020e; t=1598443282;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=89XPEkckD89IfTs8VAAqcd4o41MEAYm/sOozj0geDOg=;
-        b=qa93UyHf7KLkUY+QElTTgU9c5nhPppap1YZaHP//Y6Wmo7i3Cm3G1wtgDIG8qqOivwL85Z
-        Zn63dlzuUYvLdsBA==
-Date:   Wed, 26 Aug 2020 13:16:46 +0200
+        bh=9wVfyDYOAPWBVALbIjeuB/5+lB8M43JevsiG5wUvbJw=;
+        b=QHIuGUxybZuhBZOI7igCh3EajjkLBV3AlUzOdvbdkO3i6pN9FweuaNWcjjIynVJtr2HDw9
+        xjn+SUPEx+7GdlAw==
+Date:   Wed, 26 Aug 2020 13:16:50 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -78,7 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 18/46] x86/msi: Consolidate MSI allocation
+Subject: [patch V2 22/46] x86/irq: Initialize PCI/MSI domain at PCI init time
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,126 +87,177 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-Convert the interrupt remap drivers to retrieve the pci device from the msi
-descriptor and use info::hwirq.
+No point in initializing the default PCI/MSI interrupt domain early and no
+point to create it when XEN PV/HVM/DOM0 are active.
 
-This is the first step to prepare x86 for using the generic MSI domain ops.
+Move the initialization to pci_arch_init() and convert it to init ops so
+that XEN can override it as XEN has it's own PCI/MSI management. The XEN
+override comes in a later step.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
 ---
- arch/x86/include/asm/hw_irq.h       |    8 --------
- arch/x86/kernel/apic/msi.c          |    7 +++----
- drivers/iommu/amd/iommu.c           |    5 +++--
- drivers/iommu/intel/irq_remapping.c |    4 ++--
- drivers/pci/controller/pci-hyperv.c |    2 +-
- 5 files changed, 9 insertions(+), 17 deletions(-)
+V2: Add missing include
+---
+ arch/x86/include/asm/irqdomain.h |    6 ++++--
+ arch/x86/include/asm/x86_init.h  |    3 +++
+ arch/x86/kernel/apic/msi.c       |   31 +++++++++++++++++++------------
+ arch/x86/kernel/apic/vector.c    |    2 --
+ arch/x86/kernel/x86_init.c       |    4 +++-
+ arch/x86/pci/init.c              |    3 +++
+ 6 files changed, 32 insertions(+), 17 deletions(-)
 
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -85,14 +85,6 @@ struct irq_alloc_info {
- 	union {
- 		struct ioapic_alloc_info	ioapic;
- 		struct uv_alloc_info		uv;
--
--		int		unused;
--#ifdef	CONFIG_PCI_MSI
--		struct {
--			struct pci_dev	*msi_dev;
--			irq_hw_number_t	msi_hwirq;
--		};
--#endif
- 	};
+--- a/arch/x86/include/asm/irqdomain.h
++++ b/arch/x86/include/asm/irqdomain.h
+@@ -51,9 +51,11 @@ extern int mp_irqdomain_ioapic_idx(struc
+ #endif /* CONFIG_X86_IO_APIC */
+ 
+ #ifdef CONFIG_PCI_MSI
+-extern void arch_init_msi_domain(struct irq_domain *domain);
++void x86_create_pci_msi_domain(void);
++struct irq_domain *native_create_pci_msi_domain(void);
+ #else
+-static inline void arch_init_msi_domain(struct irq_domain *domain) { }
++static inline void x86_create_pci_msi_domain(void) { }
++#define native_create_pci_msi_domain	NULL
+ #endif
+ 
+ #endif
+--- a/arch/x86/include/asm/x86_init.h
++++ b/arch/x86/include/asm/x86_init.h
+@@ -8,6 +8,7 @@ struct mpc_bus;
+ struct mpc_cpu;
+ struct mpc_table;
+ struct cpuinfo_x86;
++struct irq_domain;
+ 
+ /**
+  * struct x86_init_mpparse - platform specific mpparse ops
+@@ -42,12 +43,14 @@ struct x86_init_resources {
+  * @intr_init:			interrupt init code
+  * @intr_mode_select:		interrupt delivery mode selection
+  * @intr_mode_init:		interrupt delivery mode setup
++ * @create_pci_msi_domain:	Create the PCI/MSI interrupt domain
+  */
+ struct x86_init_irqs {
+ 	void (*pre_vector_init)(void);
+ 	void (*intr_init)(void);
+ 	void (*intr_mode_select)(void);
+ 	void (*intr_mode_init)(void);
++	struct irq_domain *(*create_pci_msi_domain)(void);
  };
  
+ /**
 --- a/arch/x86/kernel/apic/msi.c
 +++ b/arch/x86/kernel/apic/msi.c
-@@ -189,7 +189,6 @@ int native_setup_msi_irqs(struct pci_dev
+@@ -21,7 +21,7 @@
+ #include <asm/apic.h>
+ #include <asm/irq_remapping.h>
  
- 	init_irq_alloc_info(&info, NULL);
- 	info.type = X86_IRQ_ALLOC_TYPE_PCI_MSI;
--	info.msi_dev = dev;
+-static struct irq_domain *msi_default_domain;
++static struct irq_domain *x86_pci_msi_default_domain __ro_after_init;
+ 
+ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
+ {
+@@ -192,7 +192,7 @@ int native_setup_msi_irqs(struct pci_dev
  
  	domain = irq_remapping_get_irq_domain(&info);
  	if (domain == NULL)
-@@ -208,7 +207,7 @@ void native_teardown_msi_irq(unsigned in
- static irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
- 					 msi_alloc_info_t *arg)
+-		domain = msi_default_domain;
++		domain = x86_pci_msi_default_domain;
+ 	if (domain == NULL)
+ 		return -ENOSYS;
+ 
+@@ -235,25 +235,32 @@ static struct msi_domain_info pci_msi_do
+ 	.handler_name	= "edge",
+ };
+ 
+-void __init arch_init_msi_domain(struct irq_domain *parent)
++struct irq_domain * __init native_create_pci_msi_domain(void)
  {
--	return arg->msi_hwirq;
-+	return arg->hwirq;
- }
+ 	struct fwnode_handle *fn;
++	struct irq_domain *d;
  
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
-@@ -218,7 +217,6 @@ int pci_msi_prepare(struct irq_domain *d
- 	struct msi_desc *desc = first_pci_msi_entry(pdev);
+ 	if (disable_apic)
+-		return;
++		return NULL;
  
- 	init_irq_alloc_info(arg, NULL);
--	arg->msi_dev = pdev;
- 	if (desc->msi_attrib.is_msix) {
- 		arg->type = X86_IRQ_ALLOC_TYPE_PCI_MSIX;
+ 	fn = irq_domain_alloc_named_fwnode("PCI-MSI");
+-	if (fn) {
+-		msi_default_domain =
+-			pci_msi_create_irq_domain(fn, &pci_msi_domain_info,
+-						  parent);
+-	}
+-	if (!msi_default_domain) {
++	if (!fn)
++		return NULL;
++
++	d = pci_msi_create_irq_domain(fn, &pci_msi_domain_info,
++				      x86_vector_domain);
++	if (!d) {
+ 		irq_domain_free_fwnode(fn);
+-		pr_warn("failed to initialize irqdomain for MSI/MSI-x.\n");
++		pr_warn("Failed to initialize PCI-MSI irqdomain.\n");
  	} else {
-@@ -232,7 +230,8 @@ EXPORT_SYMBOL_GPL(pci_msi_prepare);
- 
- void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc)
- {
--	arg->msi_hwirq = pci_msi_domain_calc_hwirq(desc);
-+	arg->desc = desc;
-+	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
- }
- EXPORT_SYMBOL_GPL(pci_msi_set_desc);
- 
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3514,7 +3514,7 @@ static int get_devid(struct irq_alloc_in
- 		return get_hpet_devid(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		return get_device_id(&info->msi_dev->dev);
-+		return get_device_id(msi_desc_to_dev(info->desc));
- 	default:
- 		WARN_ON_ONCE(1);
- 		return -1;
-@@ -3688,7 +3688,8 @@ static int irq_remapping_alloc(struct ir
- 		   info->type == X86_IRQ_ALLOC_TYPE_PCI_MSIX) {
- 		bool align = (info->type == X86_IRQ_ALLOC_TYPE_PCI_MSI);
- 
--		index = alloc_irq_index(devid, nr_irqs, align, info->msi_dev);
-+		index = alloc_irq_index(devid, nr_irqs, align,
-+					msi_desc_to_pci_dev(info->desc));
- 	} else {
- 		index = alloc_irq_index(devid, nr_irqs, false, NULL);
+-		msi_default_domain->flags |= IRQ_DOMAIN_MSI_NOMASK_QUIRK;
++		d->flags |= IRQ_DOMAIN_MSI_NOMASK_QUIRK;
  	}
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -1118,7 +1118,7 @@ static struct irq_domain *intel_get_irq_
- 		return map_hpet_to_ir(info->devid);
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		return map_dev_to_ir(info->msi_dev);
-+		return map_dev_to_ir(msi_desc_to_pci_dev(info->desc));
- 	default:
- 		WARN_ON_ONCE(1);
- 		return NULL;
-@@ -1287,7 +1287,7 @@ static void intel_irq_remapping_prepare_
- 		if (info->type == X86_IRQ_ALLOC_TYPE_HPET)
- 			set_hpet_sid(irte, info->devid);
- 		else
--			set_msi_sid(irte, info->msi_dev);
-+			set_msi_sid(irte, msi_desc_to_pci_dev(info->desc));
- 
- 		msg->address_hi = MSI_ADDR_BASE_HI;
- 		msg->data = sub_handle;
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1534,7 +1534,7 @@ static struct irq_chip hv_msi_irq_chip =
- static irq_hw_number_t hv_msi_domain_ops_get_hwirq(struct msi_domain_info *info,
- 						   msi_alloc_info_t *arg)
- {
--	return arg->msi_hwirq;
-+	return arg->hwirq;
++	return d;
++}
++
++void __init x86_create_pci_msi_domain(void)
++{
++	x86_pci_msi_default_domain = x86_init.irqs.create_pci_msi_domain();
  }
  
- static struct msi_domain_ops hv_msi_ops = {
-
+ #ifdef CONFIG_IRQ_REMAP
+--- a/arch/x86/kernel/apic/vector.c
++++ b/arch/x86/kernel/apic/vector.c
+@@ -713,8 +713,6 @@ int __init arch_early_irq_init(void)
+ 	BUG_ON(x86_vector_domain == NULL);
+ 	irq_set_default_host(x86_vector_domain);
+ 
+-	arch_init_msi_domain(x86_vector_domain);
+-
+ 	BUG_ON(!alloc_cpumask_var(&vector_searchmask, GFP_KERNEL));
+ 
+ 	/*
+--- a/arch/x86/kernel/x86_init.c
++++ b/arch/x86/kernel/x86_init.c
+@@ -24,6 +24,7 @@
+ #include <asm/tsc.h>
+ #include <asm/iommu.h>
+ #include <asm/mach_traps.h>
++#include <asm/irqdomain.h>
+ 
+ void x86_init_noop(void) { }
+ void __init x86_init_uint_noop(unsigned int unused) { }
+@@ -76,7 +77,8 @@ struct x86_init_ops x86_init __initdata
+ 		.pre_vector_init	= init_ISA_irqs,
+ 		.intr_init		= native_init_IRQ,
+ 		.intr_mode_select	= apic_intr_mode_select,
+-		.intr_mode_init		= apic_intr_mode_init
++		.intr_mode_init		= apic_intr_mode_init,
++		.create_pci_msi_domain	= native_create_pci_msi_domain,
+ 	},
+ 
+ 	.oem = {
+--- a/arch/x86/pci/init.c
++++ b/arch/x86/pci/init.c
+@@ -3,6 +3,7 @@
+ #include <linux/init.h>
+ #include <asm/pci_x86.h>
+ #include <asm/x86_init.h>
++#include <asm/irqdomain.h>
+ 
+ /* arch_initcall has too random ordering, so call the initializers
+    in the right sequence from here. */
+@@ -10,6 +11,8 @@ static __init int pci_arch_init(void)
+ {
+ 	int type;
+ 
++	x86_create_pci_msi_domain();
++
+ 	type = pci_direct_probe();
+ 
+ 	if (!(pci_probe & PCI_PROBE_NOEARLY))
 
