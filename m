@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C91C4C433E1
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B4EC433E3
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FBC420786
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF4E720786
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:09:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y/9S15/F";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DFd6NyEp"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g7xv50AT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YlpLIMOq"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729413AbgHZMBn (ORCPT
+        id S1729010AbgHZMJU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:01:43 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57670 "EHLO
+        Wed, 26 Aug 2020 08:09:20 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58198 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729382AbgHZMBZ (ORCPT
+        with ESMTP id S1729411AbgHZMBo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:25 -0400
-Message-Id: <20200826112332.163462706@linutronix.de>
+        Wed, 26 Aug 2020 08:01:44 -0400
+Message-Id: <20200826112334.400700807@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443273;
+        s=2020; t=1598443302;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=mqnIcRU+8mJ14Mkki/W6mS6K78Mp2NlN7l+CkgxD+8o=;
-        b=Y/9S15/F+/l+sIoxpjKT+lKY2eH9kcch+ZUeDE0/p5MBKA41C4FbGZzCr2P40FwJs+b8kH
-        aP3m68Yo7e9VGLYMb7lowUb7k4nT04PUU39uphOc/8R8Aroe90mmvDy6wgiMmRn7bASjLj
-        kNwm9CILE9qJXAfoDjG9Q2H9mS8mfofKpj+omGNLDF/Ti6AOkRqT/z2/s8EQRcdADxh1h4
-        mNzYep3t8S6A1xmp8v0RaTVEMGCHbEw/AALmCjZ94qb8nGr7UmRmi4pUhhIECgm8RNKE7a
-        zkbZRkbuTyEq14qthAKtwgAl8JKfXNRycTxUwM1LW8QwiL7iP4/GzuGSd0ywOw==
+        bh=XS2OtPL63+BbeAwrgOvQZ62jjX8dKd2NUee/RefW/jE=;
+        b=g7xv50ATWyf0Y9KZtfd5GDP7gv+ub4Reyp3zzVcltJZHJTLFQiFFXZP+cdXkZqtXlfvIpG
+        tdDcnRDMiB+NAD5pfoxdVPRDMENd5IGhIAds5207sNs7ZFUbnwlncbC9MFo6M3VyfOi/E2
+        sTAtg0h0YKOOz9nDA3vW1m6MWO8ZCD3zzYaI7xVc9jcBd/G5iYloQEx+PRC6EaWAe2KhaK
+        owm1ZICVZYAXvrQzrjTMUaGTpQ4IZGqclzgFWEqg5L8qaWofCWb0s81fNwQhQPAj02rxjV
+        cyoLMosaH14iqtGJnoLcXp3hzvcc4rpt7+YOBBmYbBg+vQie4RgCA7KB9JgMBQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443273;
+        s=2020e; t=1598443302;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=mqnIcRU+8mJ14Mkki/W6mS6K78Mp2NlN7l+CkgxD+8o=;
-        b=DFd6NyEpm6qkQ9xT3f5z9cx+wU0ADabSVM33TuNvaWV/8ZV1/ExDQnOGUkzJskUPW+kXTJ
-        lBCvwjVIBiOvpBBQ==
-Date:   Wed, 26 Aug 2020 13:16:43 +0200
+        bh=XS2OtPL63+BbeAwrgOvQZ62jjX8dKd2NUee/RefW/jE=;
+        b=YlpLIMOqrorOG1iP3fEgl8h8huJ+SEm1UgkOPUBIUHdgsvpjhvsDnVL85p8wf3l/OswF4l
+        3rF6X4dWCwWuIwAQ==
+Date:   Wed, 26 Aug 2020 13:17:06 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,7 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 15/46] x86/irq: Consolidate DMAR irq allocation
+Subject: [patch V2 38/46] iommu/amd: Remove domain search for PCI/MSI
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -85,63 +85,26 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
-
-None of the DMAR specific fields are required.
+Now that the domain can be retrieved through device::msi_domain the domain
+search for PCI_MSI[X] is not longer required. Remove it.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-
 ---
- arch/x86/include/asm/hw_irq.h |    6 ------
- arch/x86/kernel/apic/msi.c    |   10 +++++-----
- 2 files changed, 5 insertions(+), 11 deletions(-)
+V2: New patch
+---
+ drivers/iommu/amd/iommu.c |    3 ---
+ 1 file changed, 3 deletions(-)
 
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -83,12 +83,6 @@ struct irq_alloc_info {
- 			irq_hw_number_t	msi_hwirq;
- 		};
- #endif
--#ifdef	CONFIG_DMAR_TABLE
--		struct {
--			int		dmar_id;
--			void		*dmar_data;
--		};
--#endif
- #ifdef	CONFIG_X86_UV
- 		struct {
- 			int		uv_limit;
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -329,15 +329,15 @@ static struct irq_chip dmar_msi_controll
- static irq_hw_number_t dmar_msi_get_hwirq(struct msi_domain_info *info,
- 					  msi_alloc_info_t *arg)
- {
--	return arg->dmar_id;
-+	return arg->hwirq;
- }
- 
- static int dmar_msi_init(struct irq_domain *domain,
- 			 struct msi_domain_info *info, unsigned int virq,
- 			 irq_hw_number_t hwirq, msi_alloc_info_t *arg)
- {
--	irq_domain_set_info(domain, virq, arg->dmar_id, info->chip, NULL,
--			    handle_edge_irq, arg->dmar_data, "edge");
-+	irq_domain_set_info(domain, virq, arg->devid, info->chip, NULL,
-+			    handle_edge_irq, arg->data, "edge");
- 
- 	return 0;
- }
-@@ -384,8 +384,8 @@ int dmar_alloc_hwirq(int id, int node, v
- 
- 	init_irq_alloc_info(&info, NULL);
- 	info.type = X86_IRQ_ALLOC_TYPE_DMAR;
--	info.dmar_id = id;
--	info.dmar_data = arg;
-+	info.devid = id;
-+	info.data = arg;
- 
- 	return irq_domain_alloc_irqs(domain, 1, node, &info);
- }
-
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3548,9 +3548,6 @@ static struct irq_domain *get_irq_domain
+ 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
+ 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
+ 		return iommu->ir_domain;
+-	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
+-	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
+-		return iommu->msi_domain;
+ 	default:
+ 		WARN_ON_ONCE(1);
+ 		return NULL;
 
