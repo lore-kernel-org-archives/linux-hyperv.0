@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2130FC433E1
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AD06C433DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:02:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EB8F720838
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:02:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61F9120897
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:02:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H5ct7yxy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IbCUcGl7"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sGq7w5Vv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wIUepu9R"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729439AbgHZMCF (ORCPT
+        id S1729454AbgHZMCe (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:02:05 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57826 "EHLO
+        Wed, 26 Aug 2020 08:02:34 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:58436 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729417AbgHZMBp (ORCPT
+        with ESMTP id S1729425AbgHZMB5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:45 -0400
-Message-Id: <20200826112334.493642963@linutronix.de>
+        Wed, 26 Aug 2020 08:01:57 -0400
+Message-Id: <20200826112335.092521442@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443303;
+        s=2020; t=1598443311;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Jbe7LG9G4Zvu5BS675dx2ovvPd7Zs7K+V3j/Ww3fTeI=;
-        b=H5ct7yxyfPkw9COn6I7pDw6V1ilNzNBmxLT5gZpiqG5VFJDTYIRVrKS9MvIkCv/cVCNxwb
-        9rABWH11GRrt/F1XhhSDp0w0Wy41gVFSZzn9pQiNTcHs+63DsMc+BAwMYNXNq+QlX8TbDd
-        4nuvxxC6zG54EVKX1tE1lNMYsndx6DnV51i+GGKczVfx6JZBYjHMTx3ogkXMbyFmrmgHIh
-        /Vtqytt4cTeGvYKfsbOypaBGU6hCS9jWwmQ59jHoutngqHxs7Z7hy9qB5xiKsaUmM/tmYI
-        M4N9kw88/wBcNGfGIXWdqU/EB32+w2yt5iCXEHIfU/0M3jstk1ercqpAR2sL5A==
+        bh=b69SWJ3Ur45XxM77SmSu/tsjVczGdpPRTUPeP/VD4Ik=;
+        b=sGq7w5VvBLEz68W/6n3xv/ju+gIZDsclrMN42Kbt+Lek2xpknqP50K1/N3zLQ3qy/tSs8i
+        5FUrDzJiUCLsdEJZ4ovTq/PJQFLtIf/MfxmxW+nu6cwW9IfZO+2nncmzTnjpEbrV3MH6tj
+        9b3brF3GgBQbP9y2bmXgCU8M4zoc2GmpJnNPYPngl4Q3CAXCKlffOoU2TbmM1e7rBtgxG5
+        I955rjrk1V8U3FHUiSZO6UvjD62oqONm2qhsAdvpgboUJlslC/n2D3AmOJoiDXEw8WOFvk
+        k66LV22FAJnV0xR9tR25lKLopG2+yp6AUrfyM0um/WMR7J6qyoLFz+U0tt9W2Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443303;
+        s=2020e; t=1598443311;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=Jbe7LG9G4Zvu5BS675dx2ovvPd7Zs7K+V3j/Ww3fTeI=;
-        b=IbCUcGl7XvQeZPqcjY0sMmXx+SATO7tqwsqpLLv6njqYgigJNA52AxgTU6srAQXn4Ie9po
-        9VYvOCbhOnB1xaDg==
-Date:   Wed, 26 Aug 2020 13:17:07 +0200
+        bh=b69SWJ3Ur45XxM77SmSu/tsjVczGdpPRTUPeP/VD4Ik=;
+        b=wIUepu9R9BwJrfL5hHLBQrW187phV08auxKlkm3THVUKZ6T3NRDo7Cxcy1mizpDRZnSQiD
+        b3u1CTDbJZZ/EOBg==
+Date:   Wed, 26 Aug 2020 13:17:13 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,7 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 39/46] x86/irq: Add DEV_MSI allocation type
+Subject: [patch V2 45/46] irqdomain/msi: Provide msi_alloc/free_store() callbacks
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -87,24 +87,83 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-For the upcoming device MSI support a new allocation type is
-required.
+For devices which don't have a standard storage for MSI messages like the
+upcoming IMS (Interrupt Message Storm) it's required to allocate storage
+space before allocating interrupts and after freeing them.
+
+This could be achieved with the existing callbacks, but that would be
+awkward because they operate on msi_alloc_info_t which is not uniform
+accross architectures. Also these callbacks are invoked per interrupt but
+the allocation might have bulk requirements depending on the device.
+
+As such devices can operate on different architectures it is simpler to
+have seperate callbacks which operate on struct device. The resulting
+storage information has to be stored in struct msi_desc so the underlying
+irq chip implementation can retrieve it for the relevant operations.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
 ---
- arch/x86/include/asm/hw_irq.h |    1 +
- 1 file changed, 1 insertion(+)
+ include/linux/msi.h |    8 ++++++++
+ kernel/irq/msi.c    |   11 +++++++++++
+ 2 files changed, 19 insertions(+)
 
---- a/arch/x86/include/asm/hw_irq.h
-+++ b/arch/x86/include/asm/hw_irq.h
-@@ -40,6 +40,7 @@ enum irq_alloc_type {
- 	X86_IRQ_ALLOC_TYPE_PCI_MSIX,
- 	X86_IRQ_ALLOC_TYPE_DMAR,
- 	X86_IRQ_ALLOC_TYPE_UV,
-+	X86_IRQ_ALLOC_TYPE_DEV_MSI,
- 	X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT,
- 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -279,6 +279,10 @@ struct msi_domain_info;
+  *			function.
+  * @domain_free_irqs:	Optional function to override the default free
+  *			function.
++ * @msi_alloc_store:	Optional callback to allocate storage in a device
++ *			specific non-standard MSI store
++ * @msi_alloc_free:	Optional callback to free storage in a device
++ *			specific non-standard MSI store
+  *
+  * @get_hwirq, @msi_init and @msi_free are callbacks used by
+  * msi_create_irq_domain() and related interfaces
+@@ -328,6 +332,10 @@ struct msi_domain_ops {
+ 					     struct device *dev, int nvec);
+ 	void		(*domain_free_irqs)(struct irq_domain *domain,
+ 					    struct device *dev);
++	int		(*msi_alloc_store)(struct irq_domain *domain,
++					   struct device *dev, int nvec);
++	void		(*msi_free_store)(struct irq_domain *domain,
++					    struct device *dev);
  };
-
+ 
+ /**
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -434,6 +434,12 @@ int __msi_domain_alloc_irqs(struct irq_d
+ 	if (ret)
+ 		return ret;
+ 
++	if (ops->msi_alloc_store) {
++		ret = ops->msi_alloc_store(domain, dev, nvec);
++		if (ret)
++			return ret;
++	}
++
+ 	for_each_msi_entry(desc, dev) {
+ 		ops->set_desc(&arg, desc);
+ 
+@@ -533,6 +539,8 @@ int msi_domain_alloc_irqs(struct irq_dom
+ 
+ void __msi_domain_free_irqs(struct irq_domain *domain, struct device *dev)
+ {
++	struct msi_domain_info *info = domain->host_data;
++	struct msi_domain_ops *ops = info->ops;
+ 	struct msi_desc *desc;
+ 
+ 	for_each_msi_entry(desc, dev) {
+@@ -546,6 +554,9 @@ void __msi_domain_free_irqs(struct irq_d
+ 			desc->irq = 0;
+ 		}
+ 	}
++
++	if (ops->msi_free_store)
++		ops->msi_free_store(domain, dev);
+ }
+ 
+ /**
 
