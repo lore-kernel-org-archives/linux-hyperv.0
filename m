@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4202AC433DF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0033C433E1
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:13:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1ED532071E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 655E620838
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:13:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cZkMF/YW";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="c+I8epgL"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vs7Crzs/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Msr8qgC+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729590AbgHZMMm (ORCPT
+        id S1729938AbgHZMNH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35512 "EHLO
+        Wed, 26 Aug 2020 08:13:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729398AbgHZMBc (ORCPT
+        with ESMTP id S1729384AbgHZMB1 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:32 -0400
+        Wed, 26 Aug 2020 08:01:27 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8830C061786;
-        Wed, 26 Aug 2020 05:01:31 -0700 (PDT)
-Message-Id: <20200826112331.634777249@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88962C061756;
+        Wed, 26 Aug 2020 05:01:22 -0700 (PDT)
+Message-Id: <20200826112331.849577844@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443267;
+        s=2020; t=1598443270;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=uwvQNHvaNg/Fdy2Gl3KxXB78ZUpQmA3m1yJB61BHx4U=;
-        b=cZkMF/YWULZ4Uotab3k3IXi4r4hFFnpiFtt6iNZpjY2glC7/xkFk3cB9PgaOU/8JGRxOjj
-        S7I9iF8wESVzg+xDMZUKVy8Vbe6zq6LwxfCfOp+LsiBpSu672pJYhA6gZdh8IxY2xC6rKX
-        3u6zI+8BnB3zMleeiIPXmH/Awu4yF5kC4ReV65SghuOIimGB2BYzAAK9x10MHqSwRaGKkj
-        LB3rdDrHqSkWruYzPDa2OvgoiLXf78uxrzp0kxWXqNqww4EKoeJth428QKttN0aAkXjd92
-        XLLJA91DUCN7cD4uJ1Gh1vWIc9GqgAIi7jZWF3Ewak/+mo/C3yFdrghRZhkL4g==
+        bh=1I9yW3eMm4iVQaR5dfVSMWt9KqqPcB0KB7Tj4Yik9Do=;
+        b=Vs7Crzs/frt067nyUVkVFJOIQw6uTtI6Y26Uhysh9DPryE0UufkujposG7+OAE/EsM8Fj6
+        q4K3EC3m4fL5Pb4heM215T5j1kO+LEzHeBvS8By8A7i7kzyUqiQIyTWi4QCH0bGMk0hYnn
+        yFYKTb4rdzNDMUYt0Vm1cxuxsJt3flpfKrnFIPk83LI0HAz5OE6yF0+dr3fbr72J+CMNH9
+        6d/IgE4yFEW45kzkwQ4YqiBBQtpptF5MYmWw3wDSkh/WO8XGv61ETXFpnhjd0QRQLw61KT
+        BcdS2XHVFOJWNRsyGm+wHedFsUdnwc4F7fV/F3Rawwgl7ORqZ3Bn3zXGFkdqbQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443267;
+        s=2020e; t=1598443270;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=uwvQNHvaNg/Fdy2Gl3KxXB78ZUpQmA3m1yJB61BHx4U=;
-        b=c+I8epgL/HK82KFtaXiIHgczMaYB4MS5Q6XB/264Q9Abn3goTn6OI8aEnTusT/a/dZRKM7
-        fW0BwXcA8NuxczDQ==
-Date:   Wed, 26 Aug 2020 13:16:38 +0200
+        bh=1I9yW3eMm4iVQaR5dfVSMWt9KqqPcB0KB7Tj4Yik9Do=;
+        b=Msr8qgC+pO20pz2h9JxLzlcZ/HkirmM4OCsAR405gtLWFmI+l5BU2dRBJFB/SeCb3iPUKh
+        2tDkTIU4fgHsuKAA==
+Date:   Wed, 26 Aug 2020 13:16:40 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -78,7 +78,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 10/46] iommu/amd: Consolidate irq domain getter
+Subject: [patch V2 12/46] x86/irq: Prepare consolidation of irq_alloc_info
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,123 +90,60 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-The irq domain request mode is now indicated in irq_alloc_info::type.
+struct irq_alloc_info is a horrible zoo of unnamed structs in a union. Many
+of the struct fields can be generic and don't have to be type specific like
+hpet_id, ioapic_id...
 
-Consolidate the two getter functions into one.
+Provide a generic set of members to prepare for the consolidation. The goal
+is to make irq_alloc_info have the same basic member as the generic
+msi_alloc_info so generic MSI domain ops can be reused and yet more mess
+can be avoided when (non-PCI) device MSI support comes along.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
 ---
- drivers/iommu/amd/iommu.c |   65 ++++++++++++++--------------------------------
- 1 file changed, 21 insertions(+), 44 deletions(-)
+ arch/x86/include/asm/hw_irq.h |   22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3505,77 +3505,54 @@ static void irte_ga_clear_allocated(stru
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -44,10 +44,25 @@ enum irq_alloc_type {
+ 	X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT,
+ };
  
- static int get_devid(struct irq_alloc_info *info)
- {
--	int devid = -1;
--
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC:
--		devid     = get_ioapic_devid(info->ioapic_id);
--		break;
-+	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
-+		return get_ioapic_devid(info->ioapic_id);
- 	case X86_IRQ_ALLOC_TYPE_HPET:
--		devid     = get_hpet_devid(info->hpet_id);
--		break;
-+	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
-+		return get_hpet_devid(info->hpet_id);
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
- 	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		devid = get_device_id(&info->msi_dev->dev);
--		break;
-+		return get_device_id(&info->msi_dev->dev);
- 	default:
--		BUG_ON(1);
--		break;
-+		WARN_ON_ONCE(1);
-+		return -1;
- 	}
--
--	return devid;
- }
- 
--static struct irq_domain *get_ir_irq_domain(struct irq_alloc_info *info)
-+static struct irq_domain *get_irq_domain_for_devid(struct irq_alloc_info *info,
-+						   int devid)
- {
--	struct amd_iommu *iommu;
--	int devid;
-+	struct amd_iommu *iommu = amd_iommu_rlookup_table[devid];
- 
--	if (!info)
-+	if (!iommu)
- 		return NULL;
- 
- 	switch (info->type) {
- 	case X86_IRQ_ALLOC_TYPE_IOAPIC_GET_PARENT:
- 	case X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT:
--		break;
-+		return iommu->ir_domain;
-+	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
-+	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
-+		return iommu->msi_domain;
- 	default:
-+		WARN_ON_ONCE(1);
- 		return NULL;
- 	}
--
--	devid = get_devid(info);
--	if (devid >= 0) {
--		iommu = amd_iommu_rlookup_table[devid];
--		if (iommu)
--			return iommu->ir_domain;
--	}
--
--	return NULL;
- }
- 
- static struct irq_domain *get_irq_domain(struct irq_alloc_info *info)
- {
--	struct amd_iommu *iommu;
- 	int devid;
- 
- 	if (!info)
- 		return NULL;
- 
--	switch (info->type) {
--	case X86_IRQ_ALLOC_TYPE_PCI_MSI:
--	case X86_IRQ_ALLOC_TYPE_PCI_MSIX:
--		devid = get_device_id(&info->msi_dev->dev);
--		if (devid < 0)
--			return NULL;
--
--		iommu = amd_iommu_rlookup_table[devid];
--		if (iommu)
--			return iommu->msi_domain;
--		break;
--	default:
--		break;
--	}
--
--	return NULL;
-+	devid = get_devid(info);
-+	if (devid < 0)
-+		return NULL;
-+	return get_irq_domain_for_devid(info, devid);
- }
- 
- struct irq_remap_ops amd_iommu_irq_ops = {
-@@ -3584,7 +3561,7 @@ struct irq_remap_ops amd_iommu_irq_ops =
- 	.disable		= amd_iommu_disable,
- 	.reenable		= amd_iommu_reenable,
- 	.enable_faulting	= amd_iommu_enable_faulting,
--	.get_ir_irq_domain	= get_ir_irq_domain,
-+	.get_ir_irq_domain	= get_irq_domain,
- 	.get_irq_domain		= get_irq_domain,
++/**
++ * irq_alloc_info - X86 specific interrupt allocation info
++ * @type:	X86 specific allocation type
++ * @flags:	Flags for allocation tweaks
++ * @devid:	Device ID for allocations
++ * @hwirq:	Associated hw interrupt number in the domain
++ * @mask:	CPU mask for vector allocation
++ * @desc:	Pointer to msi descriptor
++ * @data:	Allocation specific data
++ */
+ struct irq_alloc_info {
+ 	enum irq_alloc_type	type;
+ 	u32			flags;
+-	const struct cpumask	*mask;	/* CPU mask for vector allocation */
++	u32			devid;
++	irq_hw_number_t		hwirq;
++	const struct cpumask	*mask;
++	struct msi_desc		*desc;
++	void			*data;
++
+ 	union {
+ 		int		unused;
+ #ifdef	CONFIG_HPET_TIMER
+@@ -88,11 +103,6 @@ struct irq_alloc_info {
+ 			char		*uv_name;
+ 		};
+ #endif
+-#if IS_ENABLED(CONFIG_VMD)
+-		struct {
+-			struct msi_desc *desc;
+-		};
+-#endif
+ 	};
  };
  
 
