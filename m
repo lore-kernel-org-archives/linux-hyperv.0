@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9739DC433E1
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 468FEC433E3
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 730A82071E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 279B12071E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:12:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1Xqx86E3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SfxmzM35"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2u4vytYI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PSjOt7VF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729296AbgHZMMm (ORCPT
+        id S1729814AbgHZMMq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:12:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35508 "EHLO
+        Wed, 26 Aug 2020 08:12:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729396AbgHZMBc (ORCPT
+        with ESMTP id S1729388AbgHZMBb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:32 -0400
+        Wed, 26 Aug 2020 08:01:31 -0400
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD3EEC0613ED;
-        Wed, 26 Aug 2020 05:01:31 -0700 (PDT)
-Message-Id: <20200826112332.564274859@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C153AC061757;
+        Wed, 26 Aug 2020 05:01:30 -0700 (PDT)
+Message-Id: <20200826112332.255792469@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443278;
+        s=2020; t=1598443275;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=i8DAYBEwyev5Sb9kBzuYKhZP/VSkuBj1GjlCA99AJoU=;
-        b=1Xqx86E3q2b2ZixfziDqUULh/NKjOj9iSwzOxek01OxyvIOgg8cUw3scQFIUzhIik+ULyn
-        eYFFOzQaAtAetJ50JADbspwYOvRf4DuZsIZmaC2YhkoUJhcr8Aw+N6rO1uVGgC7/3shr1d
-        OLBVnD9q8QM5PVW3FFw8KiTObe68Q+oWSoYrp0u3NbRzILlSdX1zl6PFApXfxKlDu7mgcY
-        VM+FjD84hB1Ylny24sp4NpcF0El5FTnNFvQ/lQe1ts3dGeGXohTL9r/sSDLTTc8KMOCHR9
-        EFTxeabk4c1fokQ9HBmZl2X1/37ciY0jgRDlOoW6Jicw2OjZ+uXg/oIDQCh3Sw==
+        bh=+SoMFjSy3jxF5f7dqPyd8PSV+JeMGK6juDfUnA5hngg=;
+        b=2u4vytYI/UB7itfPfJyvcdtqgCSKW46Ox/zzv2XerZ/InxrGE2GWHhUDKlY8KgMdB7HXL0
+        aLOdvn+B7AKdSbMuJNLtpZnHpUhROBD88RM3sZNaYgn4L9mRZ01tMg9oUEB7hNqxxpaxWu
+        PuWPB9GE8gYW2nV/GNNUJXz2QRA1aGEbBgme8ZLddYRvk8mJdtNuM8JAPZV39AP5FWFg+e
+        6mCaujWeR7ty5TW1jh05CxG1dO0TpdiTKJadJRyoTzko/NyP4r516waUKG+f3i3UxKVb33
+        jOoOW+eKn8eNokn5EzeqiaAzG15RYHWhPZq+zVKV7VaRVNEAB9gP2x3UcAMe9Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443278;
+        s=2020e; t=1598443275;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=i8DAYBEwyev5Sb9kBzuYKhZP/VSkuBj1GjlCA99AJoU=;
-        b=SfxmzM35p6LRaIAQ/4CDORuaZiaqNGlLQeEksCh9t6iTSH1SdW+K2Nr2PXf5/KBUbLnT8s
-        4r2ubQSnF63IJVDg==
-Date:   Wed, 26 Aug 2020 13:16:47 +0200
+        bh=+SoMFjSy3jxF5f7dqPyd8PSV+JeMGK6juDfUnA5hngg=;
+        b=PSjOt7VFjQr229YKNjiivKh8I6ovDgS9HVBurRV+6P90PPJdlYxwtL6KbmLSwDXPUAQZH4
+        W8RvnGxIZdv3mZBw==
+Date:   Wed, 26 Aug 2020 13:16:44 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -78,7 +78,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 19/46] x86/msi: Use generic MSI domain ops
+Subject: [patch V2 16/46] x86/irq: Consolidate UV domain allocation
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,122 +90,104 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-pci_msi_get_hwirq() and pci_msi_set_desc are not longer special. Enable the
-generic MSI domain ops in the core and PCI MSI code unconditionally and get
-rid of the x86 specific implementations in the X86 MSI code and in the
-hyperv PCI driver.
+Move the UV specific fields into their own struct for readability sake. Get
+rid of the #ifdeffery as it does not matter at all whether the alloc info
+is a couple of bytes longer or not.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 
 ---
- arch/x86/include/asm/msi.h          |    2 --
- arch/x86/kernel/apic/msi.c          |   15 ---------------
- drivers/pci/controller/pci-hyperv.c |    8 --------
- drivers/pci/msi.c                   |    4 ----
- kernel/irq/msi.c                    |    6 ------
- 5 files changed, 35 deletions(-)
+ arch/x86/include/asm/hw_irq.h |   21 ++++++++++++---------
+ arch/x86/platform/uv/uv_irq.c |   16 ++++++++--------
+ 2 files changed, 20 insertions(+), 17 deletions(-)
 
---- a/arch/x86/include/asm/msi.h
-+++ b/arch/x86/include/asm/msi.h
-@@ -9,6 +9,4 @@ typedef struct irq_alloc_info msi_alloc_
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg);
- 
--void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc);
--
- #endif /* _ASM_X86_MSI_H */
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -204,12 +204,6 @@ void native_teardown_msi_irq(unsigned in
- 	irq_domain_free_irqs(irq, 1);
- }
- 
--static irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
--					 msi_alloc_info_t *arg)
--{
--	return arg->hwirq;
--}
--
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg)
- {
-@@ -228,17 +222,8 @@ int pci_msi_prepare(struct irq_domain *d
- }
- EXPORT_SYMBOL_GPL(pci_msi_prepare);
- 
--void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc)
--{
--	arg->desc = desc;
--	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
--}
--EXPORT_SYMBOL_GPL(pci_msi_set_desc);
--
- static struct msi_domain_ops pci_msi_domain_ops = {
--	.get_hwirq	= pci_msi_get_hwirq,
- 	.msi_prepare	= pci_msi_prepare,
--	.set_desc	= pci_msi_set_desc,
+--- a/arch/x86/include/asm/hw_irq.h
++++ b/arch/x86/include/asm/hw_irq.h
+@@ -53,6 +53,14 @@ struct ioapic_alloc_info {
+ 	struct IO_APIC_route_entry	*entry;
  };
  
- static struct msi_domain_info pci_msi_domain_info = {
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1531,16 +1531,8 @@ static struct irq_chip hv_msi_irq_chip =
- 	.irq_unmask		= hv_irq_unmask,
- };
++struct uv_alloc_info {
++	int		limit;
++	int		blade;
++	unsigned long	offset;
++	char		*name;
++
++};
++
+ /**
+  * irq_alloc_info - X86 specific interrupt allocation info
+  * @type:	X86 specific allocation type
+@@ -64,7 +72,8 @@ struct ioapic_alloc_info {
+  * @data:	Allocation specific data
+  *
+  * @ioapic:	IOAPIC specific allocation data
+- */
++ * @uv:		UV specific allocation data
++*/
+ struct irq_alloc_info {
+ 	enum irq_alloc_type	type;
+ 	u32			flags;
+@@ -76,6 +85,8 @@ struct irq_alloc_info {
  
--static irq_hw_number_t hv_msi_domain_ops_get_hwirq(struct msi_domain_info *info,
--						   msi_alloc_info_t *arg)
--{
--	return arg->hwirq;
--}
--
- static struct msi_domain_ops hv_msi_ops = {
--	.get_hwirq	= hv_msi_domain_ops_get_hwirq,
- 	.msi_prepare	= pci_msi_prepare,
--	.set_desc	= pci_msi_set_desc,
- 	.msi_free	= hv_msi_free,
- };
- 
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -1401,16 +1401,12 @@ static int pci_msi_domain_handle_error(s
- 	return error;
- }
- 
--#ifdef GENERIC_MSI_DOMAIN_OPS
- static void pci_msi_domain_set_desc(msi_alloc_info_t *arg,
- 				    struct msi_desc *desc)
- {
- 	arg->desc = desc;
- 	arg->hwirq = pci_msi_domain_calc_hwirq(desc);
- }
--#else
--#define pci_msi_domain_set_desc		NULL
+ 	union {
+ 		struct ioapic_alloc_info	ioapic;
++		struct uv_alloc_info		uv;
++
+ 		int		unused;
+ #ifdef	CONFIG_PCI_MSI
+ 		struct {
+@@ -83,14 +94,6 @@ struct irq_alloc_info {
+ 			irq_hw_number_t	msi_hwirq;
+ 		};
+ #endif
+-#ifdef	CONFIG_X86_UV
+-		struct {
+-			int		uv_limit;
+-			int		uv_blade;
+-			unsigned long	uv_offset;
+-			char		*uv_name;
+-		};
 -#endif
- 
- static struct msi_domain_ops pci_msi_domain_ops_default = {
- 	.set_desc	= pci_msi_domain_set_desc,
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -187,7 +187,6 @@ static const struct irq_domain_ops msi_d
- 	.deactivate	= msi_domain_deactivate,
+ 	};
  };
  
--#ifdef GENERIC_MSI_DOMAIN_OPS
- static irq_hw_number_t msi_domain_ops_get_hwirq(struct msi_domain_info *info,
- 						msi_alloc_info_t *arg)
- {
-@@ -206,11 +205,6 @@ static void msi_domain_ops_set_desc(msi_
- {
- 	arg->desc = desc;
- }
--#else
--#define msi_domain_ops_get_hwirq	NULL
--#define msi_domain_ops_prepare		NULL
--#define msi_domain_ops_set_desc		NULL
--#endif /* !GENERIC_MSI_DOMAIN_OPS */
+--- a/arch/x86/platform/uv/uv_irq.c
++++ b/arch/x86/platform/uv/uv_irq.c
+@@ -90,15 +90,15 @@ static int uv_domain_alloc(struct irq_do
  
- static int msi_domain_ops_init(struct irq_domain *domain,
- 			       struct msi_domain_info *info,
+ 	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
+ 	if (ret >= 0) {
+-		if (info->uv_limit == UV_AFFINITY_CPU)
++		if (info->uv.limit == UV_AFFINITY_CPU)
+ 			irq_set_status_flags(virq, IRQ_NO_BALANCING);
+ 		else
+ 			irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
+ 
+-		chip_data->pnode = uv_blade_to_pnode(info->uv_blade);
+-		chip_data->offset = info->uv_offset;
++		chip_data->pnode = uv_blade_to_pnode(info->uv.blade);
++		chip_data->offset = info->uv.offset;
+ 		irq_domain_set_info(domain, virq, virq, &uv_irq_chip, chip_data,
+-				    handle_percpu_irq, NULL, info->uv_name);
++				    handle_percpu_irq, NULL, info->uv.name);
+ 	} else {
+ 		kfree(chip_data);
+ 	}
+@@ -193,10 +193,10 @@ int uv_setup_irq(char *irq_name, int cpu
+ 
+ 	init_irq_alloc_info(&info, cpumask_of(cpu));
+ 	info.type = X86_IRQ_ALLOC_TYPE_UV;
+-	info.uv_limit = limit;
+-	info.uv_blade = mmr_blade;
+-	info.uv_offset = mmr_offset;
+-	info.uv_name = irq_name;
++	info.uv.limit = limit;
++	info.uv.blade = mmr_blade;
++	info.uv.offset = mmr_offset;
++	info.uv.name = irq_name;
+ 
+ 	return irq_domain_alloc_irqs(domain, 1,
+ 				     uv_blade_to_memory_nid(mmr_blade), &info);
 
 
