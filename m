@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB87C433E3
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1719AC433DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:10:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BF2720786
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:10:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7B2520786
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 Aug 2020 12:10:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ci+yEYTV";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oFL/js22"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y+GSAhB9";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Leew08eW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729864AbgHZMKY (ORCPT
+        id S1729867AbgHZMKZ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 Aug 2020 08:10:24 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:57942 "EHLO
+        Wed, 26 Aug 2020 08:10:25 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:57940 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729400AbgHZMBe (ORCPT
+        with ESMTP id S1729401AbgHZMBf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:01:34 -0400
-Message-Id: <20200826112333.622352798@linutronix.de>
+        Wed, 26 Aug 2020 08:01:35 -0400
+Message-Id: <20200826112333.420224092@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1598443292;
+        s=2020; t=1598443290;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=m8VqN5j7CyoINljd+ev/uJTpzn1HV5cfd+C+/482K8I=;
-        b=Ci+yEYTVdn5HrvM1gWFjUHFH5E0a8fnUM0twCozKUIyvPackZGIEC1eEn1P9voCSchqxoe
-        cbRDIA+GcmiYA8P8bLyu+IO/TvXATMZzaCAgLTHgi2S+2eBV284MU0YnHjci+ffs85TW3S
-        Dm4ID1SxrKaVtlLBYh82EhYa7Fbii8vRrPYTkX4wb7noEwSgk/QG6D7vjkyDYVT6qEQmV2
-        DbJOLG51R61SMLP/9lKHqU2ufbvoHcJbPnNAs4uXW3X/OSr6YPLjGB0Ldcl1eXRpL2sZVL
-        349nZT9B18UKuwImao/7wESbOOL9PmLyk0S0sT2ykfqjXEaYS3Bsx/YgL5KggA==
+        bh=5gSA5lrpFSSx0Sk4Rz0WYJJ5HYHvpjnq38rOpqhYXaQ=;
+        b=Y+GSAhB9I36ILIa68AiuAQJaHfzKn5so+JvNIdTBqFRIqLfYtpG7S52bXnYinuagR1Ip4L
+        m8ZI3O8AJJprbiNcgau3OA/UyXKhe8yA71EmDsg9ZT9Y3mrvCpDRjbGIAko4LoIH3/u8Ko
+        s5CUikykjxRGFY5TXjJaLHg+9FVAjzmW+N1wkHUv/lHixzLJktkwID/TfAcKwzO7cNez2Y
+        RSO9ziIpIHPtWi5VTPLYywmcFUMzIkKuUQthsArASiS+zngpUfZ/QcIB0iFra9bqB6J4T3
+        YktiFwVO2L8l8lr9+SwGIoMLzf+agbrEPGfFNyWc8848xpUs7TbmEGCXTUtPcA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1598443292;
+        s=2020e; t=1598443290;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=m8VqN5j7CyoINljd+ev/uJTpzn1HV5cfd+C+/482K8I=;
-        b=oFL/js22qqSW7G3PPr5wjroZDaDLsQwO4oZM8Pjs2hlm7OciNNEbJWYeWlRq9TWSaCeZeL
-        VwR0c3IpoWnkNkBQ==
-Date:   Wed, 26 Aug 2020 13:16:58 +0200
+        bh=5gSA5lrpFSSx0Sk4Rz0WYJJ5HYHvpjnq38rOpqhYXaQ=;
+        b=Leew08eWQ6Ztik03CCxHcAXfQtPZJzm1YgdLVOV6/36hmFk1C7Z6JLGuHg3TjGFN8XbonQ
+        Wtd37okFERh9L3Dw==
+Date:   Wed, 26 Aug 2020 13:16:56 +0200
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
@@ -75,7 +75,7 @@ Cc:     x86@kernel.org, Joerg Roedel <joro@8bytes.org>,
         Baolu Lu <baolu.lu@intel.com>,
         Kevin Tian <kevin.tian@intel.com>,
         Dan Williams <dan.j.williams@intel.com>
-Subject: [patch V2 30/46] x86/xen: Wrap XEN MSI management into irqdomain
+Subject: [patch V2 28/46] x86/xen: Consolidate XEN-MSI init
 References: <20200826111628.794979401@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -87,102 +87,108 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-To allow utilizing the irq domain pointer in struct device it is necessary
-to make XEN/MSI irq domain compatible.
+X86 cannot store the irq domain pointer in struct device without breaking
+XEN because the irq domain pointer takes precedence over arch_*_msi_irqs()
+fallbacks.
 
-While the right solution would be to truly convert XEN to irq domains, this
-is an exercise which is not possible for mere mortals with limited XENology.
+To achieve this XEN MSI interrupt management needs to be wrapped into an
+irq domain.
 
-Provide a plain irqdomain wrapper around XEN. While this is blatant
-violation of the irqdomain design, it's the only solution for a XEN igorant
-person to make progress on the issue which triggered this change.
+Move the x86_msi ops setup into a single function to prepare for this.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Acked-by: Juergen Gross <jgross@suse.com>
-
 ---
-Note: This is completely untested, but it compiles so it must be perfect.
+V2: Use the proper logic to select initial domain setup
 ---
- arch/x86/pci/xen.c |   63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ arch/x86/pci/xen.c |   51 ++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
 --- a/arch/x86/pci/xen.c
 +++ b/arch/x86/pci/xen.c
-@@ -407,6 +407,63 @@ static void xen_teardown_msi_irq(unsigne
+@@ -372,7 +372,10 @@ static void xen_initdom_restore_msi_irqs
+ 		WARN(ret && ret != -ENOSYS, "restore_msi -> %d\n", ret);
+ 	}
+ }
+-#endif
++#else /* CONFIG_XEN_DOM0 */
++#define xen_initdom_setup_msi_irqs	NULL
++#define xen_initdom_restore_msi_irqs	NULL
++#endif /* !CONFIG_XEN_DOM0 */
+ 
+ static void xen_teardown_msi_irqs(struct pci_dev *dev)
+ {
+@@ -404,7 +407,31 @@ static void xen_teardown_msi_irq(unsigne
  	WARN_ON_ONCE(1);
  }
  
-+static int xen_msi_domain_alloc_irqs(struct irq_domain *domain,
-+				     struct device *dev,  int nvec)
+-#endif
++static __init void xen_setup_pci_msi(void)
 +{
-+	int type;
-+
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
-+		return -EINVAL;
-+
-+	if (first_msi_entry(dev)->msi_attrib.is_msix)
-+		type = PCI_CAP_ID_MSIX;
-+	else
-+		type = PCI_CAP_ID_MSI;
-+
-+	return x86_msi.setup_msi_irqs(to_pci_dev(dev), nvec, type);
-+}
-+
-+static void xen_msi_domain_free_irqs(struct irq_domain *domain,
-+				     struct device *dev)
-+{
-+	if (WARN_ON_ONCE(!dev_is_pci(dev)))
++	if (xen_pv_domain()) {
++		if (xen_initial_domain()) {
++			x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
++			x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
++		} else {
++			x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
++		}
++		x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
++		pci_msi_ignore_mask = 1;
++	} else if (xen_hvm_domain()) {
++		x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
++		x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
++	} else {
++		WARN_ON_ONCE(1);
 +		return;
++	}
 +
-+	x86_msi.teardown_msi_irqs(to_pci_dev(dev));
++	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
 +}
 +
-+static struct msi_domain_ops xen_pci_msi_domain_ops = {
-+	.domain_alloc_irqs	= xen_msi_domain_alloc_irqs,
-+	.domain_free_irqs	= xen_msi_domain_free_irqs,
-+};
-+
-+static struct msi_domain_info xen_pci_msi_domain_info = {
-+	.ops			= &xen_pci_msi_domain_ops,
-+};
-+
-+/*
-+ * This irq domain is a blatant violation of the irq domain design, but
-+ * distangling XEN into real irq domains is not a job for mere mortals with
-+ * limited XENology. But it's the least dangerous way for a mere mortal to
-+ * get rid of the arch_*_msi_irqs() hackery in order to store the irq
-+ * domain pointer in struct device. This irq domain wrappery allows to do
-+ * that without breaking XEN terminally.
-+ */
-+static __init struct irq_domain *xen_create_pci_msi_domain(void)
-+{
-+	struct irq_domain *d = NULL;
-+	struct fwnode_handle *fn;
-+
-+	fn = irq_domain_alloc_named_fwnode("XEN-MSI");
-+	if (fn)
-+		d = msi_create_irq_domain(fn, &xen_pci_msi_domain_info, NULL);
-+
-+	/* FIXME: No idea how to survive if this fails */
-+	BUG_ON(!d);
-+
-+	return d;
-+}
-+
- static __init void xen_setup_pci_msi(void)
- {
- 	if (xen_pv_domain()) {
-@@ -427,6 +484,12 @@ static __init void xen_setup_pci_msi(voi
- 	}
++#else /* CONFIG_PCI_MSI */
++static inline void xen_setup_pci_msi(void) { }
++#endif /* CONFIG_PCI_MSI */
  
- 	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
-+
-+	/*
-+	 * Override the PCI/MSI irq domain init function. No point
-+	 * in allocating the native domain and never use it.
-+	 */
-+	x86_init.irqs.create_pci_msi_domain = xen_create_pci_msi_domain;
+ int __init pci_xen_init(void)
+ {
+@@ -421,12 +448,7 @@ int __init pci_xen_init(void)
+ 	/* Keep ACPI out of the picture */
+ 	acpi_noirq_set();
+ 
+-#ifdef CONFIG_PCI_MSI
+-	x86_msi.setup_msi_irqs = xen_setup_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-	x86_msi.teardown_msi_irqs = xen_pv_teardown_msi_irqs;
+-	pci_msi_ignore_mask = 1;
+-#endif
++	xen_setup_pci_msi();
+ 	return 0;
  }
  
- #else /* CONFIG_PCI_MSI */
+@@ -446,10 +468,7 @@ static void __init xen_hvm_msi_init(void
+ 		    ((eax & XEN_HVM_CPUID_APIC_ACCESS_VIRT) && boot_cpu_has(X86_FEATURE_APIC)))
+ 			return;
+ 	}
+-
+-	x86_msi.setup_msi_irqs = xen_hvm_setup_msi_irqs;
+-	x86_msi.teardown_msi_irqs = xen_teardown_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
++	xen_setup_pci_msi();
+ }
+ #endif
+ 
+@@ -482,13 +501,7 @@ int __init pci_xen_initial_domain(void)
+ {
+ 	int irq;
+ 
+-#ifdef CONFIG_PCI_MSI
+-	x86_msi.setup_msi_irqs = xen_initdom_setup_msi_irqs;
+-	x86_msi.teardown_msi_irq = xen_teardown_msi_irq;
+-	x86_msi.teardown_msi_irqs = xen_teardown_pv_msi_irqs;
+-	x86_msi.restore_msi_irqs = xen_initdom_restore_msi_irqs;
+-	pci_msi_ignore_mask = 1;
+-#endif
++	xen_setup_pci_msi();
+ 	__acpi_register_gsi = acpi_register_gsi_xen;
+ 	__acpi_unregister_gsi = NULL;
+ 	/*
 
