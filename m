@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D09D4C433E6
-	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Aug 2020 15:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A8AC433E7
+	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Aug 2020 15:39:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8BC020EDD
-	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Aug 2020 15:38:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E75D2207EA
+	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Aug 2020 15:39:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1598888327;
-	bh=TNr20Rhq1tcURGtfYe8xVwLGmJ82ca1qiqhUd7CC3Ns=;
+	s=default; t=1598888370;
+	bh=hJ4CKVWnrnDzcY+E+SwF6btxG/3tO217+leRyRg10yA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=A3l/+KnuGbClexqacLsVHJECepjbwbAGpQbqLoxOPt8FO6PLtkjat09QXInUOqzX4
-	 SkDfi0gqln5Q9jSBi7se+vcy1DK4ICXyFprhvUNx+g+jr3XDr/xa2x3UlKgfmcwRMk
-	 WxCyDriOtEPo8HP6//ERO54qENWFVreu//AYv1/Q=
+	b=MHVksBOWfCSFHH0/jjdO1EGkq2PUrsgZu4z4hFTgTfpD1h0HXKtgh9/1GW78c0NzS
+	 krSLohwhxNsytutlkGQH3at7qHQV3uubPAr58PRcvlu1c0lJzJY0GofWBmQ0bZU+j6
+	 sOUh2BHz+sUP9Ocp+s9/gi7h4saSR8BOOV5Gj4uw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728570AbgHaPaR (ORCPT
+        id S1729033AbgHaPiy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 31 Aug 2020 11:30:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39106 "EHLO mail.kernel.org"
+        Mon, 31 Aug 2020 11:38:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39368 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728546AbgHaPaM (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 31 Aug 2020 11:30:12 -0400
+        id S1728536AbgHaPaK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 31 Aug 2020 11:30:10 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A2B232151B;
-        Mon, 31 Aug 2020 15:30:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2AAD421531;
+        Mon, 31 Aug 2020 15:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598887810;
-        bh=TNr20Rhq1tcURGtfYe8xVwLGmJ82ca1qiqhUd7CC3Ns=;
+        s=default; t=1598887809;
+        bh=hJ4CKVWnrnDzcY+E+SwF6btxG/3tO217+leRyRg10yA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JSHVZ2JT7XZTYmLU1JNPU4/hflzH0AJ9gWCI2V33tl3mc69sssllxuegoyf9EGvKQ
-         LlDRMt2F30hbAo4R5W7n9u3hyC1zk0py0Tw1HDHzH1BXZqjQWC1sZMiH0w+/VhdlKt
-         pJ/jyj5OGr+o3Vxo5SQPTnBxjRktRwQuWGX6MnPs=
+        b=o8/3CVJ6Bx/ejsxnGeYz7XitWR6UzSq6/EzNqBiZQ8I3SI86fNMU6EH/vKSZkpp/z
+         Vv697R3J7zbwwoSEzWtdvH530r9/DnO8QkHZjAuN31Li3XA04mwpb0k8eouRqHs+lF
+         2o37GT/nuq6NXOUFbRAO/kKJgLCMTwTy870Soq00=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.8 24/42] hv_utils: drain the timesync packets on onchannelcallback
-Date:   Mon, 31 Aug 2020 11:29:16 -0400
-Message-Id: <20200831152934.1023912-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 23/42] hv_utils: return error if host timesysnc update is stale
+Date:   Mon, 31 Aug 2020 11:29:15 -0400
+Message-Id: <20200831152934.1023912-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200831152934.1023912-1-sashal@kernel.org>
 References: <20200831152934.1023912-1-sashal@kernel.org>
@@ -62,54 +62,98 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Vineeth Pillai <viremana@linux.microsoft.com>
 
-[ Upstream commit b46b4a8a57c377b72a98c7930a9f6969d2d4784e ]
+[ Upstream commit 90b125f4cd2697f949f5877df723a0b710693dd0 ]
 
-There could be instances where a system stall prevents the timesync
-packets to be consumed. And this might lead to more than one packet
-pending in the ring buffer. Current code empties one packet per callback
-and it might be a stale one. So drain all the packets from ring buffer
-on each callback.
+If for any reason, host timesync messages were not processed by
+the guest, hv_ptp_gettime() returns a stale value and the
+caller (clock_gettime, PTP ioctl etc) has no means to know this
+now. Return an error so that the caller knows about this.
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Link: https://lore.kernel.org/r/20200821152849.99517-1-viremana@linux.microsoft.com
+Link: https://lore.kernel.org/r/20200821152523.99364-1-viremana@linux.microsoft.com
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hv/hv_util.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ drivers/hv/hv_util.c | 46 +++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 35 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
-index 1f86e8d9b018d..a4e8d96513c22 100644
+index 92ee0fe4c919e..1f86e8d9b018d 100644
 --- a/drivers/hv/hv_util.c
 +++ b/drivers/hv/hv_util.c
-@@ -387,10 +387,23 @@ static void timesync_onchannelcallback(void *context)
- 	struct ictimesync_ref_data *refdata;
- 	u8 *time_txf_buf = util_timesynch.recv_buffer;
+@@ -282,26 +282,52 @@ static struct {
+ 	spinlock_t			lock;
+ } host_ts;
  
--	vmbus_recvpacket(channel, time_txf_buf,
--			 HV_HYP_PAGE_SIZE, &recvlen, &requestid);
-+	/*
-+	 * Drain the ring buffer and use the last packet to update
-+	 * host_ts
-+	 */
-+	while (1) {
-+		int ret = vmbus_recvpacket(channel, time_txf_buf,
-+					   HV_HYP_PAGE_SIZE, &recvlen,
-+					   &requestid);
-+		if (ret) {
-+			pr_warn_once("TimeSync IC pkt recv failed (Err: %d)\n",
-+				     ret);
-+			break;
-+		}
+-static struct timespec64 hv_get_adj_host_time(void)
++static inline u64 reftime_to_ns(u64 reftime)
+ {
+-	struct timespec64 ts;
+-	u64 newtime, reftime;
++	return (reftime - WLTIMEDELTA) * 100;
++}
 +
-+		if (!recvlen)
-+			break;
++/*
++ * Hard coded threshold for host timesync delay: 600 seconds
++ */
++static const u64 HOST_TIMESYNC_DELAY_THRESH = 600 * (u64)NSEC_PER_SEC;
++
++static int hv_get_adj_host_time(struct timespec64 *ts)
++{
++	u64 newtime, reftime, timediff_adj;
+ 	unsigned long flags;
++	int ret = 0;
  
--	if (recvlen > 0) {
- 		icmsghdrp = (struct icmsg_hdr *)&time_txf_buf[
- 				sizeof(struct vmbuspipe_hdr)];
+ 	spin_lock_irqsave(&host_ts.lock, flags);
+ 	reftime = hv_read_reference_counter();
+-	newtime = host_ts.host_time + (reftime - host_ts.ref_time);
+-	ts = ns_to_timespec64((newtime - WLTIMEDELTA) * 100);
++
++	/*
++	 * We need to let the caller know that last update from host
++	 * is older than the max allowable threshold. clock_gettime()
++	 * and PTP ioctl do not have a documented error that we could
++	 * return for this specific case. Use ESTALE to report this.
++	 */
++	timediff_adj = reftime - host_ts.ref_time;
++	if (timediff_adj * 100 > HOST_TIMESYNC_DELAY_THRESH) {
++		pr_warn_once("TIMESYNC IC: Stale time stamp, %llu nsecs old\n",
++			     (timediff_adj * 100));
++		ret = -ESTALE;
++	}
++
++	newtime = host_ts.host_time + timediff_adj;
++	*ts = ns_to_timespec64(reftime_to_ns(newtime));
+ 	spin_unlock_irqrestore(&host_ts.lock, flags);
  
+-	return ts;
++	return ret;
+ }
+ 
+ static void hv_set_host_time(struct work_struct *work)
+ {
+-	struct timespec64 ts = hv_get_adj_host_time();
+ 
+-	do_settimeofday64(&ts);
++	struct timespec64 ts;
++
++	if (!hv_get_adj_host_time(&ts))
++		do_settimeofday64(&ts);
+ }
+ 
+ /*
+@@ -622,9 +648,7 @@ static int hv_ptp_adjtime(struct ptp_clock_info *ptp, s64 delta)
+ 
+ static int hv_ptp_gettime(struct ptp_clock_info *info, struct timespec64 *ts)
+ {
+-	*ts = hv_get_adj_host_time();
+-
+-	return 0;
++	return hv_get_adj_host_time(ts);
+ }
+ 
+ static struct ptp_clock_info ptp_hyperv_info = {
 -- 
 2.25.1
 
