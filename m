@@ -2,182 +2,220 @@ Return-Path: <SRS0=4lkw=CQ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D39D0C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Sep 2020 16:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E61C43461
+	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Sep 2020 19:05:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99BF820757
-	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Sep 2020 16:21:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D12892145D
+	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Sep 2020 19:05:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/G2Jgb5"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="PqRGBUge"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730510AbgIGQUD (ORCPT
+        id S1729226AbgIGTFF (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 7 Sep 2020 12:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730451AbgIGQTz (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 7 Sep 2020 12:19:55 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04653C061574;
-        Mon,  7 Sep 2020 09:19:55 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id e17so14860062wme.0;
-        Mon, 07 Sep 2020 09:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T7f55k2r5OlXk34A84CpxQUybUpvWvz4gMNJy8/sgno=;
-        b=j/G2Jgb5rqzKNExV7n7ohz9X0rhecUAfO122e2W6GiCJGkS7SRSbBs1l17qp9P20P0
-         cq5Whd1wnqmJWs6inM/xoE4YGdwTU/u/1ujllsBbNFCpxhwMjkBvlQEEmJzqCncZkO/v
-         v8AqGieKdPLCM1U+H90iYzuyI4DMO50pcVu5RYluLsco2JGHRF90iF+LyU0i/QeHUUXp
-         6HD+LccqFGZawMX56ZfpGDVQxuQJp4cDGwbvlUmJy0TrgEhsTHboGtOS/p84MkB823g0
-         hdzCKYtQ1PoB61rLjnpwE0mond/cMdCvQRgJB0zB3gXemewRVdi/2AsTFMsuF83uWI85
-         xujg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T7f55k2r5OlXk34A84CpxQUybUpvWvz4gMNJy8/sgno=;
-        b=AqBBhE3lk+eRdpBjmFuGjf0VojGEX04ldVNQV6ZAzbvcJEdqGJr/WnnViSHUtS/4eA
-         7BJwC0CyHrr3jPuRf8hk6MCksOwKMfe4as8FOHT6KZEFQVeiEGdTHhqdzr4ShT14zno8
-         GGsztSBwRCgwHAuroZK3iDr2cheURSZQ90grSOwCNE4eRFDdbFc0kbv0tCz0+DSF+/Er
-         aEf+rEweH+sgaT5izI/pUh3J0Xi3hFVK4oTWuDanqY9atUAd4SShXAW/uxDPlcrCHKTW
-         CCG/qZBoOIT+5xQ9MCnC2IrBb6eU9HEEJb96hDvMGj7HKYtWHJhPlToPeyPzljyJjKg8
-         DpTQ==
-X-Gm-Message-State: AOAM532umrF2lvohQVmERRehqExttZ/defPmVmr2A9AO4j6UN7TMzFR6
-        Nf4nTruevNbDD2Sy5Mm5T61YExKk7kjnpPBKc1Y=
-X-Google-Smtp-Source: ABdhPJwUkE7qxaHw6/zuh4vX8vncU+49AVAJIbQstYfDfYYPfEucG95/E7Wi4K/ugKLUZ5K7SeBq2A==
-X-Received: by 2002:a1c:2d85:: with SMTP id t127mr133500wmt.22.1599495593247;
-        Mon, 07 Sep 2020 09:19:53 -0700 (PDT)
-Received: from localhost.localdomain (userh713.uk.uudial.com. [194.69.103.86])
-        by smtp.gmail.com with ESMTPSA id y5sm19313717wrh.6.2020.09.07.09.19.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2020 09:19:52 -0700 (PDT)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
+        Mon, 7 Sep 2020 15:05:05 -0400
+Received: from mail-eopbgr750103.outbound.protection.outlook.com ([40.107.75.103]:30592
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729211AbgIGTFE (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 7 Sep 2020 15:05:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P3fp6sRXcG4eR0rpa1ZPys3G7ULTIERaowyul92Mt3DRvmuzboozHVYDGuKB3C2L/tiha79UiVPLB8SBZbpjFagjdlvtJm1HVlznHm8t7PpdptW0/WZAIPosBtlRWaLONRMdo5X2fKY+OB1lt2SYjlewI/1gVvPxh92BWdvF4XUIIfVLLDSGa+A9qkU7hJKSU5Dlj6nD4h/pTL+KQasUVwx2NjDmh6On6awTJl46fdg/mW9nUS7tyZBYA1RPBIrzOgoYNqFpF72YkInqGc1u9c4+H7fonhA7YJxMuWtikaTNQuVfhYcRNxl0kLOaFbYzB1VwH/JE+B7KgEz8w9/aoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C9v4ihdx9HdEJXcqa0c3VBi7xcsKnofMlCqpq9HAnW4=;
+ b=PCvnXgnzzhU59NbjlarWwxkKvFADdLwyarns38JXaZFfxU7hYT8JUOpgpQzK4m4VvR/7oSNqYb1zsMznUbU6Wv1uS6ci+3L57FQz5Naa30Efu1w3cj7an87haxSW4L58B6DJK8ATS1TvoY0t4ugK/pF8DAJc8QEtx6cieGKTAFc3fEnFEAR0PbihZnKPdGbd9k/8iPgpFgYGp1FR7+OL+RWsyZ8HZOQA5LuzzsujizTHPZKdfb8tD5rSkw3R34fUbokwCoDG6tPdr0Cnf0yOpGe1tAicwXIdbHhaZfR2Z/soHRPuwJJT7iiLz3na0HLh/Scut+I34o2LsxetRw7olA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C9v4ihdx9HdEJXcqa0c3VBi7xcsKnofMlCqpq9HAnW4=;
+ b=PqRGBUgebWgFNEBL4CkRfcbNWo3quVVZWuh9cQ5p1VZqjFlnSybcbr/ug/UNMrdOyMCRIzu4ujfSuOu8QnehgiWxmvirrD37SD3zJFjOG45R0qBzBl73KKK+4un4s5MItDMNtqZ6FIVoI/KahY23i4ab481wLYDvFs4SoAJZ3hk=
+Received: from MWHPR21MB0864.namprd21.prod.outlook.com (2603:10b6:300:77::18)
+ by MWHPR21MB1593.namprd21.prod.outlook.com (2603:10b6:301:7c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.3; Mon, 7 Sep
+ 2020 19:05:00 +0000
+Received: from MWHPR21MB0864.namprd21.prod.outlook.com
+ ([fe80::a97c:96d2:350c:6fcc]) by MWHPR21MB0864.namprd21.prod.outlook.com
+ ([fe80::a97c:96d2:350c:6fcc%14]) with mapi id 15.20.3391.004; Mon, 7 Sep 2020
+ 19:05:00 +0000
+From:   Jake Oshins <jakeo@microsoft.com>
+To:     Dexuan Cui <decui@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org,
-        Andres Beltran <lkmlabelt@gmail.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH v7 2/3] scsi: storvsc: Use vmbus_requestor to generate transaction IDs for VMBus hardening
-Date:   Mon,  7 Sep 2020 18:19:19 +0200
-Message-Id: <20200907161920.71460-3-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200907161920.71460-1-parri.andrea@gmail.com>
-References: <20200907161920.71460-1-parri.andrea@gmail.com>
+        "lorenzo.pieralisi@arm.com" <lorenzo.pieralisi@arm.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: RE: [PATCH] PCI: hv: Fix hibernation in case interrupts are not
+ re-created
+Thread-Topic: [PATCH] PCI: hv: Fix hibernation in case interrupts are not
+ re-created
+Thread-Index: AQHWgzAAK+v+0d2+K0aELsOGS7GgA6ldjLHA
+Date:   Mon, 7 Sep 2020 19:04:59 +0000
+Message-ID: <MWHPR21MB086421741C0B3B542D22B967AB280@MWHPR21MB0864.namprd21.prod.outlook.com>
+References: <20200905025450.45528-1-decui@microsoft.com>
+In-Reply-To: <20200905025450.45528-1-decui@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=94e24c3c-36bf-4023-bc58-5e8ed30619e3;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-07T19:03:12Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=microsoft.com;
+x-originating-ip: [73.97.159.225]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f0e30ee1-0d08-48ea-38ff-08d85360eb44
+x-ms-traffictypediagnostic: MWHPR21MB1593:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR21MB1593011897D5941B4933202AAB280@MWHPR21MB1593.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: RFc1l46Pv7cDD2NOekVSfMPRKsSrbGsXyChvzpo2heOclxYSZDL9gk9SOMx2j6f3EqWClJ8aZ8tnl5bqgQgsUXBIIiU9NhU1YRYCZyLkfxvAYhofu/CuiqcpDIp55fhS65KYPrCLd3tnpcRMm7quB8ASriE/mpHelyVBgpIOvYVbJwY0aBEYHIHntwRCNn++Sw1KllX1oi/7R9XfYgYEi2nsTsZuy4TFTfhNPo69rO8aQVhvrP1dlplGM8SnRORsLLL/EAMQ/h/yz3/wn7fRgynFvp8/+DnaaHaZBg/1N9Dmtk7Ba3h7D0GIbQEnSuWnjO/o+z70sXjJDAUxY46OGRksGfMabmHceL2xN/cgsgHsGtzZCsELA06eRsFVdqQX6M7B8bwOxR8L8AQXEz38dfHT7OkmhIKgF1DSfOEtnrg=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB0864.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(366004)(346002)(376002)(136003)(5660300002)(478600001)(9686003)(33656002)(52536014)(10290500003)(86362001)(66556008)(66446008)(8936002)(82950400001)(82960400001)(55016002)(76116006)(64756008)(8676002)(66946007)(66476007)(71200400001)(83380400001)(316002)(110136005)(8990500004)(53546011)(6506007)(6636002)(186003)(7696005)(26005)(2906002)(921003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: oWqimmZvUD5Mn9+SSw5DxFe6OW6OF/6JuBWyhiNkCoA5OCbbZS1WhCbciQEJIM33rQRyTZn5qRPMxGCtX5dFzXqmEUjJtUzAp5AghY2MLlaa0VPH19k5WQpHtWajMd8BbbCeRilwE+q8tEjovPUsy+iyKcuplofk5yy0vMxfjNNaxZGLCY9T8Q4OkIy3gOFlAHGDxYvXATUCPp8c0wbo6qwWNoFqBPUtSJU7tIZiFeOxJhTWHbtEDqAT8KMncyk/FhPxewtNJnQET2QO8ypYZibBdAL4jkMYsfd4Idv09sIMA5eDGXxp3maGFKppPmOZSpvU/MJi7fQy3kYdMOltSRJr5Hphsi99YTQZh2Ud0UlpcIYKzfQiDVvSFi7DHdm+3ba7JGH/0T9wK3V3MkQeJmbt0rycOGJR95n+3+c+Rs5inUEkidVAmzKnKp445cZKaF2tFsYaIMKFB34dqedHZYjATYhIim+ZoOVCoOhNrMlXhNCOyG0Ewvuxv3y5BrRMOS6A2OibuCmhVx1hnETmVRctxtRSCApykJXPqN3lALUiVY/b/qKW7UeMTtBDJD9vTi5jWUULIUbLQ24byEvbm7BbVeMc8HCSLlfsH7jbjYMfuLXb9wmegEwYSJ/XwrbSHFTlAzLbcUbFW1TdeCI27g==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB0864.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0e30ee1-0d08-48ea-38ff-08d85360eb44
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2020 19:04:59.9748
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Jh9Ijfy7aPeWyzckPQT+59idNyUbxzmUvAiiawLZirFHPq2TQou/D5B6Wh8ldFebx1GnTEI4sc+WJtNfjQXAbC/YM3ZyhYJ6B+FgUp42fQ0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR21MB1593
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Andres Beltran <lkmlabelt@gmail.com>
+> -----Original Message-----
+> From: Dexuan Cui <decui@microsoft.com>
+> Sent: Friday, September 4, 2020 7:55 PM
+> To: wei.liu@kernel.org; KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
+> <haiyangz@microsoft.com>; Stephen Hemminger <sthemmin@microsoft.com>;
+> lorenzo.pieralisi@arm.com; bhelgaas@google.com; linux-hyperv@vger.kernel.=
+org;
+> linux-pci@vger.kernel.org; linux-kernel@vger.kernel.org; Michael Kelley
+> <mikelley@microsoft.com>
+> Cc: Dexuan Cui <decui@microsoft.com>; Jake Oshins <jakeo@microsoft.com>
+> Subject: [PATCH] PCI: hv: Fix hibernation in case interrupts are not re-c=
+reated
+>=20
+> Hyper-V doesn't trap and emulate the accesses to the MSI/MSI-X registers,=
+ and we
+> must use hv_compose_msi_msg() to ask Hyper-V to create the IOMMU Interrup=
+t
+> Remapping Table Entries. This is not an issue for a lot of PCI device dri=
+vers (e.g.
+> NVMe driver, Mellanox NIC drivers), which destroy and re-create the inter=
+rupts
+> across hibernation, so
+> hv_compose_msi_msg() is called automatically. However, some other PCI dev=
+ice
+> drivers (e.g. the Nvidia driver) may not destroy and re-create the interr=
+upts across
+> hibernation, so hv_pci_resume() has to call hv_compose_msi_msg(), otherwi=
+se the
+> PCI device drivers can no longer receive MSI/MSI-X interrupts after hiber=
+nation.
+>=20
+> Fixes: ac82fc832708 ("PCI: hv: Add hibernation support")
+> Cc: Jake Oshins <jakeo@microsoft.com>
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> ---
+>  drivers/pci/controller/pci-hyperv.c | 44 +++++++++++++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>=20
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
+/pci-hyperv.c
+> index fc4c3a15e570..abefff9a20e1 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -1211,6 +1211,21 @@ static void hv_irq_unmask(struct irq_data *data)
+>  	pbus =3D pdev->bus;
+>  	hbus =3D container_of(pbus->sysdata, struct hv_pcibus_device, sysdata);
+>=20
+> +	if (hbus->state =3D=3D hv_pcibus_removing) {
+> +		/*
+> +		 * During hibernatin, when a CPU is offlined, the kernel tries
+> +		 * to move the interrupt to the remaining CPUs that haven't
+> +		 * been offlined yet. In this case, the below hv_do_hypercall()
+> +		 * always fails since the vmbus channel has been closed, so we
+> +		 * should not call the hypercall, but we still need
+> +		 * pci_msi_unmask_irq() to reset the mask bit in desc->masked:
+> +		 * see cpu_disable_common() -> fixup_irqs() ->
+> +		 * irq_migrate_all_off_this_cpu() -> migrate_one_irq().
+> +		 */
+> +		pci_msi_unmask_irq(data);
+> +		return;
+> +	}
+> +
+>  	spin_lock_irqsave(&hbus->retarget_msi_interrupt_lock, flags);
+>=20
+>  	params =3D &hbus->retarget_msi_interrupt_params;
+> @@ -3372,6 +3387,33 @@ static int hv_pci_suspend(struct hv_device *hdev)
+>  	return 0;
+>  }
+>=20
+> +static int hv_pci_restore_msi_msg(struct pci_dev *pdev, void *arg) {
+> +	struct msi_desc *entry;
+> +	struct irq_data *irq_data;
+> +
+> +	for_each_pci_msi_entry(entry, pdev) {
+> +		irq_data =3D irq_get_irq_data(entry->irq);
+> +		if (WARN_ON_ONCE(!irq_data))
+> +			return -EINVAL;
+> +
+> +		hv_compose_msi_msg(irq_data, &entry->msg);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Upon resume, pci_restore_msi_state() -> ... ->
+> +__pci_write_msi_msg()
+> + * re-writes the MSI/MSI-X registers, but since Hyper-V doesn't trap
+> +and
+> + * emulate the accesses, we have to call hv_compose_msi_msg() to ask
+> + * Hyper-V to re-create the IOMMU Interrupt Remapping Table Entries.
+> + */
+> +static void hv_pci_restore_msi_state(struct hv_pcibus_device *hbus) {
+> +	pci_walk_bus(hbus->pci_bus, hv_pci_restore_msi_msg, NULL); }
+> +
+>  static int hv_pci_resume(struct hv_device *hdev)  {
+>  	struct hv_pcibus_device *hbus =3D hv_get_drvdata(hdev); @@ -3405,6
+> +3447,8 @@ static int hv_pci_resume(struct hv_device *hdev)
+>=20
+>  	prepopulate_bars(hbus);
+>=20
+> +	hv_pci_restore_msi_state(hbus);
+> +
+>  	hbus->state =3D hv_pcibus_installed;
+>  	return 0;
+>  out:
+> --
+> 2.19.1
 
-Currently, pointers to guest memory are passed to Hyper-V as
-transaction IDs in storvsc. In the face of errors or malicious
-behavior in Hyper-V, storvsc should not expose or trust the transaction
-IDs returned by Hyper-V to be valid guest memory addresses. Instead,
-use small integers generated by vmbus_requestor as requests
-(transaction) IDs.
-
-Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
-Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-scsi@vger.kernel.org
----
-Changes in v7:
-	- Move the allocation of the request ID after the data has been
-	  copied into the ring buffer (cf. 1/3).
-Changes in v2:
-        - Add casts to unsigned long to fix warnings on 32bit.
-
- drivers/scsi/storvsc_drv.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 8f5f5dc863a4a..0b9090d031fc0 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -399,6 +399,7 @@ static int storvsc_timeout = 180;
- static struct scsi_transport_template *fc_transport_template;
- #endif
- 
-+static struct scsi_host_template scsi_driver;
- static void storvsc_on_channel_callback(void *context);
- 
- #define STORVSC_MAX_LUNS_PER_TARGET			255
-@@ -698,6 +699,12 @@ static void handle_sc_creation(struct vmbus_channel *new_sc)
- 
- 	memset(&props, 0, sizeof(struct vmstorage_channel_properties));
- 
-+	/*
-+	 * The size of vmbus_requestor is an upper bound on the number of requests
-+	 * that can be in-progress at any one time across all channels.
-+	 */
-+	new_sc->rqstor_size = scsi_driver.can_queue;
-+
- 	ret = vmbus_open(new_sc,
- 			 storvsc_ringbuffer_size,
- 			 storvsc_ringbuffer_size,
-@@ -1242,9 +1249,17 @@ static void storvsc_on_channel_callback(void *context)
- 	foreach_vmbus_pkt(desc, channel) {
- 		void *packet = hv_pkt_data(desc);
- 		struct storvsc_cmd_request *request;
-+		u64 cmd_rqst;
-+
-+		cmd_rqst = vmbus_request_addr(&channel->requestor,
-+					      desc->trans_id);
-+		if (cmd_rqst == VMBUS_RQST_ERROR) {
-+			dev_err(&device->device,
-+				"Incorrect transaction id\n");
-+			continue;
-+		}
- 
--		request = (struct storvsc_cmd_request *)
--			((unsigned long)desc->trans_id);
-+		request = (struct storvsc_cmd_request *)(unsigned long)cmd_rqst;
- 
- 		if (request == &stor_device->init_request ||
- 		    request == &stor_device->reset_request) {
-@@ -1265,6 +1280,12 @@ static int storvsc_connect_to_vsp(struct hv_device *device, u32 ring_size,
- 
- 	memset(&props, 0, sizeof(struct vmstorage_channel_properties));
- 
-+	/*
-+	 * The size of vmbus_requestor is an upper bound on the number of requests
-+	 * that can be in-progress at any one time across all channels.
-+	 */
-+	device->channel->rqstor_size = scsi_driver.can_queue;
-+
- 	ret = vmbus_open(device->channel,
- 			 ring_size,
- 			 ring_size,
-@@ -1572,7 +1593,6 @@ static int storvsc_host_reset_handler(struct scsi_cmnd *scmnd)
- 	struct vstor_packet *vstor_packet;
- 	int ret, t;
- 
--
- 	stor_device = get_out_stor_device(device);
- 	if (!stor_device)
- 		return FAILED;
--- 
-2.25.1
+Reviewed-by: Jake Oshins (jakeo@microsoft.com)
 
