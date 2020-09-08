@@ -4,261 +4,207 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D832C433E2
-	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Sep 2020 20:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FF1C433E2
+	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Sep 2020 20:49:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25DAC21741
-	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Sep 2020 20:12:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB1D52145D
+	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Sep 2020 20:49:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ya3IKFBp"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="ZldKkz1l"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730193AbgIHUMD (ORCPT
+        id S1726434AbgIHUtV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 8 Sep 2020 16:12:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51010 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730930AbgIHUKr (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 8 Sep 2020 16:10:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599595839;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0L/VNlFzuDB/95oeV+NVSs6BIkKkE+sXG0xqekszlyk=;
-        b=Ya3IKFBp6jBXrCzk0IjdHX+5msWtqI0/qpZadidgVoM1auwkK+0FqitIbRQhAxoB1z7zhF
-        amdxkTOUDxHo/RDUi+MHmDfPBcz4iQNkrFuW+Lr8Wsgt27KH/5Merq4/5GkoFHP9VjF/gZ
-        fKhpIUVJlkjwaUP8erA0IPMP0KC6qZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-yZ_soSYAPYGW_0mzx33S1Q-1; Tue, 08 Sep 2020 16:10:37 -0400
-X-MC-Unique: yZ_soSYAPYGW_0mzx33S1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FBF01007465;
-        Tue,  8 Sep 2020 20:10:35 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-46.ams2.redhat.com [10.36.115.46])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4E53D5D9EF;
-        Tue,  8 Sep 2020 20:10:29 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-s390@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-        Baoquan He <bhe@redhat.com>,
-        Wei Yang <richardw.yang@linux.intel.com>
-Subject: [PATCH v2 1/7] kernel/resource: make release_mem_region_adjustable() never fail
-Date:   Tue,  8 Sep 2020 22:10:06 +0200
-Message-Id: <20200908201012.44168-2-david@redhat.com>
-In-Reply-To: <20200908201012.44168-1-david@redhat.com>
-References: <20200908201012.44168-1-david@redhat.com>
+        Tue, 8 Sep 2020 16:49:21 -0400
+Received: from mail-bn7nam10on2108.outbound.protection.outlook.com ([40.107.92.108]:30176
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725997AbgIHUtU (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 8 Sep 2020 16:49:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V9c69PlQpfyCIXImEvVzA/ZcXsAYnDZ4k+7x+DKrNcd+ccSrD5R1Mf6He23VCsOjxkCLt7k/GSB8mYP+HT8PKJtfboOx+g1NRxN2jcFcEE5wjgORMFWl85+0ejGQFeewI4TcFpspQAzk+aHscGD+5pPv4FZsaVYaMXsnNY7htWh7rUObkz4v3bH8gqOUUqu/wHKobLR9T4SMysB84Ku3NHqA3XvpYRSWAZlnQ02jByaMPgDnoMNk7KfsACffT1jwB4oXF4bXuxkichNLaAExk+bzlDfd0QUbZ/kIDCdlMmEMLELL22ar01S9mArY6HmOCoMmWAe6HJXtdRrXYPwLKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a1gyQXigo6eaha9NKVAEl6SafSxN9h92pdBjMX3Id18=;
+ b=iOVz2gazY/89pB7hBo1islOmjPT2jPaRxvZZlPIFYlCjjEX+sl9NjwMASHqfJUQPvP2JYovEmpj45YiAMk8ox9plwnXsknqDcjIChKD02x++ujVbr7sGrPcvVaZRiRL5j89ygjA2rnbZffywWZd7Q3y5cHxBmISuLA6oR4/VlWYvHDMLmuc8wYFD6YG7yfuu3vUR17KC1jFAGGI4IID7acd6BR282m3YqZhtqOmOeKEAxZ9nKsr5Jv05lz3hZ7zduPYruskhH2hahybodFu4goQVm7pBHjB56S5xpFXC/BVuMoGX2cizgWzZ17X+OXTkmrGcpU9UUJ/G7nO8LCq7NQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a1gyQXigo6eaha9NKVAEl6SafSxN9h92pdBjMX3Id18=;
+ b=ZldKkz1lNYsb/LfBUeKuPsnwGpW5Uktz9xqzr/PUsiF6q4LkmLxzSK+ZB/kB2XoYxyMzJX4AT6ydjeCcsFqp7vmtDeKtV7/x8ZEriiUovDTH5Pzu854zuzw0/fmV2TxsFnQ8mwgC+LWy/cr1aj/5M9adgB0UMQ08E5jJLCd1myM=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
+ by MWHPR21MB0798.namprd21.prod.outlook.com (2603:10b6:300:128::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.4; Tue, 8 Sep
+ 2020 20:49:14 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1%5]) with mapi id 15.20.3391.004; Tue, 8 Sep 2020
+ 20:49:14 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Dexuan Cui <decui@microsoft.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net v2] hv_netvsc: Fix hibernation for mlx5 VF driver
+Thread-Topic: [PATCH net v2] hv_netvsc: Fix hibernation for mlx5 VF driver
+Thread-Index: AQHWhOZ3aJ4+rg54iUOHrDzCz+q7FKlfN90Q
+Date:   Tue, 8 Sep 2020 20:49:14 +0000
+Message-ID: <MW2PR2101MB10524833244E1E0AD68A12D4D7290@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <20200907071339.35677-1-decui@microsoft.com>
+In-Reply-To: <20200907071339.35677-1-decui@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-08T20:49:12Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=d449b8a8-9a67-46f3-b3d6-3fdc37ab3b4f;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: fd464ad2-55fa-4f8b-fce4-08d85438a55c
+x-ms-traffictypediagnostic: MWHPR21MB0798:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR21MB07988FA80E0CD59AE9A9B7AAD7290@MWHPR21MB0798.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Wv+h4X/YiCYfr0P7SSK2N6FjY5bQoP9vnKyajNXF5Qkxy+gK7qiSrbdyYWSXLDYB7jUmyE+VX3IF/icxCMO6sxMJm/Gxsq4edYNqrMBUSDVBnHxrL5FZJdjREqtNyQFQMDW57vLtJL4cgdMMwYV15Qss3L23QVSg6EOSje36KQHcZYdifweB7VccFtTbfDgg4hTnmYW7vivFPllA+eGdZniLqffQ1xsAL7A9qdg0bjQ2bTdFgpEBP19quDVPP2ZQQBhnuUzcSnPglJGMKBLXQCn1+fsJPS9BaH/YRTRWu1cGbipv0+e5VSaJ+24awAKcE3KJb+Sz9FG0zOIFFwsD79JdN11t/b4oC0TpwBPvQOoJq59KmHB87IM2bp5Y0ZjuM3w8FHbGwduDXXjUpq4zPWBdy+7lUkOMScLsbslaACM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(136003)(39860400002)(376002)(396003)(186003)(26005)(8676002)(8936002)(83380400001)(7696005)(110136005)(6506007)(9686003)(76116006)(66446008)(316002)(64756008)(66946007)(55016002)(66556008)(66476007)(8990500004)(82960400001)(10290500003)(478600001)(82950400001)(2906002)(33656002)(86362001)(71200400001)(52536014)(5660300002)(921003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: sk0XPGW+IquIokkY2+mi7gL+6sAKKoQwJIm9x/J5Fn4cCo5iV1APIQHch8X+dahVdjG+u4pNR7Nmjxpk4yeJW70nSH0tzURPrRMDKir1cvU+KcFUJCW47AXdsmq/HjHK0ntoQmo8v0MdxIt5CLG0zm3t2dwA9h0DIHFjw8q1gfKtR1fuvHaFZZ4/pEB6WI6CVZ83KBWMBSqjLxTnltijEbXqJn7G2BK8SBQNmgAEIsdHw35en4/1UPSUomOS+L4Af0u/57AvgchyrOF+3EQnw6RqvX+zk+m++479VgBbY38WvFtS+3WDpMH/l7vNhqHa8WB+hV3fXtHltlwH3GlhNmJ3q73wyonXg6euUoA1Mi2nRRaDEEfEgP21K3/++dcQTlgPT6l05qumkurWo0H8whVxU7bLc7b8H8Pv2DapDb23WYjCY29RoZYO7joGlVjrwhoAw/XW8PhvEzzYI1bvCqJFBkLnQHtx0XgLz1vcjydSmVFMSDZdn5b+2TJ4BPj1bzT0/57Ej4JkFHVwIMPV73CPhNcQutfUVNc6xERP78K+5ptd266npDPhflvfU0/N0SiXfYqq5x3+nvcwJmv1kpYq26c4Vt/7MoHN5kqlnx6kR3Vk7OnDU9o4WFwMQ5ByNL4pbixcb6isCYT1P0fWnQ==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd464ad2-55fa-4f8b-fce4-08d85438a55c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2020 20:49:14.0742
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 576aVqzALQc7guswR+tgODHN/vQ9qgrO7VXGPBtmp6W7iQAjytmcUac42+fsezr2EnNYKjVlUljfwPnBvHAFXefjXxXmY+8aJpOIxJKY09g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR21MB0798
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Let's make sure splitting a resource on memory hotunplug will never fail.
-This will become more relevant once we merge selected System RAM
-resources - then, we'll trigger that case more often on memory hotunplug.
+From: Dexuan Cui <decui@microsoft.com>  Sent: Monday, September 7, 2020 12:=
+14 AM
+>=20
+> mlx5_suspend()/resume() keep the network interface, so during hibernation
+> netvsc_unregister_vf() and netvsc_register_vf() are not called, and hence
+> netvsc_resume() should call netvsc_vf_changed() to switch the data path
+> back to the VF after hibernation. Note: after we close and re-open the
+> vmbus channel of the netvsc NIC in netvsc_suspend() and netvsc_resume(),
+> the data path is implicitly switched to the netvsc NIC. Similarly,
+> netvsc_suspend() should not call netvsc_unregister_vf(), otherwise the VF
+> can no longer be used after hibernation.
+>=20
+> For mlx4, since the VF network interafce is explicitly destroyed and
+> re-created during hibernation (see mlx4_suspend()/resume()), hv_netvsc
+> already explicitly switches the data path from and to the VF automaticall=
+y
+> via netvsc_register_vf() and netvsc_unregister_vf(), so mlx4 doesn't need
+> this fix. Note: mlx4 can still work with the fix because in
+> netvsc_suspend()/resume() ndev_ctx->vf_netdev is NULL for mlx4.
+>=20
+> Fixes: 0efeea5fb153 ("hv_netvsc: Add the support of hibernation")
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> ---
+>=20
+> Changes in v2 (Thanks Jakub Kicinski <kuba@kernel.org>):
+>     Added coments in the changelog and the code about the implicit
+> data path switching to the netvsc when we close/re-open the vmbus
+> channels.
+>     Used reverse xmas order ordering in netvsc_remove().
+>=20
+>  drivers/net/hyperv/netvsc_drv.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_=
+drv.c
+> index 64b0a74c1523..81c5c70b616a 100644
+> --- a/drivers/net/hyperv/netvsc_drv.c
+> +++ b/drivers/net/hyperv/netvsc_drv.c
+> @@ -2587,8 +2587,8 @@ static int netvsc_remove(struct hv_device *dev)
+>  static int netvsc_suspend(struct hv_device *dev)
+>  {
+>  	struct net_device_context *ndev_ctx;
+> -	struct net_device *vf_netdev, *net;
+>  	struct netvsc_device *nvdev;
+> +	struct net_device *net;
+>  	int ret;
+>=20
+>  	net =3D hv_get_drvdata(dev);
+> @@ -2604,10 +2604,6 @@ static int netvsc_suspend(struct hv_device *dev)
+>  		goto out;
+>  	}
+>=20
+> -	vf_netdev =3D rtnl_dereference(ndev_ctx->vf_netdev);
+> -	if (vf_netdev)
+> -		netvsc_unregister_vf(vf_netdev);
+> -
+>  	/* Save the current config info */
+>  	ndev_ctx->saved_netvsc_dev_info =3D netvsc_devinfo_get(nvdev);
+>=20
+> @@ -2623,6 +2619,7 @@ static int netvsc_resume(struct hv_device *dev)
+>  	struct net_device *net =3D hv_get_drvdata(dev);
+>  	struct net_device_context *net_device_ctx;
+>  	struct netvsc_device_info *device_info;
+> +	struct net_device *vf_netdev;
+>  	int ret;
+>=20
+>  	rtnl_lock();
+> @@ -2635,6 +2632,15 @@ static int netvsc_resume(struct hv_device *dev)
+>  	netvsc_devinfo_put(device_info);
+>  	net_device_ctx->saved_netvsc_dev_info =3D NULL;
+>=20
+> +	/* A NIC driver (e.g. mlx5) may keep the VF network interface across
+> +	 * hibernation, but here the data path is implicitly switched to the
+> +	 * netvsc NIC since the vmbus channel is closed and re-opened, so
+> +	 * netvsc_vf_changed() must be used to switch the data path to the VF.
+> +	 */
+> +	vf_netdev =3D rtnl_dereference(net_device_ctx->vf_netdev);
+> +	if (vf_netdev && netvsc_vf_changed(vf_netdev) !=3D NOTIFY_OK)
+> +		ret =3D -EINVAL;
+> +
 
-In general, this function is already unlikely to fail. When we remove
-memory, we free up quite a lot of metadata (memmap, page tables, memory
-block device, etc.). The only reason it could really fail would be when
-injecting allocation errors.
+I'm a little late looking at this code.  But a question:  Is it possible fo=
+r
+netvsc_resume() to be called before the VF driver's resume function
+is called?  If so, is it possible for netvsc_vf_changed() to find that the =
+VF
+is not up, and hence to switch the data path away from the VF instead of
+to the VF?
 
-All other error cases inside release_mem_region_adjustable() seem to be
-sanity checks if the function would be abused in different context -
-let's add WARN_ON_ONCE() in these cases so we can catch them.
+Michael
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/ioport.h |  4 ++--
- kernel/resource.c      | 49 ++++++++++++++++++++++++------------------
- mm/memory_hotplug.c    | 22 +------------------
- 3 files changed, 31 insertions(+), 44 deletions(-)
-
-diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-index 6c2b06fe8beb7..52a91f5fa1a36 100644
---- a/include/linux/ioport.h
-+++ b/include/linux/ioport.h
-@@ -248,8 +248,8 @@ extern struct resource * __request_region(struct resource *,
- extern void __release_region(struct resource *, resource_size_t,
- 				resource_size_t);
- #ifdef CONFIG_MEMORY_HOTREMOVE
--extern int release_mem_region_adjustable(struct resource *, resource_size_t,
--				resource_size_t);
-+extern void release_mem_region_adjustable(struct resource *, resource_size_t,
-+					  resource_size_t);
- #endif
- 
- /* Wrappers for managed devices */
-diff --git a/kernel/resource.c b/kernel/resource.c
-index f1175ce93a1d5..36b3552210120 100644
---- a/kernel/resource.c
-+++ b/kernel/resource.c
-@@ -1258,21 +1258,28 @@ EXPORT_SYMBOL(__release_region);
-  *   assumes that all children remain in the lower address entry for
-  *   simplicity.  Enhance this logic when necessary.
-  */
--int release_mem_region_adjustable(struct resource *parent,
--				  resource_size_t start, resource_size_t size)
-+void release_mem_region_adjustable(struct resource *parent,
-+				   resource_size_t start, resource_size_t size)
- {
-+	struct resource *new_res = NULL;
-+	bool alloc_nofail = false;
- 	struct resource **p;
- 	struct resource *res;
--	struct resource *new_res;
- 	resource_size_t end;
--	int ret = -EINVAL;
- 
- 	end = start + size - 1;
--	if ((start < parent->start) || (end > parent->end))
--		return ret;
-+	if (WARN_ON_ONCE((start < parent->start) || (end > parent->end)))
-+		return;
- 
--	/* The alloc_resource() result gets checked later */
--	new_res = alloc_resource(GFP_KERNEL);
-+	/*
-+	 * We free up quite a lot of memory on memory hotunplug (esp., memap),
-+	 * just before releasing the region. This is highly unlikely to
-+	 * fail - let's play save and make it never fail as the caller cannot
-+	 * perform any error handling (e.g., trying to re-add memory will fail
-+	 * similarly).
-+	 */
-+retry:
-+	new_res = alloc_resource(GFP_KERNEL | alloc_nofail ? __GFP_NOFAIL : 0);
- 
- 	p = &parent->child;
- 	write_lock(&resource_lock);
-@@ -1298,7 +1305,6 @@ int release_mem_region_adjustable(struct resource *parent,
- 		 * so if we are dealing with them, let us just back off here.
- 		 */
- 		if (!(res->flags & IORESOURCE_SYSRAM)) {
--			ret = 0;
- 			break;
- 		}
- 
-@@ -1315,20 +1321,23 @@ int release_mem_region_adjustable(struct resource *parent,
- 			/* free the whole entry */
- 			*p = res->sibling;
- 			free_resource(res);
--			ret = 0;
- 		} else if (res->start == start && res->end != end) {
- 			/* adjust the start */
--			ret = __adjust_resource(res, end + 1,
--						res->end - end);
-+			WARN_ON_ONCE(__adjust_resource(res, end + 1,
-+						       res->end - end));
- 		} else if (res->start != start && res->end == end) {
- 			/* adjust the end */
--			ret = __adjust_resource(res, res->start,
--						start - res->start);
-+			WARN_ON_ONCE(__adjust_resource(res, res->start,
-+						       start - res->start));
- 		} else {
--			/* split into two entries */
-+			/* split into two entries - we need a new resource */
- 			if (!new_res) {
--				ret = -ENOMEM;
--				break;
-+				new_res = alloc_resource(GFP_ATOMIC);
-+				if (!new_res) {
-+					alloc_nofail = true;
-+					write_unlock(&resource_lock);
-+					goto retry;
-+				}
- 			}
- 			new_res->name = res->name;
- 			new_res->start = end + 1;
-@@ -1339,9 +1348,8 @@ int release_mem_region_adjustable(struct resource *parent,
- 			new_res->sibling = res->sibling;
- 			new_res->child = NULL;
- 
--			ret = __adjust_resource(res, res->start,
--						start - res->start);
--			if (ret)
-+			if (WARN_ON_ONCE(__adjust_resource(res, res->start,
-+							   start - res->start)))
- 				break;
- 			res->sibling = new_res;
- 			new_res = NULL;
-@@ -1352,7 +1360,6 @@ int release_mem_region_adjustable(struct resource *parent,
- 
- 	write_unlock(&resource_lock);
- 	free_resource(new_res);
--	return ret;
- }
- #endif	/* CONFIG_MEMORY_HOTREMOVE */
- 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index baded53b9ff92..4c47b68a9f4b5 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1724,26 +1724,6 @@ void try_offline_node(int nid)
- }
- EXPORT_SYMBOL(try_offline_node);
- 
--static void __release_memory_resource(resource_size_t start,
--				      resource_size_t size)
--{
--	int ret;
--
--	/*
--	 * When removing memory in the same granularity as it was added,
--	 * this function never fails. It might only fail if resources
--	 * have to be adjusted or split. We'll ignore the error, as
--	 * removing of memory cannot fail.
--	 */
--	ret = release_mem_region_adjustable(&iomem_resource, start, size);
--	if (ret) {
--		resource_size_t endres = start + size - 1;
--
--		pr_warn("Unable to release resource <%pa-%pa> (%d)\n",
--			&start, &endres, ret);
--	}
--}
--
- static int __ref try_remove_memory(int nid, u64 start, u64 size)
- {
- 	int rc = 0;
-@@ -1777,7 +1757,7 @@ static int __ref try_remove_memory(int nid, u64 start, u64 size)
- 		memblock_remove(start, size);
- 	}
- 
--	__release_memory_resource(start, size);
-+	release_mem_region_adjustable(&iomem_resource, start, size);
- 
- 	try_offline_node(nid);
- 
--- 
-2.26.2
+>  	rtnl_unlock();
+>=20
+>  	return ret;
+> --
+> 2.19.1
 
