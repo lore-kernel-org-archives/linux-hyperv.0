@@ -7,46 +7,47 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0282FC433E2
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Sep 2020 11:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E38F3C433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Sep 2020 12:10:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C4EC208FE
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Sep 2020 11:50:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BC862166E
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Sep 2020 12:10:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZHLmN7B5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TbTr1CBu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729614AbgIILty (ORCPT
+        id S1728631AbgIIMIW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Sep 2020 07:49:54 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:52470 "EHLO
+        Wed, 9 Sep 2020 08:08:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44774 "EHLO
         us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729738AbgIILqI (ORCPT
+        by vger.kernel.org with ESMTP id S1730116AbgIIMAQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Sep 2020 07:46:08 -0400
+        Wed, 9 Sep 2020 08:00:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599651966;
+        s=mimecast20190719; t=1599652810;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=FCFUYYeoBcjmQ0F9ueGasNRUTC8JgiuKj1I3e23EEys=;
-        b=ZHLmN7B5Si5OuODeZfAcspKpAYKZlvugv+53t7PRxRfSyjS5kzUVWNPKUSlvmoG0oNYvsj
-        kgfTYJKCs/QUQl4Eua5n6rBT8+xTOZq3J9GKeq5xSQ2pPUZAVamNoTk7fCvWx9jIu1JOCs
-        NtTD/FD9661jJjtHeKZkSL6O60TA/Xs=
+        bh=eUouh1bk+Xc6NMfj6Wwsz4gM4esEPlLXRWSoWFarQ/U=;
+        b=TbTr1CBuU3VP5gz5jU9t7UxX9SQL+skkdyBr1pcUWSiPrdkxebIppmjsAJy6TqD0cXW3xU
+        aB7nHHVAsi3Oz1NsPT2sQeUsNrngTeNI621y+3BAfsjBg+OuSwceebcC6IxpN0Kuzotkya
+        sK2qjP1XOS2tj3+syDg0bnYlCtHlVUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-C1TRk_n8PX6w3j9z38H1gA-1; Wed, 09 Sep 2020 07:37:58 -0400
-X-MC-Unique: C1TRk_n8PX6w3j9z38H1gA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-243-wAUM1KqrMFK4TOvqtacRug-1; Wed, 09 Sep 2020 07:51:58 -0400
+X-MC-Unique: wAUM1KqrMFK4TOvqtacRug-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 655BB80B702;
-        Wed,  9 Sep 2020 11:37:53 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7627710BBED2;
+        Wed,  9 Sep 2020 11:51:53 +0000 (UTC)
 Received: from [10.36.113.90] (ovpn-113-90.ams2.redhat.com [10.36.113.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E5A997E46E;
-        Wed,  9 Sep 2020 11:37:41 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 092FD60C0F;
+        Wed,  9 Sep 2020 11:51:41 +0000 (UTC)
 Subject: Re: [PATCH v2 3/7] mm/memory_hotplug: prepare passing flags to
  add_memory() and friends
+From:   David Hildenbrand <david@redhat.com>
 To:     Michael Ellerman <mpe@ellerman.id.au>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-kernel@vger.kernel.org,
@@ -89,7 +90,7 @@ References: <20200908201012.44168-1-david@redhat.com>
  <20200908201012.44168-4-david@redhat.com> <20200909071759.GD435421@kroah.com>
  <3bc5b464-3229-d442-714a-ec33b5728ac6@redhat.com>
  <87eenbry5p.fsf@mpe.ellerman.id.au>
-From:   David Hildenbrand <david@redhat.com>
+ <5145c5c4-d9c0-85a8-7e0b-ccfa03eb0427@redhat.com>
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -135,61 +136,56 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat GmbH
-Message-ID: <5145c5c4-d9c0-85a8-7e0b-ccfa03eb0427@redhat.com>
-Date:   Wed, 9 Sep 2020 13:37:41 +0200
+Message-ID: <4e83103c-14a0-6cc4-ae1b-438282edaea3@redhat.com>
+Date:   Wed, 9 Sep 2020 13:51:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <87eenbry5p.fsf@mpe.ellerman.id.au>
+In-Reply-To: <5145c5c4-d9c0-85a8-7e0b-ccfa03eb0427@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 09.09.20 13:24, Michael Ellerman wrote:
-> David Hildenbrand <david@redhat.com> writes:
->> On 09.09.20 09:17, Greg Kroah-Hartman wrote:
->>> On Tue, Sep 08, 2020 at 10:10:08PM +0200, David Hildenbrand wrote:
->>>> We soon want to pass flags, e.g., to mark added System RAM resources.
->>>> mergeable. Prepare for that.
+On 09.09.20 13:37, David Hildenbrand wrote:
+> On 09.09.20 13:24, Michael Ellerman wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>>> On 09.09.20 09:17, Greg Kroah-Hartman wrote:
+>>>> On Tue, Sep 08, 2020 at 10:10:08PM +0200, David Hildenbrand wrote:
+>>>>> We soon want to pass flags, e.g., to mark added System RAM resources.
+>>>>> mergeable. Prepare for that.
+>>>>
+>>>> What are these random "flags", and how do we know what should be passed
+>>>> to them?
+>>>>
+>>>> Why not make this an enumerated type so that we know it all works
+>>>> properly, like the GPF_* flags are?  Passing around a random unsigned
+>>>> long feels very odd/broken...
 >>>
->>> What are these random "flags", and how do we know what should be passed
->>> to them?
->>>
->>> Why not make this an enumerated type so that we know it all works
->>> properly, like the GPF_* flags are?  Passing around a random unsigned
->>> long feels very odd/broken...
+>>> Agreed, an enum (mhp_flags) seems to give a better hint what can
+>>> actually be passed. Thanks!
 >>
->> Agreed, an enum (mhp_flags) seems to give a better hint what can
->> actually be passed. Thanks!
+>> You probably know this but ...
+>>
+>> Just using a C enum doesn't get you any type safety.
+>>
+>> You can get some checking via sparse by using __bitwise, which is what
+>> gfp_t does. You don't actually have to use an enum for that, it works
+>> with #defines also.
 > 
-> You probably know this but ...
+> Yeah, we seem to be using different approaches. And there is always a
+> way to mess things up :)
 > 
-> Just using a C enum doesn't get you any type safety.
+> gfp_t is one (extreme) example, enum memblock_flags is another example.
+> I tend to prefer an enum in this particular case, because it's simple
+> and at least tells the user which values are expected.
 > 
-> You can get some checking via sparse by using __bitwise, which is what
-> gfp_t does. You don't actually have to use an enum for that, it works
-> with #defines also.
 
-Yeah, we seem to be using different approaches. And there is always a
-way to mess things up :)
-
-gfp_t is one (extreme) example, enum memblock_flags is another example.
-I tend to prefer an enum in this particular case, because it's simple
-and at least tells the user which values are expected.
-
-Thoughts?
-
-> 
-> Or you can wrap the flag in a struct, the way atomic_t does, and then
-> the compiler will prevent passing plain integers in place of your custom
-> type.
-
-
+Gave it another try, looks like mhp_t (like gfp_t) is actually nicer.
 
 -- 
 Thanks,
