@@ -8,66 +8,66 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBCBC433E2
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 21:06:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5507AC43461
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 21:06:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEECB221E3
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 21:06:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E802621D91
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 21:06:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XE1hxXcF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JbokN9ta"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727953AbgIJVEp (ORCPT
+        id S1727773AbgIJVGQ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 10 Sep 2020 17:04:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
+        Thu, 10 Sep 2020 17:06:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731167AbgIJOhX (ORCPT
+        with ESMTP id S1730988AbgIJOgI (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 10 Sep 2020 10:37:23 -0400
+        Thu, 10 Sep 2020 10:36:08 -0400
 Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93810C0617AB;
-        Thu, 10 Sep 2020 07:35:28 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id q13so9040781ejo.9;
-        Thu, 10 Sep 2020 07:35:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43774C0617A4;
+        Thu, 10 Sep 2020 07:35:21 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id z22so9052275ejl.7;
+        Thu, 10 Sep 2020 07:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=T3i3qXMnhJ5Pfez9h/HWjHE3nazk6XcC2fJXvr78eKk=;
-        b=XE1hxXcFnJJOnwWXrIxwiW2HrxFHccyG+wLSuBNlS110t5JdPOcFyuEcDzcAwGqwsf
-         kg30G7OmWlEzmZGb5s4ub+rjsJNugFWL3WYd9CXPjwnwWVOpB9+Uz5IFkGPFqQGGQ6yS
-         O2jVO3oEye1D8vvqdHXK9lNam/rw4NQeUQilGtWUQ4zBd6whelBB4rgUSQym+GsqQnf4
-         WWsg/8mRRUxrQ9qn1KaKR1Ida8UPPRVpl/5iqiafbFQXAADPWkd4xDaSPbRyeOhh4CIQ
-         modZoQeFhDCNMbyuMcrOza3HAH2wMa/dU5qq3FuaDuvbuM21pP75apRskyKwjhgiMcYz
-         HuRA==
+        bh=o1Sl+9uuMxREmM+K2OMqTIchpX8+FnseIjhki4v5+3o=;
+        b=JbokN9taeM5HKkcdr7fsWoutM4vC+zxluPBrBb9iiiacQ0WluxJIcr7w6lVfESNMnS
+         T7MMEDGivB09ge8fKb5AjQCXw9Ica93xYYjhFRTHmLHmlp9YEgq8ngWJ+XafK0/Qnovl
+         ca89DGMgARgqQjtLZYclQuOPfoKzsst/Dly2jAX1Wjcwe7zR7NIyJOR197tQJ/ceXzHr
+         VTw6aTxktByygAkfphWQ5hlE/SzP7l3qJ1NIzR5cyM6aS2jeiiBM/D24yk/R1s5wz/c/
+         nsWKOTIPOFOYKCHVE8GgDFERi64hdDIVWFqcqns3rrN9x92GSFCy0eGo79MTtQ94wbfx
+         DYLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T3i3qXMnhJ5Pfez9h/HWjHE3nazk6XcC2fJXvr78eKk=;
-        b=TbaK9FbHvYVtzoS3fXCwQ0jiAG4j8MsWeiCnNiDZDuHahghfzqe+b1KqKu9F9UNSCL
-         CWa9eG5f5t81kCK2SH3DOBIkn/kY2zL9XkABE1F/HLtjpBSZHxI13Ddhezri8otTIhXJ
-         RNn825P9RhUxrCPrM2WebZvyrZi3uwAZA3nMPyxWT8DCSVhZZjUfaRG9NTRKEDvE6WiH
-         MR5fSi915PtclTWaaEha3GPzQHwMSTmAj5r62ua3l7NU9sTxoh+KtJacqJ9Uta3xDcnG
-         U3yIBntPRQiA8SFL3SpPozXcb8ctubhhWf8PLHmPciIEDrueBJkGw0HjyIRkDyqKUEX4
-         //Gw==
-X-Gm-Message-State: AOAM5331f9Fo8zqXD3zfU5Jh39iC2gCtBRdjcqakj2V9RI1r5Ry5Fp+K
-        uTvgSJw5wGOtnbQvmBZ9JEs=
-X-Google-Smtp-Source: ABdhPJzK8qE8+S3d6bWZO57JfOB2xqDtq4ntdMlxomIVjovtPXSzMq9l3+nxOhieFaaCFSpmkfiFnw==
-X-Received: by 2002:a17:906:24d6:: with SMTP id f22mr8828364ejb.85.1599748526997;
-        Thu, 10 Sep 2020 07:35:26 -0700 (PDT)
+        bh=o1Sl+9uuMxREmM+K2OMqTIchpX8+FnseIjhki4v5+3o=;
+        b=gaR6yd1ynMh3yVSt1Ihdk7WePBn3byfDtoiZM5BFsMbbJLJs0SGLpX2H5MdnksrwCG
+         +ONJPb2/r94tn+w1r3msvMujBf2KxsWsrN+1C1Uwn3RQzLbWJprUo294UFVzlPaQ5Mvp
+         Pf0G4PLfKS7SB/XY1hPbHbL6kxcZg3RfmFxcUhq1SgsiR7+aeYBJe4iewyOjunehUYJ1
+         JbsauILyWXsZ13kOXJiP7Qxhkv4bkK7B86EMVnc+i5XxPNp23LW3KByb0gPLa0rL/C9n
+         zQhwmd4rPc/Cc4sBqTgQhi1nqtC/cgOyaotRjeTKrXoR6Prw0qUOffEtA1ZtE0hWUrw7
+         DMug==
+X-Gm-Message-State: AOAM5312iWY3L3WMo9fKUkZW4JRa81RWRYV9lqjL+7jBkReAHxHKDMox
+        DF2wJxcnvbJNdNv15aUcS7A=
+X-Google-Smtp-Source: ABdhPJz2JkjAAY18FQ2QRF0MYrjWvtlWZTCjd8dvAjjvpoVblLdj491Ah77q7XuYVg3wtnWKLEtksg==
+X-Received: by 2002:a17:906:2e14:: with SMTP id n20mr9454635eji.214.1599748519915;
+        Thu, 10 Sep 2020 07:35:19 -0700 (PDT)
 Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id l10sm7466796edr.12.2020.09.10.07.35.23
+        by smtp.gmail.com with ESMTPSA id bn14sm7308235ejb.115.2020.09.10.07.35.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Sep 2020 07:35:26 -0700 (PDT)
+        Thu, 10 Sep 2020 07:35:18 -0700 (PDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 3A4A827C00A1;
-        Thu, 10 Sep 2020 10:35:23 -0400 (EDT)
+        by mailauth.nyi.internal (Postfix) with ESMTP id AD50927C00A3;
+        Thu, 10 Sep 2020 10:35:15 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 10 Sep 2020 10:35:23 -0400
-X-ME-Sender: <xms:qzlaX2QvWxEkTCC2tui21cV517yBUkBYIcAPqkac3WkIKTRr8Dt3kg>
-    <xme:qzlaX7whjQAkRTdLrm400vh4FhUPYaV9uGsu_zBg67Lg3aSxdgGxaIo_lyU0nJvdb
-    N9nKNQNc_sYDLZs2w>
+  by compute3.internal (MEProxy); Thu, 10 Sep 2020 10:35:15 -0400
+X-ME-Sender: <xms:ozlaX7Qudw-MVsT43K5HPtzpbHClaazaO9hfZaySIiaCRU1oazOQSA>
+    <xme:ozlaX8y2mhf34OP0opIrFAl0G0SrBMj_YBHoV2h88HjvME7O3FsJdOg5vkOZ6FMJQ
+    5J5y51cFOD65vXmdw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehjedgjedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -75,17 +75,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehjedgjedvucetufdoteggod
     tdekredtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnh
     hgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeehvdevteefgfeiudettdef
     vedvvdelkeejueffffelgeeuhffhjeetkeeiueeuleenucfkphephedvrdduheehrdduud
-    durdejudenucevlhhushhtvghrufhiiigvpeeknecurfgrrhgrmhepmhgrihhlfhhrohhm
+    durdejudenucevlhhushhtvghrufhiiigvpeehnecurfgrrhgrmhepmhgrihhlfhhrohhm
     pegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtd
     eigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehf
     ihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:qzlaXz2dFiF-XVT6Xa7SerHC87GJdLPpdDRIYF8NLMWx-iSTJz5tVw>
-    <xmx:qzlaXyAtBYeQvz735bPXqVmK7YFKVgtpxcGb2UmF2eBaQdU1K40CPQ>
-    <xmx:qzlaX_i6grllRqMzAioAYnIzJQgvUh7L_TS4jFr1qCBLBr0_8JjQxQ>
-    <xmx:qzlaX6TLLzI22LvgOTgTc5C9eSB2SCYOLJpbj9kGY48iNyMhY4jsla5LFiM>
+X-ME-Proxy: <xmx:ozlaXw11i3BgAeu_u6aZecAolKrt3ttlKOUhuVsz-ZHFd1ZK7dlhQg>
+    <xmx:ozlaX7DwaanEKSVsd8GrIzYHqesmvyvge9ovq2NAgcLhf7rTDLuaRA>
+    <xmx:ozlaX0hf3Q5UWSgxvumL5VDSCJEwJdWeoclUvwSDe8WhFGvx90TsIA>
+    <xmx:ozlaX_SyTetU5fCoAAG3_4TuGlR2RPNDWSRZdy-BWqYSqt0XhyQuLbh4B3U>
 Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 779C03280065;
-        Thu, 10 Sep 2020 10:35:22 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id E91FA3280059;
+        Thu, 10 Sep 2020 10:35:14 -0400 (EDT)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
@@ -104,9 +104,9 @@ Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         ardb@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
         mark.rutland@arm.com, maz@kernel.org,
         Boqun Feng <boqun.feng@gmail.com>
-Subject: [PATCH v3 11/11] scsi: storvsc: Support PAGE_SIZE larger than 4K
-Date:   Thu, 10 Sep 2020 22:34:55 +0800
-Message-Id: <20200910143455.109293-12-boqun.feng@gmail.com>
+Subject: [PATCH v3 07/11] hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V communication
+Date:   Thu, 10 Sep 2020 22:34:51 +0800
+Message-Id: <20200910143455.109293-8-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200910143455.109293-1-boqun.feng@gmail.com>
 References: <20200910143455.109293-1-boqun.feng@gmail.com>
@@ -117,97 +117,178 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-V always use 4k page size (HV_HYP_PAGE_SIZE), so when
-communicating with Hyper-V, a guest should always use HV_HYP_PAGE_SIZE
-as the unit for page related data. For storvsc, the data is
-vmbus_packet_mpb_array. And since in scsi_cmnd, sglist of pages (in unit
-of PAGE_SIZE) is used, we need convert pages in the sglist of scsi_cmnd
-into Hyper-V pages in vmbus_packet_mpb_array.
+When communicating with Hyper-V, HV_HYP_PAGE_SIZE should be used since
+that's the page size used by Hyper-V and Hyper-V expects all
+page-related data using the unit of HY_HYP_PAGE_SIZE, for example, the
+"pfn" in hv_page_buffer is actually the HV_HYP_PAGE (i.e. the Hyper-V
+page) number.
 
-This patch does the conversion by dividing pages in sglist into Hyper-V
-pages, offset and indexes in vmbus_packet_mpb_array are recalculated
-accordingly.
+In order to support guest whose page size is not 4k, we need to make
+hv_netvsc always use HV_HYP_PAGE_SIZE for Hyper-V communication.
 
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- drivers/scsi/storvsc_drv.c | 54 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 7 deletions(-)
+ drivers/net/hyperv/netvsc.c       |  2 +-
+ drivers/net/hyperv/netvsc_drv.c   | 46 +++++++++++++++----------------
+ drivers/net/hyperv/rndis_filter.c | 13 ++++-----
+ 3 files changed, 30 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 8f5f5dc863a4..119b76ca24a1 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -1739,23 +1739,63 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 	payload_sz = sizeof(cmd_request->mpb);
- 
- 	if (sg_count) {
--		if (sg_count > MAX_PAGE_BUFFER_COUNT) {
-+		unsigned int hvpgoff = 0;
-+		unsigned long hvpg_offset = sgl->offset & ~HV_HYP_PAGE_MASK;
-+		unsigned int hvpg_count = HVPFN_UP(hvpg_offset + length);
-+		u64 hvpfn;
- 
--			payload_sz = (sg_count * sizeof(u64) +
-+		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
-+
-+			payload_sz = (hvpg_count * sizeof(u64) +
- 				      sizeof(struct vmbus_packet_mpb_array));
- 			payload = kzalloc(payload_sz, GFP_ATOMIC);
- 			if (!payload)
- 				return SCSI_MLQUEUE_DEVICE_BUSY;
- 		}
- 
-+		/*
-+		 * sgl is a list of PAGEs, and payload->range.pfn_array
-+		 * expects the page number in the unit of HV_HYP_PAGE_SIZE (the
-+		 * page size that Hyper-V uses, so here we need to divide PAGEs
-+		 * into HV_HYP_PAGE in case that PAGE_SIZE > HV_HYP_PAGE_SIZE.
-+		 */
- 		payload->range.len = length;
--		payload->range.offset = sgl[0].offset;
-+		payload->range.offset = sgl[0].offset & ~HV_HYP_PAGE_MASK;
-+		hvpgoff = sgl[0].offset >> HV_HYP_PAGE_SHIFT;
- 
- 		cur_sgl = sgl;
--		for (i = 0; i < sg_count; i++) {
--			payload->range.pfn_array[i] =
--				page_to_pfn(sg_page((cur_sgl)));
--			cur_sgl = sg_next(cur_sgl);
-+		for (i = 0; i < hvpg_count; i++) {
-+			/*
-+			 * 'i' is the index of hv pages in the payload and
-+			 * 'hvpgoff' is the offset (in hv pages) of the first
-+			 * hv page in the the first page. The relationship
-+			 * between the sum of 'i' and 'hvpgoff' and the offset
-+			 * (in hv pages) in a payload page ('hvpgoff_in_page')
-+			 * is as follow:
-+			 *
-+			 * |------------------ PAGE -------------------|
-+			 * |   NR_HV_HYP_PAGES_IN_PAGE hvpgs in total  |
-+			 * |hvpg|hvpg| ...              |hvpg|... |hvpg|
-+			 * ^         ^                                 ^                 ^
-+			 * +-hvpgoff-+                                 +-hvpgoff_in_page-+
-+			 *           ^                                                   |
-+			 *           +--------------------- i ---------------------------+
-+			 */
-+			unsigned int hvpgoff_in_page =
-+				(i + hvpgoff) % NR_HV_HYP_PAGES_IN_PAGE;
-+
-+			/*
-+			 * Two cases that we need to fetch a page:
-+			 * 1) i == 0, the first step or
-+			 * 2) hvpgoff_in_page == 0, when we reach the boundary
-+			 *    of a page.
-+			 */
-+			if (hvpgoff_in_page == 0 || i == 0) {
-+				hvpfn = page_to_hvpfn(sg_page(cur_sgl));
-+				cur_sgl = sg_next(cur_sgl);
-+			}
-+
-+			payload->range.pfn_array[i] = hvpfn + hvpgoff_in_page;
- 		}
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 41f5cf0bb997..1d6f2256da6b 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -794,7 +794,7 @@ static void netvsc_copy_to_send_buf(struct netvsc_device *net_device,
  	}
  
+ 	for (i = 0; i < page_count; i++) {
+-		char *src = phys_to_virt(pb[i].pfn << PAGE_SHIFT);
++		char *src = phys_to_virt(pb[i].pfn << HV_HYP_PAGE_SHIFT);
+ 		u32 offset = pb[i].offset;
+ 		u32 len = pb[i].len;
+ 
+diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
+index 64b0a74c1523..61ea568e1ddf 100644
+--- a/drivers/net/hyperv/netvsc_drv.c
++++ b/drivers/net/hyperv/netvsc_drv.c
+@@ -373,32 +373,29 @@ static u16 netvsc_select_queue(struct net_device *ndev, struct sk_buff *skb,
+ 	return txq;
+ }
+ 
+-static u32 fill_pg_buf(struct page *page, u32 offset, u32 len,
++static u32 fill_pg_buf(unsigned long hvpfn, u32 offset, u32 len,
+ 		       struct hv_page_buffer *pb)
+ {
+ 	int j = 0;
+ 
+-	/* Deal with compound pages by ignoring unused part
+-	 * of the page.
+-	 */
+-	page += (offset >> PAGE_SHIFT);
+-	offset &= ~PAGE_MASK;
++	hvpfn += offset >> HV_HYP_PAGE_SHIFT;
++	offset = offset & ~HV_HYP_PAGE_MASK;
+ 
+ 	while (len > 0) {
+ 		unsigned long bytes;
+ 
+-		bytes = PAGE_SIZE - offset;
++		bytes = HV_HYP_PAGE_SIZE - offset;
+ 		if (bytes > len)
+ 			bytes = len;
+-		pb[j].pfn = page_to_pfn(page);
++		pb[j].pfn = hvpfn;
+ 		pb[j].offset = offset;
+ 		pb[j].len = bytes;
+ 
+ 		offset += bytes;
+ 		len -= bytes;
+ 
+-		if (offset == PAGE_SIZE && len) {
+-			page++;
++		if (offset == HV_HYP_PAGE_SIZE && len) {
++			hvpfn++;
+ 			offset = 0;
+ 			j++;
+ 		}
+@@ -421,23 +418,26 @@ static u32 init_page_array(void *hdr, u32 len, struct sk_buff *skb,
+ 	 * 2. skb linear data
+ 	 * 3. skb fragment data
+ 	 */
+-	slots_used += fill_pg_buf(virt_to_page(hdr),
+-				  offset_in_page(hdr),
+-				  len, &pb[slots_used]);
++	slots_used += fill_pg_buf(virt_to_hvpfn(hdr),
++				  offset_in_hvpage(hdr),
++				  len,
++				  &pb[slots_used]);
+ 
+ 	packet->rmsg_size = len;
+ 	packet->rmsg_pgcnt = slots_used;
+ 
+-	slots_used += fill_pg_buf(virt_to_page(data),
+-				offset_in_page(data),
+-				skb_headlen(skb), &pb[slots_used]);
++	slots_used += fill_pg_buf(virt_to_hvpfn(data),
++				  offset_in_hvpage(data),
++				  skb_headlen(skb),
++				  &pb[slots_used]);
+ 
+ 	for (i = 0; i < frags; i++) {
+ 		skb_frag_t *frag = skb_shinfo(skb)->frags + i;
+ 
+-		slots_used += fill_pg_buf(skb_frag_page(frag),
+-					skb_frag_off(frag),
+-					skb_frag_size(frag), &pb[slots_used]);
++		slots_used += fill_pg_buf(page_to_hvpfn(skb_frag_page(frag)),
++					  skb_frag_off(frag),
++					  skb_frag_size(frag),
++					  &pb[slots_used]);
+ 	}
+ 	return slots_used;
+ }
+@@ -453,8 +453,8 @@ static int count_skb_frag_slots(struct sk_buff *skb)
+ 		unsigned long offset = skb_frag_off(frag);
+ 
+ 		/* Skip unused frames from start of page */
+-		offset &= ~PAGE_MASK;
+-		pages += PFN_UP(offset + size);
++		offset &= ~HV_HYP_PAGE_MASK;
++		pages += HVPFN_UP(offset + size);
+ 	}
+ 	return pages;
+ }
+@@ -462,12 +462,12 @@ static int count_skb_frag_slots(struct sk_buff *skb)
+ static int netvsc_get_slots(struct sk_buff *skb)
+ {
+ 	char *data = skb->data;
+-	unsigned int offset = offset_in_page(data);
++	unsigned int offset = offset_in_hvpage(data);
+ 	unsigned int len = skb_headlen(skb);
+ 	int slots;
+ 	int frag_slots;
+ 
+-	slots = DIV_ROUND_UP(offset + len, PAGE_SIZE);
++	slots = DIV_ROUND_UP(offset + len, HV_HYP_PAGE_SIZE);
+ 	frag_slots = count_skb_frag_slots(skb);
+ 	return slots + frag_slots;
+ }
+diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
+index b81ceba38218..1e2de8fb7fec 100644
+--- a/drivers/net/hyperv/rndis_filter.c
++++ b/drivers/net/hyperv/rndis_filter.c
+@@ -25,7 +25,7 @@
+ 
+ static void rndis_set_multicast(struct work_struct *w);
+ 
+-#define RNDIS_EXT_LEN PAGE_SIZE
++#define RNDIS_EXT_LEN HV_HYP_PAGE_SIZE
+ struct rndis_request {
+ 	struct list_head list_ent;
+ 	struct completion  wait_event;
+@@ -215,18 +215,17 @@ static int rndis_filter_send_request(struct rndis_device *dev,
+ 	packet->page_buf_cnt = 1;
+ 
+ 	pb[0].pfn = virt_to_phys(&req->request_msg) >>
+-					PAGE_SHIFT;
++					HV_HYP_PAGE_SHIFT;
+ 	pb[0].len = req->request_msg.msg_len;
+-	pb[0].offset =
+-		(unsigned long)&req->request_msg & (PAGE_SIZE - 1);
++	pb[0].offset = offset_in_hvpage(&req->request_msg);
+ 
+ 	/* Add one page_buf when request_msg crossing page boundary */
+-	if (pb[0].offset + pb[0].len > PAGE_SIZE) {
++	if (pb[0].offset + pb[0].len > HV_HYP_PAGE_SIZE) {
+ 		packet->page_buf_cnt++;
+-		pb[0].len = PAGE_SIZE -
++		pb[0].len = HV_HYP_PAGE_SIZE -
+ 			pb[0].offset;
+ 		pb[1].pfn = virt_to_phys((void *)&req->request_msg
+-			+ pb[0].len) >> PAGE_SHIFT;
++			+ pb[0].len) >> HV_HYP_PAGE_SHIFT;
+ 		pb[1].offset = 0;
+ 		pb[1].len = req->request_msg.msg_len -
+ 			pb[0].len;
 -- 
 2.28.0
 
