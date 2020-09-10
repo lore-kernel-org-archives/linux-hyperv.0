@@ -2,263 +2,396 @@ Return-Path: <SRS0=7ZzS=CT=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D158C43461
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 09:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA43C43461
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 09:57:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 370B320882
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 09:17:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C303120829
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Sep 2020 09:57:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g0xcm5Ha"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RaAWdlZ2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730245AbgIJJRd (ORCPT
+        id S1727090AbgIJJ4p (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 10 Sep 2020 05:17:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26015 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730177AbgIJJOQ (ORCPT
+        Thu, 10 Sep 2020 05:56:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41054 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730294AbgIJJyG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:14:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599729254;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0L/VNlFzuDB/95oeV+NVSs6BIkKkE+sXG0xqekszlyk=;
-        b=g0xcm5Hanux7U1zw3r5XNByLH/bojfd/kWEG3cUCQ6jOKG+uAGAliHb0KyU4BOiQ8Ai6l5
-        jyZpLETr3e3MHlVMkp9dHB6rDgA4NHlQ6KTBOT0xbYxSo8QAuqdThciunh7TEuHTrJMXUF
-        fpxgY65A0CIBMxUL/PvmkPI8qfJsvzU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-_e125CRHNGeNx5hwN_T7eg-1; Thu, 10 Sep 2020 05:14:10 -0400
-X-MC-Unique: _e125CRHNGeNx5hwN_T7eg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87B7664082;
-        Thu, 10 Sep 2020 09:14:08 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-88.ams2.redhat.com [10.36.113.88])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 996B427CCC;
-        Thu, 10 Sep 2020 09:14:01 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
+        Thu, 10 Sep 2020 05:54:06 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78852C061795;
+        Thu, 10 Sep 2020 02:53:18 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id h4so6395222ioe.5;
+        Thu, 10 Sep 2020 02:53:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DXhFARB7iWozLIle7rA/3dcPZ4H06GlQ94RnYK663hI=;
+        b=RaAWdlZ2lNl7nXfiYHOzYx+GfQrIjOUeMopaIK9ZBs0wDY4n9MuS2XiRV1Y/YXkmLn
+         pJuxxyIoxZUP+VIh+mMq5fznWJVa2G/6K4TBuF6L09rpsivWa9At4G4GDPd4IG0pQnzj
+         TeAWq6VScWqV2pdBEmEZOJjchvKO1LlaqoLXIJxDrMoPoi3BVXKxeIQMgw4nvf8/fYyp
+         HF3hT6ZzvVaGa1OATUDBMc8cXDdO4P4B7MbL6j6WMNFEMNtHGJXzBCDYlCO4v2DXT3vr
+         noCvIYUFB8wvMPozut1JpXMO+4tRhnMrBpC3exgA4QHs5wNRvmdnYK2/e5bJc3A/K3Jw
+         41Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DXhFARB7iWozLIle7rA/3dcPZ4H06GlQ94RnYK663hI=;
+        b=iIt39ytAuheKskeFsbmq/k35GmsP+vLtiV6NKXLeja2wBtrYELRTAo6Of+N/nE08Lp
+         JX9bjKmsBSo5ivp8QtAlrF0wduYW4IUsj9ug7sheNvQ2blenwutdwXfj2nDoUmRsN993
+         LrBGG4z4+b3tIFATnJvcLIetCsG/4gI7t5OJoObtAjKbePanG8IQg99lVpTWyBnqcAip
+         j89g3McWFAatgSdfKLUdNLZt5cg2xKWlLNmkpWzWHypuu/0F74igyXlqMHM5XQpe3OT6
+         1BQEhyJVqZ0WY28+kpBHO7RCkT5ZxPrSXjFReAyGEt5MD9vHReUP74YMZkxX3IT282rB
+         qdww==
+X-Gm-Message-State: AOAM532JASuR5BvaJaj1pyKgnNNUiyOaplmFyi9q2n8jj3Lo0POSbxgx
+        lAK/t/rmcru1IAw3coR2CnCx3QdOoOsdDJAJp68=
+X-Google-Smtp-Source: ABdhPJxNu1IaH8bsVzGF36h3AxQcPj3XlD1+MCBc09C/TrTSOY0getsz2Hf3tGADGGHG07rp20HjQE3K915KSmBE84o=
+X-Received: by 2002:a02:6623:: with SMTP id k35mr7996256jac.105.1599731597724;
+ Thu, 10 Sep 2020 02:53:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200910091340.8654-1-david@redhat.com> <20200910091340.8654-4-david@redhat.com>
+In-Reply-To: <20200910091340.8654-4-david@redhat.com>
+From:   Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date:   Thu, 10 Sep 2020 11:53:06 +0200
+Message-ID: <CAM9Jb+gpSKtQbyTZrecNQNXO+oLahuwZ9JkE+TWe4BvB1nZy3w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] mm/memory_hotplug: prepare passing flags to
+ add_memory() and friends
+To:     David Hildenbrand <david@redhat.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        Linux MM <linux-mm@kvack.org>, linux-hyperv@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
         linux-s390@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@redhat.com>,
+        Wei Liu <wei.liu@kernel.org>, Juergen Gross <jgross@suse.com>,
         Michal Hocko <mhocko@suse.com>,
         Dan Williams <dan.j.williams@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-        Baoquan He <bhe@redhat.com>,
-        Wei Yang <richardw.yang@linux.intel.com>
-Subject: [PATCH v3 1/7] kernel/resource: make release_mem_region_adjustable() never fail
-Date:   Thu, 10 Sep 2020 11:13:34 +0200
-Message-Id: <20200910091340.8654-2-david@redhat.com>
-In-Reply-To: <20200910091340.8654-1-david@redhat.com>
-References: <20200910091340.8654-1-david@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+        Jason Gunthorpe <jgg@ziepe.ca>, Baoquan He <bhe@redhat.com>,
+        Wei Yang <richardw.yang@linux.intel.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave Jiang <dave.jiang@intel.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        "Oliver O'Halloran" <oohall@gmail.com>,
+        Pingfan Liu <kernelfans@gmail.com>,
+        Nathan Lynch <nathanl@linux.ibm.com>,
+        Libor Pechacek <lpechacek@suse.cz>,
+        Anton Blanchard <anton@ozlabs.org>,
+        Leonardo Bras <leobras.c@gmail.com>,
+        linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Let's make sure splitting a resource on memory hotunplug will never fail.
-This will become more relevant once we merge selected System RAM
-resources - then, we'll trigger that case more often on memory hotunplug.
+> We soon want to pass flags, e.g., to mark added System RAM resources.
+> mergeable. Prepare for that.
+>
+> This patch is based on a similar patch by Oscar Salvador:
+>
+> https://lkml.kernel.org/r/20190625075227.15193-3-osalvador@suse.de
+>
+> Acked-by: Wei Liu <wei.liu@kernel.org>
+> Reviewed-by: Juergen Gross <jgross@suse.com> # Xen related part
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Baoquan He <bhe@redhat.com>
+> Cc: Wei Yang <richardw.yang@linux.intel.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: Paul Mackerras <paulus@samba.org>
+> Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+> Cc: Len Brown <lenb@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Vishal Verma <vishal.l.verma@intel.com>
+> Cc: Dave Jiang <dave.jiang@intel.com>
+> Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+> Cc: Haiyang Zhang <haiyangz@microsoft.com>
+> Cc: Stephen Hemminger <sthemmin@microsoft.com>
+> Cc: Wei Liu <wei.liu@kernel.org>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: "Oliver O'Halloran" <oohall@gmail.com>
+> Cc: Pingfan Liu <kernelfans@gmail.com>
+> Cc: Nathan Lynch <nathanl@linux.ibm.com>
+> Cc: Libor Pechacek <lpechacek@suse.cz>
+> Cc: Anton Blanchard <anton@ozlabs.org>
+> Cc: Leonardo Bras <leobras.c@gmail.com>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Cc: linux-acpi@vger.kernel.org
+> Cc: linux-nvdimm@lists.01.org
+> Cc: linux-hyperv@vger.kernel.org
+> Cc: linux-s390@vger.kernel.org
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: xen-devel@lists.xenproject.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  arch/powerpc/platforms/powernv/memtrace.c       |  2 +-
+>  arch/powerpc/platforms/pseries/hotplug-memory.c |  2 +-
+>  drivers/acpi/acpi_memhotplug.c                  |  3 ++-
+>  drivers/base/memory.c                           |  3 ++-
+>  drivers/dax/kmem.c                              |  2 +-
+>  drivers/hv/hv_balloon.c                         |  2 +-
+>  drivers/s390/char/sclp_cmd.c                    |  2 +-
+>  drivers/virtio/virtio_mem.c                     |  2 +-
+>  drivers/xen/balloon.c                           |  2 +-
+>  include/linux/memory_hotplug.h                  | 16 ++++++++++++----
+>  mm/memory_hotplug.c                             | 14 +++++++-------
+>  11 files changed, 30 insertions(+), 20 deletions(-)
+>
+> diff --git a/arch/powerpc/platforms/powernv/memtrace.c b/arch/powerpc/platforms/powernv/memtrace.c
+> index 13b369d2cc454..6828108486f83 100644
+> --- a/arch/powerpc/platforms/powernv/memtrace.c
+> +++ b/arch/powerpc/platforms/powernv/memtrace.c
+> @@ -224,7 +224,7 @@ static int memtrace_online(void)
+>                         ent->mem = 0;
+>                 }
+>
+> -               if (add_memory(ent->nid, ent->start, ent->size)) {
+> +               if (add_memory(ent->nid, ent->start, ent->size, MHP_NONE)) {
+>                         pr_err("Failed to add trace memory to node %d\n",
+>                                 ent->nid);
+>                         ret += 1;
+> diff --git a/arch/powerpc/platforms/pseries/hotplug-memory.c b/arch/powerpc/platforms/pseries/hotplug-memory.c
+> index 0ea976d1cac47..e1c9fa0d730f5 100644
+> --- a/arch/powerpc/platforms/pseries/hotplug-memory.c
+> +++ b/arch/powerpc/platforms/pseries/hotplug-memory.c
+> @@ -615,7 +615,7 @@ static int dlpar_add_lmb(struct drmem_lmb *lmb)
+>         nid = memory_add_physaddr_to_nid(lmb->base_addr);
+>
+>         /* Add the memory */
+> -       rc = __add_memory(nid, lmb->base_addr, block_sz);
+> +       rc = __add_memory(nid, lmb->base_addr, block_sz, MHP_NONE);
+>         if (rc) {
+>                 invalidate_lmb_associativity_index(lmb);
+>                 return rc;
+> diff --git a/drivers/acpi/acpi_memhotplug.c b/drivers/acpi/acpi_memhotplug.c
+> index e294f44a78504..2067c3bc55763 100644
+> --- a/drivers/acpi/acpi_memhotplug.c
+> +++ b/drivers/acpi/acpi_memhotplug.c
+> @@ -207,7 +207,8 @@ static int acpi_memory_enable_device(struct acpi_memory_device *mem_device)
+>                 if (node < 0)
+>                         node = memory_add_physaddr_to_nid(info->start_addr);
+>
+> -               result = __add_memory(node, info->start_addr, info->length);
+> +               result = __add_memory(node, info->start_addr, info->length,
+> +                                     MHP_NONE);
+>
+>                 /*
+>                  * If the memory block has been used by the kernel, add_memory()
+> diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+> index 4db3c660de831..b4c297dd04755 100644
+> --- a/drivers/base/memory.c
+> +++ b/drivers/base/memory.c
+> @@ -432,7 +432,8 @@ static ssize_t probe_store(struct device *dev, struct device_attribute *attr,
+>
+>         nid = memory_add_physaddr_to_nid(phys_addr);
+>         ret = __add_memory(nid, phys_addr,
+> -                          MIN_MEMORY_BLOCK_SIZE * sections_per_block);
+> +                          MIN_MEMORY_BLOCK_SIZE * sections_per_block,
+> +                          MHP_NONE);
+>
+>         if (ret)
+>                 goto out;
+> diff --git a/drivers/dax/kmem.c b/drivers/dax/kmem.c
+> index 7dcb2902e9b1b..896cb9444e727 100644
+> --- a/drivers/dax/kmem.c
+> +++ b/drivers/dax/kmem.c
+> @@ -95,7 +95,7 @@ int dev_dax_kmem_probe(struct dev_dax *dev_dax)
+>                  * this as RAM automatically.
+>                  */
+>                 rc = add_memory_driver_managed(numa_node, range.start,
+> -                               range_len(&range), kmem_name);
+> +                               range_len(&range), kmem_name, MHP_NONE);
+>
+>                 res->flags |= IORESOURCE_BUSY;
+>                 if (rc) {
+> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+> index 32e3bc0aa665a..3c0d52e244520 100644
+> --- a/drivers/hv/hv_balloon.c
+> +++ b/drivers/hv/hv_balloon.c
+> @@ -726,7 +726,7 @@ static void hv_mem_hot_add(unsigned long start, unsigned long size,
+>
+>                 nid = memory_add_physaddr_to_nid(PFN_PHYS(start_pfn));
+>                 ret = add_memory(nid, PFN_PHYS((start_pfn)),
+> -                               (HA_CHUNK << PAGE_SHIFT));
+> +                               (HA_CHUNK << PAGE_SHIFT), MHP_NONE);
+>
+>                 if (ret) {
+>                         pr_err("hot_add memory failed error is %d\n", ret);
+> diff --git a/drivers/s390/char/sclp_cmd.c b/drivers/s390/char/sclp_cmd.c
+> index a864b21af602a..f6e97f0830f64 100644
+> --- a/drivers/s390/char/sclp_cmd.c
+> +++ b/drivers/s390/char/sclp_cmd.c
+> @@ -406,7 +406,7 @@ static void __init add_memory_merged(u16 rn)
+>         if (!size)
+>                 goto skip_add;
+>         for (addr = start; addr < start + size; addr += block_size)
+> -               add_memory(0, addr, block_size);
+> +               add_memory(0, addr, block_size, MHP_NONE);
+>  skip_add:
+>         first_rn = rn;
+>         num = 1;
+> diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
+> index 834b7c13ef3dc..ed99e43354010 100644
+> --- a/drivers/virtio/virtio_mem.c
+> +++ b/drivers/virtio/virtio_mem.c
+> @@ -424,7 +424,7 @@ static int virtio_mem_mb_add(struct virtio_mem *vm, unsigned long mb_id)
+>
+>         dev_dbg(&vm->vdev->dev, "adding memory block: %lu\n", mb_id);
+>         return add_memory_driver_managed(nid, addr, memory_block_size_bytes(),
+> -                                        vm->resource_name);
+> +                                        vm->resource_name, MHP_NONE);
+>  }
+>
+>  /*
+> diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
+> index 51427c752b37b..9f40a294d398d 100644
+> --- a/drivers/xen/balloon.c
+> +++ b/drivers/xen/balloon.c
+> @@ -331,7 +331,7 @@ static enum bp_state reserve_additional_memory(void)
+>         mutex_unlock(&balloon_mutex);
+>         /* add_memory_resource() requires the device_hotplug lock */
+>         lock_device_hotplug();
+> -       rc = add_memory_resource(nid, resource);
+> +       rc = add_memory_resource(nid, resource, MHP_NONE);
+>         unlock_device_hotplug();
+>         mutex_lock(&balloon_mutex);
+>
+> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> index 51a877fec8da8..e53d1058f3443 100644
+> --- a/include/linux/memory_hotplug.h
+> +++ b/include/linux/memory_hotplug.h
+> @@ -57,6 +57,12 @@ enum {
+>         MMOP_ONLINE_MOVABLE,
+>  };
+>
+> +/* Flags for add_memory() and friends to specify memory hotplug details. */
+> +typedef int __bitwise mhp_t;
+> +
+> +/* No special request */
+> +#define MHP_NONE               ((__force mhp_t)0)
+> +
+>  /*
+>   * Extended parameters for memory hotplug:
+>   * altmap: alternative allocator for memmap array (optional)
+> @@ -345,11 +351,13 @@ extern void set_zone_contiguous(struct zone *zone);
+>  extern void clear_zone_contiguous(struct zone *zone);
+>
+>  extern void __ref free_area_init_core_hotplug(int nid);
+> -extern int __add_memory(int nid, u64 start, u64 size);
+> -extern int add_memory(int nid, u64 start, u64 size);
+> -extern int add_memory_resource(int nid, struct resource *resource);
+> +extern int __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+> +extern int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+> +extern int add_memory_resource(int nid, struct resource *resource,
+> +                              mhp_t mhp_flags);
+>  extern int add_memory_driver_managed(int nid, u64 start, u64 size,
+> -                                    const char *resource_name);
+> +                                    const char *resource_name,
+> +                                    mhp_t mhp_flags);
+>  extern void move_pfn_range_to_zone(struct zone *zone, unsigned long start_pfn,
+>                                    unsigned long nr_pages,
+>                                    struct vmem_altmap *altmap, int migratetype);
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 8e1cd18b5cf14..8f0bd7c9a63a5 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -1039,7 +1039,7 @@ static int online_memory_block(struct memory_block *mem, void *arg)
+>   *
+>   * we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG
+>   */
+> -int __ref add_memory_resource(int nid, struct resource *res)
+> +int __ref add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+>  {
+>         struct mhp_params params = { .pgprot = PAGE_KERNEL };
+>         u64 start, size;
+> @@ -1118,7 +1118,7 @@ int __ref add_memory_resource(int nid, struct resource *res)
+>  }
+>
+>  /* requires device_hotplug_lock, see add_memory_resource() */
+> -int __ref __add_memory(int nid, u64 start, u64 size)
+> +int __ref __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags)
+>  {
+>         struct resource *res;
+>         int ret;
+> @@ -1127,18 +1127,18 @@ int __ref __add_memory(int nid, u64 start, u64 size)
+>         if (IS_ERR(res))
+>                 return PTR_ERR(res);
+>
+> -       ret = add_memory_resource(nid, res);
+> +       ret = add_memory_resource(nid, res, mhp_flags);
+>         if (ret < 0)
+>                 release_memory_resource(res);
+>         return ret;
+>  }
+>
+> -int add_memory(int nid, u64 start, u64 size)
+> +int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags)
+>  {
+>         int rc;
+>
+>         lock_device_hotplug();
+> -       rc = __add_memory(nid, start, size);
+> +       rc = __add_memory(nid, start, size, mhp_flags);
+>         unlock_device_hotplug();
+>
+>         return rc;
+> @@ -1167,7 +1167,7 @@ EXPORT_SYMBOL_GPL(add_memory);
+>   * "System RAM ($DRIVER)".
+>   */
+>  int add_memory_driver_managed(int nid, u64 start, u64 size,
+> -                             const char *resource_name)
+> +                             const char *resource_name, mhp_t mhp_flags)
+>  {
+>         struct resource *res;
+>         int rc;
+> @@ -1185,7 +1185,7 @@ int add_memory_driver_managed(int nid, u64 start, u64 size,
+>                 goto out_unlock;
+>         }
+>
+> -       rc = add_memory_resource(nid, res);
+> +       rc = add_memory_resource(nid, res, mhp_flags);
+>         if (rc < 0)
+>                 release_memory_resource(res);
+>
+> --
 
-In general, this function is already unlikely to fail. When we remove
-memory, we free up quite a lot of metadata (memmap, page tables, memory
-block device, etc.). The only reason it could really fail would be when
-injecting allocation errors.
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 
-All other error cases inside release_mem_region_adjustable() seem to be
-sanity checks if the function would be abused in different context -
-let's add WARN_ON_ONCE() in these cases so we can catch them.
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Dan Williams <dan.j.williams@intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Wei Yang <richardw.yang@linux.intel.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- include/linux/ioport.h |  4 ++--
- kernel/resource.c      | 49 ++++++++++++++++++++++++------------------
- mm/memory_hotplug.c    | 22 +------------------
- 3 files changed, 31 insertions(+), 44 deletions(-)
-
-diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-index 6c2b06fe8beb7..52a91f5fa1a36 100644
---- a/include/linux/ioport.h
-+++ b/include/linux/ioport.h
-@@ -248,8 +248,8 @@ extern struct resource * __request_region(struct resource *,
- extern void __release_region(struct resource *, resource_size_t,
- 				resource_size_t);
- #ifdef CONFIG_MEMORY_HOTREMOVE
--extern int release_mem_region_adjustable(struct resource *, resource_size_t,
--				resource_size_t);
-+extern void release_mem_region_adjustable(struct resource *, resource_size_t,
-+					  resource_size_t);
- #endif
- 
- /* Wrappers for managed devices */
-diff --git a/kernel/resource.c b/kernel/resource.c
-index f1175ce93a1d5..36b3552210120 100644
---- a/kernel/resource.c
-+++ b/kernel/resource.c
-@@ -1258,21 +1258,28 @@ EXPORT_SYMBOL(__release_region);
-  *   assumes that all children remain in the lower address entry for
-  *   simplicity.  Enhance this logic when necessary.
-  */
--int release_mem_region_adjustable(struct resource *parent,
--				  resource_size_t start, resource_size_t size)
-+void release_mem_region_adjustable(struct resource *parent,
-+				   resource_size_t start, resource_size_t size)
- {
-+	struct resource *new_res = NULL;
-+	bool alloc_nofail = false;
- 	struct resource **p;
- 	struct resource *res;
--	struct resource *new_res;
- 	resource_size_t end;
--	int ret = -EINVAL;
- 
- 	end = start + size - 1;
--	if ((start < parent->start) || (end > parent->end))
--		return ret;
-+	if (WARN_ON_ONCE((start < parent->start) || (end > parent->end)))
-+		return;
- 
--	/* The alloc_resource() result gets checked later */
--	new_res = alloc_resource(GFP_KERNEL);
-+	/*
-+	 * We free up quite a lot of memory on memory hotunplug (esp., memap),
-+	 * just before releasing the region. This is highly unlikely to
-+	 * fail - let's play save and make it never fail as the caller cannot
-+	 * perform any error handling (e.g., trying to re-add memory will fail
-+	 * similarly).
-+	 */
-+retry:
-+	new_res = alloc_resource(GFP_KERNEL | alloc_nofail ? __GFP_NOFAIL : 0);
- 
- 	p = &parent->child;
- 	write_lock(&resource_lock);
-@@ -1298,7 +1305,6 @@ int release_mem_region_adjustable(struct resource *parent,
- 		 * so if we are dealing with them, let us just back off here.
- 		 */
- 		if (!(res->flags & IORESOURCE_SYSRAM)) {
--			ret = 0;
- 			break;
- 		}
- 
-@@ -1315,20 +1321,23 @@ int release_mem_region_adjustable(struct resource *parent,
- 			/* free the whole entry */
- 			*p = res->sibling;
- 			free_resource(res);
--			ret = 0;
- 		} else if (res->start == start && res->end != end) {
- 			/* adjust the start */
--			ret = __adjust_resource(res, end + 1,
--						res->end - end);
-+			WARN_ON_ONCE(__adjust_resource(res, end + 1,
-+						       res->end - end));
- 		} else if (res->start != start && res->end == end) {
- 			/* adjust the end */
--			ret = __adjust_resource(res, res->start,
--						start - res->start);
-+			WARN_ON_ONCE(__adjust_resource(res, res->start,
-+						       start - res->start));
- 		} else {
--			/* split into two entries */
-+			/* split into two entries - we need a new resource */
- 			if (!new_res) {
--				ret = -ENOMEM;
--				break;
-+				new_res = alloc_resource(GFP_ATOMIC);
-+				if (!new_res) {
-+					alloc_nofail = true;
-+					write_unlock(&resource_lock);
-+					goto retry;
-+				}
- 			}
- 			new_res->name = res->name;
- 			new_res->start = end + 1;
-@@ -1339,9 +1348,8 @@ int release_mem_region_adjustable(struct resource *parent,
- 			new_res->sibling = res->sibling;
- 			new_res->child = NULL;
- 
--			ret = __adjust_resource(res, res->start,
--						start - res->start);
--			if (ret)
-+			if (WARN_ON_ONCE(__adjust_resource(res, res->start,
-+							   start - res->start)))
- 				break;
- 			res->sibling = new_res;
- 			new_res = NULL;
-@@ -1352,7 +1360,6 @@ int release_mem_region_adjustable(struct resource *parent,
- 
- 	write_unlock(&resource_lock);
- 	free_resource(new_res);
--	return ret;
- }
- #endif	/* CONFIG_MEMORY_HOTREMOVE */
- 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index baded53b9ff92..4c47b68a9f4b5 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1724,26 +1724,6 @@ void try_offline_node(int nid)
- }
- EXPORT_SYMBOL(try_offline_node);
- 
--static void __release_memory_resource(resource_size_t start,
--				      resource_size_t size)
--{
--	int ret;
--
--	/*
--	 * When removing memory in the same granularity as it was added,
--	 * this function never fails. It might only fail if resources
--	 * have to be adjusted or split. We'll ignore the error, as
--	 * removing of memory cannot fail.
--	 */
--	ret = release_mem_region_adjustable(&iomem_resource, start, size);
--	if (ret) {
--		resource_size_t endres = start + size - 1;
--
--		pr_warn("Unable to release resource <%pa-%pa> (%d)\n",
--			&start, &endres, ret);
--	}
--}
--
- static int __ref try_remove_memory(int nid, u64 start, u64 size)
- {
- 	int rc = 0;
-@@ -1777,7 +1757,7 @@ static int __ref try_remove_memory(int nid, u64 start, u64 size)
- 		memblock_remove(start, size);
- 	}
- 
--	__release_memory_resource(start, size);
-+	release_mem_region_adjustable(&iomem_resource, start, size);
- 
- 	try_offline_node(nid);
- 
--- 
-2.26.2
-
+> 2.26.2
+>
