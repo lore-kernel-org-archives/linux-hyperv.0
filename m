@@ -2,112 +2,168 @@ Return-Path: <SRS0=TyDq=CU=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB26C43461
-	for <linux-hyperv@archiver.kernel.org>; Fri, 11 Sep 2020 08:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 941C2C433E2
+	for <linux-hyperv@archiver.kernel.org>; Fri, 11 Sep 2020 10:35:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98C6A221EE
-	for <linux-hyperv@archiver.kernel.org>; Fri, 11 Sep 2020 08:43:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5ACEE20578
+	for <linux-hyperv@archiver.kernel.org>; Fri, 11 Sep 2020 10:35:50 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzlNb3VS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ebSPoeO3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725780AbgIKInM (ORCPT
+        id S1725921AbgIKKfs (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 11 Sep 2020 04:43:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725550AbgIKInL (ORCPT
+        Fri, 11 Sep 2020 06:35:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55200 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725919AbgIKKfi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 11 Sep 2020 04:43:11 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF1E7C061573;
-        Fri, 11 Sep 2020 01:43:10 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id k15so10615201wrn.10;
-        Fri, 11 Sep 2020 01:43:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=s+k37vDOAFxkHUtEO8otqVl72Kv7/m+MnZOCdDAFY/o=;
-        b=AzlNb3VSLO+m0/csJGC/zbcrwXZ/Q8yGtxKeLXUrKYH3mAPOCycql8VnT1MHofoZcl
-         ABGWV+Ws+/MLt7JL+zrbMncEYeJkqR1IhtC6Yf84dRBpiR1G9g3YE2qwhL21zGCLS13Q
-         r0IcZ0MzlpxrfV6lqz8Jcbp4RLphzw23zwSxyRO8lWGjwyY5/j1xW4nyE7joXJ8wKn5r
-         8DjrG9fv6N+hN55Mk1FP9UWtWvvTtgPfWFZw8CIB6qyBQhDfg8vhIYd1+PdWnWDIyXR9
-         kg6rd6jH88FfJ1amPyTP0RxvSAmOhRRHYWQzQrKtMcub7/xH0I3ayWjooPDQbbeM1KPv
-         C1XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=s+k37vDOAFxkHUtEO8otqVl72Kv7/m+MnZOCdDAFY/o=;
-        b=HiDkJsTcRL0cyYpSfwkDl6TfYzs4xUtS98hh9cn4rrav9wdSd7aAXwX48+rZuzxo7u
-         AVbQ9D0NGMbzevdifVrBOGAH/RmVOnTmqu2T1W9BhyEPNVGXg6S6Emodb75BLFQk14MX
-         CmjF5cFKrOP2TC5vUGlKevVLkNib/9YO5kb5wfkr1zBcqNkWo97mgvPbQNCGZ/0O5G83
-         dOsDOaPOuUZv1+kr2Oe6ca5YjrkoHRKibsP3VbSwSqHV5rFk1VN1/vqXMCMf2ouRH8RB
-         w3ujIPSsVChtdbpUVruA0oQKqFC1+RIxXuOqffG3u85Tz+tGhOPy8ofQcAd4haNa+Ky/
-         NpgA==
-X-Gm-Message-State: AOAM5333tey8+z6J/hcupzKTYa6bTFWvyZmA5GBQUNPbdpcM+tcZy6L3
-        yLsbWnA/3DbZ2srae9LR4eU=
-X-Google-Smtp-Source: ABdhPJyHj/iTMwS1jhMk+VWB9BMRjZplIQFoOmp6Ra5OHrwaFGxVFygbuaFRszGBNJZxurLRRNyk6Q==
-X-Received: by 2002:a5d:6301:: with SMTP id i1mr877075wru.323.1599813789391;
-        Fri, 11 Sep 2020 01:43:09 -0700 (PDT)
-Received: from andrea (userh713.uk.uudial.com. [194.69.103.86])
-        by smtp.gmail.com with ESMTPSA id 92sm3358580wra.19.2020.09.11.01.43.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2020 01:43:08 -0700 (PDT)
-Date:   Fri, 11 Sep 2020 10:43:01 +0200
-From:   Andrea Parri <parri.andrea@gmail.com>
-To:     Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Andres Beltran <lkmlabelt@gmail.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH v2] hv_netvsc: Add validation for untrusted Hyper-V values
-Message-ID: <20200911084301.GA14414@andrea>
-References: <20200910124748.19217-1-parri.andrea@gmail.com>
- <BL0PR2101MB0930659825AD89FF5A8DC2C4CA270@BL0PR2101MB0930.namprd21.prod.outlook.com>
+        Fri, 11 Sep 2020 06:35:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1599820536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zFptVInSDSbB2nDLyh5K9NKtnygiDyhn7CU7AXmV4mo=;
+        b=ebSPoeO3KbfB5PyS19uNw9lqJpTBMVTMfdFDRIQ0s8ilOK2nlxC5LUm9KDUyngDvSTExBY
+        M+XvuC6isAZCiUcLvJPXYf97ZxNatB9mJnk0HMPx1NIRJP4QHEtlpKbXXBtraDow6JLDx3
+        4LfQLDFfkP1bpnKBlwwdyZx7feTS17Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-v3vJhF-RMM68yrzofPOmHw-1; Fri, 11 Sep 2020 06:35:34 -0400
+X-MC-Unique: v3vJhF-RMM68yrzofPOmHw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67DAB107464E;
+        Fri, 11 Sep 2020 10:35:31 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-113-186.ams2.redhat.com [10.36.113.186])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1E95281C44;
+        Fri, 11 Sep 2020 10:35:23 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-s390@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+        Baoquan He <bhe@redhat.com>,
+        Wei Yang <richardw.yang@linux.intel.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kexec@lists.infradead.org
+Subject: [PATCH v4 2/8] kernel/resource: move and rename IORESOURCE_MEM_DRIVER_MANAGED
+Date:   Fri, 11 Sep 2020 12:34:53 +0200
+Message-Id: <20200911103459.10306-3-david@redhat.com>
+In-Reply-To: <20200911103459.10306-1-david@redhat.com>
+References: <20200911103459.10306-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BL0PR2101MB0930659825AD89FF5A8DC2C4CA270@BL0PR2101MB0930.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> > @@ -740,12 +755,45 @@ static void netvsc_send_completion(struct
-> > net_device *ndev,
-> >  				   int budget)
-> >  {
-> >  	const struct nvsp_message *nvsp_packet = hv_pkt_data(desc);
-> > +	u32 msglen = hv_pkt_datalen(desc);
-> > +
-> > +	/* Ensure packet is big enough to read header fields */
-> > +	if (msglen < sizeof(struct nvsp_message_header)) {
-> > +		netdev_err(ndev, "nvsp_message length too small: %u\n",
-> > msglen);
-> > +		return;
-> > +	}
-> > 
-> >  	switch (nvsp_packet->hdr.msg_type) {
-> >  	case NVSP_MSG_TYPE_INIT_COMPLETE:
-> > +		if (msglen < sizeof(struct nvsp_message_init_complete)) {
-> 
-> This and other similar places should include header size:
-> 		if (msglen < sizeof(struct nvsp_message_header) + sizeof(struct nvsp_message_init_complete)) {
+IORESOURCE_MEM_DRIVER_MANAGED currently uses an unused PnP bit, which is
+always set to 0 by hardware. This is far from beautiful (and confusing),
+and the bit only applies to SYSRAM. So let's move it out of the
+bus-specific (PnP) defined bits.
 
-Thanks for pointing this out; fixing for v3...
+We'll add another SYSRAM specific bit soon. If we ever need more bits for
+other purposes, we can steal some from "desc", or reshuffle/regroup what we
+have.
 
-  Andrea
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Michal Hocko <mhocko@suse.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Eric Biederman <ebiederm@xmission.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kexec@lists.infradead.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ include/linux/ioport.h | 4 +++-
+ kernel/kexec_file.c    | 2 +-
+ mm/memory_hotplug.c    | 4 ++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/ioport.h b/include/linux/ioport.h
+index 52a91f5fa1a36..d7620d7c941a0 100644
+--- a/include/linux/ioport.h
++++ b/include/linux/ioport.h
+@@ -58,6 +58,9 @@ struct resource {
+ #define IORESOURCE_EXT_TYPE_BITS 0x01000000	/* Resource extended types */
+ #define IORESOURCE_SYSRAM	0x01000000	/* System RAM (modifier) */
+ 
++/* IORESOURCE_SYSRAM specific bits. */
++#define IORESOURCE_SYSRAM_DRIVER_MANAGED	0x02000000 /* Always detected via a driver. */
++
+ #define IORESOURCE_EXCLUSIVE	0x08000000	/* Userland may not map this resource */
+ 
+ #define IORESOURCE_DISABLED	0x10000000
+@@ -103,7 +106,6 @@ struct resource {
+ #define IORESOURCE_MEM_32BIT		(3<<3)
+ #define IORESOURCE_MEM_SHADOWABLE	(1<<5)	/* dup: IORESOURCE_SHADOWABLE */
+ #define IORESOURCE_MEM_EXPANSIONROM	(1<<6)
+-#define IORESOURCE_MEM_DRIVER_MANAGED	(1<<7)
+ 
+ /* PnP I/O specific bits (IORESOURCE_BITS) */
+ #define IORESOURCE_IO_16BIT_ADDR	(1<<0)
+diff --git a/kernel/kexec_file.c b/kernel/kexec_file.c
+index ca40bef75a616..dfeeed1aed084 100644
+--- a/kernel/kexec_file.c
++++ b/kernel/kexec_file.c
+@@ -520,7 +520,7 @@ static int locate_mem_hole_callback(struct resource *res, void *arg)
+ 	/* Returning 0 will take to next memory range */
+ 
+ 	/* Don't use memory that will be detected and handled by a driver. */
+-	if (res->flags & IORESOURCE_MEM_DRIVER_MANAGED)
++	if (res->flags & IORESOURCE_SYSRAM_DRIVER_MANAGED)
+ 		return 0;
+ 
+ 	if (sz < kbuf->memsz)
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 4c47b68a9f4b5..8e1cd18b5cf14 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -105,7 +105,7 @@ static struct resource *register_memory_resource(u64 start, u64 size,
+ 	unsigned long flags =  IORESOURCE_SYSTEM_RAM | IORESOURCE_BUSY;
+ 
+ 	if (strcmp(resource_name, "System RAM"))
+-		flags |= IORESOURCE_MEM_DRIVER_MANAGED;
++		flags |= IORESOURCE_SYSRAM_DRIVER_MANAGED;
+ 
+ 	/*
+ 	 * Make sure value parsed from 'mem=' only restricts memory adding
+@@ -1160,7 +1160,7 @@ EXPORT_SYMBOL_GPL(add_memory);
+  *
+  * For this memory, no entries in /sys/firmware/memmap ("raw firmware-provided
+  * memory map") are created. Also, the created memory resource is flagged
+- * with IORESOURCE_MEM_DRIVER_MANAGED, so in-kernel users can special-case
++ * with IORESOURCE_SYSRAM_DRIVER_MANAGED, so in-kernel users can special-case
+  * this memory as well (esp., not place kexec images onto it).
+  *
+  * The resource_name (visible via /proc/iomem) has to have the format
+-- 
+2.26.2
+
