@@ -2,54 +2,54 @@ Return-Path: <SRS0=rKnE=CX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB734C433E2
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98460C2BC11
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:18:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85EA322267
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:13:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F37722266
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:18:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600085634;
-	bh=fZ3vMYvOpOBud9CVc/ZefiWIGu45Q1LF3HkkghELz98=;
+	s=default; t=1600085898;
+	bh=5j31fL/IwPMwzpua5NWTXm9tEcqggnx4CMjHdoymkJ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=K3aedTZ7hNl+AQH4LUD9oNAYvErV62E47+GuS+CnC/Jrvnz6WghqbsBHEPhDPDKei
-	 zjNnnd9hddupO1f7eRzRWcYthutZlkR9aql4LdZ6zsFX9WD/inxN3MKwjjnCW5puOO
-	 QjRP5FNcCMnMvQLb2yAgZLRqOKLheMbDL+Ip7DWU=
+	b=VPUwY3oyDGN3N21A/8Zi4O/47a6MpbsmyOMovyXINGXRWdqz1Vx1IoX6SAHkSSSuw
+	 XHAP/Odh72oQPODPYvGL2R0zYJjQZ6ZouFZOAdnyEkhZIpQCulbSVZcn9R0VHPm0gu
+	 kMv+nTm9zbzon/ZoR9eihRS5ALkaF/WOLtQe/wjo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgINMNk (ORCPT
+        id S1726167AbgINMGv (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Sep 2020 08:13:40 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39132 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726173AbgINMHS (ORCPT
+        Mon, 14 Sep 2020 08:06:51 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38098 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726070AbgINMEB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:07:18 -0400
-Received: by mail-wr1-f68.google.com with SMTP id a17so18436641wrn.6;
-        Mon, 14 Sep 2020 05:07:16 -0700 (PDT)
+        Mon, 14 Sep 2020 08:04:01 -0400
+Received: by mail-wm1-f66.google.com with SMTP id l9so10975026wme.3;
+        Mon, 14 Sep 2020 05:03:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CQhdWZLWboUGhTHEEHucOePIxWTmZ246kBEMlCiDNlc=;
-        b=dim84q7TgnyOfj96GB77IEgyZiDhToILNHpxzWJUvmQtS8Dd69veyO1Gv3kImMFzt8
-         g3BuzDFeYV2uKVuetkFElNfsvbo31OaYvpRbj2WirG4wLyNIy0lkfMVLP94veSqOAdWH
-         VWAQasxJtu6X8LO0qvCezctLNyOCWqbKhceP4dNMpE4OOwbONYM6kjNivX3Jwa/jln6O
-         WTzBUUqmS1lXbh7WoH9GZB0uXWR2V1MUqKrxNq2ZTGSELhy8RX9DVtWHSrC7Jc4L+1M2
-         aYhvzOevQ+WyAXj2LkciYw8NzXwt7anuAh3nuDUt2aYXZSsSxCLHD/rrGag8AwaugyVY
-         nv7w==
-X-Gm-Message-State: AOAM530FE6R18Jx+66a5bRAfCovEEdOyVKNQpmM1plp1+S15Gf55ax0y
-        /OZ8HQQLew2ohaSqqO30MK6U5bLzs4c=
-X-Google-Smtp-Source: ABdhPJwKximYkg4wCi2sQm88MdSpFcX+3d475f+Opef7PPkK8J/+2yYInU30gpE+dYp6S+HG1kdJ3A==
-X-Received: by 2002:adf:f042:: with SMTP id t2mr15018932wro.385.1600084787986;
-        Mon, 14 Sep 2020 04:59:47 -0700 (PDT)
+        bh=zxHnY7apMqv5AqhPxMYX2OBuMx0/yr3Z9ap02Ex1SFE=;
+        b=lk4WR1/sgup3Qao51tpezdsnQPqHIF2NxVmW/wbV07WZVj8X034wF31NV8aiFZvgw4
+         HlOYKzdnNN95ScI0JP7vJJGZfhoueEw8fOfjxXPwW3GP3kY9egF3MCxl21U8iOZ8pg3P
+         mz3IFDaIAVjct6cbfYvX/TYVFXNqqym45j2Cfjnn2IhryXQttiQ4pew3Qj2DrE+MopLr
+         5VMGdgc3YACCqfZUR7Hvxr7SzqSpoG5syNB9J8SlzDWpW8g3AqKrm+x6ZUeclxpnCZoZ
+         UlVGkP/c7OX7hOw/PnUa8Gos+3vgM3XqaOM6E3d42t87K4p0lcgNn3XEl3aHioKevy9n
+         0QEA==
+X-Gm-Message-State: AOAM5321QgQ+OPz8TEE9unF4X+SppmFgL4aljqUDx+HiqLvqICtsi7HZ
+        VNAoOivDndg7N1ePQqpPeR4LySDznwg=
+X-Google-Smtp-Source: ABdhPJzNXRr5PtkOMtwv5l3L+NOpuysTZYRsL1l18Y7aA9puJzd1eNCBO3sHLyfQBYSC0D5HIn0c/Q==
+X-Received: by 2002:a7b:c397:: with SMTP id s23mr15050475wmj.174.1600084775036;
+        Mon, 14 Sep 2020 04:59:35 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.47
+        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 04:59:47 -0700 (PDT)
+        Mon, 14 Sep 2020 04:59:34 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -59,16 +59,18 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nudasnev@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH RFC v1 18/18] x86/hyperv: handle IO-APIC when running as root
-Date:   Mon, 14 Sep 2020 11:59:27 +0000
-Message-Id: <20200914115928.83184-10-wei.liu@kernel.org>
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH RFC v1 09/18] x86/hyperv: provide a bunch of helper functions
+Date:   Mon, 14 Sep 2020 11:59:18 +0000
+Message-Id: <20200914115928.83184-1-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914112802.80611-1-wei.liu@kernel.org>
 References: <20200914112802.80611-1-wei.liu@kernel.org>
@@ -79,284 +81,347 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Just like MSI/MSI-X, IO-APIC interrupts are remapped by Microsoft
-Hypervisor when Linux runs as the root partition. Implement an IRQ chip
-to handle mapping and unmapping of IO-APIC interrupts.
+They are used to deposit pages into Microsoft Hypervisor and bring up
+logical and virtual processors.
 
-Use custom functions for mapping and unmapping ACPI GSIs. They will
-issue Microsoft Hypervisor specific hypercalls on top of the native
-routines.
-
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Signed-off-by: Nuno Das Neves <nudasnev@microsoft.com>
+Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Co-Developed-by: Nuno Das Neves <nudasnev@microsoft.com>
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/x86/hyperv/hv_init.c   |  11 ++
- arch/x86/hyperv/irqdomain.c | 225 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 236 insertions(+)
+ arch/x86/hyperv/Makefile          |   2 +-
+ arch/x86/hyperv/hv_proc.c         | 209 ++++++++++++++++++++++++++++++
+ arch/x86/include/asm/mshyperv.h   |   4 +
+ include/asm-generic/hyperv-tlfs.h |  56 ++++++++
+ 4 files changed, 270 insertions(+), 1 deletion(-)
+ create mode 100644 arch/x86/hyperv/hv_proc.c
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index d26d9573ceab..0d6a6c0f288f 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -282,6 +282,12 @@ void hv_teardown_msi_irq(unsigned int irq);
- void hv_teardown_msi_irqs(struct pci_dev *dev);
- int hv_init_msi_domain(void);
+diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
+index 89b1f74d3225..565358020921 100644
+--- a/arch/x86/hyperv/Makefile
++++ b/arch/x86/hyperv/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y			:= hv_init.o mmu.o nested.o
+-obj-$(CONFIG_X86_64)	+= hv_apic.o
++obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
  
-+int hv_acpi_register_gsi(struct device *dev, u32 gsi, int trigger, int polarity);
-+void hv_acpi_unregister_gsi(u32 gsi);
+ ifdef CONFIG_X86_64
+ obj-$(CONFIG_PARAVIRT_SPINLOCKS)	+= hv_spinlock.o
+diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
+new file mode 100644
+index 000000000000..847c72465d0e
+--- /dev/null
++++ b/arch/x86/hyperv/hv_proc.c
+@@ -0,0 +1,209 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/types.h>
++#include <linux/version.h>
++#include <linux/vmalloc.h>
++#include <linux/mm.h>
++#include <linux/clockchips.h>
++#include <linux/acpi.h>
++#include <linux/hyperv.h>
++#include <linux/slab.h>
++#include <linux/cpuhotplug.h>
++#include <asm/hypervisor.h>
++#include <asm/mshyperv.h>
++#include <asm/apic.h>
 +
-+extern int (*native_acpi_register_gsi)(struct device *dev, u32 gsi, int trigger, int polarity);
-+extern void (*native_acpi_unregister_gsi)(u32 gsi);
++#include <asm/trace/hyperv.h>
 +
- static int __init hv_pci_init(void)
- {
- 	int gen2vm = efi_enabled(EFI_BOOT);
-@@ -293,6 +299,11 @@ static int __init hv_pci_init(void)
- 		x86_msi.setup_msi_irqs = hv_setup_msi_domain_irqs;
- 		x86_msi.teardown_msi_irq = hv_teardown_msi_irq;
- 		x86_msi.teardown_msi_irqs = hv_teardown_msi_irqs;
++#define HV_DEPOSIT_MAX_ORDER (8)
++#define HV_DEPOSIT_MAX (1 << HV_DEPOSIT_MAX_ORDER)
 +
-+		native_acpi_register_gsi = __acpi_register_gsi;
-+		native_acpi_unregister_gsi = __acpi_unregister_gsi;
-+		__acpi_register_gsi = hv_acpi_register_gsi;
-+		__acpi_unregister_gsi = hv_acpi_unregister_gsi;
- 	}
- 
- 	/*
-diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-index 6ffe32d9cde5..2ce3dbd80c5d 100644
---- a/arch/x86/hyperv/irqdomain.c
-+++ b/arch/x86/hyperv/irqdomain.c
-@@ -353,3 +353,228 @@ void hv_teardown_msi_irqs(struct pci_dev *dev)
- 		}
- 	}
- }
++#define MAX(a, b) ((a) > (b) ? (a) : (b))
++#define MIN(a, b) ((a) < (b) ? (a) : (b))
 +
-+/* Copied from io_apic.c */
-+union entry_union {
-+	struct { u32 w1, w2; };
-+	struct IO_APIC_route_entry entry;
-+};
-+
-+static int hv_unmap_ioapic_interrupt(int gsi)
++/*
++ * Deposits exact number of pages
++ * Must be called with interrupts enabled
++ * Max 256 pages
++ */
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
 +{
-+	union hv_device_id device_id;
-+	int ioapic, ioapic_id;
-+	u8 ioapic_pin;
-+	struct IO_APIC_route_entry ire;
-+	union entry_union eu;
-+	struct hv_interrupt_entry entry;
-+
-+	ioapic = mp_find_ioapic(gsi);
-+	ioapic_pin = mp_find_ioapic_pin(ioapic, gsi);
-+	ioapic_id = mpc_ioapic_id(ioapic);
-+	ire = ioapic_read_entry(ioapic, ioapic_pin);
-+
-+	eu.entry = ire;
-+
-+	/*
-+	 * Polarity may have been set by us, but Hyper-V expects the exact same
-+	 * entry. See the mapping routine.
-+	 */
-+	eu.entry.polarity = 0;
-+
-+	memset(&entry, 0, sizeof(entry));
-+	entry.source = HV_INTERRUPT_SOURCE_IOAPIC;
-+	entry.ioapic_rte.low_uint32 = eu.w1;
-+	entry.ioapic_rte.high_uint32 = eu.w2;
-+
-+	device_id.as_uint64 = 0;
-+	device_id.device_type = HV_DEVICE_TYPE_IOAPIC;
-+	device_id.ioapic.ioapic_id = (u8)ioapic_id;
-+
-+	return hv_unmap_interrupt(device_id.as_uint64, &entry) & HV_HYPERCALL_RESULT_MASK;
-+}
-+
-+static int hv_map_ioapic_interrupt(int ioapic_id, int trigger, int vcpu, int vector,
-+		struct hv_interrupt_entry *out_entry)
-+{
-+	unsigned long flags;
-+	struct hv_input_map_device_interrupt *input;
-+	struct hv_output_map_device_interrupt *output;
-+	union hv_device_id device_id;
-+	struct hv_device_interrupt_descriptor *intr_desc;
++	struct page **pages;
++	int *counts;
++	int num_allocations;
++	int i, j, page_count;
++	int order;
++	int desired_order;
 +	int status;
++	int ret;
++	u64 base_pfn;
++	struct hv_deposit_memory *input_page;
++	unsigned long flags;
 +
-+	device_id.as_uint64 = 0;
-+	device_id.device_type = HV_DEVICE_TYPE_IOAPIC;
-+	device_id.ioapic.ioapic_id = (u8)ioapic_id;
++	if (num_pages > HV_DEPOSIT_MAX)
++		return -EINVAL;
++	if (!num_pages)
++		return 0;
++
++	ret = -ENOMEM;
++
++	/* One buffer for page pointers and counts */
++	pages = page_address(alloc_page(GFP_KERNEL));
++	if (!pages)
++		goto free_buf;
++	counts = (int *)&pages[256];
++
++	/* Allocate all the pages before disabling interrupts */
++	num_allocations = 0;
++	i = 0;
++	order = HV_DEPOSIT_MAX_ORDER;
++
++	while (num_pages) {
++		/* Find highest order we can actually allocate */
++		desired_order = 31 - __builtin_clz(num_pages);
++		order = MIN(desired_order, order);
++		do {
++			pages[i] = alloc_pages_node(node, GFP_KERNEL, order);
++			if (!pages[i]) {
++				if (!order) {
++					goto err_free_allocations;
++				}
++				--order;
++			}
++		} while (!pages[i]);
++
++		split_page(pages[i], order);
++		counts[i] = 1 << order;
++		num_pages -= counts[i];
++		i++;
++		num_allocations++;
++	}
 +
 +	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
-+	memset(input, 0, sizeof(*input));
-+	intr_desc = &input->interrupt_descriptor;
-+	input->partition_id = hv_current_partition_id;
-+	input->device_id = device_id.as_uint64;
-+	intr_desc->interrupt_type = HV_X64_INTERRUPT_TYPE_FIXED;
-+	intr_desc->target.vector = vector;
-+	intr_desc->vector_count = 1;
 +
-+	if (trigger)
-+		intr_desc->trigger_mode = HV_INTERRUPT_TRIGGER_MODE_LEVEL;
-+	else
-+		intr_desc->trigger_mode = HV_INTERRUPT_TRIGGER_MODE_EDGE;
++	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
 +
-+	__set_bit(vcpu, (unsigned long *)&intr_desc->target.vp_mask);
++	input_page->partition_id = partition_id;
 +
-+	status = hv_do_rep_hypercall(HVCALL_MAP_DEVICE_INTERRUPT, 0, 0, input, output) &
-+			 HV_HYPERCALL_RESULT_MASK;
++	/* Populate gpa_page_list - these will fit on the input page */
++	for (i = 0, page_count = 0; i < num_allocations; ++i) {
++		base_pfn = page_to_pfn(pages[i]);
++		for (j = 0; j < counts[i]; ++j, ++page_count)
++			input_page->gpa_page_list[page_count] = base_pfn + j;
++	}
++	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY,
++				     page_count, 0, input_page,
++				     NULL) & HV_HYPERCALL_RESULT_MASK;
 +	local_irq_restore(flags);
 +
-+	*out_entry = output->interrupt_entry;
-+
-+	return status;
-+}
-+
-+static unsigned int hv_ioapic_startup_irq(struct irq_data *data)
-+{
-+	int status;
-+	struct IO_APIC_route_entry ire;
-+	u32 vector;
-+	struct irq_cfg *cfg;
-+	int ioapic;
-+	u8 ioapic_pin;
-+	int ioapic_id;
-+	int gsi;
-+	union entry_union eu;
-+	struct cpumask *affinity;
-+	int cpu, vcpu;
-+	struct hv_interrupt_entry entry;
-+	struct mp_chip_data *mp_data = data->chip_data;
-+
-+	gsi = data->irq;
-+	cfg = irqd_cfg(data);
-+	affinity = irq_data_get_effective_affinity_mask(data);
-+	cpu = cpumask_first_and(affinity, cpu_online_mask);
-+	vcpu = hv_cpu_number_to_vp_number(cpu);
-+
-+	vector = cfg->vector;
-+
-+	ioapic = mp_find_ioapic(gsi);
-+	ioapic_pin = mp_find_ioapic_pin(ioapic, gsi);
-+	ioapic_id = mpc_ioapic_id(ioapic);
-+	ire = ioapic_read_entry(ioapic, ioapic_pin);
-+
-+	/*
-+	 * Always try unmapping. We do not have visibility into which whether
-+	 * an IO-APIC has been mapped or not. We can't use chip_data because it
-+	 * already points to mp_data.
-+	 *
-+	 * We don't use retarget interrupt hypercalls here because Hyper-V
-+	 * doens't allow root to change the vector or specify VPs outside of
-+	 * the set that is initially used during mapping.
-+	 */
-+	status = hv_unmap_ioapic_interrupt(gsi);
-+
-+	if (!(status == HV_STATUS_SUCCESS || status == HV_STATUS_INVALID_PARAMETER)) {
-+		pr_debug("%s: unexpected unmap status %d\n", __func__, status);
-+		return -1;
-+	}
-+
-+	status = hv_map_ioapic_interrupt(ioapic_id, ire.trigger, vcpu, vector, &entry);
-+
 +	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: map hypercall failed, status %d\n", __func__, status);
-+		return -1;
++		pr_err("Failed to deposit pages: %d\n", status);
++		ret = status;
++		goto err_free_allocations;
 +	}
 +
-+	/* Update the entry in mp_chip_data. It is used in other places. */
-+	mp_data->entry = *(struct IO_APIC_route_entry *)&entry.ioapic_rte;
++	ret = 0;
++	goto free_buf;
 +
-+	/* Sync polarity -- Hyper-V's returned polarity is always 0... */
-+	mp_data->entry.polarity = ire.polarity;
++err_free_allocations:
++	for (i = 0; i < num_allocations; ++i) {
++		base_pfn = page_to_pfn(pages[i]);
++		for (j = 0; j < counts[i]; ++j)
++			__free_page(pfn_to_page(base_pfn + j));
++	}
 +
-+	eu.w1 = entry.ioapic_rte.low_uint32;
-+	eu.w2 = entry.ioapic_rte.high_uint32;
-+	ioapic_write_entry(ioapic, ioapic_pin, eu.entry);
-+
-+	return 0;
++free_buf:
++	free_page((unsigned long)pages);
++	return ret;
 +}
++EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
 +
-+static void hv_ioapic_mask_irq(struct irq_data *data)
++int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
 +{
-+	mask_ioapic_irq(data);
++	struct hv_add_logical_processor_in *input;
++	struct hv_add_logical_processor_out *output;
++	int status;
++	unsigned long flags;
++	int ret = 0;
++
++	do {
++		local_irq_save(flags);
++
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++		/* We don't do anything with the output right now */
++		output = *this_cpu_ptr(hyperv_pcpu_output_arg);
++
++		input->lp_index = lp_index;
++		input->apic_id = apic_id;
++		input->flags = 0;
++		input->proximity_domain_info.domain_id = node_to_pxm(node);
++		input->proximity_domain_info.flags.reserved = 0;
++		input->proximity_domain_info.flags.proximity_info_valid = 1;
++		input->proximity_domain_info.flags.proximity_preferred = 1;
++		status = hv_do_hypercall(HVCALL_ADD_LOGICAL_PROCESSOR,
++					 input, output);
++		local_irq_restore(flags);
++
++		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
++			if (status != HV_STATUS_SUCCESS) {
++				pr_err("%s: cpu %u apic ID %u, %d\n", __func__,
++				       lp_index, apic_id, status);
++				ret = status;
++			}
++			break;
++		}
++		ret = hv_call_deposit_pages(node, hv_current_partition_id, 1);
++
++	} while (!ret);
++
++	return ret;
 +}
 +
-+static void hv_ioapic_unmask_irq(struct irq_data *data)
++int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
 +{
-+	unmask_ioapic_irq(data);
-+}
++	struct hv_create_vp *input;
++	int status;
++	unsigned long irq_flags;
++	int ret = 0;
 +
-+static int hv_ioapic_set_affinity(struct irq_data *data,
-+			       const struct cpumask *mask, bool force)
-+{
-+	/*
-+	 * We only update the affinity mask here. Programming the hardware is
-+	 * done in irq_startup.
-+	 */
-+	return ioapic_set_affinity(data, mask, force);
-+}
++	/* Root VPs don't seem to need pages deposited */
++	if (partition_id != hv_current_partition_id) {
++		ret = hv_call_deposit_pages(node, partition_id, 90);
++		if (ret)
++			return ret;
++	}
 +
-+void hv_ioapic_ack_level(struct irq_data *irq_data)
-+{
-+	/*
-+	 * Per email exchange with Hyper-V team, all is needed is write to
-+	 * LAPIC's EOI register. They don't support directed EOI to IO-APIC.
-+	 * Hyper-V handles it for us.
-+	 */
-+	apic_ack_irq(irq_data);
-+}
++	do {
++		local_irq_save(irq_flags);
 +
-+struct irq_chip hv_ioapic_chip __read_mostly = {
-+	.name			= "HV-IO-APIC",
-+	.irq_startup		= hv_ioapic_startup_irq,
-+	.irq_mask		= hv_ioapic_mask_irq,
-+	.irq_unmask		= hv_ioapic_unmask_irq,
-+	.irq_ack		= irq_chip_ack_parent,
-+	.irq_eoi		= hv_ioapic_ack_level,
-+	.irq_set_affinity	= hv_ioapic_set_affinity,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_get_irqchip_state	= ioapic_irq_get_chip_state,
-+	.flags			= IRQCHIP_SKIP_SET_WAKE,
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++
++		input->partition_id = partition_id;
++		input->vp_index = vp_index;
++		input->flags = flags;
++		if (node != NUMA_NO_NODE) {
++			input->proximity_domain_info.domain_id = node_to_pxm(node);
++			input->proximity_domain_info.flags.reserved = 0;
++			input->proximity_domain_info.flags.proximity_info_valid = 1;
++			input->proximity_domain_info.flags.proximity_preferred = 1;
++		} else {
++			input->proximity_domain_info.as_uint64 = 0;
++		}
++		status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
++		local_irq_restore(irq_flags);
++
++		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
++			if (status != HV_STATUS_SUCCESS) {
++				pr_err("%s: vcpu %u, lp %u, %d\n", __func__,
++				       vp_index, flags, status);
++				ret = status;
++			}
++			break;
++		}
++		ret = hv_call_deposit_pages(node, partition_id, 1);
++
++	} while (!ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hv_call_create_vp);
++
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 4039302e0ae9..60afc3e417d0 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -67,6 +67,10 @@ extern void  __percpu  **hyperv_pcpu_output_arg;
+ 
+ extern u64 hv_current_partition_id;
+ 
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
++int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
++int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
++
+ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ {
+ 	u64 input_address = input ? virt_to_phys(input) : 0;
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 87b1a79b19eb..2b05bed712c0 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -142,6 +142,8 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX	0x0014
+ #define HVCALL_SEND_IPI_EX			0x0015
+ #define HVCALL_GET_PARTITION_ID			0x0046
++#define HVCALL_DEPOSIT_MEMORY			0x0048
++#define HVCALL_CREATE_VP			0x004e
+ #define HVCALL_GET_VP_REGISTERS			0x0050
+ #define HVCALL_SET_VP_REGISTERS			0x0051
+ #define HVCALL_POST_MESSAGE			0x005c
+@@ -149,6 +151,7 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_POST_DEBUG_DATA			0x0069
+ #define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
+ #define HVCALL_RESET_DEBUG_SESSION		0x006b
++#define HVCALL_ADD_LOGICAL_PROCESSOR		0x0076
+ #define HVCALL_RETARGET_INTERRUPT		0x007e
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+@@ -413,6 +416,59 @@ struct hv_get_partition_id {
+ 	u64 partition_id;
+ } __packed;
+ 
++/* HvDepositMemory hypercall */
++struct hv_deposit_memory {
++	u64 partition_id;
++	u64 gpa_page_list[];
 +};
 +
 +
-+int (*native_acpi_register_gsi)(struct device *dev, u32 gsi, int trigger, int polarity);
-+void (*native_acpi_unregister_gsi)(u32 gsi);
++struct hv_proximity_domain_flags {
++	u32 proximity_preferred : 1;
++	u32 reserved : 30;
++	u32 proximity_info_valid : 1;
++};
 +
-+int hv_acpi_register_gsi(struct device *dev, u32 gsi, int trigger, int polarity)
-+{
-+	int irq = gsi;
++/* Not a union in windows but useful for zeroing */
++union hv_proximity_domain_info {
++	struct {
++		u32 domain_id;
++		struct hv_proximity_domain_flags flags;
++	};
++	u64 as_uint64;
++};
 +
-+#ifdef CONFIG_X86_IO_APIC
-+	irq = native_acpi_register_gsi(dev, gsi, trigger, polarity);
-+	if (irq < 0) {
-+		pr_err("native_acpi_register_gsi failed %d\n", irq);
-+		return irq;
-+	}
++struct hv_lp_startup_status {
++	u64 hv_status;
++	u64 substatus1;
++	u64 substatus2;
++	u64 substatus3;
++	u64 substatus4;
++	u64 substatus5;
++	u64 substatus6;
++};
 +
-+	if (trigger) {
-+		irq_set_status_flags(irq, IRQ_LEVEL);
-+		irq_set_chip_and_handler_name(irq, &hv_ioapic_chip,
-+			handle_fasteoi_irq, "ioapic-fasteoi");
-+	} else {
-+		irq_clear_status_flags(irq, IRQ_LEVEL);
-+		irq_set_chip_and_handler_name(irq, &hv_ioapic_chip,
-+			handle_edge_irq, "ioapic-edge");
-+	}
-+#endif
-+	return irq;
-+}
++/* HvAddLogicalProcessor hypercalls */
++struct hv_add_logical_processor_in {
++	u32 lp_index;
++	u32 apic_id;
++	union hv_proximity_domain_info proximity_domain_info;
++	u64 flags;
++};
 +
-+void hv_acpi_unregister_gsi(u32 gsi)
-+{
-+#ifdef CONFIG_X86_IO_APIC
-+	(void)hv_unmap_ioapic_interrupt(gsi);
-+	native_acpi_unregister_gsi(gsi);
-+#endif
-+}
++struct hv_add_logical_processor_out {
++	struct hv_lp_startup_status startup_status;
++};
++
++/* HvCreateVp hypercall */
++struct hv_create_vp {
++	u64 partition_id;
++	u32 vp_index;
++	u32 padding;
++	union hv_proximity_domain_info proximity_domain_info;
++	u64 flags;
++};
++
+ /* HvRetargetDeviceInterrupt hypercall */
+ union hv_msi_entry {
+ 	u64 as_uint64;
 -- 
 2.20.1
 
