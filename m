@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D303C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:19:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1EEC43461
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:29:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB561223B0
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:19:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96A7D207EA
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600085980;
-	bh=cP6JrNQKkV5dmdJU+HEHfhyPubuirchuZ3PuFo3iomQ=;
+	s=default; t=1600086556;
+	bh=O/2anNuiUYAhg6VnaPfL5XtKGgKcYzJ42cvCa1Rz6RU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=oDb5O0aRp4kn3OV38CrHj5RSIMRWZqu+ANPHDeasa2CVO+epZf8nzecfCEhpzCs1+
-	 6/CnLd3Hg0Ub2vVrNolHg22kuwpVRK2JrAnFGwFATn/Cv5ve4/0mcgpmiA+0WYQuu7
-	 YQcUjK40vD77iovT4nXAu3S7bI69+z8fXfooYUak=
+	b=mKMexLXOH21SunKESpn0LXgZsB7ECTLagilxLi4dj+SlWdlWOqFPJ3OyXFiZPCuP/
+	 VDs7MSf/vzP8jOZKJAsa3HplYXioy0M0VccxzYN6ndCBzEV8u7b1FmnrZyv5HWEzsy
+	 mdAnuIWEb37/ZtEs0F6hi+0E9la/H08zmvOUY2Os=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbgINMSe (ORCPT
+        id S1726364AbgINM2A (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Sep 2020 08:18:34 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:43320 "EHLO
+        Mon, 14 Sep 2020 08:28:00 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:39206 "EHLO
         mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbgINMGq (ORCPT
+        with ESMTP id S1726200AbgINMZz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:06:46 -0400
-Received: by mail-ed1-f65.google.com with SMTP id n13so17250293edo.10;
-        Mon, 14 Sep 2020 05:06:45 -0700 (PDT)
+        Mon, 14 Sep 2020 08:25:55 -0400
+Received: by mail-ed1-f65.google.com with SMTP id e22so6843934edq.6;
+        Mon, 14 Sep 2020 05:25:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PCmCr3SdPqpCYBFfCy32K6SA3OwSEdGb0+Meki4uGYs=;
-        b=kK0ciLyjYydx60XVlIMFH6mwZkVbgsETXC5ojtNHdsqrOIUKbGYFpTW7cXqQdH/DT1
-         WAvUGkjemCNEwCEBFJKofu+2LE3aJoBlRCugwtB/+FeC7AdYu5Q/uyO7NX/RZTxigkXJ
-         uOCodSWJKEM94/7WEHE1TD/THklM10Pi7MRg6ydIHdnBlUM4lPJGtLX0/GTcHmYQwd+R
-         ROCYRofveEdZjCH1jRl2LYIfujneUPPHfiIrl3fM9b515kPGqD9ypCYMbQ3vJ6kobFqe
-         NTKWZrn6sYo7KAUF6u7RW2w5P5B0CeDHHNLE5ZrbtCOSWVZuEZjO3WHEkhC9eUhQyW9D
-         6Ffw==
-X-Gm-Message-State: AOAM533Nqv5XCQcvgi0LdWk8SO3IKmZHlFth6kP9WgrpSDplMcPM12Iv
-        AiH5Vx9ictgzm3dlXCc3Lwta90Zqiuc=
-X-Google-Smtp-Source: ABdhPJyQNJpXSr0hMQ+ZfM4z3CZgTbzR/tyeK9YgRWDSv4RBHJx5N+rqQy/8lZ9Clih7wyhmwTCUNw==
-X-Received: by 2002:a5d:4e0b:: with SMTP id p11mr14965362wrt.13.1600084782684;
-        Mon, 14 Sep 2020 04:59:42 -0700 (PDT)
+        bh=Q2b8Hx6LFneW6965HjzLe+3orBdeADynSXFLtZaWjCw=;
+        b=Zja261ehjQBrl2aok+5n10901pgFU8K+eHwsp7PtsDS+Un8qweDGS/Ju1I/SENsDwQ
+         GgdXZfYaBnJ4XJtR1sdisAUfRu+Q2hwOx6ZTdaA78MWkgf/2iMZ4JSlyqdX8R3Cyk7Bm
+         VCkDmh4f1/IVzJfA/5Vp02UBz5uVxGmJuHfynzl1WiHFH9COCxWxoFlQB7Jgfso8aHSj
+         58R8gzPQCsPROM1jhz436Gp9lr770BDB86lY93S2YenlanW6+e1PAYX/Bb4uhK/Kn/FL
+         wBNY+ZP3udD0JD9HMyywB9AecwW3MuTqqOnY+qVK3MLuS934IMQ37cHxG5RdVPKlog/6
+         F9fQ==
+X-Gm-Message-State: AOAM533ztR2NWMT0SanMBdsFbh9I2X/MaHdvQvPeBaROiqPcbRS3ekI+
+        3nZ4KNEaqdLvdRQmz/IkQVTeJD27z8E=
+X-Google-Smtp-Source: ABdhPJwV929Qde1LAClVneTnWUhcH/snWYo+2fQQFsSWrwM68mzGxAkYgCx6ZFZF7fyqpyKDui6nfg==
+X-Received: by 2002:adf:a1d6:: with SMTP id v22mr16016915wrv.185.1600084777041;
+        Mon, 14 Sep 2020 04:59:37 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.42
+        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 04:59:42 -0700 (PDT)
+        Mon, 14 Sep 2020 04:59:36 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -59,15 +59,17 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nudasnev@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: [PATCH RFC v1 15/18] x86/apic/msi: export pci_msi_get_hwirq
-Date:   Mon, 14 Sep 2020 11:59:24 +0000
-Message-Id: <20200914115928.83184-7-wei.liu@kernel.org>
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH RFC v1 10/18] x86/hyperv: implement and use hv_smp_prepare_cpus
+Date:   Mon, 14 Sep 2020 11:59:19 +0000
+Message-Id: <20200914115928.83184-2-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914112802.80611-1-wei.liu@kernel.org>
 References: <20200914112802.80611-1-wei.liu@kernel.org>
@@ -78,46 +80,66 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Linux will implement an MSI domain for MSI/MSI-X when running as root on
-Microsoft Hypervisor. It will be using this function to reduce code
-duplication.
+Microsoft Hypervisor requires the root partition to make a few
+hypercalls to setup application processors before they can be used.
 
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/x86/include/asm/msi.h | 3 +++
- arch/x86/kernel/apic/msi.c | 3 ++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+CPU hotplug and unplug is not yet supported in this setup, so those
+paths remain untouched.
+---
+ arch/x86/kernel/cpu/mshyperv.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/arch/x86/include/asm/msi.h b/arch/x86/include/asm/msi.h
-index 25ddd0916bb2..5c0e102c03ec 100644
---- a/arch/x86/include/asm/msi.h
-+++ b/arch/x86/include/asm/msi.h
-@@ -11,4 +11,7 @@ int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 
- void pci_msi_set_desc(msi_alloc_info_t *arg, struct msi_desc *desc);
- 
-+struct msi_domain_info;
-+irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info, msi_alloc_info_t *arg);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 1bf57d310f78..7522cae02759 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -203,6 +203,31 @@ static void __init hv_smp_prepare_boot_cpu(void)
+ 	hv_init_spinlocks();
+ #endif
+ }
 +
- #endif /* _ASM_X86_MSI_H */
-diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index c2b2911feeef..dc9693a73933 100644
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -205,11 +205,12 @@ void native_teardown_msi_irq(unsigned int irq)
- 	irq_domain_free_irqs(irq, 1);
- }
++static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
++{
++#if defined(CONFIG_X86_64)
++	int i;
++	int vp_index = 1;
++	int ret;
++
++	native_smp_prepare_cpus(max_cpus);
++
++	for_each_present_cpu(i) {
++		if (i == 0)
++			continue;
++		ret = hv_call_add_logical_proc(numa_cpu_node(i), i, cpu_physical_id(i));
++		BUG_ON(ret);
++	}
++
++	for_each_present_cpu(i) {
++		if (i == 0)
++			continue;
++		ret = hv_call_create_vp(numa_cpu_node(i), hv_current_partition_id, vp_index++, i);
++		BUG_ON(ret);
++	}
++#endif
++}
+ #endif
  
--static irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
-+irq_hw_number_t pci_msi_get_hwirq(struct msi_domain_info *info,
- 					 msi_alloc_info_t *arg)
- {
- 	return arg->msi_hwirq;
- }
-+EXPORT_SYMBOL_GPL(pci_msi_get_hwirq);
+ static void __init ms_hyperv_init_platform(void)
+@@ -359,6 +384,8 @@ static void __init ms_hyperv_init_platform(void)
  
- int pci_msi_prepare(struct irq_domain *domain, struct device *dev, int nvec,
- 		    msi_alloc_info_t *arg)
+ # ifdef CONFIG_SMP
+ 	smp_ops.smp_prepare_boot_cpu = hv_smp_prepare_boot_cpu;
++	if (hv_root_partition)
++		smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
+ # endif
+ 
+ 	/*
 -- 
 2.20.1
 
