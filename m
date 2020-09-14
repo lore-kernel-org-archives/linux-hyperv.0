@@ -2,501 +2,175 @@ Return-Path: <SRS0=rKnE=CX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34582C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:25:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5B4C43461
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:31:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF38D20E65
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600104325;
-	bh=4/LziLrp3wmqfazsQSLh+cpg2wUp5goWqAfN3U7qCxc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=n+o08G7QLGveysoma1BKnEAwdpMmPjkN9SlrTO8gu6o+a+3QEssodD0dANUHe9ugB
-	 eo+zHdlTUyKnWHW4jJDkBQZzCAlPi5SszzkjRTehdfX9QOZj6pFU9aC/C8gFZYnaAc
-	 KrsfxfCZ5t5swdub8taPa9UKlUSOadPqkKWQ/F4o=
+	by mail.kernel.org (Postfix) with ESMTP id ED61820E65
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:31:11 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="gRHWPDKT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725987AbgINRXo (ORCPT
+        id S1726387AbgINRal (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Sep 2020 13:23:44 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39020 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726461AbgINM26 (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:28:58 -0400
-Received: by mail-wm1-f65.google.com with SMTP id b79so11044559wmb.4;
-        Mon, 14 Sep 2020 05:28:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ypKnVguSioF9ouhxjPXnj5ZRw/vZhm+WW1oDqzaGvAs=;
-        b=kq0+gBq4YGQ4NEFZ2jYezBmXn2enRhX3naFiZ+B70UrDvXWsVbwn1+rOXaRm9jy4im
-         TmYDfQyMQz1OSDKcxW1yMhFU5lNwqWdmdah8WV/k63Om081gacEkkeQx89wgAxvQFFN6
-         QNa74jwNg/H2ADDHdJpYT4Zx3pHlW1QcPWajFds1nrRyG/1B7jioQYJn1L95ijyqWOAV
-         t1LwGkWLXgESaGl66eDf97eLnt4a7cKh7bSqg2ll0TlmmlEuNga07Trmiw6UVYt5ybum
-         w4IT3KtCz/JDRE0brSQQvrGg1shUN0ULEkLGQ5cTKga2ghDvuHmBzVbBzuEQoAYsgzAp
-         NghA==
-X-Gm-Message-State: AOAM533a/xQdyAgqRA9bcft+cl+Bx8ssFzYCaTvc+dXjyc8rrzGPqvxA
-        bunGJGXChRWg4leQVA/M6AfiliGhucg=
-X-Google-Smtp-Source: ABdhPJxcDjGNgbQk8dioN3L/e131lh4Y4dWNvT6u3/b/2NHfFw2D6lqUsYttoDo7bOBObwkY8vwG6A==
-X-Received: by 2002:a1c:39c4:: with SMTP id g187mr14339186wma.126.1600084784452;
-        Mon, 14 Sep 2020 04:59:44 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 04:59:44 -0700 (PDT)
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Cc:     virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nudasnev@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Mon, 14 Sep 2020 13:30:41 -0400
+Received: from mail-bn8nam12on2092.outbound.protection.outlook.com ([40.107.237.92]:45504
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726250AbgINR3Q (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 14 Sep 2020 13:29:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=if7VTnrUWwiE2n/cY3JgGagft7RrVld+sqZSlN95privyzBMIJMCB10XqyKK7F2WrwA/Ix7VDa/YQgzPX9Qf8x+oLdXalxTqCCwy/Ld38VMBUouiNuoxtYHAMYMNDh3GSNhHum+J6mkXuPAgrEllf9ROZAPcwWzdYBWZDV9knwyS7SHIHmdihtPlg1sTNODuoMjIax6eitOl6ug0mgX5I0p8G1vNl5x1nil9ChmDWPnj2ri+wpkOe0yTuGcmCDgKdxGauDXI9MCyjSPe5cbC+nrdptDVIi38BDoSH30g07rhUhgd6br+IcaVHUb1xZ8q/eoVTDrxE2PAm9Kv0BKkFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZGyMofrWd/RuvOSgAUGffYYdhYlUnHJVjBHjFenv6XE=;
+ b=KP9Dspmp7TCd4E7sb0fHBGfN5Zk5jA39bjk45yvD4dbtM8FM0WJC885XlYelE/Xtk9+WabWbSyny9zzuEx6LOYt+DU8IiAtPYOL/NJDqa5x7NRy4AuZFNMFLLRDmxqwbqsIs/EM0nE8Ofcdt9sFTCx/7phiUzuldQkAQo+qg10ngoyw/k2GAmAWUw9ArcYBGBj/HLXSD8tbgr7kUuB1XLztHYf76xsY6+Rvqsry7PzLO6t392xrEBh+50vxe5iy1WxWPklNT0/MBKK1f5n+OkqCw8bacsccGsUMerwCR/gCE740HmIByNWJBNXDcp16vEsL77uynqVDHsela9fWncw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZGyMofrWd/RuvOSgAUGffYYdhYlUnHJVjBHjFenv6XE=;
+ b=gRHWPDKTDfP8Oi/Ps2CyLKESwivxiZ+JL8sxtyPfhw6REE977mC6Q/eOgBwEesJWUPQWU+37Ep1fpugeS/+We+FKSjnMtNQKxTvMjuktrHPCi4u2ORvPmom0VZExMZJW+3R8fEXfaL502/R9r07QQshIYT4MtwsuCXKGixvywaY=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
+ by MW2PR2101MB0970.namprd21.prod.outlook.com (2603:10b6:302:4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.6; Mon, 14 Sep
+ 2020 17:29:12 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1%4]) with mapi id 15.20.3412.001; Mon, 14 Sep 2020
+ 17:29:11 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Andrea Parri <parri.andrea@gmail.com>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH RFC v1 16/18] x86/hyperv: implement MSI domain for root partition
-Date:   Mon, 14 Sep 2020 11:59:25 +0000
-Message-Id: <20200914115928.83184-8-wei.liu@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200914112802.80611-1-wei.liu@kernel.org>
-References: <20200914112802.80611-1-wei.liu@kernel.org>
+        Wei Liu <wei.liu@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Andres Beltran <lkmlabelt@gmail.com>,
+        Saruhan Karademir <skarade@microsoft.com>,
+        Juan Vazquez <juvazq@microsoft.com>
+Subject: RE: [PATCH v7 1/3] Drivers: hv: vmbus: Add vmbus_requestor data
+ structure for VMBus hardening
+Thread-Topic: [PATCH v7 1/3] Drivers: hv: vmbus: Add vmbus_requestor data
+ structure for VMBus hardening
+Thread-Index: AQHWhTK4CcuAC1huL0WTSe45bNSLyqldtpaQgACpd4CACg3pMA==
+Date:   Mon, 14 Sep 2020 17:29:11 +0000
+Message-ID: <MW2PR2101MB1052FD464D63F86B4DD1BE7BD7230@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <20200907161920.71460-1-parri.andrea@gmail.com>
+ <20200907161920.71460-2-parri.andrea@gmail.com>
+ <MW2PR2101MB1052338B4D3B7020A2191EB7D7280@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <20200908075216.GA5638@andrea>
+In-Reply-To: <20200908075216.GA5638@andrea>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-14T17:29:10Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=c639015d-7cd4-4652-9e49-ebf9b695db6e;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 98425044-fd5d-4309-6c00-08d858d3b1f2
+x-ms-traffictypediagnostic: MW2PR2101MB0970:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MW2PR2101MB0970EE7CF937DC31B3E7F660D7230@MW2PR2101MB0970.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VEnLgmZ44tYa2NoodUfTqvMNvsqR+J3u5PkQ01WWjIkMFDexD3OW2e+WR6zGVIA5AQ+IJQBDI2pGqmCTkh54ewX2APJbE/7VLZsPjLk/ExjOkghcwRv57zGWyd1Ps3WM50Y02CrXZLAHRijHvZP4UnkhfL5Kc9k/lqD3lkwXZhW20ja4kFqz8f3LH20+T3OIBrXeVerEAkI3wafb/IecWH4akIOlDjT2ZaGzDWjBLaHQgVegSl91JigHExIHFWuMhieXEzrSp8x5Mv00YIPRWIWoWmU/v4rEqVXOLhJX85FV6Lif5GhO4g9CP88Amt92cNAnxSPLQalix3qF56Jh9rFoEDj0tv42LqzZrw72RfxTZ3Qz09xoS4aP9mp9yAAB
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(346002)(39860400002)(136003)(55016002)(83380400001)(186003)(82960400001)(107886003)(6506007)(66446008)(66946007)(82950400001)(6916009)(66476007)(7696005)(66556008)(86362001)(64756008)(76116006)(8676002)(9686003)(478600001)(8936002)(26005)(52536014)(316002)(10290500003)(2906002)(71200400001)(5660300002)(4326008)(8990500004)(54906003)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: OhWno/CKG5gHXWsnXee6k2rNA/0HpHVfzuFLOpC4hCZsAq9/gnOm1PriofxodN0LBvOegGOXFXqH6Rb8Iwi2/cgwmSDoGy2CISqzJbC38wl/VYtxhmGxES/2QyzC53f1N0Neg26BJfvEIFUXuXVa+XajdifsEoa0tOuFCelSWixhrKZFISwklhLm56v1JsCDUZS9mEA13OkpDdRquTJyvUDR1ITbaHqMxj+O7sNfm8wINxyZYtsKS9949DuJvmMHUAhZwtT/lNpV/RHEIMh830Iw4ldYFRK7yyuaofKLoqaZikVouBC6WRnFrw/bJbezZRWfABb/0gh4e/9+3iViXKihSr1TNo4KvMOZ51zVClqxHtscO8ePxvK5US9NB+3tedI/ttbxNwYX+FMY64GhNecbvA1K9Zk4NLVywvFFBiU6YrV5HwKh+Q95hs1z8LalkjAZkMmPbCll4DbAoQF3bf/SpvEhe4t4b9+6G+C3BGVt2RsQPvcSRygpYzOc+iR4UDV35Ugy5sd+46Aq7AteYsGS/ywS4zAy5Lnc1GXWeYjQr9XuR0OVzHchW6AMLffHLNmLGMR6My+g0F+pSLFtsVUCCVJzryi+aaeKGNSPU+0utY4y7C9Zlmrt87yLxpMTkdknBi7jywm1j7I+CMFv6g==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98425044-fd5d-4309-6c00-08d858d3b1f2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2020 17:29:11.7624
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /DT2RxAcByQATLTX61vvjeCvOJDLQA3HkOEpcjH6tbj+/KpDy+FOkOXATWrKYBa90xrihE1x6hhUwpTgerk2W58160mkhuaWdW3szoW0hi4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0970
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When Linux runs as the root partition on Microsoft Hypervisor, its
-interrupts are remapped.  Linux will need to explicitly map and unmap
-interrupts for hardware.
-
-Implement an MSI domain to issue the correct hypercalls. And initialize
-this irqdomain in the PCI init hook.
-
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
----
- arch/x86/hyperv/Makefile    |   2 +-
- arch/x86/hyperv/hv_init.c   |  14 ++
- arch/x86/hyperv/irqdomain.c | 355 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 370 insertions(+), 1 deletion(-)
- create mode 100644 arch/x86/hyperv/irqdomain.c
-
-diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
-index 565358020921..48e2c51464e8 100644
---- a/arch/x86/hyperv/Makefile
-+++ b/arch/x86/hyperv/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
--obj-y			:= hv_init.o mmu.o nested.o
-+obj-y			:= hv_init.o mmu.o nested.o irqdomain.o
- obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
- 
- ifdef CONFIG_X86_64
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 26233aebc86c..d26d9573ceab 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -277,10 +277,24 @@ static int hv_cpu_die(unsigned int cpu)
- 	return 0;
- }
- 
-+int hv_setup_msi_domain_irqs(struct pci_dev *dev, int nvec, int type);
-+void hv_teardown_msi_irq(unsigned int irq);
-+void hv_teardown_msi_irqs(struct pci_dev *dev);
-+int hv_init_msi_domain(void);
-+
- static int __init hv_pci_init(void)
+From: Andrea Parri <parri.andrea@gmail.com> Sent: Tuesday, September 8, 202=
+0 12:54 AM
+>=20
+> > > @@ -300,6 +303,22 @@ int hv_ringbuffer_write(struct vmbus_channel *ch=
+annel,
+> > >  						     kv_list[i].iov_len);
+> > >  	}
+> > >
+> > > +	/*
+> > > +	 * Allocate the request ID after the data has been copied into the
+> > > +	 * ring buffer.  Once this request ID is allocated, the completion
+> > > +	 * path could find the data and free it.
+> > > +	 */
+> > > +
+> > > +	if (desc->flags =3D=3D VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED)=
  {
- 	int gen2vm = efi_enabled(EFI_BOOT);
- 
-+	if (hv_root_partition) {
-+		if (hv_init_msi_domain() < 0)
-+			panic("Failed to allocate MSI domain\n");
-+
-+		x86_msi.setup_msi_irqs = hv_setup_msi_domain_irqs;
-+		x86_msi.teardown_msi_irq = hv_teardown_msi_irq;
-+		x86_msi.teardown_msi_irqs = hv_teardown_msi_irqs;
-+	}
-+
- 	/*
- 	 * For Generation-2 VM, we exit from pci_arch_init() by returning 0.
- 	 * The purpose is to suppress the harmless warning:
-diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-new file mode 100644
-index 000000000000..6ffe32d9cde5
---- /dev/null
-+++ b/arch/x86/hyperv/irqdomain.c
-@@ -0,0 +1,355 @@
-+// SPDX-License-Identifier: GPL-2.0
-+//
-+// Irqdomain for Linux to run as the root partition on Microsoft Hypervisor.
-+//
-+// Authors:
-+//   Sunil Muthuswamy <sunilmut@microsoft.com>
-+//   Wei Liu <wei.liu@kernel.org>
-+
-+#include <linux/pci.h>
-+#include <linux/irq.h>
-+#include <asm/mshyperv.h>
-+
-+struct rid_data {
-+	struct pci_dev *bridge;
-+	u32 rid;
-+};
-+
-+static int get_rid_cb(struct pci_dev *pdev, u16 alias, void *data)
-+{
-+	struct rid_data *rd = data;
-+	u8 bus = PCI_BUS_NUM(rd->rid);
-+
-+	if (pdev->bus->number != bus || PCI_BUS_NUM(alias) != bus) {
-+		rd->bridge = pdev;
-+		rd->rid = alias;
-+	}
-+
-+	return 0;
-+}
-+
-+static union hv_device_id hv_build_pci_dev_id(struct pci_dev *dev)
-+{
-+	union hv_device_id dev_id;
-+	struct rid_data data = {
-+		.bridge = NULL,
-+		.rid = PCI_DEVID(dev->bus->number, dev->devfn)
-+	};
-+
-+	pci_for_each_dma_alias(dev, get_rid_cb, &data);
-+
-+	dev_id.as_uint64 = 0;
-+	dev_id.device_type = HV_DEVICE_TYPE_PCI;
-+	dev_id.pci.segment = pci_domain_nr(dev->bus);
-+
-+	dev_id.pci.bdf.bus = PCI_BUS_NUM(data.rid);
-+	dev_id.pci.bdf.device = PCI_SLOT(data.rid);
-+	dev_id.pci.bdf.function = PCI_FUNC(data.rid);
-+	dev_id.pci.source_shadow = HV_SOURCE_SHADOW_NONE;
-+
-+	if (data.bridge) {
-+		int pos;
-+
-+		/*
-+		 * Microsoft Hypervisor requires a bus range when the bridge is
-+		 * running in PCI-X mode.
-+		 *
-+		 * To distinguish conventional vs PCI-X bridge, we can check
-+		 * the bridge's PCI-X Secondary Status Register, Secondary Bus
-+		 * Mode and Frequency bits. See PCI Express to PCI/PCI-X Bridge
-+		 * Specification Revision 1.0 5.2.2.1.3.
-+		 *
-+		 * Value zero means it is in conventional mode, otherwise it is
-+		 * in PCI-X mode.
-+		 */
-+
-+		pos = pci_find_capability(data.bridge, PCI_CAP_ID_PCIX);
-+		if (pos) {
-+			u16 status;
-+
-+			pci_read_config_word(data.bridge, pos +
-+					PCI_X_BRIDGE_SSTATUS, &status);
-+
-+			if (status & PCI_X_SSTATUS_FREQ) {
-+				/* Non-zero, PCI-X mode */
-+				u8 sec_bus, sub_bus;
-+
-+				dev_id.pci.source_shadow = HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE;
-+
-+				pci_read_config_byte(data.bridge, PCI_SECONDARY_BUS, &sec_bus);
-+				dev_id.pci.shadow_bus_range.secondary_bus = sec_bus;
-+				pci_read_config_byte(data.bridge, PCI_SUBORDINATE_BUS, &sub_bus);
-+				dev_id.pci.shadow_bus_range.subordinate_bus = sub_bus;
-+			}
-+		}
-+	}
-+
-+	return dev_id;
-+}
-+
-+static int hv_map_msi_interrupt(struct pci_dev *dev, int vcpu, int vector,
-+				struct hv_interrupt_entry *entry)
-+{
-+	struct hv_input_map_device_interrupt *input;
-+	struct hv_output_map_device_interrupt *output;
-+	struct hv_device_interrupt_descriptor *intr_desc;
-+	unsigned long flags;
-+	int status;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
-+
-+	intr_desc = &input->interrupt_descriptor;
-+	memset(input, 0, sizeof(*input));
-+	input->partition_id = hv_current_partition_id;
-+	input->device_id = hv_build_pci_dev_id(dev).as_uint64;
-+	intr_desc->interrupt_type = HV_X64_INTERRUPT_TYPE_FIXED;
-+	intr_desc->trigger_mode = HV_INTERRUPT_TRIGGER_MODE_EDGE;
-+	intr_desc->vector_count = 1;
-+	intr_desc->target.vector = vector;
-+	__set_bit(vcpu, (unsigned long*)&intr_desc->target.vp_mask);
-+
-+	status = hv_do_rep_hypercall(HVCALL_MAP_DEVICE_INTERRUPT, 0, 0, input, output) &
-+			 HV_HYPERCALL_RESULT_MASK;
-+	local_irq_restore(flags);
-+
-+	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: hypercall failed, status %d\n", __func__, status);
-+		return status;
-+	}
-+
-+	*entry = output->interrupt_entry;
-+
-+	return status;
-+}
-+
-+static inline void entry_to_msi_msg(struct hv_interrupt_entry *entry, struct msi_msg *msg)
-+{
-+	/* High address is always 0 */
-+	msg->address_hi = 0;
-+	msg->address_lo = entry->msi_entry.address.as_uint32;
-+	msg->data = entry->msi_entry.data.as_uint32;
-+}
-+
-+static int hv_unmap_msi_interrupt(struct pci_dev *dev, struct hv_interrupt_entry *old_entry);
-+static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
-+{
-+	struct msi_desc *msidesc;
-+	struct pci_dev *dev;
-+	struct hv_interrupt_entry out_entry, *stored_entry;
-+	struct irq_cfg *cfg = irqd_cfg(data);
-+	struct cpumask *affinity;
-+	int cpu, vcpu;
-+	int status;
-+
-+	msidesc = irq_data_get_msi_desc(data);
-+	dev = msi_desc_to_pci_dev(msidesc);
-+
-+	if (!cfg) {
-+		pr_debug("%s: cfg is NULL", __func__);
-+		return;
-+	}
-+
-+	affinity = irq_data_get_effective_affinity_mask(data);
-+	cpu = cpumask_first_and(affinity, cpu_online_mask);
-+	vcpu = hv_cpu_number_to_vp_number(cpu);
-+
-+	if (data->chip_data) {
-+		/*
-+		 * This interrupt is already mapped. Let's unmap first.
-+		 *
-+		 * We don't use retarget interrupt hypercalls here because
-+		 * Microsoft Hypervisor doens't allow root to change the vector
-+		 * or specify VPs outside of the set that is initially used
-+		 * during mapping.
-+		 */
-+		stored_entry = data->chip_data;
-+		data->chip_data = NULL;
-+
-+		status = hv_unmap_msi_interrupt(dev, stored_entry);
-+
-+		kfree(stored_entry);
-+
-+		if (status != HV_STATUS_SUCCESS) {
-+			pr_debug("%s: failed to unmap, status %d", __func__, status);
-+			return;
-+		}
-+	}
-+
-+	stored_entry = kzalloc(sizeof(*stored_entry), GFP_ATOMIC);
-+	if (!stored_entry) {
-+		pr_debug("%s: failed to allocate chip data\n", __func__);
-+		return;
-+	}
-+
-+	status = hv_map_msi_interrupt(dev, vcpu, cfg->vector, &out_entry);
-+	if (status != HV_STATUS_SUCCESS) {
-+		kfree(stored_entry);
-+		return;
-+	}
-+
-+	*stored_entry = out_entry;
-+	data->chip_data = stored_entry;
-+	entry_to_msi_msg(&out_entry, msg);
-+
-+	return;
-+}
-+
-+/*
-+ * IRQ Chip for MSI PCI/PCI-X/PCI-Express Devices,
-+ * which implement the MSI or MSI-X Capability Structure.
-+ */
-+static struct irq_chip hv_pci_msi_controller = {
-+	.name			= "HV-PCI-MSI",
-+	.irq_unmask		= pci_msi_unmask_irq,
-+	.irq_mask		= pci_msi_mask_irq,
-+	.irq_ack		= irq_chip_ack_parent,
-+	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_compose_msi_msg	= hv_irq_compose_msi_msg,
-+	.irq_set_affinity	= msi_domain_set_affinity,
-+	.flags			= IRQCHIP_SKIP_SET_WAKE,
-+};
-+
-+static struct msi_domain_ops pci_msi_domain_ops = {
-+	.get_hwirq	= pci_msi_get_hwirq,
-+	.msi_prepare	= pci_msi_prepare,
-+	.set_desc	= pci_msi_set_desc,
-+};
-+
-+static struct msi_domain_info hv_pci_msi_domain_info = {
-+	.flags		= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
-+			  MSI_FLAG_PCI_MSIX,
-+	.ops		= &pci_msi_domain_ops,
-+	.chip		= &hv_pci_msi_controller,
-+	.handler	= handle_edge_irq,
-+	.handler_name	= "edge",
-+};
-+
-+static struct irq_domain *hv_msi_domain;
-+
-+int hv_init_msi_domain(void)
-+{
-+	struct fwnode_handle *fn;
-+
-+	fn = irq_domain_alloc_named_fwnode("HV-PCI-MSI");
-+	if (!fn) {
-+		pr_debug("irq_domain_alloc_named_fwnode failed\n");
-+		return -1;
-+	}
-+
-+	hv_msi_domain = pci_msi_create_irq_domain(fn, &hv_pci_msi_domain_info,
-+					  x86_vector_domain);
-+	irq_domain_free_fwnode(fn);
-+	if (!hv_msi_domain) {
-+		pr_warn("Failed to initialize irqdomain for MSI/MSI-X.\n");
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+int hv_setup_msi_domain_irqs(struct pci_dev *dev, int nvec, int type)
-+{
-+	int ret;
-+
-+	if (type == PCI_CAP_ID_MSI && nvec > 1) {
-+		pr_debug("%s: Multi-message PCI MSI not supported", __func__);
-+		return 1;
-+	}
-+
-+	ret = msi_domain_alloc_irqs(hv_msi_domain, &dev->dev, nvec);
-+	if (ret)
-+		pr_debug("%s: msi_domain_alloc_irqs returned: %d\n", __func__, ret);
-+
-+	return ret;
-+}
-+
-+static int hv_unmap_interrupt(u64 id, struct hv_interrupt_entry *old_entry)
-+{
-+	unsigned long flags;
-+	struct hv_input_unmap_device_interrupt *input;
-+	struct hv_interrupt_entry *intr_entry;
-+	int status;
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+
-+	memset(input, 0, sizeof(*input));
-+	intr_entry = &input->interrupt_entry;
-+	input->partition_id = hv_current_partition_id;
-+	input->device_id = id;
-+	*intr_entry = *old_entry;
-+
-+	status = hv_do_rep_hypercall(HVCALL_UNMAP_DEVICE_INTERRUPT, 0, 0, input, NULL) &
-+			 HV_HYPERCALL_RESULT_MASK;
-+	local_irq_restore(flags);
-+
-+	return status;
-+}
-+
-+static int hv_unmap_msi_interrupt(struct pci_dev *dev, struct hv_interrupt_entry *old_entry)
-+{
-+	return hv_unmap_interrupt(hv_build_pci_dev_id(dev).as_uint64, old_entry)
-+		& HV_HYPERCALL_RESULT_MASK;
-+}
-+
-+static void hv_teardown_msi_irq_common(struct pci_dev *dev, struct msi_desc *msidesc, int irq)
-+{
-+	int status;
-+	struct hv_interrupt_entry old_entry;
-+	struct irq_desc *desc;
-+	struct irq_data *data;
-+	struct msi_msg msg;
-+
-+	desc = irq_to_desc(irq);
-+	if (!desc) {
-+		pr_debug("%s: no irq desc\n", __func__);
-+		return;
-+	}
-+
-+	data = &desc->irq_data;
-+	if (!data) {
-+		pr_debug("%s: no irq data\n", __func__);
-+		return;
-+	}
-+
-+	if (!data->chip_data) {
-+		pr_debug("%s: no chip data\n!", __func__);
-+		return;
-+	}
-+
-+	old_entry = *(struct hv_interrupt_entry *)data->chip_data;
-+	entry_to_msi_msg(&old_entry, &msg);
-+
-+	kfree(data->chip_data);
-+	data->chip_data = NULL;
-+
-+	status = hv_unmap_msi_interrupt(dev, &old_entry);
-+
-+	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: hypercall failed, status %d\n", __func__, status);
-+		return;
-+	}
-+}
-+
-+void hv_teardown_msi_irq(unsigned int irq)
-+{
-+	irq_domain_free_irqs(irq, 1);
-+}
-+
-+void hv_teardown_msi_irqs(struct pci_dev *dev)
-+{
-+	int i;
-+	struct msi_desc *entry;
-+
-+	for_each_pci_msi_entry(entry, dev) {
-+		if (entry->irq) {
-+			for (i = 0; i < entry->nvec_used; i++) {
-+				hv_teardown_msi_irq_common(dev, entry, entry->irq + i);
-+				hv_teardown_msi_irq(entry->irq + i);
-+			}
-+		}
-+	}
-+}
--- 
-2.20.1
+> > > +		rqst_id =3D vmbus_next_request_id(&channel->requestor, requestid);
+> > > +		if (rqst_id =3D=3D VMBUS_RQST_ERROR) {
+> > > +			pr_err("No request id available\n");
+> > > +			return -EAGAIN;
+> > > +		}
+> > > +	}
+> > > +	desc =3D hv_get_ring_buffer(outring_info) + old_write;
+> > > +	desc->trans_id =3D (rqst_id =3D=3D VMBUS_NO_RQSTOR) ? requestid : r=
+qst_id;
+> > > +
+> >
+> > This is a nit, but the above would be clearer to me if written like thi=
+s:
+> >
+> > 	flags =3D desc->flags;
+> > 	if (flags =3D=3D VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED) {
+> > 		rqst_id =3D vmbus_next_request_id(&channel->requestor, requestid);
+> > 		if (rqst_id =3D=3D VMBUS_RQST_ERROR) {
+> > 			pr_err("No request id available\n");
+> > 			return -EAGAIN;
+> > 		}
+> > 	} else {
+> > 		rqst_id =3D requestid;
+> > 	}
+> > 	desc =3D hv_get_ring_buffer(outring_info) + old_write;
+> > 	desc->trans_id =3D rqst_id;
+> >
+> > The value of the flags field controls what will be used as the value fo=
+r the
+> > rqst_id.  Having another test to see which value will be used as the tr=
+ans_id
+> > somehow feels a bit redundant.  And then rqst_id doesn't have to be ini=
+tialized.
+>=20
+> Agreed, will apply in the next version.
+>=20
 
+In an offline conversation, Andrea has pointed out that my proposed changes
+don't work.  After a second look, I'll agreed that Andrea's code is the bes=
+t that
+can be done, so my comments can be ignored.
+
+Michael
