@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C646C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:07:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C157C43461
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:07:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0EE9F2220E
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:07:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0017221E5
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 12:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600085248;
-	bh=Koabuk33vU+ZeqXGlyQHqijDfBJGe3damk2wlUEUiQc=;
+	s=default; t=1600085251;
+	bh=KeOhgWHOmjhxSUga5bEcp4cLBzyi/YayVh77Fm2sips=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=p9cNox3oM1KdJzsFLD+3g4X1uEsy6234gqM+VWB7Otu2j/JaqhKmNfa9l6rqOSQK6
-	 dB5GAbZ95jWdJV/ygW/R+tqg4QmBOgulPEMhprH5UfebQyup8KHAQBdH/UdPMllxbZ
-	 OO1KDX4Gs5bqAChceO+1qeXvNv2o81+xxR9GQ040=
+	b=IhJLCbZG4woZTGVzj/RQHnD9us8oYxXV3SPF47j5tZ+6wt3mV/MUVrzqr1Jwpdxgk
+	 Id1HQUMx1l1meE5jvpnCZaOoIbMQ3xMnxfazkhG7nS5HL0icFnu4aA9DYxehPLAlAr
+	 7k7Kdrw8Md92sUxZQGugqj4WFDO7kYUTX+VVonMo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726161AbgINMGr (ORCPT
+        id S1726170AbgINMGz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Sep 2020 08:06:47 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55579 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgINMEG (ORCPT
+        Mon, 14 Sep 2020 08:06:55 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53130 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgINMEA (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:04:06 -0400
-Received: by mail-wm1-f66.google.com with SMTP id d4so5001707wmd.5;
-        Mon, 14 Sep 2020 05:03:17 -0700 (PDT)
+        Mon, 14 Sep 2020 08:04:00 -0400
+Received: by mail-wm1-f68.google.com with SMTP id q9so10366358wmj.2;
+        Mon, 14 Sep 2020 05:03:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3zVgkc0Vpun48hSHnelT6bR/5tr24X+6uZTMKdzP2+o=;
-        b=SNwbZw7MRlqlnovIawYuv3vzdU19xIwFJZAg18ZCu0832eIYvi9OwA1DXavWq+ja3a
-         MONYgGwz2h7OXJK+NmBwa29BFwUukK4Ow0onR7udGL4RyfvnAsxuCSfAT2FXupyMZX0f
-         mgTtXbbUYpQ8utxVQAenDRNW7URXrD4vG4gjGJVpGxROFfCjn/5MqXQYvBV5RVkp3lDu
-         MteHWMpZx05sf/RoPR2RB9+tWnAvDPzJqsqxWNa+mRSJEu/ghbaw1SvE2juBoN800wGY
-         XrxjSwBioW/NA1ubI186CAJXi1MQTBK/CcAWNP7uQHX/4xxfuOEGVe4vs3j1Ag2polUO
-         C6ng==
-X-Gm-Message-State: AOAM5329ErDebPjwqaPFRSb57+7rFmBTZeK7Jioyqikd5nr2pqUobK8m
-        ecsvY4rDQIzJolH/O1p+eRgwO7u6IMk=
-X-Google-Smtp-Source: ABdhPJzyouk8921Wt/uF3ifks/nxa+uwp4vLEQHDfunEuBIKEjOhXqX3/ZZpfvXNX0yoGx+TGReX9g==
-X-Received: by 2002:a1c:9654:: with SMTP id y81mr14713888wmd.9.1600084780019;
-        Mon, 14 Sep 2020 04:59:40 -0700 (PDT)
+        bh=lQKhb+LoEWMH3iW/IWOjs8QKLqVOB1NiJ5AxyQ7Kqfk=;
+        b=iLXPfi8znDNnnCUJufANq55l3ecr+aTAuMiRG94wycG+zsi2ffH45ol42kQrzKopIM
+         f8vx+ZXClPf6TZyRgZPEaYvT/S33FrJ8zpH/B+V66MIL+owPKBAsg4iogaQuumRGmilA
+         azFLnNLdgnyz1vdWG1wiZfHgGtEXSf/njkONg+1PCpnXXKXR6q+QCE9yJV2itKR2tjZj
+         nKQhqKKsAD+f2L9Yu89TuoGF/WkLAB+vJwJ6SR1DAwc7Ui1o+YQs4x0SQ1T1mVc3b2Kl
+         kxhGmNIfpsu+6Iq3CKNYa6J/Yd0J4re+Gp3MFA/znh5w+XtXB3EiWiNfEIpodQXYZfPh
+         woZA==
+X-Gm-Message-State: AOAM531rNAL/lfwMkE/YHCyWAtgmxUpOfTV37XGeJvO7WpRa6vE1C23u
+        SjS05t8cqo5IPrWWZwCexLhil/jQ/DA=
+X-Google-Smtp-Source: ABdhPJyC4exb5tH9FPEHgpCc2oPxmtChwVHy+O98YyCb/lvdGd3ug+AKyFHPPC/GOi9R1huo79f6aw==
+X-Received: by 2002:a1c:a444:: with SMTP id n65mr14527644wme.122.1600084777853;
+        Mon, 14 Sep 2020 04:59:37 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.39
+        by smtp.gmail.com with ESMTPSA id c205sm18764809wmd.33.2020.09.14.04.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 04:59:39 -0700 (PDT)
+        Mon, 14 Sep 2020 04:59:37 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -67,9 +67,9 @@ Cc:     virtualization@lists.linux-foundation.org,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
         linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH RFC v1 14/18] asm-generic/hyperv: import data structures for mapping device interrupts
-Date:   Mon, 14 Sep 2020 11:59:23 +0000
-Message-Id: <20200914115928.83184-6-wei.liu@kernel.org>
+Subject: [PATCH RFC v1 11/18] asm-generic/hyperv: update hv_msi_entry
+Date:   Mon, 14 Sep 2020 11:59:20 +0000
+Message-Id: <20200914115928.83184-3-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200914112802.80611-1-wei.liu@kernel.org>
 References: <20200914112802.80611-1-wei.liu@kernel.org>
@@ -80,90 +80,77 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+We will soon need to access fields inside the MSI address and MSI data
+fields. Introduce hv_msi_address_register and hv_msi_data_register.
+
+Fix up one user of hv_msi_entry in mshyperv.h.
+
+No functional change expected.
+
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 13 +++++++++++
- include/asm-generic/hyperv-tlfs.h  | 36 ++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+ arch/x86/include/asm/mshyperv.h   |  4 ++--
+ include/asm-generic/hyperv-tlfs.h | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 20d628c1ed50..33210fa9899f 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -559,6 +559,19 @@ struct hv_partition_assist_pg {
- 	u32 tlb_lock_count;
- };
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 60afc3e417d0..a4d46ca5a0b1 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -244,8 +244,8 @@ static inline void hv_apic_init(void) {}
+ static inline void hv_set_msi_entry_from_desc(union hv_msi_entry *msi_entry,
+ 					      struct msi_desc *msi_desc)
+ {
+-	msi_entry->address = msi_desc->msg.address_lo;
+-	msi_entry->data = msi_desc->msg.data;
++	msi_entry->address.as_uint32 = msi_desc->msg.address_lo;
++	msi_entry->data.as_uint32 = msi_desc->msg.data;
+ }
  
-+enum hv_interrupt_type {
-+	HV_X64_INTERRUPT_TYPE_FIXED             = 0x0000,
-+	HV_X64_INTERRUPT_TYPE_LOWESTPRIORITY    = 0x0001,
-+	HV_X64_INTERRUPT_TYPE_SMI               = 0x0002,
-+	HV_X64_INTERRUPT_TYPE_REMOTEREAD        = 0x0003,
-+	HV_X64_INTERRUPT_TYPE_NMI               = 0x0004,
-+	HV_X64_INTERRUPT_TYPE_INIT              = 0x0005,
-+	HV_X64_INTERRUPT_TYPE_SIPI              = 0x0006,
-+	HV_X64_INTERRUPT_TYPE_EXTINT            = 0x0007,
-+	HV_X64_INTERRUPT_TYPE_LOCALINT0         = 0x0008,
-+	HV_X64_INTERRUPT_TYPE_LOCALINT1         = 0x0009,
-+	HV_X64_INTERRUPT_TYPE_MAXIMUM           = 0x000A,
-+};
- 
- #include <asm-generic/hyperv-tlfs.h>
- 
+ #else /* CONFIG_HYPERV */
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index faf892ce152d..410e2dd09a84 100644
+index 2b05bed712c0..e7e80a27777b 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -152,6 +152,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
- #define HVCALL_RESET_DEBUG_SESSION		0x006b
- #define HVCALL_ADD_LOGICAL_PROCESSOR		0x0076
-+#define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
-+#define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
- #define HVCALL_RETARGET_INTERRUPT		0x007e
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
-@@ -691,4 +693,38 @@ union hv_device_id {
- 	} acpi;
- } __packed;
+@@ -469,12 +469,36 @@ struct hv_create_vp {
+ 	u64 flags;
+ };
  
-+enum hv_interrupt_trigger_mode {
-+	HV_INTERRUPT_TRIGGER_MODE_EDGE = 0,
-+	HV_INTERRUPT_TRIGGER_MODE_LEVEL = 1,
-+};
-+
-+struct hv_device_interrupt_descriptor {
-+	u32 interrupt_type;
-+	u32 trigger_mode;
-+	u32 vector_count;
-+	u32 reserved;
-+	struct hv_device_interrupt_target target;
++union hv_msi_address_register {
++	u32 as_uint32;
++	struct {
++		u32 reserved1:2;
++		u32 destination_mode:1;
++		u32 redirection_hint:1;
++		u32 reserved2:8;
++		u32 destination_id:8;
++		u32 msi_base:12;
++	};
 +} __packed;
 +
-+struct hv_input_map_device_interrupt {
-+	u64 partition_id;
-+	u64 device_id;
-+	u64 flags;
-+	struct hv_interrupt_entry logical_interrupt_entry;
-+	struct hv_device_interrupt_descriptor interrupt_descriptor;
++union hv_msi_data_register {
++	u32 as_uint32;
++	struct {
++		u32 vector:8;
++		u32 delivery_mode:3;
++		u32 reserved1:3;
++		u32 level_assert:1;
++		u32 trigger_mode:1;
++		u32 reserved2:16;
++	};
 +} __packed;
 +
-+struct hv_output_map_device_interrupt {
-+	struct hv_interrupt_entry interrupt_entry;
-+} __packed;
-+
-+struct hv_input_unmap_device_interrupt {
-+	u64 partition_id;
-+	u64 device_id;
-+	struct hv_interrupt_entry interrupt_entry;
-+} __packed;
-+
-+#define HV_SOURCE_SHADOW_NONE               0x0
-+#define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
-+
- #endif
+ /* HvRetargetDeviceInterrupt hypercall */
+ union hv_msi_entry {
+ 	u64 as_uint64;
+ 	struct {
+-		u32 address;
+-		u32 data;
++		union hv_msi_address_register address;
++		union hv_msi_data_register data;
+ 	} __packed;
+ };
+ 
 -- 
 2.20.1
 
