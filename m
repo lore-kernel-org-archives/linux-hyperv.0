@@ -2,54 +2,54 @@ Return-Path: <SRS0=rKnE=CX=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35F98C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0155CC43461
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:51:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA384216C4
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:50:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4E7E216C4
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Sep 2020 17:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600105849;
-	bh=O3iTm5sfyc1nDI8DmN/W1lMkzAcGTaw3COpNYazb3LQ=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=FFj6yddRfzvPEkRF2Bgw4ePCVj3YzwxCZ8et1XpVgyDK1WFD3kwbe3QpoALTLPWkN
-	 0Sgly4/3UhQPA5iHokymsCVno04Lklw2eSkM7cH20bgyvrRZ0cvLxxnIzfXz0WxR7Y
-	 3lg+9aVdggic7fufJHxiJ7gwPm4KUatYbczN0RDA=
+	s=default; t=1600105908;
+	bh=lhkifu5/PQ/pzDc/3geDWtpPb85uFhoUB0xwafSwb3k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=sWljCxbVZw9OiCePX6WQ0eBLjegL2WqXcLkbMkc9HPQyJjLVDXSfb6M5ZkfjPy1aL
+	 DHergqZrX3vHc4TVb7XeC1LgaS6drVijRLPW8nkx/Z05XQclooK4N0nW+99z4rtbuH
+	 24nBjrZCG2KS3XWaTwnfRroedcIA24TeNh1y7WVo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbgINRuq (ORCPT
+        id S1726028AbgINRun (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Sep 2020 13:50:46 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34461 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726092AbgINL2N (ORCPT
+        Mon, 14 Sep 2020 13:50:43 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:39510 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgINL2Q (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Sep 2020 07:28:13 -0400
-Received: by mail-wm1-f65.google.com with SMTP id l15so5675997wmh.1;
-        Mon, 14 Sep 2020 04:28:12 -0700 (PDT)
+        Mon, 14 Sep 2020 07:28:16 -0400
+Received: by mail-wm1-f66.google.com with SMTP id b79so10851136wmb.4;
+        Mon, 14 Sep 2020 04:28:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LqxAE6W5SExzzq+BC3tYOi/+57EB9w0HNwMulHCILP0=;
-        b=AaowA1CzSRcjDX9FqTpwxMLIWWORzOT/nZ6Km/bwRYjYntmlijiP0K/1NuMJQ1fMwn
-         mdlMcCFTjHf7lyix1R/2JJ9MIdpQ3ELQxHVThKwOAelzK4Tx00h7ybzlILUwu4OEhUIW
-         EUUHTG0dK4LbFif92ynjenn0qo7beOJE6WDWpInQatB7hEVkpVQZRPyYZt+q9ybW3Ncx
-         9v3FhwR8wM6SrU3cyG4wyPJXZ6Icsyy3DXosbZMt3+0b16AKOytRKl/d4Y54qP2lxZYH
-         OgR65Hy3ANx29rCSEpV0ZRTDFOLQNtcZ/W/Sp8yq+N9uJ0vik1nEhGRZZFztIo9KL2ux
-         5fuA==
-X-Gm-Message-State: AOAM531BpmJ7vkgrHJdHnX/0QUvitU3H9e27r1VwhnOCwubSV3vJt7+L
-        tn1O/ZAA/wEOEFvqI2ttiDBTdwz2+Lk=
-X-Google-Smtp-Source: ABdhPJw+00/JLZUMpd/ezfCIr7+71JwtPUy+QEt1v5Ue/jcKXwLuHub7ZjmQF4XzB4TX1QB/m3Kd2g==
-X-Received: by 2002:a1c:4c05:: with SMTP id z5mr13904242wmf.47.1600082891294;
-        Mon, 14 Sep 2020 04:28:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5v500JUZm9W3PLeTFD54h3IRmGCm5u9hSoivPSmRPeA=;
+        b=kRk+munPhmqq65aQMLLxzS5DWrKd80Nei154wTtqSvNNJA1L8EM6lOm3UsLTcjW/XF
+         3WM5fiC1xfOp8j7ynEo0mvRbDUegaXb/8ECMtwjD90/OG5uLhgfMhTQ7z53O079xfFp0
+         ewM7F8ToVaXlDMJLxKj8yPBO8ph1X9kNQQFjOC2l8MFogLD1u1bgPHJmt76RO+9ndy1v
+         W7A4cxJZlN7/3N3ma4LeECWXnKtletTt2iG2nZbbxNXJE6xbpRomtTuZQAGts6u5lwgk
+         qnXm08Kq+6uMj1FGEoY2xFwTXdODp8Dsu87EWNG/wFTLzEG6SLtGYl5SnY/pp2A0r5Ue
+         RztQ==
+X-Gm-Message-State: AOAM5309TPh4vP58hKfGTv/DOe/5CbQV3aVKgWvxUX+POSybRM4mjGRP
+        og6WfDEe5HC/D0anPRgcMWXmviwMYrk=
+X-Google-Smtp-Source: ABdhPJyUdJukSZQy+o144Nuc5JlcCGIDb5NRAgTLHhy3hhKD/5DE2/RETjp2sTOsMtnSstmDqgdghA==
+X-Received: by 2002:a1c:a551:: with SMTP id o78mr3264122wme.4.1600082894396;
+        Mon, 14 Sep 2020 04:28:14 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id s12sm12024606wmd.20.2020.09.14.04.28.10
+        by smtp.gmail.com with ESMTPSA id s12sm12024606wmd.20.2020.09.14.04.28.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 04:28:10 -0700 (PDT)
+        Mon, 14 Sep 2020 04:28:14 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -58,15 +58,18 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nudasnev@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, x86@kernel.org,
+        Wei Liu <wei.liu@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Samuel Ortiz <sameo@linux.intel.com>
-Subject: [PATCH RFC v1 00/18] Introducing Linux root partition support for Microsoft Hypervisor
-Date:   Mon, 14 Sep 2020 11:27:44 +0000
-Message-Id: <20200914112802.80611-1-wei.liu@kernel.org>
+        Joerg Roedel <joro@8bytes.org>,
+        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
+Subject: [PATCH RFC v1 04/18] iommu/hyperv: don't setup IRQ remapping when running as root
+Date:   Mon, 14 Sep 2020 11:27:48 +0000
+Message-Id: <20200914112802.80611-5-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200914112802.80611-1-wei.liu@kernel.org>
+References: <20200914112802.80611-1-wei.liu@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
@@ -74,102 +77,35 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all
+The IOMMU code needs more work. We're sure for now the IRQ remapping
+hooks are not applicable when Linux is the root.
 
-Here we propose this patch series to make Linux run as the root partition [0]
-on Microsoft Hypervisor [1].
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+ drivers/iommu/hyperv-iommu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Microsoft wants to create a complete virtualization stack with Linux and
-Microsoft Hypervisor. There will be a subsequent patch series to provide a
-device node (/dev/mshv) such that userspace programs can create and run virtual
-machines. We've also ported Cloud Hypervisor [3] over and have been able to
-boot a Linux guest with Virtio devices since late July.
-
-Being an RFC sereis, this implements only the absolutely necessary
-components to get things running.  I will break down this series a bit.
-
-A large portion of this series consists of patches that augment hyperv-tlfs.h.
-They should be rather uncontroversial and can be applied right away.
-
-A few key things other than the changes to hyperv-tlfs.h:
-
-1. Linux needs to setup existing Hyper-V facilities differently.
-2. Linux needs to make a few hypercalls to bring up APs.
-3. Interrupts are remapped by IOMMU, which is controlled by the hypervisor.
-   Linux needs to make hypercalls to map and unmap interrupts. This is
-   done by introducing a new MSI irqdomain and new irqchips.
-
-#3 is perhaps the thing that we feel least confident about. We drew inspiration
-from the Xen code in Linux. We are of course open to criticism and sugguestions
-on how to make it better / acceptable to upstream.
-
-We're aware of tglx's series to change some of the MSI code, so we may need to
-change some of the code after that series is upstreamed. But it wouldn't hurt
-to throw this out as soon as possible for feedback.
-
-Comments and suggestions are welcome.
-
-Thanks,
-Wei.
-
-[0] Just think of it like Xen's Dom0.
-[1] Hyper-V is more well-known, but it really refers to the whole stack
-    including the hypervisor and other components that run in Windows kernel
-    and userspace.
-[3] https://github.com/cloud-hypervisor/
-
-Cc: x86@kernel.org
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
-Cc: Nuno Das Neves <nudasnev@microsoft.com>
-Cc: Vineeth Pillai <viremana@linux.microsoft.com>
-Cc: Samuel Ortiz <sameo@linux.intel.com>
-
-Wei Liu (18):
-  asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to
-    HV_CPU_MANAGEMENT
-  x86/hyperv: detect if Linux is the root partition
-  Drivers: hv: vmbus: skip VMBus initialization if Linux is root
-  iommu/hyperv: don't setup IRQ remapping when running as root
-  clocksource/hyperv: use MSR-based access if running as root
-  x86/hyperv: allocate output arg pages if required
-  x86/hyperv: extract partition ID from Microsoft Hypervisor if
-    necessary
-  x86/hyperv: handling hypercall page setup for root
-  x86/hyperv: provide a bunch of helper functions
-  x86/hyperv: implement and use hv_smp_prepare_cpus
-  asm-generic/hyperv: update hv_msi_entry
-  asm-generic/hyperv: update hv_interrupt_entry
-  asm-generic/hyperv: introduce hv_device_id and auxiliary structures
-  asm-generic/hyperv: import data structures for mapping device
-    interrupts
-  x86/apic/msi: export pci_msi_get_hwirq
-  x86/hyperv: implement MSI domain for root partition
-  x86/ioapic: export a few functions and data structures via io_apic.h
-  x86/hyperv: handle IO-APIC when running as root
-
- arch/x86/hyperv/Makefile            |   4 +-
- arch/x86/hyperv/hv_init.c           | 126 +++++-
- arch/x86/hyperv/hv_proc.c           | 209 ++++++++++
- arch/x86/hyperv/irqdomain.c         | 580 ++++++++++++++++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h  |  23 ++
- arch/x86/include/asm/io_apic.h      |  20 +
- arch/x86/include/asm/mshyperv.h     |  13 +-
- arch/x86/include/asm/msi.h          |   3 +
- arch/x86/kernel/apic/io_apic.c      |  28 +-
- arch/x86/kernel/apic/msi.c          |   3 +-
- arch/x86/kernel/cpu/mshyperv.c      |  43 +++
- drivers/clocksource/hyperv_timer.c  |   3 +
- drivers/hv/vmbus_drv.c              |   3 +
- drivers/iommu/hyperv-iommu.c        |   3 +-
- drivers/pci/controller/pci-hyperv.c |   2 +-
- include/asm-generic/hyperv-tlfs.h   | 243 +++++++++++-
- 16 files changed, 1268 insertions(+), 38 deletions(-)
- create mode 100644 arch/x86/hyperv/hv_proc.c
- create mode 100644 arch/x86/hyperv/irqdomain.c
-
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 8919c1c70b68..4da684ab292c 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -20,6 +20,7 @@
+ #include <asm/io_apic.h>
+ #include <asm/irq_remapping.h>
+ #include <asm/hypervisor.h>
++#include <asm/mshyperv.h>
+ 
+ #include "irq_remapping.h"
+ 
+@@ -143,7 +144,7 @@ static int __init hyperv_prepare_irq_remapping(void)
+ 	int i;
+ 
+ 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
+-	    !x2apic_supported())
++	    !x2apic_supported() || hv_root_partition)
+ 		return -ENODEV;
+ 
+ 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
 -- 
 2.20.1
 
