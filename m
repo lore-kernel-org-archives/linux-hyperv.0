@@ -2,164 +2,168 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9EB9C433E2
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:05:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0FF9C433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:33:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B832206DC
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:05:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79BF120838
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:33:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K2xsb1T6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ImR8D9FB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727424AbgIPTFQ (ORCPT
+        id S1727282AbgIPTdl (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Sep 2020 15:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29696 "EHLO
+        Wed, 16 Sep 2020 15:33:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59408 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727419AbgIPRqU (ORCPT
+        by vger.kernel.org with ESMTP id S1727535AbgIPTcF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:46:20 -0400
+        Wed, 16 Sep 2020 15:32:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600278367;
+        s=mimecast20190719; t=1600284688;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=2/++Vs+tqDU+26+QgfH9Refcf03yjqUaNncFH8b2ph4=;
-        b=K2xsb1T6lGlk3JqX7IsoR1oqgPzvpSO2TayGTbC7llV/PBe+2cD+/IOre6ndbM1VdbqoeZ
-        HjEC6EAmdLBjKp3Hg7DXvHgENJ2YhoomHLhFaF0FTsu4sv1gTcTg+R24uQXrn2SsX/beLn
-        b523+iTBuVQNVFsA9YPeOccSoGTgLfs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-7WLKPKnpN_Svn0iJ3fCVcQ-1; Wed, 16 Sep 2020 08:16:32 -0400
-X-MC-Unique: 7WLKPKnpN_Svn0iJ3fCVcQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 128DB873116;
-        Wed, 16 Sep 2020 12:16:30 +0000 (UTC)
-Received: from [10.36.113.190] (ovpn-113-190.ams2.redhat.com [10.36.113.190])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 20F9D7EB7C;
-        Wed, 16 Sep 2020 12:16:25 +0000 (UTC)
-Subject: Re: [PATCH] kernel/resource: make iomem_resource implicit in
- release_mem_region_adjustable()
-To:     Wei Yang <richard.weiyang@linux.alibaba.com>
-Cc:     linux-kernel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-s390@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
-        Baoquan He <bhe@redhat.com>
-References: <20200911103459.10306-1-david@redhat.com>
- <20200916073041.10355-1-david@redhat.com>
- <20200916100223.GA46154@L-31X9LVDL-1304.local>
- <d11eba75-71c0-4153-944b-56e22044e0eb@redhat.com>
- <20200916121051.GA46809@L-31X9LVDL-1304.local>
-From:   David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <0ee45d30-daa4-190a-2932-fb710d9496db@redhat.com>
-Date:   Wed, 16 Sep 2020 14:16:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20200916121051.GA46809@L-31X9LVDL-1304.local>
+         in-reply-to:in-reply-to:references:references;
+        bh=H30dbXoNbzsTkPGiKpd2XjhJWXqjtA7dGp0dwpbyBQA=;
+        b=ImR8D9FBk1nPql8yB//BTP70Ry+M7tvnprSzFKIwQ+LrEcxwT1g4mAHe2VQ+Fj4UgR8HI/
+        lTgb7jUkhHvmaI1CppbODHMqWeXzqKl7AhlKgb9kvmQrqLRCeLMxdGuV66Y9g7VQQuWlh+
+        dM/4tBUfa42BbMEazlwv9ahZlKH2JUw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-fiEtrBYMPxSrgZI5lQgkZw-1; Wed, 16 Sep 2020 15:31:25 -0400
+X-MC-Unique: fiEtrBYMPxSrgZI5lQgkZw-1
+Received: by mail-ej1-f72.google.com with SMTP id dc22so3339715ejb.21
+        for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2020 12:31:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=H30dbXoNbzsTkPGiKpd2XjhJWXqjtA7dGp0dwpbyBQA=;
+        b=l6XMoLuUVxipL0GFyrpPWjHWzY7eNGp8Tg7ihP8tiWGjgU9J22XdZ5oBOmLaDqu4+L
+         c77drdIH0KYBgVfGTEx2+T8g0JlAc71D3NE3uqoFq84mm3FtbWRdVEFINlfyxVvijsyi
+         LzNkqgfBmcQ293F0mn+5aB+rfkqJ2zXXPocIGhMmZ/utGGQotmnq4GAATYw9L4LvWCsB
+         vDQYbVz/AwnTs4hlqb6BGXbWJckzoXKap6GAbk7E9JstdTZKgPEFTcuzhpKFCNbT0uMZ
+         QoFyiWN5aFeQ/lkIvkVHYwF8KcvkGF3Gr0Zu0s0jY3ESgZ/+nf+JPDzq4LFCw2lbkm/4
+         /euw==
+X-Gm-Message-State: AOAM533/rCyHgjvfcg8/NCOe3jqZc65bVBYFE5CfYOMYav623qMoep3j
+        zObclHobkSBOUjUY9fhyfW0f+dGo2q0vxVCozlOqe4nbhp228XKDnBgic3gV622pZDvV6HKBlv5
+        jGvT6MFs4N//6h+iqON6wdL44
+X-Received: by 2002:aa7:c7c2:: with SMTP id o2mr30417825eds.366.1600284684121;
+        Wed, 16 Sep 2020 12:31:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNf5C6IgWA4C90hz+1DV+boU+avbJN14GYmBM3jetRxVAOiNjdDaQK6JfCvz8qKCYsfBo/YA==
+X-Received: by 2002:aa7:c7c2:: with SMTP id o2mr30417797eds.366.1600284683833;
+        Wed, 16 Sep 2020 12:31:23 -0700 (PDT)
+Received: from [192.168.3.122] (p4ff23c30.dip0.t-ipconnect.de. [79.242.60.48])
+        by smtp.gmail.com with ESMTPSA id k25sm13202917ejk.3.2020.09.16.12.31.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2020 12:31:23 -0700 (PDT)
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: quoted-printable
+From:   David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH RFC 0/4] mm: place pages to the freelist tail when onling and undoing isolation
+Date:   Wed, 16 Sep 2020 21:31:21 +0200
+Message-Id: <DAC9E747-BDDF-41B6-A89B-604880DD7543@redhat.com>
+References: <5c0910c2cd0d9d351e509392a45552fb@suse.de>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-hyperv@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Scott Cheloha <cheloha@linux.ibm.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Wei Liu <wei.liu@kernel.org>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>
+In-Reply-To: <5c0910c2cd0d9d351e509392a45552fb@suse.de>
+To:     osalvador@suse.de
+X-Mailer: iPhone Mail (17H35)
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 16.09.20 14:10, Wei Yang wrote:
-> On Wed, Sep 16, 2020 at 12:03:20PM +0200, David Hildenbrand wrote:
->> On 16.09.20 12:02, Wei Yang wrote:
->>> On Wed, Sep 16, 2020 at 09:30:41AM +0200, David Hildenbrand wrote:
->>>> "mem" in the name already indicates the root, similar to
->>>> release_mem_region() and devm_request_mem_region(). Make it implicit.
->>>> The only single caller always passes iomem_resource, other parents are
->>>> not applicable.
->>>>
->>>
->>> Looks good to me.
->>>
->>> Reviewed-by: Wei Yang <richard.weiyang@linux.alibaba.com>
->>>
->>
->> Thanks for the review!
->>
-> 
-> Would you send another version? I didn't take a look into the following
-> patches, since the 4th is missed.
 
-Not planning to send another one as long as there are no further
-comments. Seems to be an issue on your side because all patches arrived
-on linux-mm (see
-https://lore.kernel.org/linux-mm/20200911103459.10306-1-david@redhat.com/)
 
-You can find patch #4 at
-https://lore.kernel.org/linux-mm/20200911103459.10306-5-david@redhat.com/
+> Am 16.09.2020 um 20:50 schrieb osalvador@suse.de:
+>=20
+> =EF=BB=BFOn 2020-09-16 20:34, David Hildenbrand wrote:
+>> When adding separate memory blocks via add_memory*() and onlining them
+>> immediately, the metadata (especially the memmap) of the next block will b=
+e
+>> placed onto one of the just added+onlined block. This creates a chain
+>> of unmovable allocations: If the last memory block cannot get
+>> offlined+removed() so will all dependant ones. We directly have unmovable=
 
-(which has CC "Wei Yang <richardw.yang@linux.intel.com>")
+>> allocations all over the place.
+>> This can be observed quite easily using virtio-mem, however, it can also
+>> be observed when using DIMMs. The freshly onlined pages will usually be
+>> placed to the head of the freelists, meaning they will be allocated next,=
 
--- 
-Thanks,
+>> turning the just-added memory usually immediately un-removable. The
+>> fresh pages are cold, prefering to allocate others (that might be hot)
+>> also feels to be the natural thing to do.
+>> It also applies to the hyper-v balloon xen-balloon, and ppc64 dlpar: when=
 
-David / dhildenb
+>> adding separate, successive memory blocks, each memory block will have
+>> unmovable allocations on them - for example gigantic pages will fail to
+>> allocate.
+>> While the ZONE_NORMAL doesn't provide any guarantees that memory can get
+>> offlined+removed again (any kind of fragmentation with unmovable
+>> allocations is possible), there are many scenarios (hotplugging a lot of
+>> memory, running workload, hotunplug some memory/as much as possible) wher=
+e
+>> we can offline+remove quite a lot with this patchset.
+>=20
+> Hi David,
+>=20
+
+Hi Oscar.
+
+> I did not read through the patchset yet, so sorry if the question is nonse=
+nse, but is this not trying to fix the same issue the vmemmap patches did? [=
+1]
+
+Not nonesense at all. It only helps to some degree, though. It solves the de=
+pendencies due to the memmap. However, it=E2=80=98s not completely ideal, es=
+pecially for single memory blocks.
+
+With single memory blocks (virtio-mem, xen-balloon, hv balloon, ppc dlpar) y=
+ou still have unmovable (vmemmap chunks) all over the physical address space=
+. Consider the gigantic page example after hotplug. You directly fragmented a=
+ll hotplugged memory.
+
+Of course, there might be (less extreme) dependencies due page tables for th=
+e identity mapping, extended struct pages and similar.
+
+Having that said, there are other benefits when preferring other memory over=
+ just hotplugged memory. Think about adding+onlining memory during boot (dim=
+ms under QEMU, virtio-mem), once the system is up you will have most (all) o=
+f that memory completely untouched.
+
+So while vmemmap on hotplugged memory would tackle some part of the issue, t=
+here are cases where this approach is better, and there are even benefits wh=
+en combining both.
+
+Thanks!
+
+David
+
+>=20
+> I was about to give it a new respin now that thw hwpoison stuff has been s=
+ettled.
+>=20
+> [1] https://patchwork.kernel.org/cover/11059175/
+>=20
 
