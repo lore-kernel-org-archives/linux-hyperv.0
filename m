@@ -2,104 +2,71 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6EBC43461
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 18:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EE8EC433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:01:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75C4220708
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 18:50:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5A2E205F4
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 19:01:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1600282873;
+	bh=diYUg/Atzoj3Sg/gpFWsuRSLsNWf09rssXPFQw0N3s0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=ourKNKREWqhh2fYDBKyt8L1cgJeicH2FqaJLjMq3fb+vyyC17kJPjrIKg3OZZMquB
+	 C43CAY+QIrilnl9VpO2jgNlO0Mde37OIGIlaETG46uswx8xcD1W5FIiNakQVWZe3be
+	 Eqbb4+zLERs5/jrwKwLfPQJr8w7LoWADRL7boyBc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726507AbgIPSut (ORCPT
+        id S1728076AbgIPTBC (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Sep 2020 14:50:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50312 "EHLO mx2.suse.de"
+        Wed, 16 Sep 2020 15:01:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54384 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727499AbgIPSup (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:50:45 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A4D40AF6D;
-        Wed, 16 Sep 2020 18:50:58 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 16 Sep 2020 20:50:41 +0200
-From:   osalvador@suse.de
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Scott Cheloha <cheloha@linux.ibm.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Wei Liu <wei.liu@kernel.org>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>
-Subject: Re: [PATCH RFC 0/4] mm: place pages to the freelist tail when onling
- and undoing isolation
-In-Reply-To: <20200916183411.64756-1-david@redhat.com>
-References: <20200916183411.64756-1-david@redhat.com>
-User-Agent: Roundcube Webmail
-Message-ID: <5c0910c2cd0d9d351e509392a45552fb@suse.de>
-X-Sender: osalvador@suse.de
+        id S1727617AbgIPTA0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 16 Sep 2020 15:00:26 -0400
+Subject: Re: [GIT PULL] Hyper-V fixes for 5.9-rc6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600282825;
+        bh=diYUg/Atzoj3Sg/gpFWsuRSLsNWf09rssXPFQw0N3s0=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=kRxPPWgkTqI1BMlumNbzFvOaGiIwwxkNNplWKSFN6XgpLWXDP6waTkGKrI+M82VYQ
+         CTIVeHxG7XXbvGmzfxnR+YlTQVE6jDJrcubTZBtOh6QNwEANjtqzTpKIU9vxIVVQyw
+         fub/v454lq4HJmaK+6CkSAzz904hCzNrg0n3Ch4E=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20200915114457.tozhtbxojblcnyow@liuwe-devbox-debian-v2>
+References: <20200915114457.tozhtbxojblcnyow@liuwe-devbox-debian-v2>
+X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20200915114457.tozhtbxojblcnyow@liuwe-devbox-debian-v2>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
+X-PR-Tracked-Commit-Id: 911e1987efc8f3e6445955fbae7f54b428b92bd3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 00acc50506329bef3c28d11481730e6cda01a6a0
+Message-Id: <160028282559.10613.17712799534565360889.pr-tracker-bot@kernel.org>
+Date:   Wed, 16 Sep 2020 19:00:25 +0000
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
+        sthemmin@microsoft.com, haiyangz@microsoft.com,
+        Michael Kelley <mikelley@microsoft.com>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+        Linux Kernel List <linux-kernel@vger.kernel.org>
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 2020-09-16 20:34, David Hildenbrand wrote:
-> When adding separate memory blocks via add_memory*() and onlining them
-> immediately, the metadata (especially the memmap) of the next block 
-> will be
-> placed onto one of the just added+onlined block. This creates a chain
-> of unmovable allocations: If the last memory block cannot get
-> offlined+removed() so will all dependant ones. We directly have 
-> unmovable
-> allocations all over the place.
-> 
-> This can be observed quite easily using virtio-mem, however, it can 
-> also
-> be observed when using DIMMs. The freshly onlined pages will usually be
-> placed to the head of the freelists, meaning they will be allocated 
-> next,
-> turning the just-added memory usually immediately un-removable. The
-> fresh pages are cold, prefering to allocate others (that might be hot)
-> also feels to be the natural thing to do.
-> 
-> It also applies to the hyper-v balloon xen-balloon, and ppc64 dlpar: 
-> when
-> adding separate, successive memory blocks, each memory block will have
-> unmovable allocations on them - for example gigantic pages will fail to
-> allocate.
-> 
-> While the ZONE_NORMAL doesn't provide any guarantees that memory can 
-> get
-> offlined+removed again (any kind of fragmentation with unmovable
-> allocations is possible), there are many scenarios (hotplugging a lot 
-> of
-> memory, running workload, hotunplug some memory/as much as possible) 
-> where
-> we can offline+remove quite a lot with this patchset.
+The pull request you sent on Tue, 15 Sep 2020 11:44:57 +0000:
 
-Hi David,
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
 
-I did not read through the patchset yet, so sorry if the question is 
-nonsense, but is this not trying to fix the same issue the vmemmap 
-patches did? [1]
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/00acc50506329bef3c28d11481730e6cda01a6a0
 
-I was about to give it a new respin now that thw hwpoison stuff has been 
-settled.
+Thank you!
 
-[1] https://patchwork.kernel.org/cover/11059175/
-> 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
