@@ -2,170 +2,183 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCD0C433E2
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 21:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6446C43461
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:07:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CF42206DB
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 21:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600290417;
-	bh=2j8mpLmTdSm4XACnnRoHEu45HVrZc3Vq4b+ln1x7Qy0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=uar2HtFxs6lYTS+IoS/FoasFf+kStw5cJ9XiPOHrJRdqdz/dNOqEu7ym1c8mbtHoW
-	 SDjCJUK+BXLWFS3clWWfXpu/H/UVXmMv0D07KIm2hmL2a3w+9pumOlDkC15YB7iiTv
-	 hx9CeLSnunUvD1ObCb3sXrFwADWQqDtRdxK+az6o=
+	by mail.kernel.org (Postfix) with ESMTP id 9A50420732
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:07:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htt3avZz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbgIPVG5 (ORCPT
+        id S1726304AbgIPWH7 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Sep 2020 17:06:57 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:55566 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726401AbgIPQOr (ORCPT
+        Wed, 16 Sep 2020 18:07:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgIPWH6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Sep 2020 12:14:47 -0400
-Received: by mail-wm1-f68.google.com with SMTP id d4so3340641wmd.5
-        for <linux-hyperv@vger.kernel.org>; Wed, 16 Sep 2020 09:14:18 -0700 (PDT)
+        Wed, 16 Sep 2020 18:07:58 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C89C0698CC;
+        Wed, 16 Sep 2020 14:50:23 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id r9so10054117ioa.2;
+        Wed, 16 Sep 2020 14:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9DHi2ho0KH+wBCRJM1DdFlQ9qEjTcKukPUUIn5wAvDI=;
+        b=htt3avZzKb3wDFJrlO7nW1PKF5/0ogQcZFk/WRuB9jdLRxWHo/vy0dLwunk18z0aqn
+         eXXnQbFUAy7VaYV+A2lKnHa9hzrohBakycpfI63LDxzIs8JeD8pEjGaU+xmUf1+/xRi1
+         8cc1Ge9TC36xj4D4UdhShvdiRjGT0hRKMZQGhdurknx6870qwHhhXj++sz86ibO5tXYj
+         6unm/zqd8M5Tw+LZfW6P73FzSRowq6fP5LFeN2Qusyl03BHEVAnSkT6QjwK0uJa5BVsG
+         8hRigZ7rwgPqxVOwlIO5Z5bmKJguw4pDxFIy//9s8BLyQ5pn/nVK4YGl/QUsNQkVXWTI
+         Qktg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=G2L3TW2WxV4GsWXWBBVjTC9AR//at+StzHS5DH3Oqf0=;
-        b=XTRy9q0WJmEEfr+olt7cp4NPBdLK8Y5ZTjXik5WfGg7CDqkbC+XP4G5ZbQGqiI3+y6
-         pAakXdLMGZYVjfrrI1V5sTZf+4RBokZE807mOV3ugJSS4xCpieUtswn4OMKP0V60HJNr
-         oV7iKsGARpgryO+I+12+OeMdBSJI3u9zXVnaPr8CV3ippsn91lpuYtXSVQthpuMWdKEd
-         PTHOO2YWVgYYuJ7IzNDUv9UFZlzL9tAyS5CHC5X+Ew/ra+s7BC/g/0eIrszBi8Mvqkzd
-         qHJnmxQgaKyY4HK8Kq7J9caP0/ZLSCb/NWn/0Wz3+ohbNG9lqPGvWPvBtyU6vZvbVcKm
-         rPxg==
-X-Gm-Message-State: AOAM531+/B+Be+Grkqrn2qD8KIvCl50gSu9VxEXAseyXnV2f+Uz7dUsZ
-        MknhDWiWYljq0w/xHTqMmPQb/JBPRO4=
-X-Google-Smtp-Source: ABdhPJwKDhptBJ/g7u54/YxLQysgEgYHB3c+TuF55KTGGzFdShYpmn2p1D0pmCSDGTuWaA29gAzqPw==
-X-Received: by 2002:a05:600c:410e:: with SMTP id j14mr5699106wmi.13.1600270923209;
-        Wed, 16 Sep 2020 08:42:03 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id t22sm7228468wmt.1.2020.09.16.08.42.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 08:42:02 -0700 (PDT)
-Date:   Wed, 16 Sep 2020 15:42:00 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nudasnev@microsoft.com>,
-        Lillian Grassin-Drake <ligrassi@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH RFC v1 06/18] x86/hyperv: allocate output arg pages if
- required
-Message-ID: <20200916154200.7nf74vjmqu3f6sfq@liuwe-devbox-debian-v2>
-References: <20200914112802.80611-1-wei.liu@kernel.org>
- <20200914112802.80611-7-wei.liu@kernel.org>
- <871rj3l4yt.fsf@vitty.brq.redhat.com>
- <20200915124318.z6tisek5y4d7e254@liuwe-devbox-debian-v2>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9DHi2ho0KH+wBCRJM1DdFlQ9qEjTcKukPUUIn5wAvDI=;
+        b=k7RE4IX5gForoeW4plW07fsjiCTs6R+ZqAojefjE0bazpRXyVyUVslP4MVDorhjC2A
+         kNEXrp8oMYHZoxT/c1Aj2ly6um869XupghdVY4gtUMl7FcoBzApIQlLg5TzKoqbJnSgc
+         KNOh4eEu2KHamVStWw5UNegEp8MvSduqmk3pEdhpQe4nbGCNMUUx0KlQA4LNIQJAvYVm
+         2q7tKdtJR4Y+JJUVog9BoNk9GM+V3RNbHF3cdaSZ3FwUIXlQ85sGcJ0aOWUU1AynA14R
+         SIkwiuD5OOoEhZ8eQhym0uGQH1UZCfFECsYTokeqyM1cXJBE73rc+Dd7GRILq2qRCfFE
+         1RTA==
+X-Gm-Message-State: AOAM5323NJQ8M9p01N5tQX6KOPsYoHYwTneta61nZ8iV2gA4RCU8dOYw
+        rCiyymuRkK40MW3RxhXe098Rox4lFXu2qqflk/I=
+X-Google-Smtp-Source: ABdhPJzRyZ8l88j/n9kP1d9xMPyJ+mETN/OqQSnYFVABj7UBsbzXNO5CFm0s7NjDHjMNiSM2H+aGPp2knGxx0vyO9mI=
+X-Received: by 2002:a5e:8f4c:: with SMTP id x12mr21471194iop.38.1600293022783;
+ Wed, 16 Sep 2020 14:50:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200915124318.z6tisek5y4d7e254@liuwe-devbox-debian-v2>
-User-Agent: NeoMutt/20180716
-Sender: linux-hyperv-owner@vger.kernel.org
+References: <20200916183411.64756-1-david@redhat.com> <20200916183411.64756-3-david@redhat.com>
+In-Reply-To: <20200916183411.64756-3-david@redhat.com>
+From:   Alexander Duyck <alexander.duyck@gmail.com>
+Date:   Wed, 16 Sep 2020 14:50:11 -0700
+Message-ID: <CAKgT0UfaERUDFhd=qCRRrQo4GW6B+9EqOu-B6g-K8nLGXAbc4g@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/4] mm/page_alloc: place pages to tail in __putback_isolated_page()
+To:     David Hildenbrand <david@redhat.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-acpi@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Scott Cheloha <cheloha@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 12:43:18PM +0000, Wei Liu wrote:
-> On Tue, Sep 15, 2020 at 12:16:58PM +0200, Vitaly Kuznetsov wrote:
-> > Wei Liu <wei.liu@kernel.org> writes:
-> > 
-> > > When Linux runs as the root partition, it will need to make hypercalls
-> > > which return data from the hypervisor.
-> > >
-> > > Allocate pages for storing results when Linux runs as the root
-> > > partition.
-> > >
-> > > Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-> > > Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-> > > Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> > > ---
-> > >  arch/x86/hyperv/hv_init.c       | 45 +++++++++++++++++++++++++++++----
-> > >  arch/x86/include/asm/mshyperv.h |  1 +
-> > >  2 files changed, 41 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> > > index cac8e4c56261..ebba4be4185d 100644
-> > > --- a/arch/x86/hyperv/hv_init.c
-> > > +++ b/arch/x86/hyperv/hv_init.c
-> > > @@ -45,6 +45,9 @@ EXPORT_SYMBOL_GPL(hv_vp_assist_page);
-> > >  void  __percpu **hyperv_pcpu_input_arg;
-> > >  EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
-> > >  
-> > > +void  __percpu **hyperv_pcpu_output_arg;
-> > > +EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
-> > > +
-> > >  u32 hv_max_vp_index;
-> > >  EXPORT_SYMBOL_GPL(hv_max_vp_index);
-> > >  
-> > > @@ -75,14 +78,29 @@ static int hv_cpu_init(unsigned int cpu)
-> > >  	u64 msr_vp_index;
-> > >  	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
-> > >  	void **input_arg;
-> > > -	struct page *pg;
-> > > +	struct page *input_pg;
-> > >  
-> > >  	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
-> > >  	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
-> > > -	pg = alloc_page(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
-> > > -	if (unlikely(!pg))
-> > > +	input_pg = alloc_page(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
-> > > +	if (unlikely(!input_pg))
-> > >  		return -ENOMEM;
-> > > -	*input_arg = page_address(pg);
-> > > +	*input_arg = page_address(input_pg);
-> > > +
-> > > +	if (hv_root_partition) {
-> > > +		struct page *output_pg;
-> > > +		void **output_arg;
-> > > +
-> > > +		output_pg = alloc_page(irqs_disabled() ? GFP_ATOMIC :
-> > >  	GFP_KERNEL);
-> > 
-> > To simplify the code, can we just rename 'input_arg' to 'hypercall_args'
-> > and do alloc_pages(rqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, 1) to
-> > allocate two pages above?
-> 
-> It should be doable, but I need to code it up and test it to be 100%
-> sure.
-> 
+On Wed, Sep 16, 2020 at 11:34 AM David Hildenbrand <david@redhat.com> wrote:
+>
+> __putback_isolated_page() already documents that pages will be placed to
+> the tail of the freelist - this is, however, not the case for
+> "order >= MAX_ORDER - 2" (see buddy_merge_likely()) - which should be
+> the case for all existing users.
+>
+> This change affects two users:
+> - free page reporting
+> - page isolation, when undoing the isolation.
+>
+> This behavior is desireable for pages that haven't really been touched
 
-I switch to alloc_pages to allocate an order of 2 page if necessary, but
-I keep input_arg and output_arg separate because I want to avoid code
-churn in other places.
+I think "desirable" is misspelled here.
 
-Wei.
+> lately, so exactly the two users that don't actually read/write page
+> content, but rather move untouched pages.
 
-> > 
-> > >  
-> [...]
-> > > +	/* Allocate the per-CPU state for output arg for root */
-> > > +	if (hv_root_partition) {
-> > > +		hyperv_pcpu_output_arg = alloc_percpu(void  *);
-> > 					redundant space ^^^^^
-> 
-> Fixed. Thanks. This is in fact copied from the input_arg code, so there
-> is a similar issue there to be fixed. But that's going to wait till
-> another day.
-> 
-> Wei.
+So in reality we were already dealing with this for page reporting,
+but not in the most direct way. If I recall we were adding the pages
+to the head of the list and then when we would go back to pull more
+pages we were doing list rotation in the report function so they were
+technically being added to the head, but usually would end up back on
+the tail anyway. If anything the benefit for page reporting is that it
+should be more direct this way as we will only have to rescan the
+pages now when we have consumed all of the reported ones on the list.
+
+> The new behavior is especially desirable for memory onlining, where we
+> allow allocation of newly onlined pages via undo_isolate_page_range()
+> in online_pages(). Right now, we always place them to the head of the
+> free list, resulting in undesireable behavior: Assume we add
+> individual memory chunks via add_memory() and online them right away to
+> the NORMAL zone. We create a dependency chain of unmovable allocations
+> e.g., via the memmap. The memmap of the next chunk will be placed onto
+> previous chunks - if the last block cannot get offlined+removed, all
+> dependent ones cannot get offlined+removed. While this can already be
+> observed with individual DIMMs, it's more of an issue for virtio-mem
+> (and I suspect also ppc DLPAR).
+>
+> Note: If we observe a degradation due to the changed page isolation
+> behavior (which I doubt), we can always make this configurable by the
+> instance triggering undo of isolation (e.g., alloc_contig_range(),
+> memory onlining, memory offlining).
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> Cc: Michal Hocko <mhocko@kernel.org>
+> Cc: Dave Hansen <dave.hansen@intel.com>
+> Cc: Vlastimil Babka <vbabka@suse.cz>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Mike Rapoport <rppt@kernel.org>
+> Cc: Scott Cheloha <cheloha@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  mm/page_alloc.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 91cefb8157dd..bba9a0f60c70 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -89,6 +89,12 @@ typedef int __bitwise fop_t;
+>   */
+>  #define FOP_SKIP_REPORT_NOTIFY ((__force fop_t)BIT(0))
+>
+> +/*
+> + * Place the freed page to the tail of the freelist after buddy merging. Will
+> + * get ignored with page shuffling enabled.
+> + */
+> +#define FOP_TO_TAIL            ((__force fop_t)BIT(1))
+> +
+>  /* prevent >1 _updater_ of zone percpu pageset ->high and ->batch fields */
+>  static DEFINE_MUTEX(pcp_batch_high_lock);
+>  #define MIN_PERCPU_PAGELIST_FRACTION   (8)
+> @@ -1040,6 +1046,8 @@ static inline void __free_one_page(struct page *page, unsigned long pfn,
+>
+>         if (is_shuffle_order(order))
+>                 to_tail = shuffle_pick_tail();
+> +       else if (fop_flags & FOP_TO_TAIL)
+> +               to_tail = true;
+>         else
+>                 to_tail = buddy_merge_likely(pfn, buddy_pfn, page, order);
+>
+> @@ -3289,7 +3297,7 @@ void __putback_isolated_page(struct page *page, unsigned int order, int mt)
+>
+>         /* Return isolated page to tail of freelist. */
+>         __free_one_page(page, page_to_pfn(page), zone, order, mt,
+> -                       FOP_SKIP_REPORT_NOTIFY);
+> +                       FOP_SKIP_REPORT_NOTIFY | FOP_TO_TAIL);
+>  }
+>
+>  /*
+
+The code looks good to me.
+
+Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
