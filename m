@@ -2,183 +2,144 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6446C43461
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D303FC433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:13:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A50420732
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:07:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 812E720732
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:13:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htt3avZz"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="jf/puGxz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgIPWH7 (ORCPT
+        id S1726354AbgIPWNL (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Sep 2020 18:07:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47944 "EHLO
+        Wed, 16 Sep 2020 18:13:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgIPWH6 (ORCPT
+        with ESMTP id S1726362AbgIPWM7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Sep 2020 18:07:58 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C89C0698CC;
-        Wed, 16 Sep 2020 14:50:23 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id r9so10054117ioa.2;
-        Wed, 16 Sep 2020 14:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9DHi2ho0KH+wBCRJM1DdFlQ9qEjTcKukPUUIn5wAvDI=;
-        b=htt3avZzKb3wDFJrlO7nW1PKF5/0ogQcZFk/WRuB9jdLRxWHo/vy0dLwunk18z0aqn
-         eXXnQbFUAy7VaYV+A2lKnHa9hzrohBakycpfI63LDxzIs8JeD8pEjGaU+xmUf1+/xRi1
-         8cc1Ge9TC36xj4D4UdhShvdiRjGT0hRKMZQGhdurknx6870qwHhhXj++sz86ibO5tXYj
-         6unm/zqd8M5Tw+LZfW6P73FzSRowq6fP5LFeN2Qusyl03BHEVAnSkT6QjwK0uJa5BVsG
-         8hRigZ7rwgPqxVOwlIO5Z5bmKJguw4pDxFIy//9s8BLyQ5pn/nVK4YGl/QUsNQkVXWTI
-         Qktg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9DHi2ho0KH+wBCRJM1DdFlQ9qEjTcKukPUUIn5wAvDI=;
-        b=k7RE4IX5gForoeW4plW07fsjiCTs6R+ZqAojefjE0bazpRXyVyUVslP4MVDorhjC2A
-         kNEXrp8oMYHZoxT/c1Aj2ly6um869XupghdVY4gtUMl7FcoBzApIQlLg5TzKoqbJnSgc
-         KNOh4eEu2KHamVStWw5UNegEp8MvSduqmk3pEdhpQe4nbGCNMUUx0KlQA4LNIQJAvYVm
-         2q7tKdtJR4Y+JJUVog9BoNk9GM+V3RNbHF3cdaSZ3FwUIXlQ85sGcJ0aOWUU1AynA14R
-         SIkwiuD5OOoEhZ8eQhym0uGQH1UZCfFECsYTokeqyM1cXJBE73rc+Dd7GRILq2qRCfFE
-         1RTA==
-X-Gm-Message-State: AOAM5323NJQ8M9p01N5tQX6KOPsYoHYwTneta61nZ8iV2gA4RCU8dOYw
-        rCiyymuRkK40MW3RxhXe098Rox4lFXu2qqflk/I=
-X-Google-Smtp-Source: ABdhPJzRyZ8l88j/n9kP1d9xMPyJ+mETN/OqQSnYFVABj7UBsbzXNO5CFm0s7NjDHjMNiSM2H+aGPp2knGxx0vyO9mI=
-X-Received: by 2002:a5e:8f4c:: with SMTP id x12mr21471194iop.38.1600293022783;
- Wed, 16 Sep 2020 14:50:22 -0700 (PDT)
+        Wed, 16 Sep 2020 18:12:59 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on20716.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8a::716])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC00AC061225;
+        Wed, 16 Sep 2020 14:35:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M4BRRiinITmlfbQyIdNfvCDyEdDG/XNWYMPMqb7VbcU/AlxH2TvyypJrrVgeBrdAq4nvntxpoGm5buxLiznSb9euUPUbjg8k7ZZKfBIom+CRAnKvBKzyOCV064ZZAz08gZt4TVl+7IoBaaGaWlNH3pMn0untLZdZ+FnQrJD8yoUXfwemUtKZSnPt8BCbQnS/Ko0qz1gwPHDC0+dAmeEsUYR2lv0CdT9HVUzzJ0FlvS65swGe5vpStNSHnJtECeBdYLVswzB+5Ao504Y9KZUPke5pKr1RZScX0fJpgo4ijshpZOaqz3gTjuu2mm2AoHNPFvjbLvqMv4wHrN+YrsX0og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bHTW9WJ2D2UKkNPTvRPzDcy+ewHUPYevi3aGDo4ukrs=;
+ b=Zldvm1eOkCyURa1tzLgzOlVDKvjtINf2/WOyjlsIKPNVCTUGFzZDBb0nClvG83CkzkVww3sphddj5K9lnsyEI02KO3TDXQxK9vJvE9W8TEyZ5P6aSwYRdNSEtm9eFHv6PqD9w9LwnJcR/K8LwOU/+M42FnDeMJnTarGEqmTD39S7Ionoe2bvdg3xAovM/Ya1xNCvE+gvID7ea9Ft2kSbuwa0GoUc/4s3Cc2ZdsyQjnpV9VZWdlUnIxhT8FInEo8I3X4mPYPJqTlBOJ2nspecVXtKaC3LcejpEqhSg1Cmjehns7CVSqb8f1JQrjlew8//R7if0bt3QNjjo+wY9+VIzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bHTW9WJ2D2UKkNPTvRPzDcy+ewHUPYevi3aGDo4ukrs=;
+ b=jf/puGxzDzX7MpWQZDm+wHcjivYX47Vr73cjUSPFruxX90o50LrCPQ+H4y08vFjQs0R/3ClGMk9Hn2JVcrWE7QwKda6lyHNj88oKY6jNgsxitCU/k7jBrmU5Q37JXYdsBMerOmJh3YPZtBdCC4WNpGO5TFeVSTZpUAfjXi0BpHk=
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ (2603:10b6:803:51::33) by SN6PR2101MB1854.namprd21.prod.outlook.com
+ (2603:10b6:805:9::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.1; Wed, 16 Sep
+ 2020 21:34:58 +0000
+Received: from SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953]) by SN4PR2101MB0880.namprd21.prod.outlook.com
+ ([fe80::b12a:e7a7:640e:8953%9]) with mapi id 15.20.3412.003; Wed, 16 Sep 2020
+ 21:34:58 +0000
+From:   Sunil Muthuswamy <sunilmut@microsoft.com>
+To:     Wei Liu <wei.liu@kernel.org>, vkuznets <vkuznets@redhat.com>
+CC:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        Nuno Das Neves <Nuno.Das@microsoft.com>,
+        Lillian Grassin-Drake <Lillian.GrassinDrake@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: RE: [EXTERNAL] Re: [PATCH RFC v1 08/18] x86/hyperv: handling
+ hypercall page setup for root
+Thread-Topic: [EXTERNAL] Re: [PATCH RFC v1 08/18] x86/hyperv: handling
+ hypercall page setup for root
+Thread-Index: AQHWi0uJDiA8iBMLkEafMqtOkreLY6lpgb0AgAJJU9A=
+Date:   Wed, 16 Sep 2020 21:34:58 +0000
+Message-ID: <SN4PR2101MB0880AAC1B92038C7FDE3496DC0210@SN4PR2101MB0880.namprd21.prod.outlook.com>
+References: <20200914112802.80611-1-wei.liu@kernel.org>
+ <20200914112802.80611-9-wei.liu@kernel.org>
+ <87v9gfjpoi.fsf@vitty.brq.redhat.com>
+ <20200915103710.cqmdvzh5lys4wsqo@liuwe-devbox-debian-v2>
+In-Reply-To: <20200915103710.cqmdvzh5lys4wsqo@liuwe-devbox-debian-v2>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [2601:602:9400:570:6d60:30f5:6f33:54d9]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 93eb277c-c9a3-4700-e4de-08d85a885c8e
+x-ms-traffictypediagnostic: SN6PR2101MB1854:
+x-ms-exchange-transport-forked: True
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <SN6PR2101MB185462FA4B00539298A1C3A5C0210@SN6PR2101MB1854.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /3OeSaKuZZh/9T7vDlzFEFJ5Ba4ftJyD4rdTihrZ/YdUVKHwK332cI/K4xtss04pElJ/SaGW/OlyA3bTI+0ABGkYo2uibliGd+mXMi6ckCJobAyRj47mO7LRFgg8qGltz+LP0m25clmj68wAqIGp4Ga1ud8ZIVKlxiEDH/3StfApahySGle5P6WOPcmpokg4KpEF5HF+AnXfFvUNztSriorj2d7UXbPu9BdZAu0o0UuGtoiecq3GQctWB7pdCVfW14UhqOb0iqDGYwGk4I3aYITopKuPMlfnS97dSXApQp3KRIjN7oTfKjrMG2w1B0UTxWJM08EVYDiJTDhev7R2jkb8psZ4x2e5FcKLxMw/bDexh6+Hods5HDv8o0zwJ8dG
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR2101MB0880.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(86362001)(7696005)(5660300002)(4326008)(8936002)(82960400001)(2906002)(82950400001)(8990500004)(55016002)(54906003)(110136005)(7416002)(6506007)(76116006)(33656002)(9686003)(316002)(64756008)(8676002)(66556008)(478600001)(66476007)(10290500003)(71200400001)(4744005)(66446008)(186003)(52536014)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: Nq/d/PQsCmkBbyi5Kdkcvdo4g31/5Ag+F1bW6B225MjfAqildb9/X2xKYhGY8aAbdadbRqp4RdDWvT+NuXkUGaSCur66pLkhaVDs+lqIaUTZDerpSqit4JJKx//I5al/8ft1Qlaa4cLhMhvBX4Z8A2aTINXPY5uRQZP+cbRLVzySdauN6xchukxEyakD2Y41fm/+iCAa+3NLmx77bbOhcp604IzpzBLnZZJzRm1G0GYg1ODslYKQrdGBDzaAGeprcVZbfF7ZGN/6K30GmIBYbrXw0vEJK15mE7drD+PqAKQqciVbuGQBgeOS7J3zSvr4/uTueYuFP4Q2PS7pBn2oPhBrXZ789Cn9NdcnIVM2Udu7A/Dgau+s2uVAmIoWFyXhNTiziRuGWg9d4dcVZknk7LyMvOAFrjnIZXeLUeYGLABGSpe25R4q102BLVqc03YY9xS8bvdH1AhPr1813Na9aqyQn7hmPRV74BnhkZsHUKC2/wOBfTboJhN3okLgxn0Lm7ISgf2v3K3eENv7s5v1717eF9AvVqKDcdpYt56dFMr/X8oBPFwW2bdR400WTRe8FsPOfOhEDfpmqygGdzt7XGPCfAyCBqVovnQIrZck+Mxs/Gzoy6CKkD4P9XR48hhNqQ8BDpMdxOObedXAIzBTMw4FuUwpS4UhvgK9lp1HBVFH05S3A9enBq1v8xDdC1xjMDRbTN/z9HMFbYHITWUbwQ==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20200916183411.64756-1-david@redhat.com> <20200916183411.64756-3-david@redhat.com>
-In-Reply-To: <20200916183411.64756-3-david@redhat.com>
-From:   Alexander Duyck <alexander.duyck@gmail.com>
-Date:   Wed, 16 Sep 2020 14:50:11 -0700
-Message-ID: <CAKgT0UfaERUDFhd=qCRRrQo4GW6B+9EqOu-B6g-K8nLGXAbc4g@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/4] mm/page_alloc: place pages to tail in __putback_isolated_page()
-To:     David Hildenbrand <david@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mike Rapoport <rppt@kernel.org>,
-        Scott Cheloha <cheloha@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR2101MB0880.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93eb277c-c9a3-4700-e4de-08d85a885c8e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2020 21:34:58.6016
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EHj12QD3KuuoOmb9RGjokM24dSTx+XM9MRKV7qUQYMmYixe6Nc4TNXCEVhbdXiy2Q0b1Zy05nA7UTY7FfI3qVBvsDxZt8ZsU354aKtKd0Tk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR2101MB1854
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 11:34 AM David Hildenbrand <david@redhat.com> wrote:
->
-> __putback_isolated_page() already documents that pages will be placed to
-> the tail of the freelist - this is, however, not the case for
-> "order >= MAX_ORDER - 2" (see buddy_merge_likely()) - which should be
-> the case for all existing users.
->
-> This change affects two users:
-> - free page reporting
-> - page isolation, when undoing the isolation.
->
-> This behavior is desireable for pages that haven't really been touched
+>=20
+> On Tue, Sep 15, 2020 at 12:32:29PM +0200, Vitaly Kuznetsov wrote:
+> > Wei Liu <wei.liu@kernel.org> writes:
+> >
+> > > When Linux is running as the root partition, the hypercall page will
+> > > have already been setup by Hyper-V. Copy the content over to the
+> > > allocated page.
+> >
+> > And we can't setup a new hypercall page by writing something different
+> > to HV_X64_MSR_HYPERCALL, right?
+> >
+>=20
+> My understanding is that we can't, but Sunil can maybe correct me.
 
-I think "desirable" is misspelled here.
-
-> lately, so exactly the two users that don't actually read/write page
-> content, but rather move untouched pages.
-
-So in reality we were already dealing with this for page reporting,
-but not in the most direct way. If I recall we were adding the pages
-to the head of the list and then when we would go back to pull more
-pages we were doing list rotation in the report function so they were
-technically being added to the head, but usually would end up back on
-the tail anyway. If anything the benefit for page reporting is that it
-should be more direct this way as we will only have to rescan the
-pages now when we have consumed all of the reported ones on the list.
-
-> The new behavior is especially desirable for memory onlining, where we
-> allow allocation of newly onlined pages via undo_isolate_page_range()
-> in online_pages(). Right now, we always place them to the head of the
-> free list, resulting in undesireable behavior: Assume we add
-> individual memory chunks via add_memory() and online them right away to
-> the NORMAL zone. We create a dependency chain of unmovable allocations
-> e.g., via the memmap. The memmap of the next chunk will be placed onto
-> previous chunks - if the last block cannot get offlined+removed, all
-> dependent ones cannot get offlined+removed. While this can already be
-> observed with individual DIMMs, it's more of an issue for virtio-mem
-> (and I suspect also ppc DLPAR).
->
-> Note: If we observe a degradation due to the changed page isolation
-> behavior (which I doubt), we can always make this configurable by the
-> instance triggering undo of isolation (e.g., alloc_contig_range(),
-> memory onlining, memory offlining).
->
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Cc: Scott Cheloha <cheloha@linux.ibm.com>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  mm/page_alloc.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 91cefb8157dd..bba9a0f60c70 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -89,6 +89,12 @@ typedef int __bitwise fop_t;
->   */
->  #define FOP_SKIP_REPORT_NOTIFY ((__force fop_t)BIT(0))
->
-> +/*
-> + * Place the freed page to the tail of the freelist after buddy merging. Will
-> + * get ignored with page shuffling enabled.
-> + */
-> +#define FOP_TO_TAIL            ((__force fop_t)BIT(1))
-> +
->  /* prevent >1 _updater_ of zone percpu pageset ->high and ->batch fields */
->  static DEFINE_MUTEX(pcp_batch_high_lock);
->  #define MIN_PERCPU_PAGELIST_FRACTION   (8)
-> @@ -1040,6 +1046,8 @@ static inline void __free_one_page(struct page *page, unsigned long pfn,
->
->         if (is_shuffle_order(order))
->                 to_tail = shuffle_pick_tail();
-> +       else if (fop_flags & FOP_TO_TAIL)
-> +               to_tail = true;
->         else
->                 to_tail = buddy_merge_likely(pfn, buddy_pfn, page, order);
->
-> @@ -3289,7 +3297,7 @@ void __putback_isolated_page(struct page *page, unsigned int order, int mt)
->
->         /* Return isolated page to tail of freelist. */
->         __free_one_page(page, page_to_pfn(page), zone, order, mt,
-> -                       FOP_SKIP_REPORT_NOTIFY);
-> +                       FOP_SKIP_REPORT_NOTIFY | FOP_TO_TAIL);
->  }
->
->  /*
-
-The code looks good to me.
-
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+That is correct. For root partition, the hypervisor has already allocated t=
+he
+hypercall page. The root is required to query the page, map it in its addre=
+ss
+space and wrmsr to enable it. It cannot change the location of the page. Fo=
+r
+guest, it can allocate and assign the hypercall page. This is covered a bit=
+ in the
+hypervisor TLFS (section 3.13 in TLFS v6), for the guest side. The root sid=
+e is=20
+not covered there, yet.
+=20
