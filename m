@@ -2,183 +2,155 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C0A3C2BB84
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:23:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61546C433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:31:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0561821941
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18539206DB
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 22:31:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTJMcutr"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="MzpFLwJ2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726582AbgIPWXF (ORCPT
+        id S1726476AbgIPWbm (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Sep 2020 18:23:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbgIPWXC (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Sep 2020 18:23:02 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E36C0698CA;
-        Wed, 16 Sep 2020 14:44:26 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id r9so10037727ioa.2;
-        Wed, 16 Sep 2020 14:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/6p2UL06xRCrtfganU+UNWFu+nueRBEvuh8BmgJZ8II=;
-        b=fTJMcutrq6igd5vYMabKNTl2pV3QLLIVga8eZVWB3Qo8LD5CuAU2xBCagWdvlNfz7Y
-         SdgLDHmtx+cP77RccgrN17Zpod+wgXnVDWU4BWCp8glD8TmR0CgYjIK7sLhk3gCv4jka
-         0gbLLTASvnEGY2kVqdeZEAAj+Xc+ag6xxs2n1cu0ypLrogcOS57JfDYiPaxg0LJA89D3
-         bES/LQ47vgte8onzKDnKVVIsfe4evM0ux9J7ojZJx4ruWYRLDpiMdRs++WmWMiRluaDE
-         RkpwwSpAnZ0yEClbYo3zllxy1Ya+SnHZx3iZ/1TrKJfNpfmg6ZilGkn/hSmOuJJfnWy3
-         zo8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/6p2UL06xRCrtfganU+UNWFu+nueRBEvuh8BmgJZ8II=;
-        b=NmvgBL/tm7ZQFfkp7AtW9keatgjkfW4KrlcBvy459hJnFLLAffwbrB61ju0Sp7az6g
-         T3mSBrb4bpwl7uW6/JXpaehLFdwsCIVLzglq1N5wGPV2SgwRTuuEqRro3zvYtkBQQ8oY
-         XIF+veh2aPGZi5vJQ/kchOsFaX7B0m8aX9WtAmRQ2ciVIHsVGH3HM5pG+AO/pW528bWF
-         LD+U/XZV1mjSgjFX4CjDuL8sDsj8Bk7aARdgSJ/mYuJEc0ByJ7q/aL+2MeX+vRKWZoPd
-         9j53uiUiQuYkg3TObev2ww/gWQPeMbu53aFUGIPVhXRVjhJhrpgaVQb9Yz/vfCZ/MuJM
-         Hs1Q==
-X-Gm-Message-State: AOAM530rCXwvZnEVZpn2i0GF79HkomyxqsJpx93bQbna7ZZWXN0nKcnn
-        zRRTDZ0IJt/zt/JVzv7t4WRCuI1tBk+A4qvBSNN3f5fDDXk=
-X-Google-Smtp-Source: ABdhPJxVIty+Dfq+gHcJafZBfiUeb8mqaNsz4GMGNLyLwU88OT1JilrdN5E6o4aMmGksSrwkrnrtPtD7su/aUhaQfzw=
-X-Received: by 2002:a6b:7a41:: with SMTP id k1mr21469290iop.187.1600292665347;
- Wed, 16 Sep 2020 14:44:25 -0700 (PDT)
+        Wed, 16 Sep 2020 18:31:42 -0400
+Received: from mail-dm6nam12on2134.outbound.protection.outlook.com ([40.107.243.134]:57697
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726187AbgIPWbl (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 16 Sep 2020 18:31:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XHq2kk4IMbnbypMHW+8EfopFhVUova5At7XyEuEQ7Z/ZU3n1riUsuMQ29PqwzRK/aV1pwW0BtdsKFtRCf5LCwsrYQimWZ9NQ3pniryqgcbWJScpuj74WzcnDVORd3mbUdJQSTQwXC+EyTIRtnXzJltgACkesMAs/Uk3Wq+BowPc0/AknLsF4liYz8t4CdVU9wSQh1SgcyuUKB6t4jIfU4445JQypcUjVG2NJT35iwZgM413XfXl1IYbt+e551THYFl0m9RTuW3nN/dNjFunXYeyEiKuPeja1CF8KKg8HRLipsEYUyCf1VOuntrg7shRmXeNdpIhF/hCWb/zApqwlpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=367piMEasM5cbEsXMhz+DffljxGSrLlnMlQvsCu18BA=;
+ b=EFmWscdAl3c+c6rZ+iFd4OIvBRiWTTUDcXSoRgI86YznYV5XlaiT0+XIeSbKnx/7BLMK9RR0SlqQzcVOypvJ7uUiMkQxRtHAfBYDd2kNz/IBZZSzXJ6jOquBM1dnB3Qiwbmrz2qMOI1cf/MBkmRnk+2BeCf3zXxv18hd9T5qBuhb9jkJjBsqevLnd+dyXI4bopBqTrWRQKKUUbtfzSt8WTvn0agzQa7o+97ALebMG2T81wfBEihhKSFS5S7zL27OLQWEMNO7FJrYeAIqhR6rJOzIlsLPU/VYB7KUBcrGKaNivSwqKREmmxrAAijX2CFJ2v5b5jUGQSGSHAq79Xyh6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=367piMEasM5cbEsXMhz+DffljxGSrLlnMlQvsCu18BA=;
+ b=MzpFLwJ2J6MiRUP8WqsB4sI8oKfjFUdNob7FWeY3KQUbjWuvSVq978AvnO/YTD+F5170jCdfc7YJDWcYPRcWc/jn9RP/nSCCavheJ2ktbiZBCwK3KUgcOCLUI+zND11mgP3sCOHN2rkMb6Oj7TXGIzz1zt+nA4ujdPpIHkn8n/8=
+Received: from DM5PR2101MB0934.namprd21.prod.outlook.com (2603:10b6:4:a5::36)
+ by DM5PR21MB0281.namprd21.prod.outlook.com (2603:10b6:3:a7::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.1; Wed, 16 Sep
+ 2020 22:31:38 +0000
+Received: from DM5PR2101MB0934.namprd21.prod.outlook.com
+ ([fe80::6400:744d:ce9b:499a]) by DM5PR2101MB0934.namprd21.prod.outlook.com
+ ([fe80::6400:744d:ce9b:499a%9]) with mapi id 15.20.3370.016; Wed, 16 Sep 2020
+ 22:31:38 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Andres Beltran <lkmlabelt@gmail.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Saruhan Karademir <skarade@microsoft.com>,
+        Juan Vazquez <juvazq@microsoft.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH v3] hv_netvsc: Add validation for untrusted Hyper-V values
+Thread-Topic: [PATCH v3] hv_netvsc: Add validation for untrusted Hyper-V
+ values
+Thread-Index: AQHWjA5xloo3j6wqeUSXUjm/16PeWalr2cNQ
+Date:   Wed, 16 Sep 2020 22:31:38 +0000
+Message-ID: <DM5PR2101MB093495E2FCC02BF1C0291E57CA210@DM5PR2101MB0934.namprd21.prod.outlook.com>
+References: <20200916094727.46615-1-parri.andrea@gmail.com>
+In-Reply-To: <20200916094727.46615-1-parri.andrea@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=990a1d83-a6b9-4925-a417-cc704cfc5593;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-16T22:30:11Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [75.100.88.238]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7669b01b-4c3f-40be-00c8-08d85a90471b
+x-ms-traffictypediagnostic: DM5PR21MB0281:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR21MB0281858EECF2C379CA91F92BCA210@DM5PR21MB0281.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bPgRVPuYf6U/jKzeSUnBqaYoEZ4i8Vmr6o+1ca32fWLIlzBzUbjvO4IHKLRwh60P96romTBnzlCgN7uPV6EcGUGrcX001lIqV4nXFFiWR7E+tW6ciQ2XkkOM+PJSaQz3iAQ7D9lALNuqzytnH9Z84RGPQj/P39ZD8G/950NtatxuKrojt3c65HIpZSNQ92HjuGp3bJ110xw1hWZIxeQ13+oc6o8ANyrQOGroZWos/4jGJ7Gmtp2BA47Gv3M6p7nxfc8LRs/OhjApnjXckoJqsmwYKi8YnI0k95PjSObg7IRktak55ltIQCkv4rScHBSOcBH15xLDYvsSWCH6EwOTFzcS4JuhpI4BPUsmEqOiHisqxQe64BTOiaXEbbdeRZ9T
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR2101MB0934.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(366004)(376002)(136003)(346002)(396003)(33656002)(55016002)(4326008)(9686003)(26005)(8990500004)(110136005)(186003)(316002)(66946007)(71200400001)(66476007)(52536014)(54906003)(66446008)(5660300002)(6506007)(76116006)(66556008)(53546011)(82960400001)(82950400001)(83380400001)(64756008)(7696005)(8676002)(86362001)(2906002)(8936002)(10290500003)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: v6E/Bu0EITHzeo6UsfFzCwMkxrLGFkFSF8GTVuQlXNXwn/loybUjJM29bTdps1CvNJ+k4jMsEr77oYATSLUPB6j3mPh6Ff1EH3IZrIhuXo6rD8qs8EO+kk7ghKoEXZ1s4NUjQIW1Ew/gDAYbcfkc/2yKpI71LPC/NCx/F5z/+WNkhF8WmAayXaWfVo88FmoHCivYAj8Cyu4JwMCWb/EJMFMh4v3yq8wqTFVnqS02wnhK3l1BlF7M2Yer71f2TyYrkhByNAl/XPVVqK4FHI5R5HKfO71byZv60cBNvgrzM2uIZqg5oNHXJb8+RoXG12anmGiR7BPVg5gGxqGmI+lYqfTlmJpFKQ6sns0wPG4pVVZ2n3lGPZ5uwARxXmaG3kp9b2ue+6UNs3nAXl/fZQbnNRLZzHKepZxcw2X5QttO/Fba0k+P1J7APVVyEmUFN3UkxYYBij3YaWCK9Fan0JRa7xkXdWzUriB4pXc2qLkaN0o9lB0EqWBfo3vRFq/xyGKj7dqTNzmOuWWbGwxy13SCZTiW6ddbkfwWwlUWIwWwPQ92u3392/tCAt/uNc7U/73NVEr4y4LiOhBaLKOesllCz/yXmJvz2mqCEYs5gNrB9QyM0UO28xgzJQUN3PXtoXp+8T5VDGSHAFe7rdQTndTy0w==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20200916183411.64756-1-david@redhat.com> <20200916183411.64756-2-david@redhat.com>
-In-Reply-To: <20200916183411.64756-2-david@redhat.com>
-From:   Alexander Duyck <alexander.duyck@gmail.com>
-Date:   Wed, 16 Sep 2020 14:44:14 -0700
-Message-ID: <CAKgT0UfbnWoPOsaK5H_JtYbQdp-p+ngupO+6sq-_sy8Zetoanw@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] mm/page_alloc: convert "report" flag of
- __free_one_page() to a proper flag
-To:     David Hildenbrand <david@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Michal Hocko <mhocko@kernel.org>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>,
-        Oscar Salvador <osalvador@suse.de>,
-        Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR2101MB0934.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7669b01b-4c3f-40be-00c8-08d85a90471b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2020 22:31:38.6208
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tXoL+RWoegKXcTzY0riZ9ALL2f0DhVFN1HiKoxK5WS1dzp5IyFjQDinUwyuyR/pXnRvj9K47QzHx6jJ5ffqGMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0281
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 11:34 AM David Hildenbrand <david@redhat.com> wrote:
->
-> Let's prepare for additional flags and avoid long parameter lists of bools.
-> Follow-up patches will also make use of the flags in __free_pages_ok(),
-> however, I wasn't able to come up with a better name for the type - should
-> be good enough for internal purposes.
->
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> Cc: Michal Hocko <mhocko@kernel.org>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+
+
+> -----Original Message-----
+> From: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> Sent: Wednesday, September 16, 2020 5:47 AM
+> To: linux-kernel@vger.kernel.org
+> Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
+> <haiyangz@microsoft.com>; Stephen Hemminger
+> <sthemmin@microsoft.com>; Wei Liu <wei.liu@kernel.org>; linux-
+> hyperv@vger.kernel.org; Andres Beltran <lkmlabelt@gmail.com>; Michael
+> Kelley <mikelley@microsoft.com>; Saruhan Karademir
+> <skarade@microsoft.com>; Juan Vazquez <juvazq@microsoft.com>; Andrea
+> Parri <parri.andrea@gmail.com>; David S. Miller <davem@davemloft.net>;
+> Jakub Kicinski <kuba@kernel.org>; netdev@vger.kernel.org
+> Subject: [PATCH v3] hv_netvsc: Add validation for untrusted Hyper-V value=
+s
+>=20
+> From: Andres Beltran <lkmlabelt@gmail.com>
+>=20
+> For additional robustness in the face of Hyper-V errors or malicious
+> behavior, validate all values that originate from packets that Hyper-V
+> has sent to the guest in the host-to-guest ring buffer. Ensure that
+> invalid values cannot cause indexing off the end of an array, or
+> subvert an existing validation via integer overflow. Ensure that
+> outgoing packets do not have any leftover guest memory that has not
+> been zeroed out.
+>=20
+> Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
+> Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
 > ---
->  mm/page_alloc.c | 28 ++++++++++++++++++++--------
->  1 file changed, 20 insertions(+), 8 deletions(-)
->
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index 6b699d273d6e..91cefb8157dd 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -77,6 +77,18 @@
->  #include "shuffle.h"
->  #include "page_reporting.h"
->
-> +/* Free One Page flags: for internal, non-pcp variants of free_pages(). */
-> +typedef int __bitwise fop_t;
-> +
-> +/* No special request */
-> +#define FOP_NONE               ((__force fop_t)0)
-> +
-> +/*
-> + * Skip free page reporting notification after buddy merging (will *not* mark
-> + * the page reported, only skip the notification).
-> + */
-> +#define FOP_SKIP_REPORT_NOTIFY ((__force fop_t)BIT(0))
-> +
->  /* prevent >1 _updater_ of zone percpu pageset ->high and ->batch fields */
->  static DEFINE_MUTEX(pcp_batch_high_lock);
->  #define MIN_PERCPU_PAGELIST_FRACTION   (8)
-> @@ -948,10 +960,9 @@ buddy_merge_likely(unsigned long pfn, unsigned long buddy_pfn,
->   * -- nyc
->   */
->
-> -static inline void __free_one_page(struct page *page,
-> -               unsigned long pfn,
-> -               struct zone *zone, unsigned int order,
-> -               int migratetype, bool report)
-> +static inline void __free_one_page(struct page *page, unsigned long pfn,
-> +                                  struct zone *zone, unsigned int order,
-> +                                  int migratetype, fop_t fop_flags)
->  {
->         struct capture_control *capc = task_capc(zone);
->         unsigned long buddy_pfn;
-> @@ -1038,7 +1049,7 @@ static inline void __free_one_page(struct page *page,
->                 add_to_free_list(page, zone, order, migratetype);
->
->         /* Notify page reporting subsystem of freed page */
-> -       if (report)
-> +       if (!(fop_flags & FOP_SKIP_REPORT_NOTIFY))
->                 page_reporting_notify_free(order);
->  }
->
-> @@ -1368,7 +1379,7 @@ static void free_pcppages_bulk(struct zone *zone, int count,
->                 if (unlikely(isolated_pageblocks))
->                         mt = get_pageblock_migratetype(page);
->
-> -               __free_one_page(page, page_to_pfn(page), zone, 0, mt, true);
-> +               __free_one_page(page, page_to_pfn(page), zone, 0, mt, FOP_NONE);
->                 trace_mm_page_pcpu_drain(page, 0, mt);
->         }
->         spin_unlock(&zone->lock);
-> @@ -1384,7 +1395,7 @@ static void free_one_page(struct zone *zone,
->                 is_migrate_isolate(migratetype))) {
->                 migratetype = get_pfnblock_migratetype(page, pfn);
->         }
-> -       __free_one_page(page, pfn, zone, order, migratetype, true);
-> +       __free_one_page(page, pfn, zone, order, migratetype, FOP_NONE);
->         spin_unlock(&zone->lock);
->  }
->
-> @@ -3277,7 +3288,8 @@ void __putback_isolated_page(struct page *page, unsigned int order, int mt)
->         lockdep_assert_held(&zone->lock);
->
->         /* Return isolated page to tail of freelist. */
-> -       __free_one_page(page, page_to_pfn(page), zone, order, mt, false);
-> +       __free_one_page(page, page_to_pfn(page), zone, order, mt,
-> +                       FOP_SKIP_REPORT_NOTIFY);
->  }
->
->  /*
+> Changes in v3:
+>   - Include header size in the estimate for hv_pkt_datalen (Haiyang)
+> Changes in v2:
+>   - Replace size check on struct nvsp_message with sub-checks (Haiyang)
+>=20
+>  drivers/net/hyperv/hyperv_net.h   |   4 +
+>  drivers/net/hyperv/netvsc.c       | 124 ++++++++++++++++++++++++++----
+>  drivers/net/hyperv/netvsc_drv.c   |   7 ++
+>  drivers/net/hyperv/rndis_filter.c |  73 ++++++++++++++++--
+>  4 files changed, 188 insertions(+), 20 deletions(-)
 
-Seems pretty straight forward. So we are basically flipping the logic
-and replacing !report with FOP_SKIP_REPORT_NOTIFY.
+Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
 
-Reviewed-by: Alexander Duyck <alexander.h.duyck@linux.intel.com>
