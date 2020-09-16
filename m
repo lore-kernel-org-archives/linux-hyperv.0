@@ -2,219 +2,172 @@ Return-Path: <SRS0=t3DX=CZ=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA1F9C43461
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 00:56:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E8E3C433E2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 03:48:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6585A207DE
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 00:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1600217814;
-	bh=L4IN4jrJMrOqlZS6N6dXZnpcEQv+lcdLEvEOv+9U5bg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=e+0jWVb2z2Ts0ATzrt4w/u1uIoqyyxa4qO7SYkiuwUOu7JWPlRY7vdCNXDFNj4qaH
-	 1qszp1hCgddWQUigArAfpxG091QVQ1uGgpgI9jg126BEGytihpmEU6GfJr7vcyZEsy
-	 2NrrB3INxWz+XMjSELxSkxuLpvMLQWDct5pvj9do=
+	by mail.kernel.org (Postfix) with ESMTP id EF17D22207
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Sep 2020 03:48:34 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nxUE6SE1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726228AbgIPA4x (ORCPT
+        id S1726260AbgIPDs3 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 15 Sep 2020 20:56:53 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37872 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726028AbgIOLRD (ORCPT
+        Tue, 15 Sep 2020 23:48:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbgIPDs2 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 15 Sep 2020 07:17:03 -0400
-Received: by mail-wm1-f65.google.com with SMTP id a9so3051504wmm.2;
-        Tue, 15 Sep 2020 04:17:00 -0700 (PDT)
+        Tue, 15 Sep 2020 23:48:28 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96677C06174A;
+        Tue, 15 Sep 2020 20:48:27 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id n133so6789618qkn.11;
+        Tue, 15 Sep 2020 20:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xom8pv8pA5D1wdYSli3646ft73285J8Rq30WVkF+CBQ=;
+        b=nxUE6SE1fvzk0PjJBd6cS8bHQOdOaPxPYkADORPwwRlAgnDcnhEpl7zjFiKRbO0Gvh
+         0KT5ZywHMAhj6Hpv6vr9/B1wmQ4HOLMRnwt4kga5VzUJ3ukjzJsd6pEtp+gwI+7mkKCe
+         7DI8dwAMeYqgyw1M2y5xhL+twpxEV2ejO9C+syGcZKa/cfiYG2rTUweEpkLyzVV6J+iA
+         wamaizzgqdFCysoZspVBXPBO/4bG8r/50Fcjql+1qPKXP0kdZYSgGUt6WoXiW32o0krP
+         hzHvoNyswpLAsGKz7iqFsrAPOEbCHA5Pk3R7Disk+EMvBwAU6azIrXBVUSFHLW7pUJJ8
+         Ii9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hOrViQ9/e7YRFhxWzh4oAfdg10S4Mh+sHS2iw3u+aPQ=;
-        b=Sn+90mqdrU3QNPs9sCDrTwjeYVTmKMofrzI+RIKaz9eiHrHnwJjsyFasSSQRILRK8B
-         ioB8n6jXQ/fGWzwJO74JCQOJhzsINgdI1H6vcrnLdsxnXGbmf3xIOYhZOPWEHcotn9Aw
-         l1hBP9H4JVN/nHUJNMkedTM+S/bfHbpdSC3YCaov+BTcBhpo3FP/fxYgHIWa12dtDm9w
-         xQ5O353iJwEjbSi1dBkH5M+6cP+j76NaksOoUI8VDR9aKpTgAzJfBtzR3ThsxhFGAUej
-         rCMfn7ssa2vPWIbgru3cqexlrUx7yu863vNwEc59tweqh3nZ9WVNoNQPp53ZS4g04pOv
-         l3WQ==
-X-Gm-Message-State: AOAM5326B+RyJffM6299jZjAIm9oI8mo6GJ8p/QRChDMyip18eTDfTOl
-        vLdgqBY7KZN237VrEQ4xzLo=
-X-Google-Smtp-Source: ABdhPJy1VFDORM4UB6MEbKPiZ2llP2YFkYLjd3Qs0Ww2nBtbDj7mZyIoMjLtJ6m0v1k2oL4yvXavKw==
-X-Received: by 2002:a7b:cc88:: with SMTP id p8mr4221626wma.150.1600168619567;
-        Tue, 15 Sep 2020 04:16:59 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id 197sm25213904wme.10.2020.09.15.04.16.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 04:16:59 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 11:16:57 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nudasnev@microsoft.com>,
-        Lillian Grassin-Drake <ligrassi@microsoft.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xom8pv8pA5D1wdYSli3646ft73285J8Rq30WVkF+CBQ=;
+        b=pkwSAWZ6GNANbLKo8zeVvXavMjKLHoUVvtKIcjnXshQ3wbONaI7XVXKKNdU+GAVpX6
+         VThnmJDuppzWWTC468E1BhS0PpmsSGc1Hsh0nZqFTfWVG1780+IwdGzOpG1w9XIixTja
+         R+GZ6W9Ssr3EbdPeqzXQVItWFldZJ2aWcvJS954xD1soTdgdcZ5s/sPb7YGz56+vqG7L
+         zZzQMThSxdwPekW4FZkZlnbtUjPMn7kwm/SoUfCApdMjN9I8ssU+vG8wz1FF5VfWuESe
+         pvoU6y6+zKNO33AjGAHTslwb1eQKQ+nVJY/8lK2Q6/vfv6bwuzOQG34D7ZovAa08thAu
+         RmUQ==
+X-Gm-Message-State: AOAM532+2Evq9tZA6GNOpQhQpa8ULqzeYfZ2D7uLvU6dupiVKuFjl2lH
+        9yVMvyxF2nbRM34zqdcaV38=
+X-Google-Smtp-Source: ABdhPJwBZj+PJ1pX+JAfEeaBfIE7g8NqzyqPnN82hV+SZaeV9E3sfyqPr9wckUHLsyXMketqOJbmcg==
+X-Received: by 2002:a37:4c4:: with SMTP id 187mr21793282qke.40.1600228106823;
+        Tue, 15 Sep 2020 20:48:26 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id g12sm18491396qke.90.2020.09.15.20.48.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Sep 2020 20:48:24 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 1919927C0054;
+        Tue, 15 Sep 2020 23:48:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 15 Sep 2020 23:48:23 -0400
+X-ME-Sender: <xms:BothX0JDGcLcL1kYuwZ2HZIkEoItrXBKUAilTe4S0Bf5aeF18f3LIQ>
+    <xme:BothX0IL_dvYRjq5mzJ0zwkGYB7_zUHmxWBOmgyiGlNPTB4GqWXr3mDuFC3dYh3XI
+    L246h2drGKDtnXEvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrtddugdeikecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenog
+    fuohhrthgvugftvggtihhpvdculdegtddmnecujfgurhephffvufffkffoggfgsedtkeer
+    tdertddtnecuhfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesgh
+    hmrghilhdrtghomheqnecuggftrfgrthhtvghrnhepieeuveejleehudetfeevfeelgfej
+    teefhedvkedukefggedugefhudfhteevjedunecuffhomhgrihhnpehkvghrnhgvlhdroh
+    hrghenucfkphephedvrdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedt
+    necurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvg
+    hrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhf
+    vghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:BothX0tvE5f5ZC1lbM16lmY7tH-hCjGuTfc-_5_lko2Pff9Rq5ViIg>
+    <xmx:BothXxYxS7FL22BQIwb9rooiOsikpAcbK66b2bIZWZDZaAKjd9UGyg>
+    <xmx:BothX7ZuqZs-GQ75QHCnJv8y_wRPE3u9Fs5hBvT1TDpsLRoLTPBNgQ>
+    <xmx:B4thX4ImC6wMsSoue1e08VHUqYpdBF2taAfN8vhH4lGw6hxTaI6LLH1JJzE>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 91E613064682;
+        Tue, 15 Sep 2020 23:48:21 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH RFC v1 08/18] x86/hyperv: handling hypercall page setup
- for root
-Message-ID: <20200915111657.boa4cneqjqtmcaaq@liuwe-devbox-debian-v2>
-References: <20200914112802.80611-1-wei.liu@kernel.org>
- <20200914112802.80611-9-wei.liu@kernel.org>
- <87v9gfjpoi.fsf@vitty.brq.redhat.com>
- <20200915103710.cqmdvzh5lys4wsqo@liuwe-devbox-debian-v2>
- <87pn6njob3.fsf@vitty.brq.redhat.com>
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Michael Kelley <mikelley@microsoft.com>, will@kernel.org,
+        ardb@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
+        mark.rutland@arm.com, maz@kernel.org,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: [PATCH v4 00/11] Hyper-V: Support PAGE_SIZE larger than 4K
+Date:   Wed, 16 Sep 2020 11:48:06 +0800
+Message-Id: <20200916034817.30282-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87pn6njob3.fsf@vitty.brq.redhat.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Sender: linux-hyperv-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 01:02:08PM +0200, Vitaly Kuznetsov wrote:
-> Wei Liu <wei.liu@kernel.org> writes:
-> 
-> > On Tue, Sep 15, 2020 at 12:32:29PM +0200, Vitaly Kuznetsov wrote:
-> >> Wei Liu <wei.liu@kernel.org> writes:
-> >> 
-> >> > When Linux is running as the root partition, the hypercall page will
-> >> > have already been setup by Hyper-V. Copy the content over to the
-> >> > allocated page.
-> >> 
-> >> And we can't setup a new hypercall page by writing something different
-> >> to HV_X64_MSR_HYPERCALL, right?
-> >> 
-> >
-> > My understanding is that we can't, but Sunil can maybe correct me.
-> >
-> >> >
-> >> > The suspend, resume and cleanup paths remain untouched because they are
-> >> > not supported in this setup yet.
-> >> >
-> >> > Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-> >> > Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-> >> > Signed-off-by: Nuno Das Neves <nudasnev@microsoft.com>
-> >> > Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-> >> > Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-> >> > Co-Developed-by: Nuno Das Neves <nudasnev@microsoft.com>
-> >> > Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> >> > ---
-> >> >  arch/x86/hyperv/hv_init.c | 26 ++++++++++++++++++++++++--
-> >> >  1 file changed, 24 insertions(+), 2 deletions(-)
-> >> >
-> >> > diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> >> > index 0eec1ed32023..26233aebc86c 100644
-> >> > --- a/arch/x86/hyperv/hv_init.c
-> >> > +++ b/arch/x86/hyperv/hv_init.c
-> >> > @@ -25,6 +25,7 @@
-> >> >  #include <linux/cpuhotplug.h>
-> >> >  #include <linux/syscore_ops.h>
-> >> >  #include <clocksource/hyperv_timer.h>
-> >> > +#include <linux/highmem.h>
-> >> >  
-> >> >  /* Is Linux running as the root partition? */
-> >> >  bool hv_root_partition;
-> >> > @@ -448,8 +449,29 @@ void __init hyperv_init(void)
-> >> >  
-> >> >  	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-> >> >  	hypercall_msr.enable = 1;
-> >> > -	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
-> >> > -	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-> >> > +
-> >> > +	if (hv_root_partition) {
-> >> > +		struct page *pg;
-> >> > +		void *src, *dst;
-> >> > +
-> >> > +		/*
-> >> > +		 * Order is important here. We must enable the hypercall page
-> >> > +		 * so it is populated with code, then copy the code to an
-> >> > +		 * executable page.
-> >> > +		 */
-> >> > +		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-> >> > +
-> >> > +		pg = vmalloc_to_page(hv_hypercall_pg);
-> >> > +		dst = kmap(pg);
-> >> > +		src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
-> >> > +				MEMREMAP_WB);
-> >> 
-> >> memremap() can fail...
-> >
-> > And we don't care here, if it fails, we would rather it panic or oops.
-> >
-> > I was relying on the fact that copying from / to a NULL pointer will
-> > cause the kernel to crash. But of course it wouldn't hurt to explicitly
-> > panic here.
-> >
-> >> 
-> >> > +		memcpy(dst, src, PAGE_SIZE);
-> >> > +		memunmap(src);
-> >> > +		kunmap(pg);
-> >> > +	} else {
-> >> > +		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
-> >> > +		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-> >> > +	}
-> >> 
-> >> Why can't we do wrmsrl() for both cases here?
-> >> 
-> >
-> > Because the hypercall page has already been set up when Linux is the
-> > root.
-> 
-> But you already do wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64)
-> in 'if (hv_root_partition)' case above, that's why I asked.
-> 
+This patchset add the necessary changes to support guests whose page
+size is larger than 4K. And the main architecture which we develop this
+for is ARM64 (also it's the architecture that I use to test this
+feature).
 
-You mean extracting wrmsrl to this point?  The ordering matters. See the
-comment in the root branch -- we have to enable the page before copying
-the content.
+Previous version:
+v1: https://lore.kernel.org/lkml/20200721014135.84140-1-boqun.feng@gmail.com/
+v2: https://lore.kernel.org/lkml/20200902030107.33380-1-boqun.feng@gmail.com
+v3: https://lore.kernel.org/lkml/20200910143455.109293-1-boqun.feng@gmail.com/
 
-What can be done is:
+Changes since v3:
 
-   if (!root) {
-       /* some stuff */
-   }
+*	Fix a bug that ringbuffer sizes are not page-aligned when
+	PAGE_SIZE = 16k. Drop the Acked-by and Reviewed-by tags for
+	those patches accordingly.
 
-   wrmsrl(...)
+*	Code improvement as per suggestion from Michael Kelley.
 
-   if (root) {
-       /* some stuff */
-   }
+I've done some tests with PAGE_SIZE=64k and PAGE_SIZE=16k configurations
+on ARM64 guests (with Michael's patchset[1] for ARM64 Hyper-V guest
+support), everything worked fine ;-)
 
-This is not looking any better than the existing code.
+Looking forwards to comments and suggestions!
 
-Wei.
+Regards,
+Boqun
 
-> >
-> > I could've tried writing to the MSR again, but because the behaviour
-> > here is not documented and subject to change so I didn't bother trying.
-> >
-> > Wei.
-> >
-> >> >  
-> >> >  	/*
-> >> >  	 * Ignore any errors in setting up stimer clockevents
-> >> 
-> >> -- 
-> >> Vitaly
-> >> 
-> >
-> 
-> -- 
-> Vitaly
-> 
+[1]: https://lore.kernel.org/lkml/1598287583-71762-1-git-send-email-mikelley@microsoft.com/
+
+Boqun Feng (11):
+  Drivers: hv: vmbus: Always use HV_HYP_PAGE_SIZE for gpadl
+  Drivers: hv: vmbus: Move __vmbus_open()
+  Drivers: hv: vmbus: Introduce types of GPADL
+  Drivers: hv: Use HV_HYP_PAGE in hv_synic_enable_regs()
+  Drivers: hv: vmbus: Move virt_to_hvpfn() to hyperv header
+  hv: hyperv.h: Introduce some hvpfn helper functions
+  hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V communication
+  Input: hyperv-keyboard: Use VMBUS_RING_SIZE() for ringbuffer sizes
+  HID: hyperv: Use VMBUS_RING_SIZE() for ringbuffer sizes
+  Driver: hv: util: Use VMBUS_RING_SIZE() for ringbuffer sizes
+  scsi: storvsc: Support PAGE_SIZE larger than 4K
+
+ drivers/hid/hid-hyperv.c              |   4 +-
+ drivers/hv/channel.c                  | 461 ++++++++++++++++----------
+ drivers/hv/hv.c                       |   4 +-
+ drivers/hv/hv_util.c                  |  11 +-
+ drivers/input/serio/hyperv-keyboard.c |   4 +-
+ drivers/net/hyperv/netvsc.c           |   2 +-
+ drivers/net/hyperv/netvsc_drv.c       |  46 +--
+ drivers/net/hyperv/rndis_filter.c     |  13 +-
+ drivers/scsi/storvsc_drv.c            |  56 +++-
+ include/linux/hyperv.h                |  68 +++-
+ 10 files changed, 442 insertions(+), 227 deletions(-)
+
+-- 
+2.28.0
+
