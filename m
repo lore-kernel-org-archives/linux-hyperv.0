@@ -1,196 +1,222 @@
-Return-Path: <SRS0=saeN=DB=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=xTLU=DC=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F66C4346E
-	for <linux-hyperv@archiver.kernel.org>; Thu, 24 Sep 2020 15:37:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2731C4741F
+	for <linux-hyperv@archiver.kernel.org>; Fri, 25 Sep 2020 02:46:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CC7F2388A
-	for <linux-hyperv@archiver.kernel.org>; Thu, 24 Sep 2020 15:37:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TphtjcqC"
+	by mail.kernel.org (Postfix) with ESMTP id AE0DE20888
+	for <linux-hyperv@archiver.kernel.org>; Fri, 25 Sep 2020 02:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728343AbgIXPg7 (ORCPT
+        id S1726706AbgIYCp6 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 24 Sep 2020 11:36:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56794 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728139AbgIXPg7 (ORCPT
+        Thu, 24 Sep 2020 22:45:58 -0400
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:38402 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726669AbgIYCp6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 24 Sep 2020 11:36:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600961817;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WjW6jQGewuIh7wjRg7lkekbFgljfn1Q0WKM0iJVFmTc=;
-        b=TphtjcqCjFaW3YGB7Q93ukYntohPW0SldWMfIrDJsL9BpqzoVOv4tHOtAdSq9MbRe+pOj7
-        BypbLy0fRi/7wupBt+XKhOdZ4uomm2W1kUWsMa1ED8/CGpt9rO+x1MILbOcWjilWmes6Ys
-        UjvLEOpuNhw5AATzKFFhHNSY8EHBT1s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-96AlOkcCPIOZoKAHhcOxkA-1; Thu, 24 Sep 2020 11:36:55 -0400
-X-MC-Unique: 96AlOkcCPIOZoKAHhcOxkA-1
-Received: by mail-wm1-f69.google.com with SMTP id a7so1384003wmc.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 24 Sep 2020 08:36:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=WjW6jQGewuIh7wjRg7lkekbFgljfn1Q0WKM0iJVFmTc=;
-        b=TztFY7vTWD0Npssb9eMmWozaDZTK3yeXZ1UbIJtHCUE6NX0KlzhFcGbYKlFw2Q8J6y
-         NEYJp0NagEzDPMdyc9fPkXRdgGe4CNSGGbAo+B2DRnLLl7ZVOemOOSSQnCcrAp/hBK82
-         RJ5hgtGVmYnYLXpd5ug+r5d+RGNsNVrCZ67UREng+jjfd1xkdONyKoHVSAr9J1QNn5L3
-         zPdLoOkbqGdcE2nKAg7JHc/2bAhyP2eIhQV1mTtMwxrNaFreM6gzm7fgFlQFjDBd8J+B
-         qiQ1lkCZM5PEvyHQYhdRHYXLTX5LsuuRiZx6i/qbHwALqfXwnPNjXwuAUFKRbUgR8Xd7
-         vFnw==
-X-Gm-Message-State: AOAM533HIyA9qDQovWQNnpf1TrMKtSnkh2+nHSBHjmmue+Ax/n4jQbOr
-        8n8DWsqlhzr5m4g+L/3dq6SfzagHRtHL2Fttrl+Qc7zdTUphqkluFCzqvwH3aXzFYFEGB77R7UU
-        ocjPtF2vHMc8OH1suK3s4Aleg
-X-Received: by 2002:adf:a49d:: with SMTP id g29mr371141wrb.219.1600961813255;
-        Thu, 24 Sep 2020 08:36:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQQEvyY8FDVVtfnFw8D9lgSckf6rQqNpCOTNS/+eiROwRhVhxvj6qaFAQCKBgwIDwyj55iNg==
-X-Received: by 2002:adf:a49d:: with SMTP id g29mr371109wrb.219.1600961812913;
-        Thu, 24 Sep 2020 08:36:52 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id b84sm4406575wmd.0.2020.09.24.08.36.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2020 08:36:52 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Mohammed Gamal <mgamal@redhat.com>, linux-hyperv@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, mikelley@microsoft.com,
-        Tianyu.Lan@microsoft.com, kys@microsoft.com,
-        haiyangz@microsoft.com, wei.liu@kernel.org,
-        Mohammed Gamal <mgamal@redhat.com>
-Subject: Re: [PATCH] hv: clocksource: Add notrace attribute to read_hv_sched_clock_*() functions
-In-Reply-To: <20200924151117.767442-1-mgamal@redhat.com>
-References: <20200924151117.767442-1-mgamal@redhat.com>
-Date:   Thu, 24 Sep 2020 17:36:51 +0200
-Message-ID: <87pn6bchkc.fsf@vitty.brq.redhat.com>
+        Thu, 24 Sep 2020 22:45:58 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=richard.weiyang@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0UA.F98P_1601001952;
+Received: from localhost(mailfrom:richard.weiyang@linux.alibaba.com fp:SMTPD_---0UA.F98P_1601001952)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 25 Sep 2020 10:45:52 +0800
+Date:   Fri, 25 Sep 2020 10:45:52 +0800
+From:   Wei Yang <richard.weiyang@linux.alibaba.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-hyperv@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Michal Hocko <mhocko@kernel.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Mike Rapoport <rppt@kernel.org>,
+        Scott Cheloha <cheloha@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Subject: Re: [PATCH RFC 3/4] mm/page_alloc: always move pages to the tail of
+ the freelist in unset_migratetype_isolate()
+Message-ID: <20200925024552.GA13540@L-31X9LVDL-1304.local>
+Reply-To: Wei Yang <richard.weiyang@linux.alibaba.com>
+References: <20200916183411.64756-1-david@redhat.com>
+ <20200916183411.64756-4-david@redhat.com>
+ <9c6cc094-b02a-ac6c-e1ca-370ce7257881@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9c6cc094-b02a-ac6c-e1ca-370ce7257881@suse.cz>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Mohammed Gamal <mgamal@redhat.com> writes:
-
-> When selecting function_graph tracer with the command:
->  # echo function_graph > /sys/kernel/debug/tracing/current_tracer
+On Thu, Sep 24, 2020 at 01:13:29PM +0200, Vlastimil Babka wrote:
+>On 9/16/20 8:34 PM, David Hildenbrand wrote:
+>> Page isolation doesn't actually touch the pages, it simply isolates
+>> pageblocks and moves all free pages to the MIGRATE_ISOLATE freelist.
+>> 
+>> We already place pages to the tail of the freelists when undoing
+>> isolation via __putback_isolated_page(), let's do it in any case
+>> (e.g., if order == pageblock_order) and document the behavior.
+>> 
+>> This change results in all pages getting onlined via online_pages() to
+>> be placed to the tail of the freelist.
+>> 
+>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+>> Cc: Mel Gorman <mgorman@techsingularity.net>
+>> Cc: Michal Hocko <mhocko@kernel.org>
+>> Cc: Dave Hansen <dave.hansen@intel.com>
+>> Cc: Vlastimil Babka <vbabka@suse.cz>
+>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>> Cc: Oscar Salvador <osalvador@suse.de>
+>> Cc: Mike Rapoport <rppt@kernel.org>
+>> Cc: Scott Cheloha <cheloha@linux.ibm.com>
+>> Cc: Michael Ellerman <mpe@ellerman.id.au>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  include/linux/page-isolation.h |  2 ++
+>>  mm/page_alloc.c                | 36 +++++++++++++++++++++++++++++-----
+>>  mm/page_isolation.c            |  8 ++++++--
+>>  3 files changed, 39 insertions(+), 7 deletions(-)
+>> 
+>> diff --git a/include/linux/page-isolation.h b/include/linux/page-isolation.h
+>> index 572458016331..a36be2cf4dbb 100644
+>> --- a/include/linux/page-isolation.h
+>> +++ b/include/linux/page-isolation.h
+>> @@ -38,6 +38,8 @@ struct page *has_unmovable_pages(struct zone *zone, struct page *page,
+>>  void set_pageblock_migratetype(struct page *page, int migratetype);
+>>  int move_freepages_block(struct zone *zone, struct page *page,
+>>  				int migratetype, int *num_movable);
+>> +int move_freepages_block_tail(struct zone *zone, struct page *page,
+>> +			      int migratetype);
+>>  
+>>  /*
+>>   * Changes migrate type in [start_pfn, end_pfn) to be MIGRATE_ISOLATE.
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index bba9a0f60c70..75b0f49b4022 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -899,6 +899,15 @@ static inline void move_to_free_list(struct page *page, struct zone *zone,
+>>  	list_move(&page->lru, &area->free_list[migratetype]);
+>>  }
+>>  
+>> +/* Used for pages which are on another list */
+>> +static inline void move_to_free_list_tail(struct page *page, struct zone *zone,
+>> +					  unsigned int order, int migratetype)
+>> +{
+>> +	struct free_area *area = &zone->free_area[order];
+>> +
+>> +	list_move_tail(&page->lru, &area->free_list[migratetype]);
+>> +}
 >
-> The kernel crashes with the following stack trace:
->
-> [69703.122389] BUG: stack guard page was hit at 000000001056545c (stack is 00000000fa3f8fed..0000000005d39503)
-> [69703.122403] kernel stack overflow (double-fault): 0000 [#1] SMP PTI
-> [69703.122413] CPU: 0 PID: 16982 Comm: bash Kdump: loaded Not tainted 4.18.0-236.el8.x86_64 #1
-> [69703.122420] Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.0 12/17/2019
-> [69703.122433] RIP: 0010repare_ftrace_return+0xa/0x110
-> [69703.122458] Code: 05 00 0f 0b 48 c7 c7 10 ca 69 ae 0f b6 f0 e8 4b 52 0c 00 31 c0 eb ca 66 0f 1f 84 00 00 00 00 00 55 48 89 e5 41 56 41 55 41 54 <53> 48 83 ec 18 65 48 8b 04 25 28 00 00 00 48 89 45 d8 31 c0 48 85
-> [69703.122467] RSP: 0018:ffffbd6d01118000 EFLAGS: 00010086
-> [69703.122476] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000003
-> [69703.122484] RDX: 0000000000000000 RSI: ffffbd6d011180d8 RDI: ffffffffadce7550
-> [69703.122491] RBP: ffffbd6d01118018 R08: 0000000000000000 R09: ffff9d4b09266000
-> [69703.122498] R10: ffff9d4b0fc04540 R11: ffff9d4b0fc20a00 R12: ffff9d4b6e42aa90
-> [69703.122506] R13: ffff9d4b0fc20ab8 R14: 00000000000003e8 R15: ffffbd6d0111837c
-> [69703.122514] FS:  00007fd5f2588740(0000) GS:ffff9d4b6e400000(0000) knlGS:0000000000000000
-> [69703.122521] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [69703.122528] CR2: ffffbd6d01117ff8 CR3: 00000000565d8001 CR4: 00000000003606f0
-> [69703.122538] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> [69703.122545] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> [69703.122552] Call Trace:
-> [69703.122568]  ftrace_graph_caller+0x6b/0xa0
-> [69703.122589]  ? read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122599]  read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122611]  sched_clock+0x5/0x10
-> [69703.122621]  sched_clock_local+0x12/0x80
-> [69703.122631]  sched_clock_cpu+0x8c/0xb0
-> [69703.122644]  trace_clock_global+0x21/0x90
-> [69703.122655]  ring_buffer_lock_reserve+0x100/0x3c0
-> [69703.122671]  trace_buffer_lock_reserve+0x16/0x50
-> [69703.122683]  __trace_graph_entry+0x28/0x90
-> [69703.122695]  trace_graph_entry+0xfd/0x1a0
-> [69703.122705]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122714]  ? sched_clock+0x5/0x10
-> [69703.122723]  prepare_ftrace_return+0x99/0x110
-> [69703.122734]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122743]  ? sched_clock+0x5/0x10
-> [69703.122752]  ftrace_graph_caller+0x6b/0xa0
-> [69703.122768]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122777]  ? sched_clock+0x5/0x10
-> [69703.122786]  ? read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122796]  ? ring_buffer_unlock_commit+0x1d/0xa0
-> [69703.122805]  read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122814]  ftrace_graph_caller+0xa0/0xa0
-> [69703.122823]  ? trace_clock_local+0x5/0x10
-> [69703.122831]  ? ftrace_push_return_trace+0x5d/0x120
-> [69703.122842]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122850]  ? sched_clock+0x5/0x10
-> [69703.122860]  ? prepare_ftrace_return+0xd5/0x110
-> [69703.122871]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122879]  ? sched_clock+0x5/0x10
-> [69703.122889]  ? ftrace_graph_caller+0x6b/0xa0
-> [69703.122904]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.122912]  ? sched_clock+0x5/0x10
-> [69703.122922]  ? read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122931]  ? ring_buffer_unlock_commit+0x1d/0xa0
-> [69703.122940]  ? read_hv_sched_clock_tsc+0x5/0x20
-> [69703.122966]  ? ftrace_graph_caller+0xa0/0xa0
-> [69703.122975]  ? trace_clock_local+0x5/0x10
-> [69703.122984]  ? ftrace_push_return_trace+0x5d/0x120
-> [69703.122995]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.123006]  ? sched_clock+0x5/0x10
-> [69703.123016]  ? prepare_ftrace_return+0xd5/0x110
-> [69703.123026]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.123035]  ? sched_clock+0x5/0x10
-> [69703.123044]  ? ftrace_graph_caller+0x6b/0xa0
-> [69703.123059]  ? read_hv_clock_tsc_cs+0x10/0x10
-> [69703.123068]  ? sched_clock+0x5/0x10
+>There are just 3 callers of move_to_free_list() before this patch, I would just
+>add the to_tail parameter there instead of new wrapper. For callers with
+>constant parameter, the inline will eliminate it anyway.
 
-Obviously we're seeing a recursion, we can trim this log a bit.
+Got the same feeling :-)
 
 >
-> Setting the notrace attribute for read_hv_sched_clock_msr() and
-> read_hv_sched_clock_tsc() fixes it
+>>  static inline void del_page_from_free_list(struct page *page, struct zone *zone,
+>>  					   unsigned int order)
+>>  {
+>> @@ -2323,7 +2332,7 @@ static inline struct page *__rmqueue_cma_fallback(struct zone *zone,
+>>   */
+>>  static int move_freepages(struct zone *zone,
+>>  			  struct page *start_page, struct page *end_page,
+>> -			  int migratetype, int *num_movable)
+>> +			  int migratetype, int *num_movable, bool to_tail)
+>>  {
+>>  	struct page *page;
+>>  	unsigned int order;
+>> @@ -2354,7 +2363,10 @@ static int move_freepages(struct zone *zone,
+>>  		VM_BUG_ON_PAGE(page_zone(page) != zone, page);
+>>  
+>>  		order = page_order(page);
+>> -		move_to_free_list(page, zone, order, migratetype);
+>> +		if (to_tail)
+>> +			move_to_free_list_tail(page, zone, order, migratetype);
+>> +		else
+>> +			move_to_free_list(page, zone, order, migratetype);
+>>  		page += 1 << order;
+>>  		pages_moved += 1 << order;
+>>  	}
+>> @@ -2362,8 +2374,9 @@ static int move_freepages(struct zone *zone,
+>>  	return pages_moved;
+>>  }
+>>  
+>> -int move_freepages_block(struct zone *zone, struct page *page,
+>> -				int migratetype, int *num_movable)
+>> +static int __move_freepages_block(struct zone *zone, struct page *page,
+>> +				  int migratetype, int *num_movable,
+>> +				  bool to_tail)
+>>  {
+>>  	unsigned long start_pfn, end_pfn;
+>>  	struct page *start_page, *end_page;
+>> @@ -2384,7 +2397,20 @@ int move_freepages_block(struct zone *zone, struct page *page,
+>>  		return 0;
+>>  
+>>  	return move_freepages(zone, start_page, end_page, migratetype,
+>> -								num_movable);
+>> +			      num_movable, to_tail);
+>> +}
+>> +
+>> +int move_freepages_block(struct zone *zone, struct page *page,
+>> +			 int migratetype, int *num_movable)
+>> +{
+>> +	return __move_freepages_block(zone, page, migratetype, num_movable,
+>> +				      false);
+>> +}
+>> +
+>> +int move_freepages_block_tail(struct zone *zone, struct page *page,
+>> +			      int migratetype)
+>> +{
+>> +	return __move_freepages_block(zone, page, migratetype, NULL, true);
+>>  }
 >
-> Fixes: bd00cd52d5be ("clocksource/drivers/hyperv: Add Hyper-V specific
-> sched clock function")
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-
-Rather 'Suggested-by:' but not a big deal.
-
-> Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
-> ---
->  drivers/clocksource/hyperv_timer.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>Likewise, just 5 callers of move_freepages_block(), all in the files you're
+>already changing, so no need for this wrappers IMHO.
 >
-> diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-> index 09aa44cb8a91d..ba04cb381cd3f 100644
-> --- a/drivers/clocksource/hyperv_timer.c
-> +++ b/drivers/clocksource/hyperv_timer.c
-> @@ -341,7 +341,7 @@ static u64 notrace read_hv_clock_tsc_cs(struct clocksource *arg)
->  	return read_hv_clock_tsc();
->  }
->  
-> -static u64 read_hv_sched_clock_tsc(void)
-> +static u64 notrace read_hv_sched_clock_tsc(void)
->  {
->  	return (read_hv_clock_tsc() - hv_sched_clock_offset) *
->  		(NSEC_PER_SEC / HV_CLOCK_HZ);
-> @@ -404,7 +404,7 @@ static u64 notrace read_hv_clock_msr_cs(struct clocksource *arg)
->  	return read_hv_clock_msr();
->  }
->  
-> -static u64 read_hv_sched_clock_msr(void)
-> +static u64 notrace read_hv_sched_clock_msr(void)
->  {
->  	return (read_hv_clock_msr() - hv_sched_clock_offset) *
->  		(NSEC_PER_SEC / HV_CLOCK_HZ);
+>Thanks,
+>Vlastimil
+>
+>>  static void change_pageblock_range(struct page *pageblock_page,
+>> diff --git a/mm/page_isolation.c b/mm/page_isolation.c
+>> index abfe26ad59fd..84aa1d14751d 100644
+>> --- a/mm/page_isolation.c
+>> +++ b/mm/page_isolation.c
+>> @@ -83,7 +83,7 @@ static void unset_migratetype_isolate(struct page *page, unsigned migratetype)
+>>  	 * Because freepage with more than pageblock_order on isolated
+>>  	 * pageblock is restricted to merge due to freepage counting problem,
+>>  	 * it is possible that there is free buddy page.
+>> -	 * move_freepages_block() doesn't care of merge so we need other
+>> +	 * move_freepages_block*() don't care about merging, so we need another
+>>  	 * approach in order to merge them. Isolation and free will make
+>>  	 * these pages to be merged.
+>>  	 */
+>> @@ -106,9 +106,13 @@ static void unset_migratetype_isolate(struct page *page, unsigned migratetype)
+>>  	 * If we isolate freepage with more than pageblock_order, there
+>>  	 * should be no freepage in the range, so we could avoid costly
+>>  	 * pageblock scanning for freepage moving.
+>> +	 *
+>> +	 * We didn't actually touch any of the isolated pages, so place them
+>> +	 * to the tail of the freelists. This is especially relevant during
+>> +	 * memory onlining.
+>>  	 */
+>>  	if (!isolated_page) {
+>> -		nr_pages = move_freepages_block(zone, page, migratetype, NULL);
+>> +		nr_pages = move_freepages_block_tail(zone, page, migratetype);
+>>  		__mod_zone_freepage_state(zone, nr_pages, migratetype);
+>>  	}
+>>  	set_pageblock_migratetype(page, migratetype);
+>> 
 
 -- 
-Vitaly
-
+Wei Yang
+Help you, Help me
