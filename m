@@ -4,87 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81694C2D0A8
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Sep 2020 09:02:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 519E1C4741F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Sep 2020 09:02:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DAB32158C
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Sep 2020 09:02:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 180262389F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Sep 2020 09:02:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1601283721;
-	bh=ZwVcPoLvbAVF6NAkRJDUjKHcF0F6CuxxgXKPBvh1Exo=;
+	s=default; t=1601283744;
+	bh=3C3NKBKdGVzpd8h5SW1cjFcffsvBT3K6GkAY8X/mbuA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=mYOF51UaOYbH93uPWRlj5ORzkjwXTXTwk2nBSgsE2Kj+m/Nl9OL4xQ5CxD/TGkqoH
-	 Na0URwbHD7teAOCAl7L6aFAix6dtf/9vIM38gbOH6rN4TyOyK6hSyWnnLIaBEYCxDU
-	 0yvGsKLZ+Q/jEGDknv+GVAImAXB178eJKwJbIYXw=
+	b=CkFdy+uHCyifzRLpOH9Yta3JoGsvH2VFw48AUMJ3gmdarvP14cFOUQr02R9LkOQhW
+	 qjDsdrkc73p4b7ljzL42LldgIobteKdxXYKktIYuzz4N4reVXEAnbK4SJuZvwDANmq
+	 1Wj4DXsHjixXmmlhUGE4t+/R8O/qiY8+to7QBsvY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbgI1JCB (ORCPT
+        id S1726654AbgI1JCX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 28 Sep 2020 05:02:01 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43440 "EHLO
+        Mon, 28 Sep 2020 05:02:23 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39510 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbgI1JCA (ORCPT
+        with ESMTP id S1726380AbgI1JCX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 28 Sep 2020 05:02:00 -0400
-Received: by mail-wr1-f67.google.com with SMTP id k15so312562wrn.10;
-        Mon, 28 Sep 2020 02:01:59 -0700 (PDT)
+        Mon, 28 Sep 2020 05:02:23 -0400
+Received: by mail-wr1-f67.google.com with SMTP id k10so341784wru.6;
+        Mon, 28 Sep 2020 02:02:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=61Wao93dAT3m4CWN1ASDh+Q66ZqTfMpU2Ii242ntq0Q=;
-        b=HSGE8kUZgpXqDKtQ5BJqJxv8ooXa8rTBRSjHQZjTdvsZ7xQjynfAPR+YbDVr6LczGr
-         /5J1szQwomKC4ggY5I6WFRcQkpUY+tuE/Epnt0q8twiiepgMkP0Y4bxeSnuh6Xzu9jYQ
-         rvf7hYxBWuzeZCVYFGZDZxYES3zPzsMU/zFbN2k3u9E+k9X4Pu03nn1DdLvaafxDtQ0c
-         WRdlI8POn5m/SvMRpN6Xxze7VPCAphSnSD58eTmTHbdQImpGKzk7A9WR7QNO10JAf8F/
-         iJjmk8hL6RScvw2p8lrzC6EUkyUXCsbu3r55hOYWvqjK+8qIkhCZC/OEZrITB7hILG4E
-         eAlg==
-X-Gm-Message-State: AOAM531oXiPE05UvX2bLeziTyMTqn7ORrmRvPqcAXNiaNsW/j9hMadhZ
-        bSN4xTptUSjryFxPMDWsY8w=
-X-Google-Smtp-Source: ABdhPJyGYOW0j9vRcAgJG8TPDP6El2ZizX6OIckpwOlKn4tNmxJu/SiNqJmSgKaBHedAe96MYiF3FA==
-X-Received: by 2002:a5d:5404:: with SMTP id g4mr513614wrv.134.1601283718760;
-        Mon, 28 Sep 2020 02:01:58 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=32QwR42HFcU9ojGJECj3ZA1ItJ1AvvkKrKA1NI2UEZw=;
+        b=I8BggSFNrjDd8OP7LJxvQNp6baO5wA8u23H+DWC53Po/ZQ9FeG6Zu9+J0zk7WOO5v2
+         J9YzX29uJdfVTHPzbmGCnsfU96RO3Pr7dNrO6qqxeuR8HMMW4mCNeK5JD1X214hwRRR1
+         r68Hwia5UV/Gp+t/s+E5Bf/831WePf/yCrhNPciqFM5Kipq8Ac9aPnK895mGylkBxifU
+         MrbK5JSrYHC9gaMcNMFQnlInmh1o9dZGF2NOgP3ePTimyTAEFbCDAZLBHFQ8Sbb1rJs0
+         gL8gGaLMX2zyvCmZx4tXJYU2+SqcTx49JhQJzNbqZqeqKNjoPZFJwPXvehLtYigoGwl1
+         TLdg==
+X-Gm-Message-State: AOAM5324u1E3EGXjZZB9rt1BulJ5TaNzMtQXw6kRaYqAbRcH4zRAtb7V
+        OnC/in5vrncYT4E4y0PkiUY=
+X-Google-Smtp-Source: ABdhPJxWQCvkABAXFEQpSWWHprxz0J735ZuPrUQCO/ZrqeYeAxjmldjFBJxvMrr0bKoJMSiYonO6SA==
+X-Received: by 2002:adf:a49d:: with SMTP id g29mr524920wrb.219.1601283741805;
+        Mon, 28 Sep 2020 02:02:21 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id y1sm350748wma.36.2020.09.28.02.01.58
+        by smtp.gmail.com with ESMTPSA id k4sm561750wrx.51.2020.09.28.02.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 02:01:58 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 09:01:56 +0000
+        Mon, 28 Sep 2020 02:02:21 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 09:02:20 +0000
 From:   Wei Liu <wei.liu@kernel.org>
-To:     joseph.salisbury@microsoft.com
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, mikelley@microsoft.com,
-        pbonzini@redhat.com, sean.j.christopherson@intel.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, x86@kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [PATCH] x86/hyperv: Remove aliases with X64 in their name
-Message-ID: <20200928090156.bgg5x54whhvxwnwr@liuwe-devbox-debian-v2>
-References: <1601130386-11111-1-git-send-email-jsalisbury@linux.microsoft.com>
+To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: hv: Document missing hv_pci_protocol_negotiation()
+ parameter
+Message-ID: <20200928090220.abgztj5onp6oaltm@liuwe-devbox-debian-v2>
+References: <20200925234753.1767227-1-kw@linux.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1601130386-11111-1-git-send-email-jsalisbury@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200925234753.1767227-1-kw@linux.com>
 User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sat, Sep 26, 2020 at 07:26:26AM -0700, Joseph Salisbury wrote:
-> From: Joseph Salisbury <joseph.salisbury@microsoft.com>
+On Fri, Sep 25, 2020 at 11:47:53PM +0000, Krzysztof Wilczyński wrote:
+> Add missing documentation for the parameter "version" and "num_version"
+> of the hv_pci_protocol_negotiation() function and resolve build time
+> kernel-doc warnings:
 > 
-> In the architecture independent version of hyperv-tlfs.h, commit c55a844f46f958b
-> removed the "X64" in the symbol names so they would make sense for both x86 and
-> ARM64.  That commit added aliases with the "X64" in the x86 version of hyperv-tlfs.h 
-> so that existing x86 code would continue to compile.
+>   drivers/pci/controller/pci-hyperv.c:2535: warning: Function parameter
+>   or member 'version' not described in 'hv_pci_protocol_negotiation'
 > 
-> As a cleanup, update the x86 code to use the symbols without the "X64", then remove 
-> the aliases.  There's no functional change.
+>   drivers/pci/controller/pci-hyperv.c:2535: warning: Function parameter
+>   or member 'num_version' not described in 'hv_pci_protocol_negotiation'
 > 
-> Signed-off-by: Joseph Salisbury <joseph.salisbury@microsoft.com>
+> No change to functionality intended.
+> 
+> Signed-off-by: Krzysztof Wilczyński <kw@linux.com>
 
 Applied to hyperv-next. Thanks.
-
-Wei.
