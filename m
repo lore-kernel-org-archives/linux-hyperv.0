@@ -1,166 +1,254 @@
-Return-Path: <SRS0=t57i=DJ=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=HqGV=DK=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA25C4363D
-	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Oct 2020 15:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3D7FC4363D
+	for <linux-hyperv@archiver.kernel.org>; Sat,  3 Oct 2020 17:40:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E43020719
-	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Oct 2020 15:20:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 687B0206DD
+	for <linux-hyperv@archiver.kernel.org>; Sat,  3 Oct 2020 17:40:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jg+oWXGz"
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="epJ81wlW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388002AbgJBPU3 (ORCPT
+        id S1725821AbgJCRkT (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 2 Oct 2020 11:20:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54413 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726017AbgJBPUW (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 2 Oct 2020 11:20:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1601652021;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-        bh=tLF6ZatCZ5zrVPBFeigNCXJI7/8w0ttDqPTuxtDX8zs=;
-        b=Jg+oWXGzxnkPLOKoihHRwxS/LtWf2eIlADJ33zOzwRsWwt3oUuCoTzYXp4iqtvSgB1QXv8
-        SgFgvTeKvWRbmGX32Kx8HdhCNGkeQCOl4jYxCA3qRBOcNqbsUTEVVqegMQ9ekzmJQamKYY
-        Wrw6dpZ8d3Ksd+4RL5Tx23ZyOK/rh2U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-w6qMtHLYOdqGZmEqgP1rMQ-1; Fri, 02 Oct 2020 11:20:16 -0400
-X-MC-Unique: w6qMtHLYOdqGZmEqgP1rMQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C928D109106D;
-        Fri,  2 Oct 2020 15:20:13 +0000 (UTC)
-Received: from [10.36.113.228] (ovpn-113-228.ams2.redhat.com [10.36.113.228])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 593875D9E4;
-        Fri,  2 Oct 2020 15:20:10 +0000 (UTC)
-Subject: Re: [PATCH v1 3/5] mm/page_alloc: always move pages to the tail of
- the freelist in unset_migratetype_isolate()
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-acpi@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Alexander Duyck <alexander.h.duyck@linux.intel.com>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Wei Yang <richard.weiyang@linux.alibaba.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Scott Cheloha <cheloha@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-References: <20200928182110.7050-1-david@redhat.com>
- <20200928182110.7050-4-david@redhat.com>
- <20201002132404.GI4555@dhcp22.suse.cz>
-From:   David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat GmbH
-Message-ID: <df0c45bf-223f-1f0b-ce3d-f2b2e05626bd@redhat.com>
-Date:   Fri, 2 Oct 2020 17:20:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <20201002132404.GI4555@dhcp22.suse.cz>
-Content-Type: text/plain; charset=utf-8
+        Sat, 3 Oct 2020 13:40:19 -0400
+Received: from mail-eopbgr760097.outbound.protection.outlook.com ([40.107.76.97]:47227
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725797AbgJCRkS (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 3 Oct 2020 13:40:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZRruLF+PVzfmaYR79mYqya5GWim/9ttHMw5Sr6jgGBKW63OCsWtARVc7LsbinYd5/YI9mZheUyCflKzAOhDkger8gWwKsSfXqvr/vaO1fjWgTWlwyRHIY92POcWBXGWONx6dwFCEIGz2euoOa0e9WEd8LSKWUQkXs+RGFU8Ucqe7NI8X9g0GdS0DyRWZCs/ynt3rprKRJG3j6KfS2juru0i+AMmZqRNpfZzTH6yLYZBwZrVez7qBva5RA3ht2brUTVuLCTgZHyKVKDn5vw1h+nHEqmi7+f1m33URxMeAQ6ACTIc2bi8u1CFWueFoEwjWIv9RvZXxx3y/fXf3LMT4Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uEg7Avg16aTWL7rr5jZlVHObufidXtLCAQ/kKb+70tQ=;
+ b=I8p3DKpVWwPDo60cahomadGHiqaqEpxCJYqVtyyM6Z1KB7TF2ZaQKr07IIXXls0qPgxLKXzcs2wFWYGtvwrifySdC3HRuo40JCBPwaoXoCstoMui2XJVecEwtEH+uJ1AeY9w2KVwR07TN/Px3lPsqOkfEE/P/sB7Gjoq5s429ObPXoVwY8LUKNzDcqSBDQcbpP86nNo6dam4R97sHY5jssSIVuw5WrtDfd64cvvJAFzHMAR4ckeGhLna7tVefq0Lidi8K0xOjqCbJetFf9r4mmt4NjxHUwu0R7YY1B4gIJEjBfbVHqyVxyYlWCg+7U3oA7YauJM2mVt9d9EzjuFmKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uEg7Avg16aTWL7rr5jZlVHObufidXtLCAQ/kKb+70tQ=;
+ b=epJ81wlWZYReFpUvRlYtYt5pgZKaBvIdQqzVMFwU95th+OzDTsDoFF5oXr4B85KeDt6wHhsKjCXPeVHVh3pCTlYpoP3BGYGjXBJL+UwVmkI8falKhtVOzzhAWelpvnj1je/YonOVeRZ9wXlo6hYlv2lD8L2qoLuJBLRK040Bw+A=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
+ by MW4PR21MB1906.namprd21.prod.outlook.com (2603:10b6:303:67::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.7; Sat, 3 Oct
+ 2020 17:40:15 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::6484:cb0:bdff:edf7]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::6484:cb0:bdff:edf7%7]) with mapi id 15.20.3455.009; Sat, 3 Oct 2020
+ 17:40:15 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Sasha Levin <sashal@kernel.org>, Wei Liu <wei.liu@kernel.org>
+CC:     vkuznets <vkuznets@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+        "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@kernel.org" <stable@kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>
+Subject: RE: [PATCH] x86/hyper-v: guard against cpu mask changes in
+ hyperv_flush_tlb_others()
+Thread-Topic: [PATCH] x86/hyper-v: guard against cpu mask changes in
+ hyperv_flush_tlb_others()
+Thread-Index: AQHWl5OP3rUdVDGds0iX7OGOajEVWKmCfoYAgAAla4CAABOQAIADbQWg
+Date:   Sat, 3 Oct 2020 17:40:15 +0000
+Message-ID: <MW2PR2101MB105242653A8D5C7DD9DF1062D70E0@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <20201001013814.2435935-1-sashal@kernel.org>
+ <87o8lm9te3.fsf@vitty.brq.redhat.com>
+ <20201001115359.6jhhrybemnhizgok@liuwe-devbox-debian-v2>
+ <20201001130400.GE2415204@sasha-vm>
+In-Reply-To: <20201001130400.GE2415204@sasha-vm>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-10-03T17:40:13Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=282b1f8c-038c-45c3-bbab-b78df23a5f1f;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 846f2496-7d4d-4ac1-24fc-08d867c3634c
+x-ms-traffictypediagnostic: MW4PR21MB1906:
+x-ms-exchange-transport-forked: True
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <MW4PR21MB1906DB68E791E1A238038978D70E0@MW4PR21MB1906.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: MJjLTwazSchpYVnvPUmxWRRtC2oC+t2ysI/FFKNP+nzU9PI2Vm4FGem/AYjJ8qmixLSGlEHY5wrWmKN801yesgJXo7ZB501tDTVObgo3H/wbrVoZMWNvoE+d7Jk3+yfai1HGJJVByVTFiAkXZsiTGnZUhh7e9+zyy9XpoqQgKVK09OxL8uKUBmGUQ0t7znzTEnWuE9WuzOMIypTIzdlk/gAK9+r2fLuwMUD60C2a2Fxw7qinq9EPJ7wT5O0ejYS0PsqOTBHsn5H30W1Mati1FXnuEFF6S7tii+rIko35i6vZuKmvjBfgqREOyhQET46WgU/ufDITgrrJ8FwMfpDTaA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(39860400002)(396003)(376002)(346002)(86362001)(66946007)(9686003)(26005)(8676002)(186003)(5660300002)(83380400001)(107886003)(7416002)(66556008)(66446008)(66476007)(71200400001)(64756008)(8936002)(2906002)(478600001)(10290500003)(76116006)(82950400001)(8990500004)(55016002)(4326008)(33656002)(82960400001)(54906003)(110136005)(52536014)(6506007)(7696005)(316002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: orXYrnFf/hFNwUuEAwjHwAQ2r7gCTvTKPTufbaB/F3TgMxogD+yyeDqruIg4ODRZ0a/78UsMPINup1f1i6t8LbUAAX1qvOGd871KXuqLITrhnru+9/Fy9PY04PJBa0BqF8gpA05ixYcgroSPyaaqG+y1CXMMx6UHVO7j8phoES9z26csep+RMmWw8vvjT5xpUawtTBxaL3g5eV6ZmECh3AfGOgFKElPJfHQj2VKb/5GGky9l/XFZv6VM9PEP9VyW3lc9CRapHYyrAIKdvbWrTdwfRHrHxmgX9/743hLHdKETQJvg5vRGSJTKQ87qvbPrZNRaY0A9dLuBbIQun0TLXRCU35aut8HEN4MkFcnF5mawuM82AY94GMj4XmQmgt3O1mQvMe3SgtBlL8L/5PAXH5mHtrxEOG2w9ik/YHMDiXh3p6MA0tyFrcp6x3w55Tjz0HNpzhJ4G0ECKa0/5WCOeMxPU0oES5fL/nyIzpQEXACetEiRsg14vC1X6xRtSWhxbMXZNJF2wS32935Xw6gtEKcGal6gwQO0ZdsF6Clz+B9CFWPR4stdXEqTNwG899wvsNSplyXEC0GOHPWcYWWPUqBnig/QzwC5OlfFYR6MPA8Lks/viQG85IIyhL94mF0N83B3HbawRbTborjEodbD9Q==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 846f2496-7d4d-4ac1-24fc-08d867c3634c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2020 17:40:15.2664
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KRmba270MV+w/F4/Hv1m1iBXrlDj5cEGjdKlbXTQYxyZb3QBL4G/LpD8xFKOgBh7OL02cSl3WmLl/acLNPxfqfmhgyYyoUbkM5G2YAm4+jY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1906
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 02.10.20 15:24, Michal Hocko wrote:
-> On Mon 28-09-20 20:21:08, David Hildenbrand wrote:
->> Page isolation doesn't actually touch the pages, it simply isolates
->> pageblocks and moves all free pages to the MIGRATE_ISOLATE freelist.
->>
->> We already place pages to the tail of the freelists when undoing
->> isolation via __putback_isolated_page(), let's do it in any case
->> (e.g., if order <= pageblock_order) and document the behavior.
->>
->> Add a "to_tail" parameter to move_freepages_block() but introduce a
->> a new move_to_free_list_tail() - similar to add_to_free_list_tail().
->>
->> This change results in all pages getting onlined via online_pages() to
->> be placed to the tail of the freelist.
-> 
-> Is there anything preventing to do this unconditionally? Or in other
-> words is any of the existing callers of move_freepages_block benefiting
-> from adding to the head?
+From: Sasha Levin <sashal@kernel.org>  Sent: Thursday, October 1, 2020 6:04=
+ AM
+>=20
+> On Thu, Oct 01, 2020 at 11:53:59AM +0000, Wei Liu wrote:
+> >On Thu, Oct 01, 2020 at 11:40:04AM +0200, Vitaly Kuznetsov wrote:
+> >> Sasha Levin <sashal@kernel.org> writes:
+> >>
+> >> > cpumask can change underneath us, which is generally safe except whe=
+n we
+> >> > call into hv_cpu_number_to_vp_number(): if cpumask ends up empty we =
+pass
+> >> > num_cpu_possible() into hv_cpu_number_to_vp_number(), causing it to =
+read
+> >> > garbage. As reported by KASAN:
+> >> >
+> >> > [   83.504763] BUG: KASAN: slab-out-of-bounds in hyperv_flush_tlb_ot=
+hers
+> (include/asm-generic/mshyperv.h:128 arch/x86/hyperv/mmu.c:112)
+> >> > [   83.908636] Read of size 4 at addr ffff888267c01370 by task kwork=
+er/u8:2/106
+> >> > [   84.196669] CPU: 0 PID: 106 Comm: kworker/u8:2 Tainted: G        =
+W         5.4.60 #1
+> >> > [   84.196669] Hardware name: Microsoft Corporation Virtual Machine/=
+Virtual Machine,
+> BIOS 090008  12/07/2018
+> >> > [   84.196669] Workqueue: writeback wb_workfn (flush-8:0)
+> >> > [   84.196669] Call Trace:
+> >> > [   84.196669] dump_stack (lib/dump_stack.c:120)
+> >> > [   84.196669] print_address_description.constprop.0 (mm/kasan/repor=
+t.c:375)
+> >> > [   84.196669] __kasan_report.cold (mm/kasan/report.c:507)
+> >> > [   84.196669] kasan_report (arch/x86/include/asm/smap.h:71
+> mm/kasan/common.c:635)
+> >> > [   84.196669] hyperv_flush_tlb_others (include/asm-generic/mshyperv=
+.h:128
+> arch/x86/hyperv/mmu.c:112)
+> >> > [   84.196669] flush_tlb_mm_range (arch/x86/include/asm/paravirt.h:6=
+8
+> arch/x86/mm/tlb.c:798)
+> >> > [   84.196669] ptep_clear_flush (arch/x86/include/asm/tlbflush.h:586=
+ mm/pgtable-
+> generic.c:88)
+> >> >
+> >> > Fixes: 0e4c88f37693 ("x86/hyper-v: Use cheaper
+> HVCALL_FLUSH_VIRTUAL_ADDRESS_{LIST,SPACE} hypercalls when possible")
+> >> > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> >> > Cc: stable@kernel.org
+> >> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> >> > ---
+> >> >  arch/x86/hyperv/mmu.c | 4 +++-
+> >> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
+> >> > index 5208ba49c89a9..b1d6afc5fc4a3 100644
+> >> > --- a/arch/x86/hyperv/mmu.c
+> >> > +++ b/arch/x86/hyperv/mmu.c
+> >> > @@ -109,7 +109,9 @@ static void hyperv_flush_tlb_others(const struct=
+ cpumask
+> *cpus,
+> >> >  		 * must. We will also check all VP numbers when walking the
+> >> >  		 * supplied CPU set to remain correct in all cases.
+> >> >  		 */
+> >> > -		if (hv_cpu_number_to_vp_number(cpumask_last(cpus)) >=3D 64)
+> >> > +		int last =3D cpumask_last(cpus);
+> >> > +
+> >> > +		if (last < num_possible_cpus() && hv_cpu_number_to_vp_number(last=
+) >=3D
+> 64)
+> >> >  			goto do_ex_hypercall;
+> >>
+> >> In case 'cpus' can end up being empty (I'm genuinely suprised it can)
+>=20
+> I was just as surprised as you and spent the good part of a day
+> debugging this. However, a:
+>=20
+> 	WARN_ON(cpumask_empty(cpus));
+>=20
+> triggers at that line of code even though we check for cpumask_empty()
+> at the entry of the function.
 
-1. mm/page_isolation.c:set_migratetype_isolate()
+What does the call stack look like when this triggers?  I'm curious about
+the path where the 'cpus' could be changing while the flush call is in
+progress.
 
-We move stuff to the MIGRATE_ISOLATE list, we don't care about the order
-there.
+I wonder if CPUs could ever be added to the mask?  Removing CPUs can
+be handled with some care because an unnecessary flush doesn't hurt
+anything.   But adding CPUs has serious correctness problems.
 
-2. steal_suitable_fallback():
+>=20
+> >> the check is mandatory indeed. I would, however, just return directly =
+in
+> >> this case:
+>=20
+> Makes sense.
 
-I don't think we care too much about the order when already stealing
-pageblocks ... and the freelist is empty I guess?
+But need to do a local_irq_restore() before returning.
 
-3. reserve_highatomic_pageblock()/unreserve_highatomic_pageblock()
+>=20
+> >> if (last < num_possible_cpus())
+> >> 	return;
+> >
+> >I think you want
+> >
+> >   last >=3D num_possible_cpus()
+> >
+> >here?
 
-Not sure if we really care.
+Yes, but also the && must become ||=20
 
-Good question, I tried to be careful of what I touch. Thoughts?
+> >
+> >A more important question is, if the mask can change willy-nilly, what
+> >is stopping it from changing between these checks? I.e. is there still a
+> >windows that hv_cpu_number_to_vp_number(last) can return garbage?
+>=20
+> It's not that hv_cpu_number_to_vp_number() returns garbage, the issue is
+> that we feed it garbage.
+>=20
+> hv_cpu_number_to_vp_number() expects that the input would be in the
+> range of 0 <=3D X < num_possible_cpus(), and here if 'cpus' was empty we
+> would pass in X=3D=3Dnum_possible_cpus() making it read out of bound.
+>=20
+> Maybe it's worthwhile to add a WARN_ON() into
+> hv_cpu_number_to_vp_number() to assert as well.
 
--- 
-Thanks,
+If the input cpumask can be changing, the other risk is the for_each_cpu()
+loop, which also has a call to hv_cpu_number_to_vp_number().  But looking a=
+t
+the implementation of for_each_cpu(), it will always return an in-bounds va=
+lue,
+so everything should be OK.
 
-David / dhildenb
-
+>=20
+> --
+> Thanks,
+> Sasha
