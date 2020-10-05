@@ -5,50 +5,50 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9390C46466
-	for <linux-hyperv@archiver.kernel.org>; Mon,  5 Oct 2020 15:29:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A4EC4727D
+	for <linux-hyperv@archiver.kernel.org>; Mon,  5 Oct 2020 15:29:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B343821D46
-	for <linux-hyperv@archiver.kernel.org>; Mon,  5 Oct 2020 15:29:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FB7C208C7
+	for <linux-hyperv@archiver.kernel.org>; Mon,  5 Oct 2020 15:29:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0IVPH4+m"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HDro/TSE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727543AbgJEP3L (ORCPT
+        id S1727550AbgJEP3O (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 5 Oct 2020 11:29:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48720 "EHLO
+        Mon, 5 Oct 2020 11:29:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727487AbgJEP3C (ORCPT
+        with ESMTP id S1727486AbgJEP3A (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 5 Oct 2020 11:29:02 -0400
+        Mon, 5 Oct 2020 11:29:00 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D59FC0613A8;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A1BC0613AB;
         Mon,  5 Oct 2020 08:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=IVCSakrSwvBC/94Qs7X2IIppr71sOhGWu/QBQEBl22I=; b=0IVPH4+m+qk7v2uMU02/NMpO3B
-        K3H1JlXjphg3LK3TPa7y6AUlxOKR6nYcU4HyGj4fmcXmdm+kTFsBdciKT1cGbUbyJb1kqnMxdT5zX
-        s5sUqDR0KPloxduhUYQNUb0Auc9dnGxTWqCEAw6PPQJ0kot+pgsCiq/SJRVf1RcNh9HvWCq/iFENP
-        DcI6CmVXe6hHtmwqedqqDXHbS7ikjt2+MvPIPOJ5pgN/WYfUosMPgm23Tevn3ThXWzlWJSdZOlPGe
-        E86/1CDCZV8fwbx8UXF+ljYZZY6UCj+M00856oZjrfg/Af9ZTAz0doyKy7vdZkkPr+dw8D+JyxgXE
-        r5wgcdiw==;
+        bh=lyPVYoaHwjsnXkUEZdaJkJjqQjrE8gIBWZLSCTwUPec=; b=HDro/TSE0gHgkjLa+dMb+opTsu
+        1Pf+l+eTRn/SyozTcLUce7ta2RjiO0QaPOqbJr4jCRRD76UQ8mY8Cne6SuOCz6fRFve3NjUsjhq4E
+        E6gwj2nLMCBQecPTaILWdLnM56SCqhIjFTjTwJm2yT25tpt2DU0Fy8H7DsOZeDXq1gSDKP08VvwC2
+        DHvwN/D9vYHRd/q6avT1m97D8SNm+uRAlsxiej0lk1mm9oT98NaQrlzSVpNzW7gwhZ/Re9JbvcB0n
+        zHQCsM8XP83YSinl1XYBoDjXNmZoXccNAdMZZ1Jvbj3zf44KYkp2cqjDbXGpbeqa+vGxrTPKTDIZR
+        lB9fQeyg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kPSQ5-0004MK-Dn; Mon, 05 Oct 2020 15:28:57 +0000
+        id 1kPSQ5-0004MI-99; Mon, 05 Oct 2020 15:28:57 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kPSQ4-0045Qk-D3; Mon, 05 Oct 2020 16:28:56 +0100
+        id 1kPSQ4-0045QG-8R; Mon, 05 Oct 2020 16:28:56 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     iommu <iommu@lists.linux-foundation.org>,
         kvm <kvm@vger.kernel.org>, linux-hyperv@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 08/13] genirq: Add irq_domain_set_affinity()
-Date:   Mon,  5 Oct 2020 16:28:51 +0100
-Message-Id: <20201005152856.974112-8-dwmw2@infradead.org>
+Subject: [PATCH 02/13] x86/msi: Only use high bits of MSI address for DMAR unit
+Date:   Mon,  5 Oct 2020 16:28:45 +0100
+Message-Id: <20201005152856.974112-2-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201005152856.974112-1-dwmw2@infradead.org>
 References: <77e64f977f559412f62b467fd062d051ea288f14.camel@infradead.org>
@@ -63,161 +63,100 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-This allows a maximal affinity to be set, for IRQ domains which cannot
-target all CPUs in the system.
+The Intel IOMMU has an MSI-like configuration for its interrupt, but
+it isn't really MSI. So it gets to abuse the high 32 bits of the address,
+and puts the high 24 bits of the extended APIC ID there.
+
+This isn't something that can be used in the general case for real MSIs,
+since external devices using the high bits of the address would be
+performing writes to actual memory space above 4GiB, not targeted at the
+APIC.
+
+Factor the hack out and allow it only to be used when appropriate,
+adding a WARN_ON_ONCE() if other MSIs are targeted at an unreachable APIC
+ID. That should never happen since the legacy MSI messages are not supposed
+to be used with Interrupt Remapping enabled.
+
+The x2apic_enabled() check isn't needed because we won't bring up CPUs
+with higher APIC IDs unless x2apic is enabled anyway.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- include/linux/irqdomain.h |  4 ++++
- kernel/irq/irqdomain.c    | 28 ++++++++++++++++++++++++++--
- kernel/irq/manage.c       | 19 +++++++++++++++----
- 3 files changed, 45 insertions(+), 6 deletions(-)
+ arch/x86/kernel/apic/msi.c | 34 ++++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index 6b5576da77f0..cf686f18c1fa 100644
---- a/include/linux/irqdomain.h
-+++ b/include/linux/irqdomain.h
-@@ -151,6 +151,7 @@ struct irq_domain_chip_generic;
-  *      drivers using the generic chip library which uses this pointer.
-  * @parent: Pointer to parent irq_domain to support hierarchy irq_domains
-  * @debugfs_file: dentry for the domain debugfs file
-+ * @max_affinity: mask of CPUs targetable by this IRQ domain
-  *
-  * Revmap data, used internally by irq_domain
-  * @revmap_direct_max_irq: The largest hwirq that can be set for controllers that
-@@ -177,6 +178,7 @@ struct irq_domain {
- #ifdef CONFIG_GENERIC_IRQ_DEBUGFS
- 	struct dentry		*debugfs_file;
- #endif
-+	const struct cpumask *max_affinity;
+diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
+index 6313f0a05db7..356f8acf4927 100644
+--- a/arch/x86/kernel/apic/msi.c
++++ b/arch/x86/kernel/apic/msi.c
+@@ -23,13 +23,10 @@
  
- 	/* reverse map data. The linear map gets appended to the irq_domain */
- 	irq_hw_number_t hwirq_max;
-@@ -453,6 +455,8 @@ extern void irq_domain_set_info(struct irq_domain *domain, unsigned int virq,
- 				void *chip_data, irq_flow_handler_t handler,
- 				void *handler_data, const char *handler_name);
- extern void irq_domain_reset_irq_data(struct irq_data *irq_data);
-+extern int irq_domain_set_affinity(struct irq_domain *domain,
-+				   const struct cpumask *affinity);
- #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
- extern struct irq_domain *irq_domain_create_hierarchy(struct irq_domain *parent,
- 			unsigned int flags, unsigned int size,
-diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
-index ffd41f21afca..0b298355be1b 100644
---- a/kernel/irq/irqdomain.c
-+++ b/kernel/irq/irqdomain.c
-@@ -661,7 +661,7 @@ unsigned int irq_create_mapping(struct irq_domain *domain,
+ struct irq_domain *x86_pci_msi_default_domain __ro_after_init;
  
- 	/* Allocate a virtual interrupt number */
- 	virq = irq_domain_alloc_descs(-1, 1, hwirq, of_node_to_nid(of_node),
--				      NULL, NULL);
-+				      NULL, domain->max_affinity);
- 	if (virq <= 0) {
- 		pr_debug("-> virq allocation failed\n");
- 		return 0;
-@@ -1078,6 +1078,27 @@ void irq_domain_reset_irq_data(struct irq_data *irq_data)
- }
- EXPORT_SYMBOL_GPL(irq_domain_reset_irq_data);
+-static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
++static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg, int dmar)
+ {
+ 	msg->address_hi = MSI_ADDR_BASE_HI;
  
-+/**
-+ * irq_domain_set_affinity - Set maximum CPU affinity for domain
-+ * @parent:	Domain to set affinity for
-+ * @affinity:	Pointer to cpumask, consumed by domain
-+ *
-+ * Sets the maximal set of CPUs to which interrupts in this domain may
-+ * be delivered. Must only be called after creation, before any interrupts
-+ * have been in the domain.
-+ *
-+ * This function retains a pointer to the cpumask which is passed in.
-+ */
-+int irq_domain_set_affinity(struct irq_domain *domain,
-+			    const struct cpumask *affinity)
-+{
-+	if (cpumask_empty(affinity))
-+		return -EINVAL;
-+	domain->max_affinity = affinity;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(irq_domain_set_affinity);
+-	if (x2apic_enabled())
+-		msg->address_hi |= MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid);
+-
+ 	msg->address_lo =
+ 		MSI_ADDR_BASE_LO |
+ 		((apic->irq_dest_mode == 0) ?
+@@ -43,18 +40,42 @@ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
+ 		MSI_DATA_LEVEL_ASSERT |
+ 		MSI_DATA_DELIVERY_FIXED |
+ 		MSI_DATA_VECTOR(cfg->vector);
 +
- #ifdef	CONFIG_IRQ_DOMAIN_HIERARCHY
- /**
-  * irq_domain_create_hierarchy - Add a irqdomain into the hierarchy
-@@ -1110,6 +1131,9 @@ struct irq_domain *irq_domain_create_hierarchy(struct irq_domain *parent,
- 	if (domain) {
- 		domain->parent = parent;
- 		domain->flags |= flags;
-+		if (parent && parent->max_affinity)
-+			irq_domain_set_affinity(domain,
-+						parent->max_affinity);
- 	}
- 
- 	return domain;
-@@ -1375,7 +1399,7 @@ int __irq_domain_alloc_irqs(struct irq_domain *domain, int irq_base,
- 		virq = irq_base;
- 	} else {
- 		virq = irq_domain_alloc_descs(irq_base, nr_irqs, 0, node,
--					      affinity, NULL);
-+					      affinity, domain->max_affinity);
- 		if (virq < 0) {
- 			pr_debug("cannot allocate IRQ(base %d, count %d)\n",
- 				 irq_base, nr_irqs);
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 5df903fccb60..e8c5f8ecd306 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -345,6 +345,10 @@ int irq_set_affinity_locked(struct irq_data *data, const struct cpumask *mask,
- 	struct irq_desc *desc = irq_data_to_desc(data);
- 	int ret = 0;
- 
-+	if (data->domain && data->domain->max_affinity &&
-+	    !cpumask_subset(mask, data->domain->max_affinity))
-+		return -EINVAL;
-+
- 	if (!chip || !chip->irq_set_affinity)
- 		return -EINVAL;
- 
-@@ -484,13 +488,20 @@ int irq_setup_affinity(struct irq_desc *desc)
- 	struct cpumask *set = irq_default_affinity;
- 	int ret, node = irq_desc_get_node(desc);
- 	static DEFINE_RAW_SPINLOCK(mask_lock);
--	static struct cpumask mask;
-+	static struct cpumask mask, max_mask;
- 
- 	/* Excludes PER_CPU and NO_BALANCE interrupts */
- 	if (!__irq_can_set_affinity(desc))
- 		return 0;
- 
- 	raw_spin_lock(&mask_lock);
-+
-+	if (desc->irq_data.domain && desc->irq_data.domain->max_affinity)
-+		cpumask_and(&max_mask, cpu_online_mask,
-+			    desc->irq_data.domain->max_affinity);
++	/*
++	 * Only the IOMMU itself can use the trick of putting destination
++	 * APIC ID into the high bits of the address. Anything else would
++	 * just be writing to memory if it tried that, and needs IR to
++	 * address APICs above 255.
++	 */
++	if (dmar)
++		msg->address_hi |= MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid);
 +	else
-+		cpumask_copy(&max_mask, cpu_online_mask);
++		WARN_ON_ONCE(MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid));
+ }
+ 
+ void x86_vector_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
+ {
+-	__irq_msi_compose_msg(irqd_cfg(data), msg);
++	__irq_msi_compose_msg(irqd_cfg(data), msg, 0);
+ }
+ 
++/*
++ * The Intel IOMMU (ab)uses the high bits of the MSI address to contain the
++ * high bits of the destination APIC ID. This can't be done in the general
++ * case for MSIs as it would be targeting real memory above 4GiB not the
++ * APIC.
++ */
++static void dmar_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
++{
++	__irq_msi_compose_msg(irqd_cfg(data), msg, 1);
 +
- 	/*
- 	 * Preserve the managed affinity setting and a userspace affinity
- 	 * setup, but make sure that one of the targets is online.
-@@ -498,15 +509,15 @@ int irq_setup_affinity(struct irq_desc *desc)
- 	if (irqd_affinity_is_managed(&desc->irq_data) ||
- 	    irqd_has_set(&desc->irq_data, IRQD_AFFINITY_SET)) {
- 		if (cpumask_intersects(desc->irq_common_data.affinity,
--				       cpu_online_mask))
-+				       &max_mask))
- 			set = desc->irq_common_data.affinity;
- 		else
- 			irqd_clear(&desc->irq_data, IRQD_AFFINITY_SET);
- 	}
++
++
++}
+ static void irq_msi_update_msg(struct irq_data *irqd, struct irq_cfg *cfg)
+ {
+ 	struct msi_msg msg[2] = { [1] = { }, };
  
--	cpumask_and(&mask, cpu_online_mask, set);
-+	cpumask_and(&mask, &max_mask, set);
- 	if (cpumask_empty(&mask))
--		cpumask_copy(&mask, cpu_online_mask);
-+		cpumask_copy(&mask, &max_mask);
+-	__irq_msi_compose_msg(cfg, msg);
++	__irq_msi_compose_msg(cfg, msg, 0);
+ 	irq_data_get_irq_chip(irqd)->irq_write_msi_msg(irqd, msg);
+ }
  
- 	if (node != NUMA_NO_NODE) {
- 		const struct cpumask *nodemask = cpumask_of_node(node);
+@@ -288,6 +309,7 @@ static struct irq_chip dmar_msi_controller = {
+ 	.irq_ack		= irq_chip_ack_parent,
+ 	.irq_set_affinity	= msi_domain_set_affinity,
+ 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
++	.irq_compose_msi_msg	= dmar_msi_compose_msg,
+ 	.irq_write_msi_msg	= dmar_msi_write_msg,
+ 	.flags			= IRQCHIP_SKIP_SET_WAKE,
+ };
 -- 
 2.26.2
 
