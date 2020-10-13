@@ -5,42 +5,42 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A70C43457
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Oct 2020 08:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6587DC433E7
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Oct 2020 08:13:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53CBA21D7F
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Oct 2020 08:12:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1555E207C3
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Oct 2020 08:13:15 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q+cMUieQ"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hN5jmwwh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391105AbgJMIM5 (ORCPT
+        id S2391151AbgJMIM5 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 13 Oct 2020 04:12:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34072 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391063AbgJMIMI (ORCPT
+        with ESMTP id S2390509AbgJMIMI (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 13 Oct 2020 04:12:08 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18374C0613D7;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 122A7C0613D2;
         Tue, 13 Oct 2020 01:12:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=EY8UHzC6+5/iDJsfDzabkl6LPehqG3ZtEqYxa4ewh6o=; b=Q+cMUieQWgDbWqlRk6eSdi2Goq
-        w4opBNGckPwtNox/hjjkpzSKduFWkniiM62a9BNOz3omxqd7LmwuhvMMfKHhmvneRc2Y7q9Emk3IJ
-        Gpq790hBMJOcSHeWvqDUp6HKrwkJkMcJT1o7eaiQDcZiqt+B82cdLbRHNpwwyVPibK/LszJfwbTKQ
-        RCo0fhNtVRokIeFP3g5qGTj+LK/1pbZUHMuGcyAbofjzW7kGsyI4LiIGfsuUxJtL+/m8pJBLGeHLc
-        3e/mg0uhAKUDX5nzK7YFhfi+ZDgKDC4BJPfudyanlNWmGHWWF0s1GHbq/BJDAE68MXZX36ehTaI/X
-        CMZ69h8A==;
+        bh=hmh+cWjAWCvT+LUvteBTFWpQOXVAFRbvzGJv+WEOTU0=; b=hN5jmwwhHs+nfEGh5M8fiwRhX6
+        bykwjHtzZTXO1qZK1Yf2aIdhaeO5dAvwPVLz6wHZbhiDCPU+KJksaxXS9OqCEOgWknikRR6xlwkcD
+        sM8p/JawRoaLMz4Zp0mC7k5VBCdUYHsG5E//EEr7SWPCCwq6qxYmXaJ6SuQ0Yq0VcbR8UXPi8w4gw
+        y4FTcBc1fMLuvYYOgklFYRhabEfk6PjC8tMQiI2wf4NdabFJXOnfiDqwnJ9mi+Hgf37P2NV5/BBrD
+        GLuR9iOJDmdGANjkji/OX3ckr7Wgyo7OPY/nLGK/MhnkYyZSqOtZ5IrZC7eXo3ewWKDg2siq7XR6m
+        w1y1LfRg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kSFPM-0006fO-Qj; Tue, 13 Oct 2020 08:12:01 +0000
+        id 1kSFPM-0006fQ-T4; Tue, 13 Oct 2020 08:12:01 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kSFPM-006XXM-CG; Tue, 13 Oct 2020 09:11:44 +0100
+        id 1kSFPM-006XXg-F4; Tue, 13 Oct 2020 09:11:44 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
@@ -48,9 +48,9 @@ Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
         Paolo Bonzini <pbonzini@redhat.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-hyperv@vger.kernel.org, maz@misterjones.org
-Subject: [PATCH 1/9] genirq/irqdomain: Implement get_name() method on irqchip fwnodes
-Date:   Tue, 13 Oct 2020 09:11:31 +0100
-Message-Id: <20201013081139.1558200-2-dwmw2@infradead.org>
+Subject: [PATCH 5/9] iommu/hyper-v: Implement select() method on remapping irqdomain
+Date:   Tue, 13 Oct 2020 09:11:35 +0100
+Message-Id: <20201013081139.1558200-6-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201013081139.1558200-1-dwmw2@infradead.org>
 References: <0de733f6384874d68afba2606119d0d9b1e8b34e.camel@infradead.org>
@@ -67,31 +67,36 @@ From: David Woodhouse <dwmw@amazon.co.uk>
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- kernel/irq/irqdomain.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/iommu/hyperv-iommu.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
-index 76cd7ebd1178..6440f97c412e 100644
---- a/kernel/irq/irqdomain.c
-+++ b/kernel/irq/irqdomain.c
-@@ -42,7 +42,16 @@ static inline void debugfs_add_domain_dir(struct irq_domain *d) { }
- static inline void debugfs_remove_domain_dir(struct irq_domain *d) { }
- #endif
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 37dd485a5640..6a8966fbc3bd 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -61,6 +61,14 @@ static struct irq_chip hyperv_ir_chip = {
+ 	.irq_set_affinity	= hyperv_ir_set_affinity,
+ };
  
--const struct fwnode_operations irqchip_fwnode_ops;
-+static const char *irqchip_fwnode_get_name(const struct fwnode_handle *fwnode)
++static int hyperv_irq_remapping_select(struct irq_domain *d,
++				       struct irq_fwspec *fwspec,
++				       enum irq_domain_bus_token bus_token)
 +{
-+	struct irqchip_fwid *fwid = container_of(fwnode, struct irqchip_fwid, fwnode);
-+
-+	return fwid->name;
++	/* Claim only the first (and only) I/OAPIC */
++	return x86_fwspec_is_ioapic(fwspec) && fwspec->param[0] == 0;
 +}
 +
-+const struct fwnode_operations irqchip_fwnode_ops = {
-+	.get_name = irqchip_fwnode_get_name,
-+};
- EXPORT_SYMBOL_GPL(irqchip_fwnode_ops);
+ static int hyperv_irq_remapping_alloc(struct irq_domain *domain,
+ 				     unsigned int virq, unsigned int nr_irqs,
+ 				     void *arg)
+@@ -102,6 +110,7 @@ static void hyperv_irq_remapping_free(struct irq_domain *domain,
+ }
  
- /**
+ static const struct irq_domain_ops hyperv_ir_domain_ops = {
++	.select = hyperv_irq_remapping_select,
+ 	.alloc = hyperv_irq_remapping_alloc,
+ 	.free = hyperv_irq_remapping_free,
+ };
 -- 
 2.26.2
 
