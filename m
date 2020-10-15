@@ -1,71 +1,102 @@
-Return-Path: <SRS0=7wIo=DV=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=wZyI=DW=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBC6C43457
-	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Oct 2020 17:37:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2025FC433E7
+	for <linux-hyperv@archiver.kernel.org>; Thu, 15 Oct 2020 16:32:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1065A22200
-	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Oct 2020 17:37:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABBE522210
+	for <linux-hyperv@archiver.kernel.org>; Thu, 15 Oct 2020 16:32:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1602697039;
-	bh=xJtjbH6oINNo0b2u6RmHIaV3sup612mAzHad1Y/RHhA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
-	b=zpPcN/hKSjUDq9MjezGLaB8rtWLnYpZ8csO2cei+aNCeRMqBqAGMhELbJoAwaOLc2
-	 0nYB9LaxSlbSlxrc5xJm0wlLDyCwmCK7Be/YQqoL3Pap8wbrNMBnDNGEJMcf+FJAMt
-	 hC7xkIwqekKtvbd6xCF4YwKJF/kj2VaqXhnTVxgI=
+	s=default; t=1602779574;
+	bh=PZlUB1DN5ilFUQ6tfkoWdUzcaYlib5wodVmI+Gvv9J0=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=KU5CIJ1qGijMUywYIQ7Fd46ln/fGmrNFSwBWNmqwi+hLnWaZbbLNuqB7Dmn+Z5AF5
+	 kIfqs4j3/KKEUgQqrmh5pCuw9JtHhhUiR9UdsowC9pQp23VuGrjJoxi3R1SD+bfPbU
+	 x0jRhBnjotA223PpmxQvI9k1rdFK2mAvCsJOHMCk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389403AbgJNRhO (ORCPT
+        id S2388946AbgJOQcy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 14 Oct 2020 13:37:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57092 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389383AbgJNRhM (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 14 Oct 2020 13:37:12 -0400
-Subject: Re: [GIT PULL] Hyper-V commits for 5.10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602697032;
-        bh=xJtjbH6oINNo0b2u6RmHIaV3sup612mAzHad1Y/RHhA=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=0bKTNlcaC2j7AQZ0ovw0CFeqaBqls+78Col5slvXK+swHNgvfqpcnclJuOMRIHkRV
-         L2qWw2auq+/tKVaEvOExxthyTs3ojiZUMqAzqPdDoB2zGX02QQL3gSSfPoMiaf8/+c
-         F72LXYLyUIez9c+5yceTRFjATRK0D+rzf7o8uCkY=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20201013131214.ej4ek5expi5dywer@liuwe-devbox-debian-v2>
-References: <20201013131214.ej4ek5expi5dywer@liuwe-devbox-debian-v2>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20201013131214.ej4ek5expi5dywer@liuwe-devbox-debian-v2>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed
-X-PR-Tracked-Commit-Id: 1f3aed01473c41c9f896fbf4c30d330655e8aa7c
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4907a43da83184d4e88009654c9b31f5e091f709
-Message-Id: <160269703226.25844.1399151386874205907.pr-tracker-bot@kernel.org>
-Date:   Wed, 14 Oct 2020 17:37:12 +0000
-To:     Wei Liu <wei.liu@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
+        Thu, 15 Oct 2020 12:32:54 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40083 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389147AbgJOQcy (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 15 Oct 2020 12:32:54 -0400
+Received: by mail-wm1-f68.google.com with SMTP id k18so4430795wmj.5;
+        Thu, 15 Oct 2020 09:32:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=ZxyFlDAhLqNGLQjK2TRdoeg3UYe4lOP/y4EhwxNytxE=;
+        b=HN0+XPLcW6Lp6yv0UtebRqdviGB+EqMcUn4DZzMyPEVftjEs0TuyhHvhSD6UNVnpVH
+         pd3ErnvOPpLxE9WKOt2SgAA9jkKAX1pAYl/PIYtOLmNNF5thtCvdjODGlH0qS28Tx5y2
+         eDyuiYDPq3YMJd8bD4xFimKu25wQonc3BjWMghmJ8ML9TzbfrsGQRKzBmdgohIZkUZjo
+         xDUoKQHIm52XCMD2coicOjCm4cMWkMtfc7upFDAu+YbLZ1YuXwywKAa5aH1HwpUUSdfK
+         +/DAP97MxtSkRlF2ZLukfYbYn0gQFP1RRakq//+54iGpbQVBu2SPSHHXx1ynZRDBBXhX
+         +/Zw==
+X-Gm-Message-State: AOAM530h2kpEExafNgY533tf388dGaE4sXBfQD/F83jFmn8JW9twzRzJ
+        KLNdcJ0nTWkD4XCG9aeXnk0=
+X-Google-Smtp-Source: ABdhPJw6HiJGqJxS1+Zb3VqlF2TFDHUHFtD0tYhEBtYjob+4ZCuHBwhp2Q8mvVMLA9LRnYQpXEwaxA==
+X-Received: by 2002:a1c:bd0a:: with SMTP id n10mr4844493wmf.177.1602779570750;
+        Thu, 15 Oct 2020 09:32:50 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id a3sm4882848wmb.46.2020.10.15.09.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2020 09:32:50 -0700 (PDT)
+Date:   Thu, 15 Oct 2020 16:32:48 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
         sthemmin@microsoft.com, haiyangz@microsoft.com,
         Michael Kelley <mikelley@microsoft.com>,
         Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
         Linux Kernel List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] Hyper-V commits for 5.10, part 2
+Message-ID: <20201015163248.yo3ior67vxtvojra@liuwe-devbox-debian-v2>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The pull request you sent on Tue, 13 Oct 2020 13:12:14 +0000:
+Hi Linus,
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed
+I accidentally dropped one patch that was supposed to be merged in this
+merge window from my first pull request.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4907a43da83184d4e88009654c9b31f5e091f709
+Please pull the following changes since commit 1f3aed01473c41c9f896fbf4c30d330655e8aa7c:
 
-Thank you!
+  hv: clocksource: Add notrace attribute to read_hv_sched_clock_*() functions (2020-09-28 09:04:48 +0000)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed
+
+for you to fetch changes up to 626b901f60446355e35e8c76c6b391a7d7491203:
+
+  Drivers: hv: vmbus: Add parsing of VMbus interrupt in ACPI DSDT (2020-10-14 19:14:51 +0000)
+
+----------------------------------------------------------------
+hyperv-next for 5.10, part 2
+
+  - One patch from Michael to get VMbus interrupt from ACPI DSDT
+
+----------------------------------------------------------------
+Michael Kelley (1):
+      Drivers: hv: vmbus: Add parsing of VMbus interrupt in ACPI DSDT
+
+ arch/x86/include/asm/mshyperv.h |  1 +
+ arch/x86/kernel/cpu/mshyperv.c  |  7 ++++++-
+ drivers/hv/hv.c                 |  2 +-
+ drivers/hv/vmbus_drv.c          | 30 +++++++++++++++++++++++++++---
+ include/asm-generic/mshyperv.h  |  4 +++-
+ 5 files changed, 38 insertions(+), 6 deletions(-)
