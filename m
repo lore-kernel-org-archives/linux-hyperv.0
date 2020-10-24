@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF214C2D0A3
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DDE1C2D0A3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:38:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 951132225E
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:38:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D3552225E
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:38:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OEBxw75U"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fWt8dGKh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1764577AbgJXVhu (ORCPT
+        id S1764908AbgJXViL (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 24 Oct 2020 17:37:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33902 "EHLO
+        Sat, 24 Oct 2020 17:38:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764728AbgJXVfw (ORCPT
+        with ESMTP id S1764703AbgJXVfs (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 24 Oct 2020 17:35:52 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 941D8C0613DA;
+        Sat, 24 Oct 2020 17:35:48 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CAA7C0613D5;
         Sat, 24 Oct 2020 14:35:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+        d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=ikWKCAbNgSYSTx8CvKcfSVES3+bcE6fz2fZBIvPenfg=; b=OEBxw75UKpTz1DSj/h+VRA9m9i
-        409KF6sANlugKgYGjc2TXPQ40UOPTZff6v1Enb7uu0ZzxA51LHBc5fHJHG0Pcym665zQaW27sdfY+
-        EGOzyASyWiSXOZfarnQhNpvZjLEBBBVrmZSCg6w9Kmwj33OrhP7Pdq28P8hp++xCitgCqE8eKUcuJ
-        TM7IJf3FEHMhSSzzwddADjz1YJDufu8p6rt8JR9fjytoM/xUaX8UQuGlajr19H9at6NNM9m64GnOX
-        GdhiQa7opU09LFOR0+bZZhF/U9tzfV4NwgrtezzYJiRqoD73oe0Aey6Xc6d06/r1MuAIp4z4WFgNc
-        ZR/Ys0Og==;
+        bh=zijc/whkOmfLXIiirWH/gYILveEHShuI4ufUQxZE7qw=; b=fWt8dGKh7QTvP+OygUJewhm3u3
+        U+nM12D9bRE5TDcVFQZQ7CvgupliaH6XLDlLzuaRe+oFKwMtHdwxJ90q1QXSdsHTHtp8I2XASVMJH
+        zpYJrktcyQD78RM1USH+Jv/EzT5SA5o2+pR94AeKuaKxJG39oRdFzcQgBUER8/acKL3uNSNNH/ihR
+        TGO19pNXmPwH1dNF0g9hi+bgw0iQDqUrNggvHMJNOXV8AXijNXeCqy1rJ3JNIH4fYFFjA2kibXi6J
+        NbDaUK9QDnhfi63eDDjOyZhjh8GbWLtpS5IPLLNJdPr5GFm/qmheWsXfG0Y60kdmpPHkWOWcDSxkP
+        akmrQgNg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kWRCS-0008BV-ST; Sat, 24 Oct 2020 21:35:45 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kWRCS-0006HA-8N; Sat, 24 Oct 2020 21:35:45 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kWRCM-001rOD-RF; Sat, 24 Oct 2020 22:35:38 +0100
+        id 1kWRCM-001rO4-PJ; Sat, 24 Oct 2020 22:35:38 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
@@ -49,9 +49,9 @@ Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-hyperv@vger.kernel.org, maz@misterjones.org,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v3 10/35] x86/hpet: Move MSI support into hpet.c
-Date:   Sat, 24 Oct 2020 22:35:10 +0100
-Message-Id: <20201024213535.443185-11-dwmw2@infradead.org>
+Subject: [PATCH v3 08/35] x86/apic: Cleanup destination mode
+Date:   Sat, 24 Oct 2020 22:35:08 +0100
+Message-Id: <20201024213535.443185-9-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201024213535.443185-1-dwmw2@infradead.org>
 References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
@@ -59,328 +59,348 @@ References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by merlin.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-This isn't really dependent on PCI MSI; it's just generic MSI which is now
-supported by the generic x86_vector_domain. Move the HPET MSI support back
-into hpet.c with the rest of the HPET support.
+apic::irq_dest_mode is actually a boolean, but defined as u32 and named in
+a way which does not explain what it means.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Make it a boolean and rename it to 'dest_mode_logical'
+
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/include/asm/hpet.h |  11 ----
- arch/x86/kernel/apic/msi.c  | 111 ---------------------------------
- arch/x86/kernel/hpet.c      | 118 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 112 insertions(+), 128 deletions(-)
+ arch/x86/include/asm/apic.h           | 2 +-
+ arch/x86/kernel/apic/apic.c           | 2 +-
+ arch/x86/kernel/apic/apic_flat_64.c   | 4 ++--
+ arch/x86/kernel/apic/apic_noop.c      | 4 +---
+ arch/x86/kernel/apic/apic_numachip.c  | 4 ++--
+ arch/x86/kernel/apic/bigsmp_32.c      | 3 +--
+ arch/x86/kernel/apic/io_apic.c        | 2 +-
+ arch/x86/kernel/apic/msi.c            | 6 +++---
+ arch/x86/kernel/apic/probe_32.c       | 3 +--
+ arch/x86/kernel/apic/x2apic_cluster.c | 2 +-
+ arch/x86/kernel/apic/x2apic_phys.c    | 2 +-
+ arch/x86/kernel/apic/x2apic_uv_x.c    | 2 +-
+ arch/x86/kernel/smpboot.c             | 7 ++-----
+ arch/x86/platform/uv/uv_irq.c         | 2 +-
+ arch/x86/xen/apic.c                   | 3 +--
+ drivers/iommu/amd/amd_iommu_types.h   | 2 +-
+ drivers/iommu/amd/iommu.c             | 8 ++++----
+ drivers/iommu/intel/irq_remapping.c   | 2 +-
+ 18 files changed, 26 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/include/asm/hpet.h b/arch/x86/include/asm/hpet.h
-index 6352dee37cda..ab9f3dd87c80 100644
---- a/arch/x86/include/asm/hpet.h
-+++ b/arch/x86/include/asm/hpet.h
-@@ -74,17 +74,6 @@ extern void hpet_disable(void);
- extern unsigned int hpet_readl(unsigned int a);
- extern void force_hpet_resume(void);
+diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
+index 019d7ac3b16e..652f62252349 100644
+--- a/arch/x86/include/asm/apic.h
++++ b/arch/x86/include/asm/apic.h
+@@ -309,7 +309,7 @@ struct apic {
+ 	u32	disable_esr;
  
--struct irq_data;
--struct hpet_channel;
--struct irq_domain;
--
--extern void hpet_msi_unmask(struct irq_data *data);
--extern void hpet_msi_mask(struct irq_data *data);
--extern void hpet_msi_write(struct hpet_channel *hc, struct msi_msg *msg);
--extern struct irq_domain *hpet_create_irq_domain(int hpet_id);
--extern int hpet_assign_irq(struct irq_domain *domain,
--			   struct hpet_channel *hc, int dev_num);
--
- #ifdef CONFIG_HPET_EMULATE_RTC
+ 	enum apic_delivery_modes delivery_mode;
+-	u32	irq_dest_mode;
++	bool	dest_mode_logical;
  
- #include <linux/interrupt.h>
+ 	u32	(*calc_dest_apicid)(unsigned int cpu);
+ 
+diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
+index 29d28b34cb2f..54f04355aaa2 100644
+--- a/arch/x86/kernel/apic/apic.c
++++ b/arch/x86/kernel/apic/apic.c
+@@ -1591,7 +1591,7 @@ static void setup_local_APIC(void)
+ 	apic->init_apic_ldr();
+ 
+ #ifdef CONFIG_X86_32
+-	if (apic->irq_dest_mode == 1) {
++	if (apic->dest_mode_logical) {
+ 		int logical_apicid, ldr_apicid;
+ 
+ 		/*
+diff --git a/arch/x86/kernel/apic/apic_flat_64.c b/arch/x86/kernel/apic/apic_flat_64.c
+index bbb1b89fe711..8f72b4351c9f 100644
+--- a/arch/x86/kernel/apic/apic_flat_64.c
++++ b/arch/x86/kernel/apic/apic_flat_64.c
+@@ -114,7 +114,7 @@ static struct apic apic_flat __ro_after_init = {
+ 	.apic_id_registered		= flat_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 1, /* logical */
++	.dest_mode_logical		= true,
+ 
+ 	.disable_esr			= 0,
+ 
+@@ -205,7 +205,7 @@ static struct apic apic_physflat __ro_after_init = {
+ 	.apic_id_registered		= flat_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 0, /* physical */
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/apic/apic_noop.c b/arch/x86/kernel/apic/apic_noop.c
+index 38f167ce5031..fe78319e0f7a 100644
+--- a/arch/x86/kernel/apic/apic_noop.c
++++ b/arch/x86/kernel/apic/apic_noop.c
+@@ -96,8 +96,7 @@ struct apic apic_noop __ro_after_init = {
+ 	.apic_id_registered		= noop_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	/* logical delivery broadcast to all CPUs: */
+-	.irq_dest_mode			= 1,
++	.dest_mode_logical		= true,
+ 
+ 	.disable_esr			= 0,
+ 
+@@ -105,7 +104,6 @@ struct apic apic_noop __ro_after_init = {
+ 	.init_apic_ldr			= noop_init_apic_ldr,
+ 	.ioapic_phys_id_map		= default_ioapic_phys_id_map,
+ 	.setup_apic_routing		= NULL,
+-
+ 	.cpu_present_to_apicid		= default_cpu_present_to_apicid,
+ 	.apicid_to_cpu_present		= physid_set_mask_of_physid,
+ 
+diff --git a/arch/x86/kernel/apic/apic_numachip.c b/arch/x86/kernel/apic/apic_numachip.c
+index 4ebf9fe2c95d..a54d817eb4b6 100644
+--- a/arch/x86/kernel/apic/apic_numachip.c
++++ b/arch/x86/kernel/apic/apic_numachip.c
+@@ -247,7 +247,7 @@ static const struct apic apic_numachip1 __refconst = {
+ 	.apic_id_registered		= numachip_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 0, /* physical */
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 0,
+ 
+@@ -294,7 +294,7 @@ static const struct apic apic_numachip2 __refconst = {
+ 	.apic_id_registered		= numachip_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 0, /* physical */
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/apic/bigsmp_32.c b/arch/x86/kernel/apic/bigsmp_32.c
+index 64c375b8c54e..77555f66c14d 100644
+--- a/arch/x86/kernel/apic/bigsmp_32.c
++++ b/arch/x86/kernel/apic/bigsmp_32.c
+@@ -128,8 +128,7 @@ static struct apic apic_bigsmp __ro_after_init = {
+ 	.apic_id_registered		= bigsmp_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	/* phys delivery to target CPU: */
+-	.irq_dest_mode			= 0,
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 1,
+ 
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index cff6cbc3d183..c6d92d2570d0 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -2950,7 +2950,7 @@ static void mp_setup_entry(struct irq_cfg *cfg, struct mp_chip_data *data,
+ {
+ 	memset(entry, 0, sizeof(*entry));
+ 	entry->delivery_mode = apic->delivery_mode;
+-	entry->dest_mode     = apic->irq_dest_mode;
++	entry->dest_mode     = apic->dest_mode_logical;
+ 	entry->dest	     = cfg->dest_apicid;
+ 	entry->vector	     = cfg->vector;
+ 	entry->trigger	     = data->trigger;
 diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index 4eda617eda1e..44ebe25e7703 100644
+index 516df47bde73..46ffd41a4238 100644
 --- a/arch/x86/kernel/apic/msi.c
 +++ b/arch/x86/kernel/apic/msi.c
-@@ -340,114 +340,3 @@ void dmar_free_hwirq(int irq)
- 	irq_domain_free_irqs(irq, 1);
- }
- #endif
--
--/*
-- * MSI message composition
-- */
--#ifdef CONFIG_HPET_TIMER
--static inline int hpet_dev_id(struct irq_domain *domain)
--{
--	struct msi_domain_info *info = msi_get_domain_info(domain);
--
--	return (int)(long)info->data;
--}
--
--static void hpet_msi_write_msg(struct irq_data *data, struct msi_msg *msg)
--{
--	hpet_msi_write(irq_data_get_irq_handler_data(data), msg);
--}
--
--static struct irq_chip hpet_msi_controller __ro_after_init = {
--	.name = "HPET-MSI",
--	.irq_unmask = hpet_msi_unmask,
--	.irq_mask = hpet_msi_mask,
--	.irq_ack = irq_chip_ack_parent,
--	.irq_set_affinity = msi_domain_set_affinity,
--	.irq_retrigger = irq_chip_retrigger_hierarchy,
--	.irq_write_msi_msg = hpet_msi_write_msg,
--	.flags = IRQCHIP_SKIP_SET_WAKE,
--};
--
--static int hpet_msi_init(struct irq_domain *domain,
--			 struct msi_domain_info *info, unsigned int virq,
--			 irq_hw_number_t hwirq, msi_alloc_info_t *arg)
--{
--	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
--	irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
--			    handle_edge_irq, arg->data, "edge");
--
--	return 0;
--}
--
--static void hpet_msi_free(struct irq_domain *domain,
--			  struct msi_domain_info *info, unsigned int virq)
--{
--	irq_clear_status_flags(virq, IRQ_MOVE_PCNTXT);
--}
--
--static struct msi_domain_ops hpet_msi_domain_ops = {
--	.msi_init	= hpet_msi_init,
--	.msi_free	= hpet_msi_free,
--};
--
--static struct msi_domain_info hpet_msi_domain_info = {
--	.ops		= &hpet_msi_domain_ops,
--	.chip		= &hpet_msi_controller,
--	.flags		= MSI_FLAG_USE_DEF_DOM_OPS,
--};
--
--struct irq_domain *hpet_create_irq_domain(int hpet_id)
--{
--	struct msi_domain_info *domain_info;
--	struct irq_domain *parent, *d;
--	struct irq_alloc_info info;
--	struct fwnode_handle *fn;
--
--	if (x86_vector_domain == NULL)
--		return NULL;
--
--	domain_info = kzalloc(sizeof(*domain_info), GFP_KERNEL);
--	if (!domain_info)
--		return NULL;
--
--	*domain_info = hpet_msi_domain_info;
--	domain_info->data = (void *)(long)hpet_id;
--
--	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT;
--	info.devid = hpet_id;
--	parent = irq_remapping_get_irq_domain(&info);
--	if (parent == NULL)
--		parent = x86_vector_domain;
--	else
--		hpet_msi_controller.name = "IR-HPET-MSI";
--
--	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
--					      hpet_id);
--	if (!fn) {
--		kfree(domain_info);
--		return NULL;
--	}
--
--	d = msi_create_irq_domain(fn, domain_info, parent);
--	if (!d) {
--		irq_domain_free_fwnode(fn);
--		kfree(domain_info);
--	}
--	return d;
--}
--
--int hpet_assign_irq(struct irq_domain *domain, struct hpet_channel *hc,
--		    int dev_num)
--{
--	struct irq_alloc_info info;
--
--	init_irq_alloc_info(&info, NULL);
--	info.type = X86_IRQ_ALLOC_TYPE_HPET;
--	info.data = hc;
--	info.devid = hpet_dev_id(domain);
--	info.hwirq = dev_num;
--
--	return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &info);
--}
--#endif
-diff --git a/arch/x86/kernel/hpet.c b/arch/x86/kernel/hpet.c
-index 7a50f0b62a70..3b8b12769f3b 100644
---- a/arch/x86/kernel/hpet.c
-+++ b/arch/x86/kernel/hpet.c
-@@ -7,6 +7,7 @@
- #include <linux/cpu.h>
- #include <linux/irq.h>
+@@ -30,9 +30,9 @@ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg,
  
-+#include <asm/irq_remapping.h>
- #include <asm/hpet.h>
- #include <asm/time.h>
+ 	msg->address_lo =
+ 		MSI_ADDR_BASE_LO |
+-		((apic->irq_dest_mode == 0) ?
+-			MSI_ADDR_DEST_MODE_PHYSICAL :
+-			MSI_ADDR_DEST_MODE_LOGICAL) |
++		(apic->dest_mode_logical ?
++			MSI_ADDR_DEST_MODE_LOGICAL :
++			MSI_ADDR_DEST_MODE_PHYSICAL) |
+ 		MSI_ADDR_REDIRECTION_CPU |
+ 		MSI_ADDR_DEST_ID(cfg->dest_apicid);
  
-@@ -50,7 +51,7 @@ unsigned long				hpet_address;
- u8					hpet_blockid; /* OS timer block num */
- bool					hpet_msi_disable;
+diff --git a/arch/x86/kernel/apic/probe_32.c b/arch/x86/kernel/apic/probe_32.c
+index 97652aacf3e1..a61f642b1b90 100644
+--- a/arch/x86/kernel/apic/probe_32.c
++++ b/arch/x86/kernel/apic/probe_32.c
+@@ -70,8 +70,7 @@ static struct apic apic_default __ro_after_init = {
+ 	.apic_id_registered		= default_apic_id_registered,
  
--#ifdef CONFIG_PCI_MSI
-+#ifdef CONFIG_GENERIC_MSI_IRQ
- static DEFINE_PER_CPU(struct hpet_channel *, cpu_hpet_channel);
- static struct irq_domain		*hpet_domain;
- #endif
-@@ -467,9 +468,8 @@ static void __init hpet_legacy_clockevent_register(struct hpet_channel *hc)
- /*
-  * HPET MSI Support
-  */
--#ifdef CONFIG_PCI_MSI
--
--void hpet_msi_unmask(struct irq_data *data)
-+#ifdef CONFIG_GENERIC_MSI_IRQ
-+static void hpet_msi_unmask(struct irq_data *data)
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	/* logical delivery broadcast to all CPUs: */
+-	.irq_dest_mode			= 1,
++	.dest_mode_logical		= true,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/apic/x2apic_cluster.c b/arch/x86/kernel/apic/x2apic_cluster.c
+index 53390fc9f51e..df6adc5674c9 100644
+--- a/arch/x86/kernel/apic/x2apic_cluster.c
++++ b/arch/x86/kernel/apic/x2apic_cluster.c
+@@ -185,7 +185,7 @@ static struct apic apic_x2apic_cluster __ro_after_init = {
+ 	.apic_id_registered		= x2apic_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 1, /* logical */
++	.dest_mode_logical		= true,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/apic/x2apic_phys.c b/arch/x86/kernel/apic/x2apic_phys.c
+index ee0c4d08092c..0e4e81971567 100644
+--- a/arch/x86/kernel/apic/x2apic_phys.c
++++ b/arch/x86/kernel/apic/x2apic_phys.c
+@@ -158,7 +158,7 @@ static struct apic apic_x2apic_phys __ro_after_init = {
+ 	.apic_id_registered		= x2apic_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 0, /* physical */
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/apic/x2apic_uv_x.c b/arch/x86/kernel/apic/x2apic_uv_x.c
+index d21a6853afee..de94181f4d0c 100644
+--- a/arch/x86/kernel/apic/x2apic_uv_x.c
++++ b/arch/x86/kernel/apic/x2apic_uv_x.c
+@@ -808,7 +808,7 @@ static struct apic apic_x2apic_uv_x __ro_after_init = {
+ 	.apic_id_registered		= uv_apic_id_registered,
+ 
+ 	.delivery_mode			= APIC_DELIVERY_MODE_FIXED,
+-	.irq_dest_mode			= 0, /* Physical */
++	.dest_mode_logical		= false,
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/arch/x86/kernel/smpboot.c b/arch/x86/kernel/smpboot.c
+index 6c14f1091f60..d133d6580f41 100644
+--- a/arch/x86/kernel/smpboot.c
++++ b/arch/x86/kernel/smpboot.c
+@@ -747,7 +747,7 @@ static void __init smp_quirk_init_udelay(void)
+ int
+ wakeup_secondary_cpu_via_nmi(int apicid, unsigned long start_eip)
  {
- 	struct hpet_channel *hc = irq_data_get_irq_handler_data(data);
- 	unsigned int cfg;
-@@ -479,7 +479,7 @@ void hpet_msi_unmask(struct irq_data *data)
- 	hpet_writel(cfg, HPET_Tn_CFG(hc->num));
+-	u32 dm = apic->irq_dest_mode ? APIC_DEST_LOGICAL : APIC_DEST_PHYSICAL;
++	u32 dm = apic->dest_mode_logical ? APIC_DEST_LOGICAL : APIC_DEST_PHYSICAL;
+ 	unsigned long send_status, accept_status = 0;
+ 	int maxlvt;
+ 
+@@ -981,10 +981,7 @@ wakeup_cpu_via_init_nmi(int cpu, unsigned long start_ip, int apicid,
+ 	if (!boot_error) {
+ 		enable_start_cpu0 = 1;
+ 		*cpu0_nmi_registered = 1;
+-		if (apic->irq_dest_mode)
+-			id = cpu0_logical_apicid;
+-		else
+-			id = apicid;
++		id = apic->dest_mode_logical ? cpu0_logical_apicid : apicid;
+ 		boot_error = wakeup_secondary_cpu_via_nmi(id, start_ip);
+ 	}
+ 
+diff --git a/arch/x86/platform/uv/uv_irq.c b/arch/x86/platform/uv/uv_irq.c
+index e7020d162949..1a536a187d74 100644
+--- a/arch/x86/platform/uv/uv_irq.c
++++ b/arch/x86/platform/uv/uv_irq.c
+@@ -36,7 +36,7 @@ static void uv_program_mmr(struct irq_cfg *cfg, struct uv_irq_2_mmr_pnode *info)
+ 	entry = (struct uv_IO_APIC_route_entry *)&mmr_value;
+ 	entry->vector		= cfg->vector;
+ 	entry->delivery_mode	= apic->delivery_mode;
+-	entry->dest_mode	= apic->irq_dest_mode;
++	entry->dest_mode	= apic->dest_mode_logical;
+ 	entry->polarity		= 0;
+ 	entry->trigger		= 0;
+ 	entry->mask		= 0;
+diff --git a/arch/x86/xen/apic.c b/arch/x86/xen/apic.c
+index c35c24b5bc01..0d46cc283cf5 100644
+--- a/arch/x86/xen/apic.c
++++ b/arch/x86/xen/apic.c
+@@ -148,8 +148,7 @@ static struct apic xen_pv_apic = {
+ 	.apic_id_valid 			= xen_id_always_valid,
+ 	.apic_id_registered 		= xen_id_always_registered,
+ 
+-	/* .irq_delivery_mode - used in native_compose_msi_msg only */
+-	/* .irq_dest_mode     - used in native_compose_msi_msg only */
++	/* .delivery_mode and .dest_mode_logical not used by XENPV */
+ 
+ 	.disable_esr			= 0,
+ 
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index f696ac7c5f89..ba74a722a400 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -893,7 +893,7 @@ struct amd_ir_data {
+ };
+ 
+ struct amd_irte_ops {
+-	void (*prepare)(void *, u32, u32, u8, u32, int);
++	void (*prepare)(void *, u32, bool, u8, u32, int);
+ 	void (*activate)(void *, u16, u16);
+ 	void (*deactivate)(void *, u16, u16);
+ 	void (*set_affinity)(void *, u16, u16, u8, u32);
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index bc81b91f89fe..d7f0c8908602 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -3466,7 +3466,7 @@ static void free_irte(u16 devid, int index)
  }
  
--void hpet_msi_mask(struct irq_data *data)
-+static void hpet_msi_mask(struct irq_data *data)
+ static void irte_prepare(void *entry,
+-			 u32 delivery_mode, u32 dest_mode,
++			 u32 delivery_mode, bool dest_mode,
+ 			 u8 vector, u32 dest_apicid, int devid)
  {
- 	struct hpet_channel *hc = irq_data_get_irq_handler_data(data);
- 	unsigned int cfg;
-@@ -489,12 +489,118 @@ void hpet_msi_mask(struct irq_data *data)
- 	hpet_writel(cfg, HPET_Tn_CFG(hc->num));
+ 	union irte *irte = (union irte *) entry;
+@@ -3480,7 +3480,7 @@ static void irte_prepare(void *entry,
  }
  
--void hpet_msi_write(struct hpet_channel *hc, struct msi_msg *msg)
-+static void hpet_msi_write(struct hpet_channel *hc, struct msi_msg *msg)
+ static void irte_ga_prepare(void *entry,
+-			    u32 delivery_mode, u32 dest_mode,
++			    u32 delivery_mode, bool dest_mode,
+ 			    u8 vector, u32 dest_apicid, int devid)
  {
- 	hpet_writel(msg->data, HPET_Tn_ROUTE(hc->num));
- 	hpet_writel(msg->address_lo, HPET_Tn_ROUTE(hc->num) + 4);
- }
+ 	struct irte_ga *irte = (struct irte_ga *) entry;
+@@ -3672,7 +3672,7 @@ static void irq_remapping_prepare_irte(struct amd_ir_data *data,
+ 	data->irq_2_irte.devid = devid;
+ 	data->irq_2_irte.index = index + sub_handle;
+ 	iommu->irte_ops->prepare(data->entry, apic->delivery_mode,
+-				 apic->irq_dest_mode, irq_cfg->vector,
++				 apic->dest_mode_logical, irq_cfg->vector,
+ 				 irq_cfg->dest_apicid, devid);
  
-+static void hpet_msi_write_msg(struct irq_data *data, struct msi_msg *msg)
-+{
-+	hpet_msi_write(irq_data_get_irq_handler_data(data), msg);
-+}
-+
-+static struct irq_chip hpet_msi_controller __ro_after_init = {
-+	.name = "HPET-MSI",
-+	.irq_unmask = hpet_msi_unmask,
-+	.irq_mask = hpet_msi_mask,
-+	.irq_ack = irq_chip_ack_parent,
-+	.irq_set_affinity = msi_domain_set_affinity,
-+	.irq_retrigger = irq_chip_retrigger_hierarchy,
-+	.irq_write_msi_msg = hpet_msi_write_msg,
-+	.flags = IRQCHIP_SKIP_SET_WAKE,
-+};
-+
-+static int hpet_msi_init(struct irq_domain *domain,
-+			 struct msi_domain_info *info, unsigned int virq,
-+			 irq_hw_number_t hwirq, msi_alloc_info_t *arg)
-+{
-+	irq_set_status_flags(virq, IRQ_MOVE_PCNTXT);
-+	irq_domain_set_info(domain, virq, arg->hwirq, info->chip, NULL,
-+			    handle_edge_irq, arg->data, "edge");
-+
-+	return 0;
-+}
-+
-+static void hpet_msi_free(struct irq_domain *domain,
-+			  struct msi_domain_info *info, unsigned int virq)
-+{
-+	irq_clear_status_flags(virq, IRQ_MOVE_PCNTXT);
-+}
-+
-+static struct msi_domain_ops hpet_msi_domain_ops = {
-+	.msi_init	= hpet_msi_init,
-+	.msi_free	= hpet_msi_free,
-+};
-+
-+static struct msi_domain_info hpet_msi_domain_info = {
-+	.ops		= &hpet_msi_domain_ops,
-+	.chip		= &hpet_msi_controller,
-+	.flags		= MSI_FLAG_USE_DEF_DOM_OPS,
-+};
-+
-+static struct irq_domain *hpet_create_irq_domain(int hpet_id)
-+{
-+	struct msi_domain_info *domain_info;
-+	struct irq_domain *parent, *d;
-+	struct irq_alloc_info info;
-+	struct fwnode_handle *fn;
-+
-+	if (x86_vector_domain == NULL)
-+		return NULL;
-+
-+	domain_info = kzalloc(sizeof(*domain_info), GFP_KERNEL);
-+	if (!domain_info)
-+		return NULL;
-+
-+	*domain_info = hpet_msi_domain_info;
-+	domain_info->data = (void *)(long)hpet_id;
-+
-+	init_irq_alloc_info(&info, NULL);
-+	info.type = X86_IRQ_ALLOC_TYPE_HPET_GET_PARENT;
-+	info.devid = hpet_id;
-+	parent = irq_remapping_get_irq_domain(&info);
-+	if (parent == NULL)
-+		parent = x86_vector_domain;
-+	else
-+		hpet_msi_controller.name = "IR-HPET-MSI";
-+
-+	fn = irq_domain_alloc_named_id_fwnode(hpet_msi_controller.name,
-+					      hpet_id);
-+	if (!fn) {
-+		kfree(domain_info);
-+		return NULL;
-+	}
-+
-+	d = msi_create_irq_domain(fn, domain_info, parent);
-+	if (!d) {
-+		irq_domain_free_fwnode(fn);
-+		kfree(domain_info);
-+	}
-+	return d;
-+}
-+
-+static inline int hpet_dev_id(struct irq_domain *domain)
-+{
-+	struct msi_domain_info *info = msi_get_domain_info(domain);
-+
-+	return (int)(long)info->data;
-+}
-+
-+static int hpet_assign_irq(struct irq_domain *domain, struct hpet_channel *hc,
-+			   int dev_num)
-+{
-+	struct irq_alloc_info info;
-+
-+	init_irq_alloc_info(&info, NULL);
-+	info.type = X86_IRQ_ALLOC_TYPE_HPET;
-+	info.data = hc;
-+	info.devid = hpet_dev_id(domain);
-+	info.hwirq = dev_num;
-+
-+	return irq_domain_alloc_irqs(domain, 1, NUMA_NO_NODE, &info);
-+}
-+
- static int hpet_clkevt_msi_resume(struct clock_event_device *evt)
- {
- 	struct hpet_channel *hc = clockevent_to_channel(evt);
+ 	switch (info->type) {
+@@ -3943,7 +3943,7 @@ int amd_iommu_deactivate_guest_mode(void *data)
+ 	entry->hi.val = 0;
+ 
+ 	entry->lo.fields_remap.valid       = valid;
+-	entry->lo.fields_remap.dm          = apic->irq_dest_mode;
++	entry->lo.fields_remap.dm          = apic->dest_mode_logical;
+ 	entry->lo.fields_remap.int_type    = apic->delivery_mode;
+ 	entry->hi.fields.vector            = cfg->vector;
+ 	entry->lo.fields_remap.destination =
+diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
+index d44e719d1984..5628d43b795e 100644
+--- a/drivers/iommu/intel/irq_remapping.c
++++ b/drivers/iommu/intel/irq_remapping.c
+@@ -1113,7 +1113,7 @@ static void prepare_irte(struct irte *irte, int vector, unsigned int dest)
+ 	memset(irte, 0, sizeof(*irte));
+ 
+ 	irte->present = 1;
+-	irte->dst_mode = apic->irq_dest_mode;
++	irte->dst_mode = apic->dest_mode_logical;
+ 	/*
+ 	 * Trigger mode in the IRTE will always be edge, and for IO-APIC, the
+ 	 * actual level or edge trigger will be setup in the IO-APIC
 -- 
 2.26.2
 
