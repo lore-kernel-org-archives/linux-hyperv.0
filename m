@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4333AC2D0A3
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CABECC2D0A3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 133AE22210
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A78922210
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LbicCFso"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TwEX9h4a"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1765113AbgJXVi7 (ORCPT
+        id S1764701AbgJXVjM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 24 Oct 2020 17:38:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33840 "EHLO
+        Sat, 24 Oct 2020 17:39:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764668AbgJXVfp (ORCPT
+        with ESMTP id S1764664AbgJXVfp (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Sat, 24 Oct 2020 17:35:45 -0400
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24EC8C0613CE;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280FFC0613D6;
         Sat, 24 Oct 2020 14:35:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=QKv+CnHFIIRktMa1BeG6QVG/pUWoIFk8HhQM9MlGvdQ=; b=LbicCFsoHA0GA9eqP0yPlGOiQa
-        P3S6n6ygsmuS0MX2RoZA7KBotfj4G8Hfbo9r0Bc2t8WEOSmzQ6KZc3IlvHnUlUI2siJtpiPrhve9F
-        UKBSKhFAr/gS7qmUPoPTtZrnnsUVHkqQiumBL93Yi9K7n+Zu2HHRAnQkSgb0cdH9UYipsEjTv+gmM
-        252auLaNt1LcUpDVCsEuKzpemNPk7fzxwRp1PmdPom10w15Af3MDod3z6dFkvqpGzPXJ+HyGCIu/A
-        svpgDHEjJatE/TGReDC1B89G3u0i7Q7ouQP481z9X6wylEYCmK772TyH0Q45p1dHOdxYTih+DgOyq
-        5l0g4bPw==;
+        bh=C0ceQD7RpCrLmfkKsXqDNRC608zY/4Bwc4glHhGbq80=; b=TwEX9h4adZHoXwYi8vmInLnsVN
+        +L00VhuxtBSQRwLUTSJ5jmMYv/ofpq6xWavAf2eLtMgt0QerE2T6qWmlGIPDOYYUoXErC5wT7MW6J
+        OC3nYqgXSRYuxPwEPXglZnUB/2RMNn2oWJNVb1sOKN+TmcTG6+YkCmW2KvstC6FwMIFj0W2uU7oUO
+        tq2zyrZwt3lZfapPP3J3Uxixizj72G6QEJQ2AhuyKyhF6MJER9cH/0ylydQ+wdoXyp6eB7M+co4/g
+        vtQz3atVW+BnhGqrD1RuATTwH9Fu5W0er2CXYIFso+7o8LQ1S10Um/57zMAu8buVBVlL3QoKdVQPa
+        H63NuUvg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kWRCO-0008B3-Gg; Sat, 24 Oct 2020 21:35:40 +0000
+        id 1kWRCO-0008B4-Gj; Sat, 24 Oct 2020 21:35:40 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kWRCM-001rNg-KF; Sat, 24 Oct 2020 22:35:38 +0100
+        id 1kWRCM-001rNo-Lh; Sat, 24 Oct 2020 22:35:38 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
@@ -49,9 +49,9 @@ Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-hyperv@vger.kernel.org, maz@misterjones.org,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v3 02/35] x86/msi: Only use high bits of MSI address for DMAR unit
-Date:   Sat, 24 Oct 2020 22:35:02 +0100
-Message-Id: <20201024213535.443185-3-dwmw2@infradead.org>
+Subject: [PATCH v3 04/35] x86/devicetree: Fix the ioapic interrupt type table
+Date:   Sat, 24 Oct 2020 22:35:04 +0100
+Message-Id: <20201024213535.443185-5-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201024213535.443185-1-dwmw2@infradead.org>
 References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
@@ -64,109 +64,88 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-The Intel IOMMU has an MSI-like configuration for its interrupt, but it
-isn't really MSI. So it gets to abuse the high 32 bits of the address, and
-puts the high 24 bits of the extended APIC ID there.
+The ioapic interrupt type table is wrong as it assumes that polarity in
+IO/APIC context means active high when set. But the IO/APIC polarity is
+working the other way round. This works because the ordering of the entries
+is consistent with the device tree and the type information is not used by
+the IO/APIC interrupt chip.
 
-This isn't something that can be used in the general case for real MSIs,
-since external devices using the high bits of the address would be
-performing writes to actual memory space above 4GiB, not targeted at the
-APIC.
+The whole trigger and polarity business of IO/APIC is misleading and the
+corresponding constants which are defined as 0/1 are not used consistently
+and are going to be removed.
 
-Factor the hack out and allow it only to be used when appropriate, adding a
-WARN_ON_ONCE() if other MSIs are targeted at an unreachable APIC ID. That
-should never happen since the compatibility MSI messages are not used when
-Interrupt Remapping is enabled.
+Rename the type table members to 'is_level' and 'active_low' and adjust the
+type information for consistency sake.
 
-The x2apic_enabled() check isn't needed because Linux won't bring up CPUs
-with higher APIC IDs unless IR and x2apic are enabled anyway.
+No functional change.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kernel/apic/msi.c | 33 +++++++++++++++++++++++++++------
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ arch/x86/kernel/devicetree.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/arch/x86/kernel/apic/msi.c b/arch/x86/kernel/apic/msi.c
-index 6313f0a05db7..516df47bde73 100644
---- a/arch/x86/kernel/apic/msi.c
-+++ b/arch/x86/kernel/apic/msi.c
-@@ -23,13 +23,11 @@
+diff --git a/arch/x86/kernel/devicetree.c b/arch/x86/kernel/devicetree.c
+index ddffd80f5c52..6a4cb71c2498 100644
+--- a/arch/x86/kernel/devicetree.c
++++ b/arch/x86/kernel/devicetree.c
+@@ -184,31 +184,31 @@ static unsigned int ioapic_id;
  
- struct irq_domain *x86_pci_msi_default_domain __ro_after_init;
- 
--static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
-+static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg,
-+				  bool dmar)
- {
- 	msg->address_hi = MSI_ADDR_BASE_HI;
- 
--	if (x2apic_enabled())
--		msg->address_hi |= MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid);
--
- 	msg->address_lo =
- 		MSI_ADDR_BASE_LO |
- 		((apic->irq_dest_mode == 0) ?
-@@ -43,18 +41,29 @@ static void __irq_msi_compose_msg(struct irq_cfg *cfg, struct msi_msg *msg)
- 		MSI_DATA_LEVEL_ASSERT |
- 		MSI_DATA_DELIVERY_FIXED |
- 		MSI_DATA_VECTOR(cfg->vector);
-+
-+	/*
-+	 * Only the IOMMU itself can use the trick of putting destination
-+	 * APIC ID into the high bits of the address. Anything else would
-+	 * just be writing to memory if it tried that, and needs IR to
-+	 * address higher APIC IDs.
-+	 */
-+	if (dmar)
-+		msg->address_hi |= MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid);
-+	else
-+		WARN_ON_ONCE(MSI_ADDR_EXT_DEST_ID(cfg->dest_apicid));
- }
- 
- void x86_vector_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
- {
--	__irq_msi_compose_msg(irqd_cfg(data), msg);
-+	__irq_msi_compose_msg(irqd_cfg(data), msg, false);
- }
- 
- static void irq_msi_update_msg(struct irq_data *irqd, struct irq_cfg *cfg)
- {
- 	struct msi_msg msg[2] = { [1] = { }, };
- 
--	__irq_msi_compose_msg(cfg, msg);
-+	__irq_msi_compose_msg(cfg, msg, false);
- 	irq_data_get_irq_chip(irqd)->irq_write_msi_msg(irqd, msg);
- }
- 
-@@ -276,6 +285,17 @@ struct irq_domain *arch_create_remap_msi_irq_domain(struct irq_domain *parent,
- #endif
- 
- #ifdef CONFIG_DMAR_TABLE
-+/*
-+ * The Intel IOMMU (ab)uses the high bits of the MSI address to contain the
-+ * high bits of the destination APIC ID. This can't be done in the general
-+ * case for MSIs as it would be targeting real memory above 4GiB not the
-+ * APIC.
-+ */
-+static void dmar_msi_compose_msg(struct irq_data *data, struct msi_msg *msg)
-+{
-+	__irq_msi_compose_msg(irqd_cfg(data), msg, true);
-+}
-+
- static void dmar_msi_write_msg(struct irq_data *data, struct msi_msg *msg)
- {
- 	dmar_msi_write(data->irq, msg);
-@@ -288,6 +308,7 @@ static struct irq_chip dmar_msi_controller = {
- 	.irq_ack		= irq_chip_ack_parent,
- 	.irq_set_affinity	= msi_domain_set_affinity,
- 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
-+	.irq_compose_msi_msg	= dmar_msi_compose_msg,
- 	.irq_write_msi_msg	= dmar_msi_write_msg,
- 	.flags			= IRQCHIP_SKIP_SET_WAKE,
+ struct of_ioapic_type {
+ 	u32 out_type;
+-	u32 trigger;
+-	u32 polarity;
++	u32 is_level;
++	u32 active_low;
  };
+ 
+ static struct of_ioapic_type of_ioapic_type[] =
+ {
+ 	{
+-		.out_type	= IRQ_TYPE_EDGE_RISING,
+-		.trigger	= IOAPIC_EDGE,
+-		.polarity	= 1,
++		.out_type	= IRQ_TYPE_EDGE_FALLING,
++		.is_level	= 0,
++		.active_low	= 1,
+ 	},
+ 	{
+-		.out_type	= IRQ_TYPE_LEVEL_LOW,
+-		.trigger	= IOAPIC_LEVEL,
+-		.polarity	= 0,
++		.out_type	= IRQ_TYPE_LEVEL_HIGH,
++		.is_level	= 1,
++		.active_low	= 0,
+ 	},
+ 	{
+-		.out_type	= IRQ_TYPE_LEVEL_HIGH,
+-		.trigger	= IOAPIC_LEVEL,
+-		.polarity	= 1,
++		.out_type	= IRQ_TYPE_LEVEL_LOW,
++		.is_level	= 1,
++		.active_low	= 1,
+ 	},
+ 	{
+-		.out_type	= IRQ_TYPE_EDGE_FALLING,
+-		.trigger	= IOAPIC_EDGE,
+-		.polarity	= 0,
++		.out_type	= IRQ_TYPE_EDGE_RISING,
++		.is_level	= 0,
++		.active_low	= 0,
+ 	},
+ };
+ 
+@@ -228,7 +228,7 @@ static int dt_irqdomain_alloc(struct irq_domain *domain, unsigned int virq,
+ 		return -EINVAL;
+ 
+ 	it = &of_ioapic_type[type_index];
+-	ioapic_set_alloc_attr(&tmp, NUMA_NO_NODE, it->trigger, it->polarity);
++	ioapic_set_alloc_attr(&tmp, NUMA_NO_NODE, it->is_level, it->active_low);
+ 	tmp.devid = mpc_ioapic_id(mp_irqdomain_ioapic_idx(domain));
+ 	tmp.ioapic.pin = fwspec->param[0];
+ 
 -- 
 2.26.2
 
