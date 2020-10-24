@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CABECC2D0A3
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08139C56201
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A78922210
+	by mail.kernel.org (Postfix) with ESMTP id BECC222268
 	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:39:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TwEX9h4a"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZCQoPy4/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1764701AbgJXVjM (ORCPT
+        id S1764666AbgJXVfp (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 24 Oct 2020 17:39:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764664AbgJXVfp (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
         Sat, 24 Oct 2020 17:35:45 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 280FFC0613D6;
-        Sat, 24 Oct 2020 14:35:45 -0700 (PDT)
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33834 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1764653AbgJXVfo (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 24 Oct 2020 17:35:44 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846DAC0613D5;
+        Sat, 24 Oct 2020 14:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Sender:Content-Transfer-Encoding:
+        d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=C0ceQD7RpCrLmfkKsXqDNRC608zY/4Bwc4glHhGbq80=; b=TwEX9h4adZHoXwYi8vmInLnsVN
-        +L00VhuxtBSQRwLUTSJ5jmMYv/ofpq6xWavAf2eLtMgt0QerE2T6qWmlGIPDOYYUoXErC5wT7MW6J
-        OC3nYqgXSRYuxPwEPXglZnUB/2RMNn2oWJNVb1sOKN+TmcTG6+YkCmW2KvstC6FwMIFj0W2uU7oUO
-        tq2zyrZwt3lZfapPP3J3Uxixizj72G6QEJQ2AhuyKyhF6MJER9cH/0ylydQ+wdoXyp6eB7M+co4/g
-        vtQz3atVW+BnhGqrD1RuATTwH9Fu5W0er2CXYIFso+7o8LQ1S10Um/57zMAu8buVBVlL3QoKdVQPa
-        H63NuUvg==;
+        bh=+jE5PmSnTtpKt/dSdy9GOQE955+9SLIZfk3ZVBF+YwI=; b=ZCQoPy4/KlJh41wyVe4pc1SGK8
+        wH/vCoNHP5BeDJSlGrF9ih6QLfbgXq8Oc4jrTjXu0G+7wjaMZJ/ay8G1J0dSekIH2APY0u6H2jTfs
+        H9rsbSw2fir7nVk6notFRACORC1HeKrV0dErwhD2+JMYrW5+pnE0a5pV0wB3kSA183992VONyVluK
+        G/8buPxWYzLzu9iNFUUW19jFSazCJX4bVrrh8FqWAJuxkJ7Zv8XMLwslzwHM4MthnW+SA93aB9kHc
+        hIIMQnk0sy6d5gyjCyjmohhaPW52+JZaOhEBKNOd2fW2fxPhKWgqRZl1CeuGIrH0FT+WQuVy5bDGH
+        7ABJuSwg==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kWRCO-0008B4-Gj; Sat, 24 Oct 2020 21:35:40 +0000
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kWRCN-0006Gi-Vu; Sat, 24 Oct 2020 21:35:41 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kWRCM-001rNo-Lh; Sat, 24 Oct 2020 22:35:38 +0100
+        id 1kWRCN-001rPx-IJ; Sat, 24 Oct 2020 22:35:39 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
@@ -49,9 +49,9 @@ Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-hyperv@vger.kernel.org, maz@misterjones.org,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v3 04/35] x86/devicetree: Fix the ioapic interrupt type table
-Date:   Sat, 24 Oct 2020 22:35:04 +0100
-Message-Id: <20201024213535.443185-5-dwmw2@infradead.org>
+Subject: [PATCH v3 35/35] x86/kvm: Enable 15-bit extension when KVM_FEATURE_MSI_EXT_DEST_ID detected
+Date:   Sat, 24 Oct 2020 22:35:35 +0100
+Message-Id: <20201024213535.443185-36-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201024213535.443185-1-dwmw2@infradead.org>
 References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
@@ -59,93 +59,48 @@ References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by merlin.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-The ioapic interrupt type table is wrong as it assumes that polarity in
-IO/APIC context means active high when set. But the IO/APIC polarity is
-working the other way round. This works because the ordering of the entries
-is consistent with the device tree and the type information is not used by
-the IO/APIC interrupt chip.
+This allows the host to indicate that MSI emulation supports 15-bit
+destination IDs, allowing up to 32768 CPUs without interrupt remapping.
 
-The whole trigger and polarity business of IO/APIC is misleading and the
-corresponding constants which are defined as 0/1 are not used consistently
-and are going to be removed.
+cf. https://patchwork.kernel.org/patch/11816693/ for qemu
 
-Rename the type table members to 'is_level' and 'active_low' and adjust the
-type information for consistency sake.
-
-No functional change.
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- arch/x86/kernel/devicetree.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ arch/x86/kernel/kvm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/x86/kernel/devicetree.c b/arch/x86/kernel/devicetree.c
-index ddffd80f5c52..6a4cb71c2498 100644
---- a/arch/x86/kernel/devicetree.c
-+++ b/arch/x86/kernel/devicetree.c
-@@ -184,31 +184,31 @@ static unsigned int ioapic_id;
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 1c0f2560a41c..b82de2843814 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -740,6 +740,11 @@ static void __init kvm_apic_init(void)
+ #endif
+ }
  
- struct of_ioapic_type {
- 	u32 out_type;
--	u32 trigger;
--	u32 polarity;
-+	u32 is_level;
-+	u32 active_low;
- };
- 
- static struct of_ioapic_type of_ioapic_type[] =
++static bool __init kvm_msi_ext_dest_id(void)
++{
++	return kvm_para_has_feature(KVM_FEATURE_MSI_EXT_DEST_ID);
++}
++
+ static void __init kvm_init_platform(void)
  {
- 	{
--		.out_type	= IRQ_TYPE_EDGE_RISING,
--		.trigger	= IOAPIC_EDGE,
--		.polarity	= 1,
-+		.out_type	= IRQ_TYPE_EDGE_FALLING,
-+		.is_level	= 0,
-+		.active_low	= 1,
- 	},
- 	{
--		.out_type	= IRQ_TYPE_LEVEL_LOW,
--		.trigger	= IOAPIC_LEVEL,
--		.polarity	= 0,
-+		.out_type	= IRQ_TYPE_LEVEL_HIGH,
-+		.is_level	= 1,
-+		.active_low	= 0,
- 	},
- 	{
--		.out_type	= IRQ_TYPE_LEVEL_HIGH,
--		.trigger	= IOAPIC_LEVEL,
--		.polarity	= 1,
-+		.out_type	= IRQ_TYPE_LEVEL_LOW,
-+		.is_level	= 1,
-+		.active_low	= 1,
- 	},
- 	{
--		.out_type	= IRQ_TYPE_EDGE_FALLING,
--		.trigger	= IOAPIC_EDGE,
--		.polarity	= 0,
-+		.out_type	= IRQ_TYPE_EDGE_RISING,
-+		.is_level	= 0,
-+		.active_low	= 0,
- 	},
- };
- 
-@@ -228,7 +228,7 @@ static int dt_irqdomain_alloc(struct irq_domain *domain, unsigned int virq,
- 		return -EINVAL;
- 
- 	it = &of_ioapic_type[type_index];
--	ioapic_set_alloc_attr(&tmp, NUMA_NO_NODE, it->trigger, it->polarity);
-+	ioapic_set_alloc_attr(&tmp, NUMA_NO_NODE, it->is_level, it->active_low);
- 	tmp.devid = mpc_ioapic_id(mp_irqdomain_ioapic_idx(domain));
- 	tmp.ioapic.pin = fwspec->param[0];
- 
+ 	kvmclock_init();
+@@ -769,6 +774,7 @@ const __initconst struct hypervisor_x86 x86_hyper_kvm = {
+ 	.type				= X86_HYPER_KVM,
+ 	.init.guest_late_init		= kvm_guest_init,
+ 	.init.x2apic_available		= kvm_para_available,
++	.init.msi_ext_dest_id		= kvm_msi_ext_dest_id,
+ 	.init.init_platform		= kvm_init_platform,
+ #if defined(CONFIG_AMD_MEM_ENCRYPT)
+ 	.runtime.sev_es_hcall_prepare	= kvm_sev_es_hcall_prepare,
 -- 
 2.26.2
 
