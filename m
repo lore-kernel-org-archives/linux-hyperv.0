@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2564CC55179
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E35DC55179
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:37:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECB2E22210
-	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:37:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F1BD208B3
+	for <linux-hyperv@archiver.kernel.org>; Sat, 24 Oct 2020 21:37:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jZBsmV1Z"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PDezbMGP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1764895AbgJXVhM (ORCPT
+        id S1764939AbgJXVhM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Sat, 24 Oct 2020 17:37:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764737AbgJXVfx (ORCPT
+        with ESMTP id S1764736AbgJXVfw (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 24 Oct 2020 17:35:53 -0400
+        Sat, 24 Oct 2020 17:35:52 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA81C0613E2;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388BFC0613E1;
         Sat, 24 Oct 2020 14:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=tXaDtA8AlDHiJo6CID7MBLTJkVhL6ZWrEjYFDhbVSOc=; b=jZBsmV1Z+bZLBc+Bv0OcQk1yef
-        CKmEMas2B7A5j3beajSBIcV3jUI8nv06JyRiKITWOjYMlyKmHV7yfctYhASQLYyYtjpv7GvSqjgTd
-        2XPp9rtOnNrgqMz9HJI0N+J4bdHxClCzP3uWonEY3zD+/gamBIaj+rWRtbYZ+8N8J2PpOaLTGzenR
-        nC7PH4cfSTCUeZKQi7q4xZBvDGUlAe+HZiOC7eDamrdwzSfrnqS2u+CQtJKXsrFt8npaAoOYI4fnr
-        qU2sCYEYBteXJi9yGKTr2CDmD/JBPsQMR9rUO1G9yv/jyuQFiKpDoEhWtDRY1PcKj+EhH6P0aVwjz
-        PeEYAtRA==;
+        bh=JW78knbqw7EYlsJkBZcRrOydz/oXelrB7ardJZkkdqY=; b=PDezbMGPDWtFQXHB+z5YGGVwLN
+        zhLBtlAB6feibtgg4eZNFkMHrHmcZq9SSnLxL6dz/yGWZaAxjGJfHl6v5ZgVCzPLx50aWH/3ms3nc
+        GsLcLCVvoKVE1xH15H2z/U1dXe6rJI9ZtCFuTJk6N36otUqtnu+pvC4tfF+kZhrGdE8SGXCIVXpSH
+        5LCoGCRTCSO+TrYjBEjAev+qpIJ/sbQhCMlkoj0k4FH2enFmpSKvxbfGqX89igqJPI02szLf56AJR
+        FmlDK+SiUwPF4WfhqkIYeGokwj0XLGoqe4swfWKDqgeAv8e9/9jmMjrZJgljMaA0SNeH+XaB4+Lh3
+        8BhwKgxQ==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
         by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kWRCS-0006HB-Cl; Sat, 24 Oct 2020 21:35:46 +0000
+        id 1kWRCS-0006HD-Gm; Sat, 24 Oct 2020 21:35:46 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.93 #3 (Red Hat Linux))
-        id 1kWRCM-001rOP-UR; Sat, 24 Oct 2020 22:35:38 +0100
+        id 1kWRCN-001rOf-1P; Sat, 24 Oct 2020 22:35:39 +0100
 From:   David Woodhouse <dwmw2@infradead.org>
 To:     x86@kernel.org
 Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
@@ -49,9 +49,9 @@ Cc:     kvm <kvm@vger.kernel.org>, iommu@lists.linux-foundation.org,
         linux-kernel <linux-kernel@vger.kernel.org>,
         linux-hyperv@vger.kernel.org, maz@misterjones.org,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v3 13/35] iommu/intel: Use msi_msg shadow structs
-Date:   Sat, 24 Oct 2020 22:35:13 +0100
-Message-Id: <20201024213535.443185-14-dwmw2@infradead.org>
+Subject: [PATCH v3 17/35] x86/pci/xen: Use msi_msg shadow structs
+Date:   Sat, 24 Oct 2020 22:35:17 +0100
+Message-Id: <20201024213535.443185-18-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201024213535.443185-1-dwmw2@infradead.org>
 References: <e6601ff691afb3266e365a91e8b221179daf22c2.camel@infradead.org>
@@ -66,70 +66,62 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-Use the bitfields in the x86 shadow struct to compose the MSI message.
+Use the msi_msg shadow structs and compose the message with named bitfields
+instead of the unreadable macro maze.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- drivers/iommu/intel/irq_remapping.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ arch/x86/pci/xen.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index 5628d43b795e..30269b738fa5 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -20,7 +20,6 @@
- #include <asm/cpu.h>
- #include <asm/irq_remapping.h>
- #include <asm/pci-direct.h>
+diff --git a/arch/x86/pci/xen.c b/arch/x86/pci/xen.c
+index c552cd2d0632..3d41a09c2c14 100644
+--- a/arch/x86/pci/xen.c
++++ b/arch/x86/pci/xen.c
+@@ -152,7 +152,6 @@ static int acpi_register_gsi_xen(struct device *dev, u32 gsi,
+ 
+ #if defined(CONFIG_PCI_MSI)
+ #include <linux/msi.h>
 -#include <asm/msidef.h>
  
- #include "../irq_remapping.h"
+ struct xen_pci_frontend_ops *xen_pci_frontend;
+ EXPORT_SYMBOL_GPL(xen_pci_frontend);
+@@ -210,23 +209,20 @@ static int xen_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
+ 	return ret;
+ }
  
-@@ -1260,6 +1259,21 @@ static struct irq_chip intel_ir_chip = {
- 	.irq_set_vcpu_affinity	= intel_ir_set_vcpu_affinity,
- };
- 
-+static void fill_msi_msg(struct msi_msg *msg, u32 index, u32 subhandle)
-+{
-+	memset(msg, 0, sizeof(*msg));
-+
-+	msg->arch_addr_lo.dmar_base_address = X86_MSI_BASE_ADDRESS_LOW;
-+	msg->arch_addr_lo.dmar_subhandle_valid = true;
-+	msg->arch_addr_lo.dmar_format = true;
-+	msg->arch_addr_lo.dmar_index_0_14 = index & 0x7FFF;
-+	msg->arch_addr_lo.dmar_index_15 = !!(index & 0x8000);
-+
-+	msg->address_hi = X86_MSI_BASE_ADDRESS_HIGH;
-+
-+	msg->arch_data.dmar_subhandle = subhandle;
-+}
-+
- static void intel_irq_remapping_prepare_irte(struct intel_ir_data *data,
- 					     struct irq_cfg *irq_cfg,
- 					     struct irq_alloc_info *info,
-@@ -1267,7 +1281,6 @@ static void intel_irq_remapping_prepare_irte(struct intel_ir_data *data,
+-#define XEN_PIRQ_MSI_DATA  (MSI_DATA_TRIGGER_EDGE | \
+-		MSI_DATA_LEVEL_ASSERT | (3 << 8) | MSI_DATA_VECTOR(0))
+-
+ static void xen_msi_compose_msg(struct pci_dev *pdev, unsigned int pirq,
+ 		struct msi_msg *msg)
  {
- 	struct IR_IO_APIC_route_entry *entry;
- 	struct irte *irte = &data->irte_entry;
--	struct msi_msg *msg = &data->msi_entry;
+-	/* We set vector == 0 to tell the hypervisor we don't care about it,
+-	 * but we want a pirq setup instead.
+-	 * We use the dest_id field to pass the pirq that we want. */
+-	msg->address_hi = MSI_ADDR_BASE_HI | MSI_ADDR_EXT_DEST_ID(pirq);
+-	msg->address_lo =
+-		MSI_ADDR_BASE_LO |
+-		MSI_ADDR_DEST_MODE_PHYSICAL |
+-		MSI_ADDR_REDIRECTION_CPU |
+-		MSI_ADDR_DEST_ID(pirq);
+-
+-	msg->data = XEN_PIRQ_MSI_DATA;
++	/*
++	 * We set vector == 0 to tell the hypervisor we don't care about
++	 * it, but we want a pirq setup instead.  We use the dest_id fields
++	 * to pass the pirq that we want.
++	 */
++	memset(msg, 0, sizeof(*msg));
++	msg->address_hi = X86_MSI_BASE_ADDRESS_HIGH;
++	msg->arch_addr_hi.destid_8_31 = pirq >> 8;
++	msg->arch_addr_lo.destid_0_7 = pirq & 0xFF;
++	msg->arch_addr_lo.base_address = X86_MSI_BASE_ADDRESS_LOW;
++	msg->arch_data.delivery_mode = APIC_DELIVERY_MODE_EXTINT;
+ }
  
- 	prepare_irte(irte, irq_cfg->vector, irq_cfg->dest_apicid);
- 	switch (info->type) {
-@@ -1308,12 +1321,7 @@ static void intel_irq_remapping_prepare_irte(struct intel_ir_data *data,
- 		else
- 			set_msi_sid(irte, msi_desc_to_pci_dev(info->desc));
- 
--		msg->address_hi = MSI_ADDR_BASE_HI;
--		msg->data = sub_handle;
--		msg->address_lo = MSI_ADDR_BASE_LO | MSI_ADDR_IR_EXT_INT |
--				  MSI_ADDR_IR_SHV |
--				  MSI_ADDR_IR_INDEX1(index) |
--				  MSI_ADDR_IR_INDEX2(index);
-+		fill_msi_msg(&data->msi_entry, index, sub_handle);
- 		break;
- 
- 	default:
+ static int xen_hvm_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
 -- 
 2.26.2
 
