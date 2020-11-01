@@ -1,131 +1,89 @@
-Return-Path: <SRS0=JeGK=EF=vger.kernel.org=linux-hyperv-owner@kernel.org>
+Return-Path: <SRS0=mFad=EH=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A30C55178
-	for <linux-hyperv@archiver.kernel.org>; Fri, 30 Oct 2020 18:16:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D626C2D0A3
+	for <linux-hyperv@archiver.kernel.org>; Sun,  1 Nov 2020 18:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94C8220702
-	for <linux-hyperv@archiver.kernel.org>; Fri, 30 Oct 2020 18:16:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WoLd4bj5"
+	by mail.kernel.org (Postfix) with ESMTP id B823822255
+	for <linux-hyperv@archiver.kernel.org>; Sun,  1 Nov 2020 18:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1604254781;
+	bh=0tmaySN5OxPkKjcG5AIVHxpY2pmAbbN7QvwM4Bc0Irg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Qc9nklDQwm07WMFb6OkRx3EpWPMYbqC677gHGOXRzpv9txM7pXabCPoleK3pwnJGV
+	 xcI5qCnZHLw07wke2Cfho+11Oih/J0fZDnf1/KS0CwAMJFBkWoTpW9LTqcDY2fBnUo
+	 hfQBFld0HKuXuK03NHBnLTIgPpzpnMeAFT1ZstJE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726077AbgJ3SQ6 (ORCPT
+        id S1727180AbgKASTl (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 30 Oct 2020 14:16:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47682 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726239AbgJ3SQ6 (ORCPT
+        Sun, 1 Nov 2020 13:19:41 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:41759 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727111AbgKASTl (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 30 Oct 2020 14:16:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604081817;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=hQ9JbkxvNa0VjLQd06HFpKY/mjumkrtDAKSURNuwMaY=;
-        b=WoLd4bj5ki0phUEDp88YWNjxuxXM7VLVIMIuuOJClL04e+P/+DgapMPZGeS7Gwk+B0KxlZ
-        O8lYsej2JcTDoAe7XRoeVXR4enTLbDjvatYxFPcvUeDEXYHu0Pn0QmY64pp5alU5hosBDV
-        hzoUoH9N+PyTjQr4vBLhKNaQ+d2FADc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-2MerbN3nO6mjv3SclpjcMA-1; Fri, 30 Oct 2020 14:16:54 -0400
-X-MC-Unique: 2MerbN3nO6mjv3SclpjcMA-1
-Received: by mail-ej1-f70.google.com with SMTP id p6so2773548ejj.5
-        for <linux-hyperv@vger.kernel.org>; Fri, 30 Oct 2020 11:16:54 -0700 (PDT)
+        Sun, 1 Nov 2020 13:19:41 -0500
+Received: by mail-wr1-f68.google.com with SMTP id s9so12004181wro.8
+        for <linux-hyperv@vger.kernel.org>; Sun, 01 Nov 2020 10:19:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hQ9JbkxvNa0VjLQd06HFpKY/mjumkrtDAKSURNuwMaY=;
-        b=MdY7wPafeqQEbTXigRX2heDgZt1Gf8eWY7cbe7nv5TQAAbqGCXc+/PUsJCykya/G12
-         OCBd3nNENQM+OTGeLOg3o75JqzSFtrtJA0UfpnPkXcfWpQZCjAFG02JudqGu/dIs0BPU
-         RL75OnvhLeYkV/OgzupWiv5wj/YCGFHoyhNuM2gFxLvMf3Q6LvumQmA4uf1BUdaxX3a+
-         B4n1RWJKhePOaK7C5AAwaYjkhLgwWjs5YPUrHQ+WgIifK01OF2tm5stszaeYYagW/aCX
-         r0V9vwC7IvbdSqo5+Yi+JIJbTMFcEqymQpR9AzSZfNs+QATETZc1aoKjfypDELDXoEms
-         LXBA==
-X-Gm-Message-State: AOAM5305PIN4z69CuRfKscmnaKMRFmo6PojPVG6jXUt7Ol/qk35tBKe3
-        7c1Ez8aiAHmPwJI3un/RPh27b5SclmAOOZSyTn6T7gICIOu0FlN3f1pIdFlIB0emNjj5QnQCssB
-        UEL9bk8S+vL75xi01XqyQFrKH
-X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr3678309ejz.341.1604081812911;
-        Fri, 30 Oct 2020 11:16:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyxORp9yhzCHXkXQ+SV0R3eIJai4qo4teWFQf7D18bUb6YmyTx02WLXvoVEuul2E5KtdAUsMg==
-X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr3678275ejz.341.1604081812714;
-        Fri, 30 Oct 2020 11:16:52 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id r24sm3338060eds.67.2020.10.30.11.16.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 11:16:51 -0700 (PDT)
-Subject: Re: [PATCH] [v2] x86: apic: avoid -Wshadow warning in header
-To:     David Laight <David.Laight@ACULAB.COM>,
-        'Arvind Sankar' <nivedita@alum.mit.edu>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     'Arnd Bergmann' <arnd@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "x86@kernel.org" <x86@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "platform-driver-x86@vger.kernel.org" 
-        <platform-driver-x86@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>
-References: <20201028212417.3715575-1-arnd@kernel.org>
- <38b11ed3fec64ebd82d6a92834a4bebe@AcuMS.aculab.com>
- <20201029165611.GA2557691@rani.riverdale.lan>
- <93180c2d-268c-3c33-7c54-4221dfe0d7ad@redhat.com>
- <87v9esojdi.fsf@nanos.tec.linutronix.de>
- <20201029213512.GA34524@rani.riverdale.lan>
- <ad73f56e79d249b1b3614bccc85e2ca5@AcuMS.aculab.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <070f590f-b702-35f0-0b6c-c6455f08e9d5@redhat.com>
-Date:   Fri, 30 Oct 2020 19:16:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kqeKZc9YhvQhPgkIKRPGX1ZSHU2pR7Pe6QYenXPMwOs=;
+        b=LGcvdVNktjcP+Wt8WgNWIto05UTnWDNKVT7ZjRubrRVNfsNEqokkhwkjVHHPipV6EQ
+         pXTn3f8cCHxGgo1tuS9MbMLJGZrRJXG/088SpIQ8czO37/zrWEiml0/OKIpvqpFjDrsJ
+         Rrv/Vs30Y9O1dMUH7Rd6Q5Xqt/VuEOU6b6ofseXBIMsTqRSz69/h86Ksuqv2nCAvR31Y
+         sPr4Qm6mG1Pmc13NThuzpc++lpqQKZpmwUR3Wgka/VwCFKZru5hJkS27qkbjo/Gt0f0s
+         0uAM5Qe8PbJuZEhJuwO8g18n8xciFOzmlpICmwlwGWvDGs0ybFvimo5lg1HOC8WIU8q+
+         wLeQ==
+X-Gm-Message-State: AOAM532saze3LCzT0iTL0uz9kb/IAvtnSkjVclMm+G77/BjajW1j/WbZ
+        8QgEyNKio5GVu3CZrB0PgOw=
+X-Google-Smtp-Source: ABdhPJzsvg2zJI4/OdwLHHu4ppQkis+cygLjk/by2x1sY2kpP0QpPnRf1b9DBra4Vv0ivEnHMEr4kQ==
+X-Received: by 2002:adf:a195:: with SMTP id u21mr8541796wru.132.1604254779715;
+        Sun, 01 Nov 2020 10:19:39 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id x21sm20973272wmi.3.2020.11.01.10.19.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2020 10:19:39 -0800 (PST)
+Date:   Sun, 1 Nov 2020 18:19:37 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     Michael Kelley <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Subject: Re: ** POTENTIAL FRAUD ALERT - RED HAT ** RE: Field names inside
+ ms_hyperv_info
+Message-ID: <20201101181937.332bmmqnwlju5my4@liuwe-devbox-debian-v2>
+References: <20201028150323.tz5wamibt42dgx7f@liuwe-devbox-debian-v2>
+ <87lffnzqhp.fsf@vitty.brq.redhat.com>
+ <MW2PR2101MB10520A20D4ADB1CE6B6AD559D7150@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <87imarzllm.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ad73f56e79d249b1b3614bccc85e2ca5@AcuMS.aculab.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87imarzllm.fsf@vitty.brq.redhat.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 29/10/20 23:12, David Laight wrote:
->> https://godbolt.org/z/4dzPbM
->>
->> With -fno-strict-aliasing, the compiler reloads the pointer if you write
->> to the start of what it points to, but not if you write to later
->> elements.
-> I guess it assumes that global data doesn't overlap.
+On Fri, Oct 30, 2020 at 06:09:57PM +0100, Vitaly Kuznetsov wrote:
+[...]
+> > We don't have a TLFS for ARM64 (should be coming soon).  Might
+> > be worth seeing what naming, if any, will be used there.
+> 
+> In that case we should probably wait untill the naming there is clear as
+> I'm afraid we'll be renaming again.
+> 
 
-Yeah, setting
+Sure. I'm fine with this too.
 
-	p = (struct s *) ((char *)&p) - 8;
+Wei.
 
-invokes undefined behavior _for a different reason than strict aliasing_
-(it's a pointer that is based on "p" but points before its start or
-after one byte past its end).  So the compiler assumes that only the
-first few bytes of a global can overlap it.
-
-If you change the size of the fields from long to char in the compiler
-explorer link above, every field forces a reload of the global.
-
-Paolo
-
+> -- 
+> Vitaly
+> 
