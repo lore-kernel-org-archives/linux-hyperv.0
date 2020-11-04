@@ -6,39 +6,39 @@ X-Spam-Status: No, score=-7.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33585C388F7
-	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Nov 2020 21:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A610C4741F
+	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Nov 2020 21:45:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC43A20870
-	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Nov 2020 21:43:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F369220870
+	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Nov 2020 21:45:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604526235;
-	bh=otuhSfW3G8tjw+/QZTQsLB2tSvizENX4OYLWU4YtJO4=;
+	s=default; t=1604526313;
+	bh=S7G/6Z/uoDypcqhu9TdumggXLTr1vz1Hqg6PCwFObro=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=x2Yr/JRQJENsMZ8p3oswhud5DYJFg9W0GH+VFNLm6mdtey4DMRqhVwqV9xqXIVTlY
-	 WjNp4eibwxtvl4xf9rkdcy+GdhZDLYm6+CdueiVwRn/M4w7McS/NRElJgBE9s25BNe
-	 yRjvliY5Bu4S44ip7DS3Nb6p+3fMe56mPu9wgmP8=
+	b=vjWMad8pIO0262URaGeL6E/F3XBM+qDRyOGNeLujfvF4tzl9FAWjAPdnrbHJ/WdNy
+	 Ff/S8iMhp6Tb14aHzDx5cTBmKxjdQji5S9XFW6lixYBEmUgNEkUTGwkTjQZfT/xQSU
+	 OfClwkIJPJJLLq62EjDw+wBQwShHL7hstgagXU/E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730164AbgKDVnv (ORCPT
+        id S1728635AbgKDVpI (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 4 Nov 2020 16:43:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41448 "EHLO mail.kernel.org"
+        Wed, 4 Nov 2020 16:45:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41666 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727698AbgKDVnu (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 4 Nov 2020 16:43:50 -0500
+        id S1726434AbgKDVpI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 4 Nov 2020 16:45:08 -0500
 Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8CB8520870;
-        Wed,  4 Nov 2020 21:43:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B054E20825;
+        Wed,  4 Nov 2020 21:45:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604526230;
-        bh=otuhSfW3G8tjw+/QZTQsLB2tSvizENX4OYLWU4YtJO4=;
+        s=default; t=1604526307;
+        bh=S7G/6Z/uoDypcqhu9TdumggXLTr1vz1Hqg6PCwFObro=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=T9mfSpoXW4uYnMIGVevkGnCZL1dOFsREeDhQIN0ZanDtJWPKU/h5qsO41ABSGt+ud
-         SCF2OvwbQ5G8znAcLaGp5nKlCJeZ0jRrlUAJp3nuHS/aSvc0dgXUY3pcHBrZ109r/b
-         eH3ZatB4JkszV0CMNuJQMmtfjJTdAtfO1CY/TvH0=
-Date:   Wed, 4 Nov 2020 13:43:48 -0800
+        b=ERvEUvI40ukUgakQMAlNLgl4+XiIRnhwqIlwO3e7WHcu9/X2caevupQUYApGqU3wY
+         KVZbhhRydwDaY1FVBRsl2EWqfVYJZzCHj+JcRe3x6OXPBTQkTb7/0L19fQzGENyxdD
+         tFAud48HqBCLjC9teUlzCMADrPJQjYNvPJnSepaQ=
+Date:   Wed, 4 Nov 2020 13:45:05 -0800
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -53,10 +53,11 @@ Cc:     linux-kernel@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org
 Subject: Re: [PATCH v8 3/3] hv_netvsc: Use vmbus_requestor to generate
  transaction IDs for VMBus hardening
-Message-ID: <20201104134348.39feba74@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201104154027.319432-4-parri.andrea@gmail.com>
+Message-ID: <20201104134505.44d8c4d7@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201104134348.39feba74@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 References: <20201104154027.319432-1-parri.andrea@gmail.com>
         <20201104154027.319432-4-parri.andrea@gmail.com>
+        <20201104134348.39feba74@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -64,31 +65,38 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed,  4 Nov 2020 16:40:27 +0100 Andrea Parri (Microsoft) wrote:
-> From: Andres Beltran <lkmlabelt@gmail.com>
+On Wed, 4 Nov 2020 13:43:48 -0800 Jakub Kicinski wrote:
+> On Wed,  4 Nov 2020 16:40:27 +0100 Andrea Parri (Microsoft) wrote:
+> > From: Andres Beltran <lkmlabelt@gmail.com>
+> > 
+> > Currently, pointers to guest memory are passed to Hyper-V as
+> > transaction IDs in netvsc. In the face of errors or malicious
+> > behavior in Hyper-V, netvsc should not expose or trust the transaction
+> > IDs returned by Hyper-V to be valid guest memory addresses. Instead,
+> > use small integers generated by vmbus_requestor as requests
+> > (transaction) IDs.
+> > 
+> > Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
+> > Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> > Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> > Reviewed-by: Michael Kelley <mikelley@microsoft.com>  
 > 
-> Currently, pointers to guest memory are passed to Hyper-V as
-> transaction IDs in netvsc. In the face of errors or malicious
-> behavior in Hyper-V, netvsc should not expose or trust the transaction
-> IDs returned by Hyper-V to be valid guest memory addresses. Instead,
-> use small integers generated by vmbus_requestor as requests
-> (transaction) IDs.
+> I'm assuming this is targeting net-next? If so could you please tag it
+> as [PATCH net-next vN]?
+
+Ah, you don't 'cause you only sent us the third patch. In that case with
+the nit below addressed:
+
+Acked-by: Jakub Kicinski <kuba@kernel.org>
+
+> > @@ -695,10 +695,19 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
+> >  				    const struct vmpacket_descriptor *desc,
+> >  				    int budget)
+> >  {
+> > -	struct sk_buff *skb = (struct sk_buff *)(unsigned long)desc->trans_id;
+> > +	struct sk_buff *skb;
+> >  	struct net_device_context *ndev_ctx = netdev_priv(ndev);  
 > 
-> Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
-> Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+> Swap these two lines please to keep the variables declaration lines
+> longest to shortest.
 
-I'm assuming this is targeting net-next? If so could you please tag it
-as [PATCH net-next vN]?
-
-> @@ -695,10 +695,19 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
->  				    const struct vmpacket_descriptor *desc,
->  				    int budget)
->  {
-> -	struct sk_buff *skb = (struct sk_buff *)(unsigned long)desc->trans_id;
-> +	struct sk_buff *skb;
->  	struct net_device_context *ndev_ctx = netdev_priv(ndev);
-
-Swap these two lines please to keep the variables declaration lines
-longest to shortest.
