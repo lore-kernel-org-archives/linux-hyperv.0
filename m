@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E1EDC4741F
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17B96C4741F
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0935221D46
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBC30206F9
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604595506;
-	bh=ZlRT2B2hzKLY3HJcbgE+1IHAZncbAVwQ/AHfeNz+z1I=;
+	s=default; t=1604595512;
+	bh=Nc61kU8bl02SwmleGPZblY/FVFEX8gHJsRJMmdq6VfE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=rLA1je2BIB9EjuswJ9yUGs2F2YDx2WhOvX8aonCtvFGzr64Azj3ApqFhVZhGBUTqR
-	 wClgBJNEVtgqN0L5MnTM4l8ZQr4qQCeS5i2jvgTgkOiCgtzIfv4o5ghwr7GD3xMpQ+
-	 I54TLDByE4fKchi2/q87Pc+Ppl/mOBPjtevpYy2w=
+	b=UkztGKFItUKwIfvwpOCFAZP4VAHahc28p7SRqNeeqlLSZYZTxrZFXrX1bB8Cjv6dw
+	 neF9Hq3559jIbM2FnntUV/F4vwJGCAvoZOxFwfXj9CvVrR28I/Y3fL2RZOVvxou1pV
+	 Jodz29RFbRn29yzcI5lRteauguEd5AzjTY1Bl7Rw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731518AbgKEQ6Z (ORCPT
+        id S1731752AbgKEQ63 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 5 Nov 2020 11:58:25 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35821 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731654AbgKEQ6Y (ORCPT
+        Thu, 5 Nov 2020 11:58:29 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35711 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731731AbgKEQ63 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 5 Nov 2020 11:58:24 -0500
-Received: by mail-wr1-f66.google.com with SMTP id n15so2605109wrq.2;
-        Thu, 05 Nov 2020 08:58:22 -0800 (PST)
+        Thu, 5 Nov 2020 11:58:29 -0500
+Received: by mail-wm1-f65.google.com with SMTP id h22so2307272wmb.0;
+        Thu, 05 Nov 2020 08:58:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bh2EFPnmcn/x+bLcSdCEHI4hoqXZxmYUy4JjOwlCick=;
-        b=Zst5k6LKhFFRyiyTPPMkyWD2odiAVL/zloARX2x4YWuietCHrh0PgGEx8ij8kjG8zy
-         bcXLOZ56wRy8kqbz5EuugPO5g7feWuO5ZSrjL8QVq+eSRxvZ64om+OEEssyjmRggQYHP
-         F+IWkPGcE4kOcdbCzdiZfr7D7Q87WXZ/eAoqf84w7ZszCn7Eib2iKJscf5S+R4Hxa22B
-         ExGMRuqSj7/XLCb72UDL6unlm+GfvAEwOrC4PtKMKVoftpFJi/Ijw3NfwiLGkKbjJ9cy
-         wTVf6dugSLcQE5cfwfj/UhKCxs3ZOewirk3PBzIGmUOI4EwRBqmty3TJVlZcDYf3+FBJ
-         WR/w==
-X-Gm-Message-State: AOAM533cnJ7DQSfm6OxCyKPzsAYMPtndgp8btTEU10MHDMXzvRFFdpQV
-        JKV+YIzzmtZjn3mSAoEU0h+rKwGDIRA=
-X-Google-Smtp-Source: ABdhPJwhViVved3GTCeWnOtr+DREAkL3iuMzaCD27vVobs1AMx4FxSw+xOpyOddCpw8z2HuMwtVW4Q==
-X-Received: by 2002:adf:e447:: with SMTP id t7mr4024862wrm.384.1604595501442;
-        Thu, 05 Nov 2020 08:58:21 -0800 (PST)
+        bh=GTg33ob3RC5GG3GrqyKRBWlnUnaKM5TQaX6HZwdZJ84=;
+        b=Tle7/5a4147gTlR/elLPSCEPZBU17KMUy+yEGBRKKiaKasY2HAoR5jJ5FxJ6bETjn/
+         4rz6UVRHkSg9p1Vo7zWW8KBqScAnGrss6vVKPScyifK0aWRVtUHOXjGsoOdY2C/Bymyq
+         4BY0dp+WoXMJZYSEosPH9PxEbtXItsF9kAyBYXM5nqvTqXYFQUGDurBDHpKekQDncsWE
+         wphMxWrvy/SF5dh/e3+AfVhC4ypOJxDVBnxoFg8gNZEU/L+/oYBwtwG6eByTwDVU2RHU
+         rjMJBe3N5jF8wrcxouJWKj4RT6D2rS0Ngs1ZzAJzGot2vmMV429d6L3+irp9+Fvw2WSs
+         hRxg==
+X-Gm-Message-State: AOAM532T7Ec8LFeBn6NhaKKcqiFnGNU1zpBVQ/E0EU+eP7EuODdmkKTP
+        iA8SqqWnMfRqXpjWyESFIyts2ljQTkY=
+X-Google-Smtp-Source: ABdhPJyYuEm1P/3mkSUy828svRJFE6/ybqHZhZRlYdrWwniLj4v6ue3zV/6XjoeZg/A4U0YAbKlWEQ==
+X-Received: by 2002:a1c:4054:: with SMTP id n81mr3810185wma.48.1604595505193;
+        Thu, 05 Nov 2020 08:58:25 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id z5sm3350729wrw.87.2020.11.05.08.58.20
+        by smtp.gmail.com with ESMTPSA id z5sm3350729wrw.87.2020.11.05.08.58.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 08:58:20 -0800 (PST)
+        Thu, 05 Nov 2020 08:58:24 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -58,15 +58,18 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Joerg Roedel <jroedel@suse.de>,
+        Wei Liu <wei.liu@kernel.org>,
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
-Subject: [PATCH v2 04/17] iommu/hyperv: don't setup IRQ remapping when running as root
-Date:   Thu,  5 Nov 2020 16:58:01 +0000
-Message-Id: <20201105165814.29233-5-wei.liu@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v2 08/17] x86/hyperv: handling hypercall page setup for root
+Date:   Thu,  5 Nov 2020 16:58:05 +0000
+Message-Id: <20201105165814.29233-9-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105165814.29233-1-wei.liu@kernel.org>
 References: <20201105165814.29233-1-wei.liu@kernel.org>
@@ -76,36 +79,74 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The IOMMU code needs more work. We're sure for now the IRQ remapping
-hooks are not applicable when Linux is the root.
+When Linux is running as the root partition, the hypercall page will
+have already been setup by Hyper-V. Copy the content over to the
+allocated page.
 
+The suspend, resume and cleanup paths remain untouched because they are
+not supported in this setup yet.
+
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Co-Developed-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Joerg Roedel <jroedel@suse.de>
 ---
- drivers/iommu/hyperv-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/x86/hyperv/hv_init.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index e09e2d734c57..8d3ce3add57d 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -20,6 +20,7 @@
- #include <asm/io_apic.h>
- #include <asm/irq_remapping.h>
- #include <asm/hypervisor.h>
-+#include <asm/mshyperv.h>
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 73b0fb851f76..9fcaf741be99 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -25,6 +25,7 @@
+ #include <linux/cpuhotplug.h>
+ #include <linux/syscore_ops.h>
+ #include <clocksource/hyperv_timer.h>
++#include <linux/highmem.h>
  
- #include "irq_remapping.h"
+ /* Is Linux running as the root partition? */
+ bool hv_root_partition;
+@@ -438,8 +439,35 @@ void __init hyperv_init(void)
  
-@@ -143,7 +144,7 @@ static int __init hyperv_prepare_irq_remapping(void)
- 	int i;
+ 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+ 	hypercall_msr.enable = 1;
+-	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+-	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
++
++	if (hv_root_partition) {
++		struct page *pg;
++		void *src, *dst;
++
++		/*
++		 * For the root partition, the hypervisor will set up its
++		 * hypercall page. The hypervisor guarantees it will not show
++		 * up in the root's address space. The root can't change the
++		 * location of the hypercall page.
++		 *
++		 * Order is important here. We must enable the hypercall page
++		 * so it is populated with code, then copy the code to an
++		 * executable page.
++		 */
++		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
++
++		pg = vmalloc_to_page(hv_hypercall_pg);
++		dst = kmap(pg);
++		src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
++				MEMREMAP_WB);
++		BUG_ON(!(src && dst));
++		memcpy(dst, src, PAGE_SIZE);
++		memunmap(src);
++		kunmap(pg);
++	} else {
++		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
++		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
++	}
  
- 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
--	    !x2apic_supported())
-+	    !x2apic_supported() || hv_root_partition)
- 		return -ENODEV;
- 
- 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
+ 	/*
+ 	 * Ignore any errors in setting up stimer clockevents
 -- 
 2.20.1
 
