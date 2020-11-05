@@ -2,97 +2,100 @@ Return-Path: <SRS0=78Uc=EL=vger.kernel.org=linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-13.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E760CC4741F
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D44D9C55178
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CA75206F4
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:36:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7CA6620936
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Nov 2020 16:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1604594187;
-	bh=RY1Bf8HKab8Xcljbw1JsISF1iaqR5Dq2WXzkNnDCBPU=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=M8SwOu2O7AUcJOdKhGTmPaV8TUOVcBr54aayBDop88jggc4pfmilvjc7Ae66gu3VQ
-	 CsPbqX2Zuz/pp+nB4Seci6Rg23izp0VSoupm5zXLqH8cLem/LblI3rV623WnRyDChA
-	 4JYqGitspoxvDNMQkWGnuihsQqsNnoOm82RgXBF8=
+	s=default; t=1604595503;
+	bh=pqPSd8kjThaKaamevBlGffzYFqFbRYWilYCqCHNqyNQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=WanLAXKtBOe1g3kDylVGGNGSA67CvUIKA6QdIXflWMzQxy3Gu+BAc5vF2DojyUmCB
+	 1dGJ9sYj7V0HbOnFZJzka2V4cLqVs1szSojlQDM+oTv4z/kw+O876givmwsPl5267v
+	 t1emQCZ4/U4fc8IbjIAt1RGX1UijDoey/rBB5vlA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726557AbgKEQg1 (ORCPT
+        id S1727851AbgKEQ6U (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 5 Nov 2020 11:36:27 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:34761 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727851AbgKEQg1 (ORCPT
+        Thu, 5 Nov 2020 11:58:20 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52053 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725998AbgKEQ6U (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 5 Nov 2020 11:36:27 -0500
-Received: by mail-wm1-f67.google.com with SMTP id 23so1480178wmg.1;
-        Thu, 05 Nov 2020 08:36:25 -0800 (PST)
+        Thu, 5 Nov 2020 11:58:20 -0500
+Received: by mail-wm1-f66.google.com with SMTP id v5so2293513wmh.1;
+        Thu, 05 Nov 2020 08:58:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=0MCExL8TskiJCP2VSdbtqMQPSQyKB5RAHMaaU1ri694=;
-        b=sx+fiwruhfTcDDprjDwVnGW8zEvq6phu06ozC+yWUGJLNH6DMNVTKBMewHJsbRIAGN
-         XmetE6p8KUANhbvEQqCvGbT13TL6fisdGHLIG1YRrgH6bDb8InjBpGN/3FEn0UEDvUyy
-         apfXGjI+aJgQDihzo+Jo2MhWuNW08X8OzZcMoKn087LW16Gfbfuiy8ksgr1h2QNzvu5P
-         dT0U9q2wqZ3GfKIwV7CljM+FWixzqOrA2owUmDpsWXObrJj3hRJrmyx2oTW5RFTIpIAa
-         NrAUrxo8UtvSxipTk/LlF3i3fZdblsCJIJi99HSaoXfEJq7F+aPEchjZOguhNTipGB3M
-         Po3w==
-X-Gm-Message-State: AOAM531htlkf7Iukp2JTEDCKSCwPIVFdAC+YAB44WIw/7uVL4Y0AK+B0
-        jQrALaOo5QSnJA1unKsv4ko=
-X-Google-Smtp-Source: ABdhPJyEGeh32rqBr75J6AcmYa56z13YHA6rmZMYcOLFm7I7TZAm73f8L4l7T1LJoM2i/LOAySYE0Q==
-X-Received: by 2002:a1c:9e12:: with SMTP id h18mr3595306wme.11.1604594185210;
-        Thu, 05 Nov 2020 08:36:25 -0800 (PST)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id f17sm3199008wmf.41.2020.11.05.08.36.23
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WkfHYu6VFyajw5WpXwEkCq0cVnpjzGJSXx+/xipV4v8=;
+        b=MkyqTk15rYnYBnGgGEdrh25q/YOn1aHRA1T2076hANvIBc3l/q3cncwBjinm1ferHi
+         1IiIoaVomCXTKfAglTsE0jIhntKvsKkQzv4sehAR1zqD99xMxRGxx2+A4PK5T8XIDEJW
+         TJHUzlbirVfZ5TbSbgFp5VN2bqWeqBXPJS21jpZ9B5GbP98WE0lnAbMSWhXdjDCk1Jo/
+         XL+AGbzZ1VN5/oUY/aUYS4xYJ/RZdydq7YOZk4ulH9VoY5c2Csk6wcLT3AQQMvRKUkhm
+         abH0avd//tV++Cz/gcEjOQK+4tVS3r4zugcRiPFq26D/kFvThZXZxInjsaFmYIS/oWji
+         Cc4w==
+X-Gm-Message-State: AOAM53198v6DgVFLOSqpnn6csl4tee47Sca04Amx9sLFe5VYbSN61Kya
+        NshUi8XAu7iy4vradhZ+8wRD950gYAI=
+X-Google-Smtp-Source: ABdhPJwgAiyLEaiqDhRSl6kBYfnenPKv9pqZSG/OLB29Xn0FKny8t1hmWLsFTHnpfrUcwl228XplxQ==
+X-Received: by 2002:a05:600c:219a:: with SMTP id e26mr4013747wme.168.1604595498317;
+        Thu, 05 Nov 2020 08:58:18 -0800 (PST)
+Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id z5sm3350729wrw.87.2020.11.05.08.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 08:36:24 -0800 (PST)
-Date:   Thu, 5 Nov 2020 16:36:22 +0000
+        Thu, 05 Nov 2020 08:58:17 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
-        sthemmin@microsoft.com, haiyangz@microsoft.com,
-        Michael Kelley <mikelley@microsoft.com>,
+To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc:     virtualization@lists.linux-foundation.org,
         Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Subject: [GIT PULL] Hyper-V fixes for 5.10-rc3
-Message-ID: <20201105163622.dgcchoa47cetr5e6@liuwe-devbox-debian-v2>
+        Michael Kelley <mikelley@microsoft.com>,
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH v2 01/17] asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to HV_CPU_MANAGEMENT
+Date:   Thu,  5 Nov 2020 16:57:58 +0000
+Message-Id: <20201105165814.29233-2-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201105165814.29233-1-wei.liu@kernel.org>
+References: <20201105165814.29233-1-wei.liu@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Linus
+This makes the name match Hyper-V TLFS.
 
-Please pull the following changes since commit bbf5c979011a099af5dc76498918ed7df445635b:
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+ include/asm-generic/hyperv-tlfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Linux 5.9 (2020-10-11 14:15:50 -0700)
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index e73a11850055..e6903589a82a 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -88,7 +88,7 @@
+ #define HV_CONNECT_PORT				BIT(7)
+ #define HV_ACCESS_STATS				BIT(8)
+ #define HV_DEBUGGING				BIT(11)
+-#define HV_CPU_POWER_MANAGEMENT			BIT(12)
++#define HV_CPU_MANAGEMENT			BIT(12)
+ 
+ 
+ /*
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed
-
-for you to fetch changes up to dbf563eee0b8cc056744514d91c5ffc2fa6c0982:
-
-  x86/hyperv: Clarify comment on x2apic mode (2020-10-26 16:28:06 +0000)
-
-----------------------------------------------------------------
-hyperv-fixes for 5.10-rc3
-  - One patch to clarify a comment from Michael.
-  _ One patch to change pr_warn to pr_info from Olaf.
-----------------------------------------------------------------
-Michael Kelley (1):
-      x86/hyperv: Clarify comment on x2apic mode
-
-Olaf Hering (1):
-      hv_balloon: disable warning when floor reached
-
- arch/x86/hyperv/hv_apic.c | 14 +++++++++-----
- drivers/hv/hv_balloon.c   |  2 +-
- 2 files changed, 10 insertions(+), 6 deletions(-)
