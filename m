@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EDB0C61DD8
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Nov 2020 10:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3346BC2D0A3
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Nov 2020 10:07:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E12CE2084C
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Nov 2020 10:04:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC39F20789
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 Nov 2020 10:07:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDEEH9Gh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FnhPghDT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729005AbgKIKE0 (ORCPT
+        id S1728937AbgKIKHT (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 9 Nov 2020 05:04:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49650 "EHLO
+        Mon, 9 Nov 2020 05:07:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729045AbgKIKEZ (ORCPT
+        with ESMTP id S1728108AbgKIKHT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 9 Nov 2020 05:04:25 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA7EC0613CF;
-        Mon,  9 Nov 2020 02:04:25 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id h2so7397985wmm.0;
-        Mon, 09 Nov 2020 02:04:25 -0800 (PST)
+        Mon, 9 Nov 2020 05:07:19 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1B2C0613CF;
+        Mon,  9 Nov 2020 02:07:18 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id k2so4626724wrx.2;
+        Mon, 09 Nov 2020 02:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZAOrFvpvU2rySqnPaedMwFfd/KOP7zrKNFUzMbSlGnM=;
-        b=hDEEH9GhYPvRcR2xlWv23U2be7TPlVH6RdY3MOShyOXMpQfMOeATVUD30Br6trr6zg
-         f/BGePyl27x6ALpO+Jpdrnaiqnt3Q+bEY88Wvl1K3SqFUL/MXlI0wL4Ts8rhcB8rKeXw
-         rA83by/AcaNC9C1dF6Gis4ZQxofHW4M0d1Bm1nM2SDTy/sjZzsRMGAuoLEAEnAqMS7Yo
-         k5uTGSSKTDB0O0M+3a5C6SQYzX7alGX+WRqwcWxE+TB1+hycCnVbYCwjh+/sIR+KjAd+
-         XfrI6qSlVVYJzz5MTeoCM60ZjCt8TYkXF8+hGOyh2Ycy3/yxu696NuNuoa6brHCxQNVc
-         v5qQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vi62HFvag2gOYH7+WUe07RBwSGmy1MhwDwTkxAfE6+g=;
+        b=FnhPghDTBHcJk6FlyprNEvBll3NcN7qAYOpARy9MPEZzkDgs3TFwSvTqDM00mYk5Sq
+         x5wBA5YZSFCg/QIBQD8ms7fQA16SOCsYM0p9nidzIhXRIkyzWPNAitPfNkBJoA5LfljC
+         m0JvDnyETIJUG1xr2rxPJMRPQMIq/gaZDh+8z5B/UGgFNFNoTfhZoHmLifm1csBiX4g9
+         rQbC0S+6H5Bqj4QhLu9y9SEUK0+d6jycjN88C9DU0PHedXUE5fbka71QFDbo2OXSokhY
+         +GWIqFsIGdEXQJUFnlRJDXNiqiQQjftpMMlzP++1AIVw/FDFjEL670E7ns6spLxAMAJ5
+         GuRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZAOrFvpvU2rySqnPaedMwFfd/KOP7zrKNFUzMbSlGnM=;
-        b=SgEvT2pv4i0Ce9HZ1BpgondA3Dg1S87i3LiEgOcbGgZDBGYsxRuuAg52VxbEN2jUbw
-         tOZ0ONGKWnO8wF+fFFZ+VIOgqRJ70z4uU5yw0/u7crE/chsJZ+SYgYLCTw1FsK9UT6pK
-         1lw3ip6mVixmwdOZJdvQm03/lp5U+uvYOXCT4NScMonCewdC6GVQmuedTkB1ouFXegWl
-         cl5LnLGzVFdMhMMSrJwE+ziOPFVY927GOa321Vt/txjS5X5EJvMiQarXknBcy3EdAtiG
-         1qvGPTuFT21C5qsO5iWfyvW1WGJenHj33V4ABg9NroDjUCQxCRUwGBS5rH8TxDepxBtL
-         hy5Q==
-X-Gm-Message-State: AOAM532t5bNDrmi3Q0BLBOuQf4RVZLdaO/A1iwO1S0j7PoGhHxj7qClu
-        9GHrzLXoA8SXJ/u1LgE17r7ZXZYX83YXHg==
-X-Google-Smtp-Source: ABdhPJzwdz4cAou4SJRzW0/jSrzOAf/zz0UPX8gq5uIovud4RVlED6E7zijzPcWB1DEd0Etvw6hQsg==
-X-Received: by 2002:a1c:7f14:: with SMTP id a20mr13719666wmd.95.1604916263697;
-        Mon, 09 Nov 2020 02:04:23 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vi62HFvag2gOYH7+WUe07RBwSGmy1MhwDwTkxAfE6+g=;
+        b=S2HPsMsx9G9AEYxOjUJTU2/VMr1ZhUAUsF6YHbkF4bpBBO2Xs61DBy/WDuv7E5/4D9
+         2xM71kqm+tuETNaQ0oIcTHrsituz23S39A/Bi8Qpk3ui9pw8k44G3GcRVOohamwM11zx
+         bcZIu3P4zKM4t8iINqmpQXwWT7secsU3jAvfVo1d0ARO3OgMV/yLxWQDYAI9mpWfa+je
+         JvL671xj+DDffk5YCaNIFazQCkd9VE/zMPCZRJZkut8ZzpspV0qohwnDLV7kMs8CiT7k
+         qUoKqWAFtQY7/LvJR/r9OVTwz++L3wG8rr+uQoDsQHmPj7fSB2ndFlpX+2qd+jZgTxxg
+         fHFA==
+X-Gm-Message-State: AOAM531XnTofKu8A9zkxNwY8MWVev6VKNlT5OTt43sfmimmv79l1zYmk
+        s4aNqsfBWM7HMuoyN03WuygLfVZsAR1g1n+f
+X-Google-Smtp-Source: ABdhPJycj2mTjJF9KO9RKoL0TuoMo3SYOrQt1pR/3UChsyGGDe7qHkWiw8136TQtEQjI3uiHN3jq3w==
+X-Received: by 2002:adf:80cb:: with SMTP id 69mr16695585wrl.325.1604916436302;
+        Mon, 09 Nov 2020 02:07:16 -0800 (PST)
 Received: from localhost.localdomain (host-95-245-157-54.retail.telecomitalia.it. [95.245.157.54])
-        by smtp.gmail.com with ESMTPSA id 71sm13117885wrm.20.2020.11.09.02.04.22
+        by smtp.gmail.com with ESMTPSA id a128sm12174159wmf.5.2020.11.09.02.07.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 02:04:23 -0800 (PST)
+        Mon, 09 Nov 2020 02:07:15 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -71,12 +71,10 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Andrea Parri <parri.andrea@gmail.com>
-Subject: [PATCH v9 1/3] Drivers: hv: vmbus: Add vmbus_requestor data structure for VMBus hardening
-Date:   Mon,  9 Nov 2020 11:04:00 +0100
-Message-Id: <20201109100402.8946-2-parri.andrea@gmail.com>
+Subject: [PATCH v4] hv_utils: Add validation for untrusted Hyper-V values
+Date:   Mon,  9 Nov 2020 11:07:04 +0100
+Message-Id: <20201109100704.9152-1-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201109100402.8946-1-parri.andrea@gmail.com>
-References: <20201109100402.8946-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -85,421 +83,749 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Andres Beltran <lkmlabelt@gmail.com>
 
-Currently, VMbus drivers use pointers into guest memory as request IDs
-for interactions with Hyper-V. To be more robust in the face of errors
-or malicious behavior from a compromised Hyper-V, avoid exposing
-guest memory addresses to Hyper-V. Also avoid Hyper-V giving back a
-bad request ID that is then treated as the address of a guest data
-structure with no validation. Instead, encapsulate these memory
-addresses and provide small integers as request IDs.
+For additional robustness in the face of Hyper-V errors or malicious
+behavior, validate all values that originate from packets that Hyper-V
+has sent to the guest in the host-to-guest ring buffer. Ensure that
+invalid values cannot cause indexing off the end of the icversion_data
+array in vmbus_prep_negotiate_resp().
 
 Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
 Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
-Changes in v9:
-	- Fix inconsistent returns 'outring_info->ring_lock'
-
-Changes in v7:
-        - Move the allocation of the request ID after the data has been
-          copied into the ring buffer
-
-Changes in v6:
-        - Offset request IDs by 1 keeping the original initialization
-          code
-
-Changes in v5:
-        - Add support for unsolicited messages sent by the host with a
-          request ID of 0
-
-Changes in v4:
-        - Use channel->rqstor_size to check if rqstor has been
-          initialized
-
 Changes in v3:
-        - Check that requestor has been initialized in
-          vmbus_next_request_id() and vmbus_request_addr()
+	- Add size check for icframe_vercnt and icmsg_vercnt
 
 Changes in v2:
-        - Get rid of "rqstor" variable in __vmbus_open()
+	- Use ratelimited form of kernel logging to print error messages
 
- drivers/hv/channel.c      | 174 ++++++++++++++++++++++++++++++++++++--
- drivers/hv/hyperv_vmbus.h |   3 +-
- drivers/hv/ring_buffer.c  |  29 ++++++-
- include/linux/hyperv.h    |  22 +++++
- 4 files changed, 219 insertions(+), 9 deletions(-)
+ drivers/hv/channel_mgmt.c |  24 ++++-
+ drivers/hv/hv_fcopy.c     |  36 +++++--
+ drivers/hv/hv_kvp.c       | 122 ++++++++++++---------
+ drivers/hv/hv_snapshot.c  |  89 ++++++++-------
+ drivers/hv/hv_util.c      | 222 +++++++++++++++++++++++---------------
+ include/linux/hyperv.h    |   9 +-
+ 6 files changed, 314 insertions(+), 188 deletions(-)
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index fbdda9938039a..6fb0c76bfbf81 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -503,6 +503,70 @@ int vmbus_establish_gpadl(struct vmbus_channel *channel, void *kbuffer,
- }
- EXPORT_SYMBOL_GPL(vmbus_establish_gpadl);
- 
-+/**
-+ * request_arr_init - Allocates memory for the requestor array. Each slot
-+ * keeps track of the next available slot in the array. Initially, each
-+ * slot points to the next one (as in a Linked List). The last slot
-+ * does not point to anything, so its value is U64_MAX by default.
-+ * @size The size of the array
-+ */
-+static u64 *request_arr_init(u32 size)
-+{
-+	int i;
-+	u64 *req_arr;
-+
-+	req_arr = kcalloc(size, sizeof(u64), GFP_KERNEL);
-+	if (!req_arr)
-+		return NULL;
-+
-+	for (i = 0; i < size - 1; i++)
-+		req_arr[i] = i + 1;
-+
-+	/* Last slot (no more available slots) */
-+	req_arr[i] = U64_MAX;
-+
-+	return req_arr;
-+}
-+
-+/*
-+ * vmbus_alloc_requestor - Initializes @rqstor's fields.
-+ * Index 0 is the first free slot
-+ * @size: Size of the requestor array
-+ */
-+static int vmbus_alloc_requestor(struct vmbus_requestor *rqstor, u32 size)
-+{
-+	u64 *rqst_arr;
-+	unsigned long *bitmap;
-+
-+	rqst_arr = request_arr_init(size);
-+	if (!rqst_arr)
-+		return -ENOMEM;
-+
-+	bitmap = bitmap_zalloc(size, GFP_KERNEL);
-+	if (!bitmap) {
-+		kfree(rqst_arr);
-+		return -ENOMEM;
-+	}
-+
-+	rqstor->req_arr = rqst_arr;
-+	rqstor->req_bitmap = bitmap;
-+	rqstor->size = size;
-+	rqstor->next_request_id = 0;
-+	spin_lock_init(&rqstor->req_lock);
-+
-+	return 0;
-+}
-+
-+/*
-+ * vmbus_free_requestor - Frees memory allocated for @rqstor
-+ * @rqstor: Pointer to the requestor struct
-+ */
-+static void vmbus_free_requestor(struct vmbus_requestor *rqstor)
-+{
-+	kfree(rqstor->req_arr);
-+	bitmap_free(rqstor->req_bitmap);
-+}
-+
- static int __vmbus_open(struct vmbus_channel *newchannel,
- 		       void *userdata, u32 userdatalen,
- 		       void (*onchannelcallback)(void *context), void *context)
-@@ -523,6 +587,12 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- 	if (newchannel->state != CHANNEL_OPEN_STATE)
- 		return -EINVAL;
- 
-+	/* Create and init requestor */
-+	if (newchannel->rqstor_size) {
-+		if (vmbus_alloc_requestor(&newchannel->requestor, newchannel->rqstor_size))
-+			return -ENOMEM;
-+	}
-+
- 	newchannel->state = CHANNEL_OPENING_STATE;
- 	newchannel->onchannel_callback = onchannelcallback;
- 	newchannel->channel_callback_context = context;
-@@ -626,6 +696,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- error_clean_ring:
- 	hv_ringbuffer_cleanup(&newchannel->outbound);
- 	hv_ringbuffer_cleanup(&newchannel->inbound);
-+	vmbus_free_requestor(&newchannel->requestor);
- 	newchannel->state = CHANNEL_OPEN_STATE;
- 	return err;
- }
-@@ -808,6 +879,9 @@ static int vmbus_close_internal(struct vmbus_channel *channel)
- 		channel->ringbuffer_gpadlhandle = 0;
- 	}
- 
-+	if (!ret)
-+		vmbus_free_requestor(&channel->requestor);
-+
- 	return ret;
- }
- 
-@@ -888,7 +962,7 @@ int vmbus_sendpacket(struct vmbus_channel *channel, void *buffer,
- 	/* in 8-bytes granularity */
- 	desc.offset8 = sizeof(struct vmpacket_descriptor) >> 3;
- 	desc.len8 = (u16)(packetlen_aligned >> 3);
--	desc.trans_id = requestid;
-+	desc.trans_id = VMBUS_RQST_ERROR; /* will be updated in hv_ringbuffer_write() */
- 
- 	bufferlist[0].iov_base = &desc;
- 	bufferlist[0].iov_len = sizeof(struct vmpacket_descriptor);
-@@ -897,7 +971,7 @@ int vmbus_sendpacket(struct vmbus_channel *channel, void *buffer,
- 	bufferlist[2].iov_base = &aligned_data;
- 	bufferlist[2].iov_len = (packetlen_aligned - packetlen);
- 
--	return hv_ringbuffer_write(channel, bufferlist, num_vecs);
-+	return hv_ringbuffer_write(channel, bufferlist, num_vecs, requestid);
- }
- EXPORT_SYMBOL(vmbus_sendpacket);
- 
-@@ -939,7 +1013,7 @@ int vmbus_sendpacket_pagebuffer(struct vmbus_channel *channel,
- 	desc.flags = VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED;
- 	desc.dataoffset8 = descsize >> 3; /* in 8-bytes granularity */
- 	desc.length8 = (u16)(packetlen_aligned >> 3);
--	desc.transactionid = requestid;
-+	desc.transactionid = VMBUS_RQST_ERROR; /* will be updated in hv_ringbuffer_write() */
- 	desc.reserved = 0;
- 	desc.rangecount = pagecount;
- 
-@@ -956,7 +1030,7 @@ int vmbus_sendpacket_pagebuffer(struct vmbus_channel *channel,
- 	bufferlist[2].iov_base = &aligned_data;
- 	bufferlist[2].iov_len = (packetlen_aligned - packetlen);
- 
--	return hv_ringbuffer_write(channel, bufferlist, 3);
-+	return hv_ringbuffer_write(channel, bufferlist, 3, requestid);
- }
- EXPORT_SYMBOL_GPL(vmbus_sendpacket_pagebuffer);
- 
-@@ -983,7 +1057,7 @@ int vmbus_sendpacket_mpb_desc(struct vmbus_channel *channel,
- 	desc->flags = VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED;
- 	desc->dataoffset8 = desc_size >> 3; /* in 8-bytes granularity */
- 	desc->length8 = (u16)(packetlen_aligned >> 3);
--	desc->transactionid = requestid;
-+	desc->transactionid = VMBUS_RQST_ERROR; /* will be updated in hv_ringbuffer_write() */
- 	desc->reserved = 0;
- 	desc->rangecount = 1;
- 
-@@ -994,7 +1068,7 @@ int vmbus_sendpacket_mpb_desc(struct vmbus_channel *channel,
- 	bufferlist[2].iov_base = &aligned_data;
- 	bufferlist[2].iov_len = (packetlen_aligned - packetlen);
- 
--	return hv_ringbuffer_write(channel, bufferlist, 3);
-+	return hv_ringbuffer_write(channel, bufferlist, 3, requestid);
- }
- EXPORT_SYMBOL_GPL(vmbus_sendpacket_mpb_desc);
- 
-@@ -1042,3 +1116,91 @@ int vmbus_recvpacket_raw(struct vmbus_channel *channel, void *buffer,
- 				  buffer_actual_len, requestid, true);
- }
- EXPORT_SYMBOL_GPL(vmbus_recvpacket_raw);
-+
-+/*
-+ * vmbus_next_request_id - Returns a new request id. It is also
-+ * the index at which the guest memory address is stored.
-+ * Uses a spin lock to avoid race conditions.
-+ * @rqstor: Pointer to the requestor struct
-+ * @rqst_add: Guest memory address to be stored in the array
-+ */
-+u64 vmbus_next_request_id(struct vmbus_requestor *rqstor, u64 rqst_addr)
-+{
-+	unsigned long flags;
-+	u64 current_id;
-+	const struct vmbus_channel *channel =
-+		container_of(rqstor, const struct vmbus_channel, requestor);
-+
-+	/* Check rqstor has been initialized */
-+	if (!channel->rqstor_size)
-+		return VMBUS_NO_RQSTOR;
-+
-+	spin_lock_irqsave(&rqstor->req_lock, flags);
-+	current_id = rqstor->next_request_id;
-+
-+	/* Requestor array is full */
-+	if (current_id >= rqstor->size) {
-+		spin_unlock_irqrestore(&rqstor->req_lock, flags);
-+		return VMBUS_RQST_ERROR;
-+	}
-+
-+	rqstor->next_request_id = rqstor->req_arr[current_id];
-+	rqstor->req_arr[current_id] = rqst_addr;
-+
-+	/* The already held spin lock provides atomicity */
-+	bitmap_set(rqstor->req_bitmap, current_id, 1);
-+
-+	spin_unlock_irqrestore(&rqstor->req_lock, flags);
-+
-+	/*
-+	 * Cannot return an ID of 0, which is reserved for an unsolicited
-+	 * message from Hyper-V.
-+	 */
-+	return current_id + 1;
-+}
-+EXPORT_SYMBOL_GPL(vmbus_next_request_id);
-+
-+/*
-+ * vmbus_request_addr - Returns the memory address stored at @trans_id
-+ * in @rqstor. Uses a spin lock to avoid race conditions.
-+ * @rqstor: Pointer to the requestor struct
-+ * @trans_id: Request id sent back from Hyper-V. Becomes the requestor's
-+ * next request id.
-+ */
-+u64 vmbus_request_addr(struct vmbus_requestor *rqstor, u64 trans_id)
-+{
-+	unsigned long flags;
-+	u64 req_addr;
-+	const struct vmbus_channel *channel =
-+		container_of(rqstor, const struct vmbus_channel, requestor);
-+
-+	/* Check rqstor has been initialized */
-+	if (!channel->rqstor_size)
-+		return VMBUS_NO_RQSTOR;
-+
-+	/* Hyper-V can send an unsolicited message with ID of 0 */
-+	if (!trans_id)
-+		return trans_id;
-+
-+	spin_lock_irqsave(&rqstor->req_lock, flags);
-+
-+	/* Data corresponding to trans_id is stored at trans_id - 1 */
-+	trans_id--;
-+
-+	/* Invalid trans_id */
-+	if (trans_id >= rqstor->size || !test_bit(trans_id, rqstor->req_bitmap)) {
-+		spin_unlock_irqrestore(&rqstor->req_lock, flags);
-+		return VMBUS_RQST_ERROR;
-+	}
-+
-+	req_addr = rqstor->req_arr[trans_id];
-+	rqstor->req_arr[trans_id] = rqstor->next_request_id;
-+	rqstor->next_request_id = trans_id;
-+
-+	/* The already held spin lock provides atomicity */
-+	bitmap_clear(rqstor->req_bitmap, trans_id, 1);
-+
-+	spin_unlock_irqrestore(&rqstor->req_lock, flags);
-+	return req_addr;
-+}
-+EXPORT_SYMBOL_GPL(vmbus_request_addr);
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 40e2b9f91163c..02f3e89888366 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -179,7 +179,8 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
- void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info);
- 
- int hv_ringbuffer_write(struct vmbus_channel *channel,
--			const struct kvec *kv_list, u32 kv_count);
-+			const struct kvec *kv_list, u32 kv_count,
-+			u64 requestid);
- 
- int hv_ringbuffer_read(struct vmbus_channel *channel,
- 		       void *buffer, u32 buflen, u32 *buffer_actual_len,
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 356e22159e834..35833d4d1a1dc 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -248,7 +248,8 @@ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info)
- 
- /* Write to the ring buffer. */
- int hv_ringbuffer_write(struct vmbus_channel *channel,
--			const struct kvec *kv_list, u32 kv_count)
-+			const struct kvec *kv_list, u32 kv_count,
-+			u64 requestid)
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 1d44bb635bb84..5bc5eef5da159 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -190,6 +190,7 @@ static u16 hv_get_dev_type(const struct vmbus_channel *channel)
+  * vmbus_prep_negotiate_resp() - Create default response for Negotiate message
+  * @icmsghdrp: Pointer to msg header structure
+  * @buf: Raw buffer channel data
++ * @buflen: Length of the raw buffer channel data.
+  * @fw_version: The framework versions we can support.
+  * @fw_vercnt: The size of @fw_version.
+  * @srv_version: The service versions we can support.
+@@ -202,8 +203,8 @@ static u16 hv_get_dev_type(const struct vmbus_channel *channel)
+  * Set up and fill in default negotiate response message.
+  * Mainly used by Hyper-V drivers.
+  */
+-bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
+-				u8 *buf, const int *fw_version, int fw_vercnt,
++bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
++				u32 buflen, const int *fw_version, int fw_vercnt,
+ 				const int *srv_version, int srv_vercnt,
+ 				int *nego_fw_version, int *nego_srv_version)
  {
- 	int i;
- 	u32 bytes_avail_towrite;
-@@ -258,6 +259,8 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
- 	u64 prev_indices;
- 	unsigned long flags;
- 	struct hv_ring_buffer_info *outring_info = &channel->outbound;
-+	struct vmpacket_descriptor *desc = kv_list[0].iov_base;
-+	u64 rqst_id = VMBUS_NO_RQSTOR;
+@@ -215,10 +216,14 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
+ 	bool found_match = false;
+ 	struct icmsg_negotiate *negop;
  
- 	if (channel->rescind)
- 		return -ENODEV;
-@@ -300,6 +303,23 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
- 						     kv_list[i].iov_len);
++	/* Check that there's enough space for icframe_vercnt, icmsg_vercnt */
++	if (buflen < ICMSG_HDR + offsetof(struct icmsg_negotiate, reserved)) {
++		pr_err_ratelimited("Invalid icmsg negotiate\n");
++		return false;
++	}
++
+ 	icmsghdrp->icmsgsize = 0x10;
+-	negop = (struct icmsg_negotiate *)&buf[
+-		sizeof(struct vmbuspipe_hdr) +
+-		sizeof(struct icmsg_hdr)];
++	negop = (struct icmsg_negotiate *)&buf[ICMSG_HDR];
+ 
+ 	icframe_major = negop->icframe_vercnt;
+ 	icframe_minor = 0;
+@@ -226,6 +231,15 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp,
+ 	icmsg_major = negop->icmsg_vercnt;
+ 	icmsg_minor = 0;
+ 
++	/* Validate negop packet */
++	if (icframe_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
++	    icmsg_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
++	    ICMSG_NEGOTIATE_PKT_SIZE(icframe_major, icmsg_major) > buflen) {
++		pr_err_ratelimited("Invalid icmsg negotiate - icframe_major: %u, icmsg_major: %u\n",
++				   icframe_major, icmsg_major);
++		goto fw_error;
++	}
++
+ 	/*
+ 	 * Select the framework version number we will
+ 	 * support.
+diff --git a/drivers/hv/hv_fcopy.c b/drivers/hv/hv_fcopy.c
+index 5040d7e0cd9e9..59ce85e00a028 100644
+--- a/drivers/hv/hv_fcopy.c
++++ b/drivers/hv/hv_fcopy.c
+@@ -235,15 +235,27 @@ void hv_fcopy_onchannelcallback(void *context)
+ 	if (fcopy_transaction.state > HVUTIL_READY)
+ 		return;
+ 
+-	vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen,
+-			 &requestid);
+-	if (recvlen <= 0)
++	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen, &requestid)) {
++		pr_err_ratelimited("Fcopy request received. Could not read into recv buf\n");
+ 		return;
++	}
++
++	if (!recvlen)
++		return;
++
++	/* Ensure recvlen is big enough to read header data */
++	if (recvlen < ICMSG_HDR) {
++		pr_err_ratelimited("Fcopy request received. Packet length too small: %d\n",
++				   recvlen);
++		return;
++	}
+ 
+ 	icmsghdr = (struct icmsg_hdr *)&recv_buffer[
+ 			sizeof(struct vmbuspipe_hdr)];
++
+ 	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-		if (vmbus_prep_negotiate_resp(icmsghdr, recv_buffer,
++		if (vmbus_prep_negotiate_resp(icmsghdr,
++				recv_buffer, recvlen,
+ 				fw_versions, FW_VER_COUNT,
+ 				fcopy_versions, FCOPY_VER_COUNT,
+ 				NULL, &fcopy_srv_version)) {
+@@ -252,10 +264,14 @@ void hv_fcopy_onchannelcallback(void *context)
+ 				fcopy_srv_version >> 16,
+ 				fcopy_srv_version & 0xFFFF);
+ 		}
+-	} else {
+-		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[
+-				sizeof(struct vmbuspipe_hdr) +
+-				sizeof(struct icmsg_hdr)];
++	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
++		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
++		if (recvlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
++			pr_err_ratelimited("Invalid Fcopy hdr. Packet length too small: %u\n",
++					   recvlen);
++			return;
++		}
++		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[ICMSG_HDR];
+ 
+ 		/*
+ 		 * Stash away this global state for completing the
+@@ -280,6 +296,10 @@ void hv_fcopy_onchannelcallback(void *context)
+ 		schedule_delayed_work(&fcopy_timeout_work,
+ 				      HV_UTIL_TIMEOUT * HZ);
+ 		return;
++	} else {
++		pr_err_ratelimited("Fcopy request received. Invalid msg type: %d\n",
++				   icmsghdr->icmsgtype);
++		return;
+ 	}
+ 	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
+ 	vmbus_sendpacket(channel, recv_buffer, recvlen, requestid,
+diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
+index 754d35a25a1cc..b49962d312cef 100644
+--- a/drivers/hv/hv_kvp.c
++++ b/drivers/hv/hv_kvp.c
+@@ -662,71 +662,87 @@ void hv_kvp_onchannelcallback(void *context)
+ 	if (kvp_transaction.state > HVUTIL_READY)
+ 		return;
+ 
+-	vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 4, &recvlen,
+-			 &requestid);
+-
+-	if (recvlen > 0) {
+-		icmsghdrp = (struct icmsg_hdr *)&recv_buffer[
+-			sizeof(struct vmbuspipe_hdr)];
+-
+-		if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-			if (vmbus_prep_negotiate_resp(icmsghdrp,
+-				 recv_buffer, fw_versions, FW_VER_COUNT,
+-				 kvp_versions, KVP_VER_COUNT,
+-				 NULL, &kvp_srv_version)) {
+-				pr_info("KVP IC version %d.%d\n",
+-					kvp_srv_version >> 16,
+-					kvp_srv_version & 0xFFFF);
+-			}
+-		} else {
+-			kvp_msg = (struct hv_kvp_msg *)&recv_buffer[
+-				sizeof(struct vmbuspipe_hdr) +
+-				sizeof(struct icmsg_hdr)];
++	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 4, &recvlen, &requestid)) {
++		pr_err_ratelimited("KVP request received. Could not read into recv buf\n");
++		return;
++	}
+ 
+-			/*
+-			 * Stash away this global state for completing the
+-			 * transaction; note transactions are serialized.
+-			 */
++	if (!recvlen)
++		return;
+ 
+-			kvp_transaction.recv_len = recvlen;
+-			kvp_transaction.recv_req_id = requestid;
+-			kvp_transaction.kvp_msg = kvp_msg;
++	/* Ensure recvlen is big enough to read header data */
++	if (recvlen < ICMSG_HDR) {
++		pr_err_ratelimited("KVP request received. Packet length too small: %d\n",
++				   recvlen);
++		return;
++	}
+ 
+-			if (kvp_transaction.state < HVUTIL_READY) {
+-				/* Userspace is not registered yet */
+-				kvp_respond_to_host(NULL, HV_E_FAIL);
+-				return;
+-			}
+-			kvp_transaction.state = HVUTIL_HOSTMSG_RECEIVED;
++	icmsghdrp = (struct icmsg_hdr *)&recv_buffer[sizeof(struct vmbuspipe_hdr)];
++
++	if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
++		if (vmbus_prep_negotiate_resp(icmsghdrp,
++				recv_buffer, recvlen,
++				fw_versions, FW_VER_COUNT,
++				kvp_versions, KVP_VER_COUNT,
++				NULL, &kvp_srv_version)) {
++			pr_info("KVP IC version %d.%d\n",
++				kvp_srv_version >> 16,
++				kvp_srv_version & 0xFFFF);
++		}
++	} else if (icmsghdrp->icmsgtype == ICMSGTYPE_KVPEXCHANGE) {
++		/*
++		 * recvlen is not checked against sizeof(struct kvp_msg) because kvp_msg contains
++		 * a union of structs and the msg type received is not known. Code using this
++		 * struct should provide validation when accessing its fields.
++		 */
++		kvp_msg = (struct hv_kvp_msg *)&recv_buffer[ICMSG_HDR];
+ 
+-			/*
+-			 * Get the information from the
+-			 * user-mode component.
+-			 * component. This transaction will be
+-			 * completed when we get the value from
+-			 * the user-mode component.
+-			 * Set a timeout to deal with
+-			 * user-mode not responding.
+-			 */
+-			schedule_work(&kvp_sendkey_work);
+-			schedule_delayed_work(&kvp_timeout_work,
+-					      HV_UTIL_TIMEOUT * HZ);
++		/*
++		 * Stash away this global state for completing the
++		 * transaction; note transactions are serialized.
++		 */
+ 
+-			return;
++		kvp_transaction.recv_len = recvlen;
++		kvp_transaction.recv_req_id = requestid;
++		kvp_transaction.kvp_msg = kvp_msg;
+ 
++		if (kvp_transaction.state < HVUTIL_READY) {
++			/* Userspace is not registered yet */
++			kvp_respond_to_host(NULL, HV_E_FAIL);
++			return;
+ 		}
++		kvp_transaction.state = HVUTIL_HOSTMSG_RECEIVED;
+ 
+-		icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
+-			| ICMSGHDRFLAG_RESPONSE;
++		/*
++		 * Get the information from the
++		 * user-mode component.
++		 * component. This transaction will be
++		 * completed when we get the value from
++		 * the user-mode component.
++		 * Set a timeout to deal with
++		 * user-mode not responding.
++		 */
++		schedule_work(&kvp_sendkey_work);
++		schedule_delayed_work(&kvp_timeout_work,
++					HV_UTIL_TIMEOUT * HZ);
+ 
+-		vmbus_sendpacket(channel, recv_buffer,
+-				       recvlen, requestid,
+-				       VM_PKT_DATA_INBAND, 0);
++		return;
+ 
+-		host_negotiatied = NEGO_FINISHED;
+-		hv_poll_channel(kvp_transaction.recv_channel, kvp_poll_wrapper);
++	} else {
++		pr_err_ratelimited("KVP request received. Invalid msg type: %d\n",
++				   icmsghdrp->icmsgtype);
++		return;
  	}
  
-+	/*
-+	 * Allocate the request ID after the data has been copied into the
-+	 * ring buffer.  Once this request ID is allocated, the completion
-+	 * path could find the data and free it.
-+	 */
++	icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
++		| ICMSGHDRFLAG_RESPONSE;
 +
-+	if (desc->flags == VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED) {
-+		rqst_id = vmbus_next_request_id(&channel->requestor, requestid);
-+		if (rqst_id == VMBUS_RQST_ERROR) {
-+			spin_unlock_irqrestore(&outring_info->ring_lock, flags);
-+			pr_err("No request id available\n");
-+			return -EAGAIN;
-+		}
-+	}
-+	desc = hv_get_ring_buffer(outring_info) + old_write;
-+	desc->trans_id = (rqst_id == VMBUS_NO_RQSTOR) ? requestid : rqst_id;
++	vmbus_sendpacket(channel, recv_buffer,
++			 recvlen, requestid,
++			 VM_PKT_DATA_INBAND, 0);
 +
- 	/* Set previous packet start */
- 	prev_indices = hv_get_ring_bufferindices(outring_info);
- 
-@@ -319,8 +339,13 @@ int hv_ringbuffer_write(struct vmbus_channel *channel,
- 
- 	hv_signal_on_write(old_write, channel);
- 
--	if (channel->rescind)
-+	if (channel->rescind) {
-+		if (rqst_id != VMBUS_NO_RQSTOR) {
-+			/* Reclaim request ID to avoid leak of IDs */
-+			vmbus_request_addr(&channel->requestor, rqst_id);
-+		}
- 		return -ENODEV;
-+	}
- 
- 	return 0;
++	host_negotiatied = NEGO_FINISHED;
++	hv_poll_channel(kvp_transaction.recv_channel, kvp_poll_wrapper);
  }
+ 
+ static void kvp_on_reset(void)
+diff --git a/drivers/hv/hv_snapshot.c b/drivers/hv/hv_snapshot.c
+index 783779e4cc1a5..2267bd4c34725 100644
+--- a/drivers/hv/hv_snapshot.c
++++ b/drivers/hv/hv_snapshot.c
+@@ -298,49 +298,64 @@ void hv_vss_onchannelcallback(void *context)
+ 	if (vss_transaction.state > HVUTIL_READY)
+ 		return;
+ 
+-	vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen,
+-			 &requestid);
+-
+-	if (recvlen > 0) {
+-		icmsghdrp = (struct icmsg_hdr *)&recv_buffer[
+-			sizeof(struct vmbuspipe_hdr)];
+-
+-		if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-			if (vmbus_prep_negotiate_resp(icmsghdrp,
+-				 recv_buffer, fw_versions, FW_VER_COUNT,
+-				 vss_versions, VSS_VER_COUNT,
+-				 NULL, &vss_srv_version)) {
+-
+-				pr_info("VSS IC version %d.%d\n",
+-					vss_srv_version >> 16,
+-					vss_srv_version & 0xFFFF);
+-			}
+-		} else {
+-			vss_msg = (struct hv_vss_msg *)&recv_buffer[
+-				sizeof(struct vmbuspipe_hdr) +
+-				sizeof(struct icmsg_hdr)];
+-
+-			/*
+-			 * Stash away this global state for completing the
+-			 * transaction; note transactions are serialized.
+-			 */
+-
+-			vss_transaction.recv_len = recvlen;
+-			vss_transaction.recv_req_id = requestid;
+-			vss_transaction.msg = (struct hv_vss_msg *)vss_msg;
+-
+-			schedule_work(&vss_handle_request_work);
++	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen, &requestid)) {
++		pr_err_ratelimited("VSS request received. Could not read into recv buf\n");
++		return;
++	}
++
++	if (!recvlen)
++		return;
++
++	/* Ensure recvlen is big enough to read header data */
++	if (recvlen < ICMSG_HDR) {
++		pr_err_ratelimited("VSS request received. Packet length too small: %d\n",
++				   recvlen);
++		return;
++	}
++
++	icmsghdrp = (struct icmsg_hdr *)&recv_buffer[sizeof(struct vmbuspipe_hdr)];
++
++	if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
++		if (vmbus_prep_negotiate_resp(icmsghdrp,
++				recv_buffer, recvlen,
++				fw_versions, FW_VER_COUNT,
++				vss_versions, VSS_VER_COUNT,
++				NULL, &vss_srv_version)) {
++
++			pr_info("VSS IC version %d.%d\n",
++				vss_srv_version >> 16,
++				vss_srv_version & 0xFFFF);
++		}
++	} else if (icmsghdrp->icmsgtype == ICMSGTYPE_VSS) {
++		/* Ensure recvlen is big enough to contain hv_vss_msg */
++		if (recvlen < ICMSG_HDR + sizeof(struct hv_vss_msg)) {
++			pr_err_ratelimited("Invalid VSS msg. Packet length too small: %u\n",
++					   recvlen);
+ 			return;
+ 		}
++		vss_msg = (struct hv_vss_msg *)&recv_buffer[ICMSG_HDR];
++
++		/*
++		 * Stash away this global state for completing the
++		 * transaction; note transactions are serialized.
++		 */
+ 
+-		icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
+-			| ICMSGHDRFLAG_RESPONSE;
++		vss_transaction.recv_len = recvlen;
++		vss_transaction.recv_req_id = requestid;
++		vss_transaction.msg = (struct hv_vss_msg *)vss_msg;
+ 
+-		vmbus_sendpacket(channel, recv_buffer,
+-				       recvlen, requestid,
+-				       VM_PKT_DATA_INBAND, 0);
++		schedule_work(&vss_handle_request_work);
++		return;
++	} else {
++		pr_err_ratelimited("VSS request received. Invalid msg type: %d\n",
++				   icmsghdrp->icmsgtype);
++		return;
+ 	}
+ 
++	icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION |
++		ICMSGHDRFLAG_RESPONSE;
++	vmbus_sendpacket(channel, recv_buffer, recvlen, requestid,
++			 VM_PKT_DATA_INBAND, 0);
+ }
+ 
+ static void vss_on_reset(void)
+diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
+index 05566ecdbe4b4..34f3e789cc9a2 100644
+--- a/drivers/hv/hv_util.c
++++ b/drivers/hv/hv_util.c
+@@ -195,73 +195,88 @@ static void shutdown_onchannelcallback(void *context)
+ 
+ 	struct icmsg_hdr *icmsghdrp;
+ 
+-	vmbus_recvpacket(channel, shut_txf_buf,
+-			 HV_HYP_PAGE_SIZE, &recvlen, &requestid);
++	if (vmbus_recvpacket(channel, shut_txf_buf, HV_HYP_PAGE_SIZE, &recvlen, &requestid)) {
++		pr_err_ratelimited("Shutdown request received. Could not read into shut txf buf\n");
++		return;
++	}
+ 
+-	if (recvlen > 0) {
+-		icmsghdrp = (struct icmsg_hdr *)&shut_txf_buf[
+-			sizeof(struct vmbuspipe_hdr)];
++	if (!recvlen)
++		return;
+ 
+-		if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-			if (vmbus_prep_negotiate_resp(icmsghdrp, shut_txf_buf,
+-					fw_versions, FW_VER_COUNT,
+-					sd_versions, SD_VER_COUNT,
+-					NULL, &sd_srv_version)) {
+-				pr_info("Shutdown IC version %d.%d\n",
+-					sd_srv_version >> 16,
+-					sd_srv_version & 0xFFFF);
+-			}
+-		} else {
+-			shutdown_msg =
+-				(struct shutdown_msg_data *)&shut_txf_buf[
+-					sizeof(struct vmbuspipe_hdr) +
+-					sizeof(struct icmsg_hdr)];
++	/* Ensure recvlen is big enough to read header data */
++	if (recvlen < ICMSG_HDR) {
++		pr_err_ratelimited("Shutdown request received. Packet length too small: %d\n",
++				   recvlen);
++		return;
++	}
+ 
+-			/*
+-			 * shutdown_msg->flags can be 0(shut down), 2(reboot),
+-			 * or 4(hibernate). It may bitwise-OR 1, which means
+-			 * performing the request by force. Linux always tries
+-			 * to perform the request by force.
+-			 */
+-			switch (shutdown_msg->flags) {
+-			case 0:
+-			case 1:
+-				icmsghdrp->status = HV_S_OK;
+-				work = &shutdown_work;
+-				pr_info("Shutdown request received -"
+-					    " graceful shutdown initiated\n");
+-				break;
+-			case 2:
+-			case 3:
+-				icmsghdrp->status = HV_S_OK;
+-				work = &restart_work;
+-				pr_info("Restart request received -"
+-					    " graceful restart initiated\n");
+-				break;
+-			case 4:
+-			case 5:
+-				pr_info("Hibernation request received\n");
+-				icmsghdrp->status = hibernation_supported ?
+-					HV_S_OK : HV_E_FAIL;
+-				if (hibernation_supported)
+-					work = &hibernate_context.work;
+-				break;
+-			default:
+-				icmsghdrp->status = HV_E_FAIL;
+-				pr_info("Shutdown request received -"
+-					    " Invalid request\n");
+-				break;
+-			}
++	icmsghdrp = (struct icmsg_hdr *)&shut_txf_buf[sizeof(struct vmbuspipe_hdr)];
++
++	if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
++		if (vmbus_prep_negotiate_resp(icmsghdrp,
++				shut_txf_buf, recvlen,
++				fw_versions, FW_VER_COUNT,
++				sd_versions, SD_VER_COUNT,
++				NULL, &sd_srv_version)) {
++			pr_info("Shutdown IC version %d.%d\n",
++				sd_srv_version >> 16,
++				sd_srv_version & 0xFFFF);
++		}
++	} else if (icmsghdrp->icmsgtype == ICMSGTYPE_SHUTDOWN) {
++		/* Ensure recvlen is big enough to contain shutdown_msg_data struct */
++		if (recvlen < ICMSG_HDR + sizeof(struct shutdown_msg_data)) {
++			pr_err_ratelimited("Invalid shutdown msg data. Packet length too small: %u\n",
++					   recvlen);
++			return;
+ 		}
+ 
+-		icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
+-			| ICMSGHDRFLAG_RESPONSE;
+-
+-		vmbus_sendpacket(channel, shut_txf_buf,
+-				       recvlen, requestid,
+-				       VM_PKT_DATA_INBAND, 0);
++		shutdown_msg = (struct shutdown_msg_data *)&shut_txf_buf[ICMSG_HDR];
++
++		/*
++		 * shutdown_msg->flags can be 0(shut down), 2(reboot),
++		 * or 4(hibernate). It may bitwise-OR 1, which means
++		 * performing the request by force. Linux always tries
++		 * to perform the request by force.
++		 */
++		switch (shutdown_msg->flags) {
++		case 0:
++		case 1:
++			icmsghdrp->status = HV_S_OK;
++			work = &shutdown_work;
++			pr_info("Shutdown request received - graceful shutdown initiated\n");
++			break;
++		case 2:
++		case 3:
++			icmsghdrp->status = HV_S_OK;
++			work = &restart_work;
++			pr_info("Restart request received - graceful restart initiated\n");
++			break;
++		case 4:
++		case 5:
++			pr_info("Hibernation request received\n");
++			icmsghdrp->status = hibernation_supported ?
++				HV_S_OK : HV_E_FAIL;
++			if (hibernation_supported)
++				work = &hibernate_context.work;
++			break;
++		default:
++			icmsghdrp->status = HV_E_FAIL;
++			pr_info("Shutdown request received - Invalid request\n");
++			break;
++		}
++	} else {
++		icmsghdrp->status = HV_E_FAIL;
++		pr_err_ratelimited("Shutdown request received. Invalid msg type: %d\n",
++				   icmsghdrp->icmsgtype);
+ 	}
+ 
++	icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
++		| ICMSGHDRFLAG_RESPONSE;
++
++	vmbus_sendpacket(channel, shut_txf_buf,
++			 recvlen, requestid,
++			 VM_PKT_DATA_INBAND, 0);
++
+ 	if (work)
+ 		schedule_work(work);
+ }
+@@ -396,19 +411,27 @@ static void timesync_onchannelcallback(void *context)
+ 					   HV_HYP_PAGE_SIZE, &recvlen,
+ 					   &requestid);
+ 		if (ret) {
+-			pr_warn_once("TimeSync IC pkt recv failed (Err: %d)\n",
+-				     ret);
++			pr_err_ratelimited("TimeSync IC pkt recv failed (Err: %d)\n",
++					   ret);
+ 			break;
+ 		}
+ 
+ 		if (!recvlen)
+ 			break;
+ 
++		/* Ensure recvlen is big enough to read header data */
++		if (recvlen < ICMSG_HDR) {
++			pr_err_ratelimited("Timesync request received. Packet length too small: %d\n",
++					   recvlen);
++			break;
++		}
++
+ 		icmsghdrp = (struct icmsg_hdr *)&time_txf_buf[
+ 				sizeof(struct vmbuspipe_hdr)];
+ 
+ 		if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-			if (vmbus_prep_negotiate_resp(icmsghdrp, time_txf_buf,
++			if (vmbus_prep_negotiate_resp(icmsghdrp,
++						time_txf_buf, recvlen,
+ 						fw_versions, FW_VER_COUNT,
+ 						ts_versions, TS_VER_COUNT,
+ 						NULL, &ts_srv_version)) {
+@@ -416,33 +439,44 @@ static void timesync_onchannelcallback(void *context)
+ 					ts_srv_version >> 16,
+ 					ts_srv_version & 0xFFFF);
+ 			}
+-		} else {
++		} else if (icmsghdrp->icmsgtype == ICMSGTYPE_TIMESYNC) {
+ 			if (ts_srv_version > TS_VERSION_3) {
+-				refdata = (struct ictimesync_ref_data *)
+-					&time_txf_buf[
+-					sizeof(struct vmbuspipe_hdr) +
+-					sizeof(struct icmsg_hdr)];
++				/* Ensure recvlen is big enough to read ictimesync_ref_data */
++				if (recvlen < ICMSG_HDR + sizeof(struct ictimesync_ref_data)) {
++					pr_err_ratelimited("Invalid ictimesync ref data. Length too small: %u\n",
++							   recvlen);
++					break;
++				}
++				refdata = (struct ictimesync_ref_data *)&time_txf_buf[ICMSG_HDR];
+ 
+ 				adj_guesttime(refdata->parenttime,
+ 						refdata->vmreferencetime,
+ 						refdata->flags);
+ 			} else {
+-				timedatap = (struct ictimesync_data *)
+-					&time_txf_buf[
+-					sizeof(struct vmbuspipe_hdr) +
+-					sizeof(struct icmsg_hdr)];
++				/* Ensure recvlen is big enough to read ictimesync_data */
++				if (recvlen < ICMSG_HDR + sizeof(struct ictimesync_data)) {
++					pr_err_ratelimited("Invalid ictimesync data. Length too small: %u\n",
++							   recvlen);
++					break;
++				}
++				timedatap = (struct ictimesync_data *)&time_txf_buf[ICMSG_HDR];
++
+ 				adj_guesttime(timedatap->parenttime,
+ 					      hv_read_reference_counter(),
+ 					      timedatap->flags);
+ 			}
++		} else {
++			icmsghdrp->status = HV_E_FAIL;
++			pr_err_ratelimited("Timesync request received. Invalid msg type: %d\n",
++					   icmsghdrp->icmsgtype);
+ 		}
+ 
+ 		icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
+ 			| ICMSGHDRFLAG_RESPONSE;
+ 
+ 		vmbus_sendpacket(channel, time_txf_buf,
+-				recvlen, requestid,
+-				VM_PKT_DATA_INBAND, 0);
++				 recvlen, requestid,
++				 VM_PKT_DATA_INBAND, 0);
+ 	}
+ }
+ 
+@@ -462,18 +496,28 @@ static void heartbeat_onchannelcallback(void *context)
+ 
+ 	while (1) {
+ 
+-		vmbus_recvpacket(channel, hbeat_txf_buf,
+-				 HV_HYP_PAGE_SIZE, &recvlen, &requestid);
++		if (vmbus_recvpacket(channel, hbeat_txf_buf, HV_HYP_PAGE_SIZE,
++				     &recvlen, &requestid)) {
++			pr_err_ratelimited("Heartbeat request received. Could not read into hbeat txf buf\n");
++			return;
++		}
+ 
+ 		if (!recvlen)
+ 			break;
+ 
++		/* Ensure recvlen is big enough to read header data */
++		if (recvlen < ICMSG_HDR) {
++			pr_err_ratelimited("Hearbeat request received. Packet length too small: %d\n",
++					   recvlen);
++			break;
++		}
++
+ 		icmsghdrp = (struct icmsg_hdr *)&hbeat_txf_buf[
+ 				sizeof(struct vmbuspipe_hdr)];
+ 
+ 		if (icmsghdrp->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+ 			if (vmbus_prep_negotiate_resp(icmsghdrp,
+-					hbeat_txf_buf,
++					hbeat_txf_buf, recvlen,
+ 					fw_versions, FW_VER_COUNT,
+ 					hb_versions, HB_VER_COUNT,
+ 					NULL, &hb_srv_version)) {
+@@ -482,21 +526,31 @@ static void heartbeat_onchannelcallback(void *context)
+ 					hb_srv_version >> 16,
+ 					hb_srv_version & 0xFFFF);
+ 			}
+-		} else {
+-			heartbeat_msg =
+-				(struct heartbeat_msg_data *)&hbeat_txf_buf[
+-					sizeof(struct vmbuspipe_hdr) +
+-					sizeof(struct icmsg_hdr)];
++		} else if (icmsghdrp->icmsgtype == ICMSGTYPE_HEARTBEAT) {
++			/*
++			 * Ensure recvlen is big enough to read seq_num. Reserved area is not
++			 * included in the check as the host may not fill it up entirely
++			 */
++			if (recvlen < ICMSG_HDR + sizeof(u64)) {
++				pr_err_ratelimited("Invalid heartbeat msg data. Length too small: %u\n",
++						   recvlen);
++				break;
++			}
++			heartbeat_msg = (struct heartbeat_msg_data *)&hbeat_txf_buf[ICMSG_HDR];
+ 
+ 			heartbeat_msg->seq_num += 1;
++		} else {
++			icmsghdrp->status = HV_E_FAIL;
++			pr_err_ratelimited("Heartbeat request received. Invalid msg type: %d\n",
++					   icmsghdrp->icmsgtype);
+ 		}
+ 
+ 		icmsghdrp->icflags = ICMSGHDRFLAG_TRANSACTION
+ 			| ICMSGHDRFLAG_RESPONSE;
+ 
+ 		vmbus_sendpacket(channel, hbeat_txf_buf,
+-				       recvlen, requestid,
+-				       VM_PKT_DATA_INBAND, 0);
++				 recvlen, requestid,
++				 VM_PKT_DATA_INBAND, 0);
+ 	}
+ }
+ 
 diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1ce131f29f3b4..5b6d5c4e37110 100644
+index 5ddb479c4d4cb..696857aa038c0 100644
 --- a/include/linux/hyperv.h
 +++ b/include/linux/hyperv.h
-@@ -764,6 +764,22 @@ enum vmbus_device_type {
- 	HV_UNKNOWN,
+@@ -1471,6 +1471,7 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
+ #define ICMSGTYPE_SHUTDOWN		3
+ #define ICMSGTYPE_TIMESYNC		4
+ #define ICMSGTYPE_VSS			5
++#define ICMSGTYPE_FCOPY			7
+ 
+ #define ICMSGHDRFLAG_TRANSACTION	1
+ #define ICMSGHDRFLAG_REQUEST		2
+@@ -1514,6 +1515,12 @@ struct icmsg_hdr {
+ 	u8 reserved[2];
+ } __packed;
+ 
++#define IC_VERSION_NEGOTIATION_MAX_VER_COUNT 100
++#define ICMSG_HDR (sizeof(struct vmbuspipe_hdr) + sizeof(struct icmsg_hdr))
++#define ICMSG_NEGOTIATE_PKT_SIZE(icframe_vercnt, icmsg_vercnt) \
++	(ICMSG_HDR + offsetof(struct icmsg_negotiate, icversion_data) + \
++	 (((icframe_vercnt) + (icmsg_vercnt)) * sizeof(struct ic_version)))
++
+ struct icmsg_negotiate {
+ 	u16 icframe_vercnt;
+ 	u16 icmsg_vercnt;
+@@ -1569,7 +1576,7 @@ struct hyperv_service_callback {
  };
  
-+/*
-+ * Provides request ids for VMBus. Encapsulates guest memory
-+ * addresses and stores the next available slot in req_arr
-+ * to generate new ids in constant time.
-+ */
-+struct vmbus_requestor {
-+	u64 *req_arr;
-+	unsigned long *req_bitmap; /* is a given slot available? */
-+	u32 size;
-+	u64 next_request_id;
-+	spinlock_t req_lock; /* provides atomicity */
-+};
-+
-+#define VMBUS_NO_RQSTOR U64_MAX
-+#define VMBUS_RQST_ERROR (U64_MAX - 1)
-+
- struct vmbus_device {
- 	u16  dev_type;
- 	guid_t guid;
-@@ -988,8 +1004,14 @@ struct vmbus_channel {
- 	u32 fuzz_testing_interrupt_delay;
- 	u32 fuzz_testing_message_delay;
- 
-+	/* request/transaction ids for VMBus */
-+	struct vmbus_requestor requestor;
-+	u32 rqstor_size;
- };
- 
-+u64 vmbus_next_request_id(struct vmbus_requestor *rqstor, u64 rqst_addr);
-+u64 vmbus_request_addr(struct vmbus_requestor *rqstor, u64 trans_id);
-+
- static inline bool is_hvsock_channel(const struct vmbus_channel *c)
- {
- 	return !!(c->offermsg.offer.chn_flags &
+ #define MAX_SRV_VER	0x7ffffff
+-extern bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
++extern bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf, u32 buflen,
+ 				const int *fw_version, int fw_vercnt,
+ 				const int *srv_version, int srv_vercnt,
+ 				int *nego_fw_version, int *nego_srv_version);
 -- 
 2.25.1
 
