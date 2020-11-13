@@ -2,91 +2,113 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F5BC4742C
-	for <linux-hyperv@archiver.kernel.org>; Fri, 13 Nov 2020 11:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC349C56202
+	for <linux-hyperv@archiver.kernel.org>; Fri, 13 Nov 2020 12:02:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6815322252
-	for <linux-hyperv@archiver.kernel.org>; Fri, 13 Nov 2020 11:39:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86C8022240
+	for <linux-hyperv@archiver.kernel.org>; Fri, 13 Nov 2020 12:02:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="O5mfO4wX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgKMLh6 (ORCPT
+        id S1726598AbgKMMCj (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 13 Nov 2020 06:37:58 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36808 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726749AbgKMLf5 (ORCPT
+        Fri, 13 Nov 2020 07:02:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726817AbgKMMCU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 13 Nov 2020 06:35:57 -0500
-Received: by mail-wm1-f65.google.com with SMTP id a65so8094413wme.1;
-        Fri, 13 Nov 2020 03:33:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0SpwRyb0TuJ7zwVMJU26I/lRO0ner+Y643hGtbb0oXo=;
-        b=FzigzCEUTzSsFr7taMH3OPzHU0fKl5kzHm6lRZdKLj+EB8GrMxohoGDzb6OGVAr4UV
-         0JFwDk6TkDrWZU/nlXBMWOM1jRbtcTufAmqVDtLyxVKjWAq6QlVcESG59Ii07hbMNvD1
-         ctmDWcouocNY0+sFA3tK0Ey8pj8/g5nLIFfcfFcbyKBeXDizQeVa6JJTMG7uJ5y+WS9N
-         +b1V9y28ZYZFatgouR01WNkh8RWYghJklhiOWyKtfyPa2NVo/t6AGFlrj6HwV9+nKtiA
-         QogzHgJQX5W3npDrAjXkZnXL0JxOhIebwnHxpFlDT3DFPyQ66E+6mxbHnh0GfmN3dKR7
-         2KXA==
-X-Gm-Message-State: AOAM5334i1EgMPm4SoiBtdY7oeNqZRsGi6F6ut9H4IOsTgL54qXi7NCO
-        GAJu1AqWdc5mwICL/k9J1fo=
-X-Google-Smtp-Source: ABdhPJzto1ayTPSbWp7palp8RQsEdeA17/YLhio9PbL50h4Y4EuZ2MMQ01ikoHQxdq1b6CBwNb2qQA==
-X-Received: by 2002:a1c:2bc3:: with SMTP id r186mr1951868wmr.163.1605267209574;
-        Fri, 13 Nov 2020 03:33:29 -0800 (PST)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id d2sm5489806wra.73.2020.11.13.03.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 03:33:29 -0800 (PST)
-Date:   Fri, 13 Nov 2020 11:33:27 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Fri, 13 Nov 2020 07:02:20 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB54FC0613D1;
+        Fri, 13 Nov 2020 03:54:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2BFjpIJS3Ek7vvcQR8a3dEMj7hT9eTVke3P+0ikvr/c=; b=O5mfO4wXfqoiBfsdjUihOBRfLB
+        LVpLkKj8Q+KiRH5RMREs7LaduWm4YurS3ioKC774cEO2zZILqaGHG/IsyIzcieCTEAsdnuU5/PXtI
+        nQJ5yBiclDw8Zhy9WmxS3oq18T0nAeOaUt0wx60rpLFB4+aO4KW5I4kDpzLmyIQMTJZRN73RhjMsx
+        bLK3MM6TF0vGRaO2Hobp5ETePX5Jqi7O9Y5WxL4VAmvDRDuED9Vm/TwrqLRKLhGOebJs9dbBevi/v
+        JeEG/y9fOVH67PhgcgPyl0TsKkxKSKaZ0l3suNMkO9jjStHzeB8C7wTs4UptyBCPqRbWLgatZ8ME+
+        tzJwelFA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kdXej-0002nD-FV; Fri, 13 Nov 2020 11:54:17 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id CB620301324;
+        Fri, 13 Nov 2020 12:54:16 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id B4E3E2B770416; Fri, 13 Nov 2020 12:54:16 +0100 (CET)
+Date:   Fri, 13 Nov 2020 12:54:16 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org,
-        Andres Beltran <lkmlabelt@gmail.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org
-Subject: Re: [PATCH v9 2/3] scsi: storvsc: Use vmbus_requestor to generate
- transaction IDs for VMBus hardening
-Message-ID: <20201113113327.dmium67e32iadqbz@liuwe-devbox-debian-v2>
-References: <20201109100402.8946-1-parri.andrea@gmail.com>
- <20201109100402.8946-3-parri.andrea@gmail.com>
+        Wei Liu <wei.liu@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [RFC] lockdep: Put graph lock/unlock under lock_recursion
+ protection
+Message-ID: <20201113115416.GY2611@hirez.programming.kicks-ass.net>
+References: <20201113110512.1056501-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201109100402.8946-3-parri.andrea@gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20201113110512.1056501-1-boqun.feng@gmail.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, Nov 09, 2020 at 11:04:01AM +0100, Andrea Parri (Microsoft) wrote:
-> From: Andres Beltran <lkmlabelt@gmail.com>
+On Fri, Nov 13, 2020 at 07:05:03PM +0800, Boqun Feng wrote:
+> A warning was hit when running xfstests/generic/068 in a Hyper-V guest:
 > 
-> Currently, pointers to guest memory are passed to Hyper-V as
-> transaction IDs in storvsc. In the face of errors or malicious
-> behavior in Hyper-V, storvsc should not expose or trust the transaction
-> IDs returned by Hyper-V to be valid guest memory addresses. Instead,
-> use small integers generated by vmbus_requestor as requests
-> (transaction) IDs.
+> [...] ------------[ cut here ]------------
+> [...] DEBUG_LOCKS_WARN_ON(lockdep_hardirqs_enabled())
+> [...] WARNING: CPU: 2 PID: 1350 at kernel/locking/lockdep.c:5280 check_flags.part.0+0x165/0x170
+> [...] ...
+> [...] Workqueue: events pwq_unbound_release_workfn
+> [...] RIP: 0010:check_flags.part.0+0x165/0x170
+> [...] ...
+> [...] Call Trace:
+> [...]  lock_is_held_type+0x72/0x150
+> [...]  ? lock_acquire+0x16e/0x4a0
+> [...]  rcu_read_lock_sched_held+0x3f/0x80
+> [...]  __send_ipi_one+0x14d/0x1b0
+> [...]  hv_send_ipi+0x12/0x30
+> [...]  __pv_queued_spin_unlock_slowpath+0xd1/0x110
+> [...]  __raw_callee_save___pv_queued_spin_unlock_slowpath+0x11/0x20
+> [...]  .slowpath+0x9/0xe
+> [...]  lockdep_unregister_key+0x128/0x180
+> [...]  pwq_unbound_release_workfn+0xbb/0xf0
+> [...]  process_one_work+0x227/0x5c0
+> [...]  worker_thread+0x55/0x3c0
+> [...]  ? process_one_work+0x5c0/0x5c0
+> [...]  kthread+0x153/0x170
+> [...]  ? __kthread_bind_mask+0x60/0x60
+> [...]  ret_from_fork+0x1f/0x30
 > 
-> Signed-off-by: Andres Beltran <lkmlabelt@gmail.com>
-> Co-developed-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-> Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-> Cc: linux-scsi@vger.kernel.org
+> The cause of the problem is we have call chain lockdep_unregister_key()
+> -> <irq disabled by raw_local_irq_save()> lockdep_unlock() ->
+> arch_spin_unlock() -> __pv_queued_spin_unlock_slowpath() -> pv_kick() ->
+> __send_ipi_one() -> trace_hyperv_send_ipi_one().
+> 
+> Although this particular warning is triggered because Hyper-V has a
+> trace point in ipi sending, but in general arch_spin_unlock() may call
+> another function having a trace point in it, so put the arch_spin_lock()
+> and arch_spin_unlock() after lock_recursion protection to fix this
+> problem and avoid similiar problems.
+> 
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 
-Reviewed-by: Wei Liu <wl@xen.org>
+Works for me, thanks!
