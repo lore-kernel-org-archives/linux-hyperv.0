@@ -2,52 +2,50 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C03CC2D0E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5851C63699
 	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:47:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA8F1223C7
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:47:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5479D223C7
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:47:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="r60dmg+3"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="r3Pq4uxr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727521AbgKOUqp (ORCPT
+        id S1727899AbgKOUqr (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 15 Nov 2020 15:46:45 -0500
-Received: from gateway22.websitewelcome.com ([192.185.47.206]:15210 "EHLO
+        Sun, 15 Nov 2020 15:46:47 -0500
+Received: from gateway22.websitewelcome.com ([192.185.47.206]:22685 "EHLO
         gateway22.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727317AbgKOUqp (ORCPT
+        by vger.kernel.org with ESMTP id S1727879AbgKOUqr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 15 Nov 2020 15:46:45 -0500
-X-Greylist: delayed 1501 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Nov 2020 15:46:44 EST
+        Sun, 15 Nov 2020 15:46:47 -0500
 Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
-        by gateway22.websitewelcome.com (Postfix) with ESMTP id 485542EFF
-        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 13:58:45 -0600 (CST)
+        by gateway22.websitewelcome.com (Postfix) with ESMTP id D022CE9D
+        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 13:57:43 -0600 (CST)
 Received: from br164.hostgator.com.br ([192.185.176.180])
         by cmsmtp with SMTP
-        id eOAfkcexmAAk4eOAfkAQUA; Sun, 15 Nov 2020 13:58:45 -0600
+        id eO9fkceShAAk4eO9fkAPzz; Sun, 15 Nov 2020 13:57:43 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=castello.eng.br; s=default; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=rFcOP8UWegi27SgLGGK/1FD40QNsTlzehhrgLClCyW8=; b=r60dmg+3VJ08/+ivsUeiC93GvI
-        JP2+3Dmr8EcYyusEvFW5FXZ9+gSyQv7o4Grg+8dNey7vIkZTetCTkmJjW0o1T5+1HRIYOZIzaqY8G
-        CiChPUX/AjfOCUodElH/Gyk65kuofufyEQdklXaA0/prhL1IuRq53zLEL34//c8fm1qqIECQ0wUFR
-        g9ZFcZywa5O/MiMFgs9Fd8XX7Uvzzdoz0WqwZ/UBnHbBQfxHP2scU5XKkZGyTLUDr2hNyPs8m3ceC
-        wk/9R362AD/nrfzJMIlVr4I1mwuOi0yW+IgJNSHFEoHS/9nvYQay0dnr5hEZTlewIiPv0x/Gz4xAj
-        AR16Hlgw==;
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=CcsvbMHn+/SbpDuqZOJKhcdXk5aFt0XA8jSjf4vZeiM=; b=r3Pq4uxrenY5R6h5JHnj8sBYeW
+        2svAz818m/O+8Juaqd7Ee6chb2qufsg1QvVBck2BIWZmnf8vddO7CidfjRsmxOJqZ446tcsnUnBbd
+        QJF/w+LgBq0dyiGxs4s7DxD1+APdShtuDjS47Xwa2Kbq3iN/FQGSkv6TWKpYG+uk6TCP60MVEO1UU
+        JEtXNibh/hIw0BitxLlrwwuqMgodnbuaQqJ9VoK+K3SsI9sokgZO4Mdu4Rfq8Pb6xEB3SxNtqvGn7
+        tFTHp+SW9GFYOSNrUtnxRW0w5Q0mbUgFLmsxzdw22s7Eiw5bxbY/su1Ei+WmgEXPzALvq4WcADiTB
+        dxC7awqA==;
 Received: from 179-197-124-241.ultrabandalargafibra.com.br ([179.197.124.241]:50406 helo=DESKTOP-TKDJ6MU.localdomain)
         by br164.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.93)
         (envelope-from <matheus@castello.eng.br>)
-        id 1keOAe-000kPb-NR; Sun, 15 Nov 2020 16:58:45 -0300
+        id 1keO9f-000kPb-7R; Sun, 15 Nov 2020 16:57:43 -0300
 From:   Matheus Castello <matheus@castello.eng.br>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org
@@ -55,12 +53,10 @@ Cc:     sashal@kernel.org, Tianyu.Lan@microsoft.com, decui@microsoft.com,
         mikelley@microsoft.com, sunilmut@microsoft.com,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         Matheus Castello <matheus@castello.eng.br>
-Subject: [PATCH 6/6] drivers: hv: vmbus: Fix call msleep using < 20ms
-Date:   Sun, 15 Nov 2020 16:57:34 -0300
-Message-Id: <20201115195734.8338-7-matheus@castello.eng.br>
+Subject: [PATCH 0/6] Add improvements suggested by checkpatch for vmbus_drv
+Date:   Sun, 15 Nov 2020 16:57:28 -0300
+Message-Id: <20201115195734.8338-1-matheus@castello.eng.br>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201115195734.8338-1-matheus@castello.eng.br>
-References: <20201115195734.8338-1-matheus@castello.eng.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -71,40 +67,34 @@ X-AntiAbuse: Sender Address Domain - castello.eng.br
 X-BWhitelist: no
 X-Source-IP: 179.197.124.241
 X-Source-L: No
-X-Exim-ID: 1keOAe-000kPb-NR
+X-Exim-ID: 1keO9f-000kPb-7R
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: 179-197-124-241.ultrabandalargafibra.com.br (DESKTOP-TKDJ6MU.localdomain) [179.197.124.241]:50406
 X-Source-Auth: matheus@castello.eng.br
-X-Email-Count: 76
+X-Email-Count: 4
 X-Source-Cap: Y2FzdGUyNDg7Y2FzdGUyNDg7YnIxNjQuaG9zdGdhdG9yLmNvbS5icg==
 X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Fixed checkpatch warning: MSLEEP: msleep < 20ms can sleep for up to
-20ms; see Documentation/timers/timers-howto.rst
+This series fixes some warnings edmited by the checkpatch in the file
+vmbus_drv.c. I thought it would be good to split each fix into a commit to
+help with the review.
 
-Signed-off-by: Matheus Castello <matheus@castello.eng.br>
----
- drivers/hv/vmbus_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Matheus Castello (6):
+  drivers: hv: Fix hyperv_record_panic_msg path on comment
+  drivers: hv: vmbus: Replace symbolic permissions by octal permissions
+  drivers: hv: vmbus: Fix checkpatch LINE_SPACING
+  drivers: hv: vmbus: Fix checkpatch SPLIT_STRING
+  drivers: hv: vmbus: Fix unnecessary OOM_MESSAGE
+  drivers: hv: vmbus: Fix call msleep using < 20ms
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 774b88dd0e15..cf49c0c01206 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -2382,7 +2382,7 @@ static int vmbus_bus_suspend(struct device *dev)
- 		 * We wait here until the completion of any channel
- 		 * offers that are currently in progress.
- 		 */
--		msleep(1);
-+		usleep_range(1000, 2000);
- 	}
+ drivers/hv/vmbus_drv.c | 55 +++++++++++++++++++++++-------------------
+ 1 file changed, 30 insertions(+), 25 deletions(-)
 
- 	mutex_lock(&vmbus_connection.channel_mutex);
 --
 2.28.0
 
