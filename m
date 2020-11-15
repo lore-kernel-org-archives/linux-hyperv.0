@@ -7,28 +7,29 @@ X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 708FDC63777
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:20:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B728C6379F
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:20:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2832E223AB
+	by mail.kernel.org (Postfix) with ESMTP id DF460223AB
 	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:20:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="QXk+q6y9"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="GDfZl0r9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727683AbgKOUUV (ORCPT
+        id S1727846AbgKOUUh (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 15 Nov 2020 15:20:21 -0500
-Received: from gateway31.websitewelcome.com ([192.185.144.219]:39191 "EHLO
-        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727184AbgKOUUS (ORCPT
+        Sun, 15 Nov 2020 15:20:37 -0500
+Received: from gateway24.websitewelcome.com ([192.185.51.162]:15790 "EHLO
+        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727553AbgKOUUh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 15 Nov 2020 15:20:18 -0500
-Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
-        by gateway31.websitewelcome.com (Postfix) with ESMTP id 7A4EC4BDBC
-        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 13:58:32 -0600 (CST)
+        Sun, 15 Nov 2020 15:20:37 -0500
+X-Greylist: delayed 1340 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Nov 2020 15:20:36 EST
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+        by gateway24.websitewelcome.com (Postfix) with ESMTP id 0115B20B40
+        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 13:58:15 -0600 (CST)
 Received: from br164.hostgator.com.br ([192.185.176.180])
         by cmsmtp with SMTP
-        id eOASkT3s4fgo0eOASkP5VW; Sun, 15 Nov 2020 13:58:32 -0600
+        id eOAAkQyHvmi4BeOAAkRo9w; Sun, 15 Nov 2020 13:58:14 -0600
 X-Authority-Reason: nr=8
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=castello.eng.br; s=default; h=Content-Transfer-Encoding:MIME-Version:
@@ -36,17 +37,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=C6X59wyPVRlF1KUI8WrlY0BS6G519N9srE9MF7rS9Mg=; b=QXk+q6y9FHie5C8vLRGSEklwL4
-        cokCfFhiAO/2Nco1WiQpAA68vCwMJ0rSQxDnVnn9rByRwRvEEjLH6mUilVIZGhk2ess5cDyEocHkM
-        ut1GwhuW+vv/o8gfp12+nTFwTSSpivrv7e6S3ZhzT9OiBgx+IVYTEiRW5uzU7X7e8o/q9wzZ0lMUl
-        clV7PaiaPUJgfwXpkYifLAhIc1rX9p5eQFBEOcg7eEythkFe5Kf9AocvaiHIdTeGJjJ2a3nDs3S0t
-        haRvxvxwoo1HlQl5DavoUWMo2rgMF0/2m9UR83HC+4i7lAvxqP+1AQUe488aechVEjY0efMJY1X9H
-        5JMCUVQw==;
+        bh=Rah/S8YAQ7saare3sIo3uqQ/44a3rofOOnXnbQNuukM=; b=GDfZl0r9Ej6WjFTovf0Yh/cv1n
+        Qc83Djfx+XmDt6x8+FkI6z9JsvQJCeKFuE6RON6R5BLzCnKuprAQqhSKM/Fvji7ShpX2VHCBUxpZa
+        lBEFj8tYZt5YcyrckoOwNEkZn6UQst2Npt85DpHRZNW4QgtYKGe/KAmApnSrB92Babi02mWrybNB3
+        bwtfxEkSrIl2IPUQqyeO6BJw+PQeMj+4qqqRxVvpGVcN2d1BXWIYGkvA5HOHoeb+xWgmnJYmCc8d2
+        p4L+eNinxrb1aNJAGJnQQVU8zqGPvvtfV3fmpc+zWq1vWvTwh5sgqy2m5ygnYZ5Azco7K5uCXYY4L
+        hgYInIHQ==;
 Received: from 179-197-124-241.ultrabandalargafibra.com.br ([179.197.124.241]:50406 helo=DESKTOP-TKDJ6MU.localdomain)
         by br164.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.93)
         (envelope-from <matheus@castello.eng.br>)
-        id 1keOAR-000kPb-U5; Sun, 15 Nov 2020 16:58:32 -0300
+        id 1keOAA-000kPb-DE; Sun, 15 Nov 2020 16:58:14 -0300
 From:   Matheus Castello <matheus@castello.eng.br>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org
@@ -54,9 +55,9 @@ Cc:     sashal@kernel.org, Tianyu.Lan@microsoft.com, decui@microsoft.com,
         mikelley@microsoft.com, sunilmut@microsoft.com,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         Matheus Castello <matheus@castello.eng.br>
-Subject: [PATCH 4/6] drivers: hv: vmbus: Fix checkpatch SPLIT_STRING
-Date:   Sun, 15 Nov 2020 16:57:32 -0300
-Message-Id: <20201115195734.8338-5-matheus@castello.eng.br>
+Subject: [PATCH 2/6] drivers: hv: vmbus: Replace symbolic permissions by octal permissions
+Date:   Sun, 15 Nov 2020 16:57:30 -0300
+Message-Id: <20201115195734.8338-3-matheus@castello.eng.br>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201115195734.8338-1-matheus@castello.eng.br>
 References: <20201115195734.8338-1-matheus@castello.eng.br>
@@ -70,81 +71,73 @@ X-AntiAbuse: Sender Address Domain - castello.eng.br
 X-BWhitelist: no
 X-Source-IP: 179.197.124.241
 X-Source-L: No
-X-Exim-ID: 1keOAR-000kPb-U5
+X-Exim-ID: 1keOAA-000kPb-DE
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
 X-Source-Sender: 179-197-124-241.ultrabandalargafibra.com.br (DESKTOP-TKDJ6MU.localdomain) [179.197.124.241]:50406
 X-Source-Auth: matheus@castello.eng.br
-X-Email-Count: 52
+X-Email-Count: 28
 X-Source-Cap: Y2FzdGUyNDg7Y2FzdGUyNDg7YnIxNjQuaG9zdGdhdG9yLmNvbS5icg==
 X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Checkpatch emits WARNING: quoted string split across lines.
-To keep the code clean and with the 80 column length indentation the
-check and registration code for kmsg_dump_register has been transferred
-to a new function hv_kmsg_dump_register.
+This fixed the below checkpatch issue:
+WARNING: Symbolic permissions 'S_IRUGO' are not preferred.
+Consider using octal permissions '0444'.
 
 Signed-off-by: Matheus Castello <matheus@castello.eng.br>
 ---
- drivers/hv/vmbus_drv.c | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+ drivers/hv/vmbus_drv.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 61d28c743263..09d8236a51cf 100644
+index 9ed7e3b1d654..52c1407c1849 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -1387,6 +1387,23 @@ static struct kmsg_dumper hv_kmsg_dumper = {
- 	.dump = hv_kmsg_dump,
- };
+@@ -1812,7 +1812,7 @@ static ssize_t channel_pending_show(struct vmbus_channel *channel,
+ 		       channel_pending(channel,
+ 				       vmbus_connection.monitor_pages[1]));
+ }
+-static VMBUS_CHAN_ATTR(pending, S_IRUGO, channel_pending_show, NULL);
++static VMBUS_CHAN_ATTR(pending, 0444, channel_pending_show, NULL);
 
-+static void hv_kmsg_dump_register(void)
-+{
-+	int ret;
-+
-+	hv_panic_page = (void *)hv_alloc_hyperv_zeroed_page();
-+	if (hv_panic_page) {
-+		ret = kmsg_dump_register(&hv_kmsg_dumper);
-+		if (ret) {
-+			pr_err("Hyper-V: kmsg dump register error 0x%x\n", ret);
-+			hv_free_hyperv_page((unsigned long)hv_panic_page);
-+			hv_panic_page = NULL;
-+		}
-+	} else {
-+		pr_err("Hyper-V: panic message page memory allocation failed");
-+	}
-+}
-+
- static struct ctl_table_header *hv_ctl_table_hdr;
+ static ssize_t channel_latency_show(struct vmbus_channel *channel,
+ 				    char *buf)
+@@ -1821,19 +1821,19 @@ static ssize_t channel_latency_show(struct vmbus_channel *channel,
+ 		       channel_latency(channel,
+ 				       vmbus_connection.monitor_pages[1]));
+ }
+-static VMBUS_CHAN_ATTR(latency, S_IRUGO, channel_latency_show, NULL);
++static VMBUS_CHAN_ATTR(latency, 0444, channel_latency_show, NULL);
 
- /*
-@@ -1477,21 +1494,8 @@ static int vmbus_bus_init(void)
- 		 * capability is supported by the hypervisor.
- 		 */
- 		hv_get_crash_ctl(hyperv_crash_ctl);
--		if (hyperv_crash_ctl & HV_CRASH_CTL_CRASH_NOTIFY_MSG) {
--			hv_panic_page = (void *)hv_alloc_hyperv_zeroed_page();
--			if (hv_panic_page) {
--				ret = kmsg_dump_register(&hv_kmsg_dumper);
--				if (ret) {
--					pr_err("Hyper-V: kmsg dump register "
--						"error 0x%x\n", ret);
--					hv_free_hyperv_page(
--					    (unsigned long)hv_panic_page);
--					hv_panic_page = NULL;
--				}
--			} else
--				pr_err("Hyper-V: panic message page memory "
--					"allocation failed");
--		}
-+		if (hyperv_crash_ctl & HV_CRASH_CTL_CRASH_NOTIFY_MSG)
-+			hv_kmsg_dump_register();
+ static ssize_t channel_interrupts_show(struct vmbus_channel *channel, char *buf)
+ {
+ 	return sprintf(buf, "%llu\n", channel->interrupts);
+ }
+-static VMBUS_CHAN_ATTR(interrupts, S_IRUGO, channel_interrupts_show, NULL);
++static VMBUS_CHAN_ATTR(interrupts, 0444, channel_interrupts_show, NULL);
 
- 		register_die_notifier(&hyperv_die_block);
- 	}
+ static ssize_t channel_events_show(struct vmbus_channel *channel, char *buf)
+ {
+ 	return sprintf(buf, "%llu\n", channel->sig_events);
+ }
+-static VMBUS_CHAN_ATTR(events, S_IRUGO, channel_events_show, NULL);
++static VMBUS_CHAN_ATTR(events, 0444, channel_events_show, NULL);
+
+ static ssize_t channel_intr_in_full_show(struct vmbus_channel *channel,
+ 					 char *buf)
+@@ -1872,7 +1872,7 @@ static ssize_t subchannel_monitor_id_show(struct vmbus_channel *channel,
+ {
+ 	return sprintf(buf, "%u\n", channel->offermsg.monitorid);
+ }
+-static VMBUS_CHAN_ATTR(monitor_id, S_IRUGO, subchannel_monitor_id_show, NULL);
++static VMBUS_CHAN_ATTR(monitor_id, 0444, subchannel_monitor_id_show, NULL);
+
+ static ssize_t subchannel_id_show(struct vmbus_channel *channel,
+ 				  char *buf)
 --
 2.28.0
 
