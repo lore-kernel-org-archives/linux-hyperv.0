@@ -2,101 +2,111 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D106BC2D0E4
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 16:57:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AAF9C2D0E4
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:20:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8F422450
-	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 16:57:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 318F322453
+	for <linux-hyperv@archiver.kernel.org>; Sun, 15 Nov 2020 20:20:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GKe8HtSG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="jUxU36Sk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726727AbgKOQ5F (ORCPT
+        id S1727571AbgKOUUQ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 15 Nov 2020 11:57:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726704AbgKOQ5E (ORCPT
+        Sun, 15 Nov 2020 15:20:16 -0500
+Received: from gateway31.websitewelcome.com ([192.185.144.219]:12528 "EHLO
+        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727518AbgKOUUQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 15 Nov 2020 11:57:04 -0500
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77187C0613D1
-        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 08:57:04 -0800 (PST)
-Received: by mail-lj1-x243.google.com with SMTP id 142so3416328ljj.10
-        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 08:57:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7ZhWNdmrv7uNC+shuTB5UrdMpVq8cOfsO/67ny1dABo=;
-        b=GKe8HtSGVpql7itwBeLIkBdzeQTDlLA/NMjuNvTbYEKWXB7yyVUDwFWl9MTbBscdEJ
-         hObKcjWJK90+BTLO+zgzmCcH+qCmtS9aZD909pSoyW/0/+CSK0ggGgVgQQGW5k7uiBQQ
-         9/PazKzHsYQiacJMrzhtp0dCF64qWviUt14wA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7ZhWNdmrv7uNC+shuTB5UrdMpVq8cOfsO/67ny1dABo=;
-        b=hkeEga/5z7e2kavSCVjWi02aDTPNJI2AimEblb4kE2K6DFwGmjl42a8QLGBBjO+P8V
-         AYNQzNtEfVHrvfAcG1IY+HaXgkRFbjOEUBj/BrsT0br1OWMJGlbed7smzeTMvbo74gJa
-         5SNAxjJGahYXU/06V1bRoc44+sFVcmLkxipd1b7ZFox2c3Qv/f5cOQ4eGX0OP47xgIMR
-         ///oJYHQ5MEyyIrF7d4m0dlI7xywdkd33yHcLFMBPP0he5C2cMV71Vedwgf6M5l9FKGd
-         bYULEG9i/5A/3/mVv6oziKtPEgbR4BbJ4PqW4CvuFIOoXidekyDqsFjqHDMKNIyLOuP+
-         +l3A==
-X-Gm-Message-State: AOAM5305xRC4kSGkDoIxOgzw9w3l2+jZznt3HSFsnAiM2DDjQiNCBWOR
-        AvJ9CNL1ArjPYVuKJ3d4Imz/vfZ3sTtcXg==
-X-Google-Smtp-Source: ABdhPJydEKeAq7QxT7bp5kOFzRftAewZCXTlmaQbbhMgHwejqQ2nEowE76QXu8dvadAKySFm8yeUww==
-X-Received: by 2002:a2e:8090:: with SMTP id i16mr4930341ljg.162.1605459422536;
-        Sun, 15 Nov 2020 08:57:02 -0800 (PST)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id g14sm2439828ljn.103.2020.11.15.08.57.00
-        for <linux-hyperv@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2020 08:57:01 -0800 (PST)
-Received: by mail-lf1-f44.google.com with SMTP id j205so21465436lfj.6
-        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 08:57:00 -0800 (PST)
-X-Received: by 2002:a19:7f55:: with SMTP id a82mr4592052lfd.603.1605459420530;
- Sun, 15 Nov 2020 08:57:00 -0800 (PST)
+        Sun, 15 Nov 2020 15:20:16 -0500
+Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
+        by gateway31.websitewelcome.com (Postfix) with ESMTP id C374252FC5
+        for <linux-hyperv@vger.kernel.org>; Sun, 15 Nov 2020 13:58:37 -0600 (CST)
+Received: from br164.hostgator.com.br ([192.185.176.180])
+        by cmsmtp with SMTP
+        id eOAXkCIZgosA0eOAXknGvJ; Sun, 15 Nov 2020 13:58:37 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=castello.eng.br; s=default; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hU4JV4gLkk7rZIZMvWlSeTTTfhejLWb1vrcon+YhLR0=; b=jUxU36SkS7RxT53SPP9DjnuHoi
+        Xhswf1yWEQsNI6bDcWYAWWbxfjl9qBQLWrjKhVqwbNYoGq5GZskCnUP1LbGhl9fhThmyh9TJ71OY1
+        rcVGYsZSOCYO8XE3TGMAhPclTdTihl06bg5S1V1jfkYnkYVw4eqQpdU0Q44q8fFmmoqUlBmbrll/R
+        UofbfOYpVnZyUDoA6pt0K3ALqGLf5kNGfxe+g0QKIv9z3ajgGnfgk1n4BT+irBS13/8ZewV6wnZ+k
+        dt1xo2QVm1fmn8JHWGRCVnuAyHRZBDQU0uzMD8+pa4elTAvAjGZGoRldI47pVOUU9P7tyOOP2UzmG
+        XuW3Z+fg==;
+Received: from 179-197-124-241.ultrabandalargafibra.com.br ([179.197.124.241]:50406 helo=DESKTOP-TKDJ6MU.localdomain)
+        by br164.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <matheus@castello.eng.br>)
+        id 1keOAX-000kPb-82; Sun, 15 Nov 2020 16:58:37 -0300
+From:   Matheus Castello <matheus@castello.eng.br>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org
+Cc:     sashal@kernel.org, Tianyu.Lan@microsoft.com, decui@microsoft.com,
+        mikelley@microsoft.com, sunilmut@microsoft.com,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Matheus Castello <matheus@castello.eng.br>
+Subject: [PATCH 5/6] drivers: hv: vmbus: Fix unnecessary OOM_MESSAGE
+Date:   Sun, 15 Nov 2020 16:57:33 -0300
+Message-Id: <20201115195734.8338-6-matheus@castello.eng.br>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201115195734.8338-1-matheus@castello.eng.br>
+References: <20201115195734.8338-1-matheus@castello.eng.br>
 MIME-Version: 1.0
-References: <20201111222116.GA919131@ZenIV.linux.org.uk> <20201113235453.GA227700@ubuntu-m3-large-x86>
- <20201114011754.GL3576660@ZenIV.linux.org.uk> <20201114030124.GA236@Ryzen-9-3900X.localdomain>
- <20201114035453.GM3576660@ZenIV.linux.org.uk> <20201114041420.GA231@Ryzen-9-3900X.localdomain>
- <20201114055048.GN3576660@ZenIV.linux.org.uk> <20201114061934.GA658@Ryzen-9-3900X.localdomain>
- <20201114070025.GO3576660@ZenIV.linux.org.uk> <20201114205000.GP3576660@ZenIV.linux.org.uk>
- <20201115155355.GR3576660@ZenIV.linux.org.uk>
-In-Reply-To: <20201115155355.GR3576660@ZenIV.linux.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 15 Nov 2020 08:56:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wisaN3QOEYq6XBSKyW_74X5GhdbyE5AnbLkh9krarhDAA@mail.gmail.com>
-Message-ID: <CAHk-=wisaN3QOEYq6XBSKyW_74X5GhdbyE5AnbLkh9krarhDAA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] seq_file: add seq_read_iter
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kys@microsoft.com, haiyangz@microsoft.com,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - br164.hostgator.com.br
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - castello.eng.br
+X-BWhitelist: no
+X-Source-IP: 179.197.124.241
+X-Source-L: No
+X-Exim-ID: 1keOAX-000kPb-82
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 179-197-124-241.ultrabandalargafibra.com.br (DESKTOP-TKDJ6MU.localdomain) [179.197.124.241]:50406
+X-Source-Auth: matheus@castello.eng.br
+X-Email-Count: 64
+X-Source-Cap: Y2FzdGUyNDg7Y2FzdGUyNDg7YnIxNjQuaG9zdGdhdG9yLmNvbS5icg==
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sun, Nov 15, 2020 at 7:54 AM Al Viro <viro@zeniv.linux.org.uk> wrote:
->
-> OK, I think I understand what's going on.  Could you check if
-> reverting the variant in -next and applying the following instead
-> fixes what you are seeing?
+Fixed checkpatch warning: Possible unnecessary 'out of memory' message
+checkpatch(OOM_MESSAGE)
 
-Side note: if this ends up working, can you add a lot of comments
-about this thing (both in the code and the commit message)? It
-confused both Christoph and me, and clearly you were stumped too.
-That's not a great sign.
+Signed-off-by: Matheus Castello <matheus@castello.eng.br>
+---
+ drivers/hv/vmbus_drv.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-                  Linus
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 09d8236a51cf..774b88dd0e15 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1989,10 +1989,8 @@ struct hv_device *vmbus_device_create(const guid_t *type,
+ 	struct hv_device *child_device_obj;
+
+ 	child_device_obj = kzalloc(sizeof(struct hv_device), GFP_KERNEL);
+-	if (!child_device_obj) {
+-		pr_err("Unable to allocate device object for child device\n");
++	if (!child_device_obj)
+ 		return NULL;
+-	}
+
+ 	child_device_obj->channel = channel;
+ 	guid_copy(&child_device_obj->dev_type, type);
+--
+2.28.0
+
