@@ -2,178 +2,156 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BCEC63777
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 00:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40622C5519F
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:23:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C58722202
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 00:20:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="MG6rpoH8"
+	by mail.kernel.org (Postfix) with ESMTP id D5DD224654
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726977AbgKRAUQ (ORCPT
+        id S1725879AbgKRJXm (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 Nov 2020 19:20:16 -0500
-Received: from mail-bn7nam10on2129.outbound.protection.outlook.com ([40.107.92.129]:16449
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725767AbgKRAUP (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 Nov 2020 19:20:15 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FloEF17SQVxkGzis9jj+bNW9RxfotjDZA+CChFhnIABsSW+SnzZep33Y29PdhIn4FMlEcZZIP2XN/IjXdhEeiYD/oY2Ob3+913FGIwtwIJq4jfH2XdoxMdz5B2Q6zWLZzADFBG/zcwxVG7V2B91g2+22qKEFGxNRiX6pdvFiWy+p1kxjcDSDTpPwHrN8NmOxu1cFtOmTYm+WWFcTOcPQ/flcfZ5vzdeBKhY4mR9l/EK1Fdlpn1KNUPEmt71FwgI42mT3WJb+w/PBZGcxz53JzUUza+U3nE2ofJFWKq5Fqd08ercBj7Pz3mZaqFrMsVgKjfKsOmPIrFK0ZOmpwqjChQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I0p8bBET6I/lJFcCbDC2/2PI7+/RSDigUYD2YRqIwgo=;
- b=DnsWDW7aotkWRcX/rx5U/SETJI2XRxeHYYB5EdfGFj418Lpy35SBTELQePR3omMpnNtJF/wKAbgLLs9o932fxdRwWce0ENkLzjiVE/I7XQIxQDwZp3gSM8lX7Jg9G4lPOCRSly1QJhZTXBiKqKETKAaPOZI4OKH1Wrt8Kikic8lu4okDZEbfqQqxUSSmhdIBf/aq3mn6M4I8d6/+cghv7BvANyajhaq8WL2myA2RmOT3VDZImXA44jfWSmMWmNix18slVZDlFdZxBc9Ihd3307Guq9N5VRB+M5oCoLCMJV6i1UIPy/ZW+4mymgjLRFPX86SivoOxgtiobwUCsZ41gg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I0p8bBET6I/lJFcCbDC2/2PI7+/RSDigUYD2YRqIwgo=;
- b=MG6rpoH8f+ZtXGpunaM+kWYmbl5HSgTFNPE04RagU0M5Vn6quIk/1Qw40MQj0SjQkb/oNQDuqdm9B1HGwMAP+6krZ6eIWvgrYoe5uFENqqVQoJsDPT9UxMg8cD97CVcfIYEzv09KGws3HDZzPoXMmgosy4y2DOqUrYLa8YkCZrc=
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
- by MW4PR21MB1891.namprd21.prod.outlook.com (2603:10b6:303:79::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.4; Wed, 18 Nov
- 2020 00:20:11 +0000
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::b8f6:e748:cdf2:1922]) by MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::b8f6:e748:cdf2:1922%9]) with mapi id 15.20.3564.033; Wed, 18 Nov 2020
- 00:20:11 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Dexuan Cui <decui@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Wei Hu <weh@microsoft.com>
-Subject: RE: [PATCH] video: hyperv_fb: Fix the cache type when mapping the
- VRAM
-Thread-Topic: [PATCH] video: hyperv_fb: Fix the cache type when mapping the
- VRAM
-Thread-Index: AQHWvT5LrMWTzMjad0qzQTxNmF/vRanNBgtg
-Date:   Wed, 18 Nov 2020 00:20:11 +0000
-Message-ID: <MW2PR2101MB105243C3AD5106B2ABEDBAB5D7E10@MW2PR2101MB1052.namprd21.prod.outlook.com>
-References: <20201118000305.24797-1-decui@microsoft.com>
-In-Reply-To: <20201118000305.24797-1-decui@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-11-18T00:20:09Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=de31e602-f6bc-4895-98ef-7ba20096348c;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
-authentication-results: microsoft.com; dkim=none (message not signed)
- header.d=none;microsoft.com; dmarc=none action=none
- header.from=microsoft.com;
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e30d2e1c-e0f8-4fa4-e08a-08d88b57b6c5
-x-ms-traffictypediagnostic: MW4PR21MB1891:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW4PR21MB1891B170E78EF11DD106C9DDD7E10@MW4PR21MB1891.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 31A4akYy/NvTFierrRX6u1IBYNC6+s8FxaCVt5u8Mz3uwaTmNp+oEOHLiSX0TKg9YQO5MSQqcZhnFs2W7gEJd+jwYVdLPqdT7zVsmOQSFenSaZIm3m0vQTsHaKAJVUsiXLagW99WQh3C+npZPlT2Y0+pY7XC22ggaWedyVp9y/in7aw4Umz3XMMQcBsxjoZLm2DIbj//3+udDiIYZ+oaGIoPYySIacH7M8qlYrnFGYSRrzrxfc4jqL4rH/yZ6wQHyiKANFLvvweyVIEuiMVm98lYn7rT/QE/wsxUKYLdDJgppIxyiSw2e4M5PBRnaq1ji6zR/3iWqR2GZZm2UdLdPh32xwd86OpiynEo0a3fnRY13OV/EwerXGFnUWOwm1MP67SVIyyvCMPp7NcTXQyIfyoe86xpj75nvOBZAd853fBwweCzjKcFjl0vH2/Um2hq
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39860400002)(376002)(346002)(366004)(316002)(8990500004)(82950400001)(2906002)(186003)(966005)(33656002)(7696005)(921005)(110136005)(26005)(6506007)(82960400001)(71200400001)(8676002)(8936002)(5660300002)(66556008)(86362001)(4326008)(52536014)(66476007)(66446008)(83380400001)(10290500003)(55016002)(66946007)(64756008)(107886003)(478600001)(76116006)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: AY8Kg4BTIQc8/CkGpo+qI2KCTqFqIGl9+fjyAEY6aq5JRFnRMJGTEOoDpdhRcY378eCuBWBczyD9SnM3QQNIkC+hEgkHukdM9QBlzdW16Ncgdwmdkw5QzRCH3vx/0qbia+X8nW/m4FJ0QEvEmIHA0PbhJ24M4r+ut5Gkhb3vIRutUXRCmlmBL018arbnJ0mi8C08+1lBR0Yo4X4uis65eY+/c6aV1Ut0wFwDERv/mJfu6dhmc0kabtW5PC/ECYn3JRhYf80VblhBiDCINVvlKCRoooz/kJCL0E61oNWkLKSvta4kBl4f/M7Lro5AOeo4tT2mNmGiyihRPmFdTThmHSxdf58OdmMRHxPFv8CfomMDNybsfhx7ijRvU4js/CSHavzdpbowx1GuQAuK4sVnAP8Bigne1kVPF1yg+XvNwq0SSODNCUzvz1WOzi8l6AGMkcif8YROW4fp0tB5SgjCp/kv6nwMiZ7sI4ixB7hJHDmQKfuzDQW6BYfbFR/mQaBQv9rdfjueDMrv2vq/AmmVr4dgb35Glx9EzH5sQ0yxnrqWVFSa1gTizF8INzR++x8j73mQoc/qv6TLAhkM8TbAfyZ0Yps8Pw8AOX6K6kBerr/nmBC9ZtlgFJEJi57lmRopK2GNYmde+gBTmSip7yWw3oLhYQKMQgDFv88wA4kZ/Wq7mmeqmrFj7Rtkk1zGev1o3vu4Yo+tizH6vZKI35bvLItxrZZ8AUqFQOJMWW7Xb8KHbXlSyTtTRzCkAvKhvAkaMmqHgzgvLz/JSCHQothk9mLNwBwPxcA/CiEurvfZDPgol4/q9Wu9+sl3G4Ow31JBRWE8dfMBICM+Q9BsfLSaP+ac6a1a1MX8eepPSF/9SCfN//kq3Iw86pxlmIzliETH0g69y3o3Wa27RpFKvOHQ1w==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 18 Nov 2020 04:23:42 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35709 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbgKRJXm (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 18 Nov 2020 04:23:42 -0500
+Received: by mail-wm1-f66.google.com with SMTP id w24so2019444wmi.0;
+        Wed, 18 Nov 2020 01:23:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2nsnjnOqDV6WPzahzgOv8VDTMdt+UU18h3NLzAQiSpA=;
+        b=X5DWRRpLxLa2YwmpnxCDdJ9m2LJqPGahM/mvYxyBmEzouI6woOAdiclOXCRDK+/Ckv
+         g/fBPyVpajhQ/8IdIVgnrq2DkTHQLbIltySYpK6SNrsi4rL6urTRYnF58ovnu9W8kRhP
+         5akmkcElDDpyjwbI9iBQTZtvQmtpSY5GTLTYxd358utefNb+N4+JvC1ModI61825yr6r
+         yeEzcwaSbeiE47oHOoMU72yrUMm28l1Knyt62GCkhyQbqI+mObM+8Spu4fCi++gy3UU5
+         7dDmvcPMyd/pKdWXmMaB645OohHZcXNV9JMVkxYwVPaZPkgzxfkqRfNxTo3Oe6bhkZmw
+         69OA==
+X-Gm-Message-State: AOAM532xzEUwHnoW/fAmZyRrL/eotorSELX22CYYGbjdJeljfqmNYXxG
+        BEMtHHfP9zpYeP54o6hxKZVL3tBGSGk=
+X-Google-Smtp-Source: ABdhPJxckaDRo8U42uknkQAN3d1oqdfUPR8JMwF4vNreh318c5rq4YB0kqkTqeFa5f4PE6gRlLM59w==
+X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr3585111wmk.180.1605691419662;
+        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id g4sm32723173wrp.0.2020.11.18.01.23.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
+Date:   Wed, 18 Nov 2020 09:23:37 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dmitry.torokhov@gmail.com, derek.kiernan@xilinx.com,
+        dragan.cvetic@xilinx.com, richardcochran@gmail.com,
+        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH 2/2] x86: make hyperv support optional
+Message-ID: <20201118092337.k4inzcaqxygrnqc3@liuwe-devbox-debian-v2>
+References: <20201117202308.7568-1-info@metux.net>
+ <20201117202308.7568-2-info@metux.net>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e30d2e1c-e0f8-4fa4-e08a-08d88b57b6c5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2020 00:20:11.5283
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UmCqKdtQsMi1o5xYrQLes12XTRwg/dGOaqL6zFZMz9IbmYlb6ipZuJ4+aGBs4U/tsyIwdzqo4dFAFOVKSbexAuxFh1x46z3hhJEZseiwBLI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1891
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201117202308.7568-2-info@metux.net>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Dexuan Cui <decui@microsoft.com> Sent: Tuesday, November 17, 2020 4:0=
-3 PM
->=20
-> x86 Hyper-V used to essentially always overwrite the effective cache type
-> of guest memory accesses to WB. This was problematic in cases where there
-> is a physical device assigned to the VM, since that often requires that
-> the VM should have control over cache types. Thus, on newer Hyper-V since
-> 2018, Hyper-V always honors the VM's cache type, but unexpectedly Linux V=
-M
-> users start to complain that Linux VM's VRAM becomes very slow, and it
-> turns out that Linux VM should not map the VRAM uncacheable by ioremap().
-> Fix this slowness issue by using ioremap_cache().
->=20
-> On ARM64, ioremap_cache() is also required as the host also maps the VRAM
-> cacheable, otherwise VM Connect can't display properly with ioremap() or
-> ioremap_wc().
->=20
-> With this change, the VRAM on new Hyper-V is as fast as regular RAM, so
-> it's no longer necessary to use the hacks we added to mitigate the
-> slowness, i.e. we no longer need to allocate physical memory and use
-> it to back up the VRAM in Generation-1 VM, and we also no longer need to
-> allocate physical memory to back up the framebuffer in a Generation-2 VM
-> and copy the framebuffer to the real VRAM. A further big change will
-> address these for v5.11.
->=20
-> Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Bu=
-ffer Driver")
-> Tested-by: Boqun Feng <boqun.feng@gmail.com>
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+On Tue, Nov 17, 2020 at 09:23:08PM +0100, Enrico Weigelt, metux IT consult wrote:
+> Make it possible to opt-out from hyperv support.
+> 
+
+"Hyper-V support".
+
+Have you tested this patch? If so, how?
+
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 > ---
->=20
-> Hi Wei Liu, can you please pick this up into the hyperv/linux.git tree's
-> hyperv-fixes branch? I really hope this patch can be in v5.10 since it
-> fixes a longstanding issue: https://github.com/LIS/lis-next/issues/655
->=20
->  drivers/video/fbdev/hyperv_fb.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv=
-_fb.c
-> index 5bc86f481a78..c8b0ae676809 100644
-> --- a/drivers/video/fbdev/hyperv_fb.c
-> +++ b/drivers/video/fbdev/hyperv_fb.c
-> @@ -1093,7 +1093,12 @@ static int hvfb_getmem(struct hv_device *hdev, str=
-uct fb_info
-> *info)
->  		goto err1;
->  	}
->=20
-> -	fb_virt =3D ioremap(par->mem->start, screen_fb_size);
-> +	/*
-> +	 * Map the VRAM cacheable for performance. This is also required for
-> +	 * VM Connect to display properly for ARM64 Linux VM, as the host also
-> +	 * maps the VRAM cacheable.
-> +	 */
-> +	fb_virt =3D ioremap_cache(par->mem->start, screen_fb_size);
->  	if (!fb_virt)
->  		goto err2;
->=20
-> --
-> 2.19.1
+>  arch/x86/Kconfig                 | 7 +++++++
+>  arch/x86/kernel/cpu/Makefile     | 4 ++--
+>  arch/x86/kernel/cpu/hypervisor.c | 2 ++
+>  drivers/hv/Kconfig               | 2 +-
+>  4 files changed, 12 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index c227c1fa0091..60aab344d6ab 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -808,6 +808,13 @@ config VMWARE_GUEST
+>  	  This option enables several optimizations for running under the
+>  	  VMware hypervisor.
+>  
+> +config HYPERV_GUEST
+> +	bool "HyperV Guest support"
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Hyper-V here.
 
+> +	default y
+> +	help
+> +	  This option enables several optimizations for running under the
+> +	  HyperV hypervisor.
+> +
+
+"for running under Hyper-V".
+
+>  config KVM_GUEST
+>  	bool "KVM Guest support (including kvmclock)"
+>  	depends on PARAVIRT
+> diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+> index a615b0152bf0..5536b801cb44 100644
+> --- a/arch/x86/kernel/cpu/Makefile
+> +++ b/arch/x86/kernel/cpu/Makefile
+> @@ -51,9 +51,9 @@ obj-$(CONFIG_X86_CPU_RESCTRL)		+= resctrl/
+>  
+>  obj-$(CONFIG_X86_LOCAL_APIC)		+= perfctr-watchdog.o
+>  
+> -obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o mshyperv.o
+> +obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o
+>  obj-$(CONFIG_VMWARE_GUEST)		+= vmware.o
+> -
+> +obj-$(CONFIG_HYPERV_GUEST)		+= mshyperv.o
+>  obj-$(CONFIG_ACRN_GUEST)		+= acrn.o
+>  
+>  ifdef CONFIG_X86_FEATURE_NAMES
+> diff --git a/arch/x86/kernel/cpu/hypervisor.c b/arch/x86/kernel/cpu/hypervisor.c
+> index c0e770a224aa..32d6b2084d05 100644
+> --- a/arch/x86/kernel/cpu/hypervisor.c
+> +++ b/arch/x86/kernel/cpu/hypervisor.c
+> @@ -37,7 +37,9 @@ static const __initconst struct hypervisor_x86 * const hypervisors[] =
+>  #ifdef CONFIG_VMWARE_GUEST
+>  	&x86_hyper_vmware,
+>  #endif
+> +#ifdef CONFIG_HYPERV_GUEST
+>  	&x86_hyper_ms_hyperv,
+> +#endif
+>  #ifdef CONFIG_KVM_GUEST
+>  	&x86_hyper_kvm,
+>  #endif
+> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+> index 79e5356a737a..7b3094c59a81 100644
+> --- a/drivers/hv/Kconfig
+> +++ b/drivers/hv/Kconfig
+> @@ -4,7 +4,7 @@ menu "Microsoft Hyper-V guest support"
+>  
+>  config HYPERV
+>  	tristate "Microsoft Hyper-V client drivers"
+> -	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
+> +	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERV_GUEST
+>  	select PARAVIRT
+>  	select X86_HV_CALLBACK_VECTOR
+>  	help
+
+Maybe that one should be moved to x86/Kconfig and used instead?
+
+Wei.
+
+> -- 
+> 2.11.0
+> 
