@@ -8,58 +8,58 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 507C6C6379F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0377C64E7A
 	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:38:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0AA8A246CE
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:38:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4943020DD4
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:38:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="vYKnF7pQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5cofbdX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgKROhu (ORCPT
+        id S1726969AbgKROhs (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 18 Nov 2020 09:37:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40230 "EHLO
+        Wed, 18 Nov 2020 09:37:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725613AbgKROht (ORCPT
+        with ESMTP id S1725613AbgKROhr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 18 Nov 2020 09:37:49 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92390C0613D4;
-        Wed, 18 Nov 2020 06:37:49 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id p19so4272632wmg.0;
-        Wed, 18 Nov 2020 06:37:49 -0800 (PST)
+        Wed, 18 Nov 2020 09:37:47 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8825DC0613D4;
+        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id p1so2370717wrf.12;
+        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1mAxqSMz7VFb+amOxQ3+4rc/WVh8Vx757mod6VpsOnY=;
-        b=vYKnF7pQidIU7sStZFyqfePGYTfxNwN60y236e80fDbUzl1DUv1Uu5TAUJ+AIdijLk
-         zDJJ+8Ktt8Hi/q1oKtGB6uX8O+88qQ20fSTL05Zm/1UD1lAVhz5QGbkUotUFdNd+/yJ7
-         SpGQGQIy20QravKzRMbwJyrezs+kGXvKjLhvYHlmtfSYVTMkCL4368Sjp/r/T33BLof+
-         AUSq4trsa6uuKg08gBsgH/kuemDPCdkdf2WOWoOwzVtXfmOr+Dvw9y3Pv2Y0nkGvH6Ir
-         3UyQm3dbHOOWni9r2Ph707VrOr+qHF+Xx+LT65XhdYrI/jnbKAQjzhKe9OXsISJO7ISp
-         Id0Q==
+        bh=1EyviBt7geIMMKK7bQG4xUWKkJ8ibnz1+ePwM8GcLlg=;
+        b=I5cofbdXdY5T23J2n7cJiPXuYwErHc3IRWq36SXLfrdk8XLJhm4zjhxEreAN1fdqi0
+         OTbNTGerjvON0XOy+BGqWObx8IfSWG++ZdwTNETg1KqRhSS9lG0qlHBM0BePxhbBtQFh
+         oyr/ZTkSN5jDZpLHd7bLne7c3oNU+aFLo7Lm67OVdBdqgqGATicTOJdaxpJna0hHnPqP
+         8cd/xnXPC+NZTCFIcCBOe4UKBaw3jaIZsULbrFDkLz0ydLRLtG+o1fwf93l1id1mWqXx
+         OTn4ldqcj3dkybzkE/mtdPzc67Nq6ZhZpS4JXhv34rQ+HNnBHSqqiqv+xynXzGwRZgrk
+         XQXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1mAxqSMz7VFb+amOxQ3+4rc/WVh8Vx757mod6VpsOnY=;
-        b=HhDB/yWJu0fKGn/rlg5Mi4jt1SnYlFZrbyFEW+ROqq36uOJqepvm8roiU3GCJNWzng
-         eKi79OagDDvrk/sy0iQf7GNVFsJrmxT1pOVBYdivnG/aJMYRBOVyC51n/90HvYcnfa4C
-         UiB30EpbsBR+YXGYKPf30LrUiEc/lJUyrLXd10qP/7iOQsU6kUEk2y2T8MMX6mjbnOTO
-         OSoK7+4Sk67fOAx+7wqsS3w0EWTMH2ygHBTRMDwK4Y7RhBYUVMQV8euMBovbYUBr+0gs
-         CwCpd2QCzCd6GO7NNNiDvKIWrMIKwWCKixBSiO7MEfNzkBZG0se0CAu4nHk+z5FQYFhE
-         wkBQ==
-X-Gm-Message-State: AOAM533dOu2tgFExWlFYGvoFFIGe/j16JCfvtymCOB2/jiQZuYql/uIE
-        Y3TKC/R4TXsvQdA9UoBSvwIHsuw9JwlFmg==
-X-Google-Smtp-Source: ABdhPJygBuWONCcVsuNYiU3PUEDRNxDrxloSGA2GJTKX7i+JvRN/r5rLtgfIFWoav7eNXzl4Ezf+gQ==
-X-Received: by 2002:a1c:964d:: with SMTP id y74mr310954wmd.129.1605710267885;
-        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
+        bh=1EyviBt7geIMMKK7bQG4xUWKkJ8ibnz1+ePwM8GcLlg=;
+        b=ppiRftsg0s5QgtjtfF4XYUafYcXQucGGiTdcR4TOx5j7ehcc64rdhDC8ET8VXbnohO
+         HxbHLdqnwnqtOEGA7y7A9XcXvF78/Z3Z8xOw91wJNXfpYyMKi56nDa0knOJszXFx5DoX
+         Uz5JuLQtiMG94WeUwLk0wHSGMcxnoEsyBQ5VdeKM87Dfly9ZT0TSlG1zfWomyxV5t2Xy
+         6Ve+LCzSi8bqdNZYEC4vJAzVPCc0qZmD5eNyJJ6hKKt6ux+NBVtbhcYPM3iq2YHu3KaQ
+         WovOTe0swbIUgZqbyaX/R0AGXHQ/g4rro8l8s/HDsZxv44xs9LoJ7nMsXYc/v9Y4b+57
+         A7dQ==
+X-Gm-Message-State: AOAM530ooOUHnsSdF9wF+x0p4Zo7hi1fFxlFMmOYDxgo+P5To0suzktC
+        i+t7vToKAmb9LKUKD6iTTLhRyA4EGfwHEw==
+X-Google-Smtp-Source: ABdhPJyiHl5jcXZZv67Ja0vtqfB+DtOjRQbIrHey9kvU99Ot22GUkS3nmqpkZFzr6UNncknkXNJD8Q==
+X-Received: by 2002:adf:9e48:: with SMTP id v8mr5514445wre.55.1605710265713;
+        Wed, 18 Nov 2020 06:37:45 -0800 (PST)
 Received: from localhost.localdomain (host-82-51-6-75.retail.telecomitalia.it. [82.51.6.75])
-        by smtp.gmail.com with ESMTPSA id w10sm34795307wra.34.2020.11.18.06.37.46
+        by smtp.gmail.com with ESMTPSA id w10sm34795307wra.34.2020.11.18.06.37.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
+        Wed, 18 Nov 2020 06:37:45 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -70,9 +70,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 5/6] Drivers: hv: vmbus: Resolve race condition in vmbus_onoffer_rescind()
-Date:   Wed, 18 Nov 2020 15:36:48 +0100
-Message-Id: <20201118143649.108465-6-parri.andrea@gmail.com>
+Subject: [PATCH 4/6] Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
+Date:   Wed, 18 Nov 2020 15:36:47 +0100
+Message-Id: <20201118143649.108465-5-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201118143649.108465-1-parri.andrea@gmail.com>
 References: <20201118143649.108465-1-parri.andrea@gmail.com>
@@ -82,56 +82,34 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-An erroneous or malicious host could send multiple rescind messages for
-a same channel.  In vmbus_onoffer_rescind(), the guest maps the channel
-ID to obtain a pointer to the channel object and it eventually releases
-such object and associated data.  The host could time rescind messages
-and lead to an use-after-free.  Add a new flag to the channel structure
-to make sure that only one instance of vmbus_onoffer_rescind() can get
-the reference to the channel object.
+When channel->device_obj is non-NULL, vmbus_onoffer_rescind() could
+invoke put_device(), that will eventually release the device and free
+the channel object (cf. vmbus_device_release()).  However, a pointer
+to the object is dereferenced again later to load the primary_channel.
+The use-after-free can be avoided by noticing that this load/check is
+redundant if device_obk is non-NULL: primary_channel must be NULL if
+device_obj is non-NULL, cf. vmbus_add_channel_work().
 
 Reported-by: Juan Vazquez <juvazq@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
- drivers/hv/channel_mgmt.c | 12 ++++++++++++
- include/linux/hyperv.h    |  1 +
- 2 files changed, 13 insertions(+)
+ drivers/hv/channel_mgmt.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 4072fd1f22146..68950a1e4b638 100644
+index 5bc5eef5da159..4072fd1f22146 100644
 --- a/drivers/hv/channel_mgmt.c
 +++ b/drivers/hv/channel_mgmt.c
-@@ -1063,6 +1063,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
- 
- 	mutex_lock(&vmbus_connection.channel_mutex);
- 	channel = relid2channel(rescind->child_relid);
-+	if (channel != NULL) {
-+		/*
-+		 * Guarantee that no other instance of vmbus_onoffer_rescind()
-+		 * has got a reference to the channel object.  Synchronize on
-+		 * &vmbus_connection.channel_mutex.
-+		 */
-+		if (channel->rescind_ref) {
-+			mutex_unlock(&vmbus_connection.channel_mutex);
-+			return;
-+		}
-+		channel->rescind_ref = true;
-+	}
- 	mutex_unlock(&vmbus_connection.channel_mutex);
- 
- 	if (channel == NULL) {
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 2ea967bc17adf..f0d48a368f131 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -809,6 +809,7 @@ struct vmbus_channel {
- 	u8 monitor_bit;
- 
- 	bool rescind; /* got rescind msg */
-+	bool rescind_ref; /* got rescind msg, got channel reference */
- 	struct completion rescind_event;
- 
- 	u32 ringbuffer_gpadlhandle;
+@@ -1116,8 +1116,7 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
+ 			vmbus_device_unregister(channel->device_obj);
+ 			put_device(dev);
+ 		}
+-	}
+-	if (channel->primary_channel != NULL) {
++	} else if (channel->primary_channel != NULL) {
+ 		/*
+ 		 * Sub-channel is being rescinded. Following is the channel
+ 		 * close sequence when initiated from the driveri (refer to
 -- 
 2.25.1
 
