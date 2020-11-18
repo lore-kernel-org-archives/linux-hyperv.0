@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0377C64E7A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:38:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B08AC5519F
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:54:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4943020DD4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:38:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 248322145D
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 14:54:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5cofbdX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ntCI44C4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726969AbgKROhs (ORCPT
+        id S1726979AbgKROyB (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 18 Nov 2020 09:37:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40220 "EHLO
+        Wed, 18 Nov 2020 09:54:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725613AbgKROhr (ORCPT
+        with ESMTP id S1726293AbgKROyB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 18 Nov 2020 09:37:47 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8825DC0613D4;
-        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id p1so2370717wrf.12;
-        Wed, 18 Nov 2020 06:37:47 -0800 (PST)
+        Wed, 18 Nov 2020 09:54:01 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8E9C0613D4;
+        Wed, 18 Nov 2020 06:54:01 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id r17so2540435wrw.1;
+        Wed, 18 Nov 2020 06:54:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1EyviBt7geIMMKK7bQG4xUWKkJ8ibnz1+ePwM8GcLlg=;
-        b=I5cofbdXdY5T23J2n7cJiPXuYwErHc3IRWq36SXLfrdk8XLJhm4zjhxEreAN1fdqi0
-         OTbNTGerjvON0XOy+BGqWObx8IfSWG++ZdwTNETg1KqRhSS9lG0qlHBM0BePxhbBtQFh
-         oyr/ZTkSN5jDZpLHd7bLne7c3oNU+aFLo7Lm67OVdBdqgqGATicTOJdaxpJna0hHnPqP
-         8cd/xnXPC+NZTCFIcCBOe4UKBaw3jaIZsULbrFDkLz0ydLRLtG+o1fwf93l1id1mWqXx
-         OTn4ldqcj3dkybzkE/mtdPzc67Nq6ZhZpS4JXhv34rQ+HNnBHSqqiqv+xynXzGwRZgrk
-         XQXg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noyj//pQAVL0F3TT1GEpmdCZZctT7gUdg23e2fukuL4=;
+        b=ntCI44C4kjqgCGo1yYRBpvXVz5rJOFRbkY02AVMtdy9mPWcyC+k3PY+9uEHczo1c7v
+         28Vb2QzJL3K4jr2VMiaqlsVmyijSVZ6Ui2FoffLAIFf4n8dJYKlpVycSPFBUwUvRE4qR
+         El1eoDUfQp5/s2gbP/l7DxJ5QIzp+ElzUvv7QHZb5WJHdHU/L1Bg6gyUokp07hV7okJY
+         nj+Od9ZWnmFZaNfb0JjB9iQotnHhldsbYXb8Pc5lhoLEAcUtkbZgdXf7akq1G0/02xGb
+         FVT/E4UMFNTt6fPunBOkFLJKk8jXEKk9MpzkOs2TrzR7AhSHZ97Hs9ZSW9daafG2th9g
+         OgWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1EyviBt7geIMMKK7bQG4xUWKkJ8ibnz1+ePwM8GcLlg=;
-        b=ppiRftsg0s5QgtjtfF4XYUafYcXQucGGiTdcR4TOx5j7ehcc64rdhDC8ET8VXbnohO
-         HxbHLdqnwnqtOEGA7y7A9XcXvF78/Z3Z8xOw91wJNXfpYyMKi56nDa0knOJszXFx5DoX
-         Uz5JuLQtiMG94WeUwLk0wHSGMcxnoEsyBQ5VdeKM87Dfly9ZT0TSlG1zfWomyxV5t2Xy
-         6Ve+LCzSi8bqdNZYEC4vJAzVPCc0qZmD5eNyJJ6hKKt6ux+NBVtbhcYPM3iq2YHu3KaQ
-         WovOTe0swbIUgZqbyaX/R0AGXHQ/g4rro8l8s/HDsZxv44xs9LoJ7nMsXYc/v9Y4b+57
-         A7dQ==
-X-Gm-Message-State: AOAM530ooOUHnsSdF9wF+x0p4Zo7hi1fFxlFMmOYDxgo+P5To0suzktC
-        i+t7vToKAmb9LKUKD6iTTLhRyA4EGfwHEw==
-X-Google-Smtp-Source: ABdhPJyiHl5jcXZZv67Ja0vtqfB+DtOjRQbIrHey9kvU99Ot22GUkS3nmqpkZFzr6UNncknkXNJD8Q==
-X-Received: by 2002:adf:9e48:: with SMTP id v8mr5514445wre.55.1605710265713;
-        Wed, 18 Nov 2020 06:37:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noyj//pQAVL0F3TT1GEpmdCZZctT7gUdg23e2fukuL4=;
+        b=NdBR5MLe+dAz4ORXO+gQhCvEKGtjYsBNDCPbULsNMpgn2DpT8P627Qhaa1MJSkeIW0
+         B/2ci2R2Tl3mI1EWbVZRX+GisbXQzHEmNML+TINRQtuiyH5NEpr+vvh1Df43zPLed2Bx
+         HOdRAgxaguVtD/t2DbBGUbkmm+XusKT97fDPH1ucWFrqFtmNVmyzXpZUaKpNmbu2iwvD
+         3KqtJm854OkfBGHSQlXBB4UeKx6ehbVEsTb1NurS/mASbgJgaW2u0RzOnXuavlLqGzAq
+         lW7Mku6h3NQyUHWWFg0azuojUp1pxy4OQ6JEfp0iGdisIEYHKkvxy5U2APbxz+4RDSRc
+         0H0g==
+X-Gm-Message-State: AOAM530VZXm5dZ0XDgpTSWHa0LKXRbIeZvjsHY2te2Rm/lD4jR8PHzGY
+        5HyFahJy5WyB4cIV45bZRcijBps2L8oAzdPK
+X-Google-Smtp-Source: ABdhPJz5Ixt95dpw0tbcmzoh/UimTZIfdS9pfrUy3+Ck7lRj3q7TkGYplYgsiHg0DapKjZ1X7dhkDA==
+X-Received: by 2002:adf:fd85:: with SMTP id d5mr4884502wrr.99.1605711239584;
+        Wed, 18 Nov 2020 06:53:59 -0800 (PST)
 Received: from localhost.localdomain (host-82-51-6-75.retail.telecomitalia.it. [82.51.6.75])
-        by smtp.gmail.com with ESMTPSA id w10sm34795307wra.34.2020.11.18.06.37.44
+        by smtp.gmail.com with ESMTPSA id o197sm3973785wme.17.2020.11.18.06.53.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 06:37:45 -0800 (PST)
+        Wed, 18 Nov 2020 06:53:58 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -69,47 +69,50 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH 4/6] Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
-Date:   Wed, 18 Nov 2020 15:36:47 +0100
-Message-Id: <20201118143649.108465-5-parri.andrea@gmail.com>
+        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org
+Subject: [PATCH] scsi: storvsc: Validate length of incoming packet in storvsc_on_channel_callback()
+Date:   Wed, 18 Nov 2020 15:53:48 +0100
+Message-Id: <20201118145348.109879-1-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201118143649.108465-1-parri.andrea@gmail.com>
-References: <20201118143649.108465-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When channel->device_obj is non-NULL, vmbus_onoffer_rescind() could
-invoke put_device(), that will eventually release the device and free
-the channel object (cf. vmbus_device_release()).  However, a pointer
-to the object is dereferenced again later to load the primary_channel.
-The use-after-free can be avoided by noticing that this load/check is
-redundant if device_obk is non-NULL: primary_channel must be NULL if
-device_obj is non-NULL, cf. vmbus_add_channel_work().
+Check that the packet is of the expected size at least, don't copy
+data past the packet.
 
-Reported-by: Juan Vazquez <juvazq@microsoft.com>
+Reported-by: Saruhan Karademir <skarade@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-scsi@vger.kernel.org
 ---
- drivers/hv/channel_mgmt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Based on hyperv-next.
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 5bc5eef5da159..4072fd1f22146 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -1116,8 +1116,7 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
- 			vmbus_device_unregister(channel->device_obj);
- 			put_device(dev);
- 		}
--	}
--	if (channel->primary_channel != NULL) {
-+	} else if (channel->primary_channel != NULL) {
- 		/*
- 		 * Sub-channel is being rescinded. Following is the channel
- 		 * close sequence when initiated from the driveri (refer to
+ drivers/scsi/storvsc_drv.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index 331a33a04f1ad..629a46a0bab6e 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -1270,6 +1270,11 @@ static void storvsc_on_channel_callback(void *context)
+ 
+ 		request = (struct storvsc_cmd_request *)(unsigned long)cmd_rqst;
+ 
++		if (hv_pkt_datalen(desc) < sizeof(struct vstor_packet) - vmscsi_size_delta) {
++			dev_err(&device->device, "Invalid packet len\n");
++			continue;
++		}
++
+ 		if (request == &stor_device->init_request ||
+ 		    request == &stor_device->reset_request) {
+ 			memcpy(&request->vstor_packet, packet,
 -- 
 2.25.1
 
