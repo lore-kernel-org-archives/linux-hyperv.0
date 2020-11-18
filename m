@@ -2,156 +2,102 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40622C5519F
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:23:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A2BC56202
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5DD224654
-	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:23:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0671F21D7E
+	for <linux-hyperv@archiver.kernel.org>; Wed, 18 Nov 2020 09:32:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725879AbgKRJXm (ORCPT
+        id S1727010AbgKRJb5 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 18 Nov 2020 04:23:42 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35709 "EHLO
+        Wed, 18 Nov 2020 04:31:57 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33183 "EHLO
         mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbgKRJXm (ORCPT
+        with ESMTP id S1726869AbgKRJb5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 18 Nov 2020 04:23:42 -0500
-Received: by mail-wm1-f66.google.com with SMTP id w24so2019444wmi.0;
-        Wed, 18 Nov 2020 01:23:40 -0800 (PST)
+        Wed, 18 Nov 2020 04:31:57 -0500
+Received: by mail-wm1-f66.google.com with SMTP id p19so3728846wmg.0;
+        Wed, 18 Nov 2020 01:31:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2nsnjnOqDV6WPzahzgOv8VDTMdt+UU18h3NLzAQiSpA=;
-        b=X5DWRRpLxLa2YwmpnxCDdJ9m2LJqPGahM/mvYxyBmEzouI6woOAdiclOXCRDK+/Ckv
-         g/fBPyVpajhQ/8IdIVgnrq2DkTHQLbIltySYpK6SNrsi4rL6urTRYnF58ovnu9W8kRhP
-         5akmkcElDDpyjwbI9iBQTZtvQmtpSY5GTLTYxd358utefNb+N4+JvC1ModI61825yr6r
-         yeEzcwaSbeiE47oHOoMU72yrUMm28l1Knyt62GCkhyQbqI+mObM+8Spu4fCi++gy3UU5
-         7dDmvcPMyd/pKdWXmMaB645OohHZcXNV9JMVkxYwVPaZPkgzxfkqRfNxTo3Oe6bhkZmw
-         69OA==
-X-Gm-Message-State: AOAM532xzEUwHnoW/fAmZyRrL/eotorSELX22CYYGbjdJeljfqmNYXxG
-        BEMtHHfP9zpYeP54o6hxKZVL3tBGSGk=
-X-Google-Smtp-Source: ABdhPJxckaDRo8U42uknkQAN3d1oqdfUPR8JMwF4vNreh318c5rq4YB0kqkTqeFa5f4PE6gRlLM59w==
-X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr3585111wmk.180.1605691419662;
-        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
+        bh=rIT1mFbEat++q/fOI2Mz1b9yVpWkTzwwX++pQ7a41t8=;
+        b=ExCLecBVwO+ca/4IAZDu8b6GjCMA5OE7XHAL54jof1Gp+W8/EUIw0qyCZzS/BRcSdq
+         b/Bn+su6MOcfknUG6Wr+tVQ4VCtMbO7NpWBFh78+ryZovQ5eDDthFvqghZbnCrkADSA9
+         XuegazkJZJpA6Uw7yUk8SeZ0KGVT2LxeE4cdYHwx2uFD5is+f3NZ89Yk2iLQzWMUvhDR
+         SKAJBv5YLQElKyaE4blgqmyi6IvqiKD4g7wfUecyeZkiTKWi6ZrLz5g8ikUZczHNGwLf
+         YiYlCttJ7ghC0S+D/mL6sCFLS55iQGZiGIFkewDokXx/ZIrHJWQTVK2GSjjhLEHVhniT
+         Tlfw==
+X-Gm-Message-State: AOAM530pEfjNDB70wSwL6fZwmkF6xvoxdVHpjxo8XrEiNbV6sKYCmrtF
+        /9bHTURdfcQWvV0t3sg3nlE=
+X-Google-Smtp-Source: ABdhPJx2K36WgvCbE0rT3AXDKI70J2JUbIej7Sa2W/fRnT4BajF39d19YBEBpwCnCNy0FXjSk+qGcw==
+X-Received: by 2002:a7b:c1ce:: with SMTP id a14mr3302058wmj.169.1605691915142;
+        Wed, 18 Nov 2020 01:31:55 -0800 (PST)
 Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id g4sm32723173wrp.0.2020.11.18.01.23.38
+        by smtp.gmail.com with ESMTPSA id d63sm2799773wmd.12.2020.11.18.01.31.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
-Date:   Wed, 18 Nov 2020 09:23:37 +0000
+        Wed, 18 Nov 2020 01:31:54 -0800 (PST)
+Date:   Wed, 18 Nov 2020 09:31:53 +0000
 From:   Wei Liu <wei.liu@kernel.org>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dmitry.torokhov@gmail.com, derek.kiernan@xilinx.com,
-        dragan.cvetic@xilinx.com, richardcochran@gmail.com,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH 2/2] x86: make hyperv support optional
-Message-ID: <20201118092337.k4inzcaqxygrnqc3@liuwe-devbox-debian-v2>
-References: <20201117202308.7568-1-info@metux.net>
- <20201117202308.7568-2-info@metux.net>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     Dexuan Cui <decui@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        "b.zolnierkie@samsung.com" <b.zolnierkie@samsung.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Wei Hu <weh@microsoft.com>
+Subject: Re: [PATCH] video: hyperv_fb: Fix the cache type when mapping the
+ VRAM
+Message-ID: <20201118093153.irs3i342nskkbuil@liuwe-devbox-debian-v2>
+References: <20201118000305.24797-1-decui@microsoft.com>
+ <MW2PR2101MB105243C3AD5106B2ABEDBAB5D7E10@MW2PR2101MB1052.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201117202308.7568-2-info@metux.net>
+In-Reply-To: <MW2PR2101MB105243C3AD5106B2ABEDBAB5D7E10@MW2PR2101MB1052.namprd21.prod.outlook.com>
 User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 09:23:08PM +0100, Enrico Weigelt, metux IT consult wrote:
-> Make it possible to opt-out from hyperv support.
+On Wed, Nov 18, 2020 at 12:20:11AM +0000, Michael Kelley wrote:
+> From: Dexuan Cui <decui@microsoft.com> Sent: Tuesday, November 17, 2020 4:03 PM
+> > 
+> > x86 Hyper-V used to essentially always overwrite the effective cache type
+> > of guest memory accesses to WB. This was problematic in cases where there
+> > is a physical device assigned to the VM, since that often requires that
+> > the VM should have control over cache types. Thus, on newer Hyper-V since
+> > 2018, Hyper-V always honors the VM's cache type, but unexpectedly Linux VM
+> > users start to complain that Linux VM's VRAM becomes very slow, and it
+> > turns out that Linux VM should not map the VRAM uncacheable by ioremap().
+> > Fix this slowness issue by using ioremap_cache().
+> > 
+> > On ARM64, ioremap_cache() is also required as the host also maps the VRAM
+> > cacheable, otherwise VM Connect can't display properly with ioremap() or
+> > ioremap_wc().
+> > 
+> > With this change, the VRAM on new Hyper-V is as fast as regular RAM, so
+> > it's no longer necessary to use the hacks we added to mitigate the
+> > slowness, i.e. we no longer need to allocate physical memory and use
+> > it to back up the VRAM in Generation-1 VM, and we also no longer need to
+> > allocate physical memory to back up the framebuffer in a Generation-2 VM
+> > and copy the framebuffer to the real VRAM. A further big change will
+> > address these for v5.11.
+> > 
+> > Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Buffer Driver")
+> > Tested-by: Boqun Feng <boqun.feng@gmail.com>
+> > Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 > 
 
-"Hyper-V support".
-
-Have you tested this patch? If so, how?
-
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  arch/x86/Kconfig                 | 7 +++++++
->  arch/x86/kernel/cpu/Makefile     | 4 ++--
->  arch/x86/kernel/cpu/hypervisor.c | 2 ++
->  drivers/hv/Kconfig               | 2 +-
->  4 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index c227c1fa0091..60aab344d6ab 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -808,6 +808,13 @@ config VMWARE_GUEST
->  	  This option enables several optimizations for running under the
->  	  VMware hypervisor.
->  
-> +config HYPERV_GUEST
-> +	bool "HyperV Guest support"
-
-Hyper-V here.
-
-> +	default y
-> +	help
-> +	  This option enables several optimizations for running under the
-> +	  HyperV hypervisor.
-> +
-
-"for running under Hyper-V".
-
->  config KVM_GUEST
->  	bool "KVM Guest support (including kvmclock)"
->  	depends on PARAVIRT
-> diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
-> index a615b0152bf0..5536b801cb44 100644
-> --- a/arch/x86/kernel/cpu/Makefile
-> +++ b/arch/x86/kernel/cpu/Makefile
-> @@ -51,9 +51,9 @@ obj-$(CONFIG_X86_CPU_RESCTRL)		+= resctrl/
->  
->  obj-$(CONFIG_X86_LOCAL_APIC)		+= perfctr-watchdog.o
->  
-> -obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o mshyperv.o
-> +obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o
->  obj-$(CONFIG_VMWARE_GUEST)		+= vmware.o
-> -
-> +obj-$(CONFIG_HYPERV_GUEST)		+= mshyperv.o
->  obj-$(CONFIG_ACRN_GUEST)		+= acrn.o
->  
->  ifdef CONFIG_X86_FEATURE_NAMES
-> diff --git a/arch/x86/kernel/cpu/hypervisor.c b/arch/x86/kernel/cpu/hypervisor.c
-> index c0e770a224aa..32d6b2084d05 100644
-> --- a/arch/x86/kernel/cpu/hypervisor.c
-> +++ b/arch/x86/kernel/cpu/hypervisor.c
-> @@ -37,7 +37,9 @@ static const __initconst struct hypervisor_x86 * const hypervisors[] =
->  #ifdef CONFIG_VMWARE_GUEST
->  	&x86_hyper_vmware,
->  #endif
-> +#ifdef CONFIG_HYPERV_GUEST
->  	&x86_hyper_ms_hyperv,
-> +#endif
->  #ifdef CONFIG_KVM_GUEST
->  	&x86_hyper_kvm,
->  #endif
-> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-> index 79e5356a737a..7b3094c59a81 100644
-> --- a/drivers/hv/Kconfig
-> +++ b/drivers/hv/Kconfig
-> @@ -4,7 +4,7 @@ menu "Microsoft Hyper-V guest support"
->  
->  config HYPERV
->  	tristate "Microsoft Hyper-V client drivers"
-> -	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
-> +	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERV_GUEST
->  	select PARAVIRT
->  	select X86_HV_CALLBACK_VECTOR
->  	help
-
-Maybe that one should be moved to x86/Kconfig and used instead?
-
-Wei.
-
-> -- 
-> 2.11.0
-> 
+Applied to hyperv-fixes. Thanks.
