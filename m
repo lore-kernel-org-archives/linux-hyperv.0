@@ -5,35 +5,35 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D5BC64E7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4483C64E7C
 	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EFC623A65
+	by mail.kernel.org (Postfix) with ESMTP id 98C9823A65
 	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="h8cxCYr3"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pGjbc9pD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729088AbgKUAbK (ORCPT
+        id S1728863AbgKUAb0 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Nov 2020 19:31:10 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:51272 "EHLO
+        Fri, 20 Nov 2020 19:31:26 -0500
+Received: from linux.microsoft.com ([13.77.154.182]:51214 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728818AbgKUAax (ORCPT
+        with ESMTP id S1728776AbgKUAaw (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 20 Nov 2020 19:30:53 -0500
+        Fri, 20 Nov 2020 19:30:52 -0500
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 5339C20B800E;
-        Fri, 20 Nov 2020 16:30:50 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5339C20B800E
+        by linux.microsoft.com (Postfix) with ESMTPSA id C395A20B7133;
+        Fri, 20 Nov 2020 16:30:49 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C395A20B7133
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1605918650;
-        bh=1bryHHQCXD3jnaHpDiG1wJDcALDwQtKwXlrzQT7KiW8=;
+        s=default; t=1605918649;
+        bh=/0wyRX/WyzgnbxQlEnsewk9LwrGXaAf85ZSlzJigMAI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=h8cxCYr3buyoE1jF5m5EWHODptUeycgVCx0sM4uwtjCwkTTTc63R9Z3oOEagc88wZ
-         U/z1dNOZskOdA1hGFxIAl/Je7/3i87+OttYkeqxQKYtwDrdNHGbfj+Xx6Gi03YuCkW
-         RY1r36voUFtNBiOhVWZLofWxH1BMuG7BJ2xuvt+M=
+        b=pGjbc9pDu+EJ9eoQE9BbXcpdmGt4w9yw1CbmkQ1V9t/esr5V89fBLl9pIiLjG5/QV
+         XIUp7sII+Csdt/FXGX+MnhgmldWlTleV0be27Aosxw+oKvHYap2hM25BgiitEZwRVD
+         CHzaGEV6nHcRGeFoOcfKTWLkqZFekZo8vtvtL2ho=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org,
@@ -41,9 +41,9 @@ Cc:     virtualization@lists.linux-foundation.org,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         nunodasneves@linux.microsoft.com, wei.liu@kernel.org,
         ligrassi@microsoft.com, kys@microsoft.com
-Subject: [RFC PATCH 12/18] virt/mshv: run vp ioctl and isr
-Date:   Fri, 20 Nov 2020 16:30:31 -0800
-Message-Id: <1605918637-12192-13-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [RFC PATCH 06/18] virt/mshv: create, initialize, finalize, delete partition hypercalls
+Date:   Fri, 20 Nov 2020 16:30:25 -0800
+Message-Id: <1605918637-12192-7-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -51,480 +51,347 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce an ioctl for running a vp and an isr to copy messages from
-the synic page to the vp data structure.
-
-Add synchronization primitives to ensure that the isr is finished
-when the run vp ioctl is entered.
+Add hypercalls for fully setting up and mostly tearing down a guest
+partition.
+The teardown operation will generate an error as the deposited
+memory has not been withdrawn.
+This is fixed in the next patch.
 
 Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst |  14 ++
- arch/x86/kernel/cpu/mshyperv.c  |  16 ++
- include/asm-generic/mshyperv.h  |   3 +
- include/linux/mshv.h            |   7 +
- include/uapi/linux/mshv.h       |   1 +
- virt/mshv/mshv_main.c           | 270 +++++++++++++++++++++++++++++++-
- 6 files changed, 310 insertions(+), 1 deletion(-)
+ include/asm-generic/hyperv-tlfs.h      |  52 +++++++-
+ include/uapi/asm-generic/hyperv-tlfs.h |   1 +
+ include/uapi/linux/mshv.h              |   1 +
+ virt/mshv/mshv_main.c                  | 169 ++++++++++++++++++++++++-
+ 4 files changed, 220 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index 20a626ac02d4..f525c81f2bdd 100644
---- a/Documentation/virt/mshv/api.rst
-+++ b/Documentation/virt/mshv/api.rst
-@@ -106,4 +106,18 @@ Get/set vp registers. See asm/hyperv-tlfs.h for the complete set of registers.
- Includes general purpose platform registers, MSRs, and virtual registers that
- are part of Microsoft Hypervisor platform and not directly exposed to the guest.
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 2ff580780ce4..ab6ae6c164f5 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -142,6 +142,10 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX	0x0014
+ #define HVCALL_SEND_IPI_EX			0x0015
++#define HVCALL_CREATE_PARTITION			0x0040
++#define HVCALL_INITIALIZE_PARTITION		0x0041
++#define HVCALL_FINALIZE_PARTITION		0x0042
++#define HVCALL_DELETE_PARTITION			0x0043
+ #define HVCALL_GET_PARTITION_ID			0x0046
+ #define HVCALL_DEPOSIT_MEMORY			0x0048
+ #define HVCALL_CREATE_VP			0x004e
+@@ -451,7 +455,7 @@ struct hv_get_partition_id {
+ struct hv_deposit_memory {
+ 	u64 partition_id;
+ 	u64 gpa_page_list[];
+-} __packed;
++};
  
-+3.6 MSHV_RUN_VP
-+---------------
-+:Type: vp ioctl
-+:Parameters: struct hv_message
-+:Returns: 0 on success
+ struct hv_proximity_domain_flags {
+ 	u32 proximity_preferred : 1;
+@@ -767,4 +771,50 @@ struct hv_input_unmap_device_interrupt {
+ #define HV_SOURCE_SHADOW_NONE               0x0
+ #define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
+ 
++#define HV_MAKE_COMPATIBILITY_VERSION(major_, minor_)                          \
++	((u32)((major_) << 8 | (minor_)))
 +
-+Run the vp, returning when it triggers an intercept, or if the calling thread
-+is interrupted by a signal. In this case errno will be set to EINTR.
++enum hv_compatibility_version {
++	HV_COMPATIBILITY_19_H1 = HV_MAKE_COMPATIBILITY_VERSION(0X6, 0X5),
++	HV_COMPATIBILITY_MANGANESE = HV_MAKE_COMPATIBILITY_VERSION(0X6, 0X7),
++	HV_COMPATIBILITY_PRERELEASE = HV_MAKE_COMPATIBILITY_VERSION(0XFE, 0X0),
++	HV_COMPATIBILITY_EXPERIMENT = HV_MAKE_COMPATIBILITY_VERSION(0XFF, 0X0),
++};
 +
-+On return, the vp will be suspended.
-+This ioctl will fail on any vp that's already running (not suspended).
-+
-+Information about the intercept is returned in the hv_message struct.
-+
- 
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 4795e54550e6..e6ff4ed13233 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -37,6 +37,7 @@ struct ms_hyperv_info ms_hyperv;
- EXPORT_SYMBOL_GPL(ms_hyperv);
- 
- #if IS_ENABLED(CONFIG_HYPERV)
-+static void (*mshv_handler)(void);
- static void (*vmbus_handler)(void);
- static void (*hv_stimer0_handler)(void);
- static void (*hv_kexec_handler)(void);
-@@ -47,6 +48,9 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_hyperv_callback)
- 	struct pt_regs *old_regs = set_irq_regs(regs);
- 
- 	inc_irq_stat(irq_hv_callback_count);
-+	if (mshv_handler)
-+		mshv_handler();
-+
- 	if (vmbus_handler)
- 		vmbus_handler();
- 
-@@ -56,6 +60,18 @@ DEFINE_IDTENTRY_SYSVEC(sysvec_hyperv_callback)
- 	set_irq_regs(old_regs);
- }
- 
-+void hv_setup_mshv_irq(void (*handler)(void))
-+{
-+	mshv_handler = handler;
-+}
-+
-+void hv_remove_mshv_irq(void)
-+{
-+	mshv_handler = NULL;
-+}
-+EXPORT_SYMBOL_GPL(hv_setup_mshv_irq);
-+EXPORT_SYMBOL_GPL(hv_remove_mshv_irq);
-+
- int hv_setup_vmbus_irq(int irq, void (*handler)(void))
- {
- 	/*
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index c57799684170..3283a8059ed5 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -94,6 +94,9 @@ void hv_remove_vmbus_irq(void);
- void hv_enable_vmbus_irq(void);
- void hv_disable_vmbus_irq(void);
- 
-+void hv_setup_mshv_irq(void (*handler)(void));
-+void hv_remove_mshv_irq(void);
-+
- void hv_setup_kexec_handler(void (*handler)(void));
- void hv_remove_kexec_handler(void);
- void hv_setup_crash_handler(void (*handler)(struct pt_regs *regs));
-diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index 7709aaa1e064..3933d80294f1 100644
---- a/include/linux/mshv.h
-+++ b/include/linux/mshv.h
-@@ -8,6 +8,8 @@
- 
- #include <linux/spinlock.h>
- #include <linux/mutex.h>
-+#include <linux/semaphore.h>
-+#include <linux/sched.h>
- #include <uapi/linux/mshv.h>
- 
- #define MSHV_MAX_PARTITIONS		128
-@@ -18,6 +20,11 @@ struct mshv_vp {
- 	u32 index;
- 	struct mshv_partition *partition;
- 	struct mutex mutex;
++union hv_partition_isolation_properties {
++	u64 as_uint64;
 +	struct {
-+		struct semaphore sem;
-+		struct task_struct *task;
-+		struct hv_message *intercept_message;
-+	} run;
- };
++		u64 isolation_type: 5;
++		u64 rsvd_z: 7;
++		u64 shared_gpa_boundary_page_number: 52;
++	};
++};
++
++/* Non-userspace-visible partition creation flags */
++#define HV_PARTITION_CREATION_FLAG_EXO_PARTITION                    BIT(8)
++
++struct hv_create_partition_in {
++	u64 flags;
++	union hv_proximity_domain_info proximity_domain_info;
++	enum hv_compatibility_version compatibility_version;
++	struct hv_partition_creation_properties partition_creation_properties;
++	union hv_partition_isolation_properties isolation_properties;
++};
++
++struct hv_create_partition_out {
++	u64 partition_id;
++};
++
++struct hv_initialize_partition {
++	u64 partition_id;
++};
++
++struct hv_finalize_partition {
++	u64 partition_id;
++};
++
++struct hv_delete_partition {
++	u64 partition_id;
++};
++
+ #endif
+diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
+index 140cc0b4f98f..7a858226a9c5 100644
+--- a/include/uapi/asm-generic/hyperv-tlfs.h
++++ b/include/uapi/asm-generic/hyperv-tlfs.h
+@@ -6,6 +6,7 @@
+ #define BIT(X)	(1ULL << (X))
+ #endif
  
- struct mshv_mem_region {
++/* Userspace-visible partition creation flags */
+ #define HV_PARTITION_CREATION_FLAG_SMT_ENABLED_GUEST                BIT(0)
+ #define HV_PARTITION_CREATION_FLAG_GPA_LARGE_PAGES_DISABLED         BIT(3)
+ #define HV_PARTITION_CREATION_FLAG_GPA_SUPER_PAGES_ENABLED          BIT(4)
 diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 5d53ed655429..5be9e2d23893 100644
+index 3788f8bc5caa..4f8da9a6fde2 100644
 --- a/include/uapi/linux/mshv.h
 +++ b/include/uapi/linux/mshv.h
-@@ -55,5 +55,6 @@ struct mshv_vp_registers {
- /* vp device */
- #define MSHV_GET_VP_REGISTERS   _IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
- #define MSHV_SET_VP_REGISTERS   _IOW(MSHV_IOCTL, 0x06, struct mshv_vp_registers)
-+#define MSHV_RUN_VP		_IOR(MSHV_IOCTL, 0x07, struct hv_message)
+@@ -9,6 +9,7 @@
  
- #endif
+ #include <linux/types.h>
+ #include <asm/hyperv-tlfs.h>
++#include <asm-generic/hyperv-tlfs.h>
+ 
+ #define MSHV_VERSION	0x0
+ 
 diff --git a/virt/mshv/mshv_main.c b/virt/mshv/mshv_main.c
-index c9445d2edb37..7ddb66d260ce 100644
+index 4dcbe4907430..c4130a6508e5 100644
 --- a/virt/mshv/mshv_main.c
 +++ b/virt/mshv/mshv_main.c
-@@ -17,6 +17,7 @@
- #include <linux/mm.h>
- #include <linux/io.h>
- #include <linux/cpuhotplug.h>
-+#include <linux/random.h>
+@@ -15,6 +15,7 @@
+ #include <linux/file.h>
+ #include <linux/anon_inodes.h>
  #include <linux/mshv.h>
- #include <asm/mshyperv.h>
++#include <asm/mshyperv.h>
  
-@@ -498,6 +499,240 @@ hv_call_set_vp_registers(u32 vp_index,
- 	return -hv_status_to_errno(status);
- }
+ MODULE_AUTHOR("Microsoft");
+ MODULE_LICENSE("GPL");
+@@ -31,7 +32,6 @@ static struct mshv mshv = {};
+ static void mshv_partition_put(struct mshv_partition *partition);
+ static int mshv_partition_release(struct inode *inode, struct file *filp);
+ static long mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
+-
+ static int mshv_dev_open(struct inode *inode, struct file *filp);
+ static int mshv_dev_release(struct inode *inode, struct file *filp);
+ static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
+@@ -57,6 +57,143 @@ static struct miscdevice mshv_dev = {
+ 	.mode = 600,
+ };
  
-+static void
-+mshv_isr(void)
++#define HV_INIT_PARTITION_DEPOSIT_PAGES 208
++
++static int
++hv_call_create_partition(
++		u64 flags,
++		struct hv_partition_creation_properties creation_properties,
++		u64 *partition_id)
 +{
-+	struct hv_message_page **msg_page =
-+			this_cpu_ptr(mshv.synic_message_page);
-+	struct hv_message *msg;
-+	enum hv_message_type message_type;
-+	struct mshv_partition *partition;
-+	struct mshv_vp *vp;
-+	u64 partition_id;
-+	u32 vp_index;
++	struct hv_create_partition_in *input;
++	struct hv_create_partition_out *output;
++	int status;
++	int ret;
++	unsigned long irq_flags;
 +	int i;
-+	unsigned long flags;
-+	struct task_struct *task;
 +
-+	if (unlikely(!(*msg_page))) {
-+		pr_err("%s: Missing synic page!\n", __func__);
-+		return;
-+	}
++	do {
++		local_irq_save(irq_flags);
++		input = (struct hv_create_partition_in *)(*this_cpu_ptr(
++			hyperv_pcpu_input_arg));
++		output = (struct hv_create_partition_out *)(*this_cpu_ptr(
++			hyperv_pcpu_output_arg));
 +
-+	msg = &((*msg_page)->sint_message[HV_SYNIC_INTERCEPTION_SINT_INDEX]);
++		input->flags = flags;
++		input->proximity_domain_info.as_uint64 = 0;
++		input->compatibility_version = HV_COMPATIBILITY_MANGANESE;
++		for (i = 0; i < HV_PARTITION_PROCESSOR_FEATURE_BANKS; ++i)
++			input->partition_creation_properties
++				.disabled_processor_features.as_uint64[i] = 0;
++		input->partition_creation_properties
++			.disabled_processor_xsave_features.as_uint64 = 0;
++		input->isolation_properties.as_uint64 = 0;
 +
-+	/*
-+	 * If the type isn't set, there isn't really a message;
-+	 * it may be some other hyperv interrupt
-+	 */
-+	message_type = msg->header.message_type;
-+	if (message_type == HVMSG_NONE)
-+		return;
-+
-+	/* Look for the partition */
-+	partition_id = msg->header.sender;
-+
-+	/* Hold this lock for the rest of the isr, because the partition could
-+	 * be released anytime.
-+	 * e.g. the MSHV_RUN_VP thread could wake on another cpu; it could
-+	 * release the partition unless we hold this!
-+	 */
-+	spin_lock_irqsave(&mshv.partitions.lock, flags);
-+
-+	for (i = 0; i < MSHV_MAX_PARTITIONS; i++) {
-+		partition = mshv.partitions.array[i];
-+		if (partition && partition->id == partition_id)
++		status = hv_do_hypercall(HVCALL_CREATE_PARTITION,
++					 input, output);
++		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
++			if (status == HV_STATUS_SUCCESS)
++				*partition_id = output->partition_id;
++			else
++				pr_err("%s: %s\n",
++				       __func__, hv_status_to_string(status));
++			local_irq_restore(irq_flags);
++			ret = -hv_status_to_errno(status);
 +			break;
-+	}
++		}
++		local_irq_restore(irq_flags);
++		ret = hv_call_deposit_pages(NUMA_NO_NODE,
++					    hv_current_partition_id, 1);
++	} while (!ret);
 +
-+	if (unlikely(i == MSHV_MAX_PARTITIONS)) {
-+		pr_err("%s: failed to find partition\n", __func__);
-+		goto unlock_out;
-+	}
-+
-+	/*
-+	 * Since we directly index the vp, and it has to exist for us to be here
-+	 * (because the vp is only deleted when the partition is), no additional
-+	 * locking is needed here
-+	 */
-+	vp_index = ((struct hv_x64_intercept_message_header *)msg->u.payload)->vp_index;
-+	vp = partition->vps.array[vp_index];
-+	if (unlikely(!vp)) {
-+		pr_err("%s: failed to find vp\n", __func__);
-+		goto unlock_out;
-+	}
-+
-+	memcpy(vp->run.intercept_message, msg, sizeof(struct hv_message));
-+
-+	if (unlikely(!vp->run.task)) {
-+		pr_err("%s: vp run task not set\n", __func__);
-+		goto unlock_out;
-+	}
-+
-+	/* Save the task and reset it so we can wake without racing */
-+	task = vp->run.task;
-+	vp->run.task = NULL;
-+
-+	/*
-+	 * up the semaphore before waking so that we don't race with
-+	 * down_trylock
-+	 */
-+	up(&vp->run.sem);
-+
-+	/*
-+	 * Finally, wake the process. If it wakes the vp and generates
-+	 * another intercept then the message will be queued by the hypervisor
-+	 */
-+	wake_up_process(task);
-+
-+unlock_out:
-+	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
-+
-+	/* Acknowledge message with hypervisor */
-+	msg->header.message_type = HVMSG_NONE;
-+	wrmsrl(HV_X64_MSR_EOM, 0);
-+
-+	add_interrupt_randomness(HYPERVISOR_CALLBACK_VECTOR, 0);
++	return ret;
 +}
 +
-+
-+static long
-+mshv_vp_ioctl_run_vp(struct mshv_vp *vp, void __user *ret_message)
++static int
++hv_call_initialize_partition(u64 partition_id)
 +{
-+	long ret;
-+	enum hv_message_type msg_type;
-+	struct hv_register_assoc set_registers[2] = {
-+		{ .name = HV_REGISTER_EXPLICIT_SUSPEND },
-+		{ .name = HV_REGISTER_INTERCEPT_SUSPEND }
-+	};
-+	const enum hv_register_name get_register_names[2] = {
-+		HV_REGISTER_EXPLICIT_SUSPEND,
-+		HV_REGISTER_INTERCEPT_SUSPEND
-+	};
-+	union hv_register_value get_register_values[2];
-+	/* Pointers to values for convenience */
-+	union hv_explicit_suspend_register *set_explicit_suspend =
-+				&set_registers[0].value.explicit_suspend;
-+	union hv_intercept_suspend_register *set_intercept_suspend =
-+				&set_registers[1].value.intercept_suspend;
-+	union hv_explicit_suspend_register *get_explicit_suspend =
-+				&get_register_values[0].explicit_suspend;
-+	union hv_intercept_suspend_register *get_intercept_suspend =
-+				&get_register_values[1].intercept_suspend;
++	struct hv_initialize_partition *input;
++	int status;
++	int ret;
++	unsigned long flags;
 +
-+	/* Check that the VP is suspended */
-+	ret = hv_call_get_vp_registers(
-+			vp->index,
-+			vp->partition->id,
-+			2,
-+			get_register_names,
-+			get_register_values
-+			);
++	ret = hv_call_deposit_pages(
++				NUMA_NO_NODE,
++				partition_id,
++				HV_INIT_PARTITION_DEPOSIT_PAGES);
 +	if (ret)
 +		return ret;
 +
-+	if (!get_explicit_suspend->suspended &&
-+	    !get_intercept_suspend->suspended) {
-+		pr_err("%s: vp not suspended!\n", __func__);
-+		return -EBADFD;
-+	}
++	do {
++		local_irq_save(flags);
++		input = (struct hv_initialize_partition *)(*this_cpu_ptr(
++			hyperv_pcpu_input_arg));
++		input->partition_id = partition_id;
 +
-+	/*
-+	 * If intercept_suspend is set, we missed a message and need to
-+	 * wait for mshv_isr to complete
-+	 */
-+	if (get_intercept_suspend->suspended) {
-+		if (down_interruptible(&vp->run.sem))
-+			return -EINTR;
-+		if (copy_to_user(ret_message, vp->run.intercept_message,
-+				 sizeof(struct hv_message)))
-+			return -EFAULT;
-+		return 0;
-+	}
++		status = hv_do_hypercall(
++				HVCALL_INITIALIZE_PARTITION,
++				input, NULL);
++		local_irq_restore(flags);
 +
-+	/*
-+	 * At this point the semaphore ensures that mshv_isr is done,
-+	 * and the mutex ensures that no other threads are touching this vp
-+	 */
-+	vp->run.task = current;
-+	set_current_state(TASK_INTERRUPTIBLE);
++		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
++			if (status != HV_STATUS_SUCCESS)
++				pr_err("%s: %s\n",
++				       __func__, hv_status_to_string(status));
++			ret = -hv_status_to_errno(status);
++			break;
++		}
++		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
++	} while (!ret);
 +
-+	/* Now actually start the vp running */
-+	set_explicit_suspend->suspended = 0;
-+	set_intercept_suspend->suspended = 0;
-+	ret = hv_call_set_vp_registers(
-+			vp->index,
-+			vp->partition->id,
-+			2,
-+			set_registers);
-+	if (ret) {
-+		pr_err("%s: failed to clear suspend bits\n", __func__);
-+		set_current_state(TASK_RUNNING);
-+		vp->run.task = NULL;
-+		return ret;
-+	}
-+
-+	schedule();
-+
-+	/* Explicitly suspend the vp to make sure it's stopped */
-+	set_explicit_suspend->suspended = 1;
-+	ret = hv_call_set_vp_registers(
-+		vp->index,
-+		vp->partition->id,
-+		1,
-+		&set_registers[0]);
-+	if (ret) {
-+		pr_err("%s: failed to set explicit suspend bit\n", __func__);
-+		return -EBADFD;
-+	}
-+
-+	/*
-+	 * Check if woken up by a signal
-+	 * Note that if the signal came after being woken by mshv_isr(),
-+	 * we will still get the message correctly on re-entry
-+	 */
-+	if (signal_pending(current)) {
-+		pr_debug("%s: woke up, received signal\n", __func__);
-+		return -EINTR;
-+	}
-+
-+	/*
-+	 * No signal pending, so we were woken by hv_host_isr()
-+	 * The isr can't be running now, and the intercept_suspend bit is set
-+	 * We use it as a flag to tell if we missed a message due to a signal,
-+	 * so we must clear it here and reset the semaphore
-+	 */
-+	set_intercept_suspend->suspended = 0;
-+	ret = hv_call_set_vp_registers(
-+		vp->index,
-+		vp->partition->id,
-+		1,
-+		&set_registers[1]);
-+	if (ret) {
-+		pr_err("%s: failed to clear intercept suspend bit\n", __func__);
-+		return -EBADFD;
-+	}
-+	if (down_trylock(&vp->run.sem)) {
-+		pr_err("%s: semaphore in unexpected state\n", __func__);
-+		return -EBADFD;
-+	}
-+
-+	msg_type = vp->run.intercept_message->header.message_type;
-+
-+	if (msg_type == HVMSG_NONE) {
-+		pr_err("%s: woke up, but no message\n", __func__);
-+		return -ENOMSG;
-+	}
-+
-+	if (copy_to_user(ret_message, vp->run.intercept_message,
-+			 sizeof(struct hv_message)))
-+		return -EFAULT;
-+
-+	return 0;
++	return ret;
 +}
 +
++static int
++hv_call_finalize_partition(u64 partition_id)
++{
++	struct hv_finalize_partition *input;
++	int status;
++	unsigned long flags;
 +
++	local_irq_save(flags);
++	input = (struct hv_finalize_partition *)(*this_cpu_ptr(
++		hyperv_pcpu_input_arg));
++
++	input->partition_id = partition_id;
++	status = hv_do_hypercall(
++			HVCALL_FINALIZE_PARTITION,
++			input, NULL);
++	local_irq_restore(flags);
++
++	if (status != HV_STATUS_SUCCESS)
++		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
++
++	return -hv_status_to_errno(status);
++}
++
++static int
++hv_call_delete_partition(u64 partition_id)
++{
++	struct hv_delete_partition *input;
++	int status;
++	unsigned long flags;
++
++	local_irq_save(flags);
++	input = (struct hv_delete_partition *)(*this_cpu_ptr(
++		hyperv_pcpu_input_arg));
++
++	input->partition_id = partition_id;
++	status = hv_do_hypercall(
++			HVCALL_DELETE_PARTITION,
++			input, NULL);
++	local_irq_restore(flags);
++
++	if (status != HV_STATUS_SUCCESS)
++		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
++
++	return -hv_status_to_errno(status);
++}
 +
  static long
- mshv_vp_ioctl_get_regs(struct mshv_vp *vp, void __user *user_args)
+ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
  {
-@@ -600,6 +835,19 @@ mshv_vp_ioctl_set_regs(struct mshv_vp *vp, void __user *user_args)
- 	}
+@@ -86,6 +223,17 @@ destroy_partition(struct mshv_partition *partition)
  
- 	for (i = 0; i < args.count; i++) {
-+
-+		/*
-+		 * Disallow setting suspend registers to ensure run vp state
-+		 * is consistent
-+		 */
-+		if (names[i] == HV_REGISTER_EXPLICIT_SUSPEND ||
-+		    names[i] == HV_REGISTER_INTERCEPT_SUSPEND) {
-+			pr_err("%s: not allowed to set suspend registers\n",
-+			       __func__);
-+			ret = -EINVAL;
-+			goto free_return;
-+		}
-+
- 		memcpy(&registers[i].name, &names[i],
- 		       sizeof(enum hv_register_name));
- 		memcpy(&registers[i].value, &values[i],
-@@ -627,6 +875,9 @@ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		return -EINTR;
+ 	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
  
- 	switch (ioctl) {
-+	case MSHV_RUN_VP:
-+		r = mshv_vp_ioctl_run_vp(vp, (void __user *)arg);
-+		break;
- 	case MSHV_GET_VP_REGISTERS:
- 		r = mshv_vp_ioctl_get_regs(vp, (void __user *)arg);
- 		break;
-@@ -677,12 +928,20 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
++	/*
++	 * There are no remaining references to the partition or vps,
++	 * so the remaining cleanup can be lockless
++	 */
++
++	/* Deallocates and unmaps everything including vcpus, GPA mappings etc */
++	hv_call_finalize_partition(partition->id);
++	/* TODO: Withdraw and free all pages we deposited */
++
++	hv_call_delete_partition(partition->id);
++
+ 	kfree(partition);
+ }
+ 
+@@ -146,6 +294,9 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 	if (copy_from_user(&args, user_arg, sizeof(args)))
+ 		return -EFAULT;
+ 
++	/* Only support EXO partitions */
++	args.flags |= HV_PARTITION_CREATION_FLAG_EXO_PARTITION;
++
+ 	partition = kzalloc(sizeof(*partition), GFP_KERNEL);
+ 	if (!partition)
  		return -ENOMEM;
- 
- 	mutex_init(&vp->mutex);
-+	sema_init(&vp->run.sem, 0);
-+
-+	vp->run.intercept_message =
-+		(struct hv_message *)get_zeroed_page(GFP_KERNEL);
-+	if (!vp->run.intercept_message) {
-+		ret = -ENOMEM;
-+		goto free_vp;
-+	}
- 
- 	vp->index = args.vp_index;
- 	vp->partition = mshv_partition_get(partition);
- 	if (!vp->partition) {
- 		ret = -EBADF;
--		goto free_vp;
-+		goto free_message;
+@@ -156,11 +307,21 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 		goto free_partition;
  	}
  
- 	fd = get_unused_fd_flags(O_CLOEXEC);
-@@ -720,6 +979,8 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
++	ret = hv_call_create_partition(args.flags,
++				       args.partition_creation_properties,
++				       &partition->id);
++	if (ret)
++		goto put_fd;
++
++	ret = hv_call_initialize_partition(partition->id);
++	if (ret)
++		goto delete_partition;
++
+ 	file = anon_inode_getfile("mshv_partition", &mshv_partition_fops,
+ 				  partition, O_RDWR);
+ 	if (IS_ERR(file)) {
+ 		ret = PTR_ERR(file);
+-		goto put_fd;
++		goto finalize_partition;
+ 	}
+ 	refcount_set(&partition->ref_count, 1);
+ 
+@@ -174,6 +335,10 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 
+ release_file:
+ 	file->f_op->release(file->f_inode, file);
++finalize_partition:
++	hv_call_finalize_partition(partition->id);
++delete_partition:
++	hv_call_delete_partition(partition->id);
+ put_fd:
  	put_unused_fd(fd);
- put_partition:
- 	mshv_partition_put(partition);
-+free_message:
-+	free_page((unsigned long)vp->run.intercept_message);
- free_vp:
- 	kfree(vp);
- 
-@@ -939,6 +1200,9 @@ destroy_partition(struct mshv_partition *partition)
- 		mshv.partitions.array[i] = NULL;
- 	}
- 
-+	if (!mshv.partitions.count)
-+		hv_remove_mshv_irq();
-+
- 	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
- 
- 	/*
-@@ -958,6 +1222,7 @@ destroy_partition(struct mshv_partition *partition)
- 		vp = partition->vps.array[i];
- 		if (!vp)
- 			continue;
-+		free_page((unsigned long)vp->run.intercept_message);
- 		kfree(vp);
- 	}
- 
-@@ -1021,6 +1286,9 @@ add_partition(struct mshv_partition *partition)
- 	mshv.partitions.count++;
- 	mshv.partitions.array[i] = partition;
- 
-+	if (mshv.partitions.count == 1)
-+		hv_setup_mshv_irq(mshv_isr);
-+
- out_unlock:
- 	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
- 
+ free_partition:
 -- 
 2.25.1
 
