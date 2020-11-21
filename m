@@ -5,35 +5,35 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B38D4C64E90
-	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 102E5C71155
+	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80EED24101
+	by mail.kernel.org (Postfix) with ESMTP id D100424101
 	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="XcLJv7x9"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="dzrMi9RV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728341AbgKUAay (ORCPT
+        id S1729106AbgKUAbL (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Nov 2020 19:30:54 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:51212 "EHLO
+        Fri, 20 Nov 2020 19:31:11 -0500
+Received: from linux.microsoft.com ([13.77.154.182]:51280 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728733AbgKUAaw (ORCPT
+        with ESMTP id S1728869AbgKUAax (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 20 Nov 2020 19:30:52 -0500
+        Fri, 20 Nov 2020 19:30:53 -0500
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id AE12A20B7125;
-        Fri, 20 Nov 2020 16:30:49 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AE12A20B7125
+        by linux.microsoft.com (Postfix) with ESMTPSA id D538A20B8014;
+        Fri, 20 Nov 2020 16:30:50 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D538A20B8014
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1605918649;
-        bh=2sYXvpohJI8EwyQekgmU02ru+mlV5ISowLpGw3Lggv8=;
+        s=default; t=1605918650;
+        bh=bs8OXSmw7i3sGKbT+mWjBVnHpAlEDRGawtmvukwZx5M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XcLJv7x9rNjt6rcEKJDJTwjlPwqTSglY/g5E6lHQ9dweuoZa5hGY3J7RVLbYL4BMh
-         ak2bCkGRnG/7/wuNaDBXUtEsUVFk9Cmqzg0SEtVRDdEqSq/cf/0rsDfAFBqWwyn5Sc
-         GuAYfWMBy/iS8FhlWUpKys8LrzVWaxrPOQcdqQ/E=
+        b=dzrMi9RVcbtmwUoa6eg4I9eCrNP6SIdagXYCIcp1DqNIHnhIehGFxu/fbMdN2zeKw
+         vZLJs04sIdrxOegXloUibjuoVU1lYwxEytIK6WwblDrTfFiZp6sQHT7vaMG3MUYF/7
+         zvDGxx0g56w63SczfwWwr2tf6GU8Q8UNjGGiUkvM=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org,
@@ -41,9 +41,9 @@ Cc:     virtualization@lists.linux-foundation.org,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         nunodasneves@linux.microsoft.com, wei.liu@kernel.org,
         ligrassi@microsoft.com, kys@microsoft.com
-Subject: [RFC PATCH 05/18] virt/mshv: create partition ioctl
-Date:   Fri, 20 Nov 2020 16:30:24 -0800
-Message-Id: <1605918637-12192-6-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [RFC PATCH 18/18] virt/mshv: Add enlightenment bits to create partition ioctl
+Date:   Fri, 20 Nov 2020 16:30:37 -0800
+Message-Id: <1605918637-12192-19-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -51,496 +51,275 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add MSHV_CREATE_PARTITION, which creates an fd to track a new partition.
-Partition is not yet created in the hypervisor itself.
-Introduce header files for userspace-facing hyperv structures.
+Introduce hv_partition_synthetic_processor features mask to
+MSHV_CREATE_PARTITION ioctl, which can be used to enable hypervisor
+enlightenments for exo partitions.
 
-Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst         |  12 ++
- arch/x86/include/asm/hyperv-tlfs.h      |   1 +
- arch/x86/include/uapi/asm/hyperv-tlfs.h | 124 ++++++++++++++++
- include/asm-generic/hyperv-tlfs.h       |   1 +
- include/linux/mshv.h                    |  16 +++
- include/uapi/asm-generic/hyperv-tlfs.h  |  14 ++
- include/uapi/linux/mshv.h               |   7 +
- virt/mshv/mshv_main.c                   | 179 +++++++++++++++++++++---
- 8 files changed, 338 insertions(+), 16 deletions(-)
- create mode 100644 arch/x86/include/uapi/asm/hyperv-tlfs.h
- create mode 100644 include/uapi/asm-generic/hyperv-tlfs.h
+ Documentation/virt/mshv/api.rst         |   3 +
+ arch/x86/include/uapi/asm/hyperv-tlfs.h | 125 ++++++++++++++++++++++++
+ include/uapi/asm-generic/hyperv-tlfs.h  |   1 +
+ include/uapi/linux/mshv.h               |   1 +
+ virt/mshv/mshv_main.c                   |  57 +++++++----
+ 5 files changed, 167 insertions(+), 20 deletions(-)
 
 diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index 82e32de48d03..ce651a1738e0 100644
+index 609400313b7e..afd56fff1038 100644
 --- a/Documentation/virt/mshv/api.rst
 +++ b/Documentation/virt/mshv/api.rst
-@@ -39,6 +39,9 @@ root partition can use mshv APIs to create guest partitions.
+@@ -167,4 +167,7 @@ The page is laid out in struct hv_vp_register_page in asm/hyperv-tlfs.h.
  
- The module is named mshv and can be configured with CONFIG_HYPERV_ROOT_API.
+ Can be used to get/set various properties of a partition.
  
-+The uapi header files you need are linux/mshv.h, asm/hyperv-tlfs.h, and
-+asm-generic/hyperv-tlfs.h.
++Some properties can only be set at partition creation. For these, there are
++parameters in MSHV_CREATE_PARTITION.
 +
- Mshv is file descriptor-based, following a similar pattern to KVM.
  
- To get a handle to the mshv driver, use open("/dev/mshv").
-@@ -60,3 +63,12 @@ if one of them matches.
- This /dev/mshv file descriptor will remain 'locked' to that version as long as
- it is open - this ioctl can only be called once per open.
- 
-+3.2 MSHV_CREATE_PARTITION
-+-------------------------
-+:Type: /dev/mshv ioctl
-+:Parameters: struct mshv_create_partition
-+:Returns: partition file descriptor, or -1 on failure
-+
-+This ioctl creates a guest partition, returning a file descriptor to use as a
-+handle for partition ioctls.
-+
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 592c75e51e0f..4cd44ae9bffb 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/types.h>
- #include <asm/page.h>
-+#include <uapi/asm/hyperv-tlfs.h>
- /*
-  * The below CPUID leaves are present if VersionAndFeatures.HypervisorPresent
-  * is set by CPUID(HvCpuIdFunctionVersionAndFeatures).
 diff --git a/arch/x86/include/uapi/asm/hyperv-tlfs.h b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-new file mode 100644
-index 000000000000..72150c25ffe6
---- /dev/null
+index a241178567ff..65cd0d166d5b 100644
+--- a/arch/x86/include/uapi/asm/hyperv-tlfs.h
 +++ b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-@@ -0,0 +1,124 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI_ASM_X86_HYPERV_TLFS_USER_H
-+#define _UAPI_ASM_X86_HYPERV_TLFS_USER_H
+@@ -1184,4 +1184,129 @@ struct hv_vp_register_page {
+ 	__u64 instruction_emulation_hints;
+ };
+ 
++#define HV_PARTITION_SYNTHETIC_PROCESSOR_FEATURES_BANKS 1
 +
-+#include <linux/types.h>
++union hv_partition_synthetic_processor_features {
++	__u64 as_uint64[HV_PARTITION_SYNTHETIC_PROCESSOR_FEATURES_BANKS];
 +
-+#define HV_PARTITION_PROCESSOR_FEATURE_BANKS 2
-+
-+union hv_partition_processor_features {
 +	struct {
-+		__u64 sse3_support:1;
-+		__u64 lahf_sahf_support:1;
-+		__u64 ssse3_support:1;
-+		__u64 sse4_1_support:1;
-+		__u64 sse4_2_support:1;
-+		__u64 sse4a_support:1;
-+		__u64 xop_support:1;
-+		__u64 pop_cnt_support:1;
-+		__u64 cmpxchg16b_support:1;
-+		__u64 altmovcr8_support:1;
-+		__u64 lzcnt_support:1;
-+		__u64 mis_align_sse_support:1;
-+		__u64 mmx_ext_support:1;
-+		__u64 amd3dnow_support:1;
-+		__u64 extended_amd3dnow_support:1;
-+		__u64 page_1gb_support:1;
-+		__u64 aes_support:1;
-+		__u64 pclmulqdq_support:1;
-+		__u64 pcid_support:1;
-+		__u64 fma4_support:1;
-+		__u64 f16c_support:1;
-+		__u64 rd_rand_support:1;
-+		__u64 rd_wr_fs_gs_support:1;
-+		__u64 smep_support:1;
-+		__u64 enhanced_fast_string_support:1;
-+		__u64 bmi1_support:1;
-+		__u64 bmi2_support:1;
-+		__u64 hle_support_deprecated:1;
-+		__u64 rtm_support_deprecated:1;
-+		__u64 movbe_support:1;
-+		__u64 npiep1_support:1;
-+		__u64 dep_x87_fpu_save_support:1;
-+		__u64 rd_seed_support:1;
-+		__u64 adx_support:1;
-+		__u64 intel_prefetch_support:1;
-+		__u64 smap_support:1;
-+		__u64 hle_support:1;
-+		__u64 rtm_support:1;
-+		__u64 rdtscp_support:1;
-+		__u64 clflushopt_support:1;
-+		__u64 clwb_support:1;
-+		__u64 sha_support:1;
-+		__u64 x87_pointers_saved_support:1;
-+		__u64 invpcid_support:1;
-+		__u64 ibrs_support:1;
-+		__u64 stibp_support:1;
-+		__u64 ibpb_support: 1;
-+		__u64 unrestricted_guest_support:1;
-+		__u64 mdd_support:1;
-+		__u64 fast_short_rep_mov_support:1;
-+		__u64 l1dcache_flush_support:1;
-+		__u64 rdcl_no_support:1;
-+		__u64 ibrs_all_support:1;
-+		__u64 skip_l1df_support:1;
-+		__u64 ssb_no_support:1;
-+		__u64 rsb_a_no_support:1;
-+		__u64 virt_spec_ctrl_support:1;
-+		__u64 rd_pid_support:1;
-+		__u64 umip_support:1;
-+		__u64 mbs_no_support:1;
-+		__u64 mb_clear_support:1;
-+		__u64 taa_no_support:1;
-+		__u64 tsx_ctrl_support:1;
-+		/*
-+		 * N.B. The final processor feature bit in bank 0 is reserved to
-+		 * simplify potential downlevel backports.
++		/* Report a hypervisor is present. CPUID leaves
++		 * 0x40000000 and 0x40000001 are supported.
 +		 */
-+		__u64 reserved_bank0:1;
++		__u64 hypervisor_present:1;
 +
-+		/* N.B. Begin bank 1 processor features. */
-+		__u64 acount_mcount_support:1;
-+		__u64 tsc_invariant_support:1;
-+		__u64 cl_zero_support:1;
-+		__u64 rdpru_support:1;
-+		__u64 la57_support:1;
-+		__u64 mbec_support:1;
-+		__u64 nested_virt_support:1;
-+		__u64 psfd_support:1;
-+		__u64 cet_ss_support:1;
-+		__u64 cet_ibt_support:1;
-+		__u64 vmx_exception_inject_support:1;
-+		__u64 enqcmd_support:1;
-+		__u64 umwait_tpause_support:1;
-+		__u64 movdiri_support:1;
-+		__u64 movdir64b_support:1;
-+		__u64 cldemote_support:1;
-+		__u64 serialize_support:1;
-+		__u64 tsc_deadline_tmr_support:1;
-+		__u64 tsc_adjust_support:1;
-+		__u64 fzlrep_movsb:1;
-+		__u64 fsrep_stosb:1;
-+		__u64 fsrep_cmpsb:1;
-+		__u64 reserved_bank1:42;
++		/*
++		 * Features associated with HV#1:
++		 */
++
++		/* Report support for Hv1 (CPUID leaves 0x40000000 - 0x40000006). */
++		__u64 hv1:1;
++
++		/* Access to HV_X64_MSR_VP_RUNTIME.
++		 * Corresponds to access_vp_run_time_reg privilege.
++		 */
++		__u64 access_vp_run_time_reg:1;
++
++		/* Access to HV_X64_MSR_TIME_REF_COUNT.
++		 * Corresponds to access_partition_reference_counter privilege.
++		 */
++		__u64 access_partition_reference_counter:1;
++
++		/* Access to SINT-related registers (HV_X64_MSR_SCONTROL through
++		 * HV_X64_MSR_EOM and HV_X64_MSR_SINT0 through HV_X64_MSR_SINT15).
++		 * Corresponds to access_synic_regs privilege.
++		 */
++		__u64 access_synic_regs:1;
++
++		/* Access to synthetic timers and associated MSRs
++		 * (HV_X64_MSR_STIMER0_CONFIG through HV_X64_MSR_STIMER3_COUNT).
++		 * Corresponds to access_synthetic_timer_regs privilege.
++		 */
++		__u64 access_synthetic_timer_regs:1;
++
++		/* Access to APIC MSRs (HV_X64_MSR_EOI, HV_X64_MSR_ICR and HV_X64_MSR_TPR)
++		 * as well as the VP assist page.
++		 * Corresponds to access_intr_ctrl_regs privilege.
++		 */
++		__u64 access_intr_ctrl_regs:1;
++
++		/* Access to registers associated with hypercalls (HV_X64_MSR_GUEST_OS_ID
++		 * and HV_X64_MSR_HYPERCALL).
++		 * Corresponds to access_hypercall_msrs privilege.
++		 */
++		__u64 access_hypercall_regs:1;
++
++		/* VP index can be queried. corresponds to access_vp_index privilege. */
++		__u64 access_vp_index:1;
++
++		/* Access to the reference TSC. Corresponds to access_partition_reference_tsc
++		 * privilege.
++		 */
++		__u64 access_partition_reference_tsc:1;
++
++		/* Partition has access to the guest idle reg. Corresponds to
++		 * access_guest_idle_reg privilege.
++		 */
++		__u64 access_guest_idle_reg:1;
++
++		/* Partition has access to frequency regs. corresponds to access_frequency_regs
++		 * privilege.
++		 */
++		__u64 access_frequency_regs:1;
++
++		__u64 reserved_z12:1; /* Reserved for access_reenlightenment_controls. */
++		__u64 reserved_z13:1; /* Reserved for access_root_scheduler_reg. */
++		__u64 reserved_z14:1; /* Reserved for access_tsc_invariant_controls. */
++
++		/* Extended GVA ranges for HvCallFlushVirtualAddressList hypercall.
++		 * Corresponds to privilege.
++		 */
++		__u64 enable_extended_gva_ranges_for_flush_virtual_address_list:1;
++
++		__u64 reserved_z16:1; /* Reserved for access_vsm. */
++		__u64 reserved_z17:1; /* Reserved for access_vp_registers. */
++
++		/* Use fast hypercall output. Corresponds to privilege. */
++		__u64 fast_hypercall_output:1;
++
++		__u64 reserved_z19:1; /* Reserved for enable_extended_hypercalls. */
++
++		/*
++		 * HvStartVirtualProcessor can be used to start virtual processors.
++		 * Corresponds to privilege.
++		 */
++		__u64 start_virtual_processor:1;
++
++		__u64 reserved_z21:1; /* Reserved for Isolation. */
++
++		/* Synthetic timers in direct mode. */
++		__u64 direct_synthetic_timers:1;
++
++		__u64 reserved_z23:1; /* Reserved for synthetic time unhalted timer */
++
++		/* Use extended processor masks. */
++		__u64 extended_processor_masks:1;
++
++		/* HvCallFlushVirtualAddressSpace / HvCallFlushVirtualAddressList are supported. */
++		__u64 tb_flush_hypercalls:1;
++
++		/* HvCallSendSyntheticClusterIpi is supported. */
++		__u64 synthetic_cluster_ipi:1;
++
++		/* HvCallNotifyLongSpinWait is supported. */
++		__u64 notify_long_spin_wait:1;
++
++		/* HvCallQueryNumaDistance is supported. */
++		__u64 query_numa_distance:1;
++
++		/* HvCallSignalEvent is supported. Corresponds to privilege. */
++		__u64 signal_events:1;
++
++		/* HvCallRetargetDeviceInterrupt is supported. */
++		__u64 retarget_device_interrupt:1;
++
++		__u64 reserved:33;
 +	};
-+	__u64 as_uint64[HV_PARTITION_PROCESSOR_FEATURE_BANKS];
-+};
-+
-+union hv_partition_processor_xsave_features {
-+	struct {
-+		__u64 xsave_support : 1;
-+		__u64 xsaveopt_support : 1;
-+		__u64 avx_support : 1;
-+		__u64 reserved1 : 61;
-+	};
-+	__u64 as_uint64;
-+};
-+
-+struct hv_partition_creation_properties {
-+	union hv_partition_processor_features disabled_processor_features;
-+	union hv_partition_processor_xsave_features
-+		disabled_processor_xsave_features;
-+};
-+
-+#endif
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 05b9dc9896ab..2ff580780ce4 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -12,6 +12,7 @@
- #include <linux/types.h>
- #include <linux/bits.h>
- #include <linux/time64.h>
-+#include <uapi/asm-generic/hyperv-tlfs.h>
- 
- /*
-  * While not explicitly listed in the TLFS, Hyper-V always runs with a page size
-diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index a0982fe2c0b8..fc4f35089b2c 100644
---- a/include/linux/mshv.h
-+++ b/include/linux/mshv.h
-@@ -6,6 +6,22 @@
-  * Microsoft Hypervisor root partition driver for /dev/mshv
-  */
- 
-+#include <linux/spinlock.h>
- #include <uapi/linux/mshv.h>
- 
-+#define MSHV_MAX_PARTITIONS		128
-+
-+struct mshv_partition {
-+	u64 id;
-+	refcount_t ref_count;
-+};
-+
-+struct mshv {
-+	struct {
-+		spinlock_t lock;
-+		u64 count;
-+		struct mshv_partition *array[MSHV_MAX_PARTITIONS];
-+	} partitions;
 +};
 +
  #endif
 diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-new file mode 100644
-index 000000000000..140cc0b4f98f
---- /dev/null
+index d1c341de34fe..5c6379a3cfd5 100644
+--- a/include/uapi/asm-generic/hyperv-tlfs.h
 +++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+#ifndef _UAPI_ASM_GENERIC_HYPERV_TLFS_USER_H
-+#define _UAPI_ASM_GENERIC_HYPERV_TLFS_USER_H
-+
-+#ifndef BIT
-+#define BIT(X)	(1ULL << (X))
-+#endif
-+
-+#define HV_PARTITION_CREATION_FLAG_SMT_ENABLED_GUEST                BIT(0)
-+#define HV_PARTITION_CREATION_FLAG_GPA_LARGE_PAGES_DISABLED         BIT(3)
-+#define HV_PARTITION_CREATION_FLAG_GPA_SUPER_PAGES_ENABLED          BIT(4)
-+#define HV_PARTITION_CREATION_FLAG_LAPIC_ENABLED                    BIT(13)
-+
-+#endif
+@@ -100,6 +100,7 @@ enum hv_vp_state_page_type {
+ enum hv_partition_property_code {
+ 	/* Privilege properties */
+ 	HV_PARTITION_PROPERTY_PRIVILEGE_FLAGS				= 0x00010000,
++	HV_PARTITION_PROPERTY_SYNTHETIC_PROC_FEATURES			= 0x00010001,
+ 
+ 	/* Scheduling properties */
+ 	HV_PARTITION_PROPERTY_SUSPEND					= 0x00020000,
 diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index dd30fc2f0a80..3788f8bc5caa 100644
+index 721f5b1999d5..bf2d8c8a0a37 100644
 --- a/include/uapi/linux/mshv.h
 +++ b/include/uapi/linux/mshv.h
-@@ -8,12 +8,19 @@
-  */
- 
- #include <linux/types.h>
-+#include <asm/hyperv-tlfs.h>
- 
- #define MSHV_VERSION	0x0
- 
-+struct mshv_create_partition {
-+	__u64 flags;
-+	struct hv_partition_creation_properties partition_creation_properties;
-+};
-+
- #define MSHV_IOCTL 0xB8
- 
- /* mshv device */
- #define MSHV_REQUEST_VERSION	_IOW(MSHV_IOCTL, 0x00, __u32)
-+#define MSHV_CREATE_PARTITION	_IOW(MSHV_IOCTL, 0x01, struct mshv_create_partition)
- 
- #endif
-diff --git a/virt/mshv/mshv_main.c b/virt/mshv/mshv_main.c
-index 62f631f85301..4dcbe4907430 100644
---- a/virt/mshv/mshv_main.c
-+++ b/virt/mshv/mshv_main.c
-@@ -12,6 +12,8 @@
- #include <linux/fs.h>
- #include <linux/miscdevice.h>
- #include <linux/slab.h>
-+#include <linux/file.h>
-+#include <linux/anon_inodes.h>
- #include <linux/mshv.h>
- 
- MODULE_AUTHOR("Microsoft");
-@@ -24,6 +26,161 @@ static u32 supported_versions[] = {
- 	MSHV_CURRENT_VERSION,
+@@ -18,6 +18,7 @@
+ struct mshv_create_partition {
+ 	__u64 flags;
+ 	struct hv_partition_creation_properties partition_creation_properties;
++	union hv_partition_synthetic_processor_features synthetic_processor_features;
  };
  
-+static struct mshv mshv = {};
-+
-+static void mshv_partition_put(struct mshv_partition *partition);
-+static int mshv_partition_release(struct inode *inode, struct file *filp);
-+static long mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
-+
-+static int mshv_dev_open(struct inode *inode, struct file *filp);
-+static int mshv_dev_release(struct inode *inode, struct file *filp);
-+static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
-+
-+static const struct file_operations mshv_partition_fops = {
-+	.release = mshv_partition_release,
-+	.unlocked_ioctl = mshv_partition_ioctl,
-+	.llseek = noop_llseek,
-+};
-+
-+static const struct file_operations mshv_dev_fops = {
-+	.owner = THIS_MODULE,
-+	.open = mshv_dev_open,
-+	.release = mshv_dev_release,
-+	.unlocked_ioctl = mshv_dev_ioctl,
-+	.llseek = noop_llseek,
-+};
-+
-+static struct miscdevice mshv_dev = {
-+	.minor = MISC_DYNAMIC_MINOR,
-+	.name = "mshv",
-+	.fops = &mshv_dev_fops,
-+	.mode = 600,
-+};
-+
+ /*
+diff --git a/virt/mshv/mshv_main.c b/virt/mshv/mshv_main.c
+index bfbadeb4f1fe..78a1e70cac96 100644
+--- a/virt/mshv/mshv_main.c
++++ b/virt/mshv/mshv_main.c
+@@ -547,6 +547,33 @@ hv_call_map_vp_state_page(u32 vp_index, u64 partition_id,
+ 	return ret;
+ }
+ 
 +static long
-+mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++hv_call_set_partition_property(u64 partition_id,
++			       u64 property_code,
++			       u64 property_value)
 +{
-+	return -ENOTTY;
-+}
-+
-+static void
-+destroy_partition(struct mshv_partition *partition)
-+{
++	int status;
 +	unsigned long flags;
-+	int i;
++	struct hv_set_partition_property *input;
 +
-+	/* Remove from list of partitions */
-+	spin_lock_irqsave(&mshv.partitions.lock, flags);
++	local_irq_save(flags);
++	input = (struct hv_set_partition_property *)(*this_cpu_ptr(
++			hyperv_pcpu_input_arg));
++	memset(input, 0, sizeof(*input));
++	input->partition_id = partition_id;
++	input->property_code = property_code;
++	input->property_value = property_value;
++	status = hv_do_hypercall(HVCALL_SET_PARTITION_PROPERTY,
++				 input,
++				 NULL) & HV_HYPERCALL_RESULT_MASK;
++	local_irq_restore(flags);
 +
-+	for (i = 0; i < MSHV_MAX_PARTITIONS; ++i) {
-+		if (mshv.partitions.array[i] == partition)
-+			break;
-+	}
++	if (status != HV_STATUS_SUCCESS)
++		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
 +
-+	if (i == MSHV_MAX_PARTITIONS) {
-+		pr_err("%s: failed to locate partition in array\n", __func__);
-+	} else {
-+		mshv.partitions.count--;
-+		mshv.partitions.array[i] = NULL;
-+	}
-+
-+	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
-+
-+	kfree(partition);
++	return -hv_status_to_errno(status);
 +}
 +
-+static void
-+mshv_partition_put(struct mshv_partition *partition)
-+{
-+	if (refcount_dec_and_test(&partition->ref_count))
-+		destroy_partition(partition);
-+}
-+
-+static int
-+mshv_partition_release(struct inode *inode, struct file *filp)
-+{
-+	struct mshv_partition *partition = filp->private_data;
-+
-+	mshv_partition_put(partition);
-+
-+	return 0;
-+}
-+
-+static int
-+add_partition(struct mshv_partition *partition)
-+{
-+	unsigned long flags;
-+	int i, ret = 0;
-+
-+	spin_lock_irqsave(&mshv.partitions.lock, flags);
-+
-+	if (mshv.partitions.count >= MSHV_MAX_PARTITIONS) {
-+		pr_err("%s: too many partitions\n", __func__);
-+		ret = -ENOSPC;
-+		goto out_unlock;
-+	}
-+
-+	for (i = 0; i < MSHV_MAX_PARTITIONS; ++i) {
-+		if (!mshv.partitions.array[i])
-+			break;
-+	}
-+
-+	mshv.partitions.count++;
-+	mshv.partitions.array[i] = partition;
-+
-+out_unlock:
-+	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
-+
-+	return ret;
-+}
-+
-+static long
-+mshv_ioctl_create_partition(void __user *user_arg)
-+{
-+	struct mshv_create_partition args;
-+	struct mshv_partition *partition;
-+	struct file *file;
-+	int fd;
-+	long ret;
-+
-+	if (copy_from_user(&args, user_arg, sizeof(args)))
-+		return -EFAULT;
-+
-+	partition = kzalloc(sizeof(*partition), GFP_KERNEL);
-+	if (!partition)
-+		return -ENOMEM;
-+
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0) {
-+		ret = fd;
-+		goto free_partition;
-+	}
-+
-+	file = anon_inode_getfile("mshv_partition", &mshv_partition_fops,
-+				  partition, O_RDWR);
-+	if (IS_ERR(file)) {
-+		ret = PTR_ERR(file);
-+		goto put_fd;
-+	}
-+	refcount_set(&partition->ref_count, 1);
-+
-+	ret = add_partition(partition);
-+	if (ret)
-+		goto release_file;
-+
-+	fd_install(fd, file);
-+
-+	return fd;
-+
-+release_file:
-+	file->f_op->release(file->f_inode, file);
-+put_fd:
-+	put_unused_fd(fd);
-+free_partition:
-+	kfree(partition);
-+	return ret;
-+}
-+
+ static void
+ mshv_isr(void)
+ {
+@@ -1373,30 +1400,13 @@ mshv_partition_ioctl_set_property(struct mshv_partition *partition,
+ 				  void __user *user_args)
+ {
+ 	struct mshv_partition_property args;
+-	int status;
+-	unsigned long flags;
+-	struct hv_set_partition_property *input;
+ 
+ 	if (copy_from_user(&args, user_args, sizeof(args)))
+ 		return -EFAULT;
+ 
+-	local_irq_save(flags);
+-	input = (struct hv_set_partition_property *)(*this_cpu_ptr(
+-			hyperv_pcpu_input_arg));
+-	memset(input, 0, sizeof(*input));
+-	input->partition_id = partition->id;
+-	input->property_code = args.property_code;
+-	input->property_value = args.property_value;
+-	status = hv_do_hypercall(HVCALL_SET_PARTITION_PROPERTY, input,
+-			NULL) & HV_HYPERCALL_RESULT_MASK;
+-	local_irq_restore(flags);
+-
+-	if (status != HV_STATUS_SUCCESS) {
+-		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
+-		return -hv_status_to_errno(status);
+-	}
+-
+-	return 0;
++	return hv_call_set_partition_property(partition->id,
++					      args.property_code,
++					      args.property_value);
+ }
+ 
  static long
- mshv_ioctl_request_version(u32 *version, void __user *user_arg)
- {
-@@ -59,7 +216,10 @@ mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 	if (*version == MSHV_INVALID_VERSION)
- 		return -EBADFD;
+@@ -1831,6 +1841,13 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 	if (ret)
+ 		goto put_fd;
  
--	/* TODO other ioctls */
-+	switch (ioctl) {
-+	case MSHV_CREATE_PARTITION:
-+		return mshv_ioctl_create_partition((void __user *)arg);
-+	}
- 
- 	return -ENOTTY;
- }
-@@ -82,21 +242,6 @@ mshv_dev_release(struct inode *inode, struct file *filp)
- 	return 0;
- }
- 
--static const struct file_operations mshv_dev_fops = {
--	.owner = THIS_MODULE,
--	.open = mshv_dev_open,
--	.release = mshv_dev_release,
--	.unlocked_ioctl = mshv_dev_ioctl,
--	.llseek = noop_llseek,
--};
--
--static struct miscdevice mshv_dev = {
--	.minor = MISC_DYNAMIC_MINOR,
--	.name = "mshv",
--	.fops = &mshv_dev_fops,
--	.mode = 600,
--};
--
- static int
- __init mshv_init(void)
- {
-@@ -106,6 +251,8 @@ __init mshv_init(void)
- 	if (r)
- 		pr_err("%s: misc device register failed\n", __func__);
- 
-+	spin_lock_init(&mshv.partitions.lock);
++	ret = hv_call_set_partition_property(
++				partition->id,
++				HV_PARTITION_PROPERTY_SYNTHETIC_PROC_FEATURES,
++				args.synthetic_processor_features.as_uint64[0]);
++	if (ret)
++		goto delete_partition;
 +
- 	return r;
- }
- 
+ 	ret = hv_call_initialize_partition(partition->id);
+ 	if (ret)
+ 		goto delete_partition;
 -- 
 2.25.1
 
