@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 139BFC63798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 014DBC56202
 	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEDF323A6B
+	by mail.kernel.org (Postfix) with ESMTP id A4CC524101
 	for <linux-hyperv@archiver.kernel.org>; Sat, 21 Nov 2020 00:31:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="F/J9D69p"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HLm3bJ2X"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728905AbgKUAay (ORCPT
+        id S1728885AbgKUAaw (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Nov 2020 19:30:54 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:51224 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728783AbgKUAaw (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
         Fri, 20 Nov 2020 19:30:52 -0500
+Received: from linux.microsoft.com ([13.77.154.182]:51186 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728571AbgKUAav (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 20 Nov 2020 19:30:51 -0500
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 10AD620B8009;
-        Fri, 20 Nov 2020 16:30:50 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 10AD620B8009
+        by linux.microsoft.com (Postfix) with ESMTPSA id 988A620B71D2;
+        Fri, 20 Nov 2020 16:30:49 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 988A620B71D2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1605918650;
-        bh=WN+BUR5H8uAftEhtX6U1Kv4M39mmahB+zK9fq8v11i0=;
+        s=default; t=1605918649;
+        bh=AMCVyNM/KQMdcwb7yqpx4jg4oyDZyHKU8w+wvG6tLp0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=F/J9D69pj905lYA2+NhTb/iBnQ5bV5i9ySj3ljsGBntCghsLOXgo33i8mJYY+D9Zs
-         NLdLctcC9hTdOlWhj3RGp1VEvlQq3FMer+Ikv+c3ttL1rKmxl7Q+7CWiodw/v8k4Xt
-         72DGBbBMkDA4e0coMAOsH306jpnpBtajO6qFie0M=
+        b=HLm3bJ2XtR2DjfXPWMTOC2WS19idt8F8b791ILPt7MUASV0C3AoqmnJhfzliLyWQ/
+         u+nV2iGn+h4S25WrF+hFiRw+mCIxdCqyiLfoVpxNjIayVpb8HPBmWn9dPek9yjvMT+
+         JE1qw5rbzGb433Pr3PpdqP1UYjKLVP+GwupF/URg=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org,
@@ -41,9 +41,9 @@ Cc:     virtualization@lists.linux-foundation.org,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         nunodasneves@linux.microsoft.com, wei.liu@kernel.org,
         ligrassi@microsoft.com, kys@microsoft.com
-Subject: [RFC PATCH 09/18] virt/mshv: create vcpu ioctl
-Date:   Fri, 20 Nov 2020 16:30:28 -0800
-Message-Id: <1605918637-12192-10-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [RFC PATCH 04/18] virt/mshv: request version ioctl
+Date:   Fri, 20 Nov 2020 16:30:23 -0800
+Message-Id: <1605918637-12192-5-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1605918637-12192-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -51,266 +51,224 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce ioctl for creating a virtual processor in a partition.
+Reserve ioctl number in userpsace-api/ioctl/ioctl-number.rst
+Introduce MSHV_REQUEST_VERSION ioctl.
+Introduce documentation for /dev/mshv in Documentation/virt/mshv
 
-Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst |   9 +++
- include/linux/mshv.h            |  10 +++
- include/uapi/linux/mshv.h       |   5 ++
- virt/mshv/mshv_main.c           | 121 +++++++++++++++++++++++++++++++-
- 4 files changed, 144 insertions(+), 1 deletion(-)
+ .../userspace-api/ioctl/ioctl-number.rst      |  2 +
+ Documentation/virt/mshv/api.rst               | 62 +++++++++++++++++++
+ include/linux/mshv.h                          | 11 ++++
+ include/uapi/linux/mshv.h                     | 19 ++++++
+ virt/mshv/mshv_main.c                         | 49 +++++++++++++++
+ 5 files changed, 143 insertions(+)
+ create mode 100644 Documentation/virt/mshv/api.rst
+ create mode 100644 include/linux/mshv.h
+ create mode 100644 include/uapi/linux/mshv.h
 
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 55a2d9b2ce33..13a4d3ecafca 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -343,6 +343,8 @@ Code  Seq#    Include File                                           Comments
+ 0xB5  00-0F  uapi/linux/rpmsg.h                                      <mailto:linux-remoteproc@vger.kernel.org>
+ 0xB6  all    linux/fpga-dfl.h
+ 0xB7  all    uapi/linux/remoteproc_cdev.h                            <mailto:linux-remoteproc@vger.kernel.org>
++0xB8  all    uapi/linux/mshv.h                                       Microsoft Hypervisor root partition APIs
++                                                                     <mailto:linux-hyperv@vger.kernel.org>
+ 0xC0  00-0F  linux/usb/iowarrior.h
+ 0xCA  00-0F  uapi/misc/cxl.h
+ 0xCA  10-2F  uapi/misc/ocxl.h
 diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index 530efc29d354..f997f49f8690 100644
---- a/Documentation/virt/mshv/api.rst
+new file mode 100644
+index 000000000000..82e32de48d03
+--- /dev/null
 +++ b/Documentation/virt/mshv/api.rst
-@@ -87,3 +87,12 @@ Note: In the current implementation, this memory is pinned to stop the pages
- being moved by linux and subsequently clobbered by the hypervisor. So the region
- is backed by physical memory.
- 
-+3.4 MSHV_CREATE_VP
-+------------------
-+:Type: partition ioctl
-+:Parameters: struct mshv_create_vp
-+:Returns: vp file descriptor, or -1 on failure
+@@ -0,0 +1,62 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+Create a virtual processor in a guest partition, returning a file descriptor to
-+represent the vp and perform ioctls on.
++=====================================================
++Microsoft Hypervisor Root Partition API Documentation
++=====================================================
++
++1. Overview
++===========
++
++This document describes APIs for creating and managing guest virtual machines
++when running Linux as the root partition on the Microsoft Hypervisor.
++
++This API is not yet stable.
++
++2. Glossary/Terms
++=================
++
++hv
++--
++Short for Hyper-V. This name is used in the kernel to describe interfaces to
++the Microsoft Hypervisor.
++
++mshv
++----
++Short for Microsoft Hypervisor. This is the name of the userland API module
++described in this document.
++
++Partition
++---------
++A virtual machine running on the Microsoft Hypervisor.
++
++Root Partition
++--------------
++The partition that is created and assumes control when the machine boots. The
++root partition can use mshv APIs to create guest partitions.
++
++3. API description
++==================
++
++The module is named mshv and can be configured with CONFIG_HYPERV_ROOT_API.
++
++Mshv is file descriptor-based, following a similar pattern to KVM.
++
++To get a handle to the mshv driver, use open("/dev/mshv").
++
++3.1 MSHV_REQUEST_VERSION
++------------------------
++:Type: /dev/mshv ioctl
++:Parameters: pointer to a u32
++:Returns: 0 on success
++
++Before issuing any other ioctls, a MSHV_REQUEST_VERSION ioctl must be called to
++establish the interface version with the kernel module.
++
++The caller should pass the MSHV_VERSION as an argument.
++
++The kernel module will check which interface versions it supports and return 0
++if one of them matches.
++
++This /dev/mshv file descriptor will remain 'locked' to that version as long as
++it is open - this ioctl can only be called once per open.
 +
 diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index 91a742f37440..50521c5f7948 100644
---- a/include/linux/mshv.h
+new file mode 100644
+index 000000000000..a0982fe2c0b8
+--- /dev/null
 +++ b/include/linux/mshv.h
-@@ -12,6 +12,12 @@
- 
- #define MSHV_MAX_PARTITIONS		128
- #define MSHV_MAX_MEM_REGIONS		64
-+#define MSHV_MAX_VPS			256
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _LINUX_MSHV_H
++#define _LINUX_MSHV_H
 +
-+struct mshv_vp {
-+	u32 index;
-+	struct mshv_partition *partition;
-+};
- 
- struct mshv_mem_region {
- 	u64 size; /* bytes */
-@@ -28,6 +34,10 @@ struct mshv_partition {
- 		u32 count;
- 		struct mshv_mem_region slots[MSHV_MAX_MEM_REGIONS];
- 	} regions;
-+	struct {
-+		u32 count;
-+		struct mshv_vp *array[MSHV_MAX_VPS];
-+	} vps;
- };
- 
- struct mshv {
++/*
++ * Microsoft Hypervisor root partition driver for /dev/mshv
++ */
++
++#include <uapi/linux/mshv.h>
++
++#endif
 diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 47be03ef4e86..1f053eae68a6 100644
---- a/include/uapi/linux/mshv.h
+new file mode 100644
+index 000000000000..dd30fc2f0a80
+--- /dev/null
 +++ b/include/uapi/linux/mshv.h
-@@ -29,6 +29,10 @@ struct mshv_user_mem_region {
- 	__u32 flags;		/* ignored on unmap */
- };
- 
-+struct mshv_create_vp {
-+	__u32 vp_index;
-+};
+@@ -0,0 +1,19 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++#ifndef _UAPI_LINUX_MSHV_H
++#define _UAPI_LINUX_MSHV_H
 +
- #define MSHV_IOCTL 0xB8
- 
- /* mshv device */
-@@ -38,5 +42,6 @@ struct mshv_user_mem_region {
- /* partition device */
- #define MSHV_MAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x02, struct mshv_user_mem_region)
- #define MSHV_UNMAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x03, struct mshv_user_mem_region)
-+#define MSHV_CREATE_VP		_IOW(MSHV_IOCTL, 0x04, struct mshv_create_vp)
- 
- #endif
++/*
++ * Userspace interface for /dev/mshv
++ * Microsoft Hypervisor root partition APIs
++ */
++
++#include <linux/types.h>
++
++#define MSHV_VERSION	0x0
++
++#define MSHV_IOCTL 0xB8
++
++/* mshv device */
++#define MSHV_REQUEST_VERSION	_IOW(MSHV_IOCTL, 0x00, __u32)
++
++#endif
 diff --git a/virt/mshv/mshv_main.c b/virt/mshv/mshv_main.c
-index ce480598e67f..3be9d9a468c1 100644
+index ecb9089761fe..62f631f85301 100644
 --- a/virt/mshv/mshv_main.c
 +++ b/virt/mshv/mshv_main.c
-@@ -30,6 +30,10 @@ static u32 supported_versions[] = {
+@@ -11,25 +11,74 @@
+ #include <linux/module.h>
+ #include <linux/fs.h>
+ #include <linux/miscdevice.h>
++#include <linux/slab.h>
++#include <linux/mshv.h>
  
- static struct mshv mshv = {};
+ MODULE_AUTHOR("Microsoft");
+ MODULE_LICENSE("GPL");
  
-+static int mshv_vp_release(struct inode *inode, struct file *filp);
-+static long mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
++#define MSHV_INVALID_VERSION	0xFFFFFFFF
++#define MSHV_CURRENT_VERSION	MSHV_VERSION
 +
-+static struct mshv_partition *mshv_partition_get(struct mshv_partition *partition);
- static void mshv_partition_put(struct mshv_partition *partition);
- static int mshv_partition_release(struct inode *inode, struct file *filp);
- static long mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
-@@ -37,6 +41,12 @@ static int mshv_dev_open(struct inode *inode, struct file *filp);
- static int mshv_dev_release(struct inode *inode, struct file *filp);
- static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
- 
-+static const struct file_operations mshv_vp_fops = {
-+	.release = mshv_vp_release,
-+	.unlocked_ioctl = mshv_vp_ioctl,
-+	.llseek = noop_llseek,
++static u32 supported_versions[] = {
++	MSHV_CURRENT_VERSION,
 +};
 +
- static const struct file_operations mshv_partition_fops = {
- 	.release = mshv_partition_release,
- 	.unlocked_ioctl = mshv_partition_ioctl,
-@@ -370,6 +380,94 @@ hv_call_unmap_gpa_pages(u64 partition_id,
- 	return ret;
- }
- 
 +static long
-+mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++mshv_ioctl_request_version(u32 *version, void __user *user_arg)
 +{
-+	return -ENOTTY;
-+}
++	u32 arg;
++	int i;
 +
-+static int
-+mshv_vp_release(struct inode *inode, struct file *filp)
-+{
-+	struct mshv_vp *vp = filp->private_data;
-+	mshv_partition_put(vp->partition);
-+
-+	/* Rest of VP cleanup happens in destroy_partition() */
-+	return 0;
-+}
-+
-+static long
-+mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
-+			       void __user *arg)
-+{
-+	struct mshv_create_vp args;
-+	struct mshv_vp *vp;
-+	struct file *file;
-+	int fd;
-+	long ret;
-+
-+	if (copy_from_user(&args, arg, sizeof(args)))
++	if (copy_from_user(&arg, user_arg, sizeof(arg)))
 +		return -EFAULT;
 +
-+	if (args.vp_index >= MSHV_MAX_VPS)
-+		return -EINVAL;
-+
-+	if (partition->vps.array[args.vp_index])
-+		return -EEXIST;
-+
-+	vp = kzalloc(sizeof(*vp), GFP_KERNEL);
-+
-+	if (!vp)
-+		return -ENOMEM;
-+
-+	vp->index = args.vp_index;
-+	vp->partition = mshv_partition_get(partition);
-+	if (!vp->partition) {
-+		ret = -EBADF;
-+		goto free_vp;
++	for (i = 0; i < ARRAY_SIZE(supported_versions); ++i) {
++		if (supported_versions[i] == arg) {
++			*version = supported_versions[i];
++			return 0;
++		}
 +	}
-+
-+	fd = get_unused_fd_flags(O_CLOEXEC);
-+	if (fd < 0) {
-+		ret = fd;
-+		goto put_partition;
-+	}
-+
-+	file = anon_inode_getfile("mshv_vp", &mshv_vp_fops, vp, O_RDWR);
-+	if (IS_ERR(file)) {
-+		ret = PTR_ERR(file);
-+		goto put_fd;
-+	}
-+
-+	ret = hv_call_create_vp(
-+			NUMA_NO_NODE,
-+			partition->id,
-+			args.vp_index,
-+			0 /* Only valid for root partition VPs */
-+			);
-+	if (ret)
-+		goto release_file;
-+
-+	/* already exclusive with the partition mutex for all ioctls */
-+	partition->vps.count++;
-+	partition->vps.array[args.vp_index] = vp;
-+
-+	fd_install(fd, file);
-+
-+	return fd;
-+
-+release_file:
-+	file->f_op->release(file->f_inode, file);
-+put_fd:
-+	put_unused_fd(fd);
-+put_partition:
-+	mshv_partition_put(partition);
-+free_vp:
-+	kfree(vp);
-+
-+	return ret;
++	return -ENOTSUPP;
 +}
 +
  static long
- mshv_partition_ioctl_map_memory(struct mshv_partition *partition,
- 				struct mshv_user_mem_region __user *user_mem)
-@@ -548,6 +646,10 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		ret = mshv_partition_ioctl_unmap_memory(partition,
- 							(void __user *)arg);
- 		break;
-+	case MSHV_CREATE_VP:
-+		ret = mshv_partition_ioctl_create_vp(partition,
-+							(void __user *)arg);
-+		break;
- 	default:
- 		ret = -ENOTTY;
- 	}
-@@ -560,6 +662,7 @@ static void
- destroy_partition(struct mshv_partition *partition)
+ mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
  {
- 	unsigned long flags, page_count;
-+	struct mshv_vp *vp;
- 	struct mshv_mem_region *region;
- 	int i;
- 
-@@ -581,7 +684,7 @@ destroy_partition(struct mshv_partition *partition)
- 	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
- 
- 	/*
--	 * There are no remaining references to the partition or vps,
-+	 * There are no remaining references to the partition,
- 	 * so the remaining cleanup can be lockless
- 	 */
- 
-@@ -591,6 +694,14 @@ destroy_partition(struct mshv_partition *partition)
- 	hv_call_withdraw_memory(U64_MAX, NUMA_NO_NODE, partition->id);
- 
- 	hv_call_delete_partition(partition->id);
-+	
-+	/* Remove vps */
-+	for (i = 0; i < MSHV_MAX_VPS; ++i) {
-+		vp = partition->vps.array[i];
-+		if (!vp)
-+			continue;
-+		kfree(vp);
++	u32 *version = (u32 *)filp->private_data;
++
++	if (ioctl == MSHV_REQUEST_VERSION) {
++		/* Version can only be set once */
++		if (*version != MSHV_INVALID_VERSION)
++			return -EBADFD;
++
++		return mshv_ioctl_request_version(version, (void __user *)arg);
 +	}
- 
- 	/* Remove regions and unpin the pages */
- 	for (i = 0; i < MSHV_MAX_MEM_REGIONS; ++i) {
-@@ -605,6 +716,14 @@ destroy_partition(struct mshv_partition *partition)
- 	kfree(partition);
++
++	/* Version must be set before other ioctls can be called */
++	if (*version == MSHV_INVALID_VERSION)
++		return -EBADFD;
++
++	/* TODO other ioctls */
++
+ 	return -ENOTTY;
  }
  
-+static struct
-+mshv_partition *mshv_partition_get(struct mshv_partition *partition)
-+{
-+	if (refcount_inc_not_zero(&partition->ref_count))
-+		return partition;
-+	return NULL;
-+}
-+
- static void
- mshv_partition_put(struct mshv_partition *partition)
+ static int
+ mshv_dev_open(struct inode *inode, struct file *filp)
  {
++	filp->private_data = kmalloc(sizeof(u32), GFP_KERNEL);
++	if (!filp->private_data)
++		return -ENOMEM;
++	*(u32 *)filp->private_data = MSHV_INVALID_VERSION;
++
+ 	return 0;
+ }
+ 
+ static int
+ mshv_dev_release(struct inode *inode, struct file *filp)
+ {
++	kfree(filp->private_data);
+ 	return 0;
+ }
+ 
 -- 
 2.25.1
 
