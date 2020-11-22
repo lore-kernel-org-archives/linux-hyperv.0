@@ -2,58 +2,39 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 144E6C56201
-	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Nov 2020 16:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E042C63798
+	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Nov 2020 18:24:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C417420782
-	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Nov 2020 16:50:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="DJQ3WuSC";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="DJQ3WuSC"
+	by mail.kernel.org (Postfix) with ESMTP id 294F520760
+	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Nov 2020 18:24:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727938AbgKVQtq (ORCPT
+        id S1728293AbgKVSWq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 22 Nov 2020 11:49:46 -0500
-Received: from bedivere.hansenpartnership.com ([96.44.175.130]:55320 "EHLO
-        bedivere.hansenpartnership.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727317AbgKVQtp (ORCPT
+        Sun, 22 Nov 2020 13:22:46 -0500
+Received: from smtprelay0168.hostedemail.com ([216.40.44.168]:37972 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728117AbgKVSWp (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 22 Nov 2020 11:49:45 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id AB0CF1280302;
-        Sun, 22 Nov 2020 08:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606063784;
-        bh=17TrMRtvefoo+nGHR97pCnj/lxz5M0xWRk4mlB4j/j4=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=DJQ3WuSCh5ONJkQLvrRDKWjtqFtZT1TAPnAUYm6nnSis8bRSxmxTUdD1PrB7UWicY
-         RxKUvvDgawnlhMMDvZIHrNHIQxzEk4H+L7edJ9WYAgYp3e2Z+uWjpWqDuwMfVruTvK
-         GP/WMd/p5KAU/iZA/nGFhNVXHTmLoWjH8aSdKt9E=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id iwIwMm9lBMHQ; Sun, 22 Nov 2020 08:49:44 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::527])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id CCD1012802EA;
-        Sun, 22 Nov 2020 08:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606063784;
-        bh=17TrMRtvefoo+nGHR97pCnj/lxz5M0xWRk4mlB4j/j4=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=DJQ3WuSCh5ONJkQLvrRDKWjtqFtZT1TAPnAUYm6nnSis8bRSxmxTUdD1PrB7UWicY
-         RxKUvvDgawnlhMMDvZIHrNHIQxzEk4H+L7edJ9WYAgYp3e2Z+uWjpWqDuwMfVruTvK
-         GP/WMd/p5KAU/iZA/nGFhNVXHTmLoWjH8aSdKt9E=
-Message-ID: <751803306cd957d0e7ef6a4fc3dbf12ebceaba92.camel@HansenPartnership.com>
+        Sun, 22 Nov 2020 13:22:45 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 5998D18029124;
+        Sun, 22 Nov 2020 18:22:42 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: base07_180d0122735e
+X-Filterd-Recvd-Size: 5347
+Received: from XPS-9350.home (unknown [47.151.128.180])
+        (Authenticated sender: joe@perches.com)
+        by omf13.hostedemail.com (Postfix) with ESMTPA;
+        Sun, 22 Nov 2020 18:22:37 +0000 (UTC)
+Message-ID: <859bae8ddae3238116824192f6ddf1c91a381913.camel@perches.com>
 Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Tom Rix <trix@redhat.com>, Matthew Wilcox <willy@infradead.org>
-Cc:     joe@perches.com, clang-built-linux@googlegroups.com,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+From:   Joe Perches <joe@perches.com>
+To:     Tom Rix <trix@redhat.com>, clang-built-linux@googlegroups.com
+Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         xen-devel@lists.xenproject.org, tboot-devel@lists.sourceforge.net,
         kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
         linux-acpi@vger.kernel.org, devel@acpica.org,
@@ -70,82 +51,118 @@ Cc:     joe@perches.com, clang-built-linux@googlegroups.com,
         coreteam@netfilter.org, alsa-devel@alsa-project.org,
         bpf@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         linux-nfs@vger.kernel.org, patches@opensource.cirrus.com
-Date:   Sun, 22 Nov 2020 08:49:41 -0800
-In-Reply-To: <0819ce06-c462-d4df-d3d9-14931dc5aefc@redhat.com>
+Date:   Sun, 22 Nov 2020 10:22:36 -0800
+In-Reply-To: <6e8c1926-4209-8f10-d0f9-72c875a85a88@redhat.com>
 References: <20201121165058.1644182-1-trix@redhat.com>
-         <20201122032304.GE4327@casper.infradead.org>
-         <ddb08a27-3ca1-fb2e-d51f-4b471f1a56a3@redhat.com>
-         <20201122145635.GG4327@casper.infradead.org>
-         <0819ce06-c462-d4df-d3d9-14931dc5aefc@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+         <2105f0c05e9eae8bee8e17dcc5314474b3c0bc73.camel@perches.com>
+         <6e8c1926-4209-8f10-d0f9-72c875a85a88@redhat.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sun, 2020-11-22 at 08:10 -0800, Tom Rix wrote:
-> On 11/22/20 6:56 AM, Matthew Wilcox wrote:
-> > On Sun, Nov 22, 2020 at 06:46:46AM -0800, Tom Rix wrote:
-> > > On 11/21/20 7:23 PM, Matthew Wilcox wrote:
-> > > > On Sat, Nov 21, 2020 at 08:50:58AM -0800, trix@redhat.com
-> > > > wrote:
-> > > > > The fixer review is
-> > > > > https://reviews.llvm.org/D91789
-> > > > > 
-> > > > > A run over allyesconfig for x86_64 finds 62 issues, 5 are
-> > > > > false positives. The false positives are caused by macros
-> > > > > passed to other macros and by some macro expansions that did
-> > > > > not have an extra semicolon.
-> > > > > 
-> > > > > This cleans up about 1,000 of the current 10,000 -Wextra-
-> > > > > semi-stmt warnings in linux-next.
-> > > > Are any of them not false-positives?  It's all very well to
-> > > > enable stricter warnings, but if they don't fix any bugs,
-> > > > they're just churn.
-> > > > 
-> > > While enabling additional warnings may be a side effect of this
-> > > effort
+On Sun, 2020-11-22 at 08:33 -0800, Tom Rix wrote:
+> On 11/21/20 9:10 AM, Joe Perches wrote:
+> > On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
+> > > A difficult part of automating commits is composing the subsystem
+> > > preamble in the commit log.  For the ongoing effort of a fixer producing
+> > > one or two fixes a release the use of 'treewide:' does not seem appropriate.
 > > > 
-> > > the primary goal is to set up a cleaning robot. After that a
-> > > refactoring robot.
-> > Why do we need such a thing?  Again, it sounds like more churn.
-> > It's really annoying when I'm working on something important that
-> > gets derailed by pointless churn.  Churn also makes it harder to
-> > backport patches to earlier kernels.
+> > > It would be better if the normal prefix was used.  Unfortunately normal is
+> > > not consistent across the tree.
+> > > 
+> > > So I am looking for comments for adding a new tag to the MAINTAINERS file
+> > > 
+> > > 	D: Commit subsystem prefix
+> > > 
+> > > ex/ for FPGA DFL DRIVERS
+> > > 
+> > > 	D: fpga: dfl:
+> > I'm all for it.  Good luck with the effort.  It's not completely trivial.
 > > 
-> A refactoring example on moving to treewide, consistent use of a new
-> api may help.
+> > From a decade ago:
+> > 
+> > https://lore.kernel.org/lkml/1289919077.28741.50.camel@Joe-Laptop/
+> > 
+> > (and that thread started with extra semicolon patches too)
 > 
-> Consider
+> Reading the history, how about this.
 > 
-> 2efc459d06f1630001e3984854848a5647086232
+> get_maintainer.pl outputs a single prefix, if multiple files have the
+> same prefix it works, if they don't its an error.
 > 
-> sysfs: Add sysfs_emit and sysfs_emit_at to format sysfs output
-> 
-> A new api for printing in the sysfs.  How do we use it treewide ?
-> 
-> Done manually, it would be a heroic effort requiring high level
-> maintainers pushing and likely only get partially done.
-> 
-> If a refactoring programatic fixit is done and validated on a one
-> subsystem, it can run on all the subsystems.
-> 
-> The effort is a couple of weeks to write and validate the fixer,
-> hours to run over the tree.
-> 
-> It won't be perfect but will be better than doing it manually.
+> Another script 'commit_one_file.sh' does the call to get_mainainter.pl
+> to get the prefix and be called by run-clang-tools.py to get the fixer
+> specific message.
 
-Here's a thought: perhaps we don't.  sysfs_emit isn't a "new api" its a
-minor rewrap of existing best practice.  The damage caused by the churn
-of forcing its use everywhere would far outweigh any actual benefit
-because pretty much every bug in this area has already been caught and
-killed by existing tools.  We can enforce sysfs_emit going forwards
-using tools like checkpatch but there's no benefit and a lot of harm to
-be done by trying to churn the entire tree retrofitting it (both in
-terms of review time wasted as well as patch series derailed).
+It's not whether the script used is get_maintainer or any other script,
+the question is really if the MAINTAINERS file is the appropriate place
+to store per-subsystem patch specific prefixes.
 
-James
+It is.
+
+Then the question should be how are the forms described and what is the
+inheritance priority.  My preference would be to have a default of
+inherit the parent base and add basename(subsystem dirname).
+
+Commit history seems to have standardized on using colons as the separator
+between the commit prefix and the subject.
+
+A good mechanism to explore how various subsystems have uses prefixes in
+the past might be something like:
+
+$ git log --no-merges --pretty='%s' -<commit_count> <subsystem_path> | \
+  perl -n -e 'print substr($_, 0, rindex($_, ":") + 1) . "\n";' | \
+  sort | uniq -c | sort -rn
+
+Using 10000 for commit_count and drivers/scsi for subsystem_path, the
+top 40 entries are below:
+
+About 1% don't have a colon, and there is no real consistency even
+within individual drivers below scsi.  For instance, qla2xxx:
+
+     1	    814 scsi: qla2xxx:
+     2	    691 scsi: lpfc:
+     3	    389 scsi: hisi_sas:
+     4	    354 scsi: ufs:
+     5	    339 scsi:
+     6	    291 qla2xxx:
+     7	    256 scsi: megaraid_sas:
+     8	    249 scsi: mpt3sas:
+     9	    200 hpsa:
+    10	    190 scsi: aacraid:
+    11	    174 lpfc:
+    12	    153 scsi: qedf:
+    13	    144 scsi: smartpqi:
+    14	    139 scsi: cxlflash:
+    15	    122 scsi: core:
+    16	    110 [SCSI] qla2xxx:
+    17	    108 ncr5380:
+    18	     98 scsi: hpsa:
+    19	     97 
+    20	     89 treewide:
+    21	     88 mpt3sas:
+    22	     86 scsi: libfc:
+    23	     85 scsi: qedi:
+    24	     84 scsi: be2iscsi:
+    25	     81 [SCSI] qla4xxx:
+    26	     81 hisi_sas:
+    27	     81 block:
+    28	     75 megaraid_sas:
+    29	     71 scsi: sd:
+    30	     69 [SCSI] hpsa:
+    31	     68 cxlflash:
+    32	     65 scsi: libsas:
+    33	     65 scsi: fnic:
+    34	     61 scsi: scsi_debug:
+    35	     60 scsi: arcmsr:
+    36	     57 be2iscsi:
+    37	     53 atp870u:
+    38	     51 scsi: bfa:
+    39	     50 scsi: storvsc:
+    40	     48 sd:
 
 
