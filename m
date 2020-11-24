@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80032C83012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41058C63777
 	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 528F320715
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F15F520857
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390545AbgKXRHv (ORCPT
+        id S2390579AbgKXRHw (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:07:51 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38099 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390452AbgKXRHv (ORCPT
+        Tue, 24 Nov 2020 12:07:52 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:55035 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729093AbgKXRHw (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:07:51 -0500
-Received: by mail-wm1-f67.google.com with SMTP id 1so3624738wme.3;
-        Tue, 24 Nov 2020 09:07:49 -0800 (PST)
+        Tue, 24 Nov 2020 12:07:52 -0500
+Received: by mail-wm1-f68.google.com with SMTP id d142so3036657wmd.4;
+        Tue, 24 Nov 2020 09:07:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+I7gc45xFJIk2c97apTvkR8acQbtMFTm1lgQrn5j0J4=;
-        b=UsfU6gAEVmFR3VV4VT6DdZFl+fIsp9xD+MYNrqq0P5Fj/Re4y7wt9shWuvGH0+8o9W
-         8HtHjRjEJEpKphgPRHr99ZV0+YQ9XyGowH98gA633AjKtQhsBhLrA7XsU5gnUErU6lzP
-         JIFPX1ScplUePNo/5pQ60lp0zgbkxC6S9yYXxWzCUXb2Tm8ThGxDQLR0zzdXRi1xkZWV
-         ihfS/ktyIJyitQesHb2Zw80dXSjkozae9r6T5a1GUwLqOJgSSo3Y3GKio69OVcG30pcY
-         MnUilfAh0izDHiz3D+g1BacUZpBtHXKS720nXRecbUXO/wyVkJ3DaQgkc81isi1FpenI
-         N77Q==
-X-Gm-Message-State: AOAM533rXQM6Gq/TdpX3IEe0LDL4uBS892ka9brxM85d7JxLOUuU0ryp
-        lxTyLj0hi6HeZokekc72S3+KfDGsZfA=
-X-Google-Smtp-Source: ABdhPJziu45XA6Aj3ZvrkHT3tD1ps+oa2J+mgCjiiB2+B2M9gaa0WZ7+5RMtbWJyJeJk397CHw0o8A==
-X-Received: by 2002:a1c:e289:: with SMTP id z131mr5509541wmg.80.1606237669019;
-        Tue, 24 Nov 2020 09:07:49 -0800 (PST)
+        bh=ZKmhSPX4j4dhn/f/ifRtYGYc7hU6N0WJ35NAyU50tx8=;
+        b=ubvJUyXZgExMGkDj9NyqODg9lcM1egAGNq5ivdxFOViKf0UjdT7qAM2/Y6b/8RVgE1
+         iuSRDo3bpDWqF4N8xpkD0/XXHMvXqunCczfdKjJcxv7rfNtrxgwS7Ctfks7pYrC2Xgge
+         Eu/EsU1q8wkokctDEVYuyfm4CUfZmjHA1JK50xBxf9nRGM8U877k4h9ItrhPxbAcj5dQ
+         od4fT/CAUPR8zq7jZfOPApcYU6MJ+UNMNTRMxwYyvstz76FzSfuHUpvfVUIFYwlhUIgj
+         IULJbGtOZvpK3QZ57P3KmMpgzQHi39JXP6DaqHxdSGfvd/u9ZvGuFRGK8swX/q/za1y2
+         j66w==
+X-Gm-Message-State: AOAM5327g5KfipNXj9TtIERLODylEEA9NQHCbOnM0aBdtKFEM86pNVTA
+        uzBTHGOSbzSvCRFrQiHNOPmjlt++/bE=
+X-Google-Smtp-Source: ABdhPJxgeO/vwhe8jhR8vwKdh8RzW01exk08yMcJFmii7SQwvSaZ0PYIjDOc7N8OLLeJm/NkdjIjkw==
+X-Received: by 2002:a7b:c11a:: with SMTP id w26mr5368181wmi.131.1606237671003;
+        Tue, 24 Nov 2020 09:07:51 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.48
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:07:48 -0800 (PST)
+        Tue, 24 Nov 2020 09:07:50 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -51,15 +51,12 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v3 01/17] asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to HV_CPU_MANAGEMENT
-Date:   Tue, 24 Nov 2020 17:07:28 +0000
-Message-Id: <20201124170744.112180-2-wei.liu@kernel.org>
+        Stephen Hemminger <sthemmin@microsoft.com>
+Subject: [PATCH v3 03/17] Drivers: hv: vmbus: skip VMBus initialization if Linux is root
+Date:   Tue, 24 Nov 2020 17:07:30 +0000
+Message-Id: <20201124170744.112180-4-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
 References: <20201124170744.112180-1-wei.liu@kernel.org>
@@ -69,27 +66,30 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This makes the name match Hyper-V TLFS.
+There is no VMBus and the other infrastructures initialized in
+hv_acpi_init when Linux is running as the root partition.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- include/asm-generic/hyperv-tlfs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: Return 0 instead of -ENODEV.
+---
+ drivers/hv/vmbus_drv.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index e73a11850055..e6903589a82a 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -88,7 +88,7 @@
- #define HV_CONNECT_PORT				BIT(7)
- #define HV_ACCESS_STATS				BIT(8)
- #define HV_DEBUGGING				BIT(11)
--#define HV_CPU_POWER_MANAGEMENT			BIT(12)
-+#define HV_CPU_MANAGEMENT			BIT(12)
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 4fad3e6745e5..23f5bce8f242 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2612,6 +2612,9 @@ static int __init hv_acpi_init(void)
+ 	if (!hv_is_hyperv_initialized())
+ 		return -ENODEV;
  
++	if (hv_root_partition)
++		return 0;
++
+ 	init_completion(&probe_event);
  
- /*
+ 	/*
 -- 
 2.20.1
 
