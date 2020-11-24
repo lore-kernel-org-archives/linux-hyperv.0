@@ -2,46 +2,46 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9009C2D0E4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F64C64E7A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 668C620897
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8843121D1A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390468AbgKXRHv (ORCPT
+        id S2390680AbgKXRH4 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:07:51 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39151 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729093AbgKXRHu (ORCPT
+        Tue, 24 Nov 2020 12:07:56 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40945 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390461AbgKXRH4 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:07:50 -0500
-Received: by mail-wr1-f65.google.com with SMTP id e7so5551235wrv.6;
-        Tue, 24 Nov 2020 09:07:48 -0800 (PST)
+        Tue, 24 Nov 2020 12:07:56 -0500
+Received: by mail-wm1-f68.google.com with SMTP id a3so3623159wmb.5;
+        Tue, 24 Nov 2020 09:07:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=82SVcZtoufloCmFA+eRjPEG1+4hQfFhjOuXcAVoGVao=;
-        b=SCHk0MxmnV0x+Okc76ZMiqSm1sn4ybUoMU3vSOSDbkpQo75oi5OixaJkxmwc5R7jf7
-         jRDgVaEF6NIzmdrR4eDgagFpVk6gaZzBz0pEtdLIQq+RFwk/ni0umzbAOFRmBc5HH6ya
-         fKpd71amHUzD5FFeN96pGI2mvqS0CST4P3R14dAEZIUZM1D7sl1AElLJwMVA0E58SwAM
-         IAb5bUMtcSHfANML1cuHNl8wzMPGhgw/5IEV0qlvB6rTycDiX9L6rr8+KdWcYuxBhG4t
-         sKNWI1j/BcILWTngAVd+ZBvRonL1agCluhYBMH735WyfHHKqXZ/0fa1gbs+I5QaREwKa
-         hoDQ==
-X-Gm-Message-State: AOAM531nJwnyxOzKroHbzh6NuaqkHuv2xsebhUnNUmHAeskM3OEWxUt4
-        ScxmGUsYt8y9Yf0/eQPsR67oIEZc6+o=
-X-Google-Smtp-Source: ABdhPJwVh0JUJFbVVc1Xm8psuvuFn9Sm1sc4OjPxcLjr1Zt2Ff+TFPC2YOtN88UQCO9J4QKSWg6YhA==
-X-Received: by 2002:adf:a3ca:: with SMTP id m10mr6358574wrb.228.1606237668188;
-        Tue, 24 Nov 2020 09:07:48 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1AnwUhpK3uc/E6NKbzj7KMKk+WsZG+5G79p8q0Z4Cfs=;
+        b=IcRcPywkd72q3i4abo8KwqWwkALd9SncgIYIIFeWGgUI7kAdUArsvoahtXCu1+8NQd
+         JAAcgVaq+YMDhM/aPM6YmlklwbiM4VcW1WfP0ZcLUMfZpLZjXbwpwiSPqUBAEF2Hjwr5
+         c3NLQ0aIVanstdxOpwLtwWFXjBXjfvSG6um9fwTfjJetgD9AqiDlQ1A7LDPb1kj7n3Kp
+         REQV8qzDJXsC1l3V5HXExmTNFL1TZhhY17uyJXGo/JNccuR1xQhqefULChwSZ13D8mwV
+         jsKqABKIo6I4JBh5Fw4UxgNguf0OsTcgm/OXk+Vr7a3EfLZsvdsflgSHNjfDpAKhm36X
+         4hOQ==
+X-Gm-Message-State: AOAM530+38DiDzV80KxPWd3EO+IL3lzwNCGV3xiBssz+XPrYXI2FCCWI
+        L/U+GcuEGxRUjugqnkAkiaNB2wFKa8g=
+X-Google-Smtp-Source: ABdhPJwLH8ZwoC4+wfzsN9zkSQOdRY+u89NgsaIK+/cjutVoGM+nMbkSNGGtEzO9+OKzFiwV0R+Kcg==
+X-Received: by 2002:a1c:7d10:: with SMTP id y16mr5601435wmc.142.1606237673890;
+        Tue, 24 Nov 2020 09:07:53 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.46
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:07:47 -0800 (PST)
+        Tue, 24 Nov 2020 09:07:53 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,100 +50,132 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, sameo@linux.intel.com,
-        robert.bradford@intel.com, sebastien.boeuf@intel.com
-Subject: [PATCH v3 00/17] Introducing Linux root partition support for Microsoft Hypervisor
-Date:   Tue, 24 Nov 2020 17:07:27 +0000
-Message-Id: <20201124170744.112180-1-wei.liu@kernel.org>
+        Wei Liu <wei.liu@kernel.org>,
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v3 06/17] x86/hyperv: allocate output arg pages if required
+Date:   Tue, 24 Nov 2020 17:07:33 +0000
+Message-Id: <20201124170744.112180-7-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
+References: <20201124170744.112180-1-wei.liu@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all
+When Linux runs as the root partition, it will need to make hypercalls
+which return data from the hypervisor.
 
-Here we propose this patch series to make Linux run as the root partition [0]
-on Microsoft Hypervisor [1]. There will be a subsequent patch series to provide a
-device node (/dev/mshv) such that userspace programs can create and run virtual
-machines. We've also ported Cloud Hypervisor [3] over and have been able to
-boot a Linux guest with Virtio devices since late July.
+Allocate pages for storing results when Linux runs as the root
+partition.
 
-Being an RFC sereis, this implements only the absolutely necessary
-components to get things running.  I will break down this series a bit.
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+v3: Fix hv_cpu_die to use free_pages.
+v2: Address Vitaly's comments
+---
+ arch/x86/hyperv/hv_init.c       | 35 ++++++++++++++++++++++++++++-----
+ arch/x86/include/asm/mshyperv.h |  1 +
+ 2 files changed, 31 insertions(+), 5 deletions(-)
 
-A large portion of this series consists of patches that augment hyperv-tlfs.h.
-They should be rather uncontroversial and can be applied right away.
-
-A few key things other than the changes to hyperv-tlfs.h:
-
-1. Linux needs to setup existing Hyper-V facilities differently.
-2. Linux needs to make a few hypercalls to bring up APs.
-3. Interrupts are remapped by IOMMU, which is controlled by the hypervisor.
-   Linux needs to make hypercalls to map and unmap interrupts. This is
-   done by introducing a new MSI irqdomain and new irqchips.
-
-This series is now based on 5.10-rc1. And thanks to tglx's overhaul of
-the MSI code, our implementation of the MSI irq domain is shorter.
-
-Comments and suggestions are welcome.
-
-Thanks,
-Wei.
-
-Cc: sameo@linux.intel.com
-Cc: robert.bradford@intel.com
-Cc: sebastien.boeuf@intel.com
-
-Changes since v2:
-1. Address more comments from Vitaly.
-2. Fix and test 32bit build.
-
-Changes since v1:
-1. Simplify MSI IRQ domain implementation.
-2. Address Vitaly's comments.
-
-Wei Liu (17):
-  asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to
-    HV_CPU_MANAGEMENT
-  x86/hyperv: detect if Linux is the root partition
-  Drivers: hv: vmbus: skip VMBus initialization if Linux is root
-  iommu/hyperv: don't setup IRQ remapping when running as root
-  clocksource/hyperv: use MSR-based access if running as root
-  x86/hyperv: allocate output arg pages if required
-  x86/hyperv: extract partition ID from Microsoft Hypervisor if
-    necessary
-  x86/hyperv: handling hypercall page setup for root
-  x86/hyperv: provide a bunch of helper functions
-  x86/hyperv: implement and use hv_smp_prepare_cpus
-  asm-generic/hyperv: update hv_msi_entry
-  asm-generic/hyperv: update hv_interrupt_entry
-  asm-generic/hyperv: introduce hv_device_id and auxiliary structures
-  asm-generic/hyperv: import data structures for mapping device
-    interrupts
-  x86/hyperv: implement an MSI domain for root partition
-  x86/ioapic: export a few functions and data structures via io_apic.h
-  x86/hyperv: handle IO-APIC when running as root
-
- arch/x86/hyperv/Makefile            |   4 +-
- arch/x86/hyperv/hv_init.c           | 121 +++++-
- arch/x86/hyperv/hv_proc.c           | 215 +++++++++++
- arch/x86/hyperv/irqdomain.c         | 556 ++++++++++++++++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h  |  23 ++
- arch/x86/include/asm/io_apic.h      |  21 ++
- arch/x86/include/asm/mshyperv.h     |  13 +-
- arch/x86/kernel/apic/io_apic.c      |  28 +-
- arch/x86/kernel/cpu/mshyperv.c      |  49 +++
- drivers/clocksource/hyperv_timer.c  |   3 +
- drivers/hv/vmbus_drv.c              |   3 +
- drivers/iommu/hyperv-iommu.c        |   3 +-
- drivers/pci/controller/pci-hyperv.c |   2 +-
- include/asm-generic/hyperv-tlfs.h   | 254 ++++++++++++-
- 14 files changed, 1257 insertions(+), 38 deletions(-)
- create mode 100644 arch/x86/hyperv/hv_proc.c
- create mode 100644 arch/x86/hyperv/irqdomain.c
-
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index e04d90af4c27..6f4cb40e53fe 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -41,6 +41,9 @@ EXPORT_SYMBOL_GPL(hv_vp_assist_page);
+ void  __percpu **hyperv_pcpu_input_arg;
+ EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+ 
++void  __percpu **hyperv_pcpu_output_arg;
++EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
++
+ u32 hv_max_vp_index;
+ EXPORT_SYMBOL_GPL(hv_max_vp_index);
+ 
+@@ -73,12 +76,19 @@ static int hv_cpu_init(unsigned int cpu)
+ 	void **input_arg;
+ 	struct page *pg;
+ 
+-	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+ 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
+-	pg = alloc_page(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
++	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, hv_root_partition ? 1 : 0);
+ 	if (unlikely(!pg))
+ 		return -ENOMEM;
++
++	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+ 	*input_arg = page_address(pg);
++	if (hv_root_partition) {
++		void **output_arg;
++
++		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
++		*output_arg = page_address(pg + 1);
++	}
+ 
+ 	hv_get_vp_index(msr_vp_index);
+ 
+@@ -205,14 +215,23 @@ static int hv_cpu_die(unsigned int cpu)
+ 	unsigned int new_cpu;
+ 	unsigned long flags;
+ 	void **input_arg;
+-	void *input_pg = NULL;
++	void *pg;
+ 
+ 	local_irq_save(flags);
+ 	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
+-	input_pg = *input_arg;
++	pg = *input_arg;
+ 	*input_arg = NULL;
++
++	if (hv_root_partition) {
++		void **output_arg;
++
++		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
++		*output_arg = NULL;
++	}
++
+ 	local_irq_restore(flags);
+-	free_page((unsigned long)input_pg);
++
++	free_pages((unsigned long)pg, hv_root_partition ? 1 : 0);
+ 
+ 	if (hv_vp_assist_page && hv_vp_assist_page[cpu])
+ 		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
+@@ -346,6 +365,12 @@ void __init hyperv_init(void)
+ 
+ 	BUG_ON(hyperv_pcpu_input_arg == NULL);
+ 
++	/* Allocate the per-CPU state for output arg for root */
++	if (hv_root_partition) {
++		hyperv_pcpu_output_arg = alloc_percpu(void *);
++		BUG_ON(hyperv_pcpu_output_arg == NULL);
++	}
++
+ 	/* Allocate percpu VP index */
+ 	hv_vp_index = kmalloc_array(num_possible_cpus(), sizeof(*hv_vp_index),
+ 				    GFP_KERNEL);
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index ac2b0d110f03..62d9390f1ddf 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -76,6 +76,7 @@ static inline void hv_disable_stimer0_percpu_irq(int irq) {}
+ #if IS_ENABLED(CONFIG_HYPERV)
+ extern void *hv_hypercall_pg;
+ extern void  __percpu  **hyperv_pcpu_input_arg;
++extern void  __percpu  **hyperv_pcpu_output_arg;
+ 
+ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ {
 -- 
 2.20.1
 
