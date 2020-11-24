@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A39C7C64E90
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B43C2D0E4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6484720897
+	by mail.kernel.org (Postfix) with ESMTP id EB5D320897
 	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390722AbgKXRIC (ORCPT
+        id S2390732AbgKXRIE (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:08:02 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36812 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390675AbgKXRH6 (ORCPT
+        Tue, 24 Nov 2020 12:08:04 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53600 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390674AbgKXRID (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:07:58 -0500
-Received: by mail-wr1-f67.google.com with SMTP id z7so7269914wrn.3;
-        Tue, 24 Nov 2020 09:07:56 -0800 (PST)
+        Tue, 24 Nov 2020 12:08:03 -0500
+Received: by mail-wm1-f68.google.com with SMTP id p22so3046858wmg.3;
+        Tue, 24 Nov 2020 09:08:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ECNX1WrK2HKJq0miQELnifiiUacgKjt/44MKsDI+NUo=;
-        b=YdH2P2jXsMQKNU9xkFMWlu2viHMYEldIkP1flHsGvQgxvARjUHepHmR3S5JLM/f5SA
-         CJ/enz3KKwztrz+uQiDjbYdiU+3q26GuRf0BUdUKkxkiumYmMW1dlzkeqOF7qfhUqB0e
-         ePHBfQlAy/7atbJLj/GR0zZsDngCzyRqgn6phzHR3pvg5iyxGqMHB8qHfT6vskEB+qCP
-         B1NrajZGvJz1n7LIMd1/nCWuzJ2NGwZ+jirBVUgF9Cqj0gvwsDpvnkGQiQmNKEbsZdNH
-         dEyn9n1ACVg/h13mHduWoUz60kIvMJHM7XA4+2kQHvJlbarirW14xoBPh9iqr2gdcf+w
-         f/eQ==
-X-Gm-Message-State: AOAM533UMMiYRPI5RpeiGlmqlLUGLRmMJlMUmDdzfG65t8xtfWKl9qZL
-        E7mPr6uCIb+ggMm7opXnJIOTOW/PwrI=
-X-Google-Smtp-Source: ABdhPJxu8RohG8v7/56cc0FvOdSK2S5LH6+IzqWHjHXpTBFXWIz0Wp599wT2RcN5QurbvIKH+yaAIQ==
-X-Received: by 2002:adf:f944:: with SMTP id q4mr6298016wrr.120.1606237676092;
-        Tue, 24 Nov 2020 09:07:56 -0800 (PST)
+        bh=DAKijZroIKQByX8CE0+1w/bE11gheXfs1vD8PWKgeTU=;
+        b=RK2G1CpGGNya9WcKCxGm4lqqnwHChLZ9M0NBrvPzZe40gXC6CPTe5+WQms3dPjxI1E
+         7VjBQhF0lEkqaoTC4pfpUHXYuv72mXbzYNgY7K1gDdxew5aJbQnHbsI6a9857TzW7YS2
+         xlQWVnmAibXNNMxm6R7G9SElin3NG51R+hNZv6OUy4wtWABGR/FuJWFkkTpFiH24Uasb
+         6Ob8dofxqp0JGbsAB8NEzPek+JtGA/X1+LUExBx4M+LuqBCNQjYglPdnukUUDhNIyU96
+         utOdq1PH7kcFvOmrdhvVeaOOmb9W5aZreAoCxo1sgs+BSBi27/262G6iQeSxb3tkoCqh
+         49Dg==
+X-Gm-Message-State: AOAM5312YBAtFtd5BIdORlVuWhLAJfaYNqDuYPEdIcOkMP2KB3gzfQ7R
+        W3yRzP93zbU9afSxml1fu2OuG4XRrbg=
+X-Google-Smtp-Source: ABdhPJzuspN0QqJbsAekcMvy+bG487Tf/0vZ2st7hEJvszJ7Z3duEaK/KQiValK1UVYZhxQdfCTvUQ==
+X-Received: by 2002:a1c:660b:: with SMTP id a11mr5470751wmc.159.1606237681096;
+        Tue, 24 Nov 2020 09:08:01 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.55
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.08.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:07:55 -0800 (PST)
+        Tue, 24 Nov 2020 09:08:00 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -51,17 +51,17 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Lillian Grassin-Drake <ligrassi@microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v3 08/17] x86/hyperv: handling hypercall page setup for root
-Date:   Tue, 24 Nov 2020 17:07:35 +0000
-Message-Id: <20201124170744.112180-9-wei.liu@kernel.org>
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH v3 11/17] asm-generic/hyperv: update hv_msi_entry
+Date:   Tue, 24 Nov 2020 17:07:38 +0000
+Message-Id: <20201124170744.112180-12-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
 References: <20201124170744.112180-1-wei.liu@kernel.org>
@@ -71,96 +71,77 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When Linux is running as the root partition, the hypercall page will
-have already been setup by Hyper-V. Copy the content over to the
-allocated page.
+We will soon need to access fields inside the MSI address and MSI data
+fields. Introduce hv_msi_address_register and hv_msi_data_register.
 
-Add checks to hv_suspend & co to bail early because they are not
-supported in this setup yet.
+Fix up one user of hv_msi_entry in mshyperv.h.
 
-Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+No functional change expected.
+
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
-v3:
-1. Use HV_HYP_PAGE_SIZE.
-2. Add checks to hv_suspend & co.
----
- arch/x86/hyperv/hv_init.c | 37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/mshyperv.h   |  4 ++--
+ include/asm-generic/hyperv-tlfs.h | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index fc9941bd8653..ad8e77859b32 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -25,6 +25,7 @@
- #include <linux/cpuhotplug.h>
- #include <linux/syscore_ops.h>
- #include <clocksource/hyperv_timer.h>
-+#include <linux/highmem.h>
- 
- u64 hv_current_partition_id = ~0ull;
- EXPORT_SYMBOL_GPL(hv_current_partition_id);
-@@ -283,6 +284,9 @@ static int hv_suspend(void)
- 	union hv_x64_msr_hypercall_contents hypercall_msr;
- 	int ret;
- 
-+	if (hv_root_partition)
-+		return -EPERM;
-+
- 	/*
- 	 * Reset the hypercall page as it is going to be invalidated
- 	 * accross hibernation. Setting hv_hypercall_pg to NULL ensures
-@@ -433,8 +437,35 @@ void __init hyperv_init(void)
- 
- 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
- 	hypercall_msr.enable = 1;
--	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
--	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-+
-+	if (hv_root_partition) {
-+		struct page *pg;
-+		void *src, *dst;
-+
-+		/*
-+		 * For the root partition, the hypervisor will set up its
-+		 * hypercall page. The hypervisor guarantees it will not show
-+		 * up in the root's address space. The root can't change the
-+		 * location of the hypercall page.
-+		 *
-+		 * Order is important here. We must enable the hypercall page
-+		 * so it is populated with code, then copy the code to an
-+		 * executable page.
-+		 */
-+		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-+
-+		pg = vmalloc_to_page(hv_hypercall_pg);
-+		dst = kmap(pg);
-+		src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
-+				MEMREMAP_WB);
-+		BUG_ON(!(src && dst));
-+		memcpy(dst, src, HV_HYP_PAGE_SIZE);
-+		memunmap(src);
-+		kunmap(pg);
-+	} else {
-+		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
-+		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-+	}
- 
- 	/*
- 	 * Ignore any errors in setting up stimer clockevents
-@@ -577,6 +608,6 @@ EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
- 
- bool hv_is_hibernation_supported(void)
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 4e590a167160..cbee72550a12 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -257,8 +257,8 @@ static inline void hv_apic_init(void) {}
+ static inline void hv_set_msi_entry_from_desc(union hv_msi_entry *msi_entry,
+ 					      struct msi_desc *msi_desc)
  {
--	return acpi_sleep_state_supported(ACPI_STATE_S4);
-+	return !hv_root_partition && acpi_sleep_state_supported(ACPI_STATE_S4);
+-	msi_entry->address = msi_desc->msg.address_lo;
+-	msi_entry->data = msi_desc->msg.data;
++	msi_entry->address.as_uint32 = msi_desc->msg.address_lo;
++	msi_entry->data.as_uint32 = msi_desc->msg.data;
  }
- EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
+ 
+ #else /* CONFIG_HYPERV */
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index ec53570102f0..7e103be42799 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -480,12 +480,36 @@ struct hv_create_vp {
+ 	u64 flags;
+ } __packed;
+ 
++union hv_msi_address_register {
++	u32 as_uint32;
++	struct {
++		u32 reserved1:2;
++		u32 destination_mode:1;
++		u32 redirection_hint:1;
++		u32 reserved2:8;
++		u32 destination_id:8;
++		u32 msi_base:12;
++	};
++} __packed;
++
++union hv_msi_data_register {
++	u32 as_uint32;
++	struct {
++		u32 vector:8;
++		u32 delivery_mode:3;
++		u32 reserved1:3;
++		u32 level_assert:1;
++		u32 trigger_mode:1;
++		u32 reserved2:16;
++	};
++} __packed;
++
+ /* HvRetargetDeviceInterrupt hypercall */
+ union hv_msi_entry {
+ 	u64 as_uint64;
+ 	struct {
+-		u32 address;
+-		u32 data;
++		union hv_msi_address_register address;
++		union hv_msi_data_register data;
+ 	} __packed;
+ };
+ 
 -- 
 2.20.1
 
