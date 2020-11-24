@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E521C8300F
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5425C6379D
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6096820897
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF6AA20897
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390739AbgKXRIH (ORCPT
+        id S2403840AbgKXRIP (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:08:07 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51121 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390675AbgKXRIG (ORCPT
+        Tue, 24 Nov 2020 12:08:15 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:33255 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403819AbgKXRIM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:08:06 -0500
-Received: by mail-wm1-f66.google.com with SMTP id c198so3070830wmd.0;
-        Tue, 24 Nov 2020 09:08:02 -0800 (PST)
+        Tue, 24 Nov 2020 12:08:12 -0500
+Received: by mail-wr1-f65.google.com with SMTP id u12so23153096wrt.0;
+        Tue, 24 Nov 2020 09:08:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5ffZGnFfG/i7fEcgkAsrxXNlo5GdKz18dLPh/88U9IU=;
-        b=ME8lq3TTuUGKAKkjOa4RKGhcmeev0vL5+/7zdmtfkMcr8ZP4v6fXsNZGPJ5tI37hZA
-         eiPRqnpUmK4b0XOxb2r7oXMw0zk1z8tkK0hEo0wfYLpHizLu+T6ZF3KcMyaNa7fHdPvC
-         2ya2XLdcfFlwCpIfFFmJimqabGksPBpL2H9XRICwd9j0iZyMDP37jr7QI6ETURgbxsAr
-         sOqwQwmFdU1wjkp/iQwnp6dNc1lbkTWucg7GHBTbHAXEhZD2ius0aRNngpBQDDEpNruA
-         9QCCEfl6uxP2KKUyupmK9XQcrzoJt4JsM3csqQ3amPRWtej/SmWu79lN4sZOtQjtphlD
-         eYxA==
-X-Gm-Message-State: AOAM533O0LY9qnmbR9pIzrl+Az6M+z/hvZiQ9Fass6MjjroGGGRAukUA
-        jPMWpKzmo3y7p8AfDYTnCKkTIIw4VkY=
-X-Google-Smtp-Source: ABdhPJwNAx8esns+9LhW4C9Cze4NzsfMzKDNqMcnyScN7Iu4DxanSLymHehkeJCauc2XjjLW/u0dlA==
-X-Received: by 2002:a1c:35c2:: with SMTP id c185mr5612923wma.74.1606237682063;
-        Tue, 24 Nov 2020 09:08:02 -0800 (PST)
+        bh=iGYCPoxbPXb/Nle4GGVqLIpoK4S0/Gv0sux/bkFSTu8=;
+        b=qNu5Xxlk+mlT23nNVb6v2vEybyvSRjpCvcF81QB5lFQT9KlwzLwYZCQ4gL7c42z4TE
+         DAFbuxTVW8VM+HkHB5/sp4rN3ctI5OoqrL1y5Q8ZbN2K+f/c2enthUYyA9hkeEWOuhUI
+         UirR1uAulm0nnKntLHMsVgo9hl39THQIHFuugPN6MTgSnGrdXiSkYVJzsgkkAwNcRW0a
+         PJ0BH5RG7DHxE6aaIpbNp4aiW+4z5C9n/zpbhaiTYmjfK0hjr8F436dMnEJ6zvRKUPjv
+         ZD/TQy3p7KxYouLca9nbTCYYZwIRDY33+BG7o9suHbMWRkdnFl4r9zLxVHIyMQPhl5AE
+         +B2A==
+X-Gm-Message-State: AOAM532fjo4awa2Bf9JvIcEOjW9VX3DIzAggmV1T72xZ4mbuThbTmxIf
+        31UltbaY/56KXzjI1nzWVQPUVQIRhV8=
+X-Google-Smtp-Source: ABdhPJzH40MJHwFyLSVqaX3y4aV9OCQoXV6zgYb79xH8HNB6xaV29S/BhhOBKExaYxzkea/xq4Ee8Q==
+X-Received: by 2002:adf:a1c2:: with SMTP id v2mr6464916wrv.95.1606237690231;
+        Tue, 24 Nov 2020 09:08:10 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.08.01
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.08.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:08:01 -0800 (PST)
+        Tue, 24 Nov 2020 09:08:09 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,19 +50,19 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Rob Herring <robh@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <jroedel@suse.de>,
         Bjorn Helgaas <bhelgaas@google.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-pci@vger.kernel.org (open list:PCI NATIVE HOST BRIDGE AND
-        ENDPOINT DRIVERS),
-        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v3 12/17] asm-generic/hyperv: update hv_interrupt_entry
-Date:   Tue, 24 Nov 2020 17:07:39 +0000
-Message-Id: <20201124170744.112180-13-wei.liu@kernel.org>
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jon Derrick <jonathan.derrick@intel.com>,
+        YueHaibing <yuehaibing@huawei.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: [PATCH v3 16/17] x86/ioapic: export a few functions and data structures via io_apic.h
+Date:   Tue, 24 Nov 2020 17:07:43 +0000
+Message-Id: <20201124170744.112180-17-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
 References: <20201124170744.112180-1-wei.liu@kernel.org>
@@ -72,90 +72,148 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-We will soon use the same structure to handle IO-APIC interrupts as
-well. Introduce an enum to identify the source and a data structure for
-IO-APIC RTE.
+We are about to implement an irqchip for IO-APIC when Linux runs as root
+on Microsoft Hypervisor. At the same time we would like to reuse
+existing code as much as possible.
 
-While at it, update pci-hyperv.c to use the enum.
+Move mp_chip_data to io_apic.h and make a few helper functions
+non-static.
 
 No functional change.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/pci/controller/pci-hyperv.c |  2 +-
- include/asm-generic/hyperv-tlfs.h   | 36 +++++++++++++++++++++++++++--
- 2 files changed, 35 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/io_apic.h | 21 +++++++++++++++++++++
+ arch/x86/kernel/apic/io_apic.c | 28 +++++++++-------------------
+ 2 files changed, 30 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 03ed5cb1c4b2..59edc0bf00fe 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -1216,7 +1216,7 @@ static void hv_irq_unmask(struct irq_data *data)
- 	params = &hbus->retarget_msi_interrupt_params;
- 	memset(params, 0, sizeof(*params));
- 	params->partition_id = HV_PARTITION_ID_SELF;
--	params->int_entry.source = 1; /* MSI(-X) */
-+	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
- 	hv_set_msi_entry_from_desc(&params->int_entry.msi_entry, msi_desc);
- 	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
- 			   (hbus->hdev->dev_instance.b[4] << 16) |
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 7e103be42799..8423bf53c237 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -480,6 +480,11 @@ struct hv_create_vp {
- 	u64 flags;
- } __packed;
+diff --git a/arch/x86/include/asm/io_apic.h b/arch/x86/include/asm/io_apic.h
+index a1a26f6d3aa4..1375983a6028 100644
+--- a/arch/x86/include/asm/io_apic.h
++++ b/arch/x86/include/asm/io_apic.h
+@@ -152,6 +152,15 @@ extern unsigned long io_apic_irqs;
+ #define io_apic_assign_pci_irqs \
+ 	(mp_irq_entries && !skip_ioapic_setup && io_apic_irqs)
  
-+enum hv_interrupt_source {
-+	HV_INTERRUPT_SOURCE_MSI = 1, /* MSI and MSI-X */
-+	HV_INTERRUPT_SOURCE_IOAPIC,
++struct mp_chip_data {
++	struct list_head irq_2_pin;
++	struct IO_APIC_route_entry entry;
++	int trigger;
++	int polarity;
++	u32 count;
++	bool isa_irq;
 +};
 +
- union hv_msi_address_register {
- 	u32 as_uint32;
- 	struct {
-@@ -513,10 +518,37 @@ union hv_msi_entry {
- 	} __packed;
+ struct irq_cfg;
+ extern void ioapic_insert_resources(void);
+ extern int arch_early_ioapic_init(void);
+@@ -195,6 +204,18 @@ extern void clear_IO_APIC(void);
+ extern void restore_boot_irq_mode(void);
+ extern int IO_APIC_get_PCI_irq_vector(int bus, int devfn, int pin);
+ extern void print_IO_APICs(void);
++
++struct irq_data;
++extern struct IO_APIC_route_entry ioapic_read_entry(int apic, int pin);
++extern void ioapic_write_entry(int apic, int pin, struct IO_APIC_route_entry e);
++extern void mask_ioapic_irq(struct irq_data *irq_data);
++extern void unmask_ioapic_irq(struct irq_data *irq_data);
++extern int ioapic_set_affinity(struct irq_data *irq_data, const struct cpumask *mask, bool force);
++extern struct irq_domain *mp_ioapic_irqdomain(int ioapic);
++enum irqchip_irq_state;
++extern int ioapic_irq_get_chip_state(struct irq_data *irqd,
++				enum irqchip_irq_state which,
++				bool *state);
+ #else  /* !CONFIG_X86_IO_APIC */
+ 
+ #define IO_APIC_IRQ(x)		0
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index 7b3c7e0d4a09..23047f98b5e4 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -88,15 +88,6 @@ struct irq_pin_list {
+ 	int apic, pin;
  };
  
-+union hv_ioapic_rte {
-+	u64 as_uint64;
-+
-+	struct {
-+		u32 vector:8;
-+		u32 delivery_mode:3;
-+		u32 destination_mode:1;
-+		u32 delivery_status:1;
-+		u32 interrupt_polarity:1;
-+		u32 remote_irr:1;
-+		u32 trigger_mode:1;
-+		u32 interrupt_mask:1;
-+		u32 reserved1:15;
-+
-+		u32 reserved2:24;
-+		u32 destination_id:8;
-+	};
-+
-+	struct {
-+		u32 low_uint32;
-+		u32 high_uint32;
-+	};
-+} __packed;
-+
- struct hv_interrupt_entry {
--	u32 source;			/* 1 for MSI(-X) */
-+	u32 source;
- 	u32 reserved1;
--	union hv_msi_entry msi_entry;
-+	union {
-+		union hv_msi_entry msi_entry;
-+		union hv_ioapic_rte ioapic_rte;
-+	};
- } __packed;
+-struct mp_chip_data {
+-	struct list_head irq_2_pin;
+-	struct IO_APIC_route_entry entry;
+-	int trigger;
+-	int polarity;
+-	u32 count;
+-	bool isa_irq;
+-};
+-
+ struct mp_ioapic_gsi {
+ 	u32 gsi_base;
+ 	u32 gsi_end;
+@@ -154,7 +145,7 @@ static inline bool mp_is_legacy_irq(int irq)
+ 	return irq >= 0 && irq < nr_legacy_irqs();
+ }
  
- /*
+-static inline struct irq_domain *mp_ioapic_irqdomain(int ioapic)
++struct irq_domain *mp_ioapic_irqdomain(int ioapic)
+ {
+ 	return ioapics[ioapic].irqdomain;
+ }
+@@ -301,7 +292,7 @@ static struct IO_APIC_route_entry __ioapic_read_entry(int apic, int pin)
+ 	return eu.entry;
+ }
+ 
+-static struct IO_APIC_route_entry ioapic_read_entry(int apic, int pin)
++struct IO_APIC_route_entry ioapic_read_entry(int apic, int pin)
+ {
+ 	union entry_union eu;
+ 	unsigned long flags;
+@@ -328,7 +319,7 @@ static void __ioapic_write_entry(int apic, int pin, struct IO_APIC_route_entry e
+ 	io_apic_write(apic, 0x10 + 2*pin, eu.w1);
+ }
+ 
+-static void ioapic_write_entry(int apic, int pin, struct IO_APIC_route_entry e)
++void ioapic_write_entry(int apic, int pin, struct IO_APIC_route_entry e)
+ {
+ 	unsigned long flags;
+ 
+@@ -453,7 +444,7 @@ static void io_apic_sync(struct irq_pin_list *entry)
+ 	readl(&io_apic->data);
+ }
+ 
+-static void mask_ioapic_irq(struct irq_data *irq_data)
++void mask_ioapic_irq(struct irq_data *irq_data)
+ {
+ 	struct mp_chip_data *data = irq_data->chip_data;
+ 	unsigned long flags;
+@@ -468,7 +459,7 @@ static void __unmask_ioapic(struct mp_chip_data *data)
+ 	io_apic_modify_irq(data, ~IO_APIC_REDIR_MASKED, 0, NULL);
+ }
+ 
+-static void unmask_ioapic_irq(struct irq_data *irq_data)
++void unmask_ioapic_irq(struct irq_data *irq_data)
+ {
+ 	struct mp_chip_data *data = irq_data->chip_data;
+ 	unsigned long flags;
+@@ -1868,8 +1859,7 @@ static void ioapic_configure_entry(struct irq_data *irqd)
+ 		__ioapic_write_entry(entry->apic, entry->pin, mpd->entry);
+ }
+ 
+-static int ioapic_set_affinity(struct irq_data *irq_data,
+-			       const struct cpumask *mask, bool force)
++int ioapic_set_affinity(struct irq_data *irq_data, const struct cpumask *mask, bool force)
+ {
+ 	struct irq_data *parent = irq_data->parent_data;
+ 	unsigned long flags;
+@@ -1898,9 +1888,9 @@ static int ioapic_set_affinity(struct irq_data *irq_data,
+  *
+  * Verify that the corresponding Remote-IRR bits are clear.
+  */
+-static int ioapic_irq_get_chip_state(struct irq_data *irqd,
+-				   enum irqchip_irq_state which,
+-				   bool *state)
++int ioapic_irq_get_chip_state(struct irq_data *irqd,
++				enum irqchip_irq_state which,
++				bool *state)
+ {
+ 	struct mp_chip_data *mcd = irqd->chip_data;
+ 	struct IO_APIC_route_entry rentry;
 -- 
 2.20.1
 
