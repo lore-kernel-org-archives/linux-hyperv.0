@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F64C64E7A
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A39C7C64E90
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8843121D1A
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6484720897
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390680AbgKXRH4 (ORCPT
+        id S2390722AbgKXRIC (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:07:56 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40945 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390461AbgKXRH4 (ORCPT
+        Tue, 24 Nov 2020 12:08:02 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36812 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390675AbgKXRH6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 12:07:56 -0500
-Received: by mail-wm1-f68.google.com with SMTP id a3so3623159wmb.5;
-        Tue, 24 Nov 2020 09:07:54 -0800 (PST)
+        Tue, 24 Nov 2020 12:07:58 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z7so7269914wrn.3;
+        Tue, 24 Nov 2020 09:07:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1AnwUhpK3uc/E6NKbzj7KMKk+WsZG+5G79p8q0Z4Cfs=;
-        b=IcRcPywkd72q3i4abo8KwqWwkALd9SncgIYIIFeWGgUI7kAdUArsvoahtXCu1+8NQd
-         JAAcgVaq+YMDhM/aPM6YmlklwbiM4VcW1WfP0ZcLUMfZpLZjXbwpwiSPqUBAEF2Hjwr5
-         c3NLQ0aIVanstdxOpwLtwWFXjBXjfvSG6um9fwTfjJetgD9AqiDlQ1A7LDPb1kj7n3Kp
-         REQV8qzDJXsC1l3V5HXExmTNFL1TZhhY17uyJXGo/JNccuR1xQhqefULChwSZ13D8mwV
-         jsKqABKIo6I4JBh5Fw4UxgNguf0OsTcgm/OXk+Vr7a3EfLZsvdsflgSHNjfDpAKhm36X
-         4hOQ==
-X-Gm-Message-State: AOAM530+38DiDzV80KxPWd3EO+IL3lzwNCGV3xiBssz+XPrYXI2FCCWI
-        L/U+GcuEGxRUjugqnkAkiaNB2wFKa8g=
-X-Google-Smtp-Source: ABdhPJwLH8ZwoC4+wfzsN9zkSQOdRY+u89NgsaIK+/cjutVoGM+nMbkSNGGtEzO9+OKzFiwV0R+Kcg==
-X-Received: by 2002:a1c:7d10:: with SMTP id y16mr5601435wmc.142.1606237673890;
-        Tue, 24 Nov 2020 09:07:53 -0800 (PST)
+        bh=ECNX1WrK2HKJq0miQELnifiiUacgKjt/44MKsDI+NUo=;
+        b=YdH2P2jXsMQKNU9xkFMWlu2viHMYEldIkP1flHsGvQgxvARjUHepHmR3S5JLM/f5SA
+         CJ/enz3KKwztrz+uQiDjbYdiU+3q26GuRf0BUdUKkxkiumYmMW1dlzkeqOF7qfhUqB0e
+         ePHBfQlAy/7atbJLj/GR0zZsDngCzyRqgn6phzHR3pvg5iyxGqMHB8qHfT6vskEB+qCP
+         B1NrajZGvJz1n7LIMd1/nCWuzJ2NGwZ+jirBVUgF9Cqj0gvwsDpvnkGQiQmNKEbsZdNH
+         dEyn9n1ACVg/h13mHduWoUz60kIvMJHM7XA4+2kQHvJlbarirW14xoBPh9iqr2gdcf+w
+         f/eQ==
+X-Gm-Message-State: AOAM533UMMiYRPI5RpeiGlmqlLUGLRmMJlMUmDdzfG65t8xtfWKl9qZL
+        E7mPr6uCIb+ggMm7opXnJIOTOW/PwrI=
+X-Google-Smtp-Source: ABdhPJxu8RohG8v7/56cc0FvOdSK2S5LH6+IzqWHjHXpTBFXWIz0Wp599wT2RcN5QurbvIKH+yaAIQ==
+X-Received: by 2002:adf:f944:: with SMTP id q4mr6298016wrr.120.1606237676092;
+        Tue, 24 Nov 2020 09:07:56 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.53
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:07:53 -0800 (PST)
+        Tue, 24 Nov 2020 09:07:55 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -59,9 +59,9 @@ Cc:     virtualization@lists.linux-foundation.org,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v3 06/17] x86/hyperv: allocate output arg pages if required
-Date:   Tue, 24 Nov 2020 17:07:33 +0000
-Message-Id: <20201124170744.112180-7-wei.liu@kernel.org>
+Subject: [PATCH v3 08/17] x86/hyperv: handling hypercall page setup for root
+Date:   Tue, 24 Nov 2020 17:07:35 +0000
+Message-Id: <20201124170744.112180-9-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
 References: <20201124170744.112180-1-wei.liu@kernel.org>
@@ -71,111 +71,96 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When Linux runs as the root partition, it will need to make hypercalls
-which return data from the hypervisor.
+When Linux is running as the root partition, the hypercall page will
+have already been setup by Hyper-V. Copy the content over to the
+allocated page.
 
-Allocate pages for storing results when Linux runs as the root
-partition.
+Add checks to hv_suspend & co to bail early because they are not
+supported in this setup yet.
 
 Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Co-Developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Co-Developed-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
-v3: Fix hv_cpu_die to use free_pages.
-v2: Address Vitaly's comments
+v3:
+1. Use HV_HYP_PAGE_SIZE.
+2. Add checks to hv_suspend & co.
 ---
- arch/x86/hyperv/hv_init.c       | 35 ++++++++++++++++++++++++++++-----
- arch/x86/include/asm/mshyperv.h |  1 +
- 2 files changed, 31 insertions(+), 5 deletions(-)
+ arch/x86/hyperv/hv_init.c | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index e04d90af4c27..6f4cb40e53fe 100644
+index fc9941bd8653..ad8e77859b32 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -41,6 +41,9 @@ EXPORT_SYMBOL_GPL(hv_vp_assist_page);
- void  __percpu **hyperv_pcpu_input_arg;
- EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+@@ -25,6 +25,7 @@
+ #include <linux/cpuhotplug.h>
+ #include <linux/syscore_ops.h>
+ #include <clocksource/hyperv_timer.h>
++#include <linux/highmem.h>
  
-+void  __percpu **hyperv_pcpu_output_arg;
-+EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
+ u64 hv_current_partition_id = ~0ull;
+ EXPORT_SYMBOL_GPL(hv_current_partition_id);
+@@ -283,6 +284,9 @@ static int hv_suspend(void)
+ 	union hv_x64_msr_hypercall_contents hypercall_msr;
+ 	int ret;
+ 
++	if (hv_root_partition)
++		return -EPERM;
 +
- u32 hv_max_vp_index;
- EXPORT_SYMBOL_GPL(hv_max_vp_index);
+ 	/*
+ 	 * Reset the hypercall page as it is going to be invalidated
+ 	 * accross hibernation. Setting hv_hypercall_pg to NULL ensures
+@@ -433,8 +437,35 @@ void __init hyperv_init(void)
  
-@@ -73,12 +76,19 @@ static int hv_cpu_init(unsigned int cpu)
- 	void **input_arg;
- 	struct page *pg;
- 
--	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
- 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
--	pg = alloc_page(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
-+	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, hv_root_partition ? 1 : 0);
- 	if (unlikely(!pg))
- 		return -ENOMEM;
-+
-+	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
- 	*input_arg = page_address(pg);
-+	if (hv_root_partition) {
-+		void **output_arg;
-+
-+		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
-+		*output_arg = page_address(pg + 1);
-+	}
- 
- 	hv_get_vp_index(msr_vp_index);
- 
-@@ -205,14 +215,23 @@ static int hv_cpu_die(unsigned int cpu)
- 	unsigned int new_cpu;
- 	unsigned long flags;
- 	void **input_arg;
--	void *input_pg = NULL;
-+	void *pg;
- 
- 	local_irq_save(flags);
- 	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
--	input_pg = *input_arg;
-+	pg = *input_arg;
- 	*input_arg = NULL;
+ 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+ 	hypercall_msr.enable = 1;
+-	hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
+-	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
 +
 +	if (hv_root_partition) {
-+		void **output_arg;
++		struct page *pg;
++		void *src, *dst;
 +
-+		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
-+		*output_arg = NULL;
++		/*
++		 * For the root partition, the hypervisor will set up its
++		 * hypercall page. The hypervisor guarantees it will not show
++		 * up in the root's address space. The root can't change the
++		 * location of the hypercall page.
++		 *
++		 * Order is important here. We must enable the hypercall page
++		 * so it is populated with code, then copy the code to an
++		 * executable page.
++		 */
++		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
++
++		pg = vmalloc_to_page(hv_hypercall_pg);
++		dst = kmap(pg);
++		src = memremap(hypercall_msr.guest_physical_address << PAGE_SHIFT, PAGE_SIZE,
++				MEMREMAP_WB);
++		BUG_ON(!(src && dst));
++		memcpy(dst, src, HV_HYP_PAGE_SIZE);
++		memunmap(src);
++		kunmap(pg);
++	} else {
++		hypercall_msr.guest_physical_address = vmalloc_to_pfn(hv_hypercall_pg);
++		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
 +	}
-+
- 	local_irq_restore(flags);
--	free_page((unsigned long)input_pg);
-+
-+	free_pages((unsigned long)pg, hv_root_partition ? 1 : 0);
  
- 	if (hv_vp_assist_page && hv_vp_assist_page[cpu])
- 		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
-@@ -346,6 +365,12 @@ void __init hyperv_init(void)
+ 	/*
+ 	 * Ignore any errors in setting up stimer clockevents
+@@ -577,6 +608,6 @@ EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
  
- 	BUG_ON(hyperv_pcpu_input_arg == NULL);
- 
-+	/* Allocate the per-CPU state for output arg for root */
-+	if (hv_root_partition) {
-+		hyperv_pcpu_output_arg = alloc_percpu(void *);
-+		BUG_ON(hyperv_pcpu_output_arg == NULL);
-+	}
-+
- 	/* Allocate percpu VP index */
- 	hv_vp_index = kmalloc_array(num_possible_cpus(), sizeof(*hv_vp_index),
- 				    GFP_KERNEL);
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index ac2b0d110f03..62d9390f1ddf 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -76,6 +76,7 @@ static inline void hv_disable_stimer0_percpu_irq(int irq) {}
- #if IS_ENABLED(CONFIG_HYPERV)
- extern void *hv_hypercall_pg;
- extern void  __percpu  **hyperv_pcpu_input_arg;
-+extern void  __percpu  **hyperv_pcpu_output_arg;
- 
- static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ bool hv_is_hibernation_supported(void)
  {
+-	return acpi_sleep_state_supported(ACPI_STATE_S4);
++	return !hv_root_partition && acpi_sleep_state_supported(ACPI_STATE_S4);
+ }
+ EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
 -- 
 2.20.1
 
