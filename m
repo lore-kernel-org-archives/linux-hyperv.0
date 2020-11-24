@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE72FC83010
-	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CCBC8300F
+	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A422A20897
+	by mail.kernel.org (Postfix) with ESMTP id CEC9E20715
 	for <linux-hyperv@archiver.kernel.org>; Tue, 24 Nov 2020 17:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390644AbgKXRHy (ORCPT
+        id S2390605AbgKXRHx (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 12:07:54 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36401 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390452AbgKXRHx (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 24 Nov 2020 12:07:53 -0500
-Received: by mail-wm1-f65.google.com with SMTP id a65so3645314wme.1;
-        Tue, 24 Nov 2020 09:07:52 -0800 (PST)
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33399 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390461AbgKXRHw (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 24 Nov 2020 12:07:52 -0500
+Received: by mail-wm1-f68.google.com with SMTP id p19so2458878wmg.0;
+        Tue, 24 Nov 2020 09:07:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y+NYsCm9tGc6GjBoEZ7bi5tfuxFZISDvGMwp4S/BObI=;
-        b=EBgf8u8Lo/i6CX0Fc40uKpsu+VXWwCeaElDuH5kC/+5hCf4tqOmJ5xI4V0KZ/+EEXU
-         jaVk1DiF14nLuwoeqsXntD8YPWMYBx4y+8R4dFlZcf0o3AvT4qeNqJSeTcnDbiy/oZeP
-         At1CLjTm8xBnSSAZH9oe4BtZTPnzI0My5SFX8SCxvRpl1mVCZoDPG+meZgacOAqrtaiR
-         r4NSzQPXlq5aT30dJBek/554PqWALrHj1njE2TfGr2MQWRFR+LLaDv7R/WmylXKz6AJ7
-         Rb3UKgclJcIZNR2lTxl0P56RH5O55Az+GTP3rz3bfA57cZuVQad9N+26aspDznYGNcf8
-         E66Q==
-X-Gm-Message-State: AOAM531r/73vI5hkh9sZCVi9NIkoWY83RgqFF93aS+TYg3ByKWWirq50
-        BHvIomKb8mV4Pq06FoU6fISrZiIWGeM=
-X-Google-Smtp-Source: ABdhPJyRy4oNI+baboiLauOZ5kuNcIz+UESSkuC95WYwMV/AE323XjTDVKemQQJZv331EIMXSitBHg==
-X-Received: by 2002:a1c:4b18:: with SMTP id y24mr5780733wma.154.1606237671954;
-        Tue, 24 Nov 2020 09:07:51 -0800 (PST)
+        bh=VVy/xX+hd+uke+LnhxDQ835QhIU9Q889rn2MT+mb/6A=;
+        b=Q7Y+gaLwMP3reN6igDkuGSVnbDVXRwUqGKBAyUyv1ByiCxwvlIY8W61uDjY2yK6Kl4
+         jrxKmjJDamEQROjlh1rspW5hBt8I2d8Nc9BL8EnMsUSexah///UlGUK4yr269BSOM8/B
+         cj5h7z1Y3v3b3xqria2okot7z/MnJzcjHeGuQRA9uAci0ouVzGIN5OHeNOA8m1Wbgowi
+         nUWVcpKK7nr2N60lHvVdTGouh3hDDY0Ff3yOlsvJoqwnLUtvgVTIYdHMcEeDQwt1dusl
+         g6jsNchZGZ/B58GQN6eLJuj0GB8RE5RPaYTKA7rFBkxF9ccUs+MRXLonT34NKALJpHW1
+         UFxQ==
+X-Gm-Message-State: AOAM5329TPuU17NMmIuHnFUJG07YsDlYIcRSCChDq0pbsd01ZwJmX71L
+        PQb8GhJAL0+pbJ5y+i81my1xWnkM+g8=
+X-Google-Smtp-Source: ABdhPJxIVAddUkVH38mEixM0KRWYhJ+JdFC5EnKeMioPVq8OMpJS0/RqfMF+8JAinVmQZb71O/3URQ==
+X-Received: by 2002:a1c:98cd:: with SMTP id a196mr5647237wme.42.1606237670128;
+        Tue, 24 Nov 2020 09:07:50 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.51
+        by smtp.gmail.com with ESMTPSA id v20sm6419874wmh.44.2020.11.24.09.07.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 09:07:51 -0800 (PST)
+        Tue, 24 Nov 2020 09:07:49 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,16 +50,17 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Joerg Roedel <jroedel@suse.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wei Liu <wei.liu@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
-Subject: [PATCH v3 04/17] iommu/hyperv: don't setup IRQ remapping when running as root
-Date:   Tue, 24 Nov 2020 17:07:31 +0000
-Message-Id: <20201124170744.112180-5-wei.liu@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v3 02/17] x86/hyperv: detect if Linux is the root partition
+Date:   Tue, 24 Nov 2020 17:07:29 +0000
+Message-Id: <20201124170744.112180-3-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
 References: <20201124170744.112180-1-wei.liu@kernel.org>
@@ -69,37 +70,100 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The IOMMU code needs more work. We're sure for now the IRQ remapping
-hooks are not applicable when Linux is the root partition.
+For now we can use the privilege flag to check. Stash the value to be
+used later.
+
+Put in a bunch of defines for future use when we want to have more
+fine-grained detection.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Joerg Roedel <jroedel@suse.de>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/iommu/hyperv-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+v3: move hv_root_partition to mshyperv.c
+---
+ arch/x86/include/asm/hyperv-tlfs.h | 10 ++++++++++
+ arch/x86/include/asm/mshyperv.h    |  2 ++
+ arch/x86/kernel/cpu/mshyperv.c     | 20 ++++++++++++++++++++
+ 3 files changed, 32 insertions(+)
 
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index e09e2d734c57..8d3ce3add57d 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -20,6 +20,7 @@
- #include <asm/io_apic.h>
- #include <asm/irq_remapping.h>
- #include <asm/hypervisor.h>
-+#include <asm/mshyperv.h>
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 0ed20e8bba9e..41b628b9fb15 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -21,6 +21,7 @@
+ #define HYPERV_CPUID_FEATURES			0x40000003
+ #define HYPERV_CPUID_ENLIGHTMENT_INFO		0x40000004
+ #define HYPERV_CPUID_IMPLEMENT_LIMITS		0x40000005
++#define HYPERV_CPUID_CPU_MANAGEMENT_FEATURES	0x40000007
+ #define HYPERV_CPUID_NESTED_FEATURES		0x4000000A
  
- #include "irq_remapping.h"
+ #define HYPERV_HYPERVISOR_PRESENT_BIT		0x80000000
+@@ -103,6 +104,15 @@
+ /* Recommend using enlightened VMCS */
+ #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
  
-@@ -143,7 +144,7 @@ static int __init hyperv_prepare_irq_remapping(void)
- 	int i;
++/*
++ * CPU management features identification.
++ * These are HYPERV_CPUID_CPU_MANAGEMENT_FEATURES.EAX bits.
++ */
++#define HV_X64_START_LOGICAL_PROCESSOR			BIT(0)
++#define HV_X64_CREATE_ROOT_VIRTUAL_PROCESSOR		BIT(1)
++#define HV_X64_PERFORMANCE_COUNTER_SYNC			BIT(2)
++#define HV_X64_RESERVED_IDENTITY_BIT			BIT(31)
++
+ /*
+  * Virtual processor will never share a physical core with another virtual
+  * processor, except for virtual processors that are reported as sibling SMT
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index ffc289992d1b..ac2b0d110f03 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -237,6 +237,8 @@ int hyperv_fill_flush_guest_mapping_list(
+ 		struct hv_guest_mapping_flush_list *flush,
+ 		u64 start_gfn, u64 end_gfn);
  
- 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
--	    !x2apic_supported())
-+	    !x2apic_supported() || hv_root_partition)
- 		return -ENODEV;
++extern bool hv_root_partition;
++
+ #ifdef CONFIG_X86_64
+ void hv_apic_init(void);
+ void __init hv_init_spinlocks(void);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 05ef1f4550cb..f0b8c702c858 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -32,6 +32,10 @@
+ #include <asm/nmi.h>
+ #include <clocksource/hyperv_timer.h>
  
- 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
++/* Is Linux running as the root partition? */
++bool hv_root_partition;
++EXPORT_SYMBOL_GPL(hv_root_partition);
++
+ struct ms_hyperv_info ms_hyperv;
+ EXPORT_SYMBOL_GPL(ms_hyperv);
+ 
+@@ -237,6 +241,22 @@ static void __init ms_hyperv_init_platform(void)
+ 	pr_debug("Hyper-V: max %u virtual processors, %u logical processors\n",
+ 		 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
+ 
++	/*
++	 * Check CPU management privilege.
++	 *
++	 * To mirror what Windows does we should extract CPU management
++	 * features and use the ReservedIdentityBit to detect if Linux is the
++	 * root partition. But that requires negotiating CPU management
++	 * interface (a process to be finalized).
++	 *
++	 * For now, use the privilege flag as the indicator for running as
++	 * root.
++	 */
++	if (cpuid_ebx(HYPERV_CPUID_FEATURES) & HV_CPU_MANAGEMENT) {
++		hv_root_partition = true;
++		pr_info("Hyper-V: running as root partition\n");
++	}
++
+ 	/*
+ 	 * Extract host information.
+ 	 */
 -- 
 2.20.1
 
