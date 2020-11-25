@@ -2,38 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D70C2D0E4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Nov 2020 02:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA15FC5519F
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Nov 2020 03:35:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 994CC20872
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Nov 2020 02:56:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5918320872
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 Nov 2020 03:35:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=castello.eng.br header.i=@castello.eng.br header.b="XezM7wfy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725440AbgKYC4T (ORCPT
+        id S1726709AbgKYDfQ (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 24 Nov 2020 21:56:19 -0500
-Received: from smtprelay0107.hostedemail.com ([216.40.44.107]:40964 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726849AbgKYC4S (ORCPT
+        Tue, 24 Nov 2020 22:35:16 -0500
+Received: from gateway34.websitewelcome.com ([192.185.149.222]:37200 "EHLO
+        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725876AbgKYDfP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 24 Nov 2020 21:56:18 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id D91DD127F;
-        Wed, 25 Nov 2020 02:56:17 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: spy30_0f0529627373
-X-Filterd-Recvd-Size: 2214
-Received: from XPS-9350.home (unknown [47.151.128.180])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 25 Nov 2020 02:56:15 +0000 (UTC)
-Message-ID: <60b60d026a0636090b1617c6fd9e7b3a88013a7f.camel@perches.com>
+        Tue, 24 Nov 2020 22:35:15 -0500
+X-Greylist: delayed 1241 seconds by postgrey-1.27 at vger.kernel.org; Tue, 24 Nov 2020 22:35:15 EST
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id F274A13454
+        for <linux-hyperv@vger.kernel.org>; Tue, 24 Nov 2020 21:14:30 -0600 (CST)
+Received: from br164.hostgator.com.br ([192.185.176.180])
+        by cmsmtp with SMTP
+        id hlGIk6LL7svw9hlGIkkjMk; Tue, 24 Nov 2020 21:14:30 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=castello.eng.br; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=AuQ5LHVenT9NhVg4zxvlu9vnC9I7Jc0vaVgfBXpQC7w=; b=XezM7wfysdhBowRbF40sPS4PsW
+        G7keS0tsTgFGYlQ97hCu+8mi84WK5pCl+5Tgyj8OXKkobqGWFAki7JMtwTvNAxSJpQjnBbWwy8iPf
+        HAhsoKjSqhFs2cb+6r87OAbcuEHfZ7ZRB7hiWHM/lvvJm4BOnXqe5pRm/lIZcLTTMWJs9pTn44/Dk
+        7ivT6i/2AWJVARccSGyKAFvaJuPb7b4JEObjUEhPt1TppWq07qieqcJYAZahw/yENBJb4XiQEIomf
+        Njus1ilkP5zSkIAZy87JTMWp46CrMHto7fiUc0UQIPwa1pndJ8oQouMfj9heCLLvTD3ioZFrz6Rp2
+        bhzobqeg==;
+Received: from 179-197-124-241.ultrabandalargafibra.com.br ([179.197.124.241]:60601 helo=[192.168.1.69])
+        by br164.hostgator.com.br with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <matheus@castello.eng.br>)
+        id 1khlGI-0031Q2-K1; Wed, 25 Nov 2020 00:14:30 -0300
 Subject: Re: [PATCH 4/6] drivers: hv: vmbus: Fix checkpatch SPLIT_STRING
-From:   Joe Perches <joe@perches.com>
-To:     Matheus Castello <matheus@castello.eng.br>,
+To:     Joe Perches <joe@perches.com>,
         Michael Kelley <mikelley@microsoft.com>
 Cc:     "sashal@kernel.org" <sashal@kernel.org>,
         Tianyu Lan <Tianyu.Lan@microsoft.com>,
@@ -45,39 +61,67 @@ Cc:     "sashal@kernel.org" <sashal@kernel.org>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         "wei.liu@kernel.org" <wei.liu@kernel.org>,
         Stephen Hemminger <sthemmin@microsoft.com>
-Date:   Tue, 24 Nov 2020 18:56:14 -0800
-In-Reply-To: <ada0ef93-1443-49a0-914c-1ad03ffa024b@castello.eng.br>
 References: <20201115195734.8338-1-matheus@castello.eng.br>
-         <20201115195734.8338-5-matheus@castello.eng.br>
-         <MW2PR2101MB1052B329DFC5D54F4D7501E9D7E40@MW2PR2101MB1052.namprd21.prod.outlook.com>
-         <ada0ef93-1443-49a0-914c-1ad03ffa024b@castello.eng.br>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+ <20201115195734.8338-5-matheus@castello.eng.br>
+ <MW2PR2101MB1052B329DFC5D54F4D7501E9D7E40@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <ada0ef93-1443-49a0-914c-1ad03ffa024b@castello.eng.br>
+ <60b60d026a0636090b1617c6fd9e7b3a88013a7f.camel@perches.com>
+From:   Matheus Castello <matheus@castello.eng.br>
+Message-ID: <9be574bf-570d-c813-f18f-9ba5214021e1@castello.eng.br>
+Date:   Wed, 25 Nov 2020 00:14:28 -0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <60b60d026a0636090b1617c6fd9e7b3a88013a7f.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: pt-BR
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - br164.hostgator.com.br
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - castello.eng.br
+X-BWhitelist: no
+X-Source-IP: 179.197.124.241
+X-Source-L: No
+X-Exim-ID: 1khlGI-0031Q2-K1
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 179-197-124-241.ultrabandalargafibra.com.br ([192.168.1.69]) [179.197.124.241]:60601
+X-Source-Auth: matheus@castello.eng.br
+X-Email-Count: 7
+X-Source-Cap: Y2FzdGUyNDg7Y2FzdGUyNDg7YnIxNjQuaG9zdGdhdG9yLmNvbS5icg==
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, 2020-11-24 at 21:54 -0300, Matheus Castello wrote:
-> > > diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-[]
-> > The above would be marginally better if organized as follows so that the
-> > main execution path isn't in an "if" clause.  Also reduces indentation.
-> > 
-> > 	hv_panic_page = (void *)hv_alloc_hyperv_zeroed_page();
-> > 	if (!hv_panic_page) {
-> > 		pr_err("Hyper-V: panic message page memory allocation failed");
-
-And nicer to add a terminating newline to the format like the pr_err below.
-
-> > 		return;
-> > 	}
-> > 	ret = kmsg_dump_register(&hv_kmsg_dumper);
-> > 	if (ret) {
-> > 		pr_err("Hyper-V: kmsg dump register error 0x%x\n", ret);
-> > 		hv_free_hyperv_page((unsigned long)hv_panic_page);
-> > 		hv_panic_page = NULL;
-> > 	}
 
 
+Em 11/24/2020 11:56 PM, Joe Perches escreveu:
+> On Tue, 2020-11-24 at 21:54 -0300, Matheus Castello wrote:
+>>>> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> []
+>>> The above would be marginally better if organized as follows so that the
+>>> main execution path isn't in an "if" clause.  Also reduces indentation.
+>>>
+>>> 	hv_panic_page = (void *)hv_alloc_hyperv_zeroed_page();
+>>> 	if (!hv_panic_page) {
+>>> 		pr_err("Hyper-V: panic message page memory allocation failed");
+> 
+> And nicer to add a terminating newline to the format like the pr_err below.
+>
+
+Oops, sending v3. Thanks Joe Perches!
+
+>>> 		return;
+>>> 	}
+>>> 	ret = kmsg_dump_register(&hv_kmsg_dumper);
+>>> 	if (ret) {
+>>> 		pr_err("Hyper-V: kmsg dump register error 0x%x\n", ret);
+>>> 		hv_free_hyperv_page((unsigned long)hv_panic_page);
+>>> 		hv_panic_page = NULL;
+>>> 	}
+> 
+> 
