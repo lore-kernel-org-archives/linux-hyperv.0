@@ -2,28 +2,28 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5BD6C83020
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2E9C83017
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 837BB2223F
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E2462224D
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388707AbgLBMxY (ORCPT
+        id S2388596AbgLBMxX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 07:53:24 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:38075 "EHLO
+        Wed, 2 Dec 2020 07:53:23 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:54711 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgLBMxX (ORCPT
+        with ESMTP id S1728726AbgLBMxX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 2 Dec 2020 07:53:23 -0500
 Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
  (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1McH1Q-1kCCAH3wiK-00cdol; Wed, 02 Dec 2020 13:50:10 +0100
+ 1MGi6k-1kx9B018XS-00DoAz; Wed, 02 Dec 2020 13:50:12 +0100
 From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
 To:     linux-kernel@vger.kernel.org
 Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
@@ -36,23 +36,23 @@ Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
         netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         tipc-discussion@lists.sourceforge.net,
         linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 3/7] net: ipv4: remove unneeded MODULE_VERSION() usage
-Date:   Wed,  2 Dec 2020 13:49:55 +0100
-Message-Id: <20201202124959.29209-3-info@metux.net>
+Subject: [PATCH 5/7] net: bridge: remove unneeded MODULE_VERSION() usage
+Date:   Wed,  2 Dec 2020 13:49:57 +0100
+Message-Id: <20201202124959.29209-5-info@metux.net>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20201202124959.29209-1-info@metux.net>
 References: <20201202124959.29209-1-info@metux.net>
-X-Provags-ID: V03:K1:bthYXGIMbp7XkyEKltam6k4TFGDy+3Gd50QFJXDN3LpygfQn9n0
- dQdDyG2euqqZPfURQ7AETZrHqc7Q3bb8mkzsXXBVL/zbCKBjsT9kgwcpZXL15cpsLLgMMok
- R8Y/Gc6lPCNa0Yd4GVabJpwXORxicX639M42bx62mGQucD7QkaD/p0nB7zBnyobtW90Gbl2
- rDJ2J5fgOj0YfQrmuwuTg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pj4aYPVMf9E=:I2x2S0JUcBDjT2nXrnAsht
- PCs4y11wa6R7HTxYE0o1nK7iph7LPgsD4MkZtykxIrecJ96jWjIvYrN3fE1jHiH2k33faGakQ
- X8dxQpQiecDSjOGY2yi6GzMCG8K2Y5c8lEMj0BjA6o1WtBWSDD47RW3LPKDe2L6oHhgnhx8tj
- m6B29lxrsPTNfvVc5v7LwL9zi4+izBEsFUafXXbGB19tc3FkWze4L+m64vFHcyn6GryJRdH+w
- OPZCpcHh6nTGlX4bubPxTyqYLhKWGJVO0gf6BWWwfxjZeu2Ig8n7d3pWrPiwU24iTb3egGk3H
- YCebTi0bSl7usWiu9djb8acLhVec2x1nojBoB7EW0w3mkM9xZggdQAA8HOnlguHBlVOLU72W2
- Smzmhj5aAnDj1bFigAL5IcbJuc12fj5dDbx4lfRahOMlip33KqUkGspWCJW46
+X-Provags-ID: V03:K1:cuYtv5vslL3mKfntL9+LNoV+R1fAkyY8wxUdUqYvgUNH+fklE5n
+ h9/W/Fkds8W/7VOKYoo5BIlVUv1XasthBQQJ/t8T8PS1lwTRtsL02fELoIEkxe4o0nWGLsy
+ CN8CI7r/M3lBFezWUZKYqq3jWd3IQOjCLhN+m0I4TSbdIW0y3IOUe5ZWQMcOBoYiAfGe/AD
+ 8RRrRDnLBfX6L/eiwjJbA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zxgM+5uXlUk=:pc3buvVoCR7nEPUYrJz5LF
+ EysIamjRgMmr6hc3N03YgY6dedUyF+M8I6TRBaWJ0lR3GakVl9fBQsfTSGeuBoog56Hez/9l3
+ etAr3MbgqVHs4R/0sJUuSX30nSgZax62lCL48USS4wl2ygFzzvnkB1oFNXISvbiLE0IELaeWt
+ pv4OMUirWWerHvtecu935TKY4aCrwyuife0QQnsA7sUJFHl2GgCLcOh2BH0Hr4oJDnCZQLllK
+ ojCoiVue3jDR/TaO+LBay4K0/H8L4dkw6qUVC92WGDQyv3lRoZ/TLy8U6heMh6Nngw77POB5J
+ k1qSxnmfpUpwP2Npc0vkQzulInM1Zl/C552fpTKKIzMZrDk45XbuykAWkD4e3nz7v3CZHesbW
+ 3OHtjxPl8xZX92P3E2f9NlrGy/i5Wapn+U9z59kySKZfh5JdB8pgqpVHKeM+A
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -60,40 +60,21 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 Remove MODULE_VERSION(), as it isn't needed at all: the only version
 making sense is the kernel version.
 
-Signed-off-by: Enrico Weigelt <info@metux.net>
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
- net/ipv4/tcp_cubic.c    | 1 -
- net/ipv4/tcp_illinois.c | 1 -
- net/ipv4/tcp_nv.c       | 1 -
- 3 files changed, 3 deletions(-)
+ net/bridge/br.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/net/ipv4/tcp_cubic.c b/net/ipv4/tcp_cubic.c
-index c7bf5b26bf0c..c6bcd445df04 100644
---- a/net/ipv4/tcp_cubic.c
-+++ b/net/ipv4/tcp_cubic.c
-@@ -537,4 +537,3 @@ module_exit(cubictcp_unregister);
- MODULE_AUTHOR("Sangtae Ha, Stephen Hemminger");
+diff --git a/net/bridge/br.c b/net/bridge/br.c
+index 401eeb9142eb..2502fdcbb8b2 100644
+--- a/net/bridge/br.c
++++ b/net/bridge/br.c
+@@ -399,5 +399,4 @@ static void __exit br_deinit(void)
+ module_init(br_init)
+ module_exit(br_deinit)
  MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("CUBIC TCP");
--MODULE_VERSION("2.3");
-diff --git a/net/ipv4/tcp_illinois.c b/net/ipv4/tcp_illinois.c
-index 00e54873213e..8cc9967e82ef 100644
---- a/net/ipv4/tcp_illinois.c
-+++ b/net/ipv4/tcp_illinois.c
-@@ -355,4 +355,3 @@ module_exit(tcp_illinois_unregister);
- MODULE_AUTHOR("Stephen Hemminger, Shao Liu");
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("TCP Illinois");
--MODULE_VERSION("1.0");
-diff --git a/net/ipv4/tcp_nv.c b/net/ipv4/tcp_nv.c
-index 95db7a11ba2a..b3879fb24d33 100644
---- a/net/ipv4/tcp_nv.c
-+++ b/net/ipv4/tcp_nv.c
-@@ -499,4 +499,3 @@ module_exit(tcpnv_unregister);
- MODULE_AUTHOR("Lawrence Brakmo");
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("TCP NV");
--MODULE_VERSION("1.0");
+-MODULE_VERSION(BR_VERSION);
+ MODULE_ALIAS_RTNL_LINK("bridge");
 -- 
 2.11.0
 
