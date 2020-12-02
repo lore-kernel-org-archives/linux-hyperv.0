@@ -2,101 +2,100 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4181CC8302B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05BDFC64E7B
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 13:38:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07D5422244
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 638FC22202
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 13:38:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbgLBMxM (ORCPT
+        id S1727883AbgLBNiG (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 07:53:12 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:54633 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgLBMxM (ORCPT
+        Wed, 2 Dec 2020 08:38:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727861AbgLBNiF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 07:53:12 -0500
-Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N6srH-1k75n72UEp-018Nq0; Wed, 02 Dec 2020 13:50:06 +0100
-From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
-To:     linux-kernel@vger.kernel.org
-Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
-        sw@simonwunderlich.de, a@unstable.cc, sven@narfation.org,
-        marcel@holtmann.org, johan.hedberg@gmail.com, roopa@nvidia.com,
-        nikolay@nvidia.com, edumazet@google.com, kuznet@ms2.inr.ac.ru,
-        yoshfuji@linux-ipv6.org, jmaloy@redhat.com, ying.xue@windriver.com,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@chromium.org,
-        netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 1/7] net: 8021q: remove unneeded MODULE_VERSION() usage
-Date:   Wed,  2 Dec 2020 13:49:53 +0100
-Message-Id: <20201202124959.29209-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:14LCbfn7CIm5dANaBLGKWLgN3xQE4jDUCMo9evmbx9Co8uVlQ6w
- AJFD6ZJ02fqB/4hkD8UvpR4MIY+/p78jpG5aWRjgTooqf+IEH1eqCBcShQ2vV0dQpZD0PsW
- 05u5MlL8i5N7ZlPrZ7WXbFUNvvFZsQXgZIGpcP3ZrL1oewC6MVHvqtu//f0C4Yd8k+NfXYW
- VmowlQvXdv7smIRHA6edw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UEMJ2Q5iJaA=:yleuAQn1i2Rjq/ui4VdE+g
- jyh2pVLY6s01oGU46RcJlPLxSSX8L2w/MBwEmg20CK/7Y310Z8JlnqRGDpqOM2nJS5End/sP4
- /9Y1onXdJEthEHAa9BhU58Pusym8OBWDtyGF2XsodDUOCLKO8Al2CEIPKNwkS7PYWLzUetR1u
- 6d1JaWAKKnYd0bQb4e/+Rn24Bv8Hwjp283Oc/mJZgpdGd1YNZapCGRlUHnDPGMvLvbAQ4suoX
- K+qAXCsVWaWIdCkwo5qNVHF2IP7XbGZ74/fYL0MRsOi+/PZ9Ibn6yD2QQuUvJzs0/dmQvKbzv
- sAqugRZrYpsuSsj3PnTQPdjGB8zs3Qs8ObLlivdv6bthFn3+TxlFxmTZJ66mNuyYS4u/hwzBI
- cHIUHiSeDY4ksdHCmLz6WWwusj+S5xSj2/yUf7nw695XokUprP0W5b5CKP7Zw
+        Wed, 2 Dec 2020 08:38:05 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0421FC0613CF;
+        Wed,  2 Dec 2020 05:37:25 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id 23so3952285wrc.8;
+        Wed, 02 Dec 2020 05:37:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l/C90f3+rH95i4xGnwc1KHGWZKMjt7nbaW6VsSOdvrc=;
+        b=u12vLg7+aWh9JsuOUB9vDnzS/ivy4SZwBk6Dil6rEpUw+6qqlzJ1tN5h15TNpe60AI
+         FQM8O+u2hfu6Aaxvqi/oi8m39en3wd9fxk//keg5t4Hl/lZ4gnEjM131JIgEsu8yE5GL
+         m8LO4Uw/eBaDRexUzrtM6YqtjT7K6E4ySHmosJRu4lYRM0NnwzRdkZpu2qHXoOwWTgSu
+         lF4LhWR1HaxuUuOhORv1uiBB64b2zUEpN18ZtE2gpKnDamfQv74fO5H1DclKf98Wr6UE
+         bwhMAlVEFOOFC/ePVcpmsuyd731OR7BvEgvN53X1pKFkWFDkE7oUj4/xWN5CXm35XPA1
+         Db9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l/C90f3+rH95i4xGnwc1KHGWZKMjt7nbaW6VsSOdvrc=;
+        b=kyR8usRZ49xGD6cqp/Jzdy5G+kO6SfmtDl+kcIZxjDqRu/aEi20UU5imMFwMepxr4I
+         qk9J8oClLGKL6z1vtGVhFw6PwhPi2Ji6zaFzs/97XSjDz63TkHNuMcI3tBNvc6hZjTJG
+         gmskgUOxA21UtIl5ID66+tPiEVVQVEAayoQr95s1YX/58X6CkI7Bn3dTqmI1J47ZZviy
+         fSTRkN2Vl/F5IBufjxRD5MXBzLYelRT4Yv2xNe/hsKsNmsihY4Gzl+2FlC41V1tW5GOL
+         kq5AavJppcgA5ppSjJukwWdDU3ku8i522RUiq0wv2acLMMCAetV5ZSEjfFMhEBDIBq5/
+         9q3Q==
+X-Gm-Message-State: AOAM530aF7NtcyU6zy0StCqNzPIPWHFbdudK7Wb0M1odpHVSRjOZKdgu
+        beDefbYAWbOZjsItLr5X5MVmNgpZeQsz7Q==
+X-Google-Smtp-Source: ABdhPJzAli4egIF1EuIcfm4bEgoLc58noXEvlENm2/2eRAT2Bwdb4BWXfqIMb6Ga8pFsgND+6WiZxA==
+X-Received: by 2002:adf:e80b:: with SMTP id o11mr3626633wrm.409.1606916243505;
+        Wed, 02 Dec 2020 05:37:23 -0800 (PST)
+Received: from andrea (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
+        by smtp.gmail.com with ESMTPSA id q12sm2051316wrx.86.2020.12.02.05.37.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 05:37:23 -0800 (PST)
+Date:   Wed, 2 Dec 2020 14:37:16 +0100
+From:   Andrea Parri <parri.andrea@gmail.com>
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Juan Vazquez <juvazq@microsoft.com>,
+        Saruhan Karademir <skarade@microsoft.com>
+Subject: Re: [PATCH v2 2/7] Drivers: hv: vmbus: Avoid double fetch of msgtype
+ in vmbus_on_msg_dpc()
+Message-ID: <20201202133716.GA22763@andrea>
+References: <20201202092214.13520-1-parri.andrea@gmail.com>
+ <20201202092214.13520-3-parri.andrea@gmail.com>
+ <20201202122254.zjhu3cfcq3zwvmvu@liuwe-devbox-debian-v2>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202122254.zjhu3cfcq3zwvmvu@liuwe-devbox-debian-v2>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Remove MODULE_VERSION(), as it isn't needed at all: the only version
-making sense is the kernel version.
+> > @@ -1072,12 +1073,19 @@ void vmbus_on_msg_dpc(unsigned long data)
+> >  		/* no msg */
+> >  		return;
+> >  
+> > +	/*
+> > +	 * The hv_message object is in memory shared with the host.  The host
+> > +	 * could erroneously or maliciously modify such object.  Make sure to
+> > +	 * validate its fields and avoid double fetches whenever feasible.
+> > +	 */
+> > +
+> >  	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
+> > +	msgtype = hdr->msgtype;
+> 
+> Should READ_ONCE be used here?
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- net/8021q/vlan.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+I think it should.  Thank you for pointing this out.
 
-diff --git a/net/8021q/vlan.c b/net/8021q/vlan.c
-index f292e0267bb9..683e9e825b9e 100644
---- a/net/8021q/vlan.c
-+++ b/net/8021q/vlan.c
-@@ -36,15 +36,10 @@
- #include "vlan.h"
- #include "vlanproc.h"
- 
--#define DRV_VERSION "1.8"
--
- /* Global VLAN variables */
- 
- unsigned int vlan_net_id __read_mostly;
- 
--const char vlan_fullname[] = "802.1Q VLAN Support";
--const char vlan_version[] = DRV_VERSION;
--
- /* End of global variables definitions. */
- 
- static int vlan_group_prealloc_vid(struct vlan_group *vg,
-@@ -687,7 +682,7 @@ static int __init vlan_proto_init(void)
- {
- 	int err;
- 
--	pr_info("%s v%s\n", vlan_fullname, vlan_version);
-+	pr_info("802.1Q VLAN Support\n");
- 
- 	err = register_pernet_subsys(&vlan_net_ops);
- 	if (err < 0)
-@@ -743,4 +738,3 @@ module_init(vlan_proto_init);
- module_exit(vlan_cleanup_module);
- 
- MODULE_LICENSE("GPL");
--MODULE_VERSION(DRV_VERSION);
--- 
-2.11.0
-
+  Andrea
