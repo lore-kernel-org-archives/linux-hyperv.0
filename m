@@ -2,84 +2,135 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C301C64E7C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 19:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A152AC6369E
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 21:22:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2757522201
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 19:54:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BB0922201
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 21:22:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729145AbgLBTya (ORCPT
+        id S1728003AbgLBVWy (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 14:54:30 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:35391 "EHLO
+        Wed, 2 Dec 2020 16:22:54 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:49579 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgLBTya (ORCPT
+        with ESMTP id S1727772AbgLBVWy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 14:54:30 -0500
-Received: from [192.168.1.155] ([77.7.48.174]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MWRmF-1khPtM2VP1-00XquI; Wed, 02 Dec 2020 20:51:43 +0100
-Subject: Re: [PATCH v3 00/17] Introducing Linux root partition support for
- Microsoft Hypervisor
-To:     Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Cc:     virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        sameo@linux.intel.com, robert.bradford@intel.com,
-        sebastien.boeuf@intel.com
-References: <20201124170744.112180-1-wei.liu@kernel.org>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <227127cf-bfea-4a06-fcbc-f6c46102e9e6@metux.net>
-Date:   Wed, 2 Dec 2020 20:51:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201124170744.112180-1-wei.liu@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FDj+XlqsEiQwf6kKcNyGz6HylFiO49Ux9hA8YaPOZ1DCUh68xtn
- fvX2e/AjS8Dg+rDhaz4qtH61rxR6oY+fxjM9Bm+4mGuAdWdGLMcfqk9n898Ls0PIBIy84Ob
- DmUdaFVDl1Pd99tGagx21wa4AxgnElbTzF9H4IHFAAzpzsc/motLBbvakvx/XracfNf+EFq
- lFK5aQKq7xBuyBGi+SrGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fca7Z5IC6so=:9d2pDF6trxzpKm7G2jxhz8
- ODnPoOHC5brmQrZH8mhMhEH7VoI55ihmTV+ucLMG5SEaxeTds1ALoevp2A7cMHpOK5OvSNCLa
- Wdcrv/V6h3rU25ikcsvV2vg1wscc6sLBwG26ej/1/gzCEhmcUK97YxC+2R8tPr+rK3ckrCUdm
- d5HnRN35MLxgZHyPKyhMiu/YbF7y5LXEk7LxC9JXNdogExhpGAgyejkG8DleClIL8PfkSG0QJ
- 7WSH3xSp6mOTtQJxMfPsIPac+86JckBWpdQEaEWuBc9NV2Dmnqvac9zttZltChm5HTpC2CwgM
- AL0XpoPZX3AccJ70BfcOwE/ueieV2rMUzK8Xhsv9/+Gk7eH5sEV5jRgmIdhttxW2EEQSyiYha
- j58pkXm/zvPlwnSq0swOJhgkPewa76k/jFB4cqs0TcbFmsHumfHL2kmX9E5ut
+        Wed, 2 Dec 2020 16:22:54 -0500
+Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N4hBx-1k4jqp1hY7-011lWC; Wed, 02 Dec 2020 22:19:52 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dmitry.torokhov@gmail.com, derek.kiernan@xilinx.com,
+        dragan.cvetic@xilinx.com, richardcochran@gmail.com,
+        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH v2 2/2] x86: make Hyper-V support optional
+Date:   Wed,  2 Dec 2020 22:19:49 +0100
+Message-Id: <20201202211949.17730-2-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20201202211949.17730-1-info@metux.net>
+References: <20201202211949.17730-1-info@metux.net>
+X-Provags-ID: V03:K1:ZYw8JALVJyM7+za0bb7JmaCzzkuqUcrysb74jSbDe7uDw14f2UV
+ vdlkaMrjlMmq4uyMuGRmD9OZbCTRRKrCLuendqIOAn2gg4DNusUa+hAdknrE+ZI9jFT9u4s
+ xjWldC7c477x6uphyaHewlc00iTZVx6lm7ENjYAu5nLL0yVt58pb4JI+AymvGxfp2VYszzg
+ xQI/vRldWoOHMfKFk23Mw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SsW/Vx7eYCw=:zIS1LJ0NodFzrr2suQ0yaF
+ j72DldIEnk06X32w5FJ1IP3lcj4G6cTYvNPUphwmT4OdwbNvac9HFiBmB8w6AwTzZyU7Ik7jY
+ e30Tx/r2YicPKUGV4dShnlyGJ4ENU/J/siK3nxDXoqCqujOcxW1T0sYxq0Q49Apt075LJpdg4
+ cJbDddQBqG5pG0hUwJw0DU8ohtKFuN4RWKn8hjcpNDZlstgeWqZNUEul9rFfqOZitUlQCfidH
+ 4LkbOlD6J7KKT3+CSA0nLjXfrC9WGyerneO9j1K1ZSwBVtQPKTxUXI2WAysMrPOXg+aSO30eC
+ sgl7t3xt7dA/smbOGwApOUsLQ/4vQ+UphimZDC74T7f2k7lrLYO/PVxbX4J4VTxwjplm1/HZ3
+ n/h+68yvBjtHHhnUaMhQBEWfl5dyS5BPhuwQjmxUzQ2pzCTzkqYJXM4xv3QGK
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 24.11.20 18:07, Wei Liu wrote:
+Make it possible to opt-out from Hyper-V support, for minimized kernels
+that never will by run under Hyper-V. (eg. high-density virtualization
+or embedded systems)
 
-Hi,
+Average distro kernel will leave it on, therefore default to y.
 
-> There will be a subsequent patch series to provide a
-> device node (/dev/mshv) such that userspace programs can create and run virtual
-> machines. 
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ arch/x86/Kconfig                 | 11 +++++++++++
+ arch/x86/kernel/cpu/Makefile     |  4 ++--
+ arch/x86/kernel/cpu/hypervisor.c |  2 ++
+ drivers/hv/Kconfig               |  2 +-
+ 4 files changed, 16 insertions(+), 3 deletions(-)
 
-Any chance of using the already existing /dev/kvm interface ?
-
---mtx
-
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index eff12460cb3c..57d20591d6ee 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -812,6 +812,17 @@ config VMWARE_GUEST
+ 	  density virtualization or embedded systems running (para)virtualized
+ 	  workloads.
+ 
++config HYPERV_GUEST
++	bool "Hyper-V Guest support"
++	default y
++	help
++	  This option enables several optimizations for running under the
++	  Hyper-V hypervisor.
++
++	  Disabling it saves a few kb, for stripped down kernels eg. in high
++	  density virtualization or embedded systems running (para)virtualized
++	  workloads.
++
+ config KVM_GUEST
+ 	bool "KVM Guest support (including kvmclock)"
+ 	depends on PARAVIRT
+diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+index a615b0152bf0..5536b801cb44 100644
+--- a/arch/x86/kernel/cpu/Makefile
++++ b/arch/x86/kernel/cpu/Makefile
+@@ -51,9 +51,9 @@ obj-$(CONFIG_X86_CPU_RESCTRL)		+= resctrl/
+ 
+ obj-$(CONFIG_X86_LOCAL_APIC)		+= perfctr-watchdog.o
+ 
+-obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o mshyperv.o
++obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o
+ obj-$(CONFIG_VMWARE_GUEST)		+= vmware.o
+-
++obj-$(CONFIG_HYPERV_GUEST)		+= mshyperv.o
+ obj-$(CONFIG_ACRN_GUEST)		+= acrn.o
+ 
+ ifdef CONFIG_X86_FEATURE_NAMES
+diff --git a/arch/x86/kernel/cpu/hypervisor.c b/arch/x86/kernel/cpu/hypervisor.c
+index c0e770a224aa..32d6b2084d05 100644
+--- a/arch/x86/kernel/cpu/hypervisor.c
++++ b/arch/x86/kernel/cpu/hypervisor.c
+@@ -37,7 +37,9 @@ static const __initconst struct hypervisor_x86 * const hypervisors[] =
+ #ifdef CONFIG_VMWARE_GUEST
+ 	&x86_hyper_vmware,
+ #endif
++#ifdef CONFIG_HYPERV_GUEST
+ 	&x86_hyper_ms_hyperv,
++#endif
+ #ifdef CONFIG_KVM_GUEST
+ 	&x86_hyper_kvm,
+ #endif
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 79e5356a737a..7b3094c59a81 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -4,7 +4,7 @@ menu "Microsoft Hyper-V guest support"
+ 
+ config HYPERV
+ 	tristate "Microsoft Hyper-V client drivers"
+-	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
++	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERV_GUEST
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR
+ 	help
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+2.11.0
+
