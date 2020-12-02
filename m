@@ -2,62 +2,61 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D74E5C64E7C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1026BC64E8A
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97A102222C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B43A222203
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729228AbgLBJXU (ORCPT
+        id S1729255AbgLBJXX (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 04:23:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
+        Wed, 2 Dec 2020 04:23:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728238AbgLBJXT (ORCPT
+        with ESMTP id S1728238AbgLBJXW (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 04:23:19 -0500
+        Wed, 2 Dec 2020 04:23:22 -0500
 Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B8BC0613D6;
-        Wed,  2 Dec 2020 01:22:39 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id i2so2713167wrs.4;
-        Wed, 02 Dec 2020 01:22:39 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09A42C0613D4;
+        Wed,  2 Dec 2020 01:22:36 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id k14so2728705wrn.1;
+        Wed, 02 Dec 2020 01:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KmfIqVNpO1qdYqld/se9wMpL7fXGnp4cSTMlbr3vWAM=;
-        b=fTdyRr4TIdSKFljC0Gr4ZoDtqjbX+Dz+iJz+nbvegG+ZiyCb06gD3fFJkaCI4MCHzg
-         dTue2FxhpIJzfF8jTWb3U9c2pDrtcVPPJcvPUECAaPmIvUEogQeLdiqQ7wNwtWzMFoOr
-         biir7zo2nbeLrg4cgfCQGjLCSo5QB+J8QDNWUn7RByXtPSwX2SBS75KTXDdsQoiAcw7V
-         tNyR7UYfIDeCNLdqkvj9trk+6BrpG6U7QLtdVtKyZqlxrTcGURgnYcS1ueObiI+LUkOd
-         eMCWxN3IEzgCSDjim6KGZXnyiU53AgcFTDtmtMlrGt/Qk/OVSbBM9WufMx0JnL8em68a
-         FfHg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZwrjU6762QSJwiWh0r8/mVMOyaJCyDaBwDy1dg3d6Is=;
+        b=BBa+/wYaigbPVikShx/N9TYS3+S8E6FW3coJHXiUOFz2RFdhVF+ZVIm7Htrt8//kfe
+         7+gkNYAoxad3xbeivbEuhUQZRFTrDtcps9Usn0XHPmiXxfnKvoBhEy28GSkqambtabzS
+         qKpJSqq/2pEo/P0y+X54ulGylWlb1fhitPLQeCIGMkHxg50zKk3Sx/W9+IoLR9DmD6dZ
+         l2EyNA0MExEmMAk8Rym0E89OcioCIy4ryg1ZCWZxFNi8SKP/yevuoKVLbxGlMy0rj/9r
+         LZ/UlvLS/ZMQEd/Aarl57kQujQXwQ3hDSMSTCsKM90L60PUx28WYGus1BfZdO0OZ2Q36
+         DhnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KmfIqVNpO1qdYqld/se9wMpL7fXGnp4cSTMlbr3vWAM=;
-        b=YFAG933tVNtpaw26Y32Jh+GNgZY33wn4eQwrFLsmWHks+yjPqOcOarHAl0PzlOUfWv
-         N4utA5hWPTHm7CyvMKEUpQDuSFdVcu+GM2KDlpII5UQ2H94wCwRkTWnyMDM/9rhn/Qqs
-         wyIaT+/E7IJhbhIQTBTRGPj7EikMs9hQngg+e4noBO04XD/uNOE6a500E1f+VyQ9i4kp
-         pX5GMhu8pr20SrVxcLCoszVJcKlOZ8SkppFsk0qaTrXN31dwgJoDwTGh0no9p+17I26D
-         XOOxrfbHABobONC8vTbLg+0o4tOGlrQbVU/1/L0d6W02njAPtMnEimAQysU64lqwMpHN
-         B1Tg==
-X-Gm-Message-State: AOAM533pyb5oBc5aORoNxjzCjeqXUf4XML+kDhkumvGiFhy1L2aa0ox9
-        sb6rZCgzVuCkxvR0KBu4yTe36rPi4wlYng==
-X-Google-Smtp-Source: ABdhPJxD5AePiLX6/+NPI2C3JspLJYDOGNEM0Uu0q+QjebT56zsg8ALkqD94j0w64SMbjhykvJSyFQ==
-X-Received: by 2002:adf:e5c4:: with SMTP id a4mr2259415wrn.56.1606900957760;
-        Wed, 02 Dec 2020 01:22:37 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZwrjU6762QSJwiWh0r8/mVMOyaJCyDaBwDy1dg3d6Is=;
+        b=GMkr6/xWNg91WddU7mIW28NLGqLXru0Ea8oF6mIEBX62Zu6kLsZLDgwVRXIDqI1kOD
+         Bq/Dn8Ua4RGY9fYm1L313GEtNB1LUairyajkEXWJue3FLKFZSI6nI38UD9N6Tr1VJkQw
+         Qgo607ERAIdwp1uH1IjO7LYpyIkz/3fHlx+wfQIFYcH7AFNQp4r1HjiI8ifLWM5Iqcgj
+         Ny3uZaQlRlWGSlOCPziU8oc+P/84JrR2DliM0R+CFGc8Rg/KSi1h36YIelc+iEfRirUD
+         MkTLbRmtsC8R7aSnjKe+G9vG437Nehgb9qhpdJMUnUs8IQocbqIz1skoseZkaurB3MDM
+         OYPQ==
+X-Gm-Message-State: AOAM533gwEQJIz+BgQAVuR/7R/CryV3r8oHB2VWeB4KBkfuXe6blKRHw
+        VYuZ5TEOB7+4Nc72LiQwiEAX/fBAWYWmCg==
+X-Google-Smtp-Source: ABdhPJxwnwXt20YrRHzg9cLM1lQNBJ6tLPQlYKRtVv5ZPXbPVDACngcnWlB6WqxmtOuW08Mr2lggoA==
+X-Received: by 2002:adf:93e6:: with SMTP id 93mr2177456wrp.197.1606900954124;
+        Wed, 02 Dec 2020 01:22:34 -0800 (PST)
 Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.36
+        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 01:22:37 -0800 (PST)
+        Wed, 02 Dec 2020 01:22:33 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,53 +67,45 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 1/7] Drivers: hv: vmbus: Initialize memory to be sent to the host
-Date:   Wed,  2 Dec 2020 10:22:08 +0100
-Message-Id: <20201202092214.13520-2-parri.andrea@gmail.com>
+Subject: [PATCH v2 0/7] Drivers: hv: vmbus: More VMBus-hardening changes
+Date:   Wed,  2 Dec 2020 10:22:07 +0100
+Message-Id: <20201202092214.13520-1-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201202092214.13520-1-parri.andrea@gmail.com>
-References: <20201202092214.13520-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-__vmbus_open() and vmbus_teardown_gpadl() do not inizialite the memory
-for the vmbus_channel_open_channel and the vmbus_channel_gpadl_teardown
-objects they allocate respectively.  These objects contain padding bytes
-and fields that are left uninitialized and that are later sent to the
-host, potentially leaking guest data.  Zero initialize such fields to
-avoid leaking sensitive information to the host.
+Hi all,
 
-Reported-by: Juan Vazquez <juvazq@microsoft.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
----
- drivers/hv/channel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This is v2 of [1], integrating feedback from Juan and Wei and adding
+patch 4/7 (after Juan's suggestion).  Changelogs are in the patches.
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 0d63862d65518..9aa789e5f22bb 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -621,7 +621,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
- 		goto error_clean_ring;
- 
- 	/* Create and init the channel open message */
--	open_info = kmalloc(sizeof(*open_info) +
-+	open_info = kzalloc(sizeof(*open_info) +
- 			   sizeof(struct vmbus_channel_open_channel),
- 			   GFP_KERNEL);
- 	if (!open_info) {
-@@ -748,7 +748,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
- 	unsigned long flags;
- 	int ret;
- 
--	info = kmalloc(sizeof(*info) +
-+	info = kzalloc(sizeof(*info) +
- 		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
- 	if (!info)
- 		return -ENOMEM;
+Thanks,
+  Andrea
+
+[1] https://lkml.kernel.org/r/20201118143649.108465-1-parri.andrea@gmail.com
+
+Andrea Parri (Microsoft) (7):
+  Drivers: hv: vmbus: Initialize memory to be sent to the host
+  Drivers: hv: vmbus: Avoid double fetch of msgtype in
+    vmbus_on_msg_dpc()
+  Drivers: hv: vmbus: Avoid double fetch of payload_size in
+    vmbus_on_msg_dpc()
+  Drivers: hv: vmbus: Copy the hv_message object in vmbus_on_msg_dpc()
+  Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
+  Drivers: hv: vmbus: Resolve race condition in vmbus_onoffer_rescind()
+  Drivers: hv: vmbus: Do not allow overwriting
+    vmbus_connection.channels[]
+
+ drivers/hv/channel.c      |  4 +--
+ drivers/hv/channel_mgmt.c | 53 +++++++++++++++++++++++++++------------
+ drivers/hv/hyperv_vmbus.h |  2 +-
+ drivers/hv/vmbus_drv.c    | 43 ++++++++++++++++++-------------
+ include/linux/hyperv.h    |  1 +
+ 5 files changed, 67 insertions(+), 36 deletions(-)
+
 -- 
 2.25.1
 
