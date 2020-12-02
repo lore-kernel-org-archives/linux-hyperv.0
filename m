@@ -2,103 +2,119 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE67EC64E8A
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 01:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74E5C64E7C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EB0D2222C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 01:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97A102222C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgLBB3O (ORCPT
+        id S1729228AbgLBJXU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Dec 2020 20:29:14 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:10354 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727748AbgLBB3N (ORCPT
+        Wed, 2 Dec 2020 04:23:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728238AbgLBJXT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Dec 2020 20:29:13 -0500
+        Wed, 2 Dec 2020 04:23:19 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B8BC0613D6;
+        Wed,  2 Dec 2020 01:22:39 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id i2so2713167wrs.4;
+        Wed, 02 Dec 2020 01:22:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazon201209; t=1606872553; x=1638408553;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-id:mime-version:content-transfer-encoding:subject;
-  bh=6uQon/BDh41ppN5GvD7f9z1OblxFV9nsodeQ2f7UCM8=;
-  b=Ps+iLDMBLNv7A0TkILhrm2jqUixnXKMm5F87GTSfgEyH6/K01T4XWLNx
-   cXwIk0VWOJoxQMoxoF2n/Ep5jt0gb6VWK5ZTy+E+j/k2WX3jQ+Ir+b1T2
-   uDKEi4YxEKtCX+GwfdjD+ceTvpA/9kmyqu1rwVfODZUGVsj4Amx6fxIpH
-   Q=;
-X-IronPort-AV: E=Sophos;i="5.78,385,1599523200"; 
-   d="scan'208";a="69920108"
-Subject: Re: [PATCH] iommu/hyper-v: Fix panic on a host without the 15-bit APIC ID
- support
-Thread-Topic: [PATCH] iommu/hyper-v: Fix panic on a host without the 15-bit APIC ID support
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1e-a70de69e.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 02 Dec 2020 01:28:25 +0000
-Received: from EX13MTAUEE002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1e-a70de69e.us-east-1.amazon.com (Postfix) with ESMTPS id 6B7FBA02E2;
-        Wed,  2 Dec 2020 01:28:21 +0000 (UTC)
-Received: from EX13D08UEE002.ant.amazon.com (10.43.62.92) by
- EX13MTAUEE002.ant.amazon.com (10.43.62.24) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Dec 2020 01:28:20 +0000
-Received: from EX13D08UEE001.ant.amazon.com (10.43.62.126) by
- EX13D08UEE002.ant.amazon.com (10.43.62.92) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 2 Dec 2020 01:28:20 +0000
-Received: from EX13D08UEE001.ant.amazon.com ([10.43.62.126]) by
- EX13D08UEE001.ant.amazon.com ([10.43.62.126]) with mapi id 15.00.1497.006;
- Wed, 2 Dec 2020 01:28:20 +0000
-From:   "Woodhouse, David" <dwmw@amazon.co.uk>
-To:     "tglx@linutronix.de" <tglx@linutronix.de>,
-        "decui@microsoft.com" <decui@microsoft.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mikelley@microsoft.com" <mikelley@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-CC:     "sthemmin@microsoft.com" <sthemmin@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Tianyu.Lan@microsoft.com" <Tianyu.Lan@microsoft.com>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "kys@microsoft.com" <kys@microsoft.com>,
-        "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>
-Thread-Index: AQHWyESU8Wh/35CKPEa9TIPiCA4xtanjBEuA
-Date:   Wed, 2 Dec 2020 01:28:20 +0000
-Message-ID: <eba320d980578ff37685967f8cafa5cf3ecb48e2.camel@amazon.co.uk>
-References: <20201202004510.1818-1-decui@microsoft.com>
-In-Reply-To: <20201202004510.1818-1-decui@microsoft.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.161.174]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A329C9F40A52B649A5E7C2D7B41E30A1@amazon.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=KmfIqVNpO1qdYqld/se9wMpL7fXGnp4cSTMlbr3vWAM=;
+        b=fTdyRr4TIdSKFljC0Gr4ZoDtqjbX+Dz+iJz+nbvegG+ZiyCb06gD3fFJkaCI4MCHzg
+         dTue2FxhpIJzfF8jTWb3U9c2pDrtcVPPJcvPUECAaPmIvUEogQeLdiqQ7wNwtWzMFoOr
+         biir7zo2nbeLrg4cgfCQGjLCSo5QB+J8QDNWUn7RByXtPSwX2SBS75KTXDdsQoiAcw7V
+         tNyR7UYfIDeCNLdqkvj9trk+6BrpG6U7QLtdVtKyZqlxrTcGURgnYcS1ueObiI+LUkOd
+         eMCWxN3IEzgCSDjim6KGZXnyiU53AgcFTDtmtMlrGt/Qk/OVSbBM9WufMx0JnL8em68a
+         FfHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KmfIqVNpO1qdYqld/se9wMpL7fXGnp4cSTMlbr3vWAM=;
+        b=YFAG933tVNtpaw26Y32Jh+GNgZY33wn4eQwrFLsmWHks+yjPqOcOarHAl0PzlOUfWv
+         N4utA5hWPTHm7CyvMKEUpQDuSFdVcu+GM2KDlpII5UQ2H94wCwRkTWnyMDM/9rhn/Qqs
+         wyIaT+/E7IJhbhIQTBTRGPj7EikMs9hQngg+e4noBO04XD/uNOE6a500E1f+VyQ9i4kp
+         pX5GMhu8pr20SrVxcLCoszVJcKlOZ8SkppFsk0qaTrXN31dwgJoDwTGh0no9p+17I26D
+         XOOxrfbHABobONC8vTbLg+0o4tOGlrQbVU/1/L0d6W02njAPtMnEimAQysU64lqwMpHN
+         B1Tg==
+X-Gm-Message-State: AOAM533pyb5oBc5aORoNxjzCjeqXUf4XML+kDhkumvGiFhy1L2aa0ox9
+        sb6rZCgzVuCkxvR0KBu4yTe36rPi4wlYng==
+X-Google-Smtp-Source: ABdhPJxD5AePiLX6/+NPI2C3JspLJYDOGNEM0Uu0q+QjebT56zsg8ALkqD94j0w64SMbjhykvJSyFQ==
+X-Received: by 2002:adf:e5c4:: with SMTP id a4mr2259415wrn.56.1606900957760;
+        Wed, 02 Dec 2020 01:22:37 -0800 (PST)
+Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
+        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 01:22:37 -0800 (PST)
+From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Juan Vazquez <juvazq@microsoft.com>,
+        Saruhan Karademir <skarade@microsoft.com>,
+        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+Subject: [PATCH v2 1/7] Drivers: hv: vmbus: Initialize memory to be sent to the host
+Date:   Wed,  2 Dec 2020 10:22:08 +0100
+Message-Id: <20201202092214.13520-2-parri.andrea@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201202092214.13520-1-parri.andrea@gmail.com>
+References: <20201202092214.13520-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-T24gVHVlLCAyMDIwLTEyLTAxIGF0IDE2OjQ1IC0wODAwLCBEZXh1YW4gQ3VpIHdyb3RlOg0KPiBU
-aGUgY29tbWl0IGYzNmE3NGI5MzQ1YSBpdHNlbGYgaXMgZ29vZCwgYnV0IGl0IGNhdXNlcyBhIHBh
-bmljIGluIGENCj4gTGludXggVk0gdGhhdCBydW5zIG9uIGEgSHlwZXItViBob3N0IHRoYXQgZG9l
-c24ndCBoYXZlIHRoZSAxNS1iaXQNCj4gRXh0ZW5kZWQgQVBJQyBJRCBzdXBwb3J0Og0KPiAgICAg
-a2VybmVsIEJVRyBhdCBhcmNoL3g4Ni9rZXJuZWwvYXBpYy9pb19hcGljLmM6MjQwOCENCj4gDQo+
-IFRoaXMgaGFwcGVucyBiZWNhdXNlIHRoZSBIeXBlci1WIGlvYXBpY19pcl9kb21haW4gKHdoaWNo
-IGlzIGRlZmluZWQgaW4NCj4gZHJpdmVycy9pb21tdS9oeXBlcnYtaW9tbXUuYykgY2FuIG5vdCBi
-ZSBmb3VuZC4gRml4IHRoZSBwYW5pYyBieQ0KPiBwcm9wZXJseSBjbGFpbWluZyB0aGUgb25seSBJ
-L08gQVBJQyBlbXVsYXRlZCBieSBIeXBlci1WLg0KPiANCj4gQ2M6IERhdmlkIFdvb2Rob3VzZSA8
-ZHdtd0BhbWF6b24uY28udWs+DQo+IENjOiBWaXRhbHkgS3V6bmV0c292IDx2a3V6bmV0c0ByZWRo
-YXQuY29tPg0KPiBGaXhlczogZjM2YTc0YjkzNDVhICgieDg2L2lvYXBpYzogVXNlIEkvTy1BUElD
-IElEIGZvciBmaW5kaW5nIGlycWRvbWFpbiwgbm90IGluZGV4IikNCj4gU2lnbmVkLW9mZi1ieTog
-RGV4dWFuIEN1aSA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4NCg0KT29wcywgYXBvbG9naWVzIGZvciBt
-aXNzaW5nIHRoYXQuDQoNClJldmlld2VkLWJ5OiBEYXZpZCBXb29kaG91c2UgPGR3bXdAYW1hem9u
-LmNvLnVrPg0KCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRyZSAoTG9uZG9uKSBMdGQuIFJlZ2lz
-dGVyZWQgaW4gRW5nbGFuZCBhbmQgV2FsZXMgd2l0aCByZWdpc3RyYXRpb24gbnVtYmVyIDA0NTQz
-MjMyIHdpdGggaXRzIHJlZ2lzdGVyZWQgb2ZmaWNlIGF0IDEgUHJpbmNpcGFsIFBsYWNlLCBXb3Jz
-aGlwIFN0cmVldCwgTG9uZG9uIEVDMkEgMkZBLCBVbml0ZWQgS2luZ2RvbS4KCgo=
+__vmbus_open() and vmbus_teardown_gpadl() do not inizialite the memory
+for the vmbus_channel_open_channel and the vmbus_channel_gpadl_teardown
+objects they allocate respectively.  These objects contain padding bytes
+and fields that are left uninitialized and that are later sent to the
+host, potentially leaking guest data.  Zero initialize such fields to
+avoid leaking sensitive information to the host.
+
+Reported-by: Juan Vazquez <juvazq@microsoft.com>
+Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+---
+ drivers/hv/channel.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 0d63862d65518..9aa789e5f22bb 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -621,7 +621,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+ 		goto error_clean_ring;
+ 
+ 	/* Create and init the channel open message */
+-	open_info = kmalloc(sizeof(*open_info) +
++	open_info = kzalloc(sizeof(*open_info) +
+ 			   sizeof(struct vmbus_channel_open_channel),
+ 			   GFP_KERNEL);
+ 	if (!open_info) {
+@@ -748,7 +748,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+ 	unsigned long flags;
+ 	int ret;
+ 
+-	info = kmalloc(sizeof(*info) +
++	info = kzalloc(sizeof(*info) +
+ 		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
+ 	if (!info)
+ 		return -ENOMEM;
+-- 
+2.25.1
 
