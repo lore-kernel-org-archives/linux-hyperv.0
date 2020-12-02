@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2E9C83017
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB0AC83024
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E2462224D
+	by mail.kernel.org (Postfix) with ESMTP id DCCAE2225B
 	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388596AbgLBMxX (ORCPT
+        id S1729953AbgLBMxW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 07:53:23 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:54711 "EHLO
+        Wed, 2 Dec 2020 07:53:22 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:56325 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728726AbgLBMxX (ORCPT
+        with ESMTP id S1727809AbgLBMxP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 07:53:23 -0500
+        Wed, 2 Dec 2020 07:53:15 -0500
 Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
  (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MGi6k-1kx9B018XS-00DoAz; Wed, 02 Dec 2020 13:50:12 +0100
+ 1Mqrs9-1kO5Cx3RI1-00ms94; Wed, 02 Dec 2020 13:50:15 +0100
 From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
 To:     linux-kernel@vger.kernel.org
 Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
@@ -36,23 +36,23 @@ Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
         netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         tipc-discussion@lists.sourceforge.net,
         linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 5/7] net: bridge: remove unneeded MODULE_VERSION() usage
-Date:   Wed,  2 Dec 2020 13:49:57 +0100
-Message-Id: <20201202124959.29209-5-info@metux.net>
+Subject: [PATCH 7/7] net: tipc: remove unneeded MODULE_VERSION() usage
+Date:   Wed,  2 Dec 2020 13:49:59 +0100
+Message-Id: <20201202124959.29209-7-info@metux.net>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20201202124959.29209-1-info@metux.net>
 References: <20201202124959.29209-1-info@metux.net>
-X-Provags-ID: V03:K1:cuYtv5vslL3mKfntL9+LNoV+R1fAkyY8wxUdUqYvgUNH+fklE5n
- h9/W/Fkds8W/7VOKYoo5BIlVUv1XasthBQQJ/t8T8PS1lwTRtsL02fELoIEkxe4o0nWGLsy
- CN8CI7r/M3lBFezWUZKYqq3jWd3IQOjCLhN+m0I4TSbdIW0y3IOUe5ZWQMcOBoYiAfGe/AD
- 8RRrRDnLBfX6L/eiwjJbA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zxgM+5uXlUk=:pc3buvVoCR7nEPUYrJz5LF
- EysIamjRgMmr6hc3N03YgY6dedUyF+M8I6TRBaWJ0lR3GakVl9fBQsfTSGeuBoog56Hez/9l3
- etAr3MbgqVHs4R/0sJUuSX30nSgZax62lCL48USS4wl2ygFzzvnkB1oFNXISvbiLE0IELaeWt
- pv4OMUirWWerHvtecu935TKY4aCrwyuife0QQnsA7sUJFHl2GgCLcOh2BH0Hr4oJDnCZQLllK
- ojCoiVue3jDR/TaO+LBay4K0/H8L4dkw6qUVC92WGDQyv3lRoZ/TLy8U6heMh6Nngw77POB5J
- k1qSxnmfpUpwP2Npc0vkQzulInM1Zl/C552fpTKKIzMZrDk45XbuykAWkD4e3nz7v3CZHesbW
- 3OHtjxPl8xZX92P3E2f9NlrGy/i5Wapn+U9z59kySKZfh5JdB8pgqpVHKeM+A
+X-Provags-ID: V03:K1:cwkhICXDufJUAlJsovXQtZ2OyBFVeHR/za/rs5521Cqz6Wh9Ch/
+ n2r+/y4jIDyugCIgF5g7uue0fRRFBkrAyTDehF8v0E6LX4lDErP3ysYD0NDeGmQjUjxxaaA
+ nFTGgM784D7I7zKZoupqMvSxa0FalL9ALhRllLbOKOVQ+UZi3nlYdpHU6DqBP8RfgTXzRTu
+ LRvkO/nAPYZIyscGn/SZA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jcGj6/3kF1g=:AqzM1phRwhfM1zwVGqFIvn
+ uWCSSaCTm78/J3ALkHRgiZb5ARZR4qLcVPuAglVED3ww3ubpMwiyWf7eoeMePxvN9YwHwmBwQ
+ 7dgsTsUCBuzou/TciuwkTjiYBhyX1sqRrcs1mIKDHg1nlHN9uXk5Fer9dpimwnjB2Lf8WP+tT
+ C4c85VVOmCHLVSZRCBUE72FDp6NhNUDKz6udiqAx97K9wUdDmXN7yv47xDTpjSLv6FB8tyxAg
+ pWsukYJ/9Bvp+ZsPNH5nwCwoYH4Kj/NDGc36TJYRfJyZlBkLJu9Ndus7+Md+m8ic19+Hvbplz
+ JOUWD0AqYJikwpiy4hDyeKd+Pf2Wb0CXhj326D0FAfCWcu5Yg9xOKLthZQHnolafWMe6HFAuo
+ 8cmGOi+jtiHZ5TFd9MGcS4kJ2UK96Q5ve873ySl8iqdwo32C6bso0YridYlmL
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -62,19 +62,18 @@ making sense is the kernel version.
 
 Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
- net/bridge/br.c | 1 -
+ net/tipc/core.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/net/bridge/br.c b/net/bridge/br.c
-index 401eeb9142eb..2502fdcbb8b2 100644
---- a/net/bridge/br.c
-+++ b/net/bridge/br.c
-@@ -399,5 +399,4 @@ static void __exit br_deinit(void)
- module_init(br_init)
- module_exit(br_deinit)
- MODULE_LICENSE("GPL");
--MODULE_VERSION(BR_VERSION);
- MODULE_ALIAS_RTNL_LINK("bridge");
+diff --git a/net/tipc/core.c b/net/tipc/core.c
+index c2ff42900b53..8c0c45347c53 100644
+--- a/net/tipc/core.c
++++ b/net/tipc/core.c
+@@ -227,4 +227,3 @@ module_exit(tipc_exit);
+ 
+ MODULE_DESCRIPTION("TIPC: Transparent Inter Process Communication");
+ MODULE_LICENSE("Dual BSD/GPL");
+-MODULE_VERSION(TIPC_MOD_VER);
 -- 
 2.11.0
 
