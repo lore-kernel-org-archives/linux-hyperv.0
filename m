@@ -2,117 +2,82 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38313C8301B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:24:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 325FAC71155
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:57:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDDDC22202
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:24:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D892C2222A
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:57:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387839AbgLBJXi (ORCPT
+        id S2388389AbgLBJ5G (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 04:23:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388180AbgLBJXe (ORCPT
+        Wed, 2 Dec 2020 04:57:06 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:33016 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388462AbgLBJ5G (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 04:23:34 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCE1C0613CF;
-        Wed,  2 Dec 2020 01:22:48 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id h21so5813826wmb.2;
-        Wed, 02 Dec 2020 01:22:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Sy381wm44Taj7NbPSG7JcujeYoy3WsPyZ0mkLGSOBXY=;
-        b=nldGpVXkmPnJXqgQOox5WtCy9X5FZ3a786yRS1bN3hDVziW4evh6eXGlxbKYVRJJC3
-         f79Sv24H5qBZXDKwDnmEDHh2Oi9TyV4+3yPpGnz3LS1pbyMbvJVHxIY7sThr8eCoJjhn
-         NmoT/qFz8yEJ6UXdTjPBB3JBessscnKGlKmwnqqjhnOqEephWeNRRmzqnupiSBjnVMzl
-         QdWEHHDr3gmh87iXIgqQ5pjh259m/XH38lIb3zOUQk/2vgC2ljjt4wDBS7rLTuPFzLst
-         qh98x4buDsVP7mmm5pcmhwoCetABUhhp8fQ5SQ+TFCv0Q8Q9QiDj2wsz9piUHAgob40B
-         ynRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Sy381wm44Taj7NbPSG7JcujeYoy3WsPyZ0mkLGSOBXY=;
-        b=n1C2k+4m0MhWkiZwEnVFwE7CQU4tr8ptSY6nVW78J+5lkCM6NN/PZ6LCD3h7YqGqDc
-         t2T3kX9qcwujOUykly9YuAloO842Su1SbX4GsJStAiURjLUOvvLmmmbSUBo8zLnZHMQm
-         LZolg95k7Rg+AUNCVwK4mDWHUPqm9VtAplUMJ8GFdOLlnspnhy4o9CALEYAofdVEi7mT
-         eDZCUo+goInuPyhD/c19dh+n9R37QZNeNnSDc9LE4Okf2GsoxQU5j0LCBN6C1lOJAmjX
-         DDaMlHohLa/q9o4MiFXyi98FALSyBnGNL2JjBJplKSban5kly/cg/YN33v8S+m7nVEVr
-         zYpA==
-X-Gm-Message-State: AOAM5329e5qSEH5lgiPC7ehTu86KS9VwxkaUFeZcDUuBEtMgGLFF6qmB
-        gJhgeJPG25T/ibYx7T0nihgj5UgqAc1sAQ==
-X-Google-Smtp-Source: ABdhPJy2eeuczYdL6eYM2NmWJ6YpMLtamWmQMi1JG5UR3M4XxwJEP9kqC+irrecWnTpd21oLkziDww==
-X-Received: by 2002:a1c:2b03:: with SMTP id r3mr2097953wmr.184.1606900966987;
-        Wed, 02 Dec 2020 01:22:46 -0800 (PST)
-Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 01:22:46 -0800 (PST)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 5/7] Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
-Date:   Wed,  2 Dec 2020 10:22:12 +0100
-Message-Id: <20201202092214.13520-6-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201202092214.13520-1-parri.andrea@gmail.com>
-References: <20201202092214.13520-1-parri.andrea@gmail.com>
+        Wed, 2 Dec 2020 04:57:06 -0500
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1606902984;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ITThREJyYKgdVDP8BrxeZZquiJpUQMhRfu4ZTflB4TU=;
+        b=X3QAAs3ckISUUWG4JJlFph2NnRIwNeaLE3wK3ajpyTpKBnjYav53rMdiurQ4jGCRO/ygKG
+        6jWHI2XX4+cQh/csusD6wphm4zlZXxFsgI8aGpjw/0KVbgWRxwkVBFMfNzZB3Du79Hhefk
+        2xns0YmYm0KsJkHpJZDjYU4tPACPgBry7LF143jLh3WI6EjUcHRHXorOR6pLHPuE/TYWYQ
+        OV8mh49Qw1BydybEM8hH/8Zd60WQVPnleuUX4LUVjq2jwGKQlPH+mTe3u7bo4YaZGVvWoP
+        tWO1NQSdvtEl4b+wGxxJzc7oMfQSuhvy4hHxWC54vr8ISzzicscbvbnoYupQVg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1606902984;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ITThREJyYKgdVDP8BrxeZZquiJpUQMhRfu4ZTflB4TU=;
+        b=b9neEEERJjd556NoK2GzpE5+E8u4vImeIIA5ZyL6Bc2eNU2YeQvdgCzUZa2tWdMJsRKvgt
+        3EJixrTbLSI2NJCg==
+To:     Dexuan Cui <decui@microsoft.com>, dwmw@amazon.co.uk,
+        x86@kernel.org, decui@microsoft.com, mikelley@microsoft.com,
+        linux-hyperv@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Tianyu.Lan@microsoft.com,
+        vkuznets@redhat.com, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, wei.liu@kernel.org
+Subject: Re: [PATCH] iommu/hyper-v: Fix panic on a host without the 15-bit APIC ID support
+In-Reply-To: <20201202004510.1818-1-decui@microsoft.com>
+References: <20201202004510.1818-1-decui@microsoft.com>
+Date:   Wed, 02 Dec 2020 10:56:23 +0100
+Message-ID: <87wny0edko.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When channel->device_obj is non-NULL, vmbus_onoffer_rescind() could
-invoke put_device(), that will eventually release the device and free
-the channel object (cf. vmbus_device_release()).  However, a pointer
-to the object is dereferenced again later to load the primary_channel.
-The use-after-free can be avoided by noticing that this load/check is
-redundant if device_obj is non-NULL: primary_channel must be NULL if
-device_obj is non-NULL, cf. vmbus_add_channel_work().
+On Tue, Dec 01 2020 at 16:45, Dexuan Cui wrote:
+> The commit f36a74b9345a itself is good, but it causes a panic in a
+> Linux VM that runs on a Hyper-V host that doesn't have the 15-bit
+> Extended APIC ID support:
+>     kernel BUG at arch/x86/kernel/apic/io_apic.c:2408!
 
-Fixes: 54a66265d6754b ("Drivers: hv: vmbus: Fix rescind handling")
-Reported-by: Juan Vazquez <juvazq@microsoft.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
----
-Changes since v1:
-  - Fix typo in commit message
-  - Add Fixes: tag
+This has nothing to do with the 15bit APIC ID support, really.
 
- drivers/hv/channel_mgmt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+The point is that the select() function only matches when I/O APIC ID is
+0, which is not guaranteed. That's independent of the 15bit extended
+APIC ID feature. But the I/O-APIC ID is irrelevant on hyperv because
+there is only one.
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 5bc5eef5da159..4072fd1f22146 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -1116,8 +1116,7 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
- 			vmbus_device_unregister(channel->device_obj);
- 			put_device(dev);
- 		}
--	}
--	if (channel->primary_channel != NULL) {
-+	} else if (channel->primary_channel != NULL) {
- 		/*
- 		 * Sub-channel is being rescinded. Following is the channel
- 		 * close sequence when initiated from the driveri (refer to
--- 
-2.25.1
+> This happens because the Hyper-V ioapic_ir_domain (which is defined in
+> drivers/iommu/hyperv-iommu.c) can not be found. Fix the panic by
+> properly claiming the only I/O APIC emulated by Hyper-V.
 
+We don't fix a panic. We fix a bug in the code :)
+
+I'll amend the changelog.
+
+Thanks,
+
+        tglx
