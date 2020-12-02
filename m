@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A46DC71155
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A87C64E7C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:24:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1AEB42222F
+	by mail.kernel.org (Postfix) with ESMTP id D384122203
 	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 09:23:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729261AbgLBJXX (ORCPT
+        id S2388023AbgLBJX2 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 04:23:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51700 "EHLO
+        Wed, 2 Dec 2020 04:23:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729251AbgLBJXW (ORCPT
+        with ESMTP id S2387839AbgLBJX0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 04:23:22 -0500
+        Wed, 2 Dec 2020 04:23:26 -0500
 Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06896C0617A6;
-        Wed,  2 Dec 2020 01:22:42 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id 64so2667830wra.11;
-        Wed, 02 Dec 2020 01:22:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C378C061A04;
+        Wed,  2 Dec 2020 01:22:46 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id 64so2668230wra.11;
+        Wed, 02 Dec 2020 01:22:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9Rs5tsnn1mMjgVaYOmoOMGnCxyDPBfQTj3LZ6W940/g=;
-        b=YKKhgYLKvVDPfv6dXD6Xhh0a7vlAedO+KhL8084IwX02W3z3UAw8DG1TiARzgictf0
-         ln+jiECmWK4jYg3DQxmMvteovry7YUrGWP4bI02XqifiWvPl7Hv8ul2JirwFnQa7JGs/
-         HVbCbJzL8HvzjrAufM/S8dp78CnumhKa4kFl6IXz7P1ZWBoKwAzdCCcRRjpYykSNIocN
-         iyObnBcHdnKRlOvrksBSUpQuFwU+l6qNIjVayULYnc81yQY8cvV/42AEGlFqkXY2ndei
-         zdRUV+fYj+F9Lg3AMpZvPcidUp2/H75Mhb15Dbb5RyIIymdnoF3A7k/FAawCqdIYAlc4
-         zT8g==
+        bh=yrld+XmN/vbv+jk5N92rDHV5UMeqf6ebpPofy4kreH8=;
+        b=Xij5mvjEW9ohN++bWOTjcsYKucoj0U0E6mk7SMjR29KGMRijdKmz7d1bms37cAVmdK
+         XCpM8vgOx8csEqU7HGg03P2QqsGGjSTwuC4tly0N7GHAW/HrRhTnehAaiL0/RmJfz3kE
+         DzBYHSJQebZwE3WzBD/ZFZ7SuMZfRXPX3W2ofK2lCuclDkrRrrIGfIKndVi+e4vnsZdo
+         pqpdkkb7CcYKhxp0rGbQH6Wt30xt9lg3dFn064hNCNupyW//Rmd6yEuEeVrfMCp3UGML
+         sUGMIpR+4uakjMJkydQH5JJj0haIBORmbjxmb8Nj52eLurP6e/naRS7nT4y9EXe/0E23
+         tUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9Rs5tsnn1mMjgVaYOmoOMGnCxyDPBfQTj3LZ6W940/g=;
-        b=GZb4/HsbwQQ5YHB/vGQI9krrQg0OWy5u9g+ZWUanGb0+Am+ZJfRVEN2XeslpQt5h3T
-         duKZ5SYAFPyjVVfU8o6i1HatBa80lexx+kSCH6brD1ifN0WbBycW50LGA77//FEa1NiC
-         mkpTgmqJ5cxBosIQaRXVmkFvHowCIPsCpt4Hm8XmtT/3LaJps1rO2XtAPziyx3YW/Lq7
-         FTWa6kJZ7lybcFmLaK6Umez84Bw+CryD2E2c+DWx10OnrGmpWP5bWhb62U5uBuaUzSi0
-         XjzMMZ6T3NKkI3Y2MIlTCOd2dXbujSQ1sGbe818p+tXX1zFmsdeptNNaN7WOZQUa0QQm
-         blgA==
-X-Gm-Message-State: AOAM533iF2ml40qLIbkcqOVlD09bcqJkoKYIy5SzbHGPP/HLJhrUQWbs
-        ddg7KlvYQ0cL9HZq/dk6VruZjuHvNU75+Q==
-X-Google-Smtp-Source: ABdhPJyBlauei1ysqixsV7g7Uy98f8jzEa2aoqEHcXDSDC+R/OStCONfyHZeWaVszT3gAPhggNA01w==
-X-Received: by 2002:adf:93e6:: with SMTP id 93mr2177942wrp.197.1606900960113;
-        Wed, 02 Dec 2020 01:22:40 -0800 (PST)
+        bh=yrld+XmN/vbv+jk5N92rDHV5UMeqf6ebpPofy4kreH8=;
+        b=hQ0EeTuceb7AS/JUddqosem/2VEXCR5dqAYH4QOmEJKkQa4+XJWii2VLBHLfhx7xFJ
+         RRDotfIgku3Ew67Z50B1KM8364l7BZ3MfTY8zrsGk7EQ7j9iqiewZzH8TDSpp8679WPy
+         N/WYP9yU0GBmGmncfuCr0PqTfUPolIU8S7cLehXHsrQnD3FYiwbyv/DAL2xFkxZW7LJs
+         pzMp74CBQH8gXd49HlHgPZN609MGKL7qHze5p9PQLBJl1I4NL1t4a9Otow12Mx7IJG6m
+         dD23jdezgnuMwbG6OwklFbnnuuNs7k5XaJfgjixmtXt5feqR2JB7c6BHi0QLclJ0c+r3
+         s6Nw==
+X-Gm-Message-State: AOAM530nG1lrv1p4bWsywNQuHw/fuwoX325JlcNNwk51IDVcuiSx+ryc
+        VqA/UkFyWhKw4nYeZy+dy53401Bc7YxaTw==
+X-Google-Smtp-Source: ABdhPJwEaVPnXWiTtJlNy9Xa6P6KviiLe1bjk4kMdq3EFYaloRNzA6kcYdGJdvnS9CtPZUSu5XdNqA==
+X-Received: by 2002:a05:6000:347:: with SMTP id e7mr2176832wre.35.1606900964652;
+        Wed, 02 Dec 2020 01:22:44 -0800 (PST)
 Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.38
+        by smtp.gmail.com with ESMTPSA id e27sm1535936wrc.9.2020.12.02.01.22.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 01:22:39 -0800 (PST)
+        Wed, 02 Dec 2020 01:22:44 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 2/7] Drivers: hv: vmbus: Avoid double fetch of msgtype in vmbus_on_msg_dpc()
-Date:   Wed,  2 Dec 2020 10:22:09 +0100
-Message-Id: <20201202092214.13520-3-parri.andrea@gmail.com>
+Subject: [PATCH v2 4/7] Drivers: hv: vmbus: Copy the hv_message object in vmbus_on_msg_dpc()
+Date:   Wed,  2 Dec 2020 10:22:11 +0100
+Message-Id: <20201202092214.13520-5-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201202092214.13520-1-parri.andrea@gmail.com>
 References: <20201202092214.13520-1-parri.andrea@gmail.com>
@@ -80,78 +80,72 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-vmbus_on_msg_dpc() double fetches from msgtype.  The double fetch can
-lead to an out-of-bound access when accessing the channel_message_table
-array.  In turn, the use of the out-of-bound entry could lead to code
-execution primitive (entry->message_handler()).  Avoid the double fetch
-by saving the value of msgtype into a local variable.
+The hv_message object is in memory shared with the host.  To prevent
+an erroneous or a malicious host from 'corrupting' such object, copy
+the object into private memory.
 
-Reported-by: Juan Vazquez <juvazq@microsoft.com>
+Suggested-by: Juan Vazquez <juvazq@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
- drivers/hv/vmbus_drv.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/hv/vmbus_drv.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 0a2711aa63a15..82b23baa446d7 100644
+index 0e39f1d6182e9..796202aa7f9b4 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -1057,6 +1057,7 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	struct hv_message *msg = (struct hv_message *)page_addr +
+@@ -1054,14 +1054,24 @@ void vmbus_on_msg_dpc(unsigned long data)
+ {
+ 	struct hv_per_cpu_context *hv_cpu = (void *)data;
+ 	void *page_addr = hv_cpu->synic_message_page;
+-	struct hv_message *msg = (struct hv_message *)page_addr +
++	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
  				  VMBUS_MESSAGE_SINT;
+-	__u8 payload_size = msg->header.payload_size;
  	struct vmbus_channel_message_header *hdr;
-+	enum vmbus_channel_message_type msgtype;
+ 	enum vmbus_channel_message_type msgtype;
  	const struct vmbus_channel_message_table_entry *entry;
  	struct onmessage_work_context *ctx;
- 	u32 message_type = msg->header.message_type;
-@@ -1072,12 +1073,19 @@ void vmbus_on_msg_dpc(unsigned long data)
+-	u32 message_type = msg->header.message_type;
++	__u8 payload_size;
++	u32 message_type;
++
++	/*
++	 * The hv_message object is in memory shared with the host.  Prevent an
++	 * erroneous or malicious host from 'corrupting' such object by copying
++	 * the object to private memory.
++	 */
++	memcpy(&msg_copy, msg, sizeof(struct hv_message));
++
++	payload_size = msg_copy.header.payload_size;
++	message_type = msg_copy.header.message_type;
+ 
+ 	/*
+ 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
+@@ -1074,13 +1084,7 @@ void vmbus_on_msg_dpc(unsigned long data)
  		/* no msg */
  		return;
  
-+	/*
-+	 * The hv_message object is in memory shared with the host.  The host
-+	 * could erroneously or maliciously modify such object.  Make sure to
-+	 * validate its fields and avoid double fetches whenever feasible.
-+	 */
-+
- 	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
-+	msgtype = hdr->msgtype;
+-	/*
+-	 * The hv_message object is in memory shared with the host.  The host
+-	 * could erroneously or maliciously modify such object.  Make sure to
+-	 * validate its fields and avoid double fetches whenever feasible.
+-	 */
+-
+-	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
++	hdr = (struct vmbus_channel_message_header *)msg_copy.u.payload;
+ 	msgtype = hdr->msgtype;
  
  	trace_vmbus_on_msg_dpc(hdr);
+@@ -1111,7 +1115,7 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 			return;
  
--	if (hdr->msgtype >= CHANNELMSG_COUNT) {
--		WARN_ONCE(1, "unknown msgtype=%d\n", hdr->msgtype);
-+	if (msgtype >= CHANNELMSG_COUNT) {
-+		WARN_ONCE(1, "unknown msgtype=%d\n", msgtype);
- 		goto msg_handled;
- 	}
+ 		INIT_WORK(&ctx->work, vmbus_onmessage_work);
+-		memcpy(&ctx->msg, msg, sizeof(msg->header) + payload_size);
++		memcpy(&ctx->msg, &msg_copy, sizeof(msg_copy.header) + payload_size);
  
-@@ -1087,14 +1095,14 @@ void vmbus_on_msg_dpc(unsigned long data)
- 		goto msg_handled;
- 	}
- 
--	entry = &channel_message_table[hdr->msgtype];
-+	entry = &channel_message_table[msgtype];
- 
- 	if (!entry->message_handler)
- 		goto msg_handled;
- 
- 	if (msg->header.payload_size < entry->min_payload_len) {
- 		WARN_ONCE(1, "message too short: msgtype=%d len=%d\n",
--			  hdr->msgtype, msg->header.payload_size);
-+			  msgtype, msg->header.payload_size);
- 		goto msg_handled;
- 	}
- 
-@@ -1115,7 +1123,7 @@ void vmbus_on_msg_dpc(unsigned long data)
- 		 * by offer_in_progress and by channel_mutex.  See also the
- 		 * inline comments in vmbus_onoffer_rescind().
- 		 */
--		switch (hdr->msgtype) {
-+		switch (msgtype) {
- 		case CHANNELMSG_RESCIND_CHANNELOFFER:
- 			/*
- 			 * If we are handling the rescind message;
+ 		/*
+ 		 * The host can generate a rescind message while we
 -- 
 2.25.1
 
