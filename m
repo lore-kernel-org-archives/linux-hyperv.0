@@ -2,109 +2,80 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8303AC64E7C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6289DC64E7C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B1BD22203
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:23:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00C762223C
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbgLBMXp (ORCPT
+        id S1729806AbgLBMxP (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 07:23:45 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33755 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726066AbgLBMXo (ORCPT
+        Wed, 2 Dec 2020 07:53:15 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:36467 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726731AbgLBMxN (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 07:23:44 -0500
-Received: by mail-wr1-f68.google.com with SMTP id u12so3723039wrt.0;
-        Wed, 02 Dec 2020 04:23:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=p9yZnJwUyGYJWXufZN6mWISbIVmm/nLFQLYOSV6Egd8=;
-        b=JW7PUlZXGi8+MUpZeRe6f4wkIqyvrAbgO5iNVIP5Ozg3qZb0vK/XrZupLF7hm1moPD
-         Cg7QoLlRNkXOh6CWrOOnoUy88mjnEvift6LhN6svRkDVKse+A+JLY9IbN+UhuaXemPNk
-         JGDfNB19T3uebZ1w32Cn7buhU6E9qR+RxV+/5yoTKxuDMdhoJra9hJLZXPMNvXmxekrU
-         DDcxohc0swI8qkeUI5qsMUv86YreEE8+aHR0XzW5Op3AqINElJR2fGUc51a9GesQc4Fg
-         C001R+NNjBQN2b8LdwTbKEBHYpbG8whY7GdoKEsazh/+GAhZJ7K1dakRncezF/DS3Jz2
-         RoiA==
-X-Gm-Message-State: AOAM531fILkcvtZKufd3/tzugW3KULCaCpUiCenrGnWwRkDiOupmC9uT
-        1ZVuaGufhLLJclTcp2GAbD8=
-X-Google-Smtp-Source: ABdhPJzaap45vwcn7+2rJjslwsNC5S8s9IkkvW3wnhHWpU6oLLly8GMf8Sh94X8BcJKXhfKYx6dXmw==
-X-Received: by 2002:adf:e787:: with SMTP id n7mr3176959wrm.153.1606911776720;
-        Wed, 02 Dec 2020 04:22:56 -0800 (PST)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id g78sm1814572wme.33.2020.12.02.04.22.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 04:22:56 -0800 (PST)
-Date:   Wed, 2 Dec 2020 12:22:54 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>
-Subject: Re: [PATCH v2 2/7] Drivers: hv: vmbus: Avoid double fetch of msgtype
- in vmbus_on_msg_dpc()
-Message-ID: <20201202122254.zjhu3cfcq3zwvmvu@liuwe-devbox-debian-v2>
-References: <20201202092214.13520-1-parri.andrea@gmail.com>
- <20201202092214.13520-3-parri.andrea@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202092214.13520-3-parri.andrea@gmail.com>
-User-Agent: NeoMutt/20180716
+        Wed, 2 Dec 2020 07:53:13 -0500
+Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N9dkD-1k5RtV2atZ-015e18; Wed, 02 Dec 2020 13:50:08 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
+        sw@simonwunderlich.de, a@unstable.cc, sven@narfation.org,
+        marcel@holtmann.org, johan.hedberg@gmail.com, roopa@nvidia.com,
+        nikolay@nvidia.com, edumazet@google.com, kuznet@ms2.inr.ac.ru,
+        yoshfuji@linux-ipv6.org, jmaloy@redhat.com, ying.xue@windriver.com,
+        kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@chromium.org,
+        netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH 2/7] net: batman-adv: remove unneeded MODULE_VERSION() usage
+Date:   Wed,  2 Dec 2020 13:49:54 +0100
+Message-Id: <20201202124959.29209-2-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20201202124959.29209-1-info@metux.net>
+References: <20201202124959.29209-1-info@metux.net>
+X-Provags-ID: V03:K1:DUL4jKGzzr4GDRYpSOZvdg3+oBNavI4NZ3c+c7VoFlZr3QBVtI6
+ pCnnMOqrfI073hEGxYt3TAh/FtWaz+BcXw0fq50/DavncwJSlhPH/FAJM5195hsN383TZZd
+ yQxlERfADNkYsjlaIKnlUOe324cJbM7mNbE0/wRzWC0EWCvjvc9YYM8/hkSxv3AAGuYCfFc
+ /DIGG9V0tdkvTFP2OBVDg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dc+pPFTZS7o=:tIKFv8a6BXOKHxV4rd5+Qv
+ CUc7k/gKVAw5aoSMk6Oe3RL4jQFqQuOTnAhD3nIrZlvldDBNlsdbbw68IDuHBVOX2JbSs2GH+
+ speZgRfK0R/CfQXDDIztrdAG2GxC8MHN0hDRSdi0OcvoBrtlVxSwjbuZ/fZPNhoSEz10GHnpU
+ SBQjdEx0zAo2J7Ynp4Q0GqHNCJfOWkFZSxreTyeLtdM3vXbNtmBjn1jpGnj8g3DYbKcHaFeKV
+ kr99Rz+kj5w46k30XtSpQjYIZrMNr8OMLZFBx/axINrufJcsm4upxXP85WRjAch038LDrbKx6
+ yt2S7zUhuExIliLDQ8/QBQsU/2VBKpXHmoozAW/CjuWBVJlk50oMjTBnDarETWL0n/a/k7qxX
+ yzRPAqHHVhv7+F+yyT8EaVWPPHTcm1bwRbuqY+OunuudHxUpcOiGwaX4XDgAe
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 10:22:09AM +0100, Andrea Parri (Microsoft) wrote:
-> vmbus_on_msg_dpc() double fetches from msgtype.  The double fetch can
-> lead to an out-of-bound access when accessing the channel_message_table
-> array.  In turn, the use of the out-of-bound entry could lead to code
-> execution primitive (entry->message_handler()).  Avoid the double fetch
-> by saving the value of msgtype into a local variable.
-> 
-> Reported-by: Juan Vazquez <juvazq@microsoft.com>
-> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> ---
->  drivers/hv/vmbus_drv.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 0a2711aa63a15..82b23baa446d7 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -1057,6 +1057,7 @@ void vmbus_on_msg_dpc(unsigned long data)
->  	struct hv_message *msg = (struct hv_message *)page_addr +
->  				  VMBUS_MESSAGE_SINT;
->  	struct vmbus_channel_message_header *hdr;
-> +	enum vmbus_channel_message_type msgtype;
->  	const struct vmbus_channel_message_table_entry *entry;
->  	struct onmessage_work_context *ctx;
->  	u32 message_type = msg->header.message_type;
-> @@ -1072,12 +1073,19 @@ void vmbus_on_msg_dpc(unsigned long data)
->  		/* no msg */
->  		return;
->  
-> +	/*
-> +	 * The hv_message object is in memory shared with the host.  The host
-> +	 * could erroneously or maliciously modify such object.  Make sure to
-> +	 * validate its fields and avoid double fetches whenever feasible.
-> +	 */
-> +
->  	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
-> +	msgtype = hdr->msgtype;
+Remove MODULE_VERSION(), as it isn't needed at all: the only version
+making sense is the kernel version.
 
-Should READ_ONCE be used here?
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+---
+ net/batman-adv/main.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Wei.
+diff --git a/net/batman-adv/main.c b/net/batman-adv/main.c
+index 70fee9b42e25..1c2ccad94bf8 100644
+--- a/net/batman-adv/main.c
++++ b/net/batman-adv/main.c
+@@ -747,6 +747,5 @@ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR(BATADV_DRIVER_AUTHOR);
+ MODULE_DESCRIPTION(BATADV_DRIVER_DESC);
+ MODULE_SUPPORTED_DEVICE(BATADV_DRIVER_DEVICE);
+-MODULE_VERSION(BATADV_SOURCE_VERSION);
+ MODULE_ALIAS_RTNL_LINK("batadv");
+ MODULE_ALIAS_GENL_FAMILY(BATADV_NL_NAME);
+-- 
+2.11.0
+
