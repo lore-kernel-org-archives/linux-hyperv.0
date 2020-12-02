@@ -7,23 +7,23 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1BDEC83027
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4181CC8302B
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F15C2222C
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07D5422244
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Dec 2020 12:53:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbgLBMxj (ORCPT
+        id S1727102AbgLBMxM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Dec 2020 07:53:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:38683 "EHLO
+        Wed, 2 Dec 2020 07:53:12 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:54633 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727425AbgLBMxO (ORCPT
+        with ESMTP id S1725859AbgLBMxM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Dec 2020 07:53:14 -0500
+        Wed, 2 Dec 2020 07:53:12 -0500
 Received: from orion.localdomain ([77.7.48.174]) by mrelayeu.kundenserver.de
  (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MI5YN-1kvlb82jyB-00FBkq; Wed, 02 Dec 2020 13:50:13 +0100
+ 1N6srH-1k75n72UEp-018Nq0; Wed, 02 Dec 2020 13:50:06 +0100
 From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
 To:     linux-kernel@vger.kernel.org
 Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
@@ -36,23 +36,21 @@ Cc:     davem@davemloft.net, kuba@kernel.org, mareklindner@neomailbox.ch,
         netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         tipc-discussion@lists.sourceforge.net,
         linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH 6/7] net: vmw_vsock: remove unneeded MODULE_VERSION() usage
-Date:   Wed,  2 Dec 2020 13:49:58 +0100
-Message-Id: <20201202124959.29209-6-info@metux.net>
+Subject: [PATCH 1/7] net: 8021q: remove unneeded MODULE_VERSION() usage
+Date:   Wed,  2 Dec 2020 13:49:53 +0100
+Message-Id: <20201202124959.29209-1-info@metux.net>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20201202124959.29209-1-info@metux.net>
-References: <20201202124959.29209-1-info@metux.net>
-X-Provags-ID: V03:K1:JrtHV4ba+Vzg45sX9On6dHBZwYlVhTFEdroSCZvyP+aBnSbQBXM
- K0miwa0qLFHJBgYzZmCP9eydB3vGM8EnjrwOkClSzu5+r2ddrtB5K542VsEvyqhGAm5RzGs
- jj9R2YVcRl+T8Y1fOcAII4sRctrWUs1KUvs9mPWHL5LcfeEXGS7/LaxkR6jaB5MFtLcTnyK
- llwJKlQXZXamp0rrfPvrQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UV6JIMI1vE8=:SWYkxoFIsY3VJL/8CDs6SV
- 3gi8GpPr9LiYpaZFynhJ6Uc5pD8+d4tb25Qg5NVbMt1xw+A4ERzvl4dgI5aE2BIPbtRimL9tm
- XsU3aBUwqQlTXtY1rpJys3P1+Zi2/zMMZX50L7e5rdz21Jz/pX0khoiCsY6EsFGUIfGAZH2dn
- /BE7jvbpZpvZsatJVWRsPGDGtECat2xJYajafX2kO+VJMpRPLRoiEKmOqsmvD+qp6QNClaJ6E
- 2A5eiPxRChUYhw6m/lK4Tc4Of0ksICksfovjizsgBhiV5X1S1EDdDPKl1bPvJxKcEMgL+ek2o
- 1d0N0RIGRcmqchRga+y465w1P2ZM5DNc1ISPYPQ9Nfh73EamjgIiqtdl3JA3E1KlyCjc+4+o8
- QMbUEYwPYkq83FiyaaxZxaGvT4AbYkFdMv0HIJu/CkrW0MaUbWZ+xfSwfrAtV
+X-Provags-ID: V03:K1:14LCbfn7CIm5dANaBLGKWLgN3xQE4jDUCMo9evmbx9Co8uVlQ6w
+ AJFD6ZJ02fqB/4hkD8UvpR4MIY+/p78jpG5aWRjgTooqf+IEH1eqCBcShQ2vV0dQpZD0PsW
+ 05u5MlL8i5N7ZlPrZ7WXbFUNvvFZsQXgZIGpcP3ZrL1oewC6MVHvqtu//f0C4Yd8k+NfXYW
+ VmowlQvXdv7smIRHA6edw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UEMJ2Q5iJaA=:yleuAQn1i2Rjq/ui4VdE+g
+ jyh2pVLY6s01oGU46RcJlPLxSSX8L2w/MBwEmg20CK/7Y310Z8JlnqRGDpqOM2nJS5End/sP4
+ /9Y1onXdJEthEHAa9BhU58Pusym8OBWDtyGF2XsodDUOCLKO8Al2CEIPKNwkS7PYWLzUetR1u
+ 6d1JaWAKKnYd0bQb4e/+Rn24Bv8Hwjp283Oc/mJZgpdGd1YNZapCGRlUHnDPGMvLvbAQ4suoX
+ K+qAXCsVWaWIdCkwo5qNVHF2IP7XbGZ74/fYL0MRsOi+/PZ9Ibn6yD2QQuUvJzs0/dmQvKbzv
+ sAqugRZrYpsuSsj3PnTQPdjGB8zs3Qs8ObLlivdv6bthFn3+TxlFxmTZJ66mNuyYS4u/hwzBI
+ cHIUHiSeDY4ksdHCmLz6WWwusj+S5xSj2/yUf7nw695XokUprP0W5b5CKP7Zw
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -62,44 +60,43 @@ making sense is the kernel version.
 
 Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
- net/vmw_vsock/af_vsock.c         | 1 -
- net/vmw_vsock/hyperv_transport.c | 1 -
- net/vmw_vsock/vmci_transport.c   | 1 -
- 3 files changed, 3 deletions(-)
+ net/8021q/vlan.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index d10916ab4526..cc196ffba3ed 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -2238,5 +2238,4 @@ module_exit(vsock_exit);
+diff --git a/net/8021q/vlan.c b/net/8021q/vlan.c
+index f292e0267bb9..683e9e825b9e 100644
+--- a/net/8021q/vlan.c
++++ b/net/8021q/vlan.c
+@@ -36,15 +36,10 @@
+ #include "vlan.h"
+ #include "vlanproc.h"
  
- MODULE_AUTHOR("VMware, Inc.");
- MODULE_DESCRIPTION("VMware Virtual Socket Family");
--MODULE_VERSION("1.0.2.0-k");
- MODULE_LICENSE("GPL v2");
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index 630b851f8150..dae562f40896 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -929,6 +929,5 @@ module_init(hvs_init);
- module_exit(hvs_exit);
+-#define DRV_VERSION "1.8"
+-
+ /* Global VLAN variables */
  
- MODULE_DESCRIPTION("Hyper-V Sockets");
--MODULE_VERSION("1.0.0");
+ unsigned int vlan_net_id __read_mostly;
+ 
+-const char vlan_fullname[] = "802.1Q VLAN Support";
+-const char vlan_version[] = DRV_VERSION;
+-
+ /* End of global variables definitions. */
+ 
+ static int vlan_group_prealloc_vid(struct vlan_group *vg,
+@@ -687,7 +682,7 @@ static int __init vlan_proto_init(void)
+ {
+ 	int err;
+ 
+-	pr_info("%s v%s\n", vlan_fullname, vlan_version);
++	pr_info("802.1Q VLAN Support\n");
+ 
+ 	err = register_pernet_subsys(&vlan_net_ops);
+ 	if (err < 0)
+@@ -743,4 +738,3 @@ module_init(vlan_proto_init);
+ module_exit(vlan_cleanup_module);
+ 
  MODULE_LICENSE("GPL");
- MODULE_ALIAS_NETPROTO(PF_VSOCK);
-diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.c
-index 8b65323207db..bd39cca58ee6 100644
---- a/net/vmw_vsock/vmci_transport.c
-+++ b/net/vmw_vsock/vmci_transport.c
-@@ -2140,7 +2140,6 @@ module_exit(vmci_transport_exit);
- 
- MODULE_AUTHOR("VMware, Inc.");
- MODULE_DESCRIPTION("VMCI transport for Virtual Sockets");
--MODULE_VERSION("1.0.5.0-k");
- MODULE_LICENSE("GPL v2");
- MODULE_ALIAS("vmware_vsock");
- MODULE_ALIAS_NETPROTO(PF_VSOCK);
+-MODULE_VERSION(DRV_VERSION);
 -- 
 2.11.0
 
