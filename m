@@ -2,136 +2,88 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C69C5C0007A
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Dec 2020 17:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90141C433FE
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 00:10:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8ED44207B2
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Dec 2020 17:51:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A8D722D6D
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 00:10:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727835AbgLCRvM (ORCPT
+        id S1726151AbgLEAKH (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 3 Dec 2020 12:51:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40350 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727844AbgLCRvL (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 3 Dec 2020 12:51:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1607017784;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XZBiVCU94S1OuP6ARtameblgcsjWj/5Vo7asS36mdWU=;
-        b=asFxoaN5jb2HkXOlQmdJ0WFIjFCk2ofPPuKFDfaGBxzU1006l5Gt4CwD6lPmaF931HntaB
-        +KCMBq7jlMYKE21CQe5OSKCTQwztS7uUIczjunKjGR1XsdYcJ0t4BS/kNWZbRQl2grGZiC
-        jS0aA0MgCU2Snam3ukVt/E/9daZWftc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-RS2WyDaZMeax9a0TOpUkoA-1; Thu, 03 Dec 2020 12:49:43 -0500
-X-MC-Unique: RS2WyDaZMeax9a0TOpUkoA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4E57612A0;
-        Thu,  3 Dec 2020 17:49:41 +0000 (UTC)
-Received: from [10.36.113.250] (ovpn-113-250.ams2.redhat.com [10.36.113.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0B85960861;
-        Thu,  3 Dec 2020 17:49:39 +0000 (UTC)
-Subject: Re: [PATCH 2/2] hv_balloon: do adjust_managed_page_count() when
- ballooning/un-ballooning
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        linux-hyperv@vger.kernel.org
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20201202161245.2406143-1-vkuznets@redhat.com>
- <20201202161245.2406143-3-vkuznets@redhat.com>
- <9202aafa-f30e-4d96-72a9-3ccd083cc58c@redhat.com>
- <871rg6ok4v.fsf@vitty.brq.redhat.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <13524c28-dfec-dd21-8a45-216b161deb72@redhat.com>
-Date:   Thu, 3 Dec 2020 18:49:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Fri, 4 Dec 2020 19:10:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45894 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725902AbgLEAKG (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 4 Dec 2020 19:10:06 -0500
+Date:   Fri, 4 Dec 2020 16:09:24 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607126966;
+        bh=3oHDGeeF1GqqXg4FoxMbracGhGTzKQb1qv5/cfL79bY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nJnqUjjqRKv3uMisJCCjqn0XtrJM8B0EOjRYQ20aX4M8X+xSqYr3PDM3OYcnorhf4
+         /L0neFg27HAYYhqHGZdv6hJ8ldwV2rcOw7rNxX3T/gxArIRebME82QEbD77g4pZ7iJ
+         HRXeeJs7ji48F6F7OBMMtU5j1+3ioWzNca2FuRZuzk1IaRl3tjLoeIfQ6we5D9RrrD
+         VI1KauV38TShYhnQu7N4YK3YXmub1lbL9LMs5KkteMks8HTOyAg29BFekWUycHjLfg
+         OuDBydZ9kShVUCmsidr+q1JHR1YByzxubNHdncPV/PojXJhAKYx/uGvi3kl7gqSvi6
+         f2y2vlpBRsrWw==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, davem@davemloft.net,
+        mareklindner@neomailbox.ch, sw@simonwunderlich.de, a@unstable.cc,
+        sven@narfation.org, marcel@holtmann.org, johan.hedberg@gmail.com,
+        roopa@nvidia.com, nikolay@nvidia.com, edumazet@google.com,
+        kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org, jmaloy@redhat.com,
+        ying.xue@windriver.com, kafai@fb.com, songliubraving@fb.com,
+        yhs@fb.com, john.fastabend@gmail.com, kpsingh@chromium.org,
+        netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH 1/7] net: 8021q: remove unneeded MODULE_VERSION() usage
+Message-ID: <20201204160924.2e170514@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+In-Reply-To: <20201202124959.29209-1-info@metux.net>
+References: <20201202124959.29209-1-info@metux.net>
 MIME-Version: 1.0
-In-Reply-To: <871rg6ok4v.fsf@vitty.brq.redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 03.12.20 18:49, Vitaly Kuznetsov wrote:
-> David Hildenbrand <david@redhat.com> writes:
+On Wed,  2 Dec 2020 13:49:53 +0100 Enrico Weigelt, metux IT consult
+wrote:
+> Remove MODULE_VERSION(), as it isn't needed at all: the only version
+> making sense is the kernel version.
 > 
->> On 02.12.20 17:12, Vitaly Kuznetsov wrote:
->>> Unlike virtio_balloon/virtio_mem/xen balloon drivers, Hyper-V balloon driver
->>> does not adjust managed pages count when ballooning/un-ballooning and this leads
->>> to incorrect stats being reported, e.g. unexpected 'free' output.
->>>
->>> Note, the calculation in post_status() seems to remain correct: ballooned out
->>> pages are never 'available' and we manually add dm->num_pages_ballooned to
->>> 'commited'.
->>>
->>> Suggested-by: David Hildenbrand <david@redhat.com>
->>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->>> ---
->>>  drivers/hv/hv_balloon.c | 5 ++++-
->>>  1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
->>> index da3b6bd2367c..8c471823a5af 100644
->>> --- a/drivers/hv/hv_balloon.c
->>> +++ b/drivers/hv/hv_balloon.c
->>> @@ -1198,6 +1198,7 @@ static void free_balloon_pages(struct hv_dynmem_device *dm,
->>>  		__ClearPageOffline(pg);
->>>  		__free_page(pg);
->>>  		dm->num_pages_ballooned--;
->>> +		adjust_managed_page_count(pg, 1);
->>>  	}
->>>  }
->>>  
->>> @@ -1238,8 +1239,10 @@ static unsigned int alloc_balloon_pages(struct hv_dynmem_device *dm,
->>>  			split_page(pg, get_order(alloc_unit << PAGE_SHIFT));
->>>  
->>>  		/* mark all pages offline */
->>> -		for (j = 0; j < alloc_unit; j++)
->>> +		for (j = 0; j < alloc_unit; j++) {
->>>  			__SetPageOffline(pg + j);
->>> +			adjust_managed_page_count(pg + j, -1);
->>> +		}
->>>  
->>>  		bl_resp->range_count++;
->>>  		bl_resp->range_array[i].finfo.start_page =
->>>
->>
->> I assume this has been properly tested such that it does not change the
->> system behavior regarding when/how HyperV decides to add/remove memory.
->>
-> 
-> I'm always reluctant to confirm 'proper testing' as no matter how small
-> and 'obvious' the change is, regressions keep happening :-) But yes,
-> this was tested on a Hyper-V host and 'stress' and I observed 'free'
-> when the balloon was both inflated and deflated, values looked sane.
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 
-That;s what I wanted to hear ;)
+Thanks for the patches. Please drop the "metux IT consult" from the
+addresses. The from space is supposed to be for your name.
 
+> diff --git a/net/8021q/vlan.c b/net/8021q/vlan.c
+> index f292e0267bb9..683e9e825b9e 100644
+> --- a/net/8021q/vlan.c
+> +++ b/net/8021q/vlan.c
+> @@ -36,15 +36,10 @@
+>  #include "vlan.h"
+>  #include "vlanproc.h"
+>  
+> -#define DRV_VERSION "1.8"
+> -
+>  /* Global VLAN variables */
+>  
+>  unsigned int vlan_net_id __read_mostly;
+>  
+> -const char vlan_fullname[] = "802.1Q VLAN Support";
+> -const char vlan_version[] = DRV_VERSION;
 
--- 
-Thanks,
+This patches does not build. Please redo it more carefully.
 
-David / dhildenb
-
+You'll need to fix and resend the entire series. When you do so please
+provide a cover letter, even if it only contains a couple of sentences
+and separate the patches for bluetooth and batman-adv out as stand
+alone patches, so the respective maintainers can pick them up.
