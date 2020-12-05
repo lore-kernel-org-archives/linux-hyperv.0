@@ -2,66 +2,41 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E42E9C433FE
-	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 12:18:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F64C4361A
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 12:37:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A0B3723109
-	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 12:18:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31A9423108
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 12:37:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726249AbgLEMKN (ORCPT
+        id S1729160AbgLEKyc (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 5 Dec 2020 07:10:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729572AbgLELVZ (ORCPT
+        Sat, 5 Dec 2020 05:54:32 -0500
+Received: from smtprelay0063.hostedemail.com ([216.40.44.63]:44106 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728406AbgLEKxv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 5 Dec 2020 06:21:25 -0500
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277F9C061A52;
-        Sat,  5 Dec 2020 03:20:22 -0800 (PST)
-Received: by mail-ed1-x544.google.com with SMTP id d18so8563472edt.7;
-        Sat, 05 Dec 2020 03:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pFubxfr8TFbxQDJSOpWOytb7HLBaRWXRUz4oP+BoVPY=;
-        b=AZURVcC6OJupQc+TX0wKSi9ndyA8sSCeiaKQjWp7MuLbjQ06CR27ZzrX60fG4wW0E9
-         neLjKkEmfALRY/L2LxUBvdX62A8AOUdzozr2nsK9ySd1EawIE92TzJhPjfjLDIMKFFtz
-         PjmY+YNS3mx7YqxE2AGFpukWbX0D6EJrYUJEIWBpc0HJMhZmYoR/Al/Ly9yTKTA5mBnI
-         iWqJ5q1x0UuJ2pFKOr2bjtRbbD7cMg1KzNJrPFHDKET4MDqMlYmFp2QB4U5jBjVg9TPo
-         F3JEipPVBV/+4bsC0lMxUpSLc7R9dRh4GcwPuN89YDtgnhINqzlk8l0SutVBsBXPL12Q
-         OxMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pFubxfr8TFbxQDJSOpWOytb7HLBaRWXRUz4oP+BoVPY=;
-        b=aqyxNNQckoWQEWwdTuxycTxmOHJjv1CUuPS2lkvFpSngyeFf70KM5kBWGew0hTK6Pl
-         ZBQ2g8QZeEDA7UuEB7NgSC2NtdqYLWD73fKh/++FV6mrXNIAVT7XtAw7On4IoUSH5lG2
-         JCz9hck5lrgjatbX+H5dxt4wXMDd+HwEyR2bXEiC3Ac6YtyNxviYK8LcXP+5XHM+I8T/
-         m4C45f4z4X2jskSoP7gk2MUgWwvIYbGrPXNQ2ojZUEJqt7aNq9Ps2Ilsz5iTOOCjvmrH
-         t/26bwHNlt7eq3wryNz3wJg81dUhSPLat2QhG+xt3uLeiH2xKNq2iTaWcIEnG1zcKvQl
-         Cb0g==
-X-Gm-Message-State: AOAM531b1ygF6l4Fr37AKCqe07mkO+lJjUh68xZS/gRK507l/A6VSOAY
-        ff6gZxu5JyKcWND8J1Ycz2A=
-X-Google-Smtp-Source: ABdhPJw+unuRTFJO1NOL8frkI1yVuOJQmy3spxq/6bJQmnA9TDY3fDq8+xWvo35iYTRJvdJlNzjeKQ==
-X-Received: by 2002:a50:8163:: with SMTP id 90mr11604786edc.142.1607167220864;
-        Sat, 05 Dec 2020 03:20:20 -0800 (PST)
-Received: from skbuf ([188.25.2.120])
-        by smtp.gmail.com with ESMTPSA id m13sm5713938edi.87.2020.12.05.03.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Dec 2020 03:20:20 -0800 (PST)
-Date:   Sat, 5 Dec 2020 13:20:18 +0200
-From:   Vladimir Oltean <olteanv@gmail.com>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+        Sat, 5 Dec 2020 05:53:51 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 6C27B18224D86;
+        Sat,  5 Dec 2020 10:51:48 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: edge87_1a0a959273cc
+X-Filterd-Recvd-Size: 2215
+Received: from XPS-9350.home (unknown [47.151.137.21])
+        (Authenticated sender: joe@perches.com)
+        by omf15.hostedemail.com (Postfix) with ESMTPA;
+        Sat,  5 Dec 2020 10:51:44 +0000 (UTC)
+Message-ID: <7779f4de8d70653fe0d92fd4821c32a71b6df436.camel@perches.com>
+Subject: Re: [PATCH 1/7] net: 8021q: remove unneeded MODULE_VERSION() usage
+From:   Joe Perches <joe@perches.com>
+To:     Jakub Kicinski <kuba@kernel.org>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, davem@davemloft.net,
         mareklindner@neomailbox.ch, sw@simonwunderlich.de, a@unstable.cc,
         sven@narfation.org, marcel@holtmann.org, johan.hedberg@gmail.com,
         roopa@nvidia.com, nikolay@nvidia.com, edumazet@google.com,
@@ -71,52 +46,35 @@ Cc:     linux-kernel@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
         netdev@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         tipc-discussion@lists.sourceforge.net,
         linux-hyperv@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH 1/7] net: 8021q: remove unneeded MODULE_VERSION() usage
-Message-ID: <20201205112018.zrddte4hu6kr5bxg@skbuf>
+Date:   Sat, 05 Dec 2020 02:51:43 -0800
+In-Reply-To: <20201204160924.2e170514@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
 References: <20201202124959.29209-1-info@metux.net>
+         <20201204160924.2e170514@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202124959.29209-1-info@metux.net>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 01:49:53PM +0100, Enrico Weigelt, metux IT consult wrote:
-> Remove MODULE_VERSION(), as it isn't needed at all: the only version
-> making sense is the kernel version.
->
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  net/8021q/vlan.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/net/8021q/vlan.c b/net/8021q/vlan.c
-> index f292e0267bb9..683e9e825b9e 100644
-> --- a/net/8021q/vlan.c
-> +++ b/net/8021q/vlan.c
-> @@ -36,15 +36,10 @@
->  #include "vlan.h"
->  #include "vlanproc.h"
->
-> -#define DRV_VERSION "1.8"
-> -
->  /* Global VLAN variables */
->
->  unsigned int vlan_net_id __read_mostly;
->
-> -const char vlan_fullname[] = "802.1Q VLAN Support";
-> -const char vlan_version[] = DRV_VERSION;
-> -
->  /* End of global variables definitions. */
->
->  static int vlan_group_prealloc_vid(struct vlan_group *vg,
-> @@ -687,7 +682,7 @@ static int __init vlan_proto_init(void)
->  {
->  	int err;
->
-> -	pr_info("%s v%s\n", vlan_fullname, vlan_version);
-> +	pr_info("802.1Q VLAN Support\n");
+On Fri, 2020-12-04 at 16:09 -0800, Jakub Kicinski wrote:
+> On Wed,  2 Dec 2020 13:49:53 +0100 Enrico Weigelt, metux IT consult
+> wrote:
+> > Remove MODULE_VERSION(), as it isn't needed at all: the only version
+> > making sense is the kernel version.
+> > 
+> > Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+> 
+> Thanks for the patches. Please drop the "metux IT consult" from the
+> addresses. The from space is supposed to be for your name.
 
-How do we feel about deleting this not really informative message
-altogether in a future patch?
+If you _really_ want this superfluous 'metux IT consult' content in your
+signature, and I don't think you should, use parentheses around it.
+
+Enrico Weigelt (metux IT consult) <info@metux.net>
+
+Using a comma makes copy/paste into an email client think it's two addresses.
+
+
+
