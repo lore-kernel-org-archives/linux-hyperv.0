@@ -2,85 +2,166 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A82BC2BB3F
-	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 18:43:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7181DC4361A
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 20:42:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D26222E00
-	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 18:43:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34E40230F9
+	for <linux-hyperv@archiver.kernel.org>; Sat,  5 Dec 2020 20:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727218AbgLESmz (ORCPT
+        id S1726991AbgLEUly (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 5 Dec 2020 13:42:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52614 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727455AbgLEQ45 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 5 Dec 2020 11:56:57 -0500
-Date:   Sat, 5 Dec 2020 08:56:04 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607187366;
-        bh=eYK2sVwutlChKihLleNVWiUi78sQBhnha5Lia/JugEk=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=vMEN6qm/NY0zywdKx2ToXvTfnuHiO3H2aQZqbvE0CRZ7TVKJ0yvjmIBIONtYwMWba
-         YLl7gaW2CRwIsO/xb/4VbCmNjegduBOz8f/uV41Zxdlw7RcE1+A7jSSQYcK81ubKVj
-         7jTIHCoR+wk5wCcF+sEJ8KW/VN5cYqeJJVbfzo3AmYCB8akLA7NFgCPUUzO1FQCTQx
-         kjT1NMAWQshhIllcbcLtqsitlVu5YmRbjzDtQYozUAozstFMU+3mMSl8p/bK54g5ma
-         RKcO5OW7xC9qefs9dh3A2M8rahxLe8kCtew2cYQFjauuNtrxHXYUA8VrqbFDlBqSfR
-         Eq5raUj3FwnQw==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Sven Eckelmann <sven@narfation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        davem@davemloft.net, mareklindner@neomailbox.ch,
-        sw@simonwunderlich.de, a@unstable.cc, marcel@holtmann.org,
-        johan.hedberg@gmail.com, roopa@nvidia.com, nikolay@nvidia.com,
-        edumazet@google.com, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
-        jmaloy@redhat.com, ying.xue@windriver.com, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@chromium.org, netdev@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        linux-hyperv@vger.kernel.org, bpf@vger.kernel.org,
-        Matthias Schiffer <mschiffer@universe-factory.net>
-Subject: Re: [PATCH 2/7] net: batman-adv: remove unneeded MODULE_VERSION()
- usage
-Message-ID: <20201205085604.1e3fcaee@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
-In-Reply-To: <4581108.GXAFRqVoOG@sven-edge>
-References: <20201202124959.29209-1-info@metux.net>
-        <20201202124959.29209-2-info@metux.net>
-        <4581108.GXAFRqVoOG@sven-edge>
+        Sat, 5 Dec 2020 15:41:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgLEUly (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 5 Dec 2020 15:41:54 -0500
+X-Greylist: delayed 493 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 05 Dec 2020 12:41:13 PST
+Received: from mx-rz-3.rrze.uni-erlangen.de (mx-rz-3.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84CB6C0613D1;
+        Sat,  5 Dec 2020 12:41:13 -0800 (PST)
+Received: from mx-rz-smart.rrze.uni-erlangen.de (mx-rz-smart.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::1e])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx-rz-3.rrze.uni-erlangen.de (Postfix) with ESMTPS id 4CpLpk5NKYz1yth;
+        Sat,  5 Dec 2020 21:32:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fau.de; s=fau-2013;
+        t=1607200334; bh=AbA8ZXJqu5TM96CCyE5jL7V1IYodJ71rqmxAvdah4Jc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From:To:CC:
+         Subject;
+        b=BSgmOsu9O2Y2EVPYh1brrj4xh+Q3H55P+PcSXpZs89WZf2cjruoJcrMGlFicoIPYq
+         ts4Rv+BrZ9gD3fgG8eo5cAl4SxiLJevV69eLDdP1VRj95EzTS6VlwwxWXfF7AWO28j
+         QUpmZtRKAGH3leq1z7snJzawjuND+NJ7/JY8TlVRXmum7jIc+l3rBBc0P1+p2IJ6F4
+         ThusamBLxxmv4WfPFrkwJQWU9icCkOZbwt021SOJDPKgv1e37Qvnl8TpcjVDIpsK0B
+         9O+vWRSURjYFTmU0t6RiaxRmQaEG3ttDQvglAlZMEZecMhhygM3O9W1K7+AM4brjSi
+         a1YgwfDRUfWlw==
+X-Virus-Scanned: amavisd-new at boeck1.rrze.uni-erlangen.de (RRZE)
+X-RRZE-Flag: Not-Spam
+X-RRZE-Submit-IP: 2001:16b8:a0b5:2d00:304b:c7f:3c59:928c
+Received: from [IPv6:2001:16b8:a0b5:2d00:304b:c7f:3c59:928c] (unknown [IPv6:2001:16b8:a0b5:2d00:304b:c7f:3c59:928c])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: U2FsdGVkX18hvv5srgvnBwqu36GcyavqTYlgohHZSvI=)
+        by smtp-auth.uni-erlangen.de (Postfix) with ESMTPSA id 4CpLpg6X4nz1xrk;
+        Sat,  5 Dec 2020 21:32:11 +0100 (CET)
+Subject: Re: [PATCH 0/3] drivers/hv: make max_num_channels_supported
+ configurable
+To:     Michael Kelley <mikelley@microsoft.com>,
+        Stefan Eschenbacher <stefan.eschenbacher@fau.de>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kernel@i4.cs.fau.de" <linux-kernel@i4.cs.fau.de>
+References: <20201205172650.2290-1-stefan.eschenbacher@fau.de>
+ <MW2PR2101MB1052DC9416ABC1ECFE25E38DD7F01@MW2PR2101MB1052.namprd21.prod.outlook.com>
+From:   Max Stolze <max.stolze@fau.de>
+Message-ID: <1b2e2fce-7dd5-9ca2-840e-2c48ed087bc6@fau.de>
+Date:   Sat, 5 Dec 2020 21:32:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <MW2PR2101MB1052DC9416ABC1ECFE25E38DD7F01@MW2PR2101MB1052.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sat, 05 Dec 2020 08:06:40 +0100 Sven Eckelmann wrote:
-> On Wednesday, 2 December 2020 13:49:54 CET Enrico Weigelt, metux IT consult wrote:
-> > Remove MODULE_VERSION(), as it isn't needed at all: the only version
-> > making sense is the kernel version.  
-> 
-> Is there some explanation besides an opinion? Some kind goal which you want to 
-> achieve with it maybe?
-> 
-> At least for us it was an easy way to query the release cycle information via 
-> batctl. Which made it easier for us to roughly figure out what an reporter/
-> inquirer was using - independent of whether he is using the in-kernel version 
-> or a backported version.
-> 
-> Loosing this source of information and breaking parts of batctl and other 
-> tools (respondd, ...) is not the end of the world. But I would at least know 
-> why this is now necessary.
 
-No, no, if it breaks your user space we can't do it, let's leave batman
-alone, then.
 
-I think this is mostly a clean up. In-tree the kernel version is usually
-far more dependable because backports don't include version bumps.
+On 05/12/2020 19:27, Michael Kelley wrote:
+> From: Stefan Eschenbacher <stefan.eschenbacher@fau.de>
+>>
+>> According to the TODO comment in hyperv_vmbus.h the value in macro
+>> MAX_NUM_CHANNELS_SUPPORTED should be configurable. The first patch
+>> accomplishes that by introducting uint max_num_channels_supported as
+>> module parameter.
+>> Also macro MAX_NUM_CHANNELS_SUPPORTED_DEFAULT is introduced with
+>> value 256, which is the currently used macro value.
+>> MAX_NUM_CHANNELS_SUPPORTED was found and replaced in two locations.
+>>
+>> During module initialization sanity checks are applied which will result
+>> in EINVAL or ERANGE if the given value is no multiple of 32 or larger than
+>> MAX_NUM_CHANNELS.
+>>
+>> While testing, we found a misleading typo in the comment for the macro
+>> MAX_NUM_CHANNELS which is fixed by the second patch.
+>>
+>> The third patch makes the added default macro configurable by
+>> introduction and use of Kconfig parameter HYPERV_VMBUS_DEFAULT_CHANNELS.
+>> Default value remains at 256.
+>>
+>> Two notes on these patches:
+>> 1) With above patches it is valid to configure max_num_channels_supported
+>> and MAX_NUM_CHANNELS_SUPPORTED_DEFAULT as 0. We simply don't know if that
+>> is a valid value. Doing so while testing still left us with a working
+>> Debian VM in Hyper-V on Windows 10.
+>> 2) To set the Kconfig parameter the user currently has to divide the
+>> desired default number of channels by 32 and enter the result of that
+>> calculation. This way both known constraints we got from the comments in
+>> the code are enforced. It feels a bit unintuitive though. We haven't found
+>> Kconfig options to ensure that the value is a multiple of 32. So if you'd
+>> like us to fix that we'd be happy for some input on how to settle it with
+>> Kconfig.
+>>
+>> Signed-off-by: Stefan Eschenbacher <stefan.eschenbacher@fau.de>
+>> Co-developed-by: Max Stolze <max.stolze@fau.de>
+>> Signed-off-by: Max Stolze <max.stolze@fau.de>
+>>
+>> Stefan Eschenbacher (3):
+>>   drivers/hv: make max_num_channels_supported configurable
+>>   drivers/hv: fix misleading typo in comment
+>>   drivers/hv: add default number of vmbus channels to Kconfig
+>>
+>>  drivers/hv/Kconfig        | 13 +++++++++++++
+>>  drivers/hv/hyperv_vmbus.h |  8 ++++----
+>>  drivers/hv/vmbus_drv.c    | 20 +++++++++++++++++++-
+>>  3 files changed, 36 insertions(+), 5 deletions(-)
+>>
+>> --
+>> 2.20.1
+> 
+> Stefan -- this cover letter email came through, but it doesn't look like
+> the individual patch emails did.  So you might want to check your
+> patch sending process.
+> 
+> Thanks for your interest in this old "TODO" item.  But let me provide some
+> additional background.  Starting in Windows 8 and Windows Server 2012,
+> Hyper-V revised the mechanism by which channel interrupt notifications
+> are made.  The MAX_NUM_CHANNELS_SUPPORTED value is only used
+> with Windows 7 and Windows Server 2008 R2, neither of which is officially
+> supported any longer.  See the code at the top of vmbus_chan_sched() where
+> the VMBus protocol version is checked, and MAX_NUM_CHANNELS_SUPPORTED
+> is used only when the protocol version indicates we're running on Windows 7
+> (or the equivalent Windows Server 2008 R2).
+> 
+> Because the old mechanism was superseded, making the value configurable
+> doesn't have any benefit.   At some point, we will remove this old code path
+> entirely, including the #define MAX_NUM_CHANNELS_SUPPORTED.  The
+> comment with the "TODO" could be removed, but other than that, I don't
+> think we want to make these changes.
+> 
+> Michael
+> 
 
-Indeed it would be great if the clear motivation was spelled out in the
-cover letter and/or patches.
+Hi Michael, 
+thanks for the insight and explanation.
+It's a pity that the rest of the series did not make it trough.
+However, given what you wrote it doesn't seem to be of 
+utmost importance.
+
+As irrelevant as it may be we'd still be glad to see the TODO gone.
+Given that we found it by looking for things that can be done around
+the kernel I don't see why somebody else would not find it while looking
+for the same.
+
+Max
