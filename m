@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1542AC4361B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D998C4361B
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C197723719
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9CAA23B85
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgLIHKU (ORCPT
+        id S1728396AbgLIHKb (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Dec 2020 02:10:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53226 "EHLO
+        Wed, 9 Dec 2020 02:10:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbgLIHKJ (ORCPT
+        with ESMTP id S1727938AbgLIHKV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Dec 2020 02:10:09 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA539C061794;
-        Tue,  8 Dec 2020 23:09:23 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id x22so467377wmc.5;
-        Tue, 08 Dec 2020 23:09:23 -0800 (PST)
+        Wed, 9 Dec 2020 02:10:21 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B62C0617A6;
+        Tue,  8 Dec 2020 23:09:28 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id t16so529413wra.3;
+        Tue, 08 Dec 2020 23:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/BM6lIEZcpWVYdZyLdlDnitxFukrlBDsW1DAuiV/UXw=;
-        b=hqBwN7HaEGhVelgkMPe+pVaNUBaa/wAfmqsOTr8Xr/M3/zTb/f0hqyOhlZC7o4rJMl
-         kEHx4oMFTp3HMxzxX9IHOMBXe8m+96bDj72NM/FzMX4h8efLDGt+z58uzspLxC6EMcwD
-         cQyLF0uwgkIgBT4Duhc0j23VvjDfU5vLbfs5+fMy9aSYQihkV6T+lYJvwb/4qar4zGGg
-         j9FW9wlBJicBxypF1wyzTZzpjdIbVf3NXwzaHvCPSx/D26SsUrajn54ra/105XcHdz29
-         /YbZbwjwppMFoezuBEimY5ClW9cR85FfzJFWUFr9iEQL+QBvq/8JIJR33daHJYzKvW1H
-         i51A==
+        bh=1mAxqSMz7VFb+amOxQ3+4rc/WVh8Vx757mod6VpsOnY=;
+        b=ZVNXslK8ANefFZHJiOv1Hz/nOV825xcSRa2lAty+x947sshQehDEJMTyQcyj/vwEPN
+         e5Bv4X6ti+Fdq6HwwrO7MowXUnenFgx7KzGoQy3IBP6iU6M6Fa7JLS3cEWRirF7ODQNT
+         mu0NoYb/tYldzfHf7mQkKVf0NxPKfiOpZzz4Utv9ULuwsvNZ3bHnNQhJjlnbijPws1O1
+         DRvXqLI6OwHN0gtBXkiFq0f5mMA4NKH9xp+0Tfph/hPsPdrMIn1oft4JmlttJYCwu5/v
+         6dQeO/A5B5Mlzc+9aalMwUIMFJu9iEWk8/RTqmnFP4qG/lMXIfVjMWGmxqbfSFtei4at
+         vSrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/BM6lIEZcpWVYdZyLdlDnitxFukrlBDsW1DAuiV/UXw=;
-        b=LpU5PnQ8c6tfkEI5IwHquTYIWBCavoWQ2vyDJHtq45fieJGkS49bZk/Kl/7zXucfek
-         QSF8dG7OkM0cjYdkqD8DuZwYHtzpRI2uIY3UFf+rsRqoNr/vtCGEBbeh/ZzaeVNeHTFI
-         +thcyBqnrz9TVnmNHGzYfyoxm7klbKxbR44gt+TbYzYIXhVzlyT/wsBbK/X4A9FjjuE0
-         E/XoFd5G7MRSbgAS7dgW5f0/FE2yiPZPZKNukMZfrYO6WegcWW9SGEEfMxnerREXHJ2s
-         c/L8X9w5QWU70NVJ4s3C7fOM1+WOepbhX9m+Wwd9IgVaJLh+3AnyQIeYj2mYIzW0rAXk
-         kjkw==
-X-Gm-Message-State: AOAM53338wROiWw2M8XzHSv1lHsqcwR8GHnjxogawV3JeK91ZxRPnpfN
-        syqocqb0A1gk6T66zbJLr5szbrTe7d0pNg==
-X-Google-Smtp-Source: ABdhPJwEuCn+ZOY0CFBQ5Y4RKZiEdfToQ+mMaFhATKqyczDEIyXyXvvM8pbum+6hxpPBsn7xAQqtyw==
-X-Received: by 2002:a1c:40d6:: with SMTP id n205mr1178061wma.0.1607497762203;
-        Tue, 08 Dec 2020 23:09:22 -0800 (PST)
+        bh=1mAxqSMz7VFb+amOxQ3+4rc/WVh8Vx757mod6VpsOnY=;
+        b=W64ID5k5UaP2+kgI/odjpS+wADvwlSzm6a4TmMvBEbvmvEJ73MRgqh0u45kpFgT5CG
+         I9KLkeaLqQagTV2zxXFGumMnyqJ8D5cyMKYNj1d4oP7pQRH65v+B4QiWAwACGrRTko+Y
+         D2F0WiZ9mJPJ4+9CFvrADEDUICDGAHwputOIXQCuJUvVgXDkNvvFqsjRUDcHNmXBpcB0
+         +fKTESGiCzrvhzd6r3fVjz1dS6Ou4hdpnzRV0jpVGOl6Rw8VYLKtIVePfDcciJ+ZHKji
+         51L6zBkORQPI865Rgq493ye8KcsfXvBOrWxud6OFGofBQx/7A2bQy1uGpVX0LKJrIxUK
+         bsrA==
+X-Gm-Message-State: AOAM530hirx2bIdXubbfyI0EK8hZUQad9q8JeyXDD4711QjHXaYFV+tI
+        7Y33LnL/yTStgtOXHGpQY0tGXpKUMa8S8g==
+X-Google-Smtp-Source: ABdhPJyMezS778En8aISEF+/LaGKguNhF0zAow04nqakFPDeTlfqaubWSvNEYzH2e3Ri5tpv2vOShw==
+X-Received: by 2002:adf:ecd0:: with SMTP id s16mr926596wro.415.1607497766719;
+        Tue, 08 Dec 2020 23:09:26 -0800 (PST)
 Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id p3sm1449122wrs.50.2020.12.08.23.09.20
+        by smtp.gmail.com with ESMTPSA id p3sm1449122wrs.50.2020.12.08.23.09.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 23:09:21 -0800 (PST)
+        Tue, 08 Dec 2020 23:09:26 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v3 3/6] Drivers: hv: vmbus: Copy the hv_message in vmbus_on_msg_dpc()
-Date:   Wed,  9 Dec 2020 08:08:24 +0100
-Message-Id: <20201209070827.29335-4-parri.andrea@gmail.com>
+Subject: [PATCH v3 5/6] Drivers: hv: vmbus: Resolve race condition in vmbus_onoffer_rescind()
+Date:   Wed,  9 Dec 2020 08:08:26 +0100
+Message-Id: <20201209070827.29335-6-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201209070827.29335-1-parri.andrea@gmail.com>
 References: <20201209070827.29335-1-parri.andrea@gmail.com>
@@ -80,81 +80,56 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Since the message is in memory shared with the host, an erroneous or a
-malicious Hyper-V could 'corrupt' the message while vmbus_on_msg_dpc()
-or individual message handlers are executing.  To prevent it, copy the
-message into private memory.
+An erroneous or malicious host could send multiple rescind messages for
+a same channel.  In vmbus_onoffer_rescind(), the guest maps the channel
+ID to obtain a pointer to the channel object and it eventually releases
+such object and associated data.  The host could time rescind messages
+and lead to an use-after-free.  Add a new flag to the channel structure
+to make sure that only one instance of vmbus_onoffer_rescind() can get
+the reference to the channel object.
 
 Reported-by: Juan Vazquez <juvazq@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 ---
-Changes since v2:
-  - Revisit commit message and inline comment
+ drivers/hv/channel_mgmt.c | 12 ++++++++++++
+ include/linux/hyperv.h    |  1 +
+ 2 files changed, 13 insertions(+)
 
- drivers/hv/vmbus_drv.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 44bcf9ccdaf5f..b1c5a89d75f9d 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1054,14 +1054,14 @@ void vmbus_on_msg_dpc(unsigned long data)
- {
- 	struct hv_per_cpu_context *hv_cpu = (void *)data;
- 	void *page_addr = hv_cpu->synic_message_page;
--	struct hv_message *msg = (struct hv_message *)page_addr +
-+	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
- 				  VMBUS_MESSAGE_SINT;
- 	struct vmbus_channel_message_header *hdr;
- 	enum vmbus_channel_message_type msgtype;
- 	const struct vmbus_channel_message_table_entry *entry;
- 	struct onmessage_work_context *ctx;
--	u32 message_type = msg->header.message_type;
- 	__u8 payload_size;
-+	u32 message_type;
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 4072fd1f22146..68950a1e4b638 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -1063,6 +1063,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
  
- 	/*
- 	 * 'enum vmbus_channel_message_type' is supposed to always be 'u32' as
-@@ -1070,11 +1070,20 @@ void vmbus_on_msg_dpc(unsigned long data)
- 	 */
- 	BUILD_BUG_ON(sizeof(enum vmbus_channel_message_type) != sizeof(u32));
+ 	mutex_lock(&vmbus_connection.channel_mutex);
+ 	channel = relid2channel(rescind->child_relid);
++	if (channel != NULL) {
++		/*
++		 * Guarantee that no other instance of vmbus_onoffer_rescind()
++		 * has got a reference to the channel object.  Synchronize on
++		 * &vmbus_connection.channel_mutex.
++		 */
++		if (channel->rescind_ref) {
++			mutex_unlock(&vmbus_connection.channel_mutex);
++			return;
++		}
++		channel->rescind_ref = true;
++	}
+ 	mutex_unlock(&vmbus_connection.channel_mutex);
  
-+	/*
-+	 * Since the message is in memory shared with the host, an erroneous or
-+	 * malicious Hyper-V could modify the message while vmbus_on_msg_dpc()
-+	 * or individual message handlers are executing; to prevent this, copy
-+	 * the message into private memory.
-+	 */
-+	memcpy(&msg_copy, msg, sizeof(struct hv_message));
-+
-+	message_type = msg_copy.header.message_type;
- 	if (message_type == HVMSG_NONE)
- 		/* no msg */
- 		return;
+ 	if (channel == NULL) {
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 2ea967bc17adf..f0d48a368f131 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -809,6 +809,7 @@ struct vmbus_channel {
+ 	u8 monitor_bit;
  
--	hdr = (struct vmbus_channel_message_header *)msg->u.payload;
-+	hdr = (struct vmbus_channel_message_header *)msg_copy.u.payload;
- 	msgtype = hdr->msgtype;
+ 	bool rescind; /* got rescind msg */
++	bool rescind_ref; /* got rescind msg, got channel reference */
+ 	struct completion rescind_event;
  
- 	trace_vmbus_on_msg_dpc(hdr);
-@@ -1084,7 +1093,7 @@ void vmbus_on_msg_dpc(unsigned long data)
- 		goto msg_handled;
- 	}
- 
--	payload_size = msg->header.payload_size;
-+	payload_size = msg_copy.header.payload_size;
- 	if (payload_size > HV_MESSAGE_PAYLOAD_BYTE_COUNT) {
- 		WARN_ONCE(1, "payload size is too large (%d)\n", payload_size);
- 		goto msg_handled;
-@@ -1106,7 +1115,7 @@ void vmbus_on_msg_dpc(unsigned long data)
- 			return;
- 
- 		INIT_WORK(&ctx->work, vmbus_onmessage_work);
--		memcpy(&ctx->msg, msg, sizeof(msg->header) + payload_size);
-+		memcpy(&ctx->msg, &msg_copy, sizeof(msg->header) + payload_size);
- 
- 		/*
- 		 * The host can generate a rescind message while we
+ 	u32 ringbuffer_gpadlhandle;
 -- 
 2.25.1
 
