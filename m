@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41622C19425
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF71C4361B
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:11:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0385E23BC4
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:10:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7863E23B84
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbgLIHKa (ORCPT
+        id S1728227AbgLIHKU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Dec 2020 02:10:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53272 "EHLO
+        Wed, 9 Dec 2020 02:10:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728368AbgLIHKV (ORCPT
+        with ESMTP id S1727938AbgLIHKJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Dec 2020 02:10:21 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8B7C0617A7;
-        Tue,  8 Dec 2020 23:09:31 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id t4so503276wrr.12;
-        Tue, 08 Dec 2020 23:09:30 -0800 (PST)
+        Wed, 9 Dec 2020 02:10:09 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09975C06179C;
+        Tue,  8 Dec 2020 23:09:26 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id d3so471066wmb.4;
+        Tue, 08 Dec 2020 23:09:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Bx5zsXWq2TsLd1av5cUuK12+/TfvUph8JxWJR1Ftl9c=;
-        b=B1ZPSOnvzc3vi5Oza+xt41d7q5Pjb0QbFoflEqhnn5fngkm+kSyQNGRZLSic5IHUSd
-         4NTmTwz4yg0YbGZ5iB2NZWdnYNDGP2WdxEkzTDOIWioUHEfTOkI4n6NKmtewB+0uScfv
-         c2SPoUMYn/4kbm8ghoaKVPH6GXowcyd48hfRNany/2vkYvLTiKK08ziUdHY6e8ItwyII
-         mfwVbxz66U58Sc3ir4iVXFbPHX8uVGSBaR3Poxa+J+a80XPYQ9mdwE1sr0blvbqrMDPN
-         Pgu+ZsSKRVOparLSTz/PTpRkrfxTCy0Yfv62m8acYTUUAslPwKD434dhbP1qdeTIRSdN
-         vbSg==
+        bh=S63yyXOD6nq1Gp0gaAuK/Pgn7DIW2g5OZRiGxhw6wMA=;
+        b=dU4b2NdKbI3u7GBO79dTKSP97MTta991wMmGSrUWbAW412dtY1CO94zD0UHDUPLzfy
+         VQTV0usdwnJTLST0Hn0OHVzpO4m8JCqr/Flrqos525AYLqUIUv6tmepZFaBcF4ff1KtP
+         aIWQL8wDdOwQGTGQmeqZNeCx8fatI62ZV4QDpjYsNR4J/QeUQm0topF8w2UnjSA5tt3R
+         3JuMz1qO+7fnwzRVOUiNc3fAJUo0wacYaCeagX2WqLWmW5/I9ol1Ir+18+3Qc2w+C250
+         y6gnfQBD3n8rtRSoPaBueNg4ICjCPTgkaHMOVMq1hRkErV+6gDUT8KHTtT5fQGJb0yvs
+         Yn0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bx5zsXWq2TsLd1av5cUuK12+/TfvUph8JxWJR1Ftl9c=;
-        b=a9yK1ziMeV8lK08ne/iJFzQkc1UCD3KQbCI3EN0gCgqueuA9S6iiutWxliGB/3Yftn
-         lSUClvVVHkn7SbbhNbyQLZRT+lQq/xqcd+LIRP/F4bBPiW//A0jCbmj+Md7/BnCE/EEJ
-         JSzI0jfn0dOFsUQV5CQ+xVWWp05782mr1+scVlwyMND8PDZ75ZCV16hlbYp2+Hr4zmEU
-         WRuhnfWM9H1OZ7mrbemnl435khsh/DBv/QYCAhWUTi7phaWa6Tz8opTsmwwxXDeVli9o
-         fhYGqt/uyAm/+pAwiZ5uY18AUHaz7L+dTrGV9hTzDAg1UqK7YEei0UbEwDAc3vrIrpiv
-         nmRA==
-X-Gm-Message-State: AOAM533ofHLkglmpNP9U26pLs9hb8QflEiYi7yj08YU/hlt0Nyau1fym
-        TKZnP+wZU4leDvG42WGlPwy6USQ+lPzckw==
-X-Google-Smtp-Source: ABdhPJw0hkgqKETPcvYNSUHOX8eYBtVQ4Koxw++mUsqW/GG3L4pvteWFHt9FUhGA/l3xU4fbpmVLjg==
-X-Received: by 2002:adf:e801:: with SMTP id o1mr982221wrm.3.1607497769450;
-        Tue, 08 Dec 2020 23:09:29 -0800 (PST)
+        bh=S63yyXOD6nq1Gp0gaAuK/Pgn7DIW2g5OZRiGxhw6wMA=;
+        b=UrMr4ScILXDlceAEXeHyCWwJn4iodKQHj91u141avTZ8JAQPmL30DdYV1ks4m7lQqd
+         W4wt3jCYn9FSyHlfhqWU7ptZqo8niEBooQ/Tu/t10DMd6QoUoWjXaXJJuAXBAvljG530
+         9oymgx/Fz7ld9wqqVg+ncn7DkTv+ZWdRhTdbpAUKpUkn+aJJMygVY1Srtc21u9ES0ezB
+         SXzItZrUBlSmTGgPfJl4jlkZF5XFa9D55aMiT41PsYKywIzxXxTIm3y23ZEe/qvDwwYu
+         Z2lz3+LyunqFlhKQeA6AAjqoLSSdA1iNIHGCy2IS7jGCdV0w87RE6NEVtKsy7FNg0tCq
+         x6iQ==
+X-Gm-Message-State: AOAM532o5wphy393pVK5R26dey/srFcCBb1qZGxLnEkX5tD1TFW37ox1
+        NCbNJEWKek/lKAtRPDkuEvZ+0o/MkENMJA==
+X-Google-Smtp-Source: ABdhPJwWZNWY/vuKc6LROxPZGf3gaqGrER2Llmg0nivDRDlW+SdAKR3WBFrGNwKk2w8f4hdQaIkfCA==
+X-Received: by 2002:a1c:bdc1:: with SMTP id n184mr1136031wmf.125.1607497764482;
+        Tue, 08 Dec 2020 23:09:24 -0800 (PST)
 Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id p3sm1449122wrs.50.2020.12.08.23.09.27
+        by smtp.gmail.com with ESMTPSA id p3sm1449122wrs.50.2020.12.08.23.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 23:09:29 -0800 (PST)
+        Tue, 08 Dec 2020 23:09:24 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -68,9 +68,9 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         Juan Vazquez <juvazq@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v3 6/6] Drivers: hv: vmbus: Do not allow overwriting vmbus_connection.channels[]
-Date:   Wed,  9 Dec 2020 08:08:27 +0100
-Message-Id: <20201209070827.29335-7-parri.andrea@gmail.com>
+Subject: [PATCH v3 4/6] Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
+Date:   Wed,  9 Dec 2020 08:08:25 +0100
+Message-Id: <20201209070827.29335-5-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201209070827.29335-1-parri.andrea@gmail.com>
 References: <20201209070827.29335-1-parri.andrea@gmail.com>
@@ -80,142 +80,39 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Currently, vmbus_onoffer() and vmbus_process_offer() are not validating
-whether a given entry in the vmbus_connection.channels[] array is empty
-before filling the entry with a call of vmbus_channel_map_relid().  An
-erroneous or malicious host could rely on this to leak channel objects.
-Do not allow overwriting an entry vmbus_connection.channels[].
+When channel->device_obj is non-NULL, vmbus_onoffer_rescind() could
+invoke put_device(), that will eventually release the device and free
+the channel object (cf. vmbus_device_release()).  However, a pointer
+to the object is dereferenced again later to load the primary_channel.
+The use-after-free can be avoided by noticing that this load/check is
+redundant if device_obj is non-NULL: primary_channel must be NULL if
+device_obj is non-NULL, cf. vmbus_add_channel_work().
 
+Fixes: 54a66265d6754b ("Drivers: hv: vmbus: Fix rescind handling")
 Reported-by: Juan Vazquez <juvazq@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
 Changes since v2:
-  - Release channel_mutex before 'return' in vmbus_onoffer() error path
+  - Add Reviewed-by: tag
 
- drivers/hv/channel_mgmt.c | 40 +++++++++++++++++++++++++--------------
- drivers/hv/hyperv_vmbus.h |  2 +-
- 2 files changed, 27 insertions(+), 15 deletions(-)
+ drivers/hv/channel_mgmt.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 68950a1e4b638..2c15693b86f1e 100644
+index 5bc5eef5da159..4072fd1f22146 100644
 --- a/drivers/hv/channel_mgmt.c
 +++ b/drivers/hv/channel_mgmt.c
-@@ -354,10 +354,12 @@ static void free_channel(struct vmbus_channel *channel)
- 	kobject_put(&channel->kobj);
- }
- 
--void vmbus_channel_map_relid(struct vmbus_channel *channel)
-+int vmbus_channel_map_relid(struct vmbus_channel *channel)
- {
--	if (WARN_ON(channel->offermsg.child_relid >= MAX_CHANNEL_RELIDS))
--		return;
-+	u32 relid = channel->offermsg.child_relid;
-+
-+	if (WARN_ON(relid >= MAX_CHANNEL_RELIDS || vmbus_connection.channels[relid] != NULL))
-+		return -EINVAL;
- 	/*
- 	 * The mapping of the channel's relid is visible from the CPUs that
- 	 * execute vmbus_chan_sched() by the time that vmbus_chan_sched() will
-@@ -383,18 +385,17 @@ void vmbus_channel_map_relid(struct vmbus_channel *channel)
- 	 *      of the VMBus driver and vmbus_chan_sched() can not run before
- 	 *      vmbus_bus_resume() has completed execution (cf. resume_noirq).
- 	 */
--	smp_store_mb(
--		vmbus_connection.channels[channel->offermsg.child_relid],
--		channel);
-+	smp_store_mb(vmbus_connection.channels[relid], channel);
-+	return 0;
- }
- 
- void vmbus_channel_unmap_relid(struct vmbus_channel *channel)
- {
--	if (WARN_ON(channel->offermsg.child_relid >= MAX_CHANNEL_RELIDS))
-+	u32 relid = channel->offermsg.child_relid;
-+
-+	if (WARN_ON(relid >= MAX_CHANNEL_RELIDS))
- 		return;
--	WRITE_ONCE(
--		vmbus_connection.channels[channel->offermsg.child_relid],
--		NULL);
-+	WRITE_ONCE(vmbus_connection.channels[relid], NULL);
- }
- 
- static void vmbus_release_relid(u32 relid)
-@@ -601,6 +602,12 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
- 	 */
- 	atomic_dec(&vmbus_connection.offer_in_progress);
- 
-+	if (vmbus_channel_map_relid(newchannel)) {
-+		mutex_unlock(&vmbus_connection.channel_mutex);
-+		kfree(newchannel);
-+		return;
-+	}
-+
- 	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
- 		if (guid_equal(&channel->offermsg.offer.if_type,
- 			       &newchannel->offermsg.offer.if_type) &&
-@@ -619,6 +626,7 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
- 		 * Check to see if this is a valid sub-channel.
- 		 */
- 		if (newchannel->offermsg.offer.sub_channel_index == 0) {
-+			vmbus_channel_unmap_relid(newchannel);
- 			mutex_unlock(&vmbus_connection.channel_mutex);
- 			/*
- 			 * Don't call free_channel(), because newchannel->kobj
-@@ -635,8 +643,6 @@ static void vmbus_process_offer(struct vmbus_channel *newchannel)
- 		list_add_tail(&newchannel->sc_list, &channel->sc_list);
- 	}
- 
--	vmbus_channel_map_relid(newchannel);
--
- 	mutex_unlock(&vmbus_connection.channel_mutex);
- 	cpus_read_unlock();
- 
-@@ -920,6 +926,8 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
- 	oldchannel = find_primary_channel_by_offer(offer);
- 
- 	if (oldchannel != NULL) {
-+		u32 relid = offer->child_relid;
-+
+@@ -1116,8 +1116,7 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
+ 			vmbus_device_unregister(channel->device_obj);
+ 			put_device(dev);
+ 		}
+-	}
+-	if (channel->primary_channel != NULL) {
++	} else if (channel->primary_channel != NULL) {
  		/*
- 		 * We're resuming from hibernation: all the sub-channel and
- 		 * hv_sock channels we had before the hibernation should have
-@@ -954,8 +962,12 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
- 		atomic_dec(&vmbus_connection.offer_in_progress);
- 
- 		WARN_ON(oldchannel->offermsg.child_relid != INVALID_RELID);
-+		if (WARN_ON(vmbus_connection.channels[relid] != NULL)) {
-+			mutex_unlock(&vmbus_connection.channel_mutex);
-+			return;
-+		}
- 		/* Fix up the relid. */
--		oldchannel->offermsg.child_relid = offer->child_relid;
-+		oldchannel->offermsg.child_relid = relid;
- 
- 		offer_sz = sizeof(*offer);
- 		if (memcmp(offer, &oldchannel->offermsg, offer_sz) != 0) {
-@@ -967,7 +979,7 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
- 			 * reoffers the device upon resume.
- 			 */
- 			pr_debug("vmbus offer changed: relid=%d\n",
--				 offer->child_relid);
-+				 relid);
- 
- 			print_hex_dump_debug("Old vmbus offer: ",
- 					     DUMP_PREFIX_OFFSET, 16, 4,
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 42f3d9d123a12..3222fbf2a21c6 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -337,7 +337,7 @@ int vmbus_add_channel_kobj(struct hv_device *device_obj,
- 
- void vmbus_remove_channel_attr_group(struct vmbus_channel *channel);
- 
--void vmbus_channel_map_relid(struct vmbus_channel *channel);
-+int vmbus_channel_map_relid(struct vmbus_channel *channel);
- void vmbus_channel_unmap_relid(struct vmbus_channel *channel);
- 
- struct vmbus_channel *relid2channel(u32 relid);
+ 		 * Sub-channel is being rescinded. Following is the channel
+ 		 * close sequence when initiated from the driveri (refer to
 -- 
 2.25.1
 
