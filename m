@@ -2,117 +2,81 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF71C4361B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C713CC19425
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 13:18:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7863E23B84
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 07:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 990FB23BDF
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Dec 2020 13:18:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728227AbgLIHKU (ORCPT
+        id S1731968AbgLINSM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Dec 2020 02:10:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727938AbgLIHKJ (ORCPT
+        Wed, 9 Dec 2020 08:18:12 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34882 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731919AbgLINSD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Dec 2020 02:10:09 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09975C06179C;
-        Tue,  8 Dec 2020 23:09:26 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id d3so471066wmb.4;
-        Tue, 08 Dec 2020 23:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S63yyXOD6nq1Gp0gaAuK/Pgn7DIW2g5OZRiGxhw6wMA=;
-        b=dU4b2NdKbI3u7GBO79dTKSP97MTta991wMmGSrUWbAW412dtY1CO94zD0UHDUPLzfy
-         VQTV0usdwnJTLST0Hn0OHVzpO4m8JCqr/Flrqos525AYLqUIUv6tmepZFaBcF4ff1KtP
-         aIWQL8wDdOwQGTGQmeqZNeCx8fatI62ZV4QDpjYsNR4J/QeUQm0topF8w2UnjSA5tt3R
-         3JuMz1qO+7fnwzRVOUiNc3fAJUo0wacYaCeagX2WqLWmW5/I9ol1Ir+18+3Qc2w+C250
-         y6gnfQBD3n8rtRSoPaBueNg4ICjCPTgkaHMOVMq1hRkErV+6gDUT8KHTtT5fQGJb0yvs
-         Yn0g==
+        Wed, 9 Dec 2020 08:18:03 -0500
+Received: by mail-wr1-f67.google.com with SMTP id r3so1721399wrt.2;
+        Wed, 09 Dec 2020 05:17:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S63yyXOD6nq1Gp0gaAuK/Pgn7DIW2g5OZRiGxhw6wMA=;
-        b=UrMr4ScILXDlceAEXeHyCWwJn4iodKQHj91u141avTZ8JAQPmL30DdYV1ks4m7lQqd
-         W4wt3jCYn9FSyHlfhqWU7ptZqo8niEBooQ/Tu/t10DMd6QoUoWjXaXJJuAXBAvljG530
-         9oymgx/Fz7ld9wqqVg+ncn7DkTv+ZWdRhTdbpAUKpUkn+aJJMygVY1Srtc21u9ES0ezB
-         SXzItZrUBlSmTGgPfJl4jlkZF5XFa9D55aMiT41PsYKywIzxXxTIm3y23ZEe/qvDwwYu
-         Z2lz3+LyunqFlhKQeA6AAjqoLSSdA1iNIHGCy2IS7jGCdV0w87RE6NEVtKsy7FNg0tCq
-         x6iQ==
-X-Gm-Message-State: AOAM532o5wphy393pVK5R26dey/srFcCBb1qZGxLnEkX5tD1TFW37ox1
-        NCbNJEWKek/lKAtRPDkuEvZ+0o/MkENMJA==
-X-Google-Smtp-Source: ABdhPJwWZNWY/vuKc6LROxPZGf3gaqGrER2Llmg0nivDRDlW+SdAKR3WBFrGNwKk2w8f4hdQaIkfCA==
-X-Received: by 2002:a1c:bdc1:: with SMTP id n184mr1136031wmf.125.1607497764482;
-        Tue, 08 Dec 2020 23:09:24 -0800 (PST)
-Received: from andrea.corp.microsoft.com (host-95-239-64-30.retail.telecomitalia.it. [95.239.64.30])
-        by smtp.gmail.com with ESMTPSA id p3sm1449122wrs.50.2020.12.08.23.09.22
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=BDEwH2poPEgF9/H6H1mvb3OMGZ5ivX5NVZHxhkZl44A=;
+        b=paXBdYjGsAIcZgC7vXuDD9jsq3p0Xx7oCMYp0wwtS+5K3dMR5+zBbs7avzxffDSP0Q
+         iQyvQUAdDVvNqXuymQLCXYPOPJyWhQi6Y51CMsemDk0Uh4O+7m0YyWUHsZj21LpCN5g5
+         VRf71c3cESKm6WqSGv36udH5DAzuuEIH/zWX8WrWiZfcEZ/TprOeV6quMZkz0INZMWra
+         eRG2mewAKeYvlSCVCOICLV6i/DybH1zjXSHAGUotKT24lV+gb8K+8qru6+VW+etlA9ha
+         FFaiInEq4binK4di1uuiRYQYNl0cJgE2+nJ6YDGvUwyRxTGb+t4mue1EEuuF14gBgRDI
+         13jg==
+X-Gm-Message-State: AOAM531OxxeHEPwdXcC0szegMNpHkticOI0l1Pp6Ebiez66DUf+7JDZT
+        kwQCCBOB2yfkV27Il5AjZ88=
+X-Google-Smtp-Source: ABdhPJw33StJvMdidRu+qGNHmFFP3Io5tSs4/JVbX7jTwY5Y9fCczKb/T0AhPTVoAS16SpTzS8ICKQ==
+X-Received: by 2002:a5d:5147:: with SMTP id u7mr2726692wrt.114.1607519841005;
+        Wed, 09 Dec 2020 05:17:21 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id b14sm3439908wrx.77.2020.12.09.05.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 23:09:24 -0800 (PST)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wed, 09 Dec 2020 05:17:20 -0800 (PST)
+Date:   Wed, 9 Dec 2020 13:17:18 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     linux-hyperv@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v3 4/6] Drivers: hv: vmbus: Avoid use-after-free in vmbus_onoffer_rescind()
-Date:   Wed,  9 Dec 2020 08:08:25 +0100
-Message-Id: <20201209070827.29335-5-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201209070827.29335-1-parri.andrea@gmail.com>
-References: <20201209070827.29335-1-parri.andrea@gmail.com>
+        Dexuan Cui <decui@microsoft.com>,
+        David Hildenbrand <david@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH 0/2] hv_balloon: hide ballooned out memory in stats
+Message-ID: <20201209131718.aqy6uddgqivgiglj@liuwe-devbox-debian-v2>
+References: <20201202161245.2406143-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202161245.2406143-1-vkuznets@redhat.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When channel->device_obj is non-NULL, vmbus_onoffer_rescind() could
-invoke put_device(), that will eventually release the device and free
-the channel object (cf. vmbus_device_release()).  However, a pointer
-to the object is dereferenced again later to load the primary_channel.
-The use-after-free can be avoided by noticing that this load/check is
-redundant if device_obj is non-NULL: primary_channel must be NULL if
-device_obj is non-NULL, cf. vmbus_add_channel_work().
+On Wed, Dec 02, 2020 at 05:12:43PM +0100, Vitaly Kuznetsov wrote:
+> It was noticed that 'free' information on a Hyper-V guest reports ballooned
+> out memory in 'total' and this contradicts what other ballooning drivers 
+> (e.g. virtio-balloon/virtio-mem/xen balloon) do.
+> 
+> Vitaly Kuznetsov (2):
+>   hv_balloon: simplify math in alloc_balloon_pages()
+>   hv_balloon: do adjust_managed_page_count() when
+>     ballooning/un-ballooning
 
-Fixes: 54a66265d6754b ("Drivers: hv: vmbus: Fix rescind handling")
-Reported-by: Juan Vazquez <juvazq@microsoft.com>
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
----
-Changes since v2:
-  - Add Reviewed-by: tag
+LGTM.
 
- drivers/hv/channel_mgmt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I will wait for a few more days before applying this series to
+hyperv-next.
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 5bc5eef5da159..4072fd1f22146 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -1116,8 +1116,7 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
- 			vmbus_device_unregister(channel->device_obj);
- 			put_device(dev);
- 		}
--	}
--	if (channel->primary_channel != NULL) {
-+	} else if (channel->primary_channel != NULL) {
- 		/*
- 		 * Sub-channel is being rescinded. Following is the channel
- 		 * close sequence when initiated from the driveri (refer to
--- 
-2.25.1
-
+Wei.
