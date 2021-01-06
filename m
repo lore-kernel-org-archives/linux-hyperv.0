@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52DCC433E0
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5082BC43381
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9DA023133
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12EBE23132
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727371AbhAFUff (ORCPT
+        id S1727794AbhAFUfr (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 6 Jan 2021 15:35:35 -0500
-Received: from mail-wr1-f53.google.com ([209.85.221.53]:35707 "EHLO
-        mail-wr1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbhAFUej (ORCPT
+        Wed, 6 Jan 2021 15:35:47 -0500
+Received: from mail-wr1-f41.google.com ([209.85.221.41]:42078 "EHLO
+        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726366AbhAFUeh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 6 Jan 2021 15:34:39 -0500
-Received: by mail-wr1-f53.google.com with SMTP id r3so3592665wrt.2;
-        Wed, 06 Jan 2021 12:34:23 -0800 (PST)
+        Wed, 6 Jan 2021 15:34:37 -0500
+Received: by mail-wr1-f41.google.com with SMTP id m5so3566792wrx.9;
+        Wed, 06 Jan 2021 12:34:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iQMtgq3pUcrjj3NVCdkiQSStjiewGBjHdwkFAPCFR6A=;
-        b=OJvM+YLZ4lV7adtWlLZ5R+DfXBO16l1EmoyK/Qq3hUTUvARZHFnM5gONrwBiaO1pgn
-         hKM7IgK/PeKPZJJj4El9ev3KRhmR94ruNkL8czj1ABryh9rlNCIjZEblGXexcOTZbVn1
-         LtA144Cby4qPG9dcLR7EPIyU8RSSMGChHkKTOfpOU5RGRMkpjnNpbPYRnNWy74dTVHok
-         ks69xc5pB8jgvnlUkP6xDoQf31+KsdHbdCyX3IMbIvbnBiYRW1FX8VZd40USeG5CCPfp
-         AWvQezi5bPeholMTJ3IqZnnJdtXxGNvkOioQGEdl2FwBalz/uJ0kSD10qTJSoFT94ksd
-         R6NQ==
-X-Gm-Message-State: AOAM531fo43TD3APpdpmvktn23U2JMfmaVOsf0eSjVFdrDCf3o7SwLt6
-        HIKV8TCgSLO8M77l2YztR5jSy6K7tcA=
-X-Google-Smtp-Source: ABdhPJzua7u0Xi2cAQqaPz7tdaucPPPz5eFSOQ1Ul7ScWmk7+7JzInjstK7tIJXCPKNakTqmjaYS+A==
-X-Received: by 2002:adf:a495:: with SMTP id g21mr6160651wrb.198.1609965237426;
-        Wed, 06 Jan 2021 12:33:57 -0800 (PST)
+        bh=+I7gc45xFJIk2c97apTvkR8acQbtMFTm1lgQrn5j0J4=;
+        b=DiN9piZcf8gi22slHb7emMZ5JHieWBfSxDc3q91mipl7zcZjy3V1A8u+oG/TULORPj
+         dw2Iwj9Tw/VBBQMPL/yuBCX749bh/TDAUVEkmMNiogH1OhNKEsF5ggUJAGlb5tUTnDkK
+         Hqx7aZPYIOVKFgIPr/Y0sUV10hxABhfhbCZCrOR8yaZ2lcRgLT4lSyD6Y1m4mjZyfqpd
+         2YSRit34dJKGYd24vpredwdv+1k29WXDmL5nAWWVkESMoDoM1ffU44O/pWMSZ/704QoH
+         DS+wnCwQeO0fC+aZ0TTLCEVqdlHi4LHNlaWM1So5P0HVGmm/JvMr1apxWJC8ifyCghb+
+         EXtA==
+X-Gm-Message-State: AOAM533zuQqOG9/99nPW8ihMp72GRmM0N6QLZNyGYvNSv0UtIQvTGmH/
+        z592XPuelRK9iOsQLTdCn/FEQV8BGZ8=
+X-Google-Smtp-Source: ABdhPJyHPkFZq8wqygPXVhtD2e9TVYyiuVI/8OvmqjRjWPKCi1cSk0ekLxW6YgVWvQkfb3eoQzAjGQ==
+X-Received: by 2002:a05:6000:368:: with SMTP id f8mr5850439wrf.150.1609965234909;
+        Wed, 06 Jan 2021 12:33:54 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.56
+        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 12:33:57 -0800 (PST)
+        Wed, 06 Jan 2021 12:33:54 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,16 +50,16 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Joerg Roedel <jroedel@suse.de>,
+        Wei Liu <wei.liu@kernel.org>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
-Subject: [PATCH v4 04/17] iommu/hyperv: don't setup IRQ remapping when running as root
-Date:   Wed,  6 Jan 2021 20:33:37 +0000
-Message-Id: <20210106203350.14568-5-wei.liu@kernel.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH v4 01/17] asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to HV_CPU_MANAGEMENT
+Date:   Wed,  6 Jan 2021 20:33:34 +0000
+Message-Id: <20210106203350.14568-2-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210106203350.14568-1-wei.liu@kernel.org>
 References: <20210106203350.14568-1-wei.liu@kernel.org>
@@ -69,37 +69,27 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The IOMMU code needs more work. We're sure for now the IRQ remapping
-hooks are not applicable when Linux is the root partition.
+This makes the name match Hyper-V TLFS.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Joerg Roedel <jroedel@suse.de>
 Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/iommu/hyperv-iommu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/asm-generic/hyperv-tlfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index 1d21a0b5f724..b7db6024e65c 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -20,6 +20,7 @@
- #include <asm/io_apic.h>
- #include <asm/irq_remapping.h>
- #include <asm/hypervisor.h>
-+#include <asm/mshyperv.h>
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index e73a11850055..e6903589a82a 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -88,7 +88,7 @@
+ #define HV_CONNECT_PORT				BIT(7)
+ #define HV_ACCESS_STATS				BIT(8)
+ #define HV_DEBUGGING				BIT(11)
+-#define HV_CPU_POWER_MANAGEMENT			BIT(12)
++#define HV_CPU_MANAGEMENT			BIT(12)
  
- #include "irq_remapping.h"
  
-@@ -122,7 +123,7 @@ static int __init hyperv_prepare_irq_remapping(void)
- 
- 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
- 	    x86_init.hyper.msi_ext_dest_id() ||
--	    !x2apic_supported())
-+	    !x2apic_supported() || hv_root_partition)
- 		return -ENODEV;
- 
- 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
+ /*
 -- 
 2.20.1
 
