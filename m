@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A311CC4332B
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 629A8C433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 848BC22D01
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E8A622DD3
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbhAFBRP (ORCPT
+        id S1726303AbhAFBRM (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 5 Jan 2021 20:17:15 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:54228 "EHLO
+        Tue, 5 Jan 2021 20:17:12 -0500
+Received: from linux.microsoft.com ([13.77.154.182]:54220 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbhAFBRO (ORCPT
+        with ESMTP id S1725939AbhAFBRM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 5 Jan 2021 20:17:14 -0500
+        Tue, 5 Jan 2021 20:17:12 -0500
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id 12D2020B6C41; Tue,  5 Jan 2021 17:16:34 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 12D2020B6C41
+        id 362A720B6C40; Tue,  5 Jan 2021 17:16:31 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 362A720B6C40
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1609895794;
-        bh=6uYxUHD4Z7x3YMSdm1i0QR0mOUtF7X5D7R/TvzuWerI=;
+        s=default; t=1609895791;
+        bh=J27Hds4U/M4ptj2TT0oSpKhTx9p3VcyEZL2xvX1ifrA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JxkC+HNw4RPkG8kp5yvnN94bnDEYrw+30esnytBk88A4oRdmUrBWowWQhWX2Jd/UG
-         FdeQ7xojk6XlqvbIBT4T54GKQx/zBRx1I1a0cFqx9iu6XlZDaFMxf/rZPQTNjjlavK
-         nz9PKEjoSsvuOVPztdH35pzhpaTHxWuEAy+htk+M=
+        b=O24FFHKEK6sKAgdhBHr67UGKExbVKQsvQU8Spjq7IbWyKO2gyfDe4YRUJrYYSm92/
+         VbMoF+FI2WLNigHV4yg1kGw/+QhE8WE9BFSHvyhR5bPfUyU7PgZ4rOOrW8y0mCKyqu
+         I/uGCLE/j5zJa8hiW4r+u6U7JBUKqtC42i4iJ5rM=
 From:   Long Li <longli@linuxonhyperv.com>
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -40,9 +40,9 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Jakub Kicinski <kuba@kernel.org>, linux-hyperv@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Long Li <longli@microsoft.com>
-Subject: [PATCH 3/3] hv_netvsc: Process NETDEV_GOING_DOWN on VF hot remove
-Date:   Tue,  5 Jan 2021 17:15:53 -0800
-Message-Id: <1609895753-30445-3-git-send-email-longli@linuxonhyperv.com>
+Subject: [PATCH 2/3] hv_netvsc: Wait for completion on request NVSP_MSG4_TYPE_SWITCH_DATA_PATH
+Date:   Tue,  5 Jan 2021 17:15:52 -0800
+Message-Id: <1609895753-30445-2-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609895753-30445-1-git-send-email-longli@linuxonhyperv.com>
 References: <1609895753-30445-1-git-send-email-longli@linuxonhyperv.com>
@@ -52,50 +52,87 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Long Li <longli@microsoft.com>
 
-On VF hot remove, NETDEV_GOING_DOWN is sent to notify the VF is about to
-go down. At this time, the VF is still sending/receiving traffic and we
-request the VSP to switch datapath.
-
-On completion, the datapath is switched to synthetic and we can proceed
-with VF hot remove.
+The completion indicates if NVSP_MSG4_TYPE_SWITCH_DATA_PATH has been
+processed by the VSP. The traffic is steered to VF or synthetic after we
+receive this completion.
 
 Signed-off-by: Long Li <longli@microsoft.com>
 ---
- drivers/net/hyperv/netvsc_drv.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/net/hyperv/netvsc.c     | 34 +++++++++++++++++++++++++++++++--
+ drivers/net/hyperv/netvsc_drv.c |  1 -
+ 2 files changed, 32 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 2350342b961f..237e998d21d1 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -37,6 +37,10 @@ void netvsc_switch_datapath(struct net_device *ndev, bool vf)
+ 	struct netvsc_device *nv_dev = rtnl_dereference(net_device_ctx->nvdev);
+ 	struct nvsp_message *init_pkt = &nv_dev->channel_init_pkt;
+ 
++	/* Block sending traffic to VF if it's about to be gone */
++	if (!vf)
++		net_device_ctx->data_path_is_vf = vf;
++
+ 	memset(init_pkt, 0, sizeof(struct nvsp_message));
+ 	init_pkt->hdr.msg_type = NVSP_MSG4_TYPE_SWITCH_DATA_PATH;
+ 	if (vf)
+@@ -50,8 +54,11 @@ void netvsc_switch_datapath(struct net_device *ndev, bool vf)
+ 
+ 	vmbus_sendpacket(dev->channel, init_pkt,
+ 			       sizeof(struct nvsp_message),
+-			       VMBUS_RQST_ID_NO_RESPONSE,
+-			       VM_PKT_DATA_INBAND, 0);
++			       (unsigned long)init_pkt,
++			       VM_PKT_DATA_INBAND,
++			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
++	wait_for_completion(&nv_dev->channel_init_wait);
++	net_device_ctx->data_path_is_vf = vf;
+ }
+ 
+ /* Worker to setup sub channels on initial setup
+@@ -756,6 +763,29 @@ static void netvsc_send_completion(struct net_device *ndev,
+ {
+ 	const struct nvsp_message *nvsp_packet = hv_pkt_data(desc);
+ 	u32 msglen = hv_pkt_datalen(desc);
++	struct nvsp_message *pkt_rqst;
++	u64 cmd_rqst;
++
++	/* First check if this is a VMBUS completion without data payload */
++	if (!msglen) {
++		cmd_rqst = vmbus_request_addr(&incoming_channel->requestor,
++					      (u64)desc->trans_id);
++		if (cmd_rqst == VMBUS_RQST_ERROR) {
++			netdev_err(ndev, "Invalid transaction id\n");
++			return;
++		}
++
++		pkt_rqst = (struct nvsp_message *)cmd_rqst;
++		switch (pkt_rqst->hdr.msg_type) {
++		case NVSP_MSG4_TYPE_SWITCH_DATA_PATH:
++			complete(&net_device->channel_init_wait);
++			break;
++
++		default:
++			netdev_err(ndev, "Unexpected VMBUS completion!!\n");
++		}
++		return;
++	}
+ 
+ 	/* Ensure packet is big enough to read header fields */
+ 	if (msglen < sizeof(struct nvsp_message_header)) {
 diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 64ae5f4e974e..75b4d6703cf1 100644
+index 5dd4f37afa3d..64ae5f4e974e 100644
 --- a/drivers/net/hyperv/netvsc_drv.c
 +++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2382,12 +2382,15 @@ static int netvsc_register_vf(struct net_device *vf_netdev)
-  * During hibernation, if a VF NIC driver (e.g. mlx5) preserves the network
-  * interface, there is only the CHANGE event and no UP or DOWN event.
-  */
--static int netvsc_vf_changed(struct net_device *vf_netdev)
-+static int netvsc_vf_changed(struct net_device *vf_netdev, unsigned long event)
- {
- 	struct net_device_context *net_device_ctx;
- 	struct netvsc_device *netvsc_dev;
- 	struct net_device *ndev;
--	bool vf_is_up = netif_running(vf_netdev);
-+	bool vf_is_up = false;
-+
-+	if (event != NETDEV_GOING_DOWN)
-+		vf_is_up = netif_running(vf_netdev);
+@@ -2400,7 +2400,6 @@ static int netvsc_vf_changed(struct net_device *vf_netdev)
  
- 	ndev = get_netvsc_byref(vf_netdev);
- 	if (!ndev)
-@@ -2716,7 +2719,8 @@ static int netvsc_netdev_event(struct notifier_block *this,
- 	case NETDEV_UP:
- 	case NETDEV_DOWN:
- 	case NETDEV_CHANGE:
--		return netvsc_vf_changed(event_dev);
-+	case NETDEV_GOING_DOWN:
-+		return netvsc_vf_changed(event_dev, event);
- 	default:
- 		return NOTIFY_DONE;
- 	}
+ 	if (net_device_ctx->data_path_is_vf == vf_is_up)
+ 		return NOTIFY_OK;
+-	net_device_ctx->data_path_is_vf = vf_is_up;
+ 
+ 	netvsc_switch_datapath(ndev, vf_is_up);
+ 	netdev_info(ndev, "Data path switched %s VF: %s\n",
 -- 
 2.27.0
 
