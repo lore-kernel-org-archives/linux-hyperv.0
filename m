@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53344C07542
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B999BC433DB
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C27623133
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:35:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C2FF23132
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:36:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbhAFUel (ORCPT
+        id S1727334AbhAFUej (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 6 Jan 2021 15:34:41 -0500
-Received: from mail-wm1-f48.google.com ([209.85.128.48]:52222 "EHLO
-        mail-wm1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727323AbhAFUek (ORCPT
+        Wed, 6 Jan 2021 15:34:39 -0500
+Received: from mail-wm1-f51.google.com ([209.85.128.51]:55151 "EHLO
+        mail-wm1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727287AbhAFUei (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 6 Jan 2021 15:34:40 -0500
-Received: by mail-wm1-f48.google.com with SMTP id v14so3451016wml.1;
-        Wed, 06 Jan 2021 12:34:23 -0800 (PST)
+        Wed, 6 Jan 2021 15:34:38 -0500
+Received: by mail-wm1-f51.google.com with SMTP id c133so3433402wme.4;
+        Wed, 06 Jan 2021 12:34:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5A3GMg0kaUdhNbdjiZ51gEYmRqMxSWUTkm0nm29z41k=;
-        b=bPx+Dy5+JxdJok+SaaNykOQfsG1BaOxDD3Bl1K/Nwp9fQSixGMV4c846MH+/MV4CDY
-         bosOFtvB/Ehq+h71OBL2qm2Boi/vXx1pNhJJ58mrNEqew/caYC/5XT9PZ43yCRc8S9co
-         Al7rzYgRCXE1HqYOeOFGFvBJtMbwN+2Djy52tov7CRErc/+V924FQ1Sts7cbrHobWZ5F
-         qgE2n/+d5qZk8I8TMR4k0l3uxpJUQRni4E+w6R/qysDlKCbGVQKvuImjILBGUucyy+eY
-         DZR6AzZZmXA464N6Ks917z5vwSAbn1b2pnLXfPnd3wDt2lR4O7+wwpG5PMBUV731WZKi
-         y3nw==
-X-Gm-Message-State: AOAM533CaMVa9xza+bVoTV31QR5pU4s7pW/fwjSZL7IKswtKW0ljfeFZ
-        1XWELXo/uXd20fXjeS3W0cHbV+OxcrI=
-X-Google-Smtp-Source: ABdhPJwvCl2JxTR3uAY3juzC/plKXrLUA6gXmSQcGD7Ug/XAUohd/w+1qW3+VYuqND3FQHgpIY08Cg==
-X-Received: by 2002:a1c:a9c8:: with SMTP id s191mr5224786wme.89.1609965238215;
-        Wed, 06 Jan 2021 12:33:58 -0800 (PST)
+        bh=mEBt6kadL06yrWP6jkRQ6hKHgAZ+ACyWHQVmdjiqpDc=;
+        b=FnJEJ9HlZIOm13mLClJEQpxGA9+l5M9hc2j1CJBu8BJBQrkqcPfi7Az/otJbl2kgp5
+         6igK8MvvzlR/+b5rA4RSj4c3PBCj/KbZH4cFOzMYiEH1Q3WUp1flr2z49Aex13/xEeiI
+         ysWnt/5YSpLb4cjj9Bxrd73xXtzQXAX3Wy8Z5tdvSkI3b2npvsn03Z2Q42URm9w2FnGa
+         +wVicu/yFRhd03BfjZXZ8gdQDnzWahZJI90bCOz8V/fQYiViLRIt7QjUJHlAXyvJwaka
+         xHyJGIZJprZtNCgBKXPUpXDH+1e7lvqbwbwgeyYMQzSGUbOlfAJSH7lOp8ZS6ziPcrHZ
+         rxXA==
+X-Gm-Message-State: AOAM532xlIKUmbAAYfue2PRlYVFrbkGePwywdVdoq6pCoLhutmlrFi+D
+        ei2M0D0Sc/BkMk+yLzvvnAuGFlBEJKE=
+X-Google-Smtp-Source: ABdhPJywkep2yhD2SXTrIOLI/AJ3IeYO8EdXx5STTEDda+gBvjTvkOZc+5XEMSXwtwC/wQGFPrlDSg==
+X-Received: by 2002:a05:600c:208:: with SMTP id 8mr5304096wmi.146.1609965236642;
+        Wed, 06 Jan 2021 12:33:56 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.57
+        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 12:33:57 -0800 (PST)
+        Wed, 06 Jan 2021 12:33:56 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -51,14 +51,12 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH v4 05/17] clocksource/hyperv: use MSR-based access if running as root
-Date:   Wed,  6 Jan 2021 20:33:38 +0000
-Message-Id: <20210106203350.14568-6-wei.liu@kernel.org>
+        Stephen Hemminger <sthemmin@microsoft.com>
+Subject: [PATCH v4 03/17] Drivers: hv: vmbus: skip VMBus initialization if Linux is root
+Date:   Wed,  6 Jan 2021 20:33:36 +0000
+Message-Id: <20210106203350.14568-4-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210106203350.14568-1-wei.liu@kernel.org>
 References: <20210106203350.14568-1-wei.liu@kernel.org>
@@ -68,31 +66,30 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When Linux runs as the root partition, the setup required for TSC page
-is different. Luckily Linux also has access to the MSR based
-clocksource. We can just disable the TSC page clocksource if Linux is
-the root partition.
+There is no VMBus and the other infrastructures initialized in
+hv_acpi_init when Linux is running as the root partition.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 ---
- drivers/clocksource/hyperv_timer.c | 3 +++
+v3: Return 0 instead of -ENODEV.
+---
+ drivers/hv/vmbus_drv.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index ba04cb381cd3..269a691bd2c4 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -426,6 +426,9 @@ static bool __init hv_init_tsc_clocksource(void)
- 	if (!(ms_hyperv.features & HV_MSR_REFERENCE_TSC_AVAILABLE))
- 		return false;
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 502f8cd95f6d..ee27b3670a51 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2620,6 +2620,9 @@ static int __init hv_acpi_init(void)
+ 	if (!hv_is_hyperv_initialized())
+ 		return -ENODEV;
  
 +	if (hv_root_partition)
-+		return false;
++		return 0;
 +
- 	hv_read_reference_counter = read_hv_clock_tsc;
- 	phys_addr = virt_to_phys(hv_get_tsc_page());
+ 	init_completion(&probe_event);
  
+ 	/*
 -- 
 2.20.1
 
