@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B82EC433E6
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E754C43333
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F3C323138
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B01123136
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727304AbhAFUei (ORCPT
+        id S1727543AbhAFUes (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 6 Jan 2021 15:34:38 -0500
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:37424 "EHLO
-        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727217AbhAFUei (ORCPT
+        Wed, 6 Jan 2021 15:34:48 -0500
+Received: from mail-wm1-f51.google.com ([209.85.128.51]:35690 "EHLO
+        mail-wm1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727498AbhAFUes (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 6 Jan 2021 15:34:38 -0500
-Received: by mail-wm1-f54.google.com with SMTP id q75so3726607wme.2;
-        Wed, 06 Jan 2021 12:34:21 -0800 (PST)
+        Wed, 6 Jan 2021 15:34:48 -0500
+Received: by mail-wm1-f51.google.com with SMTP id e25so3735105wme.0;
+        Wed, 06 Jan 2021 12:34:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m0hrJnkhTHI8MFmITTywSTXP99AQKzpVEujA7fFIdZs=;
-        b=UsaRr6NsevlKvsPxn5G2Hxd05+2UM25KMYDE9iygmclYMYtqcP4Un+T4xtjP7CSlHS
-         rzJ0T6WTdMK/MMWv1kiZw9Yi6cz85r9aQYAYDRyoqV7qwqQl6eFxH0xYDI9zKYXdrN6v
-         Nq0QS9YjruCIJ8h8TM5C9GWYyVvCM6dBXzDXLLhNXwPizxPQHRDmjn0GTlGkj85W3Z72
-         HZVsh9OzaRlOhalNWUBWrIxp8XD8MKfyTJSFIaZJAKwhGA+aqba+2ah/7nNpGkFw+rJB
-         aBD5L8D/JeIk4SjmDFD6HJKRcIEISer2O+X0Qn0Hgz+wMXerOrU2Nwxc4uN3xxplTNs/
-         ecrA==
-X-Gm-Message-State: AOAM531/GH8OOzjpobrB0IVNfJhSYcbaJKFGS71Ay1pQ44rqSESXU6nU
-        7GggC8FOcP5MpQC1XlBhquwQpHhRf0Q=
-X-Google-Smtp-Source: ABdhPJwYr1YnHm+3rYQk3GIK8uU0NvkcTw+XgzktXprvWYFh8zP1kRWd97ttGDXw5cF0VCboKzzVSg==
-X-Received: by 2002:a05:600c:220b:: with SMTP id z11mr5314943wml.64.1609965235793;
-        Wed, 06 Jan 2021 12:33:55 -0800 (PST)
+        bh=jgoWHWZJp95oZbUGT1gHoY/N870o7iAvx/CdWeU6WPw=;
+        b=dGQiW4nhVJNlw575IV/Mt+VXj5/oktgOU7EJhiTvwcq7IAs4P8RdU/5jl8ZBWVWyJS
+         g7kZ/OrK2PxaBxHhLD4HoQpsKaz+LkOYoZCDMlVwBxbGVVuTjup4KJcIF/Ue3OHnRdkj
+         AAu4tHBLot/sguo3gPE6olN9f1UD9+BaFJy5xSargXPS5Iko3zt64qfo0tMX5uAXoott
+         kGuVhmGjIhPwh444b1mOB4KaTNm71xPLEWBpcmH3RX0TVplfKMF2/41crMn90IjxABib
+         Dt0mSjjVqoLp5uZZA1f1VDS6wCktepr5ykrHxZD4kF+JAe84pOranUZvfchbdFluNX9y
+         xq7g==
+X-Gm-Message-State: AOAM531CUkwhgVj5R4HeZPH41ZNnadhf3OBp9bfq2tbTuJkTwbWHp27W
+        UiFv9eSbiqxUhATTlR+cUb4nm00ouPE=
+X-Google-Smtp-Source: ABdhPJyuv5q+M5o/O3HzK6MUdNmuBbtkf73L2+Y2yHON5LVpnXlrbvr42vAowFRH9ldi5ITl4ZtVvQ==
+X-Received: by 2002:a05:600c:2042:: with SMTP id p2mr5316377wmg.152.1609965245946;
+        Wed, 06 Jan 2021 12:34:05 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.55
+        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.34.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 12:33:55 -0800 (PST)
+        Wed, 06 Jan 2021 12:34:05 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,17 +50,19 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        Wei Liu <wei.liu@kernel.org>, Rob Herring <robh@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v4 02/17] x86/hyperv: detect if Linux is the root partition
-Date:   Wed,  6 Jan 2021 20:33:35 +0000
-Message-Id: <20210106203350.14568-3-wei.liu@kernel.org>
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-pci@vger.kernel.org (open list:PCI NATIVE HOST BRIDGE AND
+        ENDPOINT DRIVERS),
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH v4 12/17] asm-generic/hyperv: update hv_interrupt_entry
+Date:   Wed,  6 Jan 2021 20:33:45 +0000
+Message-Id: <20210106203350.14568-13-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210106203350.14568-1-wei.liu@kernel.org>
 References: <20210106203350.14568-1-wei.liu@kernel.org>
@@ -70,100 +72,90 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For now we can use the privilege flag to check. Stash the value to be
-used later.
+We will soon use the same structure to handle IO-APIC interrupts as
+well. Introduce an enum to identify the source and a data structure for
+IO-APIC RTE.
 
-Put in a bunch of defines for future use when we want to have more
-fine-grained detection.
+While at it, update pci-hyperv.c to use the enum.
+
+No functional change.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
-v3: move hv_root_partition to mshyperv.c
----
- arch/x86/include/asm/hyperv-tlfs.h | 10 ++++++++++
- arch/x86/include/asm/mshyperv.h    |  2 ++
- arch/x86/kernel/cpu/mshyperv.c     | 20 ++++++++++++++++++++
- 3 files changed, 32 insertions(+)
+ drivers/pci/controller/pci-hyperv.c |  2 +-
+ include/asm-generic/hyperv-tlfs.h   | 36 +++++++++++++++++++++++++++--
+ 2 files changed, 35 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 6bf42aed387e..204010350604 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -21,6 +21,7 @@
- #define HYPERV_CPUID_FEATURES			0x40000003
- #define HYPERV_CPUID_ENLIGHTMENT_INFO		0x40000004
- #define HYPERV_CPUID_IMPLEMENT_LIMITS		0x40000005
-+#define HYPERV_CPUID_CPU_MANAGEMENT_FEATURES	0x40000007
- #define HYPERV_CPUID_NESTED_FEATURES		0x4000000A
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 6db8d96a78eb..87aa62ee0368 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1216,7 +1216,7 @@ static void hv_irq_unmask(struct irq_data *data)
+ 	params = &hbus->retarget_msi_interrupt_params;
+ 	memset(params, 0, sizeof(*params));
+ 	params->partition_id = HV_PARTITION_ID_SELF;
+-	params->int_entry.source = 1; /* MSI(-X) */
++	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
+ 	hv_set_msi_entry_from_desc(&params->int_entry.msi_entry, msi_desc);
+ 	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
+ 			   (hbus->hdev->dev_instance.b[4] << 16) |
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 7e103be42799..8423bf53c237 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -480,6 +480,11 @@ struct hv_create_vp {
+ 	u64 flags;
+ } __packed;
  
- #define HYPERV_CPUID_VIRT_STACK_INTERFACE	0x40000081
-@@ -110,6 +111,15 @@
- /* Recommend using enlightened VMCS */
- #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
- 
-+/*
-+ * CPU management features identification.
-+ * These are HYPERV_CPUID_CPU_MANAGEMENT_FEATURES.EAX bits.
-+ */
-+#define HV_X64_START_LOGICAL_PROCESSOR			BIT(0)
-+#define HV_X64_CREATE_ROOT_VIRTUAL_PROCESSOR		BIT(1)
-+#define HV_X64_PERFORMANCE_COUNTER_SYNC			BIT(2)
-+#define HV_X64_RESERVED_IDENTITY_BIT			BIT(31)
++enum hv_interrupt_source {
++	HV_INTERRUPT_SOURCE_MSI = 1, /* MSI and MSI-X */
++	HV_INTERRUPT_SOURCE_IOAPIC,
++};
 +
+ union hv_msi_address_register {
+ 	u32 as_uint32;
+ 	struct {
+@@ -513,10 +518,37 @@ union hv_msi_entry {
+ 	} __packed;
+ };
+ 
++union hv_ioapic_rte {
++	u64 as_uint64;
++
++	struct {
++		u32 vector:8;
++		u32 delivery_mode:3;
++		u32 destination_mode:1;
++		u32 delivery_status:1;
++		u32 interrupt_polarity:1;
++		u32 remote_irr:1;
++		u32 trigger_mode:1;
++		u32 interrupt_mask:1;
++		u32 reserved1:15;
++
++		u32 reserved2:24;
++		u32 destination_id:8;
++	};
++
++	struct {
++		u32 low_uint32;
++		u32 high_uint32;
++	};
++} __packed;
++
+ struct hv_interrupt_entry {
+-	u32 source;			/* 1 for MSI(-X) */
++	u32 source;
+ 	u32 reserved1;
+-	union hv_msi_entry msi_entry;
++	union {
++		union hv_msi_entry msi_entry;
++		union hv_ioapic_rte ioapic_rte;
++	};
+ } __packed;
+ 
  /*
-  * Virtual processor will never share a physical core with another virtual
-  * processor, except for virtual processors that are reported as sibling SMT
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index ffc289992d1b..ac2b0d110f03 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -237,6 +237,8 @@ int hyperv_fill_flush_guest_mapping_list(
- 		struct hv_guest_mapping_flush_list *flush,
- 		u64 start_gfn, u64 end_gfn);
- 
-+extern bool hv_root_partition;
-+
- #ifdef CONFIG_X86_64
- void hv_apic_init(void);
- void __init hv_init_spinlocks(void);
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index f628e3dc150f..c376d191a260 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -32,6 +32,10 @@
- #include <asm/nmi.h>
- #include <clocksource/hyperv_timer.h>
- 
-+/* Is Linux running as the root partition? */
-+bool hv_root_partition;
-+EXPORT_SYMBOL_GPL(hv_root_partition);
-+
- struct ms_hyperv_info ms_hyperv;
- EXPORT_SYMBOL_GPL(ms_hyperv);
- 
-@@ -237,6 +241,22 @@ static void __init ms_hyperv_init_platform(void)
- 	pr_debug("Hyper-V: max %u virtual processors, %u logical processors\n",
- 		 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
- 
-+	/*
-+	 * Check CPU management privilege.
-+	 *
-+	 * To mirror what Windows does we should extract CPU management
-+	 * features and use the ReservedIdentityBit to detect if Linux is the
-+	 * root partition. But that requires negotiating CPU management
-+	 * interface (a process to be finalized).
-+	 *
-+	 * For now, use the privilege flag as the indicator for running as
-+	 * root.
-+	 */
-+	if (cpuid_ebx(HYPERV_CPUID_FEATURES) & HV_CPU_MANAGEMENT) {
-+		hv_root_partition = true;
-+		pr_info("Hyper-V: running as root partition\n");
-+	}
-+
- 	/*
- 	 * Extract host information.
- 	 */
 -- 
 2.20.1
 
