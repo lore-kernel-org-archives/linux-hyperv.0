@@ -2,137 +2,128 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 629A8C433E0
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC3DC433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 04:02:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E8A622DD3
-	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 01:17:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F55622D50
+	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 04:02:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbhAFBRM (ORCPT
+        id S1725817AbhAFEBr (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 5 Jan 2021 20:17:12 -0500
-Received: from linux.microsoft.com ([13.77.154.182]:54220 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbhAFBRM (ORCPT
+        Tue, 5 Jan 2021 23:01:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbhAFEBr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 5 Jan 2021 20:17:12 -0500
-Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id 362A720B6C40; Tue,  5 Jan 2021 17:16:31 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 362A720B6C40
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1609895791;
-        bh=J27Hds4U/M4ptj2TT0oSpKhTx9p3VcyEZL2xvX1ifrA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O24FFHKEK6sKAgdhBHr67UGKExbVKQsvQU8Spjq7IbWyKO2gyfDe4YRUJrYYSm92/
-         VbMoF+FI2WLNigHV4yg1kGw/+QhE8WE9BFSHvyhR5bPfUyU7PgZ4rOOrW8y0mCKyqu
-         I/uGCLE/j5zJa8hiW4r+u6U7JBUKqtC42i4iJ5rM=
-From:   Long Li <longli@linuxonhyperv.com>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Tue, 5 Jan 2021 23:01:47 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EBEBC06134C
+        for <linux-hyperv@vger.kernel.org>; Tue,  5 Jan 2021 20:01:07 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id h186so986352pfe.0
+        for <linux-hyperv@vger.kernel.org>; Tue, 05 Jan 2021 20:01:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=CDgibIGXx39qkCOF0q2QH8v6fPooZvCUIVM2zf27fD8=;
+        b=qeoLhCDdXACcug+hWouvb2ciMc3eHVILMGrnA8aGNRjXEUVpnkgmmf29b+rpyCOfOI
+         SWbz0/sxc2jXJXQLnWmOu+eUV1c6fI5JQRd9a71uhe3WIvGndWIk7LBSDrQ2nADW6w0i
+         7saucOgvrLgJKeXXVWrROvjw6iXlL0XZyB8pXvcZWZHomh5BblelDvmuD2wvnSK/Fuks
+         4C62SCiZB42VmW+Z7D8+QuvZtsefOk+ViBd9wOljAw0oHc6BZtluOunbBEQpe0A1u0BO
+         DIDB7WPtklVmYgAyyh4wIEnrbFkJKUcYpzjCLy/X1HhST27fO8CDQIRRIYxjZMWOM1D7
+         eewQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CDgibIGXx39qkCOF0q2QH8v6fPooZvCUIVM2zf27fD8=;
+        b=ZSDmH+iBZKF6Qv21yHuvUCjqbhU+rDNPqEIR486N/bGAzrJumqOQfIR4aadj/mqlQZ
+         FVuEMeKkuhSl2Al+mTBHQMVSNy+aGlGBnc1VjvIFzj410+qb0Y2k3uhnGsbZ91RXIe1i
+         aIGwr822uOTj21PqzWq20GmSAg6MX56scFKqcQ4HUf1gcXab8qs/pCpa9eEOApIvFEyJ
+         L2gy36S394DgV/FmsT4J0Z1alnKZA+snvsnr4gzGia4l3SIi7Wt1tv0fvN+VUDIXUKd/
+         TX5FUhxtbUHPo9SoFhf9pVLi3+d4jy3m/9GyNIJXAItWteUAhqPENJVgLzk+5dgRbD+L
+         fZdQ==
+X-Gm-Message-State: AOAM533ctYdbd40XIyr2oIDxz/misIoKVc7Z62sst8z0S3yeX4dXCBvJ
+        aT3KThq7NeUNUbt+iWb9P0M=
+X-Google-Smtp-Source: ABdhPJxqgLRO5Mr15qaTpgdAQYSSIU2N9VASQCQTOX7qOcwJOzPyXYrSiSyhVR4YnH18RM9+k7pxLg==
+X-Received: by 2002:aa7:9afb:0:b029:19e:45d8:b102 with SMTP id y27-20020aa79afb0000b029019e45d8b102mr1977624pfp.48.1609905666975;
+        Tue, 05 Jan 2021 20:01:06 -0800 (PST)
+Received: from [192.168.1.8] (50-47-106-83.evrt.wa.frontiernet.net. [50.47.106.83])
+        by smtp.gmail.com with ESMTPSA id 17sm647234pgy.53.2021.01.05.20.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jan 2021 20:01:05 -0800 (PST)
+Message-ID: <84e09e65b831ba6d3017a6ca9be039005b24e793.camel@gmail.com>
+Subject: Re: [PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
+ video device
+From:   Deepak Rawat <drawat.floss@gmail.com>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     linux-hyperv@vger.kernel.org, Wei Hu <weh@microsoft.com>,
+        Tang Shaofeng <shaofeng.tang@intel.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Long Li <longli@microsoft.com>
-Subject: [PATCH 2/3] hv_netvsc: Wait for completion on request NVSP_MSG4_TYPE_SWITCH_DATA_PATH
-Date:   Tue,  5 Jan 2021 17:15:52 -0800
-Message-Id: <1609895753-30445-2-git-send-email-longli@linuxonhyperv.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1609895753-30445-1-git-send-email-longli@linuxonhyperv.com>
-References: <1609895753-30445-1-git-send-email-longli@linuxonhyperv.com>
+        Dexuan Cui <decui@microsoft.com>,
+        dri-devel@lists.freedesktop.org,
+        Michael Kelley <mikelley@microsoft.com>,
+        Sam Ravnborg <sam@ravnborg.org>
+Date:   Tue, 05 Jan 2021 20:01:04 -0800
+In-Reply-To: <8ff4bd88-6e98-3db5-232d-98ce2c370cd1@suse.de>
+References: <20210102060336.832866-1-drawat.floss@gmail.com>
+         <2b49fcd2-38f7-dae5-2992-721a8bd142a2@suse.de>
+         <4f7818f99734c0912325e1f3b6b80cb2a04df3ef.camel@gmail.com>
+         <ec340e8e-6386-d582-c93b-0a35c60f9dca@suse.de>
+         <20210105110438.zhy22zzqfgbnonos@sirius.home.kraxel.org>
+         <8ff4bd88-6e98-3db5-232d-98ce2c370cd1@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+On Tue, 2021-01-05 at 12:30 +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 05.01.21 um 12:04 schrieb Gerd Hoffmann:
+> >    Hi,
+> > 
+> > > > It's not possible to do page flip with this virtual device. The
+> > > > call to
+> > > > SYNTHVID_VRAM_LOCATION is only honoured once. So unfortunately
+> > > > need to
+> > > > use SHMEM helpers.
+> > > 
+> > > I was thinking about using struct
+> > > video_output_situation.vram_offset; in
+> > > case you want to tinker with that. There's a comment in the patch
+> > > that
+> > > vram_offset should always be 0. But this comment seems incorrect
+> > > for devices
+> > > with more than one output.
+> > 
+> > Where does the comment come from?  fbdev drivers support a single
+> > framebuffer only so for a fbdev driver it makes sense to set the
+> > offset
+> > to 0 unconditionally.  With drm you probably can handle things
+> > differently ...
+> 
+> I cannot find it in hyperv_fb.c; it must have gotten introduced here.
+> 
+> Only one display is supported by this DRM driver, so the comment is 
+> correct. In the future, having support for multiple displays might be
+> an 
+> option.
+> 
+> 
 
-The completion indicates if NVSP_MSG4_TYPE_SWITCH_DATA_PATH has been
-processed by the VSP. The traffic is steered to VF or synthetic after we
-receive this completion.
+Beside that offset should be 0, another problem is that
+SYNTHVID_SITUATION_UPDATE will cause the whole screen to flicker (I
+suppose this call is more for changing resolution), so can't really use
+this for page-flip.
 
-Signed-off-by: Long Li <longli@microsoft.com>
----
- drivers/net/hyperv/netvsc.c     | 34 +++++++++++++++++++++++++++++++--
- drivers/net/hyperv/netvsc_drv.c |  1 -
- 2 files changed, 32 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 2350342b961f..237e998d21d1 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -37,6 +37,10 @@ void netvsc_switch_datapath(struct net_device *ndev, bool vf)
- 	struct netvsc_device *nv_dev = rtnl_dereference(net_device_ctx->nvdev);
- 	struct nvsp_message *init_pkt = &nv_dev->channel_init_pkt;
- 
-+	/* Block sending traffic to VF if it's about to be gone */
-+	if (!vf)
-+		net_device_ctx->data_path_is_vf = vf;
-+
- 	memset(init_pkt, 0, sizeof(struct nvsp_message));
- 	init_pkt->hdr.msg_type = NVSP_MSG4_TYPE_SWITCH_DATA_PATH;
- 	if (vf)
-@@ -50,8 +54,11 @@ void netvsc_switch_datapath(struct net_device *ndev, bool vf)
- 
- 	vmbus_sendpacket(dev->channel, init_pkt,
- 			       sizeof(struct nvsp_message),
--			       VMBUS_RQST_ID_NO_RESPONSE,
--			       VM_PKT_DATA_INBAND, 0);
-+			       (unsigned long)init_pkt,
-+			       VM_PKT_DATA_INBAND,
-+			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
-+	wait_for_completion(&nv_dev->channel_init_wait);
-+	net_device_ctx->data_path_is_vf = vf;
- }
- 
- /* Worker to setup sub channels on initial setup
-@@ -756,6 +763,29 @@ static void netvsc_send_completion(struct net_device *ndev,
- {
- 	const struct nvsp_message *nvsp_packet = hv_pkt_data(desc);
- 	u32 msglen = hv_pkt_datalen(desc);
-+	struct nvsp_message *pkt_rqst;
-+	u64 cmd_rqst;
-+
-+	/* First check if this is a VMBUS completion without data payload */
-+	if (!msglen) {
-+		cmd_rqst = vmbus_request_addr(&incoming_channel->requestor,
-+					      (u64)desc->trans_id);
-+		if (cmd_rqst == VMBUS_RQST_ERROR) {
-+			netdev_err(ndev, "Invalid transaction id\n");
-+			return;
-+		}
-+
-+		pkt_rqst = (struct nvsp_message *)cmd_rqst;
-+		switch (pkt_rqst->hdr.msg_type) {
-+		case NVSP_MSG4_TYPE_SWITCH_DATA_PATH:
-+			complete(&net_device->channel_init_wait);
-+			break;
-+
-+		default:
-+			netdev_err(ndev, "Unexpected VMBUS completion!!\n");
-+		}
-+		return;
-+	}
- 
- 	/* Ensure packet is big enough to read header fields */
- 	if (msglen < sizeof(struct nvsp_message_header)) {
-diff --git a/drivers/net/hyperv/netvsc_drv.c b/drivers/net/hyperv/netvsc_drv.c
-index 5dd4f37afa3d..64ae5f4e974e 100644
---- a/drivers/net/hyperv/netvsc_drv.c
-+++ b/drivers/net/hyperv/netvsc_drv.c
-@@ -2400,7 +2400,6 @@ static int netvsc_vf_changed(struct net_device *vf_netdev)
- 
- 	if (net_device_ctx->data_path_is_vf == vf_is_up)
- 		return NOTIFY_OK;
--	net_device_ctx->data_path_is_vf = vf_is_up;
- 
- 	netvsc_switch_datapath(ndev, vf_is_up);
- 	netdev_info(ndev, "Data path switched %s VF: %s\n",
--- 
-2.27.0
 
