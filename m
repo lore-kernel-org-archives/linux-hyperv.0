@@ -2,46 +2,46 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6971EC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B82EC433E6
 	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41ADA23132
+	by mail.kernel.org (Postfix) with ESMTP id 6F3C323138
 	for <linux-hyperv@archiver.kernel.org>; Wed,  6 Jan 2021 20:34:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727220AbhAFUeh (ORCPT
+        id S1727304AbhAFUei (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 6 Jan 2021 15:34:37 -0500
-Received: from mail-wm1-f50.google.com ([209.85.128.50]:53454 "EHLO
-        mail-wm1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727115AbhAFUeg (ORCPT
+        Wed, 6 Jan 2021 15:34:38 -0500
+Received: from mail-wm1-f54.google.com ([209.85.128.54]:37424 "EHLO
+        mail-wm1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbhAFUei (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 6 Jan 2021 15:34:36 -0500
-Received: by mail-wm1-f50.google.com with SMTP id k10so3448379wmi.3;
-        Wed, 06 Jan 2021 12:34:19 -0800 (PST)
+        Wed, 6 Jan 2021 15:34:38 -0500
+Received: by mail-wm1-f54.google.com with SMTP id q75so3726607wme.2;
+        Wed, 06 Jan 2021 12:34:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Mhlu1tTfXO6P+FCugagf3OwfYcUHlDCcg/eJOpRPSrE=;
-        b=mTCNT9Qj+ZJyZQnGgLwGSWsOs2IEjY7w36xTgQLuIpOlwmwvJjyIcxNrjok06e+rPK
-         EUrmAx4Jh0bugcQnyA9wZDfvTukz6SgTvSBORN6Z2NsCv3NTLskAK4uLc8tV0SC7Eg3S
-         PgfdCCgEvy/H3cpNMUe7Gc2mOzrKn6z4PNPzEa7uMwGe8uwcN9jP2amdJ789nO/kbZ04
-         aL0P8KKv8aTAU4nLOM/Kqneyt8JfgW0ufSFz7d5+32IicST7/TSn6+ArxRUb8waJhkLF
-         b+9V4+ubGASqFk0DcMUdfke+ip8mz2oyVxXawaV9h3S2tyMv+b/LlncfN2N3T1BUulgW
-         WGgA==
-X-Gm-Message-State: AOAM530OZOD61pSYyxYLWuFbflebBngG/XOm8whhX8H+X5879+7mzUyD
-        Pn5HLJiI9uQ46fqpbzjmc0O5CAhbzFY=
-X-Google-Smtp-Source: ABdhPJxJSV5vs03ACfKiggc7zSy+VVNSNbEjICgke3R+iSI0E5wXlaSM2XRRWEQI5R10Bm12ZSQXwQ==
-X-Received: by 2002:a1c:1bc6:: with SMTP id b189mr5075372wmb.71.1609965234086;
-        Wed, 06 Jan 2021 12:33:54 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=m0hrJnkhTHI8MFmITTywSTXP99AQKzpVEujA7fFIdZs=;
+        b=UsaRr6NsevlKvsPxn5G2Hxd05+2UM25KMYDE9iygmclYMYtqcP4Un+T4xtjP7CSlHS
+         rzJ0T6WTdMK/MMWv1kiZw9Yi6cz85r9aQYAYDRyoqV7qwqQl6eFxH0xYDI9zKYXdrN6v
+         Nq0QS9YjruCIJ8h8TM5C9GWYyVvCM6dBXzDXLLhNXwPizxPQHRDmjn0GTlGkj85W3Z72
+         HZVsh9OzaRlOhalNWUBWrIxp8XD8MKfyTJSFIaZJAKwhGA+aqba+2ah/7nNpGkFw+rJB
+         aBD5L8D/JeIk4SjmDFD6HJKRcIEISer2O+X0Qn0Hgz+wMXerOrU2Nwxc4uN3xxplTNs/
+         ecrA==
+X-Gm-Message-State: AOAM531/GH8OOzjpobrB0IVNfJhSYcbaJKFGS71Ay1pQ44rqSESXU6nU
+        7GggC8FOcP5MpQC1XlBhquwQpHhRf0Q=
+X-Google-Smtp-Source: ABdhPJwYr1YnHm+3rYQk3GIK8uU0NvkcTw+XgzktXprvWYFh8zP1kRWd97ttGDXw5cF0VCboKzzVSg==
+X-Received: by 2002:a05:600c:220b:: with SMTP id z11mr5314943wml.64.1609965235793;
+        Wed, 06 Jan 2021 12:33:55 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.53
+        by smtp.gmail.com with ESMTPSA id u9sm4499456wmb.32.2021.01.06.12.33.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 12:33:53 -0800 (PST)
+        Wed, 06 Jan 2021 12:33:55 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,110 +50,120 @@ Cc:     virtualization@lists.linux-foundation.org,
         Vineeth Pillai <viremana@linux.microsoft.com>,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, sameo@linux.intel.com,
-        robert.bradford@intel.com, sebastien.boeuf@intel.com
-Subject: [PATCH v4 00/17] Introducing Linux root partition support for Microsoft Hypervisor
-Date:   Wed,  6 Jan 2021 20:33:33 +0000
-Message-Id: <20210106203350.14568-1-wei.liu@kernel.org>
+        Wei Liu <wei.liu@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH v4 02/17] x86/hyperv: detect if Linux is the root partition
+Date:   Wed,  6 Jan 2021 20:33:35 +0000
+Message-Id: <20210106203350.14568-3-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210106203350.14568-1-wei.liu@kernel.org>
+References: <20210106203350.14568-1-wei.liu@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all
+For now we can use the privilege flag to check. Stash the value to be
+used later.
 
-Here we propose this patch series to make Linux run as the root partition [0]
-on Microsoft Hypervisor [1]. There will be a subsequent patch series to provide a
-device node (/dev/mshv) such that userspace programs can create and run virtual
-machines. We've also ported Cloud Hypervisor [3] over and have been able to
-boot a Linux guest with Virtio devices since late July 2020.
+Put in a bunch of defines for future use when we want to have more
+fine-grained detection.
 
-This series implements only the absolutely necessary components to get
-things running.  A large portion of this series consists of patches that
-augment hyperv-tlfs.h.  They should be rather uncontroversial and can be
-applied right away.
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+v3: move hv_root_partition to mshyperv.c
+---
+ arch/x86/include/asm/hyperv-tlfs.h | 10 ++++++++++
+ arch/x86/include/asm/mshyperv.h    |  2 ++
+ arch/x86/kernel/cpu/mshyperv.c     | 20 ++++++++++++++++++++
+ 3 files changed, 32 insertions(+)
 
-A few key things other than the changes to hyperv-tlfs.h:
-
-1. Linux needs to setup existing Hyper-V facilities differently.
-2. Linux needs to make a few hypercalls to bring up APs.
-3. Interrupts are remapped by IOMMU, which is controlled by the hypervisor.
-   Linux needs to make hypercalls to map and unmap interrupts. This is
-   done by introducing a new MSI irqdomain and new irqchips.
-
-This series is now based on 5.11-rc2.
-
-Comments and suggestions are welcome.
-
-Thanks,
-Wei.
-
-[0] Just think of it like Xen's Dom0.
-[1] Hyper-V is more well-known, but it really refers to the whole stack
-    including the hypervisor and other components that run in Windows kernel
-    and userspace.
-[3] https://github.com/cloud-hypervisor/
-
-Cc: sameo@linux.intel.com
-Cc: robert.bradford@intel.com
-Cc: sebastien.boeuf@intel.com
-
-Changes since v3:
-1. Fix compilation errors.
-2. Adapt to upstream changes.
-
-Changes since v2:
-1. Address more comments from Vitaly.
-2. Fix and test 32bit build.
-
-Changes since v1:
-1. Simplify MSI IRQ domain implementation.
-2. Address Vitaly's comments.
-
-Wei Liu (17):
-  asm-generic/hyperv: change HV_CPU_POWER_MANAGEMENT to
-    HV_CPU_MANAGEMENT
-  x86/hyperv: detect if Linux is the root partition
-  Drivers: hv: vmbus: skip VMBus initialization if Linux is root
-  iommu/hyperv: don't setup IRQ remapping when running as root
-  clocksource/hyperv: use MSR-based access if running as root
-  x86/hyperv: allocate output arg pages if required
-  x86/hyperv: extract partition ID from Microsoft Hypervisor if
-    necessary
-  x86/hyperv: handling hypercall page setup for root
-  x86/hyperv: provide a bunch of helper functions
-  x86/hyperv: implement and use hv_smp_prepare_cpus
-  asm-generic/hyperv: update hv_msi_entry
-  asm-generic/hyperv: update hv_interrupt_entry
-  asm-generic/hyperv: introduce hv_device_id and auxiliary structures
-  asm-generic/hyperv: import data structures for mapping device
-    interrupts
-  x86/hyperv: implement an MSI domain for root partition
-  x86/ioapic: export a few functions and data structures via io_apic.h
-  x86/hyperv: handle IO-APIC when running as root
-
- arch/x86/hyperv/Makefile            |   4 +-
- arch/x86/hyperv/hv_init.c           | 120 +++++-
- arch/x86/hyperv/hv_proc.c           | 225 +++++++++++
- arch/x86/hyperv/irqdomain.c         | 559 ++++++++++++++++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h  |  23 ++
- arch/x86/include/asm/io_apic.h      |  22 ++
- arch/x86/include/asm/mshyperv.h     |  16 +-
- arch/x86/kernel/apic/io_apic.c      |  25 +-
- arch/x86/kernel/cpu/mshyperv.c      |  49 +++
- drivers/clocksource/hyperv_timer.c  |   3 +
- drivers/hv/vmbus_drv.c              |   3 +
- drivers/iommu/hyperv-iommu.c        |   3 +-
- drivers/pci/controller/pci-hyperv.c |   2 +-
- include/asm-generic/hyperv-tlfs.h   | 254 ++++++++++++-
- 14 files changed, 1272 insertions(+), 36 deletions(-)
- create mode 100644 arch/x86/hyperv/hv_proc.c
- create mode 100644 arch/x86/hyperv/irqdomain.c
-
-
-base-commit: e71ba9452f0b5b2e8dc8aa5445198cd9214a6a62
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 6bf42aed387e..204010350604 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -21,6 +21,7 @@
+ #define HYPERV_CPUID_FEATURES			0x40000003
+ #define HYPERV_CPUID_ENLIGHTMENT_INFO		0x40000004
+ #define HYPERV_CPUID_IMPLEMENT_LIMITS		0x40000005
++#define HYPERV_CPUID_CPU_MANAGEMENT_FEATURES	0x40000007
+ #define HYPERV_CPUID_NESTED_FEATURES		0x4000000A
+ 
+ #define HYPERV_CPUID_VIRT_STACK_INTERFACE	0x40000081
+@@ -110,6 +111,15 @@
+ /* Recommend using enlightened VMCS */
+ #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
+ 
++/*
++ * CPU management features identification.
++ * These are HYPERV_CPUID_CPU_MANAGEMENT_FEATURES.EAX bits.
++ */
++#define HV_X64_START_LOGICAL_PROCESSOR			BIT(0)
++#define HV_X64_CREATE_ROOT_VIRTUAL_PROCESSOR		BIT(1)
++#define HV_X64_PERFORMANCE_COUNTER_SYNC			BIT(2)
++#define HV_X64_RESERVED_IDENTITY_BIT			BIT(31)
++
+ /*
+  * Virtual processor will never share a physical core with another virtual
+  * processor, except for virtual processors that are reported as sibling SMT
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index ffc289992d1b..ac2b0d110f03 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -237,6 +237,8 @@ int hyperv_fill_flush_guest_mapping_list(
+ 		struct hv_guest_mapping_flush_list *flush,
+ 		u64 start_gfn, u64 end_gfn);
+ 
++extern bool hv_root_partition;
++
+ #ifdef CONFIG_X86_64
+ void hv_apic_init(void);
+ void __init hv_init_spinlocks(void);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index f628e3dc150f..c376d191a260 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -32,6 +32,10 @@
+ #include <asm/nmi.h>
+ #include <clocksource/hyperv_timer.h>
+ 
++/* Is Linux running as the root partition? */
++bool hv_root_partition;
++EXPORT_SYMBOL_GPL(hv_root_partition);
++
+ struct ms_hyperv_info ms_hyperv;
+ EXPORT_SYMBOL_GPL(ms_hyperv);
+ 
+@@ -237,6 +241,22 @@ static void __init ms_hyperv_init_platform(void)
+ 	pr_debug("Hyper-V: max %u virtual processors, %u logical processors\n",
+ 		 ms_hyperv.max_vp_index, ms_hyperv.max_lp_index);
+ 
++	/*
++	 * Check CPU management privilege.
++	 *
++	 * To mirror what Windows does we should extract CPU management
++	 * features and use the ReservedIdentityBit to detect if Linux is the
++	 * root partition. But that requires negotiating CPU management
++	 * interface (a process to be finalized).
++	 *
++	 * For now, use the privilege flag as the indicator for running as
++	 * root.
++	 */
++	if (cpuid_ebx(HYPERV_CPUID_FEATURES) & HV_CPU_MANAGEMENT) {
++		hv_root_partition = true;
++		pr_info("Hyper-V: running as root partition\n");
++	}
++
+ 	/*
+ 	 * Extract host information.
+ 	 */
 -- 
 2.20.1
 
