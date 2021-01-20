@@ -2,146 +2,137 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74710C433DB
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:48:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F0A7C433DB
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 14:04:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38C2523357
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:48:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48FAB23357
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 14:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388854AbhATM7c (ORCPT
+        id S1726278AbhATODq (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Jan 2021 07:59:32 -0500
-Received: from mail-lj1-f169.google.com ([209.85.208.169]:45778 "EHLO
-        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727696AbhATMMM (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Jan 2021 07:12:12 -0500
-Received: by mail-lj1-f169.google.com with SMTP id f17so25749815ljg.12;
-        Wed, 20 Jan 2021 04:11:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DAKijZroIKQByX8CE0+1w/bE11gheXfs1vD8PWKgeTU=;
-        b=izqq+IOngryMNVPFbPDGEZ1Psn77CnZaOawktAxIrePYfqmmezpcL0tayzfh+IM2mD
-         YMBDVIhIMlPoe2157SAYJW7alR06YSbrbfXSncA7OpFz+eV6cSaIsPRtHpJxrklaIwia
-         Iar0WbbJ/l4Upkun6QxzO6tqNvX8RgFWxk+EYvTgZILOGcmUZHlt1VVUbUwsa2ioxWmH
-         riNZ1T5+xfVz+FwHXC9KTmpXd3fGWk/lJ8ILu250Evu43iaf1ds5EZyOoRripHQdFaCF
-         wzdOXe3zQ2JIOl7CwJQ/z20PUiXhbJ/POfNvnzlXpaoNcliMFFjEnHc3VVBh3JVS6kfq
-         8A2g==
-X-Gm-Message-State: AOAM531gWgXqJFhGmwMZHgHxVNlhHQGt1OKabYvvOW8HJCLdVB6w7WYk
-        F1vy9SoMo81B4/4W8awWCzcs7un8VNk=
-X-Google-Smtp-Source: ABdhPJza8qpcmBvaMPBvYkE0u0mcX76hX1OL5HKNxM0HvelTfLJYuoNEIWdDE4VQnCub5W3sSCFkmQ==
-X-Received: by 2002:adf:f78e:: with SMTP id q14mr8921866wrp.320.1611144074617;
-        Wed, 20 Jan 2021 04:01:14 -0800 (PST)
-Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 04:01:13 -0800 (PST)
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Cc:     virtualization@lists.linux-foundation.org,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Vineeth Pillai <viremana@linux.microsoft.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        pasha.tatashin@soleen.com, Wei Liu <wei.liu@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v5 11/16] asm-generic/hyperv: update hv_msi_entry
-Date:   Wed, 20 Jan 2021 12:00:53 +0000
-Message-Id: <20210120120058.29138-12-wei.liu@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210120120058.29138-1-wei.liu@kernel.org>
-References: <20210120120058.29138-1-wei.liu@kernel.org>
+        Wed, 20 Jan 2021 09:03:46 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43966 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387646AbhATN1A (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 20 Jan 2021 08:27:00 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1611149174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=CpmyovsicWRsraKS/oNts+zojxJvItjt3KCZ7hy85ig=;
+        b=YoQQYyi997NN0sL65a0YYcDujYywf5i4Ag7KpzfJ88RqXywvxFU4fjjUrkFdBLLs+2EdEe
+        FmwSt0fjJPJqEsQNSSKHl7g8Q0WLZeDQLdTCe9dgWo8A2HWnLWPkj1p1QYY+Qctq5Ar+lD
+        Wn2hf5TRnZUn4VzS1ZuroHV9nujUBC0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0F7E4AAAE;
+        Wed, 20 Jan 2021 13:26:14 +0000 (UTC)
+From:   Juergen Gross <jgross@suse.com>
+To:     bpetkov@suse.com, linux-kernel@vger.kernel.org, x86@kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH v4 00/15] x86: major paravirt cleanup
+Date:   Wed, 20 Jan 2021 14:25:58 +0100
+Message-Id: <20210120132613.31487-1-jgross@suse.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-We will soon need to access fields inside the MSI address and MSI data
-fields. Introduce hv_msi_address_register and hv_msi_data_register.
+This is a major cleanup of the paravirt infrastructure aiming at
+eliminating all custom code patching via paravirt patching.
 
-Fix up one user of hv_msi_entry in mshyperv.h.
+This is achieved by using ALTERNATIVE instead, leading to the ability
+to give objtool access to the patched in instructions.
 
-No functional change expected.
+In order to remove most of the 32-bit special handling from pvops the
+time related operations are switched to use static_call() instead.
 
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
----
- arch/x86/include/asm/mshyperv.h   |  4 ++--
- include/asm-generic/hyperv-tlfs.h | 28 ++++++++++++++++++++++++++--
- 2 files changed, 28 insertions(+), 4 deletions(-)
+At the end of this series all paravirt patching has to do is to
+replace indirect calls with direct ones. In a further step this could
+be switched to static_call(), too, but that would require a major
+header file disentangling.
 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 4e590a167160..cbee72550a12 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -257,8 +257,8 @@ static inline void hv_apic_init(void) {}
- static inline void hv_set_msi_entry_from_desc(union hv_msi_entry *msi_entry,
- 					      struct msi_desc *msi_desc)
- {
--	msi_entry->address = msi_desc->msg.address_lo;
--	msi_entry->data = msi_desc->msg.data;
-+	msi_entry->address.as_uint32 = msi_desc->msg.address_lo;
-+	msi_entry->data.as_uint32 = msi_desc->msg.data;
- }
- 
- #else /* CONFIG_HYPERV */
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index ec53570102f0..7e103be42799 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -480,12 +480,36 @@ struct hv_create_vp {
- 	u64 flags;
- } __packed;
- 
-+union hv_msi_address_register {
-+	u32 as_uint32;
-+	struct {
-+		u32 reserved1:2;
-+		u32 destination_mode:1;
-+		u32 redirection_hint:1;
-+		u32 reserved2:8;
-+		u32 destination_id:8;
-+		u32 msi_base:12;
-+	};
-+} __packed;
-+
-+union hv_msi_data_register {
-+	u32 as_uint32;
-+	struct {
-+		u32 vector:8;
-+		u32 delivery_mode:3;
-+		u32 reserved1:3;
-+		u32 level_assert:1;
-+		u32 trigger_mode:1;
-+		u32 reserved2:16;
-+	};
-+} __packed;
-+
- /* HvRetargetDeviceInterrupt hypercall */
- union hv_msi_entry {
- 	u64 as_uint64;
- 	struct {
--		u32 address;
--		u32 data;
-+		union hv_msi_address_register address;
-+		union hv_msi_data_register data;
- 	} __packed;
- };
- 
+For a clean build without any objtool warnings a modified objtool is
+required. Currently this is available in the "tip" tree in the
+objtool/core branch.
+
+Changes in V4:
+- fixed several build failures
+- removed objtool patch, as objtool patches are in tip now
+- added patch 1 for making usage of static_call easier
+- even more cleanup
+
+Changes in V3:
+- added patches 7 and 12
+- addressed all comments
+
+Changes in V2:
+- added patches 5-12
+
+Juergen Gross (14):
+  x86/xen: use specific Xen pv interrupt entry for MCE
+  x86/xen: use specific Xen pv interrupt entry for DF
+  x86/pv: switch SWAPGS to ALTERNATIVE
+  x86/xen: drop USERGS_SYSRET64 paravirt call
+  x86: rework arch_local_irq_restore() to not use popf
+  x86/paravirt: switch time pvops functions to use static_call()
+  x86/alternative: support "not feature" and ALTERNATIVE_TERNARY
+  x86: add new features for paravirt patching
+  x86/paravirt: remove no longer needed 32-bit pvops cruft
+  x86/paravirt: simplify paravirt macros
+  x86/paravirt: switch iret pvops to ALTERNATIVE
+  x86/paravirt: add new macros PVOP_ALT* supporting pvops in
+    ALTERNATIVEs
+  x86/paravirt: switch functions with custom code to ALTERNATIVE
+  x86/paravirt: have only one paravirt patch function
+
+Peter Zijlstra (1):
+  static_call: Pull some static_call declarations to the type headers
+
+ arch/x86/Kconfig                        |   1 +
+ arch/x86/entry/entry_32.S               |   4 +-
+ arch/x86/entry/entry_64.S               |  28 ++-
+ arch/x86/include/asm/alternative-asm.h  |   4 +
+ arch/x86/include/asm/alternative.h      |   7 +
+ arch/x86/include/asm/cpufeatures.h      |   2 +
+ arch/x86/include/asm/idtentry.h         |   6 +
+ arch/x86/include/asm/irqflags.h         |  53 ++----
+ arch/x86/include/asm/mshyperv.h         |   2 +-
+ arch/x86/include/asm/paravirt.h         | 197 ++++++++------------
+ arch/x86/include/asm/paravirt_types.h   | 227 +++++++++---------------
+ arch/x86/kernel/Makefile                |   3 +-
+ arch/x86/kernel/alternative.c           |  49 ++++-
+ arch/x86/kernel/asm-offsets.c           |   7 -
+ arch/x86/kernel/asm-offsets_64.c        |   3 -
+ arch/x86/kernel/cpu/vmware.c            |   5 +-
+ arch/x86/kernel/irqflags.S              |  11 --
+ arch/x86/kernel/kvm.c                   |   2 +-
+ arch/x86/kernel/kvmclock.c              |   2 +-
+ arch/x86/kernel/paravirt-spinlocks.c    |   9 +
+ arch/x86/kernel/paravirt.c              |  83 +++------
+ arch/x86/kernel/paravirt_patch.c        | 109 ------------
+ arch/x86/kernel/tsc.c                   |   2 +-
+ arch/x86/xen/enlighten_pv.c             |  36 ++--
+ arch/x86/xen/irq.c                      |  23 ---
+ arch/x86/xen/time.c                     |  11 +-
+ arch/x86/xen/xen-asm.S                  |  52 +-----
+ arch/x86/xen/xen-ops.h                  |   3 -
+ drivers/clocksource/hyperv_timer.c      |   5 +-
+ drivers/xen/time.c                      |   2 +-
+ include/linux/static_call.h             |  20 ---
+ include/linux/static_call_types.h       |  27 +++
+ tools/include/linux/static_call_types.h |  27 +++
+ 33 files changed, 376 insertions(+), 646 deletions(-)
+ delete mode 100644 arch/x86/kernel/paravirt_patch.c
+
 -- 
-2.20.1
+2.26.2
 
