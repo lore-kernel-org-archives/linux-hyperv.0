@@ -3,45 +3,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C88DC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93813C433E9
 	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:48:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1B72223340
+	by mail.kernel.org (Postfix) with ESMTP id 5A74123340
 	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:48:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388845AbhATM7Z (ORCPT
+        id S2388863AbhATM7h (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Jan 2021 07:59:25 -0500
-Received: from mail-lf1-f52.google.com ([209.85.167.52]:40850 "EHLO
-        mail-lf1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389272AbhATMLd (ORCPT
+        Wed, 20 Jan 2021 07:59:37 -0500
+Received: from mail-ej1-f42.google.com ([209.85.218.42]:41140 "EHLO
+        mail-ej1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733278AbhATMMt (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Jan 2021 07:11:33 -0500
-Received: by mail-lf1-f52.google.com with SMTP id v24so27167815lfr.7;
-        Wed, 20 Jan 2021 04:11:15 -0800 (PST)
+        Wed, 20 Jan 2021 07:12:49 -0500
+Received: by mail-ej1-f42.google.com with SMTP id g12so33219073ejf.8;
+        Wed, 20 Jan 2021 04:12:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ib7tyiX0BGEQmayJX1r0is3zXQopkTNEFvw3DWHlEoQ=;
-        b=nJSYUGsgf4ozNAae2LfFix7XcYwxMQUrVzmwmxs5gGEN3ELxiULpYGEn/cFi2LSOIo
-         28r+Z3MUO9cOmU9BqUBRBPGl6PX0vFZAessAPnFKJzSDgNudHO3hl1aEhzJOvW2wXxl3
-         QH4mHB18TW2d0TaHI3ektYyibC9ifLZ+Bw1mNqb67x0E4alMsg5e1PdEMVSWgdscUQf/
-         9zVDwTRFl2VuVFyvJUNubV7wYDZqd6dXdM23adbcrpMBK+iVlS8p5CWN8J3/m0LxsaOI
-         ELAWoZLwNeMezdK3Y7aHD0ecQy7GcqZp4vmajKjRRtANWRyqVGgStnG7Y9nnk4MccLNz
-         XA2A==
-X-Gm-Message-State: AOAM5336k4wYyxQB5pRLk9CVqa3jrgaXfy5Yfds/UWL8CdkZPKLQY98U
-        VwhStj2+YJpfT+NE11xIuuTt834UzAk=
-X-Google-Smtp-Source: ABdhPJxVpeat0aAJP0Q8txo8+u2I65FI//NnWPEbtMkWW9DAqQIROios7mF2Bd432nsJphA5PadvkQ==
-X-Received: by 2002:a5d:43cc:: with SMTP id v12mr8736721wrr.319.1611144077348;
-        Wed, 20 Jan 2021 04:01:17 -0800 (PST)
+        bh=iQMtgq3pUcrjj3NVCdkiQSStjiewGBjHdwkFAPCFR6A=;
+        b=NjthebAkuSs6fArMRYIQbeZeoiI0WOi/p/enyzCB9a7pwX3ggTKxLrZi5YVBBVyW/L
+         4c7C6WCkZzmYJADu0ZBBil4/m8Itqf5TUeQ0z1h2gV0oErinqSeKNzv2QoCSAz00o/lf
+         YUxUmnRjbT7budrA5EyX4ws3ZiDdxs4b/yYDyJJ/0lMAD2GB7tIX8LwvtmEYZjdszPg9
+         xMqwhOCLUXO8exID966SQqUbQ9r1BaQIJylhGvFJskN8T1ROiBYd4DEgzTAi9k3QHfSO
+         nKtbiaQLjzEYbKmdcTwCzOwGorAkg3hA2ysXmXiB/CyBSMtLdn1LCqHGVER9AQCJQXRG
+         9iRg==
+X-Gm-Message-State: AOAM531MbSoy5uBGlzLB+WZhUNJMv65PEICaKN+AkDy1FrAGpyXFB5Kr
+        W87NG4S+Wkh1VPQSDKBiAsYPA3qxKUo=
+X-Google-Smtp-Source: ABdhPJz4rG0NJQ4emuqxUfLr2n1SVZFe7ESOJDiftil8vMTrjEnxmTX5UHX4Ncs5MrsulAjda8gL7g==
+X-Received: by 2002:adf:e512:: with SMTP id j18mr8953978wrm.52.1611144065620;
+        Wed, 20 Jan 2021 04:01:05 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.16
+        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 04:01:16 -0800 (PST)
+        Wed, 20 Jan 2021 04:01:05 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -51,17 +51,16 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         pasha.tatashin@soleen.com, Wei Liu <wei.liu@kernel.org>,
+        Joerg Roedel <jroedel@suse.de>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v5 14/16] asm-generic/hyperv: import data structures for mapping device interrupts
-Date:   Wed, 20 Jan 2021 12:00:56 +0000
-Message-Id: <20210120120058.29138-15-wei.liu@kernel.org>
+        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
+Subject: [PATCH v5 04/16] iommu/hyperv: don't setup IRQ remapping when running as root
+Date:   Wed, 20 Jan 2021 12:00:46 +0000
+Message-Id: <20210120120058.29138-5-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210120120058.29138-1-wei.liu@kernel.org>
 References: <20210120120058.29138-1-wei.liu@kernel.org>
@@ -71,90 +70,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
----
- arch/x86/include/asm/hyperv-tlfs.h | 13 +++++++++++
- include/asm-generic/hyperv-tlfs.h  | 36 ++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
+The IOMMU code needs more work. We're sure for now the IRQ remapping
+hooks are not applicable when Linux is the root partition.
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 204010350604..ab7d6cde548d 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -533,6 +533,19 @@ struct hv_partition_assist_pg {
- 	u32 tlb_lock_count;
- };
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Joerg Roedel <jroedel@suse.de>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ drivers/iommu/hyperv-iommu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 1d21a0b5f724..b7db6024e65c 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -20,6 +20,7 @@
+ #include <asm/io_apic.h>
+ #include <asm/irq_remapping.h>
+ #include <asm/hypervisor.h>
++#include <asm/mshyperv.h>
  
-+enum hv_interrupt_type {
-+	HV_X64_INTERRUPT_TYPE_FIXED             = 0x0000,
-+	HV_X64_INTERRUPT_TYPE_LOWESTPRIORITY    = 0x0001,
-+	HV_X64_INTERRUPT_TYPE_SMI               = 0x0002,
-+	HV_X64_INTERRUPT_TYPE_REMOTEREAD        = 0x0003,
-+	HV_X64_INTERRUPT_TYPE_NMI               = 0x0004,
-+	HV_X64_INTERRUPT_TYPE_INIT              = 0x0005,
-+	HV_X64_INTERRUPT_TYPE_SIPI              = 0x0006,
-+	HV_X64_INTERRUPT_TYPE_EXTINT            = 0x0007,
-+	HV_X64_INTERRUPT_TYPE_LOCALINT0         = 0x0008,
-+	HV_X64_INTERRUPT_TYPE_LOCALINT1         = 0x0009,
-+	HV_X64_INTERRUPT_TYPE_MAXIMUM           = 0x000A,
-+};
+ #include "irq_remapping.h"
  
- #include <asm-generic/hyperv-tlfs.h>
+@@ -122,7 +123,7 @@ static int __init hyperv_prepare_irq_remapping(void)
  
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 42ff1326c6bd..07efe0131fe3 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -152,6 +152,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_RETRIEVE_DEBUG_DATA		0x006a
- #define HVCALL_RESET_DEBUG_SESSION		0x006b
- #define HVCALL_ADD_LOGICAL_PROCESSOR		0x0076
-+#define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
-+#define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
- #define HVCALL_RETARGET_INTERRUPT		0x007e
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
-@@ -702,4 +704,38 @@ union hv_device_id {
- 	} acpi;
- } __packed;
+ 	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV) ||
+ 	    x86_init.hyper.msi_ext_dest_id() ||
+-	    !x2apic_supported())
++	    !x2apic_supported() || hv_root_partition)
+ 		return -ENODEV;
  
-+enum hv_interrupt_trigger_mode {
-+	HV_INTERRUPT_TRIGGER_MODE_EDGE = 0,
-+	HV_INTERRUPT_TRIGGER_MODE_LEVEL = 1,
-+};
-+
-+struct hv_device_interrupt_descriptor {
-+	u32 interrupt_type;
-+	u32 trigger_mode;
-+	u32 vector_count;
-+	u32 reserved;
-+	struct hv_device_interrupt_target target;
-+} __packed;
-+
-+struct hv_input_map_device_interrupt {
-+	u64 partition_id;
-+	u64 device_id;
-+	u64 flags;
-+	struct hv_interrupt_entry logical_interrupt_entry;
-+	struct hv_device_interrupt_descriptor interrupt_descriptor;
-+} __packed;
-+
-+struct hv_output_map_device_interrupt {
-+	struct hv_interrupt_entry interrupt_entry;
-+} __packed;
-+
-+struct hv_input_unmap_device_interrupt {
-+	u64 partition_id;
-+	u64 device_id;
-+	struct hv_interrupt_entry interrupt_entry;
-+} __packed;
-+
-+#define HV_SOURCE_SHADOW_NONE               0x0
-+#define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
-+
- #endif
+ 	fn = irq_domain_alloc_named_id_fwnode("HYPERV-IR", 0);
 -- 
 2.20.1
 
