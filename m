@@ -2,68 +2,97 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE8DC433E0
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 04:51:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C94C433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 12:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E73D32313A
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 04:51:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0B5323355
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 12:58:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbhATEvX (ORCPT
+        id S1730313AbhATM6K (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 19 Jan 2021 23:51:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57200 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728307AbhATEvD (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 19 Jan 2021 23:51:03 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 20C6B23137;
-        Wed, 20 Jan 2021 04:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611118222;
-        bh=rd3vLXIH9asFrOl/woIo1LuABsCpeFAqzuVO0FSk7I8=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=Tz9IpALO2cTocnGYPbvgZIv6Gc0SN1P3chDIovOz2yNsW/QpuKmzFnGuxZwqDinh2
-         KgOuZTIYsVZ5HU5mtXHdkdYcUvyYKOkyqEimW4NS6dmYftDs8LM0rlVmS5CMF3xuP0
-         IzcQujLMbHeU2RrcAwf9t1DEx4fUDgsWduONDH6/c5RmQI6NxDrIrsq3NcbrQHJLGc
-         Vs+D6E6d+3ex9613zwLUW/lF1G4N57+2CywUU0TxDu0E3LWeSQG169DDkS3msHpxIu
-         kDhfCOyveoBewHlfdgQfJs0Wf6Pg9lka/hOY0Q98ZjCFRjigm84vxtr9GRByxupvCH
-         LXMd0DmUM4Onw==
-Subject: Re: [GIT PULL] Hyper-V fixes for 5.11-rc5
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210119113040.cy7x6hilvts56xan@liuwe-devbox-debian-v2>
-References: <20210119113040.cy7x6hilvts56xan@liuwe-devbox-debian-v2>
-X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210119113040.cy7x6hilvts56xan@liuwe-devbox-debian-v2>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20210119
-X-PR-Tracked-Commit-Id: fff7b5e6ee63c5d20406a131b260c619cdd24fd1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 28df858033484b830c2ea146c03da67d2d659405
-Message-Id: <161111822195.31434.2452040472483337572.pr-tracker-bot@kernel.org>
-Date:   Wed, 20 Jan 2021 04:50:21 +0000
-To:     Wei Liu <wei.liu@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
-        sthemmin@microsoft.com, haiyangz@microsoft.com,
+        Wed, 20 Jan 2021 07:58:10 -0500
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:33007 "EHLO
+        mail-wm1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388968AbhATMJh (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 20 Jan 2021 07:09:37 -0500
+Received: by mail-wm1-f49.google.com with SMTP id s24so3177337wmj.0;
+        Wed, 20 Jan 2021 04:09:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5A3GMg0kaUdhNbdjiZ51gEYmRqMxSWUTkm0nm29z41k=;
+        b=kAAZHac1+37YvXavuj8on0rR4tqGWcXE/b111YTWJwBAjN+hVOhO5MX+bsAmn+R6Vs
+         f2mRkUDxg5hu5swXPQbDY36TorPjr/gmjm8Fb/O1ok4fpqWPjwYCS7N4+i7Ad8yj5q97
+         9rNfLPtvLMwG0fllkZUUzU17prYVY0dLB4OoRMdfpLvrWFt+j/m0R0Bv8BfAoCsU/dcp
+         cvEsYjQA+uX58L1SJfmJWTVA+wOUGEvjF8ahY6yGXtGGJ5yJCF3St33ya7SAmWlPoigP
+         2Fq4kLPGLtbceimIx+uPcGzfC5o3Fh4qGtBXm9OY5jU8x3BsvdSKmmSnw/cKf/iqaBa/
+         bz5A==
+X-Gm-Message-State: AOAM530O5n6uOI+Vgwn/lM2r9xVb2ra+Hb6MUp9YLXymjVRBmWgwkp6b
+        IIL+3wfYFDxEZTVCWjI7fKbNJ7X3D/M=
+X-Google-Smtp-Source: ABdhPJyQr6BxuZzUmIdJoHYiyF+bREIDk1LpO+epJwZJPEq8zTUSZTSI+GStFHpoGPHynTvJUbr3mw==
+X-Received: by 2002:a1c:1d8d:: with SMTP id d135mr4162973wmd.4.1611144066451;
+        Wed, 20 Jan 2021 04:01:06 -0800 (PST)
+Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jan 2021 04:01:06 -0800 (PST)
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc:     virtualization@lists.linux-foundation.org,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
         Michael Kelley <mikelley@microsoft.com>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        Linux Kernel List <linux-kernel@vger.kernel.org>
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+        pasha.tatashin@soleen.com, Wei Liu <wei.liu@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH v5 05/16] clocksource/hyperv: use MSR-based access if running as root
+Date:   Wed, 20 Jan 2021 12:00:47 +0000
+Message-Id: <20210120120058.29138-6-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210120120058.29138-1-wei.liu@kernel.org>
+References: <20210120120058.29138-1-wei.liu@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The pull request you sent on Tue, 19 Jan 2021 11:30:40 +0000:
+When Linux runs as the root partition, the setup required for TSC page
+is different. Luckily Linux also has access to the MSR based
+clocksource. We can just disable the TSC page clocksource if Linux is
+the root partition.
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20210119
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+---
+ drivers/clocksource/hyperv_timer.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/28df858033484b830c2ea146c03da67d2d659405
-
-Thank you!
-
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index ba04cb381cd3..269a691bd2c4 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -426,6 +426,9 @@ static bool __init hv_init_tsc_clocksource(void)
+ 	if (!(ms_hyperv.features & HV_MSR_REFERENCE_TSC_AVAILABLE))
+ 		return false;
+ 
++	if (hv_root_partition)
++		return false;
++
+ 	hv_read_reference_counter = read_hv_clock_tsc;
+ 	phys_addr = virt_to_phys(hv_get_tsc_page());
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.20.1
+
