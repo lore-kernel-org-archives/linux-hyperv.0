@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EDEC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9212DC43381
 	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED87D2336D
-	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:00:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 460FE23381
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 13:00:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388886AbhATM7z (ORCPT
+        id S2388001AbhATM75 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 20 Jan 2021 07:59:55 -0500
-Received: from mail-ej1-f48.google.com ([209.85.218.48]:45207 "EHLO
-        mail-ej1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387423AbhATMNK (ORCPT
+        Wed, 20 Jan 2021 07:59:57 -0500
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:53482 "EHLO
+        mail-wm1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389146AbhATMPA (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 20 Jan 2021 07:13:10 -0500
-Received: by mail-ej1-f48.google.com with SMTP id ke15so25518785ejc.12;
-        Wed, 20 Jan 2021 04:12:53 -0800 (PST)
+        Wed, 20 Jan 2021 07:15:00 -0500
+Received: by mail-wm1-f49.google.com with SMTP id j18so2660041wmi.3;
+        Wed, 20 Jan 2021 04:14:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=iSy+7CaWmr7dYr0SNSPrl+Q/2IeK6S5L4pZcI30bMis=;
-        b=FUQCQvWxqgQWQYx8f9yWPxMUXtfJTGZmug1dUrElIHVknht9U/I3LqLytqhvtUiFPf
-         1wk6QRz66lBdg11GLkgEmQ1ZC21mr85nKqY1T8/SvUdbrMNK1pvONyL6/pA9uw2WwiZc
-         EMY5GBrwi8Qr7znq+RxdevvN+5DZRbz8aH1veWtyOuVPUM60lUr+TKJhXRTyLqOrDK8v
-         +AvNDqSWKM0Rt0hBzH8yA+Cm1KJ66OJ7n/DL64j/1RAkfLvZGlCizPDVEIx359gizLKh
-         9kYxYJl4IfNBXkGugfPl67RFCM4H4mCbnUWZqEwZAnKN0XvrmNmDC3WjLavelt3tralS
-         zKTA==
-X-Gm-Message-State: AOAM5303S0JT/69xjRXZNJPPgbPJVxh8fUJ8gnknxPj9AWvxvqwhbmr0
-        gbiO83wsqQ5FKbxN+KrgB0PO8uB2K8E=
-X-Google-Smtp-Source: ABdhPJw5vOkhmDj9Q+Ge0U4oH6WN1q0Res6scwIRD9dAZ10+vSr1rePaXgFDbWJizW6o0ZK2YR/7HQ==
-X-Received: by 2002:a5d:6983:: with SMTP id g3mr9082864wru.168.1611144076449;
-        Wed, 20 Jan 2021 04:01:16 -0800 (PST)
+        bh=jgoWHWZJp95oZbUGT1gHoY/N870o7iAvx/CdWeU6WPw=;
+        b=ClGBYmkD9kwavZYkOsP9rQlPhxO5hLl7ddbt9mKjCodeUnprXhO5YCxmVjkqoBZTcH
+         QuJsR6KOHC9sqkYnUzuqh/ZCKioZtfYt0c+DGyCzJJppDe6NxSHUyTNkomFz69068gV2
+         8uQXNCIR8rOn5RpiqZzGgEKofoA5HuPGqUItrobPXN1ukx8U25s6TwQzZBUKYpYdX6db
+         Dy8FlPInTlPMatfEfQrkna1NvMLAPWoKHdE4VpkxodNHGjuQEWEBUnp+s2lX7hILyWVT
+         Qxldr8iC7HrTorFjCkShQWb/ZkMQ9E4uAHbBwjRnsxGka+J7K/Y9o/bLDuv+jov1ymQ8
+         4hVQ==
+X-Gm-Message-State: AOAM532aGgyHTU86NzGtIsGx0ki4Db7UKzWZBsOl0cN3eHwsLa0tZoFp
+        thZY/EfW+tDZOC0wDwrGjirUyi6QHUo=
+X-Google-Smtp-Source: ABdhPJwXXybGJuDqcgkz3mLUi9tCTNLF/blBEclrZWKQbzm75DdiePexF9OjweaYsGHB49KCS5zuKg==
+X-Received: by 2002:a05:600c:214d:: with SMTP id v13mr4081518wml.186.1611144075582;
+        Wed, 20 Jan 2021 04:01:15 -0800 (PST)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.15
+        by smtp.gmail.com with ESMTPSA id x17sm3747671wro.40.2021.01.20.04.01.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 04:01:16 -0800 (PST)
+        Wed, 20 Jan 2021 04:01:15 -0800 (PST)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -51,14 +51,19 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         pasha.tatashin@soleen.com, Wei Liu <wei.liu@kernel.org>,
+        Rob Herring <robh@kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Arnd Bergmann <arnd@arndb.de>,
+        linux-pci@vger.kernel.org (open list:PCI NATIVE HOST BRIDGE AND
+        ENDPOINT DRIVERS),
         linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
-Subject: [PATCH v5 13/16] asm-generic/hyperv: introduce hv_device_id and auxiliary structures
-Date:   Wed, 20 Jan 2021 12:00:55 +0000
-Message-Id: <20210120120058.29138-14-wei.liu@kernel.org>
+Subject: [PATCH v5 12/16] asm-generic/hyperv: update hv_interrupt_entry
+Date:   Wed, 20 Jan 2021 12:00:54 +0000
+Message-Id: <20210120120058.29138-13-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210120120058.29138-1-wei.liu@kernel.org>
 References: <20210120120058.29138-1-wei.liu@kernel.org>
@@ -68,106 +73,90 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-We will need to identify the device we want Microsoft Hypervisor to
-manipulate.  Introduce the data structures for that purpose.
+We will soon use the same structure to handle IO-APIC interrupts as
+well. Introduce an enum to identify the source and a data structure for
+IO-APIC RTE.
 
-They will be used in a later patch.
+While at it, update pci-hyperv.c to use the enum.
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+No functional change.
+
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- include/asm-generic/hyperv-tlfs.h | 79 +++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
+ drivers/pci/controller/pci-hyperv.c |  2 +-
+ include/asm-generic/hyperv-tlfs.h   | 36 +++++++++++++++++++++++++++--
+ 2 files changed, 35 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 6db8d96a78eb..87aa62ee0368 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1216,7 +1216,7 @@ static void hv_irq_unmask(struct irq_data *data)
+ 	params = &hbus->retarget_msi_interrupt_params;
+ 	memset(params, 0, sizeof(*params));
+ 	params->partition_id = HV_PARTITION_ID_SELF;
+-	params->int_entry.source = 1; /* MSI(-X) */
++	params->int_entry.source = HV_INTERRUPT_SOURCE_MSI;
+ 	hv_set_msi_entry_from_desc(&params->int_entry.msi_entry, msi_desc);
+ 	params->device_id = (hbus->hdev->dev_instance.b[5] << 24) |
+ 			   (hbus->hdev->dev_instance.b[4] << 16) |
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 8423bf53c237..42ff1326c6bd 100644
+index 7e103be42799..8423bf53c237 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -623,4 +623,83 @@ struct hv_set_vp_registers_input {
- 	} element[];
+@@ -480,6 +480,11 @@ struct hv_create_vp {
+ 	u64 flags;
  } __packed;
  
-+enum hv_device_type {
-+	HV_DEVICE_TYPE_LOGICAL = 0,
-+	HV_DEVICE_TYPE_PCI = 1,
-+	HV_DEVICE_TYPE_IOAPIC = 2,
-+	HV_DEVICE_TYPE_ACPI = 3,
++enum hv_interrupt_source {
++	HV_INTERRUPT_SOURCE_MSI = 1, /* MSI and MSI-X */
++	HV_INTERRUPT_SOURCE_IOAPIC,
 +};
 +
-+typedef u16 hv_pci_rid;
-+typedef u16 hv_pci_segment;
-+typedef u64 hv_logical_device_id;
-+union hv_pci_bdf {
-+	u16 as_uint16;
-+
-+	struct {
-+		u8 function:3;
-+		u8 device:5;
-+		u8 bus;
-+	};
-+} __packed;
-+
-+union hv_pci_bus_range {
-+	u16 as_uint16;
-+
-+	struct {
-+		u8 subordinate_bus;
-+		u8 secondary_bus;
-+	};
-+} __packed;
-+
-+union hv_device_id {
+ union hv_msi_address_register {
+ 	u32 as_uint32;
+ 	struct {
+@@ -513,10 +518,37 @@ union hv_msi_entry {
+ 	} __packed;
+ };
+ 
++union hv_ioapic_rte {
 +	u64 as_uint64;
 +
 +	struct {
-+		u64 :62;
-+		u64 device_type:2;
++		u32 vector:8;
++		u32 delivery_mode:3;
++		u32 destination_mode:1;
++		u32 delivery_status:1;
++		u32 interrupt_polarity:1;
++		u32 remote_irr:1;
++		u32 trigger_mode:1;
++		u32 interrupt_mask:1;
++		u32 reserved1:15;
++
++		u32 reserved2:24;
++		u32 destination_id:8;
 +	};
 +
-+	/* HV_DEVICE_TYPE_LOGICAL */
 +	struct {
-+		u64 id:62;
-+		u64 device_type:2;
-+	} logical;
-+
-+	/* HV_DEVICE_TYPE_PCI */
-+	struct {
-+		union {
-+			hv_pci_rid rid;
-+			union hv_pci_bdf bdf;
-+		};
-+
-+		hv_pci_segment segment;
-+		union hv_pci_bus_range shadow_bus_range;
-+
-+		u16 phantom_function_bits:2;
-+		u16 source_shadow:1;
-+
-+		u16 rsvdz0:11;
-+		u16 device_type:2;
-+	} pci;
-+
-+	/* HV_DEVICE_TYPE_IOAPIC */
-+	struct {
-+		u8 ioapic_id;
-+		u8 rsvdz0;
-+		u16 rsvdz1;
-+		u16 rsvdz2;
-+
-+		u16 rsvdz3:14;
-+		u16 device_type:2;
-+	} ioapic;
-+
-+	/* HV_DEVICE_TYPE_ACPI */
-+	struct {
-+		u32 input_mapping_base;
-+		u32 input_mapping_count:30;
-+		u32 device_type:2;
-+	} acpi;
++		u32 low_uint32;
++		u32 high_uint32;
++	};
 +} __packed;
 +
- #endif
+ struct hv_interrupt_entry {
+-	u32 source;			/* 1 for MSI(-X) */
++	u32 source;
+ 	u32 reserved1;
+-	union hv_msi_entry msi_entry;
++	union {
++		union hv_msi_entry msi_entry;
++		union hv_ioapic_rte ioapic_rte;
++	};
+ } __packed;
+ 
+ /*
 -- 
 2.20.1
 
