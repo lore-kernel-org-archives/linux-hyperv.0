@@ -2,139 +2,185 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCF60C433E6
-	for <linux-hyperv@archiver.kernel.org>; Tue, 19 Jan 2021 21:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC257C433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 03:26:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B55822D71
-	for <linux-hyperv@archiver.kernel.org>; Tue, 19 Jan 2021 21:07:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B0DA207CF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 20 Jan 2021 03:26:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729515AbhASStx (ORCPT
+        id S1726023AbhATCae (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 19 Jan 2021 13:49:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391743AbhASR7j (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 19 Jan 2021 12:59:39 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71DE6C061573;
-        Tue, 19 Jan 2021 09:58:59 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id e15so581563wme.0;
-        Tue, 19 Jan 2021 09:58:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ud39rUOwi9a+eDdinAxLAEakzSkS3TdE+RD/bhNorzQ=;
-        b=VXR7vmWGIj2jjxYIWeOws2Wl7U9SiEVahWjLU/e+0eN82PYKaoRniIiDIRK7msShQ0
-         TBfAjeteW6riRRxAoQrjol1Z6EUC/OjkammyFdgHunOCrZtHA2/S6gDYFPSGopFWjlWD
-         glIrEMHhg+sYx/tZy/MByl3pxJr2XDyca5U6qecQ1fxzE4VbsVInnwY68Cy3NeeBetN/
-         9o4sKysDN9draRqQv1uBTFPEB8XXm+9dllwXobePv0iuIlgVkSFYjY6Ds/ssTN7xfL/U
-         58ts6kr6GPaC4gKFgM5/Li01b/rMBs7Fkqrpp0/rQojH4NAGkbMsjrn9ZPgWSxc4g3yd
-         Rrwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ud39rUOwi9a+eDdinAxLAEakzSkS3TdE+RD/bhNorzQ=;
-        b=BW9amq7I1zUq+i6ZaJzxa6EtekYENN5TFsyYHbsvB0w3VeXHNKvqhBDIVBot9GfGzK
-         6WBwyCVxS6YcBFwsbolgry4SQuy9KUXhguTCFOCc6CeTZu1IoWhKzc4hfSDueNDyMgBH
-         wcaQQ/2mB2W3jdy6FdNnRqDSGGEDE47hgZulMBKz2thOsQg6RHoU5deDILyyW+1Rj5G8
-         22pgJ3Azj7EB28P0qyHoBZ17j3otdiZi8raA4YCuk7/c9cH8TJa4tURNVqAWFNvaksc7
-         9TjzzdKQPXBdY4ljmB9IcBR68duI0xdnXNyqKIeUXIT99W95VwYLE2iUmD1m8HiGP8ai
-         KZcA==
-X-Gm-Message-State: AOAM5336rHo/LXhbzlFLETMeW98zj5bkG1XO5Yxef33EeudffoavmtBn
-        0HYhHFTr36FMhdJtMZNte5hC6VIFA/OTPnva
-X-Google-Smtp-Source: ABdhPJxJX9Y5y3EIyEHi9aNLRaU90KBI2X7LlLhhRsr/PehD6xzCuAqiAzYfgdq2RgPg9LZ6ZsBpSg==
-X-Received: by 2002:a05:600c:3548:: with SMTP id i8mr747653wmq.104.1611079137762;
-        Tue, 19 Jan 2021 09:58:57 -0800 (PST)
-Received: from anparri.mshome.net (host-79-50-177-118.retail.telecomitalia.it. [79.50.177.118])
-        by smtp.gmail.com with ESMTPSA id h125sm5899312wmh.16.2021.01.19.09.58.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 09:58:57 -0800 (PST)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
+        Tue, 19 Jan 2021 21:30:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46620 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729348AbhATB13 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:27:29 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 30C4A23119;
+        Wed, 20 Jan 2021 01:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611105973;
+        bh=SCjTXcyJf79brv8xJHXu5j97eu+y+qHap1CjffLVVJM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oEspaWD9LSowsKOxHjpLUWQZdPKEl/3tMb2EPOk91IJamtYSS7c8XxSE+9ZQlu41w
+         kcBExBy5sGp96cV/cOdTG5alI+vpklruAqL8u70jykiz57jr2XS6XsXQLHnCmSTjZe
+         CSs8dFSt/qJA7ToF2W5MMPI8CWusizmiMHeDA02KwieleCuF1TYg6kugwNxEX8Ynns
+         3TdSPARPHbCDv5HxRakxxZtJxjE56+cW2mOz2TAncf8hdZtWjXMEYC5rVRV+1d67HF
+         Ky0mKi+DlSnSnfOS+MMX3X4YbBihRFLTrjmevGCfYC5doqW1vnrGM49GKKdHwE58xm
+         ej2IUrygEYmGw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Dexuan Cui <decui@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        linux-hyperv@vger.kernel.org,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, x86@kernel.org,
-        linux-arch@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 0/4] Drivers: hv: vmbus: Restrict devices and configurations on 'isolated' guests
-Date:   Tue, 19 Jan 2021 18:58:37 +0100
-Message-Id: <20210119175841.22248-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 08/45] x86/hyperv: Fix kexec panic/hang issues
+Date:   Tue, 19 Jan 2021 20:25:25 -0500
+Message-Id: <20210120012602.769683-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
+References: <20210120012602.769683-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all,
+From: Dexuan Cui <decui@microsoft.com>
 
-To reduce the footprint of the code that will be exercised, and hence
-the exposure to bugs and vulnerabilities, restrict configurations and
-devices on 'isolated' VMs.
+[ Upstream commit dfe94d4086e40e92b1926bddcefa629b791e9b28 ]
 
-Specs of the Isolation Configuration leaf (cf. patch #1) were derived
-from internal discussions with the Hyper-V team and, AFAICT, they are
-not publicly available yet.
+Currently the kexec kernel can panic or hang due to 2 causes:
 
-The series has some minor/naming conflict with on-going work aimed at
-enabling SNP VMs on Hyper-V[1]; such conflicts can be addressed later
-at the right time.
+1) hv_cpu_die() is not called upon kexec, so the hypervisor corrupts the
+old VP Assist Pages when the kexec kernel runs. The same issue is fixed
+for hibernation in commit 421f090c819d ("x86/hyperv: Suspend/resume the
+VP assist page for hibernation"). Now fix it for kexec.
 
-Applies to hyperv-next.
+2) hyperv_cleanup() is called too early. In the kexec path, the other CPUs
+are stopped in hv_machine_shutdown() -> native_machine_shutdown(), so
+between hv_kexec_handler() and native_machine_shutdown(), the other CPUs
+can still try to access the hypercall page and cause panic. The workaround
+"hv_hypercall_pg = NULL;" in hyperv_cleanup() is unreliabe. Move
+hyperv_cleanup() to a better place.
 
-Thanks,
-  Andrea
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Link: https://lore.kernel.org/r/20201222065541.24312-1-decui@microsoft.com
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/x86/hyperv/hv_init.c       |  4 ++++
+ arch/x86/include/asm/mshyperv.h |  2 ++
+ arch/x86/kernel/cpu/mshyperv.c  | 18 ++++++++++++++++++
+ drivers/hv/vmbus_drv.c          |  2 --
+ 4 files changed, 24 insertions(+), 2 deletions(-)
 
-[1] https://github.com/lantianyu/linux # cvm
-
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: x86@kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: netdev@vger.kernel.org
-
-Andrea Parri (Microsoft) (4):
-  x86/hyperv: Load/save the Isolation Configuration leaf
-  Drivers: hv: vmbus: Restrict vmbus_devices on isolated guests
-  Drivers: hv: vmbus: Enforce 'VMBus version >= 5.2' on isolated guests
-  hv_netvsc: Restrict configurations on isolated guests
-
- arch/x86/hyperv/hv_init.c          | 15 +++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h | 15 +++++++++++++
- arch/x86/kernel/cpu/mshyperv.c     |  9 ++++++++
- drivers/hv/channel_mgmt.c          | 36 ++++++++++++++++++++++++++++++
- drivers/hv/connection.c            | 13 +++++++++++
- drivers/net/hyperv/netvsc.c        | 21 ++++++++++++++---
- include/asm-generic/hyperv-tlfs.h  |  1 +
- include/asm-generic/mshyperv.h     |  5 +++++
- include/linux/hyperv.h             |  1 +
- 9 files changed, 113 insertions(+), 3 deletions(-)
-
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index e04d90af4c27c..4638a52d8eaea 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -16,6 +16,7 @@
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/mshyperv.h>
+ #include <asm/idtentry.h>
++#include <linux/kexec.h>
+ #include <linux/version.h>
+ #include <linux/vmalloc.h>
+ #include <linux/mm.h>
+@@ -26,6 +27,8 @@
+ #include <linux/syscore_ops.h>
+ #include <clocksource/hyperv_timer.h>
+ 
++int hyperv_init_cpuhp;
++
+ void *hv_hypercall_pg;
+ EXPORT_SYMBOL_GPL(hv_hypercall_pg);
+ 
+@@ -401,6 +404,7 @@ void __init hyperv_init(void)
+ 
+ 	register_syscore_ops(&hv_syscore_ops);
+ 
++	hyperv_init_cpuhp = cpuhp;
+ 	return;
+ 
+ remove_cpuhp_state:
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index ffc289992d1b0..30f76b9668579 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -74,6 +74,8 @@ static inline void hv_disable_stimer0_percpu_irq(int irq) {}
+ 
+ 
+ #if IS_ENABLED(CONFIG_HYPERV)
++extern int hyperv_init_cpuhp;
++
+ extern void *hv_hypercall_pg;
+ extern void  __percpu  **hyperv_pcpu_input_arg;
+ 
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 05ef1f4550cbd..6cc50ab07bded 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -135,14 +135,32 @@ static void hv_machine_shutdown(void)
+ {
+ 	if (kexec_in_progress && hv_kexec_handler)
+ 		hv_kexec_handler();
++
++	/*
++	 * Call hv_cpu_die() on all the CPUs, otherwise later the hypervisor
++	 * corrupts the old VP Assist Pages and can crash the kexec kernel.
++	 */
++	if (kexec_in_progress && hyperv_init_cpuhp > 0)
++		cpuhp_remove_state(hyperv_init_cpuhp);
++
++	/* The function calls stop_other_cpus(). */
+ 	native_machine_shutdown();
++
++	/* Disable the hypercall page when there is only 1 active CPU. */
++	if (kexec_in_progress)
++		hyperv_cleanup();
+ }
+ 
+ static void hv_machine_crash_shutdown(struct pt_regs *regs)
+ {
+ 	if (hv_crash_handler)
+ 		hv_crash_handler(regs);
++
++	/* The function calls crash_smp_send_stop(). */
+ 	native_machine_crash_shutdown(regs);
++
++	/* Disable the hypercall page when there is only 1 active CPU. */
++	hyperv_cleanup();
+ }
+ #endif /* CONFIG_KEXEC_CORE */
+ #endif /* CONFIG_HYPERV */
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 4fad3e6745e53..a5a402e776c77 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2542,7 +2542,6 @@ static void hv_kexec_handler(void)
+ 	/* Make sure conn_state is set as hv_synic_cleanup checks for it */
+ 	mb();
+ 	cpuhp_remove_state(hyperv_cpuhp_online);
+-	hyperv_cleanup();
+ };
+ 
+ static void hv_crash_handler(struct pt_regs *regs)
+@@ -2558,7 +2557,6 @@ static void hv_crash_handler(struct pt_regs *regs)
+ 	cpu = smp_processor_id();
+ 	hv_stimer_cleanup(cpu);
+ 	hv_synic_disable_regs(cpu);
+-	hyperv_cleanup();
+ };
+ 
+ static int hv_synic_suspend(void)
 -- 
-2.25.1
+2.27.0
 
