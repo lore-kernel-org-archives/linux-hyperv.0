@@ -2,124 +2,175 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6777C433E6
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Jan 2021 11:59:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7C5C433E9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Jan 2021 12:00:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6C9B23121
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Jan 2021 11:59:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58A3F2311D
+	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Jan 2021 12:00:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405310AbhAZL6n (ORCPT
+        id S2405215AbhAZMAW (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 26 Jan 2021 06:58:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40246 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405079AbhAZL5y (ORCPT
+        Tue, 26 Jan 2021 07:00:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32151 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2405216AbhAZMAO (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 26 Jan 2021 06:57:54 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7BAC06174A;
-        Tue, 26 Jan 2021 03:57:06 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id i9so2517477wmq.1;
-        Tue, 26 Jan 2021 03:57:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bC1xZCmdZ+IRgftlF79fVLCQMAhOapBGa0B/um1CcO8=;
-        b=NvLuiFaNEsDhP1ZT0XPyH0ZKdRAsqatHGT5unjbajWjdArRkVDJVOK62L8+MNYZaqW
-         ldu05rKhXRBtGlL4Az5POr82yGwm34tbWZ9UHGXmTB3bC6AzbbLIlqiZ4/L54/6+4fUX
-         IYC9WPWKNOyCffsVRWDF3A5tN8acJt6m1pTsS47ER1JX6kCgHeUHHIKyhoOR1XVSVMZc
-         siTtM4OBn+or7zkXn4pT2u+vMXAwsC7viaHq9bYco+ytZ5lCW9+fnLY7KZZPVZMDu75C
-         JY5jT3Xb+jfFmG6AsueC050KJxcZv63tj6ufNyjUkKrffTPpQM6i5iEJJvhh6M7nbEfu
-         yXtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bC1xZCmdZ+IRgftlF79fVLCQMAhOapBGa0B/um1CcO8=;
-        b=TUJM54xfwBIQXRQKqpULdZCZsfEfxk61604TBzdguf1OXR71bXHCHJD9hto5//zpMu
-         MEN1+F4JKqBTk38TPckrK+vsjpHHylI+J+upQdv4bc1Sd76KdhutkLBVzGGcFXs+K1Mq
-         BqBxBIR9M0i1IMsMXIx7kKLmAwy8kH6pdg7ndmn033DJ4lJaNpKMEyzPlNYDVpok9yCG
-         ZQXHBkhWDvBwmmLuUdne05RkcybWclIdQE5AKMzTFBvvrt9ookhwFCO5VC9j8xoJJ6U6
-         jQum9jXKB6VhpFps8kXtZ5XOj7mWyXe4ydg5ca+D0FaY5qS9CEF8rSPcn/UC0+BrQbVb
-         WbDQ==
-X-Gm-Message-State: AOAM533lReK9EzcVTH5CjYSYP4EgA+d5UJVHXt9ay+jgJbuBOfmdiI8r
-        aunldcwyJ0XHsGcOeaVJxRpwx2okq9Slo+dc
-X-Google-Smtp-Source: ABdhPJxAGmp/2Q5U5eZgPzQBNLYgAVOsmF0XfLf4kQKtFcTGrEYhjftqslWZDJ2Pry78yUQ6ZA5CXw==
-X-Received: by 2002:a1c:4984:: with SMTP id w126mr4262426wma.139.1611662224976;
-        Tue, 26 Jan 2021 03:57:04 -0800 (PST)
-Received: from anparri.mshome.net (host-95-238-70-33.retail.telecomitalia.it. [95.238.70.33])
-        by smtp.gmail.com with ESMTPSA id z185sm3330283wmb.0.2021.01.26.03.57.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 03:57:04 -0800 (PST)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+        Tue, 26 Jan 2021 07:00:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611662327;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=CXtH9iqe5CxsuS1iT0M6Cxkc2fG+D5KUD5SMADHTIIk=;
+        b=QK4is44ZFLje5JkiscK8OlL9VGr3IIAMWEE1XUMbBdv5SpfXugc6cRb2KBced9AwMNbDHX
+        qk9raT/MZp1Y557ejm1givgMUYhqWehi/IssbzEuIhshBgJHOvSRme15kcafFYqOrhSEbQ
+        f/M3xXz9GI7HbBW1yUCe6RdyB/oIexk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-BVQC5xv5MCqMrpZFuyFWbQ-1; Tue, 26 Jan 2021 06:58:43 -0500
+X-MC-Unique: BVQC5xv5MCqMrpZFuyFWbQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFB8E15725;
+        Tue, 26 Jan 2021 11:58:40 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-192.ams2.redhat.com [10.36.114.192])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C093B5D9C2;
+        Tue, 26 Jan 2021 11:58:30 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
-Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
+Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Wei Yang <richard.weiyang@linux.alibaba.com>,
         linux-hyperv@vger.kernel.org,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, x86@kernel.org,
-        linux-arch@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 0/4] Drivers: hv: vmbus: Restrict devices and configurations on 'isolated' guests
-Date:   Tue, 26 Jan 2021 12:56:37 +0100
-Message-Id: <20210126115641.2527-1-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        virtualization@lists.linux-foundation.org,
+        xen-devel@lists.xenproject.org
+Subject: [PATCH v1] mm/memory_hotplug: MEMHP_MERGE_RESOURCE -> MHP_MERGE_RESOURCE
+Date:   Tue, 26 Jan 2021 12:58:29 +0100
+Message-Id: <20210126115829.10909-1-david@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Changes since v1 [1]:
-  - improve/add logging (Haiyang Zhang)
-  - move NVSC version check after version negotiation (Haiyang Zhang)
+Let's make "MEMHP_MERGE_RESOURCE" consistent with "MHP_NONE", "mhp_t" and
+"mhp_flags". As discussed recently [1], "mhp" is our internal
+acronym for memory hotplug now.
 
-[1] https://lkml.kernel.org/r/20210119175841.22248-1-parri.andrea@gmail.com
+[1] https://lore.kernel.org/linux-mm/c37de2d0-28a1-4f7d-f944-cfd7d81c334d@redhat.com/
 
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: x86@kernel.org
-Cc: linux-arch@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+Cc: Juergen Gross <jgross@suse.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Michal Hocko <mhocko@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: linux-hyperv@vger.kernel.org
+Cc: virtualization@lists.linux-foundation.org
+Cc: xen-devel@lists.xenproject.org
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ drivers/hv/hv_balloon.c        | 2 +-
+ drivers/virtio/virtio_mem.c    | 2 +-
+ drivers/xen/balloon.c          | 2 +-
+ include/linux/memory_hotplug.h | 2 +-
+ mm/memory_hotplug.c            | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-Andrea Parri (Microsoft) (4):
-  x86/hyperv: Load/save the Isolation Configuration leaf
-  Drivers: hv: vmbus: Restrict vmbus_devices on isolated guests
-  Drivers: hv: vmbus: Enforce 'VMBus version >= 5.2' on isolated guests
-  hv_netvsc: Restrict configurations on isolated guests
-
- arch/x86/hyperv/hv_init.c          | 15 +++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h | 15 +++++++++++++
- arch/x86/kernel/cpu/mshyperv.c     |  9 ++++++++
- drivers/hv/channel_mgmt.c          | 36 ++++++++++++++++++++++++++++++
- drivers/hv/connection.c            | 13 +++++++++++
- drivers/net/hyperv/netvsc.c        | 27 +++++++++++++++++++---
- include/asm-generic/hyperv-tlfs.h  |  1 +
- include/asm-generic/mshyperv.h     |  5 +++++
- include/linux/hyperv.h             |  1 +
- 9 files changed, 119 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+index 8c471823a5af..2f776d78e3c1 100644
+--- a/drivers/hv/hv_balloon.c
++++ b/drivers/hv/hv_balloon.c
+@@ -726,7 +726,7 @@ static void hv_mem_hot_add(unsigned long start, unsigned long size,
+ 
+ 		nid = memory_add_physaddr_to_nid(PFN_PHYS(start_pfn));
+ 		ret = add_memory(nid, PFN_PHYS((start_pfn)),
+-				(HA_CHUNK << PAGE_SHIFT), MEMHP_MERGE_RESOURCE);
++				(HA_CHUNK << PAGE_SHIFT), MHP_MERGE_RESOURCE);
+ 
+ 		if (ret) {
+ 			pr_err("hot_add memory failed error is %d\n", ret);
+diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
+index 85a272c9978e..148bea39b09a 100644
+--- a/drivers/virtio/virtio_mem.c
++++ b/drivers/virtio/virtio_mem.c
+@@ -623,7 +623,7 @@ static int virtio_mem_add_memory(struct virtio_mem *vm, uint64_t addr,
+ 	/* Memory might get onlined immediately. */
+ 	atomic64_add(size, &vm->offline_size);
+ 	rc = add_memory_driver_managed(vm->nid, addr, size, vm->resource_name,
+-				       MEMHP_MERGE_RESOURCE);
++				       MHP_MERGE_RESOURCE);
+ 	if (rc) {
+ 		atomic64_sub(size, &vm->offline_size);
+ 		dev_warn(&vm->vdev->dev, "adding memory failed: %d\n", rc);
+diff --git a/drivers/xen/balloon.c b/drivers/xen/balloon.c
+index b57b2067ecbf..671c71245a7b 100644
+--- a/drivers/xen/balloon.c
++++ b/drivers/xen/balloon.c
+@@ -331,7 +331,7 @@ static enum bp_state reserve_additional_memory(void)
+ 	mutex_unlock(&balloon_mutex);
+ 	/* add_memory_resource() requires the device_hotplug lock */
+ 	lock_device_hotplug();
+-	rc = add_memory_resource(nid, resource, MEMHP_MERGE_RESOURCE);
++	rc = add_memory_resource(nid, resource, MHP_MERGE_RESOURCE);
+ 	unlock_device_hotplug();
+ 	mutex_lock(&balloon_mutex);
+ 
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+index 3d99de0db2dd..4b834f5d032e 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -53,7 +53,7 @@ typedef int __bitwise mhp_t;
+  * with this flag set, the resource pointer must no longer be used as it
+  * might be stale, or the resource might have changed.
+  */
+-#define MEMHP_MERGE_RESOURCE	((__force mhp_t)BIT(0))
++#define MHP_MERGE_RESOURCE	((__force mhp_t)BIT(0))
+ 
+ /*
+  * Extended parameters for memory hotplug:
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 710e469fb3a1..ae497e3ff77c 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -1153,7 +1153,7 @@ int __ref add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+ 	 * In case we're allowed to merge the resource, flag it and trigger
+ 	 * merging now that adding succeeded.
+ 	 */
+-	if (mhp_flags & MEMHP_MERGE_RESOURCE)
++	if (mhp_flags & MHP_MERGE_RESOURCE)
+ 		merge_system_ram_resource(res);
+ 
+ 	/* online pages if requested */
 -- 
-2.25.1
+2.29.2
 
