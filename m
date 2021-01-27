@@ -5,48 +5,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 745B6C433E9
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Jan 2021 20:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B86C433E6
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Jan 2021 20:26:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B60561488
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Jan 2021 20:26:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E82D361488
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Jan 2021 20:26:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231791AbhA0U0I (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Jan 2021 15:26:08 -0500
-Received: from mail-bn7nam10on2119.outbound.protection.outlook.com ([40.107.92.119]:59360
+        id S232837AbhA0U0T (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Jan 2021 15:26:19 -0500
+Received: from mail-bn7nam10on2103.outbound.protection.outlook.com ([40.107.92.103]:44481
         "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232801AbhA0UZp (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Jan 2021 15:25:45 -0500
+        id S232802AbhA0UZq (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 27 Jan 2021 15:25:46 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lMcNtgIPTXdK9vVvpKWjnMuZng3ARLSmZ/x+tZN3d8VoZGlK8X358DYJZLm0doVf9RiKWP0ejwd2sTNTOnIMaxXHE7dtjDeEknyw9BFNkvLkSIfKvF0CuEonZ8mPWtZEpsiJq2REBR1ZLLXLLjCn7sxRvOeuUUap+P+UeVHfY9Hi7EzdT6geL153wwdNxmrekINH67Akl2z7H58ft5vsveEe05KGvKAC+L2I1BTPlW6eg770ySYfOUUkrMxXXjhYu6ucs5mwFcf+FIU8WY5noFojBLyC7YGnq2eWOfJ8neK17fGewPq7+5fqxEPdy9gTTJAkC1wc0hcNNEBfCxty8w==
+ b=oQ5RYO0k1QBwsLWsm1Pc4XuvQNMHWWMIa8NcZN34ETn+8NQr98yvCrixKmDQBwV+nDhAdr5wPtUNTjXTrKm72lWru53vXYrgXflAmSofoRNQVouxtnCaTYqhKOfzmNiFjra2zzvFvW/Lj/TRu2yhIku3maWWbvCN/QGnVweIMDh+cgjEjurxoKRRPH+fupvZCxdTX9qmGy8xu6RkeTcPK3FYVY94tWl2nNt3zF92jCRu2ztLmiijXazb07nOV9NrbVnjWsK/78a+2vCu3UVqTrKb4BrepqJcvUZLjZQfVSyX9Y6fsq0DTbbG3omDb/RmZpMWFqpTRovn5bu0DFAU4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4OQbR98rQ4qnp8iQNTWspmgtNkZg9E5Sm8UvbW0CY+E=;
- b=BOQW46+iBAMbC4tNgEoTAgUUjJRbFi81mH76BjPksS5B7EVmUs+/UfbYXWB/QiawrUlu+eqsECL2ns2cQ/SHQ1hLOwVDZwTa48654l6/ndWqITnlxBbfAOmtxgSZuYUJ3yFvsW4E224t1oOpuylBM56YqEcp47IZC5pRgmWtwxSIXi6QPtMpxRsh2L6+ZEoJFKs/P+gz2afWLpjOuvwVCrrdrv2BQds+L0Zcitkev4sxMPa3+CIi6D3nU0odipjwmN7ZhwIpqIOeMyhuX6+VOnVfCkmBZ0c2W0JkiMsqyWlawOZLovYwmg/6ctQWGY4Zu8gwqAG0eyCljkgU/h7+wA==
+ bh=45vkY94gFbnhEFAYv3fO7hYMNp362IV8YhXZQG3CmT4=;
+ b=FVURqkzqZPaKoNZk0gdwhUX0xN6BzQy5HzblnwwlM7S0bbsP1IeJrttvaBKO93ocZJVHTsAjPZBPvin+XmQUo+RCMRTVEFYQkwU/0f0kdHmN3oumfAeYpaDoXdBboAFRi94RURBWW9BD+2sMZI/YyeUJW57d2wolkHNfxX7URslfzJNfPxy+/na3nUDPIwr91b30Lc+RdjQoo3Ebf5IQtUf7fGakBpkcq2YGhO4GZGxL/5pVPdHu4C/qFw/Rk2N6TPBACxLY3hxDmGYYdQPF8h+jBtpECHna879GLO7VZkgad6zDFkehrI2QJecgfdxFjC2vU2yhPo3tlodTnxiJrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4OQbR98rQ4qnp8iQNTWspmgtNkZg9E5Sm8UvbW0CY+E=;
- b=jABk0tnpKy2cWHineJ2yhmLRAxIKhbo/+/PbBER86yHme5g165BIWYg7bRmpT1/zQli1UdR/FWNAkTzUisu3prjXc9d5/ovafQZij/WyhFBCgAsFVJQJ9FkOor9ZvGDPrhRcrNNtu9rY4KUc6JcIQyxllY9qiFf5kItbidbQAOM=
+ bh=45vkY94gFbnhEFAYv3fO7hYMNp362IV8YhXZQG3CmT4=;
+ b=UFQHjMg1cu4WsBPDAwVGL+Yl8BREBl+wtRpZIYMYOSi8leJ+x/PqlLUv3rkX7705gGwdCeokUiIeEclEqZz1Pl0MfnvqgBvbdv82HuUDetCygi+goIQ4+W1UMWRWmZBy7lPfJY8kzBeSVxwWYPBPLPl1WPHM7KjMxGZs5Eyil8U=
 Authentication-Results: microsoft.com; dkim=none (message not signed)
  header.d=none;microsoft.com; dmarc=none action=none
  header.from=microsoft.com;
 Received: from (2603:10b6:208:3a::13) by
  MN2PR21MB1215.namprd21.prod.outlook.com (2603:10b6:208:3a::15) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.6; Wed, 27 Jan 2021 20:24:19 +0000
+ 15.20.3825.6; Wed, 27 Jan 2021 20:24:23 +0000
 Received: from MN2PR21MB1213.namprd21.prod.outlook.com
  ([fe80::91f:e9a:5737:3a05]) by MN2PR21MB1213.namprd21.prod.outlook.com
  ([fe80::91f:e9a:5737:3a05%9]) with mapi id 15.20.3825.006; Wed, 27 Jan 2021
- 20:24:19 +0000
+ 20:24:23 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
@@ -54,9 +54,9 @@ To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         linux-hyperv@vger.kernel.org
 Cc:     mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH 02/10] x86/hyper-v: Move hv_message_type to architecture neutral module
-Date:   Wed, 27 Jan 2021 12:23:37 -0800
-Message-Id: <1611779025-21503-3-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH 04/10] Drivers: hv: vmbus: Move hyperv_report_panic_msg to arch neutral code
+Date:   Wed, 27 Jan 2021 12:23:39 -0800
+Message-Id: <1611779025-21503-5-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1611779025-21503-1-git-send-email-mikelley@microsoft.com>
 References: <1611779025-21503-1-git-send-email-mikelley@microsoft.com>
@@ -67,154 +67,162 @@ X-ClientProxiedBy: MW4PR03CA0139.namprd03.prod.outlook.com
  (2603:10b6:208:3a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkdev.corp.microsoft.com (131.107.174.144) by MW4PR03CA0139.namprd03.prod.outlook.com (2603:10b6:303:8c::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 20:24:18 +0000
+Received: from mhkdev.corp.microsoft.com (131.107.174.144) by MW4PR03CA0139.namprd03.prod.outlook.com (2603:10b6:303:8c::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 20:24:21 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4306279a-8f7d-4a8b-c351-08d8c30186a9
+X-MS-Office365-Filtering-Correlation-Id: ce091186-1b8d-4e8b-20fa-08d8c30188ae
 X-MS-TrafficTypeDiagnostic: MN2PR21MB1215:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR21MB1215D8180C4B00863FB52DB5D7BB9@MN2PR21MB1215.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <MN2PR21MB121563EE65123AD76BB09174D7BB9@MN2PR21MB1215.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6AhYwFIyJt6tn5Y7cPW8QUs5dsyC09YEYzVdS0Emfqt0lnOvBMVlzpa18FwWZyIiqMigVJZm2RWo1qYCtC7htASzsIz6DMudvgKTc/IvIsudzcqFEj05/y99qClGnhlp6GmH+ajI7cU5ShS0+RZ1QkAaGrmkZOBn4LoU8M8gjQi7NShV4Nas0wLVgcwEhm16sADPcHarmcNw0VizLiCzXPZLQK5+ZA350/CJKnmn9lWKFui0J/seJjeKQ5WLD3qc0pqwp4T4TYg/bNrDGgrkOy4/D1oimB2aBtSj+6q9VKXqLd97muGlmRW41KtGAdhRS7PEP0VmFb24bw1U7waSOXkQdO121+QSk/g6DsyvsXiiW32IwElL8shBJ5sVV6vavIWXws7sFGGfzz7L9203Vr4cZflofKLydFiVAtn89STTWZ1RS2oQNdG7wRgyrGVN05VexjulG7kMwlXxxyG1Ufo6FJ7HjO+SdLYiDSLPfK6+j8u/jmVVmW2VCAurHP3iR6jcAm4MEIoWMnIRCGIimCiXGE+H8FpatAD8k9Y/YkBIclJzw+EsCe1FcVtHl4lS
+X-Microsoft-Antispam-Message-Info: mXwHA5BE0OWKl3Jxs49Se3/mDcY2WkMgHoKHfdqjwajPOOtdu6G3GR1blBvap4fpMawoayxf8NK2SlvXeXJYCmWdDnqfkdnuqFd7rf6IwvjhdDjba2MhsnYYLodn24tBs6ojUnVyRqY+bDtKkLhhHdOTl/P85BLlzptScvlET7KlnUNxNkSMwPUqfDo4BtBwgDFwPyIlocS/2fB2krWhvnl9V8UFy6xkqvClJN3C4VxB7oeP8uM+d4eSyYNI6AwYD6UoLGeabbHROpx83OzOf/hIXOxWoyYiUhkXPlueMWoy+m9uWJLGU1sKcgyEcLSNwPjCE3jlbnwJD/dhfgCdRRW4Bab0O8kZxkLHG2it7mqoZsI4ubTPJwExQGRJIs4r3dA+84TTydwhG2iZp1+S5nMW6mYM3FMyY7UU/luRyMGgb5v/9cwwTVycua9trdtOF3kiRVdKhhpIJ55gVuCZXKZ2rzewMNFwZLUagw45ZrS13B9PUIcLz3QMbQQ0tFNij2TRKX8fMBM5uEvriheeD2iTlJaHNLERgRkfbqLVs1FhHWdlzCXf54KsNwzcPC+n
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR21MB1213.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(366004)(39860400002)(376002)(6666004)(66476007)(66946007)(956004)(26005)(66556008)(478600001)(921005)(8676002)(5660300002)(316002)(2906002)(86362001)(83380400001)(8936002)(186003)(36756003)(82960400001)(16526019)(4326008)(2616005)(6486002)(7416002)(10290500003)(82950400001)(52116002)(7696005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?xPCwmoBCvpplKKfuAzLcAaGuuRary9642oyHAMtnXFLeOFUcqAWGtpoKh8Rq?=
- =?us-ascii?Q?BiOJjuOXW6sX3Ed8qnd7IuKH//2Shj3WvRahejCUyW43U+BdOxFBIYOXctwO?=
- =?us-ascii?Q?+AUKJBVSteZ+Jfz/nuupGrV43AOZ1yASmYxSZsR7wZlJybaLvo6F5UW3QVIg?=
- =?us-ascii?Q?FGRsmi4NnxmQ6uAprtOee0bzQQaRpxoTBtcOMG7DODMrw0OJ7y0p8kV0ohNP?=
- =?us-ascii?Q?UvIInuqhS/c6tOFQEfesyOz5DvCsLgWHrlsVfgH7R7lQEigT5AWafZLMXOZt?=
- =?us-ascii?Q?Wd91N6McMueoeyaslPXgcmEvr6DqKAlD8wiaWP6K7FJM1g89lFCZ4yv6c8Eb?=
- =?us-ascii?Q?CS8/AXHsTMXBqjWvqq0Dl8s/6ufqv2ND5rQ4zZqJ6jnc4KoTDWXi1CW4Afjy?=
- =?us-ascii?Q?WPZ9EzJZude0x3jlRl+2/uBTQzseEoqfN8z3ol3pVFhMb0A0s3dJz6RKOeKy?=
- =?us-ascii?Q?y+lf3nF6FgxJzWWOW6/aZDy3i/VXXuOhcVyvJkM84QnqvtfIVRZ5AJ+q2sUR?=
- =?us-ascii?Q?qrdiDmbkEHc7wA9L+8R29CGB8n4uQU+HS5I7nHfr9t52r2d4wBOLvB95s5mE?=
- =?us-ascii?Q?L5PUG8oBBxxFz48uDqMnm2eokYxxyvJVePbbT50tifAEx5ZG4thhsLuN2UoL?=
- =?us-ascii?Q?OQm+VaMvk5yRFMgmWDhCvRZghb/o9RANtsj2R8/lQbXJY4JxBuz3U8JeItO7?=
- =?us-ascii?Q?B4KrXAgPee0YDHI5vKxZCq7LCZT8Do/WXVjLsZIhgSAF5vrC14tUltWtP5Gm?=
- =?us-ascii?Q?bbefT5usCzT75Hulz3eC71i164i9uLyPz6I+MPeMOjMLXZxQlV73tQx5CYTp?=
- =?us-ascii?Q?vxgLn1rE2f3MGMHn43Htm6V/x0vaMhzgbvZQkix0ux1Apa0GsIX+rvZ1z9nB?=
- =?us-ascii?Q?qse2GQbl6CB2gzFMKIPy2nIQLCTa5VYHphyqh/svnmqpuA5oCTYK4AYhOadk?=
- =?us-ascii?Q?+Z7XZ86F9jipMXhAKNHrOMNbkLcLUKfkN/fMJbn15ZGnPFxV+OfYA2VCA6Yc?=
- =?us-ascii?Q?TtyYFfQsrVZonY80eKhxxPZZRbFtQIozkYj90CwL7YntGJxasxn5i91pln2Q?=
- =?us-ascii?Q?eXg6nwUC?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?qq1CNOM7Zn2bBBq1C032wgansHK4uAMQqqCXR7/Ea5Z30NLv97cL/w0q06Tb?=
+ =?us-ascii?Q?w7sK+l91sl8nkzGlBpUo8KMExTYlN0YyoZQFWcXgrqL3dN3v8uXyWlIXAkrE?=
+ =?us-ascii?Q?zgd/jXOUzlfiLLp/7V+OoxQ7vX7MY2+bG8P758eCecu0AXPfEh2CbmNbFCiD?=
+ =?us-ascii?Q?O4zP/OtflbYaqH6dB4rKPNAkyMNVPRwDg80Ye+ukEDlCH7392cqxYca033OV?=
+ =?us-ascii?Q?UNr2vsQ4Oe2oHF2yQGf+xpSlnABTk9ILyR7mW5twFQBeCo/s8YCEBER1j8TY?=
+ =?us-ascii?Q?UFPiMhmrVy2EU65FguQppU7Aen+sPYs3IxFSDZJPJP3vFLR7LLSCbjaRcnb9?=
+ =?us-ascii?Q?uOn4+rBQ8cz4jugozXc3RHbudag2Hexv6urgyxUqBui/UNeDHoJJx7NWfzE0?=
+ =?us-ascii?Q?Y2nf8gHaoDKyNb5uCzODAT22X8BO7FPSu3wwSbo8jStyyyWh3S4edZqBBSAV?=
+ =?us-ascii?Q?UZhUJbqvQqLinAsUjOgs4jElVT6H+YvLOmLoDhJjE9ewPk/4jMaDMKvnLmay?=
+ =?us-ascii?Q?xaEE+BoPoxDne1rTi/ZAtpGC1TVzxHngxK5Fbf4bZvjAqHMq8dUtYO8nH1Dv?=
+ =?us-ascii?Q?3Ht8AubLwkXxZ5lYhLTTB/jnI4zzTb8x4xYEBXGj2rik2I6HMD+zIuSRrTai?=
+ =?us-ascii?Q?cSBr3t5f7rYrNHGfrfxoAwr1F7lKn/NJbAhKjfHoiGO6sW0VReA6fwF26DMe?=
+ =?us-ascii?Q?XdjoQ8ne9wUEg2Xi/8UmprpN5jseFNkKHgyw6KQ4ASetzZ/6gwojGvngttCG?=
+ =?us-ascii?Q?bPmcu+bpC2lTrd93shgLqMY2BkR4tU6Y+6kFcofXia2r3hffspMgXVbllShh?=
+ =?us-ascii?Q?CxutSCbqSs67wuzgCHJUKxPVndDa851cMkhM0k0TWUdyRwxjLPR0Q34UcdSc?=
+ =?us-ascii?Q?kC9R2VdwlglwEJpTA41Hj+n8zNk+Dt81CY7R/Mfwp0C0MNk6WjZcB6nlDmce?=
+ =?us-ascii?Q?2qBGoU3q8maPUmQ5UxEbkv/asfdQrNNN1WwzsYcUh5VZ8qoDQgjMBjecysfg?=
+ =?us-ascii?Q?Fjbt1MrMJFNunTIzuB2a01a7aZWMt6frH1DbasqX+SF0DkeL/myfr1wX3fmL?=
+ =?us-ascii?Q?vjjNcq+e?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4306279a-8f7d-4a8b-c351-08d8c30186a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce091186-1b8d-4e8b-20fa-08d8c30188ae
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR21MB1213.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 20:24:19.6510
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 20:24:23.0280
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ea8HgFitY3B4AfWuByr9NfWrapXzFl1dLwt7zqPN956oQKSUzrWmazd3cgyCa1DXZ2YGyU3bopeKsXDTVTw/5g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: eGKLuCl64CGpMUrWFxsoFF+kLnSl9S4y/2vzl/DrgBKamU7fQp/M7SUxL9ObEGXScaHPhfltY7xSm4XoS6Uzeg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1215
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The definition of enum hv_message_type includes arch neutral and
-x86/x64-specific values. Ideally there would be a way to put the
-arch neutral values in an arch neutral module, and the arch
-specific values in an arch specific module. But C doesn't provide
-a way to extend enum types. As a compromise, move the entire
-definition into an arch neutral module, to avoid duplicating the
-arch neutral values for x86/x64 and for ARM64.
+With the new Hyper-V MSR set function, hyperv_report_panic_msg() can be
+architecture neutral, so move it out from under arch/x86 and merge into
+hv_kmsg_dump(). This move also avoids needing a separate implementation
+under arch/arm64.
 
 No functional change.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 29 -----------------------------
- include/asm-generic/hyperv-tlfs.h  | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 29 deletions(-)
+ arch/x86/hyperv/hv_init.c      | 27 ---------------------------
+ drivers/hv/vmbus_drv.c         | 24 +++++++++++++++++++-----
+ include/asm-generic/mshyperv.h |  1 -
+ 3 files changed, 19 insertions(+), 33 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 6bf42ae..dd74066 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -263,35 +263,6 @@ struct hv_tsc_emulation_status {
- #define HV_X64_MSR_TSC_REFERENCE_ENABLE		0x00000001
- #define HV_X64_MSR_TSC_REFERENCE_ADDRESS_SHIFT	12
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 9b2cdbe..22e9557 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -452,33 +452,6 @@ void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die)
+ }
+ EXPORT_SYMBOL_GPL(hyperv_report_panic);
  
+-/**
+- * hyperv_report_panic_msg - report panic message to Hyper-V
+- * @pa: physical address of the panic page containing the message
+- * @size: size of the message in the page
+- */
+-void hyperv_report_panic_msg(phys_addr_t pa, size_t size)
+-{
+-	/*
+-	 * P3 to contain the physical address of the panic page & P4 to
+-	 * contain the size of the panic data in that page. Rest of the
+-	 * registers are no-op when the NOTIFY_MSG flag is set.
+-	 */
+-	wrmsrl(HV_X64_MSR_CRASH_P0, 0);
+-	wrmsrl(HV_X64_MSR_CRASH_P1, 0);
+-	wrmsrl(HV_X64_MSR_CRASH_P2, 0);
+-	wrmsrl(HV_X64_MSR_CRASH_P3, pa);
+-	wrmsrl(HV_X64_MSR_CRASH_P4, size);
 -
--/* Define hypervisor message types. */
--enum hv_message_type {
--	HVMSG_NONE			= 0x00000000,
+-	/*
+-	 * Let Hyper-V know there is crash data available along with
+-	 * the panic message.
+-	 */
+-	wrmsrl(HV_X64_MSR_CRASH_CTL,
+-	       (HV_CRASH_CTL_CRASH_NOTIFY | HV_CRASH_CTL_CRASH_NOTIFY_MSG));
+-}
+-EXPORT_SYMBOL_GPL(hyperv_report_panic_msg);
 -
--	/* Memory access messages. */
--	HVMSG_UNMAPPED_GPA		= 0x80000000,
--	HVMSG_GPA_INTERCEPT		= 0x80000001,
--
--	/* Timer notification messages. */
--	HVMSG_TIMER_EXPIRED		= 0x80000010,
--
--	/* Error messages. */
--	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
--	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
--	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
--
--	/* Trace buffer complete messages. */
--	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
--
--	/* Platform-specific processor intercept messages. */
--	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
--	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
--	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
--	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
--	HVMSG_X64_APIC_EOI		= 0x80010004,
--	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
--};
--
- struct hv_nested_enlightenments_control {
- 	struct {
- 		__u32 directhypercall:1;
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index e73a118..d06f7b1 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -213,6 +213,41 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
- #define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
+ bool hv_is_hyperv_initialized(void)
+ {
+ 	union hv_x64_msr_hypercall_contents hypercall_msr;
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 089f165..8affe68 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1365,22 +1365,36 @@ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+ 			 enum kmsg_dump_reason reason)
+ {
+ 	size_t bytes_written;
+-	phys_addr_t panic_pa;
  
-+/*
-+ * Define hypervisor message types. Some of the message types
-+ * are x86/x64 specific, but there's no good way to separate
-+ * them out into the arch-specific version of hyperv-tlfs.h
-+ * because C doesn't provide a way to extend enum types.
-+ * Keeping them all in the arch neutral hyperv-tlfs.h seems
-+ * the least messy compromise.
-+ */
-+enum hv_message_type {
-+	HVMSG_NONE			= 0x00000000,
+ 	/* We are only interested in panics. */
+ 	if ((reason != KMSG_DUMP_PANIC) || (!sysctl_record_panic_msg))
+ 		return;
+ 
+-	panic_pa = virt_to_phys(hv_panic_page);
+-
+ 	/*
+ 	 * Write dump contents to the page. No need to synchronize; panic should
+ 	 * be single-threaded.
+ 	 */
+ 	kmsg_dump_get_buffer(dumper, false, hv_panic_page, HV_HYP_PAGE_SIZE,
+ 			     &bytes_written);
+-	if (bytes_written)
+-		hyperv_report_panic_msg(panic_pa, bytes_written);
++	if (!bytes_written)
++		return;
++	/*
++	 * P3 to contain the physical address of the panic page & P4 to
++	 * contain the size of the panic data in that page. Rest of the
++	 * registers are no-op when the NOTIFY_MSG flag is set.
++	 */
++	hv_set_register(HV_REGISTER_CRASH_P0, 0);
++	hv_set_register(HV_REGISTER_CRASH_P1, 0);
++	hv_set_register(HV_REGISTER_CRASH_P2, 0);
++	hv_set_register(HV_REGISTER_CRASH_P3, virt_to_phys(hv_panic_page));
++	hv_set_register(HV_REGISTER_CRASH_P4, bytes_written);
 +
-+	/* Memory access messages. */
-+	HVMSG_UNMAPPED_GPA		= 0x80000000,
-+	HVMSG_GPA_INTERCEPT		= 0x80000001,
-+
-+	/* Timer notification messages. */
-+	HVMSG_TIMER_EXPIRED		= 0x80000010,
-+
-+	/* Error messages. */
-+	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
-+	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
-+	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
-+
-+	/* Trace buffer complete messages. */
-+	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
-+
-+	/* Platform-specific processor intercept messages. */
-+	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
-+	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
-+	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
-+	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
-+	HVMSG_X64_APIC_EOI		= 0x80010004,
-+	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
-+};
-+
- /* Define synthetic interrupt controller message flags. */
- union hv_message_flags {
- 	__u8 asu8;
++	/*
++	 * Let Hyper-V know there is crash data available along with
++	 * the panic message.
++	 */
++	hv_set_register(HV_REGISTER_CRASH_CTL,
++	       (HV_CRASH_CTL_CRASH_NOTIFY | HV_CRASH_CTL_CRASH_NOTIFY_MSG));
+ }
+ 
+ static struct kmsg_dumper hv_kmsg_dumper = {
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 10c97a9..6a8072f 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -170,7 +170,6 @@ static inline int cpumask_to_vpset(struct hv_vpset *vpset,
+ }
+ 
+ void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
+-void hyperv_report_panic_msg(phys_addr_t pa, size_t size);
+ bool hv_is_hyperv_initialized(void);
+ bool hv_is_hibernation_supported(void);
+ void hyperv_cleanup(void);
 -- 
 1.8.3.1
 
