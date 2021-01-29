@@ -5,45 +5,46 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD96EC433DB
-	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Jan 2021 00:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B409C433E0
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Jan 2021 00:39:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A27C64DFD
-	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Jan 2021 00:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B4C864DFD
+	for <linux-hyperv@archiver.kernel.org>; Fri, 29 Jan 2021 00:39:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231259AbhA2AiI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 28 Jan 2021 19:38:08 -0500
-Received: from mail-dm6nam10on2106.outbound.protection.outlook.com ([40.107.93.106]:5025
+        id S231448AbhA2AjO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 28 Jan 2021 19:39:14 -0500
+Received: from mail-dm6nam10on2123.outbound.protection.outlook.com ([40.107.93.123]:46625
         "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231345AbhA2AhK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 28 Jan 2021 19:37:10 -0500
+        id S231138AbhA2AiE (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 28 Jan 2021 19:38:04 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nD/zH+bv7M5yep/GegS5oXfKynjZ/7juwtYLvw9srNNmKZM9bA3hFWkl8UBcsDTYwUIu9TWWy5T+fkjLo37AO8aylI1gVC7rkWVAAeLV4MU8MtJLK0wTcLvTS4XOo9FwL2lZoNO0qyy86EOtBwTC409RRRvpeJejXb8Mn/WRmoxz5vjCrGBBz2/lpYPvt4eHnhkRBJ2gpc2Gk3+wh/x1EwDFOJF+Y2zy8TBVpl+lHJaaWJ0ZHc/1j5WXdvDIrPBEPLppaF2AQRK3nnZ5LHMeTm9wUEf9jNKMmmdEGpfWgvA88WwZqMHxxKSbVfHwyNWIyswqMFZyzaFUVMqdrCtXhw==
+ b=nyv+bW1GHmMxw7uayyBiQo+ZXg8iWEgu9fw8CStawBk+ISvup/caLQH58kPT7ST3mD69VDrCRzxgok4CQX3/AFu49D70gcywBrvuK2Rjsgw2d5wrR1TPjexqFs0iu8jAcUGwlOVyXljN5tqfpPVvMXamqVN0z+47uaANicIiwLdpkwbkM4gSA+XrklkX6ExfMikLWVrJm4SaB9QvwNk9Gz1AB8pTFoAgaKJqtOlHgvyVN2o1B08TKcGGs9cBKOZW6fbKmtMCF+WxDfotCMJq/brv/H8qswxj3u0xzgT04NlqyCV7/8QUJPGTkVlRQvZR2hWld5XNTew5ERa5z6vZ8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6S5UzqMvIVGksb83VXxI1mEeQAtdpzLFxpm4f5LlKhI=;
- b=BPJz1jod0SJxHfqVmRgr2F4SVNZCyUY/gp5ceWfHRAgII5LgfBBTpDb5CSWJLQ6Mmxl0lgvGYWig5hk2R7kifcbT9fJ07I/jA43aC48TpqWFvmk8UZh6ZRBfqVX6godSCblnBOLf0OS0/qcLPPlufh/QZdR2kvl1YAEdmArLUFkcRaL30D1X9TsVR0pL8yQCVaw3WTQl1uqgx07PSnF+Y2d4KDa8RWEvvN+gNlNLcMZhQUgyRi8UGG4Ayiugb/V7VWzUoQ3S5ALKrajiRRCSC71PzuUmlOaInMelUDAjxfXtbNYMs611+ebLZAgklnED781DikM6sP+MW6nNEWdR7A==
+ bh=3rJkwjspTLwPqIKxmywy5FSOqpVvAYVhF7QIwGycLOM=;
+ b=nh4eG5SkqiUfuwlekk73T6KpBdkqKmiVcRR78mVFljuyAaDNUwuaQmXzWTuT/FukVtVfuw1l/BwJRhZsttDK1DYM8AI3rXG+Ajtzon7nznJcOpjL9JrYC8KSmhKq2GI8124YTYHQfh8CUZpdKN7VjSz8UUeGO9fKLhtNhbf6Vz2yGEDJ+k35ClwgJD0YJOGJJRobUcbH9cz4ezipqSbyHh7L1Rx5rIDYHpgfwQLPBQWthcan4N7CWl0tWE5VBKsUX0cjzEkE9e7GLDSgy0FAo9Zzklti7WWNujQC8HXnue991u/u/gFoe/Az2gehzE3/olM6aAcA2k/ppqpmMUanBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6S5UzqMvIVGksb83VXxI1mEeQAtdpzLFxpm4f5LlKhI=;
- b=JwFUQg7FzDkMIyUZrQ43iPkoVBBBMofwrvN/2oXfDMBNiGJ+aWiFJhAh0R1zOPZxMcuhaw9wpugw/TsHMeThWhLbnOMqiKKXId2vXH8mgo534q/KMqadCe35AxSI8Um2sRdq5jkXsCWh7yCoRNL/z9fYNcHIwVPbKTLoNzgd16U=
+ bh=3rJkwjspTLwPqIKxmywy5FSOqpVvAYVhF7QIwGycLOM=;
+ b=Kjz+sNChVe/m/aC2I9p0ZqDB7vzTFaCao3+BVxIWMWEMO7AoRwVIzXqkdIGkphY8MgDdKwQd3aHnQlDZTARLtqfr7px4LpDQ1mzotLVLTGKiDEinCq9xfzjexEkUEDkVNYktQkMpd3GVSsC4Jakr80t9hoBKAewPu84gdzl73xE=
 Received: from (2603:10b6:301:7c::11) by
  MW2PR2101MB1019.namprd21.prod.outlook.com (2603:10b6:302:5::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.6; Fri, 29 Jan
- 2021 00:35:49 +0000
+ 2021 00:36:58 +0000
 Received: from MWHPR21MB1593.namprd21.prod.outlook.com
  ([fe80::9c8:94c9:faf1:17c2]) by MWHPR21MB1593.namprd21.prod.outlook.com
  ([fe80::9c8:94c9:faf1:17c2%9]) with mapi id 15.20.3825.003; Fri, 29 Jan 2021
- 00:35:49 +0000
+ 00:36:58 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
@@ -54,73 +55,76 @@ CC:     KY Srinivasan <kys@microsoft.com>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         Tianyu Lan <Tianyu.Lan@microsoft.com>,
         Saruhan Karademir <skarade@microsoft.com>,
-        Juan Vazquez <juvazq@microsoft.com>
-Subject: RE: [PATCH v2 2/4] Drivers: hv: vmbus: Restrict vmbus_devices on
- isolated guests
-Thread-Topic: [PATCH v2 2/4] Drivers: hv: vmbus: Restrict vmbus_devices on
- isolated guests
-Thread-Index: AQHW89pjBYSkqyTsO0iYKQ2fJDeahao9uKZA
-Date:   Fri, 29 Jan 2021 00:35:49 +0000
-Message-ID: <MWHPR21MB15930403D21DB84A717C2331D7B99@MWHPR21MB1593.namprd21.prod.outlook.com>
+        Juan Vazquez <juvazq@microsoft.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: RE: [PATCH v2 4/4] hv_netvsc: Restrict configurations on isolated
+ guests
+Thread-Topic: [PATCH v2 4/4] hv_netvsc: Restrict configurations on isolated
+ guests
+Thread-Index: AQHW89pqx81SMYL5HkeeGpWVQqM7gao9ve3g
+Date:   Fri, 29 Jan 2021 00:36:58 +0000
+Message-ID: <MWHPR21MB1593CDCD7D175CA17A2FD25DD7B99@MWHPR21MB1593.namprd21.prod.outlook.com>
 References: <20210126115641.2527-1-parri.andrea@gmail.com>
- <20210126115641.2527-3-parri.andrea@gmail.com>
-In-Reply-To: <20210126115641.2527-3-parri.andrea@gmail.com>
+ <20210126115641.2527-5-parri.andrea@gmail.com>
+In-Reply-To: <20210126115641.2527-5-parri.andrea@gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-01-29T00:35:39Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-01-29T00:36:49Z;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8e6a129c-03b7-4944-a7c3-d93941e940b5;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b6992190-5486-41b8-b927-4f58d2b7a05b;
  MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
 authentication-results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
 x-originating-ip: [8.46.75.73]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 08c33fba-f3ba-4697-e804-08d8c3edd35c
+x-ms-office365-filtering-correlation-id: cf815259-23bd-4827-6c33-08d8c3edfc6c
 x-ms-traffictypediagnostic: MW2PR2101MB1019:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW2PR2101MB1019CB727AAF632000AC63C6D7B99@MW2PR2101MB1019.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-microsoft-antispam-prvs: <MW2PR2101MB10198C434C1819CBFCA77813D7B99@MW2PR2101MB1019.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NpNfL+GAGbVdMtsHmuV1meKn1fVQCKzr7lS6zMNhBCd8xgTLDJ/biVvgfSd/z81TR+4kOfrW1i3+BlXhGdG3TssqjoTKXmCvoPkIaQvi8pdem7FEp/KODPbXryLbwAQm+xDss+IBBEmmTwr8SYC68qMIDxWTswEPW2jmalhGM1TK2j87LHqLdgiaUMxxm94OTb0xTcD+BRIpKI3mmYlj7GH3N7RBrcjlqKBHNvo8YeHkqaf9FClIhRFPXz6/olX/7wPJRwiBreasBAOdsSmAe+Qqs4wCHhojawGQ1BpAM8iBmQNPfmonsKz3QRkMw1rOH8b/fN85gH/5FrPf0oA+44z/BskS9JfXmUlg65C4XeD9NeIN/vMiWrZ3IDQespPq8KOYcFeu1FVTAZPJYDdptHoUNbTadsiU5PxIAjfUW5d6otvsMtY94Cj32P0/N+uSRwtf0tL/XCKEd8OcvtWfm2+p/wk5KYa5I1+2vlsh3gtjWSdNqs7TdFBdOOSNskb+0f/EBhHDdFN7MoQFfiV2hQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(6506007)(64756008)(66476007)(55016002)(66946007)(7696005)(76116006)(478600001)(110136005)(8676002)(8990500004)(66446008)(83380400001)(33656002)(107886003)(9686003)(71200400001)(52536014)(316002)(66556008)(5660300002)(82950400001)(10290500003)(82960400001)(86362001)(54906003)(4326008)(186003)(26005)(2906002)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?c/HKHDf3CvN+sLhvQCyseq8+X6O/hnWlR5EXTUPm3uR0bJZg3RUUBmLHCZfO?=
- =?us-ascii?Q?AHcDG+zSmgmNbKAQRoWrIKPDSN0/n6PEG1EZT9vciq8tigPO+0oMMfptnZI2?=
- =?us-ascii?Q?PI9ToFI3rUGaQUMmjfdbs4mwfTmkkA/8GpmgP0/v3DByTRKSm3Mxj6BHm3qJ?=
- =?us-ascii?Q?C3l8SmgYf5AeI4Sjg9uF5SNGlxS4+HGKNRAUVENJyjKKvVvRmn7U7j2mGOvB?=
- =?us-ascii?Q?eu+xW4pjZPxYW0DCVNH8mhkpIw3HkDSGwDo+3L/qDA2Ar0WZr/4IM0pC9yIu?=
- =?us-ascii?Q?nfgaEVJtZIOK9K12IH90eZspBpz2E1bpatjGwcPuLiQW83OtX7h4+7I8LDUj?=
- =?us-ascii?Q?cfaSOGFr16BMfAr7wB+iK5HUOm4dAz/7E8y/vEuj0DyA61MMh7VLlEKrGjqv?=
- =?us-ascii?Q?xKdM2GptVAFa82VLnaz0uJCJQkHC1xV9825khAdxqBCvemVXTi+YFSaRcxMy?=
- =?us-ascii?Q?HkRH9WfkMZe4yJFFG3oxIm0WqC/XdebenbLGlF9SaDNiK8cTsP1EV2gNs1zV?=
- =?us-ascii?Q?6xC4FUf1XnsMoxk+5EfaovbpOmTvmMArgOTrhn33dq1oDZdMJoiwsTogISaL?=
- =?us-ascii?Q?It0Z+12BUZieZTHHIIE1JHIVaInmVhQRvKZ/eSFr5IlZseWrgbgtoTp1FXMR?=
- =?us-ascii?Q?A714nMOL7WtKKUX+LxBrBkZktGFVZInPnFW5NuRvJ27V7RF3FUe8ln8q/Tcl?=
- =?us-ascii?Q?EsMNr7Z8GUywHnFxftIvQBKjRfHzUZDEpanREmH/DDNjBOj6J4sd6AoooEBw?=
- =?us-ascii?Q?AO6C7wDoJKoYjBbWWRbghpwg84HU/N74OoPUYpmcZFJh5zpMkPG01/KWV/Br?=
- =?us-ascii?Q?STZ8lYaFIZYUnia60aRxNExsRzGD2IiSs4WdMHjW4P1hX8u1+o/ID4Vgs1u0?=
- =?us-ascii?Q?ndcvMPRYTx21cXLR6FkoX2wRgkAEL0WI5ysWDSzAcWGSFC4wmWmmOwLvKdgn?=
- =?us-ascii?Q?2xgjlCeJ9zcjL33s2A6UgK4bhjNhUflzazRPDxcwK4k64KN1uUrcI8xT5V2N?=
- =?us-ascii?Q?XNRSoJpqlqK3O4Eas8NJkl9/KinIkyiNo1HPnPgXLpRgMKA=3D?=
+x-microsoft-antispam-message-info: suDWxUS/w0vpr6kua0DR3LUp4gJ/V41pjIFjT8jHt324fGr3nVUmDb1Nfv9wsUCY7o06Q5wzbmG+J8xaUPE+9gKBkGx1JR0c1PIb95lThKqeD5SzVhe151WNjluIjYnOw6+h11dw2OlFuIbVZH0dGxUrTE4fFd3M1CkmjG0CLjRNLTaKzsdl+ycpIbh47qVj8Plhf3UMNBpApKTJG7yVwz3l4JlZDridPAEeipAahxgLBbBXp8MpBRxC4DX7H2nzD5ff6E6YdsldwYgxKCekUP9tdQ0W/IapJ1Iwm8YkQIJAiJtxXN4xqtXtiYLSJhSUS1Nhn3chkak5giUdzoEjVjs4PpZWV6IMgmT+kg/fe/hcGWrJE0fS4yVHDoBrE1OKyiEGDBcD/D5wnYKkBJdKnuZdsE5j8s1w4zdlJVie5NP+n4GOdyeKZizUTWWK6xpG9arR+u6BD7jM+I3ETbHl/Sw5gpWboEepeEm8gx+lxEH6KRiMvgWoxcErU8SqBScs/kc5xFeinr7r+7qY7jjGSA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(6506007)(64756008)(66476007)(55016002)(66946007)(7696005)(76116006)(478600001)(110136005)(8676002)(8990500004)(66446008)(83380400001)(33656002)(9686003)(71200400001)(52536014)(316002)(66556008)(5660300002)(82950400001)(10290500003)(82960400001)(86362001)(54906003)(4326008)(186003)(26005)(2906002)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?8Iwb82Ffsf/H+a77DWf3VSTUKhUobGwZQc3FLGnICbycFBWyiDJFcZCBll34?=
+ =?us-ascii?Q?ovsPFzRjhTGhfOY6WXMWYsk96NSJmob2sRnJOy8yNMvbsSIlmFTS5ftXUxh3?=
+ =?us-ascii?Q?J44dPE/iubuOKY5IZR1ULMJnbkhrfEutprKAmw/Or96dmaVqCeCLFZk/dsmZ?=
+ =?us-ascii?Q?5RoB7rUPXXp1UahzNCfVphwSEIwEX0dBTB0W93+3in2OAdajks5fb5ZZNs6T?=
+ =?us-ascii?Q?L+A6THd4cw03OseMKHN/Sk6eJNaZ+F+B9tM+nabcJieYdxtowo6hQ1Yo6nLb?=
+ =?us-ascii?Q?VhGjmr9C1GdYHAPynu/U2adzKFeltZA+55wfTg/QX2m01DdmkDVqlzzB6Kv1?=
+ =?us-ascii?Q?S/5aCVUFeq/W1W5LeYii3wmHmecWFXiKyvSRwUkx1t5dEm3kw6yn0N0KQ+yb?=
+ =?us-ascii?Q?7cOdu6d03h3koAz7x59iSlF2PBitqQ1ornv9MluIIgKQP8nSPynsvzZDcTET?=
+ =?us-ascii?Q?x3jDk/hfBrhrASv6NWvLrjlq1tI3fdke1SkbLWeFRuiaLDXtQ20tkIUZLzjl?=
+ =?us-ascii?Q?dFzxQt10ILsKgfdfzSazLKzbRnJjoFQgVBRYb1csCtm2Cf6iPEtEOhdbtN+D?=
+ =?us-ascii?Q?kKUE9UBderTWyn9DOs5BNitUUqT2YSiPhIGeobllMcidkOKhjiPCS3ckfwiZ?=
+ =?us-ascii?Q?X3KFEl14XopLSWTuoLe+W8WZ+HH/QrcGTt7yCLwtu+bs5Z49s06fZ1lnm3Zl?=
+ =?us-ascii?Q?coxi1xHFWE31ljeMEbRh098gtHN+mUSknEPP4UFMa2ROe9Bf0tUfzh1WxUv+?=
+ =?us-ascii?Q?S1rto8yhb11tE901mImMU9hK7H9BNMXRx05AQ/VfbxWZYuSDnE3M8ADOJj+O?=
+ =?us-ascii?Q?GHNVZ+x7YEdy+u0MPlbSo6UFrYrAVq3WoACdy4ttbenX9ObcfWzV1Pi5fiKs?=
+ =?us-ascii?Q?LH0l87ttm7rtHh5SXihuts9AlqIJbUUZatodwGBMPx9uHnS2iKMst/UgwT7a?=
+ =?us-ascii?Q?M/EEtgxA1TAg14os7cJesgkixs6C8+njOVBHrIOid8BQiDS8pT6+AF2T1fOy?=
+ =?us-ascii?Q?o0emsm8WT/PvDgBij1CZaPJunEzIEJag3AglhRZbkCGe4NQ=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08c33fba-f3ba-4697-e804-08d8c3edd35c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2021 00:35:49.1842
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf815259-23bd-4827-6c33-08d8c3edfc6c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2021 00:36:58.0585
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z2g8su5Q9+VTRCLAecQnlM0npgMIaSyuRxxqVg/n99Q6i4crnVSVpCXleu5WIHu8tIfkq4JLJt/5UJSPemF9bv5k/QPGil8nwfuk4EQVpk4=
+X-MS-Exchange-CrossTenant-userprincipalname: z7zWbYe9Mhpc6mtKHedZMhZX8dPeQSVq4Dn/0HDCu/ZgVVjz/xusaBg83yoFYDnKITdI3uanu8t18KG503cMT98hSXKTy6ApcRFVtc+wbF0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1019
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
@@ -129,195 +133,119 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 From: Andrea Parri (Microsoft) <parri.andrea@gmail.com> Sent: Tuesday, Janu=
 ary 26, 2021 3:57 AM
 >=20
-> Only the VSCs or ICs that have been hardened and that are critical for
-> the successful adoption of Confidential VMs should be allowed if the
-> guest is running isolated.  This change reduces the footprint of the
+> Restrict the NVSP protocol version(s) that will be negotiated with the
+> host to be NVSP_PROTOCOL_VERSION_61 or greater if the guest is running
+> isolated.  Moreover, do not advertise the SR-IOV capability and ignore
+> NVSP_MSG_4_TYPE_SEND_VF_ASSOCIATION messages in isolated guests, which
+> are not supposed to support SR-IOV.  This reduces the footprint of the
 > code that will be exercised by Confidential VMs and hence the exposure
 > to bugs and vulnerabilities.
 >=20
 > Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+> Acked-by: Jakub Kicinski <kuba@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: netdev@vger.kernel.org
 > ---
->  drivers/hv/channel_mgmt.c | 36 ++++++++++++++++++++++++++++++++++++
->  include/linux/hyperv.h    |  1 +
->  2 files changed, 37 insertions(+)
+>  drivers/net/hyperv/netvsc.c | 27 ++++++++++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index 68950a1e4b638..774ee19e3e90d 100644
-> --- a/drivers/hv/channel_mgmt.c
-> +++ b/drivers/hv/channel_mgmt.c
-> @@ -31,101 +31,118 @@ const struct vmbus_device vmbus_devs[] =3D {
->  	{ .dev_type =3D HV_IDE,
->  	  HV_IDE_GUID,
->  	  .perf_device =3D true,
-> +	  .allowed_in_isolated =3D false,
->  	},
+> diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+> index 1510a236aa341..afd92b4aa21fe 100644
+> --- a/drivers/net/hyperv/netvsc.c
+> +++ b/drivers/net/hyperv/netvsc.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/prefetch.h>
 >=20
->  	/* SCSI */
->  	{ .dev_type =3D HV_SCSI,
->  	  HV_SCSI_GUID,
->  	  .perf_device =3D true,
-> +	  .allowed_in_isolated =3D true,
->  	},
+>  #include <asm/sync_bitops.h>
+> +#include <asm/mshyperv.h>
 >=20
->  	/* Fibre Channel */
->  	{ .dev_type =3D HV_FC,
->  	  HV_SYNTHFC_GUID,
->  	  .perf_device =3D true,
-> +	  .allowed_in_isolated =3D false,
->  	},
+>  #include "hyperv_net.h"
+>  #include "netvsc_trace.h"
+> @@ -544,7 +545,10 @@ static int negotiate_nvsp_ver(struct hv_device *devi=
+ce,
+>  	init_packet->msg.v2_msg.send_ndis_config.capability.ieee8021q =3D 1;
 >=20
->  	/* Synthetic NIC */
->  	{ .dev_type =3D HV_NIC,
->  	  HV_NIC_GUID,
->  	  .perf_device =3D true,
-> +	  .allowed_in_isolated =3D true,
->  	},
+>  	if (nvsp_ver >=3D NVSP_PROTOCOL_VERSION_5) {
+> -		init_packet->msg.v2_msg.send_ndis_config.capability.sriov =3D 1;
+> +		if (!hv_is_isolation_supported())
+> +			init_packet->msg.v2_msg.send_ndis_config.capability.sriov =3D 1;
+> +		else
+> +			netdev_info(ndev, "SR-IOV not advertised by guests on the host suppor=
+ting isolation\n");
+
+Nit:  Flip the "if" and "else" clauses so that the ! isn't needed in the te=
+st.
+
 >=20
->  	/* Network Direct */
->  	{ .dev_type =3D HV_ND,
->  	  HV_ND_GUID,
->  	  .perf_device =3D true,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* PCIE */
->  	{ .dev_type =3D HV_PCIE,
->  	  HV_PCIE_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Synthetic Frame Buffer */
->  	{ .dev_type =3D HV_FB,
->  	  HV_SYNTHVID_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Synthetic Keyboard */
->  	{ .dev_type =3D HV_KBD,
->  	  HV_KBD_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Synthetic MOUSE */
->  	{ .dev_type =3D HV_MOUSE,
->  	  HV_MOUSE_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* KVP */
->  	{ .dev_type =3D HV_KVP,
->  	  HV_KVP_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Time Synch */
->  	{ .dev_type =3D HV_TS,
->  	  HV_TS_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D true,
->  	},
->=20
->  	/* Heartbeat */
->  	{ .dev_type =3D HV_HB,
->  	  HV_HEART_BEAT_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D true,
->  	},
->=20
->  	/* Shutdown */
->  	{ .dev_type =3D HV_SHUTDOWN,
->  	  HV_SHUTDOWN_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D true,
->  	},
->=20
->  	/* File copy */
->  	{ .dev_type =3D HV_FCOPY,
->  	  HV_FCOPY_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Backup */
->  	{ .dev_type =3D HV_BACKUP,
->  	  HV_VSS_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Dynamic Memory */
->  	{ .dev_type =3D HV_DM,
->  	  HV_DM_GUID,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->=20
->  	/* Unknown GUID */
->  	{ .dev_type =3D HV_UNKNOWN,
->  	  .perf_device =3D false,
-> +	  .allowed_in_isolated =3D false,
->  	},
->  };
->=20
-> @@ -903,6 +920,20 @@ find_primary_channel_by_offer(const struct
-> vmbus_channel_offer_channel *offer)
->  	return channel;
+>  		/* Teaming bit is needed to receive link speed updates */
+>  		init_packet->msg.v2_msg.send_ndis_config.capability.teaming =3D 1;
+> @@ -563,6 +567,13 @@ static int negotiate_nvsp_ver(struct hv_device *devi=
+ce,
+>  	return ret;
 >  }
 >=20
-> +static bool vmbus_is_valid_device(const guid_t *guid)
+> +static bool nvsp_is_valid_version(u32 version)
 > +{
-> +	u16 i;
-> +
-> +	if (!hv_is_isolation_supported())
-> +		return true;
-> +
-> +	for (i =3D 0; i < ARRAY_SIZE(vmbus_devs); i++) {
-> +		if (guid_equal(guid, &vmbus_devs[i].guid))
-> +			return vmbus_devs[i].allowed_in_isolated;
-> +	}
-> +	return false;
+> +       if (hv_is_isolation_supported())
+> +               return version >=3D NVSP_PROTOCOL_VERSION_61;
+> +       return true;
 > +}
 > +
->  /*
->   * vmbus_onoffer - Handler for channel offers from vmbus in parent parti=
-tion.
->   *
-> @@ -917,6 +948,11 @@ static void vmbus_onoffer(struct vmbus_channel_messa=
-ge_header
-> *hdr)
+>  static int netvsc_connect_vsp(struct hv_device *device,
+>  			      struct netvsc_device *net_device,
+>  			      const struct netvsc_device_info *device_info)
+> @@ -579,12 +590,19 @@ static int netvsc_connect_vsp(struct hv_device *dev=
+ice,
+>  	init_packet =3D &net_device->channel_init_pkt;
 >=20
->  	trace_vmbus_onoffer(offer);
->=20
-> +	if (!vmbus_is_valid_device(&offer->offer.if_type)) {
+>  	/* Negotiate the latest NVSP protocol supported */
+> -	for (i =3D ARRAY_SIZE(ver_list) - 1; i >=3D 0; i--)
+> +	for (i =3D ARRAY_SIZE(ver_list) - 1; i >=3D 0; i--) {
+>  		if (negotiate_nvsp_ver(device, net_device, init_packet,
+>  				       ver_list[i])  =3D=3D 0) {
+> +			if (!nvsp_is_valid_version(ver_list[i])) {
 
-Output a message in this case?  It could be useful to know that an
-offer has been dropped.  It might make sense to rate limit the message
-like in some previous patches that are doing VMbus hardening.
+Could this test go after the 'for' loop, like the test for i < 0?  That wou=
+ld
+get the code unindented a lot.  And maybe the helper function logic
+(i.e., nvsp_is_valid_version) could just be coded inline.
 
-> +		atomic_dec(&vmbus_connection.offer_in_progress);
-> +		return;
+> +				netdev_err(ndev, "Invalid NVSP version 0x%x (expected >=3D 0x%x) fro=
+m the host with isolation supported\n",
+
+Nit: The other two new messages use the phrase "... the host supporting iso=
+lation".
+
+> +					   ver_list[i], NVSP_PROTOCOL_VERSION_61);
+> +				ret =3D -EPROTO;
+> +				goto cleanup;
+> +			}
+>  			net_device->nvsp_version =3D ver_list[i];
+>  			break;
+>  		}
 > +	}
-> +
->  	oldchannel =3D find_primary_channel_by_offer(offer);
 >=20
->  	if (oldchannel !=3D NULL) {
-> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index f0d48a368f131..e3426f8c12db9 100644
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -789,6 +789,7 @@ struct vmbus_device {
->  	u16  dev_type;
->  	guid_t guid;
->  	bool perf_device;
-> +	bool allowed_in_isolated;
->  };
+>  	if (i < 0) {
+>  		ret =3D -EPROTO;
+> @@ -1357,7 +1375,10 @@ static void netvsc_receive_inband(struct net_devic=
+e *ndev,
+>  		break;
 >=20
->  #define VMBUS_DEFAULT_MAX_PKT_SIZE 4096
+>  	case NVSP_MSG4_TYPE_SEND_VF_ASSOCIATION:
+> -		netvsc_send_vf(ndev, nvmsg, msglen);
+> +		if (!hv_is_isolation_supported())
+> +			netvsc_send_vf(ndev, nvmsg, msglen);
+> +		else
+> +			netdev_err(ndev, "Ignore VF_ASSOCIATION msg from the host supporting =
+isolation\n");
+
+Nit:  Flip the "if" and "else" clauses so that the ! isn't needed in the te=
+st.
+
+>  		break;
+>  	}
+>  }
 > --
 > 2.25.1
 
