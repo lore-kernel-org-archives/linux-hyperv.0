@@ -2,61 +2,61 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38EF8C433E6
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C9AEC433E6
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:36:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6D8F64F77
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:36:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D92964F84
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:36:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234162AbhBCLgQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 3 Feb 2021 06:36:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45904 "EHLO
+        id S234057AbhBCLgd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 3 Feb 2021 06:36:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234054AbhBCLgP (ORCPT
+        with ESMTP id S234142AbhBCLgZ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 3 Feb 2021 06:36:15 -0500
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2F3C061573;
-        Wed,  3 Feb 2021 03:35:34 -0800 (PST)
-Received: by mail-wm1-x331.google.com with SMTP id y187so4868023wmd.3;
-        Wed, 03 Feb 2021 03:35:34 -0800 (PST)
+        Wed, 3 Feb 2021 06:36:25 -0500
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E902C0613ED;
+        Wed,  3 Feb 2021 03:35:45 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id y187so4868551wmd.3;
+        Wed, 03 Feb 2021 03:35:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YaVlQ35WAgybEPmbAlTIUfx4arMZ+F8KRTsa3f1igzU=;
-        b=upJrN7YFovrxu3liXSBoVUEGk1nrL7a+DVGqKL9T+H53jYBwvepcctt6sLTufgv36B
-         JaIIo3tqLEmpcYoWAEVjMg6EmeTSjM4SwfX2aQrujQ/JYVtknmoM8wG9nZs0yoXSHtMb
-         cPbp87bCukLSKJp/L8mWy+2g9VmShnvinUFe7giIJE5P4rnDpiOwfuNzqpHRCv7a7jqu
-         yLbSD7srDIeuG94pmfmbFbMHrp0+VfLb52uCAYGMwy0HOZsMBg+QtKBXTrKnvMxmOsaB
-         YJqExyGbPt+/Xog9pU6PWyZSL6NAwFS8TH744P7YKe9OPh7RQk2a5+/UNrMhv22pR8dy
-         XyYg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8Z3Nox9s/STqesTh8aOkGgimIjL0UCAkor1AKiLYQkg=;
+        b=olJGewcDSkEmL09WbXdeh5PtYfl7IpbpmJAHgzFw/8kAvNRztpihB8GWo/LBN+tDmo
+         FEM91HQrLdY+Q0R1vdYpIXcUtaYIzcRC0+K8rqJAOpvAhGkyqpBJ8Hy+Zlh5rxP6xXdZ
+         /x/f4wr1NijczeLva7buw8UeKqyO4gfWLHR4T88D4h69pAQYf7/dALikbQrA7nWjsQNk
+         K2axCfwvYfMDHWi6nlk6JaDXi4LPQgQL65Ax7Th7LWZo/EnyfSHqvUG4D51Wp+ki9wtR
+         eNXyiI9e94zDVwWnrWbcjplNYq6p0H6KhHZTOkk6B6Xfo14adrIIAmeH9S+Zgmza5J4z
+         ZBXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YaVlQ35WAgybEPmbAlTIUfx4arMZ+F8KRTsa3f1igzU=;
-        b=YZ9a4Z6TS9KCBHfX7TrVpIhPdXFT4oOHL4Utgqgm2hQrCf/yBpREd/djGMf+ziCMb4
-         1uDx5cdRbrQm3ON7swt4mB1izfollUthbg7aK/vMzHRJLS9QsDT7IsCRMsBVmJy0NsXB
-         jptjJnoOGN0LVUeFj6WhIKUVTISmmdDT1BFXSMuN51ESxKeorASEpUi2ab2ZZfmQEefh
-         iPMNbgv0m+R2w+gOWdbuqEq8DcsweytNSvYgdGaRmuoy/u7VXCnpt+fGEmG4V8tc1eKL
-         VSknS0D6c6eO8u36VRavTfw14zYIpxdk/0ntk9hD9M34QcPrx8w8Pqvp+zemxbgWs5Kg
-         xamw==
-X-Gm-Message-State: AOAM5334xAwUPpiL6uatbU7JlEWRkf6drz//PhWLA5Azkn/V9CGF599N
-        aQBPtT+sz04s8sii8e8fZe6IkuqAylmCxd3v
-X-Google-Smtp-Source: ABdhPJywxMKo8VB4wbNSeSVds0UKXGX5ehLV2hcGKIuAr6gze4gceTvmoJE+j13PlgpL5yacGMVhnw==
-X-Received: by 2002:a7b:c4c1:: with SMTP id g1mr2348153wmk.145.1612352132934;
-        Wed, 03 Feb 2021 03:35:32 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8Z3Nox9s/STqesTh8aOkGgimIjL0UCAkor1AKiLYQkg=;
+        b=r9LbHBQuVUp5T0F8lbEhzq0v0emesg10mvHFROSGF6tYUeYEOP9ftbEj2hHE9abMTC
+         1N+UCOosWpkDY20rIhHRMdCR/+EOrEz5vYZ1ScQtYvdYEZZgixf8gUX4bZkf+04vqrwy
+         +z8PDodL4XS34ofyxi6TJCYvJSegsA70lgOalV/M5SGL80sln67M+uN30Xf75RmF7vrD
+         iDUISPUuIvKmct47f2TM01Ww14EmQOWI1ITE6qlDtfuzb9ILwasH1pKP9JBYXJCPXZjp
+         RPPty46/JNDR8T5ktgcw0u4WFkVpcWfu+wySGHdZ2po0Pr3Ng/CHyV4rq6fukkP6V8jU
+         jkEw==
+X-Gm-Message-State: AOAM531uZDiALc9AjSercrhHr8G/kPkcj9moukKH7NWt41GGEDBn+2gN
+        23Pg9QgkmzfKHsWOmD+FkzBNgTofCi5hyxcN
+X-Google-Smtp-Source: ABdhPJy64SoEZRwkK/Q8MU9BfuKLsVYyLThmIDETi6/VHqDxBbDisrRiTyXri2f7k7V5lW9Cf65gkQ==
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr2423765wmg.66.1612352143822;
+        Wed, 03 Feb 2021 03:35:43 -0800 (PST)
 Received: from anparri.mshome.net (host-95-238-70-33.retail.telecomitalia.it. [95.238.70.33])
-        by smtp.gmail.com with ESMTPSA id t18sm3295088wrr.56.2021.02.03.03.35.31
+        by smtp.gmail.com with ESMTPSA id t18sm3295088wrr.56.2021.02.03.03.35.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 03:35:32 -0800 (PST)
+        Wed, 03 Feb 2021 03:35:43 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -70,36 +70,42 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH net-next 0/2] Amend "hv_netvsc: Copy packets sent by Hyper-V out of the receive buffer"
-Date:   Wed,  3 Feb 2021 12:35:11 +0100
-Message-Id: <20210203113513.558864-1-parri.andrea@gmail.com>
+Subject: [PATCH net-next 2/2] hv_netvsc: Load and store the proper (NBL_HASH_INFO) per-packet info
+Date:   Wed,  3 Feb 2021 12:35:13 +0100
+Message-Id: <20210203113513.558864-3-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210203113513.558864-1-parri.andrea@gmail.com>
+References: <20210203113513.558864-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Patch #2 also addresses the Smatch complaint reported here:
+Fix the typo.
 
-   https://lkml.kernel.org/r/YBp2oVIdMe+G%2FliJ@mwanda/
-
-Thanks,
-  Andrea
-
+Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
+Fixes: 0ba35fe91ce34f ("hv_netvsc: Copy packets sent by Hyper-V out of the receive buffer")
+---
+ drivers/net/hyperv/rndis_filter.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andrea Parri (Microsoft) (2):
-  hv_netvsc: Allocate the recv_buf buffers after
-    NVSP_MSG1_TYPE_SEND_RECV_BUF
-  hv_netvsc: Load and store the proper (NBL_HASH_INFO) per-packet info
-
- drivers/net/hyperv/netvsc.c       | 18 +++++++++++-------
- drivers/net/hyperv/rndis_filter.c |  2 +-
- 2 files changed, 12 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
+index 6c48a4d627368..0c2ebe7ac6554 100644
+--- a/drivers/net/hyperv/rndis_filter.c
++++ b/drivers/net/hyperv/rndis_filter.c
+@@ -465,7 +465,7 @@ void rsc_add_data(struct netvsc_channel *nvchan,
+ 		}
+ 		nvchan->rsc.pktlen = len;
+ 		if (hash_info != NULL) {
+-			nvchan->rsc.csum_info = *csum_info;
++			nvchan->rsc.hash_info = *hash_info;
+ 			nvchan->rsc.ppi_flags |= NVSC_RSC_HASH_INFO;
+ 		} else {
+ 			nvchan->rsc.ppi_flags &= ~NVSC_RSC_HASH_INFO;
 -- 
 2.25.1
 
