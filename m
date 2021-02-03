@@ -8,55 +8,55 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30431C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABF2C433E9
 	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:37:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F265064E34
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:37:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46E1A64E34
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Feb 2021 11:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234170AbhBCLgc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 3 Feb 2021 06:36:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45936 "EHLO
+        id S234152AbhBCLhO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 3 Feb 2021 06:37:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234054AbhBCLgW (ORCPT
+        with ESMTP id S234119AbhBCLhJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 3 Feb 2021 06:36:22 -0500
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFA1C0613D6;
-        Wed,  3 Feb 2021 03:35:41 -0800 (PST)
-Received: by mail-wr1-x432.google.com with SMTP id m13so23839851wro.12;
-        Wed, 03 Feb 2021 03:35:41 -0800 (PST)
+        Wed, 3 Feb 2021 06:37:09 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17D6C061786;
+        Wed,  3 Feb 2021 03:36:28 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id l12so23839304wry.2;
+        Wed, 03 Feb 2021 03:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sr/viP2SKaJXfKIJbBo8hjY70U9kkVhClzZkvhF0wpU=;
-        b=oOPQLQHa9bNCGD+j9QPELyM1JyDeEF4CuGM54Vl+KBjJzjkw5qxhSQzd8DNeaKjchS
-         UN7I/FjKU7t+6WfIKwRp+vdK7ajFWjeO3xnUPQDaANPOhVKYZnbn36knN7+rVrNifwf8
-         q4TOzrbAHtlF1pUL3mUiOEk71Y3Meev0/11dg1eMUyZ4w1Aa1sJVHt4XVGcDEVcQmglG
-         Aas1xZig0CNaC+cGTXNJTOPKC/PCmumsdKB5Tk0mlhjcv4a64wTlPwoWoFAfv5s13w1U
-         uJyaakQ9wWdG6/jGOUHVasfEPgt63Xrjk5GWo8TKX2xh36xwnhdIb02PO1+uIXp/+NDV
-         kNGw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=piicmRCuLZbTBJlar9FXYLLsqVbbP0x2N6R3KyFMnss=;
+        b=AFIeOrcprV4b2fseY/Ehcn6HXdg5fNHAE5F1dXVBj0mrPYZuTS3wu2HFtQadCpAIEk
+         3zUk9L6uAztUgPb6sVY/AOJG/2Y1FAqwHzlHPzHsZ3rOnXOFfJM/Dx1ULbPKjfFXaSyz
+         OStvspiiiNeyLRMHeDm+bLPHcpZmiqDnHArhEDDzgAoL0IGM270hifvaO/fTQqo2oz/x
+         AaHTwzHUO7zgRZRArg5y/WD3yz4rJZveUf/q61Lhqt5EhCu+LxwoStABhFc7xBDrlOiT
+         FE2iJolIqd3xWV49mJZOWfv9oQmtgMOIEJFV8FJUola8lDdXlB2tB2GZoWZAQ3+UlmhF
+         0wBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sr/viP2SKaJXfKIJbBo8hjY70U9kkVhClzZkvhF0wpU=;
-        b=rKbxSQB9OWSLLmmZ+IdKYYW6e7DswnDZyD6JXQUDh8kIHOHH2JKcyBtQeukhxFY7CQ
-         iD9vQqn/94SS2fH/VyC33CCM1M4TdV1H7qQ79i955pLwKsVjY9QdX3mKjEVaua3nm3q2
-         YaI1p/e9Tk3s8Ir8BKVKLasCYlnMOttIG7XhR47amTPtrYMsgLH8IA7XcmRmnk6QeN+r
-         0W98MqvmpV1GkBGBtRexaWkW7BgVsi6QSKtua5vNcegqioaj3Wb0jnINtqH103ZTHiwG
-         JiNg7iDhFDk78lj5F69MJIPf+qw6h0GCKhc0ZLFVukTtlh12DQ77IshiizN2yzdDYESA
-         ZgMA==
-X-Gm-Message-State: AOAM533NlRUTI9F/vJ0rd5aUPutuqMAr0KmFRHyHm6NyAbyegwd0WHKD
-        bKfkLsSFT3gCr0YnUAQChZb7c1D1OP3icGKx
-X-Google-Smtp-Source: ABdhPJyBD0j/RTnAZ15LcHMy6kS6dv3r58hCPPQ3CSNGHFZDYdc6c1K+4wQNu8BreYOnZL/F26/TZw==
-X-Received: by 2002:adf:e404:: with SMTP id g4mr2951461wrm.416.1612352140217;
-        Wed, 03 Feb 2021 03:35:40 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=piicmRCuLZbTBJlar9FXYLLsqVbbP0x2N6R3KyFMnss=;
+        b=UhTPVwcE5qUd3WXv5b9c55zAbZcpPUz1+2ri5iIf0bZON+7PYYNMCLeAZMlSw4V/t1
+         PPmrF2rFvVWziIzN0FulmGUNDwoWDScq+nyAeFYfVxSn2DlMEkU8xzalGI2zrX8eE4vd
+         /9UnYkCfli0bY1pg+DIN8pe7le9WnmwWU9l+KZviNPSKmHNvnryfnpBMKTnbbpblq4fv
+         1dZEKVE5u6kk5jeJulY0A39wN+ciyTUCujZgqikPgmwcokuV+5d7kGipOMdsSgqUgtHM
+         Do2ewIUuuhMHjWajmkD5uyrvx6lX8KLrw2hHb/RI2BK3giM+GlyFtniK8k+nmfg8AoT6
+         E4vQ==
+X-Gm-Message-State: AOAM531XboZizz6iT9r8g59eSBDHei379o3TQ8aFfr9MugX0cWqPD1cj
+        sy0Oa0vAxz/MYk5wPNO9f+GhU8bDn2Ko+icC
+X-Google-Smtp-Source: ABdhPJz4Ml0T/POwNiVR6M1731jHxpXg8XUbjoRPaUUpU3OSBj5hsY75ssXcEcoIeL9xaWPDD90sjw==
+X-Received: by 2002:a5d:6b89:: with SMTP id n9mr2959659wrx.323.1612352187106;
+        Wed, 03 Feb 2021 03:36:27 -0800 (PST)
 Received: from anparri.mshome.net (host-95-238-70-33.retail.telecomitalia.it. [95.238.70.33])
-        by smtp.gmail.com with ESMTPSA id t18sm3295088wrr.56.2021.02.03.03.35.38
+        by smtp.gmail.com with ESMTPSA id z1sm3183707wrp.62.2021.02.03.03.36.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Feb 2021 03:35:39 -0800 (PST)
+        Wed, 03 Feb 2021 03:36:26 -0800 (PST)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
@@ -70,80 +70,63 @@ Cc:     "K . Y . Srinivasan" <kys@microsoft.com>,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH net-next 1/2] hv_netvsc: Allocate the recv_buf buffers after NVSP_MSG1_TYPE_SEND_RECV_BUF
-Date:   Wed,  3 Feb 2021 12:35:12 +0100
-Message-Id: <20210203113513.558864-2-parri.andrea@gmail.com>
+Subject: [PATCH net] hv_netvsc: Reset the RSC count if NVSP_STAT_FAIL in netvsc_receive()
+Date:   Wed,  3 Feb 2021 12:36:02 +0100
+Message-Id: <20210203113602.558916-1-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210203113513.558864-1-parri.andrea@gmail.com>
-References: <20210203113513.558864-1-parri.andrea@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The recv_buf buffers are allocated in netvsc_device_add().  Later in
-netvsc_init_buf() the response to NVSP_MSG1_TYPE_SEND_RECV_BUF allows
-the host to set up a recv_section_size that could be bigger than the
-(default) value used for that allocation.  The host-controlled value
-could be used by a malicious host to bypass the check on the packet's
-length in netvsc_receive() and hence to overflow the recv_buf buffer.
-
-Move the allocation of the recv_buf buffers into netvsc_init_but().
+Commit 44144185951a0f ("hv_netvsc: Add validation for untrusted Hyper-V
+values") added validation to rndis_filter_receive_data() (and
+rndis_filter_receive()) which introduced NVSP_STAT_FAIL-scenarios where
+the count is not updated/reset.  Fix this omission, and prevent similar
+scenarios from occurring in the future.
 
 Reported-by: Juan Vazquez <juvazq@microsoft.com>
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 Cc: "David S. Miller" <davem@davemloft.net>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Cc: netdev@vger.kernel.org
-Fixes: 0ba35fe91ce34f ("hv_netvsc: Copy packets sent by Hyper-V out of the receive buffer")
+Fixes: 44144185951a0f ("hv_netvsc: Add validation for untrusted Hyper-V values")
 ---
- drivers/net/hyperv/netvsc.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/net/hyperv/netvsc.c       | 5 ++++-
+ drivers/net/hyperv/rndis_filter.c | 2 --
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 0fba8257fc119..9db1ea3affbb3 100644
+index 2350342b961ff..13bd48a75db76 100644
 --- a/drivers/net/hyperv/netvsc.c
 +++ b/drivers/net/hyperv/netvsc.c
-@@ -311,7 +311,7 @@ static int netvsc_init_buf(struct hv_device *device,
- 	struct nvsp_message *init_packet;
- 	unsigned int buf_size;
- 	size_t map_words;
--	int ret = 0;
-+	int i, ret = 0;
+@@ -1262,8 +1262,11 @@ static int netvsc_receive(struct net_device *ndev,
+ 		ret = rndis_filter_receive(ndev, net_device,
+ 					   nvchan, data, buflen);
  
- 	/* Get receive buffer area. */
- 	buf_size = device_info->recv_sections * device_info->recv_section_size;
-@@ -405,6 +405,16 @@ static int netvsc_init_buf(struct hv_device *device,
- 		goto cleanup;
+-		if (unlikely(ret != NVSP_STAT_SUCCESS))
++		if (unlikely(ret != NVSP_STAT_SUCCESS)) {
++			/* Drop incomplete packet */
++			nvchan->rsc.cnt = 0;
+ 			status = NVSP_STAT_FAIL;
++		}
  	}
  
-+	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-+		struct netvsc_channel *nvchan = &net_device->chan_table[i];
-+
-+		nvchan->recv_buf = kzalloc(net_device->recv_section_size, GFP_KERNEL);
-+		if (nvchan->recv_buf == NULL) {
-+			ret = -ENOMEM;
-+			goto cleanup;
-+		}
-+	}
-+
- 	/* Setup receive completion ring.
- 	 * Add 1 to the recv_section_cnt because at least one entry in a
- 	 * ring buffer has to be empty.
-@@ -1549,12 +1559,6 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
- 	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
- 		struct netvsc_channel *nvchan = &net_device->chan_table[i];
+ 	enq_receive_complete(ndev, net_device, q_idx,
+diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
+index 598713c0d5a87..3aab2b867fc0d 100644
+--- a/drivers/net/hyperv/rndis_filter.c
++++ b/drivers/net/hyperv/rndis_filter.c
+@@ -509,8 +509,6 @@ static int rndis_filter_receive_data(struct net_device *ndev,
+ 	return ret;
  
--		nvchan->recv_buf = kzalloc(device_info->recv_section_size, GFP_KERNEL);
--		if (nvchan->recv_buf == NULL) {
--			ret = -ENOMEM;
--			goto cleanup2;
--		}
--
- 		nvchan->channel = device->channel;
- 		nvchan->net_device = net_device;
- 		u64_stats_init(&nvchan->tx_stats.syncp);
+ drop:
+-	/* Drop incomplete packet */
+-	nvchan->rsc.cnt = 0;
+ 	return NVSP_STAT_FAIL;
+ }
+ 
 -- 
 2.25.1
 
