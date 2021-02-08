@@ -2,139 +2,97 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B02BC433E0
-	for <linux-hyperv@archiver.kernel.org>; Sat,  6 Feb 2021 02:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE37C433E0
+	for <linux-hyperv@archiver.kernel.org>; Mon,  8 Feb 2021 11:54:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF38E65022
-	for <linux-hyperv@archiver.kernel.org>; Sat,  6 Feb 2021 02:31:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AFB764E6E
+	for <linux-hyperv@archiver.kernel.org>; Mon,  8 Feb 2021 11:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbhBFCbT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 5 Feb 2021 21:31:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbhBFCa6 (ORCPT
+        id S233225AbhBHLyA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 8 Feb 2021 06:54:00 -0500
+Received: from mail-wr1-f41.google.com ([209.85.221.41]:39668 "EHLO
+        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233497AbhBHLv7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 Feb 2021 21:30:58 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A952C08EE26
-        for <linux-hyperv@vger.kernel.org>; Fri,  5 Feb 2021 16:25:49 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id s24so4508404pjp.5
-        for <linux-hyperv@vger.kernel.org>; Fri, 05 Feb 2021 16:25:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=9z7HiRQOXNcKj26ngMfVUQzjZopiZl0XCgeKk+JxQyY=;
-        b=ZiWFXEAYuzxolEIlDjntKSNjNrm/60QhIQLS0fjIgrwpvlXmA4ukOIwIk5GznGR3Xl
-         HUsZCFzG3IBd39d5a2YIDlVd+Ltog2FBmU/u23KRtQSfxT02D3tuLbz2IhHFCAZHcmBR
-         /olIQefxjQKdz39Lz5ekpQdk2Sl4TD74fZH6kax35PyH/evqYKj0QKA55pp3riZ6O0MS
-         6suQNKLUJk9hgDzcK7WoM1UePzeZz/XS2m9gZ8Uq4rq0InZSYXozmFLhhrvAcjDgFoJB
-         7XcXRYnMu/67BXk1LS7y5OHThP/pQlWO3sJOXjQbS2ewXeodZgSj3DhrikudTQzXagNQ
-         64mg==
+        Mon, 8 Feb 2021 06:51:59 -0500
+Received: by mail-wr1-f41.google.com with SMTP id h12so435126wrw.6
+        for <linux-hyperv@vger.kernel.org>; Mon, 08 Feb 2021 03:51:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=9z7HiRQOXNcKj26ngMfVUQzjZopiZl0XCgeKk+JxQyY=;
-        b=Lgj1geggk2/eiNODVXBxX3PSUC1AOj1Ww4JP0k23RZbSZtWye2i2qSfVTsP78SgALu
-         0KeYTHTIZKazJXNuGHLDzrpQI28k09AKVcE4Wd2YvmaI5oMYPr0sxgY4KcjeePID+lOl
-         9iA+LljI1tYMdtK+qLpQdxRn0JQt8k99rG0r0Ro1DVm/scSFB74ujDZEh7JXxK9j3d/9
-         vDqFRbeJ1tNGYvGIotyW39lTPmBmVCjm/KIql25uhGr9ZNdJjxG5kzuBXcaBXTmxt5yp
-         Tawxi7ruNHzJ7+JR5P8hHmvlVvx/j2Qvl0aAylbNWRcXJwxBw94xzmud6YHxxQC1+WBh
-         IOZg==
-X-Gm-Message-State: AOAM531oNRbXHo0e1lFr0MUIOrivQSNpooSyPERIE39iX560FewlXyrv
-        BWeg8xmdnr9/2XS+wmONe/A=
-X-Google-Smtp-Source: ABdhPJx8mmCZnsuGz6MQrJF/xAKEvK+WWZEDKWZQdzppVaeAifjYH0Cvk6bRZehrTdbmIBIciDkuhg==
-X-Received: by 2002:a17:902:e884:b029:e1:50bb:683 with SMTP id w4-20020a170902e884b02900e150bb0683mr6390230plg.61.1612571148937;
-        Fri, 05 Feb 2021 16:25:48 -0800 (PST)
-Received: from vm-122.slytdz3n204uxoeeqq2h5obquh.xx.internal.cloudapp.net ([51.141.169.192])
-        by smtp.gmail.com with ESMTPSA id x3sm11498811pfp.98.2021.02.05.16.25.48
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sRMWs0FYMXPqa9zVntWGyH0kXhuXzQDzvcNFN0yn9fQ=;
+        b=k09k0vPfJWeC8Hv1MDc2RBQ0xd9pruYo+X5HNNWtatnn4UZ75M0WHEKCjgm6MsKC3O
+         qecKG2+Wawg0cSI4/+XdZDuZQAKt6kGlzNjPpghgHHYLcre7sIbNi86mhymvKgmEihSn
+         ndJDea71DShkBvtmQqz8brpaaMHFv1KzMxHQmbmVL5BMcIqfwvElRP7Ix1evDLqGWgeZ
+         2ifb472LMdD5CRr6+hnQvTn/sbdjnn03UQ3PE/bAu9C3Dh/Q+J+cuT/HioeHBtM23Kfi
+         lVZzDPjEFVKmvtagUUMQtIQoUzK9TaompERWqr/mZguA8EyVW+5st8Z/PX+uTfpBSxap
+         4cmw==
+X-Gm-Message-State: AOAM530YB/wDoejWNn3PzQkaS28o2YSnWETns94Kd9J6e0DkBTdD3eHY
+        XKaSPAAcy38PbeEnPisMXn8=
+X-Google-Smtp-Source: ABdhPJz76IgEbznZbr88Ysct+wGRn0XmJo/vMBJxuilNcoVoswhNx4MMUGv1BsFSRdL0NtSIHZdBIg==
+X-Received: by 2002:a5d:58fb:: with SMTP id f27mr7661301wrd.119.1612785078000;
+        Mon, 08 Feb 2021 03:51:18 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id q7sm28746533wrx.18.2021.02.08.03.51.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 16:25:48 -0800 (PST)
-From:   "Melanie Plageman (Microsoft)" <melanieplageman@gmail.com>
-To:     mikelley@microsoft.com
+        Mon, 08 Feb 2021 03:51:17 -0800 (PST)
+Date:   Mon, 8 Feb 2021 11:51:16 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     "Melanie Plageman (Microsoft)" <melanieplageman@gmail.com>
 Cc:     andres@anarazel.de, haiyangz@microsoft.com, kys@microsoft.com,
-        linux-hyperv@vger.kernel.org, melanieplageman@gmail.com,
-        sashal@kernel.org, sthemmin@microsoft.com
-Subject: Re: [PATCH v1] scsi: storvsc: Parameterize nr_hw_queues
-Date:   Sat,  6 Feb 2021 00:25:29 +0000
-Message-Id: <20210206002529.1908-1-melanieplageman@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <MWHPR21MB1593548108E39D9DB9B18A4AD7B49@MWHPR21MB1593.namprd21.prod.outlook.com>
-References: <MWHPR21MB1593548108E39D9DB9B18A4AD7B49@MWHPR21MB1593.namprd21.prod.outlook.com>
+        linux-hyperv@vger.kernel.org, sashal@kernel.org,
+        mikelley@microsoft.com, sthemmin@microsoft.com,
+        Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH 2/2] scsi: storvsc: Make max hw queues updatable
+Message-ID: <20210208115116.wpuznzvf75duifsi@liuwe-devbox-debian-v2>
+References: <20210203010904.hywx5xmwik52ccao@alap3.anarazel.de>
+ <20210205212447.3327-1-melanieplageman@gmail.com>
+ <20210205212447.3327-3-melanieplageman@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210205212447.3327-3-melanieplageman@gmail.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> Yes.  If you look at other code in storvsc_drv.c, you'll see the use of
-> "dev_err" for outputting warning messages.  Follow the pattern of
-> these other uses of "dev_err", and that should eliminate the
-> checkpatch error.
+Hi Melanie
 
-I'm not sure I can use the dev_warn/dev_error macros (or the storvsc_log
-macro which uses dev_warn) in storvsc_drv_init(), as it seems like it is
-meant to be used with a device, and, at driver initialization, I'm not
-sure how to access a specific device.
+On Fri, Feb 05, 2021 at 09:24:47PM +0000, Melanie Plageman (Microsoft) wrote:
+> - Change name of parameter to storvsc_max_hw_queues
+> - Make the parameter updatable on a running system
+> - Change error to warning for an invalid value of the parameter at
+>   driver init time
+> 
+> Signed-off-by: Melanie Plageman (Microsoft) <melanieplageman@gmail.com>
 
-I originally used printk() after looking for an example of a driver
-printing some logging message before erroring out in its init function
-and had found this in drivers/scsi/iscsi_tcp.c
+This patch contains a section which seems to be a copy&paste error from
+another email.
 
-static int __init iscsi_sw_tcp_init(void)
-{
-        if (iscsi_max_lun < 1) {
-                printk(KERN_ERR "iscsi_tcp: Invalid max_lun value of %u\n",
-                       iscsi_max_lun);
-                return -EINVAL;
-        }
-...
-}
+Also, please use get_maintainers.pl to CC the correct maintainers. You
+can configure git-sendemail such that the correct people are CC'ed
+automatically. The storvsc code normally goes via the storage
+maintainers' tree.
 
-Unfortunately, the thread has split in two because of some issues with my
-original mail. This message has the other updates I've made to the patch [1].
+If you have any question about how to use the get_maintainers.pl script
+or the upstreaming process in general, let me know.
 
-> I'm in agreement that the current handling of I/O queuing in the storvsc
-> has problems.  Your data definitely confirms that, and there are other
-> data points that indicate that we need to more fundamentally rethink
-> what I/Os get queued where.  Storvsc is letting far too many I/Os get
-> queued in the VMbus ring buffers and in the underlying Hyper-V.
->
-> Adding a module parameter to specify the number of hardware queues
-> may be part of the solution.  But I really want to step back a bit and
-> take into account all the data points we have before deciding what to
-> change, what additional parameters to offer (if any), etc.  There are
-> other ways of limiting the number of I/Os being queued at the driver
-> level, and I'm wondering how those tradeoff against adding a module
-> parameter.   I'm planning to jump in on this topic in just a few weeks,
-> and would like to coordinate with you.
+Wei.
 
-There are tradeoffs to reducing the number of hardware queues. It may
-not be the right solution for many workloads. However, parameterizing
-the number of hardware queues, given that the default would be the same
-as current state, doesn't seem like it would be harmful.
-
-virtio-scsi, for example, seems to provide num_queues as a configuration
-option in virtscsi_probe() in drivers/scsi/virtio_scsi.c
-
-  num_queues = virtscsi_config_get(vdev, num_queues) ? : 1;
-  num_queues = min_t(unsigned int, nr_cpu_ids, num_queues);
-
-And then use that value to set nr_hw_queues in the scsi host:
-  ...
-  shost->nr_hw_queues = num_queues;
-
-In fact, it may be worth modifying the patch to allow setting the number
-of hardware queues to any number above zero.
-
-I made it a module parameter to avoid having to change the interface at
-any point above storvsc in the stack to allow for configuration of this
-parameter.
-
-[1] https://lore.kernel.org/linux-hyperv/20210205212447.3327-3-melanieplageman@gmail.com/
+> ---
+> 
+> Andres wrote:
+> >> On 2021-02-02 15:19:08 -0500, Melanie Plageman wrote:
+> >> diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+> >> index 2e4fa77445fd..d72ab6daf9ae 100644
+> >> --- a/drivers/scsi/storvsc_drv.c
+> >> +++ b/drivers/scsi/storvsc_drv.c
+> >> @@ -378,10 +378,14 @@ static u32 max_outstanding_req_per_channel;
+> >>  static int storvsc_change_queue_depth(struct scsi_device *sdev, int
+[...]
