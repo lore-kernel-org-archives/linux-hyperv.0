@@ -2,146 +2,59 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D352C43603
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E54C433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 16:12:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4C2364F0E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 929AF64E85
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 16:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237787AbhBXNsB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Feb 2021 08:48:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40912 "EHLO
+        id S235152AbhBXQLo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 24 Feb 2021 11:11:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232735AbhBXNWX (ORCPT
+        with ESMTP id S236864AbhBXPx7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Feb 2021 08:22:23 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B918BC06174A;
-        Wed, 24 Feb 2021 05:21:41 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id r17so2968924ejy.13;
-        Wed, 24 Feb 2021 05:21:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WDf8bNlXwDREMw2fYtgvyNKs51Rez3p9DgY25iabkKk=;
-        b=UbthsDrfAXxLG0Ih3qnLP3LLslxy/TACKjN/AnLLlOGJ1SlJbUB1a9xL6k9bKHtbeZ
-         sK19xPjppJcRJYixSaTO7tDYKpxSmIzNM1m4GSQaVFCeLj7nupAC2zQLMQs9K5l5xL5R
-         ZEdxS9/4hzM1pY5vKZ5rhfFmY42RK/aMCTucRM8LSksEXXT2gGEvI9Jobl2ssXs8OnVc
-         hU3LBJpTbFwpUT4fpgwDzIFsU76GOX5kFxigh0LboXTyRIdX8IYpXevZsTxUzySfkbue
-         DGcwKUFo9nlYtEmPXOHHju3kV/sFI85nfbxLoR+C5dCGPCK/WoOwyfBfbyj+g0g+wb/m
-         IcUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WDf8bNlXwDREMw2fYtgvyNKs51Rez3p9DgY25iabkKk=;
-        b=OCfmXr3lFGRisgCZpkoLaUyzyX7x5hczau4vW8IDaVanWTMuJHakwSUMF3WPfcO1aT
-         xa2qLhXKfjfEecb3fEhCfT4zrLIlh8ORBxyJylECtwIgAysoLjlDiCqCrINCeCM17cgD
-         6ubcG5Tbk9097CReBVU9Fx1R6N6+Ea6EYjX5Nf2Q3sJf2AASh76kIvdFIT0Nfs42ubgp
-         zmF9PDfxNRzT9rRuxHctNxr8YWpqze835DhOKuzQoge0qek+E8brDdZybLAkHgxbDFcJ
-         wg0mRTC//YZ+gcIUhAkck+eLfZ0l8V8vNcWnCyrk7hvBQFbvTM8r9L4TqyUJnDv48djP
-         85lw==
-X-Gm-Message-State: AOAM532kPWnJohtJAV6LUKanea8dYXUdCU1mlP23CmOZyVA58dRqr6Wz
-        KdLrWbtx9EyNYzOnCDodZpY=
-X-Google-Smtp-Source: ABdhPJwh6Gknd4P3KUjnqmnTzkZbf1deMW7BQeP7kBImLg8i1BN1fFWBO2GjpmdqF/shVI0D2WrwhA==
-X-Received: by 2002:a17:906:e0cb:: with SMTP id gl11mr19837093ejb.87.1614172900384;
-        Wed, 24 Feb 2021 05:21:40 -0800 (PST)
-Received: from anparri (host-82-59-6-76.retail.telecomitalia.it. [82.59.6.76])
-        by smtp.gmail.com with ESMTPSA id fi5sm1290151ejc.43.2021.02.24.05.21.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:21:40 -0800 (PST)
-Date:   Wed, 24 Feb 2021 14:21:33 +0100
-From:   Andrea Parri <parri.andrea@gmail.com>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Juan Vazquez <juvazq@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 4.19 21/26] Drivers: hv: vmbus: Resolve race
- condition in vmbus_onoffer_rescind()
-Message-ID: <20210224132133.GA2031@anparri>
-References: <20210224125435.483539-1-sashal@kernel.org>
- <20210224125435.483539-21-sashal@kernel.org>
+        Wed, 24 Feb 2021 10:53:59 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37BC5C06174A;
+        Wed, 24 Feb 2021 07:53:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=2cfgLrUfwrBlhLqmvNFBxhy8YJ0VUlYc9/uzyh409x8=; b=PLMfKC9Zl0Xs9PY1AWvKDemuIZ
+        O81VZ0aTNn2cxF0DsfkwLcsNoQt5pmX5qDQ+SlLfshqOZWBoS4AWzGQ6wM2DxH2OQ7zh6i6eGh4+a
+        14QyAaEdeyDtZOVR703re0UkUKxR6rv/XCxtBPS7dZe3XW2W/cx/8Io8qhnJCbde9A9DDwmqkTo1R
+        w3+G0aXRm9D9DIH7+r6wJb6B2f63cYiE7mAee85gevTeHJmhielnac8iAoizCGj80EUaVTscWD0Ty
+        M/Y+rtiVywNYy8FuQBgoEaQ2Joq7IpNao70f4QIFxhXC+6TpkE4+cCA/yb/OeE06ZmyImBAfz33Fn
+        FiCtjTrg==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lEwSv-009aWA-Fd; Wed, 24 Feb 2021 15:52:49 +0000
+Date:   Wed, 24 Feb 2021 15:52:41 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     Michael Kelley <mikelley@microsoft.com>, kys@microsoft.com,
+        martin.petersen@oracle.com, longli@microsoft.com,
+        wei.liu@kernel.org, jejb@linux.ibm.com,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Subject: Re: [PATCH 1/1] scsi: storvsc: Enable scatterlist entry lengths >
+ 4Kbytes
+Message-ID: <20210224155241.GA2284544@infradead.org>
+References: <1613682087-102535-1-git-send-email-mikelley@microsoft.com>
+ <874ki2yhzm.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210224125435.483539-21-sashal@kernel.org>
+In-Reply-To: <874ki2yhzm.fsf@vitty.brq.redhat.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 07:54:29AM -0500, Sasha Levin wrote:
-> From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-> 
-> [ Upstream commit e4d221b42354b2e2ddb9187a806afb651eee2cda ]
-> 
-> An erroneous or malicious host could send multiple rescind messages for
-> a same channel.  In vmbus_onoffer_rescind(), the guest maps the channel
-> ID to obtain a pointer to the channel object and it eventually releases
-> such object and associated data.  The host could time rescind messages
-> and lead to an use-after-free.  Add a new flag to the channel structure
-> to make sure that only one instance of vmbus_onoffer_rescind() can get
-> the reference to the channel object.
-> 
-> Reported-by: Juan Vazquez <juvazq@microsoft.com>
-> Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-> Link: https://lore.kernel.org/r/20201209070827.29335-6-parri.andrea@gmail.com
-> Signed-off-by: Wei Liu <wei.liu@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-
-Same here.
-
-  Andrea
-
-
-> ---
->  drivers/hv/channel_mgmt.c | 12 ++++++++++++
->  include/linux/hyperv.h    |  1 +
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index 7920b0d7e35a7..1322e799938af 100644
-> --- a/drivers/hv/channel_mgmt.c
-> +++ b/drivers/hv/channel_mgmt.c
-> @@ -954,6 +954,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
->  
->  	mutex_lock(&vmbus_connection.channel_mutex);
->  	channel = relid2channel(rescind->child_relid);
-> +	if (channel != NULL) {
-> +		/*
-> +		 * Guarantee that no other instance of vmbus_onoffer_rescind()
-> +		 * has got a reference to the channel object.  Synchronize on
-> +		 * &vmbus_connection.channel_mutex.
-> +		 */
-> +		if (channel->rescind_ref) {
-> +			mutex_unlock(&vmbus_connection.channel_mutex);
-> +			return;
-> +		}
-> +		channel->rescind_ref = true;
-> +	}
->  	mutex_unlock(&vmbus_connection.channel_mutex);
->  
->  	if (channel == NULL) {
-> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index 35461d49d3aee..59525fe25abde 100644
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -736,6 +736,7 @@ struct vmbus_channel {
->  	u8 monitor_bit;
->  
->  	bool rescind; /* got rescind msg */
-> +	bool rescind_ref; /* got rescind msg, got channel reference */
->  	struct completion rescind_event;
->  
->  	u32 ringbuffer_gpadlhandle;
-> -- 
-> 2.27.0
-> 
+Shouldn't storvsc just use blk_queue_virt_boundary instead of all this
+mess?
