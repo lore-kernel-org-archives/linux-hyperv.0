@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71066C433DB
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A410EC433E0
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3ED4D64E21
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6358664E2B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235401AbhBXNoU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Feb 2021 08:44:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51002 "EHLO mail.kernel.org"
+        id S235697AbhBXNpP (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 24 Feb 2021 08:45:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235376AbhBXMzP (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Feb 2021 07:55:15 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E3EB064F26;
-        Wed, 24 Feb 2021 12:51:32 +0000 (UTC)
+        id S234414AbhBXNB0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 24 Feb 2021 08:01:26 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C9C2564F48;
+        Wed, 24 Feb 2021 12:53:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614171093;
-        bh=V+Mu4w/uu1b+FG/iSE/9oCAo4LbxmWpqVROZ6wuueF8=;
+        s=k20201202; t=1614171185;
+        bh=SDaAoKhN4M1rL5X4X8nRSY9FAt8oFdpyzhohOMA9ZZQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GcBXRBSB1MEpadNhdZhGE0gidBwcVSS9kTRpQ92c0cxMOruh6nsilnuovi71MA03I
-         9/4c0I0+Sz/nTxUeBCoRnSVlTiZAyJUUM6YwwwRLyFR6bNBFeMDwUAZY4re4whSB2L
-         HtJ9oYO61+p3XaSgdta4GoRPk+gLqjKWiFEb76rnxAjSpsYY7WnaQgnEyhm7nJ81Z+
-         DbwqXX6en8LV1M3avzgFoAe5iOJHE4FSMNeNppxBIoqf/UWVpoPygCH+bxXHYWNQfJ
-         Sxe1Gm4jbifGi9xibjssBtSPWL7BxzSWbrST4g4i926oEP76haEpx8Ri/CHmlfNC5u
-         fdXU2FhLGyDEw==
+        b=CWJz3VtzEyfmOi9ia3zbouNmAzcRxV5CUDF/poWImnqCxVhx5NKpJ1utKoyBWmKME
+         NEWBg22bxg0TK4wZ5t3HikrBqMMJN1hE6bsPf5kqmUJTBOL3MviGtfNUc0acyyqcww
+         JkkazSt9ruBoYL4aYR0M/ZGeRXiwyusMYxEXEwhDjzvRX48uCAH+1p2wP6IamajiM2
+         pQIIfRwzgGW2Y6W2RnDoebKUYBY8/kdBtalDF9NwNXSlvo0A6C1QDk7HDoEkjXarCE
+         HYMp7lUNVJX/jz1WgOcAWvWxCI4HJiXlyE2FKDqKtSD8MP8hfY56DEp0/oaawjUxdQ
+         Ix9lLlGBpRm5A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
@@ -38,12 +38,12 @@ Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 50/67] Drivers: hv: vmbus: Initialize memory to be sent to the host
-Date:   Wed, 24 Feb 2021 07:50:08 -0500
-Message-Id: <20210224125026.481804-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 40/56] Drivers: hv: vmbus: Initialize memory to be sent to the host
+Date:   Wed, 24 Feb 2021 07:51:56 -0500
+Message-Id: <20210224125212.482485-40-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210224125026.481804-1-sashal@kernel.org>
-References: <20210224125026.481804-1-sashal@kernel.org>
+In-Reply-To: <20210224125212.482485-1-sashal@kernel.org>
+References: <20210224125212.482485-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,10 +74,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 6fb0c76bfbf81..0bd202de79600 100644
+index fbdda9938039a..f9f04b5cd303f 100644
 --- a/drivers/hv/channel.c
 +++ b/drivers/hv/channel.c
-@@ -618,7 +618,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+@@ -548,7 +548,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
  		goto error_clean_ring;
  
  	/* Create and init the channel open message */
@@ -86,7 +86,7 @@ index 6fb0c76bfbf81..0bd202de79600 100644
  			   sizeof(struct vmbus_channel_open_channel),
  			   GFP_KERNEL);
  	if (!open_info) {
-@@ -745,7 +745,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+@@ -674,7 +674,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
  	unsigned long flags;
  	int ret;
  
