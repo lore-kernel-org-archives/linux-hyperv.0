@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05CDC433E9
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C416C4332B
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCCD664ED4
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3523264F09
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236869AbhBXNqa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Feb 2021 08:46:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54608 "EHLO mail.kernel.org"
+        id S237752AbhBXNrC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 24 Feb 2021 08:47:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59130 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234713AbhBXNB0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Feb 2021 08:01:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 337F864F58;
-        Wed, 24 Feb 2021 12:53:06 +0000 (UTC)
+        id S233136AbhBXNKj (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 24 Feb 2021 08:10:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DD2DD64F11;
+        Wed, 24 Feb 2021 12:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614171187;
-        bh=7vvwl0xzdumXTBjWHKBMNHHKWiAJi/yUA1XNGBiiqT8=;
+        s=k20201202; t=1614171302;
+        bh=8vUotaZ9PS8Rw6qxPntNdQtu1ucj2oPPA0Ltl1E0x7M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OaHpC0aflrq+AIM4Q7DIZylSA24gSPKxo+LGhUc3xarXi8ZmITVkjqHaXrqUMTdHc
-         /iKKjXVJNVT8/4hOWVKVmoUkiQ/YctfyAt004Kh5mmqkILoOH48euoZhq7vgLrR5xm
-         Oyge8kC0Kw4erNASo+77YgVJF/BqIAkQ6A8UtIeeL/RMi+0eXwQXpWtkj0yYgns7XX
-         1jCmyF78DVTjGb08BFqFS4QQG9G+2yTVqEVs5z2zizDRuLP426geCz2JWc6T+k5l2K
-         taIdPikctJmEPvKEOhLNNx8IJqnH/qNzpONyb9FCiYLRP2uiUavSoAuXzGbqZJzj2U
-         uh5ypn9aCvJ+w==
+        b=ix82ElRvHjEgkpeDWflNuItG1cxHOPihLPRJMtwfrLzqOj1HlTQ5xmQi8xR4/a9Ny
+         8RJBg7PiH77AzZdRf9Q8+6m7kl5lhcAkBAki3uF6pgnxvJSeMAkMfGCWT9xal9BHDb
+         6rcOLTrwVHIdKS4jd+FVRRSMRZiY/kllNxnUicve87roADKT1digO81P5W4gtbhslU
+         SshuyDB3YSITgoUNlU57Prmwew29z+ZFCCHPxxFoJ8lZOlJcTBoEGCBppboCV+F1pD
+         asTC6QNxL3q5la5kPbvIoA/OJpIbaIpm2QsBriKGGGiGKSLRhZBNWuNmjFQUJrMmwF
+         WlBnLEJlOdbMA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
@@ -38,12 +38,12 @@ Cc:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 41/56] Drivers: hv: vmbus: Resolve race condition in vmbus_onoffer_rescind()
-Date:   Wed, 24 Feb 2021 07:51:57 -0500
-Message-Id: <20210224125212.482485-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 21/26] Drivers: hv: vmbus: Resolve race condition in vmbus_onoffer_rescind()
+Date:   Wed, 24 Feb 2021 07:54:29 -0500
+Message-Id: <20210224125435.483539-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210224125212.482485-1-sashal@kernel.org>
-References: <20210224125212.482485-1-sashal@kernel.org>
+In-Reply-To: <20210224125435.483539-1-sashal@kernel.org>
+References: <20210224125435.483539-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 13 insertions(+)
 
 diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 1d44bb635bb84..a9f58840f85dc 100644
+index 7920b0d7e35a7..1322e799938af 100644
 --- a/drivers/hv/channel_mgmt.c
 +++ b/drivers/hv/channel_mgmt.c
-@@ -1049,6 +1049,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
+@@ -954,6 +954,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
  
  	mutex_lock(&vmbus_connection.channel_mutex);
  	channel = relid2channel(rescind->child_relid);
@@ -99,10 +99,10 @@ index 1d44bb635bb84..a9f58840f85dc 100644
  
  	if (channel == NULL) {
 diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1ce131f29f3b4..376f0f9e19650 100644
+index 35461d49d3aee..59525fe25abde 100644
 --- a/include/linux/hyperv.h
 +++ b/include/linux/hyperv.h
-@@ -786,6 +786,7 @@ struct vmbus_channel {
+@@ -736,6 +736,7 @@ struct vmbus_channel {
  	u8 monitor_bit;
  
  	bool rescind; /* got rescind msg */
