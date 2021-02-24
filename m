@@ -8,76 +8,76 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 855A1C433E0
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 885DBC4361A
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55C4864E21
-	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A96664F03
+	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237777AbhBXNrm (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Feb 2021 08:47:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40650 "EHLO
+        id S237791AbhBXNsI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 24 Feb 2021 08:48:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236485AbhBXNVH (ORCPT
+        with ESMTP id S233506AbhBXNWo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Feb 2021 08:21:07 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76ED5C06178A;
-        Wed, 24 Feb 2021 05:20:09 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id lr13so2985544ejb.8;
-        Wed, 24 Feb 2021 05:20:09 -0800 (PST)
+        Wed, 24 Feb 2021 08:22:44 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1B8C061786;
+        Wed, 24 Feb 2021 05:22:03 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id g5so3037578ejt.2;
+        Wed, 24 Feb 2021 05:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=pkahlOf/pP28CNyWC5Y+WgZbLG+WwMP1KrVJxBevxWc=;
-        b=I7ajJMexZRa8jOCydZguMJEq2YMI4OqPY5TtjJjh5GFY+UEVQT39BflKJbyvZTUM7v
-         y91W8wKb3LnQalPFGbnA0Noheo37CvNOu7Jmr3xgS9u4BZVn55iMRBl6UL2MU16tDOIF
-         hv6VJdRM2bB+t2lQQOAEd0b/p2T1+tM9S1BTbM6UKW3ljqvdVjLvLaJoBBcc0D0K2SMI
-         8BXWuP/4kaFAIf5rvmnq1CmUeNQ+O/bFv9tMYcuqDdIxwaY9ZincmguRz+4B0ym6yEzu
-         mqzkdqJM01TZ93oUaCmNmAfFA90H+8LLOXAnm1pTQGaAo4+/BRN1ulsSOkGM/qKy7uQd
-         LW8w==
+        bh=CvhA11ta/4vzj4ouldymPVpRfP0/mY+iYxkvuMBKfpA=;
+        b=SAP0fmmEpE/bH/Rd8n+r/YtTNkX8OTlKXzXL5CmoqwH/PItTK2GMJzbkRRS4P4WhpS
+         Ozbwt7pnufBPBrS7OrgLyi6Hlzc13YkUHerWmK8n/bf00NB4me7hwGC6C0sp5CYSqtNP
+         jQ4SktnNzBBRUuDJWVq2wr37d0KPEdMR9B4TYMLX53RoQTbTTJi5CcHg071rHq5hOLDd
+         Yp4vTEFyyOGboGMeB4fmRwsyjG5MpI3HNoiXdB5je93btfZ93+Ry+bxNBSQ3L5oz3kUF
+         DCx79iqs6DxLgpBKRqC+cNNDZjI7fObATj9uEHpTQT1zgL1H6kbEpbwsHRI7CrG4syl7
+         e/RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pkahlOf/pP28CNyWC5Y+WgZbLG+WwMP1KrVJxBevxWc=;
-        b=RSr0vHnca4Of2PWVCdD7NKUP4ySu57p8g2HAmjJOmKStI1+sHIXV/kUgi1lV0J848q
-         t0DvX4aABiZQtMkG6JA7dwjYoo66qpCIsgEtPL+eAYp9p8/46zkjDY/PNQECs7vztaq+
-         IWFfdcalu/P1z+y9BjkqG+2Qec31R470qiCupY1yo9EldKm2f/f2s+ZTAJB/tTnRF9rL
-         wLfs5HxKAdUTNb6h3N3cluB2etl46LZrQ3beK21fJWOcAQ+IQFdXK5+8gktuYNylG7XO
-         0H0n5B566emFnc2YNgSUQhJGIx+KZisO7OVemF78jwuFprnJzGWllqeX9VpOredoj1oi
-         6TdA==
-X-Gm-Message-State: AOAM530pXtHFMMxuuURn7ZyCl/g4YZUNwSiMWVf0Qs9fwVVa2zU5Tyo7
-        tgaxOg7kL7U3YmGE87uX4gXtoJYL1nM4vA==
-X-Google-Smtp-Source: ABdhPJwhMgl88RINOG5oHJwFZKYnCbmcwIU7+WFcgyOHfPeQaqcMjUJjeYbn7pLle1DBCk0oByOp5Q==
-X-Received: by 2002:a17:906:30da:: with SMTP id b26mr30614615ejb.376.1614172808077;
-        Wed, 24 Feb 2021 05:20:08 -0800 (PST)
+        bh=CvhA11ta/4vzj4ouldymPVpRfP0/mY+iYxkvuMBKfpA=;
+        b=dUEJF1n5KYp5ovLh/YBPkcgsd7C/9GUucnqUoyu9I9gY0gqteXS3KOrYpMJzAb1BTo
+         1x0yKHjkmLZDqSZIfrSInMtjliYcmAp9GQ09eYlWDgxnXW3/NlPgaXO84kPUWLIHHdJo
+         T3HgMnH9cTArbJt4cWte63s7g3CPhj/LBrCvK3LnI2fuP//MlvNV3MHiZqup/dPri0qe
+         JTutCcE98euLMUXZrHs5fFgD6jECHFMt0Ubi/1WmZMmAWGXO1Y9ojFQHBqLriUqkk3Rq
+         4Tg+Ygs7agBmhJFG4PqwljN4yrbqgINwoHcxsq+SDb5P5IvB5zzZ6v9P0dka6XD1Jh6T
+         yHMg==
+X-Gm-Message-State: AOAM532AjsbnSlSrjhMp/G5t4mnsXG2eZTfWbJ4h9QTJs/gz2rZsnbd2
+        AT4t5p7NYszVKgemopg1EDA=
+X-Google-Smtp-Source: ABdhPJyG7sz265zT+79Ofx2whRj2nvW/2SeU/kXeevg9td41JL8swhnVwwK2+Z4NDjBgPE4Ho8d6Jg==
+X-Received: by 2002:a17:906:4e57:: with SMTP id g23mr2457018ejw.47.1614172922578;
+        Wed, 24 Feb 2021 05:22:02 -0800 (PST)
 Received: from anparri (host-82-59-6-76.retail.telecomitalia.it. [82.59.6.76])
-        by smtp.gmail.com with ESMTPSA id br22sm1332637ejb.117.2021.02.24.05.20.07
+        by smtp.gmail.com with ESMTPSA id cb14sm1282414ejb.82.2021.02.24.05.22.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:20:07 -0800 (PST)
-Date:   Wed, 24 Feb 2021 14:20:05 +0100
+        Wed, 24 Feb 2021 05:22:02 -0800 (PST)
+Date:   Wed, 24 Feb 2021 14:22:00 +0100
 From:   Andrea Parri <parri.andrea@gmail.com>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
         Juan Vazquez <juvazq@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 41/56] Drivers: hv: vmbus: Resolve race
+Subject: Re: [PATCH AUTOSEL 4.14 15/16] Drivers: hv: vmbus: Resolve race
  condition in vmbus_onoffer_rescind()
-Message-ID: <20210224132005.GD1920@anparri>
-References: <20210224125212.482485-1-sashal@kernel.org>
- <20210224125212.482485-41-sashal@kernel.org>
+Message-ID: <20210224132200.GB2031@anparri>
+References: <20210224125514.483935-1-sashal@kernel.org>
+ <20210224125514.483935-15-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210224125212.482485-41-sashal@kernel.org>
+In-Reply-To: <20210224125514.483935-15-sashal@kernel.org>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 07:51:57AM -0500, Sasha Levin wrote:
+On Wed, Feb 24, 2021 at 07:55:12AM -0500, Sasha Levin wrote:
 > From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 > 
 > [ Upstream commit e4d221b42354b2e2ddb9187a806afb651eee2cda ]
@@ -108,10 +108,10 @@ Same here.
 >  2 files changed, 13 insertions(+)
 > 
 > diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-> index 1d44bb635bb84..a9f58840f85dc 100644
+> index 5bf633c15cd4b..6ddda97030628 100644
 > --- a/drivers/hv/channel_mgmt.c
 > +++ b/drivers/hv/channel_mgmt.c
-> @@ -1049,6 +1049,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
+> @@ -942,6 +942,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
 >  
 >  	mutex_lock(&vmbus_connection.channel_mutex);
 >  	channel = relid2channel(rescind->child_relid);
@@ -131,10 +131,10 @@ Same here.
 >  
 >  	if (channel == NULL) {
 > diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-> index 1ce131f29f3b4..376f0f9e19650 100644
+> index 63cd81e5610d1..22e2c2d75361e 100644
 > --- a/include/linux/hyperv.h
 > +++ b/include/linux/hyperv.h
-> @@ -786,6 +786,7 @@ struct vmbus_channel {
+> @@ -710,6 +710,7 @@ struct vmbus_channel {
 >  	u8 monitor_bit;
 >  
 >  	bool rescind; /* got rescind msg */
