@@ -8,130 +8,140 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC7DC4360C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D352C43603
 	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D59164E2B
+	by mail.kernel.org (Postfix) with ESMTP id D4C2364F0E
 	for <linux-hyperv@archiver.kernel.org>; Wed, 24 Feb 2021 13:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237795AbhBXNsM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 24 Feb 2021 08:48:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42554 "EHLO
+        id S237787AbhBXNsB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 24 Feb 2021 08:48:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236841AbhBXNaF (ORCPT
+        with ESMTP id S232735AbhBXNWX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 24 Feb 2021 08:30:05 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8964C06178B;
-        Wed, 24 Feb 2021 05:16:09 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id j9so2470614edp.1;
-        Wed, 24 Feb 2021 05:16:09 -0800 (PST)
+        Wed, 24 Feb 2021 08:22:23 -0500
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B918BC06174A;
+        Wed, 24 Feb 2021 05:21:41 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id r17so2968924ejy.13;
+        Wed, 24 Feb 2021 05:21:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Ybq7RMjn9hsdU3yUVvJeduTNiXaxFp9VeeC1XcARtv8=;
-        b=kK6Ceh9V43eJSJbZIYNJyliPkn06F05XmgT9o2Ly6bCeiWTU2vbOcaocEF6JDRj2va
-         msZZIjz6DAvd5tEbkFUaty74DUhxQzrSmErn0lIc+ioLi8pz4GXnSotGpDrNg5dUbgTH
-         5d27wwMxsPFxFYDgIUXOmyHxZz5oDEBIkv5A9s6uZqoVNRG4AR8LDZHMSM+QegJqQNv3
-         feQGIHdK124gMqU5LdXW+p+YPqLhT8vMfOhnYNeYuaq5Kh9vIoDc2ZM3otMC5gRbMt6D
-         xvQUzG+uKuPRJfzKKUm2AOCZw1Bjf0zZBjZ1pBETs7gDve2a/dqJ7kCdqZsWMCYgXupX
-         adhQ==
+        bh=WDf8bNlXwDREMw2fYtgvyNKs51Rez3p9DgY25iabkKk=;
+        b=UbthsDrfAXxLG0Ih3qnLP3LLslxy/TACKjN/AnLLlOGJ1SlJbUB1a9xL6k9bKHtbeZ
+         sK19xPjppJcRJYixSaTO7tDYKpxSmIzNM1m4GSQaVFCeLj7nupAC2zQLMQs9K5l5xL5R
+         ZEdxS9/4hzM1pY5vKZ5rhfFmY42RK/aMCTucRM8LSksEXXT2gGEvI9Jobl2ssXs8OnVc
+         hU3LBJpTbFwpUT4fpgwDzIFsU76GOX5kFxigh0LboXTyRIdX8IYpXevZsTxUzySfkbue
+         DGcwKUFo9nlYtEmPXOHHju3kV/sFI85nfbxLoR+C5dCGPCK/WoOwyfBfbyj+g0g+wb/m
+         IcUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ybq7RMjn9hsdU3yUVvJeduTNiXaxFp9VeeC1XcARtv8=;
-        b=kzfMQeoW6PM6DUTduhL9q5hGIRgDUYI6rpUeb+Q8yjpMrHINC7Ruo2vTWEDTJbv+DI
-         jR+enK12MuA3JJJyqKWE2yNF7jfgz11JTDjpfhujfMyzF2VEX1ipCp0+VPfpSNF0sF8X
-         2ztnH/3iX+UMMMUMZpTk3uSpXA2oP8ZOEhGeurjGiEOzPrJCr2WTIKXNPqUN8djzIT3I
-         HaJkw/U4LYGl8u1KAP3pIJAFatLEe9tAX3xqX4NfQ3dx0G2OqeTrV0s0hERHBtphTWrP
-         eJkhyBikX8RZ14V/fT1u2S0RY6OfKjqYMIZeYgx6kNY2q43cSP+DHqL0exJ0Z1zuS9Lt
-         8RxQ==
-X-Gm-Message-State: AOAM532WyDpaeB732976gn+anl+Q3fhtgnZmXpd1P/+5L1QBVvDJa+2R
-        rk3BPXs+KNwt+B1/zL7KyLM=
-X-Google-Smtp-Source: ABdhPJxrxEufi/KWDHe/kkJ3+G5EZOGQ68uGrFF4/06H9HCi+wPfjfqx7Pd/Ui6Tj+aGWcck6fk6Ow==
-X-Received: by 2002:a50:bf47:: with SMTP id g7mr32569077edk.323.1614172568363;
-        Wed, 24 Feb 2021 05:16:08 -0800 (PST)
+        bh=WDf8bNlXwDREMw2fYtgvyNKs51Rez3p9DgY25iabkKk=;
+        b=OCfmXr3lFGRisgCZpkoLaUyzyX7x5hczau4vW8IDaVanWTMuJHakwSUMF3WPfcO1aT
+         xa2qLhXKfjfEecb3fEhCfT4zrLIlh8ORBxyJylECtwIgAysoLjlDiCqCrINCeCM17cgD
+         6ubcG5Tbk9097CReBVU9Fx1R6N6+Ea6EYjX5Nf2Q3sJf2AASh76kIvdFIT0Nfs42ubgp
+         zmF9PDfxNRzT9rRuxHctNxr8YWpqze835DhOKuzQoge0qek+E8brDdZybLAkHgxbDFcJ
+         wg0mRTC//YZ+gcIUhAkck+eLfZ0l8V8vNcWnCyrk7hvBQFbvTM8r9L4TqyUJnDv48djP
+         85lw==
+X-Gm-Message-State: AOAM532kPWnJohtJAV6LUKanea8dYXUdCU1mlP23CmOZyVA58dRqr6Wz
+        KdLrWbtx9EyNYzOnCDodZpY=
+X-Google-Smtp-Source: ABdhPJwh6Gknd4P3KUjnqmnTzkZbf1deMW7BQeP7kBImLg8i1BN1fFWBO2GjpmdqF/shVI0D2WrwhA==
+X-Received: by 2002:a17:906:e0cb:: with SMTP id gl11mr19837093ejb.87.1614172900384;
+        Wed, 24 Feb 2021 05:21:40 -0800 (PST)
 Received: from anparri (host-82-59-6-76.retail.telecomitalia.it. [82.59.6.76])
-        by smtp.gmail.com with ESMTPSA id a26sm1638418edm.15.2021.02.24.05.16.07
+        by smtp.gmail.com with ESMTPSA id fi5sm1290151ejc.43.2021.02.24.05.21.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:16:08 -0800 (PST)
-Date:   Wed, 24 Feb 2021 14:16:00 +0100
+        Wed, 24 Feb 2021 05:21:40 -0800 (PST)
+Date:   Wed, 24 Feb 2021 14:21:33 +0100
 From:   Andrea Parri <parri.andrea@gmail.com>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
         Juan Vazquez <juvazq@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.11 50/67] Drivers: hv: vmbus: Initialize memory
- to be sent to the host
-Message-ID: <20210224131457.GA1920@anparri>
-References: <20210224125026.481804-1-sashal@kernel.org>
- <20210224125026.481804-50-sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 4.19 21/26] Drivers: hv: vmbus: Resolve race
+ condition in vmbus_onoffer_rescind()
+Message-ID: <20210224132133.GA2031@anparri>
+References: <20210224125435.483539-1-sashal@kernel.org>
+ <20210224125435.483539-21-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210224125026.481804-50-sashal@kernel.org>
+In-Reply-To: <20210224125435.483539-21-sashal@kernel.org>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 07:50:08AM -0500, Sasha Levin wrote:
+On Wed, Feb 24, 2021 at 07:54:29AM -0500, Sasha Levin wrote:
 > From: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 > 
-> [ Upstream commit e99c4afbee07e9323e9191a20b24d74dbf815bdf ]
+> [ Upstream commit e4d221b42354b2e2ddb9187a806afb651eee2cda ]
 > 
-> __vmbus_open() and vmbus_teardown_gpadl() do not inizialite the memory
-> for the vmbus_channel_open_channel and the vmbus_channel_gpadl_teardown
-> objects they allocate respectively.  These objects contain padding bytes
-> and fields that are left uninitialized and that are later sent to the
-> host, potentially leaking guest data.  Zero initialize such fields to
-> avoid leaking sensitive information to the host.
+> An erroneous or malicious host could send multiple rescind messages for
+> a same channel.  In vmbus_onoffer_rescind(), the guest maps the channel
+> ID to obtain a pointer to the channel object and it eventually releases
+> such object and associated data.  The host could time rescind messages
+> and lead to an use-after-free.  Add a new flag to the channel structure
+> to make sure that only one instance of vmbus_onoffer_rescind() can get
+> the reference to the channel object.
 > 
 > Reported-by: Juan Vazquez <juvazq@microsoft.com>
 > Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 > Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-> Link: https://lore.kernel.org/r/20201209070827.29335-2-parri.andrea@gmail.com
+> Link: https://lore.kernel.org/r/20201209070827.29335-6-parri.andrea@gmail.com
 > Signed-off-by: Wei Liu <wei.liu@kernel.org>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-Sasha - This patch is one of a group of patches where a Linux guest running on
-Hyper-V will start assuming that hypervisor behavior might be malicious, and
-guards against such behavior.  Because this is a new assumption, these patches
-are more properly treated as new functionality rather than as bug fixes.  So I
-would propose that we *not* bring such patches back to stable branches.
+Same here.
 
-Thanks,
   Andrea
 
 
 > ---
->  drivers/hv/channel.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/hv/channel_mgmt.c | 12 ++++++++++++
+>  include/linux/hyperv.h    |  1 +
+>  2 files changed, 13 insertions(+)
 > 
-> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-> index 6fb0c76bfbf81..0bd202de79600 100644
-> --- a/drivers/hv/channel.c
-> +++ b/drivers/hv/channel.c
-> @@ -618,7 +618,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
->  		goto error_clean_ring;
+> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+> index 7920b0d7e35a7..1322e799938af 100644
+> --- a/drivers/hv/channel_mgmt.c
+> +++ b/drivers/hv/channel_mgmt.c
+> @@ -954,6 +954,18 @@ static void vmbus_onoffer_rescind(struct vmbus_channel_message_header *hdr)
 >  
->  	/* Create and init the channel open message */
-> -	open_info = kmalloc(sizeof(*open_info) +
-> +	open_info = kzalloc(sizeof(*open_info) +
->  			   sizeof(struct vmbus_channel_open_channel),
->  			   GFP_KERNEL);
->  	if (!open_info) {
-> @@ -745,7 +745,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
->  	unsigned long flags;
->  	int ret;
+>  	mutex_lock(&vmbus_connection.channel_mutex);
+>  	channel = relid2channel(rescind->child_relid);
+> +	if (channel != NULL) {
+> +		/*
+> +		 * Guarantee that no other instance of vmbus_onoffer_rescind()
+> +		 * has got a reference to the channel object.  Synchronize on
+> +		 * &vmbus_connection.channel_mutex.
+> +		 */
+> +		if (channel->rescind_ref) {
+> +			mutex_unlock(&vmbus_connection.channel_mutex);
+> +			return;
+> +		}
+> +		channel->rescind_ref = true;
+> +	}
+>  	mutex_unlock(&vmbus_connection.channel_mutex);
 >  
-> -	info = kmalloc(sizeof(*info) +
-> +	info = kzalloc(sizeof(*info) +
->  		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
->  	if (!info)
->  		return -ENOMEM;
+>  	if (channel == NULL) {
+> diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+> index 35461d49d3aee..59525fe25abde 100644
+> --- a/include/linux/hyperv.h
+> +++ b/include/linux/hyperv.h
+> @@ -736,6 +736,7 @@ struct vmbus_channel {
+>  	u8 monitor_bit;
+>  
+>  	bool rescind; /* got rescind msg */
+> +	bool rescind_ref; /* got rescind msg, got channel reference */
+>  	struct completion rescind_event;
+>  
+>  	u32 ringbuffer_gpadlhandle;
 > -- 
 > 2.27.0
 > 
