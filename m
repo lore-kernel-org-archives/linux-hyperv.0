@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85481C433DB
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:12:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65835C433E9
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 481A464F16
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:12:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E69864F11
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232686AbhBYPMh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 25 Feb 2021 10:12:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40581 "EHLO mail.kernel.org"
+        id S231721AbhBYPMx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 25 Feb 2021 10:12:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40604 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232290AbhBYPMX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        id S232296AbhBYPMX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
         Thu, 25 Feb 2021 10:12:23 -0500
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A38E264F17;
-        Thu, 25 Feb 2021 15:11:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0DCE864F1D;
+        Thu, 25 Feb 2021 15:11:08 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lFIIA-00Fscv-Oe; Thu, 25 Feb 2021 15:11:02 +0000
+        id 1lFIIE-00Fscv-8c; Thu, 25 Feb 2021 15:11:06 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -50,9 +50,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 05/13] PCI: MSI: Drop use of msi_controller from core code
-Date:   Thu, 25 Feb 2021 15:10:15 +0000
-Message-Id: <20210225151023.3642391-6-maz@kernel.org>
+Subject: [PATCH 08/13] PCI: MSI: Let PCI host bridges declare their lack of MSI handling
+Date:   Thu, 25 Feb 2021 15:10:18 +0000
+Message-Id: <20210225151023.3642391-9-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210225151023.3642391-1-maz@kernel.org>
 References: <20210225151023.3642391-1-maz@kernel.org>
@@ -66,101 +66,48 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As there is no driver using msi_controller, we can now safely
-remove its use from the PCI probe code.
+From: Thomas Gleixner <tglx@linutronix.de>
 
+Some PCI host bridges cannot deal with MSIs at all. This has
+the unfortunate effect of triggering ugly warnings when an end-point
+driver requests MSIs.
+
+Instead, let the bridge advertise such lack of MSIs, so that it
+can be flagged correctly by the core code.
+
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+[maz: commit message]
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/msi.c   | 23 +----------------------
- drivers/pci/probe.c |  2 --
- include/linux/pci.h |  2 --
- 3 files changed, 1 insertion(+), 26 deletions(-)
+ drivers/pci/probe.c | 2 ++
+ include/linux/pci.h | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 3162f88fe940..79b5a995bd02 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -64,39 +64,18 @@ static void pci_msi_teardown_msi_irqs(struct pci_dev *dev)
- /* Arch hooks */
- int __weak arch_setup_msi_irq(struct pci_dev *dev, struct msi_desc *desc)
- {
--	struct msi_controller *chip = dev->bus->msi;
--	int err;
--
--	if (!chip || !chip->setup_irq)
--		return -EINVAL;
--
--	err = chip->setup_irq(chip, dev, desc);
--	if (err < 0)
--		return err;
--
--	irq_set_chip_data(desc->irq, chip);
--
--	return 0;
-+	return -EINVAL;
- }
- 
- void __weak arch_teardown_msi_irq(unsigned int irq)
- {
--	struct msi_controller *chip = irq_get_chip_data(irq);
--
--	if (!chip || !chip->teardown_irq)
--		return;
--
--	chip->teardown_irq(chip, irq);
- }
- 
- int __weak arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
- {
--	struct msi_controller *chip = dev->bus->msi;
- 	struct msi_desc *entry;
- 	int ret;
- 
--	if (chip && chip->setup_irqs)
--		return chip->setup_irqs(chip, dev, nvec, type);
- 	/*
- 	 * If an architecture wants to support multiple MSI, it needs to
- 	 * override arch_setup_msi_irqs()
 diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 953f15abc850..fb04fc81a8bd 100644
+index fb04fc81a8bd..146bd85c037e 100644
 --- a/drivers/pci/probe.c
 +++ b/drivers/pci/probe.c
-@@ -895,7 +895,6 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
- 	/* Temporarily move resources off the list */
- 	list_splice_init(&bridge->windows, &resources);
- 	bus->sysdata = bridge->sysdata;
--	bus->msi = bridge->msi;
- 	bus->ops = bridge->ops;
- 	bus->number = bus->busn_res.start = bridge->busnr;
- #ifdef CONFIG_PCI_DOMAINS_GENERIC
-@@ -1053,7 +1052,6 @@ static struct pci_bus *pci_alloc_child_bus(struct pci_bus *parent,
- 		return NULL;
+@@ -925,6 +925,8 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+ 	device_enable_async_suspend(bus->bridge);
+ 	pci_set_bus_of_node(bus);
+ 	pci_set_bus_msi_domain(bus);
++	if (bridge->no_msi)
++		bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
  
- 	child->parent = parent;
--	child->msi = parent->msi;
- 	child->sysdata = parent->sysdata;
- 	child->bus_flags = parent->bus_flags;
- 
+ 	if (!parent)
+ 		set_dev_node(bus->bridge, pcibus_to_node(bus));
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index b32126d26997..105ef1a5191e 100644
+index 105ef1a5191e..9db3abf9fd90 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -540,7 +540,6 @@ struct pci_host_bridge {
- 	int (*map_irq)(const struct pci_dev *, u8, u8);
- 	void (*release_fn)(struct pci_host_bridge *);
- 	void		*release_data;
--	struct msi_controller *msi;
- 	unsigned int	ignore_reset_delay:1;	/* For entire hierarchy */
- 	unsigned int	no_ext_tags:1;		/* No Extended Tags */
- 	unsigned int	native_aer:1;		/* OS may use PCIe AER */
-@@ -621,7 +620,6 @@ struct pci_bus {
- 	struct resource busn_res;	/* Bus numbers routed to this bus */
+@@ -550,6 +550,7 @@ struct pci_host_bridge {
+ 	unsigned int	native_dpc:1;		/* OS may use PCIe DPC */
+ 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+ 	unsigned int	size_windows:1;		/* Enable root bus sizing */
++	unsigned int	no_msi:1;		/* Bridge has no MSI support */
  
- 	struct pci_ops	*ops;		/* Configuration access functions */
--	struct msi_controller *msi;	/* MSI controller */
- 	void		*sysdata;	/* Hook for sys-specific extension */
- 	struct proc_dir_entry *procdir;	/* Directory entry in /proc/bus/pci */
- 
+ 	/* Resource alignment requirements */
+ 	resource_size_t (*align_resource)(struct pci_dev *dev,
 -- 
 2.29.2
 
