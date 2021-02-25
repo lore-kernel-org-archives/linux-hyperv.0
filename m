@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E187BC433E0
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1DCC433DB
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:24:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 963CC64F11
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DD55D64F14
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:24:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233070AbhBYPNN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 25 Feb 2021 10:13:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40636 "EHLO mail.kernel.org"
+        id S229596AbhBYPYU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 25 Feb 2021 10:24:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232469AbhBYPM1 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 25 Feb 2021 10:12:27 -0500
+        id S229548AbhBYPYT (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 25 Feb 2021 10:24:19 -0500
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D72464F1A;
-        Thu, 25 Feb 2021 15:11:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AEE1064ECE;
+        Thu, 25 Feb 2021 15:23:37 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lFIIF-00Fscv-Jh; Thu, 25 Feb 2021 15:11:07 +0000
+        id 1lFIIK-00Fscv-9e; Thu, 25 Feb 2021 15:11:12 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -50,9 +50,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 09/13] PCI: mediatek: Advertise lack of MSI handling
-Date:   Thu, 25 Feb 2021 15:10:19 +0000
-Message-Id: <20210225151023.3642391-10-maz@kernel.org>
+Subject: [PATCH 13/13] PCI: quirks: Refactor advertising of the NO_MSI flag
+Date:   Thu, 25 Feb 2021 15:10:23 +0000
+Message-Id: <20210225151023.3642391-14-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210225151023.3642391-1-maz@kernel.org>
 References: <20210225151023.3642391-1-maz@kernel.org>
@@ -66,59 +66,55 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+The few quirks that deal with NO_MSI tend to be copy-paste heavy.
+Refactor them so that the hierarchy of conditions is slightly
+cleaner.
 
-Some Mediatek host bridges cannot handle MSIs, which is sad.
-This also results in an ugly warning at device probe time,
-as the core PCI code wasn't told that MSIs were not available.
-
-Advertise this fact to the rest of the core PCI code by
-using the 'no_msi' attribute.
-
-Reported-by: Frank Wunderlich <frank-w@public-files.de>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-[maz: commit message]
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/controller/pcie-mediatek.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/pci/quirks.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
-index cf4c18f0c25a..27241e7e1eb6 100644
---- a/drivers/pci/controller/pcie-mediatek.c
-+++ b/drivers/pci/controller/pcie-mediatek.c
-@@ -143,6 +143,7 @@ struct mtk_pcie_port;
-  * struct mtk_pcie_soc - differentiate between host generations
-  * @need_fix_class_id: whether this host's class ID needed to be fixed or not
-  * @need_fix_device_id: whether this host's device ID needed to be fixed or not
-+ * @no_msi: Bridge has no MSI support
-  * @device_id: device ID which this host need to be fixed
-  * @ops: pointer to configuration access functions
-  * @startup: pointer to controller setting functions
-@@ -151,6 +152,7 @@ struct mtk_pcie_port;
- struct mtk_pcie_soc {
- 	bool need_fix_class_id;
- 	bool need_fix_device_id;
-+	bool no_msi;
- 	unsigned int device_id;
- 	struct pci_ops *ops;
- 	int (*startup)(struct mtk_pcie_port *port);
-@@ -1084,6 +1086,7 @@ static int mtk_pcie_probe(struct platform_device *pdev)
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 653660e3ba9e..972bb0f9f994 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -2585,10 +2585,8 @@ static int msi_ht_cap_enabled(struct pci_dev *dev)
+ /* Check the HyperTransport MSI mapping to know whether MSI is enabled or not */
+ static void quirk_msi_ht_cap(struct pci_dev *dev)
+ {
+-	if (dev->subordinate && !msi_ht_cap_enabled(dev)) {
+-		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
+-		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+-	}
++	if (!msi_ht_cap_enabled(dev))
++		quirk_disable_msi(dev);
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_SERVERWORKS, PCI_DEVICE_ID_SERVERWORKS_HT2000_PCIE,
+ 			quirk_msi_ht_cap);
+@@ -2601,9 +2599,6 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
+ {
+ 	struct pci_dev *pdev;
  
- 	host->ops = pcie->soc->ops;
- 	host->sysdata = pcie;
-+	host->no_msi = pcie->soc->no_msi;
- 
- 	err = pci_host_probe(host);
- 	if (err)
-@@ -1173,6 +1176,7 @@ static const struct dev_pm_ops mtk_pcie_pm_ops = {
- };
- 
- static const struct mtk_pcie_soc mtk_pcie_soc_v1 = {
-+	.no_msi = true,
- 	.ops = &mtk_pcie_ops,
- 	.startup = mtk_pcie_startup_port,
- };
+-	if (!dev->subordinate)
+-		return;
+-
+ 	/*
+ 	 * Check HT MSI cap on this chipset and the root one.  A single one
+ 	 * having MSI is enough to be sure that MSI is supported.
+@@ -2611,10 +2606,8 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
+ 	pdev = pci_get_slot(dev->bus, 0);
+ 	if (!pdev)
+ 		return;
+-	if (!msi_ht_cap_enabled(dev) && !msi_ht_cap_enabled(pdev)) {
+-		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
+-		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+-	}
++	if (!msi_ht_cap_enabled(pdev))
++		quirk_msi_ht_cap(dev);
+ 	pci_dev_put(pdev);
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, PCI_DEVICE_ID_NVIDIA_CK804_PCIE,
 -- 
 2.29.2
 
