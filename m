@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 700F0C433DB
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E187BC433E0
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 331E664F1A
-	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 963CC64F11
+	for <linux-hyperv@archiver.kernel.org>; Thu, 25 Feb 2021 15:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233002AbhBYPNJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 25 Feb 2021 10:13:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40602 "EHLO mail.kernel.org"
+        id S233070AbhBYPNN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 25 Feb 2021 10:13:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40636 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232349AbhBYPMX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 25 Feb 2021 10:12:23 -0500
+        id S232469AbhBYPM1 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 25 Feb 2021 10:12:27 -0500
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 011DA64F1B;
-        Thu, 25 Feb 2021 15:11:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7D72464F1A;
+        Thu, 25 Feb 2021 15:11:09 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lFIID-00Fscv-5V; Thu, 25 Feb 2021 15:11:05 +0000
+        id 1lFIIF-00Fscv-Jh; Thu, 25 Feb 2021 15:11:07 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -50,9 +50,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 07/13] PCI: MSI: Kill default_teardown_msi_irqs()
-Date:   Thu, 25 Feb 2021 15:10:17 +0000
-Message-Id: <20210225151023.3642391-8-maz@kernel.org>
+Subject: [PATCH 09/13] PCI: mediatek: Advertise lack of MSI handling
+Date:   Thu, 25 Feb 2021 15:10:19 +0000
+Message-Id: <20210225151023.3642391-10-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210225151023.3642391-1-maz@kernel.org>
 References: <20210225151023.3642391-1-maz@kernel.org>
@@ -66,55 +66,59 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-It doesn't have any caller left.
+From: Thomas Gleixner <tglx@linutronix.de>
 
+Some Mediatek host bridges cannot handle MSIs, which is sad.
+This also results in an ugly warning at device probe time,
+as the core PCI code wasn't told that MSIs were not available.
+
+Advertise this fact to the rest of the core PCI code by
+using the 'no_msi' attribute.
+
+Reported-by: Frank Wunderlich <frank-w@public-files.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+[maz: commit message]
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/msi.c   | 11 +----------
- include/linux/msi.h |  1 -
- 2 files changed, 1 insertion(+), 11 deletions(-)
+ drivers/pci/controller/pcie-mediatek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 79b5a995bd02..d9c73c173c14 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -94,11 +94,7 @@ int __weak arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
- 	return 0;
- }
+diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
+index cf4c18f0c25a..27241e7e1eb6 100644
+--- a/drivers/pci/controller/pcie-mediatek.c
++++ b/drivers/pci/controller/pcie-mediatek.c
+@@ -143,6 +143,7 @@ struct mtk_pcie_port;
+  * struct mtk_pcie_soc - differentiate between host generations
+  * @need_fix_class_id: whether this host's class ID needed to be fixed or not
+  * @need_fix_device_id: whether this host's device ID needed to be fixed or not
++ * @no_msi: Bridge has no MSI support
+  * @device_id: device ID which this host need to be fixed
+  * @ops: pointer to configuration access functions
+  * @startup: pointer to controller setting functions
+@@ -151,6 +152,7 @@ struct mtk_pcie_port;
+ struct mtk_pcie_soc {
+ 	bool need_fix_class_id;
+ 	bool need_fix_device_id;
++	bool no_msi;
+ 	unsigned int device_id;
+ 	struct pci_ops *ops;
+ 	int (*startup)(struct mtk_pcie_port *port);
+@@ -1084,6 +1086,7 @@ static int mtk_pcie_probe(struct platform_device *pdev)
  
--/*
-- * We have a default implementation available as a separate non-weak
-- * function, as it is used by the Xen x86 PCI code
-- */
--void default_teardown_msi_irqs(struct pci_dev *dev)
-+void __weak arch_teardown_msi_irqs(struct pci_dev *dev)
- {
- 	int i;
- 	struct msi_desc *entry;
-@@ -108,11 +104,6 @@ void default_teardown_msi_irqs(struct pci_dev *dev)
- 			for (i = 0; i < entry->nvec_used; i++)
- 				arch_teardown_msi_irq(entry->irq + i);
- }
--
--void __weak arch_teardown_msi_irqs(struct pci_dev *dev)
--{
--	return default_teardown_msi_irqs(dev);
--}
- #endif /* CONFIG_PCI_MSI_ARCH_FALLBACKS */
+ 	host->ops = pcie->soc->ops;
+ 	host->sysdata = pcie;
++	host->no_msi = pcie->soc->no_msi;
  
- static void default_restore_msi_irq(struct pci_dev *dev, int irq)
-diff --git a/include/linux/msi.h b/include/linux/msi.h
-index 3f21e77b57b7..6aff469e511d 100644
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -250,7 +250,6 @@ int arch_setup_msi_irq(struct pci_dev *dev, struct msi_desc *desc);
- void arch_teardown_msi_irq(unsigned int irq);
- int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type);
- void arch_teardown_msi_irqs(struct pci_dev *dev);
--void default_teardown_msi_irqs(struct pci_dev *dev);
- #else
- static inline int arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
- {
+ 	err = pci_host_probe(host);
+ 	if (err)
+@@ -1173,6 +1176,7 @@ static const struct dev_pm_ops mtk_pcie_pm_ops = {
+ };
+ 
+ static const struct mtk_pcie_soc mtk_pcie_soc_v1 = {
++	.no_msi = true,
+ 	.ops = &mtk_pcie_ops,
+ 	.startup = mtk_pcie_startup_port,
+ };
 -- 
 2.29.2
 
