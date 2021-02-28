@@ -8,65 +8,67 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CFCC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8DD9C43381
 	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2048964DED
+	by mail.kernel.org (Postfix) with ESMTP id 6C2BA64E56
 	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231138AbhB1PGN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 28 Feb 2021 10:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50186 "EHLO
+        id S231151AbhB1PGW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 28 Feb 2021 10:06:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230502AbhB1PFg (ORCPT
+        with ESMTP id S230505AbhB1PFh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 28 Feb 2021 10:05:36 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6FFC06178C;
-        Sun, 28 Feb 2021 07:04:17 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id l2so9756552pgb.1;
-        Sun, 28 Feb 2021 07:04:17 -0800 (PST)
+        Sun, 28 Feb 2021 10:05:37 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 624DBC061797;
+        Sun, 28 Feb 2021 07:04:19 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id x29so1484754pgk.6;
+        Sun, 28 Feb 2021 07:04:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
-        b=M6yApM0RYY+6vKyqs5rGk4XoO5WfZilQksJCGjz7zTYmlxqaIQOs9xQsqJJhlPq1YM
-         pxGchngpeYk2d3Q4I57ND726MeEL35jNEZTf2l2TdwpGnBciiNG4GcvwmCEB3mpNJ4Nq
-         HFlKegnRidRGhrTNSsF7G8AaJ2O/g3zrQSycccIqPXcoY/khshfCVMePQW7lYEy5sdRT
-         7vJw8XOtxdOLgu5ckj6lkaBbHN7IEM/UlHqZDhbK/GyvJfqrV10/iFFLQftnB+jbtpGJ
-         sZYL2oKqQX2dqxN+OGTjYAgqmVXMVQi+9F9QqnV9dynkv0egVKz7MKyQ5VLbRjS+2Qzw
-         XfPA==
+        bh=IlP+UqaTTH6S778JlrTl0GossJzFFQBlG/jMumY6xKg=;
+        b=J0QoRw2N/2yfzZ3toJcfKV7iDJelt9eUQKb6RRq4Kd6ay2raOQT9S/TwUdFfypau8h
+         vjkHtPR1oSYaI4rJmrZaf6IUip0nmHA0rrHfe6CTGDCPXaLBZnsZ3grf0BrWLWMPbiCj
+         JHcYaTcEbMGmgQ17OPUu1z7YG4Gcz6hldTjKLlsW5QNTFZH0sNSUy1pqnR6uNsMhnChq
+         wRSgVqWI3aKKA1T4jXyBX0kT+HZfQVX+oeIXWwMhyAs3/jIXBA0rRl5df/erDwToudUm
+         zPi8NTk6eCUd+2cxVKP6i/4Mjr6QA85zeSp4eqkLMry2KrwuQTFlYt0s5cOBCq8Aw3Eg
+         6ikA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
-        b=GyARbubJuI69cT38EM7jWtbkmSlrVvGwLrJ7nPix6yzC5+EXAQq8RkPlELuhWuhHG6
-         Pud/llxPuJOuYjNy0r1h1EucMKBK+dYZZ9JU3m21i531MgedPg0QAcoqToj8BubKkwBB
-         9bk0yUgzp0XHTs0s5bF/MwmbZaM9kV4K7BGNJ3gUi9nh6GXgLMECAkRqRK/vxKSNWj9a
-         jg5Eid9wbKw0ySksGWBOcb+ghPJDo0lwhISU0SC/hVW7Qnq/7iFoK3Fu0MhVtkPwo5N3
-         hmRiTu96DSx4JQ8i3lJG+cxN96a/zDI2H5nWK1qlgtA6EEukt9LsgW9SBlITZ9zYtq5K
-         LKLQ==
-X-Gm-Message-State: AOAM532buApjoBr3wFIh/wOWa84KF6DN86jR38vc0K49lHOX6k1lPK/X
-        OgwweqKfVcBHwikRTL/UpDs=
-X-Google-Smtp-Source: ABdhPJz0M2eG3YiIFqm9Rqp2DTIxGUr6KVib5DGW3AfT85mo7GestrdvERbaYx48eb2uN8SCnRIIDg==
-X-Received: by 2002:a62:1650:0:b029:1ee:26a:4958 with SMTP id 77-20020a6216500000b02901ee026a4958mr11307341pfw.49.1614524656668;
-        Sun, 28 Feb 2021 07:04:16 -0800 (PST)
+        bh=IlP+UqaTTH6S778JlrTl0GossJzFFQBlG/jMumY6xKg=;
+        b=PGzPaAfZFlOeQHX/NC0tGUeTwcyO7RGi99yTYRb1eNP4AWgqu63Vhm+GuQv3lbLkph
+         Z2gpn6yZR1sAhWp/GlTzeynuI2Bknpev5kDPXwkK4k8nfaLtCL8su43ncSR5956bBKjv
+         TdXVFkTvzoDf+Qmdsb946MKWVNzabgN9aKdaL+Zx1/JaiOODu8kzONUyp/ddHkHDKpT4
+         VegeK3dM5yVxRCLWHLWo4gZ18enRq/Tp90B+2+48DbHhK1NtMm/uVDEP3WP0T/aIEuIf
+         vaRGMEJrR6mmimLwM+kD2EtsgRIHm+iKPze+viO1WnJANmQyrJRLFUm6ZVkK3e7Z2bl4
+         28yw==
+X-Gm-Message-State: AOAM531sGMfxMJcggRiXDlKsMqzxxuzmqWjUSk2AXt132OCR4KKqpu0N
+        XDtsUyKZenocVdm4UkENJovcO9NeO05jIQ==
+X-Google-Smtp-Source: ABdhPJzt3j/jSpIF5FDNrIEGk8aix6RpyugpCS9ngRugRC+2zmIkhMDolzJWu2IRrQWYFPZmlfzD9g==
+X-Received: by 2002:a65:6107:: with SMTP id z7mr10290870pgu.435.1614524658971;
+        Sun, 28 Feb 2021 07:04:18 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:0:561f:afde:af07:8820])
-        by smtp.gmail.com with ESMTPSA id 142sm8391331pfz.196.2021.02.28.07.04.15
+        by smtp.gmail.com with ESMTPSA id 142sm8391331pfz.196.2021.02.28.07.04.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 07:04:16 -0800 (PST)
+        Sun, 28 Feb 2021 07:04:18 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org
+        wei.liu@kernel.org, davem@davemloft.net, kuba@kernel.org,
+        jejb@linux.ibm.com, martin.petersen@oracle.com
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-scsi@vger.kernel.org,
         vkuznets@redhat.com, thomas.lendacky@amd.com,
         brijesh.singh@amd.com, sunilmut@microsoft.com
-Subject: [RFC PATCH 6/12] HV/Vmbus: Add SNP support for VMbus channel initiate message
-Date:   Sun, 28 Feb 2021 10:03:09 -0500
-Message-Id: <20210228150315.2552437-7-ltykernel@gmail.com>
+Subject: [RFC PATCH 9/12] x86/Hyper-V: Add new parameter for vmbus_sendpacket_pagebuffer()/mpb_desc()
+Date:   Sun, 28 Feb 2021 10:03:12 -0500
+Message-Id: <20210228150315.2552437-10-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228150315.2552437-1-ltykernel@gmail.com>
 References: <20210228150315.2552437-1-ltykernel@gmail.com>
@@ -78,137 +80,225 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-The physical address of monitor pages in the CHANNELMSG_INITIATE_CONTACT
-msg should be in the extra address space for SNP support and these
-pages also should be accessed via the extra address space inside Linux
-guest and remap the extra address by ioremap function.
+Add new parameter io_type and struct bounce_pkt for vmbus_sendpacket_pagebuffer()
+and vmbus_sendpacket_mpb_desc() in order to add bounce buffer support
+later.
 
+Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
+Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/connection.c   | 62 +++++++++++++++++++++++++++++++++++++++
- drivers/hv/hyperv_vmbus.h |  1 +
- 2 files changed, 63 insertions(+)
+ drivers/hv/channel.c            |  7 +++++--
+ drivers/hv/hyperv_vmbus.h       | 12 ++++++++++++
+ drivers/net/hyperv/hyperv_net.h |  1 +
+ drivers/net/hyperv/netvsc.c     |  5 ++++-
+ drivers/scsi/storvsc_drv.c      | 23 +++++++++++++++++------
+ include/linux/hyperv.h          | 16 ++++++++++++++--
+ 6 files changed, 53 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 79bca653dce9..a0be9c11d737 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -101,6 +101,12 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 
- 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
- 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
-+
-+	if (hv_isolation_type_snp()) {
-+		msg->monitor_page1 += ms_hyperv.shared_gpa_boundary;
-+		msg->monitor_page2 += ms_hyperv.shared_gpa_boundary;
-+	}
-+
- 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
- 
- 	/*
-@@ -145,6 +151,29 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 		return -ECONNREFUSED;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		vmbus_connection.monitor_pages_va[0]
-+			= vmbus_connection.monitor_pages[0];
-+		vmbus_connection.monitor_pages[0]
-+			= ioremap_cache(msg->monitor_page1, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[0])
-+			return -ENOMEM;
-+
-+		vmbus_connection.monitor_pages_va[1]
-+			= vmbus_connection.monitor_pages[1];
-+		vmbus_connection.monitor_pages[1]
-+			= ioremap_cache(msg->monitor_page2, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[1]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			return -ENOMEM;
-+		}
-+
-+		memset(vmbus_connection.monitor_pages[0], 0x00,
-+		       HV_HYP_PAGE_SIZE);
-+		memset(vmbus_connection.monitor_pages[1], 0x00,
-+		       HV_HYP_PAGE_SIZE);
-+	}
-+
- 	return ret;
- }
- 
-@@ -156,6 +185,7 @@ int vmbus_connect(void)
- 	struct vmbus_channel_msginfo *msginfo = NULL;
- 	int i, ret = 0;
- 	__u32 version;
-+	u64 pfn[2];
- 
- 	/* Initialize the vmbus connection */
- 	vmbus_connection.conn_state = CONNECTING;
-@@ -213,6 +243,16 @@ int vmbus_connect(void)
- 		goto cleanup;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		if (hv_mark_gpa_visibility(2, pfn,
-+				VMBUS_PAGE_VISIBLE_READ_WRITE)) {
-+			ret = -EFAULT;
-+			goto cleanup;
-+		}
-+	}
-+
- 	msginfo = kzalloc(sizeof(*msginfo) +
- 			  sizeof(struct vmbus_channel_initiate_contact),
- 			  GFP_KERNEL);
-@@ -279,6 +319,8 @@ int vmbus_connect(void)
- 
- void vmbus_disconnect(void)
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 4c05b1488649..976ef99dda28 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -1044,7 +1044,8 @@ EXPORT_SYMBOL(vmbus_sendpacket);
+ int vmbus_sendpacket_pagebuffer(struct vmbus_channel *channel,
+ 				struct hv_page_buffer pagebuffers[],
+ 				u32 pagecount, void *buffer, u32 bufferlen,
+-				u64 requestid)
++				u64 requestid, u8 io_type,
++				struct hv_bounce_pkt **bounce_pkt)
  {
-+	u64 pfn[2];
-+
- 	/*
- 	 * First send the unload request to the host.
- 	 */
-@@ -298,6 +340,26 @@ void vmbus_disconnect(void)
- 		vmbus_connection.int_page = NULL;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		if (vmbus_connection.monitor_pages_va[0]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			vmbus_connection.monitor_pages[0]
-+				= vmbus_connection.monitor_pages_va[0];
-+			vmbus_connection.monitor_pages_va[0] = NULL;
-+		}
-+
-+		if (vmbus_connection.monitor_pages_va[1]) {
-+			vunmap(vmbus_connection.monitor_pages[1]);
-+			vmbus_connection.monitor_pages[1]
-+				= vmbus_connection.monitor_pages_va[1];
-+			vmbus_connection.monitor_pages_va[1] = NULL;
-+		}
-+
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		hv_mark_gpa_visibility(2, pfn, VMBUS_PAGE_NOT_VISIBLE);
-+	}
-+
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
- 	vmbus_connection.monitor_pages[0] = NULL;
+ 	int i;
+ 	struct vmbus_channel_packet_page_buffer desc;
+@@ -1101,7 +1102,9 @@ EXPORT_SYMBOL_GPL(vmbus_sendpacket_pagebuffer);
+ int vmbus_sendpacket_mpb_desc(struct vmbus_channel *channel,
+ 			      struct vmbus_packet_mpb_array *desc,
+ 			      u32 desc_size,
+-			      void *buffer, u32 bufferlen, u64 requestid)
++			      void *buffer, u32 bufferlen, u64 requestid,
++			      u32 pfn_count, u8 io_type,
++			      struct hv_bounce_pkt **bounce_pkt)
+ {
+ 	u32 packetlen;
+ 	u32 packetlen_aligned;
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 9416e09ebd58..0778add21a9c 100644
+index 7edf2be60d2c..7677f083d33a 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
-@@ -240,6 +240,7 @@ struct vmbus_connection {
- 	 * is child->parent notification
- 	 */
- 	struct hv_monitor_page *monitor_pages[2];
-+	void *monitor_pages_va[2];
- 	struct list_head chn_msg_list;
- 	spinlock_t channelmsg_lock;
+@@ -57,6 +57,18 @@ union hv_monitor_trigger_state {
+ 	};
+ };
  
++/*
++ * Hyper-V bounce packet. Each in-use bounce packet is mapped to a vmbus
++ * transaction and contains a list of bounce pages for that transaction.
++ */
++struct hv_bounce_pkt {
++	/* Link to the next bounce packet, when it is in the free list */
++	struct list_head link;
++	struct list_head bounce_page_head;
++	u32 flags;
++};
++
++
+ /*
+  * All vmbus channels initially start with zero bounce pages and are required
+  * to set any non-zero size, if needed.
+diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
+index b3a43c4ec8ab..11266b92bcf0 100644
+--- a/drivers/net/hyperv/hyperv_net.h
++++ b/drivers/net/hyperv/hyperv_net.h
+@@ -130,6 +130,7 @@ struct hv_netvsc_packet {
+ 	u32 total_bytes;
+ 	u32 send_buf_index;
+ 	u32 total_data_buflen;
++	struct hv_bounce_pkt *bounce_pkt;
+ };
+ 
+ #define NETVSC_HASH_KEYLEN 40
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 08d73401bb28..77657c5acc65 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -926,14 +926,17 @@ static inline int netvsc_send_pkt(
+ 
+ 	trace_nvsp_send_pkt(ndev, out_channel, rpkt);
+ 
++	packet->bounce_pkt = NULL;
+ 	if (packet->page_buf_cnt) {
+ 		if (packet->cp_partial)
+ 			pb += packet->rmsg_pgcnt;
+ 
++		/* The I/O type is always 'write' for netvsc */
+ 		ret = vmbus_sendpacket_pagebuffer(out_channel,
+ 						  pb, packet->page_buf_cnt,
+ 						  &nvmsg, sizeof(nvmsg),
+-						  req_id);
++						  req_id, IO_TYPE_WRITE,
++						  &packet->bounce_pkt);
+ 	} else {
+ 		ret = vmbus_sendpacket(out_channel,
+ 				       &nvmsg, sizeof(nvmsg),
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index 2e4fa77445fd..c5b4974eb41f 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -31,6 +31,7 @@
+ #include <scsi/scsi_dbg.h>
+ #include <scsi/scsi_transport_fc.h>
+ #include <scsi/scsi_transport.h>
++#include <asm/mshyperv.h>
+ 
+ /*
+  * All wire protocol details (storage protocol between the guest and the host)
+@@ -427,6 +428,7 @@ struct storvsc_cmd_request {
+ 	u32 payload_sz;
+ 
+ 	struct vstor_packet vstor_packet;
++	struct hv_bounce_pkt *bounce_pkt;
+ };
+ 
+ 
+@@ -1390,7 +1392,8 @@ static struct vmbus_channel *get_og_chn(struct storvsc_device *stor_device,
+ 
+ 
+ static int storvsc_do_io(struct hv_device *device,
+-			 struct storvsc_cmd_request *request, u16 q_num)
++			 struct storvsc_cmd_request *request, u16 q_num,
++			 u32 pfn_count)
+ {
+ 	struct storvsc_device *stor_device;
+ 	struct vstor_packet *vstor_packet;
+@@ -1493,14 +1496,18 @@ static int storvsc_do_io(struct hv_device *device,
+ 
+ 	vstor_packet->operation = VSTOR_OPERATION_EXECUTE_SRB;
+ 
++	request->bounce_pkt = NULL;
+ 	if (request->payload->range.len) {
++		struct vmscsi_request *vm_srb = &request->vstor_packet.vm_srb;
+ 
+ 		ret = vmbus_sendpacket_mpb_desc(outgoing_channel,
+ 				request->payload, request->payload_sz,
+ 				vstor_packet,
+ 				(sizeof(struct vstor_packet) -
+ 				vmscsi_size_delta),
+-				(unsigned long)request);
++				(unsigned long)request,
++				pfn_count,
++				vm_srb->data_in, &request->bounce_pkt);
+ 	} else {
+ 		ret = vmbus_sendpacket(outgoing_channel, vstor_packet,
+ 			       (sizeof(struct vstor_packet) -
+@@ -1510,8 +1517,10 @@ static int storvsc_do_io(struct hv_device *device,
+ 			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
+ 	}
+ 
+-	if (ret != 0)
++	if (ret != 0) {
++		request->bounce_pkt = NULL;
+ 		return ret;
++	}
+ 
+ 	atomic_inc(&stor_device->num_outstanding_req);
+ 
+@@ -1825,14 +1834,16 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
+ 	cmd_request->payload_sz = payload_sz;
+ 
+ 	/* Invokes the vsc to start an IO */
+-	ret = storvsc_do_io(dev, cmd_request, get_cpu());
++	ret = storvsc_do_io(dev, cmd_request, get_cpu(), sg_count);
+ 	put_cpu();
+ 
+-	if (ret == -EAGAIN) {
++	if (ret) {
+ 		if (payload_sz > sizeof(cmd_request->mpb))
+ 			kfree(payload);
+ 		/* no more space */
+-		return SCSI_MLQUEUE_DEVICE_BUSY;
++		if (ret == -EAGAIN || ret == -ENOSPC)
++			return SCSI_MLQUEUE_DEVICE_BUSY;
++		return ret;
+ 	}
+ 
+ 	return 0;
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index d518aba17565..d1a936091665 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1184,19 +1184,31 @@ extern int vmbus_sendpacket(struct vmbus_channel *channel,
+ 				  enum vmbus_packet_type type,
+ 				  u32 flags);
+ 
++#define IO_TYPE_WRITE	0
++#define IO_TYPE_READ	1
++#define IO_TYPE_UNKNOWN 2
++
++struct hv_bounce_pkt;
++
+ extern int vmbus_sendpacket_pagebuffer(struct vmbus_channel *channel,
+ 					    struct hv_page_buffer pagebuffers[],
+ 					    u32 pagecount,
+ 					    void *buffer,
+ 					    u32 bufferlen,
+-					    u64 requestid);
++					    u64 requestid,
++					    u8 io_type,
++					    struct hv_bounce_pkt **bounce_pkt);
+ 
+ extern int vmbus_sendpacket_mpb_desc(struct vmbus_channel *channel,
+ 				     struct vmbus_packet_mpb_array *mpb,
+ 				     u32 desc_size,
+ 				     void *buffer,
+ 				     u32 bufferlen,
+-				     u64 requestid);
++				     u64 requestid,
++				     u32 pfn_count,
++				     u8 io_type,
++				     struct hv_bounce_pkt **bounce_pkt);
++
+ 
+ extern int vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 				      void *kbuffer,
 -- 
 2.25.1
 
