@@ -8,65 +8,65 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74C6AC433DB
-	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56CFCC433E0
+	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2775D64E56
-	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2048964DED
+	for <linux-hyperv@archiver.kernel.org>; Sun, 28 Feb 2021 15:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230413AbhB1PGL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 28 Feb 2021 10:06:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
+        id S231138AbhB1PGN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 28 Feb 2021 10:06:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230503AbhB1PFg (ORCPT
+        with ESMTP id S230502AbhB1PFg (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Sun, 28 Feb 2021 10:05:36 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83732C061794;
-        Sun, 28 Feb 2021 07:04:18 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id u12so9437439pjr.2;
-        Sun, 28 Feb 2021 07:04:18 -0800 (PST)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E6FFC06178C;
+        Sun, 28 Feb 2021 07:04:17 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id l2so9756552pgb.1;
+        Sun, 28 Feb 2021 07:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CgliuRyi4yQdYw8SI+/9lG6XvPLZehKqGC6v+rN6kBE=;
-        b=pWWftE5hz3arrPCVWBGrfhF7pRAusmknADiLQQb1z01p+DFE+ibqzipWjuCAyWu2yO
-         XuVD3OXcidap4B2B4784QhRZ7vm5e/Xx0tU246PAtWuAYFcjeVYP5c032PoVy/3lBur/
-         JIdh6zEszeaWUvztk0FDwdy/izoBa3KhZpQ5MRRbDAmUU5UzfPbAAli1tAFz0b8twRpj
-         3rxL1HQjA8ihd8vx+Rruyokv/C/2qpdAfXFkGkNVfiussabTajJ/MFcO54MW3gYPHviu
-         7WZTUvPRI+BsO+msRpLLGLp7/EhNcxHHZM0q5UnBPZLmG3ROCyHWxNEgrF+/182Dwz5h
-         r+6Q==
+        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
+        b=M6yApM0RYY+6vKyqs5rGk4XoO5WfZilQksJCGjz7zTYmlxqaIQOs9xQsqJJhlPq1YM
+         pxGchngpeYk2d3Q4I57ND726MeEL35jNEZTf2l2TdwpGnBciiNG4GcvwmCEB3mpNJ4Nq
+         HFlKegnRidRGhrTNSsF7G8AaJ2O/g3zrQSycccIqPXcoY/khshfCVMePQW7lYEy5sdRT
+         7vJw8XOtxdOLgu5ckj6lkaBbHN7IEM/UlHqZDhbK/GyvJfqrV10/iFFLQftnB+jbtpGJ
+         sZYL2oKqQX2dqxN+OGTjYAgqmVXMVQi+9F9QqnV9dynkv0egVKz7MKyQ5VLbRjS+2Qzw
+         XfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CgliuRyi4yQdYw8SI+/9lG6XvPLZehKqGC6v+rN6kBE=;
-        b=d4FFhJY3zFuCra8MbMzhBIRsc0YYYSQdQ8wJxbgegVHXlVp2gKLip5bu/NZm0o1ClI
-         xfHwm2lKYmOraN7BzZDRLPIdNerHcJhp+MZIZWqGzdEUsqXTOmEiA+fyVOIGnjFI0ypD
-         EL74ehJKQTWUDYFpTGrW4ZcWpyxgpwghZ1zEP3pdpBKfXS/17hE/PV66EIPoMs74bDQY
-         8SrUAKh04/Z9etre1sS1RRaPh9RBYL5wvxL4SFOsLoe/jMWeLWFG/mdCkxuEsH196TAH
-         x9TJwyzbcg/ECoO3NeZdyggLdHfG4moKEcs5+NCjQLrUGULVG8J8xLaEdvC8AZw7o8W1
-         IHCQ==
-X-Gm-Message-State: AOAM532nxcuZNZahbd/BKJgIPLgUP55N9kqAV7m4TFm91Ek0T3Pxz+3i
-        ///1HieNvX9QlvvIF1BRPjD2j/Afhgbq3A==
-X-Google-Smtp-Source: ABdhPJzMwT2DAmyf6vnBld5F8JMVxaYMvm3pm4nNYAba36YrrgHEsA/PJ4zjlQUJBwllhExrmQbxRA==
-X-Received: by 2002:a17:90a:69c6:: with SMTP id s64mr11397425pjj.37.1614524658132;
-        Sun, 28 Feb 2021 07:04:18 -0800 (PST)
+        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
+        b=GyARbubJuI69cT38EM7jWtbkmSlrVvGwLrJ7nPix6yzC5+EXAQq8RkPlELuhWuhHG6
+         Pud/llxPuJOuYjNy0r1h1EucMKBK+dYZZ9JU3m21i531MgedPg0QAcoqToj8BubKkwBB
+         9bk0yUgzp0XHTs0s5bF/MwmbZaM9kV4K7BGNJ3gUi9nh6GXgLMECAkRqRK/vxKSNWj9a
+         jg5Eid9wbKw0ySksGWBOcb+ghPJDo0lwhISU0SC/hVW7Qnq/7iFoK3Fu0MhVtkPwo5N3
+         hmRiTu96DSx4JQ8i3lJG+cxN96a/zDI2H5nWK1qlgtA6EEukt9LsgW9SBlITZ9zYtq5K
+         LKLQ==
+X-Gm-Message-State: AOAM532buApjoBr3wFIh/wOWa84KF6DN86jR38vc0K49lHOX6k1lPK/X
+        OgwweqKfVcBHwikRTL/UpDs=
+X-Google-Smtp-Source: ABdhPJz0M2eG3YiIFqm9Rqp2DTIxGUr6KVib5DGW3AfT85mo7GestrdvERbaYx48eb2uN8SCnRIIDg==
+X-Received: by 2002:a62:1650:0:b029:1ee:26a:4958 with SMTP id 77-20020a6216500000b02901ee026a4958mr11307341pfw.49.1614524656668;
+        Sun, 28 Feb 2021 07:04:16 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:0:561f:afde:af07:8820])
-        by smtp.gmail.com with ESMTPSA id 142sm8391331pfz.196.2021.02.28.07.04.17
+        by smtp.gmail.com with ESMTPSA id 142sm8391331pfz.196.2021.02.28.07.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 07:04:17 -0800 (PST)
+        Sun, 28 Feb 2021 07:04:16 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com, thomas.lendacky@amd.com,
         brijesh.singh@amd.com, sunilmut@microsoft.com
-Subject: [RFC PATCH 8/12] x86/Hyper-V: Initialize bounce buffer page cache and list
-Date:   Sun, 28 Feb 2021 10:03:11 -0500
-Message-Id: <20210228150315.2552437-9-ltykernel@gmail.com>
+Subject: [RFC PATCH 6/12] HV/Vmbus: Add SNP support for VMbus channel initiate message
+Date:   Sun, 28 Feb 2021 10:03:09 -0500
+Message-Id: <20210228150315.2552437-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228150315.2552437-1-ltykernel@gmail.com>
 References: <20210228150315.2552437-1-ltykernel@gmail.com>
@@ -78,217 +78,137 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Initialize/free bounce buffer resource when add/delete
-vmbus channel in Isolation VM.
+The physical address of monitor pages in the CHANNELMSG_INITIATE_CONTACT
+msg should be in the extra address space for SNP support and these
+pages also should be accessed via the extra address space inside Linux
+guest and remap the extra address by ioremap function.
 
-Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/Makefile       |  2 +-
- drivers/hv/channel_mgmt.c | 29 +++++++++++++++++----------
- drivers/hv/hv_bounce.c    | 42 +++++++++++++++++++++++++++++++++++++++
- drivers/hv/hyperv_vmbus.h | 14 +++++++++++++
- include/linux/hyperv.h    | 22 ++++++++++++++++++++
- 5 files changed, 97 insertions(+), 12 deletions(-)
- create mode 100644 drivers/hv/hv_bounce.c
+ drivers/hv/connection.c   | 62 +++++++++++++++++++++++++++++++++++++++
+ drivers/hv/hyperv_vmbus.h |  1 +
+ 2 files changed, 63 insertions(+)
 
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 94daf8240c95..b0c20fed9153 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -8,6 +8,6 @@ CFLAGS_hv_balloon.o = -I$(src)
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 79bca653dce9..a0be9c11d737 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -101,6 +101,12 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
  
- hv_vmbus-y := vmbus_drv.o \
- 		 hv.o connection.o channel.o \
--		 channel_mgmt.o ring_buffer.o hv_trace.o
-+		 channel_mgmt.o ring_buffer.o hv_trace.o hv_bounce.o
- hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
- hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index f0ed730e2e4e..e2846cacfd70 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -336,6 +336,18 @@ bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf,
- 
- EXPORT_SYMBOL_GPL(vmbus_prep_negotiate_resp);
- 
-+/*
-+ * free_channel - Release the resources used by the vmbus channel object
-+ */
-+static void free_channel(struct vmbus_channel *channel)
-+{
-+	tasklet_kill(&channel->callback_event);
-+	vmbus_remove_channel_attr_group(channel);
+ 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
+ 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
 +
-+	kobject_put(&channel->kobj);
-+	hv_free_channel_ivm(channel);
-+}
++	if (hv_isolation_type_snp()) {
++		msg->monitor_page1 += ms_hyperv.shared_gpa_boundary;
++		msg->monitor_page2 += ms_hyperv.shared_gpa_boundary;
++	}
 +
- /*
-  * alloc_channel - Allocate and initialize a vmbus channel object
-  */
-@@ -360,17 +372,6 @@ static struct vmbus_channel *alloc_channel(void)
- 	return channel;
- }
+ 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
  
--/*
-- * free_channel - Release the resources used by the vmbus channel object
-- */
--static void free_channel(struct vmbus_channel *channel)
--{
--	tasklet_kill(&channel->callback_event);
--	vmbus_remove_channel_attr_group(channel);
--
--	kobject_put(&channel->kobj);
--}
--
- void vmbus_channel_map_relid(struct vmbus_channel *channel)
- {
- 	if (WARN_ON(channel->offermsg.child_relid >= MAX_CHANNEL_RELIDS))
-@@ -510,6 +511,8 @@ static void vmbus_add_channel_work(struct work_struct *work)
- 		if (vmbus_add_channel_kobj(dev, newchannel))
- 			goto err_deq_chan;
- 
-+		hv_init_channel_ivm(newchannel);
-+
- 		if (primary_channel->sc_creation_callback != NULL)
- 			primary_channel->sc_creation_callback(newchannel);
- 
-@@ -543,6 +546,10 @@ static void vmbus_add_channel_work(struct work_struct *work)
+ 	/*
+@@ -145,6 +151,29 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ 		return -ECONNREFUSED;
  	}
  
- 	newchannel->probe_done = true;
++	if (hv_isolation_type_snp()) {
++		vmbus_connection.monitor_pages_va[0]
++			= vmbus_connection.monitor_pages[0];
++		vmbus_connection.monitor_pages[0]
++			= ioremap_cache(msg->monitor_page1, HV_HYP_PAGE_SIZE);
++		if (!vmbus_connection.monitor_pages[0])
++			return -ENOMEM;
 +
-+	if (hv_init_channel_ivm(newchannel))
-+		goto err_deq_chan;
++		vmbus_connection.monitor_pages_va[1]
++			= vmbus_connection.monitor_pages[1];
++		vmbus_connection.monitor_pages[1]
++			= ioremap_cache(msg->monitor_page2, HV_HYP_PAGE_SIZE);
++		if (!vmbus_connection.monitor_pages[1]) {
++			vunmap(vmbus_connection.monitor_pages[0]);
++			return -ENOMEM;
++		}
 +
- 	return;
++		memset(vmbus_connection.monitor_pages[0], 0x00,
++		       HV_HYP_PAGE_SIZE);
++		memset(vmbus_connection.monitor_pages[1], 0x00,
++		       HV_HYP_PAGE_SIZE);
++	}
++
+ 	return ret;
+ }
  
- err_deq_chan:
-diff --git a/drivers/hv/hv_bounce.c b/drivers/hv/hv_bounce.c
-new file mode 100644
-index 000000000000..c5898325b238
---- /dev/null
-+++ b/drivers/hv/hv_bounce.c
-@@ -0,0 +1,42 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Bounce buffer code for Hyper-V Isolation VM support.
-+ *
-+ * Authors:
-+ *   Sunil Muthuswamy <sunilmut@microsoft.com>
-+ *   Tianyu Lan <Tianyu.Lan@microsoft.com>
-+ */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+@@ -156,6 +185,7 @@ int vmbus_connect(void)
+ 	struct vmbus_channel_msginfo *msginfo = NULL;
+ 	int i, ret = 0;
+ 	__u32 version;
++	u64 pfn[2];
+ 
+ 	/* Initialize the vmbus connection */
+ 	vmbus_connection.conn_state = CONNECTING;
+@@ -213,6 +243,16 @@ int vmbus_connect(void)
+ 		goto cleanup;
+ 	}
+ 
++	if (hv_isolation_type_snp()) {
++		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
++		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
++		if (hv_mark_gpa_visibility(2, pfn,
++				VMBUS_PAGE_VISIBLE_READ_WRITE)) {
++			ret = -EFAULT;
++			goto cleanup;
++		}
++	}
 +
-+#include "hyperv_vmbus.h"
+ 	msginfo = kzalloc(sizeof(*msginfo) +
+ 			  sizeof(struct vmbus_channel_initiate_contact),
+ 			  GFP_KERNEL);
+@@ -279,6 +319,8 @@ int vmbus_connect(void)
+ 
+ void vmbus_disconnect(void)
+ {
++	u64 pfn[2];
 +
-+int hv_init_channel_ivm(struct vmbus_channel *channel)
-+{
-+	if (!hv_is_isolation_supported())
-+		return 0;
+ 	/*
+ 	 * First send the unload request to the host.
+ 	 */
+@@ -298,6 +340,26 @@ void vmbus_disconnect(void)
+ 		vmbus_connection.int_page = NULL;
+ 	}
+ 
++	if (hv_isolation_type_snp()) {
++		if (vmbus_connection.monitor_pages_va[0]) {
++			vunmap(vmbus_connection.monitor_pages[0]);
++			vmbus_connection.monitor_pages[0]
++				= vmbus_connection.monitor_pages_va[0];
++			vmbus_connection.monitor_pages_va[0] = NULL;
++		}
 +
-+	INIT_LIST_HEAD(&channel->bounce_page_free_head);
-+	INIT_LIST_HEAD(&channel->bounce_pkt_free_list_head);
++		if (vmbus_connection.monitor_pages_va[1]) {
++			vunmap(vmbus_connection.monitor_pages[1]);
++			vmbus_connection.monitor_pages[1]
++				= vmbus_connection.monitor_pages_va[1];
++			vmbus_connection.monitor_pages_va[1] = NULL;
++		}
 +
-+	channel->bounce_pkt_cache = KMEM_CACHE(hv_bounce_pkt, 0);
-+	if (unlikely(!channel->bounce_pkt_cache))
-+		return -ENOMEM;
-+	channel->bounce_page_cache = KMEM_CACHE(hv_bounce_page_list, 0);
-+	if (unlikely(!channel->bounce_page_cache))
-+		return -ENOMEM;
++		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
++		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
++		hv_mark_gpa_visibility(2, pfn, VMBUS_PAGE_NOT_VISIBLE);
++	}
 +
-+	return 0;
-+}
-+
-+void hv_free_channel_ivm(struct vmbus_channel *channel)
-+{
-+	if (!hv_is_isolation_supported())
-+		return;
-+
-+
-+	cancel_delayed_work_sync(&channel->bounce_page_list_maintain);
-+	hv_bounce_pkt_list_free(channel, &channel->bounce_pkt_free_list_head);
-+	hv_bounce_page_list_free(channel, &channel->bounce_page_free_head);
-+	kmem_cache_destroy(channel->bounce_pkt_cache);
-+	kmem_cache_destroy(channel->bounce_page_cache);
-+}
+ 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
+ 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
+ 	vmbus_connection.monitor_pages[0] = NULL;
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index d78a04ad5490..7edf2be60d2c 100644
+index 9416e09ebd58..0778add21a9c 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
-@@ -19,6 +19,7 @@
- #include <linux/hyperv.h>
- #include <linux/interrupt.h>
+@@ -240,6 +240,7 @@ struct vmbus_connection {
+ 	 * is child->parent notification
+ 	 */
+ 	struct hv_monitor_page *monitor_pages[2];
++	void *monitor_pages_va[2];
+ 	struct list_head chn_msg_list;
+ 	spinlock_t channelmsg_lock;
  
-+#include <asm/mshyperv.h>
- #include "hv_trace.h"
- 
- /*
-@@ -56,6 +57,19 @@ union hv_monitor_trigger_state {
- 	};
- };
- 
-+/*
-+ * All vmbus channels initially start with zero bounce pages and are required
-+ * to set any non-zero size, if needed.
-+ */
-+#define HV_DEFAULT_BOUNCE_BUFFER_PAGES  0
-+
-+/* MIN should be a power of 2 */
-+#define HV_MIN_BOUNCE_BUFFER_PAGES	64
-+
-+extern int hv_init_channel_ivm(struct vmbus_channel *channel);
-+
-+extern void hv_free_channel_ivm(struct vmbus_channel *channel);
-+
- /* struct hv_monitor_page Layout */
- /* ------------------------------------------------------ */
- /* | 0   | TriggerState (4 bytes) | Rsvd1 (4 bytes)     | */
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 41cbaa2db567..d518aba17565 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -25,6 +25,9 @@
- #include <linux/interrupt.h>
- #include <linux/reciprocal_div.h>
- #include <asm/hyperv-tlfs.h>
-+#include <linux/slab.h>
-+#include <linux/mempool.h>
-+#include <linux/mempool.h>
- 
- #define MAX_PAGE_BUFFER_COUNT				32
- #define MAX_MULTIPAGE_BUFFER_COUNT			32 /* 128K */
-@@ -1007,9 +1010,28 @@ struct vmbus_channel {
- 	u32 fuzz_testing_interrupt_delay;
- 	u32 fuzz_testing_message_delay;
- 
-+
- 	/* request/transaction ids for VMBus */
- 	struct vmbus_requestor requestor;
- 	u32 rqstor_size;
-+	/*
-+	 * Minimum number of bounce resources (i.e bounce packets & pages) that
-+	 * should be allocated and reserved for this channel. Allocation is
-+	 * permitted to go beyond this limit, and the maintenance task takes
-+	 * care of releasing the extra allocated resources.
-+	 */
-+	u32 min_bounce_resource_count;
-+
-+	/* The free list of bounce pages is LRU sorted based on last used */
-+	struct list_head bounce_page_free_head;
-+	u32 bounce_page_alloc_count;
-+	struct delayed_work bounce_page_list_maintain;
-+
-+	struct kmem_cache *bounce_page_cache;
-+	struct kmem_cache *bounce_pkt_cache;
-+	struct list_head bounce_pkt_free_list_head;
-+	u32 bounce_pkt_free_count;
-+	spinlock_t bp_lock;
- };
- 
- u64 vmbus_next_request_id(struct vmbus_requestor *rqstor, u64 rqst_addr);
 -- 
 2.25.1
 
