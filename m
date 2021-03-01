@@ -5,40 +5,40 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7159C4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B297EC4332D
 	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 01:17:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9BCD064E61
+	by mail.kernel.org (Postfix) with ESMTP id 8784064E68
 	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 01:17:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231646AbhCABRh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 28 Feb 2021 20:17:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39250 "EHLO
+        id S231639AbhCABRf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 28 Feb 2021 20:17:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231627AbhCABR0 (ORCPT
+        with ESMTP id S231625AbhCABR0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Sun, 28 Feb 2021 20:17:26 -0500
 Received: from NAM04-CO1-obe.outbound.protection.outlook.com (mail-co1nam04on0714.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe4d::714])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70570C061788;
-        Sun, 28 Feb 2021 17:16:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC785C06174A;
+        Sun, 28 Feb 2021 17:16:40 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VpgytxK9CA/Fomk8vOXs1fj40p/XVGLe6kenYYeQ+bbAo10xhun1pIeUVDpvlPFMVq84nS+6bB5c9FRger4LOqfZw4WQdhGxzcV4xdM2imwulch9is67sQRDPkDaVtwirTs6X0HxUgxc01t12NEAi8C8SQBdIY6wxDqMmM34q67ck2nCurzWuAmYUYQbAvR92VQdQqRYE2NCYvcE/Bbm1lMVTxx6kUzSaKmXl/2OjOPvOl/88RMkPJSJ1WwS2oqeRgYxdy48vp0O/mzgtAUvaf3S6zcRTOuFB4n1WEnn6AsDx0AbYOmSJ3jDw4Pmt+vseb3M0eWOZvTWz/2NJWmB+w==
+ b=QrKk96k/fk42BfrNTBQLbUMU+PYZrPtCWKF+H8cE2tJVn3P/skjlAVBEfD8IAOWuplMPp8t10qw+3inckLYJvcSbSTtUJh1l8BcILuiJB/5sw9YIXJEkAJvt8YqxWnK3WWg27kEwG1HGoQNvezJsWMrPrZehlDQKZsYWb9hWyEuW/55SoLaLLAFXSoQKOCCmv0bCL6W9CpC0kk7/l0jWhdrDfBHFrw9jWMQDWTvrs/Qs9RHubmu2S6W1PhKCblCqbW4qma634K1oMyWoXP1kMVpR4lhgILdzOBatq0PrXuVQ8bHqp9Z7KqULgs8kgl87s4lg1l1TySyeuY9kB11Ugw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wLj8ituJuOw4KteVSUdJDa2/mnTop9arIwpAnIfvLe4=;
- b=KNyoRYgUaa+pfuzsq6l3WamHBkx7ZT4zjc08gYpZaQozzKs+79SaGDndG/HnfatY+TraZI7TC44MzeWO8B86k4/dVyMZwnDkiWiPnftuLuAFWx8+XM4I5CPcODsdKE9g1tm8g5oPm3mpaLnivI070GBLWHnR6sUiyfb311gVCV8yHafv7iR9oi+fML++2n+EooWk65jZWNkOZp+uqwksuS8HrT2km/NU/eIRRDnHsBHT8VJxBSE9fjjPBjOz7WVRPVbY1q7Wl/Fnmxh3VaPl2Hi25cuV2uCLETHDRxq4oxPaDO+RdQDJAXCHQpFszNC/eYEd/45tfgj6piY3qi/VXQ==
+ bh=VdGP+wYC1h5VR4EZqRUKGIe9teAlnbKIjXzL5Y/lUNQ=;
+ b=EQjTCghhulDsdhf5Z0roIy8IIkQuLPlzxeIbhAPUNG/zNUJLgWRDoLfrJuYUI4YqODviZQOa1RmPY53JGeJID7zonod/eZSBY37TwbOFSkhq3Q6HllYL0yTeXG/Cl/EnCUe99RyIIgBAFVtmzHU7hmtRAyDiojj6pTtbgfu84QN/6/ZzNMyo4+1dtSXCkCpIRfq6rjdHj9zeKJZ/lOD73m9sLh5KrQyMHxYB4lYpzLcOqbO07Daw1V1VCtSy4YAwHNS5J2G2nzmdqc3xEEynJD8i9+OE+eZjqxMssjxcLrOZ4CD23fQwNUffKBxwd6pc6oKRSW35qi8VrdxQpgGNWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wLj8ituJuOw4KteVSUdJDa2/mnTop9arIwpAnIfvLe4=;
- b=gxUXHjK07+Z7P5U1SiKO+Qp0xaq3AFH22sPHQRtjr7Np1R3intf9RW2UmB6W5leRS9GgKizXBbob7OQUZksQ+0b7p269qN61HhtwMEA1RzI9xC+YLCgeMp+MLhU7xIETXlA3u20IMRAasvguKFt+vz1CRlY9v1uIWUGh/sMSeMw=
+ bh=VdGP+wYC1h5VR4EZqRUKGIe9teAlnbKIjXzL5Y/lUNQ=;
+ b=ehUaF2nzVorqiOAso77gUYHVUeQ12rVpttlize1B0RfjdHcNTnAxAi2dALxrTzjPGmyyGD7xEuD7eg4yIj+VECQzOuNCkhDbMJTQOkBAgxoNr7mO5p9REmbe0o5skQYPv9QmbtZu4ERBIhn/aHgCM2ZDBwFawdHrv1rOFgD/gVY=
 Authentication-Results: microsoft.com; dkim=none (message not signed)
  header.d=none;microsoft.com; dmarc=none action=none
  header.from=microsoft.com;
@@ -46,11 +46,11 @@ Received: from DM6PR21MB1514.namprd21.prod.outlook.com (2603:10b6:5:22d::11)
  by DM5PR2101MB0981.namprd21.prod.outlook.com (2603:10b6:4:a8::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.4; Mon, 1 Mar
- 2021 01:16:06 +0000
+ 2021 01:16:02 +0000
 Received: from DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::1c32:e52a:6a36:3ff]) by DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::1c32:e52a:6a36:3ff%4]) with mapi id 15.20.3912.016; Mon, 1 Mar 2021
- 01:16:06 +0000
+ 01:16:02 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
@@ -58,9 +58,9 @@ To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         linux-hyperv@vger.kernel.org
 Cc:     mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v2 05/10] Drivers: hv: vmbus: Handle auto EOI quirk inline
-Date:   Sun, 28 Feb 2021 17:15:27 -0800
-Message-Id: <1614561332-2523-6-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v2 02/10] x86/hyper-v: Move hv_message_type to architecture neutral module
+Date:   Sun, 28 Feb 2021 17:15:24 -0800
+Message-Id: <1614561332-2523-3-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1614561332-2523-1-git-send-email-mikelley@microsoft.com>
 References: <1614561332-2523-1-git-send-email-mikelley@microsoft.com>
@@ -71,106 +71,159 @@ X-ClientProxiedBy: MWHPR14CA0008.namprd14.prod.outlook.com
  (2603:10b6:5:22d::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkdev.corp.microsoft.com (131.107.159.144) by MWHPR14CA0008.namprd14.prod.outlook.com (2603:10b6:300:ae::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.25 via Frontend Transport; Mon, 1 Mar 2021 01:16:05 +0000
+Received: from mhkdev.corp.microsoft.com (131.107.159.144) by MWHPR14CA0008.namprd14.prod.outlook.com (2603:10b6:300:ae::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.25 via Frontend Transport; Mon, 1 Mar 2021 01:16:01 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e4063db4-0bfb-496d-85b2-08d8dc4f9695
+X-MS-Office365-Filtering-Correlation-Id: 4bb9c453-cea4-42df-3ee2-08d8dc4f9495
 X-MS-TrafficTypeDiagnostic: DM5PR2101MB0981:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB0981451816CBFD523A35681AD79A9@DM5PR2101MB0981.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
+X-Microsoft-Antispam-PRVS: <DM5PR2101MB0981A3A2906A503D50FF453CD79A9@DM5PR2101MB0981.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 084Vi8f6gME4dElAZgeCEL9MRoXdH6If1zksAZmbxyQ/AFK0yyzUa5We2If7msFEVrLpHwU8S2RZ4Uscf42ehJ07ag7zM6o2g/CwL+LOHvnIfYTuZ9qEZ13/mU3G4S2s4s7NRoQLolMx1+Hbg4c1raHTDNR4oBuufJvthcuuRtLbjaqX5xY9j0mTRzRj0aXWfyiGbG4C3iWWp4JR5mTlasjU+hAZ2hF19tFnd+NyobvD/dpz7/CWIKuUHjEy5PcU2PZbsrWitCoOFVuNYDuWaPIiE4wF/9GZq4zsGrtcmgJwXMV+6klA33KceyC3btoavj+VUAaqfn1tpirhNZvwLUybCzJ9mrkmzMR4b+l7MFAIc+WNGkvbcbnl2sNGntwcM+bhZjZ6mw74ZeiLgSbc5dnhplQRRuz6RItCo4hvqooOsx1c45LGXv4W37Aw/SGP5Ux3Ng29MpXHR6R4FhRhq+eqocOc9ICfyV1wZv43YUOTKxssR0JuAoJUF5V+YuHpxs8eDVMU5Ev+vilA7cD/1ZOlI6A2tiKoumb716gzILhN8Zlgm50dii+w8TyH4U4M
+X-Microsoft-Antispam-Message-Info: F2wQOrUfW8Pn7cUWXVzjnYfbItr0GyEeHJY+ifEEJF7g+bwnAd4Kcn3yVZW0tfKVHS2ljJq3fhVlY3SBqt3vKMjOhvaqKIizDV6LHkY8ygQntNKwbZhz4m7mK46RPh/BgwUvVbBB0TsZN0YevdzYhorLDMekxoYgbsJip924DOeomp6jZoeykWTEOaOXGpdDT4rHvnFIAvG9aQOvjciBcs8UnJ8hUP0Xkkda4f9qbmTlJzjPErGik51/+/tAFEsyc8AVunmKxYC/XR6x9mhSGXvzD8DsjIZogFQ0OrGSZieLVzbgZENJ7kcsGnMvHKMpQ3Heh03woP3Tdo1fUS/nfCM/02wlDF4GkQ+Im4MgIGuJCN9BX/2ptVnza25nTzvkgShVDYZkXP5onuJyImbCh+b3HHmkL6XK+gspmNUBGyIYTKmdN4eBzGBTEXF0N3lHq1UKqk35/JZWmwM+nAxZuNp/RN1WZ3xcVJjwzHJ1zsgmDo8clQkb2uZypzr6Wk85ens1gJVI2loa0dPASe8P4AslDbz/X9WiVeYT5t+YTF+//YuZN5SEEpBxgmY7Pw3s
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(396003)(39860400002)(366004)(83380400001)(8676002)(186003)(4326008)(66946007)(956004)(86362001)(52116002)(921005)(26005)(2906002)(82960400001)(478600001)(66476007)(16526019)(6666004)(66556008)(6486002)(8936002)(316002)(7416002)(10290500003)(2616005)(7696005)(82950400001)(36756003)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?pHj+Mc8EgFl/OHdwu048Glu0RhvUFQfrYvwRzMf58L1PK2WZlcOSFxiTIAuN?=
- =?us-ascii?Q?/H2KnSkEGjRmG/KUQRZZiiK8IfSrVT3yQsdBhzQIEf8O/sVEOZXdimn8fTzL?=
- =?us-ascii?Q?fYefmXg25EvXLAnyQAethhYi8Y2jljtJ+6Yx4IiSe/gXxRJBUvXPH1Lcxrpd?=
- =?us-ascii?Q?qb0nUX28X1vEH2cY2QXbDZiR77lUQRqrlynaH6/5lNClLMyf7QKsZ7Vnw5OJ?=
- =?us-ascii?Q?OpbYL9XiR7qmVWB/Xz9ibcV28hDbRmDETeXUPKRaxQXdVQf/EO8N5a6gH421?=
- =?us-ascii?Q?XcZPDRzzlM+O7ugRA5Cm4rp6GCr6BAjFtcUb3CVX5eCUqgPa8BjKKDN0mEQR?=
- =?us-ascii?Q?T5oB6zD4IvBVGUoihD0/A7luilgVTUWIIEFNx1nb+cZhWqbMNRsXu8rYmpPJ?=
- =?us-ascii?Q?I2CHkR0c4J3POEB52sB6utXWf6zFaEZY9ZxpN7Ywzou2Zdvwhk6O25+js7ug?=
- =?us-ascii?Q?M9LpnVeG0GLivVg9Rn9Egtjl5TH3+ccA1gsVmb82J0WegNnkaspA+jiRZETZ?=
- =?us-ascii?Q?A9WEuZUQ7NYOhnyf+q5Hzb7+npKhzFmfT0gStjYnLcYyDibG6Z6hGdd0/BDn?=
- =?us-ascii?Q?hjcyba2EKfP0Dfm4DV/ptgEnyFYeW5Ik4zUUisydKzxnUoqNVGWHQQJ8Z3+j?=
- =?us-ascii?Q?QGrqON8Z4WHDQOThlBVkpYKlqKJzmvReYW7DSfzOQ9u7NJUEQ2seq86aJ0lm?=
- =?us-ascii?Q?sydvplRCL8II0OzhDOHKFSQ1wArTayDz7fqCYQkmcySMFFwRq2DiaCJpreVn?=
- =?us-ascii?Q?dDyaG5roRp/o+LOY7FjIbxT9rD81ypWTZPyZs4KxC5Z4xijMBAxNjRUOh1b4?=
- =?us-ascii?Q?zTqc1vQUY/xKVTPGGkg7+cCH9vGQr9UzDNZVbH3uQrI1qSikEt/PXK0IpzqT?=
- =?us-ascii?Q?8r4sEJPQoyYHVfPzsxH8A66h1neFsiyL/ovMKanfnNL18xuOb9R1J3fAAqVK?=
- =?us-ascii?Q?eEY4lwY2X8sVNi5dU0wRpiqh6LoFkquHwTAdq5erS40YXotfSl7gKtvwqm3K?=
- =?us-ascii?Q?8yc5c+7A2EBjgpk/c6ZL4NNI7LsHVw993u4Dv9k5HrdjrGovK/V9kgawSu8/?=
- =?us-ascii?Q?zVsYuSeHjTKHqVBOTZtd6ph3Jnn1FDsTiLmMpSMd9fD/CFBwFvb11Cp04nGH?=
- =?us-ascii?Q?0pqzRJv0Erx3O0iPSq95HZn7AE2pI3NW+ysB5iHkM8CBXAP1E6/iwGu16MKG?=
- =?us-ascii?Q?g74QBqaNiYoVxJAnSKskQgGast4CsHZ+pFG25AdVNHizqhgksI6flSfN6pZR?=
- =?us-ascii?Q?R8Xb6Oy3LqgFmJaZIHcTUkfv30tKP6zoCZfCxLRfYc45zWbQE5QMwOFqsYlb?=
- =?us-ascii?Q?+D7jzH0SOAN6LgBjIiyL5I8C?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?CELnk8xZyvr/UxEmWnHCzj2aWmveYuunZVKSTuKy/PAOZInyNunSYNb+VyuP?=
+ =?us-ascii?Q?dulqgcWQUZhWn1vmjWWQJJEXk2Ip90/v3nkfRHqdRaNwVRHl4TKbtVoET21a?=
+ =?us-ascii?Q?2UjitnRN6v7H+eNyu1iXQ1Q/u95uO51EPCDcyY2c4Wp5a5sFr0RF0RZhaW5j?=
+ =?us-ascii?Q?O8/R4PTPgmKIPu7QzdlWsI6+3dEIzFKaYXImdeJSNrcH4RVbwKgg9+55uTSd?=
+ =?us-ascii?Q?vBkpOGFlJb09ncAA2sRXLkmKGTHwMEs0rA5LN3e7UGjGFJiUPekWUuU7BTVL?=
+ =?us-ascii?Q?qquJuakKQxxr5YGIY5VMeRDzAfcKE5RePk9qCnTfKRv8gOHTiuZGADfe5fre?=
+ =?us-ascii?Q?SJycB4AMf3miZWdMNZQfbf9UWumM5XvPAaF74NfFQPPKBjdFSKSsLgUQW9nh?=
+ =?us-ascii?Q?JB4+jLm4hjQos1wC6GbbXaWh6Yoje6dSuoxQStzJMlJUT0dXUpNjeYvbgvxF?=
+ =?us-ascii?Q?/GknbJnqwPrMku6F01stYTyZDKtwFLq6nZBx7/j3LEnCED1ArmbKW1UXWOWA?=
+ =?us-ascii?Q?F1RBVzt+UszBS2b3ifKv43NZRsH/Fw9hMS7VuQ4ODiWUhpFgIxC47PAS/OnO?=
+ =?us-ascii?Q?GUWR96Z5QOfE0gqQQ3UCD9t9l6guIbB7eRXYEPMl3edchD+22AYM2vLyf7Xm?=
+ =?us-ascii?Q?wFv4aVstXC5ZgIMzQFvCB4WmQXi5RFuptrEKZeHleyh7ZUcS0bTwm0cRGX32?=
+ =?us-ascii?Q?AKxWRcuY6d+YvvK/l5cckgx8pEKtqe0mcVqpLliwktAuEO9Z8mBRbHCj33pE?=
+ =?us-ascii?Q?cgKq+WQCAwMZlP+b3qaCMSpHQmNGG7HAhR5pokzyNK8tQ5Si90KKVi9Q7B54?=
+ =?us-ascii?Q?C1bylyBCVmKYXH5zHlWSnrreJ8TQdh4rti1nF1vziHT/bFG025OAbuRaBAIi?=
+ =?us-ascii?Q?2DJ5zz5/Z+GAuaJkb6OqqGjISolbPSzV08DVSQFuk/HBj2C8v+Aa9BFCbbhh?=
+ =?us-ascii?Q?R9Znl5hJ/3vveIEr/knpK4veEnT4AjfBHk/nkRzcqVmT1ebnhbF2khNxgaAt?=
+ =?us-ascii?Q?bgsNxQunU/f851sP8bi+Zi9BHDTKy47et+8qx2A51px/Czwr6rCkAbRzht9Z?=
+ =?us-ascii?Q?0yxUqxMlrww3/NYvz0QLKkprOsIN8WlAjjyqnuY5nBmBbGuqUoqHOJWIofFP?=
+ =?us-ascii?Q?zuMfe8kYNjhFLbGsNWCSxtsk5wQtilHctm1zG3D2j/zGmwT5LmzPcZOKyaKy?=
+ =?us-ascii?Q?2FHyZEd0B1Vzihj1/cPLFtEivHDM1XTlOIDpZdtZX4XgZnt1mU1ykYOTgsBc?=
+ =?us-ascii?Q?AVvisYlWxatT2k2twwSYeaL8IGAlurFCBVIM1umDxnaNzimxJobUS3aFdpyZ?=
+ =?us-ascii?Q?yFzQA78QseM9l36pplKQY/9z?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4063db4-0bfb-496d-85b2-08d8dc4f9695
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bb9c453-cea4-42df-3ee2-08d8dc4f9495
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1514.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 01:16:06.1307
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 01:16:02.7724
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /l1LmWe1AjW7LnsLJ0Dgqxw4dgEcvInrJx4ljxKKZF6BF8P0lBPEu4XhUnxFrQ/ezaOewINGDhhrVV1l66CCmQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HFmEiCqkt+J16zN/pfam+dge74q+LHFAHorqm7ogg71JSSw/gIMyONLGIa6vrnpMDT+JoirGz11q/jBfMS+vqQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0981
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On x86/x64, Hyper-V provides a flag to indicate auto EOI functionality,
-but it doesn't on ARM64. Handle this quirk inline instead of calling
-into code under arch/x86 (and coming, under arch/arm64).
+The definition of enum hv_message_type includes arch neutral and
+x86/x64-specific values. Ideally there would be a way to put the
+arch neutral values in an arch neutral module, and the arch
+specific values in an arch specific module. But C doesn't provide
+a way to extend enum types. As a compromise, move the entire
+definition into an arch neutral module, to avoid duplicating the
+arch neutral values for x86/x64 and for ARM64.
 
 No functional change.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- arch/x86/include/asm/mshyperv.h |  3 ---
- drivers/hv/hv.c                 | 12 +++++++++++-
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ arch/x86/include/asm/hyperv-tlfs.h | 29 -----------------------------
+ include/asm-generic/hyperv-tlfs.h  | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 29 deletions(-)
 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 2590ce5..a6c608d 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -27,9 +27,6 @@ static inline u64 hv_get_register(unsigned int reg)
- 	return value;
- }
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index e6cd3fe..68b38a2 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -288,35 +288,6 @@ struct hv_tsc_emulation_status {
+ #define HV_X64_MSR_TSC_REFERENCE_ENABLE		0x00000001
+ #define HV_X64_MSR_TSC_REFERENCE_ADDRESS_SHIFT	12
  
--#define hv_recommend_using_aeoi() \
--	(!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED))
 -
- #define hv_set_clocksource_vdso(val) \
- 	((val).vdso_clock_mode = VDSO_CLOCKMODE_HVCLOCK)
- #define hv_enable_vdso_clocksource() \
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 0c1fa69..afe7a62 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -219,7 +219,17 @@ void hv_synic_enable_regs(unsigned int cpu)
+-/* Define hypervisor message types. */
+-enum hv_message_type {
+-	HVMSG_NONE			= 0x00000000,
+-
+-	/* Memory access messages. */
+-	HVMSG_UNMAPPED_GPA		= 0x80000000,
+-	HVMSG_GPA_INTERCEPT		= 0x80000001,
+-
+-	/* Timer notification messages. */
+-	HVMSG_TIMER_EXPIRED		= 0x80000010,
+-
+-	/* Error messages. */
+-	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
+-	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
+-	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
+-
+-	/* Trace buffer complete messages. */
+-	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
+-
+-	/* Platform-specific processor intercept messages. */
+-	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
+-	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
+-	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
+-	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
+-	HVMSG_X64_APIC_EOI		= 0x80010004,
+-	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
+-};
+-
+ struct hv_nested_enlightenments_control {
+ 	struct {
+ 		__u32 directhypercall:1;
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 83448e8..9cf10837 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -220,6 +220,41 @@ enum HV_GENERIC_SET_FORMAT {
+ #define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
+ #define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
  
- 	shared_sint.vector = hv_get_vector();
- 	shared_sint.masked = false;
--	shared_sint.auto_eoi = hv_recommend_using_aeoi();
++/*
++ * Define hypervisor message types. Some of the message types
++ * are x86/x64 specific, but there's no good way to separate
++ * them out into the arch-specific version of hyperv-tlfs.h
++ * because C doesn't provide a way to extend enum types.
++ * Keeping them all in the arch neutral hyperv-tlfs.h seems
++ * the least messy compromise.
++ */
++enum hv_message_type {
++	HVMSG_NONE			= 0x00000000,
 +
-+	/*
-+	 * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
-+	 * it doesn't provide a recommendation flag and AEOI must be disabled.
-+	 */
-+#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
-+	shared_sint.auto_eoi =
-+			!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
-+#else
-+	shared_sint.auto_eoi = 0;
-+#endif
- 	hv_set_register(HV_REGISTER_SINT0 + VMBUS_MESSAGE_SINT,
- 				shared_sint.as_uint64);
- 
++	/* Memory access messages. */
++	HVMSG_UNMAPPED_GPA		= 0x80000000,
++	HVMSG_GPA_INTERCEPT		= 0x80000001,
++
++	/* Timer notification messages. */
++	HVMSG_TIMER_EXPIRED		= 0x80000010,
++
++	/* Error messages. */
++	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
++	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
++	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
++
++	/* Trace buffer complete messages. */
++	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
++
++	/* Platform-specific processor intercept messages. */
++	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
++	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
++	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
++	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
++	HVMSG_X64_APIC_EOI		= 0x80010004,
++	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
++};
++
+ /* Define synthetic interrupt controller message flags. */
+ union hv_message_flags {
+ 	__u8 asu8;
 -- 
 1.8.3.1
 
