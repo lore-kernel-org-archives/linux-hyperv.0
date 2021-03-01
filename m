@@ -2,205 +2,201 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 318F9C433E0
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 01:18:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C63C433E0
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 04:25:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 093C064E6B
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 01:18:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27545614A5
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Mar 2021 04:25:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231697AbhCABSY (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 28 Feb 2021 20:18:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbhCABSQ (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 28 Feb 2021 20:18:16 -0500
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (mail-co1nam04on0714.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe4d::714])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FAABC061793;
-        Sun, 28 Feb 2021 17:16:42 -0800 (PST)
+        id S233417AbhCAEZN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 28 Feb 2021 23:25:13 -0500
+Received: from mail-eopbgr760130.outbound.protection.outlook.com ([40.107.76.130]:15305
+        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233413AbhCAEZC (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 28 Feb 2021 23:25:02 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hjDFbOY9SsXU4w6RdJw5e4LYVCNTkPEi6gTwXEVYLT1BWfiUcmRkUIIQy84oIhKLP2ie/m8x8dh5vs0XDSTBt8bT9RyyVfVeumLk84JyVMmLvuEx9ia6kiUYUwnrFQl/mxJZWlvm1xrILffiinxJLQIiM5LkIAbMVq++girPwDvlT+XzKxwQ2hMA4q7D6RFiNBQIitdogCC4pjrahcN0ogh8L7oM1M4+t9n9MErfiChZW/eht8IIcvOHuZi8xfYwIeU+2g5aXHsSZmkqNezl5qJ76Rhb18933Pedqz4SdtzyNOGJuojSCHLovTmuZdik4wF04FzcGLGfP99Zxrjq6A==
+ b=Ql948GNaUeEaTodMaWy7gkw/DxvawY7BK8dnWwxECCU8gPDFW6CJnOHsxI5a0zRb+rYlrVWLPrPT5FNiXf0SOvgifPZUB0JIeWurRgrxawBYc2aVodz72hu4ugYFBkiBsUICyQXO6bx49Qe/OjY3j0Ibamuy85Cikx02u8PiTb5ucf5VxiCnua5f0z7Mm7ty+vejfH6YIsWvkMrTLTnrpGNVlt0J9VB9OQemfw41GnMqjS7QfijbEJiSszaood4inZT33wk5PawFP8BjUNxXUpBUsJh4luBxKPozFDNpRNAHpoWFtGgrgwjiXuHTekl7hhK3yOEzwJ2sxivSTanrgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k0ozTz048cRw8Hyea+HwzPzXDk/7LsbWPV5fDuzPtG8=;
- b=XpShUsr0MnvMG2jiVseKux7hqAFYnUYGb7G22tlp62YrxTTeDwcoo5wuan6cmYq8r6bKTt8RhkCrD2z1DcxyXc4dNqcRaYIIZrr5VGlRPDzXSNbWQMlnrd+h8LHpKAnqhZ/CB+pyViVBsYKwo+fc48dqWcAUbKkruUFP476QUZMXo1JS7VrhsclCR0+YNoDqpurSBNi31eWWRebr+dcpnv8bQKVfI37GcomUCKTW3+Myi6hNO5fFjzJhU8VmEg7lyXjSM1N5DeWHGbGg8C0ikmyyOQFu3sWFOHs2xy7akAf6+Jvi59dfCbsMSJo+3MbciNCHcSemNtEdxyf7ZOmQRA==
+ bh=/2icsW3OsEdmdclppKAN4flTxD1k5egjw8P3Y2n4N6M=;
+ b=MlSANyILSqWOuCBF7+8ngr7XeVs+RMw5ruT5tRCSE+e48gijuiGfcuVIvjwLoQJqr4hIF7wDQFIS5hzJZrnDfjQ9229T4StPQakGYfiEvvsD13G0xNry/qvS/guHEp5CcG6MO1u/zzxo64zgQipwgyBBWL7/TnmmXScOwBOqc9TwFRLJS7PzBnKKHthL/YAoRdEyfPLysrRE9mVhn2Yg1XvjQzuFj7AWAhRxQJlCUPXv2Xcwe6GhN+zm73iwnf36iYq+o2gZ8rLfDq+HhVNPKObPy5U44LSk8f7hgxwNHGPUx3N14rWD92nlzplKziVmH+LzZgxvSX8qHbbQ6EgZ7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k0ozTz048cRw8Hyea+HwzPzXDk/7LsbWPV5fDuzPtG8=;
- b=AUNBjEEJxz9DpfsFZ9y0TvbsslL0ZT4R5ZRqkBXCADwpoM1FWpxbnlTijhW5GYqKs2qRl7NIrWoWUtkzPHcbcDySBcwJCsCUb25zKixOVRMFiQyIlxRe5evgiasS/sper62wO3kYw73zqpuHvSrSwgWUtEPLgqLu6QHPA6llGLg=
-Authentication-Results: microsoft.com; dkim=none (message not signed)
- header.d=none;microsoft.com; dmarc=none action=none
- header.from=microsoft.com;
-Received: from DM6PR21MB1514.namprd21.prod.outlook.com (2603:10b6:5:22d::11)
- by DM5PR2101MB0981.namprd21.prod.outlook.com (2603:10b6:4:a8::27) with
+ bh=/2icsW3OsEdmdclppKAN4flTxD1k5egjw8P3Y2n4N6M=;
+ b=gOExQM9+jQNMb5SNdt4VvQtGffVIOTDHCuAmEXlVkpknOmLxQgM4X+RaMQQQyGGR0rpgyKJQpORKcmoRDXWxSSC2Y3r/zv8i85MzYZSsfVFHKGSjwPGZPe1f8vYHwhL5veO0V7h0iB8Bmh0kGd4CU9W5hnmJDaWLwL/TUpVXlO8=
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com (2603:10b6:301:7c::11)
+ by MW2PR2101MB1771.namprd21.prod.outlook.com (2603:10b6:302:7::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.4; Mon, 1 Mar
- 2021 01:16:10 +0000
-Received: from DM6PR21MB1514.namprd21.prod.outlook.com
- ([fe80::1c32:e52a:6a36:3ff]) by DM6PR21MB1514.namprd21.prod.outlook.com
- ([fe80::1c32:e52a:6a36:3ff%4]) with mapi id 15.20.3912.016; Mon, 1 Mar 2021
- 01:16:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.2; Mon, 1 Mar
+ 2021 04:24:12 +0000
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::9c8:94c9:faf1:17c2]) by MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::9c8:94c9:faf1:17c2%9]) with mapi id 15.20.3912.016; Mon, 1 Mar 2021
+ 04:24:11 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
-To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        daniel.lezcano@linaro.org, arnd@arndb.de,
-        linux-hyperv@vger.kernel.org
-Cc:     mikelley@microsoft.com, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v2 09/10] clocksource/drivers/hyper-v: Set clocksource rating based on Hyper-V feature
-Date:   Sun, 28 Feb 2021 17:15:31 -0800
-Message-Id: <1614561332-2523-10-git-send-email-mikelley@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1614561332-2523-1-git-send-email-mikelley@microsoft.com>
-References: <1614561332-2523-1-git-send-email-mikelley@microsoft.com>
-Content-Type: text/plain
-X-Originating-IP: [131.107.159.144]
-X-ClientProxiedBy: MWHPR14CA0008.namprd14.prod.outlook.com
- (2603:10b6:300:ae::18) To DM6PR21MB1514.namprd21.prod.outlook.com
- (2603:10b6:5:22d::11)
+To:     Marc Zyngier <maz@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>
+CC:     Frank Wunderlich <frank-w@public-files.de>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 04/13] PCI: hyperv: Drop msi_controller structure
+Thread-Topic: [PATCH 04/13] PCI: hyperv: Drop msi_controller structure
+Thread-Index: AQHXC4iU5jnjuyQltkGI/zHzReHG96pujFzA
+Date:   Mon, 1 Mar 2021 04:24:11 +0000
+Message-ID: <MWHPR21MB15932604EE1703B0E84EAD89D79A9@MWHPR21MB1593.namprd21.prod.outlook.com>
+References: <20210225151023.3642391-1-maz@kernel.org>
+ <20210225151023.3642391-5-maz@kernel.org>
+In-Reply-To: <20210225151023.3642391-5-maz@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-03-01T04:24:10Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=eabb8b66-493f-4e10-bbd2-5adf76bfaeff;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ae85f2f2-95fa-4380-3578-08d8dc69dd8f
+x-ms-traffictypediagnostic: MW2PR2101MB1771:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MW2PR2101MB17718038BC97E46BDA20788FD79A9@MW2PR2101MB1771.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zA8Xf97FeNAYMljx+guElN6hLuiADXn+Ors6gSxVINeqsZjYMOdM9QpqBC/SCZJZUsgYlxGyxc6miqwYCyX326kirktKEk/HwqKszapoJoznZiiPy5JbM/hgyZAxHHzq9Px9dgoezx762tGsAbL1HjFcIyXt8Ppoz2xZSZTwAcgmWQUHFSd6wUVdiApwFEfUX9Wd/pNYOFSgwZRIjjz7q47zR2m4v+3HkDWBWQggJS8NGRV5NO83Mg2/sVGEFD6yQNFk316YXpAc0gV5Ad4vN/NytoQY9vCNKAsM0dUCOdoZrZt+C+DRr8I0f4FcyqMpbzyss963VCiNcmnFySOT//iDZcit/IWpJLEbYmS3XEboFW/Ky04/zXa7/5fEmOsrk+swD++KEjIqc6geESxW74wghwc1rYpM7lU8IZ4kaMMhSQndW28w4oac4Hp99oP+4PRpY+ZZ4TmP0VRUQRr+8elW/NQ/6ko+xcH4zNAtm6fVNNtI3SPJpjCkLGZCjoOfSdkB7o0wHeAL/65Ydgps8w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(366004)(39860400002)(9686003)(54906003)(7416002)(55016002)(5660300002)(4326008)(8990500004)(316002)(8676002)(110136005)(6506007)(7696005)(83380400001)(86362001)(10290500003)(76116006)(33656002)(66946007)(66476007)(66556008)(82950400001)(26005)(186003)(2906002)(71200400001)(64756008)(66446008)(52536014)(82960400001)(478600001)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?BS7e8GTot/mfhUYn4XRAqpCaC9qkKHu5pIQNn26SdVhirzYgribrl9KzyKKj?=
+ =?us-ascii?Q?loMZ/d195BsNT562EsvSLfeMux2lyG4HbR4yS12/5/UbQGOFPhD+FTaPwQY1?=
+ =?us-ascii?Q?bAxfNHnqgeYFhNgVrzNN/sX6MDrmnAFFXH1k04GOS8jHUAhODVr/C2llx8to?=
+ =?us-ascii?Q?/lHdHwiP3uzezEfTC+48HcIbmwBKwXMpFD5RS9zzpk3+5wLpwL38QXsMNwxL?=
+ =?us-ascii?Q?54T1wj9KlWe5BSC9RgFSNARERKiGT8UrEbXIP456pJP0FMiWEkWqHxlLYLLw?=
+ =?us-ascii?Q?tXsFV+4noEVziUrr5As86LQZHETT6non+/8OISrGQPn+OGv0aPgxL0BGm4Oo?=
+ =?us-ascii?Q?R6kS8xlqlphrp7KByjPuWRlrfg5ejM7gm5qtdYITlyaArfYCiY1ugMd7AEJ5?=
+ =?us-ascii?Q?GHZ6N4o8jcRmtvJp27TirSYDkR/0gEhOCPu7H3nb30/4v8tvntFn35wgUvEW?=
+ =?us-ascii?Q?P2PWK8SHoUJWSARbOUrWaKp9Kr8hbLH1ummjlA0htD2FDwokF6hcU+UDocjA?=
+ =?us-ascii?Q?vWfHbta3d4z34NjCRcx4BlFBhjTfsFdhjUpbYnkPQZENpNPnsfNO9JO3N+Hh?=
+ =?us-ascii?Q?RRwdSkOU+2HmgI1rjZrDSGhcLwbIwQkGKYIX2AK5R6tvlZ33urIGx+TnnNcn?=
+ =?us-ascii?Q?W/4byB7Mri8uvN3vF/PoZyh9XwFJjkap2cSStDdl4vP1Kjqpo9Ohc7JjVyKn?=
+ =?us-ascii?Q?RCPNXihrgvYBf3gTKX2+kGNJOnuctIS8RshIvmEAT4alr3auI7QLPBB+6uow?=
+ =?us-ascii?Q?rFDwkLveGcfdCVCYfjTXPGwTMdKyh8oJlJYEQYeaWms/3uKd3cE5sWZPW4oc?=
+ =?us-ascii?Q?GZkf8vbuSV1y08fQUk6Lz3nmpd82e91T5nWQmnDwx2SJYXxhhguL8cGlpinT?=
+ =?us-ascii?Q?8NEyNCjpAZFN/UnRpfmShv1Smwt2JhVhEh+Uq53L6ufNAH5rZAVDW3aHmKdI?=
+ =?us-ascii?Q?HFQ7IFJVCVbx9lMbtZ/nqss5TtILG39LABfQq8XcBK6C+IRjASFUXYJbERQx?=
+ =?us-ascii?Q?SXPzGy2hUnJ0MhaP/fDtjmdzc5MOiDcjHkb1JygG4CvAlGQEH2COh3yWXu14?=
+ =?us-ascii?Q?3+6DSrzxcSp4sm5SQ425AzjdKFo0TpB+zaIdUeKCo/N2UjdIcRcXVFrtZSRi?=
+ =?us-ascii?Q?NJhd2rwq3o75aCzYyVTNgiWajNIbn39smgQ2/3Qd4vqHNgP38QgukD5tvxxQ?=
+ =?us-ascii?Q?uxuzombJrsZoaNsKf5i349hqppZ5x+VB+ZT8HtFQIUuHIEP/83cOvHOSoIAN?=
+ =?us-ascii?Q?6INQgy15s5pZxnQvEP+t+Of18OS6jsvgrz83d7Ch4HkAnWUsmik+gsW0tDz/?=
+ =?us-ascii?Q?iMxcaCyvlCF4ScZzwOMblODS?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkdev.corp.microsoft.com (131.107.159.144) by MWHPR14CA0008.namprd14.prod.outlook.com (2603:10b6:300:ae::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.25 via Frontend Transport; Mon, 1 Mar 2021 01:16:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 24043296-5622-4af4-e79b-08d8dc4f990c
-X-MS-TrafficTypeDiagnostic: DM5PR2101MB0981:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB0981242CF012BAFF02E2B9ACD79A9@DM5PR2101MB0981.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nYMt6GGmz60Tu3bUrL6RCqfn2uf9TpYuPMGPEPuHvw2fv+GZaeu0BCyPuqmINVdieV0yDUPB7SbdZ9J5Mqo9Uoa/SP8ZNO0p/StXO+xXbznqIWRGkXfX7/eSWOJpNRpLGGOX17UwFj/X4fcyw7CovfYJRlhnGucxwf6WwfhJPqKeJh7L1xKycoLGSJuWHT8++DemKehOYUdUQPJcRWXxKsswgdicVvxnCeJ81YcVWCEC5K9mqQGmBQig/MEWBRm+CoO14Dny3kg/ji/9LhPEbWeXVgSqIKItq8vy/QID1tuKoeu/Qs+8kzxVGepQFTCqw4VZxEDIOCYengoC+npmSUxlILGr/p7A1ByXwm8Ta87lDkkdM8Ebus3hqvr65G41Znxq6LfAp0pFWskQ4QwDYj5o+R6plf8vNL6XThSMZosx6gIh4Cp88oDaQoLhSEHpsfYUUqgrKHTqDo9G6s6sfLb49lMBLjq7dMq5r7xkxrFE9X4rCUswtYEbSoVCqYTiT1X8+Kw5RuHftYKHsBvw7zIATTO7bZFYKjFFa17e1LtL3Ot/ch6StIHt+jE0nMiO
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(396003)(39860400002)(366004)(83380400001)(8676002)(186003)(4326008)(66946007)(956004)(86362001)(52116002)(921005)(26005)(2906002)(82960400001)(478600001)(66476007)(16526019)(6666004)(66556008)(6486002)(8936002)(316002)(7416002)(10290500003)(2616005)(7696005)(82950400001)(36756003)(5660300002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?kKeLy9TBXp1hENUZZuk/Q/OMOUKcT1c76cBsEwHo/LmXQT+eYpa/336LFwto?=
- =?us-ascii?Q?Wm8eGVlhWFVE4SiQAvoHekb7PhBcc5Ud36PtE6Grs0VFGnW4HN+FE3l3Xq0L?=
- =?us-ascii?Q?a0sunf3B1ffjmaJKk5ogPQ5VPIfQ994Pru7QSUuRFu5pNed0b5z3tRy2aatI?=
- =?us-ascii?Q?3Dv2OTmMYTU4KAlbDiyR03PThxBgp0IgsJjDRHDY9axYo3qoRQ5mRxQiMCpe?=
- =?us-ascii?Q?Dde6dwv2BNNX/Ztm69pvNrmZYJo/FSEFjxDnDVK85VDdWwqGua3Ab0beMQh5?=
- =?us-ascii?Q?SY7w0C1j4843AdfMfS6jXF8JMoQQuyAYAPB+8Jl4I851qFVYiWmnWl81NUsi?=
- =?us-ascii?Q?0kcW3o5zAy16Rs/nLZ/JS+Do2iWVGQYerOs18ZfQg7mcRGKXJaVSlGJvVVAP?=
- =?us-ascii?Q?t81V8jFLsd70jhXLjZYrFoWpesYLAEjKYtDevhh2cScNukHk6u8JAm6wHKeH?=
- =?us-ascii?Q?TTWaxa3aRHkzbuKk22EAfcYZi+3c7h2PmPfCpOXvnAcfTtfs6DMAx98WOWiY?=
- =?us-ascii?Q?V/3vaUr0eHrS+3wtHj6uYYoKlvWEcbJ6qvQ0Ug7Ww4o172rS2Ly0RyYEDrbj?=
- =?us-ascii?Q?OSgVLsSc3d1MD0zJvFHGf3VFYv1Ycu7rHha4dOK8YNvhk24CHQeP7nBpZkFD?=
- =?us-ascii?Q?C227HDY2WkEbUFE2WOaknbfhMPI9G4rzXJJe7yJHwx8vgTBMkSpqR9DEytSh?=
- =?us-ascii?Q?MjWtGwpN+c88gkj2IyN0BWfSz+hYW64Rcg6ylnGy87LaN46dDX/QdXSfMuhp?=
- =?us-ascii?Q?LMYTjnLsueeMlNNBj09JIZ6NQyNxeXnsYLw8yFLLdv2wgFROMUV7MXdy4hgu?=
- =?us-ascii?Q?H/O7Fv6BUjD4awk1nGvZkTbftg6cWnIZ0QDuPpN3KJjk+2M9Zz0GPF4PnTRS?=
- =?us-ascii?Q?hat/JYdhysx2b6mW5voM37H0sbzytWcsZyXEJXOctVAYoCog11G/8dYPoYCq?=
- =?us-ascii?Q?YC5GRqJMdRkwZFwUYUL5Bz+Qw1yE+XnE76zTSwGfTNtNFK8SbRZwbY9jxdIi?=
- =?us-ascii?Q?f+0To6gupnU93P9l2qfOUJctEV4nRdWQSTBAVr3xVYX6min93Gka2569EovW?=
- =?us-ascii?Q?1Ii1GhMOb+5lyLl6SBf0/eyjxs2KXsJ7fCrTAMYnVMfmqsXy4Uvl599PHfj/?=
- =?us-ascii?Q?OFLW5383X1ABNym6guERnkFQnPnZcS60G11SxgR8o3s8Vf5ohv/d3dI+8PQu?=
- =?us-ascii?Q?hrDTpcU6KJw6AZ114oE4inplnNjMZ8UXBWQS24Q8xGNPpKucH/ayX6doetxU?=
- =?us-ascii?Q?aKwaLDGm8DdvbM+yjKRQBQvRAyJzcVxVVsH4bS3cZkCUcjrC06TL9Xd3PYcp?=
- =?us-ascii?Q?Kx/+xRhIpA6T8nM7OWBVmVYt?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24043296-5622-4af4-e79b-08d8dc4f990c
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1514.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 01:16:10.2715
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae85f2f2-95fa-4380-3578-08d8dc69dd8f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2021 04:24:11.8282
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IFzXbVyQFLl3P/q6Ddg5zzMMR3UfV+1oReFG5Mv3eFOs8dt/l5bkyiE9dxvQNNPLTDN0r/JiQSTsQLYFnbXXSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0981
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: n+O5UsEWE9p2BnBFvIgm9albmGBjI85pKIIq3L0urnCof6QKmTCRClUpDznQAspFSfUjwtTuRu5HWQB+ryEA1sCejGQztMC36Yu9FTt1CkE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1771
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On x86/x64, the TSC clocksource is available in a Hyper-V VM only if
-Hyper-V provides the TSC_INVARIANT flag. The rating on the Hyper-V
-Reference TSC page clocksource is currently set so that it will not
-override the TSC clocksource in this case.  Alternatively, if the TSC
-clocksource is not available, then the Hyper-V clocksource is used.
+From: Marc Zyngier <maz@kernel.org> Sent: Thursday, February 25, 2021 7:10 =
+AM
+>=20
+> The Hyper-V PCI driver still makes use of a msi_controller structure,
+> but it looks more like a distant leftover than anything actually
+> useful, since it is initialised to 0 and never used for anything.
+>=20
+> Just remove it.
+>=20
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  drivers/pci/controller/pci-hyperv.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>=20
+> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller=
+/pci-hyperv.c
+> index 6db8d96a78eb..93dc0fd004a3 100644
+> --- a/drivers/pci/controller/pci-hyperv.c
+> +++ b/drivers/pci/controller/pci-hyperv.c
+> @@ -473,7 +473,6 @@ struct hv_pcibus_device {
+>  	struct list_head dr_list;
+>=20
+>  	struct msi_domain_info msi_info;
+> -	struct msi_controller msi_chip;
+>  	struct irq_domain *irq_domain;
+>=20
+>  	spinlock_t retarget_msi_interrupt_lock;
+> @@ -1866,9 +1865,6 @@ static int create_root_hv_pci_bus(struct hv_pcibus_=
+device *hbus)
+>  	if (!hbus->pci_bus)
+>  		return -ENODEV;
+>=20
+> -	hbus->pci_bus->msi =3D &hbus->msi_chip;
+> -	hbus->pci_bus->msi->dev =3D &hbus->hdev->device;
+> -
+>  	pci_lock_rescan_remove();
+>  	pci_scan_child_bus(hbus->pci_bus);
+>  	hv_pci_assign_numa_node(hbus);
+> --
+> 2.29.2
 
-But on ARM64, the Hyper-V Reference TSC page clocksource should
-override the ARM arch counter, since the Hyper-V clocksource provides
-scaling and offsetting during live migrations that is not provided
-for the ARM arch counter.
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
-To get the needed behavior for both x86/x64 and ARM64, tweak the
-logic by defaulting the Hyper-V Reference TSC page clocksource
-rating to a large value that will always override.  If the Hyper-V
-TSC_INVARIANT flag is set, then reduce the rating so that it will not
-override the TSC.
+I also tested in an Azure VM on Hyper-V, with a Mellanox ConnectX-4
+virtual function as the PCI device.  Started with a 5.11 kernel and
+applied all 13 patches in the series.  The VM booted up correctly with
+nothing anomalous in the 'dmesg' output. The Mellanox VF was
+detected and configured properly.  'ethtool -S' output showed that
+the Mellanox VF was handling network traffic as expected.  I also
+hot-removed the Mellanox VF, and then hot-added it back again.
+All worked as expected.  So,
 
-While the logic for getting there is slightly different, the net
-result in the normal cases is no functional change.
-
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
----
- drivers/clocksource/hyperv_timer.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index 38fb396..cdb8e0c 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -302,14 +302,6 @@ void hv_stimer_global_cleanup(void)
-  * the other that uses the TSC reference page feature as defined in the
-  * TLFS.  The MSR version is for compatibility with old versions of
-  * Hyper-V and 32-bit x86.  The TSC reference page version is preferred.
-- *
-- * The Hyper-V clocksource ratings of 250 are chosen to be below the
-- * TSC clocksource rating of 300.  In configurations where Hyper-V offers
-- * an InvariantTSC, the TSC is not marked "unstable", so the TSC clocksource
-- * is available and preferred.  With the higher rating, it will be the
-- * default.  On older hardware and Hyper-V versions, the TSC is marked
-- * "unstable", so no TSC clocksource is created and the selected Hyper-V
-- * clocksource will be the default.
-  */
- 
- u64 (*hv_read_reference_counter)(void);
-@@ -380,7 +372,7 @@ static int hv_cs_enable(struct clocksource *cs)
- 
- static struct clocksource hyperv_cs_tsc = {
- 	.name	= "hyperv_clocksource_tsc_page",
--	.rating	= 250,
-+	.rating	= 500,
- 	.read	= read_hv_clock_tsc_cs,
- 	.mask	= CLOCKSOURCE_MASK(64),
- 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
-@@ -417,7 +409,7 @@ static u64 notrace read_hv_sched_clock_msr(void)
- 
- static struct clocksource hyperv_cs_msr = {
- 	.name	= "hyperv_clocksource_msr",
--	.rating	= 250,
-+	.rating	= 500,
- 	.read	= read_hv_clock_msr_cs,
- 	.mask	= CLOCKSOURCE_MASK(64),
- 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
-@@ -455,6 +447,17 @@ static bool __init hv_init_tsc_clocksource(void)
- 	if (hv_root_partition)
- 		return false;
- 
-+	/*
-+	 * If Hyper-V offers TSC_INVARIANT, then the virtualized TSC correctly
-+	 * handles frequency and offset changes due to live migration,
-+	 * pause/resume, and other VM management operations.  So lower the
-+	 * Hyper-V Reference TSC rating, causing the generic TSC to be used.
-+	 * TSC_INVARIANT is not offered on ARM64, so the Hyper-V Reference
-+	 * TSC will be preferred over the virtualized ARM64 arch counter.
-+	 */
-+	if (ms_hyperv.features & HV_ACCESS_TSC_INVARIANT)
-+		hyperv_cs_tsc.rating = 250;
-+
- 	hv_read_reference_counter = read_hv_clock_tsc;
- 	phys_addr = virt_to_phys(hv_get_tsc_page());
- 
--- 
-1.8.3.1
-
+Tested-by: Michael Kelley <mikelley@microsoft.com>
