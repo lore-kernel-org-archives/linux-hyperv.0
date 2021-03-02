@@ -8,47 +8,47 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B20C4332D
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:11:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B7B7C433DB
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:11:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE81964EAE
-	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:11:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E282064ECF
+	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:11:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349716AbhCCLIK (ORCPT
+        id S1350504AbhCCLIU (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 3 Mar 2021 06:08:10 -0500
-Received: from mail-bn7nam10on2091.outbound.protection.outlook.com ([40.107.92.91]:28513
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        Wed, 3 Mar 2021 06:08:20 -0500
+Received: from mail-dm6nam12on2127.outbound.protection.outlook.com ([40.107.243.127]:25289
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1350928AbhCBVkT (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Mar 2021 16:40:19 -0500
+        id S1350940AbhCBVk1 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 2 Mar 2021 16:40:27 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VDz1S6fAQxwW6MEPw5EqeIC+GBP6Vl4l1xBC3vbJz3WXAqE0hNlbi50XbOii4VzjPMJ14t4CdgYQSiIxYdjkBVqbnEBhyEJ+NA8jtHAe5IO34q2uphTGzUyDvpQa50EaN0If7hWxAv8Y5xitpQQz4SQgtA7DF8lnrX6lxrHbr3kJXZ5qp9Fd0+VnyyYotp6pnF9FTKQht3tlJAIEDttsjNcLfYBTykynf80QL3an5rudNAdqdU3KUT/dXvtrVcCcouox/aRegusWTJZudo+P8ToJAmQvS6i28xdqLpIFRf4MgMmj8VrZItMZkeUHZ+GEgh3qEhKbnd3Kd7IuAcBSmQ==
+ b=kig18IBc6MNVfQM1gqooBvZyzsXEOBG3SblZjciW9Y74ph5dcC4yQECyz50PMdosw0tPQv8aEnpR2L1aioCQYpWPjHmV7fl5MCAFiuxG87Wa2gj2ERsZY6OIIQjH0gFEqUgSUnVZHlvPwb9MOo925fsfKGiSyOawAH31BnsvcMqsV0dlkpecAgcoOeMIKVa9TpJsN3ih9Q1fn2muXt01ZnMhHHICTkIavoXY7wvJUKobXUJqlxoKQv3apV85ShOgtK45s9R5jILPSmEissczdgrcc71O963nubvRZ2SNmZwvyeSnATiV/MPXYGNjZG+WcgtWwlQsC/EyctQ9F5DWLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3suxiQNBmLzDK95gAevTg151BuVaUgANYqf6MAMq6E=;
- b=Bb+Q/OEjJfkh38l1S58jlrrHjAbgYEwn5vDPjm7QkcFjLrsDr7nWHnoJ5oROZ2M1cdAQSBcFpSw2vEG8IAwtfujslGcACXsTyK1BfLGWALU0PWKeqk6o1eiZV2qs4coiR/klBHt+Ouh472jiUUC/JklDLBPZ3dWWrLVuW/1qoMEr05vQ4sk+qJ3xJBFeHGtUIIVj1vBIuEjSSaU7XH2A1t69NTxFACI9G3GCHVKa2KDZXqzgHCNghPrjoD0r1e2r+WMvWgULEZd0Cu3UMaU/2aILT8H89yaa/j7vaPDipoNLxUfnXv4R5o+FyVkICwxBE2LuW+ED2ezw99w7FX6N+g==
+ bh=0+TRh52ZTTgd4leP/p8jpMpsm0exSZVaTWMcxfgH76A=;
+ b=ckhG6z6BEQ3PgZSJxgjE4eU0GCBipcy6AfnA9Ji1qH1MPCZimyjVt7KcvkCq83E+maHlHwt2ayUafpDautGDHI6v6imFp6g3/if+MJUvRgP9U8oMwubhQ8N1WOhHtXK4YA2sI1P+r/jptGB0ybaNTnkEhGIei84H2yElruALw66t/fmYW7CBoUuDQgptTmswu3maw9DxvOWWWBEPrEgivMlXeYTJdvJi9VZgRrVoYBbkNCvY1ot5AOq2u1y8tiGkTsR7rcBUC0DDMAJ0WOVdzBQqiKLJga3JoLFXMlx81fHPHphnMAxPGtMjYw84WhIDxbV+RULnZkG5cp/ZU2jHYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3suxiQNBmLzDK95gAevTg151BuVaUgANYqf6MAMq6E=;
- b=NOIt1r0Ob+JdvD63TCRuog0HnUNceMMkx3wdYQ+8WAHLGF9e5loGfN5RRPut/1hTdT2zJzQDmrrh2ciNV0YUPu+b5rVPDaU2olvHSG+5RaDRulDQpImR/2L816u3rrJrMOJiGaX9U3QZ6g7gGzopPcgtgx27xj5IhjzsimGGhdQ=
+ bh=0+TRh52ZTTgd4leP/p8jpMpsm0exSZVaTWMcxfgH76A=;
+ b=SWP8K1oV+OZHLfzsrPJAPR9751k/iEcfYdBkoRmbAHXnoeOk8SwPofDlQCwTm/Qvr1sXE8siJyfTt77J29OFa2ilKf1C/P5hBj0vYyq+TcAcelSTW+/mby/K5G/DnoOHZ6T7TQF9daEder09KT25xumcoW91OUPCzSWKUhUabAA=
 Authentication-Results: microsoft.com; dkim=none (message not signed)
  header.d=none;microsoft.com; dmarc=none action=none
  header.from=microsoft.com;
 Received: from DM6PR21MB1514.namprd21.prod.outlook.com (2603:10b6:5:22d::11)
- by DM6PR21MB1739.namprd21.prod.outlook.com (2603:10b6:5:cb::21) with
+ by DM5PR21MB0153.namprd21.prod.outlook.com (2603:10b6:3:a5::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.1; Tue, 2 Mar
- 2021 21:38:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.11; Tue, 2 Mar
+ 2021 21:38:59 +0000
 Received: from DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::1c32:e52a:6a36:3ff]) by DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::1c32:e52a:6a36:3ff%4]) with mapi id 15.20.3912.016; Tue, 2 Mar 2021
- 21:38:49 +0000
+ 21:38:59 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
@@ -56,9 +56,9 @@ To:     sthemmin@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         linux-hyperv@vger.kernel.org
 Cc:     mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v3 01/10] Drivers: hv: vmbus: Move Hyper-V page allocator to arch neutral code
-Date:   Tue,  2 Mar 2021 13:38:13 -0800
-Message-Id: <1614721102-2241-2-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v3 07/10] clocksource/drivers/hyper-v: Handle vDSO differences inline
+Date:   Tue,  2 Mar 2021 13:38:19 -0800
+Message-Id: <1614721102-2241-8-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1614721102-2241-1-git-send-email-mikelley@microsoft.com>
 References: <1614721102-2241-1-git-send-email-mikelley@microsoft.com>
@@ -69,189 +69,130 @@ X-ClientProxiedBy: MWHPR03CA0005.namprd03.prod.outlook.com
  (2603:10b6:5:22d::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkdev.corp.microsoft.com (131.107.159.16) by MWHPR03CA0005.namprd03.prod.outlook.com (2603:10b6:300:117::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Tue, 2 Mar 2021 21:38:46 +0000
+Received: from mhkdev.corp.microsoft.com (131.107.159.16) by MWHPR03CA0005.namprd03.prod.outlook.com (2603:10b6:300:117::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Tue, 2 Mar 2021 21:38:58 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 82d2dd93-5cc3-41b0-394e-08d8ddc38f65
-X-MS-TrafficTypeDiagnostic: DM6PR21MB1739:
+X-MS-Office365-Filtering-Correlation-Id: bdfb1f4e-6a38-41fa-b184-08d8ddc39699
+X-MS-TrafficTypeDiagnostic: DM5PR21MB0153:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR21MB1739C8060F8B1983ADBBCE7DD7999@DM6PR21MB1739.namprd21.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DM5PR21MB0153BE75157F0ECDF2DA068FD7999@DM5PR21MB0153.namprd21.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sRargeFkUNt+QNKCPa7Qc2j3fmKY+R0AierSstS5nP/ztzt2XldJJF3xsH8po4AEgpNemhY3k5dv0Sgd7qMsna+govWOEH67h36GpkeViWrmM5QQKXDx/evBuhzwTxFngtFJeAi0M6aI9/Hguq0lhrs1R8w1sih/dfmIeHKPPzNUE+ym+rB1MltcuqUIVoyIzGo82FX8Kh3cAdHEVc8lrTufFctqaHvtrE6pmkAhtmEcPONIUwvPVJ4eWiWPB3FxAGu6fJVhgj6umVWaoGEN69w6kC6x6EqKMqS3yGcMKkYOxnPjFNBeOFJGUUE5z08PCq8rbXXH1tnaD/nTY803EGeCOIOnUFMAG0QxUdQPgYLGpjXWNfEALqbHg9Wa8R2yHsLL7Dw7pg9j/WBU8Seyl3zbePy9zkiHDADBODIL7DvInUgN/W75L+ZQbYEI56BTOObkZi0gunCNn6f6zwdB/L/fQQiK+TUZJiyyJViqaNZ7NjE/JOVjoeMRXHFAc5Py12otd2Nen9aKMSnpWQPW32TGGhSrt08UvHPd6Q2csST36C7vOWsTOLN6FuWgZHUR
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(376002)(366004)(136003)(396003)(346002)(82960400001)(956004)(36756003)(82950400001)(8676002)(66476007)(6666004)(921005)(26005)(83380400001)(66946007)(478600001)(186003)(6486002)(7696005)(16526019)(8936002)(316002)(2616005)(52116002)(4326008)(2906002)(5660300002)(10290500003)(7416002)(86362001)(66556008);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?APaqgu0zDhs4xRvEB71l9Gw3edy7xMxZck5J2OiGDn0l/jwRiYcb+Ig7NFDK?=
- =?us-ascii?Q?SRIS+5Lbxj7E9gMth6YgUbkq80YbD8XdGoAXUulaFhXq6yheEgx3ARHgFFPq?=
- =?us-ascii?Q?LakeAyznEvjysMdjaEIVT4k+evJpfXo7Xc79GTbGeak73Me2WhCICqyfQu27?=
- =?us-ascii?Q?mJHXRxrVtBMJXMQyPgxXk1UwU+n07iG5x3rYqY0YVlgls8x0933Up8mHV98u?=
- =?us-ascii?Q?I32+xqMTsID9eRvE5YF+Q1r7wNq9uk1DFsD4JOgVcaEZO1HkPKK3y5dzGAyb?=
- =?us-ascii?Q?Kim9xcA3Uqy2BsG52wubI6bVP+9LpI4dSaDTEfTp3Hh94DYtG/bAZSr9wP4Z?=
- =?us-ascii?Q?6dgFflW4klsbt1hZfgF0Qav0OHTWWAD+svuKUcaOyhfmA7gWI7xE1//23gIl?=
- =?us-ascii?Q?Y2OsS3a44oA0Peg2eWqQOKTNamc/FLgNuxHAfdLSMxuWarcGNHXxlm0D3swO?=
- =?us-ascii?Q?NW4IyNWyj6uwYLQXqz7XMyasnknDCwUaEq+x4TX9d+VSFHAXVuHApHk3EzHO?=
- =?us-ascii?Q?AnXM/HKwPH+scI918vo/XO8JrJSDSmaIe4dMwNNlSKmiUjQ1oaBusy3R2e6h?=
- =?us-ascii?Q?oul09z5FSnlsCWxr84DZ9s/kzeGLPxRbra7wLGz3w8Yld+Q3ZLTQHxVaQ2I0?=
- =?us-ascii?Q?Ka0U5AAISK9AaFmTFk9J3KdthpHgeiIkx70Fjh4ke/I5L0YrPHA8FnDXA2KN?=
- =?us-ascii?Q?l6mvGsLBsaepFSdXA1tI5wywrwteAXbjX/8Y/UjEGomxJja0mVjh2PDqqYo4?=
- =?us-ascii?Q?3WUbRDoTfdJNBDetzPHEMYbbhrJOY3QEH5GuLAqA3nv+Zl4bGQSXdVc3fb3B?=
- =?us-ascii?Q?TMynvmMkyuiukJdxX3HcEjthKqlkB53oiFEkr/jwBv6/yiTg5HNth3Q7A8AR?=
- =?us-ascii?Q?jioeHtfTgAC5IsCCfZr7V9R8TdBKYdNtk8tW+sQz6udc4Cd1ZNnxp4CCYR7D?=
- =?us-ascii?Q?Ld2PEu79X5ZuETcoYZ7ghy0u7hZHxIYO5ta+Zv3sgDz+mqXtyueB+MjPFOkZ?=
- =?us-ascii?Q?O4IaGiFFGq6njwKlZwUSgfsITr758fdqnttYoGZJZIF8RaEeaacXtvOKmFL2?=
- =?us-ascii?Q?sp2WWJw+1Kklz86KEMs7d7QPN2FtU+jzwLssycjxSPZc4pJEUsNZWbYtk/zo?=
- =?us-ascii?Q?7Zd5P6z1v7zrX9Mpn/r1rtXaUN0vkzBne2zhPnSVq1QPiaP0vNrGhJg8H6Jl?=
- =?us-ascii?Q?u8gRG50bLwI4NWl+lyDR4dv0L9feg8+wwCtvi7hY50POomsEfKMsjBQfr2ie?=
- =?us-ascii?Q?XR2DlHTf9a9CNS5Vzk0jZoybmldG1XjZfVyh5jucH/E1e0WhSG0plh94rDED?=
- =?us-ascii?Q?VlOeKVtNPhlASuLWPD2y9v2j?=
+X-Microsoft-Antispam-Message-Info: 7ps7YtObYUeTYHkiSNJix9HD3QmL1vtWq0QcZBNXaet/5JL3kYZjTB7D/rDVbHGO+Zc45j0bxhOhQEJpA29Cy0uiWdWYdlubVmmZol33sZ8ayov3tO4hGo2S0UpD8LdmxzXMON9qFUDY0ZAGXDwM2RPPh4tNFb4x+ysccm3Qk2ESB9nAvNohVmHm3URCoN7LbRaOWYINqz+pzP/emF8Fopbfv8GZmO3wEs+ex8j3l/8Rx9v4eBctBwsozPvFgd+NmCVKFu89KMUTxQ8Q44+AqZztmii9uc/xkulq5duYRjnpglVLj7BOeXdLhb66vaJrWi2WzsCND476O2uP/0sn4gTmQWcAyiY0JsseuuTFKverUHo9NmEdM2rLaHueAiMrpb/YMlPRTvVs/upB3IW6r0lAtXc/NCRFJ6YirO4qRa+nisiCVVQb/kLX49C8DE8VkLiV+ZByUvdF4mLM/9fuRXJTAjMKs/9qIhg+dRR4GK11FKTzUbxawYM9WXIu+lJzRj8mJECSoeKumUqZ9NLuWhhQegOTerHHrXCCsYumG3BD+UreG1eDqDP/5HaMJj7N
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(39860400002)(366004)(376002)(6486002)(16526019)(82950400001)(478600001)(10290500003)(186003)(82960400001)(956004)(5660300002)(52116002)(4326008)(2616005)(26005)(921005)(36756003)(8936002)(66476007)(83380400001)(66556008)(8676002)(66946007)(7416002)(86362001)(2906002)(316002)(7696005)(6666004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?jMaOSRR1PROK4gOZwr/p0T3rjmYPJI7951EeDW3fEKB6BeFFxZ9iCFjkcwQV?=
+ =?us-ascii?Q?S6ZJNLtC2Aj2Tzrv3/C8hXqM8JTHyce3P9yYQ1Cc0M1L6luqgt3Jb24K6Qrz?=
+ =?us-ascii?Q?KXUrJGkyWYiRyUROtnPYjQeDRzzeXzoxV596FFTBVJu4n+o9e36feD19TsXS?=
+ =?us-ascii?Q?9iDONB45C6j7UnNNjA7wDdCNB1IqgGtprD1c8p1YsuXwCsVsA4DNA2tZhRIT?=
+ =?us-ascii?Q?eUrgUsMpP6uWwSFmXxo9QDpIldS3peF0+yQSmiFCBQG6I/Y+OExFUCc6zNhi?=
+ =?us-ascii?Q?o4bxNrKtEcZcj2vcu6u9nXzy/Lb5HMtKxiOsv4NUb/+VeyhAPxc8iKN27cUD?=
+ =?us-ascii?Q?1tEioxbr1JfQIGIs5M339tBO+BSXwwM6IisVvXaL8bkg5kfiSjTo08OvZo8e?=
+ =?us-ascii?Q?JiH8wOftrLI6qZPAwHi/VrmbMwfWA3WGMFMTP757e+UyLCwzxkFjKmXXS5Dx?=
+ =?us-ascii?Q?Z3mTZJmxI9FHGFmVdQUPw1cDo3XqT2tkUGvtvyH5DWog4LuxCtT1Ur3pRBDV?=
+ =?us-ascii?Q?VAGKSsiRQGytoy87riVQgXl+9b1eYV7fYK4utbReWCOrDVMyNA5OuG44aD35?=
+ =?us-ascii?Q?rOGRrA0tnENHPeroi1JNyJwXVqXEBxZwFHMAufcDb/PW8rdrovsuPC+cEmum?=
+ =?us-ascii?Q?3GjVfsFqFYVTHr7g0/7A+Ar2bimk2oeVyJJkgWMyoOsuCH78AW0qucUglD5p?=
+ =?us-ascii?Q?s7ubumsyjiKlcXllWsIz6XODRfFUD4XkiQGScCa7XvLwlXKT0UYHlKJG1XNP?=
+ =?us-ascii?Q?X5HiweFNuzzGs1NptuNwR66VKDnIrQQL0opvSKcFJqv54K7VkAb+JRlml4+P?=
+ =?us-ascii?Q?UowGT0pAsroofAsWGRi1/NelKMswqEXftTLmS74s6UNVByA3nsbYrZFgzSTK?=
+ =?us-ascii?Q?LEoly2O8o0OMlmJn+u7BlxogZgaDxDIiNhBOScPl+ACatv1858NahJy0dMl7?=
+ =?us-ascii?Q?TdSVS6am69vztqGDJtGaj5mYRBR5xjcBf+0Inh/5afpmyZpqpukIJnH+Mibj?=
+ =?us-ascii?Q?mb+FSzEoubLDU26kEcrbUSJ0xdA0VBTKcxwb7EdxF+m7k0l034tGMstBnRBT?=
+ =?us-ascii?Q?RWy16rT5SvIXas4vrvIWc+hrgQc0vs/JTZEJZLXPB4jGj/g5u1wX8dM40wLg?=
+ =?us-ascii?Q?/CifD3CCAC2cw5dpztquF5E/Y7jiK79HgCHdKuIMKKkb2oFh8cadCsoYYT67?=
+ =?us-ascii?Q?YRidlqHLB5RLspUQAFpdW/derkOeiASZRzS0wMX5gPUSj28ypkgcaxGIE12c?=
+ =?us-ascii?Q?C+4RLIHETuqwqT0fiAGgge93evor9hIC4goKeN0ViWfNKGJ+5t9e33jWBo45?=
+ =?us-ascii?Q?nRPRrHrlY04TWY0wcaHUMLDV?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82d2dd93-5cc3-41b0-394e-08d8ddc38f65
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdfb1f4e-6a38-41fa-b184-08d8ddc39699
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1514.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 21:38:49.5746
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2021 21:38:58.9175
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SKbtLXFat+65wSNdWmVTdMwy2S4CdllhWdVeJFBqSAWdmGBvBt884IvcFOzmNcNx9BuXp5z4JIA+1za57bCiXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1739
+X-MS-Exchange-CrossTenant-UserPrincipalName: JKzUVAVB5dJyC7LXLp+hvHwe9qAKdPiaUvwKGab0hf7bk6xNgCUf68iJmW36iex+2gVoXOgYcvJKsNGZAQ+pnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0153
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The Hyper-V page allocator functions are implemented in an architecture
-neutral way.  Move them into the architecture neutral VMbus module so
-a separate implementation for ARM64 is not needed.
+While the driver for the Hyper-V Reference TSC and STIMERs is architecture
+neutral, vDSO is implemented for x86/x64, but not for ARM64.  Current code
+calls into utility functions under arch/x86 (and coming, under arch/arm64)
+to handle the difference.
+
+Change this approach to handle the difference inline based on whether
+VDSO_CLOCK_MODE_HVCLOCK is present.  The new approach removes code under
+arch/* since the difference is tied more to the specifics of the Linux
+implementation than to the architecture.
 
 No functional change.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- arch/x86/hyperv/hv_init.c       | 22 ----------------------
- arch/x86/include/asm/mshyperv.h |  5 -----
- drivers/hv/hv.c                 | 36 ++++++++++++++++++++++++++++++++++++
- include/asm-generic/mshyperv.h  |  4 ++++
- 4 files changed, 40 insertions(+), 27 deletions(-)
+ arch/x86/include/asm/mshyperv.h    |  4 ----
+ drivers/clocksource/hyperv_timer.c | 10 ++++++++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index b81047d..4bdb344 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -54,28 +54,6 @@
- u32 hv_max_vp_index;
- EXPORT_SYMBOL_GPL(hv_max_vp_index);
- 
--void *hv_alloc_hyperv_page(void)
--{
--	BUILD_BUG_ON(PAGE_SIZE != HV_HYP_PAGE_SIZE);
--
--	return (void *)__get_free_page(GFP_KERNEL);
--}
--EXPORT_SYMBOL_GPL(hv_alloc_hyperv_page);
--
--void *hv_alloc_hyperv_zeroed_page(void)
--{
--        BUILD_BUG_ON(PAGE_SIZE != HV_HYP_PAGE_SIZE);
--
--        return (void *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
--}
--EXPORT_SYMBOL_GPL(hv_alloc_hyperv_zeroed_page);
--
--void hv_free_hyperv_page(unsigned long addr)
--{
--	free_page(addr);
--}
--EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
--
- static int hv_cpu_init(unsigned int cpu)
- {
- 	u64 msr_vp_index;
 diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index ccf60a8..ef6e968 100644
+index c10dd1c..4f566db 100644
 --- a/arch/x86/include/asm/mshyperv.h
 +++ b/arch/x86/include/asm/mshyperv.h
-@@ -233,9 +233,6 @@ static inline struct hv_vp_assist_page *hv_get_vp_assist_page(unsigned int cpu)
- 
- void __init hyperv_init(void);
- void hyperv_setup_mmu_ops(void);
--void *hv_alloc_hyperv_page(void);
--void *hv_alloc_hyperv_zeroed_page(void);
--void hv_free_hyperv_page(unsigned long addr);
- void set_hv_tscchange_cb(void (*cb)(void));
- void clear_hv_tscchange_cb(void);
- void hyperv_stop_tsc_emulation(void);
-@@ -272,8 +269,6 @@ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int vcpu, int vector,
- #else /* CONFIG_HYPERV */
- static inline void hyperv_init(void) {}
- static inline void hyperv_setup_mmu_ops(void) {}
--static inline void *hv_alloc_hyperv_page(void) { return NULL; }
--static inline void hv_free_hyperv_page(unsigned long addr) {}
- static inline void set_hv_tscchange_cb(void (*cb)(void)) {}
- static inline void clear_hv_tscchange_cb(void) {}
- static inline void hyperv_stop_tsc_emulation(void) {};
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index f202ac7..cca8d5e 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -37,6 +37,42 @@ int hv_init(void)
+@@ -27,10 +27,6 @@ static inline u64 hv_get_register(unsigned int reg)
+ 	return value;
  }
  
- /*
-+ * Functions for allocating and freeing memory with size and
-+ * alignment HV_HYP_PAGE_SIZE. These functions are needed because
-+ * the guest page size may not be the same as the Hyper-V page
-+ * size. We depend upon kmalloc() aligning power-of-two size
-+ * allocations to the allocation size boundary, so that the
-+ * allocated memory appears to Hyper-V as a page of the size
-+ * it expects.
-+ */
-+
-+void *hv_alloc_hyperv_page(void)
-+{
-+	BUILD_BUG_ON(PAGE_SIZE <  HV_HYP_PAGE_SIZE);
-+
-+	if (PAGE_SIZE == HV_HYP_PAGE_SIZE)
-+		return (void *)__get_free_page(GFP_KERNEL);
-+	else
-+		return kmalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-+}
-+
-+void *hv_alloc_hyperv_zeroed_page(void)
-+{
-+	if (PAGE_SIZE == HV_HYP_PAGE_SIZE)
-+		return (void *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
-+	else
-+		return kzalloc(HV_HYP_PAGE_SIZE, GFP_KERNEL);
-+}
-+
-+void hv_free_hyperv_page(unsigned long addr)
-+{
-+	if (PAGE_SIZE == HV_HYP_PAGE_SIZE)
-+		free_page(addr);
-+	else
-+		kfree((void *)addr);
-+}
-+
-+/*
-  * hv_post_message - Post a message using the hypervisor message IPC.
-  *
-  * This involves a hypercall.
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index dff58a3..694b5bc 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -117,6 +117,10 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
- /* Sentinel value for an uninitialized entry in hv_vp_index array */
- #define VP_INVAL	U32_MAX
+-#define hv_set_clocksource_vdso(val) \
+-	((val).vdso_clock_mode = VDSO_CLOCKMODE_HVCLOCK)
+-#define hv_enable_vdso_clocksource() \
+-	vclocks_set_used(VDSO_CLOCKMODE_HVCLOCK);
+ #define hv_get_raw_timer() rdtsc_ordered()
  
-+void *hv_alloc_hyperv_page(void);
-+void *hv_alloc_hyperv_zeroed_page(void);
-+void hv_free_hyperv_page(unsigned long addr);
-+
- /**
-  * hv_cpu_number_to_vp_number() - Map CPU to VP.
-  * @cpu_number: CPU number in Linux terms
+ /*
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index c73c127..06984fa 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -370,11 +370,13 @@ static void resume_hv_clock_tsc(struct clocksource *arg)
+ 	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr);
+ }
+ 
++#ifdef VDSO_CLOCKMODE_HVCLOCK
+ static int hv_cs_enable(struct clocksource *cs)
+ {
+-	hv_enable_vdso_clocksource();
++	vclocks_set_used(VDSO_CLOCKMODE_HVCLOCK);
+ 	return 0;
+ }
++#endif
+ 
+ static struct clocksource hyperv_cs_tsc = {
+ 	.name	= "hyperv_clocksource_tsc_page",
+@@ -384,7 +386,12 @@ static int hv_cs_enable(struct clocksource *cs)
+ 	.flags	= CLOCK_SOURCE_IS_CONTINUOUS,
+ 	.suspend= suspend_hv_clock_tsc,
+ 	.resume	= resume_hv_clock_tsc,
++#ifdef VDSO_CLOCKMODE_HVCLOCK
+ 	.enable = hv_cs_enable,
++	.vdso_clock_mode = VDSO_CLOCKMODE_HVCLOCK,
++#else
++	.vdso_clock_mode = VDSO_CLOCKMODE_NONE,
++#endif
+ };
+ 
+ static u64 notrace read_hv_clock_msr(void)
+@@ -442,7 +449,6 @@ static bool __init hv_init_tsc_clocksource(void)
+ 	tsc_msr = tsc_msr | 0x1 | (u64)phys_addr;
+ 	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr);
+ 
+-	hv_set_clocksource_vdso(hyperv_cs_tsc);
+ 	clocksource_register_hz(&hyperv_cs_tsc, NSEC_PER_SEC/100);
+ 
+ 	hv_sched_clock_offset = hv_read_reference_counter();
 -- 
 1.8.3.1
 
