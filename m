@@ -2,155 +2,196 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 228ADC433DB
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Mar 2021 15:08:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CD7C433DB
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Mar 2021 15:08:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D840364F1E
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Mar 2021 15:08:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77A3E64F1F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Mar 2021 15:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382123AbhCBOoa (ORCPT
+        id S1384242AbhCBOxV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 2 Mar 2021 09:44:30 -0500
-Received: from foss.arm.com ([217.140.110.172]:49078 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1838377AbhCBKgK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Mar 2021 05:36:10 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8851AED1;
-        Tue,  2 Mar 2021 02:35:24 -0800 (PST)
-Received: from [10.57.48.219] (unknown [10.57.48.219])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25EFF3F73C;
-        Tue,  2 Mar 2021 02:35:20 -0800 (PST)
-Subject: Re: Aw: Re: Re: [PATCH 09/13] PCI: mediatek: Advertise lack of MSI
- handling
-To:     Frank Wunderlich <frank-w@public-files.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Chuanjia Liu <chuanjia.liu@mediatek.com>
-Cc:     linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Will Deacon <will@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Tue, 2 Mar 2021 09:53:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54312 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351190AbhCBNfM (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 2 Mar 2021 08:35:12 -0500
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA62C06121D
+        for <linux-hyperv@vger.kernel.org>; Tue,  2 Mar 2021 05:34:16 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id o16so2770517wmh.0
+        for <linux-hyperv@vger.kernel.org>; Tue, 02 Mar 2021 05:34:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZdRgbB/+xhU+BLrEYW5FodZNgcXrZTzEEyZSROXdiNs=;
+        b=AYlTlq4uW3iRg29N/HN0EX4sWg7+Le02hNVo3M/Yt9O05X/IY8T6751/c1wmEoCY0L
+         biLdWKDhwHXiyra5neWncvah9XDw0cZFZJYMMmR2gsOLFy14QaWJtQ2kIHUgb8mfRkSx
+         /6LKYUXahNk7VB85kjvAsvXfx364A2h5uMQWfrZ6YMhc35f0NceLI5S+fQ1oG2z19JHa
+         O9v7dj6PPis7ILJNbQNLncYb9BLabzUFOYX1exg4oixDpugNo8v9EqICPC1JiRgX2+JI
+         VRU8jezhLwGk8aPjOVf05vtVleyBrItTHD93svBy/b403AaUGdbqIfMBVCDNNC9s8I/Q
+         3q2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZdRgbB/+xhU+BLrEYW5FodZNgcXrZTzEEyZSROXdiNs=;
+        b=V/zguWCZODI29ogJ0BXQBaqkl0bFlYydPAPwdxa8n2DqjTDtpUJPPE6/66XDLjxZkn
+         t58oLAKc/4AO54BVKuTr6kqhhWVLS5Fm1Px5rAxhwIy+11l2cn0rcvU00DDXM2/pXRrC
+         spnPCN0vShCKIJFtGnxXNSY8ULGYIFeodANEbI548KcW9F2JYvXdDpZKUVCns3l1WPp0
+         6MKqJ28clcdM2Zl0f72q6Nxk1bgiYAs/YVvw1K8usBsl/605BdxJSbN1LGjZhKTn6eW/
+         rpa1MjqtKM0zGCB4W7QY0AqmD0Xv3idLa82pFNVKxsmDV37Ptk1sEAxFD2jWJhIIdBMA
+         qGCA==
+X-Gm-Message-State: AOAM531baou8i6jY7JpjEau24VU+KJwf70S1C52ZLadVY/Uz/jn3lnMP
+        q7Wrba8OX5bGhRzkZ9S7xhIcZQ==
+X-Google-Smtp-Source: ABdhPJyD6nClABQXADENbFNrOJPev1ANCgFMGR64xibMhC4BJsr7IRE+y2o+qXFj/OTvruUkwmPhYg==
+X-Received: by 2002:a7b:cb05:: with SMTP id u5mr4092039wmj.46.1614692054679;
+        Tue, 02 Mar 2021 05:34:14 -0800 (PST)
+Received: from [192.168.0.41] (lns-bzn-59-82-252-144-192.adsl.proxad.net. [82.252.144.192])
+        by smtp.googlemail.com with ESMTPSA id w18sm2428636wrr.7.2021.03.02.05.34.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Mar 2021 05:34:14 -0800 (PST)
+Subject: Re: [PATCH v2 08/10] clocksource/drivers/hyper-v: Handle sched_clock
+ differences inline
+To:     Michael Kelley <mikelley@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20210225151023.3642391-1-maz@kernel.org>
- <20210225151023.3642391-10-maz@kernel.org>
- <trinity-b7e2cf18-f0e6-4d88-8a80-de6758b5a91f-1614595396771@3c-app-gmx-bap67>
- <b7721e2ff751cc9565a662cb713819e3@kernel.org>
- <trinity-9fa6d24e-f9de-4741-bf44-86f6197b174d-1614600961297@3c-app-gmx-bap67>
- <5afd1d656299d87c43bdf31b8ced2d5f@kernel.org>
- <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <8b9c013a-b5d5-9b19-f28a-4af543e47fff@arm.com>
-Date:   Tue, 2 Mar 2021 10:35:14 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        KY Srinivasan <kys@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+References: <1614561332-2523-1-git-send-email-mikelley@microsoft.com>
+ <1614561332-2523-9-git-send-email-mikelley@microsoft.com>
+ <2c320759-4e0e-752f-f3e8-7594cc1d544f@linaro.org>
+ <MWHPR21MB1593812919AF130E61C2A1CFD7999@MWHPR21MB1593.namprd21.prod.outlook.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <6c0b3487-5f99-764c-6dc7-70454916cd57@linaro.org>
+Date:   Tue, 2 Mar 2021 14:34:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <trinity-e6593a34-3e03-4154-a03c-f3aed01e33bf-1614607598428@3c-app-gmx-bap67>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+In-Reply-To: <MWHPR21MB1593812919AF130E61C2A1CFD7999@MWHPR21MB1593.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 2021-03-01 14:06, Frank Wunderlich wrote:
->> Gesendet: Montag, 01. März 2021 um 14:31 Uhr
->> Von: "Marc Zyngier" <maz@kernel.org>
+On 02/03/2021 02:38, Michael Kelley wrote:
+> From: Daniel Lezcano <daniel.lezcano@linaro.org> Sent: Monday, March 1, 2021 6:25 AM
 >>
->> Frank,
->>
->>>>> i guess it's a bug in ath10k driver or my r64 board (it is a v1.1
->>>>> which has missing capacitors on tx lines).
->>>>
->>>> No, this definitely looks like a bug in the MTK PCIe driver,
->>>> where the mutex is either not properly initialised, corrupted,
->>>> or the wrong pointer is passed.
+>> On 01/03/2021 02:15, Michael Kelley wrote:
+>>> While the Hyper-V Reference TSC code is architecture neutral, the
+>>> pv_ops.time.sched_clock() function is implemented for x86/x64, but not
+>>> for ARM64. Current code calls a utility function under arch/x86 (and
+>>> coming, under arch/arm64) to handle the difference.
 >>>
->>> but why does it happen only with the ath10k-card and not the mt7612 in
->>> same slot?
+>>> Change this approach to handle the difference inline based on whether
+>>> GENERIC_SCHED_CLOCK is present.  The new approach removes code under
+>>> arch/* since the difference is tied more to the specifics of the Linux
+>>> implementation than to the architecture.
+>>>
+>>> No functional change.
+>>>
+>>> Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+>>> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+>>> ---
 >>
->> Does mt7612 use MSI? What we have here is a bogus mutex in the
->> MTK PCIe driver, and the only way not to get there would be
->> to avoid using MSIs.
+>> [ ... ]
+>>
+>>> +/*
+>>> + * Reference to pv_ops must be inline so objtool
+>>> + * detection of noinstr violations can work correctly.
+>>> + */
+>>> +static __always_inline void hv_setup_sched_clock(void *sched_clock)
+>>> +{
+>>> +#ifdef CONFIG_GENERIC_SCHED_CLOCK
+>>> +	/*
+>>> +	 * We're on an architecture with generic sched clock (not x86/x64).
+>>> +	 * The Hyper-V sched clock read function returns nanoseconds, not
+>>> +	 * the normal 100ns units of the Hyper-V synthetic clock.
+>>> +	 */
+>>> +	sched_clock_register(sched_clock, 64, NSEC_PER_SEC);
+>>> +#else
+>>> +#ifdef CONFIG_PARAVIRT
+>>> +	/* We're on x86/x64 *and* using PV ops */
+>>> +	pv_ops.time.sched_clock = sched_clock;
+>>> +#endif
+>>> +#endif
+>>> +}
+>> Please refer to:
+>>
+>> Documentation/process/coding-style.rst
+>>
+>> Section 21)
+>>
+>> [ ... ]
+>>
+>> Prefer to compile out entire functions, rather than portions of
+>> functions or portions of expressions.
+>>
+>> [ ... ]
+>>
 > 
-> i guess this card/its driver does not use MSI. Did not found anything in "datasheet" [1] or driver [2] about msi
+> OK.  I'll rework the #ifdef in v3 of the patch set.  Is the following
+> the preferred approach?
 
-FWIW, no need to guess - `lspci -v` (as root) should tell you whether 
-the card has MSI (and/or MSI-X) capability, and whether it is enabled if so.
+Yes but with an indentation and comment to describe the section end.
 
-Robin.
+eg.
 
->>>
->>>> This r64 machine is supposed to have working MSIs, right?
->>>
->>> imho mt7622 have working MSI
->>>
->>>> Do you get the same issue without this series?
->>>
->>> tested 5.11.0 [1] without this series (but with your/thomas' patch
->>> from discussion about my old patch) and got same trace. so this series
->>> does not break anything here.
->>
->> Can you retest without any additional patch on top of 5.11?
->> These two patches only affect platforms that do *not* have MSIs at all.
-> 
-> i can revert these 2, but still need patches for mt7622 pcie-support [3]...btw. i see that i miss these in 5.11-main...do not see traceback with them (have firmware not installed...)
-> 
-> root@bpi-r64:~# dmesg | grep ath
-> [    6.450765] ath10k_pci 0000:01:00.0: assign IRQ: got 146
-> [    6.661752] ath10k_pci 0000:01:00.0: enabling device (0000 -> 0002)
-> [    6.697811] ath10k_pci 0000:01:00.0: enabling bus mastering
-> [    6.721293] ath10k_pci 0000:01:00.0: pci irq msi oper_irq_mode 2 irq_mode 0 r
-> eset_mode 0
-> [    6.921030] ath10k_pci 0000:01:00.0: Failed to find firmware-N.bin (N between
->   2 and 6) from ath10k/QCA988X/hw2.0: -2
-> [    6.931698] ath10k_pci 0000:01:00.0: could not fetch firmware files (-2)
-> [    6.940417] ath10k_pci 0000:01:00.0: could not probe fw (-2)
-> 
-> so traceback was caused by missing changes in mtk pcie-driver not yet upstream, added Chuanjia Liu
-> 
->>>
->>>>> Tried with an mt7612e, this seems to work without any errors.
->>>>>
->>>>> so for mt7622/mt7623
->>>>>
->>>>> Tested-by: Frank Wunderlich <frank-w@public-files.de>
->>>>
->>>> We definitely need to understand the above.
->>>
->>> there is a hardware-bug which may cause this...afair i saw this with
->>> the card in r64 with earlier Kernel-versions where other cards work
->>> (like the mt7612e).
->>
->> I don't think a HW bug affecting PCI would cause what we are seeing
->> here, unless it results in memory corruption.
-> 
-> 
-> [1] https://www.asiarf.com/shop/wifi-wlan/wifi_mini_pcie/ws2433-wifi-11ac-mini-pcie-module-manufacturer/
-> [2] grep -Rni 'msi' drivers/net/wireless/mediatek/mt76/mt76x2/
-> [3] https://patchwork.kernel.org/project/linux-mediatek/list/?series=372885
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+#ifdef A
+#else
+# ifdef B
+...
+# else
+# endif /* B */
+#endif /* A */
+
+> #ifdef CONFIG_GENERIC_SCHED_CLOCK
+> static __always_inline void hv_setup_sched_clock(void *sched_clock)
+> {
+> 	sched_clock_register(sched_clock, 64 NSEC_PER_SEC);
+> }
+> #else
+> #ifdef CONFIG_PARAVIRT
+> static __always_inline void hv_setup_sched_clock(void *sched_clock)
+> {
+> 	pv_ops.time.sched_clock = sched_clock:
+> }
+> #else
+> static __always_inline void hv_setup_sched_clock(void *sched_clock) {}
+> #endif
+> #endif
+
+Or
+
+#ifdef CONFIG_GENERIC_SCHED_CLOCK
+...
+#elif defined CONFIG_PARAVIRT
+...
+#else /* !CONFIG_GENERIC_SCHED_CLOCK && !CONFIG_PARAVIRT */
+...
+#endif /* CONFIG_GENERIC_SCHED_CLOCK */
+
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
