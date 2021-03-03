@@ -2,224 +2,630 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A39C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFD20C43333
 	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:12:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 252C764EED
+	by mail.kernel.org (Postfix) with ESMTP id 7294F64EF9
 	for <linux-hyperv@archiver.kernel.org>; Wed,  3 Mar 2021 11:12:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351135AbhCCLJl (ORCPT
+        id S1351505AbhCCLKA (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 3 Mar 2021 06:09:41 -0500
-Received: from mail-co1nam11on2099.outbound.protection.outlook.com ([40.107.220.99]:49344
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1840150AbhCBXHv (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Mar 2021 18:07:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LfjGAkq1m+BH5qtWhvHnbV0hNDdPFr+RD9OXtTJKlikUWXFAsN5a7pjSYi7J09FhHdWXrTWXu+ThNWvQ4VkwNudOQbSjNuiJeGGgKeDo+M7XnJG1mRxktJ9/DRcLt0GZnYRLlgN6Trbe/y7CkcGLJWQq0jlo/xHUaYzs0SMn+fhr4jxZZxlLQKvDFb9Pwjk3WSJytY4XNNe+vtE1zCOgtjWjhBu15GyfJy7ptCw8cRbgbJWjV9uPdNwFsRU6UDetQIGCLIutqa5YPO3uodIa0n4sbI+mjEu2dSA3twA0ICUmMxm8E3WCEHoaGbKqJ80n+7nHxtp383Gy8XwIdLXn2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hHAYMM1NHv6c1BK52afcNb0BTehwHnfaDDz5sld0uRA=;
- b=JfDFbZbhNnt20if1XojP6kmAx7pM6g08Y29N921pcmL3Yq/BorfW1mY9NqAWTsj4PpH3HN8r1kuyitksWT4dAqfgAwhzVS5qGNwos/3sp9j8/tYHFZKb8Cw/1ET/BkBtmT17FIsMYMckbh6EIlA3hn1UwMMGkaYgWkdiHaIMMRR3wyF0BvtOhUocYn7EM5b2GNy8nUl0bBjNL5F/TMmbcm1QJOiKEQas4aVm+wYOBsA+2co1OUVZYqliKDyxXlckA5vrXuUqwpQ/if9x2gPHKtCpQUX2dp0j/JYvz9OXyodH+rJ+pdCTUT/re3/b5E0qm2LmBZOJDFeP2rSyDNIllQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hHAYMM1NHv6c1BK52afcNb0BTehwHnfaDDz5sld0uRA=;
- b=jCtzKZm2kxTD+chsvuxv+q2QNSFKszNzoo3jjb0FFKrHTsIhTHeVDVH9/kfztBBcyurdPbrT+oip/Zcpt4Izs8hiX1eX0ELb8YcYgCL3MwcpOPcmE+v7jCwPsmjHgFkMmhR4y0vB2DbPDWLqun1+sVc9ts3565Kk099OwpDlEWE=
-Received: from MWHPR21MB1593.namprd21.prod.outlook.com (2603:10b6:301:7c::11)
- by MW4PR21MB1970.namprd21.prod.outlook.com (2603:10b6:303:70::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.8; Tue, 2 Mar
- 2021 23:06:51 +0000
-Received: from MWHPR21MB1593.namprd21.prod.outlook.com
- ([fe80::9c8:94c9:faf1:17c2]) by MWHPR21MB1593.namprd21.prod.outlook.com
- ([fe80::9c8:94c9:faf1:17c2%9]) with mapi id 15.20.3912.016; Tue, 2 Mar 2021
- 23:06:51 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Wed, 3 Mar 2021 06:10:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37800 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1843074AbhCCKZP (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 3 Mar 2021 05:25:15 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE04AC08ED53;
+        Wed,  3 Mar 2021 02:15:37 -0800 (PST)
+From:   John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1614766536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=n8h6yZzQL8ZfWHLvEs3QAIVV1g9tQwJ5TiQ/YxHavlw=;
+        b=jptMt/lCurssOvVO7r4XOpmMX3yvoEvhYlxqNQ2oDOuliPMqszhh7NPzy6MW9huUbAynA3
+        p3gA+SBhpgnysAbLWOnRMe3UjYt3vc3GHgcmQo850eMeVsU0l/DArr4PEUIurGPuTySCLa
+        seb5sV/saOiAR6J+uvljNbSqEFhvgcnQnFAdAImILJAXezEjguCKRGkG229c5LxQVq2VIH
+        8qwXryTr9bynnAQiBx2b4Lw+Hh0FD7kYLvn8ToyAGOAP12ekpF10iXAfopTRIA7h7/7Xl6
+        ++4X/JmdaaJ7UuySMo/frYK8wgOb0fOrTh7BkyemdVttnWA3AfFxvX8BPBQEfQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1614766536;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=n8h6yZzQL8ZfWHLvEs3QAIVV1g9tQwJ5TiQ/YxHavlw=;
+        b=EUpeJ9EXIltwzNOFI1QL82PS0Fqehccz1OGv20ytOLGysj/50hWuh05HY7sP6T0fOc1ZtH
+        KNYu4MrbKwLjfZAA==
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>, "hpa@zytor.com" <hpa@zytor.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH v3 07/10] clocksource/drivers/hyper-v: Handle vDSO
- differences inline
-Thread-Topic: [PATCH v3 07/10] clocksource/drivers/hyper-v: Handle vDSO
- differences inline
-Thread-Index: AQHXD6x01LY7XmpNTEG5OPuJxVWUH6pxQ3IAgAANFHA=
-Date:   Tue, 2 Mar 2021 23:06:50 +0000
-Message-ID: <MWHPR21MB1593EF82FC3C8B5F9D466E5BD7999@MWHPR21MB1593.namprd21.prod.outlook.com>
-References: <1614721102-2241-1-git-send-email-mikelley@microsoft.com>
- <1614721102-2241-8-git-send-email-mikelley@microsoft.com>
- <25234414-d905-0f9c-af92-9a9e4cde30c4@linaro.org>
-In-Reply-To: <25234414-d905-0f9c-af92-9a9e4cde30c4@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-03-02T23:06:48Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=a699e977-03e3-4a5c-9be1-4d75c48ddc00;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1e83b580-bb79-4628-f2f9-08d8ddcfdd23
-x-ms-traffictypediagnostic: MW4PR21MB1970:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW4PR21MB1970EDAD46D359A92B2D4E36D7999@MW4PR21MB1970.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: UvNUQxdNNPi39hFH/3qge2VUOCJq6qz3DJwsyo9dRSe99pvqXOvfW7X6G+s4DnqEYlfyvDHEOfTTiBXssfkO3bCHODhGfgqp5rJrQJSdGkllcVcdqOVsS6ZRQCsqrRLaYRnLfqvJ2SFbCRrPyzmHr6irFJgY8cA2myeeskd2iVmnOJpA7TriWUUcx2c4rUcGHGb+1EZM6WhiGNxjrM+RoCwdwXA7pgRGs2gF8QEpULrsKN5E6YV9YVTkWTVAslGV7BqsIDv1h7bqqQaFsOK7H4U73xT9ZS1JXWcA03WZCPRGRgsEXfZCdr5Q6Eefilr48D1/3Q9/ZWa/XnwMg7Sr3JX16ReelOXo95E4DnWoRTFmz3q87F0JnNLKaMIKwVMICcjuh9CfQoeO27PcLfeuFEqwoPxFC97yjt396vCSxsSPjrAxNa3LduUET57qiJNw/TxSEffpYT2S2f27ZYT5YJ9btsVJyaT4wROFnjLy6E3SnjtbB9bQ9nC57yTW1gqTfKcGKeFlbjeDCKAsLcQid4vWUEKFihIBbYKasW55SEQdNDXJ3O7EUMsNV4Asa/hnBCvp8s90g2YEFLCXZ7eAPU5Arydwla7pxV4vOSxqMJ4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(366004)(346002)(396003)(136003)(9686003)(7696005)(55016002)(71200400001)(2906002)(76116006)(5660300002)(110136005)(54906003)(66946007)(53546011)(4326008)(10290500003)(921005)(82960400001)(82950400001)(8936002)(52536014)(6506007)(26005)(66476007)(64756008)(86362001)(7416002)(66446008)(478600001)(83380400001)(33656002)(186003)(8676002)(8990500004)(316002)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?VpgITsOqgIgxEyi63bR5q1EA3w+CtdpwLGxXninH1du8dQQFclg2QjcerXLT?=
- =?us-ascii?Q?a9HJOzr1H1NdmCP2PWjXbUTO39Fhmy69q6azGRn2VnyNUWgeBGEtnhnSTt11?=
- =?us-ascii?Q?SScKg0EYVacsWFd0dhXjRfOa8QU6FHmGpi+k2JXhEVEjWaLnet+rTumljyDD?=
- =?us-ascii?Q?RzsYHlHFZmU1KzN3j8xCUHsKFR/dLCDFZMPqHktPwqgPZZQEN2bSyoXsyQpp?=
- =?us-ascii?Q?bXaSI3JCb9YJAkY6rGw2cZ3s9Z2QBealDRcj0CuReQ5hbCf64Tijjz3rS3sC?=
- =?us-ascii?Q?XOwdYM4/xLmsSXfdgD5QAzCaYP5agLKjl5GdXWnRLdFqPk9RFvo8QmPknVYU?=
- =?us-ascii?Q?+9Tt3UKNJikwQtcS1IiVBv2ddW2AMe46hwyPiY8TsNc/PdfBAOvGRKVXU3xx?=
- =?us-ascii?Q?oiD/O8sH+GfcZXodFtWuIQLCH7dDGNuQhlIP3QHqyQR3+vpnD5dgbBQURJno?=
- =?us-ascii?Q?Bjy74b2gam4u4m39qdiUTGPE+OviTv9EPCLSC9gUcr6QDrbZHmmSIVwmoOl+?=
- =?us-ascii?Q?39jkM/yTWFU29fBbCMiGDbaL67byaE+zFex1qAcy4SQeGTCci9qEjDTq9sa1?=
- =?us-ascii?Q?qm5LjBAdF7ubBxkHesRQYYp+no8m7LCredKyOqNGg/mq0r0NnmU7ekLLKYL7?=
- =?us-ascii?Q?QjhCMQ+SijypT6/mHsJ1sQoDMRuCMdNrn1I0AK4DWQpJFJaGlXT9CilvgbNY?=
- =?us-ascii?Q?jiBJFuKkDikcpAPokKOXVrmIG4up7zIxy2QGA8fkxVPeID8ScJH7zP1TXpF1?=
- =?us-ascii?Q?JbomF6zZ5mGWFa6HoEePSq6cp8OTjq5L5Hm2XKweCqbADx+lbjb+gV9W29V4?=
- =?us-ascii?Q?9Qq3raNKTBXRfkpKxfYpFQ9IgzM7m1mz7pl6Nfm/71jVzgoLdXeQNTI0AU4C?=
- =?us-ascii?Q?QxiSE3k3swM07wgQqWmIA0iQvqU0oXcKqGSDa7t2C8vVgAtFA+rO9E0CziZF?=
- =?us-ascii?Q?zDP8QwmXkwc1rDGpxJ8c/PzzR2Hf61zTLcWTfK+WIpNAKkU2FgILxxhlB/63?=
- =?us-ascii?Q?efb1bkeJFMyfDL8PLoQ5S2LCTX8LcBQVy5iZ3pmmXayrv+igwctGhf6HC90e?=
- =?us-ascii?Q?EhN8FvWj4SzoMdu9t41IABWXOtHgEvzzNq8hE1P1j0wCCL2WUCTfqbL5LfwS?=
- =?us-ascii?Q?61ODgFxRcrFM2orVsZEDdvBdK5Cw1xjPLeBNCfl1st49nEL0oipDTphMeW26?=
- =?us-ascii?Q?ajfkrOw1gw/An1bQnbmq0CWM2tcw6+lJ58dlGKjhwe5tA3McIbY5SvFHLoCm?=
- =?us-ascii?Q?VdCqx3NUK3RIxUWFeKMA+hEIf3K+csTXDJb/XFMUMaivhR0wCVNUKpMSYO6B?=
- =?us-ascii?Q?c9vX7nX36dQNbJnXW4QYbMew?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wei Liu <wei.liu@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Kees Cook <keescook@chromium.org>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Colin Cross <ccross@android.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Pavel Tatashin <pasha.tatashin@soleen.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Jordan Niethe <jniethe5@gmail.com>,
+        Alistair Popple <alistair@popple.id.au>,
+        Ravi Bangoria <ravi.bangoria@linux.ibm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Thomas Meyer <thomas@m3y3r.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Oleg Nesterov <oleg@redhat.com>, Wei Li <liwei391@huawei.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Michael Kelley <mikelley@microsoft.com>,
+        linuxppc-dev@lists.ozlabs.org, linux-um@lists.infradead.org,
+        linux-hyperv@vger.kernel.org, linux-mtd@lists.infradead.org,
+        kgdb-bugreport@lists.sourceforge.net
+Subject: [PATCH next v4 12/15] printk: introduce a kmsg_dump iterator
+Date:   Wed,  3 Mar 2021 11:15:25 +0100
+Message-Id: <20210303101528.29901-13-john.ogness@linutronix.de>
+In-Reply-To: <20210303101528.29901-1-john.ogness@linutronix.de>
+References: <20210303101528.29901-1-john.ogness@linutronix.de>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e83b580-bb79-4628-f2f9-08d8ddcfdd23
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2021 23:06:50.9485
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QoAM0Si3l2+aQaArwWqbkh/nh8j8+AxDQzNM6FLTMkVUpQxf5LexB0NcPqWhPbCsMrIzu23LgBhav0GTt49yD3vfNOEiOKMQOy0Cgu0vnSs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1970
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Daniel Lezcano <daniel.lezcano@linaro.org> Sent: Tuesday, March 2, 20=
-21 2:14 PM
->=20
-> On 02/03/2021 22:38, Michael Kelley wrote:
-> > While the driver for the Hyper-V Reference TSC and STIMERs is architect=
-ure
-> > neutral, vDSO is implemented for x86/x64, but not for ARM64.  Current c=
-ode
-> > calls into utility functions under arch/x86 (and coming, under arch/arm=
-64)
-> > to handle the difference.
-> >
-> > Change this approach to handle the difference inline based on whether
-> > VDSO_CLOCK_MODE_HVCLOCK is present.  The new approach removes code unde=
-r
-> > arch/* since the difference is tied more to the specifics of the Linux
-> > implementation than to the architecture.
-> >
-> > No functional change.
-> >
-> > Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-> > Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
-> > ---
-> >  arch/x86/include/asm/mshyperv.h    |  4 ----
-> >  drivers/clocksource/hyperv_timer.c | 10 ++++++++--
-> >  2 files changed, 8 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/msh=
-yperv.h
-> > index c10dd1c..4f566db 100644
-> > --- a/arch/x86/include/asm/mshyperv.h
-> > +++ b/arch/x86/include/asm/mshyperv.h
-> > @@ -27,10 +27,6 @@ static inline u64 hv_get_register(unsigned int reg)
-> >  	return value;
-> >  }
-> >
-> > -#define hv_set_clocksource_vdso(val) \
-> > -	((val).vdso_clock_mode =3D VDSO_CLOCKMODE_HVCLOCK)
-> > -#define hv_enable_vdso_clocksource() \
-> > -	vclocks_set_used(VDSO_CLOCKMODE_HVCLOCK);
-> >  #define hv_get_raw_timer() rdtsc_ordered()
-> >
-> >  /*
-> > diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/h=
-yperv_timer.c
-> > index c73c127..06984fa 100644
-> > --- a/drivers/clocksource/hyperv_timer.c
-> > +++ b/drivers/clocksource/hyperv_timer.c
-> > @@ -370,11 +370,13 @@ static void resume_hv_clock_tsc(struct clocksourc=
-e *arg)
-> >  	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr);
-> >  }
-> >
-> > +#ifdef VDSO_CLOCKMODE_HVCLOCK
-> >  static int hv_cs_enable(struct clocksource *cs)
-> >  {
-> > -	hv_enable_vdso_clocksource();
-> > +	vclocks_set_used(VDSO_CLOCKMODE_HVCLOCK);
-> >  	return 0;
-> >  }
-> > +#endif
->=20
-> We had a confusion here. The suggestion was to remove the #ifdef here
-> and add the __maybe_unused annotation to the function.
+Rather than storing the iterator information in the registered
+kmsg_dumper structure, create a separate iterator structure. The
+kmsg_dump_iter structure can reside on the stack of the caller, thus
+allowing lockless use of the kmsg_dump functions.
 
-I wondered if maybe that's what you were getting at with your
-most recent comments.  But the code doesn't compile on ARM64
-with __maybe_unused instead of the #ifdef because
-VDSO_CLOCKMODE_HVCLOCK is undefined.
+Update code that accesses the kernel logs using the kmsg_dumper
+structure to use the new kmsg_dump_iter structure. For kmsg_dumpers,
+this also means adding a call to kmsg_dump_rewind() to initialize
+the iterator.
 
-Michael
+All this is in preparation for removal of @logbuf_lock.
 
->=20
-> >  static struct clocksource hyperv_cs_tsc =3D {
-> >  	.name	=3D "hyperv_clocksource_tsc_page",
-> > @@ -384,7 +386,12 @@ static int hv_cs_enable(struct clocksource *cs)
-> >  	.flags	=3D CLOCK_SOURCE_IS_CONTINUOUS,
-> >  	.suspend=3D suspend_hv_clock_tsc,
-> >  	.resume	=3D resume_hv_clock_tsc,
-> > +#ifdef VDSO_CLOCKMODE_HVCLOCK
-> >  	.enable =3D hv_cs_enable,
-> > +	.vdso_clock_mode =3D VDSO_CLOCKMODE_HVCLOCK,
-> > +#else
-> > +	.vdso_clock_mode =3D VDSO_CLOCKMODE_NONE,
-> > +#endif
-> >  };
-> >
+Signed-off-by: John Ogness <john.ogness@linutronix.de>
+Reviewed-by: Kees Cook <keescook@chromium.org> # pstore
+---
+ arch/powerpc/kernel/nvram_64.c |  8 +++--
+ arch/powerpc/xmon/xmon.c       |  6 ++--
+ arch/um/kernel/kmsg_dump.c     |  5 ++-
+ drivers/hv/vmbus_drv.c         |  4 ++-
+ drivers/mtd/mtdoops.c          |  5 ++-
+ fs/pstore/platform.c           |  5 ++-
+ include/linux/kmsg_dump.h      | 36 ++++++++++---------
+ kernel/debug/kdb/kdb_main.c    | 10 +++---
+ kernel/printk/printk.c         | 63 +++++++++++++++++-----------------
+ 9 files changed, 80 insertions(+), 62 deletions(-)
+
+diff --git a/arch/powerpc/kernel/nvram_64.c b/arch/powerpc/kernel/nvram_64.c
+index 532f22637783..3c8d9bbb51cf 100644
+--- a/arch/powerpc/kernel/nvram_64.c
++++ b/arch/powerpc/kernel/nvram_64.c
+@@ -647,6 +647,7 @@ static void oops_to_nvram(struct kmsg_dumper *dumper,
+ {
+ 	struct oops_log_info *oops_hdr = (struct oops_log_info *)oops_buf;
+ 	static unsigned int oops_count = 0;
++	static struct kmsg_dump_iter iter;
+ 	static bool panicking = false;
+ 	static DEFINE_SPINLOCK(lock);
+ 	unsigned long flags;
+@@ -681,13 +682,14 @@ static void oops_to_nvram(struct kmsg_dumper *dumper,
+ 		return;
+ 
+ 	if (big_oops_buf) {
+-		kmsg_dump_get_buffer(dumper, false,
++		kmsg_dump_rewind(&iter);
++		kmsg_dump_get_buffer(&iter, false,
+ 				     big_oops_buf, big_oops_buf_sz, &text_len);
+ 		rc = zip_oops(text_len);
+ 	}
+ 	if (rc != 0) {
+-		kmsg_dump_rewind(dumper);
+-		kmsg_dump_get_buffer(dumper, false,
++		kmsg_dump_rewind(&iter);
++		kmsg_dump_get_buffer(&iter, false,
+ 				     oops_data, oops_data_sz, &text_len);
+ 		err_type = ERR_TYPE_KERNEL_PANIC;
+ 		oops_hdr->version = cpu_to_be16(OOPS_HDR_VERSION);
+diff --git a/arch/powerpc/xmon/xmon.c b/arch/powerpc/xmon/xmon.c
+index 80ed3e1becf9..5978b90a885f 100644
+--- a/arch/powerpc/xmon/xmon.c
++++ b/arch/powerpc/xmon/xmon.c
+@@ -3001,7 +3001,7 @@ print_address(unsigned long addr)
+ static void
+ dump_log_buf(void)
+ {
+-	struct kmsg_dumper dumper;
++	struct kmsg_dump_iter iter;
+ 	unsigned char buf[128];
+ 	size_t len;
+ 
+@@ -3013,9 +3013,9 @@ dump_log_buf(void)
+ 	catch_memory_errors = 1;
+ 	sync();
+ 
+-	kmsg_dump_rewind_nolock(&dumper);
++	kmsg_dump_rewind_nolock(&iter);
+ 	xmon_start_pagination();
+-	while (kmsg_dump_get_line_nolock(&dumper, false, buf, sizeof(buf), &len)) {
++	while (kmsg_dump_get_line_nolock(&iter, false, buf, sizeof(buf), &len)) {
+ 		buf[len] = '\0';
+ 		printf("%s", buf);
+ 	}
+diff --git a/arch/um/kernel/kmsg_dump.c b/arch/um/kernel/kmsg_dump.c
+index a765d235e50e..0224fcb36e22 100644
+--- a/arch/um/kernel/kmsg_dump.c
++++ b/arch/um/kernel/kmsg_dump.c
+@@ -10,6 +10,7 @@
+ static void kmsg_dumper_stdout(struct kmsg_dumper *dumper,
+ 				enum kmsg_dump_reason reason)
+ {
++	static struct kmsg_dump_iter iter;
+ 	static DEFINE_SPINLOCK(lock);
+ 	static char line[1024];
+ 	struct console *con;
+@@ -35,8 +36,10 @@ static void kmsg_dumper_stdout(struct kmsg_dumper *dumper,
+ 	if (!spin_trylock_irqsave(&lock, flags))
+ 		return;
+ 
++	kmsg_dump_rewind(&iter);
++
+ 	printf("kmsg_dump:\n");
+-	while (kmsg_dump_get_line(dumper, true, line, sizeof(line), &len)) {
++	while (kmsg_dump_get_line(&iter, true, line, sizeof(line), &len)) {
+ 		line[len] = '\0';
+ 		printf("%s", line);
+ 	}
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 10dce9f91216..b341b144bde8 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1391,6 +1391,7 @@ static void vmbus_isr(void)
+ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+ 			 enum kmsg_dump_reason reason)
+ {
++	struct kmsg_dump_iter iter;
+ 	size_t bytes_written;
+ 	phys_addr_t panic_pa;
+ 
+@@ -1404,7 +1405,8 @@ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
+ 	 * Write dump contents to the page. No need to synchronize; panic should
+ 	 * be single-threaded.
+ 	 */
+-	kmsg_dump_get_buffer(dumper, false, hv_panic_page, HV_HYP_PAGE_SIZE,
++	kmsg_dump_rewind(&iter);
++	kmsg_dump_get_buffer(&iter, false, hv_panic_page, HV_HYP_PAGE_SIZE,
+ 			     &bytes_written);
+ 	if (bytes_written)
+ 		hyperv_report_panic_msg(panic_pa, bytes_written);
+diff --git a/drivers/mtd/mtdoops.c b/drivers/mtd/mtdoops.c
+index 8bbfba40a554..862c4a889234 100644
+--- a/drivers/mtd/mtdoops.c
++++ b/drivers/mtd/mtdoops.c
+@@ -277,14 +277,17 @@ static void mtdoops_do_dump(struct kmsg_dumper *dumper,
+ {
+ 	struct mtdoops_context *cxt = container_of(dumper,
+ 			struct mtdoops_context, dump);
++	struct kmsg_dump_iter iter;
+ 
+ 	/* Only dump oopses if dump_oops is set */
+ 	if (reason == KMSG_DUMP_OOPS && !dump_oops)
+ 		return;
+ 
++	kmsg_dump_rewind(&iter);
++
+ 	if (test_and_set_bit(0, &cxt->oops_buf_busy))
+ 		return;
+-	kmsg_dump_get_buffer(dumper, true, cxt->oops_buf + MTDOOPS_HEADER_SIZE,
++	kmsg_dump_get_buffer(&iter, true, cxt->oops_buf + MTDOOPS_HEADER_SIZE,
+ 			     record_size - MTDOOPS_HEADER_SIZE, NULL);
+ 	clear_bit(0, &cxt->oops_buf_busy);
+ 
+diff --git a/fs/pstore/platform.c b/fs/pstore/platform.c
+index d963ae7902f9..b9614db48b1d 100644
+--- a/fs/pstore/platform.c
++++ b/fs/pstore/platform.c
+@@ -385,6 +385,7 @@ void pstore_record_init(struct pstore_record *record,
+ static void pstore_dump(struct kmsg_dumper *dumper,
+ 			enum kmsg_dump_reason reason)
+ {
++	struct kmsg_dump_iter iter;
+ 	unsigned long	total = 0;
+ 	const char	*why;
+ 	unsigned int	part = 1;
+@@ -405,6 +406,8 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+ 		}
+ 	}
+ 
++	kmsg_dump_rewind(&iter);
++
+ 	oopscount++;
+ 	while (total < kmsg_bytes) {
+ 		char *dst;
+@@ -435,7 +438,7 @@ static void pstore_dump(struct kmsg_dumper *dumper,
+ 		dst_size -= header_size;
+ 
+ 		/* Write dump contents. */
+-		if (!kmsg_dump_get_buffer(dumper, true, dst + header_size,
++		if (!kmsg_dump_get_buffer(&iter, true, dst + header_size,
+ 					  dst_size, &dump_size))
+ 			break;
+ 
+diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+index 84eaa2090efa..36c8c57e1051 100644
+--- a/include/linux/kmsg_dump.h
++++ b/include/linux/kmsg_dump.h
+@@ -29,6 +29,16 @@ enum kmsg_dump_reason {
+ 	KMSG_DUMP_MAX
+ };
+ 
++/**
++ * struct kmsg_dump_iter - iterator for retrieving kernel messages
++ * @cur_seq:	Points to the oldest message to dump
++ * @next_seq:	Points after the newest message to dump
++ */
++struct kmsg_dump_iter {
++	u64	cur_seq;
++	u64	next_seq;
++};
++
+ /**
+  * struct kmsg_dumper - kernel crash message dumper structure
+  * @list:	Entry in the dumper list (private)
+@@ -36,35 +46,29 @@ enum kmsg_dump_reason {
+  * 		through the record iterator
+  * @max_reason:	filter for highest reason number that should be dumped
+  * @registered:	Flag that specifies if this is already registered
+- * @cur_seq:	Points to the oldest message to dump
+- * @next_seq:	Points after the newest message to dump
+  */
+ struct kmsg_dumper {
+ 	struct list_head list;
+ 	void (*dump)(struct kmsg_dumper *dumper, enum kmsg_dump_reason reason);
+ 	enum kmsg_dump_reason max_reason;
+ 	bool registered;
+-
+-	/* private state of the kmsg iterator */
+-	u64 cur_seq;
+-	u64 next_seq;
+ };
+ 
+ #ifdef CONFIG_PRINTK
+ void kmsg_dump(enum kmsg_dump_reason reason);
+ 
+-bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_line_nolock(struct kmsg_dump_iter *iter, bool syslog,
+ 			       char *line, size_t size, size_t *len);
+ 
+-bool kmsg_dump_get_line(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_line(struct kmsg_dump_iter *iter, bool syslog,
+ 			char *line, size_t size, size_t *len);
+ 
+-bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_buffer(struct kmsg_dump_iter *iter, bool syslog,
+ 			  char *buf, size_t size, size_t *len_out);
+ 
+-void kmsg_dump_rewind_nolock(struct kmsg_dumper *dumper);
++void kmsg_dump_rewind_nolock(struct kmsg_dump_iter *iter);
+ 
+-void kmsg_dump_rewind(struct kmsg_dumper *dumper);
++void kmsg_dump_rewind(struct kmsg_dump_iter *iter);
+ 
+ int kmsg_dump_register(struct kmsg_dumper *dumper);
+ 
+@@ -76,30 +80,30 @@ static inline void kmsg_dump(enum kmsg_dump_reason reason)
+ {
+ }
+ 
+-static inline bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper,
++static inline bool kmsg_dump_get_line_nolock(struct kmsg_dump_iter *iter,
+ 					     bool syslog, const char *line,
+ 					     size_t size, size_t *len)
+ {
+ 	return false;
+ }
+ 
+-static inline bool kmsg_dump_get_line(struct kmsg_dumper *dumper, bool syslog,
++static inline bool kmsg_dump_get_line(struct kmsg_dump_iter *iter, bool syslog,
+ 				const char *line, size_t size, size_t *len)
+ {
+ 	return false;
+ }
+ 
+-static inline bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
++static inline bool kmsg_dump_get_buffer(struct kmsg_dump_iter *iter, bool syslog,
+ 					char *buf, size_t size, size_t *len)
+ {
+ 	return false;
+ }
+ 
+-static inline void kmsg_dump_rewind_nolock(struct kmsg_dumper *dumper)
++static inline void kmsg_dump_rewind_nolock(struct kmsg_dump_iter *iter)
+ {
+ }
+ 
+-static inline void kmsg_dump_rewind(struct kmsg_dumper *dumper)
++static inline void kmsg_dump_rewind(struct kmsg_dump_iter *iter)
+ {
+ }
+ 
+diff --git a/kernel/debug/kdb/kdb_main.c b/kernel/debug/kdb/kdb_main.c
+index 315169d5e119..8544d7a55a57 100644
+--- a/kernel/debug/kdb/kdb_main.c
++++ b/kernel/debug/kdb/kdb_main.c
+@@ -2101,7 +2101,7 @@ static int kdb_dmesg(int argc, const char **argv)
+ 	int adjust = 0;
+ 	int n = 0;
+ 	int skip = 0;
+-	struct kmsg_dumper dumper;
++	struct kmsg_dump_iter iter;
+ 	size_t len;
+ 	char buf[201];
+ 
+@@ -2126,8 +2126,8 @@ static int kdb_dmesg(int argc, const char **argv)
+ 		kdb_set(2, setargs);
+ 	}
+ 
+-	kmsg_dump_rewind_nolock(&dumper);
+-	while (kmsg_dump_get_line_nolock(&dumper, 1, NULL, 0, NULL))
++	kmsg_dump_rewind_nolock(&iter);
++	while (kmsg_dump_get_line_nolock(&iter, 1, NULL, 0, NULL))
+ 		n++;
+ 
+ 	if (lines < 0) {
+@@ -2159,8 +2159,8 @@ static int kdb_dmesg(int argc, const char **argv)
+ 	if (skip >= n || skip < 0)
+ 		return 0;
+ 
+-	kmsg_dump_rewind_nolock(&dumper);
+-	while (kmsg_dump_get_line_nolock(&dumper, 1, buf, sizeof(buf), &len)) {
++	kmsg_dump_rewind_nolock(&iter);
++	while (kmsg_dump_get_line_nolock(&iter, 1, buf, sizeof(buf), &len)) {
+ 		if (skip) {
+ 			skip--;
+ 			continue;
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index ce4cc64ba7c9..b49dee256947 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3390,7 +3390,6 @@ EXPORT_SYMBOL_GPL(kmsg_dump_reason_str);
+ void kmsg_dump(enum kmsg_dump_reason reason)
+ {
+ 	struct kmsg_dumper *dumper;
+-	unsigned long flags;
+ 
+ 	rcu_read_lock();
+ 	list_for_each_entry_rcu(dumper, &dump_list, list) {
+@@ -3407,12 +3406,6 @@ void kmsg_dump(enum kmsg_dump_reason reason)
+ 		if (reason > max_reason)
+ 			continue;
+ 
+-		/* initialize iterator with data about the stored records */
+-		logbuf_lock_irqsave(flags);
+-		dumper->cur_seq = latched_seq_read_nolock(&clear_seq);
+-		dumper->next_seq = prb_next_seq(prb);
+-		logbuf_unlock_irqrestore(flags);
+-
+ 		/* invoke dumper which will iterate over records */
+ 		dumper->dump(dumper, reason);
+ 	}
+@@ -3421,7 +3414,7 @@ void kmsg_dump(enum kmsg_dump_reason reason)
+ 
+ /**
+  * kmsg_dump_get_line_nolock - retrieve one kmsg log line (unlocked version)
+- * @dumper: registered kmsg dumper
++ * @iter: kmsg dump iterator
+  * @syslog: include the "<4>" prefixes
+  * @line: buffer to copy the line to
+  * @size: maximum size of the buffer
+@@ -3438,24 +3431,28 @@ void kmsg_dump(enum kmsg_dump_reason reason)
+  *
+  * The function is similar to kmsg_dump_get_line(), but grabs no locks.
+  */
+-bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_line_nolock(struct kmsg_dump_iter *iter, bool syslog,
+ 			       char *line, size_t size, size_t *len)
+ {
++	u64 min_seq = latched_seq_read_nolock(&clear_seq);
+ 	struct printk_info info;
+ 	unsigned int line_count;
+ 	struct printk_record r;
+ 	size_t l = 0;
+ 	bool ret = false;
+ 
++	if (iter->cur_seq < min_seq)
++		iter->cur_seq = min_seq;
++
+ 	prb_rec_init_rd(&r, &info, line, size);
+ 
+ 	/* Read text or count text lines? */
+ 	if (line) {
+-		if (!prb_read_valid(prb, dumper->cur_seq, &r))
++		if (!prb_read_valid(prb, iter->cur_seq, &r))
+ 			goto out;
+ 		l = record_print_text(&r, syslog, printk_time);
+ 	} else {
+-		if (!prb_read_valid_info(prb, dumper->cur_seq,
++		if (!prb_read_valid_info(prb, iter->cur_seq,
+ 					 &info, &line_count)) {
+ 			goto out;
+ 		}
+@@ -3464,7 +3461,7 @@ bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper, bool syslog,
+ 
+ 	}
+ 
+-	dumper->cur_seq = r.info->seq + 1;
++	iter->cur_seq = r.info->seq + 1;
+ 	ret = true;
+ out:
+ 	if (len)
+@@ -3474,7 +3471,7 @@ bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper, bool syslog,
+ 
+ /**
+  * kmsg_dump_get_line - retrieve one kmsg log line
+- * @dumper: registered kmsg dumper
++ * @iter: kmsg dump iterator
+  * @syslog: include the "<4>" prefixes
+  * @line: buffer to copy the line to
+  * @size: maximum size of the buffer
+@@ -3489,14 +3486,14 @@ bool kmsg_dump_get_line_nolock(struct kmsg_dumper *dumper, bool syslog,
+  * A return value of FALSE indicates that there are no more records to
+  * read.
+  */
+-bool kmsg_dump_get_line(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_line(struct kmsg_dump_iter *iter, bool syslog,
+ 			char *line, size_t size, size_t *len)
+ {
+ 	unsigned long flags;
+ 	bool ret;
+ 
+ 	logbuf_lock_irqsave(flags);
+-	ret = kmsg_dump_get_line_nolock(dumper, syslog, line, size, len);
++	ret = kmsg_dump_get_line_nolock(iter, syslog, line, size, len);
+ 	logbuf_unlock_irqrestore(flags);
+ 
+ 	return ret;
+@@ -3505,7 +3502,7 @@ EXPORT_SYMBOL_GPL(kmsg_dump_get_line);
+ 
+ /**
+  * kmsg_dump_get_buffer - copy kmsg log lines
+- * @dumper: registered kmsg dumper
++ * @iter: kmsg dump iterator
+  * @syslog: include the "<4>" prefixes
+  * @buf: buffer to copy the line to
+  * @size: maximum size of the buffer
+@@ -3522,9 +3519,10 @@ EXPORT_SYMBOL_GPL(kmsg_dump_get_line);
+  * A return value of FALSE indicates that there are no more records to
+  * read.
+  */
+-bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
++bool kmsg_dump_get_buffer(struct kmsg_dump_iter *iter, bool syslog,
+ 			  char *buf, size_t size, size_t *len_out)
+ {
++	u64 min_seq = latched_seq_read_nolock(&clear_seq);
+ 	struct printk_info info;
+ 	struct printk_record r;
+ 	unsigned long flags;
+@@ -3537,16 +3535,19 @@ bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
+ 	if (!buf || !size)
+ 		goto out;
+ 
++	if (iter->cur_seq < min_seq)
++		iter->cur_seq = min_seq;
++
+ 	logbuf_lock_irqsave(flags);
+-	if (prb_read_valid_info(prb, dumper->cur_seq, &info, NULL)) {
+-		if (info.seq != dumper->cur_seq) {
++	if (prb_read_valid_info(prb, iter->cur_seq, &info, NULL)) {
++		if (info.seq != iter->cur_seq) {
+ 			/* messages are gone, move to first available one */
+-			dumper->cur_seq = info.seq;
++			iter->cur_seq = info.seq;
+ 		}
+ 	}
+ 
+ 	/* last entry */
+-	if (dumper->cur_seq >= dumper->next_seq) {
++	if (iter->cur_seq >= iter->next_seq) {
+ 		logbuf_unlock_irqrestore(flags);
+ 		goto out;
+ 	}
+@@ -3557,7 +3558,7 @@ bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
+ 	 * because this function (by way of record_print_text()) will
+ 	 * not write more than size-1 bytes of text into @buf.
+ 	 */
+-	seq = find_first_fitting_seq(dumper->cur_seq, dumper->next_seq,
++	seq = find_first_fitting_seq(iter->cur_seq, iter->next_seq,
+ 				     size - 1, syslog, time);
+ 
+ 	/*
+@@ -3570,7 +3571,7 @@ bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
+ 
+ 	len = 0;
+ 	prb_for_each_record(seq, prb, seq, &r) {
+-		if (r.info->seq >= dumper->next_seq)
++		if (r.info->seq >= iter->next_seq)
+ 			break;
+ 
+ 		len += record_print_text(&r, syslog, time);
+@@ -3579,7 +3580,7 @@ bool kmsg_dump_get_buffer(struct kmsg_dumper *dumper, bool syslog,
+ 		prb_rec_init_rd(&r, &info, buf + len, size - len);
+ 	}
+ 
+-	dumper->next_seq = next_seq;
++	iter->next_seq = next_seq;
+ 	ret = true;
+ 	logbuf_unlock_irqrestore(flags);
+ out:
+@@ -3591,7 +3592,7 @@ EXPORT_SYMBOL_GPL(kmsg_dump_get_buffer);
+ 
+ /**
+  * kmsg_dump_rewind_nolock - reset the iterator (unlocked version)
+- * @dumper: registered kmsg dumper
++ * @iter: kmsg dump iterator
+  *
+  * Reset the dumper's iterator so that kmsg_dump_get_line() and
+  * kmsg_dump_get_buffer() can be called again and used multiple
+@@ -3599,26 +3600,26 @@ EXPORT_SYMBOL_GPL(kmsg_dump_get_buffer);
+  *
+  * The function is similar to kmsg_dump_rewind(), but grabs no locks.
+  */
+-void kmsg_dump_rewind_nolock(struct kmsg_dumper *dumper)
++void kmsg_dump_rewind_nolock(struct kmsg_dump_iter *iter)
+ {
+-	dumper->cur_seq = latched_seq_read_nolock(&clear_seq);
+-	dumper->next_seq = prb_next_seq(prb);
++	iter->cur_seq = latched_seq_read_nolock(&clear_seq);
++	iter->next_seq = prb_next_seq(prb);
+ }
+ 
+ /**
+  * kmsg_dump_rewind - reset the iterator
+- * @dumper: registered kmsg dumper
++ * @iter: kmsg dump iterator
+  *
+  * Reset the dumper's iterator so that kmsg_dump_get_line() and
+  * kmsg_dump_get_buffer() can be called again and used multiple
+  * times within the same dumper.dump() callback.
+  */
+-void kmsg_dump_rewind(struct kmsg_dumper *dumper)
++void kmsg_dump_rewind(struct kmsg_dump_iter *iter)
+ {
+ 	unsigned long flags;
+ 
+ 	logbuf_lock_irqsave(flags);
+-	kmsg_dump_rewind_nolock(dumper);
++	kmsg_dump_rewind_nolock(iter);
+ 	logbuf_unlock_irqrestore(flags);
+ }
+ EXPORT_SYMBOL_GPL(kmsg_dump_rewind);
+-- 
+2.20.1
+
