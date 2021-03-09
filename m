@@ -2,163 +2,97 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A38C43333
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 13:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CFDC433E0
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 14:06:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96BD665101
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 13:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5603D650FD
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 14:06:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231271AbhCINsz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Mar 2021 08:48:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:51390 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231197AbhCINsW (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Mar 2021 08:48:22 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1615297700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=95nQytiynjE+lgsCD540YiASmJmBTjnBSf2S8IR/Qxo=;
-        b=eTOxo46U1RhOYqXDG/YlpXeiG3mLS1gXZT03GDvmXHlWw2A41vtoW6U87OFUK88uBhj8jV
-        RYsSVHbP+7xSab4R9Ef5+rs9BdphzAAW2san7SPMMtY4hgtNyB/CkvRKIfSDf7TEgMCLzP
-        /udQQc2plcCPrIq/so8hMX3DhKnWiBM=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C3B9FAC54;
-        Tue,  9 Mar 2021 13:48:19 +0000 (UTC)
-From:   Juergen Gross <jgross@suse.com>
-To:     xen-devel@lists.xenproject.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, virtualization@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
-        kvm@vger.kernel.org, clang-built-linux@googlegroups.com
-Cc:     Juergen Gross <jgross@suse.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Jason Baron <jbaron@akamai.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Deep Shah <sdeep@vmware.com>,
-        "VMware, Inc." <pv-drivers@vmware.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        id S230116AbhCIOFj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 9 Mar 2021 09:05:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231321AbhCIOFQ (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 9 Mar 2021 09:05:16 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDB3C06174A;
+        Tue,  9 Mar 2021 06:05:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GcUxj6HFoWjzVTh/rDGRj8aF2cC9l7zvlZxwy+rkPI8=; b=WKOLA8/oY3iIlag8Wx/BiQQ9UT
+        ZruJNnfDEZMEZlbHheQzFjCycn70TM2oUT68KgBQ/oxdjk5uO6Z5r4eHEVSyFbvJTCceGYgDth5sk
+        Vl251UGOZrvZr7A7GV/nmQLUywZiRrbhkA8qlDFZnqEHNL26VX2XIoXXCFxBrj+2DvEQSxuMWfLdL
+        +CIInWw8wLp9puRevh/gHTL42vgb6KT1OjTQOYxsbh8lRTothq+WsSQpmKRhx/y0weQQMcyJG4BDv
+        gQl+L7vLS6m3qsVD65+FHddewi5To/GKuAJAeebO0Cj+Et8CjpgeSygrChST+/sMG8t9Y9kPsXNHu
+        BrmOgZEQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lJcyi-004nvb-EB; Tue, 09 Mar 2021 14:04:57 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 047E9304BAE;
+        Tue,  9 Mar 2021 15:04:51 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E2FFC22B8D9BA; Tue,  9 Mar 2021 15:04:50 +0100 (CET)
+Date:   Tue, 9 Mar 2021 15:04:50 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Denis Kirjanov <kda@linux-powerpc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        ath9k-devel@qca.qualcomm.com, Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, Chas Williams <3chas3@gmail.com>,
+        linux-atm-general@lists.sourceforge.net,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH v6 00/12] x86: major paravirt cleanup
-Date:   Tue,  9 Mar 2021 14:48:01 +0100
-Message-Id: <20210309134813.23912-1-jgross@suse.com>
-X-Mailer: git-send-email 2.26.2
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net
+Subject: Re: [patch 00/14] tasklets: Replace the spin wait loops and make it
+ RT safe
+Message-ID: <YEeAghrP8cOk1zL9@hirez.programming.kicks-ass.net>
+References: <20210309084203.995862150@linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210309084203.995862150@linutronix.de>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is a major cleanup of the paravirt infrastructure aiming at
-eliminating all custom code patching via paravirt patching.
+On Tue, Mar 09, 2021 at 09:42:03AM +0100, Thomas Gleixner wrote:
+> This is a follow up to the review comments of the series which makes
+> softirq processing PREEMPT_RT safe:
+> 
+>  https://lore.kernel.org/r/20201207114743.GK3040@hirez.programming.kicks-ass.net
+> 
+> Peter suggested to replace the spin waiting in tasklet_disable() and
+> tasklet_kill() with wait_event(). This also gets rid of the ill defined
+> sched_yield() in tasklet_kill().
+> 
+> Analyzing all usage sites of tasklet_disable() and tasklet_unlock_wait() we
+> found that most of them are safe to be converted to a sleeping wait.
+> 
+> Only a few instances invoke tasklet_disable() from atomic context. A few
+> bugs which have been found in course of this analysis have been already
+> addressed seperately.
 
-This is achieved by using ALTERNATIVE instead, leading to the ability
-to give objtool access to the patched in instructions.
-
-In order to remove most of the 32-bit special handling from pvops the
-time related operations are switched to use static_call() instead.
-
-At the end of this series all paravirt patching has to do is to
-replace indirect calls with direct ones. In a further step this could
-be switched to static_call(), too.
-
-Changes in V6:
-- switched back to "not" bit in feature value for "not feature"
-- other minor comments addressed
-
-Changes in V5:
-- patches 1-5 of V4 dropped, as already applied
-- new patches 1+3
-- fixed patch 2
-- split V4 patch 8 into patches 4+5
-- use flag byte instead of negative feature bit for "not feature"
-
-Changes in V4:
-- fixed several build failures
-- removed objtool patch, as objtool patches are in tip now
-- added patch 1 for making usage of static_call easier
-- even more cleanup
-
-Changes in V3:
-- added patches 7 and 12
-- addressed all comments
-
-Changes in V2:
-- added patches 5-12
-
-Juergen Gross (12):
-  static_call: move struct static_call_key definition to
-    static_call_types.h
-  x86/paravirt: switch time pvops functions to use static_call()
-  x86/alternative: drop feature parameter from ALTINSTR_REPLACEMENT()
-  x86/alternative: support not-feature
-  x86/alternative: support ALTERNATIVE_TERNARY
-  x86: add new features for paravirt patching
-  x86/paravirt: remove no longer needed 32-bit pvops cruft
-  x86/paravirt: simplify paravirt macros
-  x86/paravirt: switch iret pvops to ALTERNATIVE
-  x86/paravirt: add new macros PVOP_ALT* supporting pvops in
-    ALTERNATIVEs
-  x86/paravirt: switch functions with custom code to ALTERNATIVE
-  x86/paravirt: have only one paravirt patch function
-
- arch/arm/include/asm/paravirt.h         |  14 +-
- arch/arm/kernel/paravirt.c              |   9 +-
- arch/arm64/include/asm/paravirt.h       |  14 +-
- arch/arm64/kernel/paravirt.c            |  13 +-
- arch/x86/Kconfig                        |   1 +
- arch/x86/entry/entry_32.S               |   4 +-
- arch/x86/entry/entry_64.S               |   2 +-
- arch/x86/include/asm/alternative-asm.h  |   7 +
- arch/x86/include/asm/alternative.h      |  23 ++-
- arch/x86/include/asm/cpufeatures.h      |   2 +
- arch/x86/include/asm/irqflags.h         |   7 +-
- arch/x86/include/asm/mshyperv.h         |   2 +-
- arch/x86/include/asm/paravirt.h         | 169 +++++++++----------
- arch/x86/include/asm/paravirt_types.h   | 210 +++++++++---------------
- arch/x86/kernel/Makefile                |   3 +-
- arch/x86/kernel/alternative.c           |  51 +++++-
- arch/x86/kernel/asm-offsets.c           |   7 -
- arch/x86/kernel/cpu/vmware.c            |   5 +-
- arch/x86/kernel/kvm.c                   |   2 +-
- arch/x86/kernel/kvmclock.c              |   2 +-
- arch/x86/kernel/paravirt-spinlocks.c    |   9 +
- arch/x86/kernel/paravirt.c              |  78 +++------
- arch/x86/kernel/paravirt_patch.c        |  99 -----------
- arch/x86/kernel/tsc.c                   |   2 +-
- arch/x86/xen/enlighten_pv.c             |   4 +-
- arch/x86/xen/time.c                     |  26 +--
- drivers/xen/time.c                      |   3 +-
- include/linux/static_call.h             |  18 --
- include/linux/static_call_types.h       |  18 ++
- tools/include/linux/static_call_types.h |  18 ++
- 30 files changed, 348 insertions(+), 474 deletions(-)
- delete mode 100644 arch/x86/kernel/paravirt_patch.c
-
--- 
-2.26.2
-
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
