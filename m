@@ -7,45 +7,47 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7809DC433E6
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 667EDC43603
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 400976525F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4097F6525F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhCIIqH (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Mar 2021 03:46:07 -0500
+        id S231255AbhCIIqP (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 9 Mar 2021 03:46:15 -0500
 Received: from Galois.linutronix.de ([193.142.43.55]:51322 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbhCIIpg (ORCPT
+        with ESMTP id S230476AbhCIIpq (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Mar 2021 03:45:36 -0500
-Message-Id: <20210309084241.783936921@linutronix.de>
+        Tue, 9 Mar 2021 03:45:46 -0500
+Message-Id: <20210309084242.616379058@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1615279534;
+        s=2020; t=1615279544;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=4ZkB40PRvDpu0j2eO3bdXGRRAGc3lWp6vGTyvByr3WU=;
-        b=VcarJNiF3W/kOySvc+Kvt2sQr5CNHHpp+0KYJEleYBLkSSGLsDjUwbCZ+ttJ66D0Q1ispq
-        LuRXtaqhWDyEut2StVllxi6+rFKscZM/LnQ7WRE38ws1p90R5jOzjF3RGp8xTp1gVoWSa0
-        AFlD1vHkzSo1ZnTK5lrFXP8+CsljZy+7SBVIkHB7ZpzUMvgg9a8CuTb8Qg8LFpXXp1u+5r
-        kxo6StGdFp30rNx+PoJZH29hxZ8OVFJMuEBiHq1Sk/221OQwzxW8wU2qLCqDHq5LytyQq/
-        +GfzqO8TQeQ/UAx+e4qL3/amdtsXJ+7A3seZTJd4Z3dgN2l9d2EEZfnQePdMXQ==
+        bh=tlyvAn/iLsnm16cCofFKPPKUvuYjwP7bNofYqMtepoU=;
+        b=Qlzwohm0ky1Wc0yoAaFc1u7qAxUQot4tEXPvu5fFgMXwl8en8cJNZqPLoDOXlh+yWNCdyA
+        7CvuQrdNx8rNz1AfWKfp7iu7JJI1fARHIfbiCBh2Y7QoujPJ7jd7/iZILi+8hg/MuJBtQ6
+        sf5gHlbIZy7sEnj16W1LaivwXrHTx2iphw7GtshoGLN+aI4O3nEKodZtfrYcJGpNa4w3Jk
+        tsk7W6FG48rHe17gdBaF1k4TwBMZme3Yvx+GPES6K6c5/jDZ2DuFBthglaOQNKxfvdnaNT
+        iyeBbpnMxyky1tIueNyKNnDmJtLJdAjMJ+LU9+DUS+5LSqiWsRhRbbyjQenOTg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1615279534;
+        s=2020e; t=1615279544;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=4ZkB40PRvDpu0j2eO3bdXGRRAGc3lWp6vGTyvByr3WU=;
-        b=jIsPkF+4WMvgAlsbmhzYBMM16NCTQ90FLvCon97O1Nn0XD+z/XvKPcjTwIPn9fDlcPJR+N
-        2rD7FRipxQ1yX2Bw==
-Date:   Tue, 09 Mar 2021 09:42:08 +0100
+        bh=tlyvAn/iLsnm16cCofFKPPKUvuYjwP7bNofYqMtepoU=;
+        b=4uviCJ31waHDVyHXuUlHnZ6PNw0FIonj8rD9WJzrc5m+wDPM7Ai550CdyaMdzhAP03Jqt1
+        Ixw9TwLF4CvNbACg==
+Date:   Tue, 09 Mar 2021 09:42:16 +0100
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Frederic Weisbecker <frederic@kernel.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        linux1394-devel@lists.sourceforge.net,
         Peter Zijlstra <peterz@infradead.org>,
         Denis Kirjanov <kda@linux-powerpc.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -60,10 +62,8 @@ Cc:     Frederic Weisbecker <frederic@kernel.org>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Rob Herring <robh@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>,
-        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        linux1394-devel@lists.sourceforge.net
-Subject: [patch 05/14] tasklets: Replace spin wait in tasklet_unlock_wait()
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: [patch 13/14] firewire: ohci: Use tasklet_disable_in_atomic() where required
 References: <20210309084203.995862150@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -72,82 +72,54 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Peter Zijlstra <peterz@infradead.org>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tasklet_unlock_wait() spin waits for TASKLET_STATE_RUN to be cleared. This
-is wasting CPU cycles in a tight loop which is especially painful in a
-guest when the CPU running the tasklet is scheduled out.
+tasklet_disable() is invoked in several places. Some of them are in atomic
+context which prevents a conversion of tasklet_disable() to a sleepable
+function.
 
-tasklet_unlock_wait() is invoked from tasklet_kill() which is used in
-teardown paths and not performance critical at all. Replace the spin wait
-with wait_var_event().
+The atomic callchains are:
 
-There are no users of tasklet_unlock_wait() which are invoked from atomic
-contexts. The usage in tasklet_disable() has been replaced temporarily with
-the spin waiting variant until the atomic users are fixed up and will be
-converted to the sleep wait variant later.
+ ar_context_tasklet()
+   ohci_cancel_packet()
+     tasklet_disable()
 
-Signed-off-by: Peter Zijlstra <peterz@infradead.org>
+ ...
+   ohci_flush_iso_completions()
+     tasklet_disable()
+
+The invocation of tasklet_disable() from at_context_flush() is always in
+preemptible context.
+
+Use tasklet_disable_in_atomic() for the two invocations in
+ohci_cancel_packet() and ohci_flush_iso_completions().
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc: linux1394-devel@lists.sourceforge.net
 ---
- include/linux/interrupt.h |   13 ++-----------
- kernel/softirq.c          |   18 ++++++++++++++++++
- 2 files changed, 20 insertions(+), 11 deletions(-)
+ drivers/firewire/ohci.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -664,17 +664,8 @@ static inline int tasklet_trylock(struct
- 	return !test_and_set_bit(TASKLET_STATE_RUN, &(t)->state);
- }
+--- a/drivers/firewire/ohci.c
++++ b/drivers/firewire/ohci.c
+@@ -2545,7 +2545,7 @@ static int ohci_cancel_packet(struct fw_
+ 	struct driver_data *driver_data = packet->driver_data;
+ 	int ret = -ENOENT;
  
--static inline void tasklet_unlock(struct tasklet_struct *t)
--{
--	smp_mb__before_atomic();
--	clear_bit(TASKLET_STATE_RUN, &(t)->state);
--}
--
--static inline void tasklet_unlock_wait(struct tasklet_struct *t)
--{
--	while (test_bit(TASKLET_STATE_RUN, &t->state))
--		cpu_relax();
--}
-+void tasklet_unlock(struct tasklet_struct *t);
-+void tasklet_unlock_wait(struct tasklet_struct *t);
+-	tasklet_disable(&ctx->tasklet);
++	tasklet_disable_in_atomic(&ctx->tasklet);
  
- /*
-  * Do not use in new code. Waiting for tasklets from atomic contexts is
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -25,6 +25,7 @@
- #include <linux/smpboot.h>
- #include <linux/tick.h>
- #include <linux/irq.h>
-+#include <linux/wait_bit.h>
+ 	if (packet->ack != 0)
+ 		goto out;
+@@ -3465,7 +3465,7 @@ static int ohci_flush_iso_completions(st
+ 	struct iso_context *ctx = container_of(base, struct iso_context, base);
+ 	int ret = 0;
  
- #include <asm/softirq_stack.h>
+-	tasklet_disable(&ctx->context.tasklet);
++	tasklet_disable_in_atomic(&ctx->context.tasklet);
  
-@@ -621,6 +622,23 @@ void tasklet_kill(struct tasklet_struct
- }
- EXPORT_SYMBOL(tasklet_kill);
- 
-+#ifdef CONFIG_SMP
-+void tasklet_unlock(struct tasklet_struct *t)
-+{
-+	smp_mb__before_atomic();
-+	clear_bit(TASKLET_STATE_RUN, &t->state);
-+	smp_mb__after_atomic();
-+	wake_up_var(&t->state);
-+}
-+EXPORT_SYMBOL_GPL(tasklet_unlock);
-+
-+void tasklet_unlock_wait(struct tasklet_struct *t)
-+{
-+	wait_var_event(&t->state, !test_bit(TASKLET_STATE_RUN, &t->state));
-+}
-+EXPORT_SYMBOL_GPL(tasklet_unlock_wait);
-+#endif
-+
- void __init softirq_init(void)
- {
- 	int cpu;
+ 	if (!test_and_set_bit_lock(0, &ctx->flushing_completions)) {
+ 		context_tasklet((unsigned long)&ctx->context);
 
