@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C5CC4360C
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE9D4C43332
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 218746525D
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FB7B65295
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbhCIIqQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Mar 2021 03:46:16 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:51468 "EHLO
+        id S231162AbhCIIqM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 9 Mar 2021 03:46:12 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:51322 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbhCIIpr (ORCPT
+        with ESMTP id S230372AbhCIIpl (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Mar 2021 03:45:47 -0500
-Message-Id: <20210309084242.726452321@linutronix.de>
+        Tue, 9 Mar 2021 03:45:41 -0500
+Message-Id: <20210309084242.209110861@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1615279546;
+        s=2020; t=1615279539;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=9KT43iZjcYh0YrvTvN7XdcTuH8DaLv7UrGU0p5dJ7Kw=;
-        b=wbIPe/m5YjN4T0CDdkyHEN3ndj7u66SXrWn9gJjd/UkhTNnGLeGIUI4nTvNwc7lpFNabXr
-        vxQ6cZqrDDW2eM5MQX3ZWhiivT0yo+ZyXH7EJqOXtf6l38AMSVnN8bn0ueCfbmBAuqnBpS
-        luR4xNWKJDT05NOP79QWNntAMHafrWS8GO2MbfhqlI8jaP8LpW4HD4DcsHiPaNuqsgpYZz
-        dmrFsN7ejzCrAYm7LduwIBlWJWYmtzsz0hv4qcm+OYpWTxOxxnmJzw8N5tUzdzuKpQcHX9
-        HECVCBidiDF5S9jqMmRQMo2QAzg9hQohkD0Cd40RxKAIdq0x5iXtiX++xbdcsg==
+        bh=3OZDZ1PlAIXweh7titVCv+Mhn6QM6oopTZUhKH8n3fI=;
+        b=OHqjpGKzuWjP+ej4hd27e5ZqZrmViqn9gk8mqAOiivIPpzrHwdyFNiFKhb6RX2HyHplghe
+        CAbm1ecdOgYQd4x7YP2MQPb+tH4KPQ6o0MUrzbYxxI8aRRi2i2nPOkWNuvbOyg61rZ1yo0
+        DjJC1WOJiDIRdPk97zbrpQ0bXKnJnOdUu3NaT2ZP+JtjAC/VvVGBFgel3qlOWmrnlVnbgw
+        PSg2351Hv8WRE7GmEVPQST7lNGtgE6boyfuDeMjNk+1HiMXw3q3En3ND4s5vLy+pzB7LfK
+        2CBwAs4jMqqsgXQKIyJYyGPuJUF1PnOPa/paFgILHa/BvyF3xtK0QIhtfteSbQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1615279546;
+        s=2020e; t=1615279539;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=9KT43iZjcYh0YrvTvN7XdcTuH8DaLv7UrGU0p5dJ7Kw=;
-        b=1zaTxtqRMfwcDkMrDkgUs/o2Y1uOqHP/lGxGKpimbVREa7ooJ+5Ln+F0PzjOPoORY4z1cD
-        1riABWr9jAEmHXBg==
-Date:   Tue, 09 Mar 2021 09:42:17 +0100
+        bh=3OZDZ1PlAIXweh7titVCv+Mhn6QM6oopTZUhKH8n3fI=;
+        b=o9tIrGOpSVQUSJ1YQqLXROg6bjTxJYKvkYRgEtPlvtrNy6s6CHuYZDrzd8nr4wFP+zYF0n
+        C0xlpPo2jMwMG+DA==
+Date:   Tue, 09 Mar 2021 09:42:12 +0100
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Frederic Weisbecker <frederic@kernel.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
         Denis Kirjanov <kda@linux-powerpc.org>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
         ath9k-devel@qca.qualcomm.com, Kalle Valo <kvalo@codeaurora.org>,
         linux-wireless@vger.kernel.org, Chas Williams <3chas3@gmail.com>,
         linux-atm-general@lists.sourceforge.net,
@@ -63,7 +63,7 @@ Cc:     Frederic Weisbecker <frederic@kernel.org>,
         linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
         Stefan Richter <stefanr@s5r6.in-berlin.de>,
         linux1394-devel@lists.sourceforge.net
-Subject: [patch 14/14] tasklets: Switch tasklet_disable() to the sleep wait variant
+Subject: [patch 09/14] net: sundance: Use tasklet_disable_in_atomic().
 References: <20210309084203.995862150@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -72,26 +72,33 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
- -- NOT FOR IMMEDIATE MERGING --
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Now that all users of tasklet_disable() are invoked from sleepable context,
-convert it to use tasklet_unlock_wait() which might sleep.
+tasklet_disable() is used in the timer callback. This might be distangled,
+but without access to the hardware that's a bit risky.
 
+Replace it with tasklet_disable_in_atomic() so tasklet_disable() can be
+changed to a sleep wait once all remaining atomic users are converted.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Denis Kirjanov <kda@linux-powerpc.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org
 ---
- include/linux/interrupt.h |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/net/ethernet/dlink/sundance.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -716,8 +716,7 @@ static inline void tasklet_disable_in_at
- static inline void tasklet_disable(struct tasklet_struct *t)
- {
- 	tasklet_disable_nosync(t);
--	/* Spin wait until all atomic users are converted */
--	tasklet_unlock_spin_wait(t);
-+	tasklet_unlock_wait(t);
- 	smp_mb();
- }
+--- a/drivers/net/ethernet/dlink/sundance.c
++++ b/drivers/net/ethernet/dlink/sundance.c
+@@ -963,7 +963,7 @@ static void tx_timeout(struct net_device
+ 	unsigned long flag;
  
+ 	netif_stop_queue(dev);
+-	tasklet_disable(&np->tx_tasklet);
++	tasklet_disable_in_atomic(&np->tx_tasklet);
+ 	iowrite16(0, ioaddr + IntrEnable);
+ 	printk(KERN_WARNING "%s: Transmit timed out, TxStatus %2.2x "
+ 		   "TxFrameId %2.2x,"
 
