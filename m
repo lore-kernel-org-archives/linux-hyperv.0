@@ -7,52 +7,51 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49DFC433E9
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFDB6C433E0
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83F626528A
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:46:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E2EF6525F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Mar 2021 08:47:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231207AbhCIIqN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Mar 2021 03:46:13 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:51468 "EHLO
+        id S231144AbhCIIqM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 9 Mar 2021 03:46:12 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:51322 "EHLO
         galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230424AbhCIIpm (ORCPT
+        with ESMTP id S230231AbhCIIpi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Mar 2021 03:45:42 -0500
-Message-Id: <20210309084242.313899703@linutronix.de>
+        Tue, 9 Mar 2021 03:45:38 -0500
+Message-Id: <20210309084241.988908275@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1615279541;
+        s=2020; t=1615279537;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=l6Q3W/LryXAjvWJbzAW7nw1Byy8ZW+Ak6BqUHfGdIYA=;
-        b=wkfrvYWdeSxVkZZvGJrvJ5doa1FQOYEdrs9XtXy+47hkZr79UvWY+m+G9akaJQslI0Hptg
-        sYnBZXRXHiw7V+qHXT2/S2jvkbUf9V5/ePXCILMMjFH3RnIgn2E2s1uSQJfYZt1fCK1XtD
-        Of9D8bk7Jn0jf6Vpiom/NscjyJnL7uIE/s/W4ZKi2PExELJU0oOnY9lQc2U0/hwoX2RYTN
-        aHrp25gQZLqCU9Nj3Xq0qHr8+J9S3Ya78w107pmK4K3X42rqInFgO/e7lGS2qOKPcIcw0w
-        dw82CAulutJ4Psg1LyI6T7H3JYhWeQ1K6QVyGJzeEaDxAXlGa69vFi6ASruCrg==
+        bh=GYa4T+wysmchbWGyEHnP5D3R0q7070Yof//eaYXU1t4=;
+        b=yxyplOX4MXWNGUVOFyrXPOpSoz5Xwyp0qFq/PKDiLxB/oLCssT4uIrk0eh2pqbVlBbzI13
+        cVnrEX/vsYWP+i5SJ/Pm4awxHaL97/sJ5hT7Zp64PGIhiuDN3PwGW2MBj5qi+WGBo+fjTy
+        cFpnOcxJbCseftcCMRVBWgAGI8Eh7x3xYezUVHRZQZ3h5aDjV2yEY/eBwuPS9/6f2tjX2w
+        jTGnCw7JWlCYzG6d7GW9EKZTZ5p50ogEvi79Tvxy0ER8kF26iO3NF3IZ11ea/GV8tQwFnd
+        CiJE8PwenQN7BPD+Q1TAoUM6ruuq1Va68m8d8EKDQPUE/mOSfhuY3efshhyVjg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1615279541;
+        s=2020e; t=1615279537;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=l6Q3W/LryXAjvWJbzAW7nw1Byy8ZW+Ak6BqUHfGdIYA=;
-        b=DTmNItlbUCzhKqosxEh/VQS7S4RBz18lFKbgeCay+vE0IyWWX0E4N9MzEuBG8k5h2jqMWK
-        HqURayVmIpwdfoCg==
-Date:   Tue, 09 Mar 2021 09:42:13 +0100
+        bh=GYa4T+wysmchbWGyEHnP5D3R0q7070Yof//eaYXU1t4=;
+        b=uVSheKue6bDObKaJ12syhv7eSNkzNhgwmrD8T0lvpUxqFVWjK3FZc04NfNq0pEDVDjsSWe
+        k8TZrQM0mccfYkDw==
+Date:   Tue, 09 Mar 2021 09:42:10 +0100
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Frederic Weisbecker <frederic@kernel.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
         "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        ath9k-devel@qca.qualcomm.com, Kalle Valo <kvalo@codeaurora.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         Peter Zijlstra <peterz@infradead.org>,
         Denis Kirjanov <kda@linux-powerpc.org>,
-        Chas Williams <3chas3@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        ath9k-devel@qca.qualcomm.com, Kalle Valo <kvalo@codeaurora.org>,
+        linux-wireless@vger.kernel.org, Chas Williams <3chas3@gmail.com>,
         linux-atm-general@lists.sourceforge.net,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -64,7 +63,7 @@ Cc:     Frederic Weisbecker <frederic@kernel.org>,
         linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
         Stefan Richter <stefanr@s5r6.in-berlin.de>,
         linux1394-devel@lists.sourceforge.net
-Subject: [patch 10/14] ath9k: Use tasklet_disable_in_atomic()
+Subject: [patch 07/14] tasklets: Prevent tasklet_unlock_spin_wait() deadlock on RT
 References: <20210309084203.995862150@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -73,41 +72,80 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+tasklet_unlock_spin_wait() spin waits for the TASKLET_STATE_SCHED bit in
+the tasklet state to be cleared. This works on !RT nicely because the
+corresponding execution can only happen on a different CPU.
 
-All callers of ath9k_beacon_ensure_primary_slot() are preemptible /
-acquire a mutex except for this callchain:
+On RT softirq processing is preemptible, therefore a task preempting the
+softirq processing thread can spin forever.
 
-  spin_lock_bh(&sc->sc_pcu_lock);
-  ath_complete_reset()
-  -> ath9k_calculate_summary_state()
-     -> ath9k_beacon_ensure_primary_slot()
+Prevent this by invoking local_bh_disable()/enable() inside the loop. In
+case that the softirq processing thread was preempted by the current task,
+current will block on the local lock which yields the CPU to the preempted
+softirq processing thread. If the tasklet is processed on a different CPU
+then the local_bh_disable()/enable() pair is just a waste of processor
+cycles.
 
-It's unclear how that can be distangled, so use tasklet_disable_in_atomic()
-for now. This allows tasklet_disable() to become sleepable once the
-remaining atomic users are cleaned up.
-
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: ath9k-devel@qca.qualcomm.com
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Tested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/net/wireless/ath/ath9k/beacon.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/interrupt.h |    2 +-
+ kernel/softirq.c          |   28 +++++++++++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
---- a/drivers/net/wireless/ath/ath9k/beacon.c
-+++ b/drivers/net/wireless/ath/ath9k/beacon.c
-@@ -251,7 +251,7 @@ void ath9k_beacon_ensure_primary_slot(st
- 	int first_slot = ATH_BCBUF;
- 	int slot;
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -658,7 +658,7 @@ enum
+ 	TASKLET_STATE_RUN	/* Tasklet is running (SMP only) */
+ };
  
--	tasklet_disable(&sc->bcon_tasklet);
-+	tasklet_disable_in_atomic(&sc->bcon_tasklet);
+-#ifdef CONFIG_SMP
++#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+ static inline int tasklet_trylock(struct tasklet_struct *t)
+ {
+ 	return !test_and_set_bit(TASKLET_STATE_RUN, &(t)->state);
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -616,6 +616,32 @@ void tasklet_init(struct tasklet_struct
+ }
+ EXPORT_SYMBOL(tasklet_init);
  
- 	/* Find first taken slot. */
- 	for (slot = 0; slot < ATH_BCBUF; slot++) {
++#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
++/*
++ * Do not use in new code. There is no real reason to invoke this from
++ * atomic contexts.
++ */
++void tasklet_unlock_spin_wait(struct tasklet_struct *t)
++{
++	while (test_bit(TASKLET_STATE_RUN, &(t)->state)) {
++		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
++			/*
++			 * Prevent a live lock when current preempted soft
++			 * interrupt processing or prevents ksoftirqd from
++			 * running. If the tasklet runs on a different CPU
++			 * then this has no effect other than doing the BH
++			 * disable/enable dance for nothing.
++			 */
++			local_bh_disable();
++			local_bh_enable();
++		} else {
++			cpu_relax();
++		}
++	}
++}
++EXPORT_SYMBOL(tasklet_unlock_spin_wait);
++#endif
++
+ void tasklet_kill(struct tasklet_struct *t)
+ {
+ 	if (in_interrupt())
+@@ -629,7 +655,7 @@ void tasklet_kill(struct tasklet_struct
+ }
+ EXPORT_SYMBOL(tasklet_kill);
+ 
+-#ifdef CONFIG_SMP
++#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+ void tasklet_unlock(struct tasklet_struct *t)
+ {
+ 	smp_mb__before_atomic();
 
