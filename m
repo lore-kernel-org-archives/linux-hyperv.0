@@ -2,85 +2,86 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3CACC433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E12E3C433E2
 	for <linux-hyperv@archiver.kernel.org>; Fri, 19 Mar 2021 16:21:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A34E76198D
+	by mail.kernel.org (Postfix) with ESMTP id B739161982
 	for <linux-hyperv@archiver.kernel.org>; Fri, 19 Mar 2021 16:21:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhCSQUp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 19 Mar 2021 12:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51050 "EHLO
+        id S230009AbhCSQUq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 19 Mar 2021 12:20:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229933AbhCSQUa (ORCPT
+        with ESMTP id S229942AbhCSQUc (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 19 Mar 2021 12:20:30 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A70C061760;
-        Fri, 19 Mar 2021 09:20:30 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id c4so3438744qkg.3;
-        Fri, 19 Mar 2021 09:20:30 -0700 (PDT)
+        Fri, 19 Mar 2021 12:20:32 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40E3C06175F;
+        Fri, 19 Mar 2021 09:20:31 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id s2so7109897qtx.10;
+        Fri, 19 Mar 2021 09:20:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YTqkIslzd3cZ3YjBiwLXA1sHZhbzdhxR9PRY9kOersA=;
-        b=XEj7xRWm32bCF4yjMzjwpA6QUw4nqoK//unFI76siTlkarCqwbUdgOu+9sRIGeIaFR
-         CpBJPZojis5xSZjzRVswDmA+bmsff91MSDWioPQU0OAiC4Z+di46w3deJDjzganWXNTb
-         /cITW1gUvdJQPwqXzNfQbtDB6G0E6Kf26TGuoMxZPnKnTGVibnM8yZ53dFrryqTINTcS
-         /Huin2H9VArXjOF1pMhLqdMcS+ydze50OT0CHq/7V5e34Z5/+hFWye8Su57wM+9GwqmU
-         veCUyEDOW2G/L0iPZF22+EZdem8PNA7GUgY9LJmyylGO4bI5ba820jBQIHqjefDbdTC8
-         dwuw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hOigcolInKq2azrkaT41R7EqZELchBXlGjfdA7p16f0=;
+        b=R+VQTD45IlVeo8FZIwkbsrXHb5HdN1dGNF0wbJZot8CK1vUlZOYi5miaJxAn8T+F0W
+         tzyHBANAN3MCw8jx4+gTtPmTBp+8BCXmBgM5IZeDZcJjjZYD2wWvNh61wW8V7TdF/ZZg
+         UZ11EpMynm7tH+61CZs+hXxzW+DDl3fYuFQzSb+uUn8GflXn1f65mSv0pUYrXY7IxCDd
+         EhZvXLzYn5pdj40r6h0g8Vn9YsCpGnmD4/eM+sttRxzQUsZPmOBmH+VsxYLm5FvHhqWX
+         hVc9ibDoitEdKWpiuR2gFNoR8OOH/xflRcw/ZXFL2w9l+5o+KlORRyG7SHN1UHGHDvcR
+         gmMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YTqkIslzd3cZ3YjBiwLXA1sHZhbzdhxR9PRY9kOersA=;
-        b=o8ex7jHA+2eH5dVAVvfHeW9i5u/8Zc0wuMBVaR5YEEfSX/i3izkLfriEhqSyhSx2/N
-         JRRCwKfrg2lXTM+fiQRoIMhVjn48HBJSglhdPn8F9tYt2s0quBmmzROnn5z/OtEnOQob
-         //c3YVKXDg7oZ2r3dIL5v1HeYG9pSU8cSCmhwgzhaQfLFNJGXmGsIu6WCjNulFQk+53o
-         LwsjH+XNzHcNpXQkj3Sf+WW9P25Ha9RJcTsSJ5bzy/X3efmk+J93q3UAfw7sjv+R4l3z
-         tgFRctL9RPlh1xFOteCYyZZ5VVTtRM3AAbXCCb+VFdB1ndVa53/vRAvarQtD2T0NpM/z
-         pFKg==
-X-Gm-Message-State: AOAM530dbJxcwswK67Jd/OHubZMyr+tunBLT2EUIjhAwHItqoM3v90NJ
-        FqaHrHB4aGQ1wIYG0F8uAu4=
-X-Google-Smtp-Source: ABdhPJwOQCi4eHUF3JKAOaJ7+W1gOiAy5rQZqz7Rbbbu3aBu7rigEKpd0Od6PXSPRjxdLrQWaD6gZw==
-X-Received: by 2002:a37:9c51:: with SMTP id f78mr9994953qke.228.1616170829706;
-        Fri, 19 Mar 2021 09:20:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hOigcolInKq2azrkaT41R7EqZELchBXlGjfdA7p16f0=;
+        b=Zpzw7NgAiNx2TrpaqPk9aQUhTwUlTp/Xj8fXGVorMmgvM4tUEXlzU8NWyYMhe3zqPv
+         8vKFG7VVWLPvA8Pw6Ew3ext3eQSVuAnaYRLYOt+3Vcnw5dMBpx5SSLY0NsiCL5XyevbJ
+         mzVuZnSZWOC+eMylmmVpRXxbt9cWGFMBm1hZro/HJf18xJ+V6/QvPt2SRqgbYsp5o17e
+         Tobgd3fqIU1Bn2Dsk541kGucM30JBxvwpIactAIi/NJUsnfYCTmV7fNO1/nbBpizfE/8
+         Y/J2PAkr2y8W6cGGhfsTs72CIuJCOqieOOvnK0Rp8qBY8nJEmrKysVLDmEvtJnnzAnqU
+         266A==
+X-Gm-Message-State: AOAM5300kH+XKNAz4IVyX50GKSf8NVYoVBRhrykCAKHo0wSdyUN/yzky
+        +Aes6TpOOBt+xfLd6Hqu38lpXa2EyoU=
+X-Google-Smtp-Source: ABdhPJw5rCfLaNS+oBUljUXMupVv+A4YSSGCfys/J74kbxSkFozJnCNbdN4NNBB4KYeSzyWZl/+M+w==
+X-Received: by 2002:ac8:7d52:: with SMTP id h18mr7143435qtb.175.1616170831225;
+        Fri, 19 Mar 2021 09:20:31 -0700 (PDT)
 Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id p1sm4781938qkj.73.2021.03.19.09.20.28
+        by smtp.gmail.com with ESMTPSA id z14sm3929680qti.87.2021.03.19.09.20.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 09:20:28 -0700 (PDT)
+        Fri, 19 Mar 2021 09:20:30 -0700 (PDT)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 11D1D27C0060;
-        Fri, 19 Mar 2021 12:20:27 -0400 (EDT)
+        by mailauth.nyi.internal (Postfix) with ESMTP id 1129427C0066;
+        Fri, 19 Mar 2021 12:20:29 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 19 Mar 2021 12:20:28 -0400
-X-ME-Sender: <xms:Ss9UYIrWLVsH5Pb9qe35rFDJNUwJqffa7i-B-7SGHBXUeOh4lFPxxg>
-    <xme:Ss9UYOpwcrzJbiVx2VrFSBm0_yfjwNJ63O8H5h5vwq2CkfIlS_HTgkK6LpJCj5fWt
-    PFlfactaxi15V4vAw>
+  by compute5.internal (MEProxy); Fri, 19 Mar 2021 12:20:29 -0400
+X-ME-Sender: <xms:TM9UYKGMYp05jpSXRFFsM8RD4yBpok246P0ykwssE8qe3VR43QSXjQ>
+    <xme:TM9UYLWisBf7FSIF_7uECqbxgYvP9Yu1Hfol4zNIx0w46lfet7jib5-dxS_KSzmHG
+    Nl5bb7UcM8kPb_NcQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefkedgkeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhnucfh
-    vghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvg
-    hrnhepieejhfelvddtgeduhfffueegteevleeugfekvefhueduuedugfevvefhtedvuedv
-    necukfhppedufedurddutdejrddurddvheegnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhs
-    ohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnh
-    hgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:Ss9UYNOnRAkDQTqky-LLcyIef4nLXi4CaxQQ-oxs0OgFuYvheFRDEw>
-    <xmx:Ss9UYP5yapaMfn_O_rvcDpc9c84Qb7HvFhiS-yw7qqXpDQdpmF6b5Q>
-    <xmx:Ss9UYH7uDjFBoOuyu_LtQPfQV9goQdbJZEtW4WPIGR3NMrnHqpOhdg>
-    <xmx:S89UYGS4Sub_lyPfCo561uOlJpWU64ArNHtlKjxRaTuOKfo_b5vjeoaplyd3Btij>
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
+    htvghrnhephedvveetfefgiedutedtfeevvddvleekjeeuffffleeguefhhfejteekieeu
+    ueelnecukfhppedufedurddutdejrddurddvheegnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:TM9UYEI9oLSaec0y8D5MDQlBqGlIJ2E94Tl95vtxXVMWrzu3O-s_QA>
+    <xmx:TM9UYEHN_timsoyRkp1B9sf3gcT0W7E0d5L8jxuVaVqNHWbEu-aTqw>
+    <xmx:TM9UYAWPFSM6RBNOSkzbdAAgEOpEAWydwNt3FTdnY1Fh6kO0_1Sk3Q>
+    <xmx:Tc9UYBvmocUpwABN6Tv8iiUMVtMotII2FAuhluIas_7-5A7uJw_mpBPr1VjEo711>
 Received: from localhost (unknown [131.107.1.254])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 8F1E124005B;
-        Fri, 19 Mar 2021 12:20:26 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id A062324005D;
+        Fri, 19 Mar 2021 12:20:28 -0400 (EDT)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -96,49 +97,42 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: [RFC 0/2] PCI: Introduce pci_ops::use_arch_sysdata
-Date:   Sat, 20 Mar 2021 00:19:54 +0800
-Message-Id: <20210319161956.2838291-1-boqun.feng@gmail.com>
+Subject: [RFC 2/2] PCI: hv: Tell PCI core arch-specific sysdata is used
+Date:   Sat, 20 Mar 2021 00:19:56 +0800
+Message-Id: <20210319161956.2838291-3-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210319161956.2838291-1-boqun.feng@gmail.com>
+References: <20210319161956.2838291-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Bjorn,
+Use the newly introduced ->use_arch_sysdata to tell PCI core, we still
+use the arch-specific sysdata way to set up root PCI buses on
+CONFIG_PCI_DOMAINS_GENERIC=y architectures, this is preparation fo
+Hyper-V ARM64 guest virtual PCI support.
 
-I'm currently working on virtual PCI support for Hyper-V ARM64 guests.
-Similar to virtual PCI on x86 Hyper-V guests, the PCI root bus is not
-probed via ACPI (or of), it's probed from Hyper-V VMbus, therefore it
-doesn't have config window.
+Signed-off-by: Boqun Feng (Microsoft) <boqun.feng@gmail.com>
+---
+ drivers/pci/controller/pci-hyperv.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Since ARM64 is a CONFIG_PCI_DOMAINS_GENERIC=y, PCI core code always
-treats as the root bus has a config window. So we need to resolve this
-and want to reuse the code as much as possible. My current solution is
-introducing a pci_ops::use_arch_sysdata, and if it's true, the PCI core
-code treats the pci_bus::sysdata as an arch-specific sysdata (rather
-than pci_config_window) for CONFIG_PCI_DOMAINS_GENERIC=y architectures.
-This allows us to reuse the existing code for Hyper-V PCI controller.
-
-This is simply a proposal, I'm open to any suggestion.
-
-Thanks!
-
-Regards,
-Boqun
-
-
-Boqun Feng (2):
-  arm64: PCI: Allow use arch-specific pci sysdata
-  PCI: hv: Tell PCI core arch-specific sysdata is used
-
- arch/arm64/include/asm/pci.h        | 29 +++++++++++++++++++++++++++++
- arch/arm64/kernel/pci.c             | 15 ++++++++++++---
- drivers/pci/controller/pci-hyperv.c |  3 +++
- include/linux/pci.h                 |  3 +++
- 4 files changed, 47 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 27a17a1e4a7c..7cfa18d8a26e 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -859,6 +859,9 @@ static int hv_pcifront_write_config(struct pci_bus *bus, unsigned int devfn,
+ static struct pci_ops hv_pcifront_ops = {
+ 	.read  = hv_pcifront_read_config,
+ 	.write = hv_pcifront_write_config,
++#ifdef CONFIG_PCI_DOMAINS_GENERIC
++	.use_arch_sysdata = 1,
++#endif
+ };
+ 
+ /*
 -- 
 2.30.2
 
