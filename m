@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B605C433EC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B813DC433FC
 	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E70D7619A7
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F212619AD
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232255AbhCVSyK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 22 Mar 2021 14:54:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37566 "EHLO mail.kernel.org"
+        id S231830AbhCVSyL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Mar 2021 14:54:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37632 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231728AbhCVSxq (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 22 Mar 2021 14:53:46 -0400
+        id S231738AbhCVSxs (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 22 Mar 2021 14:53:48 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1C6B161998;
-        Mon, 22 Mar 2021 18:53:46 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 046736199F;
+        Mon, 22 Mar 2021 18:53:48 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lOPZR-0038p5-66; Mon, 22 Mar 2021 18:46:33 +0000
+        id 1lOPZU-0038p5-2Z; Mon, 22 Mar 2021 18:46:36 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -51,9 +51,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v2 10/15] PCI/MSI: Let PCI host bridges declare their lack of MSI handling
-Date:   Mon, 22 Mar 2021 18:46:09 +0000
-Message-Id: <20210322184614.802565-11-maz@kernel.org>
+Subject: [PATCH v2 13/15] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
+Date:   Mon, 22 Mar 2021 18:46:12 +0000
+Message-Id: <20210322184614.802565-14-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210322184614.802565-1-maz@kernel.org>
 References: <20210322184614.802565-1-maz@kernel.org>
@@ -67,49 +67,34 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+The generic PCI host driver relies on MSI domains for MSIs to
+be provided to its end-points. Make this dependency explicit.
 
-Some PCI host bridges cannot deal with MSIs at all. This has
-the unfortunate effect of triggering ugly warnings when an end-point
-driver requests MSIs.
+This cures the warnings occuring on arm/arm64 VMs when booted
+with PCI virtio devices and no MSI controller (no GICv3 ITS,
+for example).
 
-Instead, let the bridge advertise such lack of MSIs, so that it
-can be flagged correctly by the core code.
+It is likely that other drivers will need to express the same
+dependency.
 
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-[maz: commit message]
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/probe.c | 2 ++
- include/linux/pci.h | 1 +
- 2 files changed, 3 insertions(+)
+ drivers/pci/controller/pci-host-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index fb04fc81a8bd..146bd85c037e 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -925,6 +925,8 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
- 	device_enable_async_suspend(bus->bridge);
- 	pci_set_bus_of_node(bus);
- 	pci_set_bus_msi_domain(bus);
-+	if (bridge->no_msi)
-+		bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
+index 6ab694f8d283..d3924a44db02 100644
+--- a/drivers/pci/controller/pci-host-common.c
++++ b/drivers/pci/controller/pci-host-common.c
+@@ -79,6 +79,7 @@ int pci_host_common_probe(struct platform_device *pdev)
  
- 	if (!parent)
- 		set_dev_node(bus->bridge, pcibus_to_node(bus));
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index ebf557e59d87..48605cca82ae 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -550,6 +550,7 @@ struct pci_host_bridge {
- 	unsigned int	native_dpc:1;		/* OS may use PCIe DPC */
- 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
- 	unsigned int	size_windows:1;		/* Enable root bus sizing */
-+	unsigned int	no_msi:1;		/* Bridge has no MSI support */
+ 	bridge->sysdata = cfg;
+ 	bridge->ops = (struct pci_ops *)&ops->pci_ops;
++	bridge->msi_domain = true;
  
- 	/* Resource alignment requirements */
- 	resource_size_t (*align_resource)(struct pci_dev *dev,
+ 	return pci_host_probe(bridge);
+ }
 -- 
 2.29.2
 
