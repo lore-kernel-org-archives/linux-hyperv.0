@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D201C433C1
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 12:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A13C3C433E2
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 12:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D74FC61931
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 12:21:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F5A66199E
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 12:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230133AbhCVMVS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 22 Mar 2021 08:21:18 -0400
-Received: from foss.arm.com ([217.140.110.172]:58498 "EHLO foss.arm.com"
+        id S229574AbhCVMYA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Mar 2021 08:24:00 -0400
+Received: from foss.arm.com ([217.140.110.172]:58544 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229979AbhCVMVK (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 22 Mar 2021 08:21:10 -0400
+        id S229987AbhCVMXV (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 22 Mar 2021 08:23:21 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D2B881063;
-        Mon, 22 Mar 2021 05:21:09 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 827931063;
+        Mon, 22 Mar 2021 05:23:20 -0700 (PDT)
 Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD5103F718;
-        Mon, 22 Mar 2021 05:21:06 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 12:21:00 +0000
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 812573F718;
+        Mon, 22 Mar 2021 05:23:17 -0700 (PDT)
+Date:   Mon, 22 Mar 2021 12:23:15 +0000
 From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marc Zyngier <maz@kernel.org>, michal.simek@xilinx.com
+To:     Marc Zyngier <maz@kernel.org>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         Frank Wunderlich <frank-w@public-files.de>,
         Thierry Reding <treding@nvidia.com>,
@@ -42,13 +42,14 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         Ryder Lee <ryder.lee@mediatek.com>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Michal Simek <michal.simek@xilinx.com>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 03/13] PCI: xilinx: Convert to MSI domains
-Message-ID: <20210322122100.GA11469@e121166-lin.cambridge.arm.com>
+Message-ID: <20210322122315.GB11469@e121166-lin.cambridge.arm.com>
 References: <20210225151023.3642391-1-maz@kernel.org>
  <20210225151023.3642391-4-maz@kernel.org>
 MIME-Version: 1.0
@@ -78,23 +79,19 @@ On Thu, Feb 25, 2021 at 03:10:13PM +0000, Marc Zyngier wrote:
 > for the MSI capture address. *ANY* sufficiently aligned address should
 > be good enough, so use the physical address of the xilinx_pcie_host
 > structure instead.
+
+I'd agree with Bjorn that the MSI doorbell change is better split into
+a separate patch, I can do it myself at merge if you agree.
+
+Thanks,
+Lorenzo
+
 > 
 > Signed-off-by: Marc Zyngier <maz@kernel.org>
 > ---
 >  drivers/pci/controller/Kconfig       |   2 +-
 >  drivers/pci/controller/pcie-xilinx.c | 238 +++++++++++----------------
 >  2 files changed, 96 insertions(+), 144 deletions(-)
-
-Michal,
-
-can you please test these changes or make sure someone does and report
-back on the mailing list please ?
-
-I would like to merge this series for v5.13.
-
-Thanks,
-Lorenzo
-
 > 
 > diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
 > index ccbf034512d6..049c60016904 100644
