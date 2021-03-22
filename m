@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34881C433E0
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1720DC433E4
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E0612619A3
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D4DCF619A0
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhCVSyG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 22 Mar 2021 14:54:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37312 "EHLO mail.kernel.org"
+        id S232118AbhCVSyH (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Mar 2021 14:54:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231474AbhCVSxi (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 22 Mar 2021 14:53:38 -0400
+        id S231661AbhCVSxk (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 22 Mar 2021 14:53:40 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1A77361992;
-        Mon, 22 Mar 2021 18:53:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EDCCF619A0;
+        Mon, 22 Mar 2021 18:53:39 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lOPZU-0038p5-VF; Mon, 22 Mar 2021 18:46:37 +0000
+        id 1lOPZT-0038p5-4e; Mon, 22 Mar 2021 18:46:35 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -51,9 +51,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v2 14/15] PCI/MSI: Document the various ways of ending up with NO_MSI
-Date:   Mon, 22 Mar 2021 18:46:13 +0000
-Message-Id: <20210322184614.802565-15-maz@kernel.org>
+Subject: [PATCH v2 12/15] PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
+Date:   Mon, 22 Mar 2021 18:46:11 +0000
+Message-Id: <20210322184614.802565-13-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210322184614.802565-1-maz@kernel.org>
 References: <20210322184614.802565-1-maz@kernel.org>
@@ -67,38 +67,51 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-We have now 4 ways of ending up with NO_MSI being set.
-Document them.
+The new 'no_msi' attribute solves the problem of advertising the lack
+of MSI capability for host bridges that know for sure that there will
+be no MSI for their end-points.
+
+However, there is a whole class of host bridges that cannot know
+whether MSIs will be provided or not, as they rely on other blocks
+to provide the MSI functionnality, using MSI domains.  This is
+the case for example on systems that use the ARM GIC architecture.
+
+Introduce a new attribute ('msi_domain') indicating that implicit
+dependency, and use this property to set the NO_MSI flag when
+no MSI domain is found at probe time.
 
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/msi.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/pci/probe.c | 2 +-
+ include/linux/pci.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index d9c73c173c14..425abcdfcaca 100644
---- a/drivers/pci/msi.c
-+++ b/drivers/pci/msi.c
-@@ -871,8 +871,16 @@ static int pci_msi_supported(struct pci_dev *dev, int nvec)
- 	 * Any bridge which does NOT route MSI transactions from its
- 	 * secondary bus to its primary bus must set NO_MSI flag on
- 	 * the secondary pci_bus.
--	 * We expect only arch-specific PCI host bus controller driver
--	 * or quirks for specific PCI bridges to be setting NO_MSI.
-+	 *
-+	 * The NO_MSI flag can either be set directly by:
-+	 * - arch-specific PCI host bus controller drivers (deprecated)
-+	 * - quirks for specific PCI bridges
-+	 *
-+	 * or indirectly by platform-specific PCI host bridge drivers by:
-+	 * - unconditionally advertising the 'no_msi' property
-+	 * - advertising the 'msi_domain' property, which results in
-+	 *   the NO_MSI flag when no MSI domain is found for this bridge
-+	 *   at probe time.
- 	 */
- 	for (bus = dev->bus; bus; bus = bus->parent)
- 		if (bus->bus_flags & PCI_BUS_FLAGS_NO_MSI)
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 146bd85c037e..bac9f69a06a8 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -925,7 +925,7 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
+ 	device_enable_async_suspend(bus->bridge);
+ 	pci_set_bus_of_node(bus);
+ 	pci_set_bus_msi_domain(bus);
+-	if (bridge->no_msi)
++	if (bridge->no_msi || (bridge->msi_domain && !bus->dev.msi_domain))
+ 		bus->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+ 
+ 	if (!parent)
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 48605cca82ae..d322d00db432 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -551,6 +551,7 @@ struct pci_host_bridge {
+ 	unsigned int	preserve_config:1;	/* Preserve FW resource setup */
+ 	unsigned int	size_windows:1;		/* Enable root bus sizing */
+ 	unsigned int	no_msi:1;		/* Bridge has no MSI support */
++	unsigned int	msi_domain:1;		/* Bridge wants MSI domain */
+ 
+ 	/* Resource alignment requirements */
+ 	resource_size_t (*align_resource)(struct pci_dev *dev,
 -- 
 2.29.2
 
