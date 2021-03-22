@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB10C43461
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:47:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34881C433E0
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3727F619A9
-	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:47:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0612619A3
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232100AbhCVSqn (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 22 Mar 2021 14:46:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33482 "EHLO mail.kernel.org"
+        id S231932AbhCVSyG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Mar 2021 14:54:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231384AbhCVSqc (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 22 Mar 2021 14:46:32 -0400
+        id S231474AbhCVSxi (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 22 Mar 2021 14:53:38 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEF4D619A4;
-        Mon, 22 Mar 2021 18:46:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1A77361992;
+        Mon, 22 Mar 2021 18:53:38 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lOPZO-0038p5-9g; Mon, 22 Mar 2021 18:46:30 +0000
+        id 1lOPZU-0038p5-VF; Mon, 22 Mar 2021 18:46:37 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -51,9 +51,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v2 07/15] PCI/MSI: Drop use of msi_controller from core code
-Date:   Mon, 22 Mar 2021 18:46:06 +0000
-Message-Id: <20210322184614.802565-8-maz@kernel.org>
+Subject: [PATCH v2 14/15] PCI/MSI: Document the various ways of ending up with NO_MSI
+Date:   Mon, 22 Mar 2021 18:46:13 +0000
+Message-Id: <20210322184614.802565-15-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210322184614.802565-1-maz@kernel.org>
 References: <20210322184614.802565-1-maz@kernel.org>
@@ -67,102 +67,38 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As there is no driver using msi_controller, we can now safely
-remove its use from the PCI probe code.
+We have now 4 ways of ending up with NO_MSI being set.
+Document them.
 
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/msi.c   | 23 +----------------------
- drivers/pci/probe.c |  2 --
- include/linux/pci.h |  2 --
- 3 files changed, 1 insertion(+), 26 deletions(-)
+ drivers/pci/msi.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index 3162f88fe940..79b5a995bd02 100644
+index d9c73c173c14..425abcdfcaca 100644
 --- a/drivers/pci/msi.c
 +++ b/drivers/pci/msi.c
-@@ -64,39 +64,18 @@ static void pci_msi_teardown_msi_irqs(struct pci_dev *dev)
- /* Arch hooks */
- int __weak arch_setup_msi_irq(struct pci_dev *dev, struct msi_desc *desc)
- {
--	struct msi_controller *chip = dev->bus->msi;
--	int err;
--
--	if (!chip || !chip->setup_irq)
--		return -EINVAL;
--
--	err = chip->setup_irq(chip, dev, desc);
--	if (err < 0)
--		return err;
--
--	irq_set_chip_data(desc->irq, chip);
--
--	return 0;
-+	return -EINVAL;
- }
- 
- void __weak arch_teardown_msi_irq(unsigned int irq)
- {
--	struct msi_controller *chip = irq_get_chip_data(irq);
--
--	if (!chip || !chip->teardown_irq)
--		return;
--
--	chip->teardown_irq(chip, irq);
- }
- 
- int __weak arch_setup_msi_irqs(struct pci_dev *dev, int nvec, int type)
- {
--	struct msi_controller *chip = dev->bus->msi;
- 	struct msi_desc *entry;
- 	int ret;
- 
--	if (chip && chip->setup_irqs)
--		return chip->setup_irqs(chip, dev, nvec, type);
- 	/*
- 	 * If an architecture wants to support multiple MSI, it needs to
- 	 * override arch_setup_msi_irqs()
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 953f15abc850..fb04fc81a8bd 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -895,7 +895,6 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
- 	/* Temporarily move resources off the list */
- 	list_splice_init(&bridge->windows, &resources);
- 	bus->sysdata = bridge->sysdata;
--	bus->msi = bridge->msi;
- 	bus->ops = bridge->ops;
- 	bus->number = bus->busn_res.start = bridge->busnr;
- #ifdef CONFIG_PCI_DOMAINS_GENERIC
-@@ -1053,7 +1052,6 @@ static struct pci_bus *pci_alloc_child_bus(struct pci_bus *parent,
- 		return NULL;
- 
- 	child->parent = parent;
--	child->msi = parent->msi;
- 	child->sysdata = parent->sysdata;
- 	child->bus_flags = parent->bus_flags;
- 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 86c799c97b77..ebf557e59d87 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -540,7 +540,6 @@ struct pci_host_bridge {
- 	int (*map_irq)(const struct pci_dev *, u8, u8);
- 	void (*release_fn)(struct pci_host_bridge *);
- 	void		*release_data;
--	struct msi_controller *msi;
- 	unsigned int	ignore_reset_delay:1;	/* For entire hierarchy */
- 	unsigned int	no_ext_tags:1;		/* No Extended Tags */
- 	unsigned int	native_aer:1;		/* OS may use PCIe AER */
-@@ -621,7 +620,6 @@ struct pci_bus {
- 	struct resource busn_res;	/* Bus numbers routed to this bus */
- 
- 	struct pci_ops	*ops;		/* Configuration access functions */
--	struct msi_controller *msi;	/* MSI controller */
- 	void		*sysdata;	/* Hook for sys-specific extension */
- 	struct proc_dir_entry *procdir;	/* Directory entry in /proc/bus/pci */
- 
+@@ -871,8 +871,16 @@ static int pci_msi_supported(struct pci_dev *dev, int nvec)
+ 	 * Any bridge which does NOT route MSI transactions from its
+ 	 * secondary bus to its primary bus must set NO_MSI flag on
+ 	 * the secondary pci_bus.
+-	 * We expect only arch-specific PCI host bus controller driver
+-	 * or quirks for specific PCI bridges to be setting NO_MSI.
++	 *
++	 * The NO_MSI flag can either be set directly by:
++	 * - arch-specific PCI host bus controller drivers (deprecated)
++	 * - quirks for specific PCI bridges
++	 *
++	 * or indirectly by platform-specific PCI host bridge drivers by:
++	 * - unconditionally advertising the 'no_msi' property
++	 * - advertising the 'msi_domain' property, which results in
++	 *   the NO_MSI flag when no MSI domain is found for this bridge
++	 *   at probe time.
+ 	 */
+ 	for (bus = dev->bus; bus; bus = bus->parent)
+ 		if (bus->bus_flags & PCI_BUS_FLAGS_NO_MSI)
 -- 
 2.29.2
 
