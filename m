@@ -6,28 +6,28 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B813DC433FC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C198C433F7
 	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F212619AD
+	by mail.kernel.org (Postfix) with ESMTP id 6EEC0619A2
 	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Mar 2021 18:54:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231830AbhCVSyL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 22 Mar 2021 14:54:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37632 "EHLO mail.kernel.org"
+        id S232237AbhCVSyJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Mar 2021 14:54:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37504 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231738AbhCVSxs (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 22 Mar 2021 14:53:48 -0400
+        id S231724AbhCVSxo (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 22 Mar 2021 14:53:44 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 046736199F;
-        Mon, 22 Mar 2021 18:53:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B71661990;
+        Mon, 22 Mar 2021 18:53:44 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lOPZU-0038p5-2Z; Mon, 22 Mar 2021 18:46:36 +0000
+        id 1lOPZV-0038p5-VO; Mon, 22 Mar 2021 18:46:38 +0000
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -51,9 +51,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v2 13/15] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
-Date:   Mon, 22 Mar 2021 18:46:12 +0000
-Message-Id: <20210322184614.802565-14-maz@kernel.org>
+Subject: [PATCH v2 15/15] PCI: Refactor HT advertising of NO_MSI flag
+Date:   Mon, 22 Mar 2021 18:46:14 +0000
+Message-Id: <20210322184614.802565-16-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210322184614.802565-1-maz@kernel.org>
 References: <20210322184614.802565-1-maz@kernel.org>
@@ -67,34 +67,56 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The generic PCI host driver relies on MSI domains for MSIs to
-be provided to its end-points. Make this dependency explicit.
-
-This cures the warnings occuring on arm/arm64 VMs when booted
-with PCI virtio devices and no MSI controller (no GICv3 ITS,
-for example).
-
-It is likely that other drivers will need to express the same
-dependency.
+The few quirks that deal with NO_MSI tend to be copy-paste heavy.
+Refactor them so that the hierarchy of conditions is slightly
+cleaner.
 
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/controller/pci-host-common.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/pci/quirks.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
-index 6ab694f8d283..d3924a44db02 100644
---- a/drivers/pci/controller/pci-host-common.c
-+++ b/drivers/pci/controller/pci-host-common.c
-@@ -79,6 +79,7 @@ int pci_host_common_probe(struct platform_device *pdev)
- 
- 	bridge->sysdata = cfg;
- 	bridge->ops = (struct pci_ops *)&ops->pci_ops;
-+	bridge->msi_domain = true;
- 
- 	return pci_host_probe(bridge);
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index 653660e3ba9e..972bb0f9f994 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -2585,10 +2585,8 @@ static int msi_ht_cap_enabled(struct pci_dev *dev)
+ /* Check the HyperTransport MSI mapping to know whether MSI is enabled or not */
+ static void quirk_msi_ht_cap(struct pci_dev *dev)
+ {
+-	if (dev->subordinate && !msi_ht_cap_enabled(dev)) {
+-		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
+-		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+-	}
++	if (!msi_ht_cap_enabled(dev))
++		quirk_disable_msi(dev);
  }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_SERVERWORKS, PCI_DEVICE_ID_SERVERWORKS_HT2000_PCIE,
+ 			quirk_msi_ht_cap);
+@@ -2601,9 +2599,6 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
+ {
+ 	struct pci_dev *pdev;
+ 
+-	if (!dev->subordinate)
+-		return;
+-
+ 	/*
+ 	 * Check HT MSI cap on this chipset and the root one.  A single one
+ 	 * having MSI is enough to be sure that MSI is supported.
+@@ -2611,10 +2606,8 @@ static void quirk_nvidia_ck804_msi_ht_cap(struct pci_dev *dev)
+ 	pdev = pci_get_slot(dev->bus, 0);
+ 	if (!pdev)
+ 		return;
+-	if (!msi_ht_cap_enabled(dev) && !msi_ht_cap_enabled(pdev)) {
+-		pci_warn(dev, "MSI quirk detected; subordinate MSI disabled\n");
+-		dev->subordinate->bus_flags |= PCI_BUS_FLAGS_NO_MSI;
+-	}
++	if (!msi_ht_cap_enabled(pdev))
++		quirk_msi_ht_cap(dev);
+ 	pci_dev_put(pdev);
+ }
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_NVIDIA, PCI_DEVICE_ID_NVIDIA_CK804_PCIE,
 -- 
 2.29.2
 
