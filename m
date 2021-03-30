@@ -2,33 +2,32 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F018DC433EB
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1231C433F7
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD57C619F6
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B1C4619F8
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232371AbhC3PMX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:12:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59684 "EHLO mail.kernel.org"
+        id S232396AbhC3PM0 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:12:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59872 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232064AbhC3PLx (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:11:53 -0400
+        id S232240AbhC3PL5 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:11:57 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B4DCC619D1;
-        Tue, 30 Mar 2021 15:11:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C8EF6619CF;
+        Tue, 30 Mar 2021 15:11:56 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lRG23-004i6i-4W; Tue, 30 Mar 2021 16:11:51 +0100
+        id 1lRG27-004i6i-5P; Tue, 30 Mar 2021 16:11:55 +0100
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -53,9 +52,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v3 01/14] PCI: tegra: Convert to MSI domains
-Date:   Tue, 30 Mar 2021 16:11:32 +0100
-Message-Id: <20210330151145.997953-2-maz@kernel.org>
+Subject: [PATCH v3 05/14] PCI: xilinx: Convert to MSI domains
+Date:   Tue, 30 Mar 2021 16:11:36 +0100
+Message-Id: <20210330151145.997953-6-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
 References: <20210330151145.997953-1-maz@kernel.org>
@@ -70,543 +69,418 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 In anticipation of the removal of the msi_controller structure, convert
-the Tegra host controller driver to MSI domains.
+the ancient xilinx host controller driver to MSI domains.
 
 We end-up with the usual two domain structure, the top one being a
-generic PCI/MSI domain, the bottom one being Tegra-specific and handling
+generic PCI/MSI domain, the bottom one being xilinx-specific and handling
 the actual HW interrupt allocation.
 
-While at it, convert the normal interrupt handler to a chained handler,
-handle the controller's MSI IRQ edge triggered, support multiple MSIs
-per device and use the AFI_MSI_EN_VEC* registers to provide MSI masking.
+This allows us to fix some of the most appaling MSI programming, where
+the message programmed in the device is the virtual IRQ number instead
+of the allocated vector number. The allocator is also made safe with
+a mutex. This should allow support for MultiMSI, but I decided not to
+even try, since I cannot test it.
 
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-[treding@nvidia.com: fix, clean up and address TODOs from Marc's draft]
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Tested-by: Bharat Kumar Gogada <bharatku@xilinx.com>
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/controller/Kconfig     |   1 -
- drivers/pci/controller/pci-tegra.c | 343 ++++++++++++++++-------------
- 2 files changed, 185 insertions(+), 159 deletions(-)
+ drivers/pci/controller/Kconfig       |   2 +-
+ drivers/pci/controller/pcie-xilinx.c | 242 ++++++++++++---------------
+ 2 files changed, 106 insertions(+), 138 deletions(-)
 
 diff --git a/drivers/pci/controller/Kconfig b/drivers/pci/controller/Kconfig
-index 5aa8977d7b0f..be8f9ff512a0 100644
+index 5cc07d28a3a0..60045f7aafc5 100644
 --- a/drivers/pci/controller/Kconfig
 +++ b/drivers/pci/controller/Kconfig
-@@ -41,7 +41,6 @@ config PCI_TEGRA
- 	bool "NVIDIA Tegra PCIe controller"
- 	depends on ARCH_TEGRA || COMPILE_TEST
- 	depends on PCI_MSI_IRQ_DOMAIN
+@@ -86,7 +86,7 @@ config PCI_HOST_GENERIC
+ config PCIE_XILINX
+ 	bool "Xilinx AXI PCIe host bridge support"
+ 	depends on OF || COMPILE_TEST
 -	select PCI_MSI_ARCH_FALLBACKS
++	depends on PCI_MSI_IRQ_DOMAIN
  	help
- 	  Say Y here if you want support for the PCIe host controller found
- 	  on NVIDIA Tegra SoCs.
-diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-index 8fcabed7c6a6..eaba7b2fab4a 100644
---- a/drivers/pci/controller/pci-tegra.c
-+++ b/drivers/pci/controller/pci-tegra.c
-@@ -21,6 +21,7 @@
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
- #include <linux/irq.h>
-+#include <linux/irqchip/chained_irq.h>
- #include <linux/irqdomain.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -78,23 +79,8 @@
- #define AFI_MSI_FPCI_BAR_ST	0x64
- #define AFI_MSI_AXI_BAR_ST	0x68
- 
--#define AFI_MSI_VEC0		0x6c
--#define AFI_MSI_VEC1		0x70
--#define AFI_MSI_VEC2		0x74
--#define AFI_MSI_VEC3		0x78
--#define AFI_MSI_VEC4		0x7c
--#define AFI_MSI_VEC5		0x80
--#define AFI_MSI_VEC6		0x84
--#define AFI_MSI_VEC7		0x88
--
--#define AFI_MSI_EN_VEC0		0x8c
--#define AFI_MSI_EN_VEC1		0x90
--#define AFI_MSI_EN_VEC2		0x94
--#define AFI_MSI_EN_VEC3		0x98
--#define AFI_MSI_EN_VEC4		0x9c
--#define AFI_MSI_EN_VEC5		0xa0
--#define AFI_MSI_EN_VEC6		0xa4
--#define AFI_MSI_EN_VEC7		0xa8
-+#define AFI_MSI_VEC(x)		(0x6c + ((x) * 4))
-+#define AFI_MSI_EN_VEC(x)	(0x8c + ((x) * 4))
- 
- #define AFI_CONFIGURATION		0xac
- #define  AFI_CONFIGURATION_EN_FPCI		(1 << 0)
-@@ -280,10 +266,10 @@
- #define LINK_RETRAIN_TIMEOUT 100000 /* in usec */
- 
- struct tegra_msi {
--	struct msi_controller chip;
- 	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
- 	struct irq_domain *domain;
--	struct mutex lock;
-+	struct mutex map_lock;
-+	spinlock_t mask_lock;
- 	void *virt;
- 	dma_addr_t phys;
- 	int irq;
-@@ -333,11 +319,6 @@ struct tegra_pcie_soc {
- 	} ectl;
- };
- 
--static inline struct tegra_msi *to_tegra_msi(struct msi_controller *chip)
--{
--	return container_of(chip, struct tegra_msi, chip);
--}
--
- struct tegra_pcie {
+ 	  Say 'Y' here if you want kernel to support the Xilinx AXI PCIe
+ 	  Host Bridge driver.
+diff --git a/drivers/pci/controller/pcie-xilinx.c b/drivers/pci/controller/pcie-xilinx.c
+index e127a7b6e535..14001febf59a 100644
+--- a/drivers/pci/controller/pcie-xilinx.c
++++ b/drivers/pci/controller/pcie-xilinx.c
+@@ -93,23 +93,23 @@
+ /**
+  * struct xilinx_pcie_port - PCIe port information
+  * @reg_base: IO Mapped Register Base
+- * @irq: Interrupt number
+  * @dev: Device pointer
++ * @msi_map: Bitmap of allocated MSIs
++ * @map_lock: Mutex protecting the MSI allocation
+  * @msi_domain: MSI IRQ domain pointer
+  * @leg_domain: Legacy IRQ domain pointer
+  * @resources: Bus Resources
+  */
+ struct xilinx_pcie_port {
+ 	void __iomem *reg_base;
+-	u32 irq;
  	struct device *dev;
- 
-@@ -372,6 +353,11 @@ struct tegra_pcie {
- 	struct dentry *debugfs;
++	unsigned long msi_map[BITS_TO_LONGS(XILINX_NUM_MSI_IRQS)];
++	struct mutex map_lock;
+ 	struct irq_domain *msi_domain;
+ 	struct irq_domain *leg_domain;
+ 	struct list_head resources;
  };
  
-+static inline struct tegra_pcie *msi_to_pcie(struct tegra_msi *msi)
-+{
-+	return container_of(msi, struct tegra_pcie, msi);
-+}
-+
- struct tegra_pcie_port {
- 	struct tegra_pcie *pcie;
- 	struct device_node *np;
-@@ -1432,7 +1418,6 @@ static void tegra_pcie_phys_put(struct tegra_pcie *pcie)
- 	}
- }
- 
+-static DECLARE_BITMAP(msi_irq_in_use, XILINX_NUM_MSI_IRQS);
 -
- static int tegra_pcie_get_resources(struct tegra_pcie *pcie)
+ static inline u32 pcie_read(struct xilinx_pcie_port *port, u32 reg)
  {
- 	struct device *dev = pcie->dev;
-@@ -1509,6 +1494,7 @@ static int tegra_pcie_get_resources(struct tegra_pcie *pcie)
- phys_put:
- 	if (soc->program_uphy)
- 		tegra_pcie_phys_put(pcie);
-+
- 	return err;
- }
+ 	return readl(port->reg_base + reg);
+@@ -194,145 +194,116 @@ static struct pci_ops xilinx_pcie_ops = {
  
-@@ -1551,161 +1537,227 @@ static void tegra_pcie_pme_turnoff(struct tegra_pcie_port *port)
- 	afi_writel(pcie, val, AFI_PCIE_PME);
- }
+ /* MSI functions */
  
--static int tegra_msi_alloc(struct tegra_msi *chip)
--{
--	int msi;
--
--	mutex_lock(&chip->lock);
--
--	msi = find_first_zero_bit(chip->used, INT_PCI_MSI_NR);
--	if (msi < INT_PCI_MSI_NR)
--		set_bit(msi, chip->used);
--	else
--		msi = -ENOSPC;
--
--	mutex_unlock(&chip->lock);
--
--	return msi;
--}
--
--static void tegra_msi_free(struct tegra_msi *chip, unsigned long irq)
-+static void tegra_pcie_msi_irq(struct irq_desc *desc)
+-/**
+- * xilinx_pcie_destroy_msi - Free MSI number
+- * @irq: IRQ to be freed
+- */
+-static void xilinx_pcie_destroy_msi(unsigned int irq)
++static void xilinx_msi_top_irq_ack(struct irq_data *d)
  {
--	struct device *dev = chip->chip.dev;
+-	struct msi_desc *msi;
+-	struct xilinx_pcie_port *port;
+-	struct irq_data *d = irq_get_irq_data(irq);
+-	irq_hw_number_t hwirq = irqd_to_hwirq(d);
 -
--	mutex_lock(&chip->lock);
--
--	if (!test_bit(irq, chip->used))
--		dev_err(dev, "trying to free unused MSI#%lu\n", irq);
--	else
--		clear_bit(irq, chip->used);
--
--	mutex_unlock(&chip->lock);
--}
--
--static irqreturn_t tegra_pcie_msi_irq(int irq, void *data)
--{
--	struct tegra_pcie *pcie = data;
--	struct device *dev = pcie->dev;
-+	struct tegra_pcie *pcie = irq_desc_get_handler_data(desc);
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
- 	struct tegra_msi *msi = &pcie->msi;
--	unsigned int i, processed = 0;
-+	struct device *dev = pcie->dev;
-+	unsigned int i;
-+
-+	chained_irq_enter(chip, desc);
- 
- 	for (i = 0; i < 8; i++) {
--		unsigned long reg = afi_readl(pcie, AFI_MSI_VEC0 + i * 4);
-+		unsigned long reg = afi_readl(pcie, AFI_MSI_VEC(i));
- 
- 		while (reg) {
- 			unsigned int offset = find_first_bit(&reg, 32);
- 			unsigned int index = i * 32 + offset;
- 			unsigned int irq;
- 
--			/* clear the interrupt */
--			afi_writel(pcie, 1 << offset, AFI_MSI_VEC0 + i * 4);
--
--			irq = irq_find_mapping(msi->domain, index);
-+			irq = irq_find_mapping(msi->domain->parent, index);
- 			if (irq) {
--				if (test_bit(index, msi->used))
--					generic_handle_irq(irq);
--				else
--					dev_info(dev, "unhandled MSI\n");
-+				generic_handle_irq(irq);
- 			} else {
- 				/*
- 				 * that's weird who triggered this?
- 				 * just clear it
- 				 */
- 				dev_info(dev, "unexpected MSI\n");
-+				afi_writel(pcie, BIT(index % 32), AFI_MSI_VEC(index));
- 			}
- 
- 			/* see if there's any more pending in this vector */
--			reg = afi_readl(pcie, AFI_MSI_VEC0 + i * 4);
--
--			processed++;
-+			reg = afi_readl(pcie, AFI_MSI_VEC(i));
- 		}
- 	}
- 
--	return processed > 0 ? IRQ_HANDLED : IRQ_NONE;
-+	chained_irq_exit(chip, desc);
- }
- 
--static int tegra_msi_setup_irq(struct msi_controller *chip,
--			       struct pci_dev *pdev, struct msi_desc *desc)
-+static void tegra_msi_top_irq_ack(struct irq_data *d)
- {
--	struct tegra_msi *msi = to_tegra_msi(chip);
--	struct msi_msg msg;
--	unsigned int irq;
--	int hwirq;
-+	irq_chip_ack_parent(d);
-+}
- 
--	hwirq = tegra_msi_alloc(msi);
--	if (hwirq < 0)
--		return hwirq;
-+static void tegra_msi_top_irq_mask(struct irq_data *d)
-+{
-+	pci_msi_mask_irq(d);
-+	irq_chip_mask_parent(d);
-+}
- 
--	irq = irq_create_mapping(msi->domain, hwirq);
--	if (!irq) {
--		tegra_msi_free(msi, hwirq);
--		return -EINVAL;
+-	if (!test_bit(hwirq, msi_irq_in_use)) {
+-		msi = irq_get_msi_desc(irq);
+-		port = msi_desc_to_pci_sysdata(msi);
+-		dev_err(port->dev, "Trying to free unused MSI#%d\n", irq);
+-	} else {
+-		clear_bit(hwirq, msi_irq_in_use);
 -	}
-+static void tegra_msi_top_irq_unmask(struct irq_data *d)
-+{
-+	pci_msi_unmask_irq(d);
-+	irq_chip_unmask_parent(d);
-+}
-+
-+static struct irq_chip tegra_msi_top_chip = {
-+	.name		= "tegra PCIe MSI",
-+	.irq_ack	= tegra_msi_top_irq_ack,
-+	.irq_mask	= tegra_msi_top_irq_mask,
-+	.irq_unmask	= tegra_msi_top_irq_unmask,
++	/*
++	 * xilinx_pcie_intr_handler() will have performed the Ack.
++	 * Eventually, this should be fixed and the Ack be moved in
++	 * the respective callbacks for INTx and MSI.
++	 */
+ }
+ 
+-/**
+- * xilinx_pcie_assign_msi - Allocate MSI number
+- *
+- * Return: A valid IRQ on success and error value on failure.
+- */
+-static int xilinx_pcie_assign_msi(void)
+-{
+-	int pos;
+-
+-	pos = find_first_zero_bit(msi_irq_in_use, XILINX_NUM_MSI_IRQS);
+-	if (pos < XILINX_NUM_MSI_IRQS)
+-		set_bit(pos, msi_irq_in_use);
+-	else
+-		return -ENOSPC;
++static struct irq_chip xilinx_msi_top_chip = {
++	.name		= "PCIe MSI",
++	.irq_ack	= xilinx_msi_top_irq_ack,
 +};
  
--	irq_set_msi_desc(irq, desc);
-+static void tegra_msi_irq_ack(struct irq_data *d)
-+{
-+	struct tegra_msi *msi = irq_data_get_irq_chip_data(d);
-+	struct tegra_pcie *pcie = msi_to_pcie(msi);
-+	unsigned int index = d->hwirq / 32;
- 
--	msg.address_lo = lower_32_bits(msi->phys);
--	msg.address_hi = upper_32_bits(msi->phys);
--	msg.data = hwirq;
-+	/* clear the interrupt */
-+	afi_writel(pcie, BIT(d->hwirq % 32), AFI_MSI_VEC(index));
-+}
- 
--	pci_write_msi_msg(irq, &msg);
-+static void tegra_msi_irq_mask(struct irq_data *d)
-+{
-+	struct tegra_msi *msi = irq_data_get_irq_chip_data(d);
-+	struct tegra_pcie *pcie = msi_to_pcie(msi);
-+	unsigned int index = d->hwirq / 32;
-+	unsigned long flags;
-+	u32 value;
- 
--	return 0;
-+	spin_lock_irqsave(&msi->mask_lock, flags);
-+	value = afi_readl(pcie, AFI_MSI_EN_VEC(index));
-+	value &= ~BIT(d->hwirq % 32);
-+	afi_writel(pcie, value, AFI_MSI_EN_VEC(index));
-+	spin_unlock_irqrestore(&msi->mask_lock, flags);
-+}
-+
-+static void tegra_msi_irq_unmask(struct irq_data *d)
-+{
-+	struct tegra_msi *msi = irq_data_get_irq_chip_data(d);
-+	struct tegra_pcie *pcie = msi_to_pcie(msi);
-+	unsigned int index = d->hwirq / 32;
-+	unsigned long flags;
-+	u32 value;
-+
-+	spin_lock_irqsave(&msi->mask_lock, flags);
-+	value = afi_readl(pcie, AFI_MSI_EN_VEC(index));
-+	value |= BIT(d->hwirq % 32);
-+	afi_writel(pcie, value, AFI_MSI_EN_VEC(index));
-+	spin_unlock_irqrestore(&msi->mask_lock, flags);
-+}
-+
-+static int tegra_msi_set_affinity(struct irq_data *d, const struct cpumask *mask, bool force)
+-	return pos;
++static int xilinx_msi_set_affinity(struct irq_data *d, const struct cpumask *mask, bool force)
 +{
 +	return -EINVAL;
  }
  
--static void tegra_msi_teardown_irq(struct msi_controller *chip,
--				   unsigned int irq)
-+static void tegra_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+-/**
+- * xilinx_msi_teardown_irq - Destroy the MSI
+- * @chip: MSI Chip descriptor
+- * @irq: MSI IRQ to destroy
+- */
+-static void xilinx_msi_teardown_irq(struct msi_controller *chip,
+-				    unsigned int irq)
++static void xilinx_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
  {
--	struct tegra_msi *msi = to_tegra_msi(chip);
--	struct irq_data *d = irq_get_irq_data(irq);
--	irq_hw_number_t hwirq = irqd_to_hwirq(d);
-+	struct tegra_msi *msi = irq_data_get_irq_chip_data(data);
- 
+-	xilinx_pcie_destroy_msi(irq);
 -	irq_dispose_mapping(irq);
--	tegra_msi_free(msi, hwirq);
-+	msg->address_lo = lower_32_bits(msi->phys);
-+	msg->address_hi = upper_32_bits(msi->phys);
++	struct xilinx_pcie_port *pcie = irq_data_get_irq_chip_data(data);
++	phys_addr_t pa = ALIGN_DOWN(virt_to_phys(pcie), SZ_4K);
++
++	msg->address_lo = lower_32_bits(pa);
++	msg->address_hi = upper_32_bits(pa);
 +	msg->data = data->hwirq;
  }
  
--static struct irq_chip tegra_msi_irq_chip = {
--	.name = "Tegra PCIe MSI",
+-/**
+- * xilinx_pcie_msi_setup_irq - Setup MSI request
+- * @chip: MSI chip pointer
+- * @pdev: PCIe device pointer
+- * @desc: MSI descriptor pointer
+- *
+- * Return: '0' on success and error value on failure
+- */
+-static int xilinx_pcie_msi_setup_irq(struct msi_controller *chip,
+-				     struct pci_dev *pdev,
+-				     struct msi_desc *desc)
++static struct irq_chip xilinx_msi_bottom_chip = {
++	.name			= "Xilinx MSI",
++	.irq_set_affinity 	= xilinx_msi_set_affinity,
++	.irq_compose_msi_msg	= xilinx_compose_msi_msg,
++};
++
++static int xilinx_msi_domain_alloc(struct irq_domain *domain, unsigned int virq,
++				  unsigned int nr_irqs, void *args)
+ {
+-	struct xilinx_pcie_port *port = pdev->bus->sysdata;
+-	unsigned int irq;
+-	int hwirq;
+-	struct msi_msg msg;
+-	phys_addr_t msg_addr;
++	struct xilinx_pcie_port *port = domain->host_data;
++	int hwirq, i;
++
++	mutex_lock(&port->map_lock);
++
++	hwirq = bitmap_find_free_region(port->msi_map, XILINX_NUM_MSI_IRQS, order_base_2(nr_irqs));
++
++	mutex_unlock(&port->map_lock);
+ 
+-	hwirq = xilinx_pcie_assign_msi();
+ 	if (hwirq < 0)
+-		return hwirq;
++		return -ENOSPC;
+ 
+-	irq = irq_create_mapping(port->msi_domain, hwirq);
+-	if (!irq)
+-		return -EINVAL;
++	for (i = 0; i < nr_irqs; i++)
++		irq_domain_set_info(domain, virq + i, hwirq + i,
++				    &xilinx_msi_bottom_chip, domain->host_data,
++				    handle_edge_irq, NULL, NULL);
+ 
+-	irq_set_msi_desc(irq, desc);
++	return 0;
++}
+ 
+-	msg_addr = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
++static void xilinx_msi_domain_free(struct irq_domain *domain, unsigned int virq,
++				  unsigned int nr_irqs)
++{
++	struct irq_data *d = irq_domain_get_irq_data(domain, virq);
++	struct xilinx_pcie_port *port = domain->host_data;
+ 
+-	msg.address_hi = upper_32_bits(msg_addr);
+-	msg.address_lo = lower_32_bits(msg_addr);
+-	msg.data = irq;
++	mutex_lock(&port->map_lock);
+ 
+-	pci_write_msi_msg(irq, &msg);
++	bitmap_release_region(port->msi_map, d->hwirq, order_base_2(nr_irqs));
+ 
+-	return 0;
++	mutex_unlock(&port->map_lock);
+ }
+ 
+-/* MSI Chip Descriptor */
+-static struct msi_controller xilinx_pcie_msi_chip = {
+-	.setup_irq = xilinx_pcie_msi_setup_irq,
+-	.teardown_irq = xilinx_msi_teardown_irq,
++static const struct irq_domain_ops xilinx_msi_domain_ops = {
++	.alloc	= xilinx_msi_domain_alloc,
++	.free	= xilinx_msi_domain_free,
+ };
+ 
+-/* HW Interrupt Chip Descriptor */
+-static struct irq_chip xilinx_msi_irq_chip = {
+-	.name = "Xilinx PCIe MSI",
 -	.irq_enable = pci_msi_unmask_irq,
 -	.irq_disable = pci_msi_mask_irq,
 -	.irq_mask = pci_msi_mask_irq,
 -	.irq_unmask = pci_msi_unmask_irq,
-+static struct irq_chip tegra_msi_bottom_chip = {
-+	.name			= "Tegra MSI",
-+	.irq_ack		= tegra_msi_irq_ack,
-+	.irq_mask		= tegra_msi_irq_mask,
-+	.irq_unmask		= tegra_msi_irq_unmask,
-+	.irq_set_affinity 	= tegra_msi_set_affinity,
-+	.irq_compose_msi_msg	= tegra_compose_msi_msg,
++static struct msi_domain_info xilinx_msi_info = {
++	.flags	= (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS),
++	.chip	= &xilinx_msi_top_chip,
  };
  
--static int tegra_msi_map(struct irq_domain *domain, unsigned int irq,
--			 irq_hw_number_t hwirq)
-+static int tegra_msi_domain_alloc(struct irq_domain *domain, unsigned int virq,
-+				  unsigned int nr_irqs, void *args)
+-/**
+- * xilinx_pcie_msi_map - Set the handler for the MSI and mark IRQ as valid
+- * @domain: IRQ domain
+- * @irq: Virtual IRQ number
+- * @hwirq: HW interrupt number
+- *
+- * Return: Always returns 0.
+- */
+-static int xilinx_pcie_msi_map(struct irq_domain *domain, unsigned int irq,
+-			       irq_hw_number_t hwirq)
++static int xilinx_allocate_msi_domains(struct xilinx_pcie_port *pcie)
  {
--	irq_set_chip_and_handler(irq, &tegra_msi_irq_chip, handle_simple_irq);
+-	irq_set_chip_and_handler(irq, &xilinx_msi_irq_chip, handle_simple_irq);
 -	irq_set_chip_data(irq, domain->host_data);
-+	struct tegra_msi *msi = domain->host_data;
-+	unsigned int i;
-+	int hwirq;
-+
-+	mutex_lock(&msi->map_lock);
-+
-+	hwirq = bitmap_find_free_region(msi->used, INT_PCI_MSI_NR, order_base_2(nr_irqs));
-+
-+	mutex_unlock(&msi->map_lock);
-+
-+	if (hwirq < 0)
-+		return -ENOSPC;
-+
-+	for (i = 0; i < nr_irqs; i++)
-+		irq_domain_set_info(domain, virq + i, hwirq + i,
-+				    &tegra_msi_bottom_chip, domain->host_data,
-+				    handle_edge_irq, NULL, NULL);
- 
- 	tegra_cpuidle_pcie_irqs_in_use();
- 
- 	return 0;
- }
- 
--static const struct irq_domain_ops msi_domain_ops = {
--	.map = tegra_msi_map,
-+static void tegra_msi_domain_free(struct irq_domain *domain, unsigned int virq,
-+				  unsigned int nr_irqs)
-+{
-+	struct irq_data *d = irq_domain_get_irq_data(domain, virq);
-+	struct tegra_msi *msi = domain->host_data;
-+
-+	mutex_lock(&msi->map_lock);
-+
-+	bitmap_release_region(msi->used, d->hwirq, order_base_2(nr_irqs));
-+
-+	mutex_unlock(&msi->map_lock);
-+}
-+
-+static const struct irq_domain_ops tegra_msi_domain_ops = {
-+	.alloc = tegra_msi_domain_alloc,
-+	.free = tegra_msi_domain_free,
-+};
-+
-+static struct msi_domain_info tegra_msi_info = {
-+	.flags	= (MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
-+		   MSI_FLAG_PCI_MSIX),
-+	.chip	= &tegra_msi_top_chip,
- };
- 
-+static int tegra_allocate_domains(struct tegra_msi *msi)
-+{
-+	struct tegra_pcie *pcie = msi_to_pcie(msi);
 +	struct fwnode_handle *fwnode = dev_fwnode(pcie->dev);
 +	struct irq_domain *parent;
 +
-+	parent = irq_domain_create_linear(fwnode, INT_PCI_MSI_NR,
-+					  &tegra_msi_domain_ops, msi);
++	parent = irq_domain_create_linear(fwnode, XILINX_NUM_MSI_IRQS,
++					  &xilinx_msi_domain_ops, pcie);
 +	if (!parent) {
 +		dev_err(pcie->dev, "failed to create IRQ domain\n");
 +		return -ENOMEM;
 +	}
 +	irq_domain_update_bus_token(parent, DOMAIN_BUS_NEXUS);
 +
-+	msi->domain = pci_msi_create_irq_domain(fwnode, &tegra_msi_info, parent);
-+	if (!msi->domain) {
++	pcie->msi_domain = pci_msi_create_irq_domain(fwnode, &xilinx_msi_info, parent);
++	if (!pcie->msi_domain) {
 +		dev_err(pcie->dev, "failed to create MSI domain\n");
 +		irq_domain_remove(parent);
 +		return -ENOMEM;
 +	}
-+
-+	return 0;
-+}
-+
-+static void tegra_free_domains(struct tegra_msi *msi)
-+{
-+	struct irq_domain *parent = msi->domain->parent;
-+
-+	irq_domain_remove(msi->domain);
-+	irq_domain_remove(parent);
-+}
-+
- static int tegra_pcie_msi_setup(struct tegra_pcie *pcie)
+ 
+ 	return 0;
+ }
+ 
+-/* IRQ Domain operations */
+-static const struct irq_domain_ops msi_domain_ops = {
+-	.map = xilinx_pcie_msi_map,
+-};
+-
+-/**
+- * xilinx_pcie_enable_msi - Enable MSI support
+- * @port: PCIe port information
+- */
+-static int xilinx_pcie_enable_msi(struct xilinx_pcie_port *port)
++static void xilinx_free_msi_domains(struct xilinx_pcie_port *pcie)
  {
--	struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
- 	struct platform_device *pdev = to_platform_device(pcie->dev);
- 	struct tegra_msi *msi = &pcie->msi;
- 	struct device *dev = pcie->dev;
+-	phys_addr_t msg_addr;
+-
+-	msg_addr = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
+-	pcie_write(port, upper_32_bits(msg_addr), XILINX_PCIE_REG_MSIBASE1);
+-	pcie_write(port, lower_32_bits(msg_addr), XILINX_PCIE_REG_MSIBASE2);
++	struct irq_domain *parent = pcie->msi_domain->parent;
+ 
+-	return 0;
++	irq_domain_remove(pcie->msi_domain);
++	irq_domain_remove(parent);
+ }
+ 
+ /* INTx Functions */
+@@ -414,6 +385,8 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+ 	}
+ 
+ 	if (status & (XILINX_PCIE_INTR_INTX | XILINX_PCIE_INTR_MSI)) {
++		unsigned int irq;
++
+ 		val = pcie_read(port, XILINX_PCIE_REG_RPIFR1);
+ 
+ 		/* Check whether interrupt valid */
+@@ -426,20 +399,19 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+ 		if (val & XILINX_PCIE_RPIFR1_MSI_INTR) {
+ 			val = pcie_read(port, XILINX_PCIE_REG_RPIFR2) &
+ 				XILINX_PCIE_RPIFR2_MSG_DATA;
++			irq = irq_find_mapping(port->msi_domain->parent, val);
+ 		} else {
+ 			val = (val & XILINX_PCIE_RPIFR1_INTR_MASK) >>
+ 				XILINX_PCIE_RPIFR1_INTR_SHIFT;
+-			val = irq_find_mapping(port->leg_domain, val);
++			irq = irq_find_mapping(port->leg_domain, val);
+ 		}
+ 
+ 		/* Clear interrupt FIFO register 1 */
+ 		pcie_write(port, XILINX_PCIE_RPIFR1_ALL_MASK,
+ 			   XILINX_PCIE_REG_RPIFR1);
+ 
+-		/* Handle the interrupt */
+-		if (IS_ENABLED(CONFIG_PCI_MSI) ||
+-		    !(val & XILINX_PCIE_RPIFR1_MSI_INTR))
+-			generic_handle_irq(val);
++		if (irq)
++			generic_handle_irq(irq);
+ 	}
+ 
+ 	if (status & XILINX_PCIE_INTR_SLV_UNSUPP)
+@@ -485,12 +457,11 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+ static int xilinx_pcie_init_irq_domain(struct xilinx_pcie_port *port)
+ {
+ 	struct device *dev = port->dev;
+-	struct device_node *node = dev->of_node;
+ 	struct device_node *pcie_intc_node;
+ 	int ret;
+ 
+ 	/* Setup INTx */
+-	pcie_intc_node = of_get_next_child(node, NULL);
++	pcie_intc_node = of_get_next_child(dev->of_node, NULL);
+ 	if (!pcie_intc_node) {
+ 		dev_err(dev, "No PCIe Intc node found\n");
+ 		return -ENODEV;
+@@ -507,18 +478,14 @@ static int xilinx_pcie_init_irq_domain(struct xilinx_pcie_port *port)
+ 
+ 	/* Setup MSI */
+ 	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+-		port->msi_domain = irq_domain_add_linear(node,
+-							 XILINX_NUM_MSI_IRQS,
+-							 &msi_domain_ops,
+-							 &xilinx_pcie_msi_chip);
+-		if (!port->msi_domain) {
+-			dev_err(dev, "Failed to get a MSI IRQ domain\n");
+-			return -ENODEV;
+-		}
++		phys_addr_t pa = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
+ 
+-		ret = xilinx_pcie_enable_msi(port);
++		ret = xilinx_allocate_msi_domains(port);
+ 		if (ret)
+ 			return ret;
++
++		pcie_write(port, upper_32_bits(pa), XILINX_PCIE_REG_MSIBASE1);
++		pcie_write(port, lower_32_bits(pa), XILINX_PCIE_REG_MSIBASE2);
+ 	}
+ 
+ 	return 0;
+@@ -566,6 +533,7 @@ static int xilinx_pcie_parse_dt(struct xilinx_pcie_port *port)
+ 	struct device *dev = port->dev;
+ 	struct device_node *node = dev->of_node;
+ 	struct resource regs;
++	unsigned int irq;
  	int err;
  
--	mutex_init(&msi->lock);
--
--	msi->chip.dev = dev;
--	msi->chip.setup_irq = tegra_msi_setup_irq;
--	msi->chip.teardown_irq = tegra_msi_teardown_irq;
-+	mutex_init(&msi->map_lock);
-+	spin_lock_init(&msi->mask_lock);
+ 	err = of_address_to_resource(node, 0, &regs);
+@@ -578,12 +546,12 @@ static int xilinx_pcie_parse_dt(struct xilinx_pcie_port *port)
+ 	if (IS_ERR(port->reg_base))
+ 		return PTR_ERR(port->reg_base);
  
--	msi->domain = irq_domain_add_linear(dev->of_node, INT_PCI_MSI_NR,
--					    &msi_domain_ops, &msi->chip);
--	if (!msi->domain) {
--		dev_err(dev, "failed to create IRQ domain\n");
--		return -ENOMEM;
-+	if (IS_ENABLED(CONFIG_PCI_MSI)) {
-+		err = tegra_allocate_domains(msi);
-+		if (err)
-+			return err;
+-	port->irq = irq_of_parse_and_map(node, 0);
+-	err = devm_request_irq(dev, port->irq, xilinx_pcie_intr_handler,
++	irq = irq_of_parse_and_map(node, 0);
++	err = devm_request_irq(dev, irq, xilinx_pcie_intr_handler,
+ 			       IRQF_SHARED | IRQF_NO_THREAD,
+ 			       "xilinx-pcie", port);
+ 	if (err) {
+-		dev_err(dev, "unable to request irq %d\n", port->irq);
++		dev_err(dev, "unable to request irq %d\n", irq);
+ 		return err;
  	}
  
- 	err = platform_get_irq_byname(pdev, "msi");
-@@ -1714,12 +1766,7 @@ static int tegra_pcie_msi_setup(struct tegra_pcie *pcie)
+@@ -611,7 +579,7 @@ static int xilinx_pcie_probe(struct platform_device *pdev)
+ 		return -ENODEV;
  
- 	msi->irq = err;
- 
--	err = request_irq(msi->irq, tegra_pcie_msi_irq, IRQF_NO_THREAD,
--			  tegra_msi_irq_chip.name, pcie);
--	if (err < 0) {
--		dev_err(dev, "failed to request IRQ: %d\n", err);
--		goto free_irq_domain;
--	}
-+	irq_set_chained_handler_and_data(msi->irq, tegra_pcie_msi_irq, pcie);
- 
- 	/* Though the PCIe controller can address >32-bit address space, to
- 	 * facilitate endpoints that support only 32-bit MSI target address,
-@@ -1740,14 +1787,14 @@ static int tegra_pcie_msi_setup(struct tegra_pcie *pcie)
- 		goto free_irq;
- 	}
- 
--	host->msi = &msi->chip;
+ 	port = pci_host_bridge_priv(bridge);
 -
- 	return 0;
++	mutex_init(&port->map_lock);
+ 	port->dev = dev;
  
- free_irq:
--	free_irq(msi->irq, pcie);
-+	irq_set_chained_handler_and_data(msi->irq, NULL, NULL);
- free_irq_domain:
--	irq_domain_remove(msi->domain);
-+	if (IS_ENABLED(CONFIG_PCI_MSI))
-+		tegra_free_domains(msi);
+ 	err = xilinx_pcie_parse_dt(port);
+@@ -631,11 +599,11 @@ static int xilinx_pcie_probe(struct platform_device *pdev)
+ 	bridge->sysdata = port;
+ 	bridge->ops = &xilinx_pcie_ops;
+ 
+-#ifdef CONFIG_PCI_MSI
+-	xilinx_pcie_msi_chip.dev = dev;
+-	bridge->msi = &xilinx_pcie_msi_chip;
+-#endif
+-	return pci_host_probe(bridge);
++	err = pci_host_probe(bridge);
++	if (err)
++		xilinx_free_msi_domains(port);
 +
- 	return err;
++	return err;
  }
  
-@@ -1762,16 +1809,6 @@ static void tegra_pcie_enable_msi(struct tegra_pcie *pcie)
- 	/* this register is in 4K increments */
- 	afi_writel(pcie, 1, AFI_MSI_BAR_SZ);
- 
--	/* enable all MSI vectors */
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC0);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC1);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC2);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC3);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC4);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC5);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC6);
--	afi_writel(pcie, 0xffffffff, AFI_MSI_EN_VEC7);
--
- 	/* and unmask the MSI interrupt */
- 	reg = afi_readl(pcie, AFI_INTR_MASK);
- 	reg |= AFI_INTR_MASK_MSI_MASK;
-@@ -1786,16 +1823,16 @@ static void tegra_pcie_msi_teardown(struct tegra_pcie *pcie)
- 	dma_free_attrs(pcie->dev, PAGE_SIZE, msi->virt, msi->phys,
- 		       DMA_ATTR_NO_KERNEL_MAPPING);
- 
--	if (msi->irq > 0)
--		free_irq(msi->irq, pcie);
--
- 	for (i = 0; i < INT_PCI_MSI_NR; i++) {
- 		irq = irq_find_mapping(msi->domain, i);
- 		if (irq > 0)
--			irq_dispose_mapping(irq);
-+			irq_domain_free_irqs(irq, 1);
- 	}
- 
--	irq_domain_remove(msi->domain);
-+	irq_set_chained_handler_and_data(msi->irq, NULL, NULL);
-+
-+	if (IS_ENABLED(CONFIG_PCI_MSI))
-+		tegra_free_domains(msi);
- }
- 
- static int tegra_pcie_disable_msi(struct tegra_pcie *pcie)
-@@ -1807,16 +1844,6 @@ static int tegra_pcie_disable_msi(struct tegra_pcie *pcie)
- 	value &= ~AFI_INTR_MASK_MSI_MASK;
- 	afi_writel(pcie, value, AFI_INTR_MASK);
- 
--	/* disable all MSI vectors */
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC0);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC1);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC2);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC3);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC4);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC5);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC6);
--	afi_writel(pcie, 0, AFI_MSI_EN_VEC7);
--
- 	return 0;
- }
- 
+ static const struct of_device_id xilinx_pcie_of_match[] = {
 -- 
 2.29.2
 
