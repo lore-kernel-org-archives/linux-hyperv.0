@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF9BC433E6
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18E27C433EC
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF33B619D8
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0782A619D2
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232305AbhC3PMX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:12:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59836 "EHLO mail.kernel.org"
+        id S232203AbhC3PMZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:12:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232226AbhC3PL4 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:11:56 -0400
+        id S232192AbhC3PLy (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:11:54 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C5C45619D0;
-        Tue, 30 Mar 2021 15:11:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1F61619CB;
+        Tue, 30 Mar 2021 15:11:53 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lRG26-004i6i-6K; Tue, 30 Mar 2021 16:11:54 +0100
+        id 1lRG24-004i6i-3Y; Tue, 30 Mar 2021 16:11:52 +0100
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -52,9 +52,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v3 04/14] PCI: xilinx: Don't allocate extra memory for the MSI capture address
-Date:   Tue, 30 Mar 2021 16:11:35 +0100
-Message-Id: <20210330151145.997953-5-maz@kernel.org>
+Subject: [PATCH v3 02/14] PCI: rcar: Don't allocate extra memory for the MSI capture address
+Date:   Tue, 30 Mar 2021 16:11:33 +0100
+Message-Id: <20210330151145.997953-3-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
 References: <20210330151145.997953-1-maz@kernel.org>
@@ -76,66 +76,74 @@ But there is no actual requirement for this address to be RAM.
 All it needs to be is a suitable aligned address that will
 *not* be DMA'd to.
 
-Use the physical address of the 'port' data structure as the MSI
-capture address, aligned on a 4K boundary.
+Since the rcar platform already has a requirement that this
+address should be in the first 4GB of the physical address space,
+use the controller's own base address as the capture address.
 
-Tested-by: Bharat Kumar Gogada <bharatku@xilinx.com>
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/controller/pcie-xilinx.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+ drivers/pci/controller/pcie-rcar-host.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-xilinx.c b/drivers/pci/controller/pcie-xilinx.c
-index fa5baeb82653..e127a7b6e535 100644
---- a/drivers/pci/controller/pcie-xilinx.c
-+++ b/drivers/pci/controller/pcie-xilinx.c
-@@ -94,7 +94,6 @@
-  * struct xilinx_pcie_port - PCIe port information
-  * @reg_base: IO Mapped Register Base
-  * @irq: Interrupt number
-- * @msi_pages: MSI pages
-  * @dev: Device pointer
-  * @msi_domain: MSI IRQ domain pointer
-  * @leg_domain: Legacy IRQ domain pointer
-@@ -103,7 +102,6 @@
- struct xilinx_pcie_port {
- 	void __iomem *reg_base;
- 	u32 irq;
--	unsigned long msi_pages;
- 	struct device *dev;
- 	struct irq_domain *msi_domain;
- 	struct irq_domain *leg_domain;
-@@ -274,10 +272,10 @@ static int xilinx_pcie_msi_setup_irq(struct msi_controller *chip,
- 
- 	irq_set_msi_desc(irq, desc);
- 
--	msg_addr = virt_to_phys((void *)port->msi_pages);
-+	msg_addr = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
- 
--	msg.address_hi = 0;
--	msg.address_lo = msg_addr;
-+	msg.address_hi = upper_32_bits(msg_addr);
-+	msg.address_lo = lower_32_bits(msg_addr);
- 	msg.data = irq;
- 
- 	pci_write_msi_msg(irq, &msg);
-@@ -330,13 +328,9 @@ static int xilinx_pcie_enable_msi(struct xilinx_pcie_port *port)
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index a728e8f9ad3c..ce952403e22c 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -36,7 +36,6 @@ struct rcar_msi {
+ 	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
+ 	struct irq_domain *domain;
+ 	struct msi_controller chip;
+-	unsigned long pages;
+ 	struct mutex lock;
+ 	int irq1;
+ 	int irq2;
+@@ -680,14 +679,15 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie_host *host)
+ static void rcar_pcie_hw_enable_msi(struct rcar_pcie_host *host)
  {
- 	phys_addr_t msg_addr;
+ 	struct rcar_pcie *pcie = &host->pcie;
+-	struct rcar_msi *msi = &host->msi;
+-	unsigned long base;
++	struct device *dev = pcie->dev;
++	struct resource res;
  
--	port->msi_pages = __get_free_pages(GFP_KERNEL, 0);
--	if (!port->msi_pages)
--		return -ENOMEM;
--
--	msg_addr = virt_to_phys((void *)port->msi_pages);
--	pcie_write(port, 0x0, XILINX_PCIE_REG_MSIBASE1);
--	pcie_write(port, msg_addr, XILINX_PCIE_REG_MSIBASE2);
-+	msg_addr = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
-+	pcie_write(port, upper_32_bits(msg_addr), XILINX_PCIE_REG_MSIBASE1);
-+	pcie_write(port, lower_32_bits(msg_addr), XILINX_PCIE_REG_MSIBASE2);
+-	/* setup MSI data target */
+-	base = virt_to_phys((void *)msi->pages);
++	if (WARN_ON(of_address_to_resource(dev->of_node, 0, &res)))
++		return;
+ 
+-	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+-	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
++	/* setup MSI data target */
++	rcar_pci_write_reg(pcie, lower_32_bits(res.start) | MSIFE, PCIEMSIALR);
++	rcar_pci_write_reg(pcie, upper_32_bits(res.start), PCIEMSIAUR);
+ 
+ 	/* enable all MSI interrupts */
+ 	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+@@ -735,7 +735,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+ 	}
+ 
+ 	/* setup MSI data target */
+-	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
+ 	rcar_pcie_hw_enable_msi(host);
  
  	return 0;
+@@ -748,7 +747,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+ static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+ {
+ 	struct rcar_pcie *pcie = &host->pcie;
+-	struct rcar_msi *msi = &host->msi;
+ 
+ 	/* Disable all MSI interrupts */
+ 	rcar_pci_write_reg(pcie, 0, PCIEMSIIER);
+@@ -756,8 +754,6 @@ static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+ 	/* Disable address decoding of the MSI interrupt, MSIFE */
+ 	rcar_pci_write_reg(pcie, 0, PCIEMSIALR);
+ 
+-	free_pages(msi->pages, 0);
+-
+ 	rcar_pcie_unmap_msi(host);
  }
+ 
 -- 
 2.29.2
 
