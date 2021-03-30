@@ -3,31 +3,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 839ABC43461
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B20DFC433E1
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:24:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5357D619D2
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C3A96196A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232263AbhC3PMZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:12:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59916 "EHLO mail.kernel.org"
+        id S231929AbhC3PXj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:23:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35118 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232249AbhC3PL6 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:11:58 -0400
+        id S232141AbhC3PXj (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:23:39 -0400
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C9AC7619D3;
-        Tue, 30 Mar 2021 15:11:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95412619A7;
+        Tue, 30 Mar 2021 15:23:38 +0000 (UTC)
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
         by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94)
         (envelope-from <maz@kernel.org>)
-        id 1lRG28-004i6i-4T; Tue, 30 Mar 2021 16:11:56 +0100
+        id 1lRG2E-004i6i-I7; Tue, 30 Mar 2021 16:12:02 +0100
 From:   Marc Zyngier <maz@kernel.org>
 To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>
@@ -52,9 +52,9 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v3 06/14] PCI: hv: Drop msi_controller structure
-Date:   Tue, 30 Mar 2021 16:11:37 +0100
-Message-Id: <20210330151145.997953-7-maz@kernel.org>
+Subject: [PATCH v3 12/14] PCI: mediatek: Advertise lack of built-in MSI handling
+Date:   Tue, 30 Mar 2021 16:11:43 +0100
+Message-Id: <20210330151145.997953-13-maz@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
 References: <20210330151145.997953-1-maz@kernel.org>
@@ -68,42 +68,61 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The Hyper-V PCI driver still makes use of a msi_controller structure,
-but it looks more like a distant leftover than anything actually
-useful, since it is initialised to 0 and never used for anything.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Just remove it.
+Some Mediatek host bridges cannot handle MSIs, which is sad.
+This also results in an ugly warning at device probe time,
+as the core PCI code wasn't told that MSIs were not available.
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Tested-by: Michael Kelley <mikelley@microsoft.com>
+Advertise this fact to the rest of the core PCI code by
+using the 'msi_domain' attribute, which still opens the possibility
+for another block to provide the MSI functionnality.
+
 Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Reported-by: Frank Wunderlich <frank-w@public-files.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+[maz: commit message, switched over to msi_domain attribute]
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/pci/controller/pci-hyperv.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/pci/controller/pcie-mediatek.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 27a17a1e4a7c..2c014ba7ed4b 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -473,7 +473,6 @@ struct hv_pcibus_device {
- 	struct list_head dr_list;
+diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
+index 23548b517e4b..9c10d87b6134 100644
+--- a/drivers/pci/controller/pcie-mediatek.c
++++ b/drivers/pci/controller/pcie-mediatek.c
+@@ -143,6 +143,7 @@ struct mtk_pcie_port;
+  * struct mtk_pcie_soc - differentiate between host generations
+  * @need_fix_class_id: whether this host's class ID needed to be fixed or not
+  * @need_fix_device_id: whether this host's device ID needed to be fixed or not
++ * @no_msi: Bridge has no MSI support, and relies on an external block
+  * @device_id: device ID which this host need to be fixed
+  * @ops: pointer to configuration access functions
+  * @startup: pointer to controller setting functions
+@@ -151,6 +152,7 @@ struct mtk_pcie_port;
+ struct mtk_pcie_soc {
+ 	bool need_fix_class_id;
+ 	bool need_fix_device_id;
++	bool no_msi;
+ 	unsigned int device_id;
+ 	struct pci_ops *ops;
+ 	int (*startup)(struct mtk_pcie_port *port);
+@@ -1087,6 +1089,7 @@ static int mtk_pcie_probe(struct platform_device *pdev)
  
- 	struct msi_domain_info msi_info;
--	struct msi_controller msi_chip;
- 	struct irq_domain *irq_domain;
+ 	host->ops = pcie->soc->ops;
+ 	host->sysdata = pcie;
++	host->msi_domain = pcie->soc->no_msi;
  
- 	spinlock_t retarget_msi_interrupt_lock;
-@@ -1866,9 +1865,6 @@ static int create_root_hv_pci_bus(struct hv_pcibus_device *hbus)
- 	if (!hbus->pci_bus)
- 		return -ENODEV;
+ 	err = pci_host_probe(host);
+ 	if (err)
+@@ -1176,6 +1179,7 @@ static const struct dev_pm_ops mtk_pcie_pm_ops = {
+ };
  
--	hbus->pci_bus->msi = &hbus->msi_chip;
--	hbus->pci_bus->msi->dev = &hbus->hdev->device;
--
- 	pci_lock_rescan_remove();
- 	pci_scan_child_bus(hbus->pci_bus);
- 	hv_pci_assign_numa_node(hbus);
+ static const struct mtk_pcie_soc mtk_pcie_soc_v1 = {
++	.no_msi = true,
+ 	.ops = &mtk_pcie_ops,
+ 	.startup = mtk_pcie_startup_port,
+ };
 -- 
 2.29.2
 
