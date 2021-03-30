@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FCF2C433F4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 343A9C433C1
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:30:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0BA57619A7
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:24:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0C8C619B9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Mar 2021 15:30:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232404AbhC3PYN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:24:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35342 "EHLO mail.kernel.org"
+        id S232001AbhC3P3d (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:29:33 -0400
+Received: from foss.arm.com ([217.140.110.172]:38796 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232354AbhC3PXn (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Mar 2021 11:23:43 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7558E6195C;
-        Tue, 30 Mar 2021 15:23:42 +0000 (UTC)
-Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1lRG2C-004i6i-Vy; Tue, 30 Mar 2021 16:12:01 +0100
-From:   Marc Zyngier <maz@kernel.org>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     Frank Wunderlich <frank-w@public-files.de>,
+        id S232240AbhC3P3G (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:29:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A653C31B;
+        Tue, 30 Mar 2021 08:29:05 -0700 (PDT)
+Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 263A73F719;
+        Tue, 30 Mar 2021 08:29:02 -0700 (PDT)
+Date:   Tue, 30 Mar 2021 16:28:57 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Marc Zyngier <maz@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Frank Wunderlich <frank-w@public-files.de>,
         Thierry Reding <treding@nvidia.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>,
@@ -52,50 +52,109 @@ Cc:     Frank Wunderlich <frank-w@public-files.de>,
         linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-Subject: [PATCH v3 11/14] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
-Date:   Tue, 30 Mar 2021 16:11:42 +0100
-Message-Id: <20210330151145.997953-12-maz@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
+Subject: Re: [PATCH v3 02/14] PCI: rcar: Don't allocate extra memory for the
+ MSI capture address
+Message-ID: <20210330152857.GA27749@lpieralisi>
 References: <20210330151145.997953-1-maz@kernel.org>
+ <20210330151145.997953-3-maz@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 62.31.163.78
-X-SA-Exim-Rcpt-To: lorenzo.pieralisi@arm.com, bhelgaas@google.com, frank-w@public-files.de, treding@nvidia.com, tglx@linutronix.de, robh@kernel.org, will@kernel.org, kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com, mikelley@microsoft.com, wei.liu@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com, ryder.lee@mediatek.com, marek.vasut+renesas@gmail.com, yoshihiro.shimoda.uh@renesas.com, michal.simek@xilinx.com, paul.walmsley@sifive.com, bharatku@xilinx.com, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org, linux-tegra@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210330151145.997953-3-maz@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The generic PCI host driver relies on MSI domains for MSIs to
-be provided to its end-points. Make this dependency explicit.
+On Tue, Mar 30, 2021 at 04:11:33PM +0100, Marc Zyngier wrote:
+> A long cargo-culted behaviour of PCI drivers is to allocate memory
+> to obtain an address that is fed to the controller as the MSI
+> capture address (i.e. the MSI doorbell).
+> 
+> But there is no actual requirement for this address to be RAM.
+> All it needs to be is a suitable aligned address that will
+> *not* be DMA'd to.
+> 
+> Since the rcar platform already has a requirement that this
+> address should be in the first 4GB of the physical address space,
+> use the controller's own base address as the capture address.
+> 
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  drivers/pci/controller/pcie-rcar-host.c | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
 
-This cures the warnings occuring on arm/arm64 VMs when booted
-with PCI virtio devices and no MSI controller (no GICv3 ITS,
-for example).
+Marek, Yoshihiro,
 
-It is likely that other drivers will need to express the same
-dependency.
+can you test this patch please and report back ? It is not fundamental
+for the rest of the series (ie the rest of the series does not depend on
+it) and we can still merge the series without it but it would be good if
+you can review and test anyway.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/pci/controller/pci-host-common.c | 1 +
- 1 file changed, 1 insertion(+)
+I'd like to merge this series into -next shortly.
 
-diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
-index 6ab694f8d283..d3924a44db02 100644
---- a/drivers/pci/controller/pci-host-common.c
-+++ b/drivers/pci/controller/pci-host-common.c
-@@ -79,6 +79,7 @@ int pci_host_common_probe(struct platform_device *pdev)
- 
- 	bridge->sysdata = cfg;
- 	bridge->ops = (struct pci_ops *)&ops->pci_ops;
-+	bridge->msi_domain = true;
- 
- 	return pci_host_probe(bridge);
- }
--- 
-2.29.2
+Thanks,
+Lorenzo
 
+> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> index a728e8f9ad3c..ce952403e22c 100644
+> --- a/drivers/pci/controller/pcie-rcar-host.c
+> +++ b/drivers/pci/controller/pcie-rcar-host.c
+> @@ -36,7 +36,6 @@ struct rcar_msi {
+>  	DECLARE_BITMAP(used, INT_PCI_MSI_NR);
+>  	struct irq_domain *domain;
+>  	struct msi_controller chip;
+> -	unsigned long pages;
+>  	struct mutex lock;
+>  	int irq1;
+>  	int irq2;
+> @@ -680,14 +679,15 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie_host *host)
+>  static void rcar_pcie_hw_enable_msi(struct rcar_pcie_host *host)
+>  {
+>  	struct rcar_pcie *pcie = &host->pcie;
+> -	struct rcar_msi *msi = &host->msi;
+> -	unsigned long base;
+> +	struct device *dev = pcie->dev;
+> +	struct resource res;
+>  
+> -	/* setup MSI data target */
+> -	base = virt_to_phys((void *)msi->pages);
+> +	if (WARN_ON(of_address_to_resource(dev->of_node, 0, &res)))
+> +		return;
+>  
+> -	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+> -	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
+> +	/* setup MSI data target */
+> +	rcar_pci_write_reg(pcie, lower_32_bits(res.start) | MSIFE, PCIEMSIALR);
+> +	rcar_pci_write_reg(pcie, upper_32_bits(res.start), PCIEMSIAUR);
+>  
+>  	/* enable all MSI interrupts */
+>  	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+> @@ -735,7 +735,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+>  	}
+>  
+>  	/* setup MSI data target */
+> -	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
+>  	rcar_pcie_hw_enable_msi(host);
+>  
+>  	return 0;
+> @@ -748,7 +747,6 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+>  static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+>  {
+>  	struct rcar_pcie *pcie = &host->pcie;
+> -	struct rcar_msi *msi = &host->msi;
+>  
+>  	/* Disable all MSI interrupts */
+>  	rcar_pci_write_reg(pcie, 0, PCIEMSIIER);
+> @@ -756,8 +754,6 @@ static void rcar_pcie_teardown_msi(struct rcar_pcie_host *host)
+>  	/* Disable address decoding of the MSI interrupt, MSIFE */
+>  	rcar_pci_write_reg(pcie, 0, PCIEMSIALR);
+>  
+> -	free_pages(msi->pages, 0);
+> -
+>  	rcar_pcie_unmap_msi(host);
+>  }
+>  
+> -- 
+> 2.29.2
+> 
