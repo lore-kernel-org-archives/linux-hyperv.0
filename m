@@ -2,109 +2,83 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB1EEC433ED
-	for <linux-hyperv@archiver.kernel.org>; Thu,  1 Apr 2021 18:37:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEB8C433B4
+	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Apr 2021 21:55:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 842F060FDA
-	for <linux-hyperv@archiver.kernel.org>; Thu,  1 Apr 2021 18:37:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA95F6117A
+	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Apr 2021 21:55:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237540AbhDASh4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:37:56 -0400
-Received: from foss.arm.com ([217.140.110.172]:46726 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240340AbhDASaH (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:30:07 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4AD3D6E;
-        Thu,  1 Apr 2021 04:27:53 -0700 (PDT)
-Received: from e123427-lin.arm.com (unknown [10.57.56.129])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D3193F694;
-        Thu,  1 Apr 2021 04:27:49 -0700 (PDT)
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>, Marc Zyngier <maz@kernel.org>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Frank Wunderlich <frank-w@public-files.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>, linux-pci@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Bharat Kumar Gogada <bharatku@xilinx.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        linux-hyperv@vger.kernel.org, Will Deacon <will@kernel.org>,
-        kernel-team@android.com, Michael Kelley <mikelley@microsoft.com>,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 00/14] PCI/MSI: Getting rid of msi_controller, and other cleanups
-Date:   Thu,  1 Apr 2021 12:27:42 +0100
-Message-Id: <161727636757.32506.11592578621890085687.b4-ty@arm.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20210330151145.997953-1-maz@kernel.org>
-References: <20210330151145.997953-1-maz@kernel.org>
+        id S231443AbhDBVzj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 2 Apr 2021 17:55:39 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:46056 "EHLO
+        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229722AbhDBVzj (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 2 Apr 2021 17:55:39 -0400
+Received: by mail-wr1-f54.google.com with SMTP id j9so5714161wrx.12;
+        Fri, 02 Apr 2021 14:55:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=qtj+FVbg/e9bVo/D1F6NgFjUb3C3ANtmd+GZLfq6gPQ=;
+        b=owAuOhN8qG2T4Y8uBk47zyvLoyNSJcNXQzvRvu/ykPSeQ75YQv7u8VIAMhNqBUzeu6
+         7BoSQBRenuEPLpMZ5fcfkX4khUe9NiSiu6ZFW3gmeY8EDalISceT/ydFx+f68pQdZt5X
+         lM5e69e4ZQYwPCNigfl4xWNbwjWxWlXQEitpv8s86YPEIEhQYS5m8ku7WD7stYLYpAUr
+         bebH8WJ19jXOER9Vmp+osVPjAJwDMp5WmFkSid+q33oGT4oTxCW0deC+luHJ+xw4Wmdi
+         5MkO2K/8QRlDGkCB6Cd2aKHa9N6cWp5HeDjNo0ScCjxttDgqcUSUYOWnPSnByVFW+YKA
+         LbeQ==
+X-Gm-Message-State: AOAM5317nomIE8qx8pt/XEXArQ5w9b+LZdDR+phTF+P8YbWsodSrarYV
+        B7gjqoxY56pRJtMHrj9VZ22ZG0UEguA=
+X-Google-Smtp-Source: ABdhPJxKm+jXlAQH86NTLDpmYTuigs/vfMAGM00/neX7QoEBH7IH55JI6P9waaep7rn3zcOizVKrYw==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr17299226wrw.292.1617400535585;
+        Fri, 02 Apr 2021 14:55:35 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id j123sm13661361wmb.1.2021.04.02.14.55.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Apr 2021 14:55:35 -0700 (PDT)
+Date:   Fri, 2 Apr 2021 21:55:33 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Wei Liu <wei.liu@kernel.org>, kys@microsoft.com,
+        sthemmin@microsoft.com, haiyangz@microsoft.com,
+        Michael Kelley <mikelley@microsoft.com>,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Subject: [GIT PULL] Hyper-V fixes for 5.12-rc6
+Message-ID: <20210402215533.56z6kk56s6wxannw@liuwe-devbox-debian-v2>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, 30 Mar 2021 16:11:31 +0100, Marc Zyngier wrote:
-> This is a respin of the series described at [1].
-> 
-> * From v2 [2]:
->   - Fixed the Xilinx driver, thanks to Bharat for testing it
->   - Dropped the no_msi attribute, and solely rely on msi_domain, which
->     has the same effect for the only platform that was using it.
->   - Fixed compilation on architectures that do not select the generic
->     MSI support
-> 
-> [...]
+Hi Linus,
 
-I have applied it to pci/msi and should be moved into -next shortly
-for further testing/visibility, thanks a lot for putting it together.
+The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
 
-[01/14] PCI: tegra: Convert to MSI domains
-        https://git.kernel.org/lpieralisi/pci/c/973a28677e
-[02/14] PCI: rcar: Don't allocate extra memory for the MSI capture address
-        https://git.kernel.org/lpieralisi/pci/c/c244dc15dc
-[03/14] PCI: rcar: Convert to MSI domains
-        https://git.kernel.org/lpieralisi/pci/c/516286287d
-[04/14] PCI: xilinx: Don't allocate extra memory for the MSI capture address
-        https://git.kernel.org/lpieralisi/pci/c/cc8cf90738
-[05/14] PCI: xilinx: Convert to MSI domains
-        https://git.kernel.org/lpieralisi/pci/c/b66873599e
-[06/14] PCI: hv: Drop msi_controller structure
-        https://git.kernel.org/lpieralisi/pci/c/65b131816a
-[07/14] PCI/MSI: Drop use of msi_controller from core code
-        https://git.kernel.org/lpieralisi/pci/c/54729d2a7a
-[08/14] PCI/MSI: Kill msi_controller structure
-        https://git.kernel.org/lpieralisi/pci/c/27278a3fac
-[09/14] PCI/MSI: Kill default_teardown_msi_irqs()
-        https://git.kernel.org/lpieralisi/pci/c/f68f571db9
-[10/14] PCI/MSI: Let PCI host bridges declare their reliance on MSI domains
-        https://git.kernel.org/lpieralisi/pci/c/419150a4ff
-[11/14] PCI/MSI: Make pci_host_common_probe() declare its reliance on MSI domains
-        https://git.kernel.org/lpieralisi/pci/c/98be0634c8
-[12/14] PCI: mediatek: Advertise lack of built-in MSI handling
-        https://git.kernel.org/lpieralisi/pci/c/77cbd88c90
-[13/14] PCI/MSI: Document the various ways of ending up with NO_MSI
-        https://git.kernel.org/lpieralisi/pci/c/44ec480daf
-[14/14] PCI: Refactor HT advertising of NO_MSI flag
-        https://git.kernel.org/lpieralisi/pci/c/18d56e5afe
+  Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
 
-Thanks,
-Lorenzo
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20210402
+
+for you to fetch changes up to 37df9f3fedb6aeaff5564145e8162aab912c9284:
+
+  video: hyperv_fb: Fix a double free in hvfb_probe (2021-03-25 13:31:20 +0000)
+
+----------------------------------------------------------------
+hyperv-fixes for 5.12-rc6
+  - One patch from Lu Yunlong to fix a double free in hvfb_probe
+
+----------------------------------------------------------------
+Lv Yunlong (1):
+      video: hyperv_fb: Fix a double free in hvfb_probe
+
+ drivers/video/fbdev/hyperv_fb.c | 3 ---
+ 1 file changed, 3 deletions(-)
