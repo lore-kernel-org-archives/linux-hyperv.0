@@ -2,59 +2,47 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D765C433ED
-	for <linux-hyperv@archiver.kernel.org>; Tue,  6 Apr 2021 18:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFBEC43461
+	for <linux-hyperv@archiver.kernel.org>; Tue,  6 Apr 2021 23:41:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24BE6613BE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  6 Apr 2021 18:44:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3734613BE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  6 Apr 2021 23:41:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238468AbhDFSoQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 6 Apr 2021 14:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238621AbhDFSoM (ORCPT
+        id S236008AbhDFXle (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 6 Apr 2021 19:41:34 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:43666 "EHLO
+        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233969AbhDFXld (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 6 Apr 2021 14:44:12 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCEAC061762
-        for <linux-hyperv@vger.kernel.org>; Tue,  6 Apr 2021 11:44:03 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id e10so3638196pls.6
-        for <linux-hyperv@vger.kernel.org>; Tue, 06 Apr 2021 11:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eQnC4YbqcPkvvMzS/WXtytqd+L3POj6wkG54irRdxac=;
-        b=YAhhm9BkpY5y7HrE34KfvVWOVgEO0sYzWSUTiqziDNEK4+3Lral7Ghh0posJjIrz61
-         tfc63YozQ8TRMvb+TNGvA+LWvP4faXgXV6k8KT0Nv6y/u9B7f1LE4XzO3OjKob023F9j
-         xZGLdr3UYpKw1f93SAnQ8fSdVZaYmuMHTRPdw=
+        Tue, 6 Apr 2021 19:41:33 -0400
+Received: by mail-wr1-f50.google.com with SMTP id x7so15927982wrw.10;
+        Tue, 06 Apr 2021 16:41:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=eQnC4YbqcPkvvMzS/WXtytqd+L3POj6wkG54irRdxac=;
-        b=iEJlaq/20+Kmz4pcr1pY/CwNW8fmLBECRWeT8UY3lr9PNizwfEnfTBnC5/8VV22cDk
-         Ck7G6w1U5kqoY7kyy33ghhfE+YRM2564xbbq+4I+2sIvbrJiabZlSb4UipCWT+jP31um
-         Z1nWlfZSnbNw86lxOR8WKItSHBOr9BWNVUyNhVzWGJ40WBcTBrcloWXgs8pBdJHRpi8V
-         BI/zFzFISJbo3CaT0FGkWzfmLySxvWQ5UeYQe/wdh4GNtdDcDcuPK/G3RUMbULJj0rZ5
-         +Kl54TXCfPuXdrNNGzm2kVHEMXouzElQTZ/7wViSM0QzPcpswVsi2zle5HbmfF2JRfBZ
-         0jrw==
-X-Gm-Message-State: AOAM530L3BR7SIY5HcQFa9KyXQDpzC+BEl1H0OaOAasRhMn+w67o0AHc
-        9yPOFE4VtVsv07pls0hOlZXp7w==
-X-Google-Smtp-Source: ABdhPJyp4uPolhdsa5/w7momD80MPZDhhBi9SUuWfIFW/E/FawC4pgs3YQmUW7xHztXcPiXJ8/E+QQ==
-X-Received: by 2002:a17:902:e74e:b029:e5:bde4:2b80 with SMTP id p14-20020a170902e74eb02900e5bde42b80mr30088911plf.44.1617734642419;
-        Tue, 06 Apr 2021 11:44:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i9sm3610423pjh.9.2021.04.06.11.44.01
+        bh=WGIJa+EXD8Vc5DJNrcReg/z+0EimDhG6rdWhVbzOtFo=;
+        b=CQ0qDAptkIC6tW/QjkTYrwKTt0DT9a42qy4lPFnM4r8k/4F8gSOYBBIuxE740H2p17
+         RzmddTwaAv6ON0mKDDGrTQ6ejGZHjVorX9afl/5ZGJngAeB9LXBEdWJPOtKSHcClEYja
+         0GjWEUNfq94P3RHscsbNIMkuH9FGu2li59VWTnaAVpPcb4LCyp5zxjiF70kZ7aHou89A
+         A5ehGdBDBRM3f535in/qXuwptNZI9m7TKz+9vUC1WCUQPsnYxV5jcoDDQ8nW/hpGEKKf
+         eZS9buyKs29dE3EZCwG9rgsK/8mRQdPH3naKt8fipJEepHd10wqBgeYZGmdh3vQNY2v3
+         fL+w==
+X-Gm-Message-State: AOAM530oOUJ5jVaY3a5Wy5DIziWoTD0+ujeXIKTmzuteUQPdNU4wCtP5
+        65me661JHs864WiPuxyJDYg=
+X-Google-Smtp-Source: ABdhPJwgTgzHjDtAphSOcIvZkNyZiSytk4BvPsB6Agc23uPs67Vxh0ob67DGX16DGyXt0HXr4p5bpg==
+X-Received: by 2002:a5d:5612:: with SMTP id l18mr791487wrv.28.1617752483246;
+        Tue, 06 Apr 2021 16:41:23 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id f9sm4864133wmj.38.2021.04.06.16.41.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 11:44:01 -0700 (PDT)
-Date:   Tue, 6 Apr 2021 11:44:00 -0700
-From:   Kees Cook <keescook@chromium.org>
+        Tue, 06 Apr 2021 16:41:23 -0700 (PDT)
+Date:   Tue, 6 Apr 2021 23:41:21 +0000
+From:   Wei Liu <wei.liu@kernel.org>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Michael Ellerman <mpe@ellerman.id.au>,
         Joerg Roedel <jroedel@suse.de>, Wei Liu <wei.liu@kernel.org>,
@@ -91,9 +79,10 @@ Cc:     Michael Ellerman <mpe@ellerman.id.au>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Iurii Zaikin <yzaikin@google.com>
 Subject: Re: [PATCH v1 1/1] kernel.h: Split out panic and oops helpers
-Message-ID: <202104061143.E11D2D0@keescook>
+Message-ID: <20210406234121.4ebbaoxyrzdywdj4@liuwe-devbox-debian-v2>
 References: <20210406133158.73700-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -114,12 +103,4 @@ On Tue, Apr 06, 2021 at 04:31:58PM +0300, Andy Shevchenko wrote:
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I like it! Do you have a multi-arch CI to do allmodconfig builds to
-double-check this?
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
--- 
-Kees Cook
+Acked-by: Wei Liu <wei.liu@kernel.org>
