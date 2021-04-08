@@ -2,106 +2,89 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47898C433ED
-	for <linux-hyperv@archiver.kernel.org>; Thu,  8 Apr 2021 16:28:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3F2C433B4
+	for <linux-hyperv@archiver.kernel.org>; Thu,  8 Apr 2021 16:30:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F066861105
-	for <linux-hyperv@archiver.kernel.org>; Thu,  8 Apr 2021 16:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7ABCE6102A
+	for <linux-hyperv@archiver.kernel.org>; Thu,  8 Apr 2021 16:30:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232161AbhDHQ2m (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 8 Apr 2021 12:28:42 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:19501 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231918AbhDHQ2m (ORCPT
+        id S232271AbhDHQad (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 8 Apr 2021 12:30:33 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:45659 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231480AbhDHQac (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 8 Apr 2021 12:28:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1617899311; x=1649435311;
-  h=date:from:to:cc:message-id:references:mime-version:
-   in-reply-to:subject;
-  bh=nMOUzFDnk5fm+FTvgXSXFX2ZDTXd0y1hb+al8HGRTjE=;
-  b=nF+GNRsNoY/zGPG3j27/0yOIJsyzWr33KkbUq2tG81mo9YxJFJU6jmGO
-   j0Gfs6xf4kK3AQFel4v/LUxfPyOcZgVhQJwFLTbZChkcta8ZeOaGx7Aa7
-   Y73uvtq6uqNng8lxRCWoAFyfbPyMOmNkm59oCo5ZMitBXY7ez7zfzeg4I
-   0=;
-X-IronPort-AV: E=Sophos;i="5.82,206,1613433600"; 
-   d="scan'208";a="100469738"
+        Thu, 8 Apr 2021 12:30:32 -0400
+Received: by mail-wr1-f49.google.com with SMTP id f6so2782960wrv.12;
+        Thu, 08 Apr 2021 09:30:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F496zTMs/cLiMo2b9mYzLgl9Z8QdoE+o/DNCzI6MgkY=;
+        b=qRmKp29Gbu+abI/zgMqwuTPIfNkSniOCrevF7rnMsgFFGPxPcJxOZ9RpKOY2Koh5uN
+         50ROeQdI9VoyUeMMhAA1dJRh1dyk542xCzdMS1XtiM+Pr37/nQkZghrR0skWx4CSve2L
+         zdhGWbN+TR+sNd2HsF/5ly+AMJKv7zqwrVXHVRaxhmEJwTvk14KvpqyhIoiW0YK9Cshs
+         /vvq763CYp/MJFQK7ULm33ID+urfqWcjFJ3mpqyNCZSeVMinR1MNnQTDKEJg95ilH6u6
+         NeagzcC2u96Y5NmEA4T0gtHPFrtcd/l5PWJ9aKjDB3Ky0q/hbR+2shNbGZVVDHndU/GV
+         IWTA==
+X-Gm-Message-State: AOAM533/Naj2kGCSoAqo7ctK7+mWjtiSG2M+Zmw0v+tErWgr2Ff7j0yp
+        iaUmJpBWO7413i3KozkTGgc=
+X-Google-Smtp-Source: ABdhPJzu9VwCOtcF4a86gsoB2sZ59A2GDYEVvAXWTOc+xe3vNUmDqkMYDVTfktJ9g6vHQhOeXj1OXA==
+X-Received: by 2002:adf:e38a:: with SMTP id e10mr12738849wrm.37.1617899420267;
+        Thu, 08 Apr 2021 09:30:20 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id o14sm39776289wrh.88.2021.04.08.09.30.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Apr 2021 09:30:20 -0700 (PDT)
+Date:   Thu, 8 Apr 2021 16:30:18 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Siddharth Chandrasekaran <sidcha@amazon.de>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>, Wei Liu <wei.liu@kernel.org>,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, seanjc@google.com, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        graf@amazon.com, eyakovl@amazon.de, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm@vger.kernel.org
 Subject: Re: [PATCH 0/4] Add support for XMM fast hypercalls
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 08 Apr 2021 16:21:21 +0000
-Received: from EX13D28EUC003.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id 1CB9CA1E52;
-        Thu,  8 Apr 2021 16:21:14 +0000 (UTC)
-Received: from u366d62d47e3651.ant.amazon.com (10.43.160.209) by
- EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 8 Apr 2021 16:21:07 +0000
-Date:   Thu, 8 Apr 2021 18:21:03 +0200
-From:   Siddharth Chandrasekaran <sidcha@amazon.de>
-To:     Wei Liu <wei.liu@kernel.org>
-CC:     Paolo Bonzini <pbonzini@redhat.com>, <kys@microsoft.com>,
-        <haiyangz@microsoft.com>, <sthemmin@microsoft.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-        <x86@kernel.org>, <hpa@zytor.com>, <seanjc@google.com>,
-        <vkuznets@redhat.com>, <wanpengli@tencent.com>,
-        <jmattson@google.com>, <joro@8bytes.org>, <graf@amazon.com>,
-        <eyakovl@amazon.de>, <linux-hyperv@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
-Message-ID: <20210408162102.GE32315@u366d62d47e3651.ant.amazon.com>
+Message-ID: <20210408163018.mlr23jd2r4st54jc@liuwe-devbox-debian-v2>
 References: <20210407212926.3016-1-sidcha@amazon.de>
  <20210408152817.k4d4hjdqu7hsjllo@liuwe-devbox-debian-v2>
  <033e7d77-d640-2c12-4918-da6b5b7f4e21@redhat.com>
- <20210408153813.iu3teoor6c6m6kzb@liuwe-devbox-debian-v2>
+ <20210408154006.GA32315@u366d62d47e3651.ant.amazon.com>
+ <53200f24-bd57-1509-aee2-0723aa8a3f6f@redhat.com>
+ <20210408155442.GC32315@u366d62d47e3651.ant.amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210408153813.iu3teoor6c6m6kzb@liuwe-devbox-debian-v2>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.43.160.209]
-X-ClientProxiedBy: EX13D49UWB001.ant.amazon.com (10.43.163.72) To
- EX13D28EUC003.ant.amazon.com (10.43.164.43)
+In-Reply-To: <20210408155442.GC32315@u366d62d47e3651.ant.amazon.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 03:38:13PM +0000, Wei Liu wrote:
-> On Thu, Apr 08, 2021 at 05:30:26PM +0200, Paolo Bonzini wrote:
-> > On 08/04/21 17:28, Wei Liu wrote:
-> > > > Although the Hyper-v TLFS mentions that a guest cannot use this feature
-> > > > unless the hypervisor advertises support for it, some hypercalls which
-> > > > we plan on upstreaming in future uses them anyway.
-> > >
-> > > No, please don't do this. Check the feature bit(s) before you issue
-> > > hypercalls which rely on the extended interface.
+On Thu, Apr 08, 2021 at 05:54:43PM +0200, Siddharth Chandrasekaran wrote:
+> On Thu, Apr 08, 2021 at 05:48:19PM +0200, Paolo Bonzini wrote:
+> > On 08/04/21 17:40, Siddharth Chandrasekaran wrote:
+> > > > > > Although the Hyper-v TLFS mentions that a guest cannot use this feature
+> > > > > > unless the hypervisor advertises support for it, some hypercalls which
+> > > > > > we plan on upstreaming in future uses them anyway.
+> > > > > No, please don't do this. Check the feature bit(s) before you issue
+> > > > > hypercalls which rely on the extended interface.
+> > > > Perhaps Siddharth should clarify this, but I read it as Hyper-V being
+> > > > buggy and using XMM arguments unconditionally.
+> > > The guest is at fault here as it expects Hyper-V to consume arguments
+> > > from XMM registers for certain hypercalls (that we are working) even if
+> > > we didn't expose the feature via CPUID bits.
 > >
-> > Perhaps Siddharth should clarify this, but I read it as Hyper-V being buggy
-> > and using XMM arguments unconditionally.
-> >
+> > What guest is that?
 > 
-> There is no code in upstream Linux that uses the XMM fast hypercall
-> interface at the moment.
-> 
-> If there is such code, it has bugs in it and should be fixed. :-)
+> It is a Windows Server 2016.
 
-None of the existing hypercalls are buggy. These are some hypercalls we
-are working on (and planning on upstreaming in the near future). 
+Can you be more specific? Are you implementing some hypercalls from
+TLFS? If so, which ones?
 
-~ Sid.
-
-
-
-Amazon Development Center Germany GmbH
-Krausenstr. 38
-10117 Berlin
-Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
-Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
-Sitz: Berlin
-Ust-ID: DE 289 237 879
-
-
-
+Wei.
