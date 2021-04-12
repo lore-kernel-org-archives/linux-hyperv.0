@@ -2,221 +2,504 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5F9C433B4
-	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Apr 2021 14:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B43FC433B4
+	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Apr 2021 17:02:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BE80610CA
-	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Apr 2021 14:39:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFC15611F2
+	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Apr 2021 17:02:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242437AbhDLOkL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 12 Apr 2021 10:40:11 -0400
-Received: from mail-dm6nam08on2130.outbound.protection.outlook.com ([40.107.102.130]:24033
-        "EHLO NAM04-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S242424AbhDLOkF (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 12 Apr 2021 10:40:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OoNWRlpDrzEzgTyscKfUSB2xIzN/gPKzyypXyeM+oF5or6MCUkDusjk5dNqxq4K93T+xVtapmyZqRqbVXwaklRLtkoWfHuNDRaJ1oiqX+emwEJuSDAxHtKE9NVxB+SYdaNFhKf1le1WANfrrUyIUX0F7GKP2laXZ6CmDpvT2gszEv+0qYg343lmCaB7Dp7pN7jqYBVAhWXj22CLhbID2orKiiSD5kaHGdPndLwejKMI8/CqWg+alnOVKSRnoGZOJxed4td1aOJe216l3zJDTlp87ThOsTDaSnRHGgqC5rzq6decMDMhADh2ewQQxW10y1r8vPXCdZhhmQj4YeP2Hrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A7ToqAdUZWiL/BGzENI0Tdhi2/DeotWsMeVmCOxPVlA=;
- b=IXZZaBmw6++4/sipEE34lhU9jbe+jnO40kDBz7wnCoHaXQFDdJ3gIa7q2uZMywQKOIBPRIUA3suVrNzowrljlUdx0FEddO1xwS+wu/4PjjVzYaYcsCkc2rU5VXRJxGHk5VUBrtDozKAEBCEe+lEYqOGDdId4dXqvC4zJ8+Dd7mBUyMndk8dWP6rZZBfvOeys1v+YXQMKVXAMLLtqTeOIrhgJ7RD8NFBXqJRPa1vazkVEqABVqSf7QCuhB9A7MxtAj9TgBZleDO5nsspAtXIsTFNjPvPHq9d5lrZeD0sdFZaov0eFg1qfOA3B0WDHCqs687KJhJxh3QQutOJSB7x4zQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A7ToqAdUZWiL/BGzENI0Tdhi2/DeotWsMeVmCOxPVlA=;
- b=KZj4oPDLL9X4FcupLZb6/jMI0WNrEuGA01hVqNWZ9BHnONPhEXaTBa1i18MEaCBfLzzsBlkOAnhr8lxRlKtWsAU6/12AAbU1Ev35GqimLXEmq/vlOnXef8VNlpBbeVjCTfV1xNVj2KEklg3e0HdRorAgMNUI/8Gfvl/Z0Ohc/xc=
-Received: from BL0PR2101MB0930.namprd21.prod.outlook.com
- (2603:10b6:207:30::18) by BL0PR2101MB1074.namprd21.prod.outlook.com
- (2603:10b6:207:37::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.4; Mon, 12 Apr
- 2021 14:39:38 +0000
-Received: from BL0PR2101MB0930.namprd21.prod.outlook.com
- ([fe80::e015:f9cd:dece:f785]) by BL0PR2101MB0930.namprd21.prod.outlook.com
- ([fe80::e015:f9cd:dece:f785%3]) with mapi id 15.20.4042.006; Mon, 12 Apr 2021
- 14:39:38 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     Andrew Lunn <andrew@lunn.ch>, Dexuan Cui <decui@microsoft.com>
-CC:     "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
+        id S241809AbhDLRCg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 12 Apr 2021 13:02:36 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:11532 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243396AbhDLRBe (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 12 Apr 2021 13:01:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1618246876; x=1649782876;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=cKk0OAbREUZmDCeFiWyFsrVwk/f3Wr9lxhDgovBejP8=;
+  b=Y8P7SJDKJ+39PCx+xm056zz562NtioUiK73Sw4mNvWenHRFvQWQ3ioKt
+   J/8OzCS+MnT+S8Jk456Z/L/NZwVRNVdadXmUGv4r6y3jsgrv0r8+MwJNb
+   74icv6TAndrDrt7BviT6SNa863ykKDTL3EVeBH3apMGjWWkrY5JxUn0/r
+   M=;
+X-IronPort-AV: E=Sophos;i="5.82,216,1613433600"; 
+   d="scan'208";a="106988217"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-807d4a99.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 12 Apr 2021 17:01:09 +0000
+Received: from EX13D28EUC003.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1a-807d4a99.us-east-1.amazon.com (Postfix) with ESMTPS id 5EA93A18AE;
+        Mon, 12 Apr 2021 17:01:03 +0000 (UTC)
+Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.253) by
+ EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 12 Apr 2021 17:00:54 +0000
+From:   Siddharth Chandrasekaran <sidcha@amazon.de>
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Wei Liu <liuwe@microsoft.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "bernd@petrovitsch.priv.at" <bernd@petrovitsch.priv.at>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        Shachar Raindel <shacharr@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH v4 net-next] net: mana: Add a driver for Microsoft Azure
- Network Adapter (MANA)
-Thread-Topic: [PATCH v4 net-next] net: mana: Add a driver for Microsoft Azure
- Network Adapter (MANA)
-Thread-Index: AQHXL0SFh9wLy4oIlkiyQnUE9FecFaqw0SIAgAAha6A=
-Date:   Mon, 12 Apr 2021 14:39:37 +0000
-Message-ID: <BL0PR2101MB0930AC7E5299EF713821FC76CA709@BL0PR2101MB0930.namprd21.prod.outlook.com>
-References: <20210412023455.45594-1-decui@microsoft.com>
- <YHQ9wBFbjpRIj45k@lunn.ch>
-In-Reply-To: <YHQ9wBFbjpRIj45k@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=f9c20ac4-18ce-4841-81fa-9dee29306b51;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-04-12T14:31:36Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: lunn.ch; dkim=none (message not signed)
- header.d=none;lunn.ch; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [75.100.88.238]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: fea249af-c47c-4361-06e6-08d8fdc0cc8b
-x-ms-traffictypediagnostic: BL0PR2101MB1074:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR2101MB10740CD5A9937BACEF8C867CCA709@BL0PR2101MB1074.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DGlroXE0PWvdDvox6Ynddo98oMrSph+KmplGbVJdzIl+kk1UGF5nzj6Wu+4t3MPup4saR/2zCp5+YhIhI/hkcge6mZDAEsk/kTCRUILHkr99F0BAqTWt99k6vPlbnhLxiZmir6Qqa0ARIVSUoNz8XaaJk6b4ABQDvGu0ePLxp4CshK2uAIIGWuCgud2YJvkcNwPWOJ0hYXwqq3jMnfwrQif9KnwBQ/0KChIbFsHegLPy1TdRFkZ3nszX+O9kIaLtICGBNCsTMqAN54Ja2WWbckw8mLooGN0mv+YFFQcR1zftNJ4/fwSpOmaADBOejn/GY9YWanx6nuBqRBQn2OUH0c04/z/OKJHO57kQzv756r8LDl30ds2W4W67rSTt4myUzvLb/Eg4x5Uzu6fthR03Y3J/nXaFZcKGENyGq1uBaGsN3KUGtQmiQ+TpR7EVyXGgLByZIDuZAFERYZ631yZlyxBZNXLglmQpkKe2bhSY2P4MeogbegyjUVX2nYaKWkcNhSeumFa9dE5aZH4+wjfEGboQJsn8L3GNZ21OimGWSv9I02TXjVfmbENngozVNFTNXREBth7Nji0Id7Yb0w0lmfT5mrGwryoTHh4dx9+5Vwo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB0930.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(396003)(39860400002)(136003)(47530400004)(9686003)(55016002)(8990500004)(33656002)(478600001)(38100700002)(8936002)(2906002)(64756008)(8676002)(4326008)(71200400001)(76116006)(83380400001)(52536014)(110136005)(5660300002)(316002)(54906003)(86362001)(82950400001)(53546011)(26005)(7416002)(66446008)(82960400001)(10290500003)(66476007)(186003)(66556008)(6636002)(7696005)(6506007)(66946007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?p1v0p4aVZysvLaXW6Q/Y5YEOKEahl011QcnD+mCpuanBhRchMMeSmzH5aKd1?=
- =?us-ascii?Q?78FIfHXvq8IkcG5i/7I5Logz0WVJICoQwO+06JM7g6rF2K0hIA2Cgb/JvtC4?=
- =?us-ascii?Q?/6SMa0sV007da9SGQNyD2Fim06/XBKX8aWz7+oSKj5jf9fIBeduY3Bo2HC80?=
- =?us-ascii?Q?ThyaS6OgrcGSGNqGjayAadGbBp4z0sl2X+Mg1+gpPDrlAWJf7i3T7rl5gGbq?=
- =?us-ascii?Q?nilKJK+4aWm/k0RoLGk9UTBfV3VDTmyF9p6TBMg0F4wcnjeqf+3M158i09xD?=
- =?us-ascii?Q?m/uqTKHTdNTWH0ZfwPbplIIlWHRrIZfYKw9H8wkB0lk5JVJoXBtxsjnPplYc?=
- =?us-ascii?Q?22+6wPX8/qQxchM3m/wGYaCRhTJU7LMFIPBursran3erXWmp+fwYrIocNXhq?=
- =?us-ascii?Q?IasDL36/18I5OPDzvN4aeFQpW3rptcmSVhEGdfJ6rLdpiYMJXcEFdI+sMLRs?=
- =?us-ascii?Q?arW7pr+94O2W0nYRvOAaVpfuKHXFKTh/mQAOXQUExsALGo9ESailFRDp/82f?=
- =?us-ascii?Q?L9lsJhGrZ2LYMh5+4+7lKu7aP5fesBRAgJchwMiOmW/6Lxi4rAG3twPN8/ie?=
- =?us-ascii?Q?abPu1Q9351TguQW4k8NtU6+BkLsarJL+GFPDNsF85gOajFb4YTM2EbXVKjaH?=
- =?us-ascii?Q?HDWmXyHDRP8QhW7JHUjsgg9eTZQTnTzIW/J9FqhYJxZDDGjR9GlSgwrDBSP+?=
- =?us-ascii?Q?kkgY74NuAZIYSWsJKFdFmUOBoRLkXfKCt5aOG6SxUq10vENL9gphWg0uOBuK?=
- =?us-ascii?Q?LFz4w7GMe37S1022M6bdLMsSOXKPcKYijzntsJcsZwXQZzZD6Yo512ff8V9O?=
- =?us-ascii?Q?MRxPhuocnae6NeCco+K9qE9mak3laDJKor3Nz9fbreeTFn+IcrXpjua5hxzj?=
- =?us-ascii?Q?pQ4jKUB1kWt21TqEPqjHWKcq37o8c4xLSNe4miKiTiM3iTiJ3kY1WAR20OYa?=
- =?us-ascii?Q?4EYWkuFFJTsPhmsSYBmj4GsNP3t9C5flUMf9OPXRKsHW8U1H5JMHXAlsE0+Q?=
- =?us-ascii?Q?bUevltl4WG+0Eyug23bm87o5OEJuvf7zNhcjrB/lW8cZIsRZCXSEM8yqejuk?=
- =?us-ascii?Q?pysfZbIBkT31cJUBW5sVbMD4ov6NIyLwN7Fc2yaoSLye6M/QVDuP0ITDl3vK?=
- =?us-ascii?Q?JkS50E+S0inqE/OpiwSkLcJGHjUGS6H6Dl9tkxA6hviwHsDlfBmRB1ll9FJN?=
- =?us-ascii?Q?RCc6DRbQbXyab3ct0YzeLQvbEbwSjdi9k7MW9m6IfuvOGsEDbqVBF5YL+7l7?=
- =?us-ascii?Q?8rsrJ1IGlTGitvuSkr/ryhR7B/ecXpDts0Yg9tIyYuR3AlHtlMjid7wiMQWa?=
- =?us-ascii?Q?3iCHR4WhQeQ1VsDTXjvLEMRi?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wei Liu <wei.liu@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        "Sean Christopherson" <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        "Joerg Roedel" <joro@8bytes.org>
+CC:     Siddharth Chandrasekaran <sidcha@amazon.de>,
+        Alexander Graf <graf@amazon.com>,
+        Evgeny Iakovlev <eyakovl@amazon.de>,
+        Liran Alon <liran@amazon.com>,
+        Ioannis Aslanidis <iaslan@amazon.de>,
+        <linux-hyperv@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm@vger.kernel.org>
+Subject: [PATCH v2 1/4] KVM: x86: Move FPU register accessors into fpu.h
+Date:   Mon, 12 Apr 2021 19:00:14 +0200
+Message-ID: <5d2945df9dd807dca45ab256c88aeb4430ecf508.1618244920.git.sidcha@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1618244920.git.sidcha@amazon.de>
+References: <cover.1618244920.git.sidcha@amazon.de>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB0930.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fea249af-c47c-4361-06e6-08d8fdc0cc8b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Apr 2021 14:39:37.7588
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H0zK0DrakG61jMBktbRoNVvlCz4dVqH0Rue9oSMBtOmXLSJR5DgbOjJOtjTuiFvk5Jnq++wX8/Y/DiKIHoShIw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR2101MB1074
+Content-Type: text/plain
+X-Originating-IP: [10.43.161.253]
+X-ClientProxiedBy: EX13D16UWB001.ant.amazon.com (10.43.161.17) To
+ EX13D28EUC003.ant.amazon.com (10.43.164.43)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+Hyper-v XMM fast hypercalls use XMM registers to pass input/output
+parameters. To access these, hyperv.c can reuse some FPU register
+accessors defined in emulator.c. Move them to a common location so both
+can access them.
+
+While at it, reorder the parameters of these accessor methods to make
+them more readable.
+
+Cc: Alexander Graf <graf@amazon.com>
+Cc: Evgeny Iakovlev <eyakovl@amazon.de>
+Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
+---
+ arch/x86/kvm/emulate.c | 138 ++++++----------------------------------
+ arch/x86/kvm/fpu.h     | 140 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 158 insertions(+), 120 deletions(-)
+ create mode 100644 arch/x86/kvm/fpu.h
+
+diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+index f7970ba6219f..296f8f3ce988 100644
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -22,7 +22,6 @@
+ #include "kvm_cache_regs.h"
+ #include "kvm_emulate.h"
+ #include <linux/stringify.h>
+-#include <asm/fpu/api.h>
+ #include <asm/debugreg.h>
+ #include <asm/nospec-branch.h>
+ 
+@@ -30,6 +29,7 @@
+ #include "tss.h"
+ #include "mmu.h"
+ #include "pmu.h"
++#include "fpu.h"
+ 
+ /*
+  * Operand types
+@@ -1081,116 +1081,14 @@ static void fetch_register_operand(struct operand *op)
+ 	}
+ }
+ 
+-static void emulator_get_fpu(void)
+-{
+-	fpregs_lock();
+-
+-	fpregs_assert_state_consistent();
+-	if (test_thread_flag(TIF_NEED_FPU_LOAD))
+-		switch_fpu_return();
+-}
+-
+-static void emulator_put_fpu(void)
+-{
+-	fpregs_unlock();
+-}
+-
+-static void read_sse_reg(sse128_t *data, int reg)
+-{
+-	emulator_get_fpu();
+-	switch (reg) {
+-	case 0: asm("movdqa %%xmm0, %0" : "=m"(*data)); break;
+-	case 1: asm("movdqa %%xmm1, %0" : "=m"(*data)); break;
+-	case 2: asm("movdqa %%xmm2, %0" : "=m"(*data)); break;
+-	case 3: asm("movdqa %%xmm3, %0" : "=m"(*data)); break;
+-	case 4: asm("movdqa %%xmm4, %0" : "=m"(*data)); break;
+-	case 5: asm("movdqa %%xmm5, %0" : "=m"(*data)); break;
+-	case 6: asm("movdqa %%xmm6, %0" : "=m"(*data)); break;
+-	case 7: asm("movdqa %%xmm7, %0" : "=m"(*data)); break;
+-#ifdef CONFIG_X86_64
+-	case 8: asm("movdqa %%xmm8, %0" : "=m"(*data)); break;
+-	case 9: asm("movdqa %%xmm9, %0" : "=m"(*data)); break;
+-	case 10: asm("movdqa %%xmm10, %0" : "=m"(*data)); break;
+-	case 11: asm("movdqa %%xmm11, %0" : "=m"(*data)); break;
+-	case 12: asm("movdqa %%xmm12, %0" : "=m"(*data)); break;
+-	case 13: asm("movdqa %%xmm13, %0" : "=m"(*data)); break;
+-	case 14: asm("movdqa %%xmm14, %0" : "=m"(*data)); break;
+-	case 15: asm("movdqa %%xmm15, %0" : "=m"(*data)); break;
+-#endif
+-	default: BUG();
+-	}
+-	emulator_put_fpu();
+-}
+-
+-static void write_sse_reg(sse128_t *data, int reg)
+-{
+-	emulator_get_fpu();
+-	switch (reg) {
+-	case 0: asm("movdqa %0, %%xmm0" : : "m"(*data)); break;
+-	case 1: asm("movdqa %0, %%xmm1" : : "m"(*data)); break;
+-	case 2: asm("movdqa %0, %%xmm2" : : "m"(*data)); break;
+-	case 3: asm("movdqa %0, %%xmm3" : : "m"(*data)); break;
+-	case 4: asm("movdqa %0, %%xmm4" : : "m"(*data)); break;
+-	case 5: asm("movdqa %0, %%xmm5" : : "m"(*data)); break;
+-	case 6: asm("movdqa %0, %%xmm6" : : "m"(*data)); break;
+-	case 7: asm("movdqa %0, %%xmm7" : : "m"(*data)); break;
+-#ifdef CONFIG_X86_64
+-	case 8: asm("movdqa %0, %%xmm8" : : "m"(*data)); break;
+-	case 9: asm("movdqa %0, %%xmm9" : : "m"(*data)); break;
+-	case 10: asm("movdqa %0, %%xmm10" : : "m"(*data)); break;
+-	case 11: asm("movdqa %0, %%xmm11" : : "m"(*data)); break;
+-	case 12: asm("movdqa %0, %%xmm12" : : "m"(*data)); break;
+-	case 13: asm("movdqa %0, %%xmm13" : : "m"(*data)); break;
+-	case 14: asm("movdqa %0, %%xmm14" : : "m"(*data)); break;
+-	case 15: asm("movdqa %0, %%xmm15" : : "m"(*data)); break;
+-#endif
+-	default: BUG();
+-	}
+-	emulator_put_fpu();
+-}
+-
+-static void read_mmx_reg(u64 *data, int reg)
+-{
+-	emulator_get_fpu();
+-	switch (reg) {
+-	case 0: asm("movq %%mm0, %0" : "=m"(*data)); break;
+-	case 1: asm("movq %%mm1, %0" : "=m"(*data)); break;
+-	case 2: asm("movq %%mm2, %0" : "=m"(*data)); break;
+-	case 3: asm("movq %%mm3, %0" : "=m"(*data)); break;
+-	case 4: asm("movq %%mm4, %0" : "=m"(*data)); break;
+-	case 5: asm("movq %%mm5, %0" : "=m"(*data)); break;
+-	case 6: asm("movq %%mm6, %0" : "=m"(*data)); break;
+-	case 7: asm("movq %%mm7, %0" : "=m"(*data)); break;
+-	default: BUG();
+-	}
+-	emulator_put_fpu();
+-}
+-
+-static void write_mmx_reg(u64 *data, int reg)
+-{
+-	emulator_get_fpu();
+-	switch (reg) {
+-	case 0: asm("movq %0, %%mm0" : : "m"(*data)); break;
+-	case 1: asm("movq %0, %%mm1" : : "m"(*data)); break;
+-	case 2: asm("movq %0, %%mm2" : : "m"(*data)); break;
+-	case 3: asm("movq %0, %%mm3" : : "m"(*data)); break;
+-	case 4: asm("movq %0, %%mm4" : : "m"(*data)); break;
+-	case 5: asm("movq %0, %%mm5" : : "m"(*data)); break;
+-	case 6: asm("movq %0, %%mm6" : : "m"(*data)); break;
+-	case 7: asm("movq %0, %%mm7" : : "m"(*data)); break;
+-	default: BUG();
+-	}
+-	emulator_put_fpu();
+-}
+-
+ static int em_fninit(struct x86_emulate_ctxt *ctxt)
+ {
+ 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
+ 		return emulate_nm(ctxt);
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 	asm volatile("fninit");
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 	return X86EMUL_CONTINUE;
+ }
+ 
+@@ -1201,9 +1099,9 @@ static int em_fnstcw(struct x86_emulate_ctxt *ctxt)
+ 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
+ 		return emulate_nm(ctxt);
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 	asm volatile("fnstcw %0": "+m"(fcw));
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 
+ 	ctxt->dst.val = fcw;
+ 
+@@ -1217,9 +1115,9 @@ static int em_fnstsw(struct x86_emulate_ctxt *ctxt)
+ 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
+ 		return emulate_nm(ctxt);
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 	asm volatile("fnstsw %0": "+m"(fsw));
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 
+ 	ctxt->dst.val = fsw;
+ 
+@@ -1238,7 +1136,7 @@ static void decode_register_operand(struct x86_emulate_ctxt *ctxt,
+ 		op->type = OP_XMM;
+ 		op->bytes = 16;
+ 		op->addr.xmm = reg;
+-		read_sse_reg(&op->vec_val, reg);
++		kvm_read_sse_reg(reg, &op->vec_val);
+ 		return;
+ 	}
+ 	if (ctxt->d & Mmx) {
+@@ -1289,7 +1187,7 @@ static int decode_modrm(struct x86_emulate_ctxt *ctxt,
+ 			op->type = OP_XMM;
+ 			op->bytes = 16;
+ 			op->addr.xmm = ctxt->modrm_rm;
+-			read_sse_reg(&op->vec_val, ctxt->modrm_rm);
++			kvm_read_sse_reg(ctxt->modrm_rm, &op->vec_val);
+ 			return rc;
+ 		}
+ 		if (ctxt->d & Mmx) {
+@@ -1866,10 +1764,10 @@ static int writeback(struct x86_emulate_ctxt *ctxt, struct operand *op)
+ 				       op->bytes * op->count);
+ 		break;
+ 	case OP_XMM:
+-		write_sse_reg(&op->vec_val, op->addr.xmm);
++		kvm_write_sse_reg(op->addr.xmm, &op->vec_val);
+ 		break;
+ 	case OP_MM:
+-		write_mmx_reg(&op->mm_val, op->addr.mm);
++		kvm_write_mmx_reg(op->addr.mm, &op->mm_val);
+ 		break;
+ 	case OP_NONE:
+ 		/* no writeback */
+@@ -4124,11 +4022,11 @@ static int em_fxsave(struct x86_emulate_ctxt *ctxt)
+ 	if (rc != X86EMUL_CONTINUE)
+ 		return rc;
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 
+ 	rc = asm_safe("fxsave %[fx]", , [fx] "+m"(fx_state));
+ 
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 
+ 	if (rc != X86EMUL_CONTINUE)
+ 		return rc;
+@@ -4172,7 +4070,7 @@ static int em_fxrstor(struct x86_emulate_ctxt *ctxt)
+ 	if (rc != X86EMUL_CONTINUE)
+ 		return rc;
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 
+ 	if (size < __fxstate_size(16)) {
+ 		rc = fxregs_fixup(&fx_state, size);
+@@ -4189,7 +4087,7 @@ static int em_fxrstor(struct x86_emulate_ctxt *ctxt)
+ 		rc = asm_safe("fxrstor %[fx]", : [fx] "m"(fx_state));
+ 
+ out:
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 
+ 	return rc;
+ }
+@@ -5510,9 +5408,9 @@ static int flush_pending_x87_faults(struct x86_emulate_ctxt *ctxt)
+ {
+ 	int rc;
+ 
+-	emulator_get_fpu();
++	kvm_fpu_get();
+ 	rc = asm_safe("fwait");
+-	emulator_put_fpu();
++	kvm_fpu_put();
+ 
+ 	if (unlikely(rc != X86EMUL_CONTINUE))
+ 		return emulate_exception(ctxt, MF_VECTOR, 0, false);
+@@ -5523,7 +5421,7 @@ static int flush_pending_x87_faults(struct x86_emulate_ctxt *ctxt)
+ static void fetch_possible_mmx_operand(struct operand *op)
+ {
+ 	if (op->type == OP_MM)
+-		read_mmx_reg(&op->mm_val, op->addr.mm);
++		kvm_read_mmx_reg(op->addr.mm, &op->mm_val);
+ }
+ 
+ static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
+diff --git a/arch/x86/kvm/fpu.h b/arch/x86/kvm/fpu.h
+new file mode 100644
+index 000000000000..3ba12888bf66
+--- /dev/null
++++ b/arch/x86/kvm/fpu.h
+@@ -0,0 +1,140 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __KVM_FPU_H_
++#define __KVM_FPU_H_
++
++#include <asm/fpu/api.h>
++
++typedef u32		__attribute__((vector_size(16))) sse128_t;
++#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
++#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
++#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
++#define sse128_l0(x)	({ __sse128_u t; t.vec = x; t.as_u32[0]; })
++#define sse128_l1(x)	({ __sse128_u t; t.vec = x; t.as_u32[1]; })
++#define sse128_l2(x)	({ __sse128_u t; t.vec = x; t.as_u32[2]; })
++#define sse128_l3(x)	({ __sse128_u t; t.vec = x; t.as_u32[3]; })
++#define sse128(lo, hi)	({ __sse128_u t; t.as_u64[0] = lo; t.as_u64[1] = hi; t.vec; })
++
++static inline void _kvm_read_sse_reg(int reg, sse128_t *data)
++{
++	switch (reg) {
++	case 0: asm("movdqa %%xmm0, %0" : "=m"(*data)); break;
++	case 1: asm("movdqa %%xmm1, %0" : "=m"(*data)); break;
++	case 2: asm("movdqa %%xmm2, %0" : "=m"(*data)); break;
++	case 3: asm("movdqa %%xmm3, %0" : "=m"(*data)); break;
++	case 4: asm("movdqa %%xmm4, %0" : "=m"(*data)); break;
++	case 5: asm("movdqa %%xmm5, %0" : "=m"(*data)); break;
++	case 6: asm("movdqa %%xmm6, %0" : "=m"(*data)); break;
++	case 7: asm("movdqa %%xmm7, %0" : "=m"(*data)); break;
++#ifdef CONFIG_X86_64
++	case 8: asm("movdqa %%xmm8, %0" : "=m"(*data)); break;
++	case 9: asm("movdqa %%xmm9, %0" : "=m"(*data)); break;
++	case 10: asm("movdqa %%xmm10, %0" : "=m"(*data)); break;
++	case 11: asm("movdqa %%xmm11, %0" : "=m"(*data)); break;
++	case 12: asm("movdqa %%xmm12, %0" : "=m"(*data)); break;
++	case 13: asm("movdqa %%xmm13, %0" : "=m"(*data)); break;
++	case 14: asm("movdqa %%xmm14, %0" : "=m"(*data)); break;
++	case 15: asm("movdqa %%xmm15, %0" : "=m"(*data)); break;
++#endif
++	default: BUG();
++	}
++}
++
++static inline void _kvm_write_sse_reg(int reg, const sse128_t *data)
++{
++	switch (reg) {
++	case 0: asm("movdqa %0, %%xmm0" : : "m"(*data)); break;
++	case 1: asm("movdqa %0, %%xmm1" : : "m"(*data)); break;
++	case 2: asm("movdqa %0, %%xmm2" : : "m"(*data)); break;
++	case 3: asm("movdqa %0, %%xmm3" : : "m"(*data)); break;
++	case 4: asm("movdqa %0, %%xmm4" : : "m"(*data)); break;
++	case 5: asm("movdqa %0, %%xmm5" : : "m"(*data)); break;
++	case 6: asm("movdqa %0, %%xmm6" : : "m"(*data)); break;
++	case 7: asm("movdqa %0, %%xmm7" : : "m"(*data)); break;
++#ifdef CONFIG_X86_64
++	case 8: asm("movdqa %0, %%xmm8" : : "m"(*data)); break;
++	case 9: asm("movdqa %0, %%xmm9" : : "m"(*data)); break;
++	case 10: asm("movdqa %0, %%xmm10" : : "m"(*data)); break;
++	case 11: asm("movdqa %0, %%xmm11" : : "m"(*data)); break;
++	case 12: asm("movdqa %0, %%xmm12" : : "m"(*data)); break;
++	case 13: asm("movdqa %0, %%xmm13" : : "m"(*data)); break;
++	case 14: asm("movdqa %0, %%xmm14" : : "m"(*data)); break;
++	case 15: asm("movdqa %0, %%xmm15" : : "m"(*data)); break;
++#endif
++	default: BUG();
++	}
++}
++
++static inline void _kvm_read_mmx_reg(int reg, u64 *data)
++{
++	switch (reg) {
++	case 0: asm("movq %%mm0, %0" : "=m"(*data)); break;
++	case 1: asm("movq %%mm1, %0" : "=m"(*data)); break;
++	case 2: asm("movq %%mm2, %0" : "=m"(*data)); break;
++	case 3: asm("movq %%mm3, %0" : "=m"(*data)); break;
++	case 4: asm("movq %%mm4, %0" : "=m"(*data)); break;
++	case 5: asm("movq %%mm5, %0" : "=m"(*data)); break;
++	case 6: asm("movq %%mm6, %0" : "=m"(*data)); break;
++	case 7: asm("movq %%mm7, %0" : "=m"(*data)); break;
++	default: BUG();
++	}
++}
++
++static inline void _kvm_write_mmx_reg(int reg, const u64 *data)
++{
++	switch (reg) {
++	case 0: asm("movq %0, %%mm0" : : "m"(*data)); break;
++	case 1: asm("movq %0, %%mm1" : : "m"(*data)); break;
++	case 2: asm("movq %0, %%mm2" : : "m"(*data)); break;
++	case 3: asm("movq %0, %%mm3" : : "m"(*data)); break;
++	case 4: asm("movq %0, %%mm4" : : "m"(*data)); break;
++	case 5: asm("movq %0, %%mm5" : : "m"(*data)); break;
++	case 6: asm("movq %0, %%mm6" : : "m"(*data)); break;
++	case 7: asm("movq %0, %%mm7" : : "m"(*data)); break;
++	default: BUG();
++	}
++}
++
++static inline void kvm_fpu_get(void)
++{
++	fpregs_lock();
++
++	fpregs_assert_state_consistent();
++	if (test_thread_flag(TIF_NEED_FPU_LOAD))
++		switch_fpu_return();
++}
++
++static inline void kvm_fpu_put(void)
++{
++	fpregs_unlock();
++}
++
++static inline void kvm_read_sse_reg(int reg, sse128_t *data)
++{
++	kvm_fpu_get();
++	_kvm_read_sse_reg(reg, data);
++	kvm_fpu_put();
++}
++
++static inline void kvm_write_sse_reg(int reg, const sse128_t *data)
++{
++	kvm_fpu_get();
++	_kvm_write_sse_reg(reg, data);
++	kvm_fpu_put();
++}
++
++static inline void kvm_read_mmx_reg(int reg, u64 *data)
++{
++	kvm_fpu_get();
++	_kvm_read_mmx_reg(reg, data);
++	kvm_fpu_put();
++}
++
++static inline void kvm_write_mmx_reg(int reg, const u64 *data)
++{
++	kvm_fpu_get();
++	_kvm_write_mmx_reg(reg, data);
++	kvm_fpu_put();
++}
++
++#endif
+-- 
+2.17.1
 
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Monday, April 12, 2021 8:32 AM
-> To: Dexuan Cui <decui@microsoft.com>
-> Cc: davem@davemloft.net; kuba@kernel.org; KY Srinivasan
-> <kys@microsoft.com>; Haiyang Zhang <haiyangz@microsoft.com>; Stephen
-> Hemminger <sthemmin@microsoft.com>; wei.liu@kernel.org; Wei Liu
-> <liuwe@microsoft.com>; netdev@vger.kernel.org; leon@kernel.org;
-> bernd@petrovitsch.priv.at; rdunlap@infradead.org; Shachar Raindel
-> <shacharr@microsoft.com>; linux-kernel@vger.kernel.org; linux-
-> hyperv@vger.kernel.org
-> Subject: Re: [PATCH v4 net-next] net: mana: Add a driver for Microsoft Az=
-ure
-> Network Adapter (MANA)
->=20
-> > +static void mana_gd_deregiser_irq(struct gdma_queue *queue) {
-> > +	struct gdma_dev *gd =3D queue->gdma_dev;
-> > +	struct gdma_irq_context *gic;
-> > +	struct gdma_context *gc;
-> > +	struct gdma_resource *r;
-> > +	unsigned int msix_index;
-> > +	unsigned long flags;
-> > +
-> > +	/* At most num_online_cpus() + 1 interrupts are used. */
-> > +	msix_index =3D queue->eq.msix_index;
-> > +	if (WARN_ON(msix_index > num_online_cpus()))
-> > +		return;
->=20
-> Do you handle hot{un}plug of CPUs?
-We don't have hot{un}plug of CPU feature yet.
 
->=20
-> > +static void mana_hwc_init_event_handler(void *ctx, struct gdma_queue
-> *q_self,
-> > +					struct gdma_event *event)
-> > +{
-> > +	struct hw_channel_context *hwc =3D ctx;
-> > +	struct gdma_dev *gd =3D hwc->gdma_dev;
-> > +	union hwc_init_type_data type_data;
-> > +	union hwc_init_eq_id_db eq_db;
-> > +	u32 type, val;
-> > +
-> > +	switch (event->type) {
-> > +	case GDMA_EQE_HWC_INIT_EQ_ID_DB:
-> > +		eq_db.as_uint32 =3D event->details[0];
-> > +		hwc->cq->gdma_eq->id =3D eq_db.eq_id;
-> > +		gd->doorbell =3D eq_db.doorbell;
-> > +		break;
-> > +
-> > +	case GDMA_EQE_HWC_INIT_DATA:
-> > +
-> > +		type_data.as_uint32 =3D event->details[0];
-> > +
-> > +	case GDMA_EQE_HWC_INIT_DONE:
-> > +		complete(&hwc->hwc_init_eqe_comp);
-> > +		break;
->=20
-> ...
->=20
-> > +	default:
-> > +		WARN_ON(1);
-> > +		break;
-> > +	}
->=20
-> Are these events from the firmware? If you have newer firmware with an
-> older driver, are you going to spam the kernel log with WARN_ON dumps?
-For protocol version mismatch, the host and guest will either negotiate the=
-=20
-highest common version, or fail to probe. So this kind of warnings are not=
-=20
-expected.
 
->=20
-> > +static int mana_move_wq_tail(struct gdma_queue *wq, u32 num_units) {
-> > +	u32 used_space_old;
-> > +	u32 used_space_new;
-> > +
-> > +	used_space_old =3D wq->head - wq->tail;
-> > +	used_space_new =3D wq->head - (wq->tail + num_units);
-> > +
-> > +	if (used_space_new > used_space_old) {
-> > +		WARN_ON(1);
-> > +		return -ERANGE;
-> > +	}
->=20
-> You could replace the 1 by the condition. There are a couple of these.
-Will do.
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
 
-Thanks,
-- Haiyang
+
+
