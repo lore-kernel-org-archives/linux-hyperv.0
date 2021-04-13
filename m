@@ -7,40 +7,39 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66ECBC433ED
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B7F4C433B4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A91161222
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A13461027
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348532AbhDMVw1 (ORCPT
-        <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Apr 2021 17:52:27 -0400
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:33551 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348521AbhDMVwY (ORCPT
+        id S231126AbhDMVwl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 13 Apr 2021 17:52:41 -0400
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:39052 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239472AbhDMVwk (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Apr 2021 17:52:24 -0400
+        Tue, 13 Apr 2021 17:52:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1618350724; x=1649886724;
+  t=1618350740; x=1649886740;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=3wPvnsF/ciCyTMrN2F0SYoXhTPRBAG+at2K7ADcLiBQ=;
-  b=DKy8QdkyFDD+T0i0O7kltOUr+y5l30xcl/5qlXDbgUAUO/13sj8cKasO
-   bdYFSjHvW9IfHe7wTKFIDCBhE5dhdBvbpfA0Dgglqxlw4XkfgjQQREkEi
-   tMcOjoUblNQBW0+EUurSJDk7pTh0yC3/JJlzq+V5KllosbvNNwUY8GSK0
-   M=;
+  bh=ePsaVDzjf/M9yTDUALCtv7zojuRaTTF0897dU/zK9Lw=;
+  b=W28ZCOgm63uzQG0WoGrs/tYeCSFvo60Y29M7TRmn+f4C2bVhQlFqxfZ3
+   g1bG8W8j51c4T189v+6cpLxNQBv8+HZzn7juognaFeaXQTtYQRtLr31Fb
+   Dn+8ta9TpGmfd2u73xcVJFHF2bL1NeLSzXyiYjPhELcAP76ltCuCIa1xl
+   w=;
 X-IronPort-AV: E=Sophos;i="5.82,220,1613433600"; 
-   d="scan'208";a="101457451"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-22cc717f.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 13 Apr 2021 21:51:56 +0000
+   d="scan'208";a="107299146"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 13 Apr 2021 21:52:12 +0000
 Received: from EX13D28EUC003.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2a-22cc717f.us-west-2.amazon.com (Postfix) with ESMTPS id 98DF0A005B;
-        Tue, 13 Apr 2021 21:51:48 +0000 (UTC)
+        by email-inbound-relay-2a-90c42d1d.us-west-2.amazon.com (Postfix) with ESMTPS id BA0E6A1C18;
+        Tue, 13 Apr 2021 21:52:10 +0000 (UTC)
 Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.39) by
  EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 13 Apr 2021 21:51:39 +0000
+ id 15.0.1497.2; Tue, 13 Apr 2021 21:52:01 +0000
 From:   Siddharth Chandrasekaran <sidcha@amazon.de>
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -62,9 +61,9 @@ CC:     Siddharth Chandrasekaran <sidcha@amazon.de>,
         Ioannis Aslanidis <iaslan@amazon.de>,
         <linux-hyperv@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kvm@vger.kernel.org>
-Subject: [PATCH v3 2/4] KVM: hyper-v: Collect hypercall params into struct
-Date:   Tue, 13 Apr 2021 23:50:55 +0200
-Message-ID: <7a5c86579e1e30f1c580a68c5766965373fecae9.1618349671.git.sidcha@amazon.de>
+Subject: [PATCH v3 4/4] KVM: hyper-v: Advertise support for fast XMM hypercalls
+Date:   Tue, 13 Apr 2021 23:50:57 +0200
+Message-ID: <33a7e27046c15134667ea891feacbe3fe208f66e.1618349671.git.sidcha@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1618349671.git.sidcha@amazon.de>
 References: <cover.1618349671.git.sidcha@amazon.de>
@@ -77,352 +76,54 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As of now there are 7 parameters (and flags) that are used in various
-hyper-v hypercall handlers. There are 6 more input/output parameters
-passed from XMM registers which are to be added in an upcoming patch.
-
-To make passing arguments to the handlers more readable, capture all
-these parameters into a single structure.
+Now that kvm_hv_flush_tlb() has been patched to support XMM hypercall
+inputs, we can start advertising this feature to guests.
 
 Cc: Alexander Graf <graf@amazon.com>
 Cc: Evgeny Iakovlev <eyakovl@amazon.de>
 Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
 ---
- arch/x86/kvm/hyperv.c | 147 +++++++++++++++++++++++-------------------
- 1 file changed, 79 insertions(+), 68 deletions(-)
+ arch/x86/include/asm/hyperv-tlfs.h | 7 ++++++-
+ arch/x86/kvm/hyperv.c              | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index ee6336a54f92..597ae1142864 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -52,7 +52,7 @@
+  * Support for passing hypercall input parameter block via XMM
+  * registers is available
+  */
+-#define HV_X64_HYPERCALL_PARAMS_XMM_AVAILABLE		BIT(4)
++#define HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE		BIT(4)
+ /* Support for a virtual guest idle state is available */
+ #define HV_X64_GUEST_IDLE_STATE_AVAILABLE		BIT(5)
+ /* Frequency MSRs available */
+@@ -61,6 +61,11 @@
+ #define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
+ /* Support for debug MSRs available */
+ #define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
++/*
++ * Support for returning hypercall output block via XMM
++ * registers is available
++ */
++#define HV_X64_HYPERCALL_XMM_OUTPUT_AVAILABLE		BIT(15)
+ /* stimer Direct Mode is available */
+ #define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
+ 
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index f98370a39936..8a542243e1cd 100644
+index cd6c6f1f06a4..0f6fd7550510 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1623,7 +1623,18 @@ static __always_inline unsigned long *sparse_set_to_vcpu_mask(
- 	return vcpu_bitmap;
- }
+@@ -2235,6 +2235,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 			ent->ebx |= HV_POST_MESSAGES;
+ 			ent->ebx |= HV_SIGNAL_EVENTS;
  
--static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, u64 ingpa, u16 rep_cnt, bool ex)
-+struct kvm_hv_hcall {
-+	u64 param;
-+	u64 ingpa;
-+	u64 outgpa;
-+	u16 code;
-+	u16 rep_cnt;
-+	u16 rep_idx;
-+	bool fast;
-+	bool rep;
-+};
-+
-+static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool ex)
- {
- 	struct kvm *kvm = vcpu->kvm;
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-@@ -1638,7 +1649,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, u64 ingpa, u16 rep_cnt, bool
- 	bool all_cpus;
++			ent->edx |= HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_FREQUENCY_MSRS_AVAILABLE;
+ 			ent->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
  
- 	if (!ex) {
--		if (unlikely(kvm_read_guest(kvm, ingpa, &flush, sizeof(flush))))
-+		if (unlikely(kvm_read_guest(kvm, hc->ingpa, &flush, sizeof(flush))))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
- 		trace_kvm_hv_flush_tlb(flush.processor_mask,
-@@ -1657,7 +1668,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, u64 ingpa, u16 rep_cnt, bool
- 		all_cpus = (flush.flags & HV_FLUSH_ALL_PROCESSORS) ||
- 			flush.processor_mask == 0;
- 	} else {
--		if (unlikely(kvm_read_guest(kvm, ingpa, &flush_ex,
-+		if (unlikely(kvm_read_guest(kvm, hc->ingpa, &flush_ex,
- 					    sizeof(flush_ex))))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
-@@ -1679,8 +1690,8 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, u64 ingpa, u16 rep_cnt, bool
- 
- 		if (!all_cpus &&
- 		    kvm_read_guest(kvm,
--				   ingpa + offsetof(struct hv_tlb_flush_ex,
--						    hv_vp_set.bank_contents),
-+				   hc->ingpa + offsetof(struct hv_tlb_flush_ex,
-+							hv_vp_set.bank_contents),
- 				   sparse_banks,
- 				   sparse_banks_len))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
-@@ -1700,9 +1711,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, u64 ingpa, u16 rep_cnt, bool
- 				    NULL, vcpu_mask, &hv_vcpu->tlb_flush);
- 
- ret_success:
--	/* We always do full TLB flush, set rep_done = rep_cnt. */
-+	/* We always do full TLB flush, set 'Reps completed' = 'Rep Count' */
- 	return (u64)HV_STATUS_SUCCESS |
--		((u64)rep_cnt << HV_HYPERCALL_REP_COMP_OFFSET);
-+		((u64)hc->rep_cnt << HV_HYPERCALL_REP_COMP_OFFSET);
- }
- 
- static void kvm_send_ipi_to_many(struct kvm *kvm, u32 vector,
-@@ -1724,8 +1735,7 @@ static void kvm_send_ipi_to_many(struct kvm *kvm, u32 vector,
- 	}
- }
- 
--static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, u64 ingpa, u64 outgpa,
--			   bool ex, bool fast)
-+static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool ex)
- {
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_send_ipi_ex send_ipi_ex;
-@@ -1740,25 +1750,25 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, u64 ingpa, u64 outgpa,
- 	bool all_cpus;
- 
- 	if (!ex) {
--		if (!fast) {
--			if (unlikely(kvm_read_guest(kvm, ingpa, &send_ipi,
-+		if (!hc->fast) {
-+			if (unlikely(kvm_read_guest(kvm, hc->ingpa, &send_ipi,
- 						    sizeof(send_ipi))))
- 				return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			sparse_banks[0] = send_ipi.cpu_mask;
- 			vector = send_ipi.vector;
- 		} else {
- 			/* 'reserved' part of hv_send_ipi should be 0 */
--			if (unlikely(ingpa >> 32 != 0))
-+			if (unlikely(hc->ingpa >> 32 != 0))
- 				return HV_STATUS_INVALID_HYPERCALL_INPUT;
--			sparse_banks[0] = outgpa;
--			vector = (u32)ingpa;
-+			sparse_banks[0] = hc->outgpa;
-+			vector = (u32)hc->ingpa;
- 		}
- 		all_cpus = false;
- 		valid_bank_mask = BIT_ULL(0);
- 
- 		trace_kvm_hv_send_ipi(vector, sparse_banks[0]);
- 	} else {
--		if (unlikely(kvm_read_guest(kvm, ingpa, &send_ipi_ex,
-+		if (unlikely(kvm_read_guest(kvm, hc->ingpa, &send_ipi_ex,
- 					    sizeof(send_ipi_ex))))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
-@@ -1778,8 +1788,8 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, u64 ingpa, u64 outgpa,
- 
- 		if (!all_cpus &&
- 		    kvm_read_guest(kvm,
--				   ingpa + offsetof(struct hv_send_ipi_ex,
--						    vp_set.bank_contents),
-+				   hc->ingpa + offsetof(struct hv_send_ipi_ex,
-+							vp_set.bank_contents),
- 				   sparse_banks,
- 				   sparse_banks_len))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
-@@ -1839,20 +1849,21 @@ static int kvm_hv_hypercall_complete_userspace(struct kvm_vcpu *vcpu)
- 	return kvm_hv_hypercall_complete(vcpu, vcpu->run->hyperv.u.hcall.result);
- }
- 
--static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, bool fast, u64 param)
-+static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- {
- 	struct kvm_hv *hv = to_kvm_hv(vcpu->kvm);
- 	struct eventfd_ctx *eventfd;
- 
--	if (unlikely(!fast)) {
-+	if (unlikely(!hc->fast)) {
- 		int ret;
--		gpa_t gpa = param;
-+		gpa_t gpa = hc->ingpa;
- 
--		if ((gpa & (__alignof__(param) - 1)) ||
--		    offset_in_page(gpa) + sizeof(param) > PAGE_SIZE)
-+		if ((gpa & (__alignof__(hc->ingpa) - 1)) ||
-+		    offset_in_page(gpa) + sizeof(hc->ingpa) > PAGE_SIZE)
- 			return HV_STATUS_INVALID_ALIGNMENT;
- 
--		ret = kvm_vcpu_read_guest(vcpu, gpa, &param, sizeof(param));
-+		ret = kvm_vcpu_read_guest(vcpu, gpa,
-+					  &hc->ingpa, sizeof(hc->ingpa));
- 		if (ret < 0)
- 			return HV_STATUS_INVALID_ALIGNMENT;
- 	}
-@@ -1862,15 +1873,15 @@ static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, bool fast, u64 param)
- 	 * have no use for it, and in all known usecases it is zero, so just
- 	 * report lookup failure if it isn't.
- 	 */
--	if (param & 0xffff00000000ULL)
-+	if (hc->ingpa & 0xffff00000000ULL)
- 		return HV_STATUS_INVALID_PORT_ID;
- 	/* remaining bits are reserved-zero */
--	if (param & ~KVM_HYPERV_CONN_ID_MASK)
-+	if (hc->ingpa & ~KVM_HYPERV_CONN_ID_MASK)
- 		return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
- 	/* the eventfd is protected by vcpu->kvm->srcu, but conn_to_evt isn't */
- 	rcu_read_lock();
--	eventfd = idr_find(&hv->conn_to_evt, param);
-+	eventfd = idr_find(&hv->conn_to_evt, hc->ingpa);
- 	rcu_read_unlock();
- 	if (!eventfd)
- 		return HV_STATUS_INVALID_PORT_ID;
-@@ -1881,9 +1892,8 @@ static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, bool fast, u64 param)
- 
- int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- {
--	u64 param, ingpa, outgpa, ret = HV_STATUS_SUCCESS;
--	uint16_t code, rep_idx, rep_cnt;
--	bool fast, rep;
-+	struct kvm_hv_hcall hc;
-+	u64 ret = HV_STATUS_SUCCESS;
- 
- 	/*
- 	 * hypercall generates UD from non zero cpl and real mode
-@@ -1896,104 +1906,105 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 
- #ifdef CONFIG_X86_64
- 	if (is_64_bit_mode(vcpu)) {
--		param = kvm_rcx_read(vcpu);
--		ingpa = kvm_rdx_read(vcpu);
--		outgpa = kvm_r8_read(vcpu);
-+		hc.param = kvm_rcx_read(vcpu);
-+		hc.ingpa = kvm_rdx_read(vcpu);
-+		hc.outgpa = kvm_r8_read(vcpu);
- 	} else
- #endif
- 	{
--		param = ((u64)kvm_rdx_read(vcpu) << 32) |
--			(kvm_rax_read(vcpu) & 0xffffffff);
--		ingpa = ((u64)kvm_rbx_read(vcpu) << 32) |
--			(kvm_rcx_read(vcpu) & 0xffffffff);
--		outgpa = ((u64)kvm_rdi_read(vcpu) << 32) |
--			(kvm_rsi_read(vcpu) & 0xffffffff);
-+		hc.param = ((u64)kvm_rdx_read(vcpu) << 32) |
-+			    (kvm_rax_read(vcpu) & 0xffffffff);
-+		hc.ingpa = ((u64)kvm_rbx_read(vcpu) << 32) |
-+			    (kvm_rcx_read(vcpu) & 0xffffffff);
-+		hc.outgpa = ((u64)kvm_rdi_read(vcpu) << 32) |
-+			     (kvm_rsi_read(vcpu) & 0xffffffff);
- 	}
- 
--	code = param & 0xffff;
--	fast = !!(param & HV_HYPERCALL_FAST_BIT);
--	rep_cnt = (param >> HV_HYPERCALL_REP_COMP_OFFSET) & 0xfff;
--	rep_idx = (param >> HV_HYPERCALL_REP_START_OFFSET) & 0xfff;
--	rep = !!(rep_cnt || rep_idx);
-+	hc.code = hc.param & 0xffff;
-+	hc.fast = !!(hc.param & HV_HYPERCALL_FAST_BIT);
-+	hc.rep_cnt = (hc.param >> HV_HYPERCALL_REP_COMP_OFFSET) & 0xfff;
-+	hc.rep_idx = (hc.param >> HV_HYPERCALL_REP_START_OFFSET) & 0xfff;
-+	hc.rep = !!(hc.rep_cnt || hc.rep_idx);
- 
--	trace_kvm_hv_hypercall(code, fast, rep_cnt, rep_idx, ingpa, outgpa);
-+	trace_kvm_hv_hypercall(hc.code, hc.fast, hc.rep_cnt, hc.rep_idx,
-+			       hc.ingpa, hc.outgpa);
- 
--	switch (code) {
-+	switch (hc.code) {
- 	case HVCALL_NOTIFY_LONG_SPIN_WAIT:
--		if (unlikely(rep)) {
-+		if (unlikely(hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
- 		kvm_vcpu_on_spin(vcpu, true);
- 		break;
- 	case HVCALL_SIGNAL_EVENT:
--		if (unlikely(rep)) {
-+		if (unlikely(hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hvcall_signal_event(vcpu, fast, ingpa);
-+		ret = kvm_hvcall_signal_event(vcpu, &hc);
- 		if (ret != HV_STATUS_INVALID_PORT_ID)
- 			break;
- 		fallthrough;	/* maybe userspace knows this conn_id */
- 	case HVCALL_POST_MESSAGE:
- 		/* don't bother userspace if it has no way to handle it */
--		if (unlikely(rep || !to_hv_synic(vcpu)->active)) {
-+		if (unlikely(hc.rep || !to_hv_synic(vcpu)->active)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
- 		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
- 		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
--		vcpu->run->hyperv.u.hcall.input = param;
--		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
--		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
-+		vcpu->run->hyperv.u.hcall.input = hc.param;
-+		vcpu->run->hyperv.u.hcall.params[0] = hc.ingpa;
-+		vcpu->run->hyperv.u.hcall.params[1] = hc.outgpa;
- 		vcpu->arch.complete_userspace_io =
- 				kvm_hv_hypercall_complete_userspace;
- 		return 0;
- 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST:
--		if (unlikely(fast || !rep_cnt || rep_idx)) {
-+		if (unlikely(hc.fast || !hc.rep_cnt || hc.rep_idx)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_flush_tlb(vcpu, ingpa, rep_cnt, false);
-+		ret = kvm_hv_flush_tlb(vcpu, &hc, false);
- 		break;
- 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE:
--		if (unlikely(fast || rep)) {
-+		if (unlikely(hc.fast || hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_flush_tlb(vcpu, ingpa, rep_cnt, false);
-+		ret = kvm_hv_flush_tlb(vcpu, &hc, false);
- 		break;
- 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX:
--		if (unlikely(fast || !rep_cnt || rep_idx)) {
-+		if (unlikely(hc.fast || !hc.rep_cnt || hc.rep_idx)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_flush_tlb(vcpu, ingpa, rep_cnt, true);
-+		ret = kvm_hv_flush_tlb(vcpu, &hc, true);
- 		break;
- 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX:
--		if (unlikely(fast || rep)) {
-+		if (unlikely(hc.fast || hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_flush_tlb(vcpu, ingpa, rep_cnt, true);
-+		ret = kvm_hv_flush_tlb(vcpu, &hc, true);
- 		break;
- 	case HVCALL_SEND_IPI:
--		if (unlikely(rep)) {
-+		if (unlikely(hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, false, fast);
-+		ret = kvm_hv_send_ipi(vcpu, &hc, false);
- 		break;
- 	case HVCALL_SEND_IPI_EX:
--		if (unlikely(fast || rep)) {
-+		if (unlikely(hc.fast || hc.rep)) {
- 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
- 		}
--		ret = kvm_hv_send_ipi(vcpu, ingpa, outgpa, true, false);
-+		ret = kvm_hv_send_ipi(vcpu, &hc, true);
- 		break;
- 	case HVCALL_POST_DEBUG_DATA:
- 	case HVCALL_RETRIEVE_DEBUG_DATA:
--		if (unlikely(fast)) {
-+		if (unlikely(hc.fast)) {
- 			ret = HV_STATUS_INVALID_PARAMETER;
- 			break;
- 		}
-@@ -2012,9 +2023,9 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
- 		}
- 		vcpu->run->exit_reason = KVM_EXIT_HYPERV;
- 		vcpu->run->hyperv.type = KVM_EXIT_HYPERV_HCALL;
--		vcpu->run->hyperv.u.hcall.input = param;
--		vcpu->run->hyperv.u.hcall.params[0] = ingpa;
--		vcpu->run->hyperv.u.hcall.params[1] = outgpa;
-+		vcpu->run->hyperv.u.hcall.input = hc.param;
-+		vcpu->run->hyperv.u.hcall.params[0] = hc.ingpa;
-+		vcpu->run->hyperv.u.hcall.params[1] = hc.outgpa;
- 		vcpu->arch.complete_userspace_io =
- 				kvm_hv_hypercall_complete_userspace;
- 		return 0;
 -- 
 2.17.1
 
