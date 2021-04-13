@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D14C433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D9AC4360C
 	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29AC8613BB
+	by mail.kernel.org (Postfix) with ESMTP id 8EF8061244
 	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346609AbhDMPW5 (ORCPT
+        id S1346615AbhDMPW6 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Apr 2021 11:22:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        Tue, 13 Apr 2021 11:22:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346590AbhDMPWz (ORCPT
+        with ESMTP id S1346606AbhDMPW5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Apr 2021 11:22:55 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3F2C061756;
-        Tue, 13 Apr 2021 08:22:35 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so10885244pjb.0;
-        Tue, 13 Apr 2021 08:22:35 -0700 (PDT)
+        Tue, 13 Apr 2021 11:22:57 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02495C061756;
+        Tue, 13 Apr 2021 08:22:37 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id m18so6192235plc.13;
+        Tue, 13 Apr 2021 08:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OsFA5UjGBBz+WpI+wHtQ7Mb2J7cYrRLymhsyTS1f9mI=;
-        b=JrcobaZDDwC9TB1ZnbPW35j8Vme+SwTlWiFYuy59XcI87a/DvDQgx5pbrraPfhV/kU
-         uV2sY9oBmeqq0R71Qj5gq/HQOowmpKwwvK3anuoL0oJydWOEIOajZN3KWoA3ZB5kHMSs
-         HR1mzue6YbH5Jk1HhfeNFQ/zcfTQMoaiCxN2SVkYSskhRCdDn2O0t5O1VvA3HmmdlXQq
-         4PNFYGO8KNhLVmy6da90D0Q82K7H6kDjkH07ogundriqUFZHxMR/S8VyV8vhjU3P8nxH
-         X24b18DXbVhuxM8W7iPMlU3ijzck9wnFV182D2NM9w0EIMiUTuU8GerB1r36MFoqCJad
-         Kn8g==
+        bh=VCvpfni3tSAbSi77TUkA2y1YbUZDkx34x/OnlYhxw8U=;
+        b=pyPDZeRNv3/9hGT3aEEdsz6mRwP/c+WJs0kjqWqyIkIY1tK4D9KhsH3dOH7iKeL36E
+         XGaXV7oQVP+LOfLoWINf5PxajpS2PealoJVLWr1bpNlkDjKehkYdN4zRFxy8kvZ7Q898
+         we8vVaWDZKV+77egefPQU/JdC3Y8D4Zs6GO4Rsl6fJP7zQjQLGukNDd3znEdOSF9V/pe
+         +twBrrMUUCiG24aeQ8cE8x+tyhhguHiFZxS5KkcIghZCWJ7L7XPdDUvdSWJUUU+HKAEG
+         BXCpRG5MPapJe9hYP7r8Y1nZUz9Q3oDhT27nWC36ivFay9q1U3dRH8eG+bw1d6EjZ310
+         JM1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OsFA5UjGBBz+WpI+wHtQ7Mb2J7cYrRLymhsyTS1f9mI=;
-        b=WCx3F7o/NENh+MQzIm3wJpSSiLdjpuKlOkjT0bHEeluvxEOxcVJ+KVa0nsvmNPRnl7
-         xaDxsXuXNf1sqNEAkWvUAHaOv4dFRlfoJnFjMUIuHcVQs+WPhwr2Qh9Pl5DyIELHclEC
-         mMhY5Aw0ngst3EnQV7JR8mhST30rjWBmVBY19zCYFwRL+wb2zcaDo/9kM6UZuHhabORW
-         OUHpDEG7PZ0Z/Brg7yKBkUSXPUwNjqDb+hyvuueVer39G48dlonk3qnj9V4SN7zdSKj2
-         8+AFB00NLnczqd51TmR5C/OwGZRxrtfIveiaUuld4sIeqr+sxQVvv/Rnc20cXpQp2ylS
-         WHKQ==
-X-Gm-Message-State: AOAM531q+/jCXe/WQ27SNBohbiQQG0rj2SYLz1f4xqvP+7TEmPm9s3nA
-        xNLn3ZyG1vV1vEUpgq29M9E=
-X-Google-Smtp-Source: ABdhPJyhplndaR4BCEof1JxWUG16TVe7ZB4+7tqGiS85BUIgMxeHMO9r+DG0kEYpyhF8yic69dVBnw==
-X-Received: by 2002:a17:902:e8c1:b029:e9:3c98:2dd2 with SMTP id v1-20020a170902e8c1b02900e93c982dd2mr32763689plg.17.1618327354633;
-        Tue, 13 Apr 2021 08:22:34 -0700 (PDT)
+        bh=VCvpfni3tSAbSi77TUkA2y1YbUZDkx34x/OnlYhxw8U=;
+        b=a6bkuOHxCGpygzc5WLDnua4mHdgoNC9h8xXohAxdJtlIWLZUtNTyD3jugQvUyK4lYx
+         OMMhY5N5w70ExDA6cdL2KzdKqUvBeAKpda3yobZQKgM/1QxNFv+x1PfHfFN6ZC0MQxVo
+         G0CEQhh89FU+AAD9msY5/f5FRGXAIdbE5wzJKaLe56cm3FG1Y87tsJEVRRJJ83kDUcca
+         7VV1WM0RZGGjZsonrRSg/27jirjfZnBZSE+U7283vc93H6/SsbDLcYewFszwZ3x9sP3/
+         cOs0EPLZi2SG2SGkDhUjSn587os0cKtYf1arMOf2UgakKY8B9qNVmsKzD3YKRpnSIoKc
+         Ux5Q==
+X-Gm-Message-State: AOAM53029avRxuzkOs8YLgAUtb9UxcQDz+svz7GTxhmQBLfdd5DZ6co4
+        Q5JWor+/X1Vg0CjglmWbmmF9NNsMpjDdP65e
+X-Google-Smtp-Source: ABdhPJwshwP2Vy1d0/GtErGI8lfqfjravtv9Pv7BTLjsG2nbPaQjPV/Uoey4Ob6Du7L7VSut9bf6gQ==
+X-Received: by 2002:a17:90b:285:: with SMTP id az5mr593051pjb.0.1618327356560;
+        Tue, 13 Apr 2021 08:22:36 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:5b29:fe1a:45c9:c61c])
-        by smtp.gmail.com with ESMTPSA id y3sm12882026pfg.145.2021.04.13.08.22.34
+        by smtp.gmail.com with ESMTPSA id y3sm12882026pfg.145.2021.04.13.08.22.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 08:22:34 -0700 (PDT)
+        Tue, 13 Apr 2021 08:22:36 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
@@ -67,9 +67,9 @@ Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-arch@vger.kernel.org, vkuznets@redhat.com,
         thomas.lendacky@amd.com, brijesh.singh@amd.com,
         sunilmut@microsoft.com
-Subject: [RFC V2 PATCH 1/12] x86/HV: Initialize GHCB page in Isolation VM
-Date:   Tue, 13 Apr 2021 11:22:06 -0400
-Message-Id: <20210413152217.3386288-2-ltykernel@gmail.com>
+Subject: [RFC V2 PATCH 3/12] x86/Hyper-V: Add new hvcall guest address host visibility support
+Date:   Tue, 13 Apr 2021 11:22:08 -0400
+Message-Id: <20210413152217.3386288-4-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210413152217.3386288-1-ltykernel@gmail.com>
 References: <20210413152217.3386288-1-ltykernel@gmail.com>
@@ -81,140 +81,302 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Hyper-V exposes GHCB page via SEV ES GHCB MSR for SNP guest
-to communicate with hypervisor. Map GHCB page for all
-cpus to read/write MSR register and submit hvcall request
-via GHCB.
+Add new hvcall guest address host visibility support. Mark vmbus
+ring buffer visible to host when create gpadl buffer and mark back
+to not visible when tear down gpadl buffer.
 
+Co-Developed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- arch/x86/hyperv/hv_init.c      | 52 +++++++++++++++++++++++++++++++---
- include/asm-generic/mshyperv.h |  1 +
- 2 files changed, 49 insertions(+), 4 deletions(-)
+ arch/x86/hyperv/Makefile           |  2 +-
+ arch/x86/hyperv/ivm.c              | 90 ++++++++++++++++++++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h | 22 ++++++++
+ arch/x86/include/asm/mshyperv.h    |  2 +
+ drivers/hv/channel.c               | 34 ++++++++++-
+ include/asm-generic/hyperv-tlfs.h  |  1 +
+ include/linux/hyperv.h             | 12 +++-
+ 7 files changed, 159 insertions(+), 4 deletions(-)
+ create mode 100644 arch/x86/hyperv/ivm.c
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 0db5137d5b81..90e65fbf4c58 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -82,6 +82,9 @@ static int hv_cpu_init(unsigned int cpu)
- 	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
- 	void **input_arg;
- 	struct page *pg;
-+	u64 ghcb_gpa;
-+	void *ghcb_va;
-+	void **ghcb_base;
+diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
+index 48e2c51464e8..5d2de10809ae 100644
+--- a/arch/x86/hyperv/Makefile
++++ b/arch/x86/hyperv/Makefile
+@@ -1,5 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-y			:= hv_init.o mmu.o nested.o irqdomain.o
++obj-y			:= hv_init.o mmu.o nested.o irqdomain.o ivm.o
+ obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
  
- 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
- 	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, hv_root_partition ? 1 : 0);
-@@ -128,6 +131,17 @@ static int hv_cpu_init(unsigned int cpu)
- 		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, val);
- 	}
- 
-+	if (ms_hyperv.ghcb_base) {
-+		rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
+ ifdef CONFIG_X86_64
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+new file mode 100644
+index 000000000000..a5950b7a9214
+--- /dev/null
++++ b/arch/x86/hyperv/ivm.c
+@@ -0,0 +1,90 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Hyper-V Isolation VM interface with paravisor and hypervisor
++ *
++ * Author:
++ *  Tianyu Lan <Tianyu.Lan@microsoft.com>
++ */
 +
-+		ghcb_va = ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-+		if (!ghcb_va)
-+			return -ENOMEM;
++#include <linux/hyperv.h>
++#include <linux/types.h>
++#include <linux/bitfield.h>
++#include <asm/io.h>
++#include <asm/mshyperv.h>
 +
-+		ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
-+		*ghcb_base = ghcb_va;
++/*
++ * hv_set_mem_host_visibility - Set host visibility for specified memory.
++ */
++int hv_set_mem_host_visibility(void *kbuffer, u32 size, u32 visibility)
++{
++	int i, pfn;
++	int pagecount = size >> HV_HYP_PAGE_SHIFT;
++	u64 *pfn_array;
++	int ret = 0;
++
++	pfn_array = vzalloc(HV_HYP_PAGE_SIZE);
++	if (!pfn_array)
++		return -ENOMEM;
++
++	for (i = 0, pfn = 0; i < pagecount; i++) {
++		pfn_array[pfn] = virt_to_hvpfn(kbuffer + i * HV_HYP_PAGE_SIZE);
++		pfn++;
++
++		if (pfn == HV_MAX_MODIFY_GPA_REP_COUNT || i == pagecount - 1) {
++			ret = hv_mark_gpa_visibility(pfn, pfn_array, visibility);
++			pfn = 0;
++
++			if (ret)
++				goto err_free_pfn_array;
++		}
 +	}
 +
- 	return 0;
++ err_free_pfn_array:
++	vfree(pfn_array);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hv_set_mem_host_visibility);
++
++int hv_mark_gpa_visibility(u16 count, const u64 pfn[], u32 visibility)
++{
++	struct hv_input_modify_sparse_gpa_page_host_visibility **input_pcpu;
++	struct hv_input_modify_sparse_gpa_page_host_visibility *input;
++	u16 pages_processed;
++	u64 hv_status;
++	unsigned long flags;
++
++	/* no-op if partition isolation is not enabled */
++	if (!hv_is_isolation_supported())
++		return 0;
++
++	if (count > HV_MAX_MODIFY_GPA_REP_COUNT) {
++		pr_err("Hyper-V: GPA count:%d exceeds supported:%lu\n", count,
++			HV_MAX_MODIFY_GPA_REP_COUNT);
++		return -EINVAL;
++	}
++
++	local_irq_save(flags);
++	input_pcpu = (struct hv_input_modify_sparse_gpa_page_host_visibility **)
++			this_cpu_ptr(hyperv_pcpu_input_arg);
++	input = *input_pcpu;
++	if (unlikely(!input)) {
++		local_irq_restore(flags);
++		return -1;
++	}
++
++	input->partition_id = HV_PARTITION_ID_SELF;
++	input->host_visibility = visibility;
++	input->reserved0 = 0;
++	input->reserved1 = 0;
++	memcpy((void *)input->gpa_page_list, pfn, count * sizeof(*pfn));
++	hv_status = hv_do_rep_hypercall(
++			HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY, count,
++			0, input, &pages_processed);
++	local_irq_restore(flags);
++
++	if (!(hv_status & HV_HYPERCALL_RESULT_MASK))
++		return 0;
++
++	return hv_status & HV_HYPERCALL_RESULT_MASK;
++}
++EXPORT_SYMBOL(hv_mark_gpa_visibility);
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index e6cd3fee562b..1f1ce9afb6f1 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -236,6 +236,15 @@ enum hv_isolation_type {
+ /* TSC invariant control */
+ #define HV_X64_MSR_TSC_INVARIANT_CONTROL	0x40000118
+ 
++/* Hyper-V GPA map flags */
++#define HV_MAP_GPA_PERMISSIONS_NONE            0x0
++#define HV_MAP_GPA_READABLE                    0x1
++#define HV_MAP_GPA_WRITABLE                    0x2
++
++#define VMBUS_PAGE_VISIBLE_READ_ONLY HV_MAP_GPA_READABLE
++#define VMBUS_PAGE_VISIBLE_READ_WRITE (HV_MAP_GPA_READABLE|HV_MAP_GPA_WRITABLE)
++#define VMBUS_PAGE_NOT_VISIBLE HV_MAP_GPA_PERMISSIONS_NONE
++
+ /*
+  * Declare the MSR used to setup pages used to communicate with the hypervisor.
+  */
+@@ -564,4 +573,17 @@ enum hv_interrupt_type {
+ 
+ #include <asm-generic/hyperv-tlfs.h>
+ 
++/* All input parameters should be in single page. */
++#define HV_MAX_MODIFY_GPA_REP_COUNT		\
++	((PAGE_SIZE / sizeof(u64)) - 2)
++
++/* HvCallModifySparseGpaPageHostVisibility hypercall */
++struct hv_input_modify_sparse_gpa_page_host_visibility {
++	u64 partition_id;
++	u32 host_visibility:2;
++	u32 reserved0:30;
++	u32 reserved1;
++	u64 gpa_page_list[HV_MAX_MODIFY_GPA_REP_COUNT];
++} __packed;
++
+ #endif
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index ccf60a809a17..d9437f096ce5 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -269,6 +269,8 @@ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int vcpu, int vector,
+ 		struct hv_interrupt_entry *entry);
+ int hv_unmap_ioapic_interrupt(int ioapic_id, struct hv_interrupt_entry *entry);
+ 
++int hv_set_mem_host_visibility(void *kbuffer, u32 size, u32 visibility);
++int hv_mark_gpa_visibility(u16 count, const u64 pfn[], u32 visibility);
+ #else /* CONFIG_HYPERV */
+ static inline void hyperv_init(void) {}
+ static inline void hyperv_setup_mmu_ops(void) {}
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 0bd202de7960..407b74d72f3f 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -400,7 +400,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	struct list_head *curr;
+ 	u32 next_gpadl_handle;
+ 	unsigned long flags;
+-	int ret = 0;
++	int ret = 0, index;
+ 
+ 	next_gpadl_handle =
+ 		(atomic_inc_return(&vmbus_connection.next_gpadl_handle) - 1);
+@@ -409,6 +409,13 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = hv_set_mem_host_visibility(kbuffer, size,
++					 VMBUS_PAGE_VISIBLE_READ_WRITE);
++	if (ret) {
++		pr_warn("Failed to set host visibility.\n");
++		return ret;
++	}
++
+ 	init_completion(&msginfo->waitevent);
+ 	msginfo->waiting_channel = channel;
+ 
+@@ -484,6 +491,16 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	}
+ 
+ 	kfree(msginfo);
++
++	if (type == HV_GPADL_BUFFER)
++		index = 0;
++	else
++		index = channel->gpadl_range[1].gpadlhandle ? 2 : 1;
++
++	channel->gpadl_range[index].size = size;
++	channel->gpadl_range[index].buffer = kbuffer;
++	channel->gpadl_range[index].gpadlhandle = *gpadl_handle;
++
+ 	return ret;
  }
  
-@@ -223,6 +237,7 @@ static int hv_cpu_die(unsigned int cpu)
+@@ -743,7 +760,7 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+ 	struct vmbus_channel_gpadl_teardown *msg;
+ 	struct vmbus_channel_msginfo *info;
  	unsigned long flags;
- 	void **input_arg;
- 	void *pg;
-+	void **ghcb_va = NULL;
+-	int ret;
++	int ret, i;
  
- 	local_irq_save(flags);
- 	input_arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
-@@ -236,6 +251,13 @@ static int hv_cpu_die(unsigned int cpu)
- 		*output_arg = NULL;
- 	}
+ 	info = kzalloc(sizeof(*info) +
+ 		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL);
+@@ -791,6 +808,19 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, u32 gpadl_handle)
+ 	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
  
-+	if (ms_hyperv.ghcb_base) {
-+		ghcb_va = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
-+		if (*ghcb_va)
-+			iounmap(*ghcb_va);
-+		*ghcb_va = NULL;
-+	}
+ 	kfree(info);
 +
- 	local_irq_restore(flags);
- 
- 	free_pages((unsigned long)pg, hv_root_partition ? 1 : 0);
-@@ -372,6 +394,9 @@ void __init hyperv_init(void)
- 	u64 guest_id, required_msrs;
- 	union hv_x64_msr_hypercall_contents hypercall_msr;
- 	int cpuhp, i;
-+	u64 ghcb_gpa;
-+	void *ghcb_va;
-+	void **ghcb_base;
- 
- 	if (x86_hyper_type != X86_HYPER_MS_HYPERV)
- 		return;
-@@ -432,9 +457,24 @@ void __init hyperv_init(void)
- 			VMALLOC_END, GFP_KERNEL, PAGE_KERNEL_ROX,
- 			VM_FLUSH_RESET_PERMS, NUMA_NO_NODE,
- 			__builtin_return_address(0));
--	if (hv_hypercall_pg == NULL) {
--		wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
--		goto remove_cpuhp_state;
-+	if (hv_hypercall_pg == NULL)
-+		goto clean_guest_os_id;
++	/* Find gpadl buffer virtual address and size. */
++	for (i = 0; i < VMBUS_GPADL_RANGE_COUNT; i++)
++		if (channel->gpadl_range[i].gpadlhandle == gpadl_handle)
++			break;
 +
-+	if (hv_isolation_type_snp()) {
-+		ms_hyperv.ghcb_base = alloc_percpu(void *);
-+		if (!ms_hyperv.ghcb_base)
-+			goto clean_guest_os_id;
++	if (hv_set_mem_host_visibility(channel->gpadl_range[i].buffer,
++				       channel->gpadl_range[i].size,
++				       VMBUS_PAGE_NOT_VISIBLE))
++		pr_warn("Fail to set mem host visibility.\n");
 +
-+		rdmsrl(MSR_AMD64_SEV_ES_GHCB, ghcb_gpa);
-+		ghcb_va = ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-+		if (!ghcb_va) {
-+			free_percpu(ms_hyperv.ghcb_base);
-+			ms_hyperv.ghcb_base = NULL;
-+			goto clean_guest_os_id;
-+		}
++	channel->gpadl_range[i].gpadlhandle = 0;
 +
-+		ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
-+		*ghcb_base = ghcb_va;
- 	}
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 83448e837ded..ad19f4199f90 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -158,6 +158,7 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_RETARGET_INTERRUPT		0x007e
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
++#define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY 0x00db
  
- 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-@@ -499,7 +539,8 @@ void __init hyperv_init(void)
- 
- 	return;
- 
--remove_cpuhp_state:
-+clean_guest_os_id:
-+	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
- 	cpuhp_remove_state(cpuhp);
- free_vp_assist_page:
- 	kfree(hv_vp_assist_page);
-@@ -528,6 +569,9 @@ void hyperv_cleanup(void)
- 	 */
- 	hv_hypercall_pg = NULL;
- 
-+	if (ms_hyperv.ghcb_base)
-+		free_percpu(ms_hyperv.ghcb_base);
-+
- 	/* Reset the hypercall page */
- 	hypercall_msr.as_uint64 = 0;
- 	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index dff58a3db5d5..c6f4c5c20fb8 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -35,6 +35,7 @@ struct ms_hyperv_info {
- 	u32 max_lp_index;
- 	u32 isolation_config_a;
- 	u32 isolation_config_b;
-+	void  __percpu **ghcb_base;
+ #define HV_FLUSH_ALL_PROCESSORS			BIT(0)
+ #define HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES	BIT(1)
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index f1d74dcf0353..b877a68f326c 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -788,6 +788,14 @@ struct vmbus_device {
+ 	bool allowed_in_isolated;
  };
- extern struct ms_hyperv_info ms_hyperv;
+ 
++struct vmbus_gpadl_range {
++	u32 gpadlhandle;
++	u32 size;
++	void *buffer;
++};
++
++#define VMBUS_GPADL_RANGE_COUNT		3
++
+ struct vmbus_channel {
+ 	struct list_head listentry;
+ 
+@@ -808,6 +816,8 @@ struct vmbus_channel {
+ 	struct completion rescind_event;
+ 
+ 	u32 ringbuffer_gpadlhandle;
++	/* GPADL_RING and Send/Receive GPADL_BUFFER. */
++	struct vmbus_gpadl_range gpadl_range[VMBUS_GPADL_RANGE_COUNT];
+ 
+ 	/* Allocated memory for ring buffer */
+ 	struct page *ringbuffer_page;
+@@ -1182,7 +1192,7 @@ extern int vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 				      u32 *gpadl_handle);
+ 
+ extern int vmbus_teardown_gpadl(struct vmbus_channel *channel,
+-				     u32 gpadl_handle);
++				u32 gpadl_handle);
+ 
+ void vmbus_reset_channel_cb(struct vmbus_channel *channel);
  
 -- 
 2.25.1
