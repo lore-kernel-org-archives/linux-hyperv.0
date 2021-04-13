@@ -8,66 +8,68 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51B42C433B4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4456CC43618
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F262613C3
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E076613BA
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 15:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346636AbhDMPXB (ORCPT
+        id S1346611AbhDMPXB (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 13 Apr 2021 11:23:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346626AbhDMPXA (ORCPT
+        with ESMTP id S1346064AbhDMPW7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Apr 2021 11:23:00 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837B9C06138C;
-        Tue, 13 Apr 2021 08:22:39 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id e8-20020a17090a7288b029014e51f5a6baso3843904pjg.2;
-        Tue, 13 Apr 2021 08:22:39 -0700 (PDT)
+        Tue, 13 Apr 2021 11:22:59 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15247C061756;
+        Tue, 13 Apr 2021 08:22:38 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id h20so8409706plr.4;
+        Tue, 13 Apr 2021 08:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
-        b=IorVha2fAs30YZN37FaV6uAQyxzqaHjSRfcunab87zeSZVY8fZFYEyu8OcVg14LhZn
-         b7xfbtxGH0ydZwOVvVMvpruybX7g5jst63ifHz1X0WIDsSGV1JmjUAxwOgsrPHquiJqR
-         DCJqC4kDdfTY2ISZi9UeDSWLxVGVdroIB3rKqmKgeX7xbcjc/L2IhWZY8kLnNhRgToj1
-         5ftFz87idRzDFEurQm2AVDwsKZnRUyfktSU3CJ/RwI32bR+dLkdxZNFaM2EJv7eL2tYA
-         pwyBHnHlg5YBZMqt9sKpTow1IKmu2gobmTGmmyoF1F1CGsiFGsTEthwzyZoSgojSHTBj
-         4jpw==
+        bh=4uHLDXPTV0NPaJIPR0JcU4jnzokfZP+lvBQuVxSWxeo=;
+        b=K/AC19uhlOcuv/MeNirtfvJ6qDuJQ7gUByil/msdm+Z5NXB4L3ss2N7gwLLLsX8uov
+         6RlT+JwNdWjCw0bedRR0UP3rPozlaJ38pCSQp9KmMOU/YB1AbcgNQH2KHKCLDxC7eRhz
+         aEKwdwR4/UrKuCpW0qcOO1FpII/ile99DqBKzSXz9KzCXsr5KqlMkXNTOSNkEFaH52Pl
+         yrfn4aq9pPnybOmPZ082uJrbJhgvaiz370ithDKuue0kuXDDWJLWwWBwbRN83Ou3CjUp
+         gevtlUo7fiGAZ2UGjXPnfBszvVSuRTD9780qbEmN6C+Ae+C146P8jRoago1m/3K9n5B3
+         OtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
-        b=X2TDIgB28a/0rdipAaL45R3pOsS3iw0F4sRNCUNhFphTwvIvI264SxW0f4GAZ6QT5m
-         4kNy8JlwU/dqIYilT/jxZrJeI52i5QuZNVeUX9WE56eNo2m/YAlzjb2AlHv9+0H7AVTR
-         Po/K8/laFAZlAOZzAPRQSBLDxeBCnuME0uOVcXoHaYwQwqGxz8prmIi/300DTUkwyQjb
-         W5OyqkeIDP0Kcndj8xTMIVRj7Nn9lTFwmjiD3eLBu+hhsmdWGMJNxA+6LYdolPTqdQwu
-         zNRnz7bdarGkXKLJi0MFFdQm5b+BdAyy9yl5kZ1TDZeYTX9k+730nyhV2OdD+5N5G4zg
-         GxlA==
-X-Gm-Message-State: AOAM530J3TQo80u/7011UEaDrqdKlfRiuHdtESUvK6GVVxZCBqMgZTSX
-        NAeMH4aG2sv2JV1RQnhGExI=
-X-Google-Smtp-Source: ABdhPJxxIfKAERJLDA4HlDzx+GqfEOCgEJK8jSf67l6KS3hJVyLrTuI7Q1aPiqMmEAsqC1e97/PxAw==
-X-Received: by 2002:a17:90a:3b4c:: with SMTP id t12mr608975pjf.142.1618327359114;
-        Tue, 13 Apr 2021 08:22:39 -0700 (PDT)
+        bh=4uHLDXPTV0NPaJIPR0JcU4jnzokfZP+lvBQuVxSWxeo=;
+        b=f7N3ZsSl7xgfiAIBtT3qFTRQ26t68CR9lHMO/WV0qC4whllUhZ3Ht05n9ti4PDxt0L
+         mw8vcYFbISQZey8OPC761j0EnFe478HkQZmoPkTeHEwXeNEBSREy4GcjIkRL3+Z3dZFy
+         gC3TQGtSP+XrtFN/Wv1nfezVhk4bolqlN3tB/hinbpFZEvwS3J9HKUAZ5O1du7AVnyC7
+         RANAX1RR7H0thnffmsAZAywbdvnz/CIbL+MuZ4D3bDAipeW8lenukzTxNM4E6C9YH8KI
+         TK9PmdxK9IG014tKdy+Vu4ZVXipd68G8BFg97u+aK4Qd/rxCMfVu0qxzByEH1Qhq5UMB
+         orkA==
+X-Gm-Message-State: AOAM531jefn1nNrS1EKi0kuwg7MnDBo1Bz30nnX2LXCydLbJGVa84Akw
+        Cz4p2qFo4R6UqeYuF3snt8w=
+X-Google-Smtp-Source: ABdhPJwYtHWtCc5kHBjVZDuxB1E6n8SmE8SBCDOND/eAw1dQuJvpH0+GT+o/jsMhdnTJU4NV6XTMHQ==
+X-Received: by 2002:a17:90a:e7cc:: with SMTP id kb12mr554304pjb.31.1618327357635;
+        Tue, 13 Apr 2021 08:22:37 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:5b29:fe1a:45c9:c61c])
-        by smtp.gmail.com with ESMTPSA id y3sm12882026pfg.145.2021.04.13.08.22.38
+        by smtp.gmail.com with ESMTPSA id y3sm12882026pfg.145.2021.04.13.08.22.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 08:22:38 -0700 (PDT)
+        Tue, 13 Apr 2021 08:22:36 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org
+        wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com, arnd@arndb.de
 Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vkuznets@redhat.com, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, sunilmut@microsoft.com
-Subject: [RFC V2 PATCH 6/12] HV/Vmbus: Add SNP support for VMbus channel initiate message
-Date:   Tue, 13 Apr 2021 11:22:11 -0400
-Message-Id: <20210413152217.3386288-7-ltykernel@gmail.com>
+        linux-arch@vger.kernel.org, vkuznets@redhat.com,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com,
+        sunilmut@microsoft.com
+Subject: [RFC V2 PATCH 4/12]  HV: Add Write/Read MSR registers via ghcb
+Date:   Tue, 13 Apr 2021 11:22:09 -0400
+Message-Id: <20210413152217.3386288-5-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210413152217.3386288-1-ltykernel@gmail.com>
 References: <20210413152217.3386288-1-ltykernel@gmail.com>
@@ -79,137 +81,497 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-The physical address of monitor pages in the CHANNELMSG_INITIATE_CONTACT
-msg should be in the extra address space for SNP support and these
-pages also should be accessed via the extra address space inside Linux
-guest and remap the extra address by ioremap function.
+Hyper-V provides GHCB protocol to write Synthetic Interrupt
+Controller MSR registers and these registers are emulated by
+Hypervisor rather than paravisor.
+
+Hyper-V requests to write SINTx MSR registers twice(once via
+GHCB and once via wrmsr instruction including the proxy bit 21)
+Guest OS ID MSR also needs to be set via GHCB.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/connection.c   | 62 +++++++++++++++++++++++++++++++++++++++
- drivers/hv/hyperv_vmbus.h |  1 +
- 2 files changed, 63 insertions(+)
+ arch/x86/hyperv/hv_init.c       |  18 +----
+ arch/x86/hyperv/ivm.c           | 130 ++++++++++++++++++++++++++++++++
+ arch/x86/include/asm/mshyperv.h |  87 +++++++++++++++++----
+ arch/x86/kernel/cpu/mshyperv.c  |   3 +
+ drivers/hv/hv.c                 |  65 +++++++++++-----
+ include/asm-generic/mshyperv.h  |   4 +-
+ 6 files changed, 261 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 79bca653dce9..a0be9c11d737 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -101,6 +101,12 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 90e65fbf4c58..87b1dd9c84d6 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -475,6 +475,9 @@ void __init hyperv_init(void)
  
- 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
- 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
+ 		ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
+ 		*ghcb_base = ghcb_va;
 +
-+	if (hv_isolation_type_snp()) {
-+		msg->monitor_page1 += ms_hyperv.shared_gpa_boundary;
-+		msg->monitor_page2 += ms_hyperv.shared_gpa_boundary;
-+	}
-+
- 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
- 
- 	/*
-@@ -145,6 +151,29 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 		return -ECONNREFUSED;
++		/* Hyper-V requires to write guest os id via ghcb in SNP IVM. */
++		hv_ghcb_msr_write(HV_X64_MSR_GUEST_OS_ID, guest_id);
  	}
  
-+	if (hv_isolation_type_snp()) {
-+		vmbus_connection.monitor_pages_va[0]
-+			= vmbus_connection.monitor_pages[0];
-+		vmbus_connection.monitor_pages[0]
-+			= ioremap_cache(msg->monitor_page1, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[0])
-+			return -ENOMEM;
+ 	rdmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+@@ -561,6 +564,7 @@ void hyperv_cleanup(void)
+ 
+ 	/* Reset our OS id */
+ 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
++	hv_ghcb_msr_write(HV_X64_MSR_GUEST_OS_ID, 0);
+ 
+ 	/*
+ 	 * Reset hypercall page reference before reset the page,
+@@ -668,17 +672,3 @@ bool hv_is_hibernation_supported(void)
+ 	return !hv_root_partition && acpi_sleep_state_supported(ACPI_STATE_S4);
+ }
+ EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
+-
+-enum hv_isolation_type hv_get_isolation_type(void)
+-{
+-	if (!(ms_hyperv.features_b & HV_ISOLATION))
+-		return HV_ISOLATION_TYPE_NONE;
+-	return FIELD_GET(HV_ISOLATION_TYPE, ms_hyperv.isolation_config_b);
+-}
+-EXPORT_SYMBOL_GPL(hv_get_isolation_type);
+-
+-bool hv_is_isolation_supported(void)
+-{
+-	return hv_get_isolation_type() != HV_ISOLATION_TYPE_NONE;
+-}
+-EXPORT_SYMBOL_GPL(hv_is_isolation_supported);
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index a5950b7a9214..2ec64b367aaf 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -6,12 +6,139 @@
+  *  Tianyu Lan <Tianyu.Lan@microsoft.com>
+  */
+ 
++#include <linux/types.h>
++#include <linux/bitfield.h>
+ #include <linux/hyperv.h>
+ #include <linux/types.h>
+ #include <linux/bitfield.h>
+ #include <asm/io.h>
++#include <asm/svm.h>
++#include <asm/sev-es.h>
+ #include <asm/mshyperv.h>
+ 
++union hv_ghcb {
++	struct ghcb ghcb;
++} __packed __aligned(PAGE_SIZE);
 +
-+		vmbus_connection.monitor_pages_va[1]
-+			= vmbus_connection.monitor_pages[1];
-+		vmbus_connection.monitor_pages[1]
-+			= ioremap_cache(msg->monitor_page2, HV_HYP_PAGE_SIZE);
-+		if (!vmbus_connection.monitor_pages[1]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			return -ENOMEM;
-+		}
++void hv_ghcb_msr_write(u64 msr, u64 value)
++{
++	union hv_ghcb *hv_ghcb;
++	void **ghcb_base;
++	unsigned long flags;
 +
-+		memset(vmbus_connection.monitor_pages[0], 0x00,
-+		       HV_HYP_PAGE_SIZE);
-+		memset(vmbus_connection.monitor_pages[1], 0x00,
-+		       HV_HYP_PAGE_SIZE);
++	if (!ms_hyperv.ghcb_base)
++		return;
++
++	local_irq_save(flags);
++	ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
++	hv_ghcb = (union hv_ghcb *)*ghcb_base;
++	if (!hv_ghcb) {
++		local_irq_restore(flags);
++		return;
 +	}
 +
- 	return ret;
++	memset(hv_ghcb, 0x00, HV_HYP_PAGE_SIZE);
++
++	hv_ghcb->ghcb.protocol_version = 1;
++	hv_ghcb->ghcb.ghcb_usage = 0;
++
++	ghcb_set_sw_exit_code(&hv_ghcb->ghcb, SVM_EXIT_MSR);
++	ghcb_set_rcx(&hv_ghcb->ghcb, msr);
++	ghcb_set_rax(&hv_ghcb->ghcb, lower_32_bits(value));
++	ghcb_set_rdx(&hv_ghcb->ghcb, value >> 32);
++	ghcb_set_sw_exit_info_1(&hv_ghcb->ghcb, 1);
++	ghcb_set_sw_exit_info_2(&hv_ghcb->ghcb, 0);
++
++	VMGEXIT();
++
++	if ((hv_ghcb->ghcb.save.sw_exit_info_1 & 0xffffffff) == 1)
++		pr_warn("Fail to write msr via ghcb.\n.");
++
++	local_irq_restore(flags);
++}
++EXPORT_SYMBOL_GPL(hv_ghcb_msr_write);
++
++void hv_ghcb_msr_read(u64 msr, u64 *value)
++{
++	union hv_ghcb *hv_ghcb;
++	void **ghcb_base;
++	unsigned long flags;
++
++	if (!ms_hyperv.ghcb_base)
++		return;
++
++	local_irq_save(flags);
++	ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
++	hv_ghcb = (union hv_ghcb *)*ghcb_base;
++	if (!hv_ghcb) {
++		local_irq_restore(flags);
++		return;
++	}
++
++	memset(hv_ghcb, 0x00, PAGE_SIZE);
++	hv_ghcb->ghcb.protocol_version = 1;
++	hv_ghcb->ghcb.ghcb_usage = 0;
++
++	ghcb_set_sw_exit_code(&hv_ghcb->ghcb, SVM_EXIT_MSR);
++	ghcb_set_rcx(&hv_ghcb->ghcb, msr);
++	ghcb_set_sw_exit_info_1(&hv_ghcb->ghcb, 0);
++	ghcb_set_sw_exit_info_2(&hv_ghcb->ghcb, 0);
++
++	VMGEXIT();
++
++	if ((hv_ghcb->ghcb.save.sw_exit_info_1 & 0xffffffff) == 1)
++		pr_warn("Fail to write msr via ghcb.\n.");
++	else
++		*value = (u64)lower_32_bits(hv_ghcb->ghcb.save.rax)
++			| ((u64)lower_32_bits(hv_ghcb->ghcb.save.rdx) << 32);
++	local_irq_restore(flags);
++}
++EXPORT_SYMBOL_GPL(hv_ghcb_msr_read);
++
++void hv_sint_rdmsrl_ghcb(u64 msr, u64 *value)
++{
++	hv_ghcb_msr_read(msr, value);
++}
++EXPORT_SYMBOL_GPL(hv_sint_rdmsrl_ghcb);
++
++void hv_sint_wrmsrl_ghcb(u64 msr, u64 value)
++{
++	hv_ghcb_msr_write(msr, value);
++
++	/* Write proxy bit vua wrmsrl instruction. */
++	if (msr >= HV_X64_MSR_SINT0 && msr <= HV_X64_MSR_SINT15)
++		wrmsrl(msr, value | 1 << 20);
++}
++EXPORT_SYMBOL_GPL(hv_sint_wrmsrl_ghcb);
++
++inline void hv_signal_eom_ghcb(void)
++{
++	hv_sint_wrmsrl_ghcb(HV_X64_MSR_EOM, 0);
++}
++EXPORT_SYMBOL_GPL(hv_signal_eom_ghcb);
++
++enum hv_isolation_type hv_get_isolation_type(void)
++{
++	if (!(ms_hyperv.features_b & HV_ISOLATION))
++		return HV_ISOLATION_TYPE_NONE;
++	return FIELD_GET(HV_ISOLATION_TYPE, ms_hyperv.isolation_config_b);
++}
++EXPORT_SYMBOL_GPL(hv_get_isolation_type);
++
++bool hv_is_isolation_supported(void)
++{
++	return hv_get_isolation_type() != HV_ISOLATION_TYPE_NONE;
++}
++EXPORT_SYMBOL_GPL(hv_is_isolation_supported);
++
++DEFINE_STATIC_KEY_FALSE(isolation_type_snp);
++
++bool hv_isolation_type_snp(void)
++{
++	return static_branch_unlikely(&isolation_type_snp);
++}
++EXPORT_SYMBOL_GPL(hv_isolation_type_snp);
++
+ /*
+  * hv_set_mem_host_visibility - Set host visibility for specified memory.
+  */
+@@ -22,6 +149,9 @@ int hv_set_mem_host_visibility(void *kbuffer, u32 size, u32 visibility)
+ 	u64 *pfn_array;
+ 	int ret = 0;
+ 
++	if (!hv_is_isolation_supported())
++		return 0;
++
+ 	pfn_array = vzalloc(HV_HYP_PAGE_SIZE);
+ 	if (!pfn_array)
+ 		return -ENOMEM;
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index d9437f096ce5..73501dbbc240 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -10,6 +10,8 @@
+ #include <asm/nospec-branch.h>
+ #include <asm/paravirt.h>
+ 
++DECLARE_STATIC_KEY_FALSE(isolation_type_snp);
++
+ typedef int (*hyperv_fill_flush_list_func)(
+ 		struct hv_guest_mapping_flush_list *flush,
+ 		void *data);
+@@ -19,24 +21,64 @@ typedef int (*hyperv_fill_flush_list_func)(
+ #define hv_init_timer_config(timer, val) \
+ 	wrmsrl(HV_X64_MSR_STIMER0_CONFIG + (2*timer), val)
+ 
+-#define hv_get_simp(val) rdmsrl(HV_X64_MSR_SIMP, val)
+-#define hv_set_simp(val) wrmsrl(HV_X64_MSR_SIMP, val)
++#define hv_get_sint_reg(val, reg) {		\
++	if (hv_isolation_type_snp())		\
++		hv_get_##reg##_ghcb(&val);		\
++	else					\
++		rdmsrl(HV_X64_MSR_##reg, val);	\
++	}
++
++#define hv_set_sint_reg(val, reg) {		\
++	if (hv_isolation_type_snp())		\
++		hv_set_##reg##_ghcb(val);		\
++	else					\
++		wrmsrl(HV_X64_MSR_##reg, val);	\
++	}
++
+ 
+-#define hv_get_siefp(val) rdmsrl(HV_X64_MSR_SIEFP, val)
+-#define hv_set_siefp(val) wrmsrl(HV_X64_MSR_SIEFP, val)
++#define hv_get_simp(val) hv_get_sint_reg(val, SIMP)
++#define hv_get_siefp(val) hv_get_sint_reg(val, SIEFP)
+ 
+-#define hv_get_synic_state(val) rdmsrl(HV_X64_MSR_SCONTROL, val)
+-#define hv_set_synic_state(val) wrmsrl(HV_X64_MSR_SCONTROL, val)
++#define hv_set_simp(val) hv_set_sint_reg(val, SIMP)
++#define hv_set_siefp(val) hv_set_sint_reg(val, SIEFP)
++
++#define hv_get_synic_state(val) {			\
++	if (hv_isolation_type_snp())			\
++		hv_get_synic_state_ghcb(&val);		\
++	else						\
++		rdmsrl(HV_X64_MSR_SCONTROL, val);	\
++	}
++#define hv_set_synic_state(val) {			\
++	if (hv_isolation_type_snp())			\
++		hv_set_synic_state_ghcb(val);		\
++	else						\
++		wrmsrl(HV_X64_MSR_SCONTROL, val);	\
++	}
+ 
+ #define hv_get_vp_index(index) rdmsrl(HV_X64_MSR_VP_INDEX, index)
+ 
+-#define hv_signal_eom() wrmsrl(HV_X64_MSR_EOM, 0)
++#define hv_signal_eom() {			 \
++	if (hv_isolation_type_snp() &&		 \
++	    old_msg_type != HVMSG_TIMER_EXPIRED) \
++		hv_signal_eom_ghcb();		 \
++	else					 \
++		wrmsrl(HV_X64_MSR_EOM, 0);	 \
++	}
+ 
+-#define hv_get_synint_state(int_num, val) \
+-	rdmsrl(HV_X64_MSR_SINT0 + int_num, val)
+-#define hv_set_synint_state(int_num, val) \
+-	wrmsrl(HV_X64_MSR_SINT0 + int_num, val)
+-#define hv_recommend_using_aeoi() \
++#define hv_get_synint_state(int_num, val) {		\
++	if (hv_isolation_type_snp())			\
++		hv_get_synint_state_ghcb(int_num, &val);\
++	else						\
++		rdmsrl(HV_X64_MSR_SINT0 + int_num, val);\
++	}
++#define hv_set_synint_state(int_num, val) {		\
++	if (hv_isolation_type_snp())			\
++		hv_set_synint_state_ghcb(int_num, val);	\
++	else						\
++		wrmsrl(HV_X64_MSR_SINT0 + int_num, val);\
++	}
++
++#define hv_recommend_using_aeoi()				\
+ 	(!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED))
+ 
+ #define hv_get_crash_ctl(val) \
+@@ -271,6 +313,25 @@ int hv_unmap_ioapic_interrupt(int ioapic_id, struct hv_interrupt_entry *entry);
+ 
+ int hv_set_mem_host_visibility(void *kbuffer, u32 size, u32 visibility);
+ int hv_mark_gpa_visibility(u16 count, const u64 pfn[], u32 visibility);
++void hv_sint_wrmsrl_ghcb(u64 msr, u64 value);
++void hv_sint_rdmsrl_ghcb(u64 msr, u64 *value);
++void hv_signal_eom_ghcb(void);
++void hv_ghcb_msr_write(u64 msr, u64 value);
++void hv_ghcb_msr_read(u64 msr, u64 *value);
++
++#define hv_get_synint_state_ghcb(int_num, val)			\
++	hv_sint_rdmsrl_ghcb(HV_X64_MSR_SINT0 + int_num, val)
++#define hv_set_synint_state_ghcb(int_num, val) \
++	hv_sint_wrmsrl_ghcb(HV_X64_MSR_SINT0 + int_num, val)
++
++#define hv_get_SIMP_ghcb(val) hv_sint_rdmsrl_ghcb(HV_X64_MSR_SIMP, val)
++#define hv_set_SIMP_ghcb(val) hv_sint_wrmsrl_ghcb(HV_X64_MSR_SIMP, val)
++
++#define hv_get_SIEFP_ghcb(val) hv_sint_rdmsrl_ghcb(HV_X64_MSR_SIEFP, val)
++#define hv_set_SIEFP_ghcb(val) hv_sint_wrmsrl_ghcb(HV_X64_MSR_SIEFP, val)
++
++#define hv_get_synic_state_ghcb(val) hv_sint_rdmsrl_ghcb(HV_X64_MSR_SCONTROL, val)
++#define hv_set_synic_state_ghcb(val) hv_sint_wrmsrl_ghcb(HV_X64_MSR_SCONTROL, val)
+ #else /* CONFIG_HYPERV */
+ static inline void hyperv_init(void) {}
+ static inline void hyperv_setup_mmu_ops(void) {}
+@@ -289,9 +350,9 @@ static inline int hyperv_flush_guest_mapping_range(u64 as,
+ {
+ 	return -1;
+ }
++static inline void hv_signal_eom_ghcb(void) { };
+ #endif /* CONFIG_HYPERV */
+ 
+-
+ #include <asm-generic/mshyperv.h>
+ 
+ #endif
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index aeafd4017c89..6eaa0891c0f7 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -333,6 +333,9 @@ static void __init ms_hyperv_init_platform(void)
+ 
+ 		pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
+ 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
++
++		if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP)
++			static_branch_enable(&isolation_type_snp);
+ 	}
+ 
+ 	if (ms_hyperv.hints & HV_X64_ENLIGHTENED_VMCS_RECOMMENDED) {
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index f202ac7f4b3d..069530eeb7c6 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -99,17 +99,24 @@ int hv_synic_alloc(void)
+ 		tasklet_init(&hv_cpu->msg_dpc,
+ 			     vmbus_on_msg_dpc, (unsigned long) hv_cpu);
+ 
+-		hv_cpu->synic_message_page =
+-			(void *)get_zeroed_page(GFP_ATOMIC);
+-		if (hv_cpu->synic_message_page == NULL) {
+-			pr_err("Unable to allocate SYNIC message page\n");
+-			goto err;
+-		}
++		/*
++		 * Synic message and event pages are allocated by paravisor.
++		 * Skip these pages allocation here.
++		 */
++		if (!hv_isolation_type_snp()) {
++			hv_cpu->synic_message_page =
++				(void *)get_zeroed_page(GFP_ATOMIC);
++			if (hv_cpu->synic_message_page == NULL) {
++				pr_err("Unable to allocate SYNIC message page\n");
++				goto err;
++			}
+ 
+-		hv_cpu->synic_event_page = (void *)get_zeroed_page(GFP_ATOMIC);
+-		if (hv_cpu->synic_event_page == NULL) {
+-			pr_err("Unable to allocate SYNIC event page\n");
+-			goto err;
++			hv_cpu->synic_event_page =
++				(void *)get_zeroed_page(GFP_ATOMIC);
++			if (hv_cpu->synic_event_page == NULL) {
++				pr_err("Unable to allocate SYNIC event page\n");
++				goto err;
++			}
+ 		}
+ 
+ 		hv_cpu->post_msg_page = (void *)get_zeroed_page(GFP_ATOMIC);
+@@ -136,10 +143,17 @@ void hv_synic_free(void)
+ 	for_each_present_cpu(cpu) {
+ 		struct hv_per_cpu_context *hv_cpu
+ 			= per_cpu_ptr(hv_context.cpu_context, cpu);
++		free_page((unsigned long)hv_cpu->post_msg_page);
++
++		/*
++		 * Synic message and event pages are allocated by paravisor.
++		 * Skip free these pages here.
++		 */
++		if (hv_isolation_type_snp())
++			continue;
+ 
+ 		free_page((unsigned long)hv_cpu->synic_event_page);
+ 		free_page((unsigned long)hv_cpu->synic_message_page);
+-		free_page((unsigned long)hv_cpu->post_msg_page);
+ 	}
+ 
+ 	kfree(hv_context.hv_numa_map);
+@@ -161,20 +175,36 @@ void hv_synic_enable_regs(unsigned int cpu)
+ 	union hv_synic_sint shared_sint;
+ 	union hv_synic_scontrol sctrl;
+ 
+-	/* Setup the Synic's message page */
++
++	/* Setup the Synic's message. */
+ 	hv_get_simp(simp.as_uint64);
+ 	simp.simp_enabled = 1;
+-	simp.base_simp_gpa = virt_to_phys(hv_cpu->synic_message_page)
+-		>> HV_HYP_PAGE_SHIFT;
++
++	if (hv_isolation_type_snp()) {
++		hv_cpu->synic_message_page
++			= ioremap_cache(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
++					HV_HYP_PAGE_SIZE);
++		if (!hv_cpu->synic_message_page)
++			pr_err("Fail to map syinc message page.\n");
++	} else {
++		simp.base_simp_gpa = virt_to_phys(hv_cpu->synic_message_page)
++			>> HV_HYP_PAGE_SHIFT;
++	}
+ 
+ 	hv_set_simp(simp.as_uint64);
+ 
+ 	/* Setup the Synic's event page */
+ 	hv_get_siefp(siefp.as_uint64);
+ 	siefp.siefp_enabled = 1;
+-	siefp.base_siefp_gpa = virt_to_phys(hv_cpu->synic_event_page)
+-		>> HV_HYP_PAGE_SHIFT;
+-
++	if (hv_isolation_type_snp()) {
++		hv_cpu->synic_event_page = ioremap_cache(
++			 siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT, HV_HYP_PAGE_SIZE);
++		if (!hv_cpu->synic_event_page)
++			pr_err("Fail to map syinc event page.\n");
++	} else {
++		siefp.base_siefp_gpa = virt_to_phys(hv_cpu->synic_event_page)
++			>> HV_HYP_PAGE_SHIFT;
++	}
+ 	hv_set_siefp(siefp.as_uint64);
+ 
+ 	/* Setup the shared SINT. */
+@@ -188,7 +218,6 @@ void hv_synic_enable_regs(unsigned int cpu)
+ 	/* Enable the global synic bit */
+ 	hv_get_synic_state(sctrl.as_uint64);
+ 	sctrl.enable = 1;
+-
+ 	hv_set_synic_state(sctrl.as_uint64);
  }
  
-@@ -156,6 +185,7 @@ int vmbus_connect(void)
- 	struct vmbus_channel_msginfo *msginfo = NULL;
- 	int i, ret = 0;
- 	__u32 version;
-+	u64 pfn[2];
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index b73e201abc70..59777377e641 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -23,6 +23,7 @@
+ #include <linux/bitops.h>
+ #include <linux/cpumask.h>
+ #include <asm/ptrace.h>
++#include <asm/mshyperv.h>
+ #include <asm/hyperv-tlfs.h>
  
- 	/* Initialize the vmbus connection */
- 	vmbus_connection.conn_state = CONNECTING;
-@@ -213,6 +243,16 @@ int vmbus_connect(void)
- 		goto cleanup;
- 	}
+ struct ms_hyperv_info {
+@@ -52,7 +53,7 @@ extern struct ms_hyperv_info ms_hyperv;
  
-+	if (hv_isolation_type_snp()) {
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		if (hv_mark_gpa_visibility(2, pfn,
-+				VMBUS_PAGE_VISIBLE_READ_WRITE)) {
-+			ret = -EFAULT;
-+			goto cleanup;
-+		}
-+	}
-+
- 	msginfo = kzalloc(sizeof(*msginfo) +
- 			  sizeof(struct vmbus_channel_initiate_contact),
- 			  GFP_KERNEL);
-@@ -279,6 +319,8 @@ int vmbus_connect(void)
+ extern u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
+ extern u64 hv_do_fast_hypercall8(u16 control, u64 input8);
+-
++extern bool hv_isolation_type_snp(void);
  
- void vmbus_disconnect(void)
- {
-+	u64 pfn[2];
-+
- 	/*
- 	 * First send the unload request to the host.
- 	 */
-@@ -298,6 +340,26 @@ void vmbus_disconnect(void)
- 		vmbus_connection.int_page = NULL;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		if (vmbus_connection.monitor_pages_va[0]) {
-+			vunmap(vmbus_connection.monitor_pages[0]);
-+			vmbus_connection.monitor_pages[0]
-+				= vmbus_connection.monitor_pages_va[0];
-+			vmbus_connection.monitor_pages_va[0] = NULL;
-+		}
-+
-+		if (vmbus_connection.monitor_pages_va[1]) {
-+			vunmap(vmbus_connection.monitor_pages[1]);
-+			vmbus_connection.monitor_pages[1]
-+				= vmbus_connection.monitor_pages_va[1];
-+			vmbus_connection.monitor_pages_va[1] = NULL;
-+		}
-+
-+		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
-+		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
-+		hv_mark_gpa_visibility(2, pfn, VMBUS_PAGE_NOT_VISIBLE);
-+	}
-+
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
- 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
- 	vmbus_connection.monitor_pages[0] = NULL;
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 9416e09ebd58..0778add21a9c 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -240,6 +240,7 @@ struct vmbus_connection {
- 	 * is child->parent notification
- 	 */
- 	struct hv_monitor_page *monitor_pages[2];
-+	void *monitor_pages_va[2];
- 	struct list_head chn_msg_list;
- 	spinlock_t channelmsg_lock;
- 
+ /* Generate the guest OS identifier as described in the Hyper-V TLFS */
+ static inline  __u64 generate_guest_id(__u64 d_info1, __u64 kernel_version,
+@@ -186,6 +187,7 @@ bool hv_is_hyperv_initialized(void);
+ bool hv_is_hibernation_supported(void);
+ enum hv_isolation_type hv_get_isolation_type(void);
+ bool hv_is_isolation_supported(void);
++bool hv_isolation_type_snp(void);
+ void hyperv_cleanup(void);
+ #else /* CONFIG_HYPERV */
+ static inline bool hv_is_hyperv_initialized(void) { return false; }
 -- 
 2.25.1
 
