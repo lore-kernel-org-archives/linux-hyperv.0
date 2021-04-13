@@ -2,46 +2,45 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7FE6C433B4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF46C433B4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C499061222
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:51:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB7E461353
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Apr 2021 21:52:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348489AbhDMVwH (ORCPT
+        id S1348512AbhDMVwV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Apr 2021 17:52:07 -0400
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:51607 "EHLO
-        smtp-fw-9102.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230491AbhDMVwG (ORCPT
+        Tue, 13 Apr 2021 17:52:21 -0400
+Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:47817 "EHLO
+        smtp-fw-33001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348510AbhDMVwV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Apr 2021 17:52:06 -0400
+        Tue, 13 Apr 2021 17:52:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1618350707; x=1649886707;
+  t=1618350722; x=1649886722;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=oRPtxgat/4J5V+eoHtGmgLp6qFUokLuBHjOnK7AYLZU=;
-  b=I6TiGw7Fze+Kg06H993o/3xAUwkap7KYwBZMPbmuZHKIIY4cJXGfKiDE
-   f1UwC0HaNHIXzKIRtONgP0/KyDdHIysi4nUe9hlLobn7k6IjLoCtyeQsN
-   c1OHWyvWbHaGYmjtwqg9SlPhaDk2+b9byP39A0i7kH7ttvG5PxK2bi2QA
-   4=;
+  bh=UhdJgb28fMRLRdt5tcIIB4rGWRX4i8B0Qnh3kMOULdU=;
+  b=p1TMkGJzlTWFW0MmMLwd65M6xApFAZ9kcmEpvkO0cxfhWTPAQDoiwlXr
+   UUeivVnT79CkWluni9IL+/BpiHEWFCMgoDk+mHsmg6Icq+nR037eiLTtY
+   o5SEOP9UMJd03DCox+Yw7l/zw833M2dgO8GhjseYFKS2Af6GRMn2TOKTd
+   Q=;
 X-IronPort-AV: E=Sophos;i="5.82,220,1613433600"; 
-   d="scan'208";a="127407672"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-2b-859fe132.us-west-2.amazon.com) ([10.25.36.214])
-  by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP; 13 Apr 2021 21:51:40 +0000
+   d="scan'208";a="118207325"
+Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com) ([10.25.36.210])
+  by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP; 13 Apr 2021 21:52:01 +0000
 Received: from EX13D28EUC003.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
-        by email-inbound-relay-2b-859fe132.us-west-2.amazon.com (Postfix) with ESMTPS id D2C02220BCB;
-        Tue, 13 Apr 2021 21:51:38 +0000 (UTC)
+        by email-inbound-relay-2c-4e7c8266.us-west-2.amazon.com (Postfix) with ESMTPS id 3545AA15FA;
+        Tue, 13 Apr 2021 21:51:59 +0000 (UTC)
 Received: from uc8bbc9586ea454.ant.amazon.com (10.43.161.39) by
  EX13D28EUC003.ant.amazon.com (10.43.164.43) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 13 Apr 2021 21:51:29 +0000
+ id 15.0.1497.2; Tue, 13 Apr 2021 21:51:50 +0000
 From:   Siddharth Chandrasekaran <sidcha@amazon.de>
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -63,9 +62,9 @@ CC:     Siddharth Chandrasekaran <sidcha@amazon.de>,
         Ioannis Aslanidis <iaslan@amazon.de>,
         <linux-hyperv@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <kvm@vger.kernel.org>
-Subject: [PATCH v3 1/4] KVM: x86: Move FPU register accessors into fpu.h
-Date:   Tue, 13 Apr 2021 23:50:54 +0200
-Message-ID: <5905cb9f8585ac6d863bae4e3c22d5d1b682f10d.1618349671.git.sidcha@amazon.de>
+Subject: [PATCH v3 3/4] KVM: x86: kvm_hv_flush_tlb use inputs from XMM registers
+Date:   Tue, 13 Apr 2021 23:50:56 +0200
+Message-ID: <8698b7ad625436e26d8f1dd5972b6b31907d313c.1618349671.git.sidcha@amazon.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1618349671.git.sidcha@amazon.de>
 References: <cover.1618349671.git.sidcha@amazon.de>
@@ -78,430 +77,217 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-v XMM fast hypercalls use XMM registers to pass input/output
-parameters. To access these, hyperv.c can reuse some FPU register
-accessors defined in emulator.c. Move them to a common location so both
-can access them.
+Hyper-V supports the use of XMM registers to perform fast hypercalls.
+This allows guests to take advantage of the improved performance of the
+fast hypercall interface even though a hypercall may require more than
+(the current maximum of) two input registers.
 
-While at it, reorder the parameters of these accessor methods to make
-them more readable.
+The XMM fast hypercall interface uses six additional XMM registers (XMM0
+to XMM5) to allow the guest to pass an input parameter block of up to
+112 bytes.
+
+Add framework to read from XMM registers in kvm_hv_hypercall() and use
+the additional hypercall inputs from XMM registers in kvm_hv_flush_tlb()
+when possible.
 
 Cc: Alexander Graf <graf@amazon.com>
-Cc: Evgeny Iakovlev <eyakovl@amazon.de>
+Co-developed-by: Evgeny Iakovlev <eyakovl@amazon.de>
+Signed-off-by: Evgeny Iakovlev <eyakovl@amazon.de>
 Signed-off-by: Siddharth Chandrasekaran <sidcha@amazon.de>
 ---
- arch/x86/kvm/emulate.c     | 137 +++++-------------------------------
- arch/x86/kvm/fpu.h         | 140 +++++++++++++++++++++++++++++++++++++
- arch/x86/kvm/kvm_emulate.h |   3 +-
- 3 files changed, 158 insertions(+), 122 deletions(-)
- create mode 100644 arch/x86/kvm/fpu.h
+ arch/x86/include/asm/hyperv-tlfs.h |  2 +
+ arch/x86/kvm/hyperv.c              | 90 +++++++++++++++++++++++-------
+ 2 files changed, 73 insertions(+), 19 deletions(-)
 
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index f7970ba6219f..3634c4c77fd4 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -22,7 +22,6 @@
- #include "kvm_cache_regs.h"
- #include "kvm_emulate.h"
- #include <linux/stringify.h>
--#include <asm/fpu/api.h>
- #include <asm/debugreg.h>
- #include <asm/nospec-branch.h>
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index e6cd3fee562b..ee6336a54f92 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -288,6 +288,8 @@ struct hv_tsc_emulation_status {
+ #define HV_X64_MSR_TSC_REFERENCE_ENABLE		0x00000001
+ #define HV_X64_MSR_TSC_REFERENCE_ADDRESS_SHIFT	12
  
-@@ -1081,116 +1080,14 @@ static void fetch_register_operand(struct operand *op)
- 	}
- }
++/* Number of XMM registers used in hypercall input/output */
++#define HV_HYPERCALL_MAX_XMM_REGISTERS		6
  
--static void emulator_get_fpu(void)
--{
--	fpregs_lock();
--
--	fpregs_assert_state_consistent();
--	if (test_thread_flag(TIF_NEED_FPU_LOAD))
--		switch_fpu_return();
--}
--
--static void emulator_put_fpu(void)
--{
--	fpregs_unlock();
--}
--
--static void read_sse_reg(sse128_t *data, int reg)
--{
--	emulator_get_fpu();
--	switch (reg) {
--	case 0: asm("movdqa %%xmm0, %0" : "=m"(*data)); break;
--	case 1: asm("movdqa %%xmm1, %0" : "=m"(*data)); break;
--	case 2: asm("movdqa %%xmm2, %0" : "=m"(*data)); break;
--	case 3: asm("movdqa %%xmm3, %0" : "=m"(*data)); break;
--	case 4: asm("movdqa %%xmm4, %0" : "=m"(*data)); break;
--	case 5: asm("movdqa %%xmm5, %0" : "=m"(*data)); break;
--	case 6: asm("movdqa %%xmm6, %0" : "=m"(*data)); break;
--	case 7: asm("movdqa %%xmm7, %0" : "=m"(*data)); break;
--#ifdef CONFIG_X86_64
--	case 8: asm("movdqa %%xmm8, %0" : "=m"(*data)); break;
--	case 9: asm("movdqa %%xmm9, %0" : "=m"(*data)); break;
--	case 10: asm("movdqa %%xmm10, %0" : "=m"(*data)); break;
--	case 11: asm("movdqa %%xmm11, %0" : "=m"(*data)); break;
--	case 12: asm("movdqa %%xmm12, %0" : "=m"(*data)); break;
--	case 13: asm("movdqa %%xmm13, %0" : "=m"(*data)); break;
--	case 14: asm("movdqa %%xmm14, %0" : "=m"(*data)); break;
--	case 15: asm("movdqa %%xmm15, %0" : "=m"(*data)); break;
--#endif
--	default: BUG();
--	}
--	emulator_put_fpu();
--}
--
--static void write_sse_reg(sse128_t *data, int reg)
--{
--	emulator_get_fpu();
--	switch (reg) {
--	case 0: asm("movdqa %0, %%xmm0" : : "m"(*data)); break;
--	case 1: asm("movdqa %0, %%xmm1" : : "m"(*data)); break;
--	case 2: asm("movdqa %0, %%xmm2" : : "m"(*data)); break;
--	case 3: asm("movdqa %0, %%xmm3" : : "m"(*data)); break;
--	case 4: asm("movdqa %0, %%xmm4" : : "m"(*data)); break;
--	case 5: asm("movdqa %0, %%xmm5" : : "m"(*data)); break;
--	case 6: asm("movdqa %0, %%xmm6" : : "m"(*data)); break;
--	case 7: asm("movdqa %0, %%xmm7" : : "m"(*data)); break;
--#ifdef CONFIG_X86_64
--	case 8: asm("movdqa %0, %%xmm8" : : "m"(*data)); break;
--	case 9: asm("movdqa %0, %%xmm9" : : "m"(*data)); break;
--	case 10: asm("movdqa %0, %%xmm10" : : "m"(*data)); break;
--	case 11: asm("movdqa %0, %%xmm11" : : "m"(*data)); break;
--	case 12: asm("movdqa %0, %%xmm12" : : "m"(*data)); break;
--	case 13: asm("movdqa %0, %%xmm13" : : "m"(*data)); break;
--	case 14: asm("movdqa %0, %%xmm14" : : "m"(*data)); break;
--	case 15: asm("movdqa %0, %%xmm15" : : "m"(*data)); break;
--#endif
--	default: BUG();
--	}
--	emulator_put_fpu();
--}
--
--static void read_mmx_reg(u64 *data, int reg)
--{
--	emulator_get_fpu();
--	switch (reg) {
--	case 0: asm("movq %%mm0, %0" : "=m"(*data)); break;
--	case 1: asm("movq %%mm1, %0" : "=m"(*data)); break;
--	case 2: asm("movq %%mm2, %0" : "=m"(*data)); break;
--	case 3: asm("movq %%mm3, %0" : "=m"(*data)); break;
--	case 4: asm("movq %%mm4, %0" : "=m"(*data)); break;
--	case 5: asm("movq %%mm5, %0" : "=m"(*data)); break;
--	case 6: asm("movq %%mm6, %0" : "=m"(*data)); break;
--	case 7: asm("movq %%mm7, %0" : "=m"(*data)); break;
--	default: BUG();
--	}
--	emulator_put_fpu();
--}
--
--static void write_mmx_reg(u64 *data, int reg)
--{
--	emulator_get_fpu();
--	switch (reg) {
--	case 0: asm("movq %0, %%mm0" : : "m"(*data)); break;
--	case 1: asm("movq %0, %%mm1" : : "m"(*data)); break;
--	case 2: asm("movq %0, %%mm2" : : "m"(*data)); break;
--	case 3: asm("movq %0, %%mm3" : : "m"(*data)); break;
--	case 4: asm("movq %0, %%mm4" : : "m"(*data)); break;
--	case 5: asm("movq %0, %%mm5" : : "m"(*data)); break;
--	case 6: asm("movq %0, %%mm6" : : "m"(*data)); break;
--	case 7: asm("movq %0, %%mm7" : : "m"(*data)); break;
--	default: BUG();
--	}
--	emulator_put_fpu();
--}
--
- static int em_fninit(struct x86_emulate_ctxt *ctxt)
- {
- 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
- 		return emulate_nm(ctxt);
+ /* Define hypervisor message types. */
+ enum hv_message_type {
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 8a542243e1cd..cd6c6f1f06a4 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -36,6 +36,7 @@
  
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 	asm volatile("fninit");
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 	return X86EMUL_CONTINUE;
- }
- 
-@@ -1201,9 +1098,9 @@ static int em_fnstcw(struct x86_emulate_ctxt *ctxt)
- 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
- 		return emulate_nm(ctxt);
- 
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 	asm volatile("fnstcw %0": "+m"(fcw));
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 
- 	ctxt->dst.val = fcw;
- 
-@@ -1217,9 +1114,9 @@ static int em_fnstsw(struct x86_emulate_ctxt *ctxt)
- 	if (ctxt->ops->get_cr(ctxt, 0) & (X86_CR0_TS | X86_CR0_EM))
- 		return emulate_nm(ctxt);
- 
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 	asm volatile("fnstsw %0": "+m"(fsw));
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 
- 	ctxt->dst.val = fsw;
- 
-@@ -1238,7 +1135,7 @@ static void decode_register_operand(struct x86_emulate_ctxt *ctxt,
- 		op->type = OP_XMM;
- 		op->bytes = 16;
- 		op->addr.xmm = reg;
--		read_sse_reg(&op->vec_val, reg);
-+		kvm_read_sse_reg(reg, &op->vec_val);
- 		return;
- 	}
- 	if (ctxt->d & Mmx) {
-@@ -1289,7 +1186,7 @@ static int decode_modrm(struct x86_emulate_ctxt *ctxt,
- 			op->type = OP_XMM;
- 			op->bytes = 16;
- 			op->addr.xmm = ctxt->modrm_rm;
--			read_sse_reg(&op->vec_val, ctxt->modrm_rm);
-+			kvm_read_sse_reg(ctxt->modrm_rm, &op->vec_val);
- 			return rc;
- 		}
- 		if (ctxt->d & Mmx) {
-@@ -1866,10 +1763,10 @@ static int writeback(struct x86_emulate_ctxt *ctxt, struct operand *op)
- 				       op->bytes * op->count);
- 		break;
- 	case OP_XMM:
--		write_sse_reg(&op->vec_val, op->addr.xmm);
-+		kvm_write_sse_reg(op->addr.xmm, &op->vec_val);
- 		break;
- 	case OP_MM:
--		write_mmx_reg(&op->mm_val, op->addr.mm);
-+		kvm_write_mmx_reg(op->addr.mm, &op->mm_val);
- 		break;
- 	case OP_NONE:
- 		/* no writeback */
-@@ -4124,11 +4021,11 @@ static int em_fxsave(struct x86_emulate_ctxt *ctxt)
- 	if (rc != X86EMUL_CONTINUE)
- 		return rc;
- 
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 
- 	rc = asm_safe("fxsave %[fx]", , [fx] "+m"(fx_state));
- 
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 
- 	if (rc != X86EMUL_CONTINUE)
- 		return rc;
-@@ -4172,7 +4069,7 @@ static int em_fxrstor(struct x86_emulate_ctxt *ctxt)
- 	if (rc != X86EMUL_CONTINUE)
- 		return rc;
- 
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 
- 	if (size < __fxstate_size(16)) {
- 		rc = fxregs_fixup(&fx_state, size);
-@@ -4189,7 +4086,7 @@ static int em_fxrstor(struct x86_emulate_ctxt *ctxt)
- 		rc = asm_safe("fxrstor %[fx]", : [fx] "m"(fx_state));
- 
- out:
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 
- 	return rc;
- }
-@@ -5510,9 +5407,9 @@ static int flush_pending_x87_faults(struct x86_emulate_ctxt *ctxt)
- {
- 	int rc;
- 
--	emulator_get_fpu();
-+	kvm_fpu_get();
- 	rc = asm_safe("fwait");
--	emulator_put_fpu();
-+	kvm_fpu_put();
- 
- 	if (unlikely(rc != X86EMUL_CONTINUE))
- 		return emulate_exception(ctxt, MF_VECTOR, 0, false);
-@@ -5523,7 +5420,7 @@ static int flush_pending_x87_faults(struct x86_emulate_ctxt *ctxt)
- static void fetch_possible_mmx_operand(struct operand *op)
- {
- 	if (op->type == OP_MM)
--		read_mmx_reg(&op->mm_val, op->addr.mm);
-+		kvm_read_mmx_reg(op->addr.mm, &op->mm_val);
- }
- 
- static int fastop(struct x86_emulate_ctxt *ctxt, fastop_t fop)
-diff --git a/arch/x86/kvm/fpu.h b/arch/x86/kvm/fpu.h
-new file mode 100644
-index 000000000000..3ba12888bf66
---- /dev/null
-+++ b/arch/x86/kvm/fpu.h
-@@ -0,0 +1,140 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef __KVM_FPU_H_
-+#define __KVM_FPU_H_
-+
-+#include <asm/fpu/api.h>
-+
-+typedef u32		__attribute__((vector_size(16))) sse128_t;
-+#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
-+#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
-+#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
-+#define sse128_l0(x)	({ __sse128_u t; t.vec = x; t.as_u32[0]; })
-+#define sse128_l1(x)	({ __sse128_u t; t.vec = x; t.as_u32[1]; })
-+#define sse128_l2(x)	({ __sse128_u t; t.vec = x; t.as_u32[2]; })
-+#define sse128_l3(x)	({ __sse128_u t; t.vec = x; t.as_u32[3]; })
-+#define sse128(lo, hi)	({ __sse128_u t; t.as_u64[0] = lo; t.as_u64[1] = hi; t.vec; })
-+
-+static inline void _kvm_read_sse_reg(int reg, sse128_t *data)
-+{
-+	switch (reg) {
-+	case 0: asm("movdqa %%xmm0, %0" : "=m"(*data)); break;
-+	case 1: asm("movdqa %%xmm1, %0" : "=m"(*data)); break;
-+	case 2: asm("movdqa %%xmm2, %0" : "=m"(*data)); break;
-+	case 3: asm("movdqa %%xmm3, %0" : "=m"(*data)); break;
-+	case 4: asm("movdqa %%xmm4, %0" : "=m"(*data)); break;
-+	case 5: asm("movdqa %%xmm5, %0" : "=m"(*data)); break;
-+	case 6: asm("movdqa %%xmm6, %0" : "=m"(*data)); break;
-+	case 7: asm("movdqa %%xmm7, %0" : "=m"(*data)); break;
-+#ifdef CONFIG_X86_64
-+	case 8: asm("movdqa %%xmm8, %0" : "=m"(*data)); break;
-+	case 9: asm("movdqa %%xmm9, %0" : "=m"(*data)); break;
-+	case 10: asm("movdqa %%xmm10, %0" : "=m"(*data)); break;
-+	case 11: asm("movdqa %%xmm11, %0" : "=m"(*data)); break;
-+	case 12: asm("movdqa %%xmm12, %0" : "=m"(*data)); break;
-+	case 13: asm("movdqa %%xmm13, %0" : "=m"(*data)); break;
-+	case 14: asm("movdqa %%xmm14, %0" : "=m"(*data)); break;
-+	case 15: asm("movdqa %%xmm15, %0" : "=m"(*data)); break;
-+#endif
-+	default: BUG();
-+	}
-+}
-+
-+static inline void _kvm_write_sse_reg(int reg, const sse128_t *data)
-+{
-+	switch (reg) {
-+	case 0: asm("movdqa %0, %%xmm0" : : "m"(*data)); break;
-+	case 1: asm("movdqa %0, %%xmm1" : : "m"(*data)); break;
-+	case 2: asm("movdqa %0, %%xmm2" : : "m"(*data)); break;
-+	case 3: asm("movdqa %0, %%xmm3" : : "m"(*data)); break;
-+	case 4: asm("movdqa %0, %%xmm4" : : "m"(*data)); break;
-+	case 5: asm("movdqa %0, %%xmm5" : : "m"(*data)); break;
-+	case 6: asm("movdqa %0, %%xmm6" : : "m"(*data)); break;
-+	case 7: asm("movdqa %0, %%xmm7" : : "m"(*data)); break;
-+#ifdef CONFIG_X86_64
-+	case 8: asm("movdqa %0, %%xmm8" : : "m"(*data)); break;
-+	case 9: asm("movdqa %0, %%xmm9" : : "m"(*data)); break;
-+	case 10: asm("movdqa %0, %%xmm10" : : "m"(*data)); break;
-+	case 11: asm("movdqa %0, %%xmm11" : : "m"(*data)); break;
-+	case 12: asm("movdqa %0, %%xmm12" : : "m"(*data)); break;
-+	case 13: asm("movdqa %0, %%xmm13" : : "m"(*data)); break;
-+	case 14: asm("movdqa %0, %%xmm14" : : "m"(*data)); break;
-+	case 15: asm("movdqa %0, %%xmm15" : : "m"(*data)); break;
-+#endif
-+	default: BUG();
-+	}
-+}
-+
-+static inline void _kvm_read_mmx_reg(int reg, u64 *data)
-+{
-+	switch (reg) {
-+	case 0: asm("movq %%mm0, %0" : "=m"(*data)); break;
-+	case 1: asm("movq %%mm1, %0" : "=m"(*data)); break;
-+	case 2: asm("movq %%mm2, %0" : "=m"(*data)); break;
-+	case 3: asm("movq %%mm3, %0" : "=m"(*data)); break;
-+	case 4: asm("movq %%mm4, %0" : "=m"(*data)); break;
-+	case 5: asm("movq %%mm5, %0" : "=m"(*data)); break;
-+	case 6: asm("movq %%mm6, %0" : "=m"(*data)); break;
-+	case 7: asm("movq %%mm7, %0" : "=m"(*data)); break;
-+	default: BUG();
-+	}
-+}
-+
-+static inline void _kvm_write_mmx_reg(int reg, const u64 *data)
-+{
-+	switch (reg) {
-+	case 0: asm("movq %0, %%mm0" : : "m"(*data)); break;
-+	case 1: asm("movq %0, %%mm1" : : "m"(*data)); break;
-+	case 2: asm("movq %0, %%mm2" : : "m"(*data)); break;
-+	case 3: asm("movq %0, %%mm3" : : "m"(*data)); break;
-+	case 4: asm("movq %0, %%mm4" : : "m"(*data)); break;
-+	case 5: asm("movq %0, %%mm5" : : "m"(*data)); break;
-+	case 6: asm("movq %0, %%mm6" : : "m"(*data)); break;
-+	case 7: asm("movq %0, %%mm7" : : "m"(*data)); break;
-+	default: BUG();
-+	}
-+}
-+
-+static inline void kvm_fpu_get(void)
-+{
-+	fpregs_lock();
-+
-+	fpregs_assert_state_consistent();
-+	if (test_thread_flag(TIF_NEED_FPU_LOAD))
-+		switch_fpu_return();
-+}
-+
-+static inline void kvm_fpu_put(void)
-+{
-+	fpregs_unlock();
-+}
-+
-+static inline void kvm_read_sse_reg(int reg, sse128_t *data)
-+{
-+	kvm_fpu_get();
-+	_kvm_read_sse_reg(reg, data);
-+	kvm_fpu_put();
-+}
-+
-+static inline void kvm_write_sse_reg(int reg, const sse128_t *data)
-+{
-+	kvm_fpu_get();
-+	_kvm_write_sse_reg(reg, data);
-+	kvm_fpu_put();
-+}
-+
-+static inline void kvm_read_mmx_reg(int reg, u64 *data)
-+{
-+	kvm_fpu_get();
-+	_kvm_read_mmx_reg(reg, data);
-+	kvm_fpu_put();
-+}
-+
-+static inline void kvm_write_mmx_reg(int reg, const u64 *data)
-+{
-+	kvm_fpu_get();
-+	_kvm_write_mmx_reg(reg, data);
-+	kvm_fpu_put();
-+}
-+
-+#endif
-diff --git a/arch/x86/kvm/kvm_emulate.h b/arch/x86/kvm/kvm_emulate.h
-index 0d359115429a..f098b6e8e49c 100644
---- a/arch/x86/kvm/kvm_emulate.h
-+++ b/arch/x86/kvm/kvm_emulate.h
-@@ -13,6 +13,7 @@
- #define _ASM_X86_KVM_X86_EMULATE_H
- 
- #include <asm/desc_defs.h>
+ #include "trace.h"
+ #include "irq.h"
 +#include "fpu.h"
  
- struct x86_emulate_ctxt;
- enum x86_intercept;
-@@ -236,8 +237,6 @@ struct x86_emulate_ops {
- 	int (*set_xcr)(struct x86_emulate_ctxt *ctxt, u32 index, u64 xcr);
+ /* "Hv#1" signature */
+ #define HYPERV_CPUID_SIGNATURE_EAX 0x31237648
+@@ -1632,10 +1633,13 @@ struct kvm_hv_hcall {
+ 	u16 rep_idx;
+ 	bool fast;
+ 	bool rep;
++	sse128_t xmm[HV_HYPERCALL_MAX_XMM_REGISTERS];
  };
  
--typedef u32 __attribute__((vector_size(16))) sse128_t;
--
- /* Type, address-of, and value of an instruction's operand. */
- struct operand {
- 	enum { OP_REG, OP_MEM, OP_MEM_STR, OP_IMM, OP_XMM, OP_MM, OP_NONE } type;
+ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool ex)
+ {
++	int i, j;
++	gpa_t gpa;
+ 	struct kvm *kvm = vcpu->kvm;
+ 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+ 	struct hv_tlb_flush_ex flush_ex;
+@@ -1649,8 +1653,15 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 	bool all_cpus;
+ 
+ 	if (!ex) {
+-		if (unlikely(kvm_read_guest(kvm, hc->ingpa, &flush, sizeof(flush))))
+-			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++		if (hc->fast) {
++			flush.address_space = hc->ingpa;
++			flush.flags = hc->outgpa;
++			flush.processor_mask = sse128_lo(hc->xmm[0]);
++		} else {
++			if (unlikely(kvm_read_guest(kvm, hc->ingpa,
++						    &flush, sizeof(flush))))
++				return HV_STATUS_INVALID_HYPERCALL_INPUT;
++		}
+ 
+ 		trace_kvm_hv_flush_tlb(flush.processor_mask,
+ 				       flush.address_space, flush.flags);
+@@ -1668,9 +1679,16 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 		all_cpus = (flush.flags & HV_FLUSH_ALL_PROCESSORS) ||
+ 			flush.processor_mask == 0;
+ 	} else {
+-		if (unlikely(kvm_read_guest(kvm, hc->ingpa, &flush_ex,
+-					    sizeof(flush_ex))))
+-			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++		if (hc->fast) {
++			flush_ex.address_space = hc->ingpa;
++			flush_ex.flags = hc->outgpa;
++			memcpy(&flush_ex.hv_vp_set,
++			       &hc->xmm[0], sizeof(hc->xmm[0]));
++		} else {
++			if (unlikely(kvm_read_guest(kvm, hc->ingpa, &flush_ex,
++						    sizeof(flush_ex))))
++				return HV_STATUS_INVALID_HYPERCALL_INPUT;
++		}
+ 
+ 		trace_kvm_hv_flush_tlb_ex(flush_ex.hv_vp_set.valid_bank_mask,
+ 					  flush_ex.hv_vp_set.format,
+@@ -1681,20 +1699,28 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 		all_cpus = flush_ex.hv_vp_set.format !=
+ 			HV_GENERIC_SET_SPARSE_4K;
+ 
+-		sparse_banks_len =
+-			bitmap_weight((unsigned long *)&valid_bank_mask, 64) *
+-			sizeof(sparse_banks[0]);
++		sparse_banks_len = bitmap_weight((unsigned long *)&valid_bank_mask, 64);
+ 
+ 		if (!sparse_banks_len && !all_cpus)
+ 			goto ret_success;
+ 
+-		if (!all_cpus &&
+-		    kvm_read_guest(kvm,
+-				   hc->ingpa + offsetof(struct hv_tlb_flush_ex,
+-							hv_vp_set.bank_contents),
+-				   sparse_banks,
+-				   sparse_banks_len))
+-			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++		if (!all_cpus) {
++			if (hc->fast) {
++				if (sparse_banks_len > HV_HYPERCALL_MAX_XMM_REGISTERS - 1)
++					return HV_STATUS_INVALID_HYPERCALL_INPUT;
++				for (i = 0; i < sparse_banks_len; i += 2) {
++					sparse_banks[i] = sse128_lo(hc->xmm[i / 2 + 1]);
++					sparse_banks[i + 1] = sse128_hi(hc->xmm[i / 2 + 1]);
++				}
++			} else {
++				gpa = hc->ingpa + offsetof(struct hv_tlb_flush_ex,
++							   hv_vp_set.bank_contents);
++				if (unlikely(kvm_read_guest(kvm, gpa, sparse_banks,
++							    sparse_banks_len *
++							    sizeof(sparse_banks[0]))))
++					return HV_STATUS_INVALID_HYPERCALL_INPUT;
++			}
++		}
+ 	}
+ 
+ 	cpumask_clear(&hv_vcpu->tlb_flush);
+@@ -1890,6 +1916,29 @@ static u16 kvm_hvcall_signal_event(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *h
+ 	return HV_STATUS_SUCCESS;
+ }
+ 
++static bool is_xmm_fast_hypercall(struct kvm_hv_hcall *hc)
++{
++	switch (hc->code) {
++	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST:
++	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE:
++	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX:
++	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX:
++		return true;
++	}
++
++	return false;
++}
++
++static void kvm_hv_hypercall_read_xmm(struct kvm_hv_hcall *hc)
++{
++	int reg;
++
++	kvm_fpu_get();
++	for (reg = 0; reg < HV_HYPERCALL_MAX_XMM_REGISTERS; reg++)
++		_kvm_read_sse_reg(reg, &hc->xmm[reg]);
++	kvm_fpu_put();
++}
++
+ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+ {
+ 	struct kvm_hv_hcall hc;
+@@ -1926,6 +1975,9 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+ 	hc.rep_idx = (hc.param >> HV_HYPERCALL_REP_START_OFFSET) & 0xfff;
+ 	hc.rep = !!(hc.rep_cnt || hc.rep_idx);
+ 
++	if (hc.fast && is_xmm_fast_hypercall(&hc))
++		kvm_hv_hypercall_read_xmm(&hc);
++
+ 	trace_kvm_hv_hypercall(hc.code, hc.fast, hc.rep_cnt, hc.rep_idx,
+ 			       hc.ingpa, hc.outgpa);
+ 
+@@ -1961,28 +2013,28 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+ 				kvm_hv_hypercall_complete_userspace;
+ 		return 0;
+ 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST:
+-		if (unlikely(hc.fast || !hc.rep_cnt || hc.rep_idx)) {
++		if (unlikely(!hc.rep_cnt || hc.rep_idx)) {
+ 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
+ 			break;
+ 		}
+ 		ret = kvm_hv_flush_tlb(vcpu, &hc, false);
+ 		break;
+ 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE:
+-		if (unlikely(hc.fast || hc.rep)) {
++		if (unlikely(hc.rep)) {
+ 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
+ 			break;
+ 		}
+ 		ret = kvm_hv_flush_tlb(vcpu, &hc, false);
+ 		break;
+ 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX:
+-		if (unlikely(hc.fast || !hc.rep_cnt || hc.rep_idx)) {
++		if (unlikely(!hc.rep_cnt || hc.rep_idx)) {
+ 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
+ 			break;
+ 		}
+ 		ret = kvm_hv_flush_tlb(vcpu, &hc, true);
+ 		break;
+ 	case HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX:
+-		if (unlikely(hc.fast || hc.rep)) {
++		if (unlikely(hc.rep)) {
+ 			ret = HV_STATUS_INVALID_HYPERCALL_INPUT;
+ 			break;
+ 		}
 -- 
 2.17.1
 
