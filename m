@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 044EBC001E8
-	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Apr 2021 14:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85982C43140
+	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Apr 2021 14:50:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBC416117A
+	by mail.kernel.org (Postfix) with ESMTP id 5F8FB6120E
 	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Apr 2021 14:50:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352006AbhDNOu5 (ORCPT
+        id S1351989AbhDNOu4 (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 14 Apr 2021 10:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38900 "EHLO
+        Wed, 14 Apr 2021 10:50:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351969AbhDNOux (ORCPT
+        with ESMTP id S1351963AbhDNOuw (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 14 Apr 2021 10:50:53 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D4D1C061756;
-        Wed, 14 Apr 2021 07:50:32 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id f29so14577103pgm.8;
-        Wed, 14 Apr 2021 07:50:32 -0700 (PDT)
+        Wed, 14 Apr 2021 10:50:52 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1F2C06138D;
+        Wed, 14 Apr 2021 07:50:30 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id u15so1688487plf.10;
+        Wed, 14 Apr 2021 07:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bVkRTqUPBzQHoWP1iz19JnEvLpWiwpbLKKeUDMKlliw=;
-        b=E+2cIG4luSiauZCXt8F0KkKTk61dfk7whIIE/VHBZpNK6ARjyQdSQbpdQClQ4sSrp/
-         dGr6hJu/fS4Ac4GvGFZRUctlN3UoGYzjwv/J4NIfKYbBrLXDX0DII3Kqd0z13GyzT7N9
-         3K8eWfVsyRnUmawlgrvkAxuuTExFaWpsJRH42W4ZrmtKgAL9Ko81HY7WIxnfJaEZ8aiH
-         Re9gsUe5b3chBVWCDNntU9qAIDzO3tUL22enF3c2ium4ZddwWgTLyh5yVJnZkUplcHhN
-         5Di+lzE1Zg2G82MYEnz9s+UIXemJpVVS+BIdIcbJOLkBiyzwWmhzx/daa53C594lB6Z4
-         MjZA==
+        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
+        b=nOk4uGV2612icoE6KiiMnihVY5JHClv+KaiNAxHeX6msxOQj9xeFgeyXgzuV9Sd7Ij
+         3EGstiuG7E5ZaMqZazQ8zFoKTzoT62iMzgmBH+tZh+iYpEEsK600XCCcKCclZh0Y0x/u
+         lPI4sDQZdZAMWqD+sOUOmLSztUBF0emqbSbT/bkw4pOBBCkruQo/ok2VzdifznwsKJMs
+         ocsgxtRZuZhwa/4H3uMNQQH/MJK+ZGYBL5Une8lbE2Hi2dVG9kDPFVwgbdYojKKilNwO
+         hZojnsV4Uidmr/W8cT1MCoZwuTcUd6+620Huo4X0ZKIUTvMpEIF6giQ2Vs7uJP0RlbHX
+         V1IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bVkRTqUPBzQHoWP1iz19JnEvLpWiwpbLKKeUDMKlliw=;
-        b=aDPftXD0vZ+cp0ekM59SlWDwFIKr348YQdK0x7vNhL7sfG9ZdWzWqLRz0Brktf47mJ
-         Bly5vE8eVVMhJO8uBxSvHMDHMfF5gdA4sP5OXh80fLDPcLVMK37Tgi4FOwlE1JUCgW7W
-         7/BCzuexFCZH25V6k+9B9l94LThQ4se/SX7PjRo0k4CVcGmxyniDCQqny87Gig3T2uVd
-         IxBPGtIB9+Gut0Y9phvxFBpQ3VIOx/quuvyxUOiP+GnmWbXe2SbFphnq+PG/ASsUlMqw
-         WagdgNM1JW6n/ch7Pw2lubs388W3wHUetPYY7gZiUO0IG1N3wT7tlVgx8+mPRCCGQ4AZ
-         1u1w==
-X-Gm-Message-State: AOAM533s0XiZ93jVavkCA5rkn8tONKfik7MoLMZaT77DVytldPZ/vh85
-        r/e7Tzun/rBPp0qn7eg7SHk=
-X-Google-Smtp-Source: ABdhPJyJQo3QYxkwZd2R/2jbCS/20DZeDnEWp76po+53FmLx6JhMmfhewCcVF2Q2CCy9ma7VhRrp6w==
-X-Received: by 2002:a63:4e47:: with SMTP id o7mr37301695pgl.286.1618411832013;
-        Wed, 14 Apr 2021 07:50:32 -0700 (PDT)
+        bh=CewzcGN2queQHJd+J82WZLFtEsY18cNfiGHIrQj3GfM=;
+        b=A2zSNmAY/eNh5iTFCqMjc0M/4kLDDRmqA3/NStBj5XrJAmzjjRSqHDnLv4z1u5OikC
+         ZziqdwZTqEM1Nhfq5+ogcI+tnzhPFInfkSrKi4LiTgPE8LT7rxqKylt8GS5zZNDWA7Ac
+         bG4s8GjJiXwuYREhwknBxWvks0LxqvnAPIqLtEbrlF0XCsm/85uhVW7588aWZ9PJbFih
+         r+5CFLd05zckaqfqYhFPrOx8pP7I3fSVFH1bR4N/R+4/jX3T972kHGWFzHBWgeuy3Top
+         iDhq1zrPx8snO8fl7hJxuiX6cbd0F2uCuCQinE12Zjfd35F0mVtnYtnuRNdjjXQ0guPI
+         +RyQ==
+X-Gm-Message-State: AOAM5320WSVKha8CREFKYGwvPHXJSx8RlmNzdB4gp5i3eNeOneaLgjsg
+        fFWY45IQBzE0lOM+VcgNrnk=
+X-Google-Smtp-Source: ABdhPJwbB1PldwXbeyiSuCQkyOEtifm++hxPqnW8Qh9Ekcj5s31E29ArK58tbba9T8p/t1IP5sOX7w==
+X-Received: by 2002:a17:90a:5306:: with SMTP id x6mr4089960pjh.39.1618411830278;
+        Wed, 14 Apr 2021 07:50:30 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:35:ebad:12c1:f579:e332])
-        by smtp.gmail.com with ESMTPSA id w67sm17732522pgb.87.2021.04.14.07.50.31
+        by smtp.gmail.com with ESMTPSA id w67sm17732522pgb.87.2021.04.14.07.50.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 07:50:31 -0700 (PDT)
+        Wed, 14 Apr 2021 07:50:29 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, tglx@linutronix.de, mingo@redhat.com,
@@ -74,9 +74,9 @@ Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         netdev@vger.kernel.org, vkuznets@redhat.com,
         thomas.lendacky@amd.com, brijesh.singh@amd.com,
         sunilmut@microsoft.com
-Subject: [Resend RFC PATCH V2 08/12] UIO/Hyper-V: Not load UIO HV driver in the isolation VM.
-Date:   Wed, 14 Apr 2021 10:49:41 -0400
-Message-Id: <20210414144945.3460554-9-ltykernel@gmail.com>
+Subject: [Resend RFC PATCH V2 06/12] HV/Vmbus: Add SNP support for VMbus channel initiate message
+Date:   Wed, 14 Apr 2021 10:49:39 -0400
+Message-Id: <20210414144945.3460554-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210414144945.3460554-1-ltykernel@gmail.com>
 References: <20210414144945.3460554-1-ltykernel@gmail.com>
@@ -88,37 +88,137 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-UIO HV driver should not load in the isolation VM for security reason.
-Return ENOTSUPP in the hv_uio_probe() in the isolation VM.
+The physical address of monitor pages in the CHANNELMSG_INITIATE_CONTACT
+msg should be in the extra address space for SNP support and these
+pages also should be accessed via the extra address space inside Linux
+guest and remap the extra address by ioremap function.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/uio/uio_hv_generic.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/hv/connection.c   | 62 +++++++++++++++++++++++++++++++++++++++
+ drivers/hv/hyperv_vmbus.h |  1 +
+ 2 files changed, 63 insertions(+)
 
-diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-index 0330ba99730e..678b021d66f8 100644
---- a/drivers/uio/uio_hv_generic.c
-+++ b/drivers/uio/uio_hv_generic.c
-@@ -29,6 +29,7 @@
- #include <linux/hyperv.h>
- #include <linux/vmalloc.h>
- #include <linux/slab.h>
-+#include <asm/mshyperv.h>
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 79bca653dce9..a0be9c11d737 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -101,6 +101,12 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
  
- #include "../hv/hyperv_vmbus.h"
+ 	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]);
+ 	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]);
++
++	if (hv_isolation_type_snp()) {
++		msg->monitor_page1 += ms_hyperv.shared_gpa_boundary;
++		msg->monitor_page2 += ms_hyperv.shared_gpa_boundary;
++	}
++
+ 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
  
-@@ -241,6 +242,10 @@ hv_uio_probe(struct hv_device *dev,
- 	void *ring_buffer;
- 	int ret;
+ 	/*
+@@ -145,6 +151,29 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ 		return -ECONNREFUSED;
+ 	}
  
-+	/* UIO driver should not be loaded in the isolation VM.*/
-+	if (hv_is_isolation_supported())
-+		return -ENOTSUPP;
-+		
- 	/* Communicating with host has to be via shared memory not hypercall */
- 	if (!channel->offermsg.monitor_allocated) {
- 		dev_err(&dev->device, "vmbus channel requires hypercall\n");
++	if (hv_isolation_type_snp()) {
++		vmbus_connection.monitor_pages_va[0]
++			= vmbus_connection.monitor_pages[0];
++		vmbus_connection.monitor_pages[0]
++			= ioremap_cache(msg->monitor_page1, HV_HYP_PAGE_SIZE);
++		if (!vmbus_connection.monitor_pages[0])
++			return -ENOMEM;
++
++		vmbus_connection.monitor_pages_va[1]
++			= vmbus_connection.monitor_pages[1];
++		vmbus_connection.monitor_pages[1]
++			= ioremap_cache(msg->monitor_page2, HV_HYP_PAGE_SIZE);
++		if (!vmbus_connection.monitor_pages[1]) {
++			vunmap(vmbus_connection.monitor_pages[0]);
++			return -ENOMEM;
++		}
++
++		memset(vmbus_connection.monitor_pages[0], 0x00,
++		       HV_HYP_PAGE_SIZE);
++		memset(vmbus_connection.monitor_pages[1], 0x00,
++		       HV_HYP_PAGE_SIZE);
++	}
++
+ 	return ret;
+ }
+ 
+@@ -156,6 +185,7 @@ int vmbus_connect(void)
+ 	struct vmbus_channel_msginfo *msginfo = NULL;
+ 	int i, ret = 0;
+ 	__u32 version;
++	u64 pfn[2];
+ 
+ 	/* Initialize the vmbus connection */
+ 	vmbus_connection.conn_state = CONNECTING;
+@@ -213,6 +243,16 @@ int vmbus_connect(void)
+ 		goto cleanup;
+ 	}
+ 
++	if (hv_isolation_type_snp()) {
++		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
++		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
++		if (hv_mark_gpa_visibility(2, pfn,
++				VMBUS_PAGE_VISIBLE_READ_WRITE)) {
++			ret = -EFAULT;
++			goto cleanup;
++		}
++	}
++
+ 	msginfo = kzalloc(sizeof(*msginfo) +
+ 			  sizeof(struct vmbus_channel_initiate_contact),
+ 			  GFP_KERNEL);
+@@ -279,6 +319,8 @@ int vmbus_connect(void)
+ 
+ void vmbus_disconnect(void)
+ {
++	u64 pfn[2];
++
+ 	/*
+ 	 * First send the unload request to the host.
+ 	 */
+@@ -298,6 +340,26 @@ void vmbus_disconnect(void)
+ 		vmbus_connection.int_page = NULL;
+ 	}
+ 
++	if (hv_isolation_type_snp()) {
++		if (vmbus_connection.monitor_pages_va[0]) {
++			vunmap(vmbus_connection.monitor_pages[0]);
++			vmbus_connection.monitor_pages[0]
++				= vmbus_connection.monitor_pages_va[0];
++			vmbus_connection.monitor_pages_va[0] = NULL;
++		}
++
++		if (vmbus_connection.monitor_pages_va[1]) {
++			vunmap(vmbus_connection.monitor_pages[1]);
++			vmbus_connection.monitor_pages[1]
++				= vmbus_connection.monitor_pages_va[1];
++			vmbus_connection.monitor_pages_va[1] = NULL;
++		}
++
++		pfn[0] = virt_to_hvpfn(vmbus_connection.monitor_pages[0]);
++		pfn[1] = virt_to_hvpfn(vmbus_connection.monitor_pages[1]);
++		hv_mark_gpa_visibility(2, pfn, VMBUS_PAGE_NOT_VISIBLE);
++	}
++
+ 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
+ 	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
+ 	vmbus_connection.monitor_pages[0] = NULL;
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 9416e09ebd58..0778add21a9c 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -240,6 +240,7 @@ struct vmbus_connection {
+ 	 * is child->parent notification
+ 	 */
+ 	struct hv_monitor_page *monitor_pages[2];
++	void *monitor_pages_va[2];
+ 	struct list_head chn_msg_list;
+ 	spinlock_t channelmsg_lock;
+ 
 -- 
 2.25.1
 
