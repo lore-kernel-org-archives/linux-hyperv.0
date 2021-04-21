@@ -2,35 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47714C43470
-	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Apr 2021 14:07:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DA4C43460
+	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Apr 2021 14:07:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1748361139
-	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Apr 2021 14:07:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 197BB61464
+	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Apr 2021 14:07:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243345AbhDUOHn (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 21 Apr 2021 10:07:43 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:36978 "EHLO
+        id S243360AbhDUOHo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 21 Apr 2021 10:07:44 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:37078 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243323AbhDUOHi (ORCPT
+        with ESMTP id S243334AbhDUOHi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 21 Apr 2021 10:07:38 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id A031020B8001;
-        Wed, 21 Apr 2021 07:07:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A031020B8001
+        by linux.microsoft.com (Postfix) with ESMTPSA id 5E84420B83E8;
+        Wed, 21 Apr 2021 07:07:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5E84420B83E8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1619014024;
-        bh=Cg5t1YQVX4cxqUdMwABIBhBs50zuYp0RIByfae1cQIs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=sNmmAB3BcY0o93b9qcSFnOEbwY3ph/E3Kh64eWsqihR8XQP0ycLXgMHqIdofeuiXp
-         fxwdd95sbKFEvYMd1dc9Pxf9XxNwOvnVYAHuhnMugcCoj8TmKxZWq9qHje2uznlzrU
-         Wwm7Kws0hrjCsyJvQmgpafYqzb/fD2ZDzXKFIH5o=
+        s=default; t=1619014025;
+        bh=1ClTp8qs2O5T5r3An0BjZsS1lN/0Fr+ueXvWJh2/Zwk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GQj/DoaX+rwznhlUOXkQPtUEydxEGpdfCJnZUh9eG/FynpQY7DRbRxxENXVf0RyTV
+         HmRJxNcMV2Gar2dHD1ir9whcoKvIwJvjABeU+jqY2Yfc7r+vITWmiXQfnHzguSV+40
+         /mKJfZxhkFoJ2FTiizBRrOEdkG3qSwj1TyBoD6G4=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
@@ -49,88 +49,110 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH v3 0/7] Hyper-V nested virt enlightenments for SVM
-Date:   Wed, 21 Apr 2021 14:06:47 +0000
-Message-Id: <cover.1619013347.git.viremana@linux.microsoft.com>
+Subject: [PATCH v3 7/7] KVM: SVM: hyper-v: Direct Virtual Flush support
+Date:   Wed, 21 Apr 2021 14:06:54 +0000
+Message-Id: <659c2db24203bbf1c3a53f94bfd39360ba992540.1619013347.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1619013347.git.viremana@linux.microsoft.com>
+References: <cover.1619013347.git.viremana@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch series enables the nested virtualization enlightenments for
-SVM. This is very similar to the enlightenments for VMX except for the
-fact that there is no enlightened VMCS. For SVM, VMCB is already an
-architectural in-memory data structure.
+From Hyper-V TLFS:
+ "The hypervisor exposes hypercalls (HvFlushVirtualAddressSpace,
+  HvFlushVirtualAddressSpaceEx, HvFlushVirtualAddressList, and
+  HvFlushVirtualAddressListEx) that allow operating systems to more
+  efficiently manage the virtual TLB. The L1 hypervisor can choose to
+  allow its guest to use those hypercalls and delegate the responsibility
+  to handle them to the L0 hypervisor. This requires the use of a
+  partition assist page."
 
-The supported enlightenments are:
+Add the Direct Virtual Flush support for SVM.
 
-Enlightened TLB Flush: If this is enabled, ASID invalidations invalidate
-only gva -> hpa entries. To flush entries derived from NPT, hyper-v
-provided hypercalls (HvFlushGuestPhysicalAddressSpace or
-HvFlushGuestPhysicalAddressList) should be used.
+Related VMX changes:
+commit 6f6a657c9998 ("KVM/Hyper-V/VMX: Add direct tlb flush support")
 
-Enlightened MSR bitmap(TLFS 16.5.3): "When enabled, L0 hypervisor does
-not monitor the MSR bitmaps for changes. Instead, the L1 hypervisor must
-invalidate the corresponding clean field after making changes to one of
-the MSR bitmaps."
-
-Direct Virtual Flush(TLFS 16.8): The hypervisor exposes hypercalls
-(HvFlushVirtualAddressSpace, HvFlushVirtualAddressSpaceEx,
-HvFlushVirtualAddressList, and HvFlushVirtualAddressListEx) that allow
-operating systems to more efficiently manage the virtual TLB. The L1
-hypervisor can choose to allow its guest to use those hypercalls and
-delegate the responsibility to handle them to the L0 hypervisor. This
-requires the use of a partition assist page."
-
-L2 Windows boot time was measured with and without the patch. Time was
-measured from power on to the login screen and was averaged over a
-consecutive 5 trials:
-  Without the patch: 42 seconds
-  With the patch: 29 seconds
---
-
-Changes from v2:
-- Refactored the Remote TLB Flush logic into separate hyperv specific
-  source files (kvm_onhyperv.[ch]).
-- Reverted the VMCB Clean bits macro changes as it is no longer needed.
-
-Changes from v1:
-- Move the remote TLB flush related fields from kvm_vcpu_hv and kvm_hv
-  to kvm_vcpu_arch and kvm_arch.
-- Modify the VMCB clean mask runtime based on whether L1 hypervisor
-  is running on Hyper-V or not.
-- Detect Hyper-V nested enlightenments based on
-  HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS.
-- Address other minor review comments.
+Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
+ arch/x86/kvm/svm/svm.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-Vineeth Pillai (7):
-  hyperv: Detect Nested virtualization support for SVM
-  hyperv: SVM enlightened TLB flush support flag
-  KVM: x86: hyper-v: Move the remote TLB flush logic out of vmx
-  KVM: SVM: hyper-v: Nested enlightenments in VMCB
-  KVM: SVM: hyper-v: Remote TLB flush for SVM
-  KVM: SVM: hyper-v: Enlightened MSR-Bitmap support
-  KVM: SVM: hyper-v: Direct Virtual Flush support
-
- arch/x86/include/asm/hyperv-tlfs.h |   9 +++
- arch/x86/include/asm/kvm_host.h    |  14 ++++
- arch/x86/include/asm/svm.h         |  24 +++++-
- arch/x86/kernel/cpu/mshyperv.c     |  10 ++-
- arch/x86/kvm/Makefile              |   5 ++
- arch/x86/kvm/kvm_onhyperv.c        |  94 ++++++++++++++++++++++
- arch/x86/kvm/kvm_onhyperv.h        |  31 ++++++++
- arch/x86/kvm/svm/svm.c             | 121 +++++++++++++++++++++++++++++
- arch/x86/kvm/svm/svm.h             |  12 ++-
- arch/x86/kvm/vmx/vmx.c             |  97 ++---------------------
- arch/x86/kvm/vmx/vmx.h             |  10 ---
- arch/x86/kvm/x86.c                 |   8 ++
- 12 files changed, 330 insertions(+), 105 deletions(-)
- create mode 100644 arch/x86/kvm/kvm_onhyperv.c
- create mode 100644 arch/x86/kvm/kvm_onhyperv.h
-
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index ad87ae61dc9f..8f21c3f6a443 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -444,6 +444,32 @@ static void svm_init_osvw(struct kvm_vcpu *vcpu)
+ 		vcpu->arch.osvw.status |= 1;
+ }
+ 
++#if IS_ENABLED(CONFIG_HYPERV)
++static int hv_enable_direct_tlbflush(struct kvm_vcpu *vcpu)
++{
++	struct hv_enlightenments *hve;
++	struct hv_partition_assist_pg **p_hv_pa_pg =
++			&to_kvm_hv(vcpu->kvm)->hv_pa_pg;
++
++	if (!*p_hv_pa_pg)
++		*p_hv_pa_pg = kzalloc(PAGE_SIZE, GFP_KERNEL);
++
++	if (!*p_hv_pa_pg)
++		return -ENOMEM;
++
++	hve = (struct hv_enlightenments *)&to_svm(vcpu)->vmcb->hv_enlightenments;
++
++	hve->partition_assist_page = __pa(*p_hv_pa_pg);
++	hve->hv_vm_id = (unsigned long)vcpu->kvm;
++	if (!hve->hv_enlightenments_control.nested_flush_hypercall) {
++		hve->hv_enlightenments_control.nested_flush_hypercall = 1;
++		vmcb_mark_dirty(to_svm(vcpu)->vmcb, VMCB_HV_NESTED_ENLIGHTENMENTS);
++	}
++
++	return 0;
++}
++#endif
++
+ static int has_svm(void)
+ {
+ 	const char *msg;
+@@ -1038,6 +1064,21 @@ static __init int svm_hardware_setup(void)
+ 		svm_x86_ops.tlb_remote_flush_with_range =
+ 				kvm_hv_remote_flush_tlb_with_range;
+ 	}
++
++	if (ms_hyperv.nested_features & HV_X64_NESTED_DIRECT_FLUSH) {
++		pr_info("kvm: Hyper-V Direct TLB Flush enabled\n");
++		for_each_online_cpu(cpu) {
++			struct hv_vp_assist_page *vp_ap =
++				hv_get_vp_assist_page(cpu);
++
++			if (!vp_ap)
++				continue;
++
++			vp_ap->nested_control.features.directhypercall = 1;
++		}
++		svm_x86_ops.enable_direct_tlbflush =
++				hv_enable_direct_tlbflush;
++	}
+ #endif
+ 
+ 	if (nrips) {
+@@ -3922,6 +3963,13 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu)
+ 	}
+ 	svm->vmcb->save.cr2 = vcpu->arch.cr2;
+ 
++#if IS_ENABLED(CONFIG_HYPERV)
++	if (svm->vmcb->hv_enlightenments.hv_vp_id != to_hv_vcpu(vcpu)->vp_index) {
++		svm->vmcb->hv_enlightenments.hv_vp_id = to_hv_vcpu(vcpu)->vp_index;
++		vmcb_mark_dirty(svm->vmcb, VMCB_HV_NESTED_ENLIGHTENMENTS);
++	}
++#endif
++
+ 	/*
+ 	 * Run with all-zero DR6 unless needed, so that we can get the exact cause
+ 	 * of a #DB.
 -- 
 2.25.1
 
