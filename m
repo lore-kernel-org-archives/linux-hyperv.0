@@ -2,67 +2,128 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA824C433ED
-	for <linux-hyperv@archiver.kernel.org>; Mon, 26 Apr 2021 17:47:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33AE7C433B4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D709600D1
-	for <linux-hyperv@archiver.kernel.org>; Mon, 26 Apr 2021 17:47:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 150F5613F5
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236323AbhDZRr5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 26 Apr 2021 13:47:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45896 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235584AbhDZRr4 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 26 Apr 2021 13:47:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id EA342613B2;
-        Mon, 26 Apr 2021 17:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619459235;
-        bh=t6L+sC5Vr3ZziZ+vqTWovfRpM028shEMLNqe0TWZoDU=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=HA/I1cCSUqzyGbbIB29DPGqoikyIHuyYR/UdxSzoT05CEa7lyzGRANJnMUuoJcMjv
-         vUasn1miR1D+t3fLAw5CQt9B3Qys5JL2sT8yRY9G9lhCToL29+sgX5JHLNp2mlxCgT
-         etSXHZ056P0GynQnD1yG5T1RvXetLZW0TuPx+QLX1/kDSJMdy/cod8l9kdTDImQq0z
-         i4tnmbc5U6mdX4k7l/6CLSHWcgOcsEcfz3QB+gTO0eVn0UKQ/hcRVU8gdiu45f2T0I
-         xT+RKJXh4hcsJIVzMu8mgYe1S476umQXDla45nnXyPrlRgajVqcSJAI2oR0Du2UMV6
-         E3PMyiJGg31QQ==
-Subject: Re: [GIT PULL] Hyper-V commits for 5.13
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20210426172042.tzl7i3mdr6dc4iyp@liuwe-devbox-debian-v2>
-References: <20210426172042.tzl7i3mdr6dc4iyp@liuwe-devbox-debian-v2>
-X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20210426172042.tzl7i3mdr6dc4iyp@liuwe-devbox-debian-v2>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20210426
-X-PR-Tracked-Commit-Id: 753ed9c95c37d058e50e7d42bbe296ee0bf6670d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 4d480dbf21f3385e9957b1ee8dadee35548f4516
-Message-Id: <161945923491.30101.1618177739366309098.pr-tracker-bot@kernel.org>
-Date:   Mon, 26 Apr 2021 17:47:14 +0000
-To:     Wei Liu <wei.liu@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        kys@microsoft.com, sthemmin@microsoft.com, haiyangz@microsoft.com,
-        Michael Kelley <mikelley@microsoft.com>
+        id S239077AbhD0Uzv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 27 Apr 2021 16:55:51 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:35570 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239013AbhD0Uzt (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 27 Apr 2021 16:55:49 -0400
+Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
+        by linux.microsoft.com (Postfix) with ESMTPSA id D8A1B20B8001;
+        Tue, 27 Apr 2021 13:55:05 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D8A1B20B8001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1619556905;
+        bh=Ej89Qm9LLMSPxt8OXtylVuc32Z7Yd+HfBt+EQT9qOcM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PDSa9QUPVYflfgMJWAgTbEJG+7+06T7vKyciYF1fXrbSVUcbE/FBojkyuHIrc6Cbt
+         ldrKzzEEb56CaYP9qDhkS+uBdx/7fJilIdaSw7DpW3jAky2Lhcrrn20Ax8Uy5lB6jT
+         RudJ8XQk73khY8QEpCt60IEDwyFrUOH09bjYb2z8=
+From:   Vineeth Pillai <viremana@linux.microsoft.com>
+To:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>, Wei Liu <wei.liu@kernel.org>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org
+Subject: [PATCH v4 1/7] hyperv: Detect Nested virtualization support for SVM
+Date:   Tue, 27 Apr 2021 20:54:50 +0000
+Message-Id: <8ffa88e6ceb55d283c76b4c5fd9ad0fb1a2cf667.1619556430.git.viremana@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1619556430.git.viremana@linux.microsoft.com>
+References: <cover.1619556430.git.viremana@linux.microsoft.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The pull request you sent on Mon, 26 Apr 2021 17:20:42 +0000:
+Previously, to detect nested virtualization enlightenment support,
+we were using HV_X64_ENLIGHTENED_VMCS_RECOMMENDED feature bit of
+HYPERV_CPUID_ENLIGHTMENT_INFO.EAX CPUID as docuemented in TLFS:
+ "Bit 14: Recommend a nested hypervisor using the enlightened VMCS
+  interface. Also indicates that additional nested enlightenments
+  may be available (see leaf 0x4000000A)".
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20210426
+Enlightened VMCS, however, is an Intel only feature so the above
+detection method doesn't work for AMD. So, use the
+HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS.EAX CPUID information ("The
+maximum input value for hypervisor CPUID information.") and this
+works for both AMD and Intel.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/4d480dbf21f3385e9957b1ee8dadee35548f4516
+Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
+---
+ arch/x86/kernel/cpu/mshyperv.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-Thank you!
-
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 3546d3e21787..c6f812851e37 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -252,6 +252,7 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
+ 
+ static void __init ms_hyperv_init_platform(void)
+ {
++	int hv_max_functions_eax;
+ 	int hv_host_info_eax;
+ 	int hv_host_info_ebx;
+ 	int hv_host_info_ecx;
+@@ -269,6 +270,8 @@ static void __init ms_hyperv_init_platform(void)
+ 	ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
+ 	ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
+ 
++	hv_max_functions_eax = cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS);
++
+ 	pr_info("Hyper-V: privilege flags low 0x%x, high 0x%x, hints 0x%x, misc 0x%x\n",
+ 		ms_hyperv.features, ms_hyperv.priv_high, ms_hyperv.hints,
+ 		ms_hyperv.misc_features);
+@@ -298,8 +301,7 @@ static void __init ms_hyperv_init_platform(void)
+ 	/*
+ 	 * Extract host information.
+ 	 */
+-	if (cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS) >=
+-	    HYPERV_CPUID_VERSION) {
++	if (hv_max_functions_eax >= HYPERV_CPUID_VERSION) {
+ 		hv_host_info_eax = cpuid_eax(HYPERV_CPUID_VERSION);
+ 		hv_host_info_ebx = cpuid_ebx(HYPERV_CPUID_VERSION);
+ 		hv_host_info_ecx = cpuid_ecx(HYPERV_CPUID_VERSION);
+@@ -325,9 +327,11 @@ static void __init ms_hyperv_init_platform(void)
+ 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
+ 	}
+ 
+-	if (ms_hyperv.hints & HV_X64_ENLIGHTENED_VMCS_RECOMMENDED) {
++	if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
+ 		ms_hyperv.nested_features =
+ 			cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
++		pr_info("Hyper-V: Nested features: 0x%x\n",
++			ms_hyperv.nested_features);
+ 	}
+ 
+ 	/*
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
