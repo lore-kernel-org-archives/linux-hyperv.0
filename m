@@ -2,35 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CC6C433ED
-	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D475C43462
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E937613FE
-	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CC6061405
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Apr 2021 20:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239073AbhD0Uzv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 27 Apr 2021 16:55:51 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:35558 "EHLO
+        id S239099AbhD0Uzw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 27 Apr 2021 16:55:52 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:35580 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239040AbhD0Uzt (ORCPT
+        with ESMTP id S239043AbhD0Uzt (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 27 Apr 2021 16:55:49 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id BE8B220B8000;
+        by linux.microsoft.com (Postfix) with ESMTPSA id F1B3320B8002;
         Tue, 27 Apr 2021 13:55:05 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BE8B220B8000
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1B3320B8002
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1619556905;
-        bh=xqElmAcSUSaDejhXkc1b8y5LQbBrxkMdgKVlO7kAJ9k=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iIPEsY/RWWfQ3JvBDrepFpdoykwTO1WUSIHuIn29dZd24W4pUZGXbwhbP1w43LYpX
-         Jt6l5k0kIVrenJk0orisZZPNsoZt8GqSWuOoCriOF1O0B1KtbwXHxYRvHo58bmrXbc
-         dv2z0RlXPp2V7ukVL5KKG3trWkSVIs8EZfQmE3VA=
+        s=default; t=1619556906;
+        bh=N+TtNg651kLEqW/yUqiR219gdHV+Nj5LUEDricdH7Go=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Mw/leQAAUaqye9+XGI0trTjkKXYdvQNWm6Sf1LkemCV3G7F10D2ThQwIF3pBCDa7b
+         389Rnz6EMU8+Z1af7ecGsAXEqEND6j+CBNvyhouYdoW59ATCVWS+93XiMsIRPxVZQv
+         ESQAjVmn0b5JwQoLmJR3u5DV1EWMwmerFetdZAFY=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
@@ -50,100 +50,49 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH v4 0/7] Hyper-V nested virt enlightenments for SVM
-Date:   Tue, 27 Apr 2021 20:54:49 +0000
-Message-Id: <cover.1619556430.git.viremana@linux.microsoft.com>
+Subject: [PATCH v4 2/7] hyperv: SVM enlightened TLB flush support flag
+Date:   Tue, 27 Apr 2021 20:54:51 +0000
+Message-Id: <cce3e52fde732ccdc7a34d2eb1e2d59917e4e5e0.1619556430.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1619556430.git.viremana@linux.microsoft.com>
+References: <cover.1619556430.git.viremana@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch series enables the nested virtualization enlightenments for
-SVM. This is very similar to the enlightenments for VMX except for the
-fact that there is no enlightened VMCS. For SVM, VMCB is already an
-architectural in-memory data structure.
+Bit 22 of HYPERV_CPUID_FEATURES.EDX is specific to SVM and specifies
+support for enlightened TLB flush. With this enlightenment enabled,
+ASID invalidations flushes only gva->hpa entries. To flush TLB entries
+derived from NPT, hypercalls should be used
+(HvFlushGuestPhysicalAddressSpace or HvFlushGuestPhysicalAddressList)
 
-The supported enlightenments are:
-
-Enlightened TLB Flush: If this is enabled, ASID invalidations invalidate
-only gva -> hpa entries. To flush entries derived from NPT, hyper-v
-provided hypercalls (HvFlushGuestPhysicalAddressSpace or
-HvFlushGuestPhysicalAddressList) should be used.
-
-Enlightened MSR bitmap(TLFS 16.5.3): "When enabled, L0 hypervisor does
-not monitor the MSR bitmaps for changes. Instead, the L1 hypervisor must
-invalidate the corresponding clean field after making changes to one of
-the MSR bitmaps."
-
-Direct Virtual Flush(TLFS 16.8): The hypervisor exposes hypercalls
-(HvFlushVirtualAddressSpace, HvFlushVirtualAddressSpaceEx,
-HvFlushVirtualAddressList, and HvFlushVirtualAddressListEx) that allow
-operating systems to more efficiently manage the virtual TLB. The L1
-hypervisor can choose to allow its guest to use those hypercalls and
-delegate the responsibility to handle them to the L0 hypervisor. This
-requires the use of a partition assist page."
-
-L2 Windows boot time was measured with and without the patch. Time was
-measured from power on to the login screen and was averaged over a
-consecutive 5 trials:
-  Without the patch: 42 seconds
-  With the patch: 29 seconds
---
-
-Changes from v3
-- Included definitions for software/hypervisor reserved fields in SVM
-  architectural data structures.
-- Consolidated Hyper-V specific code into svm_onhyperv.[ch] to reduce
-  the "ifdefs". This change applies only to SVM, VMX is not touched and
-  is not in the scope of this patch series.
-
-Changes from v2:
-- Refactored the Remote TLB Flush logic into separate hyperv specific
-  source files (kvm_onhyperv.[ch]).
-- Reverted the VMCB Clean bits macro changes as it is no longer needed.
-
-Changes from v1:
-- Move the remote TLB flush related fields from kvm_vcpu_hv and kvm_hv
-  to kvm_vcpu_arch and kvm_arch.
-- Modify the VMCB clean mask runtime based on whether L1 hypervisor
-  is running on Hyper-V or not.
-- Detect Hyper-V nested enlightenments based on
-  HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS.
-- Address other minor review comments.
+Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
+ arch/x86/include/asm/hyperv-tlfs.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Vineeth Pillai (7):
-  hyperv: Detect Nested virtualization support for SVM
-  hyperv: SVM enlightened TLB flush support flag
-  KVM: x86: hyper-v: Move the remote TLB flush logic out of vmx
-  KVM: SVM: Software reserved fields
-  KVM: SVM: hyper-v: Remote TLB flush for SVM
-  KVM: SVM: hyper-v: Enlightened MSR-Bitmap support
-  KVM: SVM: hyper-v: Direct Virtual Flush support
-
- arch/x86/include/asm/hyperv-tlfs.h |   9 ++
- arch/x86/include/asm/kvm_host.h    |  14 +++
- arch/x86/include/asm/svm.h         |   9 +-
- arch/x86/include/uapi/asm/svm.h    |   3 +
- arch/x86/kernel/cpu/mshyperv.c     |  10 +-
- arch/x86/kvm/Makefile              |   9 ++
- arch/x86/kvm/kvm_onhyperv.c        |  94 +++++++++++++++++++
- arch/x86/kvm/kvm_onhyperv.h        |  33 +++++++
- arch/x86/kvm/svm/svm.c             |  13 +++
- arch/x86/kvm/svm/svm.h             |  22 ++++-
- arch/x86/kvm/svm/svm_onhyperv.c    |  41 +++++++++
- arch/x86/kvm/svm/svm_onhyperv.h    | 141 +++++++++++++++++++++++++++++
- arch/x86/kvm/vmx/vmx.c             |  97 ++------------------
- arch/x86/kvm/vmx/vmx.h             |  10 --
- arch/x86/kvm/x86.c                 |   8 ++
- 15 files changed, 406 insertions(+), 107 deletions(-)
- create mode 100644 arch/x86/kvm/kvm_onhyperv.c
- create mode 100644 arch/x86/kvm/kvm_onhyperv.h
- create mode 100644 arch/x86/kvm/svm/svm_onhyperv.c
- create mode 100644 arch/x86/kvm/svm/svm_onhyperv.h
-
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 606f5cc579b2..005bf14d0449 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -133,6 +133,15 @@
+ #define HV_X64_NESTED_GUEST_MAPPING_FLUSH		BIT(18)
+ #define HV_X64_NESTED_MSR_BITMAP			BIT(19)
+ 
++/*
++ * This is specific to AMD and specifies that enlightened TLB flush is
++ * supported. If guest opts in to this feature, ASID invalidations only
++ * flushes gva -> hpa mapping entries. To flush the TLB entries derived
++ * from NPT, hypercalls should be used (HvFlushGuestPhysicalAddressSpace
++ * or HvFlushGuestPhysicalAddressList).
++ */
++#define HV_X64_NESTED_ENLIGHTENED_TLB			BIT(22)
++
+ /* HYPERV_CPUID_ISOLATION_CONFIG.EAX bits. */
+ #define HV_PARAVISOR_PRESENT				BIT(0)
+ 
 -- 
 2.25.1
 
