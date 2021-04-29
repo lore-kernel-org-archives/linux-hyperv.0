@@ -2,92 +2,68 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C966FC433ED
-	for <linux-hyperv@archiver.kernel.org>; Wed, 28 Apr 2021 14:02:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACB4AC433B4
+	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Apr 2021 10:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 812CF61289
-	for <linux-hyperv@archiver.kernel.org>; Wed, 28 Apr 2021 14:02:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65C8F61006
+	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Apr 2021 10:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239050AbhD1ODF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 28 Apr 2021 10:03:05 -0400
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:43624 "EHLO
-        mail-wr1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238380AbhD1OCo (ORCPT
+        id S239916AbhD2KWS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Apr 2021 06:22:18 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:59306 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237774AbhD2KWR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 28 Apr 2021 10:02:44 -0400
-Received: by mail-wr1-f47.google.com with SMTP id x7so63152674wrw.10;
-        Wed, 28 Apr 2021 07:01:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Uheu8s26iW3ko1XKinftj7CiwtVhVkhr//K4W010x+g=;
-        b=MKy3Kq2BVhQG9g3ncrRkK2jYiFZKB8NepwFyhtZ7wcio0uUUosnue5H8Sqvo9DqKAQ
-         LO6tS9Bf0q3jgPz2OjQzEJ56c0TSBU8uAo867FfLjBidj0yw7SjVDyFxgATIL03w3MqL
-         ZxZMndHxq2wNHmx5N9hFn6ITqCJWV3uWcbXfaR0KssqdtHpw1BSn6FHYb52hr9Q0lwtp
-         kCzWCsIGfkfT5ismQ+1Mf7sJBC3ifXjJqAhq5+cadYtHMdi8cHrSzen3H+5UxPWlQdWD
-         TJRklLWs1IRvoomxjx1uh5AYyV8hh8804md2jfL2Pg3tTxpaHp4ilO1S2rqEs/YTWY7f
-         ownw==
-X-Gm-Message-State: AOAM532VtWf+/A6zEemLZZWpM4pnJhnHluB1XlcbOAlqIKW0yvPdv+KR
-        duBT9oeq4VB9ZBli7jl7zfA=
-X-Google-Smtp-Source: ABdhPJxivxFyQJiOiApbgYKWy7pGxc/X9ieVDkn9eHOL7wL9k5J3eH/h4E+cAhTd8gYUx4EopFk0PA==
-X-Received: by 2002:a5d:638f:: with SMTP id p15mr23588927wru.255.1619618518894;
-        Wed, 28 Apr 2021 07:01:58 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id n12sm3882943wmq.29.2021.04.28.07.01.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 07:01:58 -0700 (PDT)
-Date:   Wed, 28 Apr 2021 14:01:56 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Vineeth Pillai <viremana@linux.microsoft.com>
-Cc:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, Wei Liu <wei.liu@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] hyperv: Detect Nested virtualization support for
- SVM
-Message-ID: <20210428140156.flf5ie6r2j7os5ch@liuwe-devbox-debian-v2>
-References: <cover.1619556430.git.viremana@linux.microsoft.com>
- <8ffa88e6ceb55d283c76b4c5fd9ad0fb1a2cf667.1619556430.git.viremana@linux.microsoft.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8ffa88e6ceb55d283c76b4c5fd9ad0fb1a2cf667.1619556430.git.viremana@linux.microsoft.com>
+        Thu, 29 Apr 2021 06:22:17 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R481e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0UX9ogQY_1619691683;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UX9ogQY_1619691683)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 29 Apr 2021 18:21:29 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     kys@microsoft.com
+Cc:     haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] hv_balloon: Remove redundant assignment to region_start
+Date:   Thu, 29 Apr 2021 18:21:21 +0800
+Message-Id: <1619691681-86256-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Apr 27, 2021 at 08:54:50PM +0000, Vineeth Pillai wrote:
-> Previously, to detect nested virtualization enlightenment support,
-> we were using HV_X64_ENLIGHTENED_VMCS_RECOMMENDED feature bit of
-> HYPERV_CPUID_ENLIGHTMENT_INFO.EAX CPUID as docuemented in TLFS:
->  "Bit 14: Recommend a nested hypervisor using the enlightened VMCS
->   interface. Also indicates that additional nested enlightenments
->   may be available (see leaf 0x4000000A)".
-> 
-> Enlightened VMCS, however, is an Intel only feature so the above
-> detection method doesn't work for AMD. So, use the
-> HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS.EAX CPUID information ("The
-> maximum input value for hypervisor CPUID information.") and this
-> works for both AMD and Intel.
-> 
-> Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
+Variable region_start is set to pg_start but this value is never
+read as it is overwritten later on, hence it is a redundant
+assignment and can be removed.
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
+Cleans up the following clang-analyzer warning:
+
+drivers/hv/hv_balloon.c:1013:3: warning: Value stored to 'region_start'
+is never read [clang-analyzer-deadcode.DeadStores].
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ drivers/hv/hv_balloon.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+index 58af84e..7f11ea0 100644
+--- a/drivers/hv/hv_balloon.c
++++ b/drivers/hv/hv_balloon.c
+@@ -1010,7 +1010,6 @@ static void hot_add_req(struct work_struct *dummy)
+ 		 * that need to be hot-added while ensuring the alignment
+ 		 * and size requirements of Linux as it relates to hot-add.
+ 		 */
+-		region_start = pg_start;
+ 		region_size = (pfn_cnt / HA_CHUNK) * HA_CHUNK;
+ 		if (pfn_cnt % HA_CHUNK)
+ 			region_size += HA_CHUNK;
+-- 
+1.8.3.1
+
