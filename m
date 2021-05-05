@@ -2,150 +2,94 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D27AFC433ED
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 May 2021 14:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD65C433B4
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 May 2021 13:13:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD35F610A5
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 May 2021 14:35:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3093A610F7
+	for <linux-hyperv@archiver.kernel.org>; Wed,  5 May 2021 13:13:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231158AbhEDOgN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 May 2021 10:36:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57972 "EHLO mail.kernel.org"
+        id S233357AbhEENOL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 5 May 2021 09:14:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40452 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231126AbhEDOgN (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 May 2021 10:36:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0369B613CC;
-        Tue,  4 May 2021 14:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620138918;
-        bh=9ZtBEC0XYgFjUhKlLdRO0G8aZQVeAPm5gU3FvbURgNI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=h0KOgursxmzw4sVUAVaDfHBs66qmCEIiCjxswvd6kqY3cj2hsRNSF3WvAwJTO286S
-         qW+XBOWKnJrcwGa20y7JomKYpbrwSzEKeku4IVjJ7edBkbRDFACKjJsWE1lq1YNURh
-         jD7exZS37Q3/EbbTz6RnB+MRoGkRdcKuf/dfUoNEqQ5WBeAFOrlkpuoo4n11V80bF0
-         CV5XGbUnfdXR+3IZ5BLSQvh6IqAmsDyB3ADLYtI81EeGYXlKWHVBmSJ1VfDjjp3XAt
-         lLoSp/muYSrSTE1u++/VRVj6rAlGteww6J6cJcSTizuKaqRyDJKV1LXSHg48RVzJih
-         tJhpXKaJwm52Q==
-Received: by mail-ej1-f46.google.com with SMTP id y7so13501590ejj.9;
-        Tue, 04 May 2021 07:35:17 -0700 (PDT)
-X-Gm-Message-State: AOAM5308EBpE77TPt44FmX4dNHQVYFikal7YzAvJFeOnuRIv+aZdye0K
-        cCytKyWczM55CGnnHLuSGmAVn1+LlF1nIUP9Qw==
-X-Google-Smtp-Source: ABdhPJwrXSHJlK+c9A8BGCApjGExqZKLfC0iqptDV3LyvQikAcUut5OrhYKxptbz6VWBzAfQFR/aPczv/DY3nVrYeYY=
-X-Received: by 2002:a17:907:161e:: with SMTP id hb30mr21030769ejc.360.1620138916277;
- Tue, 04 May 2021 07:35:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210503144635.2297386-1-boqun.feng@gmail.com>
- <20210503144635.2297386-2-boqun.feng@gmail.com> <YJDYrn7Nt+xyHbyr@kernel.org>
-In-Reply-To: <YJDYrn7Nt+xyHbyr@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 4 May 2021 09:34:54 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLMAyUEZgLjiKmNL2ioTYJwj-TbTWFJmEi7pynKZHXmoQ@mail.gmail.com>
-Message-ID: <CAL_JsqLMAyUEZgLjiKmNL2ioTYJwj-TbTWFJmEi7pynKZHXmoQ@mail.gmail.com>
-Subject: Re: [RFC v2 1/7] PCI: Introduce pci_host_bridge::domain_nr
-To:     Mike Rapoport <rppt@kernel.org>, Boqun Feng <boqun.feng@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        id S233426AbhEENOL (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 5 May 2021 09:14:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1620220393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=p4Gx3o25ACBJGILIG3HE+BwEcXMm6WbBPfaqpoYYUJ0=;
+        b=OBaJHXK5sCug91eAyObDotV8cPGAFyEbp7Q+f9qfJC+/K3yf7zsq79OSdiiU/KtluIicgj
+        QQkvL9pxKq8JGHLEAPJ59xvmARwRGEItvWqWlU5lQIz4GTleHBvoieJdhGkAieMekppVE4
+        kMDy5/vXg6IHmTB3u+mbnEerBLa0F8E=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5B149B199;
+        Wed,  5 May 2021 13:13:13 +0000 (UTC)
+Date:   Wed, 5 May 2021 15:13:11 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Roman Gushchin <guro@fb.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Steven Price <steven.price@arm.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Aili Yao <yaoaili@kingsoft.com>, Jiri Bohac <jbohac@suse.cz>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jon Derrick <jonathan.derrick@intel.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Naoya Horiguchi <naoya.horiguchi@nec.com>,
+        linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v1 3/7] mm: rename and move page_is_poisoned()
+Message-ID: <YJKZ5yXdl18m9YSM@dhcp22.suse.cz>
+References: <20210429122519.15183-1-david@redhat.com>
+ <20210429122519.15183-4-david@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210429122519.15183-4-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, May 4, 2021 at 12:16 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Mon, May 03, 2021 at 10:46:29PM +0800, Boqun Feng wrote:
-> > Currently we retrieve the PCI domain number of the host bridge from the
-> > bus sysdata (or pci_config_window if PCI_DOMAINS_GENERIC=y). Actually
-> > we have the information at PCI host bridge probing time, and it makes
-> > sense that we store it into pci_host_bridge. One benefit of doing so is
-> > the requirement for supporting PCI on Hyper-V for ARM64, because the
-> > host bridge of Hyper-V doesnt' have pci_config_window, whereas ARM64 is
-> > a PCI_DOMAINS_GENERIC=y arch, so we cannot retrieve the PCI domain
-> > number from pci_config_window on ARM64 Hyper-V guest.
-> >
-> > As the preparation for ARM64 Hyper-V PCI support, we introduce the
-> > domain_nr in pci_host_bridge, and set it properly at probing time, then
-> > for PCI_DOMAINS_GENERIC=y archs, bus domain numbers are set by the
-> > bridge domain_nr.
-> >
-> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> > ---
-> >  arch/arm/kernel/bios32.c              |  2 ++
-> >  arch/arm/mach-dove/pcie.c             |  2 ++
-> >  arch/arm/mach-mv78xx0/pcie.c          |  2 ++
-> >  arch/arm/mach-orion5x/pci.c           |  2 ++
-> >  arch/arm64/kernel/pci.c               |  3 +--
-> >  arch/mips/pci/pci-legacy.c            |  2 ++
-> >  arch/mips/pci/pci-xtalk-bridge.c      |  2 ++
-> >  drivers/pci/controller/pci-ftpci100.c |  2 ++
-> >  drivers/pci/controller/pci-mvebu.c    |  2 ++
-> >  drivers/pci/pci.c                     |  4 ++--
-> >  drivers/pci/probe.c                   |  7 ++++++-
-> >  include/linux/pci.h                   | 11 ++++++++---
-> >  12 files changed, 33 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/arch/arm/kernel/bios32.c b/arch/arm/kernel/bios32.c
-> > index e7ef2b5bea9c..4942cd681e41 100644
-> > --- a/arch/arm/kernel/bios32.c
-> > +++ b/arch/arm/kernel/bios32.c
-> > @@ -471,6 +471,8 @@ static void pcibios_init_hw(struct device *parent, struct hw_pci *hw,
-> >                               bridge->sysdata = sys;
-> >                               bridge->busnr = sys->busnr;
-> >                               bridge->ops = hw->ops;
-> > +                             if (IS_ENABLED(CONFIG_PCI_DOMAINS_GENERIC))
-> > +                                     bridge->domain_nr = pci_bus_find_domain_nr(sys, parent);
-> >
-> >                               ret = pci_scan_root_bus_bridge(bridge);
-> >                       }
-> > diff --git a/arch/arm/mach-dove/pcie.c b/arch/arm/mach-dove/pcie.c
-> > index ee91ac6b5ebf..92eb8484b49b 100644
-> > --- a/arch/arm/mach-dove/pcie.c
-> > +++ b/arch/arm/mach-dove/pcie.c
-> > @@ -167,6 +167,8 @@ dove_pcie_scan_bus(int nr, struct pci_host_bridge *bridge)
-> >       bridge->sysdata = sys;
-> >       bridge->busnr = sys->busnr;
-> >       bridge->ops = &pcie_ops;
-> > +     if (IS_ENABLED(CONFIG_PCI_DOMAINS_GENERIC))
-> > +             bridge->domain_nr = pci_bus_find_domain_nr(sys, NULL);
->
-> The check for CONFIG_PCI_DOMAINS_GENERIC is excessive because there is a
-> stub for pci_bus_find_domain_nr().
->
-> I'm not an expert in PCI, but maybe the repeated assignment of
-> bridge->domain_nr can live in the generic code, say, in
-> pci_scan_root_bus_bridge(). E.g. it will set the domain_nr when it is zero.
+On Thu 29-04-21 14:25:15, David Hildenbrand wrote:
+> Commit d3378e86d182 ("mm/gup: check page posion status for coredump.")
+> introduced page_is_poisoned(), however, v5 [1] of the patch used
+> "page_is_hwpoison()" and something went wrong while upstreaming. Rename the
+> function and move it to page-flags.h, from where it can be used in other
+> -- kcore -- context.
+> 
+> Move the comment to the place where it belongs and simplify.
+> 
+> [1] https://lkml.kernel.org/r/20210322193318.377c9ce9@alex-virtual-machine
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Yes. There's zero reason h/w drivers should care what the domain_nr is.
+I do agree that being explicit about hwpoison is much better. Poisoned
+page can be also an unitialized one and I believe this is the reason why
+you are bringing that up.
 
-There's another issue with domains you should be aware of:
+But you've made me look at d3378e86d182 and I am wondering whether this
+is really a valid patch. First of all it can leak a reference count
+AFAICS. Moreover it doesn't really fix anything because the page can be
+marked hwpoison right after the check is done. I do not think the race
+is feasible to be closed. So shouldn't we rather revert it?
 
-https://lore.kernel.org/linux-pci/20210425152155.mstuxndsoqdbdape@pali/
-
-That may need to be fixed first because deferred probing could cause
-the domain to increment each time you retry probe.
-
-Rob
+-- 
+Michal Hocko
+SUSE Labs
