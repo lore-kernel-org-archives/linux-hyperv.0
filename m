@@ -2,117 +2,97 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7773BC433B4
-	for <linux-hyperv@archiver.kernel.org>; Thu,  6 May 2021 22:25:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA281C433B4
+	for <linux-hyperv@archiver.kernel.org>; Sun,  9 May 2021 07:13:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3E5F4613B5
-	for <linux-hyperv@archiver.kernel.org>; Thu,  6 May 2021 22:25:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F4A6610FC
+	for <linux-hyperv@archiver.kernel.org>; Sun,  9 May 2021 07:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbhEFW0c (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 6 May 2021 18:26:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230149AbhEFW0b (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 6 May 2021 18:26:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DCDCB61057;
-        Thu,  6 May 2021 22:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620339932;
-        bh=NJ1s9KsbTwMRkgcGjSh2NdaFzXd0HMKRyslD8lM2WzY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LWAvu+8wVKwzJctAgyb0KBP9FpGjbaiAGHrbf/xOuUPL6BB0y03P/zGOVzk4Pk025
-         mqDHIzAHE4eWFQm4/0iDxcv5x9Y/GpdHc3XEQc03uxPZBKiEtYXG8XfPxZn7/2W5YS
-         Z6mdJIlofH0c5Ery0WW4yLEDrMdYM4asO8IiuONBhlwzCGWJ4jFTxjV+SVCzTaFlch
-         7f7OOi95dFSrU15AV9UhdBLvQlkoLLNVkFJ0ys7u4+caYQacDfP5tmiSoKG4eAEXa7
-         0dhIeyzRhBhjQe7TN4FSABaHKOEYu/vUdfUscvGWZEAdMI5RaFlhugXJLNKI3J6N8g
-         Jtl95d53f3V8Q==
-Date:   Thu, 6 May 2021 17:25:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jon Derrick <jonathan.derrick@intel.com>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [RFC v2 6/7] PCI: arm64: Allow pci_config_window::parent to be
- NULL
-Message-ID: <20210506222530.GA1441653@bjorn-Precision-5520>
+        id S229631AbhEIHOQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 9 May 2021 03:14:16 -0400
+Received: from smtp06.smtpout.orange.fr ([80.12.242.128]:60769 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229585AbhEIHOQ (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 9 May 2021 03:14:16 -0400
+Received: from localhost.localdomain ([86.243.172.93])
+        by mwinf5d86 with ME
+        id 2XD52500321Fzsu03XD5xo; Sun, 09 May 2021 09:13:06 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 09 May 2021 09:13:06 +0200
+X-ME-IP: 86.243.172.93
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, gregkh@linuxfoundation.org
+Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 1/2] uio_hv_generic: Fix a memory leak in error handling paths
+Date:   Sun,  9 May 2021 09:13:03 +0200
+Message-Id: <4fdaff557deef6f0475d02ba7922ddbaa1ab08a6.1620544055.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210503144635.2297386-7-boqun.feng@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Make your subject something like this so it matches previous practice:
+If 'vmbus_establish_gpadl()' fails, the (recv|send)_gpadl will not be
+updated and 'hv_uio_cleanup()' in the error handling path will not be
+able to free the corresponding buffer.
 
-  arm64: PCI: ...
+In such a case, we need to free the buffer explicitly.
 
-The "::" notation probably comes from C++, but doesn't really apply in
-C.  In C, we would say "cfg.parent" or "cfg->parent".
+Fixes: cdfa835c6e5e ("uio_hv_generic: defer opening vmbus until first use")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Before commit cdfa835c6e5e, the 'vfree' were done unconditionally
+in 'hv_uio_cleanup()'.
+So, another way for fixing the potential leak is to modify
+'hv_uio_cleanup()' and revert to the previous behavior.
 
-But pci_config_window and cfg->parent are probably too low-level for
-the subject anyway.  Seems like it should mention Hyper-V, for
-instance.
+I don't know the underlying reason for this change so I don't know which is
+the best way to fix this error handling path. Unless there is a specific
+reason, changing 'hv_uio_cleanup()' could be better because it would keep
+the error handling path of the probe cleaner, IMHO.
+---
+ drivers/uio/uio_hv_generic.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-On Mon, May 03, 2021 at 10:46:34PM +0800, Boqun Feng wrote:
-> This is purely a hack, for ARM64 Hyper-V guest, there is no
-> corresponding ACPI device for the root bridge, so the best we can
-> provide is an all-zeroed pci_config_window, and in this case make
-> pcibios_root_bridge_prepare() act as the ACPI device is NULL.
+diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+index 0330ba99730e..eebc399f2cc7 100644
+--- a/drivers/uio/uio_hv_generic.c
++++ b/drivers/uio/uio_hv_generic.c
+@@ -296,8 +296,10 @@ hv_uio_probe(struct hv_device *dev,
+ 
+ 	ret = vmbus_establish_gpadl(channel, pdata->recv_buf,
+ 				    RECV_BUFFER_SIZE, &pdata->recv_gpadl);
+-	if (ret)
++	if (ret) {
++		vfree(pdata->recv_buf);
+ 		goto fail_close;
++	}
+ 
+ 	/* put Global Physical Address Label in name */
+ 	snprintf(pdata->recv_name, sizeof(pdata->recv_name),
+@@ -316,8 +318,10 @@ hv_uio_probe(struct hv_device *dev,
+ 
+ 	ret = vmbus_establish_gpadl(channel, pdata->send_buf,
+ 				    SEND_BUFFER_SIZE, &pdata->send_gpadl);
+-	if (ret)
++	if (ret) {
++		vfree(pdata->send_buf);
+ 		goto fail_close;
++	}
+ 
+ 	snprintf(pdata->send_name, sizeof(pdata->send_name),
+ 		 "send:%u", pdata->send_gpadl);
+-- 
+2.30.2
 
-Why is there no ACPI device?  Is this a needless arch dependency?  Or
-is this related to using DT instead of ACPI?
-
-The cover letter hints that this might be related to
-PCI_DOMAINS_GENERIC=y, but that doesn't sound like a very convincing
-reason (and the cover letter can provide an overview, but the commit
-logs of individual patches shouldn't assume knowledge of the cover
-letter).
-
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> ---
->  arch/arm64/kernel/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/kernel/pci.c b/arch/arm64/kernel/pci.c
-> index e9a6eeb6a694..f159df903ccb 100644
-> --- a/arch/arm64/kernel/pci.c
-> +++ b/arch/arm64/kernel/pci.c
-> @@ -83,7 +83,7 @@ int pcibios_root_bridge_prepare(struct pci_host_bridge *bridge)
->  {
->  	if (!acpi_disabled) {
->  		struct pci_config_window *cfg = bridge->bus->sysdata;
-> -		struct acpi_device *adev = to_acpi_device(cfg->parent);
-> +		struct acpi_device *adev = cfg->parent ? to_acpi_device(cfg->parent) : NULL;
->  		struct device *bus_dev = &bridge->bus->dev;
->  
->  		ACPI_COMPANION_SET(&bridge->dev, adev);
-> -- 
-> 2.30.2
-> 
