@@ -2,184 +2,105 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5857EC47082
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 237F2C2B9F7
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 10:07:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38A2961443
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFA2561442
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 10:07:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233348AbhEZJdw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 May 2021 05:33:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30755 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233679AbhEZJdj (ORCPT
+        id S233783AbhEZKJH (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 26 May 2021 06:09:07 -0400
+Received: from mail-wm1-f47.google.com ([209.85.128.47]:37608 "EHLO
+        mail-wm1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233767AbhEZKJF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 May 2021 05:33:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622021528;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=HpQl70FCJrKzkRws/ycp8B14QnuETKoEKh3YFLooSpk=;
-        b=gqiObnwYZBPS9mVSMmPBvXlbdA/lVJynS9Kl15KUOiCLT9XWSndR7bDmW9krIqLejnBxjL
-        hDErOrWJrRSo0Nb/74Iimiox0jl8LP6C0fCtPQossoFesT7O1zVjHbOV4MZjmxIFyauL4Q
-        oycehSI7QW88FB6R4T+F92hRnSqe7So=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-bVRoSnEGNimMg5ofHHzOIg-1; Wed, 26 May 2021 05:31:26 -0400
-X-MC-Unique: bVRoSnEGNimMg5ofHHzOIg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C4F0106BB2B;
-        Wed, 26 May 2021 09:31:23 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-99.ams2.redhat.com [10.36.113.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 668435D9CC;
-        Wed, 26 May 2021 09:31:17 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     David Hildenbrand <david@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>, Roman Gushchin <guro@fb.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Steven Price <steven.price@arm.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Aili Yao <yaoaili@kingsoft.com>, Jiri Bohac <jbohac@suse.cz>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Wed, 26 May 2021 06:09:05 -0400
+Received: by mail-wm1-f47.google.com with SMTP id f20-20020a05600c4e94b0290181f6edda88so141185wmq.2;
+        Wed, 26 May 2021 03:07:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Zn2ffr8JYxoteRgfDN2DPfLGmOa7PHRalgcesR+84wk=;
+        b=FBQswfXEvhcIPu6qtq1G30fehiRhU7qTR7FioWQKRPcItSITZlXr9VmE9StIWrL1uY
+         XA35HflYt3m/Un4l1hJ/gyqpLYVUvPxENyTRph0T71Ok2tP4+i6s4g6Lzrf79uyZ2vQn
+         1QGPAHk7HfSHqvktCTN/WRrGZwEvTJmhagbWOgomxEU9Ga9nKgdAo11qVNcIIjN7e4UA
+         y+/fRlm//yV072iHGa7Z7QlZKue/uReT2DTe6sOMHkQmNSnNqZRhrUO+l9QSrx/vu1FS
+         q9F0lVuvh39Fg9hIBUCNoUPiZ+ZwXIQXw6L7e8Xij4FFADk5M1AMu7EfOuk0aCGArRj/
+         StPg==
+X-Gm-Message-State: AOAM530GIoujEw1CaE4BB2tu9O1B8xQo0umP+VVF5QCVn/UOI8cJnjY1
+        WxjcAv0q/r51oTfx+akdHlM=
+X-Google-Smtp-Source: ABdhPJxPaM7KVevhYV2qeLsfVfVCCezJ/Fd6bhCABfmcYvL1i91n62q4G0bpOukUTdpNvhpJMehZTQ==
+X-Received: by 2002:a05:600c:1551:: with SMTP id f17mr2489743wmg.17.1622023653000;
+        Wed, 26 May 2021 03:07:33 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id v3sm19745861wrr.19.2021.05.26.03.07.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 03:07:32 -0700 (PDT)
+Date:   Wed, 26 May 2021 10:07:30 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Naoya Horiguchi <naoya.horiguchi@nec.com>,
-        linux-hyperv@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v3 3/6] fs/proc/kcore: don't read offline sections, logically offline pages and hwpoisoned pages
-Date:   Wed, 26 May 2021 11:30:38 +0200
-Message-Id: <20210526093041.8800-4-david@redhat.com>
-In-Reply-To: <20210526093041.8800-1-david@redhat.com>
-References: <20210526093041.8800-1-david@redhat.com>
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drivers: hv: Fix missing error code in vmbus_connect()
+Message-ID: <20210526100730.fsk3khdqmpbbuljf@liuwe-devbox-debian-v2>
+References: <1621940321-72353-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+ <MWHPR21MB1593D8362CD8FBA6E0E3612CD7259@MWHPR21MB1593.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MWHPR21MB1593D8362CD8FBA6E0E3612CD7259@MWHPR21MB1593.namprd21.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Let's avoid reading:
+On Tue, May 25, 2021 at 03:30:22PM +0000, Michael Kelley wrote:
+> From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com> Sent: Tuesday, May 25, 2021 3:59 AM
+> > 
+> > Eliminate the follow smatch warning:
+> > 
+> > drivers/hv/connection.c:236 vmbus_connect() warn: missing error code
+> > 'ret'.
+> > 
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> > ---
+> >  drivers/hv/connection.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+> > index 311cd00..5e479d5 100644
+> > --- a/drivers/hv/connection.c
+> > +++ b/drivers/hv/connection.c
+> > @@ -232,8 +232,10 @@ int vmbus_connect(void)
+> >  	 */
+> > 
+> >  	for (i = 0; ; i++) {
+> > -		if (i == ARRAY_SIZE(vmbus_versions))
+> > +		if (i == ARRAY_SIZE(vmbus_versions)) {
+> > +			ret = -EDOM;
+> >  			goto cleanup;
+> > +		}
+> > 
+> >  		version = vmbus_versions[i];
+> >  		if (version > max_version)
+> > --
+> > 1.8.3.1
+> 
+> I might have used -EINVAL instead of -EDOM as the error
+> return value, but it really doesn't matter, and having a 
+> return value that is unique in the function might be helpful.
+> 
+> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
-1) Offline memory sections: the content of offline memory sections is stale
-   as the memory is effectively unused by the kernel. On s390x with standby
-   memory, offline memory sections (belonging to offline storage
-   increments) are not accessible. With virtio-mem and the hyper-v balloon,
-   we can have unavailable memory chunks that should not be accessed inside
-   offline memory sections. Last but not least, offline memory sections
-   might contain hwpoisoned pages which we can no longer identify
-   because the memmap is stale.
-
-2) PG_offline pages: logically offline pages that are documented as
-   "The content of these pages is effectively stale. Such pages should not
-    be touched (read/write/dump/save) except by their owner.".
-   Examples include pages inflated in a balloon or unavailble memory
-   ranges inside hotplugged memory sections with virtio-mem or the hyper-v
-   balloon.
-
-3) PG_hwpoison pages: Reading pages marked as hwpoisoned can be fatal.
-   As documented: "Accessing is not safe since it may cause another machine
-   check. Don't touch!"
-
-Introduce is_page_hwpoison(), adding a comment that it is inherently
-racy but best we can really do.
-
-Reading /proc/kcore now performs similar checks as when reading
-/proc/vmcore for kdump via makedumpfile: problematic pages are exclude.
-It's also similar to hibernation code, however, we don't skip hwpoisoned
-pages when processing pages in kernel/power/snapshot.c:saveable_page() yet.
-
-Note 1: we can race against memory offlining code, especially
-memory going offline and getting unplugged: however, we will properly tear
-down the identity mapping and handle faults gracefully when accessing
-this memory from kcore code.
-
-Note 2: we can race against drivers setting PageOffline() and turning
-memory inaccessible in the hypervisor. We'll handle this in a follow-up
-patch.
-
-Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- fs/proc/kcore.c            | 14 +++++++++++++-
- include/linux/page-flags.h | 12 ++++++++++++
- 2 files changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index ed6fbb3bd50c..92ff1e4436cb 100644
---- a/fs/proc/kcore.c
-+++ b/fs/proc/kcore.c
-@@ -465,6 +465,9 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 
- 	m = NULL;
- 	while (buflen) {
-+		struct page *page;
-+		unsigned long pfn;
-+
- 		/*
- 		 * If this is the first iteration or the address is not within
- 		 * the previous entry, search for a matching entry.
-@@ -503,7 +506,16 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 			}
- 			break;
- 		case KCORE_RAM:
--			if (!pfn_is_ram(__pa(start) >> PAGE_SHIFT)) {
-+			pfn = __pa(start) >> PAGE_SHIFT;
-+			page = pfn_to_online_page(pfn);
-+
-+			/*
-+			 * Don't read offline sections, logically offline pages
-+			 * (e.g., inflated in a balloon), hwpoisoned pages,
-+			 * and explicitly excluded physical ranges.
-+			 */
-+			if (!page || PageOffline(page) ||
-+			    is_page_hwpoison(page) || !pfn_is_ram(pfn)) {
- 				if (clear_user(buffer, tsz)) {
- 					ret = -EFAULT;
- 					goto out;
-diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-index 04a34c08e0a6..daed82744f4b 100644
---- a/include/linux/page-flags.h
-+++ b/include/linux/page-flags.h
-@@ -694,6 +694,18 @@ PAGEFLAG_FALSE(DoubleMap)
- 	TESTSCFLAG_FALSE(DoubleMap)
- #endif
- 
-+/*
-+ * Check if a page is currently marked HWPoisoned. Note that this check is
-+ * best effort only and inherently racy: there is no way to synchronize with
-+ * failing hardware.
-+ */
-+static inline bool is_page_hwpoison(struct page *page)
-+{
-+	if (PageHWPoison(page))
-+		return true;
-+	return PageHuge(page) && PageHWPoison(compound_head(page));
-+}
-+
- /*
-  * For pages that are never mapped to userspace (and aren't PageSlab),
-  * page_type may be used.  Because it is initialised to -1, we invert the
--- 
-2.31.1
-
+Applied to hyperv-fixes. Thanks.
