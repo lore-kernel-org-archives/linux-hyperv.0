@@ -5,43 +5,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4764C4708B
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5857EC47082
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA366613E6
-	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38A2961443
+	for <linux-hyperv@archiver.kernel.org>; Wed, 26 May 2021 09:32:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233622AbhEZJda (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 26 May 2021 05:33:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30755 "EHLO
+        id S233348AbhEZJdw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 26 May 2021 05:33:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30755 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233593AbhEZJdY (ORCPT
+        by vger.kernel.org with ESMTP id S233679AbhEZJdj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 26 May 2021 05:33:24 -0400
+        Wed, 26 May 2021 05:33:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622021513;
+        s=mimecast20190719; t=1622021528;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UwY8egmBhFN4ttOumbwiNB+K87+iDRAp24/+Sy47AVY=;
-        b=aCQ0fgSASmHRGunkc9MmZEavCbCl72cu7/Rg8IV4DevMwxeLr06za7tZ0+N8Ap98OO993z
-        PJx7PTTWWsZThSZ5bfnUr8xZ/qxxSFA/2xNsb0d3ikca2xMSzqTM7J2DICubkn8QqCo1sY
-        +M51F/AXyI7u2FXiZdOHTOuOCc0jHOQ=
+        bh=HpQl70FCJrKzkRws/ycp8B14QnuETKoEKh3YFLooSpk=;
+        b=gqiObnwYZBPS9mVSMmPBvXlbdA/lVJynS9Kl15KUOiCLT9XWSndR7bDmW9krIqLejnBxjL
+        hDErOrWJrRSo0Nb/74Iimiox0jl8LP6C0fCtPQossoFesT7O1zVjHbOV4MZjmxIFyauL4Q
+        oycehSI7QW88FB6R4T+F92hRnSqe7So=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-sylAfsenNgmVBsWBcSkMGg-1; Wed, 26 May 2021 05:31:51 -0400
-X-MC-Unique: sylAfsenNgmVBsWBcSkMGg-1
+ us-mta-273-bVRoSnEGNimMg5ofHHzOIg-1; Wed, 26 May 2021 05:31:26 -0400
+X-MC-Unique: bVRoSnEGNimMg5ofHHzOIg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 751F7107ACF6;
-        Wed, 26 May 2021 09:31:49 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C4F0106BB2B;
+        Wed, 26 May 2021 09:31:23 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-99.ams2.redhat.com [10.36.113.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B3CF25D9D3;
-        Wed, 26 May 2021 09:31:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 668435D9CC;
+        Wed, 26 May 2021 09:31:17 +0000 (UTC)
 From:   David Hildenbrand <david@redhat.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     David Hildenbrand <david@redhat.com>,
@@ -66,9 +66,9 @@ Cc:     David Hildenbrand <david@redhat.com>,
         virtualization@lists.linux-foundation.org,
         linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
         Mike Rapoport <rppt@linux.ibm.com>
-Subject: [PATCH v3 6/6] fs/proc/kcore: use page_offline_(freeze|thaw)
-Date:   Wed, 26 May 2021 11:30:41 +0200
-Message-Id: <20210526093041.8800-7-david@redhat.com>
+Subject: [PATCH v3 3/6] fs/proc/kcore: don't read offline sections, logically offline pages and hwpoisoned pages
+Date:   Wed, 26 May 2021 11:30:38 +0200
+Message-Id: <20210526093041.8800-4-david@redhat.com>
 In-Reply-To: <20210526093041.8800-1-david@redhat.com>
 References: <20210526093041.8800-1-david@redhat.com>
 MIME-Version: 1.0
@@ -78,62 +78,108 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Let's properly synchronize with drivers that set PageOffline().
-Unfreeze/thaw every now and then, so drivers that want to set PageOffline()
-can make progress.
+Let's avoid reading:
 
-Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+1) Offline memory sections: the content of offline memory sections is stale
+   as the memory is effectively unused by the kernel. On s390x with standby
+   memory, offline memory sections (belonging to offline storage
+   increments) are not accessible. With virtio-mem and the hyper-v balloon,
+   we can have unavailable memory chunks that should not be accessed inside
+   offline memory sections. Last but not least, offline memory sections
+   might contain hwpoisoned pages which we can no longer identify
+   because the memmap is stale.
+
+2) PG_offline pages: logically offline pages that are documented as
+   "The content of these pages is effectively stale. Such pages should not
+    be touched (read/write/dump/save) except by their owner.".
+   Examples include pages inflated in a balloon or unavailble memory
+   ranges inside hotplugged memory sections with virtio-mem or the hyper-v
+   balloon.
+
+3) PG_hwpoison pages: Reading pages marked as hwpoisoned can be fatal.
+   As documented: "Accessing is not safe since it may cause another machine
+   check. Don't touch!"
+
+Introduce is_page_hwpoison(), adding a comment that it is inherently
+racy but best we can really do.
+
+Reading /proc/kcore now performs similar checks as when reading
+/proc/vmcore for kdump via makedumpfile: problematic pages are exclude.
+It's also similar to hibernation code, however, we don't skip hwpoisoned
+pages when processing pages in kernel/power/snapshot.c:saveable_page() yet.
+
+Note 1: we can race against memory offlining code, especially
+memory going offline and getting unplugged: however, we will properly tear
+down the identity mapping and handle faults gracefully when accessing
+this memory from kcore code.
+
+Note 2: we can race against drivers setting PageOffline() and turning
+memory inaccessible in the hypervisor. We'll handle this in a follow-up
+patch.
+
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- fs/proc/kcore.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ fs/proc/kcore.c            | 14 +++++++++++++-
+ include/linux/page-flags.h | 12 ++++++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/fs/proc/kcore.c b/fs/proc/kcore.c
-index 92ff1e4436cb..982e694aae77 100644
+index ed6fbb3bd50c..92ff1e4436cb 100644
 --- a/fs/proc/kcore.c
 +++ b/fs/proc/kcore.c
-@@ -313,6 +313,7 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- {
- 	char *buf = file->private_data;
- 	size_t phdrs_offset, notes_offset, data_offset;
-+	size_t page_offline_frozen = 1;
- 	size_t phdrs_len, notes_len;
- 	struct kcore_list *m;
- 	size_t tsz;
-@@ -322,6 +323,11 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 	int ret = 0;
+@@ -465,6 +465,9 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
  
- 	down_read(&kclist_lock);
-+	/*
-+	 * Don't race against drivers that set PageOffline() and expect no
-+	 * further page access.
-+	 */
-+	page_offline_freeze();
- 
- 	get_kcore_size(&nphdr, &phdrs_len, &notes_len, &data_offset);
- 	phdrs_offset = sizeof(struct elfhdr);
-@@ -480,6 +486,12 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 			}
- 		}
- 
-+		if (page_offline_frozen++ % MAX_ORDER_NR_PAGES == 0) {
-+			page_offline_thaw();
-+			cond_resched();
-+			page_offline_freeze();
-+		}
+ 	m = NULL;
+ 	while (buflen) {
++		struct page *page;
++		unsigned long pfn;
 +
- 		if (&m->list == &kclist_head) {
- 			if (clear_user(buffer, tsz)) {
- 				ret = -EFAULT;
-@@ -565,6 +577,7 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
- 	}
+ 		/*
+ 		 * If this is the first iteration or the address is not within
+ 		 * the previous entry, search for a matching entry.
+@@ -503,7 +506,16 @@ read_kcore(struct file *file, char __user *buffer, size_t buflen, loff_t *fpos)
+ 			}
+ 			break;
+ 		case KCORE_RAM:
+-			if (!pfn_is_ram(__pa(start) >> PAGE_SHIFT)) {
++			pfn = __pa(start) >> PAGE_SHIFT;
++			page = pfn_to_online_page(pfn);
++
++			/*
++			 * Don't read offline sections, logically offline pages
++			 * (e.g., inflated in a balloon), hwpoisoned pages,
++			 * and explicitly excluded physical ranges.
++			 */
++			if (!page || PageOffline(page) ||
++			    is_page_hwpoison(page) || !pfn_is_ram(pfn)) {
+ 				if (clear_user(buffer, tsz)) {
+ 					ret = -EFAULT;
+ 					goto out;
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 04a34c08e0a6..daed82744f4b 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -694,6 +694,18 @@ PAGEFLAG_FALSE(DoubleMap)
+ 	TESTSCFLAG_FALSE(DoubleMap)
+ #endif
  
- out:
-+	page_offline_thaw();
- 	up_read(&kclist_lock);
- 	if (ret)
- 		return ret;
++/*
++ * Check if a page is currently marked HWPoisoned. Note that this check is
++ * best effort only and inherently racy: there is no way to synchronize with
++ * failing hardware.
++ */
++static inline bool is_page_hwpoison(struct page *page)
++{
++	if (PageHWPoison(page))
++		return true;
++	return PageHuge(page) && PageHWPoison(compound_head(page));
++}
++
+ /*
+  * For pages that are never mapped to userspace (and aren't PageSlab),
+  * page_type may be used.  Because it is initialised to -1, we invert the
 -- 
 2.31.1
 
