@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C25D9C47098
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 444C1C47099
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A197B613E3
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26881613AB
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhE1WpX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 28 May 2021 18:45:23 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:55864 "EHLO
+        id S229647AbhE1WpY (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 28 May 2021 18:45:24 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:55912 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbhE1WpS (ORCPT
+        with ESMTP id S229766AbhE1WpT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 28 May 2021 18:45:18 -0400
+        Fri, 28 May 2021 18:45:19 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 4B94E20B8023;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 8C89F20B802D;
         Fri, 28 May 2021 15:43:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4B94E20B8023
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8C89F20B802D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622241823;
-        bh=qu+wAFWtmcviWn9l4CeWFRxy7+RtuzPmbp8Nd42i7Oo=;
+        bh=XY/Oa0rT1yOGL0Qx61cyq7XOTyStGZF3INCUnDKj6bs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FyTX5LntnLvMxF61SBtW2HVLteg4Txtpus8Q9tyaE4IXSpFPv9Hv+WcsrczvqVJQD
-         XiPTlj8GMmAZrhNdkXIwuxgA+AuEF5TYKvsgaw+FfNxGmAlbnDMePYaPRarw1wG126
-         KLmkKN57ZqLVJ6ScqlsaKAZiG0H12NbYqLuwmS+w=
+        b=F3TwIFhIWsfu+fdYS+5stI9U2n95uHfpNVPVkVH5xOkiiXJclbZT5CmOhjxb6ko0n
+         SAjjgDPHGUFT/84RBTF0sVaUXh19AmJXe0KMYom6aPar/b0HHR9nX5wEnFD7nDZWg1
+         /NZVyk9lHVct7O24nbKc92kBdyDAt/z68thGX5zY=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com
-Subject: [PATCH 13/19] drivers/hv: install intercept ioctl
-Date:   Fri, 28 May 2021 15:43:33 -0700
-Message-Id: <1622241819-21155-14-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 16/19] drivers/hv: mmap vp register page
+Date:   Fri, 28 May 2021 15:43:36 -0700
+Message-Id: <1622241819-21155-17-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -47,235 +47,331 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce ioctl for configuring intercept messages from a guest partition.
+Introduce mmap interface for a virtual processor, exposing a page for
+setting and getting common registers while the VP is suspended.
 
+This provides a more performant and convenient way to get and set these
+registers in the context of a vmm's run-loop.
+
+Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst         |  9 ++++++
- arch/x86/include/uapi/asm/hyperv-tlfs.h | 43 +++++++++++++++++++++++++
- drivers/hv/hv_call.c                    | 38 ++++++++++++++++++++++
- drivers/hv/mshv.h                       |  3 ++
- drivers/hv/mshv_main.c                  | 20 ++++++++++++
- include/asm-generic/hyperv-tlfs.h       |  8 +++++
- include/uapi/linux/mshv.h               |  7 ++++
- 7 files changed, 128 insertions(+)
+ Documentation/virt/mshv/api.rst         | 11 ++++
+ arch/x86/include/uapi/asm/hyperv-tlfs.h | 74 +++++++++++++++++++++++++
+ drivers/hv/hv_call.c                    | 41 ++++++++++++++
+ drivers/hv/mshv.h                       |  4 ++
+ drivers/hv/mshv_main.c                  | 43 ++++++++++++++
+ include/asm-generic/hyperv-tlfs.h       | 10 ++++
+ include/linux/mshv.h                    |  1 +
+ include/uapi/asm-generic/hyperv-tlfs.h  |  5 ++
+ include/uapi/linux/mshv.h               | 12 ++++
+ 9 files changed, 201 insertions(+)
 
 diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index 9deddcd7de54..f0094258d834 100644
+index 1613ac6e9428..bf3c060bd418 100644
 --- a/Documentation/virt/mshv/api.rst
 +++ b/Documentation/virt/mshv/api.rst
-@@ -120,4 +120,13 @@ This ioctl will fail on any vp that's already running (not suspended).
+@@ -149,3 +149,14 @@ HV_PARTITION_CREATION_FLAG_LAPIC_ENABLED
+ Get/set various vp state. Currently these can be used to get and set
+ emulated LAPIC state, and xsave data.
  
- Information about the intercept is returned in the hv_message struct.
- 
-+3.7 MSHV_INSTALL_INTERCEPT
-+--------------------------
-+:Type: partition ioctl
-+:Parameters: struct mshv_install_intercept
++3.10 mmap(vp)
++-------------
++:Type: vp mmap
++:Parameters: offset should be HV_VP_MMAP_REGISTERS_OFFSET
 +:Returns: 0 on success
 +
-+Enable and configure different types of intercepts. Intercepts are events in a
-+guest partition that will suspend the guest vp and send a message to the root
-+partition (returned from MSHV_RUN_VP).
- 
++Maps a page into userspace that can be used to get and set common registers
++while the vp is suspended.
++The page is laid out in struct hv_vp_register_page in asm/hyperv-tlfs.h.
++
++
 diff --git a/arch/x86/include/uapi/asm/hyperv-tlfs.h b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-index 4ffa7e1cd185..442c4bb4113e 100644
+index 46806227e869..5430f3c98934 100644
 --- a/arch/x86/include/uapi/asm/hyperv-tlfs.h
 +++ b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-@@ -948,4 +948,47 @@ struct hv_x64_apic_eoi_message {
- 	__u32 interrupt_vector;
+@@ -1072,4 +1072,78 @@ struct hv_vp_state_data_xsave {
+ 	union hv_x64_xsave_xfem_register states;
  } __packed;
  
-+enum hv_intercept_type {
-+	HV_INTERCEPT_TYPE_X64_IO_PORT			= 0X00000000,
-+	HV_INTERCEPT_TYPE_X64_MSR			= 0X00000001,
-+	HV_INTERCEPT_TYPE_X64_CPUID			= 0X00000002,
-+	HV_INTERCEPT_TYPE_EXCEPTION			= 0X00000003,
-+	HV_INTERCEPT_TYPE_REGISTER			= 0X00000004,
-+	HV_INTERCEPT_TYPE_MMIO				= 0X00000005,
-+	HV_INTERCEPT_TYPE_X64_GLOBAL_CPUID		= 0X00000006,
-+	HV_INTERCEPT_TYPE_X64_APIC_SMI			= 0X00000007,
-+	HV_INTERCEPT_TYPE_HYPERCALL			= 0X00000008,
-+	HV_INTERCEPT_TYPE_X64_APIC_INIT_SIPI		= 0X00000009,
-+	HV_INTERCEPT_MC_UPDATE_PATCH_LEVEL_MSR_READ	= 0X0000000A,
-+	HV_INTERCEPT_TYPE_X64_APIC_WRITE		= 0X0000000B,
-+	HV_INTERCEPT_TYPE_MAX,
-+	HV_INTERCEPT_TYPE_INVALID			= 0XFFFFFFFF,
-+};
++/* Bits for dirty mask of hv_vp_register_page */
++#define HV_X64_REGISTER_CLASS_GENERAL	0
++#define HV_X64_REGISTER_CLASS_IP	1
++#define HV_X64_REGISTER_CLASS_XMM	2
++#define HV_X64_REGISTER_CLASS_SEGMENT	3
++#define HV_X64_REGISTER_CLASS_FLAGS	4
 +
-+union hv_intercept_parameters {
-+	__u64 as_uint64;
++#define HV_VP_REGISTER_PAGE_VERSION_1	1u
 +
-+	/* hv_intercept_type_x64_io_port */
-+	__u16 io_port;
++struct hv_vp_register_page {
++	__u16 version;
++	__u8 isvalid;
++	__u8 rsvdz;
++	__u32 dirty;
++	union {
++		struct {
++			__u64 rax;
++			__u64 rcx;
++			__u64 rdx;
++			__u64 rbx;
++			__u64 rsp;
++			__u64 rbp;
++			__u64 rsi;
++			__u64 rdi;
++			__u64 r8;
++			__u64 r9;
++			__u64 r10;
++			__u64 r11;
++			__u64 r12;
++			__u64 r13;
++			__u64 r14;
++			__u64 r15;
++		} __packed;
 +
-+	/* hv_intercept_type_x64_cpuid */
-+	__u32 cpuid_index;
++		__u64 gp_registers[16];
++	};
++	__u64 rip;
++	__u64 rflags;
++	union {
++		struct {
++			struct hv_u128 xmm0;
++			struct hv_u128 xmm1;
++			struct hv_u128 xmm2;
++			struct hv_u128 xmm3;
++			struct hv_u128 xmm4;
++			struct hv_u128 xmm5;
++		} __packed;
 +
-+	/* hv_intercept_type_x64_apic_write */
-+	__u32 apic_write_mask;
++		struct hv_u128 xmm_registers[6];
++	};
++	union {
++		struct {
++			struct hv_x64_segment_register es;
++			struct hv_x64_segment_register cs;
++			struct hv_x64_segment_register ss;
++			struct hv_x64_segment_register ds;
++			struct hv_x64_segment_register fs;
++			struct hv_x64_segment_register gs;
++		} __packed;
 +
-+	/* hv_intercept_type_exception */
-+	__u16 exception_vector;
-+
-+	/* N.B. Other intercept types do not have any parameters. */
-+};
-+
-+/* Access types for the install intercept hypercall parameter */
-+#define HV_INTERCEPT_ACCESS_MASK_NONE		0x00
-+#define HV_INTERCEPT_ACCESS_MASK_READ		0X01
-+#define HV_INTERCEPT_ACCESS_MASK_WRITE		0x02
-+#define HV_INTERCEPT_ACCESS_MASK_EXECUTE	0x04
-+
-+
++		struct hv_x64_segment_register segment_registers[6];
++	};
++	/* read only */
++	__u64 cr0;
++	__u64 cr3;
++	__u64 cr4;
++	__u64 cr8;
++	__u64 efer;
++	__u64 dr7;
++	union hv_x64_pending_interruption_register pending_interruption;
++	union hv_x64_interrupt_state_register interrupt_state;
++	__u64 instruction_emulation_hints;
++} __packed;
 +
  #endif
 diff --git a/drivers/hv/hv_call.c b/drivers/hv/hv_call.c
-index fb60293134a5..cfb1d7d3e75a 100644
+index 64b7bc16f4ef..a2ae0a31706b 100644
 --- a/drivers/hv/hv_call.c
 +++ b/drivers/hv/hv_call.c
-@@ -396,3 +396,41 @@ int hv_call_set_vp_registers(
- 	return hv_status_to_errno(status);
+@@ -599,3 +599,44 @@ int hv_call_set_vp_state(
+ 	return ret;
  }
  
-+int hv_call_install_intercept(
++int hv_call_map_vp_state_page(
++		u32 vp_index,
 +		u64 partition_id,
-+		u32 access_type,
-+		enum hv_intercept_type intercept_type,
-+		union hv_intercept_parameters intercept_parameter)
++		struct page **state_page)
 +{
-+	struct hv_install_intercept *input;
-+	unsigned long flags;
++	struct hv_map_vp_state_page_in *input;
++	struct hv_map_vp_state_page_out *output;
 +	u64 status;
 +	int ret;
++	unsigned long flags;
 +
 +	do {
 +		local_irq_save(flags);
-+		input = (struct hv_install_intercept *)(*this_cpu_ptr(
-+					hyperv_pcpu_input_arg));
-+		input->partition_id = partition_id;
-+		input->access_type = access_type;
-+		input->intercept_type = intercept_type;
-+		input->intercept_parameter = intercept_parameter;
-+		status = hv_do_hypercall(
-+				HVCALL_INSTALL_INTERCEPT, input, NULL);
++		input = (struct hv_map_vp_state_page_in *)(*this_cpu_ptr(
++			hyperv_pcpu_input_arg));
++		output = (struct hv_map_vp_state_page_out *)(*this_cpu_ptr(
++			hyperv_pcpu_output_arg));
 +
-+		local_irq_restore(flags);
++		input->partition_id = partition_id;
++		input->vp_index = vp_index;
++		input->type = HV_VP_STATE_PAGE_REGISTERS;
++		status = hv_do_hypercall(HVCALL_MAP_VP_STATE_PAGE,
++						   input, output);
++
 +		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
-+			if (!hv_result_success(status))
++			if (hv_result_success(status))
++				*state_page = pfn_to_page(output->map_location);
++			else
 +				pr_err("%s: %s\n", __func__,
 +				       hv_status_to_string(status));
++			local_irq_restore(flags);
 +			ret = hv_status_to_errno(status);
 +			break;
 +		}
++		local_irq_restore(flags);
 +
 +		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
-+
 +	} while (!ret);
 +
 +	return ret;
 +}
-+
 diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index 014352a11190..541c83a36767 100644
+index c8f3919a5cdc..a9215581be6b 100644
 --- a/drivers/hv/mshv.h
 +++ b/drivers/hv/mshv.h
-@@ -64,5 +64,8 @@ int hv_call_set_vp_registers(
- 		u64 partition_id,
- 		u16 count,
- 		struct hv_register_assoc *registers);
-+int hv_call_install_intercept(u64 partition_id, u32 access_type,
-+		enum hv_intercept_type intercept_type,
-+		union hv_intercept_parameters intercept_parameter);
+@@ -97,5 +97,9 @@ int hv_call_set_vp_state(
+ 		struct page **pages,
+ 		u32 num_bytes,
+ 		u8 *bytes);
++int hv_call_map_vp_state_page(
++		u32 vp_index,
++		u64 partition_id,
++		struct page **state_page);
  
  #endif /* _MSHV_H */
 diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index 478c7be29153..e5d14dc72d94 100644
+index 57d233a61b10..bc1df1f6e737 100644
 --- a/drivers/hv/mshv_main.c
 +++ b/drivers/hv/mshv_main.c
-@@ -557,6 +557,22 @@ mshv_partition_ioctl_unmap_memory(struct mshv_partition *partition,
- 	return 0;
+@@ -37,11 +37,18 @@ static long mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned
+ static int mshv_dev_open(struct inode *inode, struct file *filp);
+ static int mshv_dev_release(struct inode *inode, struct file *filp);
+ static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
++static int mshv_vp_mmap(struct file *file, struct vm_area_struct *vma);
++static vm_fault_t mshv_vp_fault(struct vm_fault *vmf);
++
++static const struct vm_operations_struct mshv_vp_vm_ops = {
++	.fault = mshv_vp_fault,
++};
+ 
+ static const struct file_operations mshv_vp_fops = {
+ 	.release = mshv_vp_release,
+ 	.unlocked_ioctl = mshv_vp_ioctl,
+ 	.llseek = noop_llseek,
++	.mmap = mshv_vp_mmap,
+ };
+ 
+ static const struct file_operations mshv_partition_fops = {
+@@ -428,6 +435,42 @@ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	return r;
  }
  
-+static long
-+mshv_partition_ioctl_install_intercept(struct mshv_partition *partition,
-+				       void __user *user_args)
++static vm_fault_t mshv_vp_fault(struct vm_fault *vmf)
 +{
-+	struct mshv_install_intercept args;
++	struct mshv_vp *vp = vmf->vma->vm_file->private_data;
++	vmf->page = vp->register_page;
++	get_page(vp->register_page);
 +
-+	if (copy_from_user(&args, user_args, sizeof(args)))
-+		return -EFAULT;
-+
-+	return hv_call_install_intercept(
-+			partition->id,
-+			args.access_type_mask,
-+			args.intercept_type,
-+			args.intercept_parameter);
++	return 0;
 +}
 +
- static long
- mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++static int mshv_vp_mmap(struct file *file, struct vm_area_struct *vma)
++{
++	int ret;
++	struct mshv_vp *vp = file->private_data;
++
++	if (vma->vm_pgoff != MSHV_VP_MMAP_REGISTERS_OFFSET)
++		return -EINVAL;
++
++	if (mutex_lock_killable(&vp->mutex))
++		return -EINTR;
++
++	if (!vp->register_page) {
++		ret = hv_call_map_vp_state_page(vp->index,
++						vp->partition->id,
++						&vp->register_page);
++		if (ret) {
++			mutex_unlock(&vp->mutex);
++			return ret;
++		}
++	}
++
++	mutex_unlock(&vp->mutex);
++
++	vma->vm_ops = &mshv_vp_vm_ops;
++	return 0;
++}
++
+ static int
+ mshv_vp_release(struct inode *inode, struct file *filp)
  {
-@@ -579,6 +595,10 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		ret = mshv_partition_ioctl_create_vp(partition,
- 							(void __user *)arg);
- 		break;
-+	case MSHV_INSTALL_INTERCEPT:
-+		ret = mshv_partition_ioctl_install_intercept(partition,
-+							(void __user *)arg);
-+		break;
- 	default:
- 		ret = -ENOTTY;
- 	}
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 3a42d6e421b5..b8f9c87e432b 100644
+index 504d5a7472b6..8d4750d19c9d 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -152,6 +152,7 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_WITHDRAW_MEMORY			0x0049
- #define HVCALL_MAP_GPA_PAGES			0x004b
- #define HVCALL_UNMAP_GPA_PAGES			0x004c
-+#define HVCALL_INSTALL_INTERCEPT		0x004d
- #define HVCALL_CREATE_VP			0x004e
- #define HVCALL_GET_VP_REGISTERS			0x0050
- #define HVCALL_SET_VP_REGISTERS			0x0051
-@@ -813,4 +814,11 @@ struct hv_unmap_gpa_pages {
-         u32 padding;
+@@ -872,4 +872,14 @@ struct hv_set_vp_state_in {
+ 	union hv_input_set_vp_state_data data[];
  } __packed;
  
-+struct hv_install_intercept {
++struct hv_map_vp_state_page_in {
 +	u64 partition_id;
-+	u32 access_type; /* mask */
-+	u32 intercept_type;
-+	union hv_intercept_parameters intercept_parameter;
++	u32 vp_index;
++	u32 type; /* enum hv_vp_state_page_type */
++} __packed;
++
++struct hv_map_vp_state_page_out {
++	u64 map_location; /* page number */
 +} __packed;
 +
  #endif
-diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 229abac9502f..8574a4e62715 100644
---- a/include/uapi/linux/mshv.h
-+++ b/include/uapi/linux/mshv.h
-@@ -41,6 +41,12 @@ struct mshv_vp_registers {
- 	struct hv_register_assoc *regs;
+diff --git a/include/linux/mshv.h b/include/linux/mshv.h
+index 3933d80294f1..33f4d0cfee11 100644
+--- a/include/linux/mshv.h
++++ b/include/linux/mshv.h
+@@ -20,6 +20,7 @@ struct mshv_vp {
+ 	u32 index;
+ 	struct mshv_partition *partition;
+ 	struct mutex mutex;
++	struct page *register_page;
+ 	struct {
+ 		struct semaphore sem;
+ 		struct task_struct *task;
+diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
+index f4d8e9d148c3..a1bc77e463dd 100644
+--- a/include/uapi/asm-generic/hyperv-tlfs.h
++++ b/include/uapi/asm-generic/hyperv-tlfs.h
+@@ -131,4 +131,9 @@ enum hv_get_set_vp_state_type {
+ 	HV_GET_SET_VP_STATE_SYNTHETIC_TIMERS	= 4,
  };
  
-+struct mshv_install_intercept {
-+	__u32 access_type_mask;
-+	enum hv_intercept_type intercept_type;
-+	union hv_intercept_parameters intercept_parameter;
++enum hv_vp_state_page_type {
++	HV_VP_STATE_PAGE_REGISTERS = 0,
++	HV_VP_STATE_PAGE_COUNT
 +};
 +
- #define MSHV_IOCTL 0xB8
+ #endif
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 73c24478e87e..718a3617e1f1 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -14,6 +14,8 @@
  
- /* mshv device */
-@@ -51,6 +57,7 @@ struct mshv_vp_registers {
- #define MSHV_MAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x02, struct mshv_user_mem_region)
- #define MSHV_UNMAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x03, struct mshv_user_mem_region)
- #define MSHV_CREATE_VP		_IOW(MSHV_IOCTL, 0x04, struct mshv_create_vp)
-+#define MSHV_INSTALL_INTERCEPT	_IOW(MSHV_IOCTL, 0x08, struct mshv_install_intercept)
+ #define MSHV_CAP_CORE_API_STABLE    0x0
  
- /* vp device */
- #define MSHV_GET_VP_REGISTERS   _IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
++#define MSHV_VP_MMAP_REGISTERS_OFFSET (HV_VP_STATE_PAGE_REGISTERS * 0x1000)
++
+ struct mshv_create_partition {
+ 	__u64 flags;
+ 	struct hv_partition_creation_properties partition_creation_properties;
+@@ -84,4 +86,14 @@ struct mshv_vp_state {
+ #define MSHV_GET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_vp_state)
+ #define MSHV_SET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0B, struct mshv_vp_state)
+ 
++/* register page mapping example:
++ * struct hv_vp_register_page *regs = mmap(NULL,
++ *					   4096,
++ *					   PROT_READ | PROT_WRITE,
++ *					   MAP_SHARED,
++ *					   vp_fd,
++ *					   HV_VP_MMAP_REGISTERS_OFFSET);
++ * munmap(regs, 4096);
++ */
++
+ #endif
 -- 
 2.25.1
 
