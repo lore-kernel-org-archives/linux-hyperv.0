@@ -2,153 +2,199 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 919AEC47087
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9017AC4708D
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F324613ED
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 739A6613F0
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229698AbhE1WpR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 28 May 2021 18:45:17 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:55800 "EHLO
+        id S229641AbhE1WpS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 28 May 2021 18:45:18 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:55826 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbhE1WpR (ORCPT
+        with ESMTP id S229679AbhE1WpR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Fri, 28 May 2021 18:45:17 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 245C520B7188;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 6649A20B800A;
         Fri, 28 May 2021 15:43:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 245C520B7188
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6649A20B800A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622241822;
-        bh=LId5jFjtAstOF7XqIEEYkqZMWrzY32BUiTvVgQERhNc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=syeh0ubADcd8hPJ1oAsyOaYdSGR1PlN6Dg1Ar8mRiBP1e6f7u+a2Jjd/o+492Lc5M
-         1X5pyp9fzidMzLAr9xrIp4vsFLwqCOjfhCvuA66kjUsU7pgCVQM+r/uE9RcYRcrwqy
-         Y8jydwzZf3dys8AsmCL1TxzC7Az6iE7wG91X7Jug=
+        bh=HxgM6fAkNsD9pKalX66nNs4AG10Z2Op4z9nCDbFTpV0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LCFkwFlt70JK+bm8ubijNvjeulUaTDGZYLNUCwiOCSdNN0kjC3HJNrCTcPXC4vz9b
+         vpeoHbDLAogL/dKeI+YX73io6lMKXWQIrMUimms8LDMjgsEcGfI1pzvYFChrTJaPlY
+         YvB90xeji3YN1uICx9UnZYyDDgES37kn+LdQCxt4=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com
-Subject: [PATCH 00/19] Microsoft Hypervisor root partition ioctl interface
-Date:   Fri, 28 May 2021 15:43:20 -0700
-Message-Id: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 03/19] drivers/hv: minimal mshv module (/dev/mshv/)
+Date:   Fri, 28 May 2021 15:43:23 -0700
+Message-Id: <1622241819-21155-4-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch series provides a userspace interface for creating and running guest
-virtual machines while running on the Microsoft Hypervisor [0].
+Introduce a barebones module file for the mshv API.
+Introduce CONFIG_HYPERV_ROOT_API for controlling compilation of mshv.
 
-Since managing guest machines can only be done when Linux is the root partition,
-this series depends on Wei Liu's patch series merged in 5.12:
-https://lore.kernel.org/linux-hyperv/20210203150435.27941-1-wei.liu@kernel.org/
-
-The first two patches provide some helpers for converting hypervisor status
-codes to linux error codes, and printing hypervisor status codes to dmesg for
-debugging.
-
-Hyper-V related headers asm-generic/hyperv-tlfs.h and x86/asm/hyperv-tlfs.h are
-split into uapi and non-uapi. The uapi versions contain structures used in both
-the ioctl interface and the kernel.
-
-The mshv API is introduced in drivers/hv/mshv_main.c. As each interface is
-introduced, documentation is added in Documentation/virt/mshv/api.rst.
-The API is file-desciptor based, like KVM. The entry point is /dev/mshv.
-
-/dev/mshv ioctls:
-MSHV_CHECK_EXTENSION
-MSHV_CREATE_PARTITION
-
-Partition (vm) ioctls:
-MSHV_MAP_GUEST_MEMORY, MSHV_UNMAP_GUEST_MEMORY
-MSHV_INSTALL_INTERCEPT
-MSHV_ASSERT_INTERRUPT
-MSHV_GET_PARTITION_PROPERTY, MSHV_SET_PARTITION_PROPERTY
-MSHV_CREATE_VP
-
-Vp (vcpu) ioctls:
-MSHV_GET_VP_REGISTERS, MSHV_SET_VP_REGISTERS
-MSHV_RUN_VP
-MSHV_GET_VP_STATE, MSHV_SET_VP_STATE
-MSHV_TRANSLATE_GVA
-mmap() (register page)
-
-[0] Hyper-V is more well-known, but it really refers to the whole stack
-    including the hypervisor and other components that run in Windows kernel
-    and userspace.
-
-Changes since RFC:
-1. Moved code from virt/mshv to drivers/hv
-2. Split hypercall helper functions and synic code to hv_call.c and hv_synic.c
-3. MSHV_REQUEST_VERSION ioctl replaced with MSHV_CHECK_EXTENSION
-3. Numerous suggestions, fixes, style changes, etc from Michael Kelley, Vitaly
-   Kuznetsov, Wei Liu, and Vineeth Pillai
-4. Added patch to enable hypervisor enlightenments on partition creation
-5. Added Wei Liu's patch for GVA to GPA translation
-
-Nuno Das Neves (18):
-  x86/hyperv: convert hyperv statuses to linux error codes
-  asm-generic/hyperv: convert hyperv statuses to strings
-  drivers/hv: minimal mshv module (/dev/mshv/)
-  drivers/hv: check extension ioctl
-  drivers/hv: create partition ioctl
-  drivers/hv: create, initialize, finalize, delete partition hypercalls
-  drivers/hv: withdraw memory hypercall
-  drivers/hv: map and unmap guest memory
-  drivers/hv: create vcpu ioctl
-  drivers/hv: get and set vcpu registers ioctls
-  drivers/hv: set up synic pages for intercept messages
-  drivers/hv: run vp ioctl and isr
-  drivers/hv: install intercept ioctl
-  drivers/hv: assert interrupt ioctl
-  drivers/hv: get and set vp state ioctls
-  drivers/hv: mmap vp register page
-  drivers/hv: get and set partition property ioctls
-  drivers/hv: Add enlightenment bits to create partition ioctl
-
-Wei Liu (1):
-  drivers/hv: Translate GVA to GPA
-
- .../userspace-api/ioctl/ioctl-number.rst      |    2 +
- Documentation/virt/mshv/api.rst               |  173 +++
- arch/x86/hyperv/Makefile                      |    1 +
- arch/x86/hyperv/hv_init.c                     |    2 +-
- arch/x86/hyperv/hv_proc.c                     |   42 +-
- arch/x86/include/asm/hyperv-tlfs.h            |   15 +-
- arch/x86/include/asm/mshyperv.h               |    1 +
- arch/x86/include/uapi/asm/hyperv-tlfs.h       | 1274 +++++++++++++++++
- arch/x86/kernel/cpu/mshyperv.c                |   16 +
- drivers/hv/Kconfig                            |   18 +
- drivers/hv/Makefile                           |    3 +
- drivers/hv/hv_call.c                          |  744 ++++++++++
- drivers/hv/hv_synic.c                         |  181 +++
- drivers/hv/mshv.h                             |  120 ++
- drivers/hv/mshv_main.c                        | 1153 +++++++++++++++
- include/asm-generic/hyperv-tlfs.h             |  353 +++--
- include/asm-generic/mshyperv.h                |   11 +
- include/linux/mshv.h                          |   61 +
- include/uapi/asm-generic/hyperv-tlfs.h        |  242 ++++
- include/uapi/linux/mshv.h                     |  117 ++
- 20 files changed, 4384 insertions(+), 145 deletions(-)
- create mode 100644 Documentation/virt/mshv/api.rst
- create mode 100644 arch/x86/include/uapi/asm/hyperv-tlfs.h
- create mode 100644 drivers/hv/hv_call.c
- create mode 100644 drivers/hv/hv_synic.c
- create mode 100644 drivers/hv/mshv.h
+Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+---
+ arch/x86/hyperv/Makefile |  1 +
+ drivers/hv/Kconfig       | 18 ++++++++++
+ drivers/hv/Makefile      |  3 ++
+ drivers/hv/mshv_main.c   | 74 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 96 insertions(+)
  create mode 100644 drivers/hv/mshv_main.c
- create mode 100644 include/linux/mshv.h
- create mode 100644 include/uapi/asm-generic/hyperv-tlfs.h
- create mode 100644 include/uapi/linux/mshv.h
 
+diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
+index 48e2c51464e8..4b5a8a96ba01 100644
+--- a/arch/x86/hyperv/Makefile
++++ b/arch/x86/hyperv/Makefile
+@@ -5,3 +5,4 @@ obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
+ ifdef CONFIG_X86_64
+ obj-$(CONFIG_PARAVIRT_SPINLOCKS)	+= hv_spinlock.o
+ endif
++
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 66c794d92391..d618b1fab2bb 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -27,4 +27,22 @@ config HYPERV_BALLOON
+ 	help
+ 	  Select this option to enable Hyper-V Balloon driver.
+ 
++config HYPERV_ROOT_API
++	tristate "Microsoft Hypervisor root partition interfaces: /dev/mshv"
++	depends on HYPERV
++	help
++	  Provides access to interfaces for managing guest virtual machines
++	  running under the Microsoft Hypervisor.
++
++	  These interfaces will only work when Linux is running as root
++	  partition on the Microsoft Hypervisor.
++
++	  The interfaces are provided via a device named /dev/mshv.
++
++	  To compile this as a module, choose M here.
++          The module is named mshv.
++
++	  If unsure, say N.
++
++
+ endmenu
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 94daf8240c95..c943fbeb70e7 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
+ obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
+ obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
++obj-$(CONFIG_HYPERV_ROOT_API)   += mshv.o
+ 
+ CFLAGS_hv_trace.o = -I$(src)
+ CFLAGS_hv_balloon.o = -I$(src)
+@@ -11,3 +12,5 @@ hv_vmbus-y := vmbus_drv.o \
+ 		 channel_mgmt.o ring_buffer.o hv_trace.o
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
++
++mshv-y                          += mshv_main.o
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+new file mode 100644
+index 000000000000..c68cc84fb983
+--- /dev/null
++++ b/drivers/hv/mshv_main.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2020, Microsoft Corporation.
++ *
++ * Authors:
++ *   Nuno Das Neves <nudasnev@microsoft.com>
++ *   Lillian Grassin-Drake <ligrassi@microsoft.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/fs.h>
++#include <linux/miscdevice.h>
++
++MODULE_AUTHOR("Microsoft");
++MODULE_LICENSE("GPL");
++
++static int mshv_dev_open(struct inode *inode, struct file *filp);
++static int mshv_dev_release(struct inode *inode, struct file *filp);
++static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
++
++static const struct file_operations mshv_dev_fops = {
++	.owner = THIS_MODULE,
++	.open = mshv_dev_open,
++	.release = mshv_dev_release,
++	.unlocked_ioctl = mshv_dev_ioctl,
++	.llseek = noop_llseek,
++};
++
++static struct miscdevice mshv_dev = {
++	.minor = MISC_DYNAMIC_MINOR,
++	.name = "mshv",
++	.fops = &mshv_dev_fops,
++	.mode = 600,
++};
++
++static long
++mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++{
++	return -ENOTTY;
++}
++
++static int
++mshv_dev_open(struct inode *inode, struct file *filp)
++{
++	return 0;
++}
++
++static int
++mshv_dev_release(struct inode *inode, struct file *filp)
++{
++	return 0;
++}
++
++static int
++__init mshv_init(void)
++{
++	int ret;
++
++	ret = misc_register(&mshv_dev);
++	if (ret)
++		pr_err("%s: misc device register failed\n", __func__);
++
++	return ret;
++}
++
++static void
++__exit mshv_exit(void)
++{
++	misc_deregister(&mshv_dev);
++}
++
++module_init(mshv_init);
++module_exit(mshv_exit);
 -- 
 2.25.1
 
