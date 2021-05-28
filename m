@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB62C47096
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB2F4C47091
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7F3D6142D
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E879613E5
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbhE1WpW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 28 May 2021 18:45:22 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:55850 "EHLO
+        id S229821AbhE1WpZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 28 May 2021 18:45:25 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:55876 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229736AbhE1WpS (ORCPT
+        with ESMTP id S229768AbhE1WpT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 28 May 2021 18:45:18 -0400
+        Fri, 28 May 2021 18:45:19 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 1FF7820B8020;
+        by linux.microsoft.com (Postfix) with ESMTPSA id B7A1D20B8027;
         Fri, 28 May 2021 15:43:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1FF7820B8020
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B7A1D20B8027
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622241823;
-        bh=/hFVnpx85BS3HTDWl1DLIQkb1oXqfqDpSVc5kdGZhXE=;
+        bh=2BzDvbQcaLqhPooAjVGXGLBjFIafKuFwSYNSNNYTlTs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VbDGzcyTFV3ZKL84RVgID1kdgK5iR744U5yVMoFLjcBp9TmFUJjXAS0XLBxJMb0pg
-         pdhlkLswmSm0VVwsHo3He6fm7xBf2Y5yEHg4HoH7w1bj8shsVzhlX4I4eUEedIIbqj
-         +7Z8dLUBDY03wGa+HmAn3R/Rqh7nuoe64i3zC4Yw=
+        b=MQ65CrEVqWTk+0n0jjk9U7ZOy5E7MeXahG0BQxu1EbJN1CG9vnnZvbesJUXwzVof+
+         bqdoGleKh4zR+otUsJKrJlp0bcpzz6wH9vx87Pip5ZU2bi22+e+DswhWU5K0s7DFob
+         NsprGNxxXKmVpLJQ/kMOwSKs4DIz5ctSzIAAJuDw=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com
-Subject: [PATCH 11/19] drivers/hv: set up synic pages for intercept messages
-Date:   Fri, 28 May 2021 15:43:31 -0700
-Message-Id: <1622241819-21155-12-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 18/19] drivers/hv: Add enlightenment bits to create partition ioctl
+Date:   Fri, 28 May 2021 15:43:38 -0700
+Message-Id: <1622241819-21155-19-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -47,647 +47,207 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Same idea as synic setup in drivers/hv/hv.c:hv_synic_enable_regs()
-and hv_synic_disable_regs().
-Setting up synic registers in both vmbus driver and mshv would clobber
-them, but the vmbus driver will not run in the root partition, so this
-is safe.
-Move struct hv_message and related definitions to uapi.
+Introduce hv_partition_synthetic_processor features mask to
+MSHV_CREATE_PARTITION ioctl, which can be used to enable hypervisor
+enlightenments for exo partitions.
 
-Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
-Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- arch/x86/include/uapi/asm/hyperv-tlfs.h | 225 ++++++++++++++++++++++++
- drivers/hv/Makefile                     |   2 +-
- drivers/hv/hv_synic.c                   |  85 +++++++++
- drivers/hv/mshv.h                       |   5 +
- drivers/hv/mshv_main.c                  |  30 +++-
- include/asm-generic/hyperv-tlfs.h       |  81 +--------
- include/linux/mshv.h                    |   1 +
- include/uapi/asm-generic/hyperv-tlfs.h  |  75 ++++++++
- 8 files changed, 422 insertions(+), 82 deletions(-)
- create mode 100644 drivers/hv/hv_synic.c
+ Documentation/virt/mshv/api.rst         |   3 +
+ arch/x86/include/uapi/asm/hyperv-tlfs.h | 125 ++++++++++++++++++++++++
+ drivers/hv/mshv_main.c                  |   7 ++
+ include/uapi/asm-generic/hyperv-tlfs.h  |   1 +
+ include/uapi/linux/mshv.h               |   1 +
+ 5 files changed, 137 insertions(+)
 
+diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
+index e660e0e6865e..56a6edfcfe29 100644
+--- a/Documentation/virt/mshv/api.rst
++++ b/Documentation/virt/mshv/api.rst
+@@ -167,4 +167,7 @@ The page is laid out in struct hv_vp_register_page in asm/hyperv-tlfs.h.
+ 
+ Can be used to get/set various properties of a partition.
+ 
++Some properties can only be set at partition creation. For these, there are
++parameters in MSHV_CREATE_PARTITION.
++
+ 
 diff --git a/arch/x86/include/uapi/asm/hyperv-tlfs.h b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-index a42c63001055..4ffa7e1cd185 100644
+index 5430f3c98934..4447ef5362e9 100644
 --- a/arch/x86/include/uapi/asm/hyperv-tlfs.h
 +++ b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-@@ -723,4 +723,229 @@ union hv_register_value {
- 		pending_virtualization_fault_event;
- };
- 
-+union hv_x64_vp_execution_state {
-+	__u16 as_uint16;
-+	struct {
-+		__u16 cpl:2;
-+		__u16 cr0_pe:1;
-+		__u16 cr0_am:1;
-+		__u16 efer_lma:1;
-+		__u16 debug_active:1;
-+		__u16 interruption_pending:1;
-+		__u16 vtl:4;
-+		__u16 enclave_mode:1;
-+		__u16 interrupt_shadow:1;
-+		__u16 virtualization_fault_active:1;
-+		__u16 reserved:2;
-+	} __packed;
-+};
-+
-+/* Values for intercept_access_type field */
-+#define HV_INTERCEPT_ACCESS_READ	0
-+#define HV_INTERCEPT_ACCESS_WRITE	1
-+#define HV_INTERCEPT_ACCESS_EXECUTE	2
-+
-+struct hv_x64_intercept_message_header {
-+	__u32 vp_index;
-+	__u8 instruction_length:4;
-+	__u8 cr8:4; // only set for exo partitions
-+	__u8 intercept_access_type;
-+	union hv_x64_vp_execution_state execution_state;
-+	struct hv_x64_segment_register cs_segment;
-+	__u64 rip;
-+	__u64 rflags;
-+} __packed;
-+
-+#define HV_HYPERCALL_INTERCEPT_MAX_XMM_REGISTERS 6
-+
-+struct hv_x64_hypercall_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u64 rax;
-+	__u64 rbx;
-+	__u64 rcx;
-+	__u64 rdx;
-+	__u64 r8;
-+	__u64 rsi;
-+	__u64 rdi;
-+	struct hv_u128 xmmregisters[HV_HYPERCALL_INTERCEPT_MAX_XMM_REGISTERS];
-+	struct {
-+		__u32 isolated:1;
-+		__u32 reserved:31;
-+	} __packed;
-+} __packed;
-+
-+union hv_x64_register_access_info {
-+	union hv_register_value source_value;
-+	__u32 destination_register;
-+	__u64 source_address;
-+	__u64 destination_address;
-+};
-+
-+struct hv_x64_register_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	struct {
-+		__u8 is_memory_op:1;
-+		__u8 reserved:7;
-+	} __packed;
-+	__u8 reserved8;
-+	__u16 reserved16;
-+	__u32 register_name;
-+	union hv_x64_register_access_info access_info;
-+} __packed;
-+
-+union hv_x64_memory_access_info {
-+	__u8 as_uint8;
-+	struct {
-+		__u8 gva_valid:1;
-+		__u8 gva_gpa_valid:1;
-+		__u8 hypercall_output_pending:1;
-+		__u8 tlb_locked_no_overlay:1;
-+		__u8 reserved:4;
-+	} __packed;
-+};
-+
-+union hv_x64_io_port_access_info {
-+	__u8 as_uint8;
-+	struct {
-+		__u8 access_size:3;
-+		__u8 string_op:1;
-+		__u8 rep_prefix:1;
-+		__u8 reserved:3;
-+	} __packed;
-+};
-+
-+union hv_x64_exception_info {
-+	__u8 as_uint8;
-+	struct {
-+		__u8 error_code_valid:1;
-+		__u8 software_exception:1;
-+		__u8 reserved:6;
-+	} __packed;
-+};
-+
-+#define HV_CACHE_TYPE_UNCACHED		0
-+#define HV_CACHE_TYPE_WRITE_COMBINING	1
-+#define HV_CACHE_TYPE_WRITE_THROUGH	4
-+#define HV_CACHE_TYPE_WRITE_PROTECTED	5
-+#define HV_CACHE_TYPE_WRITE_BACK	6
-+
-+struct hv_x64_memory_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u32 cache_type;
-+	__u8 instruction_byte_count;
-+	union hv_x64_memory_access_info memory_access_info;
-+	__u8 tpr_priority;
-+	__u8 reserved1;
-+	__u64 guest_virtual_address;
-+	__u64 guest_physical_address;
-+	__u8 instruction_bytes[16];
-+} __packed;
-+
-+struct hv_x64_cpuid_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u64 rax;
-+	__u64 rcx;
-+	__u64 rdx;
-+	__u64 rbx;
-+	__u64 default_result_rax;
-+	__u64 default_result_rcx;
-+	__u64 default_result_rdx;
-+	__u64 default_result_rbx;
-+} __packed;
-+
-+struct hv_x64_msr_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u32 msr_number;
-+	__u32 reserved;
-+	__u64 rdx;
-+	__u64 rax;
-+} __packed;
-+
-+struct hv_x64_io_port_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u16 port_number;
-+	union hv_x64_io_port_access_info access_info;
-+	__u8 instruction_byte_count;
-+	__u32 reserved;
-+	__u64 rax;
-+	__u8 instruction_bytes[16];
-+	struct hv_x64_segment_register ds_segment;
-+	struct hv_x64_segment_register es_segment;
-+	__u64 rcx;
-+	__u64 rsi;
-+	__u64 rdi;
-+} __packed;
-+
-+struct hv_x64_exception_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u16 exception_vector;
-+	union hv_x64_exception_info exception_info;
-+	__u8 instruction_byte_count;
-+	__u32 error_code;
-+	__u64 exception_parameter;
-+	__u64 reserved;
-+	__u8 instruction_bytes[16];
-+	struct hv_x64_segment_register ds_segment;
-+	struct hv_x64_segment_register ss_segment;
-+	__u64 rax;
-+	__u64 rcx;
-+	__u64 rdx;
-+	__u64 rbx;
-+	__u64 rsp;
-+	__u64 rbp;
-+	__u64 rsi;
-+	__u64 rdi;
-+	__u64 r8;
-+	__u64 r9;
-+	__u64 r10;
-+	__u64 r11;
-+	__u64 r12;
-+	__u64 r13;
-+	__u64 r14;
-+	__u64 r15;
-+} __packed;
-+
-+struct hv_x64_invalid_vp_register_message {
-+	__u32 vp_index;
-+	__u32 reserved;
-+} __packed;
-+
-+struct hv_x64_unrecoverable_exception_message {
-+	struct hv_x64_intercept_message_header header;
-+} __packed;
-+
-+#define HV_UNSUPPORTED_FEATURE_INTERCEPT	1
-+#define HV_UNSUPPORTED_FEATURE_TASK_SWITCH_TSS	2
-+
-+struct hv_x64_unsupported_feature_message {
-+	__u32 vp_index;
-+	__u32 feature_code;
-+	__u64 feature_parameter;
-+} __packed;
-+
-+struct hv_x64_halt_message {
-+	struct hv_x64_intercept_message_header header;
-+} __packed;
-+
-+#define HV_X64_PENDING_INTERRUPT	0
-+#define HV_X64_PENDING_NMI		2
-+#define HV_X64_PENDING_EXCEPTION	3
-+
-+struct hv_x64_interruption_deliverable_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u32 deliverable_type; /* pending interruption type */
-+	__u32 rsvd;
-+} __packed;
-+
-+struct hv_x64_sipi_intercept_message {
-+	struct hv_x64_intercept_message_header header;
-+	__u32 target_vp_index;
-+	__u32 interrupt_vector;
-+} __packed;
-+
-+struct hv_x64_apic_eoi_message {
-+	__u32 vp_index;
-+	__u32 interrupt_vector;
-+} __packed;
-+
- #endif
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 649748c9c144..a2b698661b5e 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -13,4 +13,4 @@ hv_vmbus-y := vmbus_drv.o \
- hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
- hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
- 
--mshv-y                          += mshv_main.o hv_call.o
-+mshv-y                          += mshv_main.o hv_call.o hv_synic.o
-diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
-new file mode 100644
-index 000000000000..8065f3598001
---- /dev/null
-+++ b/drivers/hv/hv_synic.c
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2021, Microsoft Corporation.
-+ *
-+ * Authors:
-+ *   Nuno Das Neves <nudasnev@microsoft.com>
-+ *   Lillian Grassin-Drake <ligrassi@microsoft.com>
-+ *   Vineeth Remanan Pillai <viremana@linux.microsoft.com>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/io.h>
-+#include <linux/mshv.h>
-+#include <asm/mshyperv.h>
-+
-+#include "mshv.h"
-+
-+int mshv_synic_init(unsigned int cpu)
-+{
-+	union hv_synic_simp simp;
-+	union hv_synic_sint sint;
-+	union hv_synic_scontrol sctrl;
-+	struct hv_message_page **msg_page =
-+			this_cpu_ptr(mshv.synic_message_page);
-+
-+	/* Setup the Synic's message page */
-+	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
-+	simp.simp_enabled = true;
-+	*msg_page = memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
-+			     HV_HYP_PAGE_SIZE,
-+                             MEMREMAP_WB);
-+	if (!msg_page) {
-+		pr_err("%s: memremap failed\n", __func__);
-+		return -EFAULT;
-+	}
-+	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
-+
-+	/* Enable intercepts */
-+	sint.as_uint64 = 0;
-+	sint.vector = HYPERVISOR_CALLBACK_VECTOR;
-+	sint.masked = false;
-+#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
-+	sint.auto_eoi =	!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
-+#else
-+	sint.auto_eoi = 0;
-+#endif
-+	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
-+			sint.as_uint64);
-+
-+	/* Enable global synic bit */
-+	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
-+	sctrl.enable = 1;
-+	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
-+
-+	return 0;
-+}
-+
-+int mshv_synic_cleanup(unsigned int cpu)
-+{
-+	union hv_synic_sint sint;
-+	union hv_synic_simp simp;
-+	union hv_synic_scontrol sctrl;
-+	struct hv_message_page **msg_page =
-+			this_cpu_ptr(mshv.synic_message_page);
-+
-+	/* Disable the interrupt */
-+	sint.as_uint64 = hv_get_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX);
-+	sint.masked = true;
-+	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
-+			sint.as_uint64);
-+
-+	/* Disable Synic's message page */
-+	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
-+	simp.simp_enabled = false;
-+	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
-+	memunmap(*msg_page);
-+
-+	/* Disable global synic bit */
-+	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
-+	sctrl.enable = 0;
-+	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
-+
-+	return 0;
-+}
-diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index 9e63d2fabc74..b8fece9fe80d 100644
---- a/drivers/hv/mshv.h
-+++ b/drivers/hv/mshv.h
-@@ -27,6 +27,11 @@
- 	((HV_HYP_PAGE_SIZE - sizeof(struct hv_set_vp_registers)) \
- 		/ sizeof(struct hv_register_assoc))
- 
-+extern struct mshv mshv;
-+
-+int mshv_synic_init(unsigned int cpu);
-+int mshv_synic_cleanup(unsigned int cpu);
-+
- /*
-  * Hyper-V hypercalls
-  */
-diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index a7f3e392d944..a3e6cd15f9ed 100644
---- a/drivers/hv/mshv_main.c
-+++ b/drivers/hv/mshv_main.c
-@@ -15,6 +15,8 @@
- #include <linux/file.h>
- #include <linux/anon_inodes.h>
- #include <linux/mm.h>
-+#include <linux/io.h>
-+#include <linux/cpuhotplug.h>
- #include <linux/mshv.h>
- #include <asm/mshyperv.h>
- 
-@@ -650,23 +652,47 @@ mshv_dev_release(struct inode *inode, struct file *filp)
- 	return 0;
- }
- 
-+static int mshv_cpuhp_online;
-+
- static int
- __init mshv_init(void)
- {
- 	int ret;
- 
- 	ret = misc_register(&mshv_dev);
--	if (ret)
-+	if (ret) {
- 		pr_err("%s: misc device register failed\n", __func__);
-+		return ret;
-+	}
-+
-+	mshv.synic_message_page = alloc_percpu(struct hv_message_page *);
-+	if (!mshv.synic_message_page) {
-+		pr_err("%s: failed to allocate percpu synic page\n", __func__);
-+		misc_deregister(&mshv_dev);
-+		return -ENOMEM;
-+	}
- 
-+	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mshv_synic",
-+				mshv_synic_init,
-+				mshv_synic_cleanup);
-+	if (ret < 0) {
-+		pr_err("%s: failed to setup cpu hotplug state: %i\n",
-+		       __func__, ret);
-+		return ret;
-+	}
-+
-+	mshv_cpuhp_online = ret;
- 	spin_lock_init(&mshv.partitions.lock);
- 
--	return ret;
-+	return 0;
- }
- 
- static void
- __exit mshv_exit(void)
- {
-+	cpuhp_remove_state(mshv_cpuhp_online);
-+	free_percpu(mshv.synic_message_page);
-+
- 	misc_deregister(&mshv_dev);
- }
- 
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 220b89293130..3a42d6e421b5 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -241,6 +241,8 @@ enum hv_status {
- /* Valid SynIC vectors are 16-255. */
- #define HV_SYNIC_FIRST_VALID_VECTOR	(16)
- 
-+#define HV_SYNIC_INTERCEPTION_SINT_INDEX 0x00000000
-+
- #define HV_SYNIC_CONTROL_ENABLE		(1ULL << 0)
- #define HV_SYNIC_SIMP_ENABLE		(1ULL << 0)
- #define HV_SYNIC_SIEFP_ENABLE		(1ULL << 0)
-@@ -250,84 +252,6 @@ enum hv_status {
- 
- #define HV_SYNIC_STIMER_COUNT		(4)
- 
--/* Define synthetic interrupt controller message constants. */
--#define HV_MESSAGE_SIZE			(256)
--#define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
--#define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
--
--/*
-- * Define hypervisor message types. Some of the message types
-- * are x86/x64 specific, but there's no good way to separate
-- * them out into the arch-specific version of hyperv-tlfs.h
-- * because C doesn't provide a way to extend enum types.
-- * Keeping them all in the arch neutral hyperv-tlfs.h seems
-- * the least messy compromise.
-- */
--enum hv_message_type {
--	HVMSG_NONE			= 0x00000000,
--
--	/* Memory access messages. */
--	HVMSG_UNMAPPED_GPA		= 0x80000000,
--	HVMSG_GPA_INTERCEPT		= 0x80000001,
--
--	/* Timer notification messages. */
--	HVMSG_TIMER_EXPIRED		= 0x80000010,
--
--	/* Error messages. */
--	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
--	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
--	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
--
--	/* Trace buffer complete messages. */
--	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
--
--	/* Platform-specific processor intercept messages. */
--	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
--	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
--	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
--	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
--	HVMSG_X64_APIC_EOI		= 0x80010004,
--	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
--};
--
--/* Define synthetic interrupt controller message flags. */
--union hv_message_flags {
--	__u8 asu8;
--	struct {
--		__u8 msg_pending:1;
--		__u8 reserved:7;
--	} __packed;
--};
--
--/* Define port identifier type. */
--union hv_port_id {
--	__u32 asu32;
--	struct {
--		__u32 id:24;
--		__u32 reserved:8;
--	} __packed u;
--};
--
--/* Define synthetic interrupt controller message header. */
--struct hv_message_header {
--	__u32 message_type;
--	__u8 payload_size;
--	union hv_message_flags message_flags;
--	__u8 reserved[2];
--	union {
--		__u64 sender;
--		union hv_port_id port;
--	};
--} __packed;
--
--/* Define synthetic interrupt controller message format. */
--struct hv_message {
--	struct hv_message_header header;
--	union {
--		__u64 payload[HV_MESSAGE_PAYLOAD_QWORD_COUNT];
--	} u;
--} __packed;
--
- /* Define the synthetic interrupt message page layout. */
- struct hv_message_page {
- 	struct hv_message sint_message[HV_SYNIC_SINT_COUNT];
-@@ -341,7 +265,6 @@ struct hv_timer_message_payload {
- 	__u64 delivery_time;	/* When the message was delivered */
+@@ -1146,4 +1146,129 @@ struct hv_vp_register_page {
+ 	__u64 instruction_emulation_hints;
  } __packed;
  
--
- /* Define synthetic interrupt controller flag constants. */
- #define HV_EVENT_FLAGS_COUNT		(256 * 8)
- #define HV_EVENT_FLAGS_LONG_COUNT	(256 / sizeof(unsigned long))
-diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index dfe469f573f9..7709aaa1e064 100644
---- a/include/linux/mshv.h
-+++ b/include/linux/mshv.h
-@@ -42,6 +42,7 @@ struct mshv_partition {
- };
- 
- struct mshv {
-+	struct hv_message_page __percpu **synic_message_page;
- 	struct {
- 		spinlock_t lock;
- 		u64 count;
-diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-index f49099d1f894..4ecb29fe1a0e 100644
---- a/include/uapi/asm-generic/hyperv-tlfs.h
-+++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -6,6 +6,81 @@
- #define BIT(X)	(1ULL << (X))
- #endif
- 
-+/* Define synthetic interrupt controller message constants. */
-+#define HV_MESSAGE_SIZE			(256)
-+#define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
-+#define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
++#define HV_PARTITION_SYNTHETIC_PROCESSOR_FEATURES_BANKS 1
 +
-+/* Define hypervisor message types. */
-+enum hv_message_type {
-+	HVMSG_NONE				= 0x00000000,
++union hv_partition_synthetic_processor_features {
++	__u64 as_uint64[HV_PARTITION_SYNTHETIC_PROCESSOR_FEATURES_BANKS];
 +
-+	/* Memory access messages. */
-+	HVMSG_UNMAPPED_GPA			= 0x80000000,
-+	HVMSG_GPA_INTERCEPT			= 0x80000001,
-+
-+	/* Timer notification messages. */
-+	HVMSG_TIMER_EXPIRED			= 0x80000010,
-+
-+	/* Error messages. */
-+	HVMSG_INVALID_VP_REGISTER_VALUE		= 0x80000020,
-+	HVMSG_UNRECOVERABLE_EXCEPTION		= 0x80000021,
-+	HVMSG_UNSUPPORTED_FEATURE		= 0x80000022,
-+
-+	/* Trace buffer complete messages. */
-+	HVMSG_EVENTLOG_BUFFERCOMPLETE		= 0x80000040,
-+
-+	/* Platform-specific processor intercept messages. */
-+	HVMSG_X64_IO_PORT_INTERCEPT		= 0x80010000,
-+	HVMSG_X64_MSR_INTERCEPT			= 0x80010001,
-+	HVMSG_X64_CPUID_INTERCEPT		= 0x80010002,
-+	HVMSG_X64_EXCEPTION_INTERCEPT		= 0x80010003,
-+	HVMSG_X64_APIC_EOI			= 0x80010004,
-+	HVMSG_X64_LEGACY_FP_ERROR		= 0x80010005,
-+	HVMSG_X64_IOMMU_PRQ			= 0x80010006,
-+	HVMSG_X64_HALT				= 0x80010007,
-+	HVMSG_X64_INTERRUPTION_DELIVERABLE	= 0x80010008,
-+	HVMSG_X64_SIPI_INTERCEPT		= 0x80010009,
-+};
-+
-+/* Define synthetic interrupt controller message flags. */
-+union hv_message_flags {
-+	__u8 asu8;
 +	struct {
-+		__u8 msg_pending:1;
-+		__u8 reserved:7;
++		/* Report a hypervisor is present. CPUID leaves
++		 * 0x40000000 and 0x40000001 are supported.
++		 */
++		__u64 hypervisor_present:1;
++
++		/*
++		 * Features associated with HV#1:
++		 */
++
++		/* Report support for Hv1 (CPUID leaves 0x40000000 - 0x40000006). */
++		__u64 hv1:1;
++
++		/* Access to HV_X64_MSR_VP_RUNTIME.
++		 * Corresponds to access_vp_run_time_reg privilege.
++		 */
++		__u64 access_vp_run_time_reg:1;
++
++		/* Access to HV_X64_MSR_TIME_REF_COUNT.
++		 * Corresponds to access_partition_reference_counter privilege.
++		 */
++		__u64 access_partition_reference_counter:1;
++
++		/* Access to SINT-related registers (HV_X64_MSR_SCONTROL through
++		 * HV_X64_MSR_EOM and HV_X64_MSR_SINT0 through HV_X64_MSR_SINT15).
++		 * Corresponds to access_synic_regs privilege.
++		 */
++		__u64 access_synic_regs:1;
++
++		/* Access to synthetic timers and associated MSRs
++		 * (HV_X64_MSR_STIMER0_CONFIG through HV_X64_MSR_STIMER3_COUNT).
++		 * Corresponds to access_synthetic_timer_regs privilege.
++		 */
++		__u64 access_synthetic_timer_regs:1;
++
++		/* Access to APIC MSRs (HV_X64_MSR_EOI, HV_X64_MSR_ICR and HV_X64_MSR_TPR)
++		 * as well as the VP assist page.
++		 * Corresponds to access_intr_ctrl_regs privilege.
++		 */
++		__u64 access_intr_ctrl_regs:1;
++
++		/* Access to registers associated with hypercalls (HV_X64_MSR_GUEST_OS_ID
++		 * and HV_X64_MSR_HYPERCALL).
++		 * Corresponds to access_hypercall_msrs privilege.
++		 */
++		__u64 access_hypercall_regs:1;
++
++		/* VP index can be queried. corresponds to access_vp_index privilege. */
++		__u64 access_vp_index:1;
++
++		/* Access to the reference TSC. Corresponds to access_partition_reference_tsc
++		 * privilege.
++		 */
++		__u64 access_partition_reference_tsc:1;
++
++		/* Partition has access to the guest idle reg. Corresponds to
++		 * access_guest_idle_reg privilege.
++		 */
++		__u64 access_guest_idle_reg:1;
++
++		/* Partition has access to frequency regs. corresponds to access_frequency_regs
++		 * privilege.
++		 */
++		__u64 access_frequency_regs:1;
++
++		__u64 reserved_z12:1; /* Reserved for access_reenlightenment_controls. */
++		__u64 reserved_z13:1; /* Reserved for access_root_scheduler_reg. */
++		__u64 reserved_z14:1; /* Reserved for access_tsc_invariant_controls. */
++
++		/* Extended GVA ranges for HvCallFlushVirtualAddressList hypercall.
++		 * Corresponds to privilege.
++		 */
++		__u64 enable_extended_gva_ranges_for_flush_virtual_address_list:1;
++
++		__u64 reserved_z16:1; /* Reserved for access_vsm. */
++		__u64 reserved_z17:1; /* Reserved for access_vp_registers. */
++
++		/* Use fast hypercall output. Corresponds to privilege. */
++		__u64 fast_hypercall_output:1;
++
++		__u64 reserved_z19:1; /* Reserved for enable_extended_hypercalls. */
++
++		/*
++		 * HvStartVirtualProcessor can be used to start virtual processors.
++		 * Corresponds to privilege.
++		 */
++		__u64 start_virtual_processor:1;
++
++		__u64 reserved_z21:1; /* Reserved for Isolation. */
++
++		/* Synthetic timers in direct mode. */
++		__u64 direct_synthetic_timers:1;
++
++		__u64 reserved_z23:1; /* Reserved for synthetic time unhalted timer */
++
++		/* Use extended processor masks. */
++		__u64 extended_processor_masks:1;
++
++		/* HvCallFlushVirtualAddressSpace / HvCallFlushVirtualAddressList are supported. */
++		__u64 tb_flush_hypercalls:1;
++
++		/* HvCallSendSyntheticClusterIpi is supported. */
++		__u64 synthetic_cluster_ipi:1;
++
++		/* HvCallNotifyLongSpinWait is supported. */
++		__u64 notify_long_spin_wait:1;
++
++		/* HvCallQueryNumaDistance is supported. */
++		__u64 query_numa_distance:1;
++
++		/* HvCallSignalEvent is supported. Corresponds to privilege. */
++		__u64 signal_events:1;
++
++		/* HvCallRetargetDeviceInterrupt is supported. */
++		__u64 retarget_device_interrupt:1;
++
++		__u64 reserved:33;
 +	} __packed;
 +};
 +
-+/* Define port identifier type. */
-+union hv_port_id {
-+	__u32 asu32;
-+	struct {
-+		__u32 id:24;
-+		__u32 reserved:8;
-+	} __packed u;
-+};
+ #endif
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+index 9be684d56da6..0d3ea80e11ef 100644
+--- a/drivers/hv/mshv_main.c
++++ b/drivers/hv/mshv_main.c
+@@ -990,6 +990,13 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 	if (ret)
+ 		goto put_fd;
+ 
++	ret = hv_call_set_partition_property(
++				partition->id,
++				HV_PARTITION_PROPERTY_SYNTHETIC_PROC_FEATURES,
++				args.synthetic_processor_features.as_uint64[0]);
++	if (ret)
++		goto delete_partition;
 +
-+/* Define synthetic interrupt controller message header. */
-+struct hv_message_header {
-+	__u32 message_type;
-+	__u8 payload_size;
-+	union hv_message_flags message_flags;
-+	__u8 reserved[2];
-+	union {
-+		__u64 sender;
-+		union hv_port_id port;
-+	};
-+} __packed;
-+
-+/* Define synthetic interrupt controller message format. */
-+struct hv_message {
-+	struct hv_message_header header;
-+	union {
-+		__u64 payload[HV_MESSAGE_PAYLOAD_QWORD_COUNT];
-+	} u;
-+} __packed;
-+
- /* Userspace-visible partition creation flags */
- #define HV_PARTITION_CREATION_FLAG_SMT_ENABLED_GUEST                BIT(0)
- #define HV_PARTITION_CREATION_FLAG_GPA_LARGE_PAGES_DISABLED         BIT(3)
+ 	ret = hv_call_initialize_partition(partition->id);
+ 	if (ret)
+ 		goto delete_partition;
+diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
+index 1e572d38234a..5d8d5e89f432 100644
+--- a/include/uapi/asm-generic/hyperv-tlfs.h
++++ b/include/uapi/asm-generic/hyperv-tlfs.h
+@@ -139,6 +139,7 @@ enum hv_vp_state_page_type {
+ enum hv_partition_property_code {
+ 	/* Privilege properties */
+ 	HV_PARTITION_PROPERTY_PRIVILEGE_FLAGS				= 0x00010000,
++	HV_PARTITION_PROPERTY_SYNTHETIC_PROC_FEATURES			= 0x00010001,
+ 
+ 	/* Scheduling properties */
+ 	HV_PARTITION_PROPERTY_SUSPEND					= 0x00020000,
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index 1a6c22db4978..ec8281712430 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -19,6 +19,7 @@
+ struct mshv_create_partition {
+ 	__u64 flags;
+ 	struct hv_partition_creation_properties partition_creation_properties;
++	union hv_partition_synthetic_processor_features synthetic_processor_features;
+ };
+ 
+ /*
 -- 
 2.25.1
 
