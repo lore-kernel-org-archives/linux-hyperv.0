@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD533C4708F
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85794C4709C
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7150613E5
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63162613DD
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 May 2021 22:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229818AbhE1WpY (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 28 May 2021 18:45:24 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:55874 "EHLO
+        id S229816AbhE1WpZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 28 May 2021 18:45:25 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:55852 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229762AbhE1WpS (ORCPT
+        with ESMTP id S229769AbhE1WpT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 28 May 2021 18:45:18 -0400
+        Fri, 28 May 2021 18:45:19 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 76CD320B802A;
+        by linux.microsoft.com (Postfix) with ESMTPSA id CD74520B8031;
         Fri, 28 May 2021 15:43:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 76CD320B802A
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CD74520B8031
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622241823;
-        bh=Cr8Fza4xjT9U8SJ0p1mBo5DE7DetDhjOv2vHmhRzE90=;
+        bh=618mtQI28k2jEmxPbQskRYnVcUXYPL+xab3eRrvJ2VE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sWOUjwzTLYKCbAhOceOMUnSXlB+9uRRlaOWyQcjLM6Q6C/O7bS4uGdIQePlmPZJl5
-         J6LNZuyqOvgG3Y9fHd1fvAmzECmVkO8hky6vXhTkwYYQ3mOppr8Ula62m1490rketX
-         WmRz7mPb1GoUCgnMtU+EbJrUdUi3RFvAHjc3oTOo=
+        b=IBPksS3TQCwn5mEMkEI9zDM/1j9WL9GRCyuf3FxS6yo2G99/NDRzcHpBjUCVdVNWD
+         v7NH5Raqpa6Lv4UOcRyoghEEckICTb9+Q2nPs/DQazfTCCtZTI2rKeJc7P/BwaP1yE
+         Vm4zfvoxOegB4BOF71atuIJRemsia98Wu+jUE8f4=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         viremana@linux.microsoft.com, sunilmut@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com
-Subject: [PATCH 15/19] drivers/hv: get and set vp state ioctls
-Date:   Fri, 28 May 2021 15:43:35 -0700
-Message-Id: <1622241819-21155-16-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 19/19] drivers/hv: Translate GVA to GPA
+Date:   Fri, 28 May 2021 15:43:39 -0700
+Message-Id: <1622241819-21155-20-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -47,420 +47,132 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce ioctls for getting and setting guest vcpu emulated LAPIC
-state, and xsave data.
+From: Wei Liu <wei.liu@kernel.org>
 
+Introduce ioctl for translating Guest Virtual Address (GVA) to Guest
+Physical Address (GPA)
+
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst         |   8 ++
- arch/x86/include/uapi/asm/hyperv-tlfs.h |  59 ++++++++++
- drivers/hv/hv_call.c                    | 138 +++++++++++++++++++++++-
- drivers/hv/mshv.h                       |  25 +++++
- drivers/hv/mshv_main.c                  | 122 +++++++++++++++++++++
- include/asm-generic/hyperv-tlfs.h       |  40 +++++++
- include/uapi/asm-generic/hyperv-tlfs.h  |  28 +++++
- include/uapi/linux/mshv.h               |  13 +++
- 8 files changed, 432 insertions(+), 1 deletion(-)
+ drivers/hv/hv_call.c                   | 44 ++++++++++++++++++++++++++
+ drivers/hv/mshv.h                      |  7 ++++
+ drivers/hv/mshv_main.c                 | 34 ++++++++++++++++++++
+ include/asm-generic/hyperv-tlfs.h      | 13 ++++++++
+ include/uapi/asm-generic/hyperv-tlfs.h | 43 +++++++++++++++++++++++++
+ include/uapi/linux/mshv.h              |  8 +++++
+ 6 files changed, 149 insertions(+)
 
-diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index 76f98485cd93..1613ac6e9428 100644
---- a/Documentation/virt/mshv/api.rst
-+++ b/Documentation/virt/mshv/api.rst
-@@ -140,4 +140,12 @@ Assert interrupts in partitions that use Microsoft Hypervisor's internal
- emulated LAPIC. This must be enabled on partition creation with the flag:
- HV_PARTITION_CREATION_FLAG_LAPIC_ENABLED
- 
-+3.9 MSHV_GET_VP_STATE and MSHV_SET_VP_STATE
-+--------------------------
-+:Type: vp ioctl
-+:Parameters: struct mshv_vp_state
-+:Returns: 0 on success
-+
-+Get/set various vp state. Currently these can be used to get and set
-+emulated LAPIC state, and xsave data.
- 
-diff --git a/arch/x86/include/uapi/asm/hyperv-tlfs.h b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-index e234297521a3..46806227e869 100644
---- a/arch/x86/include/uapi/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/uapi/asm/hyperv-tlfs.h
-@@ -1013,4 +1013,63 @@ union hv_interrupt_control {
- 	__u64 as_uint64;
- };
- 
-+struct hv_local_interrupt_controller_state {
-+	__u32 apic_id;
-+	__u32 apic_version;
-+	__u32 apic_ldr;
-+	__u32 apic_dfr;
-+	__u32 apic_spurious;
-+	__u32 apic_isr[8];
-+	__u32 apic_tmr[8];
-+	__u32 apic_irr[8];
-+	__u32 apic_esr;
-+	__u32 apic_icr_high;
-+	__u32 apic_icr_low;
-+	__u32 apic_lvt_timer;
-+	__u32 apic_lvt_thermal;
-+	__u32 apic_lvt_perfmon;
-+	__u32 apic_lvt_lint0;
-+	__u32 apic_lvt_lint1;
-+	__u32 apic_lvt_error;
-+	__u32 apic_lvt_cmci;
-+	__u32 apic_error_status;
-+	__u32 apic_initial_count;
-+	__u32 apic_counter_value;
-+	__u32 apic_divide_configuration;
-+	__u32 apic_remote_read;
-+} __packed;
-+
-+#define HV_XSAVE_DATA_NO_XMM_REGISTERS 1
-+
-+union hv_x64_xsave_xfem_register {
-+	__u64 as_uint64;
-+	struct {
-+		__u32 low_uint32;
-+		__u32 high_uint32;
-+	} __packed;
-+	struct {
-+		__u64 legacy_x87: 1;
-+		__u64 legacy_sse: 1;
-+		__u64 avx: 1;
-+		__u64 mpx_bndreg: 1;
-+		__u64 mpx_bndcsr: 1;
-+		__u64 avx_512_op_mask: 1;
-+		__u64 avx_512_zmmhi: 1;
-+		__u64 avx_512_zmm16_31: 1;
-+		__u64 rsvd8_9: 2;
-+		__u64 pasid: 1;
-+		__u64 cet_u: 1;
-+		__u64 cet_s: 1;
-+		__u64 rsvd13_16: 4;
-+		__u64 xtile_cfg: 1;
-+		__u64 xtile_data: 1;
-+		__u64 rsvd19_63: 45;
-+	} __packed;
-+};
-+
-+struct hv_vp_state_data_xsave {
-+	__u64 flags;
-+	union hv_x64_xsave_xfem_register states;
-+} __packed;
-+
- #endif
 diff --git a/drivers/hv/hv_call.c b/drivers/hv/hv_call.c
-index 9741166fae51..64b7bc16f4ef 100644
+index 67167fa93851..025d4e2b892f 100644
 --- a/drivers/hv/hv_call.c
 +++ b/drivers/hv/hv_call.c
-@@ -428,7 +428,6 @@ int hv_call_install_intercept(
- 		}
+@@ -10,6 +10,7 @@
  
- 		ret = hv_call_deposit_pages(NUMA_NO_NODE, partition_id, 1);
--
- 	} while (!ret);
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
++#include <linux/hyperv.h>
+ #include <asm/mshyperv.h>
  
- 	return ret;
-@@ -463,3 +462,140 @@ int hv_call_assert_virtual_interrupt(
- 	return 0;
+ #include "mshv.h"
+@@ -698,3 +699,46 @@ int hv_call_set_partition_property(
+ 
+ 	return hv_status_to_errno(status);
  }
- 
-+int hv_call_get_vp_state(
++
++int hv_call_translate_virtual_address(
 +		u32 vp_index,
 +		u64 partition_id,
-+		enum hv_get_set_vp_state_type type,
-+		struct hv_vp_state_data_xsave xsave,
-+		/* Choose between pages and ret_output */
-+		u64 page_count,
-+		struct page **pages,
-+		union hv_get_vp_state_out *ret_output)
++		u32 flags,
++		u64 gva,
++		u64 *gpa,
++		union hv_translate_gva_result *result)
 +{
-+	struct hv_get_vp_state_in *input;
-+	union hv_get_vp_state_out *output;
 +	u64 status;
-+	int i;
-+	u64 control;
-+	unsigned long flags;
-+	int ret = 0;
++	unsigned long irq_flags;
++	struct hv_translate_virtual_address_in *input;
++	struct hv_translate_virtual_address_out *output;
 +
-+	if (page_count > HV_GET_VP_STATE_BATCH_SIZE)
-+		return -EINVAL;
++	local_irq_save(irq_flags);
 +
-+	if (!page_count && !ret_output)
-+		return -EINVAL;
++	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
 +
-+	do {
-+		local_irq_save(flags);
-+		input = (struct hv_get_vp_state_in *)
-+				(*this_cpu_ptr(hyperv_pcpu_input_arg));
-+		output = (union hv_get_vp_state_out *)
-+				(*this_cpu_ptr(hyperv_pcpu_output_arg));
-+		memset(input, 0, sizeof(*input));
-+		memset(output, 0, sizeof(*output));
++	memset(input, 0, sizeof(*input));
++	memset(output, 0, sizeof(*output));
 +
-+		input->partition_id = partition_id;
-+		input->vp_index = vp_index;
-+		input->state_data.type = type;
-+		memcpy(&input->state_data.xsave, &xsave, sizeof(xsave));
-+		for (i = 0; i < page_count; i++)
-+			input->output_data_pfns[i] = page_to_pfn(pages[i]);
++	input->partition_id = partition_id;
++	input->vp_index = vp_index;
++	input->control_flags = flags;
++	input->gva_page = gva >> HV_HYP_PAGE_SHIFT;
 +
-+		control = (HVCALL_GET_VP_STATE) |
-+			  (page_count << HV_HYPERCALL_VARHEAD_OFFSET);
++	status = hv_do_hypercall(HVCALL_TRANSLATE_VIRTUAL_ADDRESS, input, output);
 +
-+		status = hv_do_hypercall(control, input, output);
++	if (!hv_result_success(status)) {
++		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
++		goto out;
++	}
 +
-+		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
-+			if (!hv_result_success(status))
-+				pr_err("%s: %s\n", __func__,
-+				       hv_status_to_string(status));
-+			else if (ret_output)
-+				memcpy(ret_output, output, sizeof(*output));
++	*result = output->translation_result;
++	*gpa = (output->gpa_page << HV_HYP_PAGE_SHIFT) + offset_in_hvpage(gva);
 +
-+			local_irq_restore(flags);
-+			ret = hv_status_to_errno(status);
-+			break;
-+		}
-+		local_irq_restore(flags);
++out:
++	local_irq_restore(irq_flags);
 +
-+		ret = hv_call_deposit_pages(NUMA_NO_NODE,
-+					    partition_id, 1);
-+	} while (!ret);
-+
-+	return ret;
-+}
-+
-+int hv_call_set_vp_state(
-+		u32 vp_index,
-+		u64 partition_id,
-+		enum hv_get_set_vp_state_type type,
-+		struct hv_vp_state_data_xsave xsave,
-+		/* Choose between pages and bytes */
-+		u64 page_count,
-+		struct page **pages,
-+		u32 num_bytes,
-+		u8 *bytes)
-+{
-+	struct hv_set_vp_state_in *input;
-+	u64 status;
-+	int i;
-+	u64 control;
-+	unsigned long flags;
-+	int ret = 0;
-+	u16 varhead_sz;
-+
-+	if (page_count > HV_SET_VP_STATE_BATCH_SIZE)
-+		return -EINVAL;
-+	if (sizeof(*input) + num_bytes > HV_HYP_PAGE_SIZE)
-+		return -EINVAL;
-+
-+	if (num_bytes)
-+		/* round up to 8 and divide by 8 */
-+		varhead_sz = (num_bytes + 7) >> 3;
-+	else if (page_count)
-+		varhead_sz =  page_count;
-+	else
-+		return -EINVAL;
-+
-+	do {
-+		local_irq_save(flags);
-+		input = (struct hv_set_vp_state_in *)
-+				(*this_cpu_ptr(hyperv_pcpu_input_arg));
-+		memset(input, 0, sizeof(*input));
-+
-+		input->partition_id = partition_id;
-+		input->vp_index = vp_index;
-+		input->state_data.type = type;
-+		memcpy(&input->state_data.xsave, &xsave, sizeof(xsave));
-+		if (num_bytes) {
-+			memcpy((u8 *)input->data, bytes, num_bytes);
-+		} else {
-+			for (i = 0; i < page_count; i++)
-+				input->data[i].pfns = page_to_pfn(pages[i]);
-+		}
-+
-+		control = (HVCALL_SET_VP_STATE) |
-+			  (varhead_sz << HV_HYPERCALL_VARHEAD_OFFSET);
-+
-+		status = hv_do_hypercall(control, input, NULL);
-+
-+		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
-+			if (!hv_result_success(status))
-+				pr_err("%s: %s\n", __func__,
-+				       hv_status_to_string(status));
-+
-+			local_irq_restore(flags);
-+			ret = hv_status_to_errno(status);
-+			break;
-+		}
-+		local_irq_restore(flags);
-+
-+		ret = hv_call_deposit_pages(NUMA_NO_NODE,
-+					    partition_id, 1);
-+	} while (!ret);
-+
-+	return ret;
++	return hv_status_to_errno(status);
 +}
 +
 diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index c0a0ccb3626a..c8f3919a5cdc 100644
+index 8230368b4257..037291a0ad45 100644
 --- a/drivers/hv/mshv.h
 +++ b/drivers/hv/mshv.h
-@@ -26,6 +26,12 @@
- #define HV_SET_REGISTER_BATCH_SIZE	\
- 	((HV_HYP_PAGE_SIZE - sizeof(struct hv_set_vp_registers)) \
- 		/ sizeof(struct hv_register_assoc))
-+#define HV_GET_VP_STATE_BATCH_SIZE	\
-+	((HV_HYP_PAGE_SIZE - sizeof(struct hv_get_vp_state_in)) \
-+		/ sizeof(u64))
-+#define HV_SET_VP_STATE_BATCH_SIZE	\
-+	((HV_HYP_PAGE_SIZE - sizeof(struct hv_set_vp_state_in)) \
-+		/ sizeof(u64))
- 
- extern struct mshv mshv;
- 
-@@ -72,5 +78,24 @@ int hv_call_assert_virtual_interrupt(
- 		u32 vector,
- 		u64 dest_addr,
- 		union hv_interrupt_control control);
-+int hv_call_get_vp_state(
+@@ -109,5 +109,12 @@ int hv_call_set_partition_property(
+ 		u64 partition_id,
+ 		u64 property_code,
+ 		u64 property_value);
++int hv_call_translate_virtual_address(
 +		u32 vp_index,
 +		u64 partition_id,
-+		enum hv_get_set_vp_state_type type,
-+		struct hv_vp_state_data_xsave xsave,
-+		/* Choose between pages and ret_output */
-+		u64 page_count,
-+		struct page **pages,
-+		union hv_get_vp_state_out *ret_output);
-+int hv_call_set_vp_state(
-+		u32 vp_index,
-+		u64 partition_id,
-+		enum hv_get_set_vp_state_type type,
-+		struct hv_vp_state_data_xsave xsave,
-+		/* Choose between pages and bytes */
-+		u64 page_count,
-+		struct page **pages,
-+		u32 num_bytes,
-+		u8 *bytes);
++		u32 flags,
++		u64 gva,
++		u64 *gpa,
++		union hv_translate_gva_result *result);
  
  #endif /* _MSHV_H */
 diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index f62a2886e41f..57d233a61b10 100644
+index 0d3ea80e11ef..fe6fb2668d36 100644
 --- a/drivers/hv/mshv_main.c
 +++ b/drivers/hv/mshv_main.c
-@@ -278,6 +278,122 @@ mshv_vp_ioctl_set_regs(struct mshv_vp *vp, void __user *user_args)
- 	return ret;
+@@ -401,6 +401,37 @@ mshv_vp_ioctl_get_set_state(struct mshv_vp *vp, void __user *user_args, bool is_
+ 	return 0;
  }
  
 +static long
-+mshv_vp_ioctl_get_set_state_pfn(struct mshv_vp *vp,
-+				struct mshv_vp_state *args,
-+				bool is_set)
++mshv_vp_ioctl_translate_gva(struct mshv_vp *vp, void __user *user_args)
 +{
-+	u64 page_count, remaining;
-+	int completed;
-+	struct page **pages;
 +	long ret;
-+	unsigned long u_buf;
-+
-+	/* Buffer must be page aligned */
-+	if (!PAGE_ALIGNED(args->buf_size) ||
-+	    !PAGE_ALIGNED(args->buf.bytes))
-+		return -EINVAL;
-+
-+	if (!access_ok(args->buf.bytes, args->buf_size))
-+		return -EFAULT;
-+
-+	/* Pin user pages so hypervisor can copy directly to them */
-+	page_count = args->buf_size >> HV_HYP_PAGE_SHIFT;
-+	pages = kcalloc(page_count, sizeof(struct page *), GFP_KERNEL);
-+	if (!pages)
-+		return -ENOMEM;
-+
-+	remaining = page_count;
-+	u_buf = (unsigned long)args->buf.bytes;
-+	while (remaining) {
-+		completed = pin_user_pages_fast(
-+				u_buf,
-+				remaining,
-+				FOLL_WRITE,
-+				&pages[page_count - remaining]);
-+		if (completed < 0) {
-+			pr_err("%s: failed to pin user pages error %i\n",
-+			       __func__, completed);
-+			ret = completed;
-+			goto unpin_pages;
-+		}
-+		remaining -= completed;
-+		u_buf += completed * HV_HYP_PAGE_SIZE;
-+	}
-+
-+	if (is_set)
-+		ret = hv_call_set_vp_state(vp->index,
-+					   vp->partition->id,
-+					   args->type, args->xsave,
-+					   page_count, pages,
-+					   0, NULL);
-+	else
-+		ret = hv_call_get_vp_state(vp->index,
-+					   vp->partition->id,
-+					   args->type, args->xsave,
-+					   page_count, pages,
-+					   NULL);
-+
-+unpin_pages:
-+	unpin_user_pages(pages, page_count - remaining);
-+	kfree(pages);
-+	return ret;
-+}
-+
-+static long
-+mshv_vp_ioctl_get_set_state(struct mshv_vp *vp, void __user *user_args, bool is_set)
-+{
-+	struct mshv_vp_state args;
-+	long ret = 0;
-+	union hv_get_vp_state_out vp_state;
++	struct mshv_translate_gva args;
++	u64 gpa;
++	union hv_translate_gva_result result;
 +
 +	if (copy_from_user(&args, user_args, sizeof(args)))
 +		return -EFAULT;
 +
-+	/* For now just support these */
-+	if (args.type != HV_GET_SET_VP_STATE_LOCAL_INTERRUPT_CONTROLLER_STATE &&
-+	    args.type != HV_GET_SET_VP_STATE_XSAVE)
-+		return -EINVAL;
-+
-+	/* If we need to pin pfns, delegate to helper */
-+	if (args.type & HV_GET_SET_VP_STATE_TYPE_PFN)
-+		return mshv_vp_ioctl_get_set_state_pfn(vp, &args, is_set);
-+
-+	if (args.buf_size < sizeof(vp_state))
-+		return -EINVAL;
-+
-+	if (is_set) {
-+		if (copy_from_user(
-+				&vp_state,
-+				args.buf.lapic,
-+				sizeof(vp_state)))
-+			return -EFAULT;
-+
-+		return hv_call_set_vp_state(vp->index,
-+					    vp->partition->id,
-+					    args.type, args.xsave,
-+					    0, NULL,
-+					    sizeof(vp_state),
-+					    (u8 *)&vp_state);
-+	}
-+
-+	ret = hv_call_get_vp_state(vp->index,
-+				   vp->partition->id,
-+				   args.type, args.xsave,
-+				   0, NULL,
-+				   &vp_state);
++	ret = hv_call_translate_virtual_address(
++			vp->index,
++			vp->partition->id,
++			args.flags,
++			args.gva,
++			&gpa,
++			&result);
 +
 +	if (ret)
 +		return ret;
 +
-+	if (copy_to_user(args.buf.lapic,
-+			 &vp_state.interrupt_controller_state,
-+			 sizeof(vp_state.interrupt_controller_state)))
++	if (copy_to_user(args.result, &result, sizeof(*args.result)))
++		return -EFAULT;
++
++	if (copy_to_user(args.gpa, &gpa, sizeof(*args.gpa)))
 +		return -EFAULT;
 +
 +	return 0;
@@ -469,142 +181,123 @@ index f62a2886e41f..57d233a61b10 100644
  static long
  mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
  {
-@@ -297,6 +413,12 @@ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 	case MSHV_SET_VP_REGISTERS:
- 		r = mshv_vp_ioctl_set_regs(vp, (void __user *)arg);
+@@ -426,6 +457,9 @@ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_SET_VP_STATE:
+ 		r = mshv_vp_ioctl_get_set_state(vp, (void __user *)arg, true);
  		break;
-+	case MSHV_GET_VP_STATE:
-+		r = mshv_vp_ioctl_get_set_state(vp, (void __user *)arg, false);
-+		break;
-+	case MSHV_SET_VP_STATE:
-+		r = mshv_vp_ioctl_get_set_state(vp, (void __user *)arg, true);
++	case MSHV_TRANSLATE_GVA:
++		r = mshv_vp_ioctl_translate_gva(vp, (void __user *)arg);
 +		break;
  	default:
  		r = -ENOTTY;
  		break;
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 7befb2b11f24..504d5a7472b6 100644
+index 2869d0300032..b5e4a5003b63 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -168,6 +168,9 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_ASSERT_VIRTUAL_INTERRUPT		0x0094
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
-+#define HVCALL_MAP_VP_STATE_PAGE			0x00e1
-+#define HVCALL_GET_VP_STATE				0x00e3
-+#define HVCALL_SET_VP_STATE				0x00e4
- 
- /* Extended hypercalls */
- #define HV_EXT_CALL_QUERY_CAPABILITIES		0x8001
-@@ -832,4 +835,41 @@ struct hv_assert_virtual_interrupt {
- 	u16 rsvd_z1;
+@@ -158,6 +158,7 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_CREATE_VP			0x004e
+ #define HVCALL_GET_VP_REGISTERS			0x0050
+ #define HVCALL_SET_VP_REGISTERS			0x0051
++#define HVCALL_TRANSLATE_VIRTUAL_ADDRESS	0x0052
+ #define HVCALL_POST_MESSAGE			0x005c
+ #define HVCALL_SIGNAL_EVENT			0x005d
+ #define HVCALL_POST_DEBUG_DATA			0x0069
+@@ -901,4 +902,16 @@ struct hv_set_partition_property {
+ 	u64 property_value;
  } __packed;
  
-+struct hv_vp_state_data {
-+	u32 type;
-+	u32 rsvd;
-+	struct hv_vp_state_data_xsave xsave;
-+} __packed;
-+
-+struct hv_get_vp_state_in {
++struct hv_translate_virtual_address_in {
 +	u64 partition_id;
 +	u32 vp_index;
-+	u8 input_vtl;
-+	u8 rsvd0;
-+	u16 rsvd1;
-+	struct hv_vp_state_data state_data;
-+	u64 output_data_pfns[];
++	u64 control_flags;
++	u64 gva_page;
 +} __packed;
 +
-+union hv_get_vp_state_out {
-+	struct hv_local_interrupt_controller_state interrupt_controller_state;
-+	/* Not supported yet */
-+	/* struct hv_synthetic_timers_state synthetic_timers_state; */
-+} __packed;
-+
-+union hv_input_set_vp_state_data {
-+	u64 pfns;
-+	u8 bytes;
-+} __packed;
-+
-+struct hv_set_vp_state_in {
-+	u64 partition_id;
-+	u32 vp_index;
-+	u8 input_vtl;
-+	u8 rsvd0;
-+	u16 rsvd1;
-+	struct hv_vp_state_data state_data;
-+	union hv_input_set_vp_state_data data[];
++struct hv_translate_virtual_address_out {
++	union hv_translate_gva_result translation_result;
++	u64 gpa_page;
 +} __packed;
 +
  #endif
 diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-index 4ecb29fe1a0e..f4d8e9d148c3 100644
+index 5d8d5e89f432..95020e3a67ba 100644
 --- a/include/uapi/asm-generic/hyperv-tlfs.h
 +++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -103,4 +103,32 @@ struct hv_register_assoc {
- 	union hv_register_value value;
- } __packed;
+@@ -196,4 +196,47 @@ enum hv_partition_property_code {
+ 	HV_PARTITION_PROPERTY_PROCESSOR_VIRTUALIZATION_FEATURES		= 0x00080000,
+ };
  
-+/*
-+ * For getting and setting VP state, there are two options based on the state type:
-+ *
-+ *     1.) Data that is accessed by PFNs in the input hypercall page. This is used
-+ *         for state which may not fit into the hypercall pages.
-+ *     2.) Data that is accessed directly in the input\output hypercall pages.
-+ *         This is used for state that will always fit into the hypercall pages.
-+ *
-+ * In the future this could be dynamic based on the size if needed.
-+ *
-+ * Note these hypercalls have an 8-byte aligned variable header size as per the tlfs
-+ */
++enum hv_translate_gva_result_code {
++	HV_TRANSLATE_GVA_SUCCESS			= 0,
 +
-+#define HV_GET_SET_VP_STATE_TYPE_PFN	BIT(31)
++	/* Translation failures. */
++	HV_TRANSLATE_GVA_PAGE_NOT_PRESENT		= 1,
++	HV_TRANSLATE_GVA_PRIVILEGE_VIOLATION		= 2,
++	HV_TRANSLATE_GVA_INVALIDE_PAGE_TABLE_FLAGS	= 3,
 +
-+enum hv_get_set_vp_state_type {
-+	HV_GET_SET_VP_STATE_LOCAL_INTERRUPT_CONTROLLER_STATE = 0,
++	/* GPA access failures. */
++	HV_TRANSLATE_GVA_GPA_UNMAPPED			= 4,
++	HV_TRANSLATE_GVA_GPA_NO_READ_ACCESS		= 5,
++	HV_TRANSLATE_GVA_GPA_NO_WRITE_ACCESS		= 6,
++	HV_TRANSLATE_GVA_GPA_ILLEGAL_OVERLAY_ACCESS	= 7,
 +
-+	HV_GET_SET_VP_STATE_XSAVE		= 1 | HV_GET_SET_VP_STATE_TYPE_PFN,
-+	/* Synthetic message page */
-+	HV_GET_SET_VP_STATE_SIM_PAGE		= 2 | HV_GET_SET_VP_STATE_TYPE_PFN,
-+	/* Synthetic interrupt event flags page. */
-+	HV_GET_SET_VP_STATE_SIEF_PAGE		= 3 | HV_GET_SET_VP_STATE_TYPE_PFN,
++	/*
++	 * Intercept for memory access by either
++	 *  - a higher VTL
++	 *  - a nested hypervisor (due to a violation of the nested page table)
++	 */
++	HV_TRANSLATE_GVA_INTERCEPT			= 8,
 +
-+	/* Synthetic timers. */
-+	HV_GET_SET_VP_STATE_SYNTHETIC_TIMERS	= 4,
++	HV_TRANSLATE_GVA_GPA_UNACCEPTED			= 9,
 +};
++
++union hv_translate_gva_result {
++	__u64 as_uint64;
++	struct {
++		__u32 result_code; /* enum hv_translate_hva_result_code */
++		__u32 cache_type : 8;
++		__u32 overlay_page : 1;
++		__u32 reserved : 23;
++	} __packed;
++};
++
++/* hv_translage_gva flags */
++#define HV_TRANSLATE_GVA_VALIDATE_READ		0x0001
++#define HV_TRANSLATE_GVA_VALIDATE_WRITE		0x0002
++#define HV_TRANSLATE_GVA_VALIDATE_EXECUTE	0x0004
++#define HV_TRANSLATE_GVA_PRIVILEGE_EXCEMP	0x0008
++#define HV_TRANSLATE_GVA_SET_PAGE_TABLE_BITS	0x0010
++#define HV_TRANSLATE_GVA_TLB_FLUSH_INHIBIT	0x0020
++#define HV_TRANSLATE_GVA_CONTROL_MASK		0x003f
 +
  #endif
 diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index f65248a1ee89..73c24478e87e 100644
+index ec8281712430..0c46ce77cbb3 100644
 --- a/include/uapi/linux/mshv.h
 +++ b/include/uapi/linux/mshv.h
-@@ -53,6 +53,17 @@ struct mshv_assert_interrupt {
- 	__u32 vector;
+@@ -72,6 +72,13 @@ struct mshv_partition_property {
+ 	__u64 property_value;
  };
  
-+struct mshv_vp_state {
-+	enum hv_get_set_vp_state_type type;
-+	struct hv_vp_state_data_xsave xsave; /* only for xsave request */
-+
-+	__u64 buf_size; /* If xsave, must be page-aligned */
-+	union {
-+		struct hv_local_interrupt_controller_state *lapic;
-+		__u8 *bytes; /* Xsave data. must be page-aligned */
-+	} buf;
++struct mshv_translate_gva {
++	__u64 gva;
++	__u64 flags;
++	union hv_translate_gva_result *result;
++	__u64 *gpa;
 +};
 +
  #define MSHV_IOCTL 0xB8
  
  /* mshv device */
-@@ -70,5 +81,7 @@ struct mshv_assert_interrupt {
- #define MSHV_GET_VP_REGISTERS   _IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
- #define MSHV_SET_VP_REGISTERS   _IOW(MSHV_IOCTL, 0x06, struct mshv_vp_registers)
+@@ -95,6 +102,7 @@ struct mshv_partition_property {
  #define MSHV_RUN_VP		_IOR(MSHV_IOCTL, 0x07, struct hv_message)
-+#define MSHV_GET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_vp_state)
-+#define MSHV_SET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0B, struct mshv_vp_state)
+ #define MSHV_GET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_vp_state)
+ #define MSHV_SET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0B, struct mshv_vp_state)
++#define MSHV_TRANSLATE_GVA	_IOWR(MSHV_IOCTL, 0x0E, struct mshv_translate_gva)
  
- #endif
+ /* register page mapping example:
+  * struct hv_vp_register_page *regs = mmap(NULL,
 -- 
 2.25.1
 
