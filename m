@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4FAC47098
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F40C4709B
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D622E61CC8
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94F9661CC6
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbhFBRW5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Jun 2021 13:22:57 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:51158 "EHLO
+        id S231157AbhFBRW6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Jun 2021 13:22:58 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:51170 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230329AbhFBRWy (ORCPT
+        with ESMTP id S230390AbhFBRWy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 2 Jun 2021 13:22:54 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 6C1D420B8013;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 99EB420B8019;
         Wed,  2 Jun 2021 10:21:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6C1D420B8013
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 99EB420B8019
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622654471;
-        bh=+TSbGngTue63bY8gIF10bzOMWI3JSQvihdSXxwQiNPY=;
+        bh=fDaM2VV4WaJrzYK/e1rP32p6O14RslFTADMAXkXOq3A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kBR24jWFfgw8fp8WMoZuUAw+kEGIa4tidCvVAo6lKz+SywMvOMZyWcvh4AkgUrS7u
-         qo0x9wmFnIcAD8zcwu3dVwkCeOZQTZqV98k1c1+fmN1pzRxAphYtdPFPulQdOazsGl
-         gbbWnk8INSMd1XCHaXhj7qnNDDSFnuD23D9j+d7I=
+        b=mpESvFf70fxU2oN1raZyFXlwqUrQpfk5Q96QXKxvqo4kE3/w4CUExdjt4Rv/JJPxP
+         btCNELhiG7Fd+POymeKDqyjSyW2N4l2TRfEKpYTxiMdXT51llIQ0iTKc+U8EfN/TBh
+         hhbSr+J5EzYE71voZDm+vq+By1zbCqBzsecKi7dg=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
@@ -41,9 +41,9 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         virtualization@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: [PATCH 07/17] hyperv: Configure SINT for Doorbell
-Date:   Wed,  2 Jun 2021 17:20:52 +0000
-Message-Id: <f07b8f1636ecf6f7bf69c31c42f9edb57c85e4ae.1622654100.git.viremana@linux.microsoft.com>
+Subject: [PATCH 09/17] mshv: Doorbell handler in hypercall ISR
+Date:   Wed,  2 Jun 2021 17:20:54 +0000
+Message-Id: <52548d6a476be42d725c8aa21772b35fa5b72f50.1622654100.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622654100.git.viremana@linux.microsoft.com>
 References: <cover.1622654100.git.viremana@linux.microsoft.com>
@@ -58,113 +58,347 @@ notification if a specified mmio address is touched by a child partition.
 Parent partition can setup the notification by specifying mmio address,
 size of the data written(1/2/4/8 bytes) and optionally the data as well.
 
-Doorbell events are delivered by a SynIC interrupt. Configure a SynIC
-interrupt source for doorbell.
+Setup doorbell signal to be delivered by intercept interrupt and handle
+the doorbell signal.
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
- drivers/hv/hv_synic.c             | 30 +++++++++++++++++++++++++-----
- include/asm-generic/hyperv-tlfs.h | 15 ++++++++++++++-
- 2 files changed, 39 insertions(+), 6 deletions(-)
+ arch/x86/hyperv/hv_init.c              |  32 ++++-
+ arch/x86/include/asm/mshyperv.h        |   2 +
+ drivers/hv/hv_synic.c                  | 175 +++++++++++++++++++++----
+ drivers/hv/mshv.h                      |   2 +-
+ include/uapi/asm-generic/hyperv-tlfs.h |   4 +
+ 5 files changed, 186 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
-index a2f712acca82..6a00c66edc3f 100644
---- a/drivers/hv/hv_synic.c
-+++ b/drivers/hv/hv_synic.c
-@@ -112,6 +112,15 @@ void mshv_isr(void)
- 	add_interrupt_randomness(HYPERVISOR_CALLBACK_VECTOR, 0);
- }
- 
-+static inline bool hv_recommend_using_aeoi(void)
-+{
-+#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
-+	return !(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
-+#else
-+	return false;
-+#endif
-+}
-+
- int mshv_synic_init(unsigned int cpu)
- {
- 	union hv_synic_simp simp;
-@@ -166,14 +175,19 @@ int mshv_synic_init(unsigned int cpu)
- 	sint.as_uint64 = 0;
- 	sint.vector = HYPERVISOR_CALLBACK_VECTOR;
- 	sint.masked = false;
--#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
--	sint.auto_eoi =	!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
--#else
--	sint.auto_eoi = 0;
--#endif
-+	sint.auto_eoi = hv_recommend_using_aeoi();
- 	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
- 			sint.as_uint64);
- 
-+	/* Doorbell SINT */
-+	sint.as_uint64 = 0;
-+	sint.vector = HYPERVISOR_CALLBACK_VECTOR;
-+	sint.masked = false;
-+	sint.as_intercept = 1;
-+	sint.auto_eoi = hv_recommend_using_aeoi();
-+	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_DOORBELL_SINT_INDEX,
-+			sint.as_uint64);
-+
- 	/* Enable global synic bit */
- 	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
- 	sctrl.enable = 1;
-@@ -221,6 +235,12 @@ int mshv_synic_cleanup(unsigned int cpu)
- 	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
- 			sint.as_uint64);
- 
-+	/* Disable Doorbell SINT */
-+	sint.as_uint64 = hv_get_register(HV_REGISTER_SINT0 + HV_SYNIC_DOORBELL_SINT_INDEX);
-+	sint.masked = true;
-+	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_DOORBELL_SINT_INDEX,
-+			sint.as_uint64);
-+
- 	/* Disable Synic's event ring page */
- 	sirbp.as_uint64 = hv_get_register(HV_REGISTER_SIRBP);
- 	sirbp.sirbp_enabled = false;
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 42e0237b0da8..3ed4f532ed57 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -262,6 +262,9 @@ enum hv_status {
- #define HV_SYNIC_HVL_SHARED_SINT_INDEX   0x00000004
- #define HV_SYNIC_FIRST_UNUSED_SINT_INDEX 0x00000005
- 
-+/* mshv assigned SINT for doorbell */
-+#define HV_SYNIC_DOORBELL_SINT_INDEX     HV_SYNIC_FIRST_UNUSED_SINT_INDEX
-+
- #define HV_SYNIC_CONTROL_ENABLE		(1ULL << 0)
- #define HV_SYNIC_SIMP_ENABLE		(1ULL << 0)
- #define HV_SYNIC_SIEFP_ENABLE		(1ULL << 0)
-@@ -284,6 +287,14 @@ struct hv_timer_message_payload {
- 	__u64 delivery_time;	/* When the message was delivered */
- } __packed;
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 722bafdb2225..c295ccfdffd7 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -51,6 +51,16 @@ EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+ void  __percpu **hyperv_pcpu_output_arg;
+ EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
  
 +/*
-+ * Message format for notifications delivered via
-+ * intercept message(as_intercept=1)
++ * Per-cpu array holding the tail pointer for the SynIC event ring buffer
++ * for each SINT.
++ *
++ * We cannot maintain this in mshv driver because the tail pointer should
++ * persist even if the mshv driver is unloaded.
 + */
-+struct hv_notification_message_payload {
-+	u32 sint_index;
-+} __packed;
++u8 __percpu **hv_synic_eventring_tail;
++EXPORT_SYMBOL_GPL(hv_synic_eventring_tail);
 +
- /* Define the synthentic interrupt controller event ring format */
- #define HV_SYNIC_EVENT_RING_MESSAGE_COUNT 63
+ u32 hv_max_vp_index;
+ EXPORT_SYMBOL_GPL(hv_max_vp_index);
  
-@@ -350,7 +361,9 @@ union hv_synic_sint {
- 		u64 masked:1;
- 		u64 auto_eoi:1;
- 		u64 polling:1;
--		u64 reserved2:45;
-+		u64 as_intercept: 1;
-+		u64 proxy: 1;
-+		u64 reserved2:43;
- 	} __packed;
- };
+@@ -58,11 +68,13 @@ static int hv_cpu_init(unsigned int cpu)
+ {
+ 	u64 msr_vp_index;
+ 	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
++	unsigned int order = hv_root_partition ? 1 : 0;
++	u8 **synic_eventring_tail;
+ 	void **input_arg;
+ 	struct page *pg;
  
+ 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
+-	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, hv_root_partition ? 1 : 0);
++	pg = alloc_pages(irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL, order);
+ 	if (unlikely(!pg))
+ 		return -ENOMEM;
+ 
+@@ -73,6 +85,14 @@ static int hv_cpu_init(unsigned int cpu)
+ 
+ 		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 		*output_arg = page_address(pg + 1);
++
++		synic_eventring_tail = (u8 **)this_cpu_ptr(hv_synic_eventring_tail);
++		*synic_eventring_tail = kcalloc(HV_SYNIC_SINT_COUNT, sizeof(u8),
++						irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL);
++		if (unlikely(!*synic_eventring_tail)) {
++			__free_pages(pg, order);
++			return -ENOMEM;
++		}
+ 	}
+ 
+ 	msr_vp_index = hv_get_register(HV_REGISTER_VP_INDEX);
+@@ -197,6 +217,7 @@ EXPORT_SYMBOL_GPL(clear_hv_tscchange_cb);
+ static int hv_cpu_die(unsigned int cpu)
+ {
+ 	struct hv_reenlightenment_control re_ctrl;
++	u8 **synic_eventring_tail;
+ 	unsigned int new_cpu;
+ 	unsigned long flags;
+ 	void **input_arg;
+@@ -212,6 +233,10 @@ static int hv_cpu_die(unsigned int cpu)
+ 
+ 		output_arg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 		*output_arg = NULL;
++
++		synic_eventring_tail = (u8 **)this_cpu_ptr(hv_synic_eventring_tail);
++		kfree(*synic_eventring_tail);
++		*synic_eventring_tail = NULL;
+ 	}
+ 
+ 	local_irq_restore(flags);
+@@ -390,10 +415,13 @@ void __init hyperv_init(void)
+ 
+ 	BUG_ON(hyperv_pcpu_input_arg == NULL);
+ 
+-	/* Allocate the per-CPU state for output arg for root */
+ 	if (hv_root_partition) {
++		/* Allocate the per-CPU state for output arg for root */
+ 		hyperv_pcpu_output_arg = alloc_percpu(void *);
+ 		BUG_ON(hyperv_pcpu_output_arg == NULL);
++
++		hv_synic_eventring_tail = alloc_percpu(u8 *);
++		BUG_ON(hv_synic_eventring_tail == NULL);
+ 	}
+ 
+ 	/* Allocate percpu VP index */
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index c6eb01f3864d..f780ec35ac44 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -39,6 +39,8 @@ extern void *hv_hypercall_pg;
+ extern void  __percpu  **hyperv_pcpu_input_arg;
+ extern void  __percpu  **hyperv_pcpu_output_arg;
+ 
++extern u8 __percpu **hv_synic_eventring_tail;
++
+ extern u64 hv_current_partition_id;
+ 
+ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
+diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
+index 6a00c66edc3f..e3262f6d3daa 100644
+--- a/drivers/hv/hv_synic.c
++++ b/drivers/hv/hv_synic.c
+@@ -17,34 +17,124 @@
+ 
+ #include "mshv.h"
+ 
+-void mshv_isr(void)
++u32
++synic_event_ring_get_queued_port(u32 sint_index)
+ {
+-	struct hv_synic_pages *spages = this_cpu_ptr(mshv.synic_pages);
+-	struct hv_message_page **msg_page = &spages->synic_message_page;
+-	struct hv_message *msg;
+-	u32 message_type;
+-	struct mshv_partition *partition;
+-	struct mshv_vp *vp;
+-	u64 partition_id;
+-	u32 vp_index;
+-	int i;
+-	unsigned long flags;
+-	struct task_struct *task;
+-
+-	if (unlikely(!(*msg_page))) {
+-		pr_err("%s: Missing synic page!\n", __func__);
+-		return;
++	struct hv_synic_event_ring_page **event_ring_page;
++	volatile struct hv_synic_event_ring *ring;
++	struct hv_synic_pages *spages;
++	u8 **synic_eventring_tail;
++	u32 message;
++	u8 tail;
++
++	spages = this_cpu_ptr(mshv.synic_pages);
++	event_ring_page = &spages->synic_event_ring_page;
++	synic_eventring_tail = (u8 **)this_cpu_ptr(hv_synic_eventring_tail);
++	tail = (*synic_eventring_tail)[sint_index];
++
++	if (unlikely(!(*event_ring_page))) {
++		pr_err("%s: Missing synic event ring page!\n", __func__);
++		return 0;
+ 	}
+ 
+-	msg = &((*msg_page)->sint_message[HV_SYNIC_INTERCEPTION_SINT_INDEX]);
++	ring = &(*event_ring_page)->sint_event_ring[sint_index];
+ 
+ 	/*
+-	 * If the type isn't set, there isn't really a message;
+-	 * it may be some other hyperv interrupt
++	 * Get the message.
+ 	 */
+-	message_type = msg->header.message_type;
+-	if (message_type == HVMSG_NONE)
+-		return;
++	message = ring->data[tail];
++
++	if (!message) {
++		if (ring->ring_full) {
++			/*
++			 * Ring is marked full, but we would have consumed all
++			 * the messages. Notify the hypervisor that ring is now
++			 * empty and check again.
++			 */
++			ring->ring_full = 0;
++			hv_call_notify_port_ring_empty(sint_index);
++			message = ring->data[tail];
++		}
++
++		if (!message) {
++			ring->signal_masked = 0;
++			/*
++			 * Unmask the signal and sync with hypervisor
++			 * before one last check for any message.
++			 */
++			mb();
++			message = ring->data[tail];
++
++			/*
++			 * Ok, lets bail out.
++			 */
++			if (!message)
++				return 0;
++		}
++
++		ring->signal_masked = 1;
++
++	}
++
++	/*
++	 * Clear the message in the ring buffer.
++	 */
++	ring->data[tail] = 0;
++
++	if (++tail == HV_SYNIC_EVENT_RING_MESSAGE_COUNT)
++		tail = 0;
++
++	(*synic_eventring_tail)[sint_index] = tail;
++
++	return message;
++}
++
++static bool
++mshv_doorbell_isr(struct hv_message *msg)
++{
++	struct hv_notification_message_payload *notification;
++	u32 port;
++
++	if (msg->header.message_type != HVMSG_SYNIC_SINT_INTERCEPT)
++		return false;
++
++	notification = (struct hv_notification_message_payload *)msg->u.payload;
++	if (notification->sint_index != HV_SYNIC_DOORBELL_SINT_INDEX)
++		return false;
++
++	while ((port = synic_event_ring_get_queued_port(
++					HV_SYNIC_DOORBELL_SINT_INDEX))) {
++		struct port_table_info ptinfo = { 0 };
++
++		if (hv_portid_lookup(port, &ptinfo)) {
++			pr_err("Failed to get port information from port_table!\n");
++			continue;
++		}
++
++		if (ptinfo.port_type != HV_PORT_TYPE_DOORBELL) {
++			pr_warn("Not a doorbell port!, port: %d, port_type: %d\n",
++					port, ptinfo.port_type);
++			continue;
++		}
++
++		/* Invoke the callback */
++		ptinfo.port_doorbell.doorbell_cb(port, ptinfo.port_doorbell.data);
++	}
++
++	return true;
++}
++
++static bool
++mshv_intercept_isr(struct hv_message *msg)
++{
++	struct mshv_partition *partition;
++	struct task_struct *task;
++	bool handled = false;
++	unsigned long flags;
++	struct mshv_vp *vp;
++	u64 partition_id;
++	u32 vp_index;
++	int i;
+ 
+ 	/* Look for the partition */
+ 	partition_id = msg->header.sender;
+@@ -102,14 +192,47 @@ void mshv_isr(void)
+ 	 */
+ 	wake_up_process(task);
+ 
++	handled = true;
++
+ unlock_out:
+ 	spin_unlock_irqrestore(&mshv.partitions.lock, flags);
+ 
+-	/* Acknowledge message with hypervisor */
+-	msg->header.message_type = HVMSG_NONE;
+-	wrmsrl(HV_X64_MSR_EOM, 0);
++	return handled;
++}
++
++void mshv_isr(void)
++{
++	struct hv_synic_pages *spages = this_cpu_ptr(mshv.synic_pages);
++	struct hv_message_page **msg_page = &spages->synic_message_page;
++	struct hv_message *msg;
++	bool handled;
++
++	if (unlikely(!(*msg_page))) {
++		pr_err("%s: Missing synic page!\n", __func__);
++		return;
++	}
++
++	msg = &((*msg_page)->sint_message[HV_SYNIC_INTERCEPTION_SINT_INDEX]);
++
++	/*
++	 * If the type isn't set, there isn't really a message;
++	 * it may be some other hyperv interrupt
++	 */
++	if (msg->header.message_type == HVMSG_NONE)
++		return;
+ 
+-	add_interrupt_randomness(HYPERVISOR_CALLBACK_VECTOR, 0);
++	handled = mshv_doorbell_isr(msg);
++
++	if (!handled)
++		handled = mshv_intercept_isr(msg);
++
++	if (handled) {
++		/* Acknowledge message with hypervisor */
++		msg->header.message_type = HVMSG_NONE;
++		wrmsrl(HV_X64_MSR_EOM, 0);
++
++		add_interrupt_randomness(HYPERVISOR_CALLBACK_VECTOR, 0);
++	}
+ }
+ 
+ static inline bool hv_recommend_using_aeoi(void)
+diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
+index ff5dc02cd8b6..07b0e7865a4c 100644
+--- a/drivers/hv/mshv.h
++++ b/drivers/hv/mshv.h
+@@ -44,7 +44,7 @@ int mshv_synic_cleanup(unsigned int cpu);
+  * NOTE: This is called in interrupt context. Callback
+  * should defer slow and sleeping logic to later.
+  */
+-typedef void (*doorbell_cb_t) (void *);
++typedef void (*doorbell_cb_t) (int doorbell_id, void *);
+ 
+ /*
+  * port table information
+diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
+index 2031115c6cce..ef91b11a12cf 100644
+--- a/include/uapi/asm-generic/hyperv-tlfs.h
++++ b/include/uapi/asm-generic/hyperv-tlfs.h
+@@ -31,6 +31,10 @@ enum hv_message_type {
+ 	/* Trace buffer complete messages. */
+ 	HVMSG_EVENTLOG_BUFFERCOMPLETE		= 0x80000040,
+ 
++	/* SynIC intercepts */
++	HVMSG_SYNIC_EVENT_INTERCEPT		= 0x80000060,
++	HVMSG_SYNIC_SINT_INTERCEPT		= 0x80000061,
++
+ 	/* Platform-specific processor intercept messages. */
+ 	HVMSG_X64_IO_PORT_INTERCEPT		= 0x80010000,
+ 	HVMSG_X64_MSR_INTERCEPT			= 0x80010001,
 -- 
 2.25.1
 
