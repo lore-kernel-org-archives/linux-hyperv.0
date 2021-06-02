@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5092C47093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D624C47092
 	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A936261CCC
+	by mail.kernel.org (Postfix) with ESMTP id 07CCD61CC8
 	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230443AbhFBRWz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S230410AbhFBRWz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Wed, 2 Jun 2021 13:22:55 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:51126 "EHLO
+Received: from linux.microsoft.com ([13.77.154.182]:51118 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230173AbhFBRWy (ORCPT
+        with ESMTP id S230155AbhFBRWy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 2 Jun 2021 13:22:54 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 0E7CA20B8008;
-        Wed,  2 Jun 2021 10:21:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0E7CA20B8008
+        by linux.microsoft.com (Postfix) with ESMTPSA id EBA9720B8006;
+        Wed,  2 Jun 2021 10:21:10 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EBA9720B8006
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622654471;
-        bh=bdIspM+906AG35yJz2nnaofawzQEw5MGY/4+8MOQ86M=;
+        bh=MlLboQA27FgnDDkz/hKI8tPNjyR0apDJ50rsqtpaKiI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bij6xm9NyDnauIrKMGbcVZtZcR9yBB6/rODpI4JALU0TXK72SnWSExgSDTZwI2jPb
-         iu+h1idV8X14BGDwTjA8YDJEk5nGx2XAZ8lyT7w0QDaaVEcYQ7PJvsM0JkdKmbCz3O
-         d/uwFhp+p6CvFrA+w5RRmPA6ATj/7VZRhnO0UnYI=
+        b=ID8iwHwOjVTVtO5Y0phixx1WXFsCBUxx0qkvMRTENadrlS+us0AYPiUXPSt8eGz7x
+         W0xz+j7Vbn08CsGmIK0wC+5gKvZL/Y7iMHSnLQGcTInqUxnVspwxubL+cJIzZgbLMo
+         jR5zJoS9nNd7N3FPtz3H9GXJHr2Qm+jCLAYHPDnQ=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
@@ -41,9 +41,9 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         virtualization@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: [PATCH 03/17] acpi: export node_to_pxm
-Date:   Wed,  2 Jun 2021 17:20:48 +0000
-Message-Id: <021058682b0a386145972c2c7430e7d3958bdc83.1622654100.git.viremana@linux.microsoft.com>
+Subject: [PATCH 02/17] drivers: hv: vmbus: Use TLFS definition for VMBUS_MESSAGE_SINT
+Date:   Wed,  2 Jun 2021 17:20:47 +0000
+Message-Id: <00fe2e0602b31fd40788f6282796774fa2eec6af.1622654100.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622654100.git.viremana@linux.microsoft.com>
 References: <cover.1622654100.git.viremana@linux.microsoft.com>
@@ -53,26 +53,26 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is needed in the next patch in the series for a
-code refactor. No intended change in functionality.
+Use the TLFS definition macro for VMBUS_MESSAGE_SINT
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
- drivers/acpi/numa/srat.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hv/hyperv_vmbus.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
-index 6021a1013442..c9e610b4b642 100644
---- a/drivers/acpi/numa/srat.c
-+++ b/drivers/acpi/numa/srat.c
-@@ -48,6 +48,7 @@ int node_to_pxm(int node)
- 		return PXM_INVAL;
- 	return node_to_pxm_map[node];
- }
-+EXPORT_SYMBOL(node_to_pxm);
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 42f3d9d123a1..6edf6f0cee64 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -112,7 +112,7 @@ enum {
+ 	VMBUS_EVENT_PORT_ID		= 2,
+ 	VMBUS_MONITOR_CONNECTION_ID	= 3,
+ 	VMBUS_MONITOR_PORT_ID		= 3,
+-	VMBUS_MESSAGE_SINT		= 2,
++	VMBUS_MESSAGE_SINT		= HV_SYNIC_VMBUS_SINT_INDEX,
+ };
  
- static void __acpi_map_pxm_to_node(int pxm, int node)
- {
+ /*
 -- 
 2.25.1
 
