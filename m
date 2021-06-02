@@ -2,36 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-31.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B735C4709F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96920C47240
 	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDFA761CC2
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 814A661CCD
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230462AbhFBRW7 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Jun 2021 13:22:59 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:51202 "EHLO
+        id S230507AbhFBRXA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Jun 2021 13:23:00 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:51152 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbhFBRWz (ORCPT
+        with ESMTP id S230426AbhFBRWz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 2 Jun 2021 13:22:55 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 048CD20B8022;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 5F1AB20B8008;
         Wed,  2 Jun 2021 10:21:12 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 048CD20B8022
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5F1AB20B8008
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1622654472;
-        bh=uHeRjnbWk07hCPrCh4+ckxgXfIHJZaPTLGauGMtGN4c=;
+        bh=apVvgarWbUiZ/0RTa1u2ZxPL9qATfom0Ft+oeOR58pI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FdtZUGUvW4GnZOCAYs+FoAseLNFlRkyCuCSOXIHG+tz6LCOc87jfMNhgezso1i4ZZ
-         iRIE7xmtw6n6FoszQQk4mKpm1ADx4yDYlkFmexptzNT4BTwa7cIsdEFNyWqDWs4Jaw
-         s/7Ll+gD0VpYyTsoBQ0TYbWSp3iAmk66PLqfiiN0=
+        b=hwGVR3nRFvGeyJ8gFTzo3ahLSUawLFl11cPx8xtBFVgyqP/1aGFdQJ1+7qAUpwh/I
+         xEXFv2i4VPHxYTBFRNn++9qQFdlnfbXIw7vsfYlZ0fzuEawpw1IeHQwiG3fTg6bnSp
+         b8+3R14KcyLpTCZByURf/zDJacB4IVFzWMwEelio=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
@@ -42,9 +41,9 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         virtualization@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: [PATCH 13/17] mshv: Add ioeventfd support for mshv
-Date:   Wed,  2 Jun 2021 17:20:58 +0000
-Message-Id: <2b663b68c0c7f568b03c029817ae9110a47311e9.1622654100.git.viremana@linux.microsoft.com>
+Subject: [PATCH 17/17] mshv: Use in kernel MSI routing for irqfd
+Date:   Wed,  2 Jun 2021 17:21:02 +0000
+Message-Id: <af580a244ed01e8695fc2d705d56714ac5c85481.1622654100.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622654100.git.viremana@linux.microsoft.com>
 References: <cover.1622654100.git.viremana@linux.microsoft.com>
@@ -54,461 +53,254 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-ioeventfd is a mechanism to register PIO/MMIO regions to trigger an
-eventfd signal when written to by a guest.  Host userspace can register
-any arbitrary IO address with a corresponding eventfd and then pass the
-eventfd to a specific end-point of interest for handling.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d34e6b175e61821026893ec5298cc8e7558df43a
-
-Basic framework code is taken from kvm implementation. Credit goes to
-kvm irqfd/ioeventfd developers.
+Use the in-kernel routing information for irqfd interrupts.
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
- drivers/hv/hv_eventfd.c      | 248 +++++++++++++++++++++++++++++++++--
- drivers/hv/mshv_main.c       |  20 ++-
- include/linux/mshv.h         |   4 +
- include/linux/mshv_eventfd.h |  21 ++-
- include/uapi/linux/mshv.h    |  26 +++-
- 5 files changed, 300 insertions(+), 19 deletions(-)
+ drivers/hv/hv_eventfd.c      | 94 +++++++++++++++++++++++++++---------
+ drivers/hv/mshv_msi.c        |  1 +
+ include/linux/mshv.h         |  2 +
+ include/linux/mshv_eventfd.h | 26 +++++-----
+ include/uapi/linux/mshv.h    |  6 ---
+ 5 files changed, 87 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/hv/hv_eventfd.c b/drivers/hv/hv_eventfd.c
-index 11fcafd1df08..5ed77901fb0b 100644
+index 6404624b3bc6..729b5f67aa9a 100644
 --- a/drivers/hv/hv_eventfd.c
 +++ b/drivers/hv/hv_eventfd.c
-@@ -2,8 +2,8 @@
- /*
-  * eventfd support for mshv
-  *
-- * Heavily inspired from KVM implementation of irqfd. The basic framework
-- * code is taken from the kvm implementation.
-+ * Heavily inspired from KVM implementation of irqfd/ioeventfd. The basic
-+ * framework code is taken from the kvm implementation.
-  *
-  * All credits to kvm developers.
-  */
-@@ -210,13 +210,6 @@ mshv_irqfd_assign(struct mshv_partition *partition,
- 	return ret;
- }
- 
--void
--mshv_irqfd_init(struct mshv_partition *partition)
--{
--	spin_lock_init(&partition->irqfds.lock);
--	INIT_LIST_HEAD(&partition->irqfds.items);
--}
--
- /*
-  * shutdown any irqfd's that match fd+gsi
-  */
-@@ -261,10 +254,10 @@ mshv_irqfd(struct mshv_partition *partition, struct mshv_irqfd *args)
- }
- 
- /*
-- * This function is called as the mshv VM fd is being released. Shutdown all
-- * irqfds that still remain open
-+ * This function is called as the mshv VM fd is being released.
-+ * Shutdown all irqfds that still remain open
-  */
--void
-+static void
- mshv_irqfd_release(struct mshv_partition *partition)
+@@ -88,13 +88,32 @@ irqfd_resampler_ack(struct mshv_irq_ack_notifier *mian)
+ static void
+ irqfd_inject(struct mshv_kernel_irqfd *irqfd)
  {
- 	struct mshv_kernel_irqfd *irqfd, *tmp;
-@@ -297,3 +290,234 @@ void mshv_irqfd_wq_cleanup(void)
- {
- 	destroy_workqueue(irqfd_cleanup_wq);
- }
++	struct mshv_partition *partition = irqfd->partition;
+ 	struct mshv_lapic_irq *irq = &irqfd->lapic_irq;
++	unsigned int seq;
++	int idx;
+ 
+ 	WARN_ON(irqfd->resampler &&
+ 		!irq->control.level_triggered);
 +
-+/*
-+ * --------------------------------------------------------------------
-+ * ioeventfd: translate a MMIO memory write to an eventfd signal.
-+ *
-+ * userspace can register a MMIO address with an eventfd for receiving
-+ * notification when the memory has been touched.
-+ *
-+ * TODO: Implement eventfd for PIO as well.
-+ * --------------------------------------------------------------------
-+ */
-+
-+static void
-+ioeventfd_release(struct kernel_mshv_ioeventfd *p, u64 partition_id)
-+{
-+	if (p->doorbell_id > 0)
-+		hv_unregister_doorbell(partition_id, p->doorbell_id);
-+	eventfd_ctx_put(p->eventfd);
-+	list_del(&p->list);
-+	kfree(p);
-+}
-+
-+/* MMIO writes trigger an event if the addr/val match */
-+static void
-+ioeventfd_mmio_write(int doorbell_id, void *data)
-+{
-+	struct mshv_partition *partition = (struct mshv_partition *)data;
-+	struct kernel_mshv_ioeventfd *p;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&partition->ioeventfds.lock, flags);
-+	list_for_each_entry(p, &partition->ioeventfds.items, list) {
-+		if (p->doorbell_id == doorbell_id) {
-+			eventfd_signal(p->eventfd, 1);
-+			break;
++	idx = srcu_read_lock(&partition->irq_srcu);
++	if (irqfd->msi_entry.gsi) {
++		if (!irqfd->msi_entry.entry_valid) {
++			pr_warn("Invalid routing info for gsi %u",
++				irqfd->msi_entry.gsi);
++			srcu_read_unlock(&partition->irq_srcu, idx);
++			return;
 +		}
-+	}
-+	spin_unlock_irqrestore(&partition->ioeventfds.lock, flags);
-+}
 +
-+static bool
-+ioeventfd_check_collision(struct mshv_partition *partition,
-+			  struct kernel_mshv_ioeventfd *p)
-+{
-+	struct kernel_mshv_ioeventfd *_p;
-+
-+	list_for_each_entry(_p, &partition->ioeventfds.items, list)
-+		if (_p->addr == p->addr && _p->length == p->length &&
-+		    (_p->wildcard || p->wildcard ||
-+		     _p->datamatch == p->datamatch))
-+			return true;
-+
-+	return false;
-+}
-+
-+static int
-+mshv_assign_ioeventfd(struct mshv_partition *partition,
-+		      struct mshv_ioeventfd *args)
-+{
-+	struct kernel_mshv_ioeventfd *p;
-+	struct eventfd_ctx *eventfd;
-+	u64 doorbell_flags = 0;
-+	unsigned long irqflags;
-+	int ret;
-+
-+	if (args->flags & MSHV_IOEVENTFD_FLAG_PIO)
-+		return -EOPNOTSUPP;
-+
-+	/* must be natural-word sized */
-+	switch (args->len) {
-+	case 0:
-+		doorbell_flags = HV_DOORBELL_FLAG_TRIGGER_SIZE_ANY;
-+		break;
-+	case 1:
-+		doorbell_flags = HV_DOORBELL_FLAG_TRIGGER_SIZE_BYTE;
-+		break;
-+	case 2:
-+		doorbell_flags = HV_DOORBELL_FLAG_TRIGGER_SIZE_WORD;
-+		break;
-+	case 4:
-+		doorbell_flags = HV_DOORBELL_FLAG_TRIGGER_SIZE_DWORD;
-+		break;
-+	case 8:
-+		doorbell_flags = HV_DOORBELL_FLAG_TRIGGER_SIZE_QWORD;
-+		break;
-+	default:
-+		pr_warn("ioeventfd: invalid length specified\n");
-+		return -EINVAL;
++		do {
++			seq = read_seqcount_begin(&irqfd->msi_entry_sc);
++		} while (read_seqcount_retry(&irqfd->msi_entry_sc, seq));
 +	}
 +
-+	/* check for range overflow */
-+	if (args->addr + args->len < args->addr)
-+		return -EINVAL;
+ 	hv_call_assert_virtual_interrupt(irqfd->partition->id,
+ 					 irq->vector, irq->apic_id,
+ 					 irq->control);
++	srcu_read_unlock(&partition->irq_srcu, idx);
+ }
+ 
+ static void
+@@ -206,6 +225,27 @@ irqfd_wakeup(wait_queue_entry_t *wait, unsigned int mode,
+ 	return 0;
+ }
+ 
++/* Must be called under irqfds.lock */
++static void irqfd_update(struct mshv_partition *partition,
++			 struct mshv_kernel_irqfd *irqfd)
++{
++	write_seqcount_begin(&irqfd->msi_entry_sc);
++	irqfd->msi_entry = mshv_msi_map_gsi(partition, irqfd->gsi);
++	mshv_set_msi_irq(&irqfd->msi_entry, &irqfd->lapic_irq);
++	write_seqcount_end(&irqfd->msi_entry_sc);
++}
 +
-+	/* check for extra flags that we don't understand */
-+	if (args->flags & ~MSHV_IOEVENTFD_VALID_FLAG_MASK)
-+		return -EINVAL;
++void mshv_irqfd_routing_update(struct mshv_partition *partition)
++{
++	struct mshv_kernel_irqfd *irqfd;
 +
-+	eventfd = eventfd_ctx_fdget(args->fd);
-+	if (IS_ERR(eventfd))
-+		return PTR_ERR(eventfd);
++	spin_lock_irq(&partition->irqfds.lock);
++	list_for_each_entry(irqfd, &partition->irqfds.items, list) {
++		irqfd_update(partition, irqfd);
++	}
++	spin_unlock_irq(&partition->irqfds.lock);
++}
 +
-+	p = kzalloc(sizeof(*p), GFP_KERNEL);
-+	if (!p) {
-+		ret = -ENOMEM;
+ static void
+ irqfd_ptable_queue_proc(struct file *file, wait_queue_head_t *wqh,
+ 			poll_table *pt)
+@@ -221,29 +261,23 @@ static int
+ mshv_irqfd_assign(struct mshv_partition *partition,
+ 		  struct mshv_irqfd *args)
+ {
++	struct eventfd_ctx *eventfd = NULL, *resamplefd = NULL;
+ 	struct mshv_kernel_irqfd *irqfd, *tmp;
++	unsigned int events;
+ 	struct fd f;
+-	struct eventfd_ctx *eventfd = NULL, *resamplefd = NULL;
+ 	int ret;
+-	unsigned int events;
++	int idx;
+ 
+ 	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
+ 	if (!irqfd)
+ 		return -ENOMEM;
+ 
+-	if (args->flags & MSHV_IRQFD_FLAG_RESAMPLE &&
+-		!args->level_triggered)
+-		return -EINVAL;
+-
+ 	irqfd->partition = partition;
+ 	irqfd->gsi = args->gsi;
+-	irqfd->lapic_irq.vector = args->vector;
+-	irqfd->lapic_irq.apic_id = args->apic_id;
+-	irqfd->lapic_irq.control.interrupt_type = args->interrupt_type;
+-	irqfd->lapic_irq.control.level_triggered = args->level_triggered;
+-	irqfd->lapic_irq.control.logical_dest_mode = args->logical_dest_mode;
+ 	INIT_LIST_HEAD(&irqfd->list);
+ 	INIT_WORK(&irqfd->shutdown, irqfd_shutdown);
++	seqcount_spinlock_init(&irqfd->msi_entry_sc,
++			       &partition->irqfds.lock);
+ 
+ 	f = fdget(args->fd);
+ 	if (!f.file) {
+@@ -259,6 +293,31 @@ mshv_irqfd_assign(struct mshv_partition *partition,
+ 
+ 	irqfd->eventfd = eventfd;
+ 
++
++	spin_lock_irq(&partition->irqfds.lock);
++	idx = srcu_read_lock(&partition->irq_srcu);
++	irqfd_update(partition, irqfd);
++	srcu_read_unlock(&partition->irq_srcu, idx);
++
++	if (args->flags & MSHV_IRQFD_FLAG_RESAMPLE &&
++	    !irqfd->lapic_irq.control.level_triggered) {
++		spin_unlock_irq(&partition->irqfds.lock);
++		ret = -EINVAL;
 +		goto fail;
 +	}
 +
-+	INIT_LIST_HEAD(&p->list);
-+	p->addr    = args->addr;
-+	p->length  = args->len;
-+	p->eventfd = eventfd;
-+
-+	/* The datamatch feature is optional, otherwise this is a wildcard */
-+	if (args->flags & MSHV_IOEVENTFD_FLAG_DATAMATCH)
-+		p->datamatch = args->datamatch;
-+	else {
-+		p->wildcard = true;
-+		doorbell_flags |= HV_DOORBELL_FLAG_TRIGGER_ANY_VALUE;
-+	}
-+
-+	spin_lock_irqsave(&partition->ioeventfds.lock, irqflags);
-+
-+	if (ioeventfd_check_collision(partition, p)) {
-+		ret = -EEXIST;
-+		goto unlock_fail;
-+	}
-+
-+	ret = hv_register_doorbell(partition->id, ioeventfd_mmio_write,
-+				   (void *)partition, p->addr,
-+				   p->datamatch, doorbell_flags);
-+	if (ret < 0) {
-+		pr_err("Failed to register ioeventfd doorbell!\n");
-+		goto unlock_fail;
-+	}
-+
-+	p->doorbell_id = ret;
-+	list_add_tail(&p->list, &partition->ioeventfds.items);
-+
-+	spin_unlock_irqrestore(&partition->ioeventfds.lock, irqflags);
-+
-+	return 0;
-+
-+unlock_fail:
-+	spin_unlock_irqrestore(&partition->ioeventfds.lock, irqflags);
-+
-+	kfree(p);
-+
-+fail:
-+	eventfd_ctx_put(eventfd);
-+
-+	return ret;
-+}
-+
-+static int
-+mshv_deassign_ioeventfd(struct mshv_partition *partition,
-+			struct mshv_ioeventfd *args)
-+{
-+	struct kernel_mshv_ioeventfd *p, *tmp;
-+	struct eventfd_ctx *eventfd;
-+	unsigned long flags;
-+	int ret = -ENOENT;
-+
-+	eventfd = eventfd_ctx_fdget(args->fd);
-+	if (IS_ERR(eventfd))
-+		return PTR_ERR(eventfd);
-+
-+	spin_lock_irqsave(&partition->ioeventfds.lock, flags);
-+
-+	list_for_each_entry_safe(p, tmp, &partition->ioeventfds.items, list) {
-+		bool wildcard = !(args->flags & MSHV_IOEVENTFD_FLAG_DATAMATCH);
-+
-+		if (p->eventfd != eventfd  ||
-+		    p->addr != args->addr  ||
-+		    p->length != args->len ||
-+		    p->wildcard != wildcard)
++	ret = 0;
++	list_for_each_entry(tmp, &partition->irqfds.items, list) {
++		if (irqfd->eventfd != tmp->eventfd)
 +			continue;
-+
-+		if (!p->wildcard && p->datamatch != args->datamatch)
-+			continue;
-+
-+		ioeventfd_release(p, partition->id);
-+		ret = 0;
-+		break;
++		/* This fd is used for another irq already. */
++		ret = -EBUSY;
++		spin_unlock_irq(&partition->irqfds.lock);
++		goto fail;
 +	}
++	list_add_tail(&irqfd->list, &partition->irqfds.items);
++	spin_unlock_irq(&partition->irqfds.lock);
 +
-+	spin_unlock_irqrestore(&partition->ioeventfds.lock, flags);
-+
-+	eventfd_ctx_put(eventfd);
-+
-+	return ret;
-+}
-+
-+int
-+mshv_ioeventfd(struct mshv_partition *partition,
-+	       struct mshv_ioeventfd *args)
-+{
-+	/* PIO not yet implemented */
-+	if (args->flags & MSHV_IOEVENTFD_FLAG_PIO)
-+		return -EOPNOTSUPP;
-+
-+	if (args->flags & MSHV_IOEVENTFD_FLAG_DEASSIGN)
-+		return mshv_deassign_ioeventfd(partition, args);
-+
-+	return mshv_assign_ioeventfd(partition, args);
-+}
-+
-+void
-+mshv_eventfd_init(struct mshv_partition *partition)
-+{
-+	spin_lock_init(&partition->irqfds.lock);
-+	INIT_LIST_HEAD(&partition->irqfds.items);
-+
-+	spin_lock_init(&partition->ioeventfds.lock);
-+	INIT_LIST_HEAD(&partition->ioeventfds.items);
-+}
-+
-+void
-+mshv_eventfd_release(struct mshv_partition *partition)
-+{
-+	struct kernel_mshv_ioeventfd *p, *tmp;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&partition->ioeventfds.lock, flags);
-+	list_for_each_entry_safe(p, tmp, &partition->ioeventfds.items, list) {
-+		ioeventfd_release(p, partition->id);
-+	}
-+	spin_unlock_irqrestore(&partition->ioeventfds.lock, flags);
-+
-+	mshv_irqfd_release(partition);
-+}
-diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index e124119e65eb..e1caecd27f09 100644
---- a/drivers/hv/mshv_main.c
-+++ b/drivers/hv/mshv_main.c
-@@ -828,6 +828,18 @@ mshv_partition_ioctl_assert_interrupt(struct mshv_partition *partition,
- 			args.control);
- }
+ 	if (args->flags & MSHV_IRQFD_FLAG_RESAMPLE) {
+ 		struct mshv_kernel_irqfd_resampler *resampler;
  
-+static long
-+mshv_partition_ioctl_ioeventfd(struct mshv_partition *partition,
-+		void __user *user_args)
-+{
-+	struct mshv_ioeventfd args;
-+
-+	if (copy_from_user(&args, user_args, sizeof(args)))
-+		return -EFAULT;
-+
-+	return mshv_ioeventfd(partition, &args);
-+}
-+
- static long
- mshv_partition_ioctl_irqfd(struct mshv_partition *partition,
- 		void __user *user_args)
-@@ -882,6 +894,10 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		ret = mshv_partition_ioctl_irqfd(partition,
- 						 (void __user *)arg);
- 		break;
-+	case MSHV_IOEVENTFD:
-+		ret = mshv_partition_ioctl_ioeventfd(partition,
-+						 (void __user *)arg);
-+		break;
- 	default:
- 		ret = -ENOTTY;
- 	}
-@@ -972,7 +988,7 @@ mshv_partition_release(struct inode *inode, struct file *filp)
- {
- 	struct mshv_partition *partition = filp->private_data;
+@@ -314,19 +373,6 @@ mshv_irqfd_assign(struct mshv_partition *partition,
+ 	init_waitqueue_func_entry(&irqfd->wait, irqfd_wakeup);
+ 	init_poll_funcptr(&irqfd->pt, irqfd_ptable_queue_proc);
  
--	mshv_irqfd_release(partition);
-+	mshv_eventfd_release(partition);
+-	spin_lock_irq(&partition->irqfds.lock);
+-	ret = 0;
+-	list_for_each_entry(tmp, &partition->irqfds.items, list) {
+-		if (irqfd->eventfd != tmp->eventfd)
+-			continue;
+-		/* This fd is used for another irq already. */
+-		ret = -EBUSY;
+-		spin_unlock_irq(&partition->irqfds.lock);
+-		goto fail;
+-	}
+-	list_add_tail(&irqfd->list, &partition->irqfds.items);
+-	spin_unlock_irq(&partition->irqfds.lock);
+-
+ 	/*
+ 	 * Check if there was an event already pending on the eventfd
+ 	 * before we registered, and trigger it as if we didn't miss it.
+diff --git a/drivers/hv/mshv_msi.c b/drivers/hv/mshv_msi.c
+index ae25ed8dfef4..c5dc9c6fe4d5 100644
+--- a/drivers/hv/mshv_msi.c
++++ b/drivers/hv/mshv_msi.c
+@@ -71,6 +71,7 @@ int mshv_set_msi_routing(struct mshv_partition *partition,
+ 	spin_lock(&partition->irq_lock);
+ 	old = rcu_dereference_protected(partition->msi_routing, 1);
+ 	rcu_assign_pointer(partition->msi_routing, new);
++	mshv_irqfd_routing_update(partition);
+ 	spin_unlock(&partition->irq_lock);
  
- 	mshv_partition_put(partition);
- 
-@@ -1068,7 +1084,7 @@ mshv_ioctl_create_partition(void __user *user_arg)
- 
- 	fd_install(fd, file);
- 
--	mshv_irqfd_init(partition);
-+	mshv_eventfd_init(partition);
- 
- 	return fd;
- 
+ 	synchronize_srcu_expedited(&partition->irq_srcu);
 diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index 5707c457b72d..217c91725828 100644
+index ec349be0ba91..fc655b60c5cd 100644
 --- a/include/linux/mshv.h
 +++ b/include/linux/mshv.h
-@@ -52,6 +52,10 @@ struct mshv_partition {
- 		spinlock_t        lock;
- 		struct list_head  items;
- 	} irqfds;
-+	struct {
-+		spinlock_t        lock;
-+		struct list_head items;
-+	} ioeventfds;
- };
+@@ -104,6 +104,8 @@ struct mshv_kernel_msi_routing_entry mshv_msi_map_gsi(
+ void mshv_set_msi_irq(struct mshv_kernel_msi_routing_entry *e,
+ 		      struct mshv_lapic_irq *irq);
  
- struct mshv_lapic_irq {
++void mshv_irqfd_routing_update(struct mshv_partition *partition);
++
+ struct hv_synic_pages {
+ 	struct hv_message_page *synic_message_page;
+ 	struct hv_synic_event_flags_page *synic_event_flags_page;
 diff --git a/include/linux/mshv_eventfd.h b/include/linux/mshv_eventfd.h
-index 3e7b16d0717f..fd0012f72616 100644
+index fa5d46d2eb85..a24ca167f3e9 100644
 --- a/include/linux/mshv_eventfd.h
 +++ b/include/linux/mshv_eventfd.h
-@@ -1,7 +1,8 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  *
-- * irqfd: Allows an fd to be used to inject an interrupt to the guest
-+ * irqfd: Allows an fd to be used to inject an interrupt to the guest.
-+ * ioeventfd: Allow an fd to be used to receive a signal from the guest.
-  * All credit goes to kvm developers.
-  */
- 
-@@ -11,6 +12,9 @@
- #include <linux/mshv.h>
- #include <linux/poll.h>
- 
-+void mshv_eventfd_init(struct mshv_partition *partition);
-+void mshv_eventfd_release(struct mshv_partition *partition);
-+
- struct mshv_kernel_irqfd {
- 	struct mshv_partition     *partition;
- 	struct eventfd_ctx        *eventfd;
-@@ -26,10 +30,19 @@ struct mshv_kernel_irqfd {
- int mshv_irqfd(struct mshv_partition *partition,
- 		struct mshv_irqfd *args);
- 
--void mshv_irqfd_init(struct mshv_partition *partition);
--void mshv_irqfd_release(struct mshv_partition *partition);
--
- int mshv_irqfd_wq_init(void);
- void mshv_irqfd_wq_cleanup(void);
- 
-+struct kernel_mshv_ioeventfd {
-+	struct list_head     list;
-+	u64                  addr;
-+	int                  length;
-+	struct eventfd_ctx  *eventfd;
-+	u64                  datamatch;
-+	int                  doorbell_id;
-+	bool                 wildcard;
-+};
-+
-+int mshv_ioeventfd(struct mshv_partition *kvm, struct mshv_ioeventfd *args);
-+
- #endif /* __LINUX_MSHV_EVENTFD_H */
-diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 792844276134..e32dee679360 100644
---- a/include/uapi/linux/mshv.h
-+++ b/include/uapi/linux/mshv.h
-@@ -93,6 +93,29 @@ struct mshv_irqfd {
- 	__u8  pad[2];
+@@ -39,20 +39,22 @@ struct mshv_kernel_irqfd_resampler {
  };
  
-+enum {
-+	mshv_ioeventfd_flag_nr_datamatch,
-+	mshv_ioeventfd_flag_nr_pio,
-+	mshv_ioeventfd_flag_nr_deassign,
-+	mshv_ioeventfd_flag_nr_max,
-+};
-+
-+#define MSHV_IOEVENTFD_FLAG_DATAMATCH (1 << mshv_ioeventfd_flag_nr_datamatch)
-+#define MSHV_IOEVENTFD_FLAG_PIO       (1 << mshv_ioeventfd_flag_nr_pio)
-+#define MSHV_IOEVENTFD_FLAG_DEASSIGN  (1 << mshv_ioeventfd_flag_nr_deassign)
-+
-+#define MSHV_IOEVENTFD_VALID_FLAG_MASK  ((1 << mshv_ioeventfd_flag_nr_max) - 1)
-+
-+struct mshv_ioeventfd {
-+	__u64 datamatch;
-+	__u64 addr;        /* legal pio/mmio address */
-+	__u32 len;         /* 1, 2, 4, or 8 bytes    */
-+	__s32 fd;
-+	__u32 flags;
-+	__u8  pad[4];
-+};
-+
-+
- #define MSHV_IOCTL 0xB8
+ struct mshv_kernel_irqfd {
+-	struct mshv_partition     *partition;
+-	struct eventfd_ctx        *eventfd;
+-	u32                        gsi;
+-	struct mshv_lapic_irq      lapic_irq;
+-	struct list_head           list;
+-	poll_table                 pt;
+-	wait_queue_head_t         *wqh;
+-	wait_queue_entry_t         wait;
+-	struct work_struct         shutdown;
++	struct mshv_partition                *partition;
++	struct eventfd_ctx                   *eventfd;
++	struct mshv_kernel_msi_routing_entry msi_entry;
++	seqcount_spinlock_t                  msi_entry_sc;
++	u32                                  gsi;
++	struct mshv_lapic_irq                lapic_irq;
++	struct list_head                     list;
++	poll_table                           pt;
++	wait_queue_head_t                    *wqh;
++	wait_queue_entry_t                   wait;
++	struct work_struct                   shutdown;
  
- /* mshv device */
-@@ -109,7 +132,8 @@ struct mshv_irqfd {
- 				_IOW(MSHV_IOCTL, 0xC, struct mshv_partition_property)
- #define MSHV_GET_PARTITION_PROPERTY \
- 				_IOWR(MSHV_IOCTL, 0xD, struct mshv_partition_property)
--#define MSHV_IRQFD              _IOW(MSHV_IOCTL, 0xE, struct mshv_irqfd)
-+#define MSHV_IRQFD		_IOW(MSHV_IOCTL, 0xE, struct mshv_irqfd)
-+#define MSHV_IOEVENTFD		_IOW(MSHV_IOCTL, 0xF, struct mshv_ioeventfd)
+ 	/* Resampler related */
+-	struct mshv_kernel_irqfd_resampler *resampler;
+-	struct eventfd_ctx *resamplefd;
+-	struct list_head resampler_link;
++	struct mshv_kernel_irqfd_resampler   *resampler;
++	struct eventfd_ctx                   *resamplefd;
++	struct list_head                     resampler_link;
+ };
  
- /* vp device */
- #define MSHV_GET_VP_REGISTERS   _IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
+ int mshv_irqfd(struct mshv_partition *partition,
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index ac58f2ded79c..b5826120ba7c 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -83,16 +83,10 @@ struct mshv_translate_gva {
+ #define MSHV_IRQFD_FLAG_RESAMPLE (1 << 1)
+ 
+ struct mshv_irqfd {
+-	__u64 apic_id;
+ 	__s32 fd;
+ 	__s32 resamplefd;
+ 	__u32 gsi;
+-	__u32 vector;
+-	__u32 interrupt_type;
+ 	__u32 flags;
+-	__u8  level_triggered;
+-	__u8  logical_dest_mode;
+-	__u8  pad[6];
+ };
+ 
+ enum {
 -- 
 2.25.1
 
