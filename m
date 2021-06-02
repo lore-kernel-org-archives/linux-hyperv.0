@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC67C47096
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AE6C4709E
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0EF261CF3
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5394A61CB5
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Jun 2021 17:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbhFBRW4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Jun 2021 13:22:56 -0400
+        id S230508AbhFBRW7 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Jun 2021 13:22:59 -0400
 Received: from linux.microsoft.com ([13.77.154.182]:51150 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230265AbhFBRWy (ORCPT
+        with ESMTP id S230411AbhFBRWz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Jun 2021 13:22:54 -0400
+        Wed, 2 Jun 2021 13:22:55 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 5425520B8010;
-        Wed,  2 Jun 2021 10:21:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5425520B8010
+        by linux.microsoft.com (Postfix) with ESMTPSA id 1B0EF20B8023;
+        Wed,  2 Jun 2021 10:21:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1B0EF20B8023
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1622654471;
-        bh=M0e2Xy2qjaurngBYtOCvE1zI2shmVNeK4E1iRZ9ux3Y=;
+        s=default; t=1622654472;
+        bh=J6msNIyKK0/+q1U/VmfUQ9JG0UnVqlopTzdS1PQWY1Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rBwWuQKkVkqcMOPOpwNF6xXXVzvS/Nhhi7H1kKV+phwkPyaCTQzWofRTRgabNZmNR
-         FdzQo5ZP9Ky4bEMY3EsuWrGhNIL9Mgjs5b6h1fG2CzfF23BenD4l5A7sp4HbtFeR2q
-         nOhlBEXSU4BqHmJOnrTMQQeYpbBW57tzIGj7GyMw=
+        b=YbV/tqbwEeUT1Q/mrVjooE9AKV90pYmdGWW1KKUWaTJ/u907yszsBJHr46E6CfMMh
+         3sIt1yAYgxKednqiU0VsFjnX4U/uLv8llnf8IKXuea65pHT3lkErESh/5yzF/p1j37
+         HT5ym6M3otEzBQTEOg18Gmk2UUb25BBrpxSizAQw=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         Wei Liu <wei.liu@kernel.org>,
@@ -41,9 +41,9 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         virtualization@lists.linux-foundation.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: [PATCH 06/17] mshv: SynIC port and connection hypercalls
-Date:   Wed,  2 Jun 2021 17:20:51 +0000
-Message-Id: <3125953aae8e7950a6da4c311ef163b79d6fb6b3.1622654100.git.viremana@linux.microsoft.com>
+Subject: [PATCH 14/17] mshv: Notifier framework for EOI for level triggered interrupts
+Date:   Wed,  2 Jun 2021 17:20:59 +0000
+Message-Id: <491e84fc16c756e8d40ac877604cd13ddc9f0ece.1622654100.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622654100.git.viremana@linux.microsoft.com>
 References: <cover.1622654100.git.viremana@linux.microsoft.com>
@@ -53,405 +53,167 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-V enables inter-partition communication through the port and
-connection constructs. More details about ports and connections in
-TLFS chapter 11.
-
-Implement hypercalls related to ports and connections for enabling
-inter-partiion communication.
+A simple in-kernel notifier framework for EOI. Callbacks can be
+registered for EOI for level-triggered interrupts. This is to be
+used for irqfd support for level-triggered interrupts.
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
- drivers/hv/hv_call.c                   | 161 +++++++++++++++++++++++++
- drivers/hv/mshv.h                      |  12 ++
- include/asm-generic/hyperv-tlfs.h      |  55 +++++++++
- include/linux/hyperv.h                 |   9 --
- include/uapi/asm-generic/hyperv-tlfs.h |  76 ++++++++++++
- 5 files changed, 304 insertions(+), 9 deletions(-)
+ drivers/hv/hv_eventfd.c      | 38 ++++++++++++++++++++++++++++++++++++
+ drivers/hv/hv_synic.c        | 22 +++++++++++++++++++++
+ drivers/hv/mshv_main.c       |  4 ++++
+ include/linux/mshv.h         |  9 +++++++++
+ include/linux/mshv_eventfd.h |  6 ++++++
+ 5 files changed, 79 insertions(+)
 
-diff --git a/drivers/hv/hv_call.c b/drivers/hv/hv_call.c
-index 025d4e2b892f..57db3a8ac94a 100644
---- a/drivers/hv/hv_call.c
-+++ b/drivers/hv/hv_call.c
-@@ -742,3 +742,164 @@ int hv_call_translate_virtual_address(
- 	return hv_status_to_errno(status);
- }
+diff --git a/drivers/hv/hv_eventfd.c b/drivers/hv/hv_eventfd.c
+index 5ed77901fb0b..0bfb088dcb80 100644
+--- a/drivers/hv/hv_eventfd.c
++++ b/drivers/hv/hv_eventfd.c
+@@ -22,6 +22,44 @@
  
-+
-+int
-+hv_call_create_port(u64 port_partition_id, union hv_port_id port_id,
-+		    u64 connection_partition_id,
-+		    struct hv_port_info *port_info,
-+		    u8 port_vtl, u8 min_connection_vtl, int node)
+ static struct workqueue_struct *irqfd_cleanup_wq;
+ 
++void
++mshv_register_irq_ack_notifier(struct mshv_partition *partition,
++			       struct mshv_irq_ack_notifier *mian)
 +{
-+	struct hv_create_port *input;
-+	unsigned long flags;
-+	int ret = 0;
-+	int status;
++	spin_lock(&partition->irq_lock);
++	hlist_add_head_rcu(&mian->link, &partition->irq_ack_notifier_list);
++	spin_unlock(&partition->irq_lock);
++}
 +
-+	do {
-+		local_irq_save(flags);
-+		input = (struct hv_create_port *)(*this_cpu_ptr(
-+				hyperv_pcpu_input_arg));
-+		memset(input, 0, sizeof(*input));
++void
++mshv_unregister_irq_ack_notifier(struct mshv_partition *partition,
++				 struct mshv_irq_ack_notifier *mian)
++{
++	spin_lock(&partition->irq_lock);
++	hlist_del_init_rcu(&mian->link);
++	spin_unlock(&partition->irq_lock);
++	synchronize_rcu();
++}
 +
-+		input->port_partition_id = port_partition_id;
-+		input->port_id = port_id;
-+		input->connection_partition_id = connection_partition_id;
-+		input->port_info = *port_info;
-+		input->port_vtl = port_vtl;
-+		input->min_connection_vtl = min_connection_vtl;
-+		input->proximity_domain_info =
-+			numa_node_to_proximity_domain_info(node);
-+		status = hv_do_hypercall(HVCALL_CREATE_PORT, input,
-+					NULL) & HV_HYPERCALL_RESULT_MASK;
-+		local_irq_restore(flags);
-+		if (status == HV_STATUS_SUCCESS)
-+			break;
++bool
++mshv_notify_acked_gsi(struct mshv_partition *partition, int gsi)
++{
++	struct mshv_irq_ack_notifier *mian;
++	bool acked = false;
 +
-+		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
-+			pr_err("%s: %s\n",
-+			       __func__, hv_status_to_string(status));
-+			ret = -hv_status_to_errno(status);
-+			break;
++	rcu_read_lock();
++	hlist_for_each_entry_rcu(mian, &partition->irq_ack_notifier_list,
++			link) {
++		if (mian->gsi == gsi) {
++			mian->irq_acked(mian);
++			acked = true;
 +		}
-+		ret = hv_call_deposit_pages(NUMA_NO_NODE,
-+				port_partition_id, 1);
-+
-+	} while (!ret);
-+
-+	return ret;
-+}
-+
-+int
-+hv_call_delete_port(u64 port_partition_id, union hv_port_id port_id)
-+{
-+	union hv_delete_port input = { 0 };
-+	unsigned long flags;
-+	int status;
-+
-+	local_irq_save(flags);
-+	input.port_partition_id = port_partition_id;
-+	input.port_id = port_id;
-+	status = hv_do_fast_hypercall16(HVCALL_DELETE_PORT,
-+					input.as_uint64[0],
-+					input.as_uint64[1]) &
-+			HV_HYPERCALL_RESULT_MASK;
-+	local_irq_restore(flags);
-+
-+	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
-+		return -hv_status_to_errno(status);
 +	}
++	rcu_read_unlock();
 +
-+	return 0;
++	return acked;
 +}
 +
-+int
-+hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
-+		     u64 connection_partition_id,
-+		     union hv_connection_id connection_id,
-+		     struct hv_connection_info *connection_info,
-+		     u8 connection_vtl, int node)
-+{
-+	struct hv_connect_port *input;
-+	unsigned long flags;
-+	int ret = 0, status;
+ static void
+ irqfd_inject(struct mshv_kernel_irqfd *irqfd)
+ {
+diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
+index af6653967209..1296928675e3 100644
+--- a/drivers/hv/hv_synic.c
++++ b/drivers/hv/hv_synic.c
+@@ -14,6 +14,7 @@
+ #include <linux/io.h>
+ #include <linux/random.h>
+ #include <linux/mshv.h>
++#include <linux/mshv_eventfd.h>
+ #include <asm/mshyperv.h>
+ 
+ #include "mshv.h"
+@@ -158,6 +159,27 @@ mshv_intercept_isr(struct hv_message *msg)
+ 		goto unlock_out;
+ 	}
+ 
++	if (msg->header.message_type == HVMSG_X64_APIC_EOI) {
++		/*
++		 * Check if this gsi is registered in the
++		 * ack_notifier list and invoke the callback
++		 * if registered.
++		 */
++		struct hv_x64_apic_eoi_message *eoi_msg =
++			(struct hv_x64_apic_eoi_message *)msg->u.payload;
 +
-+	do {
-+		local_irq_save(flags);
-+		input = (struct hv_connect_port *)(*this_cpu_ptr(
-+				hyperv_pcpu_input_arg));
-+		memset(input, 0, sizeof(*input));
-+		input->port_partition_id = port_partition_id;
-+		input->port_id = port_id;
-+		input->connection_partition_id = connection_partition_id;
-+		input->connection_id = connection_id;
-+		input->connection_info = *connection_info;
-+		input->connection_vtl = connection_vtl;
-+		input->proximity_domain_info =
-+			numa_node_to_proximity_domain_info(node);
-+		status = hv_do_hypercall(HVCALL_CONNECT_PORT, input,
-+					NULL) & HV_HYPERCALL_RESULT_MASK;
-+
-+		local_irq_restore(flags);
-+		if (status == HV_STATUS_SUCCESS)
-+			break;
-+
-+		if (status != HV_STATUS_INSUFFICIENT_MEMORY) {
-+			pr_err("%s: %s\n",
-+			       __func__, hv_status_to_string(status));
-+			ret = -hv_status_to_errno(status);
-+			break;
++		/*
++		 * If there is a notifier, the ack callback is supposed
++		 * to handle the VMEXIT. So we need not pass this message
++		 * to vcpu thread.
++		 */
++		if (mshv_notify_acked_gsi(partition,
++					eoi_msg->interrupt_vector)) {
++			handled = true;
++			goto unlock_out;
 +		}
-+		ret = hv_call_deposit_pages(NUMA_NO_NODE,
-+				connection_partition_id, 1);
-+	} while (!ret);
-+
-+	return ret;
-+}
-+
-+int
-+hv_call_disconnect_port(u64 connection_partition_id,
-+			union hv_connection_id connection_id)
-+{
-+	union hv_disconnect_port input = { 0 };
-+	unsigned long flags;
-+	int status;
-+
-+	local_irq_save(flags);
-+	input.connection_partition_id = connection_partition_id;
-+	input.connection_id = connection_id;
-+	input.is_doorbell = 1;
-+	status = hv_do_fast_hypercall16(HVCALL_DISCONNECT_PORT,
-+					input.as_uint64[0],
-+					input.as_uint64[1]) &
-+			HV_HYPERCALL_RESULT_MASK;
-+	local_irq_restore(flags);
-+
-+	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
-+		return -hv_status_to_errno(status);
 +	}
 +
-+	return 0;
-+}
-+
-+int
-+hv_call_notify_port_ring_empty(u32 sint_index)
-+{
-+	union hv_notify_port_ring_empty input = { 0 };
-+	unsigned long flags;
-+	int status;
-+
-+	local_irq_save(flags);
-+	input.sint_index = sint_index;
-+	status = hv_do_fast_hypercall8(HVCALL_NOTIFY_PORT_RING_EMPTY,
-+					input.as_uint64) &
-+			HV_HYPERCALL_RESULT_MASK;
-+	local_irq_restore(flags);
-+
-+	if (status != HV_STATUS_SUCCESS) {
-+		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
-+		return -hv_status_to_errno(status);
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index 037291a0ad45..e16818e977b9 100644
---- a/drivers/hv/mshv.h
-+++ b/drivers/hv/mshv.h
-@@ -117,4 +117,16 @@ int hv_call_translate_virtual_address(
- 		u64 *gpa,
- 		union hv_translate_gva_result *result);
+ 	/*
+ 	 * Since we directly index the vp, and it has to exist for us to be here
+ 	 * (because the vp is only deleted when the partition is), no additional
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+index e1caecd27f09..6f93813ad465 100644
+--- a/drivers/hv/mshv_main.c
++++ b/drivers/hv/mshv_main.c
+@@ -1047,6 +1047,10 @@ mshv_ioctl_create_partition(void __user *user_arg)
  
-+int hv_call_create_port(u64 port_partition_id, union hv_port_id port_id,
-+			u64 connection_partition_id, struct hv_port_info *port_info,
-+			u8 port_vtl, u8 min_connection_vtl, int node);
-+int hv_call_delete_port(u64 port_partition_id, union hv_port_id port_id);
-+int hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
-+			 u64 connection_partition_id,
-+			 union hv_connection_id connection_id,
-+			 struct hv_connection_info *connection_info,
-+			 u8 connection_vtl, int node);
-+int hv_call_disconnect_port(u64 connection_partition_id,
-+			    union hv_connection_id connection_id);
-+int hv_call_notify_port_ring_empty(u32 sint_index);
- #endif /* _MSHV_H */
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index f70391a3320f..42e0237b0da8 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -159,6 +159,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_GET_VP_REGISTERS			0x0050
- #define HVCALL_SET_VP_REGISTERS			0x0051
- #define HVCALL_TRANSLATE_VIRTUAL_ADDRESS	0x0052
-+#define HVCALL_DELETE_PORT			0x0058
-+#define HVCALL_DISCONNECT_PORT			0x005b
- #define HVCALL_POST_MESSAGE			0x005c
- #define HVCALL_SIGNAL_EVENT			0x005d
- #define HVCALL_POST_DEBUG_DATA			0x0069
-@@ -168,7 +170,10 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
- #define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
- #define HVCALL_RETARGET_INTERRUPT		0x007e
-+#define HVCALL_NOTIFY_PORT_RING_EMPTY		0x008b
- #define HVCALL_ASSERT_VIRTUAL_INTERRUPT		0x0094
-+#define HVCALL_CREATE_PORT			0x0095
-+#define HVCALL_CONNECT_PORT			0x0096
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
- #define HVCALL_MAP_VP_STATE_PAGE			0x00e1
-@@ -949,4 +954,54 @@ struct hv_translate_virtual_address_out {
- 	u64 gpa_page;
- } __packed;
+ 	mutex_init(&partition->mutex);
  
-+struct hv_create_port {
-+	u64 port_partition_id;
-+	union hv_port_id port_id;
-+	u8 port_vtl;
-+	u8 min_connection_vtl;
-+	u16 padding;
-+	u64 connection_partition_id;
-+	struct hv_port_info port_info;
-+	union hv_proximity_domain_info proximity_domain_info;
-+} __packed;
++	spin_lock_init(&partition->irq_lock);
 +
-+union hv_delete_port {
-+	u64 as_uint64[2];
-+	struct {
-+		u64 port_partition_id;
-+		union hv_port_id port_id;
-+		u32 reserved;
-+	} __packed;
-+};
++	INIT_HLIST_HEAD(&partition->irq_ack_notifier_list);
 +
-+union hv_notify_port_ring_empty {
-+	u64 as_uint64;
-+	struct {
-+		u32 sint_index;
-+		u32 reserved;
-+	} __packed;
-+};
-+
-+struct hv_connect_port {
-+	u64 connection_partition_id;
-+	union hv_connection_id connection_id;
-+	u8 connection_vtl;
-+	u8 rsvdz0;
-+	u16 rsvdz1;
-+	u64 port_partition_id;
-+	union hv_port_id port_id;
-+	u32 reserved2;
-+	struct hv_connection_info connection_info;
-+	union hv_proximity_domain_info proximity_domain_info;
-+} __packed;
-+
-+union hv_disconnect_port {
-+	u64 as_uint64[2];
-+	struct {
-+		u64 connection_partition_id;
-+		union hv_connection_id connection_id;
-+		u32 is_doorbell: 1;
-+		u32 reserved: 31;
-+	} __packed;
-+};
- #endif
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 2e859d2f9609..76ff26579622 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -750,15 +750,6 @@ struct vmbus_close_msg {
- 	struct vmbus_channel_close_channel msg;
+ 	fd = get_unused_fd_flags(O_CLOEXEC);
+ 	if (fd < 0) {
+ 		ret = fd;
+diff --git a/include/linux/mshv.h b/include/linux/mshv.h
+index 217c91725828..2cee4832fc7f 100644
+--- a/include/linux/mshv.h
++++ b/include/linux/mshv.h
+@@ -35,6 +35,12 @@ struct mshv_mem_region {
+ 	struct page **pages;
  };
  
--/* Define connection identifier type. */
--union hv_connection_id {
--	u32 asu32;
--	struct {
--		u32 id:24;
--		u32 reserved:8;
--	} u;
--};
--
- enum vmbus_device_type {
- 	HV_IDE = 0,
- 	HV_SCSI,
-diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-index 388c4eb29212..2031115c6cce 100644
---- a/include/uapi/asm-generic/hyperv-tlfs.h
-+++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -53,6 +53,25 @@ union hv_message_flags {
- 	} __packed;
- };
++struct mshv_irq_ack_notifier {
++	struct hlist_node link;
++	unsigned int gsi;
++	void (*irq_acked)(struct mshv_irq_ack_notifier *mian);
++};
++
+ struct mshv_partition {
+ 	u64 id;
+ 	refcount_t ref_count;
+@@ -48,6 +54,9 @@ struct mshv_partition {
+ 		struct mshv_vp *array[MSHV_MAX_VPS];
+ 	} vps;
  
-+enum hv_port_type {
-+	HV_PORT_TYPE_MESSAGE = 1,
-+	HV_PORT_TYPE_EVENT   = 2,
-+	HV_PORT_TYPE_MONITOR = 3,
-+	HV_PORT_TYPE_DOORBELL = 4	// Root Partition only
-+};
++	spinlock_t irq_lock;
++	struct hlist_head irq_ack_notifier_list;
 +
-+
-+/*
-+ * Doorbell connection_info flags.
-+ */
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_MASK  0x00000007
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_ANY   0x00000000
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_BYTE  0x00000001
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_WORD  0x00000002
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_DWORD 0x00000003
-+#define HV_DOORBELL_FLAG_TRIGGER_SIZE_QWORD 0x00000004
-+#define HV_DOORBELL_FLAG_TRIGGER_ANY_VALUE  0x80000000
-+
- /* Define port identifier type. */
- union hv_port_id {
- 	__u32 asu32;
-@@ -62,6 +81,63 @@ union hv_port_id {
- 	} __packed u;
- };
+ 	struct {
+ 		spinlock_t        lock;
+ 		struct list_head  items;
+diff --git a/include/linux/mshv_eventfd.h b/include/linux/mshv_eventfd.h
+index fd0012f72616..b4d587208294 100644
+--- a/include/linux/mshv_eventfd.h
++++ b/include/linux/mshv_eventfd.h
+@@ -15,6 +15,12 @@
+ void mshv_eventfd_init(struct mshv_partition *partition);
+ void mshv_eventfd_release(struct mshv_partition *partition);
  
-+struct hv_port_info {
-+	enum hv_port_type port_type;
-+	__u32 padding;
-+	union {
-+		struct {
-+			__u32 target_sint;
-+			__u32 target_vp;
-+			__u64 rsvdz;
-+		} message_port_info;
-+		struct {
-+			__u32 target_sint;
-+			__u32 target_vp;
-+			__u16 base_flag_number;
-+			__u16 flag_count;
-+			__u32 rsvdz;
-+		} event_port_info;
-+		struct {
-+			__u64 monitor_address;
-+			__u64 rsvdz;
-+		} monitor_port_info;
-+		struct {
-+			__u32 target_sint;
-+			__u32 target_vp;
-+			__u64 rsvdz;
-+		} doorbell_port_info;
-+	};
-+};
++void mshv_register_irq_ack_notifier(struct mshv_partition *partition,
++				    struct mshv_irq_ack_notifier *mian);
++void mshv_unregister_irq_ack_notifier(struct mshv_partition *partition,
++			struct mshv_irq_ack_notifier *mian);
++bool mshv_notify_acked_gsi(struct mshv_partition *partition, int gsi);
 +
-+union hv_connection_id {
-+	__u32 asu32;
-+	struct {
-+		__u32 id:24;
-+		__u32 reserved:8;
-+	} u;
-+};
-+
-+struct hv_connection_info {
-+	enum hv_port_type port_type;
-+	__u32 padding;
-+	union {
-+		struct {
-+			__u64 rsvdz;
-+		} message_connection_info;
-+		struct {
-+			__u64 rsvdz;
-+		} event_connection_info;
-+		struct {
-+			__u64 monitor_address;
-+		} monitor_connection_info;
-+		struct {
-+			__u64 gpa;
-+			__u64 trigger_value;
-+			__u64 flags;
-+		} doorbell_connection_info;
-+	};
-+};
-+
- /* Define synthetic interrupt controller message header. */
- struct hv_message_header {
- 	__u32 message_type;
+ struct mshv_kernel_irqfd {
+ 	struct mshv_partition     *partition;
+ 	struct eventfd_ctx        *eventfd;
 -- 
 2.25.1
 
