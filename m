@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FCEFC47097
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC005C4709A
+	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65AC3613FE
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6DB0613AC
+	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231919AbhFCPQg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 3 Jun 2021 11:16:36 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:45620 "EHLO
+        id S231909AbhFCPQh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 3 Jun 2021 11:16:37 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:45686 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbhFCPQf (ORCPT
+        with ESMTP id S231902AbhFCPQg (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 3 Jun 2021 11:16:35 -0400
+        Thu, 3 Jun 2021 11:16:36 -0400
 Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id CE37020B7188;
-        Thu,  3 Jun 2021 08:14:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CE37020B7188
+        by linux.microsoft.com (Postfix) with ESMTPSA id 26B0620B800A;
+        Thu,  3 Jun 2021 08:14:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 26B0620B800A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1622733290;
-        bh=O3R7ws0U1fc7rrTaS2RFaXACmChpTZ3DpIk2uE0vGg8=;
+        s=default; t=1622733291;
+        bh=g/0CZ28TZXa8OiDU/5Sw5UhcxJAd5IpWviUtWRUE0dw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l8n2qhBE+IghZbV6I9D9skkltxgYO602PDn1sHiYTYlxYto/RwPzkGHTUHc5GLkJb
-         TJH1e3/r6frNWDbPH2Qm2QHq5USEg+SbiHGClri1Mi4vqNwJ0exe0f6VWPMksvHUu3
-         xikff++r0duXkS6PvuXkELZIwI/iLJ29qPmjQweM=
+        b=d4kQHi4S8S/TTM/Ca/eeH3Ewa6E8DRda9ss2kS0SLMIsZCKKgG4tW6ifHlzxrUtcX
+         G4oXjLTdWtsXozC891gty9Wxo0QzPXp61GG35Mz9rZu5oFxk5yul/VqHfAXlqC85nQ
+         OLT28mkb0BjmLuebTqNuTOfA6zp2REln0OWqzcZw=
 From:   Vineeth Pillai <viremana@linux.microsoft.com>
 To:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
@@ -50,9 +50,9 @@ Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH v5 1/7] hyperv: Detect Nested virtualization support for SVM
-Date:   Thu,  3 Jun 2021 15:14:34 +0000
-Message-Id: <43b25ff21cd2d9a51582033c9bdd895afefac056.1622730232.git.viremana@linux.microsoft.com>
+Subject: [PATCH v5 4/7] KVM: SVM: Software reserved fields
+Date:   Thu,  3 Jun 2021 15:14:37 +0000
+Message-Id: <a1f17a43a8e9e751a1a9cc0281649d71bdbf721b.1622730232.git.viremana@linux.microsoft.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1622730232.git.viremana@linux.microsoft.com>
 References: <cover.1622730232.git.viremana@linux.microsoft.com>
@@ -62,68 +62,114 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Previously, to detect nested virtualization enlightenment support,
-we were using HV_X64_ENLIGHTENED_VMCS_RECOMMENDED feature bit of
-HYPERV_CPUID_ENLIGHTMENT_INFO.EAX CPUID as docuemented in TLFS:
- "Bit 14: Recommend a nested hypervisor using the enlightened VMCS
-  interface. Also indicates that additional nested enlightenments
-  may be available (see leaf 0x4000000A)".
+SVM added support for certain reserved fields to be used by
+software or hypervisor. Add the following reserved fields:
+  - VMCB offset 0x3e0 - 0x3ff
+  - Clean bit 31
+  - SVM intercept exit code 0xf0000000
 
-Enlightened VMCS, however, is an Intel only feature so the above
-detection method doesn't work for AMD. So, use the
-HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS.EAX CPUID information ("The
-maximum input value for hypervisor CPUID information.") and this
-works for both AMD and Intel.
+Later patches will make use of this for supporting Hyper-V
+nested virtualization enhancements.
 
 Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 ---
- arch/x86/kernel/cpu/mshyperv.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ arch/x86/include/asm/svm.h      |  9 +++++++--
+ arch/x86/include/uapi/asm/svm.h |  3 +++
+ arch/x86/kvm/svm/svm.h          | 17 +++++++++++++++--
+ 3 files changed, 25 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 22f13343b5da..c268c2730048 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -252,6 +252,7 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
+diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
+index 772e60efe243..e322676039f4 100644
+--- a/arch/x86/include/asm/svm.h
++++ b/arch/x86/include/asm/svm.h
+@@ -156,6 +156,12 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
+ 	u64 avic_physical_id;	/* Offset 0xf8 */
+ 	u8 reserved_7[8];
+ 	u64 vmsa_pa;		/* Used for an SEV-ES guest */
++	u8 reserved_8[720];
++	/*
++	 * Offset 0x3e0, 32 bytes reserved
++	 * for use by hypervisor/software.
++	 */
++	u8 reserved_sw[32];
+ };
  
- static void __init ms_hyperv_init_platform(void)
- {
-+	int hv_max_functions_eax;
- 	int hv_host_info_eax;
- 	int hv_host_info_ebx;
- 	int hv_host_info_ecx;
-@@ -269,6 +270,8 @@ static void __init ms_hyperv_init_platform(void)
- 	ms_hyperv.misc_features = cpuid_edx(HYPERV_CPUID_FEATURES);
- 	ms_hyperv.hints    = cpuid_eax(HYPERV_CPUID_ENLIGHTMENT_INFO);
  
-+	hv_max_functions_eax = cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS);
+@@ -314,7 +320,7 @@ struct ghcb {
+ 
+ 
+ #define EXPECTED_VMCB_SAVE_AREA_SIZE		1032
+-#define EXPECTED_VMCB_CONTROL_AREA_SIZE		272
++#define EXPECTED_VMCB_CONTROL_AREA_SIZE		1024
+ #define EXPECTED_GHCB_SIZE			PAGE_SIZE
+ 
+ static inline void __unused_size_checks(void)
+@@ -326,7 +332,6 @@ static inline void __unused_size_checks(void)
+ 
+ struct vmcb {
+ 	struct vmcb_control_area control;
+-	u8 reserved_control[1024 - sizeof(struct vmcb_control_area)];
+ 	struct vmcb_save_area save;
+ } __packed;
+ 
+diff --git a/arch/x86/include/uapi/asm/svm.h b/arch/x86/include/uapi/asm/svm.h
+index 554f75fe013c..efa969325ede 100644
+--- a/arch/x86/include/uapi/asm/svm.h
++++ b/arch/x86/include/uapi/asm/svm.h
+@@ -110,6 +110,9 @@
+ #define SVM_VMGEXIT_GET_AP_JUMP_TABLE		1
+ #define SVM_VMGEXIT_UNSUPPORTED_EVENT		0x8000ffff
+ 
++/* Exit code reserved for hypervisor/software use */
++#define SVM_EXIT_SW				0xf0000000
 +
- 	pr_info("Hyper-V: privilege flags low 0x%x, high 0x%x, hints 0x%x, misc 0x%x\n",
- 		ms_hyperv.features, ms_hyperv.priv_high, ms_hyperv.hints,
- 		ms_hyperv.misc_features);
-@@ -298,8 +301,7 @@ static void __init ms_hyperv_init_platform(void)
- 	/*
- 	 * Extract host information.
- 	 */
--	if (cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS) >=
--	    HYPERV_CPUID_VERSION) {
-+	if (hv_max_functions_eax >= HYPERV_CPUID_VERSION) {
- 		hv_host_info_eax = cpuid_eax(HYPERV_CPUID_VERSION);
- 		hv_host_info_ebx = cpuid_ebx(HYPERV_CPUID_VERSION);
- 		hv_host_info_ecx = cpuid_ecx(HYPERV_CPUID_VERSION);
-@@ -325,9 +327,11 @@ static void __init ms_hyperv_init_platform(void)
- 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
- 	}
+ #define SVM_EXIT_ERR           -1
  
--	if (ms_hyperv.hints & HV_X64_ENLIGHTENED_VMCS_RECOMMENDED) {
-+	if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
- 		ms_hyperv.nested_features =
- 			cpuid_eax(HYPERV_CPUID_NESTED_FEATURES);
-+		pr_info("Hyper-V: Nested features: 0x%x\n",
-+			ms_hyperv.nested_features);
- 	}
+ #define SVM_EXIT_REASONS \
+diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+index 84b3133c2251..eb4b91832912 100644
+--- a/arch/x86/kvm/svm/svm.h
++++ b/arch/x86/kvm/svm/svm.h
+@@ -31,6 +31,11 @@
+ extern u32 msrpm_offsets[MSRPM_OFFSETS] __read_mostly;
+ extern bool npt_enabled;
  
- 	/*
++/*
++ * Clean bits in VMCB.
++ * VMCB_ALL_CLEAN_MASK might also need to
++ * be updated if this enum is modified.
++ */
+ enum {
+ 	VMCB_INTERCEPTS, /* Intercept vectors, TSC offset,
+ 			    pause filter count */
+@@ -48,9 +53,17 @@ enum {
+ 			  * AVIC PHYSICAL_TABLE pointer,
+ 			  * AVIC LOGICAL_TABLE pointer
+ 			  */
+-	VMCB_DIRTY_MAX,
++	VMCB_SW = 31,    /* Reserved for hypervisor/software use */
+ };
+ 
++#define VMCB_ALL_CLEAN_MASK (					\
++	(1U << VMCB_INTERCEPTS) | (1U << VMCB_PERM_MAP) |	\
++	(1U << VMCB_ASID) | (1U << VMCB_INTR) |			\
++	(1U << VMCB_NPT) | (1U << VMCB_CR) | (1U << VMCB_DR) |	\
++	(1U << VMCB_DT) | (1U << VMCB_SEG) | (1U << VMCB_CR2) |	\
++	(1U << VMCB_LBR) | (1U << VMCB_AVIC) |			\
++	(1U << VMCB_SW))
++
+ /* TPR and CR2 are always written before VMRUN */
+ #define VMCB_ALWAYS_DIRTY_MASK	((1U << VMCB_INTR) | (1U << VMCB_CR2))
+ 
+@@ -237,7 +250,7 @@ static inline void vmcb_mark_all_dirty(struct vmcb *vmcb)
+ 
+ static inline void vmcb_mark_all_clean(struct vmcb *vmcb)
+ {
+-	vmcb->control.clean = ((1 << VMCB_DIRTY_MAX) - 1)
++	vmcb->control.clean = VMCB_ALL_CLEAN_MASK
+ 			       & ~VMCB_ALWAYS_DIRTY_MASK;
+ }
+ 
 -- 
 2.25.1
 
