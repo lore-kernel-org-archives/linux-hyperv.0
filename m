@@ -2,188 +2,133 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9D3C47240
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2700C47098
+	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:38:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68FF5613F3
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:14:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC59C61208
+	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Jun 2021 15:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbhFCPQj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 3 Jun 2021 11:16:39 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:45714 "EHLO
-        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231376AbhFCPQg (ORCPT
+        id S229925AbhFCPkF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 3 Jun 2021 11:40:05 -0400
+Received: from mail-pg1-f172.google.com ([209.85.215.172]:38543 "EHLO
+        mail-pg1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229881AbhFCPkF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 3 Jun 2021 11:16:36 -0400
-Received: from viremana-dev.fwjladdvyuiujdukmejncen4mf.xx.internal.cloudapp.net (unknown [13.66.132.26])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 4089220B800D;
-        Thu,  3 Jun 2021 08:14:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4089220B800D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1622733291;
-        bh=m88SPusS66QEKDy6ebkhU/c6WvDP5/rom/acisdUES0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=I/Qkg6dsFVxt7mBZFtL9QFVVx025JBxcPJtE40MJ+0XP4eZrCbNyHM9TAJYfDZjHg
-         A0w/3vqbr3ezhac03aeLmfyhh/Sq25nIj37eoD06tpDNc1TEHgqi0oTOmAjBRCLvcw
-         P6H5mgXMNfWRby3ofWR5P+90N9j2jQ3npXMyRtkw=
-From:   Vineeth Pillai <viremana@linux.microsoft.com>
-To:     Lan Tianyu <Tianyu.Lan@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, Wei Liu <wei.liu@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     Vineeth Pillai <viremana@linux.microsoft.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: [PATCH v5 5/7] KVM: SVM: hyper-v: Remote TLB flush for SVM
-Date:   Thu,  3 Jun 2021 15:14:38 +0000
-Message-Id: <1ee364e397e142aed662d2920d198cd03772f1a5.1622730232.git.viremana@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1622730232.git.viremana@linux.microsoft.com>
-References: <cover.1622730232.git.viremana@linux.microsoft.com>
+        Thu, 3 Jun 2021 11:40:05 -0400
+Received: by mail-pg1-f172.google.com with SMTP id 6so5435014pgk.5;
+        Thu, 03 Jun 2021 08:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BVYx1tfLGUQhuXKxLmm7FvDthvCK68hj9EtKYIRIQHQ=;
+        b=miB2ljSk1RA9tY/uYJGQ9mMwA4UDMc4OP5R2SPNH1XSMN+zppyZP3Jc++5YNxmzOby
+         kALkMRui/3t9gSuqF33Vb3xRJqf9zGMvEy1ThQuUuoC56/3xsrdMaI/j4lWWgNSF2sTJ
+         COY0x0gCbiM503+Xvvp9Nsgl9aAqJhwkWUkCuJddQ5kBPKpL6maIzV4Esr2iyVTK2nDK
+         TGTOiLPti6ZFCSfL7YPGf1T/ifO0Td+1Cseob26JVYcCljKap3dtfQjqMVk0i9iDWAeR
+         pRTkE5bQUe239zrqx8ZeVhOf2I48ijf3+Yv7Odtm6yW32eQYlYwHea3YOPPmHlNYafZU
+         cDkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BVYx1tfLGUQhuXKxLmm7FvDthvCK68hj9EtKYIRIQHQ=;
+        b=MBzkjYyU1bxPKcJPl/hmKhXY3+KqqWIVGjA76UkYWqFAz5VmhLCHAh8jYAUCBqxFWc
+         NMhkYUDJz94pq+srIlyKRCe3S4uUO23JZy+j5vP3+ft56bzsK5igOM524tCIcfAGTEdf
+         1+zZ2AMSTlmdBVGbiECAjUvXYCCbGx2trpg6ChylnIvrzIKNfh1sAUjTMqIXUOAp2H4l
+         g6NzkhNmGy/1Ung9cLmf+WjXRDZEAPUkJtdRaQxvAWqpDOy6jk5j1+sphx9ZCXmP3hPs
+         yYjGKl18URdA06g3v/yjM0NpVfkTLFA04pfkdZPNZONF7gOoUA5pDwMh43OS3ZQSWNE4
+         ogpQ==
+X-Gm-Message-State: AOAM530t5ftDZxmCRn8F+9X+Xj8RdIUZ10Bwt42oC4WuZlB2kG6eQfmb
+        6PLiJ+nsDyPjIouQhN07TwI=
+X-Google-Smtp-Source: ABdhPJyuSSLvdEikeh+Nq/zhDPHcKBsCeWjVlIXCtWnktcvNT96pyk1AlIWziUacbt3mBXpwaDz9WA==
+X-Received: by 2002:aa7:8755:0:b029:2eb:8c8f:d1f1 with SMTP id g21-20020aa787550000b02902eb8c8fd1f1mr271415pfo.11.1622734640422;
+        Thu, 03 Jun 2021 08:37:20 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:18:efec::4b1])
+        by smtp.gmail.com with ESMTPSA id r10sm3237979pga.48.2021.06.03.08.37.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jun 2021 08:37:19 -0700 (PDT)
+Subject: Re: [RFC PATCH V3 09/11] HV/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+To:     Boris Ostrovsky <boris.ostrovsky@oracle.com>, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com, arnd@arndb.de,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        akpm@linux-foundation.org, kirill.shutemov@linux.intel.com,
+        rppt@kernel.org, hannes@cmpxchg.org, cai@lca.pw,
+        krish.sadhukhan@oracle.com, saravanand@fb.com,
+        Tianyu.Lan@microsoft.com, konrad.wilk@oracle.com, hch@lst.de,
+        m.szyprowski@samsung.com, robin.murphy@arm.com, jgross@suse.com,
+        sstabellini@kernel.org, joro@8bytes.org, will@kernel.org,
+        xen-devel@lists.xenproject.org, davem@davemloft.net,
+        kuba@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com
+Cc:     iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
+        vkuznets@redhat.com, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, sunilmut@microsoft.com
+References: <20210530150628.2063957-1-ltykernel@gmail.com>
+ <20210530150628.2063957-10-ltykernel@gmail.com>
+ <9488c114-81ad-eb67-79c0-5ed319703d3e@oracle.com>
+ <a023ee3f-ce85-b54f-79c3-146926bf3279@gmail.com>
+ <d6714e8b-dcb6-798b-59a4-5bb68f789564@oracle.com>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <1cdf4e6e-6499-e209-d499-7ab82992040b@gmail.com>
+Date:   Thu, 3 Jun 2021 23:37:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 MIME-Version: 1.0
+In-Reply-To: <d6714e8b-dcb6-798b-59a4-5bb68f789564@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enable remote TLB flush for SVM.
+On 6/3/2021 12:02 AM, Boris Ostrovsky wrote:
+> 
+> On 6/2/21 11:01 AM, Tianyu Lan wrote:
+>> Hi Boris:
+>>      Thanks for your review.
+>>
+>> On 6/2/2021 9:16 AM, Boris Ostrovsky wrote:
+>>>
+>>> On 5/30/21 11:06 AM, Tianyu Lan wrote:
+>>>> @@ -91,6 +92,6 @@ int pci_xen_swiotlb_init_late(void)
+>>>>    EXPORT_SYMBOL_GPL(pci_xen_swiotlb_init_late);
+>>>>      IOMMU_INIT_FINISH(2,
+>>>> -          NULL,
+>>>> +          hyperv_swiotlb_detect,
+>>>>              pci_xen_swiotlb_init,
+>>>>              NULL);
+>>>
+>>>
+>>> Could you explain this change?
+>>
+>> Hyper-V allocates its own swiotlb bounce buffer and the default
+>> swiotlb buffer should not be allocated. swiotlb_init() in pci_swiotlb_init() is to allocate default swiotlb buffer.
+>> To achieve this, put hyperv_swiotlb_detect() as the first entry in the iommu_table_entry list. The detect loop in the pci_iommu_alloc() will exit once hyperv_swiotlb_detect() is called in Hyper-V VM and other iommu_table_entry callback will not be called.
+> 
+> 
+> 
+> Right. But pci_xen_swiotlb_detect() will only do something for Xen PV guests, and those guests don't run on hyperV. It's either xen_pv_domain() (i.e. hypervisor_is_type(X86_HYPER_XEN_PV)) or hypervisor_is_type(X86_HYPER_MS_HYPERV) but never both. So I don't think there needs to be a dependency between the two callbacks.
 
-Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
----
- arch/x86/kvm/svm/svm.c          |  9 +++++
- arch/x86/kvm/svm/svm_onhyperv.h | 66 +++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 arch/x86/kvm/svm/svm_onhyperv.h
+Yes, the dependency is between hyperv_swiotlb_detect() and
+pci_swiotlb_detect_override()/pci_swiotlb_detect_4gb(). Now
+pci_swiotlb_detect_override() and pci_swiotlb_detect_4gb() depends on
+pci_xen_swiotlb_detect(). To keep dependency between
+hyperv_swiotlb_detect() and pci_swiotlb_detect_override/4gb(), make 
+pci_xen_swiotlb_detect() depends on hyperv_swiotlb_detect() and just to
+keep order in the IOMMU table. Current iommu_table_entry only has one
+depend callback and this is why I put xen depends on hyperv detect function.
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index b649f92287a2..a39865dbc200 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -43,6 +43,9 @@
- #include "svm.h"
- #include "svm_ops.h"
- 
-+#include "kvm_onhyperv.h"
-+#include "svm_onhyperv.h"
-+
- #define __ex(x) __kvm_handle_fault_on_reboot(x)
- 
- MODULE_AUTHOR("Qumranet");
-@@ -992,6 +995,8 @@ static __init int svm_hardware_setup(void)
- 	/* Note, SEV setup consumes npt_enabled. */
- 	sev_hardware_setup();
- 
-+	svm_hv_hardware_setup();
-+
- 	svm_adjust_mmio_mask();
- 
- 	for_each_possible_cpu(cpu) {
-@@ -1276,6 +1281,8 @@ static void init_vmcb(struct kvm_vcpu *vcpu)
- 		}
- 	}
- 
-+	svm_hv_init_vmcb(svm->vmcb);
-+
- 	vmcb_mark_all_dirty(svm->vmcb);
- 
- 	enable_gif(svm);
-@@ -3884,6 +3891,8 @@ static void svm_load_mmu_pgd(struct kvm_vcpu *vcpu, hpa_t root_hpa,
- 		svm->vmcb->control.nested_cr3 = __sme_set(root_hpa);
- 		vmcb_mark_dirty(svm->vmcb, VMCB_NPT);
- 
-+		hv_track_root_tdp(vcpu, root_hpa);
-+
- 		/* Loading L2's CR3 is handled by enter_svm_guest_mode.  */
- 		if (!test_bit(VCPU_EXREG_CR3, (ulong *)&vcpu->arch.regs_avail))
- 			return;
-diff --git a/arch/x86/kvm/svm/svm_onhyperv.h b/arch/x86/kvm/svm/svm_onhyperv.h
-new file mode 100644
-index 000000000000..57291e222395
---- /dev/null
-+++ b/arch/x86/kvm/svm/svm_onhyperv.h
-@@ -0,0 +1,66 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * KVM L1 hypervisor optimizations on Hyper-V for SVM.
-+ */
-+
-+#ifndef __ARCH_X86_KVM_SVM_ONHYPERV_H__
-+#define __ARCH_X86_KVM_SVM_ONHYPERV_H__
-+
-+#if IS_ENABLED(CONFIG_HYPERV)
-+#include <asm/mshyperv.h>
-+
-+#include "hyperv.h"
-+#include "kvm_onhyperv.h"
-+
-+static struct kvm_x86_ops svm_x86_ops;
-+
-+/*
-+ * Hyper-V uses the software reserved 32 bytes in VMCB
-+ * control area to expose SVM enlightenments to guests.
-+ */
-+struct hv_enlightenments {
-+	struct __packed hv_enlightenments_control {
-+		u32 nested_flush_hypercall:1;
-+		u32 msr_bitmap:1;
-+		u32 enlightened_npt_tlb: 1;
-+		u32 reserved:29;
-+	} __packed hv_enlightenments_control;
-+	u32 hv_vp_id;
-+	u64 hv_vm_id;
-+	u64 partition_assist_page;
-+	u64 reserved;
-+} __packed;
-+
-+static inline void svm_hv_init_vmcb(struct vmcb *vmcb)
-+{
-+	struct hv_enlightenments *hve =
-+		(struct hv_enlightenments *)vmcb->control.reserved_sw;
-+
-+	if (npt_enabled &&
-+	    ms_hyperv.nested_features & HV_X64_NESTED_ENLIGHTENED_TLB)
-+		hve->hv_enlightenments_control.enlightened_npt_tlb = 1;
-+}
-+
-+static inline void svm_hv_hardware_setup(void)
-+{
-+	if (npt_enabled &&
-+	    ms_hyperv.nested_features & HV_X64_NESTED_ENLIGHTENED_TLB) {
-+		pr_info("kvm: Hyper-V enlightened NPT TLB flush enabled\n");
-+		svm_x86_ops.tlb_remote_flush = hv_remote_flush_tlb;
-+		svm_x86_ops.tlb_remote_flush_with_range =
-+				hv_remote_flush_tlb_with_range;
-+	}
-+}
-+
-+#else
-+
-+static inline void svm_hv_init_vmcb(struct vmcb *vmcb)
-+{
-+}
-+
-+static inline void svm_hv_hardware_setup(void)
-+{
-+}
-+#endif /* CONFIG_HYPERV */
-+
-+#endif /* __ARCH_X86_KVM_SVM_ONHYPERV_H__ */
--- 
-2.25.1
-
+Thanks.
