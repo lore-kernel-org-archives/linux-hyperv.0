@@ -2,97 +2,188 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7214CC48BCF
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 12:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F2B2C48BCF
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:32:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C672613B8
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 12:49:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58582613C1
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:32:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231482AbhFIMvT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Jun 2021 08:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44608 "EHLO
+        id S232285AbhFIQeU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 9 Jun 2021 12:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231405AbhFIMvR (ORCPT
+        with ESMTP id S232165AbhFIQeU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Jun 2021 08:51:17 -0400
-Received: from theia.8bytes.org (8bytes.org [IPv6:2a01:238:4383:600:38bc:a715:4b6d:a889])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BAE7C061574;
-        Wed,  9 Jun 2021 05:49:22 -0700 (PDT)
-Received: by theia.8bytes.org (Postfix, from userid 1000)
-        id B439236A; Wed,  9 Jun 2021 14:49:20 +0200 (CEST)
-Date:   Wed, 9 Jun 2021 14:49:19 +0200
-From:   Joerg Roedel <joro@8bytes.org>
-To:     Tianyu Lan <ltykernel@gmail.com>
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        arnd@arndb.de, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, akpm@linux-foundation.org,
-        kirill.shutemov@linux.intel.com, rppt@kernel.org,
-        hannes@cmpxchg.org, cai@lca.pw, krish.sadhukhan@oracle.com,
-        saravanand@fb.com, Tianyu.Lan@microsoft.com,
-        konrad.wilk@oracle.com, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, boris.ostrovsky@oracle.com, jgross@suse.com,
-        sstabellini@kernel.org, will@kernel.org,
-        xen-devel@lists.xenproject.org, davem@davemloft.net,
-        kuba@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
-        vkuznets@redhat.com, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, sunilmut@microsoft.com
-Subject: Re: [RFC PATCH V3 05/11] HV: Add ghcb hvcall support for SNP VM
-Message-ID: <YMC4z6L0PU3+HCTD@8bytes.org>
-References: <20210530150628.2063957-1-ltykernel@gmail.com>
- <20210530150628.2063957-6-ltykernel@gmail.com>
+        Wed, 9 Jun 2021 12:34:20 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 905E2C061760;
+        Wed,  9 Jun 2021 09:32:25 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id l64so1741574ioa.7;
+        Wed, 09 Jun 2021 09:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2QP+aooIgaNykddMTYMcLiVqjqY2nSO7f91rbFSftQ4=;
+        b=mInlmwALviaiYQUx0afzCiTgkb1BiLfdzItjjT8qdPxWiKCDX3dCjGHRzO0Tt+HUFY
+         BcGxAXmlc1CkORATdMGP3ICTSNP/KXm8xChX7xQzWLC1GLK/qqEnCj8Z9IDUxSrrfVcf
+         s64aIlpzjyUJ8PvUMnAxHduxRYzCZMf2uRA4reJlq2wmw4y/9xSXDiB4ul+4+g8lbqyO
+         C/9NpzgvkRWy1MsupRWxQcunEQpreUNdjd2z1ybVqbJKMtS4fS2HAAzBnLIwfSTAnPpX
+         swwFSWafvo6+NCro9jsw2sV3K4ZWLfX90JxO82ihm7dAyyPfSof9ifx/EVSkQ++aWxnv
+         SQ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2QP+aooIgaNykddMTYMcLiVqjqY2nSO7f91rbFSftQ4=;
+        b=U5uMqnDLr1SokEkhDI3cmy6cJaIfZ3JoUFa1p9PKttPiK2DQh9N4+mHlLdaMt5RTAl
+         EydHErVajH4otaS8Rg5HkpjgRV79wRF/S8eOEYU+/Q9jG1e8RzqQIAQtJUySOjN5l+lh
+         dUsWZ/So4s2uhe9h7W9yFE57UThFGwcDiGurkfnQW9mu5t4pmoRYMc1EexnJS9G70I1E
+         pk4EohC1JNo0X57qQ52umotSjNjeb+99K7+ZGDSzZJ6R2lxRIAc7wyRkYTniIm8W/027
+         Ag4L8RMQkT3P5XeGn2cf+NzqYc2Jz6h+mDredNOTcc71tgw6XZ1wietBTlyo1S7DPInU
+         neNw==
+X-Gm-Message-State: AOAM531q5dpK/fJLJtnU6b9CxFbTPMSazlYsIh7au8tKOwgNeUdHLbuy
+        9UJHmnhq49/9HCcm0RiE5pc=
+X-Google-Smtp-Source: ABdhPJy8E2PUp9QlOixOC91R/fd1nmvZB+codXg5z54MPEev8olrDFKgxrTKo1fnZuUktaWnMuSMzA==
+X-Received: by 2002:a6b:5b06:: with SMTP id v6mr267414ioh.84.1623256345056;
+        Wed, 09 Jun 2021 09:32:25 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id h20sm270056ilo.34.2021.06.09.09.32.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Jun 2021 09:32:24 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id C4DEE27C005B;
+        Wed,  9 Jun 2021 12:32:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 09 Jun 2021 12:32:23 -0400
+X-ME-Sender: <xms:F-3AYGjy8BK7kmdkw429zGR9ou0VkLgKiRku9xYgGKRXYWf5VWxZ1Q>
+    <xme:F-3AYHDCNnqimBGgJtvOKsdxBY_U1gZFu3Vu12jrxx-PCDY_uET8ZaatVUR6o615y
+    jsjYEaVojS4DXKuvg>
+X-ME-Received: <xmr:F-3AYOHBoZKKrwygxC1uWcKmq2fpDiH87EZLjzFjQrxAxKjOLzTc2cLMbs0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduuddguddtvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhu
+    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehvdevteefgfeiudettdefvedvvdelkeejueffffelgeeuhffhjeetkeei
+    ueeuleenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
+    gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
+    igmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:F-3AYPQeX-FYtqwbmy4y6H7iS_HhN2tGmtgHwncaulsjtrfGHm40eQ>
+    <xmx:F-3AYDwqg8iAxKL4NuQbgywD-k78tBSjb1mR_WBnAaSk9BwHxbU8Rw>
+    <xmx:F-3AYN5_AbBX9L66UL3pYAIei_SHahMTME5ABxHw8h0GQ6AK6duwNA>
+    <xmx:F-3AYDC-q7kluMvnjkeySmHzc4_5ORVOOudKTo3oDI9djzNJhRuODszYTzo>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Jun 2021 12:32:23 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>, Clint Sbisa <csbisa@amazon.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sunil Muthuswamy <sunilmut@microsoft.com>
+Subject: [RFC v3 5/7] PCI: hv: Set up msi domain at bridge probing time
+Date:   Thu, 10 Jun 2021 00:32:09 +0800
+Message-Id: <20210609163211.3467449-6-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210609163211.3467449-1-boqun.feng@gmail.com>
+References: <20210609163211.3467449-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210530150628.2063957-6-ltykernel@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sun, May 30, 2021 at 11:06:22AM -0400, Tianyu Lan wrote:
-> +u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size)
-> +{
-> +	union hv_ghcb *hv_ghcb;
-> +	void **ghcb_base;
-> +	unsigned long flags;
-> +
-> +	if (!ms_hyperv.ghcb_base)
-> +		return -EFAULT;
-> +
-> +	local_irq_save(flags);
-> +	ghcb_base = (void **)this_cpu_ptr(ms_hyperv.ghcb_base);
-> +	hv_ghcb = (union hv_ghcb *)*ghcb_base;
-> +	if (!hv_ghcb) {
-> +		local_irq_restore(flags);
-> +		return -EFAULT;
-> +	}
-> +
-> +	memset(hv_ghcb, 0x00, HV_HYP_PAGE_SIZE);
-> +	hv_ghcb->ghcb.protocol_version = 1;
-> +	hv_ghcb->ghcb.ghcb_usage = 1;
-> +
-> +	hv_ghcb->hypercall.outputgpa = (u64)output;
-> +	hv_ghcb->hypercall.hypercallinput.asuint64 = 0;
-> +	hv_ghcb->hypercall.hypercallinput.callcode = control;
-> +
-> +	if (input_size)
-> +		memcpy(hv_ghcb->hypercall.hypercalldata, input, input_size);
-> +
-> +	VMGEXIT();
+Since PCI_HYPERV depends on PCI_MSI_IRQ_DOMAIN which selects
+GENERIC_MSI_IRQ_DOMAIN, we can use dev_set_msi_domain() to set up the
+msi irq domain at probing time, and this works for both x86 and ARM64.
 
-Also not NMI-safe. When you re-use the existing GHCB setup code from
-from SEV-ES code, you can also use sev_es_get/put_ghcb() which takes
-care of re-using a GHCB already in use.
+Therefore use it as the preparation for ARM64 Hyper-V PCI support.
 
-Regards,
+As a result, there is no need to set the pci_sysdata::fwnode which is
+x86 specific. In addition, make hv_pcibus_device own the fwnode instead
+of sysdata to make the code generic.
 
-	Joerg
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+---
+ drivers/pci/controller/pci-hyperv.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index f9a644ae3b74..16a779ab9ed4 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -451,6 +451,7 @@ enum hv_pcibus_state {
+ struct hv_pcibus_device {
+ 	struct pci_sysdata sysdata;
+ 	struct pci_host_bridge *bridge;
++	struct fwnode_handle *fwnode;
+ 	/* Protocol version negotiated with the host */
+ 	enum pci_protocol_version_t protocol_version;
+ 	enum hv_pcibus_state state;
+@@ -1570,7 +1571,7 @@ static int hv_pcie_init_irq_domain(struct hv_pcibus_device *hbus)
+ 	hbus->msi_info.handler = handle_edge_irq;
+ 	hbus->msi_info.handler_name = "edge";
+ 	hbus->msi_info.data = hbus;
+-	hbus->irq_domain = pci_msi_create_irq_domain(hbus->sysdata.fwnode,
++	hbus->irq_domain = pci_msi_create_irq_domain(hbus->fwnode,
+ 						     &hbus->msi_info,
+ 						     x86_vector_domain);
+ 	if (!hbus->irq_domain) {
+@@ -1579,6 +1580,8 @@ static int hv_pcie_init_irq_domain(struct hv_pcibus_device *hbus)
+ 		return -ENODEV;
+ 	}
+ 
++	dev_set_msi_domain(&hbus->bridge->dev, hbus->irq_domain);
++
+ 	return 0;
+ }
+ 
+@@ -3144,9 +3147,9 @@ static int hv_pci_probe(struct hv_device *hdev,
+ 		goto unmap;
+ 	}
+ 
+-	hbus->sysdata.fwnode = irq_domain_alloc_named_fwnode(name);
++	hbus->fwnode = irq_domain_alloc_named_fwnode(name);
+ 	kfree(name);
+-	if (!hbus->sysdata.fwnode) {
++	if (!hbus->fwnode) {
+ 		ret = -ENOMEM;
+ 		goto unmap;
+ 	}
+@@ -3224,7 +3227,7 @@ static int hv_pci_probe(struct hv_device *hdev,
+ free_irq_domain:
+ 	irq_domain_remove(hbus->irq_domain);
+ free_fwnode:
+-	irq_domain_free_fwnode(hbus->sysdata.fwnode);
++	irq_domain_free_fwnode(hbus->fwnode);
+ unmap:
+ 	iounmap(hbus->cfg_addr);
+ free_config:
+@@ -3322,7 +3325,7 @@ static int hv_pci_remove(struct hv_device *hdev)
+ 	hv_free_config_window(hbus);
+ 	hv_pci_free_bridge_windows(hbus);
+ 	irq_domain_remove(hbus->irq_domain);
+-	irq_domain_free_fwnode(hbus->sysdata.fwnode);
++	irq_domain_free_fwnode(hbus->fwnode);
+ 	put_hvpcibus(hbus);
+ 	wait_for_completion(&hbus->remove_event);
+ 	destroy_workqueue(hbus->wq);
+-- 
+2.30.2
 
