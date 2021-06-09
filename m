@@ -8,80 +8,77 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C80C48BD1
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:32:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9CCCC48BCF
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:33:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B008F611AE
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:32:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC4D9613C0
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:33:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234774AbhFIQek (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Jun 2021 12:34:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234732AbhFIQei (ORCPT
+        id S234452AbhFIQfQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 9 Jun 2021 12:35:16 -0400
+Received: from mail-io1-f42.google.com ([209.85.166.42]:35438 "EHLO
+        mail-io1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233934AbhFIQfQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Jun 2021 12:34:38 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6593EC0617A6;
-        Wed,  9 Jun 2021 09:32:28 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id 5so23406635ioe.1;
-        Wed, 09 Jun 2021 09:32:28 -0700 (PDT)
+        Wed, 9 Jun 2021 12:35:16 -0400
+Received: by mail-io1-f42.google.com with SMTP id d9so23409620ioo.2;
+        Wed, 09 Jun 2021 09:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=15t7ZKTSX9WU503SVEKMIKymOsp0yb03DbikdqeGm38=;
-        b=IL895TA+hvrX3n0qdh9JJZDlsA+zMM40QHD9YuLGcFvWyFmOBbWr0lwsaAEA/sDP3K
-         iFVOzZzN8SgYt1T/Imb/+iyDliuKqHw3rq4mBWgspDpmiKr06PA6iLRSvIt3hJB4O1aY
-         toqIyYe8lCVdoENWwYcnZwWSV+xVpKpFiMnbwCmTqhaDKg6ynHNUHy+4iqZkdyC9pr61
-         IZ7qNz3LEV6Ip/F18DKU7VLSouVvRLCcd/xmj5hUBWpvkH8y9VvsFDhs2h0qpbpq4lVg
-         rwdBYEpcXvk37O5uAA6bRMrGKBTlcMygnp+qYboJC1W7sp1RKrUtXJsqhZU90Lw0YmG0
-         tipg==
+        bh=h6/SeYfOWSphhPUzzUCOjWtJORlKfdGfIiP9ztyD/8s=;
+        b=VzXVi+aP/kh7qxv56RdgMxAYCmt5nnDhOgudMEpuUcIKcvzShAfp01wYRDjMjsLmqy
+         xMmx+fFZbLUFtlfq+iN+jQ6JFFjX04Qk8w6HR9VE5VV3M4kbZc+7za+Xoo5H03lkkTB9
+         blGt9ZzjHe4h1jMsU4wWYoVNgcdS9eJvh6qsHcX/9nmw7G7bNWr/uHe3m5uaJbB0Tg/H
+         E5IrYL3OJ8VQyo7rsUqZcqIAfEwOAJgxwY3lHIiB6ari5063pTmWT56WJAjRdPUgNFrz
+         odriMPk0pPLdW1r0HzGZ+Evxa4R/tQkWlXPebuWowEzMBsADddrNYEsFc4VMjN3jkEEr
+         kutg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=15t7ZKTSX9WU503SVEKMIKymOsp0yb03DbikdqeGm38=;
-        b=f8t8VJg5cTanUpEYvbj8DXKrMRaMbCGkN2CK2MYA4cawdZgPwWLwV1twHtbqlHgSnM
-         MpI492vA/QZHjwUNXD3pPQciyHAweCHG/uQx9agDHYxocfAsgntZdr57V7RKXI5d7bFp
-         D1jHUOuIxTeaSYqn8xy+NmMHwgDxavHQJWeOfUI171qT1+CPcnI6UTOThBskyELHbMzU
-         ZV52cv0ZI3wfWVl/iggG90WCbaibKlHz8FV2TEKcachFC7JDqVNtUUqQVKcnMpFWn1tv
-         H7j9zwmrA0skC/I/ZWf/3eEU0JbPc7yHNlovgibRUxPO4f7Gf2RJL3KNwDQ00Y9X9SeX
-         dGuQ==
-X-Gm-Message-State: AOAM531hk9UvxN5oNU0L9BD2oRgOf1dyOkqPQnL2QIvKYeqVUpC8Smtb
-        oTrBpPdMWlAWKzcj80spFQQ=
-X-Google-Smtp-Source: ABdhPJyhgEqY3+4woUSGc66Hoo7NTM4a2l3JyXWUFWWECsf/CaRguxBXkWADIBSg3+gt9uwmlaziiQ==
-X-Received: by 2002:a05:6638:2725:: with SMTP id m37mr461409jav.121.1623256347937;
-        Wed, 09 Jun 2021 09:32:27 -0700 (PDT)
+        bh=h6/SeYfOWSphhPUzzUCOjWtJORlKfdGfIiP9ztyD/8s=;
+        b=heZt7/CuNpOsJNmBWFZ+meT4gyQqfHPeXlFgVjf4w8zA0zz+FQgqQfDF6neOnwqxQ4
+         B38N1RG0m9JzjwXGnbZGXpOvhAFiPmn+bpVHH/z/8ZMf2qhPfb+ro460zltazAgEPxAT
+         ihfa9V2wl70yOuGqJFvXbS0ZLdyt2Pu1Z/EwYsZZYuf10puFardIkt3dYFRzkCVtYGP2
+         ESG8rorQlvajI9atbG9pgpA8NzuPnTZFKmLbrSCI3acPO7Pu+RqTOXpWFys3m6/DYp9N
+         JIJldPkEEubbHOIVFh3yDoD3zEqsFQ3+X3g24i+xOKzvZwGdNDl73FUZ1sHsOuXu5b1I
+         O0tw==
+X-Gm-Message-State: AOAM531eTDyfI8uCGfkdHEwqlSk1UBJG5qYrqLLVXqxbaFwlCAq/3cey
+        SJw2sJbd7wZ5V7/sSJuFJP4=
+X-Google-Smtp-Source: ABdhPJxTGsMwJckSOcHPUfZkQMSOylbN7ZjTcunLm5nQTVNYS9kSiq81BVkc6A3EWg7CyKw7qvnZ4A==
+X-Received: by 2002:a5e:860f:: with SMTP id z15mr227163ioj.193.1623256341541;
+        Wed, 09 Jun 2021 09:32:21 -0700 (PDT)
 Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id i7sm263328ilb.67.2021.06.09.09.32.26
+        by smtp.gmail.com with ESMTPSA id j18sm251468ila.29.2021.06.09.09.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 09:32:27 -0700 (PDT)
+        Wed, 09 Jun 2021 09:32:21 -0700 (PDT)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 7184D27C005C;
-        Wed,  9 Jun 2021 12:32:26 -0400 (EDT)
+        by mailauth.nyi.internal (Postfix) with ESMTP id 2A12327C005C;
+        Wed,  9 Jun 2021 12:32:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 09 Jun 2021 12:32:26 -0400
-X-ME-Sender: <xms:Gu3AYK6oaCMbx1juskhuPjTdHiGFdoqpKgCgfe5ZRJmba2pRGL-0ww>
-    <xme:Gu3AYD5CesdHXVjyQZXgoTmWiKwmfG8RyN9hJkIXqY1AEpv4AtmsUo1q86qCNWRCA
-    WXdsQ_LOwrjtwrYTQ>
-X-ME-Received: <xmr:Gu3AYJdAGpPvZv-MIojkEuUFMDyzDweNOOhZDnI0R9KQz1Zc8HiKlwsPfe4>
+  by compute3.internal (MEProxy); Wed, 09 Jun 2021 12:32:20 -0400
+X-ME-Sender: <xms:E-3AYHVk6Sboc07CIRuU4-n_kkbuDGh6irzefl1IIOkYv0x65ENfLA>
+    <xme:E-3AYPn_cptPg3ZTXUQ9iXi5iJ76VknyykL7E9FyEUmsvvOkS8L6b32GuCTpw7OnO
+    b-joo2unopTLiymhg>
+X-ME-Received: <xmr:E-3AYDYL3WDmtUSnpekm7oVqfCJi27q1DYwz80rP1hANjYS3VKPsWpeUWH8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduuddguddtvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhu
     nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
     htthgvrhhnpeehvdevteefgfeiudettdefvedvvdelkeejueffffelgeeuhffhjeetkeei
-    ueeuleenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    ueeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
     gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
     igmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:Gu3AYHKWTPqi7mrx3YCfmM_X75NrEp410e5FYjlHB1fpPRzM5vVR6Q>
-    <xmx:Gu3AYOI-IituoHTHlBE2uRmaUSitVxJ2rKgRk6HjaPqgki2qLDd39A>
-    <xmx:Gu3AYIxuUpd10fkpr5VWkGVVTw3zzWfDrUlz9r0g_Bmojh5JUrR8Cw>
-    <xmx:Gu3AYD4pUO4ZPuaTls9rcZAk3_OmGiHqhJx77eOmS9HLlLxjrlRI7wB0u1c>
+X-ME-Proxy: <xmx:E-3AYCW220T-bQ-8ciMW1rkVA8dCxoNCY8441cMDCx6aSwzAk06tdw>
+    <xmx:E-3AYBmQkfMKMYi2FGaYLgUc7B0PxOv35qV6fvmPYK-yLiyBzo8CvA>
+    <xmx:E-3AYPdsY4Ir_-BINE6ncOwsEj9UvkBdiOpaaGIq0qYFhsGFNteKAg>
+    <xmx:FO3AYD3BuPaCtqGmRbtQ3eXVeKYKuxUHJ-HwGwxQ_G6o4tnmTC5tmVUulNM>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Jun 2021 12:32:26 -0400 (EDT)
+ 9 Jun 2021 12:32:19 -0400 (EDT)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -96,10 +93,11 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         Rob Herring <robh@kernel.org>, Clint Sbisa <csbisa@amazon.com>,
         Boqun Feng <boqun.feng@gmail.com>,
         Ard Biesheuvel <ardb@kernel.org>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: [RFC v3 7/7] PCI: hv: Turn on the host bridge probing on ARM64
-Date:   Thu, 10 Jun 2021 00:32:11 +0800
-Message-Id: <20210609163211.3467449-8-boqun.feng@gmail.com>
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [RFC v3 2/7] PCI: Allow msi domain set-up at host probing time
+Date:   Thu, 10 Jun 2021 00:32:06 +0800
+Message-Id: <20210609163211.3467449-3-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210609163211.3467449-1-boqun.feng@gmail.com>
 References: <20210609163211.3467449-1-boqun.feng@gmail.com>
@@ -109,48 +107,38 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Now we have everything we need, just provide a proper sysdata type for
-the bus to use on ARM64 and everything else works.
+For GENERIC_MSI_IRQ_DOMAIN drivers, we can set up the msi domain via
+dev_set_msi_domain() at probing time, and drivers can use this more
+generic way to set up the msi domain for the host bridge.
 
+This is the preparation for ARM64 Hyper-V PCI support.
+
+Originally-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- drivers/pci/controller/pci-hyperv.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/pci/probe.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 16a779ab9ed4..271d0b6d4796 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -40,6 +40,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/pci-ecam.h>
- #include <linux/delay.h>
- #include <linux/semaphore.h>
- #include <linux/irqdomain.h>
-@@ -449,7 +450,11 @@ enum hv_pcibus_state {
- };
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index d2753097a1b0..38bee41dedcc 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -829,11 +829,14 @@ static struct irq_domain *pci_host_bridge_msi_domain(struct pci_bus *bus)
+ {
+ 	struct irq_domain *d;
  
- struct hv_pcibus_device {
-+#ifdef CONFIG_X86
- 	struct pci_sysdata sysdata;
-+#elif defined(CONFIG_ARM64)
-+	struct pci_config_window sysdata;
-+#endif
- 	struct pci_host_bridge *bridge;
- 	struct fwnode_handle *fwnode;
- 	/* Protocol version negotiated with the host */
-@@ -3099,7 +3104,9 @@ static int hv_pci_probe(struct hv_device *hdev,
- 			 dom_req, dom);
++	/* Default set by host bridge driver */
++	d = dev_get_msi_domain(bus->bridge);
+ 	/*
+ 	 * Any firmware interface that can resolve the msi_domain
+ 	 * should be called from here.
+ 	 */
+-	d = pci_host_bridge_of_msi_domain(bus);
++	if (!d)
++		d = pci_host_bridge_of_msi_domain(bus);
+ 	if (!d)
+ 		d = pci_host_bridge_acpi_msi_domain(bus);
  
- 	hbus->bridge->domain_nr = dom;
-+#ifdef CONFIG_X86
- 	hbus->sysdata.domain = dom;
-+#endif
- 
- 	hbus->hdev = hdev;
- 	refcount_set(&hbus->remove_lock, 1);
 -- 
 2.30.2
 
