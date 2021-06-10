@@ -2,166 +2,381 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FBEC48BD1
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:33:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F59C47094
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Jun 2021 09:22:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81A02613C3
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Jun 2021 16:33:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8C9461403
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Jun 2021 09:22:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235181AbhFIQfc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Jun 2021 12:35:32 -0400
-Received: from mail-io1-f44.google.com ([209.85.166.44]:36507 "EHLO
-        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235211AbhFIQfa (ORCPT
+        id S230353AbhFJJYK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 10 Jun 2021 05:24:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23998 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230336AbhFJJYJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Jun 2021 12:35:30 -0400
-Received: by mail-io1-f44.google.com with SMTP id s19so13669229ioc.3;
-        Wed, 09 Jun 2021 09:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1VxZA1hOFGfFK+vjOpS6yCsaoNwIfiljMaf64AqSDfI=;
-        b=FEur/cmKBsioloDLkauRtbBKVtl+caWc3kOqD3+wTib2WiNL7QNiXDLe0e2j50FZOh
-         b1PKYz4nByqiO09xpfXkLeu95yW+tGKLegWwskgzsNdQZEwVVxAQ1W5hNxRxTpTzzIcL
-         rvQuRgCouD1yjkavWd8IGGbbsIwLGS9yUg+jur11KCrqG9N8aqElmk1IW4OxyFyKkra/
-         RUDuTMlwjcIyFaIULPNeDL9VW/8R1Ouzp/Gy7ZGsDtcg9Yfo6VEMaL+QrrD/R94VjF0B
-         R8lrEVy3ehZE6E2CnQnCE27+hxXhSMPqjY1pJXd+uohFbZeQMJYyOUASIuVECp/Ssm1t
-         N3pw==
+        Thu, 10 Jun 2021 05:24:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1623316933;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=A78UCyddoxVj3LRURmRZUmZxc6MPDgeQuh2wS7Aw9y0=;
+        b=KC6cSR37ocY7suml0hd9rk3OBA3qzPaavYPgmagKK2dLRMSgus+W8GktMr/Gp6FRYVi8sH
+        vfYGU//JAfXjnFEZSWdtcWFkMhoqIbQJ4rPMZkXPSPdqI8JBjI42Q0X1WeUuhABXHcVEm9
+        4EqxF66ACC7yaxO5XkE0p0VTrgkBeuM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-579-N3WyUJ_qNJKl4dOi9GR7zw-1; Thu, 10 Jun 2021 05:22:11 -0400
+X-MC-Unique: N3WyUJ_qNJKl4dOi9GR7zw-1
+Received: by mail-wr1-f69.google.com with SMTP id r17-20020a5d52d10000b0290119976473fcso595997wrv.15
+        for <linux-hyperv@vger.kernel.org>; Thu, 10 Jun 2021 02:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1VxZA1hOFGfFK+vjOpS6yCsaoNwIfiljMaf64AqSDfI=;
-        b=bFHTndGKYqLwTl8sW2ZbS5R49m4bI8gwbSuJuCyNCSsbFHoaupQfKalfVF1QfKEA6g
-         uPycnesCO0HtlbxFMIuCXhIo5BSMg0oCXbh7UGgsk8dIpMnPw0CYEeFjl97+0/mrO4IA
-         6IkAEQ3ratwJcUNNNz2YCWTr/1/z2Ig6LhvBQnPImzuPVkUmp4sbdvg+88FuZancjySd
-         g4+kzGEF4vpi8tUwv0Syor+8vJ9ElnusT1Wy/P/Edt6gppEN4E7BZmwIRaEubEL7BEYc
-         FrYqeuO5z5ayTJLW3bk11HuBeGe+JsFAInZdl9yr0oynFQow1k51VnlEbxW1abuFfFmo
-         T2HA==
-X-Gm-Message-State: AOAM532856TDav5/na5GCteXkwM3TOdiNSl4rU5XKAIIZWJyNvUEPsRT
-        ghzDZJM91ZSYcJYs6bOPemE=
-X-Google-Smtp-Source: ABdhPJwDNhbpuCkL/OdOC3pA3sAMZxtbTpMrWkq91DrOfhSQHKnVE0o5WXQ+N5F3mTOS6xBSbbjO0w==
-X-Received: by 2002:a6b:7d0b:: with SMTP id c11mr274416ioq.8.1623256344068;
-        Wed, 09 Jun 2021 09:32:24 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id x21sm234208ioa.36.2021.06.09.09.32.22
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=A78UCyddoxVj3LRURmRZUmZxc6MPDgeQuh2wS7Aw9y0=;
+        b=T1xXO+OYml60OnPgCgCz1VkTkHivsVjuCTcidBds1Q3MRqjDhLRLclP+9eUgZIuxdv
+         fyJLOM4mtpi9mo3qYf3cDUb3/vcQThU4e0VGwGUHzIdEIsOWI9sg9Mn2UC+x9aU6nEVM
+         EtgGnygoKzO4QJ+XO8Qpr+0asuC6GvwLG3CREH9WyR5TJFRIf7ry1ejlc4dZVddvPJkD
+         tgxMlyPKScITOQc57aeaANJG8CCKsC8sr84/11lJOPtj3GvkGpsm7A/EYkrVkqLAgoKK
+         LxZHkjzEFuSZEcBhzGa5c+XCdv2tTAEm7S/En/Aara/soQlOp4veUJPXzfFFuv1TBa8p
+         E7ww==
+X-Gm-Message-State: AOAM5330auYKI1JDXc6Yy0h+2HfvwZKIuMU1WM4SrUXXoSJSLu85gFX5
+        871H1leiOk41arMr1kmfXIA/kqSemzonBRkTSLhEcSxoU59WGLy12Rt4cWeyny5WYfJRGu7h4xy
+        iwB77kqdOrYH/KhR3wllvnVeNo+ML2geE9wgPP+3mlKXKsj/E2DCFPNA9hYed5vfWnCVV0DW5Df
+        /e
+X-Received: by 2002:a05:6000:1365:: with SMTP id q5mr4296021wrz.53.1623316930308;
+        Thu, 10 Jun 2021 02:22:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyo0K8dEKKmGBNIzZTAkSjYM+nE1iWqCoR4BRg6JLPFlpIk8f9MQqIUP671DqB+hCjLUJSbuA==
+X-Received: by 2002:a05:6000:1365:: with SMTP id q5mr4295985wrz.53.1623316930022;
+        Thu, 10 Jun 2021 02:22:10 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id l13sm2939323wrz.34.2021.06.10.02.22.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Jun 2021 09:32:23 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id A8F0427C005C;
-        Wed,  9 Jun 2021 12:32:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 09 Jun 2021 12:32:22 -0400
-X-ME-Sender: <xms:Fu3AYIKhN7t_yp6QEYs8UlBy1MGwkgvepkR35MgrQ82ndNNKuud0Iw>
-    <xme:Fu3AYIKsmJm-gxWHXG44PQ0WgP5tA1Ce6Uh5lyXjGXmRTo8rPy7l8uMAkyrk9YSry
-    Gfz-N_dDg6q48Uong>
-X-ME-Received: <xmr:Fu3AYIuXNkx_JxPt28vCNZ37IxNBb_OJx0ODSrATz7uRTEtkXwanEZPkYgY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeduuddguddtvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhu
-    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehvdevteefgfeiudettdefvedvvdelkeejueffffelgeeuhffhjeetkeei
-    ueeuleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
-    gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
-    igmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:Fu3AYFbUbAKhdrmmRzzF4co2WvQgOMnSAO3DBh6TSvp9CmP7aPPXZg>
-    <xmx:Fu3AYPZwp15-JpRgjZH8t6l6GccEDceYzvf0U3IgR2P16hs3W5qa9g>
-    <xmx:Fu3AYBC5drTjblgTjVlInfQIuivY50tHJW66LmMLx0u3JkZfI_YmcQ>
-    <xmx:Fu3AYAJRuSDCZDib1sOVuXKkmeMRJbNw7uCAwltLxUxjYV0t8xSKFxRjcQU>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 9 Jun 2021 12:32:22 -0400 (EDT)
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>, Clint Sbisa <csbisa@amazon.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Sunil Muthuswamy <sunilmut@microsoft.com>
-Subject: [RFC v3 4/7] PCI: hv: Use pci_host_bridge::domain_nr for PCI domain
-Date:   Thu, 10 Jun 2021 00:32:08 +0800
-Message-Id: <20210609163211.3467449-5-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210609163211.3467449-1-boqun.feng@gmail.com>
-References: <20210609163211.3467449-1-boqun.feng@gmail.com>
+        Thu, 10 Jun 2021 02:22:09 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
+        viremana@linux.microsoft.com, sunilmut@microsoft.com,
+        wei.liu@kernel.org, ligrassi@microsoft.com, kys@microsoft.com,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH 00/19] Microsoft Hypervisor root partition ioctl interface
+In-Reply-To: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com>
+Date:   Thu, 10 Jun 2021 11:22:08 +0200
+Message-ID: <87bl8eyszj.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-No functional change, just store and maintain the PCI domain number in
-the generic pci_host_bridge instead of x86 specific pci_sysdata.
+Nuno Das Neves <nunodasneves@linux.microsoft.com> writes:
 
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
----
- drivers/pci/controller/pci-hyperv.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+> This patch series provides a userspace interface for creating and running guest
+> virtual machines while running on the Microsoft Hypervisor [0].
+>
+> Since managing guest machines can only be done when Linux is the root partition,
+> this series depends on Wei Liu's patch series merged in 5.12:
+> https://lore.kernel.org/linux-hyperv/20210203150435.27941-1-wei.liu@kernel.org/
+>
+> The first two patches provide some helpers for converting hypervisor status
+> codes to linux error codes, and printing hypervisor status codes to dmesg for
+> debugging.
+>
+> Hyper-V related headers asm-generic/hyperv-tlfs.h and x86/asm/hyperv-tlfs.h are
+> split into uapi and non-uapi. The uapi versions contain structures used in both
+> the ioctl interface and the kernel.
+>
+> The mshv API is introduced in drivers/hv/mshv_main.c. As each interface is
+> introduced, documentation is added in Documentation/virt/mshv/api.rst.
+> The API is file-desciptor based, like KVM. The entry point is /dev/mshv.
+>
+> /dev/mshv ioctls:
+> MSHV_CHECK_EXTENSION
+> MSHV_CREATE_PARTITION
+>
+> Partition (vm) ioctls:
+> MSHV_MAP_GUEST_MEMORY, MSHV_UNMAP_GUEST_MEMORY
+> MSHV_INSTALL_INTERCEPT
+> MSHV_ASSERT_INTERRUPT
+> MSHV_GET_PARTITION_PROPERTY, MSHV_SET_PARTITION_PROPERTY
+> MSHV_CREATE_VP
+>
+> Vp (vcpu) ioctls:
+> MSHV_GET_VP_REGISTERS, MSHV_SET_VP_REGISTERS
+> MSHV_RUN_VP
+> MSHV_GET_VP_STATE, MSHV_SET_VP_STATE
+> MSHV_TRANSLATE_GVA
+> mmap() (register page)
+>
+> [0] Hyper-V is more well-known, but it really refers to the whole stack
+>     including the hypervisor and other components that run in Windows kernel
+>     and userspace.
+>
+> Changes since RFC:
+> 1. Moved code from virt/mshv to drivers/hv
+> 2. Split hypercall helper functions and synic code to hv_call.c and hv_synic.c
+> 3. MSHV_REQUEST_VERSION ioctl replaced with MSHV_CHECK_EXTENSION
+> 3. Numerous suggestions, fixes, style changes, etc from Michael Kelley, Vitaly
+>    Kuznetsov, Wei Liu, and Vineeth Pillai
+> 4. Added patch to enable hypervisor enlightenments on partition creation
+> 5. Added Wei Liu's patch for GVA to GPA translation
+>
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index ee9f8e27e2e8..f9a644ae3b74 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -2309,7 +2309,7 @@ static void hv_eject_device_work(struct work_struct *work)
- 	 * because hbus->bridge->bus may not exist yet.
- 	 */
- 	wslot = wslot_to_devfn(hpdev->desc.win_slot.slot);
--	pdev = pci_get_domain_bus_and_slot(hbus->sysdata.domain, 0, wslot);
-+	pdev = pci_get_domain_bus_and_slot(hbus->bridge->domain_nr, 0, wslot);
- 	if (pdev) {
- 		pci_lock_rescan_remove();
- 		pci_stop_and_remove_bus_device(pdev);
-@@ -3095,6 +3095,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 			 "PCI dom# 0x%hx has collision, using 0x%hx",
- 			 dom_req, dom);
- 
-+	hbus->bridge->domain_nr = dom;
- 	hbus->sysdata.domain = dom;
- 
- 	hbus->hdev = hdev;
-@@ -3106,7 +3107,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	spin_lock_init(&hbus->retarget_msi_interrupt_lock);
- 	init_completion(&hbus->remove_event);
- 	hbus->wq = alloc_ordered_workqueue("hv_pci_%x", 0,
--					   hbus->sysdata.domain);
-+					   hbus->bridge->domain_nr);
- 	if (!hbus->wq) {
- 		ret = -ENOMEM;
- 		goto free_dom;
-@@ -3233,7 +3234,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- destroy_wq:
- 	destroy_workqueue(hbus->wq);
- free_dom:
--	hv_put_dom_num(hbus->sysdata.domain);
-+	hv_put_dom_num(hbus->bridge->domain_nr);
- free_bus:
- 	kfree(hbus);
- 	return ret;
-@@ -3326,7 +3327,7 @@ static int hv_pci_remove(struct hv_device *hdev)
- 	wait_for_completion(&hbus->remove_event);
- 	destroy_workqueue(hbus->wq);
- 
--	hv_put_dom_num(hbus->sysdata.domain);
-+	hv_put_dom_num(hbus->bridge->domain_nr);
- 
- 	kfree(hbus);
- 	return ret;
+Thank you for addressing these!
+
+One nitpick though: could you please run your next submission through
+'scripts/checkpatch.pl'? It reports a number of issues here, mostly
+minor but still worth addressing, i.e.:
+
+$ scripts/checkpatch.pl *.patch
+...
+---------------------------------------------------------------
+0002-asm-generic-hyperv-convert-hyperv-statuses-to-string.patch
+---------------------------------------------------------------
+ERROR: Macros with complex values should be enclosed in parentheses
+#95: FILE: include/asm-generic/hyperv-tlfs.h:192:
++#define __HV_STATUS_DEF(OP) \
++	OP(HV_STATUS_SUCCESS,				0x0) \
+...
+
+ERROR: Macros with complex values should be enclosed in parentheses
+#119: FILE: include/asm-generic/hyperv-tlfs.h:216:
++#define __HV_MAKE_HV_STATUS_ENUM(NAME, VAL) NAME = (VAL),
+
+ERROR: Macros with multiple statements should be enclosed in a do - while loop
+#120: FILE: include/asm-generic/hyperv-tlfs.h:217:
++#define __HV_MAKE_HV_STATUS_CASE(NAME, VAL) case (NAME): return (#NAME);
+
+WARNING: Macros with flow control statements should be avoided
+#120: FILE: include/asm-generic/hyperv-tlfs.h:217:
++#define __HV_MAKE_HV_STATUS_CASE(NAME, VAL) case (NAME): return (#NAME);
+
+WARNING: macros should not use a trailing semicolon
+#120: FILE: include/asm-generic/hyperv-tlfs.h:217:
++#define __HV_MAKE_HV_STATUS_CASE(NAME, VAL) case (NAME): return (#NAME);
+
+total: 3 errors, 2 warnings, 108 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+0002-asm-generic-hyperv-convert-hyperv-statuses-to-string.patch has
+style problems, please review.
+...
+-------------------------------------------
+0004-drivers-hv-check-extension-ioctl.patch
+-------------------------------------------
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+#36: 
+new file mode 100644
+
+WARNING: ENOTSUPP is not a SUSV4 error code, prefer EOPNOTSUPP
+#131: FILE: drivers/hv/mshv_main.c:52:
++	return -ENOTSUPP;
+
+total: 0 errors, 2 warnings, 137 lines checked
+
+...
+
+WARNING: Improper SPDX comment style for 'drivers/hv/hv_call.c', please use '//' instead
+#94: FILE: drivers/hv/hv_call.c:1:
++/* SPDX-License-Identifier: GPL-2.0-only */
+
+WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+#94: FILE: drivers/hv/hv_call.c:1:
++/* SPDX-License-Identifier: GPL-2.0-only */
+
+ERROR: "(foo*)" should be "(foo *)"
+#178: FILE: drivers/hv/hv_call.c:85:
++				*(u64*)&input);
+
+ERROR: "(foo*)" should be "(foo *)"
+#201: FILE: drivers/hv/hv_call.c:108:
++			*(u64*)&input);
+
+ERROR: "(foo*)" should be "(foo *)"
+#215: FILE: drivers/hv/hv_call.c:122:
++	status = hv_do_fast_hypercall8(HVCALL_DELETE_PARTITION, *(u64*)&input);
+
+total: 3 errors, 3 warnings, 330 lines checked
+
+...
+------------------------------------------------
+0008-drivers-hv-map-and-unmap-guest-memory.patch
+------------------------------------------------
+ERROR: code indent should use tabs where possible
+#101: FILE: drivers/hv/hv_call.c:222:
++                                                    HV_MAP_GPA_DEPOSIT_PAGES);$
+
+WARNING: please, no spaces at the start of a line
+#101: FILE: drivers/hv/hv_call.c:222:
++                                                    HV_MAP_GPA_DEPOSIT_PAGES);$
+
+ERROR: code indent should use tabs where possible
+#469: FILE: include/asm-generic/hyperv-tlfs.h:895:
++        u32 padding;$
+
+WARNING: please, no spaces at the start of a line
+#469: FILE: include/asm-generic/hyperv-tlfs.h:895:
++        u32 padding;$
+
+ERROR: code indent should use tabs where possible
+#477: FILE: include/asm-generic/hyperv-tlfs.h:903:
++        u32 padding;$
+
+WARNING: please, no spaces at the start of a line
+#477: FILE: include/asm-generic/hyperv-tlfs.h:903:
++        u32 padding;$
+
+total: 3 errors, 3 warnings, 487 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+NOTE: Whitespace errors detected.
+      You may wish to use scripts/cleanpatch or scripts/cleanfile
+
+0008-drivers-hv-map-and-unmap-guest-memory.patch has style problems, please review.
+---------------------------------------
+0009-drivers-hv-create-vcpu-ioctl.patch
+---------------------------------------
+WARNING: Missing a blank line after declarations
+#76: FILE: drivers/hv/mshv_main.c:75:
++	struct mshv_vp *vp = filp->private_data;
++	mshv_partition_put(vp->partition);
+
+ERROR: trailing whitespace
+#180: FILE: drivers/hv/mshv_main.c:376:
++^I$
+
+total: 1 errors, 1 warnings, 210 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+NOTE: Whitespace errors detected.
+      You may wish to use scripts/cleanpatch or scripts/cleanfile
+
+0009-drivers-hv-create-vcpu-ioctl.patch has style problems, please review.
+-------------------------------------------------------
+0010-drivers-hv-get-and-set-vcpu-registers-ioctls.patch
+-------------------------------------------------------
+WARNING: braces {} are not necessary for single statement blocks
+#690: FILE: drivers/hv/hv_call.c:326:
++		for (i = 0; i < rep_count; ++i) {
++			input_page->names[i] = registers[i].name;
++		}
+
+WARNING: braces {} are not necessary for single statement blocks
+#704: FILE: drivers/hv/hv_call.c:340:
++		for (i = 0; i < completed; ++i) {
++			registers[i].value = output_page[i];
++		}
+
+WARNING: braces {} are not necessary for single statement blocks
+#859: FILE: drivers/hv/mshv_main.c:121:
++	if (!registers) {
++		return -ENOMEM;
++	}
+
+total: 0 errors, 3 warnings, 965 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+0010-drivers-hv-get-and-set-vcpu-registers-ioctls.patch has style problems, please review.
+---------------------------------------------------------------
+0011-drivers-hv-set-up-synic-pages-for-intercept-messages.patch
+---------------------------------------------------------------
+WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+#274: 
+new file mode 100644
+
+ERROR: code indent should use tabs where possible
+#310: FILE: drivers/hv/hv_synic.c:32:
++                             MEMREMAP_WB);$
+
+WARNING: please, no spaces at the start of a line
+#310: FILE: drivers/hv/hv_synic.c:32:
++                             MEMREMAP_WB);$
+
+total: 1 errors, 2 warnings, 574 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+NOTE: Whitespace errors detected.
+      You may wish to use scripts/cleanpatch or scripts/cleanfile
+
+0011-drivers-hv-set-up-synic-pages-for-intercept-messages.patch has style problems, please review.
+------------------------------------------
+0012-drivers-hv-run-vp-ioctl-and-isr.patch
+------------------------------------------
+WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
+#86: FILE: arch/x86/kernel/cpu/mshyperv.c:77:
++EXPORT_SYMBOL_GPL(hv_remove_mshv_irq);
+
+WARNING: consider using a completion
+#410: FILE: drivers/hv/mshv_main.c:344:
++	sema_init(&vp->run.sem, 0);
+
+total: 0 errors, 2 warnings, 435 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+0012-drivers-hv-run-vp-ioctl-and-isr.patch has style problems, please review.
+---------------------------------------------
+...
+-------------------------------------------
+0016-drivers-hv-mmap-vp-register-page.patch
+-------------------------------------------
+WARNING: Missing a blank line after declarations
+#222: FILE: drivers/hv/mshv_main.c:441:
++	struct mshv_vp *vp = vmf->vma->vm_file->private_data;
++	vmf->page = vp->register_page;
+
+total: 0 errors, 1 warnings, 257 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+0016-drivers-hv-mmap-vp-register-page.patch has style problems, please review.
+-----------------------------------------------------------
+0017-drivers-hv-get-and-set-partition-property-ioctls.patch
+-----------------------------------------------------------
+ERROR: code indent should use tabs where possible
+#205: FILE: include/asm-generic/hyperv-tlfs.h:890:
++        u32 padding;$
+
+WARNING: please, no spaces at the start of a line
+#205: FILE: include/asm-generic/hyperv-tlfs.h:890:
++        u32 padding;$
+
+ERROR: code indent should use tabs where possible
+#215: FILE: include/asm-generic/hyperv-tlfs.h:900:
++        u32 padding;$
+
+WARNING: please, no spaces at the start of a line
+#215: FILE: include/asm-generic/hyperv-tlfs.h:900:
++        u32 padding;$
+
+total: 2 errors, 2 warnings, 258 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+      mechanically convert to the typical style using --fix or --fix-inplace.
+
+NOTE: Whitespace errors detected.
+      You may wish to use scripts/cleanpatch or scripts/cleanfile
+
+
 -- 
-2.30.2
+Vitaly
 
