@@ -2,145 +2,74 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 335AAC48BDF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Jun 2021 21:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D74C48BDF
+	for <linux-hyperv@archiver.kernel.org>; Sun, 20 Jun 2021 13:43:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 14CF16128C
-	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Jun 2021 21:49:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E095461007
+	for <linux-hyperv@archiver.kernel.org>; Sun, 20 Jun 2021 13:43:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234591AbhFRVvi (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Jun 2021 17:51:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34122 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230338AbhFRVvi (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Jun 2021 17:51:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4CD0E60FF4;
-        Fri, 18 Jun 2021 21:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624052968;
-        bh=5/rudTHymhS5/VkI6IvvQ85pgOE0dlvzeUnEKWNpFME=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=mp3O28Yx6lGIUqPBlRzqUcz3w3lYXgEkW+Fs5UqRIDqZNRVI4a3AooALQ3rJf4+lE
-         dyTiRxyreslt8Wvu3O3GyV3YpgwQsZlqJnEPSacB2DbU1NIjaRMGOtrS893DPf+ZqV
-         BEQ47w2nm9aQL2u3wM1MPZ9NE+mkuK8MG/BH5qzLrxwsA/gad7zUPBxlWzggilnxfy
-         3rVSpHVWIzRtEt8AIGFz8ou3OpWhkAdNaFPrsMHaNEiKTv3yRkmnp3USfAgHtD1Ufj
-         lL1mOFO0GjpMoBNLqrOMZ//cXA1ArNJle9f0NZQ+nloy2ORAV51ALozQPggohhOLqT
-         cQBsJe72Z+Ifw==
-Subject: Re: vmemmap alloc failure in hot_add_req()
-To:     Michael Kelley <mikelley@microsoft.com>,
-        David Hildenbrand <david@redhat.com>
-Cc:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Hillf Danton <hdanton@sina.com>
-References: <YMO+CoYnCgObRtOI@DESKTOP-1V8MEUQ.localdomain>
- <20210612021115.2136-1-hdanton@sina.com>
- <951ddbaf-3d74-7043-4866-3809ff991cfd@redhat.com>
- <d6a82778-024a-3a01-a081-dab6c8b54d62@kernel.org>
- <98cba3fa-f787-081f-b833-cfea3a124254@redhat.com>
- <MWHPR21MB159397B915AFE4EF1FEEF301D70D9@MWHPR21MB1593.namprd21.prod.outlook.com>
-From:   Nathan Chancellor <nathan@kernel.org>
-Message-ID: <ff7f3fd0-dfd9-25c8-ef01-8fe29d5af9f5@kernel.org>
-Date:   Fri, 18 Jun 2021 14:49:22 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229606AbhFTNpr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 20 Jun 2021 09:45:47 -0400
+Received: from smtp03.smtpout.orange.fr ([80.12.242.125]:54121 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229595AbhFTNpq (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 20 Jun 2021 09:45:46 -0400
+Received: from localhost.localdomain ([86.243.172.93])
+        by mwinf5d33 with ME
+        id KRjW2500A21Fzsu03RjWtS; Sun, 20 Jun 2021 15:43:31 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 20 Jun 2021 15:43:31 +0200
+X-ME-IP: 86.243.172.93
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
+        kuba@kernel.org, shacharr@microsoft.com, gustavoars@kernel.org
+Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] net: mana: Fix a memory leak in an error handling path in 'mana_create_txq()'
+Date:   Sun, 20 Jun 2021 15:43:28 +0200
+Message-Id: <578bcaa1a9d6916c86aaecf65f205492affb6fc8.1624196430.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <MWHPR21MB159397B915AFE4EF1FEEF301D70D9@MWHPR21MB1593.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Michael,
+If this test fails we must free some resources as in all the other error
+handling paths of this function.
 
-On 6/17/2021 5:16 PM, Michael Kelley wrote:
-> From: David Hildenbrand <david@redhat.com> Sent: Thursday, June 17, 2021 1:43 AM
->>
->>> It does look like this kernel configuration has
->>> CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y.
->>
->> Okay, so then it's most likely really more of an issue with fragmented
->> physical memory -- which is suboptimal but not a show blocker in your setup.
->>
->> (there are still cases where memory onlining can fail, especially with
->> kasan running, but these are rather corner cases)
->>
->>>
->>>> If it's not getting onlined, you easily sport after hotplug e.g., via
->>>> "lsmem" that there are quite some offline memory blocks.
->>>>
->>>> Note that x86_64 code will fallback from populating huge pages to
->>>> populating base pages for the vmemmap; this can happen easily when under
->>>> memory pressure.
->>>
->>> Not sure if it is relevant or not but this warning can show up within a
->>> minute of startup without me doing anything in particular.
->>
->> I remember that Hyper-V will start with a certain (configured) boot VM
->> memory size and once the guest is up and running, use memory stats of
->> the guest to decide whether to add (hotplug) or remove (balloon inflate)
->> memory from the VM.
->>
->> So this could just be Hyper-V trying to apply its heuristics.
-> 
-> Nathan --
-> 
-> Could you clarify if your VM is running in the context of the Windows
-> Subsystem for Linux (WSL) v2 feature in Windows 10?  Or are you
-> running a "traditional" VM created using the Hyper-V Manager UI
-> or Powershell?
+Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network Adapter (MANA)")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-This is a traditional VM created using the Hyper-V Manager.
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index 46aee2c49f1b..fff78900fc8a 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -1230,8 +1230,10 @@ static int mana_create_txq(struct mana_port_context *apc,
+ 
+ 		cq->gdma_id = cq->gdma_cq->id;
+ 
+-		if (WARN_ON(cq->gdma_id >= gc->max_num_cqs))
+-			return -EINVAL;
++		if (WARN_ON(cq->gdma_id >= gc->max_num_cqs)) {
++			err = -EINVAL;
++			goto out;
++		}
+ 
+ 		gc->cq_table[cq->gdma_id] = cq->gdma_cq;
+ 
+-- 
+2.30.2
 
-> If the latter, how do you have the memory configuration set up?  In
-> the UI, first you can specify the RAM allocated to the VM.  Then
-> separately, you can enable the "Dynamic Memory" feature, in which
-> case you also specify a "Minimum RAM" and "Maximum RAM".  It
-> looks like you must have the "Dynamic Memory" feature enabled
-> since the original stack trace includes the hot_add_req() function
-> from the hv_balloon driver.
-
-That is correct. I believe Dynamic Memory is the default setting so I 
-just left that as it was. The startup memory for this virtual machine is 
-2GB as it is a lightweight Arch Linux Xfce4 configuration and aside from 
-occasionally compiling software, it will just be sitting there because 
-it is mainly there for testing kernels.
-
-> The Dynamic Memory feature is generally used only when you
-> need to allow Hyper-V to manage the allocation of physical memory
-> across multiple VMs.  Dynamic Memory is essentially Hyper-V's way of
-> allowing memory overcommit.  If you don't need that capability,
-> turning off Dynamic Memory and just specifying the amount of
-> memory you want to assign to the VM is the best course of action.
-
-Ack. My workstation was occasionally memory constrained so I figured 
-relying on the Dynamic Memory feature would make sense. I upgraded the 
-amount of RAM that I had today so I will probably just end up disabling 
-the Dynamic Memory feature and allocating the amount of memory up front.
-
-> With Dynamic Memory enabled, you may have encountered a
-> situation where the memory needs of the VM grew very quickly,
-> and Hyper-V balloon driver got into a situation where it needed
-> to allocate memory in order to add memory, and it couldn't.  If
-> you want to continue to use the Dynamic Memory feature, then
-> you probably need to increase the initial amount of RAM assigned
-> to the VM (the "RAM" setting in the Hyper-V Manager UI).
-
-I will keep that in mind and see if I can find a good number.
-
-Thanks for the reply!
-
-Cheers,
-Nathan
