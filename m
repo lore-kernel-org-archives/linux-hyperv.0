@@ -2,140 +2,254 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39457C48BDF
-	for <linux-hyperv@archiver.kernel.org>; Sun, 20 Jun 2021 16:58:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED73EC48BC2
+	for <linux-hyperv@archiver.kernel.org>; Mon, 21 Jun 2021 18:08:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17FC76109F
-	for <linux-hyperv@archiver.kernel.org>; Sun, 20 Jun 2021 16:58:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D63DB60698
+	for <linux-hyperv@archiver.kernel.org>; Mon, 21 Jun 2021 18:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229658AbhFTRAt (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 20 Jun 2021 13:00:49 -0400
-Received: from mail-mw2nam12on2097.outbound.protection.outlook.com ([40.107.244.97]:44641
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S233315AbhFUSK7 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 21 Jun 2021 14:10:59 -0400
+Received: from mail-bn1nam07on2128.outbound.protection.outlook.com ([40.107.212.128]:62439
+        "EHLO NAM02-BN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229605AbhFTRAs (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 20 Jun 2021 13:00:48 -0400
+        id S233941AbhFUSI0 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 21 Jun 2021 14:08:26 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B3T1HwMvd1fb3zytdFZDwhGjyhpjRuWN98OMCodzxxmVCduUwl+Hsu23TU5WJfo5DkWezE3uBla1B6l5XzSFJUHMN5Bes8wP/y4QPn3lkmZDXK+NIupHfO08gCySgdVSGMeTAGISKZI7QieCPkKJeBUGJMrTXI0uY+9czKfYzmVpNKA0v8C0Jc98MOJZwFhA9vQdV13bcTiHPYhYILegZ52V/MafnJgloRJHKSxD46aIC/7tKOhmM1P7lxNgPxSr0NbSxr5hgEUg1GNRD9P/EiTBHp6fjZ2zA5/gs16qkgk1lILPzztNT1WbgqWUzszBGlz1tNL5eq+t1FBLAT0HoA==
+ b=W7dDP3zMgVSKvMPqwJ9sPqeQNhbU8m7tSTXRMRqiRdS2dbvyMHvPG5x4naLRrVd+2TsKKe/Qa9eP1LFd0wzLjPDBECoHi9kEJtOOus4q4kks1qXUFPy0sWYGkTliaDMig+VQt0oy0R+30AKwZu5m7CmJj1Gb71QWvbOGvsoITU+V8dOJPkSjn3/XN1NIUyP5B29o2TRh10tLga+LZLkRpt/ULch07m68JdTTatjDd7Y1eNkGanGHKADU7gmUxTcRDkmjI5xlve4W3berzWzGdKhmLeaIumIMs+9mpRdXjtt7wmZtyub/z7WtL+8UO9K+WEbsSIjaCIAwzqqJlClzxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H/eUANXmbBI03iPAFtFMbTXL3Lmsqk9K4ydlQTOgVJQ=;
- b=YPYhJrsxeK1W0xWF7Afas2F50AJEdgAf8M2/rzP5jPC2vZ5AuiaNn0wl17gWq1WPHnWuJbeOOImllmdqPSEEwfz+e6B9xHLBS2jY21KsuWpFLj1zYubWNU3wmUs4/u7upNJyk1h1cljTpHNA+V5XO75TnhAGserlm7HaYw/tWiJZ1j9k0IY2LVrLrz8kHstkFO7TMSluYZ/jlzJlM2qkGWI95zj15QfvwMaJocUN+KJoWaKNCdOwbRgsDIha/4c7dF44mBun6bE5t3+SDnCOY2et5dz91+x08uV3rHtms5lA1iwnTcjg3am9wK7wMMaZ57tnuRV3tScHTQ/dEQMvZQ==
+ bh=m/dW/gU/B4f63hRGUs3GIxZsluT+9liGb6L8m25hEug=;
+ b=RdyO22tOoQep7X8jJKIlqOtdn0FXlN6l+b2COrmWbzdMEo+/t4iWUX15RkSoBQ8JVOjxKbrOFo48xygRN4j+4ruBTz5ZPOqVdwtFM/I4m0rJ9m/6hRAwqegPoECg5WNvh0ugAg7e7TX8PY2ur4uXTyNe/+X0izKo+cZXB+o4NrjWB47xCbDmG+6DZkfFu3DasdhGzVSZtLvZnW4/2zbbYNPUUyPgiIe6weUnp7Y+wqNuHDo0L5OolDY3RPmgmcznCzdAVpi98ao95qYkSiSmmn0IYUajLnKxSwb6shu6kWT5kXqa/DtLfA/RiqOcH/6Da7WJOJAnqJzCv+swgVP5JQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H/eUANXmbBI03iPAFtFMbTXL3Lmsqk9K4ydlQTOgVJQ=;
- b=PolmI/S1uJsVz4CIOQcZAK3XZCULPGTuLj+dLqzXga63Id2xgl/skjBCcvWfoFkkbkSw8BjW2pNrXaUkBQ6iYXPRqzP8uNNfE+Mc66ChhXizee6JGA2RSoG5GUBc5mYGXoL67vCqzmKn6RKguM/boaSdenw8ukQKJBmntjHiNLQ=
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
- by BY5PR21MB1442.namprd21.prod.outlook.com (2603:10b6:a03:236::10) with
+ bh=m/dW/gU/B4f63hRGUs3GIxZsluT+9liGb6L8m25hEug=;
+ b=CRjKJfmCtaHmU6assb3eXuEU4rsFdPnIAjXrFVVbi9E10keo+YFO1zzmigOmtNH5lY0id1iL0KE7PDS2P+ZwB2RfunetK8V+HHAaU9fX12UzubfyFyY3L0KnWoTJONQ9bNyMsDZDRYZK7T+dPRXxSWgy5dQuCfx3xeM8iXkpgMM=
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com (2603:10b6:301:7c::11)
+ by MW4PR21MB1875.namprd21.prod.outlook.com (2603:10b6:303:72::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.3; Sun, 20 Jun
- 2021 16:58:33 +0000
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::7ded:3b9f:50cf:d38c]) by BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::7ded:3b9f:50cf:d38c%5]) with mapi id 15.20.4264.011; Sun, 20 Jun 2021
- 16:58:33 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        KY Srinivasan <kys@microsoft.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.3; Mon, 21 Jun
+ 2021 18:06:08 +0000
+Received: from MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::b838:6cc7:4c40:fe99]) by MWHPR21MB1593.namprd21.prod.outlook.com
+ ([fe80::b838:6cc7:4c40:fe99%7]) with mapi id 15.20.4287.005; Mon, 21 Jun 2021
+ 18:06:08 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+CC:     Long Li <longli@microsoft.com>, KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        Shachar Raindel <shacharr@microsoft.com>,
-        "gustavoars@kernel.org" <gustavoars@kernel.org>
-CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: RE: [PATCH] net: mana: Fix a memory leak in an error handling path in
- 'mana_create_txq()'
-Thread-Topic: [PATCH] net: mana: Fix a memory leak in an error handling path
- in 'mana_create_txq()'
-Thread-Index: AQHXZdpHPvfj1IU9lk+ONqlh/jEYFqsdHvpQ
-Date:   Sun, 20 Jun 2021 16:58:32 +0000
-Message-ID: <BYAPR21MB12709AFD3F2B771400667055BF0B9@BYAPR21MB1270.namprd21.prod.outlook.com>
-References: <578bcaa1a9d6916c86aaecf65f205492affb6fc8.1624196430.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <578bcaa1a9d6916c86aaecf65f205492affb6fc8.1624196430.git.christophe.jaillet@wanadoo.fr>
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Subject: RE: [PATCH 1/2] Drivers: hv: vmbus: add support to ignore certain
+ PCIE devices
+Thread-Topic: [PATCH 1/2] Drivers: hv: vmbus: add support to ignore certain
+ PCIE devices
+Thread-Index: AQHXXAJK4owtjm/FREu7OBDaAUJaTqse09xQ
+Date:   Mon, 21 Jun 2021 18:06:08 +0000
+Message-ID: <MWHPR21MB1593CD3B5D24099745AD1D21D70A9@MWHPR21MB1593.namprd21.prod.outlook.com>
+References: <1623114276-11696-1-git-send-email-longli@linuxonhyperv.com>
+ <1623114276-11696-2-git-send-email-longli@linuxonhyperv.com>
+In-Reply-To: <1623114276-11696-2-git-send-email-longli@linuxonhyperv.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=4359f670-00bf-40a7-afe1-5f71514ba75a;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-06-20T16:57:23Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: wanadoo.fr; dkim=none (message not signed)
- header.d=none;wanadoo.fr; dmarc=none action=none header.from=microsoft.com;
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=3219d225-fde2-4811-87cb-ad1267ef32e9;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-06-21T17:50:35Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: linuxonhyperv.com; dkim=none (message not signed)
+ header.d=none;linuxonhyperv.com; dmarc=none action=none
+ header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 075d5b95-82e0-4d81-fae2-08d9340ca36d
-x-ms-traffictypediagnostic: BY5PR21MB1442:
+x-ms-office365-filtering-correlation-id: 2d22a2b0-a14f-4e52-017d-08d934df3efb
+x-ms-traffictypediagnostic: MW4PR21MB1875:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR21MB1442D94CA9DBAFC8A1A1CBABBF0B9@BY5PR21MB1442.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1443;
+x-microsoft-antispam-prvs: <MW4PR21MB1875DF84FB80AA90338D7460D70A9@MW4PR21MB1875.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ic0bSVZdPBQ6ZQ/4tkhgDB1aIhVoz2yB6EopYCNCtPQalIHmSJFdeLhmGCl2eXJM74n/rMauWLxJuIex3pmzzt7u+N0Aqm3Ss7H66sYmsFtvNOlgMWJqgGbErvOHlljmeVVkYFcg613rmgGXnttn9/Dw430kM9U4G5FPVUUdN7taWebiPNr7M+WKIACQtEkPTvog92Ix5D9Lff8wGTJW5J8XwnbQ2y/wNTSuI7z2fxn7WZnogDQWWec6i82otqIX+LG3KR7JXdVyTzvpNuq8l2gKSOF7eWPrOQMHQ44qezpIxDMVdufgrG09S5k7bq1PUe9zyexei7RqyOX+Qudgy7f6s6B6FzzXLYB7C/uWh59iNWnjSVTXT8/pV9eCTZA4i/tYWSrGU5v0O5TeMHZFdvWmLvIJQ6Ymuv5/bVdlrUhOyhTEB46qZ7XpUg+Pv6BU76Xven1Qps91Ay5Bnpjr1LUtXgOVACe6FNXKd43GaSnwgM5GcXVW/cbJf0VQfiQAIawGSB7dLLTpRhyQNRqQK1qkraXWTURyTO+x/nFDY2a3CalM80H55aL+kXclx1qktZH8ryEkvi+WRxoN+8sCZFhEN890dckpxgkvJySWeKkO+6exFkgn/qBW3wILm8M3xNVtym9qIIllo80IgW0oXw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1270.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(55016002)(86362001)(64756008)(82960400001)(4326008)(66946007)(66446008)(54906003)(2906002)(4744005)(66476007)(122000001)(66556008)(52536014)(110136005)(316002)(8676002)(82950400001)(9686003)(478600001)(76116006)(7696005)(33656002)(186003)(71200400001)(8990500004)(10290500003)(8936002)(6506007)(5660300002)(38100700002);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: yzt7zVRbg3jFAyb5yISST9Oq0O+1s7eUQexdm1KNh7XUEnDkiXCmKm491Dl0ydiCrW+G7NW4ubmukpKSpYoScsw7LOd+UKg4ViwXyLNEIvftcvAZjPCooouad7gJUF/HdZPlYnFcecfbnOsSuPnDJZ5wp5hot+nEIIDFLhO4TM095XhccWkqrnr1tWFxkEh2XSakxkTc+XTg5vZ0NFyf1U+7DPfIPe1fL2dotj2d8t/xxUbKI2HEVThUXIkpmri9aVM9AzcNP8Rm3DMMbzYaS/8z+QLjzAbsXy5qxsUZz71GwosLkuezZq4ner+FMacLQBT77k6q4GZM7asnLyww6sAqOsFcPV8f4BqC2yqDDlE1Da654qXupHmn/VRMX1BvZfPbTyggWM+LoA4cMLO1k0CEDn2OVd6ufO/jlkGjtodBpdcyqlYfTRUfNiYg5aQAP9ciupQdOvrf6NfZsPSYGD8bkUUSM/n9uMUwrbZt4s7tZS1RB0J4TUJIMbpkwB6K/IL9Uq1kSr+7PUifdruqUC8LBciMDK1Ep+HhGoZLUsr1homB0NxZ1SBmI0wpW+qJhZaCIh6u2nWkdzfVDPixLmTVjVuiQpxKJiOEyWjRRgQEMyalcsHY1WhyO3SUQJ+fTh8RVYUtjL4jstt7Zi/vTg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR21MB1593.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(66556008)(66476007)(64756008)(33656002)(5660300002)(71200400001)(66446008)(478600001)(6506007)(76116006)(83380400001)(52536014)(10290500003)(7696005)(107886003)(8676002)(316002)(38100700002)(110136005)(54906003)(66946007)(82950400001)(8990500004)(9686003)(26005)(82960400001)(186003)(55016002)(86362001)(2906002)(122000001)(8936002);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?cU8ZlQKhWgaZl9Paqgbg4L9u4Lf+ZEAIswzufL6+T1NnSMjVnVBkcMgkD9cW?=
- =?us-ascii?Q?f5MbmwHr8KK0YDcxQGTrmmlhJ1hKn/GBHWpdoHq1XlNcJQxwEw7NW+NBEnFX?=
- =?us-ascii?Q?fVzXxcOc2roFqkZtl1NmUVkfGSBGVraxnD6sNa0KPeHdS9SylXCuz3E4gAbS?=
- =?us-ascii?Q?5iVIxdOMr68tkS+Q8nVIShzbeK2qnRIAWIuIam7rUgCJGwGsgOqshoz3CdHy?=
- =?us-ascii?Q?K9sa03RnMqRcWqEKBsiiieem5D/Txuk+kKZyc2mIdx0RtJpxRZeA7PVW7fia?=
- =?us-ascii?Q?kJAJO4EPvcYibxsR+xy/ndHUoEXm9zelvEQUlS8Agjyk990tfcKQrEmjCy17?=
- =?us-ascii?Q?FdSRoHKzL1rYPxy7vtT3Et3Al6Vjc/WJSQqBh1HWgP7yqCNBh6YXDONro/Qj?=
- =?us-ascii?Q?WZMqHXniJM7pUS4A0RhDhv5sdzjw9cg977f7omPbfestV8/hAqtqy8H9gfpv?=
- =?us-ascii?Q?7S23LDIf9kORjjRl/beQXaVv38Y9YYwq4l8x4+Py+Aqf67z/xWNofzPII1yz?=
- =?us-ascii?Q?Uqyz3CqkUOaD+GqBxRRCPM/hDKD371aaxXAaCR2WJJYSBzLo4KnmwtV2lZqp?=
- =?us-ascii?Q?1avgGvzsbl1tzF1lJmOHHkYZuCIrZpMxFdcxDTkdNp92Hbqgxa0/NRbbP9+9?=
- =?us-ascii?Q?s4nnAVSaHt/fF8QMM9x2PWDigxXAUOjJu7/q4JcK25aJOKzPMNXw6YrMZ3fY?=
- =?us-ascii?Q?PYWVt91ql+gB5mgYph+/I2Kn2DLN8FHInijapsQ1exiQuET2nZBivDn6Fnvw?=
- =?us-ascii?Q?M5+AIoS0OU4fkkVQKsrX1v/AbhgIbuFxts2fNDLKprSLjcw5l4mpxhkXdwgU?=
- =?us-ascii?Q?krewsbqwUkuM5gIu49tijBv/VUkGQ7/sC1pJFJ8y4tsZtlou4aNg+sbooO3a?=
- =?us-ascii?Q?nijSiK/wY02MZcheVio3c5wjfRpCGU/XKLkW4kU6iIk8CRS5GhoW/E8tTrgZ?=
- =?us-ascii?Q?83DTEQxQOPwdWqxixxEau9GhOWzKJJJoMerhRxlh+4gtyjco3QS8yvgpWlkF?=
- =?us-ascii?Q?hSoRFzxi4Tv9hAHXz4mOu9sdixRfH38cZpYm/9cV/fPmHp++9cYdC+B8zSvf?=
- =?us-ascii?Q?6I4At2QtPyQrx36Jl/60bo9ouTTEAkk5YGcukTjDslqzGYX/26L6/Nz29HMJ?=
- =?us-ascii?Q?J5NRYeBW4agYeY8T47mqbkKqFAtK9LF3WyB9Ku72PeXn58IdEamq7SBcFNCx?=
- =?us-ascii?Q?AaNi5udeAAE3oQyPpAHKJ5OUE+42Zl80QWKKeRv3o574diYVzMKLrisBE0gi?=
- =?us-ascii?Q?wPPXSEtpA8jfIM8q02yhOxwaIPfYd3gyRpKtvzAhLKkuYpWRsazI4tQCAazN?=
- =?us-ascii?Q?bly2k1JUqMwHwshYLHxKBtXqbG4h8zKbcJtNX61krpi9KTS/jgedBCHUwsvh?=
- =?us-ascii?Q?YRzgCupFQiYF9/kNCdDREg+Ve6Kx?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?L+wU5Ie5CNrzpVi34JpA0nAEYXpJq4RV3n0PmVlcgIjsc0PdaiF+q0ozfDzm?=
+ =?us-ascii?Q?CI4g1l1+BJv4duD0TKVOV25OXVWDea89HTUsv/6Bhd8FBUBilOxlRX5Ep7k7?=
+ =?us-ascii?Q?Z2jpEfCLdUfW2UvAGHJWMPTHBXTEYXUN6NIoyAi99rR0+GQU8oMCa2s8JVPh?=
+ =?us-ascii?Q?w+v7CGWZ8EdqUF1ys8piLFZ6asfAQcOTkNM/pHCspeF2HCiZJEWQEvw6QI8K?=
+ =?us-ascii?Q?PHSOGT9w+w3lpTouweK5VjEa1B3bQVayVOd5ckMibTAFOuBqLOitNGIW2dgX?=
+ =?us-ascii?Q?SkcyE+CppPdwHK2JxGA/MoOvsz/qNgvbnWhXl47oMoh/v/Vs/l4edBt+KbRH?=
+ =?us-ascii?Q?f4DVx8YKSK4c5n6KkoTbhY/Fce7C3t51Lp8eKJ3b5olJGhp3SpY5xyHhheYl?=
+ =?us-ascii?Q?QHQyb11b6ulGy/H58EZaWQbdZBO48PgZSyrC3sd0xLevxK5zzwEwtciZO9hD?=
+ =?us-ascii?Q?C/b64H6IhJxKVC/mpAhlaBtOEDsNfeeJw+8R0xy96JOZv8PTrot9CmXehf05?=
+ =?us-ascii?Q?mm0V5hxDDC7k4I00+VUzNSvHce8kO//GyVC+O+Cg235o/NVXY1wFgUWKFZxf?=
+ =?us-ascii?Q?WueJbLiXc4rx+mFH2JuoB0F3gzdiz82hzcwIDoXvQgUO3CUS6Rm95uklg476?=
+ =?us-ascii?Q?vh6FMj6zu++3fszyGywacO2msVEqRbroIe9woD6vi3E5QcVH3aCagUTYgQPR?=
+ =?us-ascii?Q?CGpv+F03UzM3y0MssHE57OKEjaRSFGW85lJiram5Rcw+X0hONKfNlg69ynwl?=
+ =?us-ascii?Q?Kvx2uygYpMguD8gBNo7Y9DlQNw38bmd/TW1mm+N/9NhKQ3vdxo8dD/fiF92c?=
+ =?us-ascii?Q?E9J32oMkkp1TEi7wmwTN8JuE3Qg8OKalTzjMLGqSst0n4A8EyPFdcnU1TQt6?=
+ =?us-ascii?Q?M+Oet/MaGbq8c8XtKJG4wd3u9ujhpnbvsXb1c+3JktJex6owBmx1671ZFtwG?=
+ =?us-ascii?Q?QFP0a/5kWHXTrhr9VGhn1gTSgf/HR30v1n3n/8/PjL5BJUwtG19YnokuDIgE?=
+ =?us-ascii?Q?LFhOCe3Mtn+EK5Sxdwon26wEOdhTgNanGbJULOrUJRray76mRyYr+/pdlZ2E?=
+ =?us-ascii?Q?xvfrdzJswlEkgcgANXvWiSLiTfxmjymwh9gFJJsbotxW7SMoUFzq9ktzHX9C?=
+ =?us-ascii?Q?fzLhtpn/2eMm2nF1+ocM0avhY7gR9hvh+8VbMULDg9Qa/D42jgnmMTgunFeD?=
+ =?us-ascii?Q?7yV5dXbsBODkIcjoWUCFCZrZ83zXukk55RPPlJc7dXFvcHnyZS5t1++6pYwo?=
+ =?us-ascii?Q?jIdkPVheMGMKse5fnNYjmQym5MaZlzgXEwhKhUIOJ/vHyfmHUH4dRfBzPQAh?=
+ =?us-ascii?Q?2Nxgs/EGPLIKgWLI0FavfEob?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 075d5b95-82e0-4d81-fae2-08d9340ca36d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2021 16:58:33.0714
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR21MB1593.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d22a2b0-a14f-4e52-017d-08d934df3efb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2021 18:06:08.7725
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hI30++tNeWlFaexNMBsWiiZZuQbI9tzOac0KKWW8dzC2hQXxiTLkSo0n1kTNWXv1ysimiDvWzjS3uhu8YVfweA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR21MB1442
+X-MS-Exchange-CrossTenant-userprincipalname: /+ASa3oUWYPZ8pAMEy8GXmxzCZmVqOrt5A03qJ0FmRFmTG3W17Yt+ZnKWC+6tFo76WaSFPjiFE+NigVFZEjKtR4LYsj6X2fRiInaNDOrlkc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1875
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Sent: Sunday, June 20, 2021 6:43 AM
+From: longli@linuxonhyperv.com <longli@linuxonhyperv.com> Sent: Monday, Jun=
+e 7, 2021 6:05 PM
 >=20
-> If this test fails we must free some resources as in all the other error
-> handling paths of this function.
+> When Hyper-v presents a FlexIOV device to VMBUS, this device has its VMBU=
+S
+> channel and a PCIE channel. The PCIE channel is not used in Linux and doe=
+s
+> not have a backing PCIE device on Hyper-v. For such FlexIOV devices, add
+> the code to ignore those PCIE devices so they are not getting probed by t=
+he
+> PCI subsystem.
 >=20
-> Fixes: ca9c54d2d6a5 ("net: mana: Add a driver for Microsoft Azure Network
-> Adapter (MANA)")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Cc: K. Y. Srinivasan <kys@microsoft.com>
+> Cc: Haiyang Zhang <haiyangz@microsoft.com>
+> Cc: Stephen Hemminger <sthemmin@microsoft.com>
+> Cc: Wei Liu <wei.liu@kernel.org>
+> Cc: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Long Li <longli@microsoft.com>
 > ---
+>  drivers/hv/channel_mgmt.c | 43 +++++++++++++++++++++++++++++++++++++++++=
+++
+>  1 file changed, 43 insertions(+)
+>=20
+> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+> index caf6d0c..6fd7ae5 100644
+> --- a/drivers/hv/channel_mgmt.c
+> +++ b/drivers/hv/channel_mgmt.c
+> @@ -26,6 +26,20 @@
+>=20
+>  static void init_vp_index(struct vmbus_channel *channel);
+>=20
+> +/*
+> + * Hyper-v presents FlexIOV devices on the PCIE.
+> + * Those devices have no real PCI implementation in Hyper-V, and should =
+be
+> + * ignored and not presented to the PCI layer.
+> + */
+> +static const guid_t vpci_ignore_instances[] =3D {
+> +	/*
+> +	 * XStore Fastpath instance ID in VPCI introduced by FlexIOV
+> +	 * {d4573da2-2caa-4711-a8f9-bbabf4ee9685}
+> +	 */
+> +	GUID_INIT(0xd4573da2, 0x2caa, 0x4711, 0xa8, 0xf9,
+> +		0xbb, 0xab, 0xf4, 0xee, 0x96, 0x85),
+> +};
+> +
+>  const struct vmbus_device vmbus_devs[] =3D {
+>  	/* IDE */
+>  	{ .dev_type =3D HV_IDE,
+> @@ -487,6 +501,16 @@ void vmbus_free_channels(void)
+>  	}
+>  }
+>=20
+> +static bool ignore_pcie_device(guid_t *if_instance)
+> +{
+> +	int i;
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(vpci_ignore_instances); i++)
+> +		if (guid_equal(&vpci_ignore_instances[i], if_instance))
+> +			return true;
+> +	return false;
+> +}
+> +
+>  /* Note: the function can run concurrently for primary/sub channels. */
+>  static void vmbus_add_channel_work(struct work_struct *work)
+>  {
+> @@ -958,6 +982,17 @@ static bool vmbus_is_valid_device(const guid_t *guid=
+)
+>  	return false;
+>  }
+>=20
+> +static bool is_pcie_offer(struct vmbus_channel_offer_channel *offer)
+> +{
+> +	int i;
+> +
+> +	for (i =3D HV_IDE; i < HV_UNKNOWN; i++)
+> +		if (guid_equal(&offer->offer.if_type, &vmbus_devs[i].guid))
+> +			break;
 
-Reviewed-by: Dexuan Cui <decui@microsoft.com>
+This would be the third place in channel_mgmt.c that we have
+essentially the same code for looking through the vmbus_devs array for
+a matching GUID.  See hv_get_dev_type() and vmbus_is_valid_device().
+Perhaps do some minor refactoring to have a common search=20
+function that return a pointer to the matching entry in the
+vmbus_devs array?  The code would have to handle the "no match"
+case by pointing to the last entry (HV_UNKNOWN).
+
+> +
+> +	return i =3D=3D HV_PCIE;
+
+This assumes that the index in the vmbus_devs array is the
+same as the .dev_type field of the entry.  That's true at the
+moment, but seems a bit brittle in the long run.
+
+> +}
+> +
+>  /*
+>   * vmbus_onoffer - Handler for channel offers from vmbus in parent parti=
+tion.
+>   *
+> @@ -1051,6 +1086,14 @@ static void vmbus_onoffer(struct
+> vmbus_channel_message_header *hdr)
+>  		return;
+>  	}
+>=20
+> +	/* Check to see if we should ignore this PCIe channel */
+> +	if (is_pcie_offer(offer) &&
+> +	    ignore_pcie_device(&offer->offer.if_instance)) {
+> +		pr_info("Ignore instance %pUl over VPCI\n",
+> +			&offer->offer.if_instance);
+
+I'm wondering if we really want to output this message.   As
+Hyper-V is updated to support this new blob access method,
+it seems like pretty much every VM will generate the message
+on boot, and I don't see any real value in it.  Maybe make it
+debug level?
+
+> +		return;
+> +	}
+> +
+
+Is there a reason to do this check *after* searching for the=20
+oldchannel and handling a match?  I'm thinking this check
+could go immediately after the call to trace_vmbus_onoffer().
+
+>  	/* Allocate the channel object and save this offer. */
+>  	newchannel =3D alloc_channel();
+>  	if (!newchannel) {
+> --
+> 1.8.3.1
+
