@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF169C07E9B
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A821C07E99
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:44:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B18EE613C1
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E3B9613C1
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:44:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbhGILqg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jul 2021 07:46:36 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:42549 "EHLO
-        mail-wr1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231283AbhGILqf (ORCPT
+        id S231543AbhGILqq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 9 Jul 2021 07:46:46 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:36532 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231467AbhGILqn (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jul 2021 07:46:35 -0400
-Received: by mail-wr1-f43.google.com with SMTP id r11so6500424wro.9;
-        Fri, 09 Jul 2021 04:43:50 -0700 (PDT)
+        Fri, 9 Jul 2021 07:46:43 -0400
+Received: by mail-wr1-f49.google.com with SMTP id v5so11777011wrt.3;
+        Fri, 09 Jul 2021 04:43:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K7Hau9Jzl0ePYTrd4qdH09LYrF9z9LqJmxCujJiNlPY=;
-        b=G4mf17D/cYNjXbp+f2j725rtvlcr11O8K/j044mqeDCNcb0hVDnENvRwcGKNHPyVgl
-         mzJKTFJ/NWde6cCFJ5GWKQek+xBwh9TtIehCnfbqlItx81seQNb3n1QyvhfJ21U41vR3
-         55NTx0HHo/Aallr2K6/jFIEa5igiBZEqfRHS5dXXCyVPQPBWzCEx9yGe2ArkHXpuLHSq
-         fWHPwx9Y/xx1dWWJbm+xnn9AGtHFkwk6dIKW16Ci1GNi6hRklp7r1Ii+K7GP/J2fB1nS
-         iUkVasDKjjVOnka+kBKQyOWk4scI35jLxIJAtIb9RGjOV744gL/Mau1pqGcJSRGdLLRW
-         DGKw==
-X-Gm-Message-State: AOAM532+HKrqYlS1Zs+w4/cpiCvRtFGVkF8Jg3SE8ecXXQKAw73TOOFr
-        J+ra1sBja4qa6Ku2GVCIfrpcSr3Qk54=
-X-Google-Smtp-Source: ABdhPJy5w14GWKipwcTipyDgDi83c5TegPP6+IcxYvRG6ozm6cUUDS/FYHgl+blqU/VX4jUP7/xrrw==
-X-Received: by 2002:adf:9466:: with SMTP id 93mr41507955wrq.340.1625831029648;
-        Fri, 09 Jul 2021 04:43:49 -0700 (PDT)
+        bh=xEDD9wpewEvqoqq6G5yrwRMxTRP5lFts3xZ7kRx42is=;
+        b=giZVa/UkS50XINU4vrkRQK08wlVnCm4gYOTn5ws9UDbfcthNuz4ZqD1TK9cR8Z4rwb
+         Jmf2X23qcTwuF9Ntep+0kRcHt8uWrO9en49nxAjQDqja5n5MLYEG1vAqd901B96hzQPi
+         eqJHJO4eKocjY/P7TOwCA0wgaWBKqXJ9r+tqxhtUmVxRdLsGJiix6BjBNVDMtbivmaq/
+         dkfBoc7+UNIdUNDqLvSE/aclB5LOm4S9vfA6WMFIMGx/bwWTrzuSHnpRBcLDD/HJg/lN
+         S06MbG1zcokddCWPoWEKEBZ4kVcEdi4qvJe0kuA8mOqiFz38z2R8H9SrSIHOEd0/8qpG
+         p9QQ==
+X-Gm-Message-State: AOAM530bcfTk7zyiwGozLTQwfCmwBmHmhMIyy/LXwLYKCStkDWmea3Ul
+        Vbw2NwMbUrTSMBkeae2zFM+OF0MvBD4=
+X-Google-Smtp-Source: ABdhPJx5ghpc3+TT4EiNeuCwN7HlwYCH6Lkezlw8wSDOFz7Yh1eK9cNarbNpx0rBS81uWEKrFfYE7A==
+X-Received: by 2002:a5d:4e08:: with SMTP id p8mr41052459wrt.425.1625831037773;
+        Fri, 09 Jul 2021 04:43:57 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.49
+        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 04:43:49 -0700 (PDT)
+        Fri, 09 Jul 2021 04:43:57 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,16 +50,17 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
-        Wei Liu <wei.liu@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>,
+        Wei Liu <wei.liu@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
-Subject: [RFC v1 5/8] mshv: add paravirtualized IOMMU support
-Date:   Fri,  9 Jul 2021 11:43:36 +0000
-Message-Id: <20210709114339.3467637-6-wei.liu@kernel.org>
+        Lillian Grassin-Drake <ligrassi@microsoft.com>,
+        Muminul Islam <muislam@microsoft.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [RFC v1 7/8] mshv: implement in-kernel device framework
+Date:   Fri,  9 Jul 2021 11:43:38 +0000
+Message-Id: <20210709114339.3467637-8-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210709114339.3467637-1-wei.liu@kernel.org>
 References: <20210709114339.3467637-1-wei.liu@kernel.org>
@@ -69,694 +70,399 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Microsoft Hypervisor provides a set of hypercalls to manage device
-domains. Implement a type-1 IOMMU using those hypercalls.
-
-Implement DMA remapping as the first step for this driver. Interrupt
-remapping will come in a later stage.
+This is basically the same code adopted from KVM. The main user case is
+the future MSHV-VFIO bridge device. We don't have any plan to support
+in-kernel device emulation yet, but it wouldn't hurt to make the code
+more flexible.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
- drivers/iommu/Kconfig        |  14 +
- drivers/iommu/hyperv-iommu.c | 628 +++++++++++++++++++++++++++++++++++
- 2 files changed, 642 insertions(+)
+ Documentation/virt/mshv/api.rst |  12 +++
+ drivers/hv/mshv_main.c          | 181 ++++++++++++++++++++++++++++++++
+ include/linux/mshv.h            |  57 ++++++++++
+ include/uapi/linux/mshv.h       |  36 +++++++
+ 4 files changed, 286 insertions(+)
 
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 1f111b399bca..e230c4536825 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -397,6 +397,20 @@ config HYPERV_IOMMU
- 	  Stub IOMMU driver to handle IRQs as to allow Hyper-V Linux
- 	  guests to run with x2APIC mode enabled.
+diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
+index 56a6edfcfe29..7d35dd589831 100644
+--- a/Documentation/virt/mshv/api.rst
++++ b/Documentation/virt/mshv/api.rst
+@@ -170,4 +170,16 @@ Can be used to get/set various properties of a partition.
+ Some properties can only be set at partition creation. For these, there are
+ parameters in MSHV_CREATE_PARTITION.
  
-+config HYPERV_ROOT_PVIOMMU
-+	bool "Microsoft Hypervisor paravirtualized IOMMU support"
-+	depends on HYPERV && X86
-+	select IOMMU_API
-+	select IOMMU_DMA
-+	select DMA_OPS
-+	select IOMMU_IOVA
-+	select INTEL_IOMMU
-+	select DMAR_TABLE
-+	default HYPERV
-+	help
-+	  A paravirtualized IOMMU for Microsoft Hypervisor. It supports DMA
-+	  remapping.
++3.12 MSHV_CREATE_DEVICE
++-----------------------
++:Type: partition ioctl
++:Parameters: struct mshv_create_device
++:Returns: 0 on success
 +
- config VIRTIO_IOMMU
- 	tristate "Virtio IOMMU driver"
- 	depends on VIRTIO
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index e285a220c913..043dcff06511 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -12,7 +12,12 @@
- #include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/iommu.h>
-+#include <linux/dma-iommu.h>
- #include <linux/module.h>
-+#include <linux/pci.h>
-+#include <linux/interval_tree.h>
-+#include <linux/dma-map-ops.h>
-+#include <linux/dmar.h>
++Can be used to create an in-kernel device.
++
++If the MSHV_CREATE_DEVICE_TEST flag is set, only test whether the
++device type is supported (not necessarily whether it can be created
++in the current vm).
  
- #include <asm/apic.h>
- #include <asm/cpu.h>
-@@ -21,6 +26,9 @@
- #include <asm/irq_remapping.h>
- #include <asm/hypervisor.h>
++Currently only supports VFIO type device.
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+index 4cbc520471e4..84c774a561de 100644
+--- a/drivers/hv/mshv_main.c
++++ b/drivers/hv/mshv_main.c
+@@ -20,6 +20,8 @@
+ #include <linux/random.h>
+ #include <linux/mshv.h>
+ #include <linux/mshv_eventfd.h>
++#include <linux/hyperv.h>
++#include <linux/nospec.h>
  #include <asm/mshyperv.h>
-+#include <asm/iommu_table.h>
+ 
+ #include "mshv.h"
+@@ -33,6 +35,7 @@ static int mshv_vp_release(struct inode *inode, struct file *filp);
+ static long mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
+ static struct mshv_partition *mshv_partition_get(struct mshv_partition *partition);
+ static void mshv_partition_put(struct mshv_partition *partition);
++static void mshv_partition_put_no_destroy(struct mshv_partition *partition);
+ static int mshv_partition_release(struct inode *inode, struct file *filp);
+ static long mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
+ static int mshv_dev_open(struct inode *inode, struct file *filp);
+@@ -912,6 +915,172 @@ mshv_partition_ioctl_set_msi_routing(struct mshv_partition *partition,
+ 	return ret;
+ }
+ 
++static int mshv_device_ioctl_attr(struct mshv_device *dev,
++				 int (*accessor)(struct mshv_device *dev,
++						 struct mshv_device_attr *attr),
++				 unsigned long arg)
++{
++	struct mshv_device_attr attr;
 +
-+#include <linux/intel-iommu.h>
++	if (!accessor)
++		return -EPERM;
++
++	if (copy_from_user(&attr, (void __user *)arg, sizeof(attr)))
++		return -EFAULT;
++
++	return accessor(dev, &attr);
++}
++
++static long mshv_device_ioctl(struct file *filp, unsigned int ioctl,
++			      unsigned long arg)
++{
++	struct mshv_device *dev = filp->private_data;
++
++	switch (ioctl) {
++	case MSHV_SET_DEVICE_ATTR:
++		return mshv_device_ioctl_attr(dev, dev->ops->set_attr, arg);
++	case MSHV_GET_DEVICE_ATTR:
++		return mshv_device_ioctl_attr(dev, dev->ops->get_attr, arg);
++	case MSHV_HAS_DEVICE_ATTR:
++		return mshv_device_ioctl_attr(dev, dev->ops->has_attr, arg);
++	default:
++		if (dev->ops->ioctl)
++			return dev->ops->ioctl(dev, ioctl, arg);
++
++		return -ENOTTY;
++	}
++}
++
++static int mshv_device_release(struct inode *inode, struct file *filp)
++{
++	struct mshv_device *dev = filp->private_data;
++	struct mshv_partition *partition = dev->partition;
++
++	if (dev->ops->release) {
++		mutex_lock(&partition->mutex);
++		list_del(&dev->partition_node);
++		dev->ops->release(dev);
++		mutex_unlock(&partition->mutex);
++	}
++
++	mshv_partition_put(partition);
++	return 0;
++}
++
++static const struct file_operations mshv_device_fops = {
++	.unlocked_ioctl = mshv_device_ioctl,
++	.release = mshv_device_release,
++};
++
++static const struct mshv_device_ops *mshv_device_ops_table[MSHV_DEV_TYPE_MAX];
++
++int mshv_register_device_ops(const struct mshv_device_ops *ops, u32 type)
++{
++	if (type >= ARRAY_SIZE(mshv_device_ops_table))
++		return -ENOSPC;
++
++	if (mshv_device_ops_table[type] != NULL)
++		return -EEXIST;
++
++	mshv_device_ops_table[type] = ops;
++	return 0;
++}
++
++void mshv_unregister_device_ops(u32 type)
++{
++	if (type >= ARRAY_SIZE(mshv_device_ops_table))
++		return;
++	mshv_device_ops_table[type] = NULL;
++}
++
++static long
++mshv_partition_ioctl_create_device(struct mshv_partition *partition,
++	void __user *user_args)
++{
++	long r;
++	struct mshv_create_device tmp, *cd;
++	struct mshv_device *dev;
++	const struct mshv_device_ops *ops;
++	int type;
++
++	if (copy_from_user(&tmp, user_args, sizeof(tmp))) {
++		r = -EFAULT;
++		goto out;
++	}
++
++	cd = &tmp;
++
++	if (cd->type >= ARRAY_SIZE(mshv_device_ops_table)) {
++		r = -ENODEV;
++		goto out;
++	}
++
++	type = array_index_nospec(cd->type, ARRAY_SIZE(mshv_device_ops_table));
++	ops = mshv_device_ops_table[type];
++	if (ops == NULL) {
++		r = -ENODEV;
++		goto out;
++	}
++
++	if (cd->flags & MSHV_CREATE_DEVICE_TEST) {
++		r = 0;
++		goto out;
++	}
++
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL_ACCOUNT);
++	if (!dev) {
++		r = -ENOMEM;
++		goto out;
++	}
++
++	dev->ops = ops;
++	dev->partition = partition;
++
++	r = ops->create(dev, type);
++	if (r < 0) {
++		kfree(dev);
++		goto out;
++	}
++
++	list_add(&dev->partition_node, &partition->devices);
++
++	if (ops->init)
++		ops->init(dev);
++
++	mshv_partition_get(partition);
++	r = anon_inode_getfd(ops->name, &mshv_device_fops, dev, O_RDWR | O_CLOEXEC);
++	if (r < 0) {
++		mshv_partition_put_no_destroy(partition);
++		list_del(&dev->partition_node);
++		ops->destroy(dev);
++		goto out;
++	}
++
++	cd->fd = r;
++	r = 0;
++
++	if (copy_to_user(user_args, &tmp, sizeof(tmp))) {
++		r = -EFAULT;
++		goto out;
++	}
++out:
++	return r;
++}
++
++static void mshv_destroy_devices(struct mshv_partition *partition)
++{
++	struct mshv_device *dev, *tmp;
++
++	/*
++	 * No need to take any lock since at this point nobody else can
++	 * reference this partition.
++	 */
++	list_for_each_entry_safe(dev, tmp, &partition->devices, partition_node) {
++		list_del(&dev->partition_node);
++		dev->ops->destroy(dev);
++	}
++}
++
+ static long
+ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -965,6 +1134,9 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_GET_GPA_ACCESS_STATES:
+ 		ret = mshv_partition_ioctl_get_gpa_access_state(partition,
+ 							   (void __user *)arg);
++	case MSHV_CREATE_DEVICE:
++		ret = mshv_partition_ioctl_create_device(partition,
++							 (void __user *)arg);
+ 		break;
+ 	default:
+ 		ret = -ENOTTY;
+@@ -1033,6 +1205,7 @@ destroy_partition(struct mshv_partition *partition)
+ 		vfree(region->pages);
+ 	}
  
- #include "irq_remapping.h"
++	mshv_destroy_devices(partition);
+ 	mshv_free_msi_routing(partition);
+ 	kfree(partition);
+ }
+@@ -1052,6 +1225,12 @@ mshv_partition_put(struct mshv_partition *partition)
+ 		destroy_partition(partition);
+ }
  
-@@ -338,3 +346,623 @@ static const struct irq_domain_ops hyperv_root_ir_domain_ops = {
++static void
++mshv_partition_put_no_destroy(struct mshv_partition *partition)
++{
++	WARN_ON(refcount_dec_and_test(&partition->ref_count));
++}
++
+ static int
+ mshv_partition_release(struct inode *inode, struct file *filp)
+ {
+@@ -1122,6 +1301,8 @@ mshv_ioctl_create_partition(void __user *user_arg)
+ 
+ 	INIT_HLIST_HEAD(&partition->irq_ack_notifier_list);
+ 
++	INIT_LIST_HEAD(&partition->devices);
++
+ 	fd = get_unused_fd_flags(O_CLOEXEC);
+ 	if (fd < 0) {
+ 		ret = fd;
+diff --git a/include/linux/mshv.h b/include/linux/mshv.h
+index fc655b60c5cd..c557ffeec90c 100644
+--- a/include/linux/mshv.h
++++ b/include/linux/mshv.h
+@@ -59,6 +59,8 @@ struct mshv_partition {
+ 	struct srcu_struct irq_srcu;
+ 	struct hlist_head irq_ack_notifier_list;
+ 
++	struct list_head devices;
++
+ 	struct {
+ 		spinlock_t        lock;
+ 		struct list_head  items;
+@@ -121,4 +123,59 @@ struct mshv {
+ 	} partitions;
  };
  
++struct mshv_device {
++	const struct mshv_device_ops *ops;
++	struct mshv_partition *partition;
++	void *private;
++	struct list_head partition_node;
++
++};
++
++/* create, destroy, and name are mandatory */
++struct mshv_device_ops {
++	const char *name;
++
++	/*
++	 * create is called holding partition->mutex and any operations not suitable
++	 * to do while holding the lock should be deferred to init (see
++	 * below).
++	 */
++	int (*create)(struct mshv_device *dev, u32 type);
++
++	/*
++	 * init is called after create if create is successful and is called
++	 * outside of holding partition->mutex.
++	 */
++	void (*init)(struct mshv_device *dev);
++
++	/*
++	 * Destroy is responsible for freeing dev.
++	 *
++	 * Destroy may be called before or after destructors are called
++	 * on emulated I/O regions, depending on whether a reference is
++	 * held by a vcpu or other mshv component that gets destroyed
++	 * after the emulated I/O.
++	 */
++	void (*destroy)(struct mshv_device *dev);
++
++	/*
++	 * Release is an alternative method to free the device. It is
++	 * called when the device file descriptor is closed. Once
++	 * release is called, the destroy method will not be called
++	 * anymore as the device is removed from the device list of
++	 * the VM. partition->mutex is held.
++	 */
++	void (*release)(struct mshv_device *dev);
++
++	int (*set_attr)(struct mshv_device *dev, struct mshv_device_attr *attr);
++	int (*get_attr)(struct mshv_device *dev, struct mshv_device_attr *attr);
++	int (*has_attr)(struct mshv_device *dev, struct mshv_device_attr *attr);
++	long (*ioctl)(struct mshv_device *dev, unsigned int ioctl,
++		      unsigned long arg);
++	int (*mmap)(struct mshv_device *dev, struct vm_area_struct *vma);
++};
++
++int mshv_register_device_ops(const struct mshv_device_ops *ops, u32 type);
++void mshv_unregister_device_ops(u32 type);
++
  #endif
-+
-+#ifdef CONFIG_HYPERV_ROOT_PVIOMMU
-+
-+/* DMA remapping support */
-+struct hv_iommu_domain {
-+	struct iommu_domain domain;
-+	struct hv_iommu_dev *hv_iommu;
-+
-+	struct hv_input_device_domain device_domain;
-+
-+	spinlock_t mappings_lock;
-+	struct rb_root_cached mappings;
-+
-+	u32 map_flags;
-+	u64 pgsize_bitmap;
-+};
-+
-+/* What hardware IOMMU? */
-+enum {
-+	INVALID = 0,
-+	INTEL, /* Only Intel for now */
-+} hw_iommu_type = { INVALID };
-+
-+static struct hv_iommu_domain hv_identity_domain, hv_null_domain;
-+
-+#define to_hv_iommu_domain(d) \
-+	container_of(d, struct hv_iommu_domain, domain)
-+
-+struct hv_iommu_mapping {
-+	phys_addr_t paddr;
-+	struct interval_tree_node iova;
-+	u32 flags;
-+};
-+
-+struct hv_iommu_dev {
-+	struct iommu_device iommu;
-+
-+	struct ida domain_ids;
-+
-+	/* Device configuration */
-+	struct iommu_domain_geometry geometry;
-+	u64 first_domain;
-+	u64 last_domain;
-+
-+	u32 map_flags;
-+	u64 pgsize_bitmap;
-+};
-+
-+static struct hv_iommu_dev *hv_iommu_device;
-+
-+struct hv_iommu_endpoint {
-+	struct device *dev;
-+	struct hv_iommu_dev *hv_iommu;
-+	struct hv_iommu_domain *domain;
-+};
-+
-+static void __init hv_initialize_special_domains(void)
-+{
-+	struct hv_iommu_domain *domain;
-+
-+	/* Default passthrough domain */
-+	domain = &hv_identity_domain;
-+
-+	memset(domain, 0, sizeof(*domain));
-+
-+	domain->device_domain.partition_id = HV_PARTITION_ID_SELF;
-+	domain->device_domain.domain_id.type = HV_DEVICE_DOMAIN_TYPE_S2;
-+	domain->device_domain.domain_id.id = HV_DEVICE_DOMAIN_ID_S2_DEFAULT;
-+
-+	domain->domain.geometry = hv_iommu_device->geometry;
-+
-+	/* NULL domain that blocks all DMA transactions */
-+	domain = &hv_null_domain;
-+
-+	memset(domain, 0, sizeof(*domain));
-+
-+	domain->device_domain.partition_id = HV_PARTITION_ID_SELF;
-+	domain->device_domain.domain_id.type = HV_DEVICE_DOMAIN_TYPE_S2;
-+	domain->device_domain.domain_id.id = HV_DEVICE_DOMAIN_ID_S2_NULL;
-+
-+	domain->domain.geometry = hv_iommu_device->geometry;
-+}
-+
-+static bool is_identity_domain(struct hv_iommu_domain *d)
-+{
-+	return d->device_domain.domain_id.id == HV_DEVICE_DOMAIN_ID_S2_DEFAULT;
-+}
-+
-+static bool is_null_domain(struct hv_iommu_domain *d)
-+{
-+	return d->device_domain.domain_id.id == HV_DEVICE_DOMAIN_ID_S2_NULL;
-+}
-+
-+static struct iommu_domain *hv_iommu_domain_alloc(unsigned type)
-+{
-+	struct hv_iommu_domain *domain;
-+	int ret;
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_create_device_domain *input;
-+
-+	if (type == IOMMU_DOMAIN_IDENTITY)
-+		return &hv_identity_domain.domain;
-+
-+	if (type == IOMMU_DOMAIN_BLOCKED)
-+		return &hv_null_domain.domain;
-+
-+	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-+	if (!domain)
-+		goto out;
-+
-+	spin_lock_init(&domain->mappings_lock);
-+	domain->mappings = RB_ROOT_CACHED;
-+
-+	if (type == IOMMU_DOMAIN_DMA &&
-+		iommu_get_dma_cookie(&domain->domain)) {
-+		goto out_free;
-+	}
-+
-+	ret = ida_alloc_range(&hv_iommu_device->domain_ids,
-+			hv_iommu_device->first_domain, hv_iommu_device->last_domain,
-+			GFP_KERNEL);
-+	if (ret < 0)
-+		goto out_put_cookie;
-+
-+	domain->device_domain.partition_id = HV_PARTITION_ID_SELF;
-+	domain->device_domain.domain_id.type = HV_DEVICE_DOMAIN_TYPE_S2;
-+	domain->device_domain.domain_id.id = ret;
-+
-+	domain->hv_iommu = hv_iommu_device;
-+	domain->map_flags = hv_iommu_device->map_flags;
-+
-+	local_irq_save(flags);
-+
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->device_domain = domain->device_domain;
-+
-+	input->create_device_domain_flags.forward_progress_required = 1;
-+	input->create_device_domain_flags.inherit_owning_vtl = 0;
-+
-+	status = hv_do_hypercall(HVCALL_CREATE_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status)) {
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+		goto out_free_id;
-+	}
-+
-+	domain->domain.pgsize_bitmap = hv_iommu_device->pgsize_bitmap;
-+	domain->domain.geometry = hv_iommu_device->geometry;
-+
-+	return &domain->domain;
-+
-+out_free_id:
-+	ida_free(&hv_iommu_device->domain_ids, domain->device_domain.domain_id.id);
-+out_put_cookie:
-+	iommu_put_dma_cookie(&domain->domain);
-+out_free:
-+	kfree(domain);
-+out:
-+	return NULL;
-+}
-+
-+static void hv_iommu_domain_free(struct iommu_domain *d)
-+{
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+	unsigned long flags;
-+	u64 status;
-+	struct hv_input_delete_device_domain *input;
-+
-+	if (is_identity_domain(domain) || is_null_domain(domain))
-+		return;
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->device_domain= domain->device_domain;
-+
-+	status = hv_do_hypercall(HVCALL_DELETE_DEVICE_DOMAIN, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+
-+	ida_free(&domain->hv_iommu->domain_ids, domain->device_domain.domain_id.id);
-+
-+	iommu_put_dma_cookie(d);
-+
-+	kfree(domain);
-+}
-+
-+static int hv_iommu_attach_dev(struct iommu_domain *d, struct device *dev)
-+{
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_attach_device_domain *input;
-+	struct pci_dev *pdev;
-+	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
-+
-+	/* Only allow PCI devices for now */
-+	if (!dev_is_pci(dev))
-+		return -EINVAL;
-+
-+	pdev = to_pci_dev(dev);
-+
-+	dev_dbg(dev, "Attaching (%strusted) to %d\n", pdev->untrusted ? "un" : "",
-+		domain->device_domain.domain_id.id);
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->device_domain = domain->device_domain;
-+	input->device_id = hv_build_pci_dev_id(pdev);
-+
-+	status = hv_do_hypercall(HVCALL_ATTACH_DEVICE_DOMAIN, input, NULL);
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+	else
-+		vdev->domain = domain;
-+
-+	return hv_status_to_errno(status);
-+}
-+
-+static void hv_iommu_detach_dev(struct iommu_domain *d, struct device *dev)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_input_detach_device_domain *input;
-+	struct pci_dev *pdev;
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
-+
-+	/* See the attach function, only PCI devices for now */
-+	if (!dev_is_pci(dev))
-+		return;
-+
-+	pdev = to_pci_dev(dev);
-+
-+	dev_dbg(dev, "Detaching from %d\n", domain->device_domain.domain_id.id);
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->partition_id = HV_PARTITION_ID_SELF;
-+	input->device_id = hv_build_pci_dev_id(pdev);
-+
-+	status = hv_do_hypercall(HVCALL_DETACH_DEVICE_DOMAIN, input, NULL);
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+
-+	vdev->domain = NULL;
-+}
-+
-+static int hv_iommu_add_mapping(struct hv_iommu_domain *domain, unsigned long iova,
-+		phys_addr_t paddr, size_t size, u32 flags)
-+{
-+	unsigned long irqflags;
-+	struct hv_iommu_mapping *mapping;
-+
-+	mapping = kzalloc(sizeof(*mapping), GFP_ATOMIC);
-+	if (!mapping)
-+		return -ENOMEM;
-+
-+	mapping->paddr = paddr;
-+	mapping->iova.start = iova;
-+	mapping->iova.last = iova + size - 1;
-+	mapping->flags = flags;
-+
-+	spin_lock_irqsave(&domain->mappings_lock, irqflags);
-+	interval_tree_insert(&mapping->iova, &domain->mappings);
-+	spin_unlock_irqrestore(&domain->mappings_lock, irqflags);
-+
-+	return 0;
-+}
-+
-+static size_t hv_iommu_del_mappings(struct hv_iommu_domain *domain,
-+		unsigned long iova, size_t size)
-+{
-+	unsigned long flags;
-+	size_t unmapped = 0;
-+	unsigned long last = iova + size - 1;
-+	struct hv_iommu_mapping *mapping = NULL;
-+	struct interval_tree_node *node, *next;
-+
-+	spin_lock_irqsave(&domain->mappings_lock, flags);
-+	next = interval_tree_iter_first(&domain->mappings, iova, last);
-+	while (next) {
-+		node = next;
-+		mapping = container_of(node, struct hv_iommu_mapping, iova);
-+		next = interval_tree_iter_next(node, iova, last);
-+
-+		/* Trying to split a mapping? Not supported for now. */
-+		if (mapping->iova.start < iova)
-+			break;
-+
-+		unmapped += mapping->iova.last - mapping->iova.start + 1;
-+
-+		interval_tree_remove(node, &domain->mappings);
-+		kfree(mapping);
-+	}
-+	spin_unlock_irqrestore(&domain->mappings_lock, flags);
-+
-+	return unmapped;
-+}
-+
-+static int hv_iommu_map(struct iommu_domain *d, unsigned long iova,
-+			phys_addr_t paddr, size_t size, int prot, gfp_t gfp)
-+{
-+	u32 map_flags;
-+	unsigned long flags, pfn, npages;
-+	int ret, i;
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+	struct hv_input_map_device_gpa_pages *input;
-+	u64 status;
-+
-+	/* Reject size that's not a whole page */
-+	if (size & ~HV_HYP_PAGE_MASK)
-+		return -EINVAL;
-+
-+	map_flags = HV_MAP_GPA_READABLE; /* Always required */
-+	map_flags |= prot & IOMMU_WRITE ? HV_MAP_GPA_WRITABLE : 0;
-+
-+	ret = hv_iommu_add_mapping(domain, iova, paddr, size, flags);
-+	if (ret)
-+		return ret;
-+
-+	npages = size >> HV_HYP_PAGE_SHIFT;
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->device_domain = domain->device_domain;
-+	input->map_flags = map_flags;
-+	input->target_device_va_base = iova;
-+
-+	pfn = paddr >> HV_HYP_PAGE_SHIFT;
-+	for (i = 0; i < npages; i++) {
-+		input->gpa_page_list[i] = pfn;
-+		pfn += 1;
-+	}
-+
-+	status = hv_do_rep_hypercall(HVCALL_MAP_DEVICE_GPA_PAGES, npages, 0,
-+			input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status)) {
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+		hv_iommu_del_mappings(domain, iova, size);
-+	}
-+
-+	return hv_status_to_errno(status);
-+}
-+
-+static size_t hv_iommu_unmap(struct iommu_domain *d, unsigned long iova,
-+			   size_t size, struct iommu_iotlb_gather *gather)
-+{
-+	size_t unmapped;
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+	unsigned long flags, npages;
-+	struct hv_input_unmap_device_gpa_pages *input;
-+	u64 status;
-+
-+	unmapped = hv_iommu_del_mappings(domain, iova, size);
-+	if (unmapped < size)
-+		return 0;
-+
-+	npages = size >> HV_HYP_PAGE_SHIFT;
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	memset(input, 0, sizeof(*input));
-+
-+	input->device_domain = domain->device_domain;
-+	input->target_device_va_base = iova;
-+
-+	/* Unmap `npages` pages starting from VA base */
-+	status = hv_do_rep_hypercall(HVCALL_UNMAP_DEVICE_GPA_PAGES, npages,
-+			0, input, NULL);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+
-+	return hv_result_success(status) ? unmapped : 0;
-+}
-+
-+static phys_addr_t hv_iommu_iova_to_phys(struct iommu_domain *d,
-+				       dma_addr_t iova)
-+{
-+	u64 paddr = 0;
-+	unsigned long flags;
-+	struct hv_iommu_mapping *mapping;
-+	struct interval_tree_node *node;
-+	struct hv_iommu_domain *domain = to_hv_iommu_domain(d);
-+
-+	spin_lock_irqsave(&domain->mappings_lock, flags);
-+	node = interval_tree_iter_first(&domain->mappings, iova, iova);
-+	if (node) {
-+		mapping = container_of(node, struct hv_iommu_mapping, iova);
-+		paddr = mapping->paddr + (iova - mapping->iova.start);
-+	}
-+	spin_unlock_irqrestore(&domain->mappings_lock, flags);
-+
-+	return paddr;
-+}
-+
-+static struct iommu_device *hv_iommu_probe_device(struct device *dev)
-+{
-+	struct hv_iommu_endpoint *vdev;
-+
-+	if (!dev_is_pci(dev))
-+		return ERR_PTR(-ENODEV);
-+
-+	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
-+	if (!vdev)
-+		return ERR_PTR(-ENOMEM);
-+
-+	vdev->dev = dev;
-+	vdev->hv_iommu = hv_iommu_device;
-+	dev_iommu_priv_set(dev, vdev);
-+
-+	return &vdev->hv_iommu->iommu;
-+}
-+
-+static void hv_iommu_probe_finalize(struct device *dev)
-+{
-+	struct iommu_domain *d = iommu_get_domain_for_dev(dev);
-+
-+	if (d && d->type == IOMMU_DOMAIN_DMA)
-+		iommu_setup_dma_ops(dev, 1 << PAGE_SHIFT, 0);
-+	else
-+		set_dma_ops(dev, NULL);
-+}
-+
-+static void hv_iommu_release_device(struct device *dev)
-+{
-+	struct hv_iommu_endpoint *vdev = dev_iommu_priv_get(dev);
-+
-+	/* Need to detach device from device domain if necessary. */
-+	if (vdev->domain)
-+		hv_iommu_detach_dev(&vdev->domain->domain, dev);
-+
-+	dev_iommu_priv_set(dev, NULL);
-+	set_dma_ops(dev, NULL);
-+
-+	kfree(vdev);
-+}
-+
-+static struct iommu_group *hv_iommu_device_group(struct device *dev)
-+{
-+	if (dev_is_pci(dev))
-+		return pci_device_group(dev);
-+	else
-+		return generic_device_group(dev);
-+}
-+
+diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
+index cba318ee7cf5..ed110109492f 100644
+--- a/include/uapi/linux/mshv.h
++++ b/include/uapi/linux/mshv.h
+@@ -158,6 +158,14 @@ struct mshv_msi_routing {
+ #define MSHV_SET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0B, struct mshv_vp_state)
+ #define MSHV_TRANSLATE_GVA	_IOWR(MSHV_IOCTL, 0x0E, struct mshv_translate_gva)
+ 
++/* ioctl for device fd */
++#define MSHV_CREATE_DEVICE	  _IOWR(MSHV_IOCTL, 0x13, struct mshv_create_device)
++
++/* ioctls for fds returned by MSHV_CREATE_DEVICE */
++#define MSHV_SET_DEVICE_ATTR	  _IOW(MSHV_IOCTL, 0x14, struct mshv_device_attr)
++#define MSHV_GET_DEVICE_ATTR	  _IOW(MSHV_IOCTL, 0x15, struct mshv_device_attr)
++#define MSHV_HAS_DEVICE_ATTR	  _IOW(MSHV_IOCTL, 0x16, struct mshv_device_attr)
++
+ /* register page mapping example:
+  * struct hv_vp_register_page *regs = mmap(NULL,
+  *					   4096,
+@@ -184,4 +192,32 @@ union mshv_partition_property_page_access_tracking_config {
+ 	__u64 as_uint64;
+ } __packed;
+ 
 +/*
-+ * This bitmap is used to advertise the page sizes our hardware support to the
-+ * IOMMU core, which will then use this information to split physically
-+ * contiguous memory regions it is mapping into page sizes that we support.
-+ *
-+ * Given the size of the PFN array we can accommodate less than 512 4KiB pages.
++ * Device control API.
 + */
-+#define HV_IOMMU_PGSIZES (SZ_4K | SZ_1M)
++#define MSHV_CREATE_DEVICE_TEST		1
 +
-+static void hv_iommu_get_resv_regions(struct device *dev,
-+		struct list_head *head)
-+{
-+	switch (hw_iommu_type) {
-+	case INTEL:
-+		intel_iommu_get_resv_regions(dev, head);
-+		break;
-+	default:
-+		/* Do nothing */;
-+	}
-+}
-+
-+static int hv_iommu_def_domain_type(struct device *dev)
-+{
-+	/* The hypervisor has created a default passthrough domain */
-+	return IOMMU_DOMAIN_IDENTITY;
-+}
-+
-+static struct iommu_ops hv_iommu_ops = {
-+	.domain_alloc     = hv_iommu_domain_alloc,
-+	.domain_free      = hv_iommu_domain_free,
-+	.attach_dev       = hv_iommu_attach_dev,
-+	.detach_dev       = hv_iommu_detach_dev,
-+	.map              = hv_iommu_map,
-+	.unmap            = hv_iommu_unmap,
-+	.iova_to_phys     = hv_iommu_iova_to_phys,
-+	.probe_device     = hv_iommu_probe_device,
-+	.probe_finalize   = hv_iommu_probe_finalize,
-+	.release_device   = hv_iommu_release_device,
-+	.def_domain_type  = hv_iommu_def_domain_type,
-+	.device_group     = hv_iommu_device_group,
-+	.get_resv_regions = hv_iommu_get_resv_regions,
-+	.put_resv_regions = generic_iommu_put_resv_regions,
-+	.pgsize_bitmap    = HV_IOMMU_PGSIZES,
-+	.owner            = THIS_MODULE,
++struct mshv_create_device {
++	__u32	type;	/* in: MSHV_DEV_TYPE_xxx */
++	__u32	fd;	/* out: device handle */
++	__u32	flags;	/* in: MSHV_CREATE_DEVICE_xxx */
 +};
 +
-+static void __init hv_initalize_resv_regions_intel(void)
-+{
-+	int ret;
++#define  MSHV_DEV_VFIO_GROUP			1
++#define   MSHV_DEV_VFIO_GROUP_ADD			1
++#define   MSHV_DEV_VFIO_GROUP_DEL			2
 +
-+	down_write(&dmar_global_lock);
-+	if (dmar_table_init(false, true)) {
-+		pr_err("Failed to initialize DMAR table\n");
-+		up_write(&dmar_global_lock);
-+		return;
-+	}
++enum mshv_device_type {
++	MSHV_DEV_TYPE_VFIO,
++#define MSHV_DEV_TYPE_VFIO		MSHV_DEV_TYPE_VFIO
++	MSHV_DEV_TYPE_MAX,
++};
 +
-+	ret = dmar_dev_scope_init();
-+	if (ret)
-+		pr_err("Failed to initialize device scope\n");
++struct mshv_device_attr {
++	__u32	flags;		/* no flags currently defined */
++	__u32	group;		/* device-defined */
++	__u64	attr;		/* group-defined */
++	__u64	addr;		/* userspace address of attr data */
++};
 +
-+	up_write(&dmar_global_lock);
-+
-+	hw_iommu_type = INTEL;
-+}
-+
-+static void __init hv_initialize_resv_regions(void)
-+{
-+	hv_initalize_resv_regions_intel();
-+}
-+
-+int __init hv_iommu_init(void)
-+{
-+	int ret = 0;
-+	struct hv_iommu_dev *hv_iommu = NULL;
-+
-+	if (!hv_is_hyperv_initialized())
-+		return -ENODEV;
-+
-+	hv_initialize_resv_regions();
-+
-+	hv_iommu = kzalloc(sizeof(*hv_iommu), GFP_KERNEL);
-+	if (!hv_iommu)
-+		return -ENOMEM;
-+
-+	ida_init(&hv_iommu->domain_ids);
-+	hv_iommu->first_domain = HV_DEVICE_DOMAIN_ID_S2_DEFAULT + 1;
-+	hv_iommu->last_domain = HV_DEVICE_DOMAIN_ID_S2_NULL - 1;
-+
-+	hv_iommu->geometry = (struct iommu_domain_geometry) {
-+		.aperture_start = 0,
-+		.aperture_end = -1UL,
-+		.force_aperture = true,
-+	};
-+
-+	hv_iommu->map_flags = IOMMU_READ | IOMMU_WRITE;
-+	hv_iommu->pgsize_bitmap = HV_IOMMU_PGSIZES;
-+
-+	ret = iommu_device_sysfs_add(&hv_iommu->iommu, NULL, NULL, "%s", "hv-iommu");
-+	if (ret) {
-+		pr_err("iommu_device_sysfs_add failed: %d\n", ret);
-+		goto err_free;
-+	}
-+
-+	ret = iommu_device_register(&hv_iommu->iommu, &hv_iommu_ops, NULL);
-+	if (ret) {
-+		pr_err("iommu_device_register failed: %d\n", ret);
-+		goto err_sysfs_remove;
-+	}
-+
-+	/* This must come before bus_set_iommu because it calls into the hooks. */
-+	hv_iommu_device = hv_iommu;
-+	hv_initialize_special_domains();
-+
-+#ifdef CONFIG_PCI
-+	ret = bus_set_iommu(&pci_bus_type, &hv_iommu_ops);
-+	if (ret) {
-+		pr_err("bus_set_iommu failed: %d\n", ret);
-+		goto err_unregister;
-+	}
-+#endif
-+	pr_info("Microsoft Hypervisor IOMMU initialized\n");
-+
-+	return 0;
-+
-+#ifdef CONFIG_PCI
-+err_unregister:
-+	iommu_device_unregister(&hv_iommu->iommu);
-+#endif
-+err_sysfs_remove:
-+	iommu_device_sysfs_remove(&hv_iommu->iommu);
-+err_free:
-+	kfree(hv_iommu);
-+	return ret;
-+}
-+
-+int __init hv_iommu_detect(void)
-+{
-+	if (!(ms_hyperv.misc_features & HV_DEVICE_DOMAIN_AVAILABLE))
-+		return -ENODEV;
-+
-+	iommu_detected = 1;
-+	x86_init.iommu.iommu_init = hv_iommu_init;
-+
-+	return 1;
-+}
-+IOMMU_INIT_POST(hv_iommu_detect);
-+
-+#endif /* CONFIG_HYPERV_ROOT_PVIOMMU */
+ #endif
 -- 
 2.30.2
 
