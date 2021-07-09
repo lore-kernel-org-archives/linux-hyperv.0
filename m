@@ -6,44 +6,41 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C348C07E9C
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A95C11F68
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49C26613C8
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DA31613BF
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbhGILqf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jul 2021 07:46:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231186AbhGILqd (ORCPT
+        id S231324AbhGILqg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 9 Jul 2021 07:46:36 -0400
+Received: from mail-wr1-f41.google.com ([209.85.221.41]:41981 "EHLO
+        mail-wr1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231285AbhGILqf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jul 2021 07:46:33 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76273C0613E6;
-        Fri,  9 Jul 2021 04:43:49 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id t14-20020a05600c198eb029020c8aac53d4so24966483wmq.1;
-        Fri, 09 Jul 2021 04:43:49 -0700 (PDT)
+        Fri, 9 Jul 2021 07:46:35 -0400
+Received: by mail-wr1-f41.google.com with SMTP id k4so5465252wrc.8;
+        Fri, 09 Jul 2021 04:43:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pLOJW7d88vrY9GmA9ucvUaUUVOlvzPYC8Oyh2a0Sb1s=;
-        b=X2QTLcESCIwC+NZF/PmkMcgrVcV0hAEFbViTcWh/FjZQdeuODsYVC1Ws5lvesbA+jN
-         e8DD5/d1lVLz2LvBslpa85oTCn4/UgmDWUXoSaPDnw7dPGeHgIiL+KwdLoYHd+q35oWX
-         6TQ5tY4rvKDLOskw1bh6rbCYvbx3o++ay06trQDOw9xtlghmGLxKSQKYr0I25bdGMiYN
-         +/TdTsLppRdTBuBefuyKrolQfdtGtu6rdfctjeEKNzcq+BuAYclRhbHoo1phcIQ8Z3y/
-         AXNlueogo9QY5FlnrbV9fNMoZJHthuVesLFIzJsL3jsrBXUF9Lj4x0jOxhNqAiQFj2Gk
-         EGFQ==
-X-Gm-Message-State: AOAM533BOZZ58O0SD3KvluMhbsTJC61z1HhkfZgjvds+ZgbZvRIA277D
-        cXihqINbl+hWJ1dYusNwp7w5Na1moZU=
-X-Google-Smtp-Source: ABdhPJyoOzdW1/ocaitVPdNhN15vIaawhkBqprEc88D3z21sdADkciIP1zBasQCgJY0b30+cUdo/Wg==
-X-Received: by 2002:a05:600c:4a09:: with SMTP id c9mr38602838wmp.11.1625831027824;
-        Fri, 09 Jul 2021 04:43:47 -0700 (PDT)
+        bh=j4tacrTa1KYqq7lXg+mzF/CJt/1c6utpjoK8omTLZME=;
+        b=IyWIghvTNCtH5oj+nTkZ0OUoubCPfiwpW7g6r3Wg7rpsWzhrIOqtaE8eK9VhXbvDqL
+         oZTzauMGbl3fq2knIwxaChBq0UfHtThHBDIZQKOD4IeDAWoVXjCii4HnMZSDB4141IDw
+         giiUDuSC30eJybRN+VwbhKbJCTzxnOyW7nB1vUXb4eycVNE1T8SxLRq1zvWXQPnHhNHn
+         TBZcj3xCD9MZdNYt83VhqboVO8AcpanMpoD2ptAnqYhXDqXA0WgTQKboz0rWvCAvDN+p
+         JUevyJNyKkavkvFyfFAecR/R87eFnTwQ6OtbR5V/TKYl+HQ11CWL07GSi3t8NehieTi5
+         pL0g==
+X-Gm-Message-State: AOAM530MUdKJcxNeAI6HTik7CTk3EpEZ/jEuh436uqr+mCAzotbTd+v3
+        BSv3+vNKaShBw8wyX6ozcvEDMX8bER8=
+X-Google-Smtp-Source: ABdhPJztHl+FRLzminSGKcuTXml3YN3c0TWOwZ359TNjOY2ZSLDSMfRm60riREUrEuDHG/5lHotzOg==
+X-Received: by 2002:adf:dd0d:: with SMTP id a13mr20350802wrm.220.1625831030382;
+        Fri, 09 Jul 2021 04:43:50 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.47
+        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 04:43:47 -0700 (PDT)
+        Fri, 09 Jul 2021 04:43:50 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -54,14 +51,15 @@ Cc:     virtualization@lists.linux-foundation.org,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
         Wei Liu <wei.liu@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
         Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Yian Chen <yian.chen@intel.com>,
-        iommu@lists.linux-foundation.org (open list:INTEL IOMMU (VT-d))
-Subject: [RFC v1 3/8] intel/vt-d: make DMAR table parsing code more flexible
-Date:   Fri,  9 Jul 2021 11:43:34 +0000
-Message-Id: <20210709114339.3467637-4-wei.liu@kernel.org>
+        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS)
+Subject: [RFC v1 6/8] mshv: command line option to skip devices in PV-IOMMU
+Date:   Fri,  9 Jul 2021 11:43:37 +0000
+Message-Id: <20210709114339.3467637-7-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210709114339.3467637-1-wei.liu@kernel.org>
 References: <20210709114339.3467637-1-wei.liu@kernel.org>
@@ -71,156 +69,85 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Microsoft Hypervisor provides a set of hypercalls to manage device
-domains. The root kernel should parse the DMAR so that it can program
-the IOMMU (with hypercalls) correctly.
+Some devices may have been claimed by the hypervisor already. One such
+example is a user can assign a NIC for debugging purpose.
 
-The DMAR code was designed to work with Intel IOMMU only. Add two more
-parameters to make it useful to Microsoft Hypervisor. Microsoft
-Hypervisor does not need the DMAR parsing code to allocate an Intel
-IOMMU structure; it also wishes to always reparse the DMAR table even
-after it has been parsed before.
+Ideally Linux should be able to tell retrieve that information, but
+there is no way to do that yet. And designing that new mechanism is
+going to take time.
 
-Adjust Intel IOMMU code to use the new dmar_table_init. There should be
-no functional change to Intel IOMMU code.
+Provide a command line option for skipping devices. This is a stopgap
+solution, so it is intentionally undocumented. Hopefully we can retire
+it in the future.
 
 Signed-off-by: Wei Liu <wei.liu@kernel.org>
 ---
-We may be able to combine alloc and force_parse?
----
- drivers/iommu/intel/dmar.c          | 38 ++++++++++++++++++++---------
- drivers/iommu/intel/iommu.c         |  2 +-
- drivers/iommu/intel/irq_remapping.c |  2 +-
- include/linux/dmar.h                |  2 +-
- 4 files changed, 30 insertions(+), 14 deletions(-)
+ drivers/iommu/hyperv-iommu.c | 45 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-index 84057cb9596c..bd72f47c728b 100644
---- a/drivers/iommu/intel/dmar.c
-+++ b/drivers/iommu/intel/dmar.c
-@@ -408,7 +408,8 @@ dmar_find_dmaru(struct acpi_dmar_hardware_unit *drhd)
-  * structure which uniquely represent one DMA remapping hardware unit
-  * present in the platform
-  */
--static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
-+static int dmar_parse_one_drhd_internal(struct acpi_dmar_header *header,
-+		void *arg, bool alloc)
- {
- 	struct acpi_dmar_hardware_unit *drhd;
- 	struct dmar_drhd_unit *dmaru;
-@@ -440,12 +441,14 @@ static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
- 		return -ENOMEM;
- 	}
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 043dcff06511..353da5036387 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -349,6 +349,16 @@ static const struct irq_domain_ops hyperv_root_ir_domain_ops = {
  
--	ret = alloc_iommu(dmaru);
--	if (ret) {
--		dmar_free_dev_scope(&dmaru->devices,
--				    &dmaru->devices_cnt);
--		kfree(dmaru);
--		return ret;
-+	if (alloc) {
-+		ret = alloc_iommu(dmaru);
-+		if (ret) {
-+			dmar_free_dev_scope(&dmaru->devices,
-+					    &dmaru->devices_cnt);
-+			kfree(dmaru);
-+			return ret;
-+		}
- 	}
- 	dmar_register_drhd_unit(dmaru);
+ #ifdef CONFIG_HYPERV_ROOT_PVIOMMU
  
-@@ -456,6 +459,16 @@ static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
- 	return 0;
- }
- 
-+static int dmar_parse_one_drhd(struct acpi_dmar_header *header, void *arg)
-+{
-+	return dmar_parse_one_drhd_internal(header, arg, true);
++/* The IOMMU will not claim these PCI devices. */
++static char *pci_devs_to_skip;
++static int __init mshv_iommu_setup_skip(char *str) {
++	pci_devs_to_skip = str;
++
++	return 0;
 +}
++/* mshv_iommu_skip=(SSSS:BB:DD.F)(SSSS:BB:DD.F) */
++__setup("mshv_iommu_skip=", mshv_iommu_setup_skip);
 +
-+int dmar_parse_one_drhd_noalloc(struct acpi_dmar_header *header, void *arg)
-+{
-+	return dmar_parse_one_drhd_internal(header, arg, false);
-+}
+ /* DMA remapping support */
+ struct hv_iommu_domain {
+ 	struct iommu_domain domain;
+@@ -774,6 +784,41 @@ static struct iommu_device *hv_iommu_probe_device(struct device *dev)
+ 	if (!dev_is_pci(dev))
+ 		return ERR_PTR(-ENODEV);
+ 
++	/*
++	 * Skip the PCI device specified in `pci_devs_to_skip`. This is a
++	 * temporary solution until we figure out a way to extract information
++	 * from the hypervisor what devices it is already using.
++	 */
++	if (pci_devs_to_skip && *pci_devs_to_skip) {
++		int pos = 0;
++		int parsed;
++		int segment, bus, slot, func;
++		struct pci_dev *pdev = to_pci_dev(dev);
 +
- static void dmar_free_drhd(struct dmar_drhd_unit *dmaru)
- {
- 	if (dmaru->devices && dmaru->devices_cnt)
-@@ -633,7 +646,7 @@ static inline int dmar_walk_dmar_table(struct acpi_table_dmar *dmar,
-  * parse_dmar_table - parses the DMA reporting table
-  */
- static int __init
--parse_dmar_table(void)
-+parse_dmar_table(bool alloc)
- {
- 	struct acpi_table_dmar *dmar;
- 	int drhd_count = 0;
-@@ -650,6 +663,9 @@ parse_dmar_table(void)
- 		.cb[ACPI_DMAR_TYPE_SATC] = &dmar_parse_one_satc,
- 	};
- 
-+	if (!alloc)
-+		cb.cb[ACPI_DMAR_TYPE_HARDWARE_UNIT] = &dmar_parse_one_drhd_noalloc;
++		do {
++			parsed = 0;
 +
- 	/*
- 	 * Do it again, earlier dmar_tbl mapping could be mapped with
- 	 * fixed map.
-@@ -840,13 +856,13 @@ void __init dmar_register_bus_notifier(void)
- }
- 
- 
--int __init dmar_table_init(void)
-+int __init dmar_table_init(bool alloc, bool force_parse)
- {
- 	static int dmar_table_initialized;
- 	int ret;
- 
--	if (dmar_table_initialized == 0) {
--		ret = parse_dmar_table();
-+	if (dmar_table_initialized == 0 || force_parse) {
-+		ret = parse_dmar_table(alloc);
- 		if (ret < 0) {
- 			if (ret != -ENODEV)
- 				pr_info("Parse DMAR table failure.\n");
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index be35284a2016..a4294d310b93 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4310,7 +4310,7 @@ int __init intel_iommu_init(void)
- 	}
- 
- 	down_write(&dmar_global_lock);
--	if (dmar_table_init()) {
-+	if (dmar_table_init(true, false)) {
- 		if (force_on)
- 			panic("tboot: Failed to initialize DMAR table\n");
- 		goto out_free_dmar;
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index f912fe45bea2..0e8abef862e4 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -732,7 +732,7 @@ static int __init intel_prepare_irq_remapping(void)
- 		return -ENODEV;
- 	}
- 
--	if (dmar_table_init() < 0)
-+	if (dmar_table_init(true, false) < 0)
- 		return -ENODEV;
- 
- 	if (intel_cap_audit(CAP_AUDIT_STATIC_IRQR, NULL))
-diff --git a/include/linux/dmar.h b/include/linux/dmar.h
-index e04436a7ff27..f88535d41a6e 100644
---- a/include/linux/dmar.h
-+++ b/include/linux/dmar.h
-@@ -106,7 +106,7 @@ static inline bool dmar_rcu_check(void)
- 	for_each_dev_scope((devs), (cnt), (i), (tmp))			\
- 		if (!(tmp)) { continue; } else
- 
--extern int dmar_table_init(void);
-+extern int dmar_table_init(bool alloc, bool force_parse);
- extern int dmar_dev_scope_init(void);
- extern void dmar_register_bus_notifier(void);
- extern int dmar_parse_dev_scope(void *start, void *end, int *cnt,
++			sscanf(pci_devs_to_skip + pos,
++				" (%x:%x:%x.%x) %n",
++				&segment, &bus, &slot, &func, &parsed);
++
++			if (parsed <= 0)
++				break;
++
++			if (pci_domain_nr(pdev->bus) == segment &&
++				pdev->bus->number == bus &&
++				PCI_SLOT(pdev->devfn) == slot &&
++				PCI_FUNC(pdev->devfn) == func)
++			{
++				dev_info(dev, "skipped by MSHV IOMMU\n");
++				return ERR_PTR(-ENODEV);
++			}
++
++			pos += parsed;
++
++		} while (pci_devs_to_skip[pos]);
++	}
++
+ 	vdev = kzalloc(sizeof(*vdev), GFP_KERNEL);
+ 	if (!vdev)
+ 		return ERR_PTR(-ENOMEM);
 -- 
 2.30.2
 
