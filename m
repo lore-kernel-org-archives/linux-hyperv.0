@@ -2,45 +2,45 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CACD5C07E9B
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B39C07E9C
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9581613CA
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1C09613C8
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230508AbhGILq3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jul 2021 07:46:29 -0400
-Received: from mail-wm1-f41.google.com ([209.85.128.41]:40908 "EHLO
-        mail-wm1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbhGILq3 (ORCPT
+        id S231235AbhGILqb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 9 Jul 2021 07:46:31 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:36505 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231186AbhGILqb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jul 2021 07:46:29 -0400
-Received: by mail-wm1-f41.google.com with SMTP id h18-20020a05600c3512b029020e4ceb9588so8906493wmq.5;
-        Fri, 09 Jul 2021 04:43:44 -0700 (PDT)
+        Fri, 9 Jul 2021 07:46:31 -0400
+Received: by mail-wr1-f51.google.com with SMTP id v5so11776225wrt.3;
+        Fri, 09 Jul 2021 04:43:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TUZPMZ4hjZI406B6oLsgIr41PzVsb92Ly0yg+RmaVNw=;
-        b=VreKst34LPa2TDS/74gPgnQutozHz2tnLuaYz6IvnDN9fzM/A2ZbjIel/P0Z8sX2ql
-         0jDTuYNiA8vVDhud4BI4FwaRqeWCHDO5inHAqpFMlOI2xyDBAMDkvLmRZopMiexRo7/V
-         DH3FOvZF8Q3aTgKO9KOn5e3hOR1rkiIjW9F3pwHWuQWyoMHc9OM1lZ8IGMtL9DRuDigR
-         r3Lb0M6cS2oS26ey+rj+1sGJ7Z81WJ7BPtEQ7HPXe8yL3xdL1MX4foU8KVVTxHadz1CK
-         2w2lKt5sk0tbEjWac/Cuhc7sUPxK145lr8aH1ELbiksoifH1xtmB/G1wacYPIVFB0QAy
-         01Dw==
-X-Gm-Message-State: AOAM530n50DIzDPLLVma0zmigxl0knmAOXCz8jCojwsVgQnNWcZbPJjH
-        fFx0mAxgdchLWWZCJTpishhGoEnBbLw=
-X-Google-Smtp-Source: ABdhPJwYe0JLlVWlLExBQqOITL6nm2S+sUw2zS7k+ZGTUIWG/WwdI+MpUrsQiHAZOz9sUQGzfZ+UpQ==
-X-Received: by 2002:a1c:3505:: with SMTP id c5mr11135674wma.53.1625831023671;
-        Fri, 09 Jul 2021 04:43:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VqfQYRujiVCbvUET1tYexxAXm4pSzM0r3WLnNjfOptI=;
+        b=m1sdojjtR04TNGeKVR/Mj40Ewpq5JpRDH2WZdnTps+lIz/xvlAFgym0IfB2YCr+2oi
+         Cv/1Yz0XCnfujRFsXfcO5VfUXDK1sBC50JEl4rZdWejCS2nOUEtoL2Ji+c55AgrSs0bF
+         EOqBjddaIrwkyJNJk+EXNv8HFy4D6VSHjO71LOvpgE0nwbXkz1C0r/Dlilg7NeJXU1JE
+         Z8IWGxVTZQ56YPnfANI6AopIW9fqz+VLtirepX++pm8OKNzwRwkcBYfvCdnw0eEBsWD2
+         0oeT9nfGXMlmOJ4ApYo0zHHazbCwhM0wa6hRRMPmQg2y4rDRLXJIfG5tGimIXqzg/4ty
+         o9uA==
+X-Gm-Message-State: AOAM5321C4gaFrHtJk+A/majBsHD8YX7UXOzJg7fn3ni707qdzTlEXq5
+        apg/yGXdPLRXAc2zk5PkV4eIVm3ADDk=
+X-Google-Smtp-Source: ABdhPJzTfUo92LrowcMjqWS+KOE462K/u/SLNsywE9CFgnM+fi00+32FwUU6Cdi+A+onLquTkeMJQQ==
+X-Received: by 2002:a5d:4fd2:: with SMTP id h18mr16414039wrw.289.1625831025339;
+        Fri, 09 Jul 2021 04:43:45 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.42
+        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 04:43:42 -0700 (PDT)
+        Fri, 09 Jul 2021 04:43:45 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
 To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
 Cc:     virtualization@lists.linux-foundation.org,
@@ -50,89 +50,200 @@ Cc:     virtualization@lists.linux-foundation.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Nuno Das Neves <nunodasneves@linux.microsoft.com>,
         kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
-        Wei Liu <wei.liu@kernel.org>
-Subject: [RFC v1 0/8] MSHV: add PV-IOMMU driver
-Date:   Fri,  9 Jul 2021 11:43:31 +0000
-Message-Id: <20210709114339.3467637-1-wei.liu@kernel.org>
+        Wei Liu <wei.liu@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [RFC v1 2/8] asm-generic/hyperv: add device domain definitions
+Date:   Fri,  9 Jul 2021 11:43:33 +0000
+Message-Id: <20210709114339.3467637-3-wei.liu@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210709114339.3467637-1-wei.liu@kernel.org>
+References: <20210709114339.3467637-1-wei.liu@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all
+These definitions are for the IOMMU device domain interfaces exposed by
+Microsoft Hyperivsor. We will use them to implement DMA remapping.
 
-Device passthrough is a critial feature for a virtualization stack. When
-designing this feature for MSHV support on Linux, one important
-considration is to not deviate from Linux's default VFIO stack. VFIO
-relies on an IOMMU or IOMMUs in the system to manipulate DMA mappings.
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+ include/asm-generic/hyperv-tlfs.h | 144 ++++++++++++++++++++++++++++++
+ 1 file changed, 144 insertions(+)
 
-In this series an IOMMU driver is implemented using a set of hypercall
-interfaces provided by the Microsoft Hypervisor. At this stage only DMA
-remapping is implemented. Interrupt remapping will come later.
-
-With this series I'm able to passthrough an NVMe drive to a guest with VFIO on
-a modified version of Cloud Hypervisor. From users' point of view, nothing
-needs changing. Cloud Hypervisor and Rust-VMM changes, which depend on the new
-kernel UAPIs from this series, will be upstreamed too.
-
-This series is built on top of Nuno and Vineeth's patches [0][1].
-
-The meat is in the patch named "mshv: add paravirtualized IOMMU
-support".
-
-The in-kernel device framework and the VFIO bridge device are heavily
-inspired by KVM's code. I pondered whether it would be worth refactoring
-the code in KVM but decided against that route for two reasons: 1. it
-allowed faster prototyping and 2. I was not sure if that's something KVM
-community would agree to.
-
-For the VT-D changes, what we're after is to build the RMRR regions list
-so that reserved regions are respected. Instead of doing a bad job
-myself, I decided to piggy-back on Intel's own code. AMD support is to
-be added until we have an AMD system.
-
-Comments are welcome.
-
-Thanks,
-Wei.
-
-[0] https://lore.kernel.org/linux-hyperv/1622241819-21155-1-git-send-email-nunodasneves@linux.microsoft.com/
-[1] https://lore.kernel.org/linux-hyperv/cover.1622654100.git.viremana@linux.microsoft.com/
-
-Wei Liu (8):
-  x86/hyperv: export hv_build_pci_dev_id
-  asm-generic/hyperv: add device domain definitions
-  intel/vt-d: make DMAR table parsing code more flexible
-  intel/vt-d: export intel_iommu_get_resv_regions
-  mshv: add paravirtualized IOMMU support
-  mshv: command line option to skip devices in PV-IOMMU
-  mshv: implement in-kernel device framework
-  mshv: add vfio bridge device
-
- Documentation/virt/mshv/api.rst     |  12 +
- arch/x86/hyperv/irqdomain.c         |   3 +-
- arch/x86/include/asm/mshyperv.h     |   1 +
- drivers/hv/Kconfig                  |   4 +
- drivers/hv/Makefile                 |   2 +-
- drivers/hv/mshv_main.c              | 186 ++++++++
- drivers/hv/vfio.c                   | 244 ++++++++++
- drivers/hv/vfio.h                   |  18 +
- drivers/iommu/Kconfig               |  14 +
- drivers/iommu/hyperv-iommu.c        | 673 ++++++++++++++++++++++++++++
- drivers/iommu/intel/dmar.c          |  38 +-
- drivers/iommu/intel/iommu.c         |   7 +-
- drivers/iommu/intel/irq_remapping.c |   2 +-
- include/asm-generic/hyperv-tlfs.h   | 144 ++++++
- include/linux/dmar.h                |   2 +-
- include/linux/intel-iommu.h         |   4 +
- include/linux/mshv.h                |  57 +++
- include/uapi/linux/mshv.h           |  36 ++
- 18 files changed, 1429 insertions(+), 18 deletions(-)
- create mode 100644 drivers/hv/vfio.c
- create mode 100644 drivers/hv/vfio.h
-
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index c1d3424f9e00..a39b0e6393f2 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -93,6 +93,13 @@
+ #define HV_ENABLE_EXTENDED_HYPERCALLS		BIT(20)
+ #define HV_ISOLATION				BIT(22)
+ 
++/*
++ * Group D features
++ */
++#define HV_DEVICE_DOMAIN_AVAILABLE		BIT(24)
++#define HV_S1_DEVICE_DOMAIN_AVAILABLE		BIT(25)
++
++
+ /*
+  * TSC page layout.
+  */
+@@ -179,6 +186,17 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+ #define HVCALL_GET_GPA_PAGES_ACCESS_STATES 0x00c9
++#define HVCALL_CREATE_DEVICE_DOMAIN		0x00b1
++#define HVCALL_ATTACH_DEVICE_DOMAIN		0x00b2
++#define HVCALL_MAP_DEVICE_GPA_PAGES		0x00b3
++#define HVCALL_UNMAP_DEVICE_GPA_PAGES		0x00b4
++#define HVCALL_DETACH_DEVICE_DOMAIN		0x00c4
++#define HVCALL_DELETE_DEVICE_DOMAIN		0x00c5
++#define HVCALL_QUERY_DEVICE_DOMAIN		0x00c6
++#define HVCALL_MAP_SPARSE_DEVICE_GPA_PAGES	0x00c7
++#define HVCALL_UNMAP_SPARSE_DEVICE_GPA_PAGES	0x00c8
++#define HVCALL_CONFIGURE_DEVICE_DOMAIN		0x00ce
++#define HVCALL_FLUSH_DEVICE_DOMAIN		0x00d0
+ #define HVCALL_MAP_VP_STATE_PAGE			0x00e1
+ #define HVCALL_GET_VP_STATE				0x00e3
+ #define HVCALL_SET_VP_STATE				0x00e4
+@@ -1069,4 +1087,130 @@ union hv_disconnect_port {
+ 		u32 reserved: 31;
+ 	};
+ } __packed;
++
++/* Device domain types */
++#define HV_DEVICE_DOMAIN_TYPE_S2  0 /* Stage 2 domain */
++#define HV_DEVICE_DOMAIN_TYPE_S1  1 /* Stage 1 domain */
++#define HV_DEVICE_DOMAIN_TYPE_SOC 2 /* SOC domain */
++
++/* ID for stage 2 default domain and NULL domain */
++#define HV_DEVICE_DOMAIN_ID_S2_DEFAULT 0
++#define HV_DEVICE_DOMAIN_ID_S2_NULL    0xFFFFFFFFULL
++
++union hv_device_domain_id {
++	u64 as_uint64;
++	struct {
++		u32 type: 4;
++		u32 reserved: 28;
++		u32 id;
++	};
++} __packed;
++
++union hv_input_vtl {
++	u8 as_uint8;
++	struct {
++		u8 target_vtl: 4;
++		u8 use_target_vtl: 1;
++		u8 reserved_z: 3;
++	};
++} __packed;
++
++struct hv_input_device_domain {
++	u64 partition_id;
++	union hv_input_vtl owner_vtl;
++	u8 padding[7];
++	union hv_device_domain_id domain_id;
++} __packed;
++
++union hv_create_device_domain_flags {
++	u32 as_uint32;
++	struct {
++		u32 forward_progress_required: 1;
++		u32 inherit_owning_vtl: 1;
++		u32 reserved: 30;
++	};
++} __packed;
++
++struct hv_input_create_device_domain {
++	struct hv_input_device_domain device_domain;
++	union hv_create_device_domain_flags create_device_domain_flags;
++} __packed;
++
++struct hv_input_delete_device_domain {
++	struct hv_input_device_domain device_domain;
++} __packed;
++
++struct hv_input_attach_device_domain {
++	struct hv_input_device_domain device_domain;
++	union hv_device_id device_id;
++} __packed;
++
++struct hv_input_detach_device_domain {
++	u64 partition_id;
++	union hv_device_id device_id;
++} __packed;
++
++struct hv_input_map_device_gpa_pages {
++	struct hv_input_device_domain device_domain;
++	union hv_input_vtl target_vtl;
++	u8 padding[3];
++	u32 map_flags;
++	u64 target_device_va_base;
++	u64 gpa_page_list[];
++} __packed;
++
++struct hv_input_unmap_device_gpa_pages {
++	struct hv_input_device_domain device_domain;
++	u64 target_device_va_base;
++} __packed;
++
++struct hv_input_query_device_domain {
++	struct hv_input_device_domain device_domain;
++	u64 target_device_va_list[];
++} __packed;
++
++struct hv_device_va_mapping {
++	u64 target_device_va;
++	u64 gpa_page_number;
++} __packed;
++
++struct hv_input_map_sparse_device_gpa_pages {
++	struct hv_input_device_domain device_domain;
++	union hv_input_vtl target_vtl;
++	u32 map_flags;
++	struct hv_device_va_mapping page_list[];
++} __packed;
++
++struct hv_input_unmap_sparse_device_gpa_pages {
++	struct hv_input_device_domain device_domain;
++	u64 target_device_va_list[];
++} __packed;
++
++struct hv_device_domain_settings_x64 {
++	struct {
++		/*
++		 * Enable translations. If not enabled, all transaction bypass
++		 * S1 translations.
++		 */
++		u64 translation_enabled: 1;
++		u64 reserved: 63;
++	} flags;
++	/* Page attribute table */
++	u64 pat;
++	/* Address of translation table */
++	u64 page_table_root;
++} __packed;
++
++struct hv_device_domain_settings {
++	union {
++		struct hv_device_domain_settings_x64 x64;
++		/* ARM TBD */
++	};
++} __packed;
++
++struct hv_input_configure_device_domain {
++	struct hv_input_device_domain device_domain;
++	struct hv_device_domain_settings settings;
++} __packed;
++
+ #endif
 -- 
 2.30.2
 
