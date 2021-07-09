@@ -2,167 +2,114 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1854AC07E99
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 10:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98C0DC07E99
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1BAC613C9
-	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 10:24:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 713A5613BA
+	for <linux-hyperv@archiver.kernel.org>; Fri,  9 Jul 2021 11:43:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232032AbhGIK1V (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jul 2021 06:27:21 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:53950 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232006AbhGIK1V (ORCPT
+        id S230375AbhGILq3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 9 Jul 2021 07:46:29 -0400
+Received: from mail-wr1-f42.google.com ([209.85.221.42]:33603 "EHLO
+        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230024AbhGILq2 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jul 2021 06:27:21 -0400
-Received: by mail-wm1-f46.google.com with SMTP id w13so6010400wmc.3;
-        Fri, 09 Jul 2021 03:24:37 -0700 (PDT)
+        Fri, 9 Jul 2021 07:46:28 -0400
+Received: by mail-wr1-f42.google.com with SMTP id d2so11825056wrn.0;
+        Fri, 09 Jul 2021 04:43:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cAfemKVKaAPq40ft5rYBbrNJJ0FxZzS3NBhkFBnKSzI=;
-        b=YAW3U4TOhh9jayB20oqIkMIbn+6IlNyrt+m2wQxcJG+1ope3QDQS/7WtJ2qyEdcAij
-         nXCyzZKfc+AKkbCp5bv3Yjcgh7ZTClRW3LkkSEw619K1hchuypXujudHmFJgvXxkTaJo
-         XFgFNgr8P8vr99RzkiTqpoU2crGGqHcu1/GAfCFhEph4C3H51XdXOmr2OsVQrrwTg5Qq
-         CJYdnLOFbjEaQ5+zykCHG9c+aU+f2odg4DQfOQJP6CMbVaXWEg3swaWWdyyRmOUZ9PRD
-         25UvOunY5Asg1XBjfOmRKMIrgef9FygU1izOS9xTevHyEN/MLIoTt1c6OhbvaDk/c8g2
-         wZpQ==
-X-Gm-Message-State: AOAM531IIt2ZSzlc1hyEz6ZbSXVdtTkvxWhvrTnITClw+GcSYULIdLFK
-        2Lgg8pVXdSPtA+vQkgKDZaU=
-X-Google-Smtp-Source: ABdhPJz7KdWD9EJLU17W1kLv6XakRSsjJEumz5JxJkpi9BFIWNd/m8DAe9BoZPX7TXQA5ORW8lv8ug==
-X-Received: by 2002:a1c:e90d:: with SMTP id q13mr38611656wmc.163.1625826276878;
-        Fri, 09 Jul 2021 03:24:36 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id j1sm11370711wms.7.2021.07.09.03.24.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DLB71UQBhut/O7gbRyUf1JJbAPy0a4dWNhnwwecYDec=;
+        b=c05Xd4VShegm1FJxbz/fSdELnVfTgSqpfj+RXfVjKt4Lf9QL+DBF6KpKLdYqmnit9L
+         mSkG1M2Q+vwR106O3ZK+ZD+cRSJa3oxCzAh4F2Ud6EcYaFKhCaPcj+aR9kx7dqRSJDai
+         4FR+hEB07gKo5+UjKv+cJuzCTu3D/qhENSGUuCyhpHKLbb62AoGd3YyuQ3U+ZeniAT8L
+         1G/3njZ9qRaZeA8f2x2JP3WS5shqyqnWBgsF5SJw8nU47joNATyClUioXjNkawk1BvUa
+         5XI6LjVU0Mj6IEOERDwDXbe+80A4gieH0bpDkQF9kyJDRFGF6SexT0fBLZ3sbEgsVtLn
+         GH9w==
+X-Gm-Message-State: AOAM5308oGz/sMAYJnwPKi2pxm9U0CWxpf3ScMHW7FsdizKvU1hFmZbu
+        3nDtF4qQt+LO0rj2HNIbzdUZUzrlfrY=
+X-Google-Smtp-Source: ABdhPJyoT9C2g7P7EXJlD3P+k7qsrZ/Mo8q9nCez2f3ooBdZFleSM21GL2l9yfiTptkP7mK5e1W4Mg==
+X-Received: by 2002:a5d:66d1:: with SMTP id k17mr14365349wrw.110.1625831024563;
+        Fri, 09 Jul 2021 04:43:44 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2.j3c5onc20sse1dnehy4noqpfcg.zx.internal.cloudapp.net ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id z12sm4896849wrs.39.2021.07.09.04.43.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jul 2021 03:24:36 -0700 (PDT)
-Date:   Fri, 9 Jul 2021 10:24:34 +0000
+        Fri, 09 Jul 2021 04:43:44 -0700 (PDT)
 From:   Wei Liu <wei.liu@kernel.org>
-To:     Sunil Muthuswamy <sunilmut@microsoft.com>
-Cc:     KY Srinivasan <kys@microsoft.com>,
+To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc:     virtualization@lists.linux-foundation.org,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Vineeth Pillai <viremana@linux.microsoft.com>,
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+        kumarpraveen@linux.microsoft.com, pasha.tatashin@soleen.com,
+        Wei Liu <wei.liu@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <liuwe@microsoft.com>,
         Dexuan Cui <decui@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH 1/1] PCI: hv: Support for create interrupt v3
-Message-ID: <20210709102434.c4hj4iehumf7qbj7@liuwe-devbox-debian-v2>
-References: <MW4PR21MB20025B945D77BBFDF61C6DA8C0199@MW4PR21MB2002.namprd21.prod.outlook.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>
+Subject: [RFC v1 1/8] x86/hyperv: export hv_build_pci_dev_id
+Date:   Fri,  9 Jul 2021 11:43:32 +0000
+Message-Id: <20210709114339.3467637-2-wei.liu@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210709114339.3467637-1-wei.liu@kernel.org>
+References: <20210709114339.3467637-1-wei.liu@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MW4PR21MB20025B945D77BBFDF61C6DA8C0199@MW4PR21MB2002.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Jul 08, 2021 at 11:04:49PM +0000, Sunil Muthuswamy wrote:
-> Hyper-V vPCI protocol version 1_4 adds support for create interrupt
-> v3. Create interrupt v3 essentially makes the size of the vector
-> field bigger in the message, thereby allowing bigger vector values.
-> For example, that will come into play for supporting LPI vectors
-> on ARM, which start at 8192.
-> 
-> Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-> ---
->  drivers/pci/controller/pci-hyperv.c | 74 ++++++++++++++++++++++++++---
->  1 file changed, 68 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-> index bebe3eeebc4e..de61b20f9604 100644
-> --- a/drivers/pci/controller/pci-hyperv.c
-> +++ b/drivers/pci/controller/pci-hyperv.c
-> @@ -64,6 +64,7 @@ enum pci_protocol_version_t {
->  	PCI_PROTOCOL_VERSION_1_1 = PCI_MAKE_VERSION(1, 1),	/* Win10 */
->  	PCI_PROTOCOL_VERSION_1_2 = PCI_MAKE_VERSION(1, 2),	/* RS1 */
->  	PCI_PROTOCOL_VERSION_1_3 = PCI_MAKE_VERSION(1, 3),	/* Vibranium */
-> +	PCI_PROTOCOL_VERSION_1_4 = PCI_MAKE_VERSION(1, 4),      /* Fe */
->  };
->  
->  #define CPU_AFFINITY_ALL	-1ULL
-> @@ -73,6 +74,7 @@ enum pci_protocol_version_t {
->   * first.
->   */
->  static enum pci_protocol_version_t pci_protocol_versions[] = {
-> +	PCI_PROTOCOL_VERSION_1_4,
->  	PCI_PROTOCOL_VERSION_1_3,
->  	PCI_PROTOCOL_VERSION_1_2,
->  	PCI_PROTOCOL_VERSION_1_1,
-> @@ -122,6 +124,8 @@ enum pci_message_type {
->  	PCI_CREATE_INTERRUPT_MESSAGE2	= PCI_MESSAGE_BASE + 0x17,
->  	PCI_DELETE_INTERRUPT_MESSAGE2	= PCI_MESSAGE_BASE + 0x18, /* unused */
->  	PCI_BUS_RELATIONS2		= PCI_MESSAGE_BASE + 0x19,
-> +	PCI_RESOURCES_ASSIGNED3         = PCI_MESSAGE_BASE + 0x1A,
-> +	PCI_CREATE_INTERRUPT_MESSAGE3   = PCI_MESSAGE_BASE + 0x1B,
->  	PCI_MESSAGE_MAXIMUM
->  };
->  
-> @@ -235,6 +239,21 @@ struct hv_msi_desc2 {
->  	u16	processor_array[32];
->  } __packed;
->  
-> +/*
-> + * struct hv_msi_desc3 - 1.3 version of hv_msi_desc
-> + *	Everything is the same as in 'hv_msi_desc2' except that the size
-> + *	of the 'vector_count' field is larger to support bigger vector
-> + *	values. For ex: LPI vectors on ARM.
-> + */
-> +struct hv_msi_desc3 {
-> +	u32	vector;
-> +	u8	delivery_mode;
-> +	u8	reserved;
-> +	u16	vector_count;
-> +	u16	processor_count;
-> +	u16	processor_array[32];
-> +} __packed;
-> +
->  /**
->   * struct tran_int_desc
->   * @reserved:		unused, padding
-> @@ -383,6 +402,12 @@ struct pci_create_interrupt2 {
->  	struct hv_msi_desc2 int_desc;
->  } __packed;
->  
-> +struct pci_create_interrupt3 {
-> +	struct pci_message message_type;
-> +	union win_slot_encoding wslot;
-> +	struct hv_msi_desc3 int_desc;
-> +} __packed;
-> +
->  struct pci_delete_interrupt {
->  	struct pci_message message_type;
->  	union win_slot_encoding wslot;
-> @@ -1334,26 +1359,55 @@ static u32 hv_compose_msi_req_v1(
->  	return sizeof(*int_pkt);
->  }
->  
-> +static void hv_compose_msi_req_get_cpu(struct cpumask *affinity, int *cpu,
-> +				       u16 *count)
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+---
+ arch/x86/hyperv/irqdomain.c     | 3 ++-
+ arch/x86/include/asm/mshyperv.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Isn't count redundant here? I don't see how this can be used safely for
-passing back more than 1 cpu, since if cpu is pointing to an array, its
-size is not specified.
+diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
+index 514fc64e23d5..5ea7a5145ea9 100644
+--- a/arch/x86/hyperv/irqdomain.c
++++ b/arch/x86/hyperv/irqdomain.c
+@@ -110,7 +110,7 @@ static int get_rid_cb(struct pci_dev *pdev, u16 alias, void *data)
+ 	return 0;
+ }
+ 
+-static union hv_device_id hv_build_pci_dev_id(struct pci_dev *dev)
++union hv_device_id hv_build_pci_dev_id(struct pci_dev *dev)
+ {
+ 	union hv_device_id dev_id;
+ 	struct rid_data data = {
+@@ -168,6 +168,7 @@ static union hv_device_id hv_build_pci_dev_id(struct pci_dev *dev)
+ 
+ 	return dev_id;
+ }
++EXPORT_SYMBOL_GPL(hv_build_pci_dev_id);
+ 
+ static int hv_map_msi_interrupt(struct pci_dev *dev, int cpu, int vector,
+ 				struct hv_interrupt_entry *entry)
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 21edef600729..b8f6b21e1fa5 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -196,6 +196,7 @@ struct irq_domain *hv_create_pci_msi_domain(void);
+ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int vcpu, int vector,
+ 		struct hv_interrupt_entry *entry);
+ int hv_unmap_ioapic_interrupt(int ioapic_id, struct hv_interrupt_entry *entry);
++union hv_device_id hv_build_pci_dev_id(struct pci_dev *dev);
+ 
+ #else /* CONFIG_HYPERV */
+ static inline void hyperv_init(void) {}
+-- 
+2.30.2
 
-Wei.
-
-> +{
-> +	/*
-> +	 * Create MSI w/ dummy vCPU set targeting just one vCPU, overwritten
-> +	 * by subsequent retarget in hv_irq_unmask().
-> +	 */
-> +	*cpu = cpumask_first_and(affinity, cpu_online_mask);
-> +	*count = 1;
-> +}
-> +
