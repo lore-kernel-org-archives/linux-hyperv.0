@@ -2,47 +2,48 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A387FC11F6E
-	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 02:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C4ADC11F70
+	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 23:49:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 840B861411
-	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 02:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A67461057
+	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 23:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234341AbhGJCbK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jul 2021 22:31:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42974 "EHLO mail.kernel.org"
+        id S232102AbhGJXwK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 10 Jul 2021 19:52:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38692 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234344AbhGJC3X (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:29:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D6E9861441;
-        Sat, 10 Jul 2021 02:25:47 +0000 (UTC)
+        id S231700AbhGJXv4 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 10 Jul 2021 19:51:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1FBC0610A2;
+        Sat, 10 Jul 2021 23:49:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625883948;
-        bh=YqEKOD+jbFI2SPkTCsG8hHcld8NPo8tsmJX1Z8hqID4=;
+        s=k20201202; t=1625960951;
+        bh=4oAfBoO66gRViOqfr4yZvmU0zqqB7YWxOx5hWP9iqKg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cECSv5uig8b0K58gWeMMhx24CFUx1kB9Jrbx0kiBocVNkJpFFSxkhQdFmJZ29e154
-         XC8uvTCbnwkxqnwVM8lZ/h/tdmkyFA0Q5vyj1zW/x8Ry5Gpu6Jy5LIS1pb7+E4NnNO
-         6m0C/MFGLI1n4g0b2P2Eaiv93w8YY48AV/qO89Vy6IvWND3ryuZtXpjFCnq//WdVaz
-         hg7Qjt63a3DZ1ODF7oBdrULCT2vfIwIU2w1XW9IhYRrUyr+4b24Cu+HOrdYDfSkAJw
-         6mye+jd4gYMCDiDP85qwMB3F/Tb7nswpg1oxuMytXjj3nJyUpH1xm4fkL5YNsZ8+pf
-         PEHC6QUGv8IdA==
+        b=GX2oF/ezN6MqtGI5nLjnrhTQ7NAp3m/1/Oyxh5BffdrrLGTPXolw1UDQJyOhpzgze
+         1dUwS7GbZnjWS3gXd/0g6rSo8SxlginJeQeW6VV8FsgYHazXxndp5mt9U/mdjBtM8M
+         leAZ2f6RaCoNnQXpegKge8MBeIfWSe6UQIl0R9z820EpS14v+yF2A+NrX6PhvoqAEZ
+         8446z4TdKhR9Olk87rmMovuxfrhOubU3dFJhOTn7QMeolS1Mwn7BWsr8oGSJvWfLoz
+         rY1ewauJUQNSJp84t1D+r+a7bBsH/fiZZIWVepV27krijtyey6U3bd4+U6e/8Gh6nv
+         UNDjL9WPrXH+Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Michael Kelley <mikelley@microsoft.com>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
+Cc:     Long Li <longli@microsoft.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Michael Kelley <mikelley@microsoft.com>,
         Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
-        linux-scsi@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 61/93] scsi: storvsc: Correctly handle multiple flags in srb_status
-Date:   Fri,  9 Jul 2021 22:23:55 -0400
-Message-Id: <20210710022428.3169839-61-sashal@kernel.org>
+        linux-pci@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 09/53] PCI: hv: Fix a race condition when removing the device
+Date:   Sat, 10 Jul 2021 19:48:13 -0400
+Message-Id: <20210710234857.3220040-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
-References: <20210710022428.3169839-1-sashal@kernel.org>
+In-Reply-To: <20210710234857.3220040-1-sashal@kernel.org>
+References: <20210710234857.3220040-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -51,118 +52,104 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Michael Kelley <mikelley@microsoft.com>
+From: Long Li <longli@microsoft.com>
 
-[ Upstream commit 52e1b3b3daa9d53f0204bf474ee1d4b1beb38234 ]
+[ Upstream commit 94d22763207ac6633612b8d8e0ca4fba0f7aa139 ]
 
-Hyper-V is observed to sometimes set multiple flags in the srb_status, such
-as ABORTED and ERROR. Current code in storvsc_handle_error() handles only a
-single flag being set, and does nothing when multiple flags are set.  Fix
-this by changing the case statement into a series of "if" statements
-testing individual flags. The functionality for handling each flag is
-unchanged.
+On removing the device, any work item (hv_pci_devices_present() or
+hv_pci_eject_device()) scheduled on workqueue hbus->wq may still be running
+and race with hv_pci_remove().
 
-Link: https://lore.kernel.org/r/1622827263-12516-3-git-send-email-mikelley@microsoft.com
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+This can happen because the host may send PCI_EJECT or PCI_BUS_RELATIONS(2)
+and decide to rescind the channel immediately after that.
+
+Fix this by flushing/destroying the workqueue of hbus before doing hbus remove.
+
+Link: https://lore.kernel.org/r/1620806800-30983-1-git-send-email-longli@linuxonhyperv.com
+Signed-off-by: Long Li <longli@microsoft.com>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/scsi/storvsc_drv.c | 61 +++++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 28 deletions(-)
+ drivers/pci/controller/pci-hyperv.c | 30 ++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index ded00a89bfc4..0ee0b80006e0 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -994,17 +994,40 @@ static void storvsc_handle_error(struct vmscsi_request *vm_srb,
- 	struct storvsc_scan_work *wrk;
- 	void (*process_err_fn)(struct work_struct *work);
- 	struct hv_host_device *host_dev = shost_priv(host);
--	bool do_work = false;
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 6511648271b2..272c63ac49f9 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -444,7 +444,6 @@ enum hv_pcibus_state {
+ 	hv_pcibus_probed,
+ 	hv_pcibus_installed,
+ 	hv_pcibus_removing,
+-	hv_pcibus_removed,
+ 	hv_pcibus_maximum
+ };
  
--	switch (SRB_STATUS(vm_srb->srb_status)) {
--	case SRB_STATUS_ERROR:
-+	/*
-+	 * In some situations, Hyper-V sets multiple bits in the
-+	 * srb_status, such as ABORTED and ERROR. So process them
-+	 * individually, with the most specific bits first.
-+	 */
-+
-+	if (vm_srb->srb_status & SRB_STATUS_INVALID_LUN) {
-+		set_host_byte(scmnd, DID_NO_CONNECT);
-+		process_err_fn = storvsc_remove_lun;
-+		goto do_work;
-+	}
-+
-+	if (vm_srb->srb_status & SRB_STATUS_ABORTED) {
-+		if (vm_srb->srb_status & SRB_STATUS_AUTOSENSE_VALID &&
-+		    /* Capacity data has changed */
-+		    (asc == 0x2a) && (ascq == 0x9)) {
-+			process_err_fn = storvsc_device_scan;
-+			/*
-+			 * Retry the I/O that triggered this.
-+			 */
-+			set_host_byte(scmnd, DID_REQUEUE);
-+			goto do_work;
-+		}
-+	}
-+
-+	if (vm_srb->srb_status & SRB_STATUS_ERROR) {
- 		/*
- 		 * Let upper layer deal with error when
- 		 * sense message is present.
- 		 */
--
- 		if (vm_srb->srb_status & SRB_STATUS_AUTOSENSE_VALID)
--			break;
-+			return;
-+
- 		/*
- 		 * If there is an error; offline the device since all
- 		 * error recovery strategies would have already been
-@@ -1017,37 +1040,19 @@ static void storvsc_handle_error(struct vmscsi_request *vm_srb,
- 			set_host_byte(scmnd, DID_PASSTHROUGH);
- 			break;
- 		/*
--		 * On Some Windows hosts TEST_UNIT_READY command can return
--		 * SRB_STATUS_ERROR, let the upper level code deal with it
--		 * based on the sense information.
-+		 * On some Hyper-V hosts TEST_UNIT_READY command can
-+		 * return SRB_STATUS_ERROR. Let the upper level code
-+		 * deal with it based on the sense information.
- 		 */
- 		case TEST_UNIT_READY:
- 			break;
- 		default:
- 			set_host_byte(scmnd, DID_ERROR);
- 		}
--		break;
--	case SRB_STATUS_INVALID_LUN:
--		set_host_byte(scmnd, DID_NO_CONNECT);
--		do_work = true;
--		process_err_fn = storvsc_remove_lun;
--		break;
--	case SRB_STATUS_ABORTED:
--		if (vm_srb->srb_status & SRB_STATUS_AUTOSENSE_VALID &&
--		    (asc == 0x2a) && (ascq == 0x9)) {
--			do_work = true;
--			process_err_fn = storvsc_device_scan;
--			/*
--			 * Retry the I/O that triggered this.
--			 */
--			set_host_byte(scmnd, DID_REQUEUE);
--		}
--		break;
- 	}
-+	return;
+@@ -3243,8 +3242,9 @@ static int hv_pci_bus_exit(struct hv_device *hdev, bool keep_devs)
+ 		struct pci_packet teardown_packet;
+ 		u8 buffer[sizeof(struct pci_message)];
+ 	} pkt;
+-	struct hv_dr_state *dr;
+ 	struct hv_pci_compl comp_pkt;
++	struct hv_pci_dev *hpdev, *tmp;
++	unsigned long flags;
+ 	int ret;
  
--	if (!do_work)
--		return;
--
-+do_work:
  	/*
- 	 * We need to schedule work to process this error; schedule it.
- 	 */
+@@ -3256,9 +3256,16 @@ static int hv_pci_bus_exit(struct hv_device *hdev, bool keep_devs)
+ 
+ 	if (!keep_devs) {
+ 		/* Delete any children which might still exist. */
+-		dr = kzalloc(sizeof(*dr), GFP_KERNEL);
+-		if (dr && hv_pci_start_relations_work(hbus, dr))
+-			kfree(dr);
++		spin_lock_irqsave(&hbus->device_list_lock, flags);
++		list_for_each_entry_safe(hpdev, tmp, &hbus->children, list_entry) {
++			list_del(&hpdev->list_entry);
++			if (hpdev->pci_slot)
++				pci_destroy_slot(hpdev->pci_slot);
++			/* For the two refs got in new_pcichild_device() */
++			put_pcichild(hpdev);
++			put_pcichild(hpdev);
++		}
++		spin_unlock_irqrestore(&hbus->device_list_lock, flags);
+ 	}
+ 
+ 	ret = hv_send_resources_released(hdev);
+@@ -3301,13 +3308,23 @@ static int hv_pci_remove(struct hv_device *hdev)
+ 
+ 	hbus = hv_get_drvdata(hdev);
+ 	if (hbus->state == hv_pcibus_installed) {
++		tasklet_disable(&hdev->channel->callback_event);
++		hbus->state = hv_pcibus_removing;
++		tasklet_enable(&hdev->channel->callback_event);
++		destroy_workqueue(hbus->wq);
++		hbus->wq = NULL;
++		/*
++		 * At this point, no work is running or can be scheduled
++		 * on hbus-wq. We can't race with hv_pci_devices_present()
++		 * or hv_pci_eject_device(), it's safe to proceed.
++		 */
++
+ 		/* Remove the bus from PCI's point of view. */
+ 		pci_lock_rescan_remove();
+ 		pci_stop_root_bus(hbus->pci_bus);
+ 		hv_pci_remove_slots(hbus);
+ 		pci_remove_root_bus(hbus->pci_bus);
+ 		pci_unlock_rescan_remove();
+-		hbus->state = hv_pcibus_removed;
+ 	}
+ 
+ 	ret = hv_pci_bus_exit(hdev, false);
+@@ -3322,7 +3339,6 @@ static int hv_pci_remove(struct hv_device *hdev)
+ 	irq_domain_free_fwnode(hbus->sysdata.fwnode);
+ 	put_hvpcibus(hbus);
+ 	wait_for_completion(&hbus->remove_event);
+-	destroy_workqueue(hbus->wq);
+ 
+ 	hv_put_dom_num(hbus->sysdata.domain);
+ 
 -- 
 2.30.2
 
