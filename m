@@ -2,154 +2,142 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 141F4C07E9C
-	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 23:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A517C07E96
+	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Jul 2021 02:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03D5461154
-	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jul 2021 23:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2FD3A61055
+	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Jul 2021 02:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232972AbhGJXxu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 10 Jul 2021 19:53:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40316 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233182AbhGJXxM (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 10 Jul 2021 19:53:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3532A6135F;
-        Sat, 10 Jul 2021 23:50:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625961026;
-        bh=ZKkm3ed5F/+6ULuJXKWRc77JtNczmJ7XfH84J09nG/Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T0iXjEG2pLF2G4Cmd52JvlJ2eUYE/E4nj7wN8IBUYe2XoW2P7VGK0vt3yPLSWOETW
-         KpYWwUgSqjZ3qD4cWtPzyaadWl9tvEth0cBSVBb8hNgMltGA9xnQHGeJv1dK5cMDiZ
-         ojYTIVLaHJRlPdKTyUxNFz3ATnhl18DmrOZjLoH6QB4B/p2MQKlYzgIjiPzeqZO8Dz
-         pGwvq7sQPNiFTZ2bgTk5u+WFEsEbASYlpH44stLnfUNheJtLYmRm1DmpSX99rogQ2W
-         C9+oPcDtGKurRVyTHlp/dnyTnHBDK9gOMm7uTRC3P2Hy70NbPj2qVm8VtH/XrJqTDo
-         R52FFSuP+1GaA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Long Li <longli@microsoft.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Sasha Levin <sashal@kernel.org>, linux-hyperv@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 07/37] PCI: hv: Fix a race condition when removing the device
-Date:   Sat, 10 Jul 2021 19:49:45 -0400
-Message-Id: <20210710235016.3221124-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710235016.3221124-1-sashal@kernel.org>
-References: <20210710235016.3221124-1-sashal@kernel.org>
+        id S229907AbhGLCxS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 11 Jul 2021 22:53:18 -0400
+Received: from mail-bn8nam11on2123.outbound.protection.outlook.com ([40.107.236.123]:26240
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229660AbhGLCxR (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sun, 11 Jul 2021 22:53:17 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VdgJRfdAvmA4o18W2z3K85D3BJ2g+39zaLJ7nU9pHIfsLVzFjKghiaKW88E5em5MTmdn0ds7W/jZWsA6O023F62YlFvERxytuGAIrfaB38Kn2BUx1ygDfkiqruHLxtdnfa96j/uFrFqH637RO8VuFw6Jgxtd1wodXTzDU3GMsTIzd7z9N6mAZ5AhK549vpC0hr2ooRL/Ew0zyf7JlGsK6SafDDhIsyCn6XED0DC+JUIpQ3WKjDkJKA+Oyw3II7ntGs5BzkXhgfSBVwLMFcJz92iqKjCWg6uhqqgIFQfsbN2LGk6mbVn+viHqbry2HhtmwQ7Dm77rNUfr9BcRMoIXHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2z4EEWGADGI6dYfRjmYx9uPSd8g4NDr4E3gBaXv2Bx8=;
+ b=SCGS6n+TXzhU3HrhQf6NDMZnJyzKHIxPUv4fOXUycgRip504PHvZfx6Br4uIl+b9e2BqobYsoDvtaQvmnaC9GitZR+x2gVjDls/A6Zt5F62dWAfBYa55Ym1+AvZoQ+HjmIV0UabTvhyV8qMmeavIXr3+lUWKBynv8KmtElhgFBvto7rllOCcmYQtqSggP09NaZ3bcbfdcdKMKJRN+kYC9deagSjBuIW+5dmyxTsiIFcUH/l10tqkbf2l3tlLtF2gVOom5V2PiF+A+UXvOKb9wL4mnzgz5Gd1q1SqQvw/Ar4/0ujIBi9if606FrISYWDmocxK0X6/RXhAOLn8kRf7PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2z4EEWGADGI6dYfRjmYx9uPSd8g4NDr4E3gBaXv2Bx8=;
+ b=iwfe0Y3IXYvpsHSo0UZJOUXPo+2J+WGfTxQGB3B8ejvA7BoaBSe03eOHHyq4Nc18R+7FZLYSICSktAb8S5ZMu2606WxS3WpEDzSsQlctc7O/mnIai7ZzcRVigDkNRKlgQX1S+XdLM2HPZIcg34t9L/Ln7W8/EAA/5yuURkp9iFg=
+Authentication-Results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
+ header.from=microsoft.com;
+Received: from DM6PR21MB1514.namprd21.prod.outlook.com (2603:10b6:5:22d::11)
+ by DM6PR21MB1209.namprd21.prod.outlook.com (2603:10b6:5:166::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.12; Mon, 12 Jul
+ 2021 02:50:27 +0000
+Received: from DM6PR21MB1514.namprd21.prod.outlook.com
+ ([fe80::95e7:356d:2d7d:5a89]) by DM6PR21MB1514.namprd21.prod.outlook.com
+ ([fe80::95e7:356d:2d7d:5a89%7]) with mapi id 15.20.4352.007; Mon, 12 Jul 2021
+ 02:50:27 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, arnd@arndb.de,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Cc:     mikelley@microsoft.com
+Subject: [PATCH 1/1] asm-generic/hyperv: Add missing #include of nmi.h
+Date:   Sun, 11 Jul 2021 19:50:04 -0700
+Message-Id: <1626058204-2106-1-git-send-email-mikelley@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: MWHPR02CA0002.namprd02.prod.outlook.com
+ (2603:10b6:300:4b::12) To DM6PR21MB1514.namprd21.prod.outlook.com
+ (2603:10b6:5:22d::11)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mhkdev.corp.microsoft.com (131.107.174.144) by MWHPR02CA0002.namprd02.prod.outlook.com (2603:10b6:300:4b::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 02:50:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7cc52c5e-74c3-4b9f-a5ec-08d944dfcd9e
+X-MS-TrafficTypeDiagnostic: DM6PR21MB1209:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR21MB1209F87BC1E6B0DED5CD1642D7159@DM6PR21MB1209.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TA35/gq8ZQ38n+4LNGkPubiQgUwd0tw8W0PoO4ZOjXbKCRbqMWyNKAWEq66wu2xjxeq4tVhLwxftMDIIDB6VsAjoBmONUmon/w1ByVCwqE6Z2phJdRWdFAqDwTO5KFaiOqHmf3yD9IkijrslKvJRt6k9NhelsUjQDkauxojKWx31+GaMy4PDT4/pMhxNQTIwqomlvBGcg4kC3jacOB4ayt6YQwWjfPvkmgfbrMvqIt64a9MfQTbxQYVYgaIIGUye6vuEqKPvPc/MptHKZutnv70EVySE8meTpIkUN+pQxyxSGpu/KdPr1JN2AN9+GLMBfv8brk71wsICwAhA1X0QGnnnixBRM9NE4FfXw21N0B1tKPvco46gw+VtS9aRqrI7xymKqn/Rq1UPx/JK8FqAh0g329rq3ObRo8/oVO0qmBDMWff71uDwskEuMOQ6MjaUx8I5jcM+84jH/QoBBrRWjmq7o5uJzQp6TDD8Dyykt2OlyMoYpvh/tf+BxIrN+z3537rxO8ZwC0T7o3BOhDJ9sS9B8CiQZ173OtpbUTByaFsRBOlo1voTZ8FRjs7RyZXR5gnmJ/BzyE5+DWR+r6rBuw+MfsBSPB8JwUpm2JV95hL2xKptmAFFufMl/99uxlRcNQCULWrnum4294DUZQ4dfTVdZsGBG0JW6m15OS0noa6kjcvkq+db98CsmKwC6Y0himWJ1IedSa9NCsroOYaklSHFx0bCd1yPdD1m51SjhKE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(478600001)(2616005)(2906002)(10290500003)(38350700002)(6486002)(6666004)(8936002)(66556008)(5660300002)(66476007)(66946007)(956004)(316002)(7696005)(186003)(82960400001)(86362001)(4744005)(26005)(38100700002)(82950400001)(52116002)(8676002)(107886003)(36756003)(4326008)(41533002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0Fe22hKIUiNAuQfdrCr2QxHni+3DDqEcf2HhpwT8Od/5r1pm2wVrSUbfKP1i?=
+ =?us-ascii?Q?NPlL+NsKRnXrGABstuBt1aR62c1Uhq/UdO7LHxKItHvVPP5oIf9mYCqHe/1k?=
+ =?us-ascii?Q?Y8m6hXAzvrifUkeDYuo01r3AlNHx9gRZEsttbo07V01gsI8epHfjbtMlCDRm?=
+ =?us-ascii?Q?ptsX9fj72KKfXDe5jVhZjllQngOJVJtveShN1PgmjcYQIrXUn+bfrDO/B7Ci?=
+ =?us-ascii?Q?9TNSZ10gjlZlwB6ev7mgXm4xm3Y3PfcwiZROB1NELNEY4Goo9QsvDRioJeqI?=
+ =?us-ascii?Q?0l1TYHlJHsjfyS2wx4fqbeRw0551ZV3X3yaV+ycGSrL/0VHkwAz50nmHpg8P?=
+ =?us-ascii?Q?xQpESNTuFu0+OjY+LY6/X7ViFvH/JDbpXW/pZc5hyqM+huCXT9bxNCs24w+n?=
+ =?us-ascii?Q?dGC2dkytnyWTOnbMyRKC3POl3k1JfChEI7/+I1ChWKQqCeArKGYoMEHTGtvC?=
+ =?us-ascii?Q?2IsMSFRm2uUEZxFZ1/9Vnk8jqTquW75TrT0NG9AcP5msb2X8kWbDbOX9SQAP?=
+ =?us-ascii?Q?td8kKplAw9cGTC7xbcObrpwXZUis6ftCH640dnMFMjuIIv3ZB7WLCMD34iFs?=
+ =?us-ascii?Q?/ndrx/IK1X90uZCxu6R8XzrYqGfGpKeTnefTia57qGRaaHTu45BAXFIdG3JS?=
+ =?us-ascii?Q?qJRb18gcVdX4T0LDN/EMWM2RQBgH9A5syBb5s4aDy6fqCU5kL3KiHie31Np4?=
+ =?us-ascii?Q?5HHAzTtzuEMqGSaSustZZRCzv9ZqxQ4tyOQFwEMT6Pof4M2RtAWnADGdQhVI?=
+ =?us-ascii?Q?mMD+8furpJi4Vi77zYVEA00i9bwQs2uHKiceZ2wh5uSNDVn1Q3JMEdH38+do?=
+ =?us-ascii?Q?/QB6VEUwvxwv71TvMtOff5oxFOLoleH+q4EIw3paaBqhgdtRgv9Mbt3dT9w6?=
+ =?us-ascii?Q?2Gd2jfQllv2iHUEZ4sQd4Y35kgyv+B+GE38gSLZgPKB7I1yTmcw8/R4JJ8Ew?=
+ =?us-ascii?Q?a1xSWl3QZka15/WIXup7PZo5frKq8lGQRH7hgb8N6vY/DHK+wUp9jVMqiN/R?=
+ =?us-ascii?Q?5We2bkj5U6bB61MaCJeJacYqwto66/EntM4o+nc/z1Mz9gwzKNOtKbi+V4Xe?=
+ =?us-ascii?Q?my7F15AJXkgXAnbz8TVLjIpntPtlwQ3wCC6t3tDVPRDwzTrpJiX2OER9xwUZ?=
+ =?us-ascii?Q?xUeMErspiM6ZNH0JB5QHcn5thmmOtfUw1wntEMgs88VyUUaRboQnhbrKrAWg?=
+ =?us-ascii?Q?xA7mzD9TAVRt5Z9W3hkWvtaTV9ZZu33eCBVhVy3YzmoR31AdQxM6SqAjK5PC?=
+ =?us-ascii?Q?FGAp/sBxaAfK5+RegkJ6sRW391GWPvcp16K6BjedaXop4qMN7vuGnBBBYZaj?=
+ =?us-ascii?Q?z33b0rip969T5v34V/xhU7uJ?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cc52c5e-74c3-4b9f-a5ec-08d944dfcd9e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1514.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 02:50:26.9609
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wx0SlDENkhN7bKE34wmFFYCtMs+Y0RHe0mlzJ7FwgM9qQiTMhRPe/yiV/1B/0SpY0pJmyfytlfYcC6OvVQmvCw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1209
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+The recent move of hv_do_rep_hypercall() to this file adds
+a reference to touch_nmi_watchdog(). Its function definition
+is included indirectly when compiled on x86, but not when
+compiled on ARM64. So add the explicit #include.
 
-[ Upstream commit 94d22763207ac6633612b8d8e0ca4fba0f7aa139 ]
+No functional change.
 
-On removing the device, any work item (hv_pci_devices_present() or
-hv_pci_eject_device()) scheduled on workqueue hbus->wq may still be running
-and race with hv_pci_remove().
-
-This can happen because the host may send PCI_EJECT or PCI_BUS_RELATIONS(2)
-and decide to rescind the channel immediately after that.
-
-Fix this by flushing/destroying the workqueue of hbus before doing hbus remove.
-
-Link: https://lore.kernel.org/r/1620806800-30983-1-git-send-email-longli@linuxonhyperv.com
-Signed-off-by: Long Li <longli@microsoft.com>
-Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 ---
- drivers/pci/controller/pci-hyperv.c | 30 ++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ include/asm-generic/mshyperv.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index 03ed5cb1c4b2..4932d7677be2 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -444,7 +444,6 @@ enum hv_pcibus_state {
- 	hv_pcibus_probed,
- 	hv_pcibus_installed,
- 	hv_pcibus_removing,
--	hv_pcibus_removed,
- 	hv_pcibus_maximum
- };
- 
-@@ -3247,8 +3246,9 @@ static int hv_pci_bus_exit(struct hv_device *hdev, bool keep_devs)
- 		struct pci_packet teardown_packet;
- 		u8 buffer[sizeof(struct pci_message)];
- 	} pkt;
--	struct hv_dr_state *dr;
- 	struct hv_pci_compl comp_pkt;
-+	struct hv_pci_dev *hpdev, *tmp;
-+	unsigned long flags;
- 	int ret;
- 
- 	/*
-@@ -3260,9 +3260,16 @@ static int hv_pci_bus_exit(struct hv_device *hdev, bool keep_devs)
- 
- 	if (!keep_devs) {
- 		/* Delete any children which might still exist. */
--		dr = kzalloc(sizeof(*dr), GFP_KERNEL);
--		if (dr && hv_pci_start_relations_work(hbus, dr))
--			kfree(dr);
-+		spin_lock_irqsave(&hbus->device_list_lock, flags);
-+		list_for_each_entry_safe(hpdev, tmp, &hbus->children, list_entry) {
-+			list_del(&hpdev->list_entry);
-+			if (hpdev->pci_slot)
-+				pci_destroy_slot(hpdev->pci_slot);
-+			/* For the two refs got in new_pcichild_device() */
-+			put_pcichild(hpdev);
-+			put_pcichild(hpdev);
-+		}
-+		spin_unlock_irqrestore(&hbus->device_list_lock, flags);
- 	}
- 
- 	ret = hv_send_resources_released(hdev);
-@@ -3305,13 +3312,23 @@ static int hv_pci_remove(struct hv_device *hdev)
- 
- 	hbus = hv_get_drvdata(hdev);
- 	if (hbus->state == hv_pcibus_installed) {
-+		tasklet_disable(&hdev->channel->callback_event);
-+		hbus->state = hv_pcibus_removing;
-+		tasklet_enable(&hdev->channel->callback_event);
-+		destroy_workqueue(hbus->wq);
-+		hbus->wq = NULL;
-+		/*
-+		 * At this point, no work is running or can be scheduled
-+		 * on hbus-wq. We can't race with hv_pci_devices_present()
-+		 * or hv_pci_eject_device(), it's safe to proceed.
-+		 */
-+
- 		/* Remove the bus from PCI's point of view. */
- 		pci_lock_rescan_remove();
- 		pci_stop_root_bus(hbus->pci_bus);
- 		hv_pci_remove_slots(hbus);
- 		pci_remove_root_bus(hbus->pci_bus);
- 		pci_unlock_rescan_remove();
--		hbus->state = hv_pcibus_removed;
- 	}
- 
- 	ret = hv_pci_bus_exit(hdev, false);
-@@ -3326,7 +3343,6 @@ static int hv_pci_remove(struct hv_device *hdev)
- 	irq_domain_free_fwnode(hbus->sysdata.fwnode);
- 	put_hvpcibus(hbus);
- 	wait_for_completion(&hbus->remove_event);
--	destroy_workqueue(hbus->wq);
- 
- 	hv_put_dom_num(hbus->sysdata.domain);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 2a187fe..60cdff3 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -22,6 +22,7 @@
+ #include <linux/atomic.h>
+ #include <linux/bitops.h>
+ #include <linux/cpumask.h>
++#include <linux/nmi.h>
+ #include <asm/ptrace.h>
+ #include <asm/hyperv-tlfs.h>
  
 -- 
-2.30.2
+1.8.3.1
 
