@@ -2,66 +2,173 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8159FC636CD
-	for <linux-hyperv@archiver.kernel.org>; Mon, 19 Jul 2021 09:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4047C6377A
+	for <linux-hyperv@archiver.kernel.org>; Mon, 19 Jul 2021 22:31:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DFB46115B
-	for <linux-hyperv@archiver.kernel.org>; Mon, 19 Jul 2021 09:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 120916120F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 19 Jul 2021 22:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235336AbhGSIrW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 19 Jul 2021 04:47:22 -0400
-Received: from mail-wr1-f51.google.com ([209.85.221.51]:40510 "EHLO
-        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234868AbhGSIrS (ORCPT
+        id S239522AbhGSVnG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 19 Jul 2021 17:43:06 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:57766 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1383782AbhGSSKz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 19 Jul 2021 04:47:18 -0400
-Received: by mail-wr1-f51.google.com with SMTP id l7so21144595wrv.7;
-        Mon, 19 Jul 2021 02:27:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gdNcKm/5tWIKzoJJEWGoc8HuwkdVdE+Ye382bk1RyWI=;
-        b=iLdfzB9gkSOmRgKAfGqx8+yxJlQNcZYTBx2GkwjWY8arlPlvJJFm6Vqtr1fA7YOPL/
-         su06eTFEKu/U3cyLk/gkm0NdEkpenxBP0OkuS1psd6yRYpIDuSsU4EGC3oPfq52BMouN
-         d4VPDFtycTsRvLCdkO+yyNsxegaGoMNWOnJPlFDXn3VGsYFrF9Uqel7JythFd68nDwof
-         sF6fxTrEag4qqf7VvAuXuIqjh2Hu1xNe6YAhNPuQioJ5m7Mk+f6BId3Pi23WZ8xY7cPd
-         s5l51vyrBjYN7hz4LShqVJpQfyfoNRdSfrvF5WAuvp4CPUItbkfj4jNorY7TvBmACDwV
-         UnKg==
-X-Gm-Message-State: AOAM532M/KAklV+kbJGpclwsLCS0N1+1WebMXY2RuQC9/d2POeVxbQD1
-        dJxtjhcfk9kNTQTBgGYDREw=
-X-Google-Smtp-Source: ABdhPJwj3PNr8oe9ZBWc4Yv5ZV7cI+XIJnDGOWg5TfuS07JxXdIVRp5On5n5HjJHgCKgTE6JaP0mOA==
-X-Received: by 2002:a05:6000:18ae:: with SMTP id b14mr27745167wri.427.1626686877784;
-        Mon, 19 Jul 2021 02:27:57 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id d29sm23874777wrb.63.2021.07.19.02.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 02:27:57 -0700 (PDT)
-Date:   Mon, 19 Jul 2021 09:27:56 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, kys@microsoft.com,
-        linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH v3,hyperv-fixes] Drivers: hv: vmbus: Fix duplicate CPU
- assignments within a device
-Message-ID: <20210719092756.p4pg356ljhyrho42@liuwe-devbox-debian-v2>
-References: <1626459673-17420-1-git-send-email-haiyangz@microsoft.com>
+        Mon, 19 Jul 2021 14:10:55 -0400
+Received: from localhost.localdomain (unknown [223.226.82.147])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 8199320B7188;
+        Mon, 19 Jul 2021 11:51:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8199320B7188
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1626720694;
+        bh=HgD0g6vZbqzb4PGD2nsdwqgVmIn9EK94eSJ5FBcHXH8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JVmY2yqj2yRaueG3odGAAPDRttMwVMt070CtWJ4PhRjlilpkiBuXKVdSDSpcr0D6E
+         dEOjH5pCg+nfyRJJYZG0tqFf2La+a6ivgMBmilI63vdFGN5XPwOCRiM92I2XYS/xYW
+         2CvSarath8dixb9DGIWzQSJpSmX6l3tGgNO1oegQ=
+From:   Praveen Kumar <kumarpraveen@linux.microsoft.com>
+To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        viremana@linux.microsoft.com, sunilmut@microsoft.com,
+        nunodasneves@linux.microsoft.com
+Subject: [PATCH] hyperv: root partition faults writing to VP ASSIST MSR PAGE
+Date:   Tue, 20 Jul 2021 00:21:26 +0530
+Message-Id: <20210719185126.3740-1-kumarpraveen@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1626459673-17420-1-git-send-email-haiyangz@microsoft.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Jul 16, 2021 at 11:21:13AM -0700, Haiyang Zhang wrote:
-[...]
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-> Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-> Tested-by: Michael Kelley <mikelley@microsoft.com>
+The root partition is not supposed to write to VP ASSIST PAGE as this MSR
+is specific to Guest VP, and thus below stack is observed.
 
-Applied to hyperv-fixes. Thanks.
+[    2.778197] unchecked MSR access error: WRMSR to 0x40000073 (tried to write 0x0000000145ac5001) at rIP: 0xffffffff810c1084 (native_write_msr+0x4/0x30)
+[    2.784867] Call Trace:
+[    2.791507]  hv_cpu_init+0xf1/0x1c0
+[    2.798144]  ? hyperv_report_panic+0xd0/0xd0
+[    2.804806]  cpuhp_invoke_callback+0x11a/0x440
+[    2.811465]  ? hv_resume+0x90/0x90
+[    2.818137]  cpuhp_issue_call+0x126/0x130
+[    2.824782]  __cpuhp_setup_state_cpuslocked+0x102/0x2b0
+[    2.831427]  ? hyperv_report_panic+0xd0/0xd0
+[    2.838075]  ? hyperv_report_panic+0xd0/0xd0
+[    2.844723]  ? hv_resume+0x90/0x90
+[    2.851375]  __cpuhp_setup_state+0x3d/0x90
+[    2.858030]  hyperv_init+0x14e/0x410
+[    2.864689]  ? enable_IR_x2apic+0x190/0x1a0
+[    2.871349]  apic_intr_mode_init+0x8b/0x100
+[    2.878017]  x86_late_time_init+0x20/0x30
+[    2.884675]  start_kernel+0x459/0x4fb
+[    2.891329]  secondary_startup_64_no_verify+0xb0/0xbb
+
+Root partition actually shares the VP ASSIST page with hypervisor, and
+thus as a solution, this patch memremaps the memory from hypervisor
+during hv_cpu_init and unmaps during hv_cpu_die calls.
+
+Further, this patch also resolve some error handling and checkpatch
+errors
+
+Signed-off-by: Praveen Kumar <kumarpraveen@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_init.c | 57 +++++++++++++++++++++++++++------------
+ 1 file changed, 40 insertions(+), 17 deletions(-)
+
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 6f247e7e07eb..292b17e0b173 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -44,7 +44,7 @@ EXPORT_SYMBOL_GPL(hv_vp_assist_page);
+ 
+ static int hv_cpu_init(unsigned int cpu)
+ {
+-	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[smp_processor_id()];
++	struct hv_vp_assist_page **hvp = NULL;
+ 	int ret;
+ 
+ 	ret = hv_common_cpu_init(cpu);
+@@ -54,25 +54,43 @@ static int hv_cpu_init(unsigned int cpu)
+ 	if (!hv_vp_assist_page)
+ 		return 0;
+ 
++	hvp = &hv_vp_assist_page[smp_processor_id()];
++
+ 	/*
+-	 * The VP ASSIST PAGE is an "overlay" page (see Hyper-V TLFS's Section
+-	 * 5.2.1 "GPA Overlay Pages"). Here it must be zeroed out to make sure
+-	 * we always write the EOI MSR in hv_apic_eoi_write() *after* the
+-	 * EOI optimization is disabled in hv_cpu_die(), otherwise a CPU may
+-	 * not be stopped in the case of CPU offlining and the VM will hang.
++	 * For Root partition we need to map the hypervisor VP ASSIST PAGE
++	 * instead of allocating a new page.
+ 	 */
+-	if (!*hvp) {
+-		*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO);
+-	}
++	if (hv_root_partition &&
++	    ms_hyperv.features & HV_MSR_APIC_ACCESS_AVAILABLE) {
++		union hv_x64_msr_hypercall_contents hypercall_msr;
++
++		rdmsrl(HV_X64_MSR_VP_ASSIST_PAGE, hypercall_msr.as_uint64);
++		/* remapping to root partition address space */
++		*hvp = memremap(hypercall_msr.guest_physical_address <<
++					HV_X64_MSR_VP_ASSIST_PAGE_ADDRESS_SHIFT,
++				PAGE_SIZE, MEMREMAP_WB);
++		WARN_ON(!(*hvp));
++	} else {
++		/*
++		 * The VP ASSIST PAGE is an "overlay" page (see Hyper-V TLFS's
++		 * Section 5.2.1 "GPA Overlay Pages"). Here it must be zeroed
++		 * out to make sure we always write the EOI MSR in
++		 * hv_apic_eoi_write() *after* the EOI optimization is disabled
++		 * in hv_cpu_die(), otherwise a CPU may not be stopped in the
++		 * case of CPU offlining and the VM will hang.
++		 */
++		if (!*hvp)
++			*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO);
+ 
+-	if (*hvp) {
+-		u64 val;
++		if (*hvp) {
++			u64 val;
+ 
+-		val = vmalloc_to_pfn(*hvp);
+-		val = (val << HV_X64_MSR_VP_ASSIST_PAGE_ADDRESS_SHIFT) |
+-			HV_X64_MSR_VP_ASSIST_PAGE_ENABLE;
++			val = vmalloc_to_pfn(*hvp);
++			val = (val << HV_X64_MSR_VP_ASSIST_PAGE_ADDRESS_SHIFT) |
++				HV_X64_MSR_VP_ASSIST_PAGE_ENABLE;
+ 
+-		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, val);
++			wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, val);
++		}
+ 	}
+ 
+ 	return 0;
+@@ -170,8 +188,13 @@ static int hv_cpu_die(unsigned int cpu)
+ 
+ 	hv_common_cpu_die(cpu);
+ 
+-	if (hv_vp_assist_page && hv_vp_assist_page[cpu])
+-		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
++	if (hv_vp_assist_page && hv_vp_assist_page[cpu]) {
++		if (hv_root_partition &&
++		    ms_hyperv.features & HV_MSR_APIC_ACCESS_AVAILABLE)
++			memunmap(hv_vp_assist_page[cpu]);
++		else
++			wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, 0);
++	}
+ 
+ 	if (hv_reenlightenment_cb == NULL)
+ 		return 0;
+-- 
+2.23.4
+
