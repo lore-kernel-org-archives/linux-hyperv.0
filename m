@@ -8,45 +8,45 @@ X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF71C636C8
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 15:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113A1C636CA
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 15:32:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9664A610FB
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 15:29:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDB806120A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 15:32:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237505AbhGTOrk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 20 Jul 2021 10:47:40 -0400
-Received: from mail-dm3nam07on2098.outbound.protection.outlook.com ([40.107.95.98]:28896
+        id S232542AbhGTOsW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 20 Jul 2021 10:48:22 -0400
+Received: from mail-dm3nam07on2104.outbound.protection.outlook.com ([40.107.95.104]:14017
         "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237636AbhGTOSe (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 20 Jul 2021 10:18:34 -0400
+        id S238580AbhGTOSt (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 20 Jul 2021 10:18:49 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VSl9huDf7d7b+aGy1glw+2cnTR+o4MGjpZsh2Jl3RkWzSTB67u4XTM5NMECwmAwxsL0ginEjzGn4chMOGkMhMF45bO+0wr24fObyLVJnXXtY/PYGR7EGj/hHwF3ewAVgzet9x369Dovu5jIjb4pqhJyg2aFwBG7cNJCf9cOQg7EWAtt2O5wL959d4bMaiIKjJySn3WWVs21MVP9jMLde776RoUC3I6HlK8XBJaGnKaRm+KZKuFCHUX3ARMPlmgLKDOy/DV2sEygD32LFCl9fRPrgFNwfulmyW13WviwmWnopNA8ge4ZaYKcX/gt9CW4sm/4lAkx2314SUY9vuy2hLw==
+ b=cH//PYv3dTGZF+X5zwME+EnYdT+n6iNNK20913hIIebTuOPRCpDVu49KKhLmybuFf//hrr9qWDAy194v6gAK/syjdmLFFIbAtdyR8NZgYrQm+5hNNLwBaHCyJ5KSUrWfoyneVMZ46cJqKqq2+gJeHxT4z/QZ5JS2xv0IuM+XJ1+pC20KSSZCsGnIAxr0q1MTDXvj1zdefFUod9KpcAwr9PTwV9t42jB9mh9GxPC8BilV4QtG7DKkvJo4RnjtpNfvxTik9YTKQJqve6x7BvpZMRVTnlrLxLZyfaJwZ/wZR4iwSOwQnPoXmgMbAPqMdhVlgtswQ/y1Zci1Sm0rvNCSkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HiU6XS82HAdj4fww7xmvbixCsaas4zL7arlWJnpwmY=;
- b=lRHF18iHm+8ranSkqKRgH+pzs2yWroI4FR475CVR5UwvYJyfpkQbEph+sNDaowREx54V07sSf2+9BizS8la+SlTtc2y9NleJAjU6JxP9AFBGOZMI5YjFElatHgLx50SNf7X0Ccf+398rQ4ce3qzef5eIb+IJDS5THkDxtxQey+TwKsEEpCc6K7q8PMyMSt7/rrguDOrrcPKQIavoxxjs8PgOKAkwkFgaKlhMEkLBm8UmUhzkTvkqG3cWXUndw68u869llChunakp4XHZqxGndPhS1gVW5vesgJy6RU/x+Hol2dDL3NONDI8jpeK3DH3FJRUktTHPPxeDSQjejRJu9g==
+ bh=8xnCcy767WKevDP5UhHtnUI+xPQRl1REcs1nGDGtkcM=;
+ b=VRP7phQvJOlDO8r+aU4/jOfao0fvJjP56nZak1H6hiQdGJGL2nI1A/vH9l/DXMdqPcl8XHleos67QPTHpl+9bYCaBlVFNbAptYB5MbMOdp7vOZWRGjaJqgQbecTU2R1NcQi4UUbsNMoPGiNn9ltdAw7bq0/bNaufn465RMe5WF8GxzI/OLdfozOjyYrkw1sgiltiAsujmL+QdGoxNyJ6fpSH4ANAW0W4DR99sDtYm557aw2pxZHYXjXLEXnzytIqPaNbaJxKX+4YAQXkzfcioDH7L5BCqJqDbdoXvH8QW31nhguT6sucZIY0SKE+1OvXcabI9Ht69jUwBSxMP6XT7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HiU6XS82HAdj4fww7xmvbixCsaas4zL7arlWJnpwmY=;
- b=K0B5wtsLNTB6J9yj6CywetJu/CQj7ir7zVnNQW9qkUl+X2b3nh4IVBlz6iDWeY4azCam0XyCYFwA/pK37NkisyB//Rzw0xZT51o/jWIZ1s3Eu7STd7XrSVkKl0e2ttkkBenNdtWeQYZ9jjVww1Z/xkmFtBInwwDcZNLmL99RMUA=
+ bh=8xnCcy767WKevDP5UhHtnUI+xPQRl1REcs1nGDGtkcM=;
+ b=a5Bl+gQGxqTGc3OsPvwVxdgpF4L+RAhPmeI3C9yKDSlQpzKYesknhCv727W1A4nhHAyLDyIpchHVjANA+CmBd03NtU+Gdfqr4nLTy2H1jVooVmZkpr5MCTK5IhfGGFXWWEorEA8MdL9d7n6+qhlc+KInF3yX35H0WiRcmMSdkSU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from DM6PR21MB1514.namprd21.prod.outlook.com (2603:10b6:5:22d::11)
  by DM5PR2101MB0981.namprd21.prod.outlook.com (2603:10b6:4:a8::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4373.4; Tue, 20 Jul
- 2021 14:57:25 +0000
+ 2021 14:57:27 +0000
 Received: from DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::3505:fa47:39d0:6dc5]) by DM6PR21MB1514.namprd21.prod.outlook.com
  ([fe80::3505:fa47:39d0:6dc5%9]) with mapi id 15.20.4373.005; Tue, 20 Jul 2021
- 14:57:25 +0000
+ 14:57:27 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     will@kernel.org, catalin.marinas@arm.com, mark.rutland@arm.com,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -54,9 +54,9 @@ To:     will@kernel.org, catalin.marinas@arm.com, mark.rutland@arm.com,
         wei.liu@kernel.org, kys@microsoft.com, sthemmin@microsoft.com,
         ardb@kernel.org
 Cc:     mikelley@microsoft.com
-Subject: [PATCH v11 3/5] arm64: hyperv: Initialize hypervisor on boot
-Date:   Tue, 20 Jul 2021 07:57:01 -0700
-Message-Id: <1626793023-13830-4-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v11 5/5] Drivers: hv: Enable Hyper-V code to be built on ARM64
+Date:   Tue, 20 Jul 2021 07:57:03 -0700
+Message-Id: <1626793023-13830-6-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1626793023-13830-1-git-send-email-mikelley@microsoft.com>
 References: <1626793023-13830-1-git-send-email-mikelley@microsoft.com>
@@ -66,167 +66,90 @@ X-ClientProxiedBy: MWHPR07CA0023.namprd07.prod.outlook.com
  (2603:10b6:5:22d::11)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mhkdev.corp.microsoft.com (167.220.2.16) by MWHPR07CA0023.namprd07.prod.outlook.com (2603:10b6:300:116::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 14:57:24 +0000
+Received: from mhkdev.corp.microsoft.com (167.220.2.16) by MWHPR07CA0023.namprd07.prod.outlook.com (2603:10b6:300:116::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 14:57:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1b8d6978-8505-4a94-db7d-08d94b8eaf8a
+X-MS-Office365-Filtering-Correlation-Id: 65c35511-5203-4c63-e5ba-08d94b8eb0b6
 X-MS-TrafficTypeDiagnostic: DM5PR2101MB0981:
 X-MS-Exchange-Transport-Forked: True
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR2101MB09819F7720767C8FEEDC9218D7E29@DM5PR2101MB0981.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
+X-Microsoft-Antispam-PRVS: <DM5PR2101MB09819FCF0802BE2901B2C318D7E29@DM5PR2101MB0981.namprd21.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cjZR65UjztKnY11MuSdKui8os7jbL3rtIq8I6OSqPjuIHuPpBsRK2HlHsNMYOba8wVCSty/+rq77oAJMhg6rtcugEg6RAuHvB3hOrwn0/jf5rUh968lagsEJ4tV9wDTboFgwobKPzwgBVuL80foRxsWzk9NHaT9clFGkivJv5OrcjWm28fvrRks+5KiIN6O0qjhP2ePvGaDC2qNuIYcc4FQ3BVTjDPm1JG1r8HDCHBfaGTN8kIWFBiqXnfM+kP52JIARHr+Wa0ZLpRsTs50aF9zzfrCFFXMICC62QkYhIEHS2gvFqWqNeyP2AWVclfYdoRd0flIpFGslvZxDj1SjRuUdFTxAPQensiomL45xgTTJADSBL2Yr3qyA09hMxgkLVsj2ljjqdV+Vhmugd8QzVKtVXaMKUcw6N0F5ydOSbxfivlE4Hc/oQkyzRkoMGahxDV58VpgIVNZyHS/MsMaZ9Q9Ygvd84vHse8oOP8EfGYE9QitCzMik9syl9vWJ6JQJBZPC3B1dliyvDKHrBZlr4BA4L1sY5+W9VCfmVmtxk+ILCe3S6c4ZuNHP6AngglkQku2LiOk14E0Th2rA2O7RjdPxM0oeapy9BADzI3E2f35x3ieccRTxjJ38rN82SyTqhmhRZfQmixqpE0WXYMXFT5SEOVmDJhAPGuHum1aZgRddz4M4L2ZXO1TFLvOFd3sT9HB7yYqZc1x+PeG/vRBIQMmhkohlAcfq6TdmNoYuXjY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(26005)(6666004)(36756003)(508600001)(956004)(10290500003)(66476007)(5660300002)(38350700002)(4326008)(8676002)(38100700002)(66946007)(2616005)(82950400001)(186003)(52116002)(7696005)(107886003)(6486002)(8936002)(82960400001)(316002)(921005)(66556008)(86362001)(2906002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: 8WYNnTay10XxhQFaZJtKJDA/saIZGPWRlXz+sZxz++bOpf5IBlSPN3/wK26CAlGPn16jH5Mi+/2fjk761I6uffH4hHnFKHzWOhBPD8PvQTC/+qzxsgK9Bjd9FU0rPjlf8413UQmk/wQRPg9EJFO56YnBZ4aCcp5yJqtNK4egESZZw9a6zg3XzDrKwlp5J60YmpJPdOdvZO+GDmrx8HiKfPsd/0hMfc+xOrzoEv8gjrYhWm9+15y+VcvfYdP0NlVNtV+c8DB5p6gDqL9yvn9ssuGSJaPhhtkubXztLI+K7Is/rygpHKHJ2LFB/mYgJeMGR/Mix3fqnxqFO3fb/in2sVbodK+tvn9jtBZWR6lwlp8r6y8UNeztq8Wn4xwW7hgsFpLhS84VqIMrCG0V+8QXEzP/oDXjL1l+Em0I+mTB0v0T1CFIpCB9yXaVjMMB6wIRYn6hu3fraecl4MTjpHzL4x+h/fhgf9uwD1eEYvG54Cg/sXCrMg1z6Su49SJhw1NS9NrU8pWote6khHpQ2w5PN3EJqL0uQfGxHicO72TFqWOOtU+7NYVNvmJDSIP/+zXW5czO0AACskV/JW3MSys9bEbdcbBoFf5hX7KWe1oFO/ydBuaeGZerv33WlWwW6DJguv1W5EVOM50ucP+GUhVK3hkcieiB4bp94VKxln36IyjJruiQflsm1L8f54ly7G/aUYjBdVyOJ0qd6lfsz/P2P30VrzR6rAKvwsPyakiJ2x8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1514.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(83380400001)(26005)(6666004)(36756003)(508600001)(956004)(10290500003)(66476007)(5660300002)(38350700002)(4326008)(8676002)(38100700002)(66946007)(2616005)(82950400001)(186003)(52116002)(7696005)(107886003)(6486002)(8936002)(82960400001)(4744005)(316002)(921005)(66556008)(86362001)(2906002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZwBzX8mTmywXKH5p4rsThRTUXDaNxcJn44cwfrPSCfy0MBbX/sA0XVHLRl2A?=
- =?us-ascii?Q?4XmnIqAeYdgtMclJ+0tf6h0ICkzFuDxKNe1ZMqDSH9fjEx0UP4TpxEi8gre/?=
- =?us-ascii?Q?WBOPrC104k1Plj29cgdrB709k+jYAuGTlXnfze1PEfuopYqf8GfirX6pASnV?=
- =?us-ascii?Q?lM9Tcktz9cTUvpSb4Ag3c/jXezKVhTRiBpNKu+/0jZHgJAf92G7BeGKFDJrq?=
- =?us-ascii?Q?fr+UMFAhkhTf/WT6bvGbx8kmGU/VDaXKmRVWgO+nzuNfhbmivpwSPNPvoUuQ?=
- =?us-ascii?Q?UWtQL6G9Pnf86Q0mi3U5mz8wvRyclOmeEjM3zkXkfzHVldNFez5DUtWMHY4s?=
- =?us-ascii?Q?cjhED4zFVy/lpkf7ISwEoTKdLQTGidxPpkc6BNm5epZboWhmfjqrqkf7xsqH?=
- =?us-ascii?Q?yyJJyxT9UU10AKHKxo1LWxMd/V4cHXceLvEv9CUEfoLDJdOMPDuquXjc2gEm?=
- =?us-ascii?Q?kt0srBOQXt5ABlR1+qTAXY2rjQqsY+X/IjA6vTaQdoelkooQAY/Nrz+yiMgg?=
- =?us-ascii?Q?cfF+AUnzYgHHizHSwq1CNPo+KsgOu+cUKxLDf5jmb6XDKv6AgbW0t2/48EBu?=
- =?us-ascii?Q?EccIprDL/yGheVvWWr9FiqyS4hikx8SYln9UoWZH2onbewWhUPChkx0Rc9bc?=
- =?us-ascii?Q?ylxBPCRdtUSupAIKVVQ8OkZBL2GFzMdS9gVxVMVfqKg6uERP8GXjZy+arn0O?=
- =?us-ascii?Q?cz7gcYw5v91Qm+z+EF3vgJ75z/GZniL81zD32oVKaxJ9ia48JJaK/acQ8yRM?=
- =?us-ascii?Q?zihw/eW5JM2tBpKmEsDPCRNQFdMA33o2FOhgs2yrTZ/Yf6875BISh/EYvRZ3?=
- =?us-ascii?Q?X+vyU7VqWAzvHrOz/VoMFYMS3EKfWgEIyRuhVK9ecZlirmDX82tza2mUdZMu?=
- =?us-ascii?Q?PKKqlv5hVhm2yrrsQOj9M7Y/+ZCZ1zSYjw7p4EpJ5oH4Gyy5fypAr8CbUIdC?=
- =?us-ascii?Q?HH25voto4sJHw/i18F3C96edsISu0yWoQdwaLZzCYMJATc8iSClUplKn4Tv1?=
- =?us-ascii?Q?Oh8ysJuHSsNelgi3A74tM7ua7uZSF/fV+EW4cRyzrAYRcINuEd20E45Uj6eo?=
- =?us-ascii?Q?N1+TeDDgrdK3L4Y/iwYjNOrf48ylkjtyniecOW1Ze6rQHkRmXA5fMvqG61Ke?=
- =?us-ascii?Q?HjvAsj4f5bIemK1F4YYHDfqnXdoDJlSx5AycHcq62DWjc7UPDvdzpyDrnc3v?=
- =?us-ascii?Q?iVj+uL/5jMyRpApAnGPa7h35Wpawl0SkNI6IPm1e3kbDKaB/CB44GQ41r6cU?=
- =?us-ascii?Q?XNvhK8VAx1taCo8hCTa1Gsh1WJmD7zFEox6o/oUjYv6VVrjvYrX1+lEmpqa0?=
- =?us-ascii?Q?uPMU1sUSm83ICgPZjum34djr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EgWdLkqOs3gYep9WaAJK2KKde+oRAxsntMiDp0bDcK0KnI+e1liy88xDSnS1?=
+ =?us-ascii?Q?l6iI6jdHiZfJiY7LZhDCPybNfnTMR3Q82goclyi435sACmOxVQqjSfrPx7ED?=
+ =?us-ascii?Q?jA8XjedDBnNi9AL8DEnVvbmn9NLri+pWXe7XRztoRRQhsaXENKw0fXt96YB0?=
+ =?us-ascii?Q?zRwkCVHqC7k+7/UKyNPQqN6kD+q5k9yitJlpLKEbeWvSd3t+E9o6HWAtFjwO?=
+ =?us-ascii?Q?dw/jWaZL7tmDJUHqh44mFksVN8QN0UPTOH+ioeZDn2xo76ENQak5z+LfcQ6q?=
+ =?us-ascii?Q?8rcOpJX6weo1CjvU43e+eXHM4AYhApYslif9SiGN3vRUnjEBbWj6bI2ExSCq?=
+ =?us-ascii?Q?eIqMhEy71h8iufzDMVPIoGoiAkBnPjUs4qMl4mpZJREHyzpDzTNyPbP3nFc7?=
+ =?us-ascii?Q?Ad9E0DHzRHSX8B0tR+yPImxUMS9wA/pan2oDX75W40D8Py/zKikXPyMf7Gtb?=
+ =?us-ascii?Q?Eh4iEuZCnCqNcQ0bTCn5LhYVO4UWraACpW7lT23UAEpqhGWS6izkRfWNM7ty?=
+ =?us-ascii?Q?IfQrNNtKRWio8KVy8iUV/pTzdQkplbhweaHZL9RDz7AuldCepfbrFo1ghr1t?=
+ =?us-ascii?Q?DI69ePtM/ZQqm6E+3g+qSOUQvuEWTyU9K7hM+YfuXSqihr319KKVPDvTiLOq?=
+ =?us-ascii?Q?SFKCdGJbSoZxSX3jyucg/bBh7AP1sMT2aPfuZ9Mg0BDu5K66JSSDaLMJB7XU?=
+ =?us-ascii?Q?8Z/Y4cmE8FXEGMXtp9oPKR1rzW5HiNmFNj7NksNwK4+CQLtACUIWjlv0BYn0?=
+ =?us-ascii?Q?Kl25MIiCUMNq1DIj6svH2kJ9ww6G4X4fo0IzijJ4KGpNbzz1RnjjjQoT2oG9?=
+ =?us-ascii?Q?iAkEejr5Sf+StpmgpSCKTH7o2EkG42dNdLgH4OVGS+tp8cOc8M8b2Y8adfNj?=
+ =?us-ascii?Q?yFsVKpvrQKtMgUVUVkyAvoXz2t6be+GMy9Fz5odGdN82fSKJd9bY7Zlsm+LA?=
+ =?us-ascii?Q?akY0IlBG+Uz3cdjLA7n4Gc2RnYzEbyHjm36GSAzPJarXraWjkWgBU2B+vCgD?=
+ =?us-ascii?Q?hZl5sFG6lLNX1+e6SR4rOK4gw/PtC+pKHgFy89+bc0l7dS550x9iWgzFZ7SJ?=
+ =?us-ascii?Q?EJDeD8h/9qq39EfGGLCazvedOWN8TXE0g79mUDS1MLa4RYTfyKLGKEpCnIf5?=
+ =?us-ascii?Q?jVEL+SBGTmC4Xe7Fchf1VEnBxXAhMsvpl6B1U0t79/e4miS6YUgvTGLuKv2w?=
+ =?us-ascii?Q?8EqxTcs4RRP3cA2lPjZCbD3Q/ZaI55OesOrEv5sGRsLCJwJdX22huFvKI2GE?=
+ =?us-ascii?Q?L9mbuj4JFF2wpGBF0/FKUWp3m1DfXYfMTMTkEWAFqpXdwg80MCRH5OnMdro9?=
+ =?us-ascii?Q?cB6yPErabwJzMhb0PkQY68aQ?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b8d6978-8505-4a94-db7d-08d94b8eaf8a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65c35511-5203-4c63-e5ba-08d94b8eb0b6
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1514.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 14:57:25.3661
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 14:57:27.3225
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d8PkzWOjLzrsRrsYK1ZYyGfJH3P5O0Ka1GosjTZBi5ZalUR6m0Vba844ANLENLHyNX3rhMKwJ2pPwfsCo/CVww==
+X-MS-Exchange-CrossTenant-UserPrincipalName: ibMGh1hKM6nsGlMLWGvV3ZC2XBPNPJ9Ko7jO5xocHUwiO7lekaSQAqoHDKH2YfCBCxTQRXsPYGmrBlfzt2XotA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2101MB0981
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add ARM64-specific code to initialize the Hyper-V
-hypervisor when booting as a guest VM.
-
-This code is built only when CONFIG_HYPERV is enabled.
+Update drivers/hv/Kconfig so CONFIG_HYPERV can be selected on
+ARM64, causing the Hyper-V specific code to be built. Exclude the
+Hyper-V enlightened clocks/timers code from being built for ARM64.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
 ---
- arch/arm64/hyperv/Makefile   |  2 +-
- arch/arm64/hyperv/mshyperv.c | 83 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 84 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/hyperv/mshyperv.c
+ drivers/hv/Kconfig | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/hyperv/Makefile b/arch/arm64/hyperv/Makefile
-index 1697d30..87c31c0 100644
---- a/arch/arm64/hyperv/Makefile
-+++ b/arch/arm64/hyperv/Makefile
-@@ -1,2 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-y		:= hv_core.o
-+obj-y		:= hv_core.o mshyperv.o
-diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-new file mode 100644
-index 0000000..2811fd0
---- /dev/null
-+++ b/arch/arm64/hyperv/mshyperv.c
-@@ -0,0 +1,83 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Core routines for interacting with Microsoft's Hyper-V hypervisor,
-+ * including hypervisor initialization.
-+ *
-+ * Copyright (C) 2021, Microsoft, Inc.
-+ *
-+ * Author : Michael Kelley <mikelley@microsoft.com>
-+ */
-+
-+#include <linux/types.h>
-+#include <linux/acpi.h>
-+#include <linux/export.h>
-+#include <linux/errno.h>
-+#include <linux/version.h>
-+#include <linux/cpuhotplug.h>
-+#include <asm/mshyperv.h>
-+
-+static bool hyperv_initialized;
-+
-+static int __init hyperv_init(void)
-+{
-+	struct hv_get_vp_registers_output	result;
-+	u32	a, b, c, d;
-+	u64	guest_id;
-+	int	ret;
-+
-+	/*
-+	 * If we're in a VM on Hyper-V, the ACPI hypervisor_id field will
-+	 * have the string "MsHyperV".
-+	 */
-+	if (strncmp((char *)&acpi_gbl_FADT.hypervisor_id, "MsHyperV", 8))
-+		return -EINVAL;
-+
-+	/* Setup the guest ID */
-+	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
-+	hv_set_vpreg(HV_REGISTER_GUEST_OSID, guest_id);
-+
-+	/* Get the features and hints from Hyper-V */
-+	hv_get_vpreg_128(HV_REGISTER_FEATURES, &result);
-+	ms_hyperv.features = result.as32.a;
-+	ms_hyperv.priv_high = result.as32.b;
-+	ms_hyperv.misc_features = result.as32.c;
-+
-+	hv_get_vpreg_128(HV_REGISTER_ENLIGHTENMENTS, &result);
-+	ms_hyperv.hints = result.as32.a;
-+
-+	pr_info("Hyper-V: privilege flags low 0x%x, high 0x%x, hints 0x%x, misc 0x%x\n",
-+		ms_hyperv.features, ms_hyperv.priv_high, ms_hyperv.hints,
-+		ms_hyperv.misc_features);
-+
-+	/* Get information about the Hyper-V host version */
-+	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION, &result);
-+	a = result.as32.a;
-+	b = result.as32.b;
-+	c = result.as32.c;
-+	d = result.as32.d;
-+	pr_info("Hyper-V: Host Build %d.%d.%d.%d-%d-%d\n",
-+		b >> 16, b & 0xFFFF, a,	d & 0xFFFFFF, c, d >> 24);
-+
-+	ret = hv_common_init();
-+	if (ret)
-+		return ret;
-+
-+	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "arm64/hyperv_init:online",
-+				hv_common_cpu_init, hv_common_cpu_die);
-+	if (ret < 0) {
-+		hv_common_free();
-+		return ret;
-+	}
-+
-+	hyperv_initialized = true;
-+	return 0;
-+}
-+
-+early_initcall(hyperv_init);
-+
-+bool hv_is_hyperv_initialized(void)
-+{
-+	return hyperv_initialized;
-+}
-+EXPORT_SYMBOL_GPL(hv_is_hyperv_initialized);
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 66c794d..e509d5d 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -4,7 +4,8 @@ menu "Microsoft Hyper-V guest support"
+ 
+ config HYPERV
+ 	tristate "Microsoft Hyper-V client drivers"
+-	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
++	depends on ACPI && ((X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
++		|| (ARM64 && !CPU_BIG_ENDIAN))
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR
+ 	help
+@@ -12,7 +13,7 @@ config HYPERV
+ 	  system.
+ 
+ config HYPERV_TIMER
+-	def_bool HYPERV
++	def_bool HYPERV && X86
+ 
+ config HYPERV_UTILS
+ 	tristate "Microsoft Hyper-V Utilities driver"
 -- 
 1.8.3.1
 
