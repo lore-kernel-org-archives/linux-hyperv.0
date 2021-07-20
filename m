@@ -5,68 +5,68 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 364F1C636C8
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 13:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2765EC07E9B
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 13:53:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E99F61209
-	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 13:53:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 132DB61165
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jul 2021 13:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239028AbhGTNNF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 20 Jul 2021 09:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32780 "EHLO
+        id S238933AbhGTNNK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 20 Jul 2021 09:13:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238998AbhGTNGf (ORCPT
+        with ESMTP id S239017AbhGTNGf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 20 Jul 2021 09:06:35 -0400
-Received: from mail-il1-x132.google.com (mail-il1-x132.google.com [IPv6:2607:f8b0:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E421C061762;
-        Tue, 20 Jul 2021 06:46:31 -0700 (PDT)
-Received: by mail-il1-x132.google.com with SMTP id s5so12168739ild.5;
-        Tue, 20 Jul 2021 06:46:31 -0700 (PDT)
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA35AC061768;
+        Tue, 20 Jul 2021 06:46:36 -0700 (PDT)
+Received: by mail-il1-x12d.google.com with SMTP id o8so19179592ilf.4;
+        Tue, 20 Jul 2021 06:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pwmv0O8lOsgWW/flC9kaMbPuEr0P62is7sO0/K/VTeo=;
-        b=s8Z/moUNgaDkmZ6n82NKaBiSKW8KE8WjOCzY8qzna/rJ9X94+gI5ySxVsZcJI3hN7F
-         u1b3Q3sJ4dI/NXlCQ6RJVHmIciRatKOxeWnHdbyuj+ZVAdYNgEo87XVRDj3G2CDmodqA
-         UhaIFZyFAYtoLb7L0lKAm7OSYzF9CGMrmZ5KoZbzSXMBE6a/1XkP3/31WGO4n3c7hvkn
-         s28YaOTCSbaD2vlCmzKpMbVnCoAVRaDiUfNxdbfH01MoVCq2wJEifL2LQbfs8X6X1cOO
-         bG9QM90vpWIGLwYgakHsCDz+cNptg3v6a3hTzFOuX2XWjJxFuYXeO7NbGTKfXqf3guk0
-         FnWg==
+        bh=2l8LjoE1uOwDr72/zLLZTqmL1EazEamG/E8cAH7MR/4=;
+        b=ajtns35Hl78+1NkA8OLkrxH68UpjGJpRlhocpJiDyrPbIuCE+Fk88T15LW08SJbo7f
+         Hs2oZMp/weamcSU/VBHogx3cK5M3ZQHOLJtgVOr4fWy7vEw/MLQbX41/plFyh8Tqpu53
+         j0mcbP1SeSrw78RVy7QPhbYKf0S9ZPHyUwxKmRS1biWti+jrXEu0y2bTYEhqqJAuYeMK
+         9/a2enqhvdzo0v8GrQU5si9Ug7A9hYUJK3IT5qfbRIwApA56c379jd/6blSjWAr2hBa4
+         Y32NwJH+5yPYPr6NDxysobobvJ/Gake7iJjUYzeYjqF/48bBW1r56PMvqaUdOTGFYM09
+         MVaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pwmv0O8lOsgWW/flC9kaMbPuEr0P62is7sO0/K/VTeo=;
-        b=oz7J29LQvBmn/HV/gJ3cQimeZd6uze5LJpVAeHsTX8kWG6T9XaUs4ktrlF0WGUYsZZ
-         sVcTqglFYEXnZHYRbx6APxv5FA+5FAULkt4F24OHJ8A/AhZUnnv+p+RTB5+ZwaJEb709
-         eCaVYJN8C3cfYZC0i5UDG1TJpks/gzWyLPV6H3WYHf2bHRKIRW9uA4e0J4dSe5ApAkG/
-         cOGM7ElsqGWA4xhuK/CiofAinKdE+eygRIbEXFLxS49WvCmI+WQQiW6fi0RKivA4bYHr
-         2w+fdOodqxzkEKHiEtKL1ujrjEWzq5K3LRbATqIbihvPwdbSOfrtN9VdezfZYLMT5W8D
-         TUfw==
-X-Gm-Message-State: AOAM530RwGB5KtVLY596VZXijX90OSg7f+Bc0oFF6OiwrMu1zg6tQU3a
-        9V6+Qe26khuetzrRIXpJRvE=
-X-Google-Smtp-Source: ABdhPJyJ4d9z0IYkxozKBochgBSkt6cYHQ9pFlJt9HNMRyPjs1gPxEVoo3zh/8IJ78KsLGtnzuQkbA==
-X-Received: by 2002:a92:3302:: with SMTP id a2mr20961978ilf.62.1626788791000;
-        Tue, 20 Jul 2021 06:46:31 -0700 (PDT)
+        bh=2l8LjoE1uOwDr72/zLLZTqmL1EazEamG/E8cAH7MR/4=;
+        b=kBPjiFPw6HXVLCkvqZYNbCbmEKrHetyvq6u4NuLSwJFwMnL8C8yBRAHd6YLpOt2T3u
+         gPwcSJuHHV0XWHJg3tIH0yhJloJ9FVOn+QyvC0JmwiLvmXQQUgY/bMs0rQdfTalNswbQ
+         6qmmZt30ayKI+eRAyNZOOGhgL7nItctn9ElBDCHsUR5s1J78CeTofN+pTbEVn0XzCKDx
+         2i8B5W5DngYZ5JlzDOIXJ4tT26tV3+PTNWu8FayHYJNTBGGHXff/+E6N0vcH+y33soxG
+         4aOLU6lW4a0GQEzUeQBxct38HASIUclHCXhJvysI3yL+BXx2W6FcRHhiD2+gYON9ZnYc
+         He8g==
+X-Gm-Message-State: AOAM5335tgi+K0aAFeEp5p2lRcK7PQqTfRs97H02yVvTzEsmJ6uC5TxI
+        dTCDLtYZz6iVJ1SRI49Wwjs=
+X-Google-Smtp-Source: ABdhPJy5ZlVtS2IpZV+E+tOkjNyl6ikMUUAhFR+jcPbGFJGtQfIDSPtenYJW7ZQP80qXkGRFquPENg==
+X-Received: by 2002:a92:1906:: with SMTP id 6mr20466375ilz.273.1626788796357;
+        Tue, 20 Jul 2021 06:46:36 -0700 (PDT)
 Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id o12sm11540852ilg.10.2021.07.20.06.46.29
+        by smtp.gmail.com with ESMTPSA id o13sm11445110ilq.58.2021.07.20.06.46.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jul 2021 06:46:30 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailauth.nyi.internal (Postfix) with ESMTP id B846127C005A;
-        Tue, 20 Jul 2021 09:46:29 -0400 (EDT)
+        Tue, 20 Jul 2021 06:46:36 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 1865E27C0054;
+        Tue, 20 Jul 2021 09:46:35 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 20 Jul 2021 09:46:29 -0400
-X-ME-Sender: <xms:tdP2YOREcMgJAmsen1zmw3aI-Ex8lmrfDNs-vyUcNwQmb3tLUiqBxg>
-    <xme:tdP2YDxJ2LfZKPerY2dbE9veoUuLZE1llA7SrqX1UbJS6QhrBIs0dvwxW4E7II6Gr
-    nmw9X5eQauCA3vJOQ>
-X-ME-Received: <xmr:tdP2YL1ukxsk3Fb4-nwxRR8vbRWAQ0TG0heccl_V81pRMXpMgN5SVn20mz0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeikecutefuodetggdotefrodftvf
+  by compute1.internal (MEProxy); Tue, 20 Jul 2021 09:46:35 -0400
+X-ME-Sender: <xms:utP2YD3-Etabcze_SSFlGF6NjcGMc2Jlch_Srub4lMtvWEca9HeFpg>
+    <xme:utP2YCEqs8QCKhOmdiVNwTS3yXAnmwrxu-AKBnfTIymb2UcAfWvp3bEoc2E9dOcC9
+    BNXdNbhCw9OvLRRdQ>
+X-ME-Received: <xmr:utP2YD7u7iOSEiYZzb61aR9Xmm_sBX5P0RIPoX5V1YJi6ZkgzvZjcy-enYE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeijecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepuehoqhhunhcu
@@ -76,12 +76,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedvgdeikecutefuodetggdote
     hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
     udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
     gvrdhnrghmvg
-X-ME-Proxy: <xmx:tdP2YKBgY3TuS08zJ240SDZ3dS63WjFv1U3HvE4jNNlZBQQ2QsIcIg>
-    <xmx:tdP2YHio4-bGYGocfG-8JnuvmR4wbSKA6cR0DLRkT0OiUXRGh5d_Zw>
-    <xmx:tdP2YGon0bffPLZpmPbCHIPnejPTFTGEVYIJVgd6Cbp5OrGOAgGIdA>
-    <xmx:tdP2YAZNJFI2oVs487QkfrFlKhR-4ST5nfQp9UWXNQYGRcjDlaIa5aUXMbc>
+X-ME-Proxy: <xmx:utP2YI2Q0qBdR4omOy_VAwucrib0vw-FDQru-hk29Hil_PsboTjLow>
+    <xmx:utP2YGH-xWsP7ymsg3wwE-TRmjhCpWH65MPyKAkoA3O7tPouJhyH1A>
+    <xmx:utP2YJ8RK-axthuANf83JZt2h8mj_FW3Gdi_quJOsxG6Y-7eO--2qA>
+    <xmx:u9P2YE-rdA2J7pNHcinNDj8OT3OajJAAZpGQHjpGya_L_EdDiFGLNp9w8uQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Jul 2021 09:46:29 -0400 (EDT)
+ 20 Jul 2021 09:46:34 -0400 (EDT)
 From:   Boqun Feng <boqun.feng@gmail.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>,
         Marc Zyngier <maz@kernel.org>
@@ -99,9 +99,9 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
         Sunil Muthuswamy <sunilmut@microsoft.com>,
         Mike Rapoport <rppt@kernel.org>
-Subject: [RFC v5 1/8] PCI: Introduce domain_nr in pci_host_bridge
-Date:   Tue, 20 Jul 2021 21:44:22 +0800
-Message-Id: <20210720134429.511541-2-boqun.feng@gmail.com>
+Subject: [RFC v5 4/8] arm64: PCI: Support root bridge preparation for Hyper-V
+Date:   Tue, 20 Jul 2021 21:44:25 +0800
+Message-Id: <20210720134429.511541-5-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210720134429.511541-1-boqun.feng@gmail.com>
 References: <20210720134429.511541-1-boqun.feng@gmail.com>
@@ -111,79 +111,50 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Currently we retrieve the PCI domain number of the host bridge from the
-bus sysdata (or pci_config_window if PCI_DOMAINS_GENERIC=y). Actually
-we have the information at PCI host bridge probing time, and it makes
-sense that we store it into pci_host_bridge. One benefit of doing so is
-the requirement for supporting PCI on Hyper-V for ARM64, because the
-host bridge of Hyper-V doesn't have pci_config_window, whereas ARM64 is
-a PCI_DOMAINS_GENERIC=y arch, so we cannot retrieve the PCI domain
-number from pci_config_window on ARM64 Hyper-V guest.
+Currently at root bridge preparation, the corresponding ACPI device will
+be set as the companion, however for a Hyper-V virtual PCI root bridge,
+there is no corresponding ACPI device, because a Hyper-V virtual PCI
+root bridge is discovered via VMBus rather than ACPI table. In order to
+support this, we need to make pcibios_root_bridge_prepare() work with
+cfg->parent being NULL.
 
-As the preparation for ARM64 Hyper-V PCI support, we introduce the
-domain_nr in pci_host_bridge and a sentinel value to allow drivers to
-set domain numbers properly at probing time. Currently
-CONFIG_PCI_DOMAINS_GENERIC=y archs are only users of this
-newly-introduced field.
+Use a NULL pointer as the ACPI device if there is no corresponding ACPI
+device, and this is fine because: 1) ACPI_COMPANION_SET() can work with
+the second parameter being NULL, 2) semantically, if a NULL pointer is
+set via ACPI_COMPANION_SET(), ACPI_COMPANION() (the read API for this
+field) will return NULL, and since ACPI_COMPANION() may return NULL, so
+users must have handled the cases where it returns NULL, and 3) since
+there is no corresponding ACPI device, it would be wrong to use any
+other value here.
 
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- drivers/pci/probe.c |  6 +++++-
- include/linux/pci.h | 10 ++++++++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+ arch/arm64/kernel/pci.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 79177ac37880..60c50d4f156f 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -594,6 +594,7 @@ static void pci_init_host_bridge(struct pci_host_bridge *bridge)
- 	bridge->native_pme = 1;
- 	bridge->native_ltr = 1;
- 	bridge->native_dpc = 1;
-+	bridge->domain_nr = PCI_DOMAIN_NR_NOT_SET;
+diff --git a/arch/arm64/kernel/pci.c b/arch/arm64/kernel/pci.c
+index 5148ae242780..2276689b5411 100644
+--- a/arch/arm64/kernel/pci.c
++++ b/arch/arm64/kernel/pci.c
+@@ -90,7 +90,17 @@ int pcibios_root_bridge_prepare(struct pci_host_bridge *bridge)
+ 		return 0;
  
- 	device_initialize(&bridge->dev);
- }
-@@ -898,7 +899,10 @@ static int pci_register_host_bridge(struct pci_host_bridge *bridge)
- 	bus->ops = bridge->ops;
- 	bus->number = bus->busn_res.start = bridge->busnr;
- #ifdef CONFIG_PCI_DOMAINS_GENERIC
--	bus->domain_nr = pci_bus_find_domain_nr(bus, parent);
-+	if (bridge->domain_nr == PCI_DOMAIN_NR_NOT_SET)
-+		bus->domain_nr = pci_bus_find_domain_nr(bus, parent);
-+	else
-+		bus->domain_nr = bridge->domain_nr;
- #endif
- 
- 	b = pci_find_bus(pci_domain_nr(bus), bridge->busnr);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 540b377ca8f6..2c413a64d168 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -526,6 +526,15 @@ static inline int pci_channel_offline(struct pci_dev *pdev)
- 	return (pdev->error_state != pci_channel_io_normal);
- }
- 
-+/*
-+* Currently in ACPI spec, for each PCI host bridge, PCI Segment Group number is
-+* limited to a 16-bit value, therefore (int)-1 is not a valid PCI domain number,
-+* and can be used as a sentinel value indicating >domain_nr is not set by the
-+* driver (and CONFIG_PCI_DOMAINS_GENERIC=y archs will set it with
-+* pci_bus_find_domain_nr()).
-+*/
-+#define PCI_DOMAIN_NR_NOT_SET (-1)
+ 	cfg = bridge->bus->sysdata;
+-	adev = to_acpi_device(cfg->parent);
 +
- struct pci_host_bridge {
- 	struct device	dev;
- 	struct pci_bus	*bus;		/* Root bus */
-@@ -533,6 +542,7 @@ struct pci_host_bridge {
- 	struct pci_ops	*child_ops;
- 	void		*sysdata;
- 	int		busnr;
-+	int		domain_nr;
- 	struct list_head windows;	/* resource_entry */
- 	struct list_head dma_ranges;	/* dma ranges resource list */
- 	u8 (*swizzle_irq)(struct pci_dev *, u8 *); /* Platform IRQ swizzler */
++	/*
++	 * On Hyper-V there is no corresponding ACPI device for a root bridge,
++	 * therefore ->parent is set as NULL by the driver. And set 'adev' as
++	 * NULL in this case because there is no proper ACPI device.
++	 */
++	if (!cfg->parent)
++		adev = NULL;
++	else
++		adev = to_acpi_device(cfg->parent);
++
+ 	bus_dev = &bridge->bus->dev;
+ 
+ 	ACPI_COMPANION_SET(&bridge->dev, adev);
 -- 
 2.30.2
 
