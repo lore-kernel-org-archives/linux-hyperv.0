@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6631FC4320E
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Aug 2021 12:59:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB478C432BE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Aug 2021 12:59:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 509CF61029
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Aug 2021 12:59:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1A8760F93
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 Aug 2021 12:59:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236131AbhHCM7o (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S235954AbhHCM7o (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 3 Aug 2021 08:59:44 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:36498 "EHLO
+Received: from smtp-out1.suse.de ([195.135.220.28]:36464 "EHLO
         smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236129AbhHCM7o (ORCPT
+        with ESMTP id S236074AbhHCM7n (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 3 Aug 2021 08:59:44 -0400
+        Tue, 3 Aug 2021 08:59:43 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 7374121FF4;
-        Tue,  3 Aug 2021 12:59:32 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id F088021C1B;
+        Tue,  3 Aug 2021 12:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1627995572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1627995571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vlP3QAVUEn0hR6MYhWt4oFDClq9E2sRt3OZfVbJvOyY=;
-        b=xtmN1ccc+NuUUkAR5/v+u5oqKAm2V74qwTdvztPe3dI/dJfxmgKwX9aytxtJUOTIzgLYTp
-        TbiPkKoXiU3anWviHy8OJWvK+Xq7QX/3q76gBIc0pNJZVW+K5ZEuOPtRubB4l4mj0Nuimk
-        wcgZtFWBjViVHrOhUXnO52kzI9JZ2r8=
+        bh=JMGr2bMFEOJkptOUJEslT5Rfc8inM6HmVr0HkLxTO48=;
+        b=g4d7OwKX0BNDWNw4lbkxL/t63EICoH93gazLB2MgxeGzRKVyDmDcj8Ke5aLgpRyAOC/ST7
+        58yDCQLUAkCKhLrW9DuzUL2UZqJhM4x2EoaWbSXVAizKx3PEYKLNJvTX5GdHcXlfW1X0a8
+        tiqMRH2Q4L8eTJ4z9fYzInLIMjyFzBY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1627995572;
+        s=susede2_ed25519; t=1627995571;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vlP3QAVUEn0hR6MYhWt4oFDClq9E2sRt3OZfVbJvOyY=;
-        b=JpziimiGPcM0Qgc/3/Di/FwbU40N1tmBXUzYUdO9pGoCSyH9bWlOSe1hgga2bx4WwWRY9Q
-        jRO4gv1FNHtbJ+Dg==
+        bh=JMGr2bMFEOJkptOUJEslT5Rfc8inM6HmVr0HkLxTO48=;
+        b=DFbalQutwyV/J1ZNbO2xxS2e+kFXNq2zoOAqXP6uf/b/lUQnU4yNdhY4XgKI0KHYMTs7eC
+        czOClUWKEMeMkWDw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 014AD13CEF;
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7AC4713CD6;
         Tue,  3 Aug 2021 12:59:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id QAywOrM9CWExZwAAMHmgww
+        id UKGrHLM9CWExZwAAMHmgww
         (envelope-from <tzimmermann@suse.de>); Tue, 03 Aug 2021 12:59:31 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
@@ -64,9 +64,9 @@ To:     airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch,
 Cc:     dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 03/11] drm/gud: Get offset-adjusted mapping from drm_gem_fb_vmap()
-Date:   Tue,  3 Aug 2021 14:59:20 +0200
-Message-Id: <20210803125928.27780-4-tzimmermann@suse.de>
+Subject: [PATCH 02/11] drm/ast: Use offset-adjusted shadow-plane mappings
+Date:   Tue,  3 Aug 2021 14:59:19 +0200
+Message-Id: <20210803125928.27780-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210803125928.27780-1-tzimmermann@suse.de>
 References: <20210803125928.27780-1-tzimmermann@suse.de>
@@ -76,42 +76,28 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Pass the data parameter to drm_gem_fb_vmap() to retrieve pointers
-to the data. This address is different from the mapping addresses
-for framebuffers with non-zero offsets. Replaces gud's internal
-computation.
+For framebuffers with non-zero offset fields, shadow-plane helpers
+provide a pointer to the first byte of the contained data. Use it in
+ast.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gud/gud_pipe.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index 6270a1a32a65..b9b0e435ea0f 100644
---- a/drivers/gpu/drm/gud/gud_pipe.c
-+++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -153,6 +153,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 	struct dma_buf_attachment *import_attach = fb->obj[0]->import_attach;
- 	u8 compression = gdrm->compression;
- 	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
-+	struct dma_buf_map map_data[DRM_FORMAT_MAX_PLANES];
- 	void *vaddr, *buf;
- 	size_t pitch, len;
- 	int ret = 0;
-@@ -162,11 +163,11 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 	if (len > gdrm->bulk_len)
- 		return -E2BIG;
- 
--	ret = drm_gem_fb_vmap(fb, map, NULL);
-+	ret = drm_gem_fb_vmap(fb, map, map_data);
- 	if (ret)
- 		return ret;
- 
--	vaddr = map[0].vaddr + fb->offsets[0];
-+	vaddr = map_data[0].vaddr;
- 
- 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
- 	if (ret)
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 15319967164e..6bfaefa01818 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -808,7 +808,7 @@ ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].map;
+ 	u64 dst_off =
+ 		ast_cursor_plane->hwc[ast_cursor_plane->next_hwc_index].off;
+-	struct dma_buf_map src_map = shadow_plane_state->map[0];
++	struct dma_buf_map src_map = shadow_plane_state->data[0];
+ 	unsigned int offset_x, offset_y;
+ 	u16 x, y;
+ 	u8 x_offset, y_offset;
 -- 
 2.32.0
 
