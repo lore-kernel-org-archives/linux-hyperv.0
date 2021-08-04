@@ -5,86 +5,70 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 346C1C43214
-	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Aug 2021 18:47:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B982DC4338F
+	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Aug 2021 18:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F61A60F58
-	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Aug 2021 18:47:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 959B861050
+	for <linux-hyperv@archiver.kernel.org>; Wed,  4 Aug 2021 18:48:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240657AbhHDSre (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 4 Aug 2021 14:47:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57852 "EHLO
+        id S237601AbhHDStC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 4 Aug 2021 14:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240656AbhHDSqd (ORCPT
+        with ESMTP id S231349AbhHDStC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 4 Aug 2021 14:46:33 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A40C0613D5;
-        Wed,  4 Aug 2021 11:45:56 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id mt6so4362884pjb.1;
-        Wed, 04 Aug 2021 11:45:56 -0700 (PDT)
+        Wed, 4 Aug 2021 14:49:02 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F89FC061799;
+        Wed,  4 Aug 2021 11:48:49 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id e5so4016036pld.6;
+        Wed, 04 Aug 2021 11:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RxVhZhzrdpVfhKczKkjwriLOrEZUb+l7c3SXf7zapis=;
-        b=BSBFpeS4NYbpjkg/TYxU/a40UdrRaSHuvyYALC0d3jI7+urpq0W5worIHDHGimlBQW
-         IoqX/jpDjgpfwPVLEOPTtm8YlQ5Ix8YQdCpRjRCZk6f/NxI5G6qmsVkBtzBh68uBVmDv
-         AVCxcIkditYA0EcSGH90D7QsJtVlV5ZgHkrynm0HzF39hfQLMTBDa6o179N1WYgCxcJU
-         wntf5dO1AxpvHNZrMxbHwKA0i7pLpA81cIPwwg1EJesi8h4Rx2cXymMVU4vWOk9Dwp3b
-         piDz22sS31hIPaSIyUHuAvAEP7qt6/oHEXQ9LbknijoEy7X1ChFmwjsJCNyEpeMQoJ3Z
-         9XnA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=S4a7Bei7o1KC7VPD+FPgXj8rKANsZk7Dtmy+dqLdqQ0=;
+        b=Na8zJeTGmfyPfIl5yXh/YhNP81bw+jRCfXL/tqIhwoa2Imxmtx7IlQGUl2xONijLvg
+         Qqlq9tZrw+CAYpQLh2nD0cb1vNe4ohM1yF/A15EyyTnm+yywBvmWbyvypxlj3kB8COv+
+         FcZvEl459iDM41LJfG2H5RJ5LuazCDCQpUde6BqVaQuUw6m0Ws0XUjmwtoYdxioTs2MU
+         vzVKia2gyJ8ZbMYCHIWMDQDb6XSgL8ZfT1LX5pZW3ZOQiRUarMynP2YEQ2F24C/9So36
+         XA3jbvIEF4BYgwcqEnCi9RaF0I9CrvFwgFz3tdqh94eJPUSUPEOYpSgV+jNd3k+5XuEq
+         gW/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RxVhZhzrdpVfhKczKkjwriLOrEZUb+l7c3SXf7zapis=;
-        b=XluG5S9WurXIr0K2u/7giQe8NSpj/s1dHxtBHG7zuFEjZLnZUh3c0DY/6VTUpJwbJV
-         /1nCCThCch5DOPN7qF3EdCXg/xCuMTeWetxmrOArfaOKyrj17tqOSgMtzjm+IDjndYnx
-         igt8fNWEp7tc8ollCw4MX7yPbLfXto2UQWja5yILlGQEezpLn0UHIoxKxAOGW/ToPK9O
-         IC3l8gvbvGtUs5MzAzn0tuoc7L5b6hQHh0FOxBi9FUaeg3vQ/RLq0UmIoKDwDvNLWc6i
-         N7tGErNRUFvX6+EOH5yhxQX05x0RmZrWILI0kO/njamIPKTrwWuUYfawmUkwLzBZoglX
-         s/DQ==
-X-Gm-Message-State: AOAM531THou60EUQ4jh8wndmArnfqoWJShy5oUawTNktXY5RgBR4c1qj
-        PjrX2AL/7YDdpuD9znCxPSI=
-X-Google-Smtp-Source: ABdhPJztsLV/SAO5QGARoloi9ntHsZWAdZiJ+SIF7Qa61zkRRWj3D7v504+6SqgnuvhhKWUqfwA9rQ==
-X-Received: by 2002:a63:a42:: with SMTP id z2mr491773pgk.245.1628102755846;
-        Wed, 04 Aug 2021 11:45:55 -0700 (PDT)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:f:1947:6842:b8a8:6f83])
-        by smtp.gmail.com with ESMTPSA id f5sm3325647pjo.23.2021.08.04.11.45.55
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=S4a7Bei7o1KC7VPD+FPgXj8rKANsZk7Dtmy+dqLdqQ0=;
+        b=GSrOr/PDYCRkT84sar8rIVXKB3ex0HevRmKD3iGn7S4ItCNpapTPfx/RMTut9/3QsP
+         6IZ/kp7xlMS9Trtkkomi1e+8pErIeJAgy5TPTFhXb6JfeS/+vlE7TRgXEtSKCCqPMqjN
+         f7zPxUg7bVd8T3btNGJQRxwINHiLCAUTWOR8K/Xmxfqo7PrEVrowa9ZFInm2zmSS+Yck
+         avyg9uzamw9kpl7L5Zw/MtN+RV7A90pDBXYcQJYYMS+iBcqzP5FRNnzL9ZMB/ay2gL0Z
+         4FI8w59fkbOA/QQApMDuLICG+sed52TwhTRK2oMLUx8JECmgSd99C/Qi6xzm+AQ1uG+n
+         ZySg==
+X-Gm-Message-State: AOAM5328FLNM2QHktAQyAly7GzRMs3WaxJAkNX6wyF6t02D3h8TyAuYW
+        bblv+dCNIBejS28KQ7LiQEw=
+X-Google-Smtp-Source: ABdhPJz6VHK4a/cMxFqm9pe6FoV3BLeCK1H/pOxFm7ctorQ8X3eRKxzjPcE3vctLy4+qTFtLj1HovA==
+X-Received: by 2002:a17:90a:e647:: with SMTP id ep7mr11175384pjb.145.1628102928959;
+        Wed, 04 Aug 2021 11:48:48 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:a:194c:6842:b8a8:6f83])
+        by smtp.gmail.com with ESMTPSA id a22sm3739411pfa.137.2021.08.04.11.48.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Aug 2021 11:45:55 -0700 (PDT)
+        Wed, 04 Aug 2021 11:48:48 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        konrad.wilk@oracle.com, boris.ostrovsky@oracle.com,
-        jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org,
-        will@kernel.org, davem@davemloft.net, kuba@kernel.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, arnd@arndb.de,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        Tianyu.Lan@microsoft.com, rppt@kernel.org,
-        kirill.shutemov@linux.intel.com, akpm@linux-foundation.org,
-        brijesh.singh@amd.com, thomas.lendacky@amd.com, pgonda@google.com,
-        david@redhat.com, krish.sadhukhan@oracle.com, saravanand@fb.com,
-        aneesh.kumar@linux.ibm.com, xen-devel@lists.xenproject.org,
-        martin.b.radev@gmail.com, ardb@kernel.org, rientjes@google.com,
-        tj@kernel.org, keescook@chromium.org,
         michael.h.kelley@microsoft.com
-Cc:     iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
-        vkuznets@redhat.com, parri.andrea@gmail.com
-Subject: [PATCH V2 13/14] HV/Netvsc: Add Isolation VM support for netvsc driver
-Date:   Wed,  4 Aug 2021 14:45:09 -0400
-Message-Id: <20210804184513.512888-14-ltykernel@gmail.com>
+        vkuznets@redhat.com
+Subject: [PATCH] x86/Hyper-V: Initialize Hyper-V stimer after enabling lapic
+Date:   Wed,  4 Aug 2021 14:48:43 -0400
+Message-Id: <20210804184843.513524-1-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210804184513.512888-1-ltykernel@gmail.com>
-References: <20210804184513.512888-1-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -93,306 +77,111 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-In Isolation VM, all shared memory with host needs to mark visible
-to host via hvcall. vmbus_establish_gpadl() has already done it for
-netvsc rx/tx ring buffer. The page buffer used by vmbus_sendpacket_
-pagebuffer() still need to handle. Use DMA API to map/umap these
-memory during sending/receiving packet and Hyper-V DMA ops callback
-will use swiotlb function to allocate bounce buffer and copy data
-from/to bounce buffer.
+Hyper-V Isolation VM doesn't have PIT/HPET legacy timer and only
+provide stimer. Initialize Hyper-v stimer just after enabling
+lapic to avoid kernel stuck during calibrating TSC due to no
+available timer.
 
 Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/net/hyperv/hyperv_net.h   |   6 ++
- drivers/net/hyperv/netvsc.c       | 144 +++++++++++++++++++++++++++++-
- drivers/net/hyperv/rndis_filter.c |   2 +
- include/linux/hyperv.h            |   5 ++
- 4 files changed, 154 insertions(+), 3 deletions(-)
+ arch/x86/hyperv/hv_init.c      | 29 -----------------------------
+ arch/x86/kernel/cpu/mshyperv.c | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
-index bc48855dff10..862419912bfb 100644
---- a/drivers/net/hyperv/hyperv_net.h
-+++ b/drivers/net/hyperv/hyperv_net.h
-@@ -164,6 +164,7 @@ struct hv_netvsc_packet {
- 	u32 total_bytes;
- 	u32 send_buf_index;
- 	u32 total_data_buflen;
-+	struct hv_dma_range *dma_range;
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 6f247e7e07eb..4a643a85d570 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -271,25 +271,6 @@ static struct syscore_ops hv_syscore_ops = {
+ 	.resume		= hv_resume,
  };
  
- #define NETVSC_HASH_KEYLEN 40
-@@ -1074,6 +1075,7 @@ struct netvsc_device {
+-static void (* __initdata old_setup_percpu_clockev)(void);
+-
+-static void __init hv_stimer_setup_percpu_clockev(void)
+-{
+-	/*
+-	 * Ignore any errors in setting up stimer clockevents
+-	 * as we can run with the LAPIC timer as a fallback.
+-	 */
+-	(void)hv_stimer_alloc(false);
+-
+-	/*
+-	 * Still register the LAPIC timer, because the direct-mode STIMER is
+-	 * not supported by old versions of Hyper-V. This also allows users
+-	 * to switch to LAPIC timer via /sys, if they want to.
+-	 */
+-	if (old_setup_percpu_clockev)
+-		old_setup_percpu_clockev();
+-}
+-
+ static void __init hv_get_partition_id(void)
+ {
+ 	struct hv_get_partition_id *output_page;
+@@ -396,16 +377,6 @@ void __init hyperv_init(void)
+ 		wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
+ 	}
  
- 	/* Receive buffer allocated by us but manages by NetVSP */
- 	void *recv_buf;
-+	void *recv_original_buf;
- 	u32 recv_buf_size; /* allocated bytes */
- 	u32 recv_buf_gpadl_handle;
- 	u32 recv_section_cnt;
-@@ -1082,6 +1084,8 @@ struct netvsc_device {
+-	/*
+-	 * hyperv_init() is called before LAPIC is initialized: see
+-	 * apic_intr_mode_init() -> x86_platform.apic_post_init() and
+-	 * apic_bsp_setup() -> setup_local_APIC(). The direct-mode STIMER
+-	 * depends on LAPIC, so hv_stimer_alloc() should be called from
+-	 * x86_init.timers.setup_percpu_clockev.
+-	 */
+-	old_setup_percpu_clockev = x86_init.timers.setup_percpu_clockev;
+-	x86_init.timers.setup_percpu_clockev = hv_stimer_setup_percpu_clockev;
+-
+ 	hv_apic_init();
  
- 	/* Send buffer allocated by us */
- 	void *send_buf;
-+	void *send_original_buf;
-+	u32 send_buf_size;
- 	u32 send_buf_gpadl_handle;
- 	u32 send_section_cnt;
- 	u32 send_section_size;
-@@ -1730,4 +1734,6 @@ struct rndis_message {
- #define RETRY_US_HI	10000
- #define RETRY_MAX	2000	/* >10 sec */
- 
-+void netvsc_dma_unmap(struct hv_device *hv_dev,
-+		      struct hv_netvsc_packet *packet);
- #endif /* _HYPERV_NET_H */
-diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
-index 7bd935412853..fc312e5db4d5 100644
---- a/drivers/net/hyperv/netvsc.c
-+++ b/drivers/net/hyperv/netvsc.c
-@@ -153,8 +153,21 @@ static void free_netvsc_device(struct rcu_head *head)
- 	int i;
- 
- 	kfree(nvdev->extension);
--	vfree(nvdev->recv_buf);
--	vfree(nvdev->send_buf);
-+
-+	if (nvdev->recv_original_buf) {
-+		vunmap(nvdev->recv_buf);
-+		vfree(nvdev->recv_original_buf);
-+	} else {
-+		vfree(nvdev->recv_buf);
-+	}
-+
-+	if (nvdev->send_original_buf) {
-+		vunmap(nvdev->send_buf);
-+		vfree(nvdev->send_original_buf);
-+	} else {
-+		vfree(nvdev->send_buf);
-+	}
-+
- 	kfree(nvdev->send_section_map);
- 
- 	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
-@@ -330,6 +343,27 @@ int netvsc_alloc_recv_comp_ring(struct netvsc_device *net_device, u32 q_idx)
- 	return nvchan->mrc.slots ? 0 : -ENOMEM;
+ 	x86_init.pci.arch_init = hv_pci_init;
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 6b5835a087a3..dcfbd2770d7f 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -214,6 +214,20 @@ static void __init hv_smp_prepare_boot_cpu(void)
+ #endif
  }
  
-+static void *netvsc_remap_buf(void *buf, unsigned long size)
++static void (* __initdata old_setup_initr_mode)(void);
++
++static void __init hv_setup_initr_mode(void)
 +{
-+	unsigned long *pfns;
-+	void *vaddr;
-+	int i;
++	if (old_setup_initr_mode)
++		old_setup_initr_mode();
 +
-+	pfns = kcalloc(size / HV_HYP_PAGE_SIZE, sizeof(unsigned long),
-+		       GFP_KERNEL);
-+	if (!pfns)
-+		return NULL;
-+
-+	for (i = 0; i < size / HV_HYP_PAGE_SIZE; i++)
-+		pfns[i] = virt_to_hvpfn(buf + i * HV_HYP_PAGE_SIZE)
-+			+ (ms_hyperv.shared_gpa_boundary >> HV_HYP_PAGE_SHIFT);
-+
-+	vaddr = vmap_pfn(pfns, size / HV_HYP_PAGE_SIZE, PAGE_KERNEL_IO);
-+	kfree(pfns);
-+
-+	return vaddr;
++	/*
++	 * The direct-mode STIMER depends on LAPIC and so allocate
++	 * STIMER after calling initr node callback.
++	 */
++	(void)hv_stimer_alloc(false);
 +}
 +
- static int netvsc_init_buf(struct hv_device *device,
- 			   struct netvsc_device *net_device,
- 			   const struct netvsc_device_info *device_info)
-@@ -340,6 +374,7 @@ static int netvsc_init_buf(struct hv_device *device,
- 	unsigned int buf_size;
- 	size_t map_words;
- 	int i, ret = 0;
-+	void *vaddr;
- 
- 	/* Get receive buffer area. */
- 	buf_size = device_info->recv_sections * device_info->recv_section_size;
-@@ -375,6 +410,15 @@ static int netvsc_init_buf(struct hv_device *device,
- 		goto cleanup;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		vaddr = netvsc_remap_buf(net_device->recv_buf, buf_size);
-+		if (!vaddr)
-+			goto cleanup;
+ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
+ {
+ #ifdef CONFIG_X86_64
+@@ -424,6 +438,7 @@ static void __init ms_hyperv_init_platform(void)
+ 	/* Register Hyper-V specific clocksource */
+ 	hv_init_clocksource();
+ #endif
 +
-+		net_device->recv_original_buf = net_device->recv_buf;
-+		net_device->recv_buf = vaddr;
-+	}
+ 	/*
+ 	 * TSC should be marked as unstable only after Hyper-V
+ 	 * clocksource has been initialized. This ensures that the
+@@ -431,6 +446,13 @@ static void __init ms_hyperv_init_platform(void)
+ 	 */
+ 	if (!(ms_hyperv.features & HV_ACCESS_TSC_INVARIANT))
+ 		mark_tsc_unstable("running on Hyper-V");
 +
- 	/* Notify the NetVsp of the gpadl handle */
- 	init_packet = &net_device->channel_init_pkt;
- 	memset(init_packet, 0, sizeof(struct nvsp_message));
-@@ -477,6 +521,15 @@ static int netvsc_init_buf(struct hv_device *device,
- 		goto cleanup;
- 	}
- 
-+	if (hv_isolation_type_snp()) {
-+		vaddr = netvsc_remap_buf(net_device->send_buf, buf_size);
-+		if (!vaddr)
-+			goto cleanup;
-+
-+		net_device->send_original_buf = net_device->send_buf;
-+		net_device->send_buf = vaddr;
-+	}
-+
- 	/* Notify the NetVsp of the gpadl handle */
- 	init_packet = &net_device->channel_init_pkt;
- 	memset(init_packet, 0, sizeof(struct nvsp_message));
-@@ -767,7 +820,7 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
- 
- 	/* Notify the layer above us */
- 	if (likely(skb)) {
--		const struct hv_netvsc_packet *packet
-+		struct hv_netvsc_packet *packet
- 			= (struct hv_netvsc_packet *)skb->cb;
- 		u32 send_index = packet->send_buf_index;
- 		struct netvsc_stats *tx_stats;
-@@ -783,6 +836,7 @@ static void netvsc_send_tx_complete(struct net_device *ndev,
- 		tx_stats->bytes += packet->total_bytes;
- 		u64_stats_update_end(&tx_stats->syncp);
- 
-+		netvsc_dma_unmap(ndev_ctx->device_ctx, packet);
- 		napi_consume_skb(skb, budget);
- 	}
- 
-@@ -947,6 +1001,82 @@ static void netvsc_copy_to_send_buf(struct netvsc_device *net_device,
- 		memset(dest, 0, padding);
++	/*
++	 * Override initr mode callback in order to allocate STIMER
++	 * after initalizing LAPIC.
++	 */
++	old_setup_initr_mode = x86_init.irqs.intr_mode_init;
++	x86_init.irqs.intr_mode_init = hv_setup_initr_mode;
  }
  
-+void netvsc_dma_unmap(struct hv_device *hv_dev,
-+		      struct hv_netvsc_packet *packet)
-+{
-+	u32 page_count = packet->cp_partial ?
-+		packet->page_buf_cnt - packet->rmsg_pgcnt :
-+		packet->page_buf_cnt;
-+	int i;
-+
-+	if (!hv_is_isolation_supported())
-+		return;
-+
-+	if (!packet->dma_range)
-+		return;
-+
-+	for (i = 0; i < page_count; i++)
-+		dma_unmap_single(&hv_dev->device, packet->dma_range[i].dma,
-+				 packet->dma_range[i].mapping_size,
-+				 DMA_TO_DEVICE);
-+
-+	kfree(packet->dma_range);
-+}
-+
-+/* netvsc_dma_map - Map swiotlb bounce buffer with data page of
-+ * packet sent by vmbus_sendpacket_pagebuffer() in the Isolation
-+ * VM.
-+ *
-+ * In isolation VM, netvsc send buffer has been marked visible to
-+ * host and so the data copied to send buffer doesn't need to use
-+ * bounce buffer. The data pages handled by vmbus_sendpacket_pagebuffer()
-+ * may not be copied to send buffer and so these pages need to be
-+ * mapped with swiotlb bounce buffer. netvsc_dma_map() is to do
-+ * that. The pfns in the struct hv_page_buffer need to be converted
-+ * to bounce buffer's pfn. The loop here is necessary and so not
-+ * use dma_map_sg() here.
-+ */
-+int netvsc_dma_map(struct hv_device *hv_dev,
-+		   struct hv_netvsc_packet *packet,
-+		   struct hv_page_buffer *pb)
-+{
-+	u32 page_count =  packet->cp_partial ?
-+		packet->page_buf_cnt - packet->rmsg_pgcnt :
-+		packet->page_buf_cnt;
-+	dma_addr_t dma;
-+	int i;
-+
-+	if (!hv_is_isolation_supported())
-+		return 0;
-+
-+	packet->dma_range = kcalloc(page_count,
-+				    sizeof(*packet->dma_range),
-+				    GFP_KERNEL);
-+	if (!packet->dma_range)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < page_count; i++) {
-+		char *src = phys_to_virt((pb[i].pfn << HV_HYP_PAGE_SHIFT)
-+					 + pb[i].offset);
-+		u32 len = pb[i].len;
-+
-+		dma = dma_map_single(&hv_dev->device, src, len,
-+				     DMA_TO_DEVICE);
-+		if (dma_mapping_error(&hv_dev->device, dma)) {
-+			kfree(packet->dma_range);
-+			return -ENOMEM;
-+		}
-+
-+		packet->dma_range[i].dma = dma;
-+		packet->dma_range[i].mapping_size = len;
-+		pb[i].pfn = dma >> HV_HYP_PAGE_SHIFT;
-+		pb[i].offset = offset_in_hvpage(dma);
-+		pb[i].len = len;
-+	}
-+
-+	return 0;
-+}
-+
- static inline int netvsc_send_pkt(
- 	struct hv_device *device,
- 	struct hv_netvsc_packet *packet,
-@@ -987,14 +1117,22 @@ static inline int netvsc_send_pkt(
- 
- 	trace_nvsp_send_pkt(ndev, out_channel, rpkt);
- 
-+	packet->dma_range = NULL;
- 	if (packet->page_buf_cnt) {
- 		if (packet->cp_partial)
- 			pb += packet->rmsg_pgcnt;
- 
-+		ret = netvsc_dma_map(ndev_ctx->device_ctx, packet, pb);
-+		if (ret)
-+			return ret;
-+
- 		ret = vmbus_sendpacket_pagebuffer(out_channel,
- 						  pb, packet->page_buf_cnt,
- 						  &nvmsg, sizeof(nvmsg),
- 						  req_id);
-+
-+		if (ret)
-+			netvsc_dma_unmap(ndev_ctx->device_ctx, packet);
- 	} else {
- 		ret = vmbus_sendpacket(out_channel,
- 				       &nvmsg, sizeof(nvmsg),
-diff --git a/drivers/net/hyperv/rndis_filter.c b/drivers/net/hyperv/rndis_filter.c
-index f6c9c2a670f9..448fcc325ed7 100644
---- a/drivers/net/hyperv/rndis_filter.c
-+++ b/drivers/net/hyperv/rndis_filter.c
-@@ -361,6 +361,8 @@ static void rndis_filter_receive_response(struct net_device *ndev,
- 			}
- 		}
- 
-+		netvsc_dma_unmap(((struct net_device_context *)
-+			netdev_priv(ndev))->device_ctx, &request->pkt);
- 		complete(&request->wait_event);
- 	} else {
- 		netdev_err(ndev,
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index cb4695c893a6..2d4cf1ef4062 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1617,6 +1617,11 @@ struct hyperv_service_callback {
- 	void (*callback)(void *context);
- };
- 
-+struct hv_dma_range {
-+	dma_addr_t dma;
-+	u32 mapping_size;
-+};
-+
- #define MAX_SRV_VER	0x7ffffff
- extern bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, u8 *buf, u32 buflen,
- 				const int *fw_version, int fw_vercnt,
+ static bool __init ms_hyperv_x2apic_available(void)
 -- 
 2.25.1
 
