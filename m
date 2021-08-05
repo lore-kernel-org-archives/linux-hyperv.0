@@ -2,86 +2,106 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7444C4338F
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Aug 2021 07:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E7DC4338F
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Aug 2021 12:45:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C41BC60F94
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Aug 2021 07:11:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F8BC6113C
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 Aug 2021 12:45:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236499AbhHEHLu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 5 Aug 2021 03:11:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51436 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230037AbhHEHLu (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 5 Aug 2021 03:11:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1573C60F41;
-        Thu,  5 Aug 2021 07:11:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628147495;
-        bh=O9a3HRs73pQwCyxWN42LGJZX4aJ9FyFEg8Z3U4/fTgA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZfpnjYf8skjAt9pwnu7FHoGa5dMwu/nYzyOjxpzFInxHKUbssI/eXFFe6e6oaYWgH
-         pLlf+qR5fT8ASoRhTjeohzR6aZjPHprE86aqSmmGG5NQpUfhKAEMYvz7CQHwguiaKQ
-         n+yhFChuHRf5QMQfpe7eyHLuK/hbgNTjjiGa5Q2o=
-Date:   Thu, 5 Aug 2021 09:11:33 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     longli@linuxonhyperv.com
-Cc:     linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, Long Li <longli@microsoft.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>, linux-doc@vger.kernel.org
-Subject: Re: [Patch v5 2/3] Drivers: hv: add Azure Blob driver
-Message-ID: <YQuPJUX4+HZ3FeKC@kroah.com>
-References: <1628146812-29798-1-git-send-email-longli@linuxonhyperv.com>
- <1628146812-29798-3-git-send-email-longli@linuxonhyperv.com>
+        id S240614AbhHEMqG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 5 Aug 2021 08:46:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240545AbhHEMqF (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 5 Aug 2021 08:46:05 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7857DC061765;
+        Thu,  5 Aug 2021 05:45:50 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id cl16-20020a17090af690b02901782c35c4ccso5324390pjb.5;
+        Thu, 05 Aug 2021 05:45:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UnQ03oOngNmEkX2RgYECAHu+zjiI5dLikqmWa8ZL0fs=;
+        b=UDFSEnFX+P4D9dsBIpJXdiBDvFFosSFjV5A69fRAMBpYEuPR/kPhRSQT3t5X9zzZKT
+         Vrm2OtKTz8EhYg6VE+HJJYVkvpoPT20eHrl0bUD9R3aKUqckaqhXIqKySeliUj954Ml2
+         bZddEqAIyd2Os0Nw/zD4AzC/gPjf4LGKvd9l0mFEOcajMDhklpqkyzKbTfbc9dTAl0Eu
+         2MbKnuC0XAVQoUzGUQUs3NDbtWnkaT9siO8g5mXDko/Y58pnN40zMNu/dUsbw5FSj24u
+         sXHacU7T0WuWEKWp4GJzAz/mJlcviQzTggQVQiEuKbTK/sHfxPpTM7KK9whHv0N7d0MS
+         Sj7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UnQ03oOngNmEkX2RgYECAHu+zjiI5dLikqmWa8ZL0fs=;
+        b=mo+0QLA/3run/+qB5PSu6l7C2HY2HUisHwAMuDn2PG16qHWZ5k92FK8Lrme6jvBIZF
+         8XsXU0nX83Ihx5RGliIQVYuZUjrsJTHmEfMIGkYxQUwi6w81ZwjyF2TYzAVnVOM8FIxa
+         9PWdtQm3zXpqF2tlFtBad6k3+i0QEkiM2gspcuD+E/C28zEjn06aqMmtWYqt9l6bZ3FI
+         xcwjIg90I66p90fxhg+xVpaAN/MGM8BDPZjHlSWkNsxQrc/J5pZTtXnLjsZNFqqvwqKc
+         efhxvbYTgILhN26Uenmpz4iY2OAuAjU6/CRJI/wCnptQ+gB83diryfI6Ma8KJC65wZZ3
+         pV0Q==
+X-Gm-Message-State: AOAM533xjirdHaLyKjlF56GvDv+xgdN/hFkWEZL0OI2n00dIA40jZQ7H
+        bx0C8wAE6QXocCTC0yAuN28=
+X-Google-Smtp-Source: ABdhPJyPIvuRj0WS5honl3gpwUJRNlaY/tqyu7YrNlWPhrOIfYzyCSQx6EuxhZ5KXVdagwF6xp7ecA==
+X-Received: by 2002:a62:878c:0:b029:3c5:f729:ef00 with SMTP id i134-20020a62878c0000b02903c5f729ef00mr4911562pfe.43.1628167550056;
+        Thu, 05 Aug 2021 05:45:50 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:18:efec::4b1])
+        by smtp.gmail.com with ESMTPSA id s5sm1983191pji.56.2021.08.05.05.45.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Aug 2021 05:45:49 -0700 (PDT)
+Subject: Re: [PATCH] x86/Hyper-V: Initialize Hyper-V stimer after enabling
+ lapic
+To:     Praveen Kumar <kumarpraveen@linux.microsoft.com>,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        michael.h.kelley@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        vkuznets@redhat.com
+References: <20210804184843.513524-1-ltykernel@gmail.com>
+ <db8d38c9-e11d-1abe-8617-d8a231cc22e2@linux.microsoft.com>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <4ceb1504-205a-26fc-2fec-2d87f8601b31@gmail.com>
+Date:   Thu, 5 Aug 2021 20:45:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1628146812-29798-3-git-send-email-longli@linuxonhyperv.com>
+In-Reply-To: <db8d38c9-e11d-1abe-8617-d8a231cc22e2@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 12:00:11AM -0700, longli@linuxonhyperv.com wrote:
-> +static int az_blob_create_device(struct az_blob_device *dev)
-> +{
-> +	int ret;
-> +	struct dentry *debugfs_root;
-> +
-> +	dev->misc.minor	= MISC_DYNAMIC_MINOR,
-> +	dev->misc.name	= "azure_blob",
-> +	dev->misc.fops	= &az_blob_client_fops,
-> +
-> +	ret = misc_register(&dev->misc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	debugfs_root = debugfs_create_dir("az_blob", NULL);
+Hi Praveen:
+     Thanks for your review.
 
-So you try to create a directory in the root of debugfs called "az_blob"
-for every device in the system of this one type?
+On 8/5/2021 2:41 PM, Praveen Kumar wrote:
+>> +
+>> +static void __init hv_setup_initr_mode(void)
+>> +{
+>> +	if (old_setup_initr_mode)
+>> +		old_setup_initr_mode();
+>> +
+>> +	/*
+>> +	 * The direct-mode STIMER depends on LAPIC and so allocate
+>> +	 * STIMER after calling initr node callback.
+>> +	 */
+>> +	(void)hv_stimer_alloc(false);
+> In my understanding, in previous implementation we were ignoring the return error as there was a fallback handling for LAPIC.
+> However, I'm not seeing the same here, or am I missing something ?
+> 
 
-That will blow up when you have multiple devices of the same type,
-please fix.
+Nice catch. The original comment should be keep and will add back in the 
+next version.
 
-thanks,
-
-greg k-h
