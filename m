@@ -2,146 +2,147 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CB2C432BE
-	for <linux-hyperv@archiver.kernel.org>; Tue, 10 Aug 2021 13:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB64C4338F
+	for <linux-hyperv@archiver.kernel.org>; Wed, 11 Aug 2021 15:36:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F88260FDA
-	for <linux-hyperv@archiver.kernel.org>; Tue, 10 Aug 2021 13:09:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47FCE60E09
+	for <linux-hyperv@archiver.kernel.org>; Wed, 11 Aug 2021 15:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240302AbhHJNJy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 10 Aug 2021 09:09:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44982 "EHLO
+        id S233166AbhHKPhA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 11 Aug 2021 11:37:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238793AbhHJNJx (ORCPT
+        with ESMTP id S233010AbhHKPg7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 10 Aug 2021 09:09:53 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B94DDC0613D3;
-        Tue, 10 Aug 2021 06:09:31 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso5285565pjb.1;
-        Tue, 10 Aug 2021 06:09:31 -0700 (PDT)
+        Wed, 11 Aug 2021 11:36:59 -0400
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 112C7C061765;
+        Wed, 11 Aug 2021 08:36:36 -0700 (PDT)
+Received: by mail-il1-x131.google.com with SMTP id x7so3275048ilh.10;
+        Wed, 11 Aug 2021 08:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=66KGVVLHGJOMxSHzgJj6VDCRB8/apj3sR/Ynuos6wU8=;
-        b=pt4Qw4Gt2cFRP884fMrdBTfJzkwL2gx6Mo1qS6xvvDhfSdIustLAFX7++VkRY1h4um
-         tTehujaFm9rbEjIEwB0Xu4QM2VZRfXhLGrMo8JNp/sDj6XoPD9WPfZ8v2F3qn2rH9A9d
-         OGCnPFdaPpTRfjqukxIeWiIpd6XfYc4MZvSVh7tbwIwGO2vT6u6skC56ab4LGrfYsBku
-         cbFUdZZjMM6VnimGAjkoLRcPks9PLwbJP0vFH3G0Hbv47WNqW4yslC4eCkDCDu113c9j
-         ijT0klWyzKut4iQ2YBiKGjugVqCFd+8zcrAniUpAohoQSh6qC1V2Qr33L9WPJqBDjAdX
-         IuxA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C4Yippe1FfLHJnm/bBg0Tev596XLEVnx9ptKT8Tmv1w=;
+        b=tuo0NJhlbsE1cgJWOCTQMJGME0TyKH6WbYQBRHNGe6yb4vS8khVqpRBj9CelO4Drcu
+         ipgawXlzgK+T4+0OBbYZXrAC1LFA5a7zBBMAxXttMA0xiNXNci6NbPSr29QvVBGM+LzW
+         29epQDHdAjX31mv91AAwgsMS8FmaqZJ2+oJcz/nKZExo2GdJ6bM9tSj48TZSrpoMKC02
+         c+JeSib3R+Nz6EjTa6xDUcvTxRMEGNVg12BZ4RkXpr1AUdAsrvuWuBm2oTzNFEZOw4S7
+         PMChY9ksUDnIApH0yl+pHTagBMzZoevhZZ0489tbZYC1FLezbgfwtDnFmSd48OU9F4Sr
+         Cgpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=66KGVVLHGJOMxSHzgJj6VDCRB8/apj3sR/Ynuos6wU8=;
-        b=frCKtQI1YS38Xm+X5OX3SvlTItm+3OFg53bIjvJol3QyTBtKAao5HDsf05rra10xEQ
-         3LhKLa+5kDdYs5rD482BLg0VjVRwc2LJREAVoertWp35Vjs/bF1bvOV99jACjCf6tQA0
-         rAsLeXQy3Ust2M+EdzDFZnSannd+fOtYzW/EHx2qrzVaHA9ATVEg9dC0BZG66IZ+l7rT
-         789gTMysdJz7yuPsNNQ/n7Ft3IJVvnA0Vq/gVKOKgHM4rE6hHZ0jbPzJrRKDfYjGuvya
-         iMoV/SUgOZv+VWMmLQlY3KVPKgtK0pK26E0F7YqNzAO7ZCQ6G2Vb9c7p3Y4FhVcWBBwN
-         ojTA==
-X-Gm-Message-State: AOAM530pX6KVNFGpGSsSsjx0Qv3es1RvOd0h8P5UcbcPtRHUvwcZlCS/
-        9bhRKUw293Oa0hs/5RNSppk=
-X-Google-Smtp-Source: ABdhPJzfPih5Ybmexq3iu0hKNG6YxeEAVSzL4u+nolQ/+flfaaM1LfzobnQ7JyAdR0R5YSEGRoeWmg==
-X-Received: by 2002:aa7:8f05:0:b029:3b4:ff54:9a10 with SMTP id x5-20020aa78f050000b02903b4ff549a10mr29132627pfr.29.1628600971342;
-        Tue, 10 Aug 2021 06:09:31 -0700 (PDT)
-Received: from ?IPv6:2404:f801:0:5:8000::4b1? ([2404:f801:9000:18:efec::4b1])
-        by smtp.gmail.com with ESMTPSA id c9sm22240121pgq.58.2021.08.10.06.09.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 06:09:30 -0700 (PDT)
-Subject: Re: [PATCH V3 03/13] x86/HV: Add new hvcall guest address host
- visibility support
-To:     Dave Hansen <dave.hansen@intel.com>, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        konrad.wilk@oracle.com, boris.ostrovsky@oracle.com,
-        jgross@suse.com, sstabellini@kernel.org, joro@8bytes.org,
-        will@kernel.org, davem@davemloft.net, kuba@kernel.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, arnd@arndb.de,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, ardb@kernel.org,
-        Tianyu.Lan@microsoft.com, pgonda@google.com,
-        martin.b.radev@gmail.com, akpm@linux-foundation.org,
-        kirill.shutemov@linux.intel.com, rppt@kernel.org,
-        sfr@canb.auug.org.au, saravanand@fb.com,
-        krish.sadhukhan@oracle.com, aneesh.kumar@linux.ibm.com,
-        xen-devel@lists.xenproject.org, rientjes@google.com,
-        hannes@cmpxchg.org, tj@kernel.org, michael.h.kelley@microsoft.com
-Cc:     iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
-        vkuznets@redhat.com, parri.andrea@gmail.com
-References: <20210809175620.720923-1-ltykernel@gmail.com>
- <20210809175620.720923-4-ltykernel@gmail.com>
- <a0499916-38e2-0b1e-f2b9-ef760f6d4d92@intel.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-Message-ID: <3f09c505-3e4d-3b06-e92a-db6fd3e50d0c@gmail.com>
-Date:   Tue, 10 Aug 2021 21:09:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+        bh=C4Yippe1FfLHJnm/bBg0Tev596XLEVnx9ptKT8Tmv1w=;
+        b=LpSorsVwJjjVCPeQGFkGkfWbP7HWl53bo8sHm2c7D4QGOsuYZYyV88HR08mZuH45tb
+         0er6S5+RvjA6EBDmtYCULRCX0dvtRDnGGO1WUJIHtLumctYOOwYSeNtHGo1v1VQrg64g
+         B5KX1sxj8LIbxxFYsBU1OhjZT1ef7qpW+JjhENWVnYtWqW5WKMKkveHbEPrE+m47m1S3
+         V6fDbBLTxd2ZFUjOr0u6Qz/vCD/sEgXSkwVg1jvhU8+LodJeon9X2jb/MKQL3UbGyteU
+         vRASRzGwI6DP5+bPB9pkohaaInKBZfPyHQBpSy/0YzLfe9EVjjs0611usmD7kN1/TtSk
+         cBeA==
+X-Gm-Message-State: AOAM530djA9ULyBqQnzmp8PQhXfU3tV0rTxcBJLbT0RUtar2DDabmWdd
+        Unc9EAjeiolcGq3TOTiq5cU=
+X-Google-Smtp-Source: ABdhPJyNTPz4hVjuOvkYyoJGprZOIGKlvLeq9sYzEWOuFruqzCYMdKQk+WsJtr3StkToCnA5pmFe0A==
+X-Received: by 2002:a05:6e02:1aaf:: with SMTP id l15mr51523ilv.128.1628696195512;
+        Wed, 11 Aug 2021 08:36:35 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id r1sm12858165ilt.37.2021.08.11.08.36.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Aug 2021 08:36:35 -0700 (PDT)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 1293C27C0054;
+        Wed, 11 Aug 2021 11:36:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 11 Aug 2021 11:36:34 -0400
+X-ME-Sender: <xms:f-4TYeyDY-tqzLn91IwpWBMsoKdcnhn-Po73HZSJ3YMhnblmhH6gIQ>
+    <xme:f-4TYaRPay_p1qCOKeStxdzVbhKSppcTl_RPqCUtDWdQJOq5zohNwNqwm6rsyrJRz
+    1s2B_ufH2JLpr152Q>
+X-ME-Received: <xmr:f-4TYQWZzjQEVuDeGplKGtke55nDNhu_9lu3CX5s3jm5oyWwKiAwekeYZKY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrkedugdeltdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepuehoqhhunhcuhfgv
+    nhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrh
+    hnpeeiueevjeelheduteefveeflefgjeetfeehvdekudekgfegudeghfduhfetveejuden
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhs
+    ohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnh
+    hgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:f-4TYUgR8cSw0c2QXu0An5T3UvBrcX3cDGBtKcReql7HxgKePM4i-w>
+    <xmx:f-4TYQDQzgoxcAIn_ZyyTk4-napsH79pFmucDo26F5V8xSvPVEIYyw>
+    <xmx:f-4TYVIs1alv2ETfrTUIikowPrWaQA-FrrMbpOX1YhoQKGbwm5dRWQ>
+    <xmx:ge4TYXC3gDEQxmiAu1dk9kOmvcSH1TynfVeQg8CBKcwSw82hnL8DC6YWMrk>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Aug 2021 11:36:31 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-hyperv@vger.kernel.org,
+        Sunil Muthuswamy <sunilmut@microsoft.com>,
+        Marc Zyngier <maz@kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Subject: [RFC 0/5] PCI: Use the private field of pci_host_bridge for ACPI device
+Date:   Wed, 11 Aug 2021 23:36:14 +0800
+Message-Id: <20210811153619.88922-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <a0499916-38e2-0b1e-f2b9-ef760f6d4d92@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 8/10/2021 6:12 AM, Dave Hansen wrote:
-> On 8/9/21 10:56 AM, Tianyu Lan wrote:
->> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
->>
->> Add new hvcall guest address host visibility support to mark
->> memory visible to host. Call it inside set_memory_decrypted
->> /encrypted(). Add HYPERVISOR feature check in the
->> hv_is_isolation_supported() to optimize in non-virtualization
->> environment.
-> 
->  From an x86/mm perspective:
-> 
-> Acked-by: Dave Hansen <dave.hansen@intel.com>
-> 
+Hi Lorenzo,
 
-Thanks for your ACK.
+As our previous discussion, I make a patchset showing the required
+effort if we want to use ->private in pci_host_bridge to store ACPI
+device pointer on ARM64. This patchset is mostly for discussion purpose.
 
+This patchset is based onto the v5 of my Hyper-V PCI on ARM64 patchset:
 
-> A tiny nit:
-> 
->> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
->> index 0bb4d9ca7a55..b3683083208a 100644
->> --- a/arch/x86/hyperv/hv_init.c
->> +++ b/arch/x86/hyperv/hv_init.c
->> @@ -607,6 +607,12 @@ EXPORT_SYMBOL_GPL(hv_get_isolation_type);
->>   
->>   bool hv_is_isolation_supported(void)
->>   {
->> +	if (!cpu_feature_enabled(X86_FEATURE_HYPERVISOR))
->> +		return 0;
->> +
->> +	if (!hypervisor_is_type(X86_HYPER_MS_HYPERV))
->> +		return 0;
->> +
->>   	return hv_get_isolation_type() != HV_ISOLATION_TYPE_NONE;
->>   }
-> This might be worthwhile to move to a header.  That ensures that
-> hv_is_isolation_supported() use can avoid even a function call.  But, I
-> see this is used in modules and its use here is also in a slow path, so
-> it's not a big deal
-> 
+	https://lore.kernel.org/lkml/20210726180657.142727-1-boqun.feng@gmail.com/
 
-I will move it to header in the following version.
+, and I've tested it with other code under development to fully enable
+Hyper-V virtual PCI on ARM64.
+
+Regards,
+Boqun
 
 
-Thanks.
+Boqun Feng (5):
+  PCI: Introduce pci_create_root_bus_priv()
+  PCI/ACPI: Store ACPI device information in the host bridge structure
+  PCI: hv: Set NULL as the ACPI device for the PCI host bridge
+  arm64: PCI: Retrieve ACPI device information directly from host
+    bridges
+  PCI: hv: Remove the dependency of pci_config_window
+
+ arch/arm64/kernel/pci.c             | 14 +-------------
+ drivers/acpi/pci_root.c             |  5 +++--
+ drivers/pci/controller/pci-hyperv.c | 20 +++++++++++++++-----
+ drivers/pci/probe.c                 | 15 ++++++++++++---
+ include/linux/pci-acpi.h            |  5 +++++
+ include/linux/pci.h                 |  3 +++
+ 6 files changed, 39 insertions(+), 23 deletions(-)
+
+-- 
+2.32.0
+
