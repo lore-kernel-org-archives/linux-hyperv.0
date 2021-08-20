@@ -2,28 +2,64 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F4BDC4320A
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Aug 2021 04:32:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE928C4338F
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Aug 2021 09:32:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1727E6103C
-	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Aug 2021 04:32:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9ABB86112E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 20 Aug 2021 09:32:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231148AbhHTEdV (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 20 Aug 2021 00:33:21 -0400
-Received: from verein.lst.de ([213.95.11.211]:39666 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229457AbhHTEdU (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 20 Aug 2021 00:33:20 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 0B8C66736F; Fri, 20 Aug 2021 06:32:38 +0200 (CEST)
-Date:   Fri, 20 Aug 2021 06:32:37 +0200
-From:   "hch@lst.de" <hch@lst.de>
-To:     Michael Kelley <mikelley@microsoft.com>
-Cc:     Tianyu Lan <ltykernel@gmail.com>,
+        id S235278AbhHTJdO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 20 Aug 2021 05:33:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235321AbhHTJdM (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 20 Aug 2021 05:33:12 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E138C061575;
+        Fri, 20 Aug 2021 02:32:35 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id o2so8571522pgr.9;
+        Fri, 20 Aug 2021 02:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=F/INelQk2As+/GtcCaMtJ+YzY5fXWvqQ9IG9ehmEJG8=;
+        b=NOsRg08JE9vqoPHWkIYlLgvhL+MicNH2byE8RBT270hR7Y34lewYGmzCG7ZiSOPfst
+         hHwY77aZbHyaZy74ak1zDkDcJThEyYHT+phdATRZfrBFvdCFxZDPgNsT5HA2ACIGOssj
+         5flQeCaYSnsS7x235BGVvDlZVJfoVF2viLSRLpv9bgZw/C28yjBIhSKVFmgAWxO0RwLs
+         SqRSs/9c3L856W6LO84v1LhAxpS7IpBUWCu4vR1ZWSmuRYMsAqASRYQzmnl0WEeB+EGQ
+         v8cJErq4KMIgeGnBvkCcPfJfi85pvA0P+J4N0lc0Qhk1awxXio8YvgLwIqm9BpqqWqJj
+         KSgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=F/INelQk2As+/GtcCaMtJ+YzY5fXWvqQ9IG9ehmEJG8=;
+        b=rMtsF+QGUp5drnz5DEzx92ESwG2lVeehtmHgXgebbn9DWpKd10X1hVLAetRbdR831K
+         7F/8E6cLz88oDH+DjKGSyuhDc+9MppljHQQhMgASwRdtSjxdaYJ3EiKoKPyZDXs58lGg
+         rhhSZJE1+Ve8TDPp3xPAfwG4g+Ho7Hp0vK8LRtXnMGeFpxoC40wQwVIo8bP86x9zMAou
+         4X5TPFPrmuyVSJnMjD8dUjLQb3kuhdaNqlGzlRH3hE6pUOao5lOAQv4IYfyLzOkc8Gsh
+         IV0dNxG9Hyh5WmB2EI8C+GvcOgpMkEw0+yd0wh9y0bUuKnBGDGEKw95GJsehI84urXs7
+         mtOg==
+X-Gm-Message-State: AOAM532IL8cvcpm73pASbWfQURLATeNMESX/FjpoJml+CHBp1N5Khav4
+        wBWq2g5P7X5zoNgJhMN4lXY=
+X-Google-Smtp-Source: ABdhPJyMzC9zZ4t/lY/N9LWV+o+9MRA4tnKQgAYkkUeEh5Y8L6QkAwqXlqjG86qeQ0htTXLK/F9JXQ==
+X-Received: by 2002:a63:1a46:: with SMTP id a6mr17708253pgm.226.1629451955046;
+        Fri, 20 Aug 2021 02:32:35 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::50b? ([2404:f801:9000:18:efec::50b])
+        by smtp.gmail.com with ESMTPSA id x42sm6108890pfh.205.2021.08.20.02.32.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Aug 2021 02:32:34 -0700 (PDT)
+Subject: Re: [PATCH V3 11/13] HV/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+To:     Michael Kelley <mikelley@microsoft.com>,
         KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
@@ -65,8 +101,8 @@ Cc:     Tianyu Lan <ltykernel@gmail.com>,
         "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
         "rientjes@google.com" <rientjes@google.com>,
         "hannes@cmpxchg.org" <hannes@cmpxchg.org>,
-        "tj@kernel.org" <tj@kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "tj@kernel.org" <tj@kernel.org>
+Cc:     "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
         "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -75,123 +111,79 @@ Cc:     Tianyu Lan <ltykernel@gmail.com>,
         vkuznets <vkuznets@redhat.com>,
         "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
         "dave.hansen@intel.com" <dave.hansen@intel.com>
-Subject: Re: [PATCH V3 13/13] HV/Storvsc: Add Isolation VM support for
- storvsc driver
-Message-ID: <20210820043237.GC26450@lst.de>
-References: <20210809175620.720923-1-ltykernel@gmail.com> <20210809175620.720923-14-ltykernel@gmail.com> <MWHPR21MB1593EEF30FFD5C60ED744985D7C09@MWHPR21MB1593.namprd21.prod.outlook.com>
+References: <20210809175620.720923-1-ltykernel@gmail.com>
+ <20210809175620.720923-12-ltykernel@gmail.com>
+ <MWHPR21MB159315B335EB0B064B0B0F23D7C09@MWHPR21MB1593.namprd21.prod.outlook.com>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <e933f7e3-5573-bb8a-c313-75884d59235c@gmail.com>
+Date:   Fri, 20 Aug 2021 17:32:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MWHPR21MB1593EEF30FFD5C60ED744985D7C09@MWHPR21MB1593.namprd21.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <MWHPR21MB159315B335EB0B064B0B0F23D7C09@MWHPR21MB1593.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Aug 19, 2021 at 06:17:40PM +0000, Michael Kelley wrote:
-> > +#define storvsc_dma_map(dev, page, offset, size, dir) \
-> > +	dma_map_page(dev, page, offset, size, dir)
-> > +
-> > +#define storvsc_dma_unmap(dev, dma_range, dir)		\
-> > +		dma_unmap_page(dev, dma_range.dma,	\
-> > +			       dma_range.mapping_size,	\
-> > +			       dir ? DMA_FROM_DEVICE : DMA_TO_DEVICE)
-> > +
-> 
-> Each of these macros is used only once.  IMHO, they don't
-> add a lot of value.  Just coding dma_map/unmap_page()
-> inline would be fine and eliminate these lines of code.
 
-Yes, I had the same thought when looking over the code.  Especially
-as macros tend to further obsfucate the code (compared to actual helper
-functions).
 
-> > +				for (i = 0; i < request->hvpg_count; i++)
-> > +					storvsc_dma_unmap(&device->device,
-> > +						request->dma_range[i],
-> > +						request->vstor_packet.vm_srb.data_in == READ_TYPE);
-> 
-> I think you can directly get the DMA direction as request->cmd->sc_data_direction.
+On 8/20/2021 2:11 AM, Michael Kelley wrote:
+>>   }
+>> +
+>> +/*
+>> + * hv_map_memory - map memory to extra space in the AMD SEV-SNP Isolation VM.
+>> + */
+>> +void *hv_map_memory(void *addr, unsigned long size)
+>> +{
+>> +	unsigned long *pfns = kcalloc(size / HV_HYP_PAGE_SIZE,
+>> +				      sizeof(unsigned long), GFP_KERNEL);
+>> +	void *vaddr;
+>> +	int i;
+>> +
+>> +	if (!pfns)
+>> +		return NULL;
+>> +
+>> +	for (i = 0; i < size / HV_HYP_PAGE_SIZE; i++)
+>> +		pfns[i] = virt_to_hvpfn(addr + i * HV_HYP_PAGE_SIZE) +
+>> +			(ms_hyperv.shared_gpa_boundary >> HV_HYP_PAGE_SHIFT);
+>> +
+>> +	vaddr = vmap_pfn(pfns, size / HV_HYP_PAGE_SIZE,	PAGE_KERNEL_IO);
+>> +	kfree(pfns);
+>> +
+>> +	return vaddr;
+>> +}
+> This function is manipulating page tables in the guest VM.  It is not involved
+> in communicating with Hyper-V, or passing PFNs to Hyper-V.  The pfn array
+> contains guest PFNs, not Hyper-V PFNs.  So it should use PAGE_SIZE
+> instead of HV_HYP_PAGE_SIZE, and similarly PAGE_SHIFT and virt_to_pfn().
+> If this code were ever to run on ARM64 in the future with PAGE_SIZE other
+> than 4 Kbytes, the use of PAGE_SIZE is correct choice.
 
-Yes.
+OK. Will update with PAGE_SIZE.
 
-> > 
-> > @@ -1824,6 +1848,13 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
-> >  		payload->range.len = length;
-> >  		payload->range.offset = offset_in_hvpg;
-> > 
-> > +		cmd_request->dma_range = kcalloc(hvpg_count,
-> > +				 sizeof(*cmd_request->dma_range),
-> > +				 GFP_ATOMIC);
-> 
-> With this patch, it appears that storvsc_queuecommand() is always
-> doing bounce buffering, even when running in a non-isolated VM.
-> The dma_range is always allocated, and the inner loop below does
-> the dma mapping for every I/O page.  The corresponding code in
-> storvsc_on_channel_callback() that does the dma unmap allows for
-> the dma_range to be NULL, but that never happens.
-
-Maybe I'm missing something in the hyperv code, but I don't think
-dma_map_page would bounce buffer for the non-isolated case.  It
-will just return the physical address.
-
-> > +		if (!cmd_request->dma_range) {
-> > +			ret = -ENOMEM;
-> 
-> The other memory allocation failure in this function returns
-> SCSI_MLQUEUE_DEVICE_BUSY.   It may be debatable as to whether
-> that's the best approach, but that's a topic for a different patch.  I
-> would suggest being consistent and using the same return code
-> here.
-
-Independent of if SCSI_MLQUEUE_DEVICE_BUSY is good (it it a common
-pattern in SCSI drivers), ->queuecommand can't return normal
-negative errnos.  It must return the SCSI_MLQUEUE_* codes or 0.
-We should probably change the return type of the method definition
-to a suitable enum to make this more clear.
-
-> > +				if (offset_in_hvpg) {
-> > +					payload->range.offset = dma & ~HV_HYP_PAGE_MASK;
-> > +					offset_in_hvpg = 0;
-> > +				}
-> 
-> I'm not clear on why payload->range.offset needs to be set again.
-> Even after the dma mapping is done, doesn't the offset in the first
-> page have to be the same?  If it wasn't the same, Hyper-V wouldn't
-> be able to process the PFN list correctly.  In fact, couldn't the above
-> code just always set offset_in_hvpg = 0?
-
-Careful.  DMA mapping is supposed to keep the offset in the page, but
-for that the DMA mapping code needs to know what the device considers a
-"page".  For that the driver needs to set the min_align_mask field in
-struct device_dma_parameters.
 
 > 
-> The whole approach here is to do dma remapping on each individual page
-> of the I/O buffer.  But wouldn't it be possible to use dma_map_sg() to map
-> each scatterlist entry as a unit?  Each scatterlist entry describes a range of
-> physically contiguous memory.  After dma_map_sg(), the resulting dma
-> address must also refer to a physically contiguous range in the swiotlb
-> bounce buffer memory.   So at the top of the "for" loop over the scatterlist
-> entries, do dma_map_sg() if we're in an isolated VM.  Then compute the
-> hvpfn value based on the dma address instead of sg_page().  But everything
-> else is the same, and the inner loop for populating the pfn_arry is unmodified.
-> Furthermore, the dma_range array that you've added is not needed, since
-> scatterlist entries already have a dma_address field for saving the mapped
-> address, and dma_unmap_sg() uses that field.
-
-Yes, I think dma_map_sg is the right thing to use here, probably even
-for the non-isolated case so that we can get the hv drivers out of their
-little corner and into being more like a normal kernel driver.  That
-is, use the scsi_dma_map/scsi_dma_unmap helpers, and then iterate over
-the dma addresses one page at a time using for_each_sg_dma_page.
-
+>> +void __init hyperv_iommu_swiotlb_init(void)
+>> +{
+>> +	unsigned long bytes;
+>> +
+>> +	/*
+>> +	 * Allocate Hyper-V swiotlb bounce buffer at early place
+>> +	 * to reserve large contiguous memory.
+>> +	 */
+>> +	hyperv_io_tlb_size = 256 * 1024 * 1024;
+> A hard coded size here seems problematic.   The memory size of
+> Isolated VMs can vary by orders of magnitude.  I see that
+> xen_swiotlb_init() uses swiotlb_size_or_default(), which at least
+> pays attention to the value specified on the kernel boot line.
 > 
-> One thing:  There's a maximum swiotlb mapping size, which I think works
-> out to be 256 Kbytes.  See swiotlb_max_mapping_size().  We need to make
-> sure that we don't get a scatterlist entry bigger than this size.  But I think
-> this already happens because you set the device->dma_mask field in
-> Patch 11 of this series.  __scsi_init_queue checks for this setting and
-> sets max_sectors to limits transfers to the max mapping size.
+> Another example is sev_setup_arch(), which in the native case sets
+> the size to 6% of main memory, with a max of 1 Gbyte.  This is
+> the case that's closer to Isolated VMs, so doing something
+> similar could be a good approach.
+> 
 
-Indeed.
+Yes, agree. It's better to keep bounce buffer size with AMD SEV.
