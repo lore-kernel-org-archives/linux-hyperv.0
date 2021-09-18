@@ -2,239 +2,149 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CE2C433F5
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Sep 2021 19:37:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA868C433EF
+	for <linux-hyperv@archiver.kernel.org>; Sat, 18 Sep 2021 13:20:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AB7CA6113A
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Sep 2021 19:37:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B15A661353
+	for <linux-hyperv@archiver.kernel.org>; Sat, 18 Sep 2021 13:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233584AbhIPTij (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 16 Sep 2021 15:38:39 -0400
-Received: from mail-oln040093003003.outbound.protection.outlook.com ([40.93.3.3]:24549
-        "EHLO na01-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232543AbhIPTij (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 16 Sep 2021 15:38:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JkpWkIuqyQKMj2p89O684hLbzftY6xXDpAV5308Shb3jUaVzQoJmNv+7jn7gvBthrtFb7m6rpWag0+5dBbIsvkZTeAkierSf2081rZbtgymgL31SpItuN26ia2Vn22/+60mtMzPS7nWHoH9OSzM5/6aDZmfYhfKVBv32VMJKRrYkrjQSYZMIPhLLDLwUxfWmskWY1a8RjOOnGDbTrNEGuFmV0y3XLTyt+yyHDEfEC9eIV4013P3+O0XGZVzaN12DDPShqzP74AmWqjB70V4TOSGQIqmUvaidqVDecjcSRYG+sW84E3gtoBpyugrkzV8aaD6fQjIzz3oCBfNi8HfvpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=7AtpEKd6Wt6LO0XHPGBYnRut3zHKZHOuJonBbax0oEY=;
- b=Myigs3Mey+0hMjtHZo4zLfEqwvW6f/uw8CjqzR9XXiKDTMXUr//QqGhI3PZ3bfYF56uhcKSpLAEmlWODj2OKd3UvtoP0HyOorCoXu2r7q1mNyxZoR1L/onZ7nbgy9emV8BMllJCPsdeyrGau72QbOiwWERGX8QiAEnjTkW20D2weXXwsO9AgSzCVPMOP2edIaK5si0AsodopntH26Al2iBMi7PEGjncYU1t3PDt/e4QlwLrwHWnDnswLtHXqX7hcs0Xe5YuKS6JFYHRerUHpN20suZLVCOopORWPiSA3xHD/7r/IH5VIwdsMWuZPiF037etAkGonRfvrqj8JxfkudQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7AtpEKd6Wt6LO0XHPGBYnRut3zHKZHOuJonBbax0oEY=;
- b=F8tYuhKajRmQa/kHo9+F8mqOepVjpHuIUaeNZ5EdWPdGwIcq7qtoam8SR5OfRDXYPqUm9Tl6L/pT60JMzTmeAFfGUmG9I45xY1YFUeHrf+BAHzUMA52y6W8EQqztC5Lh9EOKYetmOkbBQk9/UOZJxfNm+Bq/7eTu3O25w4urmQI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
- (2603:10b6:207:37::26) by BL0PR2101MB0883.namprd21.prod.outlook.com
- (2603:10b6:207:36::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.7; Thu, 16 Sep
- 2021 19:37:16 +0000
-Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
- ([fe80::35fa:e8c:d9:39c3]) by BL0PR2101MB1092.namprd21.prod.outlook.com
- ([fe80::35fa:e8c:d9:39c3%7]) with mapi id 15.20.4544.004; Thu, 16 Sep 2021
- 19:37:15 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     drawat.floss@gmail.com, haiyangz@microsoft.com, airlied@linux.ie,
-        daniel@ffwll.ch, tzimmermann@suse.de,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v2] drm/hyperv: Fix double mouse pointers
-Date:   Thu, 16 Sep 2021 12:36:44 -0700
-Message-Id: <20210916193644.45650-1-decui@microsoft.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-ClientProxiedBy: CO2PR07CA0071.namprd07.prod.outlook.com (2603:10b6:100::39)
- To BL0PR2101MB1092.namprd21.prod.outlook.com (2603:10b6:207:37::26)
+        id S236712AbhIRNWN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 18 Sep 2021 09:22:13 -0400
+Received: from mout.gmx.net ([212.227.17.20]:47769 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229476AbhIRNWI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 18 Sep 2021 09:22:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1631971222;
+        bh=utd0q4hqIMtuJEsThLosqrfrDQjZp+7lfixpFX7XqnI=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=LWTfMYcASFTf67QItbBWAZMgfjABOCJnq4qSUTWVkOAtVhBwNq0hgqMVJFGO0reQV
+         1OBScoMwlAruAkx1+LnLyWnUG6F6mthX3pbBDxBChCBtPm0B2giHjopoBJR5qik4og
+         rHuMrAeT599Y25tj4UQbiNY3NSjUBCCyqyswkthg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MNKhm-1mH5ci08wk-00OmPk; Sat, 18
+ Sep 2021 15:20:22 +0200
+Date:   Sat, 18 Sep 2021 15:20:10 +0200
+From:   Len Baker <len.baker@gmx.com>
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     Len Baker <len.baker@gmx.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
+Message-ID: <20210918132010.GA15999@titan>
+References: <20210911102818.3804-1-len.baker@gmx.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from decui-u1804.corp.microsoft.com (2001:4898:80e8:a:822c:5dff:feb8:fa01) by CO2PR07CA0071.namprd07.prod.outlook.com (2603:10b6:100::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend Transport; Thu, 16 Sep 2021 19:37:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13798837-c475-4fea-9757-08d9794962f4
-X-MS-TrafficTypeDiagnostic: BL0PR2101MB0883:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR2101MB088356953D431A128CE04E60BFDC9@BL0PR2101MB0883.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sAV7nKpQRJGBetKCMOx/5pTDxS1IplCLqK3tjkErejBHuRSQILuH+m48SX9hNi1rAPhUa9rgGyE2EajvuMWreSTTQaLARUOEf4nd4SXWTLBj8teu1bSzdZjOcm4uMg/SEGYmLCaDqCXtgQ2Lzz0On4SN0L9LNr9R6fkc6ycjyk19M2vWqzT8TDW1LM9k3HWHWEg1yQqHKdGkB61wT7UEvndTHKgTlYylRy/3SHQIV576z7BBN+yGDls2qnsDM5ZLPz1nUwBpMhvhquZxqVUeTZYupAGWQ6xAUQhPe7Scw8cbpovzke/jH9ZnRRKIWPKvxkjBbaY+FhPfACr0LDNDSV6jx+gCat+McJLMJemb4C77YZ9RryflgyASFJ03v5FklRbg8mjwvdrFhD3nl4qbk/V3ViLfYFMUWK43aL9SUtuFuim/GhkR+SVBOMzkVT3ER22VQWEX90RsNcE+BDV5kcoNPdi58/S32WFazJP2CglCtu57JNq9xggFah6eSaqRu/F0uYlrdyP6WNbK4ZCvLe83f7hLO3NHcUEexe7F1MCx896/52SdMVBAqmaaNR17UJViMFEskRpHVhrlmeH1xo/hRGisWjoVHd1W0ylq/BGwLvX0RmcdRLcCRBDXHEXO7GMqq+77zHBDWnl/+uexkw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB1092.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6486002)(10290500003)(8676002)(66476007)(8936002)(66946007)(508600001)(316002)(5660300002)(186003)(2906002)(6666004)(7696005)(52116002)(36756003)(86362001)(1076003)(83380400001)(66556008)(82960400001)(2616005)(107886003)(82950400001)(4326008)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+8X1pvVxOn7RYbuua96ijJY3UA8AFcu5R2K70QG4CJLwiwuoYk5LOYfwwdRH?=
- =?us-ascii?Q?YXpAE6QLl1IEzS83CWbWYZP3Tnzeg0NAU91qK16v6f/qCVoWlPpdEwzazC/f?=
- =?us-ascii?Q?/fiFqAGg0FoI6/s0CjprmyTnEg4BGY21/22ELWEjinnjJr3Qvb5abO1jkKmN?=
- =?us-ascii?Q?taLBkKewuPBezwjEz5zSMgt2oyHE5kKQiBIdpInMMZPmo0WCwHtNYT1ogvkQ?=
- =?us-ascii?Q?kdRjtPrmW4iRBUplxOm8MTX3RvxuLZpnKzU4sOrCJT4/eldhFWpR3yhwm3C9?=
- =?us-ascii?Q?5TdSuo71waK+QKyWoRMDRkDb88hFPWPCnFYSE0KRPhoc348F0sdAw8KhmUaq?=
- =?us-ascii?Q?KVpIRVXzt+RNjmcIsVAupaFx8lS858IENxPPqb/YkRCYj6UvsuDv5jZslQDY?=
- =?us-ascii?Q?BxXAzkh2Vaz13Q2dc/iEYDd5U37TJLRyAd7+BBHL9cOTY4wZrbOPnlEwyR4r?=
- =?us-ascii?Q?vvAgJO3G1Jnyax99+MzR6vV2STprPzIUCFGnIyZKZN3OgdVVisIRQFAZDMcL?=
- =?us-ascii?Q?O3VjF1qgXvvvwT9gdpzBhXuNegVbTVZyaqZl/aBh8AIj2aZFPk99XW0dI/+Q?=
- =?us-ascii?Q?IQqb7ZULKPxgRMTl6lK3anYtXBLpIRCYxdQdi9yxPFYJQl9VW2d4cK5cP5W3?=
- =?us-ascii?Q?g3Y5JJ8bcwMKqmwF6wRxgmWwt6GehIES2+mqJtL2wsRdEIPgn60B5SP1mBSP?=
- =?us-ascii?Q?sPF1Fk1fsJSWEeJjLbFcc4Fzs+wDirFPeMzURwOQgEYVcXmiYcg92W2b8qsc?=
- =?us-ascii?Q?la5ztJ9bGoHwcWLsu5GEicMvPpBRDS5Bmctfwkn84OrbGe914FaLXNe5RvKF?=
- =?us-ascii?Q?TC2j67WRyiTBjS5GUfJlvADVr5MTND5d5muelKIxRYnSSSg8f+ZbPg8qAUgK?=
- =?us-ascii?Q?1OKDlZzC2OsFNEzWXS7b18zWB8W1ryP0BkbF8HHraLA4EklXJQQzhGRhc+7Y?=
- =?us-ascii?Q?4K58NviAz6D57WJQOAfq8ygSBb9DAgjn0AEvs5a+liX9CP3DftZgd++uqTbk?=
- =?us-ascii?Q?V1JO2fmZRBnmJDvROZg5mRxiwlhRjySAnMabp2YMOQJM7I8znpZHBjFW3Z4x?=
- =?us-ascii?Q?0kJA5wvz/St7+psNy/wRn9wiiI8UZEHOLqXDbUdVjR7JoHe1uEYEzp5fNKNh?=
- =?us-ascii?Q?/0BfXKrBf2DiTmPRYeN28nU1G4Q+pbiIhuWEJC2lAP3ng8CedkY5hky0uJ/r?=
- =?us-ascii?Q?69OgqmoUcMNBvC8dNEdm5PBWT4SjIq8OttLbVaAItaw3RzH68hVEBcHSdwaq?=
- =?us-ascii?Q?RBwwtZJDJvlW1uK1olrR82EVQkrtO9QkodSnSeRg8xvPSTqABwKhza3BJB40?=
- =?us-ascii?Q?+1nVniyb8bV9JRK/+QPec/42GVOz977/FGL+pRJWTajoWDU+NQ3Su5iFyjsn?=
- =?us-ascii?Q?5LkxEC2JZupTobUqe3KC4FPbJMxS?=
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13798837-c475-4fea-9757-08d9794962f4
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB1092.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 19:37:15.8510
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m8WShlWogxliSfGQxAElW8bLC3Rm05EEcfjv/G5ge7GgIRtDjmF1etBiLwakfNKsvx8ERnvvcSQNgc2TxO7w/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR2101MB0883
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210911102818.3804-1-len.baker@gmx.com>
+X-Provags-ID: V03:K1:BPsfjmvLWKWmUtY2rfEeoDvxY6Wuum+kDmKPnYfRtNYpw8qgDAD
+ RhTDWgmsIEN+bzwDQEpc3L/j6yAPdII+XK7ekbbFRT+WCGCF+/aq+yq2YmAPesXrZu3fRfx
+ wW7jNo6iQ7H5V5LYlTFcYwbOe4bNIRmOLUTAIiWaGRfv2n3S9hvz/U7QU1NsODbw6onb6aM
+ LL0BxR0LXzP/M0XqAQB0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qStfD7wYGCw=:CcrsvfQSdNHEuPuePCcNlz
+ IO+6yJb1Wzy05aUq3UsQCasVn8xv1ZUVRo6mHXjGimDZR4Did1bGuQyqPt+XUG1jlB05UqUJ0
+ nWgRzgDrI1CHIz5yOaIEMUilrjTv/tXfj4iWBp/wcdvTqycEWi2GeWER1sCrx5m01Vc0gA8as
+ uve1NAj8KXEdS8aPmN4KTN5acD0gl75Z98tR9G8pEJfcYjb8YHzSO6JgkXKvJwVwdXHkbKs3i
+ RxcNn1X7TnutYQShodSla+6tgDLTiZQQMwpJ2yH6Njx7FkubrnJdiwL54PO9mcQbTy6snpaMY
+ 5xtq1LtIyYUghT5r3+nPkI9AOX7fTLY2DxioCYD0CTZfvbFlAKBY8NYq2TghQDzNHD2t18w7N
+ xmmOnWY9cQ31BmrpEQSwPsDlp3Wn9wUK1RZC9tPJ8Qac7X7qry31ZjiQTjHf3Dh6rfZxogl+H
+ lwi7zwkbJx6YysMfJaWcDR2JtUjIi3SXCoWF5+qI2tNCwJcjyQXcxJuKcXkDrm4tamdeLfNAH
+ OnOogVvQ3bz2Y2lxjadQn7BaA/OMwM3boxeoHeWgowB2OiJAfnWTeieKs+WreKsZfZ3SN02PK
+ muAQRPzfq004pN3SeI0zhzo0TPv3jzasctsi3/9NsGnnBnbcaN3yWu9brDUVxYQ7u4N6Ry7lY
+ aE/f4oqeplwQASCnvDVWBW+M6vSyREznTSVBFi7zYxPoJ6KEolM5NgS4zvjYiE1kL0Yosoami
+ mLe4VLryD/hSLshKzRqi6HGK7pWpGygCdX1XeGol4LhPoEyogqJoDeZFIuCWosuOvp7aB+RRv
+ CrdE0Y2dbmIC9zbUA/etHs6BsBKe876fVfiUWARtpd13vusxAgNMlbOC7+WMv3ObKb15g795X
+ tLuzE2X5o6emAtu47HgKo668A8WeIvtw9rM/NXc23EPhjK2jlLxPHKWgzqUNGXq394CArijMk
+ z/+md7oA7PQVxaXk7GCAIdke1ektjaz+8eadbTr1h898jGZUljVJzOIEFA22xNnMFXitgDuK6
+ ninxUQ4qfEUX0wYviLSceiJ0FVn98lk7BQ7qtWOplhQCIlzH8Fi0luyTAbzFUSSo7F5wv8zaK
+ THujcWZZ3EUjUQ=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-V supports a hardware cursor feature. It is not used by Linux VM,
-but the Hyper-V host still draws a point as an extra mouse pointer,
-which is unwanted, especially when Xorg is running.
+Hi,
 
-The hyperv_fb driver uses synthvid_send_ptr() to hide the unwanted pointer.
-When the hyperv_drm driver was developed, the function synthvid_send_ptr()
-was not copied from the hyperv_fb driver. Fix the issue by adding the
-function into hyperv_drm.
+On Sat, Sep 11, 2021 at 12:28:18PM +0200, Len Baker wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
+>
+> So, use the struct_size() helper to do the arithmetic instead of the
+> argument "size + count * size" in the kzalloc() function.
+>
+> [1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#open-c=
+oded-arithmetic-in-allocator-arguments
+>
+> Signed-off-by: Len Baker <len.baker@gmx.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/hw_channel.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/=
+net/ethernet/microsoft/mana/hw_channel.c
+> index 1a923fd99990..0efdc6c3c32a 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -398,9 +398,7 @@ static int mana_hwc_alloc_dma_buf(struct hw_channel_=
+context *hwc, u16 q_depth,
+>  	int err;
+>  	u16 i;
+>
+> -	dma_buf =3D kzalloc(sizeof(*dma_buf) +
+> -			  q_depth * sizeof(struct hwc_work_request),
+> -			  GFP_KERNEL);
+> +	dma_buf =3D kzalloc(struct_size(dma_buf, reqs, q_depth), GFP_KERNEL);
+>  	if (!dma_buf)
+>  		return -ENOMEM;
+>
+> --
+> 2.25.1
+>
 
-Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
-Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
----
+I have received a email from the linux-media subsystem telling that this
+patch is not applicable. The email is the following:
 
-Changes in v2:
-	Renamed hyperv_send_ptr() to hyperv_hide_hw_ptr().
-	Improved the comments and the git commit message.
-	Added Reviewed-by's from Haiyang and Deepak.
+Hello,
 
- drivers/gpu/drm/hyperv/hyperv_drm.h         |  1 +
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  1 +
- drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 54 ++++++++++++++++++++-
- 3 files changed, 55 insertions(+), 1 deletion(-)
+The following patch (submitted by you) has been updated in Patchwork:
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm.h b/drivers/gpu/drm/hyperv/hyperv_drm.h
-index 886add4f9cd0..d2d8582b36df 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm.h
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm.h
-@@ -46,6 +46,7 @@ int hyperv_mode_config_init(struct hyperv_drm_device *hv);
- int hyperv_update_vram_location(struct hv_device *hdev, phys_addr_t vram_pp);
- int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
- 			    u32 w, u32 h, u32 pitch);
-+int hyperv_hide_hw_ptr(struct hv_device *hdev);
- int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect);
- int hyperv_connect_vsp(struct hv_device *hdev);
- 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 3aaee4730ec6..5f01ca817517 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -101,6 +101,7 @@ static void hyperv_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct hyperv_drm_device *hv = to_hv(pipe->crtc.dev);
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 
-+	hyperv_hide_hw_ptr(hv->hdev);
- 	hyperv_update_situation(hv->hdev, 1,  hv->screen_depth,
- 				crtc_state->mode.hdisplay,
- 				crtc_state->mode.vdisplay,
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-index 6d4bdccfbd1a..c0155c6271bf 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_proto.c
-@@ -299,6 +299,55 @@ int hyperv_update_situation(struct hv_device *hdev, u8 active, u32 bpp,
- 	return 0;
- }
- 
-+/*
-+ * Hyper-V supports a hardware cursor feature. It's not used by Linux VM,
-+ * but the Hyper-V host still draws a point as an extra mouse pointer,
-+ * which is unwanted, especially when Xorg is running.
-+ *
-+ * The hyperv_fb driver uses synthvid_send_ptr() to hide the unwanted
-+ * pointer, by setting msg.ptr_pos.is_visible = 1 and setting the
-+ * msg.ptr_shape.data. Note: setting msg.ptr_pos.is_visible to 0 doesn't
-+ * work in tests.
-+ *
-+ * Copy synthvid_send_ptr() to hyperv_drm and rename it to
-+ * hyperv_hide_hw_ptr(). Note: hyperv_hide_hw_ptr() is also called in the
-+ * handler of the SYNTHVID_FEATURE_CHANGE event, otherwise the host still
-+ * draws an extra unwanted mouse pointer after the VM Connection window is
-+ * closed and reopened.
-+ */
-+int hyperv_hide_hw_ptr(struct hv_device *hdev)
-+{
-+	struct synthvid_msg msg;
-+
-+	memset(&msg, 0, sizeof(struct synthvid_msg));
-+	msg.vid_hdr.type = SYNTHVID_POINTER_POSITION;
-+	msg.vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
-+		sizeof(struct synthvid_pointer_position);
-+	msg.ptr_pos.is_visible = 1;
-+	msg.ptr_pos.video_output = 0;
-+	msg.ptr_pos.image_x = 0;
-+	msg.ptr_pos.image_y = 0;
-+	hyperv_sendpacket(hdev, &msg);
-+
-+	memset(&msg, 0, sizeof(struct synthvid_msg));
-+	msg.vid_hdr.type = SYNTHVID_POINTER_SHAPE;
-+	msg.vid_hdr.size = sizeof(struct synthvid_msg_hdr) +
-+		sizeof(struct synthvid_pointer_shape);
-+	msg.ptr_shape.part_idx = SYNTHVID_CURSOR_COMPLETE;
-+	msg.ptr_shape.is_argb = 1;
-+	msg.ptr_shape.width = 1;
-+	msg.ptr_shape.height = 1;
-+	msg.ptr_shape.hot_x = 0;
-+	msg.ptr_shape.hot_y = 0;
-+	msg.ptr_shape.data[0] = 0;
-+	msg.ptr_shape.data[1] = 1;
-+	msg.ptr_shape.data[2] = 1;
-+	msg.ptr_shape.data[3] = 1;
-+	hyperv_sendpacket(hdev, &msg);
-+
-+	return 0;
-+}
-+
- int hyperv_update_dirt(struct hv_device *hdev, struct drm_rect *rect)
- {
- 	struct hyperv_drm_device *hv = hv_get_drvdata(hdev);
-@@ -392,8 +441,11 @@ static void hyperv_receive_sub(struct hv_device *hdev)
- 		return;
- 	}
- 
--	if (msg->vid_hdr.type == SYNTHVID_FEATURE_CHANGE)
-+	if (msg->vid_hdr.type == SYNTHVID_FEATURE_CHANGE) {
- 		hv->dirt_needed = msg->feature_chg.is_dirt_needed;
-+		if (hv->dirt_needed)
-+			hyperv_hide_hw_ptr(hv->hdev);
-+	}
- }
- 
- static void hyperv_receive(void *ctx)
--- 
-2.25.1
+ * linux-media: net: mana: Prefer struct_size over open coded arithmetic
+     - http://patchwork.linuxtv.org/project/linux-media/patch/202109111028=
+18.3804-1-len.baker@gmx.com/
+     - for: Linux Media kernel patches
+    was: New
+    now: Not Applicable
 
+This email is a notification only - you do not need to respond.
+
+The question is: Why it is not applicable?. I have no received any bad com=
+ment
+and a "Reviewed-by:" tag from Haiyang Zhang. So, what is the reason for th=
+e
+"Not Applicable" state?.
+
+Regards,
+Len
