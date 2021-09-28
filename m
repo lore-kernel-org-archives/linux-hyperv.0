@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8415C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1209C43219
 	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9827761157
+	by mail.kernel.org (Postfix) with ESMTP id D6E4D6103E
 	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242297AbhI1SdM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 28 Sep 2021 14:33:12 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:50908 "EHLO
+        id S242366AbhI1SdN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 28 Sep 2021 14:33:13 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:50876 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242234AbhI1SdC (ORCPT
+        with ESMTP id S242237AbhI1SdC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 28 Sep 2021 14:33:02 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 4947D20B4847;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 754DF20B4848;
         Tue, 28 Sep 2021 11:31:22 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4947D20B4847
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 754DF20B4848
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1632853882;
-        bh=YKBXl2fqJZ6JuLCTPiXbxrYgCbYM9H1sfECGoG4vg0A=;
+        bh=zKovBa81qifiHRYZF45MAPlI611FkkRyiRt+nL6hV3E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZAmUbNGbv5nYRLaf3l2u84AQ8tINqNxr/2GeIDeJn09IlkReeX3oeitYxrscqCWWW
-         2jsIqMxloY9IrVfo7AkOcYUadagpmNnE5L8uvGITzrF0dz04RZuOiBi9+9IUo8dj9C
-         /tBUGBTH8p4Rp+yfU/1xRm0PPNzAB0hWbSZuN3tM=
+        b=H9XbynYM2kznb8STnpBFEggWLXJ3NMEO3xeqT5hQi2vI+erQjrZ/3OA1UCbsiAgEF
+         PGiNn+xIWK4BusWVFtMdGrC3WpBoO+PqYExzWzunE3AGwGYxVVTCLTfE3yl971xLf9
+         9L2eLI4qq67vPlgtAWmAW4dq/sjd6/JxAwPxvjWM=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
@@ -33,9 +33,9 @@ Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com, sthemmin@microsoft.com,
         anbelski@linux.microsoft.com
-Subject: [PATCH v3 17/19] drivers/hv: get and set partition property ioctls
-Date:   Tue, 28 Sep 2021 11:31:13 -0700
-Message-Id: <1632853875-20261-18-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 19/19] drivers/hv: Translate GVA to GPA
+Date:   Tue, 28 Sep 2021 11:31:15 -0700
+Message-Id: <1632853875-20261-20-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -43,315 +43,260 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce ioctls for getting and setting properties of guest partitions.
+From: Wei Liu <wei.liu@kernel.org>
 
+Introduce ioctl for translating Guest Virtual Address (GVA) to Guest
+Physical Address (GPA)
+
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
 ---
- Documentation/virt/mshv/api.rst        |  8 ++++
- drivers/hv/hv_call.c                   | 58 +++++++++++++++++++++++++
- drivers/hv/mshv.h                      |  8 ++++
- drivers/hv/mshv_main.c                 | 47 ++++++++++++++++++++
- include/asm-generic/hyperv-tlfs.h      | 19 +++++++++
- include/uapi/asm-generic/hyperv-tlfs.h | 59 ++++++++++++++++++++++++++
- include/uapi/linux/mshv.h              |  9 ++++
- 7 files changed, 208 insertions(+)
+ drivers/hv/hv_call.c                   | 44 ++++++++++++++++++++++++++
+ drivers/hv/mshv.h                      |  7 ++++
+ drivers/hv/mshv_main.c                 | 34 ++++++++++++++++++++
+ include/asm-generic/hyperv-tlfs.h      | 14 ++++++++
+ include/uapi/asm-generic/hyperv-tlfs.h | 43 +++++++++++++++++++++++++
+ include/uapi/linux/mshv.h              |  8 +++++
+ 6 files changed, 150 insertions(+)
 
-diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index bf3c060bd418..e660e0e6865e 100644
---- a/Documentation/virt/mshv/api.rst
-+++ b/Documentation/virt/mshv/api.rst
-@@ -159,4 +159,12 @@ Maps a page into userspace that can be used to get and set common registers
- while the vp is suspended.
- The page is laid out in struct hv_vp_register_page in asm/hyperv-tlfs.h.
- 
-+3.11 MSHV_SET_PARTITION_PROPERTY and MSHV_GET_PARTITION_PROPERTY
-+----------------------------------------------------------------
-+:Type: partition ioctl
-+:Parameters: struct mshv_partition_property
-+:Returns: 0 on success
-+
-+Can be used to get/set various properties of a partition.
-+
- 
 diff --git a/drivers/hv/hv_call.c b/drivers/hv/hv_call.c
-index eb98183ce8ef..776095de9679 100644
+index 776095de9679..0900e7377826 100644
 --- a/drivers/hv/hv_call.c
 +++ b/drivers/hv/hv_call.c
-@@ -638,3 +638,61 @@ int hv_call_map_vp_state_page(
+@@ -10,6 +10,7 @@
  
- 	return ret;
+ #include <linux/kernel.h>
+ #include <linux/mm.h>
++#include <linux/hyperv.h>
+ #include <asm/mshyperv.h>
+ 
+ #include "mshv.h"
+@@ -696,3 +697,46 @@ int hv_call_set_partition_property(
+ 
+ 	return hv_status_to_errno(status);
  }
 +
-+int hv_call_get_partition_property(
++int hv_call_translate_virtual_address(
++		u32 vp_index,
 +		u64 partition_id,
-+		u64 property_code,
-+		u64 *property_value)
++		u64 flags,
++		u64 gva,
++		u64 *gpa,
++		union hv_translate_gva_result *result)
 +{
 +	u64 status;
-+	unsigned long flags;
-+	struct hv_get_partition_property_in *input;
-+	struct hv_get_partition_property_out *output;
++	unsigned long irq_flags;
++	struct hv_translate_virtual_address_in *input;
++	struct hv_translate_virtual_address_out *output;
 +
-+	local_irq_save(flags);
-+	input = (struct hv_get_partition_property_in *)(*this_cpu_ptr(
-+			hyperv_pcpu_input_arg));
-+	output = (struct hv_get_partition_property_out *)(*this_cpu_ptr(
-+			hyperv_pcpu_output_arg));
++	local_irq_save(irq_flags);
++
++	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
++
 +	memset(input, 0, sizeof(*input));
++	memset(output, 0, sizeof(*output));
++
 +	input->partition_id = partition_id;
-+	input->property_code = property_code;
-+	status = hv_do_hypercall(HVCALL_GET_PARTITION_PROPERTY, input,
-+			output);
++	input->vp_index = vp_index;
++	input->control_flags = flags;
++	input->gva_page = gva >> HV_HYP_PAGE_SHIFT;
++
++	status = hv_do_hypercall(HVCALL_TRANSLATE_VIRTUAL_ADDRESS, input, output);
 +
 +	if (!hv_result_success(status)) {
 +		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
-+		local_irq_restore(flags);
-+		return hv_status_to_errno(status);
++		goto out;
 +	}
-+	*property_value = output->property_value;
 +
-+	local_irq_restore(flags);
++	*result = output->translation_result;
++	*gpa = (output->gpa_page << HV_HYP_PAGE_SHIFT) + offset_in_hvpage(gva);
 +
-+	return 0;
-+}
-+
-+int hv_call_set_partition_property(
-+		u64 partition_id,
-+		u64 property_code,
-+		u64 property_value)
-+{
-+	u64 status;
-+	unsigned long flags;
-+	struct hv_set_partition_property *input;
-+
-+	local_irq_save(flags);
-+	input = (struct hv_set_partition_property *)(*this_cpu_ptr(
-+			hyperv_pcpu_input_arg));
-+	memset(input, 0, sizeof(*input));
-+	input->partition_id = partition_id;
-+	input->property_code = property_code;
-+	input->property_value = property_value;
-+	status = hv_do_hypercall(HVCALL_SET_PARTITION_PROPERTY, input, NULL);
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(status))
-+		pr_err("%s: %s\n", __func__, hv_status_to_string(status));
++out:
++	local_irq_restore(irq_flags);
 +
 +	return hv_status_to_errno(status);
 +}
++
 diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index a9215581be6b..8230368b4257 100644
+index 8230368b4257..1a8c94edb9c5 100644
 --- a/drivers/hv/mshv.h
 +++ b/drivers/hv/mshv.h
-@@ -101,5 +101,13 @@ int hv_call_map_vp_state_page(
- 		u32 vp_index,
+@@ -109,5 +109,12 @@ int hv_call_set_partition_property(
  		u64 partition_id,
- 		struct page **state_page);
-+int hv_call_get_partition_property(
+ 		u64 property_code,
+ 		u64 property_value);
++int hv_call_translate_virtual_address(
++		u32 vp_index,
 +		u64 partition_id,
-+		u64 property_code,
-+		u64 *property_value);
-+int hv_call_set_partition_property(
-+		u64 partition_id,
-+		u64 property_code,
-+		u64 property_value);
++		u64 flags,
++		u64 gva,
++		u64 *gpa,
++		union hv_translate_gva_result *result);
  
  #endif /* _MSHV_H */
 diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index a30119043737..d65bcd8567a4 100644
+index 766ba7d5d168..26426d03d521 100644
 --- a/drivers/hv/mshv_main.c
 +++ b/drivers/hv/mshv_main.c
-@@ -576,6 +576,45 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
- 	return ret;
+@@ -411,6 +411,37 @@ mshv_vp_ioctl_get_set_state(struct mshv_vp *vp, void __user *user_args, bool is_
+ 	return 0;
  }
  
 +static long
-+mshv_partition_ioctl_get_property(struct mshv_partition *partition,
-+				  void __user *user_args)
++mshv_vp_ioctl_translate_gva(struct mshv_vp *vp, void __user *user_args)
 +{
-+	struct mshv_partition_property args;
 +	long ret;
++	struct mshv_translate_gva args;
++	u64 gpa;
++	union hv_translate_gva_result result;
 +
 +	if (copy_from_user(&args, user_args, sizeof(args)))
 +		return -EFAULT;
 +
-+	ret = hv_call_get_partition_property(
-+					partition->id,
-+					args.property_code,
-+					&args.property_value);
++	ret = hv_call_translate_virtual_address(
++			vp->index,
++			vp->partition->id,
++			args.flags,
++			args.gva,
++			&gpa,
++			&result);
 +
 +	if (ret)
 +		return ret;
 +
-+	if (copy_to_user(user_args, &args, sizeof(args)))
++	if (copy_to_user(args.result, &result, sizeof(*args.result)))
++		return -EFAULT;
++
++	if (copy_to_user(args.gpa, &gpa, sizeof(*args.gpa)))
 +		return -EFAULT;
 +
 +	return 0;
 +}
 +
-+static long
-+mshv_partition_ioctl_set_property(struct mshv_partition *partition,
-+				  void __user *user_args)
-+{
-+	struct mshv_partition_property args;
-+
-+	if (copy_from_user(&args, user_args, sizeof(args)))
-+		return -EFAULT;
-+
-+	return hv_call_set_partition_property(
-+			partition->id,
-+			args.property_code,
-+			args.property_value);
-+}
-+
  static long
- mshv_partition_ioctl_map_memory(struct mshv_partition *partition,
- 				struct mshv_user_mem_region __user *user_mem)
-@@ -795,6 +834,14 @@ mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
- 		ret = mshv_partition_ioctl_assert_interrupt(partition,
- 							(void __user *)arg);
+ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ {
+@@ -436,6 +467,9 @@ mshv_vp_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
+ 	case MSHV_SET_VP_STATE:
+ 		r = mshv_vp_ioctl_get_set_state(vp, (void __user *)arg, true);
  		break;
-+	case MSHV_GET_PARTITION_PROPERTY:
-+		ret = mshv_partition_ioctl_get_property(partition,
-+							(void __user *)arg);
-+		break;
-+	case MSHV_SET_PARTITION_PROPERTY:
-+		ret = mshv_partition_ioctl_set_property(partition,
-+							(void __user *)arg);
++	case MSHV_TRANSLATE_GVA:
++		r = mshv_vp_ioctl_translate_gva(vp, (void __user *)arg);
 +		break;
  	default:
- 		ret = -ENOTTY;
- 	}
+ 		r = -ENOTTY;
+ 		break;
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index f8f44008c013..2c0dfd0b8763 100644
+index 2c0dfd0b8763..2e520e7d765d 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -147,6 +147,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_INITIALIZE_PARTITION		0x0041
- #define HVCALL_FINALIZE_PARTITION		0x0042
- #define HVCALL_DELETE_PARTITION			0x0043
-+#define HVCALL_GET_PARTITION_PROPERTY		0x0044
-+#define HVCALL_SET_PARTITION_PROPERTY		0x0045
- #define HVCALL_GET_PARTITION_ID			0x0046
- #define HVCALL_DEPOSIT_MEMORY			0x0048
- #define HVCALL_WITHDRAW_MEMORY			0x0049
-@@ -882,4 +884,21 @@ struct hv_map_vp_state_page_out {
- 	u64 map_location; /* page number */
+@@ -158,6 +158,7 @@ struct ms_hyperv_tsc_page {
+ #define HVCALL_CREATE_VP			0x004e
+ #define HVCALL_GET_VP_REGISTERS			0x0050
+ #define HVCALL_SET_VP_REGISTERS			0x0051
++#define HVCALL_TRANSLATE_VIRTUAL_ADDRESS	0x0052
+ #define HVCALL_POST_MESSAGE			0x005c
+ #define HVCALL_SIGNAL_EVENT			0x005d
+ #define HVCALL_POST_DEBUG_DATA			0x0069
+@@ -901,4 +902,17 @@ struct hv_set_partition_property {
+ 	u64 property_value;
  } __packed;
  
-+struct hv_get_partition_property_in {
++struct hv_translate_virtual_address_in {
 +	u64 partition_id;
-+	u32 property_code; /* enum hv_partition_property_code */
++	u32 vp_index;
 +	u32 padding;
++	u64 control_flags;
++	u64 gva_page;
 +} __packed;
 +
-+struct hv_get_partition_property_out {
-+	u64 property_value;
-+} __packed;
-+
-+struct hv_set_partition_property {
-+	u64 partition_id;
-+	u32 property_code; /* enum hv_partition_property_code */
-+	u32 padding;
-+	u64 property_value;
++struct hv_translate_virtual_address_out {
++	union hv_translate_gva_result translation_result;
++	u64 gpa_page;
 +} __packed;
 +
  #endif
 diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-index a1bc77e463dd..1e572d38234a 100644
+index 5d8d5e89f432..95020e3a67ba 100644
 --- a/include/uapi/asm-generic/hyperv-tlfs.h
 +++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -136,4 +136,63 @@ enum hv_vp_state_page_type {
- 	HV_VP_STATE_PAGE_COUNT
+@@ -196,4 +196,47 @@ enum hv_partition_property_code {
+ 	HV_PARTITION_PROPERTY_PROCESSOR_VIRTUALIZATION_FEATURES		= 0x00080000,
  };
  
-+enum hv_partition_property_code {
-+	/* Privilege properties */
-+	HV_PARTITION_PROPERTY_PRIVILEGE_FLAGS				= 0x00010000,
++enum hv_translate_gva_result_code {
++	HV_TRANSLATE_GVA_SUCCESS			= 0,
 +
-+	/* Scheduling properties */
-+	HV_PARTITION_PROPERTY_SUSPEND					= 0x00020000,
-+	HV_PARTITION_PROPERTY_CPU_RESERVE				= 0x00020001,
-+	HV_PARTITION_PROPERTY_CPU_CAP					= 0x00020002,
-+	HV_PARTITION_PROPERTY_CPU_WEIGHT				= 0x00020003,
-+	HV_PARTITION_PROPERTY_CPU_GROUP_ID				= 0x00020004,
++	/* Translation failures. */
++	HV_TRANSLATE_GVA_PAGE_NOT_PRESENT		= 1,
++	HV_TRANSLATE_GVA_PRIVILEGE_VIOLATION		= 2,
++	HV_TRANSLATE_GVA_INVALIDE_PAGE_TABLE_FLAGS	= 3,
 +
-+	/* Time properties */
-+	HV_PARTITION_PROPERTY_TIME_FREEZE				= 0x00030003,
++	/* GPA access failures. */
++	HV_TRANSLATE_GVA_GPA_UNMAPPED			= 4,
++	HV_TRANSLATE_GVA_GPA_NO_READ_ACCESS		= 5,
++	HV_TRANSLATE_GVA_GPA_NO_WRITE_ACCESS		= 6,
++	HV_TRANSLATE_GVA_GPA_ILLEGAL_OVERLAY_ACCESS	= 7,
 +
-+	/* Debugging properties */
-+	HV_PARTITION_PROPERTY_DEBUG_CHANNEL_ID				= 0x00040000,
++	/*
++	 * Intercept for memory access by either
++	 *  - a higher VTL
++	 *  - a nested hypervisor (due to a violation of the nested page table)
++	 */
++	HV_TRANSLATE_GVA_INTERCEPT			= 8,
 +
-+	/* Resource properties */
-+	HV_PARTITION_PROPERTY_VIRTUAL_TLB_PAGE_COUNT			= 0x00050000,
-+	HV_PARTITION_PROPERTY_VSM_CONFIG				= 0x00050001,
-+	HV_PARTITION_PROPERTY_ZERO_MEMORY_ON_RESET			= 0x00050002,
-+	HV_PARTITION_PROPERTY_PROCESSORS_PER_SOCKET			= 0x00050003,
-+	HV_PARTITION_PROPERTY_NESTED_TLB_SIZE				= 0x00050004,
-+	HV_PARTITION_PROPERTY_GPA_PAGE_ACCESS_TRACKING			= 0x00050005,
-+	HV_PARTITION_PROPERTY_VSM_PERMISSIONS_DIRTY_SINCE_LAST_QUERY	= 0x00050006,
-+	HV_PARTITION_PROPERTY_SGX_LAUNCH_CONTROL_CONFIG			= 0x00050007,
-+	HV_PARTITION_PROPERTY_DEFAULT_SGX_LAUNCH_CONTROL0		= 0x00050008,
-+	HV_PARTITION_PROPERTY_DEFAULT_SGX_LAUNCH_CONTROL1		= 0x00050009,
-+	HV_PARTITION_PROPERTY_DEFAULT_SGX_LAUNCH_CONTROL2		= 0x0005000a,
-+	HV_PARTITION_PROPERTY_DEFAULT_SGX_LAUNCH_CONTROL3		= 0x0005000b,
-+	HV_PARTITION_PROPERTY_ISOLATION_STATE				= 0x0005000c,
-+	HV_PARTITION_PROPERTY_ISOLATION_CONTROL				= 0x0005000d,
-+	HV_PARTITION_PROPERTY_RDT_L3_COS_INDEX				= 0x0005000e,
-+	HV_PARTITION_PROPERTY_RDT_RMID					= 0x0005000f,
-+	HV_PARTITION_PROPERTY_IMPLEMENTED_PHYSICAL_ADDRESS_BITS		= 0x00050010,
-+	HV_PARTITION_PROPERTY_NON_ARCHITECTURAL_CORE_SHARING		= 0x00050011,
-+	HV_PARTITION_PROPERTY_HYPERCALL_DOORBELL_PAGE			= 0x00050012,
-+
-+	/* Compatibility properties */
-+	HV_PARTITION_PROPERTY_PROCESSOR_VENDOR				= 0x00060000,
-+	HV_PARTITION_PROPERTY_PROCESSOR_FEATURES_DEPRECATED		= 0x00060001,
-+	HV_PARTITION_PROPERTY_PROCESSOR_XSAVE_FEATURES			= 0x00060002,
-+	HV_PARTITION_PROPERTY_PROCESSOR_CL_FLUSH_SIZE			= 0x00060003,
-+	HV_PARTITION_PROPERTY_ENLIGHTENMENT_MODIFICATIONS		= 0x00060004,
-+	HV_PARTITION_PROPERTY_COMPATIBILITY_VERSION			= 0x00060005,
-+	HV_PARTITION_PROPERTY_PHYSICAL_ADDRESS_WIDTH			= 0x00060006,
-+	HV_PARTITION_PROPERTY_XSAVE_STATES				= 0x00060007,
-+	HV_PARTITION_PROPERTY_MAX_XSAVE_DATA_SIZE			= 0x00060008,
-+	HV_PARTITION_PROPERTY_PROCESSOR_CLOCK_FREQUENCY			= 0x00060009,
-+	HV_PARTITION_PROPERTY_PROCESSOR_FEATURES0			= 0x0006000a,
-+	HV_PARTITION_PROPERTY_PROCESSOR_FEATURES1			= 0x0006000b,
-+
-+	/* Guest software properties */
-+	HV_PARTITION_PROPERTY_GUEST_OS_ID				= 0x00070000,
-+
-+	/* Nested virtualization properties */
-+	HV_PARTITION_PROPERTY_PROCESSOR_VIRTUALIZATION_FEATURES		= 0x00080000,
++	HV_TRANSLATE_GVA_GPA_UNACCEPTED			= 9,
 +};
++
++union hv_translate_gva_result {
++	__u64 as_uint64;
++	struct {
++		__u32 result_code; /* enum hv_translate_hva_result_code */
++		__u32 cache_type : 8;
++		__u32 overlay_page : 1;
++		__u32 reserved : 23;
++	} __packed;
++};
++
++/* hv_translage_gva flags */
++#define HV_TRANSLATE_GVA_VALIDATE_READ		0x0001
++#define HV_TRANSLATE_GVA_VALIDATE_WRITE		0x0002
++#define HV_TRANSLATE_GVA_VALIDATE_EXECUTE	0x0004
++#define HV_TRANSLATE_GVA_PRIVILEGE_EXCEMP	0x0008
++#define HV_TRANSLATE_GVA_SET_PAGE_TABLE_BITS	0x0010
++#define HV_TRANSLATE_GVA_TLB_FLUSH_INHIBIT	0x0020
++#define HV_TRANSLATE_GVA_CONTROL_MASK		0x003f
 +
  #endif
 diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 718a3617e1f1..1a6c22db4978 100644
+index ec8281712430..0c46ce77cbb3 100644
 --- a/include/uapi/linux/mshv.h
 +++ b/include/uapi/linux/mshv.h
-@@ -66,6 +66,11 @@ struct mshv_vp_state {
- 	} buf;
+@@ -72,6 +72,13 @@ struct mshv_partition_property {
+ 	__u64 property_value;
  };
  
-+struct mshv_partition_property {
-+	enum hv_partition_property_code property_code;
-+	__u64 property_value;
++struct mshv_translate_gva {
++	__u64 gva;
++	__u64 flags;
++	union hv_translate_gva_result *result;
++	__u64 *gpa;
 +};
 +
  #define MSHV_IOCTL 0xB8
  
  /* mshv device */
-@@ -78,6 +83,10 @@ struct mshv_vp_state {
- #define MSHV_CREATE_VP		_IOW(MSHV_IOCTL, 0x04, struct mshv_create_vp)
- #define MSHV_INSTALL_INTERCEPT	_IOW(MSHV_IOCTL, 0x08, struct mshv_install_intercept)
- #define MSHV_ASSERT_INTERRUPT	_IOW(MSHV_IOCTL, 0x09, struct mshv_assert_interrupt)
-+#define MSHV_SET_PARTITION_PROPERTY \
-+				_IOW(MSHV_IOCTL, 0xC, struct mshv_partition_property)
-+#define MSHV_GET_PARTITION_PROPERTY \
-+				_IOWR(MSHV_IOCTL, 0xD, struct mshv_partition_property)
+@@ -95,6 +102,7 @@ struct mshv_partition_property {
+ #define MSHV_RUN_VP		_IOR(MSHV_IOCTL, 0x07, struct hv_message)
+ #define MSHV_GET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0A, struct mshv_vp_state)
+ #define MSHV_SET_VP_STATE	_IOWR(MSHV_IOCTL, 0x0B, struct mshv_vp_state)
++#define MSHV_TRANSLATE_GVA	_IOWR(MSHV_IOCTL, 0x0E, struct mshv_translate_gva)
  
- /* vp device */
- #define MSHV_GET_VP_REGISTERS   _IOWR(MSHV_IOCTL, 0x05, struct mshv_vp_registers)
+ /* register page mapping example:
+  * struct hv_vp_register_page *regs = mmap(NULL,
 -- 
 2.23.4
 
