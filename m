@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CF8EC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DFAC433F5
 	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38C2761157
+	by mail.kernel.org (Postfix) with ESMTP id 898F3610E6
 	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242352AbhI1SdN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S242347AbhI1SdN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 28 Sep 2021 14:33:13 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:50902 "EHLO
+Received: from linux.microsoft.com ([13.77.154.182]:50876 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242189AbhI1SdB (ORCPT
+        with ESMTP id S242212AbhI1SdB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 28 Sep 2021 14:33:01 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 74DCE20B57C6;
+        by linux.microsoft.com (Postfix) with ESMTPSA id B767620B4840;
         Tue, 28 Sep 2021 11:31:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 74DCE20B57C6
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B767620B4840
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1632853881;
-        bh=deS5NajnIN0QGUMuf+LOyMtWl+/jCLXM6WkU/Yj+C4w=;
+        bh=jOUIRdmnKOPmY+KBc7cf6hRVU7x4SyzUpJesIkFDJ8E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l/kPeaIpJLe6/NDWI7T9cgmjPgoNdzwsTay0grs5JaAuOuMUSBSo0sBAAt6/8zDea
-         yU/k2ytUdgAJJRttPuIQv9sYDtXwkVQsiJyT/9PzLsx2B6fXlwElGiPwfpVo0RDYap
-         dVExlC1k439YMmsoT/VDRzeFmuvysg9utSV8+e2M=
+        b=fQzq0tsZHqBzFfLgLgPexuBGA0wbhQ6tcvHggWolYOONnxUzjhkHaJEIMsLgjkg5r
+         /dY46G8BTJDUB5z8Hu2CSEUsdeojUtHCjLBO3K/sH17G3F5Y6WOyDzZ2Wt55r3HpjN
+         4e/VeTFVeYTvKA2j/DutKjivfMueYyBcR4dlH/80=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
@@ -33,9 +33,9 @@ Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com, sthemmin@microsoft.com,
         anbelski@linux.microsoft.com
-Subject: [PATCH v3 08/19] drivers/hv: map and unmap guest memory
-Date:   Tue, 28 Sep 2021 11:31:04 -0700
-Message-Id: <1632853875-20261-9-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 11/19] drivers/hv: set up synic pages for intercept messages
+Date:   Tue, 28 Sep 2021 11:31:07 -0700
+Message-Id: <1632853875-20261-12-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -43,561 +43,649 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce ioctls for mapping and unmapping regions of guest memory.
-
-Uses a table of memory 'slots' similar to KVM, but the slot
-number is not visible to userspace.
-
-For now, this simple implementation requires each new mapping to be
-disjoint - the underlying hypercalls have no such restriction, and
-implicitly overwrite any mappings on the pages in the specified regions.
+Same idea as synic setup in drivers/hv/hv.c:hv_synic_enable_regs()
+and hv_synic_disable_regs().
+Setting up synic registers in both vmbus driver and mshv would clobber
+them, but the vmbus driver will not run in the root partition, so this
+is safe.
+Move struct hv_message and related definitions to uapi.
 
 Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Vineeth Pillai <viremana@linux.microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- Documentation/virt/mshv/api.rst        |  17 +++
- drivers/hv/hv_call.c                   | 114 +++++++++++++++
- drivers/hv/mshv.h                      |  13 ++
- drivers/hv/mshv_main.c                 | 194 ++++++++++++++++++++++++-
- include/asm-generic/hyperv-tlfs.h      |  23 ++-
- include/linux/mshv.h                   |  14 ++
- include/uapi/asm-generic/hyperv-tlfs.h |   9 ++
- include/uapi/linux/mshv.h              |  15 ++
- 8 files changed, 394 insertions(+), 5 deletions(-)
+ arch/x86/include/uapi/asm/hyperv-tlfs.h | 225 ++++++++++++++++++++++++
+ drivers/hv/Makefile                     |   2 +-
+ drivers/hv/hv_synic.c                   |  85 +++++++++
+ drivers/hv/mshv.h                       |   5 +
+ drivers/hv/mshv_main.c                  |  30 +++-
+ include/asm-generic/hyperv-tlfs.h       |  81 +--------
+ include/linux/mshv.h                    |   1 +
+ include/uapi/asm-generic/hyperv-tlfs.h  |  75 ++++++++
+ 8 files changed, 422 insertions(+), 82 deletions(-)
+ create mode 100644 drivers/hv/hv_synic.c
 
-diff --git a/Documentation/virt/mshv/api.rst b/Documentation/virt/mshv/api.rst
-index f92892b27ccc..71c93b73e999 100644
---- a/Documentation/virt/mshv/api.rst
-+++ b/Documentation/virt/mshv/api.rst
-@@ -70,3 +70,20 @@ will be supported when the core API is stable.
- This ioctl creates a guest partition, returning a file descriptor to use as a
- handle for partition ioctls.
- 
-+3.3 MSHV_MAP_GUEST_MEMORY and MSHV_UNMAP_GUEST_MEMORY
-+-----------------------------------------------------
-+:Type: partition ioctl
-+:Parameters: struct mshv_user_mem_region
-+:Returns: 0 on success
-+
-+Create a mapping from memory in the user space of the calling process (running
-+in the root partition) to a region of guest physical memory in a guest partition.
-+
-+Mappings must be disjoint from each other in both userspace and guest physical
-+address space.
-+
-+Note: In the current implementation, this memory is pinned to real physical
-+memory to stop the pages being moved by Linux in the root partition,
-+and subsequently being clobbered by the hypervisor. So the region is backed
-+by real physical memory.
-+
-diff --git a/drivers/hv/hv_call.c b/drivers/hv/hv_call.c
-index a22b1cfb3563..31d59de4a7f7 100644
---- a/drivers/hv/hv_call.c
-+++ b/drivers/hv/hv_call.c
-@@ -180,3 +180,117 @@ int hv_call_delete_partition(u64 partition_id)
- 	return hv_status_to_errno(status);
- }
- 
-+int hv_call_map_gpa_pages(
-+		u64 partition_id,
-+		u64 gpa_target,
-+		u64 page_count, u32 flags,
-+		struct page **pages)
-+{
-+	struct hv_map_gpa_pages *input_page;
-+	u64 status;
-+	int i;
-+	struct page **p;
-+	u32 completed = 0;
-+	unsigned long remaining = page_count;
-+	int rep_count;
-+	unsigned long irq_flags;
-+	int ret = 0;
-+
-+	while (remaining) {
-+
-+		rep_count = min(remaining, HV_MAP_GPA_BATCH_SIZE);
-+
-+		local_irq_save(irq_flags);
-+		input_page = (struct hv_map_gpa_pages *)(*this_cpu_ptr(
-+			hyperv_pcpu_input_arg));
-+
-+		input_page->target_partition_id = partition_id;
-+		input_page->target_gpa_base = gpa_target;
-+		input_page->map_flags = flags;
-+
-+		for (i = 0, p = pages; i < rep_count; i++, p++)
-+			input_page->source_gpa_page_list[i] = page_to_pfn(*p);
-+		status = hv_do_rep_hypercall(
-+			HVCALL_MAP_GPA_PAGES, rep_count, 0, input_page, NULL);
-+		local_irq_restore(irq_flags);
-+
-+		completed = hv_repcomp(status);
-+
-+		if (hv_result(status) == HV_STATUS_INSUFFICIENT_MEMORY) {
-+			ret = hv_call_deposit_pages(NUMA_NO_NODE,
-+						    partition_id,
-+						    HV_MAP_GPA_DEPOSIT_PAGES);
-+			if (ret)
-+				break;
-+		} else if (!hv_result_success(status)) {
-+			pr_err("%s: completed %llu out of %llu, %s\n",
-+			       __func__,
-+			       page_count - remaining, page_count,
-+			       hv_status_to_string(status));
-+			ret = hv_status_to_errno(status);
-+			break;
-+		}
-+
-+		pages += completed;
-+		remaining -= completed;
-+		gpa_target += completed;
-+	}
-+
-+	if (ret && remaining < page_count) {
-+		pr_err("%s: Partially succeeded; mapped regions may be in invalid state",
-+		       __func__);
-+		ret = -EBADFD;
-+	}
-+
-+	return ret;
-+}
-+
-+int hv_call_unmap_gpa_pages(
-+		u64 partition_id,
-+		u64 gpa_target,
-+		u64 page_count, u32 flags)
-+{
-+	struct hv_unmap_gpa_pages *input_page;
-+	u64 status;
-+	int ret = 0;
-+	u32 completed = 0;
-+	unsigned long remaining = page_count;
-+	int rep_count;
-+	unsigned long irq_flags;
-+
-+	while (remaining) {
-+		local_irq_save(irq_flags);
-+		input_page = (struct hv_unmap_gpa_pages *)(*this_cpu_ptr(
-+			hyperv_pcpu_input_arg));
-+
-+		input_page->target_partition_id = partition_id;
-+		input_page->target_gpa_base = gpa_target;
-+		input_page->unmap_flags = flags;
-+		rep_count = min(remaining, HV_MAP_GPA_BATCH_SIZE);
-+		status = hv_do_rep_hypercall(
-+			HVCALL_UNMAP_GPA_PAGES, rep_count, 0, input_page, NULL);
-+		local_irq_restore(irq_flags);
-+
-+		completed = hv_repcomp(status);
-+		if (!hv_result_success(status)) {
-+			pr_err("%s: completed %llu out of %llu, %s\n",
-+			       __func__,
-+			       page_count - remaining, page_count,
-+			       hv_status_to_string(status));
-+			ret = hv_status_to_errno(status);
-+			break;
-+		}
-+
-+		remaining -= completed;
-+		gpa_target += completed;
-+	}
-+
-+	if (ret && remaining < page_count) {
-+		pr_err("%s: Partially succeeded; mapped regions may be in invalid state",
-+		       __func__);
-+		ret = -EBADFD;
-+	}
-+
-+	return ret;
-+}
-+
-diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
-index cf48ec5840b7..13d9df7c3e0d 100644
---- a/drivers/hv/mshv.h
-+++ b/drivers/hv/mshv.h
-@@ -15,8 +15,12 @@
- 
- /* Determined empirically */
- #define HV_INIT_PARTITION_DEPOSIT_PAGES 208
-+#define HV_MAP_GPA_DEPOSIT_PAGES	256
- 
- #define HV_WITHDRAW_BATCH_SIZE	(HV_HYP_PAGE_SIZE / sizeof(u64))
-+#define HV_MAP_GPA_BATCH_SIZE	\
-+		((HV_HYP_PAGE_SIZE - sizeof(struct hv_map_gpa_pages)) / sizeof(u64))
-+#define PIN_PAGES_BATCH_SIZE	(0x10000000 / HV_HYP_PAGE_SIZE)
- 
- /*
-  * Hyper-V hypercalls
-@@ -30,5 +34,14 @@ int hv_call_create_partition(
- int hv_call_initialize_partition(u64 partition_id);
- int hv_call_finalize_partition(u64 partition_id);
- int hv_call_delete_partition(u64 partition_id);
-+int hv_call_map_gpa_pages(
-+		u64 partition_id,
-+		u64 gpa_target,
-+		u64 page_count, u32 flags,
-+		struct page **pages);
-+int hv_call_unmap_gpa_pages(
-+		u64 partition_id,
-+		u64 gpa_target,
-+		u64 page_count, u32 flags);
- 
- #endif /* _MSHV_H */
-diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
-index f49666502ba7..c5c18826a38f 100644
---- a/drivers/hv/mshv_main.c
-+++ b/drivers/hv/mshv_main.c
-@@ -53,16 +53,194 @@ static struct miscdevice mshv_dev = {
- 	.mode = 0600,
+diff --git a/arch/x86/include/uapi/asm/hyperv-tlfs.h b/arch/x86/include/uapi/asm/hyperv-tlfs.h
+index a42c63001055..4ffa7e1cd185 100644
+--- a/arch/x86/include/uapi/asm/hyperv-tlfs.h
++++ b/arch/x86/include/uapi/asm/hyperv-tlfs.h
+@@ -723,4 +723,229 @@ union hv_register_value {
+ 		pending_virtualization_fault_event;
  };
  
-+static long
-+mshv_partition_ioctl_map_memory(struct mshv_partition *partition,
-+				struct mshv_user_mem_region __user *user_mem)
++union hv_x64_vp_execution_state {
++	__u16 as_uint16;
++	struct {
++		__u16 cpl:2;
++		__u16 cr0_pe:1;
++		__u16 cr0_am:1;
++		__u16 efer_lma:1;
++		__u16 debug_active:1;
++		__u16 interruption_pending:1;
++		__u16 vtl:4;
++		__u16 enclave_mode:1;
++		__u16 interrupt_shadow:1;
++		__u16 virtualization_fault_active:1;
++		__u16 reserved:2;
++	} __packed;
++};
++
++/* Values for intercept_access_type field */
++#define HV_INTERCEPT_ACCESS_READ	0
++#define HV_INTERCEPT_ACCESS_WRITE	1
++#define HV_INTERCEPT_ACCESS_EXECUTE	2
++
++struct hv_x64_intercept_message_header {
++	__u32 vp_index;
++	__u8 instruction_length:4;
++	__u8 cr8:4; // only set for exo partitions
++	__u8 intercept_access_type;
++	union hv_x64_vp_execution_state execution_state;
++	struct hv_x64_segment_register cs_segment;
++	__u64 rip;
++	__u64 rflags;
++} __packed;
++
++#define HV_HYPERCALL_INTERCEPT_MAX_XMM_REGISTERS 6
++
++struct hv_x64_hypercall_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u64 rax;
++	__u64 rbx;
++	__u64 rcx;
++	__u64 rdx;
++	__u64 r8;
++	__u64 rsi;
++	__u64 rdi;
++	struct hv_u128 xmmregisters[HV_HYPERCALL_INTERCEPT_MAX_XMM_REGISTERS];
++	struct {
++		__u32 isolated:1;
++		__u32 reserved:31;
++	} __packed;
++} __packed;
++
++union hv_x64_register_access_info {
++	union hv_register_value source_value;
++	__u32 destination_register;
++	__u64 source_address;
++	__u64 destination_address;
++};
++
++struct hv_x64_register_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	struct {
++		__u8 is_memory_op:1;
++		__u8 reserved:7;
++	} __packed;
++	__u8 reserved8;
++	__u16 reserved16;
++	__u32 register_name;
++	union hv_x64_register_access_info access_info;
++} __packed;
++
++union hv_x64_memory_access_info {
++	__u8 as_uint8;
++	struct {
++		__u8 gva_valid:1;
++		__u8 gva_gpa_valid:1;
++		__u8 hypercall_output_pending:1;
++		__u8 tlb_locked_no_overlay:1;
++		__u8 reserved:4;
++	} __packed;
++};
++
++union hv_x64_io_port_access_info {
++	__u8 as_uint8;
++	struct {
++		__u8 access_size:3;
++		__u8 string_op:1;
++		__u8 rep_prefix:1;
++		__u8 reserved:3;
++	} __packed;
++};
++
++union hv_x64_exception_info {
++	__u8 as_uint8;
++	struct {
++		__u8 error_code_valid:1;
++		__u8 software_exception:1;
++		__u8 reserved:6;
++	} __packed;
++};
++
++#define HV_CACHE_TYPE_UNCACHED		0
++#define HV_CACHE_TYPE_WRITE_COMBINING	1
++#define HV_CACHE_TYPE_WRITE_THROUGH	4
++#define HV_CACHE_TYPE_WRITE_PROTECTED	5
++#define HV_CACHE_TYPE_WRITE_BACK	6
++
++struct hv_x64_memory_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u32 cache_type;
++	__u8 instruction_byte_count;
++	union hv_x64_memory_access_info memory_access_info;
++	__u8 tpr_priority;
++	__u8 reserved1;
++	__u64 guest_virtual_address;
++	__u64 guest_physical_address;
++	__u8 instruction_bytes[16];
++} __packed;
++
++struct hv_x64_cpuid_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u64 rax;
++	__u64 rcx;
++	__u64 rdx;
++	__u64 rbx;
++	__u64 default_result_rax;
++	__u64 default_result_rcx;
++	__u64 default_result_rdx;
++	__u64 default_result_rbx;
++} __packed;
++
++struct hv_x64_msr_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u32 msr_number;
++	__u32 reserved;
++	__u64 rdx;
++	__u64 rax;
++} __packed;
++
++struct hv_x64_io_port_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u16 port_number;
++	union hv_x64_io_port_access_info access_info;
++	__u8 instruction_byte_count;
++	__u32 reserved;
++	__u64 rax;
++	__u8 instruction_bytes[16];
++	struct hv_x64_segment_register ds_segment;
++	struct hv_x64_segment_register es_segment;
++	__u64 rcx;
++	__u64 rsi;
++	__u64 rdi;
++} __packed;
++
++struct hv_x64_exception_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u16 exception_vector;
++	union hv_x64_exception_info exception_info;
++	__u8 instruction_byte_count;
++	__u32 error_code;
++	__u64 exception_parameter;
++	__u64 reserved;
++	__u8 instruction_bytes[16];
++	struct hv_x64_segment_register ds_segment;
++	struct hv_x64_segment_register ss_segment;
++	__u64 rax;
++	__u64 rcx;
++	__u64 rdx;
++	__u64 rbx;
++	__u64 rsp;
++	__u64 rbp;
++	__u64 rsi;
++	__u64 rdi;
++	__u64 r8;
++	__u64 r9;
++	__u64 r10;
++	__u64 r11;
++	__u64 r12;
++	__u64 r13;
++	__u64 r14;
++	__u64 r15;
++} __packed;
++
++struct hv_x64_invalid_vp_register_message {
++	__u32 vp_index;
++	__u32 reserved;
++} __packed;
++
++struct hv_x64_unrecoverable_exception_message {
++	struct hv_x64_intercept_message_header header;
++} __packed;
++
++#define HV_UNSUPPORTED_FEATURE_INTERCEPT	1
++#define HV_UNSUPPORTED_FEATURE_TASK_SWITCH_TSS	2
++
++struct hv_x64_unsupported_feature_message {
++	__u32 vp_index;
++	__u32 feature_code;
++	__u64 feature_parameter;
++} __packed;
++
++struct hv_x64_halt_message {
++	struct hv_x64_intercept_message_header header;
++} __packed;
++
++#define HV_X64_PENDING_INTERRUPT	0
++#define HV_X64_PENDING_NMI		2
++#define HV_X64_PENDING_EXCEPTION	3
++
++struct hv_x64_interruption_deliverable_message {
++	struct hv_x64_intercept_message_header header;
++	__u32 deliverable_type; /* pending interruption type */
++	__u32 rsvd;
++} __packed;
++
++struct hv_x64_sipi_intercept_message {
++	struct hv_x64_intercept_message_header header;
++	__u32 target_vp_index;
++	__u32 interrupt_vector;
++} __packed;
++
++struct hv_x64_apic_eoi_message {
++	__u32 vp_index;
++	__u32 interrupt_vector;
++} __packed;
++
+ #endif
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index d20761b5df80..df2825ceb3a6 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -13,5 +13,5 @@ hv_vmbus-y := vmbus_drv.o \
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
+ 
+-mshv-y				+= mshv_main.o hv_call.o
++mshv-y				+= mshv_main.o hv_call.o hv_synic.o
+ 
+diff --git a/drivers/hv/hv_synic.c b/drivers/hv/hv_synic.c
+new file mode 100644
+index 000000000000..c6546ae54ea9
+--- /dev/null
++++ b/drivers/hv/hv_synic.c
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2021, Microsoft Corporation.
++ *
++ * Authors:
++ *   Nuno Das Neves <nudasnev@microsoft.com>
++ *   Lillian Grassin-Drake <ligrassi@microsoft.com>
++ *   Vineeth Remanan Pillai <viremana@linux.microsoft.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/mm.h>
++#include <linux/io.h>
++#include <linux/mshv.h>
++#include <asm/mshyperv.h>
++
++#include "mshv.h"
++
++int mshv_synic_init(unsigned int cpu)
 +{
-+	struct mshv_user_mem_region mem;
-+	struct mshv_mem_region *region;
-+	int completed;
-+	unsigned long remaining, batch_size;
-+	int i;
-+	struct page **pages;
-+	u64 page_count, user_start, user_end, gpfn_start, gpfn_end;
-+	u64 region_page_count, region_user_start, region_user_end;
-+	u64 region_gpfn_start, region_gpfn_end;
-+	long ret = 0;
++	union hv_synic_simp simp;
++	union hv_synic_sint sint;
++	union hv_synic_scontrol sctrl;
++	struct hv_message_page **msg_page =
++			this_cpu_ptr(mshv.synic_message_page);
 +
-+	/* Check we have enough slots*/
-+	if (partition->regions.count == MSHV_MAX_MEM_REGIONS) {
-+		pr_err("%s: not enough memory region slots\n", __func__);
-+		return -ENOSPC;
-+	}
-+
-+	if (copy_from_user(&mem, user_mem, sizeof(mem)))
++	/* Setup the Synic's message page */
++	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
++	simp.simp_enabled = true;
++	*msg_page = memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
++			     HV_HYP_PAGE_SIZE,
++			     MEMREMAP_WB);
++	if (!(*msg_page)) {
++		pr_err("%s: memremap failed\n", __func__);
 +		return -EFAULT;
-+
-+	if (!mem.size ||
-+	    !PAGE_ALIGNED(mem.size) ||
-+	    !PAGE_ALIGNED(mem.userspace_addr) ||
-+	    !access_ok(mem.userspace_addr, mem.size))
-+		return -EINVAL;
-+
-+	/* Reject overlapping regions */
-+	page_count = mem.size >> HV_HYP_PAGE_SHIFT;
-+	user_start = mem.userspace_addr;
-+	user_end = mem.userspace_addr + mem.size;
-+	gpfn_start = mem.guest_pfn;
-+	gpfn_end = mem.guest_pfn + page_count;
-+	for (i = 0; i < MSHV_MAX_MEM_REGIONS; ++i) {
-+		region = &partition->regions.slots[i];
-+		if (!region->size)
-+			continue;
-+		region_page_count = region->size >> HV_HYP_PAGE_SHIFT;
-+		region_user_start = region->userspace_addr;
-+		region_user_end = region->userspace_addr + region->size;
-+		region_gpfn_start = region->guest_pfn;
-+		region_gpfn_end = region->guest_pfn + region_page_count;
-+
-+		if (!(user_end <= region_user_start) &&
-+		    !(region_user_end <= user_start)) {
-+			return -EEXIST;
-+		}
-+		if (!(gpfn_end <= region_gpfn_start) &&
-+		    !(region_gpfn_end <= gpfn_start)) {
-+			return -EEXIST;
-+		}
 +	}
++	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
 +
-+	/* Pin the userspace pages */
-+	pages = vzalloc(sizeof(struct page *) * page_count);
-+	if (!pages)
-+		return -ENOMEM;
++	/* Enable intercepts */
++	sint.as_uint64 = 0;
++	sint.vector = HYPERVISOR_CALLBACK_VECTOR;
++	sint.masked = false;
++#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
++	sint.auto_eoi =	!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
++#else
++	sint.auto_eoi = 0;
++#endif
++	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
++			sint.as_uint64);
 +
-+	remaining = page_count;
-+	while (remaining) {
-+		/*
-+		 * We need to batch this, as pin_user_pages_fast with the
-+		 * FOLL_LONGTERM flag does a big temporary allocation
-+		 * of contiguous memory
-+		 */
-+		batch_size = min(remaining, PIN_PAGES_BATCH_SIZE);
-+		completed = pin_user_pages_fast(
-+				mem.userspace_addr + (page_count - remaining) * HV_HYP_PAGE_SIZE,
-+				batch_size,
-+				FOLL_WRITE | FOLL_LONGTERM,
-+				&pages[page_count - remaining]);
-+		if (completed < 0) {
-+			pr_err("%s: failed to pin user pages error %i\n",
-+			       __func__,
-+			       completed);
-+			ret = completed;
-+			goto err_unpin_pages;
-+		}
-+		remaining -= completed;
-+	}
-+
-+	/* Map the pages to GPA pages */
-+	ret = hv_call_map_gpa_pages(partition->id, mem.guest_pfn,
-+				    page_count, mem.flags, pages);
-+	if (ret)
-+		goto err_unpin_pages;
-+
-+	/* Install the new region */
-+	for (i = 0; i < MSHV_MAX_MEM_REGIONS; ++i) {
-+		if (!partition->regions.slots[i].size) {
-+			region = &partition->regions.slots[i];
-+			break;
-+		}
-+	}
-+	region->pages = pages;
-+	region->size = mem.size;
-+	region->guest_pfn = mem.guest_pfn;
-+	region->userspace_addr = mem.userspace_addr;
-+
-+	partition->regions.count++;
++	/* Enable global synic bit */
++	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
++	sctrl.enable = 1;
++	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
 +
 +	return 0;
-+
-+err_unpin_pages:
-+	unpin_user_pages(pages, page_count - remaining);
-+	vfree(pages);
-+
-+	return ret;
 +}
 +
-+static long
-+mshv_partition_ioctl_unmap_memory(struct mshv_partition *partition,
-+				  struct mshv_user_mem_region __user *user_mem)
++int mshv_synic_cleanup(unsigned int cpu)
 +{
-+	struct mshv_user_mem_region mem;
-+	struct mshv_mem_region *region_ptr;
-+	int i;
-+	u64 page_count;
-+	long ret;
++	union hv_synic_sint sint;
++	union hv_synic_simp simp;
++	union hv_synic_scontrol sctrl;
++	struct hv_message_page **msg_page =
++			this_cpu_ptr(mshv.synic_message_page);
 +
-+	if (!partition->regions.count)
-+		return -EINVAL;
++	/* Disable the interrupt */
++	sint.as_uint64 = hv_get_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX);
++	sint.masked = true;
++	hv_set_register(HV_REGISTER_SINT0 + HV_SYNIC_INTERCEPTION_SINT_INDEX,
++			sint.as_uint64);
 +
-+	if (copy_from_user(&mem, user_mem, sizeof(mem)))
-+		return -EFAULT;
++	/* Disable Synic's message page */
++	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
++	simp.simp_enabled = false;
++	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
++	memunmap(*msg_page);
 +
-+	/* Find matching region */
-+	for (i = 0; i < MSHV_MAX_MEM_REGIONS; ++i) {
-+		if (!partition->regions.slots[i].size)
-+			continue;
-+		region_ptr = &partition->regions.slots[i];
-+		if (region_ptr->userspace_addr == mem.userspace_addr &&
-+		    region_ptr->size == mem.size &&
-+		    region_ptr->guest_pfn == mem.guest_pfn)
-+			break;
-+	}
-+
-+	if (i == MSHV_MAX_MEM_REGIONS)
-+		return -EINVAL;
-+
-+	page_count = region_ptr->size >> HV_HYP_PAGE_SHIFT;
-+	ret = hv_call_unmap_gpa_pages(partition->id, region_ptr->guest_pfn,
-+				      page_count, 0);
-+	if (ret)
-+		return ret;
-+
-+	unpin_user_pages(region_ptr->pages, page_count);
-+	vfree(region_ptr->pages);
-+	memset(region_ptr, 0, sizeof(*region_ptr));
-+	partition->regions.count--;
++	/* Disable global synic bit */
++	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
++	sctrl.enable = 0;
++	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
 +
 +	return 0;
 +}
+diff --git a/drivers/hv/mshv.h b/drivers/hv/mshv.h
+index 9e63d2fabc74..b8fece9fe80d 100644
+--- a/drivers/hv/mshv.h
++++ b/drivers/hv/mshv.h
+@@ -27,6 +27,11 @@
+ 	((HV_HYP_PAGE_SIZE - sizeof(struct hv_set_vp_registers)) \
+ 		/ sizeof(struct hv_register_assoc))
+ 
++extern struct mshv mshv;
 +
- static long
- mshv_partition_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++int mshv_synic_init(unsigned int cpu);
++int mshv_synic_cleanup(unsigned int cpu);
++
+ /*
+  * Hyper-V hypercalls
+  */
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+index f66644d0dca5..1b32cf7ad9f3 100644
+--- a/drivers/hv/mshv_main.c
++++ b/drivers/hv/mshv_main.c
+@@ -15,6 +15,8 @@
+ #include <linux/file.h>
+ #include <linux/anon_inodes.h>
+ #include <linux/mm.h>
++#include <linux/io.h>
++#include <linux/cpuhotplug.h>
+ #include <linux/mshv.h>
+ #include <asm/mshyperv.h>
+ 
+@@ -648,6 +650,8 @@ mshv_dev_release(struct inode *inode, struct file *filp)
+ 	return 0;
+ }
+ 
++static int mshv_cpuhp_online;
++
+ static int
+ __init mshv_init(void)
  {
--	return -ENOTTY;
-+	struct mshv_partition *partition = filp->private_data;
-+	long ret;
-+
-+	if (mutex_lock_killable(&partition->mutex))
-+		return -EINTR;
-+
-+	switch (ioctl) {
-+	case MSHV_MAP_GUEST_MEMORY:
-+		ret = mshv_partition_ioctl_map_memory(partition,
-+							(void __user *)arg);
-+		break;
-+	case MSHV_UNMAP_GUEST_MEMORY:
-+		ret = mshv_partition_ioctl_unmap_memory(partition,
-+							(void __user *)arg);
-+		break;
-+	default:
-+		ret = -ENOTTY;
+@@ -657,17 +661,39 @@ __init mshv_init(void)
+ 		return -ENODEV;
+ 
+ 	ret = misc_register(&mshv_dev);
+-	if (ret)
++	if (ret) {
+ 		pr_err("%s: misc device register failed\n", __func__);
++		return ret;
 +	}
 +
-+	mutex_unlock(&partition->mutex);
-+	return ret;
++	mshv.synic_message_page = alloc_percpu(struct hv_message_page *);
++	if (!mshv.synic_message_page) {
++		pr_err("%s: failed to allocate percpu synic page\n", __func__);
++		misc_deregister(&mshv_dev);
++		return -ENOMEM;
++	}
+ 
++	ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mshv_synic",
++				mshv_synic_init,
++				mshv_synic_cleanup);
++	if (ret < 0) {
++		pr_err("%s: failed to setup cpu hotplug state: %i\n",
++		       __func__, ret);
++		return ret;
++	}
++
++	mshv_cpuhp_online = ret;
+ 	spin_lock_init(&mshv.partitions.lock);
+ 
+-	return ret;
++	return 0;
  }
  
  static void
- destroy_partition(struct mshv_partition *partition)
+ __exit mshv_exit(void)
  {
--	unsigned long flags;
-+	unsigned long flags, page_count;
-+	struct mshv_mem_region *region;
- 	int i;
- 
- 	/* Remove from list of partitions */
-@@ -94,6 +272,16 @@ destroy_partition(struct mshv_partition *partition)
- 
- 	hv_call_delete_partition(partition->id);
- 
-+	/* Remove regions and unpin the pages */
-+	for (i = 0; i < MSHV_MAX_MEM_REGIONS; ++i) {
-+		region = &partition->regions.slots[i];
-+		if (!region->size)
-+			continue;
-+		page_count = region->size >> HV_HYP_PAGE_SHIFT;
-+		unpin_user_pages(region->pages, page_count);
-+		vfree(region->pages);
-+	}
++	cpuhp_remove_state(mshv_cpuhp_online);
++	free_percpu(mshv.synic_message_page);
 +
- 	kfree(partition);
+ 	misc_deregister(&mshv_dev);
  }
  
-@@ -161,6 +349,8 @@ mshv_ioctl_create_partition(void __user *user_arg)
- 	if (!partition)
- 		return -ENOMEM;
- 
-+	mutex_init(&partition->mutex);
-+
- 	fd = get_unused_fd_flags(O_CLOEXEC);
- 	if (fd < 0) {
- 		ret = fd;
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 2e1573978569..8684e7f9ec5b 100644
+index 8679c39181a2..ace8fca88f66 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -20,9 +20,9 @@
-  * guest physical pages and guest physical page addresses, since the guest page
-  * size may not be 4096 on all architectures.
-  */
--#define HV_HYP_PAGE_SHIFT      12
--#define HV_HYP_PAGE_SIZE       BIT(HV_HYP_PAGE_SHIFT)
--#define HV_HYP_PAGE_MASK       (~(HV_HYP_PAGE_SIZE - 1))
-+#define HV_HYP_PAGE_SHIFT		12
-+#define HV_HYP_PAGE_SIZE		BIT(HV_HYP_PAGE_SHIFT)
-+#define HV_HYP_PAGE_MASK		(~(HV_HYP_PAGE_SIZE - 1))
+@@ -241,6 +241,8 @@ enum hv_status {
+ /* Valid SynIC vectors are 16-255. */
+ #define HV_SYNIC_FIRST_VALID_VECTOR	(16)
  
- /*
-  * Hyper-V provides two categories of flags relevant to guest VMs.  The
-@@ -150,6 +150,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_GET_PARTITION_ID			0x0046
- #define HVCALL_DEPOSIT_MEMORY			0x0048
- #define HVCALL_WITHDRAW_MEMORY			0x0049
-+#define HVCALL_MAP_GPA_PAGES			0x004b
-+#define HVCALL_UNMAP_GPA_PAGES			0x004c
- #define HVCALL_CREATE_VP			0x004e
- #define HVCALL_GET_VP_REGISTERS			0x0050
- #define HVCALL_SET_VP_REGISTERS			0x0051
-@@ -886,4 +888,19 @@ struct hv_delete_partition {
- 	u64 partition_id;
++#define HV_SYNIC_INTERCEPTION_SINT_INDEX 0x00000000
++
+ #define HV_SYNIC_CONTROL_ENABLE		(1ULL << 0)
+ #define HV_SYNIC_SIMP_ENABLE		(1ULL << 0)
+ #define HV_SYNIC_SIEFP_ENABLE		(1ULL << 0)
+@@ -250,84 +252,6 @@ enum hv_status {
+ 
+ #define HV_SYNIC_STIMER_COUNT		(4)
+ 
+-/* Define synthetic interrupt controller message constants. */
+-#define HV_MESSAGE_SIZE			(256)
+-#define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
+-#define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
+-
+-/*
+- * Define hypervisor message types. Some of the message types
+- * are x86/x64 specific, but there's no good way to separate
+- * them out into the arch-specific version of hyperv-tlfs.h
+- * because C doesn't provide a way to extend enum types.
+- * Keeping them all in the arch neutral hyperv-tlfs.h seems
+- * the least messy compromise.
+- */
+-enum hv_message_type {
+-	HVMSG_NONE			= 0x00000000,
+-
+-	/* Memory access messages. */
+-	HVMSG_UNMAPPED_GPA		= 0x80000000,
+-	HVMSG_GPA_INTERCEPT		= 0x80000001,
+-
+-	/* Timer notification messages. */
+-	HVMSG_TIMER_EXPIRED		= 0x80000010,
+-
+-	/* Error messages. */
+-	HVMSG_INVALID_VP_REGISTER_VALUE	= 0x80000020,
+-	HVMSG_UNRECOVERABLE_EXCEPTION	= 0x80000021,
+-	HVMSG_UNSUPPORTED_FEATURE	= 0x80000022,
+-
+-	/* Trace buffer complete messages. */
+-	HVMSG_EVENTLOG_BUFFERCOMPLETE	= 0x80000040,
+-
+-	/* Platform-specific processor intercept messages. */
+-	HVMSG_X64_IOPORT_INTERCEPT	= 0x80010000,
+-	HVMSG_X64_MSR_INTERCEPT		= 0x80010001,
+-	HVMSG_X64_CPUID_INTERCEPT	= 0x80010002,
+-	HVMSG_X64_EXCEPTION_INTERCEPT	= 0x80010003,
+-	HVMSG_X64_APIC_EOI		= 0x80010004,
+-	HVMSG_X64_LEGACY_FP_ERROR	= 0x80010005
+-};
+-
+-/* Define synthetic interrupt controller message flags. */
+-union hv_message_flags {
+-	__u8 asu8;
+-	struct {
+-		__u8 msg_pending:1;
+-		__u8 reserved:7;
+-	} __packed;
+-};
+-
+-/* Define port identifier type. */
+-union hv_port_id {
+-	__u32 asu32;
+-	struct {
+-		__u32 id:24;
+-		__u32 reserved:8;
+-	} __packed u;
+-};
+-
+-/* Define synthetic interrupt controller message header. */
+-struct hv_message_header {
+-	__u32 message_type;
+-	__u8 payload_size;
+-	union hv_message_flags message_flags;
+-	__u8 reserved[2];
+-	union {
+-		__u64 sender;
+-		union hv_port_id port;
+-	};
+-} __packed;
+-
+-/* Define synthetic interrupt controller message format. */
+-struct hv_message {
+-	struct hv_message_header header;
+-	union {
+-		__u64 payload[HV_MESSAGE_PAYLOAD_QWORD_COUNT];
+-	} u;
+-} __packed;
+-
+ /* Define the synthetic interrupt message page layout. */
+ struct hv_message_page {
+ 	struct hv_message sint_message[HV_SYNIC_SINT_COUNT];
+@@ -341,7 +265,6 @@ struct hv_timer_message_payload {
+ 	__u64 delivery_time;	/* When the message was delivered */
  } __packed;
  
-+struct hv_map_gpa_pages {
-+	u64 target_partition_id;
-+	u64 target_gpa_base;
-+	u32 map_flags;
-+	u32 padding;
-+	u64 source_gpa_page_list[];
-+} __packed;
-+
-+struct hv_unmap_gpa_pages {
-+	u64 target_partition_id;
-+	u64 target_gpa_base;
-+	u32 unmap_flags;
-+	u32 padding;
-+} __packed;
-+
- #endif
+-
+ /* Define synthetic interrupt controller flag constants. */
+ #define HV_EVENT_FLAGS_COUNT		(256 * 8)
+ #define HV_EVENT_FLAGS_LONG_COUNT	(256 / sizeof(unsigned long))
 diff --git a/include/linux/mshv.h b/include/linux/mshv.h
-index fc4f35089b2c..91a742f37440 100644
+index dfe469f573f9..7709aaa1e064 100644
 --- a/include/linux/mshv.h
 +++ b/include/linux/mshv.h
-@@ -7,13 +7,27 @@
-  */
- 
- #include <linux/spinlock.h>
-+#include <linux/mutex.h>
- #include <uapi/linux/mshv.h>
- 
- #define MSHV_MAX_PARTITIONS		128
-+#define MSHV_MAX_MEM_REGIONS		64
-+
-+struct mshv_mem_region {
-+	u64 size; /* bytes */
-+	u64 guest_pfn;
-+	u64 userspace_addr; /* start of the userspace allocated memory */
-+	struct page **pages;
-+};
- 
- struct mshv_partition {
- 	u64 id;
- 	refcount_t ref_count;
-+	struct mutex mutex;
-+	struct {
-+		u32 count;
-+		struct mshv_mem_region slots[MSHV_MAX_MEM_REGIONS];
-+	} regions;
+@@ -42,6 +42,7 @@ struct mshv_partition {
  };
  
  struct mshv {
++	struct hv_message_page __percpu **synic_message_page;
+ 	struct {
+ 		spinlock_t lock;
+ 		u64 count;
 diff --git a/include/uapi/asm-generic/hyperv-tlfs.h b/include/uapi/asm-generic/hyperv-tlfs.h
-index 7a858226a9c5..e7b09b9f00de 100644
+index f49099d1f894..4ecb29fe1a0e 100644
 --- a/include/uapi/asm-generic/hyperv-tlfs.h
 +++ b/include/uapi/asm-generic/hyperv-tlfs.h
-@@ -12,4 +12,13 @@
- #define HV_PARTITION_CREATION_FLAG_GPA_SUPER_PAGES_ENABLED          BIT(4)
- #define HV_PARTITION_CREATION_FLAG_LAPIC_ENABLED                    BIT(13)
- 
-+/* HV Map GPA (Guest Physical Address) Flags */
-+#define HV_MAP_GPA_PERMISSIONS_NONE     0x0
-+#define HV_MAP_GPA_READABLE             0x1
-+#define HV_MAP_GPA_WRITABLE             0x2
-+#define HV_MAP_GPA_KERNEL_EXECUTABLE    0x4
-+#define HV_MAP_GPA_USER_EXECUTABLE      0x8
-+#define HV_MAP_GPA_EXECUTABLE           0xC
-+#define HV_MAP_GPA_PERMISSIONS_MASK     0xF
-+
+@@ -6,6 +6,81 @@
+ #define BIT(X)	(1ULL << (X))
  #endif
-diff --git a/include/uapi/linux/mshv.h b/include/uapi/linux/mshv.h
-index 03b1ed66245d..7ead5f1c8b14 100644
---- a/include/uapi/linux/mshv.h
-+++ b/include/uapi/linux/mshv.h
-@@ -19,10 +19,25 @@ struct mshv_create_partition {
- 	struct hv_partition_creation_properties partition_creation_properties;
- };
  
-+/*
-+ * Mappings can't overlap in GPA space or userspace
-+ * To unmap, these fields must match an existing mapping
-+ */
-+struct mshv_user_mem_region {
-+	__u64 size;		/* bytes */
-+	__u64 guest_pfn;
-+	__u64 userspace_addr;	/* start of the userspace allocated memory */
-+	__u32 flags;		/* ignored on unmap */
++/* Define synthetic interrupt controller message constants. */
++#define HV_MESSAGE_SIZE			(256)
++#define HV_MESSAGE_PAYLOAD_BYTE_COUNT	(240)
++#define HV_MESSAGE_PAYLOAD_QWORD_COUNT	(30)
++
++/* Define hypervisor message types. */
++enum hv_message_type {
++	HVMSG_NONE				= 0x00000000,
++
++	/* Memory access messages. */
++	HVMSG_UNMAPPED_GPA			= 0x80000000,
++	HVMSG_GPA_INTERCEPT			= 0x80000001,
++
++	/* Timer notification messages. */
++	HVMSG_TIMER_EXPIRED			= 0x80000010,
++
++	/* Error messages. */
++	HVMSG_INVALID_VP_REGISTER_VALUE		= 0x80000020,
++	HVMSG_UNRECOVERABLE_EXCEPTION		= 0x80000021,
++	HVMSG_UNSUPPORTED_FEATURE		= 0x80000022,
++
++	/* Trace buffer complete messages. */
++	HVMSG_EVENTLOG_BUFFERCOMPLETE		= 0x80000040,
++
++	/* Platform-specific processor intercept messages. */
++	HVMSG_X64_IO_PORT_INTERCEPT		= 0x80010000,
++	HVMSG_X64_MSR_INTERCEPT			= 0x80010001,
++	HVMSG_X64_CPUID_INTERCEPT		= 0x80010002,
++	HVMSG_X64_EXCEPTION_INTERCEPT		= 0x80010003,
++	HVMSG_X64_APIC_EOI			= 0x80010004,
++	HVMSG_X64_LEGACY_FP_ERROR		= 0x80010005,
++	HVMSG_X64_IOMMU_PRQ			= 0x80010006,
++	HVMSG_X64_HALT				= 0x80010007,
++	HVMSG_X64_INTERRUPTION_DELIVERABLE	= 0x80010008,
++	HVMSG_X64_SIPI_INTERCEPT		= 0x80010009,
 +};
 +
- #define MSHV_IOCTL 0xB8
- 
- /* mshv device */
- #define MSHV_CHECK_EXTENSION    _IOW(MSHV_IOCTL, 0x00, __u32)
- #define MSHV_CREATE_PARTITION	_IOW(MSHV_IOCTL, 0x01, struct mshv_create_partition)
- 
-+/* partition device */
-+#define MSHV_MAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x02, struct mshv_user_mem_region)
-+#define MSHV_UNMAP_GUEST_MEMORY	_IOW(MSHV_IOCTL, 0x03, struct mshv_user_mem_region)
++/* Define synthetic interrupt controller message flags. */
++union hv_message_flags {
++	__u8 asu8;
++	struct {
++		__u8 msg_pending:1;
++		__u8 reserved:7;
++	} __packed;
++};
 +
- #endif
++/* Define port identifier type. */
++union hv_port_id {
++	__u32 asu32;
++	struct {
++		__u32 id:24;
++		__u32 reserved:8;
++	} __packed u;
++};
++
++/* Define synthetic interrupt controller message header. */
++struct hv_message_header {
++	__u32 message_type;
++	__u8 payload_size;
++	union hv_message_flags message_flags;
++	__u8 reserved[2];
++	union {
++		__u64 sender;
++		union hv_port_id port;
++	};
++} __packed;
++
++/* Define synthetic interrupt controller message format. */
++struct hv_message {
++	struct hv_message_header header;
++	union {
++		__u64 payload[HV_MESSAGE_PAYLOAD_QWORD_COUNT];
++	} u;
++} __packed;
++
+ /* Userspace-visible partition creation flags */
+ #define HV_PARTITION_CREATION_FLAG_SMT_ENABLED_GUEST                BIT(0)
+ #define HV_PARTITION_CREATION_FLAG_GPA_LARGE_PAGES_DISABLED         BIT(3)
 -- 
 2.23.4
 
