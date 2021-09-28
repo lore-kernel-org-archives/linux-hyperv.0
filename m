@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0651C433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF57C43219
+	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9076B613A7
-	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86993613A9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Sep 2021 18:31:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242190AbhI1SdB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 28 Sep 2021 14:33:01 -0400
-Received: from linux.microsoft.com ([13.77.154.182]:50844 "EHLO
+        id S242247AbhI1SdC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 28 Sep 2021 14:33:02 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:50860 "EHLO
         linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242150AbhI1SdA (ORCPT
+        with ESMTP id S242155AbhI1SdA (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 28 Sep 2021 14:33:00 -0400
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id CCA1520B85E6;
-        Tue, 28 Sep 2021 11:31:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CCA1520B85E6
+        by linux.microsoft.com (Postfix) with ESMTPSA id 05C5620B861E;
+        Tue, 28 Sep 2021 11:31:21 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 05C5620B861E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1632853880;
-        bh=Jb/4EJOHHKdh6FAdUgdy6VAxKnd2ITp389c0XjRnl9Q=;
+        s=default; t=1632853881;
+        bh=oZTfBIvL3KWAqcaa+lqgmUko0hXqiLsO0u/E3y1mF+c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lBpeA7POt8S8mR1ybeuWFZ1tURLBEnH7RKJh3/EBkjqfStXtuXLpc3bRxGGdLCg63
-         lMY5uMpEOyS82O3E7wefcH4XTE6xM3t9HhfQjmqm6KZ5EC5dSJk5yCMqIvIHlbmne/
-         XnVksUa1eq2uaGnYNK5yLXhVD+1GgBJm432E9y+4=
+        b=J9G6W6QoBLaB/w8vebGq7m9oDUVai3VTc8T/FZrc1i7AoUVaSpNhDrcHzneqKrMES
+         l4UQoTk8iGGdzW4BIb3s6BoCPcRLTVdhCfUnahScqcsL7aKYT1Ey8hPg4vQrX/o16i
+         hNsu0lilBW2kq/yHiSAN0DVydox1lOfbiKXerlcA=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
@@ -33,9 +33,9 @@ Cc:     virtualization@lists.linux-foundation.org, mikelley@microsoft.com,
         wei.liu@kernel.org, vkuznets@redhat.com, ligrassi@microsoft.com,
         kys@microsoft.com, sthemmin@microsoft.com,
         anbelski@linux.microsoft.com
-Subject: [PATCH v3 01/19] x86/hyperv: convert hyperv statuses to linux error codes
-Date:   Tue, 28 Sep 2021 11:30:57 -0700
-Message-Id: <1632853875-20261-2-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 03/19] drivers/hv: minimal mshv module (/dev/mshv/)
+Date:   Tue, 28 Sep 2021 11:30:59 -0700
+Message-Id: <1632853875-20261-4-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -43,134 +43,157 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Return linux-friendly error codes from hypercall wrapper functions.
-This will be needed in the mshv module.
+Introduce a barebones module file for the mshv API.
+Introduce CONFIG_HYPERV_VMM_API for controlling compilation of mshv.
 
+Co-developed-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
+Signed-off-by: Lillian Grassin-Drake <ligrassi@microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Reviewed-by: Sunil Muthuswamy <sunilmut@microsoft.com>
 ---
- arch/x86/hyperv/hv_proc.c         | 30 ++++++++++++++++++++++++++---
- arch/x86/include/asm/mshyperv.h   |  1 +
- include/asm-generic/hyperv-tlfs.h | 32 +++++++++++++++++++++----------
- 3 files changed, 50 insertions(+), 13 deletions(-)
+ arch/x86/hyperv/Makefile |  1 +
+ drivers/hv/Kconfig       | 18 ++++++++++
+ drivers/hv/Makefile      |  3 ++
+ drivers/hv/mshv_main.c   | 77 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 99 insertions(+)
+ create mode 100644 drivers/hv/mshv_main.c
 
-diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
-index 68a0843d4750..59cf9a9e0975 100644
---- a/arch/x86/hyperv/hv_proc.c
-+++ b/arch/x86/hyperv/hv_proc.c
-@@ -14,6 +14,30 @@
- 
- #include <asm/trace/hyperv.h>
- 
-+int hv_status_to_errno(u64 hv_status)
-+{
-+	switch (hv_result(hv_status)) {
-+	case HV_STATUS_SUCCESS:
-+		return 0;
-+	case HV_STATUS_INVALID_PARAMETER:
-+	case HV_STATUS_UNKNOWN_PROPERTY:
-+	case HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE:
-+	case HV_STATUS_INVALID_VP_INDEX:
-+	case HV_STATUS_INVALID_REGISTER_VALUE:
-+	case HV_STATUS_INVALID_LP_INDEX:
-+		return -EINVAL;
-+	case HV_STATUS_ACCESS_DENIED:
-+	case HV_STATUS_OPERATION_DENIED:
-+		return -EACCES;
-+	case HV_STATUS_NOT_ACKNOWLEDGED:
-+	case HV_STATUS_INVALID_VP_STATE:
-+	case HV_STATUS_INVALID_PARTITION_STATE:
-+		return -EBADFD;
-+	}
-+	return -ENOTRECOVERABLE;
-+}
-+EXPORT_SYMBOL_GPL(hv_status_to_errno);
+diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
+index 48e2c51464e8..4b5a8a96ba01 100644
+--- a/arch/x86/hyperv/Makefile
++++ b/arch/x86/hyperv/Makefile
+@@ -5,3 +5,4 @@ obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
+ ifdef CONFIG_X86_64
+ obj-$(CONFIG_PARAVIRT_SPINLOCKS)	+= hv_spinlock.o
+ endif
 +
- /*
-  * See struct hv_deposit_memory. The first u64 is partition ID, the rest
-  * are GPAs.
-@@ -94,7 +118,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
- 	local_irq_restore(flags);
- 	if (!hv_result_success(status)) {
- 		pr_err("Failed to deposit pages: %lld\n", status);
--		ret = hv_result(status);
-+		ret = hv_status_to_errno(status);
- 		goto err_free_allocations;
- 	}
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 66c794d92391..0fc3fcce3cf7 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -27,4 +27,22 @@ config HYPERV_BALLOON
+ 	help
+ 	  Select this option to enable Hyper-V Balloon driver.
  
-@@ -150,7 +174,7 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 			if (!hv_result_success(status)) {
- 				pr_err("%s: cpu %u apic ID %u, %lld\n", __func__,
- 				       lp_index, apic_id, status);
--				ret = hv_result(status);
-+				ret = hv_status_to_errno(status);
- 			}
- 			break;
- 		}
-@@ -200,7 +224,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 			if (!hv_result_success(status)) {
- 				pr_err("%s: vcpu %u, lp %u, %lld\n", __func__,
- 				       vp_index, flags, status);
--				ret = hv_result(status);
-+				ret = hv_status_to_errno(status);
- 			}
- 			break;
- 		}
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 67ff0d637e55..c6eb01f3864d 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -169,6 +169,7 @@ int hyperv_flush_guest_mapping_range(u64 as,
- int hyperv_fill_flush_guest_mapping_list(
- 		struct hv_guest_mapping_flush_list *flush,
- 		u64 start_gfn, u64 end_gfn);
-+int hv_status_to_errno(u64 hv_status);
++config HYPERV_VMM_API
++	tristate "Microsoft Hypervisor root partition interfaces: /dev/mshv"
++	depends on HYPERV
++	help
++	  Provides access to interfaces for managing guest virtual machines
++	  running under the Microsoft Hypervisor.
++
++	  These interfaces will only work when Linux is running as root
++	  partition on the Microsoft Hypervisor.
++
++	  The interfaces are provided via a device named /dev/mshv.
++
++	  To compile this as a module, choose M here.
++	  The module is named mshv.
++
++	  If unsure, say N.
++
++
+ endmenu
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 94daf8240c95..84e7fe2022a0 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
+ obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
+ obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
++obj-$(CONFIG_HYPERV_VMM_API)	+= mshv.o
  
- extern bool hv_root_partition;
- 
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 515c3fb06ab3..fe6d41d0b114 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -189,16 +189,28 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_HYPERCALL_REP_START_MASK	GENMASK_ULL(59, 48)
- 
- /* hypercall status code */
--#define HV_STATUS_SUCCESS			0
--#define HV_STATUS_INVALID_HYPERCALL_CODE	2
--#define HV_STATUS_INVALID_HYPERCALL_INPUT	3
--#define HV_STATUS_INVALID_ALIGNMENT		4
--#define HV_STATUS_INVALID_PARAMETER		5
--#define HV_STATUS_OPERATION_DENIED		8
--#define HV_STATUS_INSUFFICIENT_MEMORY		11
--#define HV_STATUS_INVALID_PORT_ID		17
--#define HV_STATUS_INVALID_CONNECTION_ID		18
--#define HV_STATUS_INSUFFICIENT_BUFFERS		19
-+#define HV_STATUS_SUCCESS			0x0
-+#define HV_STATUS_INVALID_HYPERCALL_CODE	0x2
-+#define HV_STATUS_INVALID_HYPERCALL_INPUT	0x3
-+#define HV_STATUS_INVALID_ALIGNMENT		0x4
-+#define HV_STATUS_INVALID_PARAMETER		0x5
-+#define HV_STATUS_ACCESS_DENIED			0x6
-+#define HV_STATUS_INVALID_PARTITION_STATE	0x7
-+#define HV_STATUS_OPERATION_DENIED		0x8
-+#define HV_STATUS_UNKNOWN_PROPERTY		0x9
-+#define HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE	0xA
-+#define HV_STATUS_INSUFFICIENT_MEMORY		0xB
-+#define HV_STATUS_INVALID_PARTITION_ID		0xD
-+#define HV_STATUS_INVALID_VP_INDEX		0xE
-+#define HV_STATUS_NOT_FOUND			0x10
-+#define HV_STATUS_INVALID_PORT_ID		0x11
-+#define HV_STATUS_INVALID_CONNECTION_ID		0x12
-+#define HV_STATUS_INSUFFICIENT_BUFFERS		0x13
-+#define HV_STATUS_NOT_ACKNOWLEDGED		0x14
-+#define HV_STATUS_INVALID_VP_STATE		0x15
-+#define HV_STATUS_NO_RESOURCES			0x1D
-+#define HV_STATUS_INVALID_LP_INDEX		0x41
-+#define HV_STATUS_INVALID_REGISTER_VALUE	0x50
- 
- /*
-  * The Hyper-V TimeRefCount register and the TSC
+ CFLAGS_hv_trace.o = -I$(src)
+ CFLAGS_hv_balloon.o = -I$(src)
+@@ -11,3 +12,5 @@ hv_vmbus-y := vmbus_drv.o \
+ 		 channel_mgmt.o ring_buffer.o hv_trace.o
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
++
++mshv-y				+= mshv_main.o
+diff --git a/drivers/hv/mshv_main.c b/drivers/hv/mshv_main.c
+new file mode 100644
+index 000000000000..e44adf91f660
+--- /dev/null
++++ b/drivers/hv/mshv_main.c
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2020, Microsoft Corporation.
++ *
++ * Authors:
++ *   Nuno Das Neves <nudasnev@microsoft.com>
++ *   Lillian Grassin-Drake <ligrassi@microsoft.com>
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/fs.h>
++#include <linux/miscdevice.h>
++
++MODULE_AUTHOR("Microsoft");
++MODULE_LICENSE("GPL");
++
++static int mshv_dev_open(struct inode *inode, struct file *filp);
++static int mshv_dev_release(struct inode *inode, struct file *filp);
++static long mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg);
++
++static const struct file_operations mshv_dev_fops = {
++	.owner = THIS_MODULE,
++	.open = mshv_dev_open,
++	.release = mshv_dev_release,
++	.unlocked_ioctl = mshv_dev_ioctl,
++	.llseek = noop_llseek,
++};
++
++static struct miscdevice mshv_dev = {
++	.minor = MISC_DYNAMIC_MINOR,
++	.name = "mshv",
++	.fops = &mshv_dev_fops,
++	.mode = 0600,
++};
++
++static long
++mshv_dev_ioctl(struct file *filp, unsigned int ioctl, unsigned long arg)
++{
++	return -ENOTTY;
++}
++
++static int
++mshv_dev_open(struct inode *inode, struct file *filp)
++{
++	return 0;
++}
++
++static int
++mshv_dev_release(struct inode *inode, struct file *filp)
++{
++	return 0;
++}
++
++static int
++__init mshv_init(void)
++{
++	int ret;
++
++	if (!hv_is_hyperv_initialized())
++		return -ENODEV;
++
++	ret = misc_register(&mshv_dev);
++	if (ret)
++		pr_err("%s: misc device register failed\n", __func__);
++
++	return ret;
++}
++
++static void
++__exit mshv_exit(void)
++{
++	misc_deregister(&mshv_dev);
++}
++
++module_init(mshv_init);
++module_exit(mshv_exit);
 -- 
 2.23.4
 
