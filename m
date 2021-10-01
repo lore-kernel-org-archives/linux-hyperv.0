@@ -2,147 +2,154 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B475DC433F5
-	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Oct 2021 07:36:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80672C433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Oct 2021 13:18:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 934F961A7B
-	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Oct 2021 07:36:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 660B761267
+	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Oct 2021 13:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231210AbhJAHiM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 1 Oct 2021 03:38:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50040 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231222AbhJAHiI (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 1 Oct 2021 03:38:08 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B28D61A56;
-        Fri,  1 Oct 2021 07:36:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1633073784;
-        bh=F7FORTn48/F8tKh/vrqU2iD+S5SdTTcOrGHdRF5xuhM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CUgDaxumqVLgqn5UYFFs4mpQVt+mTF64KU4Ol2Hpz3AXUJbyqqHxxqzpxpovAyl17
-         dIw9UynDCXMIIzcTu011qomNHpSpWZm7DFTqorTSwaUFVQc9MJx728NI3CVmq2vf9E
-         b911fk7Qfn0pqUfUDFQ9SJOCE+OaLeByr8CHx7ME=
-Date:   Fri, 1 Oct 2021 09:36:22 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Long Li <longli@microsoft.com>
-Cc:     Bart Van Assche <bvanassche@acm.org>,
-        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Andra Paraschiv <andraprs@amazon.com>,
-        Siddharth Gupta <sidgup@codeaurora.org>,
-        Hannes Reinecke <hare@suse.de>
-Subject: Re: [Patch v5 0/3] Introduce a driver to support host accelerated
- access to Microsoft Azure Blob for Azure VM
-Message-ID: <YVa6dtvt/BaajmmK@kroah.com>
-References: <1628146812-29798-1-git-send-email-longli@linuxonhyperv.com>
- <e249d88b-6ca2-623f-6f6e-9547e2b36f1f@acm.org>
- <BY5PR21MB15060F1B9CDB078189B76404CEF29@BY5PR21MB1506.namprd21.prod.outlook.com>
- <YQwvL2N6JpzI+hc8@kroah.com>
- <BY5PR21MB1506A93E865A8D6972DD0AAECEF49@BY5PR21MB1506.namprd21.prod.outlook.com>
- <YQ9oTBSRyHCffC2k@kroah.com>
- <BY5PR21MB15065658FA902CC0BC162956CEF79@BY5PR21MB1506.namprd21.prod.outlook.com>
- <BY5PR21MB1506091AFED0EB62F081313ECEA29@BY5PR21MB1506.namprd21.prod.outlook.com>
- <DM6PR21MB15135923A4CB0E61786ABC22CEAA9@DM6PR21MB1513.namprd21.prod.outlook.com>
+        id S1353947AbhJANUD (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 1 Oct 2021 09:20:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352696AbhJANTt (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 1 Oct 2021 09:19:49 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE87C0613EB;
+        Fri,  1 Oct 2021 06:17:45 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id w11so6262277plz.13;
+        Fri, 01 Oct 2021 06:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ylpl7fwcJ6dmn8OOkjpCoC6BQ0dUN3SoIftGjd4jR9U=;
+        b=jXNrEhRQ+XqK/MsLCBs+KJXQnxuYQ2yX2fUjSWwoGUrREJtyMpH0hGhkVJMSW1wLd1
+         QG/YWwpP9/HYnq/HsGiy0rsQXdViF2LhyHl20KL67shjcwzQb+r6Spe6JdGO57xbxAIb
+         gOKluJnZ+JrnIhxbd1z7MVSLZINqTYaToYH7z9tQnKhI3GUggfMdP3C+l3uhn5niPwD/
+         KNdDhOLicZnNfLsyH2DOOiMn5FXB5uSpqeEDAki+hKUEjLkS6p16gb9tUjokkdO1eYPS
+         xzxm4SVx+EUgVWK2LFtWAAWE4j3yrI9HDIes+q6qDkvmzz1/HvAx024kqsTy+GXRRnHC
+         QMiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ylpl7fwcJ6dmn8OOkjpCoC6BQ0dUN3SoIftGjd4jR9U=;
+        b=heNPYB15lSVZPM+CoPjpGIX6ZrM/QzCbSLoQpmH39OVTmCRTIksf1FFwfUUTp6snHV
+         6tqWm9wLuNbm8yOjqaHBviF1OHHheBtd7GmfKDOUA7nW/tzrzn7HZuEkVeZk72aWwKAy
+         r8OLtubQ2msIWFBToasjeZRv4hnaB/MhEbd5eYCdBOsto49bGIqJci2kOg7lqPeYvKhc
+         AqHmqd1+n3kMcxcGD8uYcaBE/x/4DEPWX8qBbfAmANp5/FdP9sXxHZMyctnfvPAwccUn
+         NG0LqPR5IRuUuXOhBeP4o1w5SHvIjtENq+m8wPKem/zkbm2zEO7q8tiASbbefbvw0lkc
+         CKrg==
+X-Gm-Message-State: AOAM530FB8V6+76MeeESUb0S3Ifzk+rQ/RieIe8BOsnE9D8W005K3kMR
+        06L460lHRdW1bm5oDbQniBA=
+X-Google-Smtp-Source: ABdhPJzVVuw8Y9jVkevWrUuql70mrqqyUm154zOarGgS2WsExr7akQAa/DG3ZUsriL6WynJLxWvg/w==
+X-Received: by 2002:a17:902:c612:b0:13c:9801:a336 with SMTP id r18-20020a170902c61200b0013c9801a336mr9397654plr.27.1633094265436;
+        Fri, 01 Oct 2021 06:17:45 -0700 (PDT)
+Received: from ?IPv6:2404:f801:0:5:8000::50b? ([2404:f801:9000:18:efec::50b])
+        by smtp.gmail.com with ESMTPSA id e11sm6404924pfm.28.2021.10.01.06.17.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Oct 2021 06:17:45 -0700 (PDT)
+Subject: Re: [PATCH V6 3/8] x86/hyperv: Add new hvcall guest address host
+ visibility support
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+        mingo@redhat.com, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, kuba@kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, brijesh.singh@amd.com, jroedel@suse.de,
+        Tianyu.Lan@microsoft.com, thomas.lendacky@amd.com,
+        pgonda@google.com, akpm@linux-foundation.org, rppt@kernel.org,
+        kirill.shutemov@linux.intel.com, saravanand@fb.com,
+        aneesh.kumar@linux.ibm.com, rientjes@google.com, tj@kernel.org,
+        michael.h.kelley@microsoft.com, linux-arch@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, vkuznets@redhat.com,
+        konrad.wilk@oracle.com, hch@lst.de, robin.murphy@arm.com,
+        joro@8bytes.org, parri.andrea@gmail.com, dave.hansen@intel.com
+References: <20210930130545.1210298-1-ltykernel@gmail.com>
+ <20210930130545.1210298-4-ltykernel@gmail.com> <YVX7n4YM8ZirwTQu@zn.tnic>
+From:   Tianyu Lan <ltykernel@gmail.com>
+Message-ID: <8a9a6753-d0b5-3c12-5a5c-17decae3548b@gmail.com>
+Date:   Fri, 1 Oct 2021 21:17:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM6PR21MB15135923A4CB0E61786ABC22CEAA9@DM6PR21MB1513.namprd21.prod.outlook.com>
+In-Reply-To: <YVX7n4YM8ZirwTQu@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 10:25:12PM +0000, Long Li wrote:
-> > Greg,
-> > 
-> > I apologize for the delay. I have attached the Java transport library (a tgz file)
-> > in the email. The file is released for review under "The MIT License (MIT)".
-> > 
-> > The transport library implemented functions needed for reading from a Block
-> > Blob using this driver. The function for transporting I/O is
-> > Java_com_azure_storage_fastpath_driver_FastpathDriver_read(), defined
-> > in "./src/fastpath/jni/fpjar_endpoint.cpp".
-> > 
-> > In particular, requestParams is in JSON format (REST) that is passed from a
-> > Blob application using Blob API for reading from a Block Blob.
-> > 
-> > For an example of how a Blob application using the transport library, please
-> > see Blob support for Hadoop ABFS:
-> > https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgith
-> > ub.com%2Fapache%2Fhadoop%2Fpull%2F3309%2Fcommits%2Fbe7d12662e2
-> > 3a13e6cf10cf1fa5e7eb109738e7d&amp;data=04%7C01%7Clongli%40microsof
-> > t.com%7C3acb68c5fd6144a1857908d97e247376%7C72f988bf86f141af91ab2d7
-> > cd011db47%7C1%7C0%7C637679518802561720%7CUnknown%7CTWFpbGZsb
-> > 3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0
-> > %3D%7C1000&amp;sdata=6z3ZXPtMC5OvF%2FgrtbcRdFlqzzR1xJNRxE2v2Qrx
-> > FL8%3D&amp;reserved=0
+Hi Boris:
+	Thanks for your review.
 
-Odd url :(
-
-> > In ABFS, the entry point for using Blob I/O is at AbfsRestOperation
-> > executeRead() in hadoop-tools/hadoop-
-> > azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsInputStr
-> > eam.java, from line 553 to 564, this function eventually calls into
-> > executeFastpathRead() in hadoop-tools/hadoop-
-> > azure/src/main/java/org/apache/hadoop/fs/azurebfs/services/AbfsClient.ja
-> > va.
-> > 
-> > ReadRequestParameters is the data that is passed to requestParams
-> > (described above) in the transport library. In this Blob application use-case,
-> > ReadRequestParameters has eTag and sessionInfo (sessionToken). They are
-> > both defined in this commit, and are treated as strings passed in JSON format
-> > to I/O issuing function
-> > Java_com_azure_storage_fastpath_driver_FastpathDriver_read() in the
-> > transport library using this driver.
-> > 
-> > Thanks,
-> > Long
+On 10/1/2021 2:02 AM, Borislav Petkov wrote:
+> On Thu, Sep 30, 2021 at 09:05:39AM -0400, Tianyu Lan wrote:
+>> @@ -1980,15 +1982,11 @@ int set_memory_global(unsigned long addr, int numpages)
+>>   				    __pgprot(_PAGE_GLOBAL), 0);
+>>   }
+>>   
+>> -static int __set_memory_enc_dec(unsigned long addr, int numpages, bool enc)
+>> +static int __set_memory_enc_pgtable(unsigned long addr, int numpages, bool enc)
 > 
-> Hello Greg,
+> What exactly is that "pgtable" at the end of the name supposed to mean?
 > 
-> I have shared the source code of the Blob client using this driver, and the reason why the Azure Blob driver is not implemented through POSIX with file system and Block layer.
 
-Please wrap your text lines...
+This was suggested by Dave Hansen. It gets used for the hypervisors
+that get informed about "encryption" status via page tables: SEV and TDX.
 
-Anyway, no, you showed a client for this interface, but you did not
-explain why this could not be implemented using a filesystem and block
-layer.  Only that it is not what you did.
+https://lore.kernel.org/linux-iommu/c00e269c-da4c-c703-0182-0221c73a76cc@intel.com/
 
-> Blob APIs are specified in this doc:
-> https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-rest-api
+> So if you want to have different indirections here, I'd suggest you do
+> this:
 > 
-> The semantic of reading data from Blob is specified in this doc:
-> https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
+> set_memory_encrypted/decrypted() is the external API. It calls
 > 
-> The source code I shared demonstrated how a Blob is read to Hadoop through ABFS. In general, A Blob client can use any optional request headers specified in the API suitable for its specific application. The Azure Blob service is not designed to be POSIX compliant. I hope this answers your question on why this driver is not implemented at file system or block layer.
+> _set_memory_enc_dec() which does your hv_* checks. Note the single
+> underscore "_" prefix.
+> 
+> Then, the workhorse remains __set_memory_enc_dec().
+> 
+> Ok?
+> 
+> Also, we're reworking the mem_encrypt_active() accessors:
+> 
+> https://lkml.kernel.org/r/20210928191009.32551-1-bp@alien8.de
+> 
+> so some synchronization when juggling patchsets will be needed. JFYI
+> anyway.
 
+Thanks for reminder. I know that patchset and suggested to decouple 
+dependency among SEV, TDX and Hyper=v patchset.
 
-Again, you are saying "it is this way because we created it this way",
-which does not answer the question of "why were you required to do it
-this way", right?
+> 
+> Also 2, building your set triggers this, dunno if I'm missing some
+> patches on my local branch for that.
 
-> Do you have more comments on this driver?
+Thanks for your test. Missing hv_set_register() when CONFIG_HYPERV is 
+not selected. I will fix it in the next version.
 
-Again, please answer _why_ you are going around the block layer and
-creating a new api that circumvents all of the interfaces and
-protections that the normal file system layer provides.  What is lacking
-in the existing apis that has required you to create a new one that is
-incompatible with everything that has ever existed so far?
-
-thanks,
-
-greg k-h
+> 
+> In file included from ./arch/x86/include/asm/mshyperv.h:240,
+>                   from ./include/clocksource/hyperv_timer.h:18,
+>                   from ./arch/x86/include/asm/vdso/gettimeofday.h:21,
+>                   from ./include/vdso/datapage.h:137,
+>                   from ./arch/x86/include/asm/vgtod.h:12,
+>                   from arch/x86/entry/vdso/vma.c:20:
+> ./include/asm-generic/mshyperv.h: In function ‘vmbus_signal_eom’:
+> ./include/asm-generic/mshyperv.h:153:3: error: implicit declaration of function ‘hv_set_register’; did you mean ‘kset_register’? [-Werror=implicit-function-declaration]
+>    153 |   hv_set_register(HV_REGISTER_EOM, 0);
+>        |   ^~~~~~~~~~~~~~~
+>        |   kset_register
+> In file included from ./arch/x86/include/asm/mshyperv.h:240,
+>                   from arch/x86/mm/pat/set_memory.c:34:
+> ./include/asm-generic/mshyperv.h: In function ‘vmbus_signal_eom’:
+> ...
+> 
