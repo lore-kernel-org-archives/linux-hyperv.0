@@ -2,157 +2,264 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A368C4167D
-	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Oct 2021 13:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C49C433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Oct 2021 13:37:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8944561205
-	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Oct 2021 13:28:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0932B61163
+	for <linux-hyperv@archiver.kernel.org>; Fri, 22 Oct 2021 13:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230342AbhJVNbC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 22 Oct 2021 09:31:02 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:40656 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231961AbhJVNaw (ORCPT
+        id S231658AbhJVNjo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 22 Oct 2021 09:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231537AbhJVNjo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 22 Oct 2021 09:30:52 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 7C3711FD61;
-        Fri, 22 Oct 2021 13:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1634909314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LAXhOGGQChGHzwGT3Hlb/AiRyfXcxrct3puTJA/Y8zg=;
-        b=VzDlkF0rpL5wCVgoogNB6cbnBgooTK6YucyCHwbHVR1PNY/onR7JQdkHSgkkahG4t7yjy8
-        Ejz9h3gAOZRyA7yev+lm9KWR56RB7/VWGa/gMrZvX0cNZZ9WynMyOy1RWbrxgRpQA1+vic
-        EAxppaVC8GIaDR5mGMlocIo8rWDHFxc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1634909314;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=LAXhOGGQChGHzwGT3Hlb/AiRyfXcxrct3puTJA/Y8zg=;
-        b=RfZJaBjKc5Mv80HvRiAGJ3QWFjhDmrhaS1IUlgRR3re4gRCDO2SsJ2UJhVsub9xpzfnP97
-        p/BSaryvqk6cRYCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 18C9313CDA;
-        Fri, 22 Oct 2021 13:28:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SLEBBYK8cmEwXgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 22 Oct 2021 13:28:34 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
-        drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
-        david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
-        kernel@amanoeldawod.com, dirty.ice.hu@gmail.com,
-        michael+lkml@stapelberg.ch, aros@gmx.com,
-        joshua@stroblindustries.com, arnd@arndb.de
-Cc:     dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 8/9] drm/simpledrm: Support virtual screen sizes
-Date:   Fri, 22 Oct 2021 15:28:28 +0200
-Message-Id: <20211022132829.7697-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211022132829.7697-1-tzimmermann@suse.de>
-References: <20211022132829.7697-1-tzimmermann@suse.de>
+        Fri, 22 Oct 2021 09:39:44 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B4EC061764;
+        Fri, 22 Oct 2021 06:37:26 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id s1so2686774plg.12;
+        Fri, 22 Oct 2021 06:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2LI3Rg87znh/YWrsMVZB/NerJ145Az7sRN0w3FJgzyM=;
+        b=MCHWYj57YwgAgC8lilLi0zrB4LaTxSlbEcgWpW8oW0mfPH0lbjRuyuPvNkIRVwIKYR
+         txqJlEGRQcF2U9Ygey6LPL9Uabkq46lDeUFJg+Ju/L80fnv0cZvNsu88/9zyPdQd4vPk
+         X8IOb+1RQ4wxtozdFpvUoglXyAErcgfWlWjfH8KdDvfcXkRy1Y/NDKZdUxWVgvJ7NtrW
+         taNi28UhSw7PvIINv3JT4oDIADwqgKtqbO3rNPVdFQ+RYS3G7fUEYROe4+BZMJNc8Yug
+         98J/mmccuvPQifPHu+UV4RFvOLdFtLalVbE2t68YnzjID5lgg4EAywNMzkTx5s7UnSwl
+         Gb+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2LI3Rg87znh/YWrsMVZB/NerJ145Az7sRN0w3FJgzyM=;
+        b=VObrrFppTi2bwWUVsqh3K98qwNI2a78C4e65x2aG9yuWdMQIPTvMZ4n6ql7pQ0/87c
+         eowmahHCtFwGxlAaXsu1/avurjZlT7ihP6xgnGeOJLEkWJ0IMUo2nKCckSNB4b1RhDui
+         GszY6Kk8qgf3OXH+LsRNvED5HqP7lk7brGWl1wS/xbaxTfGPbeVcAv8FHnABt/Ptr7Ad
+         lHQNjeWfXdnNtjfYf/e9LxDGN3pruWpxu9kCyIt8ADGdRCk3dhEqBOq6P4OjPVtHo9Zk
+         3mbjCmra2d1cRHm6i0j+LdrOqytZkig38mOOFDIkz6st4cAFnXOTkhQhRbRtYFpPVT3r
+         GDBg==
+X-Gm-Message-State: AOAM5306c08iM3CJZyyOdXCmrq9BVL9FqAZDzsZ93wb3WZmb74Jll9rj
+        HKHaBwwMav8ElCET0foYIas=
+X-Google-Smtp-Source: ABdhPJw1ItNar+XEvsDKWOvVe+N9TtSxyxK5i5K9+fMlERCubaD9YGAezWWxbHcN500vQHvT3i+TFg==
+X-Received: by 2002:a17:90a:a085:: with SMTP id r5mr14570970pjp.8.1634909846068;
+        Fri, 22 Oct 2021 06:37:26 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:f:1cbf:b595:fc2c:720f])
+        by smtp.gmail.com with ESMTPSA id f18sm9549296pfa.60.2021.10.22.06.37.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Oct 2021 06:37:25 -0700 (PDT)
+From:   Tianyu Lan <ltykernel@gmail.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        davem@davemloft.net, kuba@kernel.org, gregkh@linuxfoundation.org,
+        arnd@arndb.de, brijesh.singh@amd.com, jroedel@suse.de,
+        Tianyu.Lan@microsoft.com, thomas.lendacky@amd.com,
+        pgonda@google.com, akpm@linux-foundation.org,
+        kirill.shutemov@linux.intel.com, rppt@kernel.org, david@redhat.com,
+        aneesh.kumar@linux.ibm.com, saravanand@fb.com, rientjes@google.com,
+        michael.h.kelley@microsoft.com
+Cc:     linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        vkuznets@redhat.com, konrad.wilk@oracle.com, hch@lst.de,
+        robin.murphy@arm.com, joro@8bytes.org, parri.andrea@gmail.com,
+        dave.hansen@intel.com
+Subject: [PATCH V8.1 5/9] x86/sev-es: Expose sev_es_ghcb_hv_call() to call ghcb hv call out of sev code
+Date:   Fri, 22 Oct 2021 09:37:20 -0400
+Message-Id: <20211022133721.2123-1-ltykernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211021154110.3734294-6-ltykernel@gmail.com>
+References: <20211021154110.3734294-6-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add constants for the maximum size of the shadow-plane surface
-size. Useful for shadow planes with virtual screen sizes. The
-current sizes are 4096 scanlines with 4096 pixels each. This
-seems reasonable for current hardware, but can be increased as
-necessary.
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-In simpledrm, set the maximum framebuffer size from the constants
-for shadow planes. Implements support for virtual screen sizes and
-page flipping on the fbdev console.
+Hyper-V needs to call ghcb hv call to write/read MSR in Isolation VM.
+So expose sev_es_ghcb_hv_call() to call it in the Hyper-V code.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Hyper-V Isolation VM is unenlightened guests and run a paravisor in the
+VMPL0 for communicating and GHCB pages are being allocated and set up by
+that paravisor. Linux gets ghcb page pa via MSR_AMD64_SEV_ES_GHCB
+from paravisor and should not change it. Add set_ghcb_msr parameter for
+sev_es_ghcb_hv_call() and not set ghcb page pa when it's false.
+
+Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/gpu/drm/tiny/simpledrm.c    |  9 +++++++--
- include/drm/drm_gem_atomic_helper.h | 18 ++++++++++++++++++
- 2 files changed, 25 insertions(+), 2 deletions(-)
+Change since v8:
+        Fix commit in the sev_es_ghcb_hv_call().
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index e872121e9fb0..e42ae1c6ebcd 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -2,6 +2,7 @@
+ arch/x86/include/asm/sev.h   | 12 ++++++++++++
+ arch/x86/kernel/sev-shared.c | 25 ++++++++++++++++---------
+ arch/x86/kernel/sev.c        | 13 +++++++------
+ 3 files changed, 35 insertions(+), 15 deletions(-)
+
+diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
+index fa5cd05d3b5b..5b7f7e2b81f7 100644
+--- a/arch/x86/include/asm/sev.h
++++ b/arch/x86/include/asm/sev.h
+@@ -81,12 +81,24 @@ static __always_inline void sev_es_nmi_complete(void)
+ 		__sev_es_nmi_complete();
+ }
+ extern int __init sev_es_efi_map_ghcbs(pgd_t *pgd);
++extern enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
++					  bool set_ghcb_msr,
++					  struct es_em_ctxt *ctxt,
++					  u64 exit_code, u64 exit_info_1,
++					  u64 exit_info_2);
+ #else
+ static inline void sev_es_ist_enter(struct pt_regs *regs) { }
+ static inline void sev_es_ist_exit(void) { }
+ static inline int sev_es_setup_ap_jump_table(struct real_mode_header *rmh) { return 0; }
+ static inline void sev_es_nmi_complete(void) { }
+ static inline int sev_es_efi_map_ghcbs(pgd_t *pgd) { return 0; }
++static inline enum
++es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
++			      bool set_ghcb_msr, u64 exit_code,
++			      u64 exit_info_1, u64 exit_info_2)
++{
++	return ES_VMM_ERROR;
++}
+ #endif
  
- #include <linux/clk.h>
- #include <linux/of_clk.h>
-+#include <linux/minmax.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-@@ -776,6 +777,7 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
- 	struct drm_display_mode *mode = &sdev->mode;
- 	struct drm_connector *connector = &sdev->connector;
- 	struct drm_simple_display_pipe *pipe = &sdev->pipe;
-+	unsigned long max_width, max_height;
- 	const uint32_t *formats;
- 	size_t nformats;
- 	int ret;
-@@ -784,10 +786,13 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
- 	if (ret)
+ #endif
+diff --git a/arch/x86/kernel/sev-shared.c b/arch/x86/kernel/sev-shared.c
+index ea9abd69237e..e1863a6d76b8 100644
+--- a/arch/x86/kernel/sev-shared.c
++++ b/arch/x86/kernel/sev-shared.c
+@@ -124,10 +124,9 @@ static enum es_result verify_exception_info(struct ghcb *ghcb, struct es_em_ctxt
+ 	return ES_VMM_ERROR;
+ }
+ 
+-static enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
+-					  struct es_em_ctxt *ctxt,
+-					  u64 exit_code, u64 exit_info_1,
+-					  u64 exit_info_2)
++enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb, bool set_ghcb_msr,
++				   struct es_em_ctxt *ctxt, u64 exit_code,
++				   u64 exit_info_1, u64 exit_info_2)
+ {
+ 	/* Fill in protocol and format specifiers */
+ 	ghcb->protocol_version = GHCB_PROTOCOL_MAX;
+@@ -137,7 +136,14 @@ static enum es_result sev_es_ghcb_hv_call(struct ghcb *ghcb,
+ 	ghcb_set_sw_exit_info_1(ghcb, exit_info_1);
+ 	ghcb_set_sw_exit_info_2(ghcb, exit_info_2);
+ 
+-	sev_es_wr_ghcb_msr(__pa(ghcb));
++	/*
++	 * Hyper-V unenlightened guests use a paravisor for communicating and
++	 * GHCB pages are being allocated and set up by that paravisor. Linux
++	 * should not change the GHCB page's physical address.
++	 */
++	if (set_ghcb_msr)
++		sev_es_wr_ghcb_msr(__pa(ghcb));
++
+ 	VMGEXIT();
+ 
+ 	return verify_exception_info(ghcb, ctxt);
+@@ -417,7 +423,7 @@ static enum es_result vc_handle_ioio(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
+ 		 */
+ 		sw_scratch = __pa(ghcb) + offsetof(struct ghcb, shared_buffer);
+ 		ghcb_set_sw_scratch(ghcb, sw_scratch);
+-		ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_IOIO,
++		ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_IOIO,
+ 					  exit_info_1, exit_info_2);
+ 		if (ret != ES_OK)
+ 			return ret;
+@@ -459,7 +465,8 @@ static enum es_result vc_handle_ioio(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
+ 
+ 		ghcb_set_rax(ghcb, rax);
+ 
+-		ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_IOIO, exit_info_1, 0);
++		ret = sev_es_ghcb_hv_call(ghcb, true, ctxt,
++					  SVM_EXIT_IOIO, exit_info_1, 0);
+ 		if (ret != ES_OK)
+ 			return ret;
+ 
+@@ -490,7 +497,7 @@ static enum es_result vc_handle_cpuid(struct ghcb *ghcb,
+ 		/* xgetbv will cause #GP - use reset value for xcr0 */
+ 		ghcb_set_xcr0(ghcb, 1);
+ 
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_CPUID, 0, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_CPUID, 0, 0);
+ 	if (ret != ES_OK)
  		return ret;
  
-+	max_width = max_t(unsigned long, mode->hdisplay, DRM_SHADOW_PLANE_MAX_WIDTH);
-+	max_height = max_t(unsigned long, mode->vdisplay, DRM_SHADOW_PLANE_MAX_HEIGHT);
-+
- 	dev->mode_config.min_width = mode->hdisplay;
--	dev->mode_config.max_width = mode->hdisplay;
-+	dev->mode_config.max_width = max_width;
- 	dev->mode_config.min_height = mode->vdisplay;
--	dev->mode_config.max_height = mode->vdisplay;
-+	dev->mode_config.max_height = max_height;
- 	dev->mode_config.prefer_shadow_fbdev = true;
- 	dev->mode_config.preferred_depth = sdev->format->cpp[0] * 8;
- 	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
-diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
-index 48222a107873..54983ecf641a 100644
---- a/include/drm/drm_gem_atomic_helper.h
-+++ b/include/drm/drm_gem_atomic_helper.h
-@@ -22,6 +22,24 @@ int drm_gem_simple_display_pipe_prepare_fb(struct drm_simple_display_pipe *pipe,
-  * Helpers for planes with shadow buffers
-  */
+@@ -515,7 +522,7 @@ static enum es_result vc_handle_rdtsc(struct ghcb *ghcb,
+ 	bool rdtscp = (exit_code == SVM_EXIT_RDTSCP);
+ 	enum es_result ret;
  
-+/**
-+ * DRM_SHADOW_PLANE_MAX_WIDTH - Maximum width of a plane's shadow buffer in pixels
-+ *
-+ * For drivers with shadow planes, the maximum width of the framebuffer is
-+ * usually independent from hardware limitations. Drivers can initialize struct
-+ * drm_mode_config.max_width from DRM_SHADOW_PLANE_MAX_WIDTH.
-+ */
-+#define DRM_SHADOW_PLANE_MAX_WIDTH	(1ul << 12)
-+
-+/**
-+ * DRM_SHADOW_PLANE_MAX_HEIGHT - Maximum height of a plane's shadow buffer in scanlines
-+ *
-+ * For drivers with shadow planes, the maximum height of the framebuffer is
-+ * usually independent from hardware limitations. Drivers can initialize struct
-+ * drm_mode_config.max_height from DRM_SHADOW_PLANE_MAX_HEIGHT.
-+ */
-+#define DRM_SHADOW_PLANE_MAX_HEIGHT	(1ul << 12)
-+
- /**
-  * struct drm_shadow_plane_state - plane state for planes with shadow buffers
-  *
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, exit_code, 0, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, exit_code, 0, 0);
+ 	if (ret != ES_OK)
+ 		return ret;
+ 
+diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+index a6895e440bc3..bb62a1d15d6c 100644
+--- a/arch/x86/kernel/sev.c
++++ b/arch/x86/kernel/sev.c
+@@ -648,7 +648,8 @@ static enum es_result vc_handle_msr(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
+ 		ghcb_set_rdx(ghcb, regs->dx);
+ 	}
+ 
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_MSR, exit_info_1, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_MSR,
++				  exit_info_1, 0);
+ 
+ 	if ((ret == ES_OK) && (!exit_info_1)) {
+ 		regs->ax = ghcb->save.rax;
+@@ -867,7 +868,7 @@ static enum es_result vc_do_mmio(struct ghcb *ghcb, struct es_em_ctxt *ctxt,
+ 
+ 	ghcb_set_sw_scratch(ghcb, ghcb_pa + offsetof(struct ghcb, shared_buffer));
+ 
+-	return sev_es_ghcb_hv_call(ghcb, ctxt, exit_code, exit_info_1, exit_info_2);
++	return sev_es_ghcb_hv_call(ghcb, true, ctxt, exit_code, exit_info_1, exit_info_2);
+ }
+ 
+ static enum es_result vc_handle_mmio_twobyte_ops(struct ghcb *ghcb,
+@@ -1117,7 +1118,7 @@ static enum es_result vc_handle_dr7_write(struct ghcb *ghcb,
+ 
+ 	/* Using a value of 0 for ExitInfo1 means RAX holds the value */
+ 	ghcb_set_rax(ghcb, val);
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_WRITE_DR7, 0, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_WRITE_DR7, 0, 0);
+ 	if (ret != ES_OK)
+ 		return ret;
+ 
+@@ -1147,7 +1148,7 @@ static enum es_result vc_handle_dr7_read(struct ghcb *ghcb,
+ static enum es_result vc_handle_wbinvd(struct ghcb *ghcb,
+ 				       struct es_em_ctxt *ctxt)
+ {
+-	return sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_WBINVD, 0, 0);
++	return sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_WBINVD, 0, 0);
+ }
+ 
+ static enum es_result vc_handle_rdpmc(struct ghcb *ghcb, struct es_em_ctxt *ctxt)
+@@ -1156,7 +1157,7 @@ static enum es_result vc_handle_rdpmc(struct ghcb *ghcb, struct es_em_ctxt *ctxt
+ 
+ 	ghcb_set_rcx(ghcb, ctxt->regs->cx);
+ 
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_RDPMC, 0, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_RDPMC, 0, 0);
+ 	if (ret != ES_OK)
+ 		return ret;
+ 
+@@ -1197,7 +1198,7 @@ static enum es_result vc_handle_vmmcall(struct ghcb *ghcb,
+ 	if (x86_platform.hyper.sev_es_hcall_prepare)
+ 		x86_platform.hyper.sev_es_hcall_prepare(ghcb, ctxt->regs);
+ 
+-	ret = sev_es_ghcb_hv_call(ghcb, ctxt, SVM_EXIT_VMMCALL, 0, 0);
++	ret = sev_es_ghcb_hv_call(ghcb, true, ctxt, SVM_EXIT_VMMCALL, 0, 0);
+ 	if (ret != ES_OK)
+ 		return ret;
+ 
 -- 
-2.33.0
+2.25.1
 
