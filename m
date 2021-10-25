@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AD0C4332F
-	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Oct 2021 17:04:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1677FC433FE
+	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Oct 2021 17:08:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2280260F22
-	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Oct 2021 17:04:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA9AF60EE3
+	for <linux-hyperv@archiver.kernel.org>; Mon, 25 Oct 2021 17:08:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234886AbhJYRHN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 25 Oct 2021 13:07:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55210 "EHLO mail.kernel.org"
+        id S234596AbhJYRLL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 25 Oct 2021 13:11:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234317AbhJYRFX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 25 Oct 2021 13:05:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9937A610FC;
-        Mon, 25 Oct 2021 17:01:46 +0000 (UTC)
+        id S234659AbhJYRD5 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 25 Oct 2021 13:03:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 105CA61039;
+        Mon, 25 Oct 2021 17:01:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635181307;
-        bh=b8j6UU0qs9U8RWVSlD82zwnaStbB0SvbkfGuQ8D5PMY=;
+        s=k20201202; t=1635181279;
+        bh=grpr2WWhS9qo0WyghtIQhX8ibOuVGV15fdhKO+vgyc4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oRuGAToff7Uyux42Qqw8Yo1eAYHsIqhoblNaBndyRWF5WFRE8uClGfBi7KijvV+GW
-         O74WPc4sGQuxxX5BfIhiM2+AprxbSt9ARKrk+KxB6XkIrVYGQMABdFk4jOaE/AXQLp
-         MSHUwTnsO8dAYrunwTWaOI5qB0oG4f56nt92wuZWVgNiA7Ht3PW3rdko+QF3eaXdHi
-         CQUAREc+XRvU2SI331Ww/dm9O+4voUvPkQ8FMkAn6GnBFYnTIJ7YalSu5q0s6wvMKt
-         eDo9F6JFnUEeJcaZLVarvPBdcJyoEDmBvaSsFLnTUHZ0rNkjqZ3O1NZ/x9xvSJg0ET
-         ZV8tU0fictpeA==
+        b=l9cHKknLDUcROliw4zSj8FHLgXS1e9dmzsJ/2rdjyWkyJ2WXiIAYfG6Xtnak2RndG
+         dx/mV30+J3GpekxOk0bXwMxX5UqXX7b0HAlR7i6f5y/Ec7RTrXWJoB8HxDzPB9NXu+
+         geImUn77zvTV4XsYL3dknmKe2ww+YMgUJDvDmxcQnzeQK525mmFpO1JEPWSLLZTDAJ
+         r0aJok8jAKMbZ6P72zEdJwhZr8oJfFOpipUVVHt3KgpiKMSGAapBdfDtsT5vuaWMPt
+         ROyXRl5eIbQ356tgBnkilVBA5NP9JOfq9iXZRmk7uojxTHtyjoPQzrupvFPXoRJY3X
+         dE5CqfL04Bnvw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Wei Liu <wei.liu@kernel.org>,
         Sasha Levin <sashal@kernel.org>, kys@microsoft.com,
         haiyangz@microsoft.com, sthemmin@microsoft.com,
         decui@microsoft.com, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 3/3] hyperv/vmbus: include linux/bitops.h
-Date:   Mon, 25 Oct 2021 13:01:40 -0400
-Message-Id: <20211025170141.1394943-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 7/7] hyperv/vmbus: include linux/bitops.h
+Date:   Mon, 25 Oct 2021 13:01:02 -0400
+Message-Id: <20211025170103.1394651-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211025170141.1394943-1-sashal@kernel.org>
-References: <20211025170141.1394943-1-sashal@kernel.org>
+In-Reply-To: <20211025170103.1394651-1-sashal@kernel.org>
+References: <20211025170103.1394651-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -72,7 +72,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 15e06493c53a..4e7592addfe2 100644
+index 87d3d7da78f8..7e7c8debbd28 100644
 --- a/drivers/hv/hyperv_vmbus.h
 +++ b/drivers/hv/hyperv_vmbus.h
 @@ -26,6 +26,7 @@
@@ -81,8 +81,8 @@ index 15e06493c53a..4e7592addfe2 100644
  #include <linux/list.h>
 +#include <linux/bitops.h>
  #include <asm/sync_bitops.h>
+ #include <asm/hyperv-tlfs.h>
  #include <linux/atomic.h>
- #include <linux/hyperv.h>
 -- 
 2.33.0
 
