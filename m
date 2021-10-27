@@ -2,72 +2,98 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BDBC433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Oct 2021 14:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70CE1C433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Oct 2021 08:18:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 144426108B
-	for <linux-hyperv@archiver.kernel.org>; Tue, 26 Oct 2021 14:00:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4069B60C40
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Oct 2021 08:18:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234300AbhJZOCc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 26 Oct 2021 10:02:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38160 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234014AbhJZOCb (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 26 Oct 2021 10:02:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id C75E761040;
-        Tue, 26 Oct 2021 14:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635256807;
-        bh=CFoQtyAK/qetJgLQ1CwQmmdpb9n1b7OYNPMIk49CDS0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=HmK7scsbOEQ622ExQa5rhkNl1gEdOL8WRJWUhUVIkWOGLDfGzv33CHsB0s7pTvjv/
-         1fGxvMdz1hT+X+bR5uCEJbafcNzr3c0qThHZfvsFCocDd3jJh7nQK6rZjFCJszxXXS
-         QOPOlv7YrG3aSK4Dw09uUQt4jgun3dn0mGdr/GscbZ4jEBfBO7P/xO8lv8XQDgbsPM
-         m7pYJYtTE1vNZVLy3gBGIUPIgQp5YeK9y66IfNW8pO/S4kPjWtUDilzymZ1mYiaBRz
-         PYFRLzyg6opHyWAG52HWjZr6tCUyM9Gn1HrvT1QwqSxb9HuCS4mHCno++DEGXg0iyo
-         laX4mAeTz4wIA==
-Content-Type: text/plain; charset="utf-8"
+        id S235443AbhJ0IUv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Oct 2021 04:20:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238989AbhJ0IUu (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 27 Oct 2021 04:20:50 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB20C061570;
+        Wed, 27 Oct 2021 01:18:25 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id s136so2190408pgs.4;
+        Wed, 27 Oct 2021 01:18:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sXRPSN6OlIv6jlVZjC7cOJCLvxxJIsw2Rw1gemHlZyI=;
+        b=Ft+chDfvPPl73yp5hjTRT1amfGEuSr3Uw/MjmPxb3B2mnBsMt35ANthkILFrjF4Z9A
+         yrhDiPMnDNM8t9HjGJGotbc2xqPa02+Vu/IxYf8MU3HrkU047GuGMINGZSNY79dYw/eg
+         4JVev1cxx8rduNhcP+Avw487JjDzl5QTN4HMmG4BoMKGeI8NjWLk4nJuJOhF3ll3Ns5C
+         CGhLDFrNSPNOEPtfZnNAR+PQHInzQNPuHco8Cq63cXLS+Y/QcOSmduxodWlf4lWKosSY
+         aM3jShzSYaFCBnch0wIgZ3V8G0XPoWhA72wq/0xd8R9hN4L9QeKFnwwtG5OVxKEmTUCH
+         S4kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sXRPSN6OlIv6jlVZjC7cOJCLvxxJIsw2Rw1gemHlZyI=;
+        b=ZCAsNbvbNMjyQ7e5xLAoeA7QER/RIovp57JtnuGu2ySWH8YnQ/5MXNHNKnWCzl+hyL
+         x5DpwwmcAcCTcIJvvNapoqCzwch3tGwdGdW0//s/Aun3hfJwhjQQqDPoXO1+aCXhNg+l
+         EhewTT2eDSlLJumsFli1zxqVrZyPbVTMtdISdGDPPnA6X/eaCNVpvpHTwkyvB/tsOqsg
+         QinkXYVXzdDp2fRLQUzEQpeG1pOZKNH57xXxU4rEbhfCkTDdOMKOidQa/Y6gZho/dzfU
+         tVZ/HqZ00405r/f153jmR9f0K05ywsJeqp/z1zUEkiC8PJamHLGo3lmSYxS1piO+bvqk
+         vHfA==
+X-Gm-Message-State: AOAM532pfbUYzddl6LqyZV963BQw3s49FmXBIViZiUPV4CpwTyfVhcnF
+        5DxNTG28Lx7gSpPAjWSyWJykWKRqh1g=
+X-Google-Smtp-Source: ABdhPJxx+7ebJVfHEH0GgucCgPhQHcerTc7P/V5apt64IXnJe6kcSV2KD8C7SpHi9pxXvz/CsWs2UA==
+X-Received: by 2002:aa7:951a:0:b0:47c:608:1f3f with SMTP id b26-20020aa7951a000000b0047c06081f3fmr13167715pfp.30.1635322694535;
+        Wed, 27 Oct 2021 01:18:14 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id p16sm21623141pgd.78.2021.10.27.01.18.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Oct 2021 01:18:14 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: ran.jianping@zte.com.cn
+To:     kys@microsoft.com
+Cc:     haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        ran jianping <ran.jianping@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] x86/hyperv: remove duplicate include in hv_init.c
+Date:   Wed, 27 Oct 2021 08:18:08 +0000
+Message-Id: <20211027081808.2099-1-ran.jianping@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] net: mana: Allow setting the number of queues while
- the NIC is down
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <163525680774.8133.292374133911071162.git-patchwork-notify@kernel.org>
-Date:   Tue, 26 Oct 2021 14:00:07 +0000
-References: <1635187054-12995-1-git-send-email-haiyangz@microsoft.com>
-In-Reply-To: <1635187054-12995-1-git-send-email-haiyangz@microsoft.com>
-To:     Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        kys@microsoft.com, sthemmin@microsoft.com, paulros@microsoft.com,
-        shacharr@microsoft.com, olaf@aepfle.de, vkuznets@redhat.com,
-        davem@davemloft.net, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hello:
+From: ran jianping <ran.jianping@zte.com.cn>
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+'linux/io.h' included in 'arch/x86/hyperv/hv_init.c'
+ is duplicated.It is also included on the 23 line.
 
-On Mon, 25 Oct 2021 11:37:34 -0700 you wrote:
-> The existing code doesn't allow setting the number of queues while the
-> NIC is down.
-> 
-> Update the ethtool handler functions to support setting the number of
-> queues while the NIC is at down state.
-> 
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-> 
-> [...]
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ran jianping <ran.jianping@zte.com.cn>
+---
+ arch/x86/hyperv/hv_init.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Here is the summary with links:
-  - [net-next] net: mana: Allow setting the number of queues while the NIC is down
-    https://git.kernel.org/netdev/net-next/c/a137c069fbc1
-
-You are awesome, thank you!
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index a16a83e46a30..4fb7c7bb164e 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -20,7 +20,6 @@
+ #include <linux/kexec.h>
+ #include <linux/version.h>
+ #include <linux/vmalloc.h>
+-#include <linux/io.h>
+ #include <linux/mm.h>
+ #include <linux/hyperv.h>
+ #include <linux/slab.h>
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
