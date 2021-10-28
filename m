@@ -2,68 +2,65 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB476C433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Oct 2021 09:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C53F8C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Oct 2021 10:41:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABFAB61040
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Oct 2021 09:05:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3D4D610F8
+	for <linux-hyperv@archiver.kernel.org>; Thu, 28 Oct 2021 10:41:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232420AbhJ0JIT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Oct 2021 05:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
+        id S229835AbhJ1KoL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 28 Oct 2021 06:44:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232132AbhJ0JIT (ORCPT
+        with ESMTP id S230178AbhJ1KoL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Oct 2021 05:08:19 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D629C061570;
-        Wed, 27 Oct 2021 02:05:54 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id m21so2243599pgu.13;
-        Wed, 27 Oct 2021 02:05:54 -0700 (PDT)
+        Thu, 28 Oct 2021 06:44:11 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B175C061570;
+        Thu, 28 Oct 2021 03:41:44 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id r5so4159124pls.1;
+        Thu, 28 Oct 2021 03:41:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MqVpo2UqAbSygTHypSN0KNUq0+j4kDd6u6NCg3V4iYg=;
-        b=dAtSaXD5wh/RyLLKB2ZeCxosDgq0VzzMbGS8qHTDkvQrf8UMKpmDt3CPngb8bd7V9o
-         Z/yUaRIWdncbJj8oAGNMtflBEwFFbVARk4tgZZNZ6W5CrkuOsdtPdjll0JAKo4MBPOz0
-         EwsSNoj9tSqOKGaTyI1XHF8YpoT8DXFHjld4ad/5VkyCerQhLzYW92VIkpjTU0Q+/iLj
-         drbyH9MdGjSLqzNdHRkQGN9YmqCSBI67CFSI5Qvq0v/Wk8M1gDUxhZfDvZgWFS3JfQzK
-         ivm0iI4jW2JjDRTPsrbt+3znb3J+IXjXB+GgiujgqnTeo8BgO9HUpFBcz5pFpxxEU0Gx
-         ZNcA==
+        bh=w6k9H+1esaoJxBW+jGH+iFBTYa8xXJVNGvttUpb0vAA=;
+        b=p/MMYZS0qb/MTwTrJCxDlKpcr0zH2nLUjiN9uBzJBhL528nG7w22f6msCb2cDXrhvZ
+         8uLOy9KPfe+3a8Hc5FWanAaal+6QebSzmN9yw0T8GyswDtstcQVxdMfVRJOV/4B4dS8m
+         JrGViro03YC7AbS3SwmMIQ7V+8iT/qd8tBe/JG2JgZu8OsekRpZMDzQm2a0hK7+jmDRN
+         ozMNQFxez27lWKEkn3hwjX1C1dOb5AcEa2veunmuTx/yDx5ZyC59syKyJ0UXZC9YYWJY
+         jFJ9HrWx9HTnrereqo6UzdUrh8XcNV+f0WplbdZtuO3zVKcbHUF/AUCvwl13k1Z4aPiy
+         foKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=MqVpo2UqAbSygTHypSN0KNUq0+j4kDd6u6NCg3V4iYg=;
-        b=3ObqFS1b1tHt8wpTR83NGQHxQV/0m7BDUk97Q+KTOvc3qYE5gQ9y0tT3FqZ8vxYKjV
-         0zBdJNCBuWBImqGOo4YlBceVitvEJUaOq9Tbybbq/ruie8Lzq5Jgbnx5fAH2W909n+5O
-         RTuKFsof0Cjxgpiox3U4wheVSlju4+sRu+dVzp31TrTu/TjjvmvnoaSP3yCj/fHQtKvU
-         aqyBS2KgDUgjWKLUDE04CmtosYTPUH6hXc7o/uKGopCSvyZkCk3OZzqYSht4zhr1sjEe
-         merAb3dcAMFXGTeDVxyjlD0S3taBC8RLaW8YzJfijesUnO1clfisfd0XN1hkHOoXY7WV
-         /NYw==
-X-Gm-Message-State: AOAM5325PzG5ehSyDADnMv6T3L47nEbjX6O32ISjISvXrUL0XNgniy8C
-        MDSLVa1klCc0sdlLtoUDB0M=
-X-Google-Smtp-Source: ABdhPJwnUpgqIvUcI5M6UTN6L8zovE2ZtBhR6BKxEGcxu0V6i/hmnjtzKZD0mPRvkBbZhEVo3IDbig==
-X-Received: by 2002:a05:6a00:21c6:b0:44c:937:fbf3 with SMTP id t6-20020a056a0021c600b0044c0937fbf3mr31598999pfj.2.1635325554176;
-        Wed, 27 Oct 2021 02:05:54 -0700 (PDT)
+        bh=w6k9H+1esaoJxBW+jGH+iFBTYa8xXJVNGvttUpb0vAA=;
+        b=myPVmdLvX841My1b4dzn8MXWs9e40L2nVnAlBioPmGXK/LVbM0GG6E2ZNw7t0NhZsT
+         gMb37WHd46cirS3mz0+UAipKFQHbeNTOMxrWN3y6k/y+imJJwbZFOmS/lBBhkhpw6pHB
+         wwOvhCwtMCSA3+LDcJuVUeBZj6Rm1QQrcm1bbomh8w3o5kKezjp3GG+7yRx10u5Di/Nj
+         07XFDtFHX26LUbkxbUO6JRXM7KWKdqHk0S5dWi0fP6N0SN4bGkmBZ7iqk//O8RaByahr
+         DYtNVBhRN40lyfR1kfNNPH7uR/TuZ7pscuaKUqk94V5YKAj1Unsmwz51+aoj8r68paLt
+         CnTA==
+X-Gm-Message-State: AOAM5315kDooLcCk8h0hfE/672tYgOTwoqRnecdzGvJT9K+WiTgu8D4h
+        GYOjTalsplP7uTg9x7NqEHM=
+X-Google-Smtp-Source: ABdhPJxsMdagnYkbRdTL2wc2y+3Wv16EBbaG5YyXFaVi+jC7TREqmiezh1mOd4j44a918ipYRJc7Ug==
+X-Received: by 2002:a17:90a:4d44:: with SMTP id l4mr3665230pjh.58.1635417703907;
+        Thu, 28 Oct 2021 03:41:43 -0700 (PDT)
 Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id k13sm29030348pfc.197.2021.10.27.02.05.51
+        by smtp.gmail.com with ESMTPSA id h2sm2519462pjk.44.2021.10.28.03.41.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Oct 2021 02:05:53 -0700 (PDT)
+        Thu, 28 Oct 2021 03:41:43 -0700 (PDT)
 From:   cgel.zte@gmail.com
-X-Google-Original-From: ran.jianping@zte.com.cn
+X-Google-Original-From: lv.ruyi@zte.com.cn
 To:     kys@microsoft.com
 Cc:     haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        ran jianping <ran.jianping@zte.com.cn>,
+        decui@microsoft.com, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Lv Ruyi <lv.ruyi@zte.com.cn>,
         Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] x86/hyperv: remove duplicate include in ivm.c
-Date:   Wed, 27 Oct 2021 09:05:44 +0000
-Message-Id: <20211027090544.2383-1-ran.jianping@zte.com.cn>
+Subject: [PATCH] Drivers: hv : vmbus: Adding NULL pointer check
+Date:   Thu, 28 Oct 2021 10:41:38 +0000
+Message-Id: <20211028104138.14576-1-lv.ruyi@zte.com.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,32 +68,30 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: ran jianping <ran.jianping@zte.com.cn>
+From: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-'linux/types.h' included in 'arch/x86/hyperv/ivm.c'
- is duplicated.It is also included on the 12 line.
-'linux/bitfield.h'included in 'arch/x86/hyperv/ivm.c'
-is duplicated.It is also included on the 13 line.
+This patch fixes the following Coccinelle warning:
+drivers/hv/ring_buffer.c:223: alloc with no test
 
 Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ran jianping <ran.jianping@zte.com.cn>
+Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
 ---
- arch/x86/hyperv/ivm.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/hv/ring_buffer.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 4d012fd9d95d..479201ceae8e 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -9,8 +9,6 @@
- #include <linux/types.h>
- #include <linux/bitfield.h>
- #include <linux/hyperv.h>
--#include <linux/types.h>
--#include <linux/bitfield.h>
- #include <linux/slab.h>
- #include <asm/svm.h>
- #include <asm/sev.h>
+diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
+index 931802ae985c..4ef5c3771079 100644
+--- a/drivers/hv/ring_buffer.c
++++ b/drivers/hv/ring_buffer.c
+@@ -223,6 +223,8 @@ int hv_ringbuffer_init(struct hv_ring_buffer_info *ring_info,
+ 		pages_wraparound = kcalloc(page_cnt * 2 - 1,
+ 					   sizeof(struct page *),
+ 					   GFP_KERNEL);
++		if (!pages_wraparound)
++			return -ENOMEM;
+ 
+ 		pages_wraparound[0] = pages;
+ 		for (i = 0; i < 2 * (page_cnt - 1); i++)
 -- 
 2.25.1
 
