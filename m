@@ -2,156 +2,166 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76684C433EF
-	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Oct 2021 00:54:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EFD9C433F5
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Oct 2021 15:30:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 613F960F4B
-	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Oct 2021 00:54:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DFFB6101E
+	for <linux-hyperv@archiver.kernel.org>; Sat, 30 Oct 2021 15:30:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbhJ3A5U (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 29 Oct 2021 20:57:20 -0400
-Received: from mail-cusazon11021025.outbound.protection.outlook.com ([52.101.62.25]:32445
+        id S231199AbhJ3PdO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 30 Oct 2021 11:33:14 -0400
+Received: from mail-cusazon11021025.outbound.protection.outlook.com ([52.101.62.25]:18748
         "EHLO na01-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231685AbhJ3A5R (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 29 Oct 2021 20:57:17 -0400
+        id S230086AbhJ3PdO (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Sat, 30 Oct 2021 11:33:14 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c9p4iDPzA86Lvvd7Hy3UFRCsgtYL9ZM/H7/8b5uCghPmGR5Cttx+PZzH5J5B4lR6YYOQQwgI3GOduorQNu9PUyUuzeih/u38EwC/pCM4457Hq4XI4vox/QKvxJZ5VbW4Rn0sHMWHdVPlj5/9j7FAGFh8ZYuLkds11Eor+h/IbvcAqnerc9DsIZjWJgxtZdbTotyviY0a1tsRdG1a9gOPCutj15l5ZD3kdrOpHzHYW+TAl81EPhSdUnWIzF8mAQTATg//ZGcXb4LQ3aC7fwnHm0A3PgRsJNzEhkOE0qvW9yZCSseQNXEoj0p6+ogq5Mboy42jS+pv0QX1lKIUTON8bQ==
+ b=dJm16fdgKNtrClBB/BhRjg/2GtNXHAZIrUdNWUC+suJWOTI+g0yqmoB9KE1WbKAgIddRIYsXVVNcoKCj9UXF86YbPfPNwF66qfyNNCFlVNwU9qJMFgstb4KwKuw5If2f2B08TApa+jXDSsVpHazeKa8WCoGaONFSwrh9Yi9CCnbxuBu0yHEJJS97ZzZWCKw9Gd1HhVsitYf4a8SKoGPsvx51MeBzJ3tcDSAROJcf4SlhZL9kVlv+uz1JNcnjHSnweWnO3sA4G0H46Xq1XaJilfE+5ok0Ms58gQqt06SK7LzQqZal5/9UlCEPhWPJHy49zz+t47rdC+rHSuqbRJLx8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o+enMPXcBAT2/rjRco8lWVaQVZhSs6N8PbzxuoU4WOo=;
- b=g3U4egVLZruCx9q+tsrk/oJZBSEh6Nye7lAstfbkDv0pZRjWQeEQl2KafDG3JF7GKIEhj6doj5vv9V618Bb9dOSuI8ygIHBFsD6UY+rrghSrvPW+R37DhGsOtfDZbE/0MTErTt1qXCM1OzSUgtCXVx4UILQG2F313n9BrpzjoaxJWUW75lZHfVyoRZWf9ykWzrJmlyQBazzeiedWx3Dn0ESp/spfD+YKyg6VtYe12NumlWRLcddZprmQu+8IA9PqZeHxfE0nBviZzRUZLkGEMf2v2Xs9kLQVBjjV2uWtNwQcIegTjETkQ7GC1kHPJWK4ikHxMEfqto05hnVoNjcpbg==
+ bh=sl+2++Qwr1E8eWVcgSPVM2oKPhTAKWIj9SVbwWSQwcI=;
+ b=cS/dh61pAR/4FqOKLVJHyrw0EUY3CZm9UWoB4ffojl80MRUQeBXoJ5S9quIkiOz3itxkdmGNxLEUUvt9WI9yXFMJBAzEjRu7e54NiPdOUFsAsQ5clCGnYqp5zLQpKTxqYLfSKL9h7hf/wmtN+UHIlPkth8/a3VuPYykgLa10DHiC0TWmrX558kJwopKym8zMT5TrsWlzT2dQDxq6lDIDurViMLajIwCDGKZj7eRP2W9YrWsOrbwukvzcZnHG++/WZZcpAwaR/OYxxHBVwzh50Ets4dcIDbPegXkvL46ZoBeL5Frd8ade1p89VlZfDhJ90hTFCaj0d8bvDLr/SYapAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o+enMPXcBAT2/rjRco8lWVaQVZhSs6N8PbzxuoU4WOo=;
- b=fS0E50/c+az/+GGjJ089oiR2dJydepxIqubJrDI9cfoJLZN1BGvRUKW5vdulfcXHk68dE4vESOT69l/HiQXe6ZtYbcjHEhx+2/IrPWKVvnxIawLorjb5NBmBTix8Mm3UnMWdf+4XoQTne50r5lVwgCoupRRLc28JR2/wKvdsRyk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-Received: from DM5PR2101MB1095.namprd21.prod.outlook.com (2603:10b6:4:a2::17)
- by DM5PR21MB0827.namprd21.prod.outlook.com (2603:10b6:3:a3::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4669.6; Sat, 30 Oct 2021 00:54:31 +0000
-Received: from DM5PR2101MB1095.namprd21.prod.outlook.com
- ([fe80::c0b9:3e28:af1e:a828]) by DM5PR2101MB1095.namprd21.prod.outlook.com
- ([fe80::c0b9:3e28:af1e:a828%4]) with mapi id 15.20.4649.010; Sat, 30 Oct 2021
- 00:54:31 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     davem@davemloft.net, kuba@kernel.org, gustavoars@kernel.org,
-        haiyangz@microsoft.com, netdev@vger.kernel.org
-Cc:     kys@microsoft.com, stephen@networkplumber.org, wei.liu@kernel.org,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        shacharr@microsoft.com, paulros@microsoft.com, olaf@aepfle.de,
-        vkuznets@redhat.com, Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH net-next 2/4] net: mana: Report OS info to the PF driver
-Date:   Fri, 29 Oct 2021 17:54:06 -0700
-Message-Id: <20211030005408.13932-3-decui@microsoft.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211030005408.13932-1-decui@microsoft.com>
+ bh=sl+2++Qwr1E8eWVcgSPVM2oKPhTAKWIj9SVbwWSQwcI=;
+ b=ZdkZWqCiqABGuymQ9OfZ4A2gDbf7cAhwWLp9/M1SyJ9KZSTgcgr2WIzP3NJx1V8SrFQhzPo66tRG2lubRdXGP64LFYMxSOKt4RUjuctDGTHztDeyzRcgHQyr3y59ek9/HF0Pm6V/PheBJYu3DVYu1lUZ28jfTa8elgVW5rgECQA=
+Received: from BN8PR21MB1284.namprd21.prod.outlook.com (2603:10b6:408:a2::22)
+ by BN8PR21MB1234.namprd21.prod.outlook.com (2603:10b6:408:77::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.0; Sat, 30 Oct
+ 2021 15:30:40 +0000
+Received: from BN8PR21MB1284.namprd21.prod.outlook.com
+ ([fe80::5962:fbb9:f607:8018]) by BN8PR21MB1284.namprd21.prod.outlook.com
+ ([fe80::5962:fbb9:f607:8018%7]) with mapi id 15.20.4669.004; Sat, 30 Oct 2021
+ 15:30:40 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     Dexuan Cui <decui@microsoft.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "gustavoars@kernel.org" <gustavoars@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        "stephen@networkplumber.org" <stephen@networkplumber.org>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Shachar Raindel <shacharr@microsoft.com>,
+        Paul Rosswurm <paulros@microsoft.com>,
+        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>
+Subject: RE: [PATCH net-next 1/4] net: mana: Fix the netdev_err()'s vPort
+ argument in mana_init_port()
+Thread-Topic: [PATCH net-next 1/4] net: mana: Fix the netdev_err()'s vPort
+ argument in mana_init_port()
+Thread-Index: AQHXzSi4LzXo/haLVkOIULr1f0GnJKvrq8cQ
+Date:   Sat, 30 Oct 2021 15:30:40 +0000
+Message-ID: <BN8PR21MB1284DB6301CB6D73260103CACA889@BN8PR21MB1284.namprd21.prod.outlook.com>
 References: <20211030005408.13932-1-decui@microsoft.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MWHPR22CA0002.namprd22.prod.outlook.com
- (2603:10b6:300:ef::12) To DM5PR2101MB1095.namprd21.prod.outlook.com
- (2603:10b6:4:a2::17)
+ <20211030005408.13932-2-decui@microsoft.com>
+In-Reply-To: <20211030005408.13932-2-decui@microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=935e2c5d-858f-4269-8b3c-08a760c9af2d;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-10-30T15:30:20Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: aab484fd-f154-488f-c8b7-08d99bba3ae8
+x-ms-traffictypediagnostic: BN8PR21MB1234:
+x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+x-microsoft-antispam-prvs: <BN8PR21MB12344E92251BBCED8B8CCCBFCA889@BN8PR21MB1234.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ItB/j711t4j2CWEDYYqUUnmwlWjd19VFGEZ+n9j2ZuftvVjM44fVPKv2240Hz7keV0ISghvKs0PVZqG66wRELgwtbkfZb474DGn2VEWlN0U8sNCn2JnKHQGuRYQLVHHxdgTM38WEmI4A+M+WyJ/kjO5QdWJpzI47WOvJSWlQCqGePVGCRPyCaSG36qLtmzed6oDYZuglgRqhpvuNz+zxw7a6kVJEjIPCbAJ2A94Y8liKWBYXRJkE9hd9gZFWA/KlU6QMPBxAMYLG3t66PbIe/a9YMLVLmxQEs8Jzhl84GZKK/DVS2PcE4ctjoJO/5IThMd5ZPKOb7g1UNqqzwtBCovyVqLGB1rVX+XUnxdPVfmz9Mco96Q+vgz1X82dsPyi3jWus20OA9E8iB3Txi81vNERJ1rbGFkhkgjx+IUrlK6WcTbKoNJSJKNhr3G3VgLFsQRi2FZxHl5E/ZWsh+2L6J3DIPo9FcUQdPGU8/3dJHsZ4ZMlk65Nij1ht5soBPppRJwAao+mXz9bX67A/GE2cGW6UQkPz7nqrELI9atXgqyMi5ZZvm2zfZ+xlfl1ivSFS3URb1sjc2INrf3Wa5lMhBU4LoGqye8VQL2Uhl8uHjnCeY8Y3+dWI3OjhOxDf4gkSCYzNfmJZPI7hx8M95HsEIHi2lvGiFiEl4ASOEmoW8lP55DuS3SFiUNrTpm/NMP7wRTkcX4L7m9QPDyar85C55w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR21MB1284.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(38070700005)(55016002)(71200400001)(8990500004)(2906002)(82960400001)(54906003)(8936002)(186003)(66946007)(66556008)(66476007)(66446008)(64756008)(26005)(9686003)(110136005)(8676002)(76116006)(86362001)(82950400001)(52536014)(508600001)(6506007)(10290500003)(38100700002)(316002)(122000001)(4326008)(7416002)(7696005)(5660300002)(83380400001)(53546011)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?rKR/HQfr0lr0rmQxF05GVVyLtyrLeazePzrOBx9GYgwwp7wwfHtJlvFVinkI?=
+ =?us-ascii?Q?ahCP4aXKgLJkxQj0y+mPIayt6zQ0CdWbIBgcSl6TMgN8BhDJz/tuoRIuQQJs?=
+ =?us-ascii?Q?vjv5+OLhO5GJIVSPxTTa28UVtHkVye2UGFqNieivYg98rmf83AK2lbwwreKg?=
+ =?us-ascii?Q?GP/9Vn0QhqD0Gk2TCELRHooLkoGetDl7zEg7M/xV4sJXLlSatGYwteLpgetl?=
+ =?us-ascii?Q?sCJp7FG8gTRhprYftIT80jV0Ntd1MRGiLFjBkAQMWdgji24RT7gbfY2tLuJk?=
+ =?us-ascii?Q?tcfVd74zqk3X6qb4Liy0RkXKppXMrcr3qSa+DFpG+h59P5MZiTQhBrLIvxAz?=
+ =?us-ascii?Q?Y3g4GX2RECoJ2V0yymqqQTKJH5xt/ZCRGiMUV5R8MTwJjD1uztxEHcXV5M1h?=
+ =?us-ascii?Q?LHGkVXO2KCRrIYvprbOYpVuRkQyRZW5oXPRjRU2ioREZqJRpxKbwNDIqgmve?=
+ =?us-ascii?Q?C2m0qsMQ/I13/5g0Jd55itiTTIYi/5tkgCMoKreNSF10nqIJI6uIG9QdfYst?=
+ =?us-ascii?Q?i8uaHN2ubK/aytl+5A79nq15IwTxIE4/DMW5hYgmwbOcCej61TNpmpUbwNGk?=
+ =?us-ascii?Q?5WTkAVrchKDOLWff+4PvMHSjsJn0wLX+bn1SbpFf5sSG2VZJXLjACousSgkB?=
+ =?us-ascii?Q?CwbU3bDFhyGQb923rBCi3y54Uqq6cH2DDF6HZY91Wwv9UCZnvLoICWLc0f6u?=
+ =?us-ascii?Q?tbtdLVMJNmLYgeVwvzxD4MLCqTLAJmHk4dIjlPPYdvOBRLthqRIoPiAj69um?=
+ =?us-ascii?Q?Y0pj4JB85lo43raSuzG7H6d/u4N2DZJW67M6Br6ejqKGUw2VSI/EG3hgJtku?=
+ =?us-ascii?Q?uWsVVm9hoiRC6Bo2B/C0Ufks9I1yOVqbWLxH/Hjj/HVaV4lQ5INjfh1+pRND?=
+ =?us-ascii?Q?Q2HQpIN3hI9He2fpGx2O52dd9y76bRftujZ6T9EfIy+s9TsLx68UnKlfqeW7?=
+ =?us-ascii?Q?tbxRR3oOXnU9iwLo+iieHLIuGGJJzeOxwjXyPIdNm1+8jZ/18r0ycuIS840j?=
+ =?us-ascii?Q?spSTjpPD2sIdG71w0tvlbbhKvz9EOWj8ys1/lkUz6fSk2Hyt1j5S9kLeTxmz?=
+ =?us-ascii?Q?vvP8CWHiNDgD7eW4QtN+scWmWTBnDPmSDvHhanqeeE5yW5PUTKEC0Ih86xiU?=
+ =?us-ascii?Q?fNGba6LwZwN3xuRt0CFAo2yRR+hj5ASWw7EQDx181QQng6rnQcPf2jRgHx09?=
+ =?us-ascii?Q?JGu8D0M7BTOlDF9Z3Uyu5mCUEIzhjGJmmUhz7eb/ybwPzuYUARnAMg4CjAUN?=
+ =?us-ascii?Q?qfulu/lvtL9hWqiw2xoPe5fL1yNExiiBmQsrDOW/iPdtYDwhIbV+OULki9zV?=
+ =?us-ascii?Q?M1OPalx/mHDqIlxfoGn6jKdA+fY0ivD/Bs1dVKMGq0v2j8hxH/z4r5Gv0Wbn?=
+ =?us-ascii?Q?8dGqapSWcWUylY0iYJctAQ11xuAe8XxMjidUXxglyVr/aCqsN1vvyiwzcIZ0?=
+ =?us-ascii?Q?ioCkkwGKsjWIfZqyb2c3gXYx9dUSFw05mMT1JUPdsbdb+DCRyhvaI2pRp8zc?=
+ =?us-ascii?Q?1Ol42+/1sC35+027eTJyJnKXv9lyePC5jiGuJKPsEUXkpxnXPEfUzJu7H6hr?=
+ =?us-ascii?Q?miAHWFisCL5RRVlSs4/OCvL8TJ1PJ2z1iKsMu0QYtUdX9Z84aM9044Yfe2EF?=
+ =?us-ascii?Q?gQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from decui-u1804.corp.microsoft.com (2001:4898:80e8:f:7661:5dff:fe6a:8a2b) by MWHPR22CA0002.namprd22.prod.outlook.com (2603:10b6:300:ef::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4649.14 via Frontend Transport; Sat, 30 Oct 2021 00:54:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 23fc68f1-35be-441e-dec7-08d99b3fd4f4
-X-MS-TrafficTypeDiagnostic: DM5PR21MB0827:
-X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM5PR21MB082739FC8EEBF7AA2B517A1DBF889@DM5PR21MB0827.namprd21.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6cg1RE6Zrj7J5c/Fn/cIrAVV9n6Y5ouZNZKtf2svuq7iJs5kf4hpeyIRh1e6r90XdfSQeCz8zEhiEgPoSaGpE/FZh2KaC3D0Pl0gQ6ytOMamySMeSh3y3ZGMbqd0qhVFXpj2qHn9KiXtnGfjVCJIFA7JzMbpA7nfZCcuVMMEdSEPmfv2dVc++LOUXWvqJ9BqoBBeOOcIFaTtgMbktFOLuihcJ6+hLwCd9JYd8nRTtdIeXoQOyM5gFjJ7DIrkovm8t5uSehpVKiV22GN7fURFV/Q9VZlBfsjuAZGtmCbb0RGF8dG+9VYt8Ys+UfRiyrsm5TwsSQs3AAsN/YimBxsFWmqYg9+hNbTIZIAvvXCKFNFaBHFT41ESFv+upcWNTBUsfDF8ZB90ssPyhf96HEd9odmaOEPRWVkNeC/Hg7yIFFStv1CE9Ey6ODsmsOOp37KYRr+o6GQjpLwOQcUsbUaL8ZqyKGY9vB5lT6S1WQXJ4sG37CV/FUwRNjOWq2hPFijYY9w+ZdSmC2XqDerlWo1xyIUDUsdl5K3iybmzp2Xjp5BBJqxto8Asc21LhxoBVOiyiWy+IA63cXp2PF9szBYsGrtLeF7EhA53sBHES9YpxCTUVe8Ix2I//8uOrsj7Kg9hErmRNUBlig5XpytaQljIyQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR2101MB1095.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(52116002)(7696005)(86362001)(6486002)(1076003)(83380400001)(66556008)(66476007)(4326008)(107886003)(66946007)(8676002)(2616005)(5660300002)(6666004)(10290500003)(38100700002)(82950400001)(82960400001)(7416002)(36756003)(316002)(2906002)(186003)(8936002)(508600001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3xZCLbn1PF0u1E9ZAfd6LXgsjaVOFqIGWjqpwsYxGnrq+KxN0QhWl+TZVjny?=
- =?us-ascii?Q?FpHVyXHRCFhMJ47lBVAoapHEIBdkjx/jFAJ03LI1gNfjD3LkTvg1RpbKUu2f?=
- =?us-ascii?Q?tmoyEsBwIhYL+ygDgS9VTNOVMizS459npb6oaCqehcn7sRkevRsVrxcAzwHx?=
- =?us-ascii?Q?YX8IeXY1NmWKRCPISwv+s9M+5bxuBfKgO4BdxwAjKcpPif8nMs/MJCYEpcea?=
- =?us-ascii?Q?0CJLEI16o25aZwDv0/iXQu+vboq2xEEdYx0NcS2XGpooI/Z/RWuMKspVOGNh?=
- =?us-ascii?Q?mjA91U3uxoeJd7l8xQbXLWyomd9Q1Ed/lU943Go5hX/1XPglxbjUP+XuntFj?=
- =?us-ascii?Q?EuDaQdNvoTEeq3FzdzGuWaPc0drODjFQNKUtEmbZhtw6dP2Qk67XrXDXsxNP?=
- =?us-ascii?Q?Qxac8j54Hqjy7U6lSUPIv/E2VALQoimzVRJkiIEuxwm9zTPbntL7p30K1lKp?=
- =?us-ascii?Q?7J7MfRcM5aRPAfVjpfHIktSURDoUJ6qVu28QYjO3WLFgHxlQP5VvrBGiBY9T?=
- =?us-ascii?Q?WNNjeRBbcrmDKomno7N5F+n2USisQ+7HXAVsFJAAzF8T+JaPcYKOhtyPyVgk?=
- =?us-ascii?Q?2UYe5VvP47X7qt4QoirfIltHogS4uT71q4MI2J7Tp3LHAq3LjcNLsSAmKOFP?=
- =?us-ascii?Q?r6iGwuySrzkBoVJIkCM2dxPlhympIVnedKUS40YTq00b2CJYNHNTaeG/Xp3W?=
- =?us-ascii?Q?5ppCERalkUa9YsvkfznhrQhfJRvIrshI6Nr90lj6NqUg+5ZnYugxTfdHTGUD?=
- =?us-ascii?Q?mtXveGgIqLE83HU2pYVGkEqf4MFbtmReu+s2KT/2pfPCDwtU6dfEd4CUxN3t?=
- =?us-ascii?Q?dM7pQdFVFegBo4ZQxWBJzpTMoFgHY9bQBkJABOFJZy0STWaplg/S4nmgDgb1?=
- =?us-ascii?Q?bApT6X26XM9YBh5hucXeVarF9cTMlKW0Do3opqieZK451BngYBrYwUQ9Rm6d?=
- =?us-ascii?Q?07pQTGZcejJm98ffLXsRcjImx0NIRAsNwhME5fCbNLmg8B+iiMWFz+bEtnh9?=
- =?us-ascii?Q?aSjp1kYy2KRc6QzNaQywwp+ETFbl2PWI9pL8Tn72gb4D45DV24qRzJdMmn6N?=
- =?us-ascii?Q?L/mQFwiVQ5fDJ09Jbmo4csFuL8P0XW8eI/KFU7tLeCNjKPKfAPA0AUj9marG?=
- =?us-ascii?Q?FXjR9DKnOKNdCiAY/WueW1uLlxDK3DGL5JCE1TztgiJuP6hdKCKVEiMcOYTs?=
- =?us-ascii?Q?/bbluVCEyD3gkA2HlwvZTw5tKwrqhn+TDH9e4wN3dZisVPVutd6qxx7AlR/t?=
- =?us-ascii?Q?SsRLjHU2Fc7NJ42y77lKuQM0A/wPM1o7CM95a1bxEpCRuJTy5er3xrSKNbRv?=
- =?us-ascii?Q?br5uh8JrKRWpnLc/gHer2e4BD3xYpNBcevgo7JJj+XGa3JQibLTbu5PefX3m?=
- =?us-ascii?Q?tnNcjHuhyEbbrbFdz1uxEZA4iQQw9aFnGgva8gvZ1X3Zd3Wo+5h+yS1LHX9H?=
- =?us-ascii?Q?50vr1Nb2quJyWM98DFLK8I+S3u6jcVKSHFw6miMCkC608NYyF1+uRgHK/lSP?=
- =?us-ascii?Q?jA8Mtbhacf9mqrFhGTgVDNJ1z7mZA76Bfeic2qrEuIOTC4YbsqNhpo07A4Qf?=
- =?us-ascii?Q?LlB9jeY+0+DA+yYSM+P5GDa6n99G6o26vKTWFqvVKzCsgx3GPlzh/JEB3Z2W?=
- =?us-ascii?Q?I81EbENo0o2rBYx92IVSNlNKtzjJAIYfVXP79eOydDwuqJlPaCEeRfoycs8w?=
- =?us-ascii?Q?sMc4gzN0KLP5/+kDw09sxTa0Gns=3D?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23fc68f1-35be-441e-dec7-08d99b3fd4f4
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR2101MB1095.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2021 00:54:30.8617
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR21MB1284.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aab484fd-f154-488f-c8b7-08d99bba3ae8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2021 15:30:40.2183
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ec5hqzbHelu9fEwsezqawgTy4yP0E2FsZxsQ1Cz17CBJTPgpNIZWNwisO8luhZuPcoFIJvkVzwjAUHe3ASkJfw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR21MB0827
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Glae5ABfnUeW2/3jh6M4Leu9OegmoIHAvCiYMgLqF7Ck9fy5z5aQYEQoBlVxUKyOAe1WAq3vQ4mPJt92S4rL2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR21MB1234
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The PF driver might use the OS info for statistical purposes.
 
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
----
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index cee75b561f59..8a9ee2885f8c 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -3,6 +3,8 @@
- 
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/utsname.h>
-+#include <linux/version.h>
- 
- #include "mana.h"
- 
-@@ -848,6 +850,15 @@ int mana_gd_verify_vf_version(struct pci_dev *pdev)
- 	req.gd_drv_cap_flags3 = GDMA_DRV_CAP_FLAGS3;
- 	req.gd_drv_cap_flags4 = GDMA_DRV_CAP_FLAGS4;
- 
-+	req.drv_ver = 0;	/* Unused*/
-+	req.os_type = 0x10;	/* Linux */
-+	req.os_ver_major = LINUX_VERSION_MAJOR;
-+	req.os_ver_minor = LINUX_VERSION_PATCHLEVEL;
-+	req.os_ver_build = LINUX_VERSION_SUBLEVEL;
-+	strscpy(req.os_ver_str1, utsname()->sysname, sizeof(req.os_ver_str1));
-+	strscpy(req.os_ver_str2, utsname()->release, sizeof(req.os_ver_str2));
-+	strscpy(req.os_ver_str3, utsname()->version, sizeof(req.os_ver_str3));
-+
- 	err = mana_gd_send_request(gc, sizeof(req), &req, sizeof(resp), &resp);
- 	if (err || resp.hdr.status) {
- 		dev_err(gc->dev, "VfVerifyVersionOutput: %d, status=0x%x\n",
--- 
-2.17.1
+> -----Original Message-----
+> From: Dexuan Cui <decui@microsoft.com>
+> Sent: Friday, October 29, 2021 8:54 PM
+> To: davem@davemloft.net; kuba@kernel.org; gustavoars@kernel.org; Haiyang
+> Zhang <haiyangz@microsoft.com>; netdev@vger.kernel.org
+> Cc: KY Srinivasan <kys@microsoft.com>; stephen@networkplumber.org;
+> wei.liu@kernel.org; linux-kernel@vger.kernel.org; linux-
+> hyperv@vger.kernel.org; Shachar Raindel <shacharr@microsoft.com>; Paul
+> Rosswurm <paulros@microsoft.com>; olaf@aepfle.de; vkuznets
+> <vkuznets@redhat.com>; Dexuan Cui <decui@microsoft.com>
+> Subject: [PATCH net-next 1/4] net: mana: Fix the netdev_err()'s vPort
+> argument in mana_init_port()
+>=20
+> Use the correct port index rather than 0.
+>=20
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/mana_en.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> index 1417d1e72b7b..4ff5a1fc506f 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
+> +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+> @@ -1599,7 +1599,8 @@ static int mana_init_port(struct net_device *ndev)
+>  	err =3D mana_query_vport_cfg(apc, port_idx, &max_txq, &max_rxq,
+>  				   &num_indirect_entries);
+>  	if (err) {
+> -		netdev_err(ndev, "Failed to query info for vPort 0\n");
+> +		netdev_err(ndev, "Failed to query info for vPort %d\n",
+> +			   port_idx);
+
+Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
 
