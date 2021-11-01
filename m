@@ -2,392 +2,181 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2E8C433F5
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 07:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D709C433F5
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 08:43:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 69DAC6108C
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 07:03:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BD5A60FC4
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 08:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230097AbhKAHGA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 1 Nov 2021 03:06:00 -0400
-Received: from mail-cusazon11020015.outbound.protection.outlook.com ([52.101.61.15]:7442
-        "EHLO na01-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230407AbhKAHF5 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 1 Nov 2021 03:05:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UMOAdLBNBUEMFN+rcpz/ts2kDt7Vhu4WcQfCKut+dx4BGOVk3sNdpQADZ6VBfgSPGuDULiCVh8mv9h3ntsRvNr+p38QwjO7zOaByNzYwfh/GQdrUcNaxEp8A8D+huQYfmBD/4wGOql4iaDg4GVyRIM7PFQl9TwJodnp7jzvoY8TmhtHmNUdE6cuuaoDcO0+lF/U2rmgvFqt2X8tvKraoVmMeVZ/7sZejZzZ8xok+ARwArJewmzyhU+vLExZt8AvwxSh29Vdk4kiS5LWRgEZSfxSp9XGrVjv9Fc+W2aYTlQ+W/SqOR+h/yMy+0O8Z3VdHZUcl8ghEDoVxaox2/ErwAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r8qxLUd7RbAVe40XXDRRU8O8s2yS3szkxoGHCBcM5ng=;
- b=TQeeORRKiKsoZdfqRHfEdc4V2EeSwBMbsQJ0PqXGy/jhmqFyBIUNTC+iZzCZK4xNq1OoUZDtZ5Qy0gOVpUYmDY54INDEVZ6Sp1gvse+O8AgcDUWXgavx4J1WlbWcKnvK27EUnm7IP2ls9hb/IBGXgRpDXq9QjuTYoJJACHnb2HaKQzuY7J3pVHWLh/UZsLl1/fCl0zC50C9x/pUcBLf6WKGSoTEqoBKajUIRke7826+lS3WI1S17sRse9UvgOTHYsX9hVfffCbO8nL1aOgJgG3arxyPyk3slOsMxuraRrrkKvnFDBRjxk9Sgsz7GaRpzvD3Ds0R2NX17ayi4AxzMHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r8qxLUd7RbAVe40XXDRRU8O8s2yS3szkxoGHCBcM5ng=;
- b=QPWIqu6AQdX5BpmFEdS7s8tmJbwJTyk9YkvNf/Bz1Q6H11X0Y12T1E2+aIJNFbqYhQUxstt5roq4KGpbTYsgqUcOB9aW7i8egiE7HIPdao9cRKV+QT5EgEhcwoqIU15BCKzjgTn9wIG886EJFwoqcZhRA1vx1i5aMMv5JFWHBuk=
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
- by SJ0PR21MB1869.namprd21.prod.outlook.com (2603:10b6:a03:2a2::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.3; Mon, 1 Nov
- 2021 07:03:19 +0000
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::9c8a:6cab:68a6:ceb1]) by BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::9c8a:6cab:68a6:ceb1%6]) with mapi id 15.20.4690.002; Mon, 1 Nov 2021
- 07:03:19 +0000
-From:   Dexuan Cui <decui@microsoft.com>
-To:     Haiyang Zhang <haiyangz@microsoft.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "gustavoars@kernel.org" <gustavoars@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        "stephen@networkplumber.org" <stephen@networkplumber.org>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Shachar Raindel <shacharr@microsoft.com>,
-        Paul Rosswurm <paulros@microsoft.com>,
-        "olaf@aepfle.de" <olaf@aepfle.de>, vkuznets <vkuznets@redhat.com>
-Subject: RE: [PATCH net-next 4/4] net: mana: Support hibernation and kexec
-Thread-Topic: [PATCH net-next 4/4] net: mana: Support hibernation and kexec
-Thread-Index: AQHXzSi5FL+xs47DTkemjnXcBfjf5qvrr5YAgAKLS0A=
-Date:   Mon, 1 Nov 2021 07:03:19 +0000
-Message-ID: <BYAPR21MB1270A16AA0BF1A302BABCB3FBF8A9@BYAPR21MB1270.namprd21.prod.outlook.com>
-References: <20211030005408.13932-1-decui@microsoft.com>
- <20211030005408.13932-5-decui@microsoft.com>
- <BN8PR21MB1284785C320EFE09C75286B6CA889@BN8PR21MB1284.namprd21.prod.outlook.com>
-In-Reply-To: <BN8PR21MB1284785C320EFE09C75286B6CA889@BN8PR21MB1284.namprd21.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=38d1b54a-de51-47ac-a27e-8db573cfb9ed;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-10-30T15:43:58Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc9771ea-1db3-4528-28ec-08d99d05af60
-x-ms-traffictypediagnostic: SJ0PR21MB1869:
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <SJ0PR21MB18697A9BB9DC1A21664762FDBF8A9@SJ0PR21MB1869.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2582;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IunYoaSnBRwH0ArwqmY+WZri0oULEqrlK9zqM+zfNl4ezN4cnizirpOAFlfhsutyLqWx4GMZUZPGXmYqCMUPp+ji3NAdFsYzV2t1Hsn+gtyCYDZyct9KSXW/ne0XCFHrMhu8o/vKhB+37Mo9AZgUMjvunelGt9HPseCZ0Ai407DVCVUNVoE2kZBVFG/1qP36iD3wIut4iHYrVndEbF3IzGYfdfEahlPoLOBZT9/KEj74+dC6cFcOPcJUrzYHiEJkiUN+c0TbHJxxNhvGJN29ay6IKldJJLnTjQXzZVLiyKZ+6IGxIGBG7FAShoMiJJKxS0OY3Lub60Z6gmzPVrf9CLyeL4cqLjnIWOgQdPTxkz/FNFbHVOCFjGjhgcxpgXEjA/cxoAiS/J3NCKELJFPSLBbItrqfEBulPdCRe4H/dJiY8lmfUrQEsNU0NtQeDQe8o9JoQ8ppEDRuj7kj/NN4xAwpcGOwC34jRg7g/YurPaRBJBTeN7w1ESksWNgAAwcWBMJd+wx/nCDNhCwrixTeJXWtFRSVXubBf7gV6f+6SeHjopOxIC9ODUkBELESTyaK064+eGr3fckW2ZD8mppgCs9dD3da+nAboQTio3st6ZULl/PRIhHjfhrmoQEzZq6MllMiYUO8UzKA20F5eGgI6ZTqNjici/SAM9+J4FtDZL5vu1A4LR47pU47BB8UOgK5oJyN4flV3B9PGa1OkCn3YQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1270.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(54906003)(33656002)(38070700005)(71200400001)(66446008)(64756008)(66556008)(55016002)(9686003)(6506007)(66476007)(76116006)(66946007)(4326008)(86362001)(10290500003)(38100700002)(122000001)(508600001)(8936002)(26005)(186003)(8676002)(83380400001)(52536014)(5660300002)(7696005)(2906002)(8990500004)(82950400001)(82960400001)(110136005)(7416002)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?K3oPhdhlPaZ5sIoMWQH8vqCeEsNAP0tCQ/Qs07TiuK/BAh1UlpLGGUDBS4rw?=
- =?us-ascii?Q?46rhsZdNuI52Pu/PRG/bfpHJhH2SynHuyuifBcE4TQnqYe9bjm3/jtNGzclv?=
- =?us-ascii?Q?whZlW9H6D6K8qbzhSJH1q4ln8eBi+RKuFjqN1LzBftP/4EdbzHJKSMFjVFT8?=
- =?us-ascii?Q?B7tTy0pW2hlQWNF/AZdM5JzZjaZm54fZw0H3EWmdzHXsr92U99zv112o9yDU?=
- =?us-ascii?Q?VjxdyUHzBGqS5aB5NcfWjPcAbdlTtHYTgUcw1TeKxtrj3wTTNK0BIHuQalAB?=
- =?us-ascii?Q?cUKeR4hsAVtUMkSbEzP+qsUs7uITNKamzX1O/R++yzotj+FA7LLLHW8MMeoU?=
- =?us-ascii?Q?upii39+pPmqvD77s7hFelnp7BTkCIM96LoESEkFBbAopa7P3CSH3axTwXBaP?=
- =?us-ascii?Q?gjIHD04iWDVPsLlDSeTzg0DECTxEBCiWnmA3I6+XfFaAbk2Y+hQC7QC8IC5B?=
- =?us-ascii?Q?8d2irJnwWfpigNUPJ4yg6FhSXszTHC7mcS4sv+2Quuni+KkKcYFP2BZZ+0YY?=
- =?us-ascii?Q?qA8VJgXd7DaN+tDXD6DLpzOSUXwRDd8tkVF+W/fo9WGXGorLYd958Mvofysn?=
- =?us-ascii?Q?PzcpBkMccnNvPStpRLGq+Abkq05BshII6dvvDzKTXNlNQaU+cOgZBus22V7I?=
- =?us-ascii?Q?fMtdjtEz60ANeFs8ELdkRRKH2MDm32R1G4XYoQ3/FVGfxdyI2b/tziGJn7+N?=
- =?us-ascii?Q?Q8Fau2Xxhm1ue39wikNGIao5RI00PUs1qqSufDH28OgiSkyIekC5GvxY/Sx7?=
- =?us-ascii?Q?n7b+rcBPgSAEMRnvXmch39ICchU4M3EAKzcxLq0Y6Kn10yTDm1NJy3MzfIEs?=
- =?us-ascii?Q?0Np1VTfKI6R+De7K8zHH04FC4KdVUemn1Hgd8q/YNobOj6FnusuCn4aUeR5o?=
- =?us-ascii?Q?TV925f2fziI34Yl4LCF2iHfyizV0PzgAh+JrwfVZ4X62H7ltOxx8BokvNK6O?=
- =?us-ascii?Q?ALI7fN9T56nDDH/O2evEYbGCZoVb3hCOHfyRqXgusezMlwCqyz5oLj+5XBwl?=
- =?us-ascii?Q?VE8DDh0A2jCHP9jYOIcaUL2RoeY8YdqQcJ0eGsR7J/dvHMkBMtyA1Vbc6eAI?=
- =?us-ascii?Q?IlngvWjZNCeqjYOWC462HnGwCjW2zjIJYzeVRIRZeqO07BSMSc3Y1PWwP2aw?=
- =?us-ascii?Q?oJ0AR3QqG7PYpCsfACrtZvXIM5BZ9e35nMENdUxZfgSM6OmTRw/jPyAqJb4D?=
- =?us-ascii?Q?yhILaafXJyCmjM7PSGUOwaQ/vDRX4XkGrE705IrzfUQJDGWB9MJt62tf+jAm?=
- =?us-ascii?Q?o9YhkG9+2SWzZKEMxwpxR2OI8Dfpx3GgtxcSLZeZaQ2BdoLjVUL0Hn1WzPGH?=
- =?us-ascii?Q?0D5rzczN8pbuN7iDk7Klllxw01Rn1+fdMo3M1nIDvQWwEO0TaO0uzFGVmULI?=
- =?us-ascii?Q?L5/LvDguNvjA2bt5lnqWVn2+tDHtJicG7SN0peC2zbVsshY4Lt1kUNNn/4sW?=
- =?us-ascii?Q?ONIUwcOGBO3UQfWtxqdI5F/Oao5dzqbSc/xAn4n+O4th7MBtkPVVGWRd5hKi?=
- =?us-ascii?Q?llOY+Hlkajw8cIy/Az66wmv84FumqBOUGFdq7nUyDfxsuwI9+yhuZG9xx/PF?=
- =?us-ascii?Q?kDBYS7J0Zr3CvneiAVU2AGn+0YXiktoFBTH8/ShZivxc0AjyAjC3bWS4Ljfu?=
- =?us-ascii?Q?bE2TqJ/CocQDM7VuIgclDos=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S231284AbhKAIqB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 1 Nov 2021 04:46:01 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:36276 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229933AbhKAIqA (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Mon, 1 Nov 2021 04:46:00 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id B537D1FD6C;
+        Mon,  1 Nov 2021 08:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1635756206; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gM5vOonh67Hj9yoUUGj+83GDC0sAVqxgVoOYgqawToo=;
+        b=Z7rmDcFKJv/mqy8zAp3SLc08PKYIi+L8ctV+KvdVX2okgiI+xZPUdk97l97CQD1iKToU/A
+        4JpKxh3IczEsXKCEZajf0v0K/9Xcb0dKztwAxYWWNjehn8kEn6J4QKtxKaR8bVy7rgyO4V
+        WFLrzZ7dfEBFoPdDZi3NJxeoLNuirvQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1635756206;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gM5vOonh67Hj9yoUUGj+83GDC0sAVqxgVoOYgqawToo=;
+        b=KYbDQY8PtGsyedm3mYRjMMkDKI7lY55OPjIR5ehlY4Sx0pAjPWekjUaF59065AoRYI3hyk
+        70tugfL23y+Gq3CQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4E87913AA9;
+        Mon,  1 Nov 2021 08:43:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id ZE0jEq6of2EdKAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 01 Nov 2021 08:43:26 +0000
+Message-ID: <06626716-d894-8821-55b3-fcc8662f1d58@suse.de>
+Date:   Mon, 1 Nov 2021 09:43:25 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc9771ea-1db3-4528-28ec-08d99d05af60
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2021 07:03:19.1318
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sc/faO3at4wjEx6UN/05BtJj7wwgTa/ggeYGkOfcBpH+EeOpThv1jih5Na9G1ow2pjyY1lEwyHZU05dRMV3xFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR21MB1869
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.1
+Subject: Re: [PATCH 1/9] drm/format-helper: Export drm_fb_clip_offset()
+Content-Language: en-US
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+        maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
+        drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
+        david@lechnology.com, javierm@redhat.com, kernel@amanoeldawod.com,
+        dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch, aros@gmx.com,
+        joshua@stroblindustries.com, arnd@arndb.de,
+        dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20211022132829.7697-1-tzimmermann@suse.de>
+ <20211022132829.7697-2-tzimmermann@suse.de> <YXO+bGIW9sn9Rcfw@ravnborg.org>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YXO+bGIW9sn9Rcfw@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------zacue4NlIhOYHWJcS63vynDe"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> From: Haiyang Zhang <haiyangz@microsoft.com>
-> Sent: Saturday, October 30, 2021 8:55 AM
-> >
-> > @@ -1844,44 +1845,70 @@ int mana_probe(struct gdma_dev *gd)
-> >  	if (err)
-> >  		return err;
-> >
-> > -	ac =3D kzalloc(sizeof(*ac), GFP_KERNEL);
-> > -	if (!ac)
-> > -		return -ENOMEM;
-> > +	if (!resuming) {
-> > +		ac =3D kzalloc(sizeof(*ac), GFP_KERNEL);
-> > +		if (!ac)
-> > +			return -ENOMEM;
-> >
-> > -	ac->gdma_dev =3D gd;
-> > -	ac->num_ports =3D 1;
-> > -	gd->driver_data =3D ac;
-> > +		ac->gdma_dev =3D gd;
-> > +		gd->driver_data =3D ac;
-> > +	}
-> >
-> >  	err =3D mana_create_eq(ac);
-> >  	if (err)
-> >  		goto out;
-> >
-> >  	err =3D mana_query_device_cfg(ac, MANA_MAJOR_VERSION,
-> > MANA_MINOR_VERSION,
-> > -				    MANA_MICRO_VERSION, &ac->num_ports);
-> > +				    MANA_MICRO_VERSION, &num_ports);
-> >  	if (err)
-> >  		goto out;
-> >
-> > +	if (!resuming) {
-> > +		ac->num_ports =3D num_ports;
-> > +	} else {
-> > +		if (ac->num_ports !=3D num_ports) {
-> > +			dev_err(dev, "The number of vPorts changed: %d->%d\n",
-> > +				ac->num_ports, num_ports);
-> > +			err =3D -EPROTO;
-> > +			goto out;
-> > +		}
-> > +	}
-> > +
-> > +	if (ac->num_ports =3D=3D 0)
-> > +		dev_err(dev, "Failed to detect any vPort\n");
-> > +
-> >  	if (ac->num_ports > MAX_PORTS_IN_MANA_DEV)
-> >  		ac->num_ports =3D MAX_PORTS_IN_MANA_DEV;
-> >
-> > -	for (i =3D 0; i < ac->num_ports; i++) {
-> > -		err =3D mana_probe_port(ac, i, &ac->ports[i]);
-> > -		if (err)
-> > -			break;
-> > +	if (!resuming) {
-> > +		for (i =3D 0; i < ac->num_ports; i++) {
-> > +			err =3D mana_probe_port(ac, i, &ac->ports[i]);
-> > +			if (err)
-> > +				break;
-> > +		}
-> > +	} else {
-> > +		for (i =3D 0; i < ac->num_ports; i++) {
-> > +			rtnl_lock();
-> > +			err =3D mana_attach(ac->ports[i]);
-> > +			rtnl_unlock();
-> > +			if (err)
-> > +				break;
-> > +		}
-> >  	}
-> >  out:
-> >  	if (err)
-> > -		mana_remove(gd);
-> > +		mana_remove(gd, false);
->=20
-> The "goto out" can happen in both resuming true/false cases,
-> should the error handling path deal with the two cases
-> differently?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------zacue4NlIhOYHWJcS63vynDe
+Content-Type: multipart/mixed; boundary="------------XpNMgznP0NawZxzpBgxramQU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
+ drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
+ david@lechnology.com, javierm@redhat.com, kernel@amanoeldawod.com,
+ dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch, aros@gmx.com,
+ joshua@stroblindustries.com, arnd@arndb.de, dri-devel@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, virtualization@lists.linux-foundation.org
+Message-ID: <06626716-d894-8821-55b3-fcc8662f1d58@suse.de>
+Subject: Re: [PATCH 1/9] drm/format-helper: Export drm_fb_clip_offset()
+References: <20211022132829.7697-1-tzimmermann@suse.de>
+ <20211022132829.7697-2-tzimmermann@suse.de> <YXO+bGIW9sn9Rcfw@ravnborg.org>
+In-Reply-To: <YXO+bGIW9sn9Rcfw@ravnborg.org>
 
-Let me make the below change in v2. Please let me know
-if any further change is needed:
+--------------XpNMgznP0NawZxzpBgxramQU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -1850,8 +1850,10 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
+SGkNCg0KQW0gMjMuMTAuMjEgdW0gMDk6NDkgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIEZyaSwgT2N0IDIyLCAyMDIxIGF0IDAzOjI4OjIxUE0gKzAy
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gUHJvdmlkZSBhIGZ1bmN0aW9uIHRo
+YXQgY29tcHV0ZXMgdGhlIG9mZnNldCBpbnRvIGEgYmxpdCBkZXN0aW5hdGlvbg0KPj4gYnVm
+ZmVyLiBUaGlzIHdpbGwgYWxsb3cgdG8gbW92ZSBkZXN0aW5hdGlvbi1idWZmZXIgY2xpcHBp
+bmcgaW50byB0aGUNCj4+IGZvcm1hdC1oZWxwZXIgY2FsbGVycy4NCj4+DQo+PiBTaWduZWQt
+b2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0t
+LQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYyB8IDEwICsrKysr
+KysrLS0NCj4+ICAgaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCAgICAgfCAgNCAr
+KysrDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRf
+aGVscGVyLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYw0KPj4gaW5k
+ZXggNjlmZGU2MGUzNmIzLi4yOGU5ZDBkODkyNzAgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuYw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2RybV9mb3JtYXRfaGVscGVyLmMNCj4+IEBAIC0xNywxMiArMTcsMTggQEANCj4+ICAgI2lu
+Y2x1ZGUgPGRybS9kcm1fZm91cmNjLmg+DQo+PiAgICNpbmNsdWRlIDxkcm0vZHJtX3JlY3Qu
+aD4NCj4+ICAgDQo+PiAtc3RhdGljIHVuc2lnbmVkIGludCBjbGlwX29mZnNldChzdHJ1Y3Qg
+ZHJtX3JlY3QgKmNsaXAsDQo+PiAtCQkJCXVuc2lnbmVkIGludCBwaXRjaCwgdW5zaWduZWQg
+aW50IGNwcCkNCj4+ICtzdGF0aWMgdW5zaWduZWQgaW50IGNsaXBfb2Zmc2V0KGNvbnN0IHN0
+cnVjdCBkcm1fcmVjdCAqY2xpcCwgdW5zaWduZWQgaW50IHBpdGNoLCB1bnNpZ25lZCBpbnQg
+Y3BwKQ0KPj4gICB7DQo+PiAgIAlyZXR1cm4gY2xpcC0+eTEgKiBwaXRjaCArIGNsaXAtPngx
+ICogY3BwOw0KPj4gICB9DQo+PiAgIA0KPj4gK3Vuc2lnbmVkIGxvbmcgZHJtX2ZiX2NsaXBf
+b2Zmc2V0KHVuc2lnbmVkIGludCBwaXRjaCwgY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5m
+byAqZm9ybWF0LA0KPj4gKwkJCQkgY29uc3Qgc3RydWN0IGRybV9yZWN0ICpjbGlwKQ0KPj4g
+K3sNCj4+ICsJcmV0dXJuIGNsaXBfb2Zmc2V0KGNsaXAsIHBpdGNoLCBmb3JtYXQtPmNwcFsw
+XSk7DQo+PiArfQ0KPj4gK0VYUE9SVF9TWU1CT0woZHJtX2ZiX2NsaXBfb2Zmc2V0KTsNCj4g
+DQo+IEV4cG9ydGVkIGZ1bmN0aW9ucyBhcmUgZXhwZWN0ZWQgdG8gaGF2ZSBrZXJuZWwtZG9j
+IGRvY3VtZW50YXRpb24uDQo+IEp1c3QgY29weSBtb3JlIG9yIGxlc3MgZnJvbSB0aGUgY2hh
+bmdlbG9nIEkgdGhpbmsuDQoNClRoYXQncyBhbiBvdmVyc2lnaHQuIFNvcnJ5Lg0KDQo+IA0K
+PiBBbnl3aGVyZSBlbHNlIChJIGxvb2tlZCBpbiBzdHJ1Y3QgZHJtX2ZyYW1lYnVmZmVyKSB3
+ZSBvbmx5IG5lZWQgdW5zaWduZWQNCj4gaW50IGZvciBvZmZzZXRzIGFuZCB3aWR0aC9sZW5n
+dGggLSBzbyBJIGNhbm5vdCBzZWUgd2h5IHdlIGRvIGFuIHVuc2lnbmVkDQo+IGludCA9PiB1
+bnNpZ25lZCBsb25nIGNvbnZlcnNpb24gaGVyZS4NCg0KT24gYW5jaWVudCBwbGF0Zm9ybXMs
+IGludCB3YXMgMTYgYml0IHdpZGUuIFNvIGZvciB2YWx1ZXMgdGhhdCBhcmUgYXJyYXkgDQpp
+bmRpY2VzIG9yIGJ1ZmZlciBpbmRpY2VzLCBJIG5hdHVyYWxseSB1c2UgbG9uZywgd2hpY2gg
+aXMgMzItYml0IGF0IA0KbGVhc3QuIE5ldmVyIG1pbmQsIGl0J3Mgbm90IHJlbGV2YW50IGFu
+eSBsb25nZXIuIEknbGwgY29udmVydCB0aGlzIGNvZGUgDQp0byB1bnNpZ25lZCBpbnQuDQoN
+CkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4gDQo+IAlTYW0NCj4gDQo+PiArDQo+PiAgIC8q
+Kg0KPj4gICAgKiBkcm1fZmJfbWVtY3B5IC0gQ29weSBjbGlwIGJ1ZmZlcg0KPj4gICAgKiBA
+ZHN0OiBEZXN0aW5hdGlvbiBidWZmZXINCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9k
+cm1fZm9ybWF0X2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2Zvcm1hdF9oZWxwZXIuaA0K
+Pj4gaW5kZXggZTg2OTI1Y2YwN2I5Li45MGI5YmQ5ZWNiODMgMTAwNjQ0DQo+PiAtLS0gYS9p
+bmNsdWRlL2RybS9kcm1fZm9ybWF0X2hlbHBlci5oDQo+PiArKysgYi9pbmNsdWRlL2RybS9k
+cm1fZm9ybWF0X2hlbHBlci5oDQo+PiBAQCAtNiw5ICs2LDEzIEBADQo+PiAgICNpZm5kZWYg
+X19MSU5VWF9EUk1fRk9STUFUX0hFTFBFUl9IDQo+PiAgICNkZWZpbmUgX19MSU5VWF9EUk1f
+Rk9STUFUX0hFTFBFUl9IDQo+PiAgIA0KPj4gK3N0cnVjdCBkcm1fZm9ybWF0X2luZm87DQo+
+PiAgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXI7DQo+PiAgIHN0cnVjdCBkcm1fcmVjdDsNCj4+
+ICAgDQo+PiArdW5zaWduZWQgbG9uZyBkcm1fZmJfY2xpcF9vZmZzZXQodW5zaWduZWQgaW50
+IHBpdGNoLCBjb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpmb3JtYXQsDQo+PiArCQkJ
+CSBjb25zdCBzdHJ1Y3QgZHJtX3JlY3QgKmNsaXApOw0KPj4gKw0KPj4gICB2b2lkIGRybV9m
+Yl9tZW1jcHkodm9pZCAqZHN0LCB2b2lkICp2YWRkciwgc3RydWN0IGRybV9mcmFtZWJ1ZmZl
+ciAqZmIsDQo+PiAgIAkJICAgc3RydWN0IGRybV9yZWN0ICpjbGlwKTsNCj4+ICAgdm9pZCBk
+cm1fZmJfbWVtY3B5X2RzdGNsaXAodm9pZCBfX2lvbWVtICpkc3QsIHVuc2lnbmVkIGludCBk
+c3RfcGl0Y2gsIHZvaWQgKnZhZGRyLA0KPj4gLS0gDQo+PiAyLjMzLjANCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
+cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
+cmVyOiBJdm8gVG90ZXYNCg==
 
-        if (!resuming) {
-                ac =3D kzalloc(sizeof(*ac), GFP_KERNEL);
--               if (!ac)
--                       return -ENOMEM;
-+               if (!ac) {
-+                       err =3D -ENOMEM;
-+                       goto out;
-+               }
+--------------XpNMgznP0NawZxzpBgxramQU--
 
-                ac->gdma_dev =3D gd;
-                gd->driver_data =3D ac;
-@@ -1872,8 +1874,8 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
-                if (ac->num_ports !=3D num_ports) {
-                        dev_err(dev, "The number of vPorts changed: %d->%d\=
-n",
-                                ac->num_ports, num_ports);
--                       err =3D -EPROTO;
--                       goto out;
-+                       /* It's unsafe to proceed. */
-+                       return -EPROTO;
-                }
-        }
+--------------zacue4NlIhOYHWJcS63vynDe
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-@@ -1886,22 +1888,36 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
-        if (!resuming) {
-                for (i =3D 0; i < ac->num_ports; i++) {
-                        err =3D mana_probe_port(ac, i, &ac->ports[i]);
--                       if (err)
--                               break;
-+                       if (err) {
-+                               dev_err(dev, "Failed to probe vPort %u: %d\=
-n",
-+                                          i, err);
-+                               goto out;
-+                       }
-                }
-        } else {
-                for (i =3D 0; i < ac->num_ports; i++) {
-                        rtnl_lock();
-                        err =3D mana_attach(ac->ports[i]);
-                        rtnl_unlock();
--                       if (err)
--                               break;
-+
-+                       if (err) {
-+                               netdev_err(ac->ports[i],
-+                                          "Failed to resume vPort %u: %d\n=
-",
-+                                          i, err);
-+                               return err;
-+                       }
-                }
-        }
-+
-+       return 0;
- out:
--       if (err)
--               mana_remove(gd, false);
-+       /* In the resuming path, it's safer to leave the device in the fail=
-ed
-+        * state than try to invoke mana_detach().
-+        */
-+       if (resuming)
-+               return err;
+-----BEGIN PGP SIGNATURE-----
 
-+       mana_remove(gd, false);
-        return err;
- }
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmF/qK0FAwAAAAAACgkQlh/E3EQov+Dj
+zxAAoJGTU0dO44SLYxm91QYOQILT52HcJ3bdtIOXSS+tlr/BDmaOZKp8fFGcay08xcp52QaKnnNQ
+yWr9fgSGIXqB0Y+doUGb7C/Z3JYtN6LwdqhQatkXON4tX08cfVlcM4o595SlcA2EuEEenwBJEAMy
+2VGMdS6zEshUTtqZNPRbvJXQC0G6W/g5EyHZXfS/vnQ3Lhp9FNqpPpcM3lN0P6SGSp0SlWyFe9eu
+sVO90k4VhBo3CddoXc2HUO86g5cIRcHUaAc2ZmySbme6Ed+ZnHBAaFTKs0oJGiHdi+4qP2bFBvV6
+RSout2vdH5CFsdzN2/zsCZFKa3/8HuS7tL787GNEpGTr9ldmRZNBjUuyfKaErkMSvfaiqLk+HprX
+H0HxfkdkuEm2RjCqbYz3B0p0BjKDRfnpQjXc37Bv2YRn4TSJoU7oKbvUXz+iW+Kem96YV6U1dbl8
+eGcnOT8M0ryU0rIIfHTvdbGRNjTHutODoUngMvHaj92iPc21Y2Tru8i3EVAZ7tAGeeGziVrBeHXh
+Ft2UPxXcCaLiPGaWafTv5nA0PydbYtOb0NuwgjKYGwQ59sDFTOJ/mxTN94XGEu7Woc1eecKd+b0V
+O/S22jDCnAr6xhj4zPUzK0ExxMFgamVWZKp31NPzcHJQCD5BydwIxI4CEkRAAmD0eb1oLr74ucEQ
+BQE=
+=sFZm
+-----END PGP SIGNATURE-----
 
-@@ -1919,7 +1935,7 @@ void mana_remove(struct gdma_dev *gd, bool suspending=
-)
-                if (!ndev) {
-                        if (i =3D=3D 0)
-                                dev_err(dev, "No net device to remove\n");
--                       goto out;
-+                       break;
-                }
-
-                /* All cleanup actions should stay after rtnl_lock(), other=
-wise
-
-For your easy reviewing, the new code of the function in v2 will be:
-
-int mana_probe(struct gdma_dev *gd, bool resuming)
-{
-        struct gdma_context *gc =3D gd->gdma_context;
-        struct mana_context *ac =3D gd->driver_data;
-        struct device *dev =3D gc->dev;
-        u16 num_ports =3D 0;
-        int err;
-        int i;
-
-        dev_info(dev,
-                 "Microsoft Azure Network Adapter protocol version: %d.%d.%=
-d\n",
-                 MANA_MAJOR_VERSION, MANA_MINOR_VERSION, MANA_MICRO_VERSION=
-);
-
-        err =3D mana_gd_register_device(gd);
-        if (err)
-                return err;
-
-        if (!resuming) {
-                ac =3D kzalloc(sizeof(*ac), GFP_KERNEL);
-                if (!ac) {
-                        err =3D -ENOMEM;
-                        goto out;
-                }
-
-                ac->gdma_dev =3D gd;
-                gd->driver_data =3D ac;
-        }
-
-        err =3D mana_create_eq(ac);
-        if (err)
-                goto out;
-
-        err =3D mana_query_device_cfg(ac, MANA_MAJOR_VERSION, MANA_MINOR_VE=
-RSION,
-                                    MANA_MICRO_VERSION, &num_ports);
-        if (err)
-                goto out;
-
-        if (!resuming) {
-                ac->num_ports =3D num_ports;
-        } else {
-                if (ac->num_ports !=3D num_ports) {
-                        dev_err(dev, "The number of vPorts changed: %d->%d\=
-n",
-                                ac->num_ports, num_ports);
-                        /* It's unsafe to proceed. */
-                        return -EPROTO;
-                }
-        }
-
-        if (ac->num_ports =3D=3D 0)
-                dev_err(dev, "Failed to detect any vPort\n");
-
-        if (ac->num_ports > MAX_PORTS_IN_MANA_DEV)
-                ac->num_ports =3D MAX_PORTS_IN_MANA_DEV;
-
-        if (!resuming) {
-                for (i =3D 0; i < ac->num_ports; i++) {
-                        err =3D mana_probe_port(ac, i, &ac->ports[i]);
-                        if (err) {
-                                dev_err(dev, "Failed to probe vPort %u: %d\=
-n",
-                                           i, err);
-                                goto out;
-                        }
-                }
-        } else {
-                for (i =3D 0; i < ac->num_ports; i++) {
-                        rtnl_lock();
-                        err =3D mana_attach(ac->ports[i]);
-                        rtnl_unlock();
-
-                        if (err) {
-                                netdev_err(ac->ports[i],
-                                           "Failed to resume vPort %u: %d\n=
-",
-                                           i, err);
-                                return err;
-                        }
-                }
-        }
-
-        return 0;
-out:
-        /* In the resuming path, it's safer to leave the device in the fail=
-ed
-         * state than try to invoke mana_detach().
-         */
-        if (resuming)
-                return err;
-
-        mana_remove(gd, false);
-        return err;
-}
+--------------zacue4NlIhOYHWJcS63vynDe--
