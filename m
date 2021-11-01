@@ -2,157 +2,132 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACE8C4167D
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75813C433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 15:01:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BDF8610E8
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4EF4F6124D
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 15:01:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232071AbhKAOSM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 1 Nov 2021 10:18:12 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:49066 "EHLO
-        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232093AbhKAOSL (ORCPT
+        id S231741AbhKAPER (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 1 Nov 2021 11:04:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229826AbhKAPER (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 1 Nov 2021 10:18:11 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 93B2B1FD78;
-        Mon,  1 Nov 2021 14:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1635776137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yL9iUo+cpHCBnWyGlHHHPSxiHK+OVWp0KrZFxkiGU90=;
-        b=efEtoZ2G9rgoTkKw2OTTxBJ6t5bpyv8hsZdZu5GUG+bbGevXP6EWolOHsMgtxpmIdE6fC0
-        EEEfNLM3HSBqMYYsyITvrPbNou1q0SrecWaVRd0MRAZAkean/ZUxxmbNz4k9YgcZRcqO3U
-        F6Cx11vEGG/PmfjqbKgvn9xf+S2EfI0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1635776137;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yL9iUo+cpHCBnWyGlHHHPSxiHK+OVWp0KrZFxkiGU90=;
-        b=140EXOse9yf2CQEbTdtMD42oaH/2VxBKzbUPN3zOjsDMrNS7HIX1sp2STJHJj3578vw98n
-        ovnBk0Hyoc7MgeCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2CB9C1342A;
-        Mon,  1 Nov 2021 14:15:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 2EbcCYn2f2GlHwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 01 Nov 2021 14:15:37 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
-        drawat.floss@gmail.com, airlied@redhat.com, kraxel@redhat.com,
-        david@lechnology.com, sam@ravnborg.org, javierm@redhat.com,
-        kernel@amanoeldawod.com, dirty.ice.hu@gmail.com,
-        michael+lkml@stapelberg.ch, aros@gmx.com,
-        joshua@stroblindustries.com, arnd@arndb.de
-Cc:     dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 8/9] drm/simpledrm: Support virtual screen sizes
-Date:   Mon,  1 Nov 2021 15:15:31 +0100
-Message-Id: <20211101141532.26655-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211101141532.26655-1-tzimmermann@suse.de>
-References: <20211101141532.26655-1-tzimmermann@suse.de>
+        Mon, 1 Nov 2021 11:04:17 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12D57C061714;
+        Mon,  1 Nov 2021 08:01:44 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id k29so11362529qve.6;
+        Mon, 01 Nov 2021 08:01:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aV4ZtZ43VwnKsLkvPobGjH+Nu8TCZDHl/55S1ia5M+k=;
+        b=TZcU7SXQ8ZWXRZdvOEo4mPKuugCOTEgtIHx2GhsmzTE/f4FXu3nAr2gM4RtudQsEni
+         G5K/U1+GHH8zQNoYMxSluGXrJM0O6hiORlhUnkOjHY3XRSVCSDtW3U3c7Y7FqM9FhUB1
+         ngBzAZS58Xn+OvMQLht6fQhvdJd1YJca8Z80I8+gqrXTCkTKX2gn0IPTr3FqMyARV8bd
+         xKbJMh9IaNk9UqFPdfll9oxcZ7CMKN5PmO2IgVJJqSuErbMVmvT8+aDvmYRC/ndz5Tra
+         tKLbGXb3lh4Kw+j0BYC6nef3jnQmm8hUXUiZ25CHdXWOHtfdRihwioMl2pz+iECECt55
+         0ugw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aV4ZtZ43VwnKsLkvPobGjH+Nu8TCZDHl/55S1ia5M+k=;
+        b=0QSj3at7wxaCv8Tn1Phl+rGo+/2jth4+7sXHKEK5hodcQuOoMmBi8gcSZ9fg5/UMY3
+         kaNxcxKK4/O82qo+a1cydyk0ZeyRiZv8hctLTasW+qBFiDc+YOoKWqPRgHoZtRw/An0A
+         x6mlAD1EJO5k3qQek0BRfCGDBIoQc1uJz+MdrPwBl8HJg0LeGuf4xF6OY7+7aJfRiVf5
+         8kPpBZsIw9J/l4PFV0ZoJtu6pPE49+fuc4gP0QzRdH9GTwab6ZNxAxw1uNjtPwhHBmMl
+         LRxlzxxSA8YMju/tJbUG4uekBpz2n7SMKT65Xyi//sKxHnuL+UjFiz0YeUiJpShMuCuQ
+         96sg==
+X-Gm-Message-State: AOAM532Hp7Sx3dPdSulmsdq+vBckAoNbPc9GTw+ryaaiVq4cj7Knqks0
+        ckGaqI4dWnNK9L+6zOl5A0l0ibLYIJ8VEA==
+X-Google-Smtp-Source: ABdhPJydnnII8W6NLEylduFVpzQ4Ebzi0oqbW3RHIuVmh0lW6/rXr3t3WGK1A25a2vS6N+6haL+9JQ==
+X-Received: by 2002:a05:6214:e4a:: with SMTP id o10mr29317718qvc.58.1635778892866;
+        Mon, 01 Nov 2021 08:01:32 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id d19sm9183141qty.26.2021.11.01.08.01.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Nov 2021 08:01:31 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailauth.nyi.internal (Postfix) with ESMTP id A8BCB27C005A;
+        Mon,  1 Nov 2021 11:01:29 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 01 Nov 2021 11:01:30 -0400
+X-ME-Sender: <xms:SAGAYeeRXe1PEkNxo4MvSPREFc2oFMHZUIPBOrJA8RK-9hWpHXBMSw>
+    <xme:SAGAYYPF1jzKUAt1MSHWnpXUwxYOq5nGODxyp26wGS36dDX405eTKfiJZoqQJYTAQ
+    XkDlLfnP9OC0cbDwA>
+X-ME-Received: <xmr:SAGAYfgiCoMBDLVNFvrmdojmcQEe7Y8IHjwuakk6ZZJW02h5VBBjBHZsgvhptg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdehvddgieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhnucfh
+    vghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvg
+    hrnhepieejhfelvddtgeduhfffueegteevleeugfekvefhueduuedugfevvefhtedvuedv
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqh
+    hunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddu
+    jeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvg
+    drnhgrmhgv
+X-ME-Proxy: <xmx:SAGAYb8fP3j5C4Rm1UUFi1oEO-0bvUsmLPeWTwQWr4rFqHTX041TxQ>
+    <xmx:SAGAYavivQvsmcIvZmrJJPq_QCE0TilkDb9cXjucUHlQxeYq_nC_vA>
+    <xmx:SAGAYSHBCVpJSPYE2qMhY0fjM1kLmmSdKeKW4W6nsDfGJW5SxXpPqQ>
+    <xmx:SQGAYYC552nAJbZISEIzihgi2PRBYRTlSMZFRoRKt9Iu4expOkZR9w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 1 Nov 2021 11:01:28 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Boqun Feng <boqun.feng@gmail.com>, stable@vger.kernel.org,
+        Baihua Lu <baihua.lu@microsoft.com>
+Subject: [PATCH] Drivers: hv: balloon: Use VMBUS_RING_SIZE() wrapper for dm_ring_size
+Date:   Mon,  1 Nov 2021 23:00:26 +0800
+Message-Id: <20211101150026.736124-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add constants for the maximum size of the shadow-plane surface
-size. Useful for shadow planes with virtual screen sizes. The
-current sizes are 4096 scanlines with 4096 pixels each. This
-seems reasonable for current hardware, but can be increased as
-necessary.
+Baihua reported an error when boot an ARM64 guest with PAGE_SIZE=64k and
+BALLOON is enabled:
 
-In simpledrm, set the maximum framebuffer size from the constants
-for shadow planes. Implements support for virtual screen sizes and
-page flipping on the fbdev console.
+	hv_vmbus: registering driver hv_balloon
+	hv_vmbus: probe failed for device 1eccfd72-4b41-45ef-b73a-4a6e44c12924 (-22)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+The cause of this is that the ringbuffer size for hv_balloon is not
+adjusted with VMBUS_RING_SIZE(), which makes the size not large enough
+for ringbuffers on guest with PAGE_SIZE=64k. Therefore use
+VMBUS_RING_SIZE() to calculate the ringbuffer size. Note that the old
+size (20 * 1024) counts a 4k header in the total size, while
+VMBUS_RING_SIZE() expects the parameter as the payload size, so use
+16 * 1024.
+
+Cc: <stable@vger.kernel.org> # 5.15.x
+Reported-by: Baihua Lu <baihua.lu@microsoft.com>
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- drivers/gpu/drm/tiny/simpledrm.c    |  9 +++++++--
- include/drm/drm_gem_atomic_helper.h | 18 ++++++++++++++++++
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ drivers/hv/hv_balloon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index e872121e9fb0..e42ae1c6ebcd 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -2,6 +2,7 @@
+diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+index 7f11ea07d698..ca873a3b98db 100644
+--- a/drivers/hv/hv_balloon.c
++++ b/drivers/hv/hv_balloon.c
+@@ -480,7 +480,7 @@ module_param(pressure_report_delay, uint, (S_IRUGO | S_IWUSR));
+ MODULE_PARM_DESC(pressure_report_delay, "Delay in secs in reporting pressure");
+ static atomic_t trans_id = ATOMIC_INIT(0);
  
- #include <linux/clk.h>
- #include <linux/of_clk.h>
-+#include <linux/minmax.h>
- #include <linux/platform_data/simplefb.h>
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
-@@ -776,6 +777,7 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
- 	struct drm_display_mode *mode = &sdev->mode;
- 	struct drm_connector *connector = &sdev->connector;
- 	struct drm_simple_display_pipe *pipe = &sdev->pipe;
-+	unsigned long max_width, max_height;
- 	const uint32_t *formats;
- 	size_t nformats;
- 	int ret;
-@@ -784,10 +786,13 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
- 	if (ret)
- 		return ret;
+-static int dm_ring_size = 20 * 1024;
++static int dm_ring_size = VMBUS_RING_SIZE(16 * 1024);
  
-+	max_width = max_t(unsigned long, mode->hdisplay, DRM_SHADOW_PLANE_MAX_WIDTH);
-+	max_height = max_t(unsigned long, mode->vdisplay, DRM_SHADOW_PLANE_MAX_HEIGHT);
-+
- 	dev->mode_config.min_width = mode->hdisplay;
--	dev->mode_config.max_width = mode->hdisplay;
-+	dev->mode_config.max_width = max_width;
- 	dev->mode_config.min_height = mode->vdisplay;
--	dev->mode_config.max_height = mode->vdisplay;
-+	dev->mode_config.max_height = max_height;
- 	dev->mode_config.prefer_shadow_fbdev = true;
- 	dev->mode_config.preferred_depth = sdev->format->cpp[0] * 8;
- 	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
-diff --git a/include/drm/drm_gem_atomic_helper.h b/include/drm/drm_gem_atomic_helper.h
-index 48222a107873..54983ecf641a 100644
---- a/include/drm/drm_gem_atomic_helper.h
-+++ b/include/drm/drm_gem_atomic_helper.h
-@@ -22,6 +22,24 @@ int drm_gem_simple_display_pipe_prepare_fb(struct drm_simple_display_pipe *pipe,
-  * Helpers for planes with shadow buffers
-  */
- 
-+/**
-+ * DRM_SHADOW_PLANE_MAX_WIDTH - Maximum width of a plane's shadow buffer in pixels
-+ *
-+ * For drivers with shadow planes, the maximum width of the framebuffer is
-+ * usually independent from hardware limitations. Drivers can initialize struct
-+ * drm_mode_config.max_width from DRM_SHADOW_PLANE_MAX_WIDTH.
-+ */
-+#define DRM_SHADOW_PLANE_MAX_WIDTH	(1ul << 12)
-+
-+/**
-+ * DRM_SHADOW_PLANE_MAX_HEIGHT - Maximum height of a plane's shadow buffer in scanlines
-+ *
-+ * For drivers with shadow planes, the maximum height of the framebuffer is
-+ * usually independent from hardware limitations. Drivers can initialize struct
-+ * drm_mode_config.max_height from DRM_SHADOW_PLANE_MAX_HEIGHT.
-+ */
-+#define DRM_SHADOW_PLANE_MAX_HEIGHT	(1ul << 12)
-+
- /**
-  * struct drm_shadow_plane_state - plane state for planes with shadow buffers
-  *
+ /*
+  * Driver specific state.
 -- 
-2.33.1
+2.33.0
 
