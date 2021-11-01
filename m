@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F36C433FE
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75832C4332F
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C10AF610D2
-	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B6AE610FD
+	for <linux-hyperv@archiver.kernel.org>; Mon,  1 Nov 2021 14:15:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232070AbhKAOSJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 1 Nov 2021 10:18:09 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:55284 "EHLO
-        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbhKAOSI (ORCPT
+        id S232053AbhKAOSK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 1 Nov 2021 10:18:10 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:48870 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229826AbhKAOSJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 1 Nov 2021 10:18:08 -0400
+        Mon, 1 Nov 2021 10:18:09 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 64A7521968;
-        Mon,  1 Nov 2021 14:15:34 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 56EE51FD6F;
+        Mon,  1 Nov 2021 14:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1635776134; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+        t=1635776135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/seFr1pSoZVWTIFnRFMS/if3C+COfJP/xmAo3iraymA=;
-        b=mLWwfKmplbbb5kHtx5ZBiF4CGoyNs1aIKoLlNxi1TV9ALRCNdCOTClN4yb5Y87MsAC5q9u
-        QsTKS++peHMCqsvzmwqbTmHPkqk1+L9HXgVkvdGeNhXPJ9dsFOQSzl5Pa1z2eDZHLSPD11
-        ayeP9K5oOgy4AeDi2PzvlVMSQO2HTuI=
+        bh=m9IsAhUPp4YEufnjjVcnaYqYgvCaKcbK5WsfVABAW7A=;
+        b=WH3ZdXsaazwqQnHdCcdI2il0vrlGLYuSILiur+6R/iRH6rssi83dWDw9nPVbYJS4LpiGnV
+        RSDYhh3YQ2BnmaPybxV+EJgfmIkYekrnk2saS2TMbxyCQFkQiq8R9kPqQn/4/IXVAXeqcT
+        DfdWH/CRWKS3d7buN4hoccwWEZ5WVSU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1635776134;
+        s=susede2_ed25519; t=1635776135;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/seFr1pSoZVWTIFnRFMS/if3C+COfJP/xmAo3iraymA=;
-        b=8KhsvF+FeQz78jnPHl2Fep85FsZ/BlMeeJ70WDaVOCgrIKkZs5qKWZTg+PrRtyLYAaZCz1
-        qfYY0olZ4hS9VxAg==
+        bh=m9IsAhUPp4YEufnjjVcnaYqYgvCaKcbK5WsfVABAW7A=;
+        b=R0FyTvhE11opFsx17ogFpMoMlqAUMXHMTmEOwu3LRN/979ML+exFIo6mFHjDMdh91j0k8z
+        PxT+B3QqPgieOqAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 015B8139FD;
-        Mon,  1 Nov 2021 14:15:33 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D98A1139FD;
+        Mon,  1 Nov 2021 14:15:34 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id GNrwOoX2f2GlHwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 01 Nov 2021 14:15:33 +0000
+        id UE//M4b2f2GlHwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 01 Nov 2021 14:15:34 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
         maarten.lankhorst@linux.intel.com, noralf@tronnes.org,
@@ -60,84 +60,140 @@ To:     daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
 Cc:     dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 1/9] drm/format-helper: Export drm_fb_clip_offset()
-Date:   Mon,  1 Nov 2021 15:15:24 +0100
-Message-Id: <20211101141532.26655-2-tzimmermann@suse.de>
+Subject: [PATCH v2 3/9] drm/format-helper: Add destination-buffer pitch to drm_fb_swab()
+Date:   Mon,  1 Nov 2021 15:15:26 +0100
+Message-Id: <20211101141532.26655-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211101141532.26655-1-tzimmermann@suse.de>
 References: <20211101141532.26655-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Provide a function that computes the offset into a blit destination
-buffer. This will allow to move destination-buffer clipping into the
-format-helper callers.
+Add destination-buffer pitch as argument to drm_fb_swab(). Done for
+consistency with the rest of the interface.
 
 v2:
-	* provide documentation (Sam)
-	* return 'unsigned int' (Sam, Noralf)
+	* update documentation (Noralf)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Tested-by: Noralf Trønnes <noralf@tronnes.org>
+Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
 ---
- drivers/gpu/drm/drm_format_helper.c | 19 +++++++++++++++++--
- include/drm/drm_format_helper.h     |  4 ++++
- 2 files changed, 21 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c | 21 ++++++++++++++++-----
+ drivers/gpu/drm/drm_mipi_dbi.c      |  2 +-
+ drivers/gpu/drm/gud/gud_pipe.c      |  2 +-
+ include/drm/drm_format_helper.h     |  5 +++--
+ 4 files changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 69fde60e36b3..677e62e39f72 100644
+index fac37c697d8b..dac355320287 100644
 --- a/drivers/gpu/drm/drm_format_helper.c
 +++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -17,12 +17,27 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_rect.h>
- 
--static unsigned int clip_offset(struct drm_rect *clip,
--				unsigned int pitch, unsigned int cpp)
-+static unsigned int clip_offset(const struct drm_rect *clip, unsigned int pitch, unsigned int cpp)
- {
- 	return clip->y1 * pitch + clip->x1 * cpp;
- }
- 
-+/**
-+ * drm_fb_clip_offset - Returns the clipping rectangles byte-offset in a frambuffer
-+ * pitch: Frambuffer line pitch in byte
-+ * format: Frambuffer format
-+ * clip: Clip rectangle
-+ *
-+ * Returns:
-+ * The byte offset of the clip rectangle's top-left corner within the framebuffer.
-+ */
-+unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
-+				const struct drm_rect *clip)
-+{
-+	return clip_offset(clip, pitch, format->cpp[0]);
-+}
-+EXPORT_SYMBOL(drm_fb_clip_offset);
-+
+@@ -101,6 +101,7 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
  /**
-  * drm_fb_memcpy - Copy clip buffer
+  * drm_fb_swab - Swap bytes into clip buffer
   * @dst: Destination buffer
++ * @dst_pitch: Number of bytes between two consecutive scanlines within dst
+  * @src: Source buffer
+  * @fb: DRM framebuffer
+  * @clip: Clip rectangle area to copy
+@@ -110,21 +111,27 @@ EXPORT_SYMBOL(drm_fb_memcpy_toio);
+  * time to speed up slow uncached reads.
+  *
+  * This function does not apply clipping on dst, i.e. the destination
+- * is a small buffer containing the clip rect only.
++ * is at the top-left corner.
+  */
+-void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+-		 struct drm_rect *clip, bool cached)
++void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
++		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
++		 bool cached)
+ {
+ 	u8 cpp = fb->format->cpp[0];
+ 	size_t len = drm_rect_width(clip) * cpp;
+-	u16 *src16, *dst16 = dst;
+-	u32 *src32, *dst32 = dst;
++	const u16 *src16;
++	const u32 *src32;
++	u16 *dst16;
++	u32 *dst32;
+ 	unsigned int x, y;
+ 	void *buf = NULL;
+ 
+ 	if (WARN_ON_ONCE(cpp != 2 && cpp != 4))
+ 		return;
+ 
++	if (!dst_pitch)
++		dst_pitch = len;
++
+ 	if (!cached)
+ 		buf = kmalloc(len, GFP_KERNEL);
+ 
+@@ -140,6 +147,9 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+ 			src32 = src;
+ 		}
+ 
++		dst16 = dst;
++		dst32 = dst;
++
+ 		for (x = clip->x1; x < clip->x2; x++) {
+ 			if (cpp == 4)
+ 				*dst32++ = swab32(*src32++);
+@@ -148,6 +158,7 @@ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+ 		}
+ 
+ 		src += fb->pitches[0];
++		dst += dst_pitch;
+ 	}
+ 
+ 	kfree(buf);
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index c09df8b06c7a..7ce89917d761 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -211,7 +211,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+ 	switch (fb->format->format) {
+ 	case DRM_FORMAT_RGB565:
+ 		if (swap)
+-			drm_fb_swab(dst, src, fb, clip, !gem->import_attach);
++			drm_fb_swab(dst, 0, src, fb, clip, !gem->import_attach);
+ 		else
+ 			drm_fb_memcpy(dst, 0, src, fb, clip);
+ 		break;
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index a92112ffd37a..e0b117b2559f 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -201,7 +201,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+ 			len = gud_xrgb8888_to_color(buf, format, vaddr, fb, rect);
+ 		}
+ 	} else if (gud_is_big_endian() && format->cpp[0] > 1) {
+-		drm_fb_swab(buf, vaddr, fb, rect, !import_attach);
++		drm_fb_swab(buf, 0, vaddr, fb, rect, !import_attach);
+ 	} else if (compression && !import_attach && pitch == fb->pitches[0]) {
+ 		/* can compress directly from the framebuffer */
+ 		buf = vaddr + rect->y1 * pitch;
 diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index e86925cf07b9..f5a8b334b18d 100644
+index 1fc3ba7b6060..ddcba5abe306 100644
 --- a/include/drm/drm_format_helper.h
 +++ b/include/drm/drm_format_helper.h
-@@ -6,9 +6,13 @@
- #ifndef __LINUX_DRM_FORMAT_HELPER_H
- #define __LINUX_DRM_FORMAT_HELPER_H
- 
-+struct drm_format_info;
- struct drm_framebuffer;
- struct drm_rect;
- 
-+unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
-+				const struct drm_rect *clip);
-+
- void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
- 		   struct drm_rect *clip);
- void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vaddr,
+@@ -17,8 +17,9 @@ void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
+ 		   const struct drm_framebuffer *fb, const struct drm_rect *clip);
+ void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
+ 			const struct drm_framebuffer *fb, const struct drm_rect *clip);
+-void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+-		 struct drm_rect *clip, bool cached);
++void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
++		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
++		 bool cached);
+ void drm_fb_xrgb8888_to_rgb332(void *dst, void *vaddr, struct drm_framebuffer *fb,
+ 			       struct drm_rect *clip);
+ void drm_fb_xrgb8888_to_rgb565(void *dst, void *vaddr,
 -- 
 2.33.1
 
