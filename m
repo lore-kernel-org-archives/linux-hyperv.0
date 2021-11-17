@@ -2,21 +2,21 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31158C433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Nov 2021 10:00:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E2DC433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Nov 2021 10:02:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0946761AED
-	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Nov 2021 10:00:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86CE961BD2
+	for <linux-hyperv@archiver.kernel.org>; Wed, 17 Nov 2021 10:02:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235918AbhKQKC6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 17 Nov 2021 05:02:58 -0500
-Received: from verein.lst.de ([213.95.11.211]:49815 "EHLO verein.lst.de"
+        id S236023AbhKQKFN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 17 Nov 2021 05:05:13 -0500
+Received: from verein.lst.de ([213.95.11.211]:49841 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235849AbhKQKC5 (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 17 Nov 2021 05:02:57 -0500
+        id S236046AbhKQKEq (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Wed, 17 Nov 2021 05:04:46 -0500
 Received: by verein.lst.de (Postfix, from userid 2407)
-        id 863B668AFE; Wed, 17 Nov 2021 10:59:53 +0100 (CET)
-Date:   Wed, 17 Nov 2021 10:59:53 +0100
+        id C89DA68B05; Wed, 17 Nov 2021 11:01:42 +0100 (CET)
+Date:   Wed, 17 Nov 2021 11:01:42 +0100
 From:   Christoph Hellwig <hch@lst.de>
 To:     Tianyu Lan <ltykernel@gmail.com>
 Cc:     dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
@@ -35,44 +35,18 @@ Cc:     dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
         netdev@vger.kernel.org, vkuznets@redhat.com, brijesh.singh@amd.com,
         konrad.wilk@oracle.com, parri.andrea@gmail.com,
         thomas.lendacky@amd.com, dave.hansen@intel.com
-Subject: Re: [PATCH 1/5] x86/Swiotlb: Add Swiotlb bounce buffer remap
- function for HV IVM
-Message-ID: <20211117095953.GA10330@lst.de>
-References: <20211116153923.196763-1-ltykernel@gmail.com> <20211116153923.196763-2-ltykernel@gmail.com>
+Subject: Re: [PATCH 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+Message-ID: <20211117100142.GB10330@lst.de>
+References: <20211116153923.196763-1-ltykernel@gmail.com> <20211116153923.196763-4-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211116153923.196763-2-ltykernel@gmail.com>
+In-Reply-To: <20211116153923.196763-4-ltykernel@gmail.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The subject is wrong, nothing x86-specific here.  Please use
-"swiotlb: " as the prefix
-
-> + * @vaddr:	The vaddr of the swiotlb memory pool. The swiotlb
-> + *		memory pool may be remapped in the memory encrypted case and store
-
-Please avoid the overly long line.
-
-> +	/*
-> +	 * With swiotlb_unencrypted_base setting, swiotlb bounce buffer will
-> +	 * be remapped in the swiotlb_update_mem_attributes() and return here
-> +	 * directly.
-> +	 */
-
-I'd word this as:
-
-	/*
-	 * If swiotlb_unencrypted_base is set, the bounce buffer memory will
-	 * be remapped and cleared in swiotlb_update_mem_attributes.
-	 */
-> +	ret = swiotlb_init_io_tlb_mem(mem, __pa(tlb), nslabs, false);
-> +	if (ret) {
-> +		memblock_free(mem->slots, alloc_size);
-> +		return ret;
-> +	}
-
-With the latest update swiotlb_init_io_tlb_mem will always return 0,
-so no need for the return value change or error handling here.
+This doesn't really have much to do with normal DMA mapping,
+so why does this direct through the dma ops?
