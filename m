@@ -2,116 +2,105 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0236DC433EF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Nov 2021 20:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BCD6C433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 19 Nov 2021 11:29:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9DB861391
-	for <linux-hyperv@archiver.kernel.org>; Thu, 18 Nov 2021 20:44:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06B4C61AED
+	for <linux-hyperv@archiver.kernel.org>; Fri, 19 Nov 2021 11:29:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233188AbhKRUrX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 18 Nov 2021 15:47:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34004 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232565AbhKRUrX (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 18 Nov 2021 15:47:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 475F96128C;
-        Thu, 18 Nov 2021 20:44:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637268262;
-        bh=sVeugOXOThpr87Zi3LpkKeS4dLNuxTnnYlOPOREQuJ0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=Jb8casGJHw1GPw52ROWvElXI1Y3Ol4NorSB8tY4VFUWAsxhMhJw1eGg8yeeDOl3HL
-         1gEwn+J/Nwj3oOgX2oyUA2qOkyE/QgPMADTRcCzD9yMiYgcjYUYDgq+dL2TdYrZkrO
-         DdUxiQel6roOXC65gdhkzxUJk9jgL+XYK9S7+j+2lkQ1K/Kzq9TxQ0cGLh3BqCmPU8
-         SJQVIITH1U7ML7B0BhEONKb9SbGnIRmDeuojCtWd98bXE7wmEYbfbkzXsfTzGIULyP
-         C+fXuO7dL5eKt7rtZyOn/GSS+MoJ67VMC4nYz5UwIajXf0XXzbE3KqP5TeTFwOTboQ
-         1i0TF1Z0kO7nA==
-Date:   Thu, 18 Nov 2021 14:44:21 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Naveen Naidu <naveennaidu479@gmail.com>
-Cc:     bhelgaas@google.com,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        linux-hyperv@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
-        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
-        Binghui Wang <wangbinghui@hisilicon.com>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Oliver O'Halloran <oohall@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Russell Currey <ruscur@russell.cc>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Toan Le <toan@os.amperecomputing.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Nirmal Patel <nirmal.patel@linux.intel.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
-        linux-samsung-soc@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Joyce Ooi <joyce.ooi@intel.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Jianjun Wang <jianjun.wang@mediatek.com>,
-        linux-rockchip@lists.infradead.org,
-        "maintainer:BROADCOM IPROC ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Jonathan Derrick <jonathan.derrick@linux.dev>,
-        Xiaowei Song <songxiaowei@hisilicon.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Robert Richter <rric@kernel.org>,
-        Sean V Kelley <sean.v.kelley@intel.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        linuxppc-dev@lists.ozlabs.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Lukas Wunner <lukas@wunner.de>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Shawn Guo <shawn.guo@linaro.org>,
-        Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH v4 00/25] Unify PCI error response checking
-Message-ID: <20211118204421.GA1881943@bhelgaas>
+        id S235046AbhKSLc1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 19 Nov 2021 06:32:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22312 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230101AbhKSLc0 (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Fri, 19 Nov 2021 06:32:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1637321364;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=YNsvprf1D4tM6+4YGzakWjPMIUQacpxPSiAIWlnUZcE=;
+        b=cYtWPS9wMiYohwJXMYtGVqMAV/YBj/hhHCEHzXMfVfHjyycnY0LSM5wDx0eBEsxdKMpRgg
+        lz2Rpd/rN3jfvT6LGLuSidPDX7PkPEE4xHDcNIMIjKb6QvDg01thw1U+J2jG8DrL96chdi
+        /a35V/31NPcOkLLM8N3qXJajWgfRvbU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-461-Ne7WM6Y4NKGckXIv6l9jIQ-1; Fri, 19 Nov 2021 06:29:21 -0500
+X-MC-Unique: Ne7WM6Y4NKGckXIv6l9jIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C5C8799E0;
+        Fri, 19 Nov 2021 11:29:20 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.233])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CDB15100EB3D;
+        Fri, 19 Nov 2021 11:29:10 +0000 (UTC)
+From:   Mohammed Gamal <mgamal@redhat.com>
+To:     linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        decui@microsoft.com, drawat.floss@gmail.com
+Cc:     linux-kernel@vger.kernel.org, daniel@ffwll.ch, airlied@linux.ie,
+        Mohammed Gamal <mgamal@redhat.com>
+Subject: [PATCH] drm/hyperv: Fix device removal on Gen1 VMs
+Date:   Fri, 19 Nov 2021 12:29:00 +0100
+Message-Id: <20211119112900.300537-1-mgamal@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Thu, Nov 18, 2021 at 07:33:10PM +0530, Naveen Naidu wrote:
-> An MMIO read from a PCI device that doesn't exist or doesn't respond
-> causes a PCI error.  There's no real data to return to satisfy the 
-> CPU read, so most hardware fabricates ~0 data.
-> 
-> This patch series adds PCI_ERROR_RESPONSE definition and other helper
-> definition PCI_SET_ERROR_RESPONSE and PCI_POSSIBLE_ERROR and uses it
-> where appropriate to make these checks consistent and easier to find.
-> 
-> This helps unify PCI error response checking and make error check
-> consistent and easier to find.
-> 
-> This series also ensures that the error response fabrication now happens
-> in the PCI_OP_READ and PCI_USER_READ_CONFIG. This removes the
-> responsibility from controller drivers to do the error response setting. 
+The Hyper-V DRM driver tries to free MMIO region on removing
+the device regardless of VM type, while Gen1 VMs don't use MMIO
+and hence causing the kernel to crash on a NULL pointer dereference.
 
-Applied to pci/error for v5.17.  Thanks, this is really nice work.
-Somehow small changes like these add up to something much greater than
-one would expect.
+Fix this by making deallocating MMIO only on Gen2 machines and implement
+removal for Gen1
 
-This touches many native controller drivers but in trivial ways, so I
-plan to merge this branch after the usual native controller stuff from
-Lorenzo.
+Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic video device")
 
-I tweaked the commit logs to clarify that this series is all about
-*config* reads, not MMIO reads.  MMIO reads have similar issues, and
-we can use PCI_ERROR_RESPONSE, etc., there, too, but that's not what
-this series does.
+Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
+---
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-Bjorn
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+index cd818a629183..9f923beb7d8d 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
+@@ -225,12 +225,29 @@ static int hyperv_vmbus_remove(struct hv_device *hdev)
+ {
+ 	struct drm_device *dev = hv_get_drvdata(hdev);
+ 	struct hyperv_drm_device *hv = to_hv(dev);
++	struct pci_dev *pdev;
+ 
+ 	drm_dev_unplug(dev);
+ 	drm_atomic_helper_shutdown(dev);
+ 	vmbus_close(hdev->channel);
+ 	hv_set_drvdata(hdev, NULL);
+-	vmbus_free_mmio(hv->mem->start, hv->fb_size);
++
++	/*
++	 * Free allocated MMIO memory only on Gen2 VMs.
++	 * On Gen1 VMs, release the PCI device
++	 */
++	if (efi_enabled(EFI_BOOT)) {
++		vmbus_free_mmio(hv->mem->start, hv->fb_size);
++	} else {
++		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
++				PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
++		if (!pdev) {
++			drm_err(dev, "Unable to find PCI Hyper-V video\n");
++			return -ENODEV;
++		}
++		pci_release_region(pdev, 0);
++		pci_dev_put(pdev);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.33.1
+
