@@ -2,130 +2,89 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E341BC433F5
-	for <linux-hyperv@archiver.kernel.org>; Sat, 20 Nov 2021 00:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2655EC433F5
+	for <linux-hyperv@archiver.kernel.org>; Sun, 21 Nov 2021 21:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235233AbhKTApd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 19 Nov 2021 19:45:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235192AbhKTApd (ORCPT
+        id S231284AbhKUV7u (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 21 Nov 2021 16:59:50 -0500
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:56086 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230418AbhKUV7t (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 19 Nov 2021 19:45:33 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F207C061574;
-        Fri, 19 Nov 2021 16:42:30 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id 28so9957378pgq.8;
-        Fri, 19 Nov 2021 16:42:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=irIwRt0uQVberAOzG4zQ4T92lCT1W8NvllFkKqhTIJQ=;
-        b=KMCWUeJ06/7oIUz63K1fe9YikKKHUVieN8mL/FOYTDTUZ+Zt8FjVr/fpkOAr1UoTRU
-         UMFLwRPY2o+yhhnvEpYWyXqPfqzUZp7V+SBJcAVdkqN1leJFVOHcrrxajV5d0q5JIN3X
-         4s/4tkhJgft/fjgGgiCYM+JDszyfszBQ3zR+q+VGUyyhUohPWHessoCms+bA90JH5/aV
-         eA/4jQojzpypo19mlbh1hPOlmBGq2bCUbfJ0rf+hKTfBofa15g1KAJkY0JftNQGMm6nI
-         1KykALsPF8wUqcMrwS/khbTnqDI0O85D3lkH9/XTJXimEQqSYtU1jeHRsScUj2YfVglS
-         kuHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=irIwRt0uQVberAOzG4zQ4T92lCT1W8NvllFkKqhTIJQ=;
-        b=vigLpkoy5yFpJXGTQpBn3j/R4rpIy4abnpu7nNbpVMVR9TOfWz8r7j1gBtTsqkmvsJ
-         9Pz89guaYvm0gUGABWMmorAmTtuFaCs3Nq+5qMYwp5JIgepXHbD+RhOQ/I29GtAKwA8G
-         T6V/ICC5vChDdpu1kRSlAGwWKKfTL0C3OVoVG3mXhTVbjRxbDegG6hWvXKM2BuDEsxtE
-         S3NjP3jT0bP29D0jkhB03wnIO2wDS0ijeI6dI2ndQ8fLQ70Qx2WEgYvco31rGJAiu944
-         kaTE04UlE8sS2Lj1JGMPr1eZW399bqOXMj025TqqxRcP/+DC9IBKFvblobuk/CtKCfdF
-         QjNA==
-X-Gm-Message-State: AOAM5321kpG3Ln6t44VyUBCN+OdTjb09j9M2Qvq8GQfPkNrId05FDf8x
-        QA4ulgJqPjFTv9vP2101brw=
-X-Google-Smtp-Source: ABdhPJxZVch1sP01OjM9CLatGFjDLx0Dydvw3Yd5BD9eoHy8ihOX/8jnjD4i3XNOY/+LckFx4AQlMQ==
-X-Received: by 2002:a05:6a00:2313:b0:49f:d9ec:7492 with SMTP id h19-20020a056a00231300b0049fd9ec7492mr69466617pfh.25.1637368949833;
-        Fri, 19 Nov 2021 16:42:29 -0800 (PST)
-Received: from ?IPv6:2601:600:9a7f:e1e0::26b0? ([2601:600:9a7f:e1e0::26b0])
-        by smtp.gmail.com with ESMTPSA id c20sm740480pfl.201.2021.11.19.16.42.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Nov 2021 16:42:29 -0800 (PST)
-Message-ID: <ec14aa50bbf1ebcf4e7edd54a3f5ad7409951cbb.camel@gmail.com>
-Subject: Re: [PATCH] drm/hyperv: Fix device removal on Gen1 VMs
-From:   Deepak Rawat <drawat.floss@gmail.com>
-To:     Mohammed Gamal <mgamal@redhat.com>, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, decui@microsoft.com
-Cc:     linux-kernel@vger.kernel.org, daniel@ffwll.ch, airlied@linux.ie
-Date:   Fri, 19 Nov 2021 16:42:28 -0800
-In-Reply-To: <20211119112900.300537-1-mgamal@redhat.com>
-References: <20211119112900.300537-1-mgamal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.1 
+        Sun, 21 Nov 2021 16:59:49 -0500
+Received: from pop-os.home ([86.243.171.122])
+        by smtp.orange.fr with ESMTPA
+        id oupFmUkCKE8xToupFmqrnz; Sun, 21 Nov 2021 22:56:42 +0100
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 21 Nov 2021 22:56:42 +0100
+X-ME-IP: 86.243.171.122
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
+        kuba@kernel.org
+Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] hv_netvsc: Use bitmap_zalloc() when applicable
+Date:   Sun, 21 Nov 2021 22:56:39 +0100
+Message-Id: <534578d2296a1f4bd86c9bd4676e9d6b92eceb59.1637531723.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Thanks for the patch.
+'send_section_map' is a bitmap. So use 'bitmap_zalloc()' to simplify code,
+improve the semantic and avoid some open-coded arithmetic in allocator
+arguments.
 
-Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
+Also change the corresponding 'kfree()' into 'bitmap_free()' to keep
+consistency.
 
-I will push this to drm-fixes, let me know otherwise.
+While at it, change an '== NULL' test into a '!'.
 
-Deepak
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/net/hyperv/netvsc.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-On Fri, 2021-11-19 at 12:29 +0100, Mohammed Gamal wrote:
-> The Hyper-V DRM driver tries to free MMIO region on removing
-> the device regardless of VM type, while Gen1 VMs don't use MMIO
-> and hence causing the kernel to crash on a NULL pointer dereference.
-> 
-> Fix this by making deallocating MMIO only on Gen2 machines and
-> implement
-> removal for Gen1
-> 
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic
-> video device")
-> 
-> Signed-off-by: Mohammed Gamal <mgamal@redhat.com>
-> ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index cd818a629183..9f923beb7d8d 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -225,12 +225,29 @@ static int hyperv_vmbus_remove(struct hv_device
-> *hdev)
->  {
->         struct drm_device *dev = hv_get_drvdata(hdev);
->         struct hyperv_drm_device *hv = to_hv(dev);
-> +       struct pci_dev *pdev;
->  
->         drm_dev_unplug(dev);
->         drm_atomic_helper_shutdown(dev);
->         vmbus_close(hdev->channel);
->         hv_set_drvdata(hdev, NULL);
-> -       vmbus_free_mmio(hv->mem->start, hv->fb_size);
-> +
-> +       /*
-> +        * Free allocated MMIO memory only on Gen2 VMs.
-> +        * On Gen1 VMs, release the PCI device
-> +        */
-> +       if (efi_enabled(EFI_BOOT)) {
-> +               vmbus_free_mmio(hv->mem->start, hv->fb_size);
-> +       } else {
-> +               pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
-> +                               PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> +               if (!pdev) {
-> +                       drm_err(dev, "Unable to find PCI Hyper-V
-> video\n");
-> +                       return -ENODEV;
-> +               }
-> +               pci_release_region(pdev, 0);
-> +               pci_dev_put(pdev);
-> +       }
->  
->         return 0;
->  }
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 396bc1c204e6..5086cd07d1ed 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -155,7 +155,7 @@ static void free_netvsc_device(struct rcu_head *head)
+ 	kfree(nvdev->extension);
+ 	vfree(nvdev->recv_buf);
+ 	vfree(nvdev->send_buf);
+-	kfree(nvdev->send_section_map);
++	bitmap_free(nvdev->send_section_map);
+ 
+ 	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
+ 		xdp_rxq_info_unreg(&nvdev->chan_table[i].xdp_rxq);
+@@ -336,7 +336,6 @@ static int netvsc_init_buf(struct hv_device *device,
+ 	struct net_device *ndev = hv_get_drvdata(device);
+ 	struct nvsp_message *init_packet;
+ 	unsigned int buf_size;
+-	size_t map_words;
+ 	int i, ret = 0;
+ 
+ 	/* Get receive buffer area. */
+@@ -528,10 +527,9 @@ static int netvsc_init_buf(struct hv_device *device,
+ 		   net_device->send_section_size, net_device->send_section_cnt);
+ 
+ 	/* Setup state for managing the send buffer. */
+-	map_words = DIV_ROUND_UP(net_device->send_section_cnt, BITS_PER_LONG);
+-
+-	net_device->send_section_map = kcalloc(map_words, sizeof(ulong), GFP_KERNEL);
+-	if (net_device->send_section_map == NULL) {
++	net_device->send_section_map = bitmap_zalloc(net_device->send_section_cnt,
++						     GFP_KERNEL);
++	if (!net_device->send_section_map) {
+ 		ret = -ENOMEM;
+ 		goto cleanup;
+ 	}
+-- 
+2.30.2
 
