@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7123CC433FE
-	for <linux-hyperv@archiver.kernel.org>; Sat, 27 Nov 2021 01:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3D80C3525A
+	for <linux-hyperv@archiver.kernel.org>; Sat, 27 Nov 2021 01:22:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347759AbhK0B0C (ORCPT
+        id S1347895AbhK0B0I (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 26 Nov 2021 20:26:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
+        Fri, 26 Nov 2021 20:26:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345137AbhK0BX7 (ORCPT
+        with ESMTP id S1345435AbhK0BYH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 26 Nov 2021 20:23:59 -0500
+        Fri, 26 Nov 2021 20:24:07 -0500
 Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4C0C061763;
-        Fri, 26 Nov 2021 17:19:08 -0800 (PST)
-Message-ID: <20211126223825.264524206@linutronix.de>
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E400EC0613F6;
+        Fri, 26 Nov 2021 17:19:28 -0800 (PST)
+Message-ID: <20211126223824.322987915@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1637975946;
+        s=2020; t=1637975967;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         references:references; bh=N3CFGfVjsY7LgA1Yw7Ey6P6ZQR/J2nTOxZlFyVj+tfU=;
-        b=Fv0in+37WjQu8qaGw1d+sJDwVg72jTWmW4A0ir4m/M4Ok5n1Maj2zCuqkFlqoDcwKtFhN9
-        usAjQogUj8AjRYgg4XnitKY5rxgW2TkyutAVrKlGFCgr/QOORGiNR/7ULx+gebHewQ2s/A
-        /cIqE2xCgTcvSdjMl/o8jTzKo/rp+T2wCqIQmwW2CBFlppFIU1Ogv1xMa/PU+QvLJWk4QA
-        8ApzSw5z7JxXdKYOPEwzVrt2L/3gLDfjQsxsE0x31MpU5s4q2t0v8iWXAumITmxLRYrtTJ
-        iU+boulqpaCbZh/WpK684wQ0UEls6YBAyu7dgFYcD4eyOfwcT+9k0SAxWnS9Bw==
+         references:references; bh=AwO21SR5HwD8yhhWfgGPPa41s/dLuMAByqtyG5X5FJI=;
+        b=a0ZgqAHm77/GoyZRX88BCacRbvb4M6WP36nYKI7gIcYYAKt3D9nyCPRPeG87pRtO8eo1mx
+        puA7H603KGaOG4JQAsGiG7EdKjI6mwrMOJWOZLc8fV3kTCSnAOb0vR2ovfpPyPv8k6Ofef
+        MVKcT2ksaDYJHAD86iT0ZYdHE759EuvI/4E1+q+f9uqjvJ7TMebnhRia2W8E4C3X5S+Lfh
+        XBzD/IzDC1STXdWAUj8w+xp1ZA8g0F0qEGTSEA90gvt6VES8n0rrYTNctomxUY1s4mOj8c
+        ZCHHM8qX3RwLSn0y8IkHydQ89SBOZNGoWe5dt67n3ReBbUDg79RJqUnbR9NPUg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1637975946;
+        s=2020e; t=1637975967;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         references:references; bh=N3CFGfVjsY7LgA1Yw7Ey6P6ZQR/J2nTOxZlFyVj+tfU=;
-        b=LToY0nY68kcZvyJBO8o4NrjRDqhd7lfHJRva1kjIMCQSN9rrfWrqKa7vfx0y47lZyVAi7T
-        hHRAYB/im3bzNaAA==
+         references:references; bh=AwO21SR5HwD8yhhWfgGPPa41s/dLuMAByqtyG5X5FJI=;
+        b=HqZAKurVXyG8LQD7fjFChyTlTaw4FgkiDsL9W5YdV8HfGuPbwUxwUBvoS7mZEC0e8sOaKi
+        D1lr9yb3Cez1UvBw==
 From:   Thomas Gleixner <tglx@linutronix.de>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     Bjorn Helgaas <helgaas@kernel.org>, Marc Zygnier <maz@kernel.org>,
@@ -55,47 +55,78 @@ Cc:     Bjorn Helgaas <helgaas@kernel.org>, Marc Zygnier <maz@kernel.org>,
         Juergen Gross <jgross@suse.com>,
         Christian Borntraeger <borntraeger@de.ibm.com>,
         Heiko Carstens <hca@linux.ibm.com>
-Subject: [patch 20/22] PCI/MSI: Make pci_msi_domain_check_cap() static
+Subject: [patch 04/22] genirq/msi: Remove unused domain callbacks
 References: <20211126222700.862407977@linutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date:   Sat, 27 Nov 2021 02:19:05 +0100 (CET)
+Date:   Sat, 27 Nov 2021 02:19:26 +0100 (CET)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
-Message-ID: <20211127011905.GsWQFZpvbQRC09Jvb9pnyASXAj7B_AQIHd11B5H3qLU@z>
+Message-ID: <20211127011926.Lxav1P1u8EH64U2pFCHVWMqEGXvb3TWVwScmjwatQPY@z>
 
-No users outside of that file.
+No users and there is no need to grow them.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- drivers/pci/msi/irqdomain.c |    5 +++--
- include/linux/msi.h         |    2 --
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ include/linux/msi.h |   11 ++++-------
+ kernel/irq/msi.c    |    5 -----
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
---- a/drivers/pci/msi/irqdomain.c
-+++ b/drivers/pci/msi/irqdomain.c
-@@ -79,8 +79,9 @@ static inline bool pci_msi_desc_is_multi
-  *  1 if Multi MSI is requested, but the domain does not support it
-  *  -ENOTSUPP otherwise
-  */
--int pci_msi_domain_check_cap(struct irq_domain *domain,
--			     struct msi_domain_info *info, struct device *dev)
-+static int pci_msi_domain_check_cap(struct irq_domain *domain,
-+				    struct msi_domain_info *info,
-+				    struct device *dev)
- {
- 	struct msi_desc *desc = first_pci_msi_entry(to_pci_dev(dev));
- 
 --- a/include/linux/msi.h
 +++ b/include/linux/msi.h
-@@ -438,8 +438,6 @@ void *platform_msi_get_host_data(struct
- struct irq_domain *pci_msi_create_irq_domain(struct fwnode_handle *fwnode,
- 					     struct msi_domain_info *info,
- 					     struct irq_domain *parent);
--int pci_msi_domain_check_cap(struct irq_domain *domain,
--			     struct msi_domain_info *info, struct device *dev);
- u32 pci_msi_domain_get_msi_rid(struct irq_domain *domain, struct pci_dev *pdev);
- struct irq_domain *pci_msi_get_device_domain(struct pci_dev *pdev);
- bool pci_dev_has_special_msi_domain(struct pci_dev *pdev);
+@@ -304,7 +304,6 @@ struct msi_domain_info;
+  * @msi_free:		Domain specific function to free a MSI interrupts
+  * @msi_check:		Callback for verification of the domain/info/dev data
+  * @msi_prepare:	Prepare the allocation of the interrupts in the domain
+- * @msi_finish:		Optional callback to finalize the allocation
+  * @set_desc:		Set the msi descriptor for an interrupt
+  * @handle_error:	Optional error handler if the allocation fails
+  * @domain_alloc_irqs:	Optional function to override the default allocation
+@@ -312,12 +311,11 @@ struct msi_domain_info;
+  * @domain_free_irqs:	Optional function to override the default free
+  *			function.
+  *
+- * @get_hwirq, @msi_init and @msi_free are callbacks used by
+- * msi_create_irq_domain() and related interfaces
++ * @get_hwirq, @msi_init and @msi_free are callbacks used by the underlying
++ * irqdomain.
+  *
+- * @msi_check, @msi_prepare, @msi_finish, @set_desc and @handle_error
+- * are callbacks used by msi_domain_alloc_irqs() and related
+- * interfaces which are based on msi_desc.
++ * @msi_check, @msi_prepare, @handle_error and @set_desc are callbacks used by
++ * msi_domain_alloc/free_irqs().
+  *
+  * @domain_alloc_irqs, @domain_free_irqs can be used to override the
+  * default allocation/free functions (__msi_domain_alloc/free_irqs). This
+@@ -351,7 +349,6 @@ struct msi_domain_ops {
+ 	int		(*msi_prepare)(struct irq_domain *domain,
+ 				       struct device *dev, int nvec,
+ 				       msi_alloc_info_t *arg);
+-	void		(*msi_finish)(msi_alloc_info_t *arg, int retval);
+ 	void		(*set_desc)(msi_alloc_info_t *arg,
+ 				    struct msi_desc *desc);
+ 	int		(*handle_error)(struct irq_domain *domain,
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -562,8 +562,6 @@ int __msi_domain_alloc_irqs(struct irq_d
+ 			ret = -ENOSPC;
+ 			if (ops->handle_error)
+ 				ret = ops->handle_error(domain, desc, ret);
+-			if (ops->msi_finish)
+-				ops->msi_finish(&arg, ret);
+ 			return ret;
+ 		}
+ 
+@@ -573,9 +571,6 @@ int __msi_domain_alloc_irqs(struct irq_d
+ 		}
+ 	}
+ 
+-	if (ops->msi_finish)
+-		ops->msi_finish(&arg, 0);
+-
+ 	can_reserve = msi_check_reservation_mode(domain, info, dev);
+ 
+ 	/*
 
