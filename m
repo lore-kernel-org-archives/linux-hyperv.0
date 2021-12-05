@@ -2,58 +2,45 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8ECC4321E
-	for <linux-hyperv@archiver.kernel.org>; Sun,  5 Dec 2021 08:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66E0C433F5
+	for <linux-hyperv@archiver.kernel.org>; Sun,  5 Dec 2021 08:34:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232364AbhLEIVz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 5 Dec 2021 03:21:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232279AbhLEIVu (ORCPT
+        id S230054AbhLEIiG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 5 Dec 2021 03:38:06 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29]:55292 "EHLO
+        smtp-out2.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229543AbhLEIiG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 5 Dec 2021 03:21:50 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A452C061354;
-        Sun,  5 Dec 2021 00:18:24 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id x7so5502343pjn.0;
-        Sun, 05 Dec 2021 00:18:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=brPB+isubduGZ0dFkchshqyMjV+4uHMaO2+7Xc0wGRk=;
-        b=d+pRTiyTvRH5TOIdeq8tkDweJDBPZRanHXQhj0YflzD4Il2KCdLON3cC58pHDs8qX9
-         OGEp/At7kf/f/+6HkyyKsAqzvAGnInBSq0i+DqkcYw3qOwJNcz5v/DdzlqrsWBz4dp3r
-         ZrUePPnfHGvvxMJ8axGmVh/ZjNrM6QEcFVD5j49e0lYjjHlQN9RN9/AqEVHhOVaGGenW
-         gtzqWAeiHKj1f/U/EfydqsGjRVi6DCB3x4MgQhKfD33v6xwaiSXh2e2GWM2D2iVnFMLP
-         yQbMKY3jgpbGK4JwlKTX8SQfCFNQpLUcN96i5b7r6lFGqNBYGmwfN8dQSHd9Ipcb2/Mo
-         U55A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=brPB+isubduGZ0dFkchshqyMjV+4uHMaO2+7Xc0wGRk=;
-        b=Qj4oKHXB1vHgnC12JNfthvgRQO1aUNdEwqByQZlwxBVJVbHFRiMI4aucmd79WZTPDY
-         y/vh1gsCjEuQDPqAcb16oQ1yQkz/j2XJPLIUabUiuC3MIqncfrOMgea1OVcum+XvPFrg
-         ZSzRNfrJrBdJ/5VTLnNhrLMt24xAzGKfiuyazxbblIqHruNs9x0BV5wB9qMNupX/TaL+
-         n5AG03+Ydf72SPMa5S9h5ikU2zE6ubAhvDDsoc5m3bitqjO0FcYLSuAmLOVJvvjvfQMl
-         fGJBm+EI3hbvgsws+swK5oKOh/3KImA53nccKIVf2R3SQjSpeo8KUkBwk6ysPQqvPhiR
-         ORWQ==
-X-Gm-Message-State: AOAM531+sbo9+by6eDtYhXpZermNjeJqGJRpGfcAhHMY0lSULViq1Atw
-        q/Yq2fVBd6W3eGTMQN9dd+Q=
-X-Google-Smtp-Source: ABdhPJzWds7gw4/7Hsf56r+CojhqWW7GcWTPaWgp5Pi8SFfxCERK/Yp6qhd5zk9W3uMOhKEfc1n27g==
-X-Received: by 2002:a17:90a:c287:: with SMTP id f7mr28508697pjt.114.1638692303692;
-        Sun, 05 Dec 2021 00:18:23 -0800 (PST)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:7:87aa:e334:f070:ebca])
-        by smtp.gmail.com with ESMTPSA id s8sm6439905pgl.77.2021.12.05.00.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Dec 2021 00:18:23 -0800 (PST)
-From:   Tianyu Lan <ltykernel@gmail.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, jgross@suse.com,
-        sstabellini@kernel.org, boris.ostrovsky@oracle.com,
+        Sun, 5 Dec 2021 03:38:06 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5930C1FDF1;
+        Sun,  5 Dec 2021 08:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1638693277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KEMzzd75tVTlzS/yF7YeuRBeMsa+nqRCS/y7F4rsJUM=;
+        b=ZLDXNQcz0VwuP3iA6JpzBV1gBxlRehA5Wyhl2CSlKPFR1mCFjFd2xh0TRBhxdrPWFDPK+r
+        jIrLD+0SrXq7gF3b/YUziPl9vPuZJBqYF+yBkXnXPZvfp00fCHkbcRiZON0I2rw6ozmQK0
+        +Xswh5pD67z5fMmvDGEM3E0Z6vs+wj0=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 20BC2139DB;
+        Sun,  5 Dec 2021 08:34:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id uegnBpt5rGE3MgAAMHmgww
+        (envelope-from <jgross@suse.com>); Sun, 05 Dec 2021 08:34:35 +0000
+To:     Tianyu Lan <ltykernel@gmail.com>, kys@microsoft.com,
+        haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, sstabellini@kernel.org, boris.ostrovsky@oracle.com,
         joro@8bytes.org, will@kernel.org, davem@davemloft.net,
         kuba@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
         arnd@arndb.de, hch@infradead.org, m.szyprowski@samsung.com,
@@ -65,157 +52,201 @@ Cc:     iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
         linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
         vkuznets@redhat.com, brijesh.singh@amd.com, konrad.wilk@oracle.com,
         hch@lst.de, parri.andrea@gmail.com, dave.hansen@intel.com
-Subject: [PATCH V4 4/5] scsi: storvsc: Add Isolation VM support for storvsc driver
-Date:   Sun,  5 Dec 2021 03:18:12 -0500
-Message-Id: <20211205081815.129276-5-ltykernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211205081815.129276-1-ltykernel@gmail.com>
 References: <20211205081815.129276-1-ltykernel@gmail.com>
+ <20211205081815.129276-4-ltykernel@gmail.com>
+From:   Juergen Gross <jgross@suse.com>
+Subject: Re: [PATCH V4 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+Message-ID: <a5943893-510a-3fc8-cbb7-8742369bf36b@suse.com>
+Date:   Sun, 5 Dec 2021 09:34:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211205081815.129276-4-ltykernel@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ugcej3gKaigLQ3omKQ5Ra0cQpqisQwDQs"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ugcej3gKaigLQ3omKQ5Ra0cQpqisQwDQs
+Content-Type: multipart/mixed; boundary="y3W2WyKJKK59IlhYplQoWEexoVy2cBgl7";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Tianyu Lan <ltykernel@gmail.com>, kys@microsoft.com,
+ haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ sstabellini@kernel.org, boris.ostrovsky@oracle.com, joro@8bytes.org,
+ will@kernel.org, davem@davemloft.net, kuba@kernel.org, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, arnd@arndb.de, hch@infradead.org,
+ m.szyprowski@samsung.com, robin.murphy@arm.com, thomas.lendacky@amd.com,
+ Tianyu.Lan@microsoft.com, xen-devel@lists.xenproject.org,
+ michael.h.kelley@microsoft.com
+Cc: iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, netdev@vger.kernel.org, vkuznets@redhat.com,
+ brijesh.singh@amd.com, konrad.wilk@oracle.com, hch@lst.de,
+ parri.andrea@gmail.com, dave.hansen@intel.com
+Message-ID: <a5943893-510a-3fc8-cbb7-8742369bf36b@suse.com>
+Subject: Re: [PATCH V4 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
+ Isolation VM
+References: <20211205081815.129276-1-ltykernel@gmail.com>
+ <20211205081815.129276-4-ltykernel@gmail.com>
+In-Reply-To: <20211205081815.129276-4-ltykernel@gmail.com>
 
-In Isolation VM, all shared memory with host needs to mark visible
-to host via hvcall. vmbus_establish_gpadl() has already done it for
-storvsc rx/tx ring buffer. The page buffer used by vmbus_sendpacket_
-mpb_desc() still needs to be handled. Use DMA API(scsi_dma_map/unmap)
-to map these memory during sending/receiving packet and return swiotlb
-bounce buffer dma address. In Isolation VM, swiotlb  bounce buffer is
-marked to be visible to host and the swiotlb force mode is enabled.
+--y3W2WyKJKK59IlhYplQoWEexoVy2cBgl7
+Content-Type: multipart/mixed;
+ boundary="------------701B30531DDB67673841A1BC"
+Content-Language: en-US
 
-Set device's dma min align mask to HV_HYP_PAGE_SIZE - 1 in order to
-keep the original data offset in the bounce buffer.
+This is a multi-part message in MIME format.
+--------------701B30531DDB67673841A1BC
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- drivers/hv/vmbus_drv.c     |  1 +
- drivers/scsi/storvsc_drv.c | 37 +++++++++++++++++++++----------------
- include/linux/hyperv.h     |  1 +
- 3 files changed, 23 insertions(+), 16 deletions(-)
+On 05.12.21 09:18, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+>=20
+> hyperv Isolation VM requires bounce buffer support to copy
+> data from/to encrypted memory and so enable swiotlb force
+> mode to use swiotlb bounce buffer for DMA transaction.
+>=20
+> In Isolation VM with AMD SEV, the bounce buffer needs to be
+> accessed via extra address space which is above shared_gpa_boundary
+> (E.G 39 bit address line) reported by Hyper-V CPUID ISOLATION_CONFIG.
+> The access physical address will be original physical address +
+> shared_gpa_boundary. The shared_gpa_boundary in the AMD SEV SNP
+> spec is called virtual top of memory(vTOM). Memory addresses below
+> vTOM are automatically treated as private while memory above
+> vTOM is treated as shared.
+>=20
+> Hyper-V initalizes swiotlb bounce buffer and default swiotlb
+> needs to be disabled. pci_swiotlb_detect_override() and
+> pci_swiotlb_detect_4gb() enable the default one. To override
+> the setting, hyperv_swiotlb_detect() needs to run before
+> these detect functions which depends on the pci_xen_swiotlb_
+> init(). Make pci_xen_swiotlb_init() depends on the hyperv_swiotlb
+> _detect() to keep the order.
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 0a64ccfafb8b..ae6ec503399a 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -2121,6 +2121,7 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 	hv_debug_add_dev_dir(child_device_obj);
- 
- 	child_device_obj->device.dma_mask = &vmbus_dma_mask;
-+	child_device_obj->device.dma_parms = &child_device_obj->dma_parms;
- 	return 0;
- 
- err_kset_unregister:
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 20595c0ba0ae..ae293600d799 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -21,6 +21,8 @@
- #include <linux/device.h>
- #include <linux/hyperv.h>
- #include <linux/blkdev.h>
-+#include <linux/dma-mapping.h>
-+
- #include <scsi/scsi.h>
- #include <scsi/scsi_cmnd.h>
- #include <scsi/scsi_host.h>
-@@ -1336,6 +1338,7 @@ static void storvsc_on_channel_callback(void *context)
- 					continue;
- 				}
- 				request = (struct storvsc_cmd_request *)scsi_cmd_priv(scmnd);
-+				scsi_dma_unmap(scmnd);
- 			}
- 
- 			storvsc_on_receive(stor_device, packet, request);
-@@ -1749,7 +1752,6 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 	struct hv_host_device *host_dev = shost_priv(host);
- 	struct hv_device *dev = host_dev->dev;
- 	struct storvsc_cmd_request *cmd_request = scsi_cmd_priv(scmnd);
--	int i;
- 	struct scatterlist *sgl;
- 	unsigned int sg_count;
- 	struct vmscsi_request *vm_srb;
-@@ -1831,10 +1833,11 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 	payload_sz = sizeof(cmd_request->mpb);
- 
- 	if (sg_count) {
--		unsigned int hvpgoff, hvpfns_to_add;
- 		unsigned long offset_in_hvpg = offset_in_hvpage(sgl->offset);
- 		unsigned int hvpg_count = HVPFN_UP(offset_in_hvpg + length);
--		u64 hvpfn;
-+		struct scatterlist *sg;
-+		unsigned long hvpfn, hvpfns_to_add;
-+		int j, i = 0;
- 
- 		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
- 
-@@ -1848,21 +1851,22 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 		payload->range.len = length;
- 		payload->range.offset = offset_in_hvpg;
- 
-+		sg_count = scsi_dma_map(scmnd);
-+		if (sg_count < 0)
-+			return SCSI_MLQUEUE_DEVICE_BUSY;
- 
--		for (i = 0; sgl != NULL; sgl = sg_next(sgl)) {
-+		for_each_sg(sgl, sg, sg_count, j) {
- 			/*
--			 * Init values for the current sgl entry. hvpgoff
--			 * and hvpfns_to_add are in units of Hyper-V size
--			 * pages. Handling the PAGE_SIZE != HV_HYP_PAGE_SIZE
--			 * case also handles values of sgl->offset that are
--			 * larger than PAGE_SIZE. Such offsets are handled
--			 * even on other than the first sgl entry, provided
--			 * they are a multiple of PAGE_SIZE.
-+			 * Init values for the current sgl entry. hvpfns_to_add
-+			 * is in units of Hyper-V size pages. Handling the
-+			 * PAGE_SIZE != HV_HYP_PAGE_SIZE case also handles
-+			 * values of sgl->offset that are larger than PAGE_SIZE.
-+			 * Such offsets are handled even on other than the first
-+			 * sgl entry, provided they are a multiple of PAGE_SIZE.
- 			 */
--			hvpgoff = HVPFN_DOWN(sgl->offset);
--			hvpfn = page_to_hvpfn(sg_page(sgl)) + hvpgoff;
--			hvpfns_to_add =	HVPFN_UP(sgl->offset + sgl->length) -
--						hvpgoff;
-+			hvpfn = HVPFN_DOWN(sg_dma_address(sg));
-+			hvpfns_to_add = HVPFN_UP(sg_dma_address(sg) +
-+						 sg_dma_len(sg)) - hvpfn;
- 
- 			/*
- 			 * Fill the next portion of the PFN array with
-@@ -1872,7 +1876,7 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 			 * the PFN array is filled.
- 			 */
- 			while (hvpfns_to_add--)
--				payload->range.pfn_array[i++] =	hvpfn++;
-+				payload->range.pfn_array[i++] = hvpfn++;
- 		}
- 	}
- 
-@@ -2016,6 +2020,7 @@ static int storvsc_probe(struct hv_device *device,
- 	stor_device->vmscsi_size_delta = sizeof(struct vmscsi_win8_extension);
- 	spin_lock_init(&stor_device->lock);
- 	hv_set_drvdata(device, stor_device);
-+	dma_set_min_align_mask(&device->device, HV_HYP_PAGE_SIZE - 1);
- 
- 	stor_device->port_number = host->host_no;
- 	ret = storvsc_connect_to_vsp(device, storvsc_ringbuffer_size, is_fc);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1f037e114dc8..74f5e92f91a0 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1261,6 +1261,7 @@ struct hv_device {
- 
- 	struct vmbus_channel *channel;
- 	struct kset	     *channels_kset;
-+	struct device_dma_parameters dma_parms;
- 
- 	/* place holder to keep track of the dir for hv device in debugfs */
- 	struct dentry *debug_dir;
--- 
-2.25.1
+Why? Does Hyper-V plan to support Xen PV guests? If not, I don't see
+the need for adding this change.
 
+
+Juergen
+
+--------------701B30531DDB67673841A1BC
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: OpenPGP public key
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------701B30531DDB67673841A1BC--
+
+--y3W2WyKJKK59IlhYplQoWEexoVy2cBgl7--
+
+--ugcej3gKaigLQ3omKQ5Ra0cQpqisQwDQs
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmGseZoFAwAAAAAACgkQsN6d1ii/Ey/H
+vwf/bVcz0h71VPNyyHBiTM8U3L7spNMl6dKPxsu7MuBqatDouQsTGFEgVSpMK/UQkfzHwBmHRQJd
++0LM3/Ya8/G2v5VFKzS15AtUOgzzm73xoO8knoPHpkidw4ZKF5WFzn4UuYrGqluWauMlXb3sZuo1
+0uMhZlqxfUG5RbOb38dR+Lv0aCsadCC23K0zT29bcDjgkqg8Y/U4BZddMujvXozlfh2rIwTdpXUZ
+/iPXhL+SBnPI/xmmHRWI41yY/7/F3ClHmdV4d6dmxpneaI9jr56IWkSKzxSaIvhPpdsqr0ikywSI
+fxV566qv5mppOytgoA3tf5wQhplYQ6bga7F/7+VXrw==
+=3cnJ
+-----END PGP SIGNATURE-----
+
+--ugcej3gKaigLQ3omKQ5Ra0cQpqisQwDQs--
