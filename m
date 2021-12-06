@@ -2,136 +2,141 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C6B7C433F5
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Dec 2021 14:19:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E17DC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Dec 2021 22:27:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343901AbhLFOXC (ORCPT
+        id S1343698AbhLFWaz (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Dec 2021 09:23:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42646 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343892AbhLFOXB (ORCPT
+        Mon, 6 Dec 2021 17:30:55 -0500
+Received: from Galois.linutronix.de ([193.142.43.55]:45322 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242901AbhLFWay (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Dec 2021 09:23:01 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FE7C061354;
-        Mon,  6 Dec 2021 06:19:33 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id np3so7866857pjb.4;
-        Mon, 06 Dec 2021 06:19:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7+TjBg26qYjN6N7+9VcAF9zyslm2ABiWax4bLutA+tA=;
-        b=f9M5JLJRG6hZFPCcZ1VGBj6dk4h92i9GiiVgKsNNUQFiDTSIXmaER9IaQWziUfrQ/0
-         qa3GNaf/njTkL1uJ81a318oppGqxeZ4BbcT9GGYMjs1cw8PHMlBEDdFp5Gu7W2ZYhqeP
-         DQ0dE5SsoRhc/sIPqjG5IRHWnrHc+0w5hEjT3ppnETiBZyKvJyuh5hygqrwyVBhoEnmJ
-         IwRmbyJ5sNomLrxjpRo1y9wtWt2MJXEM2X247X8t1UvJ2rV20IbyXdb2S1lE9i34MGPO
-         C7yQKcwPzpoDJz5kk+NMg8L4gzvSsI27nnr11s1xyG3B7cafIHH1YyJFJ5x78gBD3amG
-         bCXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7+TjBg26qYjN6N7+9VcAF9zyslm2ABiWax4bLutA+tA=;
-        b=UvlXzEXsd3R7DYnp24g12FIxKHRqf3uACVzaNWIxuF/Rm1HM9VYnvDYSkum0zbjTfH
-         bvfDK9J+RbDP3fccdPb4DqZU0m+H4ee2CG+RYQw9SZqQuebuv71BPRnb+dnCvamYg0t3
-         kSHWnxIpfIqGCDbCOWK0rrGFNXqz8Sq0tzZ9l4bSNuIz+YzbJ+MvYtXR5u97dCj5oAV4
-         wxSDrNGtgSBnAqDxetZjh732Qnnae5H6/RHYZGH7oWcHiocovqvmfsLXdAaI6/hQhQtg
-         HEs8tFOATeg7vTzEb+W9AFQaEBhZKjQtX+/xd7mbV/7RdnUojGn65JCEbO+MuJy3/Iqp
-         4rJA==
-X-Gm-Message-State: AOAM533wUm/y5Fvsmg7Hn4FuUXY9kAUcngliIFhkx08PzWCqic65Y5bb
-        ZkWdTPzgZOKDyg7I5VW0IWg=
-X-Google-Smtp-Source: ABdhPJw5eBcqMnlmCu3VP7SDK7JlPHBF3sS/6sU5CfZhorAn8F+Tm/Z37W+b1RJF7S8Gmv/jOQFzmw==
-X-Received: by 2002:a17:90b:4b51:: with SMTP id mi17mr37838716pjb.48.1638800372941;
-        Mon, 06 Dec 2021 06:19:32 -0800 (PST)
-Received: from ?IPV6:2404:f801:0:5:8000::50b? ([2404:f801:9000:1a:efea::50b])
-        by smtp.gmail.com with ESMTPSA id h1sm3517800pfh.219.2021.12.06.06.19.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Dec 2021 06:19:32 -0800 (PST)
-Message-ID: <581569ce-b166-1cad-2624-66de319cc2b9@gmail.com>
-Date:   Mon, 6 Dec 2021 22:19:21 +0800
+        Mon, 6 Dec 2021 17:30:54 -0500
+Message-ID: <20211206210147.872865823@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1638829644;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TvVbtaLszVomfbTSaDkZ3Si83Q0PTUXmzyd/sxp3aOQ=;
+        b=2PszHZiuiUTEj+gbLOwH5J07JyOXMbPmbCF5/f0ECB+TDx6fg7HRqd/7nSafRiLEh/tB2J
+        I89obIOz4EfihV8wPu6DVbEqAjw/vu0lG3MVaBJQOCX84dIVCgJcpP/4YaTYj0DWyUOU+p
+        QY7yu7nySNOGDJllJoRD8mO5pRKX6dZ+TpEE7VtehF+zj9YNKxWJrbFRJPs4IpnpV7iPLb
+        eXidnoRUF/iI20Q4u50DI+RHcaKyBY/xpS4sXM1RqwV+zb/rkRAS11jus+lRlFQbQ+/IC4
+        zfPKJkcA3/LscOUNOfG7uESwv6dj4mHkFlfcsQphYvz9RbwoDVZGHnz96iSF7w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1638829644;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TvVbtaLszVomfbTSaDkZ3Si83Q0PTUXmzyd/sxp3aOQ=;
+        b=dTYY6yq8X+q85zEA0MFqc5lmEol5cxwjMuFVu15JeS/3f+qTFpB+7//Ug3/O6D2uzzNFJo
+        H/Ml5sGXok1eYqCQ==
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>, Marc Zygnier <maz@kernel.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Megha Dey <megha.dey@intel.com>,
+        Ashok Raj <ashok.raj@intel.com>, linux-pci@vger.kernel.org,
+        Cedric Le Goater <clg@kaod.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        linuxppc-dev@lists.ozlabs.org, Juergen Gross <jgross@suse.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org, Kalle Valo <kvalo@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        sparclinux@vger.kernel.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org, ath11k@lists.infradead.org,
+        Wei Liu <wei.liu@kernel.org>, linux-hyperv@vger.kernel.org,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>
+Subject: [patch V2 00/23] genirq/msi, PCI/MSI: Spring cleaning - Part 1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH V4 3/5] hyperv/IOMMU: Enable swiotlb bounce buffer for
- Isolation VM
-Content-Language: en-US
-To:     Juergen Gross <jgross@suse.com>, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, sstabellini@kernel.org, boris.ostrovsky@oracle.com,
-        joro@8bytes.org, will@kernel.org, davem@davemloft.net,
-        kuba@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        arnd@arndb.de, hch@infradead.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, thomas.lendacky@amd.com,
-        Tianyu.Lan@microsoft.com, xen-devel@lists.xenproject.org,
-        michael.h.kelley@microsoft.com
-Cc:     iommu@lists.linux-foundation.org, linux-arch@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-scsi@vger.kernel.org, netdev@vger.kernel.org,
-        vkuznets@redhat.com, brijesh.singh@amd.com, konrad.wilk@oracle.com,
-        hch@lst.de, parri.andrea@gmail.com, dave.hansen@intel.com
-References: <20211205081815.129276-1-ltykernel@gmail.com>
- <20211205081815.129276-4-ltykernel@gmail.com>
- <a5943893-510a-3fc8-cbb7-8742369bf36b@suse.com>
- <125ffb7d-958c-e77a-243b-4cf38f690396@gmail.com>
- <ed9aa3d5-9ac8-2195-e617-85599ffd7864@suse.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <ed9aa3d5-9ac8-2195-e617-85599ffd7864@suse.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Date:   Mon,  6 Dec 2021 23:27:23 +0100 (CET)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-
-
-On 12/5/2021 6:31 PM, Juergen Gross wrote:
-> On 05.12.21 09:48, Tianyu Lan wrote:
->>
->>
->> On 12/5/2021 4:34 PM, Juergen Gross wrote:
->>> On 05.12.21 09:18, Tianyu Lan wrote:
->>>> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
->>>>
->>>> hyperv Isolation VM requires bounce buffer support to copy
->>>> data from/to encrypted memory and so enable swiotlb force
->>>> mode to use swiotlb bounce buffer for DMA transaction.
->>>>
->>>> In Isolation VM with AMD SEV, the bounce buffer needs to be
->>>> accessed via extra address space which is above shared_gpa_boundary
->>>> (E.G 39 bit address line) reported by Hyper-V CPUID ISOLATION_CONFIG.
->>>> The access physical address will be original physical address +
->>>> shared_gpa_boundary. The shared_gpa_boundary in the AMD SEV SNP
->>>> spec is called virtual top of memory(vTOM). Memory addresses below
->>>> vTOM are automatically treated as private while memory above
->>>> vTOM is treated as shared.
->>>>
->>>> Hyper-V initalizes swiotlb bounce buffer and default swiotlb
->>>> needs to be disabled. pci_swiotlb_detect_override() and
->>>> pci_swiotlb_detect_4gb() enable the default one. To override
->>>> the setting, hyperv_swiotlb_detect() needs to run before
->>>> these detect functions which depends on the pci_xen_swiotlb_
->>>> init(). Make pci_xen_swiotlb_init() depends on the hyperv_swiotlb
->>>> _detect() to keep the order.
->>>
->>> Why? Does Hyper-V plan to support Xen PV guests? If not, I don't see
->>> the need for adding this change.
->>>
->>
->> This is to keep detect function calling order that Hyper-V detect 
->> callback needs to call before pci_swiotlb_detect_override() and 
->> pci_swiotlb_detect_4gb(). This is the same for why
->> pci_swiotlb_detect_override() needs to depend on the 
->> pci_xen_swiotlb_detect(). Hyper-V also has such request and so make 
->> xen detect callback depends on Hyper-V one.
-> 
-> And does this even work without CONFIG_SWIOTLB_XEN, i.e. without
-> pci_xen_swiotlb_detect() being in the system?
-> 
-Hi Juergen:
-	Thanks for your review. This is a issue and I just sent out a v5 which 
-decouples the dependency between xen and hyperv.
+VGhlIFtQQ0ldIE1TSSBjb2RlIGhhcyBnYWluZWQgcXVpdGUgc29tZSB3YXJ0cyBvdmVyIHRpbWUu
+IEEgcmVjZW50CmRpc2N1c3Npb24gdW5lYXJ0aGVkIGEgc2hvcnRjb21pbmc6IHRoZSBsYWNrIG9m
+IHN1cHBvcnQgZm9yIGV4cGFuZGluZwpQQ0kvTVNJLVggdmVjdG9ycyBhZnRlciBpbml0aWFsaXph
+dGlvbiBvZiBNU0ktWC4KClBDSS9NU0ktWCBoYXMgbm8gcmVxdWlyZW1lbnQgdG8gc2V0dXAgYWxs
+IHZlY3RvcnMgd2hlbiBNU0ktWCBpcyBlbmFibGVkIGluCnRoZSBkZXZpY2UuIFRoZSBub24tdXNl
+ZCB2ZWN0b3JzIGhhdmUganVzdCB0byBiZSBtYXNrZWQgaW4gdGhlIHZlY3Rvcgp0YWJsZS4gRm9y
+IFBDSS9NU0kgdGhpcyBpcyBub3QgcG9zc2libGUgYmVjYXVzZSB0aGUgbnVtYmVyIG9mIHZlY3Rv
+cnMKY2Fubm90IGJlIGNoYW5nZWQgYWZ0ZXIgaW5pdGlhbGl6YXRpb24uCgpUaGUgUENJL01TSSBj
+b2RlLCBidXQgYWxzbyB0aGUgY29yZSBNU0kgaXJxIGRvbWFpbiBjb2RlIGFyZSBidWlsdCBhcm91
+bmQKdGhlIGFzc3VtcHRpb24gdGhhdCBhbGwgcmVxdWlyZWQgdmVjdG9ycyBhcmUgaW5zdGFsbGVk
+IGF0IGluaXRpYWxpemF0aW9uCnRpbWUgYW5kIGZyZWVkIHdoZW4gdGhlIGRldmljZSBpcyBzaHV0
+IGRvd24gYnkgdGhlIGRyaXZlci4KClN1cHBvcnRpbmcgZHluYW1pYyBleHBhbnNpb24gYXQgbGVh
+c3QgZm9yIE1TSS1YIGlzIGltcG9ydGFudCBmb3IgVkZJTyBzbwp0aGF0IHRoZSBob3N0IHNpZGUg
+aW50ZXJydXB0cyBmb3IgcGFzc3Rocm91Z2ggZGV2aWNlcyBjYW4gYmUgaW5zdGFsbGVkIG9uCmRl
+bWFuZC4KClRoaXMgaXMgdGhlIGZpcnN0IHBhcnQgb2YgYSBsYXJnZSAodG90YWwgMTAxIHBhdGNo
+ZXMpIHNlcmllcyB3aGljaApyZWZhY3RvcnMgdGhlIFtQQ0ldTVNJIGluZnJhc3RydWN0dXJlIHRv
+IG1ha2UgcnVudGltZSBleHBhbnNpb24gb2YgTVNJLVgKdmVjdG9ycyBwb3NzaWJsZS4gVGhlIGxh
+c3QgcGFydCAoMTAgcGF0Y2hlcykgcHJvdmlkZSB0aGlzIGZ1bmN0aW9uYWxpdHkuCgpUaGUgZmly
+c3QgcGFydCBpcyBtb3N0bHkgYSBjbGVhbnVwIHdoaWNoIGNvbnNvbGlkYXRlcyBjb2RlLCBtb3Zl
+cyB0aGUgUENJCk1TSSBjb2RlIGludG8gYSBzZXBhcmF0ZSBkaXJlY3RvcnkgYW5kIHNwbGl0cyBp
+dCB1cCBpbnRvIHNldmVyYWwgcGFydHMuCgpObyBmdW5jdGlvbmFsIGNoYW5nZSBpbnRlbmRlZCBl
+eGNlcHQgZm9yIHBhdGNoIDIvTiB3aGljaCBjaGFuZ2VzIHRoZQpiZWhhdmlvdXIgb2YgcGNpX2dl
+dF92ZWN0b3IoKS9hZmZpbml0eSgpIHRvIGdldCByaWQgb2YgdGhlIGFzc3VtcHRpb24gdGhhdAp0
+aGUgcHJvdmlkZWQgaW5kZXggaXMgdGhlICJpbmRleCIgaW50byB0aGUgZGVzY3JpcHRvciBsaXN0
+IGluc3RlYWQgb2YgdXNpbmcKaXQgYXMgdGhlIGFjdHVhbCBNU0lbWF0gaW5kZXggYXMgc2VlbiBi
+eSB0aGUgaGFyZHdhcmUuIFRoaXMgd291bGQgYnJlYWsKdXNlcnMgb2Ygc3BhcnNlIGFsbG9jYXRl
+ZCBNU0ktWCBlbnRyaWVzLCBidXQgbm9uIG9mIHRoZW0gdXNlIHRoZXNlCmZ1bmN0aW9ucy4KClRo
+aXMgc2VyaWVzIGlzIGJhc2VkIG9uIDUuMTYtcmMyIGFuZCBhbHNvIGF2YWlsYWJsZSB2aWEgZ2l0
+OgoKICAgZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RnbHgv
+ZGV2ZWwuZ2l0IG1zaS12Mi1wYXJ0LTEKCkZvciB0aGUgY3VyaW91cyB3aG8gY2FuJ3Qgd2FpdCBm
+b3IgdGhlIG5leHQgcGFydCB0byBhcnJpdmUgdGhlIGZ1bGwgc2VyaWVzCmlzIGF2YWlsYWJsZSB2
+aWE6CgogICBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdGds
+eC9kZXZlbC5naXQgbXNpLXYyLXBhcnQtMwoKVjEgb2YgdGhpcyBzZXJpZXMgY2FuIGJlIGZvdW5k
+IGhlcmU6CgogICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjExMTI2MjIyNzAwLjg2MjQw
+Nzk3N0BsaW51dHJvbml4LmRlCgpDaGFuZ2VzIHZlcnN1cyBWMToKCiAgLSBBZGQgbWlzc2luZyBp
+bmNsdWRlcyBhbmQgdXNlIGNvcnJlY3QgdmFyaWFibGUgbmFtZSBpbiBsZWdhY3kgY29kZSAtIENl
+ZHJpYwoKICAtIE1vdmVkIHRoZSBNU0kgbG9jayBmcm9tIHN0cnVjdCBkZXZpY2UgdG8gc3RydWN0
+IHBjaV9kZXYgLSBOZXcgcGF0Y2gKCiAgICBUaGlzIGlzIHJlYWxseSBQQ0kvTVNJIHNwZWNpZmlj
+IGFuZCB0aGVyZSBpcyBubyBwb2ludCB0byBoYXZlIGl0CiAgICBpbiBldmVyeSBzdHJ1Y3QgZGV2
+aWNlLiBOZWl0aGVyIGRvZXMgaXQgbWFrZSBzZW5zZSB0byBoaWRlIGl0CiAgICBpbiBtc2lfZGV2
+aWNlX2RhdGEgYXMgdGhlIFYxIHNlcmllcyBwYXJ0IDIgZGlkLgoKICAtIFBpY2tlZCB1cCBSZXZp
+ZXdlZC9UZXN0ZWQvQWNrZWQtYnkgdGFncyBhcyBhcHByb3ByaWF0ZQoKVGhhbmtzLAoKCXRnbHgK
+LS0tCiBhcmNoL3Bvd2VycGMvcGxhdGZvcm1zLzR4eC9tc2kuYyAgICAgICAgICAgIHwgIDI4MSAt
+LS0tLS0tLS0tLS0KIGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3BjaS9wY2kucnN0ICAgICAg
+fCAgICAyIAogYi9hcmNoL21pcHMvcGNpL21zaS1vY3Rlb24uYyAgICAgICAgICAgICAgICB8ICAg
+MzIgLQogYi9hcmNoL3Bvd2VycGMvcGxhdGZvcm1zLzR4eC9NYWtlZmlsZSAgICAgICB8ICAgIDEg
+CiBiL2FyY2gvcG93ZXJwYy9wbGF0Zm9ybXMvY2VsbC9heG9uX21zaS5jICAgIHwgICAgMiAKIGIv
+YXJjaC9wb3dlcnBjL3BsYXRmb3Jtcy9wb3dlcm52L3BjaS1pb2RhLmMgfCAgICA0IAogYi9hcmNo
+L3Bvd2VycGMvcGxhdGZvcm1zL3BzZXJpZXMvbXNpLmMgICAgICB8ICAgIDYgCiBiL2FyY2gvcG93
+ZXJwYy9zeXNkZXYvS2NvbmZpZyAgICAgICAgICAgICAgIHwgICAgNiAKIGIvYXJjaC9zMzkwL3Bj
+aS9wY2lfaXJxLmMgICAgICAgICAgICAgICAgICAgfCAgICA0IAogYi9hcmNoL3NwYXJjL2tlcm5l
+bC9wY2lfbXNpLmMgICAgICAgICAgICAgICB8ICAgIDQgCiBiL2FyY2gveDg2L2h5cGVydi9pcnFk
+b21haW4uYyAgICAgICAgICAgICAgIHwgICA1NSAtLQogYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS94
+ODZfaW5pdC5oICAgICAgICAgICB8ICAgIDYgCiBiL2FyY2gveDg2L2luY2x1ZGUvYXNtL3hlbi9o
+eXBlcnZpc29yLmggICAgIHwgICAgOCAKIGIvYXJjaC94ODYva2VybmVsL2FwaWMvbXNpLmMgICAg
+ICAgICAgICAgICAgfCAgICA4IAogYi9hcmNoL3g4Ni9rZXJuZWwveDg2X2luaXQuYyAgICAgICAg
+ICAgICAgICB8ICAgMTIgCiBiL2FyY2gveDg2L3BjaS94ZW4uYyAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAxOSAKIGIvZHJpdmVycy9iYXNlL2NvcmUuYyAgICAgICAgICAgICAgICAgICAgICAg
+fCAgICAxIAogYi9kcml2ZXJzL2lycWNoaXAvaXJxLWdpYy12Mm0uYyAgICAgICAgICAgICB8ICAg
+IDEgCiBiL2RyaXZlcnMvaXJxY2hpcC9pcnEtZ2ljLXYzLWl0cy1wY2ktbXNpLmMgIHwgICAgMSAK
+IGIvZHJpdmVycy9pcnFjaGlwL2lycS1naWMtdjMtbWJpLmMgICAgICAgICAgfCAgICAxIAogYi9k
+cml2ZXJzL25ldC93aXJlbGVzcy9hdGgvYXRoMTFrL3BjaS5jICAgICB8ICAgIDIgCiBiL2RyaXZl
+cnMvcGNpL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgIHwgICAgMyAKIGIvZHJpdmVycy9w
+Y2kvbXNpL01ha2VmaWxlICAgICAgICAgICAgICAgICAgfCAgICA3IAogYi9kcml2ZXJzL3BjaS9t
+c2kvaXJxZG9tYWluLmMgICAgICAgICAgICAgICB8ICAyNjcgKysrKysrKysrKysKIGIvZHJpdmVy
+cy9wY2kvbXNpL2xlZ2FjeS5jICAgICAgICAgICAgICAgICAgfCAgIDc5ICsrKwogYi9kcml2ZXJz
+L3BjaS9tc2kvbXNpLmMgICAgICAgICAgICAgICAgICAgICB8ICA2NDcgKysrKy0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQogYi9kcml2ZXJzL3BjaS9tc2kvbXNpLmggICAgICAgICAgICAgICAgICAg
+ICB8ICAgMzkgKwogYi9kcml2ZXJzL3BjaS9tc2kvcGNpZGV2X21zaS5jICAgICAgICAgICAgICB8
+ICAgNDMgKwogYi9kcml2ZXJzL3BjaS9wY2ktc3lzZnMuYyAgICAgICAgICAgICAgICAgICB8ICAg
+IDcgCiBiL2RyaXZlcnMvcGNpL3Byb2JlLmMgICAgICAgICAgICAgICAgICAgICAgIHwgICAgNCAK
+IGIvZHJpdmVycy9wY2kveGVuLXBjaWZyb250LmMgICAgICAgICAgICAgICAgfCAgICAyIAogYi9p
+bmNsdWRlL2xpbnV4L2RldmljZS5oICAgICAgICAgICAgICAgICAgICB8ICAgIDIgCiBiL2luY2x1
+ZGUvbGludXgvbXNpLmggICAgICAgICAgICAgICAgICAgICAgIHwgIDEzNiArKy0tLQogYi9pbmNs
+dWRlL2xpbnV4L3BjaS5oICAgICAgICAgICAgICAgICAgICAgICB8ICAgIDIgCiBiL2tlcm5lbC9p
+cnEvbXNpLmMgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA0MSArCiAzNSBmaWxlcyBjaGFu
+Z2VkLCA3MDIgaW5zZXJ0aW9ucygrKSwgMTAzMyBkZWxldGlvbnMoLSkKCg==
