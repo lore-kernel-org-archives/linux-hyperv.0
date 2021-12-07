@@ -2,57 +2,58 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5E4C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DBBC4332F
 	for <linux-hyperv@archiver.kernel.org>; Tue,  7 Dec 2021 22:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242151AbhLGWNS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 7 Dec 2021 17:13:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43206 "EHLO
+        id S242171AbhLGWNT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 7 Dec 2021 17:13:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242128AbhLGWNN (ORCPT
+        with ESMTP id S242089AbhLGWNS (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 7 Dec 2021 17:13:13 -0500
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2D5C061748
-        for <linux-hyperv@vger.kernel.org>; Tue,  7 Dec 2021 14:09:42 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id j3-20020a634a43000000b00325af3ab5f0so169425pgl.11
-        for <linux-hyperv@vger.kernel.org>; Tue, 07 Dec 2021 14:09:42 -0800 (PST)
+        Tue, 7 Dec 2021 17:13:18 -0500
+Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C68C061574
+        for <linux-hyperv@vger.kernel.org>; Tue,  7 Dec 2021 14:09:47 -0800 (PST)
+Received: by mail-pj1-x104a.google.com with SMTP id h15-20020a17090a648f00b001a96c2c97abso381623pjj.9
+        for <linux-hyperv@vger.kernel.org>; Tue, 07 Dec 2021 14:09:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=reply-to:date:in-reply-to:message-id:mime-version:references
          :subject:from:to:cc;
-        bh=LLX3U7mn58e613uUDC2pnGcOVbMh7hOH4J4J3lUPvDA=;
-        b=X/v9iuxguJ0gslCcBYYHV5+6guNvSMM9qc3Nnk0gQGJfA0JCwWgJ2KO3RZMUqiPq/U
-         Ya0nim4PFV2cJoOGlCdNXk2c5F4LiG2ie9EmehAYYywgGLwHmrHzjvvfcbgS/F5XHJM1
-         Nto3w+PRVUqT5Shiz/3oWVoWzGO/s966w93AFj0Lp+PFzTdQXIM5B6oMioqGygH4UCdO
-         zLhOm/7deP+C8XsdjveswEV5Q6GVUHH+YTIRBpU7XlUeL+WkTSUaQHACzZWbgpQNUtTp
-         oq+bqS4wds/+hMpcbcyt5oBzE/DeLi7LvVNw3wKPzH5mXIz7adRoLkilNcOiLlI5RcrC
-         0qjg==
+        bh=iQDtWCeRApkNxvgSf3YZuTCTKLwT5JTxHh4XbwJlOF8=;
+        b=j5Tjlp1+fQIwr+HynktQ1gsZzx01M2pRoJMnKTxaPKyV38VfTFFhU42vy8OmXqvrUx
+         Jef/37Wn0sxInn7kSQcJ24PpXFYpE/gOhZwS1Tgv36QCfIxxRQnWRnwlSGNzARQTCfZz
+         JZH7xKUPTaTb+VLakJXelWmUm6FttSZg3oWDyZcHFOhQyOkved5x5Y3s0CHf7fff7Rer
+         27vNKFRvWGRelWbdoSFHAbgpRcYA8wEZAN/MPfawqs+sHRWIQKInDQsQ+xWIm845F1NV
+         bvLATookEaVS1TQpF7iqMH0A5BNZYqX2/+qeSV9BCBBexz40/er+oPmNTM2hekKs3r1E
+         EzUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:reply-to:date:in-reply-to:message-id
          :mime-version:references:subject:from:to:cc;
-        bh=LLX3U7mn58e613uUDC2pnGcOVbMh7hOH4J4J3lUPvDA=;
-        b=KZmsU+RKOIrzQRP68wUdNL3F/6quhMLcP9BZ8EPMMQbKI3RO2+FtDVdDDdRjVNyAo2
-         5WR5wtvg15VeL1YHr68G1qoyy8QeWJp2xabMM4717hG6m2tNjKwmzpo6R+gg+RFSvzOi
-         UWTBpkmMFdgFqS3prwHfX1Y8SRZTGDZ9tI3+fcbgEqABl8e8mHCAf1Y/MwP5waqHsaGi
-         7ppxexdKGRLbeVytPKbgxA5fKq0caH7b+pka3zsg9U36qWwQdL/fTBtq1LQZQaiMto0y
-         WiEEaoh1kcuvYiQgfdahqOGEg02giVHNM8YwByvGRiDr8r6qvYTBLmTg/89DE5LR73K/
-         bwiA==
-X-Gm-Message-State: AOAM5333Wtu8ukc3O3uLKCwIKNUv/jg7XiuqAQJjuGVrEfgArNDg0Wak
-        SmFxBs0kF87bxV2VnZ3dgLNvSsxYYtA=
-X-Google-Smtp-Source: ABdhPJwCfyK/gnJBKpT9rlWfbFbYvRE1/0RiMXGIbXcLt3rF69pNTU9V1/jyqVwVV9vzkAJvoHmF/PGUsBc=
+        bh=iQDtWCeRApkNxvgSf3YZuTCTKLwT5JTxHh4XbwJlOF8=;
+        b=URWQqgQg3/Jus5//MVy6EauVzGnBRIJBTPPw+YWjeaieHyt6c8/qiN1TgxK8OoRFhA
+         6lAcr8EEEQMyPccDQbA1KFAFLvci1kqnQlLoxarfybC0WDO/eT7nAe7yJ6p796iU3Lna
+         nG4lcRFc2xxoEqGxv7b0A6/cVdHQR1UttWps1LOmxfCjYYK78cceOyoceqCcuXILmtLp
+         NF01esyg0pjRTTazEu/kwwloDLWUSsDjerW/WwjgbhzXH1RUqp2F8Lc241VWjBLk3e6d
+         mi5oMRDog1dl2MqkUyse6SMZdFViPL7Xu3I/hL/2V+3poeA3O9Fa6ZfPzK6Mix6knACI
+         fDMw==
+X-Gm-Message-State: AOAM532Sst8y8vyo3zrRGPE7u7clICeX5AGVLNrMA+0vAauuQQKKLCKY
+        n2ZjGrddHqI/mPPdtDZ+te7RABb+elk=
+X-Google-Smtp-Source: ABdhPJxwIWI6EO7Di+1vHiHCvjTsyUvE6JHMu1iC+F7VJ2ivqyHTsKcZcjJPDnxA8I95E2jOYruKTPLkgoM=
 X-Received: from seanjc.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3e5])
- (user=seanjc job=sendgmr) by 2002:a17:90b:1486:: with SMTP id
- js6mr251632pjb.0.1638914981457; Tue, 07 Dec 2021 14:09:41 -0800 (PST)
+ (user=seanjc job=sendgmr) by 2002:a17:902:7c02:b0:143:9d6a:8e42 with SMTP id
+ x2-20020a1709027c0200b001439d6a8e42mr54202143pll.80.1638914986582; Tue, 07
+ Dec 2021 14:09:46 -0800 (PST)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date:   Tue,  7 Dec 2021 22:09:21 +0000
+Date:   Tue,  7 Dec 2021 22:09:24 +0000
 In-Reply-To: <20211207220926.718794-1-seanjc@google.com>
-Message-Id: <20211207220926.718794-4-seanjc@google.com>
+Message-Id: <20211207220926.718794-7-seanjc@google.com>
 Mime-Version: 1.0
 References: <20211207220926.718794-1-seanjc@google.com>
 X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-Subject: [PATCH v3 3/8] KVM: x86: Refactor kvm_hv_flush_tlb() to reduce indentation
+Subject: [PATCH v3 6/8] KVM: x86: Shove vp_bitmap handling down into sparse_set_to_vcpu_mask()
 From:   Sean Christopherson <seanjc@google.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -72,75 +73,145 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Refactor the "extended" path of kvm_hv_flush_tlb() to reduce the nesting
-depth for the non-fast sparse path, and to make the code more similar to
-the extended path in kvm_hv_send_ipi().
+Move the vp_bitmap "allocation" that's needed to handle mismatched vp_index
+values down into sparse_set_to_vcpu_mask() and drop __always_inline from
+said helper.  The need for an intermediate vp_bitmap is a detail that's
+specific to the sparse translation with mismatched VP<=>vCPU indexes and
+does not need to be exposed to the caller.
 
-No functional change intended.
+Regarding the __always_inline, prior to commit f21dd494506a ("KVM: x86:
+hyperv: optimize sparse VP set processing") the helper, then named
+hv_vcpu_in_sparse_set(), was a tiny bit of code that effectively boiled
+down to a handful of bit ops.  The __always_inline was understandable, if
+not justifiable.  Since the aforementioned change, sparse_set_to_vcpu_mask()
+is a chunky 350-450+ bytes of code without KASAN=y, and balloons to 1100+
+with KASAN=y.  In other words, it has no business being forcefully inlined.
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c | 40 +++++++++++++++++++++-------------------
- 1 file changed, 21 insertions(+), 19 deletions(-)
+ arch/x86/kvm/hyperv.c | 65 +++++++++++++++++++++++++------------------
+ 1 file changed, 38 insertions(+), 27 deletions(-)
 
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index d8a7b63f676f..9bc856370a2d 100644
+index a470cde7a7a7..f33a5e890048 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1815,31 +1815,33 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 		if (hc->var_cnt != bitmap_weight((unsigned long *)&valid_bank_mask, 64))
- 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
+@@ -1710,32 +1710,47 @@ int kvm_hv_get_msr_common(struct kvm_vcpu *vcpu, u32 msr, u64 *pdata, bool host)
+ 		return kvm_hv_get_msr(vcpu, msr, pdata, host);
+ }
  
--		if (!hc->var_cnt && !all_cpus)
-+		if (all_cpus)
-+			goto do_flush;
-+
-+		if (!hc->var_cnt)
- 			goto ret_success;
+-static __always_inline unsigned long *sparse_set_to_vcpu_mask(
+-	struct kvm *kvm, u64 *sparse_banks, u64 valid_bank_mask,
+-	u64 *vp_bitmap, unsigned long *vcpu_bitmap)
++static void sparse_set_to_vcpu_mask(struct kvm *kvm, u64 *sparse_banks,
++				    u64 valid_bank_mask, unsigned long *vcpu_mask)
+ {
+ 	struct kvm_hv *hv = to_kvm_hv(kvm);
++	bool has_mismatch = atomic_read(&hv->num_mismatched_vp_indexes);
++	u64 vp_bitmap[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
+ 	struct kvm_vcpu *vcpu;
+ 	int bank, sbank = 0;
+ 	unsigned long i;
++	u64 *bitmap;
  
--		if (!all_cpus) {
--			if (hc->fast) {
--				if (hc->var_cnt > HV_HYPERCALL_MAX_XMM_REGISTERS - 1)
--					return HV_STATUS_INVALID_HYPERCALL_INPUT;
--				for (i = 0; i < hc->var_cnt; i += 2) {
--					sparse_banks[i] = sse128_lo(hc->xmm[i / 2 + 1]);
--					sparse_banks[i + 1] = sse128_hi(hc->xmm[i / 2 + 1]);
--				}
--			} else {
--				if (hc->var_cnt > 64)
--					return HV_STATUS_INVALID_HYPERCALL_INPUT;
--
--				gpa = hc->ingpa + offsetof(struct hv_tlb_flush_ex,
--							   hv_vp_set.bank_contents);
--				if (unlikely(kvm_read_guest(kvm, gpa, sparse_banks,
--							    hc->var_cnt *
--							    sizeof(sparse_banks[0]))))
--					return HV_STATUS_INVALID_HYPERCALL_INPUT;
-+		if (hc->fast) {
-+			if (hc->var_cnt > HV_HYPERCALL_MAX_XMM_REGISTERS - 1)
-+				return HV_STATUS_INVALID_HYPERCALL_INPUT;
-+			for (i = 0; i < hc->var_cnt; i += 2) {
-+				sparse_banks[i] = sse128_lo(hc->xmm[i / 2 + 1]);
-+				sparse_banks[i + 1] = sse128_hi(hc->xmm[i / 2 + 1]);
- 			}
-+			goto do_flush;
- 		}
+-	memset(vp_bitmap, 0,
+-	       KVM_HV_MAX_SPARSE_VCPU_SET_BITS * sizeof(*vp_bitmap));
++	BUILD_BUG_ON(sizeof(vp_bitmap) >
++		     sizeof(*vcpu_mask) * BITS_TO_LONGS(KVM_MAX_VCPUS));
 +
-+		if (hc->var_cnt > 64)
-+			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++	/*
++	 * If vp_index == vcpu_idx for all vCPUs, fill vcpu_mask directly, else
++	 * fill a temporary buffer and manually test each vCPU's VP index.
++	 */
++	if (likely(!has_mismatch))
++		bitmap = (u64 *)vcpu_mask;
++	else
++		bitmap = vp_bitmap;
 +
-+		gpa = hc->ingpa + offsetof(struct hv_tlb_flush_ex,
-+					   hv_vp_set.bank_contents);
-+		if (unlikely(kvm_read_guest(kvm, gpa, sparse_banks,
-+					    hc->var_cnt * sizeof(sparse_banks[0]))))
-+			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++	/*
++	 * Each set of 64 VPs is packed into sparse_banks, with valid_bank_mask
++	 * having a '1' for each bank that exists in sparse_banks.  Sets must
++	 * be in ascending order, i.e. bank0..bankN.
++	 */
++	memset(bitmap, 0, sizeof(vp_bitmap));
+ 	for_each_set_bit(bank, (unsigned long *)&valid_bank_mask,
+ 			 KVM_HV_MAX_SPARSE_VCPU_SET_BITS)
+-		vp_bitmap[bank] = sparse_banks[sbank++];
++		bitmap[bank] = sparse_banks[sbank++];
+ 
+-	if (likely(!atomic_read(&hv->num_mismatched_vp_indexes))) {
+-		/* for all vcpus vp_index == vcpu_idx */
+-		return (unsigned long *)vp_bitmap;
+-	}
++	if (likely(!has_mismatch))
++		return;
+ 
+-	bitmap_zero(vcpu_bitmap, KVM_MAX_VCPUS);
++	bitmap_zero(vcpu_mask, KVM_MAX_VCPUS);
+ 	kvm_for_each_vcpu(i, vcpu, kvm) {
+ 		if (test_bit(kvm_hv_get_vpindex(vcpu), (unsigned long *)vp_bitmap))
+-			__set_bit(i, vcpu_bitmap);
++			__set_bit(i, vcpu_mask);
+ 	}
+-	return vcpu_bitmap;
+ }
+ 
+ struct kvm_hv_hcall {
+@@ -1772,9 +1787,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 	struct kvm *kvm = vcpu->kvm;
+ 	struct hv_tlb_flush_ex flush_ex;
+ 	struct hv_tlb_flush flush;
+-	u64 vp_bitmap[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
+-	DECLARE_BITMAP(vcpu_bitmap, KVM_MAX_VCPUS);
+-	unsigned long *vcpu_mask;
++	DECLARE_BITMAP(vcpu_mask, KVM_MAX_VCPUS);
+ 	u64 valid_bank_mask;
+ 	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
+ 	bool all_cpus;
+@@ -1867,11 +1880,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 	if (all_cpus) {
+ 		kvm_make_all_cpus_request(kvm, KVM_REQ_TLB_FLUSH_GUEST);
+ 	} else {
+-		vcpu_mask = sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask,
+-						    vp_bitmap, vcpu_bitmap);
++		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
+ 
+-		kvm_make_vcpus_request_mask(kvm, KVM_REQ_TLB_FLUSH_GUEST,
+-					    vcpu_mask);
++		kvm_make_vcpus_request_mask(kvm, KVM_REQ_TLB_FLUSH_GUEST, vcpu_mask);
  	}
  
-+do_flush:
- 	/*
- 	 * vcpu->arch.cr3 may not be up-to-date for running vCPUs so we can't
- 	 * analyze it here, flush TLB regardless of the specified address space.
+ ret_success:
+@@ -1904,9 +1915,7 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 	struct kvm *kvm = vcpu->kvm;
+ 	struct hv_send_ipi_ex send_ipi_ex;
+ 	struct hv_send_ipi send_ipi;
+-	u64 vp_bitmap[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
+-	DECLARE_BITMAP(vcpu_bitmap, KVM_MAX_VCPUS);
+-	unsigned long *vcpu_mask;
++	DECLARE_BITMAP(vcpu_mask, KVM_MAX_VCPUS);
+ 	unsigned long valid_bank_mask;
+ 	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
+ 	u32 vector;
+@@ -1962,11 +1971,13 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
+ 		return HV_STATUS_INVALID_HYPERCALL_INPUT;
+ 
+-	vcpu_mask = all_cpus ? NULL :
+-		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask,
+-					vp_bitmap, vcpu_bitmap);
++	if (all_cpus) {
++		kvm_send_ipi_to_many(kvm, vector, NULL);
++	} else {
++		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
+ 
+-	kvm_send_ipi_to_many(kvm, vector, vcpu_mask);
++		kvm_send_ipi_to_many(kvm, vector, vcpu_mask);
++	}
+ 
+ ret_success:
+ 	return HV_STATUS_SUCCESS;
 -- 
 2.34.1.400.ga245620fadb-goog
 
