@@ -2,59 +2,58 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16740C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0A1C433F5
 	for <linux-hyperv@archiver.kernel.org>; Tue,  7 Dec 2021 22:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242118AbhLGWNQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 7 Dec 2021 17:13:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43188 "EHLO
+        id S242141AbhLGWNR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 7 Dec 2021 17:13:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242089AbhLGWNL (ORCPT
+        with ESMTP id S242140AbhLGWNO (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 7 Dec 2021 17:13:11 -0500
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A6B9C061748
-        for <linux-hyperv@vger.kernel.org>; Tue,  7 Dec 2021 14:09:40 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id s8-20020a63af48000000b002e6c10ac245so150595pgo.21
-        for <linux-hyperv@vger.kernel.org>; Tue, 07 Dec 2021 14:09:40 -0800 (PST)
+        Tue, 7 Dec 2021 17:13:14 -0500
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E260DC061A32
+        for <linux-hyperv@vger.kernel.org>; Tue,  7 Dec 2021 14:09:43 -0800 (PST)
+Received: by mail-pf1-x44a.google.com with SMTP id l7-20020a622507000000b00494608c84a4so403230pfl.6
+        for <linux-hyperv@vger.kernel.org>; Tue, 07 Dec 2021 14:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=reply-to:date:in-reply-to:message-id:mime-version:references
          :subject:from:to:cc;
-        bh=1Pi0Ww/JDIArn3W1wYIgf5uHdNRhgt/S+n01tuDsyPY=;
-        b=In97WE9WgaNvkpZysnT9Qgdnh2/B+KLWTCwnqJgfRC327/Y/UoG6U9G406ELCz3fk1
-         mRYXKQG45yQWbKrftJSWQu5ETw8oZYs+uYmb8VMmN/9yBMDhFn06g/vVjZgSSd0JVd2O
-         cGhLHYM6x0UiBBbDvfxwxzAfeZF32lLSRWe8TRArTdC9zKIuV77Qp85kRzlVLz9Z0o5a
-         NfVza0zDXVT6g8ZC4Rohyh5YSZgyZx8fQuZ09hCeL6TTjN0b3y5PonDGIC/9xH/Apjlx
-         FqkA9/GVOrLqUhB3nZ1+1LMXntfjBEG1CQzxsC4y6YWiSiPlI51a+0aFXYe52vmTIemS
-         jVYw==
+        bh=ApQQ4FImCNgNKftdWoSXlDKhYCulVO32cTDl5cVzGMA=;
+        b=MPRHAcH3Al1Ez9uI761ACxB74NEDwSPFCQ1BG8SzyYlDMFclclTtEa+s0eZmWahnBN
+         aIHVa2kkDtUY7gAEE92ud1O01ZodfoEzuZW47N8hGMiuGYj8U0uZkD4N6x7+yLsw/23o
+         BOm3U/3CdoX0+lGqEH0TxbMMXczI36PsFgJ5AZuwc8nv5BGgQcXpihHhzK50qRLMRHR9
+         E4itmTFtFzTghdGpCFZi6xgCLTn2XqzB1bd6bB0Dc8pV7GuYpJCWSU3e2a7lruiklvnw
+         8U/fnL+DIbmRs/x0L9o6/vtEmHgSOiEdUpNoeze85YAGhQKn6S3juKQzhKEKRjCPihbK
+         pTbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:reply-to:date:in-reply-to:message-id
          :mime-version:references:subject:from:to:cc;
-        bh=1Pi0Ww/JDIArn3W1wYIgf5uHdNRhgt/S+n01tuDsyPY=;
-        b=5VBndp8BFehbvdHVKCzT+xTz7O7fVxKmm7bN3R9gI4P2h6mN5EHe8X8XxVU66PJHCt
-         87Ss42oYsQ1OySQliJAGsWnKtDqLJFRQZit9cDFP5Bvi5x+uqPkc7S7X8jWchI/7WEhH
-         FKwgRBsHrQ1feTnvd8Hm/wWVtjAHTR+qg/7Nuwfdazl9RbvaK40gSmembABPvLlEZSZZ
-         fsrqA9vLSTTBBxs1O7CQpxaFurDbLleI7kL1ygP2L4Z0fzy1H0r+Zj1ZdzewcfqnPV8n
-         pKEH64igZRbkXBnVr7o5eqdsLd82jgiekDRFb30gx8LktrSO2u5OtTLr5eHCGwbCi7+1
-         h7/w==
-X-Gm-Message-State: AOAM532XRa1rNHKyfzSqo2Wj6NT+4xG3goCHSTzPZIBTgvw0cqinQz5g
-        D3+/0DLpzM8eFagHwVj9bqMuBB3EWvw=
-X-Google-Smtp-Source: ABdhPJwwKH83RAYt72XhKQ51Rk4S5hWbF9Q+wrhefy4f3/Zlt51wU6QsmnOekFuPmEfedJyZFdthXPQEjNs=
+        bh=ApQQ4FImCNgNKftdWoSXlDKhYCulVO32cTDl5cVzGMA=;
+        b=O14h8ipLH6L1iaLDyJvRzn1TN5cyYquooqUPtV1vXLWak9qXtw/3hGNSWvMKSRgeUb
+         czm2mnDOP5Ra7AlhAoRZHNSi/0DDV7Ay0cMUaQemH0/Aao8XOalFbvNv7QI9k+mFLaq8
+         uyKAD7BMWAdyw+Bn1SHAdyOeMziBn6QKGb8tM8kf7Y/nBsve3uz1nS2Qpydm3B3PuFNe
+         ed9ivbHc63Vasc5Jqou3nberJYLR2t/94cngyXcbUoHZbqwbmL2fBK3WmvheN+6mOo/M
+         QChblBcpSrg58IOrfMKI+n8HCRxLo6EjOvGjxIiJznq4qV77cgNB07UykwrPFzln6/df
+         0kvg==
+X-Gm-Message-State: AOAM530TM0zoqh/LD2cd9OgKFvAodd+3z46TQXMnuJP+nmJx/gnQK9r7
+        cZa6oFpPUbEqI4WN+y+fIxBEeGd72Ng=
+X-Google-Smtp-Source: ABdhPJxTlpZ6Ouugf0KWJ32F3yADamWeF5gWzHgju2KZnp/kRnQtxhnlg5Viye6fk6pPdNzaUiTAW2EH18I=
 X-Received: from seanjc.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3e5])
- (user=seanjc job=sendgmr) by 2002:a17:902:d4cf:b0:141:d36c:78f6 with SMTP id
- o15-20020a170902d4cf00b00141d36c78f6mr54742141plg.56.1638914979820; Tue, 07
- Dec 2021 14:09:39 -0800 (PST)
+ (user=seanjc job=sendgmr) by 2002:a17:90b:4c44:: with SMTP id
+ np4mr2342404pjb.195.1638914983425; Tue, 07 Dec 2021 14:09:43 -0800 (PST)
 Reply-To: Sean Christopherson <seanjc@google.com>
-Date:   Tue,  7 Dec 2021 22:09:20 +0000
+Date:   Tue,  7 Dec 2021 22:09:22 +0000
 In-Reply-To: <20211207220926.718794-1-seanjc@google.com>
-Message-Id: <20211207220926.718794-3-seanjc@google.com>
+Message-Id: <20211207220926.718794-5-seanjc@google.com>
 Mime-Version: 1.0
 References: <20211207220926.718794-1-seanjc@google.com>
 X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-Subject: [PATCH v3 2/8] KVM: x86: Get the number of Hyper-V sparse banks from
- the VARHEAD field
+Subject: [PATCH v3 4/8] KVM: x86: Add a helper to get the sparse VP_SET for
+ IPIs and TLB flushes
 From:   Sean Christopherson <seanjc@google.com>
 To:     Paolo Bonzini <pbonzini@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
@@ -74,195 +73,79 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Get the number of sparse banks from the VARHEAD field, which the guest is
-required to provide as "The size of a variable header, in QWORDS.", where
-the variable header is:
+Add a helper, kvm_get_sparse_vp_set(), to handle sanity checks related to
+the VARHEAD field and reading the sparse banks of a VP_SET.  A future
+commit to reduce the memory footprint of sparse_banks will introduce more
+common code to the sparse bank retrieval.
 
-  Variable Header Bytes = {Total Header Bytes - sizeof(Fixed Header)}
-                          rounded up to nearest multiple of 8
-  Variable HeaderSize = Variable Header Bytes / 8
-
-In other words, the VARHEAD should match the number of sparse banks.
-Keep the manual count as a sanity check, but otherwise rely on the field
-so as to more closely align with the logic defined in the TLFS and to
-allow for future cleanups.
-
-Tweak the tracepoint output to use "rep_cnt" instead of simply "cnt" now
-that there is also "var_cnt".
+No functional change intended.
 
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c             | 35 ++++++++++++++++++-------------
- arch/x86/kvm/trace.h              | 14 +++++++------
- include/asm-generic/hyperv-tlfs.h |  1 +
- 3 files changed, 30 insertions(+), 20 deletions(-)
+ arch/x86/kvm/hyperv.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 58f35498578f..d8a7b63f676f 100644
+index 9bc856370a2d..680ba3d5d2ad 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1743,6 +1743,7 @@ struct kvm_hv_hcall {
- 	u64 ingpa;
- 	u64 outgpa;
- 	u16 code;
-+	u16 var_cnt;
- 	u16 rep_cnt;
- 	u16 rep_idx;
- 	bool fast;
-@@ -1762,7 +1763,6 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 	unsigned long *vcpu_mask;
- 	u64 valid_bank_mask;
- 	u64 sparse_banks[64];
--	int sparse_banks_len;
- 	bool all_cpus;
+@@ -1751,10 +1751,19 @@ struct kvm_hv_hcall {
+ 	sse128_t xmm[HV_HYPERCALL_MAX_XMM_REGISTERS];
+ };
  
- 	if (!ex) {
-@@ -1812,24 +1812,28 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 		all_cpus = flush_ex.hv_vp_set.format !=
- 			HV_GENERIC_SET_SPARSE_4K;
- 
--		sparse_banks_len = bitmap_weight((unsigned long *)&valid_bank_mask, 64);
-+		if (hc->var_cnt != bitmap_weight((unsigned long *)&valid_bank_mask, 64))
-+			return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
--		if (!sparse_banks_len && !all_cpus)
-+		if (!hc->var_cnt && !all_cpus)
- 			goto ret_success;
- 
- 		if (!all_cpus) {
- 			if (hc->fast) {
--				if (sparse_banks_len > HV_HYPERCALL_MAX_XMM_REGISTERS - 1)
-+				if (hc->var_cnt > HV_HYPERCALL_MAX_XMM_REGISTERS - 1)
- 					return HV_STATUS_INVALID_HYPERCALL_INPUT;
--				for (i = 0; i < sparse_banks_len; i += 2) {
-+				for (i = 0; i < hc->var_cnt; i += 2) {
- 					sparse_banks[i] = sse128_lo(hc->xmm[i / 2 + 1]);
- 					sparse_banks[i + 1] = sse128_hi(hc->xmm[i / 2 + 1]);
- 				}
- 			} else {
-+				if (hc->var_cnt > 64)
-+					return HV_STATUS_INVALID_HYPERCALL_INPUT;
++static u64 kvm_get_sparse_vp_set(struct kvm *kvm, struct kvm_hv_hcall *hc,
++				 u64 *sparse_banks, gpa_t offset)
++{
++	if (hc->var_cnt > 64)
++		return -EINVAL;
 +
- 				gpa = hc->ingpa + offsetof(struct hv_tlb_flush_ex,
- 							   hv_vp_set.bank_contents);
- 				if (unlikely(kvm_read_guest(kvm, gpa, sparse_banks,
--							    sparse_banks_len *
-+							    hc->var_cnt *
- 							    sizeof(sparse_banks[0]))))
- 					return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			}
-@@ -1885,7 +1889,6 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 	unsigned long *vcpu_mask;
- 	unsigned long valid_bank_mask;
- 	u64 sparse_banks[64];
--	int sparse_banks_len;
- 	u32 vector;
- 	bool all_cpus;
++	return kvm_read_guest(kvm, hc->ingpa + offset, sparse_banks,
++			      hc->var_cnt * sizeof(*sparse_banks));
++}
++
+ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool ex)
+ {
+ 	int i;
+-	gpa_t gpa;
+ 	struct kvm *kvm = vcpu->kvm;
+ 	struct hv_tlb_flush_ex flush_ex;
+ 	struct hv_tlb_flush flush;
+@@ -1831,13 +1840,9 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 			goto do_flush;
+ 		}
  
-@@ -1918,22 +1921,25 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 
- 		vector = send_ipi_ex.vector;
- 		valid_bank_mask = send_ipi_ex.vp_set.valid_bank_mask;
--		sparse_banks_len = bitmap_weight(&valid_bank_mask, 64) *
--			sizeof(sparse_banks[0]);
+-		if (hc->var_cnt > 64)
+-			return HV_STATUS_INVALID_HYPERCALL_INPUT;
 -
- 		all_cpus = send_ipi_ex.vp_set.format == HV_GENERIC_SET_ALL;
- 
-+		if (hc->var_cnt != bitmap_weight(&valid_bank_mask, 64))
-+			return HV_STATUS_INVALID_HYPERCALL_INPUT;
-+
- 		if (all_cpus)
- 			goto check_and_send_ipi;
- 
--		if (!sparse_banks_len)
-+		if (!hc->var_cnt)
- 			goto ret_success;
- 
-+		if (hc->var_cnt > 64)
-+			return HV_STATUS_INVALID_HYPERCALL_INPUT;
-+
- 		if (kvm_read_guest(kvm,
- 				   hc->ingpa + offsetof(struct hv_send_ipi_ex,
- 							vp_set.bank_contents),
- 				   sparse_banks,
--				   sparse_banks_len))
-+				   hc->var_cnt * sizeof(sparse_banks[0])))
+-		gpa = hc->ingpa + offsetof(struct hv_tlb_flush_ex,
+-					   hv_vp_set.bank_contents);
+-		if (unlikely(kvm_read_guest(kvm, gpa, sparse_banks,
+-					    hc->var_cnt * sizeof(sparse_banks[0]))))
++		if (kvm_get_sparse_vp_set(kvm, hc, sparse_banks,
++					  offsetof(struct hv_tlb_flush_ex,
++						   hv_vp_set.bank_contents)))
  			return HV_STATUS_INVALID_HYPERCALL_INPUT;
  	}
  
-@@ -2191,13 +2197,14 @@ int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+@@ -1934,14 +1939,9 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
+ 		if (!hc->var_cnt)
+ 			goto ret_success;
+ 
+-		if (hc->var_cnt > 64)
+-			return HV_STATUS_INVALID_HYPERCALL_INPUT;
+-
+-		if (kvm_read_guest(kvm,
+-				   hc->ingpa + offsetof(struct hv_send_ipi_ex,
+-							vp_set.bank_contents),
+-				   sparse_banks,
+-				   hc->var_cnt * sizeof(sparse_banks[0])))
++		if (kvm_get_sparse_vp_set(kvm, hc, sparse_banks,
++					  offsetof(struct hv_send_ipi_ex,
++						   vp_set.bank_contents)))
+ 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
  	}
  
- 	hc.code = hc.param & 0xffff;
-+	hc.var_cnt = (hc.param & HV_HYPERCALL_VARHEAD_MASK) >> HV_HYPERCALL_VARHEAD_OFFSET;
- 	hc.fast = !!(hc.param & HV_HYPERCALL_FAST_BIT);
- 	hc.rep_cnt = (hc.param >> HV_HYPERCALL_REP_COMP_OFFSET) & 0xfff;
- 	hc.rep_idx = (hc.param >> HV_HYPERCALL_REP_START_OFFSET) & 0xfff;
- 	hc.rep = !!(hc.rep_cnt || hc.rep_idx);
- 
--	trace_kvm_hv_hypercall(hc.code, hc.fast, hc.rep_cnt, hc.rep_idx,
--			       hc.ingpa, hc.outgpa);
-+	trace_kvm_hv_hypercall(hc.code, hc.fast, hc.var_cnt, hc.rep_cnt,
-+			       hc.rep_idx, hc.ingpa, hc.outgpa);
- 
- 	if (unlikely(!hv_check_hypercall_access(hv_vcpu, hc.code))) {
- 		ret = HV_STATUS_ACCESS_DENIED;
-diff --git a/arch/x86/kvm/trace.h b/arch/x86/kvm/trace.h
-index 953b0fcb21ee..e3d109515376 100644
---- a/arch/x86/kvm/trace.h
-+++ b/arch/x86/kvm/trace.h
-@@ -64,9 +64,9 @@ TRACE_EVENT(kvm_hypercall,
-  * Tracepoint for hypercall.
-  */
- TRACE_EVENT(kvm_hv_hypercall,
--	TP_PROTO(__u16 code, bool fast, __u16 rep_cnt, __u16 rep_idx,
--		 __u64 ingpa, __u64 outgpa),
--	TP_ARGS(code, fast, rep_cnt, rep_idx, ingpa, outgpa),
-+	TP_PROTO(__u16 code, bool fast,  __u16 var_cnt, __u16 rep_cnt,
-+		 __u16 rep_idx, __u64 ingpa, __u64 outgpa),
-+	TP_ARGS(code, fast, var_cnt, rep_cnt, rep_idx, ingpa, outgpa),
- 
- 	TP_STRUCT__entry(
- 		__field(	__u16,		rep_cnt		)
-@@ -74,6 +74,7 @@ TRACE_EVENT(kvm_hv_hypercall,
- 		__field(	__u64,		ingpa		)
- 		__field(	__u64,		outgpa		)
- 		__field(	__u16, 		code		)
-+		__field(	__u16,		var_cnt		)
- 		__field(	bool,		fast		)
- 	),
- 
-@@ -83,13 +84,14 @@ TRACE_EVENT(kvm_hv_hypercall,
- 		__entry->ingpa		= ingpa;
- 		__entry->outgpa		= outgpa;
- 		__entry->code		= code;
-+		__entry->var_cnt	= var_cnt;
- 		__entry->fast		= fast;
- 	),
- 
--	TP_printk("code 0x%x %s cnt 0x%x idx 0x%x in 0x%llx out 0x%llx",
-+	TP_printk("code 0x%x %s var_cnt 0x%x rep_cnt 0x%x idx 0x%x in 0x%llx out 0x%llx",
- 		  __entry->code, __entry->fast ? "fast" : "slow",
--		  __entry->rep_cnt, __entry->rep_idx,  __entry->ingpa,
--		  __entry->outgpa)
-+		  __entry->var_cnt, __entry->rep_cnt, __entry->rep_idx,
-+		  __entry->ingpa, __entry->outgpa)
- );
- 
- TRACE_EVENT(kvm_hv_hypercall_done,
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 8ed6733d5146..8a04c8fba598 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -183,6 +183,7 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_HYPERCALL_RESULT_MASK	GENMASK_ULL(15, 0)
- #define HV_HYPERCALL_FAST_BIT		BIT(16)
- #define HV_HYPERCALL_VARHEAD_OFFSET	17
-+#define HV_HYPERCALL_VARHEAD_MASK	GENMASK_ULL(26, 17)
- #define HV_HYPERCALL_REP_COMP_OFFSET	32
- #define HV_HYPERCALL_REP_COMP_1		BIT_ULL(32)
- #define HV_HYPERCALL_REP_COMP_MASK	GENMASK_ULL(43, 32)
 -- 
 2.34.1.400.ga245620fadb-goog
 
