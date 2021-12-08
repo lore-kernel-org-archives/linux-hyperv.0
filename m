@@ -2,162 +2,83 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 790BCC433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue,  7 Dec 2021 22:10:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A79B3C433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed,  8 Dec 2021 06:10:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242243AbhLGWNd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 7 Dec 2021 17:13:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43224 "EHLO
+        id S237393AbhLHGNq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 8 Dec 2021 01:13:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242158AbhLGWNQ (ORCPT
+        with ESMTP id S237259AbhLHGNn (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 7 Dec 2021 17:13:16 -0500
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E74C061748
-        for <linux-hyperv@vger.kernel.org>; Tue,  7 Dec 2021 14:09:45 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id a8-20020a63cd48000000b00330605939c0so181934pgj.5
-        for <linux-hyperv@vger.kernel.org>; Tue, 07 Dec 2021 14:09:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=reply-to:date:in-reply-to:message-id:mime-version:references
-         :subject:from:to:cc;
-        bh=uF16Oxv6VV3ZC2VxAZ1WSj/36gf1pwNq03D2B8pq7CQ=;
-        b=dwNTtTYKNZg2ogxqpqo+kgmhVGX0dGvDuL9/IB5EaLp/MKFz54Cp68CczXTbzQuDxf
-         enVpIwazPtmn/7nKwlWSmXmbLJGGcrwAgUa/hbweGw8NmKv0t9tZIcQ6YpJR7N5HO6n6
-         4LgSsRph4OVRbWGJzMrCUaNmDqhOCfG539i/WYsU4n925UP/OVwl8OAz3dZuc5xHv0Hn
-         yYmoLqa9nIj2qQ6HXBW5PUCNZDfSchfLUvlkAE1TfXk3e7OqPsxpfFsBu9B+rApE/+up
-         ffTctyVJsxm+D7CN8hBUcoUvkSFiXpbhJwflYlmMgtb9wths+JU/xgUpiwSN/35QZ2ub
-         DesA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:reply-to:date:in-reply-to:message-id
-         :mime-version:references:subject:from:to:cc;
-        bh=uF16Oxv6VV3ZC2VxAZ1WSj/36gf1pwNq03D2B8pq7CQ=;
-        b=LYgWMUaNsyMBjWYOju0f2FcG12nYYxYkm+eRZW4mvoRxpH3V8/7n4LqYU2Dvotb7fi
-         oYZRdU8rxd18JOt7cecBXUExmwnwHcHpm9LSvXV+P2YtZE64zkLC3diL0UvK2ajzLwBm
-         DTZaUI2lQUtPEVoXPmshx00sdLaUcW9Qy6Jn9hrtrR/clR9PUd8t/1ulcT3yRchZ259H
-         OmiF+FKNLBCccDgnAKHjG4lk1ztJZb4gbYSpOL9FgKpEWn7Xo/ClCgqHER5+fzsqWiiv
-         x8h9tymiLyzqnELz1INVqmkRGQdn9Gma4ey/IlP8DquTsZ7w4sDzOXcHXLGMvhsh2Rvn
-         PF/g==
-X-Gm-Message-State: AOAM531d/pfsEVtsTdxEVK3Lj1ENF5BwT42RdmNTNRrivwsJrckeUyJe
-        6i6Zpnj/jQiFDwFJlhILE+2YuRGzWjA=
-X-Google-Smtp-Source: ABdhPJy8yElcff+JtvEmSmZyuQO5eqvAAbkr68ZohfdG1rhfOZy7h03ST7rzPoHdCZCuQQpKoswF9MqageY=
-X-Received: from seanjc.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:3e5])
- (user=seanjc job=sendgmr) by 2002:a17:902:e88a:b0:141:dfde:eed7 with SMTP id
- w10-20020a170902e88a00b00141dfdeeed7mr55226833plg.17.1638914985025; Tue, 07
- Dec 2021 14:09:45 -0800 (PST)
-Reply-To: Sean Christopherson <seanjc@google.com>
-Date:   Tue,  7 Dec 2021 22:09:23 +0000
-In-Reply-To: <20211207220926.718794-1-seanjc@google.com>
-Message-Id: <20211207220926.718794-6-seanjc@google.com>
-Mime-Version: 1.0
-References: <20211207220926.718794-1-seanjc@google.com>
-X-Mailer: git-send-email 2.34.1.400.ga245620fadb-goog
-Subject: [PATCH v3 5/8] KVM: x86: Don't bother reading sparse banks that end
- up being ignored
-From:   Sean Christopherson <seanjc@google.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ajay Garg <ajaygargnsit@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 8 Dec 2021 01:13:43 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4613EC061574;
+        Tue,  7 Dec 2021 22:10:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0FF05B81FBA;
+        Wed,  8 Dec 2021 06:10:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9101C341CB;
+        Wed,  8 Dec 2021 06:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1638943809;
+        bh=INhacVaG4P5HzQ777ODVJupf9ZDf/A1ZZhWB3yOJM8E=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=RZFN26Hk+TjOeGuMOaIydIfybrrvGDeBnyvTCE/oOyXmCiDhjp/NvrvqlHDFm/mb9
+         pNh6xV7utvhGUQknLe/bHCcHbBwDOh3vhgH7mzzDZU9FnVwVZpjtN2QWL5MIyiJ+ia
+         /2qvD309mO+c+F33ggk0FNLqbRGBOPYxW/7B6ITlVRMO5+PnaZor+VLBd6nxZJUJlr
+         04TzZI4AySNj0cTDtHagMgXq254LESHrLU4PafWQEbPHKLYKy+EXrG8PHiEmRBdfZI
+         w5s7ySIxJMl5nkLkF1RKc0wW8h9T4pPNstMgys1TTSA7+U2CQYk4rHrVyzC7WrxHsd
+         gGi/NGg15C9GQ==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A9B3C60BCF;
+        Wed,  8 Dec 2021 06:10:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] hv_sock: Extract hvs_send_data() helper that takes only
+ header
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <163894380969.19666.8744296090351862087.git-patchwork-notify@kernel.org>
+Date:   Wed, 08 Dec 2021 06:10:09 +0000
+References: <20211207063217.2591451-1-keescook@chromium.org>
+In-Reply-To: <20211207063217.2591451-1-keescook@chromium.org>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, sgarzare@redhat.com,
+        davem@davemloft.net, kuba@kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-hardening@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When handling "sparse" VP_SET requests, don't read sparse banks that
-can't possibly contain a legal VP index instead of ignoring such banks
-later on in sparse_set_to_vcpu_mask().  This allows KVM to cap the size
-of its sparse_banks arrays for VP_SET at KVM_HV_MAX_SPARSE_VCPU_SET_BITS.
-Add a compile time assert that KVM_HV_MAX_SPARSE_VCPU_SET_BITS<=64, i.e.
-that KVM_MAX_VCPUS<=4096, as the TLFS allows for at most 64 sparse banks,
-and KVM will need to do _something_ to play nice with Hyper-V.
+Hello:
 
-Reducing the size of sparse_banks fudges around a compilation warning
-(that becomes error with KVM_WERROR=y) when CONFIG_KASAN_STACK=y, which
-is selected (and can't be unselected) by CONFIG_KASAN=y when using gcc
-(clang/LLVM is a stack hog in some cases so it's opt-in for clang).
-KASAN_STACK adds a redzone around every stack variable, which pushes the
-Hyper-V functions over the default limit of 1024.
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Ideally, KVM would flat out reject such impossibilities, but the TLFS
-explicitly allows providing empty banks, even if a bank can't possibly
-contain a valid VP index due to its position exceeding KVM's max.
+On Mon,  6 Dec 2021 22:32:17 -0800 you wrote:
+> When building under -Warray-bounds, the compiler is especially
+> conservative when faced with casts from a smaller object to a larger
+> object. While this has found many real bugs, there are some cases that
+> are currently false positives (like here). With this as one of the last
+> few instances of the warning in the kernel before -Warray-bounds can be
+> enabled globally, rearrange the functions so that there is a header-only
+> version of hvs_send_data(). Silences this warning:
+> 
+> [...]
 
-  Furthermore, for a bit 1 in ValidBankMask, it is valid state for the
-  corresponding element in BanksContents can be all 0s, meaning no
-  processors are specified in this bank.
+Here is the summary with links:
+  - hv_sock: Extract hvs_send_data() helper that takes only header
+    https://git.kernel.org/netdev/net-next/c/c0e084e342a8
 
-Arguably KVM should reject and not ignore the "extra" banks, but that can
-be done independently and without bloating sparse_banks, e.g. by reading
-each "extra" 8-byte chunk individually.
-
-Reported-by: Ajay Garg <ajaygargnsit@gmail.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/kvm/hyperv.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 680ba3d5d2ad..a470cde7a7a7 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -1754,11 +1754,16 @@ struct kvm_hv_hcall {
- static u64 kvm_get_sparse_vp_set(struct kvm *kvm, struct kvm_hv_hcall *hc,
- 				 u64 *sparse_banks, gpa_t offset)
- {
-+	u16 var_cnt;
-+
- 	if (hc->var_cnt > 64)
- 		return -EINVAL;
- 
-+	/* Ignore banks that cannot possibly contain a legal VP index. */
-+	var_cnt = min_t(u16, hc->var_cnt, KVM_HV_MAX_SPARSE_VCPU_SET_BITS);
-+
- 	return kvm_read_guest(kvm, hc->ingpa + offset, sparse_banks,
--			      hc->var_cnt * sizeof(*sparse_banks));
-+			      var_cnt * sizeof(*sparse_banks));
- }
- 
- static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool ex)
-@@ -1771,9 +1776,17 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 	DECLARE_BITMAP(vcpu_bitmap, KVM_MAX_VCPUS);
- 	unsigned long *vcpu_mask;
- 	u64 valid_bank_mask;
--	u64 sparse_banks[64];
-+	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	bool all_cpus;
- 
-+	/*
-+	 * The Hyper-V TLFS doesn't allow more than 64 sparse banks, e.g. the
-+	 * valid mask is a u64.  Fail the build if KVM's max allowed number of
-+	 * vCPUs (>4096) would exceed this limit, KVM will additional changes
-+	 * for Hyper-V support to avoid setting the guest up to fail.
-+	 */
-+	BUILD_BUG_ON(KVM_HV_MAX_SPARSE_VCPU_SET_BITS > 64);
-+
- 	if (!ex) {
- 		if (hc->fast) {
- 			flush.address_space = hc->ingpa;
-@@ -1895,7 +1908,7 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc, bool
- 	DECLARE_BITMAP(vcpu_bitmap, KVM_MAX_VCPUS);
- 	unsigned long *vcpu_mask;
- 	unsigned long valid_bank_mask;
--	u64 sparse_banks[64];
-+	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	u32 vector;
- 	bool all_cpus;
- 
+You are awesome, thank you!
 -- 
-2.34.1.400.ga245620fadb-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
