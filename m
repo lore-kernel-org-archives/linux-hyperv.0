@@ -2,30 +2,33 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C48C433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Dec 2021 14:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADCEC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Dec 2021 15:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236691AbhLTOt2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Dec 2021 09:49:28 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:54486 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235439AbhLTOr1 (ORCPT
+        id S237874AbhLTPIM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 20 Dec 2021 10:08:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239936AbhLTPGU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Dec 2021 09:47:27 -0500
+        Mon, 20 Dec 2021 10:06:20 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD9FAC08EAF4;
+        Mon, 20 Dec 2021 06:53:23 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 772A2B80EED;
-        Mon, 20 Dec 2021 14:47:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA280C36AE8;
-        Mon, 20 Dec 2021 14:47:23 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E22161185;
+        Mon, 20 Dec 2021 14:53:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5470CC36AE8;
+        Mon, 20 Dec 2021 14:53:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1640011644;
-        bh=nCcllGnloMbPxDxi9tnGf1r+X75h46np8ZxojuJNSlg=;
+        s=korg; t=1640012002;
+        bh=zOh8JSzoPA2ejPGnZMR1+MAVDJFx3VR3ZbF4DA2bW9I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PgRdw/1dY3iqHWvn6Fxf5rIBhE0sNjt5OswzJnP4PGm3SKEAYdh695i8R5SH5N3Gu
-         1zK9MAG4Fpv6c6QJJHA8304Htp4egRTBGVIca//DVEIpdxvA0K3rFAqgV/clOXMmj9
-         0hBX/XRzCoshFaOiLqsMrOxts3s8j210rxtn1nYE=
+        b=hbO72iunwIkdxrRTNJTfJF1a+faDd3s+khzCaJG99+c2vYSApHQ7hAqs8+gRhXzkq
+         SZK/Fe1SRnntjTXe/Ca4XgvzVzX8sDZ/kIxVNpR1ttIAE9dWxAl9LpNESAsFlB8XGL
+         mw5u0bNgBL6zOW05+1RnLT9Y6Qi4scp+0DFjK9Js=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -39,12 +42,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-hyperv@vger.kernel.org,
         Michael Kelley <mikelley@microsoft.com>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 23/99] hv: utils: add PTP_1588_CLOCK to Kconfig to fix build
-Date:   Mon, 20 Dec 2021 15:33:56 +0100
-Message-Id: <20211220143030.135529788@linuxfoundation.org>
+Subject: [PATCH 5.15 046/177] hv: utils: add PTP_1588_CLOCK to Kconfig to fix build
+Date:   Mon, 20 Dec 2021 15:33:16 +0100
+Message-Id: <20211220143041.647792342@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211220143029.352940568@linuxfoundation.org>
-References: <20211220143029.352940568@linuxfoundation.org>
+In-Reply-To: <20211220143040.058287525@linuxfoundation.org>
+References: <20211220143040.058287525@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -88,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index 79e5356a737a2..210e532ac277f 100644
+index d1123ceb38f3f..9a074cbdef78c 100644
 --- a/drivers/hv/Kconfig
 +++ b/drivers/hv/Kconfig
-@@ -17,6 +17,7 @@ config HYPERV_TIMER
+@@ -18,6 +18,7 @@ config HYPERV_TIMER
  config HYPERV_UTILS
  	tristate "Microsoft Hyper-V Utilities driver"
  	depends on HYPERV && CONNECTOR && NLS
