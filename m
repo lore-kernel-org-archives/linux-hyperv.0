@@ -2,139 +2,290 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F028C433F5
-	for <linux-hyperv@archiver.kernel.org>; Mon, 17 Jan 2022 09:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB8F8C433F5
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Jan 2022 22:44:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbiAQJfo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 17 Jan 2022 04:35:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235688AbiAQJfi (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 17 Jan 2022 04:35:38 -0500
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB06C06161C
-        for <linux-hyperv@vger.kernel.org>; Mon, 17 Jan 2022 01:35:38 -0800 (PST)
-Received: by mail-oi1-x235.google.com with SMTP id s127so22626198oig.2
-        for <linux-hyperv@vger.kernel.org>; Mon, 17 Jan 2022 01:35:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
-        b=brYMghhNpV3UtW8Pry19jIqkr5UG+1u8w9vx0wfpPtB+68SvTVhWt23hZ5fvWzMuMB
-         +Z91zQpxcQt0ofra67Y98j4cXwUJJQ5TTn+6MvOkrK+75hiuxdXjddoZf8Wr684vAOpE
-         8UnIwlhCxGWTDfkszaoL7H5a/hLEqSd4JWVfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/TWot+GBT255Kn595XxLRRlEGzkpc6u0aEZt1sgu9nQ=;
-        b=z3NFhvGkpa6Q5tHlbcZJC/RBZrgIgSoJ2E/ifmka+s8HBsV5Kp2dW/Y7L4Ux5DYeP+
-         g1KdVQ9k1f6/qiZZ9ILoVkz9UBtaKmwaNQTTmRnyWJF6ANVSyLoqUzQk04Av/QF86E7P
-         lVYcPfierCiOq82oanT8IuQnc7ssrOpEtA4C1/a6eIj6uXejIm5U5x5BTrbqTXqK5loh
-         me8iNsG192mkBVpLg3TOoQqkfQ7voPM1kwL7ytkGdUxsXykFXrJ0R5lto1mz9LmlVU8F
-         8rx1cRMTBr+a3gdYAf6vM6hs8RKy+ZwDETWPxgxQvVETWXjZrKKhuaRK11kksLjXPWi0
-         Oqfg==
-X-Gm-Message-State: AOAM532VluCGIqudfXCEeFQaUiV21lGMaxd9oD7Rl4USs689Kp+X4xK2
-        dFhiaR7sPrfd3kC37LrEVYOIeAWzaDW8L5gA5UR0Ug==
-X-Google-Smtp-Source: ABdhPJz+YSLdpmoOtNsknZdTmAXVEU/lG790KmndstiDSVOMX6wDaiiteQoHLkfyHIGmn3VOmtjiL595km39p9G6Ono=
-X-Received: by 2002:a05:6808:1188:: with SMTP id j8mr21930539oil.101.1642412137479;
- Mon, 17 Jan 2022 01:35:37 -0800 (PST)
+        id S1349010AbiARWoS (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jan 2022 17:44:18 -0500
+Received: from mail-eus2azon11020020.outbound.protection.outlook.com ([52.101.56.20]:19135
+        "EHLO na01-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237704AbiARWoR (ORCPT <rfc822;linux-hyperv@vger.kernel.org>);
+        Tue, 18 Jan 2022 17:44:17 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BJQcfgRYaBQe5/GXpftrVNF26BggkD0yYwJtg92jgdnRl3G49jmV+KTUpmYCIbT1BbyMwIHyzZgRWZ2MOchfp1v72jyUMCM4Q9IHfCdwUGs7nY8if4GuDoLThFKdp0iTxqYcn2mpXZ9SIgGWWckgolgiZgWWBfKCqf45vM5Eg1jzfRny/dKZOKt5hJUqDiF01SfWZg7mL6lE7PumCjWGn/GLAtihJr2T+ONZA45yjZLW+6auyyjU9kOcLdPPpAW8xRF/m7W8Q/zUjMW3ChDx2U7rvh8TvVThtBQ+FCcI97OWbD6cOuP/9vMZ8W57hJnZQztLNN3JthNuOCUQWncpdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vsxQDf1zpqTWD5gxK7Qr1FMS+YUWax60/X/d/hisl9A=;
+ b=AZV25Y3CL3Ml4zPjY987iLN7GMc+Bpg0D2Hm0JGG1jMo0gXF6GVejXntpPH9h3fBdho2qSPaEcBvkIn6aXhliSdCBIDO+xZGLj91mGVE59uh29U/leEH5Vg1uxlSUDcpK9bPNLjuZfg5m12j+xOYKJUwSlrMgBk0r10fuDySkOAHNwek89GZL1IR7cC++6iKiSwB36tpGHBOkfoCKwBVHGG6Gusz2OObDe5MXYMzR9jVDs6FJM6rQNJodx2/uylWxdjlmslPr5Ib6Vs+zz1YfJ7thCG13fvubImyQxN29jxRvon6zR3q0RNtDHHo7rLnnRFaL/LoLGkLj7vg7NZSDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vsxQDf1zpqTWD5gxK7Qr1FMS+YUWax60/X/d/hisl9A=;
+ b=gv0TMKm1FJEgn9gRaibxanndY+sTfmi9jLoHlXk5BUNQQpyHyoX8IRti+Zm+cRcBXMOuRePPEowtWAM0Vmj+QxxqHm++gSiDcmhycRwYNyi+nV9wzWyLCAGkOVvcOjEjBFoyDo1ccqF2CwYvc7zoc6guqEnITTPUH7WHfJurWgM=
+Received: from BY5PR21MB1506.namprd21.prod.outlook.com (2603:10b6:a03:23d::12)
+ by MW2PR2101MB0923.namprd21.prod.outlook.com (2603:10b6:302:10::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.3; Tue, 18 Jan
+ 2022 22:44:12 +0000
+Received: from BY5PR21MB1506.namprd21.prod.outlook.com
+ ([fe80::d18c:f0b3:8491:22e1]) by BY5PR21MB1506.namprd21.prod.outlook.com
+ ([fe80::d18c:f0b3:8491:22e1%3]) with mapi id 15.20.4930.003; Tue, 18 Jan 2022
+ 22:44:12 +0000
+From:   Long Li <longli@microsoft.com>
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Purna Pavan Chandra Aekkaladevi <paekkaladevi@microsoft.com>
+Subject: RE: [PATCH] PCI: hv: Fix NUMA node assignment when kernel boots with
+ parameters affecting NUMA topology
+Thread-Topic: [PATCH] PCI: hv: Fix NUMA node assignment when kernel boots with
+ parameters affecting NUMA topology
+Thread-Index: AQHYA1QWLddhPIPNnk6mtn+/LlpFvqxXsWWAgABQoACABHENgIADtXxggAYN6oCAAzyJgA==
+Date:   Tue, 18 Jan 2022 22:44:12 +0000
+Message-ID: <BY5PR21MB1506829683984FD91061D907CE589@BY5PR21MB1506.namprd21.prod.outlook.com>
+References: <1641511228-12415-1-git-send-email-longli@linuxonhyperv.com>
+ <MWHPR21MB15937B050A3E849A76384EA8D74D9@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB15067D1C5AA731A340A7AF34CE4D9@BY5PR21MB1506.namprd21.prod.outlook.com>
+ <MWHPR21MB15938D29A4C1AF535E8510ADD7509@MWHPR21MB1593.namprd21.prod.outlook.com>
+ <BY5PR21MB1506B0D34E7C42B9B0337136CE539@BY5PR21MB1506.namprd21.prod.outlook.com>
+ <MWHPR21MB1593B3FF426AFF5B3F7C35E9D7569@MWHPR21MB1593.namprd21.prod.outlook.com>
+In-Reply-To: <MWHPR21MB1593B3FF426AFF5B3F7C35E9D7569@MWHPR21MB1593.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8bda7ebd-c08f-425e-b37c-6b8fc48aeffa;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-01-07T15:18:50Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d50f50f5-87e4-4a38-9143-08d9dad40c9d
+x-ms-traffictypediagnostic: MW2PR2101MB0923:EE_
+x-ms-exchange-atpmessageproperties: SA|SL
+x-microsoft-antispam-prvs: <MW2PR2101MB0923EA3DBBBC649E1B6419AACE589@MW2PR2101MB0923.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: hPCu2Nf7DJXkwezLdCtm5IsqKycj658lLp8J+s/CNasnYa7fo1p0Mzh6qRgX5ww/x3n/73nZ5Vz+/9SzQGGDi59pYuZOeu7Tb7j7jez+qMONl6WF6ORUdAHzUM22ilNY1Tdc8ydXiCreXV8J2I2Hbu/7q5Udl4WKuVb/rhTdpTDkyzM1KTGnYNcRNEfqmf2aiQVNlSjl+4iPm3Wqeia3OmrEJlc6UIxZgF9yEaZAST/nd6MU2JfbWWGFrzB/8+q45KqVU3u9S8PUP4u0f35xosLZs8MZcIVOLzK9wJ6mRtzO/awp9Eune+EHOC3aQwdXZWQt3e3Jqd9IfqbJYTcGnz1+P9/91zyWuPNifHwfaP4OdYtCLcjmlSn31eHodH5y6bjJOnRBF6WbMQ3gEUzZj1v5GjG1pcPlSqD0e5zWU5+jfwXg2Rkxg1d8tRKagJ0kWXJCcB/rtnrwQViVWfjp1ksYI47NYytOrgxBttkQav8jiPxy1HId6rMFsjPQVDz2DwIwbAhgjt2NfiewBJ/5vdgFn36NumK7JAlGzxDDmBBYvsKWeTtoFzWqPG5QGFWcbPWzwvdAqFYJhtmbuXTOIPnnjiw/KOiZvHePLaQ1FbHKo4AG8dRCGpR1fG9gLdtKdWKUd4tR6FCkgC1ORfqkiE0h+r06n3I2FRmN1rNvsr4Agy11uMIHC5jSgBxGdkvB7Fsn9AIw4YALLZLkzGDJY3YMbChkgpiuUzsoLByvtnMCRAtYB8FRkh/fdDPiGZ7H
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR21MB1506.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(9686003)(508600001)(71200400001)(6506007)(10290500003)(38070700005)(38100700002)(122000001)(82960400001)(82950400001)(7696005)(86362001)(186003)(26005)(83380400001)(66556008)(64756008)(66476007)(52536014)(66446008)(76116006)(33656002)(8990500004)(316002)(66946007)(6636002)(110136005)(8676002)(8936002)(5660300002)(55016003)(2906002)(20210929001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Q2o2eJgpxXkVt2w/Kl1w4XqQO0u6OC2Uem1QAjp9bJILT0xgrlcaW3CxZTKj?=
+ =?us-ascii?Q?oiBkiFtM45FahDjhM/FFg1yjP3lrxTJHxQC8VG4vUiE0+5Grtp9OC4WBa2TB?=
+ =?us-ascii?Q?QDcucakWiqWYYBD0iP7jO+nIlhgJDeb+uTfulqwLd/SIaIZR/LWbF8ji2UbQ?=
+ =?us-ascii?Q?J5GIs7Qr+BJyRU8CVyBzd8G7onmFBuG3q4yWkmYYcHKccItACdKGd9FDO9tR?=
+ =?us-ascii?Q?yhAmwGkbcuvGPOb9gnvhFGh88Ie63s+31TjtashB8sL3ZlB9zrCjZ+hsF1wE?=
+ =?us-ascii?Q?qVQPhKWu/W+m4VLX/AJHGxN+4WLZ0NOnwTLPFIwJJXzdeBMCQSfTLd3iX3A0?=
+ =?us-ascii?Q?Dd4Jrbf3GvnIwRS3qstZ2ls3LW6Iyntv/4NyMqSCXpzuNId4hUE5N8Zt0LJE?=
+ =?us-ascii?Q?0nkvxeG3sywI09ScJQbOGOFkmspNEhyoQFv2v6ORbdL/EmhQlguZIbBAL0VA?=
+ =?us-ascii?Q?k3WwukLSYSXpYHSMENXRHKsJA1QI1yiuYGu6sCYMSA0urDX5huPdhhxYJyfC?=
+ =?us-ascii?Q?svHT+34BGuWm3i2ExPwxyXxyyIUFKlEPXA9QT8atbG5xWbOsW79ano6xf5v3?=
+ =?us-ascii?Q?JGO/1HByqpdjQBrqHSUWUj3wmDpt+PXgm4OrotzVl1VXixbeexWLp7GgQ9LV?=
+ =?us-ascii?Q?SpcyVns4Wc9cugstcUJd0pTwapuFcTXimQhyYW7xIfUqR4e7lvGJIRzH1IOa?=
+ =?us-ascii?Q?hxx3uHFNUyVDoyswJITGsRoPA3n9+/mpjKYU3NX5/QZx4zcA+w0LCMl8t4vy?=
+ =?us-ascii?Q?L2v92X5vDnuOtgzrTStVmueezJooupLgAn8atfrC42/dPv57jJm3AairWeqh?=
+ =?us-ascii?Q?V/QzFAZPQg8MFCQ5oeRxPFZqQZGGgdJV99btmBSNvrGwGIZ0VSHr8GcumD+J?=
+ =?us-ascii?Q?S89L2e/nmnmcowAlp+aKmfKyM1aziBYpIJT0zrWumGtwS+LI9rJaxVsTT/oM?=
+ =?us-ascii?Q?50oauP01uuiY1vAAomtHZFT9eCwsYD7jtPeo2w7KjNwx2tu2s5jqa4YkpT1T?=
+ =?us-ascii?Q?4tsgkrUFwQ0O6r9//GexhYb2CSyMKOAKlLngz31fucnuKHIWRqEKtysXoSLy?=
+ =?us-ascii?Q?h4jG2fykxsZhVDqUsO8f2O6k4dA5924XQKNZfmdSOFzKY+YfD7D7k7BU3NSs?=
+ =?us-ascii?Q?ZUaYOsB+/W++C5EMqNPSUYwR0q8x6byL2H3qioV7zh50XA90Vb73MeUC+YQX?=
+ =?us-ascii?Q?UpQeJTGFiGYpFA0l40T269CsXMRaTfTv8pMShk45r/u5xIbGw4h7OEDMBELX?=
+ =?us-ascii?Q?YQpW4eWZvKU0CekvDpU1ozC5tLYTMInu+MlZ2OIDlKFIyJhtBcZ1bm46Ov7T?=
+ =?us-ascii?Q?8AxuUcGf/lPVe7K2v611WFHgkZo/Z0iFPtAEr8or6wTNl18Yu9EsJ1i2db1J?=
+ =?us-ascii?Q?Z4RVE2XMwPOWmDYQX4GtZ/WzQokhiW1bR8Y5MKQ5nT0XxcF5bC315RjocZq8?=
+ =?us-ascii?Q?tNJk5D3kfz2/ydKT7Muf4NsRJspiJh58lRkJZxSL7zQb5uaUD9ka6dscZZ7f?=
+ =?us-ascii?Q?l5RVGiQRBjqKFOECOT2PKvu6K62UrkZxBHv6PD8kFeOH38N6SPCORQrAkEDY?=
+ =?us-ascii?Q?E87Vqq2gP0rGPrbVMNg9CfC2rTkGqmD1Xqb1cpmH+KHrE6Y4jJNgQUNZEkzZ?=
+ =?us-ascii?Q?RQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <cover.1641937419.git.iourit@linux.microsoft.com>
- <e04c8e820bc166d9d4fe8e388aace731bb3255b0.1641937420.git.iourit@linux.microsoft.com>
- <YeG6+Crv/Bg4h3u1@phenom.ffwll.local> <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
-In-Reply-To: <e472cbe8-44ec-110a-1ad7-bc561cd0be88@linux.microsoft.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Mon, 17 Jan 2022 10:35:26 +0100
-Message-ID: <CAKMK7uFkVvfXM7QsgSfP4OLk9b_cSwNsi3s3_7EFuL+Pa1s7eQ@mail.gmail.com>
-Subject: Re: [PATCH v1 9/9] drivers: hv: dxgkrnl: Implement DXGSYNCFILE
-To:     Iouri Tarassov <iourit@linux.microsoft.com>
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, spronovo@microsoft.com,
-        gregkh@linuxfoundation.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        jenatali@microsoft.com
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR21MB1506.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d50f50f5-87e4-4a38-9143-08d9dad40c9d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2022 22:44:12.8660
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FS+NFyPiin17xZev1SyIlRsbIvwmtQXPY0Q1FeXmrf3P3iVygtvh1ZA8tydiVj6yrm6esmqrvfyNIhMjmdCCaA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0923
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 9:34 AM Iouri Tarassov
-<iourit@linux.microsoft.com> wrote:
->
->
-> On 1/14/2022 10:03 AM, Daniel Vetter wrote:
-> > Hi all,
+> Subject: RE: [PATCH] PCI: hv: Fix NUMA node assignment when kernel boots
+> with parameters affecting NUMA topology
+>=20
+> From: Long Li <longli@microsoft.com> Sent: Wednesday, January 12, 2022 4:=
+59
+> PM
 > >
-> > On Wed, Jan 12, 2022 at 11:55:14AM -0800, Iouri Tarassov wrote:
-> > > Implement the LX_DXCREATESYNCFILE IOCTL (D3DKMTCreateSyncFile).
+> > > Subject: RE: [PATCH] PCI: hv: Fix NUMA node assignment when kernel
+> > > boots with parameters affecting NUMA topology
 > > >
-> > > dxgsyncfile is built on top of the Linux sync_file object and
-> > > provides a way for the user mode to synchronize with the execution
-> > > of the device DMA packets.
+> > > From: Long Li <longli@microsoft.com> Sent: Friday, January 7, 2022
+> > > 12:32 PM
+> > > > >
+> > > > > From: longli@linuxonhyperv.com <longli@linuxonhyperv.com> Sent:
+> > > > > Thursday, January 6, 2022 3:20 PM
+> > > > > >
+> > > > > > When the kernel boots with parameters restricting the number
+> > > > > > of cpus or NUMA nodes, e.g. maxcpus=3DX or numa=3Doff, the vPCI
+> > > > > > driver should only set to the NUMA node to a value that is vali=
+d in the
+> current running kernel.
+> > > > > >
+> > > > > > Signed-off-by: Long Li <longli@microsoft.com>
+> > > > > > ---
+> > > > > >  drivers/pci/controller/pci-hyperv.c | 17 +++++++++++++++--
+> > > > > >  1 file changed, 15 insertions(+), 2 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/pci/controller/pci-hyperv.c
+> > > > > > b/drivers/pci/controller/pci- hyperv.c index
+> > > > > > fc1a29acadbb..8686343eff4c 100644
+> > > > > > --- a/drivers/pci/controller/pci-hyperv.c
+> > > > > > +++ b/drivers/pci/controller/pci-hyperv.c
+> > > > > > @@ -1835,8 +1835,21 @@ static void
+> > > > > > hv_pci_assign_numa_node(struct hv_pcibus_device *hbus)
+> > > > > >  		if (!hv_dev)
+> > > > > >  			continue;
+> > > > > >
+> > > > > > -		if (hv_dev->desc.flags &
+> HV_PCI_DEVICE_FLAG_NUMA_AFFINITY)
+> > > > > > -			set_dev_node(&dev->dev, hv_dev-
+> >desc.virtual_numa_node);
+> > > > > > +		if (hv_dev->desc.flags &
+> HV_PCI_DEVICE_FLAG_NUMA_AFFINITY) {
+> > > > > > +			int cpu;
+> > > > > > +			bool found_node =3D false;
+> > > > > > +
+> > > > > > +			for_each_possible_cpu(cpu)
+> > > > > > +				if (cpu_to_node(cpu) =3D=3D
+> > > > > > +				    hv_dev->desc.virtual_numa_node) {
+> > > > > > +					found_node =3D true;
+> > > > > > +					break;
+> > > > > > +				}
+> > > > > > +
+> > > > > > +			if (found_node)
+> > > > > > +				set_dev_node(&dev->dev,
+> > > > > > +					     hv_dev-
+> >desc.virtual_numa_node);
+> > > > > > +		}
+> > > > >
+> > > > > I'm wondering about this approach vs. just comparing against
+> nr_node_ids.
+> > > >
+> > > > I was trying to fix this by comparing with nr_node_ids. This
+> > > > worked for numa=3Doff, but it didn't work with maxcpus=3DX.
+> > > >
+> > > > maxcpus=3DX is commonly used in kdump kernels. In this config,  the
+> > > > memory system is initialized in a way that only the NUMA nodes
+> > > > within maxcpus are setup and can be used by the drivers.
 > > >
-> > > The IOCTL creates a dxgsyncfile object for the given GPU synchronization
-> > > object and a fence value. A sync_object file descriptor is returned to
-> > > the caller. The caller could wait for the object by using poll().
-> > > When the GPU synchronization object is signaled on the host, the host
-> > > sends a message to the virtual machine and the sync_file object is
-> > > signaled.
+> > > In looking at a 5.16 kernel running in a Hyper-V VM on two NUMA
+> > > nodes, the number of NUMA nodes configured in the kernel is not
+> > > affected by maxcpus=3D on the kernel boot line.  This VM has 48 vCPUs
+> > > and 2 NUMA nodes, and is Generation 2.  Even with maxcpus=3D4 or
+> > > maxcpus=3D1, these lines are output during
+> > > boot:
 > > >
-> > > Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
+> > > [    0.238953] NODE_DATA(0) allocated [mem 0x7edffd5000-0x7edfffffff]
+> > > [    0.241397] NODE_DATA(1) allocated [mem 0xfcdffd4000-0xfcdfffefff]
+> > >
+> > > and
+> > >
+> > > [    0.280039] Initmem setup node 0 [mem 0x0000000000001000-
+> 0x0000007edfffffff]
+> > > [    0.282869] Initmem setup node 1 [mem 0x0000007ee0000000-
+> 0x000000fcdfffffff]
+> > >
+> > > It's perfectly legit to have a NUMA node with memory but no CPUs.
+> > > The memory assigned to the NUMA node is determined by the ACPI SRAT.
+> > > So I'm wondering what is causing the kdump issue you see.  Or maybe
+> > > the behavior of older kernels is different.
 > >
-> > Adding dri-devel, which get_maintainers.pl should have done automatically
-> > with the dma_fence wildcard match. Not sure why that didn't happen.
+> > Sorry, it turns out I had a typo. It's nr_cpus=3D1 (not maxcpus). But
+> > I'm not sure if that matters as the descriptions on these two in the ke=
+rnel doc
+> are the same.
 > >
-> > > +struct dxgsyncpoint {
-> > > +   struct dxghostevent     hdr;
-> > > +   struct dma_fence        base;
+> > On my system (4 NUMA nodes) with kdump boot line:  (maybe if you try a
+> > VM with 4 NUMA nodes, you can see the problem)
+> > [    0.000000] Command line: BOOT_IMAGE=3D/boot/vmlinuz-5.11.0-1025-azu=
+re
+> > root=3DPARTUUID=3D7145c36d-e182-43b6-a37e-0b6d18fef8fe ro console=3Dtty=
+1
+> > console=3DttyS0
+> > earlyprintk=3DttyS0 reset_devices systemd.unit=3Dkdump-tools-dump.servi=
+ce
+> > nr_cpus=3D1 irqpoll nousb ata_piix.prefer_ms_hyperv=3D0
+> > elfcorehdr=3D4038049140K
 > >
-> > This doesn't work unfortuntately. For better or worse memory fences like
-> > monitored fences from wddm have completely different semantics from
-> > dma_fence. You could probably hack this to be self-consistent for hyper-v,
-> > but the problem is that then hv would have incompatible locking/nesting
-> > rules compared to everything else, and dma_fence matter for memory
-> > management so this includes whether you're allowed to kmalloc(GFP_KERNEL)
-> > or not, and that's just a bit too much.
+> > I see the following:
+> > [    0.408246] NODE_DATA(0) allocated [mem 0x2cfd6000-0x2cffffff]
+> > [    0.410454] NODE_DATA(3) allocated [mem 0x3c2bef32000-0x3c2bef5bfff]
+> > [    0.413031] Zone ranges:
+> > [    0.414117]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+> > [    0.416522]   DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+> > [    0.418932]   Normal   [mem 0x0000000100000000-0x000003c2bef5cfff]
+> > [    0.421357]   Device   empty
+> > [    0.422454] Movable zone start for each node
+> > [    0.424109] Early memory node ranges
+> > [    0.425541]   node   0: [mem 0x0000000000001000-0x000000000009ffff]
+> > [    0.428050]   node   0: [mem 0x000000001d000000-0x000000002cffffff]
+> > [    0.430547]   node   3: [mem 0x000003c27f000000-0x000003c2bef5cfff]
+> > [    0.432963] Initmem setup node 0 [mem 0x0000000000001000-
+> 0x000000002cffffff]
+> > [    0.435695] Initmem setup node 3 [mem 0x000003c27f000000-
+> 0x000003c2bef5cfff]
+> > [    0.438446] On node 0, zone DMA: 1 pages in unavailable ranges
+> > [    0.439377] On node 0, zone DMA32: 53088 pages in unavailable ranges
+> > [    0.452784] On node 3, zone Normal: 40960 pages in unavailable range=
+s
+> > [    0.455221] On node 3, zone Normal: 4259 pages in unavailable ranges
 > >
-> > I discussed this quickly with Jesse on irc and it sounds like the reason
-> > you want the dma_fence is just to emulate the sync_file interface for
-> > android. I think the correct solution here is to create a hv_dxg_sync_file
-> > fd, which emulates the exact ioctls that Android needs, but with a wddm
-> > monitored fence underneath instead of a dma_fence underneath.
+> > It's unclear to me why node 1 and 2 are missing. But I don't think
+> > it's a Hyper-V problem since it's only affected by setting nr_cpus
+> > over kernel boot line. Later, a device driver
+> > (mlx5 in this example) tries to allocate memory on node 1 and fails:
 > >
-> > This way we guarantee that no one ever accidentally mixes these
-> > incompatible concepts up in the kernel, and Android should still be able
-> > to happily run under hyperv.
-> >
-> > Thoughts?
-> >
-> > Also pls cc me on this sync work since even if you drop dma_fence use
-> > completely I'd like to follow this a bit.
->
-> Hi Daniel,
->
-> Thank you for the review and feedback.
-> I will get this addressed.
+>=20
+> To summarize some offline conversation, we've figured out that the "missi=
+ng"
+> NUMA nodes are not due to setting maxcpus=3D1 or nr_cpus=3D1.  Setting th=
+e cpu
+> count doesn't affect any of this.
+>=20
+> Instead, Linux is modifying the memory map prior to starting the kdump ke=
+rnel
+> so that most of the memory is not touched and is
+> preserved to be dumped, which is the whole point of kdump.   This
+> modified memory map has no memory in NUMA nodes 1 and 2, so it is correct
+> to just see nodes 0 and 3 as online.
+>=20
+> I think code fix here is pretty simple:
+>=20
+> 	int node;
+>=20
+> 	node =3D hv_dev->desc.virtual_numa_node;
+> 	if ((hv_dev->desc.flags & HV_PCI_DEVICE_FLAG_NUMA_AFFINITY)
+> 			&& (node < nr_node_ids))
+> 		set_dev_node(&dev->dev, numa_map_to_online_node(node));
+>=20
+> Michael
 
-btw another idea I had over the w/e: Another option might be to allow
-different backends for sync_file, and then making sure that you cannot
-ever mix dma_fence and hv_dxg_fence type sync_file up (in e.g. the
-merge ioctl).
+Okay, this looks good.
 
-The issue is that fundamentally dma_fence and memory fences (or umf
-for userspace memory fences as we tend to call them) aren't
-compatible, but some of the interop plans we have is to allow stuffing
-either of them into fence container objects like sync_file. So going
-that route for wddm monitored fence support too could be a really
-future-proof approach, plus it'd allow you to still share the
-sync_file interface code. Not that it's going to be much code sharing,
-since all the implementation code needs to be distinct.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I'm sending a V2 (with a minor change) after testing is done.
+
+Long
