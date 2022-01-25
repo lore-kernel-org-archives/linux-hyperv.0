@@ -2,48 +2,48 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9173FC3526D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Jan 2022 22:07:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07085C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 25 Jan 2022 17:57:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235034AbiAXWGb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 24 Jan 2022 17:06:31 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:47494 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346686AbiAXVhI (ORCPT
+        id S240599AbiAYR4k (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 25 Jan 2022 12:56:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1385185AbiAYRyu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 24 Jan 2022 16:37:08 -0500
+        Tue, 25 Jan 2022 12:54:50 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2364C06175E;
+        Tue, 25 Jan 2022 09:54:48 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B329AB8105C;
-        Mon, 24 Jan 2022 21:37:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64061C340E8;
-        Mon, 24 Jan 2022 21:37:03 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7F05CB819DC;
+        Tue, 25 Jan 2022 17:54:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BE27C340E0;
+        Tue, 25 Jan 2022 17:54:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643060224;
-        bh=p+HWmAwbx4PM1ahPU6LAvyTqNx07782m8kgyYrwLFT8=;
+        s=k20201202; t=1643133286;
+        bh=e8RIDdHaka7BpYFM9Quoh+WQnHQ0tbZzk2YChopEt5k=;
         h=Date:From:To:Cc:Subject:From;
-        b=CmipDkkUgY3vXAQnEAtk1lzDgjA15xxFksaITPOHeCfSUazyZtXqWhPOVPaoHLGme
-         nPkaSHZECQ0I9kfxljSD233eNJHIzxq4vLN01DUKt85n245kLxlzz1XxN3spNE6mJo
-         /mRjP4iGQ9Qp5ZgjlDMn2oK5FpQ25JRnsOS6Wbw+RHmiWRNXdu4X8kZoNWvlwp+ZWK
-         xsQEG0KA1E/Cmxdkp+xGLzsKh1ymkmHXbiGGlqIybuXExQ69xNuLOweAyaJP7zSsRh
-         6AGgKLdcZ36JOxVtxGiGwBZdi392cAKlYhgAtYVQQMtlW8NkepvPipzANj8R7L5LY1
-         Xc4wbV2+Mvk5w==
-Date:   Mon, 24 Jan 2022 15:43:47 -0600
+        b=kfe3v9vI/NVHnoFrPeCBhSyVHjQQDrMtFRj2FLGHhtonu4oVamFx2uaUDoex/ZPwl
+         zAnO3bCTPb9q619jkKtp8C1pKJs+BkuizxhpCxMKjeiPV8PutwIkovgwe8m+mrFAMM
+         2HEC5/bm4WyeaEShCLHujXX1zoGLyVfDlZOEvGB6zvoypSLpPLnlheC948/vEtMNsN
+         /fdY4pHAsSdnn3fHTGfUNrB0XxeSV1ybgzkbB/ohctVLAxpjqfQ05uUhAiSMJhSLRq
+         3rYxH/SCyAD0/K0KLdZnAVPnfzcfa4kBNlSjiA/QDbNGNDJwFRub/mtBKmXwTelMft
+         NwUAu3eCvQhBQ==
+Date:   Tue, 25 Jan 2022 12:01:31 -0600
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-hardening@vger.kernel.org
-Subject: [PATCH][next] net: mana: Use struct_size() helper in
- mana_gd_create_dma_region()
-Message-ID: <20220124214347.GA24709@embeddedor>
+Subject: [PATCH][next] Drivers: hv: vmbus: Use struct_size() helper in
+ kmalloc()
+Message-ID: <20220125180131.GA67746@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,35 +56,26 @@ in order to avoid any potential type mistakes or integer overflows that,
 in the worst scenario, could lead to heap overflows.
 
 Also, address the following sparse warnings:
-drivers/net/ethernet/microsoft/mana/gdma_main.c:677:24: warning: using sizeof on a flexible structure
+drivers/hv/vmbus_drv.c:1132:31: warning: using sizeof on a flexible structure
 
 Link: https://github.com/KSPP/linux/issues/174
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hv/vmbus_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 636dfef24a6c..49b85ca578b0 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -663,7 +663,7 @@ static int mana_gd_create_dma_region(struct gdma_dev *gd,
- 	struct gdma_context *gc = gd->gdma_context;
- 	struct hw_channel_context *hwc;
- 	u32 length = gmi->length;
--	u32 req_msg_size;
-+	size_t req_msg_size;
- 	int err;
- 	int i;
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 17bf55fe3169..cd193456cd84 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1129,7 +1129,7 @@ void vmbus_on_msg_dpc(unsigned long data)
+ 	}
  
-@@ -674,7 +674,7 @@ static int mana_gd_create_dma_region(struct gdma_dev *gd,
- 		return -EINVAL;
- 
- 	hwc = gc->hwc.driver_data;
--	req_msg_size = sizeof(*req) + num_page * sizeof(u64);
-+	req_msg_size = struct_size(req, page_addr_list, num_page);
- 	if (req_msg_size > hwc->max_req_msg_size)
- 		return -EINVAL;
+ 	if (entry->handler_type	== VMHT_BLOCKING) {
+-		ctx = kmalloc(sizeof(*ctx) + payload_size, GFP_ATOMIC);
++		ctx = kmalloc(struct_size(ctx, msg.payload, payload_size), GFP_ATOMIC);
+ 		if (ctx == NULL)
+ 			return;
  
 -- 
 2.27.0
