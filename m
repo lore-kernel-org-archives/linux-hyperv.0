@@ -2,24 +2,23 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3870AC433F5
-	for <linux-hyperv@archiver.kernel.org>; Fri,  4 Feb 2022 01:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E2CFC433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri,  4 Feb 2022 02:03:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348061AbiBDBy7 (ORCPT
-        <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 3 Feb 2022 20:54:59 -0500
-Received: from vmicros1.altlinux.org ([194.107.17.57]:34912 "EHLO
+        id S237601AbiBDCDp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 3 Feb 2022 21:03:45 -0500
+Received: from vmicros1.altlinux.org ([194.107.17.57]:38182 "EHLO
         vmicros1.altlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234520AbiBDBy7 (ORCPT
+        with ESMTP id S232344AbiBDCDo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 3 Feb 2022 20:54:59 -0500
+        Thu, 3 Feb 2022 21:03:44 -0500
 Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-        by vmicros1.altlinux.org (Postfix) with ESMTP id 3F4D672C905;
-        Fri,  4 Feb 2022 04:54:58 +0300 (MSK)
+        by vmicros1.altlinux.org (Postfix) with ESMTP id 8724272C905;
+        Fri,  4 Feb 2022 05:03:43 +0300 (MSK)
 Received: from altlinux.org (sole.flsd.net [185.75.180.6])
-        by imap.altlinux.org (Postfix) with ESMTPSA id 1C3514A46F0;
-        Fri,  4 Feb 2022 04:54:58 +0300 (MSK)
-Date:   Fri, 4 Feb 2022 04:54:57 +0300
+        by imap.altlinux.org (Postfix) with ESMTPSA id 3AF064A46F0;
+        Fri,  4 Feb 2022 05:03:43 +0300 (MSK)
+Date:   Fri, 4 Feb 2022 05:03:43 +0300
 From:   Vitaly Chikunov <vt@altlinux.org>
 To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
 Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
@@ -32,7 +31,7 @@ Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "Dmitry V. Levin" <ldv@altlinux.org>
 Subject: Re: [PATCH] drivers: hv: vmbus: Fix build on GCC 11 failed by
  DMA_BIT_MASK(64) expansion
-Message-ID: <20220204015457.gmawzzp46hrjsk2y@altlinux.org>
+Message-ID: <20220204020343.5uxbhkwcux4cya77@altlinux.org>
 References: <20220204005736.3891190-1-vt@altlinux.org>
  <MWHPR21MB15936A0F46747D81D3CBCC12D7299@MWHPR21MB1593.namprd21.prod.outlook.com>
 MIME-Version: 1.0
@@ -67,12 +66,8 @@ On Fri, Feb 04, 2022 at 01:48:32AM +0000, Michael Kelley (LINUX) wrote:
 > more comprehensive solution that fixes the definition of
 > DMA_BIT_MASK() so it will work with a constant '64' as the parameter.
 
-All other places seems to be inside of functions which, perhaps,
-triggers different GCC logic. And only vmbus use is in global and static
-context.
-
-There is nothing to fix in DMA_BIT_MASK definition, because it's valid.
-At least, I don't see other solutions.
+Ah, I suddenly realised that this build was using Clang 12.0.1, not GCC
+11. So my patch description is wrong!
 
 Thanks,
 
