@@ -2,52 +2,52 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 229FBC4332F
-	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Feb 2022 18:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABE3C4321E
+	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Feb 2022 18:42:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239367AbiBRSmx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Feb 2022 13:42:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52232 "EHLO
+        id S239378AbiBRSmy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 18 Feb 2022 13:42:54 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239358AbiBRSmp (ORCPT
+        with ESMTP id S239380AbiBRSmx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Feb 2022 13:42:45 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AC546150;
-        Fri, 18 Feb 2022 10:42:28 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id y5so2988334pfe.4;
-        Fri, 18 Feb 2022 10:42:28 -0800 (PST)
+        Fri, 18 Feb 2022 13:42:53 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7878A1A0C11;
+        Fri, 18 Feb 2022 10:42:35 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id i21so2963793pfd.13;
+        Fri, 18 Feb 2022 10:42:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EkymO2cXo8u4iSmYrUr7FnoXj72C6tZYNpfdDviMOVo=;
-        b=GD+HH9G1aw2T0H+c9H3Ryk4K4clDEqR6kBgmh+ybYGEhmOg8EZh5Wo4ZxIk4XCSesY
-         cyddMcI04UUPDj/dmgKJqBjBn0Q3JBehRcOikNCsZNvjNJTE8go8QKuVfoEZJF9lcycS
-         pkx0m+YQ8aw+/Pv4z5ztuiaFKZfag2uHbQvWfJZZ+FqJIWFZYiEhLAiv6Ff7A5Mp9Giu
-         yoCU0vnb+2pJMjtwZy2675+dwZm3wGYbiR0nMaGId7bcA3a5PV2ZWecQlJYv3X5cc9Sw
-         3tiY991yvjnkoFQHP17j7Xnk56xfUZvlHhdnj4hrwlN8FVsdfDdHSNS4XOVYZ6YvP8ju
-         lYxQ==
+        bh=OSCF1doWbSbB9WONwhKgnOw0ZAntSdBq6sYX0+zsGrk=;
+        b=DR9bVPHYInNCsMqhVhrUWzxkXHg9bhG1ppsF6xCDCWEt/LTxV0E4ZOMb77jpyQNsc+
+         fpPB/7LB29z8lNULvzqe5GiwY7J53fxuLpe4TqGeEJGFoR28WM5x/FnmyoXDrJrnk+Wj
+         Rx9rgBYylBke3c2rRvsESUEfHKo6Mj8Qc2b7lgXCLt0z6NTIsEE0rAv37qCPSdcQ2ZH5
+         V/V0m7Ky0J5fLRxFiXpzg5dvuhovnn6bzQ4i15MqtoIvJE1hOUi932KZOTWBmdL1IYoA
+         QTkgT8SjS0QrMSX8O7V7HuVThGKquk2syi4grhIUZC5Kv6p+Q4raMPU3UZSjzdDeU69F
+         tBog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EkymO2cXo8u4iSmYrUr7FnoXj72C6tZYNpfdDviMOVo=;
-        b=UwU1W8GXB8gPmpugraU1UJM4DL0hrmmX+5ns+AVrZUrpyXoZY6vDMkHf2kB149jaq0
-         rCL83VSIs4Yi9mzyOH4vhglFhPBgPsgy2HFqpSw8zZYMwoI0KorJ7nG9tXXTqjPbWHv1
-         dPIoTr59ETQgghk3kAx1Tjr2lilzkURtk7qOTdESGA5Au8dqg+bUtyXG63J4O6uz+/zM
-         PmXLF9zdDGxsQlBOq/e00uR0jRYrfSdOl28jCd3aPCLWxZMjKCtFO6IPah3qx26m+pdG
-         h+lP4eYvwEUDXp2nrzt/9avXk0+ESTolROCminb1AtlcKdtdhnX4epVzLc+EMfezpS5M
-         GCxA==
-X-Gm-Message-State: AOAM5322MeFcp8Kwc9qKd+bKbComYuZFVwB8Bp6mbwepOCzzJv/WrKjA
-        RxCVMxiEUhMx1KHQlGWCV0k=
-X-Google-Smtp-Source: ABdhPJwTQjDu6FOGV6lkRBTSQZVlHD66eEEgjiWe1xEsdqQiVwWV3IclSMUGYua+t+CSo3cPnfNO9Q==
-X-Received: by 2002:a63:445f:0:b0:373:d43f:2b42 with SMTP id t31-20020a63445f000000b00373d43f2b42mr3804983pgk.125.1645209748167;
-        Fri, 18 Feb 2022 10:42:28 -0800 (PST)
+        bh=OSCF1doWbSbB9WONwhKgnOw0ZAntSdBq6sYX0+zsGrk=;
+        b=X9+c9jrJ305W93FPKCPQsT54AYhDtpuSsd7veHW5uQuvLvqykM4gSETRoVdwbF1lli
+         e9JxXUqtBunGX/hjYkD8b/k/7ybyR7EVyhyzglHEnRmHdsbmAAGe+mvZj4Oh8InjYg93
+         fNndf03TqRyGm4blL32LPMuUWHZOjkyzgpLdwATyLW7fVtBvboAPevE09xBbz5hPkfNQ
+         Hlx1An383C3F9ZUuEJZi+iqPcOQe9MII4yUZ6HbEskpp0Dh6DCxsYSQn/VdQtvWE6c0n
+         XwDek5J+hce75IvCKMyyRQK/Cu8OGeSfRpwJLaNdWbGkHHnYiVNE88rcGUFOGQtdLLHc
+         L4vQ==
+X-Gm-Message-State: AOAM532Kizgxhw/ZBQmHkaVVJN8y8UIehEFflYVaBpVoldpcnBul4Ajt
+        5mbRjpB/+IFjryooMoPotGs=
+X-Google-Smtp-Source: ABdhPJzd0tfRvCfM2JPKWZZe7ujlWrCYgstMMrAl98cz7bweIIPLEa/FPSp4vbqqo+opnq9+lI3S5A==
+X-Received: by 2002:a63:105c:0:b0:36c:33aa:cb24 with SMTP id 28-20020a63105c000000b0036c33aacb24mr7311961pgq.221.1645209754781;
+        Fri, 18 Feb 2022 10:42:34 -0800 (PST)
 Received: from vm-111.3frfxmc3btcupaqenzdpat1uec.xx.internal.cloudapp.net ([13.77.171.140])
-        by smtp.gmail.com with ESMTPSA id m17-20020a17090ab79100b001b89fd7e298sm130132pjr.4.2022.02.18.10.42.27
+        by smtp.gmail.com with ESMTPSA id m17-20020a17090ab79100b001b89fd7e298sm130132pjr.4.2022.02.18.10.42.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 10:42:27 -0800 (PST)
+        Fri, 18 Feb 2022 10:42:34 -0800 (PST)
 From:   "Melanie Plageman (Microsoft)" <melanieplageman@gmail.com>
 To:     mikelley@microsoft.com, jejb@linux.ibm.com, kys@microsoft.com,
         martin.petersen@oracle.com, mst@redhat.com,
@@ -68,9 +68,9 @@ To:     mikelley@microsoft.com, jejb@linux.ibm.com, kys@microsoft.com,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-scsi@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com
 Cc:     andres@anarazel.de
-Subject: [PATCH RFC v1 1/5] scsi: core: Rename host_tagset to hctx_share_tags
-Date:   Fri, 18 Feb 2022 18:41:53 +0000
-Message-Id: <20220218184157.176457-2-melanieplageman@gmail.com>
+Subject: [PATCH RFC v1 3/5] scsi: core: Add per device tag sets
+Date:   Fri, 18 Feb 2022 18:41:55 +0000
+Message-Id: <20220218184157.176457-4-melanieplageman@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220218184157.176457-1-melanieplageman@gmail.com>
 References: <20220218184157.176457-1-melanieplageman@gmail.com>
@@ -81,225 +81,432 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Scsi_Host->host_tagset, which is set by LLD using the
-scsi_host_template, determines whether or not to set the
-BLK_MQ_F_TAG_HCTX_SHARED flag in the blk_mq_tag_set. This then
-determines whether or not hardware contexts share blk_mq_tags.
+Currently a single blk_mq_tag_set is associated with a Scsi_Host. When
+SCSI controllers are limited, attaching multiple devices to the same
+controller is required. In cloud environments with relatively high
+latency persistent storage, requiring all devices on a controller to
+share a single blk_mq_tag_set negatively impacts performance.
 
-The name host_tagset is misleading, as it sounds like it indicates
-whether there is a host-wide blk_mq_tag_set.  Rename it to
-hctx_share_tags to make this more evident, and so it doesn’t sound like
-the opposite of the per_device_tag_set option that is introduced in a
-subsequent patch.  No functional change.
+For example: a device provisioned with high IOPS and BW limits on the
+same controller as a smaller and slower device can starve the slower
+device of tags. This is especially noticeable when the slower device's
+workload has low iodepth tasks.
+
+A common configuration for a journaling database application would be to
+configure all IO except journaling writes to target one device and
+target the journaling writes to another device. This can decrease
+transaction commit latency and improve performance. However, given an
+IO-bound database workload, for example one with a large number of
+random reads on the device with high provisioned IOPS, the high IO depth
+workload can consume all of the tags in the Scsi_Host tag set, resulting
+in poor overall performance as the journaling writes experience high
+latency.
+
+To provide more independence for devices on a SCSI controller, introduce
+the option of per-SCSI-device tag sets.  A LLD can opt-in to per-device
+tag sets, in which case there is no Scsi_Host level tag set.
+
+scsi_alloc_sdev() allocates the per-device’s blk_mq_tag_set and
+__scsi_remove_device() frees it.
+
+A LLD that opts-in to this behavior is responsible for submitting I/Os
+to the device associated with a particular tag set and for matching
+completions to tags in the correct tag set. For LLDs that do not opt-in
+to this behavior, the existing Scsi_Host tag set continues to be used
+and there is no functional change.
 
 Signed-off-by: Melanie Plageman <melanieplageman@gmail.com>
 ---
- drivers/scsi/hisi_sas/hisi_sas_v2_hw.c    |  2 +-
- drivers/scsi/hisi_sas/hisi_sas_v3_hw.c    |  2 +-
- drivers/scsi/hosts.c                      |  2 +-
- drivers/scsi/ibmvscsi/ibmvfc.c            |  2 +-
- drivers/scsi/megaraid/megaraid_sas_base.c |  4 ++--
- drivers/scsi/mpt3sas/mpt3sas_base.c       |  6 +++---
- drivers/scsi/mpt3sas/mpt3sas_scsih.c      |  6 +++---
- drivers/scsi/scsi_debug.c                 |  2 +-
- drivers/scsi/scsi_lib.c                   |  2 +-
- drivers/scsi/smartpqi/smartpqi_init.c     |  2 +-
- include/scsi/scsi_host.h                  | 10 ++++------
- 11 files changed, 19 insertions(+), 21 deletions(-)
+ drivers/scsi/hosts.c       | 30 +++++++++++++++++++++-------
+ drivers/scsi/scsi_lib.c    | 24 ++++++++++++++++------
+ drivers/scsi/scsi_priv.h   |  2 +-
+ drivers/scsi/scsi_scan.c   | 30 ++++++++++++++++++++++------
+ drivers/scsi/scsi_sysfs.c  | 11 +++++++++-
+ include/scsi/scsi_device.h |  1 +
+ include/scsi/scsi_host.h   | 41 ++++++++++++++++++++++++++++++++++++++
+ include/scsi/scsi_tcq.h    | 15 +++++++++-----
+ 8 files changed, 128 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-index 64ed3e472e65..a3cf413f6990 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
-@@ -3584,7 +3584,7 @@ static struct scsi_host_template sht_v2_hw = {
- 	.shost_groups		= host_v2_hw_groups,
- 	.host_reset		= hisi_sas_host_reset,
- 	.map_queues		= map_queues_v2_hw,
--	.host_tagset		= 1,
-+	.hctx_share_tags	= 1,
- };
- 
- static const struct hisi_sas_hw hisi_sas_v2_hw = {
-diff --git a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-index a01a3a7b706b..169eb5fbecfc 100644
---- a/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-+++ b/drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
-@@ -3172,7 +3172,7 @@ static struct scsi_host_template sht_v3_hw = {
- 	.shost_groups		= host_v3_hw_groups,
- 	.tag_alloc_policy	= BLK_TAG_ALLOC_RR,
- 	.host_reset             = hisi_sas_host_reset,
--	.host_tagset		= 1,
-+	.hctx_share_tags	= 1,
- };
- 
- static const struct hisi_sas_hw hisi_sas_v3_hw = {
 diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index f69b77cbf538..a364243fac7c 100644
+index a364243fac7c..ce2899e4c1c8 100644
 --- a/drivers/scsi/hosts.c
 +++ b/drivers/scsi/hosts.c
-@@ -426,7 +426,7 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
- 	shost->sg_prot_tablesize = sht->sg_prot_tablesize;
+@@ -229,9 +229,11 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
+ 	if (error)
+ 		goto fail;
+ 
+-	error = scsi_mq_setup_tags(shost);
+-	if (error)
+-		goto fail;
++	if (!shost->per_device_tag_set) {
++		error = scsi_mq_setup_tags(shost, &shost->tag_set);
++		if (error)
++			goto fail;
++	}
+ 
+ 	if (!shost->shost_gendev.parent)
+ 		shost->shost_gendev.parent = dev ? dev : &platform_bus;
+@@ -345,7 +347,7 @@ static void scsi_host_dev_release(struct device *dev)
+ 		kfree(dev_name(&shost->shost_dev));
+ 	}
+ 
+-	if (shost->tag_set.tags)
++	if (!shost->per_device_tag_set && shost->tag_set.tags)
+ 		scsi_mq_destroy_tags(shost);
+ 
+ 	kfree(shost->shost_data);
+@@ -427,6 +429,7 @@ struct Scsi_Host *scsi_host_alloc(struct scsi_host_template *sht, int privsize)
  	shost->cmd_per_lun = sht->cmd_per_lun;
  	shost->no_write_same = sht->no_write_same;
--	shost->host_tagset = sht->host_tagset;
-+	shost->hctx_share_tags = sht->hctx_share_tags;
+ 	shost->hctx_share_tags = sht->hctx_share_tags;
++	shost->per_device_tag_set = sht->per_device_tag_set;
  
  	if (shost_eh_deadline == -1 || !sht->eh_host_reset_handler)
  		shost->eh_deadline = -1;
-diff --git a/drivers/scsi/ibmvscsi/ibmvfc.c b/drivers/scsi/ibmvscsi/ibmvfc.c
-index d0eab5700dc5..950be46c041f 100644
---- a/drivers/scsi/ibmvscsi/ibmvfc.c
-+++ b/drivers/scsi/ibmvscsi/ibmvfc.c
-@@ -3625,7 +3625,7 @@ static struct scsi_host_template driver_template = {
- 	.max_sectors = IBMVFC_MAX_SECTORS,
- 	.shost_groups = ibmvfc_host_groups,
- 	.track_queue_depth = 1,
--	.host_tagset = 1,
-+	.hctx_share_tags = 1,
- };
+@@ -566,7 +569,7 @@ struct Scsi_Host *scsi_host_get(struct Scsi_Host *shost)
+ }
+ EXPORT_SYMBOL(scsi_host_get);
  
- /**
-diff --git a/drivers/scsi/megaraid/megaraid_sas_base.c b/drivers/scsi/megaraid/megaraid_sas_base.c
-index 82e1e24257bc..05db8f0b1e7e 100644
---- a/drivers/scsi/megaraid/megaraid_sas_base.c
-+++ b/drivers/scsi/megaraid/megaraid_sas_base.c
-@@ -6950,14 +6950,14 @@ static int megasas_io_attach(struct megasas_instance *instance)
- 	 * Single msix_vectors in kdump, so shared host tag is also disabled.
- 	 */
+-static bool scsi_host_check_in_flight(struct request *rq, void *data,
++bool scsi_check_in_flight(struct request *rq, void *data,
+ 				      bool reserved)
+ {
+ 	int *count = data;
+@@ -585,9 +588,17 @@ static bool scsi_host_check_in_flight(struct request *rq, void *data,
+ int scsi_host_busy(struct Scsi_Host *shost)
+ {
+ 	int cnt = 0;
++	if (shost->per_device_tag_set) {
  
--	host->host_tagset = 0;
-+	host->hctx_share_tags = 0;
- 	host->nr_hw_queues = 1;
+-	blk_mq_tagset_busy_iter(&shost->tag_set,
+-				scsi_host_check_in_flight, &cnt);
++		struct scsi_device *sdev;
++
++		shost_for_each_device(sdev, shost) {
++			blk_mq_tagset_busy_iter(sdev->request_queue->tag_set,
++						scsi_check_in_flight, &cnt);
++		}
++	} else
++		blk_mq_tagset_busy_iter(&shost->tag_set, scsi_check_in_flight,
++					&cnt);
+ 	return cnt;
+ }
+ EXPORT_SYMBOL(scsi_host_busy);
+@@ -687,6 +698,8 @@ static bool complete_all_cmds_iter(struct request *rq, void *data, bool rsvd)
+ void scsi_host_complete_all_commands(struct Scsi_Host *shost,
+ 				     enum scsi_host_status status)
+ {
++	if (shost->per_device_tag_set)
++		return;
+ 	blk_mq_tagset_busy_iter(&shost->tag_set, complete_all_cmds_iter,
+ 				&status);
+ }
+@@ -724,6 +737,9 @@ void scsi_host_busy_iter(struct Scsi_Host *shost,
+ 		.priv = priv,
+ 	};
  
- 	if ((instance->adapter_type != MFI_SERIES) &&
- 		(instance->msix_vectors > instance->low_latency_index_start) &&
- 		host_tagset_enable &&
- 		instance->smp_affinity_enable) {
--		host->host_tagset = 1;
-+		host->hctx_share_tags = 1;
- 		host->nr_hw_queues = instance->msix_vectors -
- 			instance->low_latency_index_start + instance->iopoll_q_count;
- 		if (instance->iopoll_q_count)
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_base.c b/drivers/scsi/mpt3sas/mpt3sas_base.c
-index 511726f92d9a..eb85d74bd9d8 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_base.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_base.c
-@@ -3414,12 +3414,12 @@ _base_enable_msix(struct MPT3SAS_ADAPTER *ioc)
- 		ioc->smp_affinity_enable = 0;
- 
- 	if (!ioc->smp_affinity_enable || ioc->reply_queue_count <= 1)
--		ioc->shost->host_tagset = 0;
-+		ioc->shost->hctx_share_tags = 0;
- 
- 	/*
--	 * Enable io uring poll queues only if host_tagset is enabled.
-+	 * Enable io uring poll queues only if hctx_share_tags is enabled.
- 	 */
--	if (ioc->shost->host_tagset)
-+	if (ioc->shost->hctx_share_tags)
- 		iopoll_q_count = poll_queues;
- 
- 	if (iopoll_q_count) {
-diff --git a/drivers/scsi/mpt3sas/mpt3sas_scsih.c b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-index 00792767c620..74cdf72ef837 100644
---- a/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-+++ b/drivers/scsi/mpt3sas/mpt3sas_scsih.c
-@@ -12322,10 +12322,10 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto out_thread_fail;
- 	}
- 
--	shost->host_tagset = 0;
-+	shost->hctx_share_tags = 0;
- 
- 	if (ioc->is_gen35_ioc && host_tagset_enable)
--		shost->host_tagset = 1;
-+		shost->hctx_share_tags = 1;
- 
- 	ioc->is_driver_loading = 1;
- 	if ((mpt3sas_base_attach(ioc))) {
-@@ -12351,7 +12351,7 @@ _scsih_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	shost->nr_hw_queues = 1;
- 
--	if (shost->host_tagset) {
-+	if (shost->hctx_share_tags) {
- 		shost->nr_hw_queues =
- 		    ioc->reply_queue_count - ioc->high_iops_queues;
- 
-diff --git a/drivers/scsi/scsi_debug.c b/drivers/scsi/scsi_debug.c
-index 2104973a35cd..af7ad912fabc 100644
---- a/drivers/scsi/scsi_debug.c
-+++ b/drivers/scsi/scsi_debug.c
-@@ -7614,7 +7614,7 @@ static int sdebug_driver_probe(struct device *dev)
- 	 */
- 	hpnt->nr_hw_queues = submit_queues;
- 	if (sdebug_host_max_queue)
--		hpnt->host_tagset = 1;
-+		hpnt->hctx_share_tags = 1;
- 
- 	/* poll queues are possible for nr_hw_queues > 1 */
- 	if (hpnt->nr_hw_queues == 1 || (poll_queues < 1)) {
++	if (shost->per_device_tag_set)
++		return;
++
+ 	blk_mq_tagset_busy_iter(&shost->tag_set, __scsi_host_busy_iter_fn,
+ 				&iter_data);
+ }
 diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 0a70aa763a96..61795bab83f7 100644
+index bba66e29d38c..ec69a526c397 100644
 --- a/drivers/scsi/scsi_lib.c
 +++ b/drivers/scsi/scsi_lib.c
-@@ -1987,7 +1987,7 @@ int scsi_mq_setup_tags(struct Scsi_Host *shost)
- 	tag_set->flags |=
- 		BLK_ALLOC_POLICY_TO_MQ_FLAG(shost->hostt->tag_alloc_policy);
- 	tag_set->driver_data = shost;
--	if (shost->host_tagset)
-+	if (shost->hctx_share_tags)
- 		tag_set->flags |= BLK_MQ_F_TAG_HCTX_SHARED;
+@@ -1369,6 +1369,17 @@ static inline int scsi_target_queue_ready(struct Scsi_Host *shost,
+ 	return 0;
+ }
  
- 	return blk_mq_alloc_tag_set(tag_set);
-diff --git a/drivers/scsi/smartpqi/smartpqi_init.c b/drivers/scsi/smartpqi/smartpqi_init.c
-index f0897d587454..31c0c2054d6a 100644
---- a/drivers/scsi/smartpqi/smartpqi_init.c
-+++ b/drivers/scsi/smartpqi/smartpqi_init.c
-@@ -7187,7 +7187,7 @@ static int pqi_register_scsi(struct pqi_ctrl_info *ctrl_info)
- 	shost->irq = pci_irq_vector(ctrl_info->pci_dev, 0);
- 	shost->unique_id = shost->irq;
- 	shost->nr_hw_queues = ctrl_info->num_queue_groups;
--	shost->host_tagset = 1;
-+	shost->hctx_share_tags = 1;
- 	shost->hostdata[0] = (unsigned long)ctrl_info;
++static int scsi_tag_set_busy(struct scsi_device *sdevice)
++{
++	struct blk_mq_tag_set *tag_set = sdevice->request_queue->tag_set;
++
++	int cnt = 0;
++
++	blk_mq_tagset_busy_iter(tag_set,
++				scsi_check_in_flight, &cnt);
++	return cnt;
++}
++
+ /*
+  * scsi_host_queue_ready: if we can send requests to shost, return 1 else
+  * return 0. We must end up running the queue again whenever 0 is
+@@ -1383,9 +1394,11 @@ static inline int scsi_host_queue_ready(struct request_queue *q,
+ 		return 0;
  
- 	rc = scsi_add_host(shost, &ctrl_info->pci_dev->dev);
+ 	if (atomic_read(&shost->host_blocked) > 0) {
+-		if (scsi_host_busy(shost) > 0)
++		if (shost->per_device_tag_set) {
++			if (scsi_tag_set_busy(sdev) > 0)
++				goto starved;
++		} else if (scsi_host_busy(shost) > 0)
+ 			goto starved;
+-
+ 		/*
+ 		 * unblock after host_blocked iterates to zero
+ 		 */
+@@ -1961,11 +1974,9 @@ static const struct blk_mq_ops scsi_mq_ops = {
+ 	.get_rq_budget_token = scsi_mq_get_rq_budget_token,
+ };
+ 
+-int scsi_mq_setup_tags(struct Scsi_Host *shost)
++int scsi_mq_setup_tags(struct Scsi_Host *shost, struct blk_mq_tag_set *tag_set)
+ {
+ 	unsigned int cmd_size, sgl_size;
+-	struct blk_mq_tag_set *tag_set = &shost->tag_set;
+-
+ 	sgl_size = max_t(unsigned int, sizeof(struct scatterlist),
+ 				scsi_mq_inline_sgl_size(shost));
+ 	cmd_size = sizeof(struct scsi_cmnd) + shost->hostt->cmd_size + sgl_size;
+@@ -2955,7 +2966,8 @@ scsi_host_block(struct Scsi_Host *shost)
+ 	 * SCSI never enables blk-mq's BLK_MQ_F_BLOCKING flag so
+ 	 * calling synchronize_rcu() once is enough.
+ 	 */
+-	WARN_ON_ONCE(shost->tag_set.flags & BLK_MQ_F_BLOCKING);
++	if (!shost->per_device_tag_set)
++		WARN_ON_ONCE(shost->tag_set.flags & BLK_MQ_F_BLOCKING);
+ 
+ 	if (!ret)
+ 		synchronize_rcu();
+diff --git a/drivers/scsi/scsi_priv.h b/drivers/scsi/scsi_priv.h
+index 5c4786310a31..aac2fbfb7d94 100644
+--- a/drivers/scsi/scsi_priv.h
++++ b/drivers/scsi/scsi_priv.h
+@@ -93,7 +93,7 @@ extern void scsi_io_completion(struct scsi_cmnd *, unsigned int);
+ extern void scsi_run_host_queues(struct Scsi_Host *shost);
+ extern void scsi_requeue_run_queue(struct work_struct *work);
+ extern void scsi_start_queue(struct scsi_device *sdev);
+-extern int scsi_mq_setup_tags(struct Scsi_Host *shost);
++extern int scsi_mq_setup_tags(struct Scsi_Host *shost, struct blk_mq_tag_set *tag_set);
+ extern void scsi_mq_destroy_tags(struct Scsi_Host *shost);
+ extern void scsi_exit_queue(void);
+ extern void scsi_evt_thread(struct work_struct *work);
+diff --git a/drivers/scsi/scsi_scan.c b/drivers/scsi/scsi_scan.c
+index f4e6c68ac99e..3d213da4a87f 100644
+--- a/drivers/scsi/scsi_scan.c
++++ b/drivers/scsi/scsi_scan.c
+@@ -276,6 +276,7 @@ static struct scsi_device *scsi_alloc_sdev(struct scsi_target *starget,
+ 	unsigned int depth;
+ 	struct scsi_device *sdev;
+ 	struct request_queue *q;
++	struct blk_mq_tag_set *tag_set;
+ 	int display_failure_msg = 1, ret;
+ 	struct Scsi_Host *shost = dev_to_shost(starget->dev.parent);
+ 
+@@ -324,16 +325,27 @@ static struct scsi_device *scsi_alloc_sdev(struct scsi_target *starget,
+ 	 * doesn't
+ 	 */
+ 	sdev->borken = 1;
++	if (shost->per_device_tag_set) {
++		tag_set = kzalloc(sizeof(struct blk_mq_tag_set), GFP_KERNEL);
++		sdev->tag_set = tag_set;
++		if (!tag_set)
++			goto out;
++		if (scsi_mq_setup_tags(shost, tag_set))
++			goto out_free_tag_set;
++	} else {
++		tag_set = &shost->tag_set;
++		sdev->tag_set = NULL;
++	}
+ 
+ 	sdev->sg_reserved_size = INT_MAX;
+ 
+-	q = blk_mq_init_queue(&sdev->host->tag_set);
++	q = blk_mq_init_queue(tag_set);
+ 	if (IS_ERR(q)) {
+ 		/* release fn is set up in scsi_sysfs_device_initialise, so
+ 		 * have to free and put manually here */
+ 		put_device(&starget->dev);
+ 		kfree(sdev);
+-		goto out;
++		goto out_free_tag_set;
+ 	}
+ 	sdev->request_queue = q;
+ 	q->queuedata = sdev;
+@@ -351,7 +363,7 @@ static struct scsi_device *scsi_alloc_sdev(struct scsi_target *starget,
+ 	if (scsi_realloc_sdev_budget_map(sdev, depth)) {
+ 		put_device(&starget->dev);
+ 		kfree(sdev);
+-		goto out;
++		goto out_free_tag_set;
+ 	}
+ 
+ 	scsi_change_queue_depth(sdev, depth);
+@@ -367,14 +379,20 @@ static struct scsi_device *scsi_alloc_sdev(struct scsi_target *starget,
+ 			 */
+ 			if (ret == -ENXIO)
+ 				display_failure_msg = 0;
+-			goto out_device_destroy;
++			__scsi_remove_device(sdev);
++			/*
++			 * __scsi_remove_device() will free the tag_set, so go
++			 * to "out" label.
++			 */
++			goto out;
+ 		}
+ 	}
+ 
+ 	return sdev;
+ 
+-out_device_destroy:
+-	__scsi_remove_device(sdev);
++out_free_tag_set:
++	if (shost->per_device_tag_set)
++		kfree(tag_set);
+ out:
+ 	if (display_failure_msg)
+ 		printk(ALLOC_FAILURE_MSG, __func__);
+diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
+index f1e0c131b77c..dd11f3d59663 100644
+--- a/drivers/scsi/scsi_sysfs.c
++++ b/drivers/scsi/scsi_sysfs.c
+@@ -399,7 +399,10 @@ show_nr_hw_queues(struct device *dev, struct device_attribute *attr, char *buf)
+ 	struct Scsi_Host *shost = class_to_shost(dev);
+ 	struct blk_mq_tag_set *tag_set = &shost->tag_set;
+ 
+-	return snprintf(buf, 20, "%d\n", tag_set->nr_hw_queues);
++	if (shost->per_device_tag_set)
++		return 0;
++	else
++		return snprintf(buf, 20, "%d\n", tag_set->nr_hw_queues);
+ }
+ static DEVICE_ATTR(nr_hw_queues, S_IRUGO, show_nr_hw_queues, NULL);
+ 
+@@ -1467,6 +1470,12 @@ void __scsi_remove_device(struct scsi_device *sdev)
+ 		sdev->host->hostt->slave_destroy(sdev);
+ 	transport_destroy_device(dev);
+ 
++	if (sdev->host->per_device_tag_set) {
++		blk_mq_free_tag_set(sdev->tag_set);
++		kfree(sdev->tag_set);
++		sdev->tag_set = NULL;
++	}
++
+ 	/*
+ 	 * Paired with the kref_get() in scsi_sysfs_initialize().  We have
+ 	 * removed sysfs visibility from the device, so make the target
+diff --git a/include/scsi/scsi_device.h b/include/scsi/scsi_device.h
+index 647c53b26105..aa8c7f860a34 100644
+--- a/include/scsi/scsi_device.h
++++ b/include/scsi/scsi_device.h
+@@ -103,6 +103,7 @@ struct scsi_vpd {
+ struct scsi_device {
+ 	struct Scsi_Host *host;
+ 	struct request_queue *request_queue;
++	struct blk_mq_tag_set *tag_set;
+ 
+ 	/* the next two are protected by the host->host_lock */
+ 	struct list_head    siblings;   /* list of all devices on this host */
 diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
-index 72e1a347baa6..f7f330f9255b 100644
+index 1255e8c164f6..a625a8490ea8 100644
 --- a/include/scsi/scsi_host.h
 +++ b/include/scsi/scsi_host.h
-@@ -456,8 +456,7 @@ struct scsi_host_template {
+@@ -456,7 +456,39 @@ struct scsi_host_template {
  	/* True if the controller does not support WRITE SAME */
  	unsigned no_write_same:1;
  
--	/* True if the host uses host-wide tagspace */
--	unsigned host_tagset:1;
-+	unsigned hctx_share_tags:1;
++	/*
++	 * True if hardware queues will share blk_mq_tags
++	 * (BLK_MQ_F_TAG_HCTX_SHARED will be set)
++	 */
+ 	unsigned hctx_share_tags:1;
++	/*
++	 * True if the LLD will create blk_mq_tag_sets for each scsi_device
++	 * If False, request_queues will share the single blk_mq_tag_set in the
++	 * Scsi_Host.
++	 *
++	 * If per_device_tag_set is False and hctx_share_tags is True, all
++	 * devices on the Scsi_Host share a single blk_mq_tag_set referenced
++	 * through the host and all hardware queues share a blk_mq_tags.
++	 *
++	 * If per_device_tag_set is True and hctx_share_tags is True, all
++	 * devices on the Scsi_Host have their own blk_mq_tag_set, allocated and
++	 * maintained by the LLD, and all hardware queues on a given device
++	 * share one blk_mq_tags.
++	 *
++	 * If per_device_tag_set is False and hctx_share_tags is False, all
++	 * devices on the Scsi_Host share a single blk_mq_tag_set referenced
++	 * through the host and hardware queues have their own blk_mq_tags. That
++	 * is, hardware context 1 from device 1 and hardware context 1 from
++	 * device 2 will share the same blk_mq_tags in the host blk_mq_tag_set
++	 * but, hardware context 2 from device 1 and hardware context 2 from
++	 * device 2 will share another blk_mq_tags in the host blk_mq_tag_set.
++	 *
++	 * If per_device_tag_set is True and hctx_share_tags is False, all
++	 * devices on the Scsi_Host will have their own blk_mq_tag_set and all
++	 * hardware queues will have their own blk_mq_tags.
++	 */
++	unsigned per_device_tag_set:1;
++
  
  	/*
  	 * Countdown for host blocking with no commands outstanding.
-@@ -617,8 +616,8 @@ struct Scsi_Host {
- 	 * In scsi-mq mode, the number of hardware queues supported by the LLD.
- 	 *
- 	 * Note: it is assumed that each hardware queue has a queue depth of
--	 * can_queue. In other words, the total queue depth per host
--	 * is nr_hw_queues * can_queue. However, for when host_tagset is set,
-+	 * can_queue. In other words, the total queue depth per host is
-+	 * nr_hw_queues * can_queue. However, when hctx_share_tags is set,
- 	 * the total queue depth is can_queue.
- 	 */
- 	unsigned nr_hw_queues;
-@@ -650,8 +649,7 @@ struct Scsi_Host {
+@@ -649,8 +681,14 @@ struct Scsi_Host {
  	/* The controller does not support WRITE SAME */
  	unsigned no_write_same:1;
  
--	/* True if the host uses host-wide tagspace */
--	unsigned host_tagset:1;
-+	unsigned hctx_share_tags:1;
++	/*
++	 * See comment in struct scsi_host_template for details on how
++	 * hctx_share_tags and per_device_tag_set interact.
++	 */
+ 	unsigned hctx_share_tags:1;
  
++	unsigned per_device_tag_set:1;
++
  	/* Host responded with short (<36 bytes) INQUIRY result */
  	unsigned short_inquiry:1;
+ 
+@@ -754,6 +792,9 @@ extern void scsi_rescan_device(struct device *);
+ extern void scsi_remove_host(struct Scsi_Host *);
+ extern struct Scsi_Host *scsi_host_get(struct Scsi_Host *);
+ extern int scsi_host_busy(struct Scsi_Host *shost);
++// TODO: does this belong in another file?
++extern bool scsi_check_in_flight(struct request *rq, void *data,
++				      bool reserved);
+ extern void scsi_host_put(struct Scsi_Host *t);
+ extern struct Scsi_Host *scsi_host_lookup(unsigned short);
+ extern const char *scsi_host_state_name(enum scsi_host_state);
+diff --git a/include/scsi/scsi_tcq.h b/include/scsi/scsi_tcq.h
+index ea7848e74d25..443e4d917dd3 100644
+--- a/include/scsi/scsi_tcq.h
++++ b/include/scsi/scsi_tcq.h
+@@ -19,18 +19,17 @@
+  * Note: for devices using multiple hardware queues tag must have been
+  * generated by blk_mq_unique_tag().
+  **/
+-static inline struct scsi_cmnd *scsi_host_find_tag(struct Scsi_Host *shost,
+-		int tag)
++static inline struct scsi_cmnd *scsi_find_tag(struct blk_mq_tag_set *tag_set, int tag)
+ {
+ 	struct request *req = NULL;
+ 	u16 hwq;
+ 
+ 	if (tag == SCSI_NO_TAG)
+ 		return NULL;
+-
+ 	hwq = blk_mq_unique_tag_to_hwq(tag);
+-	if (hwq < shost->tag_set.nr_hw_queues) {
+-		req = blk_mq_tag_to_rq(shost->tag_set.tags[hwq],
++
++	if (hwq < tag_set->nr_hw_queues) {
++		req = blk_mq_tag_to_rq(tag_set->tags[hwq],
+ 					blk_mq_unique_tag_to_tag(tag));
+ 	}
+ 
+@@ -39,5 +38,11 @@ static inline struct scsi_cmnd *scsi_host_find_tag(struct Scsi_Host *shost,
+ 	return blk_mq_rq_to_pdu(req);
+ }
+ 
++static inline struct scsi_cmnd *scsi_host_find_tag(struct Scsi_Host *shost,
++		int tag)
++{
++	return scsi_find_tag(&shost->tag_set, tag);
++}
++
+ #endif /* CONFIG_BLOCK */
+ #endif /* _SCSI_SCSI_TCQ_H */
 -- 
 2.25.1
 
