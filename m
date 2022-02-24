@@ -2,261 +2,200 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F203C433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 23 Feb 2022 22:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA17DC433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 24 Feb 2022 02:45:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243363AbiBWWGD (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 23 Feb 2022 17:06:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
+        id S230113AbiBXCpa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 23 Feb 2022 21:45:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243271AbiBWWF5 (ORCPT
+        with ESMTP id S230077AbiBXCp3 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 23 Feb 2022 17:05:57 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E63684DF62;
-        Wed, 23 Feb 2022 14:05:28 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 82E5161922;
-        Wed, 23 Feb 2022 22:05:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869DCC340E7;
-        Wed, 23 Feb 2022 22:05:25 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="bT1dqqnJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1645653924;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=a89/Lm75y4Z0GZ9X8KfFu1CUr1fh3dhCCiCALwHdE1I=;
-        b=bT1dqqnJZ0Fe9h5jPfLuxQFCLCzQRHrtr6PotmddfrA9rxzPtLPBsSC06Z9X6w970kXDcj
-        XqDx1UgjwEwt9yJo3LgvBQsD2UdVO62j09jEj20Rq1uMZPfz6A/B6YbLhMBirSL6sOteBx
-        vS7ybKBwp8Ek2YRenF9O8nJfkw4+7uI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0f07b509 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Wed, 23 Feb 2022 22:05:23 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>, adrian@parity.io,
-        dwmw@amazon.co.uk, graf@amazon.com, colmmacc@amazon.com,
-        raduweis@amazon.com, imammedo@redhat.com, ehabkost@redhat.com,
-        ben@skyportsystems.com, mst@redhat.com, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, linux@dominikbrodowski.net, ardb@kernel.org,
-        jannh@google.com, gregkh@linuxfoundation.org, tytso@mit.edu
-Subject: [PATCH v2 2/2] virt: vmgenid: introduce driver for reinitializing RNG on VM fork
-Date:   Wed, 23 Feb 2022 23:04:56 +0100
-Message-Id: <20220223220456.666193-3-Jason@zx2c4.com>
-In-Reply-To: <20220223220456.666193-1-Jason@zx2c4.com>
-References: <20220223220456.666193-1-Jason@zx2c4.com>
+        Wed, 23 Feb 2022 21:45:29 -0500
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2BBF23585D;
+        Wed, 23 Feb 2022 18:45:00 -0800 (PST)
+Received: by mail-il1-x134.google.com with SMTP id j5so720647ila.2;
+        Wed, 23 Feb 2022 18:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ni7aw7fzEAC4IJ89u6tGZffcuH52CHQfyjKILVom/D8=;
+        b=grdV9eAR1ENIl71q4henMp7Uizhrnas9AUa3ibHRhbcdHs1Nk2TQR2Hv3+RfENp+6T
+         YTf8ayaXuNOUU0j5r07n+4W1LnX8z71OoefloePhkv5QXHRbQXMPPAeOJZ4XQ7mrxmix
+         s40H/yy4h/cd+BBy1PGyhO1044kltJa8c3G5VaF6P3+SRnVc2m89uTVi6JPGdHbjtH6W
+         PuSLIb80oQtE490viqcR17+CMRQPeMAwt+fhoLRXSyrUhnJjJvEr26v7Qw6FpRnLVmy3
+         mqDlhDAS1UGj1B8D4Ua5TQaM28PVhJcItJauSet7r2HLt+Ta09twUqXhZrk8KYfgJHCe
+         wV5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ni7aw7fzEAC4IJ89u6tGZffcuH52CHQfyjKILVom/D8=;
+        b=3wRo+CGRvwyezf0dVB80RaXgZawVp3yg+LrBNBKQepWIWPOwpiD44/zHxk9XhVfyC6
+         BchTzM6GR47WDtesU8cRtJUpXtTXT2XWGPeamxir6BjzxfWce2jAqdB0KydII0X7USyI
+         NvXuRzZvM9RwVm0omrhCRHzZIun+v7eltHDwNnfijWFPtxu0SI0Iy4nObNEbs/fw5SKw
+         lAmDazTdPVSs6qMJ4Nbz5BkeQS6iqn24SDjYm71wIqnBb+x++JZ60JPJ/bJry8GBYLtM
+         ndn1+wJra0R7d1gYdWsWjY0LGifPoQEv5L7DlJioMGAH4o7Kp3MH7ntyx3IRLs7PJv5s
+         cFnA==
+X-Gm-Message-State: AOAM532/x1wzL5thEeqkGqjOOy+XfYqvu0EUBSB0f63fVrRhD6WKxoNn
+        cBm+QV+z+tWnRqIlggTjj0h1Rr5N4Nk=
+X-Google-Smtp-Source: ABdhPJwowva+eL8X4cZJF03dY6edeb1YihDWsDFAiLffyvznXpxaYo/Qjeo1YTBNtQVzgYBMbH58kQ==
+X-Received: by 2002:a05:6e02:1947:b0:2c1:7096:8c8a with SMTP id x7-20020a056e02194700b002c170968c8amr520868ilu.309.1645670700063;
+        Wed, 23 Feb 2022 18:45:00 -0800 (PST)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id w19sm1051167iov.16.2022.02.23.18.44.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Feb 2022 18:44:58 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 8BAAF27C0054;
+        Wed, 23 Feb 2022 21:44:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 23 Feb 2022 21:44:57 -0500
+X-ME-Sender: <xms:KPEWYr76W8u_S51tWQ_LzCVJK5J2DXTJNCP_DGVFRVFS6JSxj1xEGA>
+    <xme:KPEWYg6TjmypgoaNc8yvrz9gXD305DGu0N85bfkpL4gJq9syHW0Muje7qtPc8JSjx
+    -B0elrULqv5RWJS6A>
+X-ME-Received: <xmr:KPEWYieJG_2WgEHvkJ5gZTKmMrqtZfZh3JsXx5N8IUNaeIpfzW5jtnFu_4jaRQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrledugdehtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpedvleeigedugfegveejhfejveeuveeiteejieekvdfgjeefudehfefhgfegvdeg
+    jeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
+    hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
+    udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
+    gvrdhnrghmvg
+X-ME-Proxy: <xmx:KPEWYsLbyQilqktlSfl-SWpCC7Hgs-mipbBaDhgx80mjedGrSu7feQ>
+    <xmx:KPEWYvKhfiieceUa1Z9c7eemJaqptJLoelAk0ZFIvDNX7yoq8RgUSQ>
+    <xmx:KPEWYlz8aKs6CdxO8g0LEt0-Zo1sWiVElV9UUo1_5irO2FviupQ8kA>
+    <xmx:KfEWYgVx9T-i-JGWxqjsiX03iIN2TyqDFXt9gaJ7UATn24ghHx102HI96Nw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 23 Feb 2022 21:44:56 -0500 (EST)
+Date:   Thu, 24 Feb 2022 10:44:11 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Cc:     Wei Liu <wei.liu@kernel.org>, vkuznets <vkuznets@redhat.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        David Hildenbrand <david@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 2/2] Drivers: hv: balloon: Disable balloon and hot-add
+ accordingly
+Message-ID: <Yhbw+9rEmlBP3hNd@boqun-archlinux>
+References: <20220223131548.2234326-1-boqun.feng@gmail.com>
+ <20220223131548.2234326-3-boqun.feng@gmail.com>
+ <MN0PR21MB30985DC877AB58DD1A849900D73C9@MN0PR21MB3098.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MN0PR21MB30985DC877AB58DD1A849900D73C9@MN0PR21MB3098.namprd21.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-VM Generation ID is a feature from Microsoft, described at
-<https://go.microsoft.com/fwlink/?LinkId=260709>, and supported by
-Hyper-V and QEMU. Its usage is described in Microsoft's RNG whitepaper,
-<https://aka.ms/win10rng>, as:
+On Wed, Feb 23, 2022 at 04:55:25PM +0000, Michael Kelley (LINUX) wrote:
+> From: Boqun Feng <boqun.feng@gmail.com> Sent: Wednesday, February 23, 2022 5:16 AM
+> > 
+> > Currently there are known potential issues for balloon and hot-add on
+> > ARM64:
+> > 
+> > *	Unballoon requests from Hyper-V should only unballoon ranges
+> > 	that are guest page size aligned, otherwise guests cannot handle
+> > 	because it's impossible to partially free a page.
+> > 
+> > *	Memory hot-add requests from Hyper-V should provide the NUMA
+> > 	node id of the added ranges or ARM64 should have a functional
+> > 	memory_add_physaddr_to_nid(), otherwise the node id is missing
+> > 	for add_memory().
+> > 
+> > These issues require discussions on design and implementation. In the
+> > meanwhile, post_status() is working and essiential to guest monitoring.
+> > Therefore instead of the entire hv_balloon driver, the balloon and
+> > hot-add are disabled accordingly for now. Once the issues are fixed,
+> > they can be re-enable in these cases.
+> > 
+> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > ---
+> >  drivers/hv/hv_balloon.c | 14 ++++++++++++--
+> >  1 file changed, 12 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+> > index 062156b88a87..35dcda20be85 100644
+> > --- a/drivers/hv/hv_balloon.c
+> > +++ b/drivers/hv/hv_balloon.c
+> > @@ -1730,9 +1730,19 @@ static int balloon_connect_vsp(struct hv_device *dev)
+> >  	 * When hibernation (i.e. virtual ACPI S4 state) is enabled, the host
+> >  	 * currently still requires the bits to be set, so we have to add code
+> >  	 * to fail the host's hot-add and balloon up/down requests, if any.
+> > +	 *
+> > +	 * We disable balloon if the page size is larger than 4k, since
+> > +	 * currently it's unclear to us whether an unballoon request can make
+> > +	 * sure all page ranges are guest page size aligned.
+> > +	 *
+> > +	 * We also disable hot add on ARM64, because we currently rely on
+> > +	 * memory_add_physaddr_to_nid() to get a node id of a hot add range,
+> > +	 * however ARM64's memory_add_physaddr_to_nid() always return 0 and
+> > +	 * DM_MEM_HOT_ADD_REQUEST doesn't have the NUMA node information for
+> > +	 * add_memory().
+> >  	 */
+> > -	cap_msg.caps.cap_bits.balloon = 1;
+> > -	cap_msg.caps.cap_bits.hot_add = 1;
+> > +	cap_msg.caps.cap_bits.balloon = !(PAGE_SIZE > 4096UL);
+> 
+> Any reasons not to use HV_HYP_PAGE_SIZE vs. open coding "4096"?  So
+> 
+> 	cap_msg.caps.cap_bits.balloon = (PAGE_SIZE == HV_HYP_PAGE_SIZE);
+> 
 
-    If the OS is running in a VM, there is a problem that most
-    hypervisors can snapshot the state of the machine and later rewind
-    the VM state to the saved state. This results in the machine running
-    a second time with the exact same RNG state, which leads to serious
-    security problems.  To reduce the window of vulnerability, Windows
-    10 on a Hyper-V VM will detect when the VM state is reset, retrieve
-    a unique (not random) value from the hypervisor, and reseed the root
-    RNG with that unique value.  This does not eliminate the
-    vulnerability, but it greatly reduces the time during which the RNG
-    system will produce the same outputs as it did during a previous
-    instantiation of the same VM state.
+You're right. I will change that to it in the next version.
 
-Linux has the same issue, and given that vmgenid is supported already by
-multiple hypervisors, we can implement more or less the same solution.
-So this commit wires up the vmgenid ACPI notification to the RNG's newly
-added add_vmfork_randomness() function.
+> > +	cap_msg.caps.cap_bits.hot_add = !IS_ENABLED(CONFIG_ARM64);
+> 
+> I think we should output a message so that there's no mystery as to 
+> whether ballooning and/or hot_add are disabled, and why.  Each setting
+> should have its own message.   Maybe something like:
+> 
+> 	if (!cap_msg.caps.cap_bits.balloon)
+> 		pr_info("Ballooning disabled because page size is not 4096 bytes\n");
+> 
+> 	if (!cap_msg.cap_bits.hot_add)
+> 		pr_info("Memory hot add disabled on ARM64\n");
+> 
 
-It can be used from qemu via the `-device vmgenid,guid=auto` parameter.
-After setting that, use `savevm` in the monitor to save the VM state,
-then quit QEMU, start it again, and use `loadvm`. That will trigger this
-driver's notify function, which hands the new UUID to the RNG.
+I agree with your suggestion, however, while I'm at it, I think it's
+better that we have functions that check and print, and .balloon and
+.hot_add can rely on the return value, for example:
 
-This driver builds on prior work from Adrian Catangiu at Amazon, and it
-is my hope that that team can resume maintenance of this driver.
+static int balloon_enabled(void)
+{
+	if (PAGE_SIZE != HV_HYP_PAGE_SIZE) {
+		pr_info("Ballooning disabled because page size is not 4096 bytes\n");
+		return 0;
+	}
 
-Cc: Adrian Catangiu <adrian@parity.io>
-Cc: Dominik Brodowski <linux@dominikbrodowski.net>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/virt/Kconfig   |   9 ++++
- drivers/virt/Makefile  |   1 +
- drivers/virt/vmgenid.c | 120 +++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 130 insertions(+)
- create mode 100644 drivers/virt/vmgenid.c
+	return 1;
+}
 
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 8061e8ef449f..d3276dc2095c 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -13,6 +13,15 @@ menuconfig VIRT_DRIVERS
- 
- if VIRT_DRIVERS
- 
-+config VMGENID
-+	tristate "Virtual Machine Generation ID driver"
-+	default y
-+	depends on ACPI
-+	help
-+	  Say Y here to use the hypervisor-provided Virtual Machine Generation ID
-+	  to reseed the RNG when the VM is cloned. This is highly recommended if
-+	  you intend to do any rollback / cloning / snapshotting of VMs.
-+
- config FSL_HV_MANAGER
- 	tristate "Freescale hypervisor management driver"
- 	depends on FSL_SOC
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index 3e272ea60cd9..108d0ffcc9aa 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
-+obj-$(CONFIG_VMGENID)		+= vmgenid.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
-new file mode 100644
-index 000000000000..c2255ea6be59
---- /dev/null
-+++ b/drivers/virt/vmgenid.c
-@@ -0,0 +1,120 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual Machine Generation ID driver
-+ *
-+ * Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-+ * Copyright (C) 2020 Amazon. All rights reserved.
-+ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/acpi.h>
-+#include <linux/random.h>
-+#include <linux/uuid.h>
-+
-+ACPI_MODULE_NAME("vmgenid");
-+
-+static struct {
-+	uuid_t this_uuid;
-+	uuid_t *next_uuid;
-+} state;
-+
-+static int vmgenid_acpi_add(struct acpi_device *device)
-+{
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER };
-+	union acpi_object *pss;
-+	phys_addr_t phys_addr;
-+	acpi_status status;
-+	int ret = 0;
-+
-+	if (!device)
-+		return -EINVAL;
-+
-+	status = acpi_evaluate_object(device->handle, "ADDR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
-+		return -ENODEV;
-+	}
-+	pss = buffer.pointer;
-+	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2 ||
-+	    pss->package.elements[0].type != ACPI_TYPE_INTEGER ||
-+	    pss->package.elements[1].type != ACPI_TYPE_INTEGER) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	phys_addr = (pss->package.elements[0].integer.value << 0) |
-+		    (pss->package.elements[1].integer.value << 32);
-+	state.next_uuid = acpi_os_map_memory(phys_addr, sizeof(*state.next_uuid));
-+	if (!state.next_uuid) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	state.this_uuid = *state.next_uuid;
-+	device->driver_data = &state;
-+	add_device_randomness(&state.this_uuid, sizeof(state.this_uuid));
-+
-+out:
-+	ACPI_FREE(buffer.pointer);
-+	return ret;
-+}
-+
-+static int vmgenid_acpi_remove(struct acpi_device *device)
-+{
-+	if (!device || acpi_driver_data(device) != &state)
-+		return -EINVAL;
-+	device->driver_data = NULL;
-+	if (state.next_uuid)
-+		acpi_os_unmap_memory(state.next_uuid, sizeof(*state.next_uuid));
-+	state.next_uuid = NULL;
-+	return 0;
-+}
-+
-+static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-+{
-+	uuid_t old_uuid;
-+
-+	if (!device || acpi_driver_data(device) != &state)
-+		return;
-+	old_uuid = state.this_uuid;
-+	state.this_uuid = *state.next_uuid;
-+	if (!memcmp(&old_uuid, &state.this_uuid, sizeof(state.this_uuid)))
-+		return;
-+	add_vmfork_randomness(&state.this_uuid, sizeof(state.this_uuid));
-+}
-+
-+static const struct acpi_device_id vmgenid_ids[] = {
-+	{"VMGENID", 0},
-+	{"QEMUVGID", 0},
-+	{ },
-+};
-+
-+static struct acpi_driver acpi_driver = {
-+	.name = "vm_generation_id",
-+	.ids = vmgenid_ids,
-+	.owner = THIS_MODULE,
-+	.ops = {
-+		.add = vmgenid_acpi_add,
-+		.remove = vmgenid_acpi_remove,
-+		.notify = vmgenid_acpi_notify,
-+	}
-+};
-+
-+static int __init vmgenid_init(void)
-+{
-+	return acpi_bus_register_driver(&acpi_driver);
-+}
-+
-+static void __exit vmgenid_exit(void)
-+{
-+	acpi_bus_unregister_driver(&acpi_driver);
-+}
-+
-+module_init(vmgenid_init);
-+module_exit(vmgenid_exit);
-+
-+MODULE_DEVICE_TABLE(acpi, vmgenid_ids);
-+MODULE_DESCRIPTION("Virtual Machine Generation ID");
-+MODULE_LICENSE("GPL v2");
--- 
-2.35.1
+// in balloon_vsp_connect()
 
+	cap_msg.caps.cap_bits.balloon = balloon_enabled();
+
+In this way, we keep the checking and reason printing in the same
+function and it's easier to maintain the consistency.
+
+Thoughts?
+
+Regards,
+Boqun
+
+> > 
+> >  	/*
+> >  	 * Specify our alignment requirements as it relates
+> > --
+> > 2.35.1
+> 
