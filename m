@@ -2,32 +2,32 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6478CC433F5
-	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Feb 2022 14:31:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDBA7C4332F
+	for <linux-hyperv@archiver.kernel.org>; Sun, 27 Feb 2022 14:31:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230441AbiB0Ob5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 27 Feb 2022 09:31:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55956 "EHLO
+        id S230499AbiB0OcC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 27 Feb 2022 09:32:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbiB0Ob4 (ORCPT
+        with ESMTP id S230379AbiB0Ob5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 27 Feb 2022 09:31:56 -0500
+        Sun, 27 Feb 2022 09:31:57 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73E2E56203;
-        Sun, 27 Feb 2022 06:31:19 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9665656200;
+        Sun, 27 Feb 2022 06:31:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=A05LVfYU2PEONzsS8Gc05/y0YX3f/s4+nAdtFiYFaPA=; b=MYjz99MEZpXYXZ+u/hPXwH/5VL
-        VfsjwWWbuKCw7zshSoI+auf/yLifEcY/XE1DJRFtz3VxuS31UllEfuuBvuYyI0R62c4l0m9SjGj0a
-        WGByXvlVvb4GlpMZgQZ/bHMpyjRMYTs0vyxZOS1rHRz9lghF2LWQbtukyT+tPh4vCHeGeC/AcmY98
-        WuPu16zN8JjBDp4ZENXRc9jSpBUvW+n6Sq1vNfMv9rubVC7W2JwfnAylwXOQV0dZC32gjZLT10dhi
-        Ws7JHUh8ywEv+8gXM1ulZ+IZIGPfH8AiNbDzJ4upQZLKpO5YOSuave3h2BfqRd4XiSg8EOVVaK+3v
-        hog6QeMw==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=S8rL5r6CVieQSVcTz72mVZA1dTrwukBQ7UxroweHdXM=; b=TmJNvjFSewtYWBr07EHo8a1WwA
+        8e4I78/K50tproBTCfhYD6iRK1G6UAv1A6Rup/LoZsEsEUQE9OdlHXx4jz7jhRyNzXaQtiVFKlupt
+        a2hGvZ4aqXvIr1yj57HcCRUt65RO1+Y5wozGU5i4Z+jrTVcR/2s9BDbFJzUITh9decsl8OkwX+TI4
+        xyhztZrj+xPANoAVZ61PdUT+mxMalQcYiDsCn0GIahnvB1rVuihkl2a5cyicVFHeMavSBVSpLMnz6
+        VHxJC+B1OeUcyn68Iz+B0pyY23J2t7U4tBFoigOIWko50r9hiWnG0mBx9qZO6X4rJTVWF8zxJf5B5
+        y/jM9GUQ==;
 Received: from [213.208.157.39] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nOKZe-009NtN-G3; Sun, 27 Feb 2022 14:30:58 +0000
+        id 1nOKZq-009Nur-9E; Sun, 27 Feb 2022 14:31:10 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     iommu@lists.linux-foundation.org
 Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -45,10 +45,12 @@ Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
         linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
         linux-hyperv@vger.kernel.org, tboot-devel@lists.sourceforge.net,
         linux-pci@vger.kernel.org
-Subject: cleanup swiotlb initialization v2
-Date:   Sun, 27 Feb 2022 15:30:44 +0100
-Message-Id: <20220227143055.335596-1-hch@lst.de>
+Subject: [PATCH 03/11] swiotlb: simplify swiotlb_max_segment
+Date:   Sun, 27 Feb 2022 15:30:47 +0100
+Message-Id: <20220227143055.335596-4-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220227143055.335596-1-hch@lst.de>
+References: <20220227143055.335596-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -56,70 +58,106 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all,
+Remove the bogus Xen override that was usually larger than the actual
+size and just calculate the value on demand.  Note that
+swiotlb_max_segment still doesn't make sense as an interface and should
+eventually be removed.
 
-this series tries to clean up the swiotlb initialization, including
-that of swiotlb-xen.  To get there is also removes the x86 iommu table
-infrastructure that massively obsfucates the initialization path.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Anshuman Khandual <anshuman.khandual@arm.com>
+---
+ drivers/xen/swiotlb-xen.c |  2 --
+ include/linux/swiotlb.h   |  1 -
+ kernel/dma/swiotlb.c      | 20 +++-----------------
+ 3 files changed, 3 insertions(+), 20 deletions(-)
 
-Git tree:
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 47aebd98f52f5..485cd06ed39e7 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -202,7 +202,6 @@ int xen_swiotlb_init(void)
+ 	rc = swiotlb_late_init_with_tbl(start, nslabs);
+ 	if (rc)
+ 		return rc;
+-	swiotlb_set_max_segment(PAGE_SIZE);
+ 	return 0;
+ error:
+ 	if (nslabs > 1024 && repeat--) {
+@@ -254,7 +253,6 @@ void __init xen_swiotlb_init_early(void)
+ 
+ 	if (swiotlb_init_with_tbl(start, nslabs, true))
+ 		panic("Cannot allocate SWIOTLB buffer");
+-	swiotlb_set_max_segment(PAGE_SIZE);
+ }
+ #endif /* CONFIG_X86 */
+ 
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index f6c3638255d54..9fb3a568f0c51 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -164,7 +164,6 @@ static inline void swiotlb_adjust_size(unsigned long size)
+ #endif /* CONFIG_SWIOTLB */
+ 
+ extern void swiotlb_print_info(void);
+-extern void swiotlb_set_max_segment(unsigned int);
+ 
+ #ifdef CONFIG_DMA_RESTRICTED_POOL
+ struct page *swiotlb_alloc(struct device *dev, size_t size);
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 36fbf1181d285..519e363097190 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -75,12 +75,6 @@ struct io_tlb_mem io_tlb_default_mem;
+ 
+ phys_addr_t swiotlb_unencrypted_base;
+ 
+-/*
+- * Max segment that we can provide which (if pages are contingous) will
+- * not be bounced (unless SWIOTLB_FORCE is set).
+- */
+-static unsigned int max_segment;
+-
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+ 
+ static int __init
+@@ -104,18 +98,12 @@ early_param("swiotlb", setup_io_tlb_npages);
+ 
+ unsigned int swiotlb_max_segment(void)
+ {
+-	return io_tlb_default_mem.nslabs ? max_segment : 0;
++	if (!io_tlb_default_mem.nslabs)
++		return 0;
++	return rounddown(io_tlb_default_mem.nslabs << IO_TLB_SHIFT, PAGE_SIZE);
+ }
+ EXPORT_SYMBOL_GPL(swiotlb_max_segment);
+ 
+-void swiotlb_set_max_segment(unsigned int val)
+-{
+-	if (swiotlb_force == SWIOTLB_FORCE)
+-		max_segment = 1;
+-	else
+-		max_segment = rounddown(val, PAGE_SIZE);
+-}
+-
+ unsigned long swiotlb_size_or_default(void)
+ {
+ 	return default_nslabs << IO_TLB_SHIFT;
+@@ -267,7 +255,6 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+ 
+ 	if (verbose)
+ 		swiotlb_print_info();
+-	swiotlb_set_max_segment(mem->nslabs << IO_TLB_SHIFT);
+ 	return 0;
+ }
+ 
+@@ -368,7 +355,6 @@ swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs)
+ 	swiotlb_init_io_tlb_mem(mem, virt_to_phys(tlb), nslabs, true);
+ 
+ 	swiotlb_print_info();
+-	swiotlb_set_max_segment(mem->nslabs << IO_TLB_SHIFT);
+ 	return 0;
+ }
+ 
+-- 
+2.30.2
 
-    git://git.infradead.org/users/hch/misc.git swiotlb-init-cleanup
-
-Gitweb:
-
-    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/swiotlb-init-cleanup
-
-Changes since v1:
- - skip IOMMU initialization on Xen PV kernels
- - various small whitespace / typo fixes
-
-Diffstat:
- arch/ia64/include/asm/iommu_table.h      |    7 -
- arch/x86/include/asm/iommu_table.h       |  102 -------------------
- arch/x86/include/asm/swiotlb.h           |   30 -----
- arch/x86/kernel/pci-iommu_table.c        |   77 --------------
- arch/x86/kernel/pci-swiotlb.c            |   77 --------------
- arch/x86/xen/pci-swiotlb-xen.c           |   96 ------------------
- b/arch/arm/mm/init.c                     |    6 -
- b/arch/arm/xen/mm.c                      |   23 ++--
- b/arch/arm64/mm/init.c                   |    6 -
- b/arch/ia64/mm/init.c                    |    4 
- b/arch/mips/cavium-octeon/dma-octeon.c   |   15 --
- b/arch/mips/loongson64/dma.c             |    2 
- b/arch/mips/pci/pci-octeon.c             |    2 
- b/arch/mips/sibyte/common/dma.c          |    2 
- b/arch/powerpc/include/asm/svm.h         |    4 
- b/arch/powerpc/include/asm/swiotlb.h     |    1 
- b/arch/powerpc/mm/mem.c                  |    6 -
- b/arch/powerpc/platforms/pseries/setup.c |    3 
- b/arch/powerpc/platforms/pseries/svm.c   |   26 ----
- b/arch/riscv/mm/init.c                   |    8 -
- b/arch/s390/mm/init.c                    |    3 
- b/arch/x86/include/asm/dma-mapping.h     |   12 --
- b/arch/x86/include/asm/gart.h            |    5 
- b/arch/x86/include/asm/iommu.h           |    8 +
- b/arch/x86/include/asm/xen/page.h        |    5 
- b/arch/x86/include/asm/xen/swiotlb-xen.h |    2 
- b/arch/x86/kernel/Makefile               |    2 
- b/arch/x86/kernel/amd_gart_64.c          |    5 
- b/arch/x86/kernel/aperture_64.c          |   14 --
- b/arch/x86/kernel/cpu/mshyperv.c         |    8 -
- b/arch/x86/kernel/pci-dma.c              |  109 ++++++++++++++++----
- b/arch/x86/kernel/tboot.c                |    1 
- b/arch/x86/kernel/vmlinux.lds.S          |   12 --
- b/arch/x86/mm/mem_encrypt_amd.c          |    3 
- b/arch/x86/pci/sta2x11-fixup.c           |    2 
- b/arch/x86/xen/Makefile                  |    2 
- b/drivers/iommu/amd/init.c               |    6 -
- b/drivers/iommu/amd/iommu.c              |    5 
- b/drivers/iommu/intel/dmar.c             |    6 -
- b/drivers/xen/swiotlb-xen.c              |  132 -------------------------
- b/include/linux/dmar.h                   |    6 -
- b/include/linux/swiotlb.h                |   22 ++--
- b/include/trace/events/swiotlb.h         |   29 +----
- b/include/xen/arm/page.h                 |    1 
- b/include/xen/swiotlb-xen.h              |    8 +
- b/kernel/dma/direct.h                    |    2 
- b/kernel/dma/swiotlb.c                   |  163 +++++++++++++++----------------
- 47 files changed, 253 insertions(+), 817 deletions(-)
