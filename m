@@ -2,101 +2,82 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB04EC433EF
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F11EC433F5
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235143AbiCATmX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:42:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39822 "EHLO
+        id S237261AbiCATrM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232112AbiCATmX (ORCPT
+        with ESMTP id S231839AbiCATrL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Mar 2022 14:42:23 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D683465495;
-        Tue,  1 Mar 2022 11:41:41 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7246761632;
-        Tue,  1 Mar 2022 19:41:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58888C340EE;
-        Tue,  1 Mar 2022 19:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1646163700;
-        bh=C1fiXSQzp/6mGSE4wF5VaDuuI40Za2PZjhJbinmIoDs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sFIIaOr3qhOtKIiGkw47+sRkCTakK6s4LOKKAyeJYuUR4/NwdOwfdasXUZZE+y2dN
-         qTfAkZtm3bVoFwgnBR5c5AAcIWhrEK1eSu+jJttv2IPEGbRWp65T3CHVpPdKS0aQpb
-         RsAEvhp7ssUECvOQfFWuscCf7xqrvhDIw/AQ44yk=
-Date:   Tue, 1 Mar 2022 20:41:37 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        linux-hyperv@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        adrian@parity.io, Laszlo Ersek <lersek@redhat.com>,
-        Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Jann Horn <jannh@google.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Colm MacCarthaigh <colmmacc@amazon.com>,
-        Theodore Ts'o <tytso@mit.edu>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: propagating vmgenid outward and upward
-Message-ID: <Yh528WPZrQn5s7vO@kroah.com>
-References: <Yh4+9+UpanJWAIyZ@zx2c4.com>
- <Yh5fbe71BTT6xc8h@kroah.com>
- <CAHmME9oGcp7HNLeieptMKztgg7Fq4MnOuAEsiFJxsLbmjSuFCw@mail.gmail.com>
+        Tue, 1 Mar 2022 14:47:11 -0500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7961C6C947;
+        Tue,  1 Mar 2022 11:46:30 -0800 (PST)
+Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 23A3520B7188;
+        Tue,  1 Mar 2022 11:46:30 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 23A3520B7188
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1646163990;
+        bh=d7flK6DTAH4K/8AvhJPZUlMO2bWVUd8vNwXQiXnMMWs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=fsj9iNpSw0BDb8TUlWvxRAA+GEbids65zPPqkAmeWGHPGUGNdL6iK5kUFOwTBqil6
+         5MfmuuNXwOpPNGOnxEM7I8DWsIg2I48G6iJeb3JBgXswoiqZ05p2dTE325K3mNvARW
+         yb/4iLUmuWQKMi6qcxLkC/UcvcdEHShn7fj0R1xQ=
+From:   Iouri Tarassov <iourit@linux.microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, linux-hyperv@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
+        spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
+Subject: [PATCH v3 01/30] drivers: hv: dxgkrnl: Add virtual compute device VM bus channel guids
+Date:   Tue,  1 Mar 2022 11:45:48 -0800
+Message-Id: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <cover.1646161341.git.iourit@linux.microsoft.com>
+References: <cover.1646161341.git.iourit@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHmME9oGcp7HNLeieptMKztgg7Fq4MnOuAEsiFJxsLbmjSuFCw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Mar 01, 2022 at 07:24:11PM +0100, Jason A. Donenfeld wrote:
-> Hi Greg,
-> 
-> On Tue, Mar 1, 2022 at 7:01 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > A notifier block like this makes sense, but why tie onto the PM_ stuff?
-> > This isn't power management issues, it's a system-wide change that I am
-> > sure others will want to know about that doesn't reflect any power
-> > changes.
-> >
-> > As much as I hate adding new notifiers in the kernel, that might be all
-> > you need here.
-> 
-> You might indeed be right. I guess I was thinking that "resuming from
-> suspend" and "resuming from a VM fork" are kind of the same thing.
-> There _is_ a certain kind of similarity between the two. I was hoping
-> if the similarity was a strong enough one, maybe it'd make sense to do
-> them together rather than adding another notifier. But I suppose you
-> disagree, and it sounds like Rafael might too --
-> <https://lore.kernel.org/lkml/CAJZ5v0g+GihH_b9YvwuHzdrUVNGXOeabOznDC1vK6qLi8gtSTQ@mail.gmail.com/>.
+Add VM bus channel guids, which are used by hyper-v virtual
+compute device driver.
 
-Hey, nice, we agree!  :)
+Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
+---
+ include/linux/hyperv.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-> Code-wise for me with WireGuard it's of course appealing to treat them
-> the same, since it's like a one line change, but if I need to add a
-> new notifier call there, it's not the end of the world.
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index b823311eac79..9d21055b003d 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -1414,6 +1414,22 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size);
+ 	.guid = GUID_INIT(0xda0a7802, 0xe377, 0x4aac, 0x8e, 0x77, \
+ 			  0x05, 0x58, 0xeb, 0x10, 0x73, 0xf8)
+ 
++/*
++ * GPU paravirtualization global DXGK channel
++ * {DDE9CBC0-5060-4436-9448-EA1254A5D177}
++ */
++#define HV_GPUP_DXGK_GLOBAL_GUID \
++	.guid = GUID_INIT(0xdde9cbc0, 0x5060, 0x4436, 0x94, 0x48, \
++			  0xea, 0x12, 0x54, 0xa5, 0xd1, 0x77)
++
++/*
++ * GPU paravirtualization per virtual GPU DXGK channel
++ * {6E382D18-3336-4F4B-ACC4-2B7703D4DF4A}
++ */
++#define HV_GPUP_DXGK_VGPU_GUID \
++	.guid = GUID_INIT(0x6e382d18, 0x3336, 0x4f4b, 0xac, 0xc4, \
++			  0x2b, 0x77, 0x3, 0xd4, 0xdf, 0x4a)
++
+ /*
+  * Synthetic FC GUID
+  * {2f9bcc4a-0069-4af3-b76b-6fd0be528cda}
+-- 
+2.35.1
 
-I know there are other places in the kernel that would like to be
-notified when they have been moved to another machine so that they can
-do things like determine if the CPU functionality has changed (or not),
-and perhaps do other types of device reconfiguration.  Right now the
-kernel does not have any way of knowing this, so it makes sense that if
-the platform (i.e. ACPI here) has a way of creating such a event, it
-should and then we can start tieing in other subsystems to use it
-as-needed.
-
-thanks,
-
-greg k-h
