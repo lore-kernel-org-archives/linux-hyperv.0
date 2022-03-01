@@ -2,310 +2,881 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEF89C433EF
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A821C433F5
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237271AbiCATrM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:47:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52170 "EHLO
+        id S237278AbiCATrO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237256AbiCATrM (ORCPT
+        with ESMTP id S237276AbiCATrN (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Mar 2022 14:47:12 -0500
+        Tue, 1 Mar 2022 14:47:13 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79C1E6C96F;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA7666C97F;
         Tue,  1 Mar 2022 11:46:30 -0800 (PST)
 Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id EC38020B7178;
-        Tue,  1 Mar 2022 11:46:29 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EC38020B7178
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7DF8C20B6C14;
+        Tue,  1 Mar 2022 11:46:30 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7DF8C20B6C14
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1646163990;
-        bh=jUp2FKtmyUfjgv2JNwVY0+8u/pki1oLjvgx3eJuY7qc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Bq0bFR1TAELgfE3dfnDRiqsl3WcIORUaqK/e7r4IPe6wwD4sF2b1np64XhLU1wXF5
-         q7/K86vSgEA/uvFIDYni+rGasml3CeVmaUsOKRwymWDky5UOXN2Zebcz4FurcTiAeW
-         16+i2XJnDiaOEZsBGsm1mNBdpMPuYlcz8eT6a5H0=
+        bh=tZnS3vdELV26cJ4keov1MczMe6TQNJGiOKn7Z3zdTTU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=A9ItmDbTycKzUZfUhN2BOqp7irBa6xy+0PVIRrKt2uH7L2VB62F0dioPUyZjyMMKN
+         UJJdGn+q9yNODLz0beRgg6nhOICSdmxcqYb8nWaQwoLKEDTRnSY/dOqLNiIFwzIhPo
+         zTi37FzW2kUxVnn3CLjhhQHDRkmn2mbITKvPxYQ0=
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
         spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
-Subject: [PATCH v3 00/30] Driver for Hyper-v virtual compute device
-Date:   Tue,  1 Mar 2022 11:45:47 -0800
-Message-Id: <cover.1646161341.git.iourit@linux.microsoft.com>
+Subject: [PATCH v3 03/30] drivers: hv: dxgkrnl: Add VM bus message support, initialize VM bus channels.
+Date:   Tue,  1 Mar 2022 11:45:50 -0800
+Message-Id: <fde2024f8cd2d2ca2ed9a461298b7914c78226e6.1646163378.git.iourit@linux.microsoft.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
+References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The driver code in the new patch series is split to more simple patches
-for easy review. The definitions are added to the header files as
-they become to be used.
+Implement support for sending/receiving VM bus messages between
+the host and the guest.
 
-The patches introduces a driver for the Hyper-V virtual compute hardware
-devices. This driver powers the Windows Subsystem for Linux (WSL) and will
-soon power the Windows Subsystem for Android (WSA).
+Initialize the VM bus channels and notify the host about IO space
+settings of the VM bus global channel.
 
-Per earlier feedback, the driver is now located under the Hyper-V node as it
-is not a classic Linux GPU (KMS/DRM) driver and really only make sense
-when running under a Windows host under Hyper-V. Although we refer to this
-driver as VGPU for shorthand, in reality this is a generic virtualization
-infrastructure for various class of compute accelerators, the most popular
-and ubiquitous being the GPU. We support virtualization of non-GPU devices
-through this infrastructure. These devices are exposed to user-space and
-used by various API and framework, such as CUDA, OpenCL, OpenVINO,
-OneAPI, DX12, etc...
-
-One critical piece of feedback, provided by the community in our earlier
-submission, was the lack of an open source user-space to go along with our
-kernel compute driver. At the time we only had CUDA and DX12 user-space APIs,
-both of which being closed source. This is a divisive issue in the community
-and is heavily debated (https://lwn.net/Articles/821817/).
-
-We took this feedback to heart and we spent the last year working on a way
-to address this key piece of feedback. Working closely with our partner Intel,
-we're happy to say that we now have a fully open source user-space for the
-OpenCL, OpenVINO and OneAPI compute family of APIs on Intel GPU platforms.
-This is supported by this open source project
-(https://github.com/intel/compute-runtime).
-
-To make it easy for our partners to build compute drivers, which are usable
-in both Windows and WSL environment, we provide a library, that provides a
-stable interface to our compute device abstraction. This was originally part
-of the libdxcore closed source API, but have now spawn that off into it's
-own open source project (https://github.com/microsoft/libdxg).
-
-Between the Intel compute runtime project and libdxg, we now have a fully
-open source implementation of our virtualized compute stack inside of WSL.
-We will continue to support both open source user-space API against our
-compute abstraction as well as closed source one (CUDA, DX12), leaving
-it to the API owners and partners to decide what makes the most sense for them.
-
-A lot of efforts went into addressing community feedback in this revised
-set of patches and we hope this is getting closer to what the community
-would like to see.
-
-We're looking forward additional feedback.
-
-Driver overview
--------------------------------------------------------
-dxgkrnl is a driver for Hyper-V virtual compute devices, such as VGPU
-devices, which are projected to a Linux virtual machine (VM) by a Windows
-host. dxgkrnl works in context of WDDM (Windows Display Driver Model)
-for GPU or MCDM (Microsoft Compute Driver Model) for non-GPU devices.
-WDDM/MCDM consists of the following components:
-- Graphics or Compute applications
-- A graphics or compute user mode API (for example OpenGL, Vulkan, OpenCL,
-  OpenVINO, OneAPI, CUDA, DX12, ...)
-- User Mode Driver (UMD), written by a hardware vendor
-- optional libdxg library helping UMD portability across Windows and Linux
-- dxgkrnl Linux kernel driver (this driver)
-- Kernel mode port driver on the Windows host (dxgkrnl.sys / dxgmms2.sys)
-- Kernel mode miniport driver (KMD) on the Windows host, written by a
-  hardware vendor running on the Windows host and interfacing with the
-  hardware device.
-
-dxgkrnl exposes a subset the WDDM/MCDM D3DKMT interface to user space. See
-https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/d3dkmthk/
-This interface provides user space with an abstracted view and control
-of compute devices in a portable way across Windows and WSL. It is used for
-devices such as GPU or AI/ML processors. This interface is mapped to custom
-IOCTLs on Linux (see d3dkmthk.h). The libdxg library translates the D3DKMT
-interface calls to the driver IOCTLs.
-
-A more detailed overview of this architecture is available here:
-https://devblogs.microsoft.com/directx/directx-heart-linux/
-
-Virtual compute devices are paravirtualized, meaning that the actual
-communication with the corresponding device hardware happens on the host.
-The version of dxgkrnl inside of the Linux kernel coordinates with the
-version of dxgkrnl running on Windows to provide a consistent and
-portable abstraction for the device that the various APIs and UMD can
-rely on across Windows and Linux.
-
-Dxgkrnl creates the /dev/dxg device, which can be used to enumerate virtual
-compute devices (also called adapters). UMD or an API runtime open the
-device and send ioctls to create various device objects (dxgdevice,
-dxgcontext, dxgallocation, etc., defined in dxgkrnl.h) and to submit work
-to the device. The WDDM objects are represented in user mode as opaque
-handles (struct d3dkmthandle). Dxgkrnl creates a dxgprocess object
-for each process, which opens the /dev/dxg device. This object has a handle
-table, which is used to translate d3dkmt handles to kernel objects. Handle
-table definitions are in hmgr.h. There is also a global handle table for
-objects, which do not belong to a particular process.
-
-Driver initialization
--------------------------------------------------------
-When dxgkrnl is loaded, dxgkrnl registers for virtual PCI device arrival
-notifications and VM bus channel device notifications (see dxgmodule.c). When
-the first virtual device is started, dxgkrnl creates a misc device (/dev/dxg).
-A user mode client can open the /dev/dxg device and send IOCTLs to enumerate
-and control virtual compute devices.
-
-Virtual compute device initialization
--------------------------------------------------------
-A virtual device is represented by a dxgadapter object. It is created when
-the corresponding device arrives on the virtual PCI bus. The device vendor
-is PCI_VENDOR_ID_MICROSOFT and the device id is PCI_DEVICE_ID_VIRTUAL_RENDER.
-The adapter is started when the corresponding VM bus channel and the global
-VM bus channel are initialized. Dynamic arrival/removal of devices is
-supported.
-
-Internal objects
--------------------------------------------------------
-dxgkrnl creates various internal objects in response to IOCTL calls. The
-corresponsing objects are also created on the host. Each object is placed to
-a process or global handle table. Object handles (d3dkmthandle) are returned
-to user mode. The object handles are also used to reference objects on the host.
-Corresponding objects in the guest and the host have the same handle value to
-avoid handle translation. The internal objects are:
-- dxgadapter
-  Represents a virtual compute device object. It is created for every device
-  projected by the host to the VM.
-- dxgprocess
-  The object is created for each Linux process, which opens /dxg/dev. It has the
-  object handle table, which holds pointers to all internal objects, which are
-  created by this process.
-- dxgcontext
-  Represents a device execution thread in the packet scheduling mode (as oppose
-  to the hardware scheduling mode).
-- dxghwqueue
-  Represents a device execution thread in the hardware scheduling mode.
-- dxgdevice
-  A collection of device contexts, allocations, resources, sync objects, etc.
-- dxgallocation
-  Represents a device accessible memory allocation.
-- dxgresource
-  A collection of dxgallocation objects. This object could be shared between
-  devices and processes.
-- dxgsharedresource
-  Represents a dxgresource object, which is sharable between processes.
-- dxgsyncobject
-  Represents a device synchronization object, which is used to synchronize
-  execution of DMA buffers in the device execution contexts.
-- dxgsharedsyncobject
-  Represent a device synchronization object, which is sharable between processes.
-- dxgpagingqueue
-  Represents a queue, which is used to manage residency of the device allocation
-  objects.
-
-Communications with the host
--------------------------------------------------------
-Dxgkrnl communicates with the host via Hyper-V VM bus channels. There
-is a global channel and a per virtual computed device channel. The VM bus
-messages are defined in dxgvmbus.h and the implementation is in dxgvmbus.c.
-
-Most VM bus messages to the host are synchronous. When the host enables the
-asynchronous mode, some high frequency VM bus messages are sent asynchronously
-to improve performance. When async messages are enabled, all VM bus messages are
-sent only via the global channel to maintain the order of messages on the host.
-
-The host could send asynchronous messages to the Linux dxgkrnl driver via
-the global VM bus channel. The host messages are handled by
-dxgvmbuschannel_receive().
-
-PCI config space of the device is used to exchange information between the host
-and the guest during dxgkrnl initialization. Look at dxg_pci_probe_device().
-
-CPU access to device accessible allocations
--------------------------------------------------------
-D3DKMT API allows creation of allocations, which are accessible by the device
-and the CPU. The global VM bus channels has associated IO space, which is used
-to implement CPU access to CPU visible allocations. For each such allocation
-the host allocates a portion of the guest IO space and maps it to the
-allocation memory (it could be in system memory or in device local memory).
-A user mode application calls the LX_DXLOCK2 ioctl to get the allocation
-CPU address. Dxgkrnl uses vm_mmap to allocate a user space virtual address
-range and maps it to the allocation IO space using io_remap_pfn_range().
-This way Linux user mode virtual addresses point to the host system memory
-or device local memory.
-
-Sharing objects between processes
--------------------------------------------------------
-Some dxgkrnl objects could be shared between processes. This includes resources
-(dxgresource) and synchronization objects (dxgsyncobject).
-The WDDM API provides a way to share objects using so called "NT handles".
-"NT handle" on Windows is a native Windows process handle (HANDLE). "NT handles"
-are implemented as file descriptors (FD) on Linux.
-The LX_DXSHAREOBJECTS ioctl is used to get an FD for a shared object.
-Before a shared object can be used, it needs to be "opened" to get the "local"
-d3dkmthandle handle. The LX_DXOPENRESOURCEFROMNTHANDLE and
-LX_DXOPENSYNCOBJECTFROMNTHANDLE2 ioctls are used to open a shared object
-
-Iouri Tarassov (30):
-  drivers: hv: dxgkrnl: Add virtual compute device VM bus
-    channel guids
-  drivers: hv: dxgkrnl: Driver initialization and loading
-  drivers: hv: dxgkrnl: Add VM bus message support, initialize VM bus
-    channels.
-  drivers: hv: dxgkrnl: Creation of dxgadapter object
-  drivers: hv: dxgkrnl: Opening of /dev/dxg device and dxgprocess
-    creation
-  drivers: hv: dxgkrnl: Enumerate and open dxgadapter objects
-  drivers: hv: dxgkrnl: Creation of dxgdevice objects
-  drivers: hv: dxgkrnl: Creation of dxgcontext objects
-  drivers: hv: dxgkrnl: Creation of compute device allocations and
-    resources
-  drivers: hv: dxgkrnl: Creation of compute device sync objects
-  drivers: hv: dxgkrnl: Operations using sync objects
-  drivers: hv: dxgkrnl: Sharing of dxgresource objects
-  drivers: hv: dxgkrnl: Sharing of sync objects
-  drivers: hv: dxgkrnl: Creation of hardware queues. Sync object
-    operations to hw queue.
-  drivers: hv: dxgkrnl: Creation of paging queue objects.
-  drivers: hv: dxgkrnl: Submit execution commands to the compute device
-  drivers: hv: dxgkrnl: Share objects with the host
-  drivers: hv: dxgkrnl: Query the dxgdevice state
-  drivers: hv: dxgkrnl: Map(unmap) CPU address to device allocation
-  drivers: hv: dxgkrnl: Manage device allocation properties
-  drivers: hv: dxgkrnl: Flush heap transitions
-  drivers: hv: dxgkrnl: Query video memory information
-  drivers: hv: dxgkrnl: The escape ioctl
-  drivers: hv: dxgkrnl: Ioctl to put device to error state
-  drivers: hv: dxgkrnl: Ioctls to query statistics and clock calibration
-  drivers: hv: dxgkrnl: Offer and reclaim allocations
-  drivers: hv: dxgkrnl: Ioctls to manage scheduling priority
-  drivers: hv: dxgkrnl: Manage residency of allocations
-  drivers: hv: dxgkrnl: Manage compute device virtual addresses
-  drivers: hv: dxgkrnl: Add support to map guest pages by host
-
- MAINTAINERS                     |    7 +
- drivers/hv/Kconfig              |    2 +
- drivers/hv/Makefile             |    1 +
- drivers/hv/dxgkrnl/Kconfig      |   26 +
- drivers/hv/dxgkrnl/Makefile     |    5 +
- drivers/hv/dxgkrnl/dxgadapter.c | 1375 ++++++++
- drivers/hv/dxgkrnl/dxgkrnl.h    |  962 ++++++
- drivers/hv/dxgkrnl/dxgmodule.c  |  942 ++++++
- drivers/hv/dxgkrnl/dxgprocess.c |  334 ++
- drivers/hv/dxgkrnl/dxgvmbus.c   | 3788 ++++++++++++++++++++++
- drivers/hv/dxgkrnl/dxgvmbus.h   |  868 +++++
- drivers/hv/dxgkrnl/hmgr.c       |  566 ++++
- drivers/hv/dxgkrnl/hmgr.h       |  112 +
- drivers/hv/dxgkrnl/ioctl.c      | 5368 +++++++++++++++++++++++++++++++
- drivers/hv/dxgkrnl/misc.c       |   43 +
- drivers/hv/dxgkrnl/misc.h       |   96 +
- include/linux/hyperv.h          |   16 +
- include/uapi/misc/d3dkmthk.h    | 1679 ++++++++++
- 18 files changed, 16190 insertions(+)
- create mode 100644 drivers/hv/dxgkrnl/Kconfig
- create mode 100644 drivers/hv/dxgkrnl/Makefile
- create mode 100644 drivers/hv/dxgkrnl/dxgadapter.c
- create mode 100644 drivers/hv/dxgkrnl/dxgkrnl.h
- create mode 100644 drivers/hv/dxgkrnl/dxgmodule.c
- create mode 100644 drivers/hv/dxgkrnl/dxgprocess.c
+Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
+---
+ drivers/hv/dxgkrnl/Makefile    |   2 +-
+ drivers/hv/dxgkrnl/dxgkrnl.h   |  14 ++
+ drivers/hv/dxgkrnl/dxgmodule.c |   7 +
+ drivers/hv/dxgkrnl/dxgvmbus.c  | 413 +++++++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgvmbus.h  |  86 +++++++
+ drivers/hv/dxgkrnl/hmgr.h      |  75 ++++++
+ drivers/hv/dxgkrnl/ioctl.c     |  24 ++
+ drivers/hv/dxgkrnl/misc.h      |  72 ++++++
+ include/uapi/misc/d3dkmthk.h   |  34 +++
+ 9 files changed, 726 insertions(+), 1 deletion(-)
  create mode 100644 drivers/hv/dxgkrnl/dxgvmbus.c
  create mode 100644 drivers/hv/dxgkrnl/dxgvmbus.h
- create mode 100644 drivers/hv/dxgkrnl/hmgr.c
  create mode 100644 drivers/hv/dxgkrnl/hmgr.h
  create mode 100644 drivers/hv/dxgkrnl/ioctl.c
- create mode 100644 drivers/hv/dxgkrnl/misc.c
  create mode 100644 drivers/hv/dxgkrnl/misc.h
- create mode 100644 include/uapi/misc/d3dkmthk.h
 
+diff --git a/drivers/hv/dxgkrnl/Makefile b/drivers/hv/dxgkrnl/Makefile
+index 052f8bd62ad3..76349064b60a 100644
+--- a/drivers/hv/dxgkrnl/Makefile
++++ b/drivers/hv/dxgkrnl/Makefile
+@@ -2,4 +2,4 @@
+ # Makefile for the hyper-v compute device driver (dxgkrnl).
+ 
+ obj-$(CONFIG_DXGKRNL)	+= dxgkrnl.o
+-dxgkrnl-y		:= dxgmodule.o
++dxgkrnl-y		:= dxgmodule.o dxgvmbus.o
+diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
+index 6b3e9334bce8..533f3bb3ece2 100644
+--- a/drivers/hv/dxgkrnl/dxgkrnl.h
++++ b/drivers/hv/dxgkrnl/dxgkrnl.h
+@@ -29,6 +29,7 @@
+ 
+ struct dxgadapter;
+ 
++#include "misc.h"
+ #include <uapi/misc/d3dkmthk.h>
+ 
+ struct dxgvmbuschannel {
+@@ -87,6 +88,13 @@ struct dxgglobal {
+ 
+ extern struct dxgglobal		*dxgglobal;
+ 
++int dxgglobal_init_global_channel(void);
++void dxgglobal_destroy_global_channel(void);
++struct vmbus_channel *dxgglobal_get_vmbus(void);
++struct dxgvmbuschannel *dxgglobal_get_dxgvmbuschannel(void);
++int dxgglobal_acquire_channel_lock(void);
++void dxgglobal_release_channel_lock(void);
++
+ struct dxgprocess {
+ 	/* Placeholder */
+ };
+@@ -116,4 +124,10 @@ static inline void guid_to_luid(guid_t *guid, struct winluid *luid)
+ #define DXGK_VMBUS_INTERFACE_VERSION			40
+ #define DXGK_VMBUS_LAST_COMPATIBLE_INTERFACE_VERSION	16
+ 
++void dxgvmb_initialize(void);
++int dxgvmb_send_set_iospace_region(u64 start, u64 len,
++				   struct vmbus_gpadl *shared_mem_gpadl);
++
++int ntstatus2int(struct ntstatus status);
++
+ #endif
+diff --git a/drivers/hv/dxgkrnl/dxgmodule.c b/drivers/hv/dxgkrnl/dxgmodule.c
+index 412c37bc592d..78f233e354b9 100644
+--- a/drivers/hv/dxgkrnl/dxgmodule.c
++++ b/drivers/hv/dxgkrnl/dxgmodule.c
+@@ -296,6 +296,13 @@ int dxgglobal_init_global_channel(void)
+ 		goto error;
+ 	}
+ 
++	ret = dxgvmb_send_set_iospace_region(dxgglobal->mmiospace_base,
++					     dxgglobal->mmiospace_size, 0);
++	if (ret < 0) {
++		pr_err("send_set_iospace_region failed");
++		goto error;
++	}
++
+ 	hv_set_drvdata(dxgglobal->hdev, dxgglobal);
+ 
+ 	dxgglobal->dxgdevice.minor = MISC_DYNAMIC_MINOR;
+diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
+new file mode 100644
+index 000000000000..399dec02a3a1
+--- /dev/null
++++ b/drivers/hv/dxgkrnl/dxgvmbus.c
+@@ -0,0 +1,413 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2019, Microsoft Corporation.
++ *
++ * Author:
++ *   Iouri Tarassov <iourit@linux.microsoft.com>
++ *
++ * Dxgkrnl Graphics Driver
++ * VM bus interface implementation
++ *
++ */
++
++#include <linux/kernel.h>
++#include <linux/completion.h>
++#include <linux/slab.h>
++#include <linux/eventfd.h>
++#include <linux/hyperv.h>
++#include <linux/mman.h>
++#include <linux/delay.h>
++#include <linux/pagemap.h>
++#include "dxgkrnl.h"
++#include "dxgvmbus.h"
++
++#undef pr_fmt
++#define pr_fmt(fmt)	"dxgk: " fmt
++
++#define RING_BUFSIZE (256 * 1024)
++
++/*
++ * The structure is used to track VM bus packets, waiting for completion.
++ */
++struct dxgvmbuspacket {
++	struct list_head packet_list_entry;
++	u64 request_id;
++	struct completion wait;
++	void *buffer;
++	u32 buffer_length;
++	int status;
++	bool completed;
++};
++
++struct dxgvmb_ext_header {
++	/* Offset from the start of the message to DXGKVMB_COMMAND_BASE */
++	u32		command_offset;
++	u32		reserved;
++	struct winluid	vgpu_luid;
++};
++
++#define VMBUSMESSAGEONSTACK	64
++
++struct dxgvmbusmsg {
++/* Points to the allocated buffer */
++	struct dxgvmb_ext_header	*hdr;
++/* Points to dxgkvmb_command_vm_to_host or dxgkvmb_command_vgpu_to_host */
++	void				*msg;
++/* The vm bus channel, used to pass the message to the host */
++	struct dxgvmbuschannel		*channel;
++/* Message size in bytes including the header and the payload */
++	u32				size;
++/* Buffer used for small messages */
++	char				msg_on_stack[VMBUSMESSAGEONSTACK];
++};
++
++struct dxgvmbusmsgres {
++/* Points to the allocated buffer */
++	struct dxgvmb_ext_header	*hdr;
++/* Points to dxgkvmb_command_vm_to_host or dxgkvmb_command_vgpu_to_host */
++	void				*msg;
++/* The vm bus channel, used to pass the message to the host */
++	struct dxgvmbuschannel		*channel;
++/* Message size in bytes including the header, the payload and the result */
++	u32				size;
++/* Result buffer size in bytes */
++	u32				res_size;
++/* Points to the result within the allocated buffer */
++	void				*res;
++};
++
++static int init_message(struct dxgvmbusmsg *msg,
++			struct dxgprocess *process, u32 size)
++{
++	bool use_ext_header = dxgglobal->vmbus_ver >=
++			      DXGK_VMBUS_INTERFACE_VERSION;
++
++	if (use_ext_header)
++		size += sizeof(struct dxgvmb_ext_header);
++	msg->size = size;
++	if (size <= VMBUSMESSAGEONSTACK) {
++		msg->hdr = (void *)msg->msg_on_stack;
++		memset(msg->hdr, 0, size);
++	} else {
++		msg->hdr = vzalloc(size);
++		if (msg->hdr == NULL)
++			return -ENOMEM;
++	}
++	if (use_ext_header) {
++		msg->msg = (char *)&msg->hdr[1];
++		msg->hdr->command_offset = sizeof(msg->hdr[0]);
++	} else {
++		msg->msg = (char *)msg->hdr;
++	}
++	msg->channel = &dxgglobal->channel;
++	return 0;
++}
++
++static void free_message(struct dxgvmbusmsg *msg, struct dxgprocess *process)
++{
++	if (msg->hdr && (char *)msg->hdr != msg->msg_on_stack)
++		vfree(msg->hdr);
++}
++
++/*
++ * Helper functions
++ */
++
++int ntstatus2int(struct ntstatus status)
++{
++	if (NT_SUCCESS(status))
++		return (int)status.v;
++	switch (status.v) {
++	case STATUS_OBJECT_NAME_COLLISION:
++		return -EEXIST;
++	case STATUS_NO_MEMORY:
++		return -ENOMEM;
++	case STATUS_INVALID_PARAMETER:
++		return -EINVAL;
++	case STATUS_OBJECT_NAME_INVALID:
++	case STATUS_OBJECT_NAME_NOT_FOUND:
++		return -ENOENT;
++	case STATUS_TIMEOUT:
++		return -EAGAIN;
++	case STATUS_BUFFER_TOO_SMALL:
++		return -EOVERFLOW;
++	case STATUS_DEVICE_REMOVED:
++		return -ENODEV;
++	case STATUS_ACCESS_DENIED:
++		return -EACCES;
++	case STATUS_NOT_SUPPORTED:
++		return -EPERM;
++	case STATUS_ILLEGAL_INSTRUCTION:
++		return -EOPNOTSUPP;
++	case STATUS_INVALID_HANDLE:
++		return -EBADF;
++	case STATUS_GRAPHICS_ALLOCATION_BUSY:
++		return -EINPROGRESS;
++	case STATUS_OBJECT_TYPE_MISMATCH:
++		return -EPROTOTYPE;
++	case STATUS_NOT_IMPLEMENTED:
++		return -EPERM;
++	default:
++		return -EINVAL;
++	}
++}
++
++int dxgvmbuschannel_init(struct dxgvmbuschannel *ch, struct hv_device *hdev)
++{
++	int ret;
++
++	ch->hdev = hdev;
++	spin_lock_init(&ch->packet_list_mutex);
++	INIT_LIST_HEAD(&ch->packet_list_head);
++	atomic64_set(&ch->packet_request_id, 0);
++
++	ch->packet_cache = kmem_cache_create("DXGK packet cache",
++					     sizeof(struct dxgvmbuspacket), 0,
++					     0, NULL);
++	if (ch->packet_cache == NULL) {
++		pr_err("packet_cache alloc failed");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	hdev->channel->max_pkt_size = DXG_MAX_VM_BUS_PACKET_SIZE;
++	ret = vmbus_open(hdev->channel, RING_BUFSIZE, RING_BUFSIZE,
++			 NULL, 0, dxgvmbuschannel_receive, ch);
++	if (ret) {
++		pr_err("vmbus_open failed: %d", ret);
++		goto cleanup;
++	}
++
++	ch->channel = hdev->channel;
++
++cleanup:
++
++	return ret;
++}
++
++void dxgvmbuschannel_destroy(struct dxgvmbuschannel *ch)
++{
++	kmem_cache_destroy(ch->packet_cache);
++	ch->packet_cache = NULL;
++
++	if (ch->channel) {
++		vmbus_close(ch->channel);
++		ch->channel = NULL;
++	}
++}
++
++static void command_vm_to_host_init1(struct dxgkvmb_command_vm_to_host *command,
++				     enum dxgkvmb_commandtype_global type)
++{
++	command->command_type = type;
++	command->process.v = 0;
++	command->command_id = 0;
++	command->channel_type = DXGKVMB_VM_TO_HOST;
++}
++
++static void process_inband_packet(struct dxgvmbuschannel *channel,
++				  struct vmpacket_descriptor *desc)
++{
++	u32 packet_length = hv_pkt_datalen(desc);
++	struct dxgkvmb_command_host_to_vm *packet;
++
++	if (packet_length < sizeof(struct dxgkvmb_command_host_to_vm)) {
++		pr_err("Invalid global packet");
++	} else {
++		packet = hv_pkt_data(desc);
++		pr_debug("global packet %d",
++				packet->command_type);
++		switch (packet->command_type) {
++		case DXGK_VMBCOMMAND_SIGNALGUESTEVENT:
++		case DXGK_VMBCOMMAND_SIGNALGUESTEVENTPASSIVE:
++			break;
++		case DXGK_VMBCOMMAND_SENDWNFNOTIFICATION:
++			break;
++		default:
++			pr_err("unexpected host message %d",
++					packet->command_type);
++		}
++	}
++}
++
++static void process_completion_packet(struct dxgvmbuschannel *channel,
++				      struct vmpacket_descriptor *desc)
++{
++	struct dxgvmbuspacket *packet = NULL;
++	struct dxgvmbuspacket *entry;
++	u32 packet_length = hv_pkt_datalen(desc);
++	unsigned long flags;
++
++	spin_lock_irqsave(&channel->packet_list_mutex, flags);
++	list_for_each_entry(entry, &channel->packet_list_head,
++			    packet_list_entry) {
++		if (desc->trans_id == entry->request_id) {
++			packet = entry;
++			list_del(&packet->packet_list_entry);
++			packet->completed = true;
++			break;
++		}
++	}
++	spin_unlock_irqrestore(&channel->packet_list_mutex, flags);
++	if (packet) {
++		if (packet->buffer_length) {
++			if (packet_length < packet->buffer_length) {
++				pr_debug("invalid size %d Expected:%d",
++					    packet_length,
++					    packet->buffer_length);
++				packet->status = -EOVERFLOW;
++			} else {
++				memcpy(packet->buffer, hv_pkt_data(desc),
++				       packet->buffer_length);
++			}
++		}
++		complete(&packet->wait);
++	} else {
++		pr_err("did not find packet to complete");
++	}
++}
++
++/* Receive callback for messages from the host */
++void dxgvmbuschannel_receive(void *ctx)
++{
++	struct dxgvmbuschannel *channel = ctx;
++	struct vmpacket_descriptor *desc;
++	u32 packet_length = 0;
++
++	foreach_vmbus_pkt(desc, channel->channel) {
++		packet_length = hv_pkt_datalen(desc);
++		pr_debug("next packet (id, size, type): %llu %d %d",
++			desc->trans_id, packet_length, desc->type);
++		if (desc->type == VM_PKT_COMP) {
++			process_completion_packet(channel, desc);
++		} else {
++			if (desc->type != VM_PKT_DATA_INBAND)
++				pr_err("unexpected packet type");
++			else
++				process_inband_packet(channel, desc);
++		}
++	}
++}
++
++int dxgvmb_send_sync_msg(struct dxgvmbuschannel *channel,
++			 void *command,
++			 u32 cmd_size,
++			 void *result,
++			 u32 result_size)
++{
++	int ret;
++	struct dxgvmbuspacket *packet = NULL;
++	struct dxgkvmb_command_vm_to_host *cmd1;
++
++	if (cmd_size > DXG_MAX_VM_BUS_PACKET_SIZE ||
++	    result_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
++		pr_err("%s invalid data size", __func__);
++		return -EINVAL;
++	}
++
++	packet = kmem_cache_alloc(channel->packet_cache, 0);
++	if (packet == NULL) {
++		pr_err("kmem_cache_alloc failed");
++		return -ENOMEM;
++	}
++
++	pr_debug("send_sync_msg global: %d %p %d %d",
++		cmd1->command_type, command, cmd_size, result_size);
++
++	packet->request_id = atomic64_inc_return(&channel->packet_request_id);
++	init_completion(&packet->wait);
++	packet->buffer = result;
++	packet->buffer_length = result_size;
++	packet->status = 0;
++	packet->completed = false;
++	spin_lock_irq(&channel->packet_list_mutex);
++	list_add_tail(&packet->packet_list_entry, &channel->packet_list_head);
++	spin_unlock_irq(&channel->packet_list_mutex);
++
++	ret = vmbus_sendpacket(channel->channel, command, cmd_size,
++			       packet->request_id, VM_PKT_DATA_INBAND,
++			       VMBUS_DATA_PACKET_FLAG_COMPLETION_REQUESTED);
++	if (ret) {
++		pr_err("vmbus_sendpacket failed: %x", ret);
++		spin_lock_irq(&channel->packet_list_mutex);
++		list_del(&packet->packet_list_entry);
++		spin_unlock_irq(&channel->packet_list_mutex);
++		goto cleanup;
++	}
++
++	pr_debug("waiting completion: %llu", packet->request_id);
++	ret = wait_for_completion_killable(&packet->wait);
++	if (ret) {
++		pr_err("wait_for_complition failed: %x", ret);
++		spin_lock_irq(&channel->packet_list_mutex);
++		if (!packet->completed)
++			list_del(&packet->packet_list_entry);
++		spin_unlock_irq(&channel->packet_list_mutex);
++		goto cleanup;
++	}
++	pr_debug("completion done: %llu %x",
++		packet->request_id, packet->status);
++	ret = packet->status;
++
++cleanup:
++
++	kmem_cache_free(channel->packet_cache, packet);
++	if (ret < 0)
++		pr_debug("%s failed: %x", __func__, ret);
++	return ret;
++}
++
++static int
++dxgvmb_send_sync_msg_ntstatus(struct dxgvmbuschannel *channel,
++			      void *command, u32 cmd_size)
++{
++	struct ntstatus status;
++	int ret;
++
++	ret = dxgvmb_send_sync_msg(channel, command, cmd_size,
++				   &status, sizeof(status));
++	if (ret >= 0)
++		ret = ntstatus2int(status);
++	return ret;
++}
++
++/*
++ * Global messages to the host
++ */
++
++int dxgvmb_send_set_iospace_region(u64 start, u64 len,
++	struct vmbus_gpadl *shared_mem_gpadl)
++{
++	int ret;
++	struct dxgkvmb_command_setiospaceregion *command;
++	struct dxgvmbusmsg msg;
++
++	ret = init_message(&msg, NULL, sizeof(*command));
++	if (ret)
++		return ret;
++	command = (void *)msg.msg;
++
++	ret = dxgglobal_acquire_channel_lock();
++	if (ret < 0)
++		goto cleanup;
++
++	command_vm_to_host_init1(&command->hdr,
++				 DXGK_VMBCOMMAND_SETIOSPACEREGION);
++	command->start = start;
++	command->length = len;
++	if (command->shared_page_gpadl)
++		command->shared_page_gpadl = shared_mem_gpadl->gpadl_handle;
++	ret = dxgvmb_send_sync_msg_ntstatus(&dxgglobal->channel, msg.hdr,
++					    msg.size);
++	if (ret < 0)
++		pr_err("send_set_iospace_region failed %x", ret);
++
++	dxgglobal_release_channel_lock();
++cleanup:
++	free_message(&msg, NULL);
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
+diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
+new file mode 100644
+index 000000000000..d6136fd1ce9a
+--- /dev/null
++++ b/drivers/hv/dxgkrnl/dxgvmbus.h
+@@ -0,0 +1,86 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Copyright (c) 2019, Microsoft Corporation.
++ *
++ * Author:
++ *   Iouri Tarassov <iourit@linux.microsoft.com>
++ *
++ * Dxgkrnl Graphics Driver
++ * VM bus interface with the host definitions
++ *
++ */
++
++#ifndef _DXGVMBUS_H
++#define _DXGVMBUS_H
++
++#define DXG_MAX_VM_BUS_PACKET_SIZE	(1024 * 128)
++
++enum dxgkvmb_commandchanneltype {
++	DXGKVMB_VGPU_TO_HOST,
++	DXGKVMB_VM_TO_HOST,
++	DXGKVMB_HOST_TO_VM
++};
++
++/*
++ *
++ * Commands, sent to the host via the guest global VM bus channel
++ * DXG_GUEST_GLOBAL_VMBUS
++ *
++ */
++
++enum dxgkvmb_commandtype_global {
++	DXGK_VMBCOMMAND_VM_TO_HOST_FIRST	= 1000,
++	DXGK_VMBCOMMAND_CREATEPROCESS	= DXGK_VMBCOMMAND_VM_TO_HOST_FIRST,
++	DXGK_VMBCOMMAND_DESTROYPROCESS		= 1001,
++	DXGK_VMBCOMMAND_OPENSYNCOBJECT		= 1002,
++	DXGK_VMBCOMMAND_DESTROYSYNCOBJECT	= 1003,
++	DXGK_VMBCOMMAND_CREATENTSHAREDOBJECT	= 1004,
++	DXGK_VMBCOMMAND_DESTROYNTSHAREDOBJECT	= 1005,
++	DXGK_VMBCOMMAND_SIGNALFENCE		= 1006,
++	DXGK_VMBCOMMAND_NOTIFYPROCESSFREEZE	= 1007,
++	DXGK_VMBCOMMAND_NOTIFYPROCESSTHAW	= 1008,
++	DXGK_VMBCOMMAND_QUERYETWSESSION		= 1009,
++	DXGK_VMBCOMMAND_SETIOSPACEREGION	= 1010,
++	DXGK_VMBCOMMAND_COMPLETETRANSACTION	= 1011,
++	DXGK_VMBCOMMAND_SHAREOBJECTWITHHOST	= 1021,
++	DXGK_VMBCOMMAND_INVALID_VM_TO_HOST
++};
++
++/*
++ * Commands, sent by the host to the VM
++ */
++enum dxgkvmb_commandtype_host_to_vm {
++	DXGK_VMBCOMMAND_SIGNALGUESTEVENT,
++	DXGK_VMBCOMMAND_PROPAGATEPRESENTHISTORYTOKEN,
++	DXGK_VMBCOMMAND_SETGUESTDATA,
++	DXGK_VMBCOMMAND_SIGNALGUESTEVENTPASSIVE,
++	DXGK_VMBCOMMAND_SENDWNFNOTIFICATION,
++	DXGK_VMBCOMMAND_INVALID_HOST_TO_VM
++};
++
++struct dxgkvmb_command_vm_to_host {
++	u64				command_id;
++	struct d3dkmthandle		process;
++	enum dxgkvmb_commandchanneltype	channel_type;
++	enum dxgkvmb_commandtype_global	command_type;
++};
++
++struct dxgkvmb_command_host_to_vm {
++	u64					command_id;
++	struct d3dkmthandle			process;
++	u32					channel_type	: 8;
++	u32					async_msg	: 1;
++	u32					reserved	: 23;
++	enum dxgkvmb_commandtype_host_to_vm	command_type;
++};
++
++/* Returns ntstatus */
++struct dxgkvmb_command_setiospaceregion {
++	struct dxgkvmb_command_vm_to_host hdr;
++	u64				start;
++	u64				length;
++	u32				shared_page_gpadl;
++};
++
++#endif /* _DXGVMBUS_H */
+diff --git a/drivers/hv/dxgkrnl/hmgr.h b/drivers/hv/dxgkrnl/hmgr.h
+new file mode 100644
+index 000000000000..b8b8f3ae5939
+--- /dev/null
++++ b/drivers/hv/dxgkrnl/hmgr.h
+@@ -0,0 +1,75 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Copyright (c) 2019, Microsoft Corporation.
++ *
++ * Author:
++ *   Iouri Tarassov <iourit@linux.microsoft.com>
++ *
++ * Dxgkrnl Graphics Driver
++ * Handle manager definitions
++ *
++ */
++
++#ifndef _HMGR_H_
++#define _HMGR_H_
++
++#include "misc.h"
++
++struct hmgrentry;
++
++/*
++ * Handle manager table.
++ *
++ * Implementation notes:
++ *   A list of free handles is built on top of the array of table entries.
++ *   free_handle_list_head is the index of the first entry in the list.
++ *   m_FreeHandleListTail is the index of an entry in the list, which is
++ *   HMGRTABLE_MIN_FREE_ENTRIES from the head. It means that when a handle is
++ *   freed, the next time the handle can be re-used is after allocating
++ *   HMGRTABLE_MIN_FREE_ENTRIES number of handles.
++ *   Handles are allocated from the start of the list and free handles are
++ *   inserted after the tail of the list.
++ *
++ */
++struct hmgrtable {
++	struct dxgprocess	*process;
++	struct hmgrentry	*entry_table;
++	u32			free_handle_list_head;
++	u32			free_handle_list_tail;
++	u32			table_size;
++	u32			free_count;
++	struct rw_semaphore	table_lock;
++};
++
++/*
++ * Handle entry data types.
++ */
++#define HMGRENTRY_TYPE_BITS 5
++
++enum hmgrentry_type {
++	HMGRENTRY_TYPE_FREE				= 0,
++	HMGRENTRY_TYPE_DXGADAPTER			= 1,
++	HMGRENTRY_TYPE_DXGSHAREDRESOURCE		= 2,
++	HMGRENTRY_TYPE_DXGDEVICE			= 3,
++	HMGRENTRY_TYPE_DXGRESOURCE			= 4,
++	HMGRENTRY_TYPE_DXGALLOCATION			= 5,
++	HMGRENTRY_TYPE_DXGOVERLAY			= 6,
++	HMGRENTRY_TYPE_DXGCONTEXT			= 7,
++	HMGRENTRY_TYPE_DXGSYNCOBJECT			= 8,
++	HMGRENTRY_TYPE_DXGKEYEDMUTEX			= 9,
++	HMGRENTRY_TYPE_DXGPAGINGQUEUE			= 10,
++	HMGRENTRY_TYPE_DXGDEVICESYNCOBJECT		= 11,
++	HMGRENTRY_TYPE_DXGPROCESS			= 12,
++	HMGRENTRY_TYPE_DXGSHAREDVMOBJECT		= 13,
++	HMGRENTRY_TYPE_DXGPROTECTEDSESSION		= 14,
++	HMGRENTRY_TYPE_DXGHWQUEUE			= 15,
++	HMGRENTRY_TYPE_DXGREMOTEBUNDLEOBJECT		= 16,
++	HMGRENTRY_TYPE_DXGCOMPOSITIONSURFACEOBJECT	= 17,
++	HMGRENTRY_TYPE_DXGCOMPOSITIONSURFACEPROXY	= 18,
++	HMGRENTRY_TYPE_DXGTRACKEDWORKLOAD		= 19,
++	HMGRENTRY_TYPE_LIMIT		= ((1 << HMGRENTRY_TYPE_BITS) - 1),
++	HMGRENTRY_TYPE_MONITOREDFENCE	= HMGRENTRY_TYPE_LIMIT + 1,
++};
++
++#endif
+diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
+new file mode 100644
+index 000000000000..277e25e5d8c6
+--- /dev/null
++++ b/drivers/hv/dxgkrnl/ioctl.c
+@@ -0,0 +1,24 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/*
++ * Copyright (c) 2019, Microsoft Corporation.
++ *
++ * Author:
++ *   Iouri Tarassov <iourit@linux.microsoft.com>
++ *
++ * Dxgkrnl Graphics Driver
++ * Ioctl implementation
++ *
++ */
++
++#include <linux/eventfd.h>
++#include <linux/file.h>
++#include <linux/fs.h>
++#include <linux/anon_inodes.h>
++#include <linux/mman.h>
++
++#include "dxgkrnl.h"
++#include "dxgvmbus.h"
++
++#undef pr_fmt
++#define pr_fmt(fmt)	"dxgk: " fmt
+diff --git a/drivers/hv/dxgkrnl/misc.h b/drivers/hv/dxgkrnl/misc.h
+new file mode 100644
+index 000000000000..9fa3c7c8c3f5
+--- /dev/null
++++ b/drivers/hv/dxgkrnl/misc.h
+@@ -0,0 +1,72 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/*
++ * Copyright (c) 2019, Microsoft Corporation.
++ *
++ * Author:
++ *   Iouri Tarassov <iourit@linux.microsoft.com>
++ *
++ * Dxgkrnl Graphics Driver
++ * Misc definitions
++ *
++ */
++
++#ifndef _MISC_H_
++#define _MISC_H_
++
++extern const struct d3dkmthandle zerohandle;
++
++/*
++ * Synchronization lock hierarchy.
++ *
++ * The higher enum value, the higher is the lock order.
++ * When a lower lock ois held, the higher lock should not be acquired.
++ *
++ * channel_lock
++ * device_mutex
++ */
++
++/*
++ * Some of the Windows return codes, which needs to be translated to Linux
++ * IOCTL return codes. Positive values are success codes and need to be
++ * returned from the driver IOCTLs. libdxcore.so depends on returning
++ * specific return codes.
++ */
++#define STATUS_SUCCESS					((int)(0))
++#define	STATUS_OBJECT_NAME_INVALID			((int)(0xC0000033L))
++#define	STATUS_DEVICE_REMOVED				((int)(0xC00002B6L))
++#define	STATUS_INVALID_HANDLE				((int)(0xC0000008L))
++#define	STATUS_ILLEGAL_INSTRUCTION			((int)(0xC000001DL))
++#define	STATUS_NOT_IMPLEMENTED				((int)(0xC0000002L))
++#define	STATUS_PENDING					((int)(0x00000103L))
++#define	STATUS_ACCESS_DENIED				((int)(0xC0000022L))
++#define	STATUS_BUFFER_TOO_SMALL				((int)(0xC0000023L))
++#define	STATUS_OBJECT_TYPE_MISMATCH			((int)(0xC0000024L))
++#define	STATUS_GRAPHICS_ALLOCATION_BUSY			((int)(0xC01E0102L))
++#define	STATUS_NOT_SUPPORTED				((int)(0xC00000BBL))
++#define	STATUS_TIMEOUT					((int)(0x00000102L))
++#define	STATUS_INVALID_PARAMETER			((int)(0xC000000DL))
++#define	STATUS_NO_MEMORY				((int)(0xC0000017L))
++#define	STATUS_OBJECT_NAME_COLLISION			((int)(0xC0000035L))
++#define STATUS_OBJECT_NAME_NOT_FOUND			((int)(0xC0000034L))
++
++
++#define NT_SUCCESS(status)				(status.v >= 0)
++
++#ifndef DEBUG
++
++#define DXGKRNL_ASSERT(exp)
++
++#else
++
++#define DXGKRNL_ASSERT(exp)	\
++do {				\
++	if (!(exp)) {		\
++		dump_stack();	\
++		BUG_ON(true);	\
++	}			\
++} while (0)
++
++#endif /* DEBUG */
++
++#endif /* _MISC_H_ */
+diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
+index bdb7bc325d1a..2b9ed954a520 100644
+--- a/include/uapi/misc/d3dkmthk.h
++++ b/include/uapi/misc/d3dkmthk.h
+@@ -14,6 +14,40 @@
+ #ifndef _D3DKMTHK_H
+ #define _D3DKMTHK_H
+ 
++/*
++ * This structure matches the definition of D3DKMTHANDLE in Windows.
++ * The handle is opaque in user mode. It is used by user mode applications to
++ * represent kernel mode objects, created by dxgkrnl.
++ */
++struct d3dkmthandle {
++	union {
++		struct {
++			__u32 instance	:  6;
++			__u32 index	: 24;
++			__u32 unique	: 2;
++		};
++		__u32 v;
++	};
++};
++
++/*
++ * VM bus messages return Windows' NTSTATUS, which is integer and only negative
++ * value indicates a failure. A positive number is a success and needs to be
++ * returned to user mode as the IOCTL return code. Negative status codes are
++ * converted to Linux error codes.
++ */
++struct ntstatus {
++	union {
++		struct {
++			int code	: 16;
++			int facility	: 13;
++			int customer	: 1;
++			int severity	: 2;
++		};
++		int v;
++	};
++};
++
+ /* Matches Windows LUID definition */
+ struct winluid {
+ 	__u32 a;
 -- 
 2.35.1
 
