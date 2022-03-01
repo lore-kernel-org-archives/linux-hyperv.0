@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E3CAC433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3425C4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237303AbiCATrS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:47:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52216 "EHLO
+        id S237310AbiCATrT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237283AbiCATrO (ORCPT
+        with ESMTP id S237286AbiCATrP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Mar 2022 14:47:14 -0500
+        Tue, 1 Mar 2022 14:47:15 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1AA7D6CA51;
-        Tue,  1 Mar 2022 11:46:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C8AF6C947;
+        Tue,  1 Mar 2022 11:46:32 -0800 (PST)
 Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id AF64C20B6AEE;
-        Tue,  1 Mar 2022 11:46:30 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AF64C20B6AEE
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7DF4820B7188;
+        Tue,  1 Mar 2022 11:46:31 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7DF4820B7188
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1646163990;
-        bh=urZJtLCjfHRmF07C9OYS55sNai357B/p/zEWmLdJIrI=;
+        s=default; t=1646163991;
+        bh=oMh9JE0qg+UPJ28qLupf5UfTSpgdioTbiqjYJmw232g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=StfP8sNP3b1ExG7IPgY/wstH10pY/wMJplzVkIkiyw8ocoXo+fURfxOxfzH34G3sq
-         UjOx5Lj8TDD8UeBa9qbM7F0AV67ZN41YD7rch76BqwkJLHviw8or/mtVtLLhB5vZrW
-         eh1Gj0oFYvC/sxn6qk/fqwBIFCnrEHHpEH16QIxE=
+        b=csfhTxAuDC3Tnglz+c3QJVE8/lMxjh/lJrU5G0Ne0E4p8OPcYzf75AMxpt7yepgY0
+         8Ov2B2OjVHI8FdXOdUm/DVu1pkK0rRntB7JM556QKLC9j66ASzQsCSZzNluX7v39vr
+         86CYMPZ1P6NKdnp81ck4Zj/iETv39BsfgCFdh+3Q=
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
         spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
-Subject: [PATCH v3 04/30] drivers: hv: dxgkrnl: Creation of dxgadapter object
-Date:   Tue,  1 Mar 2022 11:45:51 -0800
-Message-Id: <03e9d393c08a348ca60539bb5f8d2dd6b5afaf0f.1646163378.git.iourit@linux.microsoft.com>
+Subject: [PATCH v3 08/30] drivers: hv: dxgkrnl: Creation of dxgcontext objects
+Date:   Tue,  1 Mar 2022 11:45:55 -0800
+Message-Id: <aabd5033766fe4751a5042e7a8c3ce82c2e83c17.1646163378.git.iourit@linux.microsoft.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
 References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
@@ -43,1243 +43,670 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Handle creation and destruction of dxgadapter object, which
-represents a virtual compute device, projected to the VM by
-the host. The dxgadapter object is created when the
-corresponding VM bus channel is offered by Hyper-V.
+Implement ioctls for creation/destruction of dxgcontext
+objects:
+  - the LX_DXCREATECONTEXTVIRTUAL ioctl
+  - the LX_DXDESTROYCONTEXT ioctl.
 
-There could be multiple virtual compute device objects,
-projected by the host to VM. They are enumerated by
-issuing IOCTLs to the /dev/dxg device.
-
-The adapter object can start functioning only when the global VM bus
-channel and the corresponding per device VM bus channel are
-initialized. Notifications about arrival of a virtual compute PCI
-device and VM bus channels can happen in any order. Therefore,
-the initial dxgadapter object state is DXGADAPTER_STATE_WAITING_VMBUS.
-A list of VM bus channels and a list of waiting dxgadapter objects
-are maintained. When dxgkrnl is notified about a VM bus channel
-arrival, if tries to start all adapters, which are not started yet.
-
-Properties of the adapter object are determined by sending VM
-bus messages to the host to the corresponding VM bus channel.
-
-When the per virtual compute device VM bus channel or the global
-channel are destroyed, the adapter object is destroyed.
+A dxgcontext object represents a compute device execution thread.
+Ccompute device DMA buffers and synchronization operations are
+submitted for execution to a dxgcontext. dxgcontexts objects
+belong to a dxgdevice object.
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 ---
- drivers/hv/dxgkrnl/Makefile     |   2 +-
- drivers/hv/dxgkrnl/dxgadapter.c | 172 +++++++++++++++++++++++++
- drivers/hv/dxgkrnl/dxgkrnl.h    |  89 +++++++++++++
- drivers/hv/dxgkrnl/dxgmodule.c  | 200 ++++++++++++++++++++++++++++-
- drivers/hv/dxgkrnl/dxgvmbus.c   | 216 +++++++++++++++++++++++++++++---
- drivers/hv/dxgkrnl/dxgvmbus.h   | 128 +++++++++++++++++++
- drivers/hv/dxgkrnl/hmgr.h       |  75 -----------
- drivers/hv/dxgkrnl/misc.c       |  37 ++++++
- drivers/hv/dxgkrnl/misc.h       |  17 +++
- 9 files changed, 839 insertions(+), 97 deletions(-)
- create mode 100644 drivers/hv/dxgkrnl/dxgadapter.c
- delete mode 100644 drivers/hv/dxgkrnl/hmgr.h
- create mode 100644 drivers/hv/dxgkrnl/misc.c
+ drivers/hv/dxgkrnl/dxgadapter.c | 102 +++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgkrnl.h    |  38 +++++++
+ drivers/hv/dxgkrnl/dxgprocess.c |   4 +
+ drivers/hv/dxgkrnl/dxgvmbus.c   | 102 ++++++++++++++++++-
+ drivers/hv/dxgkrnl/dxgvmbus.h   |  18 ++++
+ drivers/hv/dxgkrnl/ioctl.c      | 172 ++++++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/misc.h       |   1 +
+ include/uapi/misc/d3dkmthk.h    |  47 +++++++++
+ 8 files changed, 483 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hv/dxgkrnl/Makefile b/drivers/hv/dxgkrnl/Makefile
-index 76349064b60a..2ed07d877c91 100644
---- a/drivers/hv/dxgkrnl/Makefile
-+++ b/drivers/hv/dxgkrnl/Makefile
-@@ -2,4 +2,4 @@
- # Makefile for the hyper-v compute device driver (dxgkrnl).
- 
- obj-$(CONFIG_DXGKRNL)	+= dxgkrnl.o
--dxgkrnl-y		:= dxgmodule.o dxgvmbus.o
-+dxgkrnl-y		:= dxgmodule.o misc.o dxgadapter.o ioctl.o dxgvmbus.o
 diff --git a/drivers/hv/dxgkrnl/dxgadapter.c b/drivers/hv/dxgkrnl/dxgadapter.c
-new file mode 100644
-index 000000000000..e0a6fea00bd5
---- /dev/null
+index ad71ba65e6af..52ed325792fa 100644
+--- a/drivers/hv/dxgkrnl/dxgadapter.c
 +++ b/drivers/hv/dxgkrnl/dxgadapter.c
-@@ -0,0 +1,172 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -210,7 +210,9 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
+ 		device->adapter = adapter;
+ 		device->process = process;
+ 		kref_get(&adapter->adapter_kref);
++		INIT_LIST_HEAD(&device->context_list_head);
+ 		init_rwsem(&device->device_lock);
++		init_rwsem(&device->context_list_lock);
+ 		INIT_LIST_HEAD(&device->pqueue_list_head);
+ 		device->object_state = DXGOBJECTSTATE_CREATED;
+ 		device->execution_state = _D3DKMT_DEVICEEXECUTION_ACTIVE;
+@@ -252,6 +254,20 @@ void dxgdevice_destroy(struct dxgdevice *device)
+ 
+ 	dxgdevice_stop(device);
+ 
++	{
++		struct dxgcontext *context;
++		struct dxgcontext *tmp;
 +
-+/*
-+ * Copyright (c) 2019, Microsoft Corporation.
-+ *
-+ * Author:
-+ *   Iouri Tarassov <iourit@linux.microsoft.com>
-+ *
-+ * Dxgkrnl Graphics Driver
-+ * Implementation of dxgadapter and its objects
-+ *
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/hyperv.h>
-+#include <linux/pagemap.h>
-+#include <linux/eventfd.h>
-+
-+#include "dxgkrnl.h"
-+
-+#undef pr_fmt
-+#define pr_fmt(fmt)	"dxgk: " fmt
-+
-+int dxgadapter_set_vmbus(struct dxgadapter *adapter, struct hv_device *hdev)
-+{
-+	int ret;
-+
-+	guid_to_luid(&hdev->channel->offermsg.offer.if_instance,
-+		     &adapter->luid);
-+	pr_debug("%s: %x:%x %p %pUb\n",
-+		    __func__, adapter->luid.b, adapter->luid.a, hdev->channel,
-+		    &hdev->channel->offermsg.offer.if_instance);
-+
-+	ret = dxgvmbuschannel_init(&adapter->channel, hdev);
-+	if (ret)
-+		goto cleanup;
-+
-+	adapter->channel.adapter = adapter;
-+	adapter->hv_dev = hdev;
-+
-+	ret = dxgvmb_send_open_adapter(adapter);
-+	if (ret < 0) {
-+		pr_err("dxgvmb_send_open_adapter failed: %d\n", ret);
-+		goto cleanup;
++		pr_debug("destroying contexts\n");
++		dxgdevice_acquire_context_list_lock(device);
++		list_for_each_entry_safe(context, tmp,
++					 &device->context_list_head,
++					 context_list_entry) {
++			dxgcontext_destroy(process, context);
++		}
++		dxgdevice_release_context_list_lock(device);
 +	}
 +
-+	ret = dxgvmb_send_get_internal_adapter_info(adapter);
-+	if (ret < 0)
-+		pr_err("get_internal_adapter_info failed: %d", ret);
+ 	/* Guest handles need to be released before the host handles */
+ 	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
+ 	if (device->handle_valid) {
+@@ -306,6 +322,32 @@ bool dxgdevice_is_active(struct dxgdevice *device)
+ 	return device->object_state == DXGOBJECTSTATE_ACTIVE;
+ }
+ 
++void dxgdevice_acquire_context_list_lock(struct dxgdevice *device)
++{
++	down_write(&device->context_list_lock);
++}
++
++void dxgdevice_release_context_list_lock(struct dxgdevice *device)
++{
++	up_write(&device->context_list_lock);
++}
++
++void dxgdevice_add_context(struct dxgdevice *device, struct dxgcontext *context)
++{
++	down_write(&device->context_list_lock);
++	list_add_tail(&context->context_list_entry, &device->context_list_head);
++	up_write(&device->context_list_lock);
++}
++
++void dxgdevice_remove_context(struct dxgdevice *device,
++			      struct dxgcontext *context)
++{
++	if (context->context_list_entry.next) {
++		list_del(&context->context_list_entry);
++		context->context_list_entry.next = NULL;
++	}
++}
++
+ void dxgdevice_release(struct kref *refcount)
+ {
+ 	struct dxgdevice *device;
+@@ -314,6 +356,66 @@ void dxgdevice_release(struct kref *refcount)
+ 	vfree(device);
+ }
+ 
++struct dxgcontext *dxgcontext_create(struct dxgdevice *device)
++{
++	struct dxgcontext *context = vzalloc(sizeof(struct dxgcontext));
++
++	if (context) {
++		kref_init(&context->context_kref);
++		context->device = device;
++		context->process = device->process;
++		context->device_handle = device->handle;
++		kref_get(&device->device_kref);
++		INIT_LIST_HEAD(&context->hwqueue_list_head);
++		init_rwsem(&context->hwqueue_list_lock);
++		dxgdevice_add_context(device, context);
++		context->object_state = DXGOBJECTSTATE_ACTIVE;
++	}
++	return context;
++}
++
++/*
++ * Called when the device context list lock is held
++ */
++void dxgcontext_destroy(struct dxgprocess *process, struct dxgcontext *context)
++{
++	pr_debug("%s %p\n", __func__, context);
++	context->object_state = DXGOBJECTSTATE_DESTROYED;
++	if (context->device) {
++		if (context->handle.v) {
++			hmgrtable_free_handle_safe(&process->handle_table,
++						   HMGRENTRY_TYPE_DXGCONTEXT,
++						   context->handle);
++		}
++		dxgdevice_remove_context(context->device, context);
++		kref_put(&context->device->device_kref, dxgdevice_release);
++	}
++	kref_put(&context->context_kref, dxgcontext_release);
++}
++
++void dxgcontext_destroy_safe(struct dxgprocess *process,
++			     struct dxgcontext *context)
++{
++	struct dxgdevice *device = context->device;
++
++	dxgdevice_acquire_context_list_lock(device);
++	dxgcontext_destroy(process, context);
++	dxgdevice_release_context_list_lock(device);
++}
++
++bool dxgcontext_is_active(struct dxgcontext *context)
++{
++	return context->object_state == DXGOBJECTSTATE_ACTIVE;
++}
++
++void dxgcontext_release(struct kref *refcount)
++{
++	struct dxgcontext *context;
++
++	context = container_of(refcount, struct dxgcontext, context_kref);
++	vfree(context);
++}
++
+ struct dxgprocess_adapter *dxgprocess_adapter_create(struct dxgprocess *process,
+ 						     struct dxgadapter *adapter)
+ {
+diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
+index 242b98fc20d5..1ac2d4a64dc1 100644
+--- a/drivers/hv/dxgkrnl/dxgkrnl.h
++++ b/drivers/hv/dxgkrnl/dxgkrnl.h
+@@ -30,6 +30,7 @@
+ struct dxgprocess;
+ struct dxgadapter;
+ struct dxgdevice;
++struct dxgcontext;
+ 
+ #include "misc.h"
+ #include "hmgr.h"
+@@ -285,6 +286,7 @@ void dxgadapter_remove_process(struct dxgprocess_adapter *process_info);
+ /*
+  * The object represent the device object.
+  * The following objects take reference on the device
++ * - dxgcontext
+  * - device handle (struct d3dkmthandle)
+  */
+ struct dxgdevice {
+@@ -298,6 +300,8 @@ struct dxgdevice {
+ 	struct kref		device_kref;
+ 	/* Protects destcruction of the device object */
+ 	struct rw_semaphore	device_lock;
++	struct rw_semaphore	context_list_lock;
++	struct list_head	context_list_head;
+ 	/* List of paging queues. Protected by process handle table lock. */
+ 	struct list_head	pqueue_list_head;
+ 	struct d3dkmthandle	handle;
+@@ -312,7 +316,33 @@ void dxgdevice_mark_destroyed(struct dxgdevice *device);
+ int dxgdevice_acquire_lock_shared(struct dxgdevice *dev);
+ void dxgdevice_release_lock_shared(struct dxgdevice *dev);
+ void dxgdevice_release(struct kref *refcount);
++void dxgdevice_add_context(struct dxgdevice *dev, struct dxgcontext *ctx);
++void dxgdevice_remove_context(struct dxgdevice *dev, struct dxgcontext *ctx);
+ bool dxgdevice_is_active(struct dxgdevice *dev);
++void dxgdevice_acquire_context_list_lock(struct dxgdevice *dev);
++void dxgdevice_release_context_list_lock(struct dxgdevice *dev);
++
++/*
++ * The object represent the execution context of a device.
++ */
++struct dxgcontext {
++	enum dxgobjectstate	object_state;
++	struct dxgdevice	*device;
++	struct dxgprocess	*process;
++	/* entry in the device context list */
++	struct list_head	context_list_entry;
++	struct list_head	hwqueue_list_head;
++	struct rw_semaphore	hwqueue_list_lock;
++	struct kref		context_kref;
++	struct d3dkmthandle	handle;
++	struct d3dkmthandle	device_handle;
++};
++
++struct dxgcontext *dxgcontext_create(struct dxgdevice *dev);
++void dxgcontext_destroy(struct dxgprocess *pr, struct dxgcontext *ctx);
++void dxgcontext_destroy_safe(struct dxgprocess *pr, struct dxgcontext *ctx);
++void dxgcontext_release(struct kref *refcount);
++bool dxgcontext_is_active(struct dxgcontext *ctx);
+ 
+ void init_ioctls(void);
+ long dxgk_compat_ioctl(struct file *f, unsigned int p1, unsigned long p2);
+@@ -355,6 +385,14 @@ int dxgvmb_send_destroy_device(struct dxgadapter *adapter,
+ 			       struct d3dkmthandle h);
+ int dxgvmb_send_flush_device(struct dxgdevice *device,
+ 			     enum dxgdevice_flushschedulerreason reason);
++struct d3dkmthandle
++dxgvmb_send_create_context(struct dxgadapter *adapter,
++			   struct dxgprocess *process,
++			   struct d3dkmt_createcontextvirtual
++			   *args);
++int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
++				struct dxgprocess *process,
++				struct d3dkmthandle h);
+ int dxgvmb_send_query_adapter_info(struct dxgprocess *process,
+ 				   struct dxgadapter *adapter,
+ 				   struct d3dkmt_queryadapterinfo *args);
+diff --git a/drivers/hv/dxgkrnl/dxgprocess.c b/drivers/hv/dxgkrnl/dxgprocess.c
+index 734585689213..1e6500e12a22 100644
+--- a/drivers/hv/dxgkrnl/dxgprocess.c
++++ b/drivers/hv/dxgkrnl/dxgprocess.c
+@@ -258,6 +258,10 @@ struct dxgdevice *dxgprocess_device_by_object_handle(struct dxgprocess *process,
+ 		case HMGRENTRY_TYPE_DXGDEVICE:
+ 			device = obj;
+ 			break;
++		case HMGRENTRY_TYPE_DXGCONTEXT:
++			device_handle =
++			    ((struct dxgcontext *)obj)->device_handle;
++			break;
+ 		default:
+ 			pr_err("invalid handle type: %d\n", t);
+ 			break;
+diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
+index 2bc2eca0e7da..e85c1d9abc47 100644
+--- a/drivers/hv/dxgkrnl/dxgvmbus.c
++++ b/drivers/hv/dxgkrnl/dxgvmbus.c
+@@ -725,7 +725,7 @@ int dxgvmb_send_flush_device(struct dxgdevice *device,
+ 			     enum dxgdevice_flushschedulerreason reason)
+ {
+ 	int ret;
+-	struct dxgkvmb_command_flushdevice *command;
++	struct dxgkvmb_command_flushdevice *command = NULL;
+ 	struct dxgvmbusmsg msg = {.hdr = NULL};
+ 	struct dxgprocess *process = device->process;
+ 
+@@ -739,6 +739,106 @@ int dxgvmb_send_flush_device(struct dxgdevice *device,
+ 	command->device = device->handle;
+ 	command->reason = reason;
+ 
++	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
 +
 +cleanup:
++	free_message(&msg, process);
 +	if (ret)
 +		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
 +}
 +
-+void dxgadapter_start(struct dxgadapter *adapter)
++struct d3dkmthandle
++dxgvmb_send_create_context(struct dxgadapter *adapter,
++			   struct dxgprocess *process,
++			   struct d3dkmt_createcontextvirtual *args)
 +{
-+	struct dxgvgpuchannel *ch = NULL;
-+	struct dxgvgpuchannel *entry;
++	struct dxgkvmb_command_createcontextvirtual *command = NULL;
++	u32 cmd_size;
 +	int ret;
++	struct d3dkmthandle context = {};
++	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
-+	pr_debug("%s %x-%x",
-+		__func__, adapter->luid.a, adapter->luid.b);
-+
-+	/* Find the corresponding vGPU vm bus channel */
-+	list_for_each_entry(entry, &dxgglobal->vgpu_ch_list_head,
-+			    vgpu_ch_list_entry) {
-+		if (memcmp(&adapter->luid,
-+			   &entry->adapter_luid,
-+			   sizeof(struct winluid)) == 0) {
-+			ch = entry;
-+			break;
-+		}
++	if (args->priv_drv_data_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
++		pr_err("PrivateDriverDataSize is invalid");
++		ret = -EINVAL;
++		goto cleanup;
 +	}
-+	if (ch == NULL) {
-+		pr_debug("%s vGPU chanel is not ready", __func__);
-+		return;
-+	}
++	cmd_size = sizeof(struct dxgkvmb_command_createcontextvirtual) +
++	    args->priv_drv_data_size - 1;
 +
-+	/* The global channel is initialized when the first adapter starts */
-+	if (!dxgglobal->global_channel_initialized) {
-+		ret = dxgglobal_init_global_channel();
++	ret = init_message(&msg, adapter, process, cmd_size);
++	if (ret)
++		goto cleanup;
++	command = (void *)msg.msg;
++
++	command_vgpu_to_host_init2(&command->hdr,
++				   DXGK_VMBCOMMAND_CREATECONTEXTVIRTUAL,
++				   process->host_handle);
++	command->device = args->device;
++	command->node_ordinal = args->node_ordinal;
++	command->engine_affinity = args->engine_affinity;
++	command->flags = args->flags;
++	command->client_hint = args->client_hint;
++	command->priv_drv_data_size = args->priv_drv_data_size;
++	if (args->priv_drv_data_size) {
++		ret = copy_from_user(command->priv_drv_data,
++				     args->priv_drv_data,
++				     args->priv_drv_data_size);
 +		if (ret) {
-+			dxgglobal_destroy_global_channel();
-+			return;
++			pr_err("%s Faled to copy private data",
++				__func__);
++			ret = -EINVAL;
++			goto cleanup;
 +		}
-+		dxgglobal->global_channel_initialized = true;
++	}
++	/* Input command is returned back as output */
++	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
++				   command, cmd_size);
++	if (ret < 0) {
++		goto cleanup;
++	} else {
++		context = command->context;
++		if (args->priv_drv_data_size) {
++			ret = copy_to_user(args->priv_drv_data,
++					   command->priv_drv_data,
++					   args->priv_drv_data_size);
++			if (ret) {
++				pr_err("%s Faled to copy private data to user",
++					__func__);
++				ret = -EINVAL;
++				dxgvmb_send_destroy_context(adapter, process,
++							    context);
++				context.v = 0;
++			}
++		}
 +	}
 +
-+	/* Initialize vGPU vm bus channel */
-+	ret = dxgadapter_set_vmbus(adapter, ch->hdev);
-+	if (ret) {
-+		pr_err("Failed to start adapter %p", adapter);
-+		adapter->adapter_state = DXGADAPTER_STATE_STOPPED;
-+		return;
-+	}
-+
-+	adapter->adapter_state = DXGADAPTER_STATE_ACTIVE;
-+	pr_debug("%s Adapter started %p", __func__, adapter);
++cleanup:
++	free_message(&msg, process);
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return context;
 +}
 +
-+void dxgadapter_stop(struct dxgadapter *adapter)
++int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
++				struct dxgprocess *process,
++				struct d3dkmthandle h)
 +{
-+	bool adapter_stopped = false;
++	int ret;
++	struct dxgkvmb_command_destroycontext *command;
++	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
-+	down_write(&adapter->core_lock);
-+	if (!adapter->stopping_adapter)
-+		adapter->stopping_adapter = true;
-+	else
-+		adapter_stopped = true;
-+	up_write(&adapter->core_lock);
++	ret = init_message(&msg, adapter, process, sizeof(*command));
++	if (ret)
++		goto cleanup;
++	command = (void *)msg.msg;
 +
-+	if (adapter_stopped)
-+		return;
++	command_vgpu_to_host_init2(&command->hdr,
++				   DXGK_VMBCOMMAND_DESTROYCONTEXT,
++				   process->host_handle);
++	command->context = h;
 +
-+	if (dxgadapter_acquire_lock_exclusive(adapter) == 0) {
-+		dxgvmb_send_close_adapter(adapter);
-+		dxgadapter_release_lock_exclusive(adapter);
-+	}
-+	dxgvmbuschannel_destroy(&adapter->channel);
-+
-+	adapter->adapter_state = DXGADAPTER_STATE_STOPPED;
-+}
-+
-+void dxgadapter_release(struct kref *refcount)
-+{
-+	struct dxgadapter *adapter;
-+
-+	adapter = container_of(refcount, struct dxgadapter, adapter_kref);
-+	pr_debug("%s %p\n", __func__, adapter);
-+	vfree(adapter);
-+}
-+
-+bool dxgadapter_is_active(struct dxgadapter *adapter)
-+{
-+	return adapter->adapter_state == DXGADAPTER_STATE_ACTIVE;
-+}
-+
-+int dxgadapter_acquire_lock_exclusive(struct dxgadapter *adapter)
-+{
-+	down_write(&adapter->core_lock);
-+	if (adapter->adapter_state != DXGADAPTER_STATE_ACTIVE) {
-+		dxgadapter_release_lock_exclusive(adapter);
-+		return -ENODEV;
-+	}
-+	return 0;
-+}
-+
-+void dxgadapter_acquire_lock_forced(struct dxgadapter *adapter)
-+{
-+	down_write(&adapter->core_lock);
-+}
-+
-+void dxgadapter_release_lock_exclusive(struct dxgadapter *adapter)
-+{
-+	up_write(&adapter->core_lock);
-+}
-+
-+int dxgadapter_acquire_lock_shared(struct dxgadapter *adapter)
-+{
-+	down_read(&adapter->core_lock);
-+	if (adapter->adapter_state == DXGADAPTER_STATE_ACTIVE)
-+		return 0;
-+	dxgadapter_release_lock_shared(adapter);
-+	return -ENODEV;
-+}
-+
-+void dxgadapter_release_lock_shared(struct dxgadapter *adapter)
-+{
-+	up_read(&adapter->core_lock);
-+}
-diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
-index 533f3bb3ece2..c0fd0bb267f2 100644
---- a/drivers/hv/dxgkrnl/dxgkrnl.h
-+++ b/drivers/hv/dxgkrnl/dxgkrnl.h
-@@ -32,9 +32,39 @@ struct dxgadapter;
- #include "misc.h"
- #include <uapi/misc/d3dkmthk.h>
- 
-+struct dxgk_device_types {
-+	u32 post_device:1;
-+	u32 post_device_certain:1;
-+	u32 software_device:1;
-+	u32 soft_gpu_device:1;
-+	u32 warp_device:1;
-+	u32 bdd_device:1;
-+	u32 support_miracast:1;
-+	u32 mismatched_lda:1;
-+	u32 indirect_display_device:1;
-+	u32 xbox_one_device:1;
-+	u32 child_id_support_dwm_clone:1;
-+	u32 child_id_support_dwm_clone2:1;
-+	u32 has_internal_panel:1;
-+	u32 rfx_vgpu_device:1;
-+	u32 virtual_render_device:1;
-+	u32 support_preserve_boot_display:1;
-+	u32 is_uefi_frame_buffer:1;
-+	u32 removable_device:1;
-+	u32 virtual_monitor_device:1;
-+};
-+
-+enum dxgobjectstate {
-+	DXGOBJECTSTATE_CREATED,
-+	DXGOBJECTSTATE_ACTIVE,
-+	DXGOBJECTSTATE_STOPPED,
-+	DXGOBJECTSTATE_DESTROYED,
-+};
-+
- struct dxgvmbuschannel {
- 	struct vmbus_channel	*channel;
- 	struct hv_device	*hdev;
-+	struct dxgadapter	*adapter;
- 	spinlock_t		packet_list_mutex;
- 	struct list_head	packet_list_head;
- 	struct kmem_cache	*packet_cache;
-@@ -70,6 +100,14 @@ struct dxgglobal {
- 	struct list_head	plisthead;
- 	struct mutex		plistmutex;
- 
-+	/* list of created adapters */
-+	struct list_head	adapter_list_head;
-+	struct rw_semaphore	adapter_list_lock;
-+
-+	/* List of all current threads for lock order tracking. */
-+	struct mutex		thread_info_mutex;
-+	struct list_head	thread_info_list_head;
-+
- 	/*
- 	 * List of the vGPU VM bus channels (dxgvgpuchannel)
- 	 * Protected by device_mutex
-@@ -88,6 +126,10 @@ struct dxgglobal {
- 
- extern struct dxgglobal		*dxgglobal;
- 
-+int dxgglobal_create_adapter(struct pci_dev *dev, guid_t *guid,
-+			     struct winluid host_vgpu_luid);
-+void dxgglobal_acquire_adapter_list_lock(enum dxglockstate state);
-+void dxgglobal_release_adapter_list_lock(enum dxglockstate state);
- int dxgglobal_init_global_channel(void);
- void dxgglobal_destroy_global_channel(void);
- struct vmbus_channel *dxgglobal_get_vmbus(void);
-@@ -99,6 +141,47 @@ struct dxgprocess {
- 	/* Placeholder */
+ 	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
+ cleanup:
+ 	free_message(&msg, process);
+diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
+index 67448bee392a..adaccc464e21 100644
+--- a/drivers/hv/dxgkrnl/dxgvmbus.h
++++ b/drivers/hv/dxgkrnl/dxgvmbus.h
+@@ -269,4 +269,22 @@ struct dxgkvmb_command_flushdevice {
+ 	enum dxgdevice_flushschedulerreason	reason;
  };
  
-+enum dxgadapter_state {
-+	DXGADAPTER_STATE_ACTIVE		= 0,
-+	DXGADAPTER_STATE_STOPPED	= 1,
-+	DXGADAPTER_STATE_WAITING_VMBUS	= 2,
++struct dxgkvmb_command_createcontextvirtual {
++	struct dxgkvmb_command_vgpu_to_host hdr;
++	struct d3dkmthandle		context;
++	struct d3dkmthandle		device;
++	u32				node_ordinal;
++	u32				engine_affinity;
++	struct d3dddi_createcontextflags flags;
++	enum d3dkmt_clienthint		client_hint;
++	u32				priv_drv_data_size;
++	u8				priv_drv_data[1];
 +};
 +
-+/*
-+ * This object represents the grapchis adapter.
-+ * Objects, which take reference on the adapter:
-+ * - dxgglobal
-+ * - adapter handle (struct d3dkmthandle)
-+ */
-+struct dxgadapter {
-+	struct rw_semaphore	core_lock;
-+	struct kref		adapter_kref;
-+	/* Entry in the list of adapters in dxgglobal */
-+	struct list_head	adapter_list_entry;
-+	struct pci_dev		*pci_dev;
-+	struct hv_device	*hv_dev;
-+	struct dxgvmbuschannel	channel;
-+	struct d3dkmthandle	host_handle;
-+	enum dxgadapter_state	adapter_state;
-+	struct winluid		host_adapter_luid;
-+	struct winluid		host_vgpu_luid;
-+	struct winluid		luid;	/* VM bus channel luid */
-+	u16			device_description[80];
-+	u16			device_instance_id[WIN_MAX_PATH];
-+	bool			stopping_adapter;
++/* The command returns ntstatus */
++struct dxgkvmb_command_destroycontext {
++	struct dxgkvmb_command_vgpu_to_host hdr;
++	struct d3dkmthandle	context;
 +};
 +
-+int dxgadapter_set_vmbus(struct dxgadapter *adapter, struct hv_device *hdev);
-+bool dxgadapter_is_active(struct dxgadapter *adapter);
-+void dxgadapter_start(struct dxgadapter *adapter);
-+void dxgadapter_stop(struct dxgadapter *adapter);
-+void dxgadapter_release(struct kref *refcount);
-+int dxgadapter_acquire_lock_shared(struct dxgadapter *adapter);
-+void dxgadapter_release_lock_shared(struct dxgadapter *adapter);
-+int dxgadapter_acquire_lock_exclusive(struct dxgadapter *adapter);
-+void dxgadapter_acquire_lock_forced(struct dxgadapter *adapter);
-+void dxgadapter_release_lock_exclusive(struct dxgadapter *adapter);
-+
- void init_ioctls(void);
- long dxgk_compat_ioctl(struct file *f, unsigned int p1, unsigned long p2);
- long dxgk_unlocked_ioctl(struct file *f, unsigned int p1, unsigned long p2);
-@@ -127,6 +210,12 @@ static inline void guid_to_luid(guid_t *guid, struct winluid *luid)
- void dxgvmb_initialize(void);
- int dxgvmb_send_set_iospace_region(u64 start, u64 len,
- 				   struct vmbus_gpadl *shared_mem_gpadl);
-+int dxgvmb_send_open_adapter(struct dxgadapter *adapter);
-+int dxgvmb_send_close_adapter(struct dxgadapter *adapter);
-+int dxgvmb_send_get_internal_adapter_info(struct dxgadapter *adapter);
-+int dxgvmb_send_async_msg(struct dxgvmbuschannel *channel,
-+			  void *command,
-+			  u32 cmd_size);
- 
- int ntstatus2int(struct ntstatus status);
- 
-diff --git a/drivers/hv/dxgkrnl/dxgmodule.c b/drivers/hv/dxgkrnl/dxgmodule.c
-index 78f233e354b9..5ae57977731c 100644
---- a/drivers/hv/dxgkrnl/dxgmodule.c
-+++ b/drivers/hv/dxgkrnl/dxgmodule.c
-@@ -62,6 +62,148 @@ void dxgglobal_release_channel_lock(void)
- 	up_read(&dxgglobal->channel_lock);
+ #endif /* _DXGVMBUS_H */
+diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
+index a6be88b6c792..879fb3c6b7b2 100644
+--- a/drivers/hv/dxgkrnl/ioctl.c
++++ b/drivers/hv/dxgkrnl/ioctl.c
+@@ -567,6 +567,174 @@ dxgk_destroy_device(struct dxgprocess *process, void *__user inargs)
+ 	return ret;
  }
  
-+void dxgglobal_acquire_adapter_list_lock(enum dxglockstate state)
++static int
++dxgk_create_context_virtual(struct dxgprocess *process, void *__user inargs)
 +{
-+	if (state == DXGLOCK_EXCL)
-+		down_write(&dxgglobal->adapter_list_lock);
-+	else
-+		down_read(&dxgglobal->adapter_list_lock);
-+}
-+
-+void dxgglobal_release_adapter_list_lock(enum dxglockstate state)
-+{
-+	if (state == DXGLOCK_EXCL)
-+		up_write(&dxgglobal->adapter_list_lock);
-+	else
-+		up_read(&dxgglobal->adapter_list_lock);
-+}
-+
-+/*
-+ * Returns a pointer to dxgadapter object, which corresponds to the given PCI
-+ * device, or NULL.
-+ */
-+static struct dxgadapter *find_pci_adapter(struct pci_dev *dev)
-+{
-+	struct dxgadapter *entry;
++	struct d3dkmt_createcontextvirtual args;
++	int ret;
 +	struct dxgadapter *adapter = NULL;
++	struct dxgdevice *device = NULL;
++	struct dxgcontext *context = NULL;
++	struct d3dkmthandle host_context_handle = {};
++	bool device_lock_acquired = false;
 +
-+	dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
++	pr_debug("ioctl: %s", __func__);
 +
-+	list_for_each_entry(entry, &dxgglobal->adapter_list_head,
-+			    adapter_list_entry) {
-+		if (dev == entry->pci_dev) {
-+			adapter = entry;
-+			break;
-+		}
++	ret = copy_from_user(&args, inargs, sizeof(args));
++	if (ret) {
++		pr_err("%s failed to copy input args", __func__);
++		ret = -EINVAL;
++		goto cleanup;
 +	}
 +
-+	dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+	return adapter;
-+}
-+
-+/*
-+ * Returns a pointer to dxgadapter object, which has the givel LUID
-+ * device, or NULL.
-+ */
-+static struct dxgadapter *find_adapter(struct winluid *luid)
-+{
-+	struct dxgadapter *entry;
-+	struct dxgadapter *adapter = NULL;
-+
-+	dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
-+
-+	list_for_each_entry(entry, &dxgglobal->adapter_list_head,
-+			    adapter_list_entry) {
-+		if (memcmp(luid, &entry->luid, sizeof(struct winluid)) == 0) {
-+			adapter = entry;
-+			break;
-+		}
++	/*
++	 * The call acquires reference on the device. It is safe to access the
++	 * adapter, because the device holds reference on it.
++	 */
++	device = dxgprocess_device_by_handle(process, args.device);
++	if (device == NULL) {
++		ret = -EINVAL;
++		goto cleanup;
 +	}
 +
-+	dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+	return adapter;
-+}
++	ret = dxgdevice_acquire_lock_shared(device);
++	if (ret < 0)
++		goto cleanup;
 +
-+/*
-+ * Creates a new dxgadapter object, which represents a virtual GPU, projected
-+ * by the host.
-+ * The adapter is in the waiting state. It will become active when the global
-+ * VM bus channel and the adapter VM bus channel are created.
-+ */
-+int dxgglobal_create_adapter(struct pci_dev *dev, guid_t *guid,
-+			     struct winluid host_vgpu_luid)
-+{
-+	struct dxgadapter *adapter;
-+	int ret = 0;
++	device_lock_acquired = true;
 +
-+	adapter = vzalloc(sizeof(struct dxgadapter));
-+	if (adapter == NULL) {
++	adapter = device->adapter;
++	ret = dxgadapter_acquire_lock_shared(adapter);
++	if (ret < 0) {
++		adapter = NULL;
++		goto cleanup;
++	}
++
++	context = dxgcontext_create(device);
++	if (context == NULL) {
 +		ret = -ENOMEM;
 +		goto cleanup;
 +	}
 +
-+	adapter->adapter_state = DXGADAPTER_STATE_WAITING_VMBUS;
-+	adapter->host_vgpu_luid = host_vgpu_luid;
-+	kref_init(&adapter->adapter_kref);
-+	init_rwsem(&adapter->core_lock);
++	host_context_handle = dxgvmb_send_create_context(adapter,
++							 process, &args);
++	if (host_context_handle.v) {
++		hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
++		ret = hmgrtable_assign_handle(&process->handle_table, context,
++					      HMGRENTRY_TYPE_DXGCONTEXT,
++					      host_context_handle);
++		if (ret >= 0)
++			context->handle = host_context_handle;
++		hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
++		if (ret < 0)
++			goto cleanup;
++		ret = copy_to_user(&((struct d3dkmt_createcontextvirtual *)
++				   inargs)->context, &host_context_handle,
++				   sizeof(struct d3dkmthandle));
++		if (ret) {
++			pr_err("%s failed to copy context handle", __func__);
++			ret = -EINVAL;
++		}
++	} else {
++		pr_err("invalid host handle");
++		ret = -EINVAL;
++	}
 +
-+	adapter->pci_dev = dev;
-+	guid_to_luid(guid, &adapter->luid);
-+
-+	dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
-+
-+	list_add_tail(&adapter->adapter_list_entry,
-+		      &dxgglobal->adapter_list_head);
-+	dxgglobal->num_adapters++;
-+	dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+
-+	pr_debug("new adapter added %p %x-%x\n", adapter,
-+		    adapter->luid.a, adapter->luid.b);
 +cleanup:
-+	pr_debug("%s end: %d", __func__, ret);
++
++	if (ret < 0) {
++		if (host_context_handle.v) {
++			dxgvmb_send_destroy_context(adapter, process,
++						    host_context_handle);
++		}
++		if (context)
++			dxgcontext_destroy_safe(process, context);
++	}
++
++	if (adapter)
++		dxgadapter_release_lock_shared(adapter);
++
++	if (device) {
++		if (device_lock_acquired)
++			dxgdevice_release_lock_shared(device);
++		kref_put(&device->device_kref, dxgdevice_release);
++	}
++
++	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
 +	return ret;
 +}
 +
-+/*
-+ * Attempts to start dxgadapter objects, which are not active yet.
-+ */
-+static void dxgglobal_start_adapters(void)
++static int
++dxgk_destroy_context(struct dxgprocess *process, void *__user inargs)
 +{
-+	struct dxgadapter *adapter;
-+
-+	if (dxgglobal->hdev == NULL) {
-+		pr_debug("Global channel is not ready");
-+		return;
-+	}
-+	dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
-+	list_for_each_entry(adapter, &dxgglobal->adapter_list_head,
-+			    adapter_list_entry) {
-+		if (adapter->adapter_state == DXGADAPTER_STATE_WAITING_VMBUS)
-+			dxgadapter_start(adapter);
-+	}
-+	dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+}
-+
-+/*
-+ * Stopsthe active dxgadapter objects.
-+ */
-+static void dxgglobal_stop_adapters(void)
-+{
-+	struct dxgadapter *adapter;
-+
-+	if (dxgglobal->hdev == NULL) {
-+		pr_debug("Global channel is not ready");
-+		return;
-+	}
-+	dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
-+	list_for_each_entry(adapter, &dxgglobal->adapter_list_head,
-+			    adapter_list_entry) {
-+		if (adapter->adapter_state == DXGADAPTER_STATE_ACTIVE)
-+			dxgadapter_stop(adapter);
-+	}
-+	dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+}
-+
- /*
-  * File operations for the /dev/dxg device
-  */
-@@ -207,12 +349,22 @@ static int dxg_pci_probe_device(struct pci_dev *dev,
- 			goto cleanup;
- 	}
- 
-+	/* Create new virtual GPU adapter */
-+
- 	pr_debug("Adapter channel: %pUb\n", &guid);
- 	pr_debug("Vmbus interface version: %d\n",
- 		dxgglobal->vmbus_ver);
- 	pr_debug("Host vGPU luid: %x-%x\n",
- 		vgpu_luid.b, vgpu_luid.a);
- 
-+	ret = dxgglobal_create_adapter(dev, &guid, vgpu_luid);
-+	if (ret)
-+		goto cleanup;
-+
-+	/* Attempt to start the adapter in case VM bus channels are created */
-+
-+	dxgglobal_start_adapters();
-+
- cleanup:
- 
- 	mutex_unlock(&dxgglobal->device_mutex);
-@@ -224,7 +376,24 @@ static int dxg_pci_probe_device(struct pci_dev *dev,
- 
- static void dxg_pci_remove_device(struct pci_dev *dev)
- {
--	/* Placeholder */
-+	struct dxgadapter *adapter;
-+
-+	mutex_lock(&dxgglobal->device_mutex);
-+
-+	adapter = find_pci_adapter(dev);
-+	if (adapter) {
-+		dxgglobal_acquire_adapter_list_lock(DXGLOCK_EXCL);
-+		list_del(&adapter->adapter_list_entry);
-+		dxgglobal->num_adapters--;
-+		dxgglobal_release_adapter_list_lock(DXGLOCK_EXCL);
-+
-+		dxgadapter_stop(adapter);
-+		kref_put(&adapter->adapter_kref, dxgadapter_release);
-+	} else {
-+		pr_err("Failed to find dxgadapter");
-+	}
-+
-+	mutex_unlock(&dxgglobal->device_mutex);
- }
- 
- static struct pci_device_id dxg_pci_id_table = {
-@@ -347,6 +516,25 @@ void dxgglobal_destroy_global_channel(void)
- 	up_write(&dxgglobal->channel_lock);
- }
- 
-+static void dxgglobal_stop_adapter_vmbus(struct hv_device *hdev)
-+{
++	struct d3dkmt_destroycontext args;
++	int ret;
 +	struct dxgadapter *adapter = NULL;
-+	struct winluid luid;
++	struct dxgcontext *context = NULL;
++	struct dxgdevice *device = NULL;
++	struct d3dkmthandle device_handle = {};
 +
-+	guid_to_luid(&hdev->channel->offermsg.offer.if_instance, &luid);
++	pr_debug("ioctl: %s", __func__);
 +
-+	pr_debug("%s: %x:%x\n", __func__, luid.b, luid.a);
-+
-+	adapter = find_adapter(&luid);
-+
-+	if (adapter && adapter->adapter_state == DXGADAPTER_STATE_ACTIVE) {
-+		down_write(&adapter->core_lock);
-+		dxgvmbuschannel_destroy(&adapter->channel);
-+		adapter->adapter_state = DXGADAPTER_STATE_STOPPED;
-+		up_write(&adapter->core_lock);
-+	}
-+}
-+
- static const struct hv_vmbus_device_id id_table[] = {
- 	/* Per GPU Device GUID */
- 	{ HV_GPUP_DXGK_VGPU_GUID },
-@@ -378,6 +566,7 @@ static int dxg_probe_vmbus(struct hv_device *hdev,
- 		vgpuch->hdev = hdev;
- 		list_add_tail(&vgpuch->vgpu_ch_list_entry,
- 			      &dxgglobal->vgpu_ch_list_head);
-+		dxgglobal_start_adapters();
- 	} else if (uuid_le_cmp(hdev->dev_type, id_table[1].guid) == 0) {
- 		/* This is the global Dxgkgnl channel */
- 		pr_debug("Global channel: %pUb",
-@@ -389,6 +578,7 @@ static int dxg_probe_vmbus(struct hv_device *hdev,
- 			goto error;
- 		}
- 		dxgglobal->hdev = hdev;
-+		dxgglobal_start_adapters();
- 	} else {
- 		/* Unknown device type */
- 		pr_err("probe: unknown device type\n");
-@@ -414,6 +604,7 @@ static int dxg_remove_vmbus(struct hv_device *hdev)
- 
- 	if (uuid_le_cmp(hdev->dev_type, id_table[0].guid) == 0) {
- 		pr_debug("Remove virtual GPU channel\n");
-+		dxgglobal_stop_adapter_vmbus(hdev);
- 		list_for_each_entry(vgpu_channel,
- 				    &dxgglobal->vgpu_ch_list_head,
- 				    vgpu_ch_list_entry) {
-@@ -466,7 +657,12 @@ static int dxgglobal_create(void)
- 	mutex_init(&dxgglobal->plistmutex);
- 	mutex_init(&dxgglobal->device_mutex);
- 
-+	INIT_LIST_HEAD(&dxgglobal->thread_info_list_head);
-+	mutex_init(&dxgglobal->thread_info_mutex);
-+
- 	INIT_LIST_HEAD(&dxgglobal->vgpu_ch_list_head);
-+	INIT_LIST_HEAD(&dxgglobal->adapter_list_head);
-+	init_rwsem(&dxgglobal->adapter_list_lock);
- 
- 	init_rwsem(&dxgglobal->channel_lock);
- 
-@@ -477,6 +673,8 @@ static int dxgglobal_create(void)
- static void dxgglobal_destroy(void)
- {
- 	if (dxgglobal) {
-+		dxgglobal_stop_adapters();
-+
- 		if (dxgglobal->vmbus_registered)
- 			vmbus_driver_unregister(&dxg_drv);
- 
-diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 399dec02a3a1..6b02932819c8 100644
---- a/drivers/hv/dxgkrnl/dxgvmbus.c
-+++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -77,7 +77,7 @@ struct dxgvmbusmsgres {
- 	void				*res;
- };
- 
--static int init_message(struct dxgvmbusmsg *msg,
-+static int init_message(struct dxgvmbusmsg *msg, struct dxgadapter *adapter,
- 			struct dxgprocess *process, u32 size)
- {
- 	bool use_ext_header = dxgglobal->vmbus_ver >=
-@@ -97,10 +97,15 @@ static int init_message(struct dxgvmbusmsg *msg,
- 	if (use_ext_header) {
- 		msg->msg = (char *)&msg->hdr[1];
- 		msg->hdr->command_offset = sizeof(msg->hdr[0]);
-+		if (adapter)
-+			msg->hdr->vgpu_luid = adapter->host_vgpu_luid;
- 	} else {
- 		msg->msg = (char *)msg->hdr;
- 	}
--	msg->channel = &dxgglobal->channel;
-+	if (adapter && !dxgglobal->async_msg_enabled)
-+		msg->channel = &adapter->channel;
-+	else
-+		msg->channel = &dxgglobal->channel;
- 	return 0;
- }
- 
-@@ -114,6 +119,37 @@ static void free_message(struct dxgvmbusmsg *msg, struct dxgprocess *process)
-  * Helper functions
-  */
- 
-+static void command_vm_to_host_init2(struct dxgkvmb_command_vm_to_host *command,
-+				     enum dxgkvmb_commandtype_global t,
-+				     struct d3dkmthandle process)
-+{
-+	command->command_type	= t;
-+	command->process	= process;
-+	command->command_id	= 0;
-+	command->channel_type	= DXGKVMB_VM_TO_HOST;
-+}
-+
-+static void command_vgpu_to_host_init1(struct dxgkvmb_command_vgpu_to_host
-+					*command,
-+					enum dxgkvmb_commandtype type)
-+{
-+	command->command_type	= type;
-+	command->process.v	= 0;
-+	command->command_id	= 0;
-+	command->channel_type	= DXGKVMB_VGPU_TO_HOST;
-+}
-+
-+static void command_vgpu_to_host_init2(struct dxgkvmb_command_vgpu_to_host
-+					*command,
-+					enum dxgkvmb_commandtype type,
-+					struct d3dkmthandle process)
-+{
-+	command->command_type	= type;
-+	command->process	= process;
-+	command->command_id	= 0;
-+	command->channel_type	= DXGKVMB_VGPU_TO_HOST;
-+}
-+
- int ntstatus2int(struct ntstatus status)
- {
- 	if (NT_SUCCESS(status))
-@@ -212,22 +248,26 @@ static void process_inband_packet(struct dxgvmbuschannel *channel,
- 	u32 packet_length = hv_pkt_datalen(desc);
- 	struct dxgkvmb_command_host_to_vm *packet;
- 
--	if (packet_length < sizeof(struct dxgkvmb_command_host_to_vm)) {
--		pr_err("Invalid global packet");
--	} else {
--		packet = hv_pkt_data(desc);
--		pr_debug("global packet %d",
--				packet->command_type);
--		switch (packet->command_type) {
--		case DXGK_VMBCOMMAND_SIGNALGUESTEVENT:
--		case DXGK_VMBCOMMAND_SIGNALGUESTEVENTPASSIVE:
--			break;
--		case DXGK_VMBCOMMAND_SENDWNFNOTIFICATION:
--			break;
--		default:
--			pr_err("unexpected host message %d",
--					packet->command_type);
-+	if (channel->adapter == NULL) {
-+		if (packet_length < sizeof(struct dxgkvmb_command_host_to_vm)) {
-+			pr_err("Invalid global packet");
-+		} else {
-+			packet = hv_pkt_data(desc);
-+			pr_debug("global packet %d",
-+				    packet->command_type);
-+			switch (packet->command_type) {
-+			case DXGK_VMBCOMMAND_SIGNALGUESTEVENT:
-+			case DXGK_VMBCOMMAND_SIGNALGUESTEVENTPASSIVE:
-+				break;
-+			case DXGK_VMBCOMMAND_SENDWNFNOTIFICATION:
-+				break;
-+			default:
-+				pr_err("unexpected host message %d",
-+					   packet->command_type);
-+			}
- 		}
-+	} else {
-+		pr_err("Unexpected packet for adapter channel");
- 	}
- }
- 
-@@ -275,6 +315,7 @@ void dxgvmbuschannel_receive(void *ctx)
- 	struct vmpacket_descriptor *desc;
- 	u32 packet_length = 0;
- 
-+	pr_debug("%s %p", __func__, channel->adapter);
- 	foreach_vmbus_pkt(desc, channel->channel) {
- 		packet_length = hv_pkt_datalen(desc);
- 		pr_debug("next packet (id, size, type): %llu %d %d",
-@@ -299,6 +340,7 @@ int dxgvmb_send_sync_msg(struct dxgvmbuschannel *channel,
- 	int ret;
- 	struct dxgvmbuspacket *packet = NULL;
- 	struct dxgkvmb_command_vm_to_host *cmd1;
-+	struct dxgkvmb_command_vgpu_to_host *cmd2;
- 
- 	if (cmd_size > DXG_MAX_VM_BUS_PACKET_SIZE ||
- 	    result_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
-@@ -312,8 +354,15 @@ int dxgvmb_send_sync_msg(struct dxgvmbuschannel *channel,
- 		return -ENOMEM;
- 	}
- 
--	pr_debug("send_sync_msg global: %d %p %d %d",
--		cmd1->command_type, command, cmd_size, result_size);
-+	if (channel->adapter == NULL) {
-+		cmd1 = command;
-+		pr_debug("send_sync_msg global: %d %p %d %d",
-+			cmd1->command_type, command, cmd_size, result_size);
-+	} else {
-+		cmd2 = command;
-+		pr_debug("send_sync_msg adapter: %d %p %d %d",
-+			cmd2->command_type, command, cmd_size, result_size);
-+	}
- 
- 	packet->request_id = atomic64_inc_return(&channel->packet_request_id);
- 	init_completion(&packet->wait);
-@@ -358,6 +407,41 @@ int dxgvmb_send_sync_msg(struct dxgvmbuschannel *channel,
- 	return ret;
- }
- 
-+int dxgvmb_send_async_msg(struct dxgvmbuschannel *channel,
-+			  void *command,
-+			  u32 cmd_size)
-+{
-+	int ret;
-+	int try_count = 0;
-+
-+	if (cmd_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
-+		pr_err("%s invalid data size", __func__);
-+		return -EINVAL;
-+	}
-+
-+	if (channel->adapter) {
-+		pr_err("Async messages should be sent to the global channel");
-+		return -EINVAL;
-+	}
-+
-+	do {
-+		ret = vmbus_sendpacket(channel->channel, command, cmd_size,
-+				0, VM_PKT_DATA_INBAND, 0);
-+		/*
-+		 * -EAGAIN is returned when the VM bus ring buffer if full.
-+		 * Wait 2ms to allow the host to process messages and try again.
-+		 */
-+		if (ret == -EAGAIN) {
-+			usleep_range(1000, 2000);
-+			try_count++;
-+		}
-+	} while (ret == -EAGAIN && try_count < 5000);
-+	if (ret < 0)
-+		pr_err("vmbus_sendpacket failed: %x", ret);
-+
-+	return ret;
-+}
-+
- static int
- dxgvmb_send_sync_msg_ntstatus(struct dxgvmbuschannel *channel,
- 			      void *command, u32 cmd_size)
-@@ -383,7 +467,7 @@ int dxgvmb_send_set_iospace_region(u64 start, u64 len,
- 	struct dxgkvmb_command_setiospaceregion *command;
- 	struct dxgvmbusmsg msg;
- 
--	ret = init_message(&msg, NULL, sizeof(*command));
-+	ret = init_message(&msg, NULL, NULL, sizeof(*command));
- 	if (ret)
- 		return ret;
- 	command = (void *)msg.msg;
-@@ -411,3 +495,95 @@ int dxgvmb_send_set_iospace_region(u64 start, u64 len,
- 	return ret;
- }
- 
-+/*
-+ * Virtual GPU messages to the host
-+ */
-+
-+int dxgvmb_send_open_adapter(struct dxgadapter *adapter)
-+{
-+	int ret;
-+	struct dxgkvmb_command_openadapter *command;
-+	struct dxgkvmb_command_openadapter_return result = { };
-+	struct dxgvmbusmsg msg;
-+
-+	ret = init_message(&msg, adapter, NULL, sizeof(*command));
-+	if (ret)
-+		return ret;
-+	command = (void *)msg.msg;
-+
-+	command_vgpu_to_host_init1(&command->hdr, DXGK_VMBCOMMAND_OPENADAPTER);
-+	command->vmbus_interface_version = dxgglobal->vmbus_ver;
-+	command->vmbus_last_compatible_interface_version =
-+	    DXGK_VMBUS_LAST_COMPATIBLE_INTERFACE_VERSION;
-+
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   &result, sizeof(result));
-+	if (ret < 0)
++	ret = copy_from_user(&args, inargs, sizeof(args));
++	if (ret) {
++		pr_err("%s failed to copy input args", __func__);
++		ret = -EINVAL;
 +		goto cleanup;
++	}
 +
-+	ret = ntstatus2int(result.status);
-+	adapter->host_handle = result.host_adapter_handle;
++	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
++	context = hmgrtable_get_object_by_type(&process->handle_table,
++					       HMGRENTRY_TYPE_DXGCONTEXT,
++					       args.context);
++	if (context) {
++		hmgrtable_free_handle(&process->handle_table,
++				      HMGRENTRY_TYPE_DXGCONTEXT, args.context);
++		context->handle.v = 0;
++		device_handle = context->device_handle;
++		context->object_state = DXGOBJECTSTATE_DESTROYED;
++	}
++	hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
++
++	if (context == NULL) {
++		pr_err("invalid context handle: %x", args.context.v);
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	/*
++	 * The call acquires reference on the device. It is safe to access the
++	 * adapter, because the device holds reference on it.
++	 */
++	device = dxgprocess_device_by_handle(process, device_handle);
++	if (device == NULL) {
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	adapter = device->adapter;
++	ret = dxgadapter_acquire_lock_shared(adapter);
++	if (ret < 0) {
++		adapter = NULL;
++		goto cleanup;
++	}
++
++	ret = dxgvmb_send_destroy_context(adapter, process, args.context);
++
++	dxgcontext_destroy_safe(process, context);
 +
 +cleanup:
-+	free_message(&msg, NULL);
-+	if (ret)
-+		pr_debug("err: %s %d", __func__, ret);
++
++	if (adapter)
++		dxgadapter_release_lock_shared(adapter);
++
++	if (device)
++		kref_put(&device->device_kref, dxgdevice_release);
++
++	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
 +	return ret;
 +}
-+
-+int dxgvmb_send_close_adapter(struct dxgadapter *adapter)
-+{
-+	int ret;
-+	struct dxgkvmb_command_closeadapter *command;
-+	struct dxgvmbusmsg msg;
-+
-+	ret = init_message(&msg, adapter, NULL, sizeof(*command));
-+	if (ret)
-+		return ret;
-+	command = (void *)msg.msg;
-+
-+	command_vgpu_to_host_init1(&command->hdr, DXGK_VMBCOMMAND_CLOSEADAPTER);
-+	command->host_handle = adapter->host_handle;
-+
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   NULL, 0);
-+	free_message(&msg, NULL);
-+	if (ret)
-+		pr_debug("err: %s %d", __func__, ret);
-+	return ret;
-+}
-+
-+int dxgvmb_send_get_internal_adapter_info(struct dxgadapter *adapter)
-+{
-+	int ret;
-+	struct dxgkvmb_command_getinternaladapterinfo *command;
-+	struct dxgkvmb_command_getinternaladapterinfo_return result = { };
-+	struct dxgvmbusmsg msg;
-+	u32 result_size = sizeof(result);
-+
-+	ret = init_message(&msg, adapter, NULL, sizeof(*command));
-+	if (ret)
-+		return ret;
-+	command = (void *)msg.msg;
-+
-+	command_vgpu_to_host_init1(&command->hdr,
-+				   DXGK_VMBCOMMAND_GETINTERNALADAPTERINFO);
-+	if (dxgglobal->vmbus_ver < DXGK_VMBUS_INTERFACE_VERSION)
-+		result_size -= sizeof(struct winluid);
-+
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   &result, result_size);
-+	if (ret >= 0) {
-+		adapter->host_adapter_luid = result.host_adapter_luid;
-+		adapter->host_vgpu_luid = result.host_vgpu_luid;
-+		wcsncpy(adapter->device_description, result.device_description,
-+			sizeof(adapter->device_description) / sizeof(u16));
-+		wcsncpy(adapter->device_instance_id, result.device_instance_id,
-+			sizeof(adapter->device_instance_id) / sizeof(u16));
-+		dxgglobal->async_msg_enabled = result.async_msg_enabled != 0;
-+	}
-+	free_message(&msg, NULL);
-+	if (ret)
-+		pr_debug("err: %s %d", __func__, ret);
-+	return ret;
-+}
-diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
-index d6136fd1ce9a..eda259324588 100644
---- a/drivers/hv/dxgkrnl/dxgvmbus.h
-+++ b/drivers/hv/dxgkrnl/dxgvmbus.h
-@@ -47,6 +47,83 @@ enum dxgkvmb_commandtype_global {
- 	DXGK_VMBCOMMAND_INVALID_VM_TO_HOST
- };
- 
-+/*
-+ *
-+ * Commands, sent to the host via the per adapter VM bus channel
-+ * DXG_GUEST_VGPU_VMBUS
-+ *
-+ */
-+
-+enum dxgkvmb_commandtype {
-+	DXGK_VMBCOMMAND_CREATEDEVICE		= 0,
-+	DXGK_VMBCOMMAND_DESTROYDEVICE		= 1,
-+	DXGK_VMBCOMMAND_QUERYADAPTERINFO	= 2,
-+	DXGK_VMBCOMMAND_DDIQUERYADAPTERINFO	= 3,
-+	DXGK_VMBCOMMAND_CREATEALLOCATION	= 4,
-+	DXGK_VMBCOMMAND_DESTROYALLOCATION	= 5,
-+	DXGK_VMBCOMMAND_CREATECONTEXTVIRTUAL	= 6,
-+	DXGK_VMBCOMMAND_DESTROYCONTEXT		= 7,
-+	DXGK_VMBCOMMAND_CREATESYNCOBJECT	= 8,
-+	DXGK_VMBCOMMAND_CREATEPAGINGQUEUE	= 9,
-+	DXGK_VMBCOMMAND_DESTROYPAGINGQUEUE	= 10,
-+	DXGK_VMBCOMMAND_MAKERESIDENT		= 11,
-+	DXGK_VMBCOMMAND_EVICT			= 12,
-+	DXGK_VMBCOMMAND_ESCAPE			= 13,
-+	DXGK_VMBCOMMAND_OPENADAPTER		= 14,
-+	DXGK_VMBCOMMAND_CLOSEADAPTER		= 15,
-+	DXGK_VMBCOMMAND_FREEGPUVIRTUALADDRESS	= 16,
-+	DXGK_VMBCOMMAND_MAPGPUVIRTUALADDRESS	= 17,
-+	DXGK_VMBCOMMAND_RESERVEGPUVIRTUALADDRESS = 18,
-+	DXGK_VMBCOMMAND_UPDATEGPUVIRTUALADDRESS	= 19,
-+	DXGK_VMBCOMMAND_SUBMITCOMMAND		= 20,
-+	dxgk_vmbcommand_queryvideomemoryinfo	= 21,
-+	DXGK_VMBCOMMAND_WAITFORSYNCOBJECTFROMCPU = 22,
-+	DXGK_VMBCOMMAND_LOCK2			= 23,
-+	DXGK_VMBCOMMAND_UNLOCK2			= 24,
-+	DXGK_VMBCOMMAND_WAITFORSYNCOBJECTFROMGPU = 25,
-+	DXGK_VMBCOMMAND_SIGNALSYNCOBJECT	= 26,
-+	DXGK_VMBCOMMAND_SIGNALFENCENTSHAREDBYREF = 27,
-+	DXGK_VMBCOMMAND_GETDEVICESTATE		= 28,
-+	DXGK_VMBCOMMAND_MARKDEVICEASERROR	= 29,
-+	DXGK_VMBCOMMAND_ADAPTERSTOP		= 30,
-+	DXGK_VMBCOMMAND_SETQUEUEDLIMIT		= 31,
-+	DXGK_VMBCOMMAND_OPENRESOURCE		= 32,
-+	DXGK_VMBCOMMAND_SETCONTEXTSCHEDULINGPRIORITY = 33,
-+	DXGK_VMBCOMMAND_PRESENTHISTORYTOKEN	= 34,
-+	DXGK_VMBCOMMAND_SETREDIRECTEDFLIPFENCEVALUE = 35,
-+	DXGK_VMBCOMMAND_GETINTERNALADAPTERINFO	= 36,
-+	DXGK_VMBCOMMAND_FLUSHHEAPTRANSITIONS	= 37,
-+	DXGK_VMBCOMMAND_BLT			= 38,
-+	DXGK_VMBCOMMAND_DDIGETSTANDARDALLOCATIONDRIVERDATA = 39,
-+	DXGK_VMBCOMMAND_CDDGDICOMMAND		= 40,
-+	DXGK_VMBCOMMAND_QUERYALLOCATIONRESIDENCY = 41,
-+	DXGK_VMBCOMMAND_FLUSHDEVICE		= 42,
-+	DXGK_VMBCOMMAND_FLUSHADAPTER		= 43,
-+	DXGK_VMBCOMMAND_DDIGETNODEMETADATA	= 44,
-+	DXGK_VMBCOMMAND_SETEXISTINGSYSMEMSTORE	= 45,
-+	DXGK_VMBCOMMAND_ISSYNCOBJECTSIGNALED	= 46,
-+	DXGK_VMBCOMMAND_CDDSYNCGPUACCESS	= 47,
-+	DXGK_VMBCOMMAND_QUERYSTATISTICS		= 48,
-+	DXGK_VMBCOMMAND_CHANGEVIDEOMEMORYRESERVATION = 49,
-+	DXGK_VMBCOMMAND_CREATEHWQUEUE		= 50,
-+	DXGK_VMBCOMMAND_DESTROYHWQUEUE		= 51,
-+	DXGK_VMBCOMMAND_SUBMITCOMMANDTOHWQUEUE	= 52,
-+	DXGK_VMBCOMMAND_GETDRIVERSTOREFILE	= 53,
-+	DXGK_VMBCOMMAND_READDRIVERSTOREFILE	= 54,
-+	DXGK_VMBCOMMAND_GETNEXTHARDLINK		= 55,
-+	DXGK_VMBCOMMAND_UPDATEALLOCATIONPROPERTY = 56,
-+	DXGK_VMBCOMMAND_OFFERALLOCATIONS	= 57,
-+	DXGK_VMBCOMMAND_RECLAIMALLOCATIONS	= 58,
-+	DXGK_VMBCOMMAND_SETALLOCATIONPRIORITY	= 59,
-+	DXGK_VMBCOMMAND_GETALLOCATIONPRIORITY	= 60,
-+	DXGK_VMBCOMMAND_GETCONTEXTSCHEDULINGPRIORITY = 61,
-+	DXGK_VMBCOMMAND_QUERYCLOCKCALIBRATION	= 62,
-+	DXGK_VMBCOMMAND_QUERYRESOURCEINFO	= 64,
-+	DXGK_VMBCOMMAND_LOGEVENT		= 65,
-+	DXGK_VMBCOMMAND_SETEXISTINGSYSMEMPAGES	= 66,
-+	DXGK_VMBCOMMAND_INVALID
-+};
 +
  /*
-  * Commands, sent by the host to the VM
-  */
-@@ -66,6 +143,15 @@ struct dxgkvmb_command_vm_to_host {
- 	enum dxgkvmb_commandtype_global	command_type;
- };
- 
-+struct dxgkvmb_command_vgpu_to_host {
-+	u64				command_id;
-+	struct d3dkmthandle		process;
-+	u32				channel_type	: 8;
-+	u32				async_msg	: 1;
-+	u32				reserved	: 23;
-+	enum dxgkvmb_commandtype	command_type;
-+};
-+
- struct dxgkvmb_command_host_to_vm {
- 	u64					command_id;
- 	struct d3dkmthandle			process;
-@@ -83,4 +169,46 @@ struct dxgkvmb_command_setiospaceregion {
- 	u32				shared_page_gpadl;
- };
- 
-+struct dxgkvmb_command_openadapter {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	u32				vmbus_interface_version;
-+	u32				vmbus_last_compatible_interface_version;
-+	struct winluid			guest_adapter_luid;
-+};
-+
-+struct dxgkvmb_command_openadapter_return {
-+	struct d3dkmthandle		host_adapter_handle;
-+	struct ntstatus			status;
-+	u32				vmbus_interface_version;
-+	u32				vmbus_last_compatible_interface_version;
-+};
-+
-+struct dxgkvmb_command_closeadapter {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		host_handle;
-+};
-+
-+struct dxgkvmb_command_getinternaladapterinfo {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+};
-+
-+struct dxgkvmb_command_getinternaladapterinfo_return {
-+	struct dxgk_device_types	device_types;
-+	u32				driver_store_copy_mode;
-+	u32				driver_ddi_version;
-+	u32				secure_virtual_machine	: 1;
-+	u32				virtual_machine_reset	: 1;
-+	u32				is_vail_supported	: 1;
-+	u32				hw_sch_enabled		: 1;
-+	u32				hw_sch_capable		: 1;
-+	u32				va_backed_vm		: 1;
-+	u32				async_msg_enabled	: 1;
-+	u32				hw_support_state	: 2;
-+	u32				reserved		: 23;
-+	struct winluid			host_adapter_luid;
-+	u16				device_description[80];
-+	u16				device_instance_id[WIN_MAX_PATH];
-+	struct winluid			host_vgpu_luid;
-+};
-+
- #endif /* _DXGVMBUS_H */
-diff --git a/drivers/hv/dxgkrnl/hmgr.h b/drivers/hv/dxgkrnl/hmgr.h
-deleted file mode 100644
-index b8b8f3ae5939..000000000000
---- a/drivers/hv/dxgkrnl/hmgr.h
-+++ /dev/null
-@@ -1,75 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--
--/*
-- * Copyright (c) 2019, Microsoft Corporation.
-- *
-- * Author:
-- *   Iouri Tarassov <iourit@linux.microsoft.com>
-- *
-- * Dxgkrnl Graphics Driver
-- * Handle manager definitions
-- *
-- */
--
--#ifndef _HMGR_H_
--#define _HMGR_H_
--
--#include "misc.h"
--
--struct hmgrentry;
--
--/*
-- * Handle manager table.
-- *
-- * Implementation notes:
-- *   A list of free handles is built on top of the array of table entries.
-- *   free_handle_list_head is the index of the first entry in the list.
-- *   m_FreeHandleListTail is the index of an entry in the list, which is
-- *   HMGRTABLE_MIN_FREE_ENTRIES from the head. It means that when a handle is
-- *   freed, the next time the handle can be re-used is after allocating
-- *   HMGRTABLE_MIN_FREE_ENTRIES number of handles.
-- *   Handles are allocated from the start of the list and free handles are
-- *   inserted after the tail of the list.
-- *
-- */
--struct hmgrtable {
--	struct dxgprocess	*process;
--	struct hmgrentry	*entry_table;
--	u32			free_handle_list_head;
--	u32			free_handle_list_tail;
--	u32			table_size;
--	u32			free_count;
--	struct rw_semaphore	table_lock;
--};
--
--/*
-- * Handle entry data types.
-- */
--#define HMGRENTRY_TYPE_BITS 5
--
--enum hmgrentry_type {
--	HMGRENTRY_TYPE_FREE				= 0,
--	HMGRENTRY_TYPE_DXGADAPTER			= 1,
--	HMGRENTRY_TYPE_DXGSHAREDRESOURCE		= 2,
--	HMGRENTRY_TYPE_DXGDEVICE			= 3,
--	HMGRENTRY_TYPE_DXGRESOURCE			= 4,
--	HMGRENTRY_TYPE_DXGALLOCATION			= 5,
--	HMGRENTRY_TYPE_DXGOVERLAY			= 6,
--	HMGRENTRY_TYPE_DXGCONTEXT			= 7,
--	HMGRENTRY_TYPE_DXGSYNCOBJECT			= 8,
--	HMGRENTRY_TYPE_DXGKEYEDMUTEX			= 9,
--	HMGRENTRY_TYPE_DXGPAGINGQUEUE			= 10,
--	HMGRENTRY_TYPE_DXGDEVICESYNCOBJECT		= 11,
--	HMGRENTRY_TYPE_DXGPROCESS			= 12,
--	HMGRENTRY_TYPE_DXGSHAREDVMOBJECT		= 13,
--	HMGRENTRY_TYPE_DXGPROTECTEDSESSION		= 14,
--	HMGRENTRY_TYPE_DXGHWQUEUE			= 15,
--	HMGRENTRY_TYPE_DXGREMOTEBUNDLEOBJECT		= 16,
--	HMGRENTRY_TYPE_DXGCOMPOSITIONSURFACEOBJECT	= 17,
--	HMGRENTRY_TYPE_DXGCOMPOSITIONSURFACEPROXY	= 18,
--	HMGRENTRY_TYPE_DXGTRACKEDWORKLOAD		= 19,
--	HMGRENTRY_TYPE_LIMIT		= ((1 << HMGRENTRY_TYPE_BITS) - 1),
--	HMGRENTRY_TYPE_MONITOREDFENCE	= HMGRENTRY_TYPE_LIMIT + 1,
--};
--
--#endif
-diff --git a/drivers/hv/dxgkrnl/misc.c b/drivers/hv/dxgkrnl/misc.c
-new file mode 100644
-index 000000000000..cb1e0635bebc
---- /dev/null
-+++ b/drivers/hv/dxgkrnl/misc.c
-@@ -0,0 +1,37 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Copyright (c) 2019, Microsoft Corporation.
-+ *
-+ * Author:
-+ *   Iouri Tarassov <iourit@linux.microsoft.com>
-+ *
-+ * Dxgkrnl Graphics Driver
-+ * Helper functions
-+ *
-+ */
-+
-+#include <linux/slab.h>
-+#include <linux/vmalloc.h>
-+#include <linux/uaccess.h>
-+
-+#include "dxgkrnl.h"
-+#include "misc.h"
-+
-+#undef pr_fmt
-+#define pr_fmt(fmt)	"dxgk: " fmt
-+
-+u16 *wcsncpy(u16 *dest, const u16 *src, size_t n)
-+{
-+	int i;
-+
-+	for (i = 0; i < n; i++) {
-+		dest[i] = src[i];
-+		if (src[i] == 0) {
-+			i++;
-+			break;
-+		}
-+	}
-+	dest[i - 1] = 0;
-+	return dest;
-+}
+  * IOCTL processing
+  * The driver IOCTLs return
+@@ -627,6 +795,10 @@ void init_ioctls(void)
+ 		  LX_DXOPENADAPTERFROMLUID);
+ 	SET_IOCTL(/*0x2 */ dxgk_create_device,
+ 		  LX_DXCREATEDEVICE);
++	SET_IOCTL(/*0x4 */ dxgk_create_context_virtual,
++		  LX_DXCREATECONTEXTVIRTUAL);
++	SET_IOCTL(/*0x5 */ dxgk_destroy_context,
++		  LX_DXDESTROYCONTEXT);
+ 	SET_IOCTL(/*0x9 */ dxgk_query_adapter_info,
+ 		  LX_DXQUERYADAPTERINFO);
+ 	SET_IOCTL(/*0x14 */ dxgk_enum_adapters,
 diff --git a/drivers/hv/dxgkrnl/misc.h b/drivers/hv/dxgkrnl/misc.h
-index 9fa3c7c8c3f5..1ff0c0e28332 100644
+index 8948f48ec9dc..8f7b37049308 100644
 --- a/drivers/hv/dxgkrnl/misc.h
 +++ b/drivers/hv/dxgkrnl/misc.h
-@@ -14,6 +14,9 @@
- #ifndef _MISC_H_
- #define _MISC_H_
+@@ -30,6 +30,7 @@ extern const struct d3dkmthandle zerohandle;
+  * fd_mutex
+  * plistmutex
+  * table_lock
++ * context_list_lock
+  * core_lock
+  * device_lock
+  * process_adapter_mutex
+diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
+index f303b52be8bc..b17ef6e30ece 100644
+--- a/include/uapi/misc/d3dkmthk.h
++++ b/include/uapi/misc/d3dkmthk.h
+@@ -150,6 +150,49 @@ struct d3dkmt_destroydevice {
+ 	struct d3dkmthandle		device;
+ };
  
-+/* Max characters in Windows path */
-+#define WIN_MAX_PATH		260
-+
- extern const struct d3dkmthandle zerohandle;
- 
- /*
-@@ -23,9 +26,23 @@ extern const struct d3dkmthandle zerohandle;
-  * When a lower lock ois held, the higher lock should not be acquired.
-  *
-  * channel_lock
-+ * fd_mutex
-+ * plistmutex
-+ * table_lock
-+ * core_lock
-+ * device_lock
-+ * process->process_mutex
-+ * adapter_list_lock
-  * device_mutex
-  */
- 
-+u16 *wcsncpy(u16 *dest, const u16 *src, size_t n);
-+
-+enum dxglockstate {
-+	DXGLOCK_SHARED,
-+	DXGLOCK_EXCL
++enum d3dkmt_clienthint {
++	_D3DKMT_CLIENTHNT_UNKNOWN	= 0,
++	_D3DKMT_CLIENTHINT_OPENGL	= 1,
++	_D3DKMT_CLIENTHINT_CDD		= 2,
++	_D3DKMT_CLIENTHINT_DX7		= 7,
++	_D3DKMT_CLIENTHINT_DX8		= 8,
++	_D3DKMT_CLIENTHINT_DX9		= 9,
++	_D3DKMT_CLIENTHINT_DX10		= 10,
 +};
 +
- /*
-  * Some of the Windows return codes, which needs to be translated to Linux
-  * IOCTL return codes. Positive values are success codes and need to be
++struct d3dddi_createcontextflags {
++	union {
++		struct {
++			__u32		null_rendering:1;
++			__u32		initial_data:1;
++			__u32		disable_gpu_timeout:1;
++			__u32		synchronization_only:1;
++			__u32		hw_queue_supported:1;
++			__u32		reserved:27;
++		};
++		__u32			value;
++	};
++};
++
++struct d3dkmt_destroycontext {
++	struct d3dkmthandle		context;
++};
++
++struct d3dkmt_createcontextvirtual {
++	struct d3dkmthandle		device;
++	__u32				node_ordinal;
++	__u32				engine_affinity;
++	struct d3dddi_createcontextflags flags;
++#ifdef __KERNEL__
++	void				*priv_drv_data;
++#else
++	__u64				priv_drv_data;
++#endif
++	__u32				priv_drv_data_size;
++	enum d3dkmt_clienthint		client_hint;
++	struct d3dkmthandle		context;
++};
++
+ struct d3dkmt_adaptertype {
+ 	union {
+ 		struct {
+@@ -228,6 +271,10 @@ struct d3dkmt_enumadapters3 {
+ 	_IOWR(0x47, 0x01, struct d3dkmt_openadapterfromluid)
+ #define LX_DXCREATEDEVICE		\
+ 	_IOWR(0x47, 0x02, struct d3dkmt_createdevice)
++#define LX_DXCREATECONTEXTVIRTUAL	\
++	_IOWR(0x47, 0x04, struct d3dkmt_createcontextvirtual)
++#define LX_DXDESTROYCONTEXT		\
++	_IOWR(0x47, 0x05, struct d3dkmt_destroycontext)
+ #define LX_DXQUERYADAPTERINFO		\
+ 	_IOWR(0x47, 0x09, struct d3dkmt_queryadapterinfo)
+ #define LX_DXENUMADAPTERS2		\
 -- 
 2.35.1
 
