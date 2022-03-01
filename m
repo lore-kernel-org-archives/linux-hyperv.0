@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E15C43217
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8494C4321E
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237318AbiCATrV (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:47:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52348 "EHLO
+        id S237320AbiCATrW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237300AbiCATrS (ORCPT
+        with ESMTP id S237302AbiCATrS (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 1 Mar 2022 14:47:18 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 346236D1AE;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 308AC6D1A6;
         Tue,  1 Mar 2022 11:46:33 -0800 (PST)
 Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 1B6F620B57C9;
-        Tue,  1 Mar 2022 11:46:32 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1B6F620B57C9
+        by linux.microsoft.com (Postfix) with ESMTPSA id ACD2620B8778;
+        Tue,  1 Mar 2022 11:46:31 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ACD2620B8778
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1646163992;
-        bh=NJ3VofQtiUZhOulGmP4IYBTjJKHu/tYmFgaUEE62hkM=;
+        s=default; t=1646163991;
+        bh=QF4jq+cwo2iPdI7yCms1AqIyFQOeJqWFYl2czc78baw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cbUPJA0i4oW6y4khIbPza569g6z80n6NvT0Ev/l+bFxs5JCi69JbX5mBvxOaW4Bhh
-         HqRl32ZjJzJab+ikY3aDAR/zjh2DBuTMVK0ui0kiK9ZaHC9YhZAVgRUmAEuTmYIQOb
-         hInEKTHiw3I7A+IeROw5HIhggBp2fjg6hNmTXCfE=
+        b=ImI5RBbQrAZcvf2q1zmzMkgFOEoBtNmw7ntyTyLmLV7ND7vpkvpb5yMGt0GZgESCo
+         H+LAaoIzjQg+JuwIXossc4ZmgfoxFBcBvUu5IxkxWjvxts8qVAsVogzZYWqZVpso95
+         KU8sy//jUh0kaE6+jaRAZp/9ocbfx8QrEkFXa1N0=
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
         spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
-Subject: [PATCH v3 11/30] drivers: hv: dxgkrnl: Operations using sync objects
-Date:   Tue,  1 Mar 2022 11:45:58 -0800
-Message-Id: <70adb776be6864e8c64c86c4198170a55847138a.1646163378.git.iourit@linux.microsoft.com>
+Subject: [PATCH v3 09/30] drivers: hv: dxgkrnl: Creation of compute device allocations and resources
+Date:   Tue,  1 Mar 2022 11:45:56 -0800
+Message-Id: <42245fef4e2523343d0636d4fc791d4a6a3bd00a.1646163378.git.iourit@linux.microsoft.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
 References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
@@ -43,567 +43,1192 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Implement ioctls to submit operations with compute device
-sync objects:
-  - the LX_DXSIGNALSYNCHRONIZATIONOBJECT ioctl.
-    The ioctl is used to submit a signal to a sync object.
-  - the LX_DXWAITFORSYNCHRONIZATIONOBJECT ioctl.
-    The ioctl is used to submit a wait for a sync object
-  - the LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMCPU ioctl
-    The ioctl is used to signal to a monitored fence sync object
-    from a CPU thread.
-  - the LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU ioctl.
-    The ioctl is used to submit a signal to a monitored fence
-    sync object..
-  - the LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU2 ioctl.
-    The ioctl is used to submit a signal to a monitored fence
-    sync object.
-  - the LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMGPU ioctl.
-    The ioctl is used to submit a wait for a monitored fence
-    sync object.
+Implemented ioctls to create and destroy virtual compute device
+allocations (dxgallocation) and resources (dxgresource):
+  - the LX_DXCREATEALLOCATION ioctl,
+  - the LX_DXDESTROYALLOCATION2 ioctl.
 
-Compute device synchronization objects are used to synchronize
-execution of DMA buffers between different execution contexts.
-Operations with sync objects include "signal" and "wait". A wait
-for a sync object is satisfied when the sync object is signaled.
+Compute device allocations (dxgallocation objects) represent memory
+allocation, which could be accessible by the device. Allocations can
+be created around existing system memory (provided by an application)
+or memory, allocated by dxgkrnl on the host.
 
-A signal operation could be submitted to a compute device context or
-the sync object could be signaled by a CPU thread.
+Compute device resources (dxgresource objects) represent containers of
+compute device allocations. Allocations could be dynamically added,
+removed from a resource.
 
-To improve performance, submitting operations to the host is done
-asynchronously when the host supports it.
+Each allocation/resource has associated driver private data, which
+is provided during creation.
+
+Each created resource or allocation have a handle (d3dkmthandle),
+which is used to reference the corresponding object in other ioctls.
+
+A dxgallocation can be resident (meaning that it is accessible by
+the compute device) or evicted. When an allocation is evicted,
+its content is stored in the backing store in system memory.
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 ---
- drivers/hv/dxgkrnl/dxgadapter.c |  21 +
- drivers/hv/dxgkrnl/dxgkrnl.h    |  62 +++
- drivers/hv/dxgkrnl/dxgmodule.c  |  97 +++++
- drivers/hv/dxgkrnl/dxgvmbus.c   | 213 ++++++++++
- drivers/hv/dxgkrnl/dxgvmbus.h   |  48 +++
- drivers/hv/dxgkrnl/ioctl.c      | 693 ++++++++++++++++++++++++++++++++
- drivers/hv/dxgkrnl/misc.h       |   1 +
- include/uapi/misc/d3dkmthk.h    | 159 ++++++++
- 8 files changed, 1294 insertions(+)
+ drivers/hv/dxgkrnl/dxgadapter.c | 274 ++++++++++++++
+ drivers/hv/dxgkrnl/dxgkrnl.h    | 109 ++++++
+ drivers/hv/dxgkrnl/dxgmodule.c  |   1 +
+ drivers/hv/dxgkrnl/dxgvmbus.c   | 645 ++++++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgvmbus.h   | 123 ++++++
+ drivers/hv/dxgkrnl/ioctl.c      | 637 +++++++++++++++++++++++++++++++
+ drivers/hv/dxgkrnl/misc.h       |   3 +
+ include/uapi/misc/d3dkmthk.h    | 204 ++++++++++
+ 8 files changed, 1996 insertions(+)
 
 diff --git a/drivers/hv/dxgkrnl/dxgadapter.c b/drivers/hv/dxgkrnl/dxgadapter.c
-index 71e3e1ce5c2b..c001f58a30db 100644
+index 52ed325792fa..01dada36a463 100644
 --- a/drivers/hv/dxgkrnl/dxgadapter.c
 +++ b/drivers/hv/dxgkrnl/dxgadapter.c
-@@ -897,6 +897,12 @@ struct dxgsyncobject *dxgsyncobject_create(struct dxgprocess *process,
- 	case _D3DDDI_PERIODIC_MONITORED_FENCE:
- 		syncobj->monitored_fence = 1;
- 		break;
-+	case _D3DDDI_CPU_NOTIFICATION:
-+		syncobj->cpu_event = 1;
-+		syncobj->host_event = vzalloc(sizeof(struct dxghostevent));
-+		if (syncobj->host_event == NULL)
-+			goto cleanup;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -924,6 +930,8 @@ struct dxgsyncobject *dxgsyncobject_create(struct dxgprocess *process,
- 	pr_debug("%s 0x%p\n", __func__, syncobj);
- 	return syncobj;
- cleanup:
-+	if (syncobj->host_event)
-+		vfree(syncobj->host_event);
- 	if (syncobj)
- 		vfree(syncobj);
- 	return NULL;
-@@ -933,6 +941,7 @@ void dxgsyncobject_destroy(struct dxgprocess *process,
- 			   struct dxgsyncobject *syncobj)
+@@ -211,8 +211,11 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
+ 		device->process = process;
+ 		kref_get(&adapter->adapter_kref);
+ 		INIT_LIST_HEAD(&device->context_list_head);
++		INIT_LIST_HEAD(&device->alloc_list_head);
++		INIT_LIST_HEAD(&device->resource_list_head);
+ 		init_rwsem(&device->device_lock);
+ 		init_rwsem(&device->context_list_lock);
++		init_rwsem(&device->alloc_list_lock);
+ 		INIT_LIST_HEAD(&device->pqueue_list_head);
+ 		device->object_state = DXGOBJECTSTATE_CREATED;
+ 		device->execution_state = _D3DKMT_DEVICEEXECUTION_ACTIVE;
+@@ -228,6 +231,16 @@ struct dxgdevice *dxgdevice_create(struct dxgadapter *adapter,
+ 
+ void dxgdevice_stop(struct dxgdevice *device)
  {
- 	int destroyed;
-+	struct dxghosteventcpu *host_event;
- 
- 	pr_debug("%s 0x%p", __func__, syncobj);
- 
-@@ -951,6 +960,16 @@ void dxgsyncobject_destroy(struct dxgprocess *process,
- 		}
- 		hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
- 
-+		if (syncobj->cpu_event) {
-+			host_event = syncobj->host_event;
-+			if (host_event->cpu_event) {
-+				eventfd_ctx_put(host_event->cpu_event);
-+				if (host_event->hdr.event_id)
-+					dxgglobal_remove_host_event(
-+						&host_event->hdr);
-+				host_event->cpu_event = NULL;
-+			}
-+		}
- 		if (syncobj->monitored_fence)
- 			dxgdevice_remove_syncobj(syncobj);
- 		else
-@@ -990,5 +1009,7 @@ void dxgsyncobject_release(struct kref *refcount)
- 	struct dxgsyncobject *syncobj;
- 
- 	syncobj = container_of(refcount, struct dxgsyncobject, syncobj_kref);
-+	if (syncobj->host_event)
-+		vfree(syncobj->host_event);
- 	vfree(syncobj);
++	struct dxgallocation *alloc;
++
++	pr_debug("%s: %p", __func__, device);
++	dxgdevice_acquire_alloc_list_lock(device);
++	list_for_each_entry(alloc, &device->alloc_list_head, alloc_list_entry) {
++		dxgallocation_stop(alloc);
++	}
++	dxgdevice_release_alloc_list_lock(device);
++
++	pr_debug("%s: end %p\n", __func__, device);
  }
+ 
+ void dxgdevice_mark_destroyed(struct dxgdevice *device)
+@@ -254,6 +267,33 @@ void dxgdevice_destroy(struct dxgdevice *device)
+ 
+ 	dxgdevice_stop(device);
+ 
++	dxgdevice_acquire_alloc_list_lock(device);
++
++	{
++		struct dxgallocation *alloc;
++		struct dxgallocation *tmp;
++
++		pr_debug("destroying allocations\n");
++		list_for_each_entry_safe(alloc, tmp, &device->alloc_list_head,
++					 alloc_list_entry) {
++			dxgallocation_destroy(alloc);
++		}
++	}
++
++	{
++		struct dxgresource *resource;
++		struct dxgresource *tmp;
++
++		pr_debug("destroying resources\n");
++		list_for_each_entry_safe(resource, tmp,
++					 &device->resource_list_head,
++					 resource_list_entry) {
++			dxgresource_destroy(resource);
++		}
++	}
++
++	dxgdevice_release_alloc_list_lock(device);
++
+ 	{
+ 		struct dxgcontext *context;
+ 		struct dxgcontext *tmp;
+@@ -332,6 +372,26 @@ void dxgdevice_release_context_list_lock(struct dxgdevice *device)
+ 	up_write(&device->context_list_lock);
+ }
+ 
++void dxgdevice_acquire_alloc_list_lock(struct dxgdevice *device)
++{
++	down_write(&device->alloc_list_lock);
++}
++
++void dxgdevice_release_alloc_list_lock(struct dxgdevice *device)
++{
++	up_write(&device->alloc_list_lock);
++}
++
++void dxgdevice_acquire_alloc_list_lock_shared(struct dxgdevice *device)
++{
++	down_read(&device->alloc_list_lock);
++}
++
++void dxgdevice_release_alloc_list_lock_shared(struct dxgdevice *device)
++{
++	up_read(&device->alloc_list_lock);
++}
++
+ void dxgdevice_add_context(struct dxgdevice *device, struct dxgcontext *context)
+ {
+ 	down_write(&device->context_list_lock);
+@@ -348,6 +408,160 @@ void dxgdevice_remove_context(struct dxgdevice *device,
+ 	}
+ }
+ 
++void dxgdevice_add_alloc(struct dxgdevice *device, struct dxgallocation *alloc)
++{
++	dxgdevice_acquire_alloc_list_lock(device);
++	list_add_tail(&alloc->alloc_list_entry, &device->alloc_list_head);
++	kref_get(&device->device_kref);
++	alloc->owner.device = device;
++	dxgdevice_release_alloc_list_lock(device);
++}
++
++void dxgdevice_remove_alloc(struct dxgdevice *device,
++			    struct dxgallocation *alloc)
++{
++	if (alloc->alloc_list_entry.next) {
++		list_del(&alloc->alloc_list_entry);
++		alloc->alloc_list_entry.next = NULL;
++		kref_put(&device->device_kref, dxgdevice_release);
++	}
++}
++
++void dxgdevice_remove_alloc_safe(struct dxgdevice *device,
++				 struct dxgallocation *alloc)
++{
++	dxgdevice_acquire_alloc_list_lock(device);
++	dxgdevice_remove_alloc(device, alloc);
++	dxgdevice_release_alloc_list_lock(device);
++}
++
++void dxgdevice_add_resource(struct dxgdevice *device, struct dxgresource *res)
++{
++	dxgdevice_acquire_alloc_list_lock(device);
++	list_add_tail(&res->resource_list_entry, &device->resource_list_head);
++	kref_get(&device->device_kref);
++	dxgdevice_release_alloc_list_lock(device);
++}
++
++void dxgdevice_remove_resource(struct dxgdevice *device,
++			       struct dxgresource *res)
++{
++	if (res->resource_list_entry.next) {
++		list_del(&res->resource_list_entry);
++		res->resource_list_entry.next = NULL;
++		kref_put(&device->device_kref, dxgdevice_release);
++	}
++}
++
++struct dxgresource *dxgresource_create(struct dxgdevice *device)
++{
++	struct dxgresource *resource = vzalloc(sizeof(struct dxgresource));
++
++	if (resource) {
++		kref_init(&resource->resource_kref);
++		resource->device = device;
++		resource->process = device->process;
++		resource->object_state = DXGOBJECTSTATE_ACTIVE;
++		mutex_init(&resource->resource_mutex);
++		INIT_LIST_HEAD(&resource->alloc_list_head);
++		dxgdevice_add_resource(device, resource);
++	}
++	return resource;
++}
++
++void dxgresource_free_handle(struct dxgresource *resource)
++{
++	struct dxgallocation *alloc;
++	struct dxgprocess *process;
++
++	if (resource->handle_valid) {
++		process = resource->device->process;
++		hmgrtable_free_handle_safe(&process->handle_table,
++					   HMGRENTRY_TYPE_DXGRESOURCE,
++					   resource->handle);
++		resource->handle_valid = 0;
++	}
++	list_for_each_entry(alloc, &resource->alloc_list_head,
++			    alloc_list_entry) {
++		dxgallocation_free_handle(alloc);
++	}
++}
++
++void dxgresource_destroy(struct dxgresource *resource)
++{
++	/* device->alloc_list_lock is held */
++	struct dxgallocation *alloc;
++	struct dxgallocation *tmp;
++	struct d3dkmt_destroyallocation2 args = { };
++	int destroyed = test_and_set_bit(0, &resource->flags);
++	struct dxgdevice *device = resource->device;
++
++	if (!destroyed) {
++		dxgresource_free_handle(resource);
++		if (resource->handle.v) {
++			args.device = device->handle;
++			args.resource = resource->handle;
++			dxgvmb_send_destroy_allocation(device->process,
++						       device, &args, NULL);
++			resource->handle.v = 0;
++		}
++		list_for_each_entry_safe(alloc, tmp, &resource->alloc_list_head,
++					 alloc_list_entry) {
++			dxgallocation_destroy(alloc);
++		}
++		dxgdevice_remove_resource(device, resource);
++	}
++	kref_put(&resource->resource_kref, dxgresource_release);
++}
++
++void dxgresource_release(struct kref *refcount)
++{
++	struct dxgresource *resource;
++
++	resource = container_of(refcount, struct dxgresource, resource_kref);
++	vfree(resource);
++}
++
++bool dxgresource_is_active(struct dxgresource *resource)
++{
++	return resource->object_state == DXGOBJECTSTATE_ACTIVE;
++}
++
++int dxgresource_add_alloc(struct dxgresource *resource,
++				      struct dxgallocation *alloc)
++{
++	int ret = -ENODEV;
++	struct dxgdevice *device = resource->device;
++
++	dxgdevice_acquire_alloc_list_lock(device);
++	if (dxgresource_is_active(resource)) {
++		list_add_tail(&alloc->alloc_list_entry,
++			      &resource->alloc_list_head);
++		alloc->owner.resource = resource;
++		ret = 0;
++	}
++	alloc->resource_owner = 1;
++	dxgdevice_release_alloc_list_lock(device);
++	return ret;
++}
++
++void dxgresource_remove_alloc(struct dxgresource *resource,
++			      struct dxgallocation *alloc)
++{
++	if (alloc->alloc_list_entry.next) {
++		list_del(&alloc->alloc_list_entry);
++		alloc->alloc_list_entry.next = NULL;
++	}
++}
++
++void dxgresource_remove_alloc_safe(struct dxgresource *resource,
++				   struct dxgallocation *alloc)
++{
++	dxgdevice_acquire_alloc_list_lock(resource->device);
++	dxgresource_remove_alloc(resource, alloc);
++	dxgdevice_release_alloc_list_lock(resource->device);
++}
++
+ void dxgdevice_release(struct kref *refcount)
+ {
+ 	struct dxgdevice *device;
+@@ -416,6 +630,66 @@ void dxgcontext_release(struct kref *refcount)
+ 	vfree(context);
+ }
+ 
++struct dxgallocation *dxgallocation_create(struct dxgprocess *process)
++{
++	struct dxgallocation *alloc = vzalloc(sizeof(struct dxgallocation));
++
++	if (alloc)
++		alloc->process = process;
++	return alloc;
++}
++
++void dxgallocation_stop(struct dxgallocation *alloc)
++{
++	if (alloc->pages) {
++		release_pages(alloc->pages, alloc->num_pages);
++		vfree(alloc->pages);
++		alloc->pages = NULL;
++	}
++}
++
++void dxgallocation_free_handle(struct dxgallocation *alloc)
++{
++	dxgprocess_ht_lock_exclusive_down(alloc->process);
++	if (alloc->handle_valid) {
++		hmgrtable_free_handle(&alloc->process->handle_table,
++				      HMGRENTRY_TYPE_DXGALLOCATION,
++				      alloc->alloc_handle);
++		alloc->handle_valid = 0;
++	}
++	dxgprocess_ht_lock_exclusive_up(alloc->process);
++}
++
++void dxgallocation_destroy(struct dxgallocation *alloc)
++{
++	struct dxgprocess *process = alloc->process;
++	struct d3dkmt_destroyallocation2 args = { };
++
++	dxgallocation_stop(alloc);
++	if (alloc->resource_owner)
++		dxgresource_remove_alloc(alloc->owner.resource, alloc);
++	else if (alloc->owner.device)
++		dxgdevice_remove_alloc(alloc->owner.device, alloc);
++	dxgallocation_free_handle(alloc);
++	if (alloc->alloc_handle.v && !alloc->resource_owner) {
++		args.device = alloc->owner.device->handle;
++		args.alloc_count = 1;
++		dxgvmb_send_destroy_allocation(process,
++					       alloc->owner.device,
++					       &args, &alloc->alloc_handle);
++	}
++	if (alloc->gpadl.gpadl_handle) {
++		pr_debug("Teardown gpadl %d",
++			alloc->gpadl.gpadl_handle);
++		vmbus_teardown_gpadl(dxgglobal_get_vmbus(), &alloc->gpadl);
++		pr_debug("Teardown gpadl end");
++		alloc->gpadl.gpadl_handle = 0;
++	}
++	if (alloc->priv_drv_data)
++		vfree(alloc->priv_drv_data);
++	vfree(alloc);
++}
++
+ struct dxgprocess_adapter *dxgprocess_adapter_create(struct dxgprocess *process,
+ 						     struct dxgadapter *adapter)
+ {
 diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
-index f0b0e1bdd897..cb9096bd7a12 100644
+index 1ac2d4a64dc1..766f5214cc57 100644
 --- a/drivers/hv/dxgkrnl/dxgkrnl.h
 +++ b/drivers/hv/dxgkrnl/dxgkrnl.h
-@@ -86,6 +86,29 @@ int dxgvmbuschannel_init(struct dxgvmbuschannel *ch, struct hv_device *hdev);
- void dxgvmbuschannel_destroy(struct dxgvmbuschannel *ch);
- void dxgvmbuschannel_receive(void *ctx);
+@@ -31,6 +31,8 @@ struct dxgprocess;
+ struct dxgadapter;
+ struct dxgdevice;
+ struct dxgcontext;
++struct dxgallocation;
++struct dxgresource;
  
-+/*
-+ * The structure describes an event, which will be signaled by
-+ * a message from host.
-+ */
-+enum dxghosteventtype {
-+	dxghostevent_cpu_event = 1,
-+};
-+
-+struct dxghostevent {
-+	struct list_head	host_event_list_entry;
-+	u64			event_id;
-+	enum dxghosteventtype	event_type;
-+};
-+
-+struct dxghosteventcpu {
-+	struct dxghostevent	hdr;
-+	struct dxgprocess	*process;
-+	struct eventfd_ctx	*cpu_event;
-+	struct completion	*completion_event;
-+	bool			destroy_after_signal;
-+	bool			remove_from_list;
-+};
-+
+ #include "misc.h"
+ #include "hmgr.h"
+@@ -256,6 +258,8 @@ struct dxgadapter {
+ 	struct list_head	adapter_list_entry;
+ 	/* The list of dxgprocess_adapter entries */
+ 	struct list_head	adapter_process_list_head;
++	/* This lock protects shared resource and syncobject lists */
++	struct rw_semaphore	shared_resource_list_lock;
+ 	struct pci_dev		*pci_dev;
+ 	struct hv_device	*hv_dev;
+ 	struct dxgvmbuschannel	channel;
+@@ -302,6 +306,10 @@ struct dxgdevice {
+ 	struct rw_semaphore	device_lock;
+ 	struct rw_semaphore	context_list_lock;
+ 	struct list_head	context_list_head;
++	/* List of device allocations */
++	struct rw_semaphore	alloc_list_lock;
++	struct list_head	alloc_list_head;
++	struct list_head	resource_list_head;
+ 	/* List of paging queues. Protected by process handle table lock. */
+ 	struct list_head	pqueue_list_head;
+ 	struct d3dkmthandle	handle;
+@@ -318,9 +326,19 @@ void dxgdevice_release_lock_shared(struct dxgdevice *dev);
+ void dxgdevice_release(struct kref *refcount);
+ void dxgdevice_add_context(struct dxgdevice *dev, struct dxgcontext *ctx);
+ void dxgdevice_remove_context(struct dxgdevice *dev, struct dxgcontext *ctx);
++void dxgdevice_add_alloc(struct dxgdevice *dev, struct dxgallocation *a);
++void dxgdevice_remove_alloc(struct dxgdevice *dev, struct dxgallocation *a);
++void dxgdevice_remove_alloc_safe(struct dxgdevice *dev,
++				 struct dxgallocation *a);
++void dxgdevice_add_resource(struct dxgdevice *dev, struct dxgresource *res);
++void dxgdevice_remove_resource(struct dxgdevice *dev, struct dxgresource *res);
+ bool dxgdevice_is_active(struct dxgdevice *dev);
+ void dxgdevice_acquire_context_list_lock(struct dxgdevice *dev);
+ void dxgdevice_release_context_list_lock(struct dxgdevice *dev);
++void dxgdevice_acquire_alloc_list_lock(struct dxgdevice *dev);
++void dxgdevice_release_alloc_list_lock(struct dxgdevice *dev);
++void dxgdevice_acquire_alloc_list_lock_shared(struct dxgdevice *dev);
++void dxgdevice_release_alloc_list_lock_shared(struct dxgdevice *dev);
+ 
  /*
-  * This is GPU synchronization object, which is used to synchronize execution
-  * between GPU contextx/hardware queues or for tracking GPU execution progress.
-@@ -115,6 +138,8 @@ struct dxgsyncobject {
- 	 */
- 	struct dxgdevice		*device;
- 	struct dxgprocess		*process;
-+	/* Used by D3DDDI_CPU_NOTIFICATION objects */
-+	struct dxghosteventcpu		*host_event;
- 	/* CPU virtual address of the fence value for "device" syncobjects */
- 	void				*mapped_address;
- 	/* Handle in the process handle table */
-@@ -129,6 +154,7 @@ struct dxgsyncobject {
- 			u32		stopped:1;
- 			/* device syncobject */
- 			u32		monitored_fence:1;
-+			u32		cpu_event:1;
- 			u32		shared:1;
- 			u32		reserved:27;
- 		};
-@@ -195,6 +221,11 @@ struct dxgglobal {
- 	/* protects the dxgprocess_adapter lists */
- 	struct mutex		process_adapter_mutex;
+  * The object represent the execution context of a device.
+@@ -344,6 +362,79 @@ void dxgcontext_destroy_safe(struct dxgprocess *pr, struct dxgcontext *ctx);
+ void dxgcontext_release(struct kref *refcount);
+ bool dxgcontext_is_active(struct dxgcontext *ctx);
  
-+	/*  list of events, waiting to be signaled by the host */
-+	struct list_head	host_event_list_head;
-+	spinlock_t		host_event_list_mutex;
-+	atomic64_t		host_event_id;
++struct dxgresource {
++	struct kref		resource_kref;
++	enum dxgobjectstate	object_state;
++	struct d3dkmthandle	handle;
++	struct list_head	alloc_list_head;
++	struct list_head	resource_list_entry;
++	struct list_head	shared_resource_list_entry;
++	struct dxgdevice	*device;
++	struct dxgprocess	*process;
++	/* Protects adding allocations to resource and resource destruction */
++	struct mutex		resource_mutex;
++	u64			private_runtime_handle;
++	union {
++		struct {
++			u32	destroyed:1;	/* Must be the first */
++			u32	handle_valid:1;
++			u32	reserved:30;
++		};
++		long		flags;
++	};
++};
 +
- 	bool			dxg_dev_initialized;
- 	bool			vmbus_registered;
- 	bool			pci_registered;
-@@ -214,6 +245,11 @@ struct vmbus_channel *dxgglobal_get_vmbus(void);
- struct dxgvmbuschannel *dxgglobal_get_dxgvmbuschannel(void);
- void dxgglobal_acquire_process_adapter_lock(void);
- void dxgglobal_release_process_adapter_lock(void);
-+void dxgglobal_add_host_event(struct dxghostevent *hostevent);
-+void dxgglobal_remove_host_event(struct dxghostevent *hostevent);
-+u64 dxgglobal_new_host_event_id(void);
-+void dxgglobal_signal_host_event(u64 event_id);
-+struct dxghostevent *dxgglobal_get_host_event(u64 event_id);
- int dxgglobal_acquire_channel_lock(void);
- void dxgglobal_release_channel_lock(void);
- 
-@@ -574,6 +610,31 @@ int dxgvmb_send_create_sync_object(struct dxgprocess *pr,
- 				   *args, struct dxgsyncobject *so);
- int dxgvmb_send_destroy_sync_object(struct dxgprocess *pr,
- 				    struct d3dkmthandle h);
-+int dxgvmb_send_signal_sync_object(struct dxgprocess *process,
-+				   struct dxgadapter *adapter,
-+				   struct d3dddicb_signalflags flags,
-+				   u64 legacy_fence_value,
-+				   struct d3dkmthandle context,
-+				   u32 object_count,
-+				   struct d3dkmthandle *object,
-+				   u32 context_count,
-+				   struct d3dkmthandle *contexts,
-+				   u32 fence_count, u64 *fences,
-+				   struct eventfd_ctx *cpu_event,
-+				   struct d3dkmthandle device);
-+int dxgvmb_send_wait_sync_object_gpu(struct dxgprocess *process,
-+				     struct dxgadapter *adapter,
-+				     struct d3dkmthandle context,
-+				     u32 object_count,
-+				     struct d3dkmthandle *objects,
-+				     u64 *fences,
-+				     bool legacy_fence);
-+int dxgvmb_send_wait_sync_object_cpu(struct dxgprocess *process,
-+				     struct dxgadapter *adapter,
-+				     struct
-+				     d3dkmt_waitforsynchronizationobjectfromcpu
-+				     *args,
-+				     u64 cpu_event);
++struct dxgresource *dxgresource_create(struct dxgdevice *dev);
++void dxgresource_destroy(struct dxgresource *res);
++void dxgresource_free_handle(struct dxgresource *res);
++void dxgresource_release(struct kref *refcount);
++int dxgresource_add_alloc(struct dxgresource *res,
++				      struct dxgallocation *a);
++void dxgresource_remove_alloc(struct dxgresource *res, struct dxgallocation *a);
++void dxgresource_remove_alloc_safe(struct dxgresource *res,
++				   struct dxgallocation *a);
++bool dxgresource_is_active(struct dxgresource *res);
++
++struct privdata {
++	u32 data_size;
++	u8 data[1];
++};
++
++struct dxgallocation {
++	/* Entry in the device list or resource list (when resource exists) */
++	struct list_head		alloc_list_entry;
++	/* Allocation owner */
++	union {
++		struct dxgdevice	*device;
++		struct dxgresource	*resource;
++	} owner;
++	struct dxgprocess		*process;
++	/* Pointer to private driver data desc. Used for shared resources */
++	struct privdata			*priv_drv_data;
++	struct d3dkmthandle		alloc_handle;
++	/* Set to 1 when allocation belongs to resource. */
++	u32				resource_owner:1;
++	/* Set to 1 when the allocatio is mapped as cached */
++	u32				cached:1;
++	u32				handle_valid:1;
++	/* GPADL address list for existing sysmem allocations */
++	struct vmbus_gpadl		gpadl;
++	/* Number of pages in the 'pages' array */
++	u32				num_pages;
++	/*
++	 * CPU address from the existing sysmem allocation, or
++	 * mapped to the CPU visible backing store in the IO space
++	 */
++	void				*cpu_address;
++	/* Describes pages for the existing sysmem allocation */
++	struct page			**pages;
++};
++
++struct dxgallocation *dxgallocation_create(struct dxgprocess *process);
++void dxgallocation_stop(struct dxgallocation *a);
++void dxgallocation_destroy(struct dxgallocation *a);
++void dxgallocation_free_handle(struct dxgallocation *a);
++
+ void init_ioctls(void);
+ long dxgk_compat_ioctl(struct file *f, unsigned int p1, unsigned long p2);
+ long dxgk_unlocked_ioctl(struct file *f, unsigned int p1, unsigned long p2);
+@@ -393,9 +484,27 @@ dxgvmb_send_create_context(struct dxgadapter *adapter,
+ int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
+ 				struct dxgprocess *process,
+ 				struct d3dkmthandle h);
++int dxgvmb_send_create_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
++				  struct d3dkmt_createallocation *args,
++				  struct d3dkmt_createallocation *__user inargs,
++				  struct dxgresource *res,
++				  struct dxgallocation **allocs,
++				  struct d3dddi_allocationinfo2 *alloc_info,
++				  struct d3dkmt_createstandardallocation *stda);
++int dxgvmb_send_destroy_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
++				   struct d3dkmt_destroyallocation2 *args,
++				   struct d3dkmthandle *alloc_handles);
  int dxgvmb_send_query_adapter_info(struct dxgprocess *process,
  				   struct dxgadapter *adapter,
  				   struct d3dkmt_queryadapterinfo *args);
-@@ -589,6 +650,7 @@ int dxgvmb_send_async_msg(struct dxgvmbuschannel *channel,
++int dxgvmb_send_get_stdalloc_data(struct dxgdevice *device,
++				  enum d3dkmdt_standardallocationtype t,
++				  struct d3dkmdt_gdisurfacedata *data,
++				  u32 physical_adapter_index,
++				  u32 *alloc_priv_driver_size,
++				  void *prive_alloc_data,
++				  u32 *res_priv_data_size,
++				  void *priv_res_data);
+ int dxgvmb_send_async_msg(struct dxgvmbuschannel *channel,
  			  void *command,
  			  u32 cmd_size);
- 
-+void signal_host_cpu_event(struct dxghostevent *eventhdr);
- int ntstatus2int(struct ntstatus status);
- 
- #endif
 diff --git a/drivers/hv/dxgkrnl/dxgmodule.c b/drivers/hv/dxgkrnl/dxgmodule.c
-index d64504a1cff0..80af0de4aa37 100644
+index c1c3274197d8..eb8ef8a69f28 100644
 --- a/drivers/hv/dxgkrnl/dxgmodule.c
 +++ b/drivers/hv/dxgkrnl/dxgmodule.c
-@@ -124,6 +124,98 @@ static struct dxgadapter *find_adapter(struct winluid *luid)
- 	return adapter;
- }
+@@ -158,6 +158,7 @@ int dxgglobal_create_adapter(struct pci_dev *dev, guid_t *guid,
+ 	init_rwsem(&adapter->core_lock);
  
-+void dxgglobal_add_host_event(struct dxghostevent *event)
-+{
-+	spin_lock_irq(&dxgglobal->host_event_list_mutex);
-+	list_add_tail(&event->host_event_list_entry,
-+		      &dxgglobal->host_event_list_head);
-+	spin_unlock_irq(&dxgglobal->host_event_list_mutex);
-+}
-+
-+void dxgglobal_remove_host_event(struct dxghostevent *event)
-+{
-+	spin_lock_irq(&dxgglobal->host_event_list_mutex);
-+	if (event->host_event_list_entry.next != NULL) {
-+		list_del(&event->host_event_list_entry);
-+		event->host_event_list_entry.next = NULL;
-+	}
-+	spin_unlock_irq(&dxgglobal->host_event_list_mutex);
-+}
-+
-+void signal_host_cpu_event(struct dxghostevent *eventhdr)
-+{
-+	struct  dxghosteventcpu *event = (struct  dxghosteventcpu *)eventhdr;
-+
-+	if (event->remove_from_list ||
-+		event->destroy_after_signal) {
-+		list_del(&eventhdr->host_event_list_entry);
-+		eventhdr->host_event_list_entry.next = NULL;
-+	}
-+	if (event->cpu_event) {
-+		pr_debug("signal cpu event\n");
-+		eventfd_signal(event->cpu_event, 1);
-+		if (event->destroy_after_signal)
-+			eventfd_ctx_put(event->cpu_event);
-+	} else {
-+		pr_debug("signal completion\n");
-+		complete(event->completion_event);
-+	}
-+	if (event->destroy_after_signal) {
-+		pr_debug("destroying event %p\n",
-+			event);
-+		vfree(event);
-+	}
-+}
-+
-+void dxgglobal_signal_host_event(u64 event_id)
-+{
-+	struct dxghostevent *event;
-+	unsigned long flags;
-+
-+	pr_debug("%s %lld\n", __func__, event_id);
-+
-+	spin_lock_irqsave(&dxgglobal->host_event_list_mutex, flags);
-+	list_for_each_entry(event, &dxgglobal->host_event_list_head,
-+			    host_event_list_entry) {
-+		if (event->event_id == event_id) {
-+			pr_debug("found event to signal %lld\n",
-+				    event_id);
-+			if (event->event_type == dxghostevent_cpu_event)
-+				signal_host_cpu_event(event);
-+			else
-+				pr_err("Unknown host event type");
-+			break;
-+		}
-+	}
-+	spin_unlock_irqrestore(&dxgglobal->host_event_list_mutex, flags);
-+	pr_debug("dxgglobal_signal_host_event_end %lld\n",
-+		event_id);
-+}
-+
-+struct dxghostevent *dxgglobal_get_host_event(u64 event_id)
-+{
-+	struct dxghostevent *entry;
-+	struct dxghostevent *event = NULL;
-+
-+	spin_lock_irq(&dxgglobal->host_event_list_mutex);
-+	list_for_each_entry(entry, &dxgglobal->host_event_list_head,
-+			    host_event_list_entry) {
-+		if (entry->event_id == event_id) {
-+			list_del(&entry->host_event_list_entry);
-+			entry->host_event_list_entry.next = NULL;
-+			event = entry;
-+			break;
-+		}
-+	}
-+	spin_unlock_irq(&dxgglobal->host_event_list_mutex);
-+	return event;
-+}
-+
-+u64 dxgglobal_new_host_event_id(void)
-+{
-+	return atomic64_inc_return(&dxgglobal->host_event_id);
-+}
-+
- void dxgglobal_acquire_process_adapter_lock(void)
- {
- 	mutex_lock(&dxgglobal->process_adapter_mutex);
-@@ -745,6 +837,11 @@ static int dxgglobal_create(void)
+ 	INIT_LIST_HEAD(&adapter->adapter_process_list_head);
++	init_rwsem(&adapter->shared_resource_list_lock);
+ 	adapter->pci_dev = dev;
+ 	guid_to_luid(guid, &adapter->luid);
  
- 	init_rwsem(&dxgglobal->channel_lock);
- 
-+	INIT_LIST_HEAD(&dxgglobal->host_event_list_head);
-+	spin_lock_init(&dxgglobal->host_event_list_mutex);
-+	atomic64_set(&dxgglobal->host_event_id, 1);
-+
-+	pr_debug("dxgglobal_init end\n");
- 	pr_debug("dxgglobal_init end\n");
- 	return ret;
- }
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 067a60319a12..a6979b4ae955 100644
+index e85c1d9abc47..8a82838d86db 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.c
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -276,6 +276,22 @@ static void command_vm_to_host_init1(struct dxgkvmb_command_vm_to_host *command,
- 	command->channel_type = DXGKVMB_VM_TO_HOST;
+@@ -109,6 +109,40 @@ static int init_message(struct dxgvmbusmsg *msg, struct dxgadapter *adapter,
+ 	return 0;
  }
  
-+static void signal_guest_event(struct dxgkvmb_command_host_to_vm *packet,
-+			       u32 packet_length)
++static int init_message_res(struct dxgvmbusmsgres *msg,
++			    struct dxgadapter *adapter,
++			    struct dxgprocess *process,
++			    u32 size,
++			    u32 result_size)
 +{
-+	struct dxgkvmb_command_signalguestevent *command = (void *)packet;
++	bool use_ext_header = dxgglobal->vmbus_ver >=
++			      DXGK_VMBUS_INTERFACE_VERSION;
 +
-+	if (packet_length < sizeof(struct dxgkvmb_command_signalguestevent)) {
-+		pr_err("invalid packet size");
-+		return;
++	if (use_ext_header)
++		size += sizeof(struct dxgvmb_ext_header);
++	msg->size = size;
++	msg->res_size += (result_size + 7) & ~7;
++	size += msg->res_size;
++	msg->hdr = vzalloc(size);
++	if (msg->hdr == NULL) {
++		pr_err("Failed to allocate VM bus message: %d", size);
++		return -ENOMEM;
 +	}
-+	if (command->event == 0) {
-+		pr_err("invalid event pointer");
-+		return;
++	if (use_ext_header) {
++		msg->msg = (char *)&msg->hdr[1];
++		msg->hdr->command_offset = sizeof(msg->hdr[0]);
++		msg->hdr->vgpu_luid = adapter->host_vgpu_luid;
++	} else {
++		msg->msg = (char *)msg->hdr;
 +	}
-+	dxgglobal_signal_host_event(command->event);
++	msg->res = (char *)msg->hdr + msg->size;
++	if (dxgglobal->async_msg_enabled)
++		msg->channel = &dxgglobal->channel;
++	else
++		msg->channel = &adapter->channel;
++	return 0;
 +}
 +
- static void process_inband_packet(struct dxgvmbuschannel *channel,
- 				  struct vmpacket_descriptor *desc)
+ static void free_message(struct dxgvmbusmsg *msg, struct dxgprocess *process)
  {
-@@ -292,6 +308,7 @@ static void process_inband_packet(struct dxgvmbuschannel *channel,
- 			switch (packet->command_type) {
- 			case DXGK_VMBCOMMAND_SIGNALGUESTEVENT:
- 			case DXGK_VMBCOMMAND_SIGNALGUESTEVENTPASSIVE:
-+				signal_guest_event(packet, packet_length);
- 				break;
- 			case DXGK_VMBCOMMAND_SENDWNFNOTIFICATION:
- 				break;
-@@ -1691,6 +1708,202 @@ dxgvmb_send_create_sync_object(struct dxgprocess *process,
+ 	if (msg->hdr && (char *)msg->hdr != msg->msg_on_stack)
+@@ -847,6 +881,617 @@ int dxgvmb_send_destroy_context(struct dxgadapter *adapter,
  	return ret;
  }
  
-+int dxgvmb_send_signal_sync_object(struct dxgprocess *process,
-+				   struct dxgadapter *adapter,
-+				   struct d3dddicb_signalflags flags,
-+				   u64 legacy_fence_value,
-+				   struct d3dkmthandle context,
-+				   u32 object_count,
-+				   struct d3dkmthandle __user *objects,
-+				   u32 context_count,
-+				   struct d3dkmthandle __user *contexts,
-+				   u32 fence_count,
-+				   u64 __user *fences,
-+				   struct eventfd_ctx *cpu_event_handle,
-+				   struct d3dkmthandle device)
++static int
++copy_private_data(struct d3dkmt_createallocation *args,
++		  struct dxgkvmb_command_createallocation *command,
++		  struct d3dddi_allocationinfo2 *input_alloc_info,
++		  struct d3dkmt_createstandardallocation *standard_alloc)
 +{
-+	int ret;
-+	struct dxgkvmb_command_signalsyncobject *command;
-+	u32 object_size = object_count * sizeof(struct d3dkmthandle);
-+	u32 context_size = context_count * sizeof(struct d3dkmthandle);
-+	u32 fence_size = fences ? fence_count * sizeof(u64) : 0;
-+	u8 *current_pos;
-+	u32 cmd_size = sizeof(struct dxgkvmb_command_signalsyncobject) +
-+	    object_size + context_size + fence_size;
-+	struct dxgvmbusmsg msg = {.hdr = NULL};
++	struct dxgkvmb_command_createallocation_allocinfo *alloc_info;
++	struct d3dddi_allocationinfo2 *input_alloc;
++	int ret = 0;
++	int i;
++	u8 *private_data_dest = (u8 *) &command[1] +
++	    (args->alloc_count *
++	     sizeof(struct dxgkvmb_command_createallocation_allocinfo));
 +
-+	if (context.v)
-+		cmd_size += sizeof(struct d3dkmthandle);
-+
-+	ret = init_message(&msg, adapter, process, cmd_size);
-+	if (ret)
-+		goto cleanup;
-+	command = (void *)msg.msg;
-+
-+	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_SIGNALSYNCOBJECT,
-+				   process->host_handle);
-+
-+	if (flags.enqueue_cpu_event)
-+		command->cpu_event_handle = (u64) cpu_event_handle;
-+	else
-+		command->device = device;
-+	command->flags = flags;
-+	command->fence_value = legacy_fence_value;
-+	command->object_count = object_count;
-+	command->context_count = context_count;
-+	current_pos = (u8 *) &command[1];
-+	ret = copy_from_user(current_pos, objects, object_size);
-+	if (ret) {
-+		pr_err("Failed to read objects %p %d",
-+			objects, object_size);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	current_pos += object_size;
-+	if (context.v) {
-+		command->context_count++;
-+		*(struct d3dkmthandle *) current_pos = context;
-+		current_pos += sizeof(struct d3dkmthandle);
-+	}
-+	if (context_size) {
-+		ret = copy_from_user(current_pos, contexts, context_size);
++	if (args->private_runtime_data_size) {
++		ret = copy_from_user(private_data_dest,
++				     args->private_runtime_data,
++				     args->private_runtime_data_size);
 +		if (ret) {
-+			pr_err("Failed to read contexts %p %d",
-+				contexts, context_size);
++			pr_err("%s failed to copy runtime data", __func__);
 +			ret = -EINVAL;
 +			goto cleanup;
 +		}
-+		current_pos += context_size;
++		private_data_dest += args->private_runtime_data_size;
 +	}
-+	if (fence_size) {
-+		ret = copy_from_user(current_pos, fences, fence_size);
++
++	if (args->flags.standard_allocation) {
++		pr_debug("private data offset %d",
++			(u32) (private_data_dest - (u8 *) command));
++
++		args->priv_drv_data_size = sizeof(*args->standard_allocation);
++		memcpy(private_data_dest, standard_alloc,
++		       sizeof(*standard_alloc));
++		private_data_dest += args->priv_drv_data_size;
++	} else if (args->priv_drv_data_size) {
++		ret = copy_from_user(private_data_dest,
++				     args->priv_drv_data,
++				     args->priv_drv_data_size);
 +		if (ret) {
-+			pr_err("Failed to read fences %p %d",
-+				fences, fence_size);
++			pr_err("%s failed to copy private data", __func__);
 +			ret = -EINVAL;
 +			goto cleanup;
 +		}
++		private_data_dest += args->priv_drv_data_size;
 +	}
 +
-+	if (dxgglobal->async_msg_enabled) {
-+		command->hdr.async_msg = 1;
-+		ret = dxgvmb_send_async_msg(msg.channel, msg.hdr, msg.size);
-+	} else {
-+		ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr,
-+						    msg.size);
++	alloc_info = (void *)&command[1];
++	input_alloc = input_alloc_info;
++	if (input_alloc_info[0].sysmem)
++		command->flags.existing_sysmem = 1;
++	for (i = 0; i < args->alloc_count; i++) {
++		alloc_info->flags = input_alloc->flags.value;
++		alloc_info->vidpn_source_id = input_alloc->vidpn_source_id;
++		alloc_info->priv_drv_data_size =
++		    input_alloc->priv_drv_data_size;
++		if (input_alloc->priv_drv_data_size) {
++			ret = copy_from_user(private_data_dest,
++					     input_alloc->priv_drv_data,
++					     input_alloc->priv_drv_data_size);
++			if (ret) {
++				pr_err("%s failed to copy alloc data",
++					__func__);
++				ret = -EINVAL;
++				goto cleanup;
++			}
++			private_data_dest += input_alloc->priv_drv_data_size;
++		}
++		alloc_info++;
++		input_alloc++;
 +	}
 +
 +cleanup:
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
++static
++int create_existing_sysmem(struct dxgdevice *device,
++			   struct dxgkvmb_command_allocinfo_return *host_alloc,
++			   struct dxgallocation *dxgalloc,
++			   bool read_only,
++			   const void *sysmem)
++{
++	int ret1 = 0;
++	void *kmem = NULL;
++	int ret = 0;
++	struct dxgkvmb_command_setexistingsysmemstore *set_store_command;
++	u64 alloc_size = host_alloc->allocation_size;
++	u32 npages = alloc_size >> PAGE_SHIFT;
++	struct dxgvmbusmsg msg = {.hdr = NULL};
++
++	ret = init_message(&msg, device->adapter, device->process,
++			   sizeof(*set_store_command));
++	if (ret)
++		goto cleanup;
++	set_store_command = (void *)msg.msg;
++
++	/*
++	 * Create a guest physical address list and set it as the allocation
++	 * backing store in the host. This is done after creating the host
++	 * allocation, because only now the allocation size is known.
++	 */
++
++	pr_debug("   Alloc size: %lld", alloc_size);
++
++	dxgalloc->cpu_address = (void *)sysmem;
++	dxgalloc->pages = vzalloc(npages * sizeof(void *));
++	if (dxgalloc->pages == NULL) {
++		pr_err("failed to allocate pages");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++	ret1 = get_user_pages_fast((unsigned long)sysmem, npages, !read_only,
++				  dxgalloc->pages);
++	if (ret1 != npages) {
++		pr_err("get_user_pages_fast failed: %d", ret1);
++		if (ret1 > 0 && ret1 < npages)
++			release_pages(dxgalloc->pages, ret1);
++		vfree(dxgalloc->pages);
++		dxgalloc->pages = NULL;
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++	kmem = vmap(dxgalloc->pages, npages, VM_MAP, PAGE_KERNEL);
++	if (kmem == NULL) {
++		pr_err("vmap failed");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++	ret1 = vmbus_establish_gpadl(dxgglobal_get_vmbus(), kmem,
++				     alloc_size, &dxgalloc->gpadl);
++	if (ret1) {
++		pr_err("establish_gpadl failed: %d", ret1);
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++	pr_debug("New gpadl %d", dxgalloc->gpadl.gpadl_handle);
++
++	command_vgpu_to_host_init2(&set_store_command->hdr,
++				   DXGK_VMBCOMMAND_SETEXISTINGSYSMEMSTORE,
++				   device->process->host_handle);
++	set_store_command->device = device->handle;
++	set_store_command->device = device->handle;
++	set_store_command->allocation = host_alloc->allocation;
++	set_store_command->gpadl = dxgalloc->gpadl.gpadl_handle;
++	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
++	if (ret < 0)
++		pr_err("failed to set existing store: %x", ret);
++
++cleanup:
++	if (kmem)
++		vunmap(kmem);
++	free_message(&msg, device->process);
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
++static int
++process_allocation_handles(struct dxgprocess *process,
++			   struct dxgdevice *device,
++			   struct d3dkmt_createallocation *args,
++			   struct dxgkvmb_command_createallocation_return *res,
++			   struct dxgallocation **dxgalloc,
++			   struct dxgresource *resource)
++{
++	int ret = 0;
++	int i;
++
++	hmgrtable_lock(&process->handle_table, DXGLOCK_EXCL);
++	if (args->flags.create_resource) {
++		ret = hmgrtable_assign_handle(&process->handle_table, resource,
++					      HMGRENTRY_TYPE_DXGRESOURCE,
++					      res->resource);
++		if (ret < 0) {
++			pr_err("failed to assign resource handle %x",
++				   res->resource.v);
++		} else {
++			resource->handle = res->resource;
++			resource->handle_valid = 1;
++		}
++	}
++	for (i = 0; i < args->alloc_count; i++) {
++		struct dxgkvmb_command_allocinfo_return *host_alloc;
++
++		host_alloc = &res->allocation_info[i];
++		ret = hmgrtable_assign_handle(&process->handle_table,
++					      dxgalloc[i],
++					      HMGRENTRY_TYPE_DXGALLOCATION,
++					      host_alloc->allocation);
++		if (ret < 0) {
++			pr_err("failed to assign alloc handle %x %d %d",
++				   host_alloc->allocation.v,
++				   args->alloc_count, i);
++			break;
++		}
++		dxgalloc[i]->alloc_handle = host_alloc->allocation;
++		dxgalloc[i]->handle_valid = 1;
++	}
++	hmgrtable_unlock(&process->handle_table, DXGLOCK_EXCL);
++
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
++static int
++create_local_allocations(struct dxgprocess *process,
++			 struct dxgdevice *device,
++			 struct d3dkmt_createallocation *args,
++			 struct d3dkmt_createallocation *__user input_args,
++			 struct d3dddi_allocationinfo2 *alloc_info,
++			 struct dxgkvmb_command_createallocation_return *result,
++			 struct dxgresource *resource,
++			 struct dxgallocation **dxgalloc,
++			 u32 destroy_buffer_size)
++{
++	int i;
++	int alloc_count = args->alloc_count;
++	u8 *alloc_private_data = NULL;
++	int ret = 0;
++	int ret1;
++	struct dxgkvmb_command_destroyallocation *destroy_buf;
++	struct dxgvmbusmsg msg = {.hdr = NULL};
++
++	ret = init_message(&msg, device->adapter, process,
++			    destroy_buffer_size);
++	if (ret)
++		goto cleanup;
++	destroy_buf = (void *)msg.msg;
++
++	/* Prepare the command to destroy allocation in case of failure */
++	command_vgpu_to_host_init2(&destroy_buf->hdr,
++				   DXGK_VMBCOMMAND_DESTROYALLOCATION,
++				   process->host_handle);
++	destroy_buf->device = args->device;
++	destroy_buf->resource = args->resource;
++	destroy_buf->alloc_count = alloc_count;
++	destroy_buf->flags.assume_not_in_use = 1;
++	for (i = 0; i < alloc_count; i++) {
++		pr_debug("host allocation: %d %x",
++			     i, result->allocation_info[i].allocation.v);
++		destroy_buf->allocations[i] =
++		    result->allocation_info[i].allocation;
++	}
++
++	if (args->flags.create_resource) {
++		pr_debug("new resource: %x", result->resource.v);
++		ret = copy_to_user(&input_args->resource, &result->resource,
++				   sizeof(struct d3dkmthandle));
++		if (ret) {
++			pr_err("%s failed to copy resource handle", __func__);
++			ret = -EINVAL;
++			goto cleanup;
++		}
++	}
++
++	alloc_private_data = (u8 *) result +
++	    sizeof(struct dxgkvmb_command_createallocation_return) +
++	    sizeof(struct dxgkvmb_command_allocinfo_return) * (alloc_count - 1);
++
++	for (i = 0; i < alloc_count; i++) {
++		struct dxgkvmb_command_allocinfo_return *host_alloc;
++		struct d3dddi_allocationinfo2 *user_alloc;
++
++		host_alloc = &result->allocation_info[i];
++		user_alloc = &alloc_info[i];
++		dxgalloc[i]->num_pages =
++		    host_alloc->allocation_size >> PAGE_SHIFT;
++		if (user_alloc->sysmem) {
++			ret = create_existing_sysmem(device, host_alloc,
++						     dxgalloc[i],
++						     args->flags.read_only != 0,
++						     user_alloc->sysmem);
++			if (ret < 0)
++				goto cleanup;
++		}
++		dxgalloc[i]->cached = host_alloc->allocation_flags.cached;
++		if (host_alloc->priv_drv_data_size) {
++			ret = copy_to_user(user_alloc->priv_drv_data,
++					   alloc_private_data,
++					   host_alloc->priv_drv_data_size);
++			if (ret) {
++				pr_err("%s failed to copy private data",
++					__func__);
++				ret = -EINVAL;
++				goto cleanup;
++			}
++			alloc_private_data += host_alloc->priv_drv_data_size;
++		}
++		ret = copy_to_user(&args->allocation_info[i].allocation,
++				   &host_alloc->allocation,
++				   sizeof(struct d3dkmthandle));
++		if (ret) {
++			pr_err("%s failed to copy alloc handle", __func__);
++			ret = -EINVAL;
++			goto cleanup;
++		}
++	}
++
++	ret = process_allocation_handles(process, device, args, result,
++					 dxgalloc, resource);
++	if (ret < 0)
++		goto cleanup;
++
++	ret = copy_to_user(&input_args->global_share, &args->global_share,
++			   sizeof(struct d3dkmthandle));
++	if (ret) {
++		pr_err("%s failed to copy global share", __func__);
++		ret = -EINVAL;
++	}
++
++cleanup:
++
++	if (ret < 0) {
++		/* Free local handles before freeing the handles in the host */
++		dxgdevice_acquire_alloc_list_lock(device);
++		if (dxgalloc)
++			for (i = 0; i < alloc_count; i++)
++				if (dxgalloc[i])
++					dxgallocation_free_handle(dxgalloc[i]);
++		if (resource && args->flags.create_resource)
++			dxgresource_free_handle(resource);
++		dxgdevice_release_alloc_list_lock(device);
++
++		/* Destroy allocations in the host to unmap gpadls */
++		ret1 = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr,
++						     msg.size);
++		if (ret1 < 0)
++			pr_err("failed to destroy allocations: %x", ret1);
++
++		dxgdevice_acquire_alloc_list_lock(device);
++		if (dxgalloc) {
++			for (i = 0; i < alloc_count; i++) {
++				if (dxgalloc[i]) {
++					dxgalloc[i]->alloc_handle.v = 0;
++					dxgallocation_destroy(dxgalloc[i]);
++					dxgalloc[i] = NULL;
++				}
++			}
++		}
++		if (resource && args->flags.create_resource) {
++			/*
++			 * Prevent the resource memory from freeing.
++			 * It will be freed in the top level function.
++			 */
++			kref_get(&resource->resource_kref);
++			dxgresource_destroy(resource);
++		}
++		dxgdevice_release_alloc_list_lock(device);
++	}
++
 +	free_message(&msg, process);
 +	if (ret)
 +		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
 +}
 +
-+int dxgvmb_send_wait_sync_object_cpu(struct dxgprocess *process,
-+				     struct dxgadapter *adapter,
-+				     struct
-+				     d3dkmt_waitforsynchronizationobjectfromcpu
-+				     *args,
-+				     u64 cpu_event)
++int dxgvmb_send_create_allocation(struct dxgprocess *process,
++				  struct dxgdevice *device,
++				  struct d3dkmt_createallocation *args,
++				  struct d3dkmt_createallocation *__user
++				  input_args,
++				  struct dxgresource *resource,
++				  struct dxgallocation **dxgalloc,
++				  struct d3dddi_allocationinfo2 *alloc_info,
++				  struct d3dkmt_createstandardallocation
++				  *standard_alloc)
 +{
++	struct dxgkvmb_command_createallocation *command = NULL;
++	struct dxgkvmb_command_createallocation_return *result = NULL;
 +	int ret = -EINVAL;
-+	struct dxgkvmb_command_waitforsyncobjectfromcpu *command;
-+	u32 object_size = args->object_count * sizeof(struct d3dkmthandle);
-+	u32 fence_size = args->object_count * sizeof(u64);
-+	u8 *current_pos;
-+	u32 cmd_size = sizeof(*command) + object_size + fence_size;
++	int i;
++	u32 result_size = 0;
++	u32 cmd_size = 0;
++	u32 destroy_buffer_size = 0;
++	u32 priv_drv_data_size;
 +	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
-+	ret = init_message(&msg, adapter, process, cmd_size);
++	if (args->private_runtime_data_size >= DXG_MAX_VM_BUS_PACKET_SIZE ||
++	    args->priv_drv_data_size >= DXG_MAX_VM_BUS_PACKET_SIZE) {
++		ret = -EOVERFLOW;
++		goto cleanup;
++	}
++
++	/*
++	 * Preallocate the buffer, which will be used for destruction in case
++	 * of a failure
++	 */
++	destroy_buffer_size = sizeof(struct dxgkvmb_command_destroyallocation) +
++	    args->alloc_count * sizeof(struct d3dkmthandle);
++
++	/* Compute the total private driver size */
++
++	priv_drv_data_size = 0;
++
++	for (i = 0; i < args->alloc_count; i++) {
++		if (alloc_info[i].priv_drv_data_size >=
++		    DXG_MAX_VM_BUS_PACKET_SIZE) {
++			ret = -EOVERFLOW;
++			goto cleanup;
++		} else {
++			priv_drv_data_size += alloc_info[i].priv_drv_data_size;
++		}
++		if (priv_drv_data_size >= DXG_MAX_VM_BUS_PACKET_SIZE) {
++			ret = -EOVERFLOW;
++			goto cleanup;
++		}
++	}
++
++	/*
++	 * Private driver data for the result includes only per allocation
++	 * private data
++	 */
++	result_size = sizeof(struct dxgkvmb_command_createallocation_return) +
++	    (args->alloc_count - 1) *
++	    sizeof(struct dxgkvmb_command_allocinfo_return) +
++	    priv_drv_data_size;
++	result = vzalloc(result_size);
++	if (result == NULL) {
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	/* Private drv data for the command includes the global private data */
++	priv_drv_data_size += args->priv_drv_data_size;
++
++	cmd_size = sizeof(struct dxgkvmb_command_createallocation) +
++	    args->alloc_count *
++	    sizeof(struct dxgkvmb_command_createallocation_allocinfo) +
++	    args->private_runtime_data_size + priv_drv_data_size;
++	if (cmd_size > DXG_MAX_VM_BUS_PACKET_SIZE) {
++		ret = -EOVERFLOW;
++		goto cleanup;
++	}
++
++	pr_debug("command size, driver_data_size %d %d %ld %ld",
++		    cmd_size, priv_drv_data_size,
++		    sizeof(struct dxgkvmb_command_createallocation),
++		    sizeof(struct dxgkvmb_command_createallocation_allocinfo));
++
++	ret = init_message(&msg, device->adapter, process,
++			   cmd_size);
 +	if (ret)
 +		goto cleanup;
 +	command = (void *)msg.msg;
 +
 +	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_WAITFORSYNCOBJECTFROMCPU,
++				   DXGK_VMBCOMMAND_CREATEALLOCATION,
 +				   process->host_handle);
 +	command->device = args->device;
 +	command->flags = args->flags;
-+	command->object_count = args->object_count;
-+	command->guest_event_pointer = (u64) cpu_event;
-+	current_pos = (u8 *) &command[1];
-+	ret = copy_from_user(current_pos, args->objects, object_size);
-+	if (ret) {
-+		pr_err("%s failed to copy objects", __func__);
-+		ret = -EINVAL;
++	command->resource = args->resource;
++	command->private_runtime_resource_handle =
++	    args->private_runtime_resource_handle;
++	command->alloc_count = args->alloc_count;
++	command->private_runtime_data_size = args->private_runtime_data_size;
++	command->priv_drv_data_size = args->priv_drv_data_size;
++
++	ret = copy_private_data(args, command, alloc_info, standard_alloc);
++	if (ret < 0)
++		goto cleanup;
++
++	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
++				   result, result_size);
++	if (ret < 0) {
++		pr_err("send_create_allocation failed %x", ret);
 +		goto cleanup;
 +	}
-+	current_pos += object_size;
-+	ret = copy_from_user(current_pos, args->fence_values, fence_size);
-+	if (ret) {
-+		pr_err("%s failed to copy fences", __func__);
-+		ret = -EINVAL;
++
++	ret = create_local_allocations(process, device, args, input_args,
++				       alloc_info, result, resource, dxgalloc,
++				       destroy_buffer_size);
++cleanup:
++
++	if (result)
++		vfree(result);
++	free_message(&msg, process);
++
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
++int dxgvmb_send_destroy_allocation(struct dxgprocess *process,
++				   struct dxgdevice *device,
++				   struct d3dkmt_destroyallocation2 *args,
++				   struct d3dkmthandle *alloc_handles)
++{
++	struct dxgkvmb_command_destroyallocation *destroy_buffer;
++	u32 destroy_buffer_size;
++	int ret;
++	int allocations_size = args->alloc_count * sizeof(struct d3dkmthandle);
++	struct dxgvmbusmsg msg = {.hdr = NULL};
++
++	destroy_buffer_size = sizeof(struct dxgkvmb_command_destroyallocation) +
++	    allocations_size;
++
++	ret = init_message(&msg, device->adapter, process,
++			    destroy_buffer_size);
++	if (ret)
 +		goto cleanup;
-+	}
++	destroy_buffer = (void *)msg.msg;
++
++	command_vgpu_to_host_init2(&destroy_buffer->hdr,
++				   DXGK_VMBCOMMAND_DESTROYALLOCATION,
++				   process->host_handle);
++	destroy_buffer->device = args->device;
++	destroy_buffer->resource = args->resource;
++	destroy_buffer->alloc_count = args->alloc_count;
++	destroy_buffer->flags = args->flags;
++	if (allocations_size)
++		memcpy(destroy_buffer->allocations, alloc_handles,
++		       allocations_size);
 +
 +	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
 +
 +cleanup:
++
 +	free_message(&msg, process);
 +	if (ret)
 +		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
 +}
 +
-+int dxgvmb_send_wait_sync_object_gpu(struct dxgprocess *process,
-+				     struct dxgadapter *adapter,
-+				     struct d3dkmthandle context,
-+				     u32 object_count,
-+				     struct d3dkmthandle *objects,
-+				     u64 *fences,
-+				     bool legacy_fence)
++int dxgvmb_send_get_stdalloc_data(struct dxgdevice *device,
++				  enum d3dkmdt_standardallocationtype alloctype,
++				  struct d3dkmdt_gdisurfacedata *alloc_data,
++				  u32 physical_adapter_index,
++				  u32 *alloc_priv_driver_size,
++				  void *priv_alloc_data,
++				  u32 *res_priv_data_size,
++				  void *priv_res_data)
 +{
++	struct dxgkvmb_command_getstandardallocprivdata *command;
++	struct dxgkvmb_command_getstandardallocprivdata_return *result = NULL;
++	u32 result_size = sizeof(*result);
 +	int ret;
-+	struct dxgkvmb_command_waitforsyncobjectfromgpu *command;
-+	u32 fence_size = object_count * sizeof(u64);
-+	u32 object_size = object_count * sizeof(struct d3dkmthandle);
-+	u8 *current_pos;
-+	u32 cmd_size = object_size + fence_size - sizeof(u64) +
-+	    sizeof(struct dxgkvmb_command_waitforsyncobjectfromgpu);
-+	struct dxgvmbusmsg msg = {.hdr = NULL};
++	struct dxgvmbusmsgres msg = {.hdr = NULL};
 +
-+	if (object_count == 0 || object_count > D3DDDI_MAX_OBJECT_WAITED_ON) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	ret = init_message(&msg, adapter, process, cmd_size);
++	if (priv_alloc_data)
++		result_size += *alloc_priv_driver_size;
++	if (priv_res_data)
++		result_size += *res_priv_data_size;
++	ret = init_message_res(&msg, device->adapter, device->process,
++			       sizeof(*command), result_size);
 +	if (ret)
 +		goto cleanup;
-+	command = (void *)msg.msg;
++	command = msg.msg;
++	result = msg.res;
 +
 +	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_WAITFORSYNCOBJECTFROMGPU,
-+				   process->host_handle);
-+	command->context = context;
-+	command->object_count = object_count;
-+	command->legacy_fence_object = legacy_fence;
-+	current_pos = (u8 *) command->fence_values;
-+	memcpy(current_pos, fences, fence_size);
-+	current_pos += fence_size;
-+	memcpy(current_pos, objects, object_size);
++			DXGK_VMBCOMMAND_DDIGETSTANDARDALLOCATIONDRIVERDATA,
++			device->process->host_handle);
 +
-+	if (dxgglobal->async_msg_enabled) {
-+		command->hdr.async_msg = 1;
-+		ret = dxgvmb_send_async_msg(msg.channel, msg.hdr, msg.size);
-+	} else {
-+		ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr,
-+						    msg.size);
++	command->alloc_type = alloctype;
++	command->priv_driver_data_size = *alloc_priv_driver_size;
++	command->physical_adapter_index = physical_adapter_index;
++	command->priv_driver_resource_size = *res_priv_data_size;
++	switch (alloctype) {
++	case _D3DKMDT_STANDARDALLOCATION_GDISURFACE:
++		command->gdi_surface = *alloc_data;
++		break;
++	case _D3DKMDT_STANDARDALLOCATION_SHAREDPRIMARYSURFACE:
++	case _D3DKMDT_STANDARDALLOCATION_SHADOWSURFACE:
++	case _D3DKMDT_STANDARDALLOCATION_STAGINGSURFACE:
++	default:
++		pr_err("Invalid standard alloc type");
++		goto cleanup;
++	}
++
++	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
++				   result, msg.res_size);
++	if (ret < 0)
++		goto cleanup;
++
++	ret = ntstatus2int(result->status);
++	if (ret < 0)
++		goto cleanup;
++
++	if (*alloc_priv_driver_size &&
++	    result->priv_driver_data_size != *alloc_priv_driver_size) {
++		pr_err("Priv data size mismatch");
++		goto cleanup;
++	}
++	if (*res_priv_data_size &&
++	    result->priv_driver_resource_size != *res_priv_data_size) {
++		pr_err("Resource priv data size mismatch");
++		goto cleanup;
++	}
++	*alloc_priv_driver_size = result->priv_driver_data_size;
++	*res_priv_data_size = result->priv_driver_resource_size;
++	if (priv_alloc_data) {
++		memcpy(priv_alloc_data, &result[1],
++		       result->priv_driver_data_size);
++	}
++	if (priv_res_data) {
++		memcpy(priv_res_data,
++		       (char *)(&result[1]) + result->priv_driver_data_size,
++		       result->priv_driver_resource_size);
 +	}
 +
 +cleanup:
-+	free_message(&msg, process);
++
++	free_message((struct dxgvmbusmsg *)&msg, device->process);
 +	if (ret)
 +		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
@@ -613,140 +1238,248 @@ index 067a60319a12..a6979b4ae955 100644
  				   struct dxgadapter *adapter,
  				   struct d3dkmt_queryadapterinfo *args)
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
-index a2cfdb832664..da63f89ad822 100644
+index adaccc464e21..312ce049dbc2 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.h
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.h
-@@ -165,6 +165,13 @@ struct dxgkvmb_command_host_to_vm {
- 	enum dxgkvmb_commandtype_host_to_vm	command_type;
+@@ -173,6 +173,14 @@ struct dxgkvmb_command_setiospaceregion {
+ 	u32				shared_page_gpadl;
  };
  
-+struct dxgkvmb_command_signalguestevent {
-+	struct dxgkvmb_command_host_to_vm hdr;
-+	u64				event;
-+	u64				process_id;
-+	bool				dereference_event;
-+};
-+
- /* Returns ntstatus */
- struct dxgkvmb_command_setiospaceregion {
- 	struct dxgkvmb_command_vm_to_host hdr;
-@@ -430,4 +437,45 @@ struct dxgkvmb_command_destroysyncobject {
- 	struct d3dkmthandle	sync_object;
- };
- 
-+/* The command returns ntstatus */
-+struct dxgkvmb_command_signalsyncobject {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	u32				object_count;
-+	struct d3dddicb_signalflags	flags;
-+	u32				context_count;
-+	u64				fence_value;
-+	union {
-+		/* Pointer to the guest event object */
-+		u64			cpu_event_handle;
-+		/* Non zero when signal from CPU is done */
-+		struct d3dkmthandle		device;
-+	};
-+	/* struct d3dkmthandle ObjectHandleArray[object_count] */
-+	/* struct d3dkmthandle ContextArray[context_count]     */
-+	/* u64 MonitoredFenceValueArray[object_count] */
-+};
-+
-+/* The command returns ntstatus */
-+struct dxgkvmb_command_waitforsyncobjectfromcpu {
++/* Returns ntstatus */
++struct dxgkvmb_command_setexistingsysmemstore {
 +	struct dxgkvmb_command_vgpu_to_host hdr;
 +	struct d3dkmthandle		device;
-+	u32				object_count;
-+	struct d3dddi_waitforsynchronizationobjectfromcpu_flags flags;
-+	u64				guest_event_pointer;
-+	bool				dereference_event;
-+	/* struct d3dkmthandle ObjectHandleArray[object_count] */
-+	/* u64 FenceValueArray [object_count] */
++	struct d3dkmthandle		allocation;
++	u32				gpadl;
++};
++
+ struct dxgkvmb_command_createprocess {
+ 	struct dxgkvmb_command_vm_to_host hdr;
+ 	void			*process;
+@@ -269,6 +277,121 @@ struct dxgkvmb_command_flushdevice {
+ 	enum dxgdevice_flushschedulerreason	reason;
+ };
+ 
++struct dxgkvmb_command_createallocation_allocinfo {
++	u32				flags;
++	u32				priv_drv_data_size;
++	u32				vidpn_source_id;
++};
++
++struct dxgkvmb_command_createallocation {
++	struct dxgkvmb_command_vgpu_to_host hdr;
++	struct d3dkmthandle		device;
++	struct d3dkmthandle		resource;
++	u32				private_runtime_data_size;
++	u32				priv_drv_data_size;
++	u32				alloc_count;
++	struct d3dkmt_createallocationflags flags;
++	u64				private_runtime_resource_handle;
++	bool				make_resident;
++/* dxgkvmb_command_createallocation_allocinfo alloc_info[alloc_count]; */
++/* u8 private_rutime_data[private_runtime_data_size] */
++/* u8 priv_drv_data[] for each alloc_info */
++};
++
++struct dxgkvmb_command_getstandardallocprivdata {
++	struct dxgkvmb_command_vgpu_to_host hdr;
++	enum d3dkmdt_standardallocationtype alloc_type;
++	u32				priv_driver_data_size;
++	u32				priv_driver_resource_size;
++	u32				physical_adapter_index;
++	union {
++		struct d3dkmdt_sharedprimarysurfacedata	primary;
++		struct d3dkmdt_shadowsurfacedata	shadow;
++		struct d3dkmdt_stagingsurfacedata	staging;
++		struct d3dkmdt_gdisurfacedata		gdi_surface;
++	};
++};
++
++struct dxgkvmb_command_getstandardallocprivdata_return {
++	struct ntstatus			status;
++	u32				priv_driver_data_size;
++	u32				priv_driver_resource_size;
++	union {
++		struct d3dkmdt_sharedprimarysurfacedata	primary;
++		struct d3dkmdt_shadowsurfacedata	shadow;
++		struct d3dkmdt_stagingsurfacedata	staging;
++		struct d3dkmdt_gdisurfacedata		gdi_surface;
++	};
++/* char alloc_priv_data[priv_driver_data_size]; */
++/* char resource_priv_data[priv_driver_resource_size]; */
++};
++
++struct dxgkarg_describeallocation {
++	u64				allocation;
++	u32				width;
++	u32				height;
++	u32				format;
++	u32				multisample_method;
++	struct d3dddi_rational		refresh_rate;
++	u32				private_driver_attribute;
++	u32				flags;
++	u32				rotation;
++};
++
++struct dxgkvmb_allocflags {
++	union {
++		u32			flags;
++		struct {
++			u32		primary:1;
++			u32		cdd_primary:1;
++			u32		dod_primary:1;
++			u32		overlay:1;
++			u32		reserved6:1;
++			u32		capture:1;
++			u32		reserved0:4;
++			u32		reserved1:1;
++			u32		existing_sysmem:1;
++			u32		stereo:1;
++			u32		direct_flip:1;
++			u32		hardware_protected:1;
++			u32		reserved2:1;
++			u32		reserved3:1;
++			u32		reserved4:1;
++			u32		protected:1;
++			u32		cached:1;
++			u32		independent_primary:1;
++			u32		reserved:11;
++		};
++	};
++};
++
++struct dxgkvmb_command_allocinfo_return {
++	struct d3dkmthandle		allocation;
++	u32				priv_drv_data_size;
++	struct dxgkvmb_allocflags	allocation_flags;
++	u64				allocation_size;
++	struct dxgkarg_describeallocation driver_info;
++};
++
++struct dxgkvmb_command_createallocation_return {
++	struct d3dkmt_createallocationflags flags;
++	struct d3dkmthandle		resource;
++	struct d3dkmthandle		global_share;
++	u32				vgpu_flags;
++	struct dxgkvmb_command_allocinfo_return allocation_info[1];
++	/* Private driver data for allocations */
 +};
 +
 +/* The command returns ntstatus */
-+struct dxgkvmb_command_waitforsyncobjectfromgpu {
++struct dxgkvmb_command_destroyallocation {
 +	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		context;
-+	/* Must be 1 when bLegacyFenceObject is TRUE */
-+	u32				object_count;
-+	bool				legacy_fence_object;
-+	u64				fence_values[1];
-+	/* struct d3dkmthandle ObjectHandles[object_count] */
++	struct d3dkmthandle		device;
++	struct d3dkmthandle		resource;
++	u32				alloc_count;
++	struct d3dddicb_destroyallocation2flags flags;
++	struct d3dkmthandle		allocations[1];
 +};
 +
- #endif /* _DXGVMBUS_H */
+ struct dxgkvmb_command_createcontextvirtual {
+ 	struct dxgkvmb_command_vgpu_to_host hdr;
+ 	struct d3dkmthandle		context;
 diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
-index bc1ac2dd302f..b945da0da55a 100644
+index 879fb3c6b7b2..1f07a883debb 100644
 --- a/drivers/hv/dxgkrnl/ioctl.c
 +++ b/drivers/hv/dxgkrnl/ioctl.c
-@@ -1375,8 +1375,10 @@ dxgk_create_sync_object(struct dxgprocess *process, void *__user inargs)
- 	struct d3dkmt_createsynchronizationobject2 args;
- 	struct dxgdevice *device = NULL;
- 	struct dxgadapter *adapter = NULL;
-+	struct eventfd_ctx *event = NULL;
- 	struct dxgsyncobject *syncobj = NULL;
- 	bool device_lock_acquired = false;
-+	struct dxghosteventcpu *host_event = NULL;
- 
- 	ret = copy_from_user(&args, inargs, sizeof(args));
- 	if (ret) {
-@@ -1411,6 +1413,27 @@ dxgk_create_sync_object(struct dxgprocess *process, void *__user inargs)
- 		goto cleanup;
- 	}
- 
-+	if (args.info.type == _D3DDDI_CPU_NOTIFICATION) {
-+		event = eventfd_ctx_fdget((int)
-+					  args.info.cpu_notification.event);
-+		if (IS_ERR(event)) {
-+			pr_err("failed to reference the event");
-+			event = NULL;
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+		host_event = syncobj->host_event;
-+		host_event->hdr.event_id = dxgglobal_new_host_event_id();
-+		host_event->cpu_event = event;
-+		host_event->remove_from_list = false;
-+		host_event->destroy_after_signal = false;
-+		host_event->hdr.event_type = dxghostevent_cpu_event;
-+		dxgglobal_add_host_event(&host_event->hdr);
-+		args.info.cpu_notification.event = host_event->hdr.event_id;
-+		pr_debug("creating CPU notification event: %lld",
-+			args.info.cpu_notification.event);
-+	}
-+
- 	ret = dxgvmb_send_create_sync_object(process, adapter, &args, syncobj);
- 	if (ret < 0)
- 		goto cleanup;
-@@ -1438,7 +1461,10 @@ dxgk_create_sync_object(struct dxgprocess *process, void *__user inargs)
- 			if (args.sync_object.v)
- 				dxgvmb_send_destroy_sync_object(process,
- 							args.sync_object);
-+			event = NULL;
- 		}
-+		if (event)
-+			eventfd_ctx_put(event);
- 	}
- 	if (adapter)
- 		dxgadapter_release_lock_shared(adapter);
-@@ -1494,6 +1520,659 @@ dxgk_destroy_sync_object(struct dxgprocess *process, void *__user inargs)
+@@ -735,6 +735,639 @@ dxgk_destroy_context(struct dxgprocess *process, void *__user inargs)
  	return ret;
  }
  
 +static int
-+dxgk_signal_sync_object(struct dxgprocess *process, void *__user inargs)
++get_standard_alloc_priv_data(struct dxgdevice *device,
++			     struct d3dkmt_createstandardallocation *alloc_info,
++			     u32 *standard_alloc_priv_data_size,
++			     void **standard_alloc_priv_data,
++			     u32 *standard_res_priv_data_size,
++			     void **standard_res_priv_data)
 +{
-+	struct d3dkmt_signalsynchronizationobject2 args;
-+	struct d3dkmt_signalsynchronizationobject2 *__user in_args = inargs;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
 +	int ret;
-+	u32 fence_count = 1;
-+	struct eventfd_ctx *event = NULL;
-+	struct dxghosteventcpu *host_event = NULL;
-+	bool host_event_added = false;
-+	u64 host_event_id = 0;
++	struct d3dkmdt_gdisurfacedata gdi_data = { };
++	u32 priv_data_size = 0;
++	u32 res_priv_data_size = 0;
++	void *priv_data = NULL;
++	void *res_priv_data = NULL;
++
++	gdi_data.type = _D3DKMDT_GDISURFACE_TEXTURE_CROSSADAPTER;
++	gdi_data.width = alloc_info->existing_heap_data.size;
++	gdi_data.height = 1;
++	gdi_data.format = _D3DDDIFMT_UNKNOWN;
++
++	*standard_alloc_priv_data_size = 0;
++	ret = dxgvmb_send_get_stdalloc_data(device,
++					_D3DKMDT_STANDARDALLOCATION_GDISURFACE,
++					&gdi_data, 0,
++					&priv_data_size, NULL,
++					&res_priv_data_size,
++					NULL);
++	if (ret < 0)
++		goto cleanup;
++	pr_debug("Priv data size: %d", priv_data_size);
++	if (priv_data_size == 0) {
++		ret = -EINVAL;
++		goto cleanup;
++	}
++	priv_data = vzalloc(priv_data_size);
++	if (priv_data == NULL) {
++		ret = -ENOMEM;
++		pr_err("failed to allocate memory for priv data: %d",
++			   priv_data_size);
++		goto cleanup;
++	}
++	if (res_priv_data_size) {
++		res_priv_data = vzalloc(res_priv_data_size);
++		if (res_priv_data == NULL) {
++			ret = -ENOMEM;
++			pr_err("failed to alloc memory for res priv data: %d",
++				res_priv_data_size);
++			goto cleanup;
++		}
++	}
++	ret = dxgvmb_send_get_stdalloc_data(device,
++					_D3DKMDT_STANDARDALLOCATION_GDISURFACE,
++					&gdi_data, 0,
++					&priv_data_size,
++					priv_data,
++					&res_priv_data_size,
++					res_priv_data);
++	if (ret < 0)
++		goto cleanup;
++	*standard_alloc_priv_data_size = priv_data_size;
++	*standard_alloc_priv_data = priv_data;
++	*standard_res_priv_data_size = res_priv_data_size;
++	*standard_res_priv_data = res_priv_data;
++	priv_data = NULL;
++	res_priv_data = NULL;
++
++cleanup:
++	if (priv_data)
++		vfree(priv_data);
++	if (res_priv_data)
++		vfree(res_priv_data);
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
++	return ret;
++}
++
++static int
++dxgk_create_allocation(struct dxgprocess *process, void *__user inargs)
++{
++	struct d3dkmt_createallocation args;
++	int ret;
++	struct dxgadapter *adapter = NULL;
++	struct dxgdevice *device = NULL;
++	struct d3dddi_allocationinfo2 *alloc_info = NULL;
++	struct d3dkmt_createstandardallocation standard_alloc;
++	u32 alloc_info_size = 0;
++	struct dxgresource *resource = NULL;
++	struct dxgallocation **dxgalloc = NULL;
++	bool resource_mutex_acquired = false;
++	u32 standard_alloc_priv_data_size = 0;
++	void *standard_alloc_priv_data = NULL;
++	u32 res_priv_data_size = 0;
++	void *res_priv_data = NULL;
++	int i;
 +
 +	pr_debug("ioctl: %s", __func__);
 +
@@ -757,606 +1490,131 @@ index bc1ac2dd302f..b945da0da55a 100644
 +		goto cleanup;
 +	}
 +
-+	if (args.context_count >= D3DDDI_MAX_BROADCAST_CONTEXT ||
-+	    args.object_count > D3DDDI_MAX_OBJECT_SIGNALED) {
++	if (args.alloc_count > D3DKMT_CREATEALLOCATION_MAX ||
++	    args.alloc_count == 0) {
++		pr_err("invalid number of allocations to create");
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
 +
-+	if (args.flags.enqueue_cpu_event) {
-+		host_event = vzalloc(sizeof(*host_event));
-+		if (host_event == NULL) {
-+			ret = -ENOMEM;
-+			goto cleanup;
-+		}
-+		host_event->process = process;
-+		event = eventfd_ctx_fdget((int)args.cpu_event_handle);
-+		if (IS_ERR(event)) {
-+			pr_err("failed to reference the event");
-+			event = NULL;
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+		fence_count = 0;
-+		host_event->cpu_event = event;
-+		host_event_id = dxgglobal_new_host_event_id();
-+		host_event->hdr.event_type = dxghostevent_cpu_event;
-+		host_event->hdr.event_id = host_event_id;
-+		host_event->remove_from_list = true;
-+		host_event->destroy_after_signal = true;
-+		dxgglobal_add_host_event(&host_event->hdr);
-+		host_event_added = true;
-+	}
-+
-+	device = dxgprocess_device_by_object_handle(process,
-+						    HMGRENTRY_TYPE_DXGCONTEXT,
-+						    args.context);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_signal_sync_object(process, adapter,
-+					     args.flags, args.fence.fence_value,
-+					     args.context, args.object_count,
-+					     in_args->object_array,
-+					     args.context_count,
-+					     in_args->contexts, fence_count,
-+					     NULL, (void *)host_event_id,
-+					     zerohandle);
-+
-+	/*
-+	 * When the send operation succeeds, the host event will be destroyed
-+	 * after signal from the host
-+	 */
-+
-+cleanup:
-+
-+	if (ret < 0) {
-+		if (host_event_added) {
-+			/* The event might be signaled and destroyed by host */
-+			host_event = (struct dxghosteventcpu *)
-+				dxgglobal_get_host_event(host_event_id);
-+			if (host_event) {
-+				eventfd_ctx_put(event);
-+				event = NULL;
-+				vfree(host_event);
-+				host_event = NULL;
-+			}
-+		}
-+		if (event)
-+			eventfd_ctx_put(event);
-+		if (host_event)
-+			vfree(host_event);
-+	}
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_signal_sync_object_cpu(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_signalsynchronizationobjectfromcpu args;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	int ret;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	if (args.object_count == 0 ||
-+	    args.object_count > D3DDDI_MAX_OBJECT_SIGNALED) {
-+		pr_debug("Too many objects: %d",
-+			args.object_count);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	device = dxgprocess_device_by_handle(process, args.device);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_signal_sync_object(process, adapter,
-+					     args.flags, 0, zerohandle,
-+					     args.object_count, args.objects, 0,
-+					     NULL, args.object_count,
-+					     args.fence_values, NULL,
-+					     args.device);
-+
-+cleanup:
-+
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_signal_sync_object_gpu(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_signalsynchronizationobjectfromgpu args;
-+	struct d3dkmt_signalsynchronizationobjectfromgpu *__user user_args =
-+	    inargs;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	struct d3dddicb_signalflags flags = { };
-+	int ret;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.object_count == 0 ||
-+	    args.object_count > DXG_MAX_VM_BUS_PACKET_SIZE) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	device = dxgprocess_device_by_object_handle(process,
-+						    HMGRENTRY_TYPE_DXGCONTEXT,
-+						    args.context);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_signal_sync_object(process, adapter,
-+					     flags, 0, zerohandle,
-+					     args.object_count,
-+					     args.objects, 1,
-+					     &user_args->context,
-+					     args.object_count,
-+					     args.monitored_fence_values, NULL,
-+					     zerohandle);
-+
-+cleanup:
-+
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_signal_sync_object_gpu2(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_signalsynchronizationobjectfromgpu2 args;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	struct d3dkmthandle context_handle;
-+	struct eventfd_ctx *event = NULL;
-+	u64 *fences = NULL;
-+	u32 fence_count = 0;
-+	int ret;
-+	struct dxghosteventcpu *host_event = NULL;
-+	bool host_event_added = false;
-+	u64 host_event_id = 0;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.flags.enqueue_cpu_event) {
-+		if (args.object_count != 0 || args.cpu_event_handle == 0) {
-+			pr_err("Bad input for EnqueueCpuEvent: %d %lld",
-+				   args.object_count, args.cpu_event_handle);
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+	} else if (args.object_count == 0 ||
-+		   args.object_count > DXG_MAX_VM_BUS_PACKET_SIZE ||
-+		   args.context_count == 0 ||
-+		   args.context_count > DXG_MAX_VM_BUS_PACKET_SIZE) {
-+		pr_err("Invalid input: %d %d",
-+			   args.object_count, args.context_count);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	ret = copy_from_user(&context_handle, args.contexts,
-+			     sizeof(struct d3dkmthandle));
-+	if (ret) {
-+		pr_err("%s failed to copy context handle", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.flags.enqueue_cpu_event) {
-+		host_event = vzalloc(sizeof(*host_event));
-+		if (host_event == NULL) {
-+			ret = -ENOMEM;
-+			goto cleanup;
-+		}
-+		host_event->process = process;
-+		event = eventfd_ctx_fdget((int)args.cpu_event_handle);
-+		if (IS_ERR(event)) {
-+			pr_err("failed to reference the event");
-+			event = NULL;
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+		fence_count = 0;
-+		host_event->cpu_event = event;
-+		host_event_id = dxgglobal_new_host_event_id();
-+		host_event->hdr.event_id = host_event_id;
-+		host_event->hdr.event_type = dxghostevent_cpu_event;
-+		host_event->remove_from_list = true;
-+		host_event->destroy_after_signal = true;
-+		dxgglobal_add_host_event(&host_event->hdr);
-+		host_event_added = true;
-+	} else {
-+		fences = args.monitored_fence_values;
-+		fence_count = args.object_count;
-+	}
-+
-+	device = dxgprocess_device_by_object_handle(process,
-+						    HMGRENTRY_TYPE_DXGCONTEXT,
-+						    context_handle);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_signal_sync_object(process, adapter,
-+					     args.flags, 0, zerohandle,
-+					     args.object_count, args.objects,
-+					     args.context_count, args.contexts,
-+					     fence_count, fences,
-+					     (void *)host_event_id, zerohandle);
-+
-+cleanup:
-+
-+	if (ret < 0) {
-+		if (host_event_added) {
-+			/* The event might be signaled and destroyed by host */
-+			host_event = (struct dxghosteventcpu *)
-+				dxgglobal_get_host_event(host_event_id);
-+			if (host_event) {
-+				eventfd_ctx_put(event);
-+				event = NULL;
-+				vfree(host_event);
-+				host_event = NULL;
-+			}
-+		}
-+		if (event)
-+			eventfd_ctx_put(event);
-+		if (host_event)
-+			vfree(host_event);
-+	}
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_wait_sync_object(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_waitforsynchronizationobject2 args;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	int ret;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.object_count > D3DDDI_MAX_OBJECT_WAITED_ON ||
-+	    args.object_count == 0) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	device = dxgprocess_device_by_object_handle(process,
-+						    HMGRENTRY_TYPE_DXGCONTEXT,
-+						    args.context);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	pr_debug("Fence value: %lld", args.fence.fence_value);
-+	ret = dxgvmb_send_wait_sync_object_gpu(process, adapter,
-+					       args.context, args.object_count,
-+					       args.object_array,
-+					       &args.fence.fence_value, true);
-+
-+cleanup:
-+
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_wait_sync_object_cpu(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_waitforsynchronizationobjectfromcpu args;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	struct eventfd_ctx *event = NULL;
-+	struct dxghosteventcpu host_event = { };
-+	struct dxghosteventcpu *async_host_event = NULL;
-+	struct completion local_event = { };
-+	u64 event_id = 0;
-+	int ret;
-+	bool host_event_added = false;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.object_count > DXG_MAX_VM_BUS_PACKET_SIZE ||
-+	    args.object_count == 0) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.async_event) {
-+		async_host_event = vzalloc(sizeof(*async_host_event));
-+		if (async_host_event == NULL) {
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+		async_host_event->process = process;
-+		event = eventfd_ctx_fdget((int)args.async_event);
-+		if (IS_ERR(event)) {
-+			pr_err("failed to reference the event");
-+			event = NULL;
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+		async_host_event->cpu_event = event;
-+		async_host_event->hdr.event_id = dxgglobal_new_host_event_id();
-+		async_host_event->destroy_after_signal = true;
-+		async_host_event->hdr.event_type = dxghostevent_cpu_event;
-+		dxgglobal_add_host_event(&async_host_event->hdr);
-+		event_id = async_host_event->hdr.event_id;
-+		host_event_added = true;
-+	} else {
-+		init_completion(&local_event);
-+		host_event.completion_event = &local_event;
-+		host_event.hdr.event_id = dxgglobal_new_host_event_id();
-+		host_event.hdr.event_type = dxghostevent_cpu_event;
-+		dxgglobal_add_host_event(&host_event.hdr);
-+		event_id = host_event.hdr.event_id;
-+	}
-+
-+	device = dxgprocess_device_by_handle(process, args.device);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_wait_sync_object_cpu(process, adapter,
-+					       &args, event_id);
-+	if (ret < 0)
-+		goto cleanup;
-+
-+	if (args.async_event == 0) {
-+		dxgadapter_release_lock_shared(adapter);
-+		adapter = NULL;
-+		ret = wait_for_completion_interruptible(&local_event);
-+		if (ret) {
-+			pr_err("%s: wait_completion_interruptible failed: %d",
-+			       __func__, ret);
-+			ret = -ERESTARTSYS;
-+		}
-+	}
-+
-+cleanup:
-+
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+	if (host_event.hdr.event_id)
-+		dxgglobal_remove_host_event(&host_event.hdr);
-+	if (ret < 0) {
-+		if (host_event_added) {
-+			async_host_event = (struct dxghosteventcpu *)
-+				dxgglobal_get_host_event(event_id);
-+			if (async_host_event) {
-+				if (async_host_event->hdr.event_type ==
-+				    dxghostevent_cpu_event) {
-+					eventfd_ctx_put(event);
-+					event = NULL;
-+					vfree(async_host_event);
-+					async_host_event = NULL;
-+				} else {
-+					pr_err("Invalid event type");
-+					DXGKRNL_ASSERT(0);
-+				}
-+			}
-+		}
-+		if (event)
-+			eventfd_ctx_put(event);
-+		if (async_host_event)
-+			vfree(async_host_event);
-+	}
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+	return ret;
-+}
-+
-+static int
-+dxgk_wait_sync_object_gpu(struct dxgprocess *process, void *__user inargs)
-+{
-+	struct d3dkmt_waitforsynchronizationobjectfromgpu args;
-+	struct dxgcontext *context = NULL;
-+	struct d3dkmthandle device_handle = {};
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
-+	struct dxgsyncobject *syncobj = NULL;
-+	struct d3dkmthandle *objects = NULL;
-+	u32 object_size;
-+	u64 *fences = NULL;
-+	int ret;
-+	enum hmgrentry_type syncobj_type = HMGRENTRY_TYPE_FREE;
-+	bool monitored_fence = false;
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	if (args.object_count > DXG_MAX_VM_BUS_PACKET_SIZE ||
-+	    args.object_count == 0) {
-+		pr_err("Invalid object count: %d", args.object_count);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	object_size = sizeof(struct d3dkmthandle) * args.object_count;
-+	objects = vzalloc(object_size);
-+	if (objects == NULL) {
++	alloc_info_size = sizeof(struct d3dddi_allocationinfo2) *
++	    args.alloc_count;
++	alloc_info = vzalloc(alloc_info_size);
++	if (alloc_info == NULL) {
 +		ret = -ENOMEM;
 +		goto cleanup;
 +	}
-+	ret = copy_from_user(objects, args.objects, object_size);
++	ret = copy_from_user(alloc_info, args.allocation_info,
++				 alloc_info_size);
 +	if (ret) {
-+		pr_err("%s failed to copy objects", __func__);
++		pr_err("%s failed to copy alloc info", __func__);
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
 +
-+	hmgrtable_lock(&process->handle_table, DXGLOCK_SHARED);
-+	context = hmgrtable_get_object_by_type(&process->handle_table,
-+					       HMGRENTRY_TYPE_DXGCONTEXT,
-+					       args.context);
-+	if (context) {
-+		device_handle = context->device_handle;
-+		syncobj_type =
-+		    hmgrtable_get_object_type(&process->handle_table,
-+					      objects[0]);
-+	}
-+	if (device_handle.v == 0) {
-+		pr_err("Invalid context handle: %x", args.context.v);
-+		ret = -EINVAL;
-+	} else {
-+		if (syncobj_type == HMGRENTRY_TYPE_MONITOREDFENCE) {
-+			monitored_fence = true;
-+		} else if (syncobj_type == HMGRENTRY_TYPE_DXGSYNCOBJECT) {
-+			syncobj =
-+			    hmgrtable_get_object_by_type(&process->handle_table,
-+						HMGRENTRY_TYPE_DXGSYNCOBJECT,
-+						objects[0]);
-+			if (syncobj == NULL) {
-+				pr_err("Invalid syncobj: %x", objects[0].v);
++	for (i = 0; i < args.alloc_count; i++) {
++		if (args.flags.standard_allocation) {
++			if (alloc_info[i].priv_drv_data_size != 0) {
++				pr_err("private data size is not zero");
 +				ret = -EINVAL;
-+			} else {
-+				monitored_fence = syncobj->monitored_fence;
++				goto cleanup;
++			}
++		}
++		if (alloc_info[i].priv_drv_data_size >=
++		    DXG_MAX_VM_BUS_PACKET_SIZE) {
++			pr_err("private data size is too big: %d %d %ld",
++				   i, alloc_info[i].priv_drv_data_size,
++				   sizeof(alloc_info[0]));
++			ret = -EINVAL;
++			goto cleanup;
++		}
++	}
++
++	if (args.flags.existing_section || args.flags.create_protected) {
++		pr_err("invalid allocation flags");
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	if (args.flags.standard_allocation) {
++		if (args.standard_allocation == NULL) {
++			pr_err("invalid standard allocation");
++			ret = -EINVAL;
++			goto cleanup;
++		}
++		ret = copy_from_user(&standard_alloc,
++				     args.standard_allocation,
++				     sizeof(standard_alloc));
++		if (ret) {
++			pr_err("%s failed to copy std alloc data", __func__);
++			ret = -EINVAL;
++			goto cleanup;
++		}
++		if (standard_alloc.type ==
++		    _D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP) {
++			if (alloc_info[0].sysmem == NULL ||
++			   (unsigned long)alloc_info[0].sysmem &
++			   (PAGE_SIZE - 1)) {
++				pr_err("invalid sysmem pointer");
++				ret = STATUS_INVALID_PARAMETER;
++				goto cleanup;
++			}
++			if (!args.flags.existing_sysmem) {
++				pr_err("expected existing_sysmem flag");
++				ret = STATUS_INVALID_PARAMETER;
++				goto cleanup;
++			}
++		} else if (standard_alloc.type ==
++		    _D3DKMT_STANDARDALLOCATIONTYPE_CROSSADAPTER) {
++			if (args.flags.existing_sysmem) {
++				pr_err("existing_sysmem flag is invalid");
++				ret = STATUS_INVALID_PARAMETER;
++				goto cleanup;
++
++			}
++			if (alloc_info[0].sysmem != NULL) {
++				pr_err("sysmem should be NULL");
++				ret = STATUS_INVALID_PARAMETER;
++				goto cleanup;
 +			}
 +		} else {
-+			pr_err("Invalid syncobj type: %x", objects[0].v);
-+			ret = -EINVAL;
++			pr_err("invalid standard allocation type");
++			ret = STATUS_INVALID_PARAMETER;
++			goto cleanup;
 +		}
-+	}
-+	hmgrtable_unlock(&process->handle_table, DXGLOCK_SHARED);
 +
-+	if (ret < 0)
++		if (args.priv_drv_data_size != 0 ||
++		    args.alloc_count != 1 ||
++		    standard_alloc.existing_heap_data.size == 0 ||
++		    standard_alloc.existing_heap_data.size & (PAGE_SIZE - 1)) {
++			pr_err("invalid standard allocation");
++			ret = -EINVAL;
++			goto cleanup;
++		}
++		args.priv_drv_data_size =
++		    sizeof(struct d3dkmt_createstandardallocation);
++	}
++
++	if (args.flags.create_shared && !args.flags.create_resource) {
++		pr_err("create_resource must be set for create_shared");
++		ret = -EINVAL;
 +		goto cleanup;
-+
-+	if (monitored_fence) {
-+		object_size = sizeof(u64) * args.object_count;
-+		fences = vzalloc(object_size);
-+		if (fences == NULL) {
-+			ret = -ENOMEM;
-+			goto cleanup;
-+		}
-+		ret = copy_from_user(fences, args.monitored_fence_values,
-+				     object_size);
-+		if (ret) {
-+			pr_err("%s failed to copy fences", __func__);
-+			ret = -EINVAL;
-+			goto cleanup;
-+		}
-+	} else {
-+		fences = &args.fence_value;
 +	}
 +
-+	device = dxgprocess_device_by_handle(process, device_handle);
++	/*
++	 * The call acquires reference on the device. It is safe to access the
++	 * adapter, because the device holds reference on it.
++	 */
++	device = dxgprocess_device_by_handle(process, args.device);
 +	if (device == NULL) {
 +		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	ret = dxgdevice_acquire_lock_shared(device);
++	if (ret < 0) {
++		kref_put(&device->device_kref, dxgdevice_release);
++		device = NULL;
 +		goto cleanup;
 +	}
 +
@@ -1367,21 +1625,395 @@ index bc1ac2dd302f..b945da0da55a 100644
 +		goto cleanup;
 +	}
 +
-+	ret = dxgvmb_send_wait_sync_object_gpu(process, adapter,
-+					       args.context, args.object_count,
-+					       objects, fences,
-+					       !monitored_fence);
++	if (args.flags.standard_allocation) {
++		ret = get_standard_alloc_priv_data(device,
++						&standard_alloc,
++						&standard_alloc_priv_data_size,
++						&standard_alloc_priv_data,
++						&res_priv_data_size,
++						&res_priv_data);
++		if (ret < 0)
++			goto cleanup;
++		pr_debug("Alloc private data: %d",
++			    standard_alloc_priv_data_size);
++	}
++
++	if (args.flags.create_resource) {
++		resource = dxgresource_create(device);
++		if (resource == NULL) {
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++		resource->private_runtime_handle =
++		    args.private_runtime_resource_handle;
++	} else {
++		if (args.resource.v) {
++			/* Adding new allocations to the given resource */
++
++			dxgprocess_ht_lock_shared_down(process);
++			resource = hmgrtable_get_object_by_type(
++				&process->handle_table,
++				HMGRENTRY_TYPE_DXGRESOURCE,
++				args.resource);
++			kref_get(&resource->resource_kref);
++			dxgprocess_ht_lock_shared_up(process);
++
++			if (resource == NULL || resource->device != device) {
++				pr_err("invalid resource handle %x",
++					   args.resource.v);
++				ret = -EINVAL;
++				goto cleanup;
++			}
++			/* Synchronize with resource destruction */
++			mutex_lock(&resource->resource_mutex);
++			if (!dxgresource_is_active(resource)) {
++				mutex_unlock(&resource->resource_mutex);
++				ret = -EINVAL;
++				goto cleanup;
++			}
++			resource_mutex_acquired = true;
++		}
++	}
++
++	dxgalloc = vzalloc(sizeof(struct dxgallocation *) * args.alloc_count);
++	if (dxgalloc == NULL) {
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	for (i = 0; i < args.alloc_count; i++) {
++		struct dxgallocation *alloc;
++		u32 priv_data_size;
++
++		if (args.flags.standard_allocation)
++			priv_data_size = standard_alloc_priv_data_size;
++		else
++			priv_data_size = alloc_info[i].priv_drv_data_size;
++
++		if (alloc_info[i].sysmem && !args.flags.standard_allocation) {
++			if ((unsigned long)
++			    alloc_info[i].sysmem & (PAGE_SIZE - 1)) {
++				pr_err("invalid sysmem alloc %d, %p",
++					   i, alloc_info[i].sysmem);
++				ret = -EINVAL;
++				goto cleanup;
++			}
++		}
++		if ((alloc_info[0].sysmem == NULL) !=
++		    (alloc_info[i].sysmem == NULL)) {
++			pr_err("All allocations must have sysmem pointer");
++			ret = -EINVAL;
++			goto cleanup;
++		}
++
++		dxgalloc[i] = dxgallocation_create(process);
++		if (dxgalloc[i] == NULL) {
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++		alloc = dxgalloc[i];
++
++		if (resource) {
++			ret = dxgresource_add_alloc(resource, alloc);
++			if (ret < 0)
++				goto cleanup;
++		} else {
++			dxgdevice_add_alloc(device, alloc);
++		}
++		if (args.flags.create_shared) {
++			/* Remember alloc private data to use it during open */
++			alloc->priv_drv_data = vzalloc(priv_data_size +
++					offsetof(struct privdata, data) - 1);
++			if (alloc->priv_drv_data == NULL) {
++				ret = -ENOMEM;
++				goto cleanup;
++			}
++			if (args.flags.standard_allocation) {
++				memcpy(alloc->priv_drv_data->data,
++				       standard_alloc_priv_data,
++				       standard_alloc_priv_data_size);
++				alloc->priv_drv_data->data_size =
++				    standard_alloc_priv_data_size;
++			} else {
++				ret = copy_from_user(
++					alloc->priv_drv_data->data,
++					alloc_info[i].priv_drv_data,
++					priv_data_size);
++				if (ret) {
++					pr_err("%s failed to copy priv data",
++						__func__);
++					ret = -EINVAL;
++					goto cleanup;
++				}
++				alloc->priv_drv_data->data_size =
++				    priv_data_size;
++			}
++		}
++	}
++
++	ret = dxgvmb_send_create_allocation(process, device, &args, inargs,
++					    resource, dxgalloc, alloc_info,
++					    &standard_alloc);
++cleanup:
++
++	if (resource_mutex_acquired) {
++		mutex_unlock(&resource->resource_mutex);
++		kref_put(&resource->resource_kref, dxgresource_release);
++	}
++	if (ret < 0) {
++		if (dxgalloc) {
++			for (i = 0; i < args.alloc_count; i++) {
++				if (dxgalloc[i])
++					dxgallocation_destroy(dxgalloc[i]);
++			}
++		}
++		if (resource && args.flags.create_resource) {
++			dxgresource_destroy(resource);
++		}
++	}
++	if (dxgalloc)
++		vfree(dxgalloc);
++	if (standard_alloc_priv_data)
++		vfree(standard_alloc_priv_data);
++	if (res_priv_data)
++		vfree(res_priv_data);
++	if (alloc_info)
++		vfree(alloc_info);
++
++	if (adapter)
++		dxgadapter_release_lock_shared(adapter);
++
++	if (device) {
++		dxgdevice_release_lock_shared(device);
++		kref_put(&device->device_kref, dxgdevice_release);
++	}
++
++	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
++	return ret;
++}
++
++static int validate_alloc(struct dxgallocation *alloc0,
++			  struct dxgallocation *alloc,
++			  struct dxgdevice *device,
++			  struct d3dkmthandle alloc_handle)
++{
++	u32 fail_reason;
++
++	if (alloc == NULL) {
++		fail_reason = 1;
++		goto cleanup;
++	}
++	if (alloc->resource_owner != alloc0->resource_owner) {
++		fail_reason = 2;
++		goto cleanup;
++	}
++	if (alloc->resource_owner) {
++		if (alloc->owner.resource != alloc0->owner.resource) {
++			fail_reason = 3;
++			goto cleanup;
++		}
++		if (alloc->owner.resource->device != device) {
++			fail_reason = 4;
++			goto cleanup;
++		}
++	} else {
++		if (alloc->owner.device != device) {
++			fail_reason = 6;
++			goto cleanup;
++		}
++	}
++	return 0;
++cleanup:
++	pr_err("Alloc validation failed: reason: %d %x",
++		   fail_reason, alloc_handle.v);
++	return -EINVAL;
++}
++
++static int
++dxgk_destroy_allocation(struct dxgprocess *process, void *__user inargs)
++{
++	struct d3dkmt_destroyallocation2 args;
++	struct dxgdevice *device = NULL;
++	struct dxgadapter *adapter = NULL;
++	int ret;
++	struct d3dkmthandle *alloc_handles = NULL;
++	struct dxgallocation **allocs = NULL;
++	struct dxgresource *resource = NULL;
++	int i;
++
++	pr_debug("ioctl: %s", __func__);
++
++	ret = copy_from_user(&args, inargs, sizeof(args));
++	if (ret) {
++		pr_err("%s failed to copy input args", __func__);
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	if (args.alloc_count > D3DKMT_CREATEALLOCATION_MAX ||
++	    ((args.alloc_count == 0) == (args.resource.v == 0))) {
++		pr_err("invalid number of allocations");
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	if (args.alloc_count) {
++		u32 handle_size = sizeof(struct d3dkmthandle) *
++				   args.alloc_count;
++
++		alloc_handles = vzalloc(handle_size);
++		if (alloc_handles == NULL) {
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++		allocs = vzalloc(sizeof(struct dxgallocation *) *
++				 args.alloc_count);
++		if (allocs == NULL) {
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++		ret = copy_from_user(alloc_handles, args.allocations,
++					 handle_size);
++		if (ret) {
++			pr_err("%s failed to copy alloc handles", __func__);
++			ret = -EINVAL;
++			goto cleanup;
++		}
++	}
++
++	/*
++	 * The call acquires reference on the device. It is safe to access the
++	 * adapter, because the device holds reference on it.
++	 */
++	device = dxgprocess_device_by_handle(process, args.device);
++	if (device == NULL) {
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	/* Acquire the device lock to synchronize with the device destriction */
++	ret = dxgdevice_acquire_lock_shared(device);
++	if (ret < 0) {
++		kref_put(&device->device_kref, dxgdevice_release);
++		device = NULL;
++		goto cleanup;
++	}
++
++	adapter = device->adapter;
++	ret = dxgadapter_acquire_lock_shared(adapter);
++	if (ret < 0) {
++		adapter = NULL;
++		goto cleanup;
++	}
++
++	/*
++	 * Destroy the local allocation handles first. If the host handle
++	 * is destroyed first, another object could be assigned to the process
++	 * table at the same place as the allocation handle and it will fail.
++	 */
++	if (args.alloc_count) {
++		dxgprocess_ht_lock_exclusive_down(process);
++		for (i = 0; i < args.alloc_count; i++) {
++			allocs[i] =
++			    hmgrtable_get_object_by_type(&process->handle_table,
++						HMGRENTRY_TYPE_DXGALLOCATION,
++						alloc_handles[i]);
++			ret =
++			    validate_alloc(allocs[0], allocs[i], device,
++					   alloc_handles[i]);
++			if (ret < 0) {
++				dxgprocess_ht_lock_exclusive_up(process);
++				goto cleanup;
++			}
++		}
++		dxgprocess_ht_lock_exclusive_up(process);
++		for (i = 0; i < args.alloc_count; i++)
++			dxgallocation_free_handle(allocs[i]);
++	} else {
++		struct dxgallocation *alloc;
++
++		dxgprocess_ht_lock_exclusive_down(process);
++		resource = hmgrtable_get_object_by_type(&process->handle_table,
++						HMGRENTRY_TYPE_DXGRESOURCE,
++						args.resource);
++		if (resource == NULL) {
++			pr_err("Invalid resource handle: %x",
++				   args.resource.v);
++			ret = -EINVAL;
++		} else if (resource->device != device) {
++			pr_err("Resource belongs to wrong device: %x",
++				   args.resource.v);
++			ret = -EINVAL;
++		} else {
++			hmgrtable_free_handle(&process->handle_table,
++					      HMGRENTRY_TYPE_DXGRESOURCE,
++					      args.resource);
++			resource->object_state = DXGOBJECTSTATE_DESTROYED;
++			resource->handle.v = 0;
++			resource->handle_valid = 0;
++		}
++		dxgprocess_ht_lock_exclusive_up(process);
++
++		if (ret < 0)
++			goto cleanup;
++
++		dxgdevice_acquire_alloc_list_lock_shared(device);
++		list_for_each_entry(alloc, &resource->alloc_list_head,
++				    alloc_list_entry) {
++			dxgallocation_free_handle(alloc);
++		}
++		dxgdevice_release_alloc_list_lock_shared(device);
++	}
++
++	if (args.alloc_count && allocs[0]->resource_owner)
++		resource = allocs[0]->owner.resource;
++
++	if (resource) {
++		kref_get(&resource->resource_kref);
++		mutex_lock(&resource->resource_mutex);
++	}
++
++	ret = dxgvmb_send_destroy_allocation(process, device, &args,
++					     alloc_handles);
++
++	/*
++	 * Destroy the allocations after the host destroyed it.
++	 * The allocation gpadl teardown will wait until the host unmaps its
++	 * gpadl.
++	 */
++	dxgdevice_acquire_alloc_list_lock(device);
++	if (args.alloc_count) {
++		for (i = 0; i < args.alloc_count; i++) {
++			if (allocs[i]) {
++				allocs[i]->alloc_handle.v = 0;
++				dxgallocation_destroy(allocs[i]);
++			}
++		}
++	} else {
++		dxgresource_destroy(resource);
++	}
++	dxgdevice_release_alloc_list_lock(device);
++
++	if (resource) {
++		mutex_unlock(&resource->resource_mutex);
++		kref_put(&resource->resource_kref, dxgresource_release);
++	}
 +
 +cleanup:
 +
 +	if (adapter)
 +		dxgadapter_release_lock_shared(adapter);
-+	if (device)
++
++	if (device) {
++		dxgdevice_release_lock_shared(device);
 +		kref_put(&device->device_kref, dxgdevice_release);
-+	if (objects)
-+		vfree(objects);
-+	if (fences && fences != &args.fence_value)
-+		vfree(fences);
++	}
++
++	if (alloc_handles)
++		vfree(alloc_handles);
++
++	if (allocs)
++		vfree(allocs);
 +
 +	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
 +	return ret;
@@ -1390,237 +2022,264 @@ index bc1ac2dd302f..b945da0da55a 100644
  /*
   * IOCTL processing
   * The driver IOCTLs return
-@@ -1564,6 +2243,10 @@ void init_ioctls(void)
+@@ -799,8 +1432,12 @@ void init_ioctls(void)
+ 		  LX_DXCREATECONTEXTVIRTUAL);
+ 	SET_IOCTL(/*0x5 */ dxgk_destroy_context,
+ 		  LX_DXDESTROYCONTEXT);
++	SET_IOCTL(/*0x6 */ dxgk_create_allocation,
++		  LX_DXCREATEALLOCATION);
+ 	SET_IOCTL(/*0x9 */ dxgk_query_adapter_info,
  		  LX_DXQUERYADAPTERINFO);
- 	SET_IOCTL(/*0x10 */ dxgk_create_sync_object,
- 		  LX_DXCREATESYNCHRONIZATIONOBJECT);
-+	SET_IOCTL(/*0x11 */ dxgk_signal_sync_object,
-+		  LX_DXSIGNALSYNCHRONIZATIONOBJECT);
-+	SET_IOCTL(/*0x12 */ dxgk_wait_sync_object,
-+		  LX_DXWAITFORSYNCHRONIZATIONOBJECT);
- 	SET_IOCTL(/*0x13 */ dxgk_destroy_allocation,
- 		  LX_DXDESTROYALLOCATION2);
++	SET_IOCTL(/*0x13 */ dxgk_destroy_allocation,
++		  LX_DXDESTROYALLOCATION2);
  	SET_IOCTL(/*0x14 */ dxgk_enum_adapters,
-@@ -1574,6 +2257,16 @@ void init_ioctls(void)
- 		  LX_DXDESTROYDEVICE);
- 	SET_IOCTL(/*0x1d */ dxgk_destroy_sync_object,
- 		  LX_DXDESTROYSYNCHRONIZATIONOBJECT);
-+	SET_IOCTL(/*0x31 */ dxgk_signal_sync_object_cpu,
-+		  LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMCPU);
-+	SET_IOCTL(/*0x32 */ dxgk_signal_sync_object_gpu,
-+		  LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU);
-+	SET_IOCTL(/*0x33 */ dxgk_signal_sync_object_gpu2,
-+		  LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU2);
-+	SET_IOCTL(/*0x3a */ dxgk_wait_sync_object_cpu,
-+		  LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMCPU);
-+	SET_IOCTL(/*0x3b */ dxgk_wait_sync_object_gpu,
-+		  LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMGPU);
- 	SET_IOCTL(/*0x3e */ dxgk_enum_adapters3,
- 		  LX_DXENUMADAPTERS3);
- }
+ 		  LX_DXENUMADAPTERS2);
+ 	SET_IOCTL(/*0x15 */ dxgk_close_adapter,
 diff --git a/drivers/hv/dxgkrnl/misc.h b/drivers/hv/dxgkrnl/misc.h
-index 41abdc504bc2..f56d21b48814 100644
+index 8f7b37049308..41abdc504bc2 100644
 --- a/drivers/hv/dxgkrnl/misc.h
 +++ b/drivers/hv/dxgkrnl/misc.h
-@@ -26,6 +26,7 @@ extern const struct d3dkmthandle zerohandle;
-  * When a lower lock ois held, the higher lock should not be acquired.
-  *
-  * device_list_mutex
-+ * host_event_list_mutex
-  * channel_lock
-  * fd_mutex
+@@ -31,6 +31,9 @@ extern const struct d3dkmthandle zerohandle;
   * plistmutex
+  * table_lock
+  * context_list_lock
++ * alloc_list_lock
++ * resource_mutex
++ * shared_resource_list_lock
+  * core_lock
+  * device_lock
+  * process_adapter_mutex
 diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
-index 52d54aa9266e..13bc3adf0abb 100644
+index b17ef6e30ece..676ca1db85c9 100644
 --- a/include/uapi/misc/d3dkmthk.h
 +++ b/include/uapi/misc/d3dkmthk.h
-@@ -56,6 +56,9 @@ struct winluid {
+@@ -54,6 +54,7 @@ struct winluid {
+ 	__u32 b;
+ };
  
- #define D3DKMT_CREATEALLOCATION_MAX		1024
++#define D3DKMT_CREATEALLOCATION_MAX		1024
  #define D3DKMT_ADAPTERS_MAX			64
-+#define D3DDDI_MAX_BROADCAST_CONTEXT		64
-+#define D3DDDI_MAX_OBJECT_WAITED_ON		32
-+#define D3DDDI_MAX_OBJECT_SIGNALED		32
  
  struct d3dkmt_adapterinfo {
- 	struct d3dkmthandle		adapter_handle;
-@@ -339,6 +342,148 @@ struct d3dkmt_createsynchronizationobject2 {
- 	__u32						reserved1;
+@@ -193,6 +194,205 @@ struct d3dkmt_createcontextvirtual {
+ 	struct d3dkmthandle		context;
  };
  
-+struct d3dkmt_waitforsynchronizationobject2 {
-+	struct d3dkmthandle	context;
-+	__u32			object_count;
-+	struct d3dkmthandle	object_array[D3DDDI_MAX_OBJECT_WAITED_ON];
++enum d3dkmdt_gdisurfacetype {
++	_D3DKMDT_GDISURFACE_INVALID				= 0,
++	_D3DKMDT_GDISURFACE_TEXTURE				= 1,
++	_D3DKMDT_GDISURFACE_STAGING_CPUVISIBLE			= 2,
++	_D3DKMDT_GDISURFACE_STAGING				= 3,
++	_D3DKMDT_GDISURFACE_LOOKUPTABLE				= 4,
++	_D3DKMDT_GDISURFACE_EXISTINGSYSMEM			= 5,
++	_D3DKMDT_GDISURFACE_TEXTURE_CPUVISIBLE			= 6,
++	_D3DKMDT_GDISURFACE_TEXTURE_CROSSADAPTER		= 7,
++	_D3DKMDT_GDISURFACE_TEXTURE_CPUVISIBLE_CROSSADAPTER	= 8,
++};
++
++struct d3dddi_rational {
++	__u32	numerator;
++	__u32	denominator;
++};
++
++enum d3dddiformat {
++	_D3DDDIFMT_UNKNOWN = 0,
++};
++
++struct d3dkmdt_gdisurfacedata {
++	__u32				width;
++	__u32				height;
++	__u32				format;
++	enum d3dkmdt_gdisurfacetype	type;
++	__u32				flags;
++	__u32				pitch;
++};
++
++struct d3dkmdt_stagingsurfacedata {
++	__u32	width;
++	__u32	height;
++	__u32	pitch;
++};
++
++struct d3dkmdt_sharedprimarysurfacedata {
++	__u32			width;
++	__u32			height;
++	enum d3dddiformat	format;
++	struct d3dddi_rational	refresh_rate;
++	__u32			vidpn_source_id;
++};
++
++struct d3dkmdt_shadowsurfacedata {
++	__u32			width;
++	__u32			height;
++	enum d3dddiformat	format;
++	__u32			pitch;
++};
++
++enum d3dkmdt_standardallocationtype {
++	_D3DKMDT_STANDARDALLOCATION_SHAREDPRIMARYSURFACE	= 1,
++	_D3DKMDT_STANDARDALLOCATION_SHADOWSURFACE		= 2,
++	_D3DKMDT_STANDARDALLOCATION_STAGINGSURFACE		= 3,
++	_D3DKMDT_STANDARDALLOCATION_GDISURFACE			= 4,
++};
++
++enum d3dkmt_standardallocationtype {
++	_D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP	= 1,
++	_D3DKMT_STANDARDALLOCATIONTYPE_CROSSADAPTER	= 2,
++};
++
++struct d3dkmt_standardallocation_existingheap {
++	__u64	size;
++};
++
++struct d3dkmt_createstandardallocationflags {
 +	union {
 +		struct {
-+			__u64	fence_value;
-+		} fence;
-+		__u64		reserved[8];
++			__u32		reserved:32;
++		};
++		__u32			value;
 +	};
 +};
 +
-+struct d3dddicb_signalflags {
++struct d3dkmt_createstandardallocation {
++	enum d3dkmt_standardallocationtype		type;
++	__u32						reserved;
++	struct d3dkmt_standardallocation_existingheap	existing_heap_data;
++	struct d3dkmt_createstandardallocationflags	flags;
++	__u32						reserved1;
++};
++
++struct d3dddi_allocationinfo2 {
++	struct d3dkmthandle	allocation;
++#ifdef __KERNEL__
++	const void		*sysmem;
++#else
++	__u64			sysmem;
++#endif
++#ifdef __KERNEL__
++	void			*priv_drv_data;
++#else
++	__u64			priv_drv_data;
++#endif
++	__u32			priv_drv_data_size;
++	__u32			vidpn_source_id;
 +	union {
 +		struct {
-+			__u32	signal_at_submission:1;
-+			__u32	enqueue_cpu_event:1;
-+			__u32	allow_fence_rewind:1;
-+			__u32	reserved:28;
-+			__u32	DXGK_SIGNAL_FLAG_INTERNAL0:1;
++			__u32	primary:1;
++			__u32	stereo:1;
++			__u32	override_priority:1;
++			__u32	reserved:29;
 +		};
 +		__u32		value;
++	} flags;
++	__u64			gpu_virtual_address;
++	union {
++		__u32		priority;
++		__u64		unused;
 +	};
++	__u64			reserved[5];
 +};
 +
-+struct d3dkmt_signalsynchronizationobject2 {
-+	struct d3dkmthandle		context;
-+	__u32				object_count;
-+	struct d3dkmthandle	object_array[D3DDDI_MAX_OBJECT_SIGNALED];
-+	struct d3dddicb_signalflags	flags;
-+	__u32				context_count;
-+	struct d3dkmthandle		contexts[D3DDDI_MAX_BROADCAST_CONTEXT];
++struct d3dkmt_createallocationflags {
 +	union {
 +		struct {
-+			__u64		fence_value;
-+		} fence;
-+		__u64			cpu_event_handle;
-+		__u64			reserved[8];
-+	};
-+};
-+
-+struct d3dddi_waitforsynchronizationobjectfromcpu_flags {
-+	union {
-+		struct {
-+			__u32	wait_any:1;
-+			__u32	reserved:31;
++			__u32		create_resource:1;
++			__u32		create_shared:1;
++			__u32		non_secure:1;
++			__u32		create_protected:1;
++			__u32		restrict_shared_access:1;
++			__u32		existing_sysmem:1;
++			__u32		nt_security_sharing:1;
++			__u32		read_only:1;
++			__u32		create_write_combined:1;
++			__u32		create_cached:1;
++			__u32		swap_chain_back_buffer:1;
++			__u32		cross_adapter:1;
++			__u32		open_cross_adapter:1;
++			__u32		partial_shared_creation:1;
++			__u32		zeroed:1;
++			__u32		write_watch:1;
++			__u32		standard_allocation:1;
++			__u32		existing_section:1;
++			__u32		reserved:14;
 +		};
-+		__u32		value;
++		__u32			value;
 +	};
 +};
 +
-+struct d3dkmt_waitforsynchronizationobjectfromcpu {
-+	struct d3dkmthandle	device;
-+	__u32			object_count;
++struct d3dkmt_createallocation {
++	struct d3dkmthandle		device;
++	struct d3dkmthandle		resource;
++	struct d3dkmthandle		global_share;
++	__u32				reserved;
 +#ifdef __KERNEL__
-+	struct d3dkmthandle	*objects;
-+	__u64			*fence_values;
++	const void			*private_runtime_data;
 +#else
-+	__u64			objects;
-+	__u64			fence_values;
++	__u64				private_runtime_data;
 +#endif
-+	__u64			async_event;
-+	struct d3dddi_waitforsynchronizationobjectfromcpu_flags flags;
-+};
-+
-+struct d3dkmt_signalsynchronizationobjectfromcpu {
-+	struct d3dkmthandle	device;
-+	__u32			object_count;
-+#ifdef __KERNEL__
-+	struct d3dkmthandle	*objects;
-+	__u64			*fence_values;
-+#else
-+	__u64			objects;
-+	__u64			fence_values;
-+#endif
-+	struct d3dddicb_signalflags	flags;
-+};
-+
-+struct d3dkmt_waitforsynchronizationobjectfromgpu {
-+	struct d3dkmthandle	context;
-+	__u32			object_count;
-+#ifdef __KERNEL__
-+	struct d3dkmthandle	*objects;
-+#else
-+	__u64			objects;
-+#endif
-+	union {
-+#ifdef __KERNEL__
-+		__u64		*monitored_fence_values;
-+#else
-+		__u64		monitored_fence_values;
-+#endif
-+		__u64		fence_value;
-+		__u64		reserved[8];
-+	};
-+};
-+
-+struct d3dkmt_signalsynchronizationobjectfromgpu {
-+	struct d3dkmthandle	context;
-+	__u32			object_count;
-+#ifdef __KERNEL__
-+	struct d3dkmthandle	*objects;
-+#else
-+	__u64			objects;
-+#endif
-+	union {
-+#ifdef __KERNEL__
-+		__u64		*monitored_fence_values;
-+#else
-+		__u64		monitored_fence_values;
-+#endif
-+		__u64		reserved[8];
-+	};
-+};
-+
-+struct d3dkmt_signalsynchronizationobjectfromgpu2 {
-+	__u32				object_count;
++	__u32				private_runtime_data_size;
 +	__u32				reserved1;
-+#ifdef __KERNEL__
-+	struct d3dkmthandle		*objects;
-+#else
-+	__u64				objects;
-+#endif
-+	struct d3dddicb_signalflags	flags;
-+	__u32				context_count;
-+#ifdef __KERNEL__
-+	struct d3dkmthandle		*contexts;
-+#else
-+	__u64				contexts;
-+#endif
 +	union {
-+		__u64			fence_value;
-+		__u64			cpu_event_handle;
 +#ifdef __KERNEL__
-+		__u64			*monitored_fence_values;
++		struct d3dkmt_createstandardallocation *standard_allocation;
++		const void *priv_drv_data;
 +#else
-+		__u64			monitored_fence_values;
++		__u64	standard_allocation;
++		__u64	priv_drv_data;
 +#endif
-+		__u64			reserved[8];
++	};
++	__u32				priv_drv_data_size;
++	__u32				alloc_count;
++#ifdef __KERNEL__
++	struct d3dddi_allocationinfo2	*allocation_info;
++#else
++	__u64				allocation_info;
++#endif
++	struct d3dkmt_createallocationflags flags;
++	__u32				reserved2;
++	__u64				private_runtime_resource_handle;
++};
++
++struct d3dddicb_destroyallocation2flags {
++	union {
++		struct {
++			__u32		assume_not_in_use:1;
++			__u32		synchronous_destroy:1;
++			__u32		reserved:29;
++			__u32		system_use_only:1;
++		};
++		__u32			value;
 +	};
 +};
 +
- struct d3dkmt_destroysynchronizationobject {
- 	struct d3dkmthandle	sync_object;
- };
-@@ -572,6 +717,10 @@ struct d3dkmt_enumadapters3 {
++struct d3dkmt_destroyallocation2 {
++	struct d3dkmthandle		device;
++	struct d3dkmthandle		resource;
++#ifdef __KERNEL__
++	const struct d3dkmthandle	*allocations;
++#else
++	__u64				allocations;
++#endif
++	__u32				alloc_count;
++	struct d3dddicb_destroyallocation2flags flags;
++};
++
+ struct d3dkmt_adaptertype {
+ 	union {
+ 		struct {
+@@ -275,8 +475,12 @@ struct d3dkmt_enumadapters3 {
+ 	_IOWR(0x47, 0x04, struct d3dkmt_createcontextvirtual)
+ #define LX_DXDESTROYCONTEXT		\
+ 	_IOWR(0x47, 0x05, struct d3dkmt_destroycontext)
++#define LX_DXCREATEALLOCATION		\
++	_IOWR(0x47, 0x06, struct d3dkmt_createallocation)
+ #define LX_DXQUERYADAPTERINFO		\
  	_IOWR(0x47, 0x09, struct d3dkmt_queryadapterinfo)
- #define LX_DXCREATESYNCHRONIZATIONOBJECT \
- 	_IOWR(0x47, 0x10, struct d3dkmt_createsynchronizationobject2)
-+#define LX_DXSIGNALSYNCHRONIZATIONOBJECT \
-+	_IOWR(0x47, 0x11, struct d3dkmt_signalsynchronizationobject2)
-+#define LX_DXWAITFORSYNCHRONIZATIONOBJECT \
-+	_IOWR(0x47, 0x12, struct d3dkmt_waitforsynchronizationobject2)
- #define LX_DXDESTROYALLOCATION2		\
- 	_IOWR(0x47, 0x13, struct d3dkmt_destroyallocation2)
++#define LX_DXDESTROYALLOCATION2		\
++	_IOWR(0x47, 0x13, struct d3dkmt_destroyallocation2)
  #define LX_DXENUMADAPTERS2		\
-@@ -582,6 +731,16 @@ struct d3dkmt_enumadapters3 {
- 	_IOWR(0x47, 0x19, struct d3dkmt_destroydevice)
- #define LX_DXDESTROYSYNCHRONIZATIONOBJECT \
- 	_IOWR(0x47, 0x1d, struct d3dkmt_destroysynchronizationobject)
-+#define LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMCPU \
-+	_IOWR(0x47, 0x31, struct d3dkmt_signalsynchronizationobjectfromcpu)
-+#define LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU \
-+	_IOWR(0x47, 0x32, struct d3dkmt_signalsynchronizationobjectfromgpu)
-+#define LX_DXSIGNALSYNCHRONIZATIONOBJECTFROMGPU2 \
-+	_IOWR(0x47, 0x33, struct d3dkmt_signalsynchronizationobjectfromgpu2)
-+#define LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMCPU \
-+	_IOWR(0x47, 0x3a, struct d3dkmt_waitforsynchronizationobjectfromcpu)
-+#define LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMGPU \
-+	_IOWR(0x47, 0x3b, struct d3dkmt_waitforsynchronizationobjectfromgpu)
- #define LX_DXENUMADAPTERS3		\
- 	_IOWR(0x47, 0x3e, struct d3dkmt_enumadapters3)
- 
+ 	_IOWR(0x47, 0x14, struct d3dkmt_enumadapters2)
+ #define LX_DXCLOSEADAPTER		\
 -- 
 2.35.1
 
