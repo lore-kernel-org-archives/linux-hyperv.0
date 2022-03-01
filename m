@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A61CC433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F24C433EF
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237374AbiCATrg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:47:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52602 "EHLO
+        id S237372AbiCATre (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237346AbiCATr1 (ORCPT
+        with ESMTP id S237340AbiCATr1 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 1 Mar 2022 14:47:27 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E8056D4F5;
-        Tue,  1 Mar 2022 11:46:37 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F31636D4EA;
+        Tue,  1 Mar 2022 11:46:36 -0800 (PST)
 Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 4D8FB20B4784;
-        Tue,  1 Mar 2022 11:46:35 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4D8FB20B4784
+        by linux.microsoft.com (Postfix) with ESMTPSA id AA68620B4781;
+        Tue,  1 Mar 2022 11:46:34 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AA68620B4781
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1646163995;
-        bh=/Sy7sYYCaagQ04pZD5ZlDuw6uHNmW5vIvJzWgaUFnC0=;
+        s=default; t=1646163994;
+        bh=vSdilctjvzMP2UO0svH8FWS2bPgNvVPAHXXm5dst5Mo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rffHMHe0wRzqVN6d5fenAOROTgwiKynaEQgRRiDmfp21E6lCaBgsQdBeGengINawg
-         okCmc4m91ouwbW7PKQRXKMJQgLWZnBqLnVmb8TlJ1F62BbxcRujpyGG44cINWw7sqx
-         Zk/6a9qedSyRZYilhDRlHB9gmVocgkyyLS3Gdx34=
+        b=r4LXw/Z+qRBNJYkVjrl8WRPBTBoi23GDer5kp9ie/vZ5zbRoGdmelu+fe4gsBbILc
+         8NvSSIAOS0P9PV8G8bHZXqne1hlDhRqmTQpZFcvnfL0p+C5Hugw6M/gE6d3OB/BOzx
+         KDgJ4EVK8FvqkXnXgIR+CjYp00jVJQme6gRA9zwA=
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
         spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
-Subject: [PATCH v3 28/30] drivers: hv: dxgkrnl: Manage residency of allocations
-Date:   Tue,  1 Mar 2022 11:46:15 -0800
-Message-Id: <ba2e10e1ed44875909069ea399d34619c0937f91.1646163379.git.iourit@linux.microsoft.com>
+Subject: [PATCH v3 25/30] drivers: hv: dxgkrnl: Ioctls to query statistics and clock calibration
+Date:   Tue,  1 Mar 2022 11:46:12 -0800
+Message-Id: <c4ab564c260dc6ed73b89ae2981ff27a70c09556.1646163379.git.iourit@linux.microsoft.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
 References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
@@ -43,446 +43,420 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Implement ioctls to manage residency of compute device allocations:
-  - LX_DXMAKERESIDENT,
-  - LX_DXEVICT.
+Implement ioctls to query statistics from the VGPU device
+(LX_DXQUERYSTATISTICS) and to query clock calibration
+(LX_DXQUERYCLOCKCALIBRATION).
 
-An allocation is "resident" when the compute devoce is setup to
-access it. It means that the allocation is in the local device
-memory or in non-pageable system memory.
+The LX_DXQUERYSTATISTICS ioctl is used to query various statistics from
+the compute device on the host.
 
-The current design does not support on demand compute device page
-faulting. An allocation must be resident before the compute device
-is allowed to access it.
-
-The LX_DXMAKERESIDENT ioctl instructs the video memory manager to
-make the given allocations resident. The operation is submitted to
-a paging queue (dxgpagingqueue). When the ioctl returns a "pending"
-status, a monitored fence sync object can be used to synchronize
-with the completion of the operation.
-
-The LX_DXEVICT ioctl istructs the video memory manager to evict
-the given allocations from device accessible memory.
+The LX_DXQUERYCLOCKCALIBRATION ioctl queries the compute device clock
+and is used for performance monitoring.
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 ---
- drivers/hv/dxgkrnl/dxgkrnl.h  |   4 +
- drivers/hv/dxgkrnl/dxgvmbus.c |  98 +++++++++++++++++++++++
- drivers/hv/dxgkrnl/dxgvmbus.h |  27 +++++++
- drivers/hv/dxgkrnl/ioctl.c    | 144 ++++++++++++++++++++++++++++++++++
- include/uapi/misc/d3dkmthk.h  |  54 +++++++++++++
- 5 files changed, 327 insertions(+)
+ drivers/hv/dxgkrnl/dxgkrnl.h  |   8 +++
+ drivers/hv/dxgkrnl/dxgvmbus.c |  77 +++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgvmbus.h |  21 +++++++
+ drivers/hv/dxgkrnl/ioctl.c    | 112 ++++++++++++++++++++++++++++++++++
+ include/uapi/misc/d3dkmthk.h  |  62 +++++++++++++++++++
+ 5 files changed, 280 insertions(+)
 
 diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
-index 00c3bb5f3ab8..c841203a1683 100644
+index 03acf8ce3baa..f1b3fa3214dc 100644
 --- a/drivers/hv/dxgkrnl/dxgkrnl.h
 +++ b/drivers/hv/dxgkrnl/dxgkrnl.h
-@@ -790,6 +790,10 @@ int dxgvmb_send_create_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
- int dxgvmb_send_destroy_allocation(struct dxgprocess *pr, struct dxgdevice *dev,
- 				   struct d3dkmt_destroyallocation2 *args,
- 				   struct d3dkmthandle *alloc_handles);
-+int dxgvmb_send_make_resident(struct dxgprocess *pr, struct dxgadapter *adapter,
-+			      struct d3dddi_makeresident *args);
-+int dxgvmb_send_evict(struct dxgprocess *pr, struct dxgadapter *adapter,
-+		      struct d3dkmt_evict *args);
- int dxgvmb_send_submit_command(struct dxgprocess *pr,
- 			       struct dxgadapter *adapter,
- 			       struct d3dkmt_submitcommand *args);
+@@ -865,6 +865,11 @@ int dxgvmb_send_query_adapter_info(struct dxgprocess *process,
+ int dxgvmb_send_submit_command_hwqueue(struct dxgprocess *process,
+ 				       struct dxgadapter *adapter,
+ 				       struct d3dkmt_submitcommandtohwqueue *a);
++int dxgvmb_send_query_clock_calibration(struct dxgprocess *process,
++					struct dxgadapter *adapter,
++					struct d3dkmt_queryclockcalibration *a,
++					struct d3dkmt_queryclockcalibration
++					*__user inargs);
+ int dxgvmb_send_flush_heap_transitions(struct dxgprocess *process,
+ 				       struct dxgadapter *adapter,
+ 				       struct d3dkmt_flushheaptransitions *arg);
+@@ -909,6 +914,9 @@ int dxgvmb_send_get_stdalloc_data(struct dxgdevice *device,
+ 				  void *prive_alloc_data,
+ 				  u32 *res_priv_data_size,
+ 				  void *priv_res_data);
++int dxgvmb_send_query_statistics(struct dxgprocess *process,
++				 struct dxgadapter *adapter,
++				 struct d3dkmt_querystatistics *args);
+ int dxgvmb_send_async_msg(struct dxgvmbuschannel *channel,
+ 			  void *command,
+ 			  u32 cmd_size);
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 2f0914b71c3c..9f5b8edb186e 100644
+index bf65599635c6..04173dfe26a3 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.c
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -2262,6 +2262,104 @@ int dxgvmb_send_get_stdalloc_data(struct dxgdevice *device,
+@@ -1812,6 +1812,48 @@ int dxgvmb_send_destroy_allocation(struct dxgprocess *process,
  	return ret;
  }
  
-+int dxgvmb_send_make_resident(struct dxgprocess *process,
-+			      struct dxgadapter *adapter,
-+			      struct d3dddi_makeresident *args)
++int dxgvmb_send_query_clock_calibration(struct dxgprocess *process,
++					struct dxgadapter *adapter,
++					struct d3dkmt_queryclockcalibration
++					*args,
++					struct d3dkmt_queryclockcalibration
++					*__user inargs)
 +{
++	struct dxgkvmb_command_queryclockcalibration *command;
++	struct dxgkvmb_command_queryclockcalibration_return result;
 +	int ret;
-+	u32 cmd_size;
-+	struct dxgkvmb_command_makeresident_return result = { };
-+	struct dxgkvmb_command_makeresident *command = NULL;
 +	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
-+	cmd_size = (args->alloc_count - 1) * sizeof(struct d3dkmthandle) +
-+		   sizeof(struct dxgkvmb_command_makeresident);
-+
-+	ret = init_message(&msg, adapter, process, cmd_size);
++	ret = init_message(&msg, adapter, process, sizeof(*command));
 +	if (ret)
 +		goto cleanup;
 +	command = (void *)msg.msg;
 +
-+	ret = copy_from_user(command->allocations, args->allocation_list,
-+			     args->alloc_count *
-+			     sizeof(struct d3dkmthandle));
-+	if (ret) {
-+		pr_err("%s failed to copy alloc handles", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
 +	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_MAKERESIDENT,
++				   DXGK_VMBCOMMAND_QUERYCLOCKCALIBRATION,
 +				   process->host_handle);
-+	command->alloc_count = args->alloc_count;
-+	command->paging_queue = args->paging_queue;
-+	command->flags = args->flags;
++	command->args = *args;
 +
 +	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
 +				   &result, sizeof(result));
-+	if (ret < 0) {
-+		pr_err("send_make_resident failed %x", ret);
++	if (ret < 0)
++		goto cleanup;
++	ret = copy_to_user(&inargs->clock_data, &result.clock_data,
++			   sizeof(result.clock_data));
++	if (ret) {
++		pr_err("%s failed to copy clock data", __func__);
++		ret = -EINVAL;
 +		goto cleanup;
 +	}
-+
-+	args->paging_fence_value = result.paging_fence_value;
-+	args->num_bytes_to_trim = result.num_bytes_to_trim;
 +	ret = ntstatus2int(result.status);
 +
 +cleanup:
-+
 +	free_message(&msg, process);
 +	if (ret)
 +		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
 +}
 +
-+int dxgvmb_send_evict(struct dxgprocess *process,
-+		      struct dxgadapter *adapter,
-+		      struct d3dkmt_evict *args)
-+{
-+	int ret;
-+	u32 cmd_size;
-+	struct dxgkvmb_command_evict_return result = { };
-+	struct dxgkvmb_command_evict *command = NULL;
-+	struct dxgvmbusmsg msg = {.hdr = NULL};
-+
-+	cmd_size = (args->alloc_count - 1) * sizeof(struct d3dkmthandle) +
-+	    sizeof(struct dxgkvmb_command_evict);
-+	ret = init_message(&msg, adapter, process, cmd_size);
-+	if (ret)
-+		goto cleanup;
-+	command = (void *)msg.msg;
-+	ret = copy_from_user(command->allocations, args->allocations,
-+			     args->alloc_count *
-+			     sizeof(struct d3dkmthandle));
-+	if (ret) {
-+		pr_err("%s failed to copy alloc handles", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	command_vgpu_to_host_init2(&command->hdr,
-+				   DXGK_VMBCOMMAND_EVICT, process->host_handle);
-+	command->alloc_count = args->alloc_count;
-+	command->device = args->device;
-+	command->flags = args->flags;
-+
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   &result, sizeof(result));
-+	if (ret < 0) {
-+		pr_err("send_evict failed %x", ret);
-+		goto cleanup;
-+	}
-+	args->num_bytes_to_trim = result.num_bytes_to_trim;
-+
-+cleanup:
-+
-+	free_message(&msg, process);
-+	if (ret)
-+		pr_debug("err: %s %d", __func__, ret);
-+	return ret;
-+}
-+
- int dxgvmb_send_submit_command(struct dxgprocess *process,
- 			       struct dxgadapter *adapter,
- 			       struct d3dkmt_submitcommand *args)
-diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
-index 2e522d6652da..59357bd5c7b9 100644
---- a/drivers/hv/dxgkrnl/dxgvmbus.h
-+++ b/drivers/hv/dxgkrnl/dxgvmbus.h
-@@ -372,6 +372,33 @@ struct dxgkvmb_command_flushdevice {
- 	enum dxgdevice_flushschedulerreason	reason;
- };
- 
-+struct dxgkvmb_command_makeresident {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		device;
-+	struct d3dkmthandle		paging_queue;
-+	struct d3dddi_makeresident_flags flags;
-+	u32				alloc_count;
-+	struct d3dkmthandle		allocations[1];
-+};
-+
-+struct dxgkvmb_command_makeresident_return {
-+	u64			paging_fence_value;
-+	u64			num_bytes_to_trim;
-+	struct ntstatus		status;
-+};
-+
-+struct dxgkvmb_command_evict {
-+	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		device;
-+	struct d3dddi_evict_flags	flags;
-+	u32				alloc_count;
-+	struct d3dkmthandle		allocations[1];
-+};
-+
-+struct dxgkvmb_command_evict_return {
-+	u64			num_bytes_to_trim;
-+};
-+
- struct dxgkvmb_command_submitcommand {
- 	struct dxgkvmb_command_vgpu_to_host hdr;
- 	struct d3dkmt_submitcommand	args;
-diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
-index 0a4fca6ee2aa..a90c1a897d55 100644
---- a/drivers/hv/dxgkrnl/ioctl.c
-+++ b/drivers/hv/dxgkrnl/ioctl.c
-@@ -1996,6 +1996,146 @@ dxgk_destroy_allocation(struct dxgprocess *process, void *__user inargs)
+ int dxgvmb_send_flush_heap_transitions(struct dxgprocess *process,
+ 				       struct dxgadapter *adapter,
+ 				       struct d3dkmt_flushheaptransitions *args)
+@@ -3215,3 +3257,38 @@ int dxgvmb_send_submit_command_hwqueue(struct dxgprocess *process,
  	return ret;
  }
  
-+static int
-+dxgk_make_resident(struct dxgprocess *process, void *__user inargs)
++int dxgvmb_send_query_statistics(struct dxgprocess *process,
++				 struct dxgadapter *adapter,
++				 struct d3dkmt_querystatistics *args)
 +{
-+	int ret, ret2;
-+	struct d3dddi_makeresident args;
-+	struct d3dddi_makeresident *input = inargs;
-+	struct dxgdevice *device = NULL;
-+	struct dxgadapter *adapter = NULL;
++	struct dxgkvmb_command_querystatistics *command;
++	struct dxgkvmb_command_querystatistics_return *result;
++	int ret;
++	struct dxgvmbusmsgres msg = {.hdr = NULL};
 +
-+	pr_debug("ioctl: %s", __func__);
-+
-+	ret = copy_from_user(&args, inargs, sizeof(args));
-+	if (ret) {
-+		pr_err("%s failed to copy input args", __func__);
-+		ret = -EINVAL;
++	ret = init_message_res(&msg, adapter, process, sizeof(*command),
++			       sizeof(*result));
++	if (ret)
 +		goto cleanup;
-+	}
++	command = msg.msg;
++	result = msg.res;
 +
-+	if (args.alloc_count > D3DKMT_MAKERESIDENT_ALLOC_MAX ||
-+	    args.alloc_count == 0) {
-+		pr_err("invalid number of allocations");
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	if (args.paging_queue.v == 0) {
-+		pr_err("paging queue is missing");
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
++	command_vgpu_to_host_init2(&command->hdr,
++				   DXGK_VMBCOMMAND_QUERYSTATISTICS,
++				   process->host_handle);
++	command->args = *args;
 +
-+	device = dxgprocess_device_by_object_handle(process,
-+						HMGRENTRY_TYPE_DXGPAGINGQUEUE,
-+						args.paging_queue);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_make_resident(process, adapter, &args);
++	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
++				   result, msg.res_size);
 +	if (ret < 0)
 +		goto cleanup;
-+	/* STATUS_PENING is a success code > 0. It is returned to user mode */
-+	if (!(ret == STATUS_PENDING || ret == 0)) {
-+		pr_err("%s Unexpected error %x", __func__, ret);
-+		goto cleanup;
-+	}
 +
-+	ret2 = copy_to_user(&input->paging_fence_value,
-+			    &args.paging_fence_value, sizeof(u64));
-+	if (ret2) {
-+		pr_err("%s failed to copy paging fence", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	ret2 = copy_to_user(&input->num_bytes_to_trim,
-+			    &args.num_bytes_to_trim, sizeof(u64));
-+	if (ret2) {
-+		pr_err("%s failed to copy bytes to trim", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
++	args->result = result->result;
++	ret = ntstatus2int(result->status);
 +
 +cleanup:
-+
-+	if (adapter)
-+		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
-+
-+	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
-+
++	free_message((struct dxgvmbusmsg *)&msg, process);
++	if (ret)
++		pr_debug("err: %s %d", __func__, ret);
 +	return ret;
 +}
+diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
+index 615a163f836e..6c8ed5d547a5 100644
+--- a/drivers/hv/dxgkrnl/dxgvmbus.h
++++ b/drivers/hv/dxgkrnl/dxgvmbus.h
+@@ -372,6 +372,16 @@ struct dxgkvmb_command_flushheaptransitions {
+ 	struct dxgkvmb_command_vgpu_to_host hdr;
+ };
+ 
++struct dxgkvmb_command_queryclockcalibration {
++	struct dxgkvmb_command_vgpu_to_host hdr;
++	struct d3dkmt_queryclockcalibration args;
++};
 +
-+static int
-+dxgk_evict(struct dxgprocess *process, void *__user inargs)
++struct dxgkvmb_command_queryclockcalibration_return {
++	struct ntstatus			status;
++	struct dxgk_gpuclockdata	clock_data;
++};
++
+ struct dxgkvmb_command_createallocation_allocinfo {
+ 	u32				flags;
+ 	u32				priv_drv_data_size;
+@@ -408,6 +418,17 @@ struct dxgkvmb_command_openresource_return {
+ /* struct d3dkmthandle   allocation[allocation_count]; */
+ };
+ 
++struct dxgkvmb_command_querystatistics {
++	struct dxgkvmb_command_vgpu_to_host	hdr;
++	struct d3dkmt_querystatistics		args;
++};
++
++struct dxgkvmb_command_querystatistics_return {
++	struct ntstatus				status;
++	u32					reserved;
++	struct d3dkmt_querystatistics_result	result;
++};
++
+ struct dxgkvmb_command_getstandardallocprivdata {
+ 	struct dxgkvmb_command_vgpu_to_host hdr;
+ 	enum d3dkmdt_standardallocationtype alloc_type;
+diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
+index b2cc2c6fc725..4bff78c7b1d3 100644
+--- a/drivers/hv/dxgkrnl/ioctl.c
++++ b/drivers/hv/dxgkrnl/ioctl.c
+@@ -153,6 +153,66 @@ static int dxgk_open_adapter_from_luid(struct dxgprocess *process,
+ 	return ret;
+ }
+ 
++static int dxgk_query_statistics(struct dxgprocess *process,
++				 void __user *inargs)
 +{
++	struct d3dkmt_querystatistics *args;
 +	int ret;
-+	struct d3dkmt_evict args;
-+	struct d3dkmt_evict *input = inargs;
-+	struct dxgdevice *device = NULL;
++	struct dxgadapter *entry;
 +	struct dxgadapter *adapter = NULL;
++	struct winluid tmp;
 +
 +	pr_debug("ioctl: %s", __func__);
-+	ret = copy_from_user(&args, inargs, sizeof(args));
++
++	args = vzalloc(sizeof(struct d3dkmt_querystatistics));
++	if (args == NULL) {
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	ret = copy_from_user(args, inargs, sizeof(*args));
 +	if (ret) {
 +		pr_err("%s failed to copy input args", __func__);
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
 +
-+	if (args.alloc_count > D3DKMT_MAKERESIDENT_ALLOC_MAX ||
-+	    args.alloc_count == 0) {
-+		pr_err("invalid number of allocations");
-+		ret = -EINVAL;
-+		goto cleanup;
++	dxgglobal_acquire_adapter_list_lock(DXGLOCK_SHARED);
++	list_for_each_entry(entry, &dxgglobal->adapter_list_head,
++			    adapter_list_entry) {
++		if (dxgadapter_acquire_lock_shared(entry) == 0) {
++			if (*(u64 *) &entry->luid ==
++			    *(u64 *) &args->adapter_luid) {
++				adapter = entry;
++				break;
++			}
++			dxgadapter_release_lock_shared(entry);
++		}
 +	}
-+
-+	device = dxgprocess_device_by_handle(process, args.device);
-+	if (device == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
-+	adapter = device->adapter;
-+	ret = dxgadapter_acquire_lock_shared(adapter);
-+	if (ret < 0) {
-+		adapter = NULL;
-+		goto cleanup;
-+	}
-+
-+	ret = dxgvmb_send_evict(process, adapter, &args);
-+	if (ret < 0)
-+		goto cleanup;
-+
-+	ret = copy_to_user(&input->num_bytes_to_trim,
-+			   &args.num_bytes_to_trim, sizeof(u64));
-+	if (ret) {
-+		pr_err("%s failed to copy bytes to trim to user", __func__);
-+		ret = -EINVAL;
-+	}
-+cleanup:
-+
-+	if (adapter)
++	dxgglobal_release_adapter_list_lock(DXGLOCK_SHARED);
++	if (adapter) {
++		tmp = args->adapter_luid;
++		args->adapter_luid = adapter->host_adapter_luid;
++		ret = dxgvmb_send_query_statistics(process, adapter, args);
++		if (ret >= 0) {
++			args->adapter_luid = tmp;
++			ret = copy_to_user(inargs, args, sizeof(*args));
++			if (ret) {
++				pr_err("%s failed to copy args", __func__);
++				ret = -EINVAL;
++			}
++		}
 +		dxgadapter_release_lock_shared(adapter);
-+	if (device)
-+		kref_put(&device->device_kref, dxgdevice_release);
++	}
++
++cleanup:
++	if (args)
++		vfree(args);
 +
 +	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
 +	return ret;
 +}
 +
  static int
- dxgk_offer_allocations(struct dxgprocess *process, void *__user inargs)
+ dxgkp_enum_adapters(struct dxgprocess *process,
+ 		    union d3dkmt_enumadapters_filter filter,
+@@ -3576,6 +3636,54 @@ dxgk_change_vidmem_reservation(struct dxgprocess *process, void *__user inargs)
+ 	return ret;
+ }
+ 
++static int
++dxgk_query_clock_calibration(struct dxgprocess *process, void *__user inargs)
++{
++	struct d3dkmt_queryclockcalibration args;
++	int ret;
++	struct dxgadapter *adapter = NULL;
++	bool adapter_locked = false;
++
++	ret = copy_from_user(&args, inargs, sizeof(args));
++	if (ret) {
++		pr_err("%s failed to copy input args", __func__);
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	adapter = dxgprocess_adapter_by_handle(process, args.adapter);
++	if (adapter == NULL) {
++		ret = -EINVAL;
++		goto cleanup;
++	}
++
++	ret = dxgadapter_acquire_lock_shared(adapter);
++	if (ret < 0) {
++		adapter = NULL;
++		goto cleanup;
++	}
++	adapter_locked = true;
++
++	args.adapter = adapter->host_handle;
++	ret = dxgvmb_send_query_clock_calibration(process, adapter,
++						  &args, inargs);
++	if (ret < 0)
++		goto cleanup;
++	ret = copy_to_user(inargs, &args, sizeof(args));
++	if (ret) {
++		pr_err("%s failed to copy output args", __func__);
++		ret = -EINVAL;
++	}
++
++cleanup:
++
++	if (adapter_locked)
++		dxgadapter_release_lock_shared(adapter);
++	if (adapter)
++		kref_put(&adapter->adapter_kref, dxgadapter_release);
++	return ret;
++}
++
+ static int
+ dxgk_flush_heap_transitions(struct dxgprocess *process, void *__user inargs)
  {
-@@ -4906,6 +5046,8 @@ void init_ioctls(void)
- 		  LX_DXQUERYADAPTERINFO);
- 	SET_IOCTL(/*0xa */ dxgk_query_vidmem_info,
- 		  LX_DXQUERYVIDEOMEMORYINFO);
-+	SET_IOCTL(/*0xb */ dxgk_make_resident,
-+		  LX_DXMAKERESIDENT);
- 	SET_IOCTL(/*0xd */ dxgk_escape,
- 		  LX_DXESCAPE);
- 	SET_IOCTL(/*0xe */ dxgk_get_device_state,
-@@ -4936,6 +5078,8 @@ void init_ioctls(void)
- 		  LX_DXDESTROYPAGINGQUEUE);
- 	SET_IOCTL(/*0x1d */ dxgk_destroy_sync_object,
- 		  LX_DXDESTROYSYNCHRONIZATIONOBJECT);
-+	SET_IOCTL(/*0x1e */ dxgk_evict,
-+		  LX_DXEVICT);
- 	SET_IOCTL(/*0x1f */ dxgk_flush_heap_transitions,
- 		  LX_DXFLUSHHEAPTRANSITIONS);
- 	SET_IOCTL(/*0x21 */ dxgk_get_context_process_scheduling_priority,
+@@ -4580,6 +4688,8 @@ void init_ioctls(void)
+ 		  LX_DXWAITFORSYNCHRONIZATIONOBJECTFROMGPU);
+ 	SET_IOCTL(/*0x3c */ dxgk_get_allocation_priority,
+ 		  LX_DXGETALLOCATIONPRIORITY);
++	SET_IOCTL(/*0x3d */ dxgk_query_clock_calibration,
++		  LX_DXQUERYCLOCKCALIBRATION);
+ 	SET_IOCTL(/*0x3e */ dxgk_enum_adapters3,
+ 		  LX_DXENUMADAPTERS3);
+ 	SET_IOCTL(/*0x3f */ dxgk_share_objects,
+@@ -4590,6 +4700,8 @@ void init_ioctls(void)
+ 		  LX_DXQUERYRESOURCEINFOFROMNTHANDLE);
+ 	SET_IOCTL(/*0x42 */ dxgk_open_resource_nt,
+ 		  LX_DXOPENRESOURCEFROMNTHANDLE);
++	SET_IOCTL(/*0x43 */ dxgk_query_statistics,
++		  LX_DXQUERYSTATISTICS);
+ 	SET_IOCTL(/*0x44 */ dxgk_share_object_with_host,
+ 		  LX_DXSHAREOBJECTWITHHOST);
+ }
 diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
-index 11e2f3c9c88c..95d6df5f01b5 100644
+index fb4ff4b905c4..2cd88a9320d1 100644
 --- a/include/uapi/misc/d3dkmthk.h
 +++ b/include/uapi/misc/d3dkmthk.h
-@@ -958,6 +958,56 @@ struct d3dkmt_destroyallocation2 {
- 	struct d3dddicb_destroyallocation2flags flags;
+@@ -992,6 +992,34 @@ struct d3dkmt_queryadapterinfo {
+ 	__u32				private_data_size;
  };
  
-+struct d3dddi_makeresident_flags {
++#pragma pack(push, 1)
++
++struct dxgk_gpuclockdata_flags {
 +	union {
 +		struct {
-+			__u32		cant_trim_further:1;
-+			__u32		must_succeed:1;
-+			__u32		reserved:30;
++			__u32	context_management_processor:1;
++			__u32	reserved:31;
 +		};
-+		__u32			value;
++		__u32		value;
 +	};
 +};
 +
-+struct d3dddi_makeresident {
-+	struct d3dkmthandle		paging_queue;
-+	__u32				alloc_count;
-+#ifdef __KERNEL__
-+	const struct d3dkmthandle	*allocation_list;
-+	const __u32			*priority_list;
-+#else
-+	__u64				allocation_list;
-+	__u64				priority_list;
-+#endif
-+	struct d3dddi_makeresident_flags flags;
-+	__u64				paging_fence_value;
-+	__u64				num_bytes_to_trim;
++struct dxgk_gpuclockdata {
++	__u64				gpu_frequency;
++	__u64				gpu_clock_counter;
++	__u64				cpu_clock_counter;
++	struct dxgk_gpuclockdata_flags	flags;
++} __packed;
++
++struct d3dkmt_queryclockcalibration {
++	struct d3dkmthandle	adapter;
++	__u32			node_ordinal;
++	__u32			physical_adapter_index;
++	struct dxgk_gpuclockdata clock_data;
 +};
 +
-+struct d3dddi_evict_flags {
++#pragma pack(pop)
++
+ struct d3dkmt_flushheaptransitions {
+ 	struct d3dkmthandle	adapter;
+ };
+@@ -1234,6 +1262,36 @@ struct d3dkmt_enumadapters3 {
+ #endif
+ };
+ 
++enum d3dkmt_querystatistics_type {
++	_D3DKMT_QUERYSTATISTICS_ADAPTER                = 0,
++	_D3DKMT_QUERYSTATISTICS_PROCESS                = 1,
++	_D3DKMT_QUERYSTATISTICS_PROCESS_ADAPTER        = 2,
++	_D3DKMT_QUERYSTATISTICS_SEGMENT                = 3,
++	_D3DKMT_QUERYSTATISTICS_PROCESS_SEGMENT        = 4,
++	_D3DKMT_QUERYSTATISTICS_NODE                   = 5,
++	_D3DKMT_QUERYSTATISTICS_PROCESS_NODE           = 6,
++	_D3DKMT_QUERYSTATISTICS_VIDPNSOURCE            = 7,
++	_D3DKMT_QUERYSTATISTICS_PROCESS_VIDPNSOURCE    = 8,
++	_D3DKMT_QUERYSTATISTICS_PROCESS_SEGMENT_GROUP  = 9,
++	_D3DKMT_QUERYSTATISTICS_PHYSICAL_ADAPTER       = 10,
++};
++
++struct d3dkmt_querystatistics_result {
++	char size[0x308];
++};
++
++struct d3dkmt_querystatistics {
 +	union {
 +		struct {
-+			__u32		evict_only_if_necessary:1;
-+			__u32		not_written_to:1;
-+			__u32		reserved:30;
++			enum d3dkmt_querystatistics_type	type;
++			struct winluid				adapter_luid;
++			__u64					process;
++			struct d3dkmt_querystatistics_result	result;
 +		};
-+		__u32			value;
++		char size[0x328];
 +	};
 +};
 +
-+struct d3dkmt_evict {
-+	struct d3dkmthandle		device;
-+	__u32				alloc_count;
-+#ifdef __KERNEL__
-+	const struct d3dkmthandle	*allocations;
-+#else
-+	__u64				allocations;
-+#endif
-+	struct d3dddi_evict_flags	flags;
-+	__u32				reserved;
-+	__u64				num_bytes_to_trim;
-+};
-+
- enum d3dkmt_memory_segment_group {
- 	_D3DKMT_MEMORY_SEGMENT_GROUP_LOCAL	= 0,
- 	_D3DKMT_MEMORY_SEGMENT_GROUP_NON_LOCAL	= 1
-@@ -1403,6 +1453,8 @@ struct d3dkmt_shareobjectwithhost {
- 	_IOWR(0x47, 0x09, struct d3dkmt_queryadapterinfo)
- #define LX_DXQUERYVIDEOMEMORYINFO	\
- 	_IOWR(0x47, 0x0a, struct d3dkmt_queryvideomemoryinfo)
-+#define LX_DXMAKERESIDENT		\
-+	_IOWR(0x47, 0x0b, struct d3dddi_makeresident)
- #define LX_DXESCAPE			\
- 	_IOWR(0x47, 0x0d, struct d3dkmt_escape)
- #define LX_DXGETDEVICESTATE		\
-@@ -1433,6 +1485,8 @@ struct d3dkmt_shareobjectwithhost {
- 	_IOWR(0x47, 0x19, struct d3dkmt_destroydevice)
- #define LX_DXDESTROYSYNCHRONIZATIONOBJECT \
- 	_IOWR(0x47, 0x1d, struct d3dkmt_destroysynchronizationobject)
-+#define LX_DXEVICT			\
-+	_IOWR(0x47, 0x1e, struct d3dkmt_evict)
- #define LX_DXFLUSHHEAPTRANSITIONS	\
- 	_IOWR(0x47, 0x1f, struct d3dkmt_flushheaptransitions)
- #define LX_DXGETCONTEXTINPROCESSSCHEDULINGPRIORITY \
+ struct d3dkmt_shareobjectwithhost {
+ 	struct d3dkmthandle	device_handle;
+ 	struct d3dkmthandle	object_handle;
+@@ -1324,6 +1382,8 @@ struct d3dkmt_shareobjectwithhost {
+ 	_IOWR(0x47, 0x3b, struct d3dkmt_waitforsynchronizationobjectfromgpu)
+ #define LX_DXGETALLOCATIONPRIORITY	\
+ 	_IOWR(0x47, 0x3c, struct d3dkmt_getallocationpriority)
++#define LX_DXQUERYCLOCKCALIBRATION	\
++	_IOWR(0x47, 0x3d, struct d3dkmt_queryclockcalibration)
+ #define LX_DXENUMADAPTERS3		\
+ 	_IOWR(0x47, 0x3e, struct d3dkmt_enumadapters3)
+ #define LX_DXSHAREOBJECTS		\
+@@ -1334,6 +1394,8 @@ struct d3dkmt_shareobjectwithhost {
+ 	_IOWR(0x47, 0x41, struct d3dkmt_queryresourceinfofromnthandle)
+ #define LX_DXOPENRESOURCEFROMNTHANDLE	\
+ 	_IOWR(0x47, 0x42, struct d3dkmt_openresourcefromnthandle)
++#define LX_DXQUERYSTATISTICS	\
++	_IOWR(0x47, 0x43, struct d3dkmt_querystatistics)
+ #define LX_DXSHAREOBJECTWITHHOST	\
+ 	_IOWR(0x47, 0x44, struct d3dkmt_shareobjectwithhost)
+ 
 -- 
 2.35.1
 
