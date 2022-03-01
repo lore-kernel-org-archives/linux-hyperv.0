@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38909C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB245C433F5
 	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Mar 2022 19:46:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237377AbiCATrh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Mar 2022 14:47:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
+        id S230263AbiCATri (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Mar 2022 14:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237336AbiCATr1 (ORCPT
+        with ESMTP id S237338AbiCATr1 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 1 Mar 2022 14:47:27 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 03F4E6D3B1;
-        Tue,  1 Mar 2022 11:46:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 784446D4CB;
+        Tue,  1 Mar 2022 11:46:36 -0800 (PST)
 Received: from IOURIT-Z4.ntdev.corp.microsoft.com (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 23DB320B477B;
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7814B20B4780;
         Tue,  1 Mar 2022 11:46:34 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 23DB320B477B
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7814B20B4780
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1646163994;
-        bh=1GM7xELJ0O/k69aR3fvRIEK9sQ+2nVen9lVIJGDQaac=;
+        bh=kCIyR2mWfMTuS4iVykDOHrmv/pCXtKvJue9w934YfPM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nk8Y5x9Mk/Zd6WJxExEd+2p7QThSHgPwbtptAN3bkbeaOYIDxvKAN4s7tHwXxaikz
-         QN34J/7kg7mZItbVMVLn+ilfzwxaNGkdcWbQFlIp4FWavQ0/Ha0tX6vOBjvMsIwDwO
-         lPn4ajCWd5vbdSw5HyXG0Pn5tzYp4g7FBHOr3yKQ=
+        b=Eap4ICA+4GSso07ojyYZfK1s3xrezwZ70hdUyvDMdjsjcdahPVGFJiK5nk68Bv8o+
+         qjD8KOzfGiZ9ckEvPz8s6tIzdJaNJiR5eLQzagG5rrqdvne0MsiMMesHl9TNt9P0M0
+         GfJfDCO5z67LPtlab+wvqvDJxUyzwuwI0NqvGJSA=
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, linux-hyperv@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, spronovo@microsoft.com,
         spronovo@linux.microsoft.com, gregkh@linuxfoundation.org
-Subject: [PATCH v3 22/30] drivers: hv: dxgkrnl: Query video memory information
-Date:   Tue,  1 Mar 2022 11:46:09 -0800
-Message-Id: <5dadbe959f96e2764a61157eb05f0804a74afb1c.1646163379.git.iourit@linux.microsoft.com>
+Subject: [PATCH v3 24/30] drivers: hv: dxgkrnl: Ioctl to put device to error state
+Date:   Tue,  1 Mar 2022 11:46:11 -0800
+Message-Id: <0381fb9117e596b299d162ed54a7bb8e4e6ff559.1646163379.git.iourit@linux.microsoft.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
 References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
@@ -43,99 +43,64 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Implement the ioctl to query video memory information from the host
-(LX_DXQUERYVIDEOMEMORYINFO).
+Implement the ioctl to put the virtual compute device to the error
+state (LX_DXMARKDEVICEASERROR).
+
+This ioctl is used by the user mode driver when it detects an
+unrecoverable error condition.
+
+When a compute device is put to the error state, all subsequent
+ioctl calls to the device will fail.
 
 Signed-off-by: Iouri Tarassov <iourit@linux.microsoft.com>
 ---
- drivers/hv/dxgkrnl/dxgkrnl.h  |  5 +++
- drivers/hv/dxgkrnl/dxgvmbus.c | 64 +++++++++++++++++++++++++++++++++++
- drivers/hv/dxgkrnl/dxgvmbus.h | 14 ++++++++
- drivers/hv/dxgkrnl/ioctl.c    | 50 +++++++++++++++++++++++++++
- include/uapi/misc/d3dkmthk.h  | 13 +++++++
- 5 files changed, 146 insertions(+)
+ drivers/hv/dxgkrnl/dxgkrnl.h  |  3 +++
+ drivers/hv/dxgkrnl/dxgvmbus.c | 25 ++++++++++++++++++++++
+ drivers/hv/dxgkrnl/dxgvmbus.h |  5 +++++
+ drivers/hv/dxgkrnl/ioctl.c    | 39 +++++++++++++++++++++++++++++++++++
+ include/uapi/misc/d3dkmthk.h  | 12 +++++++++++
+ 5 files changed, 84 insertions(+)
 
 diff --git a/drivers/hv/dxgkrnl/dxgkrnl.h b/drivers/hv/dxgkrnl/dxgkrnl.h
-index 7d3f2617414d..6cd6bc6d6b9a 100644
+index 875e336c11d3..03acf8ce3baa 100644
 --- a/drivers/hv/dxgkrnl/dxgkrnl.h
 +++ b/drivers/hv/dxgkrnl/dxgkrnl.h
-@@ -874,6 +874,11 @@ int dxgvmb_send_query_alloc_residency(struct dxgprocess *process,
- 				      struct dxgadapter *adapter,
- 				      struct d3dkmt_queryallocationresidency
- 				      *args);
-+int dxgvmb_send_query_vidmem_info(struct dxgprocess *process,
-+				  struct dxgadapter *adapter,
-+				  struct d3dkmt_queryvideomemoryinfo *args,
-+				  struct d3dkmt_queryvideomemoryinfo
-+				  *__user iargs);
- int dxgvmb_send_get_device_state(struct dxgprocess *process,
- 				 struct dxgadapter *adapter,
- 				 struct d3dkmt_getdevicestate *args,
+@@ -836,6 +836,9 @@ int dxgvmb_send_update_alloc_property(struct dxgprocess *process,
+ 				      struct d3dddi_updateallocproperty *args,
+ 				      struct d3dddi_updateallocproperty *__user
+ 				      inargs);
++int dxgvmb_send_mark_device_as_error(struct dxgprocess *process,
++				     struct dxgadapter *adapter,
++				     struct d3dkmt_markdeviceaserror *args);
+ int dxgvmb_send_set_allocation_priority(struct dxgprocess *process,
+ 					struct dxgadapter *adapter,
+ 					struct d3dkmt_setallocationpriority *a);
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.c b/drivers/hv/dxgkrnl/dxgvmbus.c
-index 67b9e1b45b97..40ed2e981d73 100644
+index c76ab993e9ba..bf65599635c6 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.c
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.c
-@@ -1908,6 +1908,70 @@ int dxgvmb_send_query_alloc_residency(struct dxgprocess *process,
+@@ -2708,6 +2708,31 @@ int dxgvmb_send_update_alloc_property(struct dxgprocess *process,
  	return ret;
  }
  
-+int dxgvmb_send_query_vidmem_info(struct dxgprocess *process,
-+				  struct dxgadapter *adapter,
-+				  struct d3dkmt_queryvideomemoryinfo *args,
-+				  struct d3dkmt_queryvideomemoryinfo *__user
-+				  output)
++int dxgvmb_send_mark_device_as_error(struct dxgprocess *process,
++				     struct dxgadapter *adapter,
++				     struct d3dkmt_markdeviceaserror *args)
 +{
++	struct dxgkvmb_command_markdeviceaserror *command;
 +	int ret;
-+	struct dxgkvmb_command_queryvideomemoryinfo *command;
-+	struct dxgkvmb_command_queryvideomemoryinfo_return result = { };
 +	struct dxgvmbusmsg msg = {.hdr = NULL};
 +
 +	ret = init_message(&msg, adapter, process, sizeof(*command));
 +	if (ret)
 +		goto cleanup;
 +	command = (void *)msg.msg;
++
 +	command_vgpu_to_host_init2(&command->hdr,
-+				   dxgk_vmbcommand_queryvideomemoryinfo,
++				   DXGK_VMBCOMMAND_MARKDEVICEASERROR,
 +				   process->host_handle);
-+	command->adapter = args->adapter;
-+	command->memory_segment_group = args->memory_segment_group;
-+	command->physical_adapter_index = args->physical_adapter_index;
-+
-+	ret = dxgvmb_send_sync_msg(msg.channel, msg.hdr, msg.size,
-+				   &result, sizeof(result));
-+	if (ret < 0)
-+		goto cleanup;
-+
-+	ret = copy_to_user(&output->budget, &result.budget,
-+			   sizeof(output->budget));
-+	if (ret) {
-+		pr_err("%s failed to copy budget", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	ret = copy_to_user(&output->current_usage, &result.current_usage,
-+			   sizeof(output->current_usage));
-+	if (ret) {
-+		pr_err("%s failed to copy current usage", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	ret = copy_to_user(&output->current_reservation,
-+			   &result.current_reservation,
-+			   sizeof(output->current_reservation));
-+	if (ret) {
-+		pr_err("%s failed to copy reservation", __func__);
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+	ret = copy_to_user(&output->available_for_reservation,
-+			   &result.available_for_reservation,
-+			   sizeof(output->available_for_reservation));
-+	if (ret) {
-+		pr_err("%s failed to copy avail reservation", __func__);
-+		ret = -EINVAL;
-+	}
-+
++	command->args = *args;
++	ret = dxgvmb_send_sync_msg_ntstatus(msg.channel, msg.hdr, msg.size);
 +cleanup:
 +	free_message(&msg, process);
 +	if (ret)
@@ -143,133 +108,112 @@ index 67b9e1b45b97..40ed2e981d73 100644
 +	return ret;
 +}
 +
- int dxgvmb_send_get_device_state(struct dxgprocess *process,
- 				 struct dxgadapter *adapter,
- 				 struct d3dkmt_getdevicestate *args,
+ int dxgvmb_send_set_allocation_priority(struct dxgprocess *process,
+ 				struct dxgadapter *adapter,
+ 				struct d3dkmt_setallocationpriority *args)
 diff --git a/drivers/hv/dxgkrnl/dxgvmbus.h b/drivers/hv/dxgkrnl/dxgvmbus.h
-index 95c8b4a0cff9..8bca304fcb4b 100644
+index d2d22775645b..615a163f836e 100644
 --- a/drivers/hv/dxgkrnl/dxgvmbus.h
 +++ b/drivers/hv/dxgkrnl/dxgvmbus.h
-@@ -664,6 +664,20 @@ struct dxgkvmb_command_queryallocationresidency_return {
- 	/* d3dkmt_allocationresidencystatus[NumAllocations] */
+@@ -627,6 +627,11 @@ struct dxgkvmb_command_updateallocationproperty_return {
+ 	struct ntstatus			status;
  };
  
-+struct dxgkvmb_command_queryvideomemoryinfo {
++struct dxgkvmb_command_markdeviceaserror {
 +	struct dxgkvmb_command_vgpu_to_host hdr;
-+	struct d3dkmthandle		adapter;
-+	enum d3dkmt_memory_segment_group memory_segment_group;
-+	u32				physical_adapter_index;
++	struct d3dkmt_markdeviceaserror args;
 +};
 +
-+struct dxgkvmb_command_queryvideomemoryinfo_return {
-+	u64			budget;
-+	u64			current_usage;
-+	u64			current_reservation;
-+	u64			available_for_reservation;
-+};
-+
- struct dxgkvmb_command_getdevicestate {
+ /* Returns ntstatus */
+ struct dxgkvmb_command_changevideomemoryreservation {
  	struct dxgkvmb_command_vgpu_to_host hdr;
- 	struct d3dkmt_getdevicestate	args;
 diff --git a/drivers/hv/dxgkrnl/ioctl.c b/drivers/hv/dxgkrnl/ioctl.c
-index 4f2d762811ba..d7dbde41b8a2 100644
+index 763bd76382a0..b2cc2c6fc725 100644
 --- a/drivers/hv/dxgkrnl/ioctl.c
 +++ b/drivers/hv/dxgkrnl/ioctl.c
-@@ -3586,6 +3586,54 @@ dxgk_flush_heap_transitions(struct dxgprocess *process, void *__user inargs)
+@@ -3380,6 +3380,43 @@ dxgk_update_alloc_property(struct dxgprocess *process, void *__user inargs)
  	return ret;
  }
  
 +static int
-+dxgk_query_vidmem_info(struct dxgprocess *process, void *__user inargs)
++dxgk_mark_device_as_error(struct dxgprocess *process, void *__user inargs)
 +{
-+	struct d3dkmt_queryvideomemoryinfo args;
-+	int ret;
++	struct d3dkmt_markdeviceaserror args;
 +	struct dxgadapter *adapter = NULL;
-+	bool adapter_locked = false;
++	struct dxgdevice *device = NULL;
++	int ret;
 +
++	pr_debug("ioctl: %s", __func__);
 +	ret = copy_from_user(&args, inargs, sizeof(args));
 +	if (ret) {
 +		pr_err("%s failed to copy input args", __func__);
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
-+
-+	if (args.process != 0) {
-+		pr_err("query vidmem info from another process ");
++	device = dxgprocess_device_by_handle(process, args.device);
++	if (device == NULL) {
 +		ret = -EINVAL;
 +		goto cleanup;
 +	}
-+
-+	adapter = dxgprocess_adapter_by_handle(process, args.adapter);
-+	if (adapter == NULL) {
-+		ret = -EINVAL;
-+		goto cleanup;
-+	}
-+
++	adapter = device->adapter;
 +	ret = dxgadapter_acquire_lock_shared(adapter);
 +	if (ret < 0) {
 +		adapter = NULL;
 +		goto cleanup;
 +	}
-+	adapter_locked = true;
-+
-+	args.adapter = adapter->host_handle;
-+	ret = dxgvmb_send_query_vidmem_info(process, adapter, &args, inargs);
-+
++	device->execution_state = _D3DKMT_DEVICEEXECUTION_RESET;
++	ret = dxgvmb_send_mark_device_as_error(process, adapter, &args);
 +cleanup:
-+
-+	if (adapter_locked)
-+		dxgadapter_release_lock_shared(adapter);
 +	if (adapter)
-+		kref_put(&adapter->adapter_kref, dxgadapter_release);
-+	if (ret < 0)
-+		pr_err("%s failed: %x", __func__, ret);
++		dxgadapter_release_lock_shared(adapter);
++	if (device)
++		kref_put(&device->device_kref, dxgdevice_release);
++	pr_debug("ioctl:%s %s %d", errorstr(ret), __func__, ret);
 +	return ret;
 +}
 +
  static int
- dxgk_get_device_state(struct dxgprocess *process, void *__user inargs)
+ dxgk_query_alloc_residency(struct dxgprocess *process, void *__user inargs)
  {
-@@ -4391,6 +4439,8 @@ void init_ioctls(void)
- 		  LX_DXCREATEPAGINGQUEUE);
- 	SET_IOCTL(/*0x9 */ dxgk_query_adapter_info,
- 		  LX_DXQUERYADAPTERINFO);
-+	SET_IOCTL(/*0xa */ dxgk_query_vidmem_info,
-+		  LX_DXQUERYVIDEOMEMORYINFO);
- 	SET_IOCTL(/*0xe */ dxgk_get_device_state,
- 		  LX_DXGETDEVICESTATE);
- 	SET_IOCTL(/*0xf */ dxgk_submit_command,
+@@ -4515,6 +4552,8 @@ void init_ioctls(void)
+ 		  LX_DXFLUSHHEAPTRANSITIONS);
+ 	SET_IOCTL(/*0x25 */ dxgk_lock2,
+ 		  LX_DXLOCK2);
++	SET_IOCTL(/*0x26 */ dxgk_mark_device_as_error,
++		  LX_DXMARKDEVICEASERROR);
+ 	SET_IOCTL(/*0x2a */ dxgk_query_alloc_residency,
+ 		  LX_DXQUERYALLOCATIONRESIDENCY);
+ 	SET_IOCTL(/*0x2e */ dxgk_set_allocation_priority,
 diff --git a/include/uapi/misc/d3dkmthk.h b/include/uapi/misc/d3dkmthk.h
-index b0a2c858f122..f7f663f6e674 100644
+index cf08166f4e5d..fb4ff4b905c4 100644
 --- a/include/uapi/misc/d3dkmthk.h
 +++ b/include/uapi/misc/d3dkmthk.h
-@@ -893,6 +893,17 @@ enum d3dkmt_memory_segment_group {
- 	_D3DKMT_MEMORY_SEGMENT_GROUP_NON_LOCAL	= 1
+@@ -786,6 +786,16 @@ struct d3dkmt_unlock2 {
+ 	struct d3dkmthandle			allocation;
  };
  
-+struct d3dkmt_queryvideomemoryinfo {
-+	__u64					process;
-+	struct d3dkmthandle			adapter;
-+	enum d3dkmt_memory_segment_group	memory_segment_group;
-+	__u64					budget;
-+	__u64					current_usage;
-+	__u64					current_reservation;
-+	__u64					available_for_reservation;
-+	__u32					physical_adapter_index;
++enum d3dkmt_device_error_reason {
++	_D3DKMT_DEVICE_ERROR_REASON_GENERIC		= 0x80000000,
++	_D3DKMT_DEVICE_ERROR_REASON_DRIVER_ERROR	= 0x80000006,
 +};
 +
- struct d3dkmt_adaptertype {
- 	union {
- 		struct {
-@@ -1200,6 +1211,8 @@ struct d3dkmt_shareobjectwithhost {
- 	_IOWR(0x47, 0x07, struct d3dkmt_createpagingqueue)
- #define LX_DXQUERYADAPTERINFO		\
- 	_IOWR(0x47, 0x09, struct d3dkmt_queryadapterinfo)
-+#define LX_DXQUERYVIDEOMEMORYINFO	\
-+	_IOWR(0x47, 0x0a, struct d3dkmt_queryvideomemoryinfo)
- #define LX_DXGETDEVICESTATE		\
- 	_IOWR(0x47, 0x0e, struct d3dkmt_getdevicestate)
- #define LX_DXSUBMITCOMMAND		\
++struct d3dkmt_markdeviceaserror {
++	struct d3dkmthandle			device;
++	enum d3dkmt_device_error_reason		reason;
++};
++
+ enum d3dkmt_standardallocationtype {
+ 	_D3DKMT_STANDARDALLOCATIONTYPE_EXISTINGHEAP	= 1,
+ 	_D3DKMT_STANDARDALLOCATIONTYPE_CROSSADAPTER	= 2,
+@@ -1286,6 +1296,8 @@ struct d3dkmt_shareobjectwithhost {
+ 	_IOWR(0x47, 0x1f, struct d3dkmt_flushheaptransitions)
+ #define LX_DXLOCK2			\
+ 	_IOWR(0x47, 0x25, struct d3dkmt_lock2)
++#define LX_DXMARKDEVICEASERROR		\
++	_IOWR(0x47, 0x26, struct d3dkmt_markdeviceaserror)
+ #define LX_DXQUERYALLOCATIONRESIDENCY	\
+ 	_IOWR(0x47, 0x2a, struct d3dkmt_queryallocationresidency)
+ #define LX_DXSETALLOCATIONPRIORITY	\
 -- 
 2.35.1
 
