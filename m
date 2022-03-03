@@ -2,200 +2,121 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EAEC433F5
-	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Mar 2022 00:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB115C433F5
+	for <linux-hyperv@archiver.kernel.org>; Thu,  3 Mar 2022 01:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230143AbiCCAR7 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Mar 2022 19:17:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54162 "EHLO
+        id S231249AbiCCBKJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Mar 2022 20:10:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230213AbiCCARq (ORCPT
+        with ESMTP id S231169AbiCCBKH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Mar 2022 19:17:46 -0500
+        Wed, 2 Mar 2022 20:10:07 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA7A41342C1;
-        Wed,  2 Mar 2022 16:17:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EBA332D1F5;
+        Wed,  2 Mar 2022 17:09:22 -0800 (PST)
 Received: from [192.168.1.17] (unknown [192.182.151.181])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 104A020B7188;
-        Wed,  2 Mar 2022 14:59:14 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 104A020B7188
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7389920B7178;
+        Wed,  2 Mar 2022 17:09:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7389920B7178
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1646261954;
-        bh=7OPbxgXO7od9T1sz9he8vgrLJGoiIVLtkm+eDwYj+BE=;
+        s=default; t=1646269762;
+        bh=0A9U3/A1+sfRyujc9HpaWZgG2Yh/DJChDIAh5jtJwK8=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=jvy1qvkflpZ+78wScRyMqoYB/zUG/eKu8U9IW20ZiEY/zF3BkNM/x548el3VXw7Ow
-         Bh9Fo+nT/i2QT/PLUDd7JVtgtt8rkq80Yzg3yus5xcHYWdX31oOtV5LW0rAcLYjBMc
-         yuadSzHKR45v0EdNC2iKJ1welM2osk5ViJ+wbAZI=
-Message-ID: <7e696255-fba5-614b-81b5-a5f7e0877a83@linux.microsoft.com>
-Date:   Wed, 2 Mar 2022 14:59:13 -0800
+        b=DizS9EAjkuOlxzJb2WrrLVIGurQ+MgGe6Hq5pB62M48Xc3JusNC/qzQfHkD5sm65U
+         355H29NJ7MUufUpRbdXJLkFG/kTdd9QT1OthG6rNaz3o0CXqK+VQMqrhSdX/rwtfos
+         JjqKGFqvZxt0RJam1K4Mu+IR49pL12o2XWiznzT8=
+Message-ID: <c848ade1-48e4-1868-b890-9c3401cff9de@linux.microsoft.com>
+Date:   Wed, 2 Mar 2022 17:09:21 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
 Subject: Re: [PATCH v3 02/30] drivers: hv: dxgkrnl: Driver initialization and
  loading
 Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
+To:     Greg KH <gregkh@linuxfoundation.org>, Wei Liu <wei.liu@kernel.org>
 Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, spronovo@microsoft.com,
-        spronovo@linux.microsoft.com
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        spronovo@microsoft.com, spronovo@linux.microsoft.com
 References: <719fe06b7cbe9ac12fa4a729e810e3383ab421c1.1646163378.git.iourit@linux.microsoft.com>
  <739cf89e71ff72436d7ca3f846881dfb45d07a6a.1646163378.git.iourit@linux.microsoft.com>
  <Yh6F9cG6/SV6Fq8Q@kroah.com>
+ <20220301222321.yradz24nuyhzh7om@liuwe-devbox-debian-v2>
+ <Yh8ia7nJNN7ISR1l@kroah.com>
 From:   Iouri Tarassov <iourit@linux.microsoft.com>
-In-Reply-To: <Yh6F9cG6/SV6Fq8Q@kroah.com>
+In-Reply-To: <Yh8ia7nJNN7ISR1l@kroah.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+
+On 3/1/2022 11:53 PM, Greg KH wrote:
+> On Tue, Mar 01, 2022 at 10:23:21PM +0000, Wei Liu wrote:
+> > > > +struct dxgglobal *dxgglobal;
+> > > 
+> > > No, make this per-device, NEVER have a single device for your driver.
+> > > The Linux driver model makes it harder to do it this way than to do it
+> > > correctly.  Do it correctly please and have no global structures like
+> > > this.
+> > > 
+> > 
+> > This may not be as big an issue as you thought. The device discovery is
+> > still done via the normal VMBus probing routine. For all intents and
+> > purposes the dxgglobal structure can be broken down into per device
+> > fields and a global structure which contains the protocol versioning
+> > information -- my understanding is there will always be a global
+> > structure to hold information related to the backend, regardless of how
+> > many devices there are.
+>
+> Then that is wrong and needs to be fixed.  Drivers should almost never
+> have any global data, that is not how Linux drivers work.  What happens
+> when you get a second device in your system for this?  Major rework
+> would have to happen and the code will break.  Handle that all now as it
+> takes less work to make this per-device than it does to have a global
+> variable.
+>
+> > I definitely think splitting is doable, but I also understand why Iouri
+> > does not want to do it _now_ given there is no such a model for multiple
+> > devices yet, so anything we put into the per-device structure could be
+> > incomplete and it requires further changing when such a model arrives
+> > later.
+> > 
+> > Iouri, please correct me if I have the wrong mental model here.
+> > 
+> > All in all, I hope this is not going to be a deal breaker for the
+> > acceptance of this driver.
+>
+> For my reviews, yes it will be.
+>
+> Again, it should be easier to keep things in a per-device state than
+> not as the proper lifetime rules and the like are automatically handled
+> for you.  If you have global data, you have to manage that all on your
+> own and it is _MUCH_ harder to review that you got it correct.
+
 Hi Greg,
 
-Thanks a lot for reviewing the patches.
+I do not really see how the driver be written without the global data. Let's review the design.
 
-I appreciate the very detailed comments. I my reply I omitted the
-comments, which I agree with and will address in subsequent patches.
+Dxgkrnl acts as the aggregator of all virtual compute devices, projected by the host. It needs to do operations, which do not belong to a particular compute device. For example, cross device synchronization and resource sharing.
 
-On 3/1/2022 12:45 PM, Greg KH wrote:
+A PCI device device is created for each virtual compute device. Therefore, there should be a global list of objects and a mutex to synchronize access to the list.
 
->
-> > +long dxgk_unlocked_ioctl(struct file *f, unsigned int p1, unsigned long p2);
-> > +
-> > +static inline void guid_to_luid(guid_t *guid, struct winluid *luid)
-> > +{
-> > +	*luid = *(struct winluid *)&guid->b[0];
->
-> Why is the cast needed?  Shouldn't you use real types in your
-> structures?
+A VMBus channel is offered by the host for each compute device. The list of the VMBus channels should be global.
 
+A global VMBus channel is offered by the host. The channel does not belong to any particular compute device, so it must be global.
 
-The VMBus channel ID, which is GUID, is present in the PCI config space
-of the compute device. The convention is that the lower part of the GUID
-is LUID (local unique identifier). This function just converts GUID to
-LUID. I am not sure what is the ask here.
+IO space is shared by all compute devices, so its parameters should be global.
 
+Dxgkrnl needs to maintain a list of processes, which opened compute device objects. Dxgkrnl maintains private state for each process and when a process opens the /dev/dxg device, Dxgkrnl needs to find if the process state is already created by walking the global process list.
 
-> > +/*
-> > + * The interface version is used to ensure that the host and the guest use the
-> > + * same VM bus protocol. It needs to be incremented every time the VM bus
-> > + * interface changes. DXGK_VMBUS_LAST_COMPATIBLE_INTERFACE_VERSION is
-> > + * incremented each time the earlier versions of the interface are no longer
-> > + * compatible with the current version.
-> > + */
-> > +#define DXGK_VMBUS_INTERFACE_VERSION_OLD		27
-> > +#define DXGK_VMBUS_INTERFACE_VERSION			40
-> > +#define DXGK_VMBUS_LAST_COMPATIBLE_INTERFACE_VERSION	16
->
-> Where do these numbers come from, the hypervisor specification?
+Now, where to keep this global state? It could be kept in the /dev/dxg private device structure. But this structure is not available when, for example, dxg_pci_probe_device() or dxg_probe_vmbus() is called.
 
+Can there be multiple /dev/dxg devices? No. Because the /dev/dxg device represents the driver itself, not a particular compute device.
 
-The definitions are for the VMBus interface between the virtual compute
-device in the guest and the Windows host. The interface version is
-updated when the VMBus protocol is changed. These are specific to the
-virtual compute device, not to the hypervisor.
-
-
-> > +/*
-> > + * Pointer to the global device data. By design
-> > + * there is a single vGPU device on the VM bus and a single /dev/dxg device
-> > + * is created.
-> > + */
-> > +struct dxgglobal *dxgglobal;
->
-> No, make this per-device, NEVER have a single device for your driver.
-> The Linux driver model makes it harder to do it this way than to do it
-> correctly.  Do it correctly please and have no global structures like
-> this.
-
-
-This will be addressed in the next version of patches.
-
-
-> > +#define DXGKRNL_VERSION			0x2216
->
-> What does this mean?
-
-
-This is the driver implementation version. There are many Microsoft
-shipped Linux kernels, which include the driver. The version allows to
-quickly determine, which level of functionality or bug fixes is
-implemented in the current driver.
-
-
-> > +
-> > +/*
-> > + * Interface with the PCI driver
-> > + */
-> > +
-> > +/*
-> > + * Part of the PCI config space of the vGPU device is used for vGPU
-> > + * configuration data. Reading/writing of the PCI config space is forwarded
-> > + * to the host.
-> > + */
->
-> > +/* DXGK_VMBUS_INTERFACE_VERSION (u32) */
->
-> What is this?
-
-
-This comment explains that the value of DXGK_VMBUS_INTERFACE_VERSION is
-located at the offset DXGK_VMBUS_CHANNEL_ID_OFFSET in the PCI config space.
-
-
-> > +#define DXGK_VMBUS_VERSION_OFFSET	(DXGK_VMBUS_CHANNEL_ID_OFFSET + \
-> > +					sizeof(guid_t))
->
-> offsetof() is your friend, please use it.
-
-
-There is no structure definition for the PCI config space of the device.
-Therefore, offsets are computed by using data size.
-
-
-> > +/* Luid of the virtual GPU on the host (struct winluid) */
->
-> What is a "luid"?
-
-
-LUID is "Locally Unique Identifier". It is used in Windows and its value
-is guaranteed to be unique until the computer reboots. This is similar
-to GUID, but is it not globally unique. Dxgkrnl on the host uses LUIDs
-to identify compute adapter objects.
-I added a comment to the definition in the header.
-
-
-> > +	ret = vmbus_driver_register(&dxg_drv);
-> > +	if (ret) {
-> > +		pr_err("vmbus_driver_register failed: %d", ret);
-> > +		return ret;
-> > +	}
-> > +	dxgglobal->vmbus_registered = true;
-> > +
-> > +	pr_info("%s  Version: %x", __func__, DXGKRNL_VERSION);
->
-> When drivers work, they are quiet.
->
-> Also, in-kernel modules do not have a version, they are part of the
-> kernel tree, and that's the "version" they have.  You can drop the
-> individual version here, it makes no sense anymore.
-
-
-Microsoft develops many Linux kernels when the dxgkrnl driver is
-included (EFLOW, Android, WSL). The kernels are built at different times
-and might include a different version of the driver. Printing the
-version allows to quickly determine what functionality and bug fixes are
-included in the driver.
-
-I see that other in-tree drivers print some information during
-init_module (like nfblock.c).
-
-This is done for convenience. So instead of tracking multiple kernel
-versions, we can track the dxgkrnl driver version. I am ok to remove it
-if it really hurts something. It is only a single line per driver load.
-
+I am not sure what design model you have in mind when saying there should be no global data. Could you please explain keeping in mind the above requirements?
 
 Thanks
-
 Iouri
 
