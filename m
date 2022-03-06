@@ -2,142 +2,119 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92CF6C433EF
-	for <linux-hyperv@archiver.kernel.org>; Fri,  4 Mar 2022 23:23:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23646C433F5
+	for <linux-hyperv@archiver.kernel.org>; Sun,  6 Mar 2022 10:52:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbiCDXXt (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 4 Mar 2022 18:23:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60682 "EHLO
+        id S232554AbiCFKwy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 6 Mar 2022 05:52:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiCDXXs (ORCPT
+        with ESMTP id S232544AbiCFKwx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 4 Mar 2022 18:23:48 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88154DEC5;
-        Fri,  4 Mar 2022 15:22:58 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 42C0CB82C43;
-        Fri,  4 Mar 2022 23:22:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E31A5C340E9;
-        Fri,  4 Mar 2022 23:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646436175;
-        bh=JGCldX7FEWqVZ5Q+U58HuEVwslrSLhbhnML6kEBr9Ws=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=rQAjzobsYiAs9wsfWE2rkUFtA1eVSkOA2Iav4ks0CqW9RP+ItlZh454EggaFHA0t7
-         cMuMuy/be5qJ5PPtyG/1I9k0vG8LWuC0s+fh9P52rFCGl1J82aaAj6ulLeOz4jBEd+
-         Nd/6EoXUpXBY6u39E8iSHqihbbZHokm82wpl1YjLkM0+9H+801fikQc/d+uXwGJnhl
-         XBKYJYaojo34JXtttn23IyibunqEvz4QH2Jr0xJKJVWlwM1v3PugwJccgZI7srIP8x
-         7QO2Nby/+u0TkfMtRQBDDfBlWCbEwfvoCjXrEBxdGWWN5TvTd9q9BnIh/lHE9wt82J
-         YB5glRBbksGuA==
-Date:   Fri, 4 Mar 2022 15:22:54 -0800 (PST)
-From:   Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To:     Christoph Hellwig <hch@lst.de>
-cc:     Stefano Stabellini <sstabellini@kernel.org>,
-        iommu@lists.linux-foundation.org, x86@kernel.org,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Juergen Gross <jgross@suse.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        xen-devel@lists.xenproject.org, linux-ia64@vger.kernel.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, tboot-devel@lists.sourceforge.net,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH 11/12] swiotlb: merge swiotlb-xen initialization into
- swiotlb
-In-Reply-To: <20220304163430.GA12317@lst.de>
-Message-ID: <alpine.DEB.2.22.394.2203041511090.3261@ubuntu-linux-20-04-desktop>
-References: <20220301105311.885699-1-hch@lst.de> <20220301105311.885699-12-hch@lst.de> <alpine.DEB.2.22.394.2203011720150.3261@ubuntu-linux-20-04-desktop> <20220302081500.GB23075@lst.de> <alpine.DEB.2.22.394.2203021709470.3261@ubuntu-linux-20-04-desktop>
- <20220303105931.GA15137@lst.de> <alpine.DEB.2.22.394.2203031447120.3261@ubuntu-linux-20-04-desktop> <20220304163430.GA12317@lst.de>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Sun, 6 Mar 2022 05:52:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C361A42EE7
+        for <linux-hyperv@vger.kernel.org>; Sun,  6 Mar 2022 02:52:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1646563920;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=iVPsJI++8NxTvQuxgpBGAj3rYePyGMR0RrHuKmSxq8k=;
+        b=XMELMaauiFbZkJ+VFo3O4MZpkDS8TJPaDtzS3Zc9AM7ajIUe9RMLwv//j1NaT/W3K9O9Ed
+        5irV4PjmjkfPXSZlj3ktwd+0FuS3op6YqPfzV4SlTg/QShi4206DPyvt05FY7y+DQxfEgH
+        k3MRQC6z4k7H/VBnHp0gNN3Sq7Espnw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-494-AtMtshlROGOtIriESlE86A-1; Sun, 06 Mar 2022 05:51:59 -0500
+X-MC-Unique: AtMtshlROGOtIriESlE86A-1
+Received: by mail-wm1-f72.google.com with SMTP id 14-20020a05600c028e00b003897a4056e8so3155271wmk.9
+        for <linux-hyperv@vger.kernel.org>; Sun, 06 Mar 2022 02:51:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=iVPsJI++8NxTvQuxgpBGAj3rYePyGMR0RrHuKmSxq8k=;
+        b=LLJzH+oLO/zmkPQgw/W5eOidOuUc8wNEH0UkSeBJ0a0X7/02iIivWfMs2+k5XWX4MK
+         r0WayeAvSzL9rsHb8+OZ0kqWuQplhTbGhwzezWwZBsEvirsFLhVnBdOH+ngJUZ1MG5PK
+         DrFNzotuG3Wu3k3AYrgmKFTV6bdwWQ2/jDwLYiyhNPs8FABY2Vl26wi5ExkDM4nbpXiF
+         6KvbZbfoI3D1IlSuxxxPGDPq4NJVGjdycATGeY1LZlF6slgdjiBK8ykjYIiRDRFj8djM
+         V9Y3cyCIvAB2VOXalYzyO1DG27d27tt64IEgB7JbkBz9IqZUbj/z2evJve5c97yih8mi
+         QUwA==
+X-Gm-Message-State: AOAM530hy71HofQiuR9ZhR2DM2P2KBjnA65fTRZk9G18kSovhiCLArFd
+        18d1FQfPZxzQsrMjE+TFAL2EApOyUjozgCE7fi6X67ovbEiOgygEIKgsfXgJZTCrlZAa3PBssCE
+        NZRVD4NN+IQ6SAC2WVUMRJH7c
+X-Received: by 2002:a1c:f211:0:b0:381:6c60:742f with SMTP id s17-20020a1cf211000000b003816c60742fmr5362107wmc.130.1646563918151;
+        Sun, 06 Mar 2022 02:51:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz4kHksoHXBhkHSVL8W5sWONv/Xj5su2acSsqZQ8EHOl6htL6S1vVyXLg1NZgl/COehMlmxKQ==
+X-Received: by 2002:a1c:f211:0:b0:381:6c60:742f with SMTP id s17-20020a1cf211000000b003816c60742fmr5362087wmc.130.1646563917917;
+        Sun, 06 Mar 2022 02:51:57 -0800 (PST)
+Received: from fedora (ec2-3-80-233-239.compute-1.amazonaws.com. [3.80.233.239])
+        by smtp.gmail.com with ESMTPSA id 11-20020a05600c26cb00b0037ff53511f2sm15657788wmv.31.2022.03.06.02.51.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Mar 2022 02:51:57 -0800 (PST)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Cc:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] arm64: hyperv: make the format of 'Hyper-V: Host Build'
+ output match x86
+In-Reply-To: <MN0PR21MB309826D5A9E262A65E0E07F9D7059@MN0PR21MB3098.namprd21.prod.outlook.com>
+References: <20220304122425.1638370-1-vkuznets@redhat.com>
+ <MN0PR21MB309826D5A9E262A65E0E07F9D7059@MN0PR21MB3098.namprd21.prod.outlook.com>
+Date:   Sun, 06 Mar 2022 11:51:51 +0100
+Message-ID: <875yorbbg8.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, 4 Mar 2022, Christoph Hellwig wrote:
-> On Thu, Mar 03, 2022 at 02:49:29PM -0800, Stefano Stabellini wrote:
-> > On Thu, 3 Mar 2022, Christoph Hellwig wrote:
-> > > On Wed, Mar 02, 2022 at 05:25:10PM -0800, Stefano Stabellini wrote:
-> > > > Thinking more about it we actually need to drop the xen_initial_domain()
-> > > > check otherwise some cases won't be functional (Dom0 not 1:1 mapped, or
-> > > > DomU 1:1 mapped).
-> > > 
-> > > Hmm, but that would be the case even before this series, right?
-> > 
-> > Before this series we only have the xen_swiotlb_detect() check in
-> > xen_mm_init, we don't have a second xen_initial_domain() check.
-> > 
-> > The issue is that this series is adding one more xen_initial_domain()
-> > check in xen_mm_init.
-> 
-> In current mainline xen_mm_init calls xen_swiotlb_init unconditionally.
-> But xen_swiotlb_init then calls xen_swiotlb_fixup after allocating
-> the memory, which in turn calls xen_create_contiguous_region.
-> xen_create_contiguous_region fails with -EINVAL for the
-> !xen_initial_domain() and thus caues xen_swiotlb_fixup and
-> xen_swiotlb_init to unwind and return -EINVAL.
-> 
-> So as far as I can tell there is no change in behavior, but maybe I'm
-> missing something subtle?
+"Michael Kelley (LINUX)" <mikelley@microsoft.com> writes:
 
-You are right.
+> From: Vitaly Kuznetsov <vkuznets@redhat.com> Sent: Friday, March 4, 2022 4:24 AM
+>> 
+>> Currently, the following is observed on Hyper-V/ARM:
+>> 
+>>  Hyper-V: Host Build 10.0.22477.1061-1-0
+>> 
+>> This differs from similar output on x86:
+>> 
+>>  Hyper-V Host Build:20348-10.0-1-0.1138
+>> 
+>> and this is inconvenient. As x86 was the first to introduce the current
+>> format and to not break existing tools parsing it, change the format on
+>> ARM to match.
+>
+> Interesting.  I had explicitly output this line differently on ARM64 so
+> that the output is in the standard form of a Windows version number,
+> which is what the Host Build value actually is.  My intent is to fix the
+> x86 side as well.  I had not anticipated there being automated parsing
+> of these strings.
+>
+> I had also put the colon in the place to be consistent with most
+> other Hyper-V messages.  I know:  picky, picky. :-)
+>
+> What's the impact of changing the tools that parse it so that
+> either version could be handled?
 
-The xen_initial_domain() check in xen_create_contiguous_region() is
-wrong and we should get rid of it. It is a leftover from before the
-xen_swiotlb_detect rework.
+I wish we knew what tools are out there parsing this line :-) The issue
+got reported by QA as 'inconsistency'.
 
-We could either remove it or change it into another xen_swiotlb_detect()
-check.
+As the format of this string was never promissed to be an ABI I think we
+can go the other way around: change x86 to match ARM. Some scripts may
+need fixing but IMO this is acceptable. Let's just promiss to not change
+it in the future :-)
 
-Feel free to add the patch to your series or fold it with another patch
-or rework it as you prefer. Thanks for spotting this!
+-- 
+Vitaly
 
----
-
-arm/xen: don't check for xen_initial_domain() in xen_create_contiguous_region
-
-It used to be that Linux enabled swiotlb-xen when running a dom0 on ARM.
-Since f5079a9a2a31 "xen/arm: introduce XENFEAT_direct_mapped and
-XENFEAT_not_direct_mapped", Linux detects whether to enable or disable
-swiotlb-xen based on the new feature flags: XENFEAT_direct_mapped and
-XENFEAT_not_direct_mapped.
-
-However, there is still a leftover xen_initial_domain() check in
-xen_create_contiguous_region. Remove the check as
-xen_create_contiguous_region is only called by swiotlb-xen during
-initialization. If xen_create_contiguous_region is called, we know Linux
-is running 1:1 mapped so there is no need for additional checks.
-
-Also update the in-code comment.
-
-Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
-
-
-diff --git a/arch/arm/xen/mm.c b/arch/arm/xen/mm.c
-index a7e54a087b80..28c207060253 100644
---- a/arch/arm/xen/mm.c
-+++ b/arch/arm/xen/mm.c
-@@ -122,10 +122,7 @@ int xen_create_contiguous_region(phys_addr_t pstart, unsigned int order,
- 				 unsigned int address_bits,
- 				 dma_addr_t *dma_handle)
- {
--	if (!xen_initial_domain())
--		return -EINVAL;
--
--	/* we assume that dom0 is mapped 1:1 for now */
-+	/* the domain is 1:1 mapped to use swiotlb-xen */
- 	*dma_handle = pstart;
- 	return 0;
- }
