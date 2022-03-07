@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E9EC433FE
-	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Mar 2022 14:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 215C6C433FE
+	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Mar 2022 14:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243501AbiCGOv5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:51:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44842 "EHLO
+        id S243475AbiCGOwA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243460AbiCGOvy (ORCPT
+        with ESMTP id S243521AbiCGOvz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 7 Mar 2022 09:51:54 -0500
+        Mon, 7 Mar 2022 09:51:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0BE989027E
-        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:50:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6D99790CD2
+        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:50:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646664651;
+        s=mimecast20190719; t=1646664653;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rlVYgUkdWRyYsMOIFcOnRDf5aAd17ft9dtYdjY2xq6w=;
-        b=Bd6eIJ2Q9HxQ3F8DvWVHnKlr5HQt0CVj1Cj73hCYgqg4UrTI5fZDoQ1sBVregscq9WJMbs
-        +wZvmA4BhWOZwvbsxwxxZeDPDHk+AXwEJlA2KXFHXAROWdU0H/GZNTzBTii1MQdfCBrgu9
-        7rAN551LTM6V1++PDO4NVU/gJzTjdvY=
+        bh=LoSIusgLjJaqwxYyszOop3hSo5cVEixY4wGXy+fz2xw=;
+        b=CxOdRNwUFQzpGb2iykMwq6MvWKAgiEEomjTxv+Ev1MAAz8OdW6xPG5rGWh+JNIObSVI7VK
+        h+/0CzuCBdGhJqJ0Y9xupu9RhAnSzTrXjj2r+0HebkU5ahP3D2kBmoblcwOMJpL379urcY
+        NWHMrpqqhp63VcZ+gWI9/LD4KJcwJoc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-pFf_aL_KPBiuFik1sJZDbQ-1; Mon, 07 Mar 2022 09:50:48 -0500
-X-MC-Unique: pFf_aL_KPBiuFik1sJZDbQ-1
+ us-mta-14-AUvqjo2-PKy3bZDCRvkVwg-1; Mon, 07 Mar 2022 09:50:52 -0500
+X-MC-Unique: AUvqjo2-PKy3bZDCRvkVwg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6DCC1091DA0;
-        Mon,  7 Mar 2022 14:50:45 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 084E91854E26;
+        Mon,  7 Mar 2022 14:50:51 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.244])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC897F0D6;
-        Mon,  7 Mar 2022 14:50:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DACFF7F0D6;
+        Mon,  7 Mar 2022 14:50:48 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
@@ -47,9 +47,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         linux-hyperv@vger.kernel.org,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 07/19] KVM: x86: hyper-v: Create a separate ring for Direct TLB flush
-Date:   Mon,  7 Mar 2022 15:50:11 +0100
-Message-Id: <20220307145023.1913205-8-vkuznets@redhat.com>
+Subject: [PATCH RFC 09/19] KVM: nVMX: Keep track of hv_vm_id/hv_vp_id when eVMCS is in use
+Date:   Mon,  7 Mar 2022 15:50:13 +0100
+Message-Id: <20220307145023.1913205-10-vkuznets@redhat.com>
 In-Reply-To: <20220307145023.1913205-1-vkuznets@redhat.com>
 References: <20220307145023.1913205-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,111 +59,91 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-To handle Direct TLB flush requests from L2 KVM needs to use a
-separate ring from regular Hyper-V TLB flush requests: e.g. when a
-request to flush something in L2 is made, the target vCPU can
-transition from L2 to L1, receive a request to flush a GVA for L1 and
-then try to enter L2 back. The first request needs to be processed
-then. Similarly, requests to flush GVAs in L1 must wait until L2
-exits to L1.
+To handle Direct TLB flush requests from L2, KVM needs to keep track
+of L2's VM_ID/VP_IDs which are set by L1 hypervisor. 'Partition assist
+page' address is also needed to handle post-flush exit to L1 (upon
+request).
 
-No functional change yet as KVM doesn't handle Direct TLB flush
-requests from L2 yet.
+Assume vm_id/vp_id/partition_assist_page don't change while eVMCS
+is active.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h |  3 ++-
- arch/x86/kvm/hyperv.c           |  7 ++++---
- arch/x86/kvm/hyperv.h           | 17 ++++++++++++++---
- 3 files changed, 20 insertions(+), 7 deletions(-)
+ arch/x86/include/asm/kvm_host.h |  6 ++++++
+ arch/x86/kvm/vmx/nested.c       | 24 ++++++++++++++++++++----
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
 diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 299f73d06680..750ac4055d0c 100644
+index 1fce8232a2e9..21b502aa9655 100644
 --- a/arch/x86/include/asm/kvm_host.h
 +++ b/arch/x86/include/asm/kvm_host.h
-@@ -613,7 +613,8 @@ struct kvm_vcpu_hv {
- 		u32 syndbg_cap_eax; /* HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX */
- 	} cpuid_cache;
+@@ -618,6 +618,12 @@ struct kvm_vcpu_hv {
  
--	struct kvm_vcpu_hv_tlbflush_ring tlb_flush_ring;
-+	/* Two rings for regular Hyper-V TLB flush and Direct TLB flush */
-+	struct kvm_vcpu_hv_tlbflush_ring tlb_flush_ring[2];
+ 	/* Preallocated buffer for handling hypercalls passing sparse vCPU set */
+ 	u64 sparse_banks[64];
++
++	struct {
++		u64 pa_page_gpa;
++		u64 vm_id;
++		u32 vp_id;
++	} nested;
  };
  
  /* Xen HVM per vcpu emulation context */
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 7efa34fb15ef..9dfc122d5eca 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -946,7 +946,8 @@ static int kvm_hv_vcpu_init(struct kvm_vcpu *vcpu)
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index f18744f7ff82..dd3054c3291c 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -225,6 +225,7 @@ static void vmx_disable_shadow_vmcs(struct vcpu_vmx *vmx)
  
- 	hv_vcpu->vp_index = vcpu->vcpu_idx;
+ static inline void nested_release_evmcs(struct kvm_vcpu *vcpu)
+ {
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
  
--	spin_lock_init(&hv_vcpu->tlb_flush_ring.write_lock);
-+	spin_lock_init(&hv_vcpu->tlb_flush_ring[0].write_lock);
-+	spin_lock_init(&hv_vcpu->tlb_flush_ring[1].write_lock);
- 
- 	return 0;
- }
-@@ -1874,7 +1875,7 @@ static void hv_tlb_flush_ring_enqueue(struct kvm_vcpu *vcpu, bool flush_all,
- 	if (!hv_vcpu)
- 		return;
- 
--	tlb_flush_ring = &hv_vcpu->tlb_flush_ring;
-+	tlb_flush_ring = &hv_vcpu->tlb_flush_ring[0];
- 
- 	spin_lock_irqsave(&tlb_flush_ring->write_lock, flags);
- 
-@@ -1934,7 +1935,7 @@ void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu)
- 		return;
+ 	if (evmptr_is_valid(vmx->nested.hv_evmcs_vmptr)) {
+@@ -233,6 +234,9 @@ static inline void nested_release_evmcs(struct kvm_vcpu *vcpu)
  	}
  
--	tlb_flush_ring = &hv_vcpu->tlb_flush_ring;
-+	tlb_flush_ring = kvm_hv_get_tlb_flush_ring(vcpu);
- 	read_idx = READ_ONCE(tlb_flush_ring->read_idx);
- 	write_idx = READ_ONCE(tlb_flush_ring->write_idx);
- 
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 83960d1bdb1f..137f906eb8c3 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -22,6 +22,7 @@
- #define __ARCH_X86_KVM_HYPERV_H__
- 
- #include <linux/kvm_host.h>
-+#include "x86.h"
- 
- /*
-  * The #defines related to the synthetic debugger are required by KDNet, but
-@@ -147,15 +148,25 @@ int kvm_vm_ioctl_hv_eventfd(struct kvm *kvm, struct kvm_hyperv_eventfd *args);
- int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
- 		     struct kvm_cpuid_entry2 __user *entries);
- 
-+static inline struct kvm_vcpu_hv_tlbflush_ring *kvm_hv_get_tlb_flush_ring(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+
-+	if (!is_guest_mode(vcpu))
-+		return &hv_vcpu->tlb_flush_ring[0];
-+
-+	return &hv_vcpu->tlb_flush_ring[1];
-+}
- 
- static inline void kvm_hv_vcpu_empty_flush_tlb(struct kvm_vcpu *vcpu)
- {
--	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	struct kvm_vcpu_hv_tlbflush_ring *tlb_flush_ring;
- 
--	if (!hv_vcpu)
-+	if (!to_hv_vcpu(vcpu))
- 		return;
- 
--	hv_vcpu->tlb_flush_ring.read_idx = hv_vcpu->tlb_flush_ring.write_idx;
-+	tlb_flush_ring = kvm_hv_get_tlb_flush_ring(vcpu);
-+	tlb_flush_ring->read_idx = tlb_flush_ring->write_idx;
+ 	vmx->nested.hv_evmcs_vmptr = EVMPTR_INVALID;
++	hv_vcpu->nested.pa_page_gpa = INVALID_GPA;
++	hv_vcpu->nested.vm_id = 0;
++	hv_vcpu->nested.vp_id = 0;
  }
- void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
  
+ static void vmx_sync_vmcs_host_state(struct vcpu_vmx *vmx,
+@@ -2042,15 +2046,27 @@ static enum nested_evmptrld_status nested_vmx_handle_enlightened_vmptrld(
+ 
+ 	}
+ 
+-	/*
+-	 * Clean fields data can't be used on VMLAUNCH and when we switch
+-	 * between different L2 guests as KVM keeps a single VMCS12 per L1.
+-	 */
+ 	if (from_launch || evmcs_gpa_changed) {
++		struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(&vmx->vcpu);
++		struct hv_enlightened_vmcs *evmcs = vmx->nested.hv_evmcs;
++
++		/*
++		 * Clean fields data can't be used on VMLAUNCH and when we
++		 * switch between different L2 guests as KVM keeps a single
++		 * VMCS12 per L1.
++		 */
+ 		vmx->nested.hv_evmcs->hv_clean_fields &=
+ 			~HV_VMX_ENLIGHTENED_CLEAN_FIELD_ALL;
+ 
+ 		vmx->nested.force_msr_bitmap_recalc = true;
++
++		/*
++		 * Assume vm_id/vp_id/partition_assist_page don't change while
++		 * eVMCS is active.
++		 */
++		hv_vcpu->nested.pa_page_gpa = evmcs->partition_assist_page;
++		hv_vcpu->nested.vm_id = evmcs->hv_vm_id;
++		hv_vcpu->nested.vp_id = evmcs->hv_vp_id;
+ 	}
+ 
+ 	return EVMPTRLD_SUCCEEDED;
 -- 
 2.35.1
 
