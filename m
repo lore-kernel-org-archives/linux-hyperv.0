@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B19C433F5
-	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Mar 2022 14:51:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28800C433FE
+	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Mar 2022 14:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233842AbiCGOwA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:52:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44916 "EHLO
+        id S243478AbiCGOwJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:52:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243531AbiCGOv4 (ORCPT
+        with ESMTP id S243529AbiCGOwC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 7 Mar 2022 09:51:56 -0500
+        Mon, 7 Mar 2022 09:52:02 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD07C90CED
-        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:50:55 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E10CE8BE08
+        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:50:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646664654;
+        s=mimecast20190719; t=1646664658;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=0tDVPG+cSC0wZSZXXfWO0Gv51YvV+L3gtZb8BmeIrIg=;
-        b=dV99z52CIlEen6VzqLv70GPLNEiAf1QGUQY88TMuzf5Md7W+wAbn9e5Zd7Xm4vvbBzSN2M
-        RHgk31o2NvnKP3QZjjaC7Ca0rZRvk6ksYtl7uF9lLgrCaGZ6DC6bbLf9nVBQJx5pzCu72H
-        QkPYoPJYDNuZfhL+Nv1/6o5E5k/xHlU=
+        bh=hURzgvRKcr/batMnM0awJ6HNtSiG3Y83/511GoAYwDE=;
+        b=YQEcTm/Zf/6qASIB6j/ycMrE+YizRSzdmjBl+/9wwPkUWPCqkFu3quMnBqLw7/FM5D3W/R
+        BuebhxQkbnOD2+LuD1zIJtpgivOwDXhb8MBXbDAYYdAAYC+D8LYyYFeKyC3mTg4K4njSUV
+        FmcFv166OxV594QNF0CAu2KdIIIwiFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-280-YLL5bB4BMGKzBhyImxwLwg-1; Mon, 07 Mar 2022 09:50:49 -0500
-X-MC-Unique: YLL5bB4BMGKzBhyImxwLwg-1
+ us-mta-364-gf_Pk8KQOQ-L7upbIVQ5zQ-1; Mon, 07 Mar 2022 09:50:55 -0500
+X-MC-Unique: gf_Pk8KQOQ-L7upbIVQ5zQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C97C5218;
-        Mon,  7 Mar 2022 14:50:48 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B11A75218;
+        Mon,  7 Mar 2022 14:50:53 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.244])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 201B67F0D6;
-        Mon,  7 Mar 2022 14:50:45 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F7A87F0D6;
+        Mon,  7 Mar 2022 14:50:51 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
@@ -47,9 +47,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         linux-hyperv@vger.kernel.org,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 08/19] KVM: x86: hyper-v: Use preallocated buffer in 'struct kvm_vcpu_hv' instead of on-stack 'sparse_banks'
-Date:   Mon,  7 Mar 2022 15:50:12 +0100
-Message-Id: <20220307145023.1913205-9-vkuznets@redhat.com>
+Subject: [PATCH RFC 10/19] KVM: nSVM: Keep track of Hyper-V hv_vm_id/hv_vp_id
+Date:   Mon,  7 Mar 2022 15:50:14 +0100
+Message-Id: <20220307145023.1913205-11-vkuznets@redhat.com>
 In-Reply-To: <20220307145023.1913205-1-vkuznets@redhat.com>
 References: <20220307145023.1913205-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,68 +59,51 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-To make kvm_hv_flush_tlb() ready to handle Direct TLB flush request
-KVM needs to allow for all 64 sparse vCPU banks regardless of KVM_MAX_VCPUs
-as L1 may use vCPU overcommit for L2. To avoid growing on-stack allocation,
-make 'sparse_banks' part of per-vCPU 'struct kvm_vcpu_hv' which is
-allocated dynamically.
-
-Note: sparse_set_to_vcpu_mask() keeps using on-stack allocation as it
-won't be used to handle Direct TLB flush requests.
+Similar to nSVM, KVM needs to know L2's VM_ID/VP_ID and Partition
+assist page address to handle Direct TLB flush requests.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h | 3 +++
- arch/x86/kvm/hyperv.c           | 6 ++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ arch/x86/kvm/svm/hyperv.h | 15 +++++++++++++++
+ arch/x86/kvm/svm/nested.c |  2 ++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 750ac4055d0c..1fce8232a2e9 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -615,6 +615,9 @@ struct kvm_vcpu_hv {
+diff --git a/arch/x86/kvm/svm/hyperv.h b/arch/x86/kvm/svm/hyperv.h
+index 7d6d97968fb9..27479469f672 100644
+--- a/arch/x86/kvm/svm/hyperv.h
++++ b/arch/x86/kvm/svm/hyperv.h
+@@ -32,4 +32,19 @@ struct hv_enlightenments {
+  */
+ #define VMCB_HV_NESTED_ENLIGHTENMENTS VMCB_SW
  
- 	/* Two rings for regular Hyper-V TLB flush and Direct TLB flush */
- 	struct kvm_vcpu_hv_tlbflush_ring tlb_flush_ring[2];
++static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_svm *svm = to_svm(vcpu);
++	struct hv_enlightenments *hve =
++		(struct hv_enlightenments *)svm->nested.ctl.reserved_sw;
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
 +
-+	/* Preallocated buffer for handling hypercalls passing sparse vCPU set */
-+	u64 sparse_banks[64];
- };
++	if (!hv_vcpu)
++		return;
++
++	hv_vcpu->nested.pa_page_gpa = hve->partition_assist_page;
++	hv_vcpu->nested.vm_id = hve->hv_vm_id;
++	hv_vcpu->nested.vp_id = hve->hv_vp_id;
++}
++
+ #endif /* __ARCH_X86_KVM_SVM_HYPERV_H__ */
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index 96bab464967f..f47570fa503e 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -752,6 +752,8 @@ int nested_svm_vmrun(struct kvm_vcpu *vcpu)
  
- /* Xen HVM per vcpu emulation context */
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 9dfc122d5eca..b88e44a126b8 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -1969,13 +1969,14 @@ void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu)
+ 	svm->nested.nested_run_pending = 1;
  
- static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- {
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	u64 *sparse_banks = hv_vcpu->sparse_banks;
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_tlb_flush_ex flush_ex;
- 	struct hv_tlb_flush flush;
- 	DECLARE_BITMAP(vcpu_mask, KVM_MAX_VCPUS);
- 	u64 entries[KVM_HV_TLB_FLUSH_RING_SIZE - 2];
- 	u64 valid_bank_mask;
--	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	struct kvm_vcpu *v;
- 	unsigned long i;
- 	bool all_cpus, all_addr;
-@@ -2127,11 +2128,12 @@ static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
- 
- static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- {
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	u64 *sparse_banks = hv_vcpu->sparse_banks;
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_send_ipi_ex send_ipi_ex;
- 	struct hv_send_ipi send_ipi;
- 	unsigned long valid_bank_mask;
--	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	u32 vector;
- 	bool all_cpus;
++	nested_svm_hv_update_vm_vp_ids(vcpu);
++
+ 	if (enter_svm_guest_mode(vcpu, vmcb12_gpa, vmcb12, true))
+ 		goto out_exit_err;
  
 -- 
 2.35.1
