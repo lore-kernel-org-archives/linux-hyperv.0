@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD8FC43217
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C79C4332F
 	for <linux-hyperv@archiver.kernel.org>; Mon,  7 Mar 2022 14:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243509AbiCGOyL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:54:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
+        id S243472AbiCGOyM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:54:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243472AbiCGOwV (ORCPT
+        with ESMTP id S243689AbiCGOwy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 7 Mar 2022 09:52:21 -0500
+        Mon, 7 Mar 2022 09:52:54 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE94C90CCF
-        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:51:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7F3CD90254
+        for <linux-hyperv@vger.kernel.org>; Mon,  7 Mar 2022 06:51:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1646664669;
+        s=mimecast20190719; t=1646664683;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Gkr32gLCpegSELJcT7qdogv1QJC+6j2y6oSy6+rCKt0=;
-        b=FRyFFz0oTS52Zk/L3EhO1rdCUj6c3KBXBgL7LFlaK85Wpqdf/qpZxQdoRGkTT/4Egp9TmK
-        xN4CL1zloLJ+NnyNTHUvswIXbmietLK3f4gkw0ghFbYoHuOOf5GdILji+aCKjW46BQWn7p
-        uJCWJW562R+ZuitYmdCKx5RYVr2xdI4=
+        bh=u3c9w/aK7c+8N73IFmes1GpB1imyjMjXrb2rGtlAH/I=;
+        b=QgX1iUIRElj7+aXwlNKugd/10OaEsiHnaXN7vtXLeoxkkfSz5mckjEUFM+FFEesoMYfoFg
+        HEvOb2dnPH18600Kcz0lbHal5kOrCtcHFla0s4fr/zduHscsITm0ZQWUC2PCCb44gi7/V8
+        NjthB7uOTi41YkC+r1cxxIbHUrANfd8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-220-FqCEp2pgMhaPFLK7IE1VUA-1; Mon, 07 Mar 2022 09:51:06 -0500
-X-MC-Unique: FqCEp2pgMhaPFLK7IE1VUA-1
+ us-mta-634-X5bKvnBEMXuB8DhXj7GQAg-1; Mon, 07 Mar 2022 09:51:20 -0500
+X-MC-Unique: X5bKvnBEMXuB8DhXj7GQAg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D39D31006AA6;
-        Mon,  7 Mar 2022 14:51:04 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B447C1091DA0;
+        Mon,  7 Mar 2022 14:51:17 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.244])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 96D347FFED;
-        Mon,  7 Mar 2022 14:51:02 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 69AC57F0DF;
+        Mon,  7 Mar 2022 14:51:15 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
@@ -47,9 +47,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         linux-hyperv@vger.kernel.org,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 13/19] KVM: x86: hyper-v: Direct TLB flush
-Date:   Mon,  7 Mar 2022 15:50:17 +0100
-Message-Id: <20220307145023.1913205-14-vkuznets@redhat.com>
+Subject: [PATCH RFC 18/19] KVM: nSVM: hyper-v: Direct TLB flush
+Date:   Mon,  7 Mar 2022 15:50:22 +0100
+Message-Id: <20220307145023.1913205-19-vkuznets@redhat.com>
 In-Reply-To: <20220307145023.1913205-1-vkuznets@redhat.com>
 References: <20220307145023.1913205-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,224 +59,135 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Handle Direct TLB flush requests from L2 by going through all vCPUs
-and checking whether there are vCPUs running the same VM_ID with a
-VP_ID specified in the requests. Perform synthetic exit to L2 upon
-finish.
-
-Note, while checking VM_ID/VP_ID of running vCPUs seem to be a bit
-racy, we count on the fact that KVM flushes the whole L2 VPID upon
-transition. Also, KVM_REQ_HV_TLB_FLUSH request needs to be done upon
-transition between L1 and L2 to make sure all pending requests are
-always processed.
-
-Note, while nVMX/nSVM code does not handle VMCALL/VMMCALL from L2 yet.
+Implement Hyper-V Direct TLB flush for nSVM feature. The feature needs
+to be enabled both in extended 'nested controls' in VMCB and partition
+assist page. According to TLFS, synthetic vmexit to L1 is performed
+with
+- HV_SVM_EXITCODE_ENL exit_code.
+- HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH exit_info_1.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c | 65 ++++++++++++++++++++++++++++++++++++-------
- arch/x86/kvm/trace.h  | 21 ++++++++------
- 2 files changed, 68 insertions(+), 18 deletions(-)
+ arch/x86/kvm/svm/hyperv.c |  7 +++++++
+ arch/x86/kvm/svm/hyperv.h | 20 ++++++++++++++++++++
+ arch/x86/kvm/svm/nested.c | 22 +++++++++++++++++++++-
+ 3 files changed, 48 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index b88e44a126b8..865b4d9a26fe 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -34,6 +34,7 @@
- #include <linux/eventfd.h>
+diff --git a/arch/x86/kvm/svm/hyperv.c b/arch/x86/kvm/svm/hyperv.c
+index 0142fde34738..f3298c70053e 100644
+--- a/arch/x86/kvm/svm/hyperv.c
++++ b/arch/x86/kvm/svm/hyperv.c
+@@ -8,4 +8,11 @@
  
- #include <asm/apicdef.h>
-+#include <asm/mshyperv.h>
- #include <trace/events/kvm.h>
- 
- #include "trace.h"
-@@ -1863,8 +1864,8 @@ static inline int hv_tlb_flush_ring_free(struct kvm_vcpu_hv *hv_vcpu,
- 	return read_idx - write_idx - 1;
- }
- 
--static void hv_tlb_flush_ring_enqueue(struct kvm_vcpu *vcpu, bool flush_all,
--				      u64 *entries, int count)
-+static void hv_tlb_flush_ring_enqueue(struct kvm_vcpu *vcpu, bool direct,
-+				      bool flush_all, u64 *entries, int count)
+ void svm_post_hv_direct_flush(struct kvm_vcpu *vcpu)
  {
- 	struct kvm_vcpu_hv_tlbflush_ring *tlb_flush_ring;
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-@@ -1875,7 +1876,7 @@ static void hv_tlb_flush_ring_enqueue(struct kvm_vcpu *vcpu, bool flush_all,
- 	if (!hv_vcpu)
- 		return;
- 
--	tlb_flush_ring = &hv_vcpu->tlb_flush_ring[0];
-+	tlb_flush_ring = direct ? &hv_vcpu->tlb_flush_ring[1] : &hv_vcpu->tlb_flush_ring[0];
- 
- 	spin_lock_irqsave(&tlb_flush_ring->write_lock, flags);
- 
-@@ -2010,7 +2011,8 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 		}
- 
- 		trace_kvm_hv_flush_tlb(flush.processor_mask,
--				       flush.address_space, flush.flags);
-+				       flush.address_space, flush.flags,
-+				       is_guest_mode(vcpu));
- 
- 		valid_bank_mask = BIT_ULL(0);
- 		sparse_banks[0] = flush.processor_mask;
-@@ -2041,7 +2043,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 		trace_kvm_hv_flush_tlb_ex(flush_ex.hv_vp_set.valid_bank_mask,
- 					  flush_ex.hv_vp_set.format,
- 					  flush_ex.address_space,
--					  flush_ex.flags);
-+					  flush_ex.flags, is_guest_mode(vcpu));
- 
- 		valid_bank_mask = flush_ex.hv_vp_set.valid_bank_mask;
- 		all_cpus = flush_ex.hv_vp_set.format !=
-@@ -2080,19 +2082,45 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	 * vcpu->arch.cr3 may not be up-to-date for running vCPUs so we can't
- 	 * analyze it here, flush TLB regardless of the specified address space.
- 	 */
--	if (all_cpus) {
-+	if (all_cpus && !is_guest_mode(vcpu)) {
- 		kvm_for_each_vcpu(i, v, kvm)
--			hv_tlb_flush_ring_enqueue(v, all_addr, entries, hc->rep_cnt);
-+			hv_tlb_flush_ring_enqueue(v, false, all_addr, entries, hc->rep_cnt);
- 
- 		kvm_make_all_cpus_request(kvm, KVM_REQ_HV_TLB_FLUSH);
--	} else {
-+	} else if (!is_guest_mode(vcpu)) {
- 		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
- 
- 		for_each_set_bit(i, vcpu_mask, KVM_MAX_VCPUS) {
- 			v = kvm_get_vcpu(kvm, i);
- 			if (!v)
- 				continue;
--			hv_tlb_flush_ring_enqueue(v, all_addr, entries, hc->rep_cnt);
-+			hv_tlb_flush_ring_enqueue(v, false, all_addr, entries, hc->rep_cnt);
-+		}
++	struct vcpu_svm *svm = to_svm(vcpu);
 +
-+		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
-+	} else {
-+		struct kvm_vcpu_hv *hv_v;
-+
-+		bitmap_zero(vcpu_mask, KVM_MAX_VCPUS);
-+
-+		kvm_for_each_vcpu(i, v, kvm) {
-+			hv_v = to_hv_vcpu(v);
-+
-+			/*
-+			 * TLB is fully flushed on L2 VM change: either by KVM
-+			 * (on a eVMPTR switch) or by L1 hypervisor (in case it
-+			 * re-purposes the active eVMCS for a different VM/VP).
-+			 */
-+			if (!hv_v || hv_v->nested.vm_id != hv_vcpu->nested.vm_id)
-+				continue;
-+
-+			if (!all_cpus &&
-+			    !hv_is_vp_in_sparse_set(hv_v->nested.vp_id, valid_bank_mask,
-+						    sparse_banks))
-+				continue;
-+
-+			__set_bit(i, vcpu_mask);
-+			hv_tlb_flush_ring_enqueue(v, true, all_addr, entries, hc->rep_cnt);
- 		}
- 
- 		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
-@@ -2280,10 +2308,27 @@ static void kvm_hv_hypercall_set_result(struct kvm_vcpu *vcpu, u64 result)
- 
- static int kvm_hv_hypercall_complete(struct kvm_vcpu *vcpu, u64 result)
- {
-+	int ret;
-+
- 	trace_kvm_hv_hypercall_done(result);
- 	kvm_hv_hypercall_set_result(vcpu, result);
- 	++vcpu->stat.hypercalls;
--	return kvm_skip_emulated_instruction(vcpu);
-+	ret = kvm_skip_emulated_instruction(vcpu);
-+
-+	if (unlikely(hv_result_success(result) && is_guest_mode(vcpu)
-+		     && kvm_hv_is_tlb_flush_hcall(vcpu))) {
-+		struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+		u32 tlb_lock_count;
-+
-+		if (unlikely(kvm_read_guest(vcpu->kvm, hv_vcpu->nested.pa_page_gpa,
-+					    &tlb_lock_count, sizeof(tlb_lock_count))))
-+			kvm_inject_gp(vcpu, 0);
-+
-+		if (tlb_lock_count)
-+			kvm_x86_ops.nested_ops->post_hv_direct_flush(vcpu);
-+	}
-+
-+	return ret;
++	svm->vmcb->control.exit_code = HV_SVM_EXITCODE_ENL;
++	svm->vmcb->control.exit_code_hi = 0;
++	svm->vmcb->control.exit_info_1 = HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH;
++	svm->vmcb->control.exit_info_2 = 0;
++	nested_svm_vmexit(svm);
  }
+diff --git a/arch/x86/kvm/svm/hyperv.h b/arch/x86/kvm/svm/hyperv.h
+index 478db6f61d69..80d12e075b4f 100644
+--- a/arch/x86/kvm/svm/hyperv.h
++++ b/arch/x86/kvm/svm/hyperv.h
+@@ -9,6 +9,7 @@
+ #include <asm/mshyperv.h>
  
- static int kvm_hv_hypercall_complete_userspace(struct kvm_vcpu *vcpu)
-diff --git a/arch/x86/kvm/trace.h b/arch/x86/kvm/trace.h
-index 193f5ba930d1..82e1646b9433 100644
---- a/arch/x86/kvm/trace.h
-+++ b/arch/x86/kvm/trace.h
-@@ -1477,38 +1477,41 @@ TRACE_EVENT(kvm_hv_timer_state,
-  * Tracepoint for kvm_hv_flush_tlb.
-  */
- TRACE_EVENT(kvm_hv_flush_tlb,
--	TP_PROTO(u64 processor_mask, u64 address_space, u64 flags),
--	TP_ARGS(processor_mask, address_space, flags),
-+	TP_PROTO(u64 processor_mask, u64 address_space, u64 flags, bool direct),
-+	TP_ARGS(processor_mask, address_space, flags, direct),
- 
- 	TP_STRUCT__entry(
- 		__field(u64, processor_mask)
- 		__field(u64, address_space)
- 		__field(u64, flags)
-+		__field(bool, direct)
- 	),
- 
- 	TP_fast_assign(
- 		__entry->processor_mask = processor_mask;
- 		__entry->address_space = address_space;
- 		__entry->flags = flags;
-+		__entry->direct = direct;
- 	),
- 
--	TP_printk("processor_mask 0x%llx address_space 0x%llx flags 0x%llx",
-+	TP_printk("processor_mask 0x%llx address_space 0x%llx flags 0x%llx %s",
- 		  __entry->processor_mask, __entry->address_space,
--		  __entry->flags)
-+		  __entry->flags, __entry->direct ? "(direct)" : "")
- );
+ #include "../hyperv.h"
++#include "svm.h"
  
  /*
-  * Tracepoint for kvm_hv_flush_tlb_ex.
+  * Hyper-V uses the software reserved 32 bytes in VMCB
+@@ -32,6 +33,9 @@ struct hv_enlightenments {
   */
- TRACE_EVENT(kvm_hv_flush_tlb_ex,
--	TP_PROTO(u64 valid_bank_mask, u64 format, u64 address_space, u64 flags),
--	TP_ARGS(valid_bank_mask, format, address_space, flags),
-+	TP_PROTO(u64 valid_bank_mask, u64 format, u64 address_space, u64 flags, bool direct),
-+	TP_ARGS(valid_bank_mask, format, address_space, flags, direct),
+ #define VMCB_HV_NESTED_ENLIGHTENMENTS VMCB_SW
  
- 	TP_STRUCT__entry(
- 		__field(u64, valid_bank_mask)
- 		__field(u64, format)
- 		__field(u64, address_space)
- 		__field(u64, flags)
-+		__field(bool, direct)
- 	),
++#define HV_SVM_EXITCODE_ENL 0xF0000000
++#define HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH   (1)
++
+ static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_svm *svm = to_svm(vcpu);
+@@ -47,6 +51,22 @@ static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
+ 	hv_vcpu->nested.vp_id = hve->hv_vp_id;
+ }
  
- 	TP_fast_assign(
-@@ -1516,12 +1519,14 @@ TRACE_EVENT(kvm_hv_flush_tlb_ex,
- 		__entry->format = format;
- 		__entry->address_space = address_space;
- 		__entry->flags = flags;
-+		__entry->direct = direct;
- 	),
++static inline bool nested_svm_direct_flush_enabled(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_svm *svm = to_svm(vcpu);
++	struct hv_enlightenments *hve =
++		(struct hv_enlightenments *)svm->nested.ctl.reserved_sw;
++	struct hv_vp_assist_page assist_page;
++
++	if (unlikely(!kvm_hv_get_assist_page(vcpu, &assist_page)))
++		return false;
++
++	if (!hve->hv_enlightenments_control.nested_flush_hypercall)
++		return false;
++
++	return assist_page.nested_control.features.directhypercall;
++}
++
+ void svm_post_hv_direct_flush(struct kvm_vcpu *vcpu);
  
- 	TP_printk("valid_bank_mask 0x%llx format 0x%llx "
--		  "address_space 0x%llx flags 0x%llx",
-+		  "address_space 0x%llx flags 0x%llx %s",
- 		  __entry->valid_bank_mask, __entry->format,
--		  __entry->address_space, __entry->flags)
-+		  __entry->address_space, __entry->flags,
-+		  __entry->direct ? "(direct)" : "")
- );
+ #endif /* __ARCH_X86_KVM_SVM_HYPERV_H__ */
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index 46ea234363cf..3f6c2f088e26 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -153,7 +153,8 @@ void recalc_intercepts(struct vcpu_svm *svm)
+ 	}
  
- /*
+ 	/* We don't want to see VMMCALLs from a nested guest */
+-	vmcb_clr_intercept(c, INTERCEPT_VMMCALL);
++	if (!nested_svm_direct_flush_enabled(&svm->vcpu))
++		vmcb_clr_intercept(c, INTERCEPT_VMMCALL);
+ 
+ 	for (i = 0; i < MAX_INTERCEPT; i++)
+ 		c->intercepts[i] |= g->intercepts[i];
+@@ -461,6 +462,17 @@ static inline bool nested_npt_enabled(struct vcpu_svm *svm)
+ 
+ static void nested_svm_transition_tlb_flush(struct kvm_vcpu *vcpu)
+ {
++	/*
++	 * KVM_REQ_HV_TLB_FLUSH flushes entries from either L1's VPID or
++	 * L2's VPID upon request from the guest. Make sure we check for
++	 * pending entries for the case when the request got misplaced (e.g.
++	 * a transition from L2->L1 happened while processing Direct TLB flush
++	 * request or vice versa). kvm_hv_vcpu_flush_tlb() will not flush
++	 * anything if there are no requests in the corresponding buffer.
++	 */
++	if (to_hv_vcpu(vcpu))
++		kvm_make_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
++
+ 	/*
+ 	 * TODO: optimize unconditional TLB flush/MMU sync.  A partial list of
+ 	 * things to fix before this can be conditional:
+@@ -1266,6 +1278,7 @@ static int svm_check_nested_events(struct kvm_vcpu *vcpu)
+ int nested_svm_exit_special(struct vcpu_svm *svm)
+ {
+ 	u32 exit_code = svm->vmcb->control.exit_code;
++	struct kvm_vcpu *vcpu = &svm->vcpu;
+ 
+ 	switch (exit_code) {
+ 	case SVM_EXIT_INTR:
+@@ -1284,6 +1297,13 @@ int nested_svm_exit_special(struct vcpu_svm *svm)
+ 			return NESTED_EXIT_HOST;
+ 		break;
+ 	}
++	case SVM_EXIT_VMMCALL:
++		/* Hyper-V Direct TLB flush hypercall is handled by L0 */
++		if (kvm_hv_direct_tlb_flush_exposed(vcpu) &&
++		    nested_svm_direct_flush_enabled(vcpu) &&
++		    kvm_hv_is_tlb_flush_hcall(vcpu))
++			return NESTED_EXIT_HOST;
++		break;
+ 	default:
+ 		break;
+ 	}
 -- 
 2.35.1
 
