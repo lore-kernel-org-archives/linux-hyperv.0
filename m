@@ -2,32 +2,32 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CC2C35273
-	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Mar 2022 07:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D464C4332F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 14 Mar 2022 07:32:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236660AbiCNHdJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 14 Mar 2022 03:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47218 "EHLO
+        id S236681AbiCNHdX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 14 Mar 2022 03:33:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236668AbiCNHc6 (ORCPT
+        with ESMTP id S236666AbiCNHdK (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 14 Mar 2022 03:32:58 -0400
+        Mon, 14 Mar 2022 03:33:10 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FB1E40A2D;
-        Mon, 14 Mar 2022 00:31:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F5740A2D;
+        Mon, 14 Mar 2022 00:32:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=HhGavQ6qvlf8H5F/ZlRZDjP5Hg4YmQaPJkbgnrtpMJI=; b=x1HmPcRq+EIQAGkkRG5r3Q2ccQ
-        wnlPc6HT3VpJAMMRF1p4SFikzmXOQYomeT6ykxwmWCxoebP1bN2ceE+8XNvoM8N5VllZnT75DHXGC
-        h4wekLHOCpTAFXijUS4GI7cBuhiIwxysA4rgf8RJTlGS2pKLIVQjT1AeGrirHMuQmzJkixPdmUiaw
-        cmRW8o6cqr3klWE3JQHi+2CDOTmN7yN+qKBICbgnWeDRcK/2hY0uiepsrGceY5FvPtk+56Vn9gD0m
-        a70FwFmi8fEZWw8s5/U6tP9pIaV7UquRjOae803zd4ky95pR5AVFQCHxkh5K/hYSfr0VZAdOqR1aQ
-        rxPZmEfQ==;
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+        :Reply-To:Content-Type:Content-ID:Content-Description;
+        bh=PXzvxDuJ7dtq4MEwSJLJWBZwmoZU9P9omOl6CdJuIoM=; b=qiuq87bYuaIlaiP0CNaY36Vw2E
+        eRadO6nXlKLFyymOzH7mAwQgeK4fEKmdRvF6EjtdqK6+MbDIOpkQiH+QdW80NTaMs30eyNTyE8Tmg
+        xFZRbGO0LcYfGQuCTWKgMJnzCl+u0P4/fgJMtF3taDNIcjh1uSBVkVIECGoChzB8GkRiKr8LnKX3u
+        6GNxIeUiA+DizSoHt6RIqvYjOaVp03itnUL9qBG06/2pqM7shQiyVji3SqadJOIwzwmiBbcIGlXvU
+        +hGhlJ94coaCT4H/vaPwPH1xU9garA4YArn7xfz6IqfQCCp1++XWmvY/xfmXvDkNEPMfCy/gu7s3t
+        M0LxkcQA==;
 Received: from [46.140.54.162] (helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nTfAx-0044RD-TW; Mon, 14 Mar 2022 07:31:32 +0000
+        id 1nTfBE-0044YU-6n; Mon, 14 Mar 2022 07:31:48 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     iommu@lists.linux-foundation.org
 Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -45,11 +45,14 @@ Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
         linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
         linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
         linux-hyperv@vger.kernel.org, tboot-devel@lists.sourceforge.net,
-        linux-pci@vger.kernel.org
-Subject: cleanup swiotlb initialization v5
-Date:   Mon, 14 Mar 2022 08:31:14 +0100
-Message-Id: <20220314073129.1862284-1-hch@lst.de>
+        linux-pci@vger.kernel.org,
+        Stefano Stabellini <stefano.stabellini@xilinx.com>
+Subject: [PATCH 05/15] arm/xen: don't check for xen_initial_domain() in xen_create_contiguous_region
+Date:   Mon, 14 Mar 2022 08:31:19 +0100
+Message-Id: <20220314073129.1862284-6-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220314073129.1862284-1-hch@lst.de>
+References: <20220314073129.1862284-1-hch@lst.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
@@ -57,89 +60,44 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi all,
+From: Stefano Stabellini <sstabellini@kernel.org>
 
-this series tries to clean up the swiotlb initialization, including
-that of swiotlb-xen.  To get there is also removes the x86 iommu table
-infrastructure that massively obsfucates the initialization path.
+It used to be that Linux enabled swiotlb-xen when running a dom0 on ARM.
+Since f5079a9a2a31 "xen/arm: introduce XENFEAT_direct_mapped and
+XENFEAT_not_direct_mapped", Linux detects whether to enable or disable
+swiotlb-xen based on the new feature flags: XENFEAT_direct_mapped and
+XENFEAT_not_direct_mapped.
 
-Git tree:
+However, there is still a leftover xen_initial_domain() check in
+xen_create_contiguous_region. Remove the check as
+xen_create_contiguous_region is only called by swiotlb-xen during
+initialization. If xen_create_contiguous_region is called, we know Linux
+is running 1:1 mapped so there is no need for additional checks.
 
-    git://git.infradead.org/users/hch/misc.git swiotlb-init-cleanup
+Also update the in-code comment.
 
-Gitweb:
+Signed-off-by: Stefano Stabellini <stefano.stabellini@xilinx.com>
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ arch/arm/xen/mm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/swiotlb-init-cleanup
+diff --git a/arch/arm/xen/mm.c b/arch/arm/xen/mm.c
+index a7e54a087b802..28c2070602535 100644
+--- a/arch/arm/xen/mm.c
++++ b/arch/arm/xen/mm.c
+@@ -122,10 +122,7 @@ int xen_create_contiguous_region(phys_addr_t pstart, unsigned int order,
+ 				 unsigned int address_bits,
+ 				 dma_addr_t *dma_handle)
+ {
+-	if (!xen_initial_domain())
+-		return -EINVAL;
+-
+-	/* we assume that dom0 is mapped 1:1 for now */
++	/* the domain is 1:1 mapped to use swiotlb-xen */
+ 	*dma_handle = pstart;
+ 	return 0;
+ }
+-- 
+2.30.2
 
-Changes since v5:
- - split a patch into three
- - fix setting x86_swiotlb_enable for Xen
- - fix a comment about forced bounce buffering for guest memory
-   encryption
- - remove the xen_initial_domain check from
-   xen_create_contiguous_region
-
-Changes since v3:
- - fix a compilation issue on some powerpc configfs
- - fix and cleanup how forced bounce buffering is enabled for
-   guest memory encryption
-
-Changes since v2:
- - make ppc_swiotlb_flags actually work again
- - also force enable swiotlb for guest encrypted memory to cater
-   to hyperv which doesn't set the host encrypted memory flag
-
-Changes since v1:
- - skip IOMMU initialization on Xen PV kernels
- - various small whitespace / typo fixes
-
-Diffstat:
- arch/ia64/include/asm/iommu_table.h      |    7 -
- arch/x86/include/asm/iommu_table.h       |  102 ------------------
- arch/x86/include/asm/swiotlb.h           |   30 -----
- arch/x86/kernel/pci-iommu_table.c        |   77 -------------
- arch/x86/kernel/pci-swiotlb.c            |   77 -------------
- arch/x86/xen/pci-swiotlb-xen.c           |   96 -----------------
- b/arch/arm/mm/init.c                     |    6 -
- b/arch/arm/xen/mm.c                      |   26 ++--
- b/arch/arm64/mm/init.c                   |    6 -
- b/arch/ia64/mm/init.c                    |    4 
- b/arch/mips/cavium-octeon/dma-octeon.c   |   15 --
- b/arch/mips/loongson64/dma.c             |    2 
- b/arch/mips/pci/pci-octeon.c             |    2 
- b/arch/mips/sibyte/common/dma.c          |    2 
- b/arch/powerpc/include/asm/svm.h         |    4 
- b/arch/powerpc/include/asm/swiotlb.h     |    1 
- b/arch/powerpc/kernel/dma-swiotlb.c      |    1 
- b/arch/powerpc/mm/mem.c                  |    6 -
- b/arch/powerpc/platforms/pseries/setup.c |    3 
- b/arch/powerpc/platforms/pseries/svm.c   |   26 ----
- b/arch/riscv/mm/init.c                   |    8 -
- b/arch/s390/mm/init.c                    |    3 
- b/arch/x86/include/asm/dma-mapping.h     |   12 --
- b/arch/x86/include/asm/gart.h            |    5 
- b/arch/x86/include/asm/iommu.h           |    8 +
- b/arch/x86/include/asm/xen/page.h        |    5 
- b/arch/x86/include/asm/xen/swiotlb-xen.h |    2 
- b/arch/x86/kernel/Makefile               |    2 
- b/arch/x86/kernel/amd_gart_64.c          |    5 
- b/arch/x86/kernel/aperture_64.c          |   14 --
- b/arch/x86/kernel/cpu/mshyperv.c         |    8 -
- b/arch/x86/kernel/pci-dma.c              |  113 ++++++++++++++++----
- b/arch/x86/kernel/tboot.c                |    1 
- b/arch/x86/kernel/vmlinux.lds.S          |   12 --
- b/arch/x86/mm/mem_encrypt_amd.c          |    3 
- b/arch/x86/pci/sta2x11-fixup.c           |    2 
- b/arch/x86/xen/Makefile                  |    2 
- b/drivers/iommu/amd/init.c               |    6 -
- b/drivers/iommu/amd/iommu.c              |    5 
- b/drivers/iommu/intel/dmar.c             |    6 -
- b/drivers/xen/swiotlb-xen.c              |  132 -----------------------
- b/include/linux/dmar.h                   |    6 -
- b/include/linux/swiotlb.h                |   22 +--
- b/include/trace/events/swiotlb.h         |   29 +----
- b/include/xen/arm/page.h                 |    1 
- b/include/xen/swiotlb-xen.h              |    8 +
- b/kernel/dma/direct.h                    |    2 
- b/kernel/dma/swiotlb.c                   |  175 +++++++++++++++----------------
- 48 files changed, 264 insertions(+), 826 deletions(-)
