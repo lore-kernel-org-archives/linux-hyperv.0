@@ -2,52 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAF0C433FE
-	for <linux-hyperv@archiver.kernel.org>; Sun,  3 Apr 2022 18:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8B0C43217
+	for <linux-hyperv@archiver.kernel.org>; Sun,  3 Apr 2022 18:39:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234820AbiDCSlk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 3 Apr 2022 14:41:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49952 "EHLO
+        id S1358698AbiDCSll (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 3 Apr 2022 14:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376294AbiDCSlF (ORCPT
+        with ESMTP id S1376292AbiDCSlF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Sun, 3 Apr 2022 14:41:05 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1CF13CDF
-        for <linux-hyperv@vger.kernel.org>; Sun,  3 Apr 2022 11:38:34 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id m30so11437856wrb.1
-        for <linux-hyperv@vger.kernel.org>; Sun, 03 Apr 2022 11:38:34 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E5FFD21
+        for <linux-hyperv@vger.kernel.org>; Sun,  3 Apr 2022 11:38:30 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id q20so4660268wmq.1
+        for <linux-hyperv@vger.kernel.org>; Sun, 03 Apr 2022 11:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MZB4AAiYpghp+j0HlvXqcm6S1oaOh86fqoD06sTrQvg=;
-        b=kQuFtN1ZJ7ZEWNRiYUTzh4L+FIyF2IAzdImkdOzevIE5eiZGdn+q3FmReheaQqVDJw
-         RskYuVoBzzQ6cYTz5auNikNGSNT7g2fh8d8+oViTwXZxppZ5YQYKGht/zN9zBCRcL02E
-         Xm+/QT3ElgFG38vFFRgHTSvJU9bPYGfYW4WgdLmDCkgrhbn69muqQabUVjTEdPkdeV8k
-         opstQvC0WN5quf+I8FeG2fNS4A2gmCh4D1RdmllqzfnGn7vdJZ3yheVSM/EaXuPEj9Vc
-         2fvCQmg7oO6EkJmNRgXmdRFFjq7jHRIoBMc3kPYgrbpi1W67+iVi6RBE3Qwoc0qLLSWK
-         Xisw==
+        bh=qtEucOUUPP5N/mYQNy60J2tmYru2tvlYgmO9h18XcJE=;
+        b=MzbOCsPtGwGO108/lSDaSaf1+XSDrXAe5yX1DdV0mfrCl06/DuHGGptcVp1iZ+OCZs
+         Sr3xXPu+/LUQWaSua+Z9riHXtxnsjZYcgfudGMg0eGSJroXkQN+sAwRy7pi2DkWUc69u
+         LRP1Jq0DgipVHVcL0TbLHQFLItz8svl7Y6g5raLhE3+qSjyR1t772d2IkpZCUfha5jsL
+         eHrNfWm2+KC5ijYi8x8UCWcrLmspOUoun6wYfkN8lLtnfvh5BLRGN+hYx0WJnkU+ntJv
+         MdIvqte1KodMeoX1CiPjM+5xKuzO5A1rzXr8OFxIaWEBogUpc8y4KWBCNDNf1jGVaH3J
+         ayiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MZB4AAiYpghp+j0HlvXqcm6S1oaOh86fqoD06sTrQvg=;
-        b=h5+GXwDqzWBcyVhZPOKxLnLU/tIPW/cW8Yo6OI4mBjXk3aohQOix8JitBio0YeUNqO
-         ak3Xphy6XLtzw1d6xNPBOQsJdU0yMlbCugnenW/NEQYQZBM0sDPvYkqHEFdZdbdAFqGa
-         oOj1fvywqTxUBYDtvzj3M+HI1El/012WTaXnwHMvcLmjDMlmH7X8cT/Q758VoPywM9pp
-         PHifQThGDf7zqzfWyzuzKCMTj92oaphgUqpJEZy9lqe4dbnvl533tsJxdBS8tGxutVTj
-         oxS+ia14bFJ2dlBC9/yYU4q9HZMm9zfvM9OXpi9tQhCguXApQkDX0GyachSujMEGMl6A
-         147w==
-X-Gm-Message-State: AOAM533VwEFbFgvQy26p7uEeu7WZBcZg7QJkz9NMj0I+y3dAEUDSBjpe
-        tiBLBd6YvPtPXfFuLbISODoung==
-X-Google-Smtp-Source: ABdhPJyXLIonD8xJ04Ht+ZUS+MlZjOb0BB8xnHg1SPUSIK9rnAYM+w0VRFN1jjXeVcx09AL7w4RlJA==
-X-Received: by 2002:a5d:5953:0:b0:206:b5c:dfe8 with SMTP id e19-20020a5d5953000000b002060b5cdfe8mr4209687wri.35.1649011112553;
-        Sun, 03 Apr 2022 11:38:32 -0700 (PDT)
+        bh=qtEucOUUPP5N/mYQNy60J2tmYru2tvlYgmO9h18XcJE=;
+        b=AZwrTlEp0s5Awo5iFqEg2i+x5TWXOV29FG3sPS2mfd/0OmusC0Z1IkuWpDvSucZi9+
+         VpY8uYfc/ZTapjofOldaR3Neu+g0IJmc86kL2/JvF5xScH9Ul6ZDfvMkqyDDHSe21icu
+         vTAtp+NLDjFOz2UgWGgcb21FV7HQLH6pQ01X4PCPCdvYlKvK5C9hbEvR1BTzC5a42QcD
+         BlLK5mvdkKQ4PTCf+G0DR9gp6KxZ//5aYnWYxb3TV8PuFeGHuH8ML7ZuuyTY5ZtUTxOR
+         plW1MrFJbV7KRKP9R+RzUEDtPs4f12roRInW+YdqE1xEmmF3OPJfX/u9BpC8rIiW0R/G
+         xGzg==
+X-Gm-Message-State: AOAM5330I11LKBDOZnPxSqwBwZ/4yjKQJG9pQIm1RQ9m1BTQx2KtuO/3
+        b3utWy9EDNOJK42GxifL95j75Q==
+X-Google-Smtp-Source: ABdhPJyXl7rsWywHQpujLV7EDE78zSf60/dgWAa8SR6HS+xUHZ+OK90mFzRYvM677eBKG6B3suxzyQ==
+X-Received: by 2002:a05:600c:3547:b0:38c:ac1c:53e9 with SMTP id i7-20020a05600c354700b0038cac1c53e9mr16601811wmq.159.1649011109253;
+        Sun, 03 Apr 2022 11:38:29 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
-        by smtp.gmail.com with ESMTPSA id l28-20020a05600c1d1c00b0038e72a95ec4sm593851wms.13.2022.04.03.11.38.30
+        by smtp.gmail.com with ESMTPSA id l28-20020a05600c1d1c00b0038e72a95ec4sm593851wms.13.2022.04.03.11.38.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 11:38:32 -0700 (PDT)
+        Sun, 03 Apr 2022 11:38:28 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Rafael J. Wysocki" <rafael@kernel.org>
@@ -76,10 +77,11 @@ Cc:     Stuart Yoder <stuyoder@gmail.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v6 11/12] rpmsg: Constify local variable in field store macro
-Date:   Sun,  3 Apr 2022 20:37:57 +0200
-Message-Id: <20220403183758.192236-12-krzysztof.kozlowski@linaro.org>
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: [PATCH v6 09/12] clk: imx: scu: Fix kfree() of static memory on setting driver_override
+Date:   Sun,  3 Apr 2022 20:37:55 +0200
+Message-Id: <20220403183758.192236-10-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220403183758.192236-1-krzysztof.kozlowski@linaro.org>
 References: <20220403183758.192236-1-krzysztof.kozlowski@linaro.org>
@@ -89,28 +91,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Memory pointed by variable 'old' in field store macro is not modified,
-so it can be made a pointer to const.
+The driver_override field from platform driver should not be initialized
+from static memory (string literal) because the core later kfree() it,
+for example when driver_override is set via sysfs.
 
+Use dedicated helper to set driver_override properly.
+
+Fixes: 77d8f3068c63 ("clk: imx: scu: add two cells binding support")
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
 ---
- drivers/rpmsg/rpmsg_core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/clk/imx/clk-scu.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-index 79368a957d89..95fc283f6af7 100644
---- a/drivers/rpmsg/rpmsg_core.c
-+++ b/drivers/rpmsg/rpmsg_core.c
-@@ -400,7 +400,8 @@ field##_store(struct device *dev, struct device_attribute *attr,	\
- 	      const char *buf, size_t sz)				\
- {									\
- 	struct rpmsg_device *rpdev = to_rpmsg_device(dev);		\
--	char *new, *old;						\
-+	const char *old;						\
-+	char *new;							\
- 									\
- 	new = kstrndup(buf, sz, GFP_KERNEL);				\
- 	if (!new)							\
+diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
+index 083da31dc3ea..4b2268b7d0d0 100644
+--- a/drivers/clk/imx/clk-scu.c
++++ b/drivers/clk/imx/clk-scu.c
+@@ -683,7 +683,12 @@ struct clk_hw *imx_clk_scu_alloc_dev(const char *name,
+ 		return ERR_PTR(ret);
+ 	}
+ 
+-	pdev->driver_override = "imx-scu-clk";
++	ret = driver_set_override(&pdev->dev, &pdev->driver_override,
++				  "imx-scu-clk", strlen("imx-scu-clk"));
++	if (ret) {
++		platform_device_put(pdev);
++		return ERR_PTR(ret);
++	}
+ 
+ 	ret = imx_clk_scu_attach_pd(&pdev->dev, rsrc_id);
+ 	if (ret)
 -- 
 2.32.0
 
