@@ -2,33 +2,33 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5FC6C43217
-	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Apr 2022 05:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE61DC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon,  4 Apr 2022 05:07:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377336AbiDDFI7 (ORCPT
+        id S1377341AbiDDFJa (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 4 Apr 2022 01:08:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48378 "EHLO
+        Mon, 4 Apr 2022 01:09:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377343AbiDDFIx (ORCPT
+        with ESMTP id S1377339AbiDDFJC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 4 Apr 2022 01:08:53 -0400
+        Mon, 4 Apr 2022 01:09:02 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E23C3AA64;
-        Sun,  3 Apr 2022 22:06:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68F143614A;
+        Sun,  3 Apr 2022 22:07:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=cglDQ544TZBR8iIX+lAj25Nh7/wZoWF1SIJV8fBYJSc=; b=wskLiSoDsVLKEGZ1Sdhe2vLHxA
-        /LFmu+C4Ch41odlEGfE4k/6biHOMWLMavXZg1/FJ/PTrBuOvNRcttQrXGPQnQX2ejO7VQl+P5h4vJ
-        jjyTmth+NW0RQQNORsIdANiYQbpSIbwzbho7ETCWH+JQ1Eant6nnSsoOakf4a4SiDmtHa4gIQ2ewj
-        1yuavxAdLwimQnkOJ+SrmcUXPc/FEsqsVhilArD7VqVLLg0TjTvuTMhiWfExtg0d+132+oAu/FSc+
-        NdnMGNgT/WfGxUS28PWBLTMrBmwyxygrBQmBlUWTFICH/VEeaVF9jSvk+mMKaW31WvbccHzGgWs+H
-        b2tNFv4A==;
+        bh=aq2ni6Lf0CpK3df5eW6dRpDmxtP8L4VBzIRLdPcEzSo=; b=FBiz0wC3YdrPGDM0rdnH/qoGXA
+        VYkDtbQpvt2fI8ej400Q1jc2XmYfkdsJ5sE/ZOz4pKo2/9MdZM9x9UHa3H5PMeDKeY/LcdX4E+KDO
+        TOzPsd2Euc9j1OdgmqwiGDrKzCCtMxHdYTKsyUCOMAAMqNNycXBgqAHiPNMb4ONOT9i1diZ/+B09o
+        M3/pusVbyC+/w8inru8UWPzaVJOWCq3Q5YnUtzqnCsGkRRX8gHCRyEiI5lE6Ssa64NZBLBEtSPKlD
+        QVo7JR+VeYC5vuM6HijKXTbzEPEucQfhkqCMgL0AlxsrHY7gO/+OUWB8pxQq6WhaYYOWAzLYgtVhj
+        s35TimYQ==;
 Received: from 089144211060.atnat0020.highway.a1.net ([89.144.211.60] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nbEvO-00D9D7-LO; Mon, 04 Apr 2022 05:06:47 +0000
+        id 1nbEvW-00D9L3-0A; Mon, 04 Apr 2022 05:06:54 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     iommu@lists.linux-foundation.org
 Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -47,9 +47,9 @@ Cc:     x86@kernel.org, Anshuman Khandual <anshuman.khandual@arm.com>,
         linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
         linux-hyperv@vger.kernel.org, tboot-devel@lists.sourceforge.net,
         linux-pci@vger.kernel.org
-Subject: [PATCH 10/15] swiotlb: add a SWIOTLB_ANY flag to lift the low memory restriction
-Date:   Mon,  4 Apr 2022 07:05:54 +0200
-Message-Id: <20220404050559.132378-11-hch@lst.de>
+Subject: [PATCH 12/15] swiotlb: provide swiotlb_init variants that remap the buffer
+Date:   Mon,  4 Apr 2022 07:05:56 +0200
+Message-Id: <20220404050559.132378-13-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220404050559.132378-1-hch@lst.de>
 References: <20220404050559.132378-1-hch@lst.de>
@@ -60,161 +60,135 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Power SVM wants to allocate a swiotlb buffer that is not restricted to
-low memory for the trusted hypervisor scheme.  Consolidate the support
-for this into the swiotlb_init interface by adding a new flag.
+To shared more code between swiotlb and xen-swiotlb, offer a
+swiotlb_init_remap interface and add a remap callback to
+swiotlb_init_late that will allow Xen to remap the buffer the
+buffer without duplicating much of the logic.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- arch/powerpc/include/asm/svm.h       |  4 ----
- arch/powerpc/include/asm/swiotlb.h   |  1 +
- arch/powerpc/kernel/dma-swiotlb.c    |  1 +
- arch/powerpc/mm/mem.c                |  5 +----
- arch/powerpc/platforms/pseries/svm.c | 26 +-------------------------
- include/linux/swiotlb.h              |  1 +
- kernel/dma/swiotlb.c                 | 11 +++++++++--
- 7 files changed, 14 insertions(+), 35 deletions(-)
+ arch/x86/pci/sta2x11-fixup.c |  2 +-
+ include/linux/swiotlb.h      |  5 ++++-
+ kernel/dma/swiotlb.c         | 36 +++++++++++++++++++++++++++++++++---
+ 3 files changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/arch/powerpc/include/asm/svm.h b/arch/powerpc/include/asm/svm.h
-index 7546402d796af..85580b30aba48 100644
---- a/arch/powerpc/include/asm/svm.h
-+++ b/arch/powerpc/include/asm/svm.h
-@@ -15,8 +15,6 @@ static inline bool is_secure_guest(void)
- 	return mfmsr() & MSR_S;
- }
- 
--void __init svm_swiotlb_init(void);
--
- void dtl_cache_ctor(void *addr);
- #define get_dtl_cache_ctor()	(is_secure_guest() ? dtl_cache_ctor : NULL)
- 
-@@ -27,8 +25,6 @@ static inline bool is_secure_guest(void)
- 	return false;
- }
- 
--static inline void svm_swiotlb_init(void) {}
--
- #define get_dtl_cache_ctor() NULL
- 
- #endif /* CONFIG_PPC_SVM */
-diff --git a/arch/powerpc/include/asm/swiotlb.h b/arch/powerpc/include/asm/swiotlb.h
-index 3c1a1cd161286..4203b5e0a88ed 100644
---- a/arch/powerpc/include/asm/swiotlb.h
-+++ b/arch/powerpc/include/asm/swiotlb.h
-@@ -9,6 +9,7 @@
- #include <linux/swiotlb.h>
- 
- extern unsigned int ppc_swiotlb_enable;
-+extern unsigned int ppc_swiotlb_flags;
- 
- #ifdef CONFIG_SWIOTLB
- void swiotlb_detect_4g(void);
-diff --git a/arch/powerpc/kernel/dma-swiotlb.c b/arch/powerpc/kernel/dma-swiotlb.c
-index fc7816126a401..ba256c37bcc0f 100644
---- a/arch/powerpc/kernel/dma-swiotlb.c
-+++ b/arch/powerpc/kernel/dma-swiotlb.c
-@@ -10,6 +10,7 @@
- #include <asm/swiotlb.h>
- 
- unsigned int ppc_swiotlb_enable;
-+unsigned int ppc_swiotlb_flags;
- 
- void __init swiotlb_detect_4g(void)
- {
-diff --git a/arch/powerpc/mm/mem.c b/arch/powerpc/mm/mem.c
-index e1519e2edc656..a4d65418c30a9 100644
---- a/arch/powerpc/mm/mem.c
-+++ b/arch/powerpc/mm/mem.c
-@@ -249,10 +249,7 @@ void __init mem_init(void)
- 	 * back to to-down.
- 	 */
- 	memblock_set_bottom_up(true);
--	if (is_secure_guest())
--		svm_swiotlb_init();
--	else
--		swiotlb_init(ppc_swiotlb_enable, 0);
-+	swiotlb_init(ppc_swiotlb_enable, ppc_swiotlb_flags);
- #endif
- 
- 	high_memory = (void *) __va(max_low_pfn * PAGE_SIZE);
-diff --git a/arch/powerpc/platforms/pseries/svm.c b/arch/powerpc/platforms/pseries/svm.c
-index c5228f4969eb2..3b4045d508ec8 100644
---- a/arch/powerpc/platforms/pseries/svm.c
-+++ b/arch/powerpc/platforms/pseries/svm.c
-@@ -28,7 +28,7 @@ static int __init init_svm(void)
- 	 * need to use the SWIOTLB buffer for DMA even if dma_capable() says
- 	 * otherwise.
- 	 */
--	swiotlb_force = SWIOTLB_FORCE;
-+	ppc_swiotlb_flags |= SWIOTLB_ANY | SWIOTLB_FORCE;
- 
- 	/* Share the SWIOTLB buffer with the host. */
- 	swiotlb_update_mem_attributes();
-@@ -37,30 +37,6 @@ static int __init init_svm(void)
- }
- machine_early_initcall(pseries, init_svm);
- 
--/*
-- * Initialize SWIOTLB. Essentially the same as swiotlb_init(), except that it
-- * can allocate the buffer anywhere in memory. Since the hypervisor doesn't have
-- * any addressing limitation, we don't need to allocate it in low addresses.
-- */
--void __init svm_swiotlb_init(void)
--{
--	unsigned char *vstart;
--	unsigned long bytes, io_tlb_nslabs;
--
--	io_tlb_nslabs = (swiotlb_size_or_default() >> IO_TLB_SHIFT);
--	io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
--
--	bytes = io_tlb_nslabs << IO_TLB_SHIFT;
--
--	vstart = memblock_alloc(PAGE_ALIGN(bytes), PAGE_SIZE);
--	if (vstart && !swiotlb_init_with_tbl(vstart, io_tlb_nslabs, false))
--		return;
--
--
--	memblock_free(vstart, PAGE_ALIGN(io_tlb_nslabs << IO_TLB_SHIFT));
--	panic("SVM: Cannot allocate SWIOTLB buffer");
--}
--
- int set_memory_encrypted(unsigned long addr, int numpages)
- {
- 	if (!cc_platform_has(CC_ATTR_MEM_ENCRYPT))
+diff --git a/arch/x86/pci/sta2x11-fixup.c b/arch/x86/pci/sta2x11-fixup.c
+index c7e6faf59a861..7368afc039987 100644
+--- a/arch/x86/pci/sta2x11-fixup.c
++++ b/arch/x86/pci/sta2x11-fixup.c
+@@ -57,7 +57,7 @@ static void sta2x11_new_instance(struct pci_dev *pdev)
+ 		int size = STA2X11_SWIOTLB_SIZE;
+ 		/* First instance: register your own swiotlb area */
+ 		dev_info(&pdev->dev, "Using SWIOTLB (size %i)\n", size);
+-		if (swiotlb_init_late(size, GFP_DMA))
++		if (swiotlb_init_late(size, GFP_DMA, NULL))
+ 			dev_emerg(&pdev->dev, "init swiotlb failed\n");
+ 	}
+ 	list_add(&instance->list, &sta2x11_instance_list);
 diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-index ae0407173e845..eabdd89987027 100644
+index ee655f2e4d28b..7b50c82f84ce9 100644
 --- a/include/linux/swiotlb.h
 +++ b/include/linux/swiotlb.h
-@@ -15,6 +15,7 @@ struct scatterlist;
+@@ -36,8 +36,11 @@ struct scatterlist;
  
- #define SWIOTLB_VERBOSE	(1 << 0) /* verbose initialization */
- #define SWIOTLB_FORCE	(1 << 1) /* force bounce buffering */
-+#define SWIOTLB_ANY	(1 << 2) /* allow any memory for the buffer */
+ int swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, unsigned int flags);
+ unsigned long swiotlb_size_or_default(void);
++void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
++	int (*remap)(void *tlb, unsigned long nslabs));
++int swiotlb_init_late(size_t size, gfp_t gfp_mask,
++	int (*remap)(void *tlb, unsigned long nslabs));
+ extern int swiotlb_late_init_with_tbl(char *tlb, unsigned long nslabs);
+-int swiotlb_init_late(size_t size, gfp_t gfp_mask);
+ extern void __init swiotlb_update_mem_attributes(void);
  
- /*
-  * Maximum allowable number of contiguous slabs to map,
+ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev, phys_addr_t phys,
 diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-index 86e877a96b828..f6e091424af3d 100644
+index 119187afc65ec..d5fe8f5e08300 100644
 --- a/kernel/dma/swiotlb.c
 +++ b/kernel/dma/swiotlb.c
-@@ -266,8 +266,15 @@ void __init swiotlb_init(bool addressing_limit, unsigned int flags)
- 	if (swiotlb_force_disable)
- 		return;
+@@ -256,9 +256,11 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs,
+  * Statically reserve bounce buffer space and initialize bounce buffer data
+  * structures for the software IO TLB used to implement the DMA API.
+  */
+-void __init swiotlb_init(bool addressing_limit, unsigned int flags)
++void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
++		int (*remap)(void *tlb, unsigned long nslabs))
+ {
+-	size_t bytes = PAGE_ALIGN(default_nslabs << IO_TLB_SHIFT);
++	unsigned long nslabs = default_nslabs;
++	size_t bytes;
+ 	void *tlb;
  
--	/* Get IO TLB memory from the low pages */
--	tlb = memblock_alloc_low(bytes, PAGE_SIZE);
-+	/*
-+	 * By default allocate the bounce buffer memory from low memory, but
-+	 * allow to pick a location everywhere for hypervisors with guest
-+	 * memory encryption.
-+	 */
-+	if (flags & SWIOTLB_ANY)
-+		tlb = memblock_alloc(bytes, PAGE_SIZE);
-+	else
-+		tlb = memblock_alloc_low(bytes, PAGE_SIZE);
+ 	if (!addressing_limit && !swiotlb_force_bounce)
+@@ -271,12 +273,23 @@ void __init swiotlb_init(bool addressing_limit, unsigned int flags)
+ 	 * allow to pick a location everywhere for hypervisors with guest
+ 	 * memory encryption.
+ 	 */
++retry:
++	bytes = PAGE_ALIGN(default_nslabs << IO_TLB_SHIFT);
+ 	if (flags & SWIOTLB_ANY)
+ 		tlb = memblock_alloc(bytes, PAGE_SIZE);
+ 	else
+ 		tlb = memblock_alloc_low(bytes, PAGE_SIZE);
  	if (!tlb)
  		goto fail;
++	if (remap && remap(tlb, nslabs) < 0) {
++		memblock_free(tlb, PAGE_ALIGN(bytes));
++
++		nslabs = ALIGN(nslabs >> 1, IO_TLB_SEGSIZE);
++		if (nslabs < IO_TLB_MIN_SLABS)
++			panic("%s: Failed to remap %zu bytes\n",
++			      __func__, bytes);
++		goto retry;
++	}
  	if (swiotlb_init_with_tbl(tlb, default_nslabs, flags))
+ 		goto fail_free_mem;
+ 	return;
+@@ -287,12 +300,18 @@ void __init swiotlb_init(bool addressing_limit, unsigned int flags)
+ 	pr_warn("Cannot allocate buffer");
+ }
+ 
++void __init swiotlb_init(bool addressing_limit, unsigned int flags)
++{
++	return swiotlb_init_remap(addressing_limit, flags, NULL);
++}
++
+ /*
+  * Systems with larger DMA zones (those that don't support ISA) can
+  * initialize the swiotlb later using the slab allocator if needed.
+  * This should be just like above, but with some error catching.
+  */
+-int swiotlb_init_late(size_t size, gfp_t gfp_mask)
++int swiotlb_init_late(size_t size, gfp_t gfp_mask,
++		int (*remap)(void *tlb, unsigned long nslabs))
+ {
+ 	unsigned long nslabs = ALIGN(size >> IO_TLB_SHIFT, IO_TLB_SEGSIZE);
+ 	unsigned long bytes;
+@@ -303,6 +322,7 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask)
+ 	if (swiotlb_force_disable)
+ 		return 0;
+ 
++retry:
+ 	order = get_order(nslabs << IO_TLB_SHIFT);
+ 	nslabs = SLABS_PER_PAGE << order;
+ 	bytes = nslabs << IO_TLB_SHIFT;
+@@ -323,6 +343,16 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask)
+ 			(PAGE_SIZE << order) >> 20);
+ 		nslabs = SLABS_PER_PAGE << order;
+ 	}
++	if (remap)
++		rc = remap(vstart, nslabs);
++	if (rc) {
++		free_pages((unsigned long)vstart, order);
++ 
++		nslabs = ALIGN(nslabs >> 1, IO_TLB_SEGSIZE);
++		if (nslabs < IO_TLB_MIN_SLABS)
++			return rc;
++		goto retry;
++	}
+ 	rc = swiotlb_late_init_with_tbl(vstart, nslabs);
+ 	if (rc)
+ 		free_pages((unsigned long)vstart, order);
 -- 
 2.30.2
 
