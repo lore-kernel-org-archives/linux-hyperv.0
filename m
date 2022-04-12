@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBC2C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 569FAC4332F
 	for <linux-hyperv@archiver.kernel.org>; Tue, 12 Apr 2022 01:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236203AbiDLBDz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 11 Apr 2022 21:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47392 "EHLO
+        id S238865AbiDLBD6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 11 Apr 2022 21:03:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345183AbiDLA63 (ORCPT
+        with ESMTP id S1348314AbiDLA7U (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 11 Apr 2022 20:58:29 -0400
+        Mon, 11 Apr 2022 20:59:20 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9093533A2A;
-        Mon, 11 Apr 2022 17:51:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F48377D9;
+        Mon, 11 Apr 2022 17:52:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2BD9960B2E;
-        Tue, 12 Apr 2022 00:51:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BAD7C385A4;
-        Tue, 12 Apr 2022 00:51:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CBA6960C26;
+        Tue, 12 Apr 2022 00:52:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3785CC385AB;
+        Tue, 12 Apr 2022 00:52:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649724667;
-        bh=9T8bL2EPWJPPlfceRC/6fA7bh51kA+mxwyKL6iDHjn8=;
+        s=k20201202; t=1649724748;
+        bh=+hLm5oVQl3rCOm+Tv3ZDVA98eqa1DK4EZn9zi/zyyP0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kYHaS+HqovoSv7KKvhFuShNiWrEz3PpC/J994aO/UZerE72NoTxLnue520tDJ2NfC
-         1SAW9oajAGifoKegNo6U3XRRTnv7u+oInVTo/jvjnpmtF3IrJyhMisFq23PzhHAg0p
-         iiJBu+jzkeU0QcKB23vcjiOKIjg0pP1EFg/vIFWsO80loGul3GAato5N0i0FES9azK
-         fFbjltiipacPKYRZqwDYVocea+t9Ibs4XFdrmNy8YWs3YwZ0VeFo7OkapZ/XxfW1em
-         G37iFJVs6BimKktS8Ly3dQgEFd0qbjD6e0IyPYWnWHJ/BdSpTmAVu0qEXlFfdn+Hez
-         V2bJP5kpJmXAQ==
+        b=dPie/Toisa2LUl1i7+xwE9f6oaFGQXC1VIv4I6sWLssd9zRIH/o2PVv50vuswCk1h
+         JgbkmKsACMy6L7wISIHuX6QsMQV4Y38HFp1pXUtY7m/Ks+4qhDN15Cjo9K7b4TLjAt
+         4EhMtluQbBotF3G0tKgpTdX580aZuLb+wfm1hlqHWNoo7k2P6Xp1gyOrLMNTnTt4zZ
+         IZH1Ou4leT6W9mgYrU3iewyiC+SdEiRKFilC7WbazqDTSgkgM6gv46oGhtivrBwjZX
+         Tlmr9uHz3DGqq6oo+1D9WsPgXU2dBNUyjop2AXfRCWUu0FVSTf7o7fAIzD/Zuk1uNj
+         AYUDlei8PC6Bg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Kelley <mikelley@microsoft.com>,
@@ -39,12 +39,12 @@ Cc:     Michael Kelley <mikelley@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
         kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         decui@microsoft.com, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/21] Drivers: hv: vmbus: Prevent load re-ordering when reading ring buffer
-Date:   Mon, 11 Apr 2022 20:50:25 -0400
-Message-Id: <20220412005042.351105-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 03/11] Drivers: hv: vmbus: Prevent load re-ordering when reading ring buffer
+Date:   Mon, 11 Apr 2022 20:52:12 -0400
+Message-Id: <20220412005222.351554-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412005042.351105-1-sashal@kernel.org>
-References: <20220412005042.351105-1-sashal@kernel.org>
+In-Reply-To: <20220412005222.351554-1-sashal@kernel.org>
+References: <20220412005222.351554-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -81,10 +81,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 9a03b163cbbd..59f1e64908b1 100644
+index 74c1dfb8183b..6b08e9d9b382 100644
 --- a/drivers/hv/ring_buffer.c
 +++ b/drivers/hv/ring_buffer.c
-@@ -378,7 +378,16 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
+@@ -340,7 +340,16 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
  static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
  {
  	u32 priv_read_loc = rbi->priv_read_index;
