@@ -2,152 +2,104 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1EA3C433EF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12140C4332F
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240134AbiDNNep (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Apr 2022 09:34:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49798 "EHLO
+        id S235343AbiDNNgx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Apr 2022 09:36:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244675AbiDNN17 (ORCPT
+        with ESMTP id S238285AbiDNNep (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:27:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0EF03A2070
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:20:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649942440;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CxB8iaRITqlyT1LXAuvMAWvTt3GuClHhFoZbY8SSysE=;
-        b=DLr+Kz6a4wrV828zZO710BKH2ISNlW0TvfTuGqg9wCf2gbyZlevRQFwGRWCpszNFXBFw25
-        g4ErsFXMX67fyhb8F08Jt1PUwvF1dE0Q2tDLBKrRubachV+XxG22Cn048DqMSkKwiq/ocn
-        lGogmkr+ZO6zcNJ9eXIxm3oB1OT0vPI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-N9OqsHY-Mv6bPG_8PU3kMA-1; Thu, 14 Apr 2022 09:20:36 -0400
-X-MC-Unique: N9OqsHY-Mv6bPG_8PU3kMA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Thu, 14 Apr 2022 09:34:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E786B92D03;
+        Thu, 14 Apr 2022 06:31:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47E801C0152F;
-        Thu, 14 Apr 2022 13:20:35 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.195.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4664B9D7B;
-        Thu, 14 Apr 2022 13:20:33 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3E5FA61B51;
+        Thu, 14 Apr 2022 13:31:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25D45C385B9;
+        Thu, 14 Apr 2022 13:31:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1649943062;
+        bh=GPaqH+1yLPZ4DKefbUNcGzaeDWSOf2VM3/SZ0PIjg+o=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ifSNwHVu5ARvKNSeV/Ur6yesCB5YtGkvj0vgqmdmrUQ6HtEH1dE8Ydh1xXVIuviul
+         r8r6Mm1OScr4sOhm6gnvSY3XSVrxTf2hBhK2c+n1HcTUzKCNmEKtPCN6dmdAKbd3Td
+         W2FeWY0U8Mh6b7AoF+ftO53qGjANpu9KCBfg4HFY=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        kernel test robot <lkp@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        linux-hyperv@vger.kernel.org,
         Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 09/34] KVM: x86: hyper-v: Don't use sparse_set_to_vcpu_mask() in kvm_hv_send_ipi()
-Date:   Thu, 14 Apr 2022 15:19:48 +0200
-Message-Id: <20220414132013.1588929-10-vkuznets@redhat.com>
-In-Reply-To: <20220414132013.1588929-1-vkuznets@redhat.com>
-References: <20220414132013.1588929-1-vkuznets@redhat.com>
+        =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
+Subject: [PATCH 5.4 004/475] hv: utils: add PTP_1588_CLOCK to Kconfig to fix build
+Date:   Thu, 14 Apr 2022 15:06:29 +0200
+Message-Id: <20220414110855.274446341@linuxfoundation.org>
+X-Mailer: git-send-email 2.35.2
+In-Reply-To: <20220414110855.141582785@linuxfoundation.org>
+References: <20220414110855.141582785@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Get rid of on-stack allocation of vcpu_mask and optimize kvm_hv_send_ipi()
-for a smaller number of vCPUs in the request. When Hyper-V TLB flush
-is in  use, HvSendSyntheticClusterIpi{,Ex} calls are not commonly used to
-send IPIs to a large number of vCPUs (and are rarely used in general).
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Introduce hv_is_vp_in_sparse_set() to directly check if the specified
-VP_ID is present in sparse vCPU set.
+commit 1dc2f2b81a6a9895da59f3915760f6c0c3074492 upstream.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+The hyperv utilities use PTP clock interfaces and should depend a
+a kconfig symbol such that they will be built as a loadable module or
+builtin so that linker errors do not happen.
+
+Prevents these build errors:
+
+ld: drivers/hv/hv_util.o: in function `hv_timesync_deinit':
+hv_util.c:(.text+0x37d): undefined reference to `ptp_clock_unregister'
+ld: drivers/hv/hv_util.o: in function `hv_timesync_init':
+hv_util.c:(.text+0x738): undefined reference to `ptp_clock_register'
+
+Fixes: 3716a49a81ba ("hv_utils: implement Hyper-V PTP source")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: linux-hyperv@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+Link: https://lore.kernel.org/r/20211126023316.25184-1-rdunlap@infradead.org
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Cc: Petr Štetiar <ynezz@true.cz>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/x86/kvm/hyperv.c | 37 ++++++++++++++++++++++++++-----------
- 1 file changed, 26 insertions(+), 11 deletions(-)
+ drivers/hv/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 3cf68645a2e6..aebbb598ad1d 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -1746,6 +1746,25 @@ static void sparse_set_to_vcpu_mask(struct kvm *kvm, u64 *sparse_banks,
- 	}
- }
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -17,6 +17,7 @@ config HYPERV_TIMER
+ config HYPERV_UTILS
+ 	tristate "Microsoft Hyper-V Utilities driver"
+ 	depends on HYPERV && CONNECTOR && NLS
++	depends on PTP_1588_CLOCK_OPTIONAL
+ 	help
+ 	  Select this option to enable the Hyper-V Utilities.
  
-+static bool hv_is_vp_in_sparse_set(u32 vp_id, u64 valid_bank_mask, u64 sparse_banks[])
-+{
-+	int bank, sbank = 0;
-+
-+	if (!test_bit(vp_id / HV_VCPUS_PER_SPARSE_BANK,
-+		      (unsigned long *)&valid_bank_mask))
-+		return false;
-+
-+	for_each_set_bit(bank, (unsigned long *)&valid_bank_mask,
-+			 KVM_HV_MAX_SPARSE_VCPU_SET_BITS) {
-+		if (bank == vp_id / HV_VCPUS_PER_SPARSE_BANK)
-+			break;
-+		sbank++;
-+	}
-+
-+	return test_bit(vp_id % HV_VCPUS_PER_SPARSE_BANK,
-+			(unsigned long *)&sparse_banks[sbank]);
-+}
-+
- struct kvm_hv_hcall {
- 	u64 param;
- 	u64 ingpa;
-@@ -2089,8 +2108,8 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 		((u64)hc->rep_cnt << HV_HYPERCALL_REP_COMP_OFFSET);
- }
- 
--static void kvm_send_ipi_to_many(struct kvm *kvm, u32 vector,
--				 unsigned long *vcpu_bitmap)
-+static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
-+				    u64 *sparse_banks, u64 valid_bank_mask)
- {
- 	struct kvm_lapic_irq irq = {
- 		.delivery_mode = APIC_DM_FIXED,
-@@ -2100,7 +2119,10 @@ static void kvm_send_ipi_to_many(struct kvm *kvm, u32 vector,
- 	unsigned long i;
- 
- 	kvm_for_each_vcpu(i, vcpu, kvm) {
--		if (vcpu_bitmap && !test_bit(i, vcpu_bitmap))
-+		if (sparse_banks &&
-+		    !hv_is_vp_in_sparse_set(kvm_hv_get_vpindex(vcpu),
-+					    valid_bank_mask,
-+					    sparse_banks))
- 			continue;
- 
- 		/* We fail only when APIC is disabled */
-@@ -2113,7 +2135,6 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_send_ipi_ex send_ipi_ex;
- 	struct hv_send_ipi send_ipi;
--	DECLARE_BITMAP(vcpu_mask, KVM_MAX_VCPUS);
- 	unsigned long valid_bank_mask;
- 	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	u32 vector;
-@@ -2175,13 +2196,7 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
- 		return HV_STATUS_INVALID_HYPERCALL_INPUT;
- 
--	if (all_cpus) {
--		kvm_send_ipi_to_many(kvm, vector, NULL);
--	} else {
--		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
--
--		kvm_send_ipi_to_many(kvm, vector, vcpu_mask);
--	}
-+	kvm_hv_send_ipi_to_many(kvm, vector, all_cpus ? NULL : sparse_banks, valid_bank_mask);
- 
- ret_success:
- 	return HV_STATUS_SUCCESS;
--- 
-2.35.1
+
 
