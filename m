@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B333C3527D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:31:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BDDC433F5
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244436AbiDNNeQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Apr 2022 09:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
+        id S244444AbiDNNeU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Apr 2022 09:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244935AbiDNN2T (ORCPT
+        with ESMTP id S244636AbiDNN1w (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:28:19 -0400
+        Thu, 14 Apr 2022 09:27:52 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E834BA88A8
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:21:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 515A4A205C
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649942478;
+        s=mimecast20190719; t=1649942437;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MT8vgLDxgMK5gNkAuk585zBCwERy4TI/VOrbfeHlFRQ=;
-        b=GtL4oE7qNNYSkTs5nWeE4nU+GBflm5YmZtneE6tSk0a+mlYUqVqZ+81+xneW3EuXTiHItP
-        dKUeRdEibwQl8tC43LEyyITEd1ANaAa4WnUDDC7As60Nmwc8ZuySNutXdlqp5iKzETQ7zy
-        0Af4APMS8BwTNfMXGDF8xAokVS/csM8=
+        bh=MA+P58Kcy3Y41kZuOptcOtnH38Yjcii314EdqAv5GIY=;
+        b=gRE1cM1ZM72avHfqHi3GB4P6cHvGoNu2f6+mykxH2pMWXoaZ5P9kFfhdHso0O/b90gr0sA
+        Xc4BTDUbqy47585L5ke9bWjQnRm4TyEvA5XI6SkQdM7DLm5QvWuOgSk0WNl5OcQp53QWwT
+        N0BzXQ5c5xyQJpyWpWD/V2p+K+quq/8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-oir2jDqAMtm5tEXIoFUR-w-1; Thu, 14 Apr 2022 09:21:15 -0400
-X-MC-Unique: oir2jDqAMtm5tEXIoFUR-w-1
+ us-mta-663-8mA-w6saNEuVEaKvtiARqA-1; Thu, 14 Apr 2022 09:20:33 -0400
+X-MC-Unique: 8mA-w6saNEuVEaKvtiARqA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 093DF803533;
-        Thu, 14 Apr 2022 13:20:55 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E2398805F7C;
+        Thu, 14 Apr 2022 13:20:32 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.195.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 77BD453CD;
-        Thu, 14 Apr 2022 13:20:53 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1292C7C28;
+        Thu, 14 Apr 2022 13:20:30 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -46,9 +46,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/34] KVM: nVMX: hyper-v: Enable L2 TLB flush
-Date:   Thu, 14 Apr 2022 15:19:58 +0200
-Message-Id: <20220414132013.1588929-20-vkuznets@redhat.com>
+Subject: [PATCH v3 08/34] KVM: x86: hyper-v: Use HV_MAX_SPARSE_VCPU_BANKS/HV_VCPUS_PER_SPARSE_BANK instead of raw '64'
+Date:   Thu, 14 Apr 2022 15:19:47 +0200
+Message-Id: <20220414132013.1588929-9-vkuznets@redhat.com>
 In-Reply-To: <20220414132013.1588929-1-vkuznets@redhat.com>
 References: <20220414132013.1588929-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,121 +59,58 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enable L2 TLB flush feature on nVMX when:
-- Enlightened VMCS is in use.
-- The feature flag is enabled in eVMCS.
-- The feature flag is enabled in partition assist page.
+It may not be clear from where the '64' limit for the maximum sparse
+bank number comes from, use HV_MAX_SPARSE_VCPU_BANKS define instead.
+Use HV_VCPUS_PER_SPARSE_BANK in KVM_HV_MAX_SPARSE_VCPU_SET_BITS's
+definition. Opportunistically adjust the comment around BUILD_BUG_ON().
 
-Perform synthetic vmexit to L1 after processing TLB flush call upon
-request (HV_VMX_SYNTHETIC_EXIT_REASON_TRAP_AFTER_FLUSH).
+No functional change.
 
+Suggested-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/evmcs.c  | 20 ++++++++++++++++++++
- arch/x86/kvm/vmx/evmcs.h  | 10 ++++++++++
- arch/x86/kvm/vmx/nested.c | 16 ++++++++++++++++
- 3 files changed, 46 insertions(+)
+ arch/x86/kvm/hyperv.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index e390e67496df..e0cb2e223daa 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -6,6 +6,7 @@
- #include "../hyperv.h"
- #include "../cpuid.h"
- #include "evmcs.h"
-+#include "nested.h"
- #include "vmcs.h"
- #include "vmx.h"
- #include "trace.h"
-@@ -438,6 +439,25 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 	return 0;
- }
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index fc4bb0ead9fa..3cf68645a2e6 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -43,7 +43,7 @@
+ /* "Hv#1" signature */
+ #define HYPERV_CPUID_SIGNATURE_EAX 0x31237648
  
-+bool nested_evmcs_l2_tlb_flush_enabled(struct kvm_vcpu *vcpu)
-+{
-+	struct vcpu_vmx *vmx = to_vmx(vcpu);
-+	struct hv_enlightened_vmcs *evmcs = vmx->nested.hv_evmcs;
-+	struct hv_vp_assist_page assist_page;
-+
-+	if (!evmcs)
-+		return false;
-+
-+	if (!evmcs->hv_enlightenments_control.nested_flush_hypercall)
-+		return false;
-+
-+	if (unlikely(!kvm_hv_get_assist_page(vcpu, &assist_page)))
-+		return false;
-+
-+	return assist_page.nested_control.features.directhypercall;
-+}
-+
- void vmx_post_hv_l2_tlb_flush(struct kvm_vcpu *vcpu)
+-#define KVM_HV_MAX_SPARSE_VCPU_SET_BITS DIV_ROUND_UP(KVM_MAX_VCPUS, 64)
++#define KVM_HV_MAX_SPARSE_VCPU_SET_BITS DIV_ROUND_UP(KVM_MAX_VCPUS, HV_VCPUS_PER_SPARSE_BANK)
+ 
+ static void stimer_mark_pending(struct kvm_vcpu_hv_stimer *stimer,
+ 				bool vcpu_kick);
+@@ -1798,7 +1798,7 @@ static u64 kvm_get_sparse_vp_set(struct kvm *kvm, struct kvm_hv_hcall *hc,
+ 				 u64 *sparse_banks, int consumed_xmm_halves,
+ 				 gpa_t offset)
  {
-+	nested_vmx_vmexit(vcpu, HV_VMX_SYNTHETIC_EXIT_REASON_TRAP_AFTER_FLUSH, 0, 0);
- }
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index b120b0ead4f3..ddbdb557cc53 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -65,6 +65,15 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
- #define EVMCS1_UNSUPPORTED_VMENTRY_CTRL (VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL)
- #define EVMCS1_UNSUPPORTED_VMFUNC (VMX_VMFUNC_EPTP_SWITCHING)
+-	if (hc->var_cnt > 64)
++	if (hc->var_cnt > HV_MAX_SPARSE_VCPU_BANKS)
+ 		return -EINVAL;
  
-+/*
-+ * Note, Hyper-V isn't actually stealing bit 28 from Intel, just abusing it by
-+ * pairing it with architecturally impossible exit reasons.  Bit 28 is set only
-+ * on SMI exits to a SMI transfer monitor (STM) and if and only if a MTF VM-Exit
-+ * is pending.  I.e. it will never be set by hardware for non-SMI exits (there
-+ * are only three), nor will it ever be set unless the VMM is an STM.
-+ */
-+#define HV_VMX_SYNTHETIC_EXIT_REASON_TRAP_AFTER_FLUSH 0x10000031
-+
- struct evmcs_field {
- 	u16 offset;
- 	u16 clean_field;
-@@ -244,6 +253,7 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
- void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
- int nested_evmcs_check_controls(struct vmcs12 *vmcs12);
-+bool nested_evmcs_l2_tlb_flush_enabled(struct kvm_vcpu *vcpu);
- void vmx_post_hv_l2_tlb_flush(struct kvm_vcpu *vcpu);
+ 	/* Cap var_cnt to ignore banks that cannot contain a legal VP index. */
+@@ -1969,12 +1969,11 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+ 	gpa_t data_offset;
  
- #endif /* __KVM_X86_VMX_EVMCS_H */
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index cc6c944b5815..3e2ef5edad4a 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1170,6 +1170,17 @@ static void nested_vmx_transition_tlb_flush(struct kvm_vcpu *vcpu,
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 
-+	/*
-+	 * KVM_REQ_HV_TLB_FLUSH flushes entries from either L1's VP_ID or
-+	 * L2's VP_ID upon request from the guest. Make sure we check for
-+	 * pending entries for the case when the request got misplaced (e.g.
-+	 * a transition from L2->L1 happened while processing L2 TLB flush
-+	 * request or vice versa). kvm_hv_vcpu_flush_tlb() will not flush
-+	 * anything if there are no requests in the corresponding buffer.
-+	 */
-+	if (to_hv_vcpu(vcpu))
-+		kvm_make_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
-+
  	/*
- 	 * If vmcs12 doesn't use VPID, L1 expects linear and combined mappings
- 	 * for *all* contexts to be flushed on VM-Enter/VM-Exit, i.e. it's a
-@@ -5997,6 +6008,11 @@ static bool nested_vmx_l0_wants_exit(struct kvm_vcpu *vcpu,
- 		 * Handle L2's bus locks in L0 directly.
- 		 */
- 		return true;
-+	case EXIT_REASON_VMCALL:
-+		/* Hyper-V L2 TLB flush hypercall is handled by L0 */
-+		return kvm_hv_l2_tlb_flush_exposed(vcpu) &&
-+			nested_evmcs_l2_tlb_flush_enabled(vcpu) &&
-+			kvm_hv_is_tlb_flush_hcall(vcpu);
- 	default:
- 		break;
- 	}
+-	 * The Hyper-V TLFS doesn't allow more than 64 sparse banks, e.g. the
+-	 * valid mask is a u64.  Fail the build if KVM's max allowed number of
+-	 * vCPUs (>4096) would exceed this limit, KVM will additional changes
+-	 * for Hyper-V support to avoid setting the guest up to fail.
++	 * The Hyper-V TLFS doesn't allow more than HV_MAX_SPARSE_VCPU_BANKS
++	 * sparse banks. Fail the build if KVM's max allowed number of
++	 * vCPUs (>4096) exceeds this limit.
+ 	 */
+-	BUILD_BUG_ON(KVM_HV_MAX_SPARSE_VCPU_SET_BITS > 64);
++	BUILD_BUG_ON(KVM_HV_MAX_SPARSE_VCPU_SET_BITS > HV_MAX_SPARSE_VCPU_BANKS);
+ 
+ 	if (!hc->fast && is_guest_mode(vcpu)) {
+ 		hc->ingpa = translate_nested_gpa(vcpu, hc->ingpa, 0, NULL);
 -- 
 2.35.1
 
