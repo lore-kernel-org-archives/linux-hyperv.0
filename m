@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C874C35273
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 072B1C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:32:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244486AbiDNNec (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Apr 2022 09:34:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53498 "EHLO
+        id S244492AbiDNNee (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Apr 2022 09:34:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244707AbiDNN2C (ORCPT
+        with ESMTP id S244914AbiDNN2R (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:28:02 -0400
+        Thu, 14 Apr 2022 09:28:17 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AC5D9A27EC
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:20:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1C9C1A8891
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649942446;
+        s=mimecast20190719; t=1649942478;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vOHkBSrZAsh0XtqHzXIEOMGoZu0mNmnj6KVj9x1wFHI=;
-        b=h7ICJyQA0K3s8tVnpDl1SvqALPsS/PvUBqwWwupXuLJZr+I+fuIhp1Ah6uZfnvZa5Z1UmG
-        2hSUx0dhi4TCGQ8uWmB6k8uGSZwJMaQv7Q0neHwYdA6M0XiPm1qsfi//A9PtvWGmzZypXP
-        LU1Yahkm/CAKAC8F9fzd3sa3a0Sx4Ps=
+        bh=IJ2Vgk74sDWyEWQ+SIKJGSpw8vilP+eCSCMx/I4v0m0=;
+        b=OqtFCCP1xRqJm9khZsSWv08oyAD+/ZZZP8qoltnP9hMeAPgDcCSdnuhvvEOe2cBPGYZLQ6
+        YBii6gO12ORmZ1V1imimLOKxIQNp7JdIaO1wVAl1V6GDP1umUMx9MCd476VLg+W5FWuoSk
+        22b3LDwFZ8on2u+JdckRsBi4HPd0aq8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-L-GgCv12OD6luR26ZeGVVQ-1; Thu, 14 Apr 2022 09:20:43 -0400
-X-MC-Unique: L-GgCv12OD6luR26ZeGVVQ-1
+ us-mta-486-ILnEP6bIMnGyUEI8hcZwBg-1; Thu, 14 Apr 2022 09:21:14 -0400
+X-MC-Unique: ILnEP6bIMnGyUEI8hcZwBg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 55696108C19F;
-        Thu, 14 Apr 2022 13:20:37 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D26F9805F6F;
+        Thu, 14 Apr 2022 13:21:03 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.195.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8DDD37774;
-        Thu, 14 Apr 2022 13:20:35 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F1FBC53CD;
+        Thu, 14 Apr 2022 13:21:01 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -46,9 +46,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 10/34] KVM: x86: hyper-v: Create a separate ring for L2 TLB flush
-Date:   Thu, 14 Apr 2022 15:19:49 +0200
-Message-Id: <20220414132013.1588929-11-vkuznets@redhat.com>
+Subject: [PATCH v3 23/34] KVM: selftests: Better XMM read/write helpers
+Date:   Thu, 14 Apr 2022 15:20:02 +0200
+Message-Id: <20220414132013.1588929-24-vkuznets@redhat.com>
 In-Reply-To: <20220414132013.1588929-1-vkuznets@redhat.com>
 References: <20220414132013.1588929-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,125 +59,128 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-To handle L2 TLB flush requests, KVM needs to use a separate ring from
-regular (L1) Hyper-V TLB flush requests: e.g. when a request to flush
-something in L2 is made, the target vCPU can transition from L2 to L1,
-receive a request to flush a GVA for L1 and then try to enter L2 back.
-The first request needs to be processed at this point. Similarly,
-requests to flush GVAs in L1 must wait until L2 exits to L1.
-
-No functional change as KVM doesn't handle L2 TLB flush requests from
-L2 yet.
+set_xmm()/get_xmm() helpers are fairly useless as they only read 64 bits
+from 128-bit registers. Moreover, these helpers are not used. Borrow
+_kvm_read_sse_reg()/_kvm_write_sse_reg() from KVM limiting them to
+XMM0-XMM8 for now.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h |  8 +++++++-
- arch/x86/kvm/hyperv.c           |  8 +++++---
- arch/x86/kvm/hyperv.h           | 19 ++++++++++++++++---
- 3 files changed, 28 insertions(+), 7 deletions(-)
+ .../selftests/kvm/include/x86_64/processor.h  | 70 ++++++++++---------
+ 1 file changed, 36 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index b4dd2ff61658..058061621872 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -580,6 +580,12 @@ struct kvm_vcpu_hv_synic {
- 
- #define KVM_HV_TLB_FLUSH_RING_SIZE (16)
- 
-+enum hv_tlb_flush_rings {
-+	HV_L1_TLB_FLUSH_RING,
-+	HV_L2_TLB_FLUSH_RING,
-+	HV_NR_TLB_FLUSH_RINGS,
-+};
-+
- struct kvm_vcpu_hv_tlb_flush_entry {
- 	u64 addr;
- 	u64 flush_all:1;
-@@ -612,7 +618,7 @@ struct kvm_vcpu_hv {
- 		u32 syndbg_cap_eax; /* HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX */
- 	} cpuid_cache;
- 
--	struct kvm_vcpu_hv_tlb_flush_ring tlb_flush_ring;
-+	struct kvm_vcpu_hv_tlb_flush_ring tlb_flush_ring[HV_NR_TLB_FLUSH_RINGS];
- };
- 
- /* Xen HVM per vcpu emulation context */
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index aebbb598ad1d..1cef2b8f7001 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -956,7 +956,8 @@ static int kvm_hv_vcpu_init(struct kvm_vcpu *vcpu)
- 
- 	hv_vcpu->vp_index = vcpu->vcpu_idx;
- 
--	spin_lock_init(&hv_vcpu->tlb_flush_ring.write_lock);
-+	for (i = 0; i < HV_NR_TLB_FLUSH_RINGS; i++)
-+		spin_lock_init(&hv_vcpu->tlb_flush_ring[i].write_lock);
- 
- 	return 0;
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index 37db341d4cc5..9ad7602a257b 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -296,71 +296,73 @@ static inline void cpuid(uint32_t *eax, uint32_t *ebx,
+ 	    : "memory");
  }
-@@ -1852,7 +1853,8 @@ static void hv_tlb_flush_ring_enqueue(struct kvm_vcpu *vcpu, u64 *entries, int c
- 	if (!hv_vcpu)
- 		return;
  
--	tlb_flush_ring = &hv_vcpu->tlb_flush_ring;
-+	/* kvm_hv_flush_tlb() is not ready to handle requests for L2s yet */
-+	tlb_flush_ring = &hv_vcpu->tlb_flush_ring[HV_L1_TLB_FLUSH_RING];
+-#define SET_XMM(__var, __xmm) \
+-	asm volatile("movq %0, %%"#__xmm : : "r"(__var) : #__xmm)
++typedef u32		__attribute__((vector_size(16))) sse128_t;
++#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
++#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
++#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
  
- 	spin_lock_irqsave(&tlb_flush_ring->write_lock, flags);
- 
-@@ -1921,7 +1923,7 @@ void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu)
- 		return;
- 	}
- 
--	tlb_flush_ring = &hv_vcpu->tlb_flush_ring;
-+	tlb_flush_ring = kvm_hv_get_tlb_flush_ring(vcpu);
- 
- 	/*
- 	 * TLB flush must be performed on the target vCPU so 'read_idx'
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 6847caeaaf84..d59f96700104 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -22,6 +22,7 @@
- #define __ARCH_X86_KVM_HYPERV_H__
- 
- #include <linux/kvm_host.h>
-+#include "x86.h"
- 
- /*
-  * The #defines related to the synthetic debugger are required by KDNet, but
-@@ -147,15 +148,27 @@ int kvm_vm_ioctl_hv_eventfd(struct kvm *kvm, struct kvm_hyperv_eventfd *args);
- int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
- 		     struct kvm_cpuid_entry2 __user *entries);
- 
-+static inline struct kvm_vcpu_hv_tlb_flush_ring *kvm_hv_get_tlb_flush_ring(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	int i = !is_guest_mode(vcpu) ? HV_L1_TLB_FLUSH_RING :
-+		HV_L2_TLB_FLUSH_RING;
-+
-+	/* KVM does not handle L2 TLB flush requests yet */
-+	WARN_ON_ONCE(i != HV_L1_TLB_FLUSH_RING);
-+
-+	return &hv_vcpu->tlb_flush_ring[i];
-+}
- 
- static inline void kvm_hv_vcpu_empty_flush_tlb(struct kvm_vcpu *vcpu)
+-static inline void set_xmm(int n, unsigned long val)
++static inline void read_sse_reg(int reg, sse128_t *data)
  {
--	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	struct kvm_vcpu_hv_tlb_flush_ring *tlb_flush_ring;
- 
--	if (!hv_vcpu)
-+	if (!to_hv_vcpu(vcpu))
- 		return;
- 
--	hv_vcpu->tlb_flush_ring.read_idx = hv_vcpu->tlb_flush_ring.write_idx;
-+	tlb_flush_ring = kvm_hv_get_tlb_flush_ring(vcpu);
-+	tlb_flush_ring->read_idx = tlb_flush_ring->write_idx;
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		SET_XMM(val, xmm0);
++		asm("movdqa %%xmm0, %0" : "=m"(*data));
+ 		break;
+ 	case 1:
+-		SET_XMM(val, xmm1);
++		asm("movdqa %%xmm1, %0" : "=m"(*data));
+ 		break;
+ 	case 2:
+-		SET_XMM(val, xmm2);
++		asm("movdqa %%xmm2, %0" : "=m"(*data));
+ 		break;
+ 	case 3:
+-		SET_XMM(val, xmm3);
++		asm("movdqa %%xmm3, %0" : "=m"(*data));
+ 		break;
+ 	case 4:
+-		SET_XMM(val, xmm4);
++		asm("movdqa %%xmm4, %0" : "=m"(*data));
+ 		break;
+ 	case 5:
+-		SET_XMM(val, xmm5);
++		asm("movdqa %%xmm5, %0" : "=m"(*data));
+ 		break;
+ 	case 6:
+-		SET_XMM(val, xmm6);
++		asm("movdqa %%xmm6, %0" : "=m"(*data));
+ 		break;
+ 	case 7:
+-		SET_XMM(val, xmm7);
++		asm("movdqa %%xmm7, %0" : "=m"(*data));
+ 		break;
++	default:
++		BUG();
+ 	}
  }
- void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
  
+-#define GET_XMM(__xmm)							\
+-({									\
+-	unsigned long __val;						\
+-	asm volatile("movq %%"#__xmm", %0" : "=r"(__val));		\
+-	__val;								\
+-})
+-
+-static inline unsigned long get_xmm(int n)
++static inline void write_sse_reg(int reg, const sse128_t *data)
+ {
+-	assert(n >= 0 && n <= 7);
+-
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		return GET_XMM(xmm0);
++		asm("movdqa %0, %%xmm0" : : "m"(*data));
++		break;
+ 	case 1:
+-		return GET_XMM(xmm1);
++		asm("movdqa %0, %%xmm1" : : "m"(*data));
++		break;
+ 	case 2:
+-		return GET_XMM(xmm2);
++		asm("movdqa %0, %%xmm2" : : "m"(*data));
++		break;
+ 	case 3:
+-		return GET_XMM(xmm3);
++		asm("movdqa %0, %%xmm3" : : "m"(*data));
++		break;
+ 	case 4:
+-		return GET_XMM(xmm4);
++		asm("movdqa %0, %%xmm4" : : "m"(*data));
++		break;
+ 	case 5:
+-		return GET_XMM(xmm5);
++		asm("movdqa %0, %%xmm5" : : "m"(*data));
++		break;
+ 	case 6:
+-		return GET_XMM(xmm6);
++		asm("movdqa %0, %%xmm6" : : "m"(*data));
++		break;
+ 	case 7:
+-		return GET_XMM(xmm7);
++		asm("movdqa %0, %%xmm7" : : "m"(*data));
++		break;
++	default:
++		BUG();
+ 	}
+-
+-	/* never reached */
+-	return 0;
+ }
+ 
+ static inline void cpu_relax(void)
 -- 
 2.35.1
 
