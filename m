@@ -2,104 +2,98 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 261F9C4332F
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2941C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:31:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243751AbiDNNRu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Apr 2022 09:17:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37376 "EHLO
+        id S242083AbiDNNeG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Apr 2022 09:34:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243817AbiDNNRp (ORCPT
+        with ESMTP id S244611AbiDNN1u (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:17:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70355BE0;
-        Thu, 14 Apr 2022 06:15:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 14 Apr 2022 09:27:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 10475A1465
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1649942434;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=guPhHfLWQaBPsCmuIyaAa+212gzE/QcUkyjWekHqQX4=;
+        b=gsXL352m9VTxuqNYDrrp8C+SMvtdEF3nfN9JWJ6U76695UCrKkK4apGaUM++YoA4bpEWoM
+        Y2qIpJDV2L02S3uD3GZ0PnwM9qUuo5/JOKH7z+mpCe6UYYH8Qm0s5v58EgYq/cO5pJR7Xk
+        nfEdwN1ZeXWHIL0n/4EvY0hvoPNdHrE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-424-3jbKgnbbPeSaioWPbhlXGA-1; Thu, 14 Apr 2022 09:20:29 -0400
+X-MC-Unique: 3jbKgnbbPeSaioWPbhlXGA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1F224B82968;
-        Thu, 14 Apr 2022 13:15:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E969C385A5;
-        Thu, 14 Apr 2022 13:15:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1649942118;
-        bh=ttbQErNq1DNWXwjtdYJ4yzzBIABKh56kO9GVVDSZ1Fs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gmFBh6qGs1Xx3kAiXMn/gWkmcrpW2LY40Q6ECHsRzyMwHGRCS7w8wdaiu7Pk9Gw5c
-         It6oZkQBK0Ko/C0x4B+paMRqqz/BBkI8aMxj21xVaVMyhehNlHluEgOYjhM3jWX5Wr
-         8ZZDEtdk9mOGA6FRA4BdvtyB35kYNbKOam8kAbMg=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        linux-hyperv@vger.kernel.org,
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62071100BABE;
+        Thu, 14 Apr 2022 13:20:28 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.195.11])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BD4A07C28;
+        Thu, 14 Apr 2022 13:20:26 +0000 (UTC)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        =?UTF-8?q?Petr=20=C5=A0tetiar?= <ynezz@true.cz>
-Subject: [PATCH 4.19 003/338] hv: utils: add PTP_1588_CLOCK to Kconfig to fix build
-Date:   Thu, 14 Apr 2022 15:08:26 +0200
-Message-Id: <20220414110838.987014792@linuxfoundation.org>
-X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220414110838.883074566@linuxfoundation.org>
-References: <20220414110838.883074566@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Siddharth Chandrasekaran <sidcha@amazon.de>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 06/34] KVM: x86: Prepare kvm_hv_flush_tlb() to handle L2's GPAs
+Date:   Thu, 14 Apr 2022 15:19:45 +0200
+Message-Id: <20220414132013.1588929-7-vkuznets@redhat.com>
+In-Reply-To: <20220414132013.1588929-1-vkuznets@redhat.com>
+References: <20220414132013.1588929-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+To handle L2 TLB flush requests, KVM needs to translate the specified
+L2 GPA to L1 GPA to read hypercall arguments from there.
 
-commit 1dc2f2b81a6a9895da59f3915760f6c0c3074492 upstream.
+No fucntional change as KVM doesn't handle VMCALL/VMMCALL from L2 yet.
 
-The hyperv utilities use PTP clock interfaces and should depend a
-a kconfig symbol such that they will be built as a loadable module or
-builtin so that linker errors do not happen.
-
-Prevents these build errors:
-
-ld: drivers/hv/hv_util.o: in function `hv_timesync_deinit':
-hv_util.c:(.text+0x37d): undefined reference to `ptp_clock_unregister'
-ld: drivers/hv/hv_util.o: in function `hv_timesync_init':
-hv_util.c:(.text+0x738): undefined reference to `ptp_clock_register'
-
-Fixes: 3716a49a81ba ("hv_utils: implement Hyper-V PTP source")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Stephen Hemminger <sthemmin@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Link: https://lore.kernel.org/r/20211126023316.25184-1-rdunlap@infradead.org
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Cc: Petr Štetiar <ynezz@true.cz>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- drivers/hv/Kconfig |    1 +
- 1 file changed, 1 insertion(+)
+ arch/x86/kvm/hyperv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -16,6 +16,7 @@ config HYPERV_TSCPAGE
- config HYPERV_UTILS
- 	tristate "Microsoft Hyper-V Utilities driver"
- 	depends on HYPERV && CONNECTOR && NLS
-+	depends on PTP_1588_CLOCK_OPTIONAL
- 	help
- 	  Select this option to enable the Hyper-V Utilities.
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 1a6f9628cee9..fc4bb0ead9fa 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -23,6 +23,7 @@
+ #include "ioapic.h"
+ #include "cpuid.h"
+ #include "hyperv.h"
++#include "mmu.h"
+ #include "xen.h"
  
-
+ #include <linux/cpu.h>
+@@ -1975,6 +1976,12 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+ 	 */
+ 	BUILD_BUG_ON(KVM_HV_MAX_SPARSE_VCPU_SET_BITS > 64);
+ 
++	if (!hc->fast && is_guest_mode(vcpu)) {
++		hc->ingpa = translate_nested_gpa(vcpu, hc->ingpa, 0, NULL);
++		if (unlikely(hc->ingpa == UNMAPPED_GVA))
++			return HV_STATUS_INVALID_HYPERCALL_INPUT;
++	}
++
+ 	if (hc->code == HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST ||
+ 	    hc->code == HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE) {
+ 		if (hc->fast) {
+-- 
+2.35.1
 
