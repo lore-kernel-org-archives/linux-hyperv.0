@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44826C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B340C43219
 	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Apr 2022 13:32:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243383AbiDNNef (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Apr 2022 09:34:35 -0400
+        id S244529AbiDNNeg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Apr 2022 09:34:36 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244890AbiDNN2O (ORCPT
+        with ESMTP id S244785AbiDNN2H (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Apr 2022 09:28:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 935ADA7764
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:21:15 -0700 (PDT)
+        Thu, 14 Apr 2022 09:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5D9C5986E9
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Apr 2022 06:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1649942474;
+        s=mimecast20190719; t=1649942455;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Zm7vWWpJoFp3QcOqQVtM2lUKGQCpQSZQDFy6GatKo98=;
-        b=D5v29DmVSQTHM3eELiZ3gOWN73eslG1PKkaVUNPmyNXlKDOtYHO9Z0oZyooMNqos9c+Gpt
-        3btEVE6nsEULTxRpdxACZMgqFV4oWb9GPdzNB6BEHOk9svN3s0gOfkZmrIMBxb9yERM6K3
-        Weub8ZIp4lWBlKwXwI5nbg0+gqKUHy8=
+        bh=50CzWrTQDY55h6HJNGeIUa1zcvA+e6RQRniRY8pLQbs=;
+        b=CpIFE6eLvQTffm9r9xemaLzNZr7Dbujx3I9wjw/k2VwRStFLPxf+3ENvqmJqx94CgE6wNj
+        Z+dwg4UXAEYLdmGtWs3PAP5ISVTHJPaGy9XM2vbRPXT7NPrrFIxJdhlc6/foMgjB+Y5+d4
+        1WSc8Q6hNeuw5TBOUtQ6BloBoHzUp9U=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-659-7za_fzKSNOqilB9AI3PYsA-1; Thu, 14 Apr 2022 09:21:13 -0400
-X-MC-Unique: 7za_fzKSNOqilB9AI3PYsA-1
+ us-mta-210-9s2vFTo1NsqNRg4f7F2PjQ-1; Thu, 14 Apr 2022 09:20:52 -0400
+X-MC-Unique: 9s2vFTo1NsqNRg4f7F2PjQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7FF91801229;
-        Thu, 14 Apr 2022 13:21:07 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4DB0F901865;
+        Thu, 14 Apr 2022 13:20:41 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.195.11])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 56CB210725;
-        Thu, 14 Apr 2022 13:21:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B451A9D42;
+        Thu, 14 Apr 2022 13:20:39 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -46,9 +46,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 25/34] KVM: selftests: Make it possible to replace PTEs with __virt_pg_map()
-Date:   Thu, 14 Apr 2022 15:20:04 +0200
-Message-Id: <20220414132013.1588929-26-vkuznets@redhat.com>
+Subject: [PATCH v3 12/34] KVM: nVMX: Keep track of hv_vm_id/hv_vp_id when eVMCS is in use
+Date:   Thu, 14 Apr 2022 15:19:51 +0200
+Message-Id: <20220414132013.1588929-13-vkuznets@redhat.com>
 In-Reply-To: <20220414132013.1588929-1-vkuznets@redhat.com>
 References: <20220414132013.1588929-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,88 +59,78 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-__virt_pg_map() makes an assumption that leaf PTE is not present. This
-is not suitable if the test wants to replace an already present
-PTE. Hyper-V PV TLB flush test is going to need that.
+To handle L2 TLB flush requests, KVM needs to keep track of L2's VM_ID/
+VP_IDs which are set by L1 hypervisor. 'Partition assist page' address is
+also needed to handle post-flush exit to L1 upon request.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/include/x86_64/processor.h | 2 +-
- tools/testing/selftests/kvm/lib/x86_64/processor.c     | 6 +++---
- tools/testing/selftests/kvm/max_guest_memory_test.c    | 2 +-
- tools/testing/selftests/kvm/x86_64/mmu_role_test.c     | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ arch/x86/include/asm/kvm_host.h |  6 ++++++
+ arch/x86/kvm/vmx/nested.c       | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-index 9ad7602a257b..c20b18d05119 100644
---- a/tools/testing/selftests/kvm/include/x86_64/processor.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-@@ -473,7 +473,7 @@ enum x86_page_size {
- 	X86_PAGE_SIZE_1G,
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 837c07e213de..8b2a52bf26c0 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -622,6 +622,12 @@ struct kvm_vcpu_hv {
+ 
+ 	/* Preallocated buffer for handling hypercalls passing sparse vCPU set */
+ 	u64 sparse_banks[64];
++
++	struct {
++		u64 pa_page_gpa;
++		u64 vm_id;
++		u32 vp_id;
++	} nested;
  };
- void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
--		   enum x86_page_size page_size);
-+		   enum x86_page_size page_size, bool replace);
  
- /*
-  * Basic CPU control in CR0
-diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-index 9f000dfb5594..20df3e84d777 100644
---- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
-+++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-@@ -229,7 +229,7 @@ static struct pageUpperEntry *virt_create_upper_pte(struct kvm_vm *vm,
+ /* Xen HVM per vcpu emulation context */
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index a6688663da4d..ee88921c6156 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -225,6 +225,7 @@ static void vmx_disable_shadow_vmcs(struct vcpu_vmx *vmx)
+ 
+ static inline void nested_release_evmcs(struct kvm_vcpu *vcpu)
+ {
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+ 
+ 	if (evmptr_is_valid(vmx->nested.hv_evmcs_vmptr)) {
+@@ -233,6 +234,12 @@ static inline void nested_release_evmcs(struct kvm_vcpu *vcpu)
+ 	}
+ 
+ 	vmx->nested.hv_evmcs_vmptr = EVMPTR_INVALID;
++
++	if (hv_vcpu) {
++		hv_vcpu->nested.pa_page_gpa = INVALID_GPA;
++		hv_vcpu->nested.vm_id = 0;
++		hv_vcpu->nested.vp_id = 0;
++	}
  }
  
- void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
--		   enum x86_page_size page_size)
-+		   enum x86_page_size page_size, bool replace)
+ static void vmx_sync_vmcs_host_state(struct vcpu_vmx *vmx,
+@@ -1591,11 +1598,19 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
  {
- 	const uint64_t pg_size = 1ull << ((page_size * 9) + 12);
- 	struct pageUpperEntry *pml4e, *pdpe, *pde;
-@@ -270,7 +270,7 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ 	struct vmcs12 *vmcs12 = vmx->nested.cached_vmcs12;
+ 	struct hv_enlightened_vmcs *evmcs = vmx->nested.hv_evmcs;
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(&vmx->vcpu);
  
- 	/* Fill in page table entry. */
- 	pte = virt_get_pte(vm, pde->pfn, vaddr, 0);
--	TEST_ASSERT(!pte->present,
-+	TEST_ASSERT(replace || !pte->present,
- 		    "PTE already present for 4k page at vaddr: 0x%lx\n", vaddr);
- 	pte->pfn = paddr >> vm->page_shift;
- 	pte->writable = true;
-@@ -279,7 +279,7 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ 	/* HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE */
+ 	vmcs12->tpr_threshold = evmcs->tpr_threshold;
+ 	vmcs12->guest_rip = evmcs->guest_rip;
  
- void virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr)
- {
--	__virt_pg_map(vm, vaddr, paddr, X86_PAGE_SIZE_4K);
-+	__virt_pg_map(vm, vaddr, paddr, X86_PAGE_SIZE_4K, false);
- }
- 
- static struct pageTableEntry *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid,
-diff --git a/tools/testing/selftests/kvm/max_guest_memory_test.c b/tools/testing/selftests/kvm/max_guest_memory_test.c
-index 3875c4b23a04..437f77633b0e 100644
---- a/tools/testing/selftests/kvm/max_guest_memory_test.c
-+++ b/tools/testing/selftests/kvm/max_guest_memory_test.c
-@@ -244,7 +244,7 @@ int main(int argc, char *argv[])
- #ifdef __x86_64__
- 		/* Identity map memory in the guest using 1gb pages. */
- 		for (i = 0; i < slot_size; i += size_1gb)
--			__virt_pg_map(vm, gpa + i, gpa + i, X86_PAGE_SIZE_1G);
-+			__virt_pg_map(vm, gpa + i, gpa + i, X86_PAGE_SIZE_1G, false);
- #else
- 		for (i = 0; i < slot_size; i += vm_get_page_size(vm))
- 			virt_pg_map(vm, gpa + i, gpa + i);
-diff --git a/tools/testing/selftests/kvm/x86_64/mmu_role_test.c b/tools/testing/selftests/kvm/x86_64/mmu_role_test.c
-index da2325fcad87..e3fdf320b9f4 100644
---- a/tools/testing/selftests/kvm/x86_64/mmu_role_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/mmu_role_test.c
-@@ -35,7 +35,7 @@ static void mmu_role_test(u32 *cpuid_reg, u32 evil_cpuid_val)
- 	run = vcpu_state(vm, VCPU_ID);
- 
- 	/* Map 1gb page without a backing memlot. */
--	__virt_pg_map(vm, MMIO_GPA, MMIO_GPA, X86_PAGE_SIZE_1G);
-+	__virt_pg_map(vm, MMIO_GPA, MMIO_GPA, X86_PAGE_SIZE_1G, false);
- 
- 	r = _vcpu_run(vm, VCPU_ID);
- 
++	if (unlikely(!(hv_clean_fields &
++		       HV_VMX_ENLIGHTENED_CLEAN_FIELD_ENLIGHTENMENTSCONTROL))) {
++		hv_vcpu->nested.pa_page_gpa = evmcs->partition_assist_page;
++		hv_vcpu->nested.vm_id = evmcs->hv_vm_id;
++		hv_vcpu->nested.vp_id = evmcs->hv_vp_id;
++	}
++
+ 	if (unlikely(!(hv_clean_fields &
+ 		       HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_BASIC))) {
+ 		vmcs12->guest_rsp = evmcs->guest_rsp;
 -- 
 2.35.1
 
