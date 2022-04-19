@@ -2,128 +2,201 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E849C433F5
-	for <linux-hyperv@archiver.kernel.org>; Fri, 15 Apr 2022 17:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3E6C433EF
+	for <linux-hyperv@archiver.kernel.org>; Tue, 19 Apr 2022 11:35:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236808AbiDORIP (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 15 Apr 2022 13:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54478 "EHLO
+        id S1351516AbiDSLht (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 19 Apr 2022 07:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356101AbiDORIB (ORCPT
+        with ESMTP id S1349513AbiDSLhc (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 15 Apr 2022 13:08:01 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CF4A84EFD;
-        Fri, 15 Apr 2022 10:05:32 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id g20so10524400edw.6;
-        Fri, 15 Apr 2022 10:05:32 -0700 (PDT)
+        Tue, 19 Apr 2022 07:37:32 -0400
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA84A2DC4
+        for <linux-hyperv@vger.kernel.org>; Tue, 19 Apr 2022 04:34:48 -0700 (PDT)
+Received: by mail-ej1-x629.google.com with SMTP id y20so12114229eju.7
+        for <linux-hyperv@vger.kernel.org>; Tue, 19 Apr 2022 04:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tPz8jhLel5NCB/c+wgUxB3HxNS9jpiNK/WGqp6Lz5oE=;
-        b=bmzvRoxXUYN08ImLI8GChiltnBZ++UpOwMCJABu0q9+yZCFc6P3KmJ+eCUxf3GUNTz
-         JmCY41h0LXy/oh3PT2JmAfv+662KfBG6RdJqoAA59mbedZm/Bw/zjBJvPOs8drW6CfXh
-         8hGFU2cKLx9xQlfYDUlA98Huv0jMJTUicz33uiImtlh3l31R1KL1TC9/W1gbhw4+GXCl
-         WLBQzr69B3R3z2gz2UtPVSWgIr3g6auVvg7E9jAXa5vG3Bm8wUjgXWr6LMT9epg91v4d
-         8UmzLTu0bcUX0GQS6oOKvRmauc4kFRpClp3vivZyMZIWnmaFdU7K+B9Fn9PbR1ny/lVx
-         e0PQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+RS2KaOerzQuwGLCJlNRvQqdlqz9kGKXmmE/o8hIMxc=;
+        b=KQats4yWut+GAInZpgo6wlkPKVDagbM3R0tOSjC/tXzsGfNp7h99Zs58vCptEscTpK
+         mbbyQT/so7ThPQX6ZBwVgU/6/OMYPhZ3b8NWVo58v/AWgjGj/c13IinU0JZUxgsLmUbX
+         wtYV4iKZ7ZxkIIXJYr27Z/OtYMBaCbJnYhLBGRpddVl1U1LTnJSB6NA88CzMeSaiqqqr
+         2PHKBRlsALK1YRRnJegN2W7zECiyg6PKkD33wHtut9O6mBuGtDG4eNOOmh7evJgldNFD
+         daON6jPbeCRx5RgbYuUVlqa5xdPtHbcMYVioGRHSRAffliIvrFMlh5w4Z4HpNMVbB8RB
+         CtMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tPz8jhLel5NCB/c+wgUxB3HxNS9jpiNK/WGqp6Lz5oE=;
-        b=nXLXG9fpHM347tttGn+gbdC+D5tKOGRfWryt0BsUCzCveNBA0H88OgxDdHqVHvTSje
-         vMVJRn3an/JJfSUtUwigV6R2yvNGvbk6zORqI3Ukvul0Q+aOwGDBruZr1eD6BqFFXa1l
-         /c6zVkD4u5bDUzAHtR7HrLjyQ5R0dtDlxpItmGFqULoJktFaD928STlerivVdSyzR36K
-         xr+7rhdzfndwfBKXFo3TR3QSTcCJEEjZVd9a5V+7hOkfipwNbS3hmYCd+4Tn2tFphV61
-         RpOtR4irR944Ew3pDwEr3Pfha3/XyIuI/4tcx/IShKEDePsFfNmDVvt5WZKsHNXvzzgf
-         WpcA==
-X-Gm-Message-State: AOAM533HztuxpYNl1pCtIrmkVUu6RbI0Zi2KOxu35r4irJ98HPYHeVBS
-        K/kR3kfY6Lke4O6XTKAz1KE=
-X-Google-Smtp-Source: ABdhPJxSQFT54MjAvSnz6QJUYmMr6+4q4fWd+q3ggPokB7m4jqJCd2gNdAzt7nGClmnxKUX3+u1uLQ==
-X-Received: by 2002:a05:6402:14b:b0:418:d06e:5d38 with SMTP id s11-20020a056402014b00b00418d06e5d38mr211943edu.90.1650042331209;
-        Fri, 15 Apr 2022 10:05:31 -0700 (PDT)
-Received: from anparri (host-79-52-64-69.retail.telecomitalia.it. [79.52.64.69])
-        by smtp.gmail.com with ESMTPSA id ee17-20020a056402291100b0041fe1e4e342sm2842777edb.27.2022.04.15.10.05.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+RS2KaOerzQuwGLCJlNRvQqdlqz9kGKXmmE/o8hIMxc=;
+        b=tkTiMiLsVBNz0niPqWWdOUDvm2cJ+zjXPsSjJB9NUv0y6eUqjREzk5aJ598UiaQjbo
+         o8flow8glfnlwi1nHQpYhufpw0h4WPC616k0f8iIJjpYNCCUnSDg4g0WOjWw11vgsMli
+         gMd1A2Wq+7k/RAa/apIP8bwzRc82Q+vwwYo7UvjWHERlRV830HJL4p5G5W8tnwHqiWfo
+         CZ9Z47SY451+lUGcw31WusTrW5F7HguCxksG16eoZkHdP3jGUwE92WFUHnE0lYVzVaTx
+         ShEmLTAXsziFD5DESqWxvnpQdzJhoEkpcQJD+WgRshGJbK0zTgh8uGywSp859al3fP1Y
+         JCxQ==
+X-Gm-Message-State: AOAM53286bZl7RbM/SNrGcWSc2NLKJeavquL0zNDUUwv8odJUihcFIqr
+        Xebjl98u6vtF7xACXf/ZOTeVzA==
+X-Google-Smtp-Source: ABdhPJzqToh0YQRiewe8EqLT6PK01CMGRMmUim2jYYjkDbBJ++z/iu7RXEodKQaWchfKBfcBWKLKsQ==
+X-Received: by 2002:a17:907:6e90:b0:6ef:ef41:ac10 with SMTP id sh16-20020a1709076e9000b006efef41ac10mr750787ejc.187.1650368087470;
+        Tue, 19 Apr 2022 04:34:47 -0700 (PDT)
+Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id ce21-20020a170906b25500b006e89869cbf9sm5608802ejb.105.2022.04.19.04.34.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 10:05:30 -0700 (PDT)
-Date:   Fri, 15 Apr 2022 19:05:23 +0200
-From:   Andrea Parri <parri.andrea@gmail.com>
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     KY Srinivasan <kys@microsoft.com>,
+        Tue, 19 Apr 2022 04:34:46 -0700 (PDT)
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Stuart Yoder <stuyoder@gmail.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 6/6] Drivers: hv: vmbus: Refactor the ring-buffer
- iterator functions
-Message-ID: <20220415170523.GB97823@anparri>
-References: <20220413204742.5539-1-parri.andrea@gmail.com>
- <20220413204742.5539-7-parri.andrea@gmail.com>
- <PH0PR21MB302516C5334076716966B7EED7EE9@PH0PR21MB3025.namprd21.prod.outlook.com>
- <20220415070031.GE2961@anparri>
- <20220415162811.GA47513@anparri>
- <PH0PR21MB3025ECBC7D7102B539A7705AD7EE9@PH0PR21MB3025.namprd21.prod.outlook.com>
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Vineeth Vijayan <vneethv@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Andy Gross <agross@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org, linux-hyperv@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v7 00/12] Fix broken usage of driver_override (and kfree of static memory)
+Date:   Tue, 19 Apr 2022 13:34:23 +0200
+Message-Id: <20220419113435.246203-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR21MB3025ECBC7D7102B539A7705AD7EE9@PH0PR21MB3025.namprd21.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Apr 15, 2022 at 04:44:50PM +0000, Michael Kelley (LINUX) wrote:
-> From: Andrea Parri <parri.andrea@gmail.com> Sent: Friday, April 15, 2022 9:28 AM
-> > 
-> > On Fri, Apr 15, 2022 at 09:00:31AM +0200, Andrea Parri wrote:
-> > > > > @@ -470,7 +471,6 @@ struct vmpacket_descriptor *hv_pkt_iter_first_raw(struct
-> > > > > vmbus_channel *channel)
-> > > > >
-> > > > >  	return (struct vmpacket_descriptor *)(hv_get_ring_buffer(rbi) + rbi-
-> > > > > >priv_read_index);
-> > > > >  }
-> > > > > -EXPORT_SYMBOL_GPL(hv_pkt_iter_first_raw);
-> > > >
-> > > > Does hv_pkt_iter_first_raw() need to be retained at all as a
-> > > > separate function?  I think after these changes, the only caller
-> > > > is hv_pkt_iter_first(), in which case the code could just go
-> > > > inline in hv_pkt_iter_first().  Doing that combining would
-> > > > also allow the elimination of the duplicate call to
-> > > > hv_pkt_iter_avail().
-> > 
-> > Back to this, can you clarify what you mean by "the elimination of..."?
-> > After moving the function "inline", hv_pkt_iter_avail() would be called
-> > in to check for a non-NULL descriptor (in the inline function) and later
-> > in the computation of bytes_avail.
-> 
-> I was thinking something like this:
-> 
-> bytes_avail = hv_pkt_iter_avail(rbi);
-> if (bytes_avail < sizeof(struct vmpacket_descriptor))
-> 	return NULL;
-> bytes_avail = min(rbi->pkt_buffer_size, bytes_avail);
-> 
-> desc = (struct vmpacket_descriptor *)(hv_get_ring_buffer(rbi) + rbi->priv_read_index);
+Hi,
 
-Thanks for the clarification, I've applied it.
+This is a continuation of my old patchset from 2019. [1]
+Back then, few drivers set driver_override wrong. I fixed Exynos
+in a different way after discussions. QCOM NGD was not fixed
+and a new user appeared - IMX SCU.
 
-  Andrea
+It seems "char *" in driver_override looks too consty, so we
+tend to make a mistake of storing there string literals.
 
+Changes since latest v7
+=======================
+1. Patch #1: remove out_free label, document clearing override in kerneldoc and
+   in code-comments (Andy).
+2. Patch #12 (rpmsg): do not duplicate string (Biju).
 
-> And for that matter, hv_pkt_iter_avail() is now only called in one place.
-> It's a judgment call whether to keep it as a separate helper function vs.
-> inlining it in hv_pkt_iter_first() as well.  I'm OK either way.
-> 
-> 
-> Michael
-> 
-> 
+Changes since latest v6
+=======================
+1. Patch #1: Don't check for !dev and handle len==0 (Andy).
+2. New patch #11 (rpmsg): split constifying of local variable to a new patch.
+
+Changes since latest v5
+=======================
+1. Patch #11 (rpmsg): split from previous patch 11 - easier to understand the
+   need of it.
+2. Fix build issue in patch 12 (rpmsg).
+
+Changes since latest v4
+=======================
+1. Correct commit msgs and comments after Andy's review.
+2. Re-order code in new helper (patch #1) (Andy).
+3. Add tags.
+
+Changes since latest v3
+=======================
+1. Wrap comments, extend comment in driver_set_override() about newline.
+2. Minor commit msg fixes.
+3. Add tags.
+
+Changes since latest v2
+=======================
+1. Make all driver_override fields as "const char *", just like SPI
+   and VDPA. (Mark)
+2. Move "count" check to the new helper and add "count" argument. (Michael)
+3. Fix typos in docs, patch subject. Extend doc. (Michael, Bjorn)
+4. Compare pointers to reduce number of string readings in the helper.
+5. Fix clk-imx return value.
+
+Changes since latest v1 (not the old 2019 solution):
+====================================================
+https://lore.kernel.org/all/708eabb1-7b35-d525-d4c3-451d4a3de84f@rasmusvillemoes.dk/
+1. Add helper for setting driver_override.
+2. Use the helper.
+
+Dependencies (and stable):
+==========================
+1. All patches, including last three fixes, depend on the first patch
+   introducing the helper.
+2. The last three commits - fixes - are probably not backportable
+   directly, because of this dependency. I don't know how to express
+   this dependency here, since stable-kernel-rules.rst mentions only commits as
+   possible dependencies.
+
+[1] https://lore.kernel.org/all/1550484960-2392-3-git-send-email-krzk@kernel.org/
+
+Best regards,
+Krzysztof
+
+Krzysztof Kozlowski (12):
+  driver: platform: Add helper for safer setting of driver_override
+  amba: Use driver_set_override() instead of open-coding
+  fsl-mc: Use driver_set_override() instead of open-coding
+  hv: Use driver_set_override() instead of open-coding
+  PCI: Use driver_set_override() instead of open-coding
+  s390/cio: Use driver_set_override() instead of open-coding
+  spi: Use helper for safer setting of driver_override
+  vdpa: Use helper for safer setting of driver_override
+  clk: imx: scu: Fix kfree() of static memory on setting driver_override
+  slimbus: qcom-ngd: Fix kfree() of static memory on setting
+    driver_override
+  rpmsg: Constify local variable in field store macro
+  rpmsg: Fix kfree() of static memory on setting driver_override
+
+ drivers/amba/bus.c              | 28 ++-----------
+ drivers/base/driver.c           | 69 +++++++++++++++++++++++++++++++++
+ drivers/base/platform.c         | 28 ++-----------
+ drivers/bus/fsl-mc/fsl-mc-bus.c | 25 ++----------
+ drivers/clk/imx/clk-scu.c       |  7 +++-
+ drivers/hv/vmbus_drv.c          | 28 ++-----------
+ drivers/pci/pci-sysfs.c         | 28 ++-----------
+ drivers/rpmsg/rpmsg_core.c      |  3 +-
+ drivers/rpmsg/rpmsg_internal.h  | 13 ++++++-
+ drivers/rpmsg/rpmsg_ns.c        | 14 ++++++-
+ drivers/s390/cio/cio.h          |  6 ++-
+ drivers/s390/cio/css.c          | 28 ++-----------
+ drivers/slimbus/qcom-ngd-ctrl.c | 13 ++++++-
+ drivers/spi/spi.c               | 26 ++-----------
+ drivers/vdpa/vdpa.c             | 29 ++------------
+ include/linux/amba/bus.h        |  6 ++-
+ include/linux/device/driver.h   |  2 +
+ include/linux/fsl/mc.h          |  6 ++-
+ include/linux/hyperv.h          |  6 ++-
+ include/linux/pci.h             |  6 ++-
+ include/linux/platform_device.h |  6 ++-
+ include/linux/rpmsg.h           |  6 ++-
+ include/linux/spi/spi.h         |  2 +
+ include/linux/vdpa.h            |  4 +-
+ 24 files changed, 184 insertions(+), 205 deletions(-)
+
+-- 
+2.32.0
+
