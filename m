@@ -2,35 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 573CFC4321E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 23:02:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFE0CC433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 23:02:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239856AbiD0XFb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Apr 2022 19:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42798 "EHLO
+        id S239889AbiD0XFf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Apr 2022 19:05:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241042AbiD0XEc (ORCPT
+        with ESMTP id S240319AbiD0XEH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Apr 2022 19:04:32 -0400
+        Wed, 27 Apr 2022 19:04:07 -0400
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F576B6D00;
-        Wed, 27 Apr 2022 15:58:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8AC692D24;
+        Wed, 27 Apr 2022 15:57:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
         s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=jupyQNOg8qT8hQfxmdiNJNMjaTUz/u9LiRmSHTNez6Y=; b=p7drin3mWpI9T0ZfMOO6eJj4J8
-        Szpgonvq7i/v524yc5jBLpbigKUiUN0wy7/WDOnlytx03+FGgGN1Adqusl4cOO6PJlw+seakKl4N4
-        fX95EDE8pbxBc/NNWRr732wIqJtKKX/BphsJRWnwXH/62I6x/BTA0R4L8cWEa/lku3Ma0ky8B2K89
-        MQrzxBf2Hm8tnWC5d0fBkJ7uMzqRE/yfr9AAId6oRoN4APimw2mDpSMEi6ZVrVuwLoacCVsSTBNQz
-        KQprHSNi9G6RdCXwUMjprlLz6QcEgqvhkAE50juvJF1BOQucBso5epBizOEqf+g5ZQam3KuAFn9x9
-        BasVHnnQ==;
+        bh=Vlo9T2/mvIa7VmsgTZAplfpKcY639xSpi9Lsc7QD2sA=; b=ZiYAT8sJyiBNaHzrk2673FL4+8
+        1oiyWalKP6LGmKEc9hZJWoXC6cS5nMMrcCw5Iicmmfaanay2XW+Ea9CLz93XJRZPptEPdWhd8bk0b
+        rKw9muPDbsgcmhx+6dtX/C/iDyONNGYxGodf7FR5gZ6gaCx9CBSOMyg/WgkwloH6LwMYOPDHwMc9i
+        DlZzPF1Rmfq/gUUioCECpXAnYQMmNjWP7xmmSjqLdHZxdMlvMlgrtO3h+d5FTnJJbisLeLao1OJx/
+        z7mwY9pmIo/3ja9SO2+rtPXIxKaESObUyZjm7eg6MS41mJJ7ZAlwRmPdpw93iK7tmvwyFHIvecdrE
+        ZFlVRrJg==;
 Received: from [179.113.53.197] (helo=localhost)
         by fanzine2.igalia.com with esmtpsa 
         (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-        id 1njqbZ-0002Uv-Ai; Thu, 28 Apr 2022 00:57:53 +0200
+        id 1njqb3-0002Tm-Pi; Thu, 28 Apr 2022 00:57:22 +0200
 From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
 To:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
         kexec@lists.infradead.org
@@ -58,10 +58,17 @@ Cc:     linux-kernel@vger.kernel.org,
         paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
         senozhatsky@chromium.org, stern@rowland.harvard.edu,
         tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-Subject: [PATCH 28/30] panic: Unexport crash_kexec_post_notifiers
-Date:   Wed, 27 Apr 2022 19:49:22 -0300
-Message-Id: <20220427224924.592546-29-gpiccoli@igalia.com>
+        will@kernel.org, Andrea Parri <parri.andrea@gmail.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Stephen Brennan <stephen.s.brennan@oracle.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>
+Subject: [PATCH 26/30] Drivers: hv: Do not force all panic notifiers to execute before kdump
+Date:   Wed, 27 Apr 2022 19:49:20 -0300
+Message-Id: <20220427224924.592546-27-gpiccoli@igalia.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220427224924.592546-1-gpiccoli@igalia.com>
 References: <20220427224924.592546-1-gpiccoli@igalia.com>
@@ -71,41 +78,75 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-There is no users anymore of this variable that requires
-it to be "exported" in the headers; also, it was deprecated
-by the kernel parameter "panic_notifiers_level".
+Since commit a11589563e96 ("x86/Hyper-V: Report crash register
+data or kmsg before running crash kernel") Hyper-V forcibly sets
+the kernel parameter "crash_kexec_post_notifiers"; with that, it
+did enforce the execution of *all* panic notifiers before kdump.
+The main reason behind that is that Hyper-V has an hypervisor
+notification mechanism that has the ability of warning the
+hypervisor when the guest panics.
 
+Happens that after the panic notifiers refactor, we now have 3 lists
+and a level mechanism that defines the ordering of the notifiers
+execution with regards to kdump. And for Hyper-V, the specific
+notifier to inform the hypervisor about a panic lies in the first
+list, which *by default* is set to execute before kdump. Hence,
+this patch removes the hardcoded setting, effectively reverting
+the aforementioned commit.
+
+One of the problems with the forced approach was greatly exposed by
+commit d57d6fe5bf34 ("drivers: hv: log when enabling crash_kexec_post_notifiers")
+which ended-up confusing the user that didn't expect the notifiers
+to execute before kdump, since it's a user setting and wasn't
+enabled by such user. With the patch hereby proposed, that kind
+of issue doesn't happen anymore, the panic notifiers level is
+well-documented and users can expect a predictable behavior.
+
+Fixes: a11589563e96 ("x86/Hyper-V: Report crash register data or kmsg before running crash kernel")
+Fixes: d57d6fe5bf34 ("drivers: hv: log when enabling crash_kexec_post_notifiers"
+Cc: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Michael Kelley <mikelley@microsoft.com>
+Cc: Stephen Brennan <stephen.s.brennan@oracle.com>
+Cc: Stephen Hemminger <sthemmin@microsoft.com>
+Cc: Tianyu Lan <Tianyu.Lan@microsoft.com>
+Cc: Wei Liu <wei.liu@kernel.org>
+Tested-by: Fabio A M Martins <fabiomirmar@gmail.com>
 Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 ---
- include/linux/panic.h          | 2 --
- include/linux/panic_notifier.h | 1 -
- 2 files changed, 3 deletions(-)
 
-diff --git a/include/linux/panic.h b/include/linux/panic.h
-index 34175d0188d0..d301db07a8af 100644
---- a/include/linux/panic.h
-+++ b/include/linux/panic.h
-@@ -34,8 +34,6 @@ extern int sysctl_panic_on_rcu_stall;
- extern int sysctl_max_rcu_stall_to_panic;
- extern int sysctl_panic_on_stackoverflow;
+Special thanks to Michael Kelley for the good information about the Hyper-V
+panic path in email threads some months ago, and to Fabio for the testing
+performed.
+
+ drivers/hv/hv_common.c | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index ae68298c0dca..af59793de523 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -73,18 +73,6 @@ int __init hv_common_init(void)
+ {
+ 	int i;
  
--extern bool crash_kexec_post_notifiers;
+-	/*
+-	 * Hyper-V expects to get crash register data or kmsg when
+-	 * crash enlightment is available and system crashes. Set
+-	 * crash_kexec_post_notifiers to be true to make sure that
+-	 * calling crash enlightment interface before running kdump
+-	 * kernel.
+-	 */
+-	if (ms_hyperv.misc_features & HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE) {
+-		crash_kexec_post_notifiers = true;
+-		pr_info("Hyper-V: enabling crash_kexec_post_notifiers\n");
+-	}
 -
- /*
-  * panic_cpu is used for synchronizing panic() and crash_kexec() execution. It
-  * holds a CPU number which is executing panic() currently. A value of
-diff --git a/include/linux/panic_notifier.h b/include/linux/panic_notifier.h
-index b5041132321d..8fda7045e2f7 100644
---- a/include/linux/panic_notifier.h
-+++ b/include/linux/panic_notifier.h
-@@ -11,7 +11,6 @@ extern struct atomic_notifier_head panic_pre_reboot_list;
- extern struct atomic_notifier_head panic_post_reboot_list;
- 
- bool panic_notifiers_before_kdump(void);
--extern bool crash_kexec_post_notifiers;
- 
- enum panic_notifier_val {
- 	PANIC_UNUSED,
+ 	/*
+ 	 * Allocate the per-CPU state for the hypercall input arg.
+ 	 * If this allocation fails, we will not be able to setup
 -- 
 2.36.0
 
