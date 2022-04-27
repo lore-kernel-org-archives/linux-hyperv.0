@@ -2,35 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A4EC4332F
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 23:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E86C433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 23:02:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233548AbiD0XDu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Apr 2022 19:03:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
+        id S239715AbiD0XFY (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Apr 2022 19:05:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239843AbiD0XBi (ORCPT
+        with ESMTP id S240692AbiD0XES (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Apr 2022 19:01:38 -0400
+        Wed, 27 Apr 2022 19:04:18 -0400
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0698E4EF42;
-        Wed, 27 Apr 2022 15:56:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 923C6B3DDD;
+        Wed, 27 Apr 2022 15:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
         s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=durrkKWmzUfzH9qHOG14tQL4R8NCjUjLsTL3Zd00Gek=; b=My7iXYZdsvmohLkJmMGImfYof2
-        p5qkpSJIhXISH+Sbyoj7EeJcOzhmrD5DtjdC6ethktkBlGYO4OfumrpixOUOKLn0Yc0W3TzG54aQY
-        qwtzEOPADTIziH/itInY9Ffg69Sdqh65llZVZNXQlNolBLE2NFdio5E/kUq6oVXX/i2DBK4KweBxr
-        JYm/gjauE4ZVcDNk28sbO0j6B73HXBblZWGmkswBaL+iIGNqLKObr06z5uxWmvVGTIOTQmQ/deHWL
-        LutJobNbiLmganjaFUa+PvHzE64AyIeADEi0jWz8oHx43nzynoDLyNtzoi4XrtuDHAtIno5r39V8q
-        Qw3pgkkw==;
+        bh=C9iT/xJ8gF8J/f7SmqQO2c8pu+KvBPlFfkqGdYboS2I=; b=PMFgjQG40D4y0EE10+nqxAPHVI
+        yNLZ1EZJdP0IH30iYafdBfM788VaINOAVfe8Gnevld0DclzQJRd8t+br/vJapdawGOEWHQTLdmHei
+        1IQvYGZ//MLpN+QQDVtOXWSfDQyyspNE1J3gOgOC4NUam3dGx8JeBgJ9jpYRHFoaP71Y3fG1ERN+7
+        JvwIb059Xf3lNBTrEP8JiyuPOh5ugwSvNao5NfaR+bMPV8BospKPkEU02jshVAtp1UBbOdjrRb2r2
+        ze90RIwfaZigyOQntmQCmXs163wt4gsMUWHmf1nSoidLeEjFKj9WA7H531Eyz4iqvzof4LvLiIP9u
+        dq8Lxg9g==;
 Received: from [179.113.53.197] (helo=localhost)
         by fanzine2.igalia.com with esmtpsa 
         (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-        id 1njqZo-0002Om-0k; Thu, 28 Apr 2022 00:56:04 +0200
+        id 1njqbL-0002UI-QD; Thu, 28 Apr 2022 00:57:40 +0200
 From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
 To:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
         kexec@lists.infradead.org
@@ -58,10 +58,14 @@ Cc:     linux-kernel@vger.kernel.org,
         paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
         senozhatsky@chromium.org, stern@rowland.harvard.edu,
         tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org
-Subject: [PATCH 23/30] printk: kmsg_dump: Introduce helper to inform number of dumpers
-Date:   Wed, 27 Apr 2022 19:49:17 -0300
-Message-Id: <20220427224924.592546-24-gpiccoli@igalia.com>
+        will@kernel.org, Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Hari Bathini <hbathini@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Paul Mackerras <paulus@samba.org>
+Subject: [PATCH 27/30] powerpc: Do not force all panic notifiers to execute before kdump
+Date:   Wed, 27 Apr 2022 19:49:21 -0300
+Message-Id: <20220427224924.592546-28-gpiccoli@igalia.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220427224924.592546-1-gpiccoli@igalia.com>
 References: <20220427224924.592546-1-gpiccoli@igalia.com>
@@ -71,87 +75,61 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Currently we don't have a way to check if there are dumpers set,
-except counting the list members maybe. This patch introduces a very
-simple helper to provide this information, by just keeping track of
-registered/unregistered kmsg dumpers. It's going to be used on the
-panic path in the subsequent patch.
+Commit 06e629c25daa ("powerpc/fadump: Fix inaccurate CPU state info in
+vmcore generated with panic") introduced a hardcoded setting of kernel
+parameter "crash_kexec_post_notifiers", effectively forcing all the
+panic notifiers to execute earlier in the panic path, before kdump.
 
-Notice that the spinlock guarding kmsg_dumpers list also guards
-increment/decrement of the dumper's counter, but there's no need
-for that when reading the counter in the panic path, since that is
-an atomic path and there's no other (planned) user.
+The reason for that was a fadump issue on collecting data accurately,
+due to smp_send_stop() setting all CPUs offline, so the net effect
+desired with this change was to avoid calling the regular CPU
+shutdown function, and instead rely on crash_smp_send_stop(), which
+copes fine with fadump. The collateral effect was to increase the
+risk for kdump if fadump is not used, since it forces all panic
+notifiers to execute early, before kdump.
 
+Happens that, after a panic refactor, crash_smp_send_stop() is
+now used by default in the panic path, so there is no reason to
+mess with the notifiers ordering (which was also improved in the
+refactor) from within arch code.
+
+Fixes: 06e629c25daa ("powerpc/fadump: Fix inaccurate CPU state info in vmcore generated with panic")
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Hari Bathini <hbathini@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Paul Mackerras <paulus@samba.org>
 Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 ---
- include/linux/kmsg_dump.h |  7 +++++++
- kernel/printk/printk.c    | 14 ++++++++++++++
- 2 files changed, 21 insertions(+)
 
-diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
-index 906521c2329c..abea1974bff8 100644
---- a/include/linux/kmsg_dump.h
-+++ b/include/linux/kmsg_dump.h
-@@ -65,6 +65,8 @@ bool kmsg_dump_get_buffer(struct kmsg_dump_iter *iter, bool syslog,
+We'd like to thanks specially the MiniCloud infrastructure [0] maintainers,
+that allow us to test PowerPC code in a very complete, functional and FREE
+environment.
+
+[0] https://openpower.ic.unicamp.br/minicloud
+
+ arch/powerpc/kernel/fadump.c | 8 --------
+ 1 file changed, 8 deletions(-)
+
+diff --git a/arch/powerpc/kernel/fadump.c b/arch/powerpc/kernel/fadump.c
+index 65562c4a0a69..35ae8c09af66 100644
+--- a/arch/powerpc/kernel/fadump.c
++++ b/arch/powerpc/kernel/fadump.c
+@@ -1649,14 +1649,6 @@ int __init setup_fadump(void)
+ 		register_fadump();
+ 	}
  
- void kmsg_dump_rewind(struct kmsg_dump_iter *iter);
- 
-+bool kmsg_has_dumpers(void);
-+
- int kmsg_dump_register(struct kmsg_dumper *dumper);
- 
- int kmsg_dump_unregister(struct kmsg_dumper *dumper);
-@@ -91,6 +93,11 @@ static inline void kmsg_dump_rewind(struct kmsg_dump_iter *iter)
- {
+-	/*
+-	 * In case of panic, fadump is triggered via ppc_panic_event()
+-	 * panic notifier. Setting crash_kexec_post_notifiers to 'true'
+-	 * lets panic() function take crash friendly path before panic
+-	 * notifiers are invoked.
+-	 */
+-	crash_kexec_post_notifiers = true;
+-
+ 	return 1;
  }
- 
-+static inline bool kmsg_has_dumpers(void)
-+{
-+	return false;
-+}
-+
- static inline int kmsg_dump_register(struct kmsg_dumper *dumper)
- {
- 	return -EINVAL;
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index da03c15ecc89..e3a1c429fbbc 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -3399,6 +3399,18 @@ EXPORT_SYMBOL(printk_timed_ratelimit);
- 
- static DEFINE_SPINLOCK(dump_list_lock);
- static LIST_HEAD(dump_list);
-+static int num_dumpers;
-+
-+/**
-+ * kmsg_has_dumpers - inform if there is any kmsg dumper registered.
-+ *
-+ * Returns true if there's at least one registered dumper, or false
-+ * if otherwise.
-+ */
-+bool kmsg_has_dumpers(void)
-+{
-+	return num_dumpers ? true : false;
-+}
- 
- /**
-  * kmsg_dump_register - register a kernel log dumper.
-@@ -3423,6 +3435,7 @@ int kmsg_dump_register(struct kmsg_dumper *dumper)
- 		dumper->registered = 1;
- 		list_add_tail_rcu(&dumper->list, &dump_list);
- 		err = 0;
-+		num_dumpers++;
- 	}
- 	spin_unlock_irqrestore(&dump_list_lock, flags);
- 
-@@ -3447,6 +3460,7 @@ int kmsg_dump_unregister(struct kmsg_dumper *dumper)
- 		dumper->registered = 0;
- 		list_del_rcu(&dumper->list);
- 		err = 0;
-+		num_dumpers--;
- 	}
- 	spin_unlock_irqrestore(&dump_list_lock, flags);
- 	synchronize_rcu();
+ /*
 -- 
 2.36.0
 
