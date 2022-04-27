@@ -2,52 +2,52 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A36DC433F5
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 13:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1475EC433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 13:14:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235407AbiD0NRF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Apr 2022 09:17:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51344 "EHLO
+        id S235360AbiD0NRI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Apr 2022 09:17:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235421AbiD0NQx (ORCPT
+        with ESMTP id S235419AbiD0NQx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 27 Apr 2022 09:16:53 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AFC21BA7AD;
-        Wed, 27 Apr 2022 06:13:07 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id k23so3339098ejd.3;
-        Wed, 27 Apr 2022 06:13:07 -0700 (PDT)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6151D0DC;
+        Wed, 27 Apr 2022 06:13:03 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id gh6so3400328ejb.0;
+        Wed, 27 Apr 2022 06:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mBP/GAzMTLsxy2cYFH2pCl1g7q1hH9iiBkvTHN3bMu4=;
-        b=ZmL/tGhgkZj1WGf42JDRnueRaVLUnPsmgFIIo9CjBqLzZ3qYJf0ZF96Uz3+BwwWGQ2
-         D6VUAixplWRmPP9ozGjmrzgFINgzde9jH0XwBdWm9IGdees9RzZFX1GocwromdmdGO2M
-         q3F2x37B6Ye3Wii8jphtjVzJeuhxosY7b4lRHvJXzp77rli8G+gC/UV/P1vO8sVDCWkp
-         xs6VQm8rEaeywfzYmZecNH8NjvNkAbZJv28J1LUA9/T+67FOVM2AkvHelneXs38zBFZG
-         8Oe6hO60Jx60CBPrJbr+L66RHFX0YMxB5wyUWFTFkBHr2oQWu2UMpDA0ZO90y8CUN3Az
-         hqGg==
+        bh=BV46+vQdHjUsPKBuNlWyRW17/ky0cjIb28v45CzS+RE=;
+        b=S9r+JxfQLC/J5UHIjWr24bDkmSFNP8zqkbNyTe1LV0XUGOjGVY1tLcg2a73DQEArKX
+         o0GM7vKILd+lp3XWBB5m8YDYcIFeNOQMvuvfeQtKUQXkHFaDX0ELGVlIjnZ+XLV8VjFk
+         SXGpUZTepdmZJtA4cT3wshsSShnJ4jI4jzHYL/ZolCNgdzHUy0VAsC2UQym3mmCpmS/r
+         6VFu/Wl9uejWAYBFmF6AOAxg0ItrH/EoQqJh3u3040ckFA03amkP8YtRgwuVgpnm0N2i
+         rvAYwU66fhsSaoS6oYWgZ/kkLvnEAdqqITi8jkVg3Aa884NdX4vJAPWZ4dxqCqIKpsa9
+         nZOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mBP/GAzMTLsxy2cYFH2pCl1g7q1hH9iiBkvTHN3bMu4=;
-        b=hRe8AkHDjhNKhUAIxkUqTqMmPJAtvNz2O6V29hjz9ylfky2RIHiSldoM5dvvKvCRi7
-         EzcnN9rjgXNq2dT4oNV8bnFHzGkjIdQ6lW2G7g7TJqKudspzgK3Mn5uSC4urcPwyoC93
-         29kq0GdF4ubg35j1fkrnW22DCICFGDHQngK8RZOnbhZK07dKLgGJL6LPuHUX/iExGZhL
-         EHjCYL0VM86ZwQo/ydntfaEqzmie0yifEa9OLT1A8Z0BHh48hAjM5rQO0fEWnsEu/fC2
-         oH7qpR4TOyt40LzrhlYutLzH18cxwz5HIm9O8xN9BIEz4vgof4G/V5PvhZIyFwcKWMxY
-         xwZQ==
-X-Gm-Message-State: AOAM532dETAXAwMHSaoDrkafO1CI0T1YzjIHQQdsnF/JcU5jZad04WEJ
-        51AwNVyijZAjBP8jNQHatME=
-X-Google-Smtp-Source: ABdhPJxfXtkK60iYqNjHMF36d1saufevUF/WlgdmQNQBC1nA5sj/B4xamCDWtnsSQCtQYn3laxNkJQ==
-X-Received: by 2002:a17:907:6d23:b0:6d9:ac9d:222 with SMTP id sa35-20020a1709076d2300b006d9ac9d0222mr26640258ejc.595.1651065185974;
-        Wed, 27 Apr 2022 06:13:05 -0700 (PDT)
+        bh=BV46+vQdHjUsPKBuNlWyRW17/ky0cjIb28v45CzS+RE=;
+        b=s7SPRhldyamumpWGOQ5xA6TFkgUJJjq2rFNeaqzf+/lHEO3Fll+LJSqBZfqaWOMWRq
+         6azaOTFXk/AU47QnOAU1HK4G2PIjWAfdQB40wpenNckMa4JRq6DanlgnyFB4ky0FioIS
+         TN/PkyLH4MZwPtgSG2SwgEOlhkauSTrB/SFOs2aViOh2YD+bZr37bkTkhozbSk/1hSB6
+         z1cBT1gMZmY2RC//n8V69PTZLrgyPvwZgEviikBknboll4grZjIc7L9Pfh7/nf7Rh7u1
+         ygVgUeJah6KCfSAcPoRVdNEX8cZ1MSUVLS7A+2iUveZBhNd4e24UPVZKejqGF4OE+t1E
+         ulwQ==
+X-Gm-Message-State: AOAM533IIgbXjiwTe1gJ2hm+TGSUkAvETHBw+5P5PzBmUUJ20CuXPyLR
+        fISz+nneg56ofGJqLzp4r9k=
+X-Google-Smtp-Source: ABdhPJxFpqAbncfZ86T6BX1e8L9MWWFtyrt5mJFyXpjpe2CTLC5MxXV4R2lNbC3xsbigdEiY6cPD6g==
+X-Received: by 2002:a17:906:4fd5:b0:6f3:d23f:9ac6 with SMTP id i21-20020a1709064fd500b006f3d23f9ac6mr1059161ejw.281.1651065181965;
+        Wed, 27 Apr 2022 06:13:01 -0700 (PDT)
 Received: from anparri.mshome.net (host-79-49-65-106.retail.telecomitalia.it. [79.49.65.106])
-        by smtp.gmail.com with ESMTPSA id u6-20020a170906124600b006e843964f9asm6668987eja.55.2022.04.27.06.13.04
+        by smtp.gmail.com with ESMTPSA id u6-20020a170906124600b006e843964f9asm6668987eja.55.2022.04.27.06.13.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 06:13:05 -0700 (PDT)
+        Wed, 27 Apr 2022 06:13:01 -0700 (PDT)
 From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
 To:     KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -62,9 +62,9 @@ Cc:     linux-hyperv@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 5/5] Drivers: hv: vmbus: Refactor the ring-buffer iterator functions
-Date:   Wed, 27 Apr 2022 15:12:25 +0200
-Message-Id: <20220427131225.3785-6-parri.andrea@gmail.com>
+Subject: [PATCH v2 3/5] hv_sock: Add validation for untrusted Hyper-V values
+Date:   Wed, 27 Apr 2022 15:12:23 +0200
+Message-Id: <20220427131225.3785-4-parri.andrea@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220427131225.3785-1-parri.andrea@gmail.com>
 References: <20220427131225.3785-1-parri.andrea@gmail.com>
@@ -74,154 +74,60 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-With no users of hv_pkt_iter_next_raw() and no "external" users of
-hv_pkt_iter_first_raw(), the iterator functions can be refactored
-and simplified to remove some indirection/code.
+For additional robustness in the face of Hyper-V errors or malicious
+behavior, validate all values that originate from packets that Hyper-V
+has sent to the guest in the host-to-guest ring buffer.  Ensure that
+invalid values cannot cause data being copied out of the bounds of the
+source buffer in hvs_stream_dequeue().
 
 Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 ---
- drivers/hv/ring_buffer.c | 32 +++++++++-----------------------
- include/linux/hyperv.h   | 35 ++++-------------------------------
- 2 files changed, 13 insertions(+), 54 deletions(-)
+ include/linux/hyperv.h           |  5 +++++
+ net/vmw_vsock/hyperv_transport.c | 10 ++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index 3d215d9dec433..fa98b3a91206a 100644
---- a/drivers/hv/ring_buffer.c
-+++ b/drivers/hv/ring_buffer.c
-@@ -421,7 +421,7 @@ int hv_ringbuffer_read(struct vmbus_channel *channel,
- 	memcpy(buffer, (const char *)desc + offset, packetlen);
- 
- 	/* Advance ring index to next packet descriptor */
--	__hv_pkt_iter_next(channel, desc, true);
-+	__hv_pkt_iter_next(channel, desc);
- 
- 	/* Notify host of update */
- 	hv_pkt_iter_close(channel);
-@@ -456,22 +456,6 @@ static u32 hv_pkt_iter_avail(const struct hv_ring_buffer_info *rbi)
- 		return (rbi->ring_datasize - priv_read_loc) + write_loc;
- }
- 
--/*
-- * Get first vmbus packet without copying it out of the ring buffer
-- */
--struct vmpacket_descriptor *hv_pkt_iter_first_raw(struct vmbus_channel *channel)
--{
--	struct hv_ring_buffer_info *rbi = &channel->inbound;
--
--	hv_debug_delay_test(channel, MESSAGE_DELAY);
--
--	if (hv_pkt_iter_avail(rbi) < sizeof(struct vmpacket_descriptor))
--		return NULL;
--
--	return (struct vmpacket_descriptor *)(hv_get_ring_buffer(rbi) + rbi->priv_read_index);
--}
--EXPORT_SYMBOL_GPL(hv_pkt_iter_first_raw);
--
- /*
-  * Get first vmbus packet from ring buffer after read_index
-  *
-@@ -483,11 +467,14 @@ struct vmpacket_descriptor *hv_pkt_iter_first(struct vmbus_channel *channel)
- 	struct vmpacket_descriptor *desc, *desc_copy;
- 	u32 bytes_avail, pkt_len, pkt_offset;
- 
--	desc = hv_pkt_iter_first_raw(channel);
--	if (!desc)
-+	hv_debug_delay_test(channel, MESSAGE_DELAY);
-+
-+	bytes_avail = hv_pkt_iter_avail(rbi);
-+	if (bytes_avail < sizeof(struct vmpacket_descriptor))
- 		return NULL;
-+	bytes_avail = min(rbi->pkt_buffer_size, bytes_avail);
- 
--	bytes_avail = min(rbi->pkt_buffer_size, hv_pkt_iter_avail(rbi));
-+	desc = (struct vmpacket_descriptor *)(hv_get_ring_buffer(rbi) + rbi->priv_read_index);
- 
- 	/*
- 	 * Ensure the compiler does not use references to incoming Hyper-V values (which
-@@ -534,8 +521,7 @@ EXPORT_SYMBOL_GPL(hv_pkt_iter_first);
-  */
- struct vmpacket_descriptor *
- __hv_pkt_iter_next(struct vmbus_channel *channel,
--		   const struct vmpacket_descriptor *desc,
--		   bool copy)
-+		   const struct vmpacket_descriptor *desc)
- {
- 	struct hv_ring_buffer_info *rbi = &channel->inbound;
- 	u32 packetlen = desc->len8 << 3;
-@@ -548,7 +534,7 @@ __hv_pkt_iter_next(struct vmbus_channel *channel,
- 		rbi->priv_read_index -= dsize;
- 
- 	/* more data? */
--	return copy ? hv_pkt_iter_first(channel) : hv_pkt_iter_first_raw(channel);
-+	return hv_pkt_iter_first(channel);
- }
- EXPORT_SYMBOL_GPL(__hv_pkt_iter_next);
- 
 diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 1112c5cf894e6..370adc9971d3e 100644
+index fe2e0179ed51e..55478a6810b60 100644
 --- a/include/linux/hyperv.h
 +++ b/include/linux/hyperv.h
-@@ -1673,55 +1673,28 @@ static inline u32 hv_pkt_len(const struct vmpacket_descriptor *desc)
- 	return desc->len8 << 3;
+@@ -1663,6 +1663,11 @@ static inline u32 hv_pkt_datalen(const struct vmpacket_descriptor *desc)
+ 	return (desc->len8 << 3) - (desc->offset8 << 3);
  }
  
--struct vmpacket_descriptor *
--hv_pkt_iter_first_raw(struct vmbus_channel *channel);
--
- struct vmpacket_descriptor *
- hv_pkt_iter_first(struct vmbus_channel *channel);
++/* Get packet length associated with descriptor */
++static inline u32 hv_pkt_len(const struct vmpacket_descriptor *desc)
++{
++	return desc->len8 << 3;
++}
  
  struct vmpacket_descriptor *
- __hv_pkt_iter_next(struct vmbus_channel *channel,
--		   const struct vmpacket_descriptor *pkt,
--		   bool copy);
-+		   const struct vmpacket_descriptor *pkt);
- 
- void hv_pkt_iter_close(struct vmbus_channel *channel);
- 
- static inline struct vmpacket_descriptor *
--hv_pkt_iter_next_pkt(struct vmbus_channel *channel,
--		     const struct vmpacket_descriptor *pkt,
--		     bool copy)
-+hv_pkt_iter_next(struct vmbus_channel *channel,
-+		 const struct vmpacket_descriptor *pkt)
+ hv_pkt_iter_first_raw(struct vmbus_channel *channel);
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+index 8c37d07017fc4..fd98229e3db30 100644
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -577,12 +577,18 @@ static bool hvs_dgram_allow(u32 cid, u32 port)
+ static int hvs_update_recv_data(struct hvsock *hvs)
  {
- 	struct vmpacket_descriptor *nxt;
+ 	struct hvs_recv_buf *recv_buf;
+-	u32 payload_len;
++	u32 pkt_len, payload_len;
++
++	pkt_len = hv_pkt_len(hvs->recv_desc);
++
++	if (pkt_len < HVS_HEADER_LEN)
++		return -EIO;
  
--	nxt = __hv_pkt_iter_next(channel, pkt, copy);
-+	nxt = __hv_pkt_iter_next(channel, pkt);
- 	if (!nxt)
- 		hv_pkt_iter_close(channel);
+ 	recv_buf = (struct hvs_recv_buf *)(hvs->recv_desc + 1);
+ 	payload_len = recv_buf->hdr.data_size;
  
- 	return nxt;
- }
+-	if (payload_len > HVS_MTU_SIZE)
++	if (payload_len > pkt_len - HVS_HEADER_LEN ||
++	    payload_len > HVS_MTU_SIZE)
+ 		return -EIO;
  
--/*
-- * Get next packet descriptor without copying it out of the ring buffer
-- * If at end of list, return NULL and update host.
-- */
--static inline struct vmpacket_descriptor *
--hv_pkt_iter_next_raw(struct vmbus_channel *channel,
--		     const struct vmpacket_descriptor *pkt)
--{
--	return hv_pkt_iter_next_pkt(channel, pkt, false);
--}
--
--/*
-- * Get next packet descriptor from iterator
-- * If at end of list, return NULL and update host.
-- */
--static inline struct vmpacket_descriptor *
--hv_pkt_iter_next(struct vmbus_channel *channel,
--		 const struct vmpacket_descriptor *pkt)
--{
--	return hv_pkt_iter_next_pkt(channel, pkt, true);
--}
--
- #define foreach_vmbus_pkt(pkt, channel) \
- 	for (pkt = hv_pkt_iter_first(channel); pkt; \
- 	    pkt = hv_pkt_iter_next(channel, pkt))
+ 	if (payload_len == 0)
 -- 
 2.25.1
 
