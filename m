@@ -2,35 +2,35 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DF4C4332F
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 22:55:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 118EEC433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 22:56:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbiD0W6f (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Apr 2022 18:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36570 "EHLO
+        id S233146AbiD0W7m (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Apr 2022 18:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238160AbiD0W5b (ORCPT
+        with ESMTP id S239774AbiD0W7F (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Apr 2022 18:57:31 -0400
+        Wed, 27 Apr 2022 18:59:05 -0400
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CFAB3C6F;
-        Wed, 27 Apr 2022 15:52:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9360F8C7C7;
+        Wed, 27 Apr 2022 15:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
         s=20170329; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
         :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
         List-Post:List-Owner:List-Archive;
-        bh=bCeC+folLkdyk3b6apumHxcRwMBwOys8pMRPpqSclew=; b=TqPRVvgSfmMVR610uLcwg2vC34
-        pLIumny6UC9NAVKrJeC8kjbMxl/tivBCI9wjj++xXokR3qbvfCHXTOfrOaZezN2wYfsTeWwS7JgiC
-        ST58COWgOj0NVLj/RM40gpf1tYeZ+3Akn0o3OOB9wnVZqXRK498bYXNcV51purgIjJ73eodK18ucj
-        +Iyv87VDCsJruNsaOWJAaGmlYU1Av1XSojv9QPvuFZsys/hw7VJ6aN2N3d0SlURJabJe1PgCqptXF
-        Xo2aIypAELGn+aiNCAnoOIj6PgcxN1C5aslHAtr3OG/wMakbb0/ORKtlMkkFaGzr7X86jahmQbl4p
-        VjCzjD3g==;
+        bh=oI9b5duO8OJ5vQDZCcg8/YSfwN8M5sfdHxH8XUnmtlk=; b=Dl2B7pSVJp25fe7IfIs24mmkq8
+        hNWQZdfuE5b8NzwyHqbjR/6C1jbxbEv8wNNcNdcZK+x2mWiNzNr+u6ej0RkZPoYhNEHBCsZ6UD+6G
+        UKVT1x0W1ctGqUC1Gq0pKfbBSIn3/AQDQpBwhuyH0wupCzlBVEy+S+oaSi7mTGACgenSYzi35Memm
+        cwNrE6VLPhA8HIa6SL7ijwVZV/Cmf5guYFGY1etNEWb16ALz0OIjrK84zUZZaRulPOC47prAFsrmC
+        8jtFSnfk5SwoqCho0RbgOB8YFry+V3AQ6FT8GxIeK9uuEGFeYv+qjRy2g8pgwIU4Wj4/dnNONMvQE
+        5U+RG0NQ==;
 Received: from [179.113.53.197] (helo=localhost)
         by fanzine2.igalia.com with esmtpsa 
         (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-        id 1njqWU-0002B5-Ub; Thu, 28 Apr 2022 00:52:40 +0200
+        id 1njqYG-0002IR-Ki; Thu, 28 Apr 2022 00:54:29 +0200
 From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
 To:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
         kexec@lists.infradead.org
@@ -58,12 +58,14 @@ Cc:     linux-kernel@vger.kernel.org,
         paulmck@kernel.org, peterz@infradead.org, rostedt@goodmis.org,
         senozhatsky@chromium.org, stern@rowland.harvard.edu,
         tglx@linutronix.de, vgoyal@redhat.com, vkuznets@redhat.com,
-        will@kernel.org, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Richard Weinberger <richard@nod.at>
-Subject: [PATCH 11/30] um: Improve panic notifiers consistency and ordering
-Date:   Wed, 27 Apr 2022 19:49:05 -0300
-Message-Id: <20220427224924.592546-12-gpiccoli@igalia.com>
+        will@kernel.org, Arjan van de Ven <arjan@linux.intel.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>
+Subject: [PATCH 18/30] notifier: Show function names on notifier routines if DEBUG_NOTIFIERS is set
+Date:   Wed, 27 Apr 2022 19:49:12 -0300
+Message-Id: <20220427224924.592546-19-gpiccoli@igalia.com>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220427224924.592546-1-gpiccoli@igalia.com>
 References: <20220427224924.592546-1-gpiccoli@igalia.com>
@@ -73,79 +75,131 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Currently the panic notifiers from user mode linux don't follow
-the convention for most of the other notifiers present in the
-kernel (indentation, priority setting, numeric return).
-More important, the priorities could be improved, since it's a
-special case (userspace), hence we could run the notifiers earlier;
-user mode linux shouldn't care much with other panic notifiers but
-the ordering among the mconsole and arch notifier is important,
-given that the arch one effectively triggers a core dump.
+Currently we have a debug infrastructure in the notifiers file, but
+it's very simple/limited. This patch extends it by:
 
-This patch fixes that by running the mconsole notifier as the first
-panic notifier, followed by the architecture one (that coredumps).
-Also, we remove a useless header inclusion.
+(a) Showing all registered/unregistered notifiers' callback names;
 
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: Richard Weinberger <richard@nod.at>
+(b) Adding a dynamic debug tuning to allow showing called notifiers'
+function names. Notice that this should be guarded as a tunable since
+it can flood the kernel log buffer.
+
+Cc: Arjan van de Ven <arjan@linux.intel.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Valentin Schneider <valentin.schneider@arm.com>
+Cc: Xiaoming Ni <nixiaoming@huawei.com>
 Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 ---
- arch/um/drivers/mconsole_kern.c | 8 +++-----
- arch/um/kernel/um_arch.c        | 8 ++++----
- 2 files changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/arch/um/drivers/mconsole_kern.c b/arch/um/drivers/mconsole_kern.c
-index 8ca67a692683..2ea0421bcc3f 100644
---- a/arch/um/drivers/mconsole_kern.c
-+++ b/arch/um/drivers/mconsole_kern.c
-@@ -11,7 +11,6 @@
- #include <linux/list.h>
- #include <linux/mm.h>
- #include <linux/module.h>
--#include <linux/notifier.h>
- #include <linux/panic_notifier.h>
+We have some design decisions that worth discussing here:
+
+(a) First of call, using C99 helps a lot to write clear and concise code, but
+due to commit 4d94f910e79a ("Kbuild: use -Wdeclaration-after-statement") we
+have a warning if mixing variable declarations with code. For this patch though,
+doing that makes the code way clear, so decision was to add the debug code
+inside brackets whenever this warning pops up. We can change that, but that'll
+cause more ifdefs in the same function.
+
+(b) In the symbol lookup helper function, we modify the parameter passed but
+even more, we return it as well! This is unusual and seems unnecessary, but was
+the strategy taken to allow embedding such function in the pr_debug() call.
+
+Not doing that would likely requiring 3 symbol_name variables to avoid
+concurrency (registering notifier A while calling notifier B) - we rely in
+local variables as a serialization mechanism.
+
+We're open for suggestions in case this design is not appropriate;
+thanks in advance!
+
+ kernel/notifier.c | 48 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/notifier.c b/kernel/notifier.c
+index ba005ebf4730..21032ebcde57 100644
+--- a/kernel/notifier.c
++++ b/kernel/notifier.c
+@@ -7,6 +7,22 @@
+ #include <linux/vmalloc.h>
  #include <linux/reboot.h>
- #include <linux/sched/debug.h>
-@@ -846,13 +845,12 @@ static int notify_panic(struct notifier_block *self, unsigned long unused1,
  
- 	mconsole_notify(notify_socket, MCONSOLE_PANIC, message,
- 			strlen(message) + 1);
--	return 0;
-+	return NOTIFY_DONE;
- }
- 
- static struct notifier_block panic_exit_notifier = {
--	.notifier_call 		= notify_panic,
--	.next 			= NULL,
--	.priority 		= 1
-+	.notifier_call	= notify_panic,
-+	.priority	= INT_MAX, /* run as soon as possible */
- };
- 
- static int add_notifier(void)
-diff --git a/arch/um/kernel/um_arch.c b/arch/um/kernel/um_arch.c
-index 0760e24f2eba..4485b1a7c8e4 100644
---- a/arch/um/kernel/um_arch.c
-+++ b/arch/um/kernel/um_arch.c
-@@ -246,13 +246,13 @@ static int panic_exit(struct notifier_block *self, unsigned long unused1,
- 	bust_spinlocks(0);
- 	uml_exitcode = 1;
- 	os_dump_core();
--	return 0;
++#ifdef CONFIG_DEBUG_NOTIFIERS
++#include <linux/kallsyms.h>
 +
-+	return NOTIFY_DONE;
++/*
++ *	Helper to get symbol names in case DEBUG_NOTIFIERS is set.
++ *	Return the modified parameter is a strategy used to achieve
++ *	the pr_debug() functionality - with this, function is only
++ *	executed if the dynamic debug tuning is effectively set.
++ */
++static inline char *notifier_name(struct notifier_block *nb, char *sym_name)
++{
++	lookup_symbol_name((unsigned long)(nb->notifier_call), sym_name);
++	return sym_name;
++}
++#endif
++
+ /*
+  *	Notifier list for kernel code which wants to be called
+  *	at shutdown. This is used to stop any idling DMA operations
+@@ -34,20 +50,41 @@ static int notifier_chain_register(struct notifier_block **nl,
+ 	}
+ 	n->next = *nl;
+ 	rcu_assign_pointer(*nl, n);
++
++#ifdef CONFIG_DEBUG_NOTIFIERS
++	{
++		char sym_name[KSYM_NAME_LEN];
++
++		pr_info("notifiers: registered %s()\n",
++			notifier_name(n, sym_name));
++	}
++#endif
+ 	return 0;
  }
  
- static struct notifier_block panic_exit_notifier = {
--	.notifier_call 		= panic_exit,
--	.next 			= NULL,
--	.priority 		= 0
-+	.notifier_call	= panic_exit,
-+	.priority	= INT_MAX - 1, /* run as 2nd notifier, won't return */
- };
+ static int notifier_chain_unregister(struct notifier_block **nl,
+ 		struct notifier_block *n)
+ {
++	int ret = -ENOENT;
++
+ 	while ((*nl) != NULL) {
+ 		if ((*nl) == n) {
+ 			rcu_assign_pointer(*nl, n->next);
+-			return 0;
++			ret = 0;
++			break;
+ 		}
+ 		nl = &((*nl)->next);
+ 	}
+-	return -ENOENT;
++
++#ifdef CONFIG_DEBUG_NOTIFIERS
++	if (!ret) {
++		char sym_name[KSYM_NAME_LEN];
++
++		pr_info("notifiers: unregistered %s()\n",
++			notifier_name(n, sym_name));
++	}
++#endif
++	return ret;
+ }
  
- void uml_finishsetup(void)
+ /**
+@@ -80,6 +117,13 @@ static int notifier_call_chain(struct notifier_block **nl,
+ 			nb = next_nb;
+ 			continue;
+ 		}
++
++		{
++			char sym_name[KSYM_NAME_LEN];
++
++			pr_debug("notifiers: calling %s()\n",
++				 notifier_name(nb, sym_name));
++		}
+ #endif
+ 		ret = nb->notifier_call(nb, val, v);
+ 
 -- 
 2.36.0
 
