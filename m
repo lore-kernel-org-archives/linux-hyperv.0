@@ -2,132 +2,144 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1475EC433F5
-	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 13:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC92C433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed, 27 Apr 2022 13:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235360AbiD0NRI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 27 Apr 2022 09:17:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51410 "EHLO
+        id S236491AbiD0Nla (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 27 Apr 2022 09:41:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235419AbiD0NQx (ORCPT
+        with ESMTP id S236468AbiD0Nl2 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 27 Apr 2022 09:16:53 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6151D0DC;
-        Wed, 27 Apr 2022 06:13:03 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id gh6so3400328ejb.0;
-        Wed, 27 Apr 2022 06:13:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BV46+vQdHjUsPKBuNlWyRW17/ky0cjIb28v45CzS+RE=;
-        b=S9r+JxfQLC/J5UHIjWr24bDkmSFNP8zqkbNyTe1LV0XUGOjGVY1tLcg2a73DQEArKX
-         o0GM7vKILd+lp3XWBB5m8YDYcIFeNOQMvuvfeQtKUQXkHFaDX0ELGVlIjnZ+XLV8VjFk
-         SXGpUZTepdmZJtA4cT3wshsSShnJ4jI4jzHYL/ZolCNgdzHUy0VAsC2UQym3mmCpmS/r
-         6VFu/Wl9uejWAYBFmF6AOAxg0ItrH/EoQqJh3u3040ckFA03amkP8YtRgwuVgpnm0N2i
-         rvAYwU66fhsSaoS6oYWgZ/kkLvnEAdqqITi8jkVg3Aa884NdX4vJAPWZ4dxqCqIKpsa9
-         nZOA==
+        Wed, 27 Apr 2022 09:41:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 623CA522F8
+        for <linux-hyperv@vger.kernel.org>; Wed, 27 Apr 2022 06:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1651066695;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PSHs414nLmIXHY0MNvy/DxlhGuFhzSSXxRrlOw3+ock=;
+        b=Rq9o8Uu4ksevMbOanbe9PghKts4U+4aWwKOa0nmqOJ/RwuW7GmydhwJV9YElV+ZZj1D5M8
+        DqqeQxCBrsQAY4XDQfYdGtxekPcKZF8mnSmTVLp/ASvi9DTA6TbakbGpyMp8Z/7vsjvV/l
+        18OW89l0gT6Wgxhzs0arhFsKsgqhk1Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-640-_Y-UGx8IMTeDaXtkPGs0ZQ-1; Wed, 27 Apr 2022 09:38:14 -0400
+X-MC-Unique: _Y-UGx8IMTeDaXtkPGs0ZQ-1
+Received: by mail-wr1-f72.google.com with SMTP id g7-20020adfbc87000000b0020ac76d254bso770267wrh.6
+        for <linux-hyperv@vger.kernel.org>; Wed, 27 Apr 2022 06:38:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BV46+vQdHjUsPKBuNlWyRW17/ky0cjIb28v45CzS+RE=;
-        b=s7SPRhldyamumpWGOQ5xA6TFkgUJJjq2rFNeaqzf+/lHEO3Fll+LJSqBZfqaWOMWRq
-         6azaOTFXk/AU47QnOAU1HK4G2PIjWAfdQB40wpenNckMa4JRq6DanlgnyFB4ky0FioIS
-         TN/PkyLH4MZwPtgSG2SwgEOlhkauSTrB/SFOs2aViOh2YD+bZr37bkTkhozbSk/1hSB6
-         z1cBT1gMZmY2RC//n8V69PTZLrgyPvwZgEviikBknboll4grZjIc7L9Pfh7/nf7Rh7u1
-         ygVgUeJah6KCfSAcPoRVdNEX8cZ1MSUVLS7A+2iUveZBhNd4e24UPVZKejqGF4OE+t1E
-         ulwQ==
-X-Gm-Message-State: AOAM533IIgbXjiwTe1gJ2hm+TGSUkAvETHBw+5P5PzBmUUJ20CuXPyLR
-        fISz+nneg56ofGJqLzp4r9k=
-X-Google-Smtp-Source: ABdhPJxFpqAbncfZ86T6BX1e8L9MWWFtyrt5mJFyXpjpe2CTLC5MxXV4R2lNbC3xsbigdEiY6cPD6g==
-X-Received: by 2002:a17:906:4fd5:b0:6f3:d23f:9ac6 with SMTP id i21-20020a1709064fd500b006f3d23f9ac6mr1059161ejw.281.1651065181965;
-        Wed, 27 Apr 2022 06:13:01 -0700 (PDT)
-Received: from anparri.mshome.net (host-79-49-65-106.retail.telecomitalia.it. [79.49.65.106])
-        by smtp.gmail.com with ESMTPSA id u6-20020a170906124600b006e843964f9asm6668987eja.55.2022.04.27.06.13.00
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PSHs414nLmIXHY0MNvy/DxlhGuFhzSSXxRrlOw3+ock=;
+        b=k7V+foz5/KD9h5J2zRyydSMJVncUTfBXjgLVzNNuOVDyEQ9vByUeMZCmyPpKEOfN2f
+         IzeHD79J+aEFBORCjl7EYl8/y4N65tKn38UaFWN/GXpWEIKMg9doM9cySC0rI8uAW98a
+         o8mMAOoVKOx2OxGFzhVciqs96kPTGbd3sH8CkZDfL+biTfzA/Wf4MeAY2G+m6YC/rNsJ
+         sImXzPabx9cu6qSV5eH+0/Spy3XFFfixcIFXUEtl6BDpcu954df3GMB+G3hy8QBvluU8
+         xpRVOG94qJXlQ5dJZQP7qYfFzKG4u+uAX1YAFdu//GixVThNYgoWTYsk6DEkqeM31kV5
+         2pGA==
+X-Gm-Message-State: AOAM532klbiDdvMOzN0vTm47bx0gNMFW7MFHduCJ5j7pmZT1uixAWcrh
+        EJR3SvUUUaLI4967Xo16FkuAoHmc1xn1BTkcnaZb8MKvGloPP2uE/Xa1d0PGBhjf+ZjvrFQb2By
+        ya0HDd6nTXOzF66ruVyuALyXk
+X-Received: by 2002:a5d:40ca:0:b0:20a:cf97:f1b4 with SMTP id b10-20020a5d40ca000000b0020acf97f1b4mr18244189wrq.121.1651066692509;
+        Wed, 27 Apr 2022 06:38:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzosLJXqvRwF4U/eGOveNg83nSH/OQqj2msqvMJzBqQTXR97GmklzXkcLwfNLij7D2eSiit9g==
+X-Received: by 2002:a5d:40ca:0:b0:20a:cf97:f1b4 with SMTP id b10-20020a5d40ca000000b0020acf97f1b4mr18244166wrq.121.1651066692307;
+        Wed, 27 Apr 2022 06:38:12 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-234.retail.telecomitalia.it. [87.11.6.234])
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c2c4700b0038eb7d8df69sm1565757wmg.11.2022.04.27.06.38.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 06:13:01 -0700 (PDT)
-From:   "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-To:     KY Srinivasan <kys@microsoft.com>,
+        Wed, 27 Apr 2022 06:38:11 -0700 (PDT)
+Date:   Wed, 27 Apr 2022 15:38:08 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+Cc:     KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
         David Miller <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     linux-hyperv@vger.kernel.org,
+        Paolo Abeni <pabeni@redhat.com>, linux-hyperv@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
-Subject: [PATCH v2 3/5] hv_sock: Add validation for untrusted Hyper-V values
-Date:   Wed, 27 Apr 2022 15:12:23 +0200
-Message-Id: <20220427131225.3785-4-parri.andrea@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220427131225.3785-1-parri.andrea@gmail.com>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/5] hv_sock: Copy packets sent by Hyper-V out of the
+ ring buffer
+Message-ID: <20220427133808.elbrvtvl6xplx62n@sgarzare-redhat>
 References: <20220427131225.3785-1-parri.andrea@gmail.com>
+ <20220427131225.3785-3-parri.andrea@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20220427131225.3785-3-parri.andrea@gmail.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For additional robustness in the face of Hyper-V errors or malicious
-behavior, validate all values that originate from packets that Hyper-V
-has sent to the guest in the host-to-guest ring buffer.  Ensure that
-invalid values cannot cause data being copied out of the bounds of the
-source buffer in hvs_stream_dequeue().
+On Wed, Apr 27, 2022 at 03:12:22PM +0200, Andrea Parri (Microsoft) wrote:
+>Pointers to VMbus packets sent by Hyper-V are used by the hv_sock driver
+>within the guest VM.  Hyper-V can send packets with erroneous values or
+>modify packet fields after they are processed by the guest.  To defend
+>against these scenarios, copy the incoming packet after validating its
+>length and offset fields using hv_pkt_iter_{first,next}().  Use
+>HVS_PKT_LEN(HVS_MTU_SIZE) to initialize the buffer which holds the
+>copies of the incoming packets.  In this way, the packet can no longer
+>be modified by the host.
+>
+>Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+>Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+>---
+> net/vmw_vsock/hyperv_transport.c | 9 +++++++--
+> 1 file changed, 7 insertions(+), 2 deletions(-)
+>
+>diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+>index 943352530936e..8c37d07017fc4 100644
+>--- a/net/vmw_vsock/hyperv_transport.c
+>+++ b/net/vmw_vsock/hyperv_transport.c
+>@@ -78,6 +78,9 @@ struct hvs_send_buf {
+> 					 ALIGN((payload_len), 8) + \
+> 					 VMBUS_PKT_TRAILER_SIZE)
+>
+>+/* Upper bound on the size of a VMbus packet for hv_sock */
+>+#define HVS_MAX_PKT_SIZE	HVS_PKT_LEN(HVS_MTU_SIZE)
+>+
+> union hvs_service_id {
+> 	guid_t	srv_id;
+>
+>@@ -378,6 +381,8 @@ static void hvs_open_connection(struct vmbus_channel *chan)
+> 		rcvbuf = ALIGN(rcvbuf, HV_HYP_PAGE_SIZE);
+> 	}
+>
+>+	chan->max_pkt_size = HVS_MAX_PKT_SIZE;
+>+
+> 	ret = vmbus_open(chan, sndbuf, rcvbuf, NULL, 0, hvs_channel_cb,
+> 			 conn_from_host ? new : sk);
+> 	if (ret != 0) {
+>@@ -602,7 +607,7 @@ static ssize_t hvs_stream_dequeue(struct vsock_sock *vsk, struct msghdr *msg,
+> 		return -EOPNOTSUPP;
+>
+> 	if (need_refill) {
+>-		hvs->recv_desc = hv_pkt_iter_first_raw(hvs->chan);
+>+		hvs->recv_desc = hv_pkt_iter_first(hvs->chan);
+> 		if (!hvs->recv_desc)
+> 			return -ENOBUFS;
+> 		ret = hvs_update_recv_data(hvs);
+>@@ -618,7 +623,7 @@ static ssize_t hvs_stream_dequeue(struct vsock_sock *vsk, struct msghdr *msg,
+>
+> 	hvs->recv_data_len -= to_read;
+> 	if (hvs->recv_data_len == 0) {
+>-		hvs->recv_desc = hv_pkt_iter_next_raw(hvs->chan, hvs->recv_desc);
+>+		hvs->recv_desc = hv_pkt_iter_next(hvs->chan, hvs->recv_desc);
+> 		if (hvs->recv_desc) {
+> 			ret = hvs_update_recv_data(hvs);
+> 			if (ret)
+>-- 
+>2.25.1
+>
 
-Signed-off-by: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
----
- include/linux/hyperv.h           |  5 +++++
- net/vmw_vsock/hyperv_transport.c | 10 ++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index fe2e0179ed51e..55478a6810b60 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1663,6 +1663,11 @@ static inline u32 hv_pkt_datalen(const struct vmpacket_descriptor *desc)
- 	return (desc->len8 << 3) - (desc->offset8 << 3);
- }
- 
-+/* Get packet length associated with descriptor */
-+static inline u32 hv_pkt_len(const struct vmpacket_descriptor *desc)
-+{
-+	return desc->len8 << 3;
-+}
- 
- struct vmpacket_descriptor *
- hv_pkt_iter_first_raw(struct vmbus_channel *channel);
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index 8c37d07017fc4..fd98229e3db30 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -577,12 +577,18 @@ static bool hvs_dgram_allow(u32 cid, u32 port)
- static int hvs_update_recv_data(struct hvsock *hvs)
- {
- 	struct hvs_recv_buf *recv_buf;
--	u32 payload_len;
-+	u32 pkt_len, payload_len;
-+
-+	pkt_len = hv_pkt_len(hvs->recv_desc);
-+
-+	if (pkt_len < HVS_HEADER_LEN)
-+		return -EIO;
- 
- 	recv_buf = (struct hvs_recv_buf *)(hvs->recv_desc + 1);
- 	payload_len = recv_buf->hdr.data_size;
- 
--	if (payload_len > HVS_MTU_SIZE)
-+	if (payload_len > pkt_len - HVS_HEADER_LEN ||
-+	    payload_len > HVS_MTU_SIZE)
- 		return -EIO;
- 
- 	if (payload_len == 0)
--- 
-2.25.1
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
