@@ -2,108 +2,82 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EDFCC433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue,  3 May 2022 14:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42A09C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  3 May 2022 15:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236339AbiECPDR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 3 May 2022 11:03:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55776 "EHLO
+        id S237963AbiECPLv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 3 May 2022 11:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233883AbiECPDQ (ORCPT
+        with ESMTP id S237914AbiECPLm (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 3 May 2022 11:03:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6FD4939803
-        for <linux-hyperv@vger.kernel.org>; Tue,  3 May 2022 07:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1651589983;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XyarcUrf0R465efktdUAleuyj6ZDMyzyVobCRnMSWN8=;
-        b=DBFMVE+6dOKa8WSE+jBBc5AVjhzypP+vyYzSZGyK/6SN8S67uuTAlGV9Iz7LFEOPrOX1MD
-        B0zYqcuC3+9gBpNdokgNhBe2pykemUibWjtpuZKEgeXQCU+uKtmHz3xRId2ar4RfNua+ZE
-        Eg8R6HIVMUUN6/UuDDf/MtkHbyPE5Nw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-dNC5_m6cOeKDVM5dmDIrEg-1; Tue, 03 May 2022 10:59:17 -0400
-X-MC-Unique: dNC5_m6cOeKDVM5dmDIrEg-1
-Received: by mail-wm1-f69.google.com with SMTP id v191-20020a1cacc8000000b0038ce818d2efso6005247wme.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 03 May 2022 07:59:17 -0700 (PDT)
+        Tue, 3 May 2022 11:11:42 -0400
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E4D53A5EB;
+        Tue,  3 May 2022 08:08:10 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id i5so23759914wrc.13;
+        Tue, 03 May 2022 08:08:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version:content-transfer-encoding;
-        bh=XyarcUrf0R465efktdUAleuyj6ZDMyzyVobCRnMSWN8=;
-        b=4zQzYZvUbs0LfpQvKwuX/mtDOm4UXlw36wERRL3EmAMA30waNRud4c61QLI9IwugrU
-         m8sYa2DPSXtTRr6ldI6rGD2gQ+WKq5Q8lJ6Z2eAJQiw6PqxbXxbvkkatSm9UX2tEs742
-         iqRaBDumzBrx8eM30+LNU6W18U7ItCLbP7+s8BNYax/kQ8Zn7bSO0Kn460ZldS44ZPfz
-         VgPBRJkaPR7H2o0cMc+LLRJniU3QxvbDWw5+IeYCGUFbxl2C8dZs+bWyEr4qmkeTlft9
-         ipVl61f/GwefrakuB4QIDaXFSkG67qQRGtypKs7FdtirS2OCWyrEovTa374Z+DOBmhYE
-         Rr9A==
-X-Gm-Message-State: AOAM532KoFLbN+ovio+rCAdGDyA6wVLxnzvT89PRLa6EvkTKOeGJOCs7
-        sDuO+65sp9YkdyBGWrDIQQe/oRPbOSjkVKjMbYXwy6KOpGsE9+AwxL75Sw+AnN4rq0kujb+k9JC
-        vdgvCnRQVk92RRvaTZwo+bMeC
-X-Received: by 2002:a05:600c:3b1f:b0:394:5399:a34 with SMTP id m31-20020a05600c3b1f00b0039453990a34mr1536982wms.40.1651589954222;
-        Tue, 03 May 2022 07:59:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyd0dxa95Pj2U+hA9w5BwXWjBAHcElOoTebVuZFbPFkRANcckEwJxnP4Vwxmt5ZItX1z0AydQ==
-X-Received: by 2002:a05:600c:3b1f:b0:394:5399:a34 with SMTP id m31-20020a05600c3b1f00b0039453990a34mr1536968wms.40.1651589954045;
-        Tue, 03 May 2022 07:59:14 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id j28-20020a05600c1c1c00b003942a244f39sm1828183wms.18.2022.05.03.07.59.13
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OFDYOtaeBYWdI/VdYgSv21m5XBBjgU/ODz2WZHmBn3Q=;
+        b=v/IhySNd6YcyBWVPAJtPlG6svioReVtcopsRuRY4B++F0yOS8zFCjbJriymv90zE1K
+         RPBvBVl3eg7fjCYKRRJSFFRy9CWyyUPrt2hRs+oORJg8DZIipB2RZFqGubvbVIhY9xNj
+         3ANpybjIjSIsrFeo9CiloyOauZxWMH1pstne0RVvlVG4VvFilpvVFNZmIy+tK0dq/o0C
+         lhW+3Lzn/c/dRmsMJ67bJQSP4JVzC8TpghjKD6hxDmoQW3FLz+PqWF9cTzQRis32dXZx
+         dWnKgzXg4QBg5Au/It48ni12rLM/TvGongRXls6DwZQTcnaxVmmx3MG1FhBuOxxJ8j4U
+         vPUg==
+X-Gm-Message-State: AOAM533T1GLgy/nFj9IUg3XjMHF6tbVCzTONkdGPshts75yC9Ce7cQdY
+        eyk2E9Lld0jQuGFb+r496Ss=
+X-Google-Smtp-Source: ABdhPJxUHgC+z861mLwWBsRMd0+WqwbQOXHy1VunvJ23KhKxVuDMs2AqWeh+/Td2z8ZSYIVytBegWQ==
+X-Received: by 2002:a05:6000:1acd:b0:20c:726a:3840 with SMTP id i13-20020a0560001acd00b0020c726a3840mr3707076wry.507.1651590489041;
+        Tue, 03 May 2022 08:08:09 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id g17-20020adfbc91000000b0020c5253d8f3sm11729850wrh.63.2022.05.03.08.08.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 07:59:13 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v3 07/34] x86/hyperv: Introduce
- HV_MAX_SPARSE_VCPU_BANKS/HV_VCPUS_PER_SPARSE_BANK constants
-In-Reply-To: <19a812b3-73b4-7e5a-8885-ec652598a5ce@wanadoo.fr>
-References: <20220414132013.1588929-1-vkuznets@redhat.com>
- <20220414132013.1588929-8-vkuznets@redhat.com>
- <19a812b3-73b4-7e5a-8885-ec652598a5ce@wanadoo.fr>
-Date:   Tue, 03 May 2022 16:59:12 +0200
-Message-ID: <87ee1a3bnj.fsf@redhat.com>
+        Tue, 03 May 2022 08:08:08 -0700 (PDT)
+Date:   Tue, 3 May 2022 15:08:06 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Cc:     Dexuan Cui <decui@microsoft.com>,
+        Saurabh Singh Sengar <ssengar@microsoft.com>,
+        "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>
+Subject: Re: [PATCH v4] drm/hyperv: Add error message for fb size greater
+ than allocated
+Message-ID: <20220503150806.neeemkwlexmyqsnd@liuwe-devbox-debian-v2>
+References: <1649737739-10113-1-git-send-email-ssengar@linux.microsoft.com>
+ <BYAPR21MB127064CAEA28FBBFB34672C3BFED9@BYAPR21MB1270.namprd21.prod.outlook.com>
+ <20220503145016.GA25079@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220503145016.GA25079@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Christophe JAILLET <christophe.jaillet@wanadoo.fr> writes:
+On Tue, May 03, 2022 at 07:50:16AM -0700, Saurabh Singh Sengar wrote:
+> On Tue, Apr 12, 2022 at 05:06:07AM +0000, Dexuan Cui wrote:
+> > > From: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > > Sent: Monday, April 11, 2022 9:29 PM
+> > >  ...
+> > > Add error message when the size of requested framebuffer is more than
+> > > the allocated size by vmbus mmio region for framebuffer
+> > 
+> > The line lacks a period, but I guess the maintainer may help fix it for you :-)
+> >  
+> > > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > 
+> > Reviewed-by: Dexuan Cui <decui@microsoft.com>
+> 
+> Can this be queued for next ? please let me know in case any clarification required.
 
-> Le 14/04/2022 =C3=A0 15:19, Vitaly Kuznetsov a =C3=A9crit=C2=A0:
-
-...
-
->> @@ -224,7 +225,7 @@ static inline int __cpumask_to_vpset(struct hv_vpset=
- *vpset,
->>   	 * structs are not cleared between calls, we risk flushing unneeded
->>   	 * vCPUs otherwise.
->>   	 */
->> -	for (vcpu_bank =3D 0; vcpu_bank <=3D hv_max_vp_index / 64; vcpu_bank++)
->> +	for (vcpu_bank =3D 0; vcpu_bank <=3D max_vcpu_bank; vcpu_bank++)
->>   		vpset->bank_contents[vcpu_bank] =3D 0;
->
-> and here:
-> 	bitmap_clear(vpset->bank_contents, 0, hv_max_vp_index);
-> or maybe even if it is safe to do so:
-> 	bitmap_zero(vpset->bank_contents, hv_max_vp_index);
-
-Both your suggestions (including the one for "PATCH v3 07/34]") look
-good to me, thanks! I'd however want to send them to linux-hyperv@
-separately when this series lands through KVM tree just to not make this
-heavy series even heavier.
-
---=20
-Vitaly
-
+Applied to hyperv-next. Thanks.
