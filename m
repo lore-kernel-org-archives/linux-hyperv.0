@@ -2,46 +2,30 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C29EC433EF
-	for <linux-hyperv@archiver.kernel.org>; Thu,  5 May 2022 13:05:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAAE5C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu,  5 May 2022 13:15:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378837AbiEENJ2 (ORCPT
-        <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 5 May 2022 09:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53620 "EHLO
+        id S238942AbiEENTM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 5 May 2022 09:19:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378845AbiEENJZ (ORCPT
+        with ESMTP id S1376729AbiEENS4 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 5 May 2022 09:09:25 -0400
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA5612A98;
-        Thu,  5 May 2022 06:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=K5gn/7sp7L1lwAyBxMpQcFTyNqRFPph4Q66pGuhOfbY=; b=TwG/Y7SJWPlxMzvXvY6UbL6sJ+
-        CFdPhtngSc5X84rkj+dUERbEGZ73AHlrth6uXHT5iHF+Ye3jngcDInSWu4kT86DX2OSO8YnWqUqG4
-        pAQZ9NyHCOskp48HSEIXauRLverJszCC+n5H+8mWBhsdkvUOLKX9Llx6ExJu+0irM3/ShF79oYDx5
-        GWv6C1bWPCCo69R58DuhXQ+KO7UKApDx6uPydfhCGg/uVUE+Ka6kiRZJis5Y83J9M0MXPLPMXhBP7
-        byVsFvVwebplom62LBjJYn+vYrdl3OKyJ2sxoIOgI7viJrbJEbgpDUOLBnUqQgTTXKrcrWDWXP9a5
-        BHj9CxuQ==;
-Received: from [179.113.53.197] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1nmbAj-0000uD-EM; Thu, 05 May 2022 15:05:33 +0200
-Message-ID: <3bee47db-f771-b502-82a3-d6fac388aa89@igalia.com>
-Date:   Thu, 5 May 2022 10:05:18 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: Should arm64 have a custom crash shutdown handler?
-Content-Language: en-US
-To:     Mark Rutland <mark.rutland@arm.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     Marc Zyngier <maz@kernel.org>,
+        Thu, 5 May 2022 09:18:56 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 67BF12BED;
+        Thu,  5 May 2022 06:15:16 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 395E1106F;
+        Thu,  5 May 2022 06:15:16 -0700 (PDT)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.29.132])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89EEA3F885;
+        Thu,  5 May 2022 06:15:14 -0700 (PDT)
+Date:   Thu, 5 May 2022 14:15:11 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Marc Zyngier <maz@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         will Deacon <will@kernel.org>,
         Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -51,51 +35,77 @@ Cc:     Marc Zyngier <maz@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: Re: Should arm64 have a custom crash shutdown handler?
+Message-ID: <YnPN33qN7oVQa4fA@FVFF77S0Q05N.cambridge.arm.com>
 References: <427a8277-49f0-4317-d6c3-4a15d7070e55@igalia.com>
  <874k24igjf.wl-maz@kernel.org>
  <92645c41-96fd-2755-552f-133675721a24@igalia.com>
  <YnPIwjLMDXgII1vf@FVFF77S0Q05N.cambridge.arm.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <YnPIwjLMDXgII1vf@FVFF77S0Q05N.cambridge.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <3bee47db-f771-b502-82a3-d6fac388aa89@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bee47db-f771-b502-82a3-d6fac388aa89@igalia.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 05/05/2022 09:53, Mark Rutland wrote:
-> [...]
-> Looking at those, the cleanup work is all arch-specific. What exactly would we
-> need to do on arm64, and why does it need to happen at that point specifically?
-> On arm64 we don't expect as much paravirtualization as on x86, so it's not
-> clear to me whether we need anything at all.
+On Thu, May 05, 2022 at 10:05:18AM -0300, Guilherme G. Piccoli wrote:
+> On 05/05/2022 09:53, Mark Rutland wrote:
+> > [...]
+> > Looking at those, the cleanup work is all arch-specific. What exactly would we
+> > need to do on arm64, and why does it need to happen at that point specifically?
+> > On arm64 we don't expect as much paravirtualization as on x86, so it's not
+> > clear to me whether we need anything at all.
+> > 
+> >> Anyway, the idea here was to gather a feedback on how "receptive" arm64
+> >> community would be to allow such customization, appreciated your feedback =)
+> > 
+> > ... and are you trying to do this for Hyper-V or just using that as an example?
+> > 
+> > I think we're not going to be very receptive without a more concrete example of
+> > what you want.
+> > 
+> > What exactly do *you* need, and *why*? Is that for Hyper-V or another hypervisor?
+> > 
+> > Thanks
+> > Mark.
 > 
->> Anyway, the idea here was to gather a feedback on how "receptive" arm64
->> community would be to allow such customization, appreciated your feedback =)
+> Hi Mark, my plan would be doing that for Hyper-V - kind of the same
+> code, almost. For example, in hv_crash_handler() there is a stimer
+> clean-up and the vmbus unload - my understanding is that this same code
+> would need to run in arm64. Michael Kelley is CCed, he was discussing
+> with me in the panic notifiers thread and may elaborate more on the needs.
+
+The key problem here is that there's no justification as to why this cannot be
+done in a panic notifier (or a regular reboot notifer for the plain shutdown
+or kexec case).
+
+I undertstand that x86 does one thing, and what Marc and I have said is that
+fact alone doesn't justify doing the same.
+
+We need to know:
+
+a) What specifically you want to do on arm64
+
+b) Why you think this cannot be done using the existing mechanisms (e.g.
+   notifiers).
+
+Without a strong justification, we wouldn't add such hooks to arm64.
+
+Could you start by trying to use the notifiers, and if you encounter a problem,
+*then* we consider an alternative? That should mean we have a concrete reason.
+
+Thanks,
+Mark.
+
+> But also (not related with my specific plan), I've seen KVM quiesce code
+> on x86 as well [see kvm_crash_shutdown() on arch/x86] , I'm not sure if
+> this is necessary for arm64 or if this already executing in some
+> abstracted form, I didn't dig deep - probably Vitaly is aware of that,
+> hence I've CCed him here.
 > 
-> ... and are you trying to do this for Hyper-V or just using that as an example?
+> Cheers,
 > 
-> I think we're not going to be very receptive without a more concrete example of
-> what you want.
 > 
-> What exactly do *you* need, and *why*? Is that for Hyper-V or another hypervisor?
-> 
-> Thanks
-> Mark.
-
-Hi Mark, my plan would be doing that for Hyper-V - kind of the same
-code, almost. For example, in hv_crash_handler() there is a stimer
-clean-up and the vmbus unload - my understanding is that this same code
-would need to run in arm64. Michael Kelley is CCed, he was discussing
-with me in the panic notifiers thread and may elaborate more on the needs.
-
-But also (not related with my specific plan), I've seen KVM quiesce code
-on x86 as well [see kvm_crash_shutdown() on arch/x86] , I'm not sure if
-this is necessary for arm64 or if this already executing in some
-abstracted form, I didn't dig deep - probably Vitaly is aware of that,
-hence I've CCed him here.
-
-Cheers,
-
-
-Guilherme
+> Guilherme
