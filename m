@@ -2,88 +2,91 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 075C2C433F5
-	for <linux-hyperv@archiver.kernel.org>; Mon,  9 May 2022 21:51:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17512C433F5
+	for <linux-hyperv@archiver.kernel.org>; Mon,  9 May 2022 22:48:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbiEIVy4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 9 May 2022 17:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59422 "EHLO
+        id S231941AbiEIWwl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 9 May 2022 18:52:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbiEIVxs (ORCPT
+        with ESMTP id S231935AbiEIWwl (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 9 May 2022 17:53:48 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976672CBF8C;
-        Mon,  9 May 2022 14:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652132924; x=1683668924;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OjuWDuA8wp2pAQhE78hbrB1ZqBopu0NlCqBoV3u9VOM=;
-  b=XoBTw2hh+QTXB8T4ZVkdF914KbEpZdAeK63UZSnuaK7ACsQA53W1Bv95
-   5hAHUXnngUNCDu9uj2MncyYIlTj3vqENLoD+no9uwphcHoNN/MN+PbTI8
-   YKQE16xOcT7nO1hUiGcPaH8WtnKC7KgssxdGRu75Q8VaCoL+1MixrAeGN
-   0=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 09 May 2022 14:48:43 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 14:48:42 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 9 May 2022 14:48:33 -0700
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 9 May 2022 14:48:31 -0700
-From:   Jeffrey Hugo <quic_jhugo@quicinc.com>
-To:     <kys@microsoft.com>, <haiyangz@microsoft.com>,
-        <sthemmin@microsoft.com>, <wei.liu@kernel.org>,
-        <decui@microsoft.com>, <lorenzo.pieralisi@arm.com>,
-        <robh@kernel.org>, <kw@linux.com>, <bhelgaas@google.com>
-CC:     <jakeo@microsoft.com>, <dazhan@microsoft.com>,
-        <linux-hyperv@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH 0/2] hyperv compose_msi_msg fixups
-Date:   Mon, 9 May 2022 15:48:20 -0600
-Message-ID: <1652132902-27109-1-git-send-email-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        Mon, 9 May 2022 18:52:41 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB9A2C4F44;
+        Mon,  9 May 2022 15:48:43 -0700 (PDT)
+Received: from zn.tnic (p5de8eeb4.dip0.t-ipconnect.de [93.232.238.180])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DCDE41EC0505;
+        Tue, 10 May 2022 00:48:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1652136517;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=slKbUtc69p2KeempozzbAIxM3x91fFs20DNMuiQjL9s=;
+        b=FctVuGuw8dO9M2UMZWidY63HaTAL/Z6Wy2R/7wNB5j9cM7zG6mYf5CpKm17/Rg03+1ciJc
+        ZfYk9YuM4qiOnENAKLJO73T3++amOiUAkxx3NGpQIXPm6QcQoVL90KViNeWNSgOXS4TdXN
+        kJntPd637mwrgChYDiF8X7W8vIgibuk=
+Date:   Tue, 10 May 2022 00:48:40 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Tianyu Lan <ltykernel@gmail.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
+        mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, brijesh.singh@amd.com, venu.busireddy@oracle.com,
+        michael.roth@amd.com, Tianyu.Lan@microsoft.com,
+        thomas.lendacky@amd.com, jroedel@suse.de,
+        michael.h.kelley@microsoft.com, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com,
+        parri.andrea@gmail.com
+Subject: Re: [PATCH] x86/Hyper-V: Add SEV negotiate protocol support in
+ Isolation VM
+Message-ID: <YnmaSB2WCJwqaZae@zn.tnic>
+References: <20220505131502.402259-1-ltykernel@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220505131502.402259-1-ltykernel@gmail.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-While multi-MSI appears to work with pci-hyperv.c, there was a concern about
-how linux was doing the ITRE allocations.  Patch 2 addresses the concern.
+On Thu, May 05, 2022 at 09:15:02AM -0400, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
+> 
+> Hyper-V Isolation VM code uses sev_es_ghcb_hv_call() to read/write MSR
+> via GHCB page. The SEV-ES guest should negotiate GHCB version before
+> reading/writing MSR via GHCB page.
 
-However, patch 2 exposed an issue with how compose_msi_msg() was freeing a
-previous allocation when called for the Nth time.  Imagine a driver using
-pci_alloc_irq_vectors() to request 32 MSIs.  This would cause compose_msi_msg()
-to be called 32 times, once for each MSI.  With patch 2, MSI0 would allocate
-the ITREs needed, and MSI1-31 would use the cached information.  Then the driver
-uses request_irq() on MSI1-17.  This would call compose_msi_msg() again on those
-MSIs, which would again use the cached information.  Then unmask() would be
-called to retarget the MSIs to the right VCPU vectors.  Finally, the driver
-calls request_irq() on MSI0.  This would call conpose_msi_msg(), which would
-free the block of 32 MSIs, and allocate a new block.  This would undo the
-retarget of MSI1-17, and likely leave those MSIs targeting invalid VCPU vectors.
-This is addressed by patch 1, which is introduced first to prevent a regression.
+Why is that?
 
-Jeffrey Hugo (2):
-  PCI: hv: Reuse existing ITRE allocation in compose_msi_msg()
-  PCI: hv: Fix interrupt mapping for multi-MSI
+> Expose sev_es_negotiate_protocol() and sev_es_terminate() from AMD SEV
+> code
 
- drivers/pci/controller/pci-hyperv.c | 76 ++++++++++++++++++++++++++++---------
- 1 file changed, 59 insertions(+), 17 deletions(-)
+Yeah, you keep wanting to expose random SEV-specific code and when we
+go and change it in the future, you'll come complaining that we broke
+hyperv.
+
+I think it might be a lot better if you implement your own functions:
+for example, looking at sev_es_negotiate_protocol() - it uses only
+primitives which you can use because, well, VMGEXIT() is simply a
+wrapper around the asm insn and sev_es_wr_ghcb_msr() is simply writing
+into the MSR.
+
+Ditto for sev_es_terminate().
+
+And sev_es_ghcb_hv_call() too, for that matter. You can define your own.
+
+IOW, you're much better off using those primitives and creating your own
+functions than picking out random SEV-functions and then us breaking
+your isolation VM stuff.
+
+Thx.
 
 -- 
-2.7.4
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
