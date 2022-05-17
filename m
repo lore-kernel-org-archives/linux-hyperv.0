@@ -2,109 +2,91 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60ACEC433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue, 17 May 2022 15:03:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 346FDC433EF
+	for <linux-hyperv@archiver.kernel.org>; Tue, 17 May 2022 15:19:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349559AbiEQPDn (ORCPT
+        id S1349782AbiEQPTY (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 17 May 2022 11:03:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41872 "EHLO
+        Tue, 17 May 2022 11:19:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349554AbiEQPDn (ORCPT
+        with ESMTP id S1344941AbiEQPTX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 17 May 2022 11:03:43 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 790383205F
-        for <linux-hyperv@vger.kernel.org>; Tue, 17 May 2022 08:03:41 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id u35so14466264qtc.13
-        for <linux-hyperv@vger.kernel.org>; Tue, 17 May 2022 08:03:41 -0700 (PDT)
+        Tue, 17 May 2022 11:19:23 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1E5F37A0A
+        for <linux-hyperv@vger.kernel.org>; Tue, 17 May 2022 08:19:22 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id pq9-20020a17090b3d8900b001df622bf81dso2523905pjb.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 17 May 2022 08:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nYw9MLrmTgrCyt32icuujwVIUmzRK3qobN37OJ0H6Dk=;
-        b=YIjyNubMBQN3j3kq8COxDOs9ZfyumC6z67UoQ2FYG9OrbcSw89m7muMq6Ee/AEBQIN
-         Znt8L77xweytRK5+XWVErzOjLGyuLd781OgCT7nEzZ+2p42AFQcJW6+vMmMqNqb6imCH
-         yC5ny4vzLdqIcnFqOtpkVy9/pchereg5BA/DDcpwXqViuGISm1EmqlzOWKyzrzLEX8fW
-         PDZupU2SGzflxTCdTC9+1ls0wSz05ZJSH8vKc7S2E+G40p9vgyR74ZH21+jPx5Ew26MD
-         sZbtW2pwcterOngapb6X791W2mKDNIB20J4hw3mTG8/RNL6irZULDmfs53nRiHWko8FA
-         +p/w==
+        d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NtCVu5kwlt/0GeeCJHb+/bnS0itYTikVVYx8LL9uX0w=;
+        b=3RKQV6tsbyrmUfidQNrHgRSDxahUsw5KwHXeTnnuzXwmOO18WyoB6EVhZRXSLdFM4j
+         zhKtx7nP76meXVYhp6sQx/QMcfYgtsiaFpTnDO86tdqLDdvxA0bCTrmjvlmZISP5TF74
+         M6vIq8BT7levvC+TleV3x9XzZHcvBWx4E8V7E++SXUVQvSk+20pqNJeTU26CVDOe65Lm
+         eKfT6swZRtxVqSSk5TDWZTCof+IXc0eiwsclaJWZ7VOyBUUwUZIvNxx6DzGSBUGog4O1
+         E93CV0Ocu5nWcuXRgZrxWu8sGpGTGuj0ygKK7NO9RR02tXT8ctEw8u+Sr1h1ovusMGW4
+         55Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nYw9MLrmTgrCyt32icuujwVIUmzRK3qobN37OJ0H6Dk=;
-        b=MCwfmpBEIzODeKXbuX3/rLHAz0oI2T/GEVsG0j4fvxnBzHeop3VbmdTCvyp6Rw1W5z
-         sVmquVtA296vphOjeqGUCfwJYuKgGbw2NKbAwcLcJnsuffFjqfspJRdkI4/n5B5DsGZn
-         ggjBRYW2hqIDZbr1WaHkj8DJOTl/3XD7SUJzI+SmMVgtmjw7F57KQqsoR10il9qzaesm
-         +WGtaVML/jOLOipogHWY78/Mkl5KQqY7vC83ugL+grdKx4EhLBtJOuWBYlTrDYWVSiih
-         6yXOl76lcBXO26dP9qcVNbY5nulAD/81KZarXdRvdNPmiM0/N6o7ir4wKpoW+gBCFVoj
-         Vuaw==
-X-Gm-Message-State: AOAM532aFozLA1zvMxmv91yrFz5VS0bMuKwofk+4RIi8k41BbXojLcwA
-        ZVYzomYSPLQ1ylglGNC+mxJkKA==
-X-Google-Smtp-Source: ABdhPJzNAviWPSBXWWUJ/iGKw+c/h25D3QSyPMqu9y9mjuiv7nOxJijw6Gy3AK7v52SKehoMul0w4Q==
-X-Received: by 2002:ac8:7f43:0:b0:2f3:d55d:7296 with SMTP id g3-20020ac87f43000000b002f3d55d7296mr20083913qtk.635.1652799820611;
-        Tue, 17 May 2022 08:03:40 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.129])
-        by smtp.gmail.com with ESMTPSA id u123-20020ae9d881000000b006a0462eb091sm7772405qkf.80.2022.05.17.08.03.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NtCVu5kwlt/0GeeCJHb+/bnS0itYTikVVYx8LL9uX0w=;
+        b=mNNF1PFeH0X9ri3RWIv08bkGSDzgiH1OiEv1cC8FosYjU2jha5KRWvVYm1ylHekDMG
+         w6HPjbTVQIE4ICDxg5CuibUEjDQTMDRjqjSBN8t1o9EnEgzU3F07WJdAvNw4QXRSewcJ
+         9yAhm/s8/9hRgViC4BpN3Sph0+4hpWoVSF6OL+Z1CeCdG9RHDFm5y7qqAA7T6TL9+nS8
+         q5RlqsyjcRKk4kXmIwyHXgadjkB7drGbi7O9ewNpPLjeNt0cTFs1GGcUkdZKhHXYHK5l
+         AscGJES2fJQoNFcLG/X0PqIl9ZFuBc2sZvgnvbIPj1ADeARAKorQoNK7y1waBhnn9Xn3
+         8dFg==
+X-Gm-Message-State: AOAM530XvXQAv7o77ERUuRNiTeWHARugFOq8+433QES8/yrTzTe+idrN
+        b3BSTAcA7TZ6dSE4bZ4+7ADW6Q==
+X-Google-Smtp-Source: ABdhPJwfcOh/4LoIXBpkam4xGXt5zJ1nliaKG8JzVlw5Aie6/aZ/7LkEJQUh+M7FdG8XsHexJ6E/Zg==
+X-Received: by 2002:a17:903:248:b0:155:e660:b774 with SMTP id j8-20020a170903024800b00155e660b774mr22794133plh.174.1652800762271;
+        Tue, 17 May 2022 08:19:22 -0700 (PDT)
+Received: from hermes.local (204-195-112-199.wavecable.com. [204.195.112.199])
+        by smtp.gmail.com with ESMTPSA id z11-20020a1709027e8b00b0016144a84c31sm7127822pla.119.2022.05.17.08.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 May 2022 08:03:39 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1nqyjb-0084ZN-6l; Tue, 17 May 2022 12:03:39 -0300
-Date:   Tue, 17 May 2022 12:03:39 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     longli@microsoft.com
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Tue, 17 May 2022 08:19:21 -0700 (PDT)
+Date:   Tue, 17 May 2022 08:19:18 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     longli@linuxonhyperv.com
+Cc:     longli@microsoft.com, "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Leon Romanovsky <leon@kernel.org>,
         linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 09/12] net: mana: Move header files to a common location
-Message-ID: <20220517150339.GI63055@ziepe.ca>
+Subject: Re: [PATCH 03/12] net: mana: Handle vport sharing between devices
+Message-ID: <20220517081918.655fe626@hermes.local>
+In-Reply-To: <1652778276-2986-4-git-send-email-longli@linuxonhyperv.com>
 References: <1652778276-2986-1-git-send-email-longli@linuxonhyperv.com>
- <1652778276-2986-10-git-send-email-longli@linuxonhyperv.com>
+        <1652778276-2986-4-git-send-email-longli@linuxonhyperv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1652778276-2986-10-git-send-email-longli@linuxonhyperv.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, May 17, 2022 at 02:04:33AM -0700, longli@linuxonhyperv.com wrote:
-> From: Long Li <longli@microsoft.com>
-> 
-> In preparation to add MANA RDMA driver, move all the required header files
-> to a common location for use by both Ethernet and RDMA drivers.
-> 
-> Signed-off-by: Long Li <longli@microsoft.com>
-> ---
->  MAINTAINERS                                                   | 1 +
->  drivers/net/ethernet/microsoft/mana/gdma_main.c               | 2 +-
->  drivers/net/ethernet/microsoft/mana/hw_channel.c              | 4 ++--
->  drivers/net/ethernet/microsoft/mana/mana_bpf.c                | 2 +-
->  drivers/net/ethernet/microsoft/mana/mana_en.c                 | 2 +-
->  drivers/net/ethernet/microsoft/mana/mana_ethtool.c            | 2 +-
->  drivers/net/ethernet/microsoft/mana/shm_channel.c             | 2 +-
->  {drivers/net/ethernet/microsoft => include/linux}/mana/gdma.h | 0
->  .../ethernet/microsoft => include/linux}/mana/hw_channel.h    | 0
->  {drivers/net/ethernet/microsoft => include/linux}/mana/mana.h | 0
->  .../ethernet/microsoft => include/linux}/mana/shm_channel.h   | 0
->  11 files changed, 8 insertions(+), 7 deletions(-)
->  rename {drivers/net/ethernet/microsoft => include/linux}/mana/gdma.h (100%)
->  rename {drivers/net/ethernet/microsoft => include/linux}/mana/hw_channel.h (100%)
->  rename {drivers/net/ethernet/microsoft => include/linux}/mana/mana.h (100%)
->  rename {drivers/net/ethernet/microsoft => include/linux}/mana/shm_channel.h (100%)
+On Tue, 17 May 2022 02:04:27 -0700
+longli@linuxonhyperv.com wrote:
 
-I know mlx5 did it like this, but I wonder if include/net is more
-appropriate?
+> diff --git a/drivers/net/ethernet/microsoft/mana/mana.h b/drivers/net/ethernet/microsoft/mana/mana.h
+> index 51bff91b63ee..26f14fcb6a61 100644
+> --- a/drivers/net/ethernet/microsoft/mana/mana.h
+> +++ b/drivers/net/ethernet/microsoft/mana/mana.h
+> @@ -375,6 +375,7 @@ struct mana_port_context {
+>  	unsigned int num_queues;
+>  
+>  	mana_handle_t port_handle;
+> +	atomic_t port_use_count;
 
-Or maybe include/aux/?
-
-Jason
+Could this be a refcount_t instead?
+The refcount_t has protections against under/overflow.
