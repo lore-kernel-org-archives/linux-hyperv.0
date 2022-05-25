@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADA6C433FE
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:05:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B7FC4332F
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:05:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237919AbiEYJFS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 May 2022 05:05:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47746 "EHLO
+        id S238893AbiEYJFT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 25 May 2022 05:05:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240727AbiEYJEO (ORCPT
+        with ESMTP id S241367AbiEYJEr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 May 2022 05:04:14 -0400
+        Wed, 25 May 2022 05:04:47 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2DEF09BADD
-        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:03:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EA9489E9F8
+        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653469341;
+        s=mimecast20190719; t=1653469354;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=F94Tm16Pv+6X1Qxpix8Ro059dU0Hc/OW94AtIQA4pXw=;
-        b=MqEFlPE3R5IaF9bg2Nafbug1xDupiLwNMjtUwuZpkMiY8ru3etLh5lX1RjPSpzR7X3FXnF
-        /T30g+ZVjK3DTxWy9DO+y5vG8+7vvanURTSd9phyix+snL41aD2tJA/8kG8pG73dOg4Xr8
-        ztutDV0sXiqa0h5QREI3SZjJjyOU73o=
+        bh=O2ns/abyGGY2lUHqvbl8bWjfPO/YjY8976ue1eurT7I=;
+        b=EYj+Uwf4U4pXUps+mfH1uwp1LCf3YBGwf0yfbEAuTri7uT1zWy2xYJhbR3nr+3kIAHFCTT
+        sLEywd1Ax1BrCO6guvVX1342ypatQM/WLdhjE+BtfGqfS5gB75btQe+JXY9XLs6yLtFob7
+        0ZRAxKa0gS6PfPrKgmUkcmqAbqRdvGU=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-AWE361fBMwGFiO485JcCkQ-1; Wed, 25 May 2022 05:02:17 -0400
-X-MC-Unique: AWE361fBMwGFiO485JcCkQ-1
+ us-mta-653-YfjjwJiIMdqBzf6BKBQNIg-1; Wed, 25 May 2022 05:02:29 -0400
+X-MC-Unique: YfjjwJiIMdqBzf6BKBQNIg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 238943C01DA2;
-        Wed, 25 May 2022 09:02:17 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F404F2999B56;
+        Wed, 25 May 2022 09:02:28 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.186])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 68B3E40CFD0A;
-        Wed, 25 May 2022 09:02:15 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 252E2405D4BF;
+        Wed, 25 May 2022 09:02:27 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 19/37] x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
-Date:   Wed, 25 May 2022 11:01:15 +0200
-Message-Id: <20220525090133.1264239-20-vkuznets@redhat.com>
+Subject: [PATCH v4 25/37] KVM: selftests: Move the function doing Hyper-V hypercall to a common header
+Date:   Wed, 25 May 2022 11:01:21 +0200
+Message-Id: <20220525090133.1264239-26-vkuznets@redhat.com>
 In-Reply-To: <20220525090133.1264239-1-vkuznets@redhat.com>
 References: <20220525090133.1264239-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,58 +60,75 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Section 1.9 of TLFS v6.0b says:
+All Hyper-V specific tests issuing hypercalls need this.
 
-"All structures are padded in such a way that fields are aligned
-naturally (that is, an 8-byte field is aligned to an offset of 8 bytes
-and so on)".
-
-'struct enlightened_vmcs' has a glitch:
-
-...
-        struct {
-                u32                nested_flush_hypercall:1; /*   836: 0  4 */
-                u32                msr_bitmap:1;         /*   836: 1  4 */
-                u32                reserved:30;          /*   836: 2  4 */
-        } hv_enlightenments_control;                     /*   836     4 */
-        u32                        hv_vp_id;             /*   840     4 */
-        u64                        hv_vm_id;             /*   844     8 */
-        u64                        partition_assist_page; /*   852     8 */
-...
-
-And the observed values in 'partition_assist_page' make no sense at
-all. Fix the layout by padding the structure properly.
-
-Fixes: 68d1eb72ee99 ("x86/hyper-v: define struct hv_enlightened_vmcs and clean field bits")
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../selftests/kvm/include/x86_64/hyperv.h       | 15 +++++++++++++++
+ .../selftests/kvm/x86_64/hyperv_features.c      | 17 +----------------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 5225a85c08c3..e7ddae8e02c6 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -548,7 +548,7 @@ struct hv_enlightened_vmcs {
- 	u64 guest_rip;
+diff --git a/tools/testing/selftests/kvm/include/x86_64/hyperv.h b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+index f0a8a93694b2..e0a1b4c2fbbc 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/hyperv.h
++++ b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+@@ -185,6 +185,21 @@
+ /* hypercall options */
+ #define HV_HYPERCALL_FAST_BIT		BIT(16)
  
- 	u32 hv_clean_fields;
--	u32 hv_padding_32;
-+	u32 padding32_1;
- 	u32 hv_synthetic_controls;
- 	struct {
- 		u32 nested_flush_hypercall:1;
-@@ -556,7 +556,7 @@ struct hv_enlightened_vmcs {
- 		u32 reserved:30;
- 	}  __packed hv_enlightenments_control;
- 	u32 hv_vp_id;
++static inline u64 hyperv_hypercall(u64 control, vm_vaddr_t input_address,
++			   vm_vaddr_t output_address)
++{
++	u64 hv_status;
++
++	asm volatile("mov %3, %%r8\n"
++		     "vmcall"
++		     : "=a" (hv_status),
++		       "+c" (control), "+d" (input_address)
++		     :  "r" (output_address)
++		     : "cc", "memory", "r8", "r9", "r10", "r11");
++
++	return hv_status;
++}
++
+ /* Proper HV_X64_MSR_GUEST_OS_ID value */
+ #define HYPERV_LINUX_OS_ID ((u64)0x8100 << 48)
+ 
+diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_features.c b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
+index 98c020356925..788d570e991e 100644
+--- a/tools/testing/selftests/kvm/x86_64/hyperv_features.c
++++ b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
+@@ -48,21 +48,6 @@ static void do_wrmsr(u32 idx, u64 val)
+ static int nr_gp;
+ static int nr_ud;
+ 
+-static inline u64 hypercall(u64 control, vm_vaddr_t input_address,
+-			    vm_vaddr_t output_address)
+-{
+-	u64 hv_status;
 -
-+	u32 padding32_2;
- 	u64 hv_vm_id;
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
+-	asm volatile("mov %3, %%r8\n"
+-		     "vmcall"
+-		     : "=a" (hv_status),
+-		       "+c" (control), "+d" (input_address)
+-		     :  "r" (output_address)
+-		     : "cc", "memory", "r8", "r9", "r10", "r11");
+-
+-	return hv_status;
+-}
+-
+ static void guest_gp_handler(struct ex_regs *regs)
+ {
+ 	unsigned char *rip = (unsigned char *)regs->rip;
+@@ -138,7 +123,7 @@ static void guest_hcall(vm_vaddr_t pgs_gpa, struct hcall_data *hcall)
+ 			input = output = 0;
+ 		}
+ 
+-		res = hypercall(hcall->control, input, output);
++		res = hyperv_hypercall(hcall->control, input, output);
+ 		if (hcall->ud_expected)
+ 			GUEST_ASSERT(nr_ud == 1);
+ 		else
 -- 
 2.35.3
 
