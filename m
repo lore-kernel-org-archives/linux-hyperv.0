@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C1BDC433F5
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:05:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF0DC433F5
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:06:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240191AbiEYJF3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 May 2022 05:05:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47786 "EHLO
+        id S240956AbiEYJFj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 25 May 2022 05:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240243AbiEYJFV (ORCPT
+        with ESMTP id S241050AbiEYJFW (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 May 2022 05:05:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 787B090CC9
-        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:03:36 -0700 (PDT)
+        Wed, 25 May 2022 05:05:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9A969A0057
+        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653469360;
+        s=mimecast20190719; t=1653469364;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=t4Hrsu9vaLNBzegX0s8dWoRk8Rsa/7rUxISFdwQHSFk=;
-        b=JX/HyK6kgNYRQA92lSvQhzKMvs26F6aWuolY2eFz/pmeeRit0YKVy0cIKJyx9+W72ZnabF
-        6/Q4fKCq37CK2rdXvYmCqyRtO2DOs/yfpsnpVJej5REx4p0Kl85EoNFGg/J/v0DqW5UbpU
-        5FqfNNazHSeBCECpdyEs5EpSwq6Xgs8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=SdqS0NQPZCKEUwD2dIY/ynaHh6p2yecQUXwSGu03RVo=;
+        b=FZ6iiiW/x3wheblFn47RXUKtgeEE39ZFJaCLFxNLdcGV8qLUGE4c83qY+YjcFa0ZmRoYO7
+        7kXHFz+iUs0/SIRJ7ZzD++hFSh+MyQiCX44qH8++XH9hZ+vIbnmh/WTKjfsKMhP+SeGckB
+        h3NncI10SiW8y1let0X9oSUF/d81M78=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-pCunkXMePrKHkUX-t0802A-1; Wed, 25 May 2022 05:02:37 -0400
-X-MC-Unique: pCunkXMePrKHkUX-t0802A-1
+ us-mta-156-2N4YNbCxM3iQzzLdZh1WnA-1; Wed, 25 May 2022 05:02:41 -0400
+X-MC-Unique: 2N4YNbCxM3iQzzLdZh1WnA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB016811E76;
-        Wed, 25 May 2022 09:02:36 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE02429DD995;
+        Wed, 25 May 2022 09:02:40 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.186])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1FB02405D4BF;
-        Wed, 25 May 2022 09:02:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 332DA405D4BF;
+        Wed, 25 May 2022 09:02:39 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 29/37] KVM: selftests: Export _vm_get_page_table_entry() and struct pageTableEntry/pageUpperEntry definitions
-Date:   Wed, 25 May 2022 11:01:25 +0200
-Message-Id: <20220525090133.1264239-30-vkuznets@redhat.com>
+Subject: [PATCH v4 31/37] KVM: selftests: Sync 'struct hv_enlightened_vmcs' definition with hyperv-tlfs.h
+Date:   Wed, 25 May 2022 11:01:27 +0200
+Message-Id: <20220525090133.1264239-32-vkuznets@redhat.com>
 In-Reply-To: <20220525090133.1264239-1-vkuznets@redhat.com>
 References: <20220525090133.1264239-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,113 +60,66 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Make it possible for tests to mangle guest's page table entries.
+'struct hv_enlightened_vmcs' definition in selftests is not '__packed'
+and so we rely on the compiler doing the right padding. This is not
+obvious so it seems beneficial to use the same definition as in kernel.
 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/processor.h  | 34 ++++++++++++++++++
- .../selftests/kvm/lib/x86_64/processor.c      | 36 ++-----------------
- 2 files changed, 36 insertions(+), 34 deletions(-)
+ tools/testing/selftests/kvm/include/x86_64/evmcs.h | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-index 9ad7602a257b..046807b8ea4f 100644
---- a/tools/testing/selftests/kvm/include/x86_64/processor.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-@@ -441,6 +441,40 @@ void vcpu_init_descriptor_tables(struct kvm_vm *vm, uint32_t vcpuid);
- void vm_install_exception_handler(struct kvm_vm *vm, int vector,
- 			void (*handler)(struct ex_regs *));
+diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+index cc5d14a45702..b6067b555110 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
++++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+@@ -41,6 +41,8 @@ struct hv_enlightened_vmcs {
+ 	u16 host_gs_selector;
+ 	u16 host_tr_selector;
  
-+/* Virtual translation table structure declarations */
-+struct pageUpperEntry {
-+	uint64_t present:1;
-+	uint64_t writable:1;
-+	uint64_t user:1;
-+	uint64_t write_through:1;
-+	uint64_t cache_disable:1;
-+	uint64_t accessed:1;
-+	uint64_t ignored_06:1;
-+	uint64_t page_size:1;
-+	uint64_t ignored_11_08:4;
-+	uint64_t pfn:40;
-+	uint64_t ignored_62_52:11;
-+	uint64_t execute_disable:1;
-+};
++	u16 padding16_1;
 +
-+struct pageTableEntry {
-+	uint64_t present:1;
-+	uint64_t writable:1;
-+	uint64_t user:1;
-+	uint64_t write_through:1;
-+	uint64_t cache_disable:1;
-+	uint64_t accessed:1;
-+	uint64_t dirty:1;
-+	uint64_t reserved_07:1;
-+	uint64_t global:1;
-+	uint64_t ignored_11_09:3;
-+	uint64_t pfn:40;
-+	uint64_t ignored_62_52:11;
-+	uint64_t execute_disable:1;
-+};
-+
-+struct pageTableEntry *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid,
-+						uint64_t vaddr);
- uint64_t vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr);
- void vm_set_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr,
- 			     uint64_t pte);
-diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-index 9f000dfb5594..f8090b521357 100644
---- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
-+++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
-@@ -19,38 +19,6 @@
+ 	u64 host_ia32_pat;
+ 	u64 host_ia32_efer;
  
- vm_vaddr_t exception_handlers;
+@@ -159,7 +161,7 @@ struct hv_enlightened_vmcs {
+ 	u64 ept_pointer;
  
--/* Virtual translation table structure declarations */
--struct pageUpperEntry {
--	uint64_t present:1;
--	uint64_t writable:1;
--	uint64_t user:1;
--	uint64_t write_through:1;
--	uint64_t cache_disable:1;
--	uint64_t accessed:1;
--	uint64_t ignored_06:1;
--	uint64_t page_size:1;
--	uint64_t ignored_11_08:4;
--	uint64_t pfn:40;
--	uint64_t ignored_62_52:11;
--	uint64_t execute_disable:1;
--};
+ 	u16 virtual_processor_id;
+-	u16 padding16[3];
++	u16 padding16_2[3];
+ 
+ 	u64 padding64_2[5];
+ 	u64 guest_physical_address;
+@@ -195,15 +197,15 @@ struct hv_enlightened_vmcs {
+ 	u64 guest_rip;
+ 
+ 	u32 hv_clean_fields;
+-	u32 hv_padding_32;
++	u32 padding32_1;
+ 	u32 hv_synthetic_controls;
+ 	struct {
+ 		u32 nested_flush_hypercall:1;
+ 		u32 msr_bitmap:1;
+ 		u32 reserved:30;
+-	} hv_enlightenments_control;
++	}  __packed hv_enlightenments_control;
+ 	u32 hv_vp_id;
 -
--struct pageTableEntry {
--	uint64_t present:1;
--	uint64_t writable:1;
--	uint64_t user:1;
--	uint64_t write_through:1;
--	uint64_t cache_disable:1;
--	uint64_t accessed:1;
--	uint64_t dirty:1;
--	uint64_t reserved_07:1;
--	uint64_t global:1;
--	uint64_t ignored_11_09:3;
--	uint64_t pfn:40;
--	uint64_t ignored_62_52:11;
--	uint64_t execute_disable:1;
++	u32 padding32_2;
+ 	u64 hv_vm_id;
+ 	u64 partition_assist_page;
+ 	u64 padding64_4[4];
+@@ -211,7 +213,7 @@ struct hv_enlightened_vmcs {
+ 	u64 padding64_5[7];
+ 	u64 xss_exit_bitmap;
+ 	u64 padding64_6[7];
 -};
--
- void regs_dump(FILE *stream, struct kvm_regs *regs,
- 	       uint8_t indent)
- {
-@@ -282,8 +250,8 @@ void virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr)
- 	__virt_pg_map(vm, vaddr, paddr, X86_PAGE_SIZE_4K);
- }
++} __packed;
  
--static struct pageTableEntry *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid,
--						       uint64_t vaddr)
-+struct pageTableEntry *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid,
-+						uint64_t vaddr)
- {
- 	uint16_t index[4];
- 	struct pageUpperEntry *pml4e, *pdpe, *pde;
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_IO_BITMAP                BIT(0)
 -- 
 2.35.3
 
