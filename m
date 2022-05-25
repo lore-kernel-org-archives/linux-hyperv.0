@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3728C433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:04:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C17D2C433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 25 May 2022 09:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239239AbiEYJEZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 25 May 2022 05:04:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47674 "EHLO
+        id S234984AbiEYJFR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 25 May 2022 05:05:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237722AbiEYJEL (ORCPT
+        with ESMTP id S241098AbiEYJEu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 25 May 2022 05:04:11 -0400
+        Wed, 25 May 2022 05:04:50 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A8E1A994FD
-        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:02:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E4171A006B
+        for <linux-hyperv@vger.kernel.org>; Wed, 25 May 2022 02:03:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1653469338;
+        s=mimecast20190719; t=1653469356;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mJMd56U0RvAFSw2xlUEExcb1jIqSKTPUhfJNeFFxDSw=;
-        b=GkbXUGllEaLZg3s8p7ZpT7x3D2JlQI4//4xVVdiLVgZPawK7zZBcvQQ4oWKdPot5OCSEuX
-        1EYET234+t2O9uJvlFzaEJncqCqy8z/5Z+BrEVzxgk5MID/dv3NUYCtFtxM+QP3SAelzJO
-        GyQrB2hqqW5J9xId74hGotB30NDTqEA=
+        bh=ry63xFrwO6O2lt3NumR064ix6uPD5MMi+epdiiFne5w=;
+        b=Z14VQoT4c+SvXFHzbNkYth54p9URrH+0lo7XH8pbu6wEA89gEv1MPDPcGKJMq8zhsW5fcy
+        xgnYTidRHZBKHZcNYGlVuJJaa79m2IL7Yv3Tp/uF3WMjf7DBEywFCAobl6YHDYlxZ378EP
+        m8ZLeIYDjXCF2EwgnHeCHoADmGnAZtI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-OTXWGLRBNR2bgAXtCnys1Q-1; Wed, 25 May 2022 05:02:15 -0400
-X-MC-Unique: OTXWGLRBNR2bgAXtCnys1Q-1
+ us-mta-191-GoX2hHSvPSqiz4xr-fkiHg-1; Wed, 25 May 2022 05:02:33 -0400
+X-MC-Unique: GoX2hHSvPSqiz4xr-fkiHg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C3181C161A9;
-        Wed, 25 May 2022 09:02:15 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB7ED1C161A3;
+        Wed, 25 May 2022 09:02:32 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.186])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 767CE40CF8EF;
-        Wed, 25 May 2022 09:02:13 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2B23A40CFD0A;
+        Wed, 25 May 2022 09:02:31 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 18/37] KVM: x86: hyper-v: Introduce fast guest_hv_cpuid_has_l2_tlb_flush() check
-Date:   Wed, 25 May 2022 11:01:14 +0200
-Message-Id: <20220525090133.1264239-19-vkuznets@redhat.com>
+Subject: [PATCH v4 27/37] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
+Date:   Wed, 25 May 2022 11:01:23 +0200
+Message-Id: <20220525090133.1264239-28-vkuznets@redhat.com>
 In-Reply-To: <20220525090133.1264239-1-vkuznets@redhat.com>
 References: <20220525090133.1264239-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,63 +60,28 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce a helper to quickly check if KVM needs to handle VMCALL/VMMCALL
-from L2 in L0 to process L2 TLB flush requests.
+Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
+in vm->vpages_mapped.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h | 1 +
- arch/x86/kvm/hyperv.c           | 6 ++++++
- arch/x86/kvm/hyperv.h           | 7 +++++++
- 3 files changed, 14 insertions(+)
+ tools/testing/selftests/kvm/lib/kvm_util.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 19b62589bb2c..c8e75f529b9d 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -639,6 +639,7 @@ struct kvm_vcpu_hv {
- 		u32 enlightenments_eax; /* HYPERV_CPUID_ENLIGHTMENT_INFO.EAX */
- 		u32 enlightenments_ebx; /* HYPERV_CPUID_ENLIGHTMENT_INFO.EBX */
- 		u32 syndbg_cap_eax; /* HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX */
-+		u32 nested_features_eax; /* HYPERV_CPUID_NESTED_FEATURES.EAX */
- 	} cpuid_cache;
- 
- 	struct kvm_vcpu_hv_tlb_flush_fifo tlb_flush_fifo[HV_NR_TLB_FLUSH_FIFOS];
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index e3fedc89d84b..9a41835ff4bc 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -2229,6 +2229,12 @@ void kvm_hv_set_cpuid(struct kvm_vcpu *vcpu)
- 		hv_vcpu->cpuid_cache.syndbg_cap_eax = entry->eax;
- 	else
- 		hv_vcpu->cpuid_cache.syndbg_cap_eax = 0;
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index 1665a220abcb..936be9c9f870 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -1445,6 +1445,9 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ 		virt_pg_map(vm, vaddr, paddr);
+ 		vaddr += page_size;
+ 		paddr += page_size;
 +
-+	entry = kvm_find_cpuid_entry(vcpu, HYPERV_CPUID_NESTED_FEATURES, 0);
-+	if (entry)
-+		hv_vcpu->cpuid_cache.nested_features_eax = entry->eax;
-+	else
-+		hv_vcpu->cpuid_cache.nested_features_eax = 0;
++		sparsebit_set(vm->vpages_mapped,
++			vaddr >> vm->page_shift);
+ 	}
  }
  
- int kvm_hv_set_enforce_cpuid(struct kvm_vcpu *vcpu, bool enforce)
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index b6583d02b2ea..9c9b842bbd73 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -169,6 +169,13 @@ static inline void kvm_hv_vcpu_empty_flush_tlb(struct kvm_vcpu *vcpu)
- 	kfifo_reset_out(&tlb_flush_fifo->entries);
- }
- 
-+static inline bool guest_hv_cpuid_has_l2_tlb_flush(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+
-+	return hv_vcpu && (hv_vcpu->cpuid_cache.nested_features_eax & HV_X64_NESTED_DIRECT_FLUSH);
-+}
-+
- static inline bool kvm_hv_is_tlb_flush_hcall(struct kvm_vcpu *vcpu)
- {
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
 -- 
 2.35.3
 
