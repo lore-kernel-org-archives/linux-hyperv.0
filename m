@@ -2,52 +2,52 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F361C433F5
-	for <linux-hyperv@archiver.kernel.org>; Thu, 26 May 2022 12:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A06C4332F
+	for <linux-hyperv@archiver.kernel.org>; Thu, 26 May 2022 12:01:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234318AbiEZMBV (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 26 May 2022 08:01:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39272 "EHLO
+        id S240544AbiEZMBY (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 26 May 2022 08:01:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238628AbiEZMBU (ORCPT
+        with ESMTP id S238538AbiEZMBV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 26 May 2022 08:01:20 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3470BCC173;
-        Thu, 26 May 2022 05:01:19 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id bo5so1531557pfb.4;
-        Thu, 26 May 2022 05:01:19 -0700 (PDT)
+        Thu, 26 May 2022 08:01:21 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D751C8BEC;
+        Thu, 26 May 2022 05:01:21 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id y199so1508031pfb.9;
+        Thu, 26 May 2022 05:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=olJVsa+imhZbIKfwYfCiwIDRYc9xg1wbsCc3f7jqMns=;
-        b=hGhiTVMQrBdxXb+ebcEPGyBOUj6LNRR2pUIBaSCjRGYIrixAojVkDf20FUVeLG7Pjv
-         ontXkDMXnlq5vvhr/MhbJ4XqqvK+dlMP0YkcJhMaS5ampadi9hkjjB3g5+U8Ciw29N0D
-         i8WWZUqBhodFqu+qMoRUObdw8UF+sj0caBvrcVjRkBeLarmTKWfVRNAs7NrCAAYr0Edj
-         P766cBKxM03M3G9Lx8YLfKGnIjHv42GUBI05180y5oYrKkZZtSxZ0yThNrmlrm5mOkzo
-         CTFZz6xBNovdU65JpD48KL8Jj4PtJ97r9RPypzfsxmn5mf3abn9LSPRYlVUotJromWno
-         Tfcg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=oaqG6keHyyCSAVb73eGtDPFdUcregAH3H4j2SG+oYUM=;
+        b=kJazciJ8tosHNjEcGmQPRBsvV97CnX70u9eK1RMlJ7V8o0r69g17gCeql6TfT+VBhX
+         b4cMWi4Vynnv0NTYxJgk1dNRtzcobgplTF+zC1VmCzXPBsk1NEmKS4IbkpPrA2jw4skU
+         uRTzcZEwW/+oVg9UZJUsxMbFQ+rzfMvx6al2/hSBbUmaJq36/1MoI759wCzU4FDN3eib
+         ebc0SfzXGHwpq/TsybeSupVrN7GlsXmhFaK7e/hDvHqlV/+epOYsvvATdIW3I8YBpo/g
+         7yDlGNoT9YK7Vyvvew/SrrKf07ENspk3z2GefeXk7ZOA/Abdi/+EuqFzZ9wVtlMpnOP3
+         vzJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=olJVsa+imhZbIKfwYfCiwIDRYc9xg1wbsCc3f7jqMns=;
-        b=n53+DfSZuPXs5VZtJeyGJfiRNKLvenFLrDQpRLUKBAATS31MVOugHteLy97P6yuPZ/
-         TgCmv4PcGJP2CMRESJGbZwge7IGujFDlnUwmqj6Ec18dAmEJKHCfv5lhjD/Njkik6xRZ
-         xHtLE+iwIfzIcKFFM65zZK+ivl6ToOZMPq1ufD5Z8di4Sf3WlKRSed6MZRz5nfJgmbp8
-         43NCykReQ36ZJf59fTZn1pE3TZMpXiUe3oMrsGUAy2NHrNKjwduGeV0It78ZLI9q8JLb
-         ZmJ8vOqGUpKwrY80GPx5/Z2ywDBwjz+oUanzOGHjfq0eOoF6WDJHeNcENZtK+eLZStAl
-         +2Sw==
-X-Gm-Message-State: AOAM532iKUCCZf6BeN3LRUu8SnX9D03nSD+8Fe2xhs7urgnxATQGb+h3
-        VK85GR8OTl06DOVh7MUCNdHdvbjQvBQPzMkp
-X-Google-Smtp-Source: ABdhPJzLzAuPjPrbmsZkr4fRsgdboaUdZStwLpGgpVUvkhrmLbOYM8puX8iCU21k1NPJPwOUvEJZFg==
-X-Received: by 2002:a05:6a02:105:b0:381:fd01:330f with SMTP id bg5-20020a056a02010500b00381fd01330fmr32208794pgb.483.1653566478613;
-        Thu, 26 May 2022 05:01:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=oaqG6keHyyCSAVb73eGtDPFdUcregAH3H4j2SG+oYUM=;
+        b=JmST/jei6xw3HrMVrijBpmeA2f8QavobCCefxJWJH7zJy81xrVIY7bReXgZED8wPK+
+         NDX6PR8x2MJ9QPPRYfNgn1O8QN0TKEBmFIBL5QhmeS/FOnw1/mCtDcHVfpQzdArUvcIv
+         waDr5y5M0Kyv8BgrP01RfmS0FBis61QvX9+OaT6iQWnU3m1Prdf0rHLuZp2Yi7momSGH
+         imo6LhJPC2rYQrGmEYvugEIAFbTZqCWO9CB0KLFI4wbWfJKSEnSbjPCYmBv6wkbSVNzg
+         4LVPqXk0UyIy80NDcUyNH+j3s5hFT/0RYbgRl7vxWHECs89HTW6sZgNaYUQGxc6x8sPP
+         a9FA==
+X-Gm-Message-State: AOAM531vanqJN3Oy4yYQqu6T1k4o9TMwV00kGQKWdtXupZhcfO/FsIKH
+        w5flvqw9pxMOGj+Epcgo20A=
+X-Google-Smtp-Source: ABdhPJwX2SpqKU5d/cL5IEDu3OEqy5GvPcCmDcmiNn5GROww05NYfwGcdG7Hd0ARlyh8HFsXeDYNUA==
+X-Received: by 2002:a63:5:0:b0:3c6:dcb2:428 with SMTP id 5-20020a630005000000b003c6dcb20428mr32725819pga.73.1653566480747;
+        Thu, 26 May 2022 05:01:20 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:1:45c7:d5e2:7b45:3336])
-        by smtp.gmail.com with ESMTPSA id bi7-20020a170902bf0700b0015e8d4eb282sm1328190plb.204.2022.05.26.05.01.17
+        by smtp.gmail.com with ESMTPSA id bi7-20020a170902bf0700b0015e8d4eb282sm1328190plb.204.2022.05.26.05.01.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 05:01:18 -0700 (PDT)
+        Thu, 26 May 2022 05:01:20 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
@@ -60,10 +60,12 @@ Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         vkuznets@redhat.com, konrad.wilk@oracle.com, hch@lst.de,
         parri.andrea@gmail.com, thomas.lendacky@amd.com,
         andi.kleen@intel.com, kirill.shutemov@intel.com
-Subject: [RFC PATCH V3 0/2] swiotlb: Add child io tlb mem support
-Date:   Thu, 26 May 2022 08:01:10 -0400
-Message-Id: <20220526120113.971512-1-ltykernel@gmail.com>
+Subject: [RFC PATCH V3 2/2] net: netvsc: Allocate per-device swiotlb bounce buffer for netvsc
+Date:   Thu, 26 May 2022 08:01:12 -0400
+Message-Id: <20220526120113.971512-3-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220526120113.971512-1-ltykernel@gmail.com>
+References: <20220526120113.971512-1-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -72,35 +74,65 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Traditionally swiotlb was not performance critical because it was only
-used for slow devices. But in some setups, like TDX/SEV confidential
-guests, all IO has to go through swiotlb. Currently swiotlb only has a
-single lock. Under high IO load with multiple CPUs this can lead to
-significant lock contention on the swiotlb lock.
+Netvsc driver allocates device io tlb mem via calling swiotlb_device_
+allocate() and set child io tlb mem number according to device queue
+number. Child io tlb mem may reduce overhead of single spin lock in
+device io tlb mem among multi device queues.
 
-This patch adds child IO TLB mem support to resolve spinlock overhead
-among device's queues. Each device may allocate IO tlb mem and setup
-child IO TLB mem according to queue number. The number child IO tlb
-mem maybe set up equal with device queue number and this helps to resolve
-swiotlb spinlock overhead among devices and queues.
+Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+---
+ drivers/net/hyperv/netvsc.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-introduces IO TLB Block concepts and swiotlb_device_allocate()
-API to allocate per-device swiotlb bounce buffer. The new API Accepts
-queue number as the number of child IO TLB mem to set up device's IO
-TLB mem.
-
-Patch 2 calls new allocation function in the netvsc driver to resolve
-global spin lock issue.
-
-Tianyu Lan (2):
-  swiotlb: Add Child IO TLB mem support
-  net: netvsc: Allocate per-device swiotlb bounce buffer for netvsc
-
- drivers/net/hyperv/netvsc.c |  10 ++
- include/linux/swiotlb.h     |  38 +++++
- kernel/dma/swiotlb.c        | 299 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 334 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index 9442f751ad3a..26a8f8f84fc4 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -23,6 +23,7 @@
+ 
+ #include <asm/sync_bitops.h>
+ #include <asm/mshyperv.h>
++#include <linux/swiotlb.h>
+ 
+ #include "hyperv_net.h"
+ #include "netvsc_trace.h"
+@@ -98,6 +99,7 @@ static void netvsc_subchan_work(struct work_struct *w)
+ 	struct netvsc_device *nvdev =
+ 		container_of(w, struct netvsc_device, subchan_work);
+ 	struct rndis_device *rdev;
++	struct hv_device *hdev;
+ 	int i, ret;
+ 
+ 	/* Avoid deadlock with device removal already under RTNL */
+@@ -108,6 +110,9 @@ static void netvsc_subchan_work(struct work_struct *w)
+ 
+ 	rdev = nvdev->extension;
+ 	if (rdev) {
++		hdev = ((struct net_device_context *)
++			netdev_priv(rdev->ndev))->device_ctx;
++
+ 		ret = rndis_set_subchannel(rdev->ndev, nvdev, NULL);
+ 		if (ret == 0) {
+ 			netif_device_attach(rdev->ndev);
+@@ -119,6 +124,10 @@ static void netvsc_subchan_work(struct work_struct *w)
+ 			nvdev->max_chn = 1;
+ 			nvdev->num_chn = 1;
+ 		}
++
++		/* Allocate boucne buffer.*/
++		swiotlb_device_allocate(&hdev->device, nvdev->num_chn,
++				10 * IO_TLB_BLOCK_UNIT);
+ 	}
+ 
+ 	rtnl_unlock();
+@@ -769,6 +778,7 @@ void netvsc_device_remove(struct hv_device *device)
+ 
+ 	/* Release all resources */
+ 	free_netvsc_device_rcu(net_device);
++	swiotlb_device_free(&device->device);
+ }
+ 
+ #define RING_AVAIL_PERCENT_HIWATER 20
 -- 
 2.25.1
 
