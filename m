@@ -2,123 +2,188 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 376A5C433EF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 27 May 2022 12:38:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1491C433F5
+	for <linux-hyperv@archiver.kernel.org>; Fri, 27 May 2022 15:55:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235036AbiE0MiZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 27 May 2022 08:38:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54164 "EHLO
+        id S1345868AbiE0Pz6 (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 27 May 2022 11:55:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244530AbiE0MiD (ORCPT
+        with ESMTP id S1353518AbiE0Pz5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 27 May 2022 08:38:03 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D3F1A8E21;
-        Fri, 27 May 2022 05:20:59 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id s14so3995785plk.8;
-        Fri, 27 May 2022 05:20:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:reply-to:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=iJRtC6FZ8/ulUwIgZS39WaHh+o9Ilrp1wW7JFepItc0=;
-        b=qSLrw/xH/l+UVkirRAZz/8FZ0ZZjL5uSuxHX7LIvFmTyb2UbiCPcMLJ7FPei3UtAUG
-         /ngnpOH2XTctk2kEZnq1GlxnsaUo07pYEaINTbsCgqrOHFJQt24gZQ+ILHVpJtEzyjME
-         4UrYxkBjVTiElekXp+gzuW+XAGU6/RtkFdOXe+8dCI4p/cXb8vCquU8DfILasd9urWSo
-         KHl1WoMhA+RFZrgD0SzbVWJBhfTAXtdoOWgI9FuBo/sPpuLmHrpwM/ULSW9MXKoel/hj
-         SOkK23tv+gEHbYe80ZKZG6/zw7Y4B7GfXZTNIaeke82Up93gcA/IDSi6cSpXHo/eaf+S
-         8+fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:reply-to
-         :subject:content-language:to:cc:references:from:organization
-         :in-reply-to:content-transfer-encoding;
-        bh=iJRtC6FZ8/ulUwIgZS39WaHh+o9Ilrp1wW7JFepItc0=;
-        b=IadmFGgIBN5MiOuyC90KPCx7/qMyYhSEPcE7+u2jVfyPyYS3b32xJ/DtgLYnpqyBhL
-         YOJwsGcQ+bi/pT3hptDW7HCRdS52SeM1J0OKI4NCDz7JZhfrCXauGqmE0c7Qy3ksG3g5
-         GcdGTfPUq4gsfxpVpDo+9tMyZVzvZ6bH6EhZgplvV/B/mH1l+Cg1Q5pGA+ClevVacl4b
-         r1Ap/vD7Csw9kKsst8U40kOlYOZb59ciTEQr+ra5KeR6o7z1CQvPhBrCChKwQE51FvvW
-         fHeKk3tj+vI/+rqzKs68c4fE0w/zSO3+SlYJanBCYbmXgRNcgE316MUpfqJutsVvNmlJ
-         rruA==
-X-Gm-Message-State: AOAM532neNjBGPbbwBT1Tn4oVcnf/E6ynMWF14+VNqBovPIrVPA1xMJA
-        5rFc8Jz7F82eoREgWNfbnpU=
-X-Google-Smtp-Source: ABdhPJyhM4+yaDnivdy5jmDUaKkUnBpSnlKSW9KCRZAyRvH55Ju8bIw6KCyC4TQtzI1iKBxbIA25WA==
-X-Received: by 2002:a17:903:2305:b0:163:64c7:f9ff with SMTP id d5-20020a170903230500b0016364c7f9ffmr11636415plh.46.1653654059447;
-        Fri, 27 May 2022 05:20:59 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::597? ([2404:f801:9000:18:efec::597])
-        by smtp.gmail.com with ESMTPSA id c11-20020a170902d48b00b0015ea8b4b8f3sm3463974plg.263.2022.05.27.05.20.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 May 2022 05:20:58 -0700 (PDT)
-Message-ID: <56243d2b-d7f6-9e45-d5fd-3af7767d52e3@gmail.com>
-Date:   Fri, 27 May 2022 20:20:50 +0800
+        Fri, 27 May 2022 11:55:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6289C13F436
+        for <linux-hyperv@vger.kernel.org>; Fri, 27 May 2022 08:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1653666955;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=l9igZC6RVEyGAArQ07eQjF/Cv3BxtHmlTPoSXnZqUHY=;
+        b=fV9Qr1FYrqImgnTE949VXe7Un1vkTQQKwdRoITYVj8TJoYSAzL0dWYSQeHfLm1Q5uRbZVt
+        FIyyXcWy85gtW2gf597DzU4ivR2Ei/YiKIZeGOo7SUcFlvkvPmF31n6tLJUoNEXTsjYJLr
+        RjbKbNwt+CuZ3h9WUwXez0K+QdsrSYs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-K3Zm8wF_NKiMWeysVZGCbg-1; Fri, 27 May 2022 11:55:51 -0400
+X-MC-Unique: K3Zm8wF_NKiMWeysVZGCbg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 394A0811E75;
+        Fri, 27 May 2022 15:55:50 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.192.126])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id ABF9C2166B26;
+        Fri, 27 May 2022 15:55:47 +0000 (UTC)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Sean Christopherson <seanjc@google.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Siddharth Chandrasekaran <sidcha@amazon.de>,
+        Yuan Yao <yuan.yao@linux.intel.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 00/37] KVM: x86: hyper-v: Fine-grained TLB flush + L2 TLB flush features
+Date:   Fri, 27 May 2022 17:55:09 +0200
+Message-Id: <20220527155546.1528910-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Reply-To: tiala@microsoft.com
-Subject: Re: [RFC PATCH V3 2/2] net: netvsc: Allocate per-device swiotlb
- bounce buffer for netvsc
-Content-Language: en-US
-To:     Dexuan Cui <decui@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "hch@infradead.org" <hch@infradead.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        vkuznets <vkuznets@redhat.com>,
-        "konrad.wilk@oracle.com" <konrad.wilk@oracle.com>,
-        "hch@lst.de" <hch@lst.de>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "andi.kleen@intel.com" <andi.kleen@intel.com>,
-        "kirill.shutemov" <kirill.shutemov@intel.com>
-References: <20220526120113.971512-1-ltykernel@gmail.com>
- <20220526120113.971512-3-ltykernel@gmail.com>
- <BYAPR21MB12706372826A3ABAEF42E716BFD99@BYAPR21MB1270.namprd21.prod.outlook.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-Organization: Microsft
-In-Reply-To: <BYAPR21MB12706372826A3ABAEF42E716BFD99@BYAPR21MB1270.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+Main changes since v4:
+- Rebase to the latest kvm/queue [90bde5bea810].
+- v4 was broken as kvm_hv_vcpu_flush_tlb() was never
+  called and full TLB flush was always performed [Yuan Yao]. Call restored.
+- kvm_hv_get_tlb_flush_fifo() gained explicit 'is_guest_mode' parameter:
+  when queueing the request, we need to check whether the caller is in
+  guest mode, not the target vCPU.
+- kvm_hv_flush_tlb() resets the fifo only when doing full flush as requiests
+  added concurently can get lost.
+- Fix a failure in hyperv_tlb_flush due to the wrong number of XMM registers
+  used.
+- KVM_REQ_HV_TLB_FLUSH reset moved to kvm_hv_vcpu_empty_flush_tlb().
 
+Original description:
 
-On 5/27/2022 2:43 AM, Dexuan Cui wrote:
->> From: Tianyu Lan <ltykernel@gmail.com>
->> Sent: Thursday, May 26, 2022 5:01 AM
->> ...
->> @@ -119,6 +124,10 @@ static void netvsc_subchan_work(struct work_struct
->> *w)
->>   			nvdev->max_chn = 1;
->>   			nvdev->num_chn = 1;
->>   		}
->> +
->> +		/* Allocate boucne buffer.*/
->> +		swiotlb_device_allocate(&hdev->device, nvdev->num_chn,
->> +				10 * IO_TLB_BLOCK_UNIT);
->>   	}
-> 
-> Looks like swiotlb_device_allocate() is not called if the netvsc device
-> has only 1 primary channel and no sub-schannel, e.g. in the case of
-> single-vCPU VM?
+Currently, KVM handles HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST{,EX} requests
+by flushing the whole VPID and this is sub-optimal. This series introduces
+the required mechanism to make handling of these requests more 
+fine-grained by flushing individual GVAs only (when requested). On this
+foundation, "Direct Virtual Flush" Hyper-V feature is implemented. The 
+feature allows L0 to handle Hyper-V TLB flush hypercalls directly at
+L0 without the need to reflect the exit to L1. This has at least two
+benefits: reflecting vmexit and the consequent vmenter are avoided + L0
+has precise information whether the target vCPU is actually running (and
+thus requires a kick).
 
-When there is only sinlge，there seems not to be much performance
-penalty. But you are right, we should keep the same behavior when single 
-CPU and multi CPU. Will update in the next version.
+Sean Christopherson (1):
+  KVM: x86: hyper-v: Add helper to read hypercall data for array
 
-Thanks.
+Vitaly Kuznetsov (36):
+  KVM: x86: Rename 'enable_direct_tlbflush' to 'enable_l2_tlb_flush'
+  KVM: x86: hyper-v: Resurrect dedicated KVM_REQ_HV_TLB_FLUSH flag
+  KVM: x86: hyper-v: Introduce TLB flush fifo
+  KVM: x86: hyper-v: Handle HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST{,EX} calls
+    gently
+  KVM: x86: hyper-v: Expose support for extended gva ranges for flush
+    hypercalls
+  KVM: x86: Prepare kvm_hv_flush_tlb() to handle L2's GPAs
+  x86/hyperv: Introduce
+    HV_MAX_SPARSE_VCPU_BANKS/HV_VCPUS_PER_SPARSE_BANK constants
+  KVM: x86: hyper-v: Use
+    HV_MAX_SPARSE_VCPU_BANKS/HV_VCPUS_PER_SPARSE_BANK instead of raw
+    '64'
+  KVM: x86: hyper-v: Don't use sparse_set_to_vcpu_mask() in
+    kvm_hv_send_ipi()
+  KVM: x86: hyper-v: Create a separate fifo for L2 TLB flush
+  KVM: x86: hyper-v: Use preallocated buffer in 'struct kvm_vcpu_hv'
+    instead of on-stack 'sparse_banks'
+  KVM: nVMX: Keep track of hv_vm_id/hv_vp_id when eVMCS is in use
+  KVM: nSVM: Keep track of Hyper-V hv_vm_id/hv_vp_id
+  KVM: x86: Introduce .hv_inject_synthetic_vmexit_post_tlb_flush()
+    nested hook
+  KVM: x86: hyper-v: Introduce kvm_hv_is_tlb_flush_hcall()
+  KVM: x86: hyper-v: L2 TLB flush
+  KVM: x86: hyper-v: Introduce fast guest_hv_cpuid_has_l2_tlb_flush()
+    check
+  x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
+  KVM: nVMX: hyper-v: Enable L2 TLB flush
+  KVM: nSVM: hyper-v: Enable L2 TLB flush
+  KVM: x86: Expose Hyper-V L2 TLB flush feature
+  KVM: selftests: Better XMM read/write helpers
+  KVM: selftests: Move HYPERV_LINUX_OS_ID definition to a common header
+  KVM: selftests: Move the function doing Hyper-V hypercall to a common
+    header
+  KVM: selftests: Hyper-V PV IPI selftest
+  KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
+  KVM: selftests: Export vm_vaddr_unused_gap() to make it possible to
+    request unmapped ranges
+  KVM: selftests: Export _vm_get_page_table_entry()
+  KVM: selftests: Hyper-V PV TLB flush selftest
+  KVM: selftests: Sync 'struct hv_enlightened_vmcs' definition with
+    hyperv-tlfs.h
+  KVM: selftests: nVMX: Allocate Hyper-V partition assist page
+  KVM: selftests: nSVM: Allocate Hyper-V partition assist and VP assist
+    pages
+  KVM: selftests: Sync 'struct hv_vp_assist_page' definition with
+    hyperv-tlfs.h
+  KVM: selftests: evmcs_test: Introduce L2 TLB flush test
+  KVM: selftests: Move Hyper-V VP assist page enablement out of evmcs.h
+  KVM: selftests: hyperv_svm_test: Introduce L2 TLB flush test
+
+ arch/x86/include/asm/hyperv-tlfs.h            |   6 +-
+ arch/x86/include/asm/kvm-x86-ops.h            |   2 +-
+ arch/x86/include/asm/kvm_host.h               |  41 +-
+ arch/x86/kvm/Makefile                         |   3 +-
+ arch/x86/kvm/hyperv.c                         | 324 +++++++--
+ arch/x86/kvm/hyperv.h                         |  50 ++
+ arch/x86/kvm/svm/hyperv.c                     |  18 +
+ arch/x86/kvm/svm/hyperv.h                     |  37 +
+ arch/x86/kvm/svm/nested.c                     |  30 +-
+ arch/x86/kvm/svm/svm_onhyperv.c               |   2 +-
+ arch/x86/kvm/svm/svm_onhyperv.h               |   6 +-
+ arch/x86/kvm/trace.h                          |  21 +-
+ arch/x86/kvm/vmx/evmcs.c                      |  24 +
+ arch/x86/kvm/vmx/evmcs.h                      |  11 +
+ arch/x86/kvm/vmx/nested.c                     |  32 +
+ arch/x86/kvm/vmx/vmx.c                        |   6 +-
+ arch/x86/kvm/x86.c                            |  18 +-
+ arch/x86/kvm/x86.h                            |   1 +
+ include/asm-generic/hyperv-tlfs.h             |   5 +
+ include/asm-generic/mshyperv.h                |  11 +-
+ tools/testing/selftests/kvm/.gitignore        |   2 +
+ tools/testing/selftests/kvm/Makefile          |   4 +-
+ .../selftests/kvm/include/kvm_util_base.h     |   1 +
+ .../selftests/kvm/include/x86_64/evmcs.h      |  40 +-
+ .../selftests/kvm/include/x86_64/hyperv.h     |  62 ++
+ .../selftests/kvm/include/x86_64/processor.h  |  71 +-
+ .../selftests/kvm/include/x86_64/svm_util.h   |  10 +
+ .../selftests/kvm/include/x86_64/vmx.h        |   4 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   7 +-
+ .../testing/selftests/kvm/lib/x86_64/hyperv.c |  21 +
+ .../selftests/kvm/lib/x86_64/processor.c      |   3 +-
+ tools/testing/selftests/kvm/lib/x86_64/svm.c  |  10 +
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   7 +
+ .../testing/selftests/kvm/x86_64/evmcs_test.c |  43 +-
+ .../selftests/kvm/x86_64/hyperv_features.c    |  22 +-
+ .../testing/selftests/kvm/x86_64/hyperv_ipi.c | 352 ++++++++++
+ .../selftests/kvm/x86_64/hyperv_svm_test.c    |  54 +-
+ .../selftests/kvm/x86_64/hyperv_tlb_flush.c   | 660 ++++++++++++++++++
+ 38 files changed, 1844 insertions(+), 177 deletions(-)
+ create mode 100644 arch/x86/kvm/svm/hyperv.c
+ create mode 100644 tools/testing/selftests/kvm/lib/x86_64/hyperv.c
+ create mode 100644 tools/testing/selftests/kvm/x86_64/hyperv_ipi.c
+ create mode 100644 tools/testing/selftests/kvm/x86_64/hyperv_tlb_flush.c
+
+-- 
+2.35.3
 
