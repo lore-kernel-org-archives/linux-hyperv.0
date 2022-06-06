@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10917C433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Jun 2022 08:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1233CC43334
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Jun 2022 08:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231918AbiFFIiI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Jun 2022 04:38:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37002 "EHLO
+        id S232094AbiFFIiK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 6 Jun 2022 04:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232027AbiFFIh4 (ORCPT
+        with ESMTP id S232051AbiFFIiG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Jun 2022 04:37:56 -0400
+        Mon, 6 Jun 2022 04:38:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4371D21265
-        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:37:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 795AD2182F
+        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654504672;
+        s=mimecast20190719; t=1654504676;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=yzDMtTrCJppecahE+AQ3m8nMhTjBtSrQOCa2KYT6q/4=;
-        b=YrBmS9OnRdBvd2JACxlpFfucE8/86CDS0UnGT3ZUAnDe+0vAsOMx37Hkpc2/X8YpQakeV9
-        nO5ZKzUBeFj3edB3OlY3DTYDX00tUPqm9e+AghmPFHiNqfMasErYuSZiTvjzr7h0w4CfjK
-        hW5AGIGD1em5L6bnOArWiFMceOibEBU=
+        bh=hp82BU+I7MuWflxbH4EWx7W3vuzx9MsZrRsI8zYTBvY=;
+        b=eTEtWJB5U5nIyyWKEU/6//iC7ex4a1CAWu7PjI67lGFxU6lzz28P2ows9IzJ+RNW3Oq0PP
+        wThesjqB1s9Yi2t+ADXAOhhPnioHrdRxWox/JRFvaPIgjjBK/nq/Okft8vHWZm07VY9cs1
+        3D5l4Bz/d8/ePs4ACxP39GJWLtI5j7s=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-591-CQotUzxgPlWdMEIohBuNsQ-1; Mon, 06 Jun 2022 04:37:46 -0400
-X-MC-Unique: CQotUzxgPlWdMEIohBuNsQ-1
+ us-mta-665-ElNrg5xgP3-yZxgFY3UPIg-1; Mon, 06 Jun 2022 04:37:55 -0400
+X-MC-Unique: ElNrg5xgP3-yZxgFY3UPIg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA1B93C19020;
-        Mon,  6 Jun 2022 08:37:45 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB8D73C19021;
+        Mon,  6 Jun 2022 08:37:54 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.53])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 170BB1121314;
-        Mon,  6 Jun 2022 08:37:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D45DF1121314;
+        Mon,  6 Jun 2022 08:37:52 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 20/38] KVM: nVMX: hyper-v: Cache VP assist page in 'struct kvm_vcpu_hv'
-Date:   Mon,  6 Jun 2022 10:36:37 +0200
-Message-Id: <20220606083655.2014609-21-vkuznets@redhat.com>
+Subject: [PATCH v6 24/38] KVM: selftests: Better XMM read/write helpers
+Date:   Mon,  6 Jun 2022 10:36:41 +0200
+Message-Id: <20220606083655.2014609-25-vkuznets@redhat.com>
 In-Reply-To: <20220606083655.2014609-1-vkuznets@redhat.com>
 References: <20220606083655.2014609-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,153 +61,129 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-In preparation to enabling L2 TLB flush, cache VP assist page in
-'struct kvm_vcpu_hv'. While on it, rename nested_enlightened_vmentry()
-to nested_get_evmptr() and make it return eVMCS GPA directly.
+set_xmm()/get_xmm() helpers are fairly useless as they only read 64 bits
+from 128-bit registers. Moreover, these helpers are not used. Borrow
+_kvm_read_sse_reg()/_kvm_write_sse_reg() from KVM limiting them to
+XMM0-XMM8 for now.
 
-No functional change intended.
-
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h |  2 ++
- arch/x86/kvm/hyperv.c           | 10 ++++++----
- arch/x86/kvm/hyperv.h           |  3 +--
- arch/x86/kvm/vmx/evmcs.c        | 21 +++++++--------------
- arch/x86/kvm/vmx/evmcs.h        |  2 +-
- arch/x86/kvm/vmx/nested.c       |  6 +++---
- 6 files changed, 20 insertions(+), 24 deletions(-)
+ .../selftests/kvm/include/x86_64/processor.h  | 70 ++++++++++---------
+ 1 file changed, 36 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index f9a34af0a5cc..e62db76c8d37 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -650,6 +650,8 @@ struct kvm_vcpu_hv {
- 	/* Preallocated buffer for handling hypercalls passing sparse vCPU set */
- 	u64 sparse_banks[HV_MAX_SPARSE_VCPU_BANKS];
- 
-+	struct hv_vp_assist_page vp_assist_page;
-+
- 	struct {
- 		u64 pa_page_gpa;
- 		u64 vm_id;
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 4396d75588d8..91310774c0b9 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -903,13 +903,15 @@ bool kvm_hv_assist_page_enabled(struct kvm_vcpu *vcpu)
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index 4fd870f37b9e..9ac244fdce73 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -315,71 +315,73 @@ static inline void cpuid(uint32_t *eax, uint32_t *ebx,
+ 	    : "memory");
  }
- EXPORT_SYMBOL_GPL(kvm_hv_assist_page_enabled);
  
--bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu,
--			    struct hv_vp_assist_page *assist_page)
-+bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu)
+-#define SET_XMM(__var, __xmm) \
+-	asm volatile("movq %0, %%"#__xmm : : "r"(__var) : #__xmm)
++typedef u32		__attribute__((vector_size(16))) sse128_t;
++#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
++#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
++#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
+ 
+-static inline void set_xmm(int n, unsigned long val)
++static inline void read_sse_reg(int reg, sse128_t *data)
  {
--	if (!kvm_hv_assist_page_enabled(vcpu))
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+
-+	if (!hv_vcpu || !kvm_hv_assist_page_enabled(vcpu))
- 		return false;
-+
- 	return !kvm_read_guest_cached(vcpu->kvm, &vcpu->arch.pv_eoi.data,
--				      assist_page, sizeof(*assist_page));
-+				      &hv_vcpu->vp_assist_page, sizeof(struct hv_vp_assist_page));
- }
- EXPORT_SYMBOL_GPL(kvm_hv_get_assist_page);
- 
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 2aa6fb7fc599..139beb55b781 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -105,8 +105,7 @@ int kvm_hv_activate_synic(struct kvm_vcpu *vcpu, bool dont_zero_synic_pages);
- void kvm_hv_vcpu_uninit(struct kvm_vcpu *vcpu);
- 
- bool kvm_hv_assist_page_enabled(struct kvm_vcpu *vcpu);
--bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu,
--			    struct hv_vp_assist_page *assist_page);
-+bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu);
- 
- static inline struct kvm_vcpu_hv_stimer *to_hv_stimer(struct kvm_vcpu *vcpu,
- 						      int timer_index)
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 805afc170b5b..7cd7b16942c6 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -307,24 +307,17 @@ __init void evmcs_sanitize_exec_ctrls(struct vmcs_config *vmcs_conf)
- }
- #endif
- 
--bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa)
-+u64 nested_get_evmptr(struct kvm_vcpu *vcpu)
- {
--	struct hv_vp_assist_page assist_page;
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
- 
--	*evmcs_gpa = -1ull;
-+	if (unlikely(!kvm_hv_get_assist_page(vcpu)))
-+		return EVMPTR_INVALID;
- 
--	if (unlikely(!kvm_hv_get_assist_page(vcpu, &assist_page)))
--		return false;
-+	if (unlikely(!hv_vcpu->vp_assist_page.enlighten_vmentry))
-+		return EVMPTR_INVALID;
- 
--	if (unlikely(!assist_page.enlighten_vmentry))
--		return false;
--
--	if (unlikely(!evmptr_is_valid(assist_page.current_nested_vmcs)))
--		return false;
--
--	*evmcs_gpa = assist_page.current_nested_vmcs;
--
--	return true;
-+	return hv_vcpu->vp_assist_page.current_nested_vmcs;
- }
- 
- uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu)
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index 584741b85eb6..22d238b36238 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -239,7 +239,7 @@ enum nested_evmptrld_status {
- 	EVMPTRLD_ERROR,
- };
- 
--bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa);
-+u64 nested_get_evmptr(struct kvm_vcpu *vcpu);
- uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu);
- int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 4a827b3d929a..87bff81f7f3e 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1995,7 +1995,8 @@ static enum nested_evmptrld_status nested_vmx_handle_enlightened_vmptrld(
- 	if (likely(!vmx->nested.enlightened_vmcs_enabled))
- 		return EVMPTRLD_DISABLED;
- 
--	if (!nested_enlightened_vmentry(vcpu, &evmcs_gpa)) {
-+	evmcs_gpa = nested_get_evmptr(vcpu);
-+	if (!evmptr_is_valid(evmcs_gpa)) {
- 		nested_release_evmcs(vcpu);
- 		return EVMPTRLD_DISABLED;
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		SET_XMM(val, xmm0);
++		asm("movdqa %%xmm0, %0" : "=m"(*data));
+ 		break;
+ 	case 1:
+-		SET_XMM(val, xmm1);
++		asm("movdqa %%xmm1, %0" : "=m"(*data));
+ 		break;
+ 	case 2:
+-		SET_XMM(val, xmm2);
++		asm("movdqa %%xmm2, %0" : "=m"(*data));
+ 		break;
+ 	case 3:
+-		SET_XMM(val, xmm3);
++		asm("movdqa %%xmm3, %0" : "=m"(*data));
+ 		break;
+ 	case 4:
+-		SET_XMM(val, xmm4);
++		asm("movdqa %%xmm4, %0" : "=m"(*data));
+ 		break;
+ 	case 5:
+-		SET_XMM(val, xmm5);
++		asm("movdqa %%xmm5, %0" : "=m"(*data));
+ 		break;
+ 	case 6:
+-		SET_XMM(val, xmm6);
++		asm("movdqa %%xmm6, %0" : "=m"(*data));
+ 		break;
+ 	case 7:
+-		SET_XMM(val, xmm7);
++		asm("movdqa %%xmm7, %0" : "=m"(*data));
+ 		break;
++	default:
++		BUG();
  	}
-@@ -5084,7 +5085,6 @@ static int handle_vmclear(struct kvm_vcpu *vcpu)
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	u32 zero = 0;
- 	gpa_t vmptr;
--	u64 evmcs_gpa;
- 	int r;
+ }
  
- 	if (!nested_vmx_check_permission(vcpu))
-@@ -5110,7 +5110,7 @@ static int handle_vmclear(struct kvm_vcpu *vcpu)
- 	 * vmx->nested.hv_evmcs but this shouldn't be a problem.
- 	 */
- 	if (likely(!vmx->nested.enlightened_vmcs_enabled ||
--		   !nested_enlightened_vmentry(vcpu, &evmcs_gpa))) {
-+		   !evmptr_is_valid(nested_get_evmptr(vcpu)))) {
- 		if (vmptr == vmx->nested.current_vmptr)
- 			nested_release_vmcs12(vcpu);
+-#define GET_XMM(__xmm)							\
+-({									\
+-	unsigned long __val;						\
+-	asm volatile("movq %%"#__xmm", %0" : "=r"(__val));		\
+-	__val;								\
+-})
+-
+-static inline unsigned long get_xmm(int n)
++static inline void write_sse_reg(int reg, const sse128_t *data)
+ {
+-	assert(n >= 0 && n <= 7);
+-
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		return GET_XMM(xmm0);
++		asm("movdqa %0, %%xmm0" : : "m"(*data));
++		break;
+ 	case 1:
+-		return GET_XMM(xmm1);
++		asm("movdqa %0, %%xmm1" : : "m"(*data));
++		break;
+ 	case 2:
+-		return GET_XMM(xmm2);
++		asm("movdqa %0, %%xmm2" : : "m"(*data));
++		break;
+ 	case 3:
+-		return GET_XMM(xmm3);
++		asm("movdqa %0, %%xmm3" : : "m"(*data));
++		break;
+ 	case 4:
+-		return GET_XMM(xmm4);
++		asm("movdqa %0, %%xmm4" : : "m"(*data));
++		break;
+ 	case 5:
+-		return GET_XMM(xmm5);
++		asm("movdqa %0, %%xmm5" : : "m"(*data));
++		break;
+ 	case 6:
+-		return GET_XMM(xmm6);
++		asm("movdqa %0, %%xmm6" : : "m"(*data));
++		break;
+ 	case 7:
+-		return GET_XMM(xmm7);
++		asm("movdqa %0, %%xmm7" : : "m"(*data));
++		break;
++	default:
++		BUG();
+ 	}
+-
+-	/* never reached */
+-	return 0;
+ }
  
+ static inline void cpu_relax(void)
 -- 
 2.35.3
 
