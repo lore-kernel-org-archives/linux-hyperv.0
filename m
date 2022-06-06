@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22844C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D284C43334
 	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Jun 2022 08:38:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231969AbiFFIiQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Jun 2022 04:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
+        id S232079AbiFFIiT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 6 Jun 2022 04:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232080AbiFFIiI (ORCPT
+        with ESMTP id S232083AbiFFIiI (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 6 Jun 2022 04:38:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC72621E21
-        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:38:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4F0D2286CF
+        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:38:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654504681;
+        s=mimecast20190719; t=1654504682;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=OSTXNjOBxe3EGzoQYGzDwC0HRveb7+ErGqPe9SCbIVY=;
-        b=Ey5eyTBJ88b2h7mIIHRP+4nes4/5HsLR+tPOoDvdUpCPc47chzjJyvO/uGCxVPOUggI3HH
-        UdrASd6V5V0hx6fI2TFpY7k5QvmGAxxSXM4+oS5FmPM+pUnZbJJcSGS0s5MIaJyx6Bet2B
-        yMfPuGekd4v/aWPwVVuMIyLjOEk+YGk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=U1sMy8xaJxhqapgk5p9GIXqaotAkSrql7bAakOStiUU=;
+        b=QzL5A9m5o+NTNyu4MelDn6HgUN3JKqdnpXbGg3b/RUgRb61rixZy4WPox5Se/4T94hBOhA
+        ZympZ/rgRf4cS0WSbcud3Kc9M22hTFagHGsNxAQzF4KFD+qz3dC04OpkvF3amJaHGTRB2E
+        VvoXHbUjB8LCcamDdPIxoYZH5a5iuH0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-yc953hhSMgmo3t0UK6X0bQ-1; Mon, 06 Jun 2022 04:37:51 -0400
-X-MC-Unique: yc953hhSMgmo3t0UK6X0bQ-1
+ us-mta-215-oHQyy_xaM1a3F5E4XNy49Q-1; Mon, 06 Jun 2022 04:37:57 -0400
+X-MC-Unique: oHQyy_xaM1a3F5E4XNy49Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5AF5E101A54E;
-        Mon,  6 Jun 2022 08:37:50 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5733C1C16B42;
+        Mon,  6 Jun 2022 08:37:57 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.53])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 73FEE1121314;
-        Mon,  6 Jun 2022 08:37:48 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 069FD1121314;
+        Mon,  6 Jun 2022 08:37:54 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 22/38] KVM: nSVM: hyper-v: Enable L2 TLB flush
-Date:   Mon,  6 Jun 2022 10:36:39 +0200
-Message-Id: <20220606083655.2014609-23-vkuznets@redhat.com>
+Subject: [PATCH v6 25/38] KVM: selftests: Move HYPERV_LINUX_OS_ID definition to a common header
+Date:   Mon,  6 Jun 2022 10:36:42 +0200
+Message-Id: <20220606083655.2014609-26-vkuznets@redhat.com>
 In-Reply-To: <20220606083655.2014609-1-vkuznets@redhat.com>
 References: <20220606083655.2014609-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,171 +61,57 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Implement Hyper-V L2 TLB flush for nSVM. The feature needs to be enabled
-both in extended 'nested controls' in VMCB and VP assist page.
-According to Hyper-V TLFS, synthetic vmexit to L1 is performed with
-- HV_SVM_EXITCODE_ENL exit_code.
-- HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH exit_info_1.
-
-Note: VP assist page is cached in 'struct kvm_vcpu_hv' so
-recalc_intercepts() doesn't need to read from guest's memory. KVM
-needs to update the case upon each VMRUN and after svm_set_nested_state
-(svm_get_nested_state_pages()) to handle the case when the guest got
-migrated while L2 was running.
+HYPERV_LINUX_OS_ID needs to be written to HV_X64_MSR_GUEST_OS_ID by
+each Hyper-V specific selftest.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/svm/hyperv.c |  7 +++++++
- arch/x86/kvm/svm/hyperv.h | 30 ++++++++++++++++++++++++++++++
- arch/x86/kvm/svm/nested.c | 36 ++++++++++++++++++++++++++++++++++--
- 3 files changed, 71 insertions(+), 2 deletions(-)
+ tools/testing/selftests/kvm/include/x86_64/hyperv.h  | 3 +++
+ tools/testing/selftests/kvm/x86_64/hyperv_features.c | 5 ++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kvm/svm/hyperv.c b/arch/x86/kvm/svm/hyperv.c
-index 911f51021af1..088f6429b24c 100644
---- a/arch/x86/kvm/svm/hyperv.c
-+++ b/arch/x86/kvm/svm/hyperv.c
-@@ -8,4 +8,11 @@
+diff --git a/tools/testing/selftests/kvm/include/x86_64/hyperv.h b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+index b66910702c0a..f0a8a93694b2 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/hyperv.h
++++ b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+@@ -185,4 +185,7 @@
+ /* hypercall options */
+ #define HV_HYPERCALL_FAST_BIT		BIT(16)
  
- void svm_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu)
- {
-+	struct vcpu_svm *svm = to_svm(vcpu);
++/* Proper HV_X64_MSR_GUEST_OS_ID value */
++#define HYPERV_LINUX_OS_ID ((u64)0x8100 << 48)
 +
-+	svm->vmcb->control.exit_code = HV_SVM_EXITCODE_ENL;
-+	svm->vmcb->control.exit_code_hi = 0;
-+	svm->vmcb->control.exit_info_1 = HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH;
-+	svm->vmcb->control.exit_info_2 = 0;
-+	nested_svm_vmexit(svm);
- }
-diff --git a/arch/x86/kvm/svm/hyperv.h b/arch/x86/kvm/svm/hyperv.h
-index dd2e393f84a0..7b01722838bf 100644
---- a/arch/x86/kvm/svm/hyperv.h
-+++ b/arch/x86/kvm/svm/hyperv.h
-@@ -33,6 +33,9 @@ struct hv_enlightenments {
-  */
- #define VMCB_HV_NESTED_ENLIGHTENMENTS VMCB_SW
+ #endif /* !SELFTEST_KVM_HYPERV_H */
+diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_features.c b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
+index 672915ce73d8..98c020356925 100644
+--- a/tools/testing/selftests/kvm/x86_64/hyperv_features.c
++++ b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
+@@ -14,7 +14,6 @@
+ #include "hyperv.h"
  
-+#define HV_SVM_EXITCODE_ENL 0xF0000000
-+#define HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH   (1)
-+
- static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
- {
- 	struct vcpu_svm *svm = to_svm(vcpu);
-@@ -48,6 +51,33 @@ static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
- 	hv_vcpu->nested.vp_id = hve->hv_vp_id;
- }
+ #define VCPU_ID 0
+-#define LINUX_OS_ID ((u64)0x8100 << 48)
  
-+static inline bool nested_svm_hv_update_vp_assist(struct kvm_vcpu *vcpu)
-+{
-+	if (!to_hv_vcpu(vcpu))
-+		return true;
-+
-+	if (!kvm_hv_assist_page_enabled(vcpu))
-+		return true;
-+
-+	return kvm_hv_get_assist_page(vcpu);
-+}
-+
-+static inline bool nested_svm_l2_tlb_flush_enabled(struct kvm_vcpu *vcpu)
-+{
-+	struct vcpu_svm *svm = to_svm(vcpu);
-+	struct hv_enlightenments *hve =
-+		(struct hv_enlightenments *)svm->nested.ctl.reserved_sw;
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+
-+	if (!hv_vcpu)
-+		return false;
-+
-+	if (!hve->hv_enlightenments_control.nested_flush_hypercall)
-+		return false;
-+
-+	return hv_vcpu->vp_assist_page.nested_control.features.directhypercall;
-+}
-+
- void svm_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu);
+ extern unsigned char rdmsr_start;
+ extern unsigned char rdmsr_end;
+@@ -127,7 +126,7 @@ static void guest_hcall(vm_vaddr_t pgs_gpa, struct hcall_data *hcall)
+ 	int i = 0;
+ 	u64 res, input, output;
  
- #endif /* __ARCH_X86_KVM_SVM_HYPERV_H__ */
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index 28b63663e1d9..369b92aaf1ad 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -171,8 +171,12 @@ void recalc_intercepts(struct vcpu_svm *svm)
- 		vmcb_clr_intercept(c, INTERCEPT_VINTR);
- 	}
+-	wrmsr(HV_X64_MSR_GUEST_OS_ID, LINUX_OS_ID);
++	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
+ 	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
  
--	/* We don't want to see VMMCALLs from a nested guest */
--	vmcb_clr_intercept(c, INTERCEPT_VMMCALL);
-+	/*
-+	 * We want to see VMMCALLs from a nested guest only when Hyper-V L2 TLB
-+	 * flush feature is enabled.
-+	 */
-+	if (!nested_svm_l2_tlb_flush_enabled(&svm->vcpu))
-+		vmcb_clr_intercept(c, INTERCEPT_VMMCALL);
- 
- 	for (i = 0; i < MAX_INTERCEPT; i++)
- 		c->intercepts[i] |= g->intercepts[i];
-@@ -489,6 +493,17 @@ static void nested_save_pending_event_to_vmcb12(struct vcpu_svm *svm,
- 
- static void nested_svm_transition_tlb_flush(struct kvm_vcpu *vcpu)
- {
-+	/*
-+	 * KVM_REQ_HV_TLB_FLUSH flushes entries from either L1's VP_ID or
-+	 * L2's VP_ID upon request from the guest. Make sure we check for
-+	 * pending entries for the case when the request got misplaced (e.g.
-+	 * a transition from L2->L1 happened while processing L2 TLB flush
-+	 * request or vice versa). kvm_hv_vcpu_flush_tlb() will not flush
-+	 * anything if there are no requests in the corresponding buffer.
-+	 */
-+	if (to_hv_vcpu(vcpu))
-+		kvm_make_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
-+
- 	/*
- 	 * TODO: optimize unconditional TLB flush/MMU sync.  A partial list of
- 	 * things to fix before this can be conditional:
-@@ -835,6 +850,12 @@ int nested_svm_vmrun(struct kvm_vcpu *vcpu)
- 		return 1;
- 	}
- 
-+	/* This fails when VP assist page is enabled but the supplied GPA is bogus */
-+	if (!nested_svm_hv_update_vp_assist(vcpu)) {
-+		kvm_inject_gp(vcpu, 0);
-+		return 1;
-+	}
-+
- 	vmcb12_gpa = svm->vmcb->save.rax;
- 	ret = kvm_vcpu_map(vcpu, gpa_to_gfn(vmcb12_gpa), &map);
- 	if (ret == -EINVAL) {
-@@ -1412,6 +1433,7 @@ static int svm_check_nested_events(struct kvm_vcpu *vcpu)
- int nested_svm_exit_special(struct vcpu_svm *svm)
- {
- 	u32 exit_code = svm->vmcb->control.exit_code;
-+	struct kvm_vcpu *vcpu = &svm->vcpu;
- 
- 	switch (exit_code) {
- 	case SVM_EXIT_INTR:
-@@ -1430,6 +1452,13 @@ int nested_svm_exit_special(struct vcpu_svm *svm)
- 			return NESTED_EXIT_HOST;
- 		break;
- 	}
-+	case SVM_EXIT_VMMCALL:
-+		/* Hyper-V L2 TLB flush hypercall is handled by L0 */
-+		if (guest_hv_cpuid_has_l2_tlb_flush(vcpu) &&
-+		    nested_svm_l2_tlb_flush_enabled(vcpu) &&
-+		    kvm_hv_is_tlb_flush_hcall(vcpu))
-+			return NESTED_EXIT_HOST;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -1710,6 +1739,9 @@ static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
- 		return false;
- 	}
- 
-+	if (!nested_svm_hv_update_vp_assist(vcpu))
-+		return false;
-+
- 	return true;
- }
- 
+ 	while (hcall->control) {
+@@ -230,7 +229,7 @@ static void guest_test_msrs_access(void)
+ 			 */
+ 			msr->idx = HV_X64_MSR_GUEST_OS_ID;
+ 			msr->write = 1;
+-			msr->write_val = LINUX_OS_ID;
++			msr->write_val = HYPERV_LINUX_OS_ID;
+ 			msr->available = 1;
+ 			break;
+ 		case 3:
 -- 
 2.35.3
 
