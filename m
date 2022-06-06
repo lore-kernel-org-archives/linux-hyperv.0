@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5D7ECCA484
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Jun 2022 08:38:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8517CCA473
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Jun 2022 08:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbiFFIiW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Jun 2022 04:38:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38166 "EHLO
+        id S232161AbiFFIiX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 6 Jun 2022 04:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232119AbiFFIiN (ORCPT
+        with ESMTP id S232130AbiFFIiS (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Jun 2022 04:38:13 -0400
+        Mon, 6 Jun 2022 04:38:18 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4FC9231529
-        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:38:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A9DAB21812
+        for <linux-hyperv@vger.kernel.org>; Mon,  6 Jun 2022 01:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1654504688;
+        s=mimecast20190719; t=1654504695;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ry63xFrwO6O2lt3NumR064ix6uPD5MMi+epdiiFne5w=;
-        b=Z5lxVYh8qxZc6iO1rX0iEAZODC8oMcbEzgjq4jgod6Sdj5fpmm8ilydekhgQM1hXO9ihTU
-        xF1m1IUJSW9tP88QvveTfscYGcsfE96xN7s0eQRxNaBypeVkB3LicJHQ15O2PlPsc/AJM5
-        LQkQprY/ugbDx6pLZyqbwNKy0VGcrIQ=
+        bh=RZJZWfsaByLj0ij8xQqPbsK2IaQ+e2uUS77uqtBhMFM=;
+        b=fwQhnWvbVBwdPZwkYU/UBUSgb8eGQfmXjMhkVIH4InugRWs2uqZrg4BynJA1CZ83RZ78Bn
+        JKN+pkvxPwP077rNVrmzwsnYloMv+eulQAHMkrRexei3amN4hvM+uk1WepXXgE2xxf6FzV
+        cqAytFlvvvwhceuwRo1mhS+GLHBGGhA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-7vHWazwaOv2hLGR58zf-yQ-1; Mon, 06 Jun 2022 04:38:05 -0400
-X-MC-Unique: 7vHWazwaOv2hLGR58zf-yQ-1
+ us-mta-433-5GYF89LiM7aLbvJ8mBhZoA-1; Mon, 06 Jun 2022 04:38:09 -0400
+X-MC-Unique: 5GYF89LiM7aLbvJ8mBhZoA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5FA8F80A0AD;
-        Mon,  6 Jun 2022 08:38:04 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4F328027EE;
+        Mon,  6 Jun 2022 08:38:08 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.53])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 722701121314;
-        Mon,  6 Jun 2022 08:38:02 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D78241121314;
+        Mon,  6 Jun 2022 08:38:06 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 28/38] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
-Date:   Mon,  6 Jun 2022 10:36:45 +0200
-Message-Id: <20220606083655.2014609-29-vkuznets@redhat.com>
+Subject: [PATCH v6 30/38] KVM: selftests: Export _vm_get_page_table_entry()
+Date:   Mon,  6 Jun 2022 10:36:47 +0200
+Message-Id: <20220606083655.2014609-31-vkuznets@redhat.com>
 In-Reply-To: <20220606083655.2014609-1-vkuznets@redhat.com>
 References: <20220606083655.2014609-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,28 +61,41 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
-in vm->vpages_mapped.
+Make it possible for tests to mangle guest's page table entries in
+addition to just getting them (available with vm_get_page_table_entry()).
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/lib/kvm_util.c | 3 +++
- 1 file changed, 3 insertions(+)
+ tools/testing/selftests/kvm/include/x86_64/processor.h | 1 +
+ tools/testing/selftests/kvm/lib/x86_64/processor.c     | 3 +--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index 1665a220abcb..936be9c9f870 100644
---- a/tools/testing/selftests/kvm/lib/kvm_util.c
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -1445,6 +1445,9 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
- 		virt_pg_map(vm, vaddr, paddr);
- 		vaddr += page_size;
- 		paddr += page_size;
-+
-+		sparsebit_set(vm->vpages_mapped,
-+			vaddr >> vm->page_shift);
- 	}
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index 9ac244fdce73..76cfd7f70add 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -475,6 +475,7 @@ void vcpu_init_descriptor_tables(struct kvm_vm *vm, uint32_t vcpuid);
+ void vm_install_exception_handler(struct kvm_vm *vm, int vector,
+ 			void (*handler)(struct ex_regs *));
+ 
++uint64_t *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr);
+ uint64_t vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr);
+ void vm_set_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr,
+ 			     uint64_t pte);
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+index 33ea5e9955d9..dfe54a970410 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+@@ -246,8 +246,7 @@ void virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr)
+ 	__virt_pg_map(vm, vaddr, paddr, X86_PAGE_SIZE_4K);
  }
  
+-static uint64_t *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid,
+-						       uint64_t vaddr)
++uint64_t *_vm_get_page_table_entry(struct kvm_vm *vm, int vcpuid, uint64_t vaddr)
+ {
+ 	uint16_t index[4];
+ 	uint64_t *pml4e, *pdpe, *pde;
 -- 
 2.35.3
 
