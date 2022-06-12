@@ -2,29 +2,29 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73072CCA473
-	for <linux-hyperv@archiver.kernel.org>; Sun, 12 Jun 2022 21:15:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 995F7CCA482
+	for <linux-hyperv@archiver.kernel.org>; Sun, 12 Jun 2022 21:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236238AbiFLVPN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 12 Jun 2022 17:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34302 "EHLO
+        id S236313AbiFLVPQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 12 Jun 2022 17:15:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235735AbiFLVPK (ORCPT
+        with ESMTP id S236091AbiFLVPN (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 12 Jun 2022 17:15:10 -0400
+        Sun, 12 Jun 2022 17:15:13 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 255A713CCA;
-        Sun, 12 Jun 2022 14:15:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E3B7590A6;
+        Sun, 12 Jun 2022 14:15:12 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id D9C0120C14C9; Sun, 12 Jun 2022 14:15:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D9C0120C14C9
+        id E87E420C14D1; Sun, 12 Jun 2022 14:15:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E87E420C14D1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1655068509;
-        bh=HmE3yStdCPEAS6wUO5BsxoUHsQSxeQL72W//rVfgedU=;
+        s=default; t=1655068511;
+        bh=GFhQPUGWrbgZzC2192zgVbA+JDQi/fpd3+vs9e/absk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=rl0OMU26pOTg3EoadpQQ3gX0j9IjF2yKSFQqHLaErWZj0xq/OUJn968EiJJxorLhG
-         GNJY4bT7TBjlAq7k5RyCZL59ToW41P9Ug3jqY9SldGqav9aEQaMH15Alch28rEY8Jq
-         OgYM/INa1FCmcWrx9iNBuOjtFcUxDIREHnJJ2CRk=
+        b=o72+hOYTCd1lbQIH7QyoGF6Qjs4uuaHKmE1EVmOR1g1BhphtKg8jN03LBE3BcyIbJ
+         cuqlqK31quek9XzwfwpcXJJVQfDrYMv+uuau3CS49i5XQibIexz/as6fw2FYkJFpvn
+         gJlMBIYwiqF1VQcFtnRNIEvoqaWebcz9RlIqQ/qY=
 From:   longli@linuxonhyperv.com
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -39,9 +39,9 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
         Long Li <longli@microsoft.com>
-Subject: [Patch v3 03/12] net: mana: Handle vport sharing between devices
-Date:   Sun, 12 Jun 2022 14:14:45 -0700
-Message-Id: <1655068494-16440-4-git-send-email-longli@linuxonhyperv.com>
+Subject: [Patch v3 05/12] net: mana: Set the DMA device max segment size
+Date:   Sun, 12 Jun 2022 14:14:47 -0700
+Message-Id: <1655068494-16440-6-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1655068494-16440-1-git-send-email-longli@linuxonhyperv.com>
 References: <1655068494-16440-1-git-send-email-longli@linuxonhyperv.com>
@@ -50,118 +50,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+From: Ajay Sharma <sharmaajay@microsoft.com>
 
-For outgoing packets, the PF requires the VF to configure the vport with
-corresponding protection domain and doorbell ID for the kernel or user
-context. The vport can't be shared between different contexts.
+MANA hardware doesn't have any restrictions on the DMA segment size, set it
+to the max allowed value.
 
-Implement the logic to exclusively take over the vport by either the
-Ethernet device or RDMA device.
-
+Signed-off-by: Ajay Sharma <sharmaajay@microsoft.com>
 Signed-off-by: Long Li <longli@microsoft.com>
 ---
 Change log:
-v2: use refcount instead of directly using atomic variables
+v2: Use the max allowed value as the hardware doesn't have any limit
 
- drivers/net/ethernet/microsoft/mana/mana.h    |  4 +++
- drivers/net/ethernet/microsoft/mana/mana_en.c | 27 +++++++++++++++++--
- 2 files changed, 29 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana.h b/drivers/net/ethernet/microsoft/mana/mana.h
-index 51bff91b63ee..6aacbf42aeaf 100644
---- a/drivers/net/ethernet/microsoft/mana/mana.h
-+++ b/drivers/net/ethernet/microsoft/mana/mana.h
-@@ -375,6 +375,7 @@ struct mana_port_context {
- 	unsigned int num_queues;
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index 7b42b78b7ddf..0c38c9a539f9 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -1387,6 +1387,12 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (err)
+ 		goto release_region;
  
- 	mana_handle_t port_handle;
-+	refcount_t port_use_count;
- 
- 	u16 port_idx;
- 
-@@ -567,4 +568,7 @@ struct mana_adev {
- 	struct gdma_dev *mdev;
- };
- 
-+int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
-+		   u32 doorbell_pg_id);
-+void mana_uncfg_vport(struct mana_port_context *apc);
- #endif /* _MANA_H */
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 745a9783dd70..839f7099ac2d 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -530,13 +530,26 @@ static int mana_query_vport_cfg(struct mana_port_context *apc, u32 vport_index,
- 	return 0;
- }
- 
--static int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
--			  u32 doorbell_pg_id)
-+void mana_uncfg_vport(struct mana_port_context *apc)
-+{
-+	refcount_dec(&apc->port_use_count);
-+}
-+EXPORT_SYMBOL_GPL(mana_uncfg_vport);
-+
-+int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
-+		   u32 doorbell_pg_id)
- {
- 	struct mana_config_vport_resp resp = {};
- 	struct mana_config_vport_req req = {};
- 	int err;
- 
-+	/* Ethernet driver and IB driver can't take the port at the same time */
-+	refcount_inc(&apc->port_use_count);
-+	if (refcount_read(&apc->port_use_count) > 2) {
-+		refcount_dec(&apc->port_use_count);
-+		return -ENODEV;
++	err = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
++	if (err) {
++		dev_err(&pdev->dev, "Failed to set dma device segment size\n");
++		goto release_region;
 +	}
 +
- 	mana_gd_init_req_hdr(&req.hdr, MANA_CONFIG_VPORT_TX,
- 			     sizeof(req), sizeof(resp));
- 	req.vport = apc->port_handle;
-@@ -563,9 +576,13 @@ static int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
- 
- 	apc->tx_shortform_allowed = resp.short_form_allowed;
- 	apc->tx_vp_offset = resp.tx_vport_offset;
-+
-+	netdev_info(apc->ndev, "Configured vPort %llu PD %u DB %u\n",
-+		    apc->port_handle, protection_dom_id, doorbell_pg_id);
- out:
- 	return err;
- }
-+EXPORT_SYMBOL_GPL(mana_cfg_vport);
- 
- static int mana_cfg_vport_steering(struct mana_port_context *apc,
- 				   enum TRI_STATE rx,
-@@ -626,6 +643,9 @@ static int mana_cfg_vport_steering(struct mana_port_context *apc,
- 			   resp.hdr.status);
- 		err = -EPROTO;
- 	}
-+
-+	netdev_info(ndev, "Configured steering vPort %llu entries %u\n",
-+		    apc->port_handle, num_entries);
- out:
- 	kfree(req);
- 	return err;
-@@ -1678,6 +1698,8 @@ static void mana_destroy_vport(struct mana_port_context *apc)
- 	}
- 
- 	mana_destroy_txq(apc);
-+
-+	mana_uncfg_vport(apc);
- }
- 
- static int mana_create_vport(struct mana_port_context *apc,
-@@ -1928,6 +1950,7 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
- 	apc->num_queues = gc->max_num_queues;
- 	apc->port_handle = INVALID_MANA_HANDLE;
- 	apc->port_idx = port_idx;
-+	refcount_set(&apc->port_use_count, 1);
- 
- 	ndev->netdev_ops = &mana_devops;
- 	ndev->ethtool_ops = &mana_ethtool_ops;
+ 	err = -ENOMEM;
+ 	gc = vzalloc(sizeof(*gc));
+ 	if (!gc)
 -- 
 2.17.1
 
