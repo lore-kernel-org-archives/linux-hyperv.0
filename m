@@ -2,189 +2,215 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEE7C433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 04:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBDFC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 07:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbiFMEGC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 00:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45022 "EHLO
+        id S229639AbiFMH7G (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 03:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233424AbiFMEF6 (ORCPT
+        with ESMTP id S229523AbiFMH7F (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 13 Jun 2022 00:05:58 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B089C33E2A;
-        Sun, 12 Jun 2022 21:05:57 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-        id 5C13120C14B6; Sun, 12 Jun 2022 21:05:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5C13120C14B6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1655093157;
-        bh=OL4J6G5DoKiCFjbJIJdnY6JEGUYMVeDJ3rWYo0ANvVU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C5lseU7fiK463tZHyUT6vmNnpI8H3p6IxjwPgid5F9VtRUUh9RhNb4V/Oms27MNbi
-         aJIacWYehPfQPd++sYNYBnb1J9pENx9o9ueKbSbU4RWOD8Zt/o4p83bGjppXeehmov
-         NNhHy6uHu/P8sNoAK5+Hi7uKVxGd9WrRR/b+6rCg=
-Date:   Sun, 12 Jun 2022 21:05:57 -0700
-From:   Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Saurabh Singh Sengar <ssengar@microsoft.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-        "martin.petersen@oracle.com" <martin.petersen@oracle.com>
-Subject: Re: [PATCH] scsi: storvsc: Correct sysfs parameters as per Hyper-V
- storvsc requirement
-Message-ID: <20220613040557.GA5467@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1654878824-25691-1-git-send-email-ssengar@linux.microsoft.com>
- <20220610163714.GA25982@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <PH0PR21MB3025818CA2E6D9641B878A7AD7AB9@PH0PR21MB3025.namprd21.prod.outlook.com>
+        Mon, 13 Jun 2022 03:59:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 759F92AC0
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 00:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1655107143;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mdrTunTbI0wI5V8jm3nRdejq4SYdiXn891lY7DXeMUU=;
+        b=MFrvimvz8gD6lxlALN8nBfjm9Ef4MW+hIjDiP2WiElcKqH3wmCTgFwgJu8b4c4fA2mMLzZ
+        olT0M+AQt4k2SERwADCNNb7aFceFrllkmnT+OmIoT972WDfsAT/VuLy+fgzXw+kcAMCo52
+        fWhEvWF5w5Pk0xfueCIQ0CsBPdMj9sU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-202-w7ZdsfzlNoSAanj8iqUDpQ-1; Mon, 13 Jun 2022 03:59:01 -0400
+X-MC-Unique: w7ZdsfzlNoSAanj8iqUDpQ-1
+Received: by mail-qv1-f71.google.com with SMTP id dg8-20020a056214084800b004645cecc145so3394544qvb.6
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 00:59:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version:content-transfer-encoding;
+        bh=mdrTunTbI0wI5V8jm3nRdejq4SYdiXn891lY7DXeMUU=;
+        b=DFo4+6lZYiBy5sDUUiKTKdexaxACZZGkMSZstcqwaIOaRg76Cws9/QUl1ixqESuTqg
+         0E6UJrayZppoBYEjh0Zr88PTyxlo4gIxJBs54z85rvgJEBWUXWv4M5y3578HhZy33Yl6
+         ODkM57hOtCeVKMxV1mSnHO5hHU7V/sMPAIbjGzzvppx5XbW0MoRhTY7f8z6G/rfo7Pgm
+         Me/ekLv5khzs2bOhfMn16OMaT7qh0fGUPaTFHpCKsJ30uI/l/8xgu427KXSW1Ed2gUDk
+         jij9ImvNM7+7ahGjn9G6O5+D9X8VgYDt1ASJPpR5xxQLcDj8x/Q+zKaQfNS75fdRPooL
+         a1/Q==
+X-Gm-Message-State: AOAM533Q7rXKN6n6z+dd6mreJP+rPqCWB57j07fswlPC0JxOQGDEDnpt
+        qQp9nS254b3fYRxCsFqqm0EaV9Ck27iP8iWj7IXbE/rg5o4rfk0u5pYP8+YcwQVyYbbnxLwWlet
+        LKOn1zbpgTMLVrPh3e7A6wMBz
+X-Received: by 2002:a05:620a:24d4:b0:6a7:1d74:d8e6 with SMTP id m20-20020a05620a24d400b006a71d74d8e6mr15782711qkn.379.1655107141106;
+        Mon, 13 Jun 2022 00:59:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmaQgTaVWUVlrIB5d3pp6NGbg0c4+Kz+GQ5c4VCtM1khwksrbwxdsiDi6j2EKNn4va2UdV5w==
+X-Received: by 2002:a05:620a:24d4:b0:6a7:1d74:d8e6 with SMTP id m20-20020a05620a24d400b006a71d74d8e6mr15782698qkn.379.1655107140761;
+        Mon, 13 Jun 2022 00:59:00 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id u21-20020a05620a455500b006a6edbbca84sm5148007qkp.94.2022.06.13.00.58.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 00:59:00 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Florian =?utf-8?Q?M?= =?utf-8?Q?=C3=BCller?= 
+        <max06.net@outlook.com>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        David Hildenbrand <dhildenb@redhat.com>
+Subject: RE: hv_balloon: Only works in ubuntu
+In-Reply-To: <BY3PR21MB3033FBB3CF2011B1D0DA2978D7AB9@BY3PR21MB3033.namprd21.prod.outlook.com>
+References: <DB3PR0602MB3674BB09316BB82B4116F27DFFA99@DB3PR0602MB3674.eurprd06.prod.outlook.com>
+ <PH0PR21MB302513B8500C25CEADA56718D7A99@PH0PR21MB3025.namprd21.prod.outlook.com>
+ <DB3PR0602MB3674E1BD958D00FC4B9124ADFFA99@DB3PR0602MB3674.eurprd06.prod.outlook.com>
+ <PH0PR21MB30252F8660A16DE36206B0EBD7A99@PH0PR21MB3025.namprd21.prod.outlook.com>
+ <DB3PR0602MB36740EE00B8BA3B897BCB7C0FFA99@DB3PR0602MB3674.eurprd06.prod.outlook.com>
+ <BY3PR21MB3033FBB3CF2011B1D0DA2978D7AB9@BY3PR21MB3033.namprd21.prod.outlook.com>
+Date:   Mon, 13 Jun 2022 09:58:57 +0200
+Message-ID: <87r13tj8ou.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR21MB3025818CA2E6D9641B878A7AD7AB9@PH0PR21MB3025.namprd21.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Thanks Michael for review, please find my comments inline
+"Michael Kelley (LINUX)" <mikelley@microsoft.com> writes:
 
-On Mon, Jun 13, 2022 at 02:49:09AM +0000, Michael Kelley (LINUX) wrote:
-> From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Friday, June 10, 2022 9:37 AM
-> > 
-> > CC : linux-scsi@vger.kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com
-> > 
-> > On Fri, Jun 10, 2022 at 09:33:44AM -0700, Saurabh Sengar wrote:
-> > > This patch corrects 3 parameters:
-> > > 1. Correct the sysfs entry for maximum hardware transfer limit of single
-> > >    transfer (max_hw_sectors_kb) by setting max_sectors, this was set to
-> > >    default value 512kb before.
-> > > 2. Correct SGL memory offset alignment as per Hyper-V page size.
-> > > 3. Correct sg_tablesize which accounts for max SGL segments entries in a
-> > >    single SGL.
-> 
-> I think a richer explanation in the commit message is warranted.
-> Something like:
-> 
->   Current code is based on the idea that the max number of SGL entries also
->   determines the max size of an I/O request.  While this idea was true in older
->   versions of the storvsc driver when SGL entry length was limited to 4 Kbytes,
->   commit 3d9c3dcc58e9 ("scsi: storvsc: Enable scatter list entry lengths > 4Kbytes")
->   removed that limitation.  It's now theoretically possible for the block
->   layer to send requests that exceed the maximum size supported by Hyper-V.
->   This problem doesn't currently happen in practice because the block layer
->   defaults to a 512 Kbyte maximum, while Hyper-V in Azure supports 2 Mbyte
->   I/O sizes.  But some future configuration of Hyper-V could have a smaller
->   max I/O size, and the block layer could exceed that max.
-> 
->   Fix this by correctly setting max_sectors as well as sg_tablesize to reflect
->   the maximum I/O size that Hyper-V reports.  While allowing larger I/O sizes
->   larger than the block layer default of 512 Kbytes doesn't provide any
->   noticeable performance benefit in the tests we ran, it's still appropriate
->   to report the correct underlying Hyper-V capabilities to the Linux block layer.
-> 
->   Also tweak the virt_boundary_mask to reflect that the needed alignment
->   derives from Hyper-V communication using a 4 Kbyte page size, and not
->   on the guest page size, which might be bigger (on ARM64, for example).
-> 
-> I don't think the title of the commit should focus on sysfs.  This
-> commit is about correctly reporting Hyper-V I/O size limits; the sysfs
-> entries just provide visibility into the values.
-> 
-> And given that the problem was introduced by the above mentioned
-> commit, it would be appropriate to add a "Fixes:" tag.
+> From: Florian M=C3=BCller <max06.net@outlook.com> Sent: Saturday, June 11=
+, 2022 12:45 PM
+>>=20
+>> > > > >
+>> > > > > Issues showed up when I set up a Kali Linux Guest. I missed the
+>> > > > > memory configuration before booting up the instance, so it start=
+ed
+>> > > > > with 1GB of memory, and ballooning active between 512MB and
+>> > > > > several TB of memory. Hyper-V started to allocate more and more
+>> > > > > memory to this guest since the reported memory requirements also
+>> > > > > increased. The guest kernel didn't see any of that allocated mem=
+ory, as=20
+>> > > > > far as I can tell.
+>> > > >
+>> > > > Hot-adding new memory is done partially by the hv_balloon driver,
+>> > > > but it also requires user space action.  The user space action is =
+provided
+>> > > > by udev rules.
+>> > > > In your Ubuntu Server 20.04 guest, there's a file
+>> > > > /lib/udev/rules.d/40-vm- hotadd.rules.
+>> > > > This file contains udev rules for hot-adding memory and CPUs.  You
+>> > > > should be able to copy this file with the udev rules onto your Kali
+>> > > > system, and then the memory hot-add should work correctly.
+>> > > >
+>> > > > I'm not sure why Kali doesn't already have such udev rules.  You
+>> > > > might grep through all the files in /lib/udev/rules.d and if there
+>> > > > are any rules for SUBSYSTEM=3D=3Dmemory.
+>> > > > Sometimes there are rules present, but commented out.
+>> > > >
+>> > > Thanks, I'll check these ones out!
+>> > >
+>> > > In the meantime, I was able to get it working, by compiling a kernel
+>> > > with CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=3Dy
+>> > > Which was previously unset. It's enabled in ubuntu and it seems to
+>> > > make hv_balloon work properly.
+>> > > This seems to be the same case with Debian.
+>> > >
+>> >
+>> > Yes, that looks like a good solution.  I didn't remember that there is=
+ a kernel
+>> > config option to automatically do the onlining.  With this kernel opti=
+on
+>> > enabled, using a udev rule obviously isn't needed.  The kernel option =
+was
+>> > added in Linux kernel version 4.7, which might be after the last time =
+I looked
+>> > at Hyper-V memory hot-add in detail.
+>> >
+>> > Michael
+>> >
+>>=20
+>> Awesome!
+>>=20
+>> Last question: Since not having the kernel option by default and also no=
+t having the
+>> udev rule in some distributions causes the Hyper-V host to eat up all th=
+e memory up to
+>> the defined limit (and to die eventually), should this be considered as =
+a bug? And if the
+>> answer is no, how can I (or anyone) forward the requirement to the publi=
+shers to be
+>> solved at the source?
+>>=20
+>> Thank you!
+>>=20
+>
+> It's unclear whether this should be treated as a bug.  We certainly want =
+the
+> "right" thing to happen as seamlessly as possible, but there are tradeoff=
+s.  Back
+> when Vitaly Kuznetsov added CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE,
+> I can see there was some debate about whether this option should be enabl=
+ed
+> by default. There was reluctance to do so because of potential backwards
+> compatibility problems with other environments.  When hot-adding real
+> physical memory to a bare-metal server, apparently you don't want to=20
+> automatically online the added memory.
 
-[SS] : Thanks, will fix this
-> 
-> > >
-> > > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > > ---
-> > >  drivers/scsi/storvsc_drv.c | 28 ++++++++++++++++++++++++----
-> > >  1 file changed, 24 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-> > > index ca3530982e52..3e032660ae36 100644
-> > > --- a/drivers/scsi/storvsc_drv.c
-> > > +++ b/drivers/scsi/storvsc_drv.c
-> > > @@ -1844,7 +1844,7 @@ static struct scsi_host_template scsi_driver = {
-> > >  	.cmd_per_lun =		2048,
-> > >  	.this_id =		-1,
-> > >  	/* Ensure there are no gaps in presented sgls */
-> > > -	.virt_boundary_mask =	PAGE_SIZE-1,
-> > > +	.virt_boundary_mask =	HV_HYP_PAGE_SIZE - 1,
-> > >  	.no_write_same =	1,
-> > >  	.track_queue_depth =	1,
-> > >  	.change_queue_depth =	storvsc_change_queue_depth,
-> > > @@ -1969,11 +1969,31 @@ static int storvsc_probe(struct hv_device *device,
-> > >  	/* max cmd length */
-> > >  	host->max_cmd_len = STORVSC_MAX_CMD_LEN;
-> > >
-> > > +	/* max_hw_sectors_kb */
-> > > +	host->max_sectors = (stor_device->max_transfer_bytes) >> 9;
-> > >  	/*
-> > > -	 * set the table size based on the info we got
-> > > -	 * from the host.
-> > > +	 * There are 2 requirements for Hyper-V storvsc sgl segments,
-> > > +	 * based on which the below calculation for max segments is
-> > > +	 * done:
-> > > +	 *
-> > > +	 * 1. Except for the first and last sgl segment, all sgl segments
-> > > +	 *    should be align to HV_HYP_PAGE_SIZE, that also means the
-> > > +	 *    maximum number of segments in a sgl can be calculated by
-> > > +	 *    dividing the total max transfer length by HV_HYP_PAGE_SIZE.
-> > > +	 *
-> > > +	 * 2. Except for the first and last, each entry in the SGL must
-> > > +	 *    have an offset that is a multiple of HV_HYP_PAGE_SIZE,
-> > > +	 *    whereas the complete length of transfer may not be aligned
-> > > +	 *    to HV_HYP_PAGE_SIZE always. This can result in 2 cases:
-> > > +	 *    Example for unaligned case: Let's say the total transfer
-> > > +	 *    length is 6 KB, the max segments will be 3 (1,4,1).
-> > > +	 *    Example for aligned case: Let's say the total transfer length
-> > > +	 *    is 8KB, then max segments will still be 3(2,4,2) and not 4.
-> > > +	 *    4 (read next higher value) segments will only be required
-> > > +	 *    once the length is at least 2 bytes more then 8KB (read any
-> > > +	 *    HV_HYP_PAGE_SIZE aligned length).
-> > >  	 */
-> > > -	host->sg_tablesize = (stor_device->max_transfer_bytes >> PAGE_SHIFT);
-> > > +	host->sg_tablesize = ((stor_device->max_transfer_bytes - 2) >> HV_HYP_PAGE_SHIFT) + 2;
-> 
-> This calculation covers all possible I/O request sizes up to and including
-> the value of max_transfer_bytes, even if max_transfer_bytes is some
-> weird number that's not a multiple of 512.   So I think it works as
-> intended.
-> 
-> But setting host->max_sectors means that storvsc won't see an I/O request
-> with a weird size, and some of the cases handled by the calculation don't
-> actually occur.  You could use a simpler calculation that's a bit easier to
-> understand:
-> 
-> host->sg_tablesize = (stor_device->max_transfer_bytes >> HV_HYP_PAGE_SIZE) + 1;
-> 
-> The "+1" handles the unaligned case you mention above.
+On x86/ARM you most likely do (as why plugging in memory in the first
+place?) but there are not many bare metal systems which allow that.
 
-[SS] : As per my understanding this may give incorrect result for unaligned cases. Lets take an
-example of 6KB, "stor_device->max_transfer_bytes >> HV_HYP_PAGE_SIZE" will give only 1, and then
-host->sq_tablesize will get final value as 2. Where as there is a possibility of 3 segments
-1. 1KB
-2. 4KB
-3. 1KB
+Note, there were some developments after I've added
+CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE, namely
 
-Please correct me if this scenario is not possible.
+commit 5f47adf762b78cae97de58d9ff01d2d44db09467
+Author: David Hildenbrand <david@redhat.com>
+Date:   Mon Apr 6 20:07:44 2020 -0700
 
-- Saurabh
+    mm/memory_hotplug: allow to specify a default online_type
 
-> 
-> Michael
-> 
-> > >  	/*
-> > >  	 * For non-IDE disks, the host supports multiple channels.
-> > >  	 * Set the number of HW queues we are supporting.
-> > > --
-> > > 2.25.1
+>
+> The Ubuntu image you were testing is specifically an image configured for=
+ use
+> in an Azure VM, so it makes sense to have memory automatically onlined by
+> the kernel.  So I looked at a generic Ubuntu 18.04 system, and it also has
+> this kernel option set by default.  But as another data point, RHEL/CentO=
+S 8.4
+> does *not* have the kernel option set.  So each distro evidently makes th=
+eir
+> own decision about this.=20=20
+
+Note: Fedora kernels come with CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=3Dy as
+well.
+
+> But both generic Ubuntu 18.04 and RHEL/CentOS 8.4
+> have the udev rules.  The RHEL/CentOS 8.4 udev rule is more sophisticated
+> in that it does not online the added memory when running on System/390
+> and PowerPC.
+
+I remember that with s390 we certainly don't want all memory to go
+online automatically because but I don't remember the reason :-)
+
+>
+> I could envision changing the Linux kernel config rules to automatically =
+set
+> CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE whenever=20
+> CONFIG_HYPERV_BALLOON is selected.=20
+
+That could work for custom kernels but not for those shipped with
+distributions as these will always have CONFIG_HYPERV_BALLOON if
+Hyper-V is one of the supported targets (and it likely is).
+
+> Alternatively, the Kali Linux folks could consider adding the
+> appropriate udev rule.
+
+Or just enable CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE. We've enabled
+CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE in Fedora in 2016 and haven't heard
+many (any?) complaints (besides ppc64 where it was disabled) since.
+
+Cc: David who mostly picked up the auto onlining work since.
+
+--=20
+Vitaly
+
