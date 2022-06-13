@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C979C43334
-	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:55:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51ECDC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233968AbiFMRyk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 13:54:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56988 "EHLO
+        id S239479AbiFMRym (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 13:54:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242185AbiFMRyH (ORCPT
+        with ESMTP id S242880AbiFMRyI (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:54:07 -0400
+        Mon, 13 Jun 2022 13:54:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D1F2275214
-        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:39:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E4C078933
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655127594;
+        s=mimecast20190719; t=1655127660;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1qI/FHY/T1HazJ0T9yjqCenNeZJbi2H7HBUgnno5W+A=;
-        b=NdbsRm88d7bP5G0Yno247Ag1EZPJPeZPbOcAUqqXQ3bYsZ3JAftOFPHdq1YyvqvjRxPXkS
-        cqt56lNeG7B+fcEMOFWFHaVUB6zL7gChsSZPi4dGJd4opCtjyhm4JVh5w1Hrf0E1+hCcwB
-        wjLCy+sdWl037Nvyze5i0JdEyX7Zkmk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ZrLLxTItRf1Oo1WC5yZKeev7MmpLreUJVxMh/idkMow=;
+        b=OIBDJ+dfuSOgRmMKhwMW5cM3MFzrd7xwLZl8r5XUa+Xg+XlU1cZeANqXoLRrN7fbha7+Gv
+        PphxuUogSTJEVejN+qeoDPneDFG5+F/rH2Ix6RO7cnMVWMNNGZSmZLCLPiTJYG+juhMqje
+        frCApfWGhB6F4Uung9rZ3fkLSev6OqU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-nsjtHlTPNBSIErnWwshZSw-1; Mon, 13 Jun 2022 09:39:50 -0400
-X-MC-Unique: nsjtHlTPNBSIErnWwshZSw-1
+ us-mta-385-pJT4nZDtOO-ilx4EsnsRdw-1; Mon, 13 Jun 2022 09:40:57 -0400
+X-MC-Unique: pJT4nZDtOO-ilx4EsnsRdw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CB4A800DB4;
-        Mon, 13 Jun 2022 13:39:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAB391C0897C;
+        Mon, 13 Jun 2022 13:40:55 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CD96A492CA7;
-        Mon, 13 Jun 2022 13:39:45 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 7EDC7492CA2;
+        Mon, 13 Jun 2022 13:40:53 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 08/39] x86/hyperv: Introduce HV_MAX_SPARSE_VCPU_BANKS/HV_VCPUS_PER_SPARSE_BANK constants
-Date:   Mon, 13 Jun 2022 15:38:51 +0200
-Message-Id: <20220613133922.2875594-9-vkuznets@redhat.com>
+Subject: [PATCH v7 33/39] KVM: selftests: nVMX: Allocate Hyper-V partition assist page
+Date:   Mon, 13 Jun 2022 15:39:16 +0200
+Message-Id: <20220613133922.2875594-34-vkuznets@redhat.com>
 In-Reply-To: <20220613133922.2875594-1-vkuznets@redhat.com>
 References: <20220613133922.2875594-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,73 +61,49 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-It may not come clear from where the magical '64' value used in
-__cpumask_to_vpset() come from. Moreover, '64' means both the maximum
-sparse bank number as well as the number of vCPUs per bank. Add defines
-to make things clear. These defines are also going to be used by KVM.
-
-No functional change.
+In preparation to testing Hyper-V L2 TLB flush hypercalls, allocate
+so-called Partition assist page and link it to 'struct vmx_pages'.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- include/asm-generic/hyperv-tlfs.h |  5 +++++
- include/asm-generic/mshyperv.h    | 11 ++++++-----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ tools/testing/selftests/kvm/include/x86_64/vmx.h | 4 ++++
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c     | 7 +++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index fdce7a4cfc6f..020ca9bdbb79 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -399,6 +399,11 @@ struct hv_vpset {
- 	u64 bank_contents[];
- } __packed;
+diff --git a/tools/testing/selftests/kvm/include/x86_64/vmx.h b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+index cc3604f8f1d3..f7c8184c1de8 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/vmx.h
++++ b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+@@ -570,6 +570,10 @@ struct vmx_pages {
+ 	uint64_t enlightened_vmcs_gpa;
+ 	void *enlightened_vmcs;
  
-+/* The maximum number of sparse vCPU banks which can be encoded by 'struct hv_vpset' */
-+#define HV_MAX_SPARSE_VCPU_BANKS (64)
-+/* The number of vCPUs in one sparse bank */
-+#define HV_VCPUS_PER_SPARSE_BANK (64)
++	void *partition_assist_hva;
++	uint64_t partition_assist_gpa;
++	void *partition_assist;
 +
- /* HvCallSendSyntheticClusterIpi hypercall */
- struct hv_send_ipi {
- 	u32 vector;
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index c05d2ce9b6cd..89a529093042 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -214,9 +214,10 @@ static inline int __cpumask_to_vpset(struct hv_vpset *vpset,
- {
- 	int cpu, vcpu, vcpu_bank, vcpu_offset, nr_bank = 1;
- 	int this_cpu = smp_processor_id();
-+	int max_vcpu_bank = hv_max_vp_index / HV_VCPUS_PER_SPARSE_BANK;
+ 	void *eptp_hva;
+ 	uint64_t eptp_gpa;
+ 	void *eptp;
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+index 381432741df4..2655450dd4dd 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+@@ -119,6 +119,13 @@ vcpu_alloc_vmx(struct kvm_vm *vm, vm_vaddr_t *p_vmx_gva)
+ 	vmx->enlightened_vmcs_gpa =
+ 		addr_gva2gpa(vm, (uintptr_t)vmx->enlightened_vmcs);
  
--	/* valid_bank_mask can represent up to 64 banks */
--	if (hv_max_vp_index / 64 >= 64)
-+	/* vpset.valid_bank_mask can represent up to HV_MAX_SPARSE_VCPU_BANKS banks */
-+	if (max_vcpu_bank >= HV_MAX_SPARSE_VCPU_BANKS)
- 		return 0;
- 
- 	/*
-@@ -224,7 +225,7 @@ static inline int __cpumask_to_vpset(struct hv_vpset *vpset,
- 	 * structs are not cleared between calls, we risk flushing unneeded
- 	 * vCPUs otherwise.
- 	 */
--	for (vcpu_bank = 0; vcpu_bank <= hv_max_vp_index / 64; vcpu_bank++)
-+	for (vcpu_bank = 0; vcpu_bank <= max_vcpu_bank; vcpu_bank++)
- 		vpset->bank_contents[vcpu_bank] = 0;
- 
- 	/*
-@@ -236,8 +237,8 @@ static inline int __cpumask_to_vpset(struct hv_vpset *vpset,
- 		vcpu = hv_cpu_number_to_vp_number(cpu);
- 		if (vcpu == VP_INVAL)
- 			return -1;
--		vcpu_bank = vcpu / 64;
--		vcpu_offset = vcpu % 64;
-+		vcpu_bank = vcpu / HV_VCPUS_PER_SPARSE_BANK;
-+		vcpu_offset = vcpu % HV_VCPUS_PER_SPARSE_BANK;
- 		__set_bit(vcpu_offset, (unsigned long *)
- 			  &vpset->bank_contents[vcpu_bank]);
- 		if (vcpu_bank >= nr_bank)
++	/* Setup of a region of guest memory for the partition assist page. */
++	vmx->partition_assist = (void *)vm_vaddr_alloc_page(vm);
++	vmx->partition_assist_hva =
++		addr_gva2hva(vm, (uintptr_t)vmx->partition_assist);
++	vmx->partition_assist_gpa =
++		addr_gva2gpa(vm, (uintptr_t)vmx->partition_assist);
++
+ 	*p_vmx_gva = vmx_gva;
+ 	return vmx;
+ }
 -- 
 2.35.3
 
