@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D67EC433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA6F7CCA47B
+	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243322AbiFMR5H (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 13:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
+        id S243347AbiFMR5K (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 13:57:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243784AbiFMRz5 (ORCPT
+        with ESMTP id S243787AbiFMRz5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 13 Jun 2022 13:55:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A9F4077F3C
-        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:54 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 04ED4FD6
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655127653;
+        s=mimecast20190719; t=1655127615;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=G0kM9EEZwe0ifygaIGxX4bsHaQPTEAaslXmPb2cToLk=;
-        b=TArZ4L1XIMNacZS9GCXR1z1iQsQfJMwISr8twUCtSEqHI4qHVPSrWxnUvYmxb7/Z9iGD/6
-        /iVz7+2AE1iu1UuYThSxF3XT6Qbn9OfhpwYLs0zHUHAmTjX0Wgd3twaRP/aeyPIV7ZjoZy
-        GFnlxMhzp1yj7jDT59aek3qsiqsdLp8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=pDMtuQHCKDck2X6AJwzMNfVZUyOuSlNQEZTxeqxbFoc=;
+        b=JJ+HXXTIuIswNPxZArntS9EqQvwEAjRnV3N1/PySTi4x9smgtBfUYzTapb4r7wwCi7R1q8
+        KUF6lsW4eX4nIemy25H4/y78gDO5akK7y+oIyRvDk2AWnE/yoZqlK5/E6bPpka2IvQv11B
+        usChIsw2fqPGjgAYq73egDgcEnRxLoU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-iDCBhhVvMgSbsDH_oNfzpA-1; Mon, 13 Jun 2022 09:40:43 -0400
-X-MC-Unique: iDCBhhVvMgSbsDH_oNfzpA-1
+ us-mta-669-j2cKZ96-PoO1mIGgi8W1jg-1; Mon, 13 Jun 2022 09:40:12 -0400
+X-MC-Unique: j2cKZ96-PoO1mIGgi8W1jg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8DB2F803B22;
-        Mon, 13 Jun 2022 13:40:42 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 648973C11047;
+        Mon, 13 Jun 2022 13:40:11 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 02237492CA2;
-        Mon, 13 Jun 2022 13:40:39 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1E078492CA2;
+        Mon, 13 Jun 2022 13:40:08 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 28/39] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
-Date:   Mon, 13 Jun 2022 15:39:11 +0200
-Message-Id: <20220613133922.2875594-29-vkuznets@redhat.com>
+Subject: [PATCH v7 16/39] KVM: x86: hyper-v: Introduce kvm_hv_is_tlb_flush_hcall()
+Date:   Mon, 13 Jun 2022 15:38:59 +0200
+Message-Id: <20220613133922.2875594-17-vkuznets@redhat.com>
 In-Reply-To: <20220613133922.2875594-1-vkuznets@redhat.com>
 References: <20220613133922.2875594-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,27 +61,44 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
-in vm->vpages_mapped.
+The newly introduced helper checks whether vCPU is performing a
+Hyper-V TLB flush hypercall. This is required to filter out L2 TLB
+flush hypercalls for processing.
 
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/lib/kvm_util.c | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/x86/kvm/hyperv.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index 39f2f5f1338f..aa42eeabdec9 100644
---- a/tools/testing/selftests/kvm/lib/kvm_util.c
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -1276,6 +1276,9 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
- 		virt_pg_map(vm, vaddr, paddr);
- 		vaddr += page_size;
- 		paddr += page_size;
-+
-+		sparsebit_set(vm->vpages_mapped,
-+			vaddr >> vm->page_shift);
- 	}
+diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
+index 207d24efdc5a..dc46c5ed5d18 100644
+--- a/arch/x86/kvm/hyperv.h
++++ b/arch/x86/kvm/hyperv.h
+@@ -171,6 +171,24 @@ static inline void kvm_hv_vcpu_empty_flush_tlb(struct kvm_vcpu *vcpu)
+ 
+ 	kfifo_reset_out(&tlb_flush_fifo->entries);
  }
++
++static inline bool kvm_hv_is_tlb_flush_hcall(struct kvm_vcpu *vcpu)
++{
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
++	u16 code;
++
++	if (!hv_vcpu)
++		return false;
++
++	code = is_64_bit_hypercall(vcpu) ? kvm_rcx_read(vcpu) :
++					   kvm_rax_read(vcpu);
++
++	return (code == HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE ||
++		code == HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST ||
++		code == HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX ||
++		code == HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX);
++}
++
+ void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu);
+ 
  
 -- 
 2.35.3
