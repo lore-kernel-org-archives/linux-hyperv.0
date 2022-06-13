@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08CD3CCA482
-	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D67EC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:57:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243269AbiFMR5G (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 13:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34306 "EHLO
+        id S243322AbiFMR5H (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 13:57:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243724AbiFMRzz (ORCPT
+        with ESMTP id S243784AbiFMRz5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:55:55 -0400
+        Mon, 13 Jun 2022 13:55:57 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2EA7D78922
-        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A9F4077F3C
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655127656;
+        s=mimecast20190719; t=1655127653;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Po6X1qwbVSYYhUlpNcgBCTKJG7wN/6Y9NKjEXzUYKYY=;
-        b=c64K7js9CDyotpULJ+lLiv+ZR+ecx6NdoSzPuVCSNrfmvlhwRny3mUXkvqdOhffQ3hk3lI
-        uIm7/3t7yTZugveY71SD6HQr0shMjJ62XEUPKpS9TNSM53m5BPHxuZMQfnidWE/cCwJpqj
-        9YjMPuDjjLpEmvw0pxogm9+HYvljZ8w=
+        bh=G0kM9EEZwe0ifygaIGxX4bsHaQPTEAaslXmPb2cToLk=;
+        b=TArZ4L1XIMNacZS9GCXR1z1iQsQfJMwISr8twUCtSEqHI4qHVPSrWxnUvYmxb7/Z9iGD/6
+        /iVz7+2AE1iu1UuYThSxF3XT6Qbn9OfhpwYLs0zHUHAmTjX0Wgd3twaRP/aeyPIV7ZjoZy
+        GFnlxMhzp1yj7jDT59aek3qsiqsdLp8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-biGCB997PJilDdQPP439sA-1; Mon, 13 Jun 2022 09:40:53 -0400
-X-MC-Unique: biGCB997PJilDdQPP439sA-1
+ us-mta-480-iDCBhhVvMgSbsDH_oNfzpA-1; Mon, 13 Jun 2022 09:40:43 -0400
+X-MC-Unique: iDCBhhVvMgSbsDH_oNfzpA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4246B101E989;
-        Mon, 13 Jun 2022 13:40:53 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8DB2F803B22;
+        Mon, 13 Jun 2022 13:40:42 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EF359492CA2;
-        Mon, 13 Jun 2022 13:40:50 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 02237492CA2;
+        Mon, 13 Jun 2022 13:40:39 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 32/39] KVM: selftests: Sync 'struct hv_enlightened_vmcs' definition with hyperv-tlfs.h
-Date:   Mon, 13 Jun 2022 15:39:15 +0200
-Message-Id: <20220613133922.2875594-33-vkuznets@redhat.com>
+Subject: [PATCH v7 28/39] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
+Date:   Mon, 13 Jun 2022 15:39:11 +0200
+Message-Id: <20220613133922.2875594-29-vkuznets@redhat.com>
 In-Reply-To: <20220613133922.2875594-1-vkuznets@redhat.com>
 References: <20220613133922.2875594-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,66 +61,28 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-'struct hv_enlightened_vmcs' definition in selftests is not '__packed'
-and so we rely on the compiler doing the right padding. This is not
-obvious so it seems beneficial to use the same definition as in kernel.
+Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
+in vm->vpages_mapped.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/include/x86_64/evmcs.h | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ tools/testing/selftests/kvm/lib/kvm_util.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 3c9260f8e116..367e027cd2a4 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -41,6 +41,8 @@ struct hv_enlightened_vmcs {
- 	u16 host_gs_selector;
- 	u16 host_tr_selector;
- 
-+	u16 padding16_1;
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index 39f2f5f1338f..aa42eeabdec9 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -1276,6 +1276,9 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ 		virt_pg_map(vm, vaddr, paddr);
+ 		vaddr += page_size;
+ 		paddr += page_size;
 +
- 	u64 host_ia32_pat;
- 	u64 host_ia32_efer;
++		sparsebit_set(vm->vpages_mapped,
++			vaddr >> vm->page_shift);
+ 	}
+ }
  
-@@ -159,7 +161,7 @@ struct hv_enlightened_vmcs {
- 	u64 ept_pointer;
- 
- 	u16 virtual_processor_id;
--	u16 padding16[3];
-+	u16 padding16_2[3];
- 
- 	u64 padding64_2[5];
- 	u64 guest_physical_address;
-@@ -195,15 +197,15 @@ struct hv_enlightened_vmcs {
- 	u64 guest_rip;
- 
- 	u32 hv_clean_fields;
--	u32 hv_padding_32;
-+	u32 padding32_1;
- 	u32 hv_synthetic_controls;
- 	struct {
- 		u32 nested_flush_hypercall:1;
- 		u32 msr_bitmap:1;
- 		u32 reserved:30;
--	} hv_enlightenments_control;
-+	}  __packed hv_enlightenments_control;
- 	u32 hv_vp_id;
--
-+	u32 padding32_2;
- 	u64 hv_vm_id;
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
-@@ -211,7 +213,7 @@ struct hv_enlightened_vmcs {
- 	u64 padding64_5[7];
- 	u64 xss_exit_bitmap;
- 	u64 padding64_6[7];
--};
-+} __packed;
- 
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_IO_BITMAP                BIT(0)
 -- 
 2.35.3
 
