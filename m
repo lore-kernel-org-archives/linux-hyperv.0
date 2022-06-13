@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3553CC433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:56:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E36BFC43334
+	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 17:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243977AbiFMR4B (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 13:56:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59816 "EHLO
+        id S238740AbiFMR4G (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 13:56:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243389AbiFMRyg (ORCPT
+        with ESMTP id S242888AbiFMRy6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:54:36 -0400
+        Mon, 13 Jun 2022 13:54:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C5D3975229
-        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0907E3DDD5
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655127602;
+        s=mimecast20190719; t=1655127634;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QXgv1RZqigOsWYgrbxXIVSkHdc9B03e/lL9dID1ZnbU=;
-        b=T5gegzVo/ueKR1tO/pjL18XzDZ34z8JDsMUjbpB4SrU0J7uz7qDCY55yGAAY7dbZ00Iswg
-        omD8mfA6bAfYkOv2OO+6r9MuIKrze6EbiCKS9bvgouuoxHj56eCwEABJapxj7hzkWFdLci
-        trAmdeukMikC+u8wJ7RKolMKlEVE7z8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=1atB4aLHp9k/0fb1IkZVw+pPj3AHQaOMlcAKUXDRjqQ=;
+        b=ImzJ1UCgkYWwRr2fqiki32gi6B1rFzxmXP/KwHWPw3hoXblmX7k0egpR3ERLagNu1PukcQ
+        4j5JDalqtpaYvQiieGxja7O98xK72RGd47IBNbO8K/UaqLcuOPytB1IZRlN0g/F8Bvb7ib
+        Sem7cQoJZUhGMmV2DeyrMn20RuDJ7HE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-499-IT-PlrzWOqC5GRltwJSszA-1; Mon, 13 Jun 2022 09:39:59 -0400
-X-MC-Unique: IT-PlrzWOqC5GRltwJSszA-1
+ us-mta-459-wzePD1ZdOVGY3AJXw-c6AA-1; Mon, 13 Jun 2022 09:40:30 -0400
+X-MC-Unique: wzePD1ZdOVGY3AJXw-c6AA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C9B4384F80C;
-        Mon, 13 Jun 2022 13:39:59 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C8F2101E9B6;
+        Mon, 13 Jun 2022 13:40:29 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D9F01492CA2;
-        Mon, 13 Jun 2022 13:39:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 27334492CA2;
+        Mon, 13 Jun 2022 13:40:27 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 12/39] KVM: x86: hyper-v: Use preallocated buffer in 'struct kvm_vcpu_hv' instead of on-stack 'sparse_banks'
-Date:   Mon, 13 Jun 2022 15:38:55 +0200
-Message-Id: <20220613133922.2875594-13-vkuznets@redhat.com>
+Subject: [PATCH v7 23/39] KVM: x86: Expose Hyper-V L2 TLB flush feature
+Date:   Mon, 13 Jun 2022 15:39:06 +0200
+Message-Id: <20220613133922.2875594-24-vkuznets@redhat.com>
 In-Reply-To: <20220613133922.2875594-1-vkuznets@redhat.com>
 References: <20220613133922.2875594-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,73 +61,27 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-To make kvm_hv_flush_tlb() ready to handle L2 TLB flush requests, KVM needs
-to allow for all 64 sparse vCPU banks regardless of KVM_MAX_VCPUs as L1
-may use vCPU overcommit for L2. To avoid growing on-stack allocation, make
-'sparse_banks' part of per-vCPU 'struct kvm_vcpu_hv' which is allocated
-dynamically.
-
-Note: sparse_set_to_vcpu_mask() can't currently be used to handle L2
-requests as KVM does not keep L2 VM_ID -> L2 VCPU_ID -> L1 vCPU mappings,
-i.e. its vp_bitmap array is still bounded by the number of L1 vCPUs and so
-can remain an on-stack allocation.
+With both nSVM and nVMX implementations in place, KVM can now expose
+Hyper-V L2 TLB flush feature to userspace.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h | 3 +++
- arch/x86/kvm/hyperv.c           | 6 ++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ arch/x86/kvm/hyperv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 36cad6af7b46..9920ca73b290 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -645,6 +645,9 @@ struct kvm_vcpu_hv {
- 	} cpuid_cache;
- 
- 	struct kvm_vcpu_hv_tlb_flush_fifo tlb_flush_fifo[HV_NR_TLB_FLUSH_FIFOS];
-+
-+	/* Preallocated buffer for handling hypercalls passing sparse vCPU set */
-+	u64 sparse_banks[HV_MAX_SPARSE_VCPU_BANKS];
- };
- 
- /* Xen HVM per vcpu emulation context */
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 0a0e24f3286c..56321699d0c4 100644
+index edb042413bb4..ca10de0cbbf2 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1910,6 +1910,8 @@ void kvm_hv_vcpu_flush_tlb(struct kvm_vcpu *vcpu)
+@@ -2776,6 +2776,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
  
- static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- {
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	u64 *sparse_banks = hv_vcpu->sparse_banks;
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_tlb_flush_ex flush_ex;
- 	struct hv_tlb_flush flush;
-@@ -1923,7 +1925,6 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	u64 __tlb_flush_entries[KVM_HV_TLB_FLUSH_FIFO_SIZE - 1];
- 	u64 *tlb_flush_entries;
- 	u64 valid_bank_mask;
--	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	struct kvm_vcpu *v;
- 	unsigned long i;
- 	bool all_cpus;
-@@ -2075,11 +2076,12 @@ static void kvm_hv_send_ipi_to_many(struct kvm *kvm, u32 vector,
+ 		case HYPERV_CPUID_NESTED_FEATURES:
+ 			ent->eax = evmcs_ver;
++			ent->eax |= HV_X64_NESTED_DIRECT_FLUSH;
+ 			ent->eax |= HV_X64_NESTED_MSR_BITMAP;
  
- static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- {
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	u64 *sparse_banks = hv_vcpu->sparse_banks;
- 	struct kvm *kvm = vcpu->kvm;
- 	struct hv_send_ipi_ex send_ipi_ex;
- 	struct hv_send_ipi send_ipi;
- 	u64 valid_bank_mask;
--	u64 sparse_banks[KVM_HV_MAX_SPARSE_VCPU_SET_BITS];
- 	u32 vector;
- 	bool all_cpus;
- 
+ 			break;
 -- 
 2.35.3
 
