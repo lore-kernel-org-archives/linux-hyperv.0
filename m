@@ -2,42 +2,43 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F179CCA47F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D664CCA481
 	for <linux-hyperv@archiver.kernel.org>; Mon, 13 Jun 2022 18:00:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241439AbiFMR7n (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 13 Jun 2022 13:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
+        id S1343506AbiFMR7r (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 13 Jun 2022 13:59:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243946AbiFMR4B (ORCPT
+        with ESMTP id S243881AbiFMR4A (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 13 Jun 2022 13:56:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8749922530
-        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:26 -0700 (PDT)
+        Mon, 13 Jun 2022 13:56:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B65FFCE11
+        for <linux-hyperv@vger.kernel.org>; Mon, 13 Jun 2022 06:40:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655127625;
+        s=mimecast20190719; t=1655127622;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=4RHtZYmh1/hSKAF7EcOWsrPLAw2WLQLmCnsabCdCID4=;
-        b=MVzilnCu6J3Bocc2iXUnr3w5Cgkbw0ggr51DpX0LsFKD+NnHxWUd/Xg1JKyNOLDTI7BwtC
-        BqfY1xEC0mCft2Jtj37uT8jUq6kSRaSbhQ7363j6UsuO/f1huuHTkTw04SA4ROtHldkB4e
-        8wkfUB4hUFBx4sV7z0Yu0arFHc+UKko=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=F94Tm16Pv+6X1Qxpix8Ro059dU0Hc/OW94AtIQA4pXw=;
+        b=gssq0DE0KEpo+BaaOzmICVP08IBsv4mandhcLGuxPKDoDRjSsReOkcOMY+uSoj44LKZBuO
+        upimkw3sfWTr1tX00Ng8svz8KC8JYHb4SEyPJAqt/BErfMKr9X7ExbJjP3mFx/SddXHjEf
+        7YoX+07wcfiXvd1g5ODKmNHGHGRyzbM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-XfCMtZhxN2ev4gC8DedSmA-1; Mon, 13 Jun 2022 09:40:09 -0400
-X-MC-Unique: XfCMtZhxN2ev4gC8DedSmA-1
+ us-mta-562-95ltdca-PwOSlRlGq4eMKw-1; Mon, 13 Jun 2022 09:40:19 -0400
+X-MC-Unique: 95ltdca-PwOSlRlGq4eMKw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BE3C2101E985;
-        Mon, 13 Jun 2022 13:40:08 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D7E35380670E;
+        Mon, 13 Jun 2022 13:40:18 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.60])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C52BF492CA2;
-        Mon, 13 Jun 2022 13:40:05 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A794B492CA2;
+        Mon, 13 Jun 2022 13:40:16 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +49,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 15/39] KVM: x86: Introduce .hv_inject_synthetic_vmexit_post_tlb_flush() nested hook
-Date:   Mon, 13 Jun 2022 15:38:58 +0200
-Message-Id: <20220613133922.2875594-16-vkuznets@redhat.com>
+Subject: [PATCH v7 19/39] x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
+Date:   Mon, 13 Jun 2022 15:39:02 +0200
+Message-Id: <20220613133922.2875594-20-vkuznets@redhat.com>
 In-Reply-To: <20220613133922.2875594-1-vkuznets@redhat.com>
 References: <20220613133922.2875594-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,121 +62,58 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hyper-V supports injecting synthetic L2->L1 exit after performing
-L2 TLB flush operation but the procedure is vendor specific. Introduce
-.hv_inject_synthetic_vmexit_post_tlb_flush nested hook for it.
+Section 1.9 of TLFS v6.0b says:
 
+"All structures are padded in such a way that fields are aligned
+naturally (that is, an 8-byte field is aligned to an offset of 8 bytes
+and so on)".
+
+'struct enlightened_vmcs' has a glitch:
+
+...
+        struct {
+                u32                nested_flush_hypercall:1; /*   836: 0  4 */
+                u32                msr_bitmap:1;         /*   836: 1  4 */
+                u32                reserved:30;          /*   836: 2  4 */
+        } hv_enlightenments_control;                     /*   836     4 */
+        u32                        hv_vp_id;             /*   840     4 */
+        u64                        hv_vm_id;             /*   844     8 */
+        u64                        partition_assist_page; /*   852     8 */
+...
+
+And the observed values in 'partition_assist_page' make no sense at
+all. Fix the layout by padding the structure properly.
+
+Fixes: 68d1eb72ee99 ("x86/hyper-v: define struct hv_enlightened_vmcs and clean field bits")
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h |  1 +
- arch/x86/kvm/Makefile           |  3 ++-
- arch/x86/kvm/svm/hyperv.c       | 11 +++++++++++
- arch/x86/kvm/svm/hyperv.h       |  2 ++
- arch/x86/kvm/svm/nested.c       |  1 +
- arch/x86/kvm/vmx/evmcs.c        |  4 ++++
- arch/x86/kvm/vmx/evmcs.h        |  1 +
- arch/x86/kvm/vmx/nested.c       |  1 +
- 8 files changed, 23 insertions(+), 1 deletion(-)
- create mode 100644 arch/x86/kvm/svm/hyperv.c
+ arch/x86/include/asm/hyperv-tlfs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 915078a6c4be..d4a2cf4b4ff5 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1669,6 +1669,7 @@ struct kvm_x86_nested_ops {
- 	int (*enable_evmcs)(struct kvm_vcpu *vcpu,
- 			    uint16_t *vmcs_version);
- 	uint16_t (*get_evmcs_version)(struct kvm_vcpu *vcpu);
-+	void (*hv_inject_synthetic_vmexit_post_tlb_flush)(struct kvm_vcpu *vcpu);
- };
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 5225a85c08c3..e7ddae8e02c6 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -548,7 +548,7 @@ struct hv_enlightened_vmcs {
+ 	u64 guest_rip;
  
- struct kvm_x86_init_ops {
-diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
-index 30f244b64523..b6d53b045692 100644
---- a/arch/x86/kvm/Makefile
-+++ b/arch/x86/kvm/Makefile
-@@ -25,7 +25,8 @@ kvm-intel-y		+= vmx/vmx.o vmx/vmenter.o vmx/pmu_intel.o vmx/vmcs12.o \
- 			   vmx/evmcs.o vmx/nested.o vmx/posted_intr.o
- kvm-intel-$(CONFIG_X86_SGX_KVM)	+= vmx/sgx.o
- 
--kvm-amd-y		+= svm/svm.o svm/vmenter.o svm/pmu.o svm/nested.o svm/avic.o svm/sev.o
-+kvm-amd-y		+= svm/svm.o svm/vmenter.o svm/pmu.o svm/nested.o svm/avic.o \
-+			   svm/sev.o svm/hyperv.o
- 
- ifdef CONFIG_HYPERV
- kvm-amd-y		+= svm/svm_onhyperv.o
-diff --git a/arch/x86/kvm/svm/hyperv.c b/arch/x86/kvm/svm/hyperv.c
-new file mode 100644
-index 000000000000..911f51021af1
---- /dev/null
-+++ b/arch/x86/kvm/svm/hyperv.c
-@@ -0,0 +1,11 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * AMD SVM specific code for Hyper-V on KVM.
-+ *
-+ * Copyright 2022 Red Hat, Inc. and/or its affiliates.
-+ */
-+#include "hyperv.h"
-+
-+void svm_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu)
-+{
-+}
-diff --git a/arch/x86/kvm/svm/hyperv.h b/arch/x86/kvm/svm/hyperv.h
-index 8cf702fed7e5..dd2e393f84a0 100644
---- a/arch/x86/kvm/svm/hyperv.h
-+++ b/arch/x86/kvm/svm/hyperv.h
-@@ -48,4 +48,6 @@ static inline void nested_svm_hv_update_vm_vp_ids(struct kvm_vcpu *vcpu)
- 	hv_vcpu->nested.vp_id = hve->hv_vp_id;
- }
- 
-+void svm_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu);
-+
- #endif /* __ARCH_X86_KVM_SVM_HYPERV_H__ */
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index 1c1fa4fdea17..c43ba5b39288 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -1721,4 +1721,5 @@ struct kvm_x86_nested_ops svm_nested_ops = {
- 	.get_nested_state_pages = svm_get_nested_state_pages,
- 	.get_state = svm_get_nested_state,
- 	.set_state = svm_set_nested_state,
-+	.hv_inject_synthetic_vmexit_post_tlb_flush = svm_hv_inject_synthetic_vmexit_post_tlb_flush,
- };
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 6a61b1ae7942..805afc170b5b 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -439,3 +439,7 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 
- 	return 0;
- }
-+
-+void vmx_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu)
-+{
-+}
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index f886a8ff0342..584741b85eb6 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -245,5 +245,6 @@ int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
- void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
- int nested_evmcs_check_controls(struct vmcs12 *vmcs12);
-+void vmx_hv_inject_synthetic_vmexit_post_tlb_flush(struct kvm_vcpu *vcpu);
- 
- #endif /* __KVM_X86_VMX_EVMCS_H */
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 6e264a7f205b..4a827b3d929a 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -6863,4 +6863,5 @@ struct kvm_x86_nested_ops vmx_nested_ops = {
- 	.write_log_dirty = nested_vmx_write_pml_buffer,
- 	.enable_evmcs = nested_enable_evmcs,
- 	.get_evmcs_version = nested_get_evmcs_version,
-+	.hv_inject_synthetic_vmexit_post_tlb_flush = vmx_hv_inject_synthetic_vmexit_post_tlb_flush,
- };
+ 	u32 hv_clean_fields;
+-	u32 hv_padding_32;
++	u32 padding32_1;
+ 	u32 hv_synthetic_controls;
+ 	struct {
+ 		u32 nested_flush_hypercall:1;
+@@ -556,7 +556,7 @@ struct hv_enlightened_vmcs {
+ 		u32 reserved:30;
+ 	}  __packed hv_enlightenments_control;
+ 	u32 hv_vp_id;
+-
++	u32 padding32_2;
+ 	u64 hv_vm_id;
+ 	u64 partition_assist_page;
+ 	u64 padding64_4[4];
 -- 
 2.35.3
 
