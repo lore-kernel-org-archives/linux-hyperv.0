@@ -2,43 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCECFC433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 15 Jun 2022 12:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CB9C43334
+	for <linux-hyperv@archiver.kernel.org>; Wed, 15 Jun 2022 12:50:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348607AbiFOMuL (ORCPT
-        <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S244422AbiFOMuL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Wed, 15 Jun 2022 08:50:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55070 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349180AbiFOMtk (ORCPT
+        with ESMTP id S1349200AbiFOMtk (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Wed, 15 Jun 2022 08:49:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 39695340E9
-        for <linux-hyperv@vger.kernel.org>; Wed, 15 Jun 2022 05:49:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CCD0F37AAF
+        for <linux-hyperv@vger.kernel.org>; Wed, 15 Jun 2022 05:49:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655297368;
+        s=mimecast20190719; t=1655297369;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=qqM0GdHyxcksDuwznBTEVlvia7GmEG1xLhXl8yuf6VA=;
-        b=Wm4f5fV8QHsCPKno1tYrImTv93dA4sMtwgqR2yGy5u2hmnHh4f0XJBZtx3ADGRql5Gt7us
-        MIaBgurW0nGonFnFe+WyuZBxT5oeM3R8r9h1ZvXawKGw0ia3OM2cCag/Ig2RsDJ8T3SeW4
-        HqwIbTSI/nyiegvj18ZSi3ZCnPnEIco=
+        bh=QSJfjgdN0vQG1u3bjjSqAwaUNHGoByzADLhrcH/GT+4=;
+        b=M6Rq9hZkbam3LEXb/eKeDbs6t/SVVfUdB9cyQ6ZtSpvOWOSrUYRdvcnx70ZYc38mRXX7Kd
+        WaIvt9KpUZEwzFiFeE8ac+s8yz3RPJwJ4zHKzxTaQtznMCdFCcxP3mCKJfrQDVfBCbHhZK
+        sByUwC8UfIWMEUVl3kCsdWA/lxCIkVs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-13-c0diFBA1OtiNmiY8QPvf3Q-1; Wed, 15 Jun 2022 08:49:23 -0400
-X-MC-Unique: c0diFBA1OtiNmiY8QPvf3Q-1
+ us-mta-397-Tb8qwV40NBWMMlUqXNkgow-1; Wed, 15 Jun 2022 08:49:28 -0400
+X-MC-Unique: Tb8qwV40NBWMMlUqXNkgow-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A6AC3185A79C;
-        Wed, 15 Jun 2022 12:49:22 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 339C1100EB07;
+        Wed, 15 Jun 2022 12:49:28 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.203])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EA5A3401E68;
-        Wed, 15 Jun 2022 12:49:20 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 78E35401E68;
+        Wed, 15 Jun 2022 12:49:26 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Anirudh Rayabharam <anrayabh@linux.microsoft.com>
@@ -46,9 +45,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v1 2/5] x86/hyperv: Update 'struct hv_enlightened_vmcs' definition
-Date:   Wed, 15 Jun 2022 14:49:12 +0200
-Message-Id: <20220615124915.3068295-3-vkuznets@redhat.com>
+Subject: [PATCH RFC v1 5/5] KVM: VMX: Support TSC scaling with enlightened VMCS
+Date:   Wed, 15 Jun 2022 14:49:15 +0200
+Message-Id: <20220615124915.3068295-6-vkuznets@redhat.com>
 In-Reply-To: <20220615124915.3068295-1-vkuznets@redhat.com>
 References: <20220615124915.3068295-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,53 +58,50 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Updated Hyper-V Enlightened VMCS specification lists several new
-fields for the following features:
+Enlightened VMCS v1 now includes the required field for TSC scaling
+feature so SECONDARY_EXEC_TSC_SCALING can remain unfiltered.
 
-- PerfGlobalCtrl
-- EnclsExitingBitmap
-- Tsc Scaling
-- GuestLbrCtl
-- CET
-- SSP
-
-Update the definition.
-
-Note: The latest TLFS is available at
-https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/tlfs
+While on it, update the comment why VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL/
+VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL are keept filtered out.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ arch/x86/kvm/vmx/evmcs.h | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 6f0acc45e67a..fd334e8defb7 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -559,9 +559,20 @@ struct hv_enlightened_vmcs {
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
- 	u64 guest_bndcfgs;
--	u64 padding64_5[7];
-+	u64 guest_ia32_perf_global_ctrl;
-+	u64 guest_ia32_s_cet;
-+	u64 guest_ssp;
-+	u64 guest_ia32_int_ssp_table_addr;
-+	u64 guest_ia32_lbr_ctl;
-+	u64 padding64_5[2];
- 	u64 xss_exit_bitmap;
--	u64 padding64_6[7];
-+	u64 host_ia32_perf_global_ctrl;
-+	u64 encls_exiting_bitmap;
-+	u64 tsc_multiplier;
-+	u64 host_ia32_s_cet;
-+	u64 host_ssp;
-+	u64 host_ia32_int_ssp_table_addr;
-+	u64 padding64_6;
- } __packed;
- 
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
+diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
+index f886a8ff0342..ffdf8955c62c 100644
+--- a/arch/x86/kvm/vmx/evmcs.h
++++ b/arch/x86/kvm/vmx/evmcs.h
+@@ -37,16 +37,14 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
+  *	EPTP_LIST_ADDRESS               = 0x00002024,
+  *	VMREAD_BITMAP                   = 0x00002026,
+  *	VMWRITE_BITMAP                  = 0x00002028,
+- *
+- *	TSC_MULTIPLIER                  = 0x00002032,
+  *	PLE_GAP                         = 0x00004020,
+  *	PLE_WINDOW                      = 0x00004022,
+  *	VMX_PREEMPTION_TIMER_VALUE      = 0x0000482E,
+- *      GUEST_IA32_PERF_GLOBAL_CTRL     = 0x00002808,
+- *      HOST_IA32_PERF_GLOBAL_CTRL      = 0x00002c04,
+  *
+- * Currently unsupported in KVM:
+- *	GUEST_IA32_RTIT_CTL		= 0x00002814,
++ *	While GUEST_IA32_PERF_GLOBAL_CTRL and HOST_IA32_PERF_GLOBAL_CTRL
++ *	are present in eVMCSv1, Windows 11 still has issues booting when
++ *	VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL/VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL
++ *	are exposed to it, keep them filtered out.
+  */
+ #define EVMCS1_UNSUPPORTED_PINCTRL (PIN_BASED_POSTED_INTR | \
+ 				    PIN_BASED_VMX_PREEMPTION_TIMER)
+@@ -58,7 +56,6 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
+ 	 SECONDARY_EXEC_ENABLE_PML |					\
+ 	 SECONDARY_EXEC_ENABLE_VMFUNC |					\
+ 	 SECONDARY_EXEC_SHADOW_VMCS |					\
+-	 SECONDARY_EXEC_TSC_SCALING |					\
+ 	 SECONDARY_EXEC_PAUSE_LOOP_EXITING)
+ #define EVMCS1_UNSUPPORTED_VMEXIT_CTRL					\
+ 	(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |				\
 -- 
 2.35.3
 
