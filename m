@@ -2,149 +2,96 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D353C43334
-	for <linux-hyperv@archiver.kernel.org>; Wed, 15 Jun 2022 12:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E822DC43334
+	for <linux-hyperv@archiver.kernel.org>; Wed, 15 Jun 2022 14:37:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239284AbiFOMuj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 15 Jun 2022 08:50:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55834 "EHLO
+        id S240731AbiFOOh4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 15 Jun 2022 10:37:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347165AbiFOMuI (ORCPT
+        with ESMTP id S230160AbiFOOhz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 15 Jun 2022 08:50:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 37C574578D
-        for <linux-hyperv@vger.kernel.org>; Wed, 15 Jun 2022 05:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655297377;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4rgW4mfoueEcPk9tm2t1FQw4zly3B1VmZPYs7WOmIpY=;
-        b=egPeu/yUatUOgaVo8U7T3gkyoi7PLVfH15zT7UdpAwKDRzlNJp/6e5Zx6rymz1un7Tt+Tx
-        UovyLuR6gdcLZ2SEwKSR6hmYz1//ufmOZROE6QG6yVN8h7x5ATjhvLIz5Qen0D9eq9ubQ3
-        MY2wsj4mft44d1jxwVoRi0Qf+HYllX8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-519-JPQpgeJCOaakpZnnPbyXPw-1; Wed, 15 Jun 2022 08:49:26 -0400
-X-MC-Unique: JPQpgeJCOaakpZnnPbyXPw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39F001C0F686;
-        Wed, 15 Jun 2022 12:49:26 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.203])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C763A40334F;
-        Wed, 15 Jun 2022 12:49:24 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Anirudh Rayabharam <anrayabh@linux.microsoft.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v1 4/5] KVM: nVMX: Support several new fields in eVMCSv1
-Date:   Wed, 15 Jun 2022 14:49:14 +0200
-Message-Id: <20220615124915.3068295-5-vkuznets@redhat.com>
-In-Reply-To: <20220615124915.3068295-1-vkuznets@redhat.com>
-References: <20220615124915.3068295-1-vkuznets@redhat.com>
+        Wed, 15 Jun 2022 10:37:55 -0400
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4708D13CE1;
+        Wed, 15 Jun 2022 07:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=75kgVCcqOPOLeu4JBiLLFab/dM4uNZ1dcLuvpDx9ZCg=; b=kAIWl67VuUe8cBDkmFOZTh4b+J
+        Uy6PgE2+CwIEzhFEfsXCTAadcMkk5TefuTIBHvgzxNrjmUz+/r/f3fMBR5i8mMC7UweLMh9MkeJoD
+        97gkOJRUGibA77qDy9s4vL7NkQkS1Sv+TX4WpruLFHmbGvImVgE9LeYadgdIraA8AGxMlB+PxaWy/
+        1adKvJuvvpCbTsZosCqi5SMDlMupfKEgEY7JpKMS8HhvbF7gyowCTheRqW0YX0S9D05qpW9G1fKLt
+        DJUWQ6k8Tz/HxaHb6kuJRSWnDBXrsJA/DQco3hh/lFSm8XLWvSeNFNfH2bKr+ugXM0hH/Gw2zl2s+
+        laFslj7w==;
+Received: from 179.red-81-39-194.dynamicip.rima-tde.net ([81.39.194.179] helo=[192.168.15.167])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1o1U8m-002LYs-SW; Wed, 15 Jun 2022 16:37:04 +0200
+Message-ID: <362f6520-8209-1721-823c-11928338f57d@igalia.com>
+Date:   Wed, 15 Jun 2022 11:36:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH 24/30] panic: Refactor the panic path
+Content-Language: en-US
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     bhe@redhat.com, d.hatayama@jp.fujitsu.com,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Mark Rutland <mark.rutland@arm.com>, mikelley@microsoft.com,
+        vkuznets@redhat.com, akpm@linux-foundation.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linuxppc-dev@lists.ozlabs.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        netdev@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+        rcu@vger.kernel.org, sparclinux@vger.kernel.org,
+        xen-devel@lists.xenproject.org, x86@kernel.org,
+        kernel-dev@igalia.com, kernel@gpiccoli.net, halves@canonical.com,
+        fabiomirmar@gmail.com, alejandro.j.jimenez@oracle.com,
+        andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+        corbet@lwn.net, dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com, gregkh@linuxfoundation.org,
+        hidehiro.kawai.ez@hitachi.com, jgross@suse.com,
+        john.ogness@linutronix.de, keescook@chromium.org, luto@kernel.org,
+        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
+        peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, stern@rowland.harvard.edu,
+        tglx@linutronix.de, vgoyal@redhat.com, will@kernel.org
+References: <20220427224924.592546-1-gpiccoli@igalia.com>
+ <20220427224924.592546-25-gpiccoli@igalia.com>
+ <87fskzuh11.fsf@email.froward.int.ebiederm.org>
+ <0d084eed-4781-c815-29c7-ac62c498e216@igalia.com> <Yqic0R8/UFqTbbMD@alley>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <Yqic0R8/UFqTbbMD@alley>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enlightened VMCS v1 definition was updated with new fields, add
-support for them for Hyper-V on KVM.
+Perfect Petr, thanks for your feedback!
 
-Note: SSP, CET and Guest LBR features are not supported by KVM yet
-and 'struct vmcs12' has no corresponding fields.
+I'll be out for some weeks, but after that what I'm doing is to split
+the series in 2 parts:
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/kvm/vmx/nested.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+(a) The general fixes, which should be reviewed by subsystem maintainers
+and even merged individually by them.
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 7d8cd0ebcc75..162f4b4502e1 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1602,6 +1602,10 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->guest_rflags = evmcs->guest_rflags;
- 		vmcs12->guest_interruptibility_info =
- 			evmcs->guest_interruptibility_info;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->guest_ssp = evmcs->guest_ssp;
-+		 */
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1648,6 +1652,13 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->host_fs_selector = evmcs->host_fs_selector;
- 		vmcs12->host_gs_selector = evmcs->host_gs_selector;
- 		vmcs12->host_tr_selector = evmcs->host_tr_selector;
-+		vmcs12->host_ia32_perf_global_ctrl = evmcs->host_ia32_perf_global_ctrl;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->host_ia32_s_cet = evmcs->host_ia32_s_cet;
-+		 * vmcs12->host_ssp = evmcs->host_ssp;
-+		 * vmcs12->host_ia32_int_ssp_table_addr = evmcs->host_ia32_int_ssp_table_addr;
-+		 */
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1715,6 +1726,8 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->tsc_offset = evmcs->tsc_offset;
- 		vmcs12->virtual_apic_page_addr = evmcs->virtual_apic_page_addr;
- 		vmcs12->xss_exit_bitmap = evmcs->xss_exit_bitmap;
-+		vmcs12->encls_exiting_bitmap = evmcs->encls_exiting_bitmap;
-+		vmcs12->tsc_multiplier = evmcs->tsc_multiplier;
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1762,6 +1775,13 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->guest_bndcfgs = evmcs->guest_bndcfgs;
- 		vmcs12->guest_activity_state = evmcs->guest_activity_state;
- 		vmcs12->guest_sysenter_cs = evmcs->guest_sysenter_cs;
-+		vmcs12->guest_ia32_perf_global_ctrl = evmcs->guest_ia32_perf_global_ctrl;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->guest_ia32_s_cet = evmcs->guest_ia32_s_cet;
-+		 * vmcs12->guest_ia32_lbr_ctl = evmcs->guest_ia32_lbr_ctl;
-+		 * vmcs12->guest_ia32_int_ssp_table_addr = evmcs->guest_ia32_int_ssp_table_addr;
-+		 */
- 	}
- 
- 	/*
-@@ -1864,12 +1884,23 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
- 	 * evmcs->vm_exit_msr_store_count = vmcs12->vm_exit_msr_store_count;
- 	 * evmcs->vm_exit_msr_load_count = vmcs12->vm_exit_msr_load_count;
- 	 * evmcs->vm_entry_msr_load_count = vmcs12->vm_entry_msr_load_count;
-+	 * evmcs->guest_ia32_perf_global_ctrl = vmcs12->guest_ia32_perf_global_ctrl;
-+	 * evmcs->host_ia32_perf_global_ctrl = vmcs12->host_ia32_perf_global_ctrl;
-+	 * evmcs->encls_exiting_bitmap = vmcs12->encls_exiting_bitmap;
-+	 * evmcs->tsc_multiplier = vmcs12->tsc_multiplier;
- 	 *
- 	 * Not present in struct vmcs12:
- 	 * evmcs->exit_io_instruction_ecx = vmcs12->exit_io_instruction_ecx;
- 	 * evmcs->exit_io_instruction_esi = vmcs12->exit_io_instruction_esi;
- 	 * evmcs->exit_io_instruction_edi = vmcs12->exit_io_instruction_edi;
- 	 * evmcs->exit_io_instruction_eip = vmcs12->exit_io_instruction_eip;
-+	 * evmcs->host_ia32_s_cet = vmcs12->host_ia32_s_cet;
-+	 * evmcs->host_ssp = vmcs12->host_ssp;
-+	 * evmcs->host_ia32_int_ssp_table_addr = vmcs12->host_ia32_int_ssp_table_addr;
-+	 * evmcs->guest_ia32_s_cet = vmcs12->guest_ia32_s_cet;
-+	 * evmcs->guest_ia32_lbr_ctl = vmcs12->guest_ia32_lbr_ctl;
-+	 * evmcs->guest_ia32_int_ssp_table_addr = vmcs12->guest_ia32_int_ssp_table_addr;
-+	 * evmcs->guest_ssp = vmcs12->guest_ssp;
- 	 */
- 
- 	evmcs->guest_es_selector = vmcs12->guest_es_selector;
--- 
-2.35.3
+(b) The proper panic refactor, which includes the notifiers list split,
+etc. I'll think about what I consider the best solution for the
+crash_dump required ones, and will try to split in very simple patches
+to make it easier to review.
 
+Cheers,
+
+
+Guilherme
