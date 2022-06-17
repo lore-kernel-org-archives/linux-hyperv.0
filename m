@@ -2,93 +2,103 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DE08C433EF
-	for <linux-hyperv@archiver.kernel.org>; Fri, 17 Jun 2022 02:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76051C433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri, 17 Jun 2022 14:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379683AbiFQCUf (ORCPT
+        id S1382650AbiFQOWl (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 16 Jun 2022 22:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37406 "EHLO
+        Fri, 17 Jun 2022 10:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232651AbiFQCUe (ORCPT
+        with ESMTP id S1382687AbiFQOWj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 16 Jun 2022 22:20:34 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9981464BF6;
-        Thu, 16 Jun 2022 19:20:31 -0700 (PDT)
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25H2FfQd029754;
-        Fri, 17 Jun 2022 02:20:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=JraEGcq645uaUTZHc2tASRhn8rvhQfMYW+IL7QF6ELI=;
- b=gUmt8KhukmpjSJSTSC2v39gg6OuTJ+RNef8IqdlAjvbtVfRxzsbN9+xulZvJEaxVq5C8
- bLiRiR0a3WRHQ3EKs3AePUyidKyjVp+IjVFOKF3mRcI2ZCjncAzCZgFkEG9HcYe660al
- CNBWGc7z7R3jdJ7Jh+EOYK2JywLU1wfUevyHfCYVu5cY+rL3Tqn3VK1w9YD81QvsOCdc
- UrAlqH4BKV6oVm5SivD0siSagakrihpAzsbUOGq8JNWyAeltdcds4A5jTmunpRrUst66
- jCzdzozBPdm2HRgdZcZaLsBWzCYfMKgGGqcWBCP4QNLHMnZMCycmhrIyCUvyUOvGj+xV Qg== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gmjx9mfn4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Jun 2022 02:20:25 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25H2GK9V038707;
-        Fri, 17 Jun 2022 02:20:24 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gpqq327eq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 17 Jun 2022 02:20:24 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 25H2KMSc006844;
-        Fri, 17 Jun 2022 02:20:24 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3gpqq327d4-2;
-        Fri, 17 Jun 2022 02:20:23 +0000
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     haiyangz@microsoft.com,
-        Saurabh Sengar <ssengar@linux.microsoft.com>,
-        wei.liu@kernel.org, kys@microsoft.com,
-        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-scsi@vger.kernel.org, mikelley@microsoft.com,
-        decui@microsoft.com, sthemmin@microsoft.com, jejb@linux.ibm.com,
-        ssengar@microsoft.com
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>
-Subject: Re: [PATCH v3] scsi: storvsc: Correct reporting of Hyper-V I/O size limits
-Date:   Thu, 16 Jun 2022 22:20:19 -0400
-Message-Id: <165543238454.26073.6374641443239965869.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.35.2
-In-Reply-To: <1655190355-28722-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1655190355-28722-1-git-send-email-ssengar@linux.microsoft.com>
+        Fri, 17 Jun 2022 10:22:39 -0400
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4005F1097;
+        Fri, 17 Jun 2022 07:22:36 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id o8so5991900wro.3;
+        Fri, 17 Jun 2022 07:22:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=c8VmtpTRYG5fhkhWdPkEXbN1LxbOk6olcANxFq8csnQ=;
+        b=ybyOK7AZaWu7i7rfGrUnoTlebrZAGhO1PfUJCbZM3ItbZAL6gKOT/AJHYAAldBBLNj
+         Fc8Bfx65/75qVBhPz0ihFLpJ8j+ujR0sapX9CBIC9amp2XIPiz9PiiO/Rk538WTicCMD
+         SfeYEL557T6kOtq98d19efs48B5KzTYeSYL4CWNMxI6+SyGbXYRTIfJpqBxryooB6FtD
+         LATu3R2X+t/FEGsREnjAJOLi3KB6q7PNBDVc3X6gKvVvt4IxPxJiQvtkmk9Q52p/pIhU
+         n8hMOtd7jnBORf129DWR00IyhJWD0UL7pAAJrjZnbDf20o0juewrSMcg1nSxjsVeMhd/
+         Jk8A==
+X-Gm-Message-State: AJIora+/2U7LEynKNfTkNUbJyH9Eb7/1XpQq6K66EaNOuaxYEvejCNY7
+        wfSeHrxN1osAOKlj1768WX88TwDt0gI=
+X-Google-Smtp-Source: AGRyM1svLN+L856cKvC0yfI0oeQW01EZyuX42LKqkUuD4s1Qyo3rOUCVkk+zmey1GaU8/hWqKhZkQw==
+X-Received: by 2002:adf:c64c:0:b0:21a:7a3:54a4 with SMTP id u12-20020adfc64c000000b0021a07a354a4mr9694977wrg.163.1655475754694;
+        Fri, 17 Jun 2022 07:22:34 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id k7-20020a7bc407000000b0039c747a1e8fsm10482373wmi.7.2022.06.17.07.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jun 2022 07:22:34 -0700 (PDT)
+Date:   Fri, 17 Jun 2022 14:22:32 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Wei Liu <wei.liu@kernel.org>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+        sthemmin@microsoft.com, Michael Kelley <mikelley@microsoft.com>
+Subject: [GIT PULL] Hyper-V fixes for 5.19-rc3
+Message-ID: <20220617142232.urp25kc2oi3yorqw@liuwe-devbox-debian-v2>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: HaMWH-0UJBwIz5X0lao9AB56iGqQIO3Q
-X-Proofpoint-GUID: HaMWH-0UJBwIz5X0lao9AB56iGqQIO3Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, 14 Jun 2022 00:05:55 -0700, Saurabh Sengar wrote:
+Hi Linus
 
-> Current code is based on the idea that the max number of SGL entries
-> also determines the max size of an I/O request.  While this idea was
-> true in older versions of the storvsc driver when SGL entry length
-> was limited to 4 Kbytes, commit 3d9c3dcc58e9 ("scsi: storvsc: Enable
-> scatterlist entry lengths > 4Kbytes") removed that limitation. It's
-> now theoretically possible for the block layer to send requests that
-> exceed the maximum size supported by Hyper-V. This problem doesn't
-> currently happen in practice because the block layer defaults to a
-> 512 Kbyte maximum, while Hyper-V in Azure supports 2 Mbyte I/O sizes.
-> But some future configuration of Hyper-V could have a smaller max I/O
-> size, and the block layer could exceed that max.
-> 
-> [...]
+The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
 
-Applied to 5.19/scsi-fixes, thanks!
+  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
 
-[1/1] scsi: storvsc: Correct reporting of Hyper-V I/O size limits
-      https://git.kernel.org/mkp/scsi/c/1d3e0980782f
+are available in the Git repository at:
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20220617
+
+for you to fetch changes up to 49d6a3c062a1026a5ba957c46f3603c372288ab6:
+
+  x86/Hyper-V: Add SEV negotiate protocol support in Isolation VM (2022-06-15 18:27:40 +0000)
+
+----------------------------------------------------------------
+hyperv-fixes for 5.19-rc3
+ - Fix hv_init_clocksource annotation (Masahiro Yamada)
+ - Two bug fixes for vmbus driver (Saurabh Sengar)
+ - Fix SEV negotiation (Tianyu Lan)
+ - Fix comments in code (Xiang Wang)
+ - One minor fix to HID driver (Michael Kelley)
+----------------------------------------------------------------
+Masahiro Yamada (1):
+      clocksource: hyper-v: unexport __init-annotated hv_init_clocksource()
+
+Michael Kelley (1):
+      HID: hyperv: Correctly access fields declared as __le16
+
+Saurabh Sengar (2):
+      Drivers: hv: vmbus: Don't assign VMbus channel interrupts to isolated CPUs
+      Drivers: hv: vmbus: Release cpu lock in error case
+
+Tianyu Lan (1):
+      x86/Hyper-V: Add SEV negotiate protocol support in Isolation VM
+
+Xiang wangx (1):
+      Drivers: hv: Fix syntax errors in comments
+
+ arch/x86/hyperv/hv_init.c          |  6 +++
+ arch/x86/hyperv/ivm.c              | 84 +++++++++++++++++++++++++++++++++++---
+ arch/x86/include/asm/mshyperv.h    |  4 ++
+ drivers/clocksource/hyperv_timer.c |  1 -
+ drivers/hid/hid-hyperv.c           |  5 ++-
+ drivers/hv/channel_mgmt.c          | 18 +++++---
+ drivers/hv/hv_kvp.c                |  2 +-
+ drivers/hv/vmbus_drv.c             |  4 ++
+ 8 files changed, 109 insertions(+), 15 deletions(-)
