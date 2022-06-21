@@ -2,100 +2,111 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2426C433EF
-	for <linux-hyperv@archiver.kernel.org>; Tue, 21 Jun 2022 13:29:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA21CCA482
+	for <linux-hyperv@archiver.kernel.org>; Tue, 21 Jun 2022 15:59:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351464AbiFUN3I (ORCPT
+        id S1353155AbiFUP7O (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 21 Jun 2022 09:29:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55532 "EHLO
+        Tue, 21 Jun 2022 11:59:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351719AbiFUN27 (ORCPT
+        with ESMTP id S1353500AbiFUP6q (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 21 Jun 2022 09:28:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A8BB825C74
-        for <linux-hyperv@vger.kernel.org>; Tue, 21 Jun 2022 06:24:22 -0700 (PDT)
+        Tue, 21 Jun 2022 11:58:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CD68DB60
+        for <linux-hyperv@vger.kernel.org>; Tue, 21 Jun 2022 08:58:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655817861;
+        s=mimecast20190719; t=1655827124;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=u736UGku/JrRJ1DksO+V4OLlrYIRIw9y+gv92kWBcJM=;
-        b=IuMxgONpExw7RBnnK/cC9wGbnTcWbCFvoOKnND2sIqdZA2OaE+IySx+dDz3cqpHPdIP3xV
-        kUfe8r9OC82VULiTWCAx9++xN3DV42NJZJA18+8huu3yxn3O8B+9dQ779/ekzd7bkezDHJ
-        45+ydW9qLt4I+IvoT0SebLyhUKUaolw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=qqM0GdHyxcksDuwznBTEVlvia7GmEG1xLhXl8yuf6VA=;
+        b=fedz1ue7PCpjq/e3Db3CURDFENvL5SFOiprAkBvaw0mE5LoYRcbjgUt5GCzf+B8Ih7ahbJ
+        aM1Ri8pQwUSTU8p2I2n5lkvKQgeaQJrgb6u4onbDLFEgHsNyYJGh7bTbo9G3O6vsrncnGm
+        hJd45t0zaVzwfeFix1sTrzcJVq+nEqk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-eDJLEbb0O8WuhXftRb7V8g-1; Tue, 21 Jun 2022 09:24:20 -0400
-X-MC-Unique: eDJLEbb0O8WuhXftRb7V8g-1
-Received: by mail-wr1-f71.google.com with SMTP id i17-20020adfaad1000000b0021b883a2892so2037821wrc.22
-        for <linux-hyperv@vger.kernel.org>; Tue, 21 Jun 2022 06:24:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=u736UGku/JrRJ1DksO+V4OLlrYIRIw9y+gv92kWBcJM=;
-        b=rdr8Th4G2svB0U6+zEafkImGpcWb5S1rnB19v1BP6R3MOzH6JGtUKn8pmOWW0ayIgB
-         YsqmvaX42byclxG0U/KS0sWMiLogc/N94P0MbR8dVxxH3T8vJ89np7kAjzu+lL1G9ywf
-         Gwn9p6yleYTOoXW96BGPlK073cPGQmFxFD94HNRXWwWhfGE7Xp4AdEkXnPds3Oe9qgFj
-         OnNEleNykN9iiEKIW1fMMLTu9WoEp5EbwWetPysAh8+W+VADkv70FONe7ZzjB/RZz/eH
-         t23KIaVk3ENXb4DBIjiEpJdIOZ0spWNp3T5/N1jFw6oBjME/5e8w6kVPtpnyxTiVUthW
-         +8aw==
-X-Gm-Message-State: AOAM533qqTxZLi45if0+3L25TCTKLyJHUKnprSKCsdySWzrgcLG+sRUB
-        ul+fcFfpfFx01s9OyoJcO2E30CUXDZlAJqR2CHTpDuuS4KqdH88AmzkZFXzKUNEBuD9zue2zqUv
-        wjjLf338ThR7xQrJWFxIznPcn
-X-Received: by 2002:a05:600c:1f05:b0:39c:51c6:7c85 with SMTP id bd5-20020a05600c1f0500b0039c51c67c85mr41896736wmb.33.1655817858755;
-        Tue, 21 Jun 2022 06:24:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx2vHsz7ni0WNOKWRzoORK2MuOU/fyqYFPbMjIK0vgwy2HJOf9+5BNaiEvUfNHK0WjXot0RhQ==
-X-Received: by 2002:a05:600c:1f05:b0:39c:51c6:7c85 with SMTP id bd5-20020a05600c1f0500b0039c51c67c85mr41896715wmb.33.1655817858571;
-        Tue, 21 Jun 2022 06:24:18 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id e7-20020a5d5947000000b0021b95bcaf7fsm2737151wri.59.2022.06.21.06.24.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 06:24:18 -0700 (PDT)
+ us-mta-460-k49aEdnVPc2jT38wNtTONw-1; Tue, 21 Jun 2022 11:58:41 -0400
+X-MC-Unique: k49aEdnVPc2jT38wNtTONw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 207C21C08965;
+        Tue, 21 Jun 2022 15:58:41 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.195.134])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2A0D82026D64;
+        Tue, 21 Jun 2022 15:58:39 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+        Sean Christopherson <seanjc@google.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        Yuan Yao <yuan.yao@linux.intel.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 17/39] KVM: x86: hyper-v: L2 TLB flush
-In-Reply-To: <e22c7352-bafa-3ebf-c842-ed706579a619@redhat.com>
-References: <20220613133922.2875594-1-vkuznets@redhat.com>
- <20220613133922.2875594-18-vkuznets@redhat.com>
- <e22c7352-bafa-3ebf-c842-ed706579a619@redhat.com>
-Date:   Tue, 21 Jun 2022 15:24:17 +0200
-Message-ID: <87wnda40am.fsf@redhat.com>
+Subject: [PATCH 03/11] x86/hyperv: Update 'struct hv_enlightened_vmcs' definition
+Date:   Tue, 21 Jun 2022 17:58:22 +0200
+Message-Id: <20220621155830.60115-4-vkuznets@redhat.com>
+In-Reply-To: <20220621155830.60115-1-vkuznets@redhat.com>
+References: <20220621155830.60115-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Updated Hyper-V Enlightened VMCS specification lists several new
+fields for the following features:
 
-> On 6/13/22 15:39, Vitaly Kuznetsov wrote:
->> -	tlb_flush_fifo = kvm_hv_get_tlb_flush_fifo(vcpu);
->> +	tlb_flush_fifo = kvm_hv_get_tlb_flush_fifo(vcpu, is_guest_mode(vcpu));
->>   
->
-> Any reason to add this parameter?  
+- PerfGlobalCtrl
+- EnclsExitingBitmap
+- Tsc Scaling
+- GuestLbrCtl
+- CET
+- SSP
 
-Yes) Other users (all from kvm_hv_flush_tlb()) set this parameter based
-on whether the calling vCPU (*not* the destination vCPU, which is the
-first parameter) is in guest mode or not.
+Update the definition.
 
-> It is always set to is_guest_mode(vcpu) and, even if it wasn't, I
-> would add the parameter directly in patch 11.
+Note: The latest TLFS is available at
+https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/tlfs
 
-I can move to Patch11 if necessary.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ arch/x86/include/asm/hyperv-tlfs.h | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 6f0acc45e67a..fd334e8defb7 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -559,9 +559,20 @@ struct hv_enlightened_vmcs {
+ 	u64 partition_assist_page;
+ 	u64 padding64_4[4];
+ 	u64 guest_bndcfgs;
+-	u64 padding64_5[7];
++	u64 guest_ia32_perf_global_ctrl;
++	u64 guest_ia32_s_cet;
++	u64 guest_ssp;
++	u64 guest_ia32_int_ssp_table_addr;
++	u64 guest_ia32_lbr_ctl;
++	u64 padding64_5[2];
+ 	u64 xss_exit_bitmap;
+-	u64 padding64_6[7];
++	u64 host_ia32_perf_global_ctrl;
++	u64 encls_exiting_bitmap;
++	u64 tsc_multiplier;
++	u64 host_ia32_s_cet;
++	u64 host_ssp;
++	u64 host_ia32_int_ssp_table_addr;
++	u64 padding64_6;
+ } __packed;
+ 
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
 -- 
-Vitaly
+2.35.3
 
