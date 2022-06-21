@@ -2,42 +2,43 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B905C43334
-	for <linux-hyperv@archiver.kernel.org>; Tue, 21 Jun 2022 15:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85835C43334
+	for <linux-hyperv@archiver.kernel.org>; Tue, 21 Jun 2022 15:59:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352567AbiFUP7W (ORCPT
+        id S1353246AbiFUP7Y (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 21 Jun 2022 11:59:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43398 "EHLO
+        Tue, 21 Jun 2022 11:59:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353445AbiFUP6k (ORCPT
+        with ESMTP id S1353535AbiFUP6t (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:58:40 -0400
+        Tue, 21 Jun 2022 11:58:49 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF2D9C56
-        for <linux-hyperv@vger.kernel.org>; Tue, 21 Jun 2022 08:58:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E981EB7
+        for <linux-hyperv@vger.kernel.org>; Tue, 21 Jun 2022 08:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655827117;
+        s=mimecast20190719; t=1655827128;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=OnM6LWqbySomFL+MYIQvAUbrzoQzHU8UBGdR/EPQFvc=;
-        b=X1LqokiVQU3ZDplfPVNm0D8mDWxmhHYCC4VB1cGRo2I1TNCRAHrBF/ahwH+19Xl4Zm8TZB
-        LLZBCMDjAvQSGcv5XELg+YnYTu7JGtkZjaDcNpz+EI6t9olDQcLl1ISNgJkGgHANNIeAaR
-        00ZiDWREC+phfg+d7KgvRGcagEUt69U=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PNBrmWnN3XnulCkQsAu4oIaBrmhBegkKO8NaBiEN1js=;
+        b=OlVjr7MZuLuvh8mkRj2jO7aJ8rhToms7QOFDz/drB9Akjn5Q+Jo5b0ZGcKW+xMQl7DGxKO
+        pSWvwDN2Lxnntrfz+uanLj/rw+/ynYDb4vR+QLu0h8/zyDX3YPgcP2Cgce99IOouCzQARO
+        IabEJgcZaNeygOaz2aTChpAo3l/ijz0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-347-EI-eceqAOPqCr-ag0dv3CQ-1; Tue, 21 Jun 2022 11:58:34 -0400
-X-MC-Unique: EI-eceqAOPqCr-ag0dv3CQ-1
+ us-mta-235-TCTk5-TjO9iOqGzTs-VyqQ-1; Tue, 21 Jun 2022 11:58:44 -0400
+X-MC-Unique: TCTk5-TjO9iOqGzTs-VyqQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F17B0811E75;
-        Tue, 21 Jun 2022 15:58:33 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76C4E101E989;
+        Tue, 21 Jun 2022 15:58:43 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.195.134])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E80F42026985;
-        Tue, 21 Jun 2022 15:58:31 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F0362026D64;
+        Tue, 21 Jun 2022 15:58:41 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
@@ -46,9 +47,11 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 00/11] KVM: VMX: Support TscScaling and EnclsExitingBitmap whith eVMCS
-Date:   Tue, 21 Jun 2022 17:58:19 +0200
-Message-Id: <20220621155830.60115-1-vkuznets@redhat.com>
+Subject: [PATCH 04/11] KVM: VMX: Define VMCS-to-EVMCS conversion for the new fields
+Date:   Tue, 21 Jun 2022 17:58:23 +0200
+Message-Id: <20220621155830.60115-5-vkuznets@redhat.com>
+In-Reply-To: <20220621155830.60115-1-vkuznets@redhat.com>
+References: <20220621155830.60115-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -57,63 +60,69 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enlightened VMCS v1 definition was updates to include fields for the
-following features:
-    - PerfGlobalCtrl
-    - EnclsExitingBitmap
-    - TSC scaling
-    - GuestLbrCtl
-    - CET
-    - SSP
+Enlightened VMCS v1 definition was updated with new fields, support
+them in KVM by defining VMCS-to-EVMCS conversion.
 
-Add support for EnclsExitingBitmap and TSC scaling to KVM. PerfGlobalCtrl 
-doesn't work correctly with Win11, don't enable it yet. SSP, CET and 
-GuestLbrCtl are not currently supported by KVM.
+Note: SSP, CET and Guest LBR features are not supported by KVM yet and
+the corresponding fields are not defined in 'enum vmcs_field', leave
+them commented out for now.
 
-Note: adding new field for KVM on Hyper-V case is easy but adding them to
-Hyper-V on KVM requires some work to not break live migration as we never
-expected this to happen without eVMCS version update. The series introduces
-new KVM_CAP_HYPERV_ENLIGHTENED_VMCS2 capability and a notion of KVM 
-internal 'Enlightened VMCS revision'.
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ arch/x86/kvm/vmx/evmcs.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-Example QEMU enablement patch for the new capability will be sent as a 
-follow-up to the series.
-
-Vitaly Kuznetsov (11):
-  KVM: x86: hyper-v: Expose access to debug MSRs in the partition
-    privilege flags
-  x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
-  x86/hyperv: Update 'struct hv_enlightened_vmcs' definition
-  KVM: VMX: Define VMCS-to-EVMCS conversion for the new fields
-  KVM: nVMX: Support several new fields in eVMCSv1
-  KVM: nVMX: Introduce KVM_CAP_HYPERV_ENLIGHTENED_VMCS2
-  KVM: selftests: Switch to KVM_CAP_HYPERV_ENLIGHTENED_VMCS2
-  KVM: VMX: Support TSC scaling with enlightened VMCS
-  KVM: selftests: Add ENCLS_EXITING_BITMAP{,HIGH} VMCS fields
-  KVM: selftests: Switch to updated eVMCSv1 definition
-  KVM: selftests: Enable TSC scaling in evmcs selftest
-
- Documentation/virt/kvm/api.rst                |  42 ++++++-
- arch/x86/include/asm/hyperv-tlfs.h            |  19 ++-
- arch/x86/include/asm/kvm_host.h               |   2 +-
- arch/x86/kvm/hyperv.c                         |   1 +
- arch/x86/kvm/vmx/evmcs.c                      | 116 ++++++++++++++----
- arch/x86/kvm/vmx/evmcs.h                      |  28 +++--
- arch/x86/kvm/vmx/nested.c                     |  43 ++++++-
- arch/x86/kvm/vmx/vmx.c                        |   4 +-
- arch/x86/kvm/vmx/vmx.h                        |  15 +--
- arch/x86/kvm/x86.c                            |  15 ++-
- include/asm-generic/hyperv-tlfs.h             |   2 +
- include/uapi/linux/kvm.h                      |   3 +-
- .../selftests/kvm/include/kvm_util_base.h     |   8 ++
- .../selftests/kvm/include/x86_64/evmcs.h      |  46 ++++++-
- .../selftests/kvm/include/x86_64/vmx.h        |   2 +
- tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   5 +-
- .../testing/selftests/kvm/x86_64/evmcs_test.c |  33 ++++-
- .../selftests/kvm/x86_64/hyperv_cpuid.c       |   2 +-
- .../kvm/x86_64/vmx_set_nested_state_test.c    |   2 +-
- 19 files changed, 321 insertions(+), 67 deletions(-)
-
+diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
+index 6a61b1ae7942..8bea5dea0341 100644
+--- a/arch/x86/kvm/vmx/evmcs.c
++++ b/arch/x86/kvm/vmx/evmcs.c
+@@ -28,6 +28,8 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
+ 	EVMCS1_FIELD(HOST_IA32_EFER, host_ia32_efer,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
++	EVMCS1_FIELD(HOST_IA32_PERF_GLOBAL_CTRL, host_ia32_perf_global_ctrl,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
+ 	EVMCS1_FIELD(HOST_CR0, host_cr0,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
+ 	EVMCS1_FIELD(HOST_CR3, host_cr3,
+@@ -78,6 +80,8 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
+ 	EVMCS1_FIELD(GUEST_IA32_EFER, guest_ia32_efer,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
++	EVMCS1_FIELD(GUEST_IA32_PERF_GLOBAL_CTRL, guest_ia32_perf_global_ctrl,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
+ 	EVMCS1_FIELD(GUEST_PDPTR0, guest_pdptr0,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
+ 	EVMCS1_FIELD(GUEST_PDPTR1, guest_pdptr1,
+@@ -126,6 +130,28 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
+ 	EVMCS1_FIELD(XSS_EXIT_BITMAP, xss_exit_bitmap,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
++	EVMCS1_FIELD(ENCLS_EXITING_BITMAP, encls_exiting_bitmap,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
++	EVMCS1_FIELD(TSC_MULTIPLIER, tsc_multiplier,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
++	/*
++	 * Not used by KVM:
++	 *
++	 * EVMCS1_FIELD(0x00006828, guest_ia32_s_cet,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
++	 * EVMCS1_FIELD(0x0000682A, guest_ssp,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_BASIC),
++	 * EVMCS1_FIELD(0x0000682C, guest_ia32_int_ssp_table_addr,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
++	 * EVMCS1_FIELD(0x00002816, guest_ia32_lbr_ctl,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1),
++	 * EVMCS1_FIELD(0x00006C18, host_ia32_s_cet,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
++	 * EVMCS1_FIELD(0x00006C1A, host_ssp,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
++	 * EVMCS1_FIELD(0x00006C1C, host_ia32_int_ssp_table_addr,
++	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
++	 */
+ 
+ 	/* 64 bit read only */
+ 	EVMCS1_FIELD(GUEST_PHYSICAL_ADDRESS, guest_physical_address,
 -- 
 2.35.3
 
