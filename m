@@ -2,101 +2,98 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DCFCCA482
-	for <linux-hyperv@archiver.kernel.org>; Wed, 22 Jun 2022 14:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D95DC433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 22 Jun 2022 16:44:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235661AbiFVO3X (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 22 Jun 2022 10:29:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53538 "EHLO
+        id S1358620AbiFVQok (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 22 Jun 2022 12:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358478AbiFVO2v (ORCPT
+        with ESMTP id S1357635AbiFVQoj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 22 Jun 2022 10:28:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 086972FE45
-        for <linux-hyperv@vger.kernel.org>; Wed, 22 Jun 2022 07:28:48 -0700 (PDT)
+        Wed, 22 Jun 2022 12:44:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CF54E377F3
+        for <linux-hyperv@vger.kernel.org>; Wed, 22 Jun 2022 09:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1655908128;
+        s=mimecast20190719; t=1655916277;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=x34IRi49NgING8whuhdPrWa3tANXSDCipF9OzN2jvL4=;
-        b=LC/nLSAgU8lNYX1aYqvIv4mPIggit84hM6rJ6TA6IU/dV22Og2RKHjFBo5q3+ewRukHXMH
-        cJzMDjw86JHLO0mzvwhdNUhUD9Okzdb5PjVIN0CNgP9uetGWh+elMsLMp8wFH1zIX/PSSq
-        1sMu/20hbEI+GNiMB6Uj+NuwOoVnm4c=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nXInkxXdvpzKoIOUQRdrxKmFesJ62JJWfaKiG5PimjI=;
+        b=B3fJN5I/xx7Y/moTabyKQgrim0nATm7c3CrRtwCVnj06iyCnjv0KS0mjAJw2fdttr8t+k3
+        MhGzP4TgRG37uyfrCTlHZo0Q+k3Edrlsm7asX+J4j/WUcgIDGbD2IJMkgra6UdAMQH1rbS
+        vehjPryPUeRZc/MU+kZjVvxaGNq+H1w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-34-N5nYTWIMOCqTZKCRJJPowg-1; Wed, 22 Jun 2022 10:28:46 -0400
-X-MC-Unique: N5nYTWIMOCqTZKCRJJPowg-1
-Received: by mail-wm1-f70.google.com with SMTP id k15-20020a7bc40f000000b0039c4b7f7d09so7912403wmi.8
-        for <linux-hyperv@vger.kernel.org>; Wed, 22 Jun 2022 07:28:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=x34IRi49NgING8whuhdPrWa3tANXSDCipF9OzN2jvL4=;
-        b=8PyoaBA75VYRf1+xdPSuoQBetQ9SFAi/VbxeXZPXVpjv5fakFTngSaSDqVAGbtvZu7
-         G52pt+VK3CispjZsLvv4TMil5BMwidIILvpMP5mkUMKEczpgVaseVEr/wYklGA7FoUxs
-         wkCygLfwIqMD54cw8MlTrJfcP+VSnp+NhyR2ERgAKdS+T7buEyWg+cZd49S7peH4vL+X
-         Qazfm3c0cg+FgXN3sY7uqz7c8icsefsTKqgNB2LncIx1+p3N6KXVl+RGpeYjm8Wz1Tt+
-         PJj/4BGvhYYL+e+JaY41iNXTXauiGhQWjOtyFq+/jBpArFgA+6+BMkTrGhtEvYbUY7Ua
-         uajg==
-X-Gm-Message-State: AJIora+hLRRKG1BEunItZkhngU9VaFC/GrbMZTJxIFLw3XmhYrhyJ3a7
-        v2BVpr5kRWU29XULT/h4lUAJFoCfGV8fEQthohX7NEGTdFlQlWJ6lkcysAGqOfQtTPgp3SBb3ZH
-        /ICXibUgsi9/rJsIPTIYiSY4P
-X-Received: by 2002:a5d:5984:0:b0:219:e396:d3d1 with SMTP id n4-20020a5d5984000000b00219e396d3d1mr3649483wri.701.1655908124725;
-        Wed, 22 Jun 2022 07:28:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vuhyEjREFg3dGcH7vFPn3yakH8vgcXSr8DuJhoDWbuzWlidbf8KyA6iZoKwjJuqao0HuIjng==
-X-Received: by 2002:a5d:5984:0:b0:219:e396:d3d1 with SMTP id n4-20020a5d5984000000b00219e396d3d1mr3649464wri.701.1655908124542;
-        Wed, 22 Jun 2022 07:28:44 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id c130-20020a1c3588000000b0039c798b2dc5sm25959911wma.8.2022.06.22.07.28.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jun 2022 07:28:44 -0700 (PDT)
+ us-mta-191-QYI5K5ENM2KDmJd9UP0YeQ-1; Wed, 22 Jun 2022 12:44:35 -0400
+X-MC-Unique: QYI5K5ENM2KDmJd9UP0YeQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8C61384F807;
+        Wed, 22 Jun 2022 16:44:34 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.195.134])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F96140CFD0A;
+        Wed, 22 Jun 2022 16:44:32 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        Yuan Yao <yuan.yao@linux.intel.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 10/39] KVM: x86: hyper-v: Don't use
- sparse_set_to_vcpu_mask() in kvm_hv_send_ipi()
-In-Reply-To: <36f2de4e-43fe-7280-8cac-f44de89b2b98@redhat.com>
-References: <20220613133922.2875594-1-vkuznets@redhat.com>
- <20220613133922.2875594-11-vkuznets@redhat.com>
- <17a2e85a-a1f2-99e1-fc69-1baed2275bd5@redhat.com>
- <87zgi640mm.fsf@redhat.com>
- <36f2de4e-43fe-7280-8cac-f44de89b2b98@redhat.com>
-Date:   Wed, 22 Jun 2022 16:28:43 +0200
-Message-ID: <87tu8cydpg.fsf@redhat.com>
+Subject: [PATCH RFC v1 00/10] KVM: nVMX: Use vmcs_config for setting up nested VMX MSRs
+Date:   Wed, 22 Jun 2022 18:44:22 +0200
+Message-Id: <20220622164432.194640-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+vmcs_config is a sanitized version of host VMX MSRs where some controls are
+filtered out (e.g. when Enlightened VMCS is enabled, some know bugs are 
+discovered, some inconsistencies in controls are detected,...) but
+nested_vmx_setup_ctls_msrs() uses raw host MSRs instead. This may end up
+in exposing undesired controls to L1. Switch to using vmcs_config instead.
 
-> On 6/21/22 15:17, Vitaly Kuznetsov wrote:
->>>
->>> Just to be clear, PV IPI does*not*  support the VP_ID, right?
->> Hm, with Hyper-V PV IPI hypercall vCPUs are also addressed by their
->> VP_IDs, not by their APIC ids so similar to Hyper-V PV TLB flush we need
->> to convert the supplied set (either flat u64 bitmask of VP_IDs for
->> non-EX hypercall or a sparse set for -EX).
->> 
->
-> So this means the series needs a v8, right?
->
+RFC part: vmcs_config's sanitization now is a mix of "what can't be enabled"
+and "what KVM doesn't want" and we need to separate these as for nested VMX
+MSRs only the first category makes sense. This gives vmcs_config a slightly
+different meaning "controls which can be (theoretically) used". An alternative
+approach would be to store sanitized host MSRs values separately, sanitize
+them and and use in nested_vmx_setup_ctls_msrs() but currently I don't see
+any benefits. Comments welcome!
 
-No, I was just trying to explaini what the patch is doing in the series,
-it looks good to me (but I'm biased, of course).
+Very lightly tested with KVM selftests / kvm-unit-tests.
+
+Vitaly Kuznetsov (10):
+  KVM: VMX: Move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering out of
+    setup_vmcs_config()
+  KVM: VMX: Add missing CPU based VM execution controls to vmcs_config
+  KVM: VMX: Move CPU_BASED_{CR3_LOAD,CR3_STORE,INVLPG}_EXITING filtering
+    out of setup_vmcs_config()
+  KVM: VMX: Add missing VMEXIT controls to vmcs_config
+  KVM: VMX: Add missing VMENTRY controls to vmcs_config
+  KVM: nVMX: Use sanitized allowed-1 bits for VMX control MSRs
+  KVM: VMX: Store required-1 VMX controls in vmcs_config
+  KVM: nVMX: Use sanitized required-1 bits for VMX control MSRs
+  KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
+  KVM: nVMX: Use cached host MSR_IA32_VMX_MISC value for setting up
+    nested MSR
+
+ arch/x86/kvm/vmx/capabilities.h | 16 +++---
+ arch/x86/kvm/vmx/nested.c       | 37 +++++---------
+ arch/x86/kvm/vmx/nested.h       |  2 +-
+ arch/x86/kvm/vmx/vmx.c          | 91 +++++++++++++++++++++++++--------
+ 4 files changed, 94 insertions(+), 52 deletions(-)
 
 -- 
-Vitaly
+2.35.3
 
