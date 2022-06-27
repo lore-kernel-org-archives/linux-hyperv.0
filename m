@@ -2,52 +2,52 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2686CCA483
-	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 15:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8C9CCA485
+	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 15:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238248AbiF0PdB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 27 Jun 2022 11:33:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51452 "EHLO
+        id S238334AbiF0PdC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 27 Jun 2022 11:33:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238342AbiF0PcM (ORCPT
+        with ESMTP id S238262AbiF0PcL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 27 Jun 2022 11:32:12 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC101A390;
-        Mon, 27 Jun 2022 08:31:57 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id v126so5270755pgv.11;
-        Mon, 27 Jun 2022 08:31:57 -0700 (PDT)
+        Mon, 27 Jun 2022 11:32:11 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B371A07F;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id q18so8456650pld.13;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
-        b=dI9T0VKsh98NfrTIu4AWRJ/2IXmjraWq+1P1LN/hLe29wRLZaR5rvvsVpTVGGWRsLM
-         oRPcmybL+9qjIg6JEHoGAgGOFL/kGAFCsWLK7WCM0XkUuNwWOox1ThAs8KlnRPUzQcWt
-         lLXhKF+E22CnMCpYiFyIF3YJPLw2bIZpNYTTkS1OfiFBIkhO+xMuQ3FTM2eDbKtI6xTk
-         1g/RosEGWW+aSKl566bZiWTywkleIjLQbsyLbh6bujMdhFvi6SkuXCgqzDnInJkA6X9V
-         jxbkwdw0mafLIfRF2n+cmdU+c4npLFqnyiJ5MPEI7fj+2r7UycP6rBI7HtPEscl+zfdY
-         9fNg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZDC1AGRQHEGpUuB3ISkYbuot/iQPwlOXTIDim4MzLc=;
+        b=O+GWloioEOJpO0XyXVRSMZTQsER89gKRWgIfzRViNiUH+wc06BhSdI/DYNimqD0H/7
+         +pBzmJ7cigXalaMs2EYCeYKV+G6WBWbR7VsAdyeDZvbyF635dgSBJ9nXlWkul7FYLsu8
+         gAtMXnwoSaQlBXInB76dUgvLj6KmA/5ZhOoN5PXuJRteFiHKTnGTlUuAh61yLcYZn323
+         AGGQSk+5H0R6Snc1R2Toqjss7pGQnsZttUZ8diX7VWTqboNL5/2x0EEKY7FPIvyhj3+l
+         8U+0xCg4eQ3aluY9uc5Aw2N+SRaH40XIYSKcjsS9Uk6Yh8XYwdhjkXZpQ/NAeL8ogA9R
+         2+yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
-        b=3LOTwc92XC+sGQz68weoKEH1whtkpTxUClFUWM2CZdH7yQTvgNNiDz1x+lHyE+jy+7
-         gUmvqPzg3pMSm+2gKX/gf1Bz2i9QMwiXnDf+qZhApXfrMRX5c377MqL+MUicuPHs8/+d
-         stypQwoA5xqWk8+Crk2VbbYuvWqVAdms4g1ESmMOymZXRlO7gPXHJi1A93PFQxh1AtRx
-         L0qfB2nwuu3Gof7ktmM7kuwVYokeNYg0gXgdj4VQXtX/ulWqdKco6kQzS5c7cK9xt3z0
-         EcrgV1hkDEY0JTlS476D9Bp4aF/ehhv7xUX5bCe0Ao+tppHhsw38obsvnoqKtWN2xLkU
-         Bxxg==
-X-Gm-Message-State: AJIora9MxRGm3jh0GvG4acycfqo98w9y3tr9bkweDimzhZ6xbV9tt5vy
-        05QItMjUmoA4BmXsGiTu020=
-X-Google-Smtp-Source: AGRyM1u5LW9AITaIesZzlz5OplsMuM7fKSzm3w1NSzCcIsHcbNdQtjNjluJWhAENtSD4tzySP2ykWA==
-X-Received: by 2002:a05:6a00:17a8:b0:525:537a:b0df with SMTP id s40-20020a056a0017a800b00525537ab0dfmr15547134pfg.71.1656343916526;
-        Mon, 27 Jun 2022 08:31:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZDC1AGRQHEGpUuB3ISkYbuot/iQPwlOXTIDim4MzLc=;
+        b=QqGRFvPCY2XcHSHrdqmje5aY3Cn6u+jtFZfp06+llDLBu19y2Oq38IADxWdb9UuElQ
+         7VihEbJVnh3Mm75TAd0zuc4kZBBiLeUNcirpD4mmpc/eJ7hZ0UdvB1YdmfokE66GZQNk
+         PXou5khJJd4M6iRa5jRxSlNctWOHprHvzVMt1H4gx4f5YItfZSrjmDA6qd2DL9Mcp12R
+         jqHXA4HHlLrmviIVozXapM+d7lZ3h1XjD3rz+p/Soc9qZg9z4Eb7qWKqfVoR1yfyybwA
+         jhfwqN50OVn0hFDf+CQPX5AZ39Iq92AEsFbxR3TkSDln6Y6iZozTS8zOWl+PZh6gypO6
+         TiuA==
+X-Gm-Message-State: AJIora+o4rl4RcGjPs8P0ruJRd9y7Ot3HbJqnILvn2HLjGB2WolycIHF
+        kS91AU3oz2vvv8fwjsLs2RM=
+X-Google-Smtp-Source: AGRyM1sEiEhuPfofrRLQqFzFlVdXiZYLCqnhQsSu7hoQrMhPrjLPj9CQQVl/oAKCcOOKm40jQb6U7g==
+X-Received: by 2002:a17:902:cec4:b0:16a:1fc3:b6e6 with SMTP id d4-20020a170902cec400b0016a1fc3b6e6mr15435957plg.129.1656343914201;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:f0eb:a18:55d7:977b])
-        by smtp.gmail.com with ESMTPSA id y6-20020aa78f26000000b005251ec8bb5bsm7595705pfr.199.2022.06.27.08.31.55
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78f26000000b005251ec8bb5bsm7595705pfr.199.2022.06.27.08.31.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 08:31:55 -0700 (PDT)
+        Mon, 27 Jun 2022 08:31:53 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
         pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
@@ -62,14 +62,11 @@ Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
         linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
         vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
         thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
-        kirill.shutemov@intel.com, andi.kleen@intel.com,
-        Andi Kleen <ak@linux.intel.com>
-Subject: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of lapic entry in MADT
-Date:   Mon, 27 Jun 2022 11:31:50 -0400
-Message-Id: <20220627153150.106995-3-ltykernel@gmail.com>
+        kirill.shutemov@intel.com, andi.kleen@intel.com
+Subject: [PATCH 0/2] swiotlb: Split up single swiotlb lock
+Date:   Mon, 27 Jun 2022 11:31:48 -0400
+Message-Id: <20220627153150.106995-1-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220627153150.106995-1-ltykernel@gmail.com>
-References: <20220627153150.106995-1-ltykernel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -78,38 +75,28 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-When initialize swiotlb bounce buffer, smp_init() has not been
-called and cpu number can not be got from num_online_cpus().
-Use the number of lapic entry to set swiotlb area number and
-keep swiotlb area number equal to cpu number on the x86 platform.
+Traditionally swiotlb was not performance critical because it was only
+used for slow devices. But in some setups, like TDX/SEV confidential
+guests, all IO has to go through swiotlb. Currently swiotlb only has a
+single lock. Under high IO load with multiple CPUs this can lead to
+significat lock contention on the swiotlb lock.
 
-Based-on-idea-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
----
- arch/x86/kernel/acpi/boot.c | 3 +++
- 1 file changed, 3 insertions(+)
+Patch 1 is to introduce swiotlb area concept and split up single swiotlb
+lock.
+Patch 2 set swiotlb area number with lapic number
 
-diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
-index 907cc98b1938..7e13499f2c10 100644
---- a/arch/x86/kernel/acpi/boot.c
-+++ b/arch/x86/kernel/acpi/boot.c
-@@ -22,6 +22,7 @@
- #include <linux/efi-bgrt.h>
- #include <linux/serial_core.h>
- #include <linux/pgtable.h>
-+#include <linux/swiotlb.h>
- 
- #include <asm/e820/api.h>
- #include <asm/irqdomain.h>
-@@ -1131,6 +1132,8 @@ static int __init acpi_parse_madt_lapic_entries(void)
- 		return count;
- 	}
- 
-+	swiotlb_adjust_nareas(max(count, x2count));
-+
- 	x2count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_X2APIC_NMI,
- 					acpi_parse_x2apic_nmi, 0);
- 	count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_APIC_NMI,
+
+Tianyu Lan (2):
+  swiotlb: Split up single swiotlb lock
+  x86/ACPI: Set swiotlb area according to the number of lapic entry in
+    MADT
+
+ .../admin-guide/kernel-parameters.txt         |   4 +-
+ arch/x86/kernel/acpi/boot.c                   |   3 +
+ include/linux/swiotlb.h                       |  27 +++
+ kernel/dma/swiotlb.c                          | 202 ++++++++++++++----
+ 4 files changed, 197 insertions(+), 39 deletions(-)
+
 -- 
 2.25.1
 
