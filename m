@@ -2,154 +2,167 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E42C8C433EF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 16:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01AEAC433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 16:06:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238904AbiF0QFx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 27 Jun 2022 12:05:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        id S238206AbiF0QG2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 27 Jun 2022 12:06:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238258AbiF0QFU (ORCPT
+        with ESMTP id S235491AbiF0QG2 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 27 Jun 2022 12:05:20 -0400
+        Mon, 27 Jun 2022 12:06:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D8790140A6
-        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 09:05:18 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2CF9EB1CF
+        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 09:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656345918;
+        s=mimecast20190719; t=1656345986;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EUBRQUsiEHr4OtafVWapR9/MCX0MYf9+h/PemeV5UPY=;
-        b=IdvDUgGmYJOV5l0foxkhtJOUCaXcYH5eYblxQXrQgBbX59m9PjrlGrSObQSqNWiXVyoSsO
-        /V5pHqAxyjMXaEaMzGLZT0TdYOYa76sMdVqjn2Qwq3REibwjtGM6G4rvVyzUWYNu/wXa4a
-        dljk5FTyeW1kkFmHniaRFNFxK6/mIwk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=Et0fBT88jZFdIetfnOLa7eYQfFaPq0dKwFkCGFAcX7M=;
+        b=NrtvoVi5e71lfXGt+dTQLNCIgNJ5lxN41IaYn+fSMqsFDwyajDWmdbilou9iabauOhvypH
+        TMiDDgMulG2F7v6fbXa6HifaIxyrQmXL0+OdstGusDzEkmFClgvTLriQCi1FiZDlvLXuCc
+        xtA9pirFcdk0dr8ZJejfmC+gnRqGdlc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-uR54Z-GuPwWXF2x638o2_A-1; Mon, 27 Jun 2022 12:05:14 -0400
-X-MC-Unique: uR54Z-GuPwWXF2x638o2_A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E826801755;
-        Mon, 27 Jun 2022 16:05:13 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.192.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9F1C9C2810D;
-        Mon, 27 Jun 2022 16:05:11 +0000 (UTC)
+ us-mta-488-or1z3WDRM-KHkkpJVsdSAg-1; Mon, 27 Jun 2022 12:06:24 -0400
+X-MC-Unique: or1z3WDRM-KHkkpJVsdSAg-1
+Received: by mail-wm1-f72.google.com with SMTP id e24-20020a05600c219800b003a0471b1904so2539158wme.1
+        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 09:06:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=Et0fBT88jZFdIetfnOLa7eYQfFaPq0dKwFkCGFAcX7M=;
+        b=SNX7T5Rbolwwl9ojZDtAv4pZ3tQ9sJX8M0KIFEAvI5XZufKP3m0iJddNlSzo33Tx+t
+         VAVq0mbG7Y014jAwBevCv5/2/CVlEUAwEL4oCuU/gsG0JOWHK6HWC4j30gb8PAtJNyG0
+         cKciF8gS+16EzP9Yy7p/Za3rxOaYJzF627rHlNlDJljXKob7Hj6MW0vMOn+kXhVFhfbc
+         iVDfePn+r9W2szE+J87KpYmZXRPgsiX3WL3lyjM0MjWFrb0sTkidHdamryi8yGa5gSl6
+         jUa9s1u+H+1y8mfv9IOoi89+/zcLPTgKFhaqQ0M3ezIBWeQcbXpvNIFrUmIGMtjaWzKi
+         1YqQ==
+X-Gm-Message-State: AJIora/1GPjwYk+rVe7sMFkifKBmG/U3uZyq22ktnSOy++B2wDb68M0G
+        ZB8En22U322vx9myQDmYCpITixIfzwaDZtMY8F+tdNdg+sCGR2baVtZgirPnyOnp/L0BkfvONAF
+        z9vJ6LfYhvwpjySXdAIdWvCs4
+X-Received: by 2002:a05:600c:4f08:b0:39c:9437:da06 with SMTP id l8-20020a05600c4f0800b0039c9437da06mr15904992wmq.181.1656345983637;
+        Mon, 27 Jun 2022 09:06:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v+tzLlkmyLWgs6sbrQRofFBaYY7XIFbbta3ZJQIjl0O65OYMJ11jwxkV5OFeVW9JYuXDa+jw==
+X-Received: by 2002:a05:600c:4f08:b0:39c:9437:da06 with SMTP id l8-20020a05600c4f0800b0039c9437da06mr15904963wmq.181.1656345983407;
+        Mon, 27 Jun 2022 09:06:23 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id z22-20020a05600c221600b003a0499df21asm5169981wml.25.2022.06.27.09.06.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 09:06:22 -0700 (PDT)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 13/14] KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
-Date:   Mon, 27 Jun 2022 18:04:39 +0200
-Message-Id: <20220627160440.31857-14-vkuznets@redhat.com>
-In-Reply-To: <20220627160440.31857-1-vkuznets@redhat.com>
-References: <20220627160440.31857-1-vkuznets@redhat.com>
+Subject: Re: [PATCH RFC v1 00/10] KVM: nVMX: Use vmcs_config for setting up
+ nested VMX MSRs
+In-Reply-To: <YrUF1Zj35BYvXrB6@google.com>
+References: <20220622164432.194640-1-vkuznets@redhat.com>
+ <YrUF1Zj35BYvXrB6@google.com>
+Date:   Mon, 27 Jun 2022 18:06:21 +0200
+Message-ID: <87tu86um4i.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Like other host VMX control MSRs, MSR_IA32_VMX_MISC can be cached in
-vmcs_config to avoid the need to re-read it later, e.g. from
-cpu_has_vmx_intel_pt() or cpu_has_vmx_shadow_vmcs().
+Sean Christopherson <seanjc@google.com> writes:
 
-No (real) functional change intended.
+> On Wed, Jun 22, 2022, Vitaly Kuznetsov wrote:
+>> vmcs_config is a sanitized version of host VMX MSRs where some controls are
+>> filtered out (e.g. when Enlightened VMCS is enabled, some know bugs are 
+>> discovered, some inconsistencies in controls are detected,...) but
+>> nested_vmx_setup_ctls_msrs() uses raw host MSRs instead. This may end up
+>> in exposing undesired controls to L1. Switch to using vmcs_config instead.
+>> 
+>> RFC part: vmcs_config's sanitization now is a mix of "what can't be enabled"
+>> and "what KVM doesn't want" and we need to separate these as for nested VMX
+>> MSRs only the first category makes sense. This gives vmcs_config a slightly
+>> different meaning "controls which can be (theoretically) used". An alternative
+>> approach would be to store sanitized host MSRs values separately, sanitize
+>> them and and use in nested_vmx_setup_ctls_msrs() but currently I don't see
+>> any benefits. Comments welcome!
+>
+> I like the idea overall, even though it's a decent amount of churn.  It seems
+> easier to maintain than separate paths for nested.  The alternative would be to
+> add common helpers to adjust the baseline configurations, but I don't see any
+> way to programmatically make that approach more robust.
+>
+> An idea to further harden things.  Or: an excuse to extend macro shenanigans :-)
+>
+> If we throw all of the "opt" and "min" lists into macros, e.g. KVM_REQUIRED_*
+> and KVM_OPTIONAL_*, and then use those to define a KVM_KNOWN_* field, we can
+> prevent using the mutators to set/clear unknown bits at runtime via BUILD_BUG_ON().
+> The core builders, e.g. vmx_exec_control(), can still set unknown bits, i.e. set
+> bits that aren't enumerated to L1, but that's easier to audit and this would catch
+> regressions for the issues fixed in patches.
+>
+> It'll required making add_atomic_switch_msr_special() __always_inline (or just
+> open code it), but that's not a big deal.
+>
+> E.g. if we have
+>
+>   #define KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL <blah blah blah>
+>   #define KVM_OPTIONAL_CPU_BASED_VM_EXEC_CONTROL <blah blah blah>
+>
+> Then the builders for the controls shadows can do:
+>
+> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+> index 286c88e285ea..5eb75822a09e 100644
+> --- a/arch/x86/kvm/vmx/vmx.h
+> +++ b/arch/x86/kvm/vmx/vmx.h
+> @@ -468,6 +468,8 @@ static inline u8 vmx_get_rvi(void)
+>  }
+>  
+>  #define BUILD_CONTROLS_SHADOW(lname, uname, bits)                              \
+> +#define KVM_KNOWN_ ## uname                                                    \
+> +       (KVM_REQUIRED_ ## uname | KVM_OPTIONAL_ ## uname)                       \
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/kvm/vmx/capabilities.h | 11 +++--------
- arch/x86/kvm/vmx/vmx.c          |  8 +++++---
- 2 files changed, 8 insertions(+), 11 deletions(-)
+I'm certainly not a macro jedi and I failed to make this compile as gcc
+hates when I put '#define's in macros but I made a simpler version with
+(presumeably) the same outcome. v1 is out, thanks for the suggestion!
 
-diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-index 2e223440e7ed..9a73087c8314 100644
---- a/arch/x86/kvm/vmx/capabilities.h
-+++ b/arch/x86/kvm/vmx/capabilities.h
-@@ -70,6 +70,7 @@ struct vmcs_config {
- 	u32 vmexit_ctrl_req1;
- 	u32 vmentry_ctrl;
- 	u32 vmentry_ctrl_req1;
-+	u64 misc;
- 	struct nested_vmx_msrs nested;
- };
- extern struct vmcs_config vmcs_config;
-@@ -229,11 +230,8 @@ static inline bool cpu_has_vmx_vmfunc(void)
- 
- static inline bool cpu_has_vmx_shadow_vmcs(void)
- {
--	u64 vmx_msr;
--
- 	/* check if the cpu supports writing r/o exit information fields */
--	rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
--	if (!(vmx_msr & MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
-+	if (!(vmcs_config.misc & MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
- 		return false;
- 
- 	return vmcs_config.cpu_based_2nd_exec_ctrl &
-@@ -375,10 +373,7 @@ static inline bool cpu_has_vmx_invvpid_global(void)
- 
- static inline bool cpu_has_vmx_intel_pt(void)
- {
--	u64 vmx_msr;
--
--	rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
--	return (vmx_msr & MSR_IA32_VMX_MISC_INTEL_PT) &&
-+	return (vmcs_config.misc & MSR_IA32_VMX_MISC_INTEL_PT) &&
- 		(vmcs_config.cpu_based_2nd_exec_ctrl & SECONDARY_EXEC_PT_USE_GPA) &&
- 		(vmcs_config.vmentry_ctrl & VM_ENTRY_LOAD_IA32_RTIT_CTL);
- }
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index c1bbbe1c6d9f..878da8aa775a 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2460,6 +2460,7 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	u32 _cpu_based_2nd_exec_control_low = 0;
- 	u32 _vmexit_control_low = 0;
- 	u32 _vmentry_control_low = 0;
-+	u64 misc_msr;
- 	int i;
- 
- 	/*
-@@ -2621,6 +2622,8 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	if (((vmx_msr_high >> 18) & 15) != 6)
- 		return -EIO;
- 
-+	rdmsrl(MSR_IA32_VMX_MISC, misc_msr);
-+
- 	vmcs_conf->size = vmx_msr_high & 0x1fff;
- 	vmcs_conf->basic_cap = vmx_msr_high & ~0x1fff;
- 
-@@ -2637,6 +2640,7 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	vmcs_conf->vmexit_ctrl_req1         = _vmexit_control_low;
- 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
- 	vmcs_conf->vmentry_ctrl_req1        = _vmentry_control_low;
-+	vmcs_conf->misc	= misc_msr;
- 
- #if IS_ENABLED(CONFIG_HYPERV)
- 	if (enlightened_vmcs)
-@@ -8250,11 +8254,9 @@ static __init int hardware_setup(void)
- 
- 	if (enable_preemption_timer) {
- 		u64 use_timer_freq = 5000ULL * 1000 * 1000;
--		u64 vmx_msr;
- 
--		rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
- 		cpu_preemption_timer_multi =
--			vmx_msr & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
-+			vmcs_config.misc & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
- 
- 		if (tsc_khz)
- 			use_timer_freq = (u64)tsc_khz * 1000;
+>  static inline void lname##_controls_set(struct vcpu_vmx *vmx, u##bits val)     \
+>  {                                                                              \
+>         if (vmx->loaded_vmcs->controls_shadow.lname != val) {                   \
+> @@ -485,10 +487,12 @@ static inline u##bits lname##_controls_get(struct vcpu_vmx *vmx)          \
+>  }                                                                              \
+>  static inline void lname##_controls_setbit(struct vcpu_vmx *vmx, u##bits val)  \
+>  {                                                                              \
+> +       BUILD_BUG_ON(!(val & KVM_KNOWN_ ## uname));                             \
+>         lname##_controls_set(vmx, lname##_controls_get(vmx) | val);             \
+>  }                                                                              \
+>  static inline void lname##_controls_clearbit(struct vcpu_vmx *vmx, u##bits val)        \
+>  {                                                                              \
+> +       BUILD_BUG_ON(!(val & KVM_KNOWN_ ## uname));                             \
+>         lname##_controls_set(vmx, lname##_controls_get(vmx) & ~val);            \
+>  }
+>  BUILD_CONTROLS_SHADOW(vm_entry, VM_ENTRY_CONTROLS, 32)
+>
+>
+>
+> Handling the controls that are restricted to CONFIG_X86_64=y will be midly annoying,
+> but adding a base set isn't too bad, e.g.
+>
+> #define __KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL <blah blah blah>
+> #ifdef CONFIG_X86_64
+> #define KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL (__KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL | \
+> 						CPU_BASED_CR8_LOAD_EXITING |		   \
+> 						CPU_BASED_CR8_STORE_EXITING)
+> #else
+> #define KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL __KVM_REQUIRED_CPU_BASED_VM_EXEC_CONTROL
+> #endif
+>
+
 -- 
-2.35.3
+Vitaly
 
