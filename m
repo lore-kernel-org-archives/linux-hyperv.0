@@ -2,121 +2,114 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C27ECCA481
-	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 15:13:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2686CCA483
+	for <linux-hyperv@archiver.kernel.org>; Mon, 27 Jun 2022 15:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237767AbiF0PNL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 27 Jun 2022 11:13:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52516 "EHLO
+        id S238248AbiF0PdB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 27 Jun 2022 11:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238004AbiF0PNF (ORCPT
+        with ESMTP id S238342AbiF0PcM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 27 Jun 2022 11:13:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 38DBC60DA
-        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 08:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656342782;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ARdvDRYqFQEpUSYWNh7p3WDzIDlCQtznR2856ZwQR38=;
-        b=gW6/t2nJH8PAXDixQuQKnj/aHKA22vqsvEjs2CKz3/J+I8ul3HapcF9EMvCfJOzpnxtSvb
-        uuz0iVQXIClDIDSuR+zbt4wqYNr9hy2OcZ08yY8ovSSMY+DeeeIT8ddSJ/rrTvIkZ51A8M
-        rGkXTIt27RCmjiGsvEMsEpJVAC7+KoQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-647-KMsKkiIkOiGFBK8F1BhQeg-1; Mon, 27 Jun 2022 11:13:01 -0400
-X-MC-Unique: KMsKkiIkOiGFBK8F1BhQeg-1
-Received: by mail-ed1-f69.google.com with SMTP id g7-20020a056402424700b00435ac9c7a8bso7384968edb.14
-        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 08:13:00 -0700 (PDT)
+        Mon, 27 Jun 2022 11:32:12 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC101A390;
+        Mon, 27 Jun 2022 08:31:57 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id v126so5270755pgv.11;
+        Mon, 27 Jun 2022 08:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
+        b=dI9T0VKsh98NfrTIu4AWRJ/2IXmjraWq+1P1LN/hLe29wRLZaR5rvvsVpTVGGWRsLM
+         oRPcmybL+9qjIg6JEHoGAgGOFL/kGAFCsWLK7WCM0XkUuNwWOox1ThAs8KlnRPUzQcWt
+         lLXhKF+E22CnMCpYiFyIF3YJPLw2bIZpNYTTkS1OfiFBIkhO+xMuQ3FTM2eDbKtI6xTk
+         1g/RosEGWW+aSKl566bZiWTywkleIjLQbsyLbh6bujMdhFvi6SkuXCgqzDnInJkA6X9V
+         jxbkwdw0mafLIfRF2n+cmdU+c4npLFqnyiJ5MPEI7fj+2r7UycP6rBI7HtPEscl+zfdY
+         9fNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=ARdvDRYqFQEpUSYWNh7p3WDzIDlCQtznR2856ZwQR38=;
-        b=SQNea8wCDxDThdjTRIjlom+bScvD/7kBYJ3IfKL99p0aPxgoV0G94D6j3oICyuIEHs
-         41Jyrs4OI2JZzInyuoU6j9ili0rfY5S3GQtuvNJ1A1YpOVAoSPl9SzCPEO1zK8YKCuek
-         CBezAs13JcVBlpojc+oBwmWhiLozAwwPE+mRYsMUTkSH9Pvob9MKU+TXRFNe3d7t0kLw
-         reoqwoCx44khmRgv7xFWRzqRHT8cDxceYYOzEEyRla5/FiIa3F4FrJtlhNJX5HXme6TD
-         Ni2XmpKn0kUi0V9EF7ogSogR+UrIw3Wiv2lE8a6TVqqjobUnMXrEMV7zFtbLidUtM8+k
-         jT2g==
-X-Gm-Message-State: AJIora9HHqpv+Lus4l/lirn0NUNFMmgrQILS9AfF71XYyGzzxUjpb9Ru
-        56+03rYbG3IT4JV8m1NL91OeRhihhcIalQo7xSkAEPHyAPyIT6Qr4VkJA+xRSW8QIbOF5ITx7Wn
-        qfjS1rJCjLSL8rh2jqlh80uoA
-X-Received: by 2002:a17:906:5512:b0:726:be2c:a2e5 with SMTP id r18-20020a170906551200b00726be2ca2e5mr2270030ejp.88.1656342779601;
-        Mon, 27 Jun 2022 08:12:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ujLOPA2JVmlJ+R4KMLfx0HjYsH41cRwgwuV7mZUbliS5V6Ns2xRIbDBxPpYaLhiDmvcPjGPQ==
-X-Received: by 2002:a17:906:5512:b0:726:be2c:a2e5 with SMTP id r18-20020a170906551200b00726be2ca2e5mr2270015ejp.88.1656342779400;
-        Mon, 27 Jun 2022 08:12:59 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id w13-20020a170906d20d00b00726298147b1sm5049433ejz.161.2022.06.27.08.12.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=LCgfBJhENgb3ojrVqpq/GHPBaWKu1KifC83EuVi6Y6g=;
+        b=3LOTwc92XC+sGQz68weoKEH1whtkpTxUClFUWM2CZdH7yQTvgNNiDz1x+lHyE+jy+7
+         gUmvqPzg3pMSm+2gKX/gf1Bz2i9QMwiXnDf+qZhApXfrMRX5c377MqL+MUicuPHs8/+d
+         stypQwoA5xqWk8+Crk2VbbYuvWqVAdms4g1ESmMOymZXRlO7gPXHJi1A93PFQxh1AtRx
+         L0qfB2nwuu3Gof7ktmM7kuwVYokeNYg0gXgdj4VQXtX/ulWqdKco6kQzS5c7cK9xt3z0
+         EcrgV1hkDEY0JTlS476D9Bp4aF/ehhv7xUX5bCe0Ao+tppHhsw38obsvnoqKtWN2xLkU
+         Bxxg==
+X-Gm-Message-State: AJIora9MxRGm3jh0GvG4acycfqo98w9y3tr9bkweDimzhZ6xbV9tt5vy
+        05QItMjUmoA4BmXsGiTu020=
+X-Google-Smtp-Source: AGRyM1u5LW9AITaIesZzlz5OplsMuM7fKSzm3w1NSzCcIsHcbNdQtjNjluJWhAENtSD4tzySP2ykWA==
+X-Received: by 2002:a05:6a00:17a8:b0:525:537a:b0df with SMTP id s40-20020a056a0017a800b00525537ab0dfmr15547134pfg.71.1656343916526;
+        Mon, 27 Jun 2022 08:31:56 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:f0eb:a18:55d7:977b])
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78f26000000b005251ec8bb5bsm7595705pfr.199.2022.06.27.08.31.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 08:12:58 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v1 02/10] KVM: VMX: Add missing CPU based VM
- execution controls to vmcs_config
-In-Reply-To: <YrUBYTXRxBGYsd1a@google.com>
-References: <20220622164432.194640-1-vkuznets@redhat.com>
- <20220622164432.194640-3-vkuznets@redhat.com>
- <YrUBYTXRxBGYsd1a@google.com>
-Date:   Mon, 27 Jun 2022 17:12:58 +0200
-Message-ID: <87wnd2uolh.fsf@redhat.com>
+        Mon, 27 Jun 2022 08:31:55 -0700 (PDT)
+From:   Tianyu Lan <ltykernel@gmail.com>
+To:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
+        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        michael.h.kelley@microsoft.com, kys@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com,
+        Andi Kleen <ak@linux.intel.com>
+Subject: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of lapic entry in MADT
+Date:   Mon, 27 Jun 2022 11:31:50 -0400
+Message-Id: <20220627153150.106995-3-ltykernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220627153150.106995-1-ltykernel@gmail.com>
+References: <20220627153150.106995-1-ltykernel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Sean Christopherson <seanjc@google.com> writes:
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-> Maybe say "dynamically enabled" or so instead of "missing"?
->
+When initialize swiotlb bounce buffer, smp_init() has not been
+called and cpu number can not be got from num_online_cpus().
+Use the number of lapic entry to set swiotlb area number and
+keep swiotlb area number equal to cpu number on the x86 platform.
 
-...
+Based-on-idea-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+---
+ arch/x86/kernel/acpi/boot.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> On Wed, Jun 22, 2022, Vitaly Kuznetsov wrote:
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> ---
->>  arch/x86/kvm/vmx/vmx.c | 15 ++++++++++++++-
->>  1 file changed, 14 insertions(+), 1 deletion(-)
->> 
->> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->> index 24da9e93bdab..01294a2fc1c1 100644
->> --- a/arch/x86/kvm/vmx/vmx.c
->> +++ b/arch/x86/kvm/vmx/vmx.c
->> @@ -2483,8 +2483,14 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->>  	      CPU_BASED_INVLPG_EXITING |
->>  	      CPU_BASED_RDPMC_EXITING;
->>  
->> -	opt = CPU_BASED_TPR_SHADOW |
->> +	opt = CPU_BASED_INTR_WINDOW_EXITING |
->> +	      CPU_BASED_RDTSC_EXITING |
->> +	      CPU_BASED_TPR_SHADOW |
->> +	      CPU_BASED_NMI_WINDOW_EXITING |
->> +	      CPU_BASED_USE_IO_BITMAPS |
->> +	      CPU_BASED_MONITOR_TRAP_FLAG |
->>  	      CPU_BASED_USE_MSR_BITMAPS |
->> +	      CPU_BASED_PAUSE_EXITING |
->>  	      CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |
->>  	      CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
-
-CPU_BASED_INTR_WINDOW_EXITING and CPU_BASED_NMI_WINDOW_EXITING are
-actually "dynamically enabled" but CPU_BASED_RDTSC_EXITING/
-CPU_BASED_USE_IO_BITMAPS/ CPU_BASED_MONITOR_TRAP_FLAG /
-CPU_BASED_PAUSE_EXITING are not (and I found the first two immediately
-after implementing 'macro shananigans' you suggested, of course :-), KVM
-just doesn't use them for L1. So this is going to get splitted in two
-patches.
-
+diff --git a/arch/x86/kernel/acpi/boot.c b/arch/x86/kernel/acpi/boot.c
+index 907cc98b1938..7e13499f2c10 100644
+--- a/arch/x86/kernel/acpi/boot.c
++++ b/arch/x86/kernel/acpi/boot.c
+@@ -22,6 +22,7 @@
+ #include <linux/efi-bgrt.h>
+ #include <linux/serial_core.h>
+ #include <linux/pgtable.h>
++#include <linux/swiotlb.h>
+ 
+ #include <asm/e820/api.h>
+ #include <asm/irqdomain.h>
+@@ -1131,6 +1132,8 @@ static int __init acpi_parse_madt_lapic_entries(void)
+ 		return count;
+ 	}
+ 
++	swiotlb_adjust_nareas(max(count, x2count));
++
+ 	x2count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_X2APIC_NMI,
+ 					acpi_parse_x2apic_nmi, 0);
+ 	count = acpi_table_parse_madt(ACPI_MADT_TYPE_LOCAL_APIC_NMI,
 -- 
-Vitaly
+2.25.1
 
