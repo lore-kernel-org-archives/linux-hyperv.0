@@ -2,97 +2,114 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E95BBC43334
-	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Jun 2022 01:38:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EC48C433EF
+	for <linux-hyperv@archiver.kernel.org>; Tue, 28 Jun 2022 09:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243178AbiF1BiX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 27 Jun 2022 21:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57708 "EHLO
+        id S1343954AbiF1JIR (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 28 Jun 2022 05:08:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243168AbiF1BiX (ORCPT
+        with ESMTP id S1344056AbiF1JIQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 27 Jun 2022 21:38:23 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 638381B7AD
-        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 18:38:22 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id g20-20020a17090a579400b001ed52939d72so5677480pji.4
-        for <linux-hyperv@vger.kernel.org>; Mon, 27 Jun 2022 18:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qur+4N7rCs+mVR7/NYYv8k082l5ZRw3E/FtSDC7Vi20=;
-        b=Es9RG3ilIwqewAskEs5xAWk7WPS179OJkjmrE1lpHCMqiMtUcmvTcsncMX9uv2+3St
-         Cfg+MLs9G1Q1U+AWTwVOeOQs9jFh0b17GEhcbOLZa0mEV1InvlB8BS4sS6ppgnRBVedv
-         t2hGAdnM7xWa5f8gf2Ohyu4expuS2Y9Dne2L018kAf4S+l0RHMu4SYG4AVSXhANglTAb
-         iZ0b2CdJLCf34hwJPMzNtgHz7T+2o4RsEUwxxwSqqX+Eln24p0BJwVzo72bJl9r7qJGV
-         1qoc1BSP7QwLF10YHsOHM2hnb5nha47ddiysJf28h9CIkIEAdpN0l1bBizKHVCBsVrjy
-         3Vdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qur+4N7rCs+mVR7/NYYv8k082l5ZRw3E/FtSDC7Vi20=;
-        b=mYj1VMH5rFfKHJhRAhXctH1Cfl2wM8Rf/Y141NhO8CFneSYHegIPIEsoIOmJhV/vdq
-         cnI7YOGieQ53EvRVYVc+zXu+mA8+/pwLyilY4JEVfUGTQaehOzamqHfqWDGOmOCf9BCH
-         2DuQC4+23F+gYnRMUcAefiLcyYbmXpMYpXwhTJZyhQndiNB7/DZ33woUTTAikjMEN7pv
-         6DDTFkVoOsgJD+tIw731EVIdoSXIKit4MLypsvCaOfR3WWogG2V0Ql74JcOiFar9dZbm
-         m3wCfZrrl8/y7NVgLJRJ0RPdpmwAgHon9AtlJhXMgN3zYkcDW8TQatUKjUlS696fjFMI
-         COPA==
-X-Gm-Message-State: AJIora8SiPCuSjRS6+5F0tWWLOPI3j+LdSzOE0Kecd24+upb5bF2bUDa
-        87i2wLX5GchTQ8ULfa/I0eQSOw==
-X-Google-Smtp-Source: AGRyM1tOjbhqovgiABjLCosAQ6d3Mxq9yIbjrj8W8Cwt5EgLooPUzzbVxvgAiu8u0rT87yiKJU5Kqg==
-X-Received: by 2002:a17:90b:3685:b0:1ec:f6f4:8a64 with SMTP id mj5-20020a17090b368500b001ecf6f48a64mr24720404pjb.199.1656380301657;
-        Mon, 27 Jun 2022 18:38:21 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id a14-20020a1709027d8e00b0016b7ba73a18sm2958838plm.38.2022.06.27.18.38.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 18:38:20 -0700 (PDT)
-Date:   Tue, 28 Jun 2022 01:38:17 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Dong, Eddie" <eddie.dong@intel.com>
-Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        Tue, 28 Jun 2022 05:08:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E50BA103B
+        for <linux-hyperv@vger.kernel.org>; Tue, 28 Jun 2022 02:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656407294;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BXAG5b0n3utC+xKu/ur4SDi+QqaWJ5b7MPRWdkNFMEA=;
+        b=QSWUKIXz4HK66a1DfccCq53TQrZtcgQl4IXN8AUC2j0So+kh0/eeyfSvyJfcEoFs7fVhJa
+        BcoWD2LA1B5yOF0BDbIA0NITfu4esNnwD8Zszwcd62mikBedzJps1nErDc1AGQTdiLk/Tg
+        80oeQ1OQInX60bG3saYkDLQluIxH2Kg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-FYALN4vtN4yD3bN7U9-Tsw-1; Tue, 28 Jun 2022 05:08:09 -0400
+X-MC-Unique: FYALN4vtN4yD3bN7U9-Tsw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4474F2999B40;
+        Tue, 28 Jun 2022 09:08:09 +0000 (UTC)
+Received: from starship (unknown [10.40.194.38])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DD37E404E4C8;
+        Tue, 28 Jun 2022 09:08:06 +0000 (UTC)
+Message-ID: <0739589fe08c75c563e10cb41388640c7e050a52.camel@redhat.com>
+Subject: Re: [PATCH 00/14] KVM: nVMX: Use vmcs_config for setting up nested
+ VMX MSRs
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>, kvm@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>,
-        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 04/14] KVM: VMX: Extend VMX controls macro shenanigans
-Message-ID: <YrpbiWw1E4DXQ962@google.com>
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 28 Jun 2022 12:08:05 +0300
+In-Reply-To: <20220627160440.31857-1-vkuznets@redhat.com>
 References: <20220627160440.31857-1-vkuznets@redhat.com>
- <20220627160440.31857-5-vkuznets@redhat.com>
- <BL0PR11MB304264B62299D642FF906C298AB99@BL0PR11MB3042.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BL0PR11MB304264B62299D642FF906C298AB99@BL0PR11MB3042.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, Jun 27, 2022, Dong, Eddie wrote:
-> >  static inline void lname##_controls_clearbit(struct vcpu_vmx *vmx, u##bits
-> > val)	\
-> >  {
-> > 	\
-> > +	BUILD_BUG_ON(!(val & (KVM_REQ_VMX_##uname |
-> > KVM_OPT_VMX_##uname)));	\
-> >  	lname##_controls_set(vmx, lname##_controls_get(vmx) & ~val);
-> > 	\
-> >  }
+On Mon, 2022-06-27 at 18:04 +0200, Vitaly Kuznetsov wrote:
+> Changes since RFC:
+> - "KVM: VMX: Extend VMX controls macro shenanigans" PATCH added and the
+>   infrastructure is later used in other patches [Sean] PATCHes 1-3 added
+>   to support the change.
+> - "KVM: VMX: Clear controls obsoleted by EPT at runtime, not setup" PATCH
+>   added [Sean].
+> - Commit messages added.
 > 
-> With this, will it be safer if we present L1 CTRL MSRs with the bits KVM
-> really uses? Do I miss something?
+> vmcs_config is a sanitized version of host VMX MSRs where some controls are
+> filtered out (e.g. when Enlightened VMCS is enabled, some know bugs are 
+> discovered, some inconsistencies in controls are detected,...) but
+> nested_vmx_setup_ctls_msrs() uses raw host MSRs instead. This may end up
+> in exposing undesired controls to L1. Switch to using vmcs_config instead.
+> 
+> Sean Christopherson (1):
+>   KVM: VMX: Clear controls obsoleted by EPT at runtime, not setup
+> 
+> Vitaly Kuznetsov (13):
+>   KVM: VMX: Check VM_ENTRY_IA32E_MODE in setup_vmcs_config()
+>   KVM: VMX: Check CPU_BASED_{INTR,NMI}_WINDOW_EXITING in
+>     setup_vmcs_config()
+>   KVM: VMX: Tweak the special handling of SECONDARY_EXEC_ENCLS_EXITING
+>     in setup_vmcs_config()
+>   KVM: VMX: Extend VMX controls macro shenanigans
+>   KVM: VMX: Move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering out of
+>     setup_vmcs_config()
+>   KVM: VMX: Add missing VMEXIT controls to vmcs_config
+>   KVM: VMX: Add missing VMENTRY controls to vmcs_config
+>   KVM: VMX: Add missing CPU based VM execution controls to vmcs_config
+>   KVM: nVMX: Use sanitized allowed-1 bits for VMX control MSRs
+>   KVM: VMX: Store required-1 VMX controls in vmcs_config
+>   KVM: nVMX: Use sanitized required-1 bits for VMX control MSRs
+>   KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
+>   KVM: nVMX: Use cached host MSR_IA32_VMX_MISC value for setting up
+>     nested MSR
+> 
+>  arch/x86/kvm/vmx/capabilities.h |  16 +--
+>  arch/x86/kvm/vmx/nested.c       |  37 +++---
+>  arch/x86/kvm/vmx/nested.h       |   2 +-
+>  arch/x86/kvm/vmx/vmx.c          | 198 ++++++++++++++------------------
+>  arch/x86/kvm/vmx/vmx.h          | 118 +++++++++++++++++++
+>  5 files changed, 229 insertions(+), 142 deletions(-)
+> 
+Sorry that I was a bit out of loop on this, so before I review it,
+does this patch series solve the eVMCS issue we had alone,
+or we still need the eVMCS version patch series as well?
 
-KVM will still allow L1 to use features/controls that KVM itself doesn't use, but
-exposing features/controls that KVM doesn't use will require a more explicit
-"override" of sorts, e.g. to prevent advertising features that are supported in
-hardware, known to KVM, but disabled for whatever reason, e.g. a CPU bug, eVMCS
-incompatibility, module param, etc...
+Best regards,
+	Maxim Levitsky
 
-The intent of this BUILD_BUG_ON() is to detect KVM usage of bits that aren't enabled
-by default, i.e. to lower the probability that a control gets used by KVM but isn't
-exposed to L1 because it's a dynamically enabled control.
