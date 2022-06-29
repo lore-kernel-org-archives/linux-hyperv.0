@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BE5CCA47E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0CEC433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233936AbiF2PHL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 29 Jun 2022 11:07:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
+        id S233877AbiF2PHN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 29 Jun 2022 11:07:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233877AbiF2PHD (ORCPT
+        with ESMTP id S233809AbiF2PHB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 29 Jun 2022 11:07:03 -0400
+        Wed, 29 Jun 2022 11:07:01 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C87962C670
-        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:07:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78A6C12762
+        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656515221;
+        s=mimecast20190719; t=1656515219;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=vWAoYeve+DHGq+Zyx/g1X6Go+r9A6POZwpW+4oiNKhg=;
-        b=hPEcwGJTc87T3w6OCnZ+BUYJ5jhmTxzc/d6grIZffSV8HUZh3r6GXpM6v5VyP3zfzkr2ju
-        sdwsEmnJq5VKy2jvppudqO5r7pIV3HUWrTJe7hE2AK4RU0YruYrck4fmaJzESVJTh243HT
-        WXFBFSizbWfouz3euTvR1DPUxT4m2tA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=RaB1fq3wTWP/kZS7ooNpBTL5jS+GbfNO15gG3YtTEOw=;
+        b=Ho107PjjVlCcNI3+xWxvxU5Rksdi0fSHJ2sWgcqeT83M4WOAz+BOSSXzwLBWNWypah9kWp
+        gPecNTlyXURdkctuVTePMK5XZMNp298VMfZWMr7tJONoRmX4ukbM6eNoDbZJb55TUSQscd
+        Wbx8B4+j+XMoC+HfmlcZpLZ3EIUnLHE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-Lg5b-FSAMTCq-s7v3lwQ4A-1; Wed, 29 Jun 2022 11:06:59 -0400
-X-MC-Unique: Lg5b-FSAMTCq-s7v3lwQ4A-1
+ us-mta-369-dblMEyabOgCg2eDccCc8Tw-1; Wed, 29 Jun 2022 11:06:54 -0400
+X-MC-Unique: dblMEyabOgCg2eDccCc8Tw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F363729AB41F;
-        Wed, 29 Jun 2022 15:06:56 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 452E81035341;
+        Wed, 29 Jun 2022 15:06:52 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DBD4740EC021;
-        Wed, 29 Jun 2022 15:06:54 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 35ABC40EC002;
+        Wed, 29 Jun 2022 15:06:50 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 12/28] KVM: VMX: Enable VM_{EXIT,ENTRY}_LOAD_IA32_PERF_GLOBAL_CTRL for KVM on Hyper-V
-Date:   Wed, 29 Jun 2022 17:06:09 +0200
-Message-Id: <20220629150625.238286-13-vkuznets@redhat.com>
+Subject: [PATCH v2 10/28] KVM: selftests: Switch to updated eVMCSv1 definition
+Date:   Wed, 29 Jun 2022 17:06:07 +0200
+Message-Id: <20220629150625.238286-11-vkuznets@redhat.com>
 In-Reply-To: <20220629150625.238286-1-vkuznets@redhat.com>
 References: <20220629150625.238286-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,59 +59,98 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The updated Enlightened VMCS v1 specification gained
-{guest,host}_ia32_perf_global_ctrl fields so there's no need to filter
-VM_{EXIT,ENTRY}_LOAD_IA32_PERF_GLOBAL_CTRL out. Unfortunately, enabling
-these controls for Hyper-V on KVM results in boot time crashes and the
-exact reason is not clear yet. It is, however, possible to enable the
-feature for KVM on Hyper-V as it seems to work.
+Update Enlightened VMCS definition in selftests from KVM and switch to
+using EVMCS_REVISION 2 which supports these new fields.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/evmcs.c | 10 ++++++++--
- arch/x86/kvm/vmx/evmcs.h |  5 ++---
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ .../selftests/kvm/include/x86_64/evmcs.h      | 47 +++++++++++++++++--
+ 1 file changed, 43 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 4fe65b6a9a92..697590cf5b10 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -384,11 +384,17 @@ static u32 evmcs_get_unsupported_ctls(struct kvm_vcpu *vcpu,
- 	if (!evmcs_rev)
- 		return 0;
+diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+index b6d6c73f68dc..ee95286159d1 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
++++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+@@ -17,7 +17,7 @@
+ #define u64 uint64_t
  
-+	/*
-+	 * While GUEST_IA32_PERF_GLOBAL_CTRL and HOST_IA32_PERF_GLOBAL_CTRL
-+	 * are present in eVMCSv1, Windows 11 still has issues booting when
-+	 * VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL/VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL
-+	 * are exposed to it, keep them filtered out.
-+	 */
- 	switch (ctrl_type) {
- 	case EVMCS_EXIT_CTLS:
--		return EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
-+		return EVMCS1_UNSUPPORTED_VMEXIT_CTRL | VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
- 	case EVMCS_ENTRY_CTLS:
--		return EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
-+		return EVMCS1_UNSUPPORTED_VMENTRY_CTRL | VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
- 	case EVMCS_2NDEXEC:
- 		if (evmcs_rev == 1)
- 			return EVMCS1_UNSUPPORTED_2NDEXEC | SECONDARY_EXEC_TSC_SCALING;
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index 2992e29b81b7..c9090ac39740 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -68,9 +68,8 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
- 	 SECONDARY_EXEC_SHADOW_VMCS |					\
- 	 SECONDARY_EXEC_PAUSE_LOOP_EXITING)
- #define EVMCS1_UNSUPPORTED_VMEXIT_CTRL					\
--	(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |				\
--	 VM_EXIT_SAVE_VMX_PREEMPTION_TIMER)
--#define EVMCS1_UNSUPPORTED_VMENTRY_CTRL (VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL)
-+	(VM_EXIT_SAVE_VMX_PREEMPTION_TIMER)
-+#define EVMCS1_UNSUPPORTED_VMENTRY_CTRL (0)
- #define EVMCS1_UNSUPPORTED_VMFUNC (VMX_VMFUNC_EPTP_SWITCHING)
+ #define EVMCS_VERSION 1
+-#define EVMCS_REVISION 1
++#define EVMCS_REVISION 2
  
- struct evmcs_field {
+ extern bool enable_evmcs;
+ 
+@@ -204,14 +204,25 @@ struct hv_enlightened_vmcs {
+ 		u32 reserved:30;
+ 	} hv_enlightenments_control;
+ 	u32 hv_vp_id;
+-
++	u32 padding32_2;
+ 	u64 hv_vm_id;
+ 	u64 partition_assist_page;
+ 	u64 padding64_4[4];
+ 	u64 guest_bndcfgs;
+-	u64 padding64_5[7];
++	u64 guest_ia32_perf_global_ctrl;
++	u64 guest_ia32_s_cet;
++	u64 guest_ssp;
++	u64 guest_ia32_int_ssp_table_addr;
++	u64 guest_ia32_lbr_ctl;
++	u64 padding64_5[2];
+ 	u64 xss_exit_bitmap;
+-	u64 padding64_6[7];
++	u64 host_ia32_perf_global_ctrl;
++	u64 encls_exiting_bitmap;
++	u64 tsc_multiplier;
++	u64 host_ia32_s_cet;
++	u64 host_ssp;
++	u64 host_ia32_int_ssp_table_addr;
++	u64 padding64_6;
+ };
+ 
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
+@@ -657,6 +668,18 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
+ 	case VIRTUAL_PROCESSOR_ID:
+ 		*value = current_evmcs->virtual_processor_id;
+ 		break;
++	case HOST_IA32_PERF_GLOBAL_CTRL:
++		*value = current_evmcs->host_ia32_perf_global_ctrl;
++		break;
++	case GUEST_IA32_PERF_GLOBAL_CTRL:
++		*value = current_evmcs->guest_ia32_perf_global_ctrl;
++		break;
++	case ENCLS_EXITING_BITMAP:
++		*value = current_evmcs->encls_exiting_bitmap;
++		break;
++	case TSC_MULTIPLIER:
++		*value = current_evmcs->tsc_multiplier;
++		break;
+ 	default: return 1;
+ 	}
+ 
+@@ -1170,6 +1193,22 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
+ 		current_evmcs->virtual_processor_id = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_XLAT;
+ 		break;
++	case HOST_IA32_PERF_GLOBAL_CTRL:
++		current_evmcs->host_ia32_perf_global_ctrl = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1;
++		break;
++	case GUEST_IA32_PERF_GLOBAL_CTRL:
++		current_evmcs->guest_ia32_perf_global_ctrl = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1;
++		break;
++	case ENCLS_EXITING_BITMAP:
++		current_evmcs->encls_exiting_bitmap = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
++		break;
++	case TSC_MULTIPLIER:
++		current_evmcs->tsc_multiplier = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
++		break;
+ 	default: return 1;
+ 	}
+ 
 -- 
 2.35.3
 
