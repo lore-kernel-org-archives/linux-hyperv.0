@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A0CEC433EF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A3C7C43334
+	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233877AbiF2PHN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 29 Jun 2022 11:07:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40134 "EHLO
+        id S233972AbiF2PHT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 29 Jun 2022 11:07:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233809AbiF2PHB (ORCPT
+        with ESMTP id S233915AbiF2PHH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 29 Jun 2022 11:07:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78A6C12762
-        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:07:00 -0700 (PDT)
+        Wed, 29 Jun 2022 11:07:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 16D3719035
+        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656515219;
+        s=mimecast20190719; t=1656515226;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=RaB1fq3wTWP/kZS7ooNpBTL5jS+GbfNO15gG3YtTEOw=;
-        b=Ho107PjjVlCcNI3+xWxvxU5Rksdi0fSHJ2sWgcqeT83M4WOAz+BOSSXzwLBWNWypah9kWp
-        gPecNTlyXURdkctuVTePMK5XZMNp298VMfZWMr7tJONoRmX4ukbM6eNoDbZJb55TUSQscd
-        Wbx8B4+j+XMoC+HfmlcZpLZ3EIUnLHE=
+        bh=Y7SQ65hZDyY+SZF8odkay7bu2Tt6DTwPJ1/3ECRmhxE=;
+        b=e+vVRnFg1dp7ZtE4l22TyQQr5OYUY388CL/kbit5Fq6dtSr5oc86Ds8LwUicAXlcya2jbG
+        FehSOsiBhv6I2t8VfydcFvMNMQpCAEREOP9I82GBpnzxuRr79jiUvJH6jEr2wlbR15q9Vn
+        Ejf5frW57nt7yAJGV9qeDoYWWXt7EWY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-dblMEyabOgCg2eDccCc8Tw-1; Wed, 29 Jun 2022 11:06:54 -0400
-X-MC-Unique: dblMEyabOgCg2eDccCc8Tw-1
+ us-mta-672-CvYWBZiKNEComR-6qzVwwg-1; Wed, 29 Jun 2022 11:07:03 -0400
+X-MC-Unique: CvYWBZiKNEComR-6qzVwwg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 452E81035341;
-        Wed, 29 Jun 2022 15:06:52 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3ACC88339C1;
+        Wed, 29 Jun 2022 15:07:01 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 35ABC40EC002;
-        Wed, 29 Jun 2022 15:06:50 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 456CB40EC002;
+        Wed, 29 Jun 2022 15:06:59 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/28] KVM: selftests: Switch to updated eVMCSv1 definition
-Date:   Wed, 29 Jun 2022 17:06:07 +0200
-Message-Id: <20220629150625.238286-11-vkuznets@redhat.com>
+Subject: [PATCH v2 14/28] KVM: VMX: Check VM_ENTRY_IA32E_MODE in setup_vmcs_config()
+Date:   Wed, 29 Jun 2022 17:06:11 +0200
+Message-Id: <20220629150625.238286-15-vkuznets@redhat.com>
 In-Reply-To: <20220629150625.238286-1-vkuznets@redhat.com>
 References: <20220629150625.238286-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,98 +59,52 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Update Enlightened VMCS definition in selftests from KVM and switch to
-using EVMCS_REVISION 2 which supports these new fields.
+VM_ENTRY_IA32E_MODE control is toggled dynamically by vmx_set_efer()
+and setup_vmcs_config() doesn't check its existence. On the contrary,
+nested_vmx_setup_ctls_msrs() doesn set it on x86_64. Add the missing
+check and filter the bit out in vmx_vmentry_ctrl().
+
+No (real) functional change intended as all existing CPUs supporting
+long mode and VMX are supposed to have it.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/evmcs.h      | 47 +++++++++++++++++--
- 1 file changed, 43 insertions(+), 4 deletions(-)
+ arch/x86/kvm/vmx/vmx.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index b6d6c73f68dc..ee95286159d1 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -17,7 +17,7 @@
- #define u64 uint64_t
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 83feb70d44a9..da8bbba38d0e 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -2610,6 +2610,9 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 		_pin_based_exec_control &= ~PIN_BASED_POSTED_INTR;
  
- #define EVMCS_VERSION 1
--#define EVMCS_REVISION 1
-+#define EVMCS_REVISION 2
+ 	min = VM_ENTRY_LOAD_DEBUG_CONTROLS;
++#ifdef CONFIG_X86_64
++	min |= VM_ENTRY_IA32E_MODE;
++#endif
+ 	opt = VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
+ 	      VM_ENTRY_LOAD_IA32_PAT |
+ 	      VM_ENTRY_LOAD_IA32_EFER |
+@@ -4242,9 +4245,15 @@ static u32 vmx_vmentry_ctrl(void)
+ 	if (vmx_pt_mode_is_system())
+ 		vmentry_ctrl &= ~(VM_ENTRY_PT_CONCEAL_PIP |
+ 				  VM_ENTRY_LOAD_IA32_RTIT_CTL);
+-	/* Loading of EFER and PERF_GLOBAL_CTRL are toggled dynamically */
+-	return vmentry_ctrl &
+-		~(VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL | VM_ENTRY_LOAD_IA32_EFER);
++	/*
++	 * Loading of EFER, VM_ENTRY_IA32E_MODE, and PERF_GLOBAL_CTRL
++	 * are toggled dynamically.
++	 */
++	vmentry_ctrl &= ~(VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
++			  VM_ENTRY_LOAD_IA32_EFER |
++			  VM_ENTRY_IA32E_MODE);
++
++	return vmentry_ctrl;
+ }
  
- extern bool enable_evmcs;
- 
-@@ -204,14 +204,25 @@ struct hv_enlightened_vmcs {
- 		u32 reserved:30;
- 	} hv_enlightenments_control;
- 	u32 hv_vp_id;
--
-+	u32 padding32_2;
- 	u64 hv_vm_id;
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
- 	u64 guest_bndcfgs;
--	u64 padding64_5[7];
-+	u64 guest_ia32_perf_global_ctrl;
-+	u64 guest_ia32_s_cet;
-+	u64 guest_ssp;
-+	u64 guest_ia32_int_ssp_table_addr;
-+	u64 guest_ia32_lbr_ctl;
-+	u64 padding64_5[2];
- 	u64 xss_exit_bitmap;
--	u64 padding64_6[7];
-+	u64 host_ia32_perf_global_ctrl;
-+	u64 encls_exiting_bitmap;
-+	u64 tsc_multiplier;
-+	u64 host_ia32_s_cet;
-+	u64 host_ssp;
-+	u64 host_ia32_int_ssp_table_addr;
-+	u64 padding64_6;
- };
- 
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
-@@ -657,6 +668,18 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
- 	case VIRTUAL_PROCESSOR_ID:
- 		*value = current_evmcs->virtual_processor_id;
- 		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->host_ia32_perf_global_ctrl;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->guest_ia32_perf_global_ctrl;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		*value = current_evmcs->encls_exiting_bitmap;
-+		break;
-+	case TSC_MULTIPLIER:
-+		*value = current_evmcs->tsc_multiplier;
-+		break;
- 	default: return 1;
- 	}
- 
-@@ -1170,6 +1193,22 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
- 		current_evmcs->virtual_processor_id = value;
- 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_XLAT;
- 		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->host_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->guest_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		current_evmcs->encls_exiting_bitmap = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
-+	case TSC_MULTIPLIER:
-+		current_evmcs->tsc_multiplier = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
- 	default: return 1;
- 	}
- 
+ static u32 vmx_vmexit_ctrl(void)
 -- 
 2.35.3
 
