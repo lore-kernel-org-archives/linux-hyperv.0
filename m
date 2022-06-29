@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53CB5CCA47C
-	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32FAAC433EF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 29 Jun 2022 15:07:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233850AbiF2PHA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 29 Jun 2022 11:07:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39974 "EHLO
+        id S233836AbiF2PHF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 29 Jun 2022 11:07:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233809AbiF2PGx (ORCPT
+        with ESMTP id S233829AbiF2PGz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 29 Jun 2022 11:06:53 -0400
+        Wed, 29 Jun 2022 11:06:55 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 47ACF2CCA3
-        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:06:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1705913CD3
+        for <linux-hyperv@vger.kernel.org>; Wed, 29 Jun 2022 08:06:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656515209;
+        s=mimecast20190719; t=1656515214;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=af3tbdHJqconrpB17WMnQfKcE/QQnybpHp5Xq4ZFEQk=;
-        b=O3A+UL5tfltrVWeSn0/keEv25i5CnMGvFBrgYBB/16WJDGf5Crh50nMcWyK2c2megmwe2O
-        2vZurNxiZadRrh++M5xU/iUl46BGVeC8UtEsourhgQPcG+1jiLRgIVbDPVWQlrZ13j5mlp
-        8kyqPo3Nm8eAWN4Sx/yHqVzPanLEAhs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=NjkLB4A+R0viOg+bQbca/divUcEXpQYDgr2soMIUIog=;
+        b=DFJ3oCKTMbDyC3vb1vL4FT0bj2Ak/ZLAF2v9BZ0+h5xbxrzZfiZzFF0r2WhPaH+sz6K9o6
+        t2d8G1Rjo3YWpIPwulElM2lt2Tdr89X4u5rtx7K7g04lCdC5eLwTUgZGiil8rlGq8zzwth
+        /Tv9Wugud2V4mjZ+Hze/w0nabtl1bSI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-hQPwlaRcOSqV6yH0hi6s7w-1; Wed, 29 Jun 2022 11:06:44 -0400
-X-MC-Unique: hQPwlaRcOSqV6yH0hi6s7w-1
+ us-mta-303-qdZUodd2N8-RyZilk_Wp2w-1; Wed, 29 Jun 2022 11:06:52 -0400
+X-MC-Unique: qdZUodd2N8-RyZilk_Wp2w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 616DB101A588;
-        Wed, 29 Jun 2022 15:06:44 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E44733C10698;
+        Wed, 29 Jun 2022 15:06:49 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.126])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6A40E40EC003;
-        Wed, 29 Jun 2022 15:06:42 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6EBFD40EC002;
+        Wed, 29 Jun 2022 15:06:47 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/28] KVM: selftests: Switch to KVM_CAP_HYPERV_ENLIGHTENED_VMCS2
-Date:   Wed, 29 Jun 2022 17:06:04 +0200
-Message-Id: <20220629150625.238286-8-vkuznets@redhat.com>
+Subject: [PATCH v2 09/28] KVM: selftests: Add ENCLS_EXITING_BITMAP{,HIGH} VMCS fields
+Date:   Wed, 29 Jun 2022 17:06:06 +0200
+Message-Id: <20220629150625.238286-10-vkuznets@redhat.com>
 In-Reply-To: <20220629150625.238286-1-vkuznets@redhat.com>
 References: <20220629150625.238286-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,109 +59,27 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-KVM_CAP_HYPERV_ENLIGHTENED_VMCS was obsoleted by
-KVM_CAP_HYPERV_ENLIGHTENED_VMCS2, use it in selftests.
+The updated Enlightened VMCS definition has 'encls_exiting_bitmap'
+field which needs mapping to VMCS, add the missing encoding.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/include/kvm_util_base.h       | 8 ++++++++
- tools/testing/selftests/kvm/include/x86_64/evmcs.h        | 1 +
- tools/testing/selftests/kvm/lib/x86_64/vmx.c              | 5 +++--
- tools/testing/selftests/kvm/x86_64/evmcs_test.c           | 2 +-
- tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c         | 2 +-
- .../selftests/kvm/x86_64/vmx_set_nested_state_test.c      | 2 +-
- 6 files changed, 15 insertions(+), 5 deletions(-)
+ tools/testing/selftests/kvm/include/x86_64/vmx.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/include/kvm_util_base.h b/tools/testing/selftests/kvm/include/kvm_util_base.h
-index b78e3c7a2566..0870865c2429 100644
---- a/tools/testing/selftests/kvm/include/kvm_util_base.h
-+++ b/tools/testing/selftests/kvm/include/kvm_util_base.h
-@@ -406,6 +406,14 @@ static inline void vcpu_enable_cap(struct kvm_vcpu *vcpu, uint32_t cap,
- 	vcpu_ioctl(vcpu, KVM_ENABLE_CAP, &enable_cap);
- }
- 
-+static inline void vcpu_enable_cap2(struct kvm_vcpu *vcpu, uint32_t cap,
-+				   uint64_t arg0, uint64_t arg1)
-+{
-+	struct kvm_enable_cap enable_cap = { .cap = cap, .args = { arg0, arg1 } };
-+
-+	vcpu_ioctl(vcpu, KVM_ENABLE_CAP, &enable_cap);
-+}
-+
- static inline void vcpu_guest_debug_set(struct kvm_vcpu *vcpu,
- 					struct kvm_guest_debug *debug)
- {
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 3c9260f8e116..b6d6c73f68dc 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -17,6 +17,7 @@
- #define u64 uint64_t
- 
- #define EVMCS_VERSION 1
-+#define EVMCS_REVISION 1
- 
- extern bool enable_evmcs;
- 
-diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-index 381432741df4..1a0b9334f8d4 100644
---- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-+++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
-@@ -42,12 +42,13 @@ struct eptPageTablePointer {
- 	uint64_t address:40;
- 	uint64_t reserved_63_52:12;
- };
-+
- int vcpu_enable_evmcs(struct kvm_vcpu *vcpu)
- {
- 	uint16_t evmcs_ver;
- 
--	vcpu_enable_cap(vcpu, KVM_CAP_HYPERV_ENLIGHTENED_VMCS,
--			(unsigned long)&evmcs_ver);
-+	vcpu_enable_cap2(vcpu, KVM_CAP_HYPERV_ENLIGHTENED_VMCS2,
-+			 EVMCS_REVISION, (unsigned long)&evmcs_ver);
- 
- 	/* KVM should return supported EVMCS version range */
- 	TEST_ASSERT(((evmcs_ver >> 8) >= (evmcs_ver & 0xff)) &&
-diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
-index 8dda527cc080..a546d1cad146 100644
---- a/tools/testing/selftests/kvm/x86_64/evmcs_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
-@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
- 
- 	TEST_REQUIRE(nested_vmx_supported());
- 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
--	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS));
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS2));
- 
- 	vcpu_set_hv_cpuid(vcpu);
- 	vcpu_enable_evmcs(vcpu);
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c b/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-index cbd4a7d36189..f19859f1956e 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_cpuid.c
-@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
- 	free(hv_cpuid_entries);
- 
- 	if (!nested_vmx_supported() ||
--	    !kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS)) {
-+	    !kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS2)) {
- 		print_skip("Enlightened VMCS is unsupported");
- 		goto do_sys;
- 	}
-diff --git a/tools/testing/selftests/kvm/x86_64/vmx_set_nested_state_test.c b/tools/testing/selftests/kvm/x86_64/vmx_set_nested_state_test.c
-index b564b86dfc1d..b624a08a5574 100644
---- a/tools/testing/selftests/kvm/x86_64/vmx_set_nested_state_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/vmx_set_nested_state_test.c
-@@ -265,7 +265,7 @@ int main(int argc, char *argv[])
- 	struct kvm_nested_state state;
- 	struct kvm_vcpu *vcpu;
- 
--	have_evmcs = kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS);
-+	have_evmcs = kvm_check_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS2);
- 
- 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
- 
+diff --git a/tools/testing/selftests/kvm/include/x86_64/vmx.h b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+index cc3604f8f1d3..5292d30fb7f2 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/vmx.h
++++ b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+@@ -208,6 +208,8 @@ enum vmcs_field {
+ 	VMWRITE_BITMAP_HIGH		= 0x00002029,
+ 	XSS_EXIT_BITMAP			= 0x0000202C,
+ 	XSS_EXIT_BITMAP_HIGH		= 0x0000202D,
++	ENCLS_EXITING_BITMAP		= 0x0000202E,
++	ENCLS_EXITING_BITMAP_HIGH	= 0x0000202F,
+ 	TSC_MULTIPLIER			= 0x00002032,
+ 	TSC_MULTIPLIER_HIGH		= 0x00002033,
+ 	GUEST_PHYSICAL_ADDRESS		= 0x00002400,
 -- 
 2.35.3
 
