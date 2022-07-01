@@ -2,66 +2,66 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D3E1CCA491
-	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Jul 2022 20:10:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B1E3C43334
+	for <linux-hyperv@archiver.kernel.org>; Fri,  1 Jul 2022 20:10:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232080AbiGAUK4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 1 Jul 2022 16:10:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
+        id S232117AbiGAUK5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 1 Jul 2022 16:10:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231648AbiGAUKu (ORCPT
+        with ESMTP id S231676AbiGAUKu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Fri, 1 Jul 2022 16:10:50 -0400
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE96E1EAE1;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E547724A;
         Fri,  1 Jul 2022 13:10:48 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 50D84580357;
-        Fri,  1 Jul 2022 16:01:57 -0400 (EDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D5ADC580285;
+        Fri,  1 Jul 2022 16:01:29 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 01 Jul 2022 16:01:57 -0400
+  by compute3.internal (MEProxy); Fri, 01 Jul 2022 16:01:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
         :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm3; t=1656705717; x=1656712917; bh=mr
-        ZZqztLVKSIkpl2ZtG9SZsAXGvA9Vl+x5zOkvs3Bjg=; b=ifFqAwFeM2wxyJCvKE
-        TcogHoKvz8Ikgyvbheen4lB6TK8my3nTFtPtZqZwV2EJoW1d675CVWiRCQYrtpCV
-        gjmX3xfutUzOU3hClg0Njj4ieVpzITbRxgXZVuosglRi9Ve/QUV4hEboq9Cl6D5q
-        5ZUDm0FkkQme2ysoms3ELh8Ej8sCf/bY7d3513Rv+xbTCp2MmH04t4WPs+p30/R/
-        NUoTk/RQLxrRh5NqM1X0miI8sZ9j0rcT8Y1gbcNzWv3fehEjbKWta0Zm2a34hcFz
-        IRiPSucdZsSIbDrwFJcccZcbWOSp8i+md8XOrmXWaR/5piNMD50Sh8euiQzn0koH
-        sIGA==
+        :subject:subject:to:to; s=fm3; t=1656705689; x=1656712889; bh=f2
+        gTOnVVlawVp6N5bLg8smmhsDaH+rFeOulG3ok0Jrc=; b=S00usAZDc/YM64VNCn
+        FjrEnQNeYOIV4LNXFxrNe+DvmbJ1spyaNknAlkMKCOYdB8xZAB6BY9sx7dI8cRwD
+        aNrKuvCkIxj/PKyZRFpy+snzjxdT/wGYVUKvGizh4ybfVco0jpNkt9KuqI3lODmv
+        VgMOfXezM/xbArBQvHUjLN61LUq2x7L0hMa6QJigRe0ReXc8M/xo9kR71pvG5fav
+        zb0DMcwbxYzRwjHctt2+SKmtMgzgd0yTB8uENd3D0VqTECGgquIpAjLlEagHYC3j
+        iGuAmAltKJ2/jWPPQ1vs09gP9bynvMqw+WFPrd9CKAWkKbcNwG53wW45gJRugpgB
+        7etg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
         :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
         :message-id:mime-version:references:reply-to:sender:subject
         :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1656705717; x=1656712917; bh=mrZZqztLVKSIk
-        pl2ZtG9SZsAXGvA9Vl+x5zOkvs3Bjg=; b=P1MvxlIOuM7l0z+qS8yeYED1ddgJs
-        ZCs2QYRhK40y97qVVKx50uDXKGc7mEB0wEwGcSiJsX1JtDdjkQWUx99X65YS4sz+
-        VfSaSS6Ie4KKuWHsotLfT5em9QY23iuX70+vsHcDY2KRtIP+aVtenEK44OuBMsai
-        UBAjIHn3DU+BwynQs3RgoaYjQarWyRcQP7W5Gh2Uup25KvchrpUJqNUtKa3U+bgZ
-        BTQhJ+xzfCrqL5QAda74Vyo+egxNHDbWs7GXn2vOV7ssh9klKGGfy1CHr9gnsXME
-        J2Ch54d15PxAoSgBunXMCXpz/ijn5crnwUN/1XIG9K1lsPwNHpUnb99dA==
-X-ME-Sender: <xms:tVK_Yn0kldOcLkWk3dfIzfXt7vEQSWSDQuQhk6xOyUH6462s2Aafdw>
-    <xme:tVK_YmHzembFAoNWd77N3YnMz2ToCVVA3ID83I0u19Nq-hOul4kwoPfowFqG0OJU5
-    9Up9yAkJymy0CEPig>
-X-ME-Received: <xmr:tVK_Yn4ez4uypnFnFJ_3S-MZZK2rMoSOVkyJcaQENIV3-JxGd7QBPtijtwYnd0ibdz0oyf0Ih3Ol2g8rOwlklU9P9_G8MyY9ieFatffNBjzmGTzr0MCSIh0uclg2SZmSBTnenw>
+        :x-sasl-enc; s=fm2; t=1656705689; x=1656712889; bh=f2gTOnVVlawVp
+        6N5bLg8smmhsDaH+rFeOulG3ok0Jrc=; b=p8dJ+iBG+yyKxcHv8Ird4QI+8K5e2
+        deriiVPbLfaAp7jH0aTFXbKRlCyn1EkHQyKB2khg8+haSRMztqOCdPVXCF1Z0WCH
+        XMZ2dC520GBYyCM3t4JRbY69RiaW08lpNIFhNE6+kx66gd+4fAfUbrwSyPs6mbPc
+        nB4SQ4rjMwxLFceJ639l6X5Gnfabx0+YkFVX26GUHctAf/ClGo5S4UwBUh4m9yPh
+        5lA0hUcpMSQycZcnZaO6J6XLkQxj0nrANK1+St4Vqj9eYNEZlQb3hS2C/cwKEL+5
+        BILChd6I7vOuP7X0g3FgLvTGrvQkLzGX2qG9+nUpNgkqLUj+CVjSJhhdQ==
+X-ME-Sender: <xms:lVK_YvMmv4ox1Eme9_eVm7hG98FH-UgFJb0oHUzgJo8sA_XFPRxfzA>
+    <xme:lVK_Yp8DXLpqeSNLMrpiZQDvQSkKhvABFdw5gwEoYfjWHhRkkQPOyIiDrHvopn-gK
+    IdJbuVQ556syyMePg>
+X-ME-Received: <xmr:lVK_YuS8YjQHh6ATVN-N4qX2fapbY-KSFXLVNMLNNU3la4fhZVjZ3PEBhHGMgyvtfYJwcKnlGeDVe5f_RB6iDTTAKBt_f8gdCnW9mFED1WsqFUsldFlpUIHZTBu7mGIVas_bhA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgudeggecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
     ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
-    gfdufeeitdevteenucevlhhushhtvghrufhiiigvpeegnecurfgrrhgrmhepmhgrihhlfh
+    gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:tVK_Ys2boEFyZ2b7B1aml8ZopCfvtqe4SBKhfTNbbjUwaL5H_-Vt5w>
-    <xmx:tVK_YqFInOCCYvQ6u16XXnQamCJINVqY-HKUCA2295MtRmC9HX0L8w>
-    <xmx:tVK_Yt8uHh-EDhML-nWscQ8f9B1_bd-I8tbDH-V2EpmCZ_1zpFsBkg>
-    <xmx:tVK_YiGQ7OXgBCgZlUMKnwYghy6mgLV662iTefVRH5xGXr6DzTd3uQ>
+X-ME-Proxy: <xmx:lVK_Yjux0iKsqVqtDdBsTLFTukN4c0i-NDydJA7FsffE7qkd6SRhLg>
+    <xmx:lVK_Ync8mOd5Hs3XKGkkxQQutCnfzJtCXnCoUWrkxN9GQqvqdz4-EA>
+    <xmx:lVK_Yv1Ev9KmbIm3eUXMINBReiNIuyQcc8fQ3WcdbBD2eNMZPxFqzw>
+    <xmx:mVK_YimYxP6DsLw8htRlTj1olHyqAnO6Ea3SMp1xmXtGFF9Eh_CABA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 16:01:54 -0400 (EDT)
+ 1 Jul 2022 16:01:23 -0400 (EDT)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 Cc:     Samuel Holland <samuel@sholland.org>,
@@ -115,10 +115,11 @@ Cc:     Samuel Holland <samuel@sholland.org>,
         linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
         linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
         linux-sh@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, xen-devel@lists.xenproject.org
-Subject: [PATCH v3 8/8] genirq: Provide an IRQ affinity mask in non-SMP configs
-Date:   Fri,  1 Jul 2022 15:00:56 -0500
-Message-Id: <20220701200056.46555-9-samuel@sholland.org>
+        x86@kernel.org, xen-devel@lists.xenproject.org,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH v3 2/8] genirq: GENERIC_IRQ_IPI depends on SMP
+Date:   Fri,  1 Jul 2022 15:00:50 -0500
+Message-Id: <20220701200056.46555-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220701200056.46555-1-samuel@sholland.org>
 References: <20220701200056.46555-1-samuel@sholland.org>
@@ -128,60 +129,48 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-IRQ affinity masks are not allocated in uniprocessor configurations.
-This requires special case non-SMP code in drivers for irqchips which
-have per-CPU enable or mask registers.
+The generic IPI code depends on the IRQ affinity mask being allocated
+and initialized. This will not be the case if SMP is disabled. Fix up
+the remaining driver that selected GENERIC_IRQ_IPI in a non-SMP config.
 
-Since IRQ affinity is always the same in a uniprocessor configuration,
-we can provide a correct affinity mask without allocating one per IRQ.
-
-By returning a real cpumask from irq_data_get_affinity_mask even when
-SMP is disabled, irqchip drivers which iterate over that mask will
-automatically do the right thing.
-
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-Changes in v3:
- - Use cpumask_of(0) instead of cpu_possible_mask
+(no changes since v2)
 
- include/linux/irq.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes in v2:
+ - New patch to prevent GENERIC_IRQ_IPI from being selected on !SMP
 
-diff --git a/include/linux/irq.h b/include/linux/irq.h
-index 02073f7a156e..996e22744edd 100644
---- a/include/linux/irq.h
-+++ b/include/linux/irq.h
-@@ -151,7 +151,9 @@ struct irq_common_data {
- #endif
- 	void			*handler_data;
- 	struct msi_desc		*msi_desc;
-+#ifdef CONFIG_SMP
- 	cpumask_var_t		affinity;
-+#endif
- #ifdef CONFIG_GENERIC_IRQ_EFFECTIVE_AFF_MASK
- 	cpumask_var_t		effective_affinity;
- #endif
-@@ -882,13 +884,19 @@ static inline int irq_data_get_node(struct irq_data *d)
- static inline
- const struct cpumask *irq_data_get_affinity_mask(struct irq_data *d)
- {
-+#ifdef CONFIG_SMP
- 	return d->common->affinity;
-+#else
-+	return cpumask_of(0);
-+#endif
- }
+ drivers/irqchip/Kconfig | 2 +-
+ kernel/irq/Kconfig      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index d26a4ff7c99f..5dd98a81efc8 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -177,7 +177,7 @@ config MADERA_IRQ
+ config IRQ_MIPS_CPU
+ 	bool
+ 	select GENERIC_IRQ_CHIP
+-	select GENERIC_IRQ_IPI if SYS_SUPPORTS_MULTITHREADING
++	select GENERIC_IRQ_IPI if SMP && SYS_SUPPORTS_MULTITHREADING
+ 	select IRQ_DOMAIN
+ 	select GENERIC_IRQ_EFFECTIVE_AFF_MASK
  
- static inline void irq_data_update_affinity(struct irq_data *d,
- 					    const struct cpumask *m)
- {
-+#ifdef CONFIG_SMP
- 	cpumask_copy(d->common->affinity, m);
-+#endif
- }
+diff --git a/kernel/irq/Kconfig b/kernel/irq/Kconfig
+index 10929eda9825..fc760d064a65 100644
+--- a/kernel/irq/Kconfig
++++ b/kernel/irq/Kconfig
+@@ -82,6 +82,7 @@ config IRQ_FASTEOI_HIERARCHY_HANDLERS
+ # Generic IRQ IPI support
+ config GENERIC_IRQ_IPI
+ 	bool
++	depends on SMP
+ 	select IRQ_DOMAIN_HIERARCHY
  
- static inline const struct cpumask *irq_get_affinity_mask(int irq)
+ # Generic MSI interrupt support
 -- 
 2.35.1
 
