@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E85CACCA481
-	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D19FC43334
+	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238474AbiGHOnJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:43:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33304 "EHLO
+        id S238497AbiGHOnO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:43:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238452AbiGHOnA (ORCPT
+        with ESMTP id S238393AbiGHOnG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 8 Jul 2022 10:43:00 -0400
+        Fri, 8 Jul 2022 10:43:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ADD0F4F198
-        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:42:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2CF5D5C953
+        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657291377;
+        s=mimecast20190719; t=1657291382;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h6hfMhNZlHks9Ry8h8EIt3yXFJh5wVuECuqLyK0Cuek=;
-        b=aEK1vF3AcXMLl/ilRRiX0Spwpd9/GrcFLlvGoWBu6kczB7JqP3DQgZd80+Kw4Ywnl/rUpM
-        8BZLOzAfOQSbc/lcpeAQkDyYsikRvBbLZqmGKRuDzjfuj6HoyUU/RDk+oGmKnl4HIV23uR
-        xbvIlqqvZtY5GPSFkjrZReNzi2tCoHo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=cW6qigX7uiq2lChxRhneqUp1AB1D14Bb3dPQwOMDnZE=;
+        b=b06ijlLnRSHu1GUVZb2I7JbaExr2P9WvKFiKWpUj1FtId1R3/LuhWq/IOoHXPb/XIPWd4T
+        aQu2AdGNU/hpgr3ItbXnhLaz32rGr2N3cDxnQF/ty5YkpLzDGrq71ffrWB8puZLT7BDh6q
+        sWZrRjxMJ9KOnMXScnYN4MQJaEsWH4E=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-ZOx7BLzFN3KxjQZ8dW_2UQ-1; Fri, 08 Jul 2022 10:42:48 -0400
-X-MC-Unique: ZOx7BLzFN3KxjQZ8dW_2UQ-1
+ us-mta-18-SS81dt9HNvCqwbrxhGOnhQ-1; Fri, 08 Jul 2022 10:42:59 -0400
+X-MC-Unique: SS81dt9HNvCqwbrxhGOnhQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 689A38339C5;
-        Fri,  8 Jul 2022 14:42:48 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A351D29AA3B1;
+        Fri,  8 Jul 2022 14:42:58 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8AD6D40315C;
-        Fri,  8 Jul 2022 14:42:46 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D897A492C3B;
+        Fri,  8 Jul 2022 14:42:55 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 09/25] KVM: VMX: nVMX: Support TSC scaling and PERF_GLOBAL_CTRL with enlightened VMCS
-Date:   Fri,  8 Jul 2022 16:42:07 +0200
-Message-Id: <20220708144223.610080-10-vkuznets@redhat.com>
+Subject: [PATCH v3 13/25] KVM: VMX: Check CPU_BASED_{INTR,NMI}_WINDOW_EXITING in setup_vmcs_config()
+Date:   Fri,  8 Jul 2022 16:42:11 +0200
+Message-Id: <20220708144223.610080-14-vkuznets@redhat.com>
 In-Reply-To: <20220708144223.610080-1-vkuznets@redhat.com>
 References: <20220708144223.610080-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,265 +59,66 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enlightened VMCS v1 got updated and now includes the required fields
-for TSC scaling and loading PERF_GLOBAL_CTRL upon VMENTER/VMEXIT
-features. For Hyper-V on KVM enablement, KVM can just observe VMX control
-MSRs and use the features (with or without eVMCS) when
-possible. Hyper-V on KVM case is trickier because of live migration:
-the new features require explicit enablement from VMM to not break
-it. Luckily, the updated eVMCS revision comes with a feature bit in
-CPUID.0x4000000A.EBX.
+CPU_BASED_{INTR,NMI}_WINDOW_EXITING controls are toggled dynamically by
+vmx_enable_{irq,nmi}_window, handle_interrupt_window(), handle_nmi_window()
+but setup_vmcs_config() doesn't check their existence. Add the check and
+filter the controls out in vmx_exec_control().
+
+Note: KVM explicitly supports CPUs without VIRTUAL_NMIS and all these CPUs
+are supposedly lacking NMI_WINDOW_EXITING too. Adjust cpu_has_virtual_nmis()
+accordingly.
+
+No functional change intended.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c     |  2 +-
- arch/x86/kvm/vmx/evmcs.c  | 88 +++++++++++++++++++++++++++++++--------
- arch/x86/kvm/vmx/evmcs.h  | 17 ++------
- arch/x86/kvm/vmx/nested.c |  2 +-
- arch/x86/kvm/vmx/vmx.c    |  2 +-
- 5 files changed, 78 insertions(+), 33 deletions(-)
+ arch/x86/kvm/vmx/capabilities.h | 3 ++-
+ arch/x86/kvm/vmx/vmx.c          | 8 +++++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index b666902da4d9..406c5e273983 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -2562,7 +2562,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
- 		case HYPERV_CPUID_NESTED_FEATURES:
- 			ent->eax = evmcs_ver;
- 			ent->eax |= HV_X64_NESTED_MSR_BITMAP;
--
-+			ent->ebx |= HV_X64_NESTED_EVMCS1_2022_UPDATE;
- 			break;
+diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
+index 069d8d298e1d..07e7492fe72a 100644
+--- a/arch/x86/kvm/vmx/capabilities.h
++++ b/arch/x86/kvm/vmx/capabilities.h
+@@ -82,7 +82,8 @@ static inline bool cpu_has_vmx_basic_inout(void)
  
- 		case HYPERV_CPUID_SYNDBG_VENDOR_AND_MAX_FUNCTIONS:
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 8bea5dea0341..52a53debd806 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -368,7 +368,60 @@ uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu)
- 	return 0;
- }
- 
--void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata)
-+enum evmcs_v1_revision {
-+	EVMCSv1_2016,
-+	EVMCSv1_2022,
-+};
-+
-+enum evmcs_unsupported_ctrl_type {
-+	EVMCS_EXIT_CTLS,
-+	EVMCS_ENTRY_CTLS,
-+	EVMCS_2NDEXEC,
-+	EVMCS_PINCTRL,
-+	EVMCS_VMFUNC,
-+};
-+
-+static u32 evmcs_get_unsupported_ctls(struct kvm_vcpu *vcpu,
-+				      enum evmcs_unsupported_ctrl_type ctrl_type)
-+{
-+	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+	enum evmcs_v1_revision evmcs_rev = EVMCSv1_2016;
-+
-+	if (!hv_vcpu)
-+		return 0;
-+
-+	if (hv_vcpu->cpuid_cache.nested_ebx & HV_X64_NESTED_EVMCS1_2022_UPDATE)
-+		evmcs_rev = EVMCSv1_2022;
-+
-+	switch (ctrl_type) {
-+	case EVMCS_EXIT_CTLS:
-+		if (evmcs_rev == EVMCSv1_2016)
-+			return EVMCS1_UNSUPPORTED_VMEXIT_CTRL |
-+				VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
-+		else
-+			return EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
-+	case EVMCS_ENTRY_CTLS:
-+		if (evmcs_rev == EVMCSv1_2016)
-+			return EVMCS1_UNSUPPORTED_VMENTRY_CTRL |
-+				VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
-+		else
-+			return EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
-+	case EVMCS_2NDEXEC:
-+		if (evmcs_rev == EVMCSv1_2016)
-+			return EVMCS1_UNSUPPORTED_2NDEXEC |
-+				SECONDARY_EXEC_TSC_SCALING;
-+		else
-+			return EVMCS1_UNSUPPORTED_2NDEXEC;
-+	case EVMCS_PINCTRL:
-+		return EVMCS1_UNSUPPORTED_PINCTRL;
-+	case EVMCS_VMFUNC:
-+		return EVMCS1_UNSUPPORTED_VMFUNC;
-+	}
-+
-+	return 0;
-+}
-+
-+void nested_evmcs_filter_control_msr(struct kvm_vcpu *vcpu, u32 msr_index, u64 *pdata)
+ static inline bool cpu_has_virtual_nmis(void)
  {
- 	u32 ctl_low = (u32)*pdata;
- 	u32 ctl_high = (u32)(*pdata >> 32);
-@@ -380,72 +433,73 @@ void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata)
- 	switch (msr_index) {
- 	case MSR_IA32_VMX_EXIT_CTLS:
- 	case MSR_IA32_VMX_TRUE_EXIT_CTLS:
--		ctl_high &= ~EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
-+		ctl_high &= ~evmcs_get_unsupported_ctls(vcpu, EVMCS_EXIT_CTLS);
- 		break;
- 	case MSR_IA32_VMX_ENTRY_CTLS:
- 	case MSR_IA32_VMX_TRUE_ENTRY_CTLS:
--		ctl_high &= ~EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
-+		ctl_high &= ~evmcs_get_unsupported_ctls(vcpu, EVMCS_ENTRY_CTLS);
- 		break;
- 	case MSR_IA32_VMX_PROCBASED_CTLS2:
--		ctl_high &= ~EVMCS1_UNSUPPORTED_2NDEXEC;
-+		ctl_high &= ~evmcs_get_unsupported_ctls(vcpu, EVMCS_2NDEXEC);
- 		break;
- 	case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
- 	case MSR_IA32_VMX_PINBASED_CTLS:
--		ctl_high &= ~EVMCS1_UNSUPPORTED_PINCTRL;
-+		ctl_high &= ~evmcs_get_unsupported_ctls(vcpu, EVMCS_PINCTRL);
- 		break;
- 	case MSR_IA32_VMX_VMFUNC:
--		ctl_low &= ~EVMCS1_UNSUPPORTED_VMFUNC;
-+		ctl_low &= ~evmcs_get_unsupported_ctls(vcpu, EVMCS_VMFUNC);
- 		break;
- 	}
- 
- 	*pdata = ctl_low | ((u64)ctl_high << 32);
+-	return vmcs_config.pin_based_exec_ctrl & PIN_BASED_VIRTUAL_NMIS;
++	return vmcs_config.pin_based_exec_ctrl & PIN_BASED_VIRTUAL_NMIS &&
++		vmcs_config.cpu_based_exec_ctrl & CPU_BASED_NMI_WINDOW_EXITING;
  }
  
--int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
-+int nested_evmcs_check_controls(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12)
- {
- 	int ret = 0;
- 	u32 unsupp_ctl;
- 
- 	unsupp_ctl = vmcs12->pin_based_vm_exec_control &
--		EVMCS1_UNSUPPORTED_PINCTRL;
-+		evmcs_get_unsupported_ctls(vcpu, EVMCS_PINCTRL);
- 	if (unsupp_ctl) {
- 		trace_kvm_nested_vmenter_failed(
--			"eVMCS: unsupported pin-based VM-execution controls",
-+			"eVMCS: unsupported pin-based VM-execution controls: ",
- 			unsupp_ctl);
- 		ret = -EINVAL;
- 	}
- 
- 	unsupp_ctl = vmcs12->secondary_vm_exec_control &
--		EVMCS1_UNSUPPORTED_2NDEXEC;
-+		evmcs_get_unsupported_ctls(vcpu, EVMCS_2NDEXEC);
- 	if (unsupp_ctl) {
- 		trace_kvm_nested_vmenter_failed(
--			"eVMCS: unsupported secondary VM-execution controls",
-+			"eVMCS: unsupported secondary VM-execution controls: ",
- 			unsupp_ctl);
- 		ret = -EINVAL;
- 	}
- 
- 	unsupp_ctl = vmcs12->vm_exit_controls &
--		EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
-+		evmcs_get_unsupported_ctls(vcpu, EVMCS_EXIT_CTLS);
- 	if (unsupp_ctl) {
- 		trace_kvm_nested_vmenter_failed(
--			"eVMCS: unsupported VM-exit controls",
-+			"eVMCS: unsupported VM-exit controls: ",
- 			unsupp_ctl);
- 		ret = -EINVAL;
- 	}
- 
- 	unsupp_ctl = vmcs12->vm_entry_controls &
--		EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
-+		evmcs_get_unsupported_ctls(vcpu, EVMCS_ENTRY_CTLS);
- 	if (unsupp_ctl) {
- 		trace_kvm_nested_vmenter_failed(
--			"eVMCS: unsupported VM-entry controls",
-+			"eVMCS: unsupported VM-entry controls: ",
- 			unsupp_ctl);
- 		ret = -EINVAL;
- 	}
- 
--	unsupp_ctl = vmcs12->vm_function_control & EVMCS1_UNSUPPORTED_VMFUNC;
-+	unsupp_ctl = vmcs12->vm_function_control &
-+		evmcs_get_unsupported_ctls(vcpu, EVMCS_VMFUNC);
- 	if (unsupp_ctl) {
- 		trace_kvm_nested_vmenter_failed(
--			"eVMCS: unsupported VM-function controls",
-+			"eVMCS: unsupported VM-function controls: ",
- 			unsupp_ctl);
- 		ret = -EINVAL;
- 	}
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index f886a8ff0342..4b809c79ae63 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -37,16 +37,9 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
-  *	EPTP_LIST_ADDRESS               = 0x00002024,
-  *	VMREAD_BITMAP                   = 0x00002026,
-  *	VMWRITE_BITMAP                  = 0x00002028,
-- *
-- *	TSC_MULTIPLIER                  = 0x00002032,
-  *	PLE_GAP                         = 0x00004020,
-  *	PLE_WINDOW                      = 0x00004022,
-  *	VMX_PREEMPTION_TIMER_VALUE      = 0x0000482E,
-- *      GUEST_IA32_PERF_GLOBAL_CTRL     = 0x00002808,
-- *      HOST_IA32_PERF_GLOBAL_CTRL      = 0x00002c04,
-- *
-- * Currently unsupported in KVM:
-- *	GUEST_IA32_RTIT_CTL		= 0x00002814,
-  */
- #define EVMCS1_UNSUPPORTED_PINCTRL (PIN_BASED_POSTED_INTR | \
- 				    PIN_BASED_VMX_PREEMPTION_TIMER)
-@@ -58,12 +51,10 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
- 	 SECONDARY_EXEC_ENABLE_PML |					\
- 	 SECONDARY_EXEC_ENABLE_VMFUNC |					\
- 	 SECONDARY_EXEC_SHADOW_VMCS |					\
--	 SECONDARY_EXEC_TSC_SCALING |					\
- 	 SECONDARY_EXEC_PAUSE_LOOP_EXITING)
- #define EVMCS1_UNSUPPORTED_VMEXIT_CTRL					\
--	(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |				\
--	 VM_EXIT_SAVE_VMX_PREEMPTION_TIMER)
--#define EVMCS1_UNSUPPORTED_VMENTRY_CTRL (VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL)
-+	(VM_EXIT_SAVE_VMX_PREEMPTION_TIMER)
-+#define EVMCS1_UNSUPPORTED_VMENTRY_CTRL (0)
- #define EVMCS1_UNSUPPORTED_VMFUNC (VMX_VMFUNC_EPTP_SWITCHING)
- 
- struct evmcs_field {
-@@ -243,7 +234,7 @@ bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa);
- uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu);
- int nested_enable_evmcs(struct kvm_vcpu *vcpu,
- 			uint16_t *vmcs_version);
--void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata);
--int nested_evmcs_check_controls(struct vmcs12 *vmcs12);
-+void nested_evmcs_filter_control_msr(struct kvm_vcpu *vcpu, u32 msr_index, u64 *pdata);
-+int nested_evmcs_check_controls(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12);
- 
- #endif /* __KVM_X86_VMX_EVMCS_H */
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 4fc84f0f5875..dcf3ee645212 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -2891,7 +2891,7 @@ static int nested_vmx_check_controls(struct kvm_vcpu *vcpu,
- 		return -EINVAL;
- 
- 	if (to_vmx(vcpu)->nested.enlightened_vmcs_enabled)
--		return nested_evmcs_check_controls(vmcs12);
-+		return nested_evmcs_check_controls(vcpu, vmcs12);
- 
- 	return 0;
- }
+ static inline bool cpu_has_vmx_preemption_timer(void)
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index c30115b9cb33..b4915d841357 100644
+index 1aaec4d19e1b..ce54f13d8da1 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1858,7 +1858,7 @@ static int vmx_get_msr(struct kvm_vcpu *vcpu, struct msr_data *msr_info)
- 		 */
- 		if (!msr_info->host_initiated &&
- 		    vmx->nested.enlightened_vmcs_enabled)
--			nested_evmcs_filter_control_msr(msr_info->index,
-+			nested_evmcs_filter_control_msr(vcpu, msr_info->index,
- 							&msr_info->data);
- 		break;
- 	case MSR_IA32_RTIT_CTL:
+@@ -2487,10 +2487,12 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	      CPU_BASED_MWAIT_EXITING |
+ 	      CPU_BASED_MONITOR_EXITING |
+ 	      CPU_BASED_INVLPG_EXITING |
+-	      CPU_BASED_RDPMC_EXITING;
++	      CPU_BASED_RDPMC_EXITING |
++	      CPU_BASED_INTR_WINDOW_EXITING;
+ 
+ 	opt = CPU_BASED_TPR_SHADOW |
+ 	      CPU_BASED_USE_MSR_BITMAPS |
++	      CPU_BASED_NMI_WINDOW_EXITING |
+ 	      CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |
+ 	      CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
+ 	if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_PROCBASED_CTLS,
+@@ -4299,6 +4301,10 @@ static u32 vmx_exec_control(struct vcpu_vmx *vmx)
+ {
+ 	u32 exec_control = vmcs_config.cpu_based_exec_ctrl;
+ 
++	/* INTR_WINDOW_EXITING and NMI_WINDOW_EXITING are toggled dynamically */
++	exec_control &= ~(CPU_BASED_INTR_WINDOW_EXITING |
++			  CPU_BASED_NMI_WINDOW_EXITING);
++
+ 	if (vmx->vcpu.arch.switch_db_regs & KVM_DEBUGREG_WONT_EXIT)
+ 		exec_control &= ~CPU_BASED_MOV_DR_EXITING;
+ 
 -- 
 2.35.3
 
