@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA11FC433EF
-	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2AB2C433EF
+	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238566AbiGHOnb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:43:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33416 "EHLO
+        id S238612AbiGHOnq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238501AbiGHOnP (ORCPT
+        with ESMTP id S238517AbiGHOnT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 8 Jul 2022 10:43:15 -0400
+        Fri, 8 Jul 2022 10:43:19 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9DC9C5C943
-        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:43:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 450635A441
+        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657291393;
+        s=mimecast20190719; t=1657291397;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=9vk4b7jcglhc/ayKiKZzgv5keBBUhAPy8HLuXqtQs0g=;
-        b=YR4fyBYhKimOAOXhwJZbhAOFit/0QeZu4x2iHN8ndkjw3TsaOT217MesqdKWm8X0dMSqeE
-        xPjGG7WiuMuZb2kRERVJvoMoBBEm8gFKJ220lGyosIu8YhuEX9ELi+u8Yo0Z9ft4L69pGf
-        shUWdb1Cyv9GKGEoo/EL79khNfNNvc8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=TJU1tqIyssdR8+cHqAJQo+nEZ37rlsQFDJ77NnCJZJ8=;
+        b=b/E1c1LfzAK5ww9Y/wBGyJxctJElYbhBDMuBWmyjDIQQwvF9H37hoaT5qJ403+t1qcJCqx
+        EembNRPGqoVi2GnPfxESMDid/EAxmNogPiBZWl8qznfECUprXZuf/b7RWhkuwj2QweBKCf
+        P2ACglHqp7D0qPoGdDaN2P9gUJh2sDM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-JTkRGt_7MG6rFo0S4h8ERA-1; Fri, 08 Jul 2022 10:43:09 -0400
-X-MC-Unique: JTkRGt_7MG6rFo0S4h8ERA-1
+ us-mta-139-JMiPiuMJOESCOtZBtvMkjg-1; Fri, 08 Jul 2022 10:43:14 -0400
+X-MC-Unique: JMiPiuMJOESCOtZBtvMkjg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8C02101A592;
-        Fri,  8 Jul 2022 14:43:08 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 936471C05AF1;
+        Fri,  8 Jul 2022 14:43:13 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B521F492C3B;
-        Fri,  8 Jul 2022 14:43:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8736F492C3B;
+        Fri,  8 Jul 2022 14:43:11 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 17/25] KVM: VMX: Add missing VMEXIT controls to vmcs_config
-Date:   Fri,  8 Jul 2022 16:42:15 +0200
-Message-Id: <20220708144223.610080-18-vkuznets@redhat.com>
+Subject: [PATCH v3 19/25] KVM: VMX: Adjust CR3/INVPLG interception for EPT=y at runtime, not setup
+Date:   Fri,  8 Jul 2022 16:42:17 +0200
+Message-Id: <20220708144223.610080-20-vkuznets@redhat.com>
 In-Reply-To: <20220708144223.610080-1-vkuznets@redhat.com>
 References: <20220708144223.610080-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,51 +59,57 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As a preparation to reusing the result of setup_vmcs_config() in
-nested VMX MSR setup, add the VMEXIT controls which KVM doesn't
-use but supports for nVMX to KVM_OPT_VMX_VM_EXIT_CONTROLS and
-filter them out in vmx_vmexit_ctrl().
+From: Sean Christopherson <seanjc@google.com>
 
-No functional change intended.
+Clear the CR3 and INVLPG interception controls at runtime based on
+whether or not EPT is being _used_, as opposed to clearing the bits at
+setup if EPT is _supported_ in hardware, and then restoring them when EPT
+is not used.  Not mucking with the base config will allow using the base
+config as the starting point for emulating the VMX capability MSRs.
 
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 Reviewed-by: Jim Mattson <jmattson@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 4 ++++
- arch/x86/kvm/vmx/vmx.h | 3 +++
- 2 files changed, 7 insertions(+)
+ arch/x86/kvm/vmx/vmx.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index d7170990f469..2fb89bdcbbd8 100644
+index 9771c771c8f5..eca6875d6732 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -4196,6 +4196,10 @@ static u32 vmx_vmexit_ctrl(void)
- {
- 	u32 vmexit_ctrl = vmcs_config.vmexit_ctrl;
+@@ -2501,13 +2501,8 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	rdmsr_safe(MSR_IA32_VMX_EPT_VPID_CAP,
+ 		&vmx_cap->ept, &vmx_cap->vpid);
  
-+	/* Not used by KVM but supported for nesting. */
-+	vmexit_ctrl &= ~(VM_EXIT_SAVE_IA32_PAT | VM_EXIT_SAVE_IA32_EFER |
-+			 VM_EXIT_SAVE_VMX_PREEMPTION_TIMER);
-+
- 	if (vmx_pt_mode_is_system())
- 		vmexit_ctrl &= ~(VM_EXIT_PT_CONCEAL_PIP |
- 				 VM_EXIT_CLEAR_IA32_RTIT_CTL);
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 89eaab3495a6..e9c392398f1b 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -498,8 +498,11 @@ static inline u8 vmx_get_rvi(void)
+-	if (_cpu_based_2nd_exec_control & SECONDARY_EXEC_ENABLE_EPT) {
+-		/* CR3 accesses and invlpg don't need to cause VM Exits when EPT
+-		   enabled */
+-		_cpu_based_exec_control &= ~(CPU_BASED_CR3_LOAD_EXITING |
+-					     CPU_BASED_CR3_STORE_EXITING |
+-					     CPU_BASED_INVLPG_EXITING);
+-	} else if (vmx_cap->ept) {
++	if (!(_cpu_based_2nd_exec_control & SECONDARY_EXEC_ENABLE_EPT) &&
++	    vmx_cap->ept) {
+ 		pr_warn_once("EPT CAP should not exist if not support "
+ 				"1-setting enable EPT VM-execution control\n");
+ 
+@@ -4264,10 +4259,11 @@ static u32 vmx_exec_control(struct vcpu_vmx *vmx)
+ 		exec_control |= CPU_BASED_CR8_STORE_EXITING |
+ 				CPU_BASED_CR8_LOAD_EXITING;
  #endif
- #define KVM_OPT_VMX_VM_EXIT_CONTROLS				\
- 	      (VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |		\
-+	      VM_EXIT_SAVE_IA32_PAT |				\
- 	      VM_EXIT_LOAD_IA32_PAT |				\
-+	      VM_EXIT_SAVE_IA32_EFER |				\
- 	      VM_EXIT_LOAD_IA32_EFER |				\
-+	      VM_EXIT_SAVE_VMX_PREEMPTION_TIMER |		\
- 	      VM_EXIT_CLEAR_BNDCFGS |				\
- 	      VM_EXIT_PT_CONCEAL_PIP |				\
- 	      VM_EXIT_CLEAR_IA32_RTIT_CTL)
+-	if (!enable_ept)
+-		exec_control |= CPU_BASED_CR3_STORE_EXITING |
+-				CPU_BASED_CR3_LOAD_EXITING  |
+-				CPU_BASED_INVLPG_EXITING;
++	/* No need to intercept CR3 access or INVPLG when using EPT. */
++	if (enable_ept)
++		exec_control &= ~(CPU_BASED_CR3_LOAD_EXITING |
++				  CPU_BASED_CR3_STORE_EXITING |
++				  CPU_BASED_INVLPG_EXITING);
+ 	if (kvm_mwait_in_guest(vmx->vcpu.kvm))
+ 		exec_control &= ~(CPU_BASED_MWAIT_EXITING |
+ 				CPU_BASED_MONITOR_EXITING);
 -- 
 2.35.3
 
