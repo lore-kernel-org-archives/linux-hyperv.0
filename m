@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5F9CCA480
-	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F075CCCA482
+	for <linux-hyperv@archiver.kernel.org>; Fri,  8 Jul 2022 14:43:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238573AbiGHOnx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33892 "EHLO
+        id S238588AbiGHOny (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:43:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238536AbiGHOnX (ORCPT
+        with ESMTP id S238523AbiGHOnV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 8 Jul 2022 10:43:23 -0400
+        Fri, 8 Jul 2022 10:43:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EB3075C9DD
-        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:43:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B15E05A466
+        for <linux-hyperv@vger.kernel.org>; Fri,  8 Jul 2022 07:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657291401;
+        s=mimecast20190719; t=1657291399;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=QYONl9THxMtT6V1w81Fo54UYVsMaakv0NH4e6XEHbyg=;
-        b=fjUukBxvoIsYP3E+4+8fpFgupwxEIm1OMXCdR+Gb3rdMNapSPVspinrECew9DYw+t4G7At
-        qDV4AyWYtzwmvLFY3Z9pv3t/XW0yN/sxtsSgb6dmWi0j1kH4NAIxcEhHHGCJMr2za9sNC4
-        4oMrRrD9sMNsHfC1vWWBHFdY25Xs0Aw=
+        bh=NmfDgDP4PM0GHml6zqMmQrwkkGGIUjlojGtMPtCno9I=;
+        b=BH3YAXtAF72PSLgm82UN+GxnRwfftnjFcyAosZzS9dt0cpCnMSI2ORGdsZgO59dS018f8U
+        klYEKAw2R+dTZ5fxbcxielVC5PWZQjg3JRO+qnl2f3tsDbUYotCgJiwEQ7lBE7c6mipQbQ
+        8fu1TgbfkxGKFAZ81inbKwGb1G5Rwcc=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-nUkSh3ISN_qM8ddpoVE4JA-1; Fri, 08 Jul 2022 10:43:20 -0400
-X-MC-Unique: nUkSh3ISN_qM8ddpoVE4JA-1
+ us-mta-157-pWIfrkEVMtWHc_VM7Wplxw-1; Fri, 08 Jul 2022 10:43:16 -0400
+X-MC-Unique: pWIfrkEVMtWHc_VM7Wplxw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 43DA485A585;
-        Fri,  8 Jul 2022 14:43:20 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B2248806004;
+        Fri,  8 Jul 2022 14:43:15 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.193.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8AFBE492C3B;
-        Fri,  8 Jul 2022 14:43:18 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E7067492C3B;
+        Fri,  8 Jul 2022 14:43:13 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 22/25] KVM: nVMX: Always set required-1 bits of pinbased_ctls to PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR
-Date:   Fri,  8 Jul 2022 16:42:20 +0200
-Message-Id: <20220708144223.610080-23-vkuznets@redhat.com>
+Subject: [PATCH v3 20/25] KVM: x86: VMX: Replace some Intel model numbers with mnemonics
+Date:   Fri,  8 Jul 2022 16:42:18 +0200
+Message-Id: <20220708144223.610080-21-vkuznets@redhat.com>
 In-Reply-To: <20220708144223.610080-1-vkuznets@redhat.com>
 References: <20220708144223.610080-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,40 +59,39 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Similar to exit_ctls_low, entry_ctls_low, procbased_ctls_low,
-pinbased_ctls_low should be set to PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR
-and not host's MSR_IA32_VMX_PINBASED_CTLS value |=
-PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR.
+From: Jim Mattson <jmattson@google.com>
 
-The commit eabeaaccfca0 ("KVM: nVMX: Clean up and fix pin-based
-execution controls") which introduced '|=' doesn't mention anything
-about why this is needed, the change seems rather accidental.
+Intel processor code names are more familiar to many readers than
+their decimal model numbers.
 
-Note: normally, required-1 portion of MSR_IA32_VMX_PINBASED_CTLS should
-be equal to PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR so no behavioral change
-is expected, however, it is (in theory) possible to observe something
-different there when e.g. KVM is running as a nested hypervisor. Hope
-this doesn't happen in practice.
-
-Reported-by: Jim Mattson <jmattson@google.com>
+Signed-off-by: Jim Mattson <jmattson@google.com>
+Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/nested.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/x86/kvm/vmx/vmx.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index dcf3ee645212..09654d5c2144 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -6586,7 +6586,7 @@ void nested_vmx_setup_ctls_msrs(struct nested_vmx_msrs *msrs, u32 ept_caps)
- 	rdmsr(MSR_IA32_VMX_PINBASED_CTLS,
- 		msrs->pinbased_ctls_low,
- 		msrs->pinbased_ctls_high);
--	msrs->pinbased_ctls_low |=
-+	msrs->pinbased_ctls_low =
- 		PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR;
- 	msrs->pinbased_ctls_high &=
- 		PIN_BASED_EXT_INTR_MASK |
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index eca6875d6732..2dff5b94c535 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -2580,11 +2580,11 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	 */
+ 	if (boot_cpu_data.x86 == 0x6) {
+ 		switch (boot_cpu_data.x86_model) {
+-		case 26: /* AAK155 */
+-		case 30: /* AAP115 */
+-		case 37: /* AAT100 */
+-		case 44: /* BC86,AAY89,BD102 */
+-		case 46: /* BA97 */
++		case INTEL_FAM6_NEHALEM_EP:	/* AAK155 */
++		case INTEL_FAM6_NEHALEM:	/* AAP115 */
++		case INTEL_FAM6_WESTMERE:	/* AAT100 */
++		case INTEL_FAM6_WESTMERE_EP:	/* BC86,AAY89,BD102 */
++		case INTEL_FAM6_NEHALEM_EX:	/* BA97 */
+ 			_vmentry_control &= ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
+ 			_vmexit_control &= ~VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
+ 			pr_warn_once("kvm: VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL "
 -- 
 2.35.3
 
