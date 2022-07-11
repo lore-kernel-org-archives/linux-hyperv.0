@@ -2,442 +2,261 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D5F7CCA482
-	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Jul 2022 17:49:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F74C433EF
+	for <linux-hyperv@archiver.kernel.org>; Mon, 11 Jul 2022 17:50:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230306AbiGKRs6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 11 Jul 2022 13:48:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50000 "EHLO
+        id S231392AbiGKRus (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 11 Jul 2022 13:50:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230184AbiGKRs4 (ORCPT
+        with ESMTP id S229476AbiGKRur (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 11 Jul 2022 13:48:56 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2090.outbound.protection.outlook.com [40.107.244.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C58713F5E;
-        Mon, 11 Jul 2022 10:48:55 -0700 (PDT)
+        Mon, 11 Jul 2022 13:50:47 -0400
+Received: from na01-obe.outbound.protection.outlook.com (unknown [52.101.56.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C0B7749A;
+        Mon, 11 Jul 2022 10:50:46 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1pqpRu2ViyyOZrJGb/buEAkTHSkS46iL2UAiV3ZDqR+IqxtSmZA6mEsvq683QJAsq99sCmpVTtepxvm/ZE0Yq24O3oHbKBattU6j2hGCpHh8CbY8iPixGTSl7O6AsE+c9TxyaPlhnpT8Tav7KhKr7SaF3huvO0Ni1Dei/Ub/gtiqsheWwB07h99X++jYes1PMxbm+TXir7G/2G+XQO2MZoMZMLhiEdp5KQ92ByW8pS9IX0IDZjtLIQR9yddGcCWFc/lm0hcuLkhos9TBSi3am0XNGbw+VIxTFYdPZbpfZCXnlCDBACzanJq+u5xIbwf4iHu0ghLFNT5I3Zpr99u0w==
+ b=CZaWbb8p4tIyVYkA2aX5GPKIfH1fEg/9wqT1NLTKJsXKGEBJiQuxz92bT2C59FG00XKDzYhGn5JqInBhxVOvKh/Hzw0tjbeJn0F2EQjhZ9vgpVgfn6ddzsZZWsavZhuZfKWu3+0vc9sET29tmvrfPYXiSITL+Shz7IKr6pNdft/yImrVa9x7XPdM3O0nnIEg7sP6LsOpC7C7tjtwkAPP+tIUoBKK3B6IT0OTlLKutF7X+5GUciTI0BKquGdo6jUU/Fgfv0C0zkkN3BACB6GczebR7O0BWfZB8HaVNCs0srUSsIRC3fW0AHxhHom6r9gIS8vlHyQBx17vWzOJIOAv9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=USUqWX22yjhg2T5jVcHObqc8/i1/up2CIJq40BN7Bf0=;
- b=KomQzSVu7mcaPxlRV6JcdnXOmZp1cmTsdhxsHofaXgYjwvUK2RiWVgzmm8g+EFV+xujZoVFc+CTABAuSN8gbYa9cufXf/9vo5udlmsWjbaB4Irw6JdsmzseMpTJ3YptKXroX96GZypX8gZ50niuOyo5D48fAIig9xSsSpdJdBGZAzYVvXfncyZU/hB3Y0yfi5ZoKoyTrSImDFnXxqAOptOb9ZGMK0FLfV0MHXSkUcq7rFYEEMRt2H1XhjxFQJ7BppMnjyIFxr7IUub+xWoJvGOWH5lc5BNNKGUinW5FOmkgPBk9OvExD8YWODgP8mvcXfbm1qnOhxvmYHAavGjKQfQ==
+ bh=JLTeJEWO4RTkpg84ea16Dz//7CVMtw5jPglp/NIhsIE=;
+ b=fXEszrgcM0GePt8Ol/tkz0vMygfH11yaSgTk8LH/FkbohudIDAwONHAbIgE/mph+gQgrUbSUfZpXqpdVKUgBx73ZMbjMJoLcPE3GS8vWUDi9L/Ity8mooB6+BwTF+3SGesh1fgN4QuIR514r8hbaSKNAzUghMEf/70TnZratTc3bI1e+4iYywkRwXfPIhmGHHbiFoo0dhX7D5G8CcEyc4QUDB+cihP5wLhRyDndcGVgavAQLMpHk+IM+QATEGgWYR7MM5+TUqfvoaGp2fqICm/OGTbMjutJITTw0dN9S9v3wBzWdn3X6vPMuX2jHaSzFnueNICblzt+R21FiBv8qlQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=USUqWX22yjhg2T5jVcHObqc8/i1/up2CIJq40BN7Bf0=;
- b=BrxVNVtPEzdiv/BX44Edc6cREW9Bo2fWufmBuF5FYjWel/XEEHXnby8G+k7+cw4vBBj+Rgs80zoIg8H5uVoeVQFgQAP+czlHw8sh3sPVj44g57cIDzhZm1rwJgZidBzhz+xynDNgghaxUFamwfO2OjHHlrTy5Zkhgx5cDiIvVoQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
- by DM6PR21MB1321.namprd21.prod.outlook.com (2603:10b6:5:175::8) with
+ bh=JLTeJEWO4RTkpg84ea16Dz//7CVMtw5jPglp/NIhsIE=;
+ b=UdCIUGpvFB3JVNOz6XXn3lhxqkUfjOHM3MmGR7IrqouHCLRbRM6cLZCHKULK+mfoYoJ96JrDV91Q2lzHyb997uESdr8p2Yppxs7fOCDeCP4P1/ymUrldEGw0UvFVJLJsl14fopfQVXc1p994SIgwPGFEKklMLrx+kINPYi9atFU=
+Received: from PH0PR21MB3025.namprd21.prod.outlook.com (2603:10b6:510:d2::21)
+ by IA1PR21MB3544.namprd21.prod.outlook.com (2603:10b6:208:3e3::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.7; Mon, 11 Jul
- 2022 17:48:53 +0000
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::684f:525a:aab1:bba6]) by DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::684f:525a:aab1:bba6%4]) with mapi id 15.20.5417.010; Mon, 11 Jul 2022
- 17:48:53 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Cc:     mikelley@microsoft.com
-Subject: [PATCH v2 2/3] Documentation: hyperv: Add overview of VMbus
-Date:   Mon, 11 Jul 2022 10:48:23 -0700
-Message-Id: <1657561704-12631-3-git-send-email-mikelley@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1657561704-12631-1-git-send-email-mikelley@microsoft.com>
-References: <1657561704-12631-1-git-send-email-mikelley@microsoft.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MW2PR2101CA0013.namprd21.prod.outlook.com
- (2603:10b6:302:1::26) To DM6PR21MB1370.namprd21.prod.outlook.com
- (2603:10b6:5:16b::28)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.4; Mon, 11 Jul
+ 2022 17:50:44 +0000
+Received: from PH0PR21MB3025.namprd21.prod.outlook.com
+ ([fe80::3dca:41a6:b47f:15f8]) by PH0PR21MB3025.namprd21.prod.outlook.com
+ ([fe80::3dca:41a6:b47f:15f8%5]) with mapi id 15.20.5458.003; Mon, 11 Jul 2022
+ 17:50:44 +0000
+From:   "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+To:     Shradha Gupta <shradhagupta@linux.microsoft.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Shradha Gupta <shradhagupta@microsoft.com>,
+        Praveen Kumar <kumarpraveen@microsoft.com>
+Subject: RE: [PATCH v3] Drivers: hv: vm_bus: Handle vmbus rescind calls after
+ vmbus is suspended
+Thread-Topic: [PATCH v3] Drivers: hv: vm_bus: Handle vmbus rescind calls after
+ vmbus is suspended
+Thread-Index: AQHYlNxab8YrKFdxe02s5L7O/5XspK15c4RQ
+Date:   Mon, 11 Jul 2022 17:50:43 +0000
+Message-ID: <PH0PR21MB3025AC6A419A5BB7B408DD20D7879@PH0PR21MB3025.namprd21.prod.outlook.com>
+References: <20220711041147.GA5569@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20220711041147.GA5569@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=c19b6a6d-f0ed-4e40-95f9-7fcb0dc48090;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-07-11T17:49:50Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 56c3fdb9-05c6-41f2-ba1f-08da6365e0ba
+x-ms-traffictypediagnostic: IA1PR21MB3544:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ctSlEqtyfu21fbLz5LaKnKLPxR5GJ9IWTwl7MlsHjjkC1yE9sYeT8gRwJJIW8Zy5nzMQoE0k0rdHKG+Wn8GcS+cNOYPX3BgB25RqpbXO1c2Cy/SY0t7alLBO6zR8/k6X0g4fHv42kyd2MdC7sDL+f7/1gpvdsDz/ltMAPM5tfrRdEMujA3x5GCmdpdDOZMJiHoXmZO7CgD3SLIwjRayT/bojEakPL/mo/5xOsHKGTbPmzcpsmX3gNxQ/xMcu8UAgLSprP/3n9QOfqXR4aSZKferXCOAKt5B3HNUn9l3IKZAwZ97kmeH6yKo3KxyC58HS1hinA1gCapRFPzXltRIOVbwwuS7Dt8Ro8tZzp2Ov9+JodIYYqYyDt/WLlCQWtxW1/SXTTKBJiQSNmBuwoNB5NuLLtGNK4+RDaPUKttV0HgmFpjWVSjGO25NFZuPH6siSjk8OqqNniaDV8aXQzmYdmMtAnuwW3LAIbbiu6pn2txEyXwmFnJLMrMFkcMd7yYx8vJLt5881UwOYSBc1cYzOXeAXczYTrcxcp63P6J/mWphdarMK9yqX1fSPCrHQ+bkBLbzYITuz0J3amXy7dvTN/AYW/gZNX35mEnYKvgWuqeEWhc+EtVHfEiYpung4z+pG7jWzkbIPmSIjoLlj0XPufDmBXnAMG5DjJnEVLiiUJas09DW5OSJdWZbuWEi/MHvTpgXgvWju/DaiBHSbgBVtcohrj+l3Q5aK5CLieuOomT1wzOc3C0/WHhPt2nn+dQI3hgi9cQ6EunySkKY3j49PqFeQ/OWkbOUV5b861JZJ+1avt9L/CI+iPLKgR69sBhiy4VayRFRsyn4pOkrTWWmKnl9aMNSLvzFFIl57LR6Ot3U=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR21MB3025.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(451199009)(38070700005)(71200400001)(82950400001)(82960400001)(76116006)(122000001)(478600001)(66476007)(66446008)(64756008)(8676002)(66556008)(4326008)(66946007)(83380400001)(110136005)(54906003)(10290500003)(316002)(186003)(86362001)(107886003)(41300700001)(38100700002)(9686003)(26005)(5660300002)(33656002)(8936002)(52536014)(8990500004)(55016003)(2906002)(15650500001)(7696005)(6506007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xKoHFtinAvIvsdLqs5lDfyVxf7hnsZXA+/i6dy9HuMGbHKt3ltIfEymUTqqX?=
+ =?us-ascii?Q?RAHENFOhz+phhYNP2nOdnloi+pIk9GBvkq93+JMcGKavhkKFl9pyL07wlLsR?=
+ =?us-ascii?Q?1pvGkoqGEigqc/zQhyk2pRgqeMar5XP6ocUGoTWFJf1r7KdoGJGRG49XgN21?=
+ =?us-ascii?Q?Vd8paIotabNekYeYJIoo/F3ls4+5NH7NTMpjJVxd48q0YWORG3nCWqM3wqW9?=
+ =?us-ascii?Q?P7NIQed0YbUndus1GDTbwQet8PnkcEkMC3F8iQTF+Jq+rRFt7rx6dYb+wIce?=
+ =?us-ascii?Q?ewQWk6qEPfDIL6BVizCqvnue273dfzGEy+khCKFPIkqeD1UlezNuT171/fa9?=
+ =?us-ascii?Q?PPbScmPn/+dk7cU8pQKlMjKVyYH7cZdDNoyPcHb02bVLWy7a4nlsISbVkFKm?=
+ =?us-ascii?Q?h4OdS5WTEgEZGt4XHYUlK26jWDTOlZWOD7PsfuBxb+72LvzS6wJ4341tmTIB?=
+ =?us-ascii?Q?AmcXsoB5vedtJTzMjnY4bie3ggYaDgwxCsBwuVBdS/1F2T6MNGLSaanWKQqZ?=
+ =?us-ascii?Q?L93Ns5WYmylrdA6Ngsp3AjW1+4Di53FFKHaTavLEsRhF44xj0hbOxK72k+J3?=
+ =?us-ascii?Q?0PI4IT8PywEghx3bY9NxrKtR1L/52WS2p0IAWpU8iZASCMY0O4dokmQE8q2I?=
+ =?us-ascii?Q?pqsSRnWLpnceT51Y1BIDFI9z1FClkBRc2QrklmvxtKfqJvCRVFuKmo9XBPXY?=
+ =?us-ascii?Q?d5hjjYejibrhaV3GUHlTpzfSCPYX8b0TH2YOqD96QcPHG9O5warV29KndJo3?=
+ =?us-ascii?Q?IQdvDAxzlG7942wLVASdVphYCN6i2z3yhehXUqZZkQx0w61Rw2v98Io2oJUW?=
+ =?us-ascii?Q?hO9wYcs28nirlLBnBr9sSVbtq7jeB1d+qrKPhrYnD2trwKWfsiBGufu2OuK4?=
+ =?us-ascii?Q?iEcxE86kiuRCQ9O8aaTPv7ioIqOMQHh7OvXzKPG6xIb+jmOe4XezNZ1KqFdk?=
+ =?us-ascii?Q?/5XF5C9RITkAEQdmLHSCzVqMRZhChBNAo4m9Y4IOViJcn5w8K0S60K23hY0k?=
+ =?us-ascii?Q?zPrhnM0cuO3mjpzNz/ISTl2nQE0lSwOuNMrqnHoZbEdGc7R9A5pTHytgm/8i?=
+ =?us-ascii?Q?MSTPtNrm6lPKhD1MPiFoy9a8kbNtCiWqis7jd58/LcunqSRjY1aQ0/zxa503?=
+ =?us-ascii?Q?WCdt/1itxS4MOnANO94kYUl7z7LBRjb4F/2qQd90DJ3jLfLgRKUZLUFqNdUt?=
+ =?us-ascii?Q?kgopAqGxcRi6e5p5zJ7fZgHZD+CMySmEEV2xYaJvkP3XCMS75139x8OVA/+u?=
+ =?us-ascii?Q?H8v8pAOy7Zcj8HpA30CCdlzey3Pma/Izxj1IA/t1wueEgn1WNrLCEo5woz5r?=
+ =?us-ascii?Q?zpKnfiYKN4f2WX4afNWRhc82t69r5Vkm+lFmRIbmGnoMgOzXaBsnec/ZF8pI?=
+ =?us-ascii?Q?CGA1b/CGoVtONAN5uXi8C7xlW0mSy1pNLfeQShqLKvX+HTkxCC+HsoTJFp8D?=
+ =?us-ascii?Q?dCEz+A3qw9MWlRBG1zl0P3EcGaYfuxHM6Sw0KeaFCGMrZrmqG0FNIwEdfntl?=
+ =?us-ascii?Q?hwLdPNwVYpEjYCQzV6rjYC7+26tNlNcjBm9IWpenJzy5YphOMaI6aWT6en5/?=
+ =?us-ascii?Q?LMZlfUBADE3Vty/+Xz44OpZRp400j5//h8rF5tJYzPbU95tsdbXU0JT/DeaA?=
+ =?us-ascii?Q?dg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 973a7343-07a1-4415-8514-08da63659e8b
-X-MS-TrafficTypeDiagnostic: DM6PR21MB1321:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3/gk9G0Hhx+MVyQp5AMVXdDY0izccUwx/2r6WbrF81knoSjM83rHJMVJid+/LySP9mIt+f+3407C2+3NjQKRg7wpPNVv1qSUqUw3ZQgRIlHewvh6EpGQ5W1pCpyDweVtm9xYQ2yVaJZSh4NvLXZYkj63MkQfYzAxmLVA/0AlTmRQXQBQGEfXxn/TNUw8jTgdG/drUeN6oBKbtC7k9K55pNQ3BtyPArKOoSLDER1m5pJK/n1gZ2iMZj2WBFHa0MjRaF4rEXz5MXDGTHFRxOOfp1c6lFgpOAVTLNjM1go3ALDNMZH4+W9N4DUmG5N8Ux6zedDtjCiCWhzHGw4d8r2SEpSWUJ3luwKySjxnNAqduhRTA+FKiL4ikJ+npKKi1Nf1sUrSBbcfkIKwRhe0lK2L1PCQ1Kcxr17yUnoLtYGlcMPJHkhO43fUaIR2yRI5eZ1+pfxyTEOJaUT9kuFUmBAW3ZelftlZTXqzcNzYBrf6xbccg9dPtm4Ca2rK4WSQWad3PSxKd6cs2wC4Ws3sC8jN+N1c2aKtlx40zvRg+PaRiQyOy+takQ7ExGwjJO7ZjvABBwAjpWyd0EDDWgLcJfG3laPIz2bzdaYCiZcph9lLZb8ruK9/lpRXXiqLZQr4Y60cGje4w3FCkioRSY8eQJ6K1ZEBqEaz3wWHgVvUSiQQk35z/756jNLeCd6LCD0RnR94GWXN5W0oRuyf8l5BAJGj5CK3YURiGkHix7o/spxWpADOnOtdEq5RdnYR3p889NhC2miycmvwmYsxuPihaoNLmtIIHUTF1s/d8Yz2sMQshobjMUSFWHlMb5rCBAQDbhJyruRCv0sh+Aq5ZLINbdeQrNwNHT9UEIG3FvTA+AY9vCo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(376002)(39860400002)(136003)(396003)(366004)(451199009)(26005)(82950400001)(8936002)(5660300002)(2906002)(36756003)(6506007)(82960400001)(66476007)(18074004)(10290500003)(478600001)(86362001)(4326008)(66946007)(8676002)(6486002)(66556008)(30864003)(41300700001)(2616005)(38100700002)(83380400001)(107886003)(6512007)(186003)(38350700002)(6666004)(316002)(52116002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3FyWIZj+NbJ9rZ/cM3B5TErmX0nC3RALmrq9XYyKGL8lJxpW636tDeH2j3TF?=
- =?us-ascii?Q?m0AvOqsOtenElo1ma8wGoB/9GLSDPDuG1WA9tQl6yXmWubyQ1waBw3IowESy?=
- =?us-ascii?Q?OmtrBRISOH7Fk0cFZJx1H4f6pLGoGkrZF3T+om3jhhxsstvq/jPJeYjHfo6e?=
- =?us-ascii?Q?Re2ulCTW/9YKLagLREOa54W0E3yKBBRGDss/QB74EYvuQzX1O/IUkzbqXIid?=
- =?us-ascii?Q?qVvo/o+5U1nUprUGVaMWQz2qjhDmud1TzEkAxt8LgthEA+YlM7J67r9mXury?=
- =?us-ascii?Q?0SweAoGM8FT/3Ggn8DsY4aMNmSbyuVyidrmMwd218LWc1TOUAhIkxOpbc1v6?=
- =?us-ascii?Q?Bk9zxbQ1p+Y/Q3vivj7ab18xTqXi3V3mguk8Hb+xQyUkhs0oHil55ovTPlAC?=
- =?us-ascii?Q?OFhvVleAtmIjVGowd6nKiSG84NS6foL1dNHXazZrIZQ4hxpDx8NRSo84B5y3?=
- =?us-ascii?Q?3H+gV1SOMfArBieyPShM/3JkzropUMZWOQvztBsP33fhqn3cm9kzXKmnQM6j?=
- =?us-ascii?Q?I9tVjpfIBShA3DofJR8FxBJlP32J9F5b2SF3V4qIoUnW7uMvS9tocnUpoRbB?=
- =?us-ascii?Q?VBER0YV5Fk16iT1YrkDZMvCP18rB6137lIW5fQNQ4BUI/AtKpL4sTD27fc55?=
- =?us-ascii?Q?Wf8QGuA7WUh3fD81WNzfn8cxvURoHaxMUB4alzNf7MS+i3gRZCBIl9vXsgY7?=
- =?us-ascii?Q?Iy0kH1tyojKOOHvw3h6KvY7UrzCjUSdqUDAiW7xMldrd7hD9eAwDv6N+ZRdq?=
- =?us-ascii?Q?U52SwAxo2I+sOuyLRwKo0OmMW56x/2rmQQsBC6wB2WVILKZV4gVYocAjVWov?=
- =?us-ascii?Q?HnqpuNIg3praJtMXmHusNuEgvwO1MLWrEvtoYc9kgjGq8VdTVEQSXxZRSNMK?=
- =?us-ascii?Q?eh0vlaA7PTz9PRtE7AaUznIypZCuQwsp/OZx1vQe6KsXuPG+/lTwMeau42/l?=
- =?us-ascii?Q?GIj4/IJLDSLqOib0T8gCFkZLx/Xy/VJHh/glC8q28xMqS/c0XXRWsnyNc9WW?=
- =?us-ascii?Q?PNfV32yMzEJ0JXQ1rxbuIgslCaNi6cD9Okoz86FPBjY472KuqPhWu3PR6M8Y?=
- =?us-ascii?Q?7zKOdTqvIStm4MIGOsO4hIewg9TgPyZdPRojGxHyx6bJjtBr55XuM3gST6ti?=
- =?us-ascii?Q?aPomibC3M2mgvzk4gPVv8BiuRxKTsaU7t3sjleYqQQbcQDHfN7onrQSrjWTX?=
- =?us-ascii?Q?OIWj93nIHTu40fzJ+znL3VRSaCZJlpv+t2seyZ7lKWRVWzjyEqgGbOGo3Ovw?=
- =?us-ascii?Q?6f5BIQYyiQjP04IxPVS31UPKFiaLth3pfpJexW7e0kCsttAKnqXwi96XCF16?=
- =?us-ascii?Q?liAAlWUzOJG0PRrL6TbqG4ptDR3izAasDw9RjhwqU1ST6etfy5lD0KFMVWpV?=
- =?us-ascii?Q?wsNuAxNl8daXkJA/Jo9WslNfRTowiGyIJ0JgMq4E1rsW+hhAaT7TV4sCnetv?=
- =?us-ascii?Q?w32z+MJuMkY9rYWzNUxDwJ8a6uz8i9I0ufbphG7Gxm83nEyQeUrKUGjBxg1/?=
- =?us-ascii?Q?Na90+80G012NBbzWhRammz9Kw9wxi2Dr/cq+22TFDjZ7MWOHSSx17dFrp4n/?=
- =?us-ascii?Q?BbwodfINKL29nTRZIrZch9VmsHUx/2OiTIGddCNs?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 973a7343-07a1-4415-8514-08da63659e8b
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 17:48:53.0543
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR21MB3025.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56c3fdb9-05c6-41f2-ba1f-08da6365e0ba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jul 2022 17:50:43.9214
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5QSToKTh/nSga6szNicLlGAdnSb2601VPLFOEiGGMKvgo1gWM7bcO18LAGLyhfGJCrrM8yLekd3tLmjJSnCyyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR21MB1321
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tYHno6tqyzYNXjUaFQX2yaARPrqaSdrVM7HzTCrGLysyT+Pi4ruI1WFPnzNChiyLM2jU8nNd/1KEdIPWZ9Lg0+TFgpzHfmfk7BrjhvgFuG0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR21MB3544
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add documentation topic for using VMbus when running as a guest
-on Hyper-V.
+From: Shradha Gupta <shradhagupta@linux.microsoft.com> Sent: Sunday, July 1=
+0, 2022 9:12 PM
+>=20
+> Add a flag to indicate that the vmbus is suspended so we should ignore
+> any offer message. Add a new work_queue for rescind msg, so we could drai=
+n
+> it along with other offer work_queues upon suspension.
+> It was observed that in some hibernation related scenario testing, after
+> vmbus_bus_suspend() we get rescind offer message for the vmbus. This woul=
+d
+> lead to processing of a rescind message for a channel that has already be=
+en
+> suspended.
+>=20
+> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> ---
+>=20
+> Changes in v3:
+> * Remove unused variable hv_cpu from vmbus_bus_resume() call
+>=20
+> ---
+>  drivers/hv/connection.c   | 11 +++++++++++
+>  drivers/hv/hyperv_vmbus.h |  7 +++++++
+>  drivers/hv/vmbus_drv.c    | 27 +++++++++++++++++++--------
+>  3 files changed, 37 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+> index 6218bbf6863a..eca7afd366d6 100644
+> --- a/drivers/hv/connection.c
+> +++ b/drivers/hv/connection.c
+> @@ -171,6 +171,14 @@ int vmbus_connect(void)
+>  		goto cleanup;
+>  	}
+>=20
+> +	vmbus_connection.rescind_work_queue =3D
+> +		create_workqueue("hv_vmbus_rescind");
+> +	if (!vmbus_connection.rescind_work_queue) {
+> +		ret =3D -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +	vmbus_connection.ignore_any_offer_msg =3D false;
+> +
+>  	vmbus_connection.handle_primary_chan_wq =3D
+>  		create_workqueue("hv_pri_chan");
+>  	if (!vmbus_connection.handle_primary_chan_wq) {
+> @@ -357,6 +365,9 @@ void vmbus_disconnect(void)
+>  	if (vmbus_connection.handle_primary_chan_wq)
+>  		destroy_workqueue(vmbus_connection.handle_primary_chan_wq);
+>=20
+> +	if (vmbus_connection.rescind_work_queue)
+> +		destroy_workqueue(vmbus_connection.rescind_work_queue);
+> +
+>  	if (vmbus_connection.work_queue)
+>  		destroy_workqueue(vmbus_connection.work_queue);
+>=20
+> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+> index 4f5b824b16cf..dc673edf053c 100644
+> --- a/drivers/hv/hyperv_vmbus.h
+> +++ b/drivers/hv/hyperv_vmbus.h
+> @@ -261,6 +261,13 @@ struct vmbus_connection {
+>  	struct workqueue_struct *work_queue;
+>  	struct workqueue_struct *handle_primary_chan_wq;
+>  	struct workqueue_struct *handle_sub_chan_wq;
+> +	struct workqueue_struct *rescind_work_queue;
+> +
+> +	/*
+> +	 * On suspension of the vmbus, the accumulated offer messages
+> +	 * must be dropped.
+> +	 */
+> +	bool ignore_any_offer_msg;
+>=20
+>  	/*
+>  	 * The number of sub-channels and hv_sock channels that should be
+> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+> index 547ae334e5cd..23c680d1a0f5 100644
+> --- a/drivers/hv/vmbus_drv.c
+> +++ b/drivers/hv/vmbus_drv.c
+> @@ -1160,7 +1160,9 @@ void vmbus_on_msg_dpc(unsigned long data)
+>  			 * work queue: the RESCIND handler can not start to
+>  			 * run before the OFFER handler finishes.
+>  			 */
+> -			schedule_work(&ctx->work);
+> +			if (vmbus_connection.ignore_any_offer_msg)
+> +				break;
+> +			queue_work(vmbus_connection.rescind_work_queue, &ctx->work);
+>  			break;
+>=20
+>  		case CHANNELMSG_OFFERCHANNEL:
+> @@ -1186,6 +1188,8 @@ void vmbus_on_msg_dpc(unsigned long data)
+>  			 * to the CPUs which will execute the offer & rescind
+>  			 * works by the time these works will start execution.
+>  			 */
+> +			if (vmbus_connection.ignore_any_offer_msg)
+> +				break;
+>  			atomic_inc(&vmbus_connection.offer_in_progress);
+>  			fallthrough;
+>=20
+> @@ -2446,15 +2450,20 @@ static int vmbus_acpi_add(struct acpi_device *dev=
+ice)
+>  #ifdef CONFIG_PM_SLEEP
+>  static int vmbus_bus_suspend(struct device *dev)
+>  {
+> +	struct hv_per_cpu_context *hv_cpu =3D per_cpu_ptr(
+> +			hv_context.cpu_context, VMBUS_CONNECT_CPU);
+>  	struct vmbus_channel *channel, *sc;
+>=20
+> -	while (atomic_read(&vmbus_connection.offer_in_progress) !=3D 0) {
+> -		/*
+> -		 * We wait here until the completion of any channel
+> -		 * offers that are currently in progress.
+> -		 */
+> -		usleep_range(1000, 2000);
+> -	}
+> +	tasklet_disable(&hv_cpu->msg_dpc);
+> +	vmbus_connection.ignore_any_offer_msg =3D true;
+> +	/* The tasklet_enable() takes care of providing a memory barrier */
+> +	tasklet_enable(&hv_cpu->msg_dpc);
+> +
+> +	/* Drain all the workqueues as we are in suspend */
+> +	drain_workqueue(vmbus_connection.rescind_work_queue);
+> +	drain_workqueue(vmbus_connection.work_queue);
+> +	drain_workqueue(vmbus_connection.handle_primary_chan_wq);
+> +	drain_workqueue(vmbus_connection.handle_sub_chan_wq);
+>=20
+>  	mutex_lock(&vmbus_connection.channel_mutex);
+>  	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
+> @@ -2531,6 +2540,8 @@ static int vmbus_bus_resume(struct device *dev)
+>  	size_t msgsize;
+>  	int ret;
+>=20
+> +	vmbus_connection.ignore_any_offer_msg =3D false;
+> +
+>  	/*
+>  	 * We only use the 'vmbus_proto_version', which was in use before
+>  	 * hibernation, to re-negotiate with the host.
+> --
+> 2.17.1
 
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
----
- Documentation/virt/hyperv/index.rst |   1 +
- Documentation/virt/hyperv/vmbus.rst | 303 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 304 insertions(+)
- create mode 100644 Documentation/virt/hyperv/vmbus.rst
-
-diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
-index 991bee4..caa43ab 100644
---- a/Documentation/virt/hyperv/index.rst
-+++ b/Documentation/virt/hyperv/index.rst
-@@ -8,3 +8,4 @@ Hyper-V Enlightenments
-    :maxdepth: 1
- 
-    overview
-+   vmbus
-diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
-new file mode 100644
-index 0000000..a9de881
---- /dev/null
-+++ b/Documentation/virt/hyperv/vmbus.rst
-@@ -0,0 +1,303 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+VMbus
-+=====
-+VMbus is a software construct provided by Hyper-V to guest VMs.  It
-+consists of a control path and common facilities used by synthetic
-+devices that Hyper-V presents to guest VMs.   The control path is
-+used to offer synthetic devices to the guest VM and, in some cases,
-+to rescind those devices.   The common facilities include software
-+channels for communicating between the device driver in the guest VM
-+and the synthetic device implementation that is part of Hyper-V, and
-+signaling primitives to allow Hyper-V and the guest to interrupt
-+each other.
-+
-+VMbus is modeled in Linux as a bus, with the expected /sys/bus/vmbus
-+entry in a running Linux guest.  The VMbus driver (drivers/hv/vmbus_drv.c)
-+establishes the VMbus control path with the Hyper-V host, then
-+registers itself as a Linux bus driver.  It implements the standard
-+bus functions for adding and removing devices to/from the bus.
-+
-+Most synthetic devices offered by Hyper-V have a corresponding Linux
-+device driver.  These devices include:
-+
-+* SCSI controller
-+* NIC
-+* Graphics frame buffer
-+* Keyboard
-+* Mouse
-+* PCI device pass-thru
-+* Heartbeat
-+* Time Sync
-+* Shutdown
-+* Memory balloon
-+* Key/Value Pair (KVP) exchange with Hyper-V
-+* Hyper-V online backup (a.k.a. VSS)
-+
-+Guest VMs may have multiple instances of the synthetic SCSI
-+controller, synthetic NIC, and PCI pass-thru devices.  Other
-+synthetic devices are limited to a single instance per VM.  Not
-+listed above are a small number of synthetic devices offered by
-+Hyper-V that are used only by Windows guests and for which Linux
-+does not have a driver.
-+
-+Hyper-V uses the terms "VSP" and "VSC" in describing synthetic
-+devices.  "VSP" refers to the Hyper-V code that implements a
-+particular synthetic device, while "VSC" refers to the driver for
-+the device in the guest VM.  For example, the Linux driver for the
-+synthetic NIC is referred to as "netvsc" and the Linux driver for
-+the synthetic SCSI controller is "storvsc".  These drivers contain
-+functions with names like "storvsc_connect_to_vsp".
-+
-+VMbus channels
-+--------------
-+An instance of a synthetic device uses VMbus channels to communicate
-+between the VSP and the VSC.  Channels are bi-directional and used
-+for passing messages.   Most synthetic devices use a single channel,
-+but the synthetic SCSI controller and synthetic NIC may use multiple
-+channels to achieve higher performance and greater parallelism.
-+
-+Each channel consists of two ring buffers.  These are classic ring
-+buffers from a university data structures textbook.  If the read
-+and writes pointers are equal, the ring buffer is considered to be
-+empty, so a full ring buffer always has at least one byte unused.
-+The "in" ring buffer is for messages from the Hyper-V host to the
-+guest, and the "out" ring buffer is for messages from the guest to
-+the Hyper-V host.  In Linux, the "in" and "out" designations are as
-+viewed by the guest side.  The ring buffers are memory that is
-+shared between the guest and the host, and they follow the standard
-+paradigm where the memory is allocated by the guest, with the list
-+of GPAs that make up the ring buffer communicated to the host.  Each
-+ring buffer consists of a header page (4 Kbytes) with the read and
-+write indices and some control flags, followed by the memory for the
-+actual ring.  The size of the ring is determined by the VSC in the
-+guest and is specific to each synthetic device.   The list of GPAs
-+making up the ring is communicated to the Hyper-V host over the
-+VMbus control path as a GPA Descriptor List (GPADL).  See function
-+vmbus_establish_gpadl().
-+
-+Each ring buffer is mapped into contiguous Linux kernel virtual
-+space in three parts:  1) the 4 Kbyte header page, 2) the memory
-+that makes up the ring itself, and 3) a second mapping of the memory
-+that makes up the ring itself.  Because (2) and (3) are contiguous
-+in kernel virtual space, the code that copies data to and from the
-+ring buffer need not be concerned with ring buffer wrap-around.
-+Once a copy operation has completed, the read or write index may
-+need to be reset to point back into the first mapping, but the
-+actual data copy does not need to be broken into two parts.  This
-+approach also allows complex data structures to be easily accessed
-+directly in the ring without handling wrap-around.
-+
-+On arm64 with page sizes > 4 Kbytes, the header page must still be
-+passed to Hyper-V as a 4 Kbyte area.  But the memory for the actual
-+ring must be aligned to PAGE_SIZE and have a size that is a multiple
-+of PAGE_SIZE so that the duplicate mapping trick can be done.  Hence
-+a portion of the header page is unused and not communicated to
-+Hyper-V.  This case is handled by vmbus_establish_gpadl().
-+
-+Hyper-V enforces a limit on the aggregate amount of guest memory
-+that can be shared with the host via GPADLs.  This limit ensures
-+that a rogue guest can't force the consumption of excessive host
-+resources.  For Windows Server 2019 and later, this limit is
-+approximately 1280 Mbytes.  For versions prior to Windows Server
-+2019, the limit is approximately 384 Mbytes.
-+
-+VMbus messages
-+--------------
-+All VMbus messages have a standard header that includes the message
-+length, the offset of the message payload, some flags, and a
-+transactionID.  The portion of the message after the header is
-+unique to each VSP/VSC pair.
-+
-+Messages follow one of two patterns:
-+
-+* Unidirectional:  Either side sends a message and does not
-+  expect a response message
-+* Request/response:  One side (usually the guest) sends a message
-+  and expects a response
-+
-+The transactionID (a.k.a. "requestID") is for matching requests &
-+responses.  Some synthetic devices allow multiple requests to be in-
-+flight simultaneously, so the guest specifies a transactionID when
-+sending a request.  Hyper-V sends back the same transactionID in the
-+matching response.
-+
-+Messages passed between the VSP and VSC are control messages.  For
-+example, a message sent from the storvsc driver might be "execute
-+this SCSI command".   If a message also implies some data transfer
-+between the guest and the Hyper-V host, the actual data to be
-+transferred may be embedded with the control message, or it may be
-+specified as a separate data buffer that the Hyper-V host will
-+access as a DMA operation.  The former case is used when the size of
-+the data is small and the cost of copying the data to and from the
-+ring buffer is minimal.  For example, time sync messages from the
-+Hyper-V host to the guest contain the actual time value.  When the
-+data is larger, a separate data buffer is used.  In this case, the
-+control message contains a list of GPAs that describe the data
-+buffer.  For example, the storvsc driver uses this approach to
-+specify the data buffers to/from which disk I/O is done.
-+
-+Three functions exist to send VMbus messages:
-+
-+1. vmbus_sendpacket():  Control-only messages and messages with
-+   embedded data -- no GPAs
-+2. vmbus_sendpacket_pagebuffer(): Message with list of GPAs
-+   identifying data to transfer.  An offset and length is
-+   associated with each GPA so that multiple discontinuous areas
-+   of guest memory can be targeted.
-+3. vmbus_sendpacket_mpb_desc(): Message with list of GPAs
-+   identifying data to transfer.  A single offset and length is
-+   associated with a list of GPAs.  The GPAs must describe a
-+   single logical area of guest memory to be targeted.
-+
-+Historically, Linux guests have trusted Hyper-V to send well-formed
-+and valid messages, and Linux drivers for synthetic devices did not
-+fully validate messages.  With the introduction of processor
-+technologies that fully encrypt guest memory and that allow the
-+guest to not trust the hypervisor (AMD SNP-SEV, Intel TDX), trusting
-+the Hyper-V host is no longer a valid assumption.  The drivers for
-+VMbus synthetic devices are being updated to fully validate any
-+values read from memory that is shared with Hyper-V, which includes
-+messages from VMbus devices.  To facilitate such validation,
-+messages read by the guest from the "in" ring buffer are copied to a
-+temporary buffer that is not shared with Hyper-V.  Validation is
-+performed in this temporary buffer without the risk of Hyper-V
-+maliciously modifying the message after it is validated but before
-+it is used.
-+
-+VMbus interrupts
-+----------------
-+VMbus provides a mechanism for the guest to interrupt the host when
-+the guest has queued new messages in a ring buffer.  The host
-+expects that the guest will send an interrupt only when an "out"
-+ring buffer transitions from empty to non-empty.  If the guest sends
-+interrupts at other times, the host deems such interrupts to be
-+unnecessary.  If a guest sends an excessive number of unnecessary
-+interrupts, the host may throttle that guest by suspending its
-+execution for a few seconds to prevent a denial-of-service attack.
-+
-+Similarly, the host will interrupt the guest when it sends a new
-+message on the VMbus control path, or when a VMbus channel "in" ring
-+buffer transitions from empty to non-empty.  Each CPU in the guest
-+may receive VMbus interrupts, so they are best modeled as per-CPU
-+interrupts in Linux.  This model works well on arm64 where a single
-+per-CPU IRQ is allocated for VMbus.  Since x86/x64 lacks support for
-+per-CPU IRQs, an x86 interrupt vector is statically allocated (see
-+HYPERVISOR_CALLBACK_VECTOR) across all CPUs and explicitly coded to
-+call the VMbus interrupt service routine.  These interrupts are
-+visible in /proc/interrupts on the "HYP" line.
-+
-+The guest CPU that a VMbus channel will interrupt is selected by the
-+guest when the channel is created, and the host is informed of that
-+selection.  VMbus devices are broadly grouped into two categories:
-+
-+1. "Slow" devices that need only one VMbus channel.  The devices
-+   (such as keyboard, mouse, heartbeat, and timesync) generate
-+   relatively few interrupts.  Their VMbus channels are all
-+   assigned to interrupt the VMBUS_CONNECT_CPU, which is always
-+   CPU 0.
-+
-+2. "High speed" devices that may use multiple VMbus channels for
-+   higher parallelism and performance.  These devices include the
-+   synthetic SCSI controller and synthetic NIC.  Their VMbus
-+   channels interrupts are assigned to CPUs that are spread out
-+   among the available CPUs in the VM so that interrupts on
-+   multiple channels can be processed in parallel.
-+
-+The assignment of VMbus channel interrupts to CPUs is done in the
-+function init_vp_index().  This assignment is done outside of the
-+normal Linux interrupt affinity mechanism, so the interrupts are
-+neither "unmanaged" nor "managed" interrupts.
-+
-+The CPU that a VMbus channel will interrupt can be seen in
-+/sys/bus/vmbus/devices/<deviceGUID>/ channels/<channelRelID>/cpu.
-+When running on later versions of Hyper-V, the CPU can be changed
-+by writing a new value to this sysfs entry.  Because the interrupt
-+assignment is done outside of the normal Linux affinity mechanism,
-+there are no entries in /proc/irq corresponding to individual
-+VMbus channel interrupts.
-+
-+An online CPU in a Linux guest may not be taken offline if it has
-+VMbus channel interrupts assigned to it.  Any such channel
-+interrupts must first be manually reassigned to another CPU as
-+described above.  When no channel interrupts are assigned to the
-+CPU, it can be taken offline.
-+
-+When a guest CPU receives a VMbus interrupt from the host, the
-+function vmbus_isr() handles the interrupt.  It first checks for
-+channel interrupts by calling vmbus_chan_sched(), which looks at a
-+bitmap setup by the host to determine which channels have pending
-+interrupts on this CPU.  If multiple channels have pending
-+interrupts for this CPU, they are processed sequentially.  When all
-+channel interrupts have been processed, vmbus_isr() checks for and
-+processes any message received on the VMbus control path.
-+
-+The VMbus channel interrupt handling code is designed to work
-+correctly even if an interrupt is received on a CPU other than the
-+CPU assigned to the channel.  Specifically, the code does not use
-+CPU-based exclusion for correctness.  In normal operation, Hyper-V
-+will interrupt the assigned CPU.  But when the CPU assigned to a
-+channel is being changed via sysfs, the guest doesn't know exactly
-+when Hyper-V will make the transition.  The code must work correctly
-+even if there is a time lag before Hyper-V starts interrupting the
-+new CPU.  See comments in target_cpu_store().
-+
-+VMbus device creation/deletion
-+------------------------------
-+Hyper-V and the Linux guest have a separate message-passing path
-+that is used for synthetic device creation and deletion. This
-+path does not use a VMbus channel.  See vmbus_post_msg() and
-+vmbus_on_msg_dpc().
-+
-+The first step is for the guest to connect to the generic
-+Hyper-V VMbus mechanism.  As part of establishing this connection,
-+the guest and Hyper-V agree on a VMbus protocol version they will
-+use.  This negotiation allows newer Linux kernels to run on older
-+Hyper-V versions, and vice versa.
-+
-+The guest then tells Hyper-V to "send offers".  Hyper-V sends an
-+offer message to the guest for each synthetic device that the VM
-+is configured to have. Each VMbus device type has a fixed GUID
-+known as the "class ID", and each VMbus device instance is also
-+identified by a GUID. The offer message from Hyper-V contains
-+both GUIDs to uniquely (within the VM) identify the device.
-+There is one offer message for each device instance, so a VM with
-+two synthetic NICs will get two offers messages with the NIC
-+class ID. The ordering of offer messages can vary from boot-to-boot
-+and must not be assumed to be consistent in Linux code. Offer
-+messages may also arrive long after Linux has initially booted
-+because Hyper-V supports adding devices, such as synthetic NICs,
-+to running VMs. A new offer message is processed by
-+vmbus_process_offer(), which indirectly invokes vmbus_add_channel_work().
-+
-+Upon receipt of an offer message, the guest identifies the device
-+type based on the class ID, and invokes the correct driver to set up
-+the device.  Driver/device matching is performed using the standard
-+Linux mechanism.
-+
-+The device driver probe function opens the primary VMbus channel to
-+the corresponding VSP. It allocates guest memory for the channel
-+ring buffers and shares the ring buffer with the Hyper-V host by
-+giving the host a list of GPAs for the ring buffer memory.  See
-+vmbus_establish_gpadl().
-+
-+Once the ring buffer is set up, the device driver and VSP exchange
-+setup messages via the primary channel.  These messages may include
-+negotiating the device protocol version to be used between the Linux
-+VSC and the VSP on the Hyper-V host.  The setup messages may also
-+include creating additional VMbus channels, which are somewhat
-+mis-named as "sub-channels" since they are functionally
-+equivalent to the primary channel once they are created.
-+
-+Finally, the device driver may create entries in /dev as with
-+any device driver.
-+
-+The Hyper-V host can send a "rescind" message to the guest to
-+remove a device that was previously offered. Linux drivers must
-+handle such a rescind message at any time. Rescinding a device
-+invokes the device driver "remove" function to cleanly shut
-+down the device and remove it. Once a synthetic device is
-+rescinded, neither Hyper-V nor Linux retains any state about
-+its previous existence. Such a device might be re-added later,
-+in which case it is treated as an entirely new device. See
-+vmbus_onoffer_rescind().
--- 
-1.8.3.1
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 
