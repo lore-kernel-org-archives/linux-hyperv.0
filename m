@@ -2,61 +2,62 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0412CCCA481
-	for <linux-hyperv@archiver.kernel.org>; Tue, 12 Jul 2022 11:57:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985A4C43334
+	for <linux-hyperv@archiver.kernel.org>; Tue, 12 Jul 2022 11:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233042AbiGLL5Y (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 12 Jul 2022 07:57:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43530 "EHLO
+        id S232965AbiGLL5r (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 12 Jul 2022 07:57:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233015AbiGLL5B (ORCPT
+        with ESMTP id S232414AbiGLL5X (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 12 Jul 2022 07:57:01 -0400
+        Tue, 12 Jul 2022 07:57:23 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2F29EB4BC9
-        for <linux-hyperv@vger.kernel.org>; Tue, 12 Jul 2022 04:56:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 22584B5D3F
+        for <linux-hyperv@vger.kernel.org>; Tue, 12 Jul 2022 04:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657627008;
+        s=mimecast20190719; t=1657627039;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=JYoII+k7BIhLyww2E7Zs6q6xgIOAbozjHCdPnMQ9nAs=;
-        b=KFmzggilZfC154lnl866OIUNqDhP8dopTNAx/pThlFybQ/8OWfnkK/LE2l4niQA+g+/Jht
-        3w/Ee4P3yahUL5kzcznL9dJ93uAj5T7n2F1hTRMqRQYDoDueRwzElfOCEpQWzMCemSrS4u
-        rlLdj/FtY2rhwTpfwY/5qW/IXL44kdQ=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=olaRyc5m79LX2YhKauQNe+T3doYLi+ybnhrejxK98CE=;
+        b=TJ1AxfvxO6K1rnNK4A9c/Bv0dApp/g7D/rfJtq4bEGomcrNMuPGKJtbhJYPgON5WNInuFC
+        InREvzyXccyp9IHk1rx5sKo3WilEaTHoiLNaJ7/SBA90RfPEaREWYvp8E68fTrv8TPdd7U
+        CtRFa7t8qAO8xXxM2UsaXiRMF8OfJyA=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-nblEufljNwacUlM_kncTFQ-1; Tue, 12 Jul 2022 07:56:47 -0400
-X-MC-Unique: nblEufljNwacUlM_kncTFQ-1
-Received: by mail-qv1-f71.google.com with SMTP id q4-20020a0ce9c4000000b00473004919ddso1665908qvo.16
-        for <linux-hyperv@vger.kernel.org>; Tue, 12 Jul 2022 04:56:47 -0700 (PDT)
+ us-mta-98-RaVtIlmJM12odnXzDSEryw-1; Tue, 12 Jul 2022 07:57:17 -0400
+X-MC-Unique: RaVtIlmJM12odnXzDSEryw-1
+Received: by mail-qk1-f200.google.com with SMTP id s9-20020a05620a254900b006b54dd4d6deso7584053qko.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 12 Jul 2022 04:57:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JYoII+k7BIhLyww2E7Zs6q6xgIOAbozjHCdPnMQ9nAs=;
-        b=LSEYGkxJc71zene3+9EoLf5MFMuFGXXrAQ/3vwRD8fh/zADxSz+J4J4S7XYCD8UmIM
-         CfUItrb1nw5H4Rl4TrrfcYGHGh16WelECTt6nOWbd5xtz+5JkQAqusq48HskiJSmHZUe
-         Z/3P2dAH2/8mDCL3ls54JZDte3EXgNEiMFG7rQST3TKBnBX/jPiXzrthO7IIcNFQZ8Z2
-         5SsuAIx/joA3HNaVFhKqGxsAKRZy2fGXCQjSYvNhc7Yykhpal1x3TuR3r4BX0dnRvEdx
-         QlFZ655Rk4jGEcEJfcnZAVO+9fYti2c2eSwFcBDwy6NxFyYQArht3ZiLlfh0DFyK9+sQ
-         9gfQ==
-X-Gm-Message-State: AJIora+FfE3dqiRS7hDQytmHKN7TZyVItY2q0ZlftM9vwsGHL3qVt26u
-        2V7w/AXUCbZzhkPqodNY+ugCdG8zq9aKcV3OILafT/Lg+kLbkQkA7iFOkK0VMf/7m84lUtTsgj9
-        fm3WFrHmIrEHYh1dg2G3VIgAl
-X-Received: by 2002:ac8:7d91:0:b0:31e:b42d:e01b with SMTP id c17-20020ac87d91000000b0031eb42de01bmr8370016qtd.500.1657627006790;
-        Tue, 12 Jul 2022 04:56:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sf79oi7vnjY9DhGZC3UjmTIm+a0KlLQAN3k0GNjIskRmu/FvB1c9jBU/Qz6iXhktJpWsG49A==
-X-Received: by 2002:ac8:7d91:0:b0:31e:b42d:e01b with SMTP id c17-20020ac87d91000000b0031eb42de01bmr8369962qtd.500.1657627005837;
-        Tue, 12 Jul 2022 04:56:45 -0700 (PDT)
+        bh=olaRyc5m79LX2YhKauQNe+T3doYLi+ybnhrejxK98CE=;
+        b=Ysh7wSVjHa9gRGgf//qi2mpxlLTpbLyQPXs8sQ4VZZ5neBWiZOv0DI1GXwSGmWsGUP
+         XNREBj7+JOmbRwmdPrFAd3/3s2RzEg0mAeZV3pG+oUrG95XA61ofh4vE/tu3CoGO5de4
+         MusZIFXRocuDUh3Y+eDg36YhaSX8JT1APhJ10mHVI57JG/j9XiKesU3Jsyg6FDbPnqQ1
+         HTqMlw8+go2RRcHeH06TwvILBNQVV5em4haaiPjm7tSwium/wbJ0yMsUo+LKXyUpDZnr
+         0qZCSVwSuwYGpSkVqTREWNeMJt/hnbE8vf35SfjYt08//yQ/amOR6d7hAbaqAOohAdy5
+         Mr6w==
+X-Gm-Message-State: AJIora+ybBg999fEwHvT78ow4LJMhwWGZDQYwXhLH/RJGm8YTKpQ5OPK
+        YWJZUVpf/w6Tae1wCzYlv3/hOPgQKk0bLjqGRfqMgJGCgNZkIhkGmQcl8OepvPlGq6LW3p0l41u
+        9tj8ySS/LqPQOK3GawyuiUdDg
+X-Received: by 2002:ac8:5a4a:0:b0:31e:c15f:c1f9 with SMTP id o10-20020ac85a4a000000b0031ec15fc1f9mr1802433qta.12.1657627037538;
+        Tue, 12 Jul 2022 04:57:17 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1urHh4ODy0b6XiDk4WThbx6/yS3IFDPugQq8wMUsZi0/m+3IrBehtXOQ128Owji6o19BTZj8A==
+X-Received: by 2002:ac8:5a4a:0:b0:31e:c15f:c1f9 with SMTP id o10-20020ac85a4a000000b0031ec15fc1f9mr1802350qta.12.1657627036023;
+        Tue, 12 Jul 2022 04:57:16 -0700 (PDT)
 Received: from [10.35.4.238] (bzq-82-81-161-50.red.bezeqint.net. [82.81.161.50])
-        by smtp.gmail.com with ESMTPSA id q22-20020a05620a2a5600b006b58facde91sm4522304qkp.106.2022.07.12.04.56.43
+        by smtp.gmail.com with ESMTPSA id n7-20020ae9c307000000b006a34a22bc60sm8400241qkg.9.2022.07.12.04.57.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 04:56:45 -0700 (PDT)
-Message-ID: <227b2e0b190b7550462eb177f3b0dde20ec57e6e.camel@redhat.com>
-Subject: Re: [PATCH v3 15/25] KVM: VMX: Extend VMX controls macro shenanigans
+        Tue, 12 Jul 2022 04:57:15 -0700 (PDT)
+Message-ID: <031867fe65f26f7e2d37cc41ec071b3aea98ee90.camel@redhat.com>
+Subject: Re: [PATCH v3 17/25] KVM: VMX: Add missing VMEXIT controls to
+ vmcs_config
 From:   Maxim Levitsky <mlevitsk@redhat.com>
 To:     Vitaly Kuznetsov <vkuznets@redhat.com>, kvm@vger.kernel.org,
         Paolo Bonzini <pbonzini@redhat.com>,
@@ -65,10 +66,10 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 12 Jul 2022 14:56:41 +0300
-In-Reply-To: <20220708144223.610080-16-vkuznets@redhat.com>
+Date:   Tue, 12 Jul 2022 14:57:11 +0300
+In-Reply-To: <20220708144223.610080-18-vkuznets@redhat.com>
 References: <20220708144223.610080-1-vkuznets@redhat.com>
-         <20220708144223.610080-16-vkuznets@redhat.com>
+         <20220708144223.610080-18-vkuznets@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-5.fc34) 
 MIME-Version: 1.0
@@ -78,318 +79,55 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 On Fri, 2022-07-08 at 16:42 +0200, Vitaly Kuznetsov wrote:
-> When VMX controls macros are used to set or clear a control bit, make
-> sure that this bit was checked in setup_vmcs_config() and thus is properly
-> reflected in vmcs_config.
+> As a preparation to reusing the result of setup_vmcs_config() in
+> nested VMX MSR setup, add the VMEXIT controls which KVM doesn't
+> use but supports for nVMX to KVM_OPT_VMX_VM_EXIT_CONTROLS and
+> filter them out in vmx_vmexit_ctrl().
 > 
 > No functional change intended.
 > 
-> Suggested-by: Sean Christopherson <seanjc@google.com>
+> Reviewed-by: Jim Mattson <jmattson@google.com>
 > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 > ---
->  arch/x86/kvm/vmx/vmx.c |  99 +++++++------------------------------
->  arch/x86/kvm/vmx/vmx.h | 109 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 127 insertions(+), 81 deletions(-)
+>  arch/x86/kvm/vmx/vmx.c | 4 ++++
+>  arch/x86/kvm/vmx/vmx.h | 3 +++
+>  2 files changed, 7 insertions(+)
 > 
 > diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index 566be73c6509..93ca9ff8e641 100644
+> index d7170990f469..2fb89bdcbbd8 100644
 > --- a/arch/x86/kvm/vmx/vmx.c
 > +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -2448,7 +2448,6 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->                                     struct vmx_capability *vmx_cap)
+> @@ -4196,6 +4196,10 @@ static u32 vmx_vmexit_ctrl(void)
 >  {
->         u32 vmx_msr_low, vmx_msr_high;
-> -       u32 min, opt, min2, opt2;
->         u32 _pin_based_exec_control = 0;
->         u32 _cpu_based_exec_control = 0;
->         u32 _cpu_based_2nd_exec_control = 0;
-> @@ -2474,28 +2473,10 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->         };
+>         u32 vmexit_ctrl = vmcs_config.vmexit_ctrl;
 >  
->         memset(vmcs_conf, 0, sizeof(*vmcs_conf));
-> -       min = CPU_BASED_HLT_EXITING |
-> -#ifdef CONFIG_X86_64
-> -             CPU_BASED_CR8_LOAD_EXITING |
-> -             CPU_BASED_CR8_STORE_EXITING |
-> -#endif
-> -             CPU_BASED_CR3_LOAD_EXITING |
-> -             CPU_BASED_CR3_STORE_EXITING |
-> -             CPU_BASED_UNCOND_IO_EXITING |
-> -             CPU_BASED_MOV_DR_EXITING |
-> -             CPU_BASED_USE_TSC_OFFSETTING |
-> -             CPU_BASED_MWAIT_EXITING |
-> -             CPU_BASED_MONITOR_EXITING |
-> -             CPU_BASED_INVLPG_EXITING |
-> -             CPU_BASED_RDPMC_EXITING |
-> -             CPU_BASED_INTR_WINDOW_EXITING;
-> -
-> -       opt = CPU_BASED_TPR_SHADOW |
-> -             CPU_BASED_USE_MSR_BITMAPS |
-> -             CPU_BASED_NMI_WINDOW_EXITING |
-> -             CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |
-> -             CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
-> -       if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_PROCBASED_CTLS,
+> +       /* Not used by KVM but supported for nesting. */
+> +       vmexit_ctrl &= ~(VM_EXIT_SAVE_IA32_PAT | VM_EXIT_SAVE_IA32_EFER |
+> +                        VM_EXIT_SAVE_VMX_PREEMPTION_TIMER);
 > +
-> +       if (adjust_vmx_controls(KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL,
-> +                               KVM_OPT_VMX_CPU_BASED_VM_EXEC_CONTROL,
-> +                               MSR_IA32_VMX_PROCBASED_CTLS,
->                                 &_cpu_based_exec_control) < 0)
->                 return -EIO;
-OK
-
-
->  #ifdef CONFIG_X86_64
-> @@ -2504,34 +2485,8 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->                                            ~CPU_BASED_CR8_STORE_EXITING;
->  #endif
->         if (_cpu_based_exec_control & CPU_BASED_ACTIVATE_SECONDARY_CONTROLS) {
-> -               min2 = 0;
-> -               opt2 = SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |
-> -                       SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE |
-> -                       SECONDARY_EXEC_WBINVD_EXITING |
-> -                       SECONDARY_EXEC_ENABLE_VPID |
-> -                       SECONDARY_EXEC_ENABLE_EPT |
-> -                       SECONDARY_EXEC_UNRESTRICTED_GUEST |
-> -                       SECONDARY_EXEC_PAUSE_LOOP_EXITING |
-> -                       SECONDARY_EXEC_DESC |
-> -                       SECONDARY_EXEC_ENABLE_RDTSCP |
-> -                       SECONDARY_EXEC_ENABLE_INVPCID |
-> -                       SECONDARY_EXEC_APIC_REGISTER_VIRT |
-> -                       SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |
-> -                       SECONDARY_EXEC_SHADOW_VMCS |
-> -                       SECONDARY_EXEC_XSAVES |
-> -                       SECONDARY_EXEC_RDSEED_EXITING |
-> -                       SECONDARY_EXEC_RDRAND_EXITING |
-> -                       SECONDARY_EXEC_ENABLE_PML |
-> -                       SECONDARY_EXEC_TSC_SCALING |
-> -                       SECONDARY_EXEC_ENABLE_USR_WAIT_PAUSE |
-> -                       SECONDARY_EXEC_PT_USE_GPA |
-> -                       SECONDARY_EXEC_PT_CONCEAL_VMX |
-> -                       SECONDARY_EXEC_ENABLE_VMFUNC |
-> -                       SECONDARY_EXEC_BUS_LOCK_DETECTION |
-> -                       SECONDARY_EXEC_NOTIFY_VM_EXITING |
-> -                       SECONDARY_EXEC_ENCLS_EXITING;
-> -
-> -               if (adjust_vmx_controls(min2, opt2,
-> +               if (adjust_vmx_controls(KVM_REQ_VMX_SECONDARY_VM_EXEC_CONTROL,
-> +                                       KVM_OPT_VMX_SECONDARY_VM_EXEC_CONTROL,
->                                         MSR_IA32_VMX_PROCBASED_CTLS2,
->                                         &_cpu_based_2nd_exec_control) < 0)
->                         return -EIO;
-OK
-
-> @@ -2581,30 +2536,20 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->                 _cpu_based_2nd_exec_control &= ~SECONDARY_EXEC_ENCLS_EXITING;
->  
->         if (_cpu_based_exec_control & CPU_BASED_ACTIVATE_TERTIARY_CONTROLS) {
-> -               u64 opt3 = TERTIARY_EXEC_IPI_VIRT;
-> -
-> -               _cpu_based_3rd_exec_control = adjust_vmx_controls64(opt3,
-> -                                             MSR_IA32_VMX_PROCBASED_CTLS3);
-> +               _cpu_based_3rd_exec_control =
-> +                       adjust_vmx_controls64(KVM_OPT_VMX_TERTIARY_VM_EXEC_CONTROL,
-> +                       MSR_IA32_VMX_PROCBASED_CTLS3);
->         }
-OK
-
->  
-> -       min = VM_EXIT_SAVE_DEBUG_CONTROLS | VM_EXIT_ACK_INTR_ON_EXIT;
-> -#ifdef CONFIG_X86_64
-> -       min |= VM_EXIT_HOST_ADDR_SPACE_SIZE;
-> -#endif
-> -       opt = VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
-> -             VM_EXIT_LOAD_IA32_PAT |
-> -             VM_EXIT_LOAD_IA32_EFER |
-> -             VM_EXIT_CLEAR_BNDCFGS |
-> -             VM_EXIT_PT_CONCEAL_PIP |
-> -             VM_EXIT_CLEAR_IA32_RTIT_CTL;
-> -       if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_EXIT_CTLS,
-> +       if (adjust_vmx_controls(KVM_REQ_VMX_VM_EXIT_CONTROLS,
-> +                               KVM_OPT_VMX_VM_EXIT_CONTROLS,
-> +                               MSR_IA32_VMX_EXIT_CTLS,
->                                 &_vmexit_control) < 0)
->                 return -EIO;
-OK.
-
->  
-> -       min = PIN_BASED_EXT_INTR_MASK | PIN_BASED_NMI_EXITING;
-> -       opt = PIN_BASED_VIRTUAL_NMIS | PIN_BASED_POSTED_INTR |
-> -                PIN_BASED_VMX_PREEMPTION_TIMER;
-> -       if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_PINBASED_CTLS,
-> +       if (adjust_vmx_controls(KVM_REQ_VMX_PIN_BASED_VM_EXEC_CONTROL,
-> +                               KVM_OPT_VMX_PIN_BASED_VM_EXEC_CONTROL,
-> +                               MSR_IA32_VMX_PINBASED_CTLS,
->                                 &_pin_based_exec_control) < 0)
->                 return -EIO;
-OK
-
-
->  
-> @@ -2614,17 +2559,9 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
->                 SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY))
->                 _pin_based_exec_control &= ~PIN_BASED_POSTED_INTR;
->  
-> -       min = VM_ENTRY_LOAD_DEBUG_CONTROLS;
-> -#ifdef CONFIG_X86_64
-> -       min |= VM_ENTRY_IA32E_MODE;
-> -#endif
-> -       opt = VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
-> -             VM_ENTRY_LOAD_IA32_PAT |
-> -             VM_ENTRY_LOAD_IA32_EFER |
-> -             VM_ENTRY_LOAD_BNDCFGS |
-> -             VM_ENTRY_PT_CONCEAL_PIP |
-> -             VM_ENTRY_LOAD_IA32_RTIT_CTL;
-> -       if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_ENTRY_CTLS,
-> +       if (adjust_vmx_controls(KVM_REQ_VMX_VM_ENTRY_CONTROLS,
-> +                               KVM_OPT_VMX_VM_ENTRY_CONTROLS,
-> +                               MSR_IA32_VMX_ENTRY_CTLS,
->                                 &_vmentry_control) < 0)
-
-OK.
-
->                 return -EIO;
-
->  
+>         if (vmx_pt_mode_is_system())
+>                 vmexit_ctrl &= ~(VM_EXIT_PT_CONCEAL_PIP |
+>                                  VM_EXIT_CLEAR_IA32_RTIT_CTL);
 > diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-> index 286c88e285ea..89eaab3495a6 100644
+> index 89eaab3495a6..e9c392398f1b 100644
 > --- a/arch/x86/kvm/vmx/vmx.h
 > +++ b/arch/x86/kvm/vmx/vmx.h
-> @@ -467,6 +467,113 @@ static inline u8 vmx_get_rvi(void)
->         return vmcs_read16(GUEST_INTR_STATUS) & 0xff;
->  }
->  
-> +#define __KVM_REQ_VMX_VM_ENTRY_CONTROLS                                \
-> +       (VM_ENTRY_LOAD_DEBUG_CONTROLS)
-> +#ifdef CONFIG_X86_64
-> +       #define KVM_REQ_VMX_VM_ENTRY_CONTROLS                   \
-> +               (__KVM_REQ_VMX_VM_ENTRY_CONTROLS |              \
-> +               VM_ENTRY_IA32E_MODE)
-> +#else
-> +       #define KVM_REQ_VMX_VM_ENTRY_CONTROLS                   \
-> +               __KVM_REQ_VMX_VM_ENTRY_CONTROLS
-> +#endif
-> +#define KVM_OPT_VMX_VM_ENTRY_CONTROLS                          \
-> +       (VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |                  \
-> +       VM_ENTRY_LOAD_IA32_PAT |                                \
-> +       VM_ENTRY_LOAD_IA32_EFER |                               \
-> +       VM_ENTRY_LOAD_BNDCFGS |                                 \
-> +       VM_ENTRY_PT_CONCEAL_PIP |                               \
-> +       VM_ENTRY_LOAD_IA32_RTIT_CTL)
-> +
-> +#define __KVM_REQ_VMX_VM_EXIT_CONTROLS                         \
-> +       (VM_EXIT_SAVE_DEBUG_CONTROLS |                          \
-> +       VM_EXIT_ACK_INTR_ON_EXIT)
-> +#ifdef CONFIG_X86_64
-> +       #define KVM_REQ_VMX_VM_EXIT_CONTROLS                    \
-> +               (__KVM_REQ_VMX_VM_EXIT_CONTROLS |               \
-> +               VM_EXIT_HOST_ADDR_SPACE_SIZE)
-> +#else
-> +       #define KVM_REQ_VMX_VM_EXIT_CONTROLS                    \
-> +               __KVM_REQ_VMX_VM_EXIT_CONTROLS
-> +#endif
-> +#define KVM_OPT_VMX_VM_EXIT_CONTROLS                           \
-> +             (VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |             \
-> +             VM_EXIT_LOAD_IA32_PAT |                           \
-> +             VM_EXIT_LOAD_IA32_EFER |                          \
-> +             VM_EXIT_CLEAR_BNDCFGS |                           \
-> +             VM_EXIT_PT_CONCEAL_PIP |                          \
-> +             VM_EXIT_CLEAR_IA32_RTIT_CTL)
-> +
-> +#define KVM_REQ_VMX_PIN_BASED_VM_EXEC_CONTROL                  \
-> +       (PIN_BASED_EXT_INTR_MASK |                              \
-> +        PIN_BASED_NMI_EXITING)
-> +#define KVM_OPT_VMX_PIN_BASED_VM_EXEC_CONTROL                  \
-> +       (PIN_BASED_VIRTUAL_NMIS |                               \
-> +       PIN_BASED_POSTED_INTR |                                 \
-> +       PIN_BASED_VMX_PREEMPTION_TIMER)
-> +
-> +#define __KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL                        \
-> +       (CPU_BASED_HLT_EXITING |                                \
-> +       CPU_BASED_CR3_LOAD_EXITING |                            \
-> +       CPU_BASED_CR3_STORE_EXITING |                           \
-> +       CPU_BASED_UNCOND_IO_EXITING |                           \
-> +       CPU_BASED_MOV_DR_EXITING |                              \
-> +       CPU_BASED_USE_TSC_OFFSETTING |                          \
-> +       CPU_BASED_MWAIT_EXITING |                               \
-> +       CPU_BASED_MONITOR_EXITING |                             \
-> +       CPU_BASED_INVLPG_EXITING |                              \
-> +       CPU_BASED_RDPMC_EXITING |                               \
-> +       CPU_BASED_INTR_WINDOW_EXITING)
-> +
-> +#ifdef CONFIG_X86_64
-> +       #define KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL           \
-> +               (__KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL |      \
-> +               CPU_BASED_CR8_LOAD_EXITING |                    \
-> +               CPU_BASED_CR8_STORE_EXITING)
-> +#else
-> +       #define KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL           \
-> +               __KVM_REQ_VMX_CPU_BASED_VM_EXEC_CONTROL
-> +#endif
-> +
-> +#define KVM_OPT_VMX_CPU_BASED_VM_EXEC_CONTROL                  \
-> +       (CPU_BASED_TPR_SHADOW |                                 \
-> +       CPU_BASED_USE_MSR_BITMAPS |                             \
-> +       CPU_BASED_NMI_WINDOW_EXITING |                          \
-> +       CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |                 \
-> +       CPU_BASED_ACTIVATE_TERTIARY_CONTROLS)
-> +
-> +#define KVM_REQ_VMX_SECONDARY_VM_EXEC_CONTROL 0
-> +#define KVM_OPT_VMX_SECONDARY_VM_EXEC_CONTROL                  \
-> +       (SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES |              \
-> +       SECONDARY_EXEC_VIRTUALIZE_X2APIC_MODE |                 \
-> +       SECONDARY_EXEC_WBINVD_EXITING |                         \
-> +       SECONDARY_EXEC_ENABLE_VPID |                            \
-> +       SECONDARY_EXEC_ENABLE_EPT |                             \
-> +       SECONDARY_EXEC_UNRESTRICTED_GUEST |                     \
-> +       SECONDARY_EXEC_PAUSE_LOOP_EXITING |                     \
-> +       SECONDARY_EXEC_DESC |                                   \
-> +       SECONDARY_EXEC_ENABLE_RDTSCP |                          \
-> +       SECONDARY_EXEC_ENABLE_INVPCID |                         \
-> +       SECONDARY_EXEC_APIC_REGISTER_VIRT |                     \
-> +       SECONDARY_EXEC_VIRTUAL_INTR_DELIVERY |                  \
-> +       SECONDARY_EXEC_SHADOW_VMCS |                            \
-> +       SECONDARY_EXEC_XSAVES |                                 \
-> +       SECONDARY_EXEC_RDSEED_EXITING |                         \
-> +       SECONDARY_EXEC_RDRAND_EXITING |                         \
-> +       SECONDARY_EXEC_ENABLE_PML |                             \
-> +       SECONDARY_EXEC_TSC_SCALING |                            \
-> +       SECONDARY_EXEC_ENABLE_USR_WAIT_PAUSE |                  \
-> +       SECONDARY_EXEC_PT_USE_GPA |                             \
-> +       SECONDARY_EXEC_PT_CONCEAL_VMX |                         \
-> +       SECONDARY_EXEC_ENABLE_VMFUNC |                          \
-> +       SECONDARY_EXEC_BUS_LOCK_DETECTION |                     \
-> +       SECONDARY_EXEC_NOTIFY_VM_EXITING |                      \
-> +       SECONDARY_EXEC_ENCLS_EXITING)
-> +
-> +#define KVM_REQ_VMX_TERTIARY_VM_EXEC_CONTROL 0
-> +#define KVM_OPT_VMX_TERTIARY_VM_EXEC_CONTROL                   \
-> +       (TERTIARY_EXEC_IPI_VIRT)
-> +
->  #define BUILD_CONTROLS_SHADOW(lname, uname, bits)                              \
->  static inline void lname##_controls_set(struct vcpu_vmx *vmx, u##bits val)     \
->  {                                                                              \
-> @@ -485,10 +592,12 @@ static inline u##bits lname##_controls_get(struct vcpu_vmx *vmx)          \
->  }                                                                              \
->  static inline void lname##_controls_setbit(struct vcpu_vmx *vmx, u##bits val)  \
->  {                                                                              \
-> +       BUILD_BUG_ON(!(val & (KVM_REQ_VMX_##uname | KVM_OPT_VMX_##uname)));     \
->         lname##_controls_set(vmx, lname##_controls_get(vmx) | val);             \
->  }                                                                              \
->  static inline void lname##_controls_clearbit(struct vcpu_vmx *vmx, u##bits val)        \
->  {                                                                              \
-> +       BUILD_BUG_ON(!(val & (KVM_REQ_VMX_##uname | KVM_OPT_VMX_##uname)));     \
->         lname##_controls_set(vmx, lname##_controls_get(vmx) & ~val);            \
->  }
->  BUILD_CONTROLS_SHADOW(vm_entry, VM_ENTRY_CONTROLS, 32)
+> @@ -498,8 +498,11 @@ static inline u8 vmx_get_rvi(void)
+>  #endif
+>  #define KVM_OPT_VMX_VM_EXIT_CONTROLS                           \
+>               (VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |             \
+> +             VM_EXIT_SAVE_IA32_PAT |                           \
+>               VM_EXIT_LOAD_IA32_PAT |                           \
+> +             VM_EXIT_SAVE_IA32_EFER |                          \
+>               VM_EXIT_LOAD_IA32_EFER |                          \
+> +             VM_EXIT_SAVE_VMX_PREEMPTION_TIMER |               \
+>               VM_EXIT_CLEAR_BNDCFGS |                           \
+>               VM_EXIT_PT_CONCEAL_PIP |                          \
+>               VM_EXIT_CLEAR_IA32_RTIT_CTL)
 
-I cross checked that all bits were copied correctly.
-
-This patch is a very nice idea!
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 
 Best regards,
 	Maxim Levitsky
-
-
 
