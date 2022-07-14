@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CD71C433EF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 09:14:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2180C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 09:14:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237957AbiGNJOa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Jul 2022 05:14:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35906 "EHLO
+        id S237880AbiGNJOj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Jul 2022 05:14:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237875AbiGNJOF (ORCPT
+        with ESMTP id S237930AbiGNJOM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Jul 2022 05:14:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 496D51BE96
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 02:13:54 -0700 (PDT)
+        Thu, 14 Jul 2022 05:14:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 031B123BFF
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 02:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657790034;
+        s=mimecast20190719; t=1657790038;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=NkdjbmoNnDxWYR3z6tS+XiCrlq2oKH7PyMNJMWXhrn0=;
-        b=ExTTSQiGl+/y8X/yWZcaJOONHuIpFAbTNJYYudH9kYerFXJqMQ/y+8tKNlIuj/z73XtJs8
-        cYzLQusMtGJAaJSQ8ZWvlMEvXfEgkrlgZlnP4bb97+BznQShoHuuEZT6y2cmJAMn1Dy5jo
-        EanrAOhxnb3wjdBqHBsegm9+wCKH2fo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=T5He7HhGCiU4htUmbpWcIxm/HPPcH/8Dmu7hFQqhRbs=;
+        b=gr8amB7VYUO5iXjou2LggXt35Ql8s0nFHkd8mDVPA2O0Tje1glmQTAcfV9t3tNEBqLSNDE
+        hFYLrX0X7Lq7lXdBLV9TogDAVFFU4hJvFr2IdoQykjm7ZlOz0vMI9/Gqd13EEHhKRFhGF/
+        yhOh+0o5vtbAJAk3AVAItJNvmkA/ERk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-489-azQKX1tZOVuTouxp4747rQ-1; Thu, 14 Jul 2022 05:13:50 -0400
-X-MC-Unique: azQKX1tZOVuTouxp4747rQ-1
+ us-mta-532-hOoYSbvjPx2Olf31OYxNCw-1; Thu, 14 Jul 2022 05:13:55 -0400
+X-MC-Unique: hOoYSbvjPx2Olf31OYxNCw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BBF885A581;
-        Thu, 14 Jul 2022 09:13:50 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 605633C01DE2;
+        Thu, 14 Jul 2022 09:13:55 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 152152166B2A;
-        Thu, 14 Jul 2022 09:13:47 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 32ECD2166B26;
+        Thu, 14 Jul 2022 09:13:53 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 08/25] KVM: selftests: Switch to updated eVMCSv1 definition
-Date:   Thu, 14 Jul 2022 11:13:10 +0200
-Message-Id: <20220714091327.1085353-9-vkuznets@redhat.com>
+Subject: [PATCH v4 10/25] KVM: selftests: Enable TSC scaling in evmcs selftest
+Date:   Thu, 14 Jul 2022 11:13:12 +0200
+Message-Id: <20220714091327.1085353-11-vkuznets@redhat.com>
 In-Reply-To: <20220714091327.1085353-1-vkuznets@redhat.com>
 References: <20220714091327.1085353-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,89 +59,93 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Update Enlightened VMCS definition in selftests from KVM.
+The updated Enlightened VMCS v1 definition enables TSC scaling, test
+that SECONDARY_EXEC_TSC_SCALING can now be enabled.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/evmcs.h      | 45 +++++++++++++++++--
- 1 file changed, 42 insertions(+), 3 deletions(-)
+ .../testing/selftests/kvm/x86_64/evmcs_test.c | 31 +++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 3c9260f8e116..58db74f68af2 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -203,14 +203,25 @@ struct hv_enlightened_vmcs {
- 		u32 reserved:30;
- 	} hv_enlightenments_control;
- 	u32 hv_vp_id;
--
-+	u32 padding32_2;
- 	u64 hv_vm_id;
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
- 	u64 guest_bndcfgs;
--	u64 padding64_5[7];
-+	u64 guest_ia32_perf_global_ctrl;
-+	u64 guest_ia32_s_cet;
-+	u64 guest_ssp;
-+	u64 guest_ia32_int_ssp_table_addr;
-+	u64 guest_ia32_lbr_ctl;
-+	u64 padding64_5[2];
- 	u64 xss_exit_bitmap;
--	u64 padding64_6[7];
-+	u64 encls_exiting_bitmap;
-+	u64 host_ia32_perf_global_ctrl;
-+	u64 tsc_multiplier;
-+	u64 host_ia32_s_cet;
-+	u64 host_ssp;
-+	u64 host_ia32_int_ssp_table_addr;
-+	u64 padding64_6;
- };
+diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+index 8dda527cc080..80135b98dc3b 100644
+--- a/tools/testing/selftests/kvm/x86_64/evmcs_test.c
++++ b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+@@ -18,6 +18,9 @@
  
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
-@@ -656,6 +667,18 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
- 	case VIRTUAL_PROCESSOR_ID:
- 		*value = current_evmcs->virtual_processor_id;
- 		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->host_ia32_perf_global_ctrl;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->guest_ia32_perf_global_ctrl;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		*value = current_evmcs->encls_exiting_bitmap;
-+		break;
-+	case TSC_MULTIPLIER:
-+		*value = current_evmcs->tsc_multiplier;
-+		break;
- 	default: return 1;
- 	}
+ #include "vmx.h"
  
-@@ -1169,6 +1192,22 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
- 		current_evmcs->virtual_processor_id = value;
- 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_XLAT;
- 		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->host_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->guest_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		current_evmcs->encls_exiting_bitmap = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
-+	case TSC_MULTIPLIER:
-+		current_evmcs->tsc_multiplier = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
- 	default: return 1;
- 	}
++/* Test flags */
++#define HOST_HAS_TSC_SCALING BIT(0)
++
+ static int ud_count;
  
+ static void guest_ud_handler(struct ex_regs *regs)
+@@ -64,11 +67,14 @@ void l2_guest_code(void)
+ 	vmcall();
+ 	rdmsr_gs_base(); /* intercepted */
+ 
++	/* TSC scaling */
++	vmcall();
++
+ 	/* Done, exit to L1 and never come back.  */
+ 	vmcall();
+ }
+ 
+-void guest_code(struct vmx_pages *vmx_pages)
++void guest_code(struct vmx_pages *vmx_pages, u64 test_flags)
+ {
+ #define L2_GUEST_STACK_SIZE 64
+ 	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
+@@ -150,6 +156,18 @@ void guest_code(struct vmx_pages *vmx_pages)
+ 	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == EXIT_REASON_VMCALL);
+ 	GUEST_SYNC(11);
+ 
++	if (test_flags & HOST_HAS_TSC_SCALING) {
++		GUEST_ASSERT((rdmsr(MSR_IA32_VMX_PROCBASED_CTLS2) >> 32) &
++			     SECONDARY_EXEC_TSC_SCALING);
++		/* Try enabling TSC scaling */
++		vmwrite(SECONDARY_VM_EXEC_CONTROL, vmreadz(SECONDARY_VM_EXEC_CONTROL) |
++			SECONDARY_EXEC_TSC_SCALING);
++		vmwrite(TSC_MULTIPLIER, 1);
++	}
++	GUEST_ASSERT(!vmresume());
++	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == EXIT_REASON_VMCALL);
++	GUEST_SYNC(12);
++
+ 	/* Try enlightened vmptrld with an incorrect GPA */
+ 	evmcs_vmptrld(0xdeadbeef, vmx_pages->enlightened_vmcs);
+ 	GUEST_ASSERT(vmlaunch());
+@@ -204,6 +222,7 @@ int main(int argc, char *argv[])
+ 	struct kvm_vm *vm;
+ 	struct kvm_run *run;
+ 	struct ucall uc;
++	u64 test_flags = 0;
+ 	int stage;
+ 
+ 	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
+@@ -212,11 +231,19 @@ int main(int argc, char *argv[])
+ 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
+ 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS));
+ 
++	if ((kvm_get_feature_msr(MSR_IA32_VMX_PROCBASED_CTLS2) >> 32) &
++	    SECONDARY_EXEC_TSC_SCALING) {
++		test_flags |= HOST_HAS_TSC_SCALING;
++		pr_info("TSC scaling is supported, adding to test\n");
++	} else {
++		pr_info("TSC scaling is not supported\n");
++	}
++
+ 	vcpu_set_hv_cpuid(vcpu);
+ 	vcpu_enable_evmcs(vcpu);
+ 
+ 	vcpu_alloc_vmx(vm, &vmx_pages_gva);
+-	vcpu_args_set(vcpu, 1, vmx_pages_gva);
++	vcpu_args_set(vcpu, 2, vmx_pages_gva, test_flags);
+ 
+ 	vm_init_descriptor_tables(vm);
+ 	vcpu_init_descriptor_tables(vcpu);
 -- 
 2.35.3
 
