@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D33C3C43334
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 09:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFEEC43334
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 09:17:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235728AbiGNJRC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Jul 2022 05:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36070 "EHLO
+        id S238000AbiGNJRH (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Jul 2022 05:17:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237987AbiGNJQb (ORCPT
+        with ESMTP id S237999AbiGNJQl (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Jul 2022 05:16:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3878327B39
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 02:14:57 -0700 (PDT)
+        Thu, 14 Jul 2022 05:16:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A841A47BBE
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 02:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657790069;
+        s=mimecast20190719; t=1657790074;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rdFtzGSavbGF0P7I+NLFZVaskrxem7SJdVrb/zlLg7k=;
-        b=cWEQLOiWvX9tmxmatp5LWI/0hQP0ptI0JMV/Oa2XF9v7uX5PaxRdEdH7MPuHoLoMJw//i/
-        poi2/4WSnB/WEP1ELPfgX/qS9y4WvMVsBeTwl2ZXUSMiecrGL/ea2TaELmhg81tgs4nvuy
-        8TLmU5267sgckhm0X0Bb5QAtf16Q5PE=
+        bh=Y+W2NiXAWfTV+sGwgadpDi2nd3NjngO7vgIk3Qbd5aE=;
+        b=ZTUT2zVoWHqhxj/tEoI5IAWf4K/0oVIb8oP3LU6/bsv6k5fFZFxqNDbj/+FhPLoE/woPk9
+        gEZ7rnNGaF6/KCEc8iVIQub4j95Y7EBtyE73562KtLbxeoRmxWu0SV5d24qmOCTIjCxQvC
+        gnDXRFM4HWlVBoVwrDH6uxFGWqSKlKQ=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-Te2qCklLN5yI6-J6rqlXbA-1; Thu, 14 Jul 2022 05:14:24 -0400
-X-MC-Unique: Te2qCklLN5yI6-J6rqlXbA-1
+ us-mta-494-eaidTC5gPqGdiLUHFulOog-1; Thu, 14 Jul 2022 05:14:31 -0400
+X-MC-Unique: eaidTC5gPqGdiLUHFulOog-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3FE985A58B;
-        Thu, 14 Jul 2022 09:14:23 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3421B8037AA;
+        Thu, 14 Jul 2022 09:14:31 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 28D962166B26;
-        Thu, 14 Jul 2022 09:14:20 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3E3CA2166B26;
+        Thu, 14 Jul 2022 09:14:29 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,9 +46,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 21/25] KVM: VMX: Move LOAD_IA32_PERF_GLOBAL_CTRL errata handling out of setup_vmcs_config()
-Date:   Thu, 14 Jul 2022 11:13:23 +0200
-Message-Id: <20220714091327.1085353-22-vkuznets@redhat.com>
+Subject: [PATCH v4 24/25] KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
+Date:   Thu, 14 Jul 2022 11:13:26 +0200
+Message-Id: <20220714091327.1085353-25-vkuznets@redhat.com>
 In-Reply-To: <20220714091327.1085353-1-vkuznets@redhat.com>
 References: <20220714091327.1085353-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -59,122 +59,99 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As a preparation to reusing the result of setup_vmcs_config() for setting
-up nested VMX control MSRs, move LOAD_IA32_PERF_GLOBAL_CTRL errata handling
-to vmx_vmexit_ctrl()/vmx_vmentry_ctrl() and print the warning from
-hardware_setup(). While it seems reasonable to not expose
-LOAD_IA32_PERF_GLOBAL_CTRL controls to L1 hypervisor on buggy CPUs,
-such change would inevitably break live migration from older KVMs
-where the controls are exposed. Keep the status quo for know, L1 hypervisor
-itself is supposed to take care of the errata.
+Like other host VMX control MSRs, MSR_IA32_VMX_MISC can be cached in
+vmcs_config to avoid the need to re-read it later, e.g. from
+cpu_has_vmx_intel_pt() or cpu_has_vmx_shadow_vmcs().
 
+No (real) functional change intended.
+
+Reviewed-by: Jim Mattson <jmattson@google.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 62 ++++++++++++++++++++++++++----------------
- 1 file changed, 38 insertions(+), 24 deletions(-)
+ arch/x86/kvm/vmx/capabilities.h | 11 +++--------
+ arch/x86/kvm/vmx/vmx.c          |  8 +++++---
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
+diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
+index 07e7492fe72a..07f7a9534211 100644
+--- a/arch/x86/kvm/vmx/capabilities.h
++++ b/arch/x86/kvm/vmx/capabilities.h
+@@ -65,6 +65,7 @@ struct vmcs_config {
+ 	u64 cpu_based_3rd_exec_ctrl;
+ 	u32 vmexit_ctrl;
+ 	u32 vmentry_ctrl;
++	u64 misc;
+ 	struct nested_vmx_msrs nested;
+ };
+ extern struct vmcs_config vmcs_config;
+@@ -225,11 +226,8 @@ static inline bool cpu_has_vmx_vmfunc(void)
+ 
+ static inline bool cpu_has_vmx_shadow_vmcs(void)
+ {
+-	u64 vmx_msr;
+-
+ 	/* check if the cpu supports writing r/o exit information fields */
+-	rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
+-	if (!(vmx_msr & MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
++	if (!(vmcs_config.misc & MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
+ 		return false;
+ 
+ 	return vmcs_config.cpu_based_2nd_exec_ctrl &
+@@ -371,10 +369,7 @@ static inline bool cpu_has_vmx_invvpid_global(void)
+ 
+ static inline bool cpu_has_vmx_intel_pt(void)
+ {
+-	u64 vmx_msr;
+-
+-	rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
+-	return (vmx_msr & MSR_IA32_VMX_MISC_INTEL_PT) &&
++	return (vmcs_config.misc & MSR_IA32_VMX_MISC_INTEL_PT) &&
+ 		(vmcs_config.cpu_based_2nd_exec_ctrl & SECONDARY_EXEC_PT_USE_GPA) &&
+ 		(vmcs_config.vmentry_ctrl & VM_ENTRY_LOAD_IA32_RTIT_CTL);
+ }
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 2dff5b94c535..e462e5b9c0a1 100644
+index 35285109856f..ab091758c437 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2416,6 +2416,31 @@ static bool cpu_has_sgx(void)
- 	return cpuid_eax(0) >= 0x12 && (cpuid_eax(0x12) & BIT(0));
- }
+@@ -2479,6 +2479,7 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	u64 _cpu_based_3rd_exec_control = 0;
+ 	u32 _vmexit_control = 0;
+ 	u32 _vmentry_control = 0;
++	u64 misc_msr;
+ 	int i;
  
-+/*
-+ * Some cpus support VM_{ENTRY,EXIT}_IA32_PERF_GLOBAL_CTRL but they
-+ * can't be used due to errata where VM Exit may incorrectly clear
-+ * IA32_PERF_GLOBAL_CTRL[34:32]. Work around the errata by using the
-+ * MSR load mechanism to switch IA32_PERF_GLOBAL_CTRL.
-+ */
-+static bool cpu_has_perf_global_ctrl_bug(void)
-+{
-+	if (boot_cpu_data.x86 == 0x6) {
-+		switch (boot_cpu_data.x86_model) {
-+		case INTEL_FAM6_NEHALEM_EP:	/* AAK155 */
-+		case INTEL_FAM6_NEHALEM:	/* AAP115 */
-+		case INTEL_FAM6_WESTMERE:	/* AAT100 */
-+		case INTEL_FAM6_WESTMERE_EP:	/* BC86,AAY89,BD102 */
-+		case INTEL_FAM6_NEHALEM_EX:	/* BA97 */
-+			return true;
-+		default:
-+			break;
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+
- static __init int adjust_vmx_controls(u32 ctl_min, u32 ctl_opt,
- 				      u32 msr, u32 *result)
- {
-@@ -2572,30 +2597,6 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 		_vmexit_control &= ~x_ctrl;
- 	}
- 
--	/*
--	 * Some cpus support VM_{ENTRY,EXIT}_IA32_PERF_GLOBAL_CTRL but they
--	 * can't be used due to an errata where VM Exit may incorrectly clear
--	 * IA32_PERF_GLOBAL_CTRL[34:32].  Workaround the errata by using the
--	 * MSR load mechanism to switch IA32_PERF_GLOBAL_CTRL.
--	 */
--	if (boot_cpu_data.x86 == 0x6) {
--		switch (boot_cpu_data.x86_model) {
--		case INTEL_FAM6_NEHALEM_EP:	/* AAK155 */
--		case INTEL_FAM6_NEHALEM:	/* AAP115 */
--		case INTEL_FAM6_WESTMERE:	/* AAT100 */
--		case INTEL_FAM6_WESTMERE_EP:	/* BC86,AAY89,BD102 */
--		case INTEL_FAM6_NEHALEM_EX:	/* BA97 */
--			_vmentry_control &= ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
--			_vmexit_control &= ~VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
--			pr_warn_once("kvm: VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL "
--					"does not work properly. Using workaround\n");
--			break;
--		default:
--			break;
--		}
--	}
--
--
- 	rdmsr(MSR_IA32_VMX_BASIC, vmx_msr_low, vmx_msr_high);
- 
- 	/* IA-32 SDM Vol 3B: VMCS size is never greater than 4kB. */
-@@ -4184,6 +4185,10 @@ static u32 vmx_vmentry_ctrl(void)
- 			  VM_ENTRY_LOAD_IA32_EFER |
- 			  VM_ENTRY_IA32E_MODE);
- 
-+
-+	if (cpu_has_perf_global_ctrl_bug())
-+		vmentry_ctrl &= ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
-+
- 	return vmentry_ctrl;
- }
- 
-@@ -4198,6 +4203,10 @@ static u32 vmx_vmexit_ctrl(void)
- 	if (vmx_pt_mode_is_system())
- 		vmexit_ctrl &= ~(VM_EXIT_PT_CONCEAL_PIP |
- 				 VM_EXIT_CLEAR_IA32_RTIT_CTL);
-+
-+	if (cpu_has_perf_global_ctrl_bug())
-+		vmexit_ctrl &= ~VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
-+
- 	/* Loading of EFER and PERF_GLOBAL_CTRL are toggled dynamically */
- 	return vmexit_ctrl &
- 		~(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL | VM_EXIT_LOAD_IA32_EFER);
-@@ -8113,6 +8122,11 @@ static __init int hardware_setup(void)
- 	if (setup_vmcs_config(&vmcs_config, &vmx_capability) < 0)
+ 	/*
+@@ -2613,6 +2614,8 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	if (((vmx_msr_high >> 18) & 15) != 6)
  		return -EIO;
  
-+	if (cpu_has_perf_global_ctrl_bug()) {
-+		pr_warn_once("kvm: VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL "
-+			     "does not work properly. Using workaround\n");
-+	}
++	rdmsrl(MSR_IA32_VMX_MISC, misc_msr);
 +
- 	if (boot_cpu_has(X86_FEATURE_NX))
- 		kvm_enable_efer_bits(EFER_NX);
+ 	vmcs_conf->size = vmx_msr_high & 0x1fff;
+ 	vmcs_conf->basic_cap = vmx_msr_high & ~0x1fff;
  
+@@ -2624,6 +2627,7 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	vmcs_conf->cpu_based_3rd_exec_ctrl = _cpu_based_3rd_exec_control;
+ 	vmcs_conf->vmexit_ctrl         = _vmexit_control;
+ 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
++	vmcs_conf->misc	= misc_msr;
+ 
+ 	return 0;
+ }
+@@ -8241,11 +8245,9 @@ static __init int hardware_setup(void)
+ 
+ 	if (enable_preemption_timer) {
+ 		u64 use_timer_freq = 5000ULL * 1000 * 1000;
+-		u64 vmx_msr;
+ 
+-		rdmsrl(MSR_IA32_VMX_MISC, vmx_msr);
+ 		cpu_preemption_timer_multi =
+-			vmx_msr & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
++			vmcs_config.misc & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
+ 
+ 		if (tsc_khz)
+ 			use_timer_freq = (u64)tsc_khz * 1000;
 -- 
 2.35.3
 
