@@ -2,95 +2,143 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0294C43334
-	for <linux-hyperv@archiver.kernel.org>; Wed, 13 Jul 2022 20:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C422C433EF
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 09:13:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236437AbiGMUGK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 13 Jul 2022 16:06:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
+        id S237757AbiGNJNp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Jul 2022 05:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229955AbiGMUGK (ORCPT
+        with ESMTP id S237726AbiGNJNi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 13 Jul 2022 16:06:10 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9FA21E3F;
-        Wed, 13 Jul 2022 13:06:09 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 14 Jul 2022 05:13:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8498DBA2
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 02:13:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657790014;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=nOA215hnzcdqJZf4RCSHh/Wt55xK9xHePL22gYt6JO0=;
+        b=C0UC9NeE8asCdev7ujHKfAl/97kVIaVwGKdTmX2rZuMHXTOOvzg+2WaBMvYRjcYpfvFITG
+        2x62JDSVbP+u8eRFE20yYYMAuZfto4fYS3PIdgity8Yf/yuqG7n/UYdMJPiI8BdHk1DiSA
+        5PeWV1ws7g/6iXRphx80CDWseROfT2w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-u5D8SHSmP4K9AnUvW2YQvQ-1; Thu, 14 Jul 2022 05:13:31 -0400
+X-MC-Unique: u5D8SHSmP4K9AnUvW2YQvQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 337E02B2;
-        Wed, 13 Jul 2022 20:06:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 337E02B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742769; bh=f+396u8AhP4c63PIsOuUAfTJE40+bYRHpfyCrl1NdoA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sBewgn4VfGSSd+JyKOCv5KTcABGHRZUrFxzNQb4xMRP4V03mWEPP7m0GdaEWbEnfd
-         1KUdCRVShONAXjxuJwxFuQpLJUStRKzfaLadrVnpcyDBdxgRUAt3QsUkLQ3EE+n8e3
-         F3CuO+xT5BN2VGQEdQo8P2KOedYYH3ar+dYz+LVP9Gv5T1Bfwl0ndfkx73uXGnr48t
-         dqjPjxFzhIm0zJzOLxVDtI36qQseUFhVSTFizjwd+DipoLkXdS1DMfyRG27kkOYYbA
-         yDBGKsNV0bRud9yN6cpjKCFofvP6V7xfSPtKahmGsiXNZ1OSEDrVvEBwhV/cJoD4EU
-         OqVZ0tVyvAtcQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Documentation: hyperv: Add basic info on Hyper-V
- enlightenments
-In-Reply-To: <20220711185640.px4bwf4ldqqqw5ij@liuwe-devbox-debian-v2>
-References: <1657561704-12631-1-git-send-email-mikelley@microsoft.com>
- <20220711185640.px4bwf4ldqqqw5ij@liuwe-devbox-debian-v2>
-Date:   Wed, 13 Jul 2022 14:06:08 -0600
-Message-ID: <8735f44w27.fsf@meer.lwn.net>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C85E385A586;
+        Thu, 14 Jul 2022 09:13:30 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.135])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4F15D2166B26;
+        Thu, 14 Jul 2022 09:13:28 +0000 (UTC)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 00/25] KVM: VMX: Support updated eVMCSv1 revision + use vmcs_config for L1 VMX MSRs
+Date:   Thu, 14 Jul 2022 11:13:02 +0200
+Message-Id: <20220714091327.1085353-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Wei Liu <wei.liu@kernel.org> writes:
+Changes since v3 [Max]:
+- Fix swapped encls_exiting_bitmap and host_ia32_perf_global_ctrl fields.
+- Wipe 'hv_vcpu->cpuid_cache' with memset() on update.
+- Add a comment explaining made-up HV_X64_NESTED_EVMCS1_2022_UPDATE name
+  and what this bit means.
+- Add R-b tags.
 
-> On Mon, Jul 11, 2022 at 10:48:21AM -0700, Michael Kelley wrote:
->> This documentation is a high level overview to explain the basics
->> of Linux running as a guest on Hyper-V. The intent is to document
->> the forest, not the trees. The Hyper-V Top Level Functional Spec
->> provides conceptual material and API details for the core Hyper-V
->> hypervisor, and this documentation provides additional info on
->> how that functionality is applied to Linux. Also, there's no
->> public documentation on VMbus or the VMbus synthetic devices, so
->> this documentation helps fill that gap at a conceptual level. This
->> documentation is not API-level documentation, which can be seen
->> in the code and associated comments.
->> 
->> More topics will be added in future patches, including:
->> 
->> * Miscellaneous synthetic devices like KVP, timesync, VSS, etc.
->> * Virtual PCI support
->> * Isolated/Confidential VMs
->> * UIO driver
->> 
->> If you think I'm missing a topic that fits into the overall
->> approach as described, feel free to suggest text, or let me
->> know and I can add it to my list.
->> 
->> Changes in v2:
->> * Updated clocks.rst to use section hierarchy that matches
->>   overview.rst and vmbus.rst [Wei Liu]
->> 
->> Michael Kelley (3):
->>   Documentation: hyperv: Add overview of Hyper-V enlightenments
->>   Documentation: hyperv: Add overview of VMbus
->>   Documentation: hyperv: Add overview of clocks and timers
->
-> Content-wise all patches look good to me.
->
-> Jonathan, let me know how you would like to handle this series. I'm
-> happy to carry them in hyperv-next.
+Original description:
 
-I went ahead and applied them while I was in the neighborhood.
+Enlightened VMCS v1 definition was updates to include fields for the
+following features:
+    - PerfGlobalCtrl
+    - EnclsExitingBitmap
+    - TSC scaling
+    - GuestLbrCtl
+    - CET
+    - SSP
+While the information is missing in the publicly available TLFS, the
+updated definition comes with a new feature bit in CPUID.0x4000000A.EBX
+(BIT 0). Use a made up HV_X64_NESTED_EVMCS1_2022_UPDATE name for it.
 
-Thanks,
+Add support for the new revision to KVM. SSP, CET and GuestLbrCtl
+features are not currently supported by KVM.
 
-jon
+While on it, implement Sean's idea to use vmcs_config for setting up
+L1 VMX control MSRs instead of re-reading host MSRs.
+
+Jim Mattson (1):
+  KVM: x86: VMX: Replace some Intel model numbers with mnemonics
+
+Sean Christopherson (1):
+  KVM: VMX: Adjust CR3/INVPLG interception for EPT=y at runtime, not
+    setup
+
+Vitaly Kuznetsov (23):
+  KVM: x86: hyper-v: Expose access to debug MSRs in the partition
+    privilege flags
+  x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
+  x86/hyperv: Update 'struct hv_enlightened_vmcs' definition
+  KVM: VMX: Define VMCS-to-EVMCS conversion for the new fields
+  KVM: nVMX: Support several new fields in eVMCSv1
+  KVM: x86: hyper-v: Cache HYPERV_CPUID_NESTED_FEATURES CPUID leaf
+  KVM: selftests: Add ENCLS_EXITING_BITMAP{,HIGH} VMCS fields
+  KVM: selftests: Switch to updated eVMCSv1 definition
+  KVM: VMX: nVMX: Support TSC scaling and PERF_GLOBAL_CTRL with
+    enlightened VMCS
+  KVM: selftests: Enable TSC scaling in evmcs selftest
+  KVM: VMX: Get rid of eVMCS specific VMX controls sanitization
+  KVM: VMX: Check VM_ENTRY_IA32E_MODE in setup_vmcs_config()
+  KVM: VMX: Check CPU_BASED_{INTR,NMI}_WINDOW_EXITING in
+    setup_vmcs_config()
+  KVM: VMX: Tweak the special handling of SECONDARY_EXEC_ENCLS_EXITING
+    in setup_vmcs_config()
+  KVM: VMX: Extend VMX controls macro shenanigans
+  KVM: VMX: Move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering out of
+    setup_vmcs_config()
+  KVM: VMX: Add missing VMEXIT controls to vmcs_config
+  KVM: VMX: Add missing CPU based VM execution controls to vmcs_config
+  KVM: VMX: Move LOAD_IA32_PERF_GLOBAL_CTRL errata handling out of
+    setup_vmcs_config()
+  KVM: nVMX: Always set required-1 bits of pinbased_ctls to
+    PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR
+  KVM: nVMX: Use sanitized allowed-1 bits for VMX control MSRs
+  KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
+  KVM: nVMX: Use cached host MSR_IA32_VMX_MISC value for setting up
+    nested MSR
+
+ arch/x86/include/asm/hyperv-tlfs.h            |  30 ++-
+ arch/x86/include/asm/kvm_host.h               |   2 +
+ arch/x86/kvm/hyperv.c                         |  20 +-
+ arch/x86/kvm/vmx/capabilities.h               |  14 +-
+ arch/x86/kvm/vmx/evmcs.c                      | 127 +++++++---
+ arch/x86/kvm/vmx/evmcs.h                      |  18 +-
+ arch/x86/kvm/vmx/nested.c                     |  70 ++++--
+ arch/x86/kvm/vmx/nested.h                     |   2 +-
+ arch/x86/kvm/vmx/vmx.c                        | 235 ++++++++----------
+ arch/x86/kvm/vmx/vmx.h                        | 116 +++++++++
+ include/asm-generic/hyperv-tlfs.h             |   2 +
+ .../selftests/kvm/include/x86_64/evmcs.h      |  45 +++-
+ .../selftests/kvm/include/x86_64/vmx.h        |   2 +
+ .../testing/selftests/kvm/x86_64/evmcs_test.c |  31 ++-
+ 14 files changed, 484 insertions(+), 230 deletions(-)
+
+-- 
+2.35.3
+
