@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2FEC43334
-	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 13:49:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 667C5C43334
+	for <linux-hyperv@archiver.kernel.org>; Thu, 14 Jul 2022 13:49:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239892AbiGNNtp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 14 Jul 2022 09:49:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S239926AbiGNNtu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 14 Jul 2022 09:49:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239757AbiGNNto (ORCPT
+        with ESMTP id S239183AbiGNNtt (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 14 Jul 2022 09:49:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8FB1C52DE9
-        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 06:49:43 -0700 (PDT)
+        Thu, 14 Jul 2022 09:49:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5ADDF52DE9
+        for <linux-hyperv@vger.kernel.org>; Thu, 14 Jul 2022 06:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657806582;
+        s=mimecast20190719; t=1657806586;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FbW09mipVPvh7twdb1oN7kE8mXeNp/26mTnqwCEvIRs=;
-        b=DzXRVBYi52elgqSF5J3hNVW7eDk0IrsFwXjAMeuM75I0OkpUGgCgl9u0fyuYiU//EuRo06
-        6/IuXifd0CxRlrlVwmyU/pL8ZnswM3W63Y1ntVvJtyxcLq+fgJPAJY718wE3ltgGoCQNyo
-        0MgOT1FGWOeuHXNJ27TKWSnTMgWemjY=
+        bh=oYUfI2T9DDe1zeZHvHDw0KGpKc5l5YALA91GGqLL32Y=;
+        b=IUUmW/SiRSUqr7SLCGR5WUdr0rAWOn543jbBtP4naEmnfSoc9Fwu6LORkgWMFvrsQNBM4W
+        BF01UwxVU4K/8d3OGstfBFOCZWdlbPKYIwPVgsPXDj8yTvAHEZMUoXfMHMrpDYiQC7a/0o
+        NrUGfF/PL/egNJyODE1GQQ+dwwCQP5Q=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-exLIB2qFOkOW1aajfgB8Wg-1; Thu, 14 Jul 2022 09:49:38 -0400
-X-MC-Unique: exLIB2qFOkOW1aajfgB8Wg-1
+ us-mta-604-CNbW_qpUOcyvKyVYP8eQrQ-1; Thu, 14 Jul 2022 09:49:43 -0400
+X-MC-Unique: CNbW_qpUOcyvKyVYP8eQrQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 143AB8032F6;
-        Thu, 14 Jul 2022 13:49:38 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9743A85A58D;
+        Thu, 14 Jul 2022 13:49:42 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.135])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1D9932166B26;
-        Thu, 14 Jul 2022 13:49:35 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 74F152166B26;
+        Thu, 14 Jul 2022 13:49:40 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v8 02/39] KVM: x86: hyper-v: Resurrect dedicated KVM_REQ_HV_TLB_FLUSH flag
-Date:   Thu, 14 Jul 2022 15:48:52 +0200
-Message-Id: <20220714134929.1125828-3-vkuznets@redhat.com>
+Subject: [PATCH v8 04/39] KVM: x86: hyper-v: Add helper to read hypercall data for array
+Date:   Thu, 14 Jul 2022 15:48:54 +0200
+Message-Id: <20220714134929.1125828-5-vkuznets@redhat.com>
 In-Reply-To: <20220714134929.1125828-1-vkuznets@redhat.com>
 References: <20220714134929.1125828-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,77 +61,115 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-In preparation to implementing fine-grained Hyper-V TLB flush and
-L2 TLB flush, resurrect dedicated KVM_REQ_HV_TLB_FLUSH request bit. As
-KVM_REQ_TLB_FLUSH_GUEST/KVM_REQ_TLB_FLUSH_CURRENT are stronger operations,
-clear KVM_REQ_HV_TLB_FLUSH request in kvm_service_local_tlb_flush_requests()
-when any of these were also requested.
+From: Sean Christopherson <seanjc@google.com>
 
-No (real) functional change intended.
+Move the guts of kvm_get_sparse_vp_set() to a helper so that the code for
+reading a guest-provided array can be reused in the future, e.g. for
+getting a list of virtual addresses whose TLB entries need to be flushed.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Opportunisticaly swap the order of the data and XMM adjustment so that
+the XMM/gpa offsets are bundled together.
+
+No functional change intended.
+
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/kvm_host.h |  2 ++
- arch/x86/kvm/hyperv.c           |  4 ++--
- arch/x86/kvm/x86.c              | 10 ++++++++--
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ arch/x86/kvm/hyperv.c | 53 +++++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 20 deletions(-)
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 5657209b1f0b..05edda563422 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -108,6 +108,8 @@
- 	KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
- #define KVM_REQ_MMU_FREE_OBSOLETE_ROOTS \
- 	KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
-+#define KVM_REQ_HV_TLB_FLUSH \
-+	KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
- 
- #define CR0_RESERVED_BITS                                               \
- 	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
 diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index e2e95a6fccfd..7aa16fdae01d 100644
+index 0ead6edb3b66..f4c42e9161ad 100644
 --- a/arch/x86/kvm/hyperv.c
 +++ b/arch/x86/kvm/hyperv.c
-@@ -1876,11 +1876,11 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	 * analyze it here, flush TLB regardless of the specified address space.
- 	 */
- 	if (all_cpus) {
--		kvm_make_all_cpus_request(kvm, KVM_REQ_TLB_FLUSH_GUEST);
-+		kvm_make_all_cpus_request(kvm, KVM_REQ_HV_TLB_FLUSH);
- 	} else {
- 		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
+@@ -1759,38 +1759,51 @@ struct kvm_hv_hcall {
+ 	sse128_t xmm[HV_HYPERCALL_MAX_XMM_REGISTERS];
+ };
  
--		kvm_make_vcpus_request_mask(kvm, KVM_REQ_TLB_FLUSH_GUEST, vcpu_mask);
-+		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
+-static u64 kvm_get_sparse_vp_set(struct kvm *kvm, struct kvm_hv_hcall *hc,
+-				 int consumed_xmm_halves,
+-				 u64 *sparse_banks, gpa_t offset)
+-{
+-	u16 var_cnt;
+-	int i;
+ 
+-	if (hc->var_cnt > 64)
+-		return -EINVAL;
+-
+-	/* Ignore banks that cannot possibly contain a legal VP index. */
+-	var_cnt = min_t(u16, hc->var_cnt, KVM_HV_MAX_SPARSE_VCPU_SET_BITS);
++static int kvm_hv_get_hc_data(struct kvm *kvm, struct kvm_hv_hcall *hc,
++			      u16 orig_cnt, u16 cnt_cap, u64 *data,
++			      int consumed_xmm_halves, gpa_t offset)
++{
++	/*
++	 * Preserve the original count when ignoring entries via a "cap", KVM
++	 * still needs to validate the guest input (though the non-XMM path
++	 * punts on the checks).
++	 */
++	u16 cnt = min(orig_cnt, cnt_cap);
++	int i, j;
+ 
+ 	if (hc->fast) {
+ 		/*
+ 		 * Each XMM holds two sparse banks, but do not count halves that
+ 		 * have already been consumed for hypercall parameters.
+ 		 */
+-		if (hc->var_cnt > 2 * HV_HYPERCALL_MAX_XMM_REGISTERS - consumed_xmm_halves)
++		if (orig_cnt > 2 * HV_HYPERCALL_MAX_XMM_REGISTERS - consumed_xmm_halves)
+ 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
+-		for (i = 0; i < var_cnt; i++) {
+-			int j = i + consumed_xmm_halves;
++
++		for (i = 0; i < cnt; i++) {
++			j = i + consumed_xmm_halves;
+ 			if (j % 2)
+-				sparse_banks[i] = sse128_hi(hc->xmm[j / 2]);
++				data[i] = sse128_hi(hc->xmm[j / 2]);
+ 			else
+-				sparse_banks[i] = sse128_lo(hc->xmm[j / 2]);
++				data[i] = sse128_lo(hc->xmm[j / 2]);
+ 		}
+ 		return 0;
  	}
  
- ret_success:
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 4e5c798cb441..34bd9b708d5b 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3392,11 +3392,17 @@ static inline void kvm_vcpu_flush_tlb_current(struct kvm_vcpu *vcpu)
-  */
- void kvm_service_local_tlb_flush_requests(struct kvm_vcpu *vcpu)
- {
--	if (kvm_check_request(KVM_REQ_TLB_FLUSH_CURRENT, vcpu))
-+	if (kvm_check_request(KVM_REQ_TLB_FLUSH_CURRENT, vcpu)) {
- 		kvm_vcpu_flush_tlb_current(vcpu);
-+		kvm_clear_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
-+	}
- 
--	if (kvm_check_request(KVM_REQ_TLB_FLUSH_GUEST, vcpu))
-+	if (kvm_check_request(KVM_REQ_TLB_FLUSH_GUEST, vcpu)) {
-+		kvm_vcpu_flush_tlb_guest(vcpu);
-+		kvm_clear_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
-+	} else if (kvm_check_request(KVM_REQ_HV_TLB_FLUSH, vcpu)) {
- 		kvm_vcpu_flush_tlb_guest(vcpu);
-+	}
+-	return kvm_read_guest(kvm, hc->ingpa + offset, sparse_banks,
+-			      var_cnt * sizeof(*sparse_banks));
++	return kvm_read_guest(kvm, hc->ingpa + offset, data,
++			      cnt * sizeof(*data));
++}
++
++static u64 kvm_get_sparse_vp_set(struct kvm *kvm, struct kvm_hv_hcall *hc,
++				 u64 *sparse_banks, int consumed_xmm_halves,
++				 gpa_t offset)
++{
++	if (hc->var_cnt > 64)
++		return -EINVAL;
++
++	/* Cap var_cnt to ignore banks that cannot contain a legal VP index. */
++	return kvm_hv_get_hc_data(kvm, hc, hc->var_cnt, KVM_HV_MAX_SPARSE_VCPU_SET_BITS,
++				  sparse_banks, consumed_xmm_halves, offset);
  }
- EXPORT_SYMBOL_GPL(kvm_service_local_tlb_flush_requests);
  
+ static void hv_tlb_flush_enqueue(struct kvm_vcpu *vcpu)
+@@ -1900,7 +1913,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+ 		if (!hc->var_cnt)
+ 			goto ret_success;
+ 
+-		if (kvm_get_sparse_vp_set(kvm, hc, 2, sparse_banks,
++		if (kvm_get_sparse_vp_set(kvm, hc, sparse_banks, 2,
+ 					  offsetof(struct hv_tlb_flush_ex,
+ 						   hv_vp_set.bank_contents)))
+ 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
+@@ -2011,7 +2024,7 @@ static u64 kvm_hv_send_ipi(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+ 		if (!hc->var_cnt)
+ 			goto ret_success;
+ 
+-		if (kvm_get_sparse_vp_set(kvm, hc, 1, sparse_banks,
++		if (kvm_get_sparse_vp_set(kvm, hc, sparse_banks, 1,
+ 					  offsetof(struct hv_send_ipi_ex,
+ 						   vp_set.bank_contents)))
+ 			return HV_STATUS_INVALID_HYPERCALL_INPUT;
 -- 
 2.35.3
 
