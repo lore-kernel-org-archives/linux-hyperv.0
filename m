@@ -2,42 +2,41 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E1DC19F28
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Aug 2022 16:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C77C00140
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Aug 2022 16:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237564AbiHBQIb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 2 Aug 2022 12:08:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42384 "EHLO
+        id S237205AbiHBQIc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 2 Aug 2022 12:08:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237491AbiHBQI0 (ORCPT
+        with ESMTP id S237509AbiHBQI3 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Aug 2022 12:08:26 -0400
+        Tue, 2 Aug 2022 12:08:29 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 443281D0F7
-        for <linux-hyperv@vger.kernel.org>; Tue,  2 Aug 2022 09:08:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 873B13B953
+        for <linux-hyperv@vger.kernel.org>; Tue,  2 Aug 2022 09:08:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659456498;
+        s=mimecast20190719; t=1659456500;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ocJxblDza2Sr7gKj41bQyysSP+PFqiVFlPEMK6X0mos=;
-        b=UZpClv70WXfv4BB4qvuz6ySeQcXWMhuLFIFWORFJPiyypDtTa+6ZTBi+t1cAAmtXFjMw8k
-        G94UjTTBwnSRzJ7ZCx5+6MNU51lT6TrQIttNAtz9SHie6xammF8cbkUA6+LRN/TB6ktSSo
-        PXnTfNoXuinIWpEWbRJRiPt53RDhKaY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=OHgHeZvbsCddOPjrnD78ijq3oLOZjtLV7czbHRgeiKU=;
+        b=F0tdxdjoEHIgDbZUUvKXJghmrGj2HHvng91s2YK4TsmrqbDc0QabPMVpeMBOwz8oOvZM5I
+        wS0NUWU3pUC8YimTyK2TxhgudXjntIunHS9Z9UQq7mt0FZXj/DNInDWrKEdpjKdg0J/xL2
+        HSfoQYs6bkYlHpAFhHlTxBvP4VBJ4LM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-g5CGDIhNPnueOqE72w4ozA-1; Tue, 02 Aug 2022 12:08:15 -0400
-X-MC-Unique: g5CGDIhNPnueOqE72w4ozA-1
+ us-mta-220-u44ZjnreN9qMV_WCv4fKnA-1; Tue, 02 Aug 2022 12:08:13 -0400
+X-MC-Unique: u44ZjnreN9qMV_WCv4fKnA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86B603804507;
-        Tue,  2 Aug 2022 16:08:14 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2516A8037B5;
+        Tue,  2 Aug 2022 16:08:00 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.108])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4812166B26;
-        Tue,  2 Aug 2022 16:08:11 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A773F2166B26;
+        Tue,  2 Aug 2022 16:07:57 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,11 +47,9 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Michael Kelley <mikelley@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 05/26] KVM: nVMX: Support several new fields in eVMCSv1
-Date:   Tue,  2 Aug 2022 18:07:35 +0200
-Message-Id: <20220802160756.339464-6-vkuznets@redhat.com>
-In-Reply-To: <20220802160756.339464-1-vkuznets@redhat.com>
-References: <20220802160756.339464-1-vkuznets@redhat.com>
+Subject: [PATCH v5 00/26] KVM: VMX: Support updated eVMCSv1 revision + use vmcs_config for L1 VMX MSRs
+Date:   Tue,  2 Aug 2022 18:07:30 +0200
+Message-Id: <20220802160756.339464-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -61,94 +58,94 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enlightened VMCS v1 definition was updated with new fields, add
-support for them for Hyper-V on KVM.
+Changes since v4:
+- Rebase to the latest kvm/queue (93472b797153).
+- Add "KVM: VMX: Don't toggle VM_ENTRY_IA32E_MODE for 32-bit kernels/KVM"
+  [Sean].
+- Use "__always_inline" [Sean, Nathan, Paolo]. 
+- Collect R-b tags [Max, Sean, Kai].
+- Use two-dimentional 'evmcs_unsupported_ctls' array in PATCH 09 [Paolo].
+- Numerous indentation fixes [Sean].
+- KVM_{REQ,OPT}_VMX_* -> KVM_{REQUIRED,OPTIONAL}_VMX_* [Sean].
+- Minor changes to commit messages, comments,... [Sean, Max].
 
-Note: SSP, CET and Guest LBR features are not supported by KVM yet
-and 'struct vmcs12' has no corresponding fields.
+Original description:
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/kvm/vmx/nested.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+Enlightened VMCS v1 definition was updates to include fields for the
+following features:
+    - PerfGlobalCtrl
+    - EnclsExitingBitmap
+    - TSC scaling
+    - GuestLbrCtl
+    - CET
+    - SSP
+While the information is missing in the publicly available TLFS, the
+updated definition comes with a new feature bit in CPUID.0x4000000A.EBX
+(BIT 0). Use a made up HV_X64_NESTED_EVMCS1_2022_UPDATE name for it.
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index ddd4367d4826..270a1d8e4a6e 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1607,6 +1607,10 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->guest_rflags = evmcs->guest_rflags;
- 		vmcs12->guest_interruptibility_info =
- 			evmcs->guest_interruptibility_info;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->guest_ssp = evmcs->guest_ssp;
-+		 */
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1653,6 +1657,13 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->host_fs_selector = evmcs->host_fs_selector;
- 		vmcs12->host_gs_selector = evmcs->host_gs_selector;
- 		vmcs12->host_tr_selector = evmcs->host_tr_selector;
-+		vmcs12->host_ia32_perf_global_ctrl = evmcs->host_ia32_perf_global_ctrl;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->host_ia32_s_cet = evmcs->host_ia32_s_cet;
-+		 * vmcs12->host_ssp = evmcs->host_ssp;
-+		 * vmcs12->host_ia32_int_ssp_table_addr = evmcs->host_ia32_int_ssp_table_addr;
-+		 */
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1720,6 +1731,8 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->tsc_offset = evmcs->tsc_offset;
- 		vmcs12->virtual_apic_page_addr = evmcs->virtual_apic_page_addr;
- 		vmcs12->xss_exit_bitmap = evmcs->xss_exit_bitmap;
-+		vmcs12->encls_exiting_bitmap = evmcs->encls_exiting_bitmap;
-+		vmcs12->tsc_multiplier = evmcs->tsc_multiplier;
- 	}
- 
- 	if (unlikely(!(hv_clean_fields &
-@@ -1767,6 +1780,13 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->guest_bndcfgs = evmcs->guest_bndcfgs;
- 		vmcs12->guest_activity_state = evmcs->guest_activity_state;
- 		vmcs12->guest_sysenter_cs = evmcs->guest_sysenter_cs;
-+		vmcs12->guest_ia32_perf_global_ctrl = evmcs->guest_ia32_perf_global_ctrl;
-+		/*
-+		 * Not present in struct vmcs12:
-+		 * vmcs12->guest_ia32_s_cet = evmcs->guest_ia32_s_cet;
-+		 * vmcs12->guest_ia32_lbr_ctl = evmcs->guest_ia32_lbr_ctl;
-+		 * vmcs12->guest_ia32_int_ssp_table_addr = evmcs->guest_ia32_int_ssp_table_addr;
-+		 */
- 	}
- 
- 	/*
-@@ -1869,12 +1889,23 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
- 	 * evmcs->vm_exit_msr_store_count = vmcs12->vm_exit_msr_store_count;
- 	 * evmcs->vm_exit_msr_load_count = vmcs12->vm_exit_msr_load_count;
- 	 * evmcs->vm_entry_msr_load_count = vmcs12->vm_entry_msr_load_count;
-+	 * evmcs->guest_ia32_perf_global_ctrl = vmcs12->guest_ia32_perf_global_ctrl;
-+	 * evmcs->host_ia32_perf_global_ctrl = vmcs12->host_ia32_perf_global_ctrl;
-+	 * evmcs->encls_exiting_bitmap = vmcs12->encls_exiting_bitmap;
-+	 * evmcs->tsc_multiplier = vmcs12->tsc_multiplier;
- 	 *
- 	 * Not present in struct vmcs12:
- 	 * evmcs->exit_io_instruction_ecx = vmcs12->exit_io_instruction_ecx;
- 	 * evmcs->exit_io_instruction_esi = vmcs12->exit_io_instruction_esi;
- 	 * evmcs->exit_io_instruction_edi = vmcs12->exit_io_instruction_edi;
- 	 * evmcs->exit_io_instruction_eip = vmcs12->exit_io_instruction_eip;
-+	 * evmcs->host_ia32_s_cet = vmcs12->host_ia32_s_cet;
-+	 * evmcs->host_ssp = vmcs12->host_ssp;
-+	 * evmcs->host_ia32_int_ssp_table_addr = vmcs12->host_ia32_int_ssp_table_addr;
-+	 * evmcs->guest_ia32_s_cet = vmcs12->guest_ia32_s_cet;
-+	 * evmcs->guest_ia32_lbr_ctl = vmcs12->guest_ia32_lbr_ctl;
-+	 * evmcs->guest_ia32_int_ssp_table_addr = vmcs12->guest_ia32_int_ssp_table_addr;
-+	 * evmcs->guest_ssp = vmcs12->guest_ssp;
- 	 */
- 
- 	evmcs->guest_es_selector = vmcs12->guest_es_selector;
+Add support for the new revision to KVM. SSP, CET and GuestLbrCtl
+features are not currently supported by KVM.
+
+While on it, implement Sean's idea to use vmcs_config for setting up
+L1 VMX control MSRs instead of re-reading host MSRs.
+
+Jim Mattson (1):
+  KVM: x86: VMX: Replace some Intel model numbers with mnemonics
+
+Sean Christopherson (2):
+  KVM: VMX: Don't toggle VM_ENTRY_IA32E_MODE for 32-bit kernels/KVM
+  KVM: VMX: Adjust CR3/INVPLG interception for EPT=y at runtime, not
+    setup
+
+Vitaly Kuznetsov (23):
+  KVM: x86: hyper-v: Expose access to debug MSRs in the partition
+    privilege flags
+  x86/hyperv: Fix 'struct hv_enlightened_vmcs' definition
+  x86/hyperv: Update 'struct hv_enlightened_vmcs' definition
+  KVM: VMX: Define VMCS-to-EVMCS conversion for the new fields
+  KVM: nVMX: Support several new fields in eVMCSv1
+  KVM: x86: hyper-v: Cache HYPERV_CPUID_NESTED_FEATURES CPUID leaf
+  KVM: selftests: Add ENCLS_EXITING_BITMAP{,HIGH} VMCS fields
+  KVM: selftests: Switch to updated eVMCSv1 definition
+  KVM: VMX: nVMX: Support TSC scaling and PERF_GLOBAL_CTRL with
+    enlightened VMCS
+  KVM: selftests: Enable TSC scaling in evmcs selftest
+  KVM: VMX: Get rid of eVMCS specific VMX controls sanitization
+  KVM: VMX: Check VM_ENTRY_IA32E_MODE in setup_vmcs_config()
+  KVM: VMX: Check CPU_BASED_{INTR,NMI}_WINDOW_EXITING in
+    setup_vmcs_config()
+  KVM: VMX: Tweak the special handling of SECONDARY_EXEC_ENCLS_EXITING
+    in setup_vmcs_config()
+  KVM: VMX: Extend VMX controls macro shenanigans
+  KVM: VMX: Move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering out of
+    setup_vmcs_config()
+  KVM: VMX: Add missing VMEXIT controls to vmcs_config
+  KVM: VMX: Add missing CPU based VM execution controls to vmcs_config
+  KVM: VMX: Move LOAD_IA32_PERF_GLOBAL_CTRL errata handling out of
+    setup_vmcs_config()
+  KVM: nVMX: Always set required-1 bits of pinbased_ctls to
+    PIN_BASED_ALWAYSON_WITHOUT_TRUE_MSR
+  KVM: nVMX: Use sanitized allowed-1 bits for VMX control MSRs
+  KVM: VMX: Cache MSR_IA32_VMX_MISC in vmcs_config
+  KVM: nVMX: Use cached host MSR_IA32_VMX_MISC value for setting up
+    nested MSR
+
+ arch/x86/include/asm/hyperv-tlfs.h            |  30 +-
+ arch/x86/include/asm/kvm_host.h               |   2 +
+ arch/x86/kvm/hyperv.c                         |  20 +-
+ arch/x86/kvm/vmx/capabilities.h               |  14 +-
+ arch/x86/kvm/vmx/evmcs.c                      | 127 +++++++--
+ arch/x86/kvm/vmx/evmcs.h                      |  18 +-
+ arch/x86/kvm/vmx/nested.c                     |  70 +++--
+ arch/x86/kvm/vmx/nested.h                     |   2 +-
+ arch/x86/kvm/vmx/vmx.c                        | 256 ++++++++----------
+ arch/x86/kvm/vmx/vmx.h                        | 162 +++++++++--
+ include/asm-generic/hyperv-tlfs.h             |   2 +
+ .../selftests/kvm/include/x86_64/evmcs.h      |  45 ++-
+ .../selftests/kvm/include/x86_64/vmx.h        |   2 +
+ .../testing/selftests/kvm/x86_64/evmcs_test.c |  31 ++-
+ 14 files changed, 521 insertions(+), 260 deletions(-)
+
 -- 
 2.35.3
 
