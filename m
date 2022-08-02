@@ -2,109 +2,109 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40466C00140
-	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Aug 2022 13:03:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E16C19F29
+	for <linux-hyperv@archiver.kernel.org>; Tue,  2 Aug 2022 16:08:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236210AbiHBNDx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 2 Aug 2022 09:03:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47144 "EHLO
+        id S232097AbiHBQIJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 2 Aug 2022 12:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236320AbiHBNDv (ORCPT
+        with ESMTP id S229515AbiHBQII (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 2 Aug 2022 09:03:51 -0400
+        Tue, 2 Aug 2022 12:08:08 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EFE871B7BF
-        for <linux-hyperv@vger.kernel.org>; Tue,  2 Aug 2022 06:03:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8DA3BE7C
+        for <linux-hyperv@vger.kernel.org>; Tue,  2 Aug 2022 09:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659445430;
+        s=mimecast20190719; t=1659456486;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=q9G2G8Gu5RKJUdwRd8+XrMp7icbYEK8BR98QSXem+dE=;
-        b=TMDX5rlJI50Fx9abWglZbphTmZTWg/xv/1D6O7EyE4aId4xcLxTao18bnjUJVdS24VvaYI
-        aNfn9xywEtxCMvlWuULAaj5B7KAn0CKU6eigqBsIaN6zxYr0Yu+ndKjsSXYvHMgv9IVhiq
-        Zq8qg6t8qdJi8tbwhrRX22/CwYo0Sjc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=ZBudYlQfwY1bFgy8hf1vbp471K4XLEsuIqWFDRge2Wg=;
+        b=hXFCoY4bJW+2xgRM0+OCDgcu/lOSjBt6l17HIC3iPsUHEIdFz6Ta5jwi1LUqhoo2QN6XnZ
+        gRiJSTqt8ObcxyKhfuvYLja3Y8z/WEQRkXNY6eufM1HjOlEGW3I+nYHqJvhg7w70VS3HZ6
+        TIuN8towO5CfdtM3aeJNRUloLyTE1LA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-w4FAm-_jNjqVMeZRF9z5AQ-1; Tue, 02 Aug 2022 09:03:41 -0400
-X-MC-Unique: w4FAm-_jNjqVMeZRF9z5AQ-1
-Received: by mail-wr1-f69.google.com with SMTP id t12-20020adfa2cc000000b0021e564cde06so3509728wra.17
-        for <linux-hyperv@vger.kernel.org>; Tue, 02 Aug 2022 06:03:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=q9G2G8Gu5RKJUdwRd8+XrMp7icbYEK8BR98QSXem+dE=;
-        b=FvMWkUhnajSdylqv4I5cRo/UEuaEEfraD3+NuxhSRetjKrKjyeYDgteMutqZU43iiD
-         IJoAGVHU/MEN+GSG0oc0P/QpSu7C3VJc6u/z1bTwv74bAPyS5cGVxY8p2zgrpC5Xq9GF
-         bSwdhPvN/sIJ1gOD0FtBXan11HcoHOtsD64qULJpcGKC1sCJ83LTO9QYzCJeSCayjYOa
-         0lGLs+AKBkqju+dNOgcDkoDM1ty51YGz/oAcZe0ibOvDdzL0Z4JkM5Cag7dQc+Ni9RwJ
-         2D2bBfB4d6hPFw+71r9+T5O2/uG9AYp+tGnXp2O7fA+5i3DVpfvQlKcS9eEHCjhDag5q
-         a/lg==
-X-Gm-Message-State: ACgBeo0N9nWngdYgNX7cAGKQohBGntQuE9kfvicCjxJ9Hk2Nt0kEBI8m
-        Q0RbuuAw6CcCJRCR2PA4gnSTd4LmWKF1YXyh02S6Yijgz4hKdCaqd2lTHMbc42sgrL8XjX/ONo9
-        M95NAnTP803SvQLhL4Dz8oar9
-X-Received: by 2002:a5d:64e2:0:b0:21d:38e8:2497 with SMTP id g2-20020a5d64e2000000b0021d38e82497mr12253759wri.142.1659445420265;
-        Tue, 02 Aug 2022 06:03:40 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6DOS3SQRla4MpJdwzB2g2Z3+URqWp8A6RPEqmiNSoJz93I9qLSiQKDBTUSjxU0zCoo/8ZISQ==
-X-Received: by 2002:a5d:64e2:0:b0:21d:38e8:2497 with SMTP id g2-20020a5d64e2000000b0021d38e82497mr12253733wri.142.1659445419933;
-        Tue, 02 Aug 2022 06:03:39 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id f11-20020a05600c4e8b00b003a31673515bsm26399540wmq.7.2022.08.02.06.03.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 06:03:37 -0700 (PDT)
+ us-mta-544-mDmJ7M0zOsGOosyAG0AUTg-1; Tue, 02 Aug 2022 12:08:03 -0400
+X-MC-Unique: mDmJ7M0zOsGOosyAG0AUTg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 051963804502;
+        Tue,  2 Aug 2022 16:08:03 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.108])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 851C82166B26;
+        Tue,  2 Aug 2022 16:08:00 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org,
-        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 09/25] KVM: VMX: nVMX: Support TSC scaling and
- PERF_GLOBAL_CTRL with enlightened VMCS
-In-Reply-To: <62ac29cb-3270-a810-bad1-3692da448016@redhat.com>
-References: <20220714091327.1085353-1-vkuznets@redhat.com>
- <20220714091327.1085353-10-vkuznets@redhat.com>
- <YtnMIkFI469Ub9vB@google.com>
- <48de7ea7-fc1a-6a83-3d6f-e04d26ea2f05@redhat.com>
- <Yt7ehL0HfR3b97FQ@google.com>
- <870d507d-a516-5601-4d21-2bfd571cf008@redhat.com>
- <YuMKBzeB2cE/NZ2K@google.com>
- <62ac29cb-3270-a810-bad1-3692da448016@redhat.com>
-Date:   Tue, 02 Aug 2022 15:03:35 +0200
-Message-ID: <87les623x4.fsf@redhat.com>
+Subject: [PATCH v5 01/26] KVM: x86: hyper-v: Expose access to debug MSRs in the partition privilege flags
+Date:   Tue,  2 Aug 2022 18:07:31 +0200
+Message-Id: <20220802160756.339464-2-vkuznets@redhat.com>
+In-Reply-To: <20220802160756.339464-1-vkuznets@redhat.com>
+References: <20220802160756.339464-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+For some features, Hyper-V spec defines two separate CPUID bits: one
+listing whether the feature is supported or not and another one showing
+whether guest partition was granted access to the feature ("partition
+privilege mask"). 'Debug MSRs available' is one of such features. Add
+the missing 'access' bit.
 
-> On 7/29/22 00:13, Sean Christopherson wrote:
->> The only flaw in this is if KVM gets handed a CPUID model that enumerates support
->> for 2025 (or whenever the next update comes) but not 2022.  Hmm, though if Microsoft
->> defines each new "version" as a full superset, then even that theoretical bug goes
->> away.  I'm happy to be optimistic for once and give this a shot.  I definitely like
->> that it makes it easier to see the deltas between versions.
->
-> Okay, I have queued the series but I still haven't gone through all the 
-> comments.
+Note: hv_check_msr_access() deliberately keeps checking
+HV_FEATURE_DEBUG_MSRS_AVAILABLE bit instead of the new HV_ACCESS_DEBUG_MSRS
+to not break existing VMMs (QEMU) which only expose one bit. Normally, VMMs
+should set either both these bits or none.
 
-The biggest problem with this version is the EFER.LMA problem on i386
-discovered (and, thankfully, fixed in the suggested patch) by
-Sean. To address this and all other comment I'm going to put together a
-v5 on top of the current kvm/queue (as I don't yet see any of this stuff
-there).
+Fixes: f97f5a56f597 ("x86/kvm/hyper-v: Add support for synthetic debugger interface")
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ arch/x86/kvm/hyperv.c             | 1 +
+ include/asm-generic/hyperv-tlfs.h | 2 ++
+ 2 files changed, 3 insertions(+)
 
->  So this will _not_ be in the 5.21 pull request.
-
-At first I thought you meant 5.20 but then I got the pun: 5.20 will
-likely become 6.0 and so 5.21 pull request will just never happen :-)
-
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index ed804447589c..c284a605e453 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -2496,6 +2496,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+ 			ent->eax |= HV_MSR_RESET_AVAILABLE;
+ 			ent->eax |= HV_MSR_REFERENCE_TSC_AVAILABLE;
+ 			ent->eax |= HV_ACCESS_FREQUENCY_MSRS;
++			ent->eax |= HV_ACCESS_DEBUG_MSRS;
+ 			ent->eax |= HV_ACCESS_REENLIGHTENMENT;
+ 
+ 			ent->ebx |= HV_POST_MESSAGES;
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index fdce7a4cfc6f..1d99dd296a76 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -70,6 +70,8 @@
+ #define HV_MSR_GUEST_IDLE_AVAILABLE		BIT(10)
+ /* Partition local APIC and TSC frequency registers available */
+ #define HV_ACCESS_FREQUENCY_MSRS		BIT(11)
++/* Debug MSRs available */
++#define HV_ACCESS_DEBUG_MSRS			BIT(12)
+ /* AccessReenlightenmentControls privilege */
+ #define HV_ACCESS_REENLIGHTENMENT		BIT(13)
+ /* AccessTscInvariantControls privilege */
 -- 
-Vitaly
+2.35.3
 
