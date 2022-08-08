@@ -2,97 +2,113 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBFE6C19F2A
-	for <linux-hyperv@archiver.kernel.org>; Sun,  7 Aug 2022 20:44:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F01C00140
+	for <linux-hyperv@archiver.kernel.org>; Mon,  8 Aug 2022 05:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231411AbiHGUoj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 7 Aug 2022 16:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51922 "EHLO
+        id S232197AbiHHFHu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 8 Aug 2022 01:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiHGUoi (ORCPT
+        with ESMTP id S229688AbiHHFHt (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 7 Aug 2022 16:44:38 -0400
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8550B62E6;
-        Sun,  7 Aug 2022 13:44:37 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id l4so8799049wrm.13;
-        Sun, 07 Aug 2022 13:44:37 -0700 (PDT)
+        Mon, 8 Aug 2022 01:07:49 -0400
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D5226376
+        for <linux-hyperv@vger.kernel.org>; Sun,  7 Aug 2022 22:07:49 -0700 (PDT)
+Received: by mail-ot1-x334.google.com with SMTP id p22-20020a9d6956000000b00636a088b2aeso5803237oto.9
+        for <linux-hyperv@vger.kernel.org>; Sun, 07 Aug 2022 22:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=RlxNA00D9e7VQPoEGTaRVAdyo9WHW2wiWsTFor+8nJw=;
+        b=Hk3W+eo6HKWQsdmG6QfS9M4TjMnr5f6FjyQracP5ocBC8obtbDAh278xmWvMKbMXqw
+         e0TT4tk/bwAQUF+jbw2jPvlzV9OFPpJ21ueR1JdoGg19kInhs1flRl4UGLwWsr1z1tM1
+         GNDpLdqEYpw0M4V/JXfxwlMtmRUkq1+Z/7DFc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=PR3j4bog8pPMOjA9orzRxcsnCEIbbXpovcv+p87CHi4=;
-        b=OH21hVGzWusfdyaZjo5YaXtZflDRXzE2AYWMoPVtax3YmOCW4SFPBZSFzAP7Y5b2tZ
-         0+8reXgNh/eXmf0tz6HqDbynyFds8pIWpH5hJBD7yBK0b+nycibcry9VHpQ/cJqTB5SY
-         h4v5FIOQfeQ3Tp3nhYpajGjOZTw/yGG0tEYKshlLQw0edRvIPVPMM86T4ZGNjAPtz/1x
-         NtOApFqC6T8acyAa9KbvD5JMMpeA+bIa69t21EGBBYIi9HZachWI0SVDSeTls44F2Wkx
-         TNT0CaLmGDeBpWNpuAd2+3Vy8wmkahgwS/VFjmSsEvXarwYIAEMlvXGeKb+yikANjqRb
-         7l9w==
-X-Gm-Message-State: ACgBeo3pLSmCrFODYTKu2toJVoB5frNnz34pygBj0syTcPBLZVpFu9Vf
-        Pf/Lub+fpHS4rmAaFcN6AYKdr4vzOVc=
-X-Google-Smtp-Source: AA6agR484PVx2gjGv91YCXEUs4vjgAODNVSeUDoaQ6sgiJv+n3uJDFEBGN8/l1lS0V7VLWvi406drw==
-X-Received: by 2002:adf:fb43:0:b0:21a:22eb:da43 with SMTP id c3-20020adffb43000000b0021a22ebda43mr9491379wrs.347.1659905075751;
-        Sun, 07 Aug 2022 13:44:35 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id b4-20020adff904000000b0021e9fafa601sm9707536wrr.22.2022.08.07.13.44.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Aug 2022 13:44:35 -0700 (PDT)
-Date:   Sun, 7 Aug 2022 20:44:33 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
-        sthemmin@microsoft.com, Michael Kelley <mikelley@microsoft.com>
-Subject: [GIT PULL] Hyper-V next patches
-Message-ID: <20220807204433.k4lcpmfbradclnnq@liuwe-devbox-debian-v2>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=RlxNA00D9e7VQPoEGTaRVAdyo9WHW2wiWsTFor+8nJw=;
+        b=M/24G7PzbPeCUGUC9+Rq5wQgf3nlzMTqA767pn2QVInIP6QezHD2W+XntwT62l312r
+         nQtCXD/+SgwEDBZzAU7EAwDa16gBN6S3AHm1LuI7Gbnmk+xuypS9Fsv9PSY9bXDMLZww
+         UJ7EHRy0A6/cOi5H8ThtB2Xh4n4tduhqvdt9HmghDp6BFb+LFikAYxXj5SxLPnFT01Eo
+         eoAS1exzP4a+m+jXE8xx/v+NJm3cFWjXf5pMbIXaLi1rR4N3WInGxy9+22T4L0HmAgTB
+         s8RMMd6ILLygoglIJKTXME/y7HoTHDxkWTm0/+ATRC/ber8xQNf22vxZY9C7nOdMzxYo
+         Yxgg==
+X-Gm-Message-State: ACgBeo3XRfWC+Evyn7fMbCwR6wQTCx25FW8wXJjqdHEgWvgyUpT1JSa2
+        26BpakfpbQJhMpP3jo3/3JgTW8JT+uZ+Kg==
+X-Google-Smtp-Source: AA6agR7K/x4iFOXPEHa5R7rXMEnRTDsM93Bbeuoa5V4Z2pxZdjj/rRwRWNbSoN9yZBZmgpttU/AVhw==
+X-Received: by 2002:a9d:74d6:0:b0:618:edd7:3878 with SMTP id a22-20020a9d74d6000000b00618edd73878mr1539836otl.229.1659935268127;
+        Sun, 07 Aug 2022 22:07:48 -0700 (PDT)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com. [209.85.160.45])
+        by smtp.gmail.com with ESMTPSA id cm16-20020a056870b61000b0010200e2828fsm2097884oab.30.2022.08.07.22.07.46
+        for <linux-hyperv@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Aug 2022 22:07:46 -0700 (PDT)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-f2a4c51c45so9381832fac.9
+        for <linux-hyperv@vger.kernel.org>; Sun, 07 Aug 2022 22:07:46 -0700 (PDT)
+X-Received: by 2002:a05:6870:f593:b0:10d:887e:70fa with SMTP id
+ eh19-20020a056870f59300b0010d887e70famr7477971oab.241.1659935265684; Sun, 07
+ Aug 2022 22:07:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220719195325.402745-1-gpiccoli@igalia.com> <20220719195325.402745-4-gpiccoli@igalia.com>
+In-Reply-To: <20220719195325.402745-4-gpiccoli@igalia.com>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Sun, 7 Aug 2022 22:07:09 -0700
+X-Gmail-Original-Message-ID: <CAE=gft71vH+P3iAFXC0bLu0M2x2V4uJGWc82Xa+246ECuUdT-w@mail.gmail.com>
+Message-ID: <CAE=gft71vH+P3iAFXC0bLu0M2x2V4uJGWc82Xa+246ECuUdT-w@mail.gmail.com>
+Subject: Re: [PATCH v2 03/13] firmware: google: Test spinlock on panic path to
+ avoid lockups
+To:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, bhe@redhat.com,
+        Petr Mladek <pmladek@suse.com>, kexec@lists.infradead.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
+        halves@canonical.com, fabiomirmar@gmail.com,
+        alejandro.j.jimenez@oracle.com,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
+        Jonathan Corbet <corbet@lwn.net>, d.hatayama@jp.fujitsu.com,
+        dave.hansen@linux.intel.com, dyoung@redhat.com,
+        feng.tang@intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        mikelley@microsoft.com, hidehiro.kawai.ez@hitachi.com,
+        jgross@suse.com, john.ogness@linutronix.de,
+        Kees Cook <keescook@chromium.org>, luto@kernel.org,
+        mhiramat@kernel.org, mingo@redhat.com, paulmck@kernel.org,
+        peterz@infradead.org, rostedt@goodmis.org,
+        senozhatsky@chromium.org, Alan Stern <stern@rowland.harvard.edu>,
+        Thomas Gleixner <tglx@linutronix.de>, vgoyal@redhat.com,
+        vkuznets@redhat.com, Will Deacon <will@kernel.org>,
+        linux-efi@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        David Gow <davidgow@google.com>,
+        Julius Werner <jwerner@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Linus
+On Tue, Jul 19, 2022 at 12:55 PM Guilherme G. Piccoli
+<gpiccoli@igalia.com> wrote:
+>
+> Currently the gsmi driver registers a panic notifier as well as
+> reboot and die notifiers. The callbacks registered are called in
+> atomic and very limited context - for instance, panic disables
+> preemption and local IRQs, also all secondary CPUs (not executing
+> the panic path) are shutdown.
+>
+> With that said, taking a spinlock in this scenario is a dangerous
+> invitation for lockup scenarios. So, fix that by checking if the
+> spinlock is free to acquire in the panic notifier callback - if not,
+> bail-out and avoid a potential hang.
+>
+> Fixes: 74c5b31c6618 ("driver: Google EFI SMI")
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: David Gow <davidgow@google.com>
+> Cc: Evan Green <evgreen@chromium.org>
+> Cc: Julius Werner <jwerner@chromium.org>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 
-The following changes since commit 32346491ddf24599decca06190ebca03ff9de7f8:
-
-  Linux 5.19-rc6 (2022-07-10 14:40:51 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-next-signed-20220807
-
-for you to fetch changes up to d180e0a1be6cea2b7436fadbd1c96aecdf3c46c7:
-
-  Drivers: hv: Create debugfs file with hyper-v balloon usage information (2022-07-18 11:19:02 +0000)
-
-----------------------------------------------------------------
-hyperv-next 20220807
-
-A few miscellaneous patches. There is no large patch series for this
-merge window.
-
-Their subject lines are self-explanatory so I don't bother summarizing
-them.
-----------------------------------------------------------------
-Alexander Atanasov (1):
-      Drivers: hv: Create debugfs file with hyper-v balloon usage information
-
-Samuel Holland (1):
-      PCI: hv: Take a const cpumask in hv_compose_msi_req_get_cpu()
-
-Saurabh Sengar (1):
-      drm/hyperv : Removing the restruction of VRAM allocation with PCI bar size
-
-Shradha Gupta (1):
-      Drivers: hv: vm_bus: Handle vmbus rescind calls after vmbus is suspended
-
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c |  74 +----------------
- drivers/hv/connection.c                 |  11 +++
- drivers/hv/hv_balloon.c                 | 135 ++++++++++++++++++++++++++++++--
- drivers/hv/hyperv_vmbus.h               |   7 ++
- drivers/hv/vmbus_drv.c                  |  27 +++++--
- drivers/pci/controller/pci-hyperv.c     |   2 +-
- 6 files changed, 170 insertions(+), 86 deletions(-)
+Reviewed-by: Evan Green <evgreen@chromium.org>
