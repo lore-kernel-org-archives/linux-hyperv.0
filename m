@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26FC6C25B08
-	for <linux-hyperv@archiver.kernel.org>; Mon,  8 Aug 2022 12:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 347AEC25B0D
+	for <linux-hyperv@archiver.kernel.org>; Mon,  8 Aug 2022 12:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237628AbiHHMyW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S243012AbiHHMyW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Mon, 8 Aug 2022 08:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39428 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243129AbiHHMyN (ORCPT
+        with ESMTP id S237349AbiHHMyN (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 8 Aug 2022 08:54:13 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78CCFE09F
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7B3DEF7
         for <linux-hyperv@vger.kernel.org>; Mon,  8 Aug 2022 05:54:11 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id B21DC37AD8;
-        Mon,  8 Aug 2022 12:54:09 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 77A9D1FF91;
+        Mon,  8 Aug 2022 12:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1659963249; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1659963250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=KAS9yhThpc4hI3qsMPzA1bQpQ2ChV0pmCL6gM2OzXug=;
-        b=RQy67gDbtTGbf2d7fkVmJgGDJ8VuAr5Px+9XN4D73XyJVOtJl3MrQBLijzq2JSfmN/q5/3
-        8tzbVnzkgWIrTfBJDoYJnGH5nDXggMEZ/gsRpcnPZR6XHQiNPnof7MkFIbezKBvnnuZ7mG
-        p/ZVR0C99h8537oHffUT3+MmVojwE+8=
+        bh=nZIuxK0/aq0jANGBK/GfV2o7Z0nHEvrCLS8Q20mqqAg=;
+        b=klZh4Uh8wJ7PdAcN7kUnhGufIc6nD1luR9E3pFAnlI7xvo85Q9ws7+HmyzypSxXxfPha4s
+        cB0vxnZm1bo/oehul0UwEtoFvg4QwzHnKE598LPl1/lGbj++bVO5bxIdPQngiHqP0bwSXr
+        vIO2kFbmVLb24pDrjDiGSpvu0++Qfww=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1659963249;
+        s=susede2_ed25519; t=1659963250;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=KAS9yhThpc4hI3qsMPzA1bQpQ2ChV0pmCL6gM2OzXug=;
-        b=Cb+mvJ7YkMCGh3iwGtI95x23hjPvzHTxjj6ERO1uMEe9VpRhniEbECHkhaOzzQlsJDIt6U
-        UJ/VAGxbxmweSRAg==
+        bh=nZIuxK0/aq0jANGBK/GfV2o7Z0nHEvrCLS8Q20mqqAg=;
+        b=L6zIzcuH4skES5bU7sdZyn2DsbXCH66V6s5YF7fdeWmS3DaqGSrm+b/zggBGv/CR6YhvsA
+        JR2JAsC/BkKuI/Cg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5627913A7C;
-        Mon,  8 Aug 2022 12:54:09 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1E9F613A7C;
+        Mon,  8 Aug 2022 12:54:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id ACT/E3EH8WLHUgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 08 Aug 2022 12:54:09 +0000
+        id UEmXBnIH8WLHUgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 08 Aug 2022 12:54:10 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     sam@ravnborg.org, jose.exposito89@gmail.com, javierm@redhat.com,
         maarten.lankhorst@linux.intel.com, mripard@kernel.org,
@@ -58,9 +58,9 @@ To:     sam@ravnborg.org, jose.exposito89@gmail.com, javierm@redhat.com,
 Cc:     dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
         virtualization@lists.linux-foundation.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 03/14] drm/format-helper: Merge drm_fb_memcpy() and drm_fb_memcpy_toio()
-Date:   Mon,  8 Aug 2022 14:53:55 +0200
-Message-Id: <20220808125406.20752-4-tzimmermann@suse.de>
+Subject: [PATCH v2 05/14] drm/format-helper: Rework XRGB8888-to-RGBG332 conversion
+Date:   Mon,  8 Aug 2022 14:53:57 +0200
+Message-Id: <20220808125406.20752-6-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220808125406.20752-1-tzimmermann@suse.de>
 References: <20220808125406.20752-1-tzimmermann@suse.de>
@@ -70,309 +70,148 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Merge drm_fb_memcpy() and drm_fb_memcpy_toio() into a drm_fb_memcpy()
-that uses struct iosys_map for buffers. The new function also supports
-multi-plane color formats. Convert all users of the original helpers.
+Update XRGB8888-to-RGB332 conversion to support struct iosys_map
+and convert all users. Although these are single-plane color formats,
+the new interface supports multi-plane formats for consistency with
+drm_fb_blit().
 
 v2:
-	* rebase onto refactored mgag200
-	* use drm_formap_info_bpp() (Sam)
-	* do static init in hyperv and mgag200 (Sam)
+	* rebase onto refactored Kunit tests
 	* update documentation (Sam)
 	* add TODO on vaddr location (Sam)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/drm_format_helper.c         | 90 ++++++++++-----------
- drivers/gpu/drm/drm_mipi_dbi.c              |  3 +-
- drivers/gpu/drm/gud/gud_pipe.c              |  4 +-
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  9 +--
- drivers/gpu/drm/mgag200/mgag200_mode.c      |  9 +--
- drivers/gpu/drm/tiny/cirrus.c               | 21 ++---
- include/drm/drm_format_helper.h             |  7 +-
- 7 files changed, 70 insertions(+), 73 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c           | 38 +++++++++++++++----
+ drivers/gpu/drm/gud/gud_pipe.c                |  2 +-
+ .../gpu/drm/tests/drm_format_helper_test.c    | 20 +++++-----
+ include/drm/drm_format_helper.h               |  5 ++-
+ 4 files changed, 46 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 07f329f607a3..7489c665a47c 100644
+index b5ed058984ae..248fd87f0a36 100644
 --- a/drivers/gpu/drm/drm_format_helper.c
 +++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -131,63 +131,57 @@ static int drm_fb_xfrm_toio(void __iomem *dst, unsigned long dst_pitch, unsigned
+@@ -281,18 +281,42 @@ static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigne
  
  /**
-  * drm_fb_memcpy - Copy clip buffer
-- * @dst: Destination buffer
+  * drm_fb_xrgb8888_to_rgb332 - Convert XRGB8888 to RGB332 clip buffer
+- * @dst: RGB332 destination buffer
 - * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-- * @vaddr: Source buffer
-+ * @dst: Array of destination buffers
+- * @src: XRGB8888 source buffer
++ * @dst: Array of RGB332 destination buffers
 + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
 + *             within @dst; can be NULL if scanlines are stored next to each other.
-+ * @vmap: Array of source buffers
++ * @vmap: Array of XRGB8888 source buffers
   * @fb: DRM framebuffer
   * @clip: Clip rectangle area to copy
   *
-- * This function does not apply clipping on dst, i.e. the destination
-- * is at the top-left corner.
-- */
--void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
--		   const struct drm_framebuffer *fb, const struct drm_rect *clip)
--{
--	unsigned int cpp = fb->format->cpp[0];
--	size_t len = (clip->x2 - clip->x1) * cpp;
--	unsigned int y, lines = clip->y2 - clip->y1;
--
--	if (!dst_pitch)
--		dst_pitch = len;
--
--	vaddr += clip_offset(clip, fb->pitches[0], cpp);
--	for (y = 0; y < lines; y++) {
--		memcpy(dst, vaddr, len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--}
--EXPORT_SYMBOL(drm_fb_memcpy);
--
--/**
-- * drm_fb_memcpy_toio - Copy clip buffer
-- * @dst: Destination buffer (iomem)
-- * @dst_pitch: Number of bytes between two consecutive scanlines within dst
-- * @vaddr: Source buffer
-- * @fb: DRM framebuffer
-- * @clip: Clip rectangle area to copy
-+ * This function copies parts of a framebuffer to display memory. Destination and
-+ * framebuffer formats must match. No conversion takes place. The parameters @dst,
-+ * @dst_pitch and @vmap refer to arrays. Each array must have at least as many entries
-+ * as there are planes in @fb's format. Each entry stores the value for the format's
-+ * respective color plane at the same index.
-  *
-- * This function does not apply clipping on dst, i.e. the destination
-- * is at the top-left corner.
+- * Drivers can use this function for RGB332 devices that don't natively support XRGB8888.
++ * This function copies parts of a framebuffer to display memory and converts the
++ * color format during the process. Destination and framebuffer formats must match. The
++ * parameters @dst, @dst_pitch and @vmap refer to arrays. Each array must have at
++ * least as many entries as there are planes in @fb's format. Each entry stores the
++ * value for the format's respective color plane at the same index.
++ *
 + * This function does not apply clipping on @dst (i.e. the destination is at the
 + * top-left corner).
++ *
++ * Drivers can use this function for RGB332 devices that don't support XRGB8888 natively.
   */
--void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
--			const struct drm_framebuffer *fb, const struct drm_rect *clip)
-+void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
-+		   const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-+		   const struct drm_rect *clip)
+-void drm_fb_xrgb8888_to_rgb332(void *dst, unsigned int dst_pitch, const void *src,
+-			       const struct drm_framebuffer *fb, const struct drm_rect *clip)
++void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
++			       const struct iosys_map *vmap, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip)
  {
--	unsigned int cpp = fb->format->cpp[0];
--	size_t len = (clip->x2 - clip->x1) * cpp;
--	unsigned int y, lines = clip->y2 - clip->y1;
+-	drm_fb_xfrm(dst, dst_pitch, 1, src, fb, clip, false, drm_fb_xrgb8888_to_rgb332_line);
 +	static const unsigned int default_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
 +		0, 0, 0, 0
 +	};
- 
--	if (!dst_pitch)
--		dst_pitch = len;
-+	const struct drm_format_info *format = fb->format;
-+	unsigned int i, y, lines = drm_rect_height(clip);
- 
--	vaddr += clip_offset(clip, fb->pitches[0], cpp);
--	for (y = 0; y < lines; y++) {
--		memcpy_toio(dst, vaddr, len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
++
 +	if (!dst_pitch)
 +		dst_pitch = default_dst_pitch;
 +
-+	for (i = 0; i < format->num_planes; ++i) {
-+		unsigned int bpp_i = drm_format_info_bpp(format, i);
-+		unsigned int cpp_i = DIV_ROUND_UP(bpp_i, 8);
-+		size_t len_i = DIV_ROUND_UP(drm_rect_width(clip) * bpp_i, 8);
-+		unsigned int dst_pitch_i = dst_pitch[i];
-+		struct iosys_map dst_i = dst[i];
-+		struct iosys_map vmap_i = vmap[i];
-+
-+		if (!dst_pitch_i)
-+			dst_pitch_i = len_i;
-+
-+		iosys_map_incr(&vmap_i, clip_offset(clip, fb->pitches[i], cpp_i));
-+		for (y = 0; y < lines; y++) {
-+			/* TODO: handle vmap_i in I/O memory here */
-+			iosys_map_memcpy_to(&dst_i, 0, vmap_i.vaddr, len_i);
-+			iosys_map_incr(&vmap_i, fb->pitches[i]);
-+			iosys_map_incr(&dst_i, dst_pitch_i);
-+		}
- 	}
++	/* TODO: handle vmap in I/O memory here */
++	if (dst[0].is_iomem)
++		drm_fb_xfrm_toio(dst[0].vaddr_iomem, dst_pitch[0], 1, vmap[0].vaddr, fb, clip,
++				 false, drm_fb_xrgb8888_to_rgb332_line);
++	else
++		drm_fb_xfrm(dst[0].vaddr, dst_pitch[0], 1, vmap[0].vaddr, fb, clip,
++			    false, drm_fb_xrgb8888_to_rgb332_line);
  }
--EXPORT_SYMBOL(drm_fb_memcpy_toio);
-+EXPORT_SYMBOL(drm_fb_memcpy);
+ EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
  
- static void drm_fb_swab16_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
-@@ -587,7 +581,7 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 		dst_format = DRM_FORMAT_XRGB2101010;
- 
- 	if (dst_format == fb_format) {
--		drm_fb_memcpy_toio(dst[0].vaddr_iomem, dst_pitch[0], vmap[0].vaddr, fb, clip);
-+		drm_fb_memcpy(dst, dst_pitch, vmap, fb, clip);
- 		return 0;
- 
- 	} else if (dst_format == DRM_FORMAT_RGB565) {
-diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
-index 2ecaf3cb7afb..1ba506ca83e1 100644
---- a/drivers/gpu/drm/drm_mipi_dbi.c
-+++ b/drivers/gpu/drm/drm_mipi_dbi.c
-@@ -205,6 +205,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
- 	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 	struct iosys_map data[DRM_FORMAT_MAX_PLANES];
-+	struct iosys_map dst_map = IOSYS_MAP_INIT_VADDR(dst);
- 	void *src;
- 	int ret;
- 
-@@ -222,7 +223,7 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
- 		if (swap)
- 			drm_fb_swab(dst, 0, src, fb, clip, !gem->import_attach);
- 		else
--			drm_fb_memcpy(dst, 0, src, fb, clip);
-+			drm_fb_memcpy(&dst_map, NULL, data, fb, clip);
- 		break;
- 	case DRM_FORMAT_XRGB8888:
- 		drm_fb_xrgb8888_to_rgb565(dst, 0, src, fb, clip, swap);
 diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
-index d42592f6daab..449c95a4aee0 100644
+index a15cda9ba058..426a3ae6cc50 100644
 --- a/drivers/gpu/drm/gud/gud_pipe.c
 +++ b/drivers/gpu/drm/gud/gud_pipe.c
-@@ -156,6 +156,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 	u8 compression = gdrm->compression;
- 	struct iosys_map map[DRM_FORMAT_MAX_PLANES];
- 	struct iosys_map map_data[DRM_FORMAT_MAX_PLANES];
-+	struct iosys_map dst;
- 	void *vaddr, *buf;
- 	size_t pitch, len;
- 	int ret = 0;
-@@ -179,6 +180,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 		buf = gdrm->compress_buf;
- 	else
- 		buf = gdrm->bulk_buf;
+@@ -196,7 +196,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+ 		} else if (format->format == DRM_FORMAT_R8) {
+ 			drm_fb_xrgb8888_to_gray8(buf, 0, vaddr, fb, rect);
+ 		} else if (format->format == DRM_FORMAT_RGB332) {
+-			drm_fb_xrgb8888_to_rgb332(buf, 0, vaddr, fb, rect);
++			drm_fb_xrgb8888_to_rgb332(&dst, NULL, map_data, fb, rect);
+ 		} else if (format->format == DRM_FORMAT_RGB565) {
+ 			drm_fb_xrgb8888_to_rgb565(buf, 0, vaddr, fb, rect, gud_is_big_endian());
+ 		} else if (format->format == DRM_FORMAT_RGB888) {
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+index 26ecf3b4b137..7b14694ead59 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -197,8 +197,9 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
+ 	const struct convert_xrgb8888_case *params = test->param_value;
+ 	const struct convert_to_rgb332_result *result = &params->rgb332_result;
+ 	size_t dst_size;
+-	__u8 *dst = NULL;
+-	__u32 *src = NULL;
++	__u8 *buf = NULL;
++	__u32 *xrgb8888 = NULL;
++	struct iosys_map dst, src;
+ 
+ 	struct drm_framebuffer fb = {
+ 		.format = drm_format_info(DRM_FORMAT_XRGB8888),
+@@ -209,15 +210,16 @@ static void xrgb8888_to_rgb332_test(struct kunit *test)
+ 				       &params->clip);
+ 	KUNIT_ASSERT_GT(test, dst_size, 0);
+ 
+-	dst = kunit_kzalloc(test, dst_size, GFP_KERNEL);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dst);
++	buf = kunit_kzalloc(test, dst_size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buf);
 +	iosys_map_set_vaddr(&dst, buf);
  
- 	/*
- 	 * Imported buffers are assumed to be write-combined and thus uncached
-@@ -208,7 +210,7 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
- 		/* can compress directly from the framebuffer */
- 		buf = vaddr + rect->y1 * pitch;
- 	} else {
--		drm_fb_memcpy(buf, 0, vaddr, fb, rect);
-+		drm_fb_memcpy(&dst, NULL, map_data, fb, rect);
- 	}
+-	src = le32buf_to_cpu(test, params->xrgb8888, TEST_BUF_SIZE);
+-	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, src);
++	xrgb8888 = le32buf_to_cpu(test, params->xrgb8888, TEST_BUF_SIZE);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, xrgb8888);
++	iosys_map_set_vaddr(&src, xrgb8888);
  
- 	memset(req, 0, sizeof(*req));
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index b8e64dd8d3a6..28e732f94bf2 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -21,19 +21,18 @@
- #include "hyperv_drm.h"
- 
- static int hyperv_blit_to_vram_rect(struct drm_framebuffer *fb,
--				    const struct iosys_map *map,
-+				    const struct iosys_map *vmap,
- 				    struct drm_rect *rect)
- {
- 	struct hyperv_drm_device *hv = to_hv(fb->dev);
--	void __iomem *dst = hv->vram;
--	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
-+	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(hv->vram);
- 	int idx;
- 
- 	if (!drm_dev_enter(&hv->dev, &idx))
- 		return -ENODEV;
- 
--	dst += drm_fb_clip_offset(fb->pitches[0], fb->format, rect);
--	drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, rect);
-+	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, rect));
-+	drm_fb_memcpy(&dst, fb->pitches, vmap, fb, rect);
- 
- 	drm_dev_exit(idx);
- 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-index 1f26d4716679..bbab2549243a 100644
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -430,13 +430,12 @@ static void mgag200_disable_display(struct mga_device *mdev)
+-	drm_fb_xrgb8888_to_rgb332(dst, result->dst_pitch, src, &fb,
+-				  &params->clip);
+-	KUNIT_EXPECT_EQ(test, memcmp(dst, result->expected, dst_size), 0);
++	drm_fb_xrgb8888_to_rgb332(&dst, &result->dst_pitch, &src, &fb, &params->clip);
++	KUNIT_EXPECT_EQ(test, memcmp(buf, result->expected, dst_size), 0);
  }
  
- static void mgag200_handle_damage(struct mga_device *mdev, const struct iosys_map *vmap,
--				  struct drm_framebuffer *fb, const struct drm_rect *clip)
-+				  struct drm_framebuffer *fb, struct drm_rect *clip)
- {
--	void __iomem *dst = mdev->vram;
--	void *vaddr = vmap[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(mdev->vram);
- 
--	dst += drm_fb_clip_offset(fb->pitches[0], fb->format, clip);
--	drm_fb_memcpy_toio(dst, fb->pitches[0], vaddr, fb, clip);
-+	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
-+	drm_fb_memcpy(&dst, fb->pitches, vmap, fb, clip);
- }
- 
- /*
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index c4f5beea1f90..73fb9f63d227 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -316,28 +316,31 @@ static int cirrus_mode_set(struct cirrus_device *cirrus,
- }
- 
- static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
--			       const struct iosys_map *map,
-+			       const struct iosys_map *vmap,
- 			       struct drm_rect *rect)
- {
- 	struct cirrus_device *cirrus = to_cirrus(fb->dev);
--	void __iomem *dst = cirrus->vram;
--	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
-+	struct iosys_map dst;
-+	void *vaddr = vmap->vaddr; /* TODO: Use mapping abstraction properly */
- 	int idx;
- 
- 	if (!drm_dev_enter(&cirrus->dev, &idx))
- 		return -ENODEV;
- 
-+	iosys_map_set_vaddr_iomem(&dst, cirrus->vram);
-+
- 	if (cirrus->cpp == fb->format->cpp[0]) {
--		dst += drm_fb_clip_offset(fb->pitches[0], fb->format, rect);
--		drm_fb_memcpy_toio(dst, fb->pitches[0], vmap, fb, rect);
-+		iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, rect));
-+		drm_fb_memcpy(&dst, fb->pitches, vmap, fb, rect);
- 
- 	} else if (fb->format->cpp[0] == 4 && cirrus->cpp == 2) {
--		dst += drm_fb_clip_offset(cirrus->pitch, fb->format, rect);
--		drm_fb_xrgb8888_to_rgb565_toio(dst, cirrus->pitch, vmap, fb, rect, false);
-+		iosys_map_incr(&dst, drm_fb_clip_offset(cirrus->pitch, fb->format, rect));
-+		drm_fb_xrgb8888_to_rgb565_toio(dst.vaddr_iomem, cirrus->pitch, vaddr, fb, rect,
-+					       false);
- 
- 	} else if (fb->format->cpp[0] == 4 && cirrus->cpp == 3) {
--		dst += drm_fb_clip_offset(cirrus->pitch, fb->format, rect);
--		drm_fb_xrgb8888_to_rgb888_toio(dst, cirrus->pitch, vmap, fb, rect);
-+		iosys_map_incr(&dst, drm_fb_clip_offset(cirrus->pitch, fb->format, rect));
-+		drm_fb_xrgb8888_to_rgb888_toio(dst.vaddr_iomem, cirrus->pitch, vaddr, fb, rect);
- 
- 	} else {
- 		WARN_ON_ONCE("cpp mismatch");
+ static void xrgb8888_to_rgb565_test(struct kunit *test)
 diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 21daea7fda99..8af6a2717bc9 100644
+index 60944feaa936..3c28f099e3ed 100644
 --- a/include/drm/drm_format_helper.h
 +++ b/include/drm/drm_format_helper.h
-@@ -14,10 +14,9 @@ struct drm_rect;
- unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info *format,
- 				const struct drm_rect *clip);
- 
--void drm_fb_memcpy(void *dst, unsigned int dst_pitch, const void *vaddr,
--		   const struct drm_framebuffer *fb, const struct drm_rect *clip);
--void drm_fb_memcpy_toio(void __iomem *dst, unsigned int dst_pitch, const void *vaddr,
--			const struct drm_framebuffer *fb, const struct drm_rect *clip);
-+void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
-+		   const struct iosys_map *vmap, const struct drm_framebuffer *fb,
-+		   const struct drm_rect *clip);
- void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
- 		 const struct drm_framebuffer *fb, const struct drm_rect *clip,
- 		 bool cached);
+@@ -20,8 +20,9 @@ void drm_fb_memcpy(struct iosys_map *dst, const unsigned int *dst_pitch,
+ void drm_fb_swab(struct iosys_map *dst, const unsigned int *dst_pitch,
+ 		 const struct iosys_map *vmap, const struct drm_framebuffer *fb,
+ 		 const struct drm_rect *clip, bool cached);
+-void drm_fb_xrgb8888_to_rgb332(void *dst, unsigned int dst_pitch, const void *vaddr,
+-			       const struct drm_framebuffer *fb, const struct drm_rect *clip);
++void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pitch,
++			       const struct iosys_map *vmap, const struct drm_framebuffer *fb,
++			       const struct drm_rect *clip);
+ void drm_fb_xrgb8888_to_rgb565(void *dst, unsigned int dst_pitch, const void *vaddr,
+ 			       const struct drm_framebuffer *fb, const struct drm_rect *clip,
+ 			       bool swab);
 -- 
 2.37.1
 
