@@ -2,186 +2,155 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADC64C19F2D
-	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Aug 2022 10:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B52BC19F2D
+	for <linux-hyperv@archiver.kernel.org>; Tue,  9 Aug 2022 16:40:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241959AbiHIKN2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 9 Aug 2022 06:13:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32788 "EHLO
+        id S234166AbiHIQkM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 9 Aug 2022 12:40:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240734AbiHIKN1 (ORCPT
+        with ESMTP id S236704AbiHIQkL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 9 Aug 2022 06:13:27 -0400
-Received: from mail.sberdevices.ru (mail.sberdevices.ru [45.89.227.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66804205FF;
-        Tue,  9 Aug 2022 03:13:24 -0700 (PDT)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-        by mail.sberdevices.ru (Postfix) with ESMTP id AFFAF5FD05;
-        Tue,  9 Aug 2022 13:13:22 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-        s=mail; t=1660040002;
-        bh=RuPMaus4MQ6lsSw9KXBYnAAR0elT3PN1eYYt6tfDqTY=;
-        h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version;
-        b=VWWjG9NoYsZCXXmgP5BgGMmda8HffCYob7Q3SF+EEjPqCseRiX5ip9ypIaUsYKHFZ
-         cY5UW7lfatzjyp7hlKSD2NtJxl+IKyOrHXM45klyL0B8tZDK5Pn+l1zE8HjUSzCu5N
-         /habIcaey/9G0cZaB/d4Qqt2HMFtCvCN9n8HWhDao7jf1ZuCLA0UJWEbAXpLnYFuIN
-         cWXQDCOeWR19H22WGuENvFl8VsB29frVFdTdCFYCIfyz7x7qbOggzIDJ8Lmfgvz8bL
-         ihavW3gUYyB86uhgW7prQIYOYpDEuunBuPZNg4+uFvAB/jmO3vI6xuREg1+Ol+1UId
-         pCJujnSOGj20w==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-        by mail.sberdevices.ru (Postfix) with ESMTP;
-        Tue,  9 Aug 2022 13:13:20 +0300 (MSK)
-From:   Arseniy Krasnov <AVKrasnov@sberdevices.ru>
-To:     Stefano Garzarella <sgarzare@redhat.com>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "kys@microsoft.com" <kys@microsoft.com>,
-        "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-        "sthemmin@microsoft.com" <sthemmin@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "Dexuan Cui" <decui@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Bryan Tan <bryantan@vmware.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        "VMware PV-Drivers Reviewers" <pv-drivers@vmware.com>,
-        Krasnov Arseniy <oxffffaa@gmail.com>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        kernel <kernel@sberdevices.ru>
-Subject: Re: [RFC PATCH v3 1/9] vsock: SO_RCVLOWAT transport set callback
-Thread-Topic: [RFC PATCH v3 1/9] vsock: SO_RCVLOWAT transport set callback
-Thread-Index: AQHYp0ATlQNqO/GwP0WKlu98/YZplK2koQqAgAAB2ICAAYOigIAAAlCAgAAFEACAAAKagA==
-Date:   Tue, 9 Aug 2022 10:13:14 +0000
-Message-ID: <33b59f0e-0483-1fc1-dd9a-7b450c0ad49a@sberdevices.ru>
-References: <2ac35e2c-26a8-6f6d-2236-c4692600db9e@sberdevices.ru>
- <45822644-8e37-1625-5944-63fd5fc20dd3@sberdevices.ru>
- <20220808102335.nkviqobpgcmcaqhn@sgarzare-redhat>
- <CAGxU2F513N+0sB0fEz4EF7+NeELhW9w9Rk6hh5K7QQO+eXRymA@mail.gmail.com>
- <1ea271c1-d492-d7f7-5016-7650a72b6139@sberdevices.ru>
- <d9bd1c16-7096-d267-a0ff-d3742b0dcf56@sberdevices.ru>
- <20220809100358.xnxromtvrehsgpn3@sgarzare-redhat>
-In-Reply-To: <20220809100358.xnxromtvrehsgpn3@sgarzare-redhat>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.1.12]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <41DCB87C64838B4BA0BF12E4C27DD61A@sberdevices.ru>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2022/08/09 07:32:00 #20083496
-X-KSMG-AntiVirus-Status: Clean, skipped
+        Tue, 9 Aug 2022 12:40:11 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A3EC1138
+        for <linux-hyperv@vger.kernel.org>; Tue,  9 Aug 2022 09:40:08 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id h28so11250346pfq.11
+        for <linux-hyperv@vger.kernel.org>; Tue, 09 Aug 2022 09:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=exotanium.io; s=google;
+        h=from:content-transfer-encoding:mime-version:subject:message-id:date
+         :to;
+        bh=3sBlxY+3kNumjlphJhxHleDEePvjVO5i9LlHakf3nps=;
+        b=QxmUQiXoZr5OS9JY7U6LD2GSDW42X2eiBWKkfOCJpwv2ZPJGxTef5HECk8SUeajE1u
+         WHPNS1cqcbqIwMh5v7n/LtDIgjoUXgcckLyyiCPOgrcNb0eO7jHGdN2d4D6BhOBri5SM
+         gwjRKFB2ldTXCujf+6ufh34q6BuDiAHDVpeHuP09cMcA5GqF48FLIfn4s6s55G9qw8K2
+         jVyTltlSE67JBudQpzoaLi7RCqFvmavr72GdJvSZRr5e4AW+gQJAOXStzya5V28u1Irc
+         3/gPWMwUyzs2lc/Pyu7Zw1KxcMDo00qt14xWGbx/FNye7SUy2awdqUwe8tO/wgL1r57F
+         Bjeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:content-transfer-encoding:mime-version
+         :subject:message-id:date:to;
+        bh=3sBlxY+3kNumjlphJhxHleDEePvjVO5i9LlHakf3nps=;
+        b=rPY2jZHau5TMC7r8RpEwu3uzpAMZdw5xmkrSwEwYTIOZiXXbxT13AK2l7Y3J8Y8r0l
+         1EJW3NCQXbCdqgTUWC1NuhzKJW9BNRT4M2w7zs2mQz+Av8vmP4dJuBytQhQ0Ee40AmwF
+         Z1v96Z7ENn1yYWOQj54m429GhJ7SziWZIRGiqL1GNm0cJk+odSZB8C0LnQEx7Pk/+D9J
+         GaCibtjz08cJ3WugDCUnrUUCzBLsZNWfj1+gbLNk7LX2ft+IFxrkzkmxZNFq5SV67HoV
+         Vgd/FuHad5ILNd59uutSeqOJ9KsBCUgK92/PBqUftw6cL+wc3sots1x2dm3qnOp/tDGR
+         lX1g==
+X-Gm-Message-State: ACgBeo12SHvQwgSw90NorE4fUVddO04FiMGwkbW93HDiZbUdKgb2GPUG
+        sgW04WsJf/y2Ez8iv4jjNkclRoJyp9+NJg==
+X-Google-Smtp-Source: AA6agR5EVWm/UzI0IQzlVzwqrxzVzKJx3xWgL+DogoSXSzWd0b3GJuVY6yKqLxiJR57r+jpHbdREdQ==
+X-Received: by 2002:a63:191f:0:b0:41c:e4a0:1e1d with SMTP id z31-20020a63191f000000b0041ce4a01e1dmr19886067pgl.618.1660063207772;
+        Tue, 09 Aug 2022 09:40:07 -0700 (PDT)
+Received: from smtpclient.apple ([146.196.44.223])
+        by smtp.gmail.com with ESMTPSA id 189-20020a6218c6000000b0052ddaffbcc1sm131823pfy.30.2022.08.09.09.40.06
+        for <linux-hyperv@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Aug 2022 09:40:07 -0700 (PDT)
+From:   Anish Gupta <anish@exotanium.io>
+Content-Type: text/plain;
+        charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Booting Xen dom0 on Hyper-V
+Message-Id: <43091FDA-F0E9-42CE-8B15-A57F3B0C5B4A@exotanium.io>
+Date:   Tue, 9 Aug 2022 22:10:03 +0530
+To:     linux-hyperv@vger.kernel.org
+X-Mailer: Apple Mail (2.3696.100.31)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-T24gMDkuMDguMjAyMiAxMzowMywgU3RlZmFubyBHYXJ6YXJlbGxhIHdyb3RlOg0KPiBPbiBUdWUs
-IEF1ZyAwOSwgMjAyMiBhdCAwOTo0NTo0N0FNICswMDAwLCBBcnNlbml5IEtyYXNub3Ygd3JvdGU6
-DQo+PiBPbiAwOS4wOC4yMDIyIDEyOjM3LCBBcnNlbml5IEtyYXNub3Ygd3JvdGU6DQo+Pj4gT24g
-MDguMDguMjAyMiAxMzozMCwgU3RlZmFubyBHYXJ6YXJlbGxhIHdyb3RlOg0KPj4+PiBPbiBNb24s
-IEF1ZyA4LCAyMDIyIGF0IDEyOjIzIFBNIFN0ZWZhbm8gR2FyemFyZWxsYSA8c2dhcnphcmVAcmVk
-aGF0LmNvbT4gd3JvdGU6DQo+Pj4+Pg0KPj4+Pj4gT24gV2VkLCBBdWcgMDMsIDIwMjIgYXQgMDE6
-NTE6MDVQTSArMDAwMCwgQXJzZW5peSBLcmFzbm92IHdyb3RlOg0KPj4+Pj4+IFRoaXMgYWRkcyB0
-cmFuc3BvcnQgc3BlY2lmaWMgY2FsbGJhY2sgZm9yIFNPX1JDVkxPV0FULCBiZWNhdXNlIGluIHNv
-bWUNCj4+Pj4+PiB0cmFuc3BvcnRzIGl0IG1heSBiZSBkaWZmaWN1bHQgdG8ga25vdyBjdXJyZW50
-IGF2YWlsYWJsZSBudW1iZXIgb2YgYnl0ZXMNCj4+Pj4+PiByZWFkeSB0byByZWFkLiBUaHVzLCB3
-aGVuIFNPX1JDVkxPV0FUIGlzIHNldCwgdHJhbnNwb3J0IG1heSByZWplY3QgaXQuDQo+Pj4+Pj4N
-Cj4+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBBcnNlbml5IEtyYXNub3YgPEFWS3Jhc25vdkBzYmVyZGV2
-aWNlcy5ydT4NCj4+Pj4+PiAtLS0NCj4+Pj4+PiBpbmNsdWRlL25ldC9hZl92c29jay5owqDCoCB8
-wqAgMSArDQo+Pj4+Pj4gbmV0L3Ztd192c29jay9hZl92c29jay5jIHwgMjUgKysrKysrKysrKysr
-KysrKysrKysrKysrKw0KPj4+Pj4+IDIgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKQ0K
-Pj4+Pj4+DQo+Pj4+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbmV0L2FmX3Zzb2NrLmggYi9pbmNs
-dWRlL25ldC9hZl92c29jay5oDQo+Pj4+Pj4gaW5kZXggZjc0MmU1MDIwN2ZiLi5lYWU1ODc0YmFl
-MzUgMTAwNjQ0DQo+Pj4+Pj4gLS0tIGEvaW5jbHVkZS9uZXQvYWZfdnNvY2suaA0KPj4+Pj4+ICsr
-KyBiL2luY2x1ZGUvbmV0L2FmX3Zzb2NrLmgNCj4+Pj4+PiBAQCAtMTM0LDYgKzEzNCw3IEBAIHN0
-cnVjdCB2c29ja190cmFuc3BvcnQgew0KPj4+Pj4+IMKgwqDCoMKgwqAgdTY0ICgqc3RyZWFtX3Jj
-dmhpd2F0KShzdHJ1Y3QgdnNvY2tfc29jayAqKTsNCj4+Pj4+PiDCoMKgwqDCoMKgIGJvb2wgKCpz
-dHJlYW1faXNfYWN0aXZlKShzdHJ1Y3QgdnNvY2tfc29jayAqKTsNCj4+Pj4+PiDCoMKgwqDCoMKg
-IGJvb2wgKCpzdHJlYW1fYWxsb3cpKHUzMiBjaWQsIHUzMiBwb3J0KTsNCj4+Pj4+PiArwqDCoMKg
-wqDCoCBpbnQgKCpzZXRfcmN2bG93YXQpKHN0cnVjdCB2c29ja19zb2NrICosIGludCk7DQo+Pj4+
-Pg0KPj4+Pj4gY2hlY2twYXRjaCBzdWdnZXN0cyB0byBhZGQgaWRlbnRpZmllciBuYW1lcy4gRm9y
-IHNvbWUgd2UgcHV0IHRoZW0gaW4sDQo+Pj4+PiBmb3Igb3RoZXJzIHdlIGRpZG4ndCwgYnV0IEkg
-c3VnZ2VzdCBwdXR0aW5nIHRoZW0gaW4gZm9yIHRoZSBuZXcgb25lcw0KPj4+Pj4gYmVjYXVzZSBJ
-IHRoaW5rIGl0J3MgY2xlYXJlciB0b28uDQo+Pj4+Pg0KPj4+Pj4gV0FSTklORzogZnVuY3Rpb24g
-ZGVmaW5pdGlvbiBhcmd1bWVudCAnc3RydWN0IHZzb2NrX3NvY2sgKicgc2hvdWxkIGFsc28NCj4+
-Pj4+IGhhdmUgYW4gaWRlbnRpZmllciBuYW1lDQo+Pj4+PiAjMjU6IEZJTEU6IGluY2x1ZGUvbmV0
-L2FmX3Zzb2NrLmg6MTM3Og0KPj4+Pj4gK8KgwqDCoMKgwqDCoCBpbnQgKCpzZXRfcmN2bG93YXQp
-KHN0cnVjdCB2c29ja19zb2NrICosIGludCk7DQo+Pj4+Pg0KPj4+Pj4gV0FSTklORzogZnVuY3Rp
-b24gZGVmaW5pdGlvbiBhcmd1bWVudCAnaW50JyBzaG91bGQgYWxzbyBoYXZlIGFuIGlkZW50aWZp
-ZXIgbmFtZQ0KPj4+Pj4gIzI1OiBGSUxFOiBpbmNsdWRlL25ldC9hZl92c29jay5oOjEzNzoNCj4+
-Pj4+ICvCoMKgwqDCoMKgwqAgaW50ICgqc2V0X3Jjdmxvd2F0KShzdHJ1Y3QgdnNvY2tfc29jayAq
-LCBpbnQpOw0KPj4+Pj4NCj4+Pj4+IHRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgMCBjaGVj
-a3MsIDQ0IGxpbmVzIGNoZWNrZWQNCj4+Pj4+DQo+Pj4+Pj4NCj4+Pj4+PiDCoMKgwqDCoMKgIC8q
-IFNFUV9QQUNLRVQuICovDQo+Pj4+Pj4gwqDCoMKgwqDCoCBzc2l6ZV90ICgqc2VxcGFja2V0X2Rl
-cXVldWUpKHN0cnVjdCB2c29ja19zb2NrICp2c2ssIHN0cnVjdCBtc2doZHIgKm1zZywNCj4+Pj4+
-PiBkaWZmIC0tZ2l0IGEvbmV0L3Ztd192c29jay9hZl92c29jay5jIGIvbmV0L3Ztd192c29jay9h
-Zl92c29jay5jDQo+Pj4+Pj4gaW5kZXggZjA0YWJmNjYyZWM2Li4wMTZhZDVmZjc4YjcgMTAwNjQ0
-DQo+Pj4+Pj4gLS0tIGEvbmV0L3Ztd192c29jay9hZl92c29jay5jDQo+Pj4+Pj4gKysrIGIvbmV0
-L3Ztd192c29jay9hZl92c29jay5jDQo+Pj4+Pj4gQEAgLTIxMjksNiArMjEyOSwzMCBAQCB2c29j
-a19jb25uZWN0aWJsZV9yZWN2bXNnKHN0cnVjdCBzb2NrZXQgKnNvY2ssIHN0cnVjdCBtc2doZHIg
-Km1zZywgc2l6ZV90IGxlbiwNCj4+Pj4+PiDCoMKgwqDCoMKgIHJldHVybiBlcnI7DQo+Pj4+Pj4g
-fQ0KPj4+Pj4+DQo+Pj4+Pj4gK3N0YXRpYyBpbnQgdnNvY2tfc2V0X3Jjdmxvd2F0KHN0cnVjdCBz
-b2NrICpzaywgaW50IHZhbCkNCj4+Pj4+PiArew0KPj4+Pj4+ICvCoMKgwqDCoMKgIGNvbnN0IHN0
-cnVjdCB2c29ja190cmFuc3BvcnQgKnRyYW5zcG9ydDsNCj4+Pj4+PiArwqDCoMKgwqDCoCBzdHJ1
-Y3QgdnNvY2tfc29jayAqdnNrOw0KPj4+Pj4+ICvCoMKgwqDCoMKgIGludCBlcnIgPSAwOw0KPj4+
-Pj4+ICsNCj4+Pj4+PiArwqDCoMKgwqDCoCB2c2sgPSB2c29ja19zayhzayk7DQo+Pj4+Pj4gKw0K
-Pj4+Pj4+ICvCoMKgwqDCoMKgIGlmICh2YWwgPiB2c2stPmJ1ZmZlcl9zaXplKQ0KPj4+Pj4+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+Pj4+PiArDQo+Pj4+
-Pj4gK8KgwqDCoMKgwqAgdHJhbnNwb3J0ID0gdnNrLT50cmFuc3BvcnQ7DQo+Pj4+Pj4gKw0KPj4+
-Pj4+ICvCoMKgwqDCoMKgIGlmICghdHJhbnNwb3J0KQ0KPj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCByZXR1cm4gLUVPUE5PVFNVUFA7DQo+Pj4+Pg0KPj4+Pj4gSSBkb24ndCBrbm93
-IHdoZXRoZXIgaXQgaXMgYmV0dGVyIGluIHRoaXMgY2FzZSB0byB3cml0ZSBpdCBpbg0KPj4+Pj4g
-c2stPnNrX3Jjdmxvd2F0LCBtYXliZSB3ZSBjYW4gcmV0dXJuIEVPUE5PVFNVUFAgb25seSB3aGVu
-IHRoZSB0cmFzcG9ydA0KPj4+Pj4gaXMgYXNzaWduZWQgYW5kIHNldF9yY3Zsb3dhdCBpcyBub3Qg
-ZGVmaW5lZC4gVGhpcyBpcyBiZWNhdXNlIHVzdWFsbHkgdGhlDQo+Pj4+PiBvcHRpb25zIGFyZSBz
-ZXQganVzdCBhZnRlciBjcmVhdGlvbiwgd2hlbiB0aGUgdHJhbnNwb3J0IGlzIHByYWN0aWNhbGx5
-DQo+Pj4+PiB1bmFzc2lnbmVkLg0KPj4+Pj4NCj4+Pj4+IEkgbWVhbiBzb21ldGhpbmcgbGlrZSB0
-aGlzOg0KPj4+Pj4NCj4+Pj4+IMKgwqDCoMKgwqDCoMKgwqAgaWYgKHRyYW5zcG9ydCkgew0KPj4+
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKHRyYW5zcG9ydC0+c2V0X3Jj
-dmxvd2F0KQ0KPj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHJldHVybiB0cmFuc3BvcnQtPnNldF9yY3Zsb3dhdCh2c2ssIHZhbCk7DQo+Pj4+PiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBlbHNlDQo+Pj4+PiDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FT1BOT1RTVVBQOw0K
-Pj4+Pj4gwqDCoMKgwqDCoMKgwqDCoCB9DQo+Pj4+Pg0KPj4+Pj4gwqDCoMKgwqDCoMKgwqDCoCBX
-UklURV9PTkNFKHNrLT5za19yY3Zsb3dhdCwgdmFsID8gOiAxKTsNCj4+Pj4+DQo+Pj4+PiDCoMKg
-wqDCoMKgwqDCoMKgIHJldHVybiAwOw0KPj4+Pg0KPj4+PiBTaW5jZSBodl9zb2NrIGltcGxlbWVu
-dHMgYHNldF9yY3Zsb3dhdGAgdG8gcmV0dXJuIEVPUE5PVFNVUFAuIG1heWJlIHdlDQo+Pj4+IGNh
-biBqdXN0IGRvIHRoZSBmb2xsb3dpbmc6DQo+Pj4+DQo+Pj4+IMKgwqDCoMKgwqDCoMKgIGlmICh0
-cmFuc3BvcnQgJiYgdHJhbnNwb3J0LT5zZXRfcmN2bG93YXQpDQo+Pj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gdHJhbnNwb3J0LT5zZXRfcmN2bG93YXQodnNrLCB2YWwp
-Ow0KPj4+Pg0KPj4+PiDCoMKgwqDCoMKgwqDCoCBXUklURV9PTkNFKHNrLT5za19yY3Zsb3dhdCwg
-dmFsID8gOiAxKTsNCj4+Pj4gwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7DQo+Pj4+DQo+Pj4+IFRo
-YXQgaXMsIHRoZSBkZWZhdWx0IGJlaGF2aW9yIGlzIHRvIHNldCBzay0+c2tfcmN2bG93YXQsIGJ1
-dCBmb3INCj4+Pj4gdHJhbnNwb3J0cyB0aGF0IHdhbnQgYSBkaWZmZXJlbnQgYmVoYXZpb3IsIHRo
-ZXkgbmVlZCB0byBkZWZpbmUNCj4+Pj4gc2V0X3Jjdmxvd2F0KCkgKGxpa2UgaHZfc29jaykuDQo+
-Pj4gSG0gb2ssIGkgc2VlLiBJJ3ZlIGltcGxlbWVudGVkIGxvZ2ljIHdoZW4gbm9uLWVtcHR5IHRy
-YW5zcG9ydCBpcyByZXF1aXJlZCwgYmVjYXVzZSBoeXBlcnYgdHJhbnNwb3J0DQo+Pj4gZm9yYmlk
-cyB0byBzZXQgU09fUkNWTE9XQVQsIHNvIHVzZXIgbmVlZHMgdG8gY2FsbCB0aGlzIHNldHNvY2tv
-cHQgQUZURVIgdHJhbnNwb3J0IGlzIGFzc2lnbmVkKHRvIGNoZWNrDQo+Pj4gdGhhdCB0cmFuc3Bv
-cnQgYWxsb3dzIGl0LiBOb3QgYWZ0ZXIgc29ja2V0IGNyZWF0aW9uIGFzIFlvdSBtZW50aW9uZWQg
-YWJvdmUpLiBPdGhlcndpc2UgdGhlcmUgaXMgbm8gc2Vuc2UNCj4+PiBpbiBzdWNoIGNhbGxiYWNr
-IC0gaXQgd2lsbCBiZSBuZXZlciB1c2VkLiBBbHNvIGluIGNvZGUgYWJvdmUgLSBmb3IgaHlwZXJ2
-IHdlIHdpbGwgaGF2ZSBkaWZmZXJlbnQgYmVoYXZpb3INCj4+PiBkZXBlbmRzIG9uIHdoZW4gc2V0
-X3Jjdmxvd2F0IGlzIGNhbGxlZDogYmVmb3JlIG9yIGFmdGVyIHRyYW5zcG9ydCBhc3NpZ25tZW50
-LiBJcyBpdCBvaz8NCj4+IHNvcnJ5LCBpIG1lYW46IGZvciBoeXBlcnYsIGlmIHVzZXIgc2V0cyBz
-a19yY3Zsb3dhdCBiZWZvcmUgdHJhbnNwb3J0IGlzIGFzc2lnbmVkLCBpdCBzZWVzIDAgLSBzdWNj
-ZXNzLCBidXQgaW4gZmFjdA0KPj4gaHlwZXJ2IHRyYW5zcG9ydCBmb3JiaWRzIHRoaXMgb3B0aW9u
-Lg0KPiANCj4gSSBzZWUsIGJ1dCBJIHRoaW5rIGl0J3MgYmV0dGVyIHRvIHNldCBpdCBhbmQgbm90
-IHJlc3BlY3QgaW4gaHlwZXJ2IChhcyB3ZSd2ZSBwcmFjdGljYWxseSBkb25lIHVudGlsIG5vdyB3
-aXRoIGFsbCB0cmFuc3BvcnRzKSB0aGFuIHRvIHByZXZlbnQgdGhlIHNldHRpbmcgdW50aWwgd2Ug
-YXNzaWduIGEgdHJhbnNwb3J0Lg0KPiANCj4gQXQgbW9zdCB3aGVuIHdlIHVzZSBoeXBlcnYgYW55
-d2F5IHdlIGdldCBub3RpZmllZCBwZXIgYnl0ZSwgc28gd2Ugc2hvdWxkIGp1c3QgZ2V0IG1vcmUg
-bm90aWZpY2F0aW9ucyB0aGFuIHdlIGV4cGVjdC4NCnNlZSBpdCwgb2ssIHRoYW5rcw0KPiANCj4g
-VGhhbmtzLA0KPiBTdGVmYW5vDQo+IA0KDQo=
+Hello all,
+I am new to Azure/Hyper-V environment and trying to boot Xen PV.  Dom0 =
+Linux on Xen doesn=E2=80=99t detect hv_vmbus and boot fails. I get the =
+same result even with Xen HYPERV_GUEST config. Here is the console logs =
+with latest Xen 4.15.3 and Linux 5.18:
+
+Loading Xen 4.15.3 ...
+Loading Linux 5.18.7+ ...
+Loading initial ramdisk ...
+ Xen 4.15.3
+(XEN) Xen version 4.15.3 =
+(root@i2ltiotchnquhby5irpcvxfz2h.xx.internal.cloudapp.net) (gcc (GCC) =
+4.8.5 20150623 (Red Hat 4.8.5-44)) debug=3Dn Mon Aug  8 17:48:08 UTC =
+2022
+(XEN) Latest ChangeSet: Mon Jun 27 15:16:56 2022 +0200 git:cc3329f
+(XEN) build-id: 25b7db08246b91bfd5e2302898263ae47cda7473
+(XEN) Bootloader: GRUB 2.02~beta2
+(XEN) Command line: placeholder dom0_mem=3D4096M,max:4096M =
+com1=3D115200,8n1 console=3Dcom1,vga dom0_vcpus_pin=3Dtrue =
+dom0_max_vcpus=3D4 loglvl=3Dall guest_loglvl=3Dall noreboot=3Dtrue
+(XEN) Xen image load base address: 0
+(XEN) Video information:
+(XEN)  VGA is text mode 80x25, font 8x16
+(XEN)  VBE/DDC methods: none; EDID transfer time: 0 seconds
+(XEN)  EDID info not retrieved because no DDC retrieval method detected
+(XEN) Disc information:
+(XEN)  Found 1 MBR signatures
+(XEN)  Found 1 EDD information structures
+(XEN) CPU Vendor: Intel, Family 6 (0x6), Model 106 (0x6a), Stepping 6 =
+(raw 000606a6)
+(XEN) Xen-e820 RAM map:
+(XEN)  [0000000000000000, 000000000009fbff] (usable)
+(XEN)  [000000000009fc00, 000000000009ffff] (reserved)
+(XEN)  [00000000000e0000, 00000000000fffff] (reserved)
+(XEN)  [0000000000100000, 000000003ffeffff] (usable)
+(XEN)  [000000003fff0000, 000000003fffefff] (ACPI data)
+(XEN)  [000000003ffff000, 000000003fffffff] (ACPI NVS)
+(XEN)  [0000000100000000, 0000000fdfffffff] (usable)
+(XEN)  [0000001000000000, 00000010dfffffff] (usable)
+=E2=80=A6.
+(XEN) System RAM: 65535MB (67108412kB)
+=E2=80=A6.
+<<< Linux booting >>>
+[    0.000000] BIOS-provided physical RAM map:
+[    0.000000] Xen: [mem 0x0000000000000000-0x000000000009efff] usable
+[    0.000000] Xen: [mem 0x000000000009fc00-0x00000000000fffff] reserved
+[    0.000000] Xen: [mem 0x0000000000100000-0x000000003ffeffff] usable
+[    0.000000] Xen: [mem 0x000000003fff0000-0x000000003fffefff] ACPI =
+data
+[    0.000000] Xen: [mem 0x000000003ffff000-0x000000003fffffff] ACPI NVS
+[    0.000000] Xen: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    0.000000] Xen: [mem 0x00000000fee00000-0x00000000feefffff] reserved
+[    0.000000] Xen: [mem 0x0000000100000000-0x00000001c0070fff] usable
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] SMBIOS 2.3 present.
+[    0.000000] DMI: Microsoft Corporation Virtual Machine/Virtual =
+Machine, BIOS 090008  12/07/2018
+[    0.000000] Hypervisor detected: Xen PV <<<
+=E2=80=A6
+[  197.060965] dracut-initqueue[311]: Warning: Could not boot.
+[  197.067020] dracut-initqueue[311]: Warning: =
+/dev/disk/by-uuid/c8396182-9335-4bf7-a963-f14e85f41f23 does not exist
+         Starting Setup Virtual Console...
+[  OK  ] Started Setup Virtual Console.
+         Starting Dracut Emergency Shell...
+Warning: /dev/disk/by-uuid/c8396182-9335-4bf7-a963-f14e85f41f23 does not =
+exist
+
+Generating "/run/initramfs/rdsosreport.txt"
+
+
+Entering emergency mode. Exit the shell to continue.
+Type "journalctl" to view system logs.
+You might want to save "/run/initramfs/rdsosreport.txt" to a USB stick =
+or /boot
+after mounting them and attach it to a bug report.
+
+
+dracut:/#=20
+
+
+As an experiment I did force load hv_vmbus but then hit a page fault. I =
+will really appreciate guidance in getting it working.=20
+
+Was Xen PV ever supported in any version of Xen + Linux on =
+Azure/Hyper-V?
+
+Thanks in advance for your help!
+
+Regards,
+Anish=
