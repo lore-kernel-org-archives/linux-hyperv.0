@@ -2,101 +2,73 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A63EC25B0E
-	for <linux-hyperv@archiver.kernel.org>; Fri, 12 Aug 2022 15:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F38AC25B0E
+	for <linux-hyperv@archiver.kernel.org>; Mon, 15 Aug 2022 15:31:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238651AbiHLPPF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 12 Aug 2022 11:15:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35976 "EHLO
+        id S231313AbiHOPbs (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 15 Aug 2022 11:31:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239189AbiHLPO6 (ORCPT
+        with ESMTP id S231970AbiHOPbr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 12 Aug 2022 11:14:58 -0400
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8D67A7A81;
-        Fri, 12 Aug 2022 08:14:57 -0700 (PDT)
-Received: by mail-wr1-f54.google.com with SMTP id l22so1522314wrz.7;
-        Fri, 12 Aug 2022 08:14:57 -0700 (PDT)
+        Mon, 15 Aug 2022 11:31:47 -0400
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD7BDF67;
+        Mon, 15 Aug 2022 08:31:45 -0700 (PDT)
+Received: by mail-wm1-f45.google.com with SMTP id r83-20020a1c4456000000b003a5cb389944so4062993wma.4;
+        Mon, 15 Aug 2022 08:31:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=EoiVDV1BpkQyac6N0M+0zVwSj3WK1AdJP/ntOJZkbiI=;
-        b=y+C6TXoGy+311Sk25HndUdD8oAFpkGvgecJybzjCxB2DZEJQOrZkmUmsuPiqCI7MYK
-         nSygq/qCXeJkAetWuNZmVuqOLpfhIkZiyi0PUksGqaPvRgPGMfD10an0EY1LnHsiXQo3
-         O3MX5M+fD8ovdchs7GRBFr/RjXfv9rE6CclRf8ZPdwZZaUuagAc1rHUclt2hzaABqtgV
-         0DxTl0Fku6UTlBwX4KzWQb/yr0gAf2i6NiI1nzzKmlpxYe/1XLlsSFgdZ9rMt22tu9qo
-         66s+eu6aVCvbHc7D2a0LxigsTFTjugt752viL8GosJrhBi95OmTwhQLQb8GaCWykYqH+
-         4V5w==
-X-Gm-Message-State: ACgBeo3nSzT4v8Au/HSgM27ms/en+vyPUdFXUwwqxZ0TRMQD9/M4YbuF
-        uRzVSSMdxMhAvLRLVTR7DZDdfh1pZ9g=
-X-Google-Smtp-Source: AA6agR67pF4bd0Gg+R7FFH9Fs1c0QAkU7YjmSu0wWkZPvc1aU+z3yNTU4l0akoiHi1cnVXOTwkrsNw==
-X-Received: by 2002:a05:6000:18a3:b0:21f:d6a4:1aec with SMTP id b3-20020a05600018a300b0021fd6a41aecmr2444780wri.468.1660317296338;
-        Fri, 12 Aug 2022 08:14:56 -0700 (PDT)
+        bh=gonRmhzBVac2V2N8Fv8ujJ3D6QMP5i+tjLo2hj32lw4=;
+        b=gLTMRlI1B9Zpx08oiE9+slu2AbGchKdVomj+2n3wcCgY6pOtB4wbM6WFtZ2pxZTwkY
+         iy4731K+79Hu6KikJDW7t6bhyKSDmlTeSlsqGz/qyhWKASosak1qae67mW/sLHWxcQzq
+         +u0QRHtsDROcsuYxoMj/WswqoO4hzzOzKCVtmJYMZCA/rSp0atM1q+LAzVpGk+4CioHN
+         AcMzlxFI8RRZmVxYO380WBVqDSrQRO7t+A9EohJLOa6GUw937NJd7LyqKV6RDgG/HUQk
+         BkLVe9jSDXLlE3LqHLO096QSq+ck8+K98WjPSkAPg3WNtm3h9CrEkLFUphO2rNI3AANG
+         bJQA==
+X-Gm-Message-State: ACgBeo1DpgbFY2M5HAAmyMTckr7dcMTbKaNQ9F1VtnwkwfUy+QW7G0du
+        w230guKmfJiVA11IgeaXBIU=
+X-Google-Smtp-Source: AA6agR5L79QLI3YGa5B+0m46Py2UasglBE8LXVeQJmSlHlqi/6hGb0xgT4cwr3okO/5JqqMnu/q+rA==
+X-Received: by 2002:a7b:ca58:0:b0:3a5:3c1c:6d71 with SMTP id m24-20020a7bca58000000b003a53c1c6d71mr17045618wml.118.1660577503668;
+        Mon, 15 Aug 2022 08:31:43 -0700 (PDT)
 Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id h41-20020a05600c49a900b003a5260b8392sm3938969wmp.23.2022.08.12.08.14.55
+        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b003a5dde32e4bsm9494372wms.37.2022.08.15.08.31.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 08:14:56 -0700 (PDT)
-Date:   Fri, 12 Aug 2022 15:14:54 +0000
+        Mon, 15 Aug 2022 08:31:43 -0700 (PDT)
+Date:   Mon, 15 Aug 2022 15:31:41 +0000
 From:   Wei Liu <wei.liu@kernel.org>
-To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-hyperv@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v1 5/5][RFT] ACPI: Drop parent field from struct
- acpi_device
-Message-ID: <20220812151454.fqt2gknsoqjco4mz@liuwe-devbox-debian-v2>
-References: <12036348.O9o76ZdvQC@kreacher>
- <2196460.iZASKD2KPV@kreacher>
+To:     Saurabh Sengar <ssengar@linux.microsoft.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, jejb@linux.ibm.com,
+        martin.petersen@oracle.com, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org
+Subject: Re: [PATCH] Drivers: hv: vmbus: Optimize vmbus_on_event
+Message-ID: <20220815153141.x7q6qryxv25gvjgy@liuwe-devbox-debian-v2>
+References: <1658741848-4210-1-git-send-email-ssengar@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2196460.iZASKD2KPV@kreacher>
+In-Reply-To: <1658741848-4210-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 06:23:05PM +0200, Rafael J. Wysocki wrote:
-> From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+On Mon, Jul 25, 2022 at 02:37:28AM -0700, Saurabh Sengar wrote:
+> In the vmbus_on_event loop, 2 jiffies timer will not serve the purpose if
+> callback_fn takes longer. For effective use move this check inside of
+> callback functions where needed. Out of all the VMbus drivers using
+> vmbus_on_event, only storvsc has a high packet volume, thus add this limit
+> only in storvsc callback for now.
+> There is no apparent benefit of loop itself because this tasklet will be
+> scheduled anyway again if there are packets left in ring buffer. This
+> patch removes this unnecessary loop as well.
 > 
-> The parent field in struct acpi_device is, in fact, redundant,
-> because the dev.parent field in it effectively points to the same
-> object and it is used by the driver core.
-> 
-> Accordingly, the parent field can be dropped from struct acpi_device
-> and for this purpose define acpi_dev_parent() to retrieve the parent
-> struct acpi_device pointer from the dev.parent field in struct
-> acpi_device.  Next, update all of the users of the parent field
-> in struct acpi_device to use acpi_dev_parent() instead of it and
-> drop it.
-> 
-> While at it, drop the ACPI_IS_ROOT_DEVICE() macro that is only used
-> in one place in a confusing way.
-> 
-> No intentional functional impact.
-> 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
-> 
-> I may have missed some places where adev->parent is used directly, so
-> if that's happened, please let me know (I'm assuming that 0-day will
-> pick up this patch and run it through all of the relevant configs
-> anyway).
-> 
-> ---
-[...]
->  drivers/hv/vmbus_drv.c       |    3 ++-
+> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
+Unfortunately this missed the recent merge window so it will be picked
+up for the next release.
+
+Thanks,
+Wei.
