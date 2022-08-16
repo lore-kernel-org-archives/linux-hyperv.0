@@ -2,104 +2,68 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD711C25B0E
-	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Aug 2022 16:31:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FE2C25B0E
+	for <linux-hyperv@archiver.kernel.org>; Tue, 16 Aug 2022 17:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233171AbiHPQbl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 16 Aug 2022 12:31:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59034 "EHLO
+        id S230163AbiHPRXf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 16 Aug 2022 13:23:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236503AbiHPQb2 (ORCPT
+        with ESMTP id S231453AbiHPRXe (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 16 Aug 2022 12:31:28 -0400
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B9B7FF8A;
-        Tue, 16 Aug 2022 09:31:27 -0700 (PDT)
-Received: by mail-pg1-x530.google.com with SMTP id r69so9692615pgr.2;
-        Tue, 16 Aug 2022 09:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=OWA+Z0+/O1EA7heD+/eE4RpipBhiyIekMqq5kYmUIfs=;
-        b=M+x6wNEzsTNJZ7HNuv5p+qPE7wTSY1jU1LA/N1j9ls2BfESkr9bENtx2G4I2WAOBKF
-         SkQJKneOmbCgTk6RXVwmBfB+X7o1CxRpt75aAXQ0PQwwjeyqaNs+9J9SFPpoDcgFCpBD
-         QTsu8P/88JljdjZwHHTxVnwlD5iNwhojAUJtMcfGEd5rEUgilpf6TW93ILO/ReyF2b/u
-         6kAdX+kWmMGsFFoP2Lstept34RYIto5bBB7N7eMczQ4x4aBT+ULxQmTTCNz+fNRb3dlL
-         HhiSp8Bfs9JRX/GWOBoTdZGw21+YdxcD6qy/pGmVy6rpbbsNetAZMcalJeZ3PxafFkOy
-         g1kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=OWA+Z0+/O1EA7heD+/eE4RpipBhiyIekMqq5kYmUIfs=;
-        b=3BImHZ3WNIO9Xm/Xgi5nbJPo5darSJrUicDUpUdtR3yvP5DxESTLRtU1dS1JFPP4o6
-         HPFj4dOHnfLtA/lTbReSMQtgCK3YyiUc+9BH810u56JnhQPplvT43H/Tyds9UPzTDvAR
-         e2mbU6Inxvky0091NUpou1j+QHmVx6CFmpnydHgB+O+rc60a/A2YJlVizRIZsxjziq3Q
-         zNW3JAtI1YpnFAkkbrKAIhKLDv/poY3U5LyhBEbLea39e/E9NdsRNB65NaV/gwQBb8Ml
-         Z2W9+oZnLSBnKk+t6h+G+yQZXFVK68A/knt/pXiMOzhjp9yh6Ob38Yt+3ktK76PINIan
-         a6ig==
-X-Gm-Message-State: ACgBeo1DTFomwFpjNeRFnhncTG0CdzU7jDIIefDkm9C4Q67q5OnmqYUo
-        MwvRMO468Z0ZFBNIEFF824Y=
-X-Google-Smtp-Source: AA6agR4Fv7w4ALaSxKqngT2CxCuZQR5SwOw0ac8clzW30E3xAO5Swo+o0p0bAyGj+86t+OGTbYP67g==
-X-Received: by 2002:a63:d10b:0:b0:41d:bd7d:7759 with SMTP id k11-20020a63d10b000000b0041dbd7d7759mr18535300pgg.196.1660667487026;
-        Tue, 16 Aug 2022 09:31:27 -0700 (PDT)
-Received: from localhost (c-73-164-155-12.hsd1.wa.comcast.net. [73.164.155.12])
-        by smtp.gmail.com with ESMTPSA id k13-20020a170902ce0d00b0016d738d5dbbsm9257840plg.97.2022.08.16.09.31.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 09:31:26 -0700 (PDT)
-Date:   Tue, 16 Aug 2022 02:35:42 +0000
-From:   Bobby Eshleman <bobbyeshleman@gmail.com>
-To:     Stefano Garzarella <sgarzare@redhat.com>
-Cc:     Bobby Eshleman <bobby.eshleman@gmail.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Cong Wang <cong.wang@bytedance.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Bobby Eshleman <bobby.eshleman@bytedance.com>,
-        Jiang Wang <jiang.wang@bytedance.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        Eric Dumazet <edumazet@google.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH 0/6] virtio/vsock: introduce dgrams, sk_buff, and qdisc
-Message-ID: <YvsCftVUqurKIaCC@bullseye>
-References: <cover.1660362668.git.bobby.eshleman@bytedance.com>
- <CAGxU2F7+L-UiNPtUm4EukOgTVJ1J6Orqs1LMvhWWvfL9zWb23g@mail.gmail.com>
+        Tue, 16 Aug 2022 13:23:34 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1A36390;
+        Tue, 16 Aug 2022 10:23:31 -0700 (PDT)
+X-QQ-mid: bizesmtp67t1660670602t07ismjf
+Received: from harry-jrlc.. ( [182.148.12.144])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Wed, 17 Aug 2022 01:23:11 +0800 (CST)
+X-QQ-SSF: 0100000000200060D000B00A0000020
+X-QQ-FEAT: 7L1V3dHhUFOfrXcLe5fWClKG+8D1dNxLwt1NI5KRaUqLUr7x0f7ef9UW0l2/8
+        dXJin9wACu/JKd1EY4RoPJXQg7WNzCi+uQPl3JkyG6I1mfHi9gQBsxj0u+Sq+1UL9ZqmndH
+        lZNMLYVaL6YOPGGgXTuF1gzYJqv6QXC74rR9CONOZUkvnMk2rGH1fKGi4uOc+ShWDjlHGH1
+        FBZR2p9yD6LGbexuSUV9W0FgnIT1v/ELCeRk5fPVG//i8l40YdAEKy53BLZ9BFnbdL413yR
+        /YKoG4+iq9kjLX9VXgriHyXn7v9KSbKLF0fAuiOZydTrtaLI/4/KvL92AwEgUJggEWVJZjP
+        sk2DfPFopAsTxMznZY2vCxxQS33O/L7EbmQcmh/7Iv5GfOdmONHD5ymLclu1A==
+X-QQ-GoodBg: 0
+From:   Xin Gao <gaoxin@cdjrlc.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com
+Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Xin Gao <gaoxin@cdjrlc.com>
+Subject: [PATCH] tools: hv: Fix comment typo
+Date:   Wed, 17 Aug 2022 01:23:09 +0800
+Message-Id: <20220816172309.7072-1-gaoxin@cdjrlc.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGxU2F7+L-UiNPtUm4EukOgTVJ1J6Orqs1LMvhWWvfL9zWb23g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 09:00:45AM +0200, Stefano Garzarella wrote:
-> Hi Bobby,
+The double `the' is duplicated in the comment, remove one.
 
-..
+Signed-off-by: Xin Gao <gaoxin@cdjrlc.com>
+---
+ tools/hv/hv_kvp_daemon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Please send next versions of this series as RFC until we have at least an
-> agreement on the spec changes.
-> 
-> I think will be better to agree on the spec before merge Linux changes.
-> 
-> Thanks,
-> Stefano
-> 
+diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
+index 1e6fd6ca513b..d5ddab830b6b 100644
+--- a/tools/hv/hv_kvp_daemon.c
++++ b/tools/hv/hv_kvp_daemon.c
+@@ -43,7 +43,7 @@
+ #include <getopt.h>
+ 
+ /*
+- * KVP protocol: The user mode component first registers with the
++ * KVP protocol: The user mode component first registers with
+  * the kernel component. Subsequently, the kernel component requests, data
+  * for the specified keys. In response to this message the user mode component
+  * fills in the value corresponding to the specified key. We overload the
+-- 
+2.30.2
 
-Duly noted, I'll tag it as RFC on the next send.
-
-
-Best,
-Bobby
