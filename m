@@ -2,150 +2,166 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 641BBC32792
-	for <linux-hyperv@archiver.kernel.org>; Sat, 20 Aug 2022 01:20:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A7EC3F6B0
+	for <linux-hyperv@archiver.kernel.org>; Mon, 22 Aug 2022 08:48:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245251AbiHTBUh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 19 Aug 2022 21:20:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47704 "EHLO
+        id S233765AbiHVIsA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 22 Aug 2022 04:48:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245131AbiHTBUf (ORCPT
+        with ESMTP id S233648AbiHVIr5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 19 Aug 2022 21:20:35 -0400
-Received: from mail-il1-x14a.google.com (mail-il1-x14a.google.com [IPv6:2607:f8b0:4864:20::14a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60E76DEB48
-        for <linux-hyperv@vger.kernel.org>; Fri, 19 Aug 2022 18:20:33 -0700 (PDT)
-Received: by mail-il1-x14a.google.com with SMTP id q10-20020a056e020c2a00b002dedb497c7fso4261137ilg.16
-        for <linux-hyperv@vger.kernel.org>; Fri, 19 Aug 2022 18:20:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=Hy+OWfxLn1uSpMl+3tDFv8ysfTdHK4w3mL5UmpkU+QQ=;
-        b=CTGMBtvoh43gIBFSYnDgcc5aZW77kdnh3yZHlfmBhGcZG11dqsl19mRFKitMzL+xZ9
-         rWu3OEir+jIpKaM4/9hFLBexiC4OM7H+JtqVZlzqpMMyN1Bni/Cw7Wx4TqyXlOXvXzNe
-         eyd335dHsFOw9/uta3ly6pUIN7i/kGKh7fzolnc6c7TpZHymz0A4MEBIsRSYGSF0O8gY
-         1ZhdspYJjg+BsG+3HWd3gYYtBumyjUowRvZREX8I4R3fydUg5W06EN7TBQ7gMGhKqTt/
-         qmLGIgF0CYbktOUlxlqYAoeLXH9tbzvxbOOk81YBPkGMjpXjEo3b2qd59SsvIKdScU5w
-         mY5g==
+        Mon, 22 Aug 2022 04:47:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1F492CE3D
+        for <linux-hyperv@vger.kernel.org>; Mon, 22 Aug 2022 01:47:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661158074;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=I4W0/Q6CKI1C/6ZS/LzkoVtWSqfZ4woltBoAnosrqTA=;
+        b=X7xRseJmcHuaij7KUw3FdcZl176iUb76Iwgx1J7CUIBMNfhrVmdgzHIGTE2lU4pDVajdhn
+        FhItKjIOHCFtPU1j/JZDy6YX1cKbkB9M4VDOwhHZtpMoqz4ESb1nr4j7/4lluao7xeuOid
+        9/mRBuUso/GSyfYXUaXEr5L5GuEUR30=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-500-0R7Ly3WMOOiSw4duKOas3A-1; Mon, 22 Aug 2022 04:47:53 -0400
+X-MC-Unique: 0R7Ly3WMOOiSw4duKOas3A-1
+Received: by mail-wr1-f70.google.com with SMTP id o13-20020adfba0d000000b0022524f3f4faso1514423wrg.6
+        for <linux-hyperv@vger.kernel.org>; Mon, 22 Aug 2022 01:47:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=Hy+OWfxLn1uSpMl+3tDFv8ysfTdHK4w3mL5UmpkU+QQ=;
-        b=0Ua9Ni/JcTVSKublH9ULbA3Bkq6KX5crWeoc3OF9XvoncPwgMf5EYw4BOPwI7gjOUK
-         wMLEQcgpxjJb/YcONL6R8y84Ro/B+jr9roNOm4CubYz9nb/42UWvifBi4PH3MoiHoqOp
-         3PKT82u1OGKByQvTiE/9aehzeWsz4ghbtRoh/NSWyF82SbJNFa86YnYR7MUMuEwzi3YE
-         mMYT9ciW8HNHIzzHC183KmduYHQzBPM/IduxjFxkdnRZARPfGhw4XrhHkAyXnvd6F+x6
-         UE7FxysMFFqHT9kqwsWUm8lxPns3/lEJfWlT5F1XMj57JqM1N3rq5RI1Bn2rj5gT5LZ8
-         xv4g==
-X-Gm-Message-State: ACgBeo0VIpUgsQvSGfIOhbOevDSnSwfHk3FPi8bVn7u56ehcAEs20Uq7
-        sTo/GqXRcNPSeRCcVY2M2OfHkSwCOTU=
-X-Google-Smtp-Source: AA6agR4eHC/d7mAFZH7t0obrCovhw8Et3/m9OfbGJ/5CXwIS59lUyMZnJ7lU6aOLt+yLkwtEJg3Iesw9HnI=
-X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:be87:320b:90a3:ceed])
- (user=yuzhao job=sendgmr) by 2002:a6b:b802:0:b0:67b:de15:c1fb with SMTP id
- i2-20020a6bb802000000b0067bde15c1fbmr4507430iof.215.1660958432754; Fri, 19
- Aug 2022 18:20:32 -0700 (PDT)
-Date:   Fri, 19 Aug 2022 19:20:31 -0600
-In-Reply-To: <20220611082514.37112-5-dongli.zhang@oracle.com>
-Message-Id: <20220820012031.1285979-1-yuzhao@google.com>
-Mime-Version: 1.0
-References: <20220611082514.37112-5-dongli.zhang@oracle.com>
-X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
-Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
-From:   Yu Zhao <yuzhao@google.com>
-To:     dongli.zhang@oracle.com
-Cc:     ak@linux.intel.com, akpm@linux-foundation.org,
-        alexander.sverdlin@nokia.com, andi.kleen@intel.com, bp@alien8.de,
-        bp@suse.de, cminyard@mvista.com, corbet@lwn.net,
-        damien.lemoal@opensource.wdc.com, dave.hansen@linux.intel.com,
-        hch@infradead.org, iommu@lists.linux-foundation.org,
-        joe.jin@oracle.com, joe@perches.com, keescook@chromium.org,
-        kirill.shutemov@intel.com, kys@microsoft.com,
-        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        ltykernel@gmail.com, michael.h.kelley@microsoft.com,
-        mingo@redhat.com, m.szyprowski@samsung.com, parri.andrea@gmail.com,
-        paulmck@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
-        robin.murphy@arm.com, tglx@linutronix.de, thomas.lendacky@amd.com,
-        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
-        vkuznets@redhat.com, wei.liu@kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc;
+        bh=I4W0/Q6CKI1C/6ZS/LzkoVtWSqfZ4woltBoAnosrqTA=;
+        b=jTTexHcEdUPW5CiKYugOtBmcOtlabrDEEpdwXewo1CHYv8LCspna9aLaqptVCxrcHw
+         6Z3SkmSqiiAq1LDKDhMkGo2JUgssP2ZjXc0dPXCLw3pkOg+lNsP7lJkmxtV6Y20j8+OX
+         rYyiJ2L5jLGJUfceWbvpz3ByypoJLhCl5x6bVBFkPlB5sacCoWGd9fYkPRzRSdXLjo/g
+         CsrS2THpOo5+oF6q0UUcC6Yl51cfsQ3jDo0/M16Ehm8JgcJowOFZK9YrBLPcaZyocHfi
+         e16prwv9AfAA7hjTSoHbFWDagf/OUco0h9yeva2SySXvxyOQ73IAhqmdzerd7U4jJvtP
+         A6Gg==
+X-Gm-Message-State: ACgBeo188NqRMpFmg/mKhDZVliFfdhXVhZ8hTvVHHWRZmd8IBJrlq7Ka
+        VvmL1ClNh9EZQ3axlluFgkpgzyfGHV2DuEhxfmNLwOzUfL+GJbYrh2V1mGBJYpl0MnGU+ydU9RZ
+        8wdaZxYDo6RwiPTE11jdu7Ufo
+X-Received: by 2002:adf:f9ce:0:b0:225:24ce:3c0b with SMTP id w14-20020adff9ce000000b0022524ce3c0bmr10172141wrr.416.1661158072562;
+        Mon, 22 Aug 2022 01:47:52 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4xWItbRuSv43/5fBPSAEiNY9RrXBEgy0ZH/39Um/aohh773XKd+0EHJH9wl9xuKs4FJSlEAg==
+X-Received: by 2002:adf:f9ce:0:b0:225:24ce:3c0b with SMTP id w14-20020adff9ce000000b0022524ce3c0bmr10172123wrr.416.1661158072261;
+        Mon, 22 Aug 2022 01:47:52 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id h5-20020a05600c350500b003a6125562e1sm13961172wmq.46.2022.08.22.01.47.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Aug 2022 01:47:51 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 09/26] KVM: VMX: nVMX: Support TSC scaling and
+ PERF_GLOBAL_CTRL with enlightened VMCS
+In-Reply-To: <Yv/CME8B1ueOMY5M@google.com>
+References: <20220802160756.339464-1-vkuznets@redhat.com>
+ <20220802160756.339464-10-vkuznets@redhat.com>
+ <Yv5zn4qTl0aiaQvh@google.com> <87sflssllu.fsf@redhat.com>
+ <Yv/CME8B1ueOMY5M@google.com>
+Date:   Mon, 22 Aug 2022 10:47:50 +0200
+Message-ID: <87ilmkslzd.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-> Panic on purpose if nslabs is too small, in order to sync with the remap
-> retry logic.
-> 
-> In addition, print the number of bytes for tlb alloc failure.
-> 
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-> ---
->  kernel/dma/swiotlb.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index fd21f4162f4b..1758b724c7a8 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -242,6 +242,9 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
->  	if (swiotlb_force_disable)
->  		return;
->  
-> +	if (nslabs < IO_TLB_MIN_SLABS)
-> +		panic("%s: nslabs = %lu too small\n", __func__, nslabs);
+Sean Christopherson <seanjc@google.com> writes:
 
-Hi,
+> On Fri, Aug 19, 2022, Vitaly Kuznetsov wrote:
+>> Sean Christopherson <seanjc@google.com> writes:
+>> 
+>> > On Tue, Aug 02, 2022, Vitaly Kuznetsov wrote:
+>> >> +static u32 evmcs_get_unsupported_ctls(struct kvm_vcpu *vcpu,
+>> >> +				      enum evmcs_unsupported_ctrl_type ctrl_type)
+>> >> +{
+>> >> +	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+>> >> +	enum evmcs_revision evmcs_rev = EVMCSv1_2016;
+>> >> +
+>> >> +	if (!hv_vcpu)
+>> >
+>> > This is a functiontal change, and I don't think it's correct either.  Previously,
+>> > KVM would apply the EVMCSv1_2016 filter irrespective of whether or not
+>> > vcpu->arch.hyperv is non-NULL.  nested_enable_evmcs() doesn't require a Hyper-V
+>> > vCPU, and AFAICT nothing requires a Hyper-V vCPU to use eVMCS.
+>> 
+>> Indeed, this *is* correct after PATCH11 when we get rid of VMX feature
+>> MSR filtering for KVM-on-Hyper-V as the remaining use for
+>> evmcs_get_unsupported_ctls() is Hyper-V on KVM and hv_vcpu is not NULL
+>> there.
+>
+> Hmm, nested_vmx_handle_enlightened_vmptrld() will fail without a Hyper-V vCPU, so
+> filtering eVMCS control iff there's a Hyper-V vCPU makes sense.  But that's a guest
+> visible change and should be a separate patch.
+>
 
-This patch breaks MIPS. Please take a look. Thanks.
+Yes, the change you suggested:
 
-On v5.19.0:
-  Linux version 5.19.0 (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
-  Skipping L2 locking due to reduced L2 cache size
-  CVMSEG size: 0 cache lines (0 bytes)
-  printk: bootconsole [early0] enabled
-  CPU0 revision is: 000d9301 (Cavium Octeon II)
-  Kernel sections are not in the memory maps
-  Wasting 278528 bytes for tracking 4352 unused pages
-  Initrd not found or empty - disabling initrd
-  Using appended Device Tree.
-  software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
-  software IO TLB: mapped [mem 0x0000000004b0c000-0x0000000004b4c000] (0MB)
+          if (hv_vcpu &&
+              hv_vcpu->cpuid_cache.nested_eb & HV_X64_NESTED_EVMCS1_2022_UPDATE) 
+			evmcs_rev = EVMCSv1_2022;
 
-On v6.0-rc1, with
-  commit 0bf28fc40d89 ("swiotlb: panic if nslabs is too small")
-  commit 20347fca71a3 ("swiotlb: split up the global swiotlb lock")
-  commit 534ea58b3ceb ("Revert "MIPS: octeon: Remove vestiges of CONFIG_CAVIUM_RESERVE32"")
+seems to keep the status quo so we can discuss dropping filtering when
+!hv_vcpu separately.
 
-  Linux version 6.0.0-rc1 (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
-  Failed to allocate CAVIUM_RESERVE32 memory area
-  Skipping L2 locking due to reduced L2 cache size
-  CVMSEG size: 0 cache lines (0 bytes)
-  printk: bootconsole [early0] enabled
-  CPU0 revision is: 000d9301 (Cavium Octeon II)
-  Kernel sections are not in the memory maps
-  Wasting 278528 bytes for tracking 4352 unused pages
-  Initrd not found or empty - disabling initrd
-  Using appended Device Tree.
-  software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
-  software IO TLB: area num 1.
-  Kernel panic - not syncing: swiotlb_init_remap: nslabs = 128 too small
+> But that also raises the question of whether or not KVM should honor hyperv_enabled
+> when filtering MSRs.  Same question for nested VM-Enter.  nested_enlightened_vmentry()
+> will "fail" without an assist page, and the guest can't set the assist page without
+> hyperv_enabled==true, but nothing prevents the host from stuffing the assist page.
 
-On v6.0-rc1, with
-  commit 20347fca71a3 ("swiotlb: split up the global swiotlb lock")
-  commit 534ea58b3ceb ("Revert "MIPS: octeon: Remove vestiges of CONFIG_CAVIUM_RESERVE32"")
+The case sounds more like a misbehaving VMM to me. It would probably be
+better to fail nested_enlightened_vmentry() immediately on !hyperv_enabled.
 
-  Linux version 6.0.0-rc1+ (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
-  Failed to allocate CAVIUM_RESERVE32 memory area
-  Skipping L2 locking due to reduced L2 cache size
-  CVMSEG size: 0 cache lines (0 bytes)
-  printk: bootconsole [early0] enabled
-  CPU0 revision is: 000d9301 (Cavium Octeon II)
-  Kernel sections are not in the memory maps
-  Wasting 278528 bytes for tracking 4352 unused pages
-  Initrd not found or empty - disabling initrd
-  Using appended Device Tree.
-  software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
-  software IO TLB: area num 1.
-  software IO TLB: mapped [mem 0x0000000004c0c000-0x0000000004c4c000] (0MB)
+>
+> And on a very related topic, the handling of kvm_hv_vcpu_init() in kvm_hv_set_cpuid()
+> is buggy.  KVM will not report an error to userspace for KVM_SET_CPUID2 if allocation
+> fails.  If a later operation successfully create a Hyper-V vCPU, KVM will chug along
+> with Hyper-V enabled but without having cached the relevant Hyper-V
+> CPUID info.
+
+Indeed, that's probably because kvm_vcpu_after_set_cpuid() itself is
+never supposed to fail and thus returns 'void'. I'm not up-to-date on
+the discussion whether small allocations can actually fail (and whether
+2832 bytes for 'struct kvm_vcpu_hv' is 'small') but propagating -ENOMEM
+all the way up to VMM is likely the right way to go.
+
+>
+> Less important is that kvm_hv_set_cpuid() should also zero out the CPUID cache if
+> Hyper-V is disabled.  I'm pretty sure sure all paths check hyperv_enabled before
+> consuming cpuid_cache, but it's unnecessarily risky.
+
++1
+
+>
+> If we fix the kvm_hv_set_cpuid() allocation failure, then we can also guarantee
+> that vcpu->arch.hyperv is non-NULL if vcpu->arch.hyperv_enabled==true.  And then
+> we can add gate guest eVMCS flow on hyperv_enabled, and evmcs_get_unsupported_ctls()
+> can then WARN if hv_vcpu is NULL.
+>
+
+Alternatively, we can just KVM_BUG_ON() in kvm_hv_set_cpuid() when
+allocation fails, at least for the time being as the VM is likely
+useless anyway.
+
+> Assuming I'm not overlooking something, I'll fold in yet more patches.
+>
+
+Thanks for the thorough review here and don't hesitate to speak up when
+you think it's too much of a change to do upon queueing)
+
+-- 
+Vitaly
+
