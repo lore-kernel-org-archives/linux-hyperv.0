@@ -2,119 +2,111 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07012ECAAD2
-	for <linux-hyperv@archiver.kernel.org>; Sat, 27 Aug 2022 13:04:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58630C0502F
+	for <linux-hyperv@archiver.kernel.org>; Sat, 27 Aug 2022 13:19:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233258AbiH0NEn (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 27 Aug 2022 09:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33046 "EHLO
+        id S232627AbiH0NTj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 27 Aug 2022 09:19:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233269AbiH0NEe (ORCPT
+        with ESMTP id S229677AbiH0NTi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 27 Aug 2022 09:04:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F0F55092
-        for <linux-hyperv@vger.kernel.org>; Sat, 27 Aug 2022 06:04:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661605459;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=+EoogJmL1LdU4qsxdiA67NtSxsci+Hnk3sRJu9JBGyA=;
-        b=XM9cz3Kbk86qsWqGdKh36eYejo/nS4y6Pup7dL7MOvhlViDDTj/Z8EL/niyC4VXFL4koDL
-        NDGOs+MdO4o+yyHMdNzElI+V+DeCDV9rTqZWqjkd947ysF4Zue5HTaYeBUuxzO4TjxNkiX
-        Ai/bveHWJYP3sS8jBZzQoGmGA2Thm+M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-bwYhGl34OsejDyeO-4MToA-1; Sat, 27 Aug 2022 09:03:50 -0400
-X-MC-Unique: bwYhGl34OsejDyeO-4MToA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA5F6185A7BA;
-        Sat, 27 Aug 2022 13:03:49 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.192.40])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E20AAC15BB3;
-        Sat, 27 Aug 2022 13:03:46 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     linux-hyperv@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        Deepak Rawat <drawat.floss@gmail.com>,
+        Sat, 27 Aug 2022 09:19:38 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B587198A;
+        Sat, 27 Aug 2022 06:19:37 -0700 (PDT)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MFHJc4yxCzkWV9;
+        Sat, 27 Aug 2022 21:16:00 +0800 (CST)
+Received: from dggpemm500002.china.huawei.com (7.185.36.229) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 27 Aug 2022 21:19:35 +0800
+Received: from [10.174.178.247] (10.174.178.247) by
+ dggpemm500002.china.huawei.com (7.185.36.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Sat, 27 Aug 2022 21:19:34 +0800
+Subject: Re: [PATCH v2 5/5] ACPI: Drop parent field from struct acpi_device
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux ACPI <linux-acpi@vger.kernel.org>
+CC:     LKML <linux-kernel@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH v3 0/3] Drivers: hv: Avoid allocating MMIO from framebuffer region for other passed through PCI devices
-Date:   Sat, 27 Aug 2022 15:03:42 +0200
-Message-Id: <20220827130345.1320254-1-vkuznets@redhat.com>
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Mark Brown <broonie@kernel.org>,
+        "Andreas Noever" <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        <linux-hyperv@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, "Will Deacon" <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Konrad Dybcio" <konrad.dybcio@somainline.org>
+References: <12036348.O9o76ZdvQC@kreacher> <2196460.iZASKD2KPV@kreacher>
+ <5857822.lOV4Wx5bFT@kreacher>
+From:   Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <a0cab176-3c3a-707a-02c3-74ffc1b4926e@huawei.com>
+Date:   Sat, 27 Aug 2022 21:19:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+In-Reply-To: <5857822.lOV4Wx5bFT@kreacher>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.247]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500002.china.huawei.com (7.185.36.229)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Changes since v2:
-- Add Michael's R-b tags to PATCHes1-3 and Bjorn's A-b tag to PATCH1.
-- Commit messages tweaks [Michael].
+Hi Rafael,
 
-Passed through PCI device sometimes misbehave on Gen1 VMs when Hyper-V
-DRM driver is also loaded. Looking at IOMEM assignment, we can see e.g.
+On 2022/8/25 0:59, Rafael J. Wysocki wrote:
+> Index: linux-pm/include/acpi/acpi_bus.h
+> ===================================================================
+> --- linux-pm.orig/include/acpi/acpi_bus.h
+> +++ linux-pm/include/acpi/acpi_bus.h
+> @@ -365,7 +365,6 @@ struct acpi_device {
+>   	int device_type;
+>   	acpi_handle handle;		/* no handle for fixed hardware */
+>   	struct fwnode_handle fwnode;
+> -	struct acpi_device *parent;
+>   	struct list_head wakeup_list;
+>   	struct list_head del_list;
+>   	struct acpi_device_status status;
+> @@ -458,6 +457,14 @@ static inline void *acpi_driver_data(str
+>   #define to_acpi_device(d)	container_of(d, struct acpi_device, dev)
+>   #define to_acpi_driver(d)	container_of(d, struct acpi_driver, drv)
+>   
+> +static inline struct acpi_device *acpi_dev_parent(struct acpi_device *adev)
+> +{
+> +	if (adev->dev.parent)
+> +		return to_acpi_device(adev->dev.parent);
+> +
+> +	return NULL;
+> +}
+> +
+>   static inline void acpi_set_device_status(struct acpi_device *adev, u32 sta)
+>   {
+>   	*((u32 *)&adev->status) = sta;
+> @@ -478,6 +485,7 @@ void acpi_initialize_hp_context(struct a
+>   /* acpi_device.dev.bus == &acpi_bus_type */
+>   extern struct bus_type acpi_bus_type;
+>   
+> +struct acpi_device *acpi_dev_parent(struct acpi_device *adev);
 
-$ cat /proc/iomem
-...
-f8000000-fffbffff : PCI Bus 0000:00
-  f8000000-fbffffff : 0000:00:08.0
-    f8000000-f8001fff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
-...
-fe0000000-fffffffff : PCI Bus 0000:00
-  fe0000000-fe07fffff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
-    fe0000000-fe07fffff : 2ba2:00:02.0
-      fe0000000-fe07fffff : mlx4_core
+We have a static inline function above, is it duplicated here?
+Or did I miss some use cases?
 
-the interesting part is the 'f8000000' region as it is actually the
-VM's framebuffer:
-
-$ lspci -v
-...
-0000:00:08.0 VGA compatible controller: Microsoft Corporation Hyper-V virtual VGA (prog-if 00 [VGA controller])
-	Flags: bus master, fast devsel, latency 0, IRQ 11
-	Memory at f8000000 (32-bit, non-prefetchable) [size=64M]
-...
-
-Recently merged commit a0ab5abced55 ("drm/hyperv : Removing the restruction of
-VRAM allocation with PCI bar size") improved the situation as resources,
-reserved through vmbus_allocate_mmio() can't be allocated twice:
-
-...
-f8000000-fffbffff : PCI Bus 0000:00
-  f8000000-fbffffff : 0000:00:08.0
-    f8000000-f8001fff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
-    f8100000-f88fffff : 5620e0c7-8062-4dce-aeb7-520c7ef76171
-...
-
-Always reserve FB region on Gen1 VMs (PATCH2) and make sure we never allocate
-anything besides framebuffer from there (PATCH3).
-
-Vitaly Kuznetsov (3):
-  PCI: Move PCI_VENDOR_ID_MICROSOFT/PCI_DEVICE_ID_HYPERV_VIDEO
-    definitions to pci_ids.h
-  Drivers: hv: Always reserve framebuffer region for Gen1 VMs
-  Drivers: hv: Never allocate anything besides framebuffer from
-    framebuffer memory region
-
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c       |  3 -
- drivers/hv/vmbus_drv.c                        | 56 ++++++++++++++-----
- .../net/ethernet/microsoft/mana/gdma_main.c   |  4 --
- drivers/video/fbdev/hyperv_fb.c               |  4 --
- include/linux/pci_ids.h                       |  3 +
- 5 files changed, 44 insertions(+), 26 deletions(-)
-
--- 
-2.37.1
-
+Thanks
+Hanjun
