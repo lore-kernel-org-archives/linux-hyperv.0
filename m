@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2112ECAAD4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F55ECAAD4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbiH3NkE (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:40:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42240 "EHLO
+        id S230478AbiH3Nke (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:40:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230516AbiH3Njc (ORCPT
+        with ESMTP id S229579AbiH3NkC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1009FB2BC
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:46 -0700 (PDT)
+        Tue, 30 Aug 2022 09:40:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7243F132877
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866708;
+        s=mimecast20190719; t=1661866713;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wm0Dl688P6nkyuHi9GkDj7hF8c3dlkgEWBgNODgAbrA=;
-        b=AlUxtR3gnjOrimdZKnf1A/mzBpfvzgg8ffNer8jtXS8f1lpVDJLVJAr3g+/w1s1js1FsY6
-        o8v8XZgi0a4rTwoT+ZAnvj7AFB8PVkiH3dfKRxBKXeEZ4mGoLTfuGFI6MgbQGpftM7B9V8
-        nJAvfY3+s0BWNxZXIO3eo2SnZdF/n/w=
+        bh=50IO8Aohg295n/Bkbofu1FKRBppoGGwwpHpj2nofr4M=;
+        b=J3SwKuftfW5z/DIW7UV5X2eh8xcpn73tAb2RMEzYQ41LG29kVj8QPjKtO9P5w6ttnNSO+H
+        l7Y/kJqSjTX0BnVfRF3hJJbkEOZy9p23t5t9PYeauOfw2tdIwGfjhlaYlbeVwm7S/6s5Wq
+        w2VuGvQsXP2e6ND2LkPiAYGX3ZeQTtA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-154-0BtSCp8ANcGihHu5JLul-A-1; Tue, 30 Aug 2022 09:38:25 -0400
-X-MC-Unique: 0BtSCp8ANcGihHu5JLul-A-1
+ us-mta-587-VMhX9ObhM56CvWKzTBdphA-1; Tue, 30 Aug 2022 09:38:30 -0400
+X-MC-Unique: VMhX9ObhM56CvWKzTBdphA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7879C18E0050;
-        Tue, 30 Aug 2022 13:38:24 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7CEA3823F18;
+        Tue, 30 Aug 2022 13:38:29 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 376072166B26;
-        Tue, 30 Aug 2022 13:38:22 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6D68C2166B26;
+        Tue, 30 Aug 2022 13:38:27 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 17/33] KVM: nVMX: Don't propagate vmcs12's PERF_GLOBAL_CTRL settings to vmcs02
-Date:   Tue, 30 Aug 2022 15:37:21 +0200
-Message-Id: <20220830133737.1539624-18-vkuznets@redhat.com>
+Subject: [PATCH v6 19/33] KVM: VMX: Check VM_ENTRY_IA32E_MODE in setup_vmcs_config()
+Date:   Tue, 30 Aug 2022 15:37:23 +0200
+Message-Id: <20220830133737.1539624-20-vkuznets@redhat.com>
 In-Reply-To: <20220830133737.1539624-1-vkuznets@redhat.com>
 References: <20220830133737.1539624-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,46 +60,55 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Sean Christopherson <seanjc@google.com>
+VM_ENTRY_IA32E_MODE control is toggled dynamically by vmx_set_efer()
+and setup_vmcs_config() doesn't check its existence. On the contrary,
+nested_vmx_setup_ctls_msrs() doesn set it on x86_64. Add the missing
+check and filter the bit out in vmx_vmentry_ctrl().
 
-Don't propagate vmcs12's VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL to vmcs02.
-KVM doesn't disallow L1 from using VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL
-even when KVM itself doesn't use the control, e.g. due to the various
-CPU errata that where the MSR can be corrupted on VM-Exit.
+No (real) functional change intended as all existing CPUs supporting
+long mode and VMX are supposed to have it.
 
-Preserve KVM's (vmcs01) setting to hopefully avoid having to toggle the
-bit in vmcs02 at a later point.  E.g. if KVM is loading PERF_GLOBAL_CTRL
-when running L1, then odds are good KVM will also load the MSR when
-running L2.
-
-Fixes: 8bf00a529967 ("KVM: VMX: add support for switching of PERF_GLOBAL_CTRL")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sean Christopherson <seanjc@google.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Jim Mattson <jmattson@google.com>
+Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kvm/vmx/nested.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ arch/x86/kvm/vmx/vmx.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 58821cd10603..c9b17239c9e8 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -2359,9 +2359,14 @@ static void prepare_vmcs02_early(struct vcpu_vmx *vmx, struct loaded_vmcs *vmcs0
- 	 * are emulated by vmx_set_efer() in prepare_vmcs02(), but speculate
- 	 * on the related bits (if supported by the CPU) in the hope that
- 	 * we can avoid VMWrites during vmx_set_efer().
-+	 *
-+	 * Similarly, take vmcs01's PERF_GLOBAL_CTRL in the hope that if KVM is
-+	 * loading PERF_GLOBAL_CTRL via the VMCS for L1, then KVM will want to
-+	 * do the same for L2.
- 	 */
- 	exec_control = __vm_entry_controls_get(vmcs01);
--	exec_control |= vmcs12->vm_entry_controls;
-+	exec_control |= (vmcs12->vm_entry_controls &
-+			 ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL);
- 	exec_control &= ~(VM_ENTRY_IA32E_MODE | VM_ENTRY_LOAD_IA32_EFER);
- 	if (cpu_has_load_ia32_efer()) {
- 		if (guest_efer & EFER_LMA)
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index ae0c835d15ad..cb662943b83a 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -2687,6 +2687,9 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 		_pin_based_exec_control &= ~PIN_BASED_POSTED_INTR;
+ 
+ 	min = VM_ENTRY_LOAD_DEBUG_CONTROLS;
++#ifdef CONFIG_X86_64
++	min |= VM_ENTRY_IA32E_MODE;
++#endif
+ 	opt = VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
+ 	      VM_ENTRY_LOAD_IA32_PAT |
+ 	      VM_ENTRY_LOAD_IA32_EFER |
+@@ -4321,9 +4324,14 @@ static u32 vmx_vmentry_ctrl(void)
+ 	if (vmx_pt_mode_is_system())
+ 		vmentry_ctrl &= ~(VM_ENTRY_PT_CONCEAL_PIP |
+ 				  VM_ENTRY_LOAD_IA32_RTIT_CTL);
+-	/* Loading of EFER and PERF_GLOBAL_CTRL are toggled dynamically */
+-	return vmentry_ctrl &
+-		~(VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL | VM_ENTRY_LOAD_IA32_EFER);
++	/*
++	 * IA32e mode, and loading of EFER and PERF_GLOBAL_CTRL are toggled dynamically.
++	 */
++	vmentry_ctrl &= ~(VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL |
++			  VM_ENTRY_LOAD_IA32_EFER |
++			  VM_ENTRY_IA32E_MODE);
++
++	return vmentry_ctrl;
+ }
+ 
+ static u32 vmx_vmexit_ctrl(void)
 -- 
 2.37.2
 
