@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B094DECAAD4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF16ECAAA1
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:41:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbiH3Nl0 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:41:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42522 "EHLO
+        id S231209AbiH3Nlj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbiH3Nkk (ORCPT
+        with ESMTP id S229652AbiH3NlA (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:40:40 -0400
+        Tue, 30 Aug 2022 09:41:00 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20ED1636E2
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:39:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74E48122BC5
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:39:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866725;
+        s=mimecast20190719; t=1661866731;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=B8QZ/KHlRT8W4KVpHmuA6d5aH8+Un6bo3HvywtrZ76A=;
-        b=CsGfkdm91273/cePkHP6TQli2pR8PPAYVXS9FRLr6SFHg3uYK+pZc93xtB3zlAhH4RGPEm
-        lx3/rxI/LI6ojn6KLpi4R2bu89QcfdzjYr63ds2R8byCT3wY8FoEV5Gsw4u+O9iKOhncjO
-        bD0pYWY8Ii0YlseimTfufFa3oL/DwxY=
+        bh=FOt93qaFZyGHM3bS6yprWKlmEjd91A7jA18n75/j8XE=;
+        b=enHSqp1yOxqG4W5c7vSKJARmv1u3w1y78LgoNcjh6zwaPYCeybM+TuVDPdqCwDDyjgg667
+        N6GiP9z7JE5nBtXsodB38DZ8fl8wRptNJRJTkV5Bb2UV2NE5ic5vIIb3lwxUe9s52yQBWG
+        s4ujco/KO/UO9pj+SyiKinNShZ5bhCs=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-610-bcWM08KqNAOCUtVLAyOhMA-1; Tue, 30 Aug 2022 09:38:42 -0400
-X-MC-Unique: bcWM08KqNAOCUtVLAyOhMA-1
+ us-mta-308-30NGISCaODKzD-nSbb4x1Q-1; Tue, 30 Aug 2022 09:38:47 -0400
+X-MC-Unique: 30NGISCaODKzD-nSbb4x1Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D937285A58B;
-        Tue, 30 Aug 2022 13:38:41 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37247811768;
+        Tue, 30 Aug 2022 13:38:47 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 31FF52166B26;
-        Tue, 30 Aug 2022 13:38:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0A11D2166B26;
+        Tue, 30 Aug 2022 13:38:44 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 24/33] KVM: VMX: Move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering out of setup_vmcs_config()
-Date:   Tue, 30 Aug 2022 15:37:28 +0200
-Message-Id: <20220830133737.1539624-25-vkuznets@redhat.com>
+Subject: [PATCH v6 26/33] KVM: VMX: Add missing CPU based VM execution controls to vmcs_config
+Date:   Tue, 30 Aug 2022 15:37:30 +0200
+Message-Id: <20220830133737.1539624-27-vkuznets@redhat.com>
 In-Reply-To: <20220830133737.1539624-1-vkuznets@redhat.com>
 References: <20220830133737.1539624-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,56 +61,60 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 As a preparation to reusing the result of setup_vmcs_config() in
-nested VMX MSR setup, move CPU_BASED_CR8_{LOAD,STORE}_EXITING filtering
-to vmx_exec_control().
+nested VMX MSR setup, add the CPU based VM execution controls which KVM
+doesn't use but supports for nVMX to KVM_OPT_VMX_CPU_BASED_VM_EXEC_CONTROL
+and filter them out in vmx_exec_control().
 
 No functional change intended.
 
 Reviewed-by: Jim Mattson <jmattson@google.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ arch/x86/kvm/vmx/vmx.c | 9 +++++++++
+ arch/x86/kvm/vmx/vmx.h | 6 +++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 9caed775b211..2e0deac5570f 100644
+index 779377380399..be69fc3a57a3 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2556,11 +2556,6 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 				MSR_IA32_VMX_PROCBASED_CTLS,
- 				&_cpu_based_exec_control))
- 		return -EIO;
--#ifdef CONFIG_X86_64
--	if (_cpu_based_exec_control & CPU_BASED_TPR_SHADOW)
--		_cpu_based_exec_control &= ~CPU_BASED_CR8_LOAD_EXITING &
--					   ~CPU_BASED_CR8_STORE_EXITING;
--#endif
- 	if (_cpu_based_exec_control & CPU_BASED_ACTIVATE_SECONDARY_CONTROLS) {
- 		if (adjust_vmx_controls(KVM_REQUIRED_VMX_SECONDARY_VM_EXEC_CONTROL,
- 					KVM_OPTIONAL_VMX_SECONDARY_VM_EXEC_CONTROL,
-@@ -4331,13 +4326,17 @@ static u32 vmx_exec_control(struct vcpu_vmx *vmx)
- 	if (vmx->vcpu.arch.switch_db_regs & KVM_DEBUGREG_WONT_EXIT)
- 		exec_control &= ~CPU_BASED_MOV_DR_EXITING;
+@@ -4326,6 +4326,15 @@ static u32 vmx_exec_control(struct vcpu_vmx *vmx)
+ {
+ 	u32 exec_control = vmcs_config.cpu_based_exec_ctrl;
  
--	if (!cpu_need_tpr_shadow(&vmx->vcpu)) {
-+	if (!cpu_need_tpr_shadow(&vmx->vcpu))
- 		exec_control &= ~CPU_BASED_TPR_SHADOW;
++	/*
++	 * Not used by KVM, but fully supported for nesting, i.e. are allowed in
++	 * vmcs12 and propagated to vmcs02 when set in vmcs12.
++	 */
++	exec_control &= ~(CPU_BASED_RDTSC_EXITING |
++			  CPU_BASED_USE_IO_BITMAPS |
++			  CPU_BASED_MONITOR_TRAP_FLAG |
++			  CPU_BASED_PAUSE_EXITING);
 +
- #ifdef CONFIG_X86_64
-+	if (exec_control & CPU_BASED_TPR_SHADOW)
-+		exec_control &= ~(CPU_BASED_CR8_LOAD_EXITING |
-+				  CPU_BASED_CR8_STORE_EXITING);
-+	else
- 		exec_control |= CPU_BASED_CR8_STORE_EXITING |
- 				CPU_BASED_CR8_LOAD_EXITING;
+ 	/* INTR_WINDOW_EXITING and NMI_WINDOW_EXITING are toggled dynamically */
+ 	exec_control &= ~(CPU_BASED_INTR_WINDOW_EXITING |
+ 			  CPU_BASED_NMI_WINDOW_EXITING);
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index 200a17ca9406..a3da84f4ea45 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -549,9 +549,13 @@ static inline u8 vmx_get_rvi(void)
  #endif
--	}
- 	if (!enable_ept)
- 		exec_control |= CPU_BASED_CR3_STORE_EXITING |
- 				CPU_BASED_CR3_LOAD_EXITING  |
+ 
+ #define KVM_OPTIONAL_VMX_CPU_BASED_VM_EXEC_CONTROL			\
+-	(CPU_BASED_TPR_SHADOW |						\
++	(CPU_BASED_RDTSC_EXITING |					\
++	 CPU_BASED_TPR_SHADOW |						\
++	 CPU_BASED_USE_IO_BITMAPS |					\
++	 CPU_BASED_MONITOR_TRAP_FLAG |					\
+ 	 CPU_BASED_USE_MSR_BITMAPS |					\
+ 	 CPU_BASED_NMI_WINDOW_EXITING |					\
++	 CPU_BASED_PAUSE_EXITING |					\
+ 	 CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |			\
+ 	 CPU_BASED_ACTIVATE_TERTIARY_CONTROLS)
+ 
 -- 
 2.37.2
 
