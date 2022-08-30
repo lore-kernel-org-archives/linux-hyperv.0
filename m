@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A49C0502C
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6F3ECAAA1
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiH3Nkm (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:40:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41432 "EHLO
+        id S230526AbiH3Nkt (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230509AbiH3NkG (ORCPT
+        with ESMTP id S230483AbiH3NkJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:40:06 -0400
+        Tue, 30 Aug 2022 09:40:09 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B021DEE49F
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:52 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 029EC155D46
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866713;
+        s=mimecast20190719; t=1661866715;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UCGV86XISA1fQdZieDURuFlzKhkXare/GAkoPQ3X1FE=;
-        b=Ep2yTEE1/iCGy/0a0yMg+1mkZFYF23IiA/e34Squa5H8NysVS+k/cYY3z+fKVpo747r+Ba
-        tjkeyAaXimL9ibL/KdKZ4XkJbcl7oNHpCG98K1M8IUCusVbMgWpokCCBzqJtUTkUZlKGSf
-        gmSHDpP/B8OcqagTn0eQfsaL5espX4M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=y0touUuJf73/3In9MOrJwHRR1ckxO9xzuDjSUYiJEWo=;
+        b=DLd9fOsOoQN6vRjXfRrIMtkjfzDQEt5zrAEN3O7SlTyWfx4OBUXxAH+hLHfkcbC4guRl7g
+        hmfOrTGC57EDp1tKc1iE5hZ8zi1X6HSpXDHss0WP6m6oG/zHN+yztMbxf1v/VQeGMkHTdR
+        mg9WxXj6w5eYFlm3iGW/d7a3HpKzMZM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-VZc4BMeHM0-zYL93p19Cyw-1; Tue, 30 Aug 2022 09:38:22 -0400
-X-MC-Unique: VZc4BMeHM0-zYL93p19Cyw-1
+ us-mta-44-GUEhvWRIPH-vw4Y_nDN4qQ-1; Tue, 30 Aug 2022 09:38:32 -0400
+X-MC-Unique: GUEhvWRIPH-vw4Y_nDN4qQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4857811E81;
-        Tue, 30 Aug 2022 13:38:21 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CCC113C0D850;
+        Tue, 30 Aug 2022 13:38:31 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 32A1E2166B26;
-        Tue, 30 Aug 2022 13:38:20 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BA88D2166B26;
+        Tue, 30 Aug 2022 13:38:29 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 16/33] KVM: VMX: Get rid of eVMCS specific VMX controls sanitization
-Date:   Tue, 30 Aug 2022 15:37:20 +0200
-Message-Id: <20220830133737.1539624-17-vkuznets@redhat.com>
+Subject: [PATCH v6 20/33] KVM: VMX: Check CPU_BASED_{INTR,NMI}_WINDOW_EXITING in setup_vmcs_config()
+Date:   Tue, 30 Aug 2022 15:37:24 +0200
+Message-Id: <20220830133737.1539624-21-vkuznets@redhat.com>
 In-Reply-To: <20220830133737.1539624-1-vkuznets@redhat.com>
 References: <20220830133737.1539624-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,80 +60,68 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-With the updated eVMCSv1 definition, there's no known 'problematic'
-controls which are exposed in VMX control MSRs but are not present in
-eVMCSv1: all known Hyper-V versions either don't expose the new fields
-by not setting bits in the VMX feature controls or support the new
-eVMCS revision.
+CPU_BASED_{INTR,NMI}_WINDOW_EXITING controls are toggled dynamically by
+vmx_enable_{irq,nmi}_window, handle_interrupt_window(), handle_nmi_window()
+but setup_vmcs_config() doesn't check their existence. Add the check and
+filter the controls out in vmx_exec_control().
 
-Get rid of VMX control MSRs filtering for KVM on Hyper-V.
+Note: KVM explicitly supports CPUs without VIRTUAL_NMIS and all these CPUs
+are supposedly lacking NMI_WINDOW_EXITING too. Adjust cpu_has_virtual_nmis()
+accordingly.
 
-Note: VMX control MSRs filtering for Hyper-V on KVM
-(nested_evmcs_filter_control_msr()) stays as even the updated eVMCSv1
-definition doesn't have all the features implemented by KVM and some
-fields are still missing. Moreover, nested_evmcs_filter_control_msr()
-has to support the original eVMCSv1 version when VMM wishes so.
+No functional change intended.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kvm/vmx/evmcs.c | 13 -------------
- arch/x86/kvm/vmx/evmcs.h |  1 -
- arch/x86/kvm/vmx/vmx.c   |  5 -----
- 3 files changed, 19 deletions(-)
+ arch/x86/kvm/vmx/capabilities.h | 3 ++-
+ arch/x86/kvm/vmx/vmx.c          | 8 +++++++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index 5fc4834be1f6..d8b23c96d627 100644
---- a/arch/x86/kvm/vmx/evmcs.c
-+++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -322,19 +322,6 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
- };
- const unsigned int nr_evmcs_1_fields = ARRAY_SIZE(vmcs_field_to_evmcs_1);
+diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
+index c5e5dfef69c7..faee1db8b0e0 100644
+--- a/arch/x86/kvm/vmx/capabilities.h
++++ b/arch/x86/kvm/vmx/capabilities.h
+@@ -82,7 +82,8 @@ static inline bool cpu_has_vmx_basic_inout(void)
  
--#if IS_ENABLED(CONFIG_HYPERV)
--__init void evmcs_sanitize_exec_ctrls(struct vmcs_config *vmcs_conf)
--{
--	vmcs_conf->cpu_based_exec_ctrl &= ~EVMCS1_UNSUPPORTED_EXEC_CTRL;
--	vmcs_conf->pin_based_exec_ctrl &= ~EVMCS1_UNSUPPORTED_PINCTRL;
--	vmcs_conf->cpu_based_2nd_exec_ctrl &= ~EVMCS1_UNSUPPORTED_2NDEXEC;
--	vmcs_conf->cpu_based_3rd_exec_ctrl = 0;
--
--	vmcs_conf->vmexit_ctrl &= ~EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
--	vmcs_conf->vmentry_ctrl &= ~EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
--}
--#endif
--
- bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa)
+ static inline bool cpu_has_virtual_nmis(void)
  {
- 	struct hv_vp_assist_page assist_page;
-diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
-index d0b2861325a0..6f746ef3c038 100644
---- a/arch/x86/kvm/vmx/evmcs.h
-+++ b/arch/x86/kvm/vmx/evmcs.h
-@@ -209,7 +209,6 @@ static inline void evmcs_load(u64 phys_addr)
- 	vp_ap->enlighten_vmentry = 1;
+-	return vmcs_config.pin_based_exec_ctrl & PIN_BASED_VIRTUAL_NMIS;
++	return vmcs_config.pin_based_exec_ctrl & PIN_BASED_VIRTUAL_NMIS &&
++	       vmcs_config.cpu_based_exec_ctrl & CPU_BASED_NMI_WINDOW_EXITING;
  }
  
--__init void evmcs_sanitize_exec_ctrls(struct vmcs_config *vmcs_conf);
- #else /* !IS_ENABLED(CONFIG_HYPERV) */
- static __always_inline void evmcs_write64(unsigned long field, u64 value) {}
- static inline void evmcs_write32(unsigned long field, u32 value) {}
+ static inline bool cpu_has_vmx_preemption_timer(void)
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index f91f09db6e65..ae0c835d15ad 100644
+index cb662943b83a..cfe1a1157302 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2766,11 +2766,6 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 	vmcs_conf->vmexit_ctrl         = _vmexit_control;
- 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
+@@ -2564,10 +2564,12 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	      CPU_BASED_MWAIT_EXITING |
+ 	      CPU_BASED_MONITOR_EXITING |
+ 	      CPU_BASED_INVLPG_EXITING |
+-	      CPU_BASED_RDPMC_EXITING;
++	      CPU_BASED_RDPMC_EXITING |
++	      CPU_BASED_INTR_WINDOW_EXITING;
  
--#if IS_ENABLED(CONFIG_HYPERV)
--	if (enlightened_vmcs)
--		evmcs_sanitize_exec_ctrls(vmcs_conf);
--#endif
--
- 	return 0;
- }
+ 	opt = CPU_BASED_TPR_SHADOW |
+ 	      CPU_BASED_USE_MSR_BITMAPS |
++	      CPU_BASED_NMI_WINDOW_EXITING |
+ 	      CPU_BASED_ACTIVATE_SECONDARY_CONTROLS |
+ 	      CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
+ 	if (adjust_vmx_controls(min, opt, MSR_IA32_VMX_PROCBASED_CTLS,
+@@ -4378,6 +4380,10 @@ static u32 vmx_exec_control(struct vcpu_vmx *vmx)
+ {
+ 	u32 exec_control = vmcs_config.cpu_based_exec_ctrl;
+ 
++	/* INTR_WINDOW_EXITING and NMI_WINDOW_EXITING are toggled dynamically */
++	exec_control &= ~(CPU_BASED_INTR_WINDOW_EXITING |
++			  CPU_BASED_NMI_WINDOW_EXITING);
++
+ 	if (vmx->vcpu.arch.switch_db_regs & KVM_DEBUGREG_WONT_EXIT)
+ 		exec_control &= ~CPU_BASED_MOV_DR_EXITING;
  
 -- 
 2.37.2
