@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70238ECAAD4
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A49C0502C
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbiH3Nkk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41322 "EHLO
+        id S229529AbiH3Nkm (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:40:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230507AbiH3NkF (ORCPT
+        with ESMTP id S230509AbiH3NkG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:40:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A681FCA29
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:48 -0700 (PDT)
+        Tue, 30 Aug 2022 09:40:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B021DEE49F
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866710;
+        s=mimecast20190719; t=1661866713;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CgW5RnPq93SjDOoyaTew0QAuHZFiRvh5YMiNccXT1qY=;
-        b=DX5OAuaoHbjxt8SHUmFhX5IIxBzY09/zWpVs4HZxOUbcIZu2RBBnjQXhGJVnsUqDTFaEN3
-        whlrwuWRknlBJuoacGSP+yhjLuWrwj66xc+5lSq1bCoYz6AMH+a5x5YGZxYihP8tIDzuvZ
-        cKe24BsRhKyBYFq5yufYk27ScwDHQwI=
+        bh=UCGV86XISA1fQdZieDURuFlzKhkXare/GAkoPQ3X1FE=;
+        b=Ep2yTEE1/iCGy/0a0yMg+1mkZFYF23IiA/e34Squa5H8NysVS+k/cYY3z+fKVpo747r+Ba
+        tjkeyAaXimL9ibL/KdKZ4XkJbcl7oNHpCG98K1M8IUCusVbMgWpokCCBzqJtUTkUZlKGSf
+        gmSHDpP/B8OcqagTn0eQfsaL5espX4M=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-373-hka2J9cDOlqGMc2xbNKcUw-1; Tue, 30 Aug 2022 09:38:27 -0400
-X-MC-Unique: hka2J9cDOlqGMc2xbNKcUw-1
+ us-mta-622-VZc4BMeHM0-zYL93p19Cyw-1; Tue, 30 Aug 2022 09:38:22 -0400
+X-MC-Unique: VZc4BMeHM0-zYL93p19Cyw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1ED9C18E0045;
-        Tue, 30 Aug 2022 13:38:27 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E4857811E81;
+        Tue, 30 Aug 2022 13:38:21 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F1E772166B26;
-        Tue, 30 Aug 2022 13:38:24 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 32A1E2166B26;
+        Tue, 30 Aug 2022 13:38:20 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 18/33] KVM: nVMX: Always emulate PERF_GLOBAL_CTRL VM-Entry/VM-Exit controls
-Date:   Tue, 30 Aug 2022 15:37:22 +0200
-Message-Id: <20220830133737.1539624-19-vkuznets@redhat.com>
+Subject: [PATCH v6 16/33] KVM: VMX: Get rid of eVMCS specific VMX controls sanitization
+Date:   Tue, 30 Aug 2022 15:37:20 +0200
+Message-Id: <20220830133737.1539624-17-vkuznets@redhat.com>
 In-Reply-To: <20220830133737.1539624-1-vkuznets@redhat.com>
 References: <20220830133737.1539624-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,58 +60,81 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Sean Christopherson <seanjc@google.com>
+With the updated eVMCSv1 definition, there's no known 'problematic'
+controls which are exposed in VMX control MSRs but are not present in
+eVMCSv1: all known Hyper-V versions either don't expose the new fields
+by not setting bits in the VMX feature controls or support the new
+eVMCS revision.
 
-Advertise VM_{ENTRY,EXIT}_LOAD_IA32_PERF_GLOBAL_CTRL as being supported
-for nested VMs irrespective of hardware support.  KVM fully emulates
-the controls, i.e. manually emulates MSR writes on entry/exit, and never
-propagates the guest settings directly to vmcs02.
+Get rid of VMX control MSRs filtering for KVM on Hyper-V.
 
-In addition to allowing L1 VMMs to use the controls on older hardware,
-unconditionally advertising the controls will also allow KVM to use its
-vmcs01 configuration as the basis for the nested VMX configuration
-without causing a regression (due the errata which causes KVM to "hide"
-the control from vmcs01 but not vmcs12).
+Note: VMX control MSRs filtering for Hyper-V on KVM
+(nested_evmcs_filter_control_msr()) stays as even the updated eVMCSv1
+definition doesn't have all the features implemented by KVM and some
+fields are still missing. Moreover, nested_evmcs_filter_control_msr()
+has to support the original eVMCSv1 version when VMM wishes so.
 
-Signed-off-by: Sean Christopherson <seanjc@google.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- arch/x86/kvm/vmx/nested.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ arch/x86/kvm/vmx/evmcs.c | 13 -------------
+ arch/x86/kvm/vmx/evmcs.h |  1 -
+ arch/x86/kvm/vmx/vmx.c   |  5 -----
+ 3 files changed, 19 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index c9b17239c9e8..19a96cf65b99 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -6602,11 +6602,12 @@ void nested_vmx_setup_ctls_msrs(struct nested_vmx_msrs *msrs, u32 ept_caps)
- 		VM_EXIT_HOST_ADDR_SPACE_SIZE |
- #endif
- 		VM_EXIT_LOAD_IA32_PAT | VM_EXIT_SAVE_IA32_PAT |
--		VM_EXIT_CLEAR_BNDCFGS | VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
-+		VM_EXIT_CLEAR_BNDCFGS;
- 	msrs->exit_ctls_high |=
- 		VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR |
- 		VM_EXIT_LOAD_IA32_EFER | VM_EXIT_SAVE_IA32_EFER |
--		VM_EXIT_SAVE_VMX_PREEMPTION_TIMER | VM_EXIT_ACK_INTR_ON_EXIT;
-+		VM_EXIT_SAVE_VMX_PREEMPTION_TIMER | VM_EXIT_ACK_INTR_ON_EXIT |
-+		VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
+diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
+index 5fc4834be1f6..d8b23c96d627 100644
+--- a/arch/x86/kvm/vmx/evmcs.c
++++ b/arch/x86/kvm/vmx/evmcs.c
+@@ -322,19 +322,6 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ };
+ const unsigned int nr_evmcs_1_fields = ARRAY_SIZE(vmcs_field_to_evmcs_1);
  
- 	/* We support free control of debug control saving. */
- 	msrs->exit_ctls_low &= ~VM_EXIT_SAVE_DEBUG_CONTROLS;
-@@ -6621,10 +6622,10 @@ void nested_vmx_setup_ctls_msrs(struct nested_vmx_msrs *msrs, u32 ept_caps)
- #ifdef CONFIG_X86_64
- 		VM_ENTRY_IA32E_MODE |
- #endif
--		VM_ENTRY_LOAD_IA32_PAT | VM_ENTRY_LOAD_BNDCFGS |
--		VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
-+		VM_ENTRY_LOAD_IA32_PAT | VM_ENTRY_LOAD_BNDCFGS;
- 	msrs->entry_ctls_high |=
--		(VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR | VM_ENTRY_LOAD_IA32_EFER);
-+		(VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR | VM_ENTRY_LOAD_IA32_EFER |
-+		 VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL);
+-#if IS_ENABLED(CONFIG_HYPERV)
+-__init void evmcs_sanitize_exec_ctrls(struct vmcs_config *vmcs_conf)
+-{
+-	vmcs_conf->cpu_based_exec_ctrl &= ~EVMCS1_UNSUPPORTED_EXEC_CTRL;
+-	vmcs_conf->pin_based_exec_ctrl &= ~EVMCS1_UNSUPPORTED_PINCTRL;
+-	vmcs_conf->cpu_based_2nd_exec_ctrl &= ~EVMCS1_UNSUPPORTED_2NDEXEC;
+-	vmcs_conf->cpu_based_3rd_exec_ctrl = 0;
+-
+-	vmcs_conf->vmexit_ctrl &= ~EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
+-	vmcs_conf->vmentry_ctrl &= ~EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
+-}
+-#endif
+-
+ bool nested_enlightened_vmentry(struct kvm_vcpu *vcpu, u64 *evmcs_gpa)
+ {
+ 	struct hv_vp_assist_page assist_page;
+diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
+index d0b2861325a0..6f746ef3c038 100644
+--- a/arch/x86/kvm/vmx/evmcs.h
++++ b/arch/x86/kvm/vmx/evmcs.h
+@@ -209,7 +209,6 @@ static inline void evmcs_load(u64 phys_addr)
+ 	vp_ap->enlighten_vmentry = 1;
+ }
  
- 	/* We support free control of debug control loading. */
- 	msrs->entry_ctls_low &= ~VM_ENTRY_LOAD_DEBUG_CONTROLS;
+-__init void evmcs_sanitize_exec_ctrls(struct vmcs_config *vmcs_conf);
+ #else /* !IS_ENABLED(CONFIG_HYPERV) */
+ static __always_inline void evmcs_write64(unsigned long field, u64 value) {}
+ static inline void evmcs_write32(unsigned long field, u32 value) {}
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index f91f09db6e65..ae0c835d15ad 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -2766,11 +2766,6 @@ static __init int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	vmcs_conf->vmexit_ctrl         = _vmexit_control;
+ 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
+ 
+-#if IS_ENABLED(CONFIG_HYPERV)
+-	if (enlightened_vmcs)
+-		evmcs_sanitize_exec_ctrls(vmcs_conf);
+-#endif
+-
+ 	return 0;
+ }
+ 
 -- 
 2.37.2
 
