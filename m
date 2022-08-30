@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E11ECAAD1
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:39:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AADECAAD1
+	for <linux-hyperv@archiver.kernel.org>; Tue, 30 Aug 2022 13:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbiH3Nja (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41910 "EHLO
+        id S231136AbiH3Njf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:39:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231192AbiH3Nis (ORCPT
+        with ESMTP id S230483AbiH3Nia (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 09:38:48 -0400
+        Tue, 30 Aug 2022 09:38:30 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CCEF72D3
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9362FB0C7
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 Aug 2022 06:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866698;
+        s=mimecast20190719; t=1661866681;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UjJx3TQUZwRw+Nu3JII3C5jNsdZjj1ZPQ7TYTS/mAds=;
-        b=Y0bHbexrmRo0iSoKPQeQhsLB3+DKHDMmugtinWyQdgP+4fCvbEma2hkS0fTis+cZ8rtZxH
-        jMHzklcJ1/tkV4KfX5rAWUgwICWO3/hQ4bBxO5lWbF3rZsJploSshGawcoeeCuBzD0MLsw
-        tthFZlv8mMAiOgZH23FzHg8dGzGMJe0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=FqmqdlDTDI5z0ZN2Br8ZM1fyndGHGtgHR1grcbr3ajc=;
+        b=YVSlEk+3ykCQMDQ8TUe62fQD6oEpnOupIZtUzIh8Kqm+/JXes69WgY/9vl8aSCQYabgtdN
+        JjPMyXfsbWRa7zvl7XKgQOPHpzPRJchN7EMeYsmReWySvUwmoQbJ63ghGG+lM9lJse4OZQ
+        Im/JoVSc2kVUgR3ctK0qfIiw63r2uO4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-wHJVYN7xP4u_eRCMYFU3QA-1; Tue, 30 Aug 2022 09:38:15 -0400
-X-MC-Unique: wHJVYN7xP4u_eRCMYFU3QA-1
+ us-mta-610-m-Qanej8N6WppPH-RF8-0g-1; Tue, 30 Aug 2022 09:37:58 -0400
+X-MC-Unique: m-Qanej8N6WppPH-RF8-0g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8CF37101E989;
-        Tue, 30 Aug 2022 13:38:14 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A64CD382ECC6;
+        Tue, 30 Aug 2022 13:37:57 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.232])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 155752166B26;
-        Tue, 30 Aug 2022 13:38:11 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 687192166B26;
+        Tue, 30 Aug 2022 13:37:55 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -47,9 +47,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 13/33] KVM: selftests: Switch to updated eVMCSv1 definition
-Date:   Tue, 30 Aug 2022 15:37:17 +0200
-Message-Id: <20220830133737.1539624-14-vkuznets@redhat.com>
+Subject: [PATCH v6 07/33] KVM: nVMX: Refactor unsupported eVMCS controls logic to use 2-d array
+Date:   Tue, 30 Aug 2022 15:37:11 +0200
+Message-Id: <20220830133737.1539624-8-vkuznets@redhat.com>
 In-Reply-To: <20220830133737.1539624-1-vkuznets@redhat.com>
 References: <20220830133737.1539624-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -60,90 +60,149 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Update Enlightened VMCS definition in selftests from KVM.
+Refactor the handling of unsupported eVMCS to use a 2-d array to store
+the set of unsupported controls.  KVM's handling of eVMCS is completely
+broken as there is no way for userspace to query which features are
+unsupported, nor does KVM prevent userspace from attempting to enable
+unsupported features.  A future commit will remedy that by filtering and
+enforcing unsupported features when eVMCS, but that needs to be opt-in
+from userspace to avoid breakage, i.e. KVM needs to maintain its legacy
+behavior by snapshotting the exact set of controls that are currently
+(un)supported by eVMCS.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+No functional change intended.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+[sean: split to standalone patch, write changelog]
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- .../selftests/kvm/include/x86_64/evmcs.h      | 45 +++++++++++++++++--
- 1 file changed, 42 insertions(+), 3 deletions(-)
+ arch/x86/kvm/vmx/evmcs.c | 60 +++++++++++++++++++++++++++++++++-------
+ 1 file changed, 50 insertions(+), 10 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 3c9260f8e116..58db74f68af2 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -203,14 +203,25 @@ struct hv_enlightened_vmcs {
- 		u32 reserved:30;
- 	} hv_enlightenments_control;
- 	u32 hv_vp_id;
--
-+	u32 padding32_2;
- 	u64 hv_vm_id;
- 	u64 partition_assist_page;
- 	u64 padding64_4[4];
- 	u64 guest_bndcfgs;
--	u64 padding64_5[7];
-+	u64 guest_ia32_perf_global_ctrl;
-+	u64 guest_ia32_s_cet;
-+	u64 guest_ssp;
-+	u64 guest_ia32_int_ssp_table_addr;
-+	u64 guest_ia32_lbr_ctl;
-+	u64 padding64_5[2];
- 	u64 xss_exit_bitmap;
--	u64 padding64_6[7];
-+	u64 encls_exiting_bitmap;
-+	u64 host_ia32_perf_global_ctrl;
-+	u64 tsc_multiplier;
-+	u64 host_ia32_s_cet;
-+	u64 host_ssp;
-+	u64 host_ia32_int_ssp_table_addr;
-+	u64 padding64_6;
- };
+diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
+index 9139c70b6008..a82af2482f84 100644
+--- a/arch/x86/kvm/vmx/evmcs.c
++++ b/arch/x86/kvm/vmx/evmcs.c
+@@ -345,6 +345,45 @@ uint16_t nested_get_evmcs_version(struct kvm_vcpu *vcpu)
+ 	return 0;
+ }
  
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
-@@ -656,6 +667,18 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
- 	case VIRTUAL_PROCESSOR_ID:
- 		*value = current_evmcs->virtual_processor_id;
++enum evmcs_revision {
++	EVMCSv1_LEGACY,
++	NR_EVMCS_REVISIONS,
++};
++
++enum evmcs_ctrl_type {
++	EVMCS_EXIT_CTRLS,
++	EVMCS_ENTRY_CTRLS,
++	EVMCS_2NDEXEC,
++	EVMCS_PINCTRL,
++	EVMCS_VMFUNC,
++	NR_EVMCS_CTRLS,
++};
++
++static const u32 evmcs_unsupported_ctrls[NR_EVMCS_CTRLS][NR_EVMCS_REVISIONS] = {
++	[EVMCS_EXIT_CTRLS] = {
++		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_VMEXIT_CTRL,
++	},
++	[EVMCS_ENTRY_CTRLS] = {
++		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_VMENTRY_CTRL,
++	},
++	[EVMCS_2NDEXEC] = {
++		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_2NDEXEC,
++	},
++	[EVMCS_PINCTRL] = {
++		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_PINCTRL,
++	},
++	[EVMCS_VMFUNC] = {
++		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_VMFUNC,
++	},
++};
++
++static u32 evmcs_get_unsupported_ctls(enum evmcs_ctrl_type ctrl_type)
++{
++	enum evmcs_revision evmcs_rev = EVMCSv1_LEGACY;
++
++	return evmcs_unsupported_ctrls[ctrl_type][evmcs_rev];
++}
++
+ void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata)
+ {
+ 	u32 ctl_low = (u32)*pdata;
+@@ -357,21 +396,21 @@ void nested_evmcs_filter_control_msr(u32 msr_index, u64 *pdata)
+ 	switch (msr_index) {
+ 	case MSR_IA32_VMX_EXIT_CTLS:
+ 	case MSR_IA32_VMX_TRUE_EXIT_CTLS:
+-		ctl_high &= ~EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
++		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_EXIT_CTRLS);
  		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->host_ia32_perf_global_ctrl;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		*value = current_evmcs->guest_ia32_perf_global_ctrl;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		*value = current_evmcs->encls_exiting_bitmap;
-+		break;
-+	case TSC_MULTIPLIER:
-+		*value = current_evmcs->tsc_multiplier;
-+		break;
- 	default: return 1;
+ 	case MSR_IA32_VMX_ENTRY_CTLS:
+ 	case MSR_IA32_VMX_TRUE_ENTRY_CTLS:
+-		ctl_high &= ~EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
++		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_ENTRY_CTRLS);
+ 		break;
+ 	case MSR_IA32_VMX_PROCBASED_CTLS2:
+-		ctl_high &= ~EVMCS1_UNSUPPORTED_2NDEXEC;
++		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_2NDEXEC);
+ 		break;
+ 	case MSR_IA32_VMX_TRUE_PINBASED_CTLS:
+ 	case MSR_IA32_VMX_PINBASED_CTLS:
+-		ctl_high &= ~EVMCS1_UNSUPPORTED_PINCTRL;
++		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_PINCTRL);
+ 		break;
+ 	case MSR_IA32_VMX_VMFUNC:
+-		ctl_low &= ~EVMCS1_UNSUPPORTED_VMFUNC;
++		ctl_low &= ~evmcs_get_unsupported_ctls(EVMCS_VMFUNC);
+ 		break;
  	}
  
-@@ -1169,6 +1192,22 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
- 		current_evmcs->virtual_processor_id = value;
- 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_XLAT;
- 		break;
-+	case HOST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->host_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1;
-+		break;
-+	case GUEST_IA32_PERF_GLOBAL_CTRL:
-+		current_evmcs->guest_ia32_perf_global_ctrl = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP1;
-+		break;
-+	case ENCLS_EXITING_BITMAP:
-+		current_evmcs->encls_exiting_bitmap = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
-+	case TSC_MULTIPLIER:
-+		current_evmcs->tsc_multiplier = value;
-+		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
-+		break;
- 	default: return 1;
+@@ -384,7 +423,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
+ 	u32 unsupp_ctl;
+ 
+ 	unsupp_ctl = vmcs12->pin_based_vm_exec_control &
+-		EVMCS1_UNSUPPORTED_PINCTRL;
++		evmcs_get_unsupported_ctls(EVMCS_PINCTRL);
+ 	if (unsupp_ctl) {
+ 		trace_kvm_nested_vmenter_failed(
+ 			"eVMCS: unsupported pin-based VM-execution controls",
+@@ -393,7 +432,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
  	}
  
+ 	unsupp_ctl = vmcs12->secondary_vm_exec_control &
+-		EVMCS1_UNSUPPORTED_2NDEXEC;
++		evmcs_get_unsupported_ctls(EVMCS_2NDEXEC);
+ 	if (unsupp_ctl) {
+ 		trace_kvm_nested_vmenter_failed(
+ 			"eVMCS: unsupported secondary VM-execution controls",
+@@ -402,7 +441,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
+ 	}
+ 
+ 	unsupp_ctl = vmcs12->vm_exit_controls &
+-		EVMCS1_UNSUPPORTED_VMEXIT_CTRL;
++		evmcs_get_unsupported_ctls(EVMCS_EXIT_CTRLS);
+ 	if (unsupp_ctl) {
+ 		trace_kvm_nested_vmenter_failed(
+ 			"eVMCS: unsupported VM-exit controls",
+@@ -411,7 +450,7 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
+ 	}
+ 
+ 	unsupp_ctl = vmcs12->vm_entry_controls &
+-		EVMCS1_UNSUPPORTED_VMENTRY_CTRL;
++		evmcs_get_unsupported_ctls(EVMCS_ENTRY_CTRLS);
+ 	if (unsupp_ctl) {
+ 		trace_kvm_nested_vmenter_failed(
+ 			"eVMCS: unsupported VM-entry controls",
+@@ -419,7 +458,8 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
+ 		ret = -EINVAL;
+ 	}
+ 
+-	unsupp_ctl = vmcs12->vm_function_control & EVMCS1_UNSUPPORTED_VMFUNC;
++	unsupp_ctl = vmcs12->vm_function_control &
++		evmcs_get_unsupported_ctls(EVMCS_VMFUNC);
+ 	if (unsupp_ctl) {
+ 		trace_kvm_nested_vmenter_failed(
+ 			"eVMCS: unsupported VM-function controls",
 -- 
 2.37.2
 
