@@ -2,29 +2,29 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5623DECAAD5
-	for <linux-hyperv@archiver.kernel.org>; Wed, 31 Aug 2022 00:35:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD33C67868
+	for <linux-hyperv@archiver.kernel.org>; Wed, 31 Aug 2022 00:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbiHaAfJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 20:35:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45998 "EHLO
+        id S231774AbiHaAfK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 Aug 2022 20:35:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231442AbiHaAeq (ORCPT
+        with ESMTP id S230241AbiHaAfG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 20:34:46 -0400
+        Tue, 30 Aug 2022 20:35:06 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 124CBBC4;
-        Tue, 30 Aug 2022 17:34:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3AC261007;
+        Tue, 30 Aug 2022 17:34:46 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id EBE022045E2B; Tue, 30 Aug 2022 17:34:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EBE022045E2B
+        id 1E1022045E01; Tue, 30 Aug 2022 17:34:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1E1022045E01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1661906083;
-        bh=HtxpNhH+H5wUbWfJokqUpF/2aUNQmLJn4KCHYfFBwJo=;
+        s=default; t=1661906086;
+        bh=ly/v95nVtvTxi7CmF5l/6pdVgk+T1qAVeTuRQ7wtPBo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=HOEAdX/Z6gW161Qk3fBOdjZdGSsp5CJuaju8Htcm/+ymcPtNeXmvI5mujZoMyQwNo
-         OpHjFCCyIUwI26f7JAwJUaFQcgXURltNnFVqvCAl0opPrQ5+YhwkiQSSr7PoVd60Bb
-         d4U8cTaIabRudMVsOZTn30ElsOG2LlWPsVadqrgA=
+        b=PaU81mUBzRph9nd7OvFglfXZBAWsOsLaeFBftcTSQQQYV+Wr+j0JP1heafVZFyqjb
+         9CrC3bXtFK1cYYd+/tGfYbGVNpOMbxVesQ8TotEJiwypY/sgrXf5I+5YoogQ5wvMSZ
+         7gdEsthNHILx5zMUg263yd2zaLnKciUQyRPillh0=
 From:   longli@linuxonhyperv.com
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -39,9 +39,9 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
         Long Li <longli@microsoft.com>
-Subject: [Patch v5 06/12] net: mana: Export Work Queue functions for use by RDMA driver
-Date:   Tue, 30 Aug 2022 17:34:25 -0700
-Message-Id: <1661906071-29508-7-git-send-email-longli@linuxonhyperv.com>
+Subject: [Patch v5 10/12] net: mana: Define and process GDMA response code GDMA_STATUS_MORE_ENTRIES
+Date:   Tue, 30 Aug 2022 17:34:29 -0700
+Message-Id: <1661906071-29508-11-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1661906071-29508-1-git-send-email-longli@linuxonhyperv.com>
 References: <1661906071-29508-1-git-send-email-longli@linuxonhyperv.com>
@@ -50,98 +50,46 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+From: Ajay Sharma <sharmaajay@microsoft.com>
 
-RDMA device may need to create Ethernet device queues for use by Queue
-Pair type RAW. This allows a user-mode context accesses Ethernet hardware
-queues. Export the supporting functions for use by the RDMA driver.
+When doing memory registration, the PF may respond with
+GDMA_STATUS_MORE_ENTRIES to indicate a follow request is needed. This is
+not an error and should be processed as expected.
 
+Signed-off-by: Ajay Sharma <sharmaajay@microsoft.com>
 Reviewed-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Long Li <longli@microsoft.com>
 ---
-Change log:
-v3: format/coding style changes
-v5: remove unused defintions, use EXPORT_SYMBOL_NS, rearrange some defintions to a later patch in the series
+ drivers/net/ethernet/microsoft/mana/hw_channel.c | 2 +-
+ include/net/mana/gdma.h                          | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
- drivers/net/ethernet/microsoft/mana/gdma_main.c |  1 +
- drivers/net/ethernet/microsoft/mana/mana.h      |  9 +++++++++
- drivers/net/ethernet/microsoft/mana/mana_en.c   | 16 +++++++++-------
- 3 files changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 9a1885e47766..2bd9bf624eb3 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -125,6 +125,7 @@ int mana_gd_send_request(struct gdma_context *gc, u32 req_len, const void *req,
+diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+index e61cb3f6fbe1..24ecd193a185 100644
+--- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
++++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+@@ -820,7 +820,7 @@ int mana_hwc_send_request(struct hw_channel_context *hwc, u32 req_len,
+ 		goto out;
+ 	}
  
- 	return mana_hwc_send_request(hwc, req_len, req, resp_len, resp);
- }
-+EXPORT_SYMBOL_NS(mana_gd_send_request, NET_MANA);
+-	if (ctx->status_code) {
++	if (ctx->status_code && ctx->status_code != GDMA_STATUS_MORE_ENTRIES) {
+ 		dev_err(hwc->dev, "HWC: Failed hw_channel req: 0x%x\n",
+ 			ctx->status_code);
+ 		err = -EPROTO;
+diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
+index e9ad03ccc98b..2442e72628d9 100644
+--- a/include/net/mana/gdma.h
++++ b/include/net/mana/gdma.h
+@@ -9,6 +9,8 @@
  
- int mana_gd_alloc_memory(struct gdma_context *gc, unsigned int length,
- 			 struct gdma_mem_info *gmi)
-diff --git a/drivers/net/ethernet/microsoft/mana/mana.h b/drivers/net/ethernet/microsoft/mana/mana.h
-index 2643036ee3e0..f0902f83045f 100644
---- a/drivers/net/ethernet/microsoft/mana/mana.h
-+++ b/drivers/net/ethernet/microsoft/mana/mana.h
-@@ -565,6 +565,15 @@ struct mana_tx_package {
- 	struct gdma_posted_wqe_info wqe_info;
- };
+ #include "shm_channel.h"
  
-+int mana_create_wq_obj(struct mana_port_context *apc,
-+		       mana_handle_t vport,
-+		       u32 wq_type, struct mana_obj_spec *wq_spec,
-+		       struct mana_obj_spec *cq_spec,
-+		       mana_handle_t *wq_obj);
++#define GDMA_STATUS_MORE_ENTRIES	0x00000105
 +
-+void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
-+			 mana_handle_t wq_obj);
-+
- int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
- 		   u32 doorbell_pg_id);
- void mana_uncfg_vport(struct mana_port_context *apc);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index f0bd0efd0b6a..4c771ce59108 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -677,11 +677,11 @@ static int mana_cfg_vport_steering(struct mana_port_context *apc,
- 	return err;
- }
- 
--static int mana_create_wq_obj(struct mana_port_context *apc,
--			      mana_handle_t vport,
--			      u32 wq_type, struct mana_obj_spec *wq_spec,
--			      struct mana_obj_spec *cq_spec,
--			      mana_handle_t *wq_obj)
-+int mana_create_wq_obj(struct mana_port_context *apc,
-+		       mana_handle_t vport,
-+		       u32 wq_type, struct mana_obj_spec *wq_spec,
-+		       struct mana_obj_spec *cq_spec,
-+		       mana_handle_t *wq_obj)
- {
- 	struct mana_create_wqobj_resp resp = {};
- 	struct mana_create_wqobj_req req = {};
-@@ -730,9 +730,10 @@ static int mana_create_wq_obj(struct mana_port_context *apc,
- out:
- 	return err;
- }
-+EXPORT_SYMBOL_NS(mana_create_wq_obj, NET_MANA);
- 
--static void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
--				mana_handle_t wq_obj)
-+void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
-+			 mana_handle_t wq_obj)
- {
- 	struct mana_destroy_wqobj_resp resp = {};
- 	struct mana_destroy_wqobj_req req = {};
-@@ -757,6 +758,7 @@ static void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
- 		netdev_err(ndev, "Failed to destroy WQ object: %d, 0x%x\n", err,
- 			   resp.hdr.status);
- }
-+EXPORT_SYMBOL_NS(mana_destroy_wq_obj, NET_MANA);
- 
- static void mana_destroy_eq(struct mana_context *ac)
- {
+ /* Structures labeled with "HW DATA" are exchanged with the hardware. All of
+  * them are naturally aligned and hence don't need __packed.
+  */
 -- 
 2.17.1
 
