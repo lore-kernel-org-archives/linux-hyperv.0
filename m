@@ -2,198 +2,94 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A918DC65C0D
-	for <linux-hyperv@archiver.kernel.org>; Wed, 31 Aug 2022 00:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 100D6C0502C
+	for <linux-hyperv@archiver.kernel.org>; Wed, 31 Aug 2022 08:50:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231789AbiHaAfQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 Aug 2022 20:35:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S230457AbiHaIuX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 31 Aug 2022 04:50:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231589AbiHaAfH (ORCPT
+        with ESMTP id S231443AbiHaIuV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 Aug 2022 20:35:07 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 18EB7B13;
-        Tue, 30 Aug 2022 17:34:45 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id 10DAA2045E2D; Tue, 30 Aug 2022 17:34:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 10DAA2045E2D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1661906085;
-        bh=ELVhJf7XzxuLhy9iuZokmUadrHjqocU7q3Y2VUl+wSU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=SQjvbBhE4aQ9aGuXdfNVLtQWTDvrAoXk/zWVSy9ECxViCCg670KFEQJwKNKQKxHM9
-         Dnm1r9B0kEVbZtKvVPbgBkPu6+8NdupGccc6EvHF0ee/WfNYEd8xrME112lJxX3GC8
-         6sx2tS45amKswreXt7EoCymRRDIy9IYWa6FaS6Fg=
-From:   longli@linuxonhyperv.com
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, edumazet@google.com,
-        shiraz.saleem@intel.com, Ajay Sharma <sharmaajay@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Long Li <longli@microsoft.com>
-Subject: [Patch v5 08/12] net: mana: Move header files to a common location
-Date:   Tue, 30 Aug 2022 17:34:27 -0700
-Message-Id: <1661906071-29508-9-git-send-email-longli@linuxonhyperv.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1661906071-29508-1-git-send-email-longli@linuxonhyperv.com>
-References: <1661906071-29508-1-git-send-email-longli@linuxonhyperv.com>
-Reply-To: longli@microsoft.com
+        Wed, 31 Aug 2022 04:50:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24DEA2238
+        for <linux-hyperv@vger.kernel.org>; Wed, 31 Aug 2022 01:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661935818;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=tiSY5YpavkPocYXmlQRCYmBcbTZ5BJRKWc15iYlx39A=;
+        b=SQmk5rOXk5rTJxTfJ44+WpXvgXaB9QWbjk8WJIp+WlpHDVZ/Jq1CLhxyPdGttgpImFaGeQ
+        0W4m2LD020CpzsHqU9ENvZIJLBzTmb+wrcKbMVMOlXbC5UZf7m+qqP2z2TQwU3qwtovlZ8
+        7PhfE8J9cIVwlvF91hYIZE2uYsqME+Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-319-PnQE8m_vM22MkNlXmu7NOg-1; Wed, 31 Aug 2022 04:50:13 -0400
+X-MC-Unique: PnQE8m_vM22MkNlXmu7NOg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CEFC98032FB;
+        Wed, 31 Aug 2022 08:50:12 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.186])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 56FC3C15BB3;
+        Wed, 31 Aug 2022 08:50:10 +0000 (UTC)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] KVM: x86: Hyper-V invariant TSC control feature
+Date:   Wed, 31 Aug 2022 10:50:06 +0200
+Message-Id: <20220831085009.1627523-1-vkuznets@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+Changes since v1:
+- Drop "KVM: selftests: Fix wrmsr_safe()" patch as it is already merged.
+- Add 'KVM: selftests: Rename 'msr->availble' to 'msr->should_not_gp' in
+ hyperv_features test' patch [Max]
+- Rebase selftest to the current API.
 
-In preparation to add MANA RDMA driver, move all the required header files
-to a common location for use by both Ethernet and RDMA drivers.
+Original description:
 
-Reviewed-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Long Li <longli@microsoft.com>
----
-Change log:
-v2: Move headers to include/net/mana, instead of include/linux/mana
+Normally, genuine Hyper-V doesn't expose architectural invariant TSC
+(CPUID.80000007H:EDX[8]) to its guests by default. A special PV MSR
+(HV_X64_MSR_TSC_INVARIANT_CONTROL, 0x40000118) and corresponding CPUID
+feature bit (CPUID.0x40000003.EAX[15]) were introduced. When bit 0 of the
+PV MSR is set, invariant TSC bit starts to show up in CPUID. When the 
+feature is exposed to Hyper-V guests, reenlightenment becomes unneeded.
 
- MAINTAINERS                                                   | 1 +
- drivers/net/ethernet/microsoft/mana/gdma_main.c               | 2 +-
- drivers/net/ethernet/microsoft/mana/hw_channel.c              | 4 ++--
- drivers/net/ethernet/microsoft/mana/mana_bpf.c                | 2 +-
- drivers/net/ethernet/microsoft/mana/mana_en.c                 | 4 ++--
- drivers/net/ethernet/microsoft/mana/mana_ethtool.c            | 2 +-
- drivers/net/ethernet/microsoft/mana/shm_channel.c             | 2 +-
- {drivers/net/ethernet/microsoft => include/net}/mana/gdma.h   | 0
- .../net/ethernet/microsoft => include/net}/mana/hw_channel.h  | 0
- {drivers/net/ethernet/microsoft => include/net}/mana/mana.h   | 0
- .../ethernet/microsoft => include/net}/mana/mana_auxiliary.h  | 0
- .../net/ethernet/microsoft => include/net}/mana/shm_channel.h | 0
- 12 files changed, 9 insertions(+), 8 deletions(-)
- rename {drivers/net/ethernet/microsoft => include/net}/mana/gdma.h (100%)
- rename {drivers/net/ethernet/microsoft => include/net}/mana/hw_channel.h (100%)
- rename {drivers/net/ethernet/microsoft => include/net}/mana/mana.h (100%)
- rename {drivers/net/ethernet/microsoft => include/net}/mana/mana_auxiliary.h (100%)
- rename {drivers/net/ethernet/microsoft => include/net}/mana/shm_channel.h (100%)
+Note: strictly speaking, KVM doesn't have to have the feature as exposing
+raw invariant TSC bit (CPUID.80000007H:EDX[8]) also seems to work for
+modern Windows versions. The feature is, however, tiny and straitforward
+and gives additional flexibility so why not.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 40fa1955ca3f..51bec6d5076d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9108,6 +9108,7 @@ F:	include/asm-generic/hyperv-tlfs.h
- F:	include/asm-generic/mshyperv.h
- F:	include/clocksource/hyperv_timer.h
- F:	include/linux/hyperv.h
-+F:	include/net/mana
- F:	include/uapi/linux/hyperv.h
- F:	net/vmw_vsock/hyperv_transport.c
- F:	tools/hv/
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 2bd9bf624eb3..930e7f4a1dad 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -6,7 +6,7 @@
- #include <linux/utsname.h>
- #include <linux/version.h>
- 
--#include "mana.h"
-+#include <net/mana/mana.h>
- 
- static u32 mana_gd_r32(struct gdma_context *g, u64 offset)
- {
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 078d6a5a0768..e61cb3f6fbe1 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -1,8 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
- /* Copyright (c) 2021, Microsoft Corporation. */
- 
--#include "gdma.h"
--#include "hw_channel.h"
-+#include <net/mana/gdma.h>
-+#include <net/mana/hw_channel.h>
- 
- static int mana_hwc_get_msg_index(struct hw_channel_context *hwc, u16 *msg_id)
- {
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_bpf.c b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-index 1d2f948b5c00..97a79659af45 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_bpf.c
-@@ -8,7 +8,7 @@
- #include <linux/bpf_trace.h>
- #include <net/xdp.h>
- 
--#include "mana.h"
-+#include <net/mana/mana.h>
- 
- void mana_xdp_tx(struct sk_buff *skb, struct net_device *ndev)
- {
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index eeddd4ab2fa4..ba776f73d7c9 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -11,8 +11,8 @@
- #include <net/checksum.h>
- #include <net/ip6_checksum.h>
- 
--#include "mana.h"
--#include "mana_auxiliary.h"
-+#include <net/mana/mana.h>
-+#include <net/mana/mana_auxiliary.h>
- 
- static DEFINE_IDA(mana_adev_ida);
- 
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-index e13f2453eabb..ebc6595d02fe 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
-@@ -5,7 +5,7 @@
- #include <linux/etherdevice.h>
- #include <linux/ethtool.h>
- 
--#include "mana.h"
-+#include <net/mana/mana.h>
- 
- static const struct {
- 	char name[ETH_GSTRING_LEN];
-diff --git a/drivers/net/ethernet/microsoft/mana/shm_channel.c b/drivers/net/ethernet/microsoft/mana/shm_channel.c
-index da255da62176..5553af9c8085 100644
---- a/drivers/net/ethernet/microsoft/mana/shm_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/shm_channel.c
-@@ -6,7 +6,7 @@
- #include <linux/io.h>
- #include <linux/mm.h>
- 
--#include "shm_channel.h"
-+#include <net/mana/shm_channel.h>
- 
- #define PAGE_FRAME_L48_WIDTH_BYTES 6
- #define PAGE_FRAME_L48_WIDTH_BITS (PAGE_FRAME_L48_WIDTH_BYTES * 8)
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/include/net/mana/gdma.h
-similarity index 100%
-rename from drivers/net/ethernet/microsoft/mana/gdma.h
-rename to include/net/mana/gdma.h
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.h b/include/net/mana/hw_channel.h
-similarity index 100%
-rename from drivers/net/ethernet/microsoft/mana/hw_channel.h
-rename to include/net/mana/hw_channel.h
-diff --git a/drivers/net/ethernet/microsoft/mana/mana.h b/include/net/mana/mana.h
-similarity index 100%
-rename from drivers/net/ethernet/microsoft/mana/mana.h
-rename to include/net/mana/mana.h
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h b/include/net/mana/mana_auxiliary.h
-similarity index 100%
-rename from drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
-rename to include/net/mana/mana_auxiliary.h
-diff --git a/drivers/net/ethernet/microsoft/mana/shm_channel.h b/include/net/mana/shm_channel.h
-similarity index 100%
-rename from drivers/net/ethernet/microsoft/mana/shm_channel.h
-rename to include/net/mana/shm_channel.h
+Vitaly Kuznetsov (3):
+  KVM: x86: Hyper-V invariant TSC control
+  KVM: selftests: Rename 'msr->availble' to 'msr->should_not_gp' in
+    hyperv_features test
+  KVM: selftests: Test Hyper-V invariant TSC control
+
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/kvm/cpuid.c                          |   7 +
+ arch/x86/kvm/hyperv.c                         |  19 +++
+ arch/x86/kvm/hyperv.h                         |  15 ++
+ arch/x86/kvm/x86.c                            |   4 +-
+ .../selftests/kvm/x86_64/hyperv_features.c    | 159 +++++++++++++-----
+ 6 files changed, 158 insertions(+), 47 deletions(-)
+
 -- 
-2.17.1
+2.37.2
 
