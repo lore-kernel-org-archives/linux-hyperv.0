@@ -2,485 +2,126 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B82AECAAD8
-	for <linux-hyperv@archiver.kernel.org>; Fri, 16 Sep 2022 13:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1540AECAAD8
+	for <linux-hyperv@archiver.kernel.org>; Fri, 16 Sep 2022 16:18:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbiIPNxG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 16 Sep 2022 09:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45172 "EHLO
+        id S229628AbiIPQR6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 16 Sep 2022 12:17:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231654AbiIPNxE (ORCPT
+        with ESMTP id S229458AbiIPQR5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 16 Sep 2022 09:53:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724BFA407D
-        for <linux-hyperv@vger.kernel.org>; Fri, 16 Sep 2022 06:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663336355;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=itBeD7aMWApis4yWHltANFNdUOuh4wCJFbNbO/Qoxb8=;
-        b=G339l7Qxgahu5Lh+lSm/W/z9IJTLdJNGml8BMfE+meaFmwGZO11Ykq7eaqCaFdWU25gDkh
-        SMrnvL5C/pJbPFAfytrKHwz2E2sy8fmsiusfEUKhuj4qmCkpX+9YpQifWlf7CBQpU5Yy4t
-        Kbrwaw1w4pgTVMHDcHQHePrLIxaqkYc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-vPQr1H2dNoykuRrrz-ZAGw-1; Fri, 16 Sep 2022 09:52:30 -0400
-X-MC-Unique: vPQr1H2dNoykuRrrz-ZAGw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 79DBC101A528;
-        Fri, 16 Sep 2022 13:52:22 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.163])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1F1FC2166B26;
-        Fri, 16 Sep 2022 13:52:19 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/6] KVM: selftests: Convert hyperv_features test to using KVM_X86_CPU_FEATURE()
-Date:   Fri, 16 Sep 2022 15:52:04 +0200
-Message-Id: <20220916135205.3185973-6-vkuznets@redhat.com>
-In-Reply-To: <20220916135205.3185973-1-vkuznets@redhat.com>
-References: <20220916135205.3185973-1-vkuznets@redhat.com>
+        Fri, 16 Sep 2022 12:17:57 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CEFAB600E;
+        Fri, 16 Sep 2022 09:17:56 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id 207so12397915pgc.7;
+        Fri, 16 Sep 2022 09:17:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=u0NEQPoiZmBD9Mm9vr8JrzumZIsWiV897rA1dK7/Fsg=;
+        b=PWa9ae0U37Stk+HrwEUbWTPex9EFkXqB/Vbohl+X0KLfWQezIiLvlV68BL7T8Fd1fv
+         v0oRkZN/LelvVZBnYevCuzyVmaee9NdFGwFQoVnSUl2t5FuqE0vSeNVSZfIbFeC+/bQj
+         bN+VD76nLkXs4NpU2lPJ4VvB59meYts19LM6gFIb4Ir6W0D1o5E1FFi+EZUaJwAdKD+o
+         OWr0hqG1q6pMzzoZbrMTXHsLWp2FbAQpHkKoOIUyUHVmvLh+fQj2CW9qQ6pzDUjGf7Lu
+         sGpF1t7M+0Vg/H8iZSkmRKK2Cl5UppGjFhScgfw2mnVzr9qDe+llu2hPBQk5Og8K2i/H
+         2x7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=u0NEQPoiZmBD9Mm9vr8JrzumZIsWiV897rA1dK7/Fsg=;
+        b=r/MubXlty0MqN6dJcp2DendXMpb2tbl4ifUEMdSn5lSPMslEbJM6F3MxEcB2s/7if4
+         c0gBpNQL2GBgNR6/doHjnqZVtclU/+Owsu4AjYfbdxZs/gZhgf+xrhMrBQzh3tuRn+7l
+         N3OrrDBOvKJ7qO/3xmvKB7JEV0hoWq1jgs0JhH1vFANEu/Cm+rA9ilk0ezz0+Ijuu12J
+         nqnhIfYG5RIlhLQtIdUIHXdOhEPWK1oXxZC58XS3QK+h2FDb5YM9H+90DXFXoNCNWGHW
+         t1I7O5UA/91uKhSADiJsRdSCvEHGv3fsiMtFezSy9GPFpxq58j5tuQz9GckKJYrmjAz4
+         06hw==
+X-Gm-Message-State: ACrzQf1HXbxj86ELBo/kz+HQAx+SMmRJIW2g7jHvkyTvpx9RvCMebzGY
+        a+htoLbc35/FSprn9lYaRlM=
+X-Google-Smtp-Source: AMsMyM5OYAr6DlxPIC3SjG64fd9663YW/izpayOy4YDB0LRXC/p8+T1tw39y0qCKBvzuiGQ68tkLGQ==
+X-Received: by 2002:a65:4644:0:b0:42a:dfb6:4e80 with SMTP id k4-20020a654644000000b0042adfb64e80mr5174195pgr.262.1663345075325;
+        Fri, 16 Sep 2022 09:17:55 -0700 (PDT)
+Received: from localhost (c-73-164-155-12.hsd1.wa.comcast.net. [73.164.155.12])
+        by smtp.gmail.com with ESMTPSA id m8-20020a17090aab0800b001fda0505eaasm1692273pjq.1.2022.09.16.09.17.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 09:17:54 -0700 (PDT)
+Date:   Sat, 10 Sep 2022 16:29:51 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryantan@vmware.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Bobby Eshleman <bobby.eshleman@gmail.com>,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Subject: Re: Call to discuss vsock netdev/sk_buff [was Re: [PATCH 0/6]
+ virtio/vsock: introduce dgrams, sk_buff, and qdisc]
+Message-ID: <Yxy7f2KYyRcDsMxm@bullseye>
+References: <cover.1660362668.git.bobby.eshleman@bytedance.com>
+ <YxdKiUzlfpHs3h3q@fedora>
+ <Yv5PFz1YrSk8jxzY@bullseye>
+ <20220908143652.tfyjjx2z6in6v66c@sgarzare-redhat>
+ <YxuCVfFcRdWHeeh8@bullseye>
+ <CAGxU2F5HG_UouKzJNuvfeCASJ4j84qPY9-7-yFUpEtAJQSoxJg@mail.gmail.com>
+ <YxvNNd4dNTIUu6Rb@bullseye>
+ <CAGxU2F5+M2SYKwr56NJ9s2yO5h40MWQFO82t_RkSvx10VRfbVQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGxU2F5+M2SYKwr56NJ9s2yO5h40MWQFO82t_RkSvx10VRfbVQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-hyperv_features test needs to set certain CPUID bits in Hyper-V feature
-leaves but instead of open coding this, common KVM_X86_CPU_FEATURE()
-infrastructure can be used.
+On Fri, Sep 16, 2022 at 05:51:22AM +0200, Stefano Garzarella wrote:
+> On Mon, Sep 12, 2022 at 8:28 PM Bobby Eshleman <bobbyeshleman@gmail.com> wrote:
+> >
+> > On Mon, Sep 12, 2022 at 08:12:58PM +0200, Stefano Garzarella wrote:
+> > > On Fri, Sep 9, 2022 at 8:13 PM Bobby Eshleman <bobbyeshleman@gmail.com> wrote:
+> > > >
+> > > > Hey Stefano, thanks for sending this out.
+> > > >
+> > > > On Thu, Sep 08, 2022 at 04:36:52PM +0200, Stefano Garzarella wrote:
+> > > > >
+> > > > > Looking better at the KVM forum sched, I found 1h slot for Sep 15 at 16:30
+> > > > > UTC.
+> > > > >
+> > > > > Could this work for you?
+> > > >
+> > > > Unfortunately, I can't make this time slot.
+> > >
+> > > No problem at all!
+> > >
+> > > >
+> > > > My schedule also opens up a lot the week of the 26th, especially between
+> > > > 16:00 and 19:00 UTC, as well as after 22:00 UTC.
+> > >
+> > > Great, that week works for me too.
+> > > What about Sep 27 @ 16:00 UTC?
+> > >
+> >
+> > That time works for me!
+> 
+> Great! I sent you an invitation.
+> 
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- .../selftests/kvm/include/x86_64/hyperv.h     | 141 ++++++++++++------
- .../selftests/kvm/x86_64/hyperv_features.c    |  58 +++----
- 2 files changed, 118 insertions(+), 81 deletions(-)
+Awesome, see you then!
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/hyperv.h b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-index b66910702c0a..843748dde1ff 100644
---- a/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-@@ -83,61 +83,108 @@
- #define HV_X64_MSR_SYNDBG_OPTIONS		0x400000FF
- 
- /* HYPERV_CPUID_FEATURES.EAX */
--#define HV_MSR_VP_RUNTIME_AVAILABLE		BIT(0)
--#define HV_MSR_TIME_REF_COUNT_AVAILABLE		BIT(1)
--#define HV_MSR_SYNIC_AVAILABLE			BIT(2)
--#define HV_MSR_SYNTIMER_AVAILABLE		BIT(3)
--#define HV_MSR_APIC_ACCESS_AVAILABLE		BIT(4)
--#define HV_MSR_HYPERCALL_AVAILABLE		BIT(5)
--#define HV_MSR_VP_INDEX_AVAILABLE		BIT(6)
--#define HV_MSR_RESET_AVAILABLE			BIT(7)
--#define HV_MSR_STAT_PAGES_AVAILABLE		BIT(8)
--#define HV_MSR_REFERENCE_TSC_AVAILABLE		BIT(9)
--#define HV_MSR_GUEST_IDLE_AVAILABLE		BIT(10)
--#define HV_ACCESS_FREQUENCY_MSRS		BIT(11)
--#define HV_ACCESS_REENLIGHTENMENT		BIT(13)
--#define HV_ACCESS_TSC_INVARIANT			BIT(15)
-+#define HV_MSR_VP_RUNTIME_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 0)
-+#define HV_MSR_TIME_REF_COUNT_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 1)
-+#define HV_MSR_SYNIC_AVAILABLE			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 2)
-+#define HV_MSR_SYNTIMER_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 3)
-+#define HV_MSR_APIC_ACCESS_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 4)
-+#define HV_MSR_HYPERCALL_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 5)
-+#define HV_MSR_VP_INDEX_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 6)
-+#define HV_MSR_RESET_AVAILABLE			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 7)
-+#define HV_MSR_STAT_PAGES_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 8)
-+#define HV_MSR_REFERENCE_TSC_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 9)
-+#define HV_MSR_GUEST_IDLE_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 10)
-+#define HV_ACCESS_FREQUENCY_MSRS		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 11)
-+#define HV_ACCESS_REENLIGHTENMENT		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 13)
-+#define HV_ACCESS_TSC_INVARIANT			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EAX, 15)
- 
- /* HYPERV_CPUID_FEATURES.EBX */
--#define HV_CREATE_PARTITIONS			BIT(0)
--#define HV_ACCESS_PARTITION_ID			BIT(1)
--#define HV_ACCESS_MEMORY_POOL			BIT(2)
--#define HV_ADJUST_MESSAGE_BUFFERS		BIT(3)
--#define HV_POST_MESSAGES			BIT(4)
--#define HV_SIGNAL_EVENTS			BIT(5)
--#define HV_CREATE_PORT				BIT(6)
--#define HV_CONNECT_PORT				BIT(7)
--#define HV_ACCESS_STATS				BIT(8)
--#define HV_DEBUGGING				BIT(11)
--#define HV_CPU_MANAGEMENT			BIT(12)
--#define HV_ISOLATION				BIT(22)
-+#define HV_CREATE_PARTITIONS		        \
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 0)
-+#define HV_ACCESS_PARTITION_ID			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 1)
-+#define HV_ACCESS_MEMORY_POOL			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 2)
-+#define HV_ADJUST_MESSAGE_BUFFERS		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 3)
-+#define HV_POST_MESSAGES			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 4)
-+#define HV_SIGNAL_EVENTS			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 5)
-+#define HV_CREATE_PORT				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 6)
-+#define HV_CONNECT_PORT				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 7)
-+#define HV_ACCESS_STATS				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 8)
-+#define HV_DEBUGGING				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 11)
-+#define HV_CPU_MANAGEMENT			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 12)
-+#define HV_ISOLATION				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EBX, 22)
- 
- /* HYPERV_CPUID_FEATURES.EDX */
--#define HV_X64_MWAIT_AVAILABLE				BIT(0)
--#define HV_X64_GUEST_DEBUGGING_AVAILABLE		BIT(1)
--#define HV_X64_PERF_MONITOR_AVAILABLE			BIT(2)
--#define HV_X64_CPU_DYNAMIC_PARTITIONING_AVAILABLE	BIT(3)
--#define HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE		BIT(4)
--#define HV_X64_GUEST_IDLE_STATE_AVAILABLE		BIT(5)
--#define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		BIT(8)
--#define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		BIT(10)
--#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			BIT(11)
--#define HV_STIMER_DIRECT_MODE_AVAILABLE			BIT(19)
-+#define HV_X64_MWAIT_AVAILABLE				\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 0)
-+#define HV_X64_GUEST_DEBUGGING_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 1)
-+#define HV_X64_PERF_MONITOR_AVAILABLE			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 2)
-+#define HV_X64_CPU_DYNAMIC_PARTITIONING_AVAILABLE	\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 3)
-+#define HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 4)
-+#define HV_X64_GUEST_IDLE_STATE_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 5)
-+#define HV_FEATURE_FREQUENCY_MSRS_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 8)
-+#define HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 10)
-+#define HV_FEATURE_DEBUG_MSRS_AVAILABLE			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 11)
-+#define HV_STIMER_DIRECT_MODE_AVAILABLE			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_FEATURES, 0, EDX, 19)
- 
- /* HYPERV_CPUID_ENLIGHTMENT_INFO.EAX */
--#define HV_X64_AS_SWITCH_RECOMMENDED			BIT(0)
--#define HV_X64_LOCAL_TLB_FLUSH_RECOMMENDED		BIT(1)
--#define HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED		BIT(2)
--#define HV_X64_APIC_ACCESS_RECOMMENDED			BIT(3)
--#define HV_X64_SYSTEM_RESET_RECOMMENDED			BIT(4)
--#define HV_X64_RELAXED_TIMING_RECOMMENDED		BIT(5)
--#define HV_DEPRECATING_AEOI_RECOMMENDED			BIT(9)
--#define HV_X64_CLUSTER_IPI_RECOMMENDED			BIT(10)
--#define HV_X64_EX_PROCESSOR_MASKS_RECOMMENDED		BIT(11)
--#define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
-+#define HV_X64_AS_SWITCH_RECOMMENDED			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 0)
-+#define HV_X64_LOCAL_TLB_FLUSH_RECOMMENDED		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 1)
-+#define HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 2)
-+#define HV_X64_APIC_ACCESS_RECOMMENDED			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 3)
-+#define HV_X64_SYSTEM_RESET_RECOMMENDED			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 4)
-+#define HV_X64_RELAXED_TIMING_RECOMMENDED		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 5)
-+#define HV_DEPRECATING_AEOI_RECOMMENDED			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 9)
-+#define HV_X64_CLUSTER_IPI_RECOMMENDED			\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 10)
-+#define HV_X64_EX_PROCESSOR_MASKS_RECOMMENDED		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 11)
-+#define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_ENLIGHTMENT_INFO, 0, EAX, 14)
- 
- /* HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES.EAX */
--#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	BIT(1)
-+#define HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING	\
-+	KVM_X86_CPU_FEATURE(HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES, 0, EAX, 1)
- 
- /* Hypercalls */
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE	0x0002
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_features.c b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-index 1383b979e90b..d4bd18bc580d 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-@@ -107,7 +107,6 @@ static void vcpu_reset_hv_cpuid(struct kvm_vcpu *vcpu)
- static void guest_test_msrs_access(void)
- {
- 	struct kvm_cpuid2 *prev_cpuid = NULL;
--	struct kvm_cpuid_entry2 *feat, *dbg;
- 	struct kvm_vcpu *vcpu;
- 	struct kvm_run *run;
- 	struct kvm_vm *vm;
-@@ -134,9 +133,6 @@ static void guest_test_msrs_access(void)
- 			vcpu_init_cpuid(vcpu, prev_cpuid);
- 		}
- 
--		feat = vcpu_get_cpuid_entry(vcpu, HYPERV_CPUID_FEATURES);
--		dbg = vcpu_get_cpuid_entry(vcpu, HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES);
--
- 		vm_init_descriptor_tables(vm);
- 		vcpu_init_descriptor_tables(vcpu);
- 
-@@ -161,7 +157,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 2:
--			feat->eax |= HV_MSR_HYPERCALL_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_HYPERCALL_AVAILABLE);
- 			/*
- 			 * HV_X64_MSR_GUEST_OS_ID has to be written first to make
- 			 * HV_X64_MSR_HYPERCALL available.
-@@ -188,7 +184,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 6:
--			feat->eax |= HV_MSR_VP_RUNTIME_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_VP_RUNTIME_AVAILABLE);
- 			msr->idx = HV_X64_MSR_VP_RUNTIME;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -207,7 +203,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 9:
--			feat->eax |= HV_MSR_TIME_REF_COUNT_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_TIME_REF_COUNT_AVAILABLE);
- 			msr->idx = HV_X64_MSR_TIME_REF_COUNT;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -226,7 +222,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 12:
--			feat->eax |= HV_MSR_VP_INDEX_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_VP_INDEX_AVAILABLE);
- 			msr->idx = HV_X64_MSR_VP_INDEX;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -245,7 +241,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 15:
--			feat->eax |= HV_MSR_RESET_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_RESET_AVAILABLE);
- 			msr->idx = HV_X64_MSR_RESET;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -263,7 +259,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 18:
--			feat->eax |= HV_MSR_REFERENCE_TSC_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_REFERENCE_TSC_AVAILABLE);
- 			msr->idx = HV_X64_MSR_REFERENCE_TSC;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -290,7 +286,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 22:
--			feat->eax |= HV_MSR_SYNIC_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_SYNIC_AVAILABLE);
- 			msr->idx = HV_X64_MSR_EOM;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -308,7 +304,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 25:
--			feat->eax |= HV_MSR_SYNTIMER_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_SYNTIMER_AVAILABLE);
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -327,7 +323,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 28:
--			feat->edx |= HV_STIMER_DIRECT_MODE_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_STIMER_DIRECT_MODE_AVAILABLE);
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 1;
- 			msr->write_val = 1 << 12;
-@@ -340,7 +336,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 30:
--			feat->eax |= HV_MSR_APIC_ACCESS_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_APIC_ACCESS_AVAILABLE);
- 			msr->idx = HV_X64_MSR_EOI;
- 			msr->write = 1;
- 			msr->write_val = 1;
-@@ -353,7 +349,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 32:
--			feat->eax |= HV_ACCESS_FREQUENCY_MSRS;
-+			vcpu_set_cpuid_feature(vcpu, HV_ACCESS_FREQUENCY_MSRS);
- 			msr->idx = HV_X64_MSR_TSC_FREQUENCY;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -372,7 +368,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 35:
--			feat->eax |= HV_ACCESS_REENLIGHTENMENT;
-+			vcpu_set_cpuid_feature(vcpu, HV_ACCESS_REENLIGHTENMENT);
- 			msr->idx = HV_X64_MSR_REENLIGHTENMENT_CONTROL;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -397,7 +393,7 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 39:
--			feat->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE);
- 			msr->idx = HV_X64_MSR_CRASH_P0;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -415,8 +411,8 @@ static void guest_test_msrs_access(void)
- 			msr->fault_expected = 1;
- 			break;
- 		case 42:
--			feat->edx |= HV_FEATURE_DEBUG_MSRS_AVAILABLE;
--			dbg->eax |= HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING;
-+			vcpu_set_cpuid_feature(vcpu, HV_FEATURE_DEBUG_MSRS_AVAILABLE);
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING);
- 			msr->idx = HV_X64_MSR_SYNDBG_STATUS;
- 			msr->write = 0;
- 			msr->fault_expected = 0;
-@@ -463,7 +459,6 @@ static void guest_test_msrs_access(void)
- 
- static void guest_test_hcalls_access(void)
- {
--	struct kvm_cpuid_entry2 *feat, *recomm, *dbg;
- 	struct kvm_cpuid2 *prev_cpuid = NULL;
- 	struct kvm_vcpu *vcpu;
- 	struct kvm_run *run;
-@@ -498,15 +493,11 @@ static void guest_test_hcalls_access(void)
- 			vcpu_init_cpuid(vcpu, prev_cpuid);
- 		}
- 
--		feat = vcpu_get_cpuid_entry(vcpu, HYPERV_CPUID_FEATURES);
--		recomm = vcpu_get_cpuid_entry(vcpu, HYPERV_CPUID_ENLIGHTMENT_INFO);
--		dbg = vcpu_get_cpuid_entry(vcpu, HYPERV_CPUID_SYNDBG_PLATFORM_CAPABILITIES);
--
- 		run = vcpu->run;
- 
- 		switch (stage) {
- 		case 0:
--			feat->eax |= HV_MSR_HYPERCALL_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_MSR_HYPERCALL_AVAILABLE);
- 			hcall->control = 0xdeadbeef;
- 			hcall->expect = HV_STATUS_INVALID_HYPERCALL_CODE;
- 			break;
-@@ -516,7 +507,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 2:
--			feat->ebx |= HV_POST_MESSAGES;
-+			vcpu_set_cpuid_feature(vcpu, HV_POST_MESSAGES);
- 			hcall->control = HVCALL_POST_MESSAGE;
- 			hcall->expect = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
-@@ -526,7 +517,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 4:
--			feat->ebx |= HV_SIGNAL_EVENTS;
-+			vcpu_set_cpuid_feature(vcpu, HV_SIGNAL_EVENTS);
- 			hcall->control = HVCALL_SIGNAL_EVENT;
- 			hcall->expect = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
-@@ -536,12 +527,12 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_INVALID_HYPERCALL_CODE;
- 			break;
- 		case 6:
--			dbg->eax |= HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING;
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING);
- 			hcall->control = HVCALL_RESET_DEBUG_SESSION;
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 7:
--			feat->ebx |= HV_DEBUGGING;
-+			vcpu_set_cpuid_feature(vcpu, HV_DEBUGGING);
- 			hcall->control = HVCALL_RESET_DEBUG_SESSION;
- 			hcall->expect = HV_STATUS_OPERATION_DENIED;
- 			break;
-@@ -551,7 +542,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 9:
--			recomm->eax |= HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED;
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED);
- 			hcall->control = HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE;
- 			hcall->expect = HV_STATUS_SUCCESS;
- 			break;
-@@ -560,7 +551,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 11:
--			recomm->eax |= HV_X64_EX_PROCESSOR_MASKS_RECOMMENDED;
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_EX_PROCESSOR_MASKS_RECOMMENDED);
- 			hcall->control = HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX;
- 			hcall->expect = HV_STATUS_SUCCESS;
- 			break;
-@@ -570,7 +561,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 13:
--			recomm->eax |= HV_X64_CLUSTER_IPI_RECOMMENDED;
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_CLUSTER_IPI_RECOMMENDED);
- 			hcall->control = HVCALL_SEND_IPI;
- 			hcall->expect = HV_STATUS_INVALID_HYPERCALL_INPUT;
- 			break;
-@@ -585,7 +576,6 @@ static void guest_test_hcalls_access(void)
- 			hcall->expect = HV_STATUS_ACCESS_DENIED;
- 			break;
- 		case 16:
--			recomm->ebx = 0xfff;
- 			hcall->control = HVCALL_NOTIFY_LONG_SPIN_WAIT;
- 			hcall->expect = HV_STATUS_SUCCESS;
- 			break;
-@@ -595,7 +585,7 @@ static void guest_test_hcalls_access(void)
- 			hcall->ud_expected = true;
- 			break;
- 		case 18:
--			feat->edx |= HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE;
-+			vcpu_set_cpuid_feature(vcpu, HV_X64_HYPERCALL_XMM_INPUT_AVAILABLE);
- 			hcall->control = HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE | HV_HYPERCALL_FAST_BIT;
- 			hcall->ud_expected = false;
- 			hcall->expect = HV_STATUS_SUCCESS;
--- 
-2.37.2
-
+Thanks,
+Bobby
