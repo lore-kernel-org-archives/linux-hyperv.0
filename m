@@ -2,68 +2,112 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E4AECAAD5
-	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Sep 2022 15:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 050A3C6FA82
+	for <linux-hyperv@archiver.kernel.org>; Mon, 12 Sep 2022 18:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbiILPcx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 12 Sep 2022 11:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57524 "EHLO
+        id S230058AbiILSNS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 12 Sep 2022 14:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229528AbiILPcv (ORCPT
+        with ESMTP id S229977AbiILSNQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 12 Sep 2022 11:32:51 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 183A726572;
-        Mon, 12 Sep 2022 08:32:51 -0700 (PDT)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id C0B6B204778A;
-        Mon, 12 Sep 2022 08:32:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C0B6B204778A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1662996770;
-        bh=24KADFj4btF3I+/3El4CjQCGgseN2zkrF5osGbvl+xE=;
-        h=From:To:Subject:Date:From;
-        b=j9D/dSfidQMifQCZLsMtHDo19KCgzJdaiREUzzmOzl66gK2quNutiCpl+4gkezUJQ
-         eB2xYy9dfWKa4n6cS1WeSdC/soiOpA6Etdp8weEkfulOQy58CICPM3FleUgoxoszB9
-         EPHjJlzAXk1jAz9DCBj4dJxqThntGvyQV3DAjKO8=
-From:   Saurabh Sengar <ssengar@linux.microsoft.com>
-To:     ssengar@microsoft.com, drawat.floss@gmail.com, airlied@linux.ie,
-        daniel@ffwll.ch, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        mikelley@microsoft.com
-Subject: [PATCH] drm/hyperv: Don't overwrite dirt_needed value set by host
-Date:   Mon, 12 Sep 2022 08:32:46 -0700
-Message-Id: <1662996766-19304-1-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+        Mon, 12 Sep 2022 14:13:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1651941D21
+        for <linux-hyperv@vger.kernel.org>; Mon, 12 Sep 2022 11:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1663006393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MIivuanKSjygaobAWTqz6Vlrz5BF6yE307kFzPCTliY=;
+        b=INnt/rYiEVb02Ty2IwhGOUlUyHxkHrxqms4IPh+PWFDWlLhbF2/Y3SZbQWQ54f5vIka3Hy
+        dzD3jPV0dyLxeK4mk0OkftsSrCn4BZO3DL1IV3NN3WBd4seUPMUViftP6txKVfsjAJ9M8s
+        heZu1rBmtfsHsWTamsD4QfxT0AIlAaU=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-669-_T5X08NFNfSzCI6bS5sO-g-1; Mon, 12 Sep 2022 14:13:11 -0400
+X-MC-Unique: _T5X08NFNfSzCI6bS5sO-g-1
+Received: by mail-lf1-f71.google.com with SMTP id x24-20020a0565123f9800b0049902986c6fso2705793lfa.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 12 Sep 2022 11:13:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=MIivuanKSjygaobAWTqz6Vlrz5BF6yE307kFzPCTliY=;
+        b=O/LMyGTH1FLexp0GdYl1b47qfj9QFA4ik4xcsWBjpcTVHh07fHpRsD91ZpYOWqRvbN
+         mzgWgaODBAsd9XBmojfLfm+bwWNxRmTd3klC3pS5G8b+ar66XSAsRZA7zra0xKpHY3Xn
+         I/pzPNxEFWAT1gZ4PPRnHuIxg79u2bkdhlunSmFhL7ehj2dQ4yFmWLpVmUT8VPOZUYa7
+         az/oNcjdrXIMS4SBTzWeCJWI3FtL9YrTPZ908oyfYsBp0oSIysWb0YuvuLRiyIGD4iin
+         CewWgk4ui5JTRKrUa0A1FMm72jY7Rj2VjArURw8LGUyMxBVpYbqjzfS7P5S12S/3/huk
+         dkkQ==
+X-Gm-Message-State: ACgBeo3qXldl1ozZj3v2UNppQOjiZ+fFVExzY4KcIEn9C7gjYcaPkaof
+        rj7f2/gJ8toturPqMcaZ1kG7JtjrUh2k8N1T2UhxNRyTn3aFxb+OxmSAbDZxgUu946QiHHrDlSz
+        aIUBPQtKnCTGERj74QJQqOzpTsuUUai88jX9RfBiV
+X-Received: by 2002:a05:6512:3b1e:b0:49b:49d9:cb9e with SMTP id f30-20020a0565123b1e00b0049b49d9cb9emr877193lfv.201.1663006390219;
+        Mon, 12 Sep 2022 11:13:10 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5ppAN5/qdHGxQeudg4Zh5HihxK1wLBPBp6mq9A3a1ed9G1ccE8gIbz65FRZyZtWK+AopezeLNQh/bU8TMuMvk=
+X-Received: by 2002:a05:6512:3b1e:b0:49b:49d9:cb9e with SMTP id
+ f30-20020a0565123b1e00b0049b49d9cb9emr877188lfv.201.1663006389976; Mon, 12
+ Sep 2022 11:13:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1660362668.git.bobby.eshleman@bytedance.com>
+ <YxdKiUzlfpHs3h3q@fedora> <Yv5PFz1YrSk8jxzY@bullseye> <20220908143652.tfyjjx2z6in6v66c@sgarzare-redhat>
+ <YxuCVfFcRdWHeeh8@bullseye>
+In-Reply-To: <YxuCVfFcRdWHeeh8@bullseye>
+From:   Stefano Garzarella <sgarzare@redhat.com>
+Date:   Mon, 12 Sep 2022 20:12:58 +0200
+Message-ID: <CAGxU2F5HG_UouKzJNuvfeCASJ4j84qPY9-7-yFUpEtAJQSoxJg@mail.gmail.com>
+Subject: Re: Call to discuss vsock netdev/sk_buff [was Re: [PATCH 0/6]
+ virtio/vsock: introduce dgrams, sk_buff, and qdisc]
+To:     Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc:     Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryantan@vmware.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Bobby Eshleman <bobby.eshleman@gmail.com>,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Existing code is causing a race condition where dirt_needed value is
-already set by the host and gets overwritten with default value. Remove
-this default setting of dirt_needed, to avoid overwriting the value
-received in the channel callback set by vmbus_open. Removing this
-setting also means the default value for dirt_needed is changed to false
-as it's allocated by kzalloc which is similar to legacy hyperv_fb driver.
+On Fri, Sep 9, 2022 at 8:13 PM Bobby Eshleman <bobbyeshleman@gmail.com> wrote:
+>
+> Hey Stefano, thanks for sending this out.
+>
+> On Thu, Sep 08, 2022 at 04:36:52PM +0200, Stefano Garzarella wrote:
+> >
+> > Looking better at the KVM forum sched, I found 1h slot for Sep 15 at 16:30
+> > UTC.
+> >
+> > Could this work for you?
+>
+> Unfortunately, I can't make this time slot.
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
----
- drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 --
- 1 file changed, 2 deletions(-)
+No problem at all!
 
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-index 4a8941fa0815..57d49a08b37f 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-@@ -198,8 +198,6 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
- 	if (ret)
- 		drm_warn(dev, "Failed to update vram location.\n");
- 
--	hv->dirt_needed = true;
--
- 	ret = hyperv_mode_config_init(hv);
- 	if (ret)
- 		goto err_vmbus_close;
--- 
-2.31.1
+>
+> My schedule also opens up a lot the week of the 26th, especially between
+> 16:00 and 19:00 UTC, as well as after 22:00 UTC.
+
+Great, that week works for me too.
+What about Sep 27 @ 16:00 UTC?
+
+Thanks,
+Stefano
 
