@@ -2,239 +2,225 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 227FFC54EE9
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Sep 2022 13:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B4FAC6FA82
+	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Sep 2022 16:42:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232261AbiIMNfC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Sep 2022 09:35:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40798 "EHLO
+        id S231874AbiIMQm3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 13 Sep 2022 12:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbiIMNfB (ORCPT
+        with ESMTP id S231392AbiIMQmK (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Sep 2022 09:35:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 358CB140C3
-        for <linux-hyperv@vger.kernel.org>; Tue, 13 Sep 2022 06:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663076095;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+        Tue, 13 Sep 2022 12:42:10 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 171F3BB6A2;
+        Tue, 13 Sep 2022 08:36:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 561DE34767;
+        Tue, 13 Sep 2022 15:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1663082706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=vptXUYceNtwYVyKwfHyA3dKZqDg4HJHh7ydKyqgQ4H0=;
-        b=JhtAJGZD/PsBYFyq2DPbEYIemosrKMoujKr6rsqtIT9jzUPQA6ZofzmlCa/z9K3xJmvoxu
-        iriX5bc3IHg/6R/SsyaXMZ0AzQpuJtLhGsBIyyiGPI+g1UCGaLwqbgVRenqWV85z+med7R
-        3dJtDI3QYXAuxBGRAQ/lEPRe2fIpI7w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-638-trQvkjJQMh65l8eZOhMt0Q-1; Tue, 13 Sep 2022 09:34:54 -0400
-X-MC-Unique: trQvkjJQMh65l8eZOhMt0Q-1
-Received: by mail-ed1-f69.google.com with SMTP id b16-20020a056402279000b0044f1102e6e2so8620687ede.20
-        for <linux-hyperv@vger.kernel.org>; Tue, 13 Sep 2022 06:34:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=vptXUYceNtwYVyKwfHyA3dKZqDg4HJHh7ydKyqgQ4H0=;
-        b=YoEkh9cXWtC4tzlts/dyjvwkohdoCD+R/tIwqBkyHEKBUaeqQafjhk0sdqtlrRnn8d
-         sfu2RqZOE8Io6AAyVY1Uf9d5T3x7JftyOwLH0xBrXmyBxSt3nlon/eSPjRoccuTd50v/
-         MKS27yIRlRNyFuCsuPq8+USCEr1begUuyCN/HGa8Q40rff/Nre4Q8nZfR8TXCMp83koJ
-         yy4kQXpRh4ml0dRlB0mzNfWcF2WaI2iUGCOROz1GtV6YiS+aZyJMqxHx2giACqlvzqyh
-         j5n8DjmcD24ZKPMehyB5tKhBRHxpdV/OwdlaXsNz+7/HoFIoP2Vn83DrdNM0tH6G73No
-         Toag==
-X-Gm-Message-State: ACgBeo35XdJqNwnKEdcMGlFuPax27meSv89IlW7j7gZjy3GFVAXop6aa
-        f4n++RGyKw0XVNuJGPEA+B8/o3bkDLuB4RQVcF3TZ6YMh9W+7V8U14+B/kGf2iurCWSaAI/Mcgu
-        H5likNAsMysyV2pdvfXMlm92J
-X-Received: by 2002:a17:907:7f91:b0:77f:c4c7:9155 with SMTP id qk17-20020a1709077f9100b0077fc4c79155mr3137427ejc.476.1663076093156;
-        Tue, 13 Sep 2022 06:34:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6avRwtqutArvSmcEzg7QncTSscL/a0gwHDnK2tQKDnZWQ3sHpo7gh8eU4Pf6A1+IXk9R/ikw==
-X-Received: by 2002:a17:907:7f91:b0:77f:c4c7:9155 with SMTP id qk17-20020a1709077f9100b0077fc4c79155mr3137408ejc.476.1663076092870;
-        Tue, 13 Sep 2022 06:34:52 -0700 (PDT)
-Received: from fedora (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id 1-20020a170906218100b00730b61d8a5esm6099500eju.61.2022.09.13.06.34.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Sep 2022 06:34:51 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Ajay Kaher <akaher@vmware.com>
-Cc:     "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        Srivatsa Bhat <srivatsab@vmware.com>,
-        "srivatsa@csail.mit.edu" <srivatsa@csail.mit.edu>,
-        Alexey Makhalov <amakhalov@vmware.com>,
-        Vasavi Sirnapalli <vsirnapalli@vmware.com>,
-        "er.ajay.kaher@gmail.com" <er.ajay.kaher@gmail.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        Nadav Amit <namit@vmware.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jailhouse-dev@googlegroups.com" <jailhouse-dev@googlegroups.com>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        "acrn-dev@lists.projectacrn.org" <acrn-dev@lists.projectacrn.org>,
-        "helgaas@kernel.org" <helgaas@kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [PATCH v2] x86/PCI: Prefer MMIO over PIO on all hypervisor
-In-Reply-To: <9FEC6622-780D-41E6-B7CA-8D39EDB2C093@vmware.com>
-References: <9FEC6622-780D-41E6-B7CA-8D39EDB2C093@vmware.com>
-Date:   Tue, 13 Sep 2022 15:34:50 +0200
-Message-ID: <87zgf3pfd1.fsf@redhat.com>
+        bh=8uml+CVHSR1wkzzme+MP9OE2CB2kv9GNNkNDVSC2Jhw=;
+        b=gxAeCBLX08pgFySLUZACNomI6Ddk2SYoNhQBeN5kLkJl1/9b410GO5/RlNRxQP5J0j6BFl
+        PAKxIZarXE0/HKWwy/czi8b1DyAgteMRkaGEKXS1OxLiyH1DaUnghbWY2f/SpGpclPHjOP
+        7gIhj1zFnCs4KRvUNlGTiQk5l9pNe+4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1663082706;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8uml+CVHSR1wkzzme+MP9OE2CB2kv9GNNkNDVSC2Jhw=;
+        b=Pt3q5cTuskqU2g7OaTOA+KoMdRQSKJ3TfV0U2MW7wlJYiwiZlfiVypN1oLx0KvgYiYCCvY
+        l2eckFzBb4Txg7Cw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 276BB139B3;
+        Tue, 13 Sep 2022 15:25:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id Z7aoCNKgIGNxVAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Tue, 13 Sep 2022 15:25:06 +0000
+Message-ID: <8faee19d-8aa0-af31-15eb-170d83b4d445@suse.de>
+Date:   Tue, 13 Sep 2022 17:25:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH] drm/hyperv: Don't rely on screen_info.lfb_base for Gen1
+ VMs
+Content-Language: en-US
+To:     Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Cc:     linux-hyperv@vger.kernel.org, airlied@linux.ie,
+        ssengar@microsoft.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, mikelley@microsoft.com,
+        drawat.floss@gmail.com
+References: <1662734639-27164-1-git-send-email-ssengar@linux.microsoft.com>
+ <14302178-c797-8635-4325-070f78b7f805@suse.de>
+ <20220911162119.GB7754@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <34e6ccfe-d6a0-e832-14a9-0445b61db106@suse.de>
+ <20220913151555.GA22169@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220913151555.GA22169@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------RhuwoH4ibrfjV3Z8rFPaCZME"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Ajay Kaher <akaher@vmware.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------RhuwoH4ibrfjV3Z8rFPaCZME
+Content-Type: multipart/mixed; boundary="------------c5kaYCxuNu0VgFQcC7kg0Pmk";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+Cc: linux-hyperv@vger.kernel.org, airlied@linux.ie, ssengar@microsoft.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mikelley@microsoft.com, drawat.floss@gmail.com
+Message-ID: <8faee19d-8aa0-af31-15eb-170d83b4d445@suse.de>
+Subject: Re: [PATCH] drm/hyperv: Don't rely on screen_info.lfb_base for Gen1
+ VMs
+References: <1662734639-27164-1-git-send-email-ssengar@linux.microsoft.com>
+ <14302178-c797-8635-4325-070f78b7f805@suse.de>
+ <20220911162119.GB7754@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <34e6ccfe-d6a0-e832-14a9-0445b61db106@suse.de>
+ <20220913151555.GA22169@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+In-Reply-To: <20220913151555.GA22169@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 
-> Note: Corrected the Subject.
->
->> =EF=BB=BFOn 07/09/22, 8:50 PM, "Vitaly Kuznetsov" <vkuznets@redhat.com> =
-wrote:
->>
->>> diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
->>> index ddb7986..1e5a8f7 100644
->>> --- a/arch/x86/pci/common.c
->>> +++ b/arch/x86/pci/common.c
->>> @@ -20,6 +20,7 @@
->>>  #include <asm/pci_x86.h>
->>>  #include <asm/setup.h>
->>>  #include <asm/irqdomain.h>
->>> +#include <asm/hypervisor.h>
->>>
->>>  unsigned int pci_probe =3D PCI_PROBE_BIOS | PCI_PROBE_CONF1 | PCI_PROB=
-E_CONF2 |
->>>                               PCI_PROBE_MMCONF;
->>> @@ -57,14 +58,58 @@ int raw_pci_write(unsigned int domain, unsigned int=
- bus, unsigned int devfn,
->>>       return -EINVAL;
->>>  }
->>>
->>> +#ifdef CONFIG_HYPERVISOR_GUEST
->>> +static int vm_raw_pci_read(unsigned int domain, unsigned int bus, unsi=
-gned int devfn,
->>> +                                             int reg, int len, u32 *va=
-l)
->>> +{
->>> +     if (raw_pci_ext_ops)
->>> +             return raw_pci_ext_ops->read(domain, bus, devfn, reg, len=
-, val);
->>> +     if (domain =3D=3D 0 && reg < 256 && raw_pci_ops)
->>> +             return raw_pci_ops->read(domain, bus, devfn, reg, len, va=
-l);
->>> +     return -EINVAL;
->>> +}
->>> +
->>> +static int vm_raw_pci_write(unsigned int domain, unsigned int bus, uns=
-igned int devfn,
->>> +                                             int reg, int len, u32 val)
->>> +{
->>> +     if (raw_pci_ext_ops)
->>> +             return raw_pci_ext_ops->write(domain, bus, devfn, reg, le=
-n, val);
->>> +     if (domain =3D=3D 0 && reg < 256 && raw_pci_ops)
->>> +             return raw_pci_ops->write(domain, bus, devfn, reg, len, v=
-al);
->>> +     return -EINVAL;
->>> +}
->>
->> These look exactly like raw_pci_read()/raw_pci_write() but with inverted
->> priority. We could've added a parameter but to be more flexible, I'd
->> suggest we add a 'priority' field to 'struct pci_raw_ops' and make
->> raw_pci_read()/raw_pci_write() check it before deciding what to use
->> first. To be on the safe side, you can leave raw_pci_ops's priority
->> higher than raw_pci_ext_ops's by default and only tweak it in
->> arch/x86/kernel/cpu/vmware.c
->
-> Thanks Vitaly for your response.
->
-> 1. we have multiple objects of struct pci_raw_ops, 2. adding 'priority' f=
-ield to struct pci_raw_ops
-> doesn't seems to be appropriate as need to take decision which object of =
-struct pci_raw_ops has
-> to be used, not something with-in struct pci_raw_ops.
+--------------c5kaYCxuNu0VgFQcC7kg0Pmk
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I'm not sure I follow, you have two instances of 'struct pci_raw_ops'
-which are called 'raw_pci_ops' and 'raw_pci_ext_ops'. What if you do
-something like (completely untested):
+SGkNCg0KQW0gMTMuMDkuMjIgdW0gMTc6MTUgc2NocmllYiBTYXVyYWJoIFNpbmdoIFNlbmdh
+cjoNCj4gT24gTW9uLCBTZXAgMTIsIDIwMjIgYXQgMDk6MDM6NTNBTSArMDIwMCwgVGhvbWFz
+IFppbW1lcm1hbm4gd3JvdGU6DQo+PiBIaQ0KPj4NCj4+IEFtIDExLjA5LjIyIHVtIDE4OjIx
+IHNjaHJpZWIgU2F1cmFiaCBTaW5naCBTZW5nYXI6DQo+Pj4gT24gU2F0LCBTZXAgMTAsIDIw
+MjIgYXQgMDg6MTE6MjRQTSArMDIwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+Pj4+
+IEhpDQo+Pj4+DQo+Pj4+IEFtIDA5LjA5LjIyIHVtIDE2OjQzIHNjaHJpZWIgU2F1cmFiaCBT
+ZW5nYXI6DQo+Pj4+PiBoeXBlcnZfc2V0dXBfdnJhbSB0cmllcyB0byByZW1vdmUgY29uZmxp
+Y3RpbmcgZnJhbWVidWZmZXIgYmFzZWQgb24NCj4+Pj4+ICdzY3JlZW5faW5mbycuIEFzIG9i
+c2VydmVkIGluIHBhc3QgZHVlIHRvIHNvbWUgYnVnIG9yIHdyb25nIHNldHRpbmcNCj4+Pj4+
+IGluIGdydWIsIHRoZSAnc2NyZWVuX2luZm8nIGZpZWxkcyBtYXkgbm90IGJlIHNldCBmb3Ig
+R2VuMSwgYW5kIGluIHN1Y2gNCj4+Pj4+IGNhc2VzIGRybV9hcGVydHVyZV9yZW1vdmVfY29u
+ZmxpY3RpbmdfZnJhbWVidWZmZXJzIHdpbGwgbm90IGRvIGFueXRoaW5nDQo+Pj4+PiB1c2Vm
+dWwuDQo+Pj4+PiBGb3IgR2VuMSBWTXMsIGl0IHNob3VsZCBhbHdheXMgYmUgcG9zc2libGUg
+dG8gZ2V0IGZyYW1lYnVmZmVyDQo+Pj4+PiBjb25mbGljdCByZW1vdmVkIHVzaW5nIFBDSSBk
+ZXZpY2UgaW5zdGVhZC4NCj4+Pj4+DQo+Pj4+PiBGaXhlczogYTBhYjVhYmNlZDU1ICgiZHJt
+L2h5cGVydiA6IFJlbW92aW5nIHRoZSByZXN0cnVjdGlvbiBvZiBWUkFNIGFsbG9jYXRpb24g
+d2l0aCBQQ0kgYmFyIHNpemUiKQ0KPj4+Pj4gU2lnbmVkLW9mZi1ieTogU2F1cmFiaCBTZW5n
+YXIgPHNzZW5nYXJAbGludXgubWljcm9zb2Z0LmNvbT4NCj4+Pj4+IC0tLQ0KPj4+Pj4gICBk
+cml2ZXJzL2dwdS9kcm0vaHlwZXJ2L2h5cGVydl9kcm1fZHJ2LmMgfCAyNCArKysrKysrKysr
+KysrKysrKysrKy0tLS0NCj4+Pj4+ICAgMSBmaWxlIGNoYW5nZWQsIDIwIGluc2VydGlvbnMo
+KyksIDQgZGVsZXRpb25zKC0pDQo+Pj4+Pg0KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9oeXBlcnYvaHlwZXJ2X2RybV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9oeXBl
+cnYvaHlwZXJ2X2RybV9kcnYuYw0KPj4+Pj4gaW5kZXggNmQxMWU3OTM4YzgzLi5iMGNjOTc0
+ZWZhNDUgMTAwNjQ0DQo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaHlwZXJ2L2h5cGVy
+dl9kcm1fZHJ2LmMNCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9oeXBlcnYvaHlwZXJ2
+X2RybV9kcnYuYw0KPj4+Pj4gQEAgLTczLDEyICs3MywyOCBAQCBzdGF0aWMgaW50IGh5cGVy
+dl9zZXR1cF92cmFtKHN0cnVjdCBoeXBlcnZfZHJtX2RldmljZSAqaHYsDQo+Pj4+PiAgIAkJ
+CSAgICAgc3RydWN0IGh2X2RldmljZSAqaGRldikNCj4+Pj4+ICAgew0KPj4+Pj4gICAJc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9ICZodi0+ZGV2Ow0KPj4+Pj4gKwlzdHJ1Y3QgcGNpX2Rl
+diAqcGRldjsNCj4+Pj4+ICAgCWludCByZXQ7DQo+Pj4+PiAtCWRybV9hcGVydHVyZV9yZW1v
+dmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKHNjcmVlbl9pbmZvLmxmYl9iYXNlLA0KPj4+
+Pj4gLQkJCQkJCSAgICAgc2NyZWVuX2luZm8ubGZiX3NpemUsDQo+Pj4+PiAtCQkJCQkJICAg
+ICBmYWxzZSwNCj4+Pj4+IC0JCQkJCQkgICAgICZoeXBlcnZfZHJpdmVyKTsNCj4+Pj4+ICsJ
+aWYgKGVmaV9lbmFibGVkKEVGSV9CT09UKSkgew0KPj4+Pj4gKwkJZHJtX2FwZXJ0dXJlX3Jl
+bW92ZV9jb25mbGljdGluZ19mcmFtZWJ1ZmZlcnMoc2NyZWVuX2luZm8ubGZiX2Jhc2UsDQo+
+Pj4+PiArCQkJCQkJCSAgICAgc2NyZWVuX2luZm8ubGZiX3NpemUsDQo+Pj4+DQo+Pj4+IFVz
+aW5nIHNjcmVlbl9pbmZvIGhlcmUgc2VlbXMgd3JvbmcgaW4gYW55IGNhc2UuIFlvdSB3YW50
+IHRvIHJlbW92ZQ0KPj4+PiB0aGUgZnJhbWVidWZmZXIgZGV2aWNlcyB0aGF0IGNvbmZsaWN0
+IHdpdGggeW91ciBkcml2ZXIsIHdoaWNoIG1pZ2h0DQo+Pj4+IGJlIHVucmVsYXRlZCB0byBz
+Y3JlZW5faW5mby4gQUZBSUNUIHRoZSBjb3JyZWN0IHNvbHV0aW9uIHdvdWxkDQo+Pj4+IGFs
+d2F5cyByZXRyaWV2ZSB0aGUgUENJIGRldmljZSBmb3IgcmVtb3ZhbCAoaS5lLiwgYWx3YXlz
+IGRvIHRoZSBlbHNlDQo+Pj4+IGJyYW5jaCkuDQo+Pj4NCj4+PiBJbiBhIEdlbjIgVk0sIHRo
+ZSBIeXBlci1WIGZyYW1lIGJ1ZmZlciBkZXZpY2UgaXMgcHJlc2VudGVkIG9ubHkgYXMgYSBW
+TWJ1cyBkZXZpY2UuDQo+Pj4gSXQncyBub3QgcHJlc2VudGVkIGFzIGEgUENJIGRldmljZSBs
+aWtlIGl0IGlzIGluIGEgR2VuMSBWTS4gVGhpcyB3b3VsZCBoYXZlIHdvcmtlZA0KPj4+IGlm
+IHdlIGhhZCB0aGUgZnJhbWUgYnVmZmVyIGRldmljZSBhdmFpbGFibGUgYXMgUENJIGRldmlj
+ZSBpbiBHZW4yIGJ1dCB1bmZvcnR1bmF0ZWx5DQo+Pj4gdGhhdHMgbm90IHRoZSBjYXNlIGhl
+cmUuDQo+Pg0KPj4gVGhhbmtzIGZvciBleHBsYWluaW5nLiBUaGVyZSBpcyBhbiBpbnN0YW5j
+ZSBvZiBzdHJ1Y3QgaHZfZGV2aWNlDQo+PiBwYXNzZWQgdG8gdGhlIHByb2JlIGZ1bmN0aW9u
+LiBJIHN1c3BlY3QgeW91IGNhbm5vdCBnZXQgdGhlDQo+PiBmcmFtZWJ1ZmZlciByYW5nZSBm
+cm9tIHRoaXMgaW5zdGFuY2UgKGUuZy4sIHZpYSB0aGUgZGV2aWNlJ3MNCj4+IHBsYXRmb3Jt
+X2RhdGEpPw0KPj4NCj4+IElmIHlvdSBhYnNvbHV0ZWx5IGNhbid0IGdldCB0aGUgYWN0dWFs
+IG1lbW9yeSByZWdpb24gZnJvbSB0aGUNCj4+IGRldmljZSwgaXQncyBiZXR0ZXIgdG8gcmVt
+b3ZlIGFsbCBmcmFtZWJ1ZmZlcnMgdmlhDQo+PiBkcm1fYXBlcnR1cmVfcmVtb3ZlX2ZyYW1l
+YnVmZmVycygpIHRoYW4gdG8gdXNlIHNjcmVlbl9pbmZvLg0KPj4NCj4+IEJlc3QgcmVnYXJk
+cw0KPj4gVGhvbWFzDQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbiwgYW5kIEkg
+dGhvdWdodCBvZiB1c2luZyBkcm1fYXBlcnR1cmVfcmVtb3ZlX2ZyYW1lYnVmZmVycw0KPiBo
+ZXJlLCBidXQgdGhpcyBkcml2ZXIgd2lsbCBiZSB1c2VkIGluIG1hbnkgZGlmZmVyZW50IHN5
+c3RlbXMgd2l0aCBtYW55IG90aGVyIGdyYXBoaWNzDQo+IGRldmljZXMgKEdQVSBldGMpLiBS
+ZW1vdmluZyBhbGwgdGhlIGZyYW1lYnVmZmVyIGlzIGEgYml0IGJsdW50IGFwcHJvYWNoIHdo
+aWNoIG1heSBkaXN0dXJiDQo+IHRoZSBkZXZpY2VzIHdlIGFyZSBub3QgaW50ZW5kZWQgdG8g
+YW5kIHdoaWNoIGFyZSBldmVuIG91dHNpZGUgb2YgdGhlIEh5cGVyViBNTUlPIHJlZ2lvbi4N
+Cj4gSSBmZWVsIHRoaXMgQVBJIHVzZSB3aWxsIGJlIHJpc2t5LCBhbmQgSSB3b3VsZCBsaWtl
+IHRvIHN0aWNrIHRvIHRoZSBlYXJsaWVyIG1ldGhvZCB3aGljaA0KPiBpcyBwcm92ZW4gdG8g
+YmUgd29ya2luZyBmb3IgbWFueSB5ZWFycyBhbmQgd2UgYXJlIHN1cmUgaXQgd29uJ3QgZGlz
+dHVyYiBhbnlvbmUgb3V0c2lkZQ0KPiBNTUlPIHJlZ2lvbi4NCg0KQnV0IHRoZSBwcm9ibGVt
+IHdpdGggdGhlIGN1cnJlbnQgY29kZSBpcyB0aGF0IHlvdSBhbHNvIHJlbW92ZSB0aGUgZHJp
+dmVyIA0KdGhhdCBjb3ZlcnMgdGhlIGJvb3QtdXAgZ3JhcGhpY3MsIGV2ZW4gaWYgaXQncyBu
+b3QgZXZlbiBhIGh5cGVydiBkZXZpY2UuIA0KVGhhdCdzIHdoeSBJIHNhaWQgdGhhdCB5b3Ug
+c2hvdWxkIHRyeSB0byBkZXRlY3QgaWYgdGhlIGh5cGVydiBkZXZpY2UgDQp5b3UncmUgY3Jl
+YXRpbmcgYWN0dWFsbHkgdXNlcyB0aGUgc2NyZWVuX2luZm8gd2hlbiB5b3UgY3JlYXRlIHRo
+ZSBkZXZpY2UuDQoNClNldCB0aGF0IGluZm9ybWF0aW9uIGFzIGRldmljZSBkYXRhIGFuZCBs
+b29rIGl0IHVwIGluIHRoZSBoeXBlcnYtZHJtIA0KZHJpdmVyLiBJZiBubyBzdWNoIHNjcmVl
+bl9pbmZvIGRhdGEgaXMgYXR0YWNoZWQgdG8gdGhlIGRldmljZSwgeW91IGRvbid0IA0KaGF2
+ZSB0byByZW1vdmUgY29uZmxpY3RpbmcgZnJhbWVidWZmZXJzIGF0IGFsbC4NCg0KQmVzdCBy
+ZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gUmVnYXJkcywNCj4gU2F1cmFiaA0KPj4NCj4+Pg0K
+Pj4+IFJlZ2FyZHMsDQo+Pj4gU2F1cmFiaA0KPj4+DQo+Pj4+DQo+Pj4+IEJlc3QgcmVnYXJk
+DQo+Pj4+IFRob21hcw0KPj4+Pg0KPj4+Pj4gKwkJCQkJCQkgICAgIGZhbHNlLA0KPj4+Pj4g
+KwkJCQkJCQkgICAgICZoeXBlcnZfZHJpdmVyKTsNCj4+Pj4+ICsJfSBlbHNlIHsNCj4+Pj4+
+ICsJCXBkZXYgPSBwY2lfZ2V0X2RldmljZShQQ0lfVkVORE9SX0lEX01JQ1JPU09GVCwgUENJ
+X0RFVklDRV9JRF9IWVBFUlZfVklERU8sIE5VTEwpOw0KPj4+Pj4gKwkJaWYgKCFwZGV2KSB7
+DQo+Pj4+PiArCQkJZHJtX2VycihkZXYsICJVbmFibGUgdG8gZmluZCBQQ0kgSHlwZXItViB2
+aWRlb1xuIik7DQo+Pj4+PiArCQkJcmV0dXJuIC1FTk9ERVY7DQo+Pj4+PiArCQl9DQo+Pj4+
+PiArDQo+Pj4+PiArCQlyZXQgPSBkcm1fYXBlcnR1cmVfcmVtb3ZlX2NvbmZsaWN0aW5nX3Bj
+aV9mcmFtZWJ1ZmZlcnMocGRldiwgJmh5cGVydl9kcml2ZXIpOw0KPj4+Pj4gKwkJcGNpX2Rl
+dl9wdXQocGRldik7DQo+Pj4+PiArCQlpZiAocmV0KSB7DQo+Pj4+PiArCQkJZHJtX2Vycihk
+ZXYsICJOb3QgYWJsZSB0byByZW1vdmUgYm9vdCBmYlxuIik7DQo+Pj4+PiArCQkJcmV0dXJu
+IHJldDsNCj4+Pj4+ICsJCX0NCj4+Pj4+ICsJfQ0KPj4+Pj4gICAJaHYtPmZiX3NpemUgPSAo
+dW5zaWduZWQgbG9uZylodi0+bW1pb19tZWdhYnl0ZXMgKiAxMDI0ICogMTAyNDsNCj4+Pj4N
+Cj4+Pj4gLS0gDQo+Pj4+IFRob21hcyBaaW1tZXJtYW5uDQo+Pj4+IEdyYXBoaWNzIERyaXZl
+ciBEZXZlbG9wZXINCj4+Pj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+DQo+Pj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KPj4+PiAo
+SFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQo+Pj4+IEdlc2Now6RmdHNmw7xocmVyOiBJdm8g
+VG90ZXYNCj4+Pg0KPj4+DQo+Pj4NCj4+DQo+PiAtLSANCj4+IFRob21hcyBaaW1tZXJtYW5u
+DQo+PiBHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQo+PiBTVVNFIFNvZnR3YXJlIFNvbHV0
+aW9ucyBHZXJtYW55IEdtYkgNCj4+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQ0KPj4gKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KPj4gR2VzY2jDpGZ0c2bD
+vGhyZXI6IEl2byBUb3Rldg0KPiANCj4gDQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5u
+DQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBH
+ZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0K
+KEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rl
+dg0K
 
-diff --git a/arch/x86/include/asm/pci_x86.h b/arch/x86/include/asm/pci_x86.h
-index 70533fdcbf02..fb8270fa6c78 100644
---- a/arch/x86/include/asm/pci_x86.h
-+++ b/arch/x86/include/asm/pci_x86.h
-@@ -116,6 +116,7 @@ extern void (*pcibios_disable_irq)(struct pci_dev *dev);
- extern bool mp_should_keep_irq(struct device *dev);
-=20
- struct pci_raw_ops {
-+       int rating;
-        int (*read)(unsigned int domain, unsigned int bus, unsigned int dev=
-fn,
-                                                int reg, int len, u32 *val);
-        int (*write)(unsigned int domain, unsigned int bus, unsigned int de=
-vfn,
-diff --git a/arch/x86/pci/common.c b/arch/x86/pci/common.c
-index ddb798603201..e9965fd11576 100644
---- a/arch/x86/pci/common.c
-+++ b/arch/x86/pci/common.c
-@@ -40,7 +40,8 @@ const struct pci_raw_ops *__read_mostly raw_pci_ext_ops;
- int raw_pci_read(unsigned int domain, unsigned int bus, unsigned int devfn,
-                                                int reg, int len, u32 *val)
- {
--       if (domain =3D=3D 0 && reg < 256 && raw_pci_ops)
-+       if (domain =3D=3D 0 && reg < 256 && raw_pci_ops &&
-+           (!raw_pci_ext_ops || raw_pci_ext_ops->rating <=3D raw_pci_ops->=
-rating))
-                return raw_pci_ops->read(domain, bus, devfn, reg, len, val);
-        if (raw_pci_ext_ops)
-                return raw_pci_ext_ops->read(domain, bus, devfn, reg, len, =
-val);
-@@ -50,7 +51,8 @@ int raw_pci_read(unsigned int domain, unsigned int bus, u=
-nsigned int devfn,
- int raw_pci_write(unsigned int domain, unsigned int bus, unsigned int devf=
-n,
-                                                int reg, int len, u32 val)
- {
--       if (domain =3D=3D 0 && reg < 256 && raw_pci_ops)
-+       if (domain =3D=3D 0 && reg < 256 && raw_pci_ops &&
-+           (!raw_pci_ext_ops || raw_pci_ext_ops->rating <=3D raw_pci_ops->=
-rating))
-                return raw_pci_ops->write(domain, bus, devfn, reg, len, val=
-);
-        if (raw_pci_ext_ops)
-                return raw_pci_ext_ops->write(domain, bus, devfn, reg, len,=
- val);
+--------------c5kaYCxuNu0VgFQcC7kg0Pmk--
 
-and then somewhere in Vmware hypervisor initialization code
-(arch/x86/kernel/cpu/vmware.c) you do
+--------------RhuwoH4ibrfjV3Z8rFPaCZME
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
- raw_pci_ext_ops->rating =3D 100;
+-----BEGIN PGP SIGNATURE-----
 
-why wouldn't it work?=20
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmMgoNEFAwAAAAAACgkQlh/E3EQov+AD
+HA//aLM0BQSKd6p4ssLbdaT92iWRGrLkQnFhvQcjbl4yCkXq1p1bGpkbNllxTowsvYhwC+UTgmtU
+lRIBUNfj1hWyTGPsNts3Sa9l5ocHk2Uitcg5jDxnUu0EePMgOHKCJIkJECKMmKgXE0Wgmw9HjOtk
+TooJKzJZteaZUsQ3W64GjxjCNVXLnp3PPrLr4Rog02mEea5PaVvewtEQe216XxGC5Uk1Kdh5VJfd
+YdSGdxNGDYRCizoWhQdLazIxLZRK/Aq20iOQ+ZMvmiWTcrFagxrH5Zyes/RSV51kQtMbR+l1Y7Bc
+6InCxl5F9lsGeLQZGPSPpHbC5zjU4CbZIxymO7Vonca3Y+Z87i8LzHGRJW9VCFMHhkP5EDdLZxEH
+OqhD48PsE2FiSaU5rqhw206V260qnxkTkyat61uimqf2huhnsKtgYyPKb9j8NTBQFT53M8Itu0XJ
+lfKqm54khhWyqXaL4JyfhyET1WzMQJSnnM3DOnoUn/rGV1WHZH7nwfcqJgXtS6qIJvNSug1tSmNk
+6W7IPc4NnFbX+IbEJmvyeWvrcDaw6ijCny3GkKDZwo/Ler6eeaQPL5Ge2gYsovh5xPqMDEOF9HOv
+V4pdMYj0LJEZ2HxXRO852SvQXDkhf/zIz8OWT2v7uPrTUIH0Ta10PLBihb51FD7pGlp3K53wsmx3
+ffo=
+=a+kJ
+-----END PGP SIGNATURE-----
 
-(diclaimer: completely untested, raw_pci_ops/raw_pci_ext_ops
-initialization has to be checked so 'rating' is not garbage).
-
->
-> It's a generic solution for all hypervisor (sorry for earlier wrong
-> Subject), not specific to VMware. Further looking for feedback if it's
-> impacting to any hypervisor.
-
-That's the tricky part. We can check modern hypervisor versions, but
-what about all other versions in existence? How can we know that there's
-no QEMU/Hyper-V/... version out there where MMIO path is broken? I'd
-suggest we limit the change to Vmware hypervisor, other hypervisors may
-use the same mechanism (like the one above) later (but the person
-suggesting the patch is always responsible for the research why it is
-safe to do so).
-
---=20
-Vitaly
-
+--------------RhuwoH4ibrfjV3Z8rFPaCZME--
