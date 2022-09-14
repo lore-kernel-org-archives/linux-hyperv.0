@@ -2,171 +2,91 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59281C6FA82
-	for <linux-hyperv@archiver.kernel.org>; Tue, 13 Sep 2022 16:48:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4192ECAAD3
+	for <linux-hyperv@archiver.kernel.org>; Wed, 14 Sep 2022 07:48:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231328AbiIMQsD (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 13 Sep 2022 12:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36974 "EHLO
+        id S229601AbiINHsW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 14 Sep 2022 03:48:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbiIMQrn (ORCPT
+        with ESMTP id S229533AbiINHsV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 13 Sep 2022 12:47:43 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5C897606A2;
-        Tue, 13 Sep 2022 08:41:44 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-        id C272620B929D; Tue, 13 Sep 2022 08:15:55 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C272620B929D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1663082155;
-        bh=WTd0YT7pAoz6+7BUN2oTnacIxnBrjt3cagXvZkHwe44=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YrI2ja/4BU+u+NWsYX5ro5uhm+4IimKhZK/vgeiSiAKvpxAyBRwyUEBEhqXLUyKLQ
-         mW3ieqiOY6/XCYrcHV5549Oat6uj3V7krsUzfqquajHFkBGmkez4ZQeehiE1riIIdg
-         OJ6686lkJu4Frsd8ORcbB1WZZhDuPjeHUU2YW2kY=
-Date:   Tue, 13 Sep 2022 08:15:55 -0700
-From:   Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     linux-hyperv@vger.kernel.org, airlied@linux.ie,
-        ssengar@microsoft.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, mikelley@microsoft.com,
-        drawat.floss@gmail.com
-Subject: Re: [PATCH] drm/hyperv: Don't rely on screen_info.lfb_base for Gen1
- VMs
-Message-ID: <20220913151555.GA22169@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1662734639-27164-1-git-send-email-ssengar@linux.microsoft.com>
- <14302178-c797-8635-4325-070f78b7f805@suse.de>
- <20220911162119.GB7754@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <34e6ccfe-d6a0-e832-14a9-0445b61db106@suse.de>
+        Wed, 14 Sep 2022 03:48:21 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D2D58B4C
+        for <linux-hyperv@vger.kernel.org>; Wed, 14 Sep 2022 00:48:20 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id c24so13577657pgg.11
+        for <linux-hyperv@vger.kernel.org>; Wed, 14 Sep 2022 00:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=PYUF15A2n8Nl51K6H0o31TZgHBWYV9gZXvwxhXPU17k=;
+        b=rx1o4Ie9zs2gVlJ+ZwgSw5LGCsSdFn0Gvg+IuDIVon/ITHzsjR+g3zQRC0njYmZzuF
+         6fq87GESLL9c735oU/GKgLpExaFGE/QYVGZ3SasDt6heo3lG/5+aZMINDYnPIwSWbkAm
+         hTsLAnoVNbXXk1vB4qz63Bw5c1eOcGHXJ0SAMNpENa2+5a4QrNpwtmoHjmhxz03XJxsG
+         cbV7tppO882McKkmEjTt5EUiVOppb71fqBCoI/yxwJXUNyQdkJYaCeVqCemPMGePYKRn
+         NGjtrdxS9BttGyqt+JZr6OJIoLQY/gwJXM2KtlkMUqOFYDqELmYsrcvTAQWotycykmZC
+         /dxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=PYUF15A2n8Nl51K6H0o31TZgHBWYV9gZXvwxhXPU17k=;
+        b=OmU/NUTig4CHnuVbzKpaqqQ0EFIxy5qeQy2VKHHLQwhktXRBX+qm9m3J1H4f504H27
+         KJM82nj0ub5tlJ+JO3ILd+2AFtqLccNUYi/LlTvRx1mkJ0ONycKa0Ik9jV9fJZSu6bng
+         bTDsrrRml5OX0CuXQc1GdPzEuLfttbTDm5GlfTY9XOgLl5snDUx9q/Eifrp3T5jr55x/
+         QZgGK6BxCwWbNOIdLNAyPXUjDwwKW6whDvFyoes9/SAjiaVoljiyLp1PnzFjbu85XCH0
+         g7agKEE4oAJooMMcn/7tb0N/3WKO2irV5gq3jMNIuSitprWf7n9v2MquX0fuLXMHI0T2
+         x8Hw==
+X-Gm-Message-State: ACgBeo0e81EXttJsIvnFNqfn3HHLk6xLFaZikY/78JFZE++08AAm4OtA
+        LoWZkze2dhsPY3IOWtHo0Du89A==
+X-Google-Smtp-Source: AA6agR61HVJGD3BsvcS57KDTn8lbXgq7Jfd38TBYv8TGFp/6BZ6OuhdPqFKeJvc87co8vz6E9yMClg==
+X-Received: by 2002:a63:4243:0:b0:439:2031:be87 with SMTP id p64-20020a634243000000b004392031be87mr9602601pga.592.1663141699731;
+        Wed, 14 Sep 2022 00:48:19 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id w12-20020a170902e88c00b00176c37f513dsm10014461plg.130.2022.09.14.00.48.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Sep 2022 00:48:19 -0700 (PDT)
+Date:   Wed, 14 Sep 2022 07:48:15 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] KVM: x86: Hyper-V invariant TSC control
+Message-ID: <YyGHP1K9cRvQ9COE@google.com>
+References: <20220831085009.1627523-1-vkuznets@redhat.com>
+ <20220831085009.1627523-2-vkuznets@redhat.com>
+ <Yx85fuFWR/X097SL@google.com>
+ <877d27r48z.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <34e6ccfe-d6a0-e832-14a9-0445b61db106@suse.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <877d27r48z.fsf@redhat.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, Sep 12, 2022 at 09:03:53AM +0200, Thomas Zimmermann wrote:
-> Hi
+On Tue, Sep 13, 2022, Vitaly Kuznetsov wrote:
+> Sean Christopherson <seanjc@google.com> writes:
 > 
-> Am 11.09.22 um 18:21 schrieb Saurabh Singh Sengar:
-> >On Sat, Sep 10, 2022 at 08:11:24PM +0200, Thomas Zimmermann wrote:
-> >>Hi
-> >>
-> >>Am 09.09.22 um 16:43 schrieb Saurabh Sengar:
-> >>>hyperv_setup_vram tries to remove conflicting framebuffer based on
-> >>>'screen_info'. As observed in past due to some bug or wrong setting
-> >>>in grub, the 'screen_info' fields may not be set for Gen1, and in such
-> >>>cases drm_aperture_remove_conflicting_framebuffers will not do anything
-> >>>useful.
-> >>>For Gen1 VMs, it should always be possible to get framebuffer
-> >>>conflict removed using PCI device instead.
-> >>>
-> >>>Fixes: a0ab5abced55 ("drm/hyperv : Removing the restruction of VRAM allocation with PCI bar size")
-> >>>Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> >>>---
-> >>>  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 24 ++++++++++++++++++++----
-> >>>  1 file changed, 20 insertions(+), 4 deletions(-)
-> >>>
-> >>>diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> >>>index 6d11e7938c83..b0cc974efa45 100644
-> >>>--- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> >>>+++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> >>>@@ -73,12 +73,28 @@ static int hyperv_setup_vram(struct hyperv_drm_device *hv,
-> >>>  			     struct hv_device *hdev)
-> >>>  {
-> >>>  	struct drm_device *dev = &hv->dev;
-> >>>+	struct pci_dev *pdev;
-> >>>  	int ret;
-> >>>-	drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-> >>>-						     screen_info.lfb_size,
-> >>>-						     false,
-> >>>-						     &hyperv_driver);
-> >>>+	if (efi_enabled(EFI_BOOT)) {
-> >>>+		drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
-> >>>+							     screen_info.lfb_size,
-> >>
-> >>Using screen_info here seems wrong in any case. You want to remove
-> >>the framebuffer devices that conflict with your driver, which might
-> >>be unrelated to screen_info. AFAICT the correct solution would
-> >>always retrieve the PCI device for removal (i.e., always do the else
-> >>branch).
+> > On Wed, Aug 31, 2022, Vitaly Kuznetsov wrote:
+> >>  
+> >> +/*
+> >> + * With HV_ACCESS_TSC_INVARIANT feature, invariant TSC (CPUID.80000007H:EDX[8])
+> >> + * is only observed after HV_X64_MSR_TSC_INVARIANT_CONTROL was written to.
+> >> + */
+> >> +static inline bool kvm_hv_invtsc_filtered(struct kvm_vcpu *vcpu)
 > >
-> >In a Gen2 VM, the Hyper-V frame buffer device is presented only as a VMbus device.
-> >It's not presented as a PCI device like it is in a Gen1 VM. This would have worked
-> >if we had the frame buffer device available as PCI device in Gen2 but unfortunately
-> >thats not the case here.
+> > Can this be more strongly worded, e.g. maybe kvm_hv_is_invtsc_disabled()?  "Filtered"
+> > doesn't strictly mean disabled and makes it sound like there's something else that
+> > needs to act on the "filtering"
+> >
 > 
-> Thanks for explaining. There is an instance of struct hv_device
-> passed to the probe function. I suspect you cannot get the
-> framebuffer range from this instance (e.g., via the device's
-> platform_data)?
-> 
-> If you absolutely can't get the actual memory region from the
-> device, it's better to remove all framebuffers via
-> drm_aperture_remove_framebuffers() than to use screen_info.
-> 
-> Best regards
-> Thomas
+> "Hidden"? :-) I'm OK with kvm_hv_is_invtsc_disabled() too.
 
-Thanks for your suggestion, and I thought of using drm_aperture_remove_framebuffers
-here, but this driver will be used in many different systems with many other graphics
-devices (GPU etc). Removing all the framebuffer is a bit blunt approach which may disturb
-the devices we are not intended to and which are even outside of the HyperV MMIO region.
-I feel this API use will be risky, and I would like to stick to the earlier method which
-is proven to be working for many years and we are sure it won't disturb anyone outside
-MMIO region.
-
-Regards,
-Saurabh
-> 
-> >
-> >Regards,
-> >Saurabh
-> >
-> >>
-> >>Best regard
-> >>Thomas
-> >>
-> >>>+							     false,
-> >>>+							     &hyperv_driver);
-> >>>+	} else {
-> >>>+		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT, PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
-> >>>+		if (!pdev) {
-> >>>+			drm_err(dev, "Unable to find PCI Hyper-V video\n");
-> >>>+			return -ENODEV;
-> >>>+		}
-> >>>+
-> >>>+		ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, &hyperv_driver);
-> >>>+		pci_dev_put(pdev);
-> >>>+		if (ret) {
-> >>>+			drm_err(dev, "Not able to remove boot fb\n");
-> >>>+			return ret;
-> >>>+		}
-> >>>+	}
-> >>>  	hv->fb_size = (unsigned long)hv->mmio_megabytes * 1024 * 1024;
-> >>
-> >>-- 
-> >>Thomas Zimmermann
-> >>Graphics Driver Developer
-> >>SUSE Software Solutions Germany GmbH
-> >>Maxfeldstr. 5, 90409 Nürnberg, Germany
-> >>(HRB 36809, AG Nürnberg)
-> >>Geschäftsführer: Ivo Totev
-> >
-> >
-> >
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Ivo Totev
-
-
-
+Hidden works for me.  Or suppressed, inihbited, whatever.  Just not filtered :-)
