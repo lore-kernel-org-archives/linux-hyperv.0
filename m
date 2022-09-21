@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02978C6FA82
-	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 15:28:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5E7C6FA90
+	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 15:28:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229761AbiIUP2l (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 21 Sep 2022 11:28:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33250 "EHLO
+        id S230359AbiIUP2p (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 21 Sep 2022 11:28:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231418AbiIUP2D (ORCPT
+        with ESMTP id S231424AbiIUP2H (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 21 Sep 2022 11:28:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B2478584
-        for <linux-hyperv@vger.kernel.org>; Wed, 21 Sep 2022 08:26:12 -0700 (PDT)
+        Wed, 21 Sep 2022 11:28:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0E49A693
+        for <linux-hyperv@vger.kernel.org>; Wed, 21 Sep 2022 08:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663773966;
+        s=mimecast20190719; t=1663773964;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7evZ3cneIVA3ka/guJeRCXIPte+gUSH9Y7WxEpbh/Ao=;
-        b=h0MaxVr6lqqFDhbbSpY0CB07VzN4uLKwCsdTrbvNA7R0a+UQaagTATnVfBHRgN7m2NhkgQ
-        gECPDJ4HKleUXGdxP1KVBOS4khOFk4VhtMkbY5++VCalWE/fl/RvBeQuBSztsjkco9YS/Y
-        P1Nah4KewogHKE8FEXkeoMN2SBkXDTU=
+        bh=xjfiBlRnH5bRxvhiJsegFt2pqquYJdUJUbrJQOgmVu0=;
+        b=ThQ8Vc61O5BGwhVx8E4p/qscttrPFcV0uQPUee7igiUjG16sfsokfMBvSNJw8BZoIoJdvx
+        gA9WhkDzzNVth67LsvcHBs3aCMDyxgP2lx4HVi+6uZaiaIUq1ChPT09AgIYzMZAL3bN1wq
+        rQmQITTXoPG0zmV0ZWooDQlF4sG0P5s=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-228-1ozKUswlO1qclo02bdRyVQ-1; Wed, 21 Sep 2022 11:26:03 -0400
-X-MC-Unique: 1ozKUswlO1qclo02bdRyVQ-1
+ us-mta-45-PkIZAVVhONebP7dwMFujCQ-1; Wed, 21 Sep 2022 11:26:01 -0400
+X-MC-Unique: PkIZAVVhONebP7dwMFujCQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3AC185542F;
-        Wed, 21 Sep 2022 15:26:02 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.159])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 88EA72166B26;
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D489800B30;
         Wed, 21 Sep 2022 15:26:00 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.40.194.159])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 60DB42166B29;
+        Wed, 21 Sep 2022 15:25:58 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -48,9 +48,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 32/39] KVM: selftests: Sync 'struct hv_vp_assist_page' definition with hyperv-tlfs.h
-Date:   Wed, 21 Sep 2022 17:24:29 +0200
-Message-Id: <20220921152436.3673454-33-vkuznets@redhat.com>
+Subject: [PATCH v10 31/39] KVM: selftests: Sync 'struct hv_enlightened_vmcs' definition with hyperv-tlfs.h
+Date:   Wed, 21 Sep 2022 17:24:28 +0200
+Message-Id: <20220921152436.3673454-32-vkuznets@redhat.com>
 In-Reply-To: <20220921152436.3673454-1-vkuznets@redhat.com>
 References: <20220921152436.3673454-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,52 +61,63 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-'struct hv_vp_assist_page' definition doesn't match TLFS. Also, define
-'struct hv_nested_enlightenments_control' and use it instead of opaque
-'__u64'.
+'struct hv_enlightened_vmcs' definition in selftests is not '__packed'
+and so we rely on the compiler doing the right padding. This is not
+obvious so it seems beneficial to use the same definition as in kernel.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/evmcs.h      | 22 ++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ tools/testing/selftests/kvm/include/x86_64/evmcs.h | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 4b6840df2979..efdc62704f27 100644
+index 58db74f68af2..4b6840df2979 100644
 --- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
 +++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -20,14 +20,26 @@
+@@ -41,6 +41,8 @@ struct hv_enlightened_vmcs {
+ 	u16 host_gs_selector;
+ 	u16 host_tr_selector;
  
- extern bool enable_evmcs;
- 
-+struct hv_nested_enlightenments_control {
-+	struct {
-+		__u32 directhypercall:1;
-+		__u32 reserved:31;
-+	} features;
-+	struct {
-+		__u32 reserved;
-+	} hypercallControls;
-+} __packed;
++	u16 padding16_1;
 +
-+/* Define virtual processor assist page structure. */
- struct hv_vp_assist_page {
- 	__u32 apic_assist;
--	__u32 reserved;
--	__u64 vtl_control[2];
--	__u64 nested_enlightenments_control[2];
--	__u32 enlighten_vmentry;
-+	__u32 reserved1;
-+	__u64 vtl_control[3];
-+	struct hv_nested_enlightenments_control nested_control;
-+	__u8 enlighten_vmentry;
-+	__u8 reserved2[7];
- 	__u64 current_nested_vmcs;
+ 	u64 host_ia32_pat;
+ 	u64 host_ia32_efer;
+ 
+@@ -159,7 +161,7 @@ struct hv_enlightened_vmcs {
+ 	u64 ept_pointer;
+ 
+ 	u16 virtual_processor_id;
+-	u16 padding16[3];
++	u16 padding16_2[3];
+ 
+ 	u64 padding64_2[5];
+ 	u64 guest_physical_address;
+@@ -195,13 +197,13 @@ struct hv_enlightened_vmcs {
+ 	u64 guest_rip;
+ 
+ 	u32 hv_clean_fields;
+-	u32 hv_padding_32;
++	u32 padding32_1;
+ 	u32 hv_synthetic_controls;
+ 	struct {
+ 		u32 nested_flush_hypercall:1;
+ 		u32 msr_bitmap:1;
+ 		u32 reserved:30;
+-	} hv_enlightenments_control;
++	}  __packed hv_enlightenments_control;
+ 	u32 hv_vp_id;
+ 	u32 padding32_2;
+ 	u64 hv_vm_id;
+@@ -222,7 +224,7 @@ struct hv_enlightened_vmcs {
+ 	u64 host_ssp;
+ 	u64 host_ia32_int_ssp_table_addr;
+ 	u64 padding64_6;
 -};
 +} __packed;
  
- struct hv_enlightened_vmcs {
- 	u32 revision_id;
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_IO_BITMAP                BIT(0)
 -- 
 2.37.3
 
