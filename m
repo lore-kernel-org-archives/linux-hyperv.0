@@ -2,196 +2,147 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61EF9C6FA8E
-	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 15:30:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BE1C6FA96
+	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 16:00:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230150AbiIUPaR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 21 Sep 2022 11:30:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59752 "EHLO
+        id S232109AbiIUQAs (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 21 Sep 2022 12:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbiIUP3W (ORCPT
+        with ESMTP id S232605AbiIUQAD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 21 Sep 2022 11:29:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247FC9AFA8
-        for <linux-hyperv@vger.kernel.org>; Wed, 21 Sep 2022 08:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663773981;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pCt4+OvvCMfC3FMJM0ipitrYvDMOF6g7mh1lW2C7mB8=;
-        b=bf8y8y8OACepLkaqCcrp4sbtd5izQyG1zQ/tdRCcVKLE5+wa7gJERwCN4MUcfdQo5bys1e
-        tv0zg4DikpVskYlK9dzIfgnTUzlwRSFn0CF3SVujayty4YmSrmaybA9D0fsKLFRnJbSMc/
-        UvZvd4Y69mxRqrLsJusiOU2QWakxvy0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-bvtT7MzyOkykn6FdiwpKWA-1; Wed, 21 Sep 2022 11:26:18 -0400
-X-MC-Unique: bvtT7MzyOkykn6FdiwpKWA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        Wed, 21 Sep 2022 12:00:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BD213E04;
+        Wed, 21 Sep 2022 08:53:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 662A9101AA5B;
-        Wed, 21 Sep 2022 15:26:17 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.159])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0C1DF2166B26;
-        Wed, 21 Sep 2022 15:26:14 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7676A6282E;
+        Wed, 21 Sep 2022 15:53:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2EEC433C1;
+        Wed, 21 Sep 2022 15:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1663775613;
+        bh=F0QpExpqRDTwj0Px6tY3UgvVq9CTES248BvTZVN/jfE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MUOehtUEKu4u4hIZFUQtuxFNLNSfGl11AzN2jOdrkaavthdjd90gIBKR4jik1onkC
+         dSEcKH0dE12DKFSRpf1tQvudk9oSwlWuIaYryNZqZ6BgZvmsGz/F/dBWLLi/gzADRU
+         z0Ig244ppKaW8NYK9cLSi3e/B/nRiZyu16JkS4UnfFmKlc9J09BzvwrAYZPkxpgoOo
+         V9ahlQzGKZ3lIHBdlekhj2RTaulb9LV7+eKchPx8vhPkJVKWssXgFNAYEv15J+UpMq
+         f9/EH8KG+84HoMErzPyrEGDMQn/Z0838/loOxIRJaEmPqXUZwtNTVQIxE+XEkxGcgI
+         R19RilXgMOBVg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
         Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        Yuan Yao <yuan.yao@linux.intel.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v10 38/39] KVM: selftests: hyperv_svm_test: Introduce L2 TLB flush test
-Date:   Wed, 21 Sep 2022 17:24:35 +0200
-Message-Id: <20220921152436.3673454-39-vkuznets@redhat.com>
-In-Reply-To: <20220921152436.3673454-1-vkuznets@redhat.com>
-References: <20220921152436.3673454-1-vkuznets@redhat.com>
+        Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        decui@microsoft.com, linux-hyperv@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 01/16] Drivers: hv: Never allocate anything besides framebuffer from framebuffer memory region
+Date:   Wed, 21 Sep 2022 11:53:17 -0400
+Message-Id: <20220921155332.234913-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Enable Hyper-V L2 TLB flush and check that Hyper-V TLB flush hypercalls
-from L2 don't exit to L1 unless 'TlbLockCount' is set in the Partition
-assist page.
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
+[ Upstream commit f0880e2cb7e1f8039a048fdd01ce45ab77247221 ]
+
+Passed through PCI device sometimes misbehave on Gen1 VMs when Hyper-V
+DRM driver is also loaded. Looking at IOMEM assignment, we can see e.g.
+
+$ cat /proc/iomem
+...
+f8000000-fffbffff : PCI Bus 0000:00
+  f8000000-fbffffff : 0000:00:08.0
+    f8000000-f8001fff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
+...
+fe0000000-fffffffff : PCI Bus 0000:00
+  fe0000000-fe07fffff : bb8c4f33-2ba2-4808-9f7f-02f3b4da22fe
+    fe0000000-fe07fffff : 2ba2:00:02.0
+      fe0000000-fe07fffff : mlx4_core
+
+the interesting part is the 'f8000000' region as it is actually the
+VM's framebuffer:
+
+$ lspci -v
+...
+0000:00:08.0 VGA compatible controller: Microsoft Corporation Hyper-V virtual VGA (prog-if 00 [VGA controller])
+	Flags: bus master, fast devsel, latency 0, IRQ 11
+	Memory at f8000000 (32-bit, non-prefetchable) [size=64M]
+...
+
+ hv_vmbus: registering driver hyperv_drm
+ hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] Synthvid Version major 3, minor 5
+ hyperv_drm 0000:00:08.0: vgaarb: deactivate vga console
+ hyperv_drm 0000:00:08.0: BAR 0: can't reserve [mem 0xf8000000-0xfbffffff]
+ hyperv_drm 5620e0c7-8062-4dce-aeb7-520c7ef76171: [drm] Cannot request framebuffer, boot fb still active?
+
+Note: "Cannot request framebuffer" is not a fatal error in
+hyperv_setup_gen1() as the code assumes there's some other framebuffer
+device there but we actually have some other PCI device (mlx4 in this
+case) config space there!
+
+The problem appears to be that vmbus_allocate_mmio() can use dedicated
+framebuffer region to serve any MMIO request from any device. The
+semantics one might assume of a parameter named "fb_overlap_ok"
+aren't implemented because !fb_overlap_ok essentially has no effect.
+The existing semantics are really "prefer_fb_overlap". This patch
+implements the expected and needed semantics, which is to not allocate
+from the frame buffer space when !fb_overlap_ok.
+
+Note, Gen2 VMs are usually unaffected by the issue because
+framebuffer region is already taken by EFI fb (in case kernel supports
+it) but Gen1 VMs may have this region unclaimed by the time Hyper-V PCI
+pass-through driver tries allocating MMIO space if Hyper-V DRM/FB drivers
+load after it. Devices can be brought up in any sequence so let's
+resolve the issue by always ignoring 'fb_mmio' region for non-FB
+requests, even if the region is unclaimed.
+
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Link: https://lore.kernel.org/r/20220827130345.1320254-4-vkuznets@redhat.com
+Signed-off-by: Wei Liu <wei.liu@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../selftests/kvm/x86_64/hyperv_svm_test.c    | 64 +++++++++++++++++--
- 1 file changed, 59 insertions(+), 5 deletions(-)
+ drivers/hv/vmbus_drv.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-index a380ad7bb9b3..3bd9e4ceb33f 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-@@ -41,8 +41,13 @@ struct hv_enlightenments {
-  */
- #define VMCB_HV_NESTED_ENLIGHTENMENTS (1U << 31)
- 
-+#define HV_SVM_EXITCODE_ENL 0xF0000000
-+#define HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH   (1)
-+
- void l2_guest_code(void)
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 547ae334e5cd..027029efb008 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2309,7 +2309,7 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
+ 			bool fb_overlap_ok)
  {
-+	u64 unused;
+ 	struct resource *iter, *shadow;
+-	resource_size_t range_min, range_max, start;
++	resource_size_t range_min, range_max, start, end;
+ 	const char *dev_n = dev_name(&device_obj->device);
+ 	int retval;
+ 
+@@ -2344,6 +2344,14 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
+ 		range_max = iter->end;
+ 		start = (range_min + align - 1) & ~(align - 1);
+ 		for (; start + size - 1 <= range_max; start += align) {
++			end = start + size - 1;
 +
- 	GUEST_SYNC(3);
- 	/* Exit to L1 */
- 	vmmcall();
-@@ -56,11 +61,30 @@ void l2_guest_code(void)
- 
- 	GUEST_SYNC(5);
- 
-+	/* L2 TLB flush tests */
-+	hyperv_hypercall(HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE |
-+			 HV_HYPERCALL_FAST_BIT, 0x0,
-+			 HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES |
-+			 HV_FLUSH_ALL_PROCESSORS);
-+	rdmsr(MSR_FS_BASE);
-+	/*
-+	 * Note: hypercall status (RAX) is not preserved correctly by L1 after
-+	 * synthetic vmexit, use unchecked version.
-+	 */
-+	__hyperv_hypercall(HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE |
-+			   HV_HYPERCALL_FAST_BIT, 0x0,
-+			   HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES |
-+			   HV_FLUSH_ALL_PROCESSORS, &unused);
-+	/* Make sure we're not issuing Hyper-V TLB flush call again */
-+	__asm__ __volatile__ ("mov $0xdeadbeef, %rcx");
++			/* Skip the whole fb_mmio region if not fb_overlap_ok */
++			if (!fb_overlap_ok && fb_mmio &&
++			    (((start >= fb_mmio->start) && (start <= fb_mmio->end)) ||
++			     ((end >= fb_mmio->start) && (end <= fb_mmio->end))))
++				continue;
 +
- 	/* Done, exit to L1 and never come back.  */
- 	vmmcall();
- }
- 
--static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm)
-+static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm,
-+						    struct hyperv_test_pages *hv_pages,
-+						    vm_vaddr_t pgs_gpa)
- {
- 	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
- 	struct vmcb *vmcb = svm->vmcb;
-@@ -69,13 +93,23 @@ static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm)
- 
- 	GUEST_SYNC(1);
- 
--	wrmsr(HV_X64_MSR_GUEST_OS_ID, (u64)0x8100 << 48);
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
-+	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
-+	enable_vp_assist(hv_pages->vp_assist_gpa, hv_pages->vp_assist);
- 
- 	GUEST_ASSERT(svm->vmcb_gpa);
- 	/* Prepare for L2 execution. */
- 	generic_svm_setup(svm, l2_guest_code,
- 			  &l2_guest_stack[L2_GUEST_STACK_SIZE]);
- 
-+	/* L2 TLB flush setup */
-+	hve->partition_assist_page = hv_pages->partition_assist_gpa;
-+	hve->hv_enlightenments_control.nested_flush_hypercall = 1;
-+	hve->hv_vm_id = 1;
-+	hve->hv_vp_id = 1;
-+	current_vp_assist->nested_control.features.directhypercall = 1;
-+	*(u32 *)(hv_pages->partition_assist) = 0;
-+
- 	GUEST_SYNC(2);
- 	run_guest(vmcb, svm->vmcb_gpa);
- 	GUEST_ASSERT(vmcb->control.exit_code == SVM_EXIT_VMMCALL);
-@@ -110,6 +144,20 @@ static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm)
- 	GUEST_ASSERT(vmcb->control.exit_code == SVM_EXIT_MSR);
- 	vmcb->save.rip += 2; /* rdmsr */
- 
-+
-+	/*
-+	 * L2 TLB flush test. First VMCALL should be handled directly by L0,
-+	 * no VMCALL exit expected.
-+	 */
-+	run_guest(vmcb, svm->vmcb_gpa);
-+	GUEST_ASSERT(vmcb->control.exit_code == SVM_EXIT_MSR);
-+	vmcb->save.rip += 2; /* rdmsr */
-+	/* Enable synthetic vmexit */
-+	*(u32 *)(hv_pages->partition_assist) = 1;
-+	run_guest(vmcb, svm->vmcb_gpa);
-+	GUEST_ASSERT(vmcb->control.exit_code == HV_SVM_EXITCODE_ENL);
-+	GUEST_ASSERT(vmcb->control.exit_info_1 == HV_SVM_ENL_EXITCODE_TRAP_AFTER_FLUSH);
-+
- 	run_guest(vmcb, svm->vmcb_gpa);
- 	GUEST_ASSERT(vmcb->control.exit_code == SVM_EXIT_VMMCALL);
- 	GUEST_SYNC(6);
-@@ -119,8 +167,8 @@ static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm)
- 
- int main(int argc, char *argv[])
- {
--	vm_vaddr_t nested_gva = 0;
--
-+	vm_vaddr_t nested_gva = 0, hv_pages_gva = 0;
-+	vm_vaddr_t hcall_page;
- 	struct kvm_vcpu *vcpu;
- 	struct kvm_vm *vm;
- 	struct kvm_run *run;
-@@ -134,7 +182,13 @@ int main(int argc, char *argv[])
- 	vcpu_set_hv_cpuid(vcpu);
- 	run = vcpu->run;
- 	vcpu_alloc_svm(vm, &nested_gva);
--	vcpu_args_set(vcpu, 1, nested_gva);
-+	vcpu_alloc_hyperv_test_pages(vm, &hv_pages_gva);
-+
-+	hcall_page = vm_vaddr_alloc_pages(vm, 1);
-+	memset(addr_gva2hva(vm, hcall_page), 0x0,  getpagesize());
-+
-+	vcpu_args_set(vcpu, 3, nested_gva, hv_pages_gva, addr_gva2gpa(vm, hcall_page));
-+	vcpu_set_msr(vcpu, HV_X64_MSR_VP_INDEX, vcpu->id);
- 
- 	for (stage = 1;; stage++) {
- 		vcpu_run(vcpu);
+ 			shadow = __request_region(iter, start, size, NULL,
+ 						  IORESOURCE_BUSY);
+ 			if (!shadow)
 -- 
-2.37.3
+2.35.1
 
