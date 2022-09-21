@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BE1C6FA96
-	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 16:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CF8C6FA82
+	for <linux-hyperv@archiver.kernel.org>; Wed, 21 Sep 2022 16:06:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232109AbiIUQAs (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 21 Sep 2022 12:00:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
+        id S232417AbiIUQGZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 21 Sep 2022 12:06:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232605AbiIUQAD (ORCPT
+        with ESMTP id S232343AbiIUQFg (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 21 Sep 2022 12:00:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0BD213E04;
-        Wed, 21 Sep 2022 08:53:34 -0700 (PDT)
+        Wed, 21 Sep 2022 12:05:36 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9656E2A439;
+        Wed, 21 Sep 2022 08:54:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7676A6282E;
-        Wed, 21 Sep 2022 15:53:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB2EEC433C1;
-        Wed, 21 Sep 2022 15:53:33 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 58E71B830EB;
+        Wed, 21 Sep 2022 15:54:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2213C43470;
+        Wed, 21 Sep 2022 15:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1663775613;
-        bh=F0QpExpqRDTwj0Px6tY3UgvVq9CTES248BvTZVN/jfE=;
+        s=k20201202; t=1663775691;
+        bh=mZEjU9sKh4ZHqsW67cldg1I7i6KLgb+SX4bzxU6CYwQ=;
         h=From:To:Cc:Subject:Date:From;
-        b=MUOehtUEKu4u4hIZFUQtuxFNLNSfGl11AzN2jOdrkaavthdjd90gIBKR4jik1onkC
-         dSEcKH0dE12DKFSRpf1tQvudk9oSwlWuIaYryNZqZ6BgZvmsGz/F/dBWLLi/gzADRU
-         z0Ig244ppKaW8NYK9cLSi3e/B/nRiZyu16JkS4UnfFmKlc9J09BzvwrAYZPkxpgoOo
-         V9ahlQzGKZ3lIHBdlekhj2RTaulb9LV7+eKchPx8vhPkJVKWssXgFNAYEv15J+UpMq
-         f9/EH8KG+84HoMErzPyrEGDMQn/Z0838/loOxIRJaEmPqXUZwtNTVQIxE+XEkxGcgI
-         R19RilXgMOBVg==
+        b=SkhF4lr4feLhxqcH8ZCpum+XDsyrDBWZWWdT3eBtsjoqrvZZ8Jf69kwOOq6svklDi
+         wTYSQhQpigMj/xJOXU6GFXA38QbOnDoqk7AKbc23qNxVCQ0j76pXg88z/QAVHXZIqJ
+         CuYb2b7jalnP4J63yBEGdMAS0TYiFprEChFfShiGAq1NIscwaOOkoxx/2QaFj7O7/a
+         rkPUOSNux9bcBaj1BPH2dj7XyZr+crDoY05qfi2gr3qlWzX48gMwqfNsJMdG9WH2/d
+         wEzUNMa9lFr66XEA/V3ybUvLm06ZpchtpG0rqDc7P+GsF59D9mNQtW38O+wzzJs7w+
+         l7w7sS330moxQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
@@ -39,9 +39,9 @@ Cc:     Vitaly Kuznetsov <vkuznets@redhat.com>,
         Wei Liu <wei.liu@kernel.org>, Sasha Levin <sashal@kernel.org>,
         kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
         decui@microsoft.com, linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 01/16] Drivers: hv: Never allocate anything besides framebuffer from framebuffer memory region
-Date:   Wed, 21 Sep 2022 11:53:17 -0400
-Message-Id: <20220921155332.234913-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9] Drivers: hv: Never allocate anything besides framebuffer from framebuffer memory region
+Date:   Wed, 21 Sep 2022 11:54:49 -0400
+Message-Id: <20220921155449.235520-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -116,10 +116,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 547ae334e5cd..027029efb008 100644
+index 3248aa7a35b3..cb3e22f10d68 100644
 --- a/drivers/hv/vmbus_drv.c
 +++ b/drivers/hv/vmbus_drv.c
-@@ -2309,7 +2309,7 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
+@@ -1186,7 +1186,7 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
  			bool fb_overlap_ok)
  {
  	struct resource *iter, *shadow;
@@ -128,7 +128,7 @@ index 547ae334e5cd..027029efb008 100644
  	const char *dev_n = dev_name(&device_obj->device);
  	int retval;
  
-@@ -2344,6 +2344,14 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
+@@ -1221,6 +1221,14 @@ int vmbus_allocate_mmio(struct resource **new, struct hv_device *device_obj,
  		range_max = iter->end;
  		start = (range_min + align - 1) & ~(align - 1);
  		for (; start + size - 1 <= range_max; start += align) {
