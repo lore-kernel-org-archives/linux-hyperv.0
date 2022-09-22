@@ -2,42 +2,41 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C25C6FA93
-	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Sep 2022 14:37:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 626E0C6FA91
+	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Sep 2022 14:37:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231771AbiIVOhL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 22 Sep 2022 10:37:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231592AbiIVOhJ (ORCPT
-        <rfc822;linux-hyperv@vger.kernel.org>);
+        id S231676AbiIVOhJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Thu, 22 Sep 2022 10:37:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36232 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231681AbiIVOhG (ORCPT
+        <rfc822;linux-hyperv@vger.kernel.org>);
+        Thu, 22 Sep 2022 10:37:06 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36AEF6F46
-        for <linux-hyperv@vger.kernel.org>; Thu, 22 Sep 2022 07:37:07 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64273F5096
+        for <linux-hyperv@vger.kernel.org>; Thu, 22 Sep 2022 07:37:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663857427;
+        s=mimecast20190719; t=1663857424;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pIfJ3bPCmkG+z995PI+eIkSYghOocG6/MToO8whN5Us=;
-        b=dJGBGaNqsaTSQPCVMPy+cmWK83Uf2QPDNH8YUF3rgmppGkDfOeuIdGAQCHj7ntTTscO9lj
-        oFQ0AUaloQk3gv69Wd3vrkIDIqTcIejU34+qFG2vXaQoIIWLgReDTJgp/hAkN0qsqDPMen
-        /sTjbdJSU7NrMrLmbtot4YF/iXBS6WI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+         content-transfer-encoding:content-transfer-encoding;
+        bh=EHTba5sUbwuMPAyhkuX+6NFvptUjl6B5PiqYo1GVbUw=;
+        b=Lop1mB3nsAt1EYY4lK6ipsKmlcEpdYyU+y0QCxVAO/AbHEZYRPdBUBGRwD1w+396u/OJN4
+        nmaw9+4Dgae8d4YYw0kIO9f4I+4iYiTFQwZDGWdSu3QPjPkIdwMO4LT9kGo1x7kyiPpz3F
+        Nd0q4buzEO6FGu4zQ7T5lly2Ci+9iss=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-400-mPiFwrYuOSCQoyiUSwiszg-1; Thu, 22 Sep 2022 10:37:03 -0400
-X-MC-Unique: mPiFwrYuOSCQoyiUSwiszg-1
+ us-mta-398-LVipNUU1P8-IeP79bfqv6g-1; Thu, 22 Sep 2022 10:36:59 -0400
+X-MC-Unique: LVipNUU1P8-IeP79bfqv6g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 063F1811E81;
-        Thu, 22 Sep 2022 14:37:03 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AC6BF3C0F360;
+        Thu, 22 Sep 2022 14:36:58 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.194.242])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 261AB4048D87;
-        Thu, 22 Sep 2022 14:37:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 886EC40C206B;
+        Thu, 22 Sep 2022 14:36:56 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -46,11 +45,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         Michael Kelley <mikelley@microsoft.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/6] KVM: x86: Introduce CPUID_8000_0007_EDX 'scattered' leaf
-Date:   Thu, 22 Sep 2022 16:36:51 +0200
-Message-Id: <20220922143655.3721218-3-vkuznets@redhat.com>
-In-Reply-To: <20220922143655.3721218-1-vkuznets@redhat.com>
-References: <20220922143655.3721218-1-vkuznets@redhat.com>
+Subject: [PATCH v4 0/6] KVM: x86: Hyper-V invariant TSC control feature
+Date:   Thu, 22 Sep 2022 16:36:49 +0200
+Message-Id: <20220922143655.3721218-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
@@ -59,84 +56,48 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-CPUID_8000_0007_EDX may come handy when X86_FEATURE_CONSTANT_TSC
-needs to be checked.
+Changes since v3:
+- Use cpuid_entry_override() for the newly introduces CPUID_8000_0007_EDX
+  leaf in __do_cpuid_func(). [Sean]
+- Add comments and reshuffle check in kvm_hv_invtsc_suppressed() [Sean]
 
-No functional change intended.
+Original description:
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- arch/x86/kvm/cpuid.c         | 8 ++++++--
- arch/x86/kvm/reverse_cpuid.h | 9 ++++++++-
- 2 files changed, 14 insertions(+), 3 deletions(-)
+Normally, genuine Hyper-V doesn't expose architectural invariant TSC
+(CPUID.80000007H:EDX[8]) to its guests by default. A special PV MSR
+(HV_X64_MSR_TSC_INVARIANT_CONTROL, 0x40000118) and corresponding CPUID
+feature bit (CPUID.0x40000003.EAX[15]) were introduced. When bit 0 of the
+PV MSR is set, invariant TSC bit starts to show up in CPUID. When the 
+feature is exposed to Hyper-V guests, reenlightenment becomes unneeded.
 
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index ffdc28684cb7..b95a4b7489ec 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -685,6 +685,10 @@ void kvm_set_cpu_caps(void)
- 	if (!tdp_enabled && IS_ENABLED(CONFIG_X86_64))
- 		kvm_cpu_cap_set(X86_FEATURE_GBPAGES);
- 
-+	kvm_cpu_cap_init_scattered(CPUID_8000_0007_EDX,
-+		SF(CONSTANT_TSC)
-+	);
-+
- 	kvm_cpu_cap_mask(CPUID_8000_0008_EBX,
- 		F(CLZERO) | F(XSAVEERPTR) |
- 		F(WBNOINVD) | F(AMD_IBPB) | F(AMD_IBRS) | F(AMD_SSBD) | F(VIRT_SSBD) |
-@@ -1137,8 +1141,8 @@ static inline int __do_cpuid_func(struct kvm_cpuid_array *array, u32 function)
- 		/* L2 cache and TLB: pass through host info. */
- 		break;
- 	case 0x80000007: /* Advanced power management */
--		/* invariant TSC is CPUID.80000007H:EDX[8] */
--		entry->edx &= (1 << 8);
-+		cpuid_entry_override(entry, CPUID_8000_0007_EDX);
-+
- 		/* mask against host */
- 		entry->edx &= boot_cpu_data.x86_power;
- 		entry->eax = entry->ebx = entry->ecx = 0;
-diff --git a/arch/x86/kvm/reverse_cpuid.h b/arch/x86/kvm/reverse_cpuid.h
-index a19d473d0184..a5514c89dc29 100644
---- a/arch/x86/kvm/reverse_cpuid.h
-+++ b/arch/x86/kvm/reverse_cpuid.h
-@@ -12,7 +12,8 @@
-  * "bug" caps, but KVM doesn't use those.
-  */
- enum kvm_only_cpuid_leafs {
--	CPUID_12_EAX	 = NCAPINTS,
-+	CPUID_12_EAX		= NCAPINTS,
-+	CPUID_8000_0007_EDX	= NCAPINTS + 1,
- 	NR_KVM_CPU_CAPS,
- 
- 	NKVMCAPINTS = NR_KVM_CPU_CAPS - NCAPINTS,
-@@ -24,6 +25,9 @@ enum kvm_only_cpuid_leafs {
- #define KVM_X86_FEATURE_SGX1		KVM_X86_FEATURE(CPUID_12_EAX, 0)
- #define KVM_X86_FEATURE_SGX2		KVM_X86_FEATURE(CPUID_12_EAX, 1)
- 
-+/* CPUID level 0x80000007 (EDX). */
-+#define KVM_X86_FEATURE_CONSTANT_TSC	KVM_X86_FEATURE(CPUID_8000_0007_EDX, 8)
-+
- struct cpuid_reg {
- 	u32 function;
- 	u32 index;
-@@ -48,6 +52,7 @@ static const struct cpuid_reg reverse_cpuid[] = {
- 	[CPUID_7_1_EAX]       = {         7, 1, CPUID_EAX},
- 	[CPUID_12_EAX]        = {0x00000012, 0, CPUID_EAX},
- 	[CPUID_8000_001F_EAX] = {0x8000001f, 0, CPUID_EAX},
-+	[CPUID_8000_0007_EDX] = {0x80000007, 0, CPUID_EDX},
- };
- 
- /*
-@@ -78,6 +83,8 @@ static __always_inline u32 __feature_translate(int x86_feature)
- 		return KVM_X86_FEATURE_SGX1;
- 	else if (x86_feature == X86_FEATURE_SGX2)
- 		return KVM_X86_FEATURE_SGX2;
-+	else if (x86_feature == X86_FEATURE_CONSTANT_TSC)
-+		return KVM_X86_FEATURE_CONSTANT_TSC;
- 
- 	return x86_feature;
- }
+Note: strictly speaking, KVM doesn't have to have the feature as exposing
+raw invariant TSC bit (CPUID.80000007H:EDX[8]) also seems to work for
+modern Windows versions. The feature is, however, tiny and straitforward
+and gives additional flexibility so why not.
+
+Vitaly Kuznetsov (6):
+  x86/hyperv: Add HV_INVARIANT_TSC_EXPOSED define
+  KVM: x86: Introduce CPUID_8000_0007_EDX 'scattered' leaf
+  KVM: x86: Hyper-V invariant TSC control
+  KVM: selftests: Rename 'msr->availble' to 'msr->fault_exepected' in
+    hyperv_features test
+  KVM: selftests: Convert hyperv_features test to using
+    KVM_X86_CPU_FEATURE()
+  KVM: selftests: Test Hyper-V invariant TSC control
+
+ arch/x86/include/asm/hyperv-tlfs.h            |   3 +
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/kernel/cpu/mshyperv.c                |   2 +-
+ arch/x86/kvm/cpuid.c                          |  11 +-
+ arch/x86/kvm/hyperv.c                         |  19 ++
+ arch/x86/kvm/hyperv.h                         |  27 +++
+ arch/x86/kvm/reverse_cpuid.h                  |   9 +-
+ arch/x86/kvm/x86.c                            |   4 +-
+ .../selftests/kvm/include/x86_64/hyperv.h     | 144 ++++++++----
+ .../selftests/kvm/include/x86_64/processor.h  |   1 +
+ .../selftests/kvm/x86_64/hyperv_features.c    | 212 +++++++++++-------
+ 11 files changed, 295 insertions(+), 138 deletions(-)
+
 -- 
 2.37.3
 
