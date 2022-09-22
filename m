@@ -2,419 +2,161 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73BE4C54EE9
-	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Sep 2022 14:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8819C54EE9
+	for <linux-hyperv@archiver.kernel.org>; Thu, 22 Sep 2022 15:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbiIVOhw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 22 Sep 2022 10:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36982 "EHLO
+        id S232020AbiIVPXv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 22 Sep 2022 11:23:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231963AbiIVOhc (ORCPT
+        with ESMTP id S232022AbiIVPXu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 22 Sep 2022 10:37:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC07F859C
-        for <linux-hyperv@vger.kernel.org>; Thu, 22 Sep 2022 07:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1663857438;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CC/9JqLX5jl5GGD5ZbdIa6piVJcRPeKdWT6DnzvvUAQ=;
-        b=KPpVHjWzSgyeueREPiUbUlfDvGeFoNAeBPgdB16L5vOW5JD6cxF4vAxSoP2S43Yh7xhO/r
-        19kzdbMRq61RAiFTzMql/BfvOhkHdaml4XxBOc/1pv/De5vB9xTCeYGxcbOVjqFIZjorN1
-        IUtPR4XsknxnllUP7GxF2rkN9tlK01E=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-372-F9UocA5yOzSAl6fBABybJQ-1; Thu, 22 Sep 2022 10:37:07 -0400
-X-MC-Unique: F9UocA5yOzSAl6fBABybJQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A54C1C07552;
-        Thu, 22 Sep 2022 14:37:07 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.40.194.242])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1CCC740CF916;
-        Thu, 22 Sep 2022 14:37:04 +0000 (UTC)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     Wanpeng Li <wanpengli@tencent.com>,
+        Thu, 22 Sep 2022 11:23:50 -0400
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BD1AF8592
+        for <linux-hyperv@vger.kernel.org>; Thu, 22 Sep 2022 08:23:49 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id t3so9107469ply.2
+        for <linux-hyperv@vger.kernel.org>; Thu, 22 Sep 2022 08:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=4hng9hD+p8EXRULnhypgit8nkIBrMiyFlLkFJQuqnXc=;
+        b=hAZG3ucwHKwhSmqY9M0JepTbrCdrwuxIOlZAN4MIln08/ZYtOmSZIrjXhu83r9WToT
+         cL4m3YiaaRpB5np/geOW4TqgYMpojuvlBsmci8MYwYZRR/YxSAJkQsub7kwBn51uAC7E
+         RQODedh13sgSTsAKYla0DDIkncCfopXkXlxRG2iT8OMqVnIZmcTmodDqPFA8iJ7Sant6
+         DsSxnevUh4wBlBFd6KOZhMUaa15TaA7/eHJOPNUg1f5o9mcjWHnSAqrXWD/M4shdG+rk
+         LKY1oOltcI5nJuGYX8cloZDuOJJnEvd3MfSvLe5rOZYYAVszuwj0Z/bQW0FGrOJbfcSc
+         tRdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=4hng9hD+p8EXRULnhypgit8nkIBrMiyFlLkFJQuqnXc=;
+        b=1r/f92Q8TrL2/8pwm9cGx2Hh7YGUyiOoVnSkVbgTccjL5Ko3RPejhSKG4hQ5jHCtbu
+         EcSdF8TFHj1cbiDXbLfjkXTnY1yExRccSiaLi5Xk84u3/7DaDBopCKEz/OFlLn9lIF/K
+         pb1F1MOfCfjeo7um0BBLp5L4r/GWS9bwyKAsxcOOd1KajjPqYqrcNK/vc9CnSYdFS3bW
+         Yen6MWMaN4JcLUf+mbcMT5YoesvkRDsk/o50jqBdqUJa5bawTWOvvZWZIBZZi1u4Rpj+
+         h6kIFLvv4uyne8jj0xw8ieIyI+KnTH+oYZXrtLF2S2bboeSykd11+YmdO3UMubXDIE2y
+         ULOg==
+X-Gm-Message-State: ACrzQf1W+s7+4OLdOlOaEuXtVW7D/lgxGOB1j6gAq2ce/pMOIXgUFPIs
+        OvMLP//VjspeRge7hqycPyfrwQ==
+X-Google-Smtp-Source: AMsMyM6D+AGe91n2NZ575lPSmGsw6EyKNHU4hFvUJeis6VvODRCrcbGL9qsraoDtCgAxRQCSlX7f5w==
+X-Received: by 2002:a17:902:f394:b0:176:b7b7:2 with SMTP id f20-20020a170902f39400b00176b7b70002mr3709012ple.57.1663860228501;
+        Thu, 22 Sep 2022 08:23:48 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id 13-20020a62140d000000b0053e93aa8fb9sm4579212pfu.71.2022.09.22.08.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Sep 2022 08:23:48 -0700 (PDT)
+Date:   Thu, 22 Sep 2022 15:23:44 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
         Michael Kelley <mikelley@microsoft.com>,
+        Siddharth Chandrasekaran <sidcha@amazon.de>,
+        Yuan Yao <yuan.yao@linux.intel.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/6] KVM: selftests: Rename 'msr->availble' to 'msr->fault_exepected' in hyperv_features test
-Date:   Thu, 22 Sep 2022 16:36:53 +0200
-Message-Id: <20220922143655.3721218-5-vkuznets@redhat.com>
-In-Reply-To: <20220922143655.3721218-1-vkuznets@redhat.com>
-References: <20220922143655.3721218-1-vkuznets@redhat.com>
+Subject: Re: [PATCH v10 02/39] KVM: x86: hyper-v: Resurrect dedicated
+ KVM_REQ_HV_TLB_FLUSH flag
+Message-ID: <Yyx+AJLacVzOdtBr@google.com>
+References: <20220921152436.3673454-1-vkuznets@redhat.com>
+ <20220921152436.3673454-3-vkuznets@redhat.com>
+ <Yys6b1ZqYbw9Umyu@google.com>
+ <877d1voiuz.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877d1voiuz.fsf@redhat.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-It may not be clear what 'msr->availble' means. The test actually
-checks that accessing the particular MSR doesn't cause #GP, rename
-the varialble accordingly.
+On Thu, Sep 22, 2022, Vitaly Kuznetsov wrote:
+> Now let's get to VMX and the point of my confusion (and thanks in
+> advance for educating me!):
+> AFAIU, when EPT is in use:
+>  KVM_REQ_TLB_FLUSH_CURRENT == invept
+>  KVM_REQ_TLB_FLUSH_GUEST = invvpid
+> 
+> For "normal" mappings (which are mapped on both stages) this is the same
+> thing as they're 'tagged' with both VPID and 'EPT root'. The question is
+> what's left. Given your comment, do I understand correctly that in case
+> of an invalid mapping in the guest (GVA doesn't resolve to a GPA), this
+> will only be tagged with VPID but not with 'EPT root' (as the CPU never
+> reached to the second translation stage)? We certainly can't ignore
+> these. Another (probably pure theoretical question) is what are the
+> mappings which are tagged with 'EPT root' but don't have a VPID tag?
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- .../selftests/kvm/x86_64/hyperv_features.c    | 96 +++++++++----------
- 1 file changed, 48 insertions(+), 48 deletions(-)
+Intel puts mappings into three categories, which for non-root mode equates to:
 
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_features.c b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-index 79ab0152d281..1383b979e90b 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-@@ -33,7 +33,7 @@ static inline uint8_t hypercall(u64 control, vm_vaddr_t input_address,
- 
- struct msr_data {
- 	uint32_t idx;
--	bool available;
-+	bool fault_expected;
- 	bool write;
- 	u64 write_val;
- };
-@@ -56,10 +56,10 @@ static void guest_msr(struct msr_data *msr)
- 	else
- 		vector = wrmsr_safe(msr->idx, msr->write_val);
- 
--	if (msr->available)
--		GUEST_ASSERT_2(!vector, msr->idx, vector);
--	else
-+	if (msr->fault_expected)
- 		GUEST_ASSERT_2(vector == GP_VECTOR, msr->idx, vector);
-+	else
-+		GUEST_ASSERT_2(!vector, msr->idx, vector);
- 	GUEST_DONE();
- }
- 
-@@ -153,12 +153,12 @@ static void guest_test_msrs_access(void)
- 			 */
- 			msr->idx = HV_X64_MSR_GUEST_OS_ID;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 1:
- 			msr->idx = HV_X64_MSR_HYPERCALL;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 2:
- 			feat->eax |= HV_MSR_HYPERCALL_AVAILABLE;
-@@ -169,116 +169,116 @@ static void guest_test_msrs_access(void)
- 			msr->idx = HV_X64_MSR_GUEST_OS_ID;
- 			msr->write = 1;
- 			msr->write_val = LINUX_OS_ID;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 3:
- 			msr->idx = HV_X64_MSR_GUEST_OS_ID;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 4:
- 			msr->idx = HV_X64_MSR_HYPERCALL;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 5:
- 			msr->idx = HV_X64_MSR_VP_RUNTIME;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 6:
- 			feat->eax |= HV_MSR_VP_RUNTIME_AVAILABLE;
- 			msr->idx = HV_X64_MSR_VP_RUNTIME;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 7:
- 			/* Read only */
- 			msr->idx = HV_X64_MSR_VP_RUNTIME;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 
- 		case 8:
- 			msr->idx = HV_X64_MSR_TIME_REF_COUNT;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 9:
- 			feat->eax |= HV_MSR_TIME_REF_COUNT_AVAILABLE;
- 			msr->idx = HV_X64_MSR_TIME_REF_COUNT;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 10:
- 			/* Read only */
- 			msr->idx = HV_X64_MSR_TIME_REF_COUNT;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 
- 		case 11:
- 			msr->idx = HV_X64_MSR_VP_INDEX;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 12:
- 			feat->eax |= HV_MSR_VP_INDEX_AVAILABLE;
- 			msr->idx = HV_X64_MSR_VP_INDEX;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 13:
- 			/* Read only */
- 			msr->idx = HV_X64_MSR_VP_INDEX;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 
- 		case 14:
- 			msr->idx = HV_X64_MSR_RESET;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 15:
- 			feat->eax |= HV_MSR_RESET_AVAILABLE;
- 			msr->idx = HV_X64_MSR_RESET;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 16:
- 			msr->idx = HV_X64_MSR_RESET;
- 			msr->write = 1;
- 			msr->write_val = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 17:
- 			msr->idx = HV_X64_MSR_REFERENCE_TSC;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 18:
- 			feat->eax |= HV_MSR_REFERENCE_TSC_AVAILABLE;
- 			msr->idx = HV_X64_MSR_REFERENCE_TSC;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 19:
- 			msr->idx = HV_X64_MSR_REFERENCE_TSC;
- 			msr->write = 1;
- 			msr->write_val = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 20:
- 			msr->idx = HV_X64_MSR_EOM;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 21:
- 			/*
-@@ -287,145 +287,145 @@ static void guest_test_msrs_access(void)
- 			 */
- 			msr->idx = HV_X64_MSR_EOM;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 22:
- 			feat->eax |= HV_MSR_SYNIC_AVAILABLE;
- 			msr->idx = HV_X64_MSR_EOM;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 23:
- 			msr->idx = HV_X64_MSR_EOM;
- 			msr->write = 1;
- 			msr->write_val = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 24:
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 25:
- 			feat->eax |= HV_MSR_SYNTIMER_AVAILABLE;
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 26:
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 1;
- 			msr->write_val = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 27:
- 			/* Direct mode test */
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 1;
- 			msr->write_val = 1 << 12;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 28:
- 			feat->edx |= HV_STIMER_DIRECT_MODE_AVAILABLE;
- 			msr->idx = HV_X64_MSR_STIMER0_CONFIG;
- 			msr->write = 1;
- 			msr->write_val = 1 << 12;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 29:
- 			msr->idx = HV_X64_MSR_EOI;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 30:
- 			feat->eax |= HV_MSR_APIC_ACCESS_AVAILABLE;
- 			msr->idx = HV_X64_MSR_EOI;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 31:
- 			msr->idx = HV_X64_MSR_TSC_FREQUENCY;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 32:
- 			feat->eax |= HV_ACCESS_FREQUENCY_MSRS;
- 			msr->idx = HV_X64_MSR_TSC_FREQUENCY;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 33:
- 			/* Read only */
- 			msr->idx = HV_X64_MSR_TSC_FREQUENCY;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 
- 		case 34:
- 			msr->idx = HV_X64_MSR_REENLIGHTENMENT_CONTROL;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 35:
- 			feat->eax |= HV_ACCESS_REENLIGHTENMENT;
- 			msr->idx = HV_X64_MSR_REENLIGHTENMENT_CONTROL;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 36:
- 			msr->idx = HV_X64_MSR_REENLIGHTENMENT_CONTROL;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 37:
- 			/* Can only write '0' */
- 			msr->idx = HV_X64_MSR_TSC_EMULATION_STATUS;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 
- 		case 38:
- 			msr->idx = HV_X64_MSR_CRASH_P0;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 39:
- 			feat->edx |= HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
- 			msr->idx = HV_X64_MSR_CRASH_P0;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 40:
- 			msr->idx = HV_X64_MSR_CRASH_P0;
- 			msr->write = 1;
- 			msr->write_val = 1;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 41:
- 			msr->idx = HV_X64_MSR_SYNDBG_STATUS;
- 			msr->write = 0;
--			msr->available = 0;
-+			msr->fault_expected = 1;
- 			break;
- 		case 42:
- 			feat->edx |= HV_FEATURE_DEBUG_MSRS_AVAILABLE;
- 			dbg->eax |= HV_X64_SYNDBG_CAP_ALLOW_KERNEL_DEBUGGING;
- 			msr->idx = HV_X64_MSR_SYNDBG_STATUS;
- 			msr->write = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 		case 43:
- 			msr->idx = HV_X64_MSR_SYNDBG_STATUS;
- 			msr->write = 1;
- 			msr->write_val = 0;
--			msr->available = 1;
-+			msr->fault_expected = 0;
- 			break;
- 
- 		case 44:
--- 
-2.37.3
+  linear         == GVA => GPA
+  guest-physical == GPA => HPA
+  combined       == GVA => HPA
 
+and essentially the categories that consume the GVA are tagged with the VPID
+(linear and combined), and categories that consume the GPA are tagged with the
+EPTP address (guest-physical and combined).
+
+> Are these the mapping which happen when e.g. vCPU has paging disabled?
+
+No, these mappings can be created at all times.  Even with CR0.PG=1, the guest
+can generate GPAs without going through a GVA=>GPA translation, e.g. the page tables
+themselves, RTIT (Intel PT) addresses, etc...  And even for combined/full
+translations, the CPU can insert TLB entries for just the GPA=>HPA part.
+
+E.g. when a page is allocated by/for userspace, the kernel will zero the page using
+the kernel's direct map, but userspace will access the page via a different GVA.
+I.e. the guest effectively aliases GPA(x) with GVA(k) and GVA(u).  By inserting
+the GPA(x) => HPA(y) into the TLB, when guest userspace access GVA(u), the CPU
+encounters a TLB miss on GVA(u) => GPA(x), but gets a TLB hit on GPA(x) => HPA(y).
+
+Separating EPT flushes from VPID (and PCID) flushes allows the CPU to retain
+the partial TLB entries, e.g. a host change in the EPT tables will result in the
+guest-physical and combined mappings being invalidated, but linear mappings can
+be kept.
+
+I'm 99% certain AMD also caches partial entries, e.g. see the blurb on INVLPGA
+not affecting NPT translations, AMD just doesn't provide a way for the host to
+flush _only_ NPT translations.  Maybe the performance benefits weren't significant
+enough to justify the extra complexity?
+
+> These are probably unrelated to Hyper-V TLB flushing.
+> 
+> To preserve the 'small' optimization, we can probably move 
+>  kvm_clear_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
+> 
+> to nested_svm_transition_tlb_flush() or, in case this sounds too
+> hackish
+
+Move it to svm_flush_tlb_current(), because the justification is that on SVM,
+flushing "current" TLB entries also flushes "guest" TLB entries due to the more
+coarse-grained ASID-based TLB flush.  E.g.
+
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index dd599afc85f5..a86b41503723 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -3737,6 +3737,13 @@ static void svm_flush_tlb_current(struct kvm_vcpu *vcpu)
+ {
+        struct vcpu_svm *svm = to_svm(vcpu);
+ 
++       /*
++        * Unlike VMX, SVM doesn't provide a way to flush only NPT TLB entries.
++        * A TLB flush for the current ASID flushes both "host" and "guest" TLB
++        * entries, and thus is a superset of Hyper-V's fine grained flushing.
++        */
++       kvm_hv_vcpu_purge_flush_tlb(vcpu);
++
+        /*
+         * Flush only the current ASID even if the TLB flush was invoked via
+         * kvm_flush_remote_tlbs().  Although flushing remote TLBs requires all
+
+> we can drop it for now and add it to the (already overfull)
+> bucket of the "optimize nested_svm_transition_tlb_flush()".
+
+I think even long term, purging Hyper-V's FIFO in svm_flush_tlb_current() is the
+correct/desired behavior.  This doesn't really have anything to do with nSVM,
+it's all about SVM not providing a way to flush only NPT entries.
