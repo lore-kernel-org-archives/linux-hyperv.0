@@ -2,114 +2,122 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E50FC07E9D
-	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Sep 2022 21:26:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D531C04A95
+	for <linux-hyperv@archiver.kernel.org>; Wed, 28 Sep 2022 06:42:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231684AbiI0V0q (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 27 Sep 2022 17:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55042 "EHLO
+        id S233233AbiI1Gm3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 28 Sep 2022 02:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232142AbiI0V0n (ORCPT
+        with ESMTP id S233236AbiI1Glx (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 27 Sep 2022 17:26:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D240F1E76B7;
-        Tue, 27 Sep 2022 14:26:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F7CF61B9D;
-        Tue, 27 Sep 2022 21:26:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A142C433C1;
-        Tue, 27 Sep 2022 21:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1664313999;
-        bh=xsHcZmQ5k2fouDljXp77NUkSQtGkptLx+KZKrFyMkVk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sWPV6fPvwau/brQJo1jcJrYLI/PzgmGw3fPY7sWSFOfBq2TqCRVGiLBgKGtPrQqqW
-         dhDsWN4Eu842mdtbU1ipgIoZ9Xtq2z956kGZvTz0lviaKFTu0FvdJDPNngCBHDvZes
-         UZU/OKtXCayCe+J2QnePigu59JVJhk4KFwg5ZAhXWI12Q3g8Rky6FevPJUdBJyC7Fc
-         AMp6OlUMqjauaz1vT74piycJD6rEV/LhfI/Zs6M7yP9/kI0V7y3nB5SWF4RwTOxThI
-         xa7T0SqV+RSRYdxJDnoEpUkcHCNuwpwKEYW+45jqg+1wBEME4xmsxyKUXn5ey6gqaF
-         SCfBNv4K2h3fA==
-Date:   Tue, 27 Sep 2022 16:26:32 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        linux-hyperv@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] Drivers: hv: vmbus: Split memcpy of flex-array
-Message-ID: <YzNqiLag6NyRMdh+@work>
-References: <20220927211736.3241175-1-keescook@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220927211736.3241175-1-keescook@chromium.org>
+        Wed, 28 Sep 2022 02:41:53 -0400
+Received: from mail.nfschina.com (unknown [124.16.136.209])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C11610D672;
+        Tue, 27 Sep 2022 23:41:07 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mail.nfschina.com (Postfix) with ESMTP id BE5401E80D40;
+        Wed, 28 Sep 2022 14:36:47 +0800 (CST)
+X-Virus-Scanned: amavisd-new at test.com
+Received: from mail.nfschina.com ([127.0.0.1])
+        by localhost (mail.nfschina.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id JIKw-suG0KCg; Wed, 28 Sep 2022 14:36:45 +0800 (CST)
+Received: from localhost.localdomain (unknown [219.141.250.2])
+        (Authenticated sender: kunyu@nfschina.com)
+        by mail.nfschina.com (Postfix) with ESMTPA id E88A81E80D33;
+        Wed, 28 Sep 2022 14:36:39 +0800 (CST)
+From:   Li kunyu <kunyu@nfschina.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, catalin.marinas@arm.com,
+        will@kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        arnd@arndb.de
+Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, Li kunyu <kunyu@nfschina.com>
+Subject: [PATCH v6] hyperv: simplify and rename generate_guest_id
+Date:   Wed, 28 Sep 2022 14:40:46 +0800
+Message-Id: <20220928064046.3545-1-kunyu@nfschina.com>
+X-Mailer: git-send-email 2.18.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Sep 27, 2022 at 02:17:36PM -0700, Kees Cook wrote:
-> To work around a misbehavior of the compiler's ability to see into
-> composite flexible array structs (as detailed in the coming memcpy()
-> hardening series[1]), split the memcpy() of the header and the payload
-> so no false positive run-time overflow warning will be generated. This
-> results in the already inlined memcpy getting unrolled a little more,
-> which very slightly increases text size:
-> 
-> $ size drivers/hv/vmbus_drv.o.before drivers/hv/vmbus_drv.o
->    text    data     bss     dec     hex filename
->   22968    5239     232   28439    6f17 drivers/hv/vmbus_drv.o.before
->   23032    5239     232   28503    6f57 drivers/hv/vmbus_drv.o
-> 
-> Avoids the run-time false-positive warning:
-> 
->   memcpy: detected field-spanning write (size 212) of single field "&ctx->msg" at drivers/hv/vmbus_drv.c:1133 (size 16)
-> 
-> [1] https://lore.kernel.org/linux-hardening/20220901065914.1417829-2-keescook@chromium.org/
-> 
-> Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-> Cc: Haiyang Zhang <haiyangz@microsoft.com>
-> Cc: Stephen Hemminger <sthemmin@microsoft.com>
-> Cc: Wei Liu <wei.liu@kernel.org>
-> Cc: Dexuan Cui <decui@microsoft.com>
-> Cc: linux-hyperv@vger.kernel.org
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Reported-by: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+The generate_guest_id function is more suitable for use after the
+following modifications.
+1. The return value of the function is modified to u64.
+2. Remove the d_info1 and d_info2 parameters from the function, keep the
+u64 type kernel_version parameter.
+3. Rename the function to make it clearly a Hyper-V related function,
+and modify it to hv_generate_guest_id.
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Signed-off-by: Li kunyu <kunyu@nfschina.com>
 
-Thanks!
---
-Gustavo
+--------
+ v2: Fix generate_guest_id to hv_generate_guest_id.
+ v3: Fix [PATCH v2] asm-generic: Remove the ... to [PATCH v3] hyperv: simp
+     lify ... and remove extra spaces
+ v4: Remove #include <linux/version.h> in the calling file, and add #inclu
+     de <linux/version.h> in the function implementation file
+ v5: <linux/version.h> is changed to the definition position before v4, an
+     d the LINUX_VERSION_CODE macro is passed in the function call
+ v6: Modify the patch description information to the changed information a
+     fter discussion
+---
+ arch/arm64/hyperv/mshyperv.c   | 2 +-
+ arch/x86/hyperv/hv_init.c      | 2 +-
+ include/asm-generic/mshyperv.h | 9 +++------
+ 3 files changed, 5 insertions(+), 8 deletions(-)
 
-> ---
-> v2: - fix commit log, add tags and exact warning test from Nathan
-> v1: https://lore.kernel.org/lkml/20220924030741.3345349-1-keescook@chromium.org
-> ---
->  drivers/hv/vmbus_drv.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index 23c680d1a0f5..9b111a8262e3 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -1131,7 +1131,8 @@ void vmbus_on_msg_dpc(unsigned long data)
->  			return;
->  
->  		INIT_WORK(&ctx->work, vmbus_onmessage_work);
-> -		memcpy(&ctx->msg, &msg_copy, sizeof(msg->header) + payload_size);
-> +		ctx->msg.header = msg_copy.header;
-> +		memcpy(&ctx->msg.payload, msg_copy.u.payload, payload_size);
->  
->  		/*
->  		 * The host can generate a rescind message while we
-> -- 
-> 2.34.1
-> 
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index bbbe351e9045..a406454578f0 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -38,7 +38,7 @@ static int __init hyperv_init(void)
+ 		return 0;
+ 
+ 	/* Setup the guest ID */
+-	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
++	guest_id = hv_generate_guest_id(LINUX_VERSION_CODE);
+ 	hv_set_vpreg(HV_REGISTER_GUEST_OSID, guest_id);
+ 
+ 	/* Get the features and hints from Hyper-V */
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 3de6d8b53367..032d85ac33fa 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -426,7 +426,7 @@ void __init hyperv_init(void)
+ 	 * 1. Register the guest ID
+ 	 * 2. Enable the hypercall and register the hypercall page
+ 	 */
+-	guest_id = generate_guest_id(0, LINUX_VERSION_CODE, 0);
++	guest_id = hv_generate_guest_id(LINUX_VERSION_CODE);
+ 	wrmsrl(HV_X64_MSR_GUEST_OS_ID, guest_id);
+ 
+ 	/* Hyper-V requires to write guest os id via ghcb in SNP IVM. */
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index c05d2ce9b6cd..bfb9eb9d7215 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -105,15 +105,12 @@ static inline u64 hv_do_rep_hypercall(u16 code, u16 rep_count, u16 varhead_size,
+ }
+ 
+ /* Generate the guest OS identifier as described in the Hyper-V TLFS */
+-static inline  __u64 generate_guest_id(__u64 d_info1, __u64 kernel_version,
+-				       __u64 d_info2)
++static inline u64 hv_generate_guest_id(u64 kernel_version)
+ {
+-	__u64 guest_id = 0;
++	u64 guest_id;
+ 
+-	guest_id = (((__u64)HV_LINUX_VENDOR_ID) << 48);
+-	guest_id |= (d_info1 << 48);
++	guest_id = (((u64)HV_LINUX_VENDOR_ID) << 48);
+ 	guest_id |= (kernel_version << 16);
+-	guest_id |= d_info2;
+ 
+ 	return guest_id;
+ }
+-- 
+2.18.2
+
