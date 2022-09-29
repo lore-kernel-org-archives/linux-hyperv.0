@@ -2,178 +2,236 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2898EC04A95
-	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Sep 2022 09:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5B68C433FE
+	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Sep 2022 10:25:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234848AbiI2JNq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 29 Sep 2022 05:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56482 "EHLO
+        id S233770AbiI2KZB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Sep 2022 06:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235728AbiI2JNN (ORCPT
+        with ESMTP id S235210AbiI2KYv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 29 Sep 2022 05:13:13 -0400
-Received: from smtp-fw-6001.amazon.com (smtp-fw-6001.amazon.com [52.95.48.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F711449E1;
-        Thu, 29 Sep 2022 02:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1664442767; x=1695978767;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=gbX7+1PHfMiTfg5A2mAeVk2kLj1W8TIaBDtUydjsZQ8=;
-  b=MVFn1kVR7s9OyB5fKU6YjBHRT4M40Gg+IvtzF7tyCLl0G1pFibuFcVk/
-   G/GXh0JBB6QfBbM+aenFW89WLOPLG2DFs9DCcawJrV0dRFkU7HTgMBgEu
-   byXx42Kb03q9B1S6KYTZYUK8rfxPgnultG1Qy9pbFrQC5tMgnszib33JL
-   U=;
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-iad-1d-9a235a16.us-east-1.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-6001.iad6.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2022 09:12:24 +0000
-Received: from EX13MTAUWC002.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
-        by email-inbound-relay-iad-1d-9a235a16.us-east-1.amazon.com (Postfix) with ESMTPS id 446D78015E;
-        Thu, 29 Sep 2022 09:12:18 +0000 (UTC)
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.38; Thu, 29 Sep 2022 09:12:17 +0000
-Received: from [10.95.64.54] (10.43.160.111) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1118.12; Thu, 29 Sep
- 2022 09:12:11 +0000
-Message-ID: <1f1beb97-2a36-dcc0-f09a-59af19663ae2@amazon.com>
-Date:   Thu, 29 Sep 2022 10:12:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.3.0
-Subject: Re: [PATCH v2] x86/PCI: Prefer MMIO over PIO on all hypervisor
-Content-Language: en-US
-To:     Ajay Kaher <akaher@vmware.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>
-CC:     "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        Srivatsa Bhat <srivatsab@vmware.com>,
-        "srivatsa@csail.mit.edu" <srivatsa@csail.mit.edu>,
-        Alexey Makhalov <amakhalov@vmware.com>,
-        Vasavi Sirnapalli <vsirnapalli@vmware.com>,
-        "er.ajay.kaher@gmail.com" <er.ajay.kaher@gmail.com>,
-        "willy@infradead.org" <willy@infradead.org>,
-        "Nadav Amit" <namit@vmware.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "jailhouse-dev@googlegroups.com" <jailhouse-dev@googlegroups.com>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
-        "acrn-dev@lists.projectacrn.org" <acrn-dev@lists.projectacrn.org>,
-        "helgaas@kernel.org" <helgaas@kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>
-References: <9FEC6622-780D-41E6-B7CA-8D39EDB2C093@vmware.com>
- <87zgf3pfd1.fsf@redhat.com> <B64FD502-E794-4E94-A267-D690476C57EE@vmware.com>
-From:   Alexander Graf <graf@amazon.com>
-In-Reply-To: <B64FD502-E794-4E94-A267-D690476C57EE@vmware.com>
-X-Originating-IP: [10.43.160.111]
-X-ClientProxiedBy: EX13D23UWA004.ant.amazon.com (10.43.160.72) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+        Thu, 29 Sep 2022 06:24:51 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6D3102F01E;
+        Thu, 29 Sep 2022 03:24:50 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1134)
+        id 3BFF620E0A24; Thu, 29 Sep 2022 03:24:50 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3BFF620E0A24
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1664447090;
+        bh=977Jsx8ikA7Oogcgw8EBooG0nQxyqKCRquP1jxo5VVs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YlsiFBE6WYt+tCZuIO8FgIRnnqKACZ9O028o3iuBYw6VnTya1lUTWxFLxjhPLTuY9
+         098YVY/ia259YM7POhKtpAMXGf62hTglg03tmE2G3aX7v8OxeId3tilkIxQJZi0yP3
+         YX98gcc3StwD6GEhGKx2+7hfiYOcv19pfOwxCSmk=
+From:   Shradha Gupta <shradhagupta@linux.microsoft.com>
+To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Shradha Gupta <shradhagupta@linux.microsoft.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Shradha Gupta <shradhagupta@microsoft.com>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: [PATCH 2/2] hv_balloon: Add support for configurable order free page reporting
+Date:   Thu, 29 Sep 2022 03:24:41 -0700
+Message-Id: <1664447081-14744-3-git-send-email-shradhagupta@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1664447081-14744-1-git-send-email-shradhagupta@linux.microsoft.com>
+References: <1664447081-14744-1-git-send-email-shradhagupta@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Ck9uIDI5LjA5LjIyIDA3OjM2LCBBamF5IEthaGVyIHdyb3RlOgo+PiDvu79PbiAxMy8wOS8yMiwg
-NzowNSBQTSwgIlZpdGFseSBLdXpuZXRzb3YiIDx2a3V6bmV0c0ByZWRoYXQuY29tPiB3cm90ZToK
-Pj4+IFRoYW5rcyBWaXRhbHkgZm9yIHlvdXIgcmVzcG9uc2UuCj4+Pgo+Pj4gMS4gd2UgaGF2ZSBt
-dWx0aXBsZSBvYmplY3RzIG9mIHN0cnVjdCBwY2lfcmF3X29wcywgMi4gYWRkaW5nICdwcmlvcml0
-eScgZmllbGQgdG8gc3RydWN0IHBjaV9yYXdfb3BzCj4+PiBkb2Vzbid0IHNlZW1zIHRvIGJlIGFw
-cHJvcHJpYXRlIGFzIG5lZWQgdG8gdGFrZSBkZWNpc2lvbiB3aGljaCBvYmplY3Qgb2Ygc3RydWN0
-IHBjaV9yYXdfb3BzIGhhcwo+Pj4gdG8gYmUgdXNlZCwgbm90IHNvbWV0aGluZyB3aXRoLWluIHN0
-cnVjdCBwY2lfcmF3X29wcy4KPj4gSSdtIG5vdCBzdXJlIEkgZm9sbG93LCB5b3UgaGF2ZSB0d28g
-aW5zdGFuY2VzIG9mICdzdHJ1Y3QgcGNpX3Jhd19vcHMnCj4+IHdoaWNoIGFyZSBjYWxsZWQgJ3Jh
-d19wY2lfb3BzJyBhbmQgJ3Jhd19wY2lfZXh0X29wcycuIFdoYXQgaWYgeW91IGRvCj4+IHNvbWV0
-aGluZyBsaWtlIChjb21wbGV0ZWx5IHVudGVzdGVkKToKPj4KPj4gZGlmZiAtLWdpdCBhL2FyY2gv
-eDg2L2luY2x1ZGUvYXNtL3BjaV94ODYuaCBiL2FyY2gveDg2L2luY2x1ZGUvYXNtL3BjaV94ODYu
-aAo+PiBpbmRleCA3MDUzM2ZkY2JmMDIuLmZiODI3MGZhNmM3OCAxMDA2NDQKPj4gLS0tIGEvYXJj
-aC94ODYvaW5jbHVkZS9hc20vcGNpX3g4Ni5oCj4+ICsrKyBiL2FyY2gveDg2L2luY2x1ZGUvYXNt
-L3BjaV94ODYuaAo+PiBAQCAtMTE2LDYgKzExNiw3IEBAIGV4dGVybiB2b2lkICgqcGNpYmlvc19k
-aXNhYmxlX2lycSkoc3RydWN0IHBjaV9kZXYgKmRldik7Cj4+IGV4dGVybiBib29sIG1wX3Nob3Vs
-ZF9rZWVwX2lycShzdHJ1Y3QgZGV2aWNlICpkZXYpOwo+Pgo+PiBzdHJ1Y3QgcGNpX3Jhd19vcHMg
-ewo+PiArICAgICAgIGludCByYXRpbmc7Cj4+ICAgICAgICAgICBpbnQgKCpyZWFkKSh1bnNpZ25l
-ZCBpbnQgZG9tYWluLCB1bnNpZ25lZCBpbnQgYnVzLCB1bnNpZ25lZCBpbnQgZGV2Zm4sCj4+ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCByZWcsIGlu
-dCBsZW4sIHUzMiAqdmFsKTsKPj4gICAgICAgICAgIGludCAoKndyaXRlKSh1bnNpZ25lZCBpbnQg
-ZG9tYWluLCB1bnNpZ25lZCBpbnQgYnVzLCB1bnNpZ25lZCBpbnQgZGV2Zm4sCj4+IGRpZmYgLS1n
-aXQgYS9hcmNoL3g4Ni9wY2kvY29tbW9uLmMgYi9hcmNoL3g4Ni9wY2kvY29tbW9uLmMKPj4gaW5k
-ZXggZGRiNzk4NjAzMjAxLi5lOTk2NWZkMTE1NzYgMTAwNjQ0Cj4+IC0tLSBhL2FyY2gveDg2L3Bj
-aS9jb21tb24uYwo+PiArKysgYi9hcmNoL3g4Ni9wY2kvY29tbW9uLmMKPj4gQEAgLTQwLDcgKzQw
-LDggQEAgY29uc3Qgc3RydWN0IHBjaV9yYXdfb3BzICpfX3JlYWRfbW9zdGx5IHJhd19wY2lfZXh0
-X29wczsKPj4gICBpbnQgcmF3X3BjaV9yZWFkKHVuc2lnbmVkIGludCBkb21haW4sIHVuc2lnbmVk
-IGludCBidXMsIHVuc2lnbmVkIGludCBkZXZmbiwKPj4gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGludCByZWcsIGludCBsZW4sIHUzMiAqdmFsKQo+PiB7
-Cj4+IC0gICAgICAgaWYgKGRvbWFpbiA9PSAwICYmIHJlZyA8IDI1NiAmJiByYXdfcGNpX29wcykK
-Pj4gKyAgICAgICBpZiAoZG9tYWluID09IDAgJiYgcmVnIDwgMjU2ICYmIHJhd19wY2lfb3BzICYm
-Cj4+ICsgICAgICAgICAgICghcmF3X3BjaV9leHRfb3BzIHx8IHJhd19wY2lfZXh0X29wcy0+cmF0
-aW5nIDw9IHJhd19wY2lfb3BzLT5yYXRpbmcpKQo+PiAgICAgICAgICAgICAgICAgIHJldHVybiBy
-YXdfcGNpX29wcy0+cmVhZChkb21haW4sIGJ1cywgZGV2Zm4sIHJlZywgbGVuLCB2YWwpOwo+PiAg
-ICAgICAgICBpZiAocmF3X3BjaV9leHRfb3BzKQo+PiAgICAgICAgICAgICAgICAgIHJldHVybiBy
-YXdfcGNpX2V4dF9vcHMtPnJlYWQoZG9tYWluLCBidXMsIGRldmZuLCByZWcsIGxlbiwgdmFsKTsK
-Pj4gQEAgLTUwLDcgKzUxLDggQEAgaW50IHJhd19wY2lfcmVhZCh1bnNpZ25lZCBpbnQgZG9tYWlu
-LCB1bnNpZ25lZCBpbnQgYnVzLCB1bnNpZ25lZCBpbnQgZGV2Zm4sCj4+ICAgaW50IHJhd19wY2lf
-d3JpdGUodW5zaWduZWQgaW50IGRvbWFpbiwgdW5zaWduZWQgaW50IGJ1cywgdW5zaWduZWQgaW50
-IGRldmZuLAo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgaW50IHJlZywgaW50IGxlbiwgdTMyIHZhbCkKPj4gewo+PiAtICAgICAgIGlmIChkb21haW4g
-PT0gMCAmJiByZWcgPCAyNTYgJiYgcmF3X3BjaV9vcHMpCj4+ICsgICAgICAgaWYgKGRvbWFpbiA9
-PSAwICYmIHJlZyA8IDI1NiAmJiByYXdfcGNpX29wcyAmJgo+PiArICAgICAgICAgICAoIXJhd19w
-Y2lfZXh0X29wcyB8fCByYXdfcGNpX2V4dF9vcHMtPnJhdGluZyA8PSByYXdfcGNpX29wcy0+cmF0
-aW5nKSkKPj4gICAgICAgICAgICAgICAgICByZXR1cm4gcmF3X3BjaV9vcHMtPndyaXRlKGRvbWFp
-biwgYnVzLCBkZXZmbiwgcmVnLCBsZW4sIHZhbCk7Cj4+ICAgICAgICAgICBpZiAocmF3X3BjaV9l
-eHRfb3BzKQo+PiAgICAgICAgICAgICAgICAgIHJldHVybiByYXdfcGNpX2V4dF9vcHMtPndyaXRl
-KGRvbWFpbiwgYnVzLCBkZXZmbiwgcmVnLCBsZW4sIHZhbCk7Cj4+Cj4+IGFuZCB0aGVuIHNvbWV3
-aGVyZSBpbiBWbXdhcmUgaHlwZXJ2aXNvciBpbml0aWFsaXphdGlvbiBjb2RlCj4+IChhcmNoL3g4
-Ni9rZXJuZWwvY3B1L3Ztd2FyZS5jKSB5b3UgZG8KPj4KPj4gICByYXdfcGNpX2V4dF9vcHMtPnJh
-dGluZyA9IDEwMDsKPiBUaGFua3MgVml0YWx5LCBmb3IgeW91ciByZXZpZXcgYW5kIGhlbHBpbmcg
-dXMgdG8gaW1wcm92ZSB0aGUgY29kZS4KPgo+IEkgd2FzIHdvcmtpbmcgdG8gbWFrZSBjaGFuZ2Vz
-IGFzIHlvdSBzdWdnZXN0ZWQsIGJ1dCBiZWZvcmUgc2VuZGluZyB2MyB3b3VsZCBsaWtlIHRvCj4g
-ZGlzY3VzcyBvbiBmb2xsb3dpbmc6Cj4KPiBJZiB3ZSBhZGQgcmF0aW5nIHdpdGgtaW4gc3RydWN0
-IHBjaV9yYXdfb3BzIHRoZW4gd2UgY2FuJ3QgaGF2ZSBwY2lfbW1jZmcgYXMgY29uc3QsCj4gYW5k
-IGZvbGxvd2luZyBjaGFuZ2UgaXMgbXVzdCBpbiBhcmNoL3g4Ni9wY2kvbW1jb25maWdfNjQuYzoK
-Pgo+IC1jb25zdCBzdHJ1Y3QgcGNpX3Jhd19vcHMgcGNpX21tY2ZnID0gewo+ICtzdHJ1Y3QgcGNp
-X3Jhd19vcHMgcGNpX21tY2ZnID0gewo+ICAgICAgICAgIC5yZWFkID0gICAgICAgICBwY2lfbW1j
-ZmdfcmVhZCwKPiAgICAgICAgICAud3JpdGUgPSAgICAgICAgcGNpX21tY2ZnX3dyaXRlLAo+IH07
-Cj4KPiBTbyB0byBhdm9pZCB0aGlzIGNoYW5nZSwgaXMgaXQgZmluZSB0byBoYXZlIGdsb2JhbCBi
-b29sIHByZWZlcl9yYXdfcGNpX2V4dF9vcHM/Cj4KPiBBbmQgcmF3X3BjaV9yZWFkKCkgd2lsbCBo
-YXZlIGZvbGxvd2luZyBjaGFuZ2U6Cj4KPiAtICAgICAgIGlmIChkb21haW4gPT0gMCAmJiByZWcg
-PCAyNTYgJiYgcmF3X3BjaV9vcHMpCj4gKyAgICAgICBpZiAoZG9tYWluID09IDAgJiYgcmVnIDwg
-MjU2ICYmIHJhd19wY2lfb3BzICYmCj4gKyAgICAgICAgICAgICghcHJlZmVyX3Jhd19wY2lfZXh0
-X29wcyB8fCAgIXJhd19wY2lfZXh0X29wcykKPgo+PiB3aHkgd291bGRuJ3QgaXQgd29yaz8KPj4K
-Pj4gKGRpY2xhaW1lcjogY29tcGxldGVseSB1bnRlc3RlZCwgcmF3X3BjaV9vcHMvcmF3X3BjaV9l
-eHRfb3BzCj4+IGluaXRpYWxpemF0aW9uIGhhcyB0byBiZSBjaGVja2VkIHNvICdyYXRpbmcnIGlz
-IG5vdCBnYXJiYWdlKS4KPj4KPj4+IEl0J3MgYSBnZW5lcmljIHNvbHV0aW9uIGZvciBhbGwgaHlw
-ZXJ2aXNvciAoc29ycnkgZm9yIGVhcmxpZXIgd3JvbmcKPj4+IFN1YmplY3QpLCBub3Qgc3BlY2lm
-aWMgdG8gVk13YXJlLiBGdXJ0aGVyIGxvb2tpbmcgZm9yIGZlZWRiYWNrIGlmIGl0J3MKPj4+IGlt
-cGFjdGluZyB0byBhbnkgaHlwZXJ2aXNvci4KPj4gVGhhdCdzIHRoZSB0cmlja3kgcGFydC4gV2Ug
-Y2FuIGNoZWNrIG1vZGVybiBoeXBlcnZpc29yIHZlcnNpb25zLCBidXQKPj4gd2hhdCBhYm91dCBh
-bGwgb3RoZXIgdmVyc2lvbnMgaW4gZXhpc3RlbmNlPyBIb3cgY2FuIHdlIGtub3cgdGhhdCB0aGVy
-ZSdzCj4+IG5vIFFFTVUvSHlwZXItVi8uLi4gdmVyc2lvbiBvdXQgdGhlcmUgd2hlcmUgTU1JTyBw
-YXRoIGlzIGJyb2tlbj8gSSdkCj4+IHN1Z2dlc3Qgd2UgbGltaXQgdGhlIGNoYW5nZSB0byBWbXdh
-cmUgaHlwZXJ2aXNvciwgb3RoZXIgaHlwZXJ2aXNvcnMgbWF5Cj4+IHVzZSB0aGUgc2FtZSBtZWNo
-YW5pc20gKGxpa2UgdGhlIG9uZSBhYm92ZSkgbGF0ZXIgKGJ1dCB0aGUgcGVyc29uCj4+IHN1Z2dl
-c3RpbmcgdGhlIHBhdGNoIGlzIGFsd2F5cyByZXNwb25zaWJsZSBmb3IgdGhlIHJlc2VhcmNoIHdo
-eSBpdCBpcwo+PiBzYWZlIHRvIGRvIHNvKS4KPiBPaywgYXMgb2Ygbm93IHdlIHdpbGwgbWFrZSB0
-aGlzIGNoYW5nZSBzcGVjaWZpYyB0byBWTXdhcmUgaHlwZXJ2aXNvci4KCgpJcyB0aGVyZSBhIHdh
-eSB3ZSBjYW4gbWFrZSBpdCBhbiBBQ1BJIHByb3BlcnR5IGluIE1DRkcgdG8gaGF2ZSB0aGUgCmVu
-dmlyb25tZW50IHNlbGYtZGVzY3JpYmUgdGhlIGZhY3QgdGhhdCBpdCdzIHNhZmUgdG8gZG8gRUNB
-TSBhY2Nlc3MgZm9yIApjb25maWcgc3BhY2UgYWNjZXNzIG92ZXIgbGVnYWN5IFBJTz8gVGhhdCB3
-YXkgd2UgZG9uJ3QgbmVlZCB0byBwYXRjaCAKZ3Vlc3RzIGV2ZXJ5IHRpbWUgYSBoeXBlcnZpc29y
-IGRlY2lkZXMgdGhhdCBpdCdzIHNhZmUgdG8gcHJlZmVyIEVDQU0uCgpBbHNvLCBNaWNoYWVsIChD
-QydlZCkgbWVudGlvbmVkIHRoYXQgYWNjb3JkaW5nIHRvIHNwZWMsIHlvdXIgUENJZSBob3N0IApi
-cmlkZ2Ugd2l0aCBQQ0lfQ09NTUFORC5NRU1PUlk9MCB3b3VsZCBzdG9wIHJlc3BvbmRpbmcgdG8g
-aXRzIEVDQU0gCndpbmRvdy4gR2l2ZW4gdGhhdCBtb3N0IEFSTSBzeXN0ZW1zIGhhdmUgbm8gUElP
-IGZhbGxiYWNrIHBhdGgsIHdlIHdhbnQgCnRvIG1ha2Ugc3VyZSB3ZSBuZXZlciBoaXQgdGhhdCBj
-b25kaXRpb24uCgoKQWxleAoKCgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgR2VybWFueSBH
-bWJICktyYXVzZW5zdHIuIDM4CjEwMTE3IEJlcmxpbgpHZXNjaGFlZnRzZnVlaHJ1bmc6IENocmlz
-dGlhbiBTY2hsYWVnZXIsIEpvbmF0aGFuIFdlaXNzCkVpbmdldHJhZ2VuIGFtIEFtdHNnZXJpY2h0
-IENoYXJsb3R0ZW5idXJnIHVudGVyIEhSQiAxNDkxNzMgQgpTaXR6OiBCZXJsaW4KVXN0LUlEOiBE
-RSAyODkgMjM3IDg3OQoKCg==
+Newer versions of Hyper-V allow reporting unused guest pages in chunks
+smaller than 2 Mbytes.  Using smaller chunks allows reporting more
+unused guest pages, but with increased overhead in the finding the
+small chunks.  To make this tradeoff configurable, use the existing
+page_reporting_order module parameter to control the reporting order.
+Drop and refine checks that restricted the minimun page reporting order
+to 2Mbytes size pages. Add appropriate checks to make sure the
+underlying Hyper-V versions support cold discard hints of any order
+(and not just starting from 9)
+
+Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+---
+ drivers/hv/hv_balloon.c | 94 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 73 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+index fdf6decacf06..7088ed056e50 100644
+--- a/drivers/hv/hv_balloon.c
++++ b/drivers/hv/hv_balloon.c
+@@ -469,12 +469,16 @@ static bool do_hot_add;
+  * the specified number of seconds.
+  */
+ static uint pressure_report_delay = 45;
++extern unsigned int page_reporting_order;
++#define HV_MAX_FAILURES	2
+ 
+ /*
+  * The last time we posted a pressure report to host.
+  */
+ static unsigned long last_post_time;
+ 
++static int hv_hypercall_multi_failure;
++
+ module_param(hot_add, bool, (S_IRUGO | S_IWUSR));
+ MODULE_PARM_DESC(hot_add, "If set attempt memory hot_add");
+ 
+@@ -579,6 +583,10 @@ static struct hv_dynmem_device dm_device;
+ 
+ static void post_status(struct hv_dynmem_device *dm);
+ 
++static void enable_page_reporting(void);
++
++static void disable_page_reporting(void);
++
+ #ifdef CONFIG_MEMORY_HOTPLUG
+ static inline bool has_pfn_is_backed(struct hv_hotadd_state *has,
+ 				     unsigned long pfn)
+@@ -1418,6 +1426,18 @@ static int dm_thread_func(void *dm_dev)
+ 		 */
+ 		reinit_completion(&dm_device.config_event);
+ 		post_status(dm);
++		/*
++		 * disable free page reporting if multiple hypercall
++		 * failure flag set. It is not done in the page_reporting
++		 * callback context as that causes a deadlock between
++		 * page_reporting_process() and page_reporting_unregister()
++		 */
++		if (hv_hypercall_multi_failure >= HV_MAX_FAILURES) {
++			pr_err("Multiple failures in cold memory discard hypercall, disabling page reporting\n");
++			disable_page_reporting();
++			/* Reset the flag after disabling reporting */
++			hv_hypercall_multi_failure = 0;
++		}
+ 	}
+ 
+ 	return 0;
+@@ -1593,20 +1613,20 @@ static void balloon_onchannelcallback(void *context)
+ 
+ }
+ 
+-/* Hyper-V only supports reporting 2MB pages or higher */
+-#define HV_MIN_PAGE_REPORTING_ORDER	9
+-#define HV_MIN_PAGE_REPORTING_LEN (HV_HYP_PAGE_SIZE << HV_MIN_PAGE_REPORTING_ORDER)
++#define HV_LARGE_REPORTING_ORDER	9
++#define HV_LARGE_REPORTING_LEN (HV_HYP_PAGE_SIZE << \
++		HV_LARGE_REPORTING_ORDER)
+ static int hv_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+ 		    struct scatterlist *sgl, unsigned int nents)
+ {
+ 	unsigned long flags;
+ 	struct hv_memory_hint *hint;
+-	int i;
++	int i, order;
+ 	u64 status;
+ 	struct scatterlist *sg;
+ 
+ 	WARN_ON_ONCE(nents > HV_MEMORY_HINT_MAX_GPA_PAGE_RANGES);
+-	WARN_ON_ONCE(sgl->length < HV_MIN_PAGE_REPORTING_LEN);
++	WARN_ON_ONCE(sgl->length < (HV_HYP_PAGE_SIZE << page_reporting_order));
+ 	local_irq_save(flags);
+ 	hint = *(struct hv_memory_hint **)this_cpu_ptr(hyperv_pcpu_input_arg);
+ 	if (!hint) {
+@@ -1621,21 +1641,53 @@ static int hv_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+ 
+ 		range = &hint->ranges[i];
+ 		range->address_space = 0;
+-		/* page reporting only reports 2MB pages or higher */
+-		range->page.largepage = 1;
+-		range->page.additional_pages =
+-			(sg->length / HV_MIN_PAGE_REPORTING_LEN) - 1;
+-		range->page_size = HV_GPA_PAGE_RANGE_PAGE_SIZE_2MB;
+-		range->base_large_pfn =
+-			page_to_hvpfn(sg_page(sg)) >> HV_MIN_PAGE_REPORTING_ORDER;
++		order = get_order(sg->length);
++		/*
++		 * Hyper-V expects the additional_pages field in the units
++		 * of one of these 3 sizes, 4Kbytes, 2Mbytes or 1Gbytes.
++		 * This is dictated by the values of the fields page.largesize
++		 * and page_size.
++		 * This code however, only uses 4Kbytes and 2Mbytes units
++		 * and not 1Gbytes unit.
++		 */
++
++		/* page reporting for pages 2MB or higher */
++		if (order >= HV_LARGE_REPORTING_ORDER ) {
++			range->page.largepage = 1;
++			range->page_size = HV_GPA_PAGE_RANGE_PAGE_SIZE_2MB;
++			range->base_large_pfn = page_to_hvpfn(
++					sg_page(sg)) >> HV_LARGE_REPORTING_ORDER;
++			range->page.additional_pages =
++				(sg->length / HV_LARGE_REPORTING_LEN) - 1;
++		} else {
++			/* Page reporting for pages below 2MB */
++			range->page.basepfn = page_to_hvpfn(sg_page(sg));
++			range->page.largepage = false;
++			range->page.additional_pages =
++				(sg->length / HV_HYP_PAGE_SIZE) - 1;
++		}
++
+ 	}
+ 
+ 	status = hv_do_rep_hypercall(HV_EXT_CALL_MEMORY_HEAT_HINT, nents, 0,
+ 				     hint, NULL);
+ 	local_irq_restore(flags);
+-	if ((status & HV_HYPERCALL_RESULT_MASK) != HV_STATUS_SUCCESS) {
++	if (!hv_result_success(status)) {
++
+ 		pr_err("Cold memory discard hypercall failed with status %llx\n",
+-			status);
++				status);
++		if (hv_hypercall_multi_failure > 0)
++			hv_hypercall_multi_failure++;
++
++		if (hv_result(status) == HV_STATUS_INVALID_PARAMETER) {
++			pr_err("Underlying Hyper-V does not support order less than 9. Hypercall failed\n");
++			pr_err("Defaulting to page_reporting_order %d\n",
++					pageblock_order);
++			page_reporting_order = pageblock_order;
++			hv_hypercall_multi_failure++;
++			return -EINVAL;
++		}
++
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1646,12 +1698,6 @@ static void enable_page_reporting(void)
+ {
+ 	int ret;
+ 
+-	/* Essentially, validating 'PAGE_REPORTING_MIN_ORDER' is big enough. */
+-	if (pageblock_order < HV_MIN_PAGE_REPORTING_ORDER) {
+-		pr_debug("Cold memory discard is only supported on 2MB pages and above\n");
+-		return;
+-	}
+-
+ 	if (!hv_query_ext_cap(HV_EXT_CAPABILITY_MEMORY_COLD_DISCARD_HINT)) {
+ 		pr_debug("Cold memory discard hint not supported by Hyper-V\n");
+ 		return;
+@@ -1659,12 +1705,18 @@ static void enable_page_reporting(void)
+ 
+ 	BUILD_BUG_ON(PAGE_REPORTING_CAPACITY > HV_MEMORY_HINT_MAX_GPA_PAGE_RANGES);
+ 	dm_device.pr_dev_info.report = hv_free_page_report;
++	/*
++	 * We let the page_reporting_order parameter decide the order
++	 * in the page_reporting code
++	 */
++	dm_device.pr_dev_info.order = 0;
+ 	ret = page_reporting_register(&dm_device.pr_dev_info);
+ 	if (ret < 0) {
+ 		dm_device.pr_dev_info.report = NULL;
+ 		pr_err("Failed to enable cold memory discard: %d\n", ret);
+ 	} else {
+-		pr_info("Cold memory discard hint enabled\n");
++		pr_info("Cold memory discard hint enabled with order %d\n",
++				page_reporting_order);
+ 	}
+ }
+ 
+-- 
+2.37.2
 
