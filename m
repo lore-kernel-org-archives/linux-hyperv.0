@@ -2,73 +2,133 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFBEC433FE
-	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Sep 2022 10:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCC8C433F5
+	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Sep 2022 10:32:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235342AbiI2KZM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 29 Sep 2022 06:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S235349AbiI2Kcv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Sep 2022 06:32:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235124AbiI2KYv (ORCPT
+        with ESMTP id S231199AbiI2Kcu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 29 Sep 2022 06:24:51 -0400
+        Thu, 29 Sep 2022 06:32:50 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6C7B42ED49;
-        Thu, 29 Sep 2022 03:24:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 17EE398D39
+        for <linux-hyperv@vger.kernel.org>; Thu, 29 Sep 2022 03:32:50 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1134)
-        id 22B7B20DEE6F; Thu, 29 Sep 2022 03:24:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 22B7B20DEE6F
+        id D983A20DEE80; Thu, 29 Sep 2022 03:32:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D983A20DEE80
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1664447090;
-        bh=33c+IysfP1nl2vviiqkB7+1UrsmV1vFHMMgfRpYodcc=;
+        s=default; t=1664447569;
+        bh=mWyDCK4sgwNQboz2oMaLFnl6zMEOPYFWjgXwMVYGH4A=;
         h=From:To:Cc:Subject:Date:From;
-        b=mdfXJ5M4B75XJz3s4dQNhleREvvlToHImVy+O05Ec3I5zejCyXnDMiWv9qk3V6yiX
-         7mpum4UwPQICSwyrMrqhCzzAEd0W0thHeDybTz3FeHz8s0wmz/cKOFiCqk3ORy377Z
-         fBsX8ueWxhLDK/F2r5i2+m4k+Gozr8uBTRUJIMeM=
+        b=qYzuZqV70mRpXY5F3l7ej5LUmRPyRJLi/+csiKahh1/im7ZONIcMFnb0Nh4odPAsy
+         U2Ejq7FsIe/r/3kNpOOg7/RoIWPPKBrQhvUX+YyhK5RLX25mP9RLUUlxWkYF+MHeix
+         DCjSBJPjFw5LvvVOtqw0kbnKyi2wjdSdAi6+yT9E=
 From:   Shradha Gupta <shradhagupta@linux.microsoft.com>
-To:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+To:     linux-hyperv@vger.kernel.org
 Cc:     Shradha Gupta <shradhagupta@linux.microsoft.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Shradha Gupta <shradhagupta@microsoft.com>,
-        Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH 0/2] Configurable order free page reporting in hyper-v
-Date:   Thu, 29 Sep 2022 03:24:39 -0700
-Message-Id: <1664447081-14744-1-git-send-email-shradhagupta@linux.microsoft.com>
+        Shradha Gupta <shradhagupta@microsoft.com>
+Subject: [PATCH 1/2] mm/page_reporting: Add checks for page_reporting_order param value
+Date:   Thu, 29 Sep 2022 03:32:44 -0700
+Message-Id: <1664447564-16230-1-git-send-email-shradhagupta@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Configurable order free page reporting is enabled in page_reporting
-driver in mm tree. However, changes need to be made in drivers like
-hyper-v's hv_balloon to make it aware of the page order.
-These patches add support for the same.
-In the page_reporting driver we export the page_reporting_order module
-parameter. Following precedence is added in setting the reporting order
-        a. Value of page_reporting_order parameter
-        b. Value of order passed while registering with the driver
-        c. default value (pageblock_order)
-Besides this, in the page_reporting module a check is added to ensure
-that whenever the page_reporting_order value is changed, it is within
-the prescribed limits.
+Current code allows the page_reporting_order parameter to be changed
+via sysfs to any integer value.  The new value is used immediately
+in page reporting code with no validation, which could cause incorrect
+behavior.  Fix this by adding validation of the new value.
+Export this parameter for use in the driver that is calling the
+page_reporting_register().
+This is needed by drivers like hv_balloon to know the order of the
+pages reported. Traditionally the values provided in the kernel boot
+line or subsequently changed via sysfs take priority therefore, if
+page_reporting_order parameter's value is set, it takes precedence
+over the value passed while registering with the driver.
 
-The hv_balloon side changes include consuming the exported
-page_reporting_order. Making changes in reporting these variable order
-free pages as cold discard hints to hyper-v and dropping and refining
-checks that restrict the order to a minimum of 9(default).
+Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+---
+ mm/page_reporting.c | 50 ++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 45 insertions(+), 5 deletions(-)
 
-Shradha Gupta (2):
-  mm/page_reporting: Add checks for page_reporting_order param value
-  hv_balloon: Add support for configurable order free page reporting
-
- drivers/hv/hv_balloon.c | 94 ++++++++++++++++++++++++++++++++---------
- mm/page_reporting.c 	 | 50 ++++++++++++++++++++++++++++++++++++++++-----
- 2 file changed, 118 insertions(+), 26 deletions(-)
-
+diff --git a/mm/page_reporting.c b/mm/page_reporting.c
+index 382958eef8a9..29d67c824fd2 100644
+--- a/mm/page_reporting.c
++++ b/mm/page_reporting.c
+@@ -11,10 +11,42 @@
+ #include "page_reporting.h"
+ #include "internal.h"
+ 
+-unsigned int page_reporting_order = MAX_ORDER;
+-module_param(page_reporting_order, uint, 0644);
++/* Initialize to an unsupported value */
++unsigned int page_reporting_order = -1;
++
++int page_order_update_notify(const char *val, const struct kernel_param *kp)
++{
++	/*
++	 * If param is set beyond this limit, order is set to default
++	 * pageblock_order value
++	 */
++	return  param_set_uint_minmax(val, kp, 0, MAX_ORDER-1);
++}
++
++const struct kernel_param_ops page_reporting_param_ops = {
++	.set = &page_order_update_notify,
++	/*
++	 * For the get op, use param_get_int instead of param_get_uint.
++	 * This is to make sure that when unset the initialized value of
++	 * -1 is shown correctly
++	 */
++	.get = &param_get_int,
++};
++
++module_param_cb(page_reporting_order, &page_reporting_param_ops,
++			&page_reporting_order, 0644);
+ MODULE_PARM_DESC(page_reporting_order, "Set page reporting order");
+ 
++/*
++ * This symbol is also a kernel parameter. Export the page_reporting_order
++ * symbol so that other drivers can access it to control order values without
++ * having to introduce another configurable parameter. Only one driver can
++ * register with the page_reporting driver for the service, so we have just
++ * one control parameter for the use case(which can be accessed in both
++ * drivers)
++ */
++EXPORT_SYMBOL_GPL(page_reporting_order);
++
+ #define PAGE_REPORTING_DELAY	(2 * HZ)
+ static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
+ 
+@@ -330,10 +362,18 @@ int page_reporting_register(struct page_reporting_dev_info *prdev)
+ 	}
+ 
+ 	/*
+-	 * Update the page reporting order if it's specified by driver.
+-	 * Otherwise, it falls back to @pageblock_order.
++	 * If the page_reporting_order value is not set, we check if
++	 * an order is provided from the driver that is performing the
++	 * registration. If that is not provided either, we default to
++	 * pageblock_order.
+ 	 */
+-	page_reporting_order = prdev->order ? : pageblock_order;
++
++	if (page_reporting_order == -1) {
++		if (prdev->order > 0 && prdev->order <= MAX_ORDER)
++			page_reporting_order = prdev->order;
++		else
++			page_reporting_order = pageblock_order;
++	}
+ 
+ 	/* initialize state and work structures */
+ 	atomic_set(&prdev->state, PAGE_REPORTING_IDLE);
 -- 
 2.37.2
 
