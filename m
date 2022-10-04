@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D1FC4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C85C433F5
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:45:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbiJDMow (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Oct 2022 08:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56968 "EHLO
+        id S230204AbiJDMpL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Oct 2022 08:45:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230088AbiJDMo0 (ORCPT
+        with ESMTP id S230140AbiJDMop (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 Oct 2022 08:44:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D1E55D128
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:43:04 -0700 (PDT)
+        Tue, 4 Oct 2022 08:44:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BE2D5D130
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664887275;
+        s=mimecast20190719; t=1664887313;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=V8vMp5f2Y/wI8yZ5MOhd65+sOWSd5A3CPE5Fatg95ek=;
-        b=Napgl6gNx/2gGQ25o6F46+6bcIlHR+K1yU9xLFzeKHPTAHAEwNPNnDYvq6k7nzTmAV6i2b
-        UXsK+L1Lw/odWJMaOyBfLs4eyJWsWLk/Rf4GoIc+/ljaSkb9lyNfo48ptoi9K0Yx5KuGXA
-        50VhKd4mPz+svbI06EJbbykJRJGy8Eg=
+        bh=q/mBUp5om8+lhF+564fXSbS6jTR1Ky4c+482nYxEp3g=;
+        b=REx9zaCLcHoAinn1cHREtAeH7alDumzLsjSeySH6tY1UK3sFlW2cLKaKDQA4piyq497WIA
+        N9b9RRI60sO3hf5slopfpbY++lm7BD/rwbejTuWQwEYFNhc/cAQImWYNcAj8oYHWo6Rzvz
+        Y8a3ScTszr9oIYrPoInU7es7kqHwI2s=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-160-1C_IcT8JMbm6Fq39FlOftQ-1; Tue, 04 Oct 2022 08:41:11 -0400
-X-MC-Unique: 1C_IcT8JMbm6Fq39FlOftQ-1
+ us-mta-471-eeRVb9qOO_iAWlMIdd-BDA-1; Tue, 04 Oct 2022 08:41:48 -0400
+X-MC-Unique: eeRVb9qOO_iAWlMIdd-BDA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1BE0811E87;
-        Tue,  4 Oct 2022 12:41:10 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08F76811E67;
+        Tue,  4 Oct 2022 12:41:48 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 98FD317583;
-        Tue,  4 Oct 2022 12:41:08 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A28BD7AE5;
+        Tue,  4 Oct 2022 12:41:45 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 29/46] KVM: x86: Expose Hyper-V L2 TLB flush feature
-Date:   Tue,  4 Oct 2022 14:39:39 +0200
-Message-Id: <20221004123956.188909-30-vkuznets@redhat.com>
+Subject: [PATCH v11 43/46] KVM: selftests: Allocate Hyper-V partition assist page
+Date:   Tue,  4 Oct 2022 14:39:53 +0200
+Message-Id: <20221004123956.188909-44-vkuznets@redhat.com>
 In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
 References: <20221004123956.188909-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,27 +61,47 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-With both nSVM and nVMX implementations in place, KVM can now expose
-Hyper-V L2 TLB flush feature to userspace.
+In preparation to testing Hyper-V L2 TLB flush hypercalls, allocate
+so-called Partition assist page.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c | 1 +
- 1 file changed, 1 insertion(+)
+ tools/testing/selftests/kvm/include/x86_64/hyperv.h | 5 +++++
+ tools/testing/selftests/kvm/lib/x86_64/hyperv.c     | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index ff56983ea2db..76b033ced454 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -2767,6 +2767,7 @@ int kvm_get_hv_cpuid(struct kvm_vcpu *vcpu, struct kvm_cpuid2 *cpuid,
+diff --git a/tools/testing/selftests/kvm/include/x86_64/hyperv.h b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+index 186f3aab888f..ffe28a78c8a3 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/hyperv.h
++++ b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
+@@ -273,6 +273,11 @@ struct hyperv_test_pages {
+ 	uint64_t vp_assist_gpa;
+ 	void *vp_assist;
  
- 		case HYPERV_CPUID_NESTED_FEATURES:
- 			ent->eax = evmcs_ver;
-+			ent->eax |= HV_X64_NESTED_DIRECT_FLUSH;
- 			ent->eax |= HV_X64_NESTED_MSR_BITMAP;
- 			ent->ebx |= HV_X64_NESTED_EVMCS1_PERF_GLOBAL_CTRL;
- 			break;
++	/* Partition assist page */
++	void *partition_assist_hva;
++	uint64_t partition_assist_gpa;
++	void *partition_assist;
++
+ 	/* Enlightened VMCS */
+ 	void *enlightened_vmcs_hva;
+ 	uint64_t enlightened_vmcs_gpa;
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/hyperv.c b/tools/testing/selftests/kvm/lib/x86_64/hyperv.c
+index a2fc083c65ef..efb7e7a1354d 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/hyperv.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/hyperv.c
+@@ -19,6 +19,11 @@ struct hyperv_test_pages *vcpu_alloc_hyperv_test_pages(struct kvm_vm *vm,
+ 	hv->vp_assist_hva = addr_gva2hva(vm, (uintptr_t)hv->vp_assist);
+ 	hv->vp_assist_gpa = addr_gva2gpa(vm, (uintptr_t)hv->vp_assist);
+ 
++	/* Setup of a region of guest memory for the partition assist page. */
++	hv->partition_assist = (void *)vm_vaddr_alloc_page(vm);
++	hv->partition_assist_hva = addr_gva2hva(vm, (uintptr_t)hv->partition_assist);
++	hv->partition_assist_gpa = addr_gva2gpa(vm, (uintptr_t)hv->partition_assist);
++
+ 	/* Setup of a region of guest memory for the enlightened VMCS. */
+ 	hv->enlightened_vmcs = (void *)vm_vaddr_alloc_page(vm);
+ 	hv->enlightened_vmcs_hva = addr_gva2hva(vm, (uintptr_t)hv->enlightened_vmcs);
 -- 
 2.37.3
 
