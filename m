@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B83C9C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6292C4332F
 	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:43:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230162AbiJDMn3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Oct 2022 08:43:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56672 "EHLO
+        id S229969AbiJDMnb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Oct 2022 08:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229916AbiJDMmy (ORCPT
+        with ESMTP id S230116AbiJDMmy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 4 Oct 2022 08:42:54 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 903D85AC63
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:42:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E797C5E551
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664887270;
+        s=mimecast20190719; t=1664887263;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=XZ9SBNHMNy76zk4qS6397ZWYYGUY4rVD78M8UVsfZSI=;
-        b=ZU3v/3I/xBVAokq1nAQvhw05AheVLCc4YDG3x18ehnz/hahF/OeQIsnXA43Kmc/FdE0Nd8
-        SA8TGqLOxchfqe432D9oMFviuy9+LYAr7DoUVLCxMpu82iP3HhwPoOGwmtHxFgf0zHbOuZ
-        gtmZg6bqUqEwRoOwssvWLt4T8fZuARI=
+        bh=hf23owwXyl4mzv8DXKFj7XQPTlriWIPQsbBxFbBqkTQ=;
+        b=XyDVi1g7lkllr7DArFkQuwEEx7krgm02CfRNrP1eUCwis0kWiwkJIuOwQV8/RZcWNfEWO1
+        Bs2BanxjEWADRz8R/LgTUqQPmQ9HbCUfZP/VQl2QTLnhy+t19lB1tgXnd/DB5aEZksgXR7
+        e7ku1zczLTb0phpm8F3KAqdEgVBpWPM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-314-cidckHfYPoaGU8bquPSGdQ-1; Tue, 04 Oct 2022 08:41:06 -0400
-X-MC-Unique: cidckHfYPoaGU8bquPSGdQ-1
+ us-mta-184-IcepnKkxM4C4B6vydlEl9Q-1; Tue, 04 Oct 2022 08:40:59 -0400
+X-MC-Unique: IcepnKkxM4C4B6vydlEl9Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3C2D185A79C;
-        Tue,  4 Oct 2022 12:41:05 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B174B85A59D;
+        Tue,  4 Oct 2022 12:40:58 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CFA5717583;
-        Tue,  4 Oct 2022 12:41:03 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BFF2D7AE5;
+        Tue,  4 Oct 2022 12:40:56 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 27/46] KVM: x86: Make kvm_hv_get_assist_page() return 0/-errno
-Date:   Tue,  4 Oct 2022 14:39:37 +0200
-Message-Id: <20221004123956.188909-28-vkuznets@redhat.com>
+Subject: [PATCH v11 24/46] KVM: x86: hyper-v: Introduce fast guest_hv_cpuid_has_l2_tlb_flush() check
+Date:   Tue,  4 Oct 2022 14:39:34 +0200
+Message-Id: <20221004123956.188909-25-vkuznets@redhat.com>
 In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
 References: <20221004123956.188909-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,67 +61,34 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Convert kvm_hv_get_assist_page() to return 'int' and propagate possible
-errors from kvm_read_guest_cached().
+Introduce a helper to quickly check if KVM needs to handle VMCALL/VMMCALL
+from L2 in L0 to process L2 TLB flush requests.
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c     | 8 ++++----
- arch/x86/kvm/hyperv.h     | 2 +-
- arch/x86/kvm/vmx/hyperv.c | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ arch/x86/kvm/hyperv.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index fb8fd54a9498..ff56983ea2db 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -900,15 +900,15 @@ bool kvm_hv_assist_page_enabled(struct kvm_vcpu *vcpu)
- }
- EXPORT_SYMBOL_GPL(kvm_hv_assist_page_enabled);
- 
--bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu)
-+int kvm_hv_get_assist_page(struct kvm_vcpu *vcpu)
- {
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
- 
- 	if (!hv_vcpu || !kvm_hv_assist_page_enabled(vcpu))
--		return false;
-+		return -EFAULT;
- 
--	return !kvm_read_guest_cached(vcpu->kvm, &vcpu->arch.pv_eoi.data,
--				      &hv_vcpu->vp_assist_page, sizeof(struct hv_vp_assist_page));
-+	return kvm_read_guest_cached(vcpu->kvm, &vcpu->arch.pv_eoi.data,
-+				     &hv_vcpu->vp_assist_page, sizeof(struct hv_vp_assist_page));
- }
- EXPORT_SYMBOL_GPL(kvm_hv_get_assist_page);
- 
 diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 81313e418b80..5157622c2fb3 100644
+index 7706e203ff43..bd698eb2bda1 100644
 --- a/arch/x86/kvm/hyperv.h
 +++ b/arch/x86/kvm/hyperv.h
-@@ -108,7 +108,7 @@ int kvm_hv_activate_synic(struct kvm_vcpu *vcpu, bool dont_zero_synic_pages);
- void kvm_hv_vcpu_uninit(struct kvm_vcpu *vcpu);
+@@ -174,6 +174,14 @@ static inline void kvm_hv_vcpu_purge_flush_tlb(struct kvm_vcpu *vcpu)
+ 	kfifo_reset_out(&tlb_flush_fifo->entries);
+ }
  
- bool kvm_hv_assist_page_enabled(struct kvm_vcpu *vcpu);
--bool kvm_hv_get_assist_page(struct kvm_vcpu *vcpu);
-+int kvm_hv_get_assist_page(struct kvm_vcpu *vcpu);
- 
- static inline struct kvm_vcpu_hv_stimer *to_hv_stimer(struct kvm_vcpu *vcpu,
- 						      int timer_index)
-diff --git a/arch/x86/kvm/vmx/hyperv.c b/arch/x86/kvm/vmx/hyperv.c
-index 04a0bba58c7d..ae03d1fe0355 100644
---- a/arch/x86/kvm/vmx/hyperv.c
-+++ b/arch/x86/kvm/vmx/hyperv.c
-@@ -326,7 +326,7 @@ u64 nested_get_evmptr(struct kvm_vcpu *vcpu)
++static inline bool guest_hv_cpuid_has_l2_tlb_flush(struct kvm_vcpu *vcpu)
++{
++	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
++
++	return hv_vcpu &&
++		(hv_vcpu->cpuid_cache.nested_eax & HV_X64_NESTED_DIRECT_FLUSH);
++}
++
+ static inline bool kvm_hv_is_tlb_flush_hcall(struct kvm_vcpu *vcpu)
  {
  	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
- 
--	if (unlikely(!kvm_hv_get_assist_page(vcpu)))
-+	if (unlikely(kvm_hv_get_assist_page(vcpu)))
- 		return EVMPTR_INVALID;
- 
- 	if (unlikely(!hv_vcpu->vp_assist_page.enlighten_vmentry))
 -- 
 2.37.3
 
