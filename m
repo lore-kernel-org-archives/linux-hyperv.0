@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB578C433F5
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68757C43217
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:44:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbiJDMoX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S230187AbiJDMoX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 4 Oct 2022 08:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58742 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230215AbiJDMnl (ORCPT
+        with ESMTP id S230219AbiJDMnm (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 Oct 2022 08:43:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A717A5A83C
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:42:42 -0700 (PDT)
+        Tue, 4 Oct 2022 08:43:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7CA35E571
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:42:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664887281;
+        s=mimecast20190719; t=1664887289;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rUCg8qdmT/f9wGvYa9s3dkKIpVFfOtqQkOxHWueTN/k=;
-        b=UU0XtbDSdAPgekM80aMpjofHf0kGM4STsMqJwUVUWhTswmnlVYdw0sIc6+hP13avDCFr5i
-        wLqiT9q1NcRLhJI/ymxz6GyrR4CKCwVRYm8n7KZg6LeHNiAm9H1x4toXDDsJfEjthU9SzW
-        dQbps8g01mXZh44NOXyVj1wl1SxFvsM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=S/Eqzsi/PLqUiymEmKzNGInOxseJNuXY/3mYYoCHjg0=;
+        b=LYBy8iUhfwxkjNb1OJoHc+4jkTFWfjN7EH9EXWQ0z3fY1rdq+H0NP5gHdGxL743m0JKQql
+        nDcy8iX71Bdl9KlCjNx7c4YJ2txOAEm/Eqi2c/adTEMoEFIApiCiJ4tKn2FMFZMmUJj80o
+        CqlY9FVicFOsb7JORBLpla8ZUhJ2pYo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-303-Q2NHBm_7PLyctHYWyl1W1A-1; Tue, 04 Oct 2022 08:41:16 -0400
-X-MC-Unique: Q2NHBm_7PLyctHYWyl1W1A-1
+ us-mta-102-vuQCNlszOiqO_-63N-YpMQ-1; Tue, 04 Oct 2022 08:41:26 -0400
+X-MC-Unique: vuQCNlszOiqO_-63N-YpMQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A5D7D882821;
-        Tue,  4 Oct 2022 12:41:15 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 36DB5381078A;
+        Tue,  4 Oct 2022 12:41:26 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5CCC717583;
-        Tue,  4 Oct 2022 12:41:13 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0C6AF7AE5;
+        Tue,  4 Oct 2022 12:41:23 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 31/46] KVM: selftests: Move HYPERV_LINUX_OS_ID definition to a common header
-Date:   Tue,  4 Oct 2022 14:39:41 +0200
-Message-Id: <20221004123956.188909-32-vkuznets@redhat.com>
+Subject: [PATCH v11 35/46] KVM: selftests: Export vm_vaddr_unused_gap() to make it possible to request unmapped ranges
+Date:   Tue,  4 Oct 2022 14:39:45 +0200
+Message-Id: <20221004123956.188909-36-vkuznets@redhat.com>
 In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
 References: <20221004123956.188909-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,59 +61,44 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-HYPERV_LINUX_OS_ID needs to be written to HV_X64_MSR_GUEST_OS_ID by
-each Hyper-V specific selftest.
+Currently, tests can only request a new vaddr range by using
+vm_vaddr_alloc()/vm_vaddr_alloc_page()/vm_vaddr_alloc_pages() but
+these functions allocate and map physical pages too. Make it possible
+to request unmapped range too.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/include/x86_64/hyperv.h  | 3 +++
- tools/testing/selftests/kvm/x86_64/hyperv_features.c | 6 ++----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ tools/testing/selftests/kvm/include/kvm_util_base.h | 1 +
+ tools/testing/selftests/kvm/lib/kvm_util.c          | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/hyperv.h b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-index b66910702c0a..f0a8a93694b2 100644
---- a/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/hyperv.h
-@@ -185,4 +185,7 @@
- /* hypercall options */
- #define HV_HYPERCALL_FAST_BIT		BIT(16)
- 
-+/* Proper HV_X64_MSR_GUEST_OS_ID value */
-+#define HYPERV_LINUX_OS_ID ((u64)0x8100 << 48)
-+
- #endif /* !SELFTEST_KVM_HYPERV_H */
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_features.c b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-index 05b32e550a80..71bb91602a7f 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_features.c
-@@ -13,8 +13,6 @@
- #include "processor.h"
- #include "hyperv.h"
- 
--#define LINUX_OS_ID ((u64)0x8100 << 48)
--
- static inline uint8_t hypercall(u64 control, vm_vaddr_t input_address,
- 				vm_vaddr_t output_address, uint64_t *hv_status)
+diff --git a/tools/testing/selftests/kvm/include/kvm_util_base.h b/tools/testing/selftests/kvm/include/kvm_util_base.h
+index 24fde97f6121..fe0ab920b3e7 100644
+--- a/tools/testing/selftests/kvm/include/kvm_util_base.h
++++ b/tools/testing/selftests/kvm/include/kvm_util_base.h
+@@ -379,6 +379,7 @@ void vm_mem_region_set_flags(struct kvm_vm *vm, uint32_t slot, uint32_t flags);
+ void vm_mem_region_move(struct kvm_vm *vm, uint32_t slot, uint64_t new_gpa);
+ void vm_mem_region_delete(struct kvm_vm *vm, uint32_t slot);
+ struct kvm_vcpu *__vm_vcpu_add(struct kvm_vm *vm, uint32_t vcpu_id);
++vm_vaddr_t vm_vaddr_unused_gap(struct kvm_vm *vm, size_t sz, vm_vaddr_t vaddr_min);
+ vm_vaddr_t vm_vaddr_alloc(struct kvm_vm *vm, size_t sz, vm_vaddr_t vaddr_min);
+ vm_vaddr_t vm_vaddr_alloc_pages(struct kvm_vm *vm, int nr_pages);
+ vm_vaddr_t vm_vaddr_alloc_page(struct kvm_vm *vm);
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index ad9e15d4c6a9..9f214d2a14a1 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -1109,8 +1109,8 @@ struct kvm_vcpu *__vm_vcpu_add(struct kvm_vm *vm, uint32_t vcpu_id)
+  * TEST_ASSERT failure occurs for invalid input or no area of at least
+  * sz unallocated bytes >= vaddr_min is available.
+  */
+-static vm_vaddr_t vm_vaddr_unused_gap(struct kvm_vm *vm, size_t sz,
+-				      vm_vaddr_t vaddr_min)
++vm_vaddr_t vm_vaddr_unused_gap(struct kvm_vm *vm, size_t sz,
++			       vm_vaddr_t vaddr_min)
  {
-@@ -71,7 +69,7 @@ static void guest_hcall(vm_vaddr_t pgs_gpa, struct hcall_data *hcall)
+ 	uint64_t pages = (sz + vm->page_size - 1) >> vm->page_shift;
  
- 	GUEST_ASSERT(hcall->control);
- 
--	wrmsr(HV_X64_MSR_GUEST_OS_ID, LINUX_OS_ID);
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
- 	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
- 
- 	if (!(hcall->control & HV_HYPERCALL_FAST_BIT)) {
-@@ -169,7 +167,7 @@ static void guest_test_msrs_access(void)
- 			 */
- 			msr->idx = HV_X64_MSR_GUEST_OS_ID;
- 			msr->write = 1;
--			msr->write_val = LINUX_OS_ID;
-+			msr->write_val = HYPERV_LINUX_OS_ID;
- 			msr->available = 1;
- 			break;
- 		case 3:
 -- 
 2.37.3
 
