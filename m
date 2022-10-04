@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9B5C433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC81C4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:52:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbiJDMvQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Oct 2022 08:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58088 "EHLO
+        id S230226AbiJDMwx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Oct 2022 08:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbiJDMuj (ORCPT
+        with ESMTP id S229724AbiJDMwP (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 Oct 2022 08:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383D65FDCE
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:48:11 -0700 (PDT)
+        Tue, 4 Oct 2022 08:52:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE015FF6F
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664887641;
+        s=mimecast20190719; t=1664887741;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MJ39CAYEHz5DuZbQG0qWjQkfEh+Ru65oeAaxgqhArRM=;
-        b=fhzut4EPTJ5YwjkRxRPqbiVQDbwx3wNVrxKS54FBgkaEADM41+QsHwYZcy/pUhmCATMsbA
-        DpvUb9KJnDFZSiPz3/Rw8quRl5pAIVAyDbru3FPBu8bv/W2eF97BM6Ya9eZlXGHR8RA+gG
-        SeodKZOjFmFDh2sEgXSruz8yuIo5FH4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=CSHAxvWPIWn5dQFzZOzUI2rwRDY7z8WW3evSPUjauiA=;
+        b=Mi2rH1gsY42A05/OxDE/arFqgNaONmtN1gMoasi+N+w2zdyGSMPKGOYa+yWaKzw7jDZD7W
+        3bywfaMBFfkWu63lytqbIexuXdjjnx6UOIeDrD5p27/8DK1s2lPZ9VWW+lNCC+8aFu4Tu5
+        FrNRceQ05oVBF6u5GHg+l10a/orCedE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-477-EqjALl-4NhqTLnUINEvXgA-1; Tue, 04 Oct 2022 08:41:13 -0400
-X-MC-Unique: EqjALl-4NhqTLnUINEvXgA-1
+ us-mta-125-yiMzG0jENCWq8yxesCXy0g-1; Tue, 04 Oct 2022 08:41:51 -0400
+X-MC-Unique: yiMzG0jENCWq8yxesCXy0g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 210AE299E766;
-        Tue,  4 Oct 2022 12:41:13 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A28AA882826;
+        Tue,  4 Oct 2022 12:41:50 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EF0847AE5;
-        Tue,  4 Oct 2022 12:41:10 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6FD8B7AE5;
+        Tue,  4 Oct 2022 12:41:48 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 30/46] KVM: selftests: Better XMM read/write helpers
-Date:   Tue,  4 Oct 2022 14:39:40 +0200
-Message-Id: <20221004123956.188909-31-vkuznets@redhat.com>
+Subject: [PATCH v11 44/46] KVM: selftests: evmcs_test: Introduce L2 TLB flush test
+Date:   Tue,  4 Oct 2022 14:39:54 +0200
+Message-Id: <20221004123956.188909-45-vkuznets@redhat.com>
 In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
 References: <20221004123956.188909-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,129 +61,145 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-set_xmm()/get_xmm() helpers are fairly useless as they only read 64 bits
-from 128-bit registers. Moreover, these helpers are not used. Borrow
-_kvm_read_sse_reg()/_kvm_write_sse_reg() from KVM limiting them to
-XMM0-XMM8 for now.
+Enable Hyper-V L2 TLB flush and check that Hyper-V TLB flush hypercalls
+from L2 don't exit to L1 unless 'TlbLockCount' is set in the
+Partition assist page.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/processor.h  | 70 ++++++++++---------
- 1 file changed, 36 insertions(+), 34 deletions(-)
+ .../selftests/kvm/include/x86_64/evmcs.h      |  2 +
+ .../testing/selftests/kvm/x86_64/evmcs_test.c | 50 ++++++++++++++++++-
+ 2 files changed, 50 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-index 0cbc71b7af50..1c7805de8c27 100644
---- a/tools/testing/selftests/kvm/include/x86_64/processor.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-@@ -436,71 +436,73 @@ static inline bool this_cpu_has(struct kvm_x86_cpu_feature feature)
- 	return gprs[feature.reg] & BIT(feature.bit);
- }
+diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+index 94d6059e9a12..901caf0e0939 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
++++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+@@ -237,6 +237,8 @@ struct hv_enlightened_vmcs {
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_ENLIGHTENMENTSCONTROL    BIT(15)
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_ALL                      0xFFFF
  
--#define SET_XMM(__var, __xmm) \
--	asm volatile("movq %0, %%"#__xmm : : "r"(__var) : #__xmm)
-+typedef u32		__attribute__((vector_size(16))) sse128_t;
-+#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
-+#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
-+#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
++#define HV_VMX_SYNTHETIC_EXIT_REASON_TRAP_AFTER_FLUSH 0x10000031
++
+ extern struct hv_enlightened_vmcs *current_evmcs;
  
--static inline void set_xmm(int n, unsigned long val)
-+static inline void read_sse_reg(int reg, sse128_t *data)
+ int vcpu_enable_evmcs(struct kvm_vcpu *vcpu);
+diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+index 74f076ba574b..691dbe0a0881 100644
+--- a/tools/testing/selftests/kvm/x86_64/evmcs_test.c
++++ b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+@@ -16,6 +16,7 @@
+ 
+ #include "kvm_util.h"
+ 
++#include "hyperv.h"
+ #include "vmx.h"
+ 
+ static int ud_count;
+@@ -48,6 +49,8 @@ static inline void rdmsr_gs_base(void)
+ 
+ void l2_guest_code(void)
  {
--	switch (n) {
-+	switch (reg) {
- 	case 0:
--		SET_XMM(val, xmm0);
-+		asm("movdqa %%xmm0, %0" : "=m"(*data));
- 		break;
- 	case 1:
--		SET_XMM(val, xmm1);
-+		asm("movdqa %%xmm1, %0" : "=m"(*data));
- 		break;
- 	case 2:
--		SET_XMM(val, xmm2);
-+		asm("movdqa %%xmm2, %0" : "=m"(*data));
- 		break;
- 	case 3:
--		SET_XMM(val, xmm3);
-+		asm("movdqa %%xmm3, %0" : "=m"(*data));
- 		break;
- 	case 4:
--		SET_XMM(val, xmm4);
-+		asm("movdqa %%xmm4, %0" : "=m"(*data));
- 		break;
- 	case 5:
--		SET_XMM(val, xmm5);
-+		asm("movdqa %%xmm5, %0" : "=m"(*data));
- 		break;
- 	case 6:
--		SET_XMM(val, xmm6);
-+		asm("movdqa %%xmm6, %0" : "=m"(*data));
- 		break;
- 	case 7:
--		SET_XMM(val, xmm7);
-+		asm("movdqa %%xmm7, %0" : "=m"(*data));
- 		break;
-+	default:
-+		BUG();
- 	}
++	u64 unused;
++
+ 	GUEST_SYNC(7);
+ 
+ 	GUEST_SYNC(8);
+@@ -64,15 +67,33 @@ void l2_guest_code(void)
+ 	vmcall();
+ 	rdmsr_gs_base(); /* intercepted */
+ 
++	/* L2 TLB flush tests */
++	hyperv_hypercall(HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE | HV_HYPERCALL_FAST_BIT, 0x0,
++			   HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES | HV_FLUSH_ALL_PROCESSORS);
++	rdmsr_fs_base();
++	/*
++	 * Note: hypercall status (RAX) is not preserved correctly by L1 after
++	 * synthetic vmexit, use unchecked version.
++	 */
++	__hyperv_hypercall(HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE | HV_HYPERCALL_FAST_BIT, 0x0,
++			   HV_FLUSH_ALL_VIRTUAL_ADDRESS_SPACES | HV_FLUSH_ALL_PROCESSORS,
++			   &unused);
++	/* Make sure we're no issuing Hyper-V TLB flush call again */
++	__asm__ __volatile__ ("mov $0xdeadbeef, %rcx");
++
+ 	/* Done, exit to L1 and never come back.  */
+ 	vmcall();
  }
  
--#define GET_XMM(__xmm)							\
--({									\
--	unsigned long __val;						\
--	asm volatile("movq %%"#__xmm", %0" : "=r"(__val));		\
--	__val;								\
--})
--
--static inline unsigned long get_xmm(int n)
-+static inline void write_sse_reg(int reg, const sse128_t *data)
+-void guest_code(struct vmx_pages *vmx_pages, struct hyperv_test_pages *hv_pages)
++void guest_code(struct vmx_pages *vmx_pages, struct hyperv_test_pages *hv_pages,
++		vm_vaddr_t hv_hcall_page_gpa)
  {
--	assert(n >= 0 && n <= 7);
--
--	switch (n) {
-+	switch (reg) {
- 	case 0:
--		return GET_XMM(xmm0);
-+		asm("movdqa %0, %%xmm0" : : "m"(*data));
-+		break;
- 	case 1:
--		return GET_XMM(xmm1);
-+		asm("movdqa %0, %%xmm1" : : "m"(*data));
-+		break;
- 	case 2:
--		return GET_XMM(xmm2);
-+		asm("movdqa %0, %%xmm2" : : "m"(*data));
-+		break;
- 	case 3:
--		return GET_XMM(xmm3);
-+		asm("movdqa %0, %%xmm3" : : "m"(*data));
-+		break;
- 	case 4:
--		return GET_XMM(xmm4);
-+		asm("movdqa %0, %%xmm4" : : "m"(*data));
-+		break;
- 	case 5:
--		return GET_XMM(xmm5);
-+		asm("movdqa %0, %%xmm5" : : "m"(*data));
-+		break;
- 	case 6:
--		return GET_XMM(xmm6);
-+		asm("movdqa %0, %%xmm6" : : "m"(*data));
-+		break;
- 	case 7:
--		return GET_XMM(xmm7);
-+		asm("movdqa %0, %%xmm7" : : "m"(*data));
-+		break;
-+	default:
-+		BUG();
- 	}
--
--	/* never reached */
--	return 0;
- }
+ #define L2_GUEST_STACK_SIZE 64
+ 	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
  
- static inline void cpu_relax(void)
++	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
++	wrmsr(HV_X64_MSR_HYPERCALL, hv_hcall_page_gpa);
++
+ 	x2apic_enable();
+ 
+ 	GUEST_SYNC(1);
+@@ -102,6 +123,14 @@ void guest_code(struct vmx_pages *vmx_pages, struct hyperv_test_pages *hv_pages)
+ 	vmwrite(PIN_BASED_VM_EXEC_CONTROL, vmreadz(PIN_BASED_VM_EXEC_CONTROL) |
+ 		PIN_BASED_NMI_EXITING);
+ 
++	/* L2 TLB flush setup */
++	current_evmcs->partition_assist_page = hv_pages->partition_assist_gpa;
++	current_evmcs->hv_enlightenments_control.nested_flush_hypercall = 1;
++	current_evmcs->hv_vm_id = 1;
++	current_evmcs->hv_vp_id = 1;
++	current_vp_assist->nested_control.features.directhypercall = 1;
++	*(u32 *)(hv_pages->partition_assist) = 0;
++
+ 	GUEST_ASSERT(!vmlaunch());
+ 	GUEST_ASSERT(vmptrstz() == hv_pages->enlightened_vmcs_gpa);
+ 
+@@ -146,6 +175,18 @@ void guest_code(struct vmx_pages *vmx_pages, struct hyperv_test_pages *hv_pages)
+ 	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == EXIT_REASON_MSR_READ);
+ 	current_evmcs->guest_rip += 2; /* rdmsr */
+ 
++	/*
++	 * L2 TLB flush test. First VMCALL should be handled directly by L0,
++	 * no VMCALL exit expected.
++	 */
++	GUEST_ASSERT(!vmresume());
++	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == EXIT_REASON_MSR_READ);
++	current_evmcs->guest_rip += 2; /* rdmsr */
++	/* Enable synthetic vmexit */
++	*(u32 *)(hv_pages->partition_assist) = 1;
++	GUEST_ASSERT(!vmresume());
++	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == HV_VMX_SYNTHETIC_EXIT_REASON_TRAP_AFTER_FLUSH);
++
+ 	GUEST_ASSERT(!vmresume());
+ 	GUEST_ASSERT(vmreadz(VM_EXIT_REASON) == EXIT_REASON_VMCALL);
+ 	GUEST_SYNC(11);
+@@ -199,6 +240,7 @@ static struct kvm_vcpu *save_restore_vm(struct kvm_vm *vm,
+ int main(int argc, char *argv[])
+ {
+ 	vm_vaddr_t vmx_pages_gva = 0, hv_pages_gva = 0;
++	vm_vaddr_t hcall_page;
+ 
+ 	struct kvm_vcpu *vcpu;
+ 	struct kvm_vm *vm;
+@@ -212,12 +254,16 @@ int main(int argc, char *argv[])
+ 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
+ 	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_ENLIGHTENED_VMCS));
+ 
++	hcall_page = vm_vaddr_alloc_pages(vm, 1);
++	memset(addr_gva2hva(vm, hcall_page), 0x0,  getpagesize());
++
+ 	vcpu_set_hv_cpuid(vcpu);
+ 	vcpu_enable_evmcs(vcpu);
+ 
+ 	vcpu_alloc_vmx(vm, &vmx_pages_gva);
+ 	vcpu_alloc_hyperv_test_pages(vm, &hv_pages_gva);
+-	vcpu_args_set(vcpu, 2, vmx_pages_gva, hv_pages_gva);
++	vcpu_args_set(vcpu, 3, vmx_pages_gva, hv_pages_gva, addr_gva2gpa(vm, hcall_page));
++	vcpu_set_msr(vcpu, HV_X64_MSR_VP_INDEX, vcpu->id);
+ 
+ 	vm_init_descriptor_tables(vm);
+ 	vcpu_init_descriptor_tables(vcpu);
 -- 
 2.37.3
 
