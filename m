@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB0EC433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:50:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9B5C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Oct 2022 12:51:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbiJDMun (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Oct 2022 08:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46356 "EHLO
+        id S230223AbiJDMvQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Oct 2022 08:51:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiJDMuH (ORCPT
+        with ESMTP id S230159AbiJDMuj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 Oct 2022 08:50:07 -0400
+        Tue, 4 Oct 2022 08:50:39 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D9C61100
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:47:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 383D65FDCE
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Oct 2022 05:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1664887626;
+        s=mimecast20190719; t=1664887641;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=rVcF0+yoxDgYeQBNHT3GggP7OmiXGx8XpRktAJPqpAI=;
-        b=g7i4QQpvJ3cpfHCDUsy2/PBlaxi3TSOzhoFLsvxNtykwHtEjmQA7mw4kliGyUHeo2UQyZA
-        e4wve9OTAGTN2KcdZ3S5SypoxviE2zBgJTuaV7hJ8WmC/lBscoRWhg95i0zlbS3Mes01ql
-        zo+ClUOJK3VpuV7vUvwhyG50wrdZMCs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=MJ39CAYEHz5DuZbQG0qWjQkfEh+Ru65oeAaxgqhArRM=;
+        b=fhzut4EPTJ5YwjkRxRPqbiVQDbwx3wNVrxKS54FBgkaEADM41+QsHwYZcy/pUhmCATMsbA
+        DpvUb9KJnDFZSiPz3/Rw8quRl5pAIVAyDbru3FPBu8bv/W2eF97BM6Ya9eZlXGHR8RA+gG
+        SeodKZOjFmFDh2sEgXSruz8yuIo5FH4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-dh8gtBLwOM2M8HqCoXP_jQ-1; Tue, 04 Oct 2022 08:40:57 -0400
-X-MC-Unique: dh8gtBLwOM2M8HqCoXP_jQ-1
+ us-mta-477-EqjALl-4NhqTLnUINEvXgA-1; Tue, 04 Oct 2022 08:41:13 -0400
+X-MC-Unique: EqjALl-4NhqTLnUINEvXgA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86913811E81;
-        Tue,  4 Oct 2022 12:40:56 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 210AE299E766;
+        Tue,  4 Oct 2022 12:41:13 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.40.192.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 58A527AE5;
-        Tue,  4 Oct 2022 12:40:54 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EF0847AE5;
+        Tue,  4 Oct 2022 12:41:10 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v11 23/46] KVM: x86: hyper-v: L2 TLB flush
-Date:   Tue,  4 Oct 2022 14:39:33 +0200
-Message-Id: <20221004123956.188909-24-vkuznets@redhat.com>
+Subject: [PATCH v11 30/46] KVM: selftests: Better XMM read/write helpers
+Date:   Tue,  4 Oct 2022 14:39:40 +0200
+Message-Id: <20221004123956.188909-31-vkuznets@redhat.com>
 In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
 References: <20221004123956.188909-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,265 +61,129 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Handle L2 TLB flush requests by going through all vCPUs and checking
-whether there are vCPUs running the same VM_ID with a VP_ID specified
-in the requests. Perform synthetic exit to L2 upon finish.
-
-Note, while checking VM_ID/VP_ID of running vCPUs seem to be a bit
-racy, we count on the fact that KVM flushes the whole L2 VPID upon
-transition. Also, KVM_REQ_HV_TLB_FLUSH request needs to be done upon
-transition between L1 and L2 to make sure all pending requests are
-always processed.
-
-For the reference, Hyper-V TLFS refers to the feature as "Direct
-Virtual Flush".
-
-Note, nVMX/nSVM code does not handle VMCALL/VMMCALL from L2 yet.
+set_xmm()/get_xmm() helpers are fairly useless as they only read 64 bits
+from 128-bit registers. Moreover, these helpers are not used. Borrow
+_kvm_read_sse_reg()/_kvm_write_sse_reg() from KVM limiting them to
+XMM0-XMM8 for now.
 
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/hyperv.c | 82 ++++++++++++++++++++++++++++++++++++-------
- arch/x86/kvm/hyperv.h |  3 --
- arch/x86/kvm/trace.h  | 21 ++++++-----
- 3 files changed, 82 insertions(+), 24 deletions(-)
+ .../selftests/kvm/include/x86_64/processor.h  | 70 ++++++++++---------
+ 1 file changed, 36 insertions(+), 34 deletions(-)
 
-diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
-index 12088bf06676..24b88561d813 100644
---- a/arch/x86/kvm/hyperv.c
-+++ b/arch/x86/kvm/hyperv.c
-@@ -34,6 +34,7 @@
- #include <linux/eventfd.h>
- 
- #include <asm/apicdef.h>
-+#include <asm/mshyperv.h>
- #include <trace/events/kvm.h>
- 
- #include "trace.h"
-@@ -1832,18 +1833,16 @@ static int kvm_hv_get_tlb_flush_entries(struct kvm *kvm, struct kvm_hv_hcall *hc
- 				  entries, consumed_xmm_halves, offset);
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index 0cbc71b7af50..1c7805de8c27 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -436,71 +436,73 @@ static inline bool this_cpu_has(struct kvm_x86_cpu_feature feature)
+ 	return gprs[feature.reg] & BIT(feature.bit);
  }
  
--static void hv_tlb_flush_enqueue(struct kvm_vcpu *vcpu, u64 *entries, int count)
-+static void hv_tlb_flush_enqueue(struct kvm_vcpu *vcpu,
-+				 struct kvm_vcpu_hv_tlb_flush_fifo *tlb_flush_fifo,
-+				 u64 *entries, int count)
+-#define SET_XMM(__var, __xmm) \
+-	asm volatile("movq %0, %%"#__xmm : : "r"(__var) : #__xmm)
++typedef u32		__attribute__((vector_size(16))) sse128_t;
++#define __sse128_u	union { sse128_t vec; u64 as_u64[2]; u32 as_u32[4]; }
++#define sse128_lo(x)	({ __sse128_u t; t.vec = x; t.as_u64[0]; })
++#define sse128_hi(x)	({ __sse128_u t; t.vec = x; t.as_u64[1]; })
+ 
+-static inline void set_xmm(int n, unsigned long val)
++static inline void read_sse_reg(int reg, sse128_t *data)
  {
--	struct kvm_vcpu_hv_tlb_flush_fifo *tlb_flush_fifo;
- 	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
- 	u64 flush_all_entry = KVM_HV_TLB_FLUSHALL_ENTRY;
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		SET_XMM(val, xmm0);
++		asm("movdqa %%xmm0, %0" : "=m"(*data));
+ 		break;
+ 	case 1:
+-		SET_XMM(val, xmm1);
++		asm("movdqa %%xmm1, %0" : "=m"(*data));
+ 		break;
+ 	case 2:
+-		SET_XMM(val, xmm2);
++		asm("movdqa %%xmm2, %0" : "=m"(*data));
+ 		break;
+ 	case 3:
+-		SET_XMM(val, xmm3);
++		asm("movdqa %%xmm3, %0" : "=m"(*data));
+ 		break;
+ 	case 4:
+-		SET_XMM(val, xmm4);
++		asm("movdqa %%xmm4, %0" : "=m"(*data));
+ 		break;
+ 	case 5:
+-		SET_XMM(val, xmm5);
++		asm("movdqa %%xmm5, %0" : "=m"(*data));
+ 		break;
+ 	case 6:
+-		SET_XMM(val, xmm6);
++		asm("movdqa %%xmm6, %0" : "=m"(*data));
+ 		break;
+ 	case 7:
+-		SET_XMM(val, xmm7);
++		asm("movdqa %%xmm7, %0" : "=m"(*data));
+ 		break;
++	default:
++		BUG();
+ 	}
+ }
  
- 	if (!hv_vcpu)
- 		return;
- 
--	/* kvm_hv_flush_tlb() is not ready to handle requests for L2s yet */
--	tlb_flush_fifo = &hv_vcpu->tlb_flush_fifo[HV_L1_TLB_FLUSH_FIFO];
+-#define GET_XMM(__xmm)							\
+-({									\
+-	unsigned long __val;						\
+-	asm volatile("movq %%"#__xmm", %0" : "=r"(__val));		\
+-	__val;								\
+-})
 -
- 	spin_lock(&tlb_flush_fifo->write_lock);
- 
- 	/*
-@@ -1913,6 +1912,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	struct hv_tlb_flush_ex flush_ex;
- 	struct hv_tlb_flush flush;
- 	DECLARE_BITMAP(vcpu_mask, KVM_MAX_VCPUS);
-+	struct kvm_vcpu_hv_tlb_flush_fifo *tlb_flush_fifo;
- 	/*
- 	 * Normally, there can be no more than 'KVM_HV_TLB_FLUSH_FIFO_SIZE'
- 	 * entries on the TLB flush fifo. The last entry, however, needs to be
-@@ -1956,7 +1956,8 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 		}
- 
- 		trace_kvm_hv_flush_tlb(flush.processor_mask,
--				       flush.address_space, flush.flags);
-+				       flush.address_space, flush.flags,
-+				       is_guest_mode(vcpu));
- 
- 		valid_bank_mask = BIT_ULL(0);
- 		sparse_banks[0] = flush.processor_mask;
-@@ -1987,7 +1988,7 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 		trace_kvm_hv_flush_tlb_ex(flush_ex.hv_vp_set.valid_bank_mask,
- 					  flush_ex.hv_vp_set.format,
- 					  flush_ex.address_space,
--					  flush_ex.flags);
-+					  flush_ex.flags, is_guest_mode(vcpu));
- 
- 		valid_bank_mask = flush_ex.hv_vp_set.valid_bank_mask;
- 		all_cpus = flush_ex.hv_vp_set.format !=
-@@ -2025,19 +2026,57 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
- 	 * vcpu->arch.cr3 may not be up-to-date for running vCPUs so we can't
- 	 * analyze it here, flush TLB regardless of the specified address space.
- 	 */
--	if (all_cpus) {
--		kvm_for_each_vcpu(i, v, kvm)
--			hv_tlb_flush_enqueue(v, tlb_flush_entries, hc->rep_cnt);
-+	if (all_cpus && !is_guest_mode(vcpu)) {
-+		kvm_for_each_vcpu(i, v, kvm) {
-+			tlb_flush_fifo = kvm_hv_get_tlb_flush_fifo(v, false);
-+			hv_tlb_flush_enqueue(v, tlb_flush_fifo,
-+					     tlb_flush_entries, hc->rep_cnt);
-+		}
- 
- 		kvm_make_all_cpus_request(kvm, KVM_REQ_HV_TLB_FLUSH);
--	} else {
-+	} else if (!is_guest_mode(vcpu)) {
- 		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
- 
- 		for_each_set_bit(i, vcpu_mask, KVM_MAX_VCPUS) {
- 			v = kvm_get_vcpu(kvm, i);
- 			if (!v)
- 				continue;
--			hv_tlb_flush_enqueue(v, tlb_flush_entries, hc->rep_cnt);
-+			tlb_flush_fifo = kvm_hv_get_tlb_flush_fifo(v, false);
-+			hv_tlb_flush_enqueue(v, tlb_flush_fifo,
-+					     tlb_flush_entries, hc->rep_cnt);
-+		}
-+
-+		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
-+	} else {
-+		struct kvm_vcpu_hv *hv_v;
-+
-+		bitmap_zero(vcpu_mask, KVM_MAX_VCPUS);
-+
-+		kvm_for_each_vcpu(i, v, kvm) {
-+			hv_v = to_hv_vcpu(v);
-+
-+			/*
-+			 * The following check races with nested vCPUs entering/exiting
-+			 * and/or migrating between L1's vCPUs, however the only case when
-+			 * KVM *must* flush the TLB is when the target L2 vCPU keeps
-+			 * running on the same L1 vCPU from the moment of the request until
-+			 * kvm_hv_flush_tlb() returns. TLB is fully flushed in all other
-+			 * cases, e.g. when the target L2 vCPU migrates to a different L1
-+			 * vCPU or when the corresponding L1 vCPU temporary switches to a
-+			 * different L2 vCPU while the request is being processed.
-+			 */
-+			if (!hv_v || hv_v->nested.vm_id != hv_vcpu->nested.vm_id)
-+				continue;
-+
-+			if (!all_cpus &&
-+			    !hv_is_vp_in_sparse_set(hv_v->nested.vp_id, valid_bank_mask,
-+						    sparse_banks))
-+				continue;
-+
-+			__set_bit(i, vcpu_mask);
-+			tlb_flush_fifo = kvm_hv_get_tlb_flush_fifo(v, true);
-+			hv_tlb_flush_enqueue(v, tlb_flush_fifo,
-+					     tlb_flush_entries, hc->rep_cnt);
- 		}
- 
- 		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
-@@ -2225,10 +2264,27 @@ static void kvm_hv_hypercall_set_result(struct kvm_vcpu *vcpu, u64 result)
- 
- static int kvm_hv_hypercall_complete(struct kvm_vcpu *vcpu, u64 result)
+-static inline unsigned long get_xmm(int n)
++static inline void write_sse_reg(int reg, const sse128_t *data)
  {
-+	int ret;
-+
- 	trace_kvm_hv_hypercall_done(result);
- 	kvm_hv_hypercall_set_result(vcpu, result);
- 	++vcpu->stat.hypercalls;
--	return kvm_skip_emulated_instruction(vcpu);
-+	ret = kvm_skip_emulated_instruction(vcpu);
-+
-+	if (unlikely(hv_result_success(result) && is_guest_mode(vcpu)
-+		     && kvm_hv_is_tlb_flush_hcall(vcpu))) {
-+		struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
-+		u32 tlb_lock_count;
-+
-+		if (unlikely(kvm_read_guest(vcpu->kvm, hv_vcpu->nested.pa_page_gpa,
-+					    &tlb_lock_count, sizeof(tlb_lock_count))))
-+			kvm_inject_gp(vcpu, 0);
-+
-+		if (tlb_lock_count)
-+			kvm_x86_ops.nested_ops->hv_inject_synthetic_vmexit_post_tlb_flush(vcpu);
-+	}
-+
-+	return ret;
- }
- 
- static int kvm_hv_hypercall_complete_userspace(struct kvm_vcpu *vcpu)
-diff --git a/arch/x86/kvm/hyperv.h b/arch/x86/kvm/hyperv.h
-index 5f9c76b45f46..7706e203ff43 100644
---- a/arch/x86/kvm/hyperv.h
-+++ b/arch/x86/kvm/hyperv.h
-@@ -159,9 +159,6 @@ static inline struct kvm_vcpu_hv_tlb_flush_fifo *kvm_hv_get_tlb_flush_fifo(struc
- 	int i = is_guest_mode ? HV_L2_TLB_FLUSH_FIFO :
- 				HV_L1_TLB_FLUSH_FIFO;
- 
--	/* KVM does not handle L2 TLB flush requests yet */
--	WARN_ON_ONCE(i != HV_L1_TLB_FLUSH_FIFO);
+-	assert(n >= 0 && n <= 7);
 -
- 	return &hv_vcpu->tlb_flush_fifo[i];
+-	switch (n) {
++	switch (reg) {
+ 	case 0:
+-		return GET_XMM(xmm0);
++		asm("movdqa %0, %%xmm0" : : "m"(*data));
++		break;
+ 	case 1:
+-		return GET_XMM(xmm1);
++		asm("movdqa %0, %%xmm1" : : "m"(*data));
++		break;
+ 	case 2:
+-		return GET_XMM(xmm2);
++		asm("movdqa %0, %%xmm2" : : "m"(*data));
++		break;
+ 	case 3:
+-		return GET_XMM(xmm3);
++		asm("movdqa %0, %%xmm3" : : "m"(*data));
++		break;
+ 	case 4:
+-		return GET_XMM(xmm4);
++		asm("movdqa %0, %%xmm4" : : "m"(*data));
++		break;
+ 	case 5:
+-		return GET_XMM(xmm5);
++		asm("movdqa %0, %%xmm5" : : "m"(*data));
++		break;
+ 	case 6:
+-		return GET_XMM(xmm6);
++		asm("movdqa %0, %%xmm6" : : "m"(*data));
++		break;
+ 	case 7:
+-		return GET_XMM(xmm7);
++		asm("movdqa %0, %%xmm7" : : "m"(*data));
++		break;
++	default:
++		BUG();
+ 	}
+-
+-	/* never reached */
+-	return 0;
  }
  
-diff --git a/arch/x86/kvm/trace.h b/arch/x86/kvm/trace.h
-index bc25589ad588..09f3392dd830 100644
---- a/arch/x86/kvm/trace.h
-+++ b/arch/x86/kvm/trace.h
-@@ -1547,38 +1547,41 @@ TRACE_EVENT(kvm_hv_timer_state,
-  * Tracepoint for kvm_hv_flush_tlb.
-  */
- TRACE_EVENT(kvm_hv_flush_tlb,
--	TP_PROTO(u64 processor_mask, u64 address_space, u64 flags),
--	TP_ARGS(processor_mask, address_space, flags),
-+	TP_PROTO(u64 processor_mask, u64 address_space, u64 flags, bool guest_mode),
-+	TP_ARGS(processor_mask, address_space, flags, guest_mode),
- 
- 	TP_STRUCT__entry(
- 		__field(u64, processor_mask)
- 		__field(u64, address_space)
- 		__field(u64, flags)
-+		__field(bool, guest_mode)
- 	),
- 
- 	TP_fast_assign(
- 		__entry->processor_mask = processor_mask;
- 		__entry->address_space = address_space;
- 		__entry->flags = flags;
-+		__entry->guest_mode = guest_mode;
- 	),
- 
--	TP_printk("processor_mask 0x%llx address_space 0x%llx flags 0x%llx",
-+	TP_printk("processor_mask 0x%llx address_space 0x%llx flags 0x%llx %s",
- 		  __entry->processor_mask, __entry->address_space,
--		  __entry->flags)
-+		  __entry->flags, __entry->guest_mode ? "(L2)" : "")
- );
- 
- /*
-  * Tracepoint for kvm_hv_flush_tlb_ex.
-  */
- TRACE_EVENT(kvm_hv_flush_tlb_ex,
--	TP_PROTO(u64 valid_bank_mask, u64 format, u64 address_space, u64 flags),
--	TP_ARGS(valid_bank_mask, format, address_space, flags),
-+	TP_PROTO(u64 valid_bank_mask, u64 format, u64 address_space, u64 flags, bool guest_mode),
-+	TP_ARGS(valid_bank_mask, format, address_space, flags, guest_mode),
- 
- 	TP_STRUCT__entry(
- 		__field(u64, valid_bank_mask)
- 		__field(u64, format)
- 		__field(u64, address_space)
- 		__field(u64, flags)
-+		__field(bool, guest_mode)
- 	),
- 
- 	TP_fast_assign(
-@@ -1586,12 +1589,14 @@ TRACE_EVENT(kvm_hv_flush_tlb_ex,
- 		__entry->format = format;
- 		__entry->address_space = address_space;
- 		__entry->flags = flags;
-+		__entry->guest_mode = guest_mode;
- 	),
- 
- 	TP_printk("valid_bank_mask 0x%llx format 0x%llx "
--		  "address_space 0x%llx flags 0x%llx",
-+		  "address_space 0x%llx flags 0x%llx %s",
- 		  __entry->valid_bank_mask, __entry->format,
--		  __entry->address_space, __entry->flags)
-+		  __entry->address_space, __entry->flags,
-+		  __entry->guest_mode ? "(L2)" : "")
- );
- 
- /*
+ static inline void cpu_relax(void)
 -- 
 2.37.3
 
