@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB656C4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Oct 2022 10:10:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CBAC4321E
+	for <linux-hyperv@archiver.kernel.org>; Tue, 18 Oct 2022 10:10:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbiJRKKS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Oct 2022 06:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33652 "EHLO
+        id S230041AbiJRKKV (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Oct 2022 06:10:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230318AbiJRKKK (ORCPT
+        with ESMTP id S230057AbiJRKKM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Oct 2022 06:10:10 -0400
+        Tue, 18 Oct 2022 06:10:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 899276E2F8
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Oct 2022 03:10:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A0D571BE8
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Oct 2022 03:10:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666087808;
+        s=mimecast20190719; t=1666087810;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fMQabhdwb3BLcuLEzR1DIb/sWdQpYIKs7hPVH4e9Q4s=;
-        b=gatk51IVbusQTaDiJY0HOPGR+p8qx/nc8ySYhHRuuIIRz8gvef2VD5SBTfa4CBgiTjKDXv
-        6UhIGkKMYyTd/U+LQcsbyrcXA/qj5frpEg003oEfio9/pSdGvJeoqWlPDZm25mo2yMD45D
-        t08r2qYzuCCmDtEQc0mGOK+clKB+FMg=
+        bh=TNypx6C1egWB2KUpSWMDguYsZrMG+TK68i/4EzfUiyM=;
+        b=G1tpQXpc3WP4qsMcHNqOnAA8SZlSzvH3mcOp0oZEx9SANihV6ilrf8s2M15VF316KPRk0a
+        usrZT5rlP3sGrA3/ovup7yP4FbWbNzWvaYBeUrwN41UUFmtKewTrmz1U+sPdgGgqT2c9H8
+        V9Jl8R7nxa6zigDMKUIHqdH8o/eN2hw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-22-RT7eKZ09P32-qMNnFhcHxA-1; Tue, 18 Oct 2022 06:10:05 -0400
-X-MC-Unique: RT7eKZ09P32-qMNnFhcHxA-1
+ us-mta-490-MzKkp20jOpeW6RnZ-ZWD4A-1; Tue, 18 Oct 2022 06:10:09 -0400
+X-MC-Unique: MzKkp20jOpeW6RnZ-ZWD4A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 110D4101A58E;
-        Tue, 18 Oct 2022 10:10:05 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D729A833A0D;
+        Tue, 18 Oct 2022 10:10:08 +0000 (UTC)
 Received: from ovpn-193-156.brq.redhat.com (ovpn-193-156.brq.redhat.com [10.40.193.156])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 203BF40AE7F0;
-        Tue, 18 Oct 2022 10:10:02 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 50F1B40C94EB;
+        Tue, 18 Oct 2022 10:10:07 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>
 Cc:     Sean Christopherson <seanjc@google.com>,
@@ -45,9 +45,9 @@ Cc:     Sean Christopherson <seanjc@google.com>,
         Jim Mattson <jmattson@google.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] KVM: nVMX: Sanitize primary processor-based VM-execution controls with eVMCS too
-Date:   Tue, 18 Oct 2022 12:09:57 +0200
-Message-Id: <20221018101000.934413-2-vkuznets@redhat.com>
+Subject: [PATCH 3/4] KVM: nVMX: Prepare to sanitize tertiary execution controls with eVMCS
+Date:   Tue, 18 Oct 2022 12:09:59 +0200
+Message-Id: <20221018101000.934413-4-vkuznets@redhat.com>
 In-Reply-To: <20221018101000.934413-1-vkuznets@redhat.com>
 References: <20221018101000.934413-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -58,64 +58,54 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The only unsupported primary processor-based VM-execution control at the
-moment is CPU_BASED_ACTIVATE_TERTIARY_CONTROLS and KVM doesn't expose it
-in nested VMX feature MSRs anyway (see nested_vmx_setup_ctls_msrs())
-but in preparation to inverting "unsupported with eVMCS" checks (and
-for completeness) it's better to sanitize MSR_IA32_VMX_PROCBASED_CTLS/
-MSR_IA32_VMX_TRUE_PROCBASED_CTLS too.
+In preparation to restoring vmcs_conf sanitization for KVM-on-Hyper-V,
+(and for completeness) add tertiary VM-execution controls to
+'evmcs_supported_ctrls'.
 
-No functional change intended.
+No functional change intended as KVM doesn't yet expose
+MSR_IA32_VMX_PROCBASED_CTLS3 to its guests.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/kvm/vmx/evmcs.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/x86/kvm/vmx/evmcs.c | 4 ++++
+ arch/x86/kvm/vmx/evmcs.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/arch/x86/kvm/vmx/evmcs.c b/arch/x86/kvm/vmx/evmcs.c
-index d8b23c96d627..337783675731 100644
+index 0f031d27741a..47f6d1cbd428 100644
 --- a/arch/x86/kvm/vmx/evmcs.c
 +++ b/arch/x86/kvm/vmx/evmcs.c
-@@ -368,6 +368,7 @@ enum evmcs_revision {
- enum evmcs_ctrl_type {
- 	EVMCS_EXIT_CTRLS,
+@@ -370,6 +370,7 @@ enum evmcs_ctrl_type {
  	EVMCS_ENTRY_CTRLS,
-+	EVMCS_EXEC_CTRL,
+ 	EVMCS_EXEC_CTRL,
  	EVMCS_2NDEXEC,
++	EVMCS_3RDEXEC,
  	EVMCS_PINCTRL,
  	EVMCS_VMFUNC,
-@@ -381,6 +382,9 @@ static const u32 evmcs_unsupported_ctrls[NR_EVMCS_CTRLS][NR_EVMCS_REVISIONS] = {
- 	[EVMCS_ENTRY_CTRLS] = {
- 		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_VMENTRY_CTRL,
- 	},
-+	[EVMCS_EXEC_CTRL] = {
-+		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_EXEC_CTRL,
-+	},
+ 	NR_EVMCS_CTRLS,
+@@ -388,6 +389,9 @@ static const u32 evmcs_supported_ctrls[NR_EVMCS_CTRLS][NR_EVMCS_REVISIONS] = {
  	[EVMCS_2NDEXEC] = {
- 		[EVMCSv1_LEGACY] = EVMCS1_UNSUPPORTED_2NDEXEC,
+ 		[EVMCSv1_LEGACY] = EVMCS1_SUPPORTED_2NDEXEC & ~SECONDARY_EXEC_TSC_SCALING,
  	},
-@@ -441,6 +445,10 @@ void nested_evmcs_filter_control_msr(struct kvm_vcpu *vcpu, u32 msr_index, u64 *
- 			unsupported_ctrls |= VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
- 		ctl_high &= ~unsupported_ctrls;
- 		break;
-+	case MSR_IA32_VMX_PROCBASED_CTLS:
-+	case MSR_IA32_VMX_TRUE_PROCBASED_CTLS:
-+		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_EXEC_CTRL);
-+		break;
- 	case MSR_IA32_VMX_PROCBASED_CTLS2:
- 		ctl_high &= ~evmcs_get_unsupported_ctls(EVMCS_2NDEXEC);
- 		break;
-@@ -468,6 +476,10 @@ int nested_evmcs_check_controls(struct vmcs12 *vmcs12)
- 					       vmcs12->pin_based_vm_exec_control)))
- 		return -EINVAL;
++	[EVMCS_3RDEXEC] = {
++		[EVMCSv1_LEGACY] = EVMCS1_SUPPORTED_3RDEXEC,
++	},
+ 	[EVMCS_PINCTRL] = {
+ 		[EVMCSv1_LEGACY] = EVMCS1_SUPPORTED_PINCTRL,
+ 	},
+diff --git a/arch/x86/kvm/vmx/evmcs.h b/arch/x86/kvm/vmx/evmcs.h
+index 4c351f334446..205b5b467617 100644
+--- a/arch/x86/kvm/vmx/evmcs.h
++++ b/arch/x86/kvm/vmx/evmcs.h
+@@ -96,6 +96,8 @@ DECLARE_STATIC_KEY_FALSE(enable_evmcs);
+ 	 SECONDARY_EXEC_NOTIFY_VM_EXITING |				\
+ 	 SECONDARY_EXEC_ENCLS_EXITING)
  
-+	if (CC(!nested_evmcs_is_valid_controls(EVMCS_EXEC_CTRL,
-+					       vmcs12->cpu_based_vm_exec_control)))
-+		return -EINVAL;
++#define EVMCS1_SUPPORTED_3RDEXEC (0ULL)
 +
- 	if (CC(!nested_evmcs_is_valid_controls(EVMCS_2NDEXEC,
- 					       vmcs12->secondary_vm_exec_control)))
- 		return -EINVAL;
+ #define EVMCS1_SUPPORTED_VMEXIT_CTRL					\
+ 	(VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR |				\
+ 	 VM_EXIT_SAVE_DEBUG_CONTROLS |					\
 -- 
 2.37.3
 
