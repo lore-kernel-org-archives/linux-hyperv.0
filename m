@@ -2,101 +2,238 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DF37C4332F
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Oct 2022 22:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EAEDC433FE
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Oct 2022 22:24:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbiJSWWP (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Oct 2022 18:22:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60988 "EHLO
+        id S231309AbiJSWY1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 19 Oct 2022 18:24:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiJSWWO (ORCPT
+        with ESMTP id S231168AbiJSWY0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Oct 2022 18:22:14 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BF61735A9
-        for <linux-hyperv@vger.kernel.org>; Wed, 19 Oct 2022 15:22:13 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id t12-20020a17090a3b4c00b0020b04251529so1269940pjf.5
-        for <linux-hyperv@vger.kernel.org>; Wed, 19 Oct 2022 15:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lc7nEof8oNxTjR2TgiwAPvjHm//OCLDZ/hnb6eCYs60=;
-        b=HGPCbZUrDHdBVHRaWY50SoPN04wgSXoiM3jyszD7bVxUzze4tlx2F2sEVU085BI8Xn
-         YAsH3vRWZYDL5RUk3DL9pct18PeCzjEVQqY077njbVmzDUB5xjiBbLSaj6ZE0zTPSjM4
-         8wYiNckByKH6HeJt6NMq/UlI8+78sxyCHJ9cDQ+ctOTzCQzztPMG03CIIQLP2YJHSr2N
-         uFddX8aDHiUcPAw70YswY/qpyneHOfIQ4fj96yXq8PChcxG+yI3ZpNgsht4PHA+LFexQ
-         waXhyXT4ox1DxWQa6U8mDXmZNfaXfn92TtdDe1q+KuzJWwaex1I+w+ohIp7wB/EwzLDf
-         xOgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lc7nEof8oNxTjR2TgiwAPvjHm//OCLDZ/hnb6eCYs60=;
-        b=ZybmBmcgTZDSPo/PQVl5SHpBe/1j9VGvG//kMXEXJQ3ytsSYw3dr0KqKhVuiN/2nJq
-         gbGCFt/JW+sNNApjsEu7RmrC/lYsnvcIUJfCiMaNsxL8UyKxPfJdZ42Xcl9j0R178Y9C
-         hU2xuPq8r0IX+dq/RYVVGoM1oRF5CxbICJGB/O9MkDF0kD1BDr4J3W+FzDd4JIimElZU
-         714ou6cqbqajGdnpIDZbdvaNgCkP7rFgvUwAZxTk46ACTvZG9Gu1YVizUAc4867wKW7r
-         hInNZk5WD7ta2rlbw/H8wb95qZM8Gt73bEeCmWa2siXFozSHfUnDw9cBvR4z4MxIT81m
-         CIzw==
-X-Gm-Message-State: ACrzQf3hbjUvMdbFNPwOZRfwUYdYI2TeoVOn7o6kRHihHwZ04GUydxir
-        KU19ZUnwhbNvRS2Qy7jLu2sqiA==
-X-Google-Smtp-Source: AMsMyM4nva1F0shlU4yDMbuqeLmJzlH65ES6wwFswJNL+VYstN5urGF/pcqOEtXB/lEYdDqw71Tp6w==
-X-Received: by 2002:a17:90b:314c:b0:20d:83c1:5297 with SMTP id ip12-20020a17090b314c00b0020d83c15297mr12147095pjb.18.1666218132524;
-        Wed, 19 Oct 2022 15:22:12 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id c11-20020a624e0b000000b0056170e7299csm11762357pfb.9.2022.10.19.15.22.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Oct 2022 15:22:12 -0700 (PDT)
-Date:   Wed, 19 Oct 2022 22:22:08 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Siddharth Chandrasekaran <sidcha@amazon.de>,
-        Yuan Yao <yuan.yao@linux.intel.com>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 00/46] KVM: x86: hyper-v: Fine-grained TLB flush + L2
- TLB flush features
-Message-ID: <Y1B4kAIsc8Z0b2P9@google.com>
-References: <20221004123956.188909-1-vkuznets@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221004123956.188909-1-vkuznets@redhat.com>
+        Wed, 19 Oct 2022 18:24:26 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AAD7B2646;
+        Wed, 19 Oct 2022 15:24:22 -0700 (PDT)
+Received: by linux.microsoft.com (Postfix, from userid 1004)
+        id 7059A20FE892; Wed, 19 Oct 2022 15:24:22 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7059A20FE892
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
+        s=default; t=1666218262;
+        bh=rwVxEsxu7JjwiZgZjI9rnYUFS4A1egO/GwxRV1e+7jQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
+        b=Ah/kYEzWBNfekdtbd3hkpOPxBmvF/cfZmNAnMzYGwFFaHSS6+bBZ0X+eOWVyxC9uP
+         td5aJkmZ7ljDLK/f0DWQVAop5vj1wnQtsYplolXzMaEpMNFXKWpDZokcqQX7Ry7IFp
+         NLGe4vBIOYRDZnBT/QFs6PCd2ok08IHCiKFqncNA=
+From:   longli@linuxonhyperv.com
+To:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Leon Romanovsky <leon@kernel.org>, edumazet@google.com,
+        shiraz.saleem@intel.com, Ajay Sharma <sharmaajay@microsoft.com>
+Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+        Long Li <longli@microsoft.com>
+Subject: [Patch v8 01/12] net: mana: Add support for auxiliary device
+Date:   Wed, 19 Oct 2022 15:24:01 -0700
+Message-Id: <1666218252-32191-2-git-send-email-longli@linuxonhyperv.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1666218252-32191-1-git-send-email-longli@linuxonhyperv.com>
+References: <1666218252-32191-1-git-send-email-longli@linuxonhyperv.com>
+Reply-To: longli@microsoft.com
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Tue, Oct 04, 2022, Vitaly Kuznetsov wrote:
-> Changes since v10 (Sean):
-> - New patches added:
->   - "x86/hyperv: Move VMCB enlightenment definitions to hyperv-tlfs.h"
->   - "KVM: selftests: Move "struct hv_enlightenments" to x86_64/svm.h"
->   - "KVM: SVM: Add a proper field for Hyper-V VMCB enlightenments"
->   - 'x86/hyperv: KVM: Rename "hv_enlightenments" to "hv_vmcb_enlightenments"'
->   - 'KVM: VMX: Rename "vmx/evmcs.{ch}" to "vmx/hyperv.{ch}"'
->   - "KVM: x86: Move clearing of TLB_FLUSH_CURRENT to kvm_vcpu_flush_tlb_all()"
->   - "KVM: selftests: Drop helpers to read/write page table entries"
->   - "KVM: x86: Make kvm_hv_get_assist_page() return 0/-errno"
-> - Removed patches:
->   - "KVM: selftests: Export _vm_get_page_table_entry()"
-> - Main differences:
->   - Move Hyper-V TLB flushing out of kvm_service_local_tlb_flush_requests().
->     On SVM, Hyper-V TLB flush FIFO is emptied from svm_flush_tlb_current()
->   - Don't disable IRQs in hv_tlb_flush_enqueue().
->   - Don't call kvm_vcpu_flush_tlb_guest() from kvm_hv_vcpu_flush_tlb() but
->     return -errno instead.
->   - Avoid unneded flushes in !EPT/!NPT cases.
->   - Optimize hv_is_vp_in_sparse_set().
->   - Move TLFS definitions to asm/hyperv-tlfs.h.
->   - Use u64 vals in Hyper-V PV TLB flush selftest + multiple smaler changes
->   - Typos, indentation, renames, ...
+From: Long Li <longli@microsoft.com>
 
-Some nits throughout, but nothing major.  Everything could be fixed up when
-applying, but if it's not too much trouble I'd prefer a v11, the potential changes
-to kvm_hv_hypercall_complete() aren't completely trivial.
+In preparation for supporting MANA RDMA driver, add support for auxiliary
+device in the Ethernet driver. The RDMA device is modeled as an auxiliary
+device to the Ethernet device.
+
+Reviewed-by: Dexuan Cui <decui@microsoft.com>
+Signed-off-by: Long Li <longli@microsoft.com>
+Acked-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+Change log:
+v3: define mana_adev_idx_alloc and mana_adev_idx_free as static
+v7: fix a bug that may assign a negative value to adev->id
+
+ drivers/net/ethernet/microsoft/Kconfig        |  1 +
+ drivers/net/ethernet/microsoft/mana/gdma.h    |  2 +
+ .../ethernet/microsoft/mana/mana_auxiliary.h  | 10 +++
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 83 ++++++++++++++++++-
+ 4 files changed, 95 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
+
+diff --git a/drivers/net/ethernet/microsoft/Kconfig b/drivers/net/ethernet/microsoft/Kconfig
+index fe4e7a7d9c0b..090e6b983243 100644
+--- a/drivers/net/ethernet/microsoft/Kconfig
++++ b/drivers/net/ethernet/microsoft/Kconfig
+@@ -19,6 +19,7 @@ config MICROSOFT_MANA
+ 	tristate "Microsoft Azure Network Adapter (MANA) support"
+ 	depends on PCI_MSI && X86_64
+ 	depends on PCI_HYPERV
++	select AUXILIARY_BUS
+ 	help
+ 	  This driver supports Microsoft Azure Network Adapter (MANA).
+ 	  So far, the driver is only supported on X86_64.
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
+index 4a6efe6ada08..f321a2616d03 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma.h
++++ b/drivers/net/ethernet/microsoft/mana/gdma.h
+@@ -204,6 +204,8 @@ struct gdma_dev {
+ 
+ 	/* GDMA driver specific pointer */
+ 	void *driver_data;
++
++	struct auxiliary_device *adev;
+ };
+ 
+ #define MINIMUM_SUPPORTED_PAGE_SIZE PAGE_SIZE
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h b/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
+new file mode 100644
+index 000000000000..373d59756846
+--- /dev/null
++++ b/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright (c) 2022, Microsoft Corporation. */
++
++#include "mana.h"
++#include <linux/auxiliary_bus.h>
++
++struct mana_adev {
++	struct auxiliary_device adev;
++	struct gdma_dev *mdev;
++};
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index 9259a74eca40..8751e475d1ba 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -13,6 +13,19 @@
+ #include <net/ip6_checksum.h>
+ 
+ #include "mana.h"
++#include "mana_auxiliary.h"
++
++static DEFINE_IDA(mana_adev_ida);
++
++static int mana_adev_idx_alloc(void)
++{
++	return ida_alloc(&mana_adev_ida, GFP_KERNEL);
++}
++
++static void mana_adev_idx_free(int idx)
++{
++	ida_free(&mana_adev_ida, idx);
++}
+ 
+ /* Microsoft Azure Network Adapter (MANA) functions */
+ 
+@@ -2106,6 +2119,69 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
+ 	return err;
+ }
+ 
++static void adev_release(struct device *dev)
++{
++	struct mana_adev *madev = container_of(dev, struct mana_adev, adev.dev);
++
++	kfree(madev);
++}
++
++static void remove_adev(struct gdma_dev *gd)
++{
++	struct auxiliary_device *adev = gd->adev;
++	int id = adev->id;
++
++	auxiliary_device_delete(adev);
++	auxiliary_device_uninit(adev);
++
++	mana_adev_idx_free(id);
++	gd->adev = NULL;
++}
++
++static int add_adev(struct gdma_dev *gd)
++{
++	struct auxiliary_device *adev;
++	struct mana_adev *madev;
++	int ret;
++
++	madev = kzalloc(sizeof(*madev), GFP_KERNEL);
++	if (!madev)
++		return -ENOMEM;
++
++	adev = &madev->adev;
++	ret = mana_adev_idx_alloc();
++	if (ret < 0)
++		goto idx_fail;
++	adev->id = ret;
++
++	adev->name = "rdma";
++	adev->dev.parent = gd->gdma_context->dev;
++	adev->dev.release = adev_release;
++	madev->mdev = gd;
++
++	ret = auxiliary_device_init(adev);
++	if (ret)
++		goto init_fail;
++
++	ret = auxiliary_device_add(adev);
++	if (ret)
++		goto add_fail;
++
++	gd->adev = adev;
++	return 0;
++
++add_fail:
++	auxiliary_device_uninit(adev);
++
++init_fail:
++	mana_adev_idx_free(adev->id);
++
++idx_fail:
++	kfree(madev);
++
++	return ret;
++}
++
+ int mana_probe(struct gdma_dev *gd, bool resuming)
+ {
+ 	struct gdma_context *gc = gd->gdma_context;
+@@ -2173,6 +2249,8 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
+ 				break;
+ 		}
+ 	}
++
++	err = add_adev(gd);
+ out:
+ 	if (err)
+ 		mana_remove(gd, false);
+@@ -2189,6 +2267,10 @@ void mana_remove(struct gdma_dev *gd, bool suspending)
+ 	int err;
+ 	int i;
+ 
++	/* adev currently doesn't support suspending, always remove it */
++	if (gd->adev)
++		remove_adev(gd);
++
+ 	for (i = 0; i < ac->num_ports; i++) {
+ 		ndev = ac->ports[i];
+ 		if (!ndev) {
+@@ -2221,7 +2303,6 @@ void mana_remove(struct gdma_dev *gd, bool suspending)
+ 	}
+ 
+ 	mana_destroy_eq(ac);
+-
+ out:
+ 	mana_gd_deregister_device(gd);
+ 
+-- 
+2.17.1
+
