@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E7F7C46467
-	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 10:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C48C3A5A7
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 10:38:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230440AbiJTKiJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Oct 2022 06:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60756 "EHLO
+        id S230467AbiJTKiK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Oct 2022 06:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230376AbiJTKiG (ORCPT
+        with ESMTP id S230386AbiJTKiG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Thu, 20 Oct 2022 06:38:06 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34241D2B42;
-        Thu, 20 Oct 2022 03:38:00 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5051C7D49;
+        Thu, 20 Oct 2022 03:38:02 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id B282722B42;
-        Thu, 20 Oct 2022 10:37:58 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 540BF1FA34;
+        Thu, 20 Oct 2022 10:38:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666262278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1666262280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dfNCfewKdF4qrRIFBcdy7kMwlQEEw/he+rN8lqzuO0c=;
-        b=sT2vIrk7gnJPmpN3+w8QkaaTa6QUjGrubtLOteaO8q4FcNJyLa4bQ5A3cJng6/bv4x1ZRW
-        Lz3p/ro9/w3xl+AVVT9FPWpjAMPcA8qn3cc/ebFvAESW96dJmzCi9Vt9UP6A/tQvx+rg4o
-        YGUKbfUA6e96QHnR/bkR596lb9w56ZA=
+        bh=wfe4V8EQXU+OQKS3l1kyBjPu6yaqxe3odm+OUovraU8=;
+        b=ihgfTJ5J709+rPMXFDj4uNgC6FmkN6D0x3zOugKW/edKZUb7MZ9GjAP0pVwAsaWVkiwCaJ
+        Bxhc5uaCrz9BrbIyl0jI0k2B2uIgrYnSj9bXR4K3r3PrICoZQrI9F0Yx37pQHgRoCNQeL4
+        t4rlXuRbKW0dLT3g1YF0QLQ6mdSYwl8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666262278;
+        s=susede2_ed25519; t=1666262280;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=dfNCfewKdF4qrRIFBcdy7kMwlQEEw/he+rN8lqzuO0c=;
-        b=R9wURktsZ4GUuQFrOAQNChz7Mxyve21ulKCwP98mDiqGdgQ9gW2RRTX44wOhGGfIABxhoh
-        cnNyRpZaMJHX9BCA==
+        bh=wfe4V8EQXU+OQKS3l1kyBjPu6yaqxe3odm+OUovraU8=;
+        b=oJAiMk8bqr+Bj4NMP4a4mKteU8kvjeIa4Kp+CbGTZb9h8jbLqvLj6PfNFBLKNMBTQQo7V0
+        1D3gf1DxTWtmxpDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F55713B72;
-        Thu, 20 Oct 2022 10:37:58 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D1B0513AF5;
+        Thu, 20 Oct 2022 10:37:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id qG2kDgYlUWPPYwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:58 +0000
+        id gLtLMgclUWPPYwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:37:59 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
         javierm@redhat.com, mripard@kernel.org,
@@ -69,9 +69,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 03/21] drm/ingenic: Don't set struct drm_driver.lastclose
-Date:   Thu, 20 Oct 2022 12:37:37 +0200
-Message-Id: <20221020103755.24058-4-tzimmermann@suse.de>
+Subject: [PATCH 06/21] drm/mcde: Don't set struct drm_driver.lastclose
+Date:   Thu, 20 Oct 2022 12:37:40 +0200
+Message-Id: <20221020103755.24058-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221020103755.24058-1-tzimmermann@suse.de>
 References: <20221020103755.24058-1-tzimmermann@suse.de>
@@ -81,29 +81,28 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Don't set struct drm_mode_config.output_poll_changed. It's used to
-inform the fbdev console about conncetor changes. But as ingenic
-uses generic fbdev emulation, the console is being informed by the
-DRM client helpers already. See the calls to drm_client_dev_hotplug()
-in drm_probe_helper.c.
+Don't set struct drm_driver.lastclose. It's used to restore the
+fbdev console. But as mcde uses generic fbdev emulation, the
+console is being restored by the DRM client helpers already. See
+the call to drm_client_dev_restore() in drm_lastclose().
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 1 -
+ drivers/gpu/drm/mcde/mcde_drv.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index ab0515d2c420a..99f86f1ba8bee 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -1018,7 +1018,6 @@ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
- 	.fb_create		= ingenic_drm_gem_fb_create,
--	.output_poll_changed	= drm_fb_helper_output_poll_changed,
- 	.atomic_check		= drm_atomic_helper_check,
- 	.atomic_commit		= drm_atomic_helper_commit,
- };
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 1c4482ad507d9..38c3907bb151a 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -203,7 +203,6 @@ DEFINE_DRM_GEM_DMA_FOPS(drm_fops);
+ static const struct drm_driver mcde_drm_driver = {
+ 	.driver_features =
+ 		DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+-	.lastclose = drm_fb_helper_lastclose,
+ 	.ioctls = NULL,
+ 	.fops = &drm_fops,
+ 	.name = "mcde",
 -- 
 2.38.0
 
