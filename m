@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF665C4708D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 10:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E141C64EB6
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 10:38:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231260AbiJTKiU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Oct 2022 06:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S231274AbiJTKiV (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Oct 2022 06:38:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231196AbiJTKiO (ORCPT
+        with ESMTP id S231228AbiJTKiR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Oct 2022 06:38:14 -0400
+        Thu, 20 Oct 2022 06:38:17 -0400
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F05E31D52D3;
-        Thu, 20 Oct 2022 03:38:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2823E1DC4FC;
+        Thu, 20 Oct 2022 03:38:10 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 7ECD822B49;
-        Thu, 20 Oct 2022 10:38:04 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id D9D1B22B50;
+        Thu, 20 Oct 2022 10:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666262284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1666262286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h8c99GytuoJzrJihpm1pKQrZqtXWmjZRCdXW03uirZQ=;
-        b=H8L9kq6U0On6TnRNX2EE3bIK/PDmpLC3TnsCtJc8+Y2AZ3amwYPaWiUUzU1/2a5iZ6i5c5
-        bPnGd+sk0y0IKOW2FDcfuGPdAoUHzwbAicH2HNa6l4BXsNgwtxImknuWVHtTREi2Rt4UGn
-        ZYdCtdzDcfimy2W0FvYEVVXz/yxpJkw=
+        bh=RsAQdHzLmddns92tHuvM6Lu3vuWZMSsqH8X6KbiDvyM=;
+        b=TTUneLInqCmMLWxk1GD9d2KmCCv11lcn/0c/gMV2phygkdJQfTPHckj/c9iS+0OigiTMWP
+        2So10ChWze1+vATmbv/Q8ZF0YiaPyDyFitO9dwbZLgDLT8RyNzKQH52H8wmoUPDFfjKEAR
+        Q/3UV3yK/09TqKMa6dLR2z894iwISek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666262284;
+        s=susede2_ed25519; t=1666262286;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h8c99GytuoJzrJihpm1pKQrZqtXWmjZRCdXW03uirZQ=;
-        b=Erx7Mr6/i048deZ8DTUVe6rkVQHHK1LBpPOmgpA94l4P8bJoztUkyaPZKcIDImZIwZ4s3c
-        U3OLhI8xqukE3cAA==
+        bh=RsAQdHzLmddns92tHuvM6Lu3vuWZMSsqH8X6KbiDvyM=;
+        b=74ibi82PnzrG8q+dqb3jzekLkKdn6jxNvxS3DQFZ7P39O62bfyXQbwEuh/yfaQt3JOh86W
+        /q1sls2vXrEy1KDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0277D13B72;
-        Thu, 20 Oct 2022 10:38:03 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 66DD913AF5;
+        Thu, 20 Oct 2022 10:38:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id IJ5bOwslUWPPYwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:38:03 +0000
+        id AIpTGA4lUWPPYwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 10:38:06 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
         javierm@redhat.com, mripard@kernel.org,
@@ -69,9 +69,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 14/21] drm/fb-helper: Rename drm_fb_helper_unregister_fbi() to use _info postfix
-Date:   Thu, 20 Oct 2022 12:37:48 +0200
-Message-Id: <20221020103755.24058-15-tzimmermann@suse.de>
+Subject: [PATCH 19/21] drm/fb-helper: Always initialize generic fbdev emulation
+Date:   Thu, 20 Oct 2022 12:37:53 +0200
+Message-Id: <20221020103755.24058-20-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221020103755.24058-1-tzimmermann@suse.de>
 References: <20221020103755.24058-1-tzimmermann@suse.de>
@@ -81,200 +81,44 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Rename drm_fb_helper_unregister_fbi() to drm_fb_helper_unregister_info()
-as part of unifying the naming within fbdev helpers. Adapt drivers. No
-functional changes.
+Initialize the generic fbdev emulation even if it has been disabled
+on the kernel command line. The hotplug and mode initialization will
+fail accordingly.
+
+The kernel parameter can still be changed at runtime and the emulation
+will initialize after hotplugging the connector.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/armada/armada_fbdev.c      | 2 +-
- drivers/gpu/drm/drm_fb_helper.c            | 8 ++++----
- drivers/gpu/drm/exynos/exynos_drm_fbdev.c  | 2 +-
- drivers/gpu/drm/gma500/framebuffer.c       | 2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c | 2 +-
- drivers/gpu/drm/msm/msm_fbdev.c            | 2 +-
- drivers/gpu/drm/nouveau/nouveau_fbcon.c    | 2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c       | 2 +-
- drivers/gpu/drm/radeon/radeon_fb.c         | 2 +-
- drivers/gpu/drm/tegra/fb.c                 | 2 +-
- include/drm/drm_fb_helper.h                | 4 ++--
- 11 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
-index eaae98d9377ae..f02f6a5ba8320 100644
---- a/drivers/gpu/drm/armada/armada_fbdev.c
-+++ b/drivers/gpu/drm/armada/armada_fbdev.c
-@@ -155,7 +155,7 @@ void armada_fbdev_fini(struct drm_device *dev)
- 	struct drm_fb_helper *fbh = priv->fbdev;
- 
- 	if (fbh) {
--		drm_fb_helper_unregister_fbi(fbh);
-+		drm_fb_helper_unregister_info(fbh);
- 
- 		drm_fb_helper_fini(fbh);
- 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 881e6a04fa706..bfbb2af144060 100644
+index fbc5c5445fdb0..d1afb420c6e06 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -612,19 +612,19 @@ struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
- EXPORT_SYMBOL(drm_fb_helper_alloc_info);
- 
- /**
-- * drm_fb_helper_unregister_fbi - unregister fb_info framebuffer device
-+ * drm_fb_helper_unregister_info - unregister fb_info framebuffer device
-  * @fb_helper: driver-allocated fbdev helper, can be NULL
-  *
-  * A wrapper around unregister_framebuffer, to release the fb_info
-  * framebuffer device. This must be called before releasing all resources for
-  * @fb_helper by calling drm_fb_helper_fini().
-  */
--void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
-+void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
+@@ -526,11 +526,6 @@ int drm_fb_helper_init(struct drm_device *dev,
  {
- 	if (fb_helper && fb_helper->info)
- 		unregister_framebuffer(fb_helper->info);
- }
--EXPORT_SYMBOL(drm_fb_helper_unregister_fbi);
-+EXPORT_SYMBOL(drm_fb_helper_unregister_info);
+ 	int ret;
  
- /**
-  * drm_fb_helper_fini - finialize a &struct drm_fb_helper
-@@ -2497,7 +2497,7 @@ static void drm_fbdev_client_unregister(struct drm_client_dev *client)
+-	if (!drm_fbdev_emulation) {
+-		dev->fb_helper = fb_helper;
+-		return 0;
+-	}
+-
+ 	/*
+ 	 * If this is not the generic fbdev client, initialize a drm_client
+ 	 * without callbacks so we can use the modesets.
+@@ -2716,9 +2711,6 @@ void drm_fbdev_generic_setup(struct drm_device *dev,
+ 	drm_WARN(dev, !dev->registered, "Device has not been registered.\n");
+ 	drm_WARN(dev, dev->fb_helper, "fb_helper is already set!\n");
  
- 	if (fb_helper->info)
- 		/* drm_fbdev_fb_destroy() takes care of cleanup */
--		drm_fb_helper_unregister_fbi(fb_helper);
-+		drm_fb_helper_unregister_info(fb_helper);
- 	else
- 		drm_fbdev_release(fb_helper);
- }
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-index 8741eb0b1b604..86c489d945849 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
-@@ -201,7 +201,7 @@ static void exynos_drm_fbdev_destroy(struct drm_device *dev,
- 			drm_framebuffer_remove(fb);
- 	}
- 
--	drm_fb_helper_unregister_fbi(fb_helper);
-+	drm_fb_helper_unregister_info(fb_helper);
- 
- 	drm_fb_helper_fini(fb_helper);
- }
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index a5fad2483fa3a..bee4ce24904f6 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -383,7 +383,7 @@ static int psb_fbdev_destroy(struct drm_device *dev,
- {
- 	struct drm_framebuffer *fb = fb_helper->fb;
- 
--	drm_fb_helper_unregister_fbi(fb_helper);
-+	drm_fb_helper_unregister_info(fb_helper);
- 
- 	drm_fb_helper_fini(fb_helper);
- 	drm_framebuffer_unregister_private(fb);
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index a1357acb5a1c6..0ac78b9718684 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -584,7 +584,7 @@ void intel_fbdev_unregister(struct drm_i915_private *dev_priv)
- 	if (!current_is_async())
- 		intel_fbdev_sync(ifbdev);
- 
--	drm_fb_helper_unregister_fbi(&ifbdev->helper);
-+	drm_fb_helper_unregister_info(&ifbdev->helper);
- }
- 
- void intel_fbdev_fini(struct drm_i915_private *dev_priv)
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index 3de661730a8bb..0670c98b9c5cc 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -184,7 +184,7 @@ void msm_fbdev_free(struct drm_device *dev)
- 
- 	DBG();
- 
--	drm_fb_helper_unregister_fbi(helper);
-+	drm_fb_helper_unregister_info(helper);
- 
- 	drm_fb_helper_fini(helper);
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-index fca40124fc17c..e87de7906f780 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-@@ -419,7 +419,7 @@ nouveau_fbcon_destroy(struct drm_device *dev, struct nouveau_fbdev *fbcon)
- 	struct drm_framebuffer *fb = fbcon->helper.fb;
- 	struct nouveau_bo *nvbo;
- 
--	drm_fb_helper_unregister_fbi(&fbcon->helper);
-+	drm_fb_helper_unregister_info(&fbcon->helper);
- 	drm_fb_helper_fini(&fbcon->helper);
- 
- 	if (fb && fb->obj[0]) {
-diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-index b21ead9aca2d5..537c759453ce1 100644
---- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
-+++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
-@@ -274,7 +274,7 @@ void omap_fbdev_fini(struct drm_device *dev)
- 	if (!helper)
- 		return;
- 
--	drm_fb_helper_unregister_fbi(helper);
-+	drm_fb_helper_unregister_info(helper);
- 
- 	drm_fb_helper_fini(helper);
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
-index 2dc96fdd35f9f..936df79decc57 100644
---- a/drivers/gpu/drm/radeon/radeon_fb.c
-+++ b/drivers/gpu/drm/radeon/radeon_fb.c
-@@ -309,7 +309,7 @@ static int radeon_fbdev_destroy(struct drm_device *dev, struct radeon_fbdev *rfb
- {
- 	struct drm_framebuffer *fb = &rfbdev->fb;
- 
--	drm_fb_helper_unregister_fbi(&rfbdev->helper);
-+	drm_fb_helper_unregister_info(&rfbdev->helper);
- 
- 	if (fb->obj[0]) {
- 		radeonfb_destroy_pinned_object(fb->obj[0]);
-diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
-index d5a9c800ef829..30fac20665f4e 100644
---- a/drivers/gpu/drm/tegra/fb.c
-+++ b/drivers/gpu/drm/tegra/fb.c
-@@ -348,7 +348,7 @@ static int tegra_fbdev_init(struct tegra_fbdev *fbdev,
- 
- static void tegra_fbdev_exit(struct tegra_fbdev *fbdev)
- {
--	drm_fb_helper_unregister_fbi(&fbdev->base);
-+	drm_fb_helper_unregister_info(&fbdev->base);
- 
- 	if (fbdev->fb) {
- 		struct tegra_bo *bo = tegra_fb_get_plane(fbdev->fb, 0);
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index 5ec9d9c68d144..edc697a2fde24 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -223,7 +223,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
- int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
- 
- struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
--void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper);
-+void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper);
- void drm_fb_helper_fill_info(struct fb_info *info,
- 			     struct drm_fb_helper *fb_helper,
- 			     struct drm_fb_helper_surface_size *sizes);
-@@ -325,7 +325,7 @@ drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
- 	return NULL;
- }
- 
--static inline void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper)
-+static inline void drm_fb_helper_unregister_info(struct drm_fb_helper *fb_helper)
- {
- }
- 
+-	if (!drm_fbdev_emulation)
+-		return;
+-
+ 	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+ 	if (!fb_helper) {
+ 		drm_err(dev, "Failed to allocate fb_helper\n");
 -- 
 2.38.0
 
