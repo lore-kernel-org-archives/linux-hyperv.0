@@ -2,147 +2,115 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B5AC43217
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Oct 2022 22:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B8FC4332F
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 08:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231634AbiJSWYu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Oct 2022 18:24:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34574 "EHLO
+        id S231276AbiJTIWo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Oct 2022 04:22:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230449AbiJSWY1 (ORCPT
+        with ESMTP id S231290AbiJTIWi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Oct 2022 18:24:27 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C4566617C;
-        Wed, 19 Oct 2022 15:24:25 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id 3F1E220FE9D9; Wed, 19 Oct 2022 15:24:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3F1E220FE9D9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1666218264;
-        bh=VZLU6TkFNRW5iAmkrZyBMdtSidOZ/oflWZp0XwAvTYk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=Cxzd34XZaCpuV14+/LuZ8dREpeFQxOi8/LD5kafigiqxJRZ7W7SfLIXlbhNkQMmBO
-         3/m9bEctGGRfvg758Tddah/X5Jj7WldRzKim4vgyru8TFCSLVDhLgO20XVRQV6FlJ4
-         uwBlSgGwRFgKSA4a7h+gjPHOI4LvEWxZU/zsFiRc=
-From:   longli@linuxonhyperv.com
-To:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>, edumazet@google.com,
-        shiraz.saleem@intel.com, Ajay Sharma <sharmaajay@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-        Long Li <longli@microsoft.com>
-Subject: [Patch v8 05/12] net: mana: Export Work Queue functions for use by RDMA driver
-Date:   Wed, 19 Oct 2022 15:24:05 -0700
-Message-Id: <1666218252-32191-6-git-send-email-longli@linuxonhyperv.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1666218252-32191-1-git-send-email-longli@linuxonhyperv.com>
-References: <1666218252-32191-1-git-send-email-longli@linuxonhyperv.com>
-Reply-To: longli@microsoft.com
+        Thu, 20 Oct 2022 04:22:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3329183E2B
+        for <linux-hyperv@vger.kernel.org>; Thu, 20 Oct 2022 01:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1666254144;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NXxC5THgAjtEYfgbLwABUhO1u5EsuU0JRYrQfyg0GwE=;
+        b=R1Pdy+BjhwRCyyXekrFJbbHc1VsEK9rMt6hsSg5QjxzMtluaCqITfmO7RVtWxDkiRT1Myn
+        3f4lCfCr//zPBn6eIaLxY76QhSibnN2QvsvuA/Vw0xPo9U2gBbAdCAFh2cSj0R8eY5L/f+
+        4TcQ7yzx/l+n5KoteVRVRV2buVBeJZI=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-461-483gq94pMqaT9n905dSQ6Q-1; Thu, 20 Oct 2022 04:22:22 -0400
+X-MC-Unique: 483gq94pMqaT9n905dSQ6Q-1
+Received: by mail-ej1-f71.google.com with SMTP id jg38-20020a170907972600b007919b3ad75aso4050262ejc.10
+        for <linux-hyperv@vger.kernel.org>; Thu, 20 Oct 2022 01:22:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NXxC5THgAjtEYfgbLwABUhO1u5EsuU0JRYrQfyg0GwE=;
+        b=Oj2sGa725KgpsUOQFr2QFSKcMcCLDN7IlAYqrCQiGBK/rv5lXJIsC0NBPx1i+Mubxb
+         eLzpjVW4GPncD+bYeYgt+ZUYxWJiFewCgysiV+edp8M8Rwpe54KW1/7JyVPJl7AzSmhW
+         GNk+nJ98BVZZnNYCEdB8GtdWeKQd7CgGw4OA2PUY36hfTrgZTYuwTryUazWVGr3MhW6b
+         0GAh/BSaau0uhF/hjvITL4a4cN+eJK2D5GoSQi3jgOZFmzX/txGGIwcoFEJqPhn4uMX0
+         tk9nyW6LFMzaDX9n2CnEpr3jwLwA2Y1Fs3W2o4XRWjqQnZ0JowhRF33bRTwkFpm6SMMO
+         FMnw==
+X-Gm-Message-State: ACrzQf0yYpk0SMhU/MS/1vWXWsXGfCYnAPscdsuwWYs6C5Z0wKFndCQT
+        bQbAy+ZRsZCs4rxG1qSSY6GAoR6rjqJSxjTc8Nt6TqS7++lf6kD+Speub2cDQZqQI/f+4/BPaMS
+        yGlPG9vqIBLABUmGSNNY+JiE4
+X-Received: by 2002:a17:907:971c:b0:78e:63f:c766 with SMTP id jg28-20020a170907971c00b0078e063fc766mr9957388ejc.330.1666254141384;
+        Thu, 20 Oct 2022 01:22:21 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM77hNuYpdTNzaBxaGl4qanwjEest2MmHQgxj9LIOEFNPTGkaoTFS2OSELTfyljEa7SX2DQbRw==
+X-Received: by 2002:a17:907:971c:b0:78e:63f:c766 with SMTP id jg28-20020a170907971c00b0078e063fc766mr9957379ejc.330.1666254141175;
+        Thu, 20 Oct 2022 01:22:21 -0700 (PDT)
+Received: from fedora (nat-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id t14-20020a05640203ce00b00459e3a3f3ddsm11633580edw.79.2022.10.20.01.22.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Oct 2022 01:22:20 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Siddharth Chandrasekaran <sidcha@amazon.de>,
+        Yuan Yao <yuan.yao@linux.intel.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 00/46] KVM: x86: hyper-v: Fine-grained TLB flush +
+ L2 TLB flush features
+In-Reply-To: <Y1B4kAIsc8Z0b2P9@google.com>
+References: <20221004123956.188909-1-vkuznets@redhat.com>
+ <Y1B4kAIsc8Z0b2P9@google.com>
+Date:   Thu, 20 Oct 2022 10:22:19 +0200
+Message-ID: <87v8oedhvo.fsf@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+Sean Christopherson <seanjc@google.com> writes:
 
-RDMA device may need to create Ethernet device queues for use by Queue
-Pair type RAW. This allows a user-mode context accesses Ethernet hardware
-queues. Export the supporting functions for use by the RDMA driver.
+> On Tue, Oct 04, 2022, Vitaly Kuznetsov wrote:
+>> Changes since v10 (Sean):
+>> - New patches added:
+>>   - "x86/hyperv: Move VMCB enlightenment definitions to hyperv-tlfs.h"
+>>   - "KVM: selftests: Move "struct hv_enlightenments" to x86_64/svm.h"
+>>   - "KVM: SVM: Add a proper field for Hyper-V VMCB enlightenments"
+>>   - 'x86/hyperv: KVM: Rename "hv_enlightenments" to "hv_vmcb_enlightenments"'
+>>   - 'KVM: VMX: Rename "vmx/evmcs.{ch}" to "vmx/hyperv.{ch}"'
+>>   - "KVM: x86: Move clearing of TLB_FLUSH_CURRENT to kvm_vcpu_flush_tlb_all()"
+>>   - "KVM: selftests: Drop helpers to read/write page table entries"
+>>   - "KVM: x86: Make kvm_hv_get_assist_page() return 0/-errno"
+>> - Removed patches:
+>>   - "KVM: selftests: Export _vm_get_page_table_entry()"
+>> - Main differences:
+>>   - Move Hyper-V TLB flushing out of kvm_service_local_tlb_flush_requests().
+>>     On SVM, Hyper-V TLB flush FIFO is emptied from svm_flush_tlb_current()
+>>   - Don't disable IRQs in hv_tlb_flush_enqueue().
+>>   - Don't call kvm_vcpu_flush_tlb_guest() from kvm_hv_vcpu_flush_tlb() but
+>>     return -errno instead.
+>>   - Avoid unneded flushes in !EPT/!NPT cases.
+>>   - Optimize hv_is_vp_in_sparse_set().
+>>   - Move TLFS definitions to asm/hyperv-tlfs.h.
+>>   - Use u64 vals in Hyper-V PV TLB flush selftest + multiple smaler changes
+>>   - Typos, indentation, renames, ...
+>
+> Some nits throughout, but nothing major.  Everything could be fixed up when
+> applying, but if it's not too much trouble I'd prefer a v11, the potential changes
+> to kvm_hv_hypercall_complete() aren't completely trivial.
 
-Reviewed-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Long Li <longli@microsoft.com>
-Acked-by: Haiyang Zhang <haiyangz@microsoft.com>
----
-Change log:
-v3: format/coding style changes
-v5: remove unused defintions, use EXPORT_SYMBOL_NS, rearrange some defintions to a later patch in the series
+Thanks for the review! Let me do v12 to address your comments, I plan to
+do it tomorrow.
 
- drivers/net/ethernet/microsoft/mana/gdma_main.c |  1 +
- drivers/net/ethernet/microsoft/mana/mana.h      |  9 +++++++++
- drivers/net/ethernet/microsoft/mana/mana_en.c   | 16 +++++++++-------
- 3 files changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 4f041b27c07d..aab22911f20d 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -152,6 +152,7 @@ int mana_gd_send_request(struct gdma_context *gc, u32 req_len, const void *req,
- 
- 	return mana_hwc_send_request(hwc, req_len, req, resp_len, resp);
- }
-+EXPORT_SYMBOL_NS(mana_gd_send_request, NET_MANA);
- 
- int mana_gd_alloc_memory(struct gdma_context *gc, unsigned int length,
- 			 struct gdma_mem_info *gmi)
-diff --git a/drivers/net/ethernet/microsoft/mana/mana.h b/drivers/net/ethernet/microsoft/mana/mana.h
-index 2883a08dbfb5..6e9e86fb4c02 100644
---- a/drivers/net/ethernet/microsoft/mana/mana.h
-+++ b/drivers/net/ethernet/microsoft/mana/mana.h
-@@ -635,6 +635,15 @@ struct mana_tx_package {
- 	struct gdma_posted_wqe_info wqe_info;
- };
- 
-+int mana_create_wq_obj(struct mana_port_context *apc,
-+		       mana_handle_t vport,
-+		       u32 wq_type, struct mana_obj_spec *wq_spec,
-+		       struct mana_obj_spec *cq_spec,
-+		       mana_handle_t *wq_obj);
-+
-+void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
-+			 mana_handle_t wq_obj);
-+
- int mana_cfg_vport(struct mana_port_context *apc, u32 protection_dom_id,
- 		   u32 doorbell_pg_id);
- void mana_uncfg_vport(struct mana_port_context *apc);
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index efe14a343fd1..6ad4bc8cbc99 100644
---- a/drivers/net/ethernet/microsoft/mana/mana_en.c
-+++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -792,11 +792,11 @@ static int mana_cfg_vport_steering(struct mana_port_context *apc,
- 	return err;
- }
- 
--static int mana_create_wq_obj(struct mana_port_context *apc,
--			      mana_handle_t vport,
--			      u32 wq_type, struct mana_obj_spec *wq_spec,
--			      struct mana_obj_spec *cq_spec,
--			      mana_handle_t *wq_obj)
-+int mana_create_wq_obj(struct mana_port_context *apc,
-+		       mana_handle_t vport,
-+		       u32 wq_type, struct mana_obj_spec *wq_spec,
-+		       struct mana_obj_spec *cq_spec,
-+		       mana_handle_t *wq_obj)
- {
- 	struct mana_create_wqobj_resp resp = {};
- 	struct mana_create_wqobj_req req = {};
-@@ -845,9 +845,10 @@ static int mana_create_wq_obj(struct mana_port_context *apc,
- out:
- 	return err;
- }
-+EXPORT_SYMBOL_NS(mana_create_wq_obj, NET_MANA);
- 
--static void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
--				mana_handle_t wq_obj)
-+void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
-+			 mana_handle_t wq_obj)
- {
- 	struct mana_destroy_wqobj_resp resp = {};
- 	struct mana_destroy_wqobj_req req = {};
-@@ -872,6 +873,7 @@ static void mana_destroy_wq_obj(struct mana_port_context *apc, u32 wq_type,
- 		netdev_err(ndev, "Failed to destroy WQ object: %d, 0x%x\n", err,
- 			   resp.hdr.status);
- }
-+EXPORT_SYMBOL_NS(mana_destroy_wq_obj, NET_MANA);
- 
- static void mana_destroy_eq(struct mana_context *ac)
- {
 -- 
-2.17.1
+Vitaly
 
