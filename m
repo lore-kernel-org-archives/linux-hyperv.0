@@ -2,195 +2,183 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C13F9C4321E
-	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 12:01:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0736DC4332F
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Oct 2022 17:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbiJTMBK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Oct 2022 08:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
+        id S229692AbiJTR6b (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Oct 2022 13:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229911AbiJTMBH (ORCPT
+        with ESMTP id S229456AbiJTR6a (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Oct 2022 08:01:07 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5823144083;
-        Thu, 20 Oct 2022 05:01:01 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 2CEEE20A43;
-        Thu, 20 Oct 2022 12:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666267260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
-        b=jH0AvdmQ5Sn82qm3xMDUFxEtzQ8Afd86NNzn7lSCGUrsJFLaw9SnOVNSzFWgYotcUsDNAg
-        GKaqBJMmMrfij+SPe7P8hnpSwt/PMM4kACWzGqryH9FajEaW0KkQM86idJuP32rsTloZ7/
-        EQO0HWAxraWBomxhUiO5JqjhYu4FO/o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666267260;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xkVVGkBtQDyTBLM0kpfBsn85EfLgvqE9XvpjJpebKS0=;
-        b=vHl/tg1vlnnTCoJtjSfQJbaUEq4mIb+x/G13qkx57QzPLCFuuxyt3aozzSXnhYTqv6SF/Y
-        S/MUxJREit23oWCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8E08013494;
-        Thu, 20 Oct 2022 12:00:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FxuXIXs4UWMgFQAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 20 Oct 2022 12:00:59 +0000
-Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
-Date:   Thu, 20 Oct 2022 14:00:59 +0200
+        Thu, 20 Oct 2022 13:58:30 -0400
+Received: from na01-obe.outbound.protection.outlook.com (mail-westcentralusazon11022023.outbound.protection.outlook.com [40.93.200.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0405A199F4A;
+        Thu, 20 Oct 2022 10:58:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lmvhNkBCc/lnveXm898BUcfxzo+nODD77nqIR1IjeQofUMNxf3VaCsakcfoqyxf7DxTXZ+n5yQJAS6O6zHiZAI/8dW3478Q1nuNFiYbo4Bv1S8hNPIBKGN6NRSDl5/9B13TKq2aJ9yHs4Ssp+KH+ZoCCBsZtCuk6ohMQE7S74RLVstqPOPxDXFzcMzbQREAZfzFt5lm5GC1fE6i003ypH4tsD19wSnT3XRtaZBvuvxsDzCw4Pt057tQULP+os0WTU9x9gVufFSrjwKAibri1XinMO9/IsMq1XBATrPMG18+0mwyoks0AMqn4CsCQXC7hTmsGf5tL3ffcS3YW7aI8ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qPFQFBJ2cy3ptAG94AF8myzZ+oHcLnbdNyGAmv7MIzY=;
+ b=d7FcQtP9aXY5P9ZOOxHyeTUJVV+ZD+Dfu469/M9/HmnMfxRQH2sZ48+5aCfuHkXt8P7IsC7bkWhZKGcOkyYDjZy92fTdV+RF1VcYhk5n+DqJTCrrF5UAxhCF2GW/P40hb7OL12TqJka7gRI9FEk0Y0FBE+zPKZkzuBraGqcEPJ24tqfNQhm2/an1lNIVfZbeTEypquIfw6JgAij75LFcfguuYQL0R6V9bVa8YtlIzQO2kSNFH4FBIsRmMOKQYKyHD3oob/z1/rf4bPPIqrMsKFBIHrI+5XP9ssKqAJuOzbZVXqptp/yd/9Tsn1Cqyy+YkQ5ZXNgXr/rkrcn9T1MVcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qPFQFBJ2cy3ptAG94AF8myzZ+oHcLnbdNyGAmv7MIzY=;
+ b=IK1LYIczikzzumQ5UAp4NLuHNcIil/+RFAS/mN1XXqZVSHjrCf1MswMZUzjlS8eriEyuCkPQgcIzSds7XrwCttER7rgGIuKJiItP5EMjAGuzvqKOz6WEWpDcXECt9npN5kALyppnaTeA5tEpyAeofe1SH3Hqa7SDLWsFQUPcbV0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
+ by MW4PR21MB1857.namprd21.prod.outlook.com (2603:10b6:303:74::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5746.17; Thu, 20 Oct
+ 2022 17:58:25 +0000
+Received: from DM6PR21MB1370.namprd21.prod.outlook.com
+ ([fe80::be79:e2dc:1dba:44fa]) by DM6PR21MB1370.namprd21.prod.outlook.com
+ ([fe80::be79:e2dc:1dba:44fa%3]) with mapi id 15.20.5723.019; Thu, 20 Oct 2022
+ 17:58:25 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        luto@kernel.org, peterz@infradead.org, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        lpieralisi@kernel.org, robh@kernel.org, kw@linux.com,
+        bhelgaas@google.com, arnd@arndb.de, hch@infradead.org,
+        m.szyprowski@samsung.com, robin.murphy@arm.com,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        Tianyu.Lan@microsoft.com, kirill.shutemov@linux.intel.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com, ak@linux.intel.com,
+        isaku.yamahata@intel.com, dan.j.williams@intel.com,
+        jane.chu@oracle.com, seanjc@google.com, tony.luck@intel.com,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
+        iommu@lists.linux.dev
+Cc:     mikelley@microsoft.com
+Subject: [PATCH 02/12] x86/ioapic: Gate decrypted mapping on cc_platform_has() attribute
+Date:   Thu, 20 Oct 2022 10:57:05 -0700
+Message-Id: <1666288635-72591-3-git-send-email-mikelley@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1666288635-72591-1-git-send-email-mikelley@microsoft.com>
+References: <1666288635-72591-1-git-send-email-mikelley@microsoft.com>
+Content-Type: text/plain
+X-ClientProxiedBy: MW4PR02CA0021.namprd02.prod.outlook.com
+ (2603:10b6:303:16d::31) To DM6PR21MB1370.namprd21.prod.outlook.com
+ (2603:10b6:5:16b::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
-Content-Language: en-US
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
-        javierm@redhat.com, mripard@kernel.org,
-        maarten.lankhorst@linux.intel.com
-Cc:     linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org,
-        spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
-        linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
-        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-2-tzimmermann@suse.de>
- <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------WYrb0xK08aT03AsuaxFIILPE"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|MW4PR21MB1857:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9db358de-a263-4117-ea11-08dab2c4af91
+X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zrSbdrQ7y7RyiqAaqk7qcG1PKbmWmmf2gZiH9JgPp7x9L/b+dHabbn7UhxIvsSGy+Kf3pqUalakPxrpRSwnFtYps5H2J1BK+gXzKZCJNODkLrN6H5SjLoZcd0fvMJq7o3V+3pcRdo8NKAf31d9bL14Dt4WwiuOX8ttRYAqXeAMkkYDrnxCxfdJnBFdhaVf2Q3/5v54nr4dBf0H65yM8l//QhFOE08AVijosBg8UbT0cxu7axDkxi7bvUUB8GaUUIUPc/jPfxhEZbD9Ny+3rmM94xAJTTCObfk6XuvhD3Uj2UTalI9VCK0tYMF0af7ZFVmFFaRGir0XLNpSnXVHojhnbykxvsgs0vU8ifExrDh59pHnV5qSOhNPwwMxjklY7VZENe9lMzx6wPKM3BTMDA0Ea6P8CELyHjH5quDsncIquy7j4LGKnXz3nXDvaxoVeKUlb5Dqxh+mZKJ0622z4Cj4eVSbAi/E/yRu+veVFnRvpUq47T1vQbuj1XPUiDTEvoVaPdvIMnfwLbQ1il4ZS3b/x2bH3V4KHqZNcVLtdsz7aNlKPBSB7X7dSZUdalKf2VDe9TOAlbtFoofXFHUqFWvojf7msiLNFx3b9Fby9XIsncAgawYrPf90SORi6k8EQGxPMtDeRjve94PY8LryFiYQdzZKt+949YwzF5NtszmsBJVFZ2ODyf9YszZfUBRQdeObHwb0oXYQ3Y1kDJjmXh8e6PYrdu2YHvalgrOheKUq0jvWfSrbXcPi54k62LsgZmHGf+iKdxMcbURDW7qoePEC88/i5n7Xb77nJ1+z/HPGy5z7aj1o0zBDq765pTQU/FIrU3J4zBldhak9vZrSqYJw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(136003)(346002)(376002)(396003)(39860400002)(451199015)(186003)(6512007)(6666004)(107886003)(83380400001)(7416002)(52116002)(26005)(2906002)(5660300002)(6506007)(66556008)(41300700001)(8676002)(478600001)(8936002)(316002)(4326008)(66476007)(66946007)(6486002)(10290500003)(82950400001)(36756003)(86362001)(2616005)(7406005)(82960400001)(38100700002)(38350700002)(921005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wgQ0kXLr14ZHtrrea7b2Cq2FNSjWvg+I/OxrgKVpkgb16N+qyurJ2oAXXeN+?=
+ =?us-ascii?Q?Y/wrjSN1f5sJmzBLYcQX8Qvx2azYJ58Xytqf2Yz7Ci+uw8LSHafFNgtZjifF?=
+ =?us-ascii?Q?SVTzPDlaL1bX1yIv0Ibx5W9RlzY74JRo/1pyrwTwZQ67XpnlkiIJ15suPCzA?=
+ =?us-ascii?Q?2kxU6Yv0n4ttumiQxstUo8pxzPnJJBXfntYwKYybspl+0IuVZaryVXHhWjV6?=
+ =?us-ascii?Q?9wkX2eQMwk3anlDXDHNmzsh5f00x6GMXQhVzFs0qtT6sGJHJfuIdcnenZAfF?=
+ =?us-ascii?Q?/qBXV6VJrvyeIe2cOvXBUcqWXZCTICoSzMMTKszQkTw32cpS8UIL7395LGRm?=
+ =?us-ascii?Q?C3FkQ7YgDqgsH9rLokwYnLQ7+3bZPz0PIJt1IJCaswAeyDlHR7sJNMqL9bmG?=
+ =?us-ascii?Q?88mTaEUpcEPRZy/E/0RPAc/CR/VwEdzNMOSPHFaxlCmi6X61gncc84LEbs8w?=
+ =?us-ascii?Q?QxRzBlJXDHVGaLY/QILGKK29ORa+EnuQZ4f1RPRPU+pc91ro9Hw7HfQFXwM3?=
+ =?us-ascii?Q?Wwd7+yPzLiXLQ7tcARrWrUBrfsI0aS3+4GhNm64GHmLdq1CxuITNAKG8q+oE?=
+ =?us-ascii?Q?okVDVshlz2JmEdoy9yA5+Y1PlDUjXf+pjKW/SreGJx8IQg+LaEEFxRkaBqoq?=
+ =?us-ascii?Q?gTNrFWqCGM3KIWfGbatlzMyPLaGJRLtWPdXUIsNj1jTyp0D8dJuOiUBZJk/6?=
+ =?us-ascii?Q?XExAkOIe+rGMK5Bmh2loguFAya3HyrLFTXxMD6T1/NZ3sK2iqXMuu6eA+5Qk?=
+ =?us-ascii?Q?0EVNTwMz2Fr4cnSEgXwRPzCnGixHCdQHR6zcHJOJt1AW1VgOyDN4zCcctaOS?=
+ =?us-ascii?Q?zcEH46N5LwMu11F+xvr56HTuYfisHsL3NpRSA6qh6vGqiLaM6W+oYZ+AkQcz?=
+ =?us-ascii?Q?s2nNvW3TuZviZLIBe+5vVTrl3R2cVuEEyb25Xc0Zc8XUUhLBmcN96KkZPTBu?=
+ =?us-ascii?Q?y9Jchdw4iAAaVzEjMKwQxrywBNiqOEN3n9sOqps6PoTGL8ylRDbvRtdSbwZv?=
+ =?us-ascii?Q?BGmJSHcHzFLV50Wl/akk10xxLe5lCkL4sNNq9gZq0X3HTOsf26SHKFrYVN0X?=
+ =?us-ascii?Q?SPWKXoP2Fu+k3Yg0UnKVyUecwYtoe8XuyeIgrK6Nv2+drhwLpaAVkv3+20Uf?=
+ =?us-ascii?Q?HJoiXIMkWnw6YvDOx2Yi6FdXxcFazX3NgHBWHDckRcejWpxwb/8XLjpsX0mR?=
+ =?us-ascii?Q?1OSY2/ZH8lPsqxQmFGxh5GxvHQp6d54RT6P4Kzgy5wFMNZnz3UBENRa/K37S?=
+ =?us-ascii?Q?VGdJzXx3LDtpP1+jYcoBBqSYMthVHpx80EjGjygYAzzyGM2kh7OkHAm+u6Zu?=
+ =?us-ascii?Q?hnRw8fm3rHhPSoe8/F7yHmtG0WPD9ZM3Lqg3W+DF0MsnrfaNfifCENlnsBC6?=
+ =?us-ascii?Q?q35lwXKODoS8Dt5xOI6yFZHAymG8IgB2nRoGhHImNopHug9V78gI/hQCujUd?=
+ =?us-ascii?Q?Dljqnqaf+wrE4aYdmB0wX0wGFiujaPkIWsGuocfHr9mTJLzdljwxEeCRcsn6?=
+ =?us-ascii?Q?0Sw7zGAtWViCc8j2eKCIgjjAZNqUpmq6NKSWX2WTvrpol1NDbe2CwgimOPgu?=
+ =?us-ascii?Q?/ZuEvz2VDy2t/gtobOkUdU6Zug8zkR//JUMenBIi?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9db358de-a263-4117-ea11-08dab2c4af91
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2022 17:58:25.7455
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Y1g9Un+cEQ2h7ORI9rfj8GXvsXH6+d/F+/QNpbKmVZbuEbrqvIrhWjQENud+dfpZjAUosbWwKGLL7e180FzAQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1857
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------WYrb0xK08aT03AsuaxFIILPE
-Content-Type: multipart/mixed; boundary="------------gwXK6OaLfaQ8iAMdjblSoB42";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org, javierm@redhat.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: linux-hyperv@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-samsung-soc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- spice-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Message-ID: <8f3a7b67-d193-eb47-a5a6-8826e9c82f83@suse.de>
-Subject: Re: [PATCH 01/21] drm/amdgpu: Don't set struct drm_driver.lastclose
-References: <20221020103755.24058-1-tzimmermann@suse.de>
- <20221020103755.24058-2-tzimmermann@suse.de>
- <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
-In-Reply-To: <b26e508b-7599-3953-6803-7db00b3cfbcb@amd.com>
+Current code always maps the IOAPIC as shared (decrypted) in a
+confidential VM. But Hyper-V guest VMs on AMD SEV-SNP with vTOM
+enabled use a paravisor running in VMPL0 to emulate the IOAPIC.
+In such a case, the IOAPIC must be accessed as private (encrypted).
 
---------------gwXK6OaLfaQ8iAMdjblSoB42
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Fix this by gating the IOAPIC decrypted mapping on a new
+cc_platform_has() attribute that a subsequent patch in the series
+will set only for Hyper-V guests. The new attribute is named
+somewhat generically because similar paravisor emulation cases
+may arise in the future.
 
-SGkNCg0KQW0gMjAuMTAuMjIgdW0gMTM6NDggc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAyMC4xMC4yMiB1bSAxMjozNyBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-RG9uJ3Qgc2V0IHN0cnVjdCBkcm1fZHJpdmVyLmxhc3RjbG9zZS4gSXQncyB1c2VkIHRvIHJl
-c3RvcmUgdGhlDQo+PiBmYmRldiBjb25zb2xlLiBCdXQgYXMgYW1kZ3B1IHVzZXMgZ2VuZXJp
-YyBmYmRldiBlbXVsYXRpb24sIHRoZQ0KPj4gY29uc29sZSBpcyBiZWluZyByZXN0b3JlZCBi
-eSB0aGUgRFJNIGNsaWVudCBoZWxwZXJzIGFscmVhZHkuIFNlZQ0KPj4gdGhlIGNhbGwgdG8g
-ZHJtX2NsaWVudF9kZXZfcmVzdG9yZSgpIGluIGRybV9sYXN0Y2xvc2UoKS4NCj4gDQo+ID8/
-Pw0KPiANCj4gVGhlIGNvbW1pdCBtZXNzYWdlIGRvZXNuJ3QgbWF0Y2ggd2hhdCB0aGUgcGF0
-Y2ggaXMgZG9pbmcuIFlvdSBhcmUgDQo+IHJlbW92aW5nIG91dHB1dF9wb2xsX2NoYW5nZWQg
-aW5zdGVhZCBvZiBsYXN0Y2xvc2UgaGVyZS4NCj4gDQo+IERpZCBzb21ldGhpbmcgZ290IG1p
-eGVkIHVwPw0KDQpBcmdoaC4gVGhlcmUgYXJlIHBhdGNoZXMgZm9yIGxhc3RjbG9zZSBhbmQg
-b3V0cHV0X3BvbGxfY2hhbmdlZC4gVGhlIA0KcmVhc29uIGZvciByZW1vdmluZyB0aGVtIGlz
-IHRoZSBzYW1lLCBidXQgdGhhbmtzIHRvIGNvcHkgYW5kIHBhc3RlIHRoZSANCm5hbWVzIGFy
-ZSB3cm9uZy4gU28gdGhlIHBhdGNoIGlzIGNvcnJlY3QsIGJ1dCB0aGUgZGVzY3JpcHRpb24g
-aXNuJ3QuIA0KV2lsbCBiZSBmaXhlZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAN
-Cj4gQ2hlZXJzLA0KPiBDaHJpc3RpYW4uDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFRo
-b21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gLS0tDQo+PiDCoCBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGlzcGxheS5jwqDCoMKgwqDCoMKg
-IHwgMSAtDQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2Ft
-ZGdwdV9kbS5jIHwgMiAtLQ0KPj4gwqAgMiBmaWxlcyBjaGFuZ2VkLCAzIGRlbGV0aW9ucygt
-KQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfZGlzcGxheS5jIA0KPj4gYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
-ZGlzcGxheS5jDQo+PiBpbmRleCAyMzk5OGY3MjdjN2Y5Li5mYjcxODZjNWFkZTJhIDEwMDY0
-NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
-Yw0KPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc3BsYXku
-Yw0KPj4gQEAgLTEyMjQsNyArMTIyNCw2IEBAIGFtZGdwdV9kaXNwbGF5X3VzZXJfZnJhbWVi
-dWZmZXJfY3JlYXRlKHN0cnVjdCANCj4+IGRybV9kZXZpY2UgKmRldiwNCj4+IMKgIGNvbnN0
-IHN0cnVjdCBkcm1fbW9kZV9jb25maWdfZnVuY3MgYW1kZ3B1X21vZGVfZnVuY3MgPSB7DQo+
-PiDCoMKgwqDCoMKgIC5mYl9jcmVhdGUgPSBhbWRncHVfZGlzcGxheV91c2VyX2ZyYW1lYnVm
-ZmVyX2NyZWF0ZSwNCj4+IC3CoMKgwqAgLm91dHB1dF9wb2xsX2NoYW5nZWQgPSBkcm1fZmJf
-aGVscGVyX291dHB1dF9wb2xsX2NoYW5nZWQsDQo+PiDCoCB9Ow0KPj4gwqAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVtX2xpc3QgYW1kZ3B1X3VuZGVyc2Nhbl9lbnVtX2xp
-c3RbXSA9DQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2Ft
-ZGdwdV9kbS9hbWRncHVfZG0uYyANCj4+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
-L2FtZGdwdV9kbS9hbWRncHVfZG0uYw0KPj4gaW5kZXggZjZhOWU4ZmRkODdkNi4uZTlhMjhh
-NTM2M2I5YSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9h
-bWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlz
-cGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMNCj4+IEBAIC04Miw3ICs4Miw2IEBADQo+PiDC
-oCAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNfdWFwaS5oPg0KPj4gwqAgI2luY2x1ZGUgPGRy
-bS9kcm1fYXRvbWljX2hlbHBlci5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fYmxlbmQu
-aD4NCj4+IC0jaW5jbHVkZSA8ZHJtL2RybV9mYl9oZWxwZXIuaD4NCj4+IMKgICNpbmNsdWRl
-IDxkcm0vZHJtX2ZvdXJjYy5oPg0KPj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fZWRpZC5oPg0K
-Pj4gwqAgI2luY2x1ZGUgPGRybS9kcm1fdmJsYW5rLmg+DQo+PiBAQCAtMjgxMCw3ICsyODA5
-LDYgQEAgY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJzaW9uIGRtX2lwX2Jsb2Nr
-ID0NCj4+IMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIGFt
-ZGdwdV9kbV9tb2RlX2Z1bmNzID0gew0KPj4gwqDCoMKgwqDCoCAuZmJfY3JlYXRlID0gYW1k
-Z3B1X2Rpc3BsYXlfdXNlcl9mcmFtZWJ1ZmZlcl9jcmVhdGUsDQo+PiDCoMKgwqDCoMKgIC5n
-ZXRfZm9ybWF0X2luZm8gPSBhbWRfZ2V0X2Zvcm1hdF9pbmZvLA0KPj4gLcKgwqDCoCAub3V0
-cHV0X3BvbGxfY2hhbmdlZCA9IGRybV9mYl9oZWxwZXJfb3V0cHV0X3BvbGxfY2hhbmdlZCwN
-Cj4+IMKgwqDCoMKgwqAgLmF0b21pY19jaGVjayA9IGFtZGdwdV9kbV9hdG9taWNfY2hlY2ss
-DQo+PiDCoMKgwqDCoMKgIC5hdG9taWNfY29tbWl0ID0gZHJtX2F0b21pY19oZWxwZXJfY29t
-bWl0LA0KPj4gwqAgfTsNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNz
-IERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5
-LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+---
+ arch/x86/kernel/apic/io_apic.c |  3 ++-
+ include/linux/cc_platform.h    | 13 +++++++++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
---------------gwXK6OaLfaQ8iAMdjblSoB42--
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index a868b76..d2c1bf7 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -2686,7 +2686,8 @@ static void io_apic_set_fixmap(enum fixed_addresses idx, phys_addr_t phys)
+ 	 * Ensure fixmaps for IOAPIC MMIO respect memory encryption pgprot
+ 	 * bits, just like normal ioremap():
+ 	 */
+-	flags = pgprot_decrypted(flags);
++	if (!cc_platform_has(CC_ATTR_HAS_PARAVISOR))
++		flags = pgprot_decrypted(flags);
+ 
+ 	__set_fixmap(idx, phys, flags);
+ }
+diff --git a/include/linux/cc_platform.h b/include/linux/cc_platform.h
+index cb0d6cd..b6c4a79 100644
+--- a/include/linux/cc_platform.h
++++ b/include/linux/cc_platform.h
+@@ -90,6 +90,19 @@ enum cc_attr {
+ 	 * Examples include TDX Guest.
+ 	 */
+ 	CC_ATTR_HOTPLUG_DISABLED,
++
++	/**
++	 * @CC_ATTR_HAS_PARAVISOR: Guest VM is running with a paravisor
++	 *
++	 * The platform/OS is running as a guest/virtual machine with
++	 * a paravisor in VMPL0. Having a paravisor affects things
++	 * like whether the I/O APIC is emulated and operates in the
++	 * encrypted or decrypted portion of the guest physical address
++	 * space.
++	 *
++	 * Examples include Hyper-V SEV-SNP guests using vTOM.
++	 */
++	CC_ATTR_HAS_PARAVISOR,
+ };
+ 
+ #ifdef CONFIG_ARCH_HAS_CC_PLATFORM
+-- 
+1.8.3.1
 
---------------WYrb0xK08aT03AsuaxFIILPE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNROHsFAwAAAAAACgkQlh/E3EQov+Af
-qg/8DLfmRUYvAEkOGUdb+UPWlqwaao88s9cPeIA3h2HV6bYLuN3tcbcDWHFeQuAGVFYRgYLVboNR
-UtD8lzBIfELkuzD83B+VRxYJBSUdOWNVr5cmES8vFHFcFPQKMLAl/NCnOZOkXBa2xbSyfsJ9t/t4
-yXi4FqFTtRT4SWIfAHVY2cduEA/oRkqwmhB1nu+Nv+dWdMxKlWT5W5cc9D/tV7PNyU0D43q/xC3U
-UPqtz6yMg2u6UXyQ4smF0HltdBU+CjGDnCKVwKfW1JHy3eo2ONTt3ORu7QnXAGImozT2vrN3G3rF
-9FxNTpfh6Hv15QQMOPJqlCicq4nVRIXFHA2Za5jvGWa4m+bLzS4OH7KB+KqeWUEtX+QKl3eqgC56
-HBs9QpM0tp9VLVX4ws1GcGoJ48BWHSSNQv2suBrtz7yhdrquiPhXM4+XqWo/MZAxS1jnki7QdBhj
-PgYr3LQM68v3qRoLkKoAvqpkMDCUeAP7Sql6H1EmSBYcKupo8RvWEi0xTIoeHWA3WMXS+Lst+3uT
-gOVa/gN0OgRYykGJ6NRHykDPW2fBb50tDngSNH9Mh6zxabnKGwbgzG6q6w+SZy4uEceuLu9yfkv7
-bc/vqXu6UkH5/6ofgivW2hkPpkiyjQj5u9L55R67jqYOZCZfVsG2nGCNPoWHmDSbMdO1Fgmx46g4
-koE=
-=eccN
------END PGP SIGNATURE-----
-
---------------WYrb0xK08aT03AsuaxFIILPE--
