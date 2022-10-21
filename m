@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82A8CFA373D
-	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Oct 2022 15:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AC1FA3740
+	for <linux-hyperv@archiver.kernel.org>; Fri, 21 Oct 2022 15:36:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230013AbiJUPgG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 21 Oct 2022 11:36:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45084 "EHLO
+        id S230107AbiJUPgH (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 21 Oct 2022 11:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbiJUPf7 (ORCPT
+        with ESMTP id S230209AbiJUPf7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Fri, 21 Oct 2022 11:35:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BF9626EDB1
-        for <linux-hyperv@vger.kernel.org>; Fri, 21 Oct 2022 08:35:42 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45D1626FF97
+        for <linux-hyperv@vger.kernel.org>; Fri, 21 Oct 2022 08:35:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1666366542;
+        s=mimecast20190719; t=1666366553;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=h2ZbSkL4gKln8MZc4BtzBq49GjPVHV1GT5MM1ZOs798=;
-        b=g7x7P3tRJup14DxpC0XG6QmSVhNNTJT3zeUmz3DmaySCeG1m5aHlydx74x77TZfaGlWkYP
-        RdgtSa+wlRka+wly1bDGY8juLU8vHEqkYpVtgD+M75ls3jUjd0IrIHYM0GcAs6Rjo0ywj4
-        FgVCBRS5u60cIcbXm+hSEIKv9Nv8gNk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=RDSHYxVi1kBMKwIC4tF0p+He0fNlSzqqM7rw0k/jC4U=;
+        b=G/IgKKomPfqosOXrl0OhjgTV/0SdHZqxMSjf/75t2um93GRzZV+vgbu0fo3PCWPexSw6OG
+        gAdJhxgGseMIuPY/buoGbU8N/wFYNiCMa9t1Lqm6sBuTS1lORcFb1lf95CBZZiffIxvgD7
+        2j6YeCeB485A1Ii0Nuzu5OeMia6R4YM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-166-IDv0PourNPiO81dlvnOm6Q-1; Fri, 21 Oct 2022 11:35:37 -0400
-X-MC-Unique: IDv0PourNPiO81dlvnOm6Q-1
+ us-mta-549-BsqLX6VXMQ2AJdjwfNMmkQ-1; Fri, 21 Oct 2022 11:35:48 -0400
+X-MC-Unique: BsqLX6VXMQ2AJdjwfNMmkQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 792FD3C1E720;
-        Fri, 21 Oct 2022 15:35:36 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 632F7800B30;
+        Fri, 21 Oct 2022 15:35:47 +0000 (UTC)
 Received: from ovpn-192-65.brq.redhat.com (ovpn-192-65.brq.redhat.com [10.40.192.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 76F8340CA41F;
-        Fri, 21 Oct 2022 15:35:34 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 88E0740CA41F;
+        Fri, 21 Oct 2022 15:35:44 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v12 04/46] x86/hyperv: KVM: Rename "hv_enlightenments" to "hv_vmcb_enlightenments"
-Date:   Fri, 21 Oct 2022 17:34:39 +0200
-Message-Id: <20221021153521.1216911-5-vkuznets@redhat.com>
+Subject: [PATCH v12 08/46] KVM: x86: hyper-v: Resurrect dedicated KVM_REQ_HV_TLB_FLUSH flag
+Date:   Fri, 21 Oct 2022 17:34:43 +0200
+Message-Id: <20221021153521.1216911-9-vkuznets@redhat.com>
 In-Reply-To: <20221021153521.1216911-1-vkuznets@redhat.com>
 References: <20221021153521.1216911-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,159 +61,99 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Sean Christopherson <seanjc@google.com>
+In preparation to implementing fine-grained Hyper-V TLB flush and
+L2 TLB flush, resurrect dedicated KVM_REQ_HV_TLB_FLUSH request bit. As
+KVM_REQ_TLB_FLUSH_GUEST is a stronger operation, clear KVM_REQ_HV_TLB_FLUSH
+request in kvm_vcpu_flush_tlb_guest().
 
-Now that KVM isn't littered with "struct hv_enlightenments" casts, rename
-the struct to "hv_vmcb_enlightenments" to highlight the fact that the
-struct is specifically for SVM's VMCB.
+The flush itself is temporary handled by kvm_vcpu_flush_tlb_guest().
 
 No functional change intended.
 
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h                   | 2 +-
- arch/x86/include/asm/svm.h                           | 2 +-
- arch/x86/kvm/svm/nested.c                            | 2 +-
- arch/x86/kvm/svm/svm.h                               | 2 +-
- arch/x86/kvm/svm/svm_onhyperv.c                      | 2 +-
- arch/x86/kvm/svm/svm_onhyperv.h                      | 6 +++---
- tools/testing/selftests/kvm/include/x86_64/svm.h     | 4 ++--
- tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c | 2 +-
- 8 files changed, 11 insertions(+), 11 deletions(-)
+ arch/x86/include/asm/kvm_host.h | 2 ++
+ arch/x86/kvm/hyperv.c           | 4 ++--
+ arch/x86/kvm/svm/svm.c          | 7 +++++++
+ arch/x86/kvm/x86.c              | 9 +++++++++
+ 4 files changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 245a806a9717..c5e0e5a06c0d 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -602,7 +602,7 @@ struct hv_enlightened_vmcs {
-  * Hyper-V uses the software reserved 32 bytes in VMCB control area to expose
-  * SVM enlightenments to guests.
-  */
--struct hv_enlightenments {
-+struct hv_vmcb_enlightenments {
- 	struct __packed hv_enlightenments_control {
- 		u32 nested_flush_hypercall:1;
- 		u32 msr_bitmap:1;
-diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
-index 6befed2b30a6..621f064bb7cc 100644
---- a/arch/x86/include/asm/svm.h
-+++ b/arch/x86/include/asm/svm.h
-@@ -164,7 +164,7 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- 	 * for use by hypervisor/software.
- 	 */
- 	union {
--		struct hv_enlightenments hv_enlightenments;
-+		struct hv_vmcb_enlightenments hv_enlightenments;
- 		u8 reserved_sw[32];
- 	};
- };
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index c8e967f6cafe..c2a49aa50a58 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -179,7 +179,7 @@ void recalc_intercepts(struct vcpu_svm *svm)
-  */
- static bool nested_svm_vmrun_msrpm(struct vcpu_svm *svm)
- {
--	struct hv_enlightenments *hve = &svm->nested.ctl.hv_enlightenments;
-+	struct hv_vmcb_enlightenments *hve = &svm->nested.ctl.hv_enlightenments;
- 	int i;
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 50fe0c7a5571..05d90e11e535 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -108,6 +108,8 @@
+ 	KVM_ARCH_REQ_FLAGS(30, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
+ #define KVM_REQ_MMU_FREE_OBSOLETE_ROOTS \
+ 	KVM_ARCH_REQ_FLAGS(31, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
++#define KVM_REQ_HV_TLB_FLUSH \
++	KVM_ARCH_REQ_FLAGS(32, KVM_REQUEST_WAIT | KVM_REQUEST_NO_WAKEUP)
  
+ #define CR0_RESERVED_BITS                                               \
+ 	(~(unsigned long)(X86_CR0_PE | X86_CR0_MP | X86_CR0_EM | X86_CR0_TS \
+diff --git a/arch/x86/kvm/hyperv.c b/arch/x86/kvm/hyperv.c
+index 0adf4a437e85..3c0f639f6a05 100644
+--- a/arch/x86/kvm/hyperv.c
++++ b/arch/x86/kvm/hyperv.c
+@@ -1870,11 +1870,11 @@ static u64 kvm_hv_flush_tlb(struct kvm_vcpu *vcpu, struct kvm_hv_hcall *hc)
+ 	 * analyze it here, flush TLB regardless of the specified address space.
+ 	 */
+ 	if (all_cpus) {
+-		kvm_make_all_cpus_request(kvm, KVM_REQ_TLB_FLUSH_GUEST);
++		kvm_make_all_cpus_request(kvm, KVM_REQ_HV_TLB_FLUSH);
+ 	} else {
+ 		sparse_set_to_vcpu_mask(kvm, sparse_banks, valid_bank_mask, vcpu_mask);
+ 
+-		kvm_make_vcpus_request_mask(kvm, KVM_REQ_TLB_FLUSH_GUEST, vcpu_mask);
++		kvm_make_vcpus_request_mask(kvm, KVM_REQ_HV_TLB_FLUSH, vcpu_mask);
+ 	}
+ 
+ ret_success:
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 58f0077d9357..9210a8840224 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -3738,6 +3738,13 @@ static void svm_flush_tlb_current(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_svm *svm = to_svm(vcpu);
+ 
++	/*
++	 * Unlike VMX, SVM doesn't provide a way to flush only NPT TLB entries.
++	 * A TLB flush for the current ASID flushes both "host" and "guest" TLB
++	 * entries, and thus is a superset of Hyper-V's fine grained flushing.
++	 */
++	kvm_clear_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
++
  	/*
-diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-index 9eb2fc76732f..5e1178bc9a64 100644
---- a/arch/x86/kvm/svm/svm.h
-+++ b/arch/x86/kvm/svm/svm.h
-@@ -152,7 +152,7 @@ struct vmcb_ctrl_area_cached {
- 	u64 virt_ext;
- 	u32 clean;
- 	union {
--		struct hv_enlightenments hv_enlightenments;
-+		struct hv_vmcb_enlightenments hv_enlightenments;
- 		u8 reserved_sw[32];
- 	};
- };
-diff --git a/arch/x86/kvm/svm/svm_onhyperv.c b/arch/x86/kvm/svm/svm_onhyperv.c
-index 422d00fee24a..52c73a8be72b 100644
---- a/arch/x86/kvm/svm/svm_onhyperv.c
-+++ b/arch/x86/kvm/svm/svm_onhyperv.c
-@@ -16,7 +16,7 @@
+ 	 * Flush only the current ASID even if the TLB flush was invoked via
+ 	 * kvm_flush_remote_tlbs().  Although flushing remote TLBs requires all
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index fdda5f447f87..bf2aa77b7a2f 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -3417,6 +3417,12 @@ static void kvm_vcpu_flush_tlb_guest(struct kvm_vcpu *vcpu)
+ 	}
  
- int svm_hv_enable_direct_tlbflush(struct kvm_vcpu *vcpu)
- {
--	struct hv_enlightenments *hve;
-+	struct hv_vmcb_enlightenments *hve;
- 	struct hv_partition_assist_pg **p_hv_pa_pg =
- 			&to_kvm_hv(vcpu->kvm)->hv_pa_pg;
+ 	static_call(kvm_x86_flush_tlb_guest)(vcpu);
++
++	/*
++	 * Flushing all "guest" TLB is always a superset of Hyper-V's fine
++	 * grained flushing.
++	 */
++	kvm_clear_request(KVM_REQ_HV_TLB_FLUSH, vcpu);
+ }
  
-diff --git a/arch/x86/kvm/svm/svm_onhyperv.h b/arch/x86/kvm/svm/svm_onhyperv.h
-index 5c664dd7bee2..d5cb2c62e355 100644
---- a/arch/x86/kvm/svm/svm_onhyperv.h
-+++ b/arch/x86/kvm/svm/svm_onhyperv.h
-@@ -17,7 +17,7 @@ int svm_hv_enable_direct_tlbflush(struct kvm_vcpu *vcpu);
  
- static inline void svm_hv_init_vmcb(struct vmcb *vmcb)
- {
--	struct hv_enlightenments *hve = &vmcb->control.hv_enlightenments;
-+	struct hv_vmcb_enlightenments *hve = &vmcb->control.hv_enlightenments;
+@@ -10491,6 +10497,9 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
  
- 	BUILD_BUG_ON(sizeof(vmcb->control.hv_enlightenments) !=
- 		     sizeof(vmcb->control.reserved_sw));
-@@ -62,7 +62,7 @@ static inline void svm_hv_vmcb_dirty_nested_enlightenments(
- 		struct kvm_vcpu *vcpu)
- {
- 	struct vmcb *vmcb = to_svm(vcpu)->vmcb;
--	struct hv_enlightenments *hve = &vmcb->control.hv_enlightenments;
-+	struct hv_vmcb_enlightenments *hve = &vmcb->control.hv_enlightenments;
+ 		kvm_service_local_tlb_flush_requests(vcpu);
  
- 	if (hve->hv_enlightenments_control.msr_bitmap)
- 		vmcb_mark_dirty(vmcb, HV_VMCB_NESTED_ENLIGHTENMENTS);
-@@ -70,7 +70,7 @@ static inline void svm_hv_vmcb_dirty_nested_enlightenments(
- 
- static inline void svm_hv_update_vp_id(struct vmcb *vmcb, struct kvm_vcpu *vcpu)
- {
--	struct hv_enlightenments *hve = &vmcb->control.hv_enlightenments;
-+	struct hv_vmcb_enlightenments *hve = &vmcb->control.hv_enlightenments;
- 	u32 vp_index = kvm_hv_get_vpindex(vcpu);
- 
- 	if (hve->hv_vp_id != vp_index) {
-diff --git a/tools/testing/selftests/kvm/include/x86_64/svm.h b/tools/testing/selftests/kvm/include/x86_64/svm.h
-index 6e1527aa3419..483e6ae12f69 100644
---- a/tools/testing/selftests/kvm/include/x86_64/svm.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/svm.h
-@@ -58,7 +58,7 @@ enum {
- 	INTERCEPT_RDPRU,
- };
- 
--struct hv_enlightenments {
-+struct hv_vmcb_enlightenments {
- 	struct __packed hv_enlightenments_control {
- 		u32 nested_flush_hypercall:1;
- 		u32 msr_bitmap:1;
-@@ -124,7 +124,7 @@ struct __attribute__ ((__packed__)) vmcb_control_area {
- 	 * for use by hypervisor/software.
- 	 */
- 	union {
--		struct hv_enlightenments hv_enlightenments;
-+		struct hv_vmcb_enlightenments hv_enlightenments;
- 		u8 reserved_sw[32];
- 	};
- };
-diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-index 8ef6a4c83cb1..1c3fc38b4f15 100644
---- a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
-@@ -46,7 +46,7 @@ static void __attribute__((__flatten__)) guest_code(struct svm_test_data *svm)
- {
- 	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
- 	struct vmcb *vmcb = svm->vmcb;
--	struct hv_enlightenments *hve = &vmcb->control.hv_enlightenments;
-+	struct hv_vmcb_enlightenments *hve = &vmcb->control.hv_enlightenments;
- 
- 	GUEST_SYNC(1);
- 
++		if (kvm_check_request(KVM_REQ_HV_TLB_FLUSH, vcpu))
++			kvm_vcpu_flush_tlb_guest(vcpu);
++
+ 		if (kvm_check_request(KVM_REQ_REPORT_TPR_ACCESS, vcpu)) {
+ 			vcpu->run->exit_reason = KVM_EXIT_TPR_ACCESS;
+ 			r = 0;
 -- 
 2.37.3
 
