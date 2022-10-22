@@ -2,29 +2,29 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E90FA3743
-	for <linux-hyperv@archiver.kernel.org>; Sat, 22 Oct 2022 00:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0034CFA3742
+	for <linux-hyperv@archiver.kernel.org>; Sat, 22 Oct 2022 00:01:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230016AbiJVABs (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 21 Oct 2022 20:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        id S229926AbiJVABt (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 21 Oct 2022 20:01:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiJVABm (ORCPT
+        with ESMTP id S229982AbiJVABo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 21 Oct 2022 20:01:42 -0400
+        Fri, 21 Oct 2022 20:01:44 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6848E24FEF7;
-        Fri, 21 Oct 2022 17:01:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24ABD2502AC;
+        Fri, 21 Oct 2022 17:01:39 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id F1D1C20FEEF9; Fri, 21 Oct 2022 17:01:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1D1C20FEEF9
+        id EB94820FEEFC; Fri, 21 Oct 2022 17:01:38 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EB94820FEEFC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
         s=default; t=1666396898;
-        bh=8Z6yW2KqbQl4Wyror+q4zSVQuzt8hLhkxhobys217qM=;
+        bh=xJ3JkF6Vcd6GI3PssrAc3ksaEXDp0/3rJi7rJ5ZNs8A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=dbUl4LPjwC5jlJ9jZDI+pQVcXIq5Apl41tdN1bfZnPSzGxGmmA2f8UdVyvHi7SWS+
-         zc73KeUdY7C2aYxUhb36fCoZH7ER02ZBid/lzavDfWZ87L+VxxkYboWbEFXgT16iNv
-         D1maftXWAXcO0+f/uFr52ABnFqMUMsGw1w9wMPmM=
+        b=PvtffB6AzfZBpRbMiRIe8PyWTUfntZzirWGSjKNdRnwZdeHcQzoE7iUTdZsZ7UZ4I
+         ZPy804DI3tAo609zQQGL6fPVkTpRm10c/YmUxP3kyFmWG7w3yLSwFQ3oUHc4WTZrBl
+         web5BG6mUnE66OCFWFQjKGFl1nYpXjZL5zc2Ad+I=
 From:   longli@linuxonhyperv.com
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -39,9 +39,9 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
         Long Li <longli@microsoft.com>
-Subject: [Patch v9 02/12] net: mana: Record the physical address for doorbell page region
-Date:   Fri, 21 Oct 2022 17:01:19 -0700
-Message-Id: <1666396889-31288-3-git-send-email-longli@linuxonhyperv.com>
+Subject: [Patch v9 04/12] net: mana: Set the DMA device max segment size
+Date:   Fri, 21 Oct 2022 17:01:21 -0700
+Message-Id: <1666396889-31288-5-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1666396889-31288-1-git-send-email-longli@linuxonhyperv.com>
 References: <1666396889-31288-1-git-send-email-longli@linuxonhyperv.com>
@@ -50,61 +50,39 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Long Li <longli@microsoft.com>
+From: Ajay Sharma <sharmaajay@microsoft.com>
 
-For supporting RDMA device with multiple user contexts with their
-individual doorbell pages, record the start address of doorbell page
-region for use by the RDMA driver to allocate user context doorbell IDs.
+MANA hardware doesn't have any restrictions on the DMA segment size, set it
+to the max allowed value.
 
+Signed-off-by: Ajay Sharma <sharmaajay@microsoft.com>
 Reviewed-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Long Li <longli@microsoft.com>
 Acked-by: Haiyang Zhang <haiyangz@microsoft.com>
 ---
 Change log:
-v6: rebased to rdma-next
+v2: Use the max allowed value as the hardware doesn't have any limit
 
- drivers/net/ethernet/microsoft/mana/gdma.h      | 2 ++
- drivers/net/ethernet/microsoft/mana/gdma_main.c | 4 ++++
- 2 files changed, 6 insertions(+)
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
-index f321a2616d03..72eaec2470c0 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma.h
-+++ b/drivers/net/ethernet/microsoft/mana/gdma.h
-@@ -351,9 +351,11 @@ struct gdma_context {
- 	u32			test_event_eq_id;
- 
- 	bool			is_pf;
-+	phys_addr_t		bar0_pa;
- 	void __iomem		*bar0_va;
- 	void __iomem		*shm_base;
- 	void __iomem		*db_page_base;
-+	phys_addr_t		phys_db_page_base;
- 	u32 db_page_size;
- 
- 	/* Shared memory chanenl (used to bootstrap HWC) */
 diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 5f9240182351..0cfe5f15458e 100644
+index 0cfe5f15458e..4f041b27c07d 100644
 --- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
 +++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -44,6 +44,9 @@ static void mana_gd_init_vf_regs(struct pci_dev *pdev)
- 	gc->db_page_base = gc->bar0_va +
- 				mana_gd_r64(gc, GDMA_REG_DB_PAGE_OFFSET);
+@@ -1363,6 +1363,12 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	if (err)
+ 		goto release_region;
  
-+	gc->phys_db_page_base = gc->bar0_pa +
-+				mana_gd_r64(gc, GDMA_REG_DB_PAGE_OFFSET);
++	err = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
++	if (err) {
++		dev_err(&pdev->dev, "Failed to set dma device segment size\n");
++		goto release_region;
++	}
 +
- 	gc->shm_base = gc->bar0_va + mana_gd_r64(gc, GDMA_REG_SHM_OFFSET);
- }
- 
-@@ -1367,6 +1370,7 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	mutex_init(&gc->eq_test_event_mutex);
- 	pci_set_drvdata(pdev, gc);
-+	gc->bar0_pa = pci_resource_start(pdev, 0);
- 
- 	bar0_va = pci_iomap(pdev, bar, 0);
- 	if (!bar0_va)
+ 	err = -ENOMEM;
+ 	gc = vzalloc(sizeof(*gc));
+ 	if (!gc)
 -- 
 2.17.1
 
