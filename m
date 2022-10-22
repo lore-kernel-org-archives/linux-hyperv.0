@@ -2,29 +2,29 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E90C433FE
-	for <linux-hyperv@archiver.kernel.org>; Sat, 22 Oct 2022 00:02:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B83FA3747
+	for <linux-hyperv@archiver.kernel.org>; Sat, 22 Oct 2022 00:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229983AbiJVABo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 21 Oct 2022 20:01:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51522 "EHLO
+        id S229808AbiJVACG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 21 Oct 2022 20:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229926AbiJVABl (ORCPT
+        with ESMTP id S229996AbiJVABq (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 21 Oct 2022 20:01:41 -0400
+        Fri, 21 Oct 2022 20:01:46 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B3F433DBF8;
-        Fri, 21 Oct 2022 17:01:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 17041263F29;
+        Fri, 21 Oct 2022 17:01:42 -0700 (PDT)
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-        id 81FEC20FEED2; Fri, 21 Oct 2022 17:01:37 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 81FEC20FEED2
+        id ED2F420FF4E6; Fri, 21 Oct 2022 17:01:40 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ED2F420FF4E6
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-        s=default; t=1666396897;
-        bh=rwVxEsxu7JjwiZgZjI9rnYUFS4A1egO/GwxRV1e+7jQ=;
+        s=default; t=1666396900;
+        bh=f/L5JWQtlV4EWOSXR6x1yXXG40XtIaw4c4cKTQrFw1k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:Reply-To:From;
-        b=QjlkGRW4DfNZAOQS2rf5iH9ZKtc7Ec0/3goN8eFLWHbgp6LTWz3d9Q924B5tKGWa5
-         Cu0mSYkqeBi+YPO69GONW8rS80dAtojL+XvnLq/RN0/xjF15TQIEPiL7atRULR3E+P
-         cYVNdoZ/UEs2RHdOrrLgJYFuugr2KlIUFYPsBo8E=
+        b=or0ILBuZasAw2eDR3COtxxo6hz+QpDPSfcXoS48AwK8kYoRBsoyszy5iKI9xUMqJf
+         c4APW9aoY5a7ZPbVzPl+fA3eYScIEQTsBRdjpQucpSFbI/ZpTwCrWBFJQDoBRcghfF
+         yodR/Nn06Q6aF8Hf67q/yMh40OZMStDc2gXvYCn8=
 From:   longli@linuxonhyperv.com
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
@@ -39,9 +39,9 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
         Long Li <longli@microsoft.com>
-Subject: [Patch v9 01/12] net: mana: Add support for auxiliary device
-Date:   Fri, 21 Oct 2022 17:01:18 -0700
-Message-Id: <1666396889-31288-2-git-send-email-longli@linuxonhyperv.com>
+Subject: [Patch v9 08/12] net: mana: Define max values for SGL entries
+Date:   Fri, 21 Oct 2022 17:01:25 -0700
+Message-Id: <1666396889-31288-9-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1666396889-31288-1-git-send-email-longli@linuxonhyperv.com>
 References: <1666396889-31288-1-git-send-email-longli@linuxonhyperv.com>
@@ -52,188 +52,73 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Long Li <longli@microsoft.com>
 
-In preparation for supporting MANA RDMA driver, add support for auxiliary
-device in the Ethernet driver. The RDMA device is modeled as an auxiliary
-device to the Ethernet device.
+The number of maximum SGl entries should be computed from the maximum
+WQE size for the intended queue type and the corresponding OOB data
+size. This guarantees the hardware queue can successfully queue requests
+up to the queue depth exposed to the upper layer.
 
 Reviewed-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Long Li <longli@microsoft.com>
 Acked-by: Haiyang Zhang <haiyangz@microsoft.com>
 ---
-Change log:
-v3: define mana_adev_idx_alloc and mana_adev_idx_free as static
-v7: fix a bug that may assign a negative value to adev->id
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 2 +-
+ include/net/mana/gdma.h                       | 7 +++++++
+ include/net/mana/mana.h                       | 4 +---
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
- drivers/net/ethernet/microsoft/Kconfig        |  1 +
- drivers/net/ethernet/microsoft/mana/gdma.h    |  2 +
- .../ethernet/microsoft/mana/mana_auxiliary.h  | 10 +++
- drivers/net/ethernet/microsoft/mana/mana_en.c | 83 ++++++++++++++++++-
- 4 files changed, 95 insertions(+), 1 deletion(-)
- create mode 100644 drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
-
-diff --git a/drivers/net/ethernet/microsoft/Kconfig b/drivers/net/ethernet/microsoft/Kconfig
-index fe4e7a7d9c0b..090e6b983243 100644
---- a/drivers/net/ethernet/microsoft/Kconfig
-+++ b/drivers/net/ethernet/microsoft/Kconfig
-@@ -19,6 +19,7 @@ config MICROSOFT_MANA
- 	tristate "Microsoft Azure Network Adapter (MANA) support"
- 	depends on PCI_MSI && X86_64
- 	depends on PCI_HYPERV
-+	select AUXILIARY_BUS
- 	help
- 	  This driver supports Microsoft Azure Network Adapter (MANA).
- 	  So far, the driver is only supported on X86_64.
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma.h b/drivers/net/ethernet/microsoft/mana/gdma.h
-index 4a6efe6ada08..f321a2616d03 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma.h
-+++ b/drivers/net/ethernet/microsoft/mana/gdma.h
-@@ -204,6 +204,8 @@ struct gdma_dev {
- 
- 	/* GDMA driver specific pointer */
- 	void *driver_data;
-+
-+	struct auxiliary_device *adev;
- };
- 
- #define MINIMUM_SUPPORTED_PAGE_SIZE PAGE_SIZE
-diff --git a/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h b/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
-new file mode 100644
-index 000000000000..373d59756846
---- /dev/null
-+++ b/drivers/net/ethernet/microsoft/mana/mana_auxiliary.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright (c) 2022, Microsoft Corporation. */
-+
-+#include "mana.h"
-+#include <linux/auxiliary_bus.h>
-+
-+struct mana_adev {
-+	struct auxiliary_device adev;
-+	struct gdma_dev *mdev;
-+};
 diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
-index 9259a74eca40..8751e475d1ba 100644
+index ffa2a0e2c213..f6bcd0cc6cda 100644
 --- a/drivers/net/ethernet/microsoft/mana/mana_en.c
 +++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
-@@ -13,6 +13,19 @@
- #include <net/ip6_checksum.h>
+@@ -189,7 +189,7 @@ int mana_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+ 	pkg.wqe_req.client_data_unit = 0;
  
- #include "mana.h"
-+#include "mana_auxiliary.h"
-+
-+static DEFINE_IDA(mana_adev_ida);
-+
-+static int mana_adev_idx_alloc(void)
-+{
-+	return ida_alloc(&mana_adev_ida, GFP_KERNEL);
-+}
-+
-+static void mana_adev_idx_free(int idx)
-+{
-+	ida_free(&mana_adev_ida, idx);
-+}
+ 	pkg.wqe_req.num_sge = 1 + skb_shinfo(skb)->nr_frags;
+-	WARN_ON_ONCE(pkg.wqe_req.num_sge > 30);
++	WARN_ON_ONCE(pkg.wqe_req.num_sge > MAX_TX_WQE_SGL_ENTRIES);
  
- /* Microsoft Azure Network Adapter (MANA) functions */
+ 	if (pkg.wqe_req.num_sge <= ARRAY_SIZE(pkg.sgl_array)) {
+ 		pkg.wqe_req.sgl = pkg.sgl_array;
+diff --git a/include/net/mana/gdma.h b/include/net/mana/gdma.h
+index 72eaec2470c0..0b0c0cd0b6bd 100644
+--- a/include/net/mana/gdma.h
++++ b/include/net/mana/gdma.h
+@@ -427,6 +427,13 @@ struct gdma_wqe {
+ #define MAX_TX_WQE_SIZE 512
+ #define MAX_RX_WQE_SIZE 256
  
-@@ -2106,6 +2119,69 @@ static int mana_probe_port(struct mana_context *ac, int port_idx,
- 	return err;
- }
++#define MAX_TX_WQE_SGL_ENTRIES	((GDMA_MAX_SQE_SIZE -			   \
++			sizeof(struct gdma_sge) - INLINE_OOB_SMALL_SIZE) / \
++			sizeof(struct gdma_sge))
++
++#define MAX_RX_WQE_SGL_ENTRIES	((GDMA_MAX_RQE_SIZE -			   \
++			sizeof(struct gdma_sge)) / sizeof(struct gdma_sge))
++
+ struct gdma_cqe {
+ 	u32 cqe_data[GDMA_COMP_DATA_SIZE / 4];
  
-+static void adev_release(struct device *dev)
-+{
-+	struct mana_adev *madev = container_of(dev, struct mana_adev, adev.dev);
-+
-+	kfree(madev);
-+}
-+
-+static void remove_adev(struct gdma_dev *gd)
-+{
-+	struct auxiliary_device *adev = gd->adev;
-+	int id = adev->id;
-+
-+	auxiliary_device_delete(adev);
-+	auxiliary_device_uninit(adev);
-+
-+	mana_adev_idx_free(id);
-+	gd->adev = NULL;
-+}
-+
-+static int add_adev(struct gdma_dev *gd)
-+{
-+	struct auxiliary_device *adev;
-+	struct mana_adev *madev;
-+	int ret;
-+
-+	madev = kzalloc(sizeof(*madev), GFP_KERNEL);
-+	if (!madev)
-+		return -ENOMEM;
-+
-+	adev = &madev->adev;
-+	ret = mana_adev_idx_alloc();
-+	if (ret < 0)
-+		goto idx_fail;
-+	adev->id = ret;
-+
-+	adev->name = "rdma";
-+	adev->dev.parent = gd->gdma_context->dev;
-+	adev->dev.release = adev_release;
-+	madev->mdev = gd;
-+
-+	ret = auxiliary_device_init(adev);
-+	if (ret)
-+		goto init_fail;
-+
-+	ret = auxiliary_device_add(adev);
-+	if (ret)
-+		goto add_fail;
-+
-+	gd->adev = adev;
-+	return 0;
-+
-+add_fail:
-+	auxiliary_device_uninit(adev);
-+
-+init_fail:
-+	mana_adev_idx_free(adev->id);
-+
-+idx_fail:
-+	kfree(madev);
-+
-+	return ret;
-+}
-+
- int mana_probe(struct gdma_dev *gd, bool resuming)
- {
- 	struct gdma_context *gc = gd->gdma_context;
-@@ -2173,6 +2249,8 @@ int mana_probe(struct gdma_dev *gd, bool resuming)
- 				break;
- 		}
- 	}
-+
-+	err = add_adev(gd);
- out:
- 	if (err)
- 		mana_remove(gd, false);
-@@ -2189,6 +2267,10 @@ void mana_remove(struct gdma_dev *gd, bool suspending)
- 	int err;
- 	int i;
+diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+index 6e9e86fb4c02..713a8f8cca9a 100644
+--- a/include/net/mana/mana.h
++++ b/include/net/mana/mana.h
+@@ -265,8 +265,6 @@ struct mana_cq {
+ 	int budget;
+ };
  
-+	/* adev currently doesn't support suspending, always remove it */
-+	if (gd->adev)
-+		remove_adev(gd);
-+
- 	for (i = 0; i < ac->num_ports; i++) {
- 		ndev = ac->ports[i];
- 		if (!ndev) {
-@@ -2221,7 +2303,6 @@ void mana_remove(struct gdma_dev *gd, bool suspending)
- 	}
- 
- 	mana_destroy_eq(ac);
+-#define GDMA_MAX_RQE_SGES 15
 -
- out:
- 	mana_gd_deregister_device(gd);
+ struct mana_recv_buf_oob {
+ 	/* A valid GDMA work request representing the data buffer. */
+ 	struct gdma_wqe_request wqe_req;
+@@ -276,7 +274,7 @@ struct mana_recv_buf_oob {
  
+ 	/* SGL of the buffer going to be sent has part of the work request. */
+ 	u32 num_sge;
+-	struct gdma_sge sgl[GDMA_MAX_RQE_SGES];
++	struct gdma_sge sgl[MAX_RX_WQE_SGL_ENTRIES];
+ 
+ 	/* Required to store the result of mana_gd_post_work_request.
+ 	 * gdma_posted_wqe_info.wqe_size_in_bu is required for progressing the
 -- 
 2.17.1
 
