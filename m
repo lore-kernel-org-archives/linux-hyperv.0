@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BEE6EB6471
-	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Oct 2022 11:20:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC3F2EB6478
+	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Oct 2022 11:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbiJXLU1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:20:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56160 "EHLO
+        id S230403AbiJXLU2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 24 Oct 2022 07:20:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbiJXLUU (ORCPT
+        with ESMTP id S230344AbiJXLUT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 24 Oct 2022 07:20:20 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6760838470;
-        Mon, 24 Oct 2022 04:20:15 -0700 (PDT)
+        Mon, 24 Oct 2022 07:20:19 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E11E832DA8;
+        Mon, 24 Oct 2022 04:20:07 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 364C822169;
-        Mon, 24 Oct 2022 11:20:10 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 3C2C71FD8E;
+        Mon, 24 Oct 2022 11:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666610410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1666610405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=s8EjyldAvzdOSExh8dLPvPye++M7XBzrxFcMIv6xfEg=;
-        b=yXNK7WvqcfSZ73bIs91Y5i7Bf+/SN3NxlKz05cX26OSlw7GDaRM0CnD5Q8pdke1oaKAT3a
-        733QKiclqV7+xhnQy1p/B6dwHMQEKlOE67NXCdjUVPQa5CG4yRbA8jQ51vzzhzFm87CwpA
-        LRguV0fRfumlKaA25GcQYN5DK4EWF2k=
+        bh=OWGxAFccZF9j9qpUVGpVYG5/1nEWr1vS56GJ1OWtS3A=;
+        b=QtevyFsUxvza1u9FmSTUfV39yKw5WCPVOb23eAv8FTesXCNTk3Yc+fEKQnB3ejI7FemGJf
+        TH9fKaU2QfL4jTxBLwEuTHBY1GehR1wE9ExkDuUvDxNKNAgi09L9lthU2HIUt5dEmMJYgU
+        Gf+VC18FOJanvCTepvhTTvygrQ6YcCk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666610410;
+        s=susede2_ed25519; t=1666610405;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=s8EjyldAvzdOSExh8dLPvPye++M7XBzrxFcMIv6xfEg=;
-        b=5iYW05vzugOpwdblq+hoaUUilaS6r1R4P1+qqdHtxMEn9I74hlGTuChnD/rLbuMU0RpEgw
-        Smdzlcetm0TpzGCw==
+        bh=OWGxAFccZF9j9qpUVGpVYG5/1nEWr1vS56GJ1OWtS3A=;
+        b=ebBTYQc5JdSGAqbjKd18f+GOkkQXptBn/zkI44LJUKBmFtbTzospDgP5iYSjh7RvBf07II
+        R4huU2UL9xG4oBBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 866DC13357;
-        Mon, 24 Oct 2022 11:20:09 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B512613357;
+        Mon, 24 Oct 2022 11:20:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id kK6cH+l0VmOYMgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:09 +0000
+        id SPteK+R0VmOYMgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:04 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
         javierm@redhat.com, mripard@kernel.org,
@@ -69,9 +69,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 21/21] drm/fb-helper: Remove unnecessary include statements
-Date:   Mon, 24 Oct 2022 13:19:53 +0200
-Message-Id: <20221024111953.24307-22-tzimmermann@suse.de>
+Subject: [PATCH v2 13/21] drm/fb-helper: Rename drm_fb_helper_alloc_fbi() to use _info postfix
+Date:   Mon, 24 Oct 2022 13:19:45 +0200
+Message-Id: <20221024111953.24307-14-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221024111953.24307-1-tzimmermann@suse.de>
 References: <20221024111953.24307-1-tzimmermann@suse.de>
@@ -81,362 +81,204 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Remove include statements for <drm/drm_fb_helper.h> where it is not
-required (i.e., most of them). In a few places include other header
-files that are required by the source code.
+Rename drm_fb_helper_alloc_fbi() to drm_fb_helper_alloc_info() as
+part of unifying the naming within fbdev helpers. Adapt drivers. No
+functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c  | 1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c     | 1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h        | 1 -
- drivers/gpu/drm/arm/hdlcd_crtc.c                | 1 -
- drivers/gpu/drm/ast/ast_drv.h                   | 1 -
- drivers/gpu/drm/bridge/tc358762.c               | 2 +-
- drivers/gpu/drm/drm_crtc_helper.c               | 1 -
- drivers/gpu/drm/drm_gem_framebuffer_helper.c    | 1 -
- drivers/gpu/drm/drm_probe_helper.c              | 1 -
- drivers/gpu/drm/etnaviv/etnaviv_drv.h           | 3 ++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h | 1 -
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c     | 1 -
- drivers/gpu/drm/imx/imx-ldb.c                   | 2 +-
- drivers/gpu/drm/imx/imx-tve.c                   | 1 -
- drivers/gpu/drm/imx/parallel-display.c          | 2 +-
- drivers/gpu/drm/kmb/kmb_plane.c                 | 1 -
- drivers/gpu/drm/mgag200/mgag200_drv.h           | 1 -
- drivers/gpu/drm/qxl/qxl_drv.h                   | 1 -
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h     | 2 +-
- drivers/gpu/drm/tidss/tidss_kms.c               | 1 -
- drivers/gpu/drm/v3d/v3d_drv.c                   | 1 -
- drivers/gpu/drm/vboxvideo/vbox_main.c           | 1 -
- drivers/gpu/drm/virtio/virtgpu_drv.h            | 1 -
- drivers/gpu/drm/xen/xen_drm_front_gem.c         | 1 -
- 24 files changed, 6 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/armada/armada_fbdev.c      | 2 +-
+ drivers/gpu/drm/drm_fb_helper.c            | 8 ++++----
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c  | 2 +-
+ drivers/gpu/drm/gma500/framebuffer.c       | 2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 2 +-
+ drivers/gpu/drm/msm/msm_fbdev.c            | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c    | 2 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c       | 2 +-
+ drivers/gpu/drm/radeon/radeon_fb.c         | 2 +-
+ drivers/gpu/drm/tegra/fb.c                 | 2 +-
+ include/drm/drm_fb_helper.h                | 4 ++--
+ 11 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-index 491d4846fc02c..e1320edfc5274 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c
-@@ -26,7 +26,6 @@
+diff --git a/drivers/gpu/drm/armada/armada_fbdev.c b/drivers/gpu/drm/armada/armada_fbdev.c
+index 38f5170c0fea6..eaae98d9377ae 100644
+--- a/drivers/gpu/drm/armada/armada_fbdev.c
++++ b/drivers/gpu/drm/armada/armada_fbdev.c
+@@ -72,7 +72,7 @@ static int armada_fbdev_create(struct drm_fb_helper *fbh,
+ 	if (IS_ERR(dfb))
+ 		return PTR_ERR(dfb);
  
- #include <drm/display/drm_dp_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/amdgpu_drm.h>
- #include "amdgpu.h"
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index dd6f9ae6fbe9f..b32b387599b5c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -40,7 +40,6 @@
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_vblank.h>
+-	info = drm_fb_helper_alloc_fbi(fbh);
++	info = drm_fb_helper_alloc_info(fbh);
+ 	if (IS_ERR(info)) {
+ 		ret = PTR_ERR(info);
+ 		goto err_fballoc;
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 480bf4f568b7b..881e6a04fa706 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -558,7 +558,7 @@ int drm_fb_helper_init(struct drm_device *dev,
+ EXPORT_SYMBOL(drm_fb_helper_init);
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 37322550d7508..8a39300b1a845 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -36,7 +36,6 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_fixed.h>
- #include <drm/drm_crtc_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_probe_helper.h>
- #include <linux/i2c.h>
-diff --git a/drivers/gpu/drm/arm/hdlcd_crtc.c b/drivers/gpu/drm/arm/hdlcd_crtc.c
-index 7030339fa2323..ddbe1dd2d44ef 100644
---- a/drivers/gpu/drm/arm/hdlcd_crtc.c
-+++ b/drivers/gpu/drm/arm/hdlcd_crtc.c
-@@ -19,7 +19,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_of.h>
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 74f41282444f6..d51b81fea9c80 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -38,7 +38,6 @@
- #include <drm/drm_encoder.h>
- #include <drm/drm_mode.h>
- #include <drm/drm_framebuffer.h>
--#include <drm/drm_fb_helper.h>
- 
- #define DRIVER_AUTHOR		"Dave Airlie"
- 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 7f4fce1aa9988..0b6a284368859 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -11,6 +11,7 @@
+ /**
+- * drm_fb_helper_alloc_fbi - allocate fb_info and some of its members
++ * drm_fb_helper_alloc_info - allocate fb_info and some of its members
+  * @fb_helper: driver-allocated fbdev helper
+  *
+  * A helper to alloc fb_info and the members cmap and apertures. Called
+@@ -570,7 +570,7 @@ EXPORT_SYMBOL(drm_fb_helper_init);
+  * fb_info pointer if things went okay, pointer containing error code
+  * otherwise
   */
+-struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
++struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+ {
+ 	struct device *dev = fb_helper->dev->dev;
+ 	struct fb_info *info;
+@@ -609,7 +609,7 @@ struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
+ 	framebuffer_release(info);
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL(drm_fb_helper_alloc_fbi);
++EXPORT_SYMBOL(drm_fb_helper_alloc_info);
  
- #include <linux/delay.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/regulator/consumer.h>
-@@ -19,7 +20,6 @@
+ /**
+  * drm_fb_helper_unregister_fbi - unregister fb_info framebuffer device
+@@ -2440,7 +2440,7 @@ static int drm_fb_helper_generic_probe(struct drm_fb_helper *fb_helper,
+ 	fb_helper->fb = buffer->fb;
+ 	fb = buffer->fb;
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-index f5fb22e0d0337..a209659a996c7 100644
---- a/drivers/gpu/drm/drm_crtc_helper.c
-+++ b/drivers/gpu/drm/drm_crtc_helper.c
-@@ -43,7 +43,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index e35e224e6303a..e93533b86037f 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -9,7 +9,6 @@
- #include <linux/module.h>
+-	fbi = drm_fb_helper_alloc_fbi(fb_helper);
++	fbi = drm_fb_helper_alloc_info(fb_helper);
+ 	if (IS_ERR(fbi))
+ 		return PTR_ERR(fbi);
  
- #include <drm/drm_damage_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index 69b0b2b9cc1c5..ef2b41b2eb7b8 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -36,7 +36,6 @@
- #include <drm/drm_client.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_modeset_helper_vtables.h>
- #include <drm/drm_print.h>
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-index f32f4771dada7..2bb4c25565dcb 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
-@@ -6,13 +6,14 @@
- #ifndef __ETNAVIV_DRV_H__
- #define __ETNAVIV_DRV_H__
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+index 767afd2bfa822..8741eb0b1b604 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_fbdev.c
+@@ -63,7 +63,7 @@ static int exynos_drm_fbdev_update(struct drm_fb_helper *helper,
+ 	unsigned int size = fb->width * fb->height * fb->format->cpp[0];
+ 	unsigned long offset;
  
-+#include <linux/io.h>
- #include <linux/list.h>
- #include <linux/mm_types.h>
- #include <linux/sizes.h>
- #include <linux/time64.h>
- #include <linux/types.h>
+-	fbi = drm_fb_helper_alloc_fbi(helper);
++	fbi = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(fbi)) {
+ 		DRM_DEV_ERROR(to_dma_dev(helper->dev),
+ 			      "failed to allocate fb info.\n");
+diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+index 5f502a0048ab8..6d0e3bf6435ee 100644
+--- a/drivers/gpu/drm/gma500/framebuffer.c
++++ b/drivers/gpu/drm/gma500/framebuffer.c
+@@ -268,7 +268,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
  
--#include <drm/drm_fb_helper.h>
-+#include <drm/drm_drv.h>
- #include <drm/drm_gem.h>
- #include <drm/etnaviv_drm.h>
- #include <drm/gpu_scheduler.h>
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 4a0cd22c10e21..f957552c6c507 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -19,7 +19,6 @@
- #include <linux/i2c.h>
+ 	memset(dev_priv->vram_addr + backing->offset, 0, size);
  
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_framebuffer.h>
+-	info = drm_fb_helper_alloc_fbi(fb_helper);
++	info = drm_fb_helper_alloc_info(fb_helper);
+ 	if (IS_ERR(info)) {
+ 		ret = PTR_ERR(info);
+ 		goto err_drm_gem_object_put;
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index d533ecd451025..05b841343ea3e 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -254,7 +254,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 		goto out_unlock;
+ 	}
  
- struct hibmc_connector {
-diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-index 28e732f94bf2f..6c6b572987973 100644
---- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-+++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 41799011f73b6..c45fc8f4744d0 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -7,6 +7,7 @@
+-	info = drm_fb_helper_alloc_fbi(helper);
++	info = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(info)) {
+ 		drm_err(&dev_priv->drm, "Failed to allocate fb_info (%pe)\n", info);
+ 		ret = PTR_ERR(info);
+diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
+index b373e30003203..4d9a0fcbf95b6 100644
+--- a/drivers/gpu/drm/msm/msm_fbdev.c
++++ b/drivers/gpu/drm/msm/msm_fbdev.c
+@@ -93,7 +93,7 @@ static int msm_fbdev_create(struct drm_fb_helper *helper,
+ 		goto fail;
+ 	}
  
- #include <linux/clk.h>
- #include <linux/component.h>
-+#include <linux/i2c.h>
- #include <linux/media-bus-format.h>
- #include <linux/mfd/syscon.h>
- #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
-@@ -23,7 +24,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 6b34fac3f73a0..d64ebd2cf15e8 100644
---- a/drivers/gpu/drm/imx/imx-tve.c
-+++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -19,7 +19,6 @@
+-	fbi = drm_fb_helper_alloc_fbi(helper);
++	fbi = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(fbi)) {
+ 		DRM_DEV_ERROR(dev->dev, "failed to allocate fb info\n");
+ 		ret = PTR_ERR(fbi);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+index ac4bd529ae2e8..fca40124fc17c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+@@ -362,7 +362,7 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
+ 		}
+ 	}
  
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_simple_kms_helper.h>
-diff --git a/drivers/gpu/drm/imx/parallel-display.c b/drivers/gpu/drm/imx/parallel-display.c
-index 06723b2e9b847..0fa0b590830b6 100644
---- a/drivers/gpu/drm/imx/parallel-display.c
-+++ b/drivers/gpu/drm/imx/parallel-display.c
-@@ -8,6 +8,7 @@
- #include <linux/component.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/videodev2.h>
+-	info = drm_fb_helper_alloc_fbi(helper);
++	info = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(info)) {
+ 		ret = PTR_ERR(info);
+ 		goto out_unlock;
+diff --git a/drivers/gpu/drm/omapdrm/omap_fbdev.c b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+index 92d505be53e06..ab30c64e97043 100644
+--- a/drivers/gpu/drm/omapdrm/omap_fbdev.c
++++ b/drivers/gpu/drm/omapdrm/omap_fbdev.c
+@@ -161,7 +161,7 @@ static int omap_fbdev_create(struct drm_fb_helper *helper,
+ 		goto fail;
+ 	}
  
-@@ -16,7 +17,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index a42f63f6f9573..d172a302f9024 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -9,7 +9,6 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_dma_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_dma_helper.h>
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index f0c2349404b46..9e604dbb8e448 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -18,7 +18,6 @@
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_gem_shmem_helper.h>
- #include <drm/drm_plane.h>
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
-index 432758ad39a35..76f060810f634 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.h
-+++ b/drivers/gpu/drm/qxl/qxl_drv.h
-@@ -38,7 +38,6 @@
+-	fbi = drm_fb_helper_alloc_fbi(helper);
++	fbi = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(fbi)) {
+ 		dev_err(dev->dev, "failed to allocate fb info\n");
+ 		ret = PTR_ERR(fbi);
+diff --git a/drivers/gpu/drm/radeon/radeon_fb.c b/drivers/gpu/drm/radeon/radeon_fb.c
+index cc6754d88b819..0c6a227929db2 100644
+--- a/drivers/gpu/drm/radeon/radeon_fb.c
++++ b/drivers/gpu/drm/radeon/radeon_fb.c
+@@ -243,7 +243,7 @@ static int radeonfb_create(struct drm_fb_helper *helper,
+ 	rbo = gem_to_radeon_bo(gobj);
  
- #include <drm/drm_crtc.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 1641440837af5..aeb03a57240fd 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -9,10 +9,10 @@
- #ifndef _ROCKCHIP_DRM_DRV_H
- #define _ROCKCHIP_DRM_DRV_H
+ 	/* okay we have an object now allocate the framebuffer */
+-	info = drm_fb_helper_alloc_fbi(helper);
++	info = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(info)) {
+ 		ret = PTR_ERR(info);
+ 		goto out;
+diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+index 6fe24535d0e43..a09c071f35120 100644
+--- a/drivers/gpu/drm/tegra/fb.c
++++ b/drivers/gpu/drm/tegra/fb.c
+@@ -243,7 +243,7 @@ static int tegra_fbdev_probe(struct drm_fb_helper *helper,
+ 	if (IS_ERR(bo))
+ 		return PTR_ERR(bo);
  
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_gem.h>
+-	info = drm_fb_helper_alloc_fbi(helper);
++	info = drm_fb_helper_alloc_info(helper);
+ 	if (IS_ERR(info)) {
+ 		dev_err(drm->dev, "failed to allocate framebuffer info\n");
+ 		drm_gem_object_put(&bo->gem);
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index d83e2d8e92eb9..5ec9d9c68d144 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -222,7 +222,7 @@ int drm_fb_helper_check_var(struct fb_var_screeninfo *var,
  
-+#include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/component.h>
+ int drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper);
  
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index afb2879980c6c..345bcc3011e4f 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -10,7 +10,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc_helper.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-index e8c975b815859..478f1f0f60dec 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.c
-+++ b/drivers/gpu/drm/v3d/v3d_drv.c
-@@ -22,7 +22,6 @@
- #include <linux/reset.h>
+-struct fb_info *drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper);
++struct fb_info *drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper);
+ void drm_fb_helper_unregister_fbi(struct drm_fb_helper *fb_helper);
+ void drm_fb_helper_fill_info(struct fb_info *info,
+ 			     struct drm_fb_helper *fb_helper,
+@@ -320,7 +320,7 @@ drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper)
+ }
  
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_managed.h>
- #include <uapi/drm/v3d_drm.h>
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
-index c9e8b3a63c621..3b83e550f4df5 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_main.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
-@@ -11,7 +11,6 @@
- #include <linux/pci.h>
- #include <linux/vbox_err.h>
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_damage_helper.h>
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9b98470593b06..b7a64c7dcc2c9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -35,7 +35,6 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem.h>
-diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-index e31554d7139f1..4c95ebcdcc2d3 100644
---- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
-+++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-@@ -12,7 +12,6 @@
- #include <linux/scatterlist.h>
- #include <linux/shmem_fs.h>
- 
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_prime.h>
- #include <drm/drm_probe_helper.h>
+ static inline struct fb_info *
+-drm_fb_helper_alloc_fbi(struct drm_fb_helper *fb_helper)
++drm_fb_helper_alloc_info(struct drm_fb_helper *fb_helper)
+ {
+ 	return NULL;
+ }
 -- 
 2.38.0
 
