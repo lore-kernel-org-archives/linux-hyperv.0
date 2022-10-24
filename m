@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28752FC6176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB269FA374A
 	for <linux-hyperv@archiver.kernel.org>; Mon, 24 Oct 2022 11:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230314AbiJXLUR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 24 Oct 2022 07:20:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S230323AbiJXLUS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 24 Oct 2022 07:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230209AbiJXLUK (ORCPT
+        with ESMTP id S230266AbiJXLUK (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 24 Oct 2022 07:20:10 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66CF3122E;
-        Mon, 24 Oct 2022 04:20:04 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B686131238;
+        Mon, 24 Oct 2022 04:20:05 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 29EAE21EAA;
-        Mon, 24 Oct 2022 11:20:02 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 9FA5D1FD8D;
+        Mon, 24 Oct 2022 11:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1666610402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1666610403; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1Wm7qKYcP3zcqB8vN6ctrVYh+kdKBx4YB6Ib1oO4WIs=;
-        b=xPkb3DU7zI67ZFwwt8i+2oIu3zEy8S+ECkGZtacr+DZXiIOzuTSjP8+cV+Kw0IQBdfXUo+
-        MJiMncM2IgAUUvxEIi39/XnXet5/F8YKawvYQ2EQjYeXe8iODcnDUmUI4PC7DJQDPYWDnX
-        J8V/1uqou8zKm0Tyycio1hC+zvbT5b8=
+        bh=mu2A6Ru6vvqSAa8anfcgwfFu/Q/j4bw+8GKC1w2HMmA=;
+        b=1Ddfi5oF53IDn/dEor6K/T+V/aCfrL/W6sW/tT545sWp30MAprfNOr9MyridKrSqfDtAZI
+        ebbFI2M4pL1Z1uiVsH42V8grf97raXsRpVCfa5MeJaU1caiW23JgP+zW63fKCJV9agaiU5
+        xY0Ai+IoQvbFvTjNyZfPs19wDgn/fJM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1666610402;
+        s=susede2_ed25519; t=1666610403;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1Wm7qKYcP3zcqB8vN6ctrVYh+kdKBx4YB6Ib1oO4WIs=;
-        b=kIm2zNLE982JNr9RaYNRmUkTVKj1xJOWVyT/wZa+SNDh/UCrjkiXo7EdEAb/Myj9aL3fKn
-        1B5bUJdL74Je4xDw==
+        bh=mu2A6Ru6vvqSAa8anfcgwfFu/Q/j4bw+8GKC1w2HMmA=;
+        b=JTRituGpMHUmE6YbaHBmk24BldH2XWaEQXgBvVXUh7zUGL5jFPvQ4ywPocisVX5tACqbjK
+        as4LMfFKnyo2z+CA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B018613A98;
-        Mon, 24 Oct 2022 11:20:01 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1F03F13357;
+        Mon, 24 Oct 2022 11:20:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id 0DQ1KuF0VmOYMgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:01 +0000
+        id oF3JBuN0VmOYMgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 24 Oct 2022 11:20:03 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     daniel@ffwll.ch, airlied@gmail.com, sam@ravnborg.org,
         javierm@redhat.com, mripard@kernel.org,
@@ -69,9 +69,9 @@ Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
         linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
         xen-devel@lists.xenproject.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 07/21] drm/logicvc: Don't set struct drm_driver.output_poll_changed
-Date:   Mon, 24 Oct 2022 13:19:39 +0200
-Message-Id: <20221024111953.24307-8-tzimmermann@suse.de>
+Subject: [PATCH v2 10/21] drm/tve200: Include <linux/of.h>
+Date:   Mon, 24 Oct 2022 13:19:42 +0200
+Message-Id: <20221024111953.24307-11-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20221024111953.24307-1-tzimmermann@suse.de>
 References: <20221024111953.24307-1-tzimmermann@suse.de>
@@ -81,40 +81,25 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Don't set struct drm_driver.output_poll_changed. It's used to restore
-the fbdev console. But as logicvc uses generic fbdev emulation, the
-console is being restored by the DRM client helpers already. See the
-functions drm_kms_helper_hotplug_event() and
-drm_kms_helper_connector_hotplug_event() in drm_probe_helper.c.
-
-v2:
-	* fix commit description (Christian)
+Include <linux/of.h> for of_match_ptr().
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/logicvc/logicvc_mode.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/tve200/tve200_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/logicvc/logicvc_mode.c b/drivers/gpu/drm/logicvc/logicvc_mode.c
-index d8207ffda1af9..9971950ebd4ee 100644
---- a/drivers/gpu/drm/logicvc/logicvc_mode.c
-+++ b/drivers/gpu/drm/logicvc/logicvc_mode.c
-@@ -10,7 +10,6 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_dma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_mode_config.h>
-@@ -26,7 +25,6 @@
- 
- static const struct drm_mode_config_funcs logicvc_mode_config_funcs = {
- 	.fb_create		= drm_gem_fb_create,
--	.output_poll_changed	= drm_fb_helper_output_poll_changed,
- 	.atomic_check		= drm_atomic_helper_check,
- 	.atomic_commit		= drm_atomic_helper_commit,
- };
+diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+index 04db72e3fa9c2..611785e097576 100644
+--- a/drivers/gpu/drm/tve200/tve200_drv.c
++++ b/drivers/gpu/drm/tve200/tve200_drv.c
+@@ -32,6 +32,7 @@
+ #include <linux/irq.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/slab.h>
 -- 
 2.38.0
 
