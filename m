@@ -2,96 +2,99 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B86E1C38A2D
-	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Oct 2022 09:59:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56F2C67871
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Oct 2022 10:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234172AbiJ0J7E (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 27 Oct 2022 05:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39396 "EHLO
+        id S234330AbiJ0KBB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 27 Oct 2022 06:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234610AbiJ0J6U (ORCPT
+        with ESMTP id S235039AbiJ0KAf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 27 Oct 2022 05:58:20 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B6426186DE;
-        Thu, 27 Oct 2022 02:58:08 -0700 (PDT)
-Received: from anrayabh-desk.corp.microsoft.com (unknown [167.220.238.193])
-        by linux.microsoft.com (Postfix) with ESMTPSA id A92F3210DC4A;
-        Thu, 27 Oct 2022 02:58:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A92F3210DC4A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1666864688;
-        bh=jZZ6qM4jUHM2tL93sOCGMRdtlaB9Zvma95PgYX3k+/8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Or5dRUFbmQppKY2ubGZ3DaOOE7D2DWgjIkzD9tFR4HwPXfrK/ZNOV8XfCzbPksEzj
-         WhHFyxyqHJbnrhPRze4TbVrIgwbosQbfJ7iVnN1tpQjGz3XO1xEBG9zkOgfzVZQOPl
-         qUgjCvi+xZ6UfCrxrAc+vDgUI3KNcH630oQFXYqU=
-From:   Anirudh Rayabharam <anrayabh@linux.microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, daniel.lezcano@linaro.org,
-        Arnd Bergmann <arnd@arndb.de>, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org
-Cc:     stanislav.kinsburskiy@gmail.com,
-        Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
-        kumarpraveen@linux.microsoft.com, mail@anirudhrb.com
-Subject: [PATCH v2 2/2] x86/hyperv: fix invalid writes to MSRs during root partition kexec
-Date:   Thu, 27 Oct 2022 15:27:29 +0530
-Message-Id: <20221027095729.1676394-3-anrayabh@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20221027095729.1676394-1-anrayabh@linux.microsoft.com>
-References: <20221027095729.1676394-1-anrayabh@linux.microsoft.com>
+        Thu, 27 Oct 2022 06:00:35 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CA5DD3A6;
+        Thu, 27 Oct 2022 03:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1666864812; x=1698400812;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fJPCFTV8MpF6btptcz/BJUn1rRYOmr6pkto3N3fNH+w=;
+  b=espbAOe/VK/OuqYKfXdARkFUuJjbBmlKz6uBipnUZ3106njesWzYF+PP
+   KaBrzQ6RODPm4ro47uEpH0eU3Z2CL8DrektXHFutfIRSa4cBhekantubr
+   WB6VfJrzY0kNN8OnV16zehRuvBhe7xaxI6AjXAS+anTCkw/E730n1aBFg
+   WpdvJRq+QRMiPYFjUWTvzdA/oOXVjZfHEzGJLIj1cFsUUDBbmYebhjG8k
+   bYG4v6Ee6IPao9sOK0DETn5qJeN43S1y7rJfYfltG6hQ1ZHB+kLLt0u0K
+   5ZRFtgcas5XDGl5b4taMzw3dKnrO9EUBuHEDbOYSHGr0wa/IXK9oFHYyz
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="394498356"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
+   d="scan'208";a="394498356"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2022 03:00:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10512"; a="583498473"
+X-IronPort-AV: E=Sophos;i="5.95,217,1661842800"; 
+   d="scan'208";a="583498473"
+Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost) ([10.239.160.132])
+  by orsmga003.jf.intel.com with ESMTP; 27 Oct 2022 03:00:08 -0700
+Date:   Thu, 27 Oct 2022 18:05:48 +0800
+From:   Zhao Liu <zhao1.liu@linux.intel.com>
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        =?iso-8859-1?Q?Dexuan=A0Cui?= <decui@microsoft.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?iso-8859-1?Q?Ira=A0Weiny=A0?= <ira.weiny@intel.com>,
+        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Zhenyu Wang <zhenyu.z.wang@intel.com>,
+        Zhao Liu <zhao1.liu@intel.com>
+Subject: Re: [PATCH v2] x86/hyperv: Remove BUG_ON() for kmap_local_page()
+Message-ID: <Y1pX/BGRgceJcEE9@liuzhao-OptiPlex-7080>
+References: <20221020083820.2341088-1-zhao1.liu@linux.intel.com>
+ <Y1lPfphHVRn2e4I5@liuwe-devbox-debian-v2>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y1lPfphHVRn2e4I5@liuwe-devbox-debian-v2>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-hv_cleanup resets the hypercall page by setting the MSR to 0. However,
-the root partition is not allowed to write to the GPA bits of the MSR.
-Instead, it uses the hypercall page provided by the MSR. Similar is the
-case with the reference TSC MSR.
+On Wed, Oct 26, 2022 at 03:17:18PM +0000, Wei Liu wrote:
+> Date: Wed, 26 Oct 2022 15:17:18 +0000
+> From: Wei Liu <wei.liu@kernel.org>
+> Subject: Re: [PATCH v2] x86/hyperv: Remove BUG_ON() for kmap_local_page()
+> 
+> On Thu, Oct 20, 2022 at 04:38:20PM +0800, Zhao Liu wrote:
+> > From: Zhao Liu <zhao1.liu@intel.com>
+> > 
+> > The commit 154fb14df7a3c ("x86/hyperv: Replace kmap() with
+> > kmap_local_page()") keeps the BUG_ON() to check if kmap_local_page()
+> > fails.
+> > 
+> > But in fact, kmap_local_page() always returns a valid kernel address
+> > and won't return NULL here. It will BUG on its own if it fails. [1]
+> > 
+> > So directly use memcpy_to_page() which creates local mapping to copy.
+> > 
+> > [1]: https://lore.kernel.org/lkml/YztFEyUA48et0yTt@iweiny-mobl/
+> > 
+> > Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
+> 
+> Applied to hyperv-fixes. Thanks.
 
-Clear only the enable bit instead of zeroing the entire MSR to make
-the code valid for root partition too.
+Sorry Wei, I appology for not deleting unused variables, which caused
+the next tree break. Do I need to send another v3 to make up for my
+carelessness?
 
-Signed-off-by: Anirudh Rayabharam <anrayabh@linux.microsoft.com>
----
- arch/x86/hyperv/hv_init.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 29774126e931..80fdfff9266c 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -537,6 +537,7 @@ void __init hyperv_init(void)
- void hyperv_cleanup(void)
- {
- 	union hv_x64_msr_hypercall_contents hypercall_msr;
-+	union hv_reference_tsc_msr tsc_msr;
- 
- 	unregister_syscore_ops(&hv_syscore_ops);
- 
-@@ -552,12 +553,14 @@ void hyperv_cleanup(void)
- 	hv_hypercall_pg = NULL;
- 
- 	/* Reset the hypercall page */
--	hypercall_msr.as_uint64 = 0;
--	wrmsrl(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
-+	hypercall_msr.as_uint64 = hv_get_register(HV_X64_MSR_HYPERCALL);
-+	hypercall_msr.enable = 0;
-+	hv_set_register(HV_X64_MSR_HYPERCALL, hypercall_msr.as_uint64);
- 
- 	/* Reset the TSC page */
--	hypercall_msr.as_uint64 = 0;
--	wrmsrl(HV_X64_MSR_REFERENCE_TSC, hypercall_msr.as_uint64);
-+	tsc_msr.as_uint64 = hv_get_register(HV_X64_MSR_REFERENCE_TSC);
-+	tsc_msr.enable = 0;
-+	hv_set_register(HV_X64_MSR_REFERENCE_TSC, tsc_msr.as_uint64);
- }
- 
- void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die)
--- 
-2.34.1
-
+Zhao
