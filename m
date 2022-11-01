@@ -2,64 +2,92 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2E0FA373D
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 10:45:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 183FCC4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 14:55:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229628AbiKAKpT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 06:45:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35178 "EHLO
+        id S230231AbiKAOz2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 10:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiKAKpS (ORCPT
+        with ESMTP id S230104AbiKAOz0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 06:45:18 -0400
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03DE415733;
-        Tue,  1 Nov 2022 03:45:18 -0700 (PDT)
-Received: by mail-wm1-f45.google.com with SMTP id bg9-20020a05600c3c8900b003bf249616b0so9633954wmb.3;
-        Tue, 01 Nov 2022 03:45:17 -0700 (PDT)
+        Tue, 1 Nov 2022 10:55:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487E62DE2
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:54:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667314466;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UpfQYVzMIcuMXx56DkvqTXydEG0Wdlj350I7KRytfvw=;
+        b=hyqrnk5KOZGGUOP7rDSltT+yMb+hYiL1dY9CyEmhxtaVUqUZNSnkFQus+ClkvCYI+UoN2z
+        aZZm4wOwhBbbTKOsD+91JMzt2I6eTb/USCsgOC1Y+KAsVeoRJ5Lay4fYK5Ej9JT8YCKvEa
+        TVS7AJ4cxmhKZ7LsD/E6obuSAFcTAiA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-336-MUs2fEArNGiH7q24ahUrfg-1; Tue, 01 Nov 2022 10:54:25 -0400
+X-MC-Unique: MUs2fEArNGiH7q24ahUrfg-1
+Received: by mail-ej1-f69.google.com with SMTP id he6-20020a1709073d8600b0078e20190301so8123383ejc.22
+        for <linux-hyperv@vger.kernel.org>; Tue, 01 Nov 2022 07:54:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dwwjXDojYpfAe9pWWX8Ysi5XeTkAjvd2ATF6N/1wGPU=;
-        b=NahdesqsLHr7+wi56zRaWBqCEWzA2xPKCqRFZQVtFozC/59gAYk7HxBsT+hQMeJV+c
-         YTIsLURDCp7YHNq/J4egrl4OuKMLekR3kLJI+EV6Sujv7p6RpWHJZHcyH1aNYW1+98l/
-         zZRpoPNE7UQ7u2NkpAFum2q+20qgfXvhI0Qyw+lkuXl4iZuqNyceTLTR8pu0MI25ir4J
-         dHDktygSlUZoYvUxHuI04CmjCi6eQV5Msd7Q24T1XWrH0vRRB4O1Edi6QCaG+1/gR/HR
-         cDtMrHU6mAIo1xCxeLwOnUEyaZfGOtM9ig0xS/dqUZkiJ3VwmFguGkjSiy0zJ0gg5gWf
-         pytw==
-X-Gm-Message-State: ACrzQf29/bERmBqrkhV2FYpiCF2qTkpDMvv5xDuYXJ/gnUwGmShXrTcA
-        5bg5s9MoPUSAPetKXlTSzfYCkcH25dY=
-X-Google-Smtp-Source: AMsMyM4QVo1hkD6PZp/72zLlcjK1kd7Up4LxynAOQ+/xozzUVFv50W1pWtxajjYts2Ncd6DfOpuQGg==
-X-Received: by 2002:a05:600c:3506:b0:3cf:70ac:7039 with SMTP id h6-20020a05600c350600b003cf70ac7039mr6890113wmq.145.1667299516499;
-        Tue, 01 Nov 2022 03:45:16 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id w11-20020a5d404b000000b002258235bda3sm9609057wrp.61.2022.11.01.03.45.15
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UpfQYVzMIcuMXx56DkvqTXydEG0Wdlj350I7KRytfvw=;
+        b=RpbLPDI5YkNcyygigohhOB/gswvvBk379XEzGoAOEJAbpmIVl4WSzrCdrKaxT//QUX
+         Glwpih0WfYCFcPCKHrZsMZXfx2K2NAs2vbLnvgdojhRWmLwBOdcgtkaQrL4X4GrpiiNG
+         b3FcZjPvTV6sRf/wJisnhuPLHtu8F9zqWtOohpyI5uSe2CTk9ztzHd45v0zJ88CEQ09S
+         PtWsRPF8if3meynUUZ0DNt5Acy5kzZZQn+G7qUEcjzRdw0cHNATTa+Zfd7BSVYk4DujH
+         GHjkof7KKfkw0KrOI8WhuW6SWQ4wv+D4ZPJatwxrz723zsAuVbO5KDw1lVftvuwNaIrf
+         wNiQ==
+X-Gm-Message-State: ACrzQf0M4ySD8mJvJp8cuJi5+R2A+dw59nCMnMezhPrz8fGVlWslfeEM
+        N12LPEt7AFz/po7WCg9CqaDLtFGSiQ+RxqmD90WCRzqIM1Vrwt3lIivLybd1B9/gSyn3qRs5JeH
+        IcW23L0Ds/xSrBkQv1FKGTNlp
+X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id sc36-20020a1709078a2400b00795bb7d643bmr19113931ejc.115.1667314464041;
+        Tue, 01 Nov 2022 07:54:24 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6cO4rk8NeV9RvMCaBS52ImLLAf4ZLqcdpiLZqjgPxz3IJI9NfZXhSLsdW9KGQGq3mQMXBZDg==
+X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id sc36-20020a1709078a2400b00795bb7d643bmr19113910ejc.115.1667314463791;
+        Tue, 01 Nov 2022 07:54:23 -0700 (PDT)
+Received: from ovpn-194-149.brq.redhat.com (nat-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id m23-20020a170906849700b0079e11b8e891sm4207005ejx.125.2022.11.01.07.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 03:45:15 -0700 (PDT)
-Date:   Tue, 1 Nov 2022 10:45:10 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, jkosina@suse.cz
-Subject: Re: [PATCH] HID: hyperv: fix possible memory leak in mousevsc_probe()
-Message-ID: <Y2D4ts1quAg3VZQU@liuwe-devbox-debian-v2>
-References: <20221028134043.1152629-1-yangyingliang@huawei.com>
+        Tue, 01 Nov 2022 07:54:23 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Siddharth Chandrasekaran <sidcha@amazon.de>,
+        Yuan Yao <yuan.yao@linux.intel.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v12 00/46] KVM: x86: hyper-v: Fine-grained TLB flush +
+ L2 TLB flush features
+In-Reply-To: <87zgdcs65g.fsf@ovpn-194-149.brq.redhat.com>
+References: <20221021153521.1216911-1-vkuznets@redhat.com>
+ <Y1m0ef+LdcAW0Bzh@google.com> <Y1m1Jnpw5betG8CG@google.com>
+ <87zgdcs65g.fsf@ovpn-194-149.brq.redhat.com>
+Date:   Tue, 01 Nov 2022 15:54:21 +0100
+Message-ID: <87h6zisp2a.fsf@ovpn-194-149.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221028134043.1152629-1-yangyingliang@huawei.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Oct 28, 2022 at 09:40:43PM +0800, Yang Yingliang wrote:
-> If hid_add_device() returns error, it should call hid_destroy_device()
-> to free hid_dev which is allocated in hid_allocate_device().
-> 
-> Fixes: 74c4fb058083 ("HID: hv_mouse: Properly add the hid device")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Vitaly Kuznetsov <vkuznets@redhat.com> writes:
 
-Reviewed-by: Wei Liu <wei.liu@kernel.org>
+>
+> Paolo,
+>
+> do you want to follow this path or do you expect the full 'v13' from me? 
+
+v13 it is :-) I've added all the tags and addressed the remaining
+feedback (a typo fixed + a comment added).
+
+-- 
+Vitaly
+
