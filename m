@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E2BC4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71F37C4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230432AbiKAPCa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 11:02:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50850 "EHLO
+        id S231500AbiKAPCb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 11:02:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231387AbiKAPCG (ORCPT
+        with ESMTP id S230378AbiKAPCJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 11:02:06 -0400
+        Tue, 1 Nov 2022 11:02:09 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8CB1E733
-        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:57:34 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14AF31E72B
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667314611;
+        s=mimecast20190719; t=1667314610;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=X90HdBpZHRlpEK78X14jzV2xZFPi7hDj+jPQpLmDwa4=;
-        b=bXsOzTfxnT2Ay7UFLCBGWbLcme093/9X/SHilzNLQZvbHTKfclx41c2kPaYMDoKPl3FrMw
-        hMI7Njk+TqQbRpWkArsoqGlF+OHnhRDUSfizDIv4WIvtTsT9vNDhMbM8/crRSu2Pn/u5wN
-        5YcKMd42Nn1s7TmUDDx1z9Rl76PdPCU=
+        bh=PNvFTxM57Y73cI9t4AF88vWy8qZeNx5swgKu92YcL80=;
+        b=KqYuqZ5mlpJ+gyUDrATxfuCB4bS9e2JsrRaIJFaOaR4nkW7pW5+6s5n5txWQ6l9oDDaTSl
+        TBprlvfzdPYiL7ueQdLzuPM21eJkqIVDGTRPX20XRZEqkJKuZIG8TgNfCKN+3jutMfoN5o
+        bAbjGqHHWVGhJFMm7tB1CB93Cb3szPw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-1UUHtVpaN869W--wioRrpg-1; Tue, 01 Nov 2022 10:56:40 -0400
-X-MC-Unique: 1UUHtVpaN869W--wioRrpg-1
+ us-mta-336-7SUJriguPcyMk6Bex0JHtw-1; Tue, 01 Nov 2022 10:56:45 -0400
+X-MC-Unique: 7SUJriguPcyMk6Bex0JHtw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A7B587B2AF;
-        Tue,  1 Nov 2022 14:56:40 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45A18857F92;
+        Tue,  1 Nov 2022 14:56:45 +0000 (UTC)
 Received: from ovpn-194-149.brq.redhat.com (ovpn-194-149.brq.redhat.com [10.40.194.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 16443C2C8D8;
-        Tue,  1 Nov 2022 14:56:37 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 23687C15BA5;
+        Tue,  1 Nov 2022 14:56:43 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v13 39/48] KVM: selftests: Sync 'struct hv_vp_assist_page' definition with hyperv-tlfs.h
-Date:   Tue,  1 Nov 2022 15:54:17 +0100
-Message-Id: <20221101145426.251680-40-vkuznets@redhat.com>
+Subject: [PATCH v13 41/48] KVM: selftests: Split off load_evmcs() from load_vmcs()
+Date:   Tue,  1 Nov 2022 15:54:19 +0100
+Message-Id: <20221101145426.251680-42-vkuznets@redhat.com>
 In-Reply-To: <20221101145426.251680-1-vkuznets@redhat.com>
 References: <20221101145426.251680-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,53 +61,103 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-'struct hv_vp_assist_page' definition doesn't match TLFS. Also, define
-'struct hv_nested_enlightenments_control' and use it instead of opaque
-'__u64'.
+In preparation to putting Hyper-V specific test pages to a dedicated
+struct, move eVMCS load logic from load_vmcs(). Tests call load_vmcs()
+directly and the only one which needs 'enlightened' version is
+evmcs_test so there's not much gain in having this merged.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Temporary pass both GPA and HVA to load_evmcs().
+
 Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- .../selftests/kvm/include/x86_64/evmcs.h      | 22 ++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+ .../selftests/kvm/include/x86_64/evmcs.h      | 10 ++++++
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c  | 33 ++++++++-----------
+ .../testing/selftests/kvm/x86_64/evmcs_test.c |  4 +--
+ 3 files changed, 25 insertions(+), 22 deletions(-)
 
 diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 4b6840df2979..efdc62704f27 100644
+index 2530b5aeb4ba..59b60d45b8f6 100644
 --- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
 +++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -20,14 +20,26 @@
+@@ -256,6 +256,16 @@ static inline int evmcs_vmptrld(uint64_t vmcs_pa, void *vmcs)
+ 	return 0;
+ }
  
- extern bool enable_evmcs;
- 
-+struct hv_nested_enlightenments_control {
-+	struct {
-+		__u32 directhypercall:1;
-+		__u32 reserved:31;
-+	} features;
-+	struct {
-+		__u32 reserved;
-+	} hypercallControls;
-+} __packed;
++static inline bool load_evmcs(uint64_t enlightened_vmcs_gpa, void *enlightened_vmcs)
++{
++	if (evmcs_vmptrld(enlightened_vmcs_gpa, enlightened_vmcs))
++		return false;
 +
-+/* Define virtual processor assist page structure. */
- struct hv_vp_assist_page {
- 	__u32 apic_assist;
--	__u32 reserved;
--	__u64 vtl_control[2];
--	__u64 nested_enlightenments_control[2];
--	__u32 enlighten_vmentry;
-+	__u32 reserved1;
-+	__u64 vtl_control[3];
-+	struct hv_nested_enlightenments_control nested_control;
-+	__u8 enlighten_vmentry;
-+	__u8 reserved2[7];
- 	__u64 current_nested_vmcs;
--};
-+} __packed;
++	current_evmcs->revision_id = EVMCS_VERSION;
++
++	return true;
++}
++
+ static inline int evmcs_vmptrst(uint64_t *value)
+ {
+ 	*value = current_vp_assist->current_nested_vmcs &
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+index d21049c38fc5..40e4f427a3ec 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+@@ -171,26 +171,19 @@ bool prepare_for_vmx_operation(struct vmx_pages *vmx)
  
- struct hv_enlightened_vmcs {
- 	u32 revision_id;
+ bool load_vmcs(struct vmx_pages *vmx)
+ {
+-	if (!enable_evmcs) {
+-		/* Load a VMCS. */
+-		*(uint32_t *)(vmx->vmcs) = vmcs_revision();
+-		if (vmclear(vmx->vmcs_gpa))
+-			return false;
+-
+-		if (vmptrld(vmx->vmcs_gpa))
+-			return false;
+-
+-		/* Setup shadow VMCS, do not load it yet. */
+-		*(uint32_t *)(vmx->shadow_vmcs) =
+-			vmcs_revision() | 0x80000000ul;
+-		if (vmclear(vmx->shadow_vmcs_gpa))
+-			return false;
+-	} else {
+-		if (evmcs_vmptrld(vmx->enlightened_vmcs_gpa,
+-				  vmx->enlightened_vmcs))
+-			return false;
+-		current_evmcs->revision_id = EVMCS_VERSION;
+-	}
++	/* Load a VMCS. */
++	*(uint32_t *)(vmx->vmcs) = vmcs_revision();
++	if (vmclear(vmx->vmcs_gpa))
++		return false;
++
++	if (vmptrld(vmx->vmcs_gpa))
++		return false;
++
++	/* Setup shadow VMCS, do not load it yet. */
++	*(uint32_t *)(vmx->shadow_vmcs) =
++		vmcs_revision() | 0x80000000ul;
++	if (vmclear(vmx->shadow_vmcs_gpa))
++		return false;
+ 
+ 	return true;
+ }
+diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+index 9007fb04343b..5a4c8b1873aa 100644
+--- a/tools/testing/selftests/kvm/x86_64/evmcs_test.c
++++ b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+@@ -81,10 +81,10 @@ void guest_code(struct vmx_pages *vmx_pages)
+ 	enable_vp_assist(vmx_pages->vp_assist_gpa, vmx_pages->vp_assist);
+ 	evmcs_enable();
+ 
+-	GUEST_ASSERT(vmx_pages->vmcs_gpa);
+ 	GUEST_ASSERT(prepare_for_vmx_operation(vmx_pages));
+ 	GUEST_SYNC(3);
+-	GUEST_ASSERT(load_vmcs(vmx_pages));
++	GUEST_ASSERT(load_evmcs(vmx_pages->enlightened_vmcs_gpa,
++				vmx_pages->enlightened_vmcs));
+ 	GUEST_ASSERT(vmptrstz() == vmx_pages->enlightened_vmcs_gpa);
+ 
+ 	GUEST_SYNC(4);
 -- 
 2.37.3
 
