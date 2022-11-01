@@ -2,92 +2,139 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 183FCC4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 14:55:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA549C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 14:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiKAOz2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 10:55:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39694 "EHLO
+        id S230313AbiKAOzk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 10:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbiKAOz0 (ORCPT
+        with ESMTP id S230345AbiKAOzi (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 10:55:26 -0400
+        Tue, 1 Nov 2022 10:55:38 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487E62DE2
-        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:54:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F486429
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667314466;
+        s=mimecast20190719; t=1667314480;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=UpfQYVzMIcuMXx56DkvqTXydEG0Wdlj350I7KRytfvw=;
-        b=hyqrnk5KOZGGUOP7rDSltT+yMb+hYiL1dY9CyEmhxtaVUqUZNSnkFQus+ClkvCYI+UoN2z
-        aZZm4wOwhBbbTKOsD+91JMzt2I6eTb/USCsgOC1Y+KAsVeoRJ5Lay4fYK5Ej9JT8YCKvEa
-        TVS7AJ4cxmhKZ7LsD/E6obuSAFcTAiA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-336-MUs2fEArNGiH7q24ahUrfg-1; Tue, 01 Nov 2022 10:54:25 -0400
-X-MC-Unique: MUs2fEArNGiH7q24ahUrfg-1
-Received: by mail-ej1-f69.google.com with SMTP id he6-20020a1709073d8600b0078e20190301so8123383ejc.22
-        for <linux-hyperv@vger.kernel.org>; Tue, 01 Nov 2022 07:54:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpfQYVzMIcuMXx56DkvqTXydEG0Wdlj350I7KRytfvw=;
-        b=RpbLPDI5YkNcyygigohhOB/gswvvBk379XEzGoAOEJAbpmIVl4WSzrCdrKaxT//QUX
-         Glwpih0WfYCFcPCKHrZsMZXfx2K2NAs2vbLnvgdojhRWmLwBOdcgtkaQrL4X4GrpiiNG
-         b3FcZjPvTV6sRf/wJisnhuPLHtu8F9zqWtOohpyI5uSe2CTk9ztzHd45v0zJ88CEQ09S
-         PtWsRPF8if3meynUUZ0DNt5Acy5kzZZQn+G7qUEcjzRdw0cHNATTa+Zfd7BSVYk4DujH
-         GHjkof7KKfkw0KrOI8WhuW6SWQ4wv+D4ZPJatwxrz723zsAuVbO5KDw1lVftvuwNaIrf
-         wNiQ==
-X-Gm-Message-State: ACrzQf0M4ySD8mJvJp8cuJi5+R2A+dw59nCMnMezhPrz8fGVlWslfeEM
-        N12LPEt7AFz/po7WCg9CqaDLtFGSiQ+RxqmD90WCRzqIM1Vrwt3lIivLybd1B9/gSyn3qRs5JeH
-        IcW23L0Ds/xSrBkQv1FKGTNlp
-X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id sc36-20020a1709078a2400b00795bb7d643bmr19113931ejc.115.1667314464041;
-        Tue, 01 Nov 2022 07:54:24 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6cO4rk8NeV9RvMCaBS52ImLLAf4ZLqcdpiLZqjgPxz3IJI9NfZXhSLsdW9KGQGq3mQMXBZDg==
-X-Received: by 2002:a17:907:8a24:b0:795:bb7d:643b with SMTP id sc36-20020a1709078a2400b00795bb7d643bmr19113910ejc.115.1667314463791;
-        Tue, 01 Nov 2022 07:54:23 -0700 (PDT)
-Received: from ovpn-194-149.brq.redhat.com (nat-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id m23-20020a170906849700b0079e11b8e891sm4207005ejx.125.2022.11.01.07.54.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 07:54:23 -0700 (PDT)
+        bh=QFxOQ3PtGIbBD+RVLQskRjxlIhD002VdmDFB8+zh1fI=;
+        b=Whsyqbkb4K66dsHDecfHL0BlRYx46xcsvsGd9TWAN76MYPD8UWtJI6iYF2FUJRBVdbkiG+
+        k4qY1Abe7of1rrBQu8nM0l227O2bCwkstuXPatmBGvSCIhq8ugtronWw1rVHpvycgJf0oq
+        H3OdZUXcZBeMWQB/M7KHn9AdI9DQKoc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-632-Os-v50pzP_mqHSE14eF0Cg-1; Tue, 01 Nov 2022 10:54:37 -0400
+X-MC-Unique: Os-v50pzP_mqHSE14eF0Cg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EEC9F3C32C42;
+        Tue,  1 Nov 2022 14:54:36 +0000 (UTC)
+Received: from ovpn-194-149.brq.redhat.com (ovpn-194-149.brq.redhat.com [10.40.194.149])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 48F99C15BA5;
+        Tue,  1 Nov 2022 14:54:34 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>,
+To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>,
+Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Jim Mattson <jmattson@google.com>,
         Michael Kelley <mikelley@microsoft.com>,
         Siddharth Chandrasekaran <sidcha@amazon.de>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v12 00/46] KVM: x86: hyper-v: Fine-grained TLB flush +
- L2 TLB flush features
-In-Reply-To: <87zgdcs65g.fsf@ovpn-194-149.brq.redhat.com>
-References: <20221021153521.1216911-1-vkuznets@redhat.com>
- <Y1m0ef+LdcAW0Bzh@google.com> <Y1m1Jnpw5betG8CG@google.com>
- <87zgdcs65g.fsf@ovpn-194-149.brq.redhat.com>
-Date:   Tue, 01 Nov 2022 15:54:21 +0100
-Message-ID: <87h6zisp2a.fsf@ovpn-194-149.brq.redhat.com>
+Subject: [PATCH v13 02/48] KVM: selftests: Move "struct hv_enlightenments" to x86_64/svm.h
+Date:   Tue,  1 Nov 2022 15:53:40 +0100
+Message-Id: <20221101145426.251680-3-vkuznets@redhat.com>
+In-Reply-To: <20221101145426.251680-1-vkuznets@redhat.com>
+References: <20221101145426.251680-1-vkuznets@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+From: Sean Christopherson <seanjc@google.com>
 
->
-> Paolo,
->
-> do you want to follow this path or do you expect the full 'v13' from me? 
+Move Hyper-V's VMCB "struct hv_enlightenments" to the svm.h header so
+that the struct can be referenced in "struct vmcb_control_area".
+Alternatively, a dedicated header for SVM+Hyper-V could be added, a la
+x86_64/evmcs.h, but it doesn't appear that Hyper-V will end up needing
+a wholesale replacement for the VMCB.
 
-v13 it is :-) I've added all the tags and addressed the remaining
-feedback (a typo fixed + a comment added).
+No functional change intended.
 
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+---
+ .../testing/selftests/kvm/include/x86_64/svm.h | 17 +++++++++++++++++
+ .../selftests/kvm/x86_64/hyperv_svm_test.c     | 18 ------------------
+ 2 files changed, 17 insertions(+), 18 deletions(-)
+
+diff --git a/tools/testing/selftests/kvm/include/x86_64/svm.h b/tools/testing/selftests/kvm/include/x86_64/svm.h
+index c8343ff84f7f..89ce2c6b57fe 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/svm.h
++++ b/tools/testing/selftests/kvm/include/x86_64/svm.h
+@@ -58,6 +58,23 @@ enum {
+ 	INTERCEPT_RDPRU,
+ };
+ 
++struct hv_enlightenments {
++	struct __packed hv_enlightenments_control {
++		u32 nested_flush_hypercall:1;
++		u32 msr_bitmap:1;
++		u32 enlightened_npt_tlb: 1;
++		u32 reserved:29;
++	} __packed hv_enlightenments_control;
++	u32 hv_vp_id;
++	u64 hv_vm_id;
++	u64 partition_assist_page;
++	u64 reserved;
++} __packed;
++
++/*
++ * Hyper-V uses the software reserved clean bit in VMCB
++ */
++#define HV_VMCB_NESTED_ENLIGHTENMENTS (1U << 31)
+ 
+ struct __attribute__ ((__packed__)) vmcb_control_area {
+ 	u32 intercept_cr;
+diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
+index 5060fcfe1760..2fd64b419928 100644
+--- a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
++++ b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
+@@ -23,24 +23,6 @@
+ 
+ #define L2_GUEST_STACK_SIZE 256
+ 
+-struct hv_enlightenments {
+-	struct __packed hv_enlightenments_control {
+-		u32 nested_flush_hypercall:1;
+-		u32 msr_bitmap:1;
+-		u32 enlightened_npt_tlb: 1;
+-		u32 reserved:29;
+-	} __packed hv_enlightenments_control;
+-	u32 hv_vp_id;
+-	u64 hv_vm_id;
+-	u64 partition_assist_page;
+-	u64 reserved;
+-} __packed;
+-
+-/*
+- * Hyper-V uses the software reserved clean bit in VMCB
+- */
+-#define HV_VMCB_NESTED_ENLIGHTENMENTS (1U << 31)
+-
+ void l2_guest_code(void)
+ {
+ 	GUEST_SYNC(3);
 -- 
-Vitaly
+2.37.3
 
