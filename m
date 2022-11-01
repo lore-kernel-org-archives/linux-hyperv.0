@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC94C4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 028CFC433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231166AbiKAPBQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 11:01:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41700 "EHLO
+        id S231398AbiKAPBk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 11:01:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231259AbiKAPBD (ORCPT
+        with ESMTP id S231163AbiKAPBQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 11:01:03 -0400
+        Tue, 1 Nov 2022 11:01:16 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BD31DDCF
-        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:56:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEAC1DDEE
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:56:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667314600;
+        s=mimecast20190719; t=1667314604;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=EODbDTkqTZBBymFnsXzTDVagmoVBHbitQaX3f99+ld8=;
-        b=OdUXslVDdjp/urfuryc4jPYgIwBpucTucctWSdcgbCoxhMgKoVYHL95V0rGt7c15Ab6dxZ
-        2mEPzSXeKUyaFVuQXw5Hw8lt7lgZYPFtmSQhBKYdcQSJcMJ4L1FOzv4At9ROhBczu28HNT
-        EhjpuMsbdOvjF6gcR5uzFR9+6gh0+g4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=7puXFXv1DG8mFUtGfN+hbNIIoLLWZiDM4OzPtCAwHnA=;
+        b=Hn+TjqiOcjT+7HDSHpizDGemnS+ZVVe1f0x5VCsrrEPWZFtd+TpmwH/fjNxBFSnnvq3mKo
+        re55ddjNxUM1RpcPNbpib0QiL1+SwIBQPuc0z0iytRhY5Mq/CpdWziDAA6TiH7wMN1+bll
+        bFxUO0U7e5d0Oo5ogHU0LfzdNmh1iZc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-487-f2DQYAPmN0eOuVbcNTz9Tw-1; Tue, 01 Nov 2022 10:56:38 -0400
-X-MC-Unique: f2DQYAPmN0eOuVbcNTz9Tw-1
+ us-mta-549-tOQTKxiRP_uhix1cMQetdQ-1; Tue, 01 Nov 2022 10:56:39 -0400
+X-MC-Unique: tOQTKxiRP_uhix1cMQetdQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAA5F1C0A58A;
-        Tue,  1 Nov 2022 14:56:37 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B5AF80600A;
+        Tue,  1 Nov 2022 14:56:23 +0000 (UTC)
 Received: from ovpn-194-149.brq.redhat.com (ovpn-194-149.brq.redhat.com [10.40.194.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 500B4C2C8DB;
-        Tue,  1 Nov 2022 14:56:32 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 68F8DC15BB9;
+        Tue,  1 Nov 2022 14:56:09 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v13 38/48] KVM: selftests: Sync 'struct hv_enlightened_vmcs' definition with hyperv-tlfs.h
-Date:   Tue,  1 Nov 2022 15:54:16 +0100
-Message-Id: <20221101145426.251680-39-vkuznets@redhat.com>
+Subject: [PATCH v13 34/48] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
+Date:   Tue,  1 Nov 2022 15:54:12 +0100
+Message-Id: <20221101145426.251680-35-vkuznets@redhat.com>
 In-Reply-To: <20221101145426.251680-1-vkuznets@redhat.com>
 References: <20221101145426.251680-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,64 +61,41 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-'struct hv_enlightened_vmcs' definition in selftests is not '__packed'
-and so we rely on the compiler doing the right padding. This is not
-obvious so it seems beneficial to use the same definition as in kernel.
+Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
+in vm->vpages_mapped.
 
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+While on it, remove unneeded code wrapping in vm_vaddr_alloc().
+
+Reviewed-by: Andrew Jones <andrew.jones@linux.dev>
 Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/include/x86_64/evmcs.h | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ tools/testing/selftests/kvm/lib/kvm_util.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-index 58db74f68af2..4b6840df2979 100644
---- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
-@@ -41,6 +41,8 @@ struct hv_enlightened_vmcs {
- 	u16 host_gs_selector;
- 	u16 host_tr_selector;
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index 3578b9a7cc2f..29f743086ecc 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -1256,8 +1256,7 @@ vm_vaddr_t vm_vaddr_alloc(struct kvm_vm *vm, size_t sz, vm_vaddr_t vaddr_min)
  
-+	u16 padding16_1;
+ 		virt_pg_map(vm, vaddr, paddr);
+ 
+-		sparsebit_set(vm->vpages_mapped,
+-			vaddr >> vm->page_shift);
++		sparsebit_set(vm->vpages_mapped, vaddr >> vm->page_shift);
+ 	}
+ 
+ 	return vaddr_start;
+@@ -1330,6 +1329,8 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ 		virt_pg_map(vm, vaddr, paddr);
+ 		vaddr += page_size;
+ 		paddr += page_size;
 +
- 	u64 host_ia32_pat;
- 	u64 host_ia32_efer;
++		sparsebit_set(vm->vpages_mapped, vaddr >> vm->page_shift);
+ 	}
+ }
  
-@@ -159,7 +161,7 @@ struct hv_enlightened_vmcs {
- 	u64 ept_pointer;
- 
- 	u16 virtual_processor_id;
--	u16 padding16[3];
-+	u16 padding16_2[3];
- 
- 	u64 padding64_2[5];
- 	u64 guest_physical_address;
-@@ -195,13 +197,13 @@ struct hv_enlightened_vmcs {
- 	u64 guest_rip;
- 
- 	u32 hv_clean_fields;
--	u32 hv_padding_32;
-+	u32 padding32_1;
- 	u32 hv_synthetic_controls;
- 	struct {
- 		u32 nested_flush_hypercall:1;
- 		u32 msr_bitmap:1;
- 		u32 reserved:30;
--	} hv_enlightenments_control;
-+	}  __packed hv_enlightenments_control;
- 	u32 hv_vp_id;
- 	u32 padding32_2;
- 	u64 hv_vm_id;
-@@ -222,7 +224,7 @@ struct hv_enlightened_vmcs {
- 	u64 host_ssp;
- 	u64 host_ia32_int_ssp_table_addr;
- 	u64 padding64_6;
--};
-+} __packed;
- 
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_IO_BITMAP                BIT(0)
 -- 
 2.37.3
 
