@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA2FC433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:03:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41627C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231504AbiKAPDf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 11:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52020 "EHLO
+        id S231280AbiKAPIO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 11:08:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231510AbiKAPDU (ORCPT
+        with ESMTP id S231314AbiKAPHy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 11:03:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC631F2EC
-        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:58:05 -0700 (PDT)
+        Tue, 1 Nov 2022 11:07:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57051220D9
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 08:00:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667314631;
+        s=mimecast20190719; t=1667314813;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=O4JQt2TyP8rv/jwuj8EGHOlJT6u9NgMM6O63X5jVr9Y=;
-        b=BYcmnuAwyOufRYeJ0Q09PsoP747v5ADu5gFMbEqbmkyDAZVfuj8p+yuvv1nbba7QqVRN0N
-        DNcfwgTQqD4qHH+RG4n5A+rwElKqT3YNoS8HVLgOdEOrjrXeO0tWBVAtLXT8iS7VbLPtiA
-        5RB3NhBUf+9oL/AjucoA07SG7vtmIPY=
+        bh=LhhcrvG+7RwHzHHKMtMlqTTJoFvq/28FWWa9Z7l4uf8=;
+        b=OHjIFS9HHn9pT38KGxieDpXQBRr0/cNe9ZCzyG13Z60rC0Ew0DT8sAD3LDqN5ViZGGuNyD
+        F/dom9JXx8LA2qdrbiIaUZHkYvwG+YJhsAAj0Ozn1rRYLO4uEzxWVqPVjMzivcrTI8kCUI
+        c49cJpZybsewHRkENCIhYsx7kWmoXZc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-SB0Dvz_iN4GXUtxmUGOdCQ-1; Tue, 01 Nov 2022 10:57:09 -0400
-X-MC-Unique: SB0Dvz_iN4GXUtxmUGOdCQ-1
+ us-mta-483-eyrpg5fiP2uappcwww7VVQ-1; Tue, 01 Nov 2022 10:56:56 -0400
+X-MC-Unique: eyrpg5fiP2uappcwww7VVQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4E281C0BC61;
-        Tue,  1 Nov 2022 14:57:08 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9930D1C0BC62;
+        Tue,  1 Nov 2022 14:56:55 +0000 (UTC)
 Received: from ovpn-194-149.brq.redhat.com (ovpn-194-149.brq.redhat.com [10.40.194.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 40292C15BB9;
-        Tue,  1 Nov 2022 14:57:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A36F7C2C8D8;
+        Tue,  1 Nov 2022 14:56:53 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v13 48/48] KVM: selftests: Rename 'evmcs_test' to 'hyperv_evmcs'
-Date:   Tue,  1 Nov 2022 15:54:26 +0100
-Message-Id: <20221101145426.251680-49-vkuznets@redhat.com>
+Subject: [PATCH v13 45/48] KVM: selftests: Introduce rdmsr_from_l2() and use it for MSR-Bitmap tests
+Date:   Tue,  1 Nov 2022 15:54:23 +0100
+Message-Id: <20221101145426.251680-46-vkuznets@redhat.com>
 In-Reply-To: <20221101145426.251680-1-vkuznets@redhat.com>
 References: <20221101145426.251680-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,60 +61,101 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Conform to the rest of Hyper-V emulation selftests which have 'hyperv'
-prefix. Get rid of '_test' suffix as well as the purpose of this code
-is fairly obvious.
+Hyper-V MSR-Bitmap tests do RDMSR from L2 to exit to L1. While 'evmcs_test'
+correctly clobbers all GPRs (which are not preserved), 'hyperv_svm_test'
+does not. Introduce and use common rdmsr_from_l2() to avoid code
+duplication and remove hardcoding of MSRs.
 
-Reviewed-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/.gitignore                          | 2 +-
- tools/testing/selftests/kvm/Makefile                            | 2 +-
- .../selftests/kvm/x86_64/{evmcs_test.c => hyperv_evmcs.c}       | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename tools/testing/selftests/kvm/x86_64/{evmcs_test.c => hyperv_evmcs.c} (100%)
+ .../selftests/kvm/include/x86_64/processor.h  |  9 +++++++
+ .../testing/selftests/kvm/x86_64/evmcs_test.c | 24 ++++---------------
+ .../selftests/kvm/x86_64/hyperv_svm_test.c    |  8 +++----
+ 3 files changed, 17 insertions(+), 24 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
-index 68d3d2080b59..edca2d3823d1 100644
---- a/tools/testing/selftests/kvm/.gitignore
-+++ b/tools/testing/selftests/kvm/.gitignore
-@@ -16,7 +16,6 @@
- /x86_64/cpuid_test
- /x86_64/cr4_cpuid_sync_test
- /x86_64/debug_regs
--/x86_64/evmcs_test
- /x86_64/emulator_error_test
- /x86_64/fix_hypercall_test
- /x86_64/get_msr_index_features
-@@ -24,6 +23,7 @@
- /x86_64/kvm_pv_test
- /x86_64/hyperv_clock
- /x86_64/hyperv_cpuid
-+/x86_64/hyperv_evmcs
- /x86_64/hyperv_features
- /x86_64/hyperv_ipi
- /x86_64/hyperv_svm_test
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index eee6421cf4a8..379a83ba4912 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -81,11 +81,11 @@ TEST_PROGS_x86_64 += x86_64/nx_huge_pages_test.sh
- TEST_GEN_PROGS_x86_64 = x86_64/cpuid_test
- TEST_GEN_PROGS_x86_64 += x86_64/cr4_cpuid_sync_test
- TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
--TEST_GEN_PROGS_x86_64 += x86_64/evmcs_test
- TEST_GEN_PROGS_x86_64 += x86_64/emulator_error_test
- TEST_GEN_PROGS_x86_64 += x86_64/fix_hypercall_test
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_cpuid
-+TEST_GEN_PROGS_x86_64 += x86_64/hyperv_evmcs
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_features
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_ipi
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_svm_test
-diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/hyperv_evmcs.c
-similarity index 100%
-rename from tools/testing/selftests/kvm/x86_64/evmcs_test.c
-rename to tools/testing/selftests/kvm/x86_64/hyperv_evmcs.c
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index fbaf0b6cec4b..a14b7e4ea7c4 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -520,6 +520,15 @@ static inline void cpu_relax(void)
+ 		"hlt\n"	\
+ 		)
+ 
++/* Exit to L1 from L2 with RDMSR instruction */
++static inline void rdmsr_from_l2(uint32_t msr)
++{
++	/* Currently, L1 doesn't preserve GPRs during vmexits. */
++	__asm__ __volatile__ ("rdmsr" : : "c"(msr) :
++			      "rax", "rbx", "rdx", "rsi", "rdi", "r8", "r9",
++			      "r10", "r11", "r12", "r13", "r14", "r15");
++}
++
+ bool is_intel_cpu(void);
+ bool is_amd_cpu(void);
+ 
+diff --git a/tools/testing/selftests/kvm/x86_64/evmcs_test.c b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+index 74f076ba574b..a9f511c192c2 100644
+--- a/tools/testing/selftests/kvm/x86_64/evmcs_test.c
++++ b/tools/testing/selftests/kvm/x86_64/evmcs_test.c
+@@ -30,22 +30,6 @@ static void guest_nmi_handler(struct ex_regs *regs)
+ {
+ }
+ 
+-/* Exits to L1 destroy GRPs! */
+-static inline void rdmsr_fs_base(void)
+-{
+-	__asm__ __volatile__ ("mov $0xc0000100, %%rcx; rdmsr" : : :
+-			      "rax", "rbx", "rcx", "rdx",
+-			      "rsi", "rdi", "r8", "r9", "r10", "r11", "r12",
+-			      "r13", "r14", "r15");
+-}
+-static inline void rdmsr_gs_base(void)
+-{
+-	__asm__ __volatile__ ("mov $0xc0000101, %%rcx; rdmsr" : : :
+-			      "rax", "rbx", "rcx", "rdx",
+-			      "rsi", "rdi", "r8", "r9", "r10", "r11", "r12",
+-			      "r13", "r14", "r15");
+-}
+-
+ void l2_guest_code(void)
+ {
+ 	GUEST_SYNC(7);
+@@ -58,11 +42,11 @@ void l2_guest_code(void)
+ 	vmcall();
+ 
+ 	/* MSR-Bitmap tests */
+-	rdmsr_fs_base(); /* intercepted */
+-	rdmsr_fs_base(); /* intercepted */
+-	rdmsr_gs_base(); /* not intercepted */
++	rdmsr_from_l2(MSR_FS_BASE); /* intercepted */
++	rdmsr_from_l2(MSR_FS_BASE); /* intercepted */
++	rdmsr_from_l2(MSR_GS_BASE); /* not intercepted */
+ 	vmcall();
+-	rdmsr_gs_base(); /* intercepted */
++	rdmsr_from_l2(MSR_GS_BASE); /* intercepted */
+ 
+ 	/* Done, exit to L1 and never come back.  */
+ 	vmcall();
+diff --git a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
+index 1c3fc38b4f15..e30419766c8a 100644
+--- a/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
++++ b/tools/testing/selftests/kvm/x86_64/hyperv_svm_test.c
+@@ -30,11 +30,11 @@ void l2_guest_code(void)
+ 	vmmcall();
+ 
+ 	/* MSR-Bitmap tests */
+-	rdmsr(MSR_FS_BASE); /* intercepted */
+-	rdmsr(MSR_FS_BASE); /* intercepted */
+-	rdmsr(MSR_GS_BASE); /* not intercepted */
++	rdmsr_from_l2(MSR_FS_BASE); /* intercepted */
++	rdmsr_from_l2(MSR_FS_BASE); /* intercepted */
++	rdmsr_from_l2(MSR_GS_BASE); /* not intercepted */
+ 	vmmcall();
+-	rdmsr(MSR_GS_BASE); /* intercepted */
++	rdmsr_from_l2(MSR_GS_BASE); /* intercepted */
+ 
+ 	GUEST_SYNC(5);
+ 
 -- 
 2.37.3
 
