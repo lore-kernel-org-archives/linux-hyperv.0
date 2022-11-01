@@ -2,42 +2,42 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 028CFC433FE
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8410C4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Nov 2022 15:01:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231398AbiKAPBk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Nov 2022 11:01:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51750 "EHLO
+        id S230466AbiKAPBq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Nov 2022 11:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231163AbiKAPBQ (ORCPT
+        with ESMTP id S230418AbiKAPBV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Nov 2022 11:01:16 -0400
+        Tue, 1 Nov 2022 11:01:21 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FEAC1DDEE
-        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:56:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422271DF14
+        for <linux-hyperv@vger.kernel.org>; Tue,  1 Nov 2022 07:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1667314604;
+        s=mimecast20190719; t=1667314605;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7puXFXv1DG8mFUtGfN+hbNIIoLLWZiDM4OzPtCAwHnA=;
-        b=Hn+TjqiOcjT+7HDSHpizDGemnS+ZVVe1f0x5VCsrrEPWZFtd+TpmwH/fjNxBFSnnvq3mKo
-        re55ddjNxUM1RpcPNbpib0QiL1+SwIBQPuc0z0iytRhY5Mq/CpdWziDAA6TiH7wMN1+bll
-        bFxUO0U7e5d0Oo5ogHU0LfzdNmh1iZc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=iVYjUYFhl/qhwDL5l7si59w32fV51OGyzGqIljVaKlo=;
+        b=OXB5gZ8taA+NnWNv0P8tmUi44HOYF7/avyujWRfJZL2TN77Arst2Wj4diBM3HJBJTPfZUu
+        Mez2L6RvGrYGhMvo+9MwFzM23LVzvyULP2vsoc9VnjfqNHQ1n7Ul5JTa3tf/F79c9GvO8i
+        q8oi41yZIulEVFPFilhEPUjyGBoia1g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-549-tOQTKxiRP_uhix1cMQetdQ-1; Tue, 01 Nov 2022 10:56:39 -0400
-X-MC-Unique: tOQTKxiRP_uhix1cMQetdQ-1
+ us-mta-459-z9Zwk__qMQ6qgnSmA2LD7w-1; Tue, 01 Nov 2022 10:56:40 -0400
+X-MC-Unique: z9Zwk__qMQ6qgnSmA2LD7w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B5AF80600A;
-        Tue,  1 Nov 2022 14:56:23 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C83B1C00504;
+        Tue,  1 Nov 2022 14:56:34 +0000 (UTC)
 Received: from ovpn-194-149.brq.redhat.com (ovpn-194-149.brq.redhat.com [10.40.194.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 68F8DC15BB9;
-        Tue,  1 Nov 2022 14:56:09 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 22DEEC2DF60;
+        Tue,  1 Nov 2022 14:56:17 +0000 (UTC)
 From:   Vitaly Kuznetsov <vkuznets@redhat.com>
 To:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Sean Christopherson <seanjc@google.com>
@@ -48,9 +48,9 @@ Cc:     Wanpeng Li <wanpengli@tencent.com>,
         Yuan Yao <yuan.yao@linux.intel.com>,
         Maxim Levitsky <mlevitsk@redhat.com>,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v13 34/48] KVM: selftests: Fill in vm->vpages_mapped bitmap in virt_map() too
-Date:   Tue,  1 Nov 2022 15:54:12 +0100
-Message-Id: <20221101145426.251680-35-vkuznets@redhat.com>
+Subject: [PATCH v13 36/48] KVM: selftests: Drop helpers to read/write page table entries
+Date:   Tue,  1 Nov 2022 15:54:14 +0100
+Message-Id: <20221101145426.251680-37-vkuznets@redhat.com>
 In-Reply-To: <20221101145426.251680-1-vkuznets@redhat.com>
 References: <20221101145426.251680-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -61,41 +61,109 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Similar to vm_vaddr_alloc(), virt_map() needs to reflect the mapping
-in vm->vpages_mapped.
+From: Sean Christopherson <seanjc@google.com>
 
-While on it, remove unneeded code wrapping in vm_vaddr_alloc().
+Drop vm_{g,s}et_page_table_entry() and instead expose the "inner"
+helper (was _vm_get_page_table_entry()) that returns a _pointer_ to the
+PTE, i.e. let tests directly modify PTEs instead of bouncing through
+helpers that just make life difficult.
 
-Reviewed-by: Andrew Jones <andrew.jones@linux.dev>
-Reviewed-by: Sean Christopherson <seanjc@google.com>
+Opportunsitically use BIT_ULL() in emulator_error_test, and use the
+MAXPHYADDR define to set the "rogue" GPA bit instead of open coding the
+same value.
+
+No functional change intended.
+
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- tools/testing/selftests/kvm/lib/kvm_util.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../selftests/kvm/include/x86_64/processor.h  |  6 ++----
+ .../selftests/kvm/lib/x86_64/processor.c      | 21 ++-----------------
+ .../kvm/x86_64/emulator_error_test.c          |  6 ++++--
+ 3 files changed, 8 insertions(+), 25 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
-index 3578b9a7cc2f..29f743086ecc 100644
---- a/tools/testing/selftests/kvm/lib/kvm_util.c
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c
-@@ -1256,8 +1256,7 @@ vm_vaddr_t vm_vaddr_alloc(struct kvm_vm *vm, size_t sz, vm_vaddr_t vaddr_min)
+diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
+index dbd75717dc3b..f21d933a2663 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/processor.h
++++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
+@@ -829,10 +829,8 @@ static inline uint8_t wrmsr_safe(uint32_t msr, uint64_t val)
  
- 		virt_pg_map(vm, vaddr, paddr);
+ bool kvm_is_tdp_enabled(void);
  
--		sparsebit_set(vm->vpages_mapped,
--			vaddr >> vm->page_shift);
-+		sparsebit_set(vm->vpages_mapped, vaddr >> vm->page_shift);
- 	}
+-uint64_t vm_get_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
+-				 uint64_t vaddr);
+-void vm_set_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
+-			     uint64_t vaddr, uint64_t pte);
++uint64_t *vm_get_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
++				  uint64_t vaddr);
  
- 	return vaddr_start;
-@@ -1330,6 +1329,8 @@ void virt_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
- 		virt_pg_map(vm, vaddr, paddr);
- 		vaddr += page_size;
- 		paddr += page_size;
-+
-+		sparsebit_set(vm->vpages_mapped, vaddr >> vm->page_shift);
+ uint64_t kvm_hypercall(uint64_t nr, uint64_t a0, uint64_t a1, uint64_t a2,
+ 		       uint64_t a3);
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+index 39c4409ef56a..90b35998b0f3 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+@@ -241,9 +241,8 @@ void virt_map_level(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
  	}
  }
  
+-static uint64_t *_vm_get_page_table_entry(struct kvm_vm *vm,
+-					  struct kvm_vcpu *vcpu,
+-					  uint64_t vaddr)
++uint64_t *vm_get_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
++				  uint64_t vaddr)
+ {
+ 	uint16_t index[4];
+ 	uint64_t *pml4e, *pdpe, *pde;
+@@ -313,22 +312,6 @@ static uint64_t *_vm_get_page_table_entry(struct kvm_vm *vm,
+ 	return &pte[index[0]];
+ }
+ 
+-uint64_t vm_get_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
+-				 uint64_t vaddr)
+-{
+-	uint64_t *pte = _vm_get_page_table_entry(vm, vcpu, vaddr);
+-
+-	return *(uint64_t *)pte;
+-}
+-
+-void vm_set_page_table_entry(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
+-			     uint64_t vaddr, uint64_t pte)
+-{
+-	uint64_t *new_pte = _vm_get_page_table_entry(vm, vcpu, vaddr);
+-
+-	*(uint64_t *)new_pte = pte;
+-}
+-
+ void virt_arch_dump(FILE *stream, struct kvm_vm *vm, uint8_t indent)
+ {
+ 	uint64_t *pml4e, *pml4e_start;
+diff --git a/tools/testing/selftests/kvm/x86_64/emulator_error_test.c b/tools/testing/selftests/kvm/x86_64/emulator_error_test.c
+index 236e11755ba6..bde247f3c8a1 100644
+--- a/tools/testing/selftests/kvm/x86_64/emulator_error_test.c
++++ b/tools/testing/selftests/kvm/x86_64/emulator_error_test.c
+@@ -152,8 +152,9 @@ int main(int argc, char *argv[])
+ {
+ 	struct kvm_vcpu *vcpu;
+ 	struct kvm_vm *vm;
+-	uint64_t gpa, pte;
++	uint64_t *pte;
+ 	uint64_t *hva;
++	uint64_t gpa;
+ 	int rc;
+ 
+ 	/* Tell stdout not to buffer its content */
+@@ -178,8 +179,9 @@ int main(int argc, char *argv[])
+ 	virt_map(vm, MEM_REGION_GVA, MEM_REGION_GPA, 1);
+ 	hva = addr_gpa2hva(vm, MEM_REGION_GPA);
+ 	memset(hva, 0, PAGE_SIZE);
++
+ 	pte = vm_get_page_table_entry(vm, vcpu, MEM_REGION_GVA);
+-	vm_set_page_table_entry(vm, vcpu, MEM_REGION_GVA, pte | (1ull << 36));
++	*pte |= BIT_ULL(MAXPHYADDR);
+ 
+ 	vcpu_run(vcpu);
+ 	process_exit_on_emulation_error(vcpu);
 -- 
 2.37.3
 
