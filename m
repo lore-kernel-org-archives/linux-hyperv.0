@@ -2,75 +2,78 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB644C43219
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Nov 2022 16:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47AC7C4332F
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Nov 2022 17:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232007AbiKBQmG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Nov 2022 12:42:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
+        id S229971AbiKBRIT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Nov 2022 13:08:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231944AbiKBQlU (ORCPT
+        with ESMTP id S229539AbiKBRIR (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Nov 2022 12:41:20 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D24082EF47;
-        Wed,  2 Nov 2022 09:36:25 -0700 (PDT)
-Received: from jinankjain-dranzer.zrrkmle5drku1h0apvxbr2u2ee.ix.internal.cloudapp.net (unknown [20.188.121.5])
-        by linux.microsoft.com (Postfix) with ESMTPSA id AD76720C333D;
-        Wed,  2 Nov 2022 09:36:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AD76720C333D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1667406985;
-        bh=1B9p6pFN0yHl6pLuVEuKSNR9XxSBhvzkr5T1mlusw7Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bEfUmfGAOBS5gITdkhShpUgdIYz8e+w/nnho/XxjusjA2Kkf5dnpHM4P8CHymhhL8
-         8HCaxw248anAGvGRKkFoo8Qmn43xKnKtKQfY9wCv17wcfD2JfZKky368V8dGvXvmkG
-         ak3Witv1f52bZtBBpaQGXphevowOygPlmqzZFDeg=
-From:   Jinank Jain <jinankjain@linux.microsoft.com>
-To:     jinankjain@microsoft.com
-Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, arnd@arndb.de, peterz@infradead.org,
-        jpoimboe@kernel.org, jinankjain@linux.microsoft.com,
-        seanjc@google.com, kirill.shutemov@linux.intel.com,
-        ak@linux.intel.com, sathyanarayanan.kuppuswamy@linux.intel.com,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org
-Subject: [PATCH v2 4/5] hv: Enable vmbus driver for nested root partition
-Date:   Wed,  2 Nov 2022 16:36:01 +0000
-Message-Id: <b5ea40f7e84e17a4338a313ab74292a293b1efa4.1667406350.git.jinankjain@linux.microsoft.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1667406350.git.jinankjain@linux.microsoft.com>
-References: <cover.1667406350.git.jinankjain@linux.microsoft.com>
+        Wed, 2 Nov 2022 13:08:17 -0400
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A280C15FFD
+        for <linux-hyperv@vger.kernel.org>; Wed,  2 Nov 2022 10:08:14 -0700 (PDT)
+Received: by mail-io1-xd32.google.com with SMTP id h206so12076803iof.10
+        for <linux-hyperv@vger.kernel.org>; Wed, 02 Nov 2022 10:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=docker.com; s=google;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QYpb4d0goOw4Qakn303/fmOhgAIywNtc7WDJeQRPfyI=;
+        b=Kq7IwIHGR1V6/baYeT2eDh5Y4bSEGpfBS7B08g6NLbQhphskuNcyelhtTtbycYkAMM
+         86aepi4OkIf4jLOV2Vr/QNeA8CDd8pAzbdPIIKMcjQdpl65LfTtLh94c146ypWyL/MqT
+         epxM4ECPHB6upmujHKvyW2hMZSkQUMv98tSn4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QYpb4d0goOw4Qakn303/fmOhgAIywNtc7WDJeQRPfyI=;
+        b=6qu8ShLtmDLsUwRfxvrpWYejYItic2XdGpTlObagYZX7d9xrjX60dDlggT+KvWACkH
+         VUQW5+3b2psyMOE753THIgc9+h1gNrBjQXSC16dtZHoMk6rco0DPac2iJvKo3kU8DMAG
+         np9nEIrpJrAtJCG9BZcl+2Jw+gntz+o88oTKFl5/MFWpLFj3ABrvWBJ3aJ9k+f+L3L+c
+         w7x/0pVnGYsb/7W999n+HfmBLnwnpHgzM7FJIebPTcprCwI25d0+lZGk4tX+qcTavpwl
+         uMZuL5FyZks39GP6WKxZ9MAlZ9k4fTosw+vOYiNe/IX2387CdtT4DGSTrr3RQBRt6O0k
+         dV3A==
+X-Gm-Message-State: ACrzQf3G8qblN++eqqxIn/dluIAGr2Qht468/dRT9nGGU3f0AkIHFDfD
+        La/puVM78lhTY8Uz3uDG8b22TlKqzINW3l0RrBVGng==
+X-Google-Smtp-Source: AMsMyM5qV5kZNIawOYXAXvYYQOMoQBp1yfN5MVvXg41kmZNpBZM1irQma9pnpokWz9vReEDPyEs6PxMzR/syikwq/KI=
+X-Received: by 2002:a5d:8913:0:b0:6a4:71b5:8036 with SMTP id
+ b19-20020a5d8913000000b006a471b58036mr16071369ion.171.1667408894004; Wed, 02
+ Nov 2022 10:08:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221028205646.28084-1-decui@microsoft.com> <20221028205646.28084-3-decui@microsoft.com>
+ <20221031084327.63vikvodhs7aowhe@sgarzare-redhat> <CANWeT6gyKNRraJWzO=02gkqDwa-=tw7NmP2WYRGUyodUBLotkQ@mail.gmail.com>
+ <20221102094504.vhf6x2hgo6fqr7pi@sgarzare-redhat>
+In-Reply-To: <20221102094504.vhf6x2hgo6fqr7pi@sgarzare-redhat>
+From:   Frederic Dalleau <frederic.dalleau@docker.com>
+Date:   Wed, 2 Nov 2022 18:08:03 +0100
+Message-ID: <CANWeT6hWU0tH6sBCUkxnfA21_qxcFuk56sqy=ZHgEJHogxqY5g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] vsock: fix possible infinite sleep in vsock_connectible_wait_data()
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     wei.liu@kernel.org, netdev@vger.kernel.org, haiyangz@microsoft.com,
+        linux-hyperv@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        stephen@networkplumber.org, edumazet@google.com, kuba@kernel.org,
+        arseny.krasnov@kaspersky.com, decui@microsoft.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Currently VMBus driver is not initialized for root partition but we need
-to enable the VMBus driver for nested root partition. This is required
-to expose VMBus devices to the L2 guest in the nested setup.
+> Did you use scripts/get_maintainer.pl?
+Not really, I just picked the list that seemed narrow enough for the topic
 
-Signed-off-by: Jinank Jain <jinankjain@linux.microsoft.com>
----
- drivers/hv/vmbus_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> respond with your Tested-by?
+Done
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 8b2e413bf19c..2f0cf75e811b 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -2723,7 +2723,7 @@ static int __init hv_acpi_init(void)
- 	if (!hv_is_hyperv_initialized())
- 		return -ENODEV;
- 
--	if (hv_root_partition)
-+	if (hv_root_partition && !hv_nested)
- 		return 0;
- 
- 	/*
--- 
-2.25.1
+> I would like to give credit to both, so I asked to add your Reported-by
+> to the Dexuan's patch.
+Thank you!
 
+Regards,
+Fr=C3=A9d=C3=A9ric
