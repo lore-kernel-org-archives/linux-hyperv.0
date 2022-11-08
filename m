@@ -2,102 +2,92 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37205C4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Nov 2022 10:37:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C7B2C4332F
+	for <linux-hyperv@archiver.kernel.org>; Tue,  8 Nov 2022 19:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234015AbiKHKhd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 8 Nov 2022 05:37:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58458 "EHLO
+        id S229782AbiKHTPB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 8 Nov 2022 14:15:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234024AbiKHKhN (ORCPT
+        with ESMTP id S229447AbiKHTPB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 8 Nov 2022 05:37:13 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B67584298A;
-        Tue,  8 Nov 2022 02:36:54 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id b21so13790400plc.9;
-        Tue, 08 Nov 2022 02:36:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7FC4xTWKbEcJxVm+LBMuB4SUqqHDVOvyFDbcq+yh01A=;
-        b=oCWmwDp8Mq/94lPgWOpRNMqusVjIbpZKRV9JeuSrdvQOJhGpRXChOO08QAlKk8Wx73
-         s9dECqgOGqSg/8HsqRHiP/XKfZq37XO9aPQHjT6sIVfwd2T5rgHuMt0YXR0vcVnuqJPC
-         bYyXpc+YB5DY79XuJsgDgEnii3hXBb2hLVOouhQABdDKDpptyrIasT3qltTbts8XnJrU
-         VZTd4OMKS0clmozmVyOJgYGhRCfkJh6l8h11/FOcCQ+LBk3+XZqX0RE3+w4sLEria5R3
-         Qsi/EmUKkAqx8Cc/Ujp41/7pVyFg5TMnjalYEafM8z3HSH10qmw+8OMIN07CWneo6bGA
-         xdsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7FC4xTWKbEcJxVm+LBMuB4SUqqHDVOvyFDbcq+yh01A=;
-        b=pJruh9JrSZeI3RPG9Djmph6xka+bXU3ieDTszK6HR9tUalxsckaWfe08+qq/ThY7rW
-         Dgewo09gIoPDObpiqAtXZhN2EgNx+1VonZrwd/pAerJyVAtoSHIrmRiuUm7cUxv4+3si
-         Xd0hmEPByQzYXjfY7w1Gtg5wjyPtNxjyYcZ8YFgVzxpFO0cBm1kfK89TBu1DuhSvJmZb
-         VtB6uWqwaH7crvvfBMxc/1nPnTKJevXXzkSqreEBafOcIPr4UOsyx0S5q0jdmG5/jtaN
-         ozoUjZw6xqpKbEr7shyIbsY6KvqXtGAQckvg+Ndxpz2vqfnaux544xZgacm9+4FCDE2d
-         JkXw==
-X-Gm-Message-State: ACrzQf1TXcmCs2LcDd1iFpoNzqc69NWs4kFVc/HKVMl8bS+vqP6KLIXm
-        /xXpd//U0QrwDdyNGJN01qQ=
-X-Google-Smtp-Source: AMsMyM4t0UZsTKGoBIe7o5gVWR0wgRXPrt+fajdjHMMuWw0RmjuTkgxkIK95E7qPspPcKE7d1giP0A==
-X-Received: by 2002:a17:90b:254c:b0:20a:8a92:ea5b with SMTP id nw12-20020a17090b254c00b0020a8a92ea5bmr56165515pjb.81.1667903814151;
-        Tue, 08 Nov 2022 02:36:54 -0800 (PST)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:1a:efea::75b])
-        by smtp.gmail.com with ESMTPSA id h5-20020a17090a648500b0020a11217682sm5700073pjj.27.2022.11.08.02.36.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 02:36:53 -0800 (PST)
-Message-ID: <9a4edf34-6e49-9fd0-fc23-2536c5f087ea@gmail.com>
-Date:   Tue, 8 Nov 2022 18:36:40 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 09/12] hv_netvsc: Remove second mapping of send and recv
- buffers
-Content-Language: en-US
-To:     Michael Kelley <mikelley@microsoft.com>, hpa@zytor.com,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
-        peterz@infradead.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, lpieralisi@kernel.org,
-        robh@kernel.org, kw@linux.com, bhelgaas@google.com, arnd@arndb.de,
-        hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        Tianyu.Lan@microsoft.com, kirill.shutemov@linux.intel.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com, ak@linux.intel.com,
-        isaku.yamahata@intel.com, dan.j.williams@intel.com,
-        jane.chu@oracle.com, seanjc@google.com, tony.luck@intel.com,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
+        Tue, 8 Nov 2022 14:15:01 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B74B1C434;
+        Tue,  8 Nov 2022 11:14:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 44B89CE1C7C;
+        Tue,  8 Nov 2022 19:14:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83565C433D6;
+        Tue,  8 Nov 2022 19:14:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1667934896;
+        bh=t3I6rmDD2mZuybABnEFHUUo7+wYWO8HgdbmqbF9+cKY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DkhKuZjBLjSRbPXOtOUhC5+N4NgToJ9YrZirjH1MAg2ZmnSXNtl6N/uCpMG6H9v++
+         +vGdNtaT4inqNgISh8XJ1enqykW513XgIS/yD9MkbPsC8G8nuU6hF+yJpO2HVDdgQj
+         2G6DmimMq8x1XtzvAhU75nb2AFpc6vgH7Vw4F0deNNEadHxYDsHO8N4dsOicoEQURO
+         RF9wzo9N/pB5pm2zt0x/R4h3iV5xQp1zsPM37KoVT/oLTJKmQ3iDhX6Ja7Cc07t5FQ
+         aUirQWfkw7LmJ8WxbanWxoAJLHupi9hx4r5NqHQH0ZknB4zqqgeSIVJc6FC4QNoLrp
+         Cl4M/bz1NRwsg==
+Date:   Tue, 8 Nov 2022 21:14:51 +0200
+From:   Leon Romanovsky <leon@kernel.org>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, edumazet@google.com
+Cc:     longli@microsoft.com, "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, shiraz.saleem@intel.com,
+        Ajay Sharma <sharmaajay@microsoft.com>,
         linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
-        iommu@lists.linux.dev
-References: <1666288635-72591-1-git-send-email-mikelley@microsoft.com>
- <1666288635-72591-10-git-send-email-mikelley@microsoft.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <1666288635-72591-10-git-send-email-mikelley@microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+Subject: Re: [Patch v10 00/12] Introduce Microsoft Azure Network Adapter
+ (MANA) RDMA driver
+Message-ID: <Y2qqq9/N65tfYyP0@unreal>
+References: <1667502990-2559-1-git-send-email-longli@linuxonhyperv.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1667502990-2559-1-git-send-email-longli@linuxonhyperv.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 10/21/2022 1:57 AM, Michael Kelley wrote:
-> With changes to how Hyper-V guest VMs flip memory between private
-> (encrypted) and shared (decrypted), creating a second kernel virtual
-> mapping for shared memory is no longer necessary.  Everything needed
-> for the transition to shared is handled by set_memory_decrypted().
+On Thu, Nov 03, 2022 at 12:16:18PM -0700, longli@linuxonhyperv.com wrote:
+> From: Long Li <longli@microsoft.com>
 > 
-> As such, remove the code to create and manage the second
-> mapping for the pre-allocated send and recv buffers.  This mapping
-> is the last user of hv_map_memory()/hv_unmap_memory(), so delete
-> these functions as well.  Finally, hv_map_memory() is the last
-> user of vmap_pfn() in Hyper-V guest code, so remove the Kconfig
-> selection of VMAP_PFN.
+> This patchset implements a RDMA driver for Microsoft Azure Network
+> Adapter (MANA). In MANA, the RDMA device is modeled as an auxiliary device
+> to the Ethernet device.
 > 
-> Signed-off-by: Michael Kelley<mikelley@microsoft.com>
+> The first 11 patches modify the MANA Ethernet driver to support RDMA driver.
+> The last patch implementes the RDMA driver.
 
-Reviewed-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
+<...>
+
+>  drivers/net/ethernet/microsoft/Kconfig        |   1 +
+>  .../net/ethernet/microsoft/mana/gdma_main.c   |  40 +-
+>  .../net/ethernet/microsoft/mana/hw_channel.c  |   6 +-
+>  .../net/ethernet/microsoft/mana/mana_bpf.c    |   2 +-
+>  drivers/net/ethernet/microsoft/mana/mana_en.c | 175 +++++-
+>  .../ethernet/microsoft/mana/mana_ethtool.c    |   2 +-
+>  .../net/ethernet/microsoft/mana/shm_channel.c |   2 +-
+>  .../microsoft => include/net}/mana/gdma.h     | 158 +++++-
+>  .../net}/mana/hw_channel.h                    |   0
+>  .../microsoft => include/net}/mana/mana.h     |  23 +-
+>  include/net/mana/mana_auxiliary.h             |  10 +
+>  .../net}/mana/shm_channel.h                   |   0
+>  include/uapi/rdma/ib_user_ioctl_verbs.h       |   1 +
+>  include/uapi/rdma/mana-abi.h                  |  66 +++
+
+Hi netdev maintainers,
+
+Can you please ACK/comment on eth part of this series? And how should
+we proceed? Should we take this driver through shared branch or apply
+directly to RDMA tree?
+
+Thanks
