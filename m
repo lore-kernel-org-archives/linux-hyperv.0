@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 201E7C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD324C4332F
 	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Nov 2022 20:54:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231856AbiKIUyJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Nov 2022 15:54:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49102 "EHLO
+        id S231872AbiKIUyK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 9 Nov 2022 15:54:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231823AbiKIUyA (ORCPT
+        with ESMTP id S231836AbiKIUyH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Nov 2022 15:54:00 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A4D927FC2;
-        Wed,  9 Nov 2022 12:53:59 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id gw22so17833812pjb.3;
-        Wed, 09 Nov 2022 12:53:59 -0800 (PST)
+        Wed, 9 Nov 2022 15:54:07 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D408B21273;
+        Wed,  9 Nov 2022 12:54:06 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id b1-20020a17090a7ac100b00213fde52d49so3074706pjl.3;
+        Wed, 09 Nov 2022 12:54:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DP2gDnxC84ZwxSYEmb2xdHigIgTSb4Jlj1QnGwsCAFw=;
-        b=Va6CZHAg3f/zFbZo9HodKXjThGqLp0oVJDcMTRhMPuBJwMNjwGadE5rwXHrXksLyxC
-         cX9emz/hzWrYaPGXCczxnrLfezOjGGAd+GTMErsmmxBA4SsKRNR341GEI+mWnCR8gRt8
-         OO0jchbExs1sZE+y0+UXDLXScY2hNTmPeu8MYmo9hinVTP4rvQGZ+ZAOXRy1cGzaHPRv
-         XJ3XECO33Hml98f43si4sKd+PM5MlAyElu/pWMnofWnQalxxUvalah0gAQkQkK6tc161
-         rZLozxFvh4x7I4ogl87LkxntixMV7mHEopLXzwQgLDOBLZQZ4EjzxeH31m1T9dbSTR9t
-         Rjhg==
+        bh=loq3axK/RYrhXox7s9iRtCxZB75cuqQoJg9zTfXxZb4=;
+        b=beFZ5Y47kp1rJfIpBxAoTPtins11XDT5gcQls7HiwKvU68KQJRTlUxewLDVT5p7d5Z
+         5ikaFpLZmG09q9dQRVDpgfLnZelttUOzwqcewJ2gfAZBBbijcm6pHDlJZhUH45TcAQ+N
+         iB8pckuHrFxqCLROUWXOs9ukICIqRYYTIc7HFJUWpaFEE42FcklaP2oRbzhSM0VuT/MB
+         DUpE3bCgo8Vx1acGTmV9YgGDEOumV2qf1DF8KeikfFA9pYlv1dr7LDTvWnJng06aTtnD
+         PRf3QjwdUTYmT6n7Ubrc+uRoHp2IUHYucJBikq28PR3a7j1D8I9wi0CeuFUcm/WKi/cq
+         gAdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DP2gDnxC84ZwxSYEmb2xdHigIgTSb4Jlj1QnGwsCAFw=;
-        b=MXSh9l9QtqUX8/3rRL8xLz0LV16qk8uHvPKcIH9XjwgYDeEISEGoVtyGUIErqP1KqX
-         8eXXhBzPC5rAIVPnS0Ejq+KSoPK2eRaWSfFsb35gRyH8SzYMA9ic5fTm3U47ICbnwHSb
-         DwF3l8t7hZVVvgSqazJy0ekNRT5z83Tf50PmgCJ3xrunTdGf+pEgKKEJmGARQPgPFsDT
-         cSvJH9zekM/PXkjNfAbOS6G6T9Zl/OhS/HczyXmVzpayiTX5qql4VY98APw0x5aM2JA6
-         KRC93Kxn/pqWXle9+oK+vtkn9mMhaVeuIA0+PO2MVA6oLesJSL/2bzTEGDg78WnX0zz5
-         UTtg==
-X-Gm-Message-State: ACrzQf1sP523uzujMRZM3P7KPILlz5qIF6Yo6ePvc2Vle/FI/vtKtsKg
-        9/g2N8zEDKsDtS20YiXK5Zw=
-X-Google-Smtp-Source: AMsMyM7sUB0CpNbgm4hVOYLAD+obpuiacN8WK398vmEeuQrG5U1sTJQXc3T6hUE3Tp4Z6X99U2bvnQ==
-X-Received: by 2002:a17:90b:180e:b0:213:4abf:ed0a with SMTP id lw14-20020a17090b180e00b002134abfed0amr82250323pjb.119.1668027238814;
-        Wed, 09 Nov 2022 12:53:58 -0800 (PST)
+        bh=loq3axK/RYrhXox7s9iRtCxZB75cuqQoJg9zTfXxZb4=;
+        b=q7bR2cvWO5Bs5/xs/T0d4VjjZ7aJv7cn6mpUaPzNIVFn+p2hm4rkfwOm+Wv2eArBXC
+         o0Ml4i98i6Eg4R9sbPuI0B43JYYEY76iWO/+Ur5GbuLvZYgumJyPS6P8ukL9C8mlEp2H
+         LTGxZgKDvw0mBusAyEkcrIDJStlL321J+WE73tjE80MTv7a8C6H5Hzk7MYUp9P7Es1Wt
+         v2J7/9xkxC1rZIDeUhdJlTzZXX+XZkPD3Hrpd4F/MchRVIZEcu3Ie3luWaLs6nUg4/M8
+         iUKj2dDB7ruYeRrbl768uOjUBf7EkarG0gbpyNbhIBrbh3M0kQE70ccdRtHVh+edooKQ
+         B++A==
+X-Gm-Message-State: ACrzQf12Hp6ILYMn8vTEpUaZPuO/fZva1Qfmu7zWdH32sf3G/8hDFUj+
+        udfsAc5pWOXkFmWZcCCwOy8=
+X-Google-Smtp-Source: AMsMyM6rVvEWgMW5vzavPLlusbA5iUubIdjccR/BkohqA24lMTdaD6SAoRNDyU+5FoHz/UGGK3QGnA==
+X-Received: by 2002:a17:90a:eb0c:b0:213:8ff3:a46a with SMTP id j12-20020a17090aeb0c00b002138ff3a46amr69235671pjz.158.1668027246272;
+        Wed, 09 Nov 2022 12:54:06 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:a:c616:2003:6c97:8057])
-        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.53.57
+        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.54.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 12:53:58 -0800 (PST)
+        Wed, 09 Nov 2022 12:54:05 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH 02/17] x86/sev: Pvalidate memory gab for decompressing kernel
-Date:   Wed,  9 Nov 2022 15:53:37 -0500
-Message-Id: <20221109205353.984745-3-ltykernel@gmail.com>
+Subject: [RFC PATCH 07/17] x86/hyperv: Use vmmcall to implement hvcall in sev-snp enlightened guest
+Date:   Wed,  9 Nov 2022 15:53:42 -0500
+Message-Id: <20221109205353.984745-8-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221109205353.984745-1-ltykernel@gmail.com>
 References: <20221109205353.984745-1-ltykernel@gmail.com>
@@ -80,153 +80,122 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Pvalidate needed pages for decompressing kernel. The E820_TYPE_RAM
-entry includes only validated memory. The kernel expects that the
-RAM entry's addr is fixed while the entry size is to be extended
-to cover addresses to the start of next entry. This patch increases
-the RAM entry size to cover all possilble memory addresses until
-init_size.
+In sev-snp enlightened guest, hvcall needs to use vmmcall to trigger
+vmexit and notify hypervisor to handle hypercall request.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/boot/compressed/head_64.S |  8 +++
- arch/x86/boot/compressed/sev.c     | 84 ++++++++++++++++++++++++++++++
- 2 files changed, 92 insertions(+)
+ arch/x86/include/asm/mshyperv.h | 66 ++++++++++++++++++++++-----------
+ 1 file changed, 45 insertions(+), 21 deletions(-)
 
-diff --git a/arch/x86/boot/compressed/head_64.S b/arch/x86/boot/compressed/head_64.S
-index d33f060900d2..818edaf5d0cf 100644
---- a/arch/x86/boot/compressed/head_64.S
-+++ b/arch/x86/boot/compressed/head_64.S
-@@ -348,6 +348,14 @@ SYM_CODE_START(startup_64)
- 	cld
- 	cli
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 9b8c3f638845..28d5429e33c9 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -45,16 +45,25 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ 	u64 hv_status;
  
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	/* pvalidate memory on demand if SNP is enabled. */
-+	pushq	%rsi
-+	movq    %rsi, %rdi
-+	call 	pvalidate_for_startup_64
-+	popq	%rsi
-+#endif
-+
- 	/* Setup data segments. */
- 	xorl	%eax, %eax
- 	movl	%eax, %ds
-diff --git a/arch/x86/boot/compressed/sev.c b/arch/x86/boot/compressed/sev.c
-index 960968f8bf75..3a5a1ab16095 100644
---- a/arch/x86/boot/compressed/sev.c
-+++ b/arch/x86/boot/compressed/sev.c
-@@ -12,8 +12,10 @@
-  */
- #include "misc.h"
+ #ifdef CONFIG_X86_64
+-	if (!hv_hypercall_pg)
+-		return U64_MAX;
++	if (hv_isolation_type_en_snp()) {
++		__asm__ __volatile__("mov %4, %%r8\n"
++				"vmmcall"
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input_address)
++				:  "r" (output_address)
++				: "cc", "memory", "r8", "r9", "r10", "r11");
++	} else {
++		if (!hv_hypercall_pg)
++			return U64_MAX;
  
-+#include <asm/msr-index.h>
- #include <asm/pgtable_types.h>
- #include <asm/sev.h>
-+#include <asm/svm.h>
- #include <asm/trapnr.h>
- #include <asm/trap_pf.h>
- #include <asm/msr-index.h>
-@@ -21,6 +23,7 @@
- #include <asm/ptrace.h>
- #include <asm/svm.h>
- #include <asm/cpuid.h>
-+#include <asm/e820/types.h>
+-	__asm__ __volatile__("mov %4, %%r8\n"
+-			     CALL_NOSPEC
+-			     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+-			       "+c" (control), "+d" (input_address)
+-			     :  "r" (output_address),
+-				THUNK_TARGET(hv_hypercall_pg)
+-			     : "cc", "memory", "r8", "r9", "r10", "r11");
++		__asm__ __volatile__("mov %4, %%r8\n"
++				CALL_NOSPEC
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input_address)
++				:  "r" (output_address),
++					THUNK_TARGET(hv_hypercall_pg)
++				: "cc", "memory", "r8", "r9", "r10", "r11");
++	}
+ #else
+ 	u32 input_address_hi = upper_32_bits(input_address);
+ 	u32 input_address_lo = lower_32_bits(input_address);
+@@ -82,12 +91,18 @@ static inline u64 hv_do_fast_hypercall8(u16 code, u64 input1)
+ 	u64 hv_status, control = (u64)code | HV_HYPERCALL_FAST_BIT;
  
- #include "error.h"
- #include "../msr.h"
-@@ -117,6 +120,22 @@ static enum es_result vc_read_mem(struct es_em_ctxt *ctxt,
- /* Include code for early handlers */
- #include "../../kernel/sev-shared.c"
+ #ifdef CONFIG_X86_64
+-	{
++	if (hv_isolation_type_en_snp()) {
++		__asm__ __volatile__(
++				"vmmcall"
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input1)
++				:: "cc", "r8", "r9", "r10", "r11");
++	} else {
+ 		__asm__ __volatile__(CALL_NOSPEC
+-				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+-				       "+c" (control), "+d" (input1)
+-				     : THUNK_TARGET(hv_hypercall_pg)
+-				     : "cc", "r8", "r9", "r10", "r11");
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input1)
++				: THUNK_TARGET(hv_hypercall_pg)
++				: "cc", "r8", "r9", "r10", "r11");
+ 	}
+ #else
+ 	{
+@@ -113,14 +128,21 @@ static inline u64 hv_do_fast_hypercall16(u16 code, u64 input1, u64 input2)
+ 	u64 hv_status, control = (u64)code | HV_HYPERCALL_FAST_BIT;
  
-+/* Check SEV-SNP via MSR */
-+static bool sev_snp_runtime_check(void)
-+{
-+	unsigned long low, high;
-+	u64 val;
-+
-+	asm volatile("rdmsr\n" : "=a" (low), "=d" (high) :
-+			"c" (MSR_AMD64_SEV));
-+
-+	val = (high << 32) | low;
-+	if (val & MSR_AMD64_SEV_SNP_ENABLED)
-+		return true;
-+
-+	return false;
-+}
-+
- static inline bool sev_snp_enabled(void)
+ #ifdef CONFIG_X86_64
+-	{
++	if (hv_isolation_type_en_snp()) {
+ 		__asm__ __volatile__("mov %4, %%r8\n"
+-				     CALL_NOSPEC
+-				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+-				       "+c" (control), "+d" (input1)
+-				     : "r" (input2),
+-				       THUNK_TARGET(hv_hypercall_pg)
+-				     : "cc", "r8", "r9", "r10", "r11");
++				"vmmcall"
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input1)
++				: "r" (input2)
++				: "cc", "r8", "r9", "r10", "r11");
++	} else {
++		__asm__ __volatile__("mov %4, %%r8\n"
++				CALL_NOSPEC
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input1)
++				: "r" (input2),
++				THUNK_TARGET(hv_hypercall_pg)
++				: "cc", "r8", "r9", "r10", "r11");
+ 	}
+ #else
+ 	{
+@@ -177,6 +199,7 @@ int hv_map_ioapic_interrupt(int ioapic_id, bool level, int vcpu, int vector,
+ 		struct hv_interrupt_entry *entry);
+ int hv_unmap_ioapic_interrupt(int ioapic_id, struct hv_interrupt_entry *entry);
+ int hv_set_mem_host_visibility(unsigned long addr, int numpages, bool visible);
++int hv_snp_boot_ap(int cpu, unsigned long start_ip);
+ 
+ #ifdef CONFIG_AMD_MEM_ENCRYPT
+ void hv_ghcb_msr_write(u64 msr, u64 value);
+@@ -191,6 +214,7 @@ static inline void hv_ghcb_terminate(unsigned int set, unsigned int reason) {}
+ #endif
+ 
+ extern bool hv_isolation_type_snp(void);
++extern bool hv_isolation_type_en_snp(void);
+ 
+ static inline bool hv_is_synic_reg(unsigned int reg)
  {
- 	return sev_status & MSR_AMD64_SEV_SNP_ENABLED;
-@@ -456,3 +475,68 @@ void sev_prep_identity_maps(unsigned long top_level_pgt)
- 
- 	sev_verify_cbit(top_level_pgt);
- }
-+
-+static void extend_e820_on_demand(struct boot_e820_entry *e820_entry,
-+				  u64 needed_ram_end)
-+{
-+	u64 end, paddr;
-+	unsigned long eflags;
-+	int rc;
-+
-+	if (!e820_entry)
-+		return;
-+
-+	/* Validated memory must be aligned by PAGE_SIZE. */
-+	end = ALIGN(e820_entry->addr + e820_entry->size, PAGE_SIZE);
-+	if (needed_ram_end > end && e820_entry->type == E820_TYPE_RAM) {
-+		for (paddr = end; paddr < needed_ram_end; paddr += PAGE_SIZE) {
-+			rc = pvalidate(paddr, RMP_PG_SIZE_4K, true);
-+			if (rc) {
-+				error("Failed to validate address.n");
-+				return;
-+			}
-+		}
-+		e820_entry->size = needed_ram_end - e820_entry->addr;
-+	}
-+}
-+
-+/*
-+ * Explicitly pvalidate needed pages for decompressing the kernel.
-+ * The E820_TYPE_RAM entry includes only validated memory. The kernel
-+ * expects that the RAM entry's addr is fixed while the entry size is to be
-+ * extended to cover addresses to the start of next entry.
-+ * The function increases the RAM entry size to cover all possible memory
-+ * addresses until init_size.
-+ * For example,  init_end = 0x4000000,
-+ * [RAM: 0x0 - 0x0],                       M[RAM: 0x0 - 0xa0000]
-+ * [RSVD: 0xa0000 - 0x10000]                [RSVD: 0xa0000 - 0x10000]
-+ * [ACPI: 0x10000 - 0x20000]      ==>       [ACPI: 0x10000 - 0x20000]
-+ * [RSVD: 0x800000 - 0x900000]              [RSVD: 0x800000 - 0x900000]
-+ * [RAM: 0x1000000 - 0x2000000]            M[RAM: 0x1000000 - 0x2001000]
-+ * [RAM: 0x2001000 - 0x2007000]            M[RAM: 0x2001000 - 0x4000000]
-+ * Other RAM memory after init_end is pvalidated by ms_hyperv_init_platform
-+ */
-+__visible void pvalidate_for_startup_64(struct boot_params *boot_params)
-+{
-+	struct boot_e820_entry *e820_entry;
-+	u64 init_end =
-+		boot_params->hdr.pref_address + boot_params->hdr.init_size;
-+	u8 i, nr_entries = boot_params->e820_entries;
-+	u64 needed_end;
-+
-+	if (!sev_snp_runtime_check())
-+		return;
-+
-+	for (i = 0; i < nr_entries; ++i) {
-+		/* Pvalidate memory holes in e820 RAM entries. */
-+		e820_entry = &boot_params->e820_table[i];
-+		if (i < nr_entries - 1) {
-+			needed_end = boot_params->e820_table[i + 1].addr;
-+			if (needed_end < e820_entry->addr)
-+				error("e820 table is not sorted.\n");
-+		} else {
-+			needed_end = init_end;
-+		}
-+		extend_e820_on_demand(e820_entry, needed_end);
-+	}
-+}
 -- 
 2.25.1
 
