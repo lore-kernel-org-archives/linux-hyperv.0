@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E023C4332F
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Nov 2022 20:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D30C43217
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Nov 2022 20:54:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231488AbiKIUyp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Nov 2022 15:54:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49428 "EHLO
+        id S231824AbiKIUyv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 9 Nov 2022 15:54:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231950AbiKIUyS (ORCPT
+        with ESMTP id S231966AbiKIUyU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Nov 2022 15:54:18 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661062D759;
-        Wed,  9 Nov 2022 12:54:16 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id v3so17241862pgh.4;
-        Wed, 09 Nov 2022 12:54:16 -0800 (PST)
+        Wed, 9 Nov 2022 15:54:20 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1910F2BC8;
+        Wed,  9 Nov 2022 12:54:19 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id p12so12726867plq.4;
+        Wed, 09 Nov 2022 12:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KHQxOX05VuPCuHlsy0vXM0F/fWibSFir6W5PfPRogHE=;
-        b=l6rdGXRkcWN+drGlDK/ZEvZzAwEKNDPZu4svTBS14EpXmNxaOJH2Oe0VOOUwg4ncO8
-         /JhToHQMwQ8+09f8mVeyCvPlvSVCzQlk6SiWbVmfOhsJv/0iwWxn5nCk0Q2RpfhBfVkb
-         Jp0qM8251r5tuOpwaL5sUScpGxMSnkGfwKLikOyX8CXgaMMHzf8j4ZHFRXzsFsVG2su4
-         /65cwkIqR2pD37SAOFdRAS/ivnr/hVR6bdx+smVqLoCrYBPI/tK1dlLLNMlT7FowxXlU
-         fYNpG+B6SkmI9yry3sZkZV1+YqnSKVNYKryFQcejbJO2g4BCiY+A4kqVLUdRlMvCGDEX
-         k96g==
+        bh=W3ui10Pv987LOIJnXt9IMElhmcFERFnmwtjj/3DP9Vs=;
+        b=cGZl10FbTRyEJiocNwyGxLyZYbjG/pr7b0v2WBuOTBNbML7GRrT6cCSv0ITuPo7CXU
+         WRVWw+Q3WasXF7D9LHkFeKTl9TyHFX+bWHLAXw7j4yuBKMET3z8iPJ/V2JIbCFsjUdAk
+         /tn/7uni27TlixQKi/kjmctzK6+vkBCrMC2lKktsy0kD1IAE7/R5b0EGQ4J5UCfnH+Kv
+         n8D2FaGJokn3FyZ6tnA29OLMZDVTdUwqnkotXpQQiwC/ZbFZcr5RbJ2nmpPlZ3QGgzvP
+         nlIBp6USVd42GK5JoZy/gVFAnRKyuB+z7u0oMwTh6Y5pVvfS+K36rn/R299L8r0ZzoUw
+         7gRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KHQxOX05VuPCuHlsy0vXM0F/fWibSFir6W5PfPRogHE=;
-        b=7GYCowDJrvvYMKXw2xpRHH4+CMlBGqD2/ypVZM8DliW3/tc5TvJme2fI9myNbNLsiX
-         hK1hs02sLrhE6CfOC8Uo0PX8g4hWDSPG0DYLCnargoWKTfReCKbx2waWTXTnrxscDi97
-         6PaFgumkiV2oTan6q1vqn7kQpDRcIgZ6Pc9KX5mb3OxKKoJ3di5BRt2KACsK6gp22LVx
-         fu/vlFu30kB7px5NPQXNHUY4tv4kDyLvnd3QyC2EXYQCpmz5F8J34Kd9w8+8zzHqU2KX
-         2t3Wx4u8isA+4IVuXwomev7i9e+Tr+VbQAT+cP4v2kAm/Ekoa/o75DQ2W/1pvxV9kxVm
-         uBDg==
-X-Gm-Message-State: ANoB5plUT0cdSK0i6DgQj9Ouhg4UMuB57FYSW8VJ5AUfu+L5hE59B4K1
-        MMna/lQ1dSDoJaUJfKqEviA=
-X-Google-Smtp-Source: AA0mqf6C2Mi/rVU6cQ41Ll9xJELaEDOtpVMObe/H66xo9SZIrnxQM4m7KlxJaJnETtYShGOnOcdMuA==
-X-Received: by 2002:a63:f403:0:b0:470:6ed3:5454 with SMTP id g3-20020a63f403000000b004706ed35454mr16573050pgi.191.1668027255837;
-        Wed, 09 Nov 2022 12:54:15 -0800 (PST)
+        bh=W3ui10Pv987LOIJnXt9IMElhmcFERFnmwtjj/3DP9Vs=;
+        b=t9IETTKr8SxDtW85FWu/jAgYkG6ccuZbgtrB/MfYMT3TmOh0DNHg5b7tJ86xdiitCh
+         rTBwwONZDr9HugpbxW2VP3fYA9tZWLOvC4BKeh2M0vReATlpxS2at569zgRV9t67CrpJ
+         JpxWD47LSGxL7GXpIV8mo+2d/PbC053nMkPAOcwjCiHg1GTN93BeRutg2PzssZFZHDX6
+         ly//+rew/TpQU5LdUcfd0jOiyjGhAmHse6nl97NhdAjYLezoISY/Pi8Ji0Qp83x8PsMI
+         ziXsC1rAeiGhUc0hOQ6+Sa14kBSyyIg+ooB/F1ldhjTG2PA0HgqS0tLeFV3eiR4YBzj3
+         CJFw==
+X-Gm-Message-State: ANoB5pk3+epLy9gk3O+dh7LLERHVpRtxhTk5BFFv91Azf/HGIdc3BQ5V
+        2rEvx+6cGB1lKUA1vDobJ1o=
+X-Google-Smtp-Source: AA0mqf47zUsIHcK4N+Pv8uFjEaPpDd6j/uxySGyP4P7b4W6Kn9C0c+qeFbOF8SLVKUcgkeAFklMiQA==
+X-Received: by 2002:a17:902:708b:b0:188:853f:4dcd with SMTP id z11-20020a170902708b00b00188853f4dcdmr14835557plk.53.1668027258491;
+        Wed, 09 Nov 2022 12:54:18 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:a:c616:2003:6c97:8057])
-        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.54.14
+        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.54.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 12:54:15 -0800 (PST)
+        Wed, 09 Nov 2022 12:54:17 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH 14/17] x86/hyperv: Add smp support for sev-snp guest
-Date:   Wed,  9 Nov 2022 15:53:49 -0500
-Message-Id: <20221109205353.984745-15-ltykernel@gmail.com>
+Subject: [RFC PATCH 16/17] x86/sev: Add a #HV exception handler
+Date:   Wed,  9 Nov 2022 15:53:51 -0500
+Message-Id: <20221109205353.984745-17-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221109205353.984745-1-ltykernel@gmail.com>
 References: <20221109205353.984745-1-ltykernel@gmail.com>
@@ -80,332 +80,370 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-The wakeup_secondary_cpu callback was populated with wakeup_
-cpu_via_vmgexit() which doesn't work for Hyper-V. Override it
-with Hyper-V specific hook which uses HVCALL_START_VIRTUAL_
-PROCESSOR hvcall to start AP with vmsa data structure.
+Add a #HV exception handler that uses IST stack.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/include/asm/sev.h        |  13 +++
- arch/x86/include/asm/svm.h        |  55 ++++++++++-
- arch/x86/kernel/cpu/mshyperv.c    | 147 +++++++++++++++++++++++++++++-
- include/asm-generic/hyperv-tlfs.h |  18 ++++
- 4 files changed, 230 insertions(+), 3 deletions(-)
+ arch/x86/entry/entry_64.S             | 58 ++++++++++++++++++++++++++
+ arch/x86/include/asm/cpu_entry_area.h |  6 +++
+ arch/x86/include/asm/idtentry.h       | 39 +++++++++++++++++-
+ arch/x86/include/asm/page_64_types.h  |  1 +
+ arch/x86/include/asm/trapnr.h         |  1 +
+ arch/x86/include/asm/traps.h          |  1 +
+ arch/x86/kernel/cpu/common.c          |  1 +
+ arch/x86/kernel/dumpstack_64.c        |  9 +++-
+ arch/x86/kernel/idt.c                 |  1 +
+ arch/x86/kernel/sev.c                 | 59 +++++++++++++++++++++++++++
+ arch/x86/mm/cpu_entry_area.c          |  2 +
+ 11 files changed, 175 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/sev.h b/arch/x86/include/asm/sev.h
-index ebc271bb6d8e..e34aaf730220 100644
---- a/arch/x86/include/asm/sev.h
-+++ b/arch/x86/include/asm/sev.h
-@@ -86,6 +86,19 @@ extern bool handle_vc_boot_ghcb(struct pt_regs *regs);
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 9953d966d124..b2059df43c57 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -560,6 +560,64 @@ SYM_CODE_START(\asmsym)
+ .Lfrom_usermode_switch_stack_\@:
+ 	idtentry_body user_\cfunc, has_error_code=1
  
- #define RMPADJUST_VMSA_PAGE_BIT		BIT(16)
- 
-+union sev_rmp_adjust {
-+	u64 as_uint64;
-+	struct {
-+		unsigned long target_vmpl : 8;
-+		unsigned long enable_read : 1;
-+		unsigned long enable_write : 1;
-+		unsigned long enable_user_execute : 1;
-+		unsigned long enable_kernel_execute : 1;
-+		unsigned long reserved1 : 4;
-+		unsigned long vmsa : 1;
-+	};
-+};
++_ASM_NOKPROBE(\asmsym)
++SYM_CODE_END(\asmsym)
++.endm
++/*
++ * idtentry_hv - Macro to generate entry stub for #HV
++ * @vector:		Vector number
++ * @asmsym:		ASM symbol for the entry point
++ * @cfunc:		C function to be called
++ *
++ * The macro emits code to set up the kernel context for #HV. The #HV handler
++ * runs on an IST stack and needs to be able to support nested #HV exceptions.
++ *
++ * To make this work the #HV entry code tries its best to pretend it doesn't use
++ * an IST stack by switching to the task stack if coming from user-space (which
++ * includes early SYSCALL entry path) or back to the stack in the IRET frame if
++ * entered from kernel-mode.
++ *
++ * If entered from kernel-mode the return stack is validated first, and if it is
++ * not safe to use (e.g. because it points to the entry stack) the #HV handler
++ * will switch to a fall-back stack (HV2) and call a special handler function.
++ *
++ * The macro is only used for one vector, but it is planned to be extended in
++ * the future for the #HV exception.
++ */
++.macro idtentry_hv vector asmsym cfunc
++SYM_CODE_START(\asmsym)
++	UNWIND_HINT_IRET_REGS
++	ASM_CLAC
++	pushq	$-1			/* ORIG_RAX: no syscall to restart */
 +
- /* SNP Guest message request */
- struct snp_req_data {
- 	unsigned long req_gpa;
-diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
-index 0361626841bc..fc54d3e7f817 100644
---- a/arch/x86/include/asm/svm.h
-+++ b/arch/x86/include/asm/svm.h
-@@ -328,8 +328,61 @@ struct vmcb_save_area {
- 	u64 br_to;
- 	u64 last_excp_from;
- 	u64 last_excp_to;
--	u8 reserved_6[72];
++	testb	$3, CS-ORIG_RAX(%rsp)
++	jnz	.Lfrom_usermode_switch_stack_\@
++
++	call	paranoid_entry
++
++	UNWIND_HINT_REGS
 +
 +	/*
-+	 * The following part of the save area is valid only for
-+	 * SEV-ES guests when referenced through the GHCB or for
-+	 * saving to the host save area.
++	 * Switch off the IST stack to make it free for nested exceptions.
 +	 */
-+	u8 reserved_7[72];
- 	u32 spec_ctrl;		/* Guest version of SPEC_CTRL at 0x2E0 */
-+	u8 reserved_7b[4];
-+	u32 pkru;
-+	u8 reserved_7a[20];
-+	u64 reserved_8;		/* rax already available at 0x01f8 */
-+	u64 rcx;
-+	u64 rdx;
-+	u64 rbx;
-+	u64 reserved_9;		/* rsp already available at 0x01d8 */
-+	u64 rbp;
-+	u64 rsi;
-+	u64 rdi;
-+	u64 r8;
-+	u64 r9;
-+	u64 r10;
-+	u64 r11;
-+	u64 r12;
-+	u64 r13;
-+	u64 r14;
-+	u64 r15;
-+	u8 reserved_10[16];
-+	u64 sw_exit_code;
-+	u64 sw_exit_info_1;
-+	u64 sw_exit_info_2;
-+	u64 sw_scratch;
-+	union {
-+		u64 sev_features;
-+		struct {
-+			u64 sev_feature_snp			: 1;
-+			u64 sev_feature_vtom			: 1;
-+			u64 sev_feature_reflectvc		: 1;
-+			u64 sev_feature_restrict_injection	: 1;
-+			u64 sev_feature_alternate_injection	: 1;
-+			u64 sev_feature_full_debug		: 1;
-+			u64 sev_feature_reserved1		: 1;
-+			u64 sev_feature_snpbtb_isolation	: 1;
-+			u64 sev_feature_resrved2		: 56;
-+		};
-+	};
-+	u64 vintr_ctrl;
-+	u64 guest_error_code;
-+	u64 virtual_tom;
-+	u64 tlb_id;
-+	u64 pcpu_id;
-+	u64 event_inject;
-+	u64 xcr0;
-+	u8 valid_bitmap[16];
-+	u64 x87_state_gpa;
- } __packed;
- 
- /* Save area definition for SEV-ES and SEV-SNP guests */
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index f0c97210c64a..b266f648e5cd 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -41,6 +41,10 @@
- #include <asm/realmode.h>
- #include <asm/e820/api.h>
- 
-+#define EN_SEV_SNP_PROCESSOR_INFO_ADDR	 0x802000
-+#define HV_AP_INIT_GPAT_DEFAULT		0x0007040600070406ULL
-+#define HV_AP_SEGMENT_LIMIT		0xffffffff
++	movq	%rsp, %rdi		/* pt_regs pointer */
++	call	hv_switch_off_ist
++	movq	%rax, %rsp		/* Switch to new stack */
 +
- /* Is Linux running as the root partition? */
- bool hv_root_partition;
- struct ms_hyperv_info ms_hyperv;
-@@ -232,6 +236,136 @@ static void __init hv_smp_prepare_boot_cpu(void)
++	UNWIND_HINT_REGS
++
++	/* Update pt_regs */
++	movq	ORIG_RAX(%rsp), %rsi	/* get error code into 2nd argument*/
++	movq	$-1, ORIG_RAX(%rsp)	/* no syscall to restart */
++
++	movq	%rsp, %rdi		/* pt_regs pointer */
++	call	kernel_\cfunc
++
++	jmp	paranoid_exit
++
++.Lfrom_usermode_switch_stack_\@:
++	idtentry_body user_\cfunc, has_error_code=1
++
+ _ASM_NOKPROBE(\asmsym)
+ SYM_CODE_END(\asmsym)
+ .endm
+diff --git a/arch/x86/include/asm/cpu_entry_area.h b/arch/x86/include/asm/cpu_entry_area.h
+index 75efc4c6f076..f173a16cfc59 100644
+--- a/arch/x86/include/asm/cpu_entry_area.h
++++ b/arch/x86/include/asm/cpu_entry_area.h
+@@ -30,6 +30,10 @@
+ 	char	VC_stack[optional_stack_size];			\
+ 	char	VC2_stack_guard[guardsize];			\
+ 	char	VC2_stack[optional_stack_size];			\
++	char	HV_stack_guard[guardsize];			\
++	char	HV_stack[optional_stack_size];			\
++	char	HV2_stack_guard[guardsize];			\
++	char	HV2_stack[optional_stack_size];			\
+ 	char	IST_top_guard[guardsize];			\
+ 
+ /* The exception stacks' physical storage. No guard pages required */
+@@ -52,6 +56,8 @@ enum exception_stack_ordering {
+ 	ESTACK_MCE,
+ 	ESTACK_VC,
+ 	ESTACK_VC2,
++	ESTACK_HV,
++	ESTACK_HV2,
+ 	N_EXCEPTION_STACKS
+ };
+ 
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index 72184b0b2219..ed68acd6f723 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -317,6 +317,19 @@ static __always_inline void __##func(struct pt_regs *regs)
+ 	__visible noinstr void kernel_##func(struct pt_regs *regs, unsigned long error_code);	\
+ 	__visible noinstr void   user_##func(struct pt_regs *regs, unsigned long error_code)
+ 
++
++/**
++ * DECLARE_IDTENTRY_HV - Declare functions for the HV entry point
++ * @vector:	Vector number (ignored for C)
++ * @func:	Function name of the entry point
++ *
++ * Maps to DECLARE_IDTENTRY_RAW, but declares also the user C handler.
++ */
++#define DECLARE_IDTENTRY_HV(vector, func)				\
++	DECLARE_IDTENTRY_RAW_ERRORCODE(vector, func);			\
++	__visible noinstr void kernel_##func(struct pt_regs *regs, unsigned long error_code);	\
++	__visible noinstr void   user_##func(struct pt_regs *regs, unsigned long error_code)
++
+ /**
+  * DEFINE_IDTENTRY_IST - Emit code for IST entry points
+  * @func:	Function name of the entry point
+@@ -376,6 +389,26 @@ static __always_inline void __##func(struct pt_regs *regs)
+ #define DEFINE_IDTENTRY_VC_USER(func)				\
+ 	DEFINE_IDTENTRY_RAW_ERRORCODE(user_##func)
+ 
++/**
++ * DEFINE_IDTENTRY_HV_KERNEL - Emit code for HV injection handler
++ *			       when raised from kernel mode
++ * @func:	Function name of the entry point
++ *
++ * Maps to DEFINE_IDTENTRY_RAW
++ */
++#define DEFINE_IDTENTRY_HV_KERNEL(func)					\
++	DEFINE_IDTENTRY_RAW_ERRORCODE(kernel_##func)
++
++/**
++ * DEFINE_IDTENTRY_HV_USER - Emit code for HV injection handler
++ *			     when raised from user mode
++ * @func:	Function name of the entry point
++ *
++ * Maps to DEFINE_IDTENTRY_RAW
++ */
++#define DEFINE_IDTENTRY_HV_USER(func)					\
++	DEFINE_IDTENTRY_RAW_ERRORCODE(user_##func)
++
+ #else	/* CONFIG_X86_64 */
+ 
+ /**
+@@ -465,6 +498,9 @@ __visible noinstr void func(struct pt_regs *regs,			\
+ # define DECLARE_IDTENTRY_VC(vector, func)				\
+ 	idtentry_vc vector asm_##func func
+ 
++# define DECLARE_IDTENTRY_HV(vector, func)				\
++	idtentry_hv vector asm_##func func
++
+ #else
+ # define DECLARE_IDTENTRY_MCE(vector, func)				\
+ 	DECLARE_IDTENTRY(vector, func)
+@@ -622,9 +658,10 @@ DECLARE_IDTENTRY_RAW_ERRORCODE(X86_TRAP_DF,	xenpv_exc_double_fault);
+ DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_CP,	exc_control_protection);
  #endif
+ 
+-/* #VC */
++/* #VC & #HV */
+ #ifdef CONFIG_AMD_MEM_ENCRYPT
+ DECLARE_IDTENTRY_VC(X86_TRAP_VC,	exc_vmm_communication);
++DECLARE_IDTENTRY_HV(X86_TRAP_HV,	exc_hv_injection);
+ #endif
+ 
+ #ifdef CONFIG_XEN_PV
+diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
+index e9e2c3ba5923..0bd7dab676c5 100644
+--- a/arch/x86/include/asm/page_64_types.h
++++ b/arch/x86/include/asm/page_64_types.h
+@@ -29,6 +29,7 @@
+ #define	IST_INDEX_DB		2
+ #define	IST_INDEX_MCE		3
+ #define	IST_INDEX_VC		4
++#define	IST_INDEX_HV		5
+ 
+ /*
+  * Set __PAGE_OFFSET to the most negative possible address +
+diff --git a/arch/x86/include/asm/trapnr.h b/arch/x86/include/asm/trapnr.h
+index f5d2325aa0b7..c6583631cecb 100644
+--- a/arch/x86/include/asm/trapnr.h
++++ b/arch/x86/include/asm/trapnr.h
+@@ -26,6 +26,7 @@
+ #define X86_TRAP_XF		19	/* SIMD Floating-Point Exception */
+ #define X86_TRAP_VE		20	/* Virtualization Exception */
+ #define X86_TRAP_CP		21	/* Control Protection Exception */
++#define X86_TRAP_HV		28	/* HV injected exception in SNP restricted mode */
+ #define X86_TRAP_VC		29	/* VMM Communication Exception */
+ #define X86_TRAP_IRET		32	/* IRET Exception */
+ 
+diff --git a/arch/x86/include/asm/traps.h b/arch/x86/include/asm/traps.h
+index 47ecfff2c83d..6795d3e517d6 100644
+--- a/arch/x86/include/asm/traps.h
++++ b/arch/x86/include/asm/traps.h
+@@ -16,6 +16,7 @@ asmlinkage __visible notrace
+ struct pt_regs *fixup_bad_iret(struct pt_regs *bad_regs);
+ void __init trap_init(void);
+ asmlinkage __visible noinstr struct pt_regs *vc_switch_off_ist(struct pt_regs *eregs);
++asmlinkage __visible noinstr struct pt_regs *hv_switch_off_ist(struct pt_regs *eregs);
+ #endif
+ 
+ extern bool ibt_selftest(void);
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 3e508f239098..87afa3a4c8b1 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -2165,6 +2165,7 @@ static inline void tss_setup_ist(struct tss_struct *tss)
+ 	tss->x86_tss.ist[IST_INDEX_MCE] = __this_cpu_ist_top_va(MCE);
+ 	/* Only mapped when SEV-ES is active */
+ 	tss->x86_tss.ist[IST_INDEX_VC] = __this_cpu_ist_top_va(VC);
++	tss->x86_tss.ist[IST_INDEX_HV] = __this_cpu_ist_top_va(HV);
  }
  
-+static u8 ap_start_input_arg[PAGE_SIZE] __bss_decrypted __aligned(PAGE_SIZE);
-+static u8 ap_start_stack[PAGE_SIZE] __aligned(PAGE_SIZE);
-+
-+int hv_snp_boot_ap(int cpu, unsigned long start_ip)
+ #else /* CONFIG_X86_64 */
+diff --git a/arch/x86/kernel/dumpstack_64.c b/arch/x86/kernel/dumpstack_64.c
+index 6c5defd6569a..23aa5912c87a 100644
+--- a/arch/x86/kernel/dumpstack_64.c
++++ b/arch/x86/kernel/dumpstack_64.c
+@@ -26,11 +26,14 @@ static const char * const exception_stack_names[] = {
+ 		[ ESTACK_MCE	]	= "#MC",
+ 		[ ESTACK_VC	]	= "#VC",
+ 		[ ESTACK_VC2	]	= "#VC2",
++		[ ESTACK_HV	]	= "#HV",
++		[ ESTACK_HV2	]	= "#HV2",
++		
+ };
+ 
+ const char *stack_type_name(enum stack_type type)
+ {
+-	BUILD_BUG_ON(N_EXCEPTION_STACKS != 6);
++	BUILD_BUG_ON(N_EXCEPTION_STACKS != 8);
+ 
+ 	if (type == STACK_TYPE_TASK)
+ 		return "TASK";
+@@ -89,6 +92,8 @@ struct estack_pages estack_pages[CEA_ESTACK_PAGES] ____cacheline_aligned = {
+ 	EPAGERANGE(MCE),
+ 	EPAGERANGE(VC),
+ 	EPAGERANGE(VC2),
++	EPAGERANGE(HV),
++	EPAGERANGE(HV2),
+ };
+ 
+ static __always_inline bool in_exception_stack(unsigned long *stack, struct stack_info *info)
+@@ -98,7 +103,7 @@ static __always_inline bool in_exception_stack(unsigned long *stack, struct stac
+ 	struct pt_regs *regs;
+ 	unsigned int k;
+ 
+-	BUILD_BUG_ON(N_EXCEPTION_STACKS != 6);
++	BUILD_BUG_ON(N_EXCEPTION_STACKS != 8);
+ 
+ 	begin = (unsigned long)__this_cpu_read(cea_exception_stacks);
+ 	/*
+diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
+index a58c6bc1cd68..48c0a7e1dbcb 100644
+--- a/arch/x86/kernel/idt.c
++++ b/arch/x86/kernel/idt.c
+@@ -113,6 +113,7 @@ static const __initconst struct idt_data def_idts[] = {
+ 
+ #ifdef CONFIG_AMD_MEM_ENCRYPT
+ 	ISTG(X86_TRAP_VC,		asm_exc_vmm_communication, IST_INDEX_VC),
++	ISTG(X86_TRAP_HV,		asm_exc_hv_injection, IST_INDEX_HV),
+ #endif
+ 
+ 	SYSG(X86_TRAP_OF,		asm_exc_overflow),
+diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+index a428c62330d3..63ddb043d16d 100644
+--- a/arch/x86/kernel/sev.c
++++ b/arch/x86/kernel/sev.c
+@@ -2004,6 +2004,65 @@ DEFINE_IDTENTRY_VC_USER(exc_vmm_communication)
+ 	irqentry_exit_to_user_mode(regs);
+ }
+ 
++static bool hv_raw_handle_exception(struct pt_regs *regs)
 +{
-+	struct vmcb_save_area *vmsa = (struct vmcb_save_area *)
-+		__get_free_page(GFP_KERNEL | __GFP_ZERO);
-+	struct desc_ptr gdtr;
-+	u64 ret, retry = 5;
-+	struct hv_enable_vp_vtl_input *enable_vtl_input;
-+	struct hv_start_virtual_processor_input *start_vp_input;
-+	union sev_rmp_adjust rmp_adjust;
-+	void **arg;
-+	unsigned long flags;
-+
-+	*(void **)per_cpu_ptr(hyperv_pcpu_input_arg, cpu) = ap_start_input_arg;
-+
-+	hv_vp_index[cpu] = cpu;
-+
-+	/* Prevent APs from entering busy calibration loop */
-+	preset_lpj = lpj_fine;
-+
-+	/* Replace the provided real-mode start_ip */
-+	start_ip = (unsigned long)secondary_startup_64_no_verify;
-+
-+	native_store_gdt(&gdtr);
-+
-+	vmsa->gdtr.base = gdtr.address;
-+	vmsa->gdtr.limit = gdtr.size;
-+
-+	asm volatile("movl %%es, %%eax;" : "=a" (vmsa->es.selector));
-+	if (vmsa->es.selector) {
-+		vmsa->es.base = 0;
-+		vmsa->es.limit = HV_AP_SEGMENT_LIMIT;
-+		vmsa->es.attrib = *(u16 *)(vmsa->gdtr.base + vmsa->es.selector + 5);
-+		vmsa->es.attrib = (vmsa->es.attrib & 0xFF) | ((vmsa->es.attrib >> 4) & 0xF00);
-+	}
-+
-+	asm volatile("movl %%cs, %%eax;" : "=a" (vmsa->cs.selector));
-+	if (vmsa->cs.selector) {
-+		vmsa->cs.base = 0;
-+		vmsa->cs.limit = HV_AP_SEGMENT_LIMIT;
-+		vmsa->cs.attrib = *(u16 *)(vmsa->gdtr.base + vmsa->cs.selector + 5);
-+		vmsa->cs.attrib = (vmsa->cs.attrib & 0xFF) | ((vmsa->cs.attrib >> 4) & 0xF00);
-+	}
-+
-+	asm volatile("movl %%ss, %%eax;" : "=a" (vmsa->ss.selector));
-+	if (vmsa->ss.selector) {
-+		vmsa->ss.base = 0;
-+		vmsa->ss.limit = HV_AP_SEGMENT_LIMIT;
-+		vmsa->ss.attrib = *(u16 *)(vmsa->gdtr.base + vmsa->ss.selector + 5);
-+		vmsa->ss.attrib = (vmsa->ss.attrib & 0xFF) | ((vmsa->ss.attrib >> 4) & 0xF00);
-+	}
-+
-+	asm volatile("movl %%ds, %%eax;" : "=a" (vmsa->ds.selector));
-+	if (vmsa->ds.selector) {
-+		vmsa->ds.base = 0;
-+		vmsa->ds.limit = HV_AP_SEGMENT_LIMIT;
-+		vmsa->ds.attrib = *(u16 *)(vmsa->gdtr.base + vmsa->ds.selector + 5);
-+		vmsa->ds.attrib = (vmsa->ds.attrib & 0xFF) | ((vmsa->ds.attrib >> 4) & 0xF00);
-+	}
-+
-+	vmsa->efer = native_read_msr(MSR_EFER);
-+
-+	asm volatile("movq %%cr4, %%rax;" : "=a" (vmsa->cr4));
-+	asm volatile("movq %%cr3, %%rax;" : "=a" (vmsa->cr3));
-+	asm volatile("movq %%cr0, %%rax;" : "=a" (vmsa->cr0));
-+
-+	vmsa->xcr0 = 1;
-+	vmsa->g_pat = HV_AP_INIT_GPAT_DEFAULT;
-+	vmsa->rip = (u64)start_ip;
-+	vmsa->rsp = (u64)&ap_start_stack[PAGE_SIZE];
-+
-+	vmsa->sev_feature_snp = 1;
-+	vmsa->sev_feature_restrict_injection = 1;
-+
-+	rmp_adjust.as_uint64 = 0;
-+	rmp_adjust.target_vmpl = 1;
-+	rmp_adjust.vmsa = 1;
-+	ret = rmpadjust((unsigned long)vmsa, RMP_PG_SIZE_4K,
-+			rmp_adjust.as_uint64);
-+	if (ret != 0) {
-+		pr_err("RMPADJUST(%llx) failed: %llx\n", (u64)vmsa, ret);
-+		return ret;
-+	}
-+
-+	local_irq_save(flags);
-+	arg = (void **)this_cpu_ptr(hyperv_pcpu_input_arg);
-+	if (unlikely(!*arg)) {
-+		ret = -ENOMEM;
-+		goto done;
-+	}
-+
-+	if (ms_hyperv.vtl != 0) {
-+		enable_vtl_input = (struct hv_enable_vp_vtl_input *)*arg;
-+		memset(enable_vtl_input, 0, sizeof(*enable_vtl_input));
-+		enable_vtl_input->partitionid = -1;
-+		enable_vtl_input->vpindex = cpu;
-+		enable_vtl_input->targetvtl = ms_hyperv.vtl;
-+		*(u64 *)&enable_vtl_input->context[0] = __pa(vmsa) | 1;
-+
-+		ret = hv_do_hypercall(HVCALL_ENABLE_VP_VTL, enable_vtl_input, NULL);
-+		if (ret != 0) {
-+			pr_err("HvCallEnableVpVtl failed: %llx\n", ret);
-+			goto done;
-+		}
-+	}
-+
-+	start_vp_input = (struct hv_start_virtual_processor_input *)*arg;
-+	memset(start_vp_input, 0, sizeof(*start_vp_input));
-+	start_vp_input->partitionid = -1;
-+	start_vp_input->vpindex = cpu;
-+	start_vp_input->targetvtl = ms_hyperv.vtl;
-+	*(u64 *)&start_vp_input->context[0] = __pa(vmsa) | 1;
-+
-+	do {
-+		ret = hv_do_hypercall(HVCALL_START_VIRTUAL_PROCESSOR,
-+				      start_vp_input, NULL);
-+	} while (ret == HV_STATUS_TIME_OUT && retry--);
-+
-+	if (ret != 0) {
-+		pr_err("HvCallStartVirtualProcessor failed: %llx\n", ret);
-+		goto done;
-+	}
-+
-+done:
-+	local_irq_restore(flags);
-+	return ret;
++	return false;
 +}
 +
- static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
++static __always_inline bool on_hv_fallback_stack(struct pt_regs *regs)
++{
++	unsigned long sp = (unsigned long)regs;
++
++	return (sp >= __this_cpu_ist_bottom_va(HV2) && sp < __this_cpu_ist_top_va(HV2));
++}
++
++DEFINE_IDTENTRY_HV_USER(exc_hv_injection)
++{
++	irqentry_enter_from_user_mode(regs);
++	instrumentation_begin();
++
++	if (!hv_raw_handle_exception(regs)) {
++		/*
++		 * Do not kill the machine if user-space triggered the
++		 * exception. Send SIGBUS instead and let user-space deal
++		 * with it.
++		 */
++		force_sig_fault(SIGBUS, BUS_OBJERR, (void __user *)0);
++	}
++
++	instrumentation_end();
++	irqentry_exit_to_user_mode(regs);
++}
++
++DEFINE_IDTENTRY_HV_KERNEL(exc_hv_injection)
++{
++	irqentry_state_t irq_state;
++
++	if (unlikely(on_hv_fallback_stack(regs))) {
++	        instrumentation_begin();
++	        panic("Can't handle #HV exception from unsupported context\n");
++	        instrumentation_end();
++	}
++
++	irq_state = irqentry_nmi_enter(regs);
++	instrumentation_begin();
++
++	if (!hv_raw_handle_exception(regs)) {
++		pr_emerg("PANIC: Unhandled #HV exception in kernel space\n");
++	
++		/* Show some debug info */
++		show_regs(regs);
++	
++		/* Ask hypervisor to sev_es_terminate */
++		sev_es_terminate(SEV_TERM_SET_GEN, GHCB_SEV_ES_GEN_REQ);
++	
++		panic("Returned from Terminate-Request to Hypervisor\n");
++	}
++
++	instrumentation_end();
++	irqentry_nmi_exit(regs, irq_state);
++}
++
+ bool __init handle_vc_boot_ghcb(struct pt_regs *regs)
  {
- #ifdef CONFIG_X86_64
-@@ -241,6 +375,16 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
- 
- 	native_smp_prepare_cpus(max_cpus);
- 
-+	/*
-+	 *  Override wakeup_secondary_cpu callback for SEV-SNP
-+	 *  enlightened guest.
-+	 */
-+	if (hv_isolation_type_en_snp())
-+		apic->wakeup_secondary_cpu = hv_snp_boot_ap;
-+
-+	if (!hv_root_partition)
-+		return;
-+
- #ifdef CONFIG_X86_64
- 	for_each_present_cpu(i) {
- 		if (i == 0)
-@@ -489,8 +633,7 @@ static void __init ms_hyperv_init_platform(void)
- 
- # ifdef CONFIG_SMP
- 	smp_ops.smp_prepare_boot_cpu = hv_smp_prepare_boot_cpu;
--	if (hv_root_partition)
--		smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
-+	smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
- # endif
- 
- 	/*
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index 6e2a090e2649..7072adbf5540 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -139,6 +139,7 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST	0x0003
- #define HVCALL_NOTIFY_LONG_SPIN_WAIT		0x0008
- #define HVCALL_SEND_IPI				0x000b
-+#define HVCALL_ENABLE_VP_VTL			0x000f
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST_EX	0x0014
- #define HVCALL_SEND_IPI_EX			0x0015
-@@ -156,6 +157,7 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
- #define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
- #define HVCALL_RETARGET_INTERRUPT		0x007e
-+#define HVCALL_START_VIRTUAL_PROCESSOR		0x0099
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
- #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY 0x00db
-@@ -763,6 +765,22 @@ struct hv_input_unmap_device_interrupt {
- 	struct hv_interrupt_entry interrupt_entry;
- } __packed;
- 
-+struct hv_enable_vp_vtl_input {
-+	u64 partitionid;
-+	u32 vpindex;
-+	u8 targetvtl;
-+	u8 padding[3];
-+	u8 context[0xe0];
-+} __packed;
-+
-+struct hv_start_virtual_processor_input {
-+	u64 partitionid;
-+	u32 vpindex;
-+	u8 targetvtl;
-+	u8 padding[3];
-+	u8 context[0xe0];
-+} __packed;
-+
- #define HV_SOURCE_SHADOW_NONE               0x0
- #define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
- 
+ 	unsigned long exit_code = regs->orig_ax;
+diff --git a/arch/x86/mm/cpu_entry_area.c b/arch/x86/mm/cpu_entry_area.c
+index 6c2f1b76a0b6..608905dc6704 100644
+--- a/arch/x86/mm/cpu_entry_area.c
++++ b/arch/x86/mm/cpu_entry_area.c
+@@ -115,6 +115,8 @@ static void __init percpu_setup_exception_stacks(unsigned int cpu)
+ 		if (cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT)) {
+ 			cea_map_stack(VC);
+ 			cea_map_stack(VC2);
++			cea_map_stack(HV);
++			cea_map_stack(HV2);			
+ 		}
+ 	}
+ }
 -- 
 2.25.1
 
