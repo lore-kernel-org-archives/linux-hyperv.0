@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 373BEC433FE
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Nov 2022 20:54:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A37BC43217
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Nov 2022 20:54:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbiKIUyZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 9 Nov 2022 15:54:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49202 "EHLO
+        id S231982AbiKIUy2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 9 Nov 2022 15:54:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49302 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbiKIUyD (ORCPT
+        with ESMTP id S231891AbiKIUyM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Nov 2022 15:54:03 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CEBF30565;
-        Wed,  9 Nov 2022 12:54:02 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id gw22so17833963pjb.3;
-        Wed, 09 Nov 2022 12:54:02 -0800 (PST)
+        Wed, 9 Nov 2022 15:54:12 -0500
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40B5E27FC2;
+        Wed,  9 Nov 2022 12:54:12 -0800 (PST)
+Received: by mail-pl1-x62d.google.com with SMTP id b21so18218700plc.9;
+        Wed, 09 Nov 2022 12:54:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0l9afkkKeSOzI6mzq1htMqRSlzdNXqGpUKUcuz2i9ek=;
-        b=Xf0UA0v5jga/BS1GAxSGBzwObMMxAeZc8CKxagSCalOMTcj0DBkL0Yzb/MDc6ZkYkF
-         7sTJRTTn29+xlFjZrgukjpqfO5XzL9tpg52MNvCr4O+6pnl632kMCi2x4hnKjj+zz5fQ
-         LTNCzvfc+fCdOzY7hsVlorwRBuZHhUq4oZ8VVzyT8gmFQvC79fnzH2ozgFlk6Y/Q3mNA
-         53SHo30KwDkZz0GmbTzHFD7EaRgbIMwT3OVcCGaUTvURC1laNU/ZGG3+RBmxaFIef5eS
-         72K6mrujsk5ha+eR4ud7KZff73JOjbQ1girLjQnscRvXtjx8SRiN21tg4akJofUEi0ma
-         xs2w==
+        bh=xAXRqP2y00DrPAfpogwk3TLv9UhC4S/D5/TlIyE91Hw=;
+        b=Te6H+TH+yST8c6KwaFmZrKwGmb/qFLAP4Ijs+O0sg16ggjNVi1pniMt8qRquxctGo8
+         bG894KSqsGQzNTkQVawrXkjvUz4MBGbwm5emlok9cQrNP4cVVAoh/pKOj7RYoX8RYy4a
+         t1rVYkdBA4ze+dGdcEbpVjwLF6N3/v38VH0wLJF3nyT4/ZqSA+Vgy135v+xS+BMvGnRx
+         kOxqG5zEKlE9xIXEp3MFMedPJVROB5SwJ52rVvpQLyxHQ4jlNbjNYliYygSrqD1HqhrQ
+         MuqDpIY5atERxparXSh5/f7em9davf9PVRDaVx8XB4m01uKCdc55EVJoWHRc87AEZ/jR
+         2Pfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0l9afkkKeSOzI6mzq1htMqRSlzdNXqGpUKUcuz2i9ek=;
-        b=BZjDfB5ECpjZCj0KWddlyEAkamm7mJAlqmaZZZKdU18+ZAb8vjWojh+j0ftMQP9Ryi
-         wIFhTA5hOWyR/ykCz3n1HxCJ8CLVqRd0zuRCfEhWUHXVseQHIbqJk/7OyupQwkczJKiF
-         XTB29Mrd7mlqyFiLoclqTkdyqggakIHfmHorxuhOfdzZRMRO/FtaLNEbTw7F+oO7muhK
-         b/aEDBvktfF340moofXAxqfi+diY4qhBxll1gU0vs+eSjbUR8Tw6xUbIgELT+30ctQOL
-         n21n9Pz3oK5eeLrR+a0u37cCnn/IlfYW6/tgu+qqpncN5JG6PvAcsVdzTUZAi1ghmVHo
-         muvw==
-X-Gm-Message-State: ACrzQf1EbJ7cVDHPzvJF2bd3MC7RJh+6TSw+I5cQyUPZpCB8yJIuZYU/
-        UcqWBifeYQ0zV9jIiVzzPV4=
-X-Google-Smtp-Source: AMsMyM7tRYy8c6jGKBUAElQ+uVtMfnfFLT8C5PLwWvwgaQw4hc9oKXFtDvfLkWwEfSbG40eQbHIBUg==
-X-Received: by 2002:a17:90a:d586:b0:213:de8f:4d6 with SMTP id v6-20020a17090ad58600b00213de8f04d6mr56087727pju.31.1668027242262;
-        Wed, 09 Nov 2022 12:54:02 -0800 (PST)
+        bh=xAXRqP2y00DrPAfpogwk3TLv9UhC4S/D5/TlIyE91Hw=;
+        b=DdvZVPn7QHmKcYJAd1scW8gBiT82UIs8QII7Jt9MXcxyn7MnrBH4VHNC2oCF6jSeL5
+         LLt0Mhmzs/ZOiuKZK9HCdJ2p5srefmNLe+2sFNrEOg9fQV5SC2nsobdhuj1KypieQTDi
+         maX7vjhsJBKmYahfWBY0PEdX1Fj3YZFkopHMhSLk1xhh9+T0kI4GtgrNl34Kj8e6C0Ix
+         EKq2U4OGbm/5+gB7uDa4HDyo+0CSyZ8gRTPEQFJNFxcT8NuON637NR4pqHTHVRk74aii
+         7g3g192BewBD/qwwxdwvn4LGr8/PNmjtEqH020mxPdr1FB69kQXqC2/zUJCBjRWRYAzC
+         2SXA==
+X-Gm-Message-State: ACrzQf1OxfTPc6E/UT72CV7u++hyeIlEujWWRtPa79auV8LaFxWoFmMN
+        tNxq5Tu99u4wLc4TEqJLRIA=
+X-Google-Smtp-Source: AMsMyM6FKraDvmCSKM8SltaKBfYOM83RXMvfiFmhKbOkh7EavSs25oEeebRK8YEEiRnFDRRvUgoSDA==
+X-Received: by 2002:a17:902:b70c:b0:179:eb79:cf9a with SMTP id d12-20020a170902b70c00b00179eb79cf9amr62100881pls.130.1668027251732;
+        Wed, 09 Nov 2022 12:54:11 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:a:c616:2003:6c97:8057])
-        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.54.01
+        by smtp.gmail.com with ESMTPSA id c2-20020a17090a108200b002137d3da760sm1633984pja.39.2022.11.09.12.54.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 12:54:01 -0800 (PST)
+        Wed, 09 Nov 2022 12:54:11 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH 04/17] x86/hyperv: apic change for sev-snp enlightened guest
-Date:   Wed,  9 Nov 2022 15:53:39 -0500
-Message-Id: <20221109205353.984745-5-ltykernel@gmail.com>
+Subject: [RFC PATCH 11/17] drivers: hv: Decrypt percpu hvcall input arg page in sev-snp enlightened guest
+Date:   Wed,  9 Nov 2022 15:53:46 -0500
+Message-Id: <20221109205353.984745-12-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221109205353.984745-1-ltykernel@gmail.com>
 References: <20221109205353.984745-1-ltykernel@gmail.com>
@@ -80,194 +80,61 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Hyperv sev-snp enlightened guest doesn't support x2apic and
-apic page read/write operation. Bypass these requests. ipi
-request maybe returned with timeout error code and add retry
-mechanism.
+Hypervisor needs to access iput arg page and guest should decrypt
+the page.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/hyperv/hv_apic.c         | 79 ++++++++++++++++++++++++-------
- include/asm-generic/hyperv-tlfs.h |  1 +
- 2 files changed, 63 insertions(+), 17 deletions(-)
+ drivers/hv/hv_common.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-index fb8b2c088681..214354d20833 100644
---- a/arch/x86/hyperv/hv_apic.c
-+++ b/arch/x86/hyperv/hv_apic.c
-@@ -66,9 +66,15 @@ static u32 hv_apic_read(u32 reg)
- 		rdmsr(HV_X64_MSR_TPR, reg_val, hi);
- 		(void)hi;
- 		return reg_val;
--
-+	case APIC_ID:
-+		if (hv_isolation_type_en_snp())
-+			return smp_processor_id();
-+		fallthrough;
- 	default:
--		return native_apic_mem_read(reg);
-+		if (!hv_isolation_type_en_snp())
-+			return native_apic_mem_read(reg);
-+		else
-+			return 0;
- 	}
- }
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 2c6602571c47..c16961e686a0 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -21,6 +21,7 @@
+ #include <linux/ptrace.h>
+ #include <linux/slab.h>
+ #include <linux/dma-map-ops.h>
++#include <linux/set_memory.h>
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/mshyperv.h>
  
-@@ -82,7 +88,8 @@ static void hv_apic_write(u32 reg, u32 val)
- 		wrmsr(HV_X64_MSR_TPR, val, 0);
- 		break;
- 	default:
--		native_apic_mem_write(reg, val);
-+		if (!hv_isolation_type_en_snp())
-+			native_apic_mem_write(reg, val);
- 	}
- }
+@@ -125,6 +126,7 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	u64 msr_vp_index;
+ 	gfp_t flags;
+ 	int pgcount = hv_root_partition ? 2 : 1;
++	int ret;
  
-@@ -106,6 +113,7 @@ static bool __send_ipi_mask_ex(const struct cpumask *mask, int vector,
- 	struct hv_send_ipi_ex *ipi_arg;
- 	unsigned long flags;
- 	int nr_bank = 0;
-+	int retry = 5;
- 	u64 status = HV_STATUS_INVALID_PARAMETER;
+ 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
+ 	flags = irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL;
+@@ -134,6 +136,16 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	if (!(*inputarg))
+ 		return -ENOMEM;
  
- 	if (!(ms_hyperv.hints & HV_X64_EX_PROCESSOR_MASKS_RECOMMENDED))
-@@ -144,8 +152,10 @@ static bool __send_ipi_mask_ex(const struct cpumask *mask, int vector,
- 		ipi_arg->vp_set.format = HV_GENERIC_SET_ALL;
- 	}
++	if (hv_isolation_type_en_snp()) {
++		ret = set_memory_decrypted((unsigned long)*inputarg, 1);
++		if (ret) {
++			kfree(*inputarg);
++			return ret;
++		}
++
++		memset(*inputarg, 0x00, PAGE_SIZE);
++	}
++
+ 	if (hv_root_partition) {
+ 		outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 		*outputarg = (char *)(*inputarg) + HV_HYP_PAGE_SIZE;
+@@ -168,6 +180,9 @@ int hv_common_cpu_die(unsigned int cpu)
  
--	status = hv_do_rep_hypercall(HVCALL_SEND_IPI_EX, 0, nr_bank,
-+	do {
-+		status = hv_do_rep_hypercall(HVCALL_SEND_IPI_EX, 0, nr_bank,
- 			      ipi_arg, NULL);
-+	} while (status == HV_STATUS_TIME_OUT && retry--);
- 
- ipi_mask_ex_done:
  	local_irq_restore(flags);
-@@ -159,6 +169,7 @@ static bool __send_ipi_mask(const struct cpumask *mask, int vector,
- 	struct hv_send_ipi ipi_arg;
- 	u64 status;
- 	unsigned int weight;
-+	int retry = 5;
  
- 	trace_hyperv_send_ipi_mask(mask, vector);
- 
-@@ -212,8 +223,11 @@ static bool __send_ipi_mask(const struct cpumask *mask, int vector,
- 		__set_bit(vcpu, (unsigned long *)&ipi_arg.cpu_mask);
- 	}
- 
--	status = hv_do_fast_hypercall16(HVCALL_SEND_IPI, ipi_arg.vector,
--				     ipi_arg.cpu_mask);
-+	do {
-+		status = hv_do_fast_hypercall16(HVCALL_SEND_IPI, ipi_arg.vector,
-+						ipi_arg.cpu_mask);
-+	} while (status == HV_STATUS_TIME_OUT && retry--);
++	if (hv_isolation_type_en_snp())
++		set_memory_encrypted((unsigned long)mem, 1);
 +
- 	return hv_result_success(status);
+ 	kfree(mem);
  
- do_ex_hypercall:
-@@ -224,6 +238,7 @@ static bool __send_ipi_one(int cpu, int vector)
- {
- 	int vp = hv_cpu_number_to_vp_number(cpu);
- 	u64 status;
-+	int retry = 5;
- 
- 	trace_hyperv_send_ipi_one(cpu, vector);
- 
-@@ -236,26 +251,48 @@ static bool __send_ipi_one(int cpu, int vector)
- 	if (vp >= 64)
- 		return __send_ipi_mask_ex(cpumask_of(cpu), vector, false);
- 
--	status = hv_do_fast_hypercall16(HVCALL_SEND_IPI, vector, BIT_ULL(vp));
-+	do {
-+		status = hv_do_fast_hypercall16(HVCALL_SEND_IPI, vector, BIT_ULL(vp));
-+	} while (status == HV_STATUS_TIME_OUT || retry--);
-+
- 	return hv_result_success(status);
- }
- 
- static void hv_send_ipi(int cpu, int vector)
- {
--	if (!__send_ipi_one(cpu, vector))
--		orig_apic.send_IPI(cpu, vector);
-+	if (!__send_ipi_one(cpu, vector)) {
-+		if (!hv_isolation_type_en_snp())
-+			orig_apic.send_IPI(cpu, vector);
-+		else
-+			WARN_ON_ONCE(1);
-+	}
- }
- 
- static void hv_send_ipi_mask(const struct cpumask *mask, int vector)
- {
--	if (!__send_ipi_mask(mask, vector, false))
--		orig_apic.send_IPI_mask(mask, vector);
-+	if (!__send_ipi_mask(mask, vector, false)) {
-+		if (!hv_isolation_type_en_snp())
-+			orig_apic.send_IPI_mask(mask, vector);
-+		else
-+			WARN_ON_ONCE(1);
-+	}
- }
- 
- static void hv_send_ipi_mask_allbutself(const struct cpumask *mask, int vector)
- {
--	if (!__send_ipi_mask(mask, vector, true))
--		orig_apic.send_IPI_mask_allbutself(mask, vector);
-+	unsigned int this_cpu = smp_processor_id();
-+	struct cpumask new_mask;
-+	const struct cpumask *local_mask;
-+
-+	cpumask_copy(&new_mask, mask);
-+	cpumask_clear_cpu(this_cpu, &new_mask);
-+	local_mask = &new_mask;
-+	if (!__send_ipi_mask(local_mask, vector, true)) {
-+		if (!hv_isolation_type_en_snp())
-+			orig_apic.send_IPI_mask_allbutself(mask, vector);
-+		else
-+			WARN_ON_ONCE(1);
-+	}
- }
- 
- static void hv_send_ipi_allbutself(int vector)
-@@ -265,14 +302,22 @@ static void hv_send_ipi_allbutself(int vector)
- 
- static void hv_send_ipi_all(int vector)
- {
--	if (!__send_ipi_mask(cpu_online_mask, vector, false))
--		orig_apic.send_IPI_all(vector);
-+	if (!__send_ipi_mask(cpu_online_mask, vector, false)) {
-+		if (!hv_isolation_type_en_snp())
-+			orig_apic.send_IPI_all(vector);
-+		else
-+			WARN_ON_ONCE(1);
-+	}
- }
- 
- static void hv_send_ipi_self(int vector)
- {
--	if (!__send_ipi_one(smp_processor_id(), vector))
--		orig_apic.send_IPI_self(vector);
-+	if (!__send_ipi_one(smp_processor_id(), vector)) {
-+		if (!hv_isolation_type_en_snp())
-+			orig_apic.send_IPI_self(vector);
-+		else
-+			WARN_ON_ONCE(1);
-+	}
- }
- 
- void __init hv_apic_init(void)
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index fdce7a4cfc6f..6e2a090e2649 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -208,6 +208,7 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_STATUS_INVALID_PORT_ID		17
- #define HV_STATUS_INVALID_CONNECTION_ID		18
- #define HV_STATUS_INSUFFICIENT_BUFFERS		19
-+#define HV_STATUS_TIME_OUT			0x78
- 
- /*
-  * The Hyper-V TimeRefCount register and the TSC
+ 	return 0;
 -- 
 2.25.1
 
