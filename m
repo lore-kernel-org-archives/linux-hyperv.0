@@ -2,128 +2,109 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A543C433FE
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Nov 2022 21:44:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9FCC433FE
+	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Nov 2022 22:12:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231300AbiKJVoC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 10 Nov 2022 16:44:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53232 "EHLO
+        id S230206AbiKJWMi (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 10 Nov 2022 17:12:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbiKJVn7 (ORCPT
+        with ESMTP id S229566AbiKJWMh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 10 Nov 2022 16:43:59 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF1859843;
-        Thu, 10 Nov 2022 13:43:57 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5164361E59;
-        Thu, 10 Nov 2022 21:43:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5999DC433C1;
-        Thu, 10 Nov 2022 21:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668116636;
-        bh=kKquFmuXBOIGicNY7LEzCSBfF1TG/cQb/2yjsvua2Us=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=n/ZX/36XPKKKkd/W1HZpB7VqbGL9dDlDO6QJ3gukp/T0y0Y1tbIRvbew21yWMOiDd
-         n1PmE6WT2KoloMR532hGxMDTv4NMUC6/JRie+co4XyK+sRj+4jRiBuqCU4k2XBsnMS
-         E1LZ1M2D1AXg8j+EjhMrmww1e7CIMZVWXCCHOHaxTaOrMoQ3O3ryI7QfqEVrPMO0wi
-         6Sbyaw/gkRkaXGMrQkZD1a2WtBWdflcKXpMSKla5Mz48LTQObfdjcdgkmp8URIe5av
-         wROFh6G/xpJbotJ5oFi8Ujzl0n1z0h9JMV/PsbJn8eP8m425EBl+BIu3Z++tMD40yJ
-         QfmvMmtgSvXrA==
-Date:   Thu, 10 Nov 2022 15:43:54 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dexuan Cui <decui@microsoft.com>
-Cc:     quic_jhugo@quicinc.com, quic_carlv@quicinc.com, wei.liu@kernel.org,
-        kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
-        lpieralisi@kernel.org, bhelgaas@google.com,
-        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mikelley@microsoft.com,
-        robh@kernel.org, kw@linux.com, alex.williamson@redhat.com,
-        boqun.feng@gmail.com, Boqun.Feng@microsoft.com
-Subject: Re: [PATCH v3] PCI: hv: Only reuse existing IRTE allocation for
- Multi-MSI
-Message-ID: <20221110214354.GA674181@bhelgaas>
+        Thu, 10 Nov 2022 17:12:37 -0500
+X-Greylist: delayed 2361 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Nov 2022 14:12:33 PST
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B502F01A;
+        Thu, 10 Nov 2022 14:12:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=mfrkgBO2aFdDwc60CdgvE9S9ISnTxlrxLXKGcZohYPI=; b=C7Ilm2+a2l4r1r95htrUrU37I8
+        lMIJfaotnuBNkxcfo4/L/pbfE1f4ut7sTpCE8twAbc6ox3p9lD5UCf6EbqODhn+RXuk0rOjq/CPD1
+        gcMYRMHiKRXaf1saqM/QWQ9BVE544pdXfFSX63kSa1R4SYF+2I0Zfm1eeXHATzRLw8samu/6/7mLA
+        jPSHUUIfOHyeN4n9ZnjnqbDFAbHkbgGkhIlll/Uf4ZbIvtL1dmYb/eCcTtoK3nFDp8YQPkTz68fRV
+        pUOXd0Ajaw6fsDOP8nAyPc1AMybspZ1ZsThb5k67Q5izC8rPwc2Z6S8O8dFA4iM+dNUe2WOkBIrKk
+        mgZOxJVg==;
+Received: from [177.102.6.147] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1otFAU-00FmBO-VZ; Thu, 10 Nov 2022 22:33:03 +0100
+Message-ID: <efdaf27e-753e-e84f-dd7d-965101563679@igalia.com>
+Date:   Thu, 10 Nov 2022 18:32:54 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221104222953.11356-1-decui@microsoft.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH V3 10/11] drivers/hv/vmbus, video/hyperv_fb: Untangle and
+ refactor Hyper-V panic notifiers
+Content-Language: en-US
+To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Cc:     "bhe@redhat.com" <bhe@redhat.com>,
+        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
+        "pmladek@suse.com" <pmladek@suse.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
+        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>
+References: <20220819221731.480795-1-gpiccoli@igalia.com>
+ <20220819221731.480795-11-gpiccoli@igalia.com>
+ <BYAPR21MB16880251FC59B60542D2D996D75A9@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <ae0a1017-7ec6-9615-7154-ea34c7bd2248@igalia.com>
+ <SN6PR2101MB1693BC627B22432BA42EEBC2D7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <SN6PR2101MB1693BC627B22432BA42EEBC2D7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Nov 04, 2022 at 03:29:53PM -0700, Dexuan Cui wrote:
-> Jeffrey added Multi-MSI support to the pci-hyperv driver by the 4 patches:
-> 08e61e861a0e ("PCI: hv: Fix multi-MSI to allow more than one MSI vector")
-> 455880dfe292 ("PCI: hv: Fix hv_arch_irq_unmask() for multi-MSI")
-> b4b77778ecc5 ("PCI: hv: Reuse existing IRTE allocation in compose_msi_msg()")
-> a2bad844a67b ("PCI: hv: Fix interrupt mapping for multi-MSI")
-> 
-> It turns out that the third patch (b4b77778ecc5) causes a performance
-> regression because all the interrupts now happen on 1 physical CPU (or two
-> pCPUs, if one pCPU doesn't have enough vectors). When a guest has many PCI
-> devices, it may suffer from soft lockups if the workload is heavy, e.g.,
-> see https://lwn.net/ml/linux-kernel/20220804025104.15673-1-decui@microsoft.com/
-> 
-> Commit b4b77778ecc5 itself is good. The real issue is that the hypercall in
-> hv_irq_unmask() -> hv_arch_irq_unmask() ->
-> hv_do_hypercall(HVCALL_RETARGET_INTERRUPT...) only changes the target
-> virtual CPU rather than physical CPU; with b4b77778ecc5, the pCPU is
-> determined only once in hv_compose_msi_msg() where only vCPU0 is specified;
-> consequently the hypervisor only uses 1 target pCPU for all the interrupts.
-> 
-> Note: before b4b77778ecc5, the pCPU is determined twice, and when the pCPU
-> is determinted the second time, the vCPU in the effective affinity mask is
+[Trimming long CC list]
 
-s/determinted/determined/
+Hi Wei / Michael, just out of curiosity, did this (and patch 9) ended-up
+being queued in hyperv-next?
 
-> used (i.e., it isn't always vCPU0), so the hypervisor chooses different
-> pCPU for each interrupt.
-> 
-> The hypercall will be fixed in future to update the pCPU as well, but
-> that will take quite a while, so let's restore the old behavior in
-> hv_compose_msi_msg(), i.e., don't reuse the existing IRTE allocation for
-> single-MSI and MSI-X; for multi-MSI, we choose the vCPU in a round-robin
-> manner for each PCI device, so the interrupts of different devices can
-> happen on different pCPUs, though the interrupts of each device happen on
-> some single pCPU.
-> 
-> The hypercall fix may not be backported to all old versions of Hyper-V, so
-> we want to have this guest side change for ever (or at least till we're sure
+Thanks in advance,
 
-s/for ever/forever/
 
-> the old affected versions of Hyper-V are no longer supported).
-> 
-> Fixes: b4b77778ecc5 ("PCI: hv: Reuse existing IRTE allocation in compose_msi_msg()")
-> Co-developed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Co-developed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Signed-off-by: Carl Vanderlip <quic_carlv@quicinc.com>
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
-> 
-> ---
-> 
-> v1 is here:
->   https://lwn.net/ml/linux-kernel/20220804025104.15673-1-decui@microsoft.com/
-> 
-> Changes in v2:
->   round-robin the vCPU for multi-MSI.
->   The commit message is re-worked.
->   Added Jeff and Carl's Co-developed-by and Signed-off-by.
-> 
-> Changes in v3:
->   Michael Kelley kindly helped to make a great comment, and I added the
->   comment before hv_compose_msi_req_get_cpu(). Thank you, Michael!
-> 
->   Rebased to Hyper-V tree's "hyperv-fixes" branch:
->       https://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git/log/?h=hyperv-fixes
-> 
->   Bjorn, Lorenzo, it would be great to have your Ack. The patch needs to go
->   through the Hyper-V tree because it's rebased to another hv_pci patch (which
->   only exists in the Hyper-V tree for now):
->       e70af8d040d2 ("PCI: hv: Fix the definition of vector in hv_compose_msi_msg()") 
+Guilherme
 
-Fine with me, but it's Lorenzo's area so I don't want to preemptively
-ack it.
+On 17/10/2022 12:26, Michael Kelley (LINUX) wrote:
+> From: Guilherme G. Piccoli <gpiccoli@igalia.com> Sent: Tuesday, October 4, 2022 10:20 AM
+>>
+>> On 04/10/2022 13:24, Michael Kelley (LINUX) wrote:
+>>> [...]
+>>>
+>>> Tested this patch in combination with Patch 9 in this series.  Verified
+>>> that both the panic and die paths work correctly with notification to
+>>> Hyper-V via hyperv_report_panic() or via hv_kmsg_dump().  Hyper-V
+>>> framebuffer is updated as expected, though I did not reproduce
+>>> a case where the ring buffer lock is held.  vmbus_initiate_unload() runs
+>>> as expected.
+>>>
+>>> Tested-by: Michael Kelley <mikelley@microsoft.com>
+>>>
+>>
+>> Thanks a lot for the tests/review Michael!
+>>
+>> Do you think Hyper-V folks could add both patches in hv tree? If you
+>> prefer, I can re-send them individually.
+>>
+> 
+> Wei Liu:  Could you pick up Patch 9 and Patch 10 from this series in the
+> hyperv-next tree?
+> 
+> Michael
+> 
