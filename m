@@ -2,109 +2,65 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD9FCC433FE
-	for <linux-hyperv@archiver.kernel.org>; Thu, 10 Nov 2022 22:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA219C43217
+	for <linux-hyperv@archiver.kernel.org>; Fri, 11 Nov 2022 01:50:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbiKJWMi (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 10 Nov 2022 17:12:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35796 "EHLO
+        id S232471AbiKKBuS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 10 Nov 2022 20:50:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbiKJWMh (ORCPT
+        with ESMTP id S229463AbiKKBuQ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 10 Nov 2022 17:12:37 -0500
-X-Greylist: delayed 2361 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 10 Nov 2022 14:12:33 PST
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31B502F01A;
-        Thu, 10 Nov 2022 14:12:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=mfrkgBO2aFdDwc60CdgvE9S9ISnTxlrxLXKGcZohYPI=; b=C7Ilm2+a2l4r1r95htrUrU37I8
-        lMIJfaotnuBNkxcfo4/L/pbfE1f4ut7sTpCE8twAbc6ox3p9lD5UCf6EbqODhn+RXuk0rOjq/CPD1
-        gcMYRMHiKRXaf1saqM/QWQ9BVE544pdXfFSX63kSa1R4SYF+2I0Zfm1eeXHATzRLw8samu/6/7mLA
-        jPSHUUIfOHyeN4n9ZnjnqbDFAbHkbgGkhIlll/Uf4ZbIvtL1dmYb/eCcTtoK3nFDp8YQPkTz68fRV
-        pUOXd0Ajaw6fsDOP8nAyPc1AMybspZ1ZsThb5k67Q5izC8rPwc2Z6S8O8dFA4iM+dNUe2WOkBIrKk
-        mgZOxJVg==;
-Received: from [177.102.6.147] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1otFAU-00FmBO-VZ; Thu, 10 Nov 2022 22:33:03 +0100
-Message-ID: <efdaf27e-753e-e84f-dd7d-965101563679@igalia.com>
-Date:   Thu, 10 Nov 2022 18:32:54 -0300
+        Thu, 10 Nov 2022 20:50:16 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 127221C116
+        for <linux-hyperv@vger.kernel.org>; Thu, 10 Nov 2022 17:50:15 -0800 (PST)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4N7hTy4gWkz15MWm;
+        Fri, 11 Nov 2022 09:49:58 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Fri, 11 Nov 2022 09:50:13 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.31; Fri, 11 Nov
+ 2022 09:50:12 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-hyperv@vger.kernel.org>
+CC:     <kys@microsoft.com>, <haiyangz@microsoft.com>,
+        <sthemmin@microsoft.com>, <wei.liu@kernel.org>,
+        <decui@microsoft.com>, <yangyingliang@huawei.com>
+Subject: [PATCH v2 0/2] Drivers: hv: vmbus: fix two issues
+Date:   Fri, 11 Nov 2022 09:48:45 +0800
+Message-ID: <20221111014847.673576-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.2
-Subject: Re: [PATCH V3 10/11] drivers/hv/vmbus, video/hyperv_fb: Untangle and
- refactor Hyper-V panic notifiers
-Content-Language: en-US
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Cc:     "bhe@redhat.com" <bhe@redhat.com>,
-        "kexec@lists.infradead.org" <kexec@lists.infradead.org>,
-        "pmladek@suse.com" <pmladek@suse.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>
-References: <20220819221731.480795-1-gpiccoli@igalia.com>
- <20220819221731.480795-11-gpiccoli@igalia.com>
- <BYAPR21MB16880251FC59B60542D2D996D75A9@BYAPR21MB1688.namprd21.prod.outlook.com>
- <ae0a1017-7ec6-9615-7154-ea34c7bd2248@igalia.com>
- <SN6PR2101MB1693BC627B22432BA42EEBC2D7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <SN6PR2101MB1693BC627B22432BA42EEBC2D7299@SN6PR2101MB1693.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-[Trimming long CC list]
+This patchset fixes a double free and a memory leak problems.
 
-Hi Wei / Michael, just out of curiosity, did this (and patch 9) ended-up
-being queued in hyperv-next?
+v1 -> v2:
+  Add a comment before vmbus_device_register().
 
-Thanks in advance,
+Yang Yingliang (2):
+  Drivers: hv: vmbus: fix double free in the error path of
+    vmbus_add_channel_work()
+  Drivers: hv: vmbus: fix possible memory leak in
+    vmbus_device_register()
 
+ drivers/hv/channel_mgmt.c | 4 +++-
+ drivers/hv/vmbus_drv.c    | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Guilherme
+-- 
+2.25.1
 
-On 17/10/2022 12:26, Michael Kelley (LINUX) wrote:
-> From: Guilherme G. Piccoli <gpiccoli@igalia.com> Sent: Tuesday, October 4, 2022 10:20 AM
->>
->> On 04/10/2022 13:24, Michael Kelley (LINUX) wrote:
->>> [...]
->>>
->>> Tested this patch in combination with Patch 9 in this series.  Verified
->>> that both the panic and die paths work correctly with notification to
->>> Hyper-V via hyperv_report_panic() or via hv_kmsg_dump().  Hyper-V
->>> framebuffer is updated as expected, though I did not reproduce
->>> a case where the ring buffer lock is held.  vmbus_initiate_unload() runs
->>> as expected.
->>>
->>> Tested-by: Michael Kelley <mikelley@microsoft.com>
->>>
->>
->> Thanks a lot for the tests/review Michael!
->>
->> Do you think Hyper-V folks could add both patches in hv tree? If you
->> prefer, I can re-send them individually.
->>
-> 
-> Wei Liu:  Could you pick up Patch 9 and Patch 10 from this series in the
-> hyperv-next tree?
-> 
-> Michael
-> 
