@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 499A4C3A589
-	for <linux-hyperv@archiver.kernel.org>; Sat, 19 Nov 2022 03:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C519C43217
+	for <linux-hyperv@archiver.kernel.org>; Sat, 19 Nov 2022 03:47:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232618AbiKSDrc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Nov 2022 22:47:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37136 "EHLO
+        id S232662AbiKSDrd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 18 Nov 2022 22:47:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbiKSDq7 (ORCPT
+        with ESMTP id S230058AbiKSDq5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Nov 2022 22:46:59 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A98EBF822;
-        Fri, 18 Nov 2022 19:46:50 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id w15-20020a17090a380f00b0021873113cb4so6349431pjb.0;
-        Fri, 18 Nov 2022 19:46:50 -0800 (PST)
+        Fri, 18 Nov 2022 22:46:57 -0500
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B8ABF80B;
+        Fri, 18 Nov 2022 19:46:45 -0800 (PST)
+Received: by mail-pg1-x52d.google.com with SMTP id b62so6658466pgc.0;
+        Fri, 18 Nov 2022 19:46:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ItxDpPRpAqbvZZHr07qhhxQmPJehVCNLqSw71HrxTxc=;
-        b=VQxEqC5qot3L/gBM3Sf1bbsdOF9if2kV/RVHJFP65XEk0ifY/2XASgPM++aXUyKchT
-         TQ4efq06/HtUT3jAbNbtFLIfIf2BhwxPbGubtO8Lxstay5MYzdNJASfgRUVsk6pJuv4d
-         eARufqyIzHmJx5HwxkSvlSj6Em9vvSblPFjpnYdQOPvNDBOztA790QOnHRQKPSP/Tr4q
-         T8PsDn+w+vtzBVqab8aWwu/NJ9p/o2ERcKATOb8/5jkGJfuD7QBF92OjaSh9ov4DAHYc
-         hK5NqZyFTjbSJKEGCAGtiYgRad7Xe8T44UBi/KUH+DKTVndUSMgTI0UKcEAsmHT1YK5Q
-         d0bg==
+        bh=ZHdN7biDTMCbZsH86bq9wEVAHh9Jk5WDAS/BJmNojPQ=;
+        b=TONekkcAfBmXRry37Wbi51cr2toA2jiBUJMasTmc7l2fvIja1wdaN2X24ZFp2YVWpn
+         steUrrkufUn0wEzm57h+/JnRnmvpOChMAFwykT8+bgus9Kj3Hm20/b96RiQ/kyf8WeS/
+         G3aUroC/Aq7tA5KejVGVa2bztjFmKadFznW/m/goy045L8PHEnEJaOznmLBunZd2zL+J
+         AH/ZONaDjpHjlJPcUSlykncMcLEnDOijSC/TYynTSJdphSB25OW8JuIA8gme1eAL7yXn
+         uI8QDS75KwmAYCGnJs533NogBgneAQrRmcio34vIt0Op30bIh3icBuOYVDnScTYy1jiI
+         H3pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ItxDpPRpAqbvZZHr07qhhxQmPJehVCNLqSw71HrxTxc=;
-        b=dnfmHBgAb65b9zcUKSjWjsu/mMx1d7kNJ8crRNBmsTZA9JXK6kOj2TdJjSWNikROGT
-         +816c9XCTMjJEouoOmCep1mfjAfUI/R0dfw21mj4othhPJoaD+YTmnO/ePQn8dmHUzM2
-         HUOUF7mOJvDioPEtH9hF/fBvYqp04jfxcNC/5NxJ534KMkpuS6wk6oe9FxbCBQ2xHo1+
-         TXsNv5MshdUIwPhARdPfoZyaU+GH2Qy1jdhC5q15EF8J+jH+gDuiJvOk6q991u8INMQQ
-         4OOKqWkbI02eg7fi/r/c7nvm3laSj8uAhl8QBkDOGGOLjx70INCguxblz+WpzEvJRiyE
-         g5dA==
-X-Gm-Message-State: ANoB5pkUm9KqpnCJOqexPNHPIHj5Kr/FVNT6+4FMfI38Qrnu+uW3+4fX
-        cC2Sjq94hSbxu1PmUnd/I2o=
-X-Google-Smtp-Source: AA0mqf6Qw5HeeCOlmu7rZ59aqHFSQUAoRvby6UhqkbdaM9NOcB3rWY+HvxJyUP1+EtFsq1YlG5DDMg==
-X-Received: by 2002:a17:90a:bb86:b0:218:8d27:cdae with SMTP id v6-20020a17090abb8600b002188d27cdaemr4403165pjr.244.1668829609794;
-        Fri, 18 Nov 2022 19:46:49 -0800 (PST)
+        bh=ZHdN7biDTMCbZsH86bq9wEVAHh9Jk5WDAS/BJmNojPQ=;
+        b=sVfHsa3o3FTXqskn9v9ITGXO3M5w6FQCGrPqIktf/M5qk1bhuMLlxHspzUfAJ9EthF
+         tK7XHG4wvRfC2XfEUvz7H3JZ/23k7GupFJYbs7nhSLjkEMx24ElDNFs++FKLRT4iVy8C
+         0G82neDxSBdscGffl+YVYGH4xGSRKNQLMrLCMtCExaYilt6HZKLx8ip8IC4pxOvhA781
+         LzgD0AADHN9b6gBECI2l2LlA7TSzhT9guWdpnVzFGLMfmac4VkIAvFza6vMuyNZpzHNA
+         +MjdE/vQuGm7OlcngHHXQF16P6538MZ/sXBz6oi/op+YoelwanuWz+7V1H1skeU1dDx8
+         7U8g==
+X-Gm-Message-State: ANoB5pmdrpIqD1lp0HLJ/SYNZsqftNTa0Cc7AiYrqNBOdO8FrSosP6Or
+        bfSZeDEZoPgKs1MEC2rKbs6kPkQQjlnDsw==
+X-Google-Smtp-Source: AA0mqf4W9C8O5R6U3ygETad3CLbfYrIKVfeSRJhpnQRqtB9YGtpcZtnOxW+pV8nSo49Drl7yTT0g+Q==
+X-Received: by 2002:a63:5502:0:b0:470:3e8:6f25 with SMTP id j2-20020a635502000000b0047003e86f25mr9319719pgb.294.1668829605426;
+        Fri, 18 Nov 2022 19:46:45 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:38:f087:1794:92c5:f8f0])
-        by smtp.gmail.com with ESMTPSA id e5-20020a056a0000c500b005360da6b26bsm3913892pfj.159.2022.11.18.19.46.48
+        by smtp.gmail.com with ESMTPSA id e5-20020a056a0000c500b005360da6b26bsm3913892pfj.159.2022.11.18.19.46.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 19:46:49 -0800 (PST)
+        Fri, 18 Nov 2022 19:46:44 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH V2 08/18] x86/hyperv: decrypt vmbus pages for sev-snp enlightened guest
-Date:   Fri, 18 Nov 2022 22:46:22 -0500
-Message-Id: <20221119034633.1728632-9-ltykernel@gmail.com>
+Subject: [RFC PATCH V2 05/18] x86/hyperv: Get Virtual Trust Level via hvcall
+Date:   Fri, 18 Nov 2022 22:46:19 -0500
+Message-Id: <20221119034633.1728632-6-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221119034633.1728632-1-ltykernel@gmail.com>
 References: <20221119034633.1728632-1-ltykernel@gmail.com>
@@ -80,110 +80,88 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Vmbus int, synic and post message pages are shared with hypervisor
-and so decrypt these pages in the sev-snp guest.
+sev-snp guest provides vtl(Virtual Trust Level) and get it from
+hyperv hvcall via HVCALL_GET_VP_REGISTERS.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- drivers/hv/connection.c | 13 +++++++++++++
- drivers/hv/hv.c         | 32 +++++++++++++++++++++++++++++++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ arch/x86/hyperv/hv_init.c      | 35 ++++++++++++++++++++++++++++++++++
+ include/asm-generic/mshyperv.h |  2 ++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 9dc27e5d367a..43141225ea15 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -215,6 +215,15 @@ int vmbus_connect(void)
- 		(void *)((unsigned long)vmbus_connection.int_page +
- 			(HV_HYP_PAGE_SIZE >> 1));
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 4600c5941957..5b919d4d24c0 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -390,6 +390,39 @@ static void __init hv_get_partition_id(void)
+ 	local_irq_restore(flags);
+ }
  
-+	if (hv_isolation_type_snp() || hv_isolation_type_en_snp()) {
-+		ret = set_memory_decrypted((unsigned long)
-+				vmbus_connection.int_page, 1);
-+		if (ret)
-+			goto cleanup;
++static u8 __init get_current_vtl(void)
++{
++	u64 control = ((u64)1 << HV_HYPERCALL_REP_COMP_OFFSET) | HVCALL_GET_VP_REGISTERS;
++	struct hv_get_vp_registers_input *input = NULL;
++	struct hv_get_vp_registers_output *output = NULL;
++	u8 vtl = 0;
++	int ret;
++	unsigned long flags;
 +
-+		memset(vmbus_connection.int_page, 0, PAGE_SIZE);
++	local_irq_save(flags);
++	input = *(struct hv_get_vp_registers_input **)this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = (struct hv_get_vp_registers_output *)input;
++	if (!input || !output) {
++		pr_err("Hyper-V: cannot allocate a shared page!");
++		goto done;
 +	}
 +
- 	/*
- 	 * Setup the monitor notification facility. The 1st page for
- 	 * parent->child and the 2nd page for child->parent
-@@ -372,6 +381,10 @@ void vmbus_disconnect(void)
- 		destroy_workqueue(vmbus_connection.work_queue);
- 
- 	if (vmbus_connection.int_page) {
-+		if (hv_isolation_type_en_snp())
-+			set_memory_encrypted((unsigned long)
-+				vmbus_connection.int_page, 1);
++	memset(input, 0, sizeof(*input) + sizeof(input->element[0]));
++	input->header.partitionid = HV_PARTITION_ID_SELF;
++	input->header.inputvtl = 0;
++	input->element[0].name0 = 0x000D0003;
 +
- 		hv_free_hyperv_page((unsigned long)vmbus_connection.int_page);
- 		vmbus_connection.int_page = NULL;
- 	}
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 4d6480d57546..f9111eb32739 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -20,6 +20,7 @@
- #include <linux/interrupt.h>
- #include <clocksource/hyperv_timer.h>
- #include <asm/mshyperv.h>
-+#include <linux/set_memory.h>
- #include "hyperv_vmbus.h"
- 
- /* The one and only */
-@@ -117,7 +118,7 @@ int hv_post_message(union hv_connection_id connection_id,
- 
- int hv_synic_alloc(void)
- {
--	int cpu;
-+	int cpu, ret;
- 	struct hv_per_cpu_context *hv_cpu;
- 
- 	/*
-@@ -168,6 +169,29 @@ int hv_synic_alloc(void)
- 			pr_err("Unable to allocate post msg page\n");
- 			goto err;
- 		}
++	ret = hv_do_hypercall(control, input, output);
++	if (ret == 0)
++		vtl = output->as64.low & 0xf;
++	else
++		pr_err("Hyper-V: failed to get the current VTL!");
++	local_irq_restore(flags);
 +
-+		if (hv_isolation_type_en_snp()) {
-+			ret = set_memory_decrypted((unsigned long)
-+				hv_cpu->synic_message_page, 1);
-+			ret |= set_memory_decrypted((unsigned long)
-+				hv_cpu->synic_event_page, 1);
-+			ret |= set_memory_decrypted((unsigned long)
-+				hv_cpu->post_msg_page, 1);
++done:
++	return vtl;
++}
 +
-+			if (ret) {
-+				set_memory_encrypted((unsigned long)
-+					hv_cpu->synic_message_page, 1);
-+				set_memory_encrypted((unsigned long)
-+					hv_cpu->synic_event_page, 1);
-+				set_memory_encrypted((unsigned long)
-+					hv_cpu->post_msg_page, 1);
-+				goto err;
-+			}
-+
-+			memset(hv_cpu->synic_message_page, 0, PAGE_SIZE);
-+			memset(hv_cpu->synic_event_page, 0, PAGE_SIZE);
-+			memset(hv_cpu->post_msg_page, 0, PAGE_SIZE);
-+		}
- 	}
+ /*
+  * This function is to be invoked early in the boot sequence after the
+  * hypervisor has been detected.
+@@ -527,6 +560,8 @@ void __init hyperv_init(void)
+ 	if (hv_is_isolation_supported())
+ 		swiotlb_update_mem_attributes();
+ #endif
++	/* Find the current VTL */
++	ms_hyperv.vtl = get_current_vtl();
  
- 	return 0;
-@@ -188,6 +212,12 @@ void hv_synic_free(void)
- 		struct hv_per_cpu_context *hv_cpu
- 			= per_cpu_ptr(hv_context.cpu_context, cpu);
+ 	return;
  
-+		if (hv_isolation_type_en_snp()) {
-+			set_memory_encrypted((unsigned long)hv_cpu->synic_message_page, 1);
-+			set_memory_encrypted((unsigned long)hv_cpu->synic_event_page, 1);
-+			set_memory_encrypted((unsigned long)hv_cpu->post_msg_page, 1);
-+		}
-+
- 		free_page((unsigned long)hv_cpu->synic_event_page);
- 		free_page((unsigned long)hv_cpu->synic_message_page);
- 		free_page((unsigned long)hv_cpu->post_msg_page);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index bfb9eb9d7215..68133de044ec 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -46,6 +46,7 @@ struct ms_hyperv_info {
+ 		};
+ 	};
+ 	u64 shared_gpa_boundary;
++	u8 vtl;
+ };
+ extern struct ms_hyperv_info ms_hyperv;
+ 
+@@ -55,6 +56,7 @@ extern void * __percpu *hyperv_pcpu_output_arg;
+ extern u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
+ extern u64 hv_do_fast_hypercall8(u16 control, u64 input8);
+ extern bool hv_isolation_type_snp(void);
++extern bool hv_isolation_type_en_snp(void);
+ 
+ /* Helper functions that provide a consistent pattern for checking Hyper-V hypercall status. */
+ static inline int hv_result(u64 status)
 -- 
 2.25.1
 
