@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D7FC4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E79C3C433FE
 	for <linux-hyperv@archiver.kernel.org>; Sat, 19 Nov 2022 03:47:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232597AbiKSDra (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Nov 2022 22:47:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37184 "EHLO
+        id S232090AbiKSDrb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 18 Nov 2022 22:47:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231963AbiKSDrA (ORCPT
+        with ESMTP id S231894AbiKSDq6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Nov 2022 22:47:00 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EA32BF830;
-        Fri, 18 Nov 2022 19:46:51 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id a22-20020a17090a6d9600b0021896eb5554so996231pjk.1;
-        Fri, 18 Nov 2022 19:46:51 -0800 (PST)
+        Fri, 18 Nov 2022 22:46:58 -0500
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7485BF827;
+        Fri, 18 Nov 2022 19:46:48 -0800 (PST)
+Received: by mail-pg1-x533.google.com with SMTP id s196so6625641pgs.3;
+        Fri, 18 Nov 2022 19:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wN6eB0wxJRf6zzRxY6T7pa65W2+E1oedx78oWdQ5Oug=;
-        b=NBt4Xls1RZOBtmtBilmybh/XvJM5mSsTG2HAd6utN6D5Mu9JgAYK1Az3jDz+NYOUmf
-         4YyOzRgIifgQxbVi8a3V1ZLzsJr06l37H6yxvSDAXYuMsNNFqighPMYkMgq0dgHn2kJU
-         OgBeCVSscvZ8ZJHXAQ4JOxi9n/Aqm8cNgstROCJtG7OFxP0f32WsSMW76UDYZxTAMS8+
-         1RRhWDB22k3c5cOsw7iJko8FYwxpoLFc1P6kznPmTcVWHu+pqUqvX816WtU4+frGBEq7
-         GXPI/SGzZmV73ZhFlsV/IBtG/InWq+hDEEy6mgIKE4Pz2CXDme4mvwdTC1hlcUhD1xvp
-         CTlA==
+        bh=HkcTs/ArLjoTKDcTyzMU889nkY7DdVdas4PocmXRhm8=;
+        b=mqftbILMyrMMSY0sRSnUOUKl4NdLFeLmvTIprm5l3ulZjOduQa+DKnjzXatyDsfod2
+         5aMn9BhYRf4D7b3w6+k+76w5t/0HejkZAI76dYCA8Wk/r4lyaFcV54HtbPgllMGWHd6n
+         G9UoXvtLawT5Jo/k3vj2l0JXU0KG+vo6jPGXihU6Z4mVDqj4y0IBpTVPcezUXYEA6Z6V
+         cJuM5W6P/srgHZ328qfssz5u3cQCDzXXEWdhCkqf6JrXPuzveOosoYIxPREjoMgzQIP9
+         QzfDes422LSjz86opbhLBm/QIXXRyGbJXmXvMJwHfD2VlJSjQatUdtiEOc8CmS54YSR3
+         Vqnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wN6eB0wxJRf6zzRxY6T7pa65W2+E1oedx78oWdQ5Oug=;
-        b=NmJGObYoNeMjrVmnwC+yWe/TjlsuuqI2TV4JaXyoVNzHRlnb0PUZRBpRyZjEnyM0Ih
-         Jpi0N/7qFF15N5/eGl7tV4ttsWOzyJDTO4ADNa7cWm8114ID3uIO1uhykHmuPPcCpXqD
-         cOUC/5Useu1KY6jwAT4ml4xATZXtzwq7LeoUKlSW2xdHawhvDb6QmM1ukmZjrhSddJ/N
-         rRxEGsqY8Hcrn+03u9io0w3jZtzGXXB60ireqDMiiE5MlDWCviE5QpuwcpdiDDXTEllH
-         NuQVBZOK+UqR35nsO4KtTQswboqdKx+eSO4/WsU/7K0tqaeCGjwL/t7x9FxgkoMqw7Ug
-         rKEg==
-X-Gm-Message-State: ANoB5pl1mQYI4jXtDRUql0QA/oYIy3hXGGw71Wv5vBFI/CzxtPlZ9ipq
-        nz9FY7vJrasLtgBXlV0S8+Y=
-X-Google-Smtp-Source: AA0mqf5zIYZtw6iVkCd7uQV2a6WMjWTxhRQw0MJkAjBeqXqboLVNOYh8+nY30Xi18DY1G3MYt/fMIg==
-X-Received: by 2002:a17:902:6847:b0:183:6555:38ef with SMTP id f7-20020a170902684700b00183655538efmr2340783pln.157.1668829611039;
-        Fri, 18 Nov 2022 19:46:51 -0800 (PST)
+        bh=HkcTs/ArLjoTKDcTyzMU889nkY7DdVdas4PocmXRhm8=;
+        b=Q8EIYKAjGLtazXN2TjnoHVeHcx7At7JnNrw4ca7aJbgU5XyOrvHUHQI28CVqdQE/Di
+         Wp+1oSSJpAmCfr2gdbi9ZWnDvPb/I7rlIcd3x5+a18rLfpqyqrXquL9s5vH/JXC70nhP
+         qjQ0XW7IXXeo56uQ65p5EsCP03CtanpPnNg90pSIGqDYQFqYkQFbxAAxY13yneXnZ2ad
+         Iz2LPrSp/Xlo69yMNFrO68rvl45G+1eGqAMeleXP98wtQZhGxUHD7QCtFOBnlTGSVxM+
+         PNjasMSkxnkxP3FIiYBAtj2MDtsNkpwJIrTBqgYg+ioEd9COKf+C6HScU7lZ9qcKNTB/
+         fcDg==
+X-Gm-Message-State: ANoB5pmOqGI1VGeHAr/PuxHu7E9XXRO0SzMRutBZrASRH5QmPoVIqJaJ
+        XxEEu0pgs8ILnWs3Vw+DhBc=
+X-Google-Smtp-Source: AA0mqf4HTkeLEW7VU8wU9ICZbtzKyS4ZtKTO5JSSusDifWlB3yEYFfUMwdwkdGtSgPsQRfXJ5zEblQ==
+X-Received: by 2002:a63:5308:0:b0:46f:cec6:8805 with SMTP id h8-20020a635308000000b0046fcec68805mr9278748pgb.612.1668829608401;
+        Fri, 18 Nov 2022 19:46:48 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:38:f087:1794:92c5:f8f0])
-        by smtp.gmail.com with ESMTPSA id e5-20020a056a0000c500b005360da6b26bsm3913892pfj.159.2022.11.18.19.46.49
+        by smtp.gmail.com with ESMTPSA id e5-20020a056a0000c500b005360da6b26bsm3913892pfj.159.2022.11.18.19.46.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Nov 2022 19:46:50 -0800 (PST)
+        Fri, 18 Nov 2022 19:46:47 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH V2 09/18] x86/hyperv: set target vtl in the vmbus init message
-Date:   Fri, 18 Nov 2022 22:46:23 -0500
-Message-Id: <20221119034633.1728632-10-ltykernel@gmail.com>
+Subject: [RFC PATCH V2 07/18] clocksource: hyper-v: decrypt hyperv tsc page in sev-snp enlightened guest
+Date:   Fri, 18 Nov 2022 22:46:21 -0500
+Message-Id: <20221119034633.1728632-8-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20221119034633.1728632-1-ltykernel@gmail.com>
 References: <20221119034633.1728632-1-ltykernel@gmail.com>
@@ -80,41 +80,27 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Set target vtl (Virtual Trust Level) in the vmbus init message.
+Hyper-V tsc page is shared with hypervisor and it should be decrypted
+in sev-snp enlightened guest when it's used.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- drivers/hv/connection.c | 1 +
- include/linux/hyperv.h  | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/clocksource/hyperv_timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 43141225ea15..09a1253b539a 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -98,6 +98,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 	 */
- 	if (version >= VERSION_WIN10_V5) {
- 		msg->msg_sint = VMBUS_MESSAGE_SINT;
-+		msg->msg_vtl = ms_hyperv.vtl;
- 		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID_4;
- 	} else {
- 		msg->interrupt_page = virt_to_phys(vmbus_connection.int_page);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 3b42264333ef..2be0b5efd1ea 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -665,8 +665,8 @@ struct vmbus_channel_initiate_contact {
- 		u64 interrupt_page;
- 		struct {
- 			u8	msg_sint;
--			u8	padding1[3];
--			u32	padding2;
-+			u8	msg_vtl;
-+			u8	reserved[6];
- 		};
- 	};
- 	u64 monitor_page1;
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index bb47610bbd1c..aa68eebed5ee 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -364,7 +364,7 @@ EXPORT_SYMBOL_GPL(hv_stimer_global_cleanup);
+ static union {
+ 	struct ms_hyperv_tsc_page page;
+ 	u8 reserved[PAGE_SIZE];
+-} tsc_pg __aligned(PAGE_SIZE);
++} tsc_pg __bss_decrypted __aligned(PAGE_SIZE);
+ 
+ struct ms_hyperv_tsc_page *hv_get_tsc_page(void)
+ {
 -- 
 2.25.1
 
