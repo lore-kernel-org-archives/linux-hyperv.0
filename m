@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5156AC4332F
-	for <linux-hyperv@archiver.kernel.org>; Sat, 19 Nov 2022 02:13:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38531C433FE
+	for <linux-hyperv@archiver.kernel.org>; Sat, 19 Nov 2022 02:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232327AbiKSCNL (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Nov 2022 21:13:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45408 "EHLO
+        id S235348AbiKSCUT (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 18 Nov 2022 21:20:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232415AbiKSCMQ (ORCPT
+        with ESMTP id S235360AbiKSCTs (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Nov 2022 21:12:16 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D16CD74624;
-        Fri, 18 Nov 2022 18:11:57 -0800 (PST)
+        Fri, 18 Nov 2022 21:19:48 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEDBBDEF0;
+        Fri, 18 Nov 2022 18:14:25 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6C90CB8267A;
-        Sat, 19 Nov 2022 02:11:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A44F7C43145;
-        Sat, 19 Nov 2022 02:11:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 800E56283C;
+        Sat, 19 Nov 2022 02:14:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8794EC43470;
+        Sat, 19 Nov 2022 02:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1668823915;
-        bh=89NZ+b2pH+skYaseszJKoCWnVZFggVGno7do8/hEutQ=;
+        s=k20201202; t=1668824054;
+        bh=N08XjpGNW/3yiI7SIR93MZnAjQYYU/4B7wmQxljEUkg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SCPzTOoDvp2ep+p3fdKl7nvdsSWZ07Vh4Ajh+pHqSR+eB0R/tV8KzpS1Qikoly6EC
-         g0oedY6BSjWSC8NnmAtHVpgVEHmLWP4Fl3fqd2s3dMMg6iglb01aNdtzV1EhaAuhev
-         OYiW/lP7bv8VLJ9VQKaOO7iNh9Kl1udLumWOTExa+aHVebPxW3r77f8CyDJHxuH0cc
-         No0rBQ3MS3JwZDKeyhqsPpXoi5WphTOJYIOme6a2LxQ0gK/0bjzUe7XY9TMJWZ9P3U
-         WyLZ6bSbiXygOJ+RpemmuzafQsMTPM50QpGFNdEbC7ulikws0S6zI4z0ehOvN1lx2l
-         UxPMk47I3VvmQ==
+        b=kjXcurfx3vtlgq0dFI1S8qc7qCrWMSF5gXIFDFTJclupTVN2Nqn4R9jpjRQgwxHYW
+         4koDJap9GZ08Qiw+w5JqnbfteVeebWc3YoSqSinn83/S2nRhOni28874zbpaLgGfRv
+         2Zy5w/4Urn5V3RGadTKn0pcS5it0jr6JKT3aMSJ/hklco5aOZn4FQm32uoWU1wG2vx
+         64+ttlzZowD86wEoBP/lsmFvU2wWqBbGDJ09IQ6HBJTbf6Uul1U42lgeJMtKe/eGZU
+         qvkc7YDFPeni7nhKJ/KjHiLXbsYvW9Xz/NJVsOVT9/LHW1dh5yTlCgKFkC8tIw49cf
+         hM8uvP5Z+mDaA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
@@ -41,12 +41,12 @@ Cc:     Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 14/44] x86/hyperv: fix invalid writes to MSRs during root partition kexec
-Date:   Fri, 18 Nov 2022 21:10:54 -0500
-Message-Id: <20221119021124.1773699-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/27] x86/hyperv: fix invalid writes to MSRs during root partition kexec
+Date:   Fri, 18 Nov 2022 21:13:35 -0500
+Message-Id: <20221119021352.1774592-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221119021124.1773699-1-sashal@kernel.org>
-References: <20221119021124.1773699-1-sashal@kernel.org>
+In-Reply-To: <20221119021352.1774592-1-sashal@kernel.org>
+References: <20221119021352.1774592-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 3de6d8b53367..10186bd6d67e 100644
+index b6d48ca5b0f1..f61f441b5382 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -537,6 +537,7 @@ void __init hyperv_init(void)
+@@ -470,6 +470,7 @@ void __init hyperv_init(void)
  void hyperv_cleanup(void)
  {
  	union hv_x64_msr_hypercall_contents hypercall_msr;
@@ -88,7 +88,7 @@ index 3de6d8b53367..10186bd6d67e 100644
  
  	unregister_syscore_ops(&hv_syscore_ops);
  
-@@ -552,12 +553,14 @@ void hyperv_cleanup(void)
+@@ -484,12 +485,14 @@ void hyperv_cleanup(void)
  	hv_hypercall_pg = NULL;
  
  	/* Reset the hypercall page */
