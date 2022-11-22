@@ -2,54 +2,52 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6AAEC4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Nov 2022 14:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37BFC433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Nov 2022 14:31:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233990AbiKVObI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 22 Nov 2022 09:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49562 "EHLO
+        id S234074AbiKVObN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 22 Nov 2022 09:31:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233916AbiKVObC (ORCPT
+        with ESMTP id S233953AbiKVObH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 22 Nov 2022 09:31:02 -0500
-X-Greylist: delayed 4084 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Nov 2022 06:31:01 PST
+        Tue, 22 Nov 2022 09:31:07 -0500
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD9065E44;
-        Tue, 22 Nov 2022 06:31:01 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 304CF6A6B7;
+        Tue, 22 Nov 2022 06:31:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
         s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
         References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
         Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
         Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
         List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FY+JqUTCgihErrGkfvd81tTDafGHo4/Ls5aZBztvCRI=; b=AYvzjRrTruNeQnueKgELb+zCk8
-        UVbGiVtGj9aoxeLpY3IHAd6Yyk/0XAO+o2htBjsFecMi89SKtq9feHUApjGt4pHm9mbOA9I+V6mQy
-        eA1GZ6fQ6GWJNN3dCHh8ww04qprqnImBnhWQLBqyOQGGeGjftBRgox+qxDxtDwCs7Pe3JTcckNuWw
-        22NGy7Gh2WlrpbVnmNlxHaFUiSJQ0FGaPuTPCZR61CqiCeq1X2BlTCgPo3VjT41nAbu/kZbhSbP3E
-        nCOY/8g75zWymxjFr1MTnfhgzD0q7u7PDtf6dQ4r8PSil1SrtlAunMWnkjmPGBICS5bbVJH8nkYfS
-        sle/jWGg==;
+        bh=rSYIGGtjZljFBal86Avbxge1dAX05jgxf9qrktsTsB8=; b=MX800+aYXTdyYof4USzixvuPvg
+        9FbkPgWEf4yn5YKSZ6YZvZYMUIrJ83siHY3JDQnjBib+dAZOvIjPcv4rwFWWZmC8nuU/CNyqTv37J
+        LI9uahtiyTlFT5sg3l2Jt6DAPlbV/eGuCYZHMx1mJgP8y9VUP0QV5AhKWiiwBT3/TtAdOZxoHUjGo
+        wBjoV4n84SXGRfQJ1FQgM2titKAX9RMXtyQrLP2E1UPM76R5ywtg8b8JzSylFz4KM6CKbhsW2RDhw
+        2Wuo/c750D1OMJECUK35f1MTpZl3Tuqe5CqaKSXYSU2Si3ILxqlcvyZFxEYL6RqkDNw1VeQ19rA9/
+        QwSDYHeg==;
 Received: from [177.102.6.147] (helo=[192.168.1.60])
         by fanzine2.igalia.com with esmtpsa 
         (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1oxTEh-006xXr-3p; Tue, 22 Nov 2022 14:22:52 +0100
-Message-ID: <3f0bc380-e6c9-d1fa-a22f-6ba9051d4219@igalia.com>
-Date:   Tue, 22 Nov 2022 10:22:45 -0300
+        id 1oxTR5-006yBT-L8; Tue, 22 Nov 2022 14:35:39 +0100
+Message-ID: <831175d7-1b30-de61-d6c5-cbb91e4fdcfb@igalia.com>
+Date:   Tue, 22 Nov 2022 10:35:34 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.2
-Subject: Re: [PATCH V3 03/11] alpha: Clean-up the panic notifier code
+Subject: Re: [PATCH V3 11/11] panic: Fixes the panic_print NMI backtrace
+ setting
 Content-Language: en-US
-To:     linux-alpha@vger.kernel.org, Richard Henderson <rth@gcc.gnu.org>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, richard.henderson@linaro.org
+To:     akpm@linux-foundation.org, bhe@redhat.com, pmladek@suse.com,
+        feng.tang@intel.com
 Cc:     kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net,
-        Petr Mladek <pmladek@suse.com>
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net
 References: <20220819221731.480795-1-gpiccoli@igalia.com>
- <20220819221731.480795-4-gpiccoli@igalia.com>
+ <20220819221731.480795-12-gpiccoli@igalia.com>
 From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <20220819221731.480795-4-gpiccoli@igalia.com>
+In-Reply-To: <20220819221731.480795-12-gpiccoli@igalia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -57,20 +55,19 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 On 19/08/2022 19:17, Guilherme G. Piccoli wrote:
-> The alpha panic notifier has some code issues, not following
-> the conventions of other notifiers. Also, it might halt the
-> machine but still it is set to run as early as possible, which
-> doesn't seem to be a good idea.
+> Commit 8d470a45d1a6 ("panic: add option to dump all CPUs backtraces in panic_print")
+> introduced a setting for the "panic_print" kernel parameter to allow
+> users to request a NMI backtrace on panic. Problem is that the panic_print
+> handling happens after the secondary CPUs are already disabled, hence
+> this option ended-up being kind of a no-op - kernel skips the NMI trace
+> in idling CPUs, which is the case of offline CPUs.
 > 
-> So, let's clean the code and set the notifier to run as the
-> latest, following the same approach other architectures are
-> doing - also, remove the unnecessary include of a header already
-> included indirectly.
+> Fix it by checking the NMI backtrace bit in the panic_print prior to
+> the CPU disabling function.
 > 
-> Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-> Cc: Matt Turner <mattst88@gmail.com>
-> Cc: Richard Henderson <rth@gcc.gnu.org>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Fixes: 8d470a45d1a6 ("panic: add option to dump all CPUs backtraces in panic_print")
+> Cc: Feng Tang <feng.tang@intel.com>
+> Cc: Petr Mladek <pmladek@suse.com>
 > Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > 
 > ---
@@ -79,17 +76,35 @@ On 19/08/2022 19:17, Guilherme G. Piccoli wrote:
 > - No changes.
 > 
 > V2:
-> - Fixed rth email address;
-> - Added Petr's review tag - thanks!
+> - new patch, there was no V1 of this one.
+> 
+> Hi folks, thanks upfront for reviews. This is a new patch, fixing an issue
+> I found in my tests, so I shoved it into this fixes series.
+> 
+> Notice that while at it, I got rid of the "crash_kexec_post_notifiers"
+> local copy in panic(). This was introduced by commit b26e27ddfd2a
+> ("kexec: use core_param for crash_kexec_post_notifiers boot option"),
+> but it is not clear from comments or commit message why this local copy
+> is required.
+> 
+> My understanding is that it's a mechanism to prevent some concurrency,
+> in case some other CPU modify this variable while panic() is running.
+> I find it very unlikely, hence I removed it - but if people consider
+> this copy needed, I can respin this patch and keep it, even providing a
+> comment about that, in order to be explict about its need.
+> 
+> Let me know your thoughts! Cheers,
+> 
+> Guilherme
+> 
 > 
 
-Hi Alpha maintainers, is there anything else to be done here? I'd really
-appreciate any advice on how to get this merged.
+Hi folks, bi-monthly ping - apologies for the noise heh
 
-I'm also adding here Richard's linaro email (and trimming huge CC list).
+Is there anything suggested so we can get this fix merged in 6.2? Any
+suggestions / reviews are much appreciated.
 
-Thanks in advance!
-Cheers,
+Tnx in advance,
 
 
 Guilherme
