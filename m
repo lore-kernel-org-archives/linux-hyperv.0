@@ -2,118 +2,104 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9C7C4332F
-	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Nov 2022 13:46:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB09C433FE
+	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Nov 2022 14:30:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233428AbiKVNq3 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 22 Nov 2022 08:46:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44092 "EHLO
+        id S233240AbiKVOa6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 22 Nov 2022 09:30:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233589AbiKVNq2 (ORCPT
+        with ESMTP id S233239AbiKVOa5 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 22 Nov 2022 08:46:28 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C9D85E3EA;
-        Tue, 22 Nov 2022 05:46:27 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id b11so13305251pjp.2;
-        Tue, 22 Nov 2022 05:46:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uVTM4A73qJGSSEloWNLoqvF5MY8jd3iZQoKxxU2Mn44=;
-        b=n1uPwGarX993N3niKUyWMplrgd30jCR09b8RxbKnmLZHi26Z6w5oRDEodA/jhkNWmu
-         kRtNWvzxuLPpp6UWErGjbIcwTVG5xegoqyCH5ArX0TV8XJzaYGlyfsY0XmNGfwfayT/L
-         h4NXCXOkV1kivV8DUtUCW2X0vIBH7yHaKnqr8K5AfEksDfHySFcTPz7A/NSQTSr5kJNW
-         JOBtKM4IHPRJxf8U7xdBjQw2013as9wB3JZfIuaIQMZoRroTVG2oD047GwYJrOBE69xp
-         e94ZCusqpC8lUDK2oYYancD1JRAFE8/HY1fJjVIi7P3YMfYl1lqF06zFUmcmAUI/H9CV
-         e53w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uVTM4A73qJGSSEloWNLoqvF5MY8jd3iZQoKxxU2Mn44=;
-        b=4J6fgmNrElsrRMlQ5kzQeTvb3CLUHejbk9oH58EFiaw48wKhewn3mDMXddrkm3x4ZK
-         eGN3Cexqd0x4H0ePWpsDy23AErz+mCeBi42SvFgUPtg1ComnuQspfKZeQXrR1J26spVZ
-         7R3OQnr0U7M9R3a0T3YABmhNrZQuAc+PhstXxrHSP0NQWaZceo2jy9WLwXaR2GkAJa8Q
-         4EFiH4r1wvmsQKwAA81Kljj/aColY5M6BqR47vzoyKQ3+3T4gAEnPA7cBwQlZIuL3i/e
-         fqIoLkcAw4T2l4SRM7ZoXoipE/UQScpXkrWHoNRMDdElTAVYDHI+ERHTdkqTZ1xM4QZC
-         7Ivg==
-X-Gm-Message-State: ANoB5pmo8s5chGeSvqYN3uPGcpKKxLq78gABFtZGtqnlgWzhXqNqLAuq
-        m+KlTaOee6hbZQdrTb23w6CSpJi1KjcOXib/
-X-Google-Smtp-Source: AA0mqf6mBuVBnHthUDZGJp4gDXN9r+8/41ANiXXoYROa2Ht1Ikc9yTyJpUdZx6kFEKWWVOZBOGVSaA==
-X-Received: by 2002:a17:902:b40b:b0:188:75bb:36d4 with SMTP id x11-20020a170902b40b00b0018875bb36d4mr4724061plr.55.1669124786804;
-        Tue, 22 Nov 2022 05:46:26 -0800 (PST)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:18:efec::75b])
-        by smtp.gmail.com with ESMTPSA id t8-20020a1709027fc800b00186c37270f6sm11921165plb.24.2022.11.22.05.46.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Nov 2022 05:46:25 -0800 (PST)
-Message-ID: <2f3c100f-355d-e4f2-ff42-2cb076e8aa86@gmail.com>
-Date:   Tue, 22 Nov 2022 21:46:14 +0800
+        Tue, 22 Nov 2022 09:30:57 -0500
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9A36317F;
+        Tue, 22 Nov 2022 06:30:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=9So0O8Pi8i8JHhFiG20jjK2ykR3NF1IMBTGdS9HzvSc=; b=gfoaakATo3McgEoQ5zIJQ3Gsom
+        dufqZdgPKM+yw0jFFN/K6+V7g7l5QwaZOV/0S2RmCXXt15cNLAvk2VhphewPoXa2YAcaOECIr2gzj
+        pP/kEwIlL2NbJOX4eTQidYlo/snxWt1FO1oIKfU5ewy12GTREQtKId7G2AJGDrYUl/GGDIwUtfuDy
+        vNGyHBkQ5D11aIgDyyyXqfReJn5NyJiQtwx9VSsqkqWz3H58/Q0jf0A88u5Ryn7UkSAYIOiFRY3MP
+        UITEbCNj1Wp77PuPX5qEZ7voLPw36j5yCi+XjucIaEBqYPOrBRSQhGun0A700bXW3ntCeLuarNZlC
+        SXGIR7Rw==;
+Received: from [177.102.6.147] (helo=[192.168.1.60])
+        by fanzine2.igalia.com with esmtpsa 
+        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+        id 1oxTM4-006y2D-7E; Tue, 22 Nov 2022 14:30:28 +0100
+Message-ID: <9d9823a9-255b-84c7-53b1-47fe51e1d756@igalia.com>
+Date:   Tue, 22 Nov 2022 10:30:22 -0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [RFC PATCH V2 16/18] x86/sev: Initialize #HV doorbell and handle
- interrupt requests
-To:     "Kalra, Ashish" <ashish.kalra@amd.com>, luto@kernel.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        seanjc@google.com, pbonzini@redhat.com, jgross@suse.com,
-        tiala@microsoft.com, kirill@shutemov.name,
-        jiangshan.ljs@antgroup.com, peterz@infradead.org,
-        srutherford@google.com, akpm@linux-foundation.org,
-        anshuman.khandual@arm.com, pawan.kumar.gupta@linux.intel.com,
-        adrian.hunter@intel.com, daniel.sneddon@linux.intel.com,
-        alexander.shishkin@linux.intel.com, sandipan.das@amd.com,
-        ray.huang@amd.com, brijesh.singh@amd.com, michael.roth@amd.com,
-        thomas.lendacky@amd.com, venu.busireddy@oracle.com,
-        sterritt@google.com, tony.luck@intel.com, samitolvanen@google.com,
-        fenghua.yu@intel.com
-Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-References: <20221119034633.1728632-1-ltykernel@gmail.com>
- <20221119034633.1728632-17-ltykernel@gmail.com>
- <116799e9-8b14-66d6-d494-66272faec9e9@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.2
+Subject: Re: [PATCH V3 07/11] notifiers: Add tracepoints to the notifiers
+ infrastructure
 Content-Language: en-US
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <116799e9-8b14-66d6-d494-66272faec9e9@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Arjan van de Ven <arjan@linux.intel.com>,
+        Xiaoming Ni <nixiaoming@huawei.com>
+Cc:     Cong Wang <xiyou.wangcong@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        rostedt@goodmis.org, pmladek@suse.com, akpm@linux-foundation.org,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        x86@kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net
+References: <20220819221731.480795-1-gpiccoli@igalia.com>
+ <20220819221731.480795-8-gpiccoli@igalia.com>
+From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+In-Reply-To: <20220819221731.480795-8-gpiccoli@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 11/21/2022 11:05 PM, Kalra, Ashish wrote:
->> +static void do_exc_hv(struct pt_regs *regs)
->> +{
->> +    union hv_pending_events pending_events;
->> +    u8 vector;
->> +
->> +    while (sev_hv_pending()) {
->> +        asm volatile("cli" : : : "memory");
->> +
+On 19/08/2022 19:17, Guilherme G. Piccoli wrote:
+> Currently there is no way to show the callback names for registered,
+> unregistered or executed notifiers. This is very useful for debug
+> purposes, hence add this functionality here in the form of notifiers'
+> tracepoints, one per operation.
 > 
-> Do we really need to disable interrupts here, #HV exception will be 
-> dispatched via an interrupt gate in the IDT, so interrupts should be 
-> implicitly disabled, right ?
->>    panic("Unexpected vector %d\n", vector);
->> +                unreachable();
->> +            }
->> +        } else {
->> +            common_interrupt(regs, pending_events.vector);
->> +        }
->> +
->> +        asm volatile("sti" : : : "memory");
+> Cc: Arjan van de Ven <arjan@linux.intel.com>
+> Cc: Cong Wang <xiyou.wangcong@gmail.com>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Valentin Schneider <valentin.schneider@arm.com>
+> Cc: Xiaoming Ni <nixiaoming@huawei.com>
+> Signed-off-by: Guilherme G. Piccoli <gpiccoli@igalia.com>
 > 
-> Again, why do we need to re-enable interrupts here (in this loop), 
-> interrupts will get re-enabled in the irqentry_exit() code path ?
+> ---
+> 
+> V3:
+> - Yet another major change - thanks to Arjan's great suggestion,
+> refactored the code to make use of tracepoints instead of guarding
+> the output with a Kconfig debug setting.
+> 
+> V2:
+> - Major improvement thanks to the great idea from Xiaoming - changed
+> all the ksym wheel reinvention to printk %ps modifier;
+> 
+> - Instead of ifdefs, using IS_ENABLED() - thanks Steven.
+> 
+> - Removed an unlikely() hint on debug path.
+> 
+> 
+>  include/trace/events/notifiers.h | 69 ++++++++++++++++++++++++++++++++
+>  kernel/notifier.c                |  6 +++
+>  2 files changed, 75 insertions(+)
+>  create mode 100644 include/trace/events/notifiers.h
+> 
 
-Hi Ashish:
-	Thanks for your review.	check_hv_pending() is also called in the
-native_irq_enable() to handle some pending interrupt requests after re
--enabling interrupt. For such case, disables irq when handle exception
-or interrupt event.
+Hi Arjan / Xiaoming / all, monthly ping heh
+
+If there's any advice on how to move things here, I would appreciate!
+Thanks in advance and apologies for the re-pings.
+
+Cheers,
 
 
+Guilherme
