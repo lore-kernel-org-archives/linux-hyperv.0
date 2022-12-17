@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CEAC3DA7B
-	for <linux-hyperv@archiver.kernel.org>; Sat, 17 Dec 2022 00:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACBA7C3DA6E
+	for <linux-hyperv@archiver.kernel.org>; Sat, 17 Dec 2022 00:13:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbiLQAM6 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 16 Dec 2022 19:12:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45338 "EHLO
+        id S230368AbiLQANl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 16 Dec 2022 19:13:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbiLQAL6 (ORCPT
+        with ESMTP id S229548AbiLQAMn (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 16 Dec 2022 19:11:58 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26E01117A;
-        Fri, 16 Dec 2022 16:10:55 -0800 (PST)
+        Fri, 16 Dec 2022 19:12:43 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1561340825;
+        Fri, 16 Dec 2022 16:11:12 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B07EDB81E55;
-        Sat, 17 Dec 2022 00:10:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE7DC433F0;
-        Sat, 17 Dec 2022 00:10:50 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A5E63622D4;
+        Sat, 17 Dec 2022 00:11:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69EECC433F0;
+        Sat, 17 Dec 2022 00:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671235852;
-        bh=9wzit2czp4q0kk7ehQih16rg/n48uJUbQUJo13fvDVI=;
+        s=k20201202; t=1671235871;
+        bh=XQ77/NIn43nPV6FOhatGAzc+UK1dL+UTMKzIc3Bguac=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PTo4ZOtaxWraoPsRLot2gb2WMStZbEWEfkdqG6KX4g/4tX1O8nutdvkbfjh+C6A44
-         VvRZG+/XIbegftS6EH3pw27DMx49sLPAhDKIHPpR+dg5MGykZlPflp8HJuQuqNO7Gt
-         AE0Vj0n5HdoPbLAPjmREP6n6YqUz4VmE4sdjGcELX5Olxmlay9TIPH3aL8iMKQHpep
-         apPwhaaso1H5Wgy720i8Vw84sYSqgT75fjoLEyT4ibK1O4k0v1n8gCWqTNBzTWVTI6
-         TlHHDgvp0E1B6b2rqzbv3EJCZswnp8Mt0/G651KRaywL7Hmau3xszTyH7Z/1Q8Vg9B
-         aRoVlimapv5PA==
+        b=sMeyBF2u3bpIQAtPzxcZrZ/m0m03QGTCOHJ80fw6h3hI+dyY4URSvKZ7gT80q6CH+
+         4j2DsHHU0bk3fMI05UF/dcfEbxgzucUCs5AYhAGNZuEx7TQxJCuALCf4gD0wge4SCI
+         MiWTbn0x6sc50bPE1ODx9kH/xerRtgFqPaRocUx4nNd1qKmwi25y957rcIkQFiu6Wj
+         d58u5lO+35qxfzhUNFG3k9wIUO8qqhcAULss6/pKqXhqGqiMz/0Jmca/UpR0dkk/M5
+         6v7fVPrM7TMMvlioym4orc7Jd6gNXjSxxPQFDsImK85Dl2cCQk3Q0X2vBqLv10J7md
+         dHehQrNk8cidA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
@@ -47,12 +47,12 @@ Cc:     "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
         Sasha Levin <sashal@kernel.org>, deller@gmx.de,
         linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.15 3/5] video: hyperv_fb: Avoid taking busy spinlock on panic path
-Date:   Fri, 16 Dec 2022 19:10:36 -0500
-Message-Id: <20221217001038.41355-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 3/5] video: hyperv_fb: Avoid taking busy spinlock on panic path
+Date:   Fri, 16 Dec 2022 19:10:55 -0500
+Message-Id: <20221217001058.41426-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217001038.41355-1-sashal@kernel.org>
-References: <20221217001038.41355-1-sashal@kernel.org>
+In-Reply-To: <20221217001058.41426-1-sashal@kernel.org>
+References: <20221217001058.41426-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -99,11 +99,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hv/ring_buffer.c b/drivers/hv/ring_buffer.c
-index f4091143213b..1475ea77351e 100644
+index 769851b6e74c..7ed6fad3fa8f 100644
 --- a/drivers/hv/ring_buffer.c
 +++ b/drivers/hv/ring_buffer.c
-@@ -249,6 +249,19 @@ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info)
- 	ring_info->pkt_buffer_size = 0;
+@@ -246,6 +246,19 @@ void hv_ringbuffer_cleanup(struct hv_ring_buffer_info *ring_info)
+ 	mutex_unlock(&ring_info->ring_buffer_mutex);
  }
  
 +/*
@@ -121,12 +121,12 @@ index f4091143213b..1475ea77351e 100644
 +
  /* Write to the ring buffer. */
  int hv_ringbuffer_write(struct vmbus_channel *channel,
- 			const struct kvec *kv_list, u32 kv_count,
+ 			const struct kvec *kv_list, u32 kv_count)
 diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index 58c304a3b7c4..de865e197c8d 100644
+index 40baa79f8046..f0a66a344d87 100644
 --- a/drivers/video/fbdev/hyperv_fb.c
 +++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -799,12 +799,18 @@ static void hvfb_ondemand_refresh_throttle(struct hvfb_par *par,
+@@ -798,12 +798,18 @@ static void hvfb_ondemand_refresh_throttle(struct hvfb_par *par,
  static int hvfb_on_panic(struct notifier_block *nb,
  			 unsigned long e, void *p)
  {
@@ -147,10 +147,10 @@ index 58c304a3b7c4..de865e197c8d 100644
  		hvfb_docopy(par, 0, dio_fb_size);
  	synthvid_update(info, 0, 0, INT_MAX, INT_MAX);
 diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index ddc8713ce57b..8499fc9220e0 100644
+index 1ce131f29f3b..eada4d8d6587 100644
 --- a/include/linux/hyperv.h
 +++ b/include/linux/hyperv.h
-@@ -1307,6 +1307,8 @@ struct hv_ring_buffer_debug_info {
+@@ -1269,6 +1269,8 @@ struct hv_ring_buffer_debug_info {
  int hv_ringbuffer_get_debuginfo(struct hv_ring_buffer_info *ring_info,
  				struct hv_ring_buffer_debug_info *debug_info);
  
