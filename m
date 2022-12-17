@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8C7C3DA6E
-	for <linux-hyperv@archiver.kernel.org>; Sat, 17 Dec 2022 00:12:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5740C3DA71
+	for <linux-hyperv@archiver.kernel.org>; Sat, 17 Dec 2022 00:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230317AbiLQAMI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 16 Dec 2022 19:12:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
+        id S230365AbiLQAM5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 16 Dec 2022 19:12:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230181AbiLQALY (ORCPT
+        with ESMTP id S230273AbiLQAL6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 16 Dec 2022 19:11:24 -0500
+        Fri, 16 Dec 2022 19:11:58 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CEDB40800;
-        Fri, 16 Dec 2022 16:10:32 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C281F1144C;
+        Fri, 16 Dec 2022 16:10:55 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CB3E8622C9;
-        Sat, 17 Dec 2022 00:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BF3C433EF;
-        Sat, 17 Dec 2022 00:10:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4EEF4622CA;
+        Sat, 17 Dec 2022 00:10:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2812AC433D2;
+        Sat, 17 Dec 2022 00:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671235831;
-        bh=y9bwSUuc+lA1U3NC4hPJWbpqyHp4QqmMJF7rGIqbdi8=;
+        s=k20201202; t=1671235854;
+        bh=iv68qWuwZhSAhJiol+KNif9+UsN3ck260qQGw6e9kYg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z7N7zvdbu6GvkIOJ1Eeyn+JUuUV0XcWHBnoxJygoc0z1Z/JZ3MCjbb6dejfP0ctl2
-         yuYIyiD/KdX+00xXXDGnyXGf4CEI+dx0eW8J45zcwd3ck3EfStyIlVXugrzqp/KJ/B
-         xLFPXz0pyvOQyM0locaK0FFFCd4O54Ip01VkUXYZy/pzH601WmxyWcXkvbB40e07EU
-         p5mLQqFBY5+kjkYuYDSifXIGaSFoZh6hhyo+b5zqVetSP4Nqxezlye2F7uu4s/OPGq
-         4jw0m5W8ktEigltY8NKDOm7lN950+auPw2IIc8EXxF2FCDMvxNOqBFEz9zUGLeeEBY
-         sicaDthF//H3g==
+        b=QiT+rQNp8WARPCnJ6+H7i1hVY7nUPj8pEAVgl+yFBwWnJY3rbk6J8gxe8l7l3A9sY
+         RRGc56haChEvAXLaP8t1eKl28BhqXJg65p2WrpRtrttv5siHYIkWukVUiB/UL98EzB
+         x7Im9WsiAdO7Z0ysJKn/JYQGq1u+LFBoLJBJsr3Vd8/XhueKSvPQEmLWn4DfSEsyyj
+         kCINZKuNCCsAIMM5tdgVUOyveiiBl/jNUidfug2dq0F7CDO5mKgxZDl8ps4Co2LZGH
+         0l/hC8idqPez6wiq+slH13EIKGTr04exRSF7MMmFeiOGFcvyzLN+oipAbR342OYHPb
+         rZ3/ellPfo25A==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Gaurav Kohli <gauravkohli@linux.microsoft.com>,
@@ -41,12 +41,12 @@ Cc:     Gaurav Kohli <gauravkohli@linux.microsoft.com>,
         tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 5/8] x86/hyperv: Remove unregister syscore call from Hyper-V cleanup
-Date:   Fri, 16 Dec 2022 19:10:09 -0500
-Message-Id: <20221217001013.41239-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 4/5] x86/hyperv: Remove unregister syscore call from Hyper-V cleanup
+Date:   Fri, 16 Dec 2022 19:10:37 -0500
+Message-Id: <20221217001038.41355-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217001013.41239-1-sashal@kernel.org>
-References: <20221217001013.41239-1-sashal@kernel.org>
+In-Reply-To: <20221217001038.41355-1-sashal@kernel.org>
+References: <20221217001038.41355-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -83,10 +83,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 deletions(-)
 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index a0165df3c4d8..d03561b2fffe 100644
+index 762f10cdfb7a..95f98af74fdc 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -536,8 +536,6 @@ void hyperv_cleanup(void)
+@@ -469,8 +469,6 @@ void hyperv_cleanup(void)
  {
  	union hv_x64_msr_hypercall_contents hypercall_msr;
  
@@ -94,7 +94,7 @@ index a0165df3c4d8..d03561b2fffe 100644
 -
  	/* Reset our OS id */
  	wrmsrl(HV_X64_MSR_GUEST_OS_ID, 0);
- 	hv_ghcb_msr_write(HV_X64_MSR_GUEST_OS_ID, 0);
+ 
 -- 
 2.35.1
 
