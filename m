@@ -2,45 +2,45 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D5FC678D6
-	for <linux-hyperv@archiver.kernel.org>; Thu, 12 Jan 2023 21:49:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF35DC678DA
+	for <linux-hyperv@archiver.kernel.org>; Thu, 12 Jan 2023 21:49:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240436AbjALVto (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 12 Jan 2023 16:49:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40560 "EHLO
+        id S240464AbjALVtr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 12 Jan 2023 16:49:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240968AbjALVsl (ORCPT
+        with ESMTP id S240996AbjALVsm (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 12 Jan 2023 16:48:41 -0500
-Received: from DM5PR00CU002-vft-obe.outbound.protection.outlook.com (mail-centralusazon11021018.outbound.protection.outlook.com [52.101.62.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45B1CB4B;
-        Thu, 12 Jan 2023 13:43:11 -0800 (PST)
+        Thu, 12 Jan 2023 16:48:42 -0500
+Received: from DM5PR00CU002-vft-obe.outbound.protection.outlook.com (mail-centralusazon11021016.outbound.protection.outlook.com [52.101.62.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF288C4C;
+        Thu, 12 Jan 2023 13:43:15 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BtMNtXHBNo3zAh41Dg5PmdAZTslKguV8jNTpaZ8e65ziSNQ0JOFdTs8EOWvonhFjaVWgoDg6ErUhHjAZN48wQxhGt24Vl2Xvb4LLOd+gLMoKDIRLysYflAzuOpHPa6fci2fcAwVLWJPFZBuCyTcuybuPO4Xmv46Ye0jGvTwpiuse/YnGHh8blq+cCbDPSSi1ygFx2QJy9R/EW96cromQ8QikmdZk416vMmwQZigLfHwTZd513IJcF/+rRmOYp5gW9X4kYDQ+NUzI2Kwv/92WYWk3atsKM3tBe4co6+Hv2HazjfdRx83MyiWwte6Qfuhc+vEjP84wmN6sBNTztinwJg==
+ b=i4gYbiFTX6RLfrFMDXTZrUcFFvmx7I1BjLzBJMIo3qFGShKFmu3nuKXzf1Syfc2zXX3omfjyBPJD8a3ELOzhavA7Ps41XqgsNFJMObg4NGbywTu/Ff39mnXGfuF5HumphCPfdFjlWCrMXFrHQdJvymx0vGq3xp2zkT11FsULzZLA7wE48tv3OHwHPqp8Q4S0o5JONJOiW1fXa4bt/FfUk2PRiJgN+WCIVAcMT44aeEria6GF1fzKvc5jMlr/5icUPUeeAf9pKyhaQMth8/NZySWZDcoFg7+jMXUWrqegPzHzsSUIwRk7UvjGe45CSPPpqHiKi4IvRP7NiYY22umQtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jo/7z2NizQa93c/Nkl/lSx9vly8AsdrlK083lzTJtbQ=;
- b=gGZpKfzsqfL2c92WCSTS3odAv++fRh3PL1DJUz/Qhw+IGxrkK4CzOdpFWLDpSIS5T82ldMU+WXxUiiDvJhvcLB9BcIL47QDNVMEk/rMUgUD1pHdnz7gYGBGjnpMCOE5wgTfMU+VtdQmkGjvcPppvAtxstoTzEaSucCRclAs210IJmvD63UONMiztZTJEqkWys93oVXnZzYOZBuG2MwiYodQvQX9fbJDr/sZzv6IyQvC9JKn7CVdWaNhzw7ldoEXRszTrLsYNdS5FMSKzLN31EarPXYEcUgx4PMBZIJQQdZRHhMfG1M23VvhT7ZzIqbce3B2embfo5twIH7t4lgm/vg==
+ bh=PZo8RPkaGayr/k4KHlRYdQdBejrww9Cz7KYQw5kOUGs=;
+ b=Xxlvvnaf7PzMwrzy1uDXUgHup2QmFfXv128G5nGixrilrLNKmh7CfvSUUdq1ZWLvF7DY8h4dQ2jXidnPHEewxTBQ3zGZoOVT2aijTsweraYW+lqB4CwGZiWEOypbCpZlCHa4Gjnd3hWTeTaspIrx9YgTisr0g0E1LSZBFLcSilmAkt2C18I05+1ALylJ0ZWZISRvmYg+6HeVhtsOxJG19245KPbdBymyFEJSIrVt2OCFN+R2wdidbC4aj36IEuT0t0cTlXni9eGpMdOC/ObhJl/WiGP/i2tWRnlBsDC7C9oYj5k0Fw6kUX7OTnPsr3LwSjJ6EMvExtjCjOaqn8lViQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jo/7z2NizQa93c/Nkl/lSx9vly8AsdrlK083lzTJtbQ=;
- b=I8CAG3lhekwsPJbSXAEFgnZbTjW4zAcjIcbgNoIZ5nXY7uSP2cFhb/+LgQ7G2uPBjVSgPC3a51h+ETjQFGaN0CDlMCbqErpXpcDTsplqjKYjRBjIRNk2Nsi5q6APTkMO3Yh+eK/wawV6zw5/vhh0cYxpm94Ign1i/ArwRt1AYiE=
+ bh=PZo8RPkaGayr/k4KHlRYdQdBejrww9Cz7KYQw5kOUGs=;
+ b=g745XJTN3ZM5pEiHzuPWlLSeI4MwkLWm3nl8Y49viMx2xuzTrgTzz+Ev9pSLg5gYsQ7HkteeHud1C+gr8kvtjVeiL66iIP72SGXpWqwFNux1Iukq1TIjXI8ctu05DJQhziZm1krwuFPHq2MktEkOV1RAq7RL7tDGuTgEXpqn7O4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
  by MW4PR21MB1953.namprd21.prod.outlook.com (2603:10b6:303:74::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6023.4; Thu, 12 Jan
- 2023 21:43:09 +0000
+ 2023 21:43:13 +0000
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::ef06:2e2c:3620:46a7]) by DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::ef06:2e2c:3620:46a7%8]) with mapi id 15.20.6023.006; Thu, 12 Jan 2023
- 21:43:09 +0000
+ 21:43:13 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
@@ -59,9 +59,9 @@ To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
         iommu@lists.linux.dev
 Cc:     mikelley@microsoft.com
-Subject: [PATCH v5 06/14] x86/ioremap: Support hypervisor specified range to map as encrypted
-Date:   Thu, 12 Jan 2023 13:42:25 -0800
-Message-Id: <1673559753-94403-7-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v5 08/14] swiotlb: Remove bounce buffer remapping for Hyper-V
+Date:   Thu, 12 Jan 2023 13:42:27 -0800
+Message-Id: <1673559753-94403-9-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1673559753-94403-1-git-send-email-mikelley@microsoft.com>
 References: <1673559753-94403-1-git-send-email-mikelley@microsoft.com>
@@ -73,135 +73,191 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|MW4PR21MB1953:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06e037a5-3427-4573-1658-08daf4e5fef4
+X-MS-Office365-Filtering-Correlation-Id: 21b73a23-40d8-4d3e-e041-08daf4e60187
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LQOQgocwf1XVaSPUTxKvESH4cZeWMXhFCWV1iAgKQNMqCJPh0MBKJXi53taucGpJ5lyblNpDkCabXI6pXpM5Oit3OfUCrMXBmBdB8a0IflkPm3oMMp/ADGjj1YW4s23H654p5aLY124rQT41CNyCYsy+AhpQcdkWZIjlaWqCvaO95rIZ0xI7UhwIqL0NFdSapZcKgzt6gLUY+kyEjw5mdbPLxzuY1ueoFhHK7DvP8b+8dVgPsXkWqvUWJl+et/Rv/ZEtQSvQTTQqZeA4FkMh7ndMxZAt5lZQornhpHq6YGryaP5q+uXRwBYNll647tSawv5CdAN9Ptdyw+bxVFPvUkoxOtuH4sVfG/zdbIJpKXTGUVdwP96fRiVS8NcCRlXZ7LNxgBt3wOPCvQgnAnZGMm5fLxkrVwRIEzNPRIxQxPRuKffvDjQM0mFQ8dLZbf8YyKZCxzWM4urpTFKL8XTv9cVhB5p3JO+2mfkLcdNuYNmxLfTivCsoJksQ9SORgDHAuYkSjXEHgPJUF9kSAtNLSMYlVAA3TKWIyfi6iTFNtk0HmQYItIDApTIMMjuemI2Im8d/9n6NNPjRIJ7Mm0B5R3/F+clFE3+PJQVuCUMiOIp+lw6++c/sT6ceZM2wgSyC4HwkbnfyUc7mKSy5TNwh6hV/pfr7eHwFTUmB7YxvETmgHhbN1oAitQ7Hu4Si9fCZ3Xbu+LJqGyHkZFY2Rd8kF42mb850luGOi4nIdtRurPmuWXFhJ3P+g0K/q62aU+XjN8LaTi2jPNZ9+2yFRTxNHw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199015)(186003)(26005)(6512007)(82960400001)(82950400001)(6486002)(86362001)(52116002)(478600001)(2906002)(5660300002)(4326008)(8676002)(38350700002)(66556008)(66476007)(316002)(7406005)(38100700002)(10290500003)(41300700001)(921005)(36756003)(66946007)(7416002)(2616005)(66899015)(8936002)(6506007)(6666004)(107886003)(83380400001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: YnVAXb6lqOzo+4e2BXjBUueEDkDWvBTRn86whEeadES067wa0pwVcA42UbBzJdm8+3MUfVAzmZF49QEtm9lMa3C17BbXoNL/ugwMk04apaYJ9THA3Sd2bJ6DIgVt5SqLmARBCcGwUHo2VYPGDlW8dbYizjJirKEBLJg0PWUuKaFcrky/bNwc7XWBlG4TTO+3/ON7O9rf5rBn0J2NdjSs6o9sw+SBSp3xISeivJalXYOecvqXlYifzLo8wp1OANYqfIS1iSZAwOTxqV38IsMTd8jExUBcsTO8sXEBNgczWn9l7O+BkbXSkRO7QT9DkKLsshevNkpXulsKSd5yhr5PNzzuAflUK4sMnwwFFCX3ixouI/5Ky57iPd3r0m1xehdGmXRmzglCG8CB1QRWUCuLC0bVsTdStufVg2i2oUQkT0nP2fqd7Fkbt8Tso9g+0S5+/8OhZhWO79R/FWJHatyAzgWDey1p1CzMYOlgK38wb9H2RHHWOq2pW2jefUf4i/WckwlVoc17qTwt5CoZZaG4xDPciwGN6fIikcthj7xpQndMRNUNcHBO7z1fZaXqFRlyAyaSqTI1sM/ZN2QbskBalCv/PkSWKVSnkB2FRJRqLaeLvEoCjifyTeAqX6wdxwwJ0nnKnqjQkxXuE3FrJs/KaPq2jEprCNw97/gggOzdYk2gS5aBOYxVLmJUrle597cTGFSIAmaHSKfiVqKSs65WdIuXoEX9MjROiUejHeOqf/lhyKXUEKMhl2ewQ9Av4zCfgYZHVoFCt0hS23LC+VQ/AQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199015)(186003)(26005)(6512007)(82960400001)(82950400001)(6486002)(86362001)(52116002)(478600001)(2906002)(5660300002)(4326008)(8676002)(38350700002)(66556008)(66476007)(316002)(7406005)(38100700002)(10290500003)(41300700001)(921005)(36756003)(66946007)(7416002)(2616005)(8936002)(6506007)(6666004)(107886003)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4EeAElfzrssHOARVqJ96ZUUUTyVWHsSXPfTKG5Peag2AxFtJqRHUAIMFqLXX?=
- =?us-ascii?Q?9zR935l8pHrfQgGOUKW/GXLyEzsLA4zl+i2uoOaR1+xSTMyod8a0tFF4J573?=
- =?us-ascii?Q?+/X2C6lJELgrMtMgHqPbhPNAsL0zq40KjGhgG5eqmgel0krgicpIC7rr46Sb?=
- =?us-ascii?Q?SB8b5a9x2uys0gDB7Gfc2altNkZ+IN/offvnS5iGtsMte9oXXxEHMCbJFioE?=
- =?us-ascii?Q?UZ9IYc3AOgTi1yXzQ99oR8729wsu/3F6Psh8A8XCuIDWSp4j9AF4hXECIakG?=
- =?us-ascii?Q?tHXk8pHWxKho6rEb1gZ+5YddJ+0aWIvAtYIyI3EkVmRUxp1K/M778zcYg0O4?=
- =?us-ascii?Q?3HhzAAUuUQhNtdmXhzYHJewdyNkBR970xt9eBEgkMNVYgOom+na449Ny1ACu?=
- =?us-ascii?Q?u5Ex14ItjqSPiGiq7s4cI+sr185+Sif0dY9GmA48sJter84h+2jS2aRtZsh4?=
- =?us-ascii?Q?M+b49Ontj4CSblGIRz2XTxxoq4EV2Z9idI/BPXPvh7YrowkTVkzhQIrN84Sy?=
- =?us-ascii?Q?x8/5frtPA3DJnNIcXdNILw8+Ptz5PpcPapAATJoE2XPP3fMqb8JEf/7/yW3i?=
- =?us-ascii?Q?wg4qgj5pqhFKjhPy2ZjLnuBMgiuGQAWCm2gbFMHA3jHkwNcELWdhrGA+0puI?=
- =?us-ascii?Q?nuABHLyIuSWBVyWcCfXQfK9ZksxhJGkQ670ZgSOp7G312dLRU87vxUpJPh+Q?=
- =?us-ascii?Q?y9NyLWBMJyUqbPGN0Xy0vG7YZc1DFxrMeNce3RxV8LfsEWL3vqCej1Z+Z/Vv?=
- =?us-ascii?Q?QSOSytzBmcAC/Tf1n8psCClDt0IqMbZDVM3YXDQj7TZAGlqD1vrolSOmu7mP?=
- =?us-ascii?Q?Z6Mnfvn6cTaM4afLXI8wpKtN+Me0lS36uW0Y0jNvjwwTihNm7dv/qnAnTq2d?=
- =?us-ascii?Q?k0063UJLuahpKaCqBgCsnm0pVL4ZjrLZhbOi+6QpNID5z8yuLkCYN2T0QSsz?=
- =?us-ascii?Q?KSMobDR5iC718JOyOeodIHRsgOaZ7IE+XuuymhQbncBY2GeF0zRXG7Q5EhJM?=
- =?us-ascii?Q?TdBJmLeUz0ddiqxF990mBTEWHQlwUGWMPxw6IC/ihhujHN6vUGiS4G/o/WcY?=
- =?us-ascii?Q?nX8ylZ6WZYLz3HQN2ibXLJCS3+S8RtccaUddfpR4E2A8V3epOraIyzjD9HQw?=
- =?us-ascii?Q?BrfgLEj1+bqy16CSpfbUG5S+i6Qg0uOPePjJXc5Dho8jFWJERUSwEY1KTDWv?=
- =?us-ascii?Q?CB+x+MeVCbRSCutyRN90cb0Oa8J2AZ/FxcwV8c2T7NGViwAujp6lkJFCajbv?=
- =?us-ascii?Q?SEh0rOn6g+8xpT2U47d7mtN8MEXH0qAA5B3r84t2AIcoZWddBhNVQ8N7gVzI?=
- =?us-ascii?Q?m1EzEEJg6cW5Mkomk+SKuFWBIdAC1ksSeFew81j88vjuU/po9v5+s55wfu/B?=
- =?us-ascii?Q?rdHsIFISkIGX5jeSbvNaLLhybrBglgpSgwLoxm4w1Zw47Q5tstdxeB0ZMH6i?=
- =?us-ascii?Q?2rHiejlDBxXpXYQnflDuTGwYKRXv2NyCCt848C8rhJVfm16MuD9Y4D/1zEMG?=
- =?us-ascii?Q?d8EqQvulToPru41VvKqWukUNxKN5g+nuqhTSQVn7MddTvfxB3rYeaTIiOyX/?=
- =?us-ascii?Q?NUR1ep/sJAGntWxeMlcuvSeVKIVTSMzth4EYNGkQ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yBuoV5oS4Sc8SjBreTz324KzjuOUOETdKT6ezap1aNfZG+Fu/aRUccYMpekK?=
+ =?us-ascii?Q?EvftZ6mjJnFNsItbDEIpOExFKuBIsYNqvFhKLFDf64kS3PaeBsreVdMlVns9?=
+ =?us-ascii?Q?jUbaX+qTOpKaHEOwqLtF6k6spBlNKMjz6iTrey9EFgt36Zlkf3PD+hBCuM0/?=
+ =?us-ascii?Q?U8AvdAArO26c6KYvb6yl/MvSTkM8z9dd4FSCyFaoNx2QIVDh9aEg67sUE+2C?=
+ =?us-ascii?Q?zOBVmMt7K8nLb48AAmoGWtMJLst2DsKxkFNE7qCLR+wGd2Q6IXpzntMwO/8u?=
+ =?us-ascii?Q?uudIGZlzkpA6H1TeT6O20d0ZdLGHymZkOO/60WwTqebA8L2+KvQfOb3AFgcV?=
+ =?us-ascii?Q?Y5T6y6epf7I+tE82kVTuvjPYFqE9wdjvZvVoKNDVIqW7V5KQc38mPGt0/0mm?=
+ =?us-ascii?Q?GGKwNQ8lWiP5Nm0vYIT3IjB7ByyJId3znCKxAn9ATvVRVXKD3dZK275fIlZ2?=
+ =?us-ascii?Q?Cy7pWeyDJuEw463x4AvqA+xzZPZDkCtJRSfuw3PkrpwbSVl/s485iVRYln1c?=
+ =?us-ascii?Q?y4EF8RLKboL4M6cJh/7p0zTDCT4XKtUEWui9VJMNUQSlnZLwlMRS77HBleyj?=
+ =?us-ascii?Q?AgFv4jhDISSUBZElwEC553c1GJ2ZihgmKJShxSQfWsOPloFcEdhmI0RP/OT0?=
+ =?us-ascii?Q?7cRfrtY+xKfsTaEm6BYfqg1ZzOMd/yn6jXYKcDdtT1EAQeFZy5eggymtf/9Z?=
+ =?us-ascii?Q?PkeRtq6NG3yZihNnKtwxOmGGm7tuUGtWDzvTwyDiTBumSasQN9cKBK+aKa3b?=
+ =?us-ascii?Q?RCT9aKZ9ZgxwJi4U5b/LIxybHntonxR7fDBqsaOwGdoRWR4h8mp4vvZYYFNB?=
+ =?us-ascii?Q?IRv7rdIGdqM3Lsu3K/i07KLbn+U5lL5oYbAgbCZ2eT70tdAVA2Ahl2CPH7if?=
+ =?us-ascii?Q?crY5bbsHCzFIVvpZWkhmMxhcBohszHH9RSdxfFeJkrCBSEUYpCmMhF3V4ZWc?=
+ =?us-ascii?Q?lSIzB4fmFIZ8GRNfkIZjiPftpCOEx1KFiw8rlpg81HH/wzSGMx/C6acWM7gH?=
+ =?us-ascii?Q?Yzxga4xIsTNlmIFpEz4AZZhMCKT7k0CKiLnc/G9fj8m6sXt4U2XGRaNRo/O7?=
+ =?us-ascii?Q?JTYFVkx0nHP4yvbvMAv8oKc7qHg9QDJ0qucUg5kEhPuconnRJGc9xXrmuH5R?=
+ =?us-ascii?Q?bsabgLyhmuUb+nxCiabPVMJzTCv3lMNT2wxXsZfx1t6ls1MaRFy8v3x3qdny?=
+ =?us-ascii?Q?cbQt6KjNJg8N0iMaZNOZ5mpbMRReT3thxst0xgb58E/gO+W99JtAV+XuVym0?=
+ =?us-ascii?Q?1rhJdCe6yQO4jE8mLAoiYX8lfqkc6+eaGicdD2yHf9btECpFhRfGudwHx2Yf?=
+ =?us-ascii?Q?StRVyF4KIymV3i/in7cSsXk7MKz0TlbMrG8kf6XOZxXcMiYNQFiDkyRNKAOZ?=
+ =?us-ascii?Q?ftHm0xzFnlwYu/84Wyhy8njYa4EUaHI25u7YHwdkbKPzrC+5grFMJM89Rn4k?=
+ =?us-ascii?Q?SDi7ekvjv7ZnpaDv8J2cPh2GunG3i1icedMmOMqPPLIXwsp6esJLCWGzxzaM?=
+ =?us-ascii?Q?iVGx73+OIU3y7OjI5nKZE0Z0RLx5luI4V7QvPSW7fUjvMfBFgzoFAxqH6f5R?=
+ =?us-ascii?Q?PXoaeGsWDcbnPdqdWPP0zt3F5zQKznd0onp1BKMF?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06e037a5-3427-4573-1658-08daf4e5fef4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21b73a23-40d8-4d3e-e041-08daf4e60187
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 21:43:09.0006
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 21:43:13.2956
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gxjgmQqaSS/UXLfI6SBTxRsLQqm0qxOGvVyeR3MEFs14y7NEW/IBWHSJjGQ8PTQp4ZSEICEQNH0B3Ubio0LY7Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0B/kXwvX0njFt8DzqsObU0cih0AlJRN1tV7b2RQAxqkBcOabAaSE/GP3jQfVHC0ChfmiOueOgxpPTMrpjtsHVA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1953
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-In a AMD SEV-SNP VM using vTOM, devices in MMIO space may be provided by
-the paravisor and need to be mapped as encrypted.  Provide a function
-for the hypervisor to specify the address range for such devices.
-In __ioremap_caller(), map addresses in this range as encrypted.
+With changes to how Hyper-V guest VMs flip memory between private
+(encrypted) and shared (decrypted), creating a second kernel virtual
+mapping for shared memory is no longer necessary. Everything needed
+for the transition to shared is handled by set_memory_decrypted().
 
-Only a single range is supported. If multiple devices need to be
-mapped encrypted, the paravisor must place them within the single
-contiguous range.
+As such, remove swiotlb_unencrypted_base and the associated
+code.
 
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+Acked-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
 ---
- arch/x86/include/asm/io.h |  2 ++
- arch/x86/mm/ioremap.c     | 27 ++++++++++++++++++++++++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/mshyperv.c |  7 +------
+ include/linux/swiotlb.h        |  2 --
+ kernel/dma/swiotlb.c           | 45 +-----------------------------------------
+ 3 files changed, 2 insertions(+), 52 deletions(-)
 
-diff --git a/arch/x86/include/asm/io.h b/arch/x86/include/asm/io.h
-index e902564..72eb366 100644
---- a/arch/x86/include/asm/io.h
-+++ b/arch/x86/include/asm/io.h
-@@ -169,6 +169,8 @@ static inline unsigned int isa_virt_to_bus(volatile void *address)
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index cd7f480..8f83cee 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -18,7 +18,6 @@
+ #include <linux/kexec.h>
+ #include <linux/i8253.h>
+ #include <linux/random.h>
+-#include <linux/swiotlb.h>
+ #include <asm/processor.h>
+ #include <asm/hypervisor.h>
+ #include <asm/hyperv-tlfs.h>
+@@ -332,12 +331,8 @@ static void __init ms_hyperv_init_platform(void)
+ 		pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
+ 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
+ 
+-		if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) {
++		if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP)
+ 			static_branch_enable(&isolation_type_snp);
+-#ifdef CONFIG_SWIOTLB
+-			swiotlb_unencrypted_base = ms_hyperv.shared_gpa_boundary;
+-#endif
+-		}
+ 	}
+ 
+ 	if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 35bc4e2..13d7075 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -185,6 +185,4 @@ static inline bool is_swiotlb_for_alloc(struct device *dev)
  }
- #define isa_bus_to_virt		phys_to_virt
+ #endif /* CONFIG_DMA_RESTRICTED_POOL */
  
-+extern void ioremap_set_encrypted_range(resource_size_t addr, unsigned long size);
-+
- /*
-  * The default ioremap() behavior is non-cached; if you need something
-  * else, you probably want one of the following.
-diff --git a/arch/x86/mm/ioremap.c b/arch/x86/mm/ioremap.c
-index 6453fba..8db5846 100644
---- a/arch/x86/mm/ioremap.c
-+++ b/arch/x86/mm/ioremap.c
-@@ -37,6 +37,10 @@ struct ioremap_desc {
- 	unsigned int flags;
- };
+-extern phys_addr_t swiotlb_unencrypted_base;
+-
+ #endif /* __LINUX_SWIOTLB_H */
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index a34c38b..d3d6be0 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -73,8 +73,6 @@ struct io_tlb_slot {
  
-+/* Range of "other" addresses to treat as encrypted when remapping */
-+resource_size_t other_encrypted_start;
-+resource_size_t other_encrypted_end;
-+
- /*
-  * Fix up the linear direct mapping of the kernel to avoid cache attribute
-  * conflicts.
-@@ -108,14 +112,35 @@ static unsigned int __ioremap_check_encrypted(struct resource *res)
+ struct io_tlb_mem io_tlb_default_mem;
+ 
+-phys_addr_t swiotlb_unencrypted_base;
+-
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+ static unsigned long default_nareas;
+ 
+@@ -210,34 +208,6 @@ static inline unsigned long nr_slots(u64 val)
  }
  
  /*
-+ * Allow a hypervisor to specify an additional range of addresses to
-+ * treat as encrypted when remapping.
-+ */
-+void ioremap_set_encrypted_range(resource_size_t addr, unsigned long size)
-+{
-+	other_encrypted_start = addr;
-+	other_encrypted_end = addr + size - 1;
-+}
-+
-+/*
-  * The EFI runtime services data area is not covered by walk_mem_res(), but must
-- * be mapped encrypted when SEV is active.
-+ * be mapped encrypted when SEV is active. Also check the hypervisor specified
-+ * "other" address range to treat as encrypted.
-  */
- static void __ioremap_check_other(resource_size_t addr, struct ioremap_desc *desc)
+- * Remap swioltb memory in the unencrypted physical address space
+- * when swiotlb_unencrypted_base is set. (e.g. for Hyper-V AMD SEV-SNP
+- * Isolation VMs).
+- */
+-#ifdef CONFIG_HAS_IOMEM
+-static void *swiotlb_mem_remap(struct io_tlb_mem *mem, unsigned long bytes)
+-{
+-	void *vaddr = NULL;
+-
+-	if (swiotlb_unencrypted_base) {
+-		phys_addr_t paddr = mem->start + swiotlb_unencrypted_base;
+-
+-		vaddr = memremap(paddr, bytes, MEMREMAP_WB);
+-		if (!vaddr)
+-			pr_err("Failed to map the unencrypted memory %pa size %lx.\n",
+-			       &paddr, bytes);
+-	}
+-
+-	return vaddr;
+-}
+-#else
+-static void *swiotlb_mem_remap(struct io_tlb_mem *mem, unsigned long bytes)
+-{
+-	return NULL;
+-}
+-#endif
+-
+-/*
+  * Early SWIOTLB allocation may be too early to allow an architecture to
+  * perform the desired operations.  This function allows the architecture to
+  * call SWIOTLB when the operations are possible.  It needs to be called
+@@ -246,18 +216,12 @@ static void *swiotlb_mem_remap(struct io_tlb_mem *mem, unsigned long bytes)
+ void __init swiotlb_update_mem_attributes(void)
  {
- 	if (!cc_platform_has(CC_ATTR_GUEST_MEM_ENCRYPT))
- 		return;
+ 	struct io_tlb_mem *mem = &io_tlb_default_mem;
+-	void *vaddr;
+ 	unsigned long bytes;
  
-+	/*
-+	 * Check for an address within the "other" encrypted address range. If such
-+	 * a range is set, it must include the entire space used by the device,
-+	 * so we don't need to deal with a partial fit.
-+	 */
-+	if ((addr >= other_encrypted_start) && (addr <= other_encrypted_end)) {
-+		desc->flags |= IORES_MAP_ENCRYPTED;
-+		return;
-+	}
-+
- 	if (!IS_ENABLED(CONFIG_EFI))
+ 	if (!mem->nslabs || mem->late_alloc)
  		return;
+-	vaddr = phys_to_virt(mem->start);
+ 	bytes = PAGE_ALIGN(mem->nslabs << IO_TLB_SHIFT);
+-	set_memory_decrypted((unsigned long)vaddr, bytes >> PAGE_SHIFT);
+-
+-	mem->vaddr = swiotlb_mem_remap(mem, bytes);
+-	if (!mem->vaddr)
+-		mem->vaddr = vaddr;
++	set_memory_decrypted((unsigned long)mem->vaddr, bytes >> PAGE_SHIFT);
+ }
  
+ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+@@ -288,13 +252,6 @@ static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
+ 		mem->slots[i].alloc_size = 0;
+ 	}
+ 
+-	/*
+-	 * If swiotlb_unencrypted_base is set, the bounce buffer memory will
+-	 * be remapped and cleared in swiotlb_update_mem_attributes.
+-	 */
+-	if (swiotlb_unencrypted_base)
+-		return;
+-
+ 	memset(vaddr, 0, bytes);
+ 	mem->vaddr = vaddr;
+ 	return;
 -- 
 1.8.3.1
 
