@@ -2,398 +2,111 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B88FCC54EBE
-	for <linux-hyperv@archiver.kernel.org>; Thu, 12 Jan 2023 21:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C903CC54EBE
+	for <linux-hyperv@archiver.kernel.org>; Sat, 14 Jan 2023 01:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230385AbjALVvC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 12 Jan 2023 16:51:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
+        id S230492AbjANB5h (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 13 Jan 2023 20:57:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232661AbjALVtA (ORCPT
+        with ESMTP id S230182AbjANB5g (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 12 Jan 2023 16:49:00 -0500
-Received: from DM5PR00CU002-vft-obe.outbound.protection.outlook.com (mail-centralusazon11021023.outbound.protection.outlook.com [52.101.62.23])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3839B25D5;
-        Thu, 12 Jan 2023 13:43:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TFR6OG1oczv55QBeazEomPfUct/B5j0EAL4qjM0fa6vI+prY8PGg9Nq3b/wboSodoBgXFrgVOBRrqGSpbUskXR0FriemCg6kBrgdVBaMO9sxVYzWr2/66e0B0JvFxIxIJbqL049yBxKRF78KqMZLeO7HMWB/cV4HgH1/7mhLcdYv/Ad6s/uIJAF/f4ix8b1FDJHjGBLn4DT1RWf0TncIYugtesvCIJDdfe6M8aovGlMzqiIj1mXNs69W8g6xG26dVJ9XqGjHwJCYd7JLnfGZdFwa6kAwfnoUuUCH+KDpkVWWRcQJZAKminNrJAt/dVxi8Va5ArcdT4oLN/q50JzuSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tGndZWQu3HNngqcEmna4NaG2bsukODbgQidpOqhCV9o=;
- b=MLCF1RLFuJs4ooyFuNztKMHzIjmeYMKQozzuPvaAfNVSZoD7IZdbWEmpEJ6UXnzavO+xN/Iuyj4OV1YWgo2ne+BctoHrr5hKLsvvEvbuRipbZz+d4ltSX30EjGhN/HZwSqWnRiGm2ik6tIAPLrJ/+FtMuy4BhE4sxSGK57hL78HFKHurFkZCFSJGOi3c22tWsgzbDplbLwMdp6QR/N5FJRiW6JRw3FUBny2HvcibSaEsFB89mO05KCGTmS6u2EO12IyBKNARSWqJTtu+KsT7rO+FUhlz0sqKkEs/tVRPgk5wvJ/BPk1uutjqaSe/kqOjgBomR6eTn/eTyRAfmhGMIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tGndZWQu3HNngqcEmna4NaG2bsukODbgQidpOqhCV9o=;
- b=JGI1rCLknFNe2hd82NC3jIN+eNTznW6MQVcBKoxAsOAfMbK8I/7J9h7Tx7Wi2jTDIXp4evNMWo4TmpzMjQcCUll3ml0r1i0dWHJOPGoE186MHkpSvZOTWInv7u3BtRXy8TlyocnksSojZkA8AM6b1Vg6oW+huGxhkyYoMphSRyA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
- by MW4PR21MB1953.namprd21.prod.outlook.com (2603:10b6:303:74::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6023.4; Thu, 12 Jan
- 2023 21:43:27 +0000
-Received: from DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::ef06:2e2c:3620:46a7]) by DM6PR21MB1370.namprd21.prod.outlook.com
- ([fe80::ef06:2e2c:3620:46a7%8]) with mapi id 15.20.6023.006; Thu, 12 Jan 2023
- 21:43:26 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
-        peterz@infradead.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, lpieralisi@kernel.org,
-        robh@kernel.org, kw@linux.com, bhelgaas@google.com, arnd@arndb.de,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        Tianyu.Lan@microsoft.com, kirill.shutemov@linux.intel.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com, ak@linux.intel.com,
-        isaku.yamahata@intel.com, dan.j.williams@intel.com,
-        jane.chu@oracle.com, seanjc@google.com, tony.luck@intel.com,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
-        iommu@lists.linux.dev
-Cc:     mikelley@microsoft.com
-Subject: [PATCH v5 14/14] PCI: hv: Enable PCI pass-thru devices in Confidential VMs
-Date:   Thu, 12 Jan 2023 13:42:33 -0800
-Message-Id: <1673559753-94403-15-git-send-email-mikelley@microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1673559753-94403-1-git-send-email-mikelley@microsoft.com>
-References: <1673559753-94403-1-git-send-email-mikelley@microsoft.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MW4PR04CA0057.namprd04.prod.outlook.com
- (2603:10b6:303:6a::32) To DM6PR21MB1370.namprd21.prod.outlook.com
- (2603:10b6:5:16b::28)
+        Fri, 13 Jan 2023 20:57:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75DBC89BEE
+        for <linux-hyperv@vger.kernel.org>; Fri, 13 Jan 2023 17:56:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1673661408;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=hwyNBnBNcOY5o3TI1UxsJTjGkKbM0dQkaLFkc1W7j5I=;
+        b=ffASZqYDMSBL7KOvTO5bxdjaht0RjJlqcPePn2bm3/LijpO7QgyIw4eK5rcCy4bXovTdhn
+        PBMTHCpSiRU83brBcp59pQk2yl9eVFAcbXnOH7091a6sA+X77BNzsSiyHL4QEB44txnDfy
+        Vc1pOzYJ8RkB3Ytfgx/LdP3AECltNBQ=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-670-_S26wQmqNsKrjGJY2N1R_Q-1; Fri, 13 Jan 2023 20:56:47 -0500
+X-MC-Unique: _S26wQmqNsKrjGJY2N1R_Q-1
+Received: by mail-qk1-f198.google.com with SMTP id bp6-20020a05620a458600b006ffd3762e78so16368409qkb.13
+        for <linux-hyperv@vger.kernel.org>; Fri, 13 Jan 2023 17:56:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hwyNBnBNcOY5o3TI1UxsJTjGkKbM0dQkaLFkc1W7j5I=;
+        b=TJuNJUNQk7kI7KM7PrKKeE/luXxZCxzkFd6cj0UThpzu11YKGz+S+0w3yE/Ah39DWF
+         1twTqSa6eI3SnBcWfT6YiWJDityohABK0fo54iS4d4Z9yYmev8sl6lZDMDKz7NZ+TD3w
+         6NLwa9VqlKTRhux80F9RwRH/fTQB+RY7NPOexmJ0r0fdV6AGjtQS+A4cyqkkI4gMP/mj
+         52eB/37f4BISp2wEItMOShf6ahWs5+7bE48WC2wHRk9gPuQ20mdMryInGwLN8GcWqsWR
+         Sf1WFPBslA7ylc2ZRLPJjaLOwj/mJFc4jMqwG9kc/hSvfrw6sK2OZX6ajlAR4voxOnX/
+         9fKA==
+X-Gm-Message-State: AFqh2krREgy86tBQye+uh7FcdO59Cd8dV1DpnGaYA+8fTHLrBzkOGdmj
+        KHTi/FD82P9UCVV1wWR/hZkUiCroy06bzHfye5blpg+Spa+PoJZ5Vi5z1KFZWJITpJNjlnmLrFc
+        ip0Ykin1YfN3fl9ecWXY6Yqay
+X-Received: by 2002:a0c:8067:0:b0:4c6:f5e2:f13a with SMTP id 94-20020a0c8067000000b004c6f5e2f13amr115831009qva.37.1673661407150;
+        Fri, 13 Jan 2023 17:56:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuZl/PpthyxDzFL+KrWDgOWGYjIZfEmrSWqy8vxMd9Aa5yd8txUc+zlb9SV3mWCyRBu7AkMNA==
+X-Received: by 2002:a0c:8067:0:b0:4c6:f5e2:f13a with SMTP id 94-20020a0c8067000000b004c6f5e2f13amr115830987qva.37.1673661406887;
+        Fri, 13 Jan 2023 17:56:46 -0800 (PST)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id w22-20020a05620a425600b006cbc00db595sm13774578qko.23.2023.01.13.17.56.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Jan 2023 17:56:46 -0800 (PST)
+From:   Tom Rix <trix@redhat.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        mikelley@microsoft.com, jinankjain@linux.microsoft.com,
+        nunodasneves@linux.microsoft.com
+Cc:     x86@kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: [PATCH] x86/hyperv: conditionally build hv_get_nested_reg()
+Date:   Fri, 13 Jan 2023 20:56:43 -0500
+Message-Id: <20230114015643.3950640-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|MW4PR21MB1953:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59c0cc4e-f754-4183-bff5-08daf4e60955
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ugl/mEAhPHzspg1xTRCCkuFWkCpq3vt+54qOsh8MejnorkAfYXgUQAA7Mt4AcWxKDb8i0iRwPY/GHZKt3OusGq28T4K1J7dtLNTF0/MwkpP9v4PS3n8I/Oi9RNBc3MD2IRBLAbce8wsPMMfepwHZN/Rf2NZmvFS6zKoODydiX1VJ2P2uAg3Dgw/S5BN2XnIz47BKL6A2zecswYn04Ln6sFIjudaoM2I5UxF2SoIVyhvmRv/XnOyveyyhDI50CLxd0pdpgNpPNUd8ZiHjVPb305QnkXskPJNRjDzsXy50XBJZnig0s77YQJjNvj5cgbmReNYHKi3mjW6YK6s4M69JRBjCc42oIhx5bzE7OJRs3FkptQ2Nub8dnmENp/02KPI1a+pE7J/l6KxCxZWQcAwkHOGbDh7fFrxWNCAVdWW1QdZd22mw53lGnVwRUzDJpU7MHd6//9IB9gm8fs9q07dATntp0ERnqYQtB5CoXs3vWIACX0eBrcEXwFeMELAq8eP5bE7DjKpVP547nfjEX0CXu+JR64awBO1n/0Xc9IMIwx3FzkjofkR5gzFYic2pV7h7gwqdNBRpZtXQp69KcCD3Bs9Rb9DoXZJtnD0TozadLAiPHx0T0lZwlLZ3gR2TwRIObpN5ODxO78yuwP4aK5gAnSd/wuYIF7uKr1yXrHnqoTdWubW0ppo1N2Qc1eg3nFTk11eBurML1TTDLGO+O5aZ7oKNf0D3OE++PrWbeegsBcrhE+MHpf/zajqXzbh3oloknQq7ESteNSPtkZx5mfqBc5KnIhYUwP5oh+PVurRUR4w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(366004)(39860400002)(136003)(346002)(376002)(396003)(451199015)(186003)(26005)(6512007)(82960400001)(82950400001)(6486002)(86362001)(52116002)(966005)(478600001)(2906002)(5660300002)(4326008)(8676002)(38350700002)(66556008)(66476007)(316002)(7406005)(38100700002)(10290500003)(41300700001)(921005)(36756003)(66946007)(7416002)(2616005)(8936002)(6506007)(6666004)(107886003)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MbwNvmlH6jPQ98GFNxoPVkfBGoRfPkwQJhHgwxyg19hs0uMJILaRgXJ5xyaa?=
- =?us-ascii?Q?AJDPDbbmRWMghp+U+FSmKAgi7MztvRFjLBgcHhnMnnVUWsrVzN6ekRzMkAKJ?=
- =?us-ascii?Q?kmsn0OMGnXYLH6TIahblZVQuCfJxE4iETINq2pClRtHB88DPwQGBoSqnVppF?=
- =?us-ascii?Q?rVDZPOm7r0LmeN9t7VQHaiUOd7iN5sk/d/ua+M+aT58XcZAyU9wY9DHjwvTy?=
- =?us-ascii?Q?v8wBZAyD0uA6jm7375HrP+46BJPGmPUj0/KxJm/Z4EirUNKI3EINznGwCOL1?=
- =?us-ascii?Q?xdgIa8JQdKn6WYCrjQfhcGSLw0mE1OqwgqKEeuVYpkWN0VGsB0ZAAz2jtEyM?=
- =?us-ascii?Q?zCUVGdVwQElILehyj482loMzRnzsTz3r1c+oPXsIj2O4b9uLfT5oMnhyXgfi?=
- =?us-ascii?Q?SeX5s864vA5RsAGtT3mDiuRLmWYErv1b/LOf08rFTUNr7ESr0e3VSZWM0UUB?=
- =?us-ascii?Q?1ela2+ywIFSsZWGVjwDmcxH/xum5YAkqbZkkt7wSSWjP/thjHZ0CmbufBrMo?=
- =?us-ascii?Q?3EoYvX09ZOvj0iCfcmNdiHoswvP+cmHcSp1fqnLHhq3rVJ09cxwpxc61WqIb?=
- =?us-ascii?Q?HDkFPwuhKynMloOIMoHifhge4eTsFrDN/8Cx8Xm5hIhGbqrlX89NL7sr82nR?=
- =?us-ascii?Q?57gmPTeyBIINtqDqgmjfvP5Gdf3IGkezBaxs4/qowc4nMvBDs0trnDvLrvtn?=
- =?us-ascii?Q?2t2kNo2L94a+de209Xo9b3m3HEVATpNpJoHUpDm9CDINavknby70lgJtgbFZ?=
- =?us-ascii?Q?D0CbR8NH5UjWFXvi2ZoYIiwnXHA+CLHrOCPnc+o5aFiFTcBPuNcjRUIHcRDm?=
- =?us-ascii?Q?dbbC/XpUX+QXJUUv7fQvrt7iO4bEiSiOpw8JBjv8c1PaSGRcqDGey+bYQHnx?=
- =?us-ascii?Q?hlQ3mHZnevfThTec2+4AkWfSIwWRH9Kl5koDZgwkMOaZC2S+A8jUukVrlpSO?=
- =?us-ascii?Q?3GcsR19jFG42PhC03znwF+HjJEdhBqvDWH8hmHY4Zv/MD9BWWFSJajlFpolk?=
- =?us-ascii?Q?VyFsWFc0jKmPGPPkJ45gTz4kulSox8vbfAsEaHIYEwwyTGPsKa8tpqjakbq9?=
- =?us-ascii?Q?q4+2xOXN5fWXK1vOiDwWUOJSS4YJTwxGtLlMJatIkBvfcT2EgDXpOdlyWg1b?=
- =?us-ascii?Q?N3rd12tCeF1bOM1NLRZa9sAAtwcgaKSM5s9gdjQKe1zNE+DO+fRAvth7bIQw?=
- =?us-ascii?Q?kuJ3EB4j2dvNyOjVDhI4xrYj4FexJiQW29/18onNy0xF7PXjDo3OCe+UmWo6?=
- =?us-ascii?Q?p5udcMIXb5rpGPINfiRk7JNyp1RNRhlB3ZDg/Q/yTqRhDB7d/pJkyYvz4QGn?=
- =?us-ascii?Q?I4EK/J4YB82N+bRZ/aHmH2RmpJ+TQB7ZxgZ7w3sHREPtRvUWLPrg0JGv/ahD?=
- =?us-ascii?Q?pWjA3hIBU3GqNac3AlFtLm6nswut6uUc6ddxUgR5lMZqXyh4pM825EH5CV4O?=
- =?us-ascii?Q?vOve0saz7I06HbT86jNYSXCSBZW+yUA1PtlGd5x5462rzCXCX4ECI2H5DN/O?=
- =?us-ascii?Q?AHBDQorygqi+vpoo6/+wCnnT5NPbKRV9jSULBG8scY4wgyyKcG3vPx5Jkf6T?=
- =?us-ascii?Q?51/Fhd7LGSMKD0viHJndibKUxpzvOVBceQ6+8Yu3?=
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59c0cc4e-f754-4183-bff5-08daf4e60955
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2023 21:43:26.3866
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AvwFQdhc8h5e2n7l5WvhI205IEkGx+er6w0hTh/TkrFirBB7a1F/p/RbGXTYfNPDFljUYxGbuDdI1rvo6RkG4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1953
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For PCI pass-thru devices in a Confidential VM, Hyper-V requires
-that PCI config space be accessed via hypercalls.  In normal VMs,
-config space accesses are trapped to the Hyper-V host and emulated.
-But in a confidential VM, the host can't access guest memory to
-decode the instruction for emulation, so an explicit hypercall must
-be used.
+cppcheck reports
+[arch/x86/kernel/cpu/mshyperv.c:44]: (style) The function 'hv_get_nested_reg' is never used.
 
-Update the PCI config space access functions to use the hypercalls
-when such use is indicated by Hyper-V flags.  Also, set the flag to
-allow the Hyper-V PCI driver to be loaded and used in a Confidential
-VM (a.k.a., "Isolation VM").  The driver has previously been hardened
-against a malicious Hyper-V host[1].
+hv_get_nested_reg() is built unconditially but is only used conditionally in
+hv_get_register() and hv_set_register() by CONFIG_HYPERV.
 
-[1] https://lore.kernel.org/all/20220511223207.3386-2-parri.andrea@gmail.com/
+Move the conditional #if to also include hv_get_nested_reg()
 
-Co-developed-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+Fixes: 89acd9b2ff8e ("Drivers: hv: Setup synic registers in case of nested root partition")
+Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/hv/channel_mgmt.c           |   2 +-
- drivers/pci/controller/pci-hyperv.c | 168 ++++++++++++++++++++++--------------
- 2 files changed, 105 insertions(+), 65 deletions(-)
+ arch/x86/kernel/cpu/mshyperv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index cc23b90..007f26d 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -67,7 +67,7 @@
- 	{ .dev_type = HV_PCIE,
- 	  HV_PCIE_GUID,
- 	  .perf_device = false,
--	  .allowed_in_isolated = false,
-+	  .allowed_in_isolated = true,
- 	},
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index b8bb13daacf7..9ca202970569 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -41,6 +41,7 @@ bool hv_root_partition;
+ bool hv_nested;
+ struct ms_hyperv_info ms_hyperv;
  
- 	/* Synthetic Frame Buffer */
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index bbe6e36..f874f89 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -514,6 +514,7 @@ struct hv_pcibus_device {
- 
- 	/* Highest slot of child device with resources allocated */
- 	int wslot_res_allocated;
-+	bool use_calls; /* Use hypercalls to access mmio cfg space */
- 
- 	/* hypercall arg, must not cross page boundary */
- 	struct hv_retarget_device_interrupt retarget_msi_interrupt_params;
-@@ -1123,8 +1124,10 @@ static void hv_pci_write_mmio(struct device *dev, phys_addr_t gpa, int size, u32
- static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 				     int size, u32 *val)
++#if IS_ENABLED(CONFIG_HYPERV)
+ static inline unsigned int hv_get_nested_reg(unsigned int reg)
  {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
- 
- 	/*
- 	 * If the attempt is to read the IDs or the ROM BAR, simulate that.
-@@ -1152,56 +1155,79 @@ static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 		 */
- 		*val = 0;
- 	} else if (where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be read. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start reading. */
--		mb();
--		/* Read from that function's config space. */
--		switch (size) {
--		case 1:
--			*val = readb(addr);
--			break;
--		case 2:
--			*val = readw(addr);
--			break;
--		default:
--			*val = readl(addr);
--			break;
-+
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_read_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to be read. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before reading. */
-+			mb();
-+			/* Read from that function's config space. */
-+			switch (size) {
-+			case 1:
-+				*val = readb(addr);
-+				break;
-+			case 2:
-+				*val = readw(addr);
-+				break;
-+			default:
-+				*val = readl(addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the read was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the read was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to read beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to read beyond a function's config space.\n");
+ 	switch (reg) {
+@@ -61,7 +62,6 @@ static inline unsigned int hv_get_nested_reg(unsigned int reg)
  	}
  }
  
- static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
+-#if IS_ENABLED(CONFIG_HYPERV)
+ u64 hv_get_non_nested_register(unsigned int reg)
  {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	u32 val;
- 	u16 ret;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET +
--			     PCI_VENDOR_ID;
- 
--	spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
-+	spin_lock_irqsave(&hbus->config_lock, flags);
- 
--	/* Choose the function to be read. (See comment above) */
--	writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--	/* Make sure the function was chosen before we start reading. */
--	mb();
--	/* Read from that function's config space. */
--	ret = readw(addr);
--	/*
--	 * mb() is not required here, because the spin_unlock_irqrestore()
--	 * is a barrier.
--	 */
-+	if (hbus->use_calls) {
-+		phys_addr_t addr = hbus->mem_config->start +
-+					 CFG_PAGE_OFFSET + PCI_VENDOR_ID;
-+
-+		hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+					hpdev->desc.win_slot.slot);
-+		hv_pci_read_mmio(dev, addr, 2, &val);
-+		ret = val;  /* Truncates to 16 bits */
-+	} else {
-+		void __iomem *addr = hbus->cfg_addr + CFG_PAGE_OFFSET +
-+					     PCI_VENDOR_ID;
-+		/* Choose the function to be read. (See comment above) */
-+		writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+		/* Make sure the function was chosen before we start reading. */
-+		mb();
-+		/* Read from that function's config space. */
-+		ret = readw(addr);
-+		/*
-+		 * mb() is not required here, because the
-+		 * spin_unlock_irqrestore() is a barrier.
-+		 */
-+	}
- 
--	spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+	spin_unlock_irqrestore(&hbus->config_lock, flags);
- 
- 	return ret;
- }
-@@ -1216,39 +1242,51 @@ static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
- static void _hv_pcifront_write_config(struct hv_pci_dev *hpdev, int where,
- 				      int size, u32 val)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
- 
- 	if (where >= PCI_SUBSYSTEM_VENDOR_ID &&
- 	    where + size <= PCI_CAPABILITY_LIST) {
- 		/* SSIDs and ROM BARs are read-only */
- 	} else if (where >= PCI_COMMAND && where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be written. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start writing. */
--		wmb();
--		/* Write to that function's config space. */
--		switch (size) {
--		case 1:
--			writeb(val, addr);
--			break;
--		case 2:
--			writew(val, addr);
--			break;
--		default:
--			writel(val, addr);
--			break;
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_write_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to write. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before writing. */
-+			wmb();
-+			/* Write to that function's config space. */
-+			switch (size) {
-+			case 1:
-+				writeb(val, addr);
-+				break;
-+			case 2:
-+				writew(val, addr);
-+				break;
-+			default:
-+				writel(val, addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the write was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the write was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to write beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to write beyond a function's config space.\n");
- 	}
- }
- 
-@@ -3627,6 +3665,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	hbus->bridge->domain_nr = dom;
- #ifdef CONFIG_X86
- 	hbus->sysdata.domain = dom;
-+	hbus->use_calls = !!(ms_hyperv.hints & HV_X64_USE_MMIO_HYPERCALLS);
- #elif defined(CONFIG_ARM64)
- 	/*
- 	 * Set the PCI bus parent to be the corresponding VMbus
-@@ -3636,6 +3675,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	 * information to devices created on the bus.
- 	 */
- 	hbus->sysdata.parent = hdev->device.parent;
-+	hbus->use_calls = false;
- #endif
- 
- 	hbus->hdev = hdev;
+ 	u64 value;
 -- 
-1.8.3.1
+2.27.0
 
