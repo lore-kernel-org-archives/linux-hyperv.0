@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0777BC61D97
-	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Jan 2023 02:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B92A7C54EAA
+	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Jan 2023 02:46:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjAVCqW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 21 Jan 2023 21:46:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55304 "EHLO
+        id S229881AbjAVCq1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 21 Jan 2023 21:46:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229709AbjAVCqS (ORCPT
+        with ESMTP id S229776AbjAVCqV (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 21 Jan 2023 21:46:18 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E89723315;
-        Sat, 21 Jan 2023 18:46:18 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id z9-20020a17090a468900b00226b6e7aeeaso8351984pjf.1;
-        Sat, 21 Jan 2023 18:46:18 -0800 (PST)
+        Sat, 21 Jan 2023 21:46:21 -0500
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DC8241C5;
+        Sat, 21 Jan 2023 18:46:20 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id 20so6544918pfu.13;
+        Sat, 21 Jan 2023 18:46:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=alXsTvbdOwxDxeseaVKQDjisWg1IXQavEOrNy6v4vmU=;
-        b=k4ENH/efCz3Ne0p2VirtRFonHgq2K0MSctPocvVnzX/NSSxvbf9jfoQjxfhHMaRRID
-         cVmgD22bsvXDfNBqa8/mIlDfNJ3Nb69a55NMDcPxdWHvmM8dvzn0maxwaZzw2o0wUhRQ
-         r0nakgzHDwa1xq+frtwz8eONcZpUhlCiX9adoGUNMQtb1iCLtEg6nzBGNoj9DRvWiKFh
-         kp3yOF1zF+Nly9xjzAqJr9ikYIwAwMyjv4OFV3e+epiZ42O8094KihuzAvRhzmwuUfBT
-         COcOmfuAe/MpOeykSWEEHH9EojcOQsOrz4A5iSoC1SzIuQRD98Al017agUohYguoQ1S5
-         WhmQ==
+        bh=ypt8rOlpcZ57Jgj8tjQGhQ8hwNv0NioxEBqSRz1HFqM=;
+        b=D+cfF0+q0ri2SJ63SThdYX9OYn9naocQhZotGE3aFblCXcxPKG6rdt+MWm4RfQtDTN
+         BnjVFkRrD8OOHbYI5SQgtEYgqCVSfoyfZuI12ofbmulZ753D6dx05uvRJc02KMICe6yB
+         7tjsD1HkoRDwvg2JKlt8FZz7MMpySG2KmtYz9pZO70OlOq6Vbhr+Sjw8lxPq2e6ygIFO
+         x/1BYjtx2ASEEu1341hfQTG1EOkNOThpI+RXCgdovQhTSF1MyAwgzgNYeI9nysaDsySE
+         PYYJc0mvdF4PWYGIrw5DQyr1ryOkQWn38IhSiC0STq/v7QfapptwrGsZXo2QWwV/8PJG
+         /Nnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=alXsTvbdOwxDxeseaVKQDjisWg1IXQavEOrNy6v4vmU=;
-        b=X4/AvSqdh9m4d8m489/4Uw72qXE0kKjJc8rzWLwpjbKLLvjU21oR2ZcvoMUL9aD7gB
-         dITx0ILGmy7DT0duILGJAu8e8JXXx9ap85moJMfV8BV+6/xXtx6ApiTRrIquAcnGElSh
-         YK67RJIpLMiGtODvldsQIj6r+2wqA8P+pegLdoQLIilPGj0jPkptrVd0zrcNggOp1uvP
-         F714qc2YvyjI51Mx00+CHuatNJ1qUcKL8z7JvFb6xGuJk4e/xYCaAkmEc3PpD4ibt5uq
-         WAI/xfaILw+B5EMMl+0EFGPe8NNt55v4cY2sJqKSnElhd2/bvl/Mygm7nRPAUt6sIpuJ
-         7EVQ==
-X-Gm-Message-State: AFqh2kpf580Ks2rrMuFyd2+/a8Sn7HA3aBoj+gSJFcmEbS+NQXxKSo3V
-        BeCfLuoYJkQ2tuvQTxSiSds=
-X-Google-Smtp-Source: AMrXdXtIY2JWRyKTWL+sIuCzE0RKCewMFwaS++WO6DJXwgoz+cm+oPMwpeWaj2JWUbuhJ0eSOciuCQ==
-X-Received: by 2002:a05:6a21:3a96:b0:ad:e5e8:cfe8 with SMTP id zv22-20020a056a213a9600b000ade5e8cfe8mr23617337pzb.48.1674355577433;
-        Sat, 21 Jan 2023 18:46:17 -0800 (PST)
+        bh=ypt8rOlpcZ57Jgj8tjQGhQ8hwNv0NioxEBqSRz1HFqM=;
+        b=bnUomJ/1u477QjxdeXd9lnmW35ggyDN2YktA9qVtS/nKBm4sR0P5jt6qorBNbzybtT
+         b8sejJzS7KNb+TUXoAEwYxFFWc1fADTZA+Awbrb27nWm7kWcY2G3aZAf57iGIBjV/uVq
+         M6WudQHmoqZYMejjQgkSjcNEpnCdua6GSwa40aGVLD5MgiQ47okjVAMbxsnYx/qsckim
+         pv1Tb80BFyNi8zwp9+/+qXmftvjHIE4NOF0WrgUlX4kSOsj1lXetXFaZJRKPYhnLyU5J
+         cdwBF0jPBphibXJ0KN3GapxE3m8F5lcM1cPFwc9x638TIT+o86TYNmcaIhhuAvnJA7//
+         cC2w==
+X-Gm-Message-State: AFqh2kqfLG/TagM07Z3KT4vW7/sDymETEpV6jqZVWFb3gk4o27Tv9Kan
+        7yARnFf71o5AyO3zaw6cwOg=
+X-Google-Smtp-Source: AMrXdXuZ/N8ZLDYZyqEoDk0CIevFERWDutOFClkUDxLpyb18/F0PowncaQPo+LPD1tiyrNCTEDgt4g==
+X-Received: by 2002:a05:6a00:4519:b0:58d:f047:53b7 with SMTP id cw25-20020a056a00451900b0058df04753b7mr14257689pfb.3.1674355580161;
+        Sat, 21 Jan 2023 18:46:20 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:d4:8b9d:a9e7:109b])
-        by smtp.gmail.com with ESMTPSA id b75-20020a621b4e000000b0058ba53aaa75sm18523094pfb.99.2023.01.21.18.46.16
+        by smtp.gmail.com with ESMTPSA id b75-20020a621b4e000000b0058ba53aaa75sm18523094pfb.99.2023.01.21.18.46.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jan 2023 18:46:17 -0800 (PST)
+        Sat, 21 Jan 2023 18:46:19 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH V3 04/16] x86/hyperv: Use vmmcall to implement Hyper-V hypercall in sev-snp enlightened guest
-Date:   Sat, 21 Jan 2023 21:45:54 -0500
-Message-Id: <20230122024607.788454-5-ltykernel@gmail.com>
+Subject: [RFC PATCH V3 06/16] x86/hyperv: decrypt vmbus pages for sev-snp enlightened guest
+Date:   Sat, 21 Jan 2023 21:45:56 -0500
+Message-Id: <20230122024607.788454-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230122024607.788454-1-ltykernel@gmail.com>
 References: <20230122024607.788454-1-ltykernel@gmail.com>
@@ -80,88 +80,79 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-In sev-snp enlightened guest, Hyper-V hypercall needs
-to use vmmcall to trigger vmexit and notify hypervisor
-to handle hypercall request.
+Vmbus post msg, synic event and message pages are shared
+with hypervisor and so decrypt these pages in the sev-snp guest.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
 Change since RFC V2:
-       * Fix indentation style
+       * Fix error in the error code path and encrypt
+       	 pages correctly when decryption failure happens.
 ---
- arch/x86/include/asm/mshyperv.h | 44 ++++++++++++++++++++++++---------
- 1 file changed, 33 insertions(+), 11 deletions(-)
+ drivers/hv/hv.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 285df71150e4..1a4af0a4f29a 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -44,16 +44,25 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
- 	u64 hv_status;
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index 410e6c4e80d3..52edc54c8172 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -20,6 +20,7 @@
+ #include <linux/interrupt.h>
+ #include <clocksource/hyperv_timer.h>
+ #include <asm/mshyperv.h>
++#include <linux/set_memory.h>
+ #include "hyperv_vmbus.h"
  
- #ifdef CONFIG_X86_64
--	if (!hv_hypercall_pg)
--		return U64_MAX;
-+	if (hv_isolation_type_en_snp()) {
-+		__asm__ __volatile__("mov %4, %%r8\n"
-+				     "vmmcall"
-+				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
-+				       "+c" (control), "+d" (input_address)
-+				     :  "r" (output_address)
-+				     : "cc", "memory", "r8", "r9", "r10", "r11");
-+	} else {
-+		if (!hv_hypercall_pg)
-+			return U64_MAX;
+ /* The one and only */
+@@ -117,7 +118,7 @@ int hv_post_message(union hv_connection_id connection_id,
  
--	__asm__ __volatile__("mov %4, %%r8\n"
--			     CALL_NOSPEC
--			     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
--			       "+c" (control), "+d" (input_address)
--			     :  "r" (output_address),
--				THUNK_TARGET(hv_hypercall_pg)
--			     : "cc", "memory", "r8", "r9", "r10", "r11");
-+		__asm__ __volatile__("mov %4, %%r8\n"
-+				     CALL_NOSPEC
-+				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
-+				       "+c" (control), "+d" (input_address)
-+				     :  "r" (output_address),
-+					THUNK_TARGET(hv_hypercall_pg)
-+				     : "cc", "memory", "r8", "r9", "r10", "r11");
-+	}
- #else
- 	u32 input_address_hi = upper_32_bits(input_address);
- 	u32 input_address_lo = lower_32_bits(input_address);
-@@ -81,7 +90,13 @@ static inline u64 hv_do_fast_hypercall8(u16 code, u64 input1)
- 	u64 hv_status, control = (u64)code | HV_HYPERCALL_FAST_BIT;
+ int hv_synic_alloc(void)
+ {
+-	int cpu;
++	int cpu, ret;
+ 	struct hv_per_cpu_context *hv_cpu;
  
- #ifdef CONFIG_X86_64
--	{
-+	if (hv_isolation_type_en_snp()) {
-+		__asm__ __volatile__(
-+				"vmmcall"
-+				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
-+				"+c" (control), "+d" (input1)
-+				:: "cc", "r8", "r9", "r10", "r11");
-+	} else {
- 		__asm__ __volatile__(CALL_NOSPEC
- 				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
- 				       "+c" (control), "+d" (input1)
-@@ -112,7 +127,14 @@ static inline u64 hv_do_fast_hypercall16(u16 code, u64 input1, u64 input2)
- 	u64 hv_status, control = (u64)code | HV_HYPERCALL_FAST_BIT;
+ 	/*
+@@ -168,9 +169,39 @@ int hv_synic_alloc(void)
+ 			pr_err("Unable to allocate post msg page\n");
+ 			goto err;
+ 		}
++
++		if (hv_isolation_type_en_snp()) {
++			ret = set_memory_decrypted((unsigned long)
++				hv_cpu->synic_message_page, 1);
++			if (ret)
++				goto err;
++
++			ret = set_memory_decrypted((unsigned long)
++				hv_cpu->synic_event_page, 1);
++			if (ret)
++				goto err_decrypt_event_page;
++
++			ret = set_memory_decrypted((unsigned long)
++				hv_cpu->post_msg_page, 1);
++			if (ret)
++				goto err_decrypt_msg_page;
++
++			memset(hv_cpu->synic_message_page, 0, PAGE_SIZE);
++			memset(hv_cpu->synic_event_page, 0, PAGE_SIZE);
++			memset(hv_cpu->post_msg_page, 0, PAGE_SIZE);
++		}
+ 	}
  
- #ifdef CONFIG_X86_64
--	{
-+	if (hv_isolation_type_en_snp()) {
-+		__asm__ __volatile__("mov %4, %%r8\n"
-+				     "vmmcall"
-+				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
-+				       "+c" (control), "+d" (input1)
-+				     : "r" (input2)
-+				     : "cc", "r8", "r9", "r10", "r11");
-+	} else {
- 		__asm__ __volatile__("mov %4, %%r8\n"
- 				     CALL_NOSPEC
- 				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+ 	return 0;
++
++err_decrypt_msg_page:
++	set_memory_encrypted((unsigned long)
++		hv_cpu->synic_event_page, 1);
++
++err_decrypt_event_page:
++	set_memory_encrypted((unsigned long)
++		hv_cpu->synic_message_page, 1);
++
+ err:
+ 	/*
+ 	 * Any memory allocations that succeeded will be freed when
 -- 
 2.25.1
 
