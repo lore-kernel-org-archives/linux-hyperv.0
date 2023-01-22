@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 177E2C25B50
-	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Jan 2023 02:47:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B985EC25B50
+	for <linux-hyperv@archiver.kernel.org>; Sun, 22 Jan 2023 02:47:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbjAVCrR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 21 Jan 2023 21:47:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56200 "EHLO
+        id S230034AbjAVCr0 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 21 Jan 2023 21:47:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbjAVCqn (ORCPT
+        with ESMTP id S230040AbjAVCrJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 21 Jan 2023 21:46:43 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E414226865;
-        Sat, 21 Jan 2023 18:46:27 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id s3so6543468pfd.12;
-        Sat, 21 Jan 2023 18:46:27 -0800 (PST)
+        Sat, 21 Jan 2023 21:47:09 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 872302448F;
+        Sat, 21 Jan 2023 18:46:30 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id g68so6744438pgc.11;
+        Sat, 21 Jan 2023 18:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2L02B2A7h+GqVFqZYCULI5VizKi71tjYmMAIa783a5M=;
-        b=GzAqv8fsChpPgHdpFS4rwUbNgCm/BnJAkCSh2+9Po0eYk5or0GObAloMD6l1wKgEZQ
-         YFYeZMVxaavRp5loi8tZESQKY5KO99y79Yw0xeJnyZYJ78dhcp6gOO4yIrGqZnl6gHIw
-         ZILDnGLmjCr2KyChGNbqos8Vxz/8qNaHOsQwiNSjgVL54l5dMht6UyQNu5IV4oA+QBt4
-         vbAJt1pcmGY2s5PtsNgNeZ4IeP3DcdSK3MIAcIN7hCeNkuWdq3/bgPKa8rqDPQMNotu2
-         wlXCgQ0AMI6cFBeTu2/Z1jbiVcAa8VPF/4HW8eLuLPDjIa7Y7PJZyjoqO2obSOBqpjp5
-         VPWQ==
+        bh=KLExipRMWfkYVFwFaKS7EfBjRw3kU6eyOtpQO4do6zs=;
+        b=iZgUb5gxqddyVAL8PlrW9j86YWsLUoSzCYIsEOdBUV8FNwLHho4x+8GLjBGpp7Y3Io
+         gXc8i/FXlz+NXrB/iNyudERtbb8Fbbv6k6pFIssUFbhmyNirqZrtSm7GqmGgQQqlcLLE
+         cAM3njrwCkmre97UTS220uX4f16Av0jFoXRXeqSsS/ECFpzU9vdhrgXQ/t3Cnd5rPYre
+         DV2PQChItvFyzYvjD0xnvEErsT08/vMc0+8qAN3Tdo+fRE/aYQ2CAPioFqwrQHsGjOnh
+         TBlJ3tfNbqLe6LPCbe/7ZWu5WDOGFQLHRM311AUAUhoPY+1PMprugND60ElXbe+l4Oi3
+         RH5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2L02B2A7h+GqVFqZYCULI5VizKi71tjYmMAIa783a5M=;
-        b=bSdsiFJABDgrPFvt608yV76tB8Q08g8bClmxakR0BkR06ub8hvVQmhRJehcd/BSLuA
-         yHa9FEEQ+nEJAW0W/Cwaoxfdt5Qw7VKtNbzwwkqQWcpzr8jKtOJu95Lr1/tayHk6DLeM
-         Ny11WFksQeK/X14JQWd5jIfuhWDMD1GVlz9Z0wMrzBDcaknblzh7RMQ6jKkxZA3Ls3qj
-         ufP5rhuborvDj2vtD55pbI5WeT1YjqoP3ItkotxeZFDFTeXXwi9DYQ127bsrxO4m1adh
-         HdI5gxecHOdl9OalDu4dg3gknDqZmeCF7dLS2oS/azvdNDv/6oBOZj0P5Kj56nfbChGM
-         Krzw==
-X-Gm-Message-State: AFqh2kr9rSlkJo7gPhGKLRhlyaFbr0K/5y+N7bdWN3GvSNl7qgfH5TSZ
-        sWV6SU9Boe9daKPxF8YqS2c=
-X-Google-Smtp-Source: AMrXdXvPzm5jCpAu44quF4Axn/YToNU1y2zNLchkx1CozU9o+0R0H+kf4PfBM04pdt4cgbCmGjuRqg==
-X-Received: by 2002:a05:6a00:190e:b0:58b:c1a1:4006 with SMTP id y14-20020a056a00190e00b0058bc1a14006mr25144615pfi.18.1674355586974;
-        Sat, 21 Jan 2023 18:46:26 -0800 (PST)
+        bh=KLExipRMWfkYVFwFaKS7EfBjRw3kU6eyOtpQO4do6zs=;
+        b=fAcDeV013+8CXCYVGQwohUPKGfVlmKKHOheQrsoRx8gGS80/8IE0cUjVg7YiJFkXJm
+         Pw2BbDqHpCCNYkI7c4Y80MLnfgckHM649gyTREDUffLIz+6jcqbnitJnQn4rwwdga5t0
+         Aow0Gv1p5+UKjMgSSrNvFFdeBf9frM7dhFwXAohir6Kt9UYx5boBLEHeBX4rVG0q1MT0
+         CfUDifwlfbE8UDmNrIi8Y1J4zwqteUHxo8FlgUd6u+3YM/I2ray/6SffaGQ0RsMenGwa
+         8CgY+G5P/uxu5iP9ZdFEE9/AZ/onSV5DQqvXD1YSlnLuNjCWYCZFPep/PTiC3p01kALk
+         cnwg==
+X-Gm-Message-State: AFqh2kpNMVGxgJcQK6CcGA9XlpGOHbEJrARxpHSSsEbY3zhyqWsDGJSj
+        5P/Kt0ds7UVD0DVxchj6vLU=
+X-Google-Smtp-Source: AMrXdXvhgf2d6Qr7Pg5vloeC44DEXttW6lAKPC/URQb2MP1owft/zq78EPqmeHOWdfGVjkrY6PhdnQ==
+X-Received: by 2002:a05:6a00:44c5:b0:580:8c2c:d0ad with SMTP id cv5-20020a056a0044c500b005808c2cd0admr19676912pfb.13.1674355589646;
+        Sat, 21 Jan 2023 18:46:29 -0800 (PST)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:d4:8b9d:a9e7:109b])
-        by smtp.gmail.com with ESMTPSA id b75-20020a621b4e000000b0058ba53aaa75sm18523094pfb.99.2023.01.21.18.46.25
+        by smtp.gmail.com with ESMTPSA id b75-20020a621b4e000000b0058ba53aaa75sm18523094pfb.99.2023.01.21.18.46.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Jan 2023 18:46:26 -0800 (PST)
+        Sat, 21 Jan 2023 18:46:29 -0800 (PST)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -66,9 +66,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com
 Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [RFC PATCH V3 11/16] x86/hyperv: Add hyperv-specific hadling for VMMCALL under SEV-ES
-Date:   Sat, 21 Jan 2023 21:46:01 -0500
-Message-Id: <20230122024607.788454-12-ltykernel@gmail.com>
+Subject: [RFC PATCH V3 13/16] x86/sev: Add Check of #HV event in path
+Date:   Sat, 21 Jan 2023 21:46:03 -0500
+Message-Id: <20230122024607.788454-14-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230122024607.788454-1-ltykernel@gmail.com>
 References: <20230122024607.788454-1-ltykernel@gmail.com>
@@ -80,46 +80,136 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Add Hyperv-specific handling for faults caused by VMMCALL
-instructions.
+Add check_hv_pending() and check_hv_pending_after_irq() to
+check queued #HV event when irq is disabled.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/kernel/cpu/mshyperv.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/x86/entry/entry_64.S       | 18 +++++++++++++++
+ arch/x86/include/asm/irqflags.h | 10 +++++++++
+ arch/x86/kernel/sev.c           | 39 +++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 9d547751a1a7..9f37b51ba94b 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -694,6 +694,20 @@ static bool __init ms_hyperv_msi_ext_dest_id(void)
- 	return eax & HYPERV_VS_PROPERTIES_EAX_EXTENDED_IOAPIC_RTE;
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 6baec7653f19..aec8dc4443d1 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -1064,6 +1064,15 @@ SYM_CODE_END(paranoid_entry)
+  * R15 - old SPEC_CTRL
+  */
+ SYM_CODE_START_LOCAL(paranoid_exit)
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++	/*
++	 * If a #HV was delivered during execution and interrupts were
++	 * disabled, then check if it can be handled before the iret
++	 * (which may re-enable interrupts).
++	 */
++	mov     %rsp, %rdi
++	call    check_hv_pending
++#endif
+ 	UNWIND_HINT_REGS
+ 
+ 	/*
+@@ -1188,6 +1197,15 @@ SYM_CODE_START(error_entry)
+ SYM_CODE_END(error_entry)
+ 
+ SYM_CODE_START_LOCAL(error_return)
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++	/*
++	 * If a #HV was delivered during execution and interrupts were
++	 * disabled, then check if it can be handled before the iret
++	 * (which may re-enable interrupts).
++	 */
++	mov     %rsp, %rdi
++	call    check_hv_pending
++#endif
+ 	UNWIND_HINT_REGS
+ 	DEBUG_ENTRY_ASSERT_IRQS_OFF
+ 	testb	$3, CS(%rsp)
+diff --git a/arch/x86/include/asm/irqflags.h b/arch/x86/include/asm/irqflags.h
+index 7793e52d6237..fe46e59168dd 100644
+--- a/arch/x86/include/asm/irqflags.h
++++ b/arch/x86/include/asm/irqflags.h
+@@ -14,6 +14,10 @@
+ /*
+  * Interrupt control:
+  */
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++void check_hv_pending(struct pt_regs *regs);
++void check_hv_pending_irq_enable(void);
++#endif
+ 
+ /* Declaration required for gcc < 4.9 to prevent -Werror=missing-prototypes */
+ extern inline unsigned long native_save_fl(void);
+@@ -43,12 +47,18 @@ static __always_inline void native_irq_disable(void)
+ static __always_inline void native_irq_enable(void)
+ {
+ 	asm volatile("sti": : :"memory");
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++	check_hv_pending_irq_enable();
++#endif
  }
  
-+static void hv_sev_es_hcall_prepare(struct ghcb *ghcb, struct pt_regs *regs)
+ static inline __cpuidle void native_safe_halt(void)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	asm volatile("sti; hlt": : :"memory");
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++	check_hv_pending_irq_enable();
++#endif
+ }
+ 
+ static inline __cpuidle void native_halt(void)
+diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
+index a8862a2eff67..fe5e5e41433d 100644
+--- a/arch/x86/kernel/sev.c
++++ b/arch/x86/kernel/sev.c
+@@ -179,6 +179,45 @@ void noinstr __sev_es_ist_enter(struct pt_regs *regs)
+ 	this_cpu_write(cpu_tss_rw.x86_tss.ist[IST_INDEX_VC], new_ist);
+ }
+ 
++static void do_exc_hv(struct pt_regs *regs)
 +{
-+	/* RAX and CPL are already in the GHCB */
-+	ghcb_set_rcx(ghcb, regs->cx);
-+	ghcb_set_rdx(ghcb, regs->dx);
-+	ghcb_set_r8(ghcb, regs->r8);
++	/* Handle #HV exception. */
 +}
 +
-+static bool hv_sev_es_hcall_finish(struct ghcb *ghcb, struct pt_regs *regs)
++void check_hv_pending(struct pt_regs *regs)
 +{
-+	/* No checking of the return state needed */
-+	return true;
++	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
++		return;
++
++	if ((regs->flags & X86_EFLAGS_IF) == 0)
++		return;
++
++	do_exc_hv(regs);
 +}
 +
- const __initconst struct hypervisor_x86 x86_hyper_ms_hyperv = {
- 	.name			= "Microsoft Hyper-V",
- 	.detect			= ms_hyperv_platform,
-@@ -701,4 +715,6 @@ const __initconst struct hypervisor_x86 x86_hyper_ms_hyperv = {
- 	.init.x2apic_available	= ms_hyperv_x2apic_available,
- 	.init.msi_ext_dest_id	= ms_hyperv_msi_ext_dest_id,
- 	.init.init_platform	= ms_hyperv_init_platform,
-+	.runtime.sev_es_hcall_prepare = hv_sev_es_hcall_prepare,
-+	.runtime.sev_es_hcall_finish = hv_sev_es_hcall_finish,
- };
++void check_hv_pending_irq_enable(void)
++{
++	unsigned long flags;
++	struct pt_regs regs;
++
++	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
++		return;
++
++	memset(&regs, 0, sizeof(struct pt_regs));
++	asm volatile("movl %%cs, %%eax;" : "=a" (regs.cs));
++	asm volatile("movl %%ss, %%eax;" : "=a" (regs.ss));
++	regs.orig_ax = 0xffffffff;
++	regs.flags = native_save_fl();
++
++	/*
++	 * Disable irq when handle pending #HV events after
++	 * re-enabling irq.
++	 */
++	asm volatile("cli" : : : "memory");
++	do_exc_hv(&regs);
++	asm volatile("sti" : : : "memory");
++}
++
+ void noinstr __sev_es_ist_exit(void)
+ {
+ 	unsigned long ist;
 -- 
 2.25.1
 
