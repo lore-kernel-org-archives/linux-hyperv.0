@@ -2,33 +2,33 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ACAAC636CB
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Jan 2023 04:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59358C636D0
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Jan 2023 04:00:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235589AbjA3EAk (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 29 Jan 2023 23:00:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        id S235660AbjA3EAl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 29 Jan 2023 23:00:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235585AbjA3EAZ (ORCPT
+        with ESMTP id S235588AbjA3EA0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 29 Jan 2023 23:00:25 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5E02D7E;
+        Sun, 29 Jan 2023 23:00:26 -0500
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1A2146A6;
         Sun, 29 Jan 2023 20:00:03 -0800 (PST)
 From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
         s=mail; t=1675051189;
-        bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
+        bh=ZVx6naOMYxZrL7gFQy2uPLdj4XvZCzz8L2TujyTgXkg=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=jaobbKlMg6u5gdaxw5uGqJWbiCgvqun6lx1rEZYJufIvUp4ZXEzHQqAgvpGGP4pwn
-         46ZVIbbDyqQA3y8hpqFOef7CA3jKP5XPh37d7rJIeRAwBGQkBQdrgSPvUe8ORs9dwG
-         NkHNbSWmwq3hcZDtaM0+4RBZ6uO7IsMoYtIkskKI=
-Date:   Mon, 30 Jan 2023 03:59:45 +0000
-Subject: [PATCH 9/9] staging: greybus: hid: Constify lowlevel HID driver
+        b=m08eIYfzdGMLssh27zrA7VH/mZuLABQJCPXeSLk3osH6tSmCYF08BOqlJel7sTCON
+         0bY91rvZJvghShk+ZI6yzofv8Wl1lCfN3z6A8zIGOZVteerzuvkMS0ZGHkFyFKjPZm
+         N3VbEh3ObCW58opk56OV5d9HTGQbwamNIpCazDcA=
+Date:   Mon, 30 Jan 2023 03:59:42 +0000
+Subject: [PATCH 6/9] HID: surface-hid: Constify lowlevel HID driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-9-3fc282b3b1d0@weissschuh.net>
+Message-Id: <20230130-hid-const-ll-driver-v1-6-3fc282b3b1d0@weissschuh.net>
 References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
@@ -52,11 +52,11 @@ Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev,
         =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=861;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=969;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=CeE4LFDYquttLQyjdPuIA0yJAhL1uKGNNm1YrWRTAXo=;
- b=SQUZOk9LKgSTETWY2YqlC8x+hEL9fvydNvVkE6petc6xt8Y5mvKz320j0CJb8DILZGDzcF9A74aC
- /T98d7JHADiph9vBYy0ilCKP+bmJauMaefm3e9xlClK6LSByfdHS
+ bh=ZVx6naOMYxZrL7gFQy2uPLdj4XvZCzz8L2TujyTgXkg=;
+ b=2WGCbXrUuOpHu5oaa0XrA0GX6gD4aiJxvNflnQnh3nfJF6hdlI9e4yzKod5PWOeZilyzVwTmBxyz
+ g3AEpPIkCEkndkzI00I3FXQDZe0uwGzpBrv+RNeqQDSjeaDDhqxO
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
@@ -70,22 +70,22 @@ Take advantage of this to constify the underlying structure, too.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/staging/greybus/hid.c | 2 +-
+ drivers/hid/surface-hid/surface_hid_core.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/hid.c b/drivers/staging/greybus/hid.c
-index adb91286803a..15335c38cb26 100644
---- a/drivers/staging/greybus/hid.c
-+++ b/drivers/staging/greybus/hid.c
-@@ -381,7 +381,7 @@ static int gb_hid_power(struct hid_device *hid, int lvl)
+diff --git a/drivers/hid/surface-hid/surface_hid_core.c b/drivers/hid/surface-hid/surface_hid_core.c
+index 87637f813de2..a3e9cceddfac 100644
+--- a/drivers/hid/surface-hid/surface_hid_core.c
++++ b/drivers/hid/surface-hid/surface_hid_core.c
+@@ -174,7 +174,7 @@ static int surface_hid_raw_request(struct hid_device *hid, unsigned char reportn
+ 	return -EIO;
  }
  
- /* HID structure to pass callbacks */
--static struct hid_ll_driver gb_hid_ll_driver = {
-+static const struct hid_ll_driver gb_hid_ll_driver = {
- 	.parse = gb_hid_parse,
- 	.start = gb_hid_start,
- 	.stop = gb_hid_stop,
+-static struct hid_ll_driver surface_hid_ll_driver = {
++static const struct hid_ll_driver surface_hid_ll_driver = {
+ 	.start       = surface_hid_start,
+ 	.stop        = surface_hid_stop,
+ 	.open        = surface_hid_open,
 
 -- 
 2.39.1
