@@ -2,33 +2,33 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D69A5C636D6
-	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Jan 2023 04:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E13C636CB
+	for <linux-hyperv@archiver.kernel.org>; Mon, 30 Jan 2023 04:00:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235339AbjA3EAF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 29 Jan 2023 23:00:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
+        id S235464AbjA3EAI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 29 Jan 2023 23:00:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235344AbjA3EAE (ORCPT
+        with ESMTP id S235384AbjA3EAE (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Sun, 29 Jan 2023 23:00:04 -0500
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12FC41449E;
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92A351555A;
         Sun, 29 Jan 2023 19:59:50 -0800 (PST)
 From:   =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
         s=mail; t=1675051187;
-        bh=wWKFYgFhVzpvhYIRwOMjSib0YpKzgvkigV7Zrc6HeW8=;
+        bh=ISqKcgoa9toyUt73TyvoOukrl8TtLDEKeZ9Jya+pGEs=;
         h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=hoz3HgsJzR0HTU0L5O2nJpYL3V+6uM21jhOK1b4Z6Q5YB0tD/2S75VKCMvXkhX+Jz
-         F7KhGTndvpYZ8k68Nvi8nzXpe/NiEb1bG68yl+M75HlybfPqgkl9Hs6OS+3AzzrAZ5
-         LEaOJDGgmawvwrcGShwZqTKndDA8MV/CL/Lo9cy8=
-Date:   Mon, 30 Jan 2023 03:59:39 +0000
-Subject: [PATCH 3/9] HID: logitech-dj: Constify lowlevel HID driver
+        b=JYcwn7v2TZRHZZxncXwLC7kB9NOOT+MIRfVX/Ndd+dDv+HUHBGsJ0OIqBpgCynIU0
+         PotCVcIQpwLfbbZPnhcO0XY4Nb6ql5ShFP9rx42R+DpaKGMngegH95phLOg/qY7dMM
+         fqIJZLd17YhoInNjcG1ZjSBEEVq/PiJYgG8u4nXI=
+Date:   Mon, 30 Jan 2023 03:59:37 +0000
+Subject: [PATCH 1/9] HID: amd_sfh: Constify lowlevel HID driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20230130-hid-const-ll-driver-v1-3-3fc282b3b1d0@weissschuh.net>
+Message-Id: <20230130-hid-const-ll-driver-v1-1-3fc282b3b1d0@weissschuh.net>
 References: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 In-Reply-To: <20230130-hid-const-ll-driver-v1-0-3fc282b3b1d0@weissschuh.net>
 To:     Basavaraj Natikar <basavaraj.natikar@amd.com>,
@@ -52,11 +52,11 @@ Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev,
         =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051185; l=1277;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1675051184; l=870;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=wWKFYgFhVzpvhYIRwOMjSib0YpKzgvkigV7Zrc6HeW8=;
- b=gHbhnd+URi4q5m2WIF53+0lFoz9hkcicfRZ9MlD4AWMcgO2mt1jPTSl50kDCl6ERuZDRGRfFwG8U
- SqNvJZPhDzF9MWbKxyaUPTAkJdQC/v0+f3n1IAj0D489WHHxZ6bg
+ bh=ISqKcgoa9toyUt73TyvoOukrl8TtLDEKeZ9Jya+pGEs=;
+ b=OUNlZGUMG9mYh6APzUnty4uy80xFEn/ZmE3vZyBzFoD3eTm7DGVinOtF2smH/XvOyEdhxNuUeNWv
+ tvsmtRA9C08txM5IMIwGlAkCmdwLUEhASMKjT0/arF5923GkUFhx
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 Precedence: bulk
@@ -70,31 +70,22 @@ Take advantage of this to constify the underlying structure, too.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/hid/hid-logitech-dj.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/amd-sfh-hid/amd_sfh_hid.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index c358778e070b..62180414efcc 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -554,7 +554,7 @@ static const u8 hid_reportid_size_map[NUMBER_OF_HID_REPORTS] = {
- 
- #define LOGITECH_DJ_INTERFACE_NUMBER 0x02
- 
--static struct hid_ll_driver logi_dj_ll_driver;
-+static const struct hid_ll_driver logi_dj_ll_driver;
- 
- static int logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev);
- static void delayedwork_callback(struct work_struct *work);
-@@ -1506,7 +1506,7 @@ static bool logi_dj_ll_may_wakeup(struct hid_device *hid)
- 	return hid_hw_may_wakeup(djrcv_dev->hidpp);
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
+index 1b18291fc5af..705b52337068 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
+@@ -112,7 +112,7 @@ void amdtp_hid_wakeup(struct hid_device *hid)
+ 	}
  }
  
--static struct hid_ll_driver logi_dj_ll_driver = {
-+static const struct hid_ll_driver logi_dj_ll_driver = {
- 	.parse = logi_dj_ll_parse,
- 	.start = logi_dj_ll_start,
- 	.stop = logi_dj_ll_stop,
+-static struct hid_ll_driver amdtp_hid_ll_driver = {
++static const struct hid_ll_driver amdtp_hid_ll_driver = {
+ 	.parse	=	amdtp_hid_parse,
+ 	.start	=	amdtp_hid_start,
+ 	.stop	=	amdtp_hid_stop,
 
 -- 
 2.39.1
