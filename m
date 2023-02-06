@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C26DC64EC6
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Feb 2023 17:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53ECEC05027
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Feb 2023 17:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjBFRyd (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Feb 2023 12:54:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51854 "EHLO
+        id S230246AbjBFRye (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 6 Feb 2023 12:54:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230180AbjBFRya (ORCPT
+        with ESMTP id S230198AbjBFRyb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Feb 2023 12:54:30 -0500
+        Mon, 6 Feb 2023 12:54:31 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 32B022331E;
-        Mon,  6 Feb 2023 09:54:29 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1FAB61F5C8;
+        Mon,  6 Feb 2023 09:54:30 -0800 (PST)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id A42E520C7E09;
+        by linux.microsoft.com (Postfix) with ESMTPSA id D541120C7E22;
         Mon,  6 Feb 2023 09:54:28 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A42E520C7E09
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D541120C7E22
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1675706068;
-        bh=+ae3h1fqSTbaPsWS3AoeI0ULTZYdKrh7gUDoDE4TJF8=;
+        bh=kv/i0skTIQvHGuOqg6IvE4yvIUe6D8o/sc/yx8wo9AU=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=QuaIC7P2t/gA91k1m0a/jA5ddJrqc5gmK9A4PIm8GHeuVf2cqX/nSaS0QNNblO3sm
-         WO8Aw37MKAg5LIqNtyhqpKqa7PxnFZelRj/GSXCFuy7H5UbmfhdERTjYcYyHCrIR8f
-         J2tgqCwBu5xA7eWSIQDel30j0C8bIAccz3pT/hL8=
+        b=BVltVqViESplLS404Ok1Qrd5iAX1ruwM2n6LtmSJgotsz/yEYoGnyHy/m6Hq1GTyy
+         Xp0ER8LUH1tTpMykd+Nhhpji+bYaK3Y76F09nc5APehvUv1Q5E7q4C8CU6ZAlNnsao
+         PkFl7FLs71r1RVwAfer35+pvhgzSqsilt7JCsAUk=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
@@ -34,9 +34,9 @@ To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
         ssengar@microsoft.com, dphadke@linux.microsoft.com
-Subject: [PATCH v3 4/6] dt-bindings: hypervisor: Rename virtio to hypervisor
-Date:   Mon,  6 Feb 2023 09:54:18 -0800
-Message-Id: <1675706060-22361-5-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v3 6/6] Driver: VMBus: Add device tree support
+Date:   Mon,  6 Feb 2023 09:54:20 -0800
+Message-Id: <1675706060-22361-7-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1675706060-22361-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1675706060-22361-1-git-send-email-ssengar@linux.microsoft.com>
@@ -44,121 +44,162 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Rename virtio folder to more generic hypervisor, so that this can
-accommodate more devices of similar type.
+Update the driver to support device tree boot as well along with ACPI.
+At present the device tree parsing only provides the mmio region info
+and is not the exact copy of ACPI parsing. This is sufficient to cater
+all the current device tree usecases for VMBus.
+
+Currently device tree is supported only for x86 systems.
 
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
 [V3]
-- Fixed compatible schemas error generated in other modules referring to
-  virtio.
+- Changed the logic to use generic api (for_each_of_range) for parsing "ranges".
+- Remove dependency of ACPI for HYPERV in case of x86.
 
- Documentation/devicetree/bindings/gpio/gpio-virtio.yaml       | 4 ++--
- .../devicetree/bindings/{virtio => hypervisor}/mmio.yaml      | 2 +-
- .../devicetree/bindings/{virtio => hypervisor}/pci-iommu.yaml | 2 +-
- .../bindings/{virtio => hypervisor}/virtio-device.yaml        | 2 +-
- Documentation/devicetree/bindings/i2c/i2c-virtio.yaml         | 4 ++--
- MAINTAINERS                                                   | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
- rename Documentation/devicetree/bindings/{virtio => hypervisor}/mmio.yaml (95%)
- rename Documentation/devicetree/bindings/{virtio => hypervisor}/pci-iommu.yaml (98%)
- rename Documentation/devicetree/bindings/{virtio => hypervisor}/virtio-device.yaml (93%)
+ drivers/hv/Kconfig     |  4 +--
+ drivers/hv/vmbus_drv.c | 60 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 60 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-virtio.yaml b/Documentation/devicetree/bindings/gpio/gpio-virtio.yaml
-index 601d85754577..e08ed2a1eaa3 100644
---- a/Documentation/devicetree/bindings/gpio/gpio-virtio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/gpio-virtio.yaml
-@@ -10,10 +10,10 @@ maintainers:
-   - Viresh Kumar <viresh.kumar@linaro.org>
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 0747a8f1fcee..7e44d4246d8d 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -4,8 +4,8 @@ menu "Microsoft Hyper-V guest support"
  
- allOf:
--  - $ref: /schemas/virtio/virtio-device.yaml#
-+  - $ref: /schemas/hypervisor/virtio-device.yaml#
+ config HYPERV
+ 	tristate "Microsoft Hyper-V client drivers"
+-	depends on ACPI && ((X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
+-		|| (ARM64 && !CPU_BIG_ENDIAN))
++	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
++		|| (ACPI && ARM64 && !CPU_BIG_ENDIAN)
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR if X86
+ 	select VMAP_PFN
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 9d6e0d02b834..5cbc541a20b5 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -20,6 +20,7 @@
+ #include <linux/completion.h>
+ #include <linux/hyperv.h>
+ #include <linux/kernel_stat.h>
++#include <linux/of_address.h>
+ #include <linux/clockchips.h>
+ #include <linux/cpu.h>
+ #include <linux/sched/isolation.h>
+@@ -2152,7 +2153,7 @@ void vmbus_device_unregister(struct hv_device *device_obj)
+ 	device_unregister(&device_obj->device);
+ }
  
- description:
--  Virtio GPIO controller, see /schemas/virtio/virtio-device.yaml for more
-+  Virtio GPIO controller, see /schemas/hypervisor/virtio-device.yaml for more
-   details.
+-
++#ifdef CONFIG_ACPI
+ /*
+  * VMBUS is an acpi enumerated device. Get the information we
+  * need from DSDT.
+@@ -2262,6 +2263,7 @@ static acpi_status vmbus_walk_resources(struct acpi_resource *res, void *ctx)
  
- properties:
-diff --git a/Documentation/devicetree/bindings/virtio/mmio.yaml b/Documentation/devicetree/bindings/hypervisor/mmio.yaml
-similarity index 95%
-rename from Documentation/devicetree/bindings/virtio/mmio.yaml
-rename to Documentation/devicetree/bindings/hypervisor/mmio.yaml
-index 0aa8433f0a5e..8492c9b4fec9 100644
---- a/Documentation/devicetree/bindings/virtio/mmio.yaml
-+++ b/Documentation/devicetree/bindings/hypervisor/mmio.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/virtio/mmio.yaml#
-+$id: http://devicetree.org/schemas/hypervisor/mmio.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 	return AE_OK;
+ }
++#endif
  
- title: virtio memory mapped devices
-diff --git a/Documentation/devicetree/bindings/virtio/pci-iommu.yaml b/Documentation/devicetree/bindings/hypervisor/pci-iommu.yaml
-similarity index 98%
-rename from Documentation/devicetree/bindings/virtio/pci-iommu.yaml
-rename to Documentation/devicetree/bindings/hypervisor/pci-iommu.yaml
-index 972a785a42de..52de535fd4ef 100644
---- a/Documentation/devicetree/bindings/virtio/pci-iommu.yaml
-+++ b/Documentation/devicetree/bindings/hypervisor/pci-iommu.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/virtio/pci-iommu.yaml#
-+$id: http://devicetree.org/schemas/hypervisor/pci-iommu.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+ static int vmbus_mmio_remove(void)
+ {
+@@ -2282,7 +2284,7 @@ static int vmbus_mmio_remove(void)
+ 	}
+ }
  
- title: virtio-iommu device using the virtio-pci transport
-diff --git a/Documentation/devicetree/bindings/virtio/virtio-device.yaml b/Documentation/devicetree/bindings/hypervisor/virtio-device.yaml
-similarity index 93%
-rename from Documentation/devicetree/bindings/virtio/virtio-device.yaml
-rename to Documentation/devicetree/bindings/hypervisor/virtio-device.yaml
-index 8c6919ba9497..7b8d93b06237 100644
---- a/Documentation/devicetree/bindings/virtio/virtio-device.yaml
-+++ b/Documentation/devicetree/bindings/hypervisor/virtio-device.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/virtio/virtio-device.yaml#
-+$id: http://devicetree.org/schemas/hypervisor/virtio-device.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+-static void vmbus_reserve_fb(void)
++static void __maybe_unused vmbus_reserve_fb(void)
+ {
+ 	resource_size_t start = 0, size;
+ 	struct pci_dev *pdev;
+@@ -2442,6 +2444,7 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size)
+ }
+ EXPORT_SYMBOL_GPL(vmbus_free_mmio);
  
- title: Virtio device
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-virtio.yaml b/Documentation/devicetree/bindings/i2c/i2c-virtio.yaml
-index 7d87ed855301..99a0ce203fe1 100644
---- a/Documentation/devicetree/bindings/i2c/i2c-virtio.yaml
-+++ b/Documentation/devicetree/bindings/i2c/i2c-virtio.yaml
-@@ -11,10 +11,10 @@ maintainers:
++#ifdef CONFIG_ACPI
+ static int vmbus_acpi_add(struct platform_device *pdev)
+ {
+ 	acpi_status result;
+@@ -2494,10 +2497,52 @@ static int vmbus_acpi_add(struct platform_device *pdev)
+ 		vmbus_mmio_remove();
+ 	return ret_val;
+ }
++#else
++
++static int vmbus_device_add(struct platform_device *pdev)
++{
++	struct resource **cur_res = &hyperv_mmio;
++	struct of_range range;
++	struct of_range_parser parser;
++	struct device_node *np;
++	int ret = 0;
++
++	hv_dev = &pdev->dev;
++	np = pdev->dev.of_node;
++
++	ret = of_range_parser_init(&parser, np);
++	if (ret) {
++		dev_err(hv_dev, "Failed to parse resources.\n");
++		return ret;
++	}
++
++	for_each_of_range(&parser, &range) {
++		struct resource *res;
++
++		res = kzalloc(sizeof(*res), GFP_ATOMIC);
++		if (!res)
++			return -ENOMEM;
++
++		res->name = "hyperv mmio";
++		res->flags = IORESOURCE_MEM | IORESOURCE_MEM_64;
++		res->start = range.pci_addr;
++		res->end = range.pci_addr + range.size;
++
++		*cur_res = res;
++		cur_res = &res->sibling;
++	}
++
++	return ret;
++}
++#endif
  
- allOf:
-   - $ref: /schemas/i2c/i2c-controller.yaml#
--  - $ref: /schemas/virtio/virtio-device.yaml#
-+  - $ref: /schemas/hypervisor/virtio-device.yaml#
+ static int vmbus_platform_driver_probe(struct platform_device *pdev)
+ {
++#ifdef CONFIG_ACPI
+ 	return vmbus_acpi_add(pdev);
++#else
++	return vmbus_device_add(pdev);
++#endif
+ }
  
- description:
--  Virtio I2C device, see /schemas/virtio/virtio-device.yaml for more details.
-+  Virtio I2C device, see /schemas/hypervisor/virtio-device.yaml for more details.
+ static int vmbus_platform_driver_remove(struct platform_device *pdev)
+@@ -2643,6 +2688,16 @@ static int vmbus_bus_resume(struct device *dev)
+ #define vmbus_bus_resume NULL
+ #endif /* CONFIG_PM_SLEEP */
  
- properties:
-   $nodename:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f76ca2808474..27a5650a9ffd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21977,7 +21977,7 @@ L:	virtualization@lists.linux-foundation.org
- S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-vdpa
- F:	Documentation/ABI/testing/sysfs-class-vduse
--F:	Documentation/devicetree/bindings/virtio/
-+F:	Documentation/devicetree/bindings/hypervisor/
- F:	Documentation/driver-api/virtio/
- F:	drivers/block/virtio_blk.c
- F:	drivers/crypto/virtio/
++static const struct of_device_id vmbus_of_match[] = {
++	{
++		.compatible = "microsoft,vmbus",
++	},
++	{
++		/* sentinel */
++	},
++};
++MODULE_DEVICE_TABLE(of, vmbus_of_match);
++
+ static const struct acpi_device_id vmbus_acpi_device_ids[] = {
+ 	{"VMBUS", 0},
+ 	{"VMBus", 0},
+@@ -2677,6 +2732,7 @@ static struct platform_driver vmbus_platform_driver = {
+ 	.driver = {
+ 		.name = "vmbus",
+ 		.acpi_match_table = ACPI_PTR(vmbus_acpi_device_ids),
++		.of_match_table = of_match_ptr(vmbus_of_match),
+ 		.pm = &vmbus_bus_pm,
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	}
 -- 
 2.25.1
 
