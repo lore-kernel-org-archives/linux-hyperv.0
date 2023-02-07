@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94873C64EC4
-	for <linux-hyperv@archiver.kernel.org>; Tue,  7 Feb 2023 07:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D767C64EC6
+	for <linux-hyperv@archiver.kernel.org>; Tue,  7 Feb 2023 07:50:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbjBGHuF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 7 Feb 2023 02:50:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34194 "EHLO
+        id S230450AbjBGHuG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 7 Feb 2023 02:50:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229585AbjBGHuE (ORCPT
+        with ESMTP id S230429AbjBGHuF (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 7 Feb 2023 02:50:04 -0500
+        Tue, 7 Feb 2023 02:50:05 -0500
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 565F61816A;
-        Mon,  6 Feb 2023 23:50:03 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 78CE9227BC;
+        Mon,  6 Feb 2023 23:50:04 -0800 (PST)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id D250820C7E2C;
-        Mon,  6 Feb 2023 23:50:02 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D250820C7E2C
+        by linux.microsoft.com (Postfix) with ESMTPSA id 3FBDF20C7E30;
+        Mon,  6 Feb 2023 23:50:03 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3FBDF20C7E30
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1675756202;
-        bh=Z3Fz4ic+ruuxQNGx6fEsHOlcMxP7j3bu18u8mylit5o=;
+        s=default; t=1675756203;
+        bh=LRgFTNEcHuGtL1aCGDTqe/YCQf0md08qX7Nvqfh3cLA=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ni4Q0W2iTPiF3wS11jRxJyBitdCXRHvZCWHncfNA85jR20rMtGmgzINMywR3hD7LA
-         3sEfXrrS3qFMPUjYFXmyATl0VJy/Ssv7eEJgoDb5y/ju4FZY2VHzHDZu9KzcCXuKX4
-         UC7QiJnWd2CauD+3rGBy8pzK+UikkjAdtWn+2cgM=
+        b=U60bue7ngIy2B6t3eElkHR7hOvzNnrqQ8uFUjIRv6hYGfU2N8vuD1hFIoiEtvDaJV
+         IQs7Xo7nhbO1BM3PtSZr1WHeoTG0YuMnuO0LDxCHeoZrRC5ZKmIPELKhK1f/G8idwl
+         Y1kFp5BWlQA8q3rsG6lRLNXsvVCDVGDXrN6vaio8=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
@@ -34,9 +34,9 @@ To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
         ssengar@microsoft.com, dphadke@linux.microsoft.com
-Subject: [PATCH v4 1/6] drivers/clocksource/hyper-v: non ACPI support in hyperv clock
-Date:   Mon,  6 Feb 2023 23:49:54 -0800
-Message-Id: <1675756199-5917-2-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v4 5/6] dt-bindings: hypervisor: VMBus
+Date:   Mon,  6 Feb 2023 23:49:58 -0800
+Message-Id: <1675756199-5917-6-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1675756199-5917-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1675756199-5917-1-git-send-email-ssengar@linux.microsoft.com>
@@ -44,67 +44,81 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add a placeholder function for the hv_setup_stimer0_irq API to accommodate
-systems without ACPI support. Since this function is not utilized on
-x86/x64 systems and non-ACPI support is only intended for x86/x64 systems,
-a placeholder function is sufficient for now and can be improved upon if
-necessary in the future.
-
-This change will make it easier to add device tree support for VMBus in
-subsequent commits.
+Add dt-bindings for Hyper-V VMBus.
 
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
- drivers/clocksource/hyperv_timer.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ .../bindings/hypervisor/microsoft,vmbus.yaml       | 48 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hypervisor/microsoft,vmbus.yaml
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index c0cef92..f32948c 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -49,7 +49,7 @@
- 
- static int stimer0_irq = -1;
- static int stimer0_message_sint;
--static DEFINE_PER_CPU(long, stimer0_evt);
-+static __maybe_unused DEFINE_PER_CPU(long, stimer0_evt);
- 
- /*
-  * Common code for stimer0 interrupts coming via Direct Mode or
-@@ -68,7 +68,7 @@ void hv_stimer0_isr(void)
-  * stimer0 interrupt handler for architectures that support
-  * per-cpu interrupts, which also implies Direct Mode.
-  */
--static irqreturn_t hv_stimer0_percpu_isr(int irq, void *dev_id)
-+static irqreturn_t __maybe_unused hv_stimer0_percpu_isr(int irq, void *dev_id)
- {
- 	hv_stimer0_isr();
- 	return IRQ_HANDLED;
-@@ -196,6 +196,7 @@ void __weak hv_remove_stimer0_handler(void)
- {
- };
- 
-+#ifdef CONFIG_ACPI
- /* Called only on architectures with per-cpu IRQs (i.e., not x86/x64) */
- static int hv_setup_stimer0_irq(void)
- {
-@@ -230,6 +231,16 @@ static void hv_remove_stimer0_irq(void)
- 		stimer0_irq = -1;
- 	}
- }
-+#else
-+static int hv_setup_stimer0_irq(void)
-+{
-+	return 0;
-+}
+diff --git a/Documentation/devicetree/bindings/hypervisor/microsoft,vmbus.yaml b/Documentation/devicetree/bindings/hypervisor/microsoft,vmbus.yaml
+new file mode 100644
+index 0000000..a9c43a6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hypervisor/microsoft,vmbus.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hypervisor/microsoft,vmbus.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+static void hv_remove_stimer0_irq(void)
-+{
-+}
-+#endif
- 
- /* hv_stimer_alloc - Global initialization of the clockevent and stimer0 */
- int hv_stimer_alloc(bool have_percpu_irqs)
++title: Microsoft Hyper-V VMBus
++
++maintainers:
++  - Saurabh Sengar <ssengar@linux.microsoft.com>
++
++description:
++  VMBus is a software bus that implement the protocols for communication
++  between the root or host OS and guest OSs (virtual machines).
++
++properties:
++  compatible:
++    const: microsoft,vmbus
++
++  ranges: true
++
++  '#address-cells':
++    const: 2
++
++  '#size-cells':
++    const: 1
++
++required:
++  - compatible
++  - ranges
++  - '#address-cells'
++  - '#size-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        vmbus@ff0000000 {
++            #address-cells = <2>;
++            #size-cells = <1>;
++            compatible = "microsoft,vmbus";
++            ranges = <0x0f 0xf0000000 0x0f 0xf0000000 0x10000000>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 27a5650..669f1c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9490,6 +9490,7 @@ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git
+ F:	Documentation/ABI/stable/sysfs-bus-vmbus
+ F:	Documentation/ABI/testing/debugfs-hyperv
++F:	Documentation/devicetree/bindings/hypervisor/microsoft,vmbus.yaml
+ F:	Documentation/virt/hyperv
+ F:	Documentation/networking/device_drivers/ethernet/microsoft/netvsc.rst
+ F:	arch/arm64/hyperv
 -- 
 1.8.3.1
 
