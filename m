@@ -2,129 +2,106 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAF7C61DA4
-	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Feb 2023 10:45:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B84C9C61DA4
+	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Feb 2023 11:29:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233480AbjBWKpZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 23 Feb 2023 05:45:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50688 "EHLO
+        id S233539AbjBWL3L (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 23 Feb 2023 06:29:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233253AbjBWKpY (ORCPT
+        with ESMTP id S233509AbjBWL3L (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 23 Feb 2023 05:45:24 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB9628D0B;
-        Thu, 23 Feb 2023 02:45:23 -0800 (PST)
-Received: from zn.tnic (p5de8e9fe.dip0.t-ipconnect.de [93.232.233.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2A7101EC06D8;
-        Thu, 23 Feb 2023 11:45:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1677149121;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=8eflZCArBNS2iTHAutvusXrIThQ3jEI6ZgIoi6B+se4=;
-        b=phohTQQkWdVgEHvajC+jqND3J6RrHkQAfEY26jsta89saiUXDjpax72/t8uzsykiPJTRAp
-        wELV5m3c0rpFSuB9kPVe4/xWfwZUbq0+qD7UZZAn5zsd6GJrzIJJ4KLaNv+bRBAxyk8yY4
-        05KPHD5NTscdl5DEOeJB5BZsKM8fqEU=
-Date:   Thu, 23 Feb 2023 11:45:17 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>, KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        "luto@kernel.org" <luto@kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh@kernel.org" <robh@kernel.org>, "kw@linux.com" <kw@linux.com>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "arnd@arndb.de" <arnd@arndb.de>, "hch@lst.de" <hch@lst.de>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "sathyanarayanan.kuppuswamy@linux.intel.com" 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        "ak@linux.intel.com" <ak@linux.intel.com>,
-        "isaku.yamahata@intel.com" <isaku.yamahata@intel.com>,
-        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
-        "jane.chu@oracle.com" <jane.chu@oracle.com>,
-        "tony.luck@intel.com" <tony.luck@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>
-Subject: Re: [PATCH v5 06/14] x86/ioremap: Support hypervisor specified range
- to map as encrypted
-Message-ID: <Y/dDvTMrCm4GFsvv@zn.tnic>
-References: <Y+4wiyepKU8IEr48@zn.tnic>
- <BYAPR21MB168853FD0676CCACF7C249B0D7A09@BYAPR21MB1688.namprd21.prod.outlook.com>
- <Y+5immKTXCsjSysx@zn.tnic>
- <BYAPR21MB16880EC9C85EC9343F9AF178D7A19@BYAPR21MB1688.namprd21.prod.outlook.com>
- <Y++VSZNAX9Cstbqo@zn.tnic>
- <Y/aTmL5Y8DtOJu9w@google.com>
- <Y/aYQlQzRSEH5II/@zn.tnic>
- <Y/adN3GQJTdDPmS8@google.com>
- <Y/ammgkyo3QVon+A@zn.tnic>
- <Y/a/lzOwqMjOUaYZ@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y/a/lzOwqMjOUaYZ@google.com>
+        Thu, 23 Feb 2023 06:29:11 -0500
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4529C16AD2;
+        Thu, 23 Feb 2023 03:29:10 -0800 (PST)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id A001320B9C3E;
+        Thu, 23 Feb 2023 03:29:09 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A001320B9C3E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1677151749;
+        bh=9hqMgwt+9rfgzKvMywqn/H23HiHnKG9S9L6A/+1pzh0=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=i29yH4QlMPKS4SW/ENT64Kq927tWbvAyF40myhCMlmODmtS0isu0yeES40Bk7yQln
+         9LxjzA3AdY/HaT+O3RgUj41vJ6xOtsSIEM27c6bcB7L6PlsB3afNdTOcdj9p9aLOWQ
+         8BrLEF6ElLVt6kJSJnJZL9WhCMwY6HoOCjAM91yg=
+From:   Saurabh Sengar <ssengar@linux.microsoft.com>
+To:     robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, daniel.lezcano@linaro.org, tglx@linutronix.de,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, mikelley@microsoft.com,
+        lenb@kernel.org, rafael@kernel.org, linux-acpi@vger.kernel.org
+Subject: [PATCH v7 1/5] drivers/clocksource/hyper-v: non ACPI support in hyperv clock
+Date:   Thu, 23 Feb 2023 03:29:01 -0800
+Message-Id: <1677151745-16521-2-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1677151745-16521-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1677151745-16521-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Feb 22, 2023 at 05:21:27PM -0800, Sean Christopherson wrote:
-> The MTRR mess isn't unique to coco guests, e.g. KVM explicitly "supports" VMMs
-> hiding MTTRs from the guest by defaulting to WB if MTTRs aren't exposed to the
-> guest.  Why on earth Hyper-V suddenly needs to enlighten the guest is beyond me,
-> but whatever the reason, it's not unique to coco VMs.
+Add a placeholder function for the hv_setup_stimer0_irq API to accommodate
+systems without ACPI support. Since this function is not utilized on
+x86/x64 systems and non-ACPI support is only intended for x86/x64 systems,
+a placeholder function is sufficient for now and can be improved upon if
+necessary in the future.
 
-Well, TDX can't stomach MTRRs either, reportedly, and I hear we should
-try to avoid #VEs for them too.
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+---
+ drivers/clocksource/hyperv_timer.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-And this is the problem: all those guest "enlightening" efforts come up
-with the weirdest stuff they need to sprinkle around arch/x86/. And if
-we let that without paying attention to the big picture, that will
-become an unmaintanable mess.
-
-And I'm not proud of some of the stuff we did in arch/x86/ already and
-some day they'll get on my nerves just enough...
-
-> All I'm advocating is that for determining whether or not a device should be mapped
-> private vs. shared, provide an API so that the hypervisor-specific enlightened code
-> can manage that insanity without polluting common code.  If we are ever fortunate
-> enough to have common enumeration, e.g. through ACPI or something, the enlightened
-> code can simply reroute to the common code.  This is a well established pattern for
-> many paravirt features, I don't see why it wouldn't work here.
-
-Yah, that would be good. If the device can know upfront how it needs to
-ioremap its address range, then that is fine - we already have
-ioremap_encrypted() for example.
-
-What I don't like is hooking conditionals into the common code to figure
-out what to do depending on what we're running on.
-
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index c0cef92b12b8..f32948c8a96f 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -49,7 +49,7 @@ static bool direct_mode_enabled;
+ 
+ static int stimer0_irq = -1;
+ static int stimer0_message_sint;
+-static DEFINE_PER_CPU(long, stimer0_evt);
++static __maybe_unused DEFINE_PER_CPU(long, stimer0_evt);
+ 
+ /*
+  * Common code for stimer0 interrupts coming via Direct Mode or
+@@ -68,7 +68,7 @@ EXPORT_SYMBOL_GPL(hv_stimer0_isr);
+  * stimer0 interrupt handler for architectures that support
+  * per-cpu interrupts, which also implies Direct Mode.
+  */
+-static irqreturn_t hv_stimer0_percpu_isr(int irq, void *dev_id)
++static irqreturn_t __maybe_unused hv_stimer0_percpu_isr(int irq, void *dev_id)
+ {
+ 	hv_stimer0_isr();
+ 	return IRQ_HANDLED;
+@@ -196,6 +196,7 @@ void __weak hv_remove_stimer0_handler(void)
+ {
+ };
+ 
++#ifdef CONFIG_ACPI
+ /* Called only on architectures with per-cpu IRQs (i.e., not x86/x64) */
+ static int hv_setup_stimer0_irq(void)
+ {
+@@ -230,6 +231,16 @@ static void hv_remove_stimer0_irq(void)
+ 		stimer0_irq = -1;
+ 	}
+ }
++#else
++static int hv_setup_stimer0_irq(void)
++{
++	return 0;
++}
++
++static void hv_remove_stimer0_irq(void)
++{
++}
++#endif
+ 
+ /* hv_stimer_alloc - Global initialization of the clockevent and stimer0 */
+ int hv_stimer_alloc(bool have_percpu_irqs)
 -- 
-Regards/Gruss,
-    Boris.
+2.34.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
