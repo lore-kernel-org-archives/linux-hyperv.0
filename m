@@ -2,31 +2,31 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F52DC678D4
-	for <linux-hyperv@archiver.kernel.org>; Thu,  2 Mar 2023 20:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80CD0C7EE30
+	for <linux-hyperv@archiver.kernel.org>; Thu,  2 Mar 2023 20:46:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbjCBUqy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 2 Mar 2023 15:46:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43724 "EHLO
+        id S230246AbjCBUqz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 2 Mar 2023 15:46:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbjCBUqv (ORCPT
+        with ESMTP id S230167AbjCBUqv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Thu, 2 Mar 2023 15:46:51 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480AF46154;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9FB543937;
         Thu,  2 Mar 2023 12:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
         Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=vfrPqlpwv8UtDJtEckddNe/7V4TGRdI///FWzG6Y790=; b=1CcCUGLBcs0TG5syyZ+Ce28wnZ
-        TxulkQAu2Jm0WRJA6sb0GzobJ5R2x0XtLkbJm7zUd+adTEbOuyDoBktLQaR6+NEjbd3hP800Zv4ab
-        CP94tMtVo225TVDQQpPfR4eKirU6KAgyGAv7UhKUNv+tsNT8dKsrw7xAeorlwpNtCx/ojqVajYfJ8
-        TyL5KCOZWwicnmes7WAvAKy3iK6h57YsUSyGiVJDO7nGE50XaEzfpHPHXTpGghPM2rtIyQHyCvtPl
-        lFxB/iKwkZSDU6fgE+Job9uIOTovRK96UQqV0J9jEUh9JHRAQp8aC/33h166ouZa/n2rgQvbbVdx6
-        eEuIbxjQ==;
+        bh=FdfA4hbd8rob4fQ8ALRTamLZAV/vYtVA6accqcc3SkE=; b=fhFYPSITeZQoANR5nzpZq4Y0OT
+        BQwHzsCAGMKWCiIoSIoIot7NNKjVrWJ2csclbdX/OOhLJYxICH7Q27IOcnWVnqBV6tXuU8kS52aj/
+        YqHN4NX4N7fDDw4Ys9oApL+1jemtpaghDeLGYs3gvxuvAl+0KPuQkX4VoZYK3yKfBN3VTD7lR+L5y
+        zoheqXVFYPGrL8npa41ZLEY4CWXClu94akdIDtt8HOvD3vZ7MVf6ahgT4td72SzQ/DFF6hyJSXBYo
+        SVjTazXdtUIiOEkwWaBbVYO6PEJRqGYpTuZBgGoMQZtE1KOOqHJdw0x9dSfjUV+NG5jW2pzVBmTGb
+        MxuTRIgg==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pXpoc-003HXM-Ao; Thu, 02 Mar 2023 20:46:14 +0000
+        id 1pXpoc-003HXS-K5; Thu, 02 Mar 2023 20:46:14 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     ebiederm@xmission.com, keescook@chromium.org, yzaikin@google.com,
         jejb@linux.ibm.com, martin.petersen@oracle.com, minyard@acm.org,
@@ -44,9 +44,9 @@ Cc:     j.granados@samsung.com, zhangpeng362@huawei.com,
         linux-hyperv@vger.kernel.org,
         openipmi-developer@lists.sourceforge.net,
         linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 1/7] scsi: simplify sysctl registration with register_sysctl()
-Date:   Thu,  2 Mar 2023 12:46:06 -0800
-Message-Id: <20230302204612.782387-2-mcgrof@kernel.org>
+Subject: [PATCH 4/7] md: simplify sysctl registration
+Date:   Thu,  2 Mar 2023 12:46:09 -0800
+Message-Id: <20230302204612.782387-5-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20230302204612.782387-1-mcgrof@kernel.org>
 References: <20230302204612.782387-1-mcgrof@kernel.org>
@@ -58,43 +58,53 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 register_sysctl_table() is a deprecated compatibility wrapper.
-register_sysctl() can do the directory creation for you so just use that.
+register_sysctl() can do the directory creation for you so just use
+that.
 
 Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 ---
- drivers/scsi/scsi_sysctl.c | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ drivers/md/md.c | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
 
-diff --git a/drivers/scsi/scsi_sysctl.c b/drivers/scsi/scsi_sysctl.c
-index 7259704a7f52..7f0914ea168f 100644
---- a/drivers/scsi/scsi_sysctl.c
-+++ b/drivers/scsi/scsi_sysctl.c
-@@ -21,25 +21,11 @@ static struct ctl_table scsi_table[] = {
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 927a43db5dfb..546b1b81eb28 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -322,26 +322,6 @@ static struct ctl_table raid_table[] = {
  	{ }
  };
  
--static struct ctl_table scsi_dir_table[] = {
--	{ .procname	= "scsi",
--	  .mode		= 0555,
--	  .child	= scsi_table },
+-static struct ctl_table raid_dir_table[] = {
+-	{
+-		.procname	= "raid",
+-		.maxlen		= 0,
+-		.mode		= S_IRUGO|S_IXUGO,
+-		.child		= raid_table,
+-	},
 -	{ }
 -};
 -
--static struct ctl_table scsi_root_table[] = {
--	{ .procname	= "dev",
--	  .mode		= 0555,
--	  .child	= scsi_dir_table },
--	{ }
+-static struct ctl_table raid_root_table[] = {
+-	{
+-		.procname	= "dev",
+-		.maxlen		= 0,
+-		.mode		= 0555,
+-		.child		= raid_dir_table,
+-	},
+-	{  }
 -};
 -
- static struct ctl_table_header *scsi_table_header;
+ static int start_readonly;
  
- int __init scsi_init_sysctl(void)
- {
--	scsi_table_header = register_sysctl_table(scsi_root_table);
-+	scsi_table_header = register_sysctl("dev/scsi", scsi_table);
- 	if (!scsi_table_header)
- 		return -ENOMEM;
+ /*
+@@ -9650,7 +9630,7 @@ static int __init md_init(void)
+ 	mdp_major = ret;
+ 
+ 	register_reboot_notifier(&md_notifier);
+-	raid_table_header = register_sysctl_table(raid_root_table);
++	raid_table_header = register_sysctl("dev/raid", raid_table);
+ 
+ 	md_geninit();
  	return 0;
 -- 
 2.39.1
