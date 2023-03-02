@@ -2,31 +2,31 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A716C7EE30
-	for <linux-hyperv@archiver.kernel.org>; Thu,  2 Mar 2023 20:47:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2170BC7EE30
+	for <linux-hyperv@archiver.kernel.org>; Thu,  2 Mar 2023 20:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230263AbjCBUq4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 2 Mar 2023 15:46:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
+        id S230243AbjCBUrI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 2 Mar 2023 15:47:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230144AbjCBUqv (ORCPT
+        with ESMTP id S230134AbjCBUqv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Thu, 2 Mar 2023 15:46:51 -0500
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF28F457FF;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF13A457E0;
         Thu,  2 Mar 2023 12:46:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=71lfCsPo7yFKiIAEzb7+CVhOSJuKqCJLiCYyMEP1nX8=; b=p6Yel5Hfld+1FW2EBNV5366POq
-        vJPcZmFCSoBMiHWsnzV+jFaz/uDjYDZKCSMVih6k7yTXZeK0esG+XoqGZm9PRwj7XoUWz1rJk2q/E
-        W+/FxaL2XVpQFgwiqiS/BLSFmuYGCiJ2RytjR/MyXk6RSB5u/Gb6pD9cbTP3FOuh/IUlWNVZg9nlC
-        ae1SW5g3A+R91mMBWyCJsTKqh3vMrYlSFc91+9y4TqjqjC2hXi5zZKAl59br57tm1NS/Si0Gk8WIN
-        4LHLL8b5jmRCk45aZvhVhNvYHw+agvS23gBr87drZJxFTEPUWGT0jgdOq4ItcyYm6kfRP8hHNOmNG
-        e/bvQgIQ==;
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=3oCwpVDu4xcBlhkNHBH3geMu/7Wx6m5tuk0CiJ937us=; b=oPfHzWkN8o7ub3rjHyZDbsPtuV
+        7OLcJfzIoHmz3hIhOOr5kBrnrOOjnqx+vnDYKGEwImYtId4tJmI3hI7TmpRvol1qy0/js0LDSCCef
+        uYyVFwuRIv+72rBzXJJL0naQqm1tyQKKt/2w75lq7w6OQGgJpvTeV7VQJ6LrUilaqMDLDtvyolKf8
+        0avj6KHqtDh0Bz8fQ0U6V+osbmh5p1GVtHHfZTjtL/mGvYZwDVOByysy24tuupVVhYrVm+iTXMJtH
+        iifnMDagP5WH4KcQAHvfQb48U1z36CnTuk+x2Iz2ihBwpYE8DEkqJb+70NXox4icRbETMcGAnJpzt
+        8LnDrLzQ==;
 Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pXpoc-003HXU-Mw; Thu, 02 Mar 2023 20:46:14 +0000
+        id 1pXpoc-003HXK-7q; Thu, 02 Mar 2023 20:46:14 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     ebiederm@xmission.com, keescook@chromium.org, yzaikin@google.com,
         jejb@linux.ibm.com, martin.petersen@oracle.com, minyard@acm.org,
@@ -44,12 +44,10 @@ Cc:     j.granados@samsung.com, zhangpeng362@huawei.com,
         linux-hyperv@vger.kernel.org,
         openipmi-developer@lists.sourceforge.net,
         linux-kernel@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [PATCH 5/7] sgi-xp: simplify sysctl registration
-Date:   Thu,  2 Mar 2023 12:46:10 -0800
-Message-Id: <20230302204612.782387-6-mcgrof@kernel.org>
+Subject: [PATCH 0/7] sysctl: slowly deprecate register_sysctl_table()
+Date:   Thu,  2 Mar 2023 12:46:05 -0800
+Message-Id: <20230302204612.782387-1-mcgrof@kernel.org>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20230302204612.782387-1-mcgrof@kernel.org>
-References: <20230302204612.782387-1-mcgrof@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Luis Chamberlain <mcgrof@infradead.org>
@@ -57,92 +55,63 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Although this driver is a good use case for having a directory
-that is not other directories and then subdirectories with more
-entries, the usage of register_sysctl_table() can recurse and
-increases complexity so to avoid that just split out the
-registration to each directory with its own entries.
+As the large array of sysctls in kernel/sysctl.c is reduced we get to
+the point of wanting to optimize how we register sysctls by only dealing
+with flat simple structures, with no subdirectories. In particular the
+last empty element should not be needed. We'll get there, and save some
+memory, but as we move forward that path will be come the more relevant
+path to use in the sysctl registration. It is much simpler as it avoids
+recursion.
 
-register_sysctl_table() is a deprecated compatibility wrapper.
-register_sysctl() can do the directory creation for you so just use
-that.
+Turns out we can also convert existing users of register_sysctl_table()
+which just need their subdirectories created for them. This effort
+addresses most users of register_sysctl_table() in drivers/ except
+parport -- that needs a bit more review.
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
----
- drivers/misc/sgi-xp/xpc_main.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+This is part of the process to deprecate older sysctl users which uses
+APIs which can incur recursion, but don't need it [0]. This is the
+second effort.
 
-diff --git a/drivers/misc/sgi-xp/xpc_main.c b/drivers/misc/sgi-xp/xpc_main.c
-index b2c3c22fc13c..6da509d692bb 100644
---- a/drivers/misc/sgi-xp/xpc_main.c
-+++ b/drivers/misc/sgi-xp/xpc_main.c
-@@ -93,7 +93,7 @@ int xpc_disengage_timelimit = XPC_DISENGAGE_DEFAULT_TIMELIMIT;
- static int xpc_disengage_min_timelimit;	/* = 0 */
- static int xpc_disengage_max_timelimit = 120;
- 
--static struct ctl_table xpc_sys_xpc_hb_dir[] = {
-+static struct ctl_table xpc_sys_xpc_hb[] = {
- 	{
- 	 .procname = "hb_interval",
- 	 .data = &xpc_hb_interval,
-@@ -112,11 +112,7 @@ static struct ctl_table xpc_sys_xpc_hb_dir[] = {
- 	 .extra2 = &xpc_hb_check_max_interval},
- 	{}
- };
--static struct ctl_table xpc_sys_xpc_dir[] = {
--	{
--	 .procname = "hb",
--	 .mode = 0555,
--	 .child = xpc_sys_xpc_hb_dir},
-+static struct ctl_table xpc_sys_xpc[] = {
- 	{
- 	 .procname = "disengage_timelimit",
- 	 .data = &xpc_disengage_timelimit,
-@@ -127,14 +123,9 @@ static struct ctl_table xpc_sys_xpc_dir[] = {
- 	 .extra2 = &xpc_disengage_max_timelimit},
- 	{}
- };
--static struct ctl_table xpc_sys_dir[] = {
--	{
--	 .procname = "xpc",
--	 .mode = 0555,
--	 .child = xpc_sys_xpc_dir},
--	{}
--};
-+
- static struct ctl_table_header *xpc_sysctl;
-+static struct ctl_table_header *xpc_sysctl_hb;
- 
- /* non-zero if any remote partition disengage was timed out */
- int xpc_disengage_timedout;
-@@ -1041,6 +1032,8 @@ xpc_do_exit(enum xp_retval reason)
- 
- 	if (xpc_sysctl)
- 		unregister_sysctl_table(xpc_sysctl);
-+	if (xpc_sysctl_hb)
-+		unregister_sysctl_table(xpc_sysctl_hb);
- 
- 	xpc_teardown_partitions();
- 
-@@ -1243,7 +1236,8 @@ xpc_init(void)
- 		goto out_1;
- 	}
- 
--	xpc_sysctl = register_sysctl_table(xpc_sys_dir);
-+	xpc_sysctl = register_sysctl("xpc", xpc_sys_xpc);
-+	xpc_sysctl_hb = register_sysctl("xpc/hb", xpc_sys_xpc_hb);
- 
- 	/*
- 	 * Fill the partition reserved page with the information needed by
-@@ -1308,6 +1302,8 @@ xpc_init(void)
- 	(void)unregister_die_notifier(&xpc_die_notifier);
- 	(void)unregister_reboot_notifier(&xpc_reboot_notifier);
- out_2:
-+	if (xpc_sysctl_hb)
-+		unregister_sysctl_table(xpc_sysctl_hb);
- 	if (xpc_sysctl)
- 		unregister_sysctl_table(xpc_sysctl);
- 
+Yes -- we'll get to the point *each* of these conversions means saving
+one empty syctl, but that change needs a bit more careful review before
+merging. But since these conversion are also deleting tables for
+subdirectories, the delta in size of the kernel should not incrase
+really.
+
+The most complex change is the sgi-xp change which does deal with
+a case where we have a subdirectory with an entry, I just split
+that in two registrations. No point in keeping recursion just for
+a few minor if we can simplify code around. More eyeballs / review /
+testing on that change is appreciated.
+
+Sending these out early so they can get tested properly early on
+linux-next. I'm happy to take these via sysctl-next [0] but since
+I don' think register_sysctl_table() will be nuked on v6.4 I think
+it's fine for each of these to go into each respective tree. I can
+pick up last stragglers on sysctl-next. If you want me to take this
+via sysctl-next too, just let me know and I'm happy to do that. Either
+way works.
+
+[0] https://lkml.kernel.org/r/20230302202826.776286-1-mcgrof@kernel.org
+
+Luis Chamberlain (7):
+  scsi: simplify sysctl registration with register_sysctl()
+  ipmi: simplify sysctl registration
+  hv: simplify sysctl registration
+  md: simplify sysctl registration
+  sgi-xp: simplify sysctl registration
+  tty: simplify sysctl registration
+  xen: simplify sysctl registration for balloon
+
+ drivers/char/ipmi/ipmi_poweroff.c | 16 +---------------
+ drivers/hv/vmbus_drv.c            | 11 +----------
+ drivers/md/md.c                   | 22 +---------------------
+ drivers/misc/sgi-xp/xpc_main.c    | 24 ++++++++++--------------
+ drivers/scsi/scsi_sysctl.c        | 16 +---------------
+ drivers/tty/tty_io.c              | 20 +-------------------
+ drivers/xen/balloon.c             | 20 +-------------------
+ 7 files changed, 16 insertions(+), 113 deletions(-)
+
 -- 
 2.39.1
 
