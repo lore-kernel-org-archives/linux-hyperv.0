@@ -2,191 +2,77 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDDE3C61DA4
-	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Mar 2023 08:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B2CC64EC4
+	for <linux-hyperv@archiver.kernel.org>; Mon,  6 Mar 2023 15:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229792AbjCFIKz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 6 Mar 2023 03:10:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
+        id S229964AbjCFP1M (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 6 Mar 2023 10:27:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbjCFIKy (ORCPT
+        with ESMTP id S229869AbjCFP1L (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 6 Mar 2023 03:10:54 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8CA5A25F;
-        Mon,  6 Mar 2023 00:10:52 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 5DEEA22370;
-        Mon,  6 Mar 2023 08:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1678090251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=eqsn968J0cCVrLZWYWjZfL9JRrTtcZJUf2GKxlH4pcQ=;
-        b=PdpeJ3+WlkwHUCyDxfOU4oUlyi45jTM8bCwD1xRH7VogqLYwkFHHuTujXj7Nn5ducCF3U4
-        MsX7DKbaXKWZmNwGt21FRnTv0JidlNvKGRIBDBgF70SokY3yIqdPIerI03XxfSaVse6b6N
-        cxhKcHEIGqChRAkLHqUaRvN+hEuBXaI=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7789E13A66;
-        Mon,  6 Mar 2023 08:10:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id P9ajGwqgBWQDPQAAMHmgww
-        (envelope-from <jgross@suse.com>); Mon, 06 Mar 2023 08:10:50 +0000
-Message-ID: <453a66f5-5443-01a5-7161-8c888eea1957@suse.com>
-Date:   Mon, 6 Mar 2023 09:10:49 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH 7/7] xen: simplify sysctl registration for balloon
-Content-Language: en-US
-To:     Luis Chamberlain <mcgrof@kernel.org>, ebiederm@xmission.com,
-        keescook@chromium.org, yzaikin@google.com, jejb@linux.ibm.com,
-        martin.petersen@oracle.com, minyard@acm.org, kys@microsoft.com,
-        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-        song@kernel.org, robinmholt@gmail.com, steve.wahl@hpe.com,
-        mike.travis@hpe.com, arnd@arndb.de, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, sstabellini@kernel.org,
-        oleksandr_tyshchenko@epam.com, xen-devel@lists.xenproject.org
-Cc:     j.granados@samsung.com, zhangpeng362@huawei.com,
-        tangmeng@uniontech.com, willy@infradead.org, nixiaoming@huawei.com,
-        sujiaxun@uniontech.com, patches@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, apparmor@lists.ubuntu.com,
-        linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-hyperv@vger.kernel.org,
+        Mon, 6 Mar 2023 10:27:11 -0500
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F090340CB;
+        Mon,  6 Mar 2023 07:27:10 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id j2so9210391wrh.9;
+        Mon, 06 Mar 2023 07:27:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678116429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WjzbTdN7CLD76LwUYgSQFGlrkv+uCLMJlqFIMmRORpA=;
+        b=2EUxB7rhuYb6ii74TXs9YxpCJfySTXuBhpC00xi2g2Tl/LKcr0u9Gh6OjOA8oldIWm
+         Lw703w6B1qzrGyPBhPf8iBBgv1HVPnMh9jfcg3j0t3OUzrKpwzLv1dqjaisbRwHAYGSW
+         wYNLJ4gQQcUb4/vmh7WEEIcloNRTZsKn+wBCQOnSApgMEs2UHBk0eWUKqtz8OXuZGKuA
+         BzvEFRHctI0x1VBvTC81BQkLNFM+tdLdQiJ6zp2kSI/3aGe8368MDS740BPhLgQ12qXj
+         0FpHtsTrpwiDjoTE3C6nL7fusulh7SN/6ulOjc7FvCvckC1B9086DLwqq7hFqptf6eOQ
+         WrcA==
+X-Gm-Message-State: AO0yUKWGBHuyX1P1LV1bgoz7eY99SoIykUcj0mjyVRYY4DrF42RVupL4
+        0loLf8b2rTaDprlKZq3BqsQ=
+X-Google-Smtp-Source: AK7set8sLVDUwT8GQGScn0gVSp+FOGcmG6WKTOjmYMNL/6orgxuEwPFL/9jsyQwuVKKF6cXajJRglg==
+X-Received: by 2002:adf:eb4b:0:b0:2c6:e744:cf71 with SMTP id u11-20020adfeb4b000000b002c6e744cf71mr6185222wrn.52.1678116429360;
+        Mon, 06 Mar 2023 07:27:09 -0800 (PST)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id r1-20020a056000014100b002c5534db60bsm10414947wrx.71.2023.03.06.07.27.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Mar 2023 07:27:08 -0800 (PST)
+Date:   Mon, 6 Mar 2023 15:27:03 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     ebiederm@xmission.com, keescook@chromium.org, yzaikin@google.com,
+        jejb@linux.ibm.com, martin.petersen@oracle.com, minyard@acm.org,
+        kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, song@kernel.org, robinmholt@gmail.com,
+        steve.wahl@hpe.com, mike.travis@hpe.com, arnd@arndb.de,
+        gregkh@linuxfoundation.org, jirislaby@kernel.org, jgross@suse.com,
+        sstabellini@kernel.org, oleksandr_tyshchenko@epam.com,
+        xen-devel@lists.xenproject.org, j.granados@samsung.com,
+        zhangpeng362@huawei.com, tangmeng@uniontech.com,
+        willy@infradead.org, nixiaoming@huawei.com, sujiaxun@uniontech.com,
+        patches@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+        apparmor@lists.ubuntu.com, linux-raid@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
         openipmi-developer@lists.sourceforge.net,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/7] hv: simplify sysctl registration
+Message-ID: <ZAYGR4DFQrjZVpC5@liuwe-devbox-debian-v2>
 References: <20230302204612.782387-1-mcgrof@kernel.org>
- <20230302204612.782387-8-mcgrof@kernel.org>
-From:   Juergen Gross <jgross@suse.com>
-In-Reply-To: <20230302204612.782387-8-mcgrof@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------cK08nbi0V3641a7DHkBg1e2W"
+ <20230302204612.782387-4-mcgrof@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230302204612.782387-4-mcgrof@kernel.org>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------cK08nbi0V3641a7DHkBg1e2W
-Content-Type: multipart/mixed; boundary="------------DF6mDcbQeAPh0wqxZibFzCd0";
- protected-headers="v1"
-From: Juergen Gross <jgross@suse.com>
-To: Luis Chamberlain <mcgrof@kernel.org>, ebiederm@xmission.com,
- keescook@chromium.org, yzaikin@google.com, jejb@linux.ibm.com,
- martin.petersen@oracle.com, minyard@acm.org, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- song@kernel.org, robinmholt@gmail.com, steve.wahl@hpe.com,
- mike.travis@hpe.com, arnd@arndb.de, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, sstabellini@kernel.org, oleksandr_tyshchenko@epam.com,
- xen-devel@lists.xenproject.org
-Cc: j.granados@samsung.com, zhangpeng362@huawei.com, tangmeng@uniontech.com,
- willy@infradead.org, nixiaoming@huawei.com, sujiaxun@uniontech.com,
- patches@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-raid@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Message-ID: <453a66f5-5443-01a5-7161-8c888eea1957@suse.com>
-Subject: Re: [PATCH 7/7] xen: simplify sysctl registration for balloon
-References: <20230302204612.782387-1-mcgrof@kernel.org>
- <20230302204612.782387-8-mcgrof@kernel.org>
-In-Reply-To: <20230302204612.782387-8-mcgrof@kernel.org>
+On Thu, Mar 02, 2023 at 12:46:08PM -0800, Luis Chamberlain wrote:
+> register_sysctl_table() is a deprecated compatibility wrapper.
+> register_sysctl() can do the directory creation for you so just use
+> that.
+> 
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
 
---------------DF6mDcbQeAPh0wqxZibFzCd0
-Content-Type: multipart/mixed; boundary="------------MsaV4p6uFuvvpR0Tnh9bv8Z8"
-
---------------MsaV4p6uFuvvpR0Tnh9bv8Z8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-T24gMDIuMDMuMjMgMjE6NDYsIEx1aXMgQ2hhbWJlcmxhaW4gd3JvdGU6DQo+IHJlZ2lzdGVy
-X3N5c2N0bF90YWJsZSgpIGlzIGEgZGVwcmVjYXRlZCBjb21wYXRpYmlsaXR5IHdyYXBwZXIu
-DQo+IHJlZ2lzdGVyX3N5c2N0bF9pbml0KCkgY2FuIGRvIHRoZSBkaXJlY3RvcnkgY3JlYXRp
-b24gZm9yIHlvdSBzbyBqdXN0DQo+IHVzZSB0aGF0Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTog
-THVpcyBDaGFtYmVybGFpbiA8bWNncm9mQGtlcm5lbC5vcmc+DQoNClJldmlld2VkLWJ5OiBK
-dWVyZ2VuIEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+DQoNCg0KSnVlcmdlbg0KDQo=
---------------MsaV4p6uFuvvpR0Tnh9bv8Z8
-Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-jR/i1DG86lem3iBDXzXsZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
-
---------------MsaV4p6uFuvvpR0Tnh9bv8Z8--
-
---------------DF6mDcbQeAPh0wqxZibFzCd0--
-
---------------cK08nbi0V3641a7DHkBg1e2W
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmQFoAoFAwAAAAAACgkQsN6d1ii/Ey/O
-cQf/UgUlm7Jf2BZLvJhuDsq9O+IW6Npn1h2rQdo60ZYboq1o5TQYMejnC1JeUpLLrC4U2R6d5miv
-5qdjYRtM6HEuoeibfi+fZQsn1QOhlIo42hVx1l2pCW4EMasDGDYyYiHBz9knt8nEXXBKNVejiIWK
-vHTAI9eelFBkaCs4VWAYByv/g5A2LZ3k4FIi1Ns6qYztfXY2wGEh2D2usSG9qqTh3uGXbf4+wrLZ
-n+iGnhXZhK9sScOuypGb94iOCUNHFBo/F0gtDqyIIXvqR50NvxOcZWx5HVH8PJOoMcsfLRQ/K2us
-rQKj/rLlj+U4DbCEmuCSdLIV9MJ+iqfEiRlC8ppxEg==
-=b1HF
------END PGP SIGNATURE-----
-
---------------cK08nbi0V3641a7DHkBg1e2W--
+Reviewed-by: Wei Liu <wei.liu@kernel.org>
