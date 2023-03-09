@@ -2,45 +2,45 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09593C6FD1C
-	for <linux-hyperv@archiver.kernel.org>; Thu,  9 Mar 2023 02:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACF34C678D5
+	for <linux-hyperv@archiver.kernel.org>; Thu,  9 Mar 2023 02:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbjCICod (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 8 Mar 2023 21:44:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45690 "EHLO
+        id S230123AbjCICpR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 8 Mar 2023 21:45:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230041AbjCICoK (ORCPT
+        with ESMTP id S230159AbjCICob (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 8 Mar 2023 21:44:10 -0500
-Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-cusazlp170100000.outbound.protection.outlook.com [IPv6:2a01:111:f403:c111::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B116D4624;
-        Wed,  8 Mar 2023 18:42:33 -0800 (PST)
+        Wed, 8 Mar 2023 21:44:31 -0500
+Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azon11021016.outbound.protection.outlook.com [52.101.57.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92E321A965;
+        Wed,  8 Mar 2023 18:43:04 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ctFP6jEv55rOifZXC1RocdCttjc2isoRcSPEhOkyKNMLjbXeuIUPrgV1xySyYKuFBhtlm7VI5MVRUAhKze3aWPQeg3cPZguuu7y9KmqRJDBBcSoLh3Cpb7wucMREvCOejCkdlHQPtLc/Qmb6fOMH2Acf2tiQFZwjlNTiOBoKdJInlDejUyPzf1dk3dKyGsAzY1qmkJErmO08K/kXWeAynt1wZjP+j6Gb85gdqimEYeDktuaAy4e7hGVBgl27WmZKAcq2ge65HtjpyS3W+iWIgzVc0hy66rf9eNtKBz3hsMZaAz7wS7I/LFQ7GUbeCJisz+kfSxsqSpXH+N9EtJEKVA==
+ b=b5991xDbNQtM+EWX/DUFsfP+/NCkSEGzZ0zPrAI0JpA3CXGxAN2xHJ4tO/Bx9P8HDFXt7woHgd6D/ZkNuk4q9PdL7rqluXYfvcVnp3G49SBeo/SMIk6+IDLF/Mjc0+ijiQR4N1bmrjpSPMCnToCfvJJQVK5q4WJ2neghewMO7z3y5MhTB/ywI5y9N6yQSr3S64r8vG4GFyyNwEFIFLASJq929GdomAnS7NG8gDhF45Y07I1bnjeKDlnl/0Exqo/oMvqr5jqDuCMmHyc6RUoj1/qcWXU2ZfAaJIUO1W25uZolXRZa462765taEErtJPt7EljhjFN2AlPHJiV4e4TK8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hUK0Dt9X7UjZw6PR2H6wPn9q+516BXWRDrkS9bV3108=;
- b=HCo1r9LexJvLaxxk1LM+mkgTuSNULx7oaUDMC1Z52UccawDXl5MHr2hptxF2Wm/wQKKspYhVwPUSnv//S4JwxyRcVPN0z2Tc8KSOM5ho3a3PzfE4T/ve/cZpW0zjGmREp4F2pAWNtnc+Dwr+LReBxkvfs9MW4KIwu5SKTUaMNyH2XlFbcxfsv+vaMwk2sdAI8AlT73Gwu3YhKk8yfvkYljx1sajxNnqoTU+c2mk0F7vJTLWKAXhYqsH/w2OpZYaHSPG55vFZsTWJ65YJ7t93MMgapGfdnqLK59weUMvN5FlPscBUi6oYpxSd2KzUOj091IQ0pAF2aXh+sx73d38Bgg==
+ bh=vEuH5Ee28VRY5Qrxd7yqx/QGPvZZfqnOwBt4Yd6S1g0=;
+ b=nwKVCOevDj6yEhLvlGdq3GtO9GKR+aHZTBzmu7QZQjLHFF4RTG6G5sPDxCkZQ5jeQBKKC4E0bAQ62pz7z2IJ6Oew1e8DWP2b7FwbiIQtj1gvMHXWyVNfRHuqT01YzCFD3/QqW2bnqntmk9CD8UGvlffzvJt0ZMA/6t21l6qSzDd49d2supNxP9PnyZpnQrRvkiA3fviXkb4ZVfHwuZUSAe485+V8nUxH8/BkCRYivFTbmedH/9Mevwz62pU6GC0AJNCMZWNUjJkISosSacKC5oLJ3F5cDgOvhU4hI9VwLaYxWow9NazmOdBzNTJXeopJ9NguNlZEyh1Q4Fi+5JYMWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hUK0Dt9X7UjZw6PR2H6wPn9q+516BXWRDrkS9bV3108=;
- b=FT0r9aPlxlBRoaIjAPwGC6/bljHmXWw7Vl2c/o1sDHMb8Qyfhlgsm4THKsnw/lsYpSG1tDOsL8HEO7WeD7d1zfc2+57W9jIpBdTQIGQLBnpC1NxBZcgxyhjsHqTnU+5FOe7ETRXQz5bdR1M6kM9OQFhJ5a6jt/L4jE3+haQYAew=
+ bh=vEuH5Ee28VRY5Qrxd7yqx/QGPvZZfqnOwBt4Yd6S1g0=;
+ b=GAMY7Q4Wuve3YtenDG36mLiUNeLUf7kkuw4FL6HaqZaLk1ur3U0qfUISV51zCEUIiaBaKvtKjV3xpA8EB1MzBsF55CLz2c0DpU4adXUFnznZSzQFc9eJkqycUDlvlVtBoSbuZ+6KDj6cuLBr+FI7e3xLQQjkMHYN+3MdX7x+L+c=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
- by MW4PR21MB1985.namprd21.prod.outlook.com (2603:10b6:303:7a::6) with
+ by BL0PR2101MB1313.namprd21.prod.outlook.com (2603:10b6:208:92::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.18; Thu, 9 Mar
- 2023 02:42:05 +0000
+ 2023 02:41:51 +0000
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::caf1:81fb:4297:bf17]) by DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::caf1:81fb:4297:bf17%5]) with mapi id 15.20.6178.016; Thu, 9 Mar 2023
- 02:42:02 +0000
+ 02:41:51 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
@@ -59,9 +59,9 @@ To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
         iommu@lists.linux.dev
 Cc:     mikelley@microsoft.com
-Subject: [PATCH v6 13/13] PCI: hv: Enable PCI pass-thru devices in Confidential VMs
-Date:   Wed,  8 Mar 2023 18:40:14 -0800
-Message-Id: <1678329614-3482-14-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v6 08/13] Drivers: hv: vmbus: Remove second mapping of VMBus monitor pages
+Date:   Wed,  8 Mar 2023 18:40:09 -0800
+Message-Id: <1678329614-3482-9-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1678329614-3482-1-git-send-email-mikelley@microsoft.com>
 References: <1678329614-3482-1-git-send-email-mikelley@microsoft.com>
@@ -72,329 +72,234 @@ X-ClientProxiedBy: MW4P221CA0008.NAMP221.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|MW4PR21MB1985:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f579e31-8a87-4e96-a994-08db2047dce0
+X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|BL0PR2101MB1313:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc2e8e44-8a39-4129-925a-08db2047d63d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JoRMO4XM1dCgpCZJRnNJGSOohcbfdyKpMQ17fwQBFPg6SV34QP6/r7fW+8npyvGsYrZftLV9fr389UDzmpV3xKlG3LmvZgmHDWfFDVDih5+T406XDHfuCUfrF4MXBbGetllYEhJHoNZwdm2VOYY48JK3Nrdi+Zj5iqKJgbbcwxwquVx/kpN4JCqxXSoynYm228LE5d2UapL8i5xywuqHqtNe+OLfc2C4buN+BOY9jyVwBsiJKTh4LZxRCztSTDnn4mUNwGES6uCKxcjB/e2rvXQZgzI3LWT78S81hbO0B9DRPkfAb/DMianC8xtKLPgHxQJMgvtHNCo8u9a9bP6eaH+ON9GrmX7CVXJD4m5+BO6mmrkBO2KMq5iOOIrw91iRJjLB+kU1+8zFSi8jqEYLDtRAbD0J9jdruvPNegmlXy5VmlRzV4flK9bq+/CB0dGekiGKNl7+n8yiD8K6Z7TSTCSciYiLLcYB4x0XuNE4mocTuJKhO4Tnk2pv6+FR7QyBQ4H3qirJWgxUsVbKrlIoBmkrG0UavKPjzzpfWwXRr3mTxJSSCN6LBgHGFMb13yGCswrwk3T5087dVmXUOOlt9WJ5rGs7h564KCGLYr47B0vR5jtRAidodRJt3fD9H2irO4SdPw0jH5fy6xWMgKTsqmEr8uvrRxuHvGx1QjbWgCAxadF3MZvo9Rn52Kd2N4BdiCnLz3MyNI6CipgrXdgwvfKM6CVcXH0d8ggpUwHLBrVGXtOX5mL+XqNl7tCLW51I
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(366004)(136003)(396003)(376002)(39860400002)(451199018)(82950400001)(82960400001)(83380400001)(36756003)(38350700002)(10290500003)(478600001)(107886003)(921005)(38100700002)(316002)(6486002)(2616005)(6506007)(6666004)(966005)(6512007)(52116002)(26005)(186003)(7416002)(7406005)(5660300002)(66946007)(41300700001)(66476007)(8936002)(2906002)(4326008)(66556008)(8676002)(86362001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: X1wtHL5FFRo0lzKZR6M5yeLp/3vjYSyZbCmfCLL+Mwh6zI+UFvLeuDCG3DHT7M48lRqfsDXiwf0US+Na1bAj874GGZlsVPnmpBWrGhN00uHbs/nUe4hqCjOsi5BKfxHFRqlsjW51tOhK/+EWqrpO5o5nBU+n+FxmUhGW865dGQYVpfcXWrhdizxRAu7/DDy40m8hOvWKa9gtPD9vlCHpw++i+GH5CsVYjfUCR35mB0CpcTvqZloSKpJdl3zxr9ybmRhnWhV4bRiKS+BXDbUvvb9nQSIXCnicHKh8RV91j5qIvgiCkodM0B+8i3LQJMMpgWupnzS/KjI22dU4cHX3DPKnmhXYXSMiSPEGVUr+BI2nsjF9vowacqzCm82KrzJ+IT4Az0eyLvMeMvB6GLquls4CWm43ZSuHnGGu2Hyfzi/ntHVI34sjSH3sQETyJkX72DpSj+rCawuJZIN/OOkgQobe4Ce0GS0p9PFedry9Sb3gYDwD05sH7NiRuk0od/1kdNA40iSsQWQNQ82o/Izm1u40qnuF9vdNDuYcLPOc3Hs6AvfKn+lNVTnhJRz+ssf95USaaPrtEsvKJUp2Q8oqHH8Ukl0PXlTC8kVgpS6y/8gaeWexFfl3G1i2e+jMxi7PfW1HWQ7kOgqZvrEa97z1//zRr3q0BYtaZXX4f2Fhkq59j+NWO8r3vHxTbxjDwG9xS/8TZ2tQTAH1TuIKKRSY43CG45Uq1tKkMs5XQQbMKIJUKC+sjVejq8SUXmiL/Iaa6qzUcGbmiXXxiX/kgu7h4Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(396003)(136003)(376002)(39860400002)(346002)(366004)(451199018)(82960400001)(82950400001)(83380400001)(36756003)(10290500003)(478600001)(921005)(316002)(38350700002)(38100700002)(2616005)(6486002)(6666004)(6506007)(6512007)(107886003)(26005)(186003)(7406005)(5660300002)(7416002)(41300700001)(52116002)(66476007)(66556008)(66946007)(2906002)(8936002)(8676002)(86362001)(4326008);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Rsap7eDLATwbBt+dv6cCRRQW0JHV1k5EjvviQwpe4CcwlOezGlVI2c86Cxfk?=
- =?us-ascii?Q?YNLfWKCilGsrp4VlVv1Q8aLgfqD6dlA1fJEpIAFJRZ1c/DQt+wf+hnqDWNm/?=
- =?us-ascii?Q?ivQGTnGCZ8dCdPIZBb9HnSnu8WnroFesrmn/az2VcJxcXL9PFo7b4SD4uOLj?=
- =?us-ascii?Q?UAtVi1/rgg48OFKOdZQmB4hIFLGJ6UlyyofuyjBgdnWy32dF/GVcR/LtJawy?=
- =?us-ascii?Q?ZKciJZH0+zLPwmOZ+u5yI643bMMRFvoOwZIH6OEBMmLnO4apA7BCt/munDEj?=
- =?us-ascii?Q?lrwYilrWZebvQHAELxdlS+/rbF0pVo1CxFWkWBKUkefm4fkJA0yffC5cJ/Ti?=
- =?us-ascii?Q?B7vBLglRUr5ZJgw/7zmONocIxx0ZpTGCwlTxtF7proX4MAxepM2DMYF/LNy1?=
- =?us-ascii?Q?opIVfk/WZq5Lm04O4L3EUq9zb1InD3Nl3Avu5y+03K9sWBHL1WV52oBSVijU?=
- =?us-ascii?Q?v3In2luozhpKy1ge2sYtoi6KnOZG9X83MS/GtG+F3ipdpaStcEBfSbnIKOQ3?=
- =?us-ascii?Q?kbCyMbb36cIIMH912s5okS1HABbw0KIqY2c+G4gvLuhxVecGhnuabbRvHW2Q?=
- =?us-ascii?Q?2oQFOfh11QZmG1mAzCUcPVZ3mwxxH4/ypYzvHahfXTIxwQcdF1Foxe0a0Ga2?=
- =?us-ascii?Q?tMoJ2vBaUec5u7d+KMOrCWBW/Ef14jYufiRvlXZypHm0sNmqdcODyS2Uv4p/?=
- =?us-ascii?Q?6Eb7zCCuWItMbPgidLTkAGP9oE1UcPFyhTmdz+KTSs5ID9DwJAGiFsSBIizF?=
- =?us-ascii?Q?s9qgszt1A9s3lg614foG2f+MDdquImQiLfAa/nhcYaZ96CcS4+CKZ9tRxhWb?=
- =?us-ascii?Q?2fKVwnNyqjKLxV2w5MpUxYzwx0VIYkNfNq9JUu9PgF9w9zJw1rKjEnib3DLi?=
- =?us-ascii?Q?QZZ2UarB1BP7LEyAGkP8kEqiACTML//gaPo+e+pfUiL27oJmP5PDlzXTWpDq?=
- =?us-ascii?Q?TcZ0f4XJIegvVqTBG1YCzjgDBoxn1mTuV43ZggqgymHU3gksVmwOcFb03H+d?=
- =?us-ascii?Q?Fh+zI65J+kP+D0baHHIordH9+ZyoYSObdrnWKkUeRu56ifBdqEjhT2GFzaGR?=
- =?us-ascii?Q?KKVOmuWWfgzFxYt1L3GEoCo9IWXJ2BcrBr07/ZkHlsqdP8UrVawpj4ObHsRW?=
- =?us-ascii?Q?mTXXUA/V9nk7+TSeMFC6NFLy3LP4mzeaQx4S6WNEMjrM09n02BhRGLyFEBJU?=
- =?us-ascii?Q?gYb2VUrjEIhBeI35h+5Cew67Vvm3hIyvFKw6pfJbKWAlU5SuzxaVXCcnI4UO?=
- =?us-ascii?Q?XtFbgOz7rgQf5dtieGt+M+hHI2da19gXI1ZnGfn+T66xaTTT6MzpwRmkTGxP?=
- =?us-ascii?Q?A9NEDCBn1jND2vgPbBDt4WBqkCKhG080s3bwWtaw2u3OwZZm9UVJzn09XwaU?=
- =?us-ascii?Q?T+lMH6wm4y34CtrisA+heviKq7AR8Q9GeGhY6HTsdUeJ4fl1kJ8umZidtF1W?=
- =?us-ascii?Q?YwxVMTjKPjlnItPaFrEo6L/WJmTjxJDZc0NKIvIsiGfViIh3g+18DWCeZp1N?=
- =?us-ascii?Q?Yc1ZFfXVQGhQV6UaHgG8jbhgVXoAbTP0JcJb4U71fsfVs5v8+x/KhmB/amBv?=
- =?us-ascii?Q?MUDKFPZ9BbNeSsk86CdCQBpTDaE+MJ+Fm3HcVNteQ05Mbyjvxj40cSpWgjvw?=
- =?us-ascii?Q?TA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?559SJ55jmfi5YkHcVc2E236qXtCIyy2YlqF6Taf8TpYKhVXIzlttc78XN+WP?=
+ =?us-ascii?Q?xBI+/8dpmGhEEl/Fqld+XzILfkgESHJHVn254YSaGxKLr4ThSI/gU06Y49MZ?=
+ =?us-ascii?Q?jvqy4DoOvZ53ps777YUWZ0hdGEaxiYjaOV8HUGu5dPdHC77sa+yUbU053q45?=
+ =?us-ascii?Q?LMFxw++xy83madSk9eTuQa8DqoH3KE3aZR42UDRYvsGcCpubKbNdRzdU6tmE?=
+ =?us-ascii?Q?pTuFY1cy4BSblaMi7hNsmtauPgQY1vPDc9gl+LbLOlVBDabWOVWjyrx3Kl0A?=
+ =?us-ascii?Q?DZMVmv4Ci7fNUGINbGX9SQPf+isYsN0hnS05c3uyfGFU5zenJGoJtASkGSgh?=
+ =?us-ascii?Q?4EOYqWWT35S1v1pIqP5YZYhD7GjIEWIdMtR6Hu5uipHcB5KrOZJTygjoUG9t?=
+ =?us-ascii?Q?DzjMULulPI3N82Hvb99w3z7tmIZoQi8ny7FQiL3rFN+xkRyzhuAGvV21EQ9b?=
+ =?us-ascii?Q?r3k+ayMeCEPmYtmBlykQzdrMjCojOxDPT9bOhJk9qZyjszNw3huwXnDUq47R?=
+ =?us-ascii?Q?RB8gj3n3GKA0XKyxi+Ioz08j/30xwMpgVqapcr4EvnMAXs9G8GPyPJyv3Vve?=
+ =?us-ascii?Q?PwKg4kc6rQFedKJxHaLvpy+MytMXdA8I8jN+UQWbcVfa6juv1JFInJdIZ+ZX?=
+ =?us-ascii?Q?GEynuuVsr9ymAafhvt0yzcnT/g+tio1CY3EVi2JeOwkhZqjv0ZP3Yhi4Yrp0?=
+ =?us-ascii?Q?v0/JMEzVZCKet/6cnqvttoCJuynOrEhiIiQ0ypLqh7FJSz3L3lG8nv1AiRQ+?=
+ =?us-ascii?Q?eFsD1d/+LH/C8bBPgaYWxoqPKzpeVMw7Xb/soywMwWUaeosoPPiJAkBjnSTK?=
+ =?us-ascii?Q?M3pYymTNc9hy5zSJj+Hm4RyxQsoTZKJu37g5qmHjFcKnnicb68kNx08jCCIJ?=
+ =?us-ascii?Q?oleJx1x/cWrRTuHn9hm/A7zdLkjtOb20Of7Odyc18Iw8H+eHnZKwPP4/LvC8?=
+ =?us-ascii?Q?ti5NterzHY8jmyEwaHOVxSXVk0W8rrk9sedVwgANz5icPP6PzovD6PFBO2+H?=
+ =?us-ascii?Q?cd92qKEv2C3kcGm6J7EJvnhHYBhYO1TbALJogo0g5HQGzZHt+RezyHbZF/TD?=
+ =?us-ascii?Q?LqjW/Cc77EliybWy6/r1I7Hc2PyAtwoT5Zu5qTs3kl0Yw8MiY0G4VPK6SUdf?=
+ =?us-ascii?Q?DfBnTK4oBvmOMtY2VSHhlfcBEGRHRrJQGdrQzP0MOh1i7AMhp5UBb1qbaadY?=
+ =?us-ascii?Q?DCiDt2cH42PYQTFTDg6OHiJ8LVKgtvfTID3TzJq63rAd5GiwVSKGGS6QKxEd?=
+ =?us-ascii?Q?mlNDCsaG4MkHJj2A3fwtvNk0BRGJrM2Nk1f+NdqYMgPysecM8mgF4jooF+0a?=
+ =?us-ascii?Q?Osh6t/YB3ayYZWLiT095LeK4+r9+9yMiVVnqV6gBn2106hLeUdXEZk6f2YKh?=
+ =?us-ascii?Q?HUbrn4E6p4cyKFYOkjs8RuVpaeP0jC/zLeSqt+25Xy/x3l0qFy+DLdUtwGd0?=
+ =?us-ascii?Q?TDTrSTw3I6fvC6TSOY311tFi4ZG4qaJUBm39YIpzyNSeaG0zsavx9G1QpekP?=
+ =?us-ascii?Q?9DWeEMGxBNipz16Qv/+JKlaXNWYDHxgNo5jDCKHPlevvn70/GQm/KOrv1z4n?=
+ =?us-ascii?Q?SCmF/aoI0+BCEt4QtraKdCb9FXCbQJTCMBYW9PgXFmf2vUXsF1ZyGPFHmdWA?=
+ =?us-ascii?Q?hA=3D=3D?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f579e31-8a87-4e96-a994-08db2047dce0
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc2e8e44-8a39-4129-925a-08db2047d63d
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 02:42:02.5409
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2023 02:41:51.4069
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zmeg3N7UOHNYvTDVNqpNzDXzG54oLE3cb/YRysif1XavwoBGvaBr8HNXyl6pqEc6mMqtwnB0z+Ztz2rNkpMAxQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB1985
+X-MS-Exchange-CrossTenant-UserPrincipalName: bfpMAdilGI0VoPFDCL8S/rm660NZHcCoeacVyibX23PD6jPIxwGQ7C2XGY3U5Ept4m7GNtVX7rE6GpOHU9tYGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR2101MB1313
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For PCI pass-thru devices in a Confidential VM, Hyper-V requires
-that PCI config space be accessed via hypercalls.  In normal VMs,
-config space accesses are trapped to the Hyper-V host and emulated.
-But in a confidential VM, the host can't access guest memory to
-decode the instruction for emulation, so an explicit hypercall must
-be used.
+With changes to how Hyper-V guest VMs flip memory between private
+(encrypted) and shared (decrypted), creating a second kernel virtual
+mapping for shared memory is no longer necessary.  Everything needed
+for the transition to shared is handled by set_memory_decrypted().
 
-Update the PCI config space access functions to use the hypercalls
-when such use is indicated by Hyper-V flags.  Also, set the flag to
-allow the Hyper-V PCI driver to be loaded and used in a Confidential
-VM (a.k.a., "Isolation VM").  The driver has previously been hardened
-against a malicious Hyper-V host[1].
+As such, remove the code to create and manage the second
+mapping for VMBus monitor pages. Because set_memory_decrypted()
+and set_memory_encrypted() are no-ops in normal VMs, it's
+not even necessary to test for being in a Confidential VM
+(a.k.a., "Isolation VM").
 
-[1] https://lore.kernel.org/all/20220511223207.3386-2-parri.andrea@gmail.com/
-
-Co-developed-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+Reviewed-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- drivers/hv/channel_mgmt.c           |   2 +-
- drivers/pci/controller/pci-hyperv.c | 168 ++++++++++++++++++++++--------------
- 2 files changed, 105 insertions(+), 65 deletions(-)
+ drivers/hv/connection.c   | 113 ++++++++++++----------------------------------
+ drivers/hv/hyperv_vmbus.h |   2 -
+ 2 files changed, 28 insertions(+), 87 deletions(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index cc23b90..007f26d 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -67,7 +67,7 @@
- 	{ .dev_type = HV_PCIE,
- 	  HV_PCIE_GUID,
- 	  .perf_device = false,
--	  .allowed_in_isolated = false,
-+	  .allowed_in_isolated = true,
- 	},
- 
- 	/* Synthetic Frame Buffer */
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index d78a419..337f3b4 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -514,6 +514,7 @@ struct hv_pcibus_device {
- 
- 	/* Highest slot of child device with resources allocated */
- 	int wslot_res_allocated;
-+	bool use_calls; /* Use hypercalls to access mmio cfg space */
- 
- 	/* hypercall arg, must not cross page boundary */
- 	struct hv_retarget_device_interrupt retarget_msi_interrupt_params;
-@@ -1123,8 +1124,10 @@ static void hv_pci_write_mmio(struct device *dev, phys_addr_t gpa, int size, u32
- static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 				     int size, u32 *val)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
- 
- 	/*
- 	 * If the attempt is to read the IDs or the ROM BAR, simulate that.
-@@ -1152,56 +1155,79 @@ static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 		 */
- 		*val = 0;
- 	} else if (where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be read. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start reading. */
--		mb();
--		/* Read from that function's config space. */
--		switch (size) {
--		case 1:
--			*val = readb(addr);
--			break;
--		case 2:
--			*val = readw(addr);
--			break;
--		default:
--			*val = readl(addr);
--			break;
-+
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_read_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to be read. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before reading. */
-+			mb();
-+			/* Read from that function's config space. */
-+			switch (size) {
-+			case 1:
-+				*val = readb(addr);
-+				break;
-+			case 2:
-+				*val = readw(addr);
-+				break;
-+			default:
-+				*val = readl(addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the read was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the read was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to read beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to read beyond a function's config space.\n");
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index da51b50..5978e9d 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -104,8 +104,14 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ 		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID;
  	}
- }
  
- static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	u32 val;
- 	u16 ret;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET +
--			     PCI_VENDOR_ID;
+-	msg->monitor_page1 = vmbus_connection.monitor_pages_pa[0];
+-	msg->monitor_page2 = vmbus_connection.monitor_pages_pa[1];
++	/*
++	 * shared_gpa_boundary is zero in non-SNP VMs, so it's safe to always
++	 * bitwise OR it
++	 */
++	msg->monitor_page1 = virt_to_phys(vmbus_connection.monitor_pages[0]) |
++				ms_hyperv.shared_gpa_boundary;
++	msg->monitor_page2 = virt_to_phys(vmbus_connection.monitor_pages[1]) |
++				ms_hyperv.shared_gpa_boundary;
  
--	spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
-+	spin_lock_irqsave(&hbus->config_lock, flags);
+ 	msg->target_vcpu = hv_cpu_number_to_vp_number(VMBUS_CONNECT_CPU);
  
--	/* Choose the function to be read. (See comment above) */
--	writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--	/* Make sure the function was chosen before we start reading. */
--	mb();
--	/* Read from that function's config space. */
--	ret = readw(addr);
--	/*
--	 * mb() is not required here, because the spin_unlock_irqrestore()
--	 * is a barrier.
--	 */
-+	if (hbus->use_calls) {
-+		phys_addr_t addr = hbus->mem_config->start +
-+					 CFG_PAGE_OFFSET + PCI_VENDOR_ID;
-+
-+		hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+					hpdev->desc.win_slot.slot);
-+		hv_pci_read_mmio(dev, addr, 2, &val);
-+		ret = val;  /* Truncates to 16 bits */
-+	} else {
-+		void __iomem *addr = hbus->cfg_addr + CFG_PAGE_OFFSET +
-+					     PCI_VENDOR_ID;
-+		/* Choose the function to be read. (See comment above) */
-+		writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+		/* Make sure the function was chosen before we start reading. */
-+		mb();
-+		/* Read from that function's config space. */
-+		ret = readw(addr);
-+		/*
-+		 * mb() is not required here, because the
-+		 * spin_unlock_irqrestore() is a barrier.
-+		 */
-+	}
- 
--	spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+	spin_unlock_irqrestore(&hbus->config_lock, flags);
- 
- 	return ret;
- }
-@@ -1216,39 +1242,51 @@ static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
- static void _hv_pcifront_write_config(struct hv_pci_dev *hpdev, int where,
- 				      int size, u32 val)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
- 
- 	if (where >= PCI_SUBSYSTEM_VENDOR_ID &&
- 	    where + size <= PCI_CAPABILITY_LIST) {
- 		/* SSIDs and ROM BARs are read-only */
- 	} else if (where >= PCI_COMMAND && where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be written. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start writing. */
--		wmb();
--		/* Write to that function's config space. */
--		switch (size) {
--		case 1:
--			writeb(val, addr);
--			break;
--		case 2:
--			writew(val, addr);
--			break;
--		default:
--			writel(val, addr);
--			break;
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_write_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to write. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before writing. */
-+			wmb();
-+			/* Write to that function's config space. */
-+			switch (size) {
-+			case 1:
-+				writeb(val, addr);
-+				break;
-+			case 2:
-+				writew(val, addr);
-+				break;
-+			default:
-+				writel(val, addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the write was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the write was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to write beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to write beyond a function's config space.\n");
- 	}
- }
- 
-@@ -3627,6 +3665,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	hbus->bridge->domain_nr = dom;
- #ifdef CONFIG_X86
- 	hbus->sysdata.domain = dom;
-+	hbus->use_calls = !!(ms_hyperv.hints & HV_X64_USE_MMIO_HYPERCALLS);
- #elif defined(CONFIG_ARM64)
- 	/*
- 	 * Set the PCI bus parent to be the corresponding VMbus
-@@ -3636,6 +3675,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	 * information to devices created on the bus.
+@@ -219,72 +225,27 @@ int vmbus_connect(void)
+ 	 * Setup the monitor notification facility. The 1st page for
+ 	 * parent->child and the 2nd page for child->parent
  	 */
- 	hbus->sysdata.parent = hdev->device.parent;
-+	hbus->use_calls = false;
- #endif
+-	vmbus_connection.monitor_pages[0] = (void *)hv_alloc_hyperv_zeroed_page();
+-	vmbus_connection.monitor_pages[1] = (void *)hv_alloc_hyperv_zeroed_page();
++	vmbus_connection.monitor_pages[0] = (void *)hv_alloc_hyperv_page();
++	vmbus_connection.monitor_pages[1] = (void *)hv_alloc_hyperv_page();
+ 	if ((vmbus_connection.monitor_pages[0] == NULL) ||
+ 	    (vmbus_connection.monitor_pages[1] == NULL)) {
+ 		ret = -ENOMEM;
+ 		goto cleanup;
+ 	}
  
- 	hbus->hdev = hdev;
+-	vmbus_connection.monitor_pages_original[0]
+-		= vmbus_connection.monitor_pages[0];
+-	vmbus_connection.monitor_pages_original[1]
+-		= vmbus_connection.monitor_pages[1];
+-	vmbus_connection.monitor_pages_pa[0]
+-		= virt_to_phys(vmbus_connection.monitor_pages[0]);
+-	vmbus_connection.monitor_pages_pa[1]
+-		= virt_to_phys(vmbus_connection.monitor_pages[1]);
+-
+-	if (hv_is_isolation_supported()) {
+-		ret = set_memory_decrypted((unsigned long)
+-					   vmbus_connection.monitor_pages[0],
+-					   1);
+-		ret |= set_memory_decrypted((unsigned long)
+-					    vmbus_connection.monitor_pages[1],
+-					    1);
+-		if (ret)
+-			goto cleanup;
+-
+-		/*
+-		 * Isolation VM with AMD SNP needs to access monitor page via
+-		 * address space above shared gpa boundary.
+-		 */
+-		if (hv_isolation_type_snp()) {
+-			vmbus_connection.monitor_pages_pa[0] +=
+-				ms_hyperv.shared_gpa_boundary;
+-			vmbus_connection.monitor_pages_pa[1] +=
+-				ms_hyperv.shared_gpa_boundary;
+-
+-			vmbus_connection.monitor_pages[0]
+-				= memremap(vmbus_connection.monitor_pages_pa[0],
+-					   HV_HYP_PAGE_SIZE,
+-					   MEMREMAP_WB);
+-			if (!vmbus_connection.monitor_pages[0]) {
+-				ret = -ENOMEM;
+-				goto cleanup;
+-			}
+-
+-			vmbus_connection.monitor_pages[1]
+-				= memremap(vmbus_connection.monitor_pages_pa[1],
+-					   HV_HYP_PAGE_SIZE,
+-					   MEMREMAP_WB);
+-			if (!vmbus_connection.monitor_pages[1]) {
+-				ret = -ENOMEM;
+-				goto cleanup;
+-			}
+-		}
+-
+-		/*
+-		 * Set memory host visibility hvcall smears memory
+-		 * and so zero monitor pages here.
+-		 */
+-		memset(vmbus_connection.monitor_pages[0], 0x00,
+-		       HV_HYP_PAGE_SIZE);
+-		memset(vmbus_connection.monitor_pages[1], 0x00,
+-		       HV_HYP_PAGE_SIZE);
++	ret = set_memory_decrypted((unsigned long)
++				vmbus_connection.monitor_pages[0], 1);
++	ret |= set_memory_decrypted((unsigned long)
++				vmbus_connection.monitor_pages[1], 1);
++	if (ret)
++		goto cleanup;
+ 
+-	}
++	/*
++	 * Set_memory_decrypted() will change the memory contents if
++	 * decryption occurs, so zero monitor pages here.
++	 */
++	memset(vmbus_connection.monitor_pages[0], 0x00, HV_HYP_PAGE_SIZE);
++	memset(vmbus_connection.monitor_pages[1], 0x00, HV_HYP_PAGE_SIZE);
+ 
+ 	msginfo = kzalloc(sizeof(*msginfo) +
+ 			  sizeof(struct vmbus_channel_initiate_contact),
+@@ -376,31 +337,13 @@ void vmbus_disconnect(void)
+ 		vmbus_connection.int_page = NULL;
+ 	}
+ 
+-	if (hv_is_isolation_supported()) {
+-		/*
+-		 * memunmap() checks input address is ioremap address or not
+-		 * inside. It doesn't unmap any thing in the non-SNP CVM and
+-		 * so not check CVM type here.
+-		 */
+-		memunmap(vmbus_connection.monitor_pages[0]);
+-		memunmap(vmbus_connection.monitor_pages[1]);
+-
+-		set_memory_encrypted((unsigned long)
+-			vmbus_connection.monitor_pages_original[0],
+-			1);
+-		set_memory_encrypted((unsigned long)
+-			vmbus_connection.monitor_pages_original[1],
+-			1);
+-	}
++	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[0], 1);
++	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[1], 1);
+ 
+-	hv_free_hyperv_page((unsigned long)
+-		vmbus_connection.monitor_pages_original[0]);
+-	hv_free_hyperv_page((unsigned long)
+-		vmbus_connection.monitor_pages_original[1]);
+-	vmbus_connection.monitor_pages_original[0] =
+-		vmbus_connection.monitor_pages[0] = NULL;
+-	vmbus_connection.monitor_pages_original[1] =
+-		vmbus_connection.monitor_pages[1] = NULL;
++	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
++	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
++	vmbus_connection.monitor_pages[0] = NULL;
++	vmbus_connection.monitor_pages[1] = NULL;
+ }
+ 
+ /*
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index dc673ed..167ac51 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -241,8 +241,6 @@ struct vmbus_connection {
+ 	 * is child->parent notification
+ 	 */
+ 	struct hv_monitor_page *monitor_pages[2];
+-	void *monitor_pages_original[2];
+-	phys_addr_t monitor_pages_pa[2];
+ 	struct list_head chn_msg_list;
+ 	spinlock_t channelmsg_lock;
+ 
 -- 
 1.8.3.1
 
