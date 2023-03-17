@@ -2,86 +2,83 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74065C74A5B
-	for <linux-hyperv@archiver.kernel.org>; Thu, 16 Mar 2023 21:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55DE4C7618A
+	for <linux-hyperv@archiver.kernel.org>; Fri, 17 Mar 2023 08:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbjCPVZX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 16 Mar 2023 17:25:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50352 "EHLO
+        id S231432AbjCQILh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 17 Mar 2023 04:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229936AbjCPVZT (ORCPT
+        with ESMTP id S231384AbjCQILM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 16 Mar 2023 17:25:19 -0400
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A341EC88A7;
-        Thu, 16 Mar 2023 14:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-        s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-        References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lEtgciX7neRpN1XQOXz6KezY/vo1Oq9FDcCtCH4M8hQ=; b=MWExHWH9oA8T3OoibBzdZ5lRgb
-        Yf4ksNBBI2QcsKqAwWnIFmhjlEBibomydD7ehO40k+rMRCZF7MO2ZIf0NFk+eO21eE9fO0mkYEI9W
-        K8Hz7tdyAZOtl2cWPLXW//nnQfsYTTBaW5jqD2uzlf1Qnjl+L6yIXvKKFRrtYgdRP7xZ+r8HH5oUY
-        MRZV8sAQiJk7n85s4Cg+AaXQp2zSkePnEaQBbORAYIFMJ2fng0CiW7yoivGhLJ+W7/J25731VIOEx
-        4OaV+5UXnH8G0mvmPL6aYVkC3HKtIPjBZjnwUSUPESeYNmKtcQlxRnsTs2O+kHboLmGLCJo82pOw3
-        2yqAi7XA==;
-Received: from [152.254.169.34] (helo=[192.168.1.60])
-        by fanzine2.igalia.com with esmtpsa 
-        (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-        id 1pcv5j-00ERKN-7b; Thu, 16 Mar 2023 22:24:55 +0100
-Message-ID: <a1f40654-b3cf-5c77-561e-056f47cbff61@igalia.com>
-Date:   Thu, 16 Mar 2023 18:24:21 -0300
+        Fri, 17 Mar 2023 04:11:12 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8792D3099;
+        Fri, 17 Mar 2023 01:10:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id DA6C2B824B3;
+        Fri, 17 Mar 2023 08:10:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 881ECC433A1;
+        Fri, 17 Mar 2023 08:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679040619;
+        bh=hiuS3m/mLqXtP2cO1G1/mmRY4Gv9lYgpUPxVNeQtbnE=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=tQBRH5YkUfB5plPXmOkqf6mZnpby+Ko4xraNFuyhaXAMrD5XZVO8N1X6BjLTmyjE1
+         e3PB43eNUoZiCxB8a84CyCxPjKLLeuqG0SGiLPBt2dgBZ4lu+USmKCqlR2ksScO5mH
+         DfpLust+40YYYkFWu+rOrY1+sPPql2U8CceevG+oq42K13lG8NfV5USl+Mx7PVKH/9
+         fWWENH45IaxUxK17oQZ3omy/6GjZGJkXEtDMopXV9sbVq7B2VZ5KjHT+oxvIBprKlH
+         qrLbzP1514XDc3u6d2E4Pbyz5IXkHc43YAf7I03Wyut/Oi/nmPLJThK1i9Fk2zARtz
+         be9inMUAFJ48Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6858AE21EE9;
+        Fri, 17 Mar 2023 08:10:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2] x86/hyperv: Mark hv_ghcb_terminate() as noreturn
-Content-Language: en-US
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "jpoimboe@kernel.org" <jpoimboe@kernel.org>
-Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
-        "kernel@gpiccoli.net" <kernel@gpiccoli.net>,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20230310152442.cbrjise6uex4ak4x@treble>
- <20230310154452.1169204-1-gpiccoli@igalia.com>
- <BYAPR21MB16888EBB51D1597F9B9C212FD7BA9@BYAPR21MB1688.namprd21.prod.outlook.com>
-From:   "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <BYAPR21MB16888EBB51D1597F9B9C212FD7BA9@BYAPR21MB1688.namprd21.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] net: mana: Add new MANA VF performance counters for easier
+ troubleshooting
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <167904061942.2993.10225733131753794874.git-patchwork-notify@kernel.org>
+Date:   Fri, 17 Mar 2023 08:10:19 +0000
+References: <1678881313-20468-1-git-send-email-shradhagupta@linux.microsoft.com>
+In-Reply-To: <1678881313-20468-1-git-send-email-shradhagupta@linux.microsoft.com>
+To:     Shradha Gupta <shradhagupta@linux.microsoft.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        sharmaajay@microsoft.com, leon@kernel.org, tglx@linutronix.de,
+        bigeasy@linutronix.de, kys@microsoft.com, haiyangz@microsoft.com,
+        sthemmin@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        longli@microsoft.com, mikelley@microsoft.com
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 10/03/2023 18:17, Michael Kelley (LINUX) wrote:
-> [...]
-> Just curious:  Should the actual function also be updated with
-> __noreturn?   In similar situations, such as snp_abort(), the
-> __noreturn attribute is both places.   I don't know what the 
-> guidance is on this question.
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
+
+On Wed, 15 Mar 2023 04:55:13 -0700 you wrote:
+> Extended performance counter stats in 'ethtool -S <interface>' output
+> for MANA VF to facilitate troubleshooting.
 > 
+> Tested-on: Ubuntu22
+> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> ---
+> 
+> [...]
 
-Hi Michael / Josh (and all), lemme know if you want me to submit a V3
-doing that. The function is not called inside this own definition file
-nor exported, so I'm not sure that'd be necessary, but glad to do so if
-you prefer.
+Here is the summary with links:
+  - [v2] net: mana: Add new MANA VF performance counters for easier troubleshooting
+    https://git.kernel.org/netdev/net-next/c/bd7fc6e1957c
 
-Thanks,
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Guilherme
