@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B6E4C7618D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 10:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16768C6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 10:05:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjCTKEr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Mar 2023 06:04:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34238 "EHLO
+        id S230020AbjCTKF5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 20 Mar 2023 06:05:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbjCTKEb (ORCPT
+        with ESMTP id S230041AbjCTKFd (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Mar 2023 06:04:31 -0400
+        Mon, 20 Mar 2023 06:05:33 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 07814EA;
-        Mon, 20 Mar 2023 03:03:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79601244B3;
+        Mon, 20 Mar 2023 03:04:49 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id EB15520FAED2;
-        Mon, 20 Mar 2023 03:03:42 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EB15520FAED2
+        by linux.microsoft.com (Postfix) with ESMTPSA id 400B920FAEE0;
+        Mon, 20 Mar 2023 03:03:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 400B920FAEE0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1679306623;
-        bh=j33V+lRmdypNPo/5POd8iHHMbdWcF0C+HhIy3rM9JsQ=;
+        bh=m8jjVQgvGPJQeoOJeABcx5K8xClDg9B7AC1Hcldbrs8=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ESMBxJZYw40VCUfdJROv7RmM5GvMMN2gzq31Bg27l4d/egS9G9b0VRZHGOuKDuHBo
-         ffyGHGor7Mi/xlJfykXSuM+vU9sd+qeBuScV4MpVveGBZHjM13NTL91mUzQVBaWBgk
-         auJL0ulT2pGUmTtI6ebNIeYMM8KdL8rqfHuuNc6U=
+        b=MUoybISV2S+ERAmGjzyKq7Wdl8ucOSzVHudOtGJVcZepbSFWVn1W9upTtGRLgyA+k
+         lUdlObmhHMu870qd0yXxcBF6RwRxdfcy8Mef1FPL7upOnzKmm9y2Kr/Udy9DhA7gHo
+         uIeYdlneVs5pRJyWI9RXcS9yVCYrwt5oxiHyd3O4=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
@@ -33,9 +33,9 @@ To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         decui@microsoft.com, arnd@arndb.de, tiala@microsoft.com,
         mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v3 2/5] x86/hyperv: Add VTL specific structs and hypercalls
-Date:   Mon, 20 Mar 2023 03:03:35 -0700
-Message-Id: <1679306618-31484-3-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v3 5/5] x86/Kconfig: Add HYPERV_VTL_MODE
+Date:   Mon, 20 Mar 2023 03:03:38 -0700
+Message-Id: <1679306618-31484-6-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1679306618-31484-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1679306618-31484-1-git-send-email-ssengar@linux.microsoft.com>
@@ -43,129 +43,61 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add structs and hypercalls required to enable VTL support on x86.
+Add HYPERV_VTL_MODE Kconfig flag for VTL mode.
 
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h | 75 ++++++++++++++++++++++++++++++
- include/asm-generic/hyperv-tlfs.h  |  4 ++
- 2 files changed, 79 insertions(+)
+ arch/x86/Kconfig         | 24 ++++++++++++++++++++++++
+ arch/x86/hyperv/Makefile |  1 +
+ 2 files changed, 25 insertions(+)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 0b73a809e9e1..0b0b4e9a4318 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -713,6 +713,81 @@ union hv_msi_entry {
- 	} __packed;
- };
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 453f462f6c9c..c3faaaea1e31 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -782,6 +782,30 @@ menuconfig HYPERVISOR_GUEST
  
-+struct hv_x64_segment_register {
-+	__u64 base;
-+	__u32 limit;
-+	__u16 selector;
-+	union {
-+		struct {
-+			__u16 segment_type : 4;
-+			__u16 non_system_segment : 1;
-+			__u16 descriptor_privilege_level : 2;
-+			__u16 present : 1;
-+			__u16 reserved : 4;
-+			__u16 available : 1;
-+			__u16 _long : 1;
-+			__u16 _default : 1;
-+			__u16 granularity : 1;
-+		} __packed;
-+		__u16 attributes;
-+	};
-+} __packed;
-+
-+struct hv_x64_table_register {
-+	__u16 pad[3];
-+	__u16 limit;
-+	__u64 base;
-+} __packed;
-+
-+struct hv_init_vp_context {
-+	u64 rip;
-+	u64 rsp;
-+	u64 rflags;
-+
-+	struct hv_x64_segment_register cs;
-+	struct hv_x64_segment_register ds;
-+	struct hv_x64_segment_register es;
-+	struct hv_x64_segment_register fs;
-+	struct hv_x64_segment_register gs;
-+	struct hv_x64_segment_register ss;
-+	struct hv_x64_segment_register tr;
-+	struct hv_x64_segment_register ldtr;
-+
-+	struct hv_x64_table_register idtr;
-+	struct hv_x64_table_register gdtr;
-+
-+	u64 efer;
-+	u64 cr0;
-+	u64 cr3;
-+	u64 cr4;
-+	u64 msr_cr_pat;
-+} __packed;
-+
-+union hv_input_vtl {
-+	u8 as_uint8;
-+	struct {
-+		u8 target_vtl: 4;
-+		u8 use_target_vtl: 1;
-+		u8 reserved_z: 3;
-+	};
-+} __packed;
-+
-+struct hv_enable_vp_vtl {
-+	u64				partition_id;
-+	u32				vp_index;
-+	union hv_input_vtl		target_vtl;
-+	u8				mbz0;
-+	u16				mbz1;
-+	struct hv_init_vp_context	vp_context;
-+} __packed;
-+
-+struct hv_get_vp_from_apic_id_in {
-+	u64 partition_id;
-+	union hv_input_vtl target_vtl;
-+	u8 res[7];
-+	u32 apic_ids[];
-+} __packed;
-+
- #include <asm-generic/hyperv-tlfs.h>
+ if HYPERVISOR_GUEST
  
- #endif
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index b870983596b9..87258341fd7c 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -146,6 +146,7 @@ union hv_reference_tsc_msr {
- /* Declare the various hypercall operations. */
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE	0x0002
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST	0x0003
-+#define HVCALL_ENABLE_VP_VTL			0x000f
- #define HVCALL_NOTIFY_LONG_SPIN_WAIT		0x0008
- #define HVCALL_SEND_IPI				0x000b
- #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
-@@ -165,6 +166,8 @@ union hv_reference_tsc_msr {
- #define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
- #define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
- #define HVCALL_RETARGET_INTERRUPT		0x007e
-+#define HVCALL_START_VP				0x0099
-+#define HVCALL_GET_VP_ID_FROM_APIC_ID		0x009a
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
- #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY 0x00db
-@@ -218,6 +221,7 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_STATUS_INVALID_PORT_ID		17
- #define HV_STATUS_INVALID_CONNECTION_ID		18
- #define HV_STATUS_INSUFFICIENT_BUFFERS		19
-+#define HV_STATUS_VTL_ALREADY_ENABLED		134
++config HYPERV_VTL_MODE
++	bool "Enable Linux to boot in VTL context"
++	depends on X86_64 && HYPERV
++	default n
++	help
++	  Virtual Secure Mode (VSM) is a set of hypervisor capabilities and
++	  enlightenments offered to host and guest partitions which enables
++	  the creation and management of new security boundaries within
++	  operating system software.
++
++	  VSM achieves and maintains isolation through Virtual Trust Levels
++	  (VTLs). Virtual Trust Levels are hierarchical, with higher levels
++	  being more privileged than lower levels. VTL0 is the least privileged
++	  level, and currently only other level supported is VTL2.
++
++	  Select this option to build a Linux kernel to run at a VTL other than
++	  the normal VTL0, which currently is only VTL2.  This option
++	  initializes the x86 platform for VTL2, and adds the ability to boot
++	  secondary CPUs directly into 64-bit context as required for VTLs other
++	  than 0.  A kernel built with this option must run at VTL2, and will
++	  not run as a normal guest.
++
++	  If unsure, say N
++
+ config PARAVIRT
+ 	bool "Enable paravirtualization code"
+ 	depends on HAVE_STATIC_CALL
+diff --git a/arch/x86/hyperv/Makefile b/arch/x86/hyperv/Makefile
+index 5d2de10809ae..3a1548054b48 100644
+--- a/arch/x86/hyperv/Makefile
++++ b/arch/x86/hyperv/Makefile
+@@ -1,6 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y			:= hv_init.o mmu.o nested.o irqdomain.o ivm.o
+ obj-$(CONFIG_X86_64)	+= hv_apic.o hv_proc.o
++obj-$(CONFIG_HYPERV_VTL_MODE)	+= hv_vtl.o
  
- /*
-  * The Hyper-V TimeRefCount register and the TSC
+ ifdef CONFIG_X86_64
+ obj-$(CONFIG_PARAVIRT_SPINLOCKS)	+= hv_spinlock.o
 -- 
 2.34.1
 
