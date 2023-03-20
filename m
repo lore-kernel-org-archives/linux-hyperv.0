@@ -2,144 +2,209 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F414C7618A
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 07:47:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C64FC6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 07:47:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbjCTHrt (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Mar 2023 03:47:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57562 "EHLO
+        id S230204AbjCTHru (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 20 Mar 2023 03:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230005AbjCTHrs (ORCPT
+        with ESMTP id S230122AbjCTHrs (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Mon, 20 Mar 2023 03:47:48 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 085E3125A4;
-        Mon, 20 Mar 2023 00:47:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4FFF4125B1;
+        Mon, 20 Mar 2023 00:47:47 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id D9D1820FAAB1;
-        Mon, 20 Mar 2023 00:47:43 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D9D1820FAAB1
+        by linux.microsoft.com (Postfix) with ESMTPSA id 5991120FAED2;
+        Mon, 20 Mar 2023 00:47:44 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5991120FAED2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1679298463;
-        bh=R4FGQ4lqxzQ6i3XyEaB9tLoLHAKACDanZWNyaclL3hc=;
-        h=From:To:Subject:Date:From;
-        b=RbKLxl4qHVxRyI2pw7kqaG0xTQtDR77cZni4USqxvMLSN1THeRzfMXLWRx1D2Omoj
-         tw0/IETt6qvJtMxJ3ublJDH2wKYO/0eVGriU6TI7U+SKvvNA9HqmOSZynryxORapgr
-         Zyf9kzUnjl5z1lao0MbSJyecCHBMK9CUt++HTuAk=
+        s=default; t=1679298464;
+        bh=GM5+GaMg13JEPlmbB8fyrcDYf5aGInVhNK1lqkzJoEE=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=CP3IsgcRGHuzf3gla+JV6awMwByLeqXxrm6kj3YOPrhQAcwsXbEnVWtkFlAiF+QLo
+         q2R8k0aRJ1F6bXOVh98Fxu0kVm+vKnd0K+OrbjE2Whcywwi+gvKDqhXIzJU02nbUYm
+         LAm8dRRJUOV0K52Sirn+mDkcjBU2VgzxE/HoquKw=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, mikelley@microsoft.com
-Subject: [PATCH v9 0/5] Device tree support for Hyper-V VMBus driver
-Date:   Mon, 20 Mar 2023 00:47:35 -0700
-Message-Id: <1679298460-11855-1-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v9 5/5] Driver: VMBus: Add Devicetree support
+Date:   Mon, 20 Mar 2023 00:47:40 -0700
+Message-Id: <1679298460-11855-6-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1679298460-11855-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1679298460-11855-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This set of patches expands the VMBus driver to include device tree
-support. This feature allows for a kernel boot without the use of ACPI
-tables, resulting in a smaller memory footprint and potentially faster
-boot times. This is tested by enabling CONFIG_OF and OF_EARLY_FLATTREE
-for x86.
+Update the driver to support Devicetree boot as well along with ACPI.
+At present the Devicetree parsing only provides the mmio region info
+and is not the exact copy of ACPI parsing. This is sufficient to cater
+all the current Devicetree usecases for VMBus.
 
-The first two patches enable compilation of Hyper-V APIs in a non-ACPI
-build.
+Currently Devicetree is supported only for x86 systems.
 
-The third patch converts the VMBus driver from acpi to more generic
-platform driver.
-
-The fourth patch introduces the device tree documentation for VMBus.
-
-The fifth patch adds device tree support to the VMBus driver. Currently
-this is tested only for x86 and it may not work for other archs.
-
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+---
 [V9]
 - Add vmbus_mmio_remove for error handling
 - Remove logic from !acpi_disabled to acpi_disabled 
 
-[V8]
-- Remove the auto select of CONFIG_OF
-- Remove the dependency on !ACPI for OF_EARLY_FLATTREE
-- Used acpi_disabled instead of #ifdef and hence added a dummy function
-  for vmbus_acpi_add
-- GFP_ATOMIC -> GFP_KERNEL
-- used range.flags instead of hard coding flags
-- used __maybe_unused for acpi device id, removed #ifdef
+ drivers/hv/Kconfig     |  5 ++--
+ drivers/hv/vmbus_drv.c | 66 +++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 65 insertions(+), 6 deletions(-)
 
-[V7]
-- Use cpu_addr instead of bus_addr.
-- Updated Documentation accordingly.
-
-[V6]
-- define acpi_sleep_state_supported in acpi header for !ACPI,
-  dropped the changes done in hv_common.c under #ifdef CONFIG_ACPI
-- "Devicetree" instead of "device tree"
-- Remove initialize of ret
-- set "np = pdev->dev.of_node;" on declarartion
-- remove one error print
-- use bus_addr instead of pci_addr
-
-
-[V5]
-- Removed #else for device tree parsing code. This should help better
-  test coverage.
-- Fix macro '__maybe_unused' warning
-- Added below options in Kconfig to enable device tree options for HYPERV
-	select OF if !ACPI
-	select OF_EARLY_FLATTREE if !ACPI
-- moved dt documantation to bus folder
-- update the dt node to have 'bus' as parent node instead of 'soc'. Also
-  added compatible and ranges property for parent node.
-- Made sure dt_binding_check have no error/varnings for microsoft,vmbus.yaml file
-- Fix commit messages and add Reviwed-by from Michael for first 3 patches
-
-[V4]
-- rebased which fixed return type of 'vmbus_mmio_remove' from int to void
-- used __maybe_unused for 'vmbus_of_match' and safeguard vmbus_acpi_device_ids
-  under #ifdef
-
-[V3]
-- Changed the logic to use generic api (for_each_of_range) for parsing "ranges".
-- Remove dependency of ACPI for HYPERV in case of x86.
-- Removed "device tree bindings" from title and patch subject.
-- Removed duplicate vendor prefix, used microsoft instead of msft.
-- Use 'soc' in example of device tree documantation for parent node.
-- Fixed compatible schemas error generated in other modules referring to
-  virtio.
-- Drop hex notation and leading zeros from device tree cell properties.
-- Added missing full stop at the end of commit message.
-- Typos fix: s/Initaly/Initially/ and s/hibernate/hibernation/.
-- Replace to_acpi_device with ACPI_COMPANION which simplify the logic.
-- Added more info in cover letter aboutsystem under test.
-
-[v2]
-- Convert VMBus acpi device to platform device, and added device tree support
-  in separate patch. This enables using same driver structure for both the flows.
-- In Device tree documentation, changed virtio folder to hypervisor and moved
-  VMBus documentation there.
-- Moved bindings before Device tree patch.
-- Removed stale ".data" and ".name" field from of_device match table.
-- Removed debug print.
-
-Saurabh Sengar (5):
-  drivers/clocksource/hyper-v: non ACPI support in hyperv clock
-  ACPI: bus: Add stub acpi_sleep_state_supported() in non-ACPI cases
-  Drivers: hv: vmbus: Convert acpi_device to more generic
-    platform_device
-  dt-bindings: bus: VMBus
-  Driver: VMBus: Add Devicetree support
-
- .../bindings/bus/microsoft,vmbus.yaml         |  54 ++++++++
- MAINTAINERS                                   |   1 +
- drivers/clocksource/hyperv_timer.c            |  15 ++-
- drivers/hv/Kconfig                            |   5 +-
- drivers/hv/vmbus_drv.c                        | 122 ++++++++++++++----
- include/linux/acpi.h                          |   5 +
- 6 files changed, 172 insertions(+), 30 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/bus/microsoft,vmbus.yaml
-
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 0747a8f1fcee..47132b30b7ee 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -4,11 +4,12 @@ menu "Microsoft Hyper-V guest support"
+ 
+ config HYPERV
+ 	tristate "Microsoft Hyper-V client drivers"
+-	depends on ACPI && ((X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
+-		|| (ARM64 && !CPU_BIG_ENDIAN))
++	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
++		|| (ACPI && ARM64 && !CPU_BIG_ENDIAN)
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR if X86
+ 	select VMAP_PFN
++	select OF_EARLY_FLATTREE if OF
+ 	help
+ 	  Select this option to run Linux as a Hyper-V client operating
+ 	  system.
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 3ad2fa2b92e7..5de2d3bb8289 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -20,6 +20,7 @@
+ #include <linux/completion.h>
+ #include <linux/hyperv.h>
+ #include <linux/kernel_stat.h>
++#include <linux/of_address.h>
+ #include <linux/clockchips.h>
+ #include <linux/cpu.h>
+ #include <linux/sched/isolation.h>
+@@ -2143,7 +2144,7 @@ void vmbus_device_unregister(struct hv_device *device_obj)
+ 	device_unregister(&device_obj->device);
+ }
+ 
+-
++#ifdef CONFIG_ACPI
+ /*
+  * VMBUS is an acpi enumerated device. Get the information we
+  * need from DSDT.
+@@ -2253,6 +2254,7 @@ static acpi_status vmbus_walk_resources(struct acpi_resource *res, void *ctx)
+ 
+ 	return AE_OK;
+ }
++#endif
+ 
+ static void vmbus_mmio_remove(void)
+ {
+@@ -2273,7 +2275,7 @@ static void vmbus_mmio_remove(void)
+ 	}
+ }
+ 
+-static void vmbus_reserve_fb(void)
++static void __maybe_unused vmbus_reserve_fb(void)
+ {
+ 	resource_size_t start = 0, size;
+ 	struct pci_dev *pdev;
+@@ -2433,6 +2435,7 @@ void vmbus_free_mmio(resource_size_t start, resource_size_t size)
+ }
+ EXPORT_SYMBOL_GPL(vmbus_free_mmio);
+ 
++#ifdef CONFIG_ACPI
+ static int vmbus_acpi_add(struct platform_device *pdev)
+ {
+ 	acpi_status result;
+@@ -2485,10 +2488,54 @@ static int vmbus_acpi_add(struct platform_device *pdev)
+ 		vmbus_mmio_remove();
+ 	return ret_val;
+ }
++#else
++static int vmbus_acpi_add(struct platform_device *pdev)
++{
++	return 0;
++}
++#endif
++
++static int vmbus_device_add(struct platform_device *pdev)
++{
++	struct resource **cur_res = &hyperv_mmio;
++	struct of_range range;
++	struct of_range_parser parser;
++	struct device_node *np = pdev->dev.of_node;
++	int ret;
++
++	hv_dev = &pdev->dev;
++
++	ret = of_range_parser_init(&parser, np);
++	if (ret)
++		return ret;
++
++	for_each_of_range(&parser, &range) {
++		struct resource *res;
++
++		res = kzalloc(sizeof(*res), GFP_KERNEL);
++		if (!res) {
++			vmbus_mmio_remove();
++			return -ENOMEM;
++		}
++
++		res->name = "hyperv mmio";
++		res->flags = range.flags;
++		res->start = range.cpu_addr;
++		res->end = range.cpu_addr + range.size;
++
++		*cur_res = res;
++		cur_res = &res->sibling;
++	}
++
++	return ret;
++}
+ 
+ static int vmbus_platform_driver_probe(struct platform_device *pdev)
+ {
+-	return vmbus_acpi_add(pdev);
++	if (acpi_disabled)
++		return vmbus_device_add(pdev);
++	else
++		return vmbus_acpi_add(pdev);
+ }
+ 
+ static int vmbus_platform_driver_remove(struct platform_device *pdev)
+@@ -2634,7 +2681,17 @@ static int vmbus_bus_resume(struct device *dev)
+ #define vmbus_bus_resume NULL
+ #endif /* CONFIG_PM_SLEEP */
+ 
+-static const struct acpi_device_id vmbus_acpi_device_ids[] = {
++static const __maybe_unused struct of_device_id vmbus_of_match[] = {
++	{
++		.compatible = "microsoft,vmbus",
++	},
++	{
++		/* sentinel */
++	},
++};
++MODULE_DEVICE_TABLE(of, vmbus_of_match);
++
++static const __maybe_unused struct acpi_device_id vmbus_acpi_device_ids[] = {
+ 	{"VMBUS", 0},
+ 	{"VMBus", 0},
+ 	{"", 0},
+@@ -2668,6 +2725,7 @@ static struct platform_driver vmbus_platform_driver = {
+ 	.driver = {
+ 		.name = "vmbus",
+ 		.acpi_match_table = ACPI_PTR(vmbus_acpi_device_ids),
++		.of_match_table = of_match_ptr(vmbus_of_match),
+ 		.pm = &vmbus_bus_pm,
+ 		.probe_type = PROBE_FORCE_SYNCHRONOUS,
+ 	}
 -- 
 2.34.1
 
