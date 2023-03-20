@@ -2,104 +2,71 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A36C7618A
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 07:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0D3C6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 07:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbjCTHmu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Mar 2023 03:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52696 "EHLO
+        id S230113AbjCTHrs (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 20 Mar 2023 03:47:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230193AbjCTHmr (ORCPT
+        with ESMTP id S229665AbjCTHrr (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Mar 2023 03:42:47 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727142367C;
-        Mon, 20 Mar 2023 00:42:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 578F6611D9;
-        Mon, 20 Mar 2023 07:42:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC221C433EF;
-        Mon, 20 Mar 2023 07:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1679298127;
-        bh=WjYiW3bdBC26DMUYGurbBPSF3Li7THUYtv1H3tndCY4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RSSytet/200iwrE/lIMidXGrJh+pzH43ULVTOKfB6cKLziSBSCB/id5jVbuVDjMpH
-         eGtjeNUzYIVQ96U7U1cMrNlsE8jaxfOLrLbj20Ra5+FL9KaB4AulMJkyCGKXxmjYqF
-         v8FB6Uz50mVCuGTuXBMT744SK5kx/KkNrkvucvW1CylcSlbz2CdOUmeVJWU9xglr+E
-         ysiGXzVMqt+0OdYClaTxrnmMr6CH4lVEjBGbdWWFumpx0NeWO4PklXINtXdoOPjUYl
-         T3214e1BkukTMmxuOJ21WwUto7l77j5NNfC7FWTvKJFusZxGlWshgfyp9rYhZhczly
-         nFs1i7xEOeX6A==
-Date:   Mon, 20 Mar 2023 09:42:02 +0200
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Haiyang Zhang <haiyangz@microsoft.com>
-Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-        decui@microsoft.com, kys@microsoft.com, paulros@microsoft.com,
-        olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
-        wei.liu@kernel.org, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, longli@microsoft.com,
-        ssengar@linux.microsoft.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] net: mana: Add support for jumbo frame
-Message-ID: <20230320074202.GH36557@unreal>
-References: <1679261264-26375-1-git-send-email-haiyangz@microsoft.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1679261264-26375-1-git-send-email-haiyangz@microsoft.com>
+        Mon, 20 Mar 2023 03:47:47 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DE7B2125A3;
+        Mon, 20 Mar 2023 00:47:44 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 1476120FAAD4;
+        Mon, 20 Mar 2023 00:47:44 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1476120FAAD4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1679298464;
+        bh=4PRW0VI+oZvbTmFAcVbsrAFK92yD8Gwq6n0ZpwB9zPo=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=NFOdiDJZUwvLWn/3+im5vYYkUdZEqchvLQ+qCTga3O3f2mlYIR6k+3iV5fWWH/Gko
+         aCNoxTVlCJVu7RyAIAvKVZXlvgYfIfYr/kjkYMMuAtTcFWB3VD8QOityCWjF3KITHi
+         NqoECmyNJBYO/pnFNRStMYv4y/e+T9W+MF2MvYuc=
+From:   Saurabh Sengar <ssengar@linux.microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, mikelley@microsoft.com
+Subject: [PATCH v9 2/5] ACPI: bus: Add stub acpi_sleep_state_supported() in non-ACPI cases
+Date:   Mon, 20 Mar 2023 00:47:37 -0700
+Message-Id: <1679298460-11855-3-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1679298460-11855-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1679298460-11855-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sun, Mar 19, 2023 at 02:27:44PM -0700, Haiyang Zhang wrote:
-> During probe, get the hardware allowed max MTU by querying the device
-> configuration. Users can select MTU up to the device limit. Also,
-> when XDP is in use, we currently limit the buffer size to one page.
-> 
-> Updated RX data path to allocate and use RX queue DMA buffers with
-> proper size based on the MTU setting.
-> 
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
-> ---
->  .../net/ethernet/microsoft/mana/mana_bpf.c    |  22 +-
->  drivers/net/ethernet/microsoft/mana/mana_en.c | 229 ++++++++++++------
->  include/net/mana/gdma.h                       |   4 +
->  include/net/mana/mana.h                       |  18 +-
->  4 files changed, 183 insertions(+), 90 deletions(-)
+acpi_sleep_state_supported() is defined only when CONFIG_ACPI=y. The
+function is in acpi_bus.h, and acpi_bus.h can only be used in
+CONFIG_ACPI=y cases. Add the stub function to linux/acpi.h to make
+compilation successful for !CONFIG_ACPI cases.
 
-<...>
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ include/linux/acpi.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> +static int mana_change_mtu(struct net_device *ndev, int new_mtu)
-> +{
-> +	unsigned int old_mtu = ndev->mtu;
-> +	int err, err2;
-> +
-> +	err = mana_detach(ndev, false);
-> +	if (err) {
-> +		netdev_err(ndev, "mana_detach failed: %d\n", err);
-> +		return err;
-> +	}
-> +
-> +	ndev->mtu = new_mtu;
-> +
-> +	err = mana_attach(ndev);
-> +	if (!err)
-> +		return 0;
-> +
-> +	netdev_err(ndev, "mana_attach failed: %d\n", err);
-> +
-> +	/* Try to roll it back to the old configuration. */
-> +	ndev->mtu = old_mtu;
-> +	err2 = mana_attach(ndev);
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index efff750f326d..d331f76b0c19 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -1075,6 +1075,11 @@ static inline u32 acpi_osc_ctx_get_cxl_control(struct acpi_osc_context *context)
+ 	return 0;
+ }
+ 
++static inline bool acpi_sleep_state_supported(u8 sleep_state)
++{
++	return false;
++}
++
+ #endif	/* !CONFIG_ACPI */
+ 
+ #ifdef CONFIG_ACPI_HOTPLUG_IOAPIC
+-- 
+2.34.1
 
-I second to Francois and agree with him that it is very questionable.
-If mana_attach() failed for first try, you should bail out and not
-retry with some hope that it will pass.
-
-Thanks
-
-> +	if (err2)
-> +		netdev_err(ndev, "mana re-attach failed: %d\n", err2);
-> +
-> +	return err;
