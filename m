@@ -2,186 +2,199 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9642EC76195
-	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 18:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C34AFC6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Mon, 20 Mar 2023 18:58:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231324AbjCTSYa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 20 Mar 2023 14:24:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37676 "EHLO
+        id S231194AbjCTS65 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 20 Mar 2023 14:58:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231147AbjCTSYC (ORCPT
+        with ESMTP id S230103AbjCTS61 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 20 Mar 2023 14:24:02 -0400
-Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azlp170110002.outbound.protection.outlook.com [IPv6:2a01:111:f403:c110::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A828C33CF1;
-        Mon, 20 Mar 2023 11:17:08 -0700 (PDT)
+        Mon, 20 Mar 2023 14:58:27 -0400
+Received: from DM5PR00CU002.outbound.protection.outlook.com (mail-centralusazon11021014.outbound.protection.outlook.com [52.101.62.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BB21E5E4;
+        Mon, 20 Mar 2023 11:50:26 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AmliDI0AnrlTpc4liKJIZ2e8dRQLlqXDGx8qdSUnIKxyvIqThjwKpB+VrsPakBRwYGqqqaBqQxikZd+W2HJn8f0FAeBkjNFggQtwjqWz4kxeBUMnO2R9WDo5HsHSrny51yIGmuRjwIaYH07SUu5jEoAH+yn8N2Tsq/oVi3tpSzRvxRVtZzPBgwK/1dbxzx9J4PsEPeOawUQNH6EyaqM8v8QroDHPPf7KRsccChoDHTnCXZhs9s3reNP5vstI461OBrEqDKKGwfzKDo2ToHdqQg8PKQ/7s6ftKOZOGh9dXD7aEjvNENIeoT/v2i5k2weUkX1KQTmEq0QC2DjtJlR4MA==
+ b=HuyADjDsFiRJiDS4e4Q6PHNScQVbSXmyuMgHH93VLSwgHB0EsOQElClbqq2KJwqi03XkPnSE/3zpoqGivSujFfxEKu0kMR43ejk+zjA3T+LB610FsEhtDc7pKDsmnVWMMTTmI4dQJOjTyNYgzpOYoqBCg3BVRXeq0DgiwHP6Umyu/yLaiLtXt7Txn+SfXG9EurRdNTw/1eDFqUf4/MNdPZ7ao9sjoo2CPb/TJRUhvgR6MEhcttEUUEiEBG/G0z/8x7BTsFadkofzUNT16AgnPrw/2RSJjGbPR1avpsruRUiLDK+wJ1mU+psUmUdN8XYs7hzaSl/JMsKYxMDoEszIfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3IcQT8j4U9WHexz0Fqe+v5CiFK91Z9R+/Iz72aCqr0I=;
- b=oF8YdF05p8hmEvnli8G1OKV7ADpP6gY5sIrI+tVAB8LVsYEEWDlt0n5R6eLeniq3sEdXccBsQERbLy/vvO5/YivocD95uZ3lmaEERb+gCT0kx0jwtSETV0Da4k3Vv9Nt48KHcHtyPyELpLnjBx51gu7HkeyiRB7nJ0y4D0tLGHVscvvgVBhRy7yPUyLCuAxIADJTjcdmbE3LjSbBMU2+3o3f+cdAPfIAOsQINdwrtqzUqSD3DYvPHX+J7rq+d93nQ29wHJ9S5AAOoLeEV91RbOg4J5PRl6oqAZ97JhqadqP8xM7WpPZEIO2pAyqesrcgApUaolXGRMcTsVXOUdZFEg==
+ bh=1gZRTzVSlbHFnoNrGyrXo/+dPb70cMkkVwb5uYlUzZE=;
+ b=HcSKgVz4nFyzpkFYQiPbKri7HQc9Kpxe36iQX1kSVolUMXecBWV+0Uebi2/NAIgBmj2s/qaViXMrMogqiDOgju49WCy37dHCwu4u3o+R5sHqPNL0MR4oev/sGUw3BVqPz9syOFMsdz4LYlRKVD66x8dNfmF4hg3ZZT+wl8sebpUnqWzIK1OnrTTRs5ui8u/aL+cfO/tDEHonauTXKR9Ad/Pz8KFDLtTvWnVaULS4v+8+XeyMAYwGCu5pTw+iovnxN0yNWSxp8slvqiFnjXZzS8MiFM0DlgwtENduVsJJKecl13qnHy1nfz7Ixgq+4t7LEgqd6xOTChOgoahYr4mqzA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3IcQT8j4U9WHexz0Fqe+v5CiFK91Z9R+/Iz72aCqr0I=;
- b=YZlUb8K6cx9khwHLxBznnyn2bqkJODrBJuBPG3ZfHTIhTjfFrXclqwwwbzGTYhQNrppLpkj0PPkeKavNEmlvR7PCi1h27Pe5/DpqWBvwc0xhpLwvZ02cUuLLvJmGepHZoi6XmrDlK8kIOQJOELwIrubpzvhwBVnAPYPEDTTanws=
+ bh=1gZRTzVSlbHFnoNrGyrXo/+dPb70cMkkVwb5uYlUzZE=;
+ b=RRSytm8wdo0d6yCbhhwOZSNdXTuvl7W8NZeqjRloGqYVDVdiMY8NA5TzAO+G1UibRuNuHSJ27u08qcmn/hZujYk87GMQYNO8UPYf7QZ0NLWjzMz+GmhQHI+W5pC96dLKjz0WmPq+kRnCF99IbEFejV3f1Flc4KOj2uLTJtylDjo=
 Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
- by MN2PR21MB1486.namprd21.prod.outlook.com (2603:10b6:208:1f7::13) with
+ by CH3PR21MB4039.namprd21.prod.outlook.com (2603:10b6:610:1a9::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.2; Mon, 20 Mar
- 2023 18:16:37 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.5; Mon, 20 Mar
+ 2023 18:50:02 +0000
 Received: from BYAPR21MB1688.namprd21.prod.outlook.com
  ([fe80::acd0:6aec:7be2:719c]) by BYAPR21MB1688.namprd21.prod.outlook.com
  ([fe80::acd0:6aec:7be2:719c%7]) with mapi id 15.20.6254.002; Mon, 20 Mar 2023
- 18:16:37 +0000
+ 18:50:06 +0000
 From:   "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-To:     Saurabh Sengar <ssengar@linux.microsoft.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-        KY Srinivasan <kys@microsoft.com>,
+To:     Borislav Petkov <bp@alien8.de>
+CC:     "hpa@zytor.com" <hpa@zytor.com>, KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         "wei.liu@kernel.org" <wei.liu@kernel.org>,
         Dexuan Cui <decui@microsoft.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "peterz@infradead.org" <peterz@infradead.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "robh@kernel.org" <robh@kernel.org>, "kw@linux.com" <kw@linux.com>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "arnd@arndb.de" <arnd@arndb.de>, "hch@lst.de" <hch@lst.de>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+        "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
         Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+        "sathyanarayanan.kuppuswamy@linux.intel.com" 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        "ak@linux.intel.com" <ak@linux.intel.com>,
+        "isaku.yamahata@intel.com" <isaku.yamahata@intel.com>,
+        "dan.j.williams@intel.com" <dan.j.williams@intel.com>,
+        "jane.chu@oracle.com" <jane.chu@oracle.com>,
+        "seanjc@google.com" <seanjc@google.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH v3 4/5] x86/hyperv: VTL support for Hyper-V
-Thread-Topic: [PATCH v3 4/5] x86/hyperv: VTL support for Hyper-V
-Thread-Index: AQHZWxNEDmrxXEJK60WJ//1R5me3Jq8D+O6g
-Date:   Mon, 20 Mar 2023 18:16:37 +0000
-Message-ID: <BYAPR21MB1688093876677DEE259C9914D7809@BYAPR21MB1688.namprd21.prod.outlook.com>
-References: <1679306618-31484-1-git-send-email-ssengar@linux.microsoft.com>
- <1679306618-31484-5-git-send-email-ssengar@linux.microsoft.com>
-In-Reply-To: <1679306618-31484-5-git-send-email-ssengar@linux.microsoft.com>
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "iommu@lists.linux.dev" <iommu@lists.linux.dev>
+Subject: RE: [PATCH v6 06/13] x86/hyperv: Change vTOM handling to use standard
+ coco mechanisms
+Thread-Topic: [PATCH v6 06/13] x86/hyperv: Change vTOM handling to use
+ standard coco mechanisms
+Thread-Index: AQHZUjCyCpporLk3zkiXtyclH/4N+K8DmEQAgAAZtaCAAFnoAIAAAQEA
+Date:   Mon, 20 Mar 2023 18:50:05 +0000
+Message-ID: <BYAPR21MB1688DF161ACE142DEA721DA1D7809@BYAPR21MB1688.namprd21.prod.outlook.com>
+References: <1678329614-3482-1-git-send-email-mikelley@microsoft.com>
+ <1678329614-3482-7-git-send-email-mikelley@microsoft.com>
+ <20230320112258.GCZBhCEpNAIk0rUDnx@fat_crate.local>
+ <BYAPR21MB16880C855EDB5AD3AECA473DD7809@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <20230320181646.GAZBijDiAckZ9WOmhU@fat_crate.local>
+In-Reply-To: <20230320181646.GAZBijDiAckZ9WOmhU@fat_crate.local>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b283aaa1-9e54-44ef-bbf1-c42f8f8b57c9;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-03-20T18:12:33Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=5e65d818-196c-4bce-b0b3-5392a10c9611;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-03-20T18:20:21Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|MN2PR21MB1486:EE_
-x-ms-office365-filtering-correlation-id: 482a8b89-76dc-4394-d3c3-08db296f3eb5
+x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|CH3PR21MB4039:EE_
+x-ms-office365-filtering-correlation-id: 395c34c6-72c9-4452-fd17-08db2973ec02
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mTPjDJLptSOrQLb3NGfWa592e0osDu0bVs+cJNdsR7v/bbNjkNqmCqT5aa0qC6DmrMQFfTRf+CKsKHbDcfGRw5Qp6NXWtu6+jFLwUT6CzJrkMdsHeql33xkUVimIaZnSaSKlTG1bUWQ0iBBldYjXZjEtHoA7VfZj+4YSjLJUxM+vNlIjJEwx8qVjSBUFWs2feeceDWxmgX/TCca2vYIYD5HzrmpDkKUrd+hCDIsPSzqfNb6XuuPTefTw1G70c2sgbeUTzL7cA7aKZ4veOKNqI3iNixumnARE1y82YJeAh6cXt+Eoh7oxMPdkMR59ZzBdbFUYXt7o1hoAj7J0gnJn09rPB1yE93+mUb9MjZL6qqDJlhdqjNdW/JlGT8lGoACBFX3fiEKZ4fqZEvusM4M/JvVCpXbf/S8DpawoXVzSIY9LSepHPsXQUAmrPv99pB/fYKgV8D99VpE1zC7dvnTav9G+/bcpl0Zbez5Jj+tNCybmBBjUBP4gMyqzALqCitCbk4HWQa88zcq4Bapaj2bdgfutZdnQ+Dryfqa2TwVor7//do2V5Md9VYvYymY+aFc6DJc7n3BDg7NJ1usB2Bi3A3lSFapZNpx6TJQOEEF7MtjGd2M4SPBT4tRbUQ2RdIFO8QcjxjmYeuR194SFBVisyxMGHi58HBTbBv4TCSnBPVkcSzwt8wuIcjNA4/+2hz9PFnrPddeDD3X9fg2tmrCdVjpBX7drKNoUWGJXiSPqBKP5+eQZt8rg33vf2IEwyl52n3Hfc4hYOXrLjTqPKxFhtQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1688.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(346002)(396003)(376002)(136003)(366004)(39860400002)(451199018)(7416002)(5660300002)(8936002)(41300700001)(83380400001)(52536014)(55016003)(38100700002)(122000001)(8990500004)(82960400001)(82950400001)(33656002)(38070700005)(86362001)(921005)(2906002)(7696005)(71200400001)(110136005)(10290500003)(316002)(478600001)(9686003)(26005)(6506007)(186003)(66476007)(66946007)(66446008)(66556008)(76116006)(8676002)(64756008);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: aYAbpIe2ODiQsDmgEJv31e9FOAinnA3fWDMDrzVM0OrxShUNAv/kiUO3eFLjSDmu3ebALXG5+E+wxTC3ZLQWvxYBQ13LaSJUUw8ieIsTtd/7BzjhYa9soaNjBM/+ktM1ToZ4GTQwb05UiBjN9Vf39XEfkg3nRSkRmBkt+/ooM991FDPkeCFnbh3zYbYmOzLcIIruNgxTZ3iY38EWLCZnTC2d55SaRgUIfVi0FDw8rpVm8SMJ3IazqI5ca/IX9PDX08OhWmH+guXx5HwgEwxbJi0nJ25ThwKaKo0WXpo2f3p3b0i0QrygICZqyG1Ng9CkoscqE4vOrFa8/ifuMiD1ocYO9+OTYLQrCPC6iRqnVQVrCjHDsz1KyKXUt76XHVW+SZDovE/VpbWjP9av5tCMqokQXjBxfyJw3Z0d/TcksmjVOhZK5iOQpo8Mq86DJeeYA2+8CJV/LIfqc1mLA+3LrZTnK6AwWH2ZirXom/kH+7FWF4zsThj548R1bFotGFCr7JNyoP0Lg+Uf5kX4kB3hzfyctl30uZKTjX2dSX60CW40M4NYcntKDxEFKL5FH2l/lKbgqUoGnXnOipYz24i4zeymAi5YK1kG/D0jHh2x3mZ3hCTTT1j7yt58AEOEIEbeLF/FjDdibEkuHWG/qj2cCt5Cro2sUVbqYUeWl8Iag1bCKk4deiSoTCoeIi3zHw9MnM7BQJisYywg48ul9JfGvtX33hhLvcG/yq2r53xAa1/3b0nZ//RI4fXLu3WEvdTD
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1688.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(39860400002)(366004)(346002)(396003)(376002)(451199018)(33656002)(71200400001)(86362001)(38070700005)(38100700002)(82960400001)(82950400001)(7406005)(8936002)(52536014)(7416002)(5660300002)(122000001)(41300700001)(2906002)(8990500004)(4326008)(186003)(6506007)(66946007)(83380400001)(9686003)(26005)(316002)(55016003)(54906003)(10290500003)(66556008)(64756008)(8676002)(66446008)(6916009)(66476007)(478600001)(76116006)(7696005);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?PITqHXRB7BjOqWRvMfbNlctpTnunGl4RzRuJCcnJV2jQ3+gv9vXcvSBMVNwu?=
- =?us-ascii?Q?yqe9XVp0eESENzPWSAvlJeseBr34vhOrK7qR2BuxWUESTr1Gc0VGjNI4VE36?=
- =?us-ascii?Q?7nVoUT+KgHecQAOhEhGmUU8Z/wRkzg1BmLkwzlCnM78yTwVhppobqsDz8HbU?=
- =?us-ascii?Q?zS/ioW8lbwrLo935HC09MV2G+0qnv9yXffnwP77Anrn42IKM0ADAYz6EFCF+?=
- =?us-ascii?Q?/TmXEVlpjYN/dkrN6MlHIxTI9zbIiUTE7MiCGqt2SvE6voZaiA3xaDGazW+1?=
- =?us-ascii?Q?xlQwli/T8T+L/y3HfQFZ8tPiGFW/HwNHO7m1IzNVc6eLKdPPOYcTQM1ETRDj?=
- =?us-ascii?Q?40ZSe9ZmyW+1C1XUXfAbIN1LKsCwssIXjpm0wG7lJ/uXoojMRFcxFsNZsPmb?=
- =?us-ascii?Q?5Pk+IbsnpzGHjNzr6PS+sFqp3Ftm73YyW1EvrRavw0F/QOp7f5g8k+xRJSys?=
- =?us-ascii?Q?uIQnO96004WIklCRBiGvLLjQxmOlNMIldEQ0zPAvdV1QPtrP6U4johr5XapJ?=
- =?us-ascii?Q?dWm14G4D/Gj0dRt8B+WFNVpTgP6nKjs3B3Mtel3bGQ+K7IaxjWDI+F9Q+gDx?=
- =?us-ascii?Q?0yT2o924TUTuzGZiLhcYlqE+jb6cLi6gScAs5OoHPeaTqQ2mDb6QiMXi6DO2?=
- =?us-ascii?Q?7tiB+K6zWZUbzxeiCvMJGw59BYq7LSD60vW9LYAbAfpP88umtcCbO4WWB/PD?=
- =?us-ascii?Q?PwhHz36irUVNrzsaYTOt8ZmJz/HirlpVkxpwGDWtyq8A1XGP0JbWRWoAB+zc?=
- =?us-ascii?Q?U68w2NNYe607QjsL0U/qf463v8beSswubXthdU+FA87Uzd1i0M1GcxVqc2dN?=
- =?us-ascii?Q?0DLrxR1JWR7ioieGsnXsvaE0dwuYALm9UHI3KrzDh/Ehcc69phD2dcM5yVmC?=
- =?us-ascii?Q?WKm3yaCxNmHQFqFPdtesJhMAk6pxXq45dteGsewog6zyA3CtDDAdeD7l2jij?=
- =?us-ascii?Q?q1wlJlY2alem9xLw/BSaHSx7rZdraDW0PDNXXTCvXx8rpmbnD/gbCoqUDw+e?=
- =?us-ascii?Q?5Fg3jFlbjA9mLPXW2EArtdL4q9S98ASF9AGK25LwirZVwmEztGmxmW2TNeIO?=
- =?us-ascii?Q?xKjsqRqm/fesk5lz6khY+vbaKe9fFoRJq0AQoY66WomLIhCRyXkXTnYQTh4L?=
- =?us-ascii?Q?vby89c4dOIfxdZHC/Eg6UrTgXdqtDHhDEJRVkXZmsR9zZZmfwU1lWcOpzxjV?=
- =?us-ascii?Q?URWNB+ajMxDHTnudQLyKC4ZpV1QjQGWMuNNmRkMbDu6P3uyUbNDVjcuDOoBN?=
- =?us-ascii?Q?DrN0bIl+fcsnIY+ST/GyKtls2flGwl0cawjhr6CZbHCUE2FAy2aNj9jZXeC4?=
- =?us-ascii?Q?xNsm+6A2LOf+D6+LQlbQMVVI/Ijc8+1HDxK5zjiYUOSAwyKFhWmiNydOOIBU?=
- =?us-ascii?Q?zQyTxy3kr3yaHbYeH4+CdDQ31LntRCgFZby4UeYCGoIiQiIaJkS2grA0ZPt8?=
- =?us-ascii?Q?mgfbVx6uqGmKHRDgXvMmThVuhXkKgU5OxWrk25ecWIY+ycTxpTDktKA9JRXt?=
- =?us-ascii?Q?Ik7CPasEiI5nvPhZ1bQwfbq20RJpjpIkI5ONNveHrmcirU8fAJsTyLVWXZjC?=
- =?us-ascii?Q?OzzlFK0X5FG+X/KAxh7rBNFTq5aN+sUjtpaTq9nc+rbuxkanPd+B8C+AdJBZ?=
- =?us-ascii?Q?sw=3D=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oyZqsZm6SYs4SKZk1uCBcv6ImwKRCSaQkkOuARabTbKNpku0lII3GWMiwhMZ?=
+ =?us-ascii?Q?TTb/XOrMS8vqxv+6KBx/r7XrmzKbULotkqTXV+qDKAKX0d0ZSJqxBlS3sOss?=
+ =?us-ascii?Q?ylOnDp+w799aYMOY5PSHePF0BRiGTkrN1Kvo2+9AXtToqj7tlBoDsUFBW2Xz?=
+ =?us-ascii?Q?KUodvVBYVghZmAyKKPytl5bgvIX0xURd1zqEUSELUDbOGLMBRVwm6AeFTVq5?=
+ =?us-ascii?Q?ZtGb/A38T0NeRHDeOO/XVnMhkCTDQwQwKrD9wAW4Kd6KZleKdJiogfQyCJ1l?=
+ =?us-ascii?Q?9+7voG74+emITNoupVRex6NdbMWX3RMX7oZRrHbrWcJRvKR/mfLOssF07xKm?=
+ =?us-ascii?Q?1eoZgjAIHyN9UWYnc1ENJfHD2cWVAHM8Ui4JgNBfV3LlzcUN8PM3bo4bYScq?=
+ =?us-ascii?Q?lKgVpOQkLhveR42G5adXlDUXy/rvDmolK3Y3WYfowbN2vLXXs58CeToTqY+Q?=
+ =?us-ascii?Q?kzXl9ciRU1aIHGAghjA4GBjZeI/nP+dC+qFoORKcEwk0izPIxWMwJKFvnnik?=
+ =?us-ascii?Q?A5aDb81+7Bd6jtyq5ANVzQPLJtjMeESKz6ighJQpV8GIbdocJNDkHt4W7qfV?=
+ =?us-ascii?Q?Q7EK9zlNw1Ryx0eVWNOON5LZn92dNnBEYzZFiq9tsCJuYL8Gcv8xq08YWgvf?=
+ =?us-ascii?Q?XmJr9qX7v3+h+6MY2MuHxh4fz0/AcGj1PxzRcABZS5enfJWFDITiUPePpYu3?=
+ =?us-ascii?Q?puiFuLFxrrGtKJR0o7mG+9od2cLA1B832qaqvlf2c4fivTM8VKJmUJ213ilk?=
+ =?us-ascii?Q?BzkPDHoE6GBTZRPzJmB46kCJSQvqoKme1a50FJ3NGjJzn6HnH853Rhn530R4?=
+ =?us-ascii?Q?rYANByypcWCZ1aHb67BenkkOFMqukMBRouuO40LmIq3wG0OibtcA9Pz0o7KI?=
+ =?us-ascii?Q?lA3dagAm3rNsQvY4xR4D+nbYgXJQVGt00WMgzXUAkDWJ5oMZK5blhte4pOwz?=
+ =?us-ascii?Q?ZZKJoBb6yxd8KfKFaoouVSj5qXJNOQYalF0tdm4ukhUj1tBGEBSeDCyo8fTI?=
+ =?us-ascii?Q?Ivyo7CkQE6IANVPW+CNSyYcNL0/I8rwRkry6mdKYxfOQz3cg7PoTwXA8/T36?=
+ =?us-ascii?Q?nogR/V1BGRlegT5Ek5j1b33+EuVQGtIdny26DSPBoFge8bYbNtKvG4D6Hq1V?=
+ =?us-ascii?Q?GxU/520SHLLFyEA4LJKt9cBq7lpI4B2Ofu3H44Gg1YzW0/GalgNw1jR3Xw4G?=
+ =?us-ascii?Q?24I0bpYRmCUUIvPJqn2NlMvQdYoKzNe2vKuZAmCN04Sz1xvXS5cFz594YEZm?=
+ =?us-ascii?Q?Us8DYKQCJ7H14x4b8YcFqPo5brP7G0m/jI6rkvlulz5+H72z+p8Cy/9w6o6z?=
+ =?us-ascii?Q?vzoR02bl74zvuUNvDyVNRthxnAB7wHCQBs6VEf+W7FC8r7KaZc/2nUKC6IJ1?=
+ =?us-ascii?Q?/LndEGkZw4BHL34IDdg0Nlcb5DTZbi1adkD0C9AOLI1liXkKOOiqQMwM1Z6g?=
+ =?us-ascii?Q?YPz9cH+y+qbYsLCbgVhfaCxTF7UtO3JD+trL6KBl5roqfC4atz0FRGbI7I/m?=
+ =?us-ascii?Q?Gyo1iE7dVB8ZXJP/1XszDpqDLq+fdTfZ2CfslPUx/3Uti6PV7Z6uSg38jHHy?=
+ =?us-ascii?Q?gCgVZBXM2BprV6XrG7l5+wnS4wqiyoNO95BUxx4+Gi2LwglJXuOMAa+9oj+z?=
+ =?us-ascii?Q?Iw=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 482a8b89-76dc-4394-d3c3-08db296f3eb5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2023 18:16:37.2791
+X-MS-Exchange-CrossTenant-Network-Message-Id: 395c34c6-72c9-4452-fd17-08db2973ec02
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Mar 2023 18:50:06.0108
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uBw+3L7mphDe9SXSSLYmkCtNFrWyiQlPasMV5Q9225vGxurxksexXjcPIqnPTm+uQEAxNIr91Wxx8NQs7Zu9BQ7EoYzSDVXdGyIDWudKeus=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1486
+X-MS-Exchange-CrossTenant-userprincipalname: azWddMHBRnatfJGuUCMPdyOQHY9BO8u3OXFvmc6NRga/6hNZCIhH5fsdU7p1DWzcTCiksZg3vQLSQlMxuxXf0BOJWxzOCfegxRGHZrXm2B8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR21MB4039
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Saurabh Sengar <ssengar@linux.microsoft.com> Sent: Monday, March 20, =
-2023 3:04 AM
+From: Borislav Petkov <bp@alien8.de> Sent: Monday, March 20, 2023 11:17 AM
 >=20
-=20
-[snip]
+> On Mon, Mar 20, 2023 at 01:30:54PM +0000, Michael Kelley (LINUX) wrote:
+> > In a vTOM VM, CPUID leaf 0x8000001f is filtered so it does *not* return
+> > Bit 1 (SEV) as set.  Consequently, sme_enable() does not read MSR_AMD64=
+_SEV
+> > and does not populate sev_status.
+>=20
+> So how much of the hardware side of vTOM are you actually using besides
+> the actual encryption?
 
-> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyp=
-erv.h
-> index 35b16b177035..4af218e70395 100644
-> --- a/arch/x86/include/asm/mshyperv.h
-> +++ b/arch/x86/include/asm/mshyperv.h
-> @@ -11,6 +11,10 @@
->  #include <asm/paravirt.h>
->  #include <asm/mshyperv.h>
->=20
-> +#define HV_VTL_NORMAL 0x0
-> +#define HV_VTL_SECURE 0x1
-> +#define HV_VTL_MGMT   0x2
-> +
->  union hv_ghcb;
->=20
->  DECLARE_STATIC_KEY_FALSE(isolation_type_snp);
-> @@ -272,6 +276,12 @@ static inline int hv_set_mem_host_visibility(unsigne=
-d long
-> addr, int numpages,
->  #endif /* CONFIG_HYPERV */
->=20
->=20
-> +#ifdef CONFIG_HYPERV_VTL_MODE
+vTOM mode in Linux is just turning on/off the vTOM bit in the PTE
+to create unencrypted or encrypted mappings, with encrypted being the
+default.  There's no other hardware dependency except CPUID leaf
+0x8000001f reporting that SEV is not enabled, and the GHCB protocol
+(if you want to call that "hardware") as mentioned below.
 
-Hmmm.  CONFIG_HYPERV_VTL_MODE isn't defined until Patch 5 of this series.
-I guess this works because of #ifdef behavior with non-existent values, but
-it is a little bit weird to be referencing a CONFIG_ option that hasn't bee=
-n
-defined yet.
-
-> +void __init hv_vtl_init_platform(void);
-> +#else
-> +static inline void __init hv_vtl_init_platform(void) {}
-> +#endif
-> +
->  #include <asm-generic/mshyperv.h>
 >=20
->  #endif
-> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyper=
-v.c
-> index 61363ce0b335..0dd385cdc332 100644
-> --- a/arch/x86/kernel/cpu/mshyperv.c
-> +++ b/arch/x86/kernel/cpu/mshyperv.c
-> @@ -520,6 +520,7 @@ static void __init ms_hyperv_init_platform(void)
+> Virtual TOM MSR (C001_0135)? Anything else?
 >=20
->  	/* Register Hyper-V specific clocksource */
->  	hv_init_clocksource();
-> +	hv_vtl_init_platform();
->  #endif
->  	/*
->  	 * TSC should be marked as unstable only after Hyper-V
-> --
-> 2.34.1
+> AFAICT, you're passing the vTOM value from CPUID from the hypervisor so
+> I'm guessing that happens underneath in the hypervisor?
 
+Correct.  Linux in vTOM mode is not reading MSR 0xC0010135.  The
+PTE bit position of the vTOM bit is coming from Hyper-V (or the paravisor)
+via a synthetic MSR.  Presumably Hyper-V or the paravisor is reading
+the vTOM MSR, but I haven't reviewed that code.
+
+>=20
+> I'd like to make sure there are no more "surprises" down the road...
+>=20
+
+The only other vTOM changes are for software protocols for communication
+between the guest and Hyper-V (or the paravisor).  Some hypercalls and
+synthetic MSR accesses need to bypass the paravisor and are handled
+with the GHCB protocol.  The Hyper-V and VMbus specific code in Linux
+handles those idiosyncrasies.  That code went into the 5.15 kernel and
+isn't modified by this patch set.
+
+The vTOM case is down to the bare minimum in the use of the hardware
+functionality, so it's unlikely anything else would turn up as being differ=
+ent.
+
+Michael
