@@ -2,108 +2,115 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE48FC6FD1F
-	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Mar 2023 01:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33327C6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Mar 2023 09:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229903AbjCWB1B (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 22 Mar 2023 21:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46928 "EHLO
+        id S231622AbjCWJFB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 23 Mar 2023 05:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229480AbjCWB1A (ORCPT
+        with ESMTP id S231591AbjCWJEh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 22 Mar 2023 21:27:00 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C186D2F073
-        for <linux-hyperv@vger.kernel.org>; Wed, 22 Mar 2023 18:26:58 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5446a91c40cso206421557b3.18
-        for <linux-hyperv@vger.kernel.org>; Wed, 22 Mar 2023 18:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112; t=1679534818;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9N2HnRYrae+sksVu/QRqXOm2kRG5pCUILA+G4RL3KP4=;
-        b=oVuow6GNGDAbF85SsutVT0v2FAYa/hsAB+asR6DacVUBzcygDbpTgqT6vdXtHs/qQP
-         nl+KLJJpQn4DJmAUKgt6QbKmBfZ5dHVMHJLpf7kXsCyl/rinQ1KDLrsvQNzyXTyf+utg
-         9Znq0Up53ShivcXFIy68Mk4tKYs5U/LfYFR7BK3jxewQ1eCuL6CzGYysFIDa8ppeLG+Q
-         vviGX1hQvwATjCxNRLwu4MJyLrUiQtA5yrfewp1bsKZ9cRUPR2VgkqRlbOroB7mfeWm9
-         jijTDsNS1lQvYLznIR93Fwc7ajeXF7RCQk67NQTxAG0IWtCKfdDTgSp5xUm1XvGwEYLu
-         2a9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679534818;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9N2HnRYrae+sksVu/QRqXOm2kRG5pCUILA+G4RL3KP4=;
-        b=d9djeV33/rgCTNYsPsjA9oWWUkVrsErXYMUYmgevmkGVSdg+Te+MvBYyU8TTUlVz8E
-         lQeuTF5o0W5Wggh9VB8oFGsDw2VLFdLnFqjtwBIbOzWbob4drOsggyJ+yxPCZOb3sqos
-         GrkHr7/f94hGJ8WmuOlMwJzSqDNzZtk5p9RxJNG/6TbK9hZivcJSmLSp/k8O6M+JYmvF
-         n5G48JLu8FS3ZdKck1/hvXfmjeBClDylbJHJ7TrOIU8oxTqpVx/2o02LQYUgl4sJRGQF
-         bdWERPD2A766KxT3z7ETGZ3qXgBO2X+UVa59Q6B24rO8/VwWjwvNwTIylfHsi2NHKzx3
-         PHxg==
-X-Gm-Message-State: AAQBX9fLgoZSFQ4dkqgCymA7N0UqRjphiK2gwvRgMDN/ZMv/gv8xX1tF
-        KaXB4qq5tqn72rgxxHXg7gjw3Ksf+5g=
-X-Google-Smtp-Source: AKy350ZAKPcOKD/Xpw0JOF1LdrDfRSndo4JbAlkozLFSiHMC/P3aitD5K0VXiaeLJw2hvq09vSAwvl6aHmQ=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a81:ec03:0:b0:541:6975:2340 with SMTP id
- j3-20020a81ec03000000b0054169752340mr998299ywm.6.1679534818051; Wed, 22 Mar
- 2023 18:26:58 -0700 (PDT)
-Date:   Wed, 22 Mar 2023 18:26:56 -0700
-In-Reply-To: <BYAPR21MB16884B3D0E15E501A7BB8E78D7869@BYAPR21MB1688.namprd21.prod.outlook.com>
-Mime-Version: 1.0
-References: <1677523568-50263-1-git-send-email-mikelley@microsoft.com>
- <dce372bd-e63c-f24c-5b79-1ef65fd1e59a@intel.com> <BYAPR21MB16884B3D0E15E501A7BB8E78D7869@BYAPR21MB1688.namprd21.prod.outlook.com>
-Message-ID: <ZBuq4KjU2ekKk+iS@google.com>
-Subject: Re: [PATCH 1/1] x86/irq: Add hardcoded hypervisor interrupts to /proc/stat
-From:   Sean Christopherson <seanjc@google.com>
-To:     "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     Dave Hansen <dave.hansen@intel.com>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "hpa@zytor.com" <hpa@zytor.com>, "x86@kernel.org" <x86@kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+        Thu, 23 Mar 2023 05:04:37 -0400
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 23 Mar 2023 02:04:30 PDT
+Received: from out-34.mta0.migadu.com (out-34.mta0.migadu.com [IPv6:2001:41d0:1004:224b::22])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907CE1ABF6
+        for <linux-hyperv@vger.kernel.org>; Thu, 23 Mar 2023 02:04:29 -0700 (PDT)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1679562268;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WkdvHrdmTL100mQnwE6Lnhv0ImSnOgCjctLH9bKwcXE=;
+        b=Ql7dbPkwPtVVv40kbYJwCExR/7AdHzcbhdBNTehLR3XeqZu/Jmv/PmcxjnWsYUAjuxdZh0
+        YVpI/JPA/YWsSxKClzdFA+R8LA3IgJXs9Ndmn9o8WKA+M3Cb8tqdRkAnfBjpwjaIjVUpfu
+        a3RhpJyDXW5ay6bF9gTQ/ek5kUR7/5s=
+From:   Cai Huoqing <cai.huoqing@linux.dev>
+To:     cai.huoqing@linux.dev
+Cc:     Derek Chickles <dchickles@marvell.com>,
+        Satanand Burla <sburla@marvell.com>,
+        Felix Manlunas <fmanlunas@marvell.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Raju Rangoju <rajur@chelsio.com>,
+        Dariusz Marcinkiewicz <reksio@newterm.pl>,
+        Dimitris Michailidis <dmichail@fungible.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>,
+        Salil Mehta <salil.mehta@huawei.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Shannon Nelson <shannon.nelson@amd.com>,
+        Brett Creeley <brett.creeley@amd.com>, drivers@pensando.io,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Guangbin Huang <huangguangbin2@huawei.com>,
+        Jian Shen <shenjian15@huawei.com>, Hao Lan <lanhao@huawei.com>,
+        Jie Wang <wangjie125@huawei.com>,
+        Long Li <longli@microsoft.com>, Jiri Pirko <jiri@resnulli.us>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
+Subject: [PATCH 6/8] net: mana: Remove redundant pci_clear_master
+Date:   Thu, 23 Mar 2023 17:03:05 +0800
+Message-Id: <20230323090314.22431-6-cai.huoqing@linux.dev>
+In-Reply-To: <20230323090314.22431-1-cai.huoqing@linux.dev>
+References: <20230323090314.22431-1-cai.huoqing@linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Mar 22, 2023, Michael Kelley (LINUX) wrote:
-> From: Dave Hansen <dave.hansen@intel.com> Sent: Wednesday, March 22, 2023 11:07 AM
-> > 
-> > On 2/27/23 10:46, Michael Kelley wrote:
-> > > diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
-> > > index 766ffe3..9f668d2 100644
-> > > --- a/arch/x86/kernel/irq.c
-> > > +++ b/arch/x86/kernel/irq.c
-> > > @@ -211,6 +211,13 @@ u64 arch_irq_stat_cpu(unsigned int cpu)
-> > >  #ifdef CONFIG_X86_MCE_THRESHOLD
-> > >  	sum += irq_stats(cpu)->irq_threshold_count;
-> > >  #endif
-> > > +#ifdef CONFIG_X86_HV_CALLBACK_VECTOR
-> > > +	sum += irq_stats(cpu)->irq_hv_callback_count;
-> > > +#endif
-> > > +#if IS_ENABLED(CONFIG_HYPERV)
-> > > +	sum += irq_stats(cpu)->irq_hv_reenlightenment_count;
-> > > +	sum += irq_stats(cpu)->hyperv_stimer0_count;
-> > > +#endif
-> > >  #ifdef CONFIG_X86_MCE
-> > >  	sum += per_cpu(mce_exception_count, cpu);
-> > >  	sum += per_cpu(mce_poll_count, cpu);
-> > 
-> > This seems fine, especially since arch_show_interrupts() has them.  But,
-> > what's with the "#if IS_ENABLED" versus the plain #ifdef?  Is there some
-> > difference I'm missing?  Why not just be consistent with the other code
-> > and use a plain #ifdef for both?
-> 
-> I'm following the coding pattern in arch_show_interrupts(), in irq_cpustat_t,
-> and most other places that test CONFIG_HYPERV.   Maybe all those existing
-> cases are a mis-application of Documentation/process/coding-style.rst
-> Section 21, which prefers "if (IS_ENABLED(CONFIG_HYPERV))" over
-> "#ifdef CONFIG_HYPERV".  "#if IS_ENABLED()" is not the same as
-> "if (IS_ENABLED())".  :-)
-> 
->  Net, I don't have a strong preference either way.
+Remove pci_clear_master to simplify the code,
+the bus-mastering is also cleared in do_pci_disable_device,
+like this:
+./drivers/pci/pci.c:2197
+static void do_pci_disable_device(struct pci_dev *dev)
+{
+	u16 pci_command;
 
-Using IS_ENABLED() is mandatory because CONFIG_HYPERV is a tri-state, i.e. can
-be a module and thus #define CONFIG_HYPER_MODULE instead of CONFIG_HYPERV.
+	pci_read_config_word(dev, PCI_COMMAND, &pci_command);
+	if (pci_command & PCI_COMMAND_MASTER) {
+		pci_command &= ~PCI_COMMAND_MASTER;
+		pci_write_config_word(dev, PCI_COMMAND, pci_command);
+	}
+
+	pcibios_disable_device(dev);
+}.
+And dev->is_busmaster is set to 0 in pci_disable_device.
+
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+ drivers/net/ethernet/microsoft/mana/gdma_main.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+index f9b8f372ec8a..8f3f78b68592 100644
+--- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
++++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
+@@ -1439,7 +1439,6 @@ static int mana_gd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ release_region:
+ 	pci_release_regions(pdev);
+ disable_dev:
+-	pci_clear_master(pdev);
+ 	pci_disable_device(pdev);
+ 	dev_err(&pdev->dev, "gdma probe failed: err = %d\n", err);
+ 	return err;
+@@ -1458,7 +1457,6 @@ static void mana_gd_remove(struct pci_dev *pdev)
+ 	vfree(gc);
+ 
+ 	pci_release_regions(pdev);
+-	pci_clear_master(pdev);
+ 	pci_disable_device(pdev);
+ }
+ 
+-- 
+2.34.1
+
