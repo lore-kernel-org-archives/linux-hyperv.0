@@ -2,29 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8232FC761AF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Mar 2023 09:09:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5625EC6FD1D
+	for <linux-hyperv@archiver.kernel.org>; Thu, 23 Mar 2023 09:09:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbjCWJJc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 23 Mar 2023 05:09:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
+        id S230016AbjCWJJ5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 23 Mar 2023 05:09:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjCWJJS (ORCPT
+        with ESMTP id S229500AbjCWJJc (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 23 Mar 2023 05:09:18 -0400
-Received: from out-32.mta0.migadu.com (out-32.mta0.migadu.com [IPv6:2001:41d0:1004:224b::20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06C41A95B
-        for <linux-hyperv@vger.kernel.org>; Thu, 23 Mar 2023 02:08:45 -0700 (PDT)
+        Thu, 23 Mar 2023 05:09:32 -0400
+Received: from out-55.mta1.migadu.com (out-55.mta1.migadu.com [95.215.58.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20C2F1B324
+        for <linux-hyperv@vger.kernel.org>; Thu, 23 Mar 2023 02:09:31 -0700 (PDT)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1679562206;
+        t=1679562257;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=lTe9LISs2pflvSiuzz8njOhESiOpw5ulrZFB1bo8ej0=;
-        b=uYcoUfKDkxNQ6Id+Oa4CLl9EGelbi8sUDea8HTVwAAcsDQDyAVWO1CZOtQpqSBg17uAAXh
-        My6s84gYx4X746OVkTIgmvhoXolDbjHgA9Kkg8EjTb7bRU0la49hQCaCO8BCOTQ//RyOAy
-        KJhdS0oIe2rn0GN5fBK0vtCp5+r/btY=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NyEg017C1ywIX1wAn/q5NdZuOMZ8BdSt+EwBakRj+C0=;
+        b=rL5is+VMlk/R/98gOQvo9hI/r3EWFTkJzCppl65GYIBeu3seWtEy3bFQ9T0ybZpf+HAloY
+        ySfUBZFZ1dYGWavwB3uOqjfUAT6cVbIpUJR6bF90M7f6aT6tD8DECh3ltE0fPxI8wki0AH
+        hQgilZvJ6OCwmyHPHogcL4Nqv+5b90g=
 From:   Cai Huoqing <cai.huoqing@linux.dev>
 To:     cai.huoqing@linux.dev
 Cc:     Derek Chickles <dchickles@marvell.com>,
@@ -54,9 +55,11 @@ Cc:     Derek Chickles <dchickles@marvell.com>,
         Long Li <longli@microsoft.com>, Jiri Pirko <jiri@resnulli.us>,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-rdma@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: [PATCH 1/8] net: liquidio: Remove redundant pci_clear_master
-Date:   Thu, 23 Mar 2023 17:03:00 +0800
-Message-Id: <20230323090314.22431-1-cai.huoqing@linux.dev>
+Subject: [PATCH 5/8] net/mlx5: Remove redundant pci_clear_master
+Date:   Thu, 23 Mar 2023 17:03:04 +0800
+Message-Id: <20230323090314.22431-5-cai.huoqing@linux.dev>
+In-Reply-To: <20230323090314.22431-1-cai.huoqing@linux.dev>
+References: <20230323090314.22431-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
@@ -84,34 +87,29 @@ And dev->is_busmaster is set to 0 in pci_disable_device.
 
 Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 ---
- drivers/net/ethernet/cavium/liquidio/lio_main.c    | 1 -
- drivers/net/ethernet/cavium/liquidio/lio_vf_main.c | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/net/ethernet/mellanox/mlx5/core/main.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/cavium/liquidio/lio_main.c b/drivers/net/ethernet/cavium/liquidio/lio_main.c
-index fd7c80edb6e8..9bd1d2d7027d 100644
---- a/drivers/net/ethernet/cavium/liquidio/lio_main.c
-+++ b/drivers/net/ethernet/cavium/liquidio/lio_main.c
-@@ -1129,7 +1129,6 @@ static void octeon_destroy_resources(struct octeon_device *oct)
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+index d39c3476b6d1..597174ceadc9 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
+@@ -918,7 +918,6 @@ static int mlx5_pci_init(struct mlx5_core_dev *dev, struct pci_dev *pdev,
+ 	return 0;
  
- 		fallthrough;
- 	case OCT_DEV_PCI_ENABLE_DONE:
--		pci_clear_master(oct->pci_dev);
- 		/* Disable the device, releasing the PCI INT */
- 		pci_disable_device(oct->pci_dev);
- 
-diff --git a/drivers/net/ethernet/cavium/liquidio/lio_vf_main.c b/drivers/net/ethernet/cavium/liquidio/lio_vf_main.c
-index ac196883f07e..e2921aec3da0 100644
---- a/drivers/net/ethernet/cavium/liquidio/lio_vf_main.c
-+++ b/drivers/net/ethernet/cavium/liquidio/lio_vf_main.c
-@@ -577,7 +577,6 @@ static void octeon_destroy_resources(struct octeon_device *oct)
- 
- 		fallthrough;
- 	case OCT_DEV_PCI_ENABLE_DONE:
--		pci_clear_master(oct->pci_dev);
- 		/* Disable the device, releasing the PCI INT */
- 		pci_disable_device(oct->pci_dev);
- 
+ err_clr_master:
+-	pci_clear_master(dev->pdev);
+ 	release_bar(dev->pdev);
+ err_disable:
+ 	mlx5_pci_disable_device(dev);
+@@ -933,7 +932,6 @@ static void mlx5_pci_close(struct mlx5_core_dev *dev)
+ 	 */
+ 	mlx5_drain_health_wq(dev);
+ 	iounmap(dev->iseg);
+-	pci_clear_master(dev->pdev);
+ 	release_bar(dev->pdev);
+ 	mlx5_pci_disable_device(dev);
+ }
 -- 
 2.34.1
 
