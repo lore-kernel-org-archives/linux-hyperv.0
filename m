@@ -2,45 +2,45 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25B68C74A5B
-	for <linux-hyperv@archiver.kernel.org>; Sun, 26 Mar 2023 13:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF02C761AF
+	for <linux-hyperv@archiver.kernel.org>; Sun, 26 Mar 2023 13:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231891AbjCZN4U (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sun, 26 Mar 2023 09:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54766 "EHLO
+        id S231956AbjCZN4m (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sun, 26 Mar 2023 09:56:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232140AbjCZN4D (ORCPT
+        with ESMTP id S232140AbjCZN41 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sun, 26 Mar 2023 09:56:03 -0400
-Received: from DM5PR00CU002.outbound.protection.outlook.com (mail-cusazlp170110003.outbound.protection.outlook.com [IPv6:2a01:111:f403:c111::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00128A51;
-        Sun, 26 Mar 2023 06:55:21 -0700 (PDT)
+        Sun, 26 Mar 2023 09:56:27 -0400
+Received: from DM5PR00CU002.outbound.protection.outlook.com (mail-centralusazon11021024.outbound.protection.outlook.com [52.101.62.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0857ABA;
+        Sun, 26 Mar 2023 06:55:43 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jzghvx0apsEnEU0F/Wsp19UI6HMLAzDp31sUM8WjZ0Otf5TVDI/Qk4SPmHIIL5PNhFkVrfvLx0BwwaQbtf3SAgT+jjF/cvh6OwIUNRFFeBIkrIXKIa+VUCvcq8qIYakAsjuAnPQjZlLnguEl7l9MZAuw87F8dixi5KHewk3G7aatwNCzwYmsClIe9ukA3p3dFYmGkEXoEK3AaPrtjAfE+RbzyqVQcOTebumc4ZaFsoCiqINuubjjueMeDUdKWEC5J7Zi6V/oHqKCVebPwKNMtT7hmXTwhiiVy4BZW0gXIbhBbyrrk+bQWK+efUEGtfVeeeMJ/O2T8ARZFdIp8FjNFQ==
+ b=gRDb/w8LR+OYfn293u3vQijGuEf3uhOT+XCCEOdw2NNNORVgeuzJsahEPIl8HGN/Ij7/2uqAfdN7LpAFtI4l24Nd8qJgilQCfP+wVgoKs46hhfehsTFeE8zw/uhF0A9UYxTy0Be8dBU8u+MlZxxj5xfreERIj1zWKAJ2FxNKht+TlOGrclfwBKKgtZHGaCr0vqkvTxY+kXm044BHL8YDCk2ajr3geRdUuheS2tUigobK6Z64fW4cYMlKpA/rWtrvj+zB8IYxmTo+QpLa8GFpemTJ/hTQmDCSzIJ2pSPFLjXURu0188HI1iMJvBd/CqEDzrQ8tlo7aDPTc4SKpUaqXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gbY44/+BdsQQ12XPkkNa0EECdNIeOvA1nOIn1gHaafs=;
- b=PMHZ7qpEc0/iKT/hvxhvB19soOHkTkIjEsB3uvWJWWQ+Qx7DQlRe1kYpyYOO7yfK/QJGIpuUpLA+bZEBd6qg8VQmxoS/85D3SU+wD9/Fbg+1SlN9JWSoSTDSzLiK4M1+w01vG7X3fC6hjW4fZOu+puubLduIOGhBodBB1RJ03tGZlj003kUpusrQ0MigIDG6YFMg0S0grdbw1+rrLkHmGhJ6Id8NDaaOS0hwKG/tbJaXP9jF2xq12AmjbAzXjHgRp0AIBBEu5QYdgpY4dH7pUolfAJasnJMlSeF9WYb6ILEqepQoYjni8hux1ThsUfvMYybk9Afpz03wG8Pm/fVnQg==
+ bh=btHCRwLeI1shgTOdpYSDuK5X6Vba/jr4GkHOzvHVEYc=;
+ b=f36dVR+s92DEPTBGGZmKLHUcb4F+BXqjxpeAeVk14EHQnTee5UdHIPtBkTE5Qa0qwpr2dKShGFCi7fn2FkGOqdBwM29I/7GWW1pFX3jOaE/DRlWBwgPZboGmmvmu3OcbF/RI8foKkY6p6lMBDQWngTEX+AKwv8QqBxgU2RgtWDjb+5aN4DXVnJ4P9FY1VgaXfKhf5X28R0FBrQMIdTec8eIHUYkQsgRlXASjUlzMxA+kja+5+gALxxf0W8P4JG1jYPKWCyXgzLG4EdIaoWnBy4Vb4RMVUbCVTKm9AWBn5TBTwQtdvOLC3IKwonNvAz1jrtmXxI7gNbE82NrrjnSqHg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gbY44/+BdsQQ12XPkkNa0EECdNIeOvA1nOIn1gHaafs=;
- b=AGxeYTCQhe6TM4lrLIyIFcgLSSZHCtoAD7b7xn8JGbhoyA6XAn4xcO9f6HPj6a47H34DoKUPLON9bWoaRplzRYgzPjsvMJgLZcVIUbEWd+ZYGVnHRWXiovlhTVy87e8kG0V2QkNLAFl9Bko1Tr6ia/Z/l4oR0w8jcxpXqzzf+zg=
+ bh=btHCRwLeI1shgTOdpYSDuK5X6Vba/jr4GkHOzvHVEYc=;
+ b=j17KpctZQPVPDcMJlFjHiPCV6Do0UsQQpxEYqrU6Rrxry++sLWbiPmzte7tNpVheRe8UrTqKz0NYjQauBrscEpK770aRZvC3zHanPwbqWuKnLOq8lmgF4YbwD+g/2qGrqfzPw+LBP6dJGtvvB5fDN5p6/zfZULgRJn97c2PUShI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
  by MW4PR21MB2001.namprd21.prod.outlook.com (2603:10b6:303:68::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.15; Sun, 26 Mar
- 2023 13:53:32 +0000
+ 2023 13:53:28 +0000
 Received: from DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::b7e9:4da1:3c23:35f]) by DM6PR21MB1370.namprd21.prod.outlook.com
  ([fe80::b7e9:4da1:3c23:35f%3]) with mapi id 15.20.6254.009; Sun, 26 Mar 2023
- 13:53:32 +0000
+ 13:53:28 +0000
 From:   Michael Kelley <mikelley@microsoft.com>
 To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
@@ -59,9 +59,9 @@ To:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
         linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
         iommu@lists.linux.dev
 Cc:     mikelley@microsoft.com
-Subject: [PATCH v7 12/12] PCI: hv: Enable PCI pass-thru devices in Confidential VMs
-Date:   Sun, 26 Mar 2023 06:52:07 -0700
-Message-Id: <1679838727-87310-13-git-send-email-mikelley@microsoft.com>
+Subject: [PATCH v7 10/12] hv_netvsc: Remove second mapping of send and recv buffers
+Date:   Sun, 26 Mar 2023 06:52:05 -0700
+Message-Id: <1679838727-87310-11-git-send-email-mikelley@microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1679838727-87310-1-git-send-email-mikelley@microsoft.com>
 References: <1679838727-87310-1-git-send-email-mikelley@microsoft.com>
@@ -73,455 +73,276 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|MW4PR21MB2001:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19e2419c-0cc0-4e6d-4b9e-08db2e017c75
+X-MS-Office365-Filtering-Correlation-Id: 1e7855a9-96a2-44b1-3858-08db2e0179fd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8cyK4rqkQ7uhgT/63MQFyIlEpF/sBDl9XhM5DG3uqogonqRkxWJi6ZSOkmhcgtO4NMBvheUXmWxTS4wU1f85x8bCI8IgvrTpKJ/cdpO6y/kzqRtg/mQs1BhGEiyn4dnFM+OnD2RBuzNPC+yjGLhAGywuNpq53WeGVfY8JFzQ4UbiVf+Q/pw7YGU1wK1c8escrCyMBza/WEsA/tVytJXzCK+9Wd2+dMC16qlDEe8SW0i7TRJCDAqXLOotLnJi8l8DX7MHorxyT+dkZFMCCVM8/BfSwC1NStKbfN9YjLKQ8eunpiQcpW3goaQUE9Mejtv/SfvvPQJECH/M1UxoXN0dqTXoj9+Qi0igCXTp9zaL2hJTPzGaJmwYMAQFZg1Yb2QIhuxuZwIgRr9Pk2p8Cooh/unKKYa0raYoavtrDgxIKDyV9LEpsVJvtfAz39yI4CT/dYcNejApJmHS64rck/Hqv0m/DYCz1fm9/XpouVYOy8pCIrGwNn575Q3Sdq/2R6u1n+N25r63i5WSInCWOuVBZ1h6Mn9KhzKqP7AdKIpKok/i0+HeFANkylmPk7sqCjQ1xUgZY9Wa1Eofnq7/Z45HvqTCJoQEXYQYG7JkuL7nxrUQB299aj50/fp+2MLPTm6kvu+agXkNz9oTyJNpbD1pSaGSZjcDcvF2YYLUogEW66E=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(451199021)(38100700002)(38350700002)(82950400001)(82960400001)(36756003)(86362001)(921005)(2906002)(6666004)(107886003)(10290500003)(186003)(26005)(478600001)(6506007)(6512007)(5660300002)(7416002)(7406005)(8936002)(52116002)(966005)(6486002)(41300700001)(30864003)(316002)(66556008)(66476007)(66946007)(4326008)(2616005)(8676002)(83380400001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: c3rx3+MWVBEye6W7eIkZ25/2KiTegrgV7+DBkCVL9sBLRbgj+UQCyl1WHgU1u0bu4GsxwRCqS6+wFGqV8m+6DGIneDmHuc56bfuh4GXDE5nEYZBpPbv9NYsCr36OnEcuB82M5PqYVK3vXz6eikV8nlbhjaE+JqJspZRMK0m/PZ/F6XFl5iCKBMmTTB1LWUuqwN9v2a63haSOeGfu+DTFdqz3BPJBhaIcDaYZVbXwjQB0t03qqVPXfQAoGS5eNHR9mkDZb7PTmca9CZNxg3yPWzPYaEzyLI8Gb2Nq9hEI50LbT8Yh+GNWbWrG2T9y/Gp5V+Ps1cN8doxu+JgpXH/Eyv9KiLjZ291z26/O3VHdc7i18b/VwPzwwMlfiMS2Y0VSb5h/eWBHSL4JaksMPgXEnZyRfhnGnBOs2MopUcdeuwwSRmPIcCl5ZSL6eLqsdW5fTeD2YhEmLusZ4/6l7vlGoyfW4if7Oi3oLOTzTCF2iXRXxCZJeVQsYFJwOa36FQhNh0yI3aWIR4OXtVoGdA9vc1QUQGsN7BoXizIiTjIzfpvFFOVc43566FDWlYAZ9WQ9EgBd2u/py4Wk+0oyjD2rGFSULmctCGeLQEJZ6Y97UeM3PFU7clVozFf8sT+VfbPJAu/3RswodpeyOR1qIQcr2QM3/Rj8GJign1WvUpxOpxSnkpRCv9lpslDV80JTC4tR
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(376002)(346002)(366004)(136003)(396003)(451199021)(38100700002)(38350700002)(82950400001)(82960400001)(36756003)(86362001)(921005)(2906002)(6666004)(107886003)(10290500003)(186003)(26005)(478600001)(6506007)(6512007)(5660300002)(7416002)(7406005)(8936002)(52116002)(6486002)(41300700001)(316002)(66556008)(66476007)(66946007)(4326008)(2616005)(8676002)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Rdf/dciESQRn2tdCrxJeAG4Bs1/cjuqNkODQ1RsZssDn7fxDxZqa9rTEFjt4?=
- =?us-ascii?Q?o9HIsZnmKltAGoy3a9NMF0GqX4uOzYBM2lTGOWpmA7e+qhh48HGUct4qe3IE?=
- =?us-ascii?Q?wG8q4tN7RlV1RaCPBhfgAU8SPhY9QBP620wyj5CBadl3me5xgRhHdY8/4Boy?=
- =?us-ascii?Q?KE8u+ltuYH+P0zbIMooGwWBj1TP5TWK2Wa44sU5L06JcRAZX/Mp00u8u1yyc?=
- =?us-ascii?Q?KT6+8o/wiF9Zp825u/aQVnsHGoKuUqNENY9p1uQ8SNdy8VKGXQ5W/2AGrFft?=
- =?us-ascii?Q?CL+/K1lfqydtBCmV0uIuq7HGmV+zIsxR/Zo++huSQOO9uHe350LMksm3NhZ3?=
- =?us-ascii?Q?RJGFeDdG+Asm7Q/ApflRIo9IMUmbtyWeNxBoswcN3FMrDUjIQr7yIbw+V2fT?=
- =?us-ascii?Q?OdVsNRJMFuHlybAD0KFDQqOgyAkuwf0nH6bqma6CXg9UsHD9kiAlNCjq6PNL?=
- =?us-ascii?Q?yZTWg9+9Ke9s9nHdYNP8FB28oac73eLkGXriiwmSFyeq+29J1ofH3wt9H60P?=
- =?us-ascii?Q?LlqHf9Wd1CUMAx9dpq4+XGp9+ocWzg/xy6aNmnt8pL8obdP8f7fJhgSdSVSd?=
- =?us-ascii?Q?OuNCWPtEkj/1wh8y8R42eq09dXO9bcXSGdX/qhp1zlnlrEEd0kbOZXJ0cWCc?=
- =?us-ascii?Q?1rYEWhQT2rkp/zFEe5jKASTBGOicfWx503psZleBaDxkH+wVtRV+M3nkXtrq?=
- =?us-ascii?Q?U+a32I8IDnI+3BCxSqbFfSMNR38OVFx/Cp0TLwLWUh+v2VgldXhINyp8bIF7?=
- =?us-ascii?Q?nWzfdxuwMBazWIycUT67KFoEoP/h5WMbvLPuA0UpTmSFda6s0M3ufL8VA1Y1?=
- =?us-ascii?Q?NsX9HBMycu/7O9wUO3cYqCdpjcQJOtgUNFF/SOCmycHcCFx/ELAuA6MUCUjq?=
- =?us-ascii?Q?9ylB9ex7OS+yqbNJDci6u0vswJuDDczixxIUPGSFSxk2+gTagQFBZPXhBx7V?=
- =?us-ascii?Q?JV9/6jueyzG3H0Z7s7x4OAcqBsgcNgDwy7OIORcq835SOJZQiNzb5vdNDwiz?=
- =?us-ascii?Q?6zdbWnRh2tX0EIVyK0bZSYZfV68nPsE7ec4b5skJ2XIrrg+uBwBG1cCsHK+a?=
- =?us-ascii?Q?0UL0HV0ObxX4yc3B97G93MGPcin8D23y7E1foX1QPcc+uq//Fp+fLSKCm47Z?=
- =?us-ascii?Q?ob3tMZD8ajtmd2tJA+71hnMrvHTuZhS7enj3D2AtAo4ZDFAwkDqYYg5FDWxx?=
- =?us-ascii?Q?q951oak5Yjq5Iv+g3DwRLkOp/sHT8XLwJOLmhDBl5xfboKc7re7Wd/IDetbd?=
- =?us-ascii?Q?Fjg0pIS1H+Y4TjMQq+UZyEYPF2+iFlGsKDu8JW6yf/WPAEvaEG+lr104U5AW?=
- =?us-ascii?Q?JlTBioa4d8UnQIAjpb0J5AZyJvuFPKbAT90nEP9GrplfaMaIsvidjywm7TIS?=
- =?us-ascii?Q?UG3IrGsFxbMsnCIB4wr0+Z8yDbKIx20RG+Qikp/pI+/j8X4LLvVX0H3Dm2nB?=
- =?us-ascii?Q?64I/jNnCVN49e1ZY60p58Aei9aiFqLBeAxLlNMBE838ER4dCPx4Km2lnzgI/?=
- =?us-ascii?Q?7AXZ7o9uKoTrOn4u6JYce3s6XRKRJayzqScAwA9ZStTMS9JwGR3usgJeIcFT?=
- =?us-ascii?Q?NLSKA4BEWE98dHkXkQxoE6w7KdPK06UDOw7/JLBcvK8YfEzq8IA97nNw32ai?=
- =?us-ascii?Q?uw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fvyp/F2OQ2W3mwfQzG5Qeqwe8nH8m2xSDdWUP2pgP6a94yqtbhLMuCbXtYlr?=
+ =?us-ascii?Q?R99HOeuKJy3hiFSy1twLKtN764pDy7a6JhAM/MynOppfplJOcmRB5HK+X910?=
+ =?us-ascii?Q?PBFDvxsCjiuyz4Ih4Bz2V1fHFsArRzr8ZyY2HCGJNk9BQMKgm2YuxFomjlRL?=
+ =?us-ascii?Q?IoO7yjcDximtNCq+dSVbVe7uuLZOqPeRo6jLI/d3XAtn0YgL2tdQ1Dqh4J7R?=
+ =?us-ascii?Q?T+wOY9w9qozyW6AlPNp1E3uEuhiknSEY2242anUk8DeG1hY6T8GjkWseJssC?=
+ =?us-ascii?Q?Yy/LUxyo3HqaS89bm0+WeNZzRuw/vVm5rIWE2u/7J8BTLyiFAg2GateHuXKs?=
+ =?us-ascii?Q?/rltT5oSTWWoU98nmCPCPBgJNvxJ/nrwW74LvAUo+fJAP7hxq5dknw7Evrep?=
+ =?us-ascii?Q?T8ZyzxvmAK80HIR/f0Im/zv5qI2glo8l/vMUw7VDWxRgwBLnShmWp1iv67Ei?=
+ =?us-ascii?Q?UWJy7+tZUcEbdXT6bFh6euYY3C1rf0Iw8n0PCF1c2QoVZzg8WrjWhZ+JkzUL?=
+ =?us-ascii?Q?coTfrMFcNgCF6rIqhX3xR2aR9hfBxO1FPNUCVFktPA49vlQ1AajdGOGLSOvo?=
+ =?us-ascii?Q?18sqML8U6+v9germLrkr/PvGL1cZgF1kCRfEBAobb/nxlO+d6eASM0KQKxJz?=
+ =?us-ascii?Q?QXT+Zmt3K+YXXCddOUZIwGVsdALxbwczl4UMi+6FKd3M4j2YAPbyBoFPkhtE?=
+ =?us-ascii?Q?l+VACkdyqZ//h5p07FSVIdpfOqUxvbQh9YpnAyliMQahkFLytOLBy6AdW34F?=
+ =?us-ascii?Q?Vybkd/MBLfzRrrcqB+sqpz7fUm0lYK/1ax6XKDoqbUgZsR+MB6Tlgdr78xDY?=
+ =?us-ascii?Q?vIpoJyVOtPGSY69tnW85L6g4kaQ8dN1jGJlL5u73QsPpDW8ERJLO9+DnejoJ?=
+ =?us-ascii?Q?Tv1zBEh0tac/ara/xQ8Y/+4uSmhrtagwM/ePxwm/ovOaQOoVxTgV3AYLg9AD?=
+ =?us-ascii?Q?D/iMMI4wmvTUEIrZK0UG7jN4GJfY1/f5LxRGwJprdPw6jAtGpVd30l3RCich?=
+ =?us-ascii?Q?lpkyYe4lN8ir33zSxH7ynC1uwx7NifmDod1azcZlWqNg2gMXKW2DT2x65MRs?=
+ =?us-ascii?Q?TYVoL7BAFE6EKAaWV771M+ykWsnGAv+1lRi9a+Pk5LE+DU2LeUTJ/snWi8R4?=
+ =?us-ascii?Q?bC1LW47bHzTOexDNS+4yKkk82tOBdbBF307nUq9wtJTT3XFmpgsEP9hQCfl2?=
+ =?us-ascii?Q?+sRqpII1lmZULn6VYXQ6ATCkLhShf76YMjc0SvAIfQHoXb4jlVWPF5OWLn/j?=
+ =?us-ascii?Q?oc1hEl/mK772QT/1YExWDypLDgvP2slD3SlxHqisNEp5QIvauLqa9Otqr8ni?=
+ =?us-ascii?Q?Wmi5uLXIAg16HYClcacsrGnPtbKhY/uXxPQt+RCtCJ+85S5I6RC7PRPgEya5?=
+ =?us-ascii?Q?ImWqP/UEqanxUofXlIKJcywoYdfVfaGkyHWU4c2MqfIJYxkS3bGWnDq7ucig?=
+ =?us-ascii?Q?DGZN9HTi9BSS0oZZazpp+UaD9OrgmLvlazoMHAufvh5y5XrcSX4Ey5ArlpaF?=
+ =?us-ascii?Q?zqopYRzU9QASWcyhnc3Uj6CWKOcn+Qk2Xp2JMdRZ7HZNn30jnXXNBSUfnTzk?=
+ =?us-ascii?Q?QFdtoOzJjcYxoc4vta1npo+Omgzz5w9ox9A32lEsJu1ZFQ/oTH3I8lomnoCG?=
+ =?us-ascii?Q?MA=3D=3D?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19e2419c-0cc0-4e6d-4b9e-08db2e017c75
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e7855a9-96a2-44b1-3858-08db2e0179fd
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2023 13:53:32.2313
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2023 13:53:28.0967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jjUfcKcLxgOt7KKL9pVc0mCABKvaHo1z1/VkPIiGQzr4PykDE0d03UN9bHjOGpO91tKqbzWFOw4Pt6SBDbdWrg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xe1ZAw8LYN8Vod71Up4sfdOZTN5CCLvdfIV5OcFcdeF3p1GHkE/LxKA+5j4Mh0vkpLnBGjpn6IkUHi9iQv3otA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR21MB2001
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-For PCI pass-thru devices in a Confidential VM, Hyper-V requires
-that PCI config space be accessed via hypercalls.  In normal VMs,
-config space accesses are trapped to the Hyper-V host and emulated.
-But in a confidential VM, the host can't access guest memory to
-decode the instruction for emulation, so an explicit hypercall must
-be used.
+With changes to how Hyper-V guest VMs flip memory between private
+(encrypted) and shared (decrypted), creating a second kernel virtual
+mapping for shared memory is no longer necessary.  Everything needed
+for the transition to shared is handled by set_memory_decrypted().
 
-Add functions to make the new MMIO read and MMIO write hypercalls.
-Update the PCI config space access functions to use the hypercalls
-when such use is indicated by Hyper-V flags.  Also, set the flag to
-allow the Hyper-V PCI driver to be loaded and used in a Confidential
-VM (a.k.a., "Isolation VM").  The driver has previously been hardened
-against a malicious Hyper-V host[1].
+As such, remove the code to create and manage the second
+mapping for the pre-allocated send and recv buffers.  This mapping
+is the last user of hv_map_memory()/hv_unmap_memory(), so delete
+these functions as well.  Finally, hv_map_memory() is the last
+user of vmap_pfn() in Hyper-V guest code, so remove the Kconfig
+selection of VMAP_PFN.
 
-[1] https://lore.kernel.org/all/20220511223207.3386-2-parri.andrea@gmail.com/
-
-Co-developed-by: Dexuan Cui <decui@microsoft.com>
-Signed-off-by: Dexuan Cui <decui@microsoft.com>
 Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
-Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+Reviewed-by: Tianyu Lan <Tianyu.Lan@microsoft.com>
 ---
- arch/x86/include/asm/hyperv-tlfs.h  |   3 +
- drivers/hv/channel_mgmt.c           |   2 +-
- drivers/pci/controller/pci-hyperv.c | 232 ++++++++++++++++++++++++++----------
- include/asm-generic/hyperv-tlfs.h   |  22 ++++
- 4 files changed, 194 insertions(+), 65 deletions(-)
+ arch/x86/hyperv/ivm.c           | 28 ------------------------
+ drivers/hv/Kconfig              |  1 -
+ drivers/hv/hv_common.c          | 11 ----------
+ drivers/net/hyperv/hyperv_net.h |  2 --
+ drivers/net/hyperv/netvsc.c     | 48 ++---------------------------------------
+ include/asm-generic/mshyperv.h  |  2 --
+ 6 files changed, 2 insertions(+), 90 deletions(-)
 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 0b73a80..b4fb75b 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -122,6 +122,9 @@
- /* Recommend using enlightened VMCS */
- #define HV_X64_ENLIGHTENED_VMCS_RECOMMENDED		BIT(14)
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index f6a020c..127d5b7 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -376,34 +376,6 @@ void __init hv_vtom_init(void)
  
-+/* Use hypercalls for MMIO config space access */
-+#define HV_X64_USE_MMIO_HYPERCALLS			BIT(21)
-+
- /*
-  * CPU management features identification.
-  * These are HYPERV_CPUID_CPU_MANAGEMENT_FEATURES.EAX bits.
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index cc23b90..007f26d 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -67,7 +67,7 @@
- 	{ .dev_type = HV_PCIE,
- 	  HV_PCIE_GUID,
- 	  .perf_device = false,
--	  .allowed_in_isolated = false,
-+	  .allowed_in_isolated = true,
- 	},
+ #endif /* CONFIG_AMD_MEM_ENCRYPT */
  
- 	/* Synthetic Frame Buffer */
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index f33370b..337f3b4 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -514,6 +514,7 @@ struct hv_pcibus_device {
- 
- 	/* Highest slot of child device with resources allocated */
- 	int wslot_res_allocated;
-+	bool use_calls; /* Use hypercalls to access mmio cfg space */
- 
- 	/* hypercall arg, must not cross page boundary */
- 	struct hv_retarget_device_interrupt retarget_msi_interrupt_params;
-@@ -1041,6 +1042,70 @@ static int wslot_to_devfn(u32 wslot)
- 	return PCI_DEVFN(slot_no.bits.dev, slot_no.bits.func);
- }
- 
-+static void hv_pci_read_mmio(struct device *dev, phys_addr_t gpa, int size, u32 *val)
-+{
-+	struct hv_mmio_read_input *in;
-+	struct hv_mmio_read_output *out;
-+	u64 ret;
-+
-+	/*
-+	 * Must be called with interrupts disabled so it is safe
-+	 * to use the per-cpu input argument page.  Use it for
-+	 * both input and output.
-+	 */
-+	in = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	out = *this_cpu_ptr(hyperv_pcpu_input_arg) + sizeof(*in);
-+	in->gpa = gpa;
-+	in->size = size;
-+
-+	ret = hv_do_hypercall(HVCALL_MMIO_READ, in, out);
-+	if (hv_result_success(ret)) {
-+		switch (size) {
-+		case 1:
-+			*val = *(u8 *)(out->data);
-+			break;
-+		case 2:
-+			*val = *(u16 *)(out->data);
-+			break;
-+		default:
-+			*val = *(u32 *)(out->data);
-+			break;
-+		}
-+	} else
-+		dev_err(dev, "MMIO read hypercall error %llx addr %llx size %d\n",
-+				ret, gpa, size);
-+}
-+
-+static void hv_pci_write_mmio(struct device *dev, phys_addr_t gpa, int size, u32 val)
-+{
-+	struct hv_mmio_write_input *in;
-+	u64 ret;
-+
-+	/*
-+	 * Must be called with interrupts disabled so it is safe
-+	 * to use the per-cpu input argument memory.
-+	 */
-+	in = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	in->gpa = gpa;
-+	in->size = size;
-+	switch (size) {
-+	case 1:
-+		*(u8 *)(in->data) = val;
-+		break;
-+	case 2:
-+		*(u16 *)(in->data) = val;
-+		break;
-+	default:
-+		*(u32 *)(in->data) = val;
-+		break;
-+	}
-+
-+	ret = hv_do_hypercall(HVCALL_MMIO_WRITE, in, NULL);
-+	if (!hv_result_success(ret))
-+		dev_err(dev, "MMIO write hypercall error %llx addr %llx size %d\n",
-+				ret, gpa, size);
-+}
-+
- /*
-  * PCI Configuration Space for these root PCI buses is implemented as a pair
-  * of pages in memory-mapped I/O space.  Writing to the first page chooses
-@@ -1059,8 +1124,10 @@ static int wslot_to_devfn(u32 wslot)
- static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 				     int size, u32 *val)
+-/*
+- * hv_map_memory - map memory to extra space in the AMD SEV-SNP Isolation VM.
+- */
+-void *hv_map_memory(void *addr, unsigned long size)
+-{
+-	unsigned long *pfns = kcalloc(size / PAGE_SIZE,
+-				      sizeof(unsigned long), GFP_KERNEL);
+-	void *vaddr;
+-	int i;
+-
+-	if (!pfns)
+-		return NULL;
+-
+-	for (i = 0; i < size / PAGE_SIZE; i++)
+-		pfns[i] = vmalloc_to_pfn(addr + i * PAGE_SIZE) +
+-			(ms_hyperv.shared_gpa_boundary >> PAGE_SHIFT);
+-
+-	vaddr = vmap_pfn(pfns, size / PAGE_SIZE, pgprot_decrypted(PAGE_KERNEL));
+-	kfree(pfns);
+-
+-	return vaddr;
+-}
+-
+-void hv_unmap_memory(void *addr)
+-{
+-	vunmap(addr);
+-}
+-
+ enum hv_isolation_type hv_get_isolation_type(void)
  {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
+ 	if (!(ms_hyperv.priv_high & HV_ISOLATION))
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 0747a8f..9a074cb 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -8,7 +8,6 @@ config HYPERV
+ 		|| (ARM64 && !CPU_BIG_ENDIAN))
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR if X86
+-	select VMAP_PFN
+ 	help
+ 	  Select this option to run Linux as a Hyper-V client operating
+ 	  system.
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 52a6f89..6d40b6c 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -311,14 +311,3 @@ u64 __weak hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_s
+ 	return HV_STATUS_INVALID_PARAMETER;
+ }
+ EXPORT_SYMBOL_GPL(hv_ghcb_hypercall);
+-
+-void __weak *hv_map_memory(void *addr, unsigned long size)
+-{
+-	return NULL;
+-}
+-EXPORT_SYMBOL_GPL(hv_map_memory);
+-
+-void __weak hv_unmap_memory(void *addr)
+-{
+-}
+-EXPORT_SYMBOL_GPL(hv_unmap_memory);
+diff --git a/drivers/net/hyperv/hyperv_net.h b/drivers/net/hyperv/hyperv_net.h
+index dd5919e..33d51e3 100644
+--- a/drivers/net/hyperv/hyperv_net.h
++++ b/drivers/net/hyperv/hyperv_net.h
+@@ -1139,7 +1139,6 @@ struct netvsc_device {
  
- 	/*
- 	 * If the attempt is to read the IDs or the ROM BAR, simulate that.
-@@ -1088,56 +1155,79 @@ static void _hv_pcifront_read_config(struct hv_pci_dev *hpdev, int where,
- 		 */
- 		*val = 0;
- 	} else if (where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be read. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start reading. */
--		mb();
--		/* Read from that function's config space. */
--		switch (size) {
--		case 1:
--			*val = readb(addr);
--			break;
--		case 2:
--			*val = readw(addr);
--			break;
--		default:
--			*val = readl(addr);
--			break;
-+
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_read_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to be read. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before reading. */
-+			mb();
-+			/* Read from that function's config space. */
-+			switch (size) {
-+			case 1:
-+				*val = readb(addr);
-+				break;
-+			case 2:
-+				*val = readw(addr);
-+				break;
-+			default:
-+				*val = readl(addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the read was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the read was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to read beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to read beyond a function's config space.\n");
+ 	/* Receive buffer allocated by us but manages by NetVSP */
+ 	void *recv_buf;
+-	void *recv_original_buf;
+ 	u32 recv_buf_size; /* allocated bytes */
+ 	struct vmbus_gpadl recv_buf_gpadl_handle;
+ 	u32 recv_section_cnt;
+@@ -1148,7 +1147,6 @@ struct netvsc_device {
+ 
+ 	/* Send buffer allocated by us */
+ 	void *send_buf;
+-	void *send_original_buf;
+ 	u32 send_buf_size;
+ 	struct vmbus_gpadl send_buf_gpadl_handle;
+ 	u32 send_section_cnt;
+diff --git a/drivers/net/hyperv/netvsc.c b/drivers/net/hyperv/netvsc.c
+index da737d9..82e9796 100644
+--- a/drivers/net/hyperv/netvsc.c
++++ b/drivers/net/hyperv/netvsc.c
+@@ -154,17 +154,8 @@ static void free_netvsc_device(struct rcu_head *head)
+ 	int i;
+ 
+ 	kfree(nvdev->extension);
+-
+-	if (nvdev->recv_original_buf)
+-		vfree(nvdev->recv_original_buf);
+-	else
+-		vfree(nvdev->recv_buf);
+-
+-	if (nvdev->send_original_buf)
+-		vfree(nvdev->send_original_buf);
+-	else
+-		vfree(nvdev->send_buf);
+-
++	vfree(nvdev->recv_buf);
++	vfree(nvdev->send_buf);
+ 	bitmap_free(nvdev->send_section_map);
+ 
+ 	for (i = 0; i < VRSS_CHANNEL_MAX; i++) {
+@@ -347,7 +338,6 @@ static int netvsc_init_buf(struct hv_device *device,
+ 	struct nvsp_message *init_packet;
+ 	unsigned int buf_size;
+ 	int i, ret = 0;
+-	void *vaddr;
+ 
+ 	/* Get receive buffer area. */
+ 	buf_size = device_info->recv_sections * device_info->recv_section_size;
+@@ -383,17 +373,6 @@ static int netvsc_init_buf(struct hv_device *device,
+ 		goto cleanup;
  	}
- }
  
- static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	u32 val;
- 	u16 ret;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET +
--			     PCI_VENDOR_ID;
- 
--	spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
-+	spin_lock_irqsave(&hbus->config_lock, flags);
- 
--	/* Choose the function to be read. (See comment above) */
--	writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--	/* Make sure the function was chosen before we start reading. */
--	mb();
--	/* Read from that function's config space. */
--	ret = readw(addr);
--	/*
--	 * mb() is not required here, because the spin_unlock_irqrestore()
--	 * is a barrier.
--	 */
-+	if (hbus->use_calls) {
-+		phys_addr_t addr = hbus->mem_config->start +
-+					 CFG_PAGE_OFFSET + PCI_VENDOR_ID;
-+
-+		hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+					hpdev->desc.win_slot.slot);
-+		hv_pci_read_mmio(dev, addr, 2, &val);
-+		ret = val;  /* Truncates to 16 bits */
-+	} else {
-+		void __iomem *addr = hbus->cfg_addr + CFG_PAGE_OFFSET +
-+					     PCI_VENDOR_ID;
-+		/* Choose the function to be read. (See comment above) */
-+		writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+		/* Make sure the function was chosen before we start reading. */
-+		mb();
-+		/* Read from that function's config space. */
-+		ret = readw(addr);
-+		/*
-+		 * mb() is not required here, because the
-+		 * spin_unlock_irqrestore() is a barrier.
-+		 */
-+	}
- 
--	spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+	spin_unlock_irqrestore(&hbus->config_lock, flags);
- 
- 	return ret;
- }
-@@ -1152,39 +1242,51 @@ static u16 hv_pcifront_get_vendor_id(struct hv_pci_dev *hpdev)
- static void _hv_pcifront_write_config(struct hv_pci_dev *hpdev, int where,
- 				      int size, u32 val)
- {
-+	struct hv_pcibus_device *hbus = hpdev->hbus;
-+	struct device *dev = &hbus->hdev->device;
-+	int offset = where + CFG_PAGE_OFFSET;
- 	unsigned long flags;
--	void __iomem *addr = hpdev->hbus->cfg_addr + CFG_PAGE_OFFSET + where;
- 
- 	if (where >= PCI_SUBSYSTEM_VENDOR_ID &&
- 	    where + size <= PCI_CAPABILITY_LIST) {
- 		/* SSIDs and ROM BARs are read-only */
- 	} else if (where >= PCI_COMMAND && where + size <= CFG_PAGE_SIZE) {
--		spin_lock_irqsave(&hpdev->hbus->config_lock, flags);
--		/* Choose the function to be written. (See comment above) */
--		writel(hpdev->desc.win_slot.slot, hpdev->hbus->cfg_addr);
--		/* Make sure the function was chosen before we start writing. */
--		wmb();
--		/* Write to that function's config space. */
--		switch (size) {
--		case 1:
--			writeb(val, addr);
--			break;
--		case 2:
--			writew(val, addr);
--			break;
--		default:
--			writel(val, addr);
--			break;
-+		spin_lock_irqsave(&hbus->config_lock, flags);
-+
-+		if (hbus->use_calls) {
-+			phys_addr_t addr = hbus->mem_config->start + offset;
-+
-+			hv_pci_write_mmio(dev, hbus->mem_config->start, 4,
-+						hpdev->desc.win_slot.slot);
-+			hv_pci_write_mmio(dev, addr, size, val);
-+		} else {
-+			void __iomem *addr = hbus->cfg_addr + offset;
-+
-+			/* Choose the function to write. (See comment above) */
-+			writel(hpdev->desc.win_slot.slot, hbus->cfg_addr);
-+			/* Make sure the function was chosen before writing. */
-+			wmb();
-+			/* Write to that function's config space. */
-+			switch (size) {
-+			case 1:
-+				writeb(val, addr);
-+				break;
-+			case 2:
-+				writew(val, addr);
-+				break;
-+			default:
-+				writel(val, addr);
-+				break;
-+			}
-+			/*
-+			 * Make sure the write was done before we release the
-+			 * spinlock allowing consecutive reads/writes.
-+			 */
-+			mb();
- 		}
--		/*
--		 * Make sure the write was done before we release the spinlock
--		 * allowing consecutive reads/writes.
--		 */
--		mb();
--		spin_unlock_irqrestore(&hpdev->hbus->config_lock, flags);
-+		spin_unlock_irqrestore(&hbus->config_lock, flags);
- 	} else {
--		dev_err(&hpdev->hbus->hdev->device,
--			"Attempt to write beyond a function's config space.\n");
-+		dev_err(dev, "Attempt to write beyond a function's config space.\n");
+-	if (hv_isolation_type_snp()) {
+-		vaddr = hv_map_memory(net_device->recv_buf, buf_size);
+-		if (!vaddr) {
+-			ret = -ENOMEM;
+-			goto cleanup;
+-		}
+-
+-		net_device->recv_original_buf = net_device->recv_buf;
+-		net_device->recv_buf = vaddr;
+-	}
+-
+ 	/* Notify the NetVsp of the gpadl handle */
+ 	init_packet = &net_device->channel_init_pkt;
+ 	memset(init_packet, 0, sizeof(struct nvsp_message));
+@@ -497,17 +476,6 @@ static int netvsc_init_buf(struct hv_device *device,
+ 		goto cleanup;
  	}
+ 
+-	if (hv_isolation_type_snp()) {
+-		vaddr = hv_map_memory(net_device->send_buf, buf_size);
+-		if (!vaddr) {
+-			ret = -ENOMEM;
+-			goto cleanup;
+-		}
+-
+-		net_device->send_original_buf = net_device->send_buf;
+-		net_device->send_buf = vaddr;
+-	}
+-
+ 	/* Notify the NetVsp of the gpadl handle */
+ 	init_packet = &net_device->channel_init_pkt;
+ 	memset(init_packet, 0, sizeof(struct nvsp_message));
+@@ -762,12 +730,6 @@ void netvsc_device_remove(struct hv_device *device)
+ 		netvsc_teardown_send_gpadl(device, net_device, ndev);
+ 	}
+ 
+-	if (net_device->recv_original_buf)
+-		hv_unmap_memory(net_device->recv_buf);
+-
+-	if (net_device->send_original_buf)
+-		hv_unmap_memory(net_device->send_buf);
+-
+ 	/* Release all resources */
+ 	free_netvsc_device_rcu(net_device);
  }
+@@ -1844,12 +1806,6 @@ struct netvsc_device *netvsc_device_add(struct hv_device *device,
+ 	netif_napi_del(&net_device->chan_table[0].napi);
  
-@@ -3563,6 +3665,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	hbus->bridge->domain_nr = dom;
- #ifdef CONFIG_X86
- 	hbus->sysdata.domain = dom;
-+	hbus->use_calls = !!(ms_hyperv.hints & HV_X64_USE_MMIO_HYPERCALLS);
- #elif defined(CONFIG_ARM64)
- 	/*
- 	 * Set the PCI bus parent to be the corresponding VMbus
-@@ -3572,6 +3675,7 @@ static int hv_pci_probe(struct hv_device *hdev,
- 	 * information to devices created on the bus.
- 	 */
- 	hbus->sysdata.parent = hdev->device.parent;
-+	hbus->use_calls = false;
- #endif
+ cleanup2:
+-	if (net_device->recv_original_buf)
+-		hv_unmap_memory(net_device->recv_buf);
+-
+-	if (net_device->send_original_buf)
+-		hv_unmap_memory(net_device->send_buf);
+-
+ 	free_netvsc_device(&net_device->rcu);
  
- 	hbus->hdev = hdev;
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index b870983..ea406e9 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -168,6 +168,8 @@ struct ms_hyperv_tsc_page {
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
- #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
- #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY 0x00db
-+#define HVCALL_MMIO_READ			0x0106
-+#define HVCALL_MMIO_WRITE			0x0107
- 
- /* Extended hypercalls */
- #define HV_EXT_CALL_QUERY_CAPABILITIES		0x8001
-@@ -796,4 +798,24 @@ struct hv_memory_hint {
- 	union hv_gpa_page_range ranges[];
- } __packed;
- 
-+/* Data structures for HVCALL_MMIO_READ and HVCALL_MMIO_WRITE */
-+#define HV_HYPERCALL_MMIO_MAX_DATA_LENGTH 64
-+
-+struct hv_mmio_read_input {
-+	u64 gpa;
-+	u32 size;
-+	u32 reserved;
-+} __packed;
-+
-+struct hv_mmio_read_output {
-+	u8 data[HV_HYPERCALL_MMIO_MAX_DATA_LENGTH];
-+} __packed;
-+
-+struct hv_mmio_write_input {
-+	u64 gpa;
-+	u32 size;
-+	u32 reserved;
-+	u8 data[HV_HYPERCALL_MMIO_MAX_DATA_LENGTH];
-+} __packed;
-+
- #endif
+ 	return ERR_PTR(ret);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 90d7f68..afcd9ae 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -271,8 +271,6 @@ static inline int cpumask_to_vpset_noself(struct hv_vpset *vpset,
+ void hyperv_cleanup(void);
+ bool hv_query_ext_cap(u64 cap_query);
+ void hv_setup_dma_ops(struct device *dev, bool coherent);
+-void *hv_map_memory(void *addr, unsigned long size);
+-void hv_unmap_memory(void *addr);
+ #else /* CONFIG_HYPERV */
+ static inline bool hv_is_hyperv_initialized(void) { return false; }
+ static inline bool hv_is_hibernation_supported(void) { return false; }
 -- 
 1.8.3.1
 
