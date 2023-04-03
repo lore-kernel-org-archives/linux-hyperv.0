@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4236BC76188
-	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Apr 2023 17:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28CA2C76196
+	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Apr 2023 17:46:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232603AbjDCRpz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 3 Apr 2023 13:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
+        id S232800AbjDCRqI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 3 Apr 2023 13:46:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232628AbjDCRot (ORCPT
+        with ESMTP id S231579AbjDCRow (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 3 Apr 2023 13:44:49 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD0330E3;
-        Mon,  3 Apr 2023 10:44:27 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id f6-20020a17090ac28600b0023b9bf9eb63so31369605pjt.5;
-        Mon, 03 Apr 2023 10:44:27 -0700 (PDT)
+        Mon, 3 Apr 2023 13:44:52 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694A830DD;
+        Mon,  3 Apr 2023 10:44:30 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id w4so28788424plg.9;
+        Mon, 03 Apr 2023 10:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680543867;
+        d=gmail.com; s=20210112; t=1680543870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JCnmOn8eALVJCVo8Tdsddc5boZ5t7pqgIErQC6wwwQk=;
-        b=WOoo+RlPGJwCaMPKG0qkXj9WrFgkZ46HvLWXK0sYjrTLZ8Lwzu0U0g/fMyypNWxcXQ
-         FUPM3xfOv36KkDEkGEF85kv9Qfqf6lFCG7LsgB/sS3S279Z4jeYfnv+ioZIYpRMh7b83
-         bc6WFMUReZyqHbyPJgrzG9IRCqKgSSFsIAQcTf8zExx5SbQUMnr4rGdCkCKehIlcfZED
-         XI0p/yBGVB1/ecEO0fGRPuOaj2cUumPYMbafYH4CIYFaUo8l6+TZz9p7SQv7Id0O/gpY
-         yY/hqSZFPoh2rS6maguZFiNU+HdYjC2jUb16opx42XFP+cIqx9ILEpSS5Q9WI0OTsKpa
-         TkRw==
+        bh=dLIZsKwb/Fiqfvq7w/cI7yvHscawpRIWUMLmHd0mf5o=;
+        b=fjf92n0dw0W70GKRm2BWERl2DClz3HWPZdXaAZrCpsGGp1/qKQjcrMcBf/68QUfoep
+         KhTF2nrpMZ/aztYQVk0xk1diDf4ByJbqj9S0O7qi6ooTjs7pVhBrCX1QOfIBExHJhFtP
+         R5PCeLyy8rqXPcNruoB/1ns6fxMSlrb+h86N5W0DxNeyvR/ErM8G3F7YlbwcK4lwNtI6
+         79tJpJvGwOyXc8S83U4MDuCHd7dvJOh/7TvSCrGP/budNZ62Q0n2rBsPG3H+VAm5buKg
+         7pZThddZN3D0k+ZtKe/rEL0AFYqkDiwvBK6Num+zN19GkcEI4Qy6Jtu+qVcq+KLjxxRs
+         tiBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680543867;
+        d=1e100.net; s=20210112; t=1680543870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JCnmOn8eALVJCVo8Tdsddc5boZ5t7pqgIErQC6wwwQk=;
-        b=HrD6WfDCOtG1JclR9Jydy6mfqnpRa3Q9OJRCdix/8bW6BVQJl8zY8cFE37j2idumov
-         WqrlPVabBhkwymLtXzAlWQOXoJK4dGpWMHs5Bx1N8nBxwz68qU7xiCyUElVizEBC1tui
-         WdRCEPeXIAOXhPMrv6AxKodxcuWLm/62p9JcMqTFswQqpgdK92hbwGrlazwwccFBAlGD
-         DI/tCXJndQsJQFfXJIm0qJkpzN9PutHuTXiVCANV3TH7aKOeipuPAZPJ7Y4/t1uTwgO6
-         l6B5YnY4rqrjH9uqnkx7FzGAIYbOSI/TmyCgmLm1cN6nGDDaTUpLzq7nvnhlUMQUDPmE
-         Dodg==
-X-Gm-Message-State: AAQBX9eyz9Gz7hraYSz6pHe37ncd2aK+7CFtfPRyTGmToss9mlb/hMiH
-        XYBPDR+QphlNxAJ9UQfHLGHuNMNHVSHrIBRB
-X-Google-Smtp-Source: AKy350aca/70/Ld9Mf/GNADUkLESox8Os9PI7C3dj/wE46nTR0Ur/A2gUYAWlfJBUj25XGPUixH8Tw==
-X-Received: by 2002:a17:903:283:b0:1a2:1922:9850 with SMTP id j3-20020a170903028300b001a219229850mr43163575plr.67.1680543867357;
-        Mon, 03 Apr 2023 10:44:27 -0700 (PDT)
+        bh=dLIZsKwb/Fiqfvq7w/cI7yvHscawpRIWUMLmHd0mf5o=;
+        b=O2Rrx63N6Q/TOwCv5O5VZuPS5aVl/BeUEbmhY7Ey0ZNrBiF84RWkoFkptlZVAk1qx1
+         JcKwetx4CfS42sLdeKkt3dUrsoYH+mRO+s6CYGyuNhZVCeTdvbBTuJMPL5U/czrcN5VC
+         fXyXfEBs7D6sKlH5axyxK0oiX6IvFJ+oJ3yBcbTw18zMAa2UG8w6e4Q1fJPiawRriEdO
+         hYVhPiOKvv9aQGe1vve4sZvcWy0PiSji2SEJdz+1ejyD3xPIg9fusjmYnJLD9K5658LA
+         gbwyf99seyTn3sl3WQJ1mVtbY/epROV4m4LyfMHfGSvgeefkVuS+3xD5Wo8bl7On30nK
+         b4Iw==
+X-Gm-Message-State: AAQBX9dgrA0iI8L5ScYP2an5A/0Ju+X8uLGNO+flc9EI+dPfappycq35
+        BqfZDFy4D7TruejEeZzbdq0=
+X-Google-Smtp-Source: AKy350YHd0a+6UzrP8X+j2amAzAEzbG1MK2R+yLhVtWdREMB7NF1P6VBcNU7EOa8tGEveSjLCMRFnw==
+X-Received: by 2002:a17:903:32c7:b0:1a2:8871:b419 with SMTP id i7-20020a17090332c700b001a28871b419mr21645144plr.23.1680543869792;
+        Mon, 03 Apr 2023 10:44:29 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:2:8635:6e96:35c1:c560])
-        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001a19196af48sm6883803plb.64.2023.04.03.10.44.26
+        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001a19196af48sm6883803plb.64.2023.04.03.10.44.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 10:44:26 -0700 (PDT)
+        Mon, 03 Apr 2023 10:44:29 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -67,9 +67,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
 Cc:     pangupta@amd.com, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [RFC PATCH V4 13/17] x86/sev: Add Check of #HV event in path
-Date:   Mon,  3 Apr 2023 13:44:01 -0400
-Message-Id: <20230403174406.4180472-14-ltykernel@gmail.com>
+Subject: [RFC PATCH V4 15/17] x86/sev: optimize system vector processing invoked from #HV exception
+Date:   Mon,  3 Apr 2023 13:44:03 -0400
+Message-Id: <20230403174406.4180472-16-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230403174406.4180472-1-ltykernel@gmail.com>
 References: <20230403174406.4180472-1-ltykernel@gmail.com>
@@ -79,138 +79,157 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Tianyu Lan <tiala@microsoft.com>
+From: Ashish Kalra <ashish.kalra@amd.com>
 
-Add check_hv_pending() and check_hv_pending_after_irq() to
-check queued #HV event when irq is disabled.
+Construct system vector table and dispatch system vector exceptions through
+sysvec_table from #HV exception handler instead of explicitly calling each
+system vector. The system vector table is created dynamically and is placed
+in a new named ELF section.
 
-Signed-off-by: Tianyu Lan <tiala@microsoft.com>
+Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
 ---
- arch/x86/entry/entry_64.S       | 18 ++++++++++++++++
- arch/x86/include/asm/irqflags.h | 11 ++++++++++
- arch/x86/kernel/sev.c           | 38 +++++++++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+)
+ arch/x86/entry/entry_64.S     |  6 +++
+ arch/x86/kernel/sev.c         | 70 +++++++++++++----------------------
+ arch/x86/kernel/vmlinux.lds.S |  7 ++++
+ 3 files changed, 38 insertions(+), 45 deletions(-)
 
 diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index d877774c3141..efa56dfde19e 100644
+index efa56dfde19e..802fb6dec244 100644
 --- a/arch/x86/entry/entry_64.S
 +++ b/arch/x86/entry/entry_64.S
-@@ -1073,6 +1073,15 @@ SYM_CODE_END(paranoid_entry)
-  * R15 - old SPEC_CTRL
-  */
- SYM_CODE_START_LOCAL(paranoid_exit)
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	/*
-+	 * If a #HV was delivered during execution and interrupts were
-+	 * disabled, then check if it can be handled before the iret
-+	 * (which may re-enable interrupts).
-+	 */
-+	mov     %rsp, %rdi
-+	call    check_hv_pending
-+#endif
- 	UNWIND_HINT_REGS
+@@ -419,6 +419,12 @@ SYM_CODE_START(\asmsym)
  
- 	/*
-@@ -1197,6 +1206,15 @@ SYM_CODE_START(error_entry)
- SYM_CODE_END(error_entry)
+ _ASM_NOKPROBE(\asmsym)
+ SYM_CODE_END(\asmsym)
++	.if \vector >= FIRST_SYSTEM_VECTOR && \vector < NR_VECTORS
++		.section .system_vectors, "aw"
++		.byte \vector
++		.quad \cfunc
++		.previous
++	.endif
+ .endm
  
- SYM_CODE_START_LOCAL(error_return)
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	/*
-+	 * If a #HV was delivered during execution and interrupts were
-+	 * disabled, then check if it can be handled before the iret
-+	 * (which may re-enable interrupts).
-+	 */
-+	mov     %rsp, %rdi
-+	call    check_hv_pending
-+#endif
- 	UNWIND_HINT_REGS
- 	DEBUG_ENTRY_ASSERT_IRQS_OFF
- 	testb	$3, CS(%rsp)
-diff --git a/arch/x86/include/asm/irqflags.h b/arch/x86/include/asm/irqflags.h
-index 8c5ae649d2df..8368e3fe2d36 100644
---- a/arch/x86/include/asm/irqflags.h
-+++ b/arch/x86/include/asm/irqflags.h
-@@ -11,6 +11,10 @@
  /*
-  * Interrupt control:
-  */
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+void check_hv_pending(struct pt_regs *regs);
-+void check_hv_pending_irq_enable(void);
-+#endif
- 
- /* Declaration required for gcc < 4.9 to prevent -Werror=missing-prototypes */
- extern inline unsigned long native_save_fl(void);
-@@ -40,12 +44,19 @@ static __always_inline void native_irq_disable(void)
- static __always_inline void native_irq_enable(void)
- {
- 	asm volatile("sti": : :"memory");
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	check_hv_pending_irq_enable();
-+#endif
- }
- 
- static __always_inline void native_safe_halt(void)
- {
- 	mds_idle_clear_cpu_buffers();
- 	asm volatile("sti; hlt": : :"memory");
-+
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	check_hv_pending_irq_enable();
-+#endif
- }
- 
- static __always_inline void native_halt(void)
 diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-index 2684a45b50a6..6445f5356c45 100644
+index 7fcb3b548215..2c964f7ac7dc 100644
 --- a/arch/x86/kernel/sev.c
 +++ b/arch/x86/kernel/sev.c
-@@ -179,6 +179,44 @@ void noinstr __sev_es_ist_enter(struct pt_regs *regs)
- 	this_cpu_write(cpu_tss_rw.x86_tss.ist[IST_INDEX_VC], new_ist);
+@@ -151,6 +151,16 @@ struct sev_snp_runtime_data {
+ 
+ static DEFINE_PER_CPU(struct sev_snp_runtime_data*, snp_runtime_data);
+ 
++static void (*sysvec_table[NR_VECTORS - FIRST_SYSTEM_VECTOR])
++		(struct pt_regs *regs) __ro_after_init;
++
++struct sysvec_entry {
++	unsigned char vector;
++	void (*sysvec_func)(struct pt_regs *regs);
++} __packed;
++
++extern struct sysvec_entry __system_vectors[], __system_vectors_end[];
++
+ static inline u64 sev_es_rd_ghcb_msr(void)
+ {
+ 	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
+@@ -216,51 +226,11 @@ static void do_exc_hv(struct pt_regs *regs)
+ 		} else if (pending_events.vector == IA32_SYSCALL_VECTOR) {
+ 			WARN(1, "syscall shouldn't happen\n");
+ 		} else if (pending_events.vector >= FIRST_SYSTEM_VECTOR) {
+-			switch (pending_events.vector) {
+-#if IS_ENABLED(CONFIG_HYPERV)
+-			case HYPERV_STIMER0_VECTOR:
+-				sysvec_hyperv_stimer0(regs);
+-				break;
+-			case HYPERVISOR_CALLBACK_VECTOR:
+-				sysvec_hyperv_callback(regs);
+-				break;
+-#endif
+-#ifdef CONFIG_SMP
+-			case RESCHEDULE_VECTOR:
+-				sysvec_reschedule_ipi(regs);
+-				break;
+-			case IRQ_MOVE_CLEANUP_VECTOR:
+-				sysvec_irq_move_cleanup(regs);
+-				break;
+-			case REBOOT_VECTOR:
+-				sysvec_reboot(regs);
+-				break;
+-			case CALL_FUNCTION_SINGLE_VECTOR:
+-				sysvec_call_function_single(regs);
+-				break;
+-			case CALL_FUNCTION_VECTOR:
+-				sysvec_call_function(regs);
+-				break;
+-#endif
+-#ifdef CONFIG_X86_LOCAL_APIC
+-			case ERROR_APIC_VECTOR:
+-				sysvec_error_interrupt(regs);
+-				break;
+-			case SPURIOUS_APIC_VECTOR:
+-				sysvec_spurious_apic_interrupt(regs);
+-				break;
+-			case LOCAL_TIMER_VECTOR:
+-				sysvec_apic_timer_interrupt(regs);
+-				break;
+-			case X86_PLATFORM_IPI_VECTOR:
+-				sysvec_x86_platform_ipi(regs);
+-				break;
+-#endif
+-			case 0x0:
+-				break;
+-			default:
+-				panic("Unexpected vector %d\n", vector);
+-				unreachable();
++			if (!(sysvec_table[pending_events.vector - FIRST_SYSTEM_VECTOR])) {
++				WARN(1, "system vector entry 0x%x is NULL\n",
++				     pending_events.vector);
++			} else {
++				(*sysvec_table[pending_events.vector - FIRST_SYSTEM_VECTOR])(regs);
+ 			}
+ 		} else {
+ 			common_interrupt(regs, pending_events.vector);
+@@ -383,6 +353,14 @@ static bool sev_restricted_injection_enabled(void)
+ 	return sev_status & MSR_AMD64_SNP_RESTRICTED_INJ;
  }
  
-+static void do_exc_hv(struct pt_regs *regs)
++static void __init construct_sysvec_table(void)
 +{
-+	/* Handle #HV exception. */
++	struct sysvec_entry *p;
++
++	for (p = __system_vectors; p < __system_vectors_end; p++)
++		sysvec_table[p->vector - FIRST_SYSTEM_VECTOR] = p->sysvec_func;
 +}
 +
-+void check_hv_pending(struct pt_regs *regs)
-+{
-+	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-+		return;
-+
-+	if ((regs->flags & X86_EFLAGS_IF) == 0)
-+		return;
-+
-+	do_exc_hv(regs);
-+}
-+
-+void check_hv_pending_irq_enable(void)
-+{
-+	struct pt_regs regs;
-+
-+	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-+		return;
-+
-+	memset(&regs, 0, sizeof(struct pt_regs));
-+	asm volatile("movl %%cs, %%eax;" : "=a" (regs.cs));
-+	asm volatile("movl %%ss, %%eax;" : "=a" (regs.ss));
-+	regs.orig_ax = 0xffffffff;
-+	regs.flags = native_save_fl();
-+
-+	/*
-+	 * Disable irq when handle pending #HV events after
-+	 * re-enabling irq.
-+	 */
-+	asm volatile("cli" : : : "memory");
-+	do_exc_hv(&regs);
-+	asm volatile("sti" : : : "memory");
-+}
-+
- void noinstr __sev_es_ist_exit(void)
+ void __init sev_snp_init_hv_handling(void)
  {
- 	unsigned long ist;
+ 	struct sev_es_runtime_data *data;
+@@ -407,6 +385,8 @@ void __init sev_snp_init_hv_handling(void)
+ 	apic_set_eoi_write(hv_doorbell_apic_eoi_write);
+ 
+ 	local_irq_restore(flags);
++
++	construct_sysvec_table();
+ }
+ 
+ static int vc_fetch_insn_kernel(struct es_em_ctxt *ctxt,
+diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+index 25f155205770..c37165d8e877 100644
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -338,6 +338,13 @@ SECTIONS
+ 		*(.altinstr_replacement)
+ 	}
+ 
++	. = ALIGN(8);
++	.system_vectors : AT(ADDR(.system_vectors) - LOAD_OFFSET) {
++		__system_vectors = .;
++		*(.system_vectors)
++		__system_vectors_end = .;
++	}
++
+ 	. = ALIGN(8);
+ 	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
+ 		__apicdrivers = .;
 -- 
 2.25.1
 
