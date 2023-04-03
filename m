@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E887EC76196
-	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Apr 2023 17:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C770C77B74
+	for <linux-hyperv@archiver.kernel.org>; Mon,  3 Apr 2023 17:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232454AbjDCRo4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 3 Apr 2023 13:44:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50964 "EHLO
+        id S232500AbjDCRo5 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 3 Apr 2023 13:44:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232145AbjDCRoW (ORCPT
+        with ESMTP id S232321AbjDCRoY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 3 Apr 2023 13:44:22 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135402688;
-        Mon,  3 Apr 2023 10:44:20 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id w4so28787938plg.9;
-        Mon, 03 Apr 2023 10:44:20 -0700 (PDT)
+        Mon, 3 Apr 2023 13:44:24 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4BB1BE4;
+        Mon,  3 Apr 2023 10:44:22 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id om3-20020a17090b3a8300b0023efab0e3bfso33392482pjb.3;
+        Mon, 03 Apr 2023 10:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680543859;
+        d=gmail.com; s=20210112; t=1680543862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fRBMiXzZNygTcZn2nWWcUVPl/gZC7IQbi/zy9Q0QWG8=;
-        b=Vn/Lo0p4Nv0x5bLf7vQUWrfkkMLVlX6jfveMHNj0Uti93dq8W3ItJV4FlSUdH0o1Dl
-         jdHp4yXrT8HX4TG/Kw7MWRZfxnlwTRtrIhT88kRY2QvyW9Na9P6mKsue5w+IAgPMgLmw
-         RfYMEQ3Pja6wz/35rnzn8aXIRPy2U2nJeRezAplaGXNEXCVpH8rXlCR3iBNmYIwH2t0w
-         wrUZ5PpPFQrINNYhD5pSUvQZkoLrx75iWUCmVxyUc4p3+/LvLDPKmoz98zX0efRybiED
-         PsLn6IufclLcNHByQWLcGCDsjaGyiMUG0aZ73r8Neop2kM6RCTuT5V5CfpiiR4cbcg6Q
-         NyCg==
+        bh=IsgF+fleeMgXLp1N/FMCJ16iEQR8VAMoZKtj7f5mA3o=;
+        b=ATr4I3dpzC3Rv85kph1+DyvP/Xloo8gEXAVXj2pB2xgpmn8x4gqj9HLVDwaALBpBy6
+         PBbosgvXZaNsXzZjYK+ihXBaamk6u5FJCBENQPf9smRkAtpvOqupBkdPXvvvjPN8kjsl
+         ubhXjgZiwOime42tJtk1gcB8B5A9q1yfLWn8rOSAdnr6WaKoXpcye22w/5zOj5Uzk/y7
+         KwewgboeilHtseZtdn6OmJvyUoelZvEClIAxiSmsbof8W4xO4cDz2GHf7R9AN55mM+qk
+         GPBRi7Ahh7Lh5H4VxWPSvm6HQSBFGjjNpekjWyKGFCwv1NA68kBuXvQ0a6+0lXq9KA4w
+         F2KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680543859;
+        d=1e100.net; s=20210112; t=1680543862;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fRBMiXzZNygTcZn2nWWcUVPl/gZC7IQbi/zy9Q0QWG8=;
-        b=0zaSfYqIiTK5Pv8YDCxycIYISWzkb4xZ3IzccFrihl5G43b8pdYXwLBlydwrFIs0xl
-         Rq6IFqLx67EWSPRh0+J1grVfU6nX4lNPxWxTV/yvOt9mFWO2J1TTxROe/eDlcgwFmMwk
-         UDxDCqQZ+L0pmsENsi/eFUEr8t9LfWU3HfOrBrnl5+JdENoJ3FlEQW8lC8DNT97UIRKv
-         eEXqZ1irq20gd+9hLfF8D/j3pRjZAnNZ7MWVL9ZlIhsF8Fzr1D7z4nO/c1QOZYA/4Jor
-         ygmQAxPdQLhjmqhTn+ev54Dci6zcPsQDwwZAGzrWUcNY/ucGY8Ohl1zIWUIvuy3d761x
-         61Lg==
-X-Gm-Message-State: AAQBX9fa9iJzO9Bsdi6STon9/MawenfK/o4y9kgpM3M8w+QDVpoav8ab
-        uiUSZgwj8vbgqYk2bM5b/fw=
-X-Google-Smtp-Source: AKy350bgaRlI+pSd0yR6OkLeUp0nfBqWDPsMadzvxbDT8HCL58L5FJrQtgajuf32tRHeSjojFkjJfA==
-X-Received: by 2002:a17:902:f687:b0:19c:be0c:738 with SMTP id l7-20020a170902f68700b0019cbe0c0738mr48077342plg.59.1680543859450;
-        Mon, 03 Apr 2023 10:44:19 -0700 (PDT)
+        bh=IsgF+fleeMgXLp1N/FMCJ16iEQR8VAMoZKtj7f5mA3o=;
+        b=5Sy0grfkS5Y0S/jUCofZXoRvmrDtns2KDgA9v2TU0GbMMl7nu/lLMBWFu5h5Szz9/D
+         Pb0ZtEG6CmgiER90uP78CRD/JEB9u3Pw38tVhQywl2Ogz9ryMDFHGwWKNTiv9qUUHlPh
+         jJ7XHLbyQvBqVIb//rLZRRN0nsTCxR16BQlikbAqRoDN7JlOSh+ECJJ0Gdp8mvQvYFDe
+         obNwr6eMXiy03x2bkh+S74KGWE1EIPtdP1eZfEYdsWcAfTVYzMYFHZrLtnblzjDHYfLs
+         RbJU8aeIj+M3W6tG4iZ77XCgRWi9T4rIIv1JfSoreh/lZF8XEUlHQ/FOy89CH8+0YLad
+         6+2Q==
+X-Gm-Message-State: AAQBX9cuQCcst5bMggA6JgDZjOKwFaWO7H2VxlO6Iq0Yv8AkPl5LO8WR
+        eaJmnTajCnw7M29M2EXMNHw=
+X-Google-Smtp-Source: AKy350aQjZRe/EhCQZ0EpcgcQEibFK4Vfiii/+iB44zCAGt9hyxo/gC92OGQRZWtdLbas9BUxvMl2A==
+X-Received: by 2002:a17:902:e882:b0:1a1:f413:70b1 with SMTP id w2-20020a170902e88200b001a1f41370b1mr45509775plg.18.1680543861931;
+        Mon, 03 Apr 2023 10:44:21 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:2:8635:6e96:35c1:c560])
-        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001a19196af48sm6883803plb.64.2023.04.03.10.44.18
+        by smtp.gmail.com with ESMTPSA id jj21-20020a170903049500b001a19196af48sm6883803plb.64.2023.04.03.10.44.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Apr 2023 10:44:19 -0700 (PDT)
+        Mon, 03 Apr 2023 10:44:21 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -67,9 +67,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
 Cc:     pangupta@amd.com, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [RFC PATCH V4 07/17] drivers: hv: Decrypt percpu hvcall input arg page in sev-snp enlightened guest
-Date:   Mon,  3 Apr 2023 13:43:55 -0400
-Message-Id: <20230403174406.4180472-8-ltykernel@gmail.com>
+Subject: [RFC PATCH V4 09/17] x86/hyperv: SEV-SNP enlightened guest don't support legacy rtc
+Date:   Mon,  3 Apr 2023 13:43:57 -0400
+Message-Id: <20230403174406.4180472-10-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230403174406.4180472-1-ltykernel@gmail.com>
 References: <20230403174406.4180472-1-ltykernel@gmail.com>
@@ -81,81 +81,59 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Hypervisor needs to access iput arg page and guest should decrypt
-the page.
+SEV-SNP enlightened guest doesn't support legacy rtc. Set
+legacy.rtc, x86_platform.set_wallclock and get_wallclock to
+0 or noop(). Make get/set_rtc_noop() to be public and reuse
+them in the ms_hyperv_init_platform().
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
-Change since RFC V3:
-	* Use pgcount to decrypt memory.
+ arch/x86/hyperv/ivm.c           | 3 +++
+ arch/x86/include/asm/x86_init.h | 2 ++
+ arch/x86/kernel/x86_init.c      | 4 ++--
+ 3 files changed, 7 insertions(+), 2 deletions(-)
 
-Change since RFC V2:
-	* Set inputarg to be zero after kfree()
-	* Not free mem when fail to encrypt mem in the hv_common_cpu_die().
----
- drivers/hv/hv_common.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index e3b04e978932..455432d49fd3 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -21,6 +21,7 @@
- #include <linux/ptrace.h>
- #include <linux/slab.h>
- #include <linux/dma-map-ops.h>
-+#include <linux/set_memory.h>
- #include <asm/hyperv-tlfs.h>
- #include <asm/mshyperv.h>
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index fa4de2761460..c0f3fa924163 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -391,6 +391,9 @@ __init void hv_sev_init_mem_and_cpu(void)
+ 	 * bios regions and reserve resources are not
+ 	 * available. Set these callback to NULL.
+ 	 */
++	x86_platform.legacy.rtc = 0;
++	x86_platform.set_wallclock = set_rtc_noop;
++	x86_platform.get_wallclock = get_rtc_noop;
+ 	x86_platform.legacy.reserve_bios_regions = 0;
+ 	x86_init.resources.probe_roms = x86_init_noop;
+ 	x86_init.resources.reserve_resources = x86_init_noop;
+diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
+index 6f873c686cd3..e5a6f9baec67 100644
+--- a/arch/x86/include/asm/x86_init.h
++++ b/arch/x86/include/asm/x86_init.h
+@@ -330,5 +330,7 @@ extern void x86_init_uint_noop(unsigned int unused);
+ extern bool bool_x86_init_noop(void);
+ extern void x86_op_int_noop(int cpu);
+ extern bool x86_pnpbios_disabled(void);
++extern int set_rtc_noop(const struct timespec64 *now);
++extern void get_rtc_noop(struct timespec64 *now);
  
-@@ -128,6 +129,7 @@ int hv_common_cpu_init(unsigned int cpu)
- 	u64 msr_vp_index;
- 	gfp_t flags;
- 	int pgcount = hv_root_partition ? 2 : 1;
-+	int ret;
+ #endif
+diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
+index 95be3831df73..d82f4fa2f1bf 100644
+--- a/arch/x86/kernel/x86_init.c
++++ b/arch/x86/kernel/x86_init.c
+@@ -33,8 +33,8 @@ static int __init iommu_init_noop(void) { return 0; }
+ static void iommu_shutdown_noop(void) { }
+ bool __init bool_x86_init_noop(void) { return false; }
+ void x86_op_int_noop(int cpu) { }
+-static __init int set_rtc_noop(const struct timespec64 *now) { return -EINVAL; }
+-static __init void get_rtc_noop(struct timespec64 *now) { }
++int set_rtc_noop(const struct timespec64 *now) { return -EINVAL; }
++void get_rtc_noop(struct timespec64 *now) { }
  
- 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
- 	flags = irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL;
-@@ -137,6 +139,17 @@ int hv_common_cpu_init(unsigned int cpu)
- 	if (!(*inputarg))
- 		return -ENOMEM;
- 
-+	if (hv_isolation_type_en_snp()) {
-+		ret = set_memory_decrypted((unsigned long)*inputarg, pgcount);
-+		if (ret) {
-+			kfree(*inputarg);
-+			*inputarg = NULL;
-+			return ret;
-+		}
-+
-+		memset(*inputarg, 0x00, PAGE_SIZE);
-+	}
-+
- 	if (hv_root_partition) {
- 		outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
- 		*outputarg = (char *)(*inputarg) + HV_HYP_PAGE_SIZE;
-@@ -156,6 +169,7 @@ int hv_common_cpu_die(unsigned int cpu)
- {
- 	unsigned long flags;
- 	void **inputarg, **outputarg;
-+	int pgcount = hv_root_partition ? 2 : 1;
- 	void *mem;
- 
- 	local_irq_save(flags);
-@@ -171,7 +185,12 @@ int hv_common_cpu_die(unsigned int cpu)
- 
- 	local_irq_restore(flags);
- 
--	kfree(mem);
-+	if (hv_isolation_type_en_snp()) {
-+		if (!set_memory_encrypted((unsigned long)mem, pgcount))
-+			kfree(mem);
-+	} else {
-+		kfree(mem);
-+	}
- 
- 	return 0;
- }
+ static __initconst const struct of_device_id of_cmos_match[] = {
+ 	{ .compatible = "motorola,mc146818" },
 -- 
 2.25.1
 
