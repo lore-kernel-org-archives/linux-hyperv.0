@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EAAC77B72
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Apr 2023 09:01:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A06C77B73
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Apr 2023 09:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232063AbjDDJBO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S234174AbjDDJBO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Tue, 4 Apr 2023 05:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233891AbjDDJBL (ORCPT
+        with ESMTP id S233903AbjDDJBL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 4 Apr 2023 05:01:11 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8A4B1FDE;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8B291FE6;
         Tue,  4 Apr 2023 02:01:09 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id E8EC5210DD83;
-        Tue,  4 Apr 2023 02:01:08 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E8EC5210DD83
+        by linux.microsoft.com (Postfix) with ESMTPSA id 297AC210DD8D;
+        Tue,  4 Apr 2023 02:01:09 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 297AC210DD8D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1680598869;
-        bh=dLfbqlPMal8+oV3kkCGkQ3uaW2UIpJDauSTLoOM/cLU=;
-        h=From:To:Subject:Date:From;
-        b=r8sXIGQloCBaDbqMcyJS8VSFfeuJhclCiRjayLdPdGalbHi1O0VljcG1FU6qXNwSZ
-         wDOOSGJfCeq5w39b2wcG5QLMCr/GRIfYvlldG6fb30fCSfAp18e1iHG3k6dylsWpVB
-         rPws80ojQmo0qxJEg8a4DDNc2MppohKQUNAwUoGI=
+        bh=Tfb5WkFLz58zOqZyiYU2NircAhPZU3AOqffdnGjnjq0=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=HrBaoEvcIE9l1TZt+1TgiVhPlORE3mnycp6P/yc6X/Wxbn7guyS/t5KFa/DEAzGe2
+         PJIvS/LTQ/8bcEBOTJfjx6tjYrY4nZryGFcfynp+5Dck6esP9wshf1pjt1ectzjlxn
+         87W6/zoj935+cGXQ19lrKODc77AED3dB5/NnYVKk=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
@@ -34,79 +34,140 @@ To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org,
         jgross@suse.com, mat.jonczyk@o2.pl
-Subject: [PATCH v4 0/5] Hyper-V VTL support
-Date:   Tue,  4 Apr 2023 02:00:59 -0700
-Message-Id: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v4 2/5] x86/hyperv: Add VTL specific structs and hypercalls
+Date:   Tue,  4 Apr 2023 02:01:01 -0700
+Message-Id: <1680598864-16981-3-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch series introduces support for Virtual Trust Level (VTL)
-in Hyper-V systems. It provide a foundation for the implementation
-of Hyper-V VSM support in the Linux kernel, providing a secure
-platform for the development and deployment of applications.
+Add structs and hypercalls required to enable VTL support on x86.
 
-Virtual Secure Mode (VSM) is a critical aspect of the security
-infrastructure in Hyper-V systems. It provides a set of hypervisor
-capabilities and enlightenments that enable the creation and
-management of new security boundaries within operating system
-software. The VSM achieves and maintains isolation through Virtual
-Trust Levels, which are hierarchical, with higher levels being more
-privileged than lower levels. Please refer to this link for further
-information: https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+---
+ arch/x86/include/asm/hyperv-tlfs.h | 75 ++++++++++++++++++++++++++++++
+ include/asm-generic/hyperv-tlfs.h  |  4 ++
+ 2 files changed, 79 insertions(+)
 
-This patch series adds the initialization of the x86 platform for VTL
-systems. This also adds the VTL early bootup code for initializing
-and bringing up secondary cpus to targeted VTL context. In VTL, AP
-has to start directly in the 64-bit mode, bypassing the usual
-16-bit -> 32-bit -> 64-bit mode transition sequence that occurs after
-waking up an AP with SIPI whose vector points to the 16-bit AP
-startup trampoline code.
-
-Currently only VTL level supprted is '2'. This patch series is tested
-extensively on VTL2 systems.
-
-[V4]
-- Move HYPERV_VTL_MODE definition from arch/x86/Kconfig to drivers/hv/Kconfig
-- Move Kconfig changes before its getting used
-- Replace initial_stack with current->thread.sp as per recent upstream changes
-
-[V3]
- - Break in to 5 patches
- - hv_init_vp_context_t -> hv_init_vp_context
- - HYPERV_VTL -> HYPERV_VTL_MODE
- - Modify description of HYPERV_VTL_MODE
- - VTL 0 and VTL 2 -> VTL0 and VTL2
- - Remove casting for this_cpu_ptr pointer
-
-[V2]
- - Remove the code for reserve 1 IRQ.
- - boot_cpu_has -> cpu_feature_enabled.
- - Improved commit message for 0002 patch.
- - Improved Kconfig flag description for HYPERV_VTL.
- - Removed hv_result as a wrapper around hv_do_hypercall().
- - The value of output[0] copied to a local variable before returning.
-
-Saurabh Sengar (5):
-  x86/init: Make get/set_rtc_noop() public
-  x86/hyperv: Add VTL specific structs and hypercalls
-  x86/hyperv: Make hv_get_nmi_reason public
-  x86/Kconfig: Add HYPERV_VTL_MODE
-  x86/hyperv: VTL support for Hyper-V
-
- arch/x86/hyperv/Makefile           |   1 +
- arch/x86/hyperv/hv_vtl.c           | 227 +++++++++++++++++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h |  75 ++++++++++
- arch/x86/include/asm/mshyperv.h    |  15 ++
- arch/x86/include/asm/x86_init.h    |   2 +
- arch/x86/kernel/cpu/mshyperv.c     |   6 +-
- arch/x86/kernel/x86_init.c         |   4 +-
- drivers/hv/Kconfig                 |  24 +++
- include/asm-generic/hyperv-tlfs.h  |   4 +
- 9 files changed, 351 insertions(+), 7 deletions(-)
- create mode 100644 arch/x86/hyperv/hv_vtl.c
-
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 0b73a809e9e1..0b0b4e9a4318 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -713,6 +713,81 @@ union hv_msi_entry {
+ 	} __packed;
+ };
+ 
++struct hv_x64_segment_register {
++	__u64 base;
++	__u32 limit;
++	__u16 selector;
++	union {
++		struct {
++			__u16 segment_type : 4;
++			__u16 non_system_segment : 1;
++			__u16 descriptor_privilege_level : 2;
++			__u16 present : 1;
++			__u16 reserved : 4;
++			__u16 available : 1;
++			__u16 _long : 1;
++			__u16 _default : 1;
++			__u16 granularity : 1;
++		} __packed;
++		__u16 attributes;
++	};
++} __packed;
++
++struct hv_x64_table_register {
++	__u16 pad[3];
++	__u16 limit;
++	__u64 base;
++} __packed;
++
++struct hv_init_vp_context {
++	u64 rip;
++	u64 rsp;
++	u64 rflags;
++
++	struct hv_x64_segment_register cs;
++	struct hv_x64_segment_register ds;
++	struct hv_x64_segment_register es;
++	struct hv_x64_segment_register fs;
++	struct hv_x64_segment_register gs;
++	struct hv_x64_segment_register ss;
++	struct hv_x64_segment_register tr;
++	struct hv_x64_segment_register ldtr;
++
++	struct hv_x64_table_register idtr;
++	struct hv_x64_table_register gdtr;
++
++	u64 efer;
++	u64 cr0;
++	u64 cr3;
++	u64 cr4;
++	u64 msr_cr_pat;
++} __packed;
++
++union hv_input_vtl {
++	u8 as_uint8;
++	struct {
++		u8 target_vtl: 4;
++		u8 use_target_vtl: 1;
++		u8 reserved_z: 3;
++	};
++} __packed;
++
++struct hv_enable_vp_vtl {
++	u64				partition_id;
++	u32				vp_index;
++	union hv_input_vtl		target_vtl;
++	u8				mbz0;
++	u16				mbz1;
++	struct hv_init_vp_context	vp_context;
++} __packed;
++
++struct hv_get_vp_from_apic_id_in {
++	u64 partition_id;
++	union hv_input_vtl target_vtl;
++	u8 res[7];
++	u32 apic_ids[];
++} __packed;
++
+ #include <asm-generic/hyperv-tlfs.h>
+ 
+ #endif
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index b870983596b9..87258341fd7c 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -146,6 +146,7 @@ union hv_reference_tsc_msr {
+ /* Declare the various hypercall operations. */
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE	0x0002
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_LIST	0x0003
++#define HVCALL_ENABLE_VP_VTL			0x000f
+ #define HVCALL_NOTIFY_LONG_SPIN_WAIT		0x0008
+ #define HVCALL_SEND_IPI				0x000b
+ #define HVCALL_FLUSH_VIRTUAL_ADDRESS_SPACE_EX	0x0013
+@@ -165,6 +166,8 @@ union hv_reference_tsc_msr {
+ #define HVCALL_MAP_DEVICE_INTERRUPT		0x007c
+ #define HVCALL_UNMAP_DEVICE_INTERRUPT		0x007d
+ #define HVCALL_RETARGET_INTERRUPT		0x007e
++#define HVCALL_START_VP				0x0099
++#define HVCALL_GET_VP_ID_FROM_APIC_ID		0x009a
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_SPACE 0x00af
+ #define HVCALL_FLUSH_GUEST_PHYSICAL_ADDRESS_LIST 0x00b0
+ #define HVCALL_MODIFY_SPARSE_GPA_PAGE_HOST_VISIBILITY 0x00db
+@@ -218,6 +221,7 @@ enum HV_GENERIC_SET_FORMAT {
+ #define HV_STATUS_INVALID_PORT_ID		17
+ #define HV_STATUS_INVALID_CONNECTION_ID		18
+ #define HV_STATUS_INSUFFICIENT_BUFFERS		19
++#define HV_STATUS_VTL_ALREADY_ENABLED		134
+ 
+ /*
+  * The Hyper-V TimeRefCount register and the TSC
 -- 
 2.34.1
 
