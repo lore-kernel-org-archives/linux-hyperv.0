@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4847C761A6
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Apr 2023 09:01:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EAAC77B72
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Apr 2023 09:01:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233952AbjDDJBM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Apr 2023 05:01:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
+        id S232063AbjDDJBO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Apr 2023 05:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233795AbjDDJBL (ORCPT
+        with ESMTP id S233891AbjDDJBL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 4 Apr 2023 05:01:11 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C2FF21FF6;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B8A4B1FDE;
         Tue,  4 Apr 2023 02:01:09 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 43E06210DD8F;
-        Tue,  4 Apr 2023 02:01:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 43E06210DD8F
+        by linux.microsoft.com (Postfix) with ESMTPSA id E8EC5210DD83;
+        Tue,  4 Apr 2023 02:01:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E8EC5210DD83
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1680598869;
-        bh=lolaL0ucqGcng5SGGnPtcnPytbtw0ZL9CTqusc/YQDI=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=na954LzphK/Uui1KNiGQ5WhOfFoW70tSes/WYIlw0tI1qLM0J8ASF6Dgz92pLM7nC
-         8O2U5/YBjkelV7DFfuVUg9tJ+ZCiK+3AP6rOti3nACwr4LJyfhYbi+CA+3CNlkoCdI
-         RlBt/1h+w1Aj2xdmoRct1JbaArql8ToIJWXO5Zdo=
+        bh=dLfbqlPMal8+oV3kkCGkQ3uaW2UIpJDauSTLoOM/cLU=;
+        h=From:To:Subject:Date:From;
+        b=r8sXIGQloCBaDbqMcyJS8VSFfeuJhclCiRjayLdPdGalbHi1O0VljcG1FU6qXNwSZ
+         wDOOSGJfCeq5w39b2wcG5QLMCr/GRIfYvlldG6fb30fCSfAp18e1iHG3k6dylsWpVB
+         rPws80ojQmo0qxJEg8a4DDNc2MppohKQUNAwUoGI=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
@@ -34,58 +34,79 @@ To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         mikelley@microsoft.com, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-arch@vger.kernel.org,
         jgross@suse.com, mat.jonczyk@o2.pl
-Subject: [PATCH v4 3/5] x86/hyperv: Make hv_get_nmi_reason public
-Date:   Tue,  4 Apr 2023 02:01:02 -0700
-Message-Id: <1680598864-16981-4-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v4 0/5] Hyper-V VTL support
+Date:   Tue,  4 Apr 2023 02:00:59 -0700
+Message-Id: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1680598864-16981-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Move hv_get_nmi_reason to .h file so it can be used in other
-modules as well.
+This patch series introduces support for Virtual Trust Level (VTL)
+in Hyper-V systems. It provide a foundation for the implementation
+of Hyper-V VSM support in the Linux kernel, providing a secure
+platform for the development and deployment of applications.
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
----
- arch/x86/include/asm/mshyperv.h | 5 +++++
- arch/x86/kernel/cpu/mshyperv.c  | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Virtual Secure Mode (VSM) is a critical aspect of the security
+infrastructure in Hyper-V systems. It provides a set of hypervisor
+capabilities and enlightenments that enable the creation and
+management of new security boundaries within operating system
+software. The VSM achieves and maintains isolation through Virtual
+Trust Levels, which are hierarchical, with higher levels being more
+privileged than lower levels. Please refer to this link for further
+information: https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm
 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index e3cef98a0142..71ed240ef66d 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -189,6 +189,11 @@ static inline struct hv_vp_assist_page *hv_get_vp_assist_page(unsigned int cpu)
- 	return hv_vp_assist_page[cpu];
- }
- 
-+static inline unsigned char hv_get_nmi_reason(void)
-+{
-+	return 0;
-+}
-+
- void __init hyperv_init(void);
- void hyperv_setup_mmu_ops(void);
- void set_hv_tscchange_cb(void (*cb)(void));
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 315fc358e584..5ee02af57dac 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -249,11 +249,6 @@ static uint32_t  __init ms_hyperv_platform(void)
- 	return HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
- }
- 
--static unsigned char hv_get_nmi_reason(void)
--{
--	return 0;
--}
--
- #ifdef CONFIG_X86_LOCAL_APIC
- /*
-  * Prior to WS2016 Debug-VM sends NMIs to all CPUs which makes
+This patch series adds the initialization of the x86 platform for VTL
+systems. This also adds the VTL early bootup code for initializing
+and bringing up secondary cpus to targeted VTL context. In VTL, AP
+has to start directly in the 64-bit mode, bypassing the usual
+16-bit -> 32-bit -> 64-bit mode transition sequence that occurs after
+waking up an AP with SIPI whose vector points to the 16-bit AP
+startup trampoline code.
+
+Currently only VTL level supprted is '2'. This patch series is tested
+extensively on VTL2 systems.
+
+[V4]
+- Move HYPERV_VTL_MODE definition from arch/x86/Kconfig to drivers/hv/Kconfig
+- Move Kconfig changes before its getting used
+- Replace initial_stack with current->thread.sp as per recent upstream changes
+
+[V3]
+ - Break in to 5 patches
+ - hv_init_vp_context_t -> hv_init_vp_context
+ - HYPERV_VTL -> HYPERV_VTL_MODE
+ - Modify description of HYPERV_VTL_MODE
+ - VTL 0 and VTL 2 -> VTL0 and VTL2
+ - Remove casting for this_cpu_ptr pointer
+
+[V2]
+ - Remove the code for reserve 1 IRQ.
+ - boot_cpu_has -> cpu_feature_enabled.
+ - Improved commit message for 0002 patch.
+ - Improved Kconfig flag description for HYPERV_VTL.
+ - Removed hv_result as a wrapper around hv_do_hypercall().
+ - The value of output[0] copied to a local variable before returning.
+
+Saurabh Sengar (5):
+  x86/init: Make get/set_rtc_noop() public
+  x86/hyperv: Add VTL specific structs and hypercalls
+  x86/hyperv: Make hv_get_nmi_reason public
+  x86/Kconfig: Add HYPERV_VTL_MODE
+  x86/hyperv: VTL support for Hyper-V
+
+ arch/x86/hyperv/Makefile           |   1 +
+ arch/x86/hyperv/hv_vtl.c           | 227 +++++++++++++++++++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h |  75 ++++++++++
+ arch/x86/include/asm/mshyperv.h    |  15 ++
+ arch/x86/include/asm/x86_init.h    |   2 +
+ arch/x86/kernel/cpu/mshyperv.c     |   6 +-
+ arch/x86/kernel/x86_init.c         |   4 +-
+ drivers/hv/Kconfig                 |  24 +++
+ include/asm-generic/hyperv-tlfs.h  |   4 +
+ 9 files changed, 351 insertions(+), 7 deletions(-)
+ create mode 100644 arch/x86/hyperv/hv_vtl.c
+
 -- 
 2.34.1
 
