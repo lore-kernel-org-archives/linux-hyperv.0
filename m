@@ -2,36 +2,36 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E461C77B73
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC757C77B78
 	for <linux-hyperv@archiver.kernel.org>; Sat,  8 Apr 2023 00:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230102AbjDHAK0 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 7 Apr 2023 20:10:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
+        id S229436AbjDHAK2 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 7 Apr 2023 20:10:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229748AbjDHAKV (ORCPT
+        with ESMTP id S229782AbjDHAKX (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 7 Apr 2023 20:10:21 -0400
+        Fri, 7 Apr 2023 20:10:23 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 614841206E;
-        Fri,  7 Apr 2023 17:10:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E2E12079;
+        Fri,  7 Apr 2023 17:10:21 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EB03A654D3;
-        Sat,  8 Apr 2023 00:10:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA00FC4339C;
-        Sat,  8 Apr 2023 00:10:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A65FD64D4F;
+        Sat,  8 Apr 2023 00:10:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB62C433EF;
+        Sat,  8 Apr 2023 00:10:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1680912619;
-        bh=ENervz53/wnYiq/jM6rz/PJ4Mr7rjEy1YUwRQmKVdYc=;
+        s=k20201202; t=1680912621;
+        bh=35Kr4V1gCXwWl/a9aoirKWVQHL2qZ8n8VvdR/pC7yWE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Vog0zB2xVU6rXZ83q4ZhYg9e8E2Kyx8CggkWT5YrDXlly3Ln0prP4ByeXsQDOItaG
-         f20sOvdzcwGK2j7KRW/TP9s4Na6gnGV8k4wVDONN/bRwpITFPkN1CBbAl+4DL8e3Ri
-         SarLCKieozC6Y0j7I9mqt+tDXQOkjT/NfMAEOAWEvemT8vi0Mh3ug38z3F3E7zUx/6
-         Mxv6w9C3QRpFLMxg6xI577cybygJPyOu6BmW9PofP0r+DLAYx8cEVAcYHbiTStbr6b
-         lqSFI2JVMtxdKDHrJ/M6UmDBZhIDAyNPgZOjEiNvFs2SfC5/bHKKIutcnsluLje0PZ
-         IRHAlEf/rKw0g==
+        b=FVOlD6aaQoqrpAEF5eJGLGHhW4i3Kd8oLXdtD7DoqK3O86In16dewcqVT6toE//lU
+         9hfVuhaXlV9AcwHtcnB5TLnHd8W96yVeqinIO13FkoALEe9z2dWq3b1URuck2T0mBe
+         FNa+G4SYfjZNQ1CTDDdEL8jakrJNJHz1cmDiDclhgJxAcN9zfW1pSt3JhjBO0shUfi
+         KIQ9gF4hZhZVy4gKr1qP3yXpUrIGosbCQFqEcd0MRIE1teYMjVlOaPQGuN7EYLCqLA
+         i0S6VHlKUyy0u/aWGgtDKjDYuURxwlBKTrB1ONjw+EKwFHz9KhYoBgFMIgXUgnFzrZ
+         owL+HagREDTOQ==
 From:   Josh Poimboeuf <jpoimboe@kernel.org>
 To:     x86@kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -42,9 +42,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
         "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
         Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH 03/11] x86/head: Mark *_start_kernel() __noreturn
-Date:   Fri,  7 Apr 2023 17:09:56 -0700
-Message-Id: <064f6f3473b39061aad3b9aa09f21b4fe724e5f9.1680912057.git.jpoimboe@kernel.org>
+Subject: [PATCH 06/11] cpu: Mark panic_smp_self_stop() __noreturn
+Date:   Fri,  7 Apr 2023 17:09:59 -0700
+Message-Id: <fdbb80b87e4abcd0ae9536b7b92c997677af85c5.1680912057.git.jpoimboe@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1680912057.git.jpoimboe@kernel.org>
 References: <cover.1680912057.git.jpoimboe@kernel.org>
@@ -55,85 +55,108 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Fixes the following warning:
-
-  vmlinux.o: warning: objtool: resume_play_dead+0x21: unreachable instruction
+panic_smp_self_stop() doesn't return.  Annotate it as such.
 
 Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
 ---
- arch/x86/include/asm/setup.h | 6 +++---
- arch/x86/kernel/head32.c     | 2 +-
- arch/x86/kernel/head64.c     | 4 ++--
- tools/objtool/check.c        | 2 ++
- 4 files changed, 8 insertions(+), 6 deletions(-)
+ arch/arm/kernel/smp.c          | 2 +-
+ arch/arm64/include/asm/smp.h   | 1 -
+ arch/arm64/kernel/smp.c        | 2 +-
+ arch/powerpc/kernel/setup_64.c | 2 +-
+ include/linux/smp.h            | 2 +-
+ kernel/panic.c                 | 2 +-
+ tools/objtool/check.c          | 1 +
+ 7 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/include/asm/setup.h b/arch/x86/include/asm/setup.h
-index f37cbff7354c..f3495623ac99 100644
---- a/arch/x86/include/asm/setup.h
-+++ b/arch/x86/include/asm/setup.h
-@@ -125,11 +125,11 @@ void clear_bss(void);
- 
- #ifdef __i386__
- 
--asmlinkage void __init i386_start_kernel(void);
-+asmlinkage void __init __noreturn i386_start_kernel(void);
- 
- #else
--asmlinkage void __init x86_64_start_kernel(char *real_mode);
--asmlinkage void __init x86_64_start_reservations(char *real_mode_data);
-+asmlinkage void __init __noreturn x86_64_start_kernel(char *real_mode);
-+asmlinkage void __init __noreturn x86_64_start_reservations(char *real_mode_data);
- 
- #endif /* __i386__ */
- #endif /* _SETUP */
-diff --git a/arch/x86/kernel/head32.c b/arch/x86/kernel/head32.c
-index ec6fefbfd3c0..10c27b4261eb 100644
---- a/arch/x86/kernel/head32.c
-+++ b/arch/x86/kernel/head32.c
-@@ -29,7 +29,7 @@ static void __init i386_default_early_setup(void)
- 	x86_init.mpparse.setup_ioapic_ids = setup_ioapic_ids_from_mpc;
- }
- 
--asmlinkage __visible void __init i386_start_kernel(void)
-+asmlinkage __visible void __init __noreturn i386_start_kernel(void)
+diff --git a/arch/arm/kernel/smp.c b/arch/arm/kernel/smp.c
+index d6be4507d22d..f4a4ac028b6b 100644
+--- a/arch/arm/kernel/smp.c
++++ b/arch/arm/kernel/smp.c
+@@ -779,7 +779,7 @@ void smp_send_stop(void)
+  * kdump fails. So split out the panic_smp_self_stop() and add
+  * set_cpu_online(smp_processor_id(), false).
+  */
+-void panic_smp_self_stop(void)
++void __noreturn panic_smp_self_stop(void)
  {
- 	/* Make sure IDT is set up before any exception happens */
- 	idt_setup_early_handler();
-diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
-index 387e4b12e823..49f7629b17f7 100644
---- a/arch/x86/kernel/head64.c
-+++ b/arch/x86/kernel/head64.c
-@@ -471,7 +471,7 @@ static void __init copy_bootdata(char *real_mode_data)
- 	sme_unmap_bootdata(real_mode_data);
- }
+ 	pr_debug("CPU %u will stop doing anything useful since another CPU has paniced\n",
+ 	         smp_processor_id());
+diff --git a/arch/arm64/include/asm/smp.h b/arch/arm64/include/asm/smp.h
+index 07f4ea1490f4..f2d26235bfb4 100644
+--- a/arch/arm64/include/asm/smp.h
++++ b/arch/arm64/include/asm/smp.h
+@@ -143,7 +143,6 @@ bool cpus_are_stuck_in_kernel(void);
  
--asmlinkage __visible void __init x86_64_start_kernel(char * real_mode_data)
-+asmlinkage __visible void __init __noreturn x86_64_start_kernel(char * real_mode_data)
- {
- 	/*
- 	 * Build-time sanity checks on the kernel image and module
-@@ -537,7 +537,7 @@ asmlinkage __visible void __init x86_64_start_kernel(char * real_mode_data)
- 	x86_64_start_reservations(real_mode_data);
- }
+ extern void crash_smp_send_stop(void);
+ extern bool smp_crash_stop_failed(void);
+-extern void panic_smp_self_stop(void);
  
--void __init x86_64_start_reservations(char *real_mode_data)
-+void __init __noreturn x86_64_start_reservations(char *real_mode_data)
+ #endif /* ifndef __ASSEMBLY__ */
+ 
+diff --git a/arch/arm64/kernel/smp.c b/arch/arm64/kernel/smp.c
+index 07d156fddb5f..05fe797e4203 100644
+--- a/arch/arm64/kernel/smp.c
++++ b/arch/arm64/kernel/smp.c
+@@ -830,7 +830,7 @@ static void __noreturn local_cpu_stop(void)
+  * that cpu_online_mask gets correctly updated and smp_send_stop() can skip
+  * CPUs that have already stopped themselves.
+  */
+-void panic_smp_self_stop(void)
++void __noreturn panic_smp_self_stop(void)
  {
- 	/* version is always not zero if it is copied */
- 	if (!boot_params.hdr.version)
+ 	local_cpu_stop();
+ }
+diff --git a/arch/powerpc/kernel/setup_64.c b/arch/powerpc/kernel/setup_64.c
+index b2e0d3ce4261..246201d0d879 100644
+--- a/arch/powerpc/kernel/setup_64.c
++++ b/arch/powerpc/kernel/setup_64.c
+@@ -480,7 +480,7 @@ void early_setup_secondary(void)
+ 
+ #endif /* CONFIG_SMP */
+ 
+-void panic_smp_self_stop(void)
++void __noreturn panic_smp_self_stop(void)
+ {
+ 	hard_irq_disable();
+ 	spin_begin();
+diff --git a/include/linux/smp.h b/include/linux/smp.h
+index a80ab58ae3f1..2a737b39cf0a 100644
+--- a/include/linux/smp.h
++++ b/include/linux/smp.h
+@@ -59,7 +59,7 @@ int smp_call_function_single_async(int cpu, struct __call_single_data *csd);
+  * Cpus stopping functions in panic. All have default weak definitions.
+  * Architecture-dependent code may override them.
+  */
+-void panic_smp_self_stop(void);
++void __noreturn panic_smp_self_stop(void);
+ void nmi_panic_self_stop(struct pt_regs *regs);
+ void crash_smp_send_stop(void);
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 5cfea8302d23..5e4982db8dc9 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -141,7 +141,7 @@ EXPORT_SYMBOL(panic_blink);
+ /*
+  * Stop ourself in panic -- architecture code may override this
+  */
+-void __weak panic_smp_self_stop(void)
++void __weak __noreturn panic_smp_self_stop(void)
+ {
+ 	while (1)
+ 		cpu_relax();
 diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index a6f9a4aeb77b..4e89342dd8fb 100644
+index a8714d62074e..3d0531f5e491 100644
 --- a/tools/objtool/check.c
 +++ b/tools/objtool/check.c
-@@ -225,6 +225,8 @@ static bool __dead_end_function(struct objtool_file *file, struct symbol *func,
- 		"start_kernel",
- 		"stop_this_cpu",
- 		"usercopy_abort",
-+		"x86_64_start_kernel",
-+		"x86_64_start_reservations",
- 		"xen_cpu_bringup_again",
- 		"xen_start_kernel",
- 	};
+@@ -219,6 +219,7 @@ static bool __dead_end_function(struct objtool_file *file, struct symbol *func,
+ 		"machine_real_restart",
+ 		"make_task_dead",
+ 		"panic",
++		"panic_smp_self_stop",
+ 		"rest_init",
+ 		"rewind_stack_and_make_dead",
+ 		"sev_es_terminate",
 -- 
 2.39.2
 
