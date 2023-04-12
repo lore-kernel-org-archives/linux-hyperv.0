@@ -2,104 +2,144 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FD7C77B78
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 17:30:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8295C77B72
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 18:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbjDNRal (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Apr 2023 13:30:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52222 "EHLO
+        id S229528AbjDNSF1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Apr 2023 14:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230265AbjDNRaa (ORCPT
+        with ESMTP id S229479AbjDNSF0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Apr 2023 13:30:30 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D723B77D;
-        Fri, 14 Apr 2023 10:29:49 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id fw22-20020a17090b129600b00247255b2f40so5216433pjb.1;
-        Fri, 14 Apr 2023 10:29:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681493387; x=1684085387;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oA7v86V6iYy/er+GdPOTuYZa860KsTLlZwCwQrf+4GM=;
-        b=kTsQI1JEp+BNjizJZdsaHTeLSPzTMh+8ZhdIBAOetu/YXFaPfSks9nrwtLzMucsXwY
-         OPVssxeXxKw9KUDK2tM54IF15q7H6BzvNX2QIhGeXqdaAO7Rbn8H9zNisL5IAk9WVakL
-         ornllfdf5snpZilws1YgiAdOIpIuxhUza3DYzxXcZwW1qFDQ9ACxuY0AnosV4H76mz8T
-         QO7NaENDQ68ytJfL0wmKxDb4mQJxcFbxuCHXydsAMubiCavrXBV9z00nzJhu4NCdN/SQ
-         vAulexmGQamd7ftwaO/9+GGJiNm6KAGiT/QGrmDiIOavzWBePL/FZaoX34xXL6PjP1wh
-         bNLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681493387; x=1684085387;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oA7v86V6iYy/er+GdPOTuYZa860KsTLlZwCwQrf+4GM=;
-        b=JcTWsZIhzQSU8qbsiDrw8mMEJFlH5BP1SONWZ6tUX04G9SnmZ3xlVpiySVt+0wDd8e
-         vD+I8NAttgs75D3iUKQbw+YTRvenjH7GVvbWUKJq/vCl1KjcDUSRM0NurDJEBNC/afDv
-         RocEASvajbCKuRyTP4m986a/9n6jsPE6OVsIYHYEHWQ6OqSQPDVKdr5bPNmMkFzX1NbY
-         1p2uYPSgx2OKdBoxBVkmc8s5/vfkn0zUXMCYkzI0U1FNpC448+kwxCU8eNTYHCikdJjj
-         ZPxxuN3pNp7IUmwmMy7M9rTIKUoN/P0XMWdcpoicnxaWdWAN07F+IlveIEF6IFZ9w/VJ
-         NrAQ==
-X-Gm-Message-State: AAQBX9c45ck+U2BQ9J+aBKPxsbScgym/An/0b4tcgK1wd588T5HtTA2T
-        JlHOrSeAfw0CZS3v8gv5NlolwuDXVzGeVoJP
-X-Google-Smtp-Source: AKy350ZM/lCKFNROMkR2BLN8j5h2sYyTe4cwE/DBiZZPljtct0wXCMbeFUr0FvTHbZ5DdocTi+b1dQ==
-X-Received: by 2002:a17:902:ecc5:b0:1a6:54cd:ccd9 with SMTP id a5-20020a170902ecc500b001a654cdccd9mr1583490plh.9.1681493386999;
-        Fri, 14 Apr 2023 10:29:46 -0700 (PDT)
-Received: from localhost (c-73-25-35-85.hsd1.wa.comcast.net. [73.25.35.85])
-        by smtp.gmail.com with ESMTPSA id iw5-20020a170903044500b001a64ce7b18dsm3326202plb.165.2023.04.14.10.29.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 10:29:46 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 10:28:28 +0000
-From:   Bobby Eshleman <bobbyeshleman@gmail.com>
-To:     Alvaro Karsz <alvaro.karsz@solid-run.com>
-Cc:     Bobby Eshleman <bobby.eshleman@bytedance.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        Fri, 14 Apr 2023 14:05:26 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B42B735B0;
+        Fri, 14 Apr 2023 11:05:25 -0700 (PDT)
+Received: from skinsburskii.localdomain (c-67-170-100-148.hsd1.wa.comcast.net [67.170.100.148])
+        by linux.microsoft.com (Postfix) with ESMTPSA id A7DD22179262;
+        Fri, 14 Apr 2023 11:05:24 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7DD22179262
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1681495525;
+        bh=7TWgMCwTIchIJki1b6WkkqtvzdzihOoHkeu7FSM1cGI=;
+        h=Subject:From:Cc:Date:From;
+        b=kUZBbC0uf3JACWAKeVn2KDZBX2MgO5n+huVUR6gkRASjspJ7VNiMfNiXiHHYYs1Zy
+         EGSXjjOSSJZ0b4sO/4obctT6uobJVkW/KqXeIj6LaTtZT5wDsQh6cQUnTnDLVDcmc/
+         pDL7zSwAuj2iilCHVOMaFVk/2vxjX7aC7+nqYyuI=
+Subject: [PATCH] x86/hyperv: Fix IRQ effective cpu discovery for the
+ interrupts unmasking
+From:   Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Cc:     Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bryan Tan <bryantan@vmware.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "virtualization@lists.linux-foundation.org" 
-        <virtualization@lists.linux-foundation.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        Jiang Wang <jiang.wang@bytedance.com>
-Subject: Re: [PATCH RFC net-next v2 2/4] virtio/vsock: add
- VIRTIO_VSOCK_F_DGRAM feature bit
-Message-ID: <ZBajz9+ehv+Ixv+s@bullseye>
-References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
- <20230413-b4-vsock-dgram-v2-2-079cc7cee62e@bytedance.com>
- <AM0PR04MB47238453B33915D18F247ABBD4999@AM0PR04MB4723.eurprd04.prod.outlook.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev
+Date:   Wed, 12 Apr 2023 13:29:20 -0700
+Message-ID: <168133133232.4448.8053082360972165835.stgit@skinsburskii.localdomain>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM0PR04MB47238453B33915D18F247ABBD4999@AM0PR04MB4723.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Fri, Apr 14, 2023 at 08:47:52AM +0000, Alvaro Karsz wrote:
-> Hi Bobby,
-> 
-> >  /* The feature bitmap for virtio vsock */
-> >  #define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET supported */
-> > +#define VIRTIO_VSOCK_F_DGRAM           2       /* Host support dgram vsock */
-> 
-> Seems that bit 2 is already taken by VIRTIO_VSOCK_F_NO_IMPLIED_STREAM.
-> 
-> https://github.com/oasis-tcs/virtio-spec/commit/26ed30ccb049fd51d6e20aad3de2807d678edb3a
+As of today, the existent code uses conjunction of IRQ affinity mask and cpu
+online mask to find the cpu id to map an interrupt to.
+I looks like the intention was to make sure that and IRQ won't be mapped to an
+offline CPU.
 
-Right! I'll bump that in the next rev.
+Although it works correctly today, there are two problems with it:
+1. IRQ affinity mask already consists only of online cpus, thus matching it
+to the mask on online cpus is redundant.
+2. cpumask_first_and() can return nr_cpu_ids in case of IRQ affinity
+containing offline cpus in future, and in this case current implementation
+will likely lead to kernel crash in hv_map_interrupt due to an attempt to use
+invalid cpu id for getting vp set.
 
-Thanks,
-Bobby
+This patch fixes this logic by taking the first bit from the affinity
+mask as the cpu to map the IRQ to.
+It also adds a paranoia WARN_ON_ONCE for the case when the affinity mask
+contains offline cpus.
+
+Signed-off-by: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
+CC: "K. Y. Srinivasan" <kys@microsoft.com>
+CC: Haiyang Zhang <haiyangz@microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Dexuan Cui <decui@microsoft.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Borislav Petkov <bp@alien8.de>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: x86@kernel.org
+CC: "H. Peter Anvin" <hpa@zytor.com>
+CC: Joerg Roedel <joro@8bytes.org>
+CC: Will Deacon <will@kernel.org>
+CC: Robin Murphy <robin.murphy@arm.com>
+CC: linux-hyperv@vger.kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: iommu@lists.linux.dev
+---
+ arch/x86/hyperv/irqdomain.c  |    7 ++++---
+ drivers/iommu/hyperv-iommu.c |    7 ++++---
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
+index 42c70d28ef27..759774b5ab2f 100644
+--- a/arch/x86/hyperv/irqdomain.c
++++ b/arch/x86/hyperv/irqdomain.c
+@@ -192,7 +192,6 @@ static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ 	struct pci_dev *dev;
+ 	struct hv_interrupt_entry out_entry, *stored_entry;
+ 	struct irq_cfg *cfg = irqd_cfg(data);
+-	const cpumask_t *affinity;
+ 	int cpu;
+ 	u64 status;
+ 
+@@ -204,8 +203,10 @@ static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+ 		return;
+ 	}
+ 
+-	affinity = irq_data_get_effective_affinity_mask(data);
+-	cpu = cpumask_first_and(affinity, cpu_online_mask);
++	cpu = cpumask_first(irq_data_get_effective_affinity_mask(data));
++
++	/* Paranoia check: the cpu must be online */
++	WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_online_mask));
+ 
+ 	if (data->chip_data) {
+ 		/*
+diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
+index 8302db7f783e..632e9c123bbf 100644
+--- a/drivers/iommu/hyperv-iommu.c
++++ b/drivers/iommu/hyperv-iommu.c
+@@ -197,15 +197,16 @@ hyperv_root_ir_compose_msi_msg(struct irq_data *irq_data, struct msi_msg *msg)
+ 	u32 vector;
+ 	struct irq_cfg *cfg;
+ 	int ioapic_id;
+-	const struct cpumask *affinity;
+ 	int cpu;
+ 	struct hv_interrupt_entry entry;
+ 	struct hyperv_root_ir_data *data = irq_data->chip_data;
+ 	struct IO_APIC_route_entry e;
+ 
+ 	cfg = irqd_cfg(irq_data);
+-	affinity = irq_data_get_effective_affinity_mask(irq_data);
+-	cpu = cpumask_first_and(affinity, cpu_online_mask);
++	cpu = cpumask_first(irq_data_get_effective_affinity_mask(irq_data));
++
++	/* Paranoia check: the cpu must be online */
++	WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_online_mask));
+ 
+ 	vector = cfg->vector;
+ 	ioapic_id = data->ioapic_id;
+
+
