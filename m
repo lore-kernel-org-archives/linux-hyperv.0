@@ -2,144 +2,119 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8295C77B72
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 18:05:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C6FC77B71
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 18:07:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbjDNSF1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Apr 2023 14:05:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45948 "EHLO
+        id S229947AbjDNSHq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Apr 2023 14:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229479AbjDNSF0 (ORCPT
+        with ESMTP id S229479AbjDNSHp (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Apr 2023 14:05:26 -0400
+        Fri, 14 Apr 2023 14:07:45 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B42B735B0;
-        Fri, 14 Apr 2023 11:05:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 020DE83CB;
+        Fri, 14 Apr 2023 11:07:43 -0700 (PDT)
 Received: from skinsburskii.localdomain (c-67-170-100-148.hsd1.wa.comcast.net [67.170.100.148])
-        by linux.microsoft.com (Postfix) with ESMTPSA id A7DD22179262;
-        Fri, 14 Apr 2023 11:05:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7DD22179262
+        by linux.microsoft.com (Postfix) with ESMTPSA id 202C42179263;
+        Fri, 14 Apr 2023 11:07:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 202C42179263
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1681495525;
-        bh=7TWgMCwTIchIJki1b6WkkqtvzdzihOoHkeu7FSM1cGI=;
-        h=Subject:From:Cc:Date:From;
-        b=kUZBbC0uf3JACWAKeVn2KDZBX2MgO5n+huVUR6gkRASjspJ7VNiMfNiXiHHYYs1Zy
-         EGSXjjOSSJZ0b4sO/4obctT6uobJVkW/KqXeIj6LaTtZT5wDsQh6cQUnTnDLVDcmc/
-         pDL7zSwAuj2iilCHVOMaFVk/2vxjX7aC7+nqYyuI=
-Subject: [PATCH] x86/hyperv: Fix IRQ effective cpu discovery for the
- interrupts unmasking
+        s=default; t=1681495663;
+        bh=vrTl5Ep5devbVecjQ6jAI5gZaBXZaMXlbw5ZKByZUZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OLR94xfw4mfXwonzEA8XTEXGARFL/FomL1UtMFLtChA6mRBwBbI7M2wqo5Hn35QmD
+         qgdYXzkWrT/+m9wWm/fA6EZoFvX6zxOuenxKDip0xvOzdZjW+D3T7KlQvRITLnZecY
+         NHBohp/XeamzyyXQ/vSteUenpSDBNAWyudrT5nL4=
+Date:   Wed, 12 Apr 2023 13:31:38 -0700
 From:   Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
 Cc:     Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev
-Date:   Wed, 12 Apr 2023 13:29:20 -0700
-Message-ID: <168133133232.4448.8053082360972165835.stgit@skinsburskii.localdomain>
-User-Agent: StGit/0.19
+        "H. Peter Anvin" <hpa@zytor.com>, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] x86/hyperv: Expose an helper to map PCI interrupts
+Message-ID: <20230412203138.GA1782@skinsburskii.localdomain>
+References: <168079806973.14175.17999267023207421381.stgit@skinsburskii.localdomain>
+ <168079870998.14175.16015623662679754647.stgit@skinsburskii.localdomain>
+ <87o7nrzy9e.ffs@tglx>
+ <20230412161951.GA894@skinsburskii.localdomain>
+ <20230412163616.GA1535@skinsburskii.localdomain>
+ <878reuzzuz.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878reuzzuz.ffs@tglx>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As of today, the existent code uses conjunction of IRQ affinity mask and cpu
-online mask to find the cpu id to map an interrupt to.
-I looks like the intention was to make sure that and IRQ won't be mapped to an
-offline CPU.
+On Fri, Apr 14, 2023 at 09:28:52AM +0200, Thomas Gleixner wrote:
+> Stanislav!
+> 
+> On Wed, Apr 12 2023 at 09:36, Stanislav Kinsburskii wrote:
+> > On Wed, Apr 12, 2023 at 09:19:51AM -0700, Stanislav Kinsburskii wrote:
+> >> > > +	affinity = irq_data_get_effective_affinity_mask(data);
+> >> > > +	cpu = cpumask_first_and(affinity, cpu_online_mask);
+> >> > 
+> >> > The effective affinity mask of MSI interrupts consists only of online
+> >> > CPUs, to be accurate: it has exactly one online CPU set.
+> >> > 
+> >> > But even if it would have only offline CPUs then the result would be:
+> >> > 
+> >> >     cpu = nr_cpu_ids
+> >> > 
+> >> > which is definitely invalid. While a disabled vector targeted to an
+> >> > offline CPU is not necessarily invalid.
+> >
+> > Although this patch only tosses the code and doens't make any functional
+> > changes, I guess if the fix for the used cpu id is required, it has to
+> > be in a separated patch.
+> 
+> Correct, but if the interrupt _is_ masked at the MSI level then the
+> hypervisor must not deliver an interrupt at all.
+> 
+> The point is that it is valid to target a masked MSI entry to an offline
+> CPU under the assumption that the hardware/emulation respects the
+> masking. Whether that's a good idea or not is a different question.
+> 
+> The kernel as of today does not do that. It targets unused but
+> configured MSI[-x] entries towards MANAGED_IRQ_SHUTDOWN_VECTOR on CPU0
+> for various reasons, one of them being paranoia.
+> 
+> But in principle there is nothing wrong with that and it should either
+> succeed or being rejected at the software level and not expose a
+> completely invalid CPU number to the hypercall in the first place.
+> 
+> So if you want to be defensive, then keep the _and(), but then check the
+> result for being valid and emit something useful like a pr_warn_once()
+> instead of blindly handing the invalid result to the hypercall and then
+> have that reject it with some undecipherable error code.
+> 
+> Actually it would not necessarily reach the hypercall because before
+> that it dereferences cpumask_of(nr_cpu_ids) here:
+> 
+> 	nr_bank = cpumask_to_vpset(&(intr_desc->target.vp_set),	cpumask_of(cpu));
+> 
+> and explode with a kernel pagefault. If not it will read some random
+> adjacent data and try to create a vp_set from it. Neither of that is
+> anywhere close to correct.
+> 
 
-Although it works correctly today, there are two problems with it:
-1. IRQ affinity mask already consists only of online cpus, thus matching it
-to the mask on online cpus is redundant.
-2. cpumask_first_and() can return nr_cpu_ids in case of IRQ affinity
-containing offline cpus in future, and in this case current implementation
-will likely lead to kernel crash in hv_map_interrupt due to an attempt to use
-invalid cpu id for getting vp set.
+Thank you Thomas.
+I sent a patch to address the problmes you highlighted:
 
-This patch fixes this logic by taking the first bit from the affinity
-mask as the cpu to map the IRQ to.
-It also adds a paranoia WARN_ON_ONCE for the case when the affinity mask
-contains offline cpus.
+"x86/hyperv: Fix IRQ effective cpu discovery for the interrupts unmasking"
 
-Signed-off-by: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>
-CC: "K. Y. Srinivasan" <kys@microsoft.com>
-CC: Haiyang Zhang <haiyangz@microsoft.com>
-CC: Wei Liu <wei.liu@kernel.org>
-CC: Dexuan Cui <decui@microsoft.com>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: x86@kernel.org
-CC: "H. Peter Anvin" <hpa@zytor.com>
-CC: Joerg Roedel <joro@8bytes.org>
-CC: Will Deacon <will@kernel.org>
-CC: Robin Murphy <robin.murphy@arm.com>
-CC: linux-hyperv@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: iommu@lists.linux.dev
----
- arch/x86/hyperv/irqdomain.c  |    7 ++++---
- drivers/iommu/hyperv-iommu.c |    7 ++++---
- 2 files changed, 8 insertions(+), 6 deletions(-)
+I'll update this series after that patch is merged.
 
-diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-index 42c70d28ef27..759774b5ab2f 100644
---- a/arch/x86/hyperv/irqdomain.c
-+++ b/arch/x86/hyperv/irqdomain.c
-@@ -192,7 +192,6 @@ static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 	struct pci_dev *dev;
- 	struct hv_interrupt_entry out_entry, *stored_entry;
- 	struct irq_cfg *cfg = irqd_cfg(data);
--	const cpumask_t *affinity;
- 	int cpu;
- 	u64 status;
- 
-@@ -204,8 +203,10 @@ static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 		return;
- 	}
- 
--	affinity = irq_data_get_effective_affinity_mask(data);
--	cpu = cpumask_first_and(affinity, cpu_online_mask);
-+	cpu = cpumask_first(irq_data_get_effective_affinity_mask(data));
-+
-+	/* Paranoia check: the cpu must be online */
-+	WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_online_mask));
- 
- 	if (data->chip_data) {
- 		/*
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index 8302db7f783e..632e9c123bbf 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -197,15 +197,16 @@ hyperv_root_ir_compose_msi_msg(struct irq_data *irq_data, struct msi_msg *msg)
- 	u32 vector;
- 	struct irq_cfg *cfg;
- 	int ioapic_id;
--	const struct cpumask *affinity;
- 	int cpu;
- 	struct hv_interrupt_entry entry;
- 	struct hyperv_root_ir_data *data = irq_data->chip_data;
- 	struct IO_APIC_route_entry e;
- 
- 	cfg = irqd_cfg(irq_data);
--	affinity = irq_data_get_effective_affinity_mask(irq_data);
--	cpu = cpumask_first_and(affinity, cpu_online_mask);
-+	cpu = cpumask_first(irq_data_get_effective_affinity_mask(irq_data));
-+
-+	/* Paranoia check: the cpu must be online */
-+	WARN_ON_ONCE(!cpumask_test_cpu(cpu, cpu_online_mask));
- 
- 	vector = cfg->vector;
- 	ioapic_id = data->ioapic_id;
+Thanks,
+Stanislav
 
-
+> Thanks,
+> 
+>         tglx
