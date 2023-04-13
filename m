@@ -2,118 +2,96 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2144C77B76
-	for <linux-hyperv@archiver.kernel.org>; Wed, 12 Apr 2023 23:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7E7C77B6C
+	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Apr 2023 01:05:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230070AbjDLXuU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 12 Apr 2023 19:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45660 "EHLO
+        id S229716AbjDMBFc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 12 Apr 2023 21:05:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229902AbjDLXuG (ORCPT
+        with ESMTP id S229441AbjDMBFb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 12 Apr 2023 19:50:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A91F6A4D;
-        Wed, 12 Apr 2023 16:50:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E092763A40;
-        Wed, 12 Apr 2023 23:50:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDB37C4339E;
-        Wed, 12 Apr 2023 23:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1681343404;
-        bh=b7H0OJvgITv94oCGcITa5YVvEl/zb04TPx9I9PIgGgo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sgXvqcgO8S/huUHYkPIWf6A1TYBBpJ6x0TY5qyPabj9iVthVARVRqchnngLYFY7P3
-         bxgW0McN7dRrjgj+Ntr8BWHyTCh+bQK1fitf+5OzhURtF5KRMT9c7MEe+GymyI8+mP
-         xWHsauWUwTeEyFoa3+FeI6+AbEuOihgeIOeUFtWjAD5ukCjjW3PFGFqrOJIcpLLcIn
-         6YwE6d9D+EHHpxyY1hve8Hc1/rxrCirj8g31OLKLLB9SbVX7vAHlgM+4lD5IQEEy1k
-         5zh5xeziXrJkvk+L13P0hhi/jaw2jvJ+Mb6ONeeGCXw2sBcCL7xQOs4kBVmA+kj5w5
-         ChIH9EexYLsQA==
-From:   Josh Poimboeuf <jpoimboe@kernel.org>
-To:     x86@kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miroslav Benes <mbenes@suse.cz>, linux-btrfs@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-scsi@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Michael Kelley <mikelley@microsoft.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 10/11] scsi: message: fusion: Mark mpt_halt_firmware() __noreturn
-Date:   Wed, 12 Apr 2023 16:49:40 -0700
-Message-Id: <d8129817423422355bf30e90dadc6764261b53e0.1681342859.git.jpoimboe@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1681342859.git.jpoimboe@kernel.org>
-References: <cover.1681342859.git.jpoimboe@kernel.org>
+        Wed, 12 Apr 2023 21:05:31 -0400
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED3334C2E;
+        Wed, 12 Apr 2023 18:05:30 -0700 (PDT)
+Received: by mail-wm1-f48.google.com with SMTP id j16so143455wms.0;
+        Wed, 12 Apr 2023 18:05:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681347929; x=1683939929;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7UkmFhtjxWacnMCiO0oQv3pNqPctVfrO7QeMfZUAp/o=;
+        b=WXfUXfu106fH1coxexnbiajCnnD+MntT0bTDc9g/xygvsVK+fe2CfPs9wSradk9jgA
+         a5opeeGQL5MOGDvDVfi8pg7qZjrfo/nQZmlT8wXy0RDAVN+BiiZQhJY/T6Pxt4gCbvTT
+         85EVAtLdjCOlls9TsGTwUTt3KLdwzsbqkaQOGWAec2JTi+xZIkN33+Ldt+l+poSWu5gC
+         pJ+lTIWDnQGwnf0R1+vPOYigWHJy+A6RP5Q/nAauh5LhpmYAynkaNuRGIlozvtqyJu0o
+         RaxF7zhlf0PDVg86+m1sl1PQ1H4tqTooNUn3ZG0oLKvy1W1s/KqS5Am3sdQpHRG3SpBR
+         kSMQ==
+X-Gm-Message-State: AAQBX9deoecpwRnzQyXDvDovKudAbl1z8Dtx4nqC/IjR77o35CS0L81Q
+        etip6SCeShsmqsT0oOQIZ0Q=
+X-Google-Smtp-Source: AKy350bDDKhpd8MexEw/4tmaBStYzgn6bVDTaN7FSwiN/JqKxJOEBlxdeUeD/HykCmrarjBMVB1+fw==
+X-Received: by 2002:a1c:7701:0:b0:3f0:80cf:f2d5 with SMTP id t1-20020a1c7701000000b003f080cff2d5mr48283wmi.11.1681347929308;
+        Wed, 12 Apr 2023 18:05:29 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05600c468800b003f09563445asm4128817wmo.0.2023.04.12.18.05.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Apr 2023 18:05:28 -0700 (PDT)
+Date:   Thu, 13 Apr 2023 01:05:24 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     hpa@zytor.com, kys@microsoft.com, haiyangz@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, luto@kernel.org,
+        peterz@infradead.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, lpieralisi@kernel.org,
+        robh@kernel.org, kw@linux.com, bhelgaas@google.com, arnd@arndb.de,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        Tianyu.Lan@microsoft.com, kirill.shutemov@linux.intel.com,
+        sathyanarayanan.kuppuswamy@linux.intel.com, ak@linux.intel.com,
+        isaku.yamahata@intel.com, dan.j.williams@intel.com,
+        jane.chu@oracle.com, seanjc@google.com, tony.luck@intel.com,
+        x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-arch@vger.kernel.org,
+        iommu@lists.linux.dev
+Subject: Re: [PATCH v7 00/12] Add PCI pass-thru support to Hyper-V
+ Confidential VMs
+Message-ID: <ZDdVVJ2P+sJaUgtV@liuwe-devbox-debian-v2>
+References: <1679838727-87310-1-git-send-email-mikelley@microsoft.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1679838727-87310-1-git-send-email-mikelley@microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-mpt_halt_firmware() doesn't return.  Mark it as such.
+On Sun, Mar 26, 2023 at 06:51:55AM -0700, Michael Kelley wrote:
+[...]
+> 
+> Michael Kelley (12):
+>   x86/ioremap: Add hypervisor callback for private MMIO mapping in coco VM
+>   x86/hyperv: Reorder code to facilitate future work
+>   Drivers: hv: Explicitly request decrypted in vmap_pfn() calls
+>   x86/mm: Handle decryption/re-encryption of bss_decrypted consistently
+>   init: Call mem_encrypt_init() after Hyper-V hypercall init is done
+>   x86/hyperv: Change vTOM handling to use standard coco mechanisms
+>   swiotlb: Remove bounce buffer remapping for Hyper-V
+>   Drivers: hv: vmbus: Remove second mapping of VMBus monitor pages
+>   Drivers: hv: vmbus: Remove second way of mapping ring buffers
+>   hv_netvsc: Remove second mapping of send and recv buffers
+>   Drivers: hv: Don't remap addresses that are above shared_gpa_boundary
+>   PCI: hv: Enable PCI pass-thru devices in Confidential VMs
 
-Fixes the following warnings:
+I merged the first 6 from tip/x86/sev and then the rest directly to
+hyperv-next.
 
-  vmlinux.o: warning: objtool: mptscsih_abort+0x7f4: unreachable instruction
-  vmlinux.o: warning: objtool: mptctl_timeout_expired+0x310: unreachable instruction
+The hv_netvsc patch did not apply cleanly, but that was easy to fix.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Link: https://lore.kernel.org/oe-kbuild-all/202302271743.78emit6I-lkp@intel.com/
-Reported-by: Mark Rutland <mark.rutland@arm.com>
-Debugged-by: Peter Zijlstra <peterz@infradead.org>
-Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
----
- drivers/message/fusion/mptbase.c | 2 +-
- drivers/message/fusion/mptbase.h | 2 +-
- tools/objtool/check.c            | 1 +
- 3 files changed, 3 insertions(+), 2 deletions(-)
+Please check hyperv-next is what you expected.
 
-diff --git a/drivers/message/fusion/mptbase.c b/drivers/message/fusion/mptbase.c
-index 9b3ba2df71c7..4f0afce8428d 100644
---- a/drivers/message/fusion/mptbase.c
-+++ b/drivers/message/fusion/mptbase.c
-@@ -6935,7 +6935,7 @@ EXPORT_SYMBOL(mpt_clear_taskmgmt_in_progress_flag);
-  *	@ioc: Pointer to MPT_ADAPTER structure
-  *
-  **/
--void
-+void __noreturn
- mpt_halt_firmware(MPT_ADAPTER *ioc)
- {
- 	u32	 ioc_raw_state;
-diff --git a/drivers/message/fusion/mptbase.h b/drivers/message/fusion/mptbase.h
-index 4bd0682c65d3..0f226cdad64f 100644
---- a/drivers/message/fusion/mptbase.h
-+++ b/drivers/message/fusion/mptbase.h
-@@ -945,7 +945,7 @@ extern int	mpt_raid_phys_disk_get_num_paths(MPT_ADAPTER *ioc,
- 		u8 phys_disk_num);
- extern int	 mpt_set_taskmgmt_in_progress_flag(MPT_ADAPTER *ioc);
- extern void	 mpt_clear_taskmgmt_in_progress_flag(MPT_ADAPTER *ioc);
--extern void     mpt_halt_firmware(MPT_ADAPTER *ioc);
-+extern void __noreturn mpt_halt_firmware(MPT_ADAPTER *ioc);
- 
- 
- /*
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index a42a2af99ea2..8586d4c36600 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -219,6 +219,7 @@ static bool __dead_end_function(struct objtool_file *file, struct symbol *func,
- 		"lbug_with_loc",
- 		"machine_real_restart",
- 		"make_task_dead",
-+		"mpt_halt_firmware",
- 		"nmi_panic_self_stop",
- 		"panic",
- 		"panic_smp_self_stop",
--- 
-2.39.2
-
+Thanks,
+Wei.
