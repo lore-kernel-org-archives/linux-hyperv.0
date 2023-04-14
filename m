@@ -2,116 +2,104 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E99B4C77B71
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 16:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FD7C77B78
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 17:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230058AbjDNQdX (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Apr 2023 12:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40342 "EHLO
+        id S230393AbjDNRal (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Apr 2023 13:30:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229997AbjDNQdV (ORCPT
+        with ESMTP id S230265AbjDNRaa (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Apr 2023 12:33:21 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C70581B4;
-        Fri, 14 Apr 2023 09:32:59 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-63b5465fc13so333105b3a.3;
-        Fri, 14 Apr 2023 09:32:59 -0700 (PDT)
+        Fri, 14 Apr 2023 13:30:30 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D723B77D;
+        Fri, 14 Apr 2023 10:29:49 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id fw22-20020a17090b129600b00247255b2f40so5216433pjb.1;
+        Fri, 14 Apr 2023 10:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681489979; x=1684081979;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YbYspClGP43xt+dAPh6cycYu19bqp5mbIOxJUIwH2q0=;
-        b=M7G7JBt2YJzpLr4X5erkXqEez80go/lMnrCworaMlIDcr6N9qR4K2YKUZIzd0YIQKM
-         1Br96VlucFxJkV/ir8SQOsmg63VpDm15tSHjmLFs/7w8ou1B/HQnfij1EVbQpw5+Yqln
-         d60Lgl2RoRGRhgBhTS8ZtBR4f/0SgkLSe9T7BKK1WDfLu6H9Ovl/1g7UyPCJ+B+/hc8s
-         7J9cB8Y3Mw1uw/axko/KQaATZ0jDrl6OoiHgzZyW+L2nxIxXT23YC8dD0x9Lgi+qrNgY
-         4lsi6GP0jBe5/CBjMWS0EyDymAls2DsJ9D7EDrfu8jywAGgDcYgJArWeKLurx4JC86Mj
-         8/vQ==
+        d=gmail.com; s=20221208; t=1681493387; x=1684085387;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oA7v86V6iYy/er+GdPOTuYZa860KsTLlZwCwQrf+4GM=;
+        b=kTsQI1JEp+BNjizJZdsaHTeLSPzTMh+8ZhdIBAOetu/YXFaPfSks9nrwtLzMucsXwY
+         OPVssxeXxKw9KUDK2tM54IF15q7H6BzvNX2QIhGeXqdaAO7Rbn8H9zNisL5IAk9WVakL
+         ornllfdf5snpZilws1YgiAdOIpIuxhUza3DYzxXcZwW1qFDQ9ACxuY0AnosV4H76mz8T
+         QO7NaENDQ68ytJfL0wmKxDb4mQJxcFbxuCHXydsAMubiCavrXBV9z00nzJhu4NCdN/SQ
+         vAulexmGQamd7ftwaO/9+GGJiNm6KAGiT/QGrmDiIOavzWBePL/FZaoX34xXL6PjP1wh
+         bNLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681489979; x=1684081979;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YbYspClGP43xt+dAPh6cycYu19bqp5mbIOxJUIwH2q0=;
-        b=IsVV5kqWJp87p0doqrtaGzgT+l4M/gajzFN92AVe8+5DKbDH5kF2WhIhNcxW6PZNTw
-         5PcH1CQqYX/6m7t76sGbfmQYBxOQIsqi0yMy5T3aTrVlsuFm3Dwnunbk5EirybNCMKua
-         MLtPPvF+nauc+a63AA535i6S9apFdfL+a++v3eO89tvu9+kpGJ7Oz2FavvRjkGbnNQhz
-         2U+CIMKNUroFcRzSWJwunwJcslt/v0kbrR/VMa2XjvBUmls2GY8l5WOY+JqwNZn9PleJ
-         wL0DA4Cmq+WJrhqqdhh7HpO1EMuAcV7uDM1tGfIG1J9+YwnQoeEF0/gCIPoOE/uaA9mz
-         nlkA==
-X-Gm-Message-State: AAQBX9eE+MnuA752uoGmUfvRx6zJjOBlWw4Eac9TafHQVC2Ai1CTP2Fw
-        6+SzjAjndyA/AkNIi2w+gyM=
-X-Google-Smtp-Source: AKy350aISEg+669oC0+0RfuzFBTsYRmbHLK1jNIg9oebLxkkqIpt85KTk0+lZ2pPVLhlI6/Aos8yjA==
-X-Received: by 2002:a05:6a00:2402:b0:637:3234:4e22 with SMTP id z2-20020a056a00240200b0063732344e22mr9104068pfh.23.1681489979182;
-        Fri, 14 Apr 2023 09:32:59 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:1a:efea::75b])
-        by smtp.gmail.com with ESMTPSA id x20-20020a62fb14000000b005abc0d426c4sm3239232pfm.54.2023.04.14.09.32.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Apr 2023 09:32:58 -0700 (PDT)
-Message-ID: <21210f9c-8831-9f5a-e391-0f44f277b024@gmail.com>
-Date:   Sat, 15 Apr 2023 00:32:46 +0800
+        d=1e100.net; s=20221208; t=1681493387; x=1684085387;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oA7v86V6iYy/er+GdPOTuYZa860KsTLlZwCwQrf+4GM=;
+        b=JcTWsZIhzQSU8qbsiDrw8mMEJFlH5BP1SONWZ6tUX04G9SnmZ3xlVpiySVt+0wDd8e
+         vD+I8NAttgs75D3iUKQbw+YTRvenjH7GVvbWUKJq/vCl1KjcDUSRM0NurDJEBNC/afDv
+         RocEASvajbCKuRyTP4m986a/9n6jsPE6OVsIYHYEHWQ6OqSQPDVKdr5bPNmMkFzX1NbY
+         1p2uYPSgx2OKdBoxBVkmc8s5/vfkn0zUXMCYkzI0U1FNpC448+kwxCU8eNTYHCikdJjj
+         ZPxxuN3pNp7IUmwmMy7M9rTIKUoN/P0XMWdcpoicnxaWdWAN07F+IlveIEF6IFZ9w/VJ
+         NrAQ==
+X-Gm-Message-State: AAQBX9c45ck+U2BQ9J+aBKPxsbScgym/An/0b4tcgK1wd588T5HtTA2T
+        JlHOrSeAfw0CZS3v8gv5NlolwuDXVzGeVoJP
+X-Google-Smtp-Source: AKy350ZM/lCKFNROMkR2BLN8j5h2sYyTe4cwE/DBiZZPljtct0wXCMbeFUr0FvTHbZ5DdocTi+b1dQ==
+X-Received: by 2002:a17:902:ecc5:b0:1a6:54cd:ccd9 with SMTP id a5-20020a170902ecc500b001a654cdccd9mr1583490plh.9.1681493386999;
+        Fri, 14 Apr 2023 10:29:46 -0700 (PDT)
+Received: from localhost (c-73-25-35-85.hsd1.wa.comcast.net. [73.25.35.85])
+        by smtp.gmail.com with ESMTPSA id iw5-20020a170903044500b001a64ce7b18dsm3326202plb.165.2023.04.14.10.29.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Apr 2023 10:29:46 -0700 (PDT)
+Date:   Fri, 14 Apr 2023 10:28:28 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Alvaro Karsz <alvaro.karsz@solid-run.com>
+Cc:     Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bryan Tan <bryantan@vmware.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "virtualization@lists.linux-foundation.org" 
+        <virtualization@lists.linux-foundation.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        Jiang Wang <jiang.wang@bytedance.com>
+Subject: Re: [PATCH RFC net-next v2 2/4] virtio/vsock: add
+ VIRTIO_VSOCK_F_DGRAM feature bit
+Message-ID: <ZBajz9+ehv+Ixv+s@bullseye>
+References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
+ <20230413-b4-vsock-dgram-v2-2-079cc7cee62e@bytedance.com>
+ <AM0PR04MB47238453B33915D18F247ABBD4999@AM0PR04MB4723.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [RFC PATCH V4 13/17] x86/sev: Add Check of #HV event in path
-To:     Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, seanjc@google.com, pbonzini@redhat.com,
-        jgross@suse.com, tiala@microsoft.com, kirill@shutemov.name,
-        jiangshan.ljs@antgroup.com, peterz@infradead.org,
-        ashish.kalra@amd.com, srutherford@google.com,
-        akpm@linux-foundation.org, anshuman.khandual@arm.com,
-        pawan.kumar.gupta@linux.intel.com, adrian.hunter@intel.com,
-        daniel.sneddon@linux.intel.com, alexander.shishkin@linux.intel.com,
-        sandipan.das@amd.com, ray.huang@amd.com, brijesh.singh@amd.com,
-        michael.roth@amd.com, thomas.lendacky@amd.com,
-        venu.busireddy@oracle.com, sterritt@google.com,
-        tony.luck@intel.com, samitolvanen@google.com, fenghua.yu@intel.com,
-        pangupta@amd.com, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-arch@vger.kernel.org
-References: <20230403174406.4180472-1-ltykernel@gmail.com>
- <20230403174406.4180472-14-ltykernel@gmail.com>
- <CAM9Jb+gsHLgkqFf=ydtv4_Tr1uE5qeMQu4PhnD-aJ10OvzBbhA@mail.gmail.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <CAM9Jb+gsHLgkqFf=ydtv4_Tr1uE5qeMQu4PhnD-aJ10OvzBbhA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM0PR04MB47238453B33915D18F247ABBD4999@AM0PR04MB4723.eurprd04.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+On Fri, Apr 14, 2023 at 08:47:52AM +0000, Alvaro Karsz wrote:
+> Hi Bobby,
+> 
+> >  /* The feature bitmap for virtio vsock */
+> >  #define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET supported */
+> > +#define VIRTIO_VSOCK_F_DGRAM           2       /* Host support dgram vsock */
+> 
+> Seems that bit 2 is already taken by VIRTIO_VSOCK_F_NO_IMPLIED_STREAM.
+> 
+> https://github.com/oasis-tcs/virtio-spec/commit/26ed30ccb049fd51d6e20aad3de2807d678edb3a
 
+Right! I'll bump that in the next rev.
 
-On 4/14/2023 7:02 PM, Pankaj Gupta wrote:
->> +void check_hv_pending_irq_enable(void)
->> +{
->> +       struct pt_regs regs;
->> +
->> +       if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
->> +               return;
->> +
->> +       memset(&regs, 0, sizeof(struct pt_regs));
->> +       asm volatile("movl %%cs, %%eax;" : "=a" (regs.cs));
->> +       asm volatile("movl %%ss, %%eax;" : "=a" (regs.ss));
->> +       regs.orig_ax = 0xffffffff;
->> +       regs.flags = native_save_fl();
->> +
->> +       /*
->> +        * Disable irq when handle pending #HV events after
->> +        * re-enabling irq.
->> +        */
->> +       asm volatile("cli" : : : "memory");
-> Just curious, Does the hypervisor injects irqs via doorbell page when
-> interrupts are disabled with "cli" ? Trying to understand the need to
-> cli/sti covering on "do_exc_hv".
-
-
-Hi Pankaj:
-	Thanks for your review. Yes, Hypervisor still injects #HV exception 
-when irq was disabled check_hv_pending() is called when
-there is a #HV exception. It checks irq flag and return back without 
-handling irq event when irq was disabled.
+Thanks,
+Bobby
