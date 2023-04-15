@@ -2,307 +2,326 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5DFEC77B60
-	for <linux-hyperv@archiver.kernel.org>; Fri, 28 Apr 2023 10:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71437C77B61
+	for <linux-hyperv@archiver.kernel.org>; Fri, 28 Apr 2023 16:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345591AbjD1KoX (ORCPT
+        id S1346358AbjD1QxV (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 28 Apr 2023 06:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40498 "EHLO
+        Fri, 28 Apr 2023 12:53:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233293AbjD1KoV (ORCPT
+        with ESMTP id S230162AbjD1QxU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 28 Apr 2023 06:44:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 611D859EC
-        for <linux-hyperv@vger.kernel.org>; Fri, 28 Apr 2023 03:43:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1682678611;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IQVmdT90OhXDpcSpwDoh82Tvt4g5mLAfat632QKI2HE=;
-        b=SMAIpd9mTUpnkyJLHF3PRsdWWS1CRq/9mATgcL/JOwOL1WplboxLI4QNDOnPU1YYg41RTw
-        eLYcDINsOsaaP8OvmBu9qgAIuOBU5ny3R+hydWEXh+W8Bx6mNAI0XaN3/54yoP+5sOC0Jx
-        d6wmwQjSBZ9IeOF9lU7FGX+0b2Lwis0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-503-2ld9z7ghO7a9hu4WvMUdjQ-1; Fri, 28 Apr 2023 06:43:28 -0400
-X-MC-Unique: 2ld9z7ghO7a9hu4WvMUdjQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3f17b8d24bbso62333815e9.2
-        for <linux-hyperv@vger.kernel.org>; Fri, 28 Apr 2023 03:43:28 -0700 (PDT)
+        Fri, 28 Apr 2023 12:53:20 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 551914EE2;
+        Fri, 28 Apr 2023 09:53:15 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-63b60365f53so289170b3a.0;
+        Fri, 28 Apr 2023 09:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682700794; x=1685292794;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+QxcQwmg1pmTbHSBnT1S2CE2e3/rXWNKIsYLDVewC9E=;
+        b=Wiutx5Gpr7taZmNu+Ji2c8cnLN8GhPjQkgf+V6KmoCZG2yIF0DS6vfXgZLBYdpk3wS
+         lvSnITCY9ViuWNNROFqRNZ3P0dqMLWXia7ISHt8jZzeaDag6oQxCWJjSXjEk7tbODPmJ
+         2ZYdfrW2ban6rmdFfsrMAoqFPJdjFAybT+lm3IOjmEayaCQbomW08SWtE7fZjLZB1hEH
+         YvLcU00s5qUVpTt8RNdN549h8nBEldgnawWPC3X+PDyPn+b/6zxy6aZJ6ItH3QNMVzLL
+         wk4ipQwefzsGXkk7pRFCiwDefZn2lsvGSKTgearOcNVFQU/QUtrUyrtA9B60Ar6gYV+Q
+         7qxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682678604; x=1685270604;
+        d=1e100.net; s=20221208; t=1682700794; x=1685292794;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IQVmdT90OhXDpcSpwDoh82Tvt4g5mLAfat632QKI2HE=;
-        b=hU5Jiwd6nfBU8ht97e8V86hA9VyGjvcsl0E792fq0UkD2VIh8KaVVn059zupZo0d7W
-         OR43RznK/KhLsypt+ZL6O8KaOk4Nq+h2v6Q/p0R4DY7an7+qRJ48oJh7DehP5rpT7+PH
-         n0GMfwK4F7vD0wVBDntJwMM8HfUTNots43MTSb7ubwntRePoYZs6tfjsWNhH+Q2h8gPw
-         dxcbNi7lNRgjzWM8yyNZPKmq9JXfFVK4itP8r3FaA9pM2fqR3SHFJQtdzHGGS1OatsBH
-         auOWWVEnuqRUe6kY579RTpNnVeFPBDxpT3IpC6K8VTmJc646yN9fLoKWAk/clGAV9+ge
-         1CYw==
-X-Gm-Message-State: AC+VfDwo2+aWU1uhGkwW336FWhgfXxZ42Yw1EvzkAo0+mN+K2ZPumLfX
-        F8Gj5WXGiq3IhhNTobuBfpLZHCxL+0f6VbwTIczWBSCiXJROxlXRcSUzJ1qD6xhn+dx5TtoJUzg
-        8bX3OoMJ0mLMGTgBMTzYZQgpK1rRsOkuZ
-X-Received: by 2002:a5d:63cd:0:b0:2f4:e580:a72f with SMTP id c13-20020a5d63cd000000b002f4e580a72fmr3575484wrw.45.1682678604406;
-        Fri, 28 Apr 2023 03:43:24 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ6sbbM9Zn4cTetz42fXKk9Z9F040Hk4rnRdGv4o6qnjbgUiSUoCwpa/D62xpuyoNmY1khznig==
-X-Received: by 2002:a5d:63cd:0:b0:2f4:e580:a72f with SMTP id c13-20020a5d63cd000000b002f4e580a72fmr3575451wrw.45.1682678604022;
-        Fri, 28 Apr 2023 03:43:24 -0700 (PDT)
-Received: from sgarzare-redhat ([217.171.71.231])
-        by smtp.gmail.com with ESMTPSA id s4-20020adfeb04000000b003047f7a7ad1sm11442270wrn.71.2023.04.28.03.43.14
+        bh=+QxcQwmg1pmTbHSBnT1S2CE2e3/rXWNKIsYLDVewC9E=;
+        b=VSvQBptH1MoVw/aag6KVtoTsegLmAvNzFho5mO2cFZ29m11lCfURhZtUZWHHvHrgfp
+         VGiphmthUoKWC7fAeuVsKZOY0cNmChJFlok8nLJEcAyZ+klDMYqQHX8kxcB3cSvLwVMh
+         Ol4T+WGep3d6kD1w8/Fc9Hpu/AVSd177MqYa4VMbFgxINEUyB2uqm4dv/tiSNAKgat+J
+         VN5Ms6id3u0okR2cdqYrBKzpms2KEDbSlSZTKVRVGXVHluHvIdQIWZkgI0eFssiFgeVe
+         ApNYKyBc7xUPdG3HDcGYZ4aouCHxlfnokvB0tbz6kLLiuvrfFUSm3zDCXlCfryi56yFb
+         mRkA==
+X-Gm-Message-State: AC+VfDw8peAOlaHyC20aaRQIrR7MIL4doNqqhLkCYVi0SttHDsqj3/A8
+        4GgjUNBGR26jIk2BwFP8Gl0=
+X-Google-Smtp-Source: ACHHUZ5xW1hI0KanevVm2aPZoOfGyAC5BsDffd4bfkw4RrbQn5BHotv4Ve9RRw1/sZwpWyqWIYQcdA==
+X-Received: by 2002:a05:6a20:2d0a:b0:f5:607f:b78 with SMTP id g10-20020a056a202d0a00b000f5607f0b78mr6332078pzl.27.1682700794236;
+        Fri, 28 Apr 2023 09:53:14 -0700 (PDT)
+Received: from localhost (c-73-25-35-85.hsd1.wa.comcast.net. [73.25.35.85])
+        by smtp.gmail.com with ESMTPSA id l21-20020a63ea55000000b005287a0560c9sm5581217pgk.1.2023.04.28.09.53.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Apr 2023 03:43:23 -0700 (PDT)
-Date:   Fri, 28 Apr 2023 12:43:09 +0200
-From:   Stefano Garzarella <sgarzare@redhat.com>
-To:     Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc:     linux-hyperv@vger.kernel.org, Cong Wang <cong.wang@bytedance.com>,
+        Fri, 28 Apr 2023 09:53:13 -0700 (PDT)
+Date:   Sat, 15 Apr 2023 15:55:05 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     Vishnu Dasa <vdasa@vmware.com>, virtio-dev@lists.oasis-open.org,
+        linux-hyperv@vger.kernel.org, Cong Wang <cong.wang@bytedance.com>,
         Bobby Eshleman <bobby.eshleman@bytedance.com>,
         kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
         VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        netdev@vger.kernel.org, Haiyang Zhang <haiyangz@microsoft.com>,
+        Dexuan Cui <decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
         virtualization@lists.linux-foundation.org,
-        Eric Dumazet <edumazet@google.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
         Bryan Tan <bryantan@vmware.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jiang Wang <jiang.wang@bytedance.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        Jiang Wang <jiang.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
         "David S. Miller" <davem@davemloft.net>,
-        virtio-dev@lists.oasis-open.org
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH RFC net-next v2 0/4] virtio/vsock: support datagrams
-Message-ID: <yeu57zqwzcx33sylp565xgw7yv72qyczohkmukyex27rcdh6mr@w4x6t4enx6iu>
+Message-ID: <ZDrI2bBhiamYBKUB@bullseye>
 References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
  <ZDk2kOVnUvyLMLKE@bullseye>
  <r6oxanmhwlonb7lcrrowpitlgobivzp7pcwk7snqvfnzudi6pb@4rnio5wef3qu>
  <ZDpOq0ACuMYIUbb1@bullseye>
+ <yeu57zqwzcx33sylp565xgw7yv72qyczohkmukyex27rcdh6mr@w4x6t4enx6iu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZDpOq0ACuMYIUbb1@bullseye>
+In-Reply-To: <yeu57zqwzcx33sylp565xgw7yv72qyczohkmukyex27rcdh6mr@w4x6t4enx6iu>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Sat, Apr 15, 2023 at 07:13:47AM +0000, Bobby Eshleman wrote:
->CC'ing virtio-dev@lists.oasis-open.org because this thread is starting
->to touch the spec.
->
->On Wed, Apr 19, 2023 at 12:00:17PM +0200, Stefano Garzarella wrote:
->> Hi Bobby,
->>
->> On Fri, Apr 14, 2023 at 11:18:40AM +0000, Bobby Eshleman wrote:
->> > CC'ing Cong.
->> >
->> > On Fri, Apr 14, 2023 at 12:25:56AM +0000, Bobby Eshleman wrote:
->> > > Hey all!
->> > >
->> > > This series introduces support for datagrams to virtio/vsock.
->>
->> Great! Thanks for restarting this work!
->>
->
->No problem!
->
->> > >
->> > > It is a spin-off (and smaller version) of this series from the summer:
->> > >   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
->> > >
->> > > Please note that this is an RFC and should not be merged until
->> > > associated changes are made to the virtio specification, which will
->> > > follow after discussion from this series.
->> > >
->> > > This series first supports datagrams in a basic form for virtio, and
->> > > then optimizes the sendpath for all transports.
->> > >
->> > > The result is a very fast datagram communication protocol that
->> > > outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
->> > > of multi-threaded workload samples.
->> > >
->> > > For those that are curious, some summary data comparing UDP and VSOCK
->> > > DGRAM (N=5):
->> > >
->> > > 	vCPUS: 16
->> > > 	virtio-net queues: 16
->> > > 	payload size: 4KB
->> > > 	Setup: bare metal + vm (non-nested)
->> > >
->> > > 	UDP: 287.59 MB/s
->> > > 	VSOCK DGRAM: 509.2 MB/s
->> > >
->> > > Some notes about the implementation...
->> > >
->> > > This datagram implementation forces datagrams to self-throttle according
->> > > to the threshold set by sk_sndbuf. It behaves similar to the credits
->> > > used by streams in its effect on throughput and memory consumption, but
->> > > it is not influenced by the receiving socket as credits are.
->>
->> So, sk_sndbuf influece the sender and sk_rcvbuf the receiver, right?
->>
->
->Correct.
->
->> We should check if VMCI behaves the same.
->>
->> > >
->> > > The device drops packets silently. There is room for improvement by
->> > > building into the device and driver some intelligence around how to
->> > > reduce frequency of kicking the virtqueue when packet loss is high. I
->> > > think there is a good discussion to be had on this.
->>
->> Can you elaborate a bit here?
->>
->> Do you mean some mechanism to report to the sender that a destination
->> (cid, port) is full so the packet will be dropped?
->>
->
->Correct. There is also the case of there being no receiver at all for
->this address since this case isn't rejected upon connect(). Ideally,
->such a socket (which will have 100% packet loss) will be throttled
->aggressively.
->
->Before we go down too far on this path, I also want to clarify that
->using UDP over vhost/virtio-net also has this property... this can be
->observed by using tcpdump to dump the UDP packets on the bridge network
->your VM is using. UDP packets sent to a garbage address can be seen on
->the host bridge (this is the nature of UDP, how is the host supposed to
->know the address eventually goes nowhere). I mention the above because I
->think it is possible for vsock to avoid this cost, given that it
->benefits from being point-to-point and g2h/h2g.
->
->If we're okay with vsock being on par, then the current series does
->that. I propose something below that can be added later and maybe
->negotiated as a feature bit too.
+On Fri, Apr 28, 2023 at 12:43:09PM +0200, Stefano Garzarella wrote:
+> On Sat, Apr 15, 2023 at 07:13:47AM +0000, Bobby Eshleman wrote:
+> > CC'ing virtio-dev@lists.oasis-open.org because this thread is starting
+> > to touch the spec.
+> > 
+> > On Wed, Apr 19, 2023 at 12:00:17PM +0200, Stefano Garzarella wrote:
+> > > Hi Bobby,
+> > > 
+> > > On Fri, Apr 14, 2023 at 11:18:40AM +0000, Bobby Eshleman wrote:
+> > > > CC'ing Cong.
+> > > >
+> > > > On Fri, Apr 14, 2023 at 12:25:56AM +0000, Bobby Eshleman wrote:
+> > > > > Hey all!
+> > > > >
+> > > > > This series introduces support for datagrams to virtio/vsock.
+> > > 
+> > > Great! Thanks for restarting this work!
+> > > 
+> > 
+> > No problem!
+> > 
+> > > > >
+> > > > > It is a spin-off (and smaller version) of this series from the summer:
+> > > > >   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
+> > > > >
+> > > > > Please note that this is an RFC and should not be merged until
+> > > > > associated changes are made to the virtio specification, which will
+> > > > > follow after discussion from this series.
+> > > > >
+> > > > > This series first supports datagrams in a basic form for virtio, and
+> > > > > then optimizes the sendpath for all transports.
+> > > > >
+> > > > > The result is a very fast datagram communication protocol that
+> > > > > outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
+> > > > > of multi-threaded workload samples.
+> > > > >
+> > > > > For those that are curious, some summary data comparing UDP and VSOCK
+> > > > > DGRAM (N=5):
+> > > > >
+> > > > > 	vCPUS: 16
+> > > > > 	virtio-net queues: 16
+> > > > > 	payload size: 4KB
+> > > > > 	Setup: bare metal + vm (non-nested)
+> > > > >
+> > > > > 	UDP: 287.59 MB/s
+> > > > > 	VSOCK DGRAM: 509.2 MB/s
+> > > > >
+> > > > > Some notes about the implementation...
+> > > > >
+> > > > > This datagram implementation forces datagrams to self-throttle according
+> > > > > to the threshold set by sk_sndbuf. It behaves similar to the credits
+> > > > > used by streams in its effect on throughput and memory consumption, but
+> > > > > it is not influenced by the receiving socket as credits are.
+> > > 
+> > > So, sk_sndbuf influece the sender and sk_rcvbuf the receiver, right?
+> > > 
+> > 
+> > Correct.
+> > 
+> > > We should check if VMCI behaves the same.
+> > > 
+> > > > >
+> > > > > The device drops packets silently. There is room for improvement by
+> > > > > building into the device and driver some intelligence around how to
+> > > > > reduce frequency of kicking the virtqueue when packet loss is high. I
+> > > > > think there is a good discussion to be had on this.
+> > > 
+> > > Can you elaborate a bit here?
+> > > 
+> > > Do you mean some mechanism to report to the sender that a destination
+> > > (cid, port) is full so the packet will be dropped?
+> > > 
+> > 
+> > Correct. There is also the case of there being no receiver at all for
+> > this address since this case isn't rejected upon connect(). Ideally,
+> > such a socket (which will have 100% packet loss) will be throttled
+> > aggressively.
+> > 
+> > Before we go down too far on this path, I also want to clarify that
+> > using UDP over vhost/virtio-net also has this property... this can be
+> > observed by using tcpdump to dump the UDP packets on the bridge network
+> > your VM is using. UDP packets sent to a garbage address can be seen on
+> > the host bridge (this is the nature of UDP, how is the host supposed to
+> > know the address eventually goes nowhere). I mention the above because I
+> > think it is possible for vsock to avoid this cost, given that it
+> > benefits from being point-to-point and g2h/h2g.
+> > 
+> > If we're okay with vsock being on par, then the current series does
+> > that. I propose something below that can be added later and maybe
+> > negotiated as a feature bit too.
+> 
+> I see and I agree on that, let's do it step by step.
+> If we can do it in the first phase is great, but I think is fine to add
+> this feature later.
+> 
+> > 
+> > > Can we adapt the credit mechanism?
+> > > 
+> > 
+> > I've thought about this a lot because the attraction of the approach for
+> > me would be that we could get the wait/buffer-limiting logic for free
+> > and without big changes to the protocol, but the problem is that the
+> > unreliable nature of datagrams means that the source's free-running
+> > tx_cnt will become out-of-sync with the destination's fwd_cnt upon
+> > packet loss.
+> 
+> We need to understand where the packet can be lost.
+> If the packet always reaches the destination (vsock driver or device),
+> we can discard it, but also update the counters.
+> 
+> > 
+> > Imagine a source that initializes and starts sending packets before a
+> > destination socket even is created, the source's self-throttling will be
+> > dysfunctional because its tx_cnt will always far exceed the
+> > destination's fwd_cnt.
+> 
+> Right, the other problem I see is that the socket aren't connected, so
+> we have 1-N relationship.
+> 
 
-I see and I agree on that, let's do it step by step.
-If we can do it in the first phase is great, but I think is fine to add
-this feature later.
+Oh yeah, good point.
 
->
->> Can we adapt the credit mechanism?
->>
->
->I've thought about this a lot because the attraction of the approach for
->me would be that we could get the wait/buffer-limiting logic for free
->and without big changes to the protocol, but the problem is that the
->unreliable nature of datagrams means that the source's free-running
->tx_cnt will become out-of-sync with the destination's fwd_cnt upon
->packet loss.
+> > 
+> > We could play tricks with the meaning of the CREDIT_UPDATE message and
+> > fwd_cnt/buf_alloc fields, but I don't think we want to go down that
+> > path.
+> > 
+> > I think that the best and simplest approach introduces a congestion
+> > notification (VIRTIO_VSOCK_OP_CN?). When a packet is dropped, the
+> > destination sends this notification. At a given repeated time period T,
+> > the source can check if it has received any notifications in the last T.
+> > If so, it halves its buffer allocation. If not, it doubles its buffer
+> > allocation unless it is already at its max or original value.
+> > 
+> > An "invalid" socket which never has any receiver will converge towards a
+> > rate limit of one packet per time T * log2(average pkt size). That is, a
+> > socket with 100% packet loss will only be able to send 16 bytes every
+> > 4T. A default send buffer of MAX_UINT32 and T=5ms would hit zero within
+> > 160ms given at least one packet sent per 5ms. I have no idea if that is
+> > a reasonable default T for vsock, I just pulled it out of a hat for the
+> > sake of the example.
+> > 
+> > "Normal" sockets will be responsive to high loss and rebalance during
+> > low loss. The source is trying to guess and converge on the actual
+> > buffer state of the destination.
+> > 
+> > This would reuse the already-existing throttling mechanisms that
+> > throttle based upon buffer allocation. The usage of sk_sndbuf would have
+> > to be re-worked. The application using sendmsg() will see EAGAIN when
+> > throttled, or just sleep if !MSG_DONTWAIT.
+> 
+> I see, it looks interesting, but I think we need to share that
+> information between multiple sockets, since the same destination
+> (cid, port), can be reached by multiple sockets.
+> 
 
-We need to understand where the packet can be lost.
-If the packet always reaches the destination (vsock driver or device),
-we can discard it, but also update the counters.
+Good point, that is true.
 
->
->Imagine a source that initializes and starts sending packets before a
->destination socket even is created, the source's self-throttling will be
->dysfunctional because its tx_cnt will always far exceed the
->destination's fwd_cnt.
+> Another approach could be to have both congestion notification and
+> decongestion, but maybe it produces double traffic.
+> 
 
-Right, the other problem I see is that the socket aren't connected, so
-we have 1-N relationship.
+I think this could simplify things and could reduce noise. It is also
+probably sufficient for the source to simply halt upon congestion
+notification and resume upon decongestion notification, instead of
+scaling up and down like I suggested above. It also avoids the
+burstiness that would occur with a "congestion notification"-only
+approach where the source guesses when to resume and guesses wrong.
 
->
->We could play tricks with the meaning of the CREDIT_UPDATE message and
->fwd_cnt/buf_alloc fields, but I don't think we want to go down that
->path.
->
->I think that the best and simplest approach introduces a congestion
->notification (VIRTIO_VSOCK_OP_CN?). When a packet is dropped, the
->destination sends this notification. At a given repeated time period T,
->the source can check if it has received any notifications in the last T.
->If so, it halves its buffer allocation. If not, it doubles its buffer
->allocation unless it is already at its max or original value.
->
->An "invalid" socket which never has any receiver will converge towards a
->rate limit of one packet per time T * log2(average pkt size). That is, a
->socket with 100% packet loss will only be able to send 16 bytes every
->4T. A default send buffer of MAX_UINT32 and T=5ms would hit zero within
->160ms given at least one packet sent per 5ms. I have no idea if that is
->a reasonable default T for vsock, I just pulled it out of a hat for the
->sake of the example.
->
->"Normal" sockets will be responsive to high loss and rebalance during
->low loss. The source is trying to guess and converge on the actual
->buffer state of the destination.
->
->This would reuse the already-existing throttling mechanisms that
->throttle based upon buffer allocation. The usage of sk_sndbuf would have
->to be re-worked. The application using sendmsg() will see EAGAIN when
->throttled, or just sleep if !MSG_DONTWAIT.
+The congestion notification may want to have an expiration period after
+which the sender can resume without receiving a decongestion
+notification? If it receives congestion again, then it can halt again.
 
-I see, it looks interesting, but I think we need to share that
-information between multiple sockets, since the same destination
-(cid, port), can be reached by multiple sockets.
+> > 
+> > I looked at alternative schemes (like the Datagram Congestion Control
+> > Protocol), but I do not think the added complexity is necessary in the
+> > case of vsock (DCCP requires congestion windows, sequence numbers, batch
+> > acknowledgements, etc...). I also looked at UDP-based application
+> > protocols like TFTP, DHCP, and SIP over UDP which use a delay-based
+> > backoff mechanism, but seem to require acknowledgement for those packet
+> > types, which trigger the retries and backoffs. I think we can get away
+> > with the simpler approach and not have to potentially kill performance
+> > with per-packet acknowledgements.
+> 
+> Yep I agree. I think our advantage is that the channel (virtqueues),
+> can't lose packets.
+> 
 
-Another approach could be to have both congestion notification and
-decongestion, but maybe it produces double traffic.
+Exactly.
 
->
->I looked at alternative schemes (like the Datagram Congestion Control
->Protocol), but I do not think the added complexity is necessary in the
->case of vsock (DCCP requires congestion windows, sequence numbers, batch
->acknowledgements, etc...). I also looked at UDP-based application
->protocols like TFTP, DHCP, and SIP over UDP which use a delay-based
->backoff mechanism, but seem to require acknowledgement for those packet
->types, which trigger the retries and backoffs. I think we can get away
->with the simpler approach and not have to potentially kill performance
->with per-packet acknowledgements.
+> > 
+> > > > >
+> > > > > In this series I am also proposing that fairness be reexamined as an
+> > > > > issue separate from datagrams, which differs from my previous series
+> > > > > that coupled these issues. After further testing and reflection on the
+> > > > > design, I do not believe that these need to be coupled and I do not
+> > > > > believe this implementation introduces additional unfairness or
+> > > > > exacerbates pre-existing unfairness.
+> > > 
+> > > I see.
+> > > 
+> > > > >
+> > > > > I attempted to characterize vsock fairness by using a pool of processes
+> > > > > to stress test the shared resources while measuring the performance of a
+> > > > > lone stream socket. Given unfair preference for datagrams, we would
+> > > > > assume that a lone stream socket would degrade much more when a pool of
+> > > > > datagram sockets was stressing the system than when a pool of stream
+> > > > > sockets are stressing the system. The result, however, showed no
+> > > > > significant difference between the degradation of throughput of the lone
+> > > > > stream socket when using a pool of datagrams to stress the queue over
+> > > > > using a pool of streams. The absolute difference in throughput actually
+> > > > > favored datagrams as interfering least as the mean difference was +16%
+> > > > > compared to using streams to stress test (N=7), but it was not
+> > > > > statistically significant. Workloads were matched for payload size and
+> > > > > buffer size (to approximate memory consumption) and process count, and
+> > > > > stress workloads were configured to start before and last long after the
+> > > > > lifetime of the "lone" stream socket flow to ensure that competing flows
+> > > > > were continuously hot.
+> > > > >
+> > > > > Given the above data, I propose that vsock fairness be addressed
+> > > > > independent of datagrams and to defer its implementation to a future
+> > > > > series.
+> > > 
+> > > Makes sense to me.
+> > > 
+> > > I left some preliminary comments, anyway now it seems reasonable to use
+> > > the same virtqueues, so we can go head with the spec proposal.
+> > > 
+> > > Thanks,
+> > > Stefano
+> > > 
+> > 
+> > Thanks for the review!
+> 
+> You're welcome!
+> 
+> Stefano
+> 
 
-Yep I agree. I think our advantage is that the channel (virtqueues),
-can't lose packets.
-
->
->> > >
->> > > In this series I am also proposing that fairness be reexamined as an
->> > > issue separate from datagrams, which differs from my previous series
->> > > that coupled these issues. After further testing and reflection on the
->> > > design, I do not believe that these need to be coupled and I do not
->> > > believe this implementation introduces additional unfairness or
->> > > exacerbates pre-existing unfairness.
->>
->> I see.
->>
->> > >
->> > > I attempted to characterize vsock fairness by using a pool of processes
->> > > to stress test the shared resources while measuring the performance of a
->> > > lone stream socket. Given unfair preference for datagrams, we would
->> > > assume that a lone stream socket would degrade much more when a pool of
->> > > datagram sockets was stressing the system than when a pool of stream
->> > > sockets are stressing the system. The result, however, showed no
->> > > significant difference between the degradation of throughput of the lone
->> > > stream socket when using a pool of datagrams to stress the queue over
->> > > using a pool of streams. The absolute difference in throughput actually
->> > > favored datagrams as interfering least as the mean difference was +16%
->> > > compared to using streams to stress test (N=7), but it was not
->> > > statistically significant. Workloads were matched for payload size and
->> > > buffer size (to approximate memory consumption) and process count, and
->> > > stress workloads were configured to start before and last long after the
->> > > lifetime of the "lone" stream socket flow to ensure that competing flows
->> > > were continuously hot.
->> > >
->> > > Given the above data, I propose that vsock fairness be addressed
->> > > independent of datagrams and to defer its implementation to a future
->> > > series.
->>
->> Makes sense to me.
->>
->> I left some preliminary comments, anyway now it seems reasonable to use
->> the same virtqueues, so we can go head with the spec proposal.
->>
->> Thanks,
->> Stefano
->>
->
->Thanks for the review!
-
-You're welcome!
-
-Stefano
-
+Best,
+Bobby
