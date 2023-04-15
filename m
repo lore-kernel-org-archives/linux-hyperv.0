@@ -2,186 +2,78 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 318C7C77B72
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Apr 2023 18:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42134C77B71
+	for <linux-hyperv@archiver.kernel.org>; Sat, 15 Apr 2023 02:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjDNS1N (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Apr 2023 14:27:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56874 "EHLO
+        id S230106AbjDOCEx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Apr 2023 22:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbjDNS1M (ORCPT
+        with ESMTP id S230135AbjDOCEu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Apr 2023 14:27:12 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9224586A2;
-        Fri, 14 Apr 2023 11:27:06 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id o2so19142840plg.4;
-        Fri, 14 Apr 2023 11:27:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681496826; x=1684088826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bpftedxp8jeFPMvDMIoV1HPkN6D0PvJ16pfk4P2dQHE=;
-        b=esApBxUs/84XebznSe4FFLGbRHMG4Av/upMd7S77ikHRPiq47kPV3vVuJnlk7W52J1
-         PLVudqB1Xq1EB2BuMXEOhq1POOEkrtTvwrgJxpbyPL4wrWtKHL1IecEhibakkJqgyMEF
-         W3WBFrkpLQH6n7NcY1lXGz7kWa3u43rKiJ2bBFuon4zTCvSqQczLa1b53z6uA7IKwx0c
-         mbCO7Dx1b6axUnmBDJhYzznve4COPU/MsjcJ6RBfpa7WSAMOwNqB1yxmn1K15mKc1VR4
-         DvcEUHOW9VibuDISFC7pj9igu5O0N+Z81Phc29AQer8uclch7A27Qm6ceJ9n5PSvtjL7
-         vMiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681496826; x=1684088826;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bpftedxp8jeFPMvDMIoV1HPkN6D0PvJ16pfk4P2dQHE=;
-        b=M1uR6+kQhJ4iVnm0ciCLFmRWojAsDPqvS0d/z6TDguKnTzK6jk+lYETvfDbFSbpnQ4
-         KRyf2rE02YpWm+0n/VrEGFJNlvKD9CII2xmHiD0e+fqxGnUdbu3Nhk9ftWmhB1iBQEkz
-         6qUKce4q8HsIcjjPlqkDDGI1UAUJVJH8Avr3Dfor/HXDtbUlIm2ICpjGsFEY4lP3gXrn
-         RXBD7NxSfuLxRjU1TS0QZywL+VQ5tBKc1iBM+4UBQ7NhMPZQh51nSY155Qeg+ZNRO98s
-         tMRMUI3Fh616JbjjHo/g7tLre4I6XPtdlGF5M/O/pa7esdgTauVwl+2Y1293JtwHGRcH
-         dalQ==
-X-Gm-Message-State: AAQBX9d75J02O5TGiMkRJWQY4u+ETbkBzb6Q/e+BFOGqMo9DHL3UZMXe
-        Yr7jId4CcaTHME1cMLrhTHOpkkPYij/TuNUj
-X-Google-Smtp-Source: AKy350YIEj4rEG1EPpsminI4Kv7uGYBzXeHfnaySOOVGTGgxYWCKp7MpsXrU8m+2j6P73y+pvbmeoA==
-X-Received: by 2002:a17:902:e749:b0:1a6:81b5:9137 with SMTP id p9-20020a170902e74900b001a681b59137mr4364139plf.68.1681496825708;
-        Fri, 14 Apr 2023 11:27:05 -0700 (PDT)
-Received: from localhost (ec2-54-67-115-33.us-west-1.compute.amazonaws.com. [54.67.115.33])
-        by smtp.gmail.com with ESMTPSA id be5-20020a170902aa0500b001a65575c13asm3356193plb.48.2023.04.14.11.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Apr 2023 11:27:05 -0700 (PDT)
-Date:   Fri, 14 Apr 2023 11:18:40 +0000
-From:   Bobby Eshleman <bobbyeshleman@gmail.com>
-To:     Bobby Eshleman <bobby.eshleman@bytedance.com>
-Cc:     Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bryan Tan <bryantan@vmware.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org,
-        Jiang Wang <jiang.wang@bytedance.com>,
-        Cong Wang <cong.wang@bytedance.com>
-Subject: Re: [PATCH RFC net-next v2 0/4] virtio/vsock: support datagrams
-Message-ID: <ZDk2kOVnUvyLMLKE@bullseye>
-References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
+        Fri, 14 Apr 2023 22:04:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E0C4ECE;
+        Fri, 14 Apr 2023 19:04:49 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ABDC1616C5;
+        Sat, 15 Apr 2023 02:04:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B6AC433EF;
+        Sat, 15 Apr 2023 02:04:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1681524288;
+        bh=Csm4EYNPLH6QAZF7fKplciWMsh1+01xrJCMQTRnwAbg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=RhYpD9NArgG25ROMmPONTZjEGRElfFECaIblJ4IPQbzIKBs1VtlrQBxYhe25MR071
+         LNkO8V8FsM/tURYjuEs4D3jWv23lhheKb3FSs53/2iox36aQqYlRh38VXOtMCKFID9
+         CAREmcgqd7DhohfE5cAStOWasKW4A7WBK+ZbQHPX81Of04obpMpBRXapsEV4p2kl5H
+         e1qg6jiRBiIGGuGiXpc+vjASeN0jFEJmzhYiyWbQcNWY8ndFl/3tnZlJxarsVqOcnx
+         WleK0V84ADhuikD+T7G5EBuul9q8+9/JJpGCpUVi9grso/Ey25uVtVKZ9qeXcp4itR
+         5Gun3kpPNSTgw==
+Date:   Fri, 14 Apr 2023 19:04:46 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
+        decui@microsoft.com, kys@microsoft.com, paulros@microsoft.com,
+        olaf@aepfle.de, vkuznets@redhat.com, davem@davemloft.net,
+        wei.liu@kernel.org, edumazet@google.com, pabeni@redhat.com,
+        leon@kernel.org, longli@microsoft.com, ssengar@linux.microsoft.com,
+        linux-rdma@vger.kernel.org, daniel@iogearbox.net,
+        john.fastabend@gmail.com, bpf@vger.kernel.org, ast@kernel.org,
+        sharmaajay@microsoft.com, hawk@kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3,net-next, 2/4] net: mana: Refactor RX buffer
+ allocation code to prepare for various MTU
+Message-ID: <20230414190446.719f651f@kernel.org>
+In-Reply-To: <1681334163-31084-3-git-send-email-haiyangz@microsoft.com>
+References: <1681334163-31084-1-git-send-email-haiyangz@microsoft.com>
+        <1681334163-31084-3-git-send-email-haiyangz@microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-CC'ing Cong.
+On Wed, 12 Apr 2023 14:16:01 -0700 Haiyang Zhang wrote:
+> +/* Allocate frag for rx buffer, and save the old buf */
+> +static void mana_refill_rxoob(struct device *dev, struct mana_rxq *rxq,
 
-On Fri, Apr 14, 2023 at 12:25:56AM +0000, Bobby Eshleman wrote:
-> Hey all!
-> 
-> This series introduces support for datagrams to virtio/vsock.
-> 
-> It is a spin-off (and smaller version) of this series from the summer: 
->   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
-> 
-> Please note that this is an RFC and should not be merged until
-> associated changes are made to the virtio specification, which will
-> follow after discussion from this series.
-> 
-> This series first supports datagrams in a basic form for virtio, and
-> then optimizes the sendpath for all transports.
-> 
-> The result is a very fast datagram communication protocol that
-> outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
-> of multi-threaded workload samples.
-> 
-> For those that are curious, some summary data comparing UDP and VSOCK
-> DGRAM (N=5):
-> 
-> 	vCPUS: 16
-> 	virtio-net queues: 16
-> 	payload size: 4KB
-> 	Setup: bare metal + vm (non-nested)
-> 
-> 	UDP: 287.59 MB/s
-> 	VSOCK DGRAM: 509.2 MB/s
-> 
-> Some notes about the implementation...
-> 
-> This datagram implementation forces datagrams to self-throttle according
-> to the threshold set by sk_sndbuf. It behaves similar to the credits
-> used by streams in its effect on throughput and memory consumption, but
-> it is not influenced by the receiving socket as credits are.
-> 
-> The device drops packets silently. There is room for improvement by
-> building into the device and driver some intelligence around how to
-> reduce frequency of kicking the virtqueue when packet loss is high. I
-> think there is a good discussion to be had on this.
-> 
-> In this series I am also proposing that fairness be reexamined as an
-> issue separate from datagrams, which differs from my previous series
-> that coupled these issues. After further testing and reflection on the
-> design, I do not believe that these need to be coupled and I do not
-> believe this implementation introduces additional unfairness or
-> exacerbates pre-existing unfairness.
-> 
-> I attempted to characterize vsock fairness by using a pool of processes
-> to stress test the shared resources while measuring the performance of a
-> lone stream socket. Given unfair preference for datagrams, we would
-> assume that a lone stream socket would degrade much more when a pool of
-> datagram sockets was stressing the system than when a pool of stream
-> sockets are stressing the system. The result, however, showed no
-> significant difference between the degradation of throughput of the lone
-> stream socket when using a pool of datagrams to stress the queue over
-> using a pool of streams. The absolute difference in throughput actually
-> favored datagrams as interfering least as the mean difference was +16%
-> compared to using streams to stress test (N=7), but it was not
-> statistically significant. Workloads were matched for payload size and
-> buffer size (to approximate memory consumption) and process count, and
-> stress workloads were configured to start before and last long after the
-> lifetime of the "lone" stream socket flow to ensure that competing flows
-> were continuously hot.
-> 
-> Given the above data, I propose that vsock fairness be addressed
-> independent of datagrams and to defer its implementation to a future
-> series.
-> 
-> Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
-> ---
-> Bobby Eshleman (3):
->       virtio/vsock: support dgram
->       virtio/vsock: add VIRTIO_VSOCK_F_DGRAM feature bit
->       vsock: Add lockless sendmsg() support
-> 
-> Jiang Wang (1):
->       tests: add vsock dgram tests
-> 
->  drivers/vhost/vsock.c                   |  17 +-
->  include/net/af_vsock.h                  |  20 ++-
->  include/uapi/linux/virtio_vsock.h       |   2 +
->  net/vmw_vsock/af_vsock.c                | 287 ++++++++++++++++++++++++++++----
->  net/vmw_vsock/diag.c                    |  10 +-
->  net/vmw_vsock/hyperv_transport.c        |  15 +-
->  net/vmw_vsock/virtio_transport.c        |  10 +-
->  net/vmw_vsock/virtio_transport_common.c | 221 ++++++++++++++++++++----
->  net/vmw_vsock/vmci_transport.c          |  70 ++++++--
->  tools/testing/vsock/util.c              | 105 ++++++++++++
->  tools/testing/vsock/util.h              |   4 +
->  tools/testing/vsock/vsock_test.c        | 193 +++++++++++++++++++++
->  12 files changed, 859 insertions(+), 95 deletions(-)
-> ---
-> base-commit: ed72bd5a6790a0c3747cb32b0427f921bd03bb71
-> change-id: 20230413-b4-vsock-dgram-3b6eba6a64e5
-> 
-> Best regards,
-> -- 
-> Bobby Eshleman <bobby.eshleman@bytedance.com>
-> 
+The fill function is spelled with a _ between rx and oob,
+please be consistent. 
+
+> +			      struct mana_recv_buf_oob *rxoob, void **old_buf)
+> +{
+> +	dma_addr_t da;
+> +	void *va;
+> +
+> +	va = mana_get_rxfrag(rxq, dev, &da, true);
+> +
+
+no empty lines between function call and error check.
+Please fix this in all the code this patch set is touching.
+
+> +	if (!va)
+> +		return;
