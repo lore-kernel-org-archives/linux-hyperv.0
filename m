@@ -2,174 +2,270 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C2F8C6FD18
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Apr 2023 20:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 448D1C6FD18
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Apr 2023 22:59:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229664AbjDSUpO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Apr 2023 16:45:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51390 "EHLO
+        id S233532AbjDSW73 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 19 Apr 2023 18:59:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjDSUpN (ORCPT
+        with ESMTP id S233283AbjDSW71 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Apr 2023 16:45:13 -0400
-Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-cusazon11020014.outbound.protection.outlook.com [52.101.61.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9121E171D;
-        Wed, 19 Apr 2023 13:45:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V587pXYfUgg79TKZ3PXlmEffEuU50vkbBcSWEwfHuTOCMXwPrgi7kjvsP+CGAWyt/ZM2laA1jmDxPU9J5U+FsdFtPPNFMGT3paGimMFZy9Q7V+kI09+94p31Js+hj/No7ZSMXuMfeeuDhruAWk2UFAvU6LxKl/1qwQjowHx3FBd3mBePETKVUpmKDUjBfK0TLf3d05t8ddHABxeMnhkkTtoCqf4thisPAfOGgNnC1JTQvM1HR+KLJpJodGaEM4+iKwYqMmiC1SUi5gFV3bQRCnPDPha09HhLPtoTtMGrc8qLNuZV2TzZIi7dvzL+joab0rU2YBpcVa4/0uWXKZmh2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rZQYNnsvN4sM3nBYVfhj4LpcgRTq4sIzGcVR22DVA04=;
- b=hnOJ/O0S1lED3Ys28MDY637qXxn5EixxT+8MI+WafWeTcfweHf0K1k9tnHnnSCrSntsVK3rXCxtdkBdTKEmXgdPzDJm5T2kEv/N3GVR5hN4RzlVKm+2TYyg5vXUnPqGAPMbM4gnDE9wC7sixNaCDNjHEaARELVE7BDTS5FMj5Pzj1nlFddl4GhhN7oDQIpTtzmhBnXJTJWtzWVd/6tNnRMRdEmghaybLVpEvJvnz/fyTTD0YXQ1uBQl8t5L1c9f4KX5aFQRvxZ3lrUUaq4/uK7O5GgFMccyP3YmOH55pG9wQWW+3xaiIs6XeLNN2CzkMiiGmXvHuiwTUFAE39eygbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rZQYNnsvN4sM3nBYVfhj4LpcgRTq4sIzGcVR22DVA04=;
- b=O4wcYP9icz/2lVvmGsZlPtMX72P90bIMx5A/U2QcKpt0Q1RVKYWcJX4dGvfXwjnYH5TW51YO2e7V6bIYwA+ZwP3o9hGMyfjhT/Q7nqTfeLoxwVAJk/BZmYMBe9ab3AvkNZMGtzPc/lOQnMxm6JgF1I0jV0O/hvyrC3ezrbbOwj0=
-Received: from PH7PR21MB3263.namprd21.prod.outlook.com (2603:10b6:510:1db::16)
- by DM4PR21MB3658.namprd21.prod.outlook.com (2603:10b6:8:a1::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6340.1; Wed, 19 Apr 2023 20:45:09 +0000
-Received: from PH7PR21MB3263.namprd21.prod.outlook.com
- ([fe80::4d56:4d4b:3785:a1ca]) by PH7PR21MB3263.namprd21.prod.outlook.com
- ([fe80::4d56:4d4b:3785:a1ca%5]) with mapi id 15.20.6319.004; Wed, 19 Apr 2023
- 20:45:09 +0000
-From:   Long Li <longli@microsoft.com>
-To:     Wei Liu <wei.liu@kernel.org>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-CC:     "longli@linuxonhyperv.com" <longli@linuxonhyperv.com>,
-        KY Srinivasan <kys@microsoft.com>,
+        Wed, 19 Apr 2023 18:59:27 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD8126AD;
+        Wed, 19 Apr 2023 15:58:54 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-63b57c49c4cso387675b3a.3;
+        Wed, 19 Apr 2023 15:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681945121; x=1684537121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZQQK9CV11yV3Ka7YlWstgN9/FXVxHhCZ+9O7M6CdT04=;
+        b=YBk2Zssri4oQRU2Gl3qzZllwvlm8nfiKm0/J4zBqdz9czN414Dv6bJBFgcKcvCrhUO
+         2tijCJ+X1kJG2if4wfvhznoWiY3EXfC0vo3C17Vyojc5thSmlsOO/nRcaDzmJk3GJZIg
+         Fx6/ZHuCZJhUS9/wt7KuN3LbKE1nTaVkSR6wMyxrBC7sI0P/ayFDUPbEi1PnD6sBmxan
+         7wG8eQZP4Qp6HlTeGgV+5OZWAc3SFjQ5Lk0m3oV9BedDLpeG/SbZnZECVKeD4PHvyP1q
+         vrGxiC7nJ5WjGatZNK03StUtAc0pO1iQccJ21puYNQMGpFKTGTUvDAdies+kZhvkax7s
+         ruFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681945121; x=1684537121;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZQQK9CV11yV3Ka7YlWstgN9/FXVxHhCZ+9O7M6CdT04=;
+        b=HXTlfda958bx6a4oi3ScUJTPEivSCk9XqV4bHLEhp5o0FqZ43ERlfLZLydCwzUsiWr
+         yPprsj52Kz59OVFFlYjFwE/3KPxyL7S/4qw4aJzNSO29sV7AkU154GB58gx5X5vGDwK9
+         JHV02vC0LjkL/AhfOMesFEJPLSprPi0dT96Zjs+koXb964XKIGWQ2Yj0hwbZrmZkNh72
+         //hTihF15yxfYssJr3UE3IOR03VXzKbFX3G5iLW74pfkCBL3mSA/EGbIyWQfyDmWFFKb
+         urgXOp/PUu/HGM8xdXE/fL2PCb6eOKJy78sAmpXas4JNuFBfpRtb+iy1yg/R7D8teZWC
+         KrMQ==
+X-Gm-Message-State: AAQBX9emQroH0CZY+2qmyV528EnkmAb4VuVuZBYeCo10tE530tBJZoap
+        ZwcxBz7dB5R+212Zll4nN1Q=
+X-Google-Smtp-Source: AKy350YiLBZovZ3WeFWM7yZSJ+6ij7l5P2Xkhmusc8Uz+PvaG/di+tiz5mtT6hPli4LyxaNiOqHMSA==
+X-Received: by 2002:a05:6a00:84e:b0:623:c117:f20e with SMTP id q14-20020a056a00084e00b00623c117f20emr6578835pfk.19.1681945121261;
+        Wed, 19 Apr 2023 15:58:41 -0700 (PDT)
+Received: from localhost (ec2-54-67-115-33.us-west-1.compute.amazonaws.com. [54.67.115.33])
+        by smtp.gmail.com with ESMTPSA id x21-20020a62fb15000000b0063d44634d8csm2138318pfm.71.2023.04.19.15.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Apr 2023 15:58:40 -0700 (PDT)
+Date:   Sat, 15 Apr 2023 07:13:47 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     linux-hyperv@vger.kernel.org, Cong Wang <cong.wang@bytedance.com>,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        virtualization@lists.linux-foundation.org,
+        Eric Dumazet <edumazet@google.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bryan Tan <bryantan@vmware.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
-Subject: RE: [PATCH v2] Drivers: hv: move panic report code from vmbus to hv
- early init code
-Thread-Topic: [PATCH v2] Drivers: hv: move panic report code from vmbus to hv
- early init code
-Thread-Index: AQHZbnA36uYZUGk2cUK4b/5QWwYrIq8sr9aAgAM4vwCAAYLigIABtyeg
-Date:   Wed, 19 Apr 2023 20:45:09 +0000
-Message-ID: <PH7PR21MB3263DDDD57A1EDD219CC645CCE629@PH7PR21MB3263.namprd21.prod.outlook.com>
-References: <1681435612-19282-1-git-send-email-longli@linuxonhyperv.com>
- <BYAPR21MB1688377B56A9A844EAABEEDAD79E9@BYAPR21MB1688.namprd21.prod.outlook.com>
- <ZD2dxHaq8NDzpfYw@liuwe-devbox-debian-v2>
- <ZD7iT/+Uil3jTuNO@liuwe-devbox-debian-v2>
-In-Reply-To: <ZD7iT/+Uil3jTuNO@liuwe-devbox-debian-v2>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=389cf2d0-3378-4a76-a574-1bd476db736b;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-04-19T20:44:34Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR21MB3263:EE_|DM4PR21MB3658:EE_
-x-ms-office365-filtering-correlation-id: 04ccdea4-d764-44ac-ff2c-08db4116f755
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 87GbtMLl0L8hQZGKMbhuOo/qbu8yj+LSmAY8EqQ2taV5U6Ulp8cMpWaSdAku8Bh8evTb1LQ81ZA5sODDbbNokCsxOx6QkooWFn7EKnRqXXBP8UrqBUaFF0pQ+3Djpc49vzXpV8MC+50jIM1Gb6l8K6bp2mhseYkld68pfsJg3fmG1/iBZHKhQBAaqinjgNsjCxjsNKlXApiw3dKOf7JVW8m4B0/mkCzuoCNOfRzYmGqEwkIl5ACdBZK0UmZxro+ydkhk77pXdIGKUBGoxoJkBRik1hMnQ9ZlTyrZ1ZfUpMLk/UPmAZ9UaRhY0wUHJ8rQRr+36Y0crnzlaIU5eFbwwm5sSCjl0ZeWEQGwDK0+DneC7sEFh8FZqC3bEtJtX0r2BdksF+leMIwd41dtGBXPyzW7HfqvLXRTzlNQiZ8m+Ahvr/UikO5KDwxfyps/WeYY1H50aFj52t8ge2pKPsg8iFUB5/TyROrdmL0gXGuHDf1ZOIVXB2a6O1hMkcWsXZ59vT+teYUgLt5e8PIjU/WUh7IJ4ZA4OkOTfTeRoQnfUTNoljjuTk1kwPkUde3s7xoqi59oWMxnz7c1FlvYKU53cdUXOXDGSxlbjxI8K8gVcBuHpjVSpRMM2Hj3kXGhYP850/Uvo7kJrcx42exKVgt3keVYGIispj1gTtwoG1FGM9Y=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR21MB3263.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(396003)(376002)(39860400002)(366004)(451199021)(33656002)(76116006)(6636002)(4326008)(786003)(54906003)(316002)(110136005)(66946007)(66556008)(66476007)(66446008)(64756008)(41300700001)(478600001)(55016003)(71200400001)(10290500003)(5660300002)(8990500004)(8676002)(8936002)(52536014)(2906002)(38070700005)(86362001)(122000001)(38100700002)(6506007)(9686003)(26005)(82950400001)(83380400001)(82960400001)(186003)(7696005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?02qlVLgvlIP9airK4se7I7IQULdkCz/kVuw4QqtBClj0yqHmSU7S+WIxg5+K?=
- =?us-ascii?Q?GcXBvOrMcEhbKIn+bdTrR/vU6ayZaK+h+QdR9u6uSltqLoaTRm1qgTaaZhXw?=
- =?us-ascii?Q?ehE4gXak90IG6SlmVqzVssTiK6l/vrnurZch2gkKPB2lnuzJXuJ4ScQRHDNJ?=
- =?us-ascii?Q?CTPW89MNIsBmpx2ath0GwewdeYi6xckYv6Qph2a7ak3zDeB/xUkO2xJj4kar?=
- =?us-ascii?Q?mX3lkOlXdY59rXS4/BS/324loNH1PWO2SQ59VXLUPdmXbRDQz7tftL8f8+rp?=
- =?us-ascii?Q?6XoDV3QSbyG0xOQIjADsxRe3tZG1aFIPlX3JAkQSLDHZ5/epTAfMtZaUQskL?=
- =?us-ascii?Q?JHvOhrvCurWzR0Vdl2OuJcRvKVt95fMKsRBz/M0DpKSpn0FCKO/538rFj/HQ?=
- =?us-ascii?Q?CGd++zM2GJ14YqCHckyN51bANSWjNXWXyH+Lo1b2E//svRqahL+NkVJi/zIh?=
- =?us-ascii?Q?7BzFyFdT/bP3iUQD3xTgzY72idOCGkb4Qsh6kFJ0yke4Dpn7Wk3bOMrUp0LE?=
- =?us-ascii?Q?Dqj5JWFsKHXjYaWm0+ATMHU1nS6dCkCfrOlJk2KTvoCvWKiJtcpaQykvHZiC?=
- =?us-ascii?Q?P/zIfdKS8Cfvs2SP+inDmi182Ix1dlbZevKkhsm3py1Q8k+gCfwtVlO5OJop?=
- =?us-ascii?Q?2ibpZLduUBVOy6wNgZ6ygB8xG45wawZB1zUpuCNpqAJ4Fl608LV3PP+Pb5J/?=
- =?us-ascii?Q?3MBhN+JypslddypUecKJ0aUyC3aDomY7NZwXtW2QttUvaHCp/tKXwJpYGaMn?=
- =?us-ascii?Q?fjs4wlQ+IJkQuAMMzjV9fXLqiff2DelI/w7ifGNwTrnTrFhNXrwe9ivfiY9Z?=
- =?us-ascii?Q?h1wkM6JK6APOGxQ/2YMPE20T3oCrh2ejQFN5GEv+kW2QbZrLcD4rQLCmwChL?=
- =?us-ascii?Q?G+tHoN/RpeNZb/iFBK4ogsHDSdbn7tzhu0hzeYqde7NhR3tckUt1MGHIQdD0?=
- =?us-ascii?Q?mXIgz0sh/hHitKvrzi2GHMyOy+Cq3sIlPixJSy3FSsqoiJS+QlIL0UteBG1i?=
- =?us-ascii?Q?s2zS3HkPXS//3Kqf2Ghopl61b7OxQiyPL/i38+0VKTYALptNxGjfoITkJ8Vz?=
- =?us-ascii?Q?BkD96qvlbp5glRGtTjPQCLSNcbW++uHS0F/i68dMHUNq24pQYvPuNKmCQfgH?=
- =?us-ascii?Q?0VYWlVNUiqVFVksN6Sudc0xLGVoB+9gV+0j6Yb1r1c0UeIEGJ456/8Ny7QgM?=
- =?us-ascii?Q?u3KYEKj/7hezMupT20bUKMBsk/Ah6YkYvpL2JBXC9WYoj1jQF+figVo10Ptm?=
- =?us-ascii?Q?p5qJVwzz67x6dKZily+swhQpHd27GpdYNIMLl0Ks5SsTQO33aIYAJRofvC3W?=
- =?us-ascii?Q?LG3zrSrHikPNVUAH2qkMCJc/l4fvy4hEyo0CzVP0zpEebCMVUaNZbgrkAKRE?=
- =?us-ascii?Q?Y/BXVyOqnWzl8l6ezRz6nfxDRWcKwlxsf7Q5JjKirDgQz50DWmNoDh6YY0iT?=
- =?us-ascii?Q?Uzzi7v4KFdrC8LvkZqdQ4tfVuWLvX1MdxMDTPxRKfIiNq4V0EO8XbJ7WQppg?=
- =?us-ascii?Q?nlVNhFSTuBx328AJazmlFn0lAUCPqXxnhdZa7ewGYMVWn8IRlZV3b7u3R4Za?=
- =?us-ascii?Q?d8mV+Cc/oRUHF0QLSnT62P2B9mttd3RGvSdvn8vv?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        Jiang Wang <jiang.wang@bytedance.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        virtio-dev@lists.oasis-open.org
+Subject: Re: [PATCH RFC net-next v2 0/4] virtio/vsock: support datagrams
+Message-ID: <ZDpOq0ACuMYIUbb1@bullseye>
+References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
+ <ZDk2kOVnUvyLMLKE@bullseye>
+ <r6oxanmhwlonb7lcrrowpitlgobivzp7pcwk7snqvfnzudi6pb@4rnio5wef3qu>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR21MB3263.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04ccdea4-d764-44ac-ff2c-08db4116f755
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2023 20:45:09.7221
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: waPOWZKoRI/Ji1fAsNzMEOnKS7KnTZUvjDEzacfkkOQw80zvGNjRpqiKSQ++CL97AGH8JPpfuvIt5M66OyOV+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR21MB3658
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <r6oxanmhwlonb7lcrrowpitlgobivzp7pcwk7snqvfnzudi6pb@4rnio5wef3qu>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
->Subject: Re: [PATCH v2] Drivers: hv: move panic report code from vmbus to =
-hv
->early init code
->
->On Mon, Apr 17, 2023 at 07:28:04PM +0000, Wei Liu wrote:
->> On Sat, Apr 15, 2023 at 06:16:11PM +0000, Michael Kelley (LINUX) wrote:
->> > From: longli@linuxonhyperv.com <longli@linuxonhyperv.com> Sent:
->> > Thursday, April 13, 2023 6:27 PM
->> > >
->> > > The panic reporting code was added in commit 81b18bce48af
->> > > ("Drivers: HV: Send one page worth of kmsg dump over Hyper-V
->> > > during panic")
->> > >
->> > > It was added to the vmbus driver. The panic reporting has no
->> > > dependence on vmbus, and can be enabled at an earlier boot time
->> > > when Hyper-V is initialized.
->> > >
->> > > This patch moves the panic reporting code out of vmbus. There is
->> > > no functionality changes. During moving, also refactored some
->> > > cleanup functions into hv_kmsg_dump_unregister(), and removed
->> > > unused function hv_alloc_hyperv_page().
->> > >
->> > > Signed-off-by: Long Li <longli@microsoft.com>
->> > > ---
->> > >
->> > > Change log v2:
->> > > 1. Check on hv_is_isolation_supported() before reporting crash
->> > > dump 2. Remove hyperv_report_reg(), inline the check condition
->> > > instead 3. Remove the test NULL on hv_panic_page when freeing it
->> > >
->> > >  drivers/hv/hv.c                |  36 ------
->> > >  drivers/hv/hv_common.c         | 229
->+++++++++++++++++++++++++++++++++
->> > >  drivers/hv/vmbus_drv.c         | 199 ----------------------------
->> > >  include/asm-generic/mshyperv.h |   1 -
->> > >  4 files changed, 229 insertions(+), 236 deletions(-)
->> >
->> > Reviewed-by: Michael Kelley <mikelley@microsoft.com>
->>
->> Applied to hyperv-next. Thanks.
->
->This broke allmodconfig. I've removed it from the tree. Please fix and res=
-end.
->
->Thanks,
->Wei.
+CC'ing virtio-dev@lists.oasis-open.org because this thread is starting
+to touch the spec.
 
-I'm rebasing the patch to latest hyper-v branch, and send v3.
+On Wed, Apr 19, 2023 at 12:00:17PM +0200, Stefano Garzarella wrote:
+> Hi Bobby,
+> 
+> On Fri, Apr 14, 2023 at 11:18:40AM +0000, Bobby Eshleman wrote:
+> > CC'ing Cong.
+> > 
+> > On Fri, Apr 14, 2023 at 12:25:56AM +0000, Bobby Eshleman wrote:
+> > > Hey all!
+> > > 
+> > > This series introduces support for datagrams to virtio/vsock.
+> 
+> Great! Thanks for restarting this work!
+> 
 
-Thanks,
-Long
+No problem!
+
+> > > 
+> > > It is a spin-off (and smaller version) of this series from the summer:
+> > >   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
+> > > 
+> > > Please note that this is an RFC and should not be merged until
+> > > associated changes are made to the virtio specification, which will
+> > > follow after discussion from this series.
+> > > 
+> > > This series first supports datagrams in a basic form for virtio, and
+> > > then optimizes the sendpath for all transports.
+> > > 
+> > > The result is a very fast datagram communication protocol that
+> > > outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
+> > > of multi-threaded workload samples.
+> > > 
+> > > For those that are curious, some summary data comparing UDP and VSOCK
+> > > DGRAM (N=5):
+> > > 
+> > > 	vCPUS: 16
+> > > 	virtio-net queues: 16
+> > > 	payload size: 4KB
+> > > 	Setup: bare metal + vm (non-nested)
+> > > 
+> > > 	UDP: 287.59 MB/s
+> > > 	VSOCK DGRAM: 509.2 MB/s
+> > > 
+> > > Some notes about the implementation...
+> > > 
+> > > This datagram implementation forces datagrams to self-throttle according
+> > > to the threshold set by sk_sndbuf. It behaves similar to the credits
+> > > used by streams in its effect on throughput and memory consumption, but
+> > > it is not influenced by the receiving socket as credits are.
+> 
+> So, sk_sndbuf influece the sender and sk_rcvbuf the receiver, right?
+> 
+
+Correct.
+
+> We should check if VMCI behaves the same.
+> 
+> > > 
+> > > The device drops packets silently. There is room for improvement by
+> > > building into the device and driver some intelligence around how to
+> > > reduce frequency of kicking the virtqueue when packet loss is high. I
+> > > think there is a good discussion to be had on this.
+> 
+> Can you elaborate a bit here?
+> 
+> Do you mean some mechanism to report to the sender that a destination
+> (cid, port) is full so the packet will be dropped?
+> 
+
+Correct. There is also the case of there being no receiver at all for
+this address since this case isn't rejected upon connect(). Ideally,
+such a socket (which will have 100% packet loss) will be throttled
+aggressively.
+
+Before we go down too far on this path, I also want to clarify that
+using UDP over vhost/virtio-net also has this property... this can be
+observed by using tcpdump to dump the UDP packets on the bridge network
+your VM is using. UDP packets sent to a garbage address can be seen on
+the host bridge (this is the nature of UDP, how is the host supposed to
+know the address eventually goes nowhere). I mention the above because I
+think it is possible for vsock to avoid this cost, given that it
+benefits from being point-to-point and g2h/h2g.
+
+If we're okay with vsock being on par, then the current series does
+that. I propose something below that can be added later and maybe
+negotiated as a feature bit too.
+
+> Can we adapt the credit mechanism?
+> 
+
+I've thought about this a lot because the attraction of the approach for
+me would be that we could get the wait/buffer-limiting logic for free
+and without big changes to the protocol, but the problem is that the
+unreliable nature of datagrams means that the source's free-running
+tx_cnt will become out-of-sync with the destination's fwd_cnt upon
+packet loss.
+
+Imagine a source that initializes and starts sending packets before a
+destination socket even is created, the source's self-throttling will be
+dysfunctional because its tx_cnt will always far exceed the
+destination's fwd_cnt.
+
+We could play tricks with the meaning of the CREDIT_UPDATE message and
+fwd_cnt/buf_alloc fields, but I don't think we want to go down that
+path.
+
+I think that the best and simplest approach introduces a congestion
+notification (VIRTIO_VSOCK_OP_CN?). When a packet is dropped, the
+destination sends this notification. At a given repeated time period T,
+the source can check if it has received any notifications in the last T.
+If so, it halves its buffer allocation. If not, it doubles its buffer
+allocation unless it is already at its max or original value.
+
+An "invalid" socket which never has any receiver will converge towards a
+rate limit of one packet per time T * log2(average pkt size). That is, a
+socket with 100% packet loss will only be able to send 16 bytes every
+4T. A default send buffer of MAX_UINT32 and T=5ms would hit zero within
+160ms given at least one packet sent per 5ms. I have no idea if that is
+a reasonable default T for vsock, I just pulled it out of a hat for the
+sake of the example.
+
+"Normal" sockets will be responsive to high loss and rebalance during
+low loss. The source is trying to guess and converge on the actual
+buffer state of the destination.
+
+This would reuse the already-existing throttling mechanisms that
+throttle based upon buffer allocation. The usage of sk_sndbuf would have
+to be re-worked. The application using sendmsg() will see EAGAIN when
+throttled, or just sleep if !MSG_DONTWAIT.
+
+I looked at alternative schemes (like the Datagram Congestion Control
+Protocol), but I do not think the added complexity is necessary in the
+case of vsock (DCCP requires congestion windows, sequence numbers, batch
+acknowledgements, etc...). I also looked at UDP-based application
+protocols like TFTP, DHCP, and SIP over UDP which use a delay-based
+backoff mechanism, but seem to require acknowledgement for those packet
+types, which trigger the retries and backoffs. I think we can get away
+with the simpler approach and not have to potentially kill performance
+with per-packet acknowledgements.
+
+> > > 
+> > > In this series I am also proposing that fairness be reexamined as an
+> > > issue separate from datagrams, which differs from my previous series
+> > > that coupled these issues. After further testing and reflection on the
+> > > design, I do not believe that these need to be coupled and I do not
+> > > believe this implementation introduces additional unfairness or
+> > > exacerbates pre-existing unfairness.
+> 
+> I see.
+> 
+> > > 
+> > > I attempted to characterize vsock fairness by using a pool of processes
+> > > to stress test the shared resources while measuring the performance of a
+> > > lone stream socket. Given unfair preference for datagrams, we would
+> > > assume that a lone stream socket would degrade much more when a pool of
+> > > datagram sockets was stressing the system than when a pool of stream
+> > > sockets are stressing the system. The result, however, showed no
+> > > significant difference between the degradation of throughput of the lone
+> > > stream socket when using a pool of datagrams to stress the queue over
+> > > using a pool of streams. The absolute difference in throughput actually
+> > > favored datagrams as interfering least as the mean difference was +16%
+> > > compared to using streams to stress test (N=7), but it was not
+> > > statistically significant. Workloads were matched for payload size and
+> > > buffer size (to approximate memory consumption) and process count, and
+> > > stress workloads were configured to start before and last long after the
+> > > lifetime of the "lone" stream socket flow to ensure that competing flows
+> > > were continuously hot.
+> > > 
+> > > Given the above data, I propose that vsock fairness be addressed
+> > > independent of datagrams and to defer its implementation to a future
+> > > series.
+> 
+> Makes sense to me.
+> 
+> I left some preliminary comments, anyway now it seems reasonable to use
+> the same virtqueues, so we can go head with the spec proposal.
+> 
+> Thanks,
+> Stefano
+> 
+
+Thanks for the review!
+
+Best,
+Bobby
