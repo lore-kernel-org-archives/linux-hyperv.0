@@ -2,270 +2,154 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 448D1C6FD18
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Apr 2023 22:59:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39AEFC77B73
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Apr 2023 02:41:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233532AbjDSW73 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 19 Apr 2023 18:59:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60888 "EHLO
+        id S230081AbjDTClP (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 19 Apr 2023 22:41:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233283AbjDSW71 (ORCPT
+        with ESMTP id S229687AbjDTClO (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 19 Apr 2023 18:59:27 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD8126AD;
-        Wed, 19 Apr 2023 15:58:54 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-63b57c49c4cso387675b3a.3;
-        Wed, 19 Apr 2023 15:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681945121; x=1684537121;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZQQK9CV11yV3Ka7YlWstgN9/FXVxHhCZ+9O7M6CdT04=;
-        b=YBk2Zssri4oQRU2Gl3qzZllwvlm8nfiKm0/J4zBqdz9czN414Dv6bJBFgcKcvCrhUO
-         2tijCJ+X1kJG2if4wfvhznoWiY3EXfC0vo3C17Vyojc5thSmlsOO/nRcaDzmJk3GJZIg
-         Fx6/ZHuCZJhUS9/wt7KuN3LbKE1nTaVkSR6wMyxrBC7sI0P/ayFDUPbEi1PnD6sBmxan
-         7wG8eQZP4Qp6HlTeGgV+5OZWAc3SFjQ5Lk0m3oV9BedDLpeG/SbZnZECVKeD4PHvyP1q
-         vrGxiC7nJ5WjGatZNK03StUtAc0pO1iQccJ21puYNQMGpFKTGTUvDAdies+kZhvkax7s
-         ruFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681945121; x=1684537121;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZQQK9CV11yV3Ka7YlWstgN9/FXVxHhCZ+9O7M6CdT04=;
-        b=HXTlfda958bx6a4oi3ScUJTPEivSCk9XqV4bHLEhp5o0FqZ43ERlfLZLydCwzUsiWr
-         yPprsj52Kz59OVFFlYjFwE/3KPxyL7S/4qw4aJzNSO29sV7AkU154GB58gx5X5vGDwK9
-         JHV02vC0LjkL/AhfOMesFEJPLSprPi0dT96Zjs+koXb964XKIGWQ2Yj0hwbZrmZkNh72
-         //hTihF15yxfYssJr3UE3IOR03VXzKbFX3G5iLW74pfkCBL3mSA/EGbIyWQfyDmWFFKb
-         urgXOp/PUu/HGM8xdXE/fL2PCb6eOKJy78sAmpXas4JNuFBfpRtb+iy1yg/R7D8teZWC
-         KrMQ==
-X-Gm-Message-State: AAQBX9emQroH0CZY+2qmyV528EnkmAb4VuVuZBYeCo10tE530tBJZoap
-        ZwcxBz7dB5R+212Zll4nN1Q=
-X-Google-Smtp-Source: AKy350YiLBZovZ3WeFWM7yZSJ+6ij7l5P2Xkhmusc8Uz+PvaG/di+tiz5mtT6hPli4LyxaNiOqHMSA==
-X-Received: by 2002:a05:6a00:84e:b0:623:c117:f20e with SMTP id q14-20020a056a00084e00b00623c117f20emr6578835pfk.19.1681945121261;
-        Wed, 19 Apr 2023 15:58:41 -0700 (PDT)
-Received: from localhost (ec2-54-67-115-33.us-west-1.compute.amazonaws.com. [54.67.115.33])
-        by smtp.gmail.com with ESMTPSA id x21-20020a62fb15000000b0063d44634d8csm2138318pfm.71.2023.04.19.15.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Apr 2023 15:58:40 -0700 (PDT)
-Date:   Sat, 15 Apr 2023 07:13:47 +0000
-From:   Bobby Eshleman <bobbyeshleman@gmail.com>
-To:     Stefano Garzarella <sgarzare@redhat.com>
-Cc:     linux-hyperv@vger.kernel.org, Cong Wang <cong.wang@bytedance.com>,
-        Bobby Eshleman <bobby.eshleman@bytedance.com>,
-        kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
-        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-        virtualization@lists.linux-foundation.org,
-        Eric Dumazet <edumazet@google.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bryan Tan <bryantan@vmware.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        Jiang Wang <jiang.wang@bytedance.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        virtio-dev@lists.oasis-open.org
-Subject: Re: [PATCH RFC net-next v2 0/4] virtio/vsock: support datagrams
-Message-ID: <ZDpOq0ACuMYIUbb1@bullseye>
-References: <20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com>
- <ZDk2kOVnUvyLMLKE@bullseye>
- <r6oxanmhwlonb7lcrrowpitlgobivzp7pcwk7snqvfnzudi6pb@4rnio5wef3qu>
+        Wed, 19 Apr 2023 22:41:14 -0400
+Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azon11021014.outbound.protection.outlook.com [52.101.57.14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F4D2F2;
+        Wed, 19 Apr 2023 19:41:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gK4duflaRTqQaWN8Q/JTtR9fQ/K4dgM31DYIiVP1BFPZMKQVKtcEPRSU+6P4we8fYvONv/B01LvsdEj/fLWEgzVbS2jCRfnJQQMhHaleerUNT4b9xQeN6xLy9hhREVn5XbP6J+WC89Cn2XE+JVteYWZPdcBwqrU3e7M+s7VEsIIbjQ2WCv/Yrtjyk3yec4Vf8qdRHFGJrbjOz+JHIkLgeJlrgoj5y9WXBTL8G3ZoJQ284sR0rp7IcDHXg3FaD0BHvYThAPI+DNuJtyuRd4Qvc+7XWI3kTmvIwUIJRV6U67jqycYkssrtnPexoGNenZAEhwHdt6DI7i4sUiNKr0vs+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WOM67pBbZqEU6233oIAMYg9ABoV9tHU8HDvLg4S3tWk=;
+ b=i648LT68ELLroRtT00SSayFymIglVrfrsoHr0tuqIkmAtpCj1n3X7oULcohCsSnuuh9ebVco8BoFlixxZGTl8opEJQ3XObIYSeaVBaWyk1VeHRpbjghCcsS7D3OWabsdP+grrgI5ibQBjjKa3hQyRJsbzhLGsN883d75rma3LfzD6mDpI+Q2N2GMySX452LWpVQtyjdWt7XQPA3I22ncQWWBXXcRfND3vS9BVmCyrtomoacWfu+ce4j/A17LMIi9zLZxeOBMkvFuf9t7BQhP1DrK5bqMIBTcIxuPa5XNcPSRTARnKIUuQ819Z9swxkpp4BFVDpi4Yqnjzj7kDwsWqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WOM67pBbZqEU6233oIAMYg9ABoV9tHU8HDvLg4S3tWk=;
+ b=fUZ/Zvln2FSc8X9D1kbZ6Jn3314LAtDlOBXG2zPVev9TcHjqZ8INtGhGeW1wvkJQ/UI46qJ3O7VcOrrwq+0X34fK3rUZgs5FmakLQixYZ4XKpJuUaGlj43JK23dSqLn5w6gOTjP1zm+SnbQCoUDZb+OHWWZJSS0QAqYRoYz5zrA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
+ (2603:10b6:207:30::23) by SJ1PR21MB3411.namprd21.prod.outlook.com
+ (2603:10b6:a03:451::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6340.7; Thu, 20 Apr
+ 2023 02:41:09 +0000
+Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
+ ([fe80::932e:24fe:fc1b:5d30]) by BL0PR2101MB1092.namprd21.prod.outlook.com
+ ([fe80::932e:24fe:fc1b:5d30%5]) with mapi id 15.20.6340.009; Thu, 20 Apr 2023
+ 02:41:09 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     bhelgaas@google.com, davem@davemloft.net, decui@microsoft.com,
+        edumazet@google.com, haiyangz@microsoft.com, jakeo@microsoft.com,
+        kuba@kernel.org, kw@linux.com, kys@microsoft.com, leon@kernel.org,
+        linux-pci@vger.kernel.org, lpieralisi@kernel.org,
+        mikelley@microsoft.com, pabeni@redhat.com, robh@kernel.org,
+        saeedm@nvidia.com, wei.liu@kernel.org, longli@microsoft.com,
+        boqun.feng@gmail.com, ssengar@microsoft.com, helgaas@kernel.org
+Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+        josete@microsoft.com
+Subject: [PATCH v3 0/6] pci-hyper: Fix race condition bugs for fast device hotplug
+Date:   Wed, 19 Apr 2023 19:40:31 -0700
+Message-Id: <20230420024037.5921-1-decui@microsoft.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: MW4P221CA0023.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::28) To BL0PR2101MB1092.namprd21.prod.outlook.com
+ (2603:10b6:207:30::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <r6oxanmhwlonb7lcrrowpitlgobivzp7pcwk7snqvfnzudi6pb@4rnio5wef3qu>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR2101MB1092:EE_|SJ1PR21MB3411:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8cf5489e-10a5-4630-c22c-08db4148b1e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t+EnossUVzShVk4zQQjEqIvVI2w9my18HmvktoHvu4GgX8kPkpb66riYBONFwLqB5MzFCzzzOLyYsn+hk8m9BsQPICgno88IOwwKu1GJDJvLrP9ZEyiSirevxa8LJPttmc/04zMH5K/DaVvNc0/yR6E5Olki0FLksPodRWQz1wYodPXymV01C9oonGMha49PeVZoY4niScTNC28gJCZL1LDi53485cFkveJR7FHjkkk/6/JsqK4HnGYHb71DUCMFbG7ZMsNB6HYsxevmD8nSOVzvIscvvhg8ZRB4ps9g304bI1KA+UGQIZbdeAwd1mpMysbHZn15wjuLP1IGkrGpEbvnzgglay7VwuGU5Euyn+KEuG9K7sZv139XuVAVso0o7lc6PrQOW1XvuiLt7dHedwc2XjJK/s87w/gMsWM5MLCI2SywYXNjpfkoCpj90B4VgoYckMkV4tVn3aeVXU5PHKJ24hLGfOlTwE5Xs0VV19BKkKIaUCcYRWoKsVtgTHaftS24hfwlLAGJu+KY0lfVr8qjnNWcyUzHtyF0BCzNYJRAlZu3T8DCYm2RHI7jwB/MRIhOUOdJIhuX1QDGUrHQdeLgTbLaJ7+brRDiu+56BwQgcp6yZtTh9MlaojhBk3WWqTXrHcondrfy/p1Etlt8R+enchtXLY3h7/G/OVF5K2za0pVRel0rB00kBKrkgPAq
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB1092.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(451199021)(2616005)(83380400001)(36756003)(186003)(6486002)(6512007)(1076003)(6506007)(966005)(6666004)(52116002)(66946007)(66556008)(10290500003)(66476007)(478600001)(4326008)(316002)(41300700001)(82950400001)(82960400001)(921005)(786003)(8676002)(8936002)(38100700002)(5660300002)(7416002)(107886003)(86362001)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KO/8tbPh5kwQ1LehDBhwMXokI+Cp9bDevRkHmoeBaQeW6wGl/U6TC8kq88ET?=
+ =?us-ascii?Q?0eqLMEMlHlZPhdaEK1lOcZT7NR/uBu3EmymqaEuINgMfpI332I3AGlh61dEs?=
+ =?us-ascii?Q?Otkz77prMu5CvCz5t0KSJxvG86Zn/lAleWPveN/60YbbpkoRhZ9Sgnm6hf28?=
+ =?us-ascii?Q?jsxWWsyyGvgmridlr0d1zF+BI0nTSkXlZx4rW+AQIG2uNe/aL8peF1m/bSXd?=
+ =?us-ascii?Q?B1pTSmQZ1d2x5PCix9In9i52nYl8Ff4a0lURvmgIi8gPxsyKe1pvvgr0WZRr?=
+ =?us-ascii?Q?0HfMaioiStvMaYOKTeRLA3c8HB2L1GOZv73C6Z4bjmaePgv9q79wO1ytlzd7?=
+ =?us-ascii?Q?HNB7EQ1zWktUYw8U94BbJhB/Y2lsn3PMiV/v05tEi51yV1nqHRYwvKQYj36H?=
+ =?us-ascii?Q?Ur0JF/391ZexaBvCqKBY8pgvlrNX2J13F3JrsKNA+wHRAT4dCjYHjBJ+RNtN?=
+ =?us-ascii?Q?/rH0CT2xAFv05nMbgLCthgQetLCfEVZlI79NT6sP1JU0h+kZkK5fUGy0993R?=
+ =?us-ascii?Q?ExZMN2BI4jJWi2lvwQV3kBwVXMi77gInK0fGwv/G9IX8ujBiG0NG2mURevq9?=
+ =?us-ascii?Q?nkc0ud5bPppIZ/J8msh8qI8N+/nva5ZNLckojOLU9xm0MOGk6Ouopl65jZwq?=
+ =?us-ascii?Q?WJOIKKuXJImMK4NG7xWUwZsMVo3v+ggP/h1E/1khEujuEVfWOyosPEK6+YKx?=
+ =?us-ascii?Q?6+Bzk6qx6+8/Q5DTqD4saeuFMuMFKlujNjnCT1YAo/neY5ZGSGLka0upaLbt?=
+ =?us-ascii?Q?iOGIJPeT9jAyCRW7lvkCiyVDSU3K/dQ2QVmus8I1rFuHXV1g7s35Tjk/491P?=
+ =?us-ascii?Q?TqrHCHlsprkNVM62u2zcZ8BH/R3pJauxg/vxgbvATyQLvDJdWf/qeNbmowGH?=
+ =?us-ascii?Q?EvLNlU72qY3ZKQW9pNvCbgPoTcxQZ89Ue0k9cyVNo36unv5F1yIV9S73IuB/?=
+ =?us-ascii?Q?H0JNuIvP2gBa17HhF0/x6hFIM6Fb81ZKenq+m4p9zY9Ffm413XkUL4441QOj?=
+ =?us-ascii?Q?lF10IdNY5NHJNkp6+o89ZJTbT6ktQUPQtSg1ldlBp3doa6zulYeEx2ZeisB2?=
+ =?us-ascii?Q?w5Ue2Shd0+zs5L2owC0NKd0uBiByHXfYh+WU8mxd41VRwGG/qnuKrSM/69/x?=
+ =?us-ascii?Q?AASIeZbR11LtH/EPQp5GU2iTHbKlxLn3MTDtR6a09mp8iYPlEpj1iEkHvwGo?=
+ =?us-ascii?Q?hRbhSGxvuAX8706bAsP4LuHPQ6QF+QS+AyuV9WLwIEZ76S7WJ8UnNpdrUX+H?=
+ =?us-ascii?Q?gSLmorbhXWDpVBPdukfj1W00a7pDyaB6gM9PLReGg5mMhEpJy828Od0pkSjO?=
+ =?us-ascii?Q?PKnFXGQlBqE3zsWPfFTHnhoQxY2W5X+bkKF0kPm8Sn8RT6ukccwx2Z1lJTdd?=
+ =?us-ascii?Q?a0F5e7D2dKxGcuWverlIBq9PvoQMP4lXpBSM+oKx80435f5UWraMNBBJ6VLc?=
+ =?us-ascii?Q?SaNH14Z48Mb/17wbf8rv13axwOL/rMSThKdtucR/CjFKvBdOF1M0re3lPQpA?=
+ =?us-ascii?Q?vZFtd3WTs9PV22mhfgAK6eICRIUzQwMffa92umFk774fmSEuOBQadsREhhqv?=
+ =?us-ascii?Q?/39Z+Wnqw7sdH8M/hrhC0ojTekfleUcFOnGglPv9NS/QeBwOEj+c8jLRm/Iu?=
+ =?us-ascii?Q?n0khWlXdIcSGp4SaB9q4d41xOR+ask22wXhaX/+u4YQd?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cf5489e-10a5-4630-c22c-08db4148b1e9
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB1092.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2023 02:41:08.5575
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rcK6EDcBhE0XYTba+e/yB8nJMWoQirzkQJGFjTHoGdanMCgO6IAmn1FB8DiL/p462h6b/YH21ZGnlH5grgGT6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR21MB3411
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-CC'ing virtio-dev@lists.oasis-open.org because this thread is starting
-to touch the spec.
+Before the guest finishes probing a device, the host may be already starting
+to remove the device. Currently there are multiple race condition bugs in the
+pci-hyperv driver, which can cause the guest to panic.  The patchset fixes
+the crashes.
 
-On Wed, Apr 19, 2023 at 12:00:17PM +0200, Stefano Garzarella wrote:
-> Hi Bobby,
-> 
-> On Fri, Apr 14, 2023 at 11:18:40AM +0000, Bobby Eshleman wrote:
-> > CC'ing Cong.
-> > 
-> > On Fri, Apr 14, 2023 at 12:25:56AM +0000, Bobby Eshleman wrote:
-> > > Hey all!
-> > > 
-> > > This series introduces support for datagrams to virtio/vsock.
-> 
-> Great! Thanks for restarting this work!
-> 
+The patchset also does some cleanup work: patch 3 removes the useless
+hv_pcichild_state, and patch 4 reverts an old patch which is not really
+useful (without patch 4, it would be hard to make patch 5 clean).
 
-No problem!
+Patch 6 removes the use of a global mutex lock, and enables async-probing
+to allow concurrent device probing for faster boot.
 
-> > > 
-> > > It is a spin-off (and smaller version) of this series from the summer:
-> > >   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
-> > > 
-> > > Please note that this is an RFC and should not be merged until
-> > > associated changes are made to the virtio specification, which will
-> > > follow after discussion from this series.
-> > > 
-> > > This series first supports datagrams in a basic form for virtio, and
-> > > then optimizes the sendpath for all transports.
-> > > 
-> > > The result is a very fast datagram communication protocol that
-> > > outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
-> > > of multi-threaded workload samples.
-> > > 
-> > > For those that are curious, some summary data comparing UDP and VSOCK
-> > > DGRAM (N=5):
-> > > 
-> > > 	vCPUS: 16
-> > > 	virtio-net queues: 16
-> > > 	payload size: 4KB
-> > > 	Setup: bare metal + vm (non-nested)
-> > > 
-> > > 	UDP: 287.59 MB/s
-> > > 	VSOCK DGRAM: 509.2 MB/s
-> > > 
-> > > Some notes about the implementation...
-> > > 
-> > > This datagram implementation forces datagrams to self-throttle according
-> > > to the threshold set by sk_sndbuf. It behaves similar to the credits
-> > > used by streams in its effect on throughput and memory consumption, but
-> > > it is not influenced by the receiving socket as credits are.
-> 
-> So, sk_sndbuf influece the sender and sk_rcvbuf the receiver, right?
-> 
+v3 is based on v6.3-rc5. No code change since v2. I just added Michael's
+and Long Li's Reviewed-by.
 
-Correct.
+The patchset is also availsble in my github branch:
+https://github.com/dcui/tdx/commits/decui/vpci/v6.3-rc5-v3
 
-> We should check if VMCI behaves the same.
-> 
-> > > 
-> > > The device drops packets silently. There is room for improvement by
-> > > building into the device and driver some intelligence around how to
-> > > reduce frequency of kicking the virtqueue when packet loss is high. I
-> > > think there is a good discussion to be had on this.
-> 
-> Can you elaborate a bit here?
-> 
-> Do you mean some mechanism to report to the sender that a destination
-> (cid, port) is full so the packet will be dropped?
-> 
+v2 can be found here:
+https://lwn.net/ml/linux-kernel/20230404020545.32359-1-decui@microsoft.com/
 
-Correct. There is also the case of there being no receiver at all for
-this address since this case isn't rejected upon connect(). Ideally,
-such a socket (which will have 100% packet loss) will be throttled
-aggressively.
+Please review. Thanks!
 
-Before we go down too far on this path, I also want to clarify that
-using UDP over vhost/virtio-net also has this property... this can be
-observed by using tcpdump to dump the UDP packets on the bridge network
-your VM is using. UDP packets sent to a garbage address can be seen on
-the host bridge (this is the nature of UDP, how is the host supposed to
-know the address eventually goes nowhere). I mention the above because I
-think it is possible for vsock to avoid this cost, given that it
-benefits from being point-to-point and g2h/h2g.
 
-If we're okay with vsock being on par, then the current series does
-that. I propose something below that can be added later and maybe
-negotiated as a feature bit too.
+Dexuan Cui (6):
+  PCI: hv: Fix a race condition bug in hv_pci_query_relations()
+  PCI: hv: Fix a race condition in hv_irq_unmask() that can cause panic
+  PCI: hv: Remove the useless hv_pcichild_state from struct hv_pci_dev
+  Revert "PCI: hv: Fix a timing issue which causes kdump to fail
+    occasionally"
+  PCI: hv: Add a per-bus mutex state_lock
+  PCI: hv: Use async probing to reduce boot time
 
-> Can we adapt the credit mechanism?
-> 
+ drivers/pci/controller/pci-hyperv.c | 145 +++++++++++++++++-----------
+ 1 file changed, 86 insertions(+), 59 deletions(-)
 
-I've thought about this a lot because the attraction of the approach for
-me would be that we could get the wait/buffer-limiting logic for free
-and without big changes to the protocol, but the problem is that the
-unreliable nature of datagrams means that the source's free-running
-tx_cnt will become out-of-sync with the destination's fwd_cnt upon
-packet loss.
+-- 
+2.25.1
 
-Imagine a source that initializes and starts sending packets before a
-destination socket even is created, the source's self-throttling will be
-dysfunctional because its tx_cnt will always far exceed the
-destination's fwd_cnt.
-
-We could play tricks with the meaning of the CREDIT_UPDATE message and
-fwd_cnt/buf_alloc fields, but I don't think we want to go down that
-path.
-
-I think that the best and simplest approach introduces a congestion
-notification (VIRTIO_VSOCK_OP_CN?). When a packet is dropped, the
-destination sends this notification. At a given repeated time period T,
-the source can check if it has received any notifications in the last T.
-If so, it halves its buffer allocation. If not, it doubles its buffer
-allocation unless it is already at its max or original value.
-
-An "invalid" socket which never has any receiver will converge towards a
-rate limit of one packet per time T * log2(average pkt size). That is, a
-socket with 100% packet loss will only be able to send 16 bytes every
-4T. A default send buffer of MAX_UINT32 and T=5ms would hit zero within
-160ms given at least one packet sent per 5ms. I have no idea if that is
-a reasonable default T for vsock, I just pulled it out of a hat for the
-sake of the example.
-
-"Normal" sockets will be responsive to high loss and rebalance during
-low loss. The source is trying to guess and converge on the actual
-buffer state of the destination.
-
-This would reuse the already-existing throttling mechanisms that
-throttle based upon buffer allocation. The usage of sk_sndbuf would have
-to be re-worked. The application using sendmsg() will see EAGAIN when
-throttled, or just sleep if !MSG_DONTWAIT.
-
-I looked at alternative schemes (like the Datagram Congestion Control
-Protocol), but I do not think the added complexity is necessary in the
-case of vsock (DCCP requires congestion windows, sequence numbers, batch
-acknowledgements, etc...). I also looked at UDP-based application
-protocols like TFTP, DHCP, and SIP over UDP which use a delay-based
-backoff mechanism, but seem to require acknowledgement for those packet
-types, which trigger the retries and backoffs. I think we can get away
-with the simpler approach and not have to potentially kill performance
-with per-packet acknowledgements.
-
-> > > 
-> > > In this series I am also proposing that fairness be reexamined as an
-> > > issue separate from datagrams, which differs from my previous series
-> > > that coupled these issues. After further testing and reflection on the
-> > > design, I do not believe that these need to be coupled and I do not
-> > > believe this implementation introduces additional unfairness or
-> > > exacerbates pre-existing unfairness.
-> 
-> I see.
-> 
-> > > 
-> > > I attempted to characterize vsock fairness by using a pool of processes
-> > > to stress test the shared resources while measuring the performance of a
-> > > lone stream socket. Given unfair preference for datagrams, we would
-> > > assume that a lone stream socket would degrade much more when a pool of
-> > > datagram sockets was stressing the system than when a pool of stream
-> > > sockets are stressing the system. The result, however, showed no
-> > > significant difference between the degradation of throughput of the lone
-> > > stream socket when using a pool of datagrams to stress the queue over
-> > > using a pool of streams. The absolute difference in throughput actually
-> > > favored datagrams as interfering least as the mean difference was +16%
-> > > compared to using streams to stress test (N=7), but it was not
-> > > statistically significant. Workloads were matched for payload size and
-> > > buffer size (to approximate memory consumption) and process count, and
-> > > stress workloads were configured to start before and last long after the
-> > > lifetime of the "lone" stream socket flow to ensure that competing flows
-> > > were continuously hot.
-> > > 
-> > > Given the above data, I propose that vsock fairness be addressed
-> > > independent of datagrams and to defer its implementation to a future
-> > > series.
-> 
-> Makes sense to me.
-> 
-> I left some preliminary comments, anyway now it seems reasonable to use
-> the same virtqueues, so we can go head with the spec proposal.
-> 
-> Thanks,
-> Stefano
-> 
-
-Thanks for the review!
-
-Best,
-Bobby
