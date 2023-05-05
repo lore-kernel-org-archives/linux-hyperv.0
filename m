@@ -2,32 +2,32 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D20FC7EE2D
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 May 2023 15:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0373FC7EE22
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 May 2023 15:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232949AbjEEPaG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 5 May 2023 11:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+        id S232951AbjEEPaF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 5 May 2023 11:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232898AbjEEP3l (ORCPT
+        with ESMTP id S232941AbjEEP3n (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 May 2023 11:29:41 -0400
-X-Greylist: delayed 445 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 May 2023 08:29:34 PDT
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A4611B7E
-        for <linux-hyperv@vger.kernel.org>; Fri,  5 May 2023 08:29:33 -0700 (PDT)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZDH0FZXzMqc7P;
-        Fri,  5 May 2023 17:22:07 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZDG2bp6zMpxBc;
-        Fri,  5 May 2023 17:22:06 +0200 (CEST)
+        Fri, 5 May 2023 11:29:43 -0400
+X-Greylist: delayed 454 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 May 2023 08:29:34 PDT
+Received: from smtp-42a9.mail.infomaniak.ch (smtp-42a9.mail.infomaniak.ch [84.16.66.169])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F350716094
+        for <linux-hyperv@vger.kernel.org>; Fri,  5 May 2023 08:29:34 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZD24pG9zMqLbT;
+        Fri,  5 May 2023 17:21:54 +0200 (CEST)
+Received: from unknown by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZCy4M9gzMpqZ9;
+        Fri,  5 May 2023 17:21:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1683300126;
-        bh=6hEUXV1Yu+QqE06q6YV92ksgcTE4SSVMGFp/YRlUSqM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cCom6GYQLGlk2nCbcclR8AZKUkW0AJpZFC6wR92gff0rbAnNjJlFfzBd5J+3y++84
-         WAx+LLa8CAjewu98goOyt+2vh84ogydmCURfKSQ02P+jr2VYlfAmiT9Knsjn08r/LT
-         Tng2aFdb73PL8bp/dTy6vPMFTznPlq63+NzYf8sI=
+        s=20191114; t=1683300114;
+        bh=Qvc7SESfj28DhibUMOxF8XDC2Dv9Nk03svVhSexGCDo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=sdjSaTf+L8uD2OtYxlVlBp2/RF9APLo7BFa1o6O4wpLqtYohS60n6C+Xb7KWY8oWN
+         1ThaIncVJDSPEINsOmIciOHlJQ5lHfvGTzMJwRq9cC3H70enX0j5qGVkDZEv5T8RHU
+         X7DMszBWczedvVBKFSwCEr6PDfJcgmy7Hfrc8dOE=
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -59,11 +59,9 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         linux-security-module@vger.kernel.org, qemu-devel@nongnu.org,
         virtualization@lists.linux-foundation.org, x86@kernel.org,
         xen-devel@lists.xenproject.org
-Subject: [PATCH v1 9/9] virt: Add Heki KUnit tests
-Date:   Fri,  5 May 2023 17:20:46 +0200
-Message-Id: <20230505152046.6575-10-mic@digikod.net>
-In-Reply-To: <20230505152046.6575-1-mic@digikod.net>
-References: <20230505152046.6575-1-mic@digikod.net>
+Subject: [RFC PATCH v1 0/9] Hypervisor-Enforced Kernel Integrity
+Date:   Fri,  5 May 2023 17:20:37 +0200
+Message-Id: <20230505152046.6575-1-mic@digikod.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,295 +70,298 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This adds a new CONFIG_HEKI_TEST option to run tests at boot.  Indeed,
-because this patch series forbids the loading of kernel modules after
-the boot, we need to make built-in tests.  Furthermore, because we use
-some symbols not exported to modules (e.g., kernel_set_to_readonly) this
-could not work as modules.
+Hi,
 
-To run these tests, we need to boot the kernel with the heki_test=N boot
-argument with N selecting a specific test:
-1. heki_test_cr_disable_smep: Check CR pinning and try to disable SMEP.
-2. heki_test_write_to_const: Check .rodata (const) protection.
-3. heki_test_write_to_ro_after_init: Check __ro_after_init protection.
-4. heki_test_exec: Check non-executable kernel memory.
+This patch series is a proof-of-concept that implements new KVM features
+(extended page tracking, MBEC support, CR pinning) and defines a new API to
+protect guest VMs. No VMM (e.g., Qemu) modification is required.
 
-This way to select tests should not be required when the kernel will
-properly handle the triggered synthetic page faults.  For now, these
-page faults make the kernel loop.
+The main idea being that kernel self-protection mechanisms should be delegated
+to a more privileged part of the system, hence the hypervisor. It is still the
+role of the guest kernel to request such restrictions according to its
+configuration. The high-level security guarantees provided by the hypervisor
+are semantically the same as a subset of those the kernel already enforces on
+itself (CR pinning hardening and memory page table protections), but with much
+higher guarantees.
 
-All these tests temporarily disable the related kernel self-protections
-and should then failed if Heki doesn't protect the kernel.  They are
-verbose to make it easier to understand what is going on.
+We'd like the mainline kernel to support such hardening features leveraging
+virtualization. We're looking for reviews and comments that can help mainline
+these two parts: the KVM implementation and the guest kernel API layer designed
+to support different hypervisors. The struct heki_hypervisor enables to plug in
+different backend implementations that are initialized with the
+heki_early_init() and heki_late_init() calls. This RFC is an initial
+call for collaboration. There is a lot to do, either on hypervisors,
+guest kernels or VMMs sides.
 
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20230505152046.6575-10-mic@digikod.net
----
- virt/heki/Kconfig |  12 +++
- virt/heki/heki.c  | 194 +++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 205 insertions(+), 1 deletion(-)
+We took inspiration from previous patches, mainly the KVMI [1] [2] and KVM
+CR-pinning [3] series, revamped and simplified relevant parts to fit well with
+our goal, added support for MBEC to enable a deny-by-default kernel execution
+policy (e.g., write xor execute), added two hypercalls, and created a kernel
+API for VMs to request protection in a generic way that can be leveraged by any
+hypervisor.
 
-diff --git a/virt/heki/Kconfig b/virt/heki/Kconfig
-index 96f18ce03013..806981f2b22d 100644
---- a/virt/heki/Kconfig
-+++ b/virt/heki/Kconfig
-@@ -27,3 +27,15 @@ config HYPERVISOR_SUPPORTS_HEKI
- 	  A hypervisor should select this when it can successfully build
- 	  and run with CONFIG_HEKI. That is, it should provide all of the
- 	  hypervisor support required for the Heki feature.
-+
-+config HEKI_TEST
-+	bool "Tests for Heki" if !KUNIT_ALL_TESTS
-+	depends on HEKI && KUNIT=y
-+	default KUNIT_ALL_TESTS
-+	help
-+	  Run Heki tests at runtime according to the heki_test=N boot
-+	  parameter, with N identifying the test to run (between 1 and 4).
-+
-+	  Before launching the init process, the system might not respond
-+	  because of unhandled kernel page fault.  This will be fixed in a
-+	  next patch series.
-diff --git a/virt/heki/heki.c b/virt/heki/heki.c
-index 142b5dc98a2f..361e7734e950 100644
---- a/virt/heki/heki.c
-+++ b/virt/heki/heki.c
-@@ -5,11 +5,13 @@
-  * Copyright © 2023 Microsoft Corporation
-  */
- 
-+#include <kunit/test.h>
- #include <linux/cache.h>
- #include <linux/heki.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/printk.h>
-+#include <linux/set_memory.h>
- #include <linux/types.h>
- #include <linux/vmalloc.h>
- 
-@@ -78,13 +80,201 @@ void __init heki_early_init(void)
- 	heki_arch_init();
- }
- 
-+#ifdef CONFIG_HEKI_TEST
-+
-+/* Heki test data */
-+
-+/* Takes two pages to not change permission of other read-only pages. */
-+const char heki_test_const_buf[PAGE_SIZE * 2] = {};
-+char heki_test_ro_after_init_buf[PAGE_SIZE * 2] __ro_after_init = {};
-+
-+long heki_test_exec_data(long);
-+void _test_exec_data_end(void);
-+
-+/* Used to test ROP execution against the .rodata section. */
-+/* clang-format off */
-+asm(
-+".pushsection .rodata;" // NOT .text section
-+".global heki_test_exec_data;"
-+".type heki_test_exec_data, @function;"
-+"heki_test_exec_data:"
-+ASM_ENDBR
-+"movq %rdi, %rax;"
-+"inc %rax;"
-+ASM_RET
-+".size heki_test_exec_data, .-heki_test_exec_data;"
-+"_test_exec_data_end:"
-+".popsection");
-+/* clang-format on */
-+
-+static void heki_test_cr_disable_smep(struct kunit *test)
-+{
-+	unsigned long cr4;
-+
-+	/* SMEP should be initially enabled. */
-+	KUNIT_ASSERT_TRUE(test, __read_cr4() & X86_CR4_SMEP);
-+
-+	kunit_warn(test,
-+		   "Starting control register pinning tests with SMEP check\n");
-+
-+	/*
-+	 * Trying to disable SMEP, bypassing kernel self-protection by not
-+	 * using cr4_clear_bits(X86_CR4_SMEP).
-+	 */
-+	cr4 = __read_cr4() & ~X86_CR4_SMEP;
-+	asm volatile("mov %0,%%cr4" : "+r"(cr4) : : "memory");
-+
-+	/* SMEP should still be enabled. */
-+	KUNIT_ASSERT_TRUE(test, __read_cr4() & X86_CR4_SMEP);
-+}
-+
-+static inline void print_addr(struct kunit *test, const char *const buf_name,
-+			      void *const buf)
-+{
-+	const pte_t pte = *virt_to_kpte((unsigned long)buf);
-+	const phys_addr_t paddr = slow_virt_to_phys(buf);
-+	bool present = pte_flags(pte) & (_PAGE_PRESENT);
-+	bool accessible = pte_accessible(&init_mm, pte);
-+
-+	kunit_warn(
-+		test,
-+		"%s vaddr:%llx paddr:%llx exec:%d write:%d present:%d accessible:%d\n",
-+		buf_name, (unsigned long long)buf, paddr, !!pte_exec(pte),
-+		!!pte_write(pte), present, accessible);
-+}
-+
-+extern int kernel_set_to_readonly;
-+
-+static void heki_test_write_to_rodata(struct kunit *test,
-+				      const char *const buf_name,
-+				      char *const ro_buf)
-+{
-+	print_addr(test, buf_name, (void *)ro_buf);
-+	KUNIT_EXPECT_EQ(test, 0, *ro_buf);
-+
-+	kunit_warn(
-+		test,
-+		"Bypassing kernel self-protection: mark memory as writable\n");
-+	kernel_set_to_readonly = 0;
-+	/*
-+	 * Removes execute permission that might be set by bugdoor-exec,
-+	 * because change_page_attr_clear() is not use by set_memory_rw().
-+	 * This is required since commit 652c5bf380ad ("x86/mm: Refuse W^X
-+	 * violations").
-+	 */
-+	KUNIT_ASSERT_FALSE(test, set_memory_nx((unsigned long)PTR_ALIGN_DOWN(
-+						       ro_buf, PAGE_SIZE),
-+					       1));
-+	KUNIT_ASSERT_FALSE(test, set_memory_rw((unsigned long)PTR_ALIGN_DOWN(
-+						       ro_buf, PAGE_SIZE),
-+					       1));
-+	kernel_set_to_readonly = 1;
-+
-+	kunit_warn(test, "Trying memory write\n");
-+	*ro_buf = 0x11;
-+	KUNIT_EXPECT_EQ(test, 0, *ro_buf);
-+	kunit_warn(test, "New content: 0x%02x\n", *ro_buf);
-+}
-+
-+static void heki_test_write_to_const(struct kunit *test)
-+{
-+	heki_test_write_to_rodata(test, "const_buf",
-+				  (void *)heki_test_const_buf);
-+}
-+
-+static void heki_test_write_to_ro_after_init(struct kunit *test)
-+{
-+	heki_test_write_to_rodata(test, "ro_after_init_buf",
-+				  (void *)heki_test_ro_after_init_buf);
-+}
-+
-+typedef long test_exec_t(long);
-+
-+static void heki_test_exec(struct kunit *test)
-+{
-+	const size_t exec_size = 7;
-+	unsigned long nx_page_start = (unsigned long)PTR_ALIGN_DOWN(
-+		(const void *const)heki_test_exec_data, PAGE_SIZE);
-+	unsigned long nx_page_end = (unsigned long)PTR_ALIGN(
-+		(const void *const)heki_test_exec_data + exec_size, PAGE_SIZE);
-+	test_exec_t *exec = (test_exec_t *)heki_test_exec_data;
-+	long ret;
-+
-+	/* Starting non-executable memory tests. */
-+	print_addr(test, "test_exec_data", heki_test_exec_data);
-+
-+	kunit_warn(
-+		test,
-+		"Bypassing kernel-self protection: mark memory as executable\n");
-+	kernel_set_to_readonly = 0;
-+	KUNIT_ASSERT_FALSE(test,
-+			   set_memory_rox(nx_page_start,
-+					  PFN_UP(nx_page_end - nx_page_start)));
-+	kernel_set_to_readonly = 1;
-+
-+	kunit_warn(
-+		test,
-+		"Trying to execute data (ROP) in (initially) non-executable memory\n");
-+	ret = exec(3);
-+
-+	/* This should not be reached because of the uncaught page fault. */
-+	KUNIT_EXPECT_EQ(test, 3, ret);
-+	kunit_warn(test, "Result of execution: 3 + 1 = %ld\n", ret);
-+}
-+
-+const struct kunit_case heki_test_cases[] = {
-+	KUNIT_CASE(heki_test_cr_disable_smep),
-+	KUNIT_CASE(heki_test_write_to_const),
-+	KUNIT_CASE(heki_test_write_to_ro_after_init),
-+	KUNIT_CASE(heki_test_exec),
-+	{}
-+};
-+
-+static unsigned long heki_test __ro_after_init;
-+
-+static int __init parse_heki_test_config(char *str)
-+{
-+	if (kstrtoul(str, 10, &heki_test) ||
-+	    heki_test > (ARRAY_SIZE(heki_test_cases) - 1))
-+		pr_warn("Invalid option string for heki_test: '%s'\n", str);
-+	return 1;
-+}
-+
-+__setup("heki_test=", parse_heki_test_config);
-+
-+static void heki_run_test(void)
-+{
-+	struct kunit_case heki_test_case[2] = {};
-+	struct kunit_suite heki_test_suite = {
-+		.name = "heki",
-+		.test_cases = heki_test_case,
-+	};
-+	struct kunit_suite *const test_suite = &heki_test_suite;
-+
-+	if (!kunit_enabled() || heki_test == 0 ||
-+	    heki_test >= ARRAY_SIZE(heki_test_cases))
-+		return;
-+
-+	pr_warn("Running test #%lu\n", heki_test);
-+	heki_test_case[0] = heki_test_cases[heki_test - 1];
-+	__kunit_test_suites_init(&test_suite, 1);
-+}
-+
-+#else /* CONFIG_HEKI_TEST */
-+
-+static inline void heki_run_test(void)
-+{
-+}
-+
-+#endif /* CONFIG_HEKI_TEST */
-+
- void heki_late_init(void)
- {
- 	struct heki_hypervisor *hypervisor = heki.hypervisor;
- 	int ret;
- 
- 	if (!heki_enabled)
--		return;
-+		return heki_run_test();
- 
- 	if (!heki.static_ranges) {
- 		pr_warn("Architecture did not initialize static ranges\n");
-@@ -113,6 +303,8 @@ void heki_late_init(void)
- 		goto out;
- 	pr_warn("Control registers locked\n");
- 
-+	heki_run_test();
-+
- out:
- 	heki_free_pa_ranges(heki.static_ranges, heki.num_static_ranges);
- 	heki.static_ranges = NULL;
+This proof-of-concept is named Hypervisor-Enforced Kernel Integrity (Heki),
+which reflects the goal to empower guest kernels to protect themselves. This
+name is new to the kernel, and it enables to easily identify new code required
+for this set of features.
+
+This patch series is based on Linux 6.2 and requires the host to support
+MBEC. This can easily be checked with:
+grep ept_mode_based_exec /proc/cpuinfo
+You can test it by enabling CONFIG_HEKI, CONFIG_HEKI_TEST,
+CONFIG_KUNIT_DEFAULT_ENABLED, and adding the heki_test=N boot argument
+to the guest as explained in the last patch. Another way to test it is
+to try to load a kernel module in the guest: you'll see KVM creating
+synthetic page faults. This only works using a bare metal machine as KVM
+host; nested virtualization is not supported yet.
+
+# Threat model
+
+The initial threat model is a malicious user space process exploiting a kernel
+vulnerability to gain more privileges or to bypass the access-control system.
+An extended threat model could include attacks coming from network or storage
+data (e.g., malformed network packet, inconsistent drive content).
+
+Considering all potential ways to compromise a kernel, Heki's goal is to harden
+a sane kernel before a runtime attack to make it more difficult, and
+potentially to make such an attack failed. We consider the kernel itself to be
+partially malicious during its lifetime e.g., because a ROP attack that could
+disable kernel self-protection mechanisms and make kernel exploitation much
+easier. Indeed, an exploit is often split into several stages, each bypassing
+some security measures. Getting the guarantee that new kernel executable code
+is not possible increases the cost of an attack, hopefully to the point that it
+is not worth it.
+
+To protect against persistent attacks, complementary security mechanisms should
+be used (e.g., kernel module signing, IMA, IPE, Lockdown).
+
+# Prerequisites
+
+For this set of features to be useful, guest kernels must be trusted by the VM
+owners at boot time, before launching any user space processes nor receiving
+potentially malicious network packets. It is then required to have a security
+mechanism to provide or check this initial trust (e.g., secure boot, kernel
+module signing).
+
+# How does it work?
+
+This implementation mainly leverages KVM capabilities to control the Second
+Layer Address Translation (or the Two Dimensional Paging e.g., Intel's EPT or
+AMD's RVI/NPT) and Mode Based Execution Control (Intel's MBEC) introduced with
+the Kaby Lake (7th generation) architecture. This allows to set permissions on
+memory pages in a complementary way to the guest kernel's managed memory
+permissions. Once these permissions are set, they are locked and there is no
+way back.
+
+A first KVM_HC_LOCK_MEM_PAGE_RANGES hypercall enables the guest kernel to lock
+a set of its memory page ranges with either the HEKI_ATTR_MEM_NOWRITE or the
+HEKI_ATTR_MEM_EXEC attribute. The first one denies write access to a specific
+set of pages (allow-list approach), and the second only allows kernel execution
+for a set of pages (deny-list approach).
+
+The current implementation sets the whole kernel's .rodata (i.e., any const or
+__ro_after_init variables, which includes critical security data such as LSM
+parameters) and .text sections as non-writable, and the .text section is the
+only one where kernel execution is allowed. This is possible thanks to the new
+MBEC support also brough by this series (otherwise the vDSO would have to be
+executable). Thanks to this hardware support (VT-x, EPT and MBEC), the
+performance impact of such guest protection is negligible.
+
+The second KVM_HC_LOCK_CR_UPDATE hypercall enables guests to pin some of its
+CPU control register flags (e.g., X86_CR0_WP, X86_CR4_SMEP, X86_CR4_SMAP),
+which is another complementary hardening mechanism.
+
+Heki can be enabled with the heki=1 boot command argument.
+
+# Similar implementations
+
+Here is a non-exhaustive list of similar implementations that we looked at and
+took some ideas. Linux mainline doesn't support such security features, let's
+change that!
+
+Windows's Virtualization-Based Security is a proprietary technology relying
+that provides a superset of this kind of security mechanism, relying on Hyper-V
+and Virtual Trust Levels which enables to have light and secure VM enforcing
+restrictions on a full guest VM. This includes several components such as HVCI
+which is in charge of code authenticity, or HyperGuard which monitors and
+protects kernel code and data.
+
+Samsung's Real-time Kernel Protection (RKP) and Huawei Hypervisor Execution
+Environment (HHEE) rely on proprietary hypervisors to protect some Android
+devices. They monitor critical kernel data (e.g., page tables, credentials,
+selinux_enforcing).
+
+The iOS Kernel Patch Protection is a proprietary solution that relies on a
+secure enclave (dedicated hardware component) to monitor and protect critical
+parts of the kernel.
+
+Bitdefender's Hypervisor Memory Introspection (HVMI) is an open-source (but out
+of tree) set of components leveraging virtualization. HVMI implementation is
+very complex, and this approach implies potential semantic gap issues (i.e.,
+kernel data structures may change from one version to another).
+
+Linux Kernel Runtime Guard is an open-source kernel module that can detect some
+kernel data illegitimate modifications. Because it is the same kernel as the
+compromised one, an attacker could also bypass or disable these checks.
+
+Intel's Virtualization Based Hardening [4] [5] is an open-source
+proof-of-concept of a thin hypervisor dedicated to guest protection. As such,
+it cannot be used to manage several VMs.
+
+# Similar Linux patches
+
+The VM introspection [1] [2] patch series proposed a set of features to
+put probes and introspect VMs for debugging and security reasons. We
+changed and included the prewrite page tracking and the fault_gva parts.
+Heki is much simpler because it focuses on guest hardening, not
+introspection.
+
+Paravirtualized Control Register pinning [3] added a set of KVM IOCTLs to
+restrict some flags to be set. Heki doesn't implement such user space
+interface, but only a dedicated hypercall to lock such registers. A superset of
+these flags is configurable with Heki.
+
+The Hypervisor Based Integrity patches [6] [7] only contain a generic IPC
+mechanism (KVM_HC_UCALL hypercall) to request protection to the VMM. The idea
+was to extend the KVM_SET_USER_MEMORY_REGION IOCTL to support more permission
+than read-only.
+
+# Current limitations
+
+The main limitation of this patch series is the statically enforced
+permissions. This is not an issue for kernels without module but this needs to
+be addressed.  Mechanisms that dynamically impact kernel executable memory are
+not handled for now (e.g., kernel modules, tracepoints, eBPF JIT), and such
+code will need to be authenticated.  Because the hypervisor is highly
+privileged and critical to the security of all the VMs, we don't want to
+implement a code authentication mechanism in the hypervisor itself but delegate
+this verification to something much less privileged. We are thinking of two
+ways to solve this: implement this verification in the VMM or spawn a dedicated
+special VM (similar to Windows's VBS). There are pros on cons to each approach:
+complexity, verification code ownership (guest's or VMM's), access to guest
+memory (i.e., confidential computing).
+
+Because the guest's virtual address translation is not protected by the
+hypervisor, a compromised kernel could map existing physical pages into
+arbitrary virtual addresses. The new Intel's Hypervisor-Managed Linear Address
+Translation [8] (HLAT) could be used to extend the current protection and cover
+this case.
+
+ROP is not covered by this patch series. Guest kernels can still jump to
+arbitrary executable pages according to their control-flow integrity
+protection.
+
+# Future work
+
+We think this kind of restrictions can be leveraged to log attempts of
+forbidden actions. Forwarding such signals to the VMM could help improve attack
+detection.
+
+Giving visibility to the VMM would also enable to migrate VMs.
+
+New dynamic restrictions could enable to improve the protected data by
+including security-sensitive data such as LSM states, seccomp filters,
+keyrings... This requires support outside of the hypervisor.
+
+An execute-only mode could also be useful (cf. XOM for KVM [9] [10]).
+
+Extending register pinning (e.g., MSRs).
+
+Being able to protect nested guests might be possible but we need to figure out
+the potential security implications.
+
+Protecting the host would be useful, but that doesn't really fit with the KVM
+model. The Protected KVM project is a first step to help in this direction
+[11].
+
+We only tested this with an Intel CPU, but this approach should work the same
+with an AMD CPU starting with the Zen 2 generation and their Guest Mode Execute
+Trap (GMET) capability.
+
+We also kept some TODOs to highlight missing checks and code sharing issues,
+and some pr_warn() calls to help understand how it works. Tests need to be
+improved (e.g., invalid hypercall arguments).
+
+We'll present this work at the Linux Security Summit North America next week.
+
+[1] https://lore.kernel.org/all/20211006173113.26445-1-alazar@bitdefender.com/
+[2] https://www.linux-kvm.org/images/7/72/KVMForum2017_Introspection.pdf
+[3] https://lore.kernel.org/all/20200617190757.27081-1-john.s.andersen@intel.com/
+[4] https://github.com/intel/vbh
+[5] https://sched.co/TmwN
+[6] https://sched.co/eE3f
+[7] https://lore.kernel.org/all/20200501185147.208192-1-yuanyu@google.com/
+[8] https://sched.co/eE4F
+[9] https://lore.kernel.org/kvm/20191003212400.31130-1-rick.p.edgecombe@intel.com/
+[10] https://lpc.events/event/4/contributions/283/
+[11] https://sched.co/eE24
+
+Please reach out to us by replying to this thread, we're looking for
+people to join and collaborate on this project!
+
+Regards,
+
+Madhavan T. Venkataraman (2):
+  virt: Implement Heki common code
+  KVM: x86: Add Heki hypervisor support
+
+Mickaël Salaün (7):
+  KVM: x86: Add kvm_x86_ops.fault_gva()
+  KVM: x86/mmu: Add support for prewrite page tracking
+  KVM: x86: Add new hypercall to set EPT permissions
+  KVM: x86: Add new hypercall to lock control registers
+  KVM: VMX: Add MBEC support
+  KVM: x86/mmu: Enable guests to lock themselves thanks to MBEC
+  virt: Add Heki KUnit tests
+
+ Documentation/virt/kvm/x86/hypercalls.rst |  34 +++
+ Kconfig                                   |   2 +
+ arch/x86/Kconfig                          |   1 +
+ arch/x86/include/asm/kvm-x86-ops.h        |   1 +
+ arch/x86/include/asm/kvm_host.h           |   2 +
+ arch/x86/include/asm/kvm_page_track.h     |  12 +
+ arch/x86/include/asm/sections.h           |   4 +
+ arch/x86/include/asm/vmx.h                |  11 +-
+ arch/x86/include/asm/x86_init.h           |   2 +
+ arch/x86/kernel/cpu/common.c              |   2 +-
+ arch/x86/kernel/cpu/hypervisor.c          |   1 +
+ arch/x86/kernel/kvm.c                     |  72 +++++
+ arch/x86/kernel/setup.c                   |  49 +++
+ arch/x86/kernel/x86_init.c                |   1 +
+ arch/x86/kvm/Kconfig                      |   1 +
+ arch/x86/kvm/mmu.h                        |   3 +-
+ arch/x86/kvm/mmu/mmu.c                    | 105 ++++++-
+ arch/x86/kvm/mmu/mmutrace.h               |  11 +-
+ arch/x86/kvm/mmu/page_track.c             |  33 +-
+ arch/x86/kvm/mmu/paging_tmpl.h            |  16 +-
+ arch/x86/kvm/mmu/spte.c                   |  29 +-
+ arch/x86/kvm/mmu/spte.h                   |  15 +-
+ arch/x86/kvm/mmu/tdp_mmu.c                |  73 +++++
+ arch/x86/kvm/mmu/tdp_mmu.h                |   4 +
+ arch/x86/kvm/svm/svm.c                    |   9 +
+ arch/x86/kvm/vmx/capabilities.h           |   7 +
+ arch/x86/kvm/vmx/nested.c                 |   7 +
+ arch/x86/kvm/vmx/vmx.c                    |  48 ++-
+ arch/x86/kvm/vmx/vmx.h                    |   1 +
+ arch/x86/kvm/x86.c                        | 352 +++++++++++++++++++++-
+ arch/x86/kvm/x86.h                        |  23 ++
+ include/linux/heki.h                      |  90 ++++++
+ include/linux/kvm_host.h                  |  20 ++
+ include/uapi/linux/kvm_para.h             |   2 +
+ init/main.c                               |   3 +
+ virt/Makefile                             |   1 +
+ virt/heki/Kconfig                         |  41 +++
+ virt/heki/Makefile                        |   3 +
+ virt/heki/heki.c                          | 321 ++++++++++++++++++++
+ virt/kvm/kvm_main.c                       |   5 +
+ 40 files changed, 1377 insertions(+), 40 deletions(-)
+ create mode 100644 include/linux/heki.h
+ create mode 100644 virt/heki/Kconfig
+ create mode 100644 virt/heki/Makefile
+ create mode 100644 virt/heki/heki.c
+
+
+base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
 -- 
 2.40.1
 
