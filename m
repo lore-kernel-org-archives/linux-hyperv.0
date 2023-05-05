@@ -2,32 +2,31 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6466EC77B7C
-	for <linux-hyperv@archiver.kernel.org>; Fri,  5 May 2023 15:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11943C77B7F
+	for <linux-hyperv@archiver.kernel.org>; Fri,  5 May 2023 15:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232879AbjEEP3g (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 5 May 2023 11:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60112 "EHLO
+        id S232916AbjEEP3j (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 5 May 2023 11:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232845AbjEEP3f (ORCPT
+        with ESMTP id S232880AbjEEP3h (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 May 2023 11:29:35 -0400
-X-Greylist: delayed 444 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 May 2023 08:29:29 PDT
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BE681BF0
+        Fri, 5 May 2023 11:29:37 -0400
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [IPv6:2001:1600:4:17::190e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2663120B1
         for <linux-hyperv@vger.kernel.org>; Fri,  5 May 2023 08:29:29 -0700 (PDT)
 Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZDC54NKzMqP0t;
-        Fri,  5 May 2023 17:22:03 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZDB71wWzMpt9w;
-        Fri,  5 May 2023 17:22:02 +0200 (CEST)
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZD81Wj3zMqHLq;
+        Fri,  5 May 2023 17:22:00 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZD73gl0zMpxBk;
+        Fri,  5 May 2023 17:21:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1683300123;
-        bh=DM23zXDS+uuGwMhWqh31C3FvKal04OOOYj6BCpV8eTU=;
+        s=20191114; t=1683300120;
+        bh=lpToIjkPWA0duCR50VLguq+aftI5CkhRhLIM9+Y09DI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xWSKWq8GRjQntbZQyjyc/hcLfD/4e9Eo9VEQ3TyJ15GAj81rIlqRsji0rYWtV6o9s
-         DjYkgLxPq6tOCUL7E0ENshFSZ0cXEvowTkLwi08Dmqi/WhYCFJPWohunvkPKWdyymr
-         yIWmw5cSKPerfUXYOOtVgs7cuuhvsEWWph9Se7ZE=
+        b=zFJPl8PCpV0TqwQBoPoSGHQX+/8+SSuy0c9K2NPBDqUtmLq0QmGY7FWD3HryhaVm/
+         17tCkfTiTGYBupyQ9RSGCsspEYrGNJuhBEUcpQDTrOdzsDu04Esrk+DE1xaHkpmpk1
+         MM8P5jZUL4ILscFaudbqPEsff1UIBvirPP3WnImg=
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -59,9 +58,9 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         linux-security-module@vger.kernel.org, qemu-devel@nongnu.org,
         virtualization@lists.linux-foundation.org, x86@kernel.org,
         xen-devel@lists.xenproject.org
-Subject: [PATCH v1 6/9] KVM: x86: Add Heki hypervisor support
-Date:   Fri,  5 May 2023 17:20:43 +0200
-Message-Id: <20230505152046.6575-7-mic@digikod.net>
+Subject: [PATCH v1 3/9] virt: Implement Heki common code
+Date:   Fri,  5 May 2023 17:20:40 +0200
+Message-Id: <20230505152046.6575-4-mic@digikod.net>
 In-Reply-To: <20230505152046.6575-1-mic@digikod.net>
 References: <20230505152046.6575-1-mic@digikod.net>
 MIME-Version: 1.0
@@ -74,245 +73,489 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
 
-Each supported hypervisor in x86 implements a struct x86_hyper_init to
-define the init functions for the hypervisor.  Define a new init_heki()
-entry point in struct x86_hyper_init.  Hypervisors that support Heki
-must define this init_heki() function.  Call init_heki() of the chosen
-hypervisor in init_hypervisor_platform().
+Hypervisor Enforced Kernel Integrity (Heki) is a feature that will use
+the hypervisor to enhance guest virtual machine security.
 
-Create a heki_hypervisor structure that each hypervisor can fill
-with its data and functions. This will allow the Heki feature to work
-in a hypervisor agnostic way.
+Configuration
+=============
 
-Declare and initialize a "heki_hypervisor" structure for KVM so KVM can
-support Heki.  Define the init_heki() function for KVM.  In init_heki(),
-set the hypervisor field in the generic "heki" structure to the KVM
-"heki_hypervisor".  After this point, generic Heki code can access the
-KVM Heki data and functions.
+Define the config variables for the feature. This feature depends on
+support from the architecture as well as the hypervisor.
+
+Enabling HEKI
+=============
+
+Define a kernel command line parameter "heki" to turn the feature on or
+off. By default, Heki is on.
+
+Feature initialization
+======================
+
+The linker script, vmlinux.lds.S, defines a number of sections that are
+loaded in kernel memory. Each of these sections has its own permissions.
+For instance, .text has HEKI_ATTR_MEM_EXEC | HEKI_ATTR_MEM_NOWRITE, and
+.rodata has HEKI_ATTR_MEM_NOWRITE.
+
+Define an architecture specific init function, heki_arch_init(). In this
+function, collect the ranges of all of the sections. These sections will
+be protected in the host page table with their respective permissions so
+that even if the guest kernel is compromised, their permissions cannot
+be changed.
+
+Define heki_early_init() to initialize the feature. For now, this
+function just checks if the feature is enabled and calls
+heki_arch_init().
+
+Define heki_late_init() that protects the sections in the host page
+table. This needs hypervisor support which will be introduced in the
+future.  This function is called at the end of kernel init.
 
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
 Cc: H. Peter Anvin <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Kees Cook <keescook@chromium.org>
+Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
+Cc: Mickaël Salaün <mic@digikod.net>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Sean Christopherson <seanjc@google.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Cc: Wanpeng Li <wanpengli@tencent.com>
-Co-developed-by: Mickaël Salaün <mic@digikod.net>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
 Signed-off-by: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-Link: https://lore.kernel.org/r/20230505152046.6575-7-mic@digikod.net
+Link: https://lore.kernel.org/r/20230505152046.6575-4-mic@digikod.net
 ---
- arch/x86/include/asm/x86_init.h  |  2 +
- arch/x86/kernel/cpu/hypervisor.c |  1 +
- arch/x86/kernel/kvm.c            | 72 ++++++++++++++++++++++++++++++++
- arch/x86/kernel/x86_init.c       |  1 +
- arch/x86/kvm/Kconfig             |  1 +
- virt/heki/Kconfig                |  9 +++-
- virt/heki/heki.c                 |  6 ---
- 7 files changed, 85 insertions(+), 7 deletions(-)
+ Kconfig                         |   2 +
+ arch/x86/Kconfig                |   1 +
+ arch/x86/include/asm/sections.h |   4 +
+ arch/x86/kernel/setup.c         |  49 ++++++++++++
+ include/linux/heki.h            |  90 +++++++++++++++++++++
+ init/main.c                     |   3 +
+ virt/Makefile                   |   1 +
+ virt/heki/Kconfig               |  22 ++++++
+ virt/heki/Makefile              |   3 +
+ virt/heki/heki.c                | 135 ++++++++++++++++++++++++++++++++
+ 10 files changed, 310 insertions(+)
+ create mode 100644 include/linux/heki.h
+ create mode 100644 virt/heki/Kconfig
+ create mode 100644 virt/heki/Makefile
+ create mode 100644 virt/heki/heki.c
 
-diff --git a/arch/x86/include/asm/x86_init.h b/arch/x86/include/asm/x86_init.h
-index c1c8c581759d..0fc5041a66c6 100644
---- a/arch/x86/include/asm/x86_init.h
-+++ b/arch/x86/include/asm/x86_init.h
-@@ -119,6 +119,7 @@ struct x86_init_pci {
-  * @msi_ext_dest_id:		MSI supports 15-bit APIC IDs
-  * @init_mem_mapping:		setup early mappings during init_mem_mapping()
-  * @init_after_bootmem:		guest init after boot allocator is finished
-+ * @init_heki:			Hypervisor enforced kernel integrity
-  */
- struct x86_hyper_init {
- 	void (*init_platform)(void);
-@@ -127,6 +128,7 @@ struct x86_hyper_init {
- 	bool (*msi_ext_dest_id)(void);
- 	void (*init_mem_mapping)(void);
- 	void (*init_after_bootmem)(void);
-+	void (*init_heki)(void);
- };
+diff --git a/Kconfig b/Kconfig
+index 745bc773f567..0c844d9bcb03 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -29,4 +29,6 @@ source "lib/Kconfig"
  
- /**
-diff --git a/arch/x86/kernel/cpu/hypervisor.c b/arch/x86/kernel/cpu/hypervisor.c
-index 553bfbfc3a1b..6085c8129e0c 100644
---- a/arch/x86/kernel/cpu/hypervisor.c
-+++ b/arch/x86/kernel/cpu/hypervisor.c
-@@ -106,4 +106,5 @@ void __init init_hypervisor_platform(void)
+ source "lib/Kconfig.debug"
  
- 	x86_hyper_type = h->type;
- 	x86_init.hyper.init_platform();
-+	x86_init.hyper.init_heki();
- }
-diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
-index 1cceac5984da..e53cebdcf3ac 100644
---- a/arch/x86/kernel/kvm.c
-+++ b/arch/x86/kernel/kvm.c
-@@ -29,6 +29,7 @@
- #include <linux/syscore_ops.h>
- #include <linux/cc_platform.h>
++source "virt/heki/Kconfig"
++
+ source "Documentation/Kconfig"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 3604074a878b..5cf5a7a97811 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -297,6 +297,7 @@ config X86
+ 	select FUNCTION_ALIGNMENT_4B
+ 	imply IMA_SECURE_AND_OR_TRUSTED_BOOT    if EFI
+ 	select HAVE_DYNAMIC_FTRACE_NO_PATCHABLE
++	select ARCH_SUPPORTS_HEKI		if X86_64
+ 
+ config INSTRUCTION_DECODER
+ 	def_bool y
+diff --git a/arch/x86/include/asm/sections.h b/arch/x86/include/asm/sections.h
+index a6e8373a5170..42ef1e33b8a5 100644
+--- a/arch/x86/include/asm/sections.h
++++ b/arch/x86/include/asm/sections.h
+@@ -18,6 +18,10 @@ extern char __end_of_kernel_reserve[];
+ 
+ extern unsigned long _brk_start, _brk_end;
+ 
++extern int __start_orc_unwind_ip[], __stop_orc_unwind_ip[];
++extern struct orc_entry __start_orc_unwind[], __stop_orc_unwind[];
++extern unsigned int orc_lookup[], orc_lookup_end[];
++
+ static inline bool arch_is_kernel_initmem_freed(unsigned long addr)
+ {
+ 	/*
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 88188549647c..f0ddaf24ab63 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -11,6 +11,7 @@
+ #include <linux/dma-map-ops.h>
+ #include <linux/dmi.h>
  #include <linux/efi.h>
 +#include <linux/heki.h>
- #include <asm/timer.h>
- #include <asm/cpu.h>
- #include <asm/traps.h>
-@@ -866,6 +867,45 @@ static void __init kvm_guest_init(void)
- 	hardlockup_detector_disable();
+ #include <linux/ima.h>
+ #include <linux/init_ohci1394_dma.h>
+ #include <linux/initrd.h>
+@@ -850,6 +851,54 @@ static void __init x86_report_nx(void)
+ 	}
  }
  
 +#ifdef CONFIG_HEKI
-+
-+static int kvm_protect_ranges(struct heki_pa_range *ranges, int num_ranges)
-+{
-+	size_t size;
-+	long err;
-+
-+	WARN_ON(in_interrupt());
-+
-+	size = sizeof(ranges[0]) * num_ranges;
-+	err = kvm_hypercall3(KVM_HC_LOCK_MEM_PAGE_RANGES, __pa(ranges), size, 0);
-+	if (WARN(err, "Failed to enforce memory protection: %ld\n", err))
-+		return err;
-+
-+	return 0;
-+}
-+
-+extern unsigned long cr4_pinned_mask;
 +
 +/*
-+ * TODO: Check SMP policy consistency, e.g. with
-+ * this_cpu_read(cpu_tlbstate.cr4)
++ * Gather all of the statically defined sections so heki_late_init() can
++ * protect these sections in the host page table.
++ *
++ * The sections are defined under "SECTIONS" in vmlinux.lds.S
++ * Keep this array in sync with SECTIONS.
 + */
-+static int kvm_lock_crs(void)
-+{
-+	unsigned long cr4;
-+	int err;
-+
-+	err = kvm_hypercall2(KVM_HC_LOCK_CR_UPDATE, 0, X86_CR0_WP);
-+	if (err)
-+		return err;
-+
-+	cr4 = __read_cr4();
-+	err = kvm_hypercall2(KVM_HC_LOCK_CR_UPDATE, 4, cr4 & cr4_pinned_mask);
-+	return err;
-+}
-+
-+#endif /* CONFIG_HEKI */
-+
- static noinline uint32_t __kvm_cpuid_base(void)
- {
- 	if (boot_cpu_data.cpuid_level < 0)
-@@ -999,6 +1039,37 @@ static bool kvm_sev_es_hcall_finish(struct ghcb *ghcb, struct pt_regs *regs)
- }
- #endif
- 
-+#ifdef CONFIG_HEKI
-+
-+static struct heki_hypervisor kvm_heki_hypervisor = {
-+	.protect_ranges = kvm_protect_ranges,
-+	.lock_crs = kvm_lock_crs,
++struct heki_va_range __initdata heki_va_ranges[] = {
++	{
++		.va_start = _stext,
++		.va_end = _etext,
++		.attributes = HEKI_ATTR_MEM_NOWRITE | HEKI_ATTR_MEM_EXEC,
++	},
++	{
++		.va_start = __start_rodata,
++		.va_end = __end_rodata,
++		.attributes = HEKI_ATTR_MEM_NOWRITE,
++	},
++#ifdef CONFIG_UNWINDER_ORC
++	{
++		.va_start = __start_orc_unwind_ip,
++		.va_end = __stop_orc_unwind_ip,
++		.attributes = HEKI_ATTR_MEM_NOWRITE,
++	},
++	{
++		.va_start = __start_orc_unwind,
++		.va_end = __stop_orc_unwind,
++		.attributes = HEKI_ATTR_MEM_NOWRITE,
++	},
++	{
++		.va_start = orc_lookup,
++		.va_end = orc_lookup_end,
++		.attributes = HEKI_ATTR_MEM_NOWRITE,
++	},
++#endif /* CONFIG_UNWINDER_ORC */
 +};
 +
-+static void kvm_init_heki(void)
++void __init heki_arch_init(void)
 +{
-+	long err;
-+
-+	if (!kvm_para_available())
-+		/* Cannot make KVM hypercalls. */
-+		return;
-+
-+	err = kvm_hypercall3(KVM_HC_LOCK_MEM_PAGE_RANGES, -1, -1, -1);
-+	if (err == -KVM_ENOSYS)
-+		/* Ignores host. */
-+		return;
-+
-+	heki.hypervisor = &kvm_heki_hypervisor;
++	heki.num_static_ranges = ARRAY_SIZE(heki_va_ranges);
++	heki.static_ranges =
++		heki_alloc_pa_ranges(heki_va_ranges, heki.num_static_ranges);
 +}
 +
-+#else /* CONFIG_HEKI */
++#endif /* CONFIG_HEKI */
 +
-+static void kvm_init_heki(void)
+ /*
+  * Determine if we were loaded by an EFI loader.  If so, then we have also been
+  * passed the efi memmap, systab, etc., so we should use these data structures
+diff --git a/include/linux/heki.h b/include/linux/heki.h
+new file mode 100644
+index 000000000000..e4a3192ba687
+--- /dev/null
++++ b/include/linux/heki.h
+@@ -0,0 +1,90 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Hypervisor Enforced Kernel Integrity (Heki) - Headers
++ *
++ * Copyright © 2023 Microsoft Corporation
++ */
++
++#ifndef __HEKI_H__
++#define __HEKI_H__
++
++#ifdef CONFIG_HEKI
++
++#include <linux/kvm_types.h>
++
++/* Heki attributes for memory pages. */
++/* clang-format off */
++#define HEKI_ATTR_MEM_NOWRITE		(1ULL << 0)
++#define HEKI_ATTR_MEM_EXEC		(1ULL << 1)
++/* clang-format on */
++
++/*
++ * heki_va_range is used to specify a virtual address range within the kernel
++ * address space along with their attributes.
++ */
++struct heki_va_range {
++	void *va_start;
++	void *va_end;
++	u64 attributes;
++};
++
++/*
++ * heki_pa_range is passed to the VMM or hypervisor so it can be processed by
++ * the VMM or the hypervisor based on range attributes. Examples of ranges:
++ *
++ *	- a range whose permissions need to be set in the host page table
++ *	- a range that contains information needed for authentication
++ *
++ * When an array of these is passed to the Hypervisor or VMM, the array
++ * must be in physically contiguous memory.
++ */
++struct heki_pa_range {
++	gfn_t gfn_start;
++	gfn_t gfn_end;
++	u64 attributes;
++};
++
++/*
++ * A hypervisor that supports Heki will instantiate this structure to
++ * provide hypervisor specific functions for Heki.
++ */
++struct heki_hypervisor {
++	int (*protect_ranges)(struct heki_pa_range *ranges, int num_ranges);
++	int (*lock_crs)(void);
++};
++
++/*
++ * If the architecture supports Heki, it will initialize static_ranges in
++ * early boot.
++ *
++ * If the active hypervisor supports Heki, it will plug its heki_hypervisor
++ * pointer into this heki structure.
++ */
++struct heki {
++	struct heki_pa_range *static_ranges;
++	int num_static_ranges;
++	struct heki_hypervisor *hypervisor;
++};
++
++extern struct heki heki;
++
++void heki_early_init(void);
++void heki_arch_init(void);
++void heki_late_init(void);
++
++struct heki_pa_range *heki_alloc_pa_ranges(struct heki_va_range *va_ranges,
++					   int num_ranges);
++void heki_free_pa_ranges(struct heki_pa_range *pa_ranges, int num_ranges);
++
++#else /* !CONFIG_HEKI */
++
++static inline void heki_early_init(void)
++{
++}
++static inline void heki_late_init(void)
 +{
 +}
 +
 +#endif /* CONFIG_HEKI */
 +
- const __initconst struct hypervisor_x86 x86_hyper_kvm = {
- 	.name				= "KVM",
- 	.detect				= kvm_detect,
-@@ -1007,6 +1078,7 @@ const __initconst struct hypervisor_x86 x86_hyper_kvm = {
- 	.init.x2apic_available		= kvm_para_available,
- 	.init.msi_ext_dest_id		= kvm_msi_ext_dest_id,
- 	.init.init_platform		= kvm_init_platform,
-+	.init.init_heki			= kvm_init_heki,
- #if defined(CONFIG_AMD_MEM_ENCRYPT)
- 	.runtime.sev_es_hcall_prepare	= kvm_sev_es_hcall_prepare,
- 	.runtime.sev_es_hcall_finish	= kvm_sev_es_hcall_finish,
-diff --git a/arch/x86/kernel/x86_init.c b/arch/x86/kernel/x86_init.c
-index ef80d361b463..0a023c24fcdb 100644
---- a/arch/x86/kernel/x86_init.c
-+++ b/arch/x86/kernel/x86_init.c
-@@ -114,6 +114,7 @@ struct x86_init_ops x86_init __initdata = {
- 		.msi_ext_dest_id	= bool_x86_init_noop,
- 		.init_mem_mapping	= x86_init_noop,
- 		.init_after_bootmem	= x86_init_noop,
-+		.init_heki		= x86_init_noop,
- 	},
++#endif /* __HEKI_H__ */
+diff --git a/init/main.c b/init/main.c
+index e1c3911d7c70..8649dbb07f18 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -102,6 +102,7 @@
+ #include <linux/stackdepot.h>
+ #include <linux/randomize_kstack.h>
+ #include <net/net_namespace.h>
++#include <linux/heki.h>
  
- 	.acpi = {
-diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-index fbeaa9ddef59..ba355171ceeb 100644
---- a/arch/x86/kvm/Kconfig
-+++ b/arch/x86/kvm/Kconfig
-@@ -49,6 +49,7 @@ config KVM
- 	select SRCU
- 	select INTERVAL_TREE
- 	select HAVE_KVM_PM_NOTIFIER if PM
-+	select HYPERVISOR_SUPPORTS_HEKI
- 	help
- 	  Support hosting fully virtualized guest machines using hardware
- 	  virtualization extensions.  You will need a fairly recent
+ #include <asm/io.h>
+ #include <asm/bugs.h>
+@@ -999,6 +1000,7 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
+ 	sort_main_extable();
+ 	trap_init();
+ 	mm_init();
++	heki_early_init();
+ 	poking_init();
+ 	ftrace_init();
+ 
+@@ -1530,6 +1532,7 @@ static int __ref kernel_init(void *unused)
+ 	exit_boot_config();
+ 	free_initmem();
+ 	mark_readonly();
++	heki_late_init();
+ 
+ 	/*
+ 	 * Kernel mappings are now finalized - update the userspace page-table
+diff --git a/virt/Makefile b/virt/Makefile
+index 1cfea9436af9..4550dc624466 100644
+--- a/virt/Makefile
++++ b/virt/Makefile
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y	+= lib/
++obj-$(CONFIG_HEKI) += heki/
 diff --git a/virt/heki/Kconfig b/virt/heki/Kconfig
-index 9858a827fe17..96f18ce03013 100644
---- a/virt/heki/Kconfig
+new file mode 100644
+index 000000000000..9858a827fe17
+--- /dev/null
 +++ b/virt/heki/Kconfig
-@@ -6,7 +6,7 @@
- config HEKI
- 	bool "Hypervisor Enforced Kernel Integrity (Heki)"
- 	default y
--	depends on !JUMP_LABEL && ARCH_SUPPORTS_HEKI
-+	depends on !JUMP_LABEL && ARCH_SUPPORTS_HEKI && HYPERVISOR_SUPPORTS_HEKI
- 	select KVM_EXTERNAL_WRITE_TRACKING if KVM
- 	help
- 	  This feature enhances guest virtual machine security by taking
-@@ -20,3 +20,10 @@ config ARCH_SUPPORTS_HEKI
- 	  An architecture should select this when it can successfully build
- 	  and run with CONFIG_HEKI. That is, it should provide all of the
- 	  architecture support required for the HEKI feature.
+@@ -0,0 +1,22 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Hypervisor Enforced Kernel Integrity (HEKI)
++#
 +
-+config HYPERVISOR_SUPPORTS_HEKI
-+	bool "Hypervisor support for Heki"
++config HEKI
++	bool "Hypervisor Enforced Kernel Integrity (Heki)"
++	default y
++	depends on !JUMP_LABEL && ARCH_SUPPORTS_HEKI
++	select KVM_EXTERNAL_WRITE_TRACKING if KVM
 +	help
-+	  A hypervisor should select this when it can successfully build
++	  This feature enhances guest virtual machine security by taking
++	  advantage of security features provided by the hypervisor for guests.
++	  This feature is helpful in maintaining guest virtual machine security
++	  even after the guest kernel has been compromised.
++
++config ARCH_SUPPORTS_HEKI
++	bool "Architecture support for HEKI"
++	help
++	  An architecture should select this when it can successfully build
 +	  and run with CONFIG_HEKI. That is, it should provide all of the
-+	  hypervisor support required for the Heki feature.
++	  architecture support required for the HEKI feature.
+diff --git a/virt/heki/Makefile b/virt/heki/Makefile
+new file mode 100644
+index 000000000000..2bc2061c9dfc
+--- /dev/null
++++ b/virt/heki/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++obj-y += heki.o
 diff --git a/virt/heki/heki.c b/virt/heki/heki.c
-index c8cb1b84cceb..142b5dc98a2f 100644
---- a/virt/heki/heki.c
+new file mode 100644
+index 000000000000..c8cb1b84cceb
+--- /dev/null
 +++ b/virt/heki/heki.c
-@@ -91,12 +91,6 @@ void heki_late_init(void)
- 		return;
- 	}
- 
--	/*
--	 * Hypervisor support will be added in the future. When it is, the
--	 * hypervisor will be used to protect guest kernel memory and
--	 * control registers.
--	 */
--
- 	if (!hypervisor) {
- 		/* This happens for kernels running on bare metal as well. */
- 		pr_warn("No hypervisor support\n");
+@@ -0,0 +1,135 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Hypervisor Enforced Kernel Integrity (Heki) - Common code
++ *
++ * Copyright © 2023 Microsoft Corporation
++ */
++
++#include <linux/cache.h>
++#include <linux/heki.h>
++#include <linux/kernel.h>
++#include <linux/mm.h>
++#include <linux/printk.h>
++#include <linux/types.h>
++#include <linux/vmalloc.h>
++
++#ifdef pr_fmt
++#undef pr_fmt
++#endif
++
++#define pr_fmt(fmt) "heki-guest: " fmt
++
++static bool heki_enabled __ro_after_init = true;
++
++struct heki heki = {};
++
++struct heki_pa_range *heki_alloc_pa_ranges(struct heki_va_range *va_ranges,
++					   int num_ranges)
++{
++	struct heki_pa_range *pa_ranges, *pa_range;
++	struct heki_va_range *va_range;
++	u64 attributes;
++	size_t size;
++	int i;
++
++	size = PAGE_ALIGN(sizeof(struct heki_pa_range) * num_ranges);
++	pa_ranges = alloc_pages_exact(size, GFP_KERNEL);
++	if (!pa_ranges)
++		return NULL;
++
++	for (i = 0; i < num_ranges; i++) {
++		va_range = &va_ranges[i];
++		pa_range = &pa_ranges[i];
++
++		pa_range->gfn_start = PFN_DOWN(__pa_symbol(va_range->va_start));
++		pa_range->gfn_end = PFN_UP(__pa_symbol(va_range->va_end)) - 1;
++		pa_range->attributes = va_range->attributes;
++
++		/*
++		 * WARNING:
++		 * Leaks addresses, should only be kept for development.
++		 */
++		attributes = pa_range->attributes;
++		pr_warn("Configuring GFN 0x%llx-0x%llx with %s\n",
++			pa_range->gfn_start, pa_range->gfn_end,
++			(attributes & HEKI_ATTR_MEM_NOWRITE) ? "[nowrite]" :
++							       "");
++	}
++
++	return pa_ranges;
++}
++
++void heki_free_pa_ranges(struct heki_pa_range *pa_ranges, int num_ranges)
++{
++	size_t size;
++
++	size = PAGE_ALIGN(sizeof(struct heki_pa_range) * num_ranges);
++	free_pages_exact(pa_ranges, size);
++}
++
++void __init heki_early_init(void)
++{
++	if (!heki_enabled) {
++		pr_warn("Disabled\n");
++		return;
++	}
++	pr_warn("Enabled\n");
++
++	heki_arch_init();
++}
++
++void heki_late_init(void)
++{
++	struct heki_hypervisor *hypervisor = heki.hypervisor;
++	int ret;
++
++	if (!heki_enabled)
++		return;
++
++	if (!heki.static_ranges) {
++		pr_warn("Architecture did not initialize static ranges\n");
++		return;
++	}
++
++	/*
++	 * Hypervisor support will be added in the future. When it is, the
++	 * hypervisor will be used to protect guest kernel memory and
++	 * control registers.
++	 */
++
++	if (!hypervisor) {
++		/* This happens for kernels running on bare metal as well. */
++		pr_warn("No hypervisor support\n");
++		goto out;
++	}
++
++	/* Protects statically defined sections in the host page table. */
++	ret = hypervisor->protect_ranges(heki.static_ranges,
++					 heki.num_static_ranges);
++	if (WARN(ret, "Failed to protect static sections: %d\n", ret))
++		goto out;
++	pr_warn("Static sections protected\n");
++
++	/*
++	 * Locks control registers so a compromised guest cannot change
++	 * them.
++	 */
++	ret = hypervisor->lock_crs();
++	if (WARN(ret, "Failed to lock control registers: %d\n", ret))
++		goto out;
++	pr_warn("Control registers locked\n");
++
++out:
++	heki_free_pa_ranges(heki.static_ranges, heki.num_static_ranges);
++	heki.static_ranges = NULL;
++	heki.num_static_ranges = 0;
++}
++
++static int __init heki_parse_config(char *str)
++{
++	if (strtobool(str, &heki_enabled))
++		pr_warn("Invalid option string for heki: '%s'\n", str);
++	return 1;
++}
++
++__setup("heki=", heki_parse_config);
 -- 
 2.40.1
 
