@@ -2,31 +2,31 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33081C7EE2E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEE75C7EE2F
 	for <linux-hyperv@archiver.kernel.org>; Fri,  5 May 2023 15:29:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232896AbjEEP3l (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S232891AbjEEP3l (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Fri, 5 May 2023 11:29:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232850AbjEEP3g (ORCPT
+        with ESMTP id S232892AbjEEP3h (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 5 May 2023 11:29:36 -0400
+        Fri, 5 May 2023 11:29:37 -0400
 Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E288A5F3
-        for <linux-hyperv@vger.kernel.org>; Fri,  5 May 2023 08:29:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17FDA13C08
+        for <linux-hyperv@vger.kernel.org>; Fri,  5 May 2023 08:29:30 -0700 (PDT)
 Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZDD5yVJzMqDN2;
-        Fri,  5 May 2023 17:22:04 +0200 (CEST)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZDD0z6dzMpxBc;
-        Fri,  5 May 2023 17:22:04 +0200 (CEST)
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4QCZD938BPzMq1NC;
+        Fri,  5 May 2023 17:22:01 +0200 (CEST)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4QCZD85V0tzMpt9P;
+        Fri,  5 May 2023 17:22:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1683300124;
-        bh=numFKFwerBzb1GFmju5PzfUy3LvlXvoHGRlXH+KNT+c=;
+        s=20191114; t=1683300121;
+        bh=dkHjbqpuvSBmD/ZCnBFFFKsFtN1g9PxpijWtwL2weO4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aY8puWEd6eYwOhiBC5f3v2W8STDFR1ws5t4KGxnuMkV/veHF5dk9ikWYLtZACCzKL
-         ZZHQs/vJJkdeZe4WGYydF7qoNq+EgiNGsn5zsfWYHRSGNlObVxnWCaLzSzlH/rsRqO
-         0NTmO3IcYiupEfrP7vmngHe/c3dwNtOvqClQ6aug=
+        b=FR+pYomIgtrTj0WI3JRDUSbHVrdlibfnwQU30RKu6bstMqwIWNnbYH/f3efnA/++Y
+         PVW9ePmH83Lzuo5sF3eA8Zxiu6x5s8zasun6j41FzXtbI7LfAbR7ieVBarIcdhpBG1
+         xrxpuSnVobX97umCLQuu/zofOq0RUrhcLMOWIHuk=
 From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To:     Borislav Petkov <bp@alien8.de>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -58,9 +58,9 @@ Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
         linux-security-module@vger.kernel.org, qemu-devel@nongnu.org,
         virtualization@lists.linux-foundation.org, x86@kernel.org,
         xen-devel@lists.xenproject.org
-Subject: [PATCH v1 7/9] KVM: VMX: Add MBEC support
-Date:   Fri,  5 May 2023 17:20:44 +0200
-Message-Id: <20230505152046.6575-8-mic@digikod.net>
+Subject: [PATCH v1 4/9] KVM: x86: Add new hypercall to set EPT permissions
+Date:   Fri,  5 May 2023 17:20:41 +0200
+Message-Id: <20230505152046.6575-5-mic@digikod.net>
 In-Reply-To: <20230505152046.6575-1-mic@digikod.net>
 References: <20230505152046.6575-1-mic@digikod.net>
 MIME-Version: 1.0
@@ -71,60 +71,33 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This changes add support for VMX_FEATURE_MODE_BASED_EPT_EXEC (named
-ept_mode_based_exec in /proc/cpuinfo and MBEC elsewhere), which enables
-to separate EPT execution bits for supervisor vs. user.  It transforms
-the semantic of VMX_EPT_EXECUTABLE_MASK from a global execution to a
-kernel execution, and use the VMX_EPT_USER_EXECUTABLE_MASK bit to
-identify user execution.
+Add a new KVM_HC_LOCK_MEM_PAGE_RANGES hypercall that enables a guest to
+set EPT permissions on a set of page ranges.
 
-The main use case is to be able to restrict kernel execution while
-ignoring user space execution from the hypervisor point of view.
-Indeed, user space execution can already be restricted by the guest
-kernel.
+This hypercall takes three arguments.  The first contains the GPA
+pointing to an array of struct heki_pa_range.  The second argument is
+the size of the array, not the number of elements.  The third argument
+is for future proofness and is designed to contains optional flags (e.g.
+to change the array type), but must be zero for now.
 
-This change enables MBEC but doesn't change the default configuration,
-which is to allow execution for all guest memory.  However, the next
-commit levages MBEC to restrict kernel memory pages.
+The struct heki_pa_range contains a GFN that starts the range and
+another that is the indicate the last (included) page.  A bit field of
+attributes are tied to this range.
 
-MBEC can be configured with the new "enable_mbec" module parameter, set
-to true by default.  However, MBEC is disable for L1 and L2 for now.
+The HEKI_ATTR_MEM_NOWRITE attribute is interpreted as a removal of the
+EPT write permission to deny any write access from the guest through its
+lifetime.  We choose "nowrite" because "read-only" exclude
+execution, it follows a deny-list approach, and most importantly because
+it is an incremental addition to the status quo (i.e., everything is
+allowed from the TDP point of view).  This is implemented thanks to the
+KVM_PAGE_TRACK_PREWRITE mode previously introduced.
 
-Replace EPT_VIOLATION_RWX_MASK (3 bits) with 4 dedicated
-EPT_VIOLATION_READ, EPT_VIOLATION_WRITE, EPT_VIOLATION_KERNEL_INSTR, and
-EPT_VIOLATION_USER_INSTR bits.
+The page ranges recording is currently implemented with a static array
+of 16 elements to make it simple, but this mechanism will be dynamic in
+a follow-up.
 
-From the Intel 64 and IA-32 Architectures Software Developer's Manual,
-Volume 3C (System Programming Guide), Part 3:
-
-SECONDARY_EXEC_MODE_BASED_EPT_EXEC (bit 22):
-If either the "unrestricted guest" VM-execution control or the
-"mode-based execute control for EPT" VM-execution control is 1, the
-"enable EPT" VM-execution control must also be 1.
-
-EPT_VIOLATION_KERNEL_INSTR_BIT (bit 5):
-The logical-AND of bit 2 in the EPT paging-structure entries used to
-translate the guest-physical address of the access causing the EPT
-violation.  If the "mode-based execute control for EPT" VM-execution
-control is 0, this indicates whether the guest-physical address was
-executable. If that control is 1, this indicates whether the
-guest-physical address was executable for supervisor-mode linear
-addresses.
-
-EPT_VIOLATION_USER_INSTR_BIT (bit 6):
-If the "mode-based execute control" VM-execution control is 0, the value
-of this bit is undefined. If that control is 1, this bit is the
-logical-AND of bit 10 in the EPT paging-structures entries used to
-translate the guest-physical address of the access causing the EPT
-violation. In this case, it indicates whether the guest-physical address
-was executable for user-mode linear addresses.
-
-PT_USER_EXEC_MASK (bit 10):
-Execute access for user-mode linear addresses. If the "mode-based
-execute control for EPT" VM-execution control is 1, indicates whether
-instruction fetches are allowed from user-mode linear addresses in the
-512-GByte region controlled by this entry. If that control is 0, this
-bit is ignored.
+Define a kernel command line parameter "heki" to turn the feature on or
+off.  By default, Heki is turned on.
 
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
@@ -138,286 +111,299 @@ Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Cc: Wanpeng Li <wanpengli@tencent.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20230505152046.6575-8-mic@digikod.net
+Link: https://lore.kernel.org/r/20230505152046.6575-5-mic@digikod.net
 ---
- arch/x86/include/asm/vmx.h      | 11 +++++++++--
- arch/x86/kvm/mmu.h              |  3 ++-
- arch/x86/kvm/mmu/mmu.c          |  6 +++++-
- arch/x86/kvm/mmu/paging_tmpl.h  | 16 ++++++++++++++--
- arch/x86/kvm/mmu/spte.c         |  4 +++-
- arch/x86/kvm/vmx/capabilities.h |  7 +++++++
- arch/x86/kvm/vmx/nested.c       |  7 +++++++
- arch/x86/kvm/vmx/vmx.c          | 28 +++++++++++++++++++++++++---
- arch/x86/kvm/vmx/vmx.h          |  1 +
- 9 files changed, 73 insertions(+), 10 deletions(-)
+ Documentation/virt/kvm/x86/hypercalls.rst |  17 +++
+ arch/x86/kvm/x86.c                        | 169 ++++++++++++++++++++++
+ include/linux/kvm_host.h                  |  13 ++
+ include/uapi/linux/kvm_para.h             |   1 +
+ virt/kvm/kvm_main.c                       |   4 +
+ 5 files changed, 204 insertions(+)
 
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 498dc600bd5c..452e7d153832 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -511,6 +511,7 @@ enum vmcs_field {
- #define VMX_EPT_IPAT_BIT    			(1ull << 6)
- #define VMX_EPT_ACCESS_BIT			(1ull << 8)
- #define VMX_EPT_DIRTY_BIT			(1ull << 9)
-+#define VMX_EPT_USER_EXECUTABLE_MASK		(1ull << 10)
- #define VMX_EPT_RWX_MASK                        (VMX_EPT_READABLE_MASK |       \
- 						 VMX_EPT_WRITABLE_MASK |       \
- 						 VMX_EPT_EXECUTABLE_MASK)
-@@ -556,13 +557,19 @@ enum vm_entry_failure_code {
- #define EPT_VIOLATION_ACC_READ_BIT	0
- #define EPT_VIOLATION_ACC_WRITE_BIT	1
- #define EPT_VIOLATION_ACC_INSTR_BIT	2
--#define EPT_VIOLATION_RWX_SHIFT		3
-+#define EPT_VIOLATION_READ_BIT		3
-+#define EPT_VIOLATION_WRITE_BIT		4
-+#define EPT_VIOLATION_KERNEL_INSTR_BIT	5
-+#define EPT_VIOLATION_USER_INSTR_BIT	6
- #define EPT_VIOLATION_GVA_IS_VALID_BIT	7
- #define EPT_VIOLATION_GVA_TRANSLATED_BIT 8
- #define EPT_VIOLATION_ACC_READ		(1 << EPT_VIOLATION_ACC_READ_BIT)
- #define EPT_VIOLATION_ACC_WRITE		(1 << EPT_VIOLATION_ACC_WRITE_BIT)
- #define EPT_VIOLATION_ACC_INSTR		(1 << EPT_VIOLATION_ACC_INSTR_BIT)
--#define EPT_VIOLATION_RWX_MASK		(VMX_EPT_RWX_MASK << EPT_VIOLATION_RWX_SHIFT)
-+#define EPT_VIOLATION_READ		(1 << EPT_VIOLATION_READ_BIT)
-+#define EPT_VIOLATION_WRITE		(1 << EPT_VIOLATION_WRITE_BIT)
-+#define EPT_VIOLATION_KERNEL_INSTR	(1 << EPT_VIOLATION_KERNEL_INSTR_BIT)
-+#define EPT_VIOLATION_USER_INSTR	(1 << EPT_VIOLATION_USER_INSTR_BIT)
- #define EPT_VIOLATION_GVA_IS_VALID	(1 << EPT_VIOLATION_GVA_IS_VALID_BIT)
- #define EPT_VIOLATION_GVA_TRANSLATED	(1 << EPT_VIOLATION_GVA_TRANSLATED_BIT)
- 
-diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
-index 6bdaacb6faa0..3c4fd4618cc1 100644
---- a/arch/x86/kvm/mmu.h
-+++ b/arch/x86/kvm/mmu.h
-@@ -24,6 +24,7 @@ extern bool __read_mostly enable_mmio_caching;
- #define PT_PAGE_SIZE_MASK (1ULL << PT_PAGE_SIZE_SHIFT)
- #define PT_PAT_MASK (1ULL << 7)
- #define PT_GLOBAL_MASK (1ULL << 8)
-+#define PT_USER_EXEC_MASK (1ULL << 10)
- #define PT64_NX_SHIFT 63
- #define PT64_NX_MASK (1ULL << PT64_NX_SHIFT)
- 
-@@ -102,7 +103,7 @@ static inline u8 kvm_get_shadow_phys_bits(void)
- 
- void kvm_mmu_set_mmio_spte_mask(u64 mmio_value, u64 mmio_mask, u64 access_mask);
- void kvm_mmu_set_me_spte_mask(u64 me_value, u64 me_mask);
--void kvm_mmu_set_ept_masks(bool has_ad_bits, bool has_exec_only);
-+void kvm_mmu_set_ept_masks(bool has_ad_bits, bool has_exec_only, bool has_mbec);
- 
- void kvm_init_mmu(struct kvm_vcpu *vcpu);
- void kvm_init_shadow_npt_mmu(struct kvm_vcpu *vcpu, unsigned long cr0,
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index e5d1e241ff0f..a47e63217eb8 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -27,6 +27,9 @@
- #include "cpuid.h"
- #include "spte.h"
- 
-+/* Required by paging_tmpl.h for enable_mbec */
-+#include "../vmx/capabilities.h"
+diff --git a/Documentation/virt/kvm/x86/hypercalls.rst b/Documentation/virt/kvm/x86/hypercalls.rst
+index 10db7924720f..0ec79cc77f53 100644
+--- a/Documentation/virt/kvm/x86/hypercalls.rst
++++ b/Documentation/virt/kvm/x86/hypercalls.rst
+@@ -190,3 +190,20 @@ the KVM_CAP_EXIT_HYPERCALL capability. Userspace must enable that capability
+ before advertising KVM_FEATURE_HC_MAP_GPA_RANGE in the guest CPUID.  In
+ addition, if the guest supports KVM_FEATURE_MIGRATION_CONTROL, userspace
+ must also set up an MSR filter to process writes to MSR_KVM_MIGRATION_CONTROL.
 +
- #include <linux/kvm_host.h>
- #include <linux/types.h>
- #include <linux/string.h>
-@@ -3763,7 +3766,8 @@ static int mmu_alloc_shadow_roots(struct kvm_vcpu *vcpu)
- 	 */
- 	pm_mask = PT_PRESENT_MASK | shadow_me_value;
- 	if (mmu->root_role.level >= PT64_ROOT_4LEVEL) {
--		pm_mask |= PT_ACCESSED_MASK | PT_WRITABLE_MASK | PT_USER_MASK;
-+		pm_mask |= PT_ACCESSED_MASK | PT_WRITABLE_MASK | PT_USER_MASK |
-+			   PT_USER_EXEC_MASK;
++9. KVM_HC_LOCK_MEM_PAGE_RANGES
++------------------------------
++
++:Architecture: x86
++:Status: active
++:Purpose: Request memory page ranges to be restricted.
++
++- a0: physical address of a struct heki_pa_range array
++- a1: size of the array
++- a2: optional flags, must be 0 for now
++
++The hypercall lets a guest request memory permissions to be removed for itself,
++identified with set of physical page ranges (GFNs).  The HEKI_ATTR_MEM_NOWRITE
++memory page range attribute forbids related modification to the guest.
++
++Returns 0 on success or a KVM error code otherwise.
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index fd05f42c9913..ffab64d08de3 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -59,6 +59,7 @@
+ #include <linux/mem_encrypt.h>
+ #include <linux/entry-kvm.h>
+ #include <linux/suspend.h>
++#include <linux/heki.h>
  
- 		if (WARN_ON_ONCE(!mmu->pml4_root)) {
- 			r = -EIO;
-diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
-index 0f6455072055..12119d519c77 100644
---- a/arch/x86/kvm/mmu/paging_tmpl.h
-+++ b/arch/x86/kvm/mmu/paging_tmpl.h
-@@ -498,8 +498,20 @@ static int FNAME(walk_addr_generic)(struct guest_walker *walker,
- 		 * Note, pte_access holds the raw RWX bits from the EPTE, not
- 		 * ACC_*_MASK flags!
- 		 */
--		vcpu->arch.exit_qualification |= (pte_access & VMX_EPT_RWX_MASK) <<
--						 EPT_VIOLATION_RWX_SHIFT;
-+		vcpu->arch.exit_qualification |=
-+			!!(pte_access & VMX_EPT_READABLE_MASK)
-+			<< EPT_VIOLATION_READ_BIT;
-+		vcpu->arch.exit_qualification |=
-+			!!(pte_access & VMX_EPT_WRITABLE_MASK)
-+			<< EPT_VIOLATION_WRITE_BIT;
-+		vcpu->arch.exit_qualification |=
-+			!!(pte_access & VMX_EPT_EXECUTABLE_MASK)
-+			<< EPT_VIOLATION_KERNEL_INSTR_BIT;
-+		if (enable_mbec) {
-+			vcpu->arch.exit_qualification |=
-+				!!(pte_access & VMX_EPT_USER_EXECUTABLE_MASK)
-+				<< EPT_VIOLATION_USER_INSTR_BIT;
-+		}
- 	}
- #endif
- 	walker->fault.address = addr;
-diff --git a/arch/x86/kvm/mmu/spte.c b/arch/x86/kvm/mmu/spte.c
-index 639f220a1ed5..f1e2e3cad878 100644
---- a/arch/x86/kvm/mmu/spte.c
-+++ b/arch/x86/kvm/mmu/spte.c
-@@ -430,13 +430,15 @@ void kvm_mmu_set_me_spte_mask(u64 me_value, u64 me_mask)
- }
- EXPORT_SYMBOL_GPL(kvm_mmu_set_me_spte_mask);
+ #include <trace/events/kvm.h>
  
--void kvm_mmu_set_ept_masks(bool has_ad_bits, bool has_exec_only)
-+void kvm_mmu_set_ept_masks(bool has_ad_bits, bool has_exec_only, bool has_mbec)
- {
- 	shadow_user_mask	= VMX_EPT_READABLE_MASK;
- 	shadow_accessed_mask	= has_ad_bits ? VMX_EPT_ACCESS_BIT : 0ull;
- 	shadow_dirty_mask	= has_ad_bits ? VMX_EPT_DIRTY_BIT : 0ull;
- 	shadow_nx_mask		= 0ull;
- 	shadow_x_mask		= VMX_EPT_EXECUTABLE_MASK;
-+	if (has_mbec)
-+		shadow_x_mask |= VMX_EPT_USER_EXECUTABLE_MASK;
- 	shadow_present_mask	= has_exec_only ? 0ull : VMX_EPT_READABLE_MASK;
- 	/*
- 	 * EPT overrides the host MTRRs, and so KVM must program the desired
-diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-index cd2ac9536c99..2cc5d7d20144 100644
---- a/arch/x86/kvm/vmx/capabilities.h
-+++ b/arch/x86/kvm/vmx/capabilities.h
-@@ -13,6 +13,7 @@ extern bool __read_mostly enable_vpid;
- extern bool __read_mostly flexpriority_enabled;
- extern bool __read_mostly enable_ept;
- extern bool __read_mostly enable_unrestricted_guest;
-+extern bool __read_mostly enable_mbec;
- extern bool __read_mostly enable_ept_ad_bits;
- extern bool __read_mostly enable_pml;
- extern bool __read_mostly enable_ipiv;
-@@ -255,6 +256,12 @@ static inline bool cpu_has_vmx_xsaves(void)
- 		SECONDARY_EXEC_XSAVES;
+@@ -9596,6 +9597,161 @@ static void kvm_sched_yield(struct kvm_vcpu *vcpu, unsigned long dest_id)
+ 	return;
  }
  
-+static inline bool cpu_has_vmx_mbec(void)
++#ifdef CONFIG_HEKI
++
++static int heki_page_track_add(struct kvm *const kvm, const gfn_t gfn,
++			       const enum kvm_page_track_mode mode)
 +{
-+	return vmcs_config.cpu_based_2nd_exec_ctrl &
-+		SECONDARY_EXEC_MODE_BASED_EPT_EXEC;
++	struct kvm_memory_slot *slot;
++	int idx;
++
++	BUILD_BUG_ON(!IS_ENABLED(CONFIG_KVM_EXTERNAL_WRITE_TRACKING));
++
++	idx = srcu_read_lock(&kvm->srcu);
++	slot = gfn_to_memslot(kvm, gfn);
++	if (!slot) {
++		srcu_read_unlock(&kvm->srcu, idx);
++		return -EINVAL;
++	}
++
++	write_lock(&kvm->mmu_lock);
++	kvm_slot_page_track_add_page(kvm, slot, gfn, mode);
++	write_unlock(&kvm->mmu_lock);
++	srcu_read_unlock(&kvm->srcu, idx);
++	return 0;
 +}
 +
- static inline bool cpu_has_vmx_waitpkg(void)
++static bool
++heki_page_track_prewrite(struct kvm_vcpu *const vcpu, const gpa_t gpa,
++			 struct kvm_page_track_notifier_node *const node)
++{
++	const gfn_t gfn = gpa_to_gfn(gpa);
++	const struct kvm *const kvm = vcpu->kvm;
++	size_t i;
++
++	/* Checks if it is our own tracked pages, or those of someone else. */
++	for (i = 0; i < HEKI_GFN_MAX; i++) {
++		if (gfn >= kvm->heki_gfn_no_write[i].start &&
++		    gfn <= kvm->heki_gfn_no_write[i].end)
++			return false;
++	}
++
++	return true;
++}
++
++static int kvm_heki_init_vm(struct kvm *const kvm)
++{
++	struct kvm_page_track_notifier_node *const node =
++		kzalloc(sizeof(*node), GFP_KERNEL);
++
++	if (!node)
++		return -ENOMEM;
++
++	node->track_prewrite = heki_page_track_prewrite;
++	kvm_page_track_register_notifier(kvm, node);
++	return 0;
++}
++
++static bool is_gfn_overflow(unsigned long val)
++{
++	const gfn_t gfn_mask = gpa_to_gfn(~0);
++
++	return (val | gfn_mask) != gfn_mask;
++}
++
++#define HEKI_PA_RANGE_MAX_SIZE	(sizeof(struct heki_pa_range) * HEKI_GFN_MAX)
++
++static int heki_lock_mem_page_ranges(struct kvm *const kvm, gpa_t mem_ranges,
++				     unsigned long mem_ranges_size)
++{
++	int err;
++	size_t i, ranges_num;
++	struct heki_pa_range *ranges;
++
++	if (mem_ranges_size > HEKI_PA_RANGE_MAX_SIZE)
++		return -KVM_E2BIG;
++
++	if ((mem_ranges_size % sizeof(struct heki_pa_range)) != 0)
++		return -KVM_EINVAL;
++
++	ranges = kzalloc(mem_ranges_size, GFP_KERNEL);
++	if (!ranges)
++		return -KVM_E2BIG;
++
++	err = kvm_read_guest(kvm, mem_ranges, ranges, mem_ranges_size);
++	if (err) {
++		err = -KVM_EFAULT;
++		goto out_free_ranges;
++	}
++
++	ranges_num = mem_ranges_size / sizeof(struct heki_pa_range);
++	for (i = 0; i < ranges_num; i++) {
++		const u64 attributes_mask = HEKI_ATTR_MEM_NOWRITE;
++		const gfn_t gfn_start = ranges[i].gfn_start;
++		const gfn_t gfn_end = ranges[i].gfn_end;
++		const u64 attributes = ranges[i].attributes;
++
++		if (is_gfn_overflow(ranges[i].gfn_start)) {
++			err = -KVM_EINVAL;
++			goto out_free_ranges;
++		}
++		if (is_gfn_overflow(ranges[i].gfn_end)) {
++			err = -KVM_EINVAL;
++			goto out_free_ranges;
++		}
++		if (ranges[i].gfn_start > ranges[i].gfn_end) {
++			err = -KVM_EINVAL;
++			goto out_free_ranges;
++		}
++		if (!ranges[i].attributes) {
++			err = -KVM_EINVAL;
++			goto out_free_ranges;
++		}
++		if ((ranges[i].attributes | attributes_mask) !=
++		    attributes_mask) {
++			err = -KVM_EINVAL;
++			goto out_free_ranges;
++		}
++
++		if (attributes & HEKI_ATTR_MEM_NOWRITE) {
++			unsigned long gfn;
++			size_t gfn_i;
++
++			gfn_i = atomic_dec_if_positive(
++				&kvm->heki_gfn_no_write_num);
++			if (gfn_i == 0) {
++				err = -KVM_E2BIG;
++				goto out_free_ranges;
++			}
++
++			gfn_i--;
++			kvm->heki_gfn_no_write[gfn_i].start = gfn_start;
++			kvm->heki_gfn_no_write[gfn_i].end = gfn_end;
++
++			for (gfn = gfn_start; gfn <= gfn_end; gfn++)
++				WARN_ON_ONCE(heki_page_track_add(
++					kvm, gfn, KVM_PAGE_TRACK_PREWRITE));
++		}
++
++		pr_warn("heki-kvm: Locking GFN 0x%llx-0x%llx with %s\n",
++			gfn_start, gfn_end,
++			(attributes & HEKI_ATTR_MEM_NOWRITE) ? "[nowrite]" : "");
++	}
++
++out_free_ranges:
++	kfree(ranges);
++	return err;
++}
++
++#else /* CONFIG_HEKI */
++
++static int kvm_heki_init_vm(struct kvm *const kvm)
++{
++	return 0;
++}
++
++#endif /* CONFIG_HEKI */
++
+ static int complete_hypercall_exit(struct kvm_vcpu *vcpu)
  {
- 	return vmcs_config.cpu_based_2nd_exec_ctrl &
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index d93c715cda6a..3c381c75e2a9 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -2317,6 +2317,9 @@ static void prepare_vmcs02_early(struct vcpu_vmx *vmx, struct loaded_vmcs *vmcs0
- 		/* VMCS shadowing for L2 is emulated for now */
- 		exec_control &= ~SECONDARY_EXEC_SHADOW_VMCS;
- 
-+		/* MBEC is currently only handled for L0. */
-+		exec_control &= ~SECONDARY_EXEC_MODE_BASED_EPT_EXEC;
-+
- 		/*
- 		 * Preset *DT exiting when emulating UMIP, so that vmx_set_cr4()
- 		 * will not have to rewrite the controls just for this bit.
-@@ -6870,6 +6873,10 @@ void nested_vmx_setup_ctls_msrs(struct vmcs_config *vmcs_conf, u32 ept_caps)
- 	 */
- 	msrs->secondary_ctls_low = 0;
- 
-+	/*
-+	 * Currently, SECONDARY_EXEC_MODE_BASED_EPT_EXEC is only handled for
-+	 * L0 and doesn't need to be exposed to L1 nor L2.
-+	 */
- 	msrs->secondary_ctls_high = vmcs_conf->cpu_based_2nd_exec_ctrl;
- 	msrs->secondary_ctls_high &=
- 		SECONDARY_EXEC_DESC |
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 931688edc8eb..004fd4e5e057 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -94,6 +94,9 @@ bool __read_mostly enable_unrestricted_guest = 1;
- module_param_named(unrestricted_guest,
- 			enable_unrestricted_guest, bool, S_IRUGO);
- 
-+bool __read_mostly enable_mbec = true;
-+module_param_named(mbec, enable_mbec, bool, 0444);
-+
- bool __read_mostly enable_ept_ad_bits = 1;
- module_param_named(eptad, enable_ept_ad_bits, bool, S_IRUGO);
- 
-@@ -4518,10 +4521,21 @@ static u32 vmx_secondary_exec_control(struct vcpu_vmx *vmx)
- 		exec_control &= ~SECONDARY_EXEC_ENABLE_VPID;
- 	if (!enable_ept) {
- 		exec_control &= ~SECONDARY_EXEC_ENABLE_EPT;
-+		/*
-+		 * From Intel's SDM:
-+		 * If either the "unrestricted guest" VM-execution control or
-+		 * the "mode-based execute control for EPT" VM-execution
-+		 * control is 1, the "enable EPT" VM-execution control must
-+		 * also be 1.
-+		 */
- 		enable_unrestricted_guest = 0;
-+		enable_mbec = false;
+ 	u64 ret = vcpu->run->hypercall.ret;
+@@ -9694,6 +9850,15 @@ int kvm_emulate_hypercall(struct kvm_vcpu *vcpu)
+ 		vcpu->arch.complete_userspace_io = complete_hypercall_exit;
+ 		return 0;
  	}
- 	if (!enable_unrestricted_guest)
- 		exec_control &= ~SECONDARY_EXEC_UNRESTRICTED_GUEST;
-+	if (!enable_mbec)
-+		exec_control &= ~SECONDARY_EXEC_MODE_BASED_EPT_EXEC;
++#ifdef CONFIG_HEKI
++	case KVM_HC_LOCK_MEM_PAGE_RANGES:
++		/* No flags for now. */
++		if (a2)
++			ret = -KVM_EINVAL;
++		else
++			ret = heki_lock_mem_page_ranges(vcpu->kvm, a0, a1);
++		break;
++#endif /* CONFIG_HEKI */
+ 	default:
+ 		ret = -KVM_ENOSYS;
+ 		break;
+@@ -12126,6 +12291,10 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
+ 	if (ret)
+ 		goto out_page_track;
+ 
++	ret = kvm_heki_init_vm(kvm);
++	if (ret)
++		goto out_page_track;
 +
- 	if (kvm_pause_in_guest(vmx->vcpu.kvm))
- 		exec_control &= ~SECONDARY_EXEC_PAUSE_LOOP_EXITING;
- 	if (!kvm_vcpu_apicv_active(vcpu))
-@@ -5658,7 +5672,7 @@ static int handle_task_switch(struct kvm_vcpu *vcpu)
+ 	ret = static_call(kvm_x86_vm_init)(kvm);
+ 	if (ret)
+ 		goto out_uninit_mmu;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 4f26b244f6d0..39a1bdc2ba42 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -699,6 +699,13 @@ struct kvm_memslots {
+ 	int node_idx;
+ };
  
- static int handle_ept_violation(struct kvm_vcpu *vcpu)
- {
--	unsigned long exit_qualification;
-+	unsigned long exit_qualification, rwx_mask;
- 	gpa_t gpa;
- 	u64 error_code;
- 
-@@ -5688,7 +5702,11 @@ static int handle_ept_violation(struct kvm_vcpu *vcpu)
- 	error_code |= (exit_qualification & EPT_VIOLATION_ACC_INSTR)
- 		      ? PFERR_FETCH_MASK : 0;
- 	/* ept page table entry is present? */
--	error_code |= (exit_qualification & EPT_VIOLATION_RWX_MASK)
-+	rwx_mask = EPT_VIOLATION_READ | EPT_VIOLATION_WRITE |
-+		   EPT_VIOLATION_KERNEL_INSTR;
-+	if (enable_mbec)
-+		rwx_mask |= EPT_VIOLATION_USER_INSTR;
-+	error_code |= (exit_qualification & rwx_mask)
- 		      ? PFERR_PRESENT_MASK : 0;
- 
- 	error_code |= (exit_qualification & EPT_VIOLATION_GVA_TRANSLATED) != 0 ?
-@@ -8345,6 +8363,9 @@ static __init int hardware_setup(void)
- 	if (!cpu_has_vmx_unrestricted_guest() || !enable_ept)
- 		enable_unrestricted_guest = 0;
- 
-+	if (!cpu_has_vmx_mbec() || !enable_ept)
-+		enable_mbec = false;
++#ifdef CONFIG_HEKI
++struct heki_gfn_range {
++	gfn_t start;
++	gfn_t end;
++};
++#endif /* CONFIG_HEKI */
 +
- 	if (!cpu_has_vmx_flexpriority())
- 		flexpriority_enabled = 0;
+ struct kvm {
+ #ifdef KVM_HAVE_MMU_RWLOCK
+ 	rwlock_t mmu_lock;
+@@ -801,6 +808,12 @@ struct kvm {
+ 	bool vm_bugged;
+ 	bool vm_dead;
  
-@@ -8404,7 +8425,8 @@ static __init int hardware_setup(void)
++#ifdef CONFIG_HEKI
++#define HEKI_GFN_MAX 16
++	atomic_t heki_gfn_no_write_num;
++	struct heki_gfn_range heki_gfn_no_write[HEKI_GFN_MAX];
++#endif /* CONFIG_HEKI */
++
+ #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
+ 	struct notifier_block pm_notifier;
+ #endif
+diff --git a/include/uapi/linux/kvm_para.h b/include/uapi/linux/kvm_para.h
+index 960c7e93d1a9..d7512a10880e 100644
+--- a/include/uapi/linux/kvm_para.h
++++ b/include/uapi/linux/kvm_para.h
+@@ -30,6 +30,7 @@
+ #define KVM_HC_SEND_IPI		10
+ #define KVM_HC_SCHED_YIELD		11
+ #define KVM_HC_MAP_GPA_RANGE		12
++#define KVM_HC_LOCK_MEM_PAGE_RANGES	13
  
- 	if (enable_ept)
- 		kvm_mmu_set_ept_masks(enable_ept_ad_bits,
--				      cpu_has_vmx_ept_execute_only());
-+				      cpu_has_vmx_ept_execute_only(),
-+				      enable_mbec);
+ /*
+  * hypercalls use architecture specific
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 9c60384b5ae0..4aea936dfe73 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1230,6 +1230,10 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+ 	list_add(&kvm->vm_list, &vm_list);
+ 	mutex_unlock(&kvm_lock);
  
- 	/*
- 	 * Setup shadow_me_value/shadow_me_mask to include MKTME KeyID
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index a3da84f4ea45..815db44cd51e 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -585,6 +585,7 @@ static inline u8 vmx_get_rvi(void)
- 	 SECONDARY_EXEC_ENABLE_VMFUNC |					\
- 	 SECONDARY_EXEC_BUS_LOCK_DETECTION |				\
- 	 SECONDARY_EXEC_NOTIFY_VM_EXITING |				\
-+	 SECONDARY_EXEC_MODE_BASED_EPT_EXEC |				\
- 	 SECONDARY_EXEC_ENCLS_EXITING)
++#ifdef CONFIG_HEKI
++	atomic_set(&kvm->heki_gfn_no_write_num, HEKI_GFN_MAX + 1);
++#endif /* CONFIG_HEKI */
++
+ 	preempt_notifier_inc();
+ 	kvm_init_pm_notifier(kvm);
  
- #define KVM_REQUIRED_VMX_TERTIARY_VM_EXEC_CONTROL 0
 -- 
 2.40.1
 
