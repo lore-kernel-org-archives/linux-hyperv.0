@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D846BC7EE2D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 17:00:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD99FC7EE39
+	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 17:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243487AbjEORAG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 15 May 2023 13:00:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40830 "EHLO
+        id S243481AbjEORAF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 15 May 2023 13:00:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243408AbjEOQ7v (ORCPT
+        with ESMTP id S243382AbjEOQ7s (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 15 May 2023 12:59:51 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052337AA6;
-        Mon, 15 May 2023 09:59:39 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-24df4ef05d4so11071665a91.2;
-        Mon, 15 May 2023 09:59:38 -0700 (PDT)
+        Mon, 15 May 2023 12:59:48 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D027D9B;
+        Mon, 15 May 2023 09:59:35 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-64384c6797eso10314891b3a.2;
+        Mon, 15 May 2023 09:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684169978; x=1686761978;
+        d=gmail.com; s=20221208; t=1684169975; x=1686761975;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eA3U8GDAlLCUNajUiT+ES1YkLuAsDmmQOi6ciH1zXUo=;
-        b=lF1M1QxeQyxdmNUHBVMGvIhiHTo7OeoA5hbNZ66wvUYm0QDSFq7Mw/xNo+0FGrRwk/
-         BJZZit7M3ipdEovJe5qF/zLCZOTb0d5PXPUMwvnGZ7NOt19pQSMn/a2x3onDS3TlWkdY
-         kZqU9QfIQiqjmqza+iFqXzidN34AnrAyliVl4LBxrLVB09GJfuetnzA3VfVZkFWHQdP+
-         7znPbkqcOjDpXklvLDzav/YxH2yQVLpzu/Ywj1JDo6FSnuRo26oe/iQJhZ+YhEpEj6Wn
-         WuDjisnmQbgN1/LuPOT5wx853n0qiEOsZeF2kLAvIs8BAQEEgHiU88/9nnUe2qoEm1Un
-         1agw==
+        bh=6uYxV2dI/hb2rcrfooNSE6OrsK+/8Zb/z3h9orwCels=;
+        b=sveMjOYCv5+ActaKa060kohe1gtBee5UJUUVy/vInHIlAtriFvKgCOm1at6ceBpoWe
+         UYd+Vm31dwBRc0YHZpR0pDCYWun8HbQyJPX7A3ANDFs07xg76iqEWR+szi9iO6vZHW7x
+         SLrYzBlVZKeStBnwEPPVmr0T6jWV3oaHj+ZIYpVq2xc2PX73eyWbHgWpFiBR4miGap+N
+         ClAmjSQpWh644m9RVR+P8CF0owDm0BXstqKLIguY+SPwD9rvHgJEkojId5hki4BbKxJg
+         002YRZKPwbFTSzKnKt9JkjirvEIhtN953Fm+L7O2g41INW2hNA7FkLaYrySFdIYrwTRG
+         jhoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684169978; x=1686761978;
+        d=1e100.net; s=20221208; t=1684169975; x=1686761975;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eA3U8GDAlLCUNajUiT+ES1YkLuAsDmmQOi6ciH1zXUo=;
-        b=j3O+R2Flz1HPsHLAp26ugoYwVceQ5ey989RAsvWG+gOlx/oQeDAmVSpcu5G/eqbQtF
-         veG2prN84N7XXIqElcSmhWxfWLWuw1zcm9vrp2SjiVrll8xW7uiqB/3XLn+lIisp3pok
-         LC+Gc1wZwZ5l5CGAUcYJjISAXaOvRSDHK1kTuoGJXIvKixFjMlr4f/+Ax8dqTaTGa2Mn
-         CkTSICdhMiTt4KnlMX6jM2v8CbuwxvgU4QQ9iBoRjVhmyu4XiJV8wHF8+raF7O0o+gU/
-         RRpNWiyEyat9T2Ck7GrkWpK/Clt61Xez5tsASC20Zud2ec5wEQw19Z154KL1Oc1pu4gs
-         lXQw==
-X-Gm-Message-State: AC+VfDzojFmOw7Dr4Oio9h2yjM46Zs86mJ91NQ1+y4x+rtCSagIaAm71
-        099DAosDc/2KUmHASEQWa/I=
-X-Google-Smtp-Source: ACHHUZ7kJlOT1foMFvTIkfJR4/vKWU2rCR5GnZ8R6nF8cLAaJ7PGEyviGn2reT1wXYBLMBRpVmIy4Q==
-X-Received: by 2002:a17:90a:a590:b0:247:eae:1787 with SMTP id b16-20020a17090aa59000b002470eae1787mr34642204pjq.36.1684169978378;
-        Mon, 15 May 2023 09:59:38 -0700 (PDT)
+        bh=6uYxV2dI/hb2rcrfooNSE6OrsK+/8Zb/z3h9orwCels=;
+        b=bzdsdlrbhJUMf06FFsF0sGDhKHGBBVeyq8Jar03zC9Z0ewaUHfJH97j1G6R+IBeMp9
+         S1u0GefVEH++bkJIQVi856lUPAI2UExHqVQ+8f7eRBo2zGcEQ1PlZZat8Zm6TtMToF+d
+         q/SOQa6qXhYPEEadXUsi0iDvnLMGZUtLJB0z+G12I7YlOLIrftElIBEBOeMS1wTrx5Sl
+         rCP87qb9UdnbhQyDSbcIUhIkva9qIyFWdoyxhktphH01Uwwej9sBLIinlkTpBzgZSo+l
+         vpIMkwSrNeAPaP0QUpcqMy+bPtzqLdJ4Qr0+0vfkwEbSD0bOJIJG9gGQHuYevG/jcxNo
+         NSJQ==
+X-Gm-Message-State: AC+VfDwUw6123RPlpl2sV26QYVzknCuPUET8HRUEbmZGtFNl+LfkMH9m
+        hksRhznmK5QeKCZ23uDO490=
+X-Google-Smtp-Source: ACHHUZ6pdUEbs/YMXZvqE+sQDO8UVxJicWHFwcjA56LcvBg0u1q4qaA/X8SNrIYZSi/XUMfrfvoRuQ==
+X-Received: by 2002:a05:6a20:12c4:b0:101:64b0:e69c with SMTP id v4-20020a056a2012c400b0010164b0e69cmr29882923pzg.29.1684169975195;
+        Mon, 15 May 2023 09:59:35 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:f:85bb:dfc8:391f:ff73])
-        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.36
+        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 09:59:37 -0700 (PDT)
+        Mon, 15 May 2023 09:59:34 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -67,9 +67,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
 Cc:     pangupta@amd.com, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [RFC PATCH V6 09/14] clocksource/drivers/hyper-v: decrypt hyperv tsc page in sev-snp enlightened guest
-Date:   Mon, 15 May 2023 12:59:11 -0400
-Message-Id: <20230515165917.1306922-10-ltykernel@gmail.com>
+Subject: [RFC PATCH V6 07/14] x86/hyperv: Set Virtual Trust Level in VMBus init message
+Date:   Mon, 15 May 2023 12:59:09 -0400
+Message-Id: <20230515165917.1306922-8-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230515165917.1306922-1-ltykernel@gmail.com>
 References: <20230515165917.1306922-1-ltykernel@gmail.com>
@@ -81,30 +81,142 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Hyper-V tsc page is shared with hypervisor and it should
-be decrypted in sev-snp enlightened guest when it's used.
+sev-snp guest provides vtl(Virtual Trust Level) and
+get it from hyperv hvcall via HVCALL_GET_VP_REGISTERS.
+Set target vtl in the VMBus init message.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
-Change since RFC V2:
-       * Change the Subject line prefix
----
- drivers/clocksource/hyperv_timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Change since RFC v4:
+       * Use struct_size to calculate array size.
+       * Fix some coding style
 
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index bcd9042a0c9f..66e29a19770b 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -376,7 +376,7 @@ EXPORT_SYMBOL_GPL(hv_stimer_global_cleanup);
- static union {
- 	struct ms_hyperv_tsc_page page;
- 	u8 reserved[PAGE_SIZE];
--} tsc_pg __aligned(PAGE_SIZE);
-+} tsc_pg __bss_decrypted __aligned(PAGE_SIZE);
+Change since RFC v3:
+       * Use the standard helper functions to check hypercall result
+       * Fix coding style
+
+Change since RFC v2:
+       * Rename get_current_vtl() to get_vtl()
+       * Fix some coding style issues
+---
+ arch/x86/hyperv/hv_init.c          | 36 ++++++++++++++++++++++++++++++
+ arch/x86/include/asm/hyperv-tlfs.h |  7 ++++++
+ drivers/hv/connection.c            |  1 +
+ include/asm-generic/mshyperv.h     |  1 +
+ include/linux/hyperv.h             |  4 ++--
+ 5 files changed, 47 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 9f3e2d71d015..331b855314b7 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -384,6 +384,40 @@ static void __init hv_get_partition_id(void)
+ 	local_irq_restore(flags);
+ }
  
- static struct ms_hyperv_tsc_page *tsc_page = &tsc_pg.page;
- static unsigned long tsc_pfn;
++static u8 __init get_vtl(void)
++{
++	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
++	struct hv_get_vp_registers_input *input;
++	struct hv_get_vp_registers_output *output;
++	u64 vtl = 0;
++	u64 ret;
++	unsigned long flags;
++
++	local_irq_save(flags);
++	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++	output = (struct hv_get_vp_registers_output *)input;
++	if (!input) {
++		local_irq_restore(flags);
++		goto done;
++	}
++
++	memset(input, 0, struct_size(input, element, 1));
++	input->header.partitionid = HV_PARTITION_ID_SELF;
++	input->header.vpindex = HV_VP_INDEX_SELF;
++	input->header.inputvtl = 0;
++	input->element[0].name0 = HV_X64_REGISTER_VSM_VP_STATUS;
++
++	ret = hv_do_hypercall(control, input, output);
++	if (hv_result_success(ret))
++		vtl = output->as64.low & HV_X64_VTL_MASK;
++	else
++		pr_err("Hyper-V: failed to get VTL! %lld", ret);
++	local_irq_restore(flags);
++
++done:
++	return vtl;
++}
++
+ /*
+  * This function is to be invoked early in the boot sequence after the
+  * hypervisor has been detected.
+@@ -512,6 +546,8 @@ void __init hyperv_init(void)
+ 	/* Query the VMs extended capability once, so that it can be cached. */
+ 	hv_query_ext_cap(0);
+ 
++	/* Find the VTL */
++	ms_hyperv.vtl = get_vtl();
+ 	return;
+ 
+ clean_guest_os_id:
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index cea95dcd27c2..4bf0b315b0ce 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -301,6 +301,13 @@ enum hv_isolation_type {
+ #define HV_X64_MSR_TIME_REF_COUNT	HV_REGISTER_TIME_REF_COUNT
+ #define HV_X64_MSR_REFERENCE_TSC	HV_REGISTER_REFERENCE_TSC
+ 
++/*
++ * Registers are only accessible via HVCALL_GET_VP_REGISTERS hvcall and
++ * there is not associated MSR address.
++ */
++#define	HV_X64_REGISTER_VSM_VP_STATUS	0x000D0003
++#define	HV_X64_VTL_MASK			GENMASK(3, 0)
++
+ /* Hyper-V memory host visibility */
+ enum hv_mem_host_visibility {
+ 	VMBUS_PAGE_NOT_VISIBLE		= 0,
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 5978e9dbc286..02b54f85dc60 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -98,6 +98,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
+ 	 */
+ 	if (version >= VERSION_WIN10_V5) {
+ 		msg->msg_sint = VMBUS_MESSAGE_SINT;
++		msg->msg_vtl = ms_hyperv.vtl;
+ 		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID_4;
+ 	} else {
+ 		msg->interrupt_page = virt_to_phys(vmbus_connection.int_page);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 402a8c1c202d..3052130ba4ef 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -48,6 +48,7 @@ struct ms_hyperv_info {
+ 		};
+ 	};
+ 	u64 shared_gpa_boundary;
++	u8 vtl;
+ };
+ extern struct ms_hyperv_info ms_hyperv;
+ extern bool hv_nested;
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index bfbc37ce223b..1f2bfec4abde 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -665,8 +665,8 @@ struct vmbus_channel_initiate_contact {
+ 		u64 interrupt_page;
+ 		struct {
+ 			u8	msg_sint;
+-			u8	padding1[3];
+-			u32	padding2;
++			u8	msg_vtl;
++			u8	reserved[6];
+ 		};
+ 	};
+ 	u64 monitor_page1;
 -- 
 2.25.1
 
