@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 438F1C7EE2F
-	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 16:59:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF08EC77B75
+	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 17:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243349AbjEOQ7b (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 15 May 2023 12:59:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40122 "EHLO
+        id S243365AbjEOQ77 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 15 May 2023 12:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243336AbjEOQ72 (ORCPT
+        with ESMTP id S243377AbjEOQ7s (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 15 May 2023 12:59:28 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46B275BA3;
-        Mon, 15 May 2023 09:59:27 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-51f6461af24so9045850a12.2;
-        Mon, 15 May 2023 09:59:27 -0700 (PDT)
+        Mon, 15 May 2023 12:59:48 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC637AA4;
+        Mon, 15 May 2023 09:59:34 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id 98e67ed59e1d1-24e1d272b09so9579552a91.1;
+        Mon, 15 May 2023 09:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684169967; x=1686761967;
+        d=gmail.com; s=20221208; t=1684169973; x=1686761973;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cvibDiw0YAeqW1tnLVhywXPW6u1gg+0sroPN7cRMLpI=;
-        b=A/mTC3tAK9hBc18irOO6lZqLzOlnjfLlO8KVk95Rz7Z4FMLapsm9Prd389aAN3n1eb
-         Lzw4jSKT2sy/+tUf6QX4WZXqjCxVpt5u82bs8Sukawkz+HFcIZgmZRgAMtzAzZk0aTPJ
-         zOZXFYS/hN90Q9lCCQeRDAuOoQWW266Xj59pjkM/TEvP5k6c22tMyu1oq7WyixHY27dA
-         LgYAmUGJOX+0s1WMQAE/zzwyZpGO12zLGkoPwlx9rq0aw73ERL4mdOgysIuzcdkQW222
-         Sj5PI4vMBlYTkvL7JMWWRcdgh8KFG8jo289qQnl5glKeFyvHkOC90qlj0zBG8hUSrX26
-         Hb1A==
+        bh=xj1rg805VeXOzoRW2P320xFoUthoXwFzXIHBhX44V0E=;
+        b=VTKVHLjOWHvcasfBNjghCkChlsRhIg/JX5bBH2I3XS7KpClIu2unj1wv5TWYaBarOn
+         zipMJC0Zb4GH6fdn7Pdqaho0gd+5rSMtNoUiz+R5UvSdH0c3839ZpE0IP2AdGuJe1ssj
+         SLWUUgA9TrOfRVZylWtSdzMaDIRvmQUp+kyAQa9BBKzJ19qY+cbPjdKYoo0gHg+45e/A
+         lSt7AO4bbjL1TATAAkzsseIdt6ce9FrK6SyQg06vWnvXxTnyoWXuRrpnm9rRpxnP09mv
+         B7vDBhi+JSYZEMhxPZdu6uVTOm1uKGOLA6VK4gVXqQmp36fJFxyBgVw/DHECF3opeAea
+         D/tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684169967; x=1686761967;
+        d=1e100.net; s=20221208; t=1684169973; x=1686761973;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cvibDiw0YAeqW1tnLVhywXPW6u1gg+0sroPN7cRMLpI=;
-        b=AOz7vPHt73BAMLQ8v1HJ2crgd7icnr+rIWZxGj6+H43R7ZQE5WhPO/f8K21PXcevET
-         CpoypfI/boAxPXJCnFm0S2SlO4pf6CiJWC94MCIOYLIfyTAiJx4PGlAgO1GLOfmzfzjt
-         hBzZSKq02HrdgGVXorsPBpcm+02/BU7IPok4nAdZM83rRi8eDd801iOiBqWFv2ND6IoH
-         xxOj4s17YF+jHUcUeLkwG3B41udoi6eBfGa49MZ9Jsr2YiSuF1KFug4br03PYwMcsXHF
-         KdW8eiLVOoLM8xSDVhE9sasVeSwAaj7Gm1eVo8hCLvHermzEJtLHOMo3zZmF4YjfNfb5
-         BwzA==
-X-Gm-Message-State: AC+VfDzxYtIjUqxk8QDCjbraRKVq+C89QoVXalDvEigfBsy0btrstLlB
-        ML7Hkhr8atO9VWKU0/C41dk=
-X-Google-Smtp-Source: ACHHUZ77ANULLGa98E4kXzxRUlLt7WwKp+4kBtzghIEtv72dmk6DaSQiqgYdhWvKNzfBY3W2lsVdxg==
-X-Received: by 2002:a17:90a:890a:b0:250:ce6a:cf1a with SMTP id u10-20020a17090a890a00b00250ce6acf1amr19255279pjn.38.1684169966607;
-        Mon, 15 May 2023 09:59:26 -0700 (PDT)
+        bh=xj1rg805VeXOzoRW2P320xFoUthoXwFzXIHBhX44V0E=;
+        b=fBm8MZOc9PfFUdpwgQZQJ5WdjJcahb3ph1XCCfcfD4KkBfnMycqqMbVGIOyyo1uk+e
+         EMtMxkJRTp3THfCSlMvCIXNuObXSGXwp81+/Hbx8jCVsF8qAQ0rJDLlILbTbinHOYpaD
+         BhZCXwF+uslWTCuxSI6E+LwEQm/qaCjORl76LBOirdgHq3A2tW0qb2auAaI8pGMbxkTr
+         rgWzAOc5tI594Ka2l63GsRjkh518stu7UPStnzU2d2nIyeamp4ZAe3/p7KPXpYbNQKQY
+         WAyPengfmRaVKmJzXKMf0QtZTXzItiFJQzQeXECILUojF29OJW6zGvD1ktwqUGxwuxJh
+         /zBg==
+X-Gm-Message-State: AC+VfDxsbBxAR+bzzzgfYlWV1Vk1ooU6nyqxjUekgFfTDEQSucs7vAVE
+        +QF9ttRg71Cw/KQs+aAOYBg=
+X-Google-Smtp-Source: ACHHUZ43s6yfVrKt4NwTH4gtV3IDP9GaE1j4t6MKMEuL+TwJlQbJVog7ei/qZxfmZvmvHcYVpL2t1g==
+X-Received: by 2002:a17:90a:6046:b0:252:89e6:dea9 with SMTP id h6-20020a17090a604600b0025289e6dea9mr15910674pjm.37.1684169973595;
+        Mon, 15 May 2023 09:59:33 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:f:85bb:dfc8:391f:ff73])
-        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.24
+        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 09:59:25 -0700 (PDT)
+        Mon, 15 May 2023 09:59:33 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -67,9 +67,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
 Cc:     pangupta@amd.com, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [RFC PATCH V6 02/14] x86/sev: Add Check of #HV event in path
-Date:   Mon, 15 May 2023 12:59:04 -0400
-Message-Id: <20230515165917.1306922-3-ltykernel@gmail.com>
+Subject: [RFC PATCH V6 06/14] x86/hyperv: Mark Hyper-V vp assist page unencrypted in SEV-SNP enlightened guest
+Date:   Mon, 15 May 2023 12:59:08 -0400
+Message-Id: <20230515165917.1306922-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230515165917.1306922-1-ltykernel@gmail.com>
 References: <20230515165917.1306922-1-ltykernel@gmail.com>
@@ -81,138 +81,38 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Add check_hv_pending() and check_hv_pending_after_irq() to
-check queued #HV event when irq is disabled.
+hv vp assist page needs to be shared between SEV-SNP guest and Hyper-V.
+So mark the page unencrypted in the SEV-SNP guest.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/entry/entry_64.S       | 18 ++++++++++++++++
- arch/x86/include/asm/irqflags.h | 14 +++++++++++-
- arch/x86/kernel/sev.c           | 38 +++++++++++++++++++++++++++++++++
- 3 files changed, 69 insertions(+), 1 deletion(-)
+ arch/x86/hyperv/hv_init.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 653b1f10699b..147b850babf6 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -1019,6 +1019,15 @@ SYM_CODE_END(paranoid_entry)
-  * R15 - old SPEC_CTRL
-  */
- SYM_CODE_START_LOCAL(paranoid_exit)
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	/*
-+	 * If a #HV was delivered during execution and interrupts were
-+	 * disabled, then check if it can be handled before the iret
-+	 * (which may re-enable interrupts).
-+	 */
-+	mov     %rsp, %rdi
-+	call    check_hv_pending
-+#endif
- 	UNWIND_HINT_REGS
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index a5f9474f08e1..9f3e2d71d015 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -18,6 +18,7 @@
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/mshyperv.h>
+ #include <asm/idtentry.h>
++#include <asm/set_memory.h>
+ #include <linux/kexec.h>
+ #include <linux/version.h>
+ #include <linux/vmalloc.h>
+@@ -113,6 +114,11 @@ static int hv_cpu_init(unsigned int cpu)
  
- 	/*
-@@ -1143,6 +1152,15 @@ SYM_CODE_START(error_entry)
- SYM_CODE_END(error_entry)
- 
- SYM_CODE_START_LOCAL(error_return)
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	/*
-+	 * If a #HV was delivered during execution and interrupts were
-+	 * disabled, then check if it can be handled before the iret
-+	 * (which may re-enable interrupts).
-+	 */
-+	mov     %rsp, %rdi
-+	call    check_hv_pending
-+#endif
- 	UNWIND_HINT_REGS
- 	DEBUG_ENTRY_ASSERT_IRQS_OFF
- 	testb	$3, CS(%rsp)
-diff --git a/arch/x86/include/asm/irqflags.h b/arch/x86/include/asm/irqflags.h
-index 8c5ae649d2df..d09ec6d76591 100644
---- a/arch/x86/include/asm/irqflags.h
-+++ b/arch/x86/include/asm/irqflags.h
-@@ -11,6 +11,10 @@
- /*
-  * Interrupt control:
-  */
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+void check_hv_pending(struct pt_regs *regs);
-+void check_hv_pending_irq_enable(void);
-+#endif
- 
- /* Declaration required for gcc < 4.9 to prevent -Werror=missing-prototypes */
- extern inline unsigned long native_save_fl(void);
-@@ -40,12 +44,20 @@ static __always_inline void native_irq_disable(void)
- static __always_inline void native_irq_enable(void)
- {
- 	asm volatile("sti": : :"memory");
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	check_hv_pending_irq_enable();
-+#endif
- }
- 
- static __always_inline void native_safe_halt(void)
- {
- 	mds_idle_clear_cpu_buffers();
--	asm volatile("sti; hlt": : :"memory");
-+	asm volatile("sti": : :"memory");
+ 	}
+ 	if (!WARN_ON(!(*hvp))) {
++		if (hv_isolation_type_en_snp()) {
++			WARN_ON_ONCE(set_memory_decrypted((unsigned long)(*hvp), 1));
++			memset(*hvp, 0, PAGE_SIZE);
++		}
 +
-+#ifdef CONFIG_AMD_MEM_ENCRYPT
-+	check_hv_pending_irq_enable();
-+#endif
-+	asm volatile("hlt": : :"memory");
- }
- 
- static __always_inline void native_halt(void)
-diff --git a/arch/x86/kernel/sev.c b/arch/x86/kernel/sev.c
-index e25445de0957..ff5eab48bfe2 100644
---- a/arch/x86/kernel/sev.c
-+++ b/arch/x86/kernel/sev.c
-@@ -181,6 +181,44 @@ void noinstr __sev_es_ist_enter(struct pt_regs *regs)
- 	this_cpu_write(cpu_tss_rw.x86_tss.ist[IST_INDEX_VC], new_ist);
- }
- 
-+static void do_exc_hv(struct pt_regs *regs)
-+{
-+	/* Handle #HV exception. */
-+}
-+
-+void check_hv_pending(struct pt_regs *regs)
-+{
-+	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-+		return;
-+
-+	if ((regs->flags & X86_EFLAGS_IF) == 0)
-+		return;
-+
-+	do_exc_hv(regs);
-+}
-+
-+void check_hv_pending_irq_enable(void)
-+{
-+	struct pt_regs regs;
-+
-+	if (!cc_platform_has(CC_ATTR_GUEST_SEV_SNP))
-+		return;
-+
-+	memset(&regs, 0, sizeof(struct pt_regs));
-+	asm volatile("movl %%cs, %%eax;" : "=a" (regs.cs));
-+	asm volatile("movl %%ss, %%eax;" : "=a" (regs.ss));
-+	regs.orig_ax = 0xffffffff;
-+	regs.flags = native_save_fl();
-+
-+	/*
-+	 * Disable irq when handle pending #HV events after
-+	 * re-enabling irq.
-+	 */
-+	asm volatile("cli" : : : "memory");
-+	do_exc_hv(&regs);
-+	asm volatile("sti" : : : "memory");
-+}
-+
- void noinstr __sev_es_ist_exit(void)
- {
- 	unsigned long ist;
+ 		msr.enable = 1;
+ 		wrmsrl(HV_X64_MSR_VP_ASSIST_PAGE, msr.as_uint64);
+ 	}
 -- 
 2.25.1
 
