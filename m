@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 415E0C7EE2D
-	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 17:00:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D830C7EE2F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 15 May 2023 17:00:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243374AbjEORAA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 15 May 2023 13:00:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40722 "EHLO
+        id S243387AbjEORAB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 15 May 2023 13:00:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243313AbjEOQ7r (ORCPT
+        with ESMTP id S243391AbjEOQ7t (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 15 May 2023 12:59:47 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98AC37DB3;
-        Mon, 15 May 2023 09:59:32 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id 41be03b00d2f7-53063897412so5658778a12.0;
-        Mon, 15 May 2023 09:59:32 -0700 (PDT)
+        Mon, 15 May 2023 12:59:49 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528817DAF;
+        Mon, 15 May 2023 09:59:37 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5304913530fso6556033a12.0;
+        Mon, 15 May 2023 09:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684169972; x=1686761972;
+        d=gmail.com; s=20221208; t=1684169977; x=1686761977;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Udm3eUyVQh3+nWxooTJ9GWCwKBxGdrkWeoFcDQJr1CA=;
-        b=j/gJTub3WT+Foh2oK+Hko0G9Khx0/+vYADnKziVUjccvf5NxD6O7P1qKdcEzO8w7RC
-         IzaoSdmSz0Yyz8IEaWXbsodswJrWCpGIa6etcSJQj0QHTqIz7dZEP7ula9eJFLg6fBOC
-         +yzxGTNMWwfF+fo6pHz2AusZ9Y1QS4XO704ZXGU3aSTpRRNWsjfPnc4Uqp25QZmiy0Y+
-         mSUnanOlh8TQHuh5PzD2vSRD1wqcwvsxo/7X3F6UbuqZUfcT86+MfXbrwKD6VfLvz/cH
-         HQaX6X8e2FZ4OpRLFFGu/2TmUv/XLXRF6AaACVjS521OpKl0SYS8N29KCoi2yvQAJXA5
-         o92A==
+        bh=fry12NLoScUn7gbAM5zwlql+LIRPvftdxXtygfKZOSU=;
+        b=MPWw7UFBWYvp7IesQxIo5ysOJktrGYmN1TyLJFXadxqrZlruiQQeYOfaD6NZKFi8Oq
+         3wGuOBsR5RhIsSFuGzLjnjU6hLY0jnMdT3FUtnxfbQM1S3POdaIZLhDcuNcWxcuR2R1Y
+         0IjbzRGTxnwyyW7rHc6fCYr+gYB2xbtBijAw+YUyf0vBZwBuJR80Vfgi0IIbSUzzQwx+
+         6DC6ruv18XbvcFxW1kc+xxLrBsCc0d/rhx4U8TQ3CWMTeseQe0yOmPMkPDrEvymJdvLY
+         ZhGPuDye4KBzHXDdk8pfoHDc39l1AexogeYofB9l7mSAXowILiOl3uZ507KJ++uRvTnK
+         ZgIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684169972; x=1686761972;
+        d=1e100.net; s=20221208; t=1684169977; x=1686761977;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Udm3eUyVQh3+nWxooTJ9GWCwKBxGdrkWeoFcDQJr1CA=;
-        b=ex1dmTCYHg0LTNB0p68ZrOheNW4amj6F3bwVtUI0Tzi/ggQiu6/aT9Dzku1he4VD+e
-         h1l8Mqxhq1vre7/bcYJyid+SVCqoUzM7Qq1n22zX3p7Ico+LWa0vNue9lKnVbHFkGOjm
-         09fsDcCGbGCaSoKZASKP03qrCai5h+pR7m1zQK4VYq6OKMfLqATixtEoyN6XTLc7BXUF
-         pze1AuCNB3MnDqaIRfwAhgueFlab5Hfo/75I5fmQKLHpewDBWtxwtmzsNPDKcVsmcmZ5
-         zsXyxvERGPJ/VHnhF5rtXeJH4kecXIVkC9WCfmnyDjq2GDh8i59c9wbRtdr53X1gpB0S
-         NyXA==
-X-Gm-Message-State: AC+VfDxFsLii2wUiWxneA72w+Obycu7IqzslrhiUzWfJIkq54T318Avv
-        pfAa9V2PxwQi1MQhg/LfHOc=
-X-Google-Smtp-Source: ACHHUZ4g2M85AFC6YrmyN2QnhkZ5GDP+O4YYm0papKhHRwH45XKLuqqcN7oTtSkUSHJHhRR5GjOqTQ==
-X-Received: by 2002:a17:90b:1d0d:b0:24d:ea7f:9ea2 with SMTP id on13-20020a17090b1d0d00b0024dea7f9ea2mr35127191pjb.15.1684169972086;
-        Mon, 15 May 2023 09:59:32 -0700 (PDT)
+        bh=fry12NLoScUn7gbAM5zwlql+LIRPvftdxXtygfKZOSU=;
+        b=aAQZJc50DJOlzrwjqEeJA4lqo9/LETR5XLlBTXIiX8zj+XASqq8kdXfSgKgNQEsS+O
+         9Fbw28Z1Np9yKVHzTLVNN3C5Qu4LvB23R1paBFDZ//X/akMmcE4rgRzCmoordnrxuA7n
+         TyFrBTCJYIXnFTDFwZYYzIqM4yEoLqcaatw2sGu1px4gSVaACRyhhI10yvzOmXPQh2Xx
+         PIhhTrKYFuQyKvj06ubcKwKkW/y+Ul7Xp6DJfF4xFFXrUEtFB4jjOj3w8epbvjKKnjpI
+         p77tM3g9Ub33jmu8nxZhp6y8YjhBN875+D1FEAKZrrbErTSDX+SFWp1W6BX6TR+dCOmn
+         MvOg==
+X-Gm-Message-State: AC+VfDzQBGAZE9bz0qCP4eqw5u83n+XbIqJ8sp78/7Y9gw1srmPxgxrf
+        dWrWkcf9EGVLSA+K2TbJzZE=
+X-Google-Smtp-Source: ACHHUZ5MW67Nu1/GlxkmIugnLSIWBhkuESAcsU2dDSUUJT7ykEuqB1g+lWl7OMRUphfWLlft4G04kQ==
+X-Received: by 2002:a17:90a:94cc:b0:24e:edd:4d63 with SMTP id j12-20020a17090a94cc00b0024e0edd4d63mr33116444pjw.5.1684169976665;
+        Mon, 15 May 2023 09:59:36 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:f:85bb:dfc8:391f:ff73])
-        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.30
+        by smtp.gmail.com with ESMTPSA id x13-20020a17090aa38d00b0024df6bbf5d8sm2151pjp.30.2023.05.15.09.59.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 May 2023 09:59:31 -0700 (PDT)
+        Mon, 15 May 2023 09:59:36 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
@@ -67,9 +67,9 @@ To:     luto@kernel.org, tglx@linutronix.de, mingo@redhat.com,
 Cc:     pangupta@amd.com, linux-kernel@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-arch@vger.kernel.org
-Subject: [RFC PATCH V6 05/14] x86/hyperv: Add sev-snp enlightened guest static key
-Date:   Mon, 15 May 2023 12:59:07 -0400
-Message-Id: <20230515165917.1306922-6-ltykernel@gmail.com>
+Subject: [RFC PATCH V6 08/14] x86/hyperv: Use vmmcall to implement Hyper-V hypercall in sev-snp enlightened guest
+Date:   Mon, 15 May 2023 12:59:10 -0400
+Message-Id: <20230515165917.1306922-9-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230515165917.1306922-1-ltykernel@gmail.com>
 References: <20230515165917.1306922-1-ltykernel@gmail.com>
@@ -81,105 +81,88 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Introduce static key isolation_type_en_snp for enlightened
-sev-snp guest check.
+In sev-snp enlightened guest, Hyper-V hypercall needs
+to use vmmcall to trigger vmexit and notify hypervisor
+to handle hypercall request.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
-Change since RFC-v3:
-	* Remove some Hyper-V specific config setting
+Change since RFC V2:
+       * Fix indentation style
 ---
- arch/x86/hyperv/ivm.c           | 11 +++++++++++
- arch/x86/include/asm/mshyperv.h |  3 +++
- arch/x86/kernel/cpu/mshyperv.c  |  9 +++++++--
- drivers/hv/hv_common.c          |  6 ++++++
- 4 files changed, 27 insertions(+), 2 deletions(-)
+ arch/x86/include/asm/mshyperv.h | 44 ++++++++++++++++++++++++---------
+ 1 file changed, 33 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 127d5b7b63de..368b2731950e 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -409,3 +409,14 @@ bool hv_isolation_type_snp(void)
- {
- 	return static_branch_unlikely(&isolation_type_snp);
- }
-+
-+DEFINE_STATIC_KEY_FALSE(isolation_type_en_snp);
-+/*
-+ * hv_isolation_type_en_snp - Check system runs in the AMD SEV-SNP based
-+ * isolation enlightened VM.
-+ */
-+bool hv_isolation_type_en_snp(void)
-+{
-+	return static_branch_unlikely(&isolation_type_en_snp);
-+}
-+
 diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index b445e252aa83..97d117ec95c4 100644
+index 97d117ec95c4..939373791249 100644
 --- a/arch/x86/include/asm/mshyperv.h
 +++ b/arch/x86/include/asm/mshyperv.h
-@@ -26,6 +26,7 @@
- union hv_ghcb;
+@@ -61,16 +61,25 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ 	u64 hv_status;
  
- DECLARE_STATIC_KEY_FALSE(isolation_type_snp);
-+DECLARE_STATIC_KEY_FALSE(isolation_type_en_snp);
+ #ifdef CONFIG_X86_64
+-	if (!hv_hypercall_pg)
+-		return U64_MAX;
++	if (hv_isolation_type_en_snp()) {
++		__asm__ __volatile__("mov %4, %%r8\n"
++				     "vmmcall"
++				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				       "+c" (control), "+d" (input_address)
++				     :  "r" (output_address)
++				     : "cc", "memory", "r8", "r9", "r10", "r11");
++	} else {
++		if (!hv_hypercall_pg)
++			return U64_MAX;
  
- typedef int (*hyperv_fill_flush_list_func)(
- 		struct hv_guest_mapping_flush_list *flush,
-@@ -45,6 +46,8 @@ extern void *hv_hypercall_pg;
+-	__asm__ __volatile__("mov %4, %%r8\n"
+-			     CALL_NOSPEC
+-			     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+-			       "+c" (control), "+d" (input_address)
+-			     :  "r" (output_address),
+-				THUNK_TARGET(hv_hypercall_pg)
+-			     : "cc", "memory", "r8", "r9", "r10", "r11");
++		__asm__ __volatile__("mov %4, %%r8\n"
++				     CALL_NOSPEC
++				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				       "+c" (control), "+d" (input_address)
++				     :  "r" (output_address),
++					THUNK_TARGET(hv_hypercall_pg)
++				     : "cc", "memory", "r8", "r9", "r10", "r11");
++	}
+ #else
+ 	u32 input_address_hi = upper_32_bits(input_address);
+ 	u32 input_address_lo = lower_32_bits(input_address);
+@@ -104,7 +113,13 @@ static inline u64 _hv_do_fast_hypercall8(u64 control, u64 input1)
+ 	u64 hv_status;
  
- extern u64 hv_current_partition_id;
+ #ifdef CONFIG_X86_64
+-	{
++	if (hv_isolation_type_en_snp()) {
++		__asm__ __volatile__(
++				"vmmcall"
++				: "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				"+c" (control), "+d" (input1)
++				:: "cc", "r8", "r9", "r10", "r11");
++	} else {
+ 		__asm__ __volatile__(CALL_NOSPEC
+ 				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+ 				       "+c" (control), "+d" (input1)
+@@ -149,7 +164,14 @@ static inline u64 _hv_do_fast_hypercall16(u64 control, u64 input1, u64 input2)
+ 	u64 hv_status;
  
-+extern bool hv_isolation_type_en_snp(void);
-+
- extern union hv_ghcb * __percpu *hv_ghcb_pg;
- 
- int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index c7969e806c64..63a2bfbfe701 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -402,8 +402,12 @@ static void __init ms_hyperv_init_platform(void)
- 		pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
- 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
- 
--		if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP)
-+
-+		if (cc_platform_has(CC_ATTR_GUEST_SEV_SNP)) {
-+			static_branch_enable(&isolation_type_en_snp);
-+		} else if (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) {
- 			static_branch_enable(&isolation_type_snp);
-+		}
- 	}
- 
- 	if (hv_max_functions_eax >= HYPERV_CPUID_NESTED_FEATURES) {
-@@ -473,7 +477,8 @@ static void __init ms_hyperv_init_platform(void)
- 
- #if IS_ENABLED(CONFIG_HYPERV)
- 	if ((hv_get_isolation_type() == HV_ISOLATION_TYPE_VBS) ||
--	    (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP))
-+	    (hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP
-+	     && !cc_platform_has(CC_ATTR_GUEST_SEV_SNP)))
- 		hv_vtom_init();
- 	/*
- 	 * Setup the hook to get control post apic initialization.
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 64f9ceca887b..179bc5f5bf52 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -502,6 +502,12 @@ bool __weak hv_isolation_type_snp(void)
- }
- EXPORT_SYMBOL_GPL(hv_isolation_type_snp);
- 
-+bool __weak hv_isolation_type_en_snp(void)
-+{
-+	return false;
-+}
-+EXPORT_SYMBOL_GPL(hv_isolation_type_en_snp);
-+
- void __weak hv_setup_vmbus_handler(void (*handler)(void))
- {
- }
+ #ifdef CONFIG_X86_64
+-	{
++	if (hv_isolation_type_en_snp()) {
++		__asm__ __volatile__("mov %4, %%r8\n"
++				     "vmmcall"
++				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
++				       "+c" (control), "+d" (input1)
++				     : "r" (input2)
++				     : "cc", "r8", "r9", "r10", "r11");
++	} else {
+ 		__asm__ __volatile__("mov %4, %%r8\n"
+ 				     CALL_NOSPEC
+ 				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
 -- 
 2.25.1
 
