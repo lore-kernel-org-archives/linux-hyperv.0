@@ -2,43 +2,43 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771BBC77B75
-	for <linux-hyperv@archiver.kernel.org>; Fri, 19 May 2023 10:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F89C7EE26
+	for <linux-hyperv@archiver.kernel.org>; Fri, 19 May 2023 10:36:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232041AbjESKem (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 19 May 2023 06:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
+        id S232139AbjESKgr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 19 May 2023 06:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231491AbjESKeT (ORCPT
+        with ESMTP id S231940AbjESKeT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Fri, 19 May 2023 06:34:19 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D2B10DC;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 892BDE5D;
         Fri, 19 May 2023 03:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
         Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
         Content-ID:Content-Description:In-Reply-To;
-        bh=vb5RHA5WAD/i+pcNIxyZaXw8sGymL5Wslp2oL9HHf5o=; b=EiPZwCG1U/KNRhYpgNKpzRQuLb
-        7xFTEZkWp7Gmon4O45hOp9YVGPqFVdoAzxEPJCs3eYe9DgCZVQiKr5YCcGJtGMP6GOTajZGKfVPvj
-        8FTv/2HjVMv8u4vaKGnC6QGsdqtqJNZkskhydvRzuSu7JbvBQES81l4E8TppOCmAtYImFCH8TnnFw
-        x1EycU83oVTk52DdnAKhfUez6y7RsoYGk8HLKW1FNPoA1wly3HbHfI3gWKazRnVrliBkafyoPPQcb
-        tyQQUWYv0N8EVcOQKgokb9+WCX4Ays6FmnKvNOQt3Pp86pE1oVXWwCr44x2Ud0UZYAqMHU3tkW4X+
-        d9I2vVZQ==;
+        bh=oLBoSaVp3WekjBQYhO4JPOJSW0AQPAtxk0yC89gO6Pg=; b=uKRVJy5sUKL/o6KVz/EzG1JmJV
+        6N0e2PK34KDhR9DEbiPEcDZekm3+FqBiihDSGI2x6TVoGMVwa2B516kqhvchhJRm/QJk5aUeaiFyQ
+        mPL7arOZl4UTHRUMsv010g5MZlR38lvNUw9GkemBFSyLE3CugKAmxwenAy8/mdKFjP71mhdgvOgrs
+        M779+UNhLz8c5b+lCrJXac89jea2V0XiYzreJDyP8YKJo7a7r+v243rhG0vhtMM0u9BO9dW436HFz
+        TY9G49ZWNJytbpkd3z2c4+3AXUs7I2kFUCwdDnJQfEHhmELA6sZyusIRBRpWaHgwwf3VJhg2inqGN
+        tc7QRuHg==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pzxPv-006UqJ-1G; Fri, 19 May 2023 10:32:59 +0000
+        id 1pzxPv-006UqS-Mw; Fri, 19 May 2023 10:33:00 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 66122306158;
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 18815306128;
         Fri, 19 May 2023 12:32:56 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id 02484235EF0B4; Fri, 19 May 2023 12:32:56 +0200 (CEST)
-Message-ID: <20230519102716.045980863@infradead.org>
+        id C9892235EF0AA; Fri, 19 May 2023 12:32:55 +0200 (CEST)
+Message-ID: <20230519102715.570170436@infradead.org>
 User-Agent: quilt/0.66
-Date:   Fri, 19 May 2023 12:21:11 +0200
+Date:   Fri, 19 May 2023 12:21:04 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     bigeasy@linutronix.de
 Cc:     mark.rutland@arm.com, maz@kernel.org, catalin.marinas@arm.com,
@@ -61,7 +61,7 @@ Cc:     mark.rutland@arm.com, maz@kernel.org, catalin.marinas@arm.com,
         loongarch@lists.linux.dev, linux-s390@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: [PATCH v2 13/13] cpuidle: Use local_clock_noinstr()
+Subject: [PATCH v2 06/13] s390/time: Provide sched_clock_noinstr()
 References: <20230519102058.581557770@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -69,72 +69,84 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-With the introduction of local_clock_noinstr(), local_clock() itself
-is no longer marked noinstr, use the correct function.
+With the intent to provide local_clock_noinstr(), a variant of
+local_clock() that's safe to be called from noinstr code (with the
+assumption that any such code will already be non-preemptible),
+prepare for things by providing a noinstr sched_clock_noinstr()
+function.
+
+Specifically, preempt_enable_*() calls out to schedule(), which upsets
+noinstr validation efforts.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- drivers/cpuidle/cpuidle.c    |    8 ++++----
- drivers/cpuidle/poll_state.c |    4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ arch/s390/include/asm/timex.h |   13 +++++++++----
+ arch/s390/kernel/time.c       |   11 ++++++++++-
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
---- a/drivers/cpuidle/cpuidle.c
-+++ b/drivers/cpuidle/cpuidle.c
-@@ -145,7 +145,7 @@ static noinstr void enter_s2idle_proper(
+--- a/arch/s390/include/asm/timex.h
++++ b/arch/s390/include/asm/timex.h
+@@ -63,7 +63,7 @@ static inline int store_tod_clock_ext_cc
+ 	return cc;
+ }
  
- 	instrumentation_begin();
- 
--	time_start = ns_to_ktime(local_clock());
-+	time_start = ns_to_ktime(local_clock_noinstr());
- 
- 	tick_freeze();
- 	/*
-@@ -169,7 +169,7 @@ static noinstr void enter_s2idle_proper(
- 	tick_unfreeze();
- 	start_critical_timings();
- 
--	time_end = ns_to_ktime(local_clock());
-+	time_end = ns_to_ktime(local_clock_noinstr());
- 
- 	dev->states_usage[index].s2idle_time += ktime_us_delta(time_end, time_start);
- 	dev->states_usage[index].s2idle_usage++;
-@@ -243,7 +243,7 @@ noinstr int cpuidle_enter_state(struct c
- 	sched_idle_set_state(target_state);
- 
- 	trace_cpu_idle(index, dev->cpu);
--	time_start = ns_to_ktime(local_clock());
-+	time_start = ns_to_ktime(local_clock_noinstr());
- 
- 	stop_critical_timings();
- 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE)) {
-@@ -276,7 +276,7 @@ noinstr int cpuidle_enter_state(struct c
- 	start_critical_timings();
- 
- 	sched_clock_idle_wakeup_event();
--	time_end = ns_to_ktime(local_clock());
-+	time_end = ns_to_ktime(local_clock_noinstr());
- 	trace_cpu_idle(PWR_EVENT_EXIT, dev->cpu);
- 
- 	/* The cpu is no longer idle or about to enter idle. */
---- a/drivers/cpuidle/poll_state.c
-+++ b/drivers/cpuidle/poll_state.c
-@@ -15,7 +15,7 @@ static int __cpuidle poll_idle(struct cp
+-static inline void store_tod_clock_ext(union tod_clock *tod)
++static __always_inline void store_tod_clock_ext(union tod_clock *tod)
  {
- 	u64 time_start;
+ 	asm volatile("stcke %0" : "=Q" (*tod) : : "cc");
+ }
+@@ -177,7 +177,7 @@ static inline void local_tick_enable(uns
  
--	time_start = local_clock();
-+	time_start = local_clock_noinstr();
+ typedef unsigned long cycles_t;
  
- 	dev->poll_time_limit = false;
+-static inline unsigned long get_tod_clock(void)
++static __always_inline unsigned long get_tod_clock(void)
+ {
+ 	union tod_clock clk;
  
-@@ -32,7 +32,7 @@ static int __cpuidle poll_idle(struct cp
- 				continue;
+@@ -204,6 +204,11 @@ void init_cpu_timer(void);
  
- 			loop_count = 0;
--			if (local_clock() - time_start > limit) {
-+			if (local_clock_noinstr() - time_start > limit) {
- 				dev->poll_time_limit = true;
- 				break;
- 			}
+ extern union tod_clock tod_clock_base;
+ 
++static __always_inline unsigned long __get_tod_clock_monotonic(void)
++{
++	return get_tod_clock() - tod_clock_base.tod;
++}
++
+ /**
+  * get_clock_monotonic - returns current time in clock rate units
+  *
+@@ -216,7 +221,7 @@ static inline unsigned long get_tod_cloc
+ 	unsigned long tod;
+ 
+ 	preempt_disable_notrace();
+-	tod = get_tod_clock() - tod_clock_base.tod;
++	tod = __get_tod_clock_monotonic();
+ 	preempt_enable_notrace();
+ 	return tod;
+ }
+@@ -240,7 +245,7 @@ static inline unsigned long get_tod_cloc
+  * -> ns = (th * 125) + ((tl * 125) >> 9);
+  *
+  */
+-static inline unsigned long tod_to_ns(unsigned long todval)
++static __always_inline unsigned long tod_to_ns(unsigned long todval)
+ {
+ 	return ((todval >> 9) * 125) + (((todval & 0x1ff) * 125) >> 9);
+ }
+--- a/arch/s390/kernel/time.c
++++ b/arch/s390/kernel/time.c
+@@ -102,6 +102,11 @@ void __init time_early_init(void)
+ 			((long) qui.old_leap * 4096000000L);
+ }
+ 
++unsigned long long noinstr sched_clock_noinstr(void)
++{
++	return tod_to_ns(__get_tod_clock_monotonic());
++}
++
+ /*
+  * Scheduler clock - returns current time in nanosec units.
+  */
 
 
