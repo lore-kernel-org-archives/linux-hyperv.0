@@ -2,43 +2,43 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E26C7EE23
-	for <linux-hyperv@archiver.kernel.org>; Fri, 19 May 2023 10:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771BBC77B75
+	for <linux-hyperv@archiver.kernel.org>; Fri, 19 May 2023 10:36:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232025AbjESKem (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S232041AbjESKem (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Fri, 19 May 2023 06:34:42 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231954AbjESKeU (ORCPT
+        with ESMTP id S231491AbjESKeT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 19 May 2023 06:34:20 -0400
+        Fri, 19 May 2023 06:34:19 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6E110E0;
-        Fri, 19 May 2023 03:34:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D2B10DC;
+        Fri, 19 May 2023 03:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:References:
         Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
         Content-ID:Content-Description:In-Reply-To;
-        bh=YB2UOIFIw2gwCNTVh1j30XHP2RZzZzmzkIRobxbOGl0=; b=ghSSZdzkafHz78mzS4GGbj71O7
-        SXXaHp+mpN010O+0jF+6pvvZGjzNbCeL9fRihXGCSrCvKmjJFi1w7JR/UVVTMMEXVA1Xnrdzu7+sB
-        CpSLRVsXbmqoKQ1sJACrj4KY/PgWjUhWPBWqCcijzl6OImzKJISzAOd8sciG4X41lrr6zgoUpIKap
-        paqHTBLRhlA/vM1uMKEqMUzfJCW+NvPNQOZMfIzoFLPznYjoSv44/83tGcfCgLWSn9Qwm8ElMANui
-        kt8AgiykeY0kez68CgoqtGvGH1RwAJFfF20uQNpp87aEng/rdSek17PDz3oqM71sIF9yg35f2qVeS
-        RZbT/x4Q==;
+        bh=vb5RHA5WAD/i+pcNIxyZaXw8sGymL5Wslp2oL9HHf5o=; b=EiPZwCG1U/KNRhYpgNKpzRQuLb
+        7xFTEZkWp7Gmon4O45hOp9YVGPqFVdoAzxEPJCs3eYe9DgCZVQiKr5YCcGJtGMP6GOTajZGKfVPvj
+        8FTv/2HjVMv8u4vaKGnC6QGsdqtqJNZkskhydvRzuSu7JbvBQES81l4E8TppOCmAtYImFCH8TnnFw
+        x1EycU83oVTk52DdnAKhfUez6y7RsoYGk8HLKW1FNPoA1wly3HbHfI3gWKazRnVrliBkafyoPPQcb
+        tyQQUWYv0N8EVcOQKgokb9+WCX4Ays6FmnKvNOQt3Pp86pE1oVXWwCr44x2Ud0UZYAqMHU3tkW4X+
+        d9I2vVZQ==;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1pzxPv-006UqP-M2; Fri, 19 May 2023 10:33:00 +0000
+        id 1pzxPv-006UqJ-1G; Fri, 19 May 2023 10:32:59 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 109C630611B;
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 66122306158;
         Fri, 19 May 2023 12:32:56 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-        id C35A8235EF0A0; Fri, 19 May 2023 12:32:55 +0200 (CEST)
-Message-ID: <20230519102715.502547082@infradead.org>
+        id 02484235EF0B4; Fri, 19 May 2023 12:32:56 +0200 (CEST)
+Message-ID: <20230519102716.045980863@infradead.org>
 User-Agent: quilt/0.66
-Date:   Fri, 19 May 2023 12:21:03 +0200
+Date:   Fri, 19 May 2023 12:21:11 +0200
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     bigeasy@linutronix.de
 Cc:     mark.rutland@arm.com, maz@kernel.org, catalin.marinas@arm.com,
@@ -61,7 +61,7 @@ Cc:     mark.rutland@arm.com, maz@kernel.org, catalin.marinas@arm.com,
         loongarch@lists.linux.dev, linux-s390@vger.kernel.org,
         kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: [PATCH v2 05/13] loongarch: Provide noinstr sched_clock_read()
+Subject: [PATCH v2 13/13] cpuidle: Use local_clock_noinstr()
 References: <20230519102058.581557770@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -69,53 +69,72 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-With the intent to provide local_clock_noinstr(), a variant of
-local_clock() that's safe to be called from noinstr code (with the
-assumption that any such code will already be non-preemptible),
-prepare for things by providing a noinstr sched_clock_read() function.
-
-Specifically, preempt_enable_*() calls out to schedule(), which upsets
-noinstr validation efforts.
+With the introduction of local_clock_noinstr(), local_clock() itself
+is no longer marked noinstr, use the correct function.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/loongarch/include/asm/loongarch.h |    2 +-
- arch/loongarch/kernel/time.c           |    6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/cpuidle/cpuidle.c    |    8 ++++----
+ drivers/cpuidle/poll_state.c |    4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
---- a/arch/loongarch/include/asm/loongarch.h
-+++ b/arch/loongarch/include/asm/loongarch.h
-@@ -1167,7 +1167,7 @@ static __always_inline void iocsr_write6
+--- a/drivers/cpuidle/cpuidle.c
++++ b/drivers/cpuidle/cpuidle.c
+@@ -145,7 +145,7 @@ static noinstr void enter_s2idle_proper(
  
- #ifndef __ASSEMBLY__
+ 	instrumentation_begin();
  
--static inline u64 drdtime(void)
-+static __always_inline u64 drdtime(void)
+-	time_start = ns_to_ktime(local_clock());
++	time_start = ns_to_ktime(local_clock_noinstr());
+ 
+ 	tick_freeze();
+ 	/*
+@@ -169,7 +169,7 @@ static noinstr void enter_s2idle_proper(
+ 	tick_unfreeze();
+ 	start_critical_timings();
+ 
+-	time_end = ns_to_ktime(local_clock());
++	time_end = ns_to_ktime(local_clock_noinstr());
+ 
+ 	dev->states_usage[index].s2idle_time += ktime_us_delta(time_end, time_start);
+ 	dev->states_usage[index].s2idle_usage++;
+@@ -243,7 +243,7 @@ noinstr int cpuidle_enter_state(struct c
+ 	sched_idle_set_state(target_state);
+ 
+ 	trace_cpu_idle(index, dev->cpu);
+-	time_start = ns_to_ktime(local_clock());
++	time_start = ns_to_ktime(local_clock_noinstr());
+ 
+ 	stop_critical_timings();
+ 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE)) {
+@@ -276,7 +276,7 @@ noinstr int cpuidle_enter_state(struct c
+ 	start_critical_timings();
+ 
+ 	sched_clock_idle_wakeup_event();
+-	time_end = ns_to_ktime(local_clock());
++	time_end = ns_to_ktime(local_clock_noinstr());
+ 	trace_cpu_idle(PWR_EVENT_EXIT, dev->cpu);
+ 
+ 	/* The cpu is no longer idle or about to enter idle. */
+--- a/drivers/cpuidle/poll_state.c
++++ b/drivers/cpuidle/poll_state.c
+@@ -15,7 +15,7 @@ static int __cpuidle poll_idle(struct cp
  {
- 	int rID = 0;
- 	u64 val = 0;
---- a/arch/loongarch/kernel/time.c
-+++ b/arch/loongarch/kernel/time.c
-@@ -190,9 +190,9 @@ static u64 read_const_counter(struct clo
- 	return drdtime();
- }
+ 	u64 time_start;
  
--static u64 native_sched_clock(void)
-+static noinstr u64 sched_clock_read(void)
- {
--	return read_const_counter(NULL);
-+	return drdtime();
- }
+-	time_start = local_clock();
++	time_start = local_clock_noinstr();
  
- static struct clocksource clocksource_const = {
-@@ -211,7 +211,7 @@ int __init constant_clocksource_init(voi
+ 	dev->poll_time_limit = false;
  
- 	res = clocksource_register_hz(&clocksource_const, freq);
+@@ -32,7 +32,7 @@ static int __cpuidle poll_idle(struct cp
+ 				continue;
  
--	sched_clock_register(native_sched_clock, 64, freq);
-+	sched_clock_register(sched_clock_read, 64, freq);
- 
- 	pr_info("Constant clock source device register\n");
- 
+ 			loop_count = 0;
+-			if (local_clock() - time_start > limit) {
++			if (local_clock_noinstr() - time_start > limit) {
+ 				dev->poll_time_limit = true;
+ 				break;
+ 			}
 
 
