@@ -2,64 +2,64 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A933CC7EE2C
-	for <linux-hyperv@archiver.kernel.org>; Wed, 31 May 2023 00:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5A7C77B7A
+	for <linux-hyperv@archiver.kernel.org>; Wed, 31 May 2023 00:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbjEaAgB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 May 2023 20:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51278 "EHLO
+        id S233575AbjEaAgN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 May 2023 20:36:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233452AbjEaAf7 (ORCPT
+        with ESMTP id S233580AbjEaAgL (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 May 2023 20:35:59 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06A3196
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:33 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-64d577071a6so5971235b3a.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:33 -0700 (PDT)
+        Tue, 30 May 2023 20:36:11 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80892E54
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:20 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-64d426e63baso5765802b3a.0
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1685493314; x=1688085314;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=23xeKFVPUFVZGWBGcJOCGL5XHLy6P13RAX8/V5+vCsQ=;
-        b=Zzi32WniBs2qsNeUcZpuHj0aOjghw34hMXI5mJNDxSCxlmScNB1KaOhHw7iIfDXPo1
-         V+jdLZdCOzmJooq6ReyEDuonbANQua+JQIP1YJFlqoP/IHorvyr0YYOmGECTz+XEU8W8
-         EydPfFdpfxo3g/a7Wxf7xDZ9RWRkyg/K5RKZo4V7QaQby6Waw3flS1exibwyhrX+ksir
-         hWZ9uAXvX2LXvo69boWk2o4ueD1iGQMhmiX78hfG1iqKuix9f1sdkWs1vDPLIUCKwnGh
-         bTs0aZMZ+YDXt2swYoP3zYIG2IbZ+YtekjrreHr36dU+IgCCSMbYSVQQKKEUMwy5FaLA
-         lgoQ==
+        d=bytedance.com; s=google; t=1685493308; x=1688085308;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xyPVmcVtXqwbPWrU4CXncdNHyJXf/QZjqVsNgbEPnro=;
+        b=M/Ht7dI5kR7S3Pp3LWf8jzAkFhfNDqeCqkoON2LR0mY0zoEnUOpxlPGclMHY+tIK6r
+         4rEvtdl/EVqdTwzEhhakEXmpdKpY0MNeWy20XfvXiVYey9c7KY+gdRqF1tE2VM3BqcDp
+         wxKnTvZpQueVv6yzT1BT3Aq71eK4sURh//HAR4aGbU2uMrHm1anjx9o4t9eDYJRbYqRX
+         EeAxKbe2diiLhXCQDd8zbMMOk3BiWnTJ4KfK4FipReZMzakVgdbTXp/k1reL4ruAquw/
+         nwdrUBUhomZSb6kgdQ9rQ3cFY7SJa3/xFEN9nCfYfaySK3RtPLXeD6pNrtLQrio8toqT
+         xF/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685493314; x=1688085314;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=23xeKFVPUFVZGWBGcJOCGL5XHLy6P13RAX8/V5+vCsQ=;
-        b=YVYaHXMxtUyZbAJEwkH+qiwW7Y8oxNoHfPIrYWyu0oBjGMH0F+XlLeMS6MhMosNLdz
-         LFOnxQT+ziJZZtUl7QGTjQvV8Fipznj4ppIVQ1ttdGGbWFEN6ErPEQYYHE/dq+Bdfmsh
-         Tfz+SNI7uvqkuZ2upNgU4cbN5aJbreq+oRGydIlw9cIq4sSd0Dv3MAZO7+7xtbjRfGUd
-         dtD4bCen6pnv3FxQk11mhZibqS+v80UIbFAwS+FWEi6hwtdpaHK4GOtTW3WgaejF9KrZ
-         jIFlK6adr8Eal6HGbgIhnPufk+J+tBTHbkF1lPT49MA04RhLZp22HalpdQoksnBoopA5
-         AFIw==
-X-Gm-Message-State: AC+VfDwGxWNY4+/SZaWcwhAUj7RHTAmTakz0Wu+S9le88mg+sz3uHfZp
-        OQ0c6UNFuSXskLD17McBdx5iCg==
-X-Google-Smtp-Source: ACHHUZ6FcM3ztXr+/sYU8OWmAw8FbDZaKJuUZBXSFWUbBlS4izbiuRG7Pr592dIDgc8xqRBmJvB8qw==
-X-Received: by 2002:a05:6a20:1583:b0:10d:b160:3d5f with SMTP id h3-20020a056a20158300b0010db1603d5fmr5045134pzj.38.1685493314237;
-        Tue, 30 May 2023 17:35:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685493308; x=1688085308;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xyPVmcVtXqwbPWrU4CXncdNHyJXf/QZjqVsNgbEPnro=;
+        b=OlpIFL3agKlV4i6B/6VNjOMF3pyceIx2Zt9rsu0GQrMAfIM5IgHtwtNRSV57lCKFHT
+         fbsAwd9+A2825SXVx3cOhyV4ptJEmse2QL3aBlpFiB8xx2QR+8sw6QIMnU0Grk/xXNne
+         cUJmucdrA/J+7s69Nr7HoPryuJgubZ4lc6EFA7GSX08AjMJzaoGeTRCpZXfyU05WPQge
+         cCFRifJ2W3iQbHXMoOaXqgIvXSkKFlmT7yWSbWKGvmRgJHAxk6q3XvJ6hMXJhwVFFKJ/
+         y7k1tKuQAt1dk0d5Jd+j2z7wfLNzh3pc3LGZbX8MbTla5QbwZ8f3Yo8WAlmt5/T+TWFb
+         lTYw==
+X-Gm-Message-State: AC+VfDxThbHJtYLOkXFacqp6SjzLui2eJ/FJJ4qHYoZ96wYs/sTFsZjR
+        akADN/vNrKN60iQvfzeRwPGgPw==
+X-Google-Smtp-Source: ACHHUZ7F9nwTmBBAljcZs+/hqk8QS+6xsOVMmtuise4Li18N+hL7dowP5Ri0jqFjV8J1ovTm+x2g5Q==
+X-Received: by 2002:a05:6a00:b50:b0:64c:a554:f577 with SMTP id p16-20020a056a000b5000b0064ca554f577mr4877926pfo.11.1685493308503;
+        Tue, 30 May 2023 17:35:08 -0700 (PDT)
 Received: from [172.17.0.2] (c-67-170-131-147.hsd1.wa.comcast.net. [67.170.131.147])
-        by smtp.gmail.com with ESMTPSA id j12-20020a62b60c000000b0064cb0845c77sm2151340pff.122.2023.05.30.17.35.13
+        by smtp.gmail.com with ESMTPSA id j12-20020a62b60c000000b0064cb0845c77sm2151340pff.122.2023.05.30.17.35.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 17:35:13 -0700 (PDT)
+        Tue, 30 May 2023 17:35:08 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 31 May 2023 00:35:09 +0000
-Subject: [PATCH RFC net-next v3 5/8] virtio/vsock: add VIRTIO_VSOCK_F_DGRAM
- feature bit
+Subject: [PATCH RFC net-next v3 0/8] virtio/vsock: support datagrams
+Date:   Wed, 31 May 2023 00:35:04 +0000
+Message-Id: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v3-5-c2414413ef6a@bytedance.com>
-References: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
-In-Reply-To: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
+X-B4-Tracking: v=1; b=H4sIADiWdmQC/3WOQQrCMBBFryKzdiQmNUVXguAB3EoXSTq2QZpIE
+ kJL6d1Nu3Dn8s3/nzczRAqWIlx2MwTKNlrvCoj9DkyvXEdo28LAGResOgrUFebozRvbLqgBhZa
+ klVSyohOUkVaRUAflTL/OHCV0NKY1+gR62XFzPeFxv623X94U6G1MPkzbL5lvtX/azJEhq8/G1
+ IZIcrrqKVFbtHQwfoBmWZYvsS2PotwAAAA=
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
         Stefano Garzarella <sgarzare@redhat.com>,
         "Michael S. Tsirkin" <mst@redhat.com>,
@@ -84,27 +84,97 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This commit adds a feature bit for virtio vsock to support datagrams.
+Hey all!
 
-Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+This series introduces support for datagrams to virtio/vsock.
+
+It is a spin-off (and smaller version) of this series from the summer: 
+  https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
+
+Please note that this is an RFC and should not be merged until
+associated changes are made to the virtio specification, which will
+follow after discussion from this series.
+
+This series first supports datagrams in a basic form for virtio, and
+then optimizes the sendpath for all transports.
+
+The result is a very fast datagram communication protocol that
+outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
+of multi-threaded workload samples.
+
+For those that are curious, some summary data comparing UDP and VSOCK
+DGRAM (N=5):
+
+	vCPUS: 16
+	virtio-net queues: 16
+	payload size: 4KB
+	Setup: bare metal + vm (non-nested)
+
+	UDP: 287.59 MB/s
+	VSOCK DGRAM: 509.2 MB/s
+
+Some notes about the implementation...
+
+This datagram implementation forces datagrams to self-throttle according
+to the threshold set by sk_sndbuf. It behaves similar to the credits
+used by streams in its effect on throughput and memory consumption, but
+it is not influenced by the receiving socket as credits are.
+
+The device drops packets silently.
+
+As discussed previously, this series introduces datagrams and defers
+fairness to future work. See discussion in v2 for more context around
+datagrams, fairness, and this implementation.
+
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- include/uapi/linux/virtio_vsock.h | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v3:
+- Support multi-transport dgram, changing logic in connect/bind
+  to support VMCI case
+- Support per-pkt transport lookup for sendto() case
+- Fix dgram_allow() implementation
+- Fix dgram feature bit number (now it is 3)
+- Fix binding so dgram and connectible (cid,port) spaces are
+  non-overlapping
+- RCU protect transport ptr so connect() calls never leave
+  a lockless read of the transport and remote_addr are always
+  in sync
+- Link to v2: https://lore.kernel.org/r/20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com
 
-diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
-index 64738838bee5..772487c66f9d 100644
---- a/include/uapi/linux/virtio_vsock.h
-+++ b/include/uapi/linux/virtio_vsock.h
-@@ -40,6 +40,7 @@
- 
- /* The feature bitmap for virtio vsock */
- #define VIRTIO_VSOCK_F_SEQPACKET	1	/* SOCK_SEQPACKET supported */
-+#define VIRTIO_VSOCK_F_DGRAM		3	/* Host support dgram vsock */
- 
- struct virtio_vsock_config {
- 	__le64 guest_cid;
+---
+Bobby Eshleman (7):
+      vsock/dgram: generalize recvmsg and drop transport->dgram_dequeue
+      vsock: refactor transport lookup code
+      vsock: support multi-transport datagrams
+      vsock: make vsock bind reusable
+      virtio/vsock: add VIRTIO_VSOCK_F_DGRAM feature bit
+      virtio/vsock: support dgrams
+      vsock: Add lockless sendmsg() support
 
+Jiang Wang (1):
+      tests: add vsock dgram tests
+
+ drivers/vhost/vsock.c                   |  44 ++-
+ include/linux/virtio_vsock.h            |  13 +-
+ include/net/af_vsock.h                  |  53 ++-
+ include/uapi/linux/virtio_vsock.h       |   2 +
+ net/vmw_vsock/af_vsock.c                | 615 ++++++++++++++++++++++++++------
+ net/vmw_vsock/diag.c                    |  10 +-
+ net/vmw_vsock/hyperv_transport.c        |  42 ++-
+ net/vmw_vsock/virtio_transport.c        |  28 +-
+ net/vmw_vsock/virtio_transport_common.c | 227 +++++++++---
+ net/vmw_vsock/vmci_transport.c          | 152 ++++----
+ net/vmw_vsock/vsock_bpf.c               |  10 +-
+ net/vmw_vsock/vsock_loopback.c          |  13 +-
+ tools/testing/vsock/util.c              | 105 ++++++
+ tools/testing/vsock/util.h              |   4 +
+ tools/testing/vsock/vsock_test.c        | 193 ++++++++++
+ 15 files changed, 1259 insertions(+), 252 deletions(-)
+---
+base-commit: ed72bd5a6790a0c3747cb32b0427f921bd03bb71
+change-id: 20230413-b4-vsock-dgram-3b6eba6a64e5
+
+Best regards,
 -- 
-2.30.2
+Bobby Eshleman <bobby.eshleman@bytedance.com>
 
