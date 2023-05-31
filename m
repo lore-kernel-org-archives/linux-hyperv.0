@@ -2,115 +2,94 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF28C77B73
-	for <linux-hyperv@archiver.kernel.org>; Wed, 31 May 2023 18:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 694EEC7EE23
+	for <linux-hyperv@archiver.kernel.org>; Wed, 31 May 2023 22:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbjEaSNO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 31 May 2023 14:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51830 "EHLO
+        id S231314AbjEaWqZ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 31 May 2023 18:46:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229991AbjEaSNO (ORCPT
+        with ESMTP id S231183AbjEaWqY (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 31 May 2023 14:13:14 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E788134
-        for <linux-hyperv@vger.kernel.org>; Wed, 31 May 2023 11:13:12 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-3f601c57d8dso486485e9.0
-        for <linux-hyperv@vger.kernel.org>; Wed, 31 May 2023 11:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685556790; x=1688148790;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gbuh9jdiV+SPVWIJmpiEUgjoMR54fGjNPi8rWBf5EoY=;
-        b=dId7HG7QFPc3OpUbsFzimDWDHcW2Q4Q+Gb33kAMtXSGDHzJzC45ACiZWgkR9aS5rhf
-         bKd1RbmB3Hf79uysmWi1uHvpfZZ2L9YBl/PuUmBJFcyo4kMk17UGUF7x2Ed+JhYV81B4
-         6w3WEBgI/EuHrMCMf/2l76z9T7z314uHEC6JuZcy9KTTpra0364OYdOAxBVDj46yE3bc
-         JVRQio3u9Hymr71Qa7RnCOXN6Qw9gIGDteZUKv/dPvHl+69pmkLArhypoRL2lGp0SsQb
-         r1EBZWJzaCwkYaNw+1amjK3aigY82xSl53ivn4aNiC/ObcS+bHRH2Pl50INxNxrLU0MK
-         RosQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685556790; x=1688148790;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gbuh9jdiV+SPVWIJmpiEUgjoMR54fGjNPi8rWBf5EoY=;
-        b=VfQRZFMEdtP47o3VF+vi3+lWqWHvrhcXLoi9uXmVHzEOJiDJd/5CF59jcZNr+kVs0L
-         wy0ao2Z4U7SKYchelce7hg/y2J2usryJD+z9smQNtGkcLU0BtTc69G0SGD4cln9dF16D
-         WUmGG/O7t0q2YFOZyBYfmkCWwxjRH30COmk4UESOqqrojJX1sFtrXWlt9ppZBhAtarHo
-         eNEiVLIsvFgbeDB+UW/jHlEQlVPav+oyyZ23el/z4GlIajC/RfpA+stigPX7L8Mp7PBw
-         VR7Qw8a0hEQZwpIh6k8jIeIAcQS8Z5yMdUy6LbHiR7uHdh5eZPWM02TGyLKVnfydsdau
-         kXeA==
-X-Gm-Message-State: AC+VfDzUNRkDOTsMEYlDV6UgZLY3HaZwP5jMRLWy4l2wghf8ImELfObX
-        S/qOZB+B9ach3+C/rSbkSGKrhw==
-X-Google-Smtp-Source: ACHHUZ6GsLlBE9uPQs84Ft2bnZom9VhLmhaLnSp+7xhLdvFbXoTBFf8tQjBp6N6V3V78LsLe+KSnFw==
-X-Received: by 2002:a7b:c846:0:b0:3f5:fa76:8dd0 with SMTP id c6-20020a7bc846000000b003f5fa768dd0mr108435wml.0.1685556790677;
-        Wed, 31 May 2023 11:13:10 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id bg22-20020a05600c3c9600b003f4283f5c1bsm5268621wmb.2.2023.05.31.11.13.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 May 2023 11:13:08 -0700 (PDT)
-Date:   Wed, 31 May 2023 21:13:04 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Simon Horman <simon.horman@corigine.com>
-Cc:     Bobby Eshleman <bobby.eshleman@bytedance.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Bryan Tan <bryantan@vmware.com>,
-        Vishnu Dasa <vdasa@vmware.com>,
-        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH RFC net-next v3 6/8] virtio/vsock: support dgrams
-Message-ID: <d2e9c45f-bcbd-4e6a-98c1-c98283450626@kadam.mountain>
-References: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
- <20230413-b4-vsock-dgram-v3-6-c2414413ef6a@bytedance.com>
- <ZHdxJxjXDkkO03L4@corigine.com>
+        Wed, 31 May 2023 18:46:24 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D323107;
+        Wed, 31 May 2023 15:46:24 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1685573181;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XIzF93UFC/GVQtUvE2kmelWoKlJPXu6KUTtN32GYwuQ=;
+        b=V4DPu0J+97KAWG7BljWcm9M0WHGm0oFGKQ9g9wUUxSN/LO+zWjV49iPI6Hjj/IGOqwKOzL
+        OKMHt/kgS2Fj9wNQS6JZayL1xRB9qL9ZZldaosbz1V1k9FxIHU6k2qLJavO1ixGoKcogJs
+        dfZ7awEDuxELHzHUTjUKYb9MF7auj7T+0Arlp4+wGURQesGYcA+i/Gav86bIj4ZeY7uZ65
+        eyAMN4aSzumzjtyV2OwLrGFWz++MQrew4U7nnl19oUAf7FzSFj19Bm5tsCKpriSHbOQuyL
+        a1u0FiRhzzXZbPsuEmwrEl4gDw/ygdWkCBFUo9xjAi5Hec85szOvFlw1OczFiA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1685573181;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XIzF93UFC/GVQtUvE2kmelWoKlJPXu6KUTtN32GYwuQ=;
+        b=F+YyJiH1yOM9XIjwob6LO4nIlHL224W6az+hPOCyNCD6y/jiPsX75Y75sIr2xcGCLe3HlM
+        BEwcjfldmbxSEWDg==
+To:     Peter Zijlstra <peterz@infradead.org>, bigeasy@linutronix.de
+Cc:     mark.rutland@arm.com, maz@kernel.org, catalin.marinas@arm.com,
+        will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+        hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        pbonzini@redhat.com, wanpengli@tencent.com, vkuznets@redhat.com,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, jgross@suse.com,
+        boris.ostrovsky@oracle.com, daniel.lezcano@linaro.org,
+        kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, rafael@kernel.org, peterz@infradead.org,
+        longman@redhat.com, boqun.feng@gmail.com, pmladek@suse.com,
+        senozhatsky@chromium.org, rostedt@goodmis.org,
+        john.ogness@linutronix.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+        vschneid@redhat.com, jstultz@google.com, sboyd@kernel.org,
+        linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-s390@vger.kernel.org, kvm@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 08/13] x86/vdso: Fix gettimeofday masking
+In-Reply-To: <87r0qwfrm0.ffs@tglx>
+References: <20230519102058.581557770@infradead.org>
+ <20230519102715.704767397@infradead.org> <87r0qwfrm0.ffs@tglx>
+Date:   Thu, 01 Jun 2023 00:46:20 +0200
+Message-ID: <87y1l4dsqr.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZHdxJxjXDkkO03L4@corigine.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, May 31, 2023 at 06:09:11PM +0200, Simon Horman wrote:
-> > @@ -102,6 +144,7 @@ virtio_transport_alloc_skb(struct virtio_vsock_pkt_info *info,
-> 
-> Smatch that err may not be initialised in the out label below.
-> 
-> Just above this context the following appears:
-> 
-> 	if (info->vsk && !skb_set_owner_sk_safe(skb, sk_vsock(info->vsk))) {
-> 		WARN_ONCE(1, "failed to allocate skb on vsock socket with sk_refcnt == 0\n");
-> 		goto out;
-> 	}
-> 
-> So I wonder if in that case err may not be initialised.
-> 
+On Wed, May 31 2023 at 17:27, Thomas Gleixner wrote:
+> On Fri, May 19 2023 at 12:21, Peter Zijlstra wrote:
+>> to take wrapping into account, but per all the above, we don't
+>> actually wrap on u64 anymore.
+>
+> Indeed. The rationale was that you need ~146 years uptime with a 4GHz
+> TSC or ~584 years with 1GHz to actually reach the wrap around point.
+>
+> Though I can see your point to make sure that silly BIOSes or VMMs
+> cannot cause havoc by accident or malice.
+>
+> Did anyone ever validate that wrap around on TSC including TSC deadline
+> timer works correctly?
+>
+> I have faint memories of TSC_ADJUST, which I prefer not to bring back to
+> main memory :)
 
-Yep, exactly right.  I commented out the goto and it silenced the
-warning.  I also initialized err to zero at the start hoping that it
-would trigger a different warning but it didn't.  :(
+It seems my fears have been unjustified.
 
-regards,
-dan carpenter
+At least a quick test which sets the TSC to ~ -8min @2.1Ghz the machine
+seems to survive without the colourful explosions I expected due to my
+early exposure to TSC_ADJUST and TSC_DEADLINE_TIMER :)
 
+Thanks,
 
-> >  	return skb;
-> >  
-> >  out:
-> > +	*errp = err;
-> >  	kfree_skb(skb);
-> >  	return NULL;
-> >  }
-
+        tglx
