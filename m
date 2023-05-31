@@ -2,147 +2,109 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C42C7EE2C
-	for <linux-hyperv@archiver.kernel.org>; Tue, 30 May 2023 23:16:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A933CC7EE2C
+	for <linux-hyperv@archiver.kernel.org>; Wed, 31 May 2023 00:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233800AbjE3XQQ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 30 May 2023 19:16:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45268 "EHLO
+        id S233471AbjEaAgB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 30 May 2023 20:36:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233793AbjE3XQN (ORCPT
+        with ESMTP id S233452AbjEaAf7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 30 May 2023 19:16:13 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 692B8F9
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 16:16:11 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-64d2c865e4eso3853807b3a.0
-        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 16:16:11 -0700 (PDT)
+        Tue, 30 May 2023 20:35:59 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06A3196
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:33 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-64d577071a6so5971235b3a.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 30 May 2023 17:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1685488571; x=1688080571;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=q6wOdCsvPcfL1AGuKhq7si1i+l1tB9VGHRhgBuI4hFQ=;
-        b=A6P9MRUqWxltKJ9Zgwok7DSDRoOxoww2FWlF6WQO1tYgoM5+Hi0Ez2oEaQQjsD1m8R
-         d4fRiNfemEoHsLbKtPfU643qi1eTaIaRbZTrXG8PIKxDT7zOE/fxQqSHWBsVd7zxgsD9
-         9LmT/yPeVeEdIlXyQ0jganlgblNgnS7PESvrk=
+        d=bytedance.com; s=google; t=1685493314; x=1688085314;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=23xeKFVPUFVZGWBGcJOCGL5XHLy6P13RAX8/V5+vCsQ=;
+        b=Zzi32WniBs2qsNeUcZpuHj0aOjghw34hMXI5mJNDxSCxlmScNB1KaOhHw7iIfDXPo1
+         V+jdLZdCOzmJooq6ReyEDuonbANQua+JQIP1YJFlqoP/IHorvyr0YYOmGECTz+XEU8W8
+         EydPfFdpfxo3g/a7Wxf7xDZ9RWRkyg/K5RKZo4V7QaQby6Waw3flS1exibwyhrX+ksir
+         hWZ9uAXvX2LXvo69boWk2o4ueD1iGQMhmiX78hfG1iqKuix9f1sdkWs1vDPLIUCKwnGh
+         bTs0aZMZ+YDXt2swYoP3zYIG2IbZ+YtekjrreHr36dU+IgCCSMbYSVQQKKEUMwy5FaLA
+         lgoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685488571; x=1688080571;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q6wOdCsvPcfL1AGuKhq7si1i+l1tB9VGHRhgBuI4hFQ=;
-        b=CntGXDGcFk7k+CAwJ8twNpRolfcuDjyTy9zYrxvrGagJm59NHBKCMFGuCfcRtfzyFw
-         wOnM1+2KQJcWL/0o5NHTYqPfbsTRs9Tqobu4Y1W1YnHonSKfrue3HDhOXv01GxG49K3a
-         jPFHlxb6sPfopTiwPoYlJZ0W08YROWZ7okthz579yt8ZQZwcwAl9N8bTZ+uQhndjLfO2
-         omTcYTjbAFGwFCZw3SC/wXI4vPZmg6euon7b3BxCoFsgiPOrokGG+0XA2JI7s+BvTZZz
-         PUlOsqo20ZroP6QKlw3Em0nYI+2yMYOMgCzT24aZu2f/zsyztkrX0llySmcz1fi9fq7G
-         AO0w==
-X-Gm-Message-State: AC+VfDzMvvjmOAuXyA2zcu/impSPd0F/fUmB/VZOp7Wud0zB20mBiHKN
-        k3Kty3BxhXMfIIAuUi2UA34AUw==
-X-Google-Smtp-Source: ACHHUZ5vUXK2I/pfuTav0TBfWy3DDrvFJsd+7uESTSUanu+Vl50RByVZpLds9PiU8F5GGbjiErQYOQ==
-X-Received: by 2002:a05:6a00:10c4:b0:646:663a:9d60 with SMTP id d4-20020a056a0010c400b00646663a9d60mr4308038pfu.10.1685488570875;
-        Tue, 30 May 2023 16:16:10 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id v22-20020aa78516000000b0063d3d776910sm2123773pfn.138.2023.05.30.16.16.10
+        d=1e100.net; s=20221208; t=1685493314; x=1688085314;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=23xeKFVPUFVZGWBGcJOCGL5XHLy6P13RAX8/V5+vCsQ=;
+        b=YVYaHXMxtUyZbAJEwkH+qiwW7Y8oxNoHfPIrYWyu0oBjGMH0F+XlLeMS6MhMosNLdz
+         LFOnxQT+ziJZZtUl7QGTjQvV8Fipznj4ppIVQ1ttdGGbWFEN6ErPEQYYHE/dq+Bdfmsh
+         Tfz+SNI7uvqkuZ2upNgU4cbN5aJbreq+oRGydIlw9cIq4sSd0Dv3MAZO7+7xtbjRfGUd
+         dtD4bCen6pnv3FxQk11mhZibqS+v80UIbFAwS+FWEi6hwtdpaHK4GOtTW3WgaejF9KrZ
+         jIFlK6adr8Eal6HGbgIhnPufk+J+tBTHbkF1lPT49MA04RhLZp22HalpdQoksnBoopA5
+         AFIw==
+X-Gm-Message-State: AC+VfDwGxWNY4+/SZaWcwhAUj7RHTAmTakz0Wu+S9le88mg+sz3uHfZp
+        OQ0c6UNFuSXskLD17McBdx5iCg==
+X-Google-Smtp-Source: ACHHUZ6FcM3ztXr+/sYU8OWmAw8FbDZaKJuUZBXSFWUbBlS4izbiuRG7Pr592dIDgc8xqRBmJvB8qw==
+X-Received: by 2002:a05:6a20:1583:b0:10d:b160:3d5f with SMTP id h3-20020a056a20158300b0010db1603d5fmr5045134pzj.38.1685493314237;
+        Tue, 30 May 2023 17:35:14 -0700 (PDT)
+Received: from [172.17.0.2] (c-67-170-131-147.hsd1.wa.comcast.net. [67.170.131.147])
+        by smtp.gmail.com with ESMTPSA id j12-20020a62b60c000000b0064cb0845c77sm2151340pff.122.2023.05.30.17.35.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 May 2023 16:16:10 -0700 (PDT)
-Date:   Tue, 30 May 2023 16:16:09 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Wei Liu <wei.liu@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Alexander Graf <graf@amazon.com>,
-        Forrest Yuan Yu <yuanyu@google.com>,
-        James Morris <jamorris@linux.microsoft.com>,
-        John Andersen <john.s.andersen@intel.com>,
-        "Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-        Marian Rotariu <marian.c.rotariu@gmail.com>,
-        Mihai =?utf-8?B?RG9uyJt1?= <mdontu@bitdefender.com>,
-        =?utf-8?B?TmljdciZb3IgQ8OuyJt1?= <nicu.citu@icloud.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Thara Gopinath <tgopinath@microsoft.com>,
-        Will Deacon <will@kernel.org>,
-        Zahra Tarkhani <ztarkhani@microsoft.com>,
-        =?utf-8?Q?=C8=98tefan_=C8=98icleru?= <ssicleru@bitdefender.com>,
-        dev@lists.cloudhypervisor.org, kvm@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org, qemu-devel@nongnu.org,
-        virtualization@lists.linux-foundation.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v1 5/9] KVM: x86: Add new hypercall to lock control
- registers
-Message-ID: <202305301614.BF8D80D3D5@keescook>
-References: <20230505152046.6575-1-mic@digikod.net>
- <20230505152046.6575-6-mic@digikod.net>
- <ZFlllHjntehpthma@liuwe-devbox-debian-v2>
- <901ff104-215c-8e81-fbae-5ecd8fa94449@digikod.net>
+        Tue, 30 May 2023 17:35:13 -0700 (PDT)
+From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
+Date:   Wed, 31 May 2023 00:35:09 +0000
+Subject: [PATCH RFC net-next v3 5/8] virtio/vsock: add VIRTIO_VSOCK_F_DGRAM
+ feature bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <901ff104-215c-8e81-fbae-5ecd8fa94449@digikod.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230413-b4-vsock-dgram-v3-5-c2414413ef6a@bytedance.com>
+References: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
+In-Reply-To: <20230413-b4-vsock-dgram-v3-0-c2414413ef6a@bytedance.com>
+To:     Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bryan Tan <bryantan@vmware.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>
+Cc:     kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>
+X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Mon, May 29, 2023 at 06:48:03PM +0200, Mickaël Salaün wrote:
-> 
-> On 08/05/2023 23:11, Wei Liu wrote:
-> > On Fri, May 05, 2023 at 05:20:42PM +0200, Mickaël Salaün wrote:
-> > > This enables guests to lock their CR0 and CR4 registers with a subset of
-> > > X86_CR0_WP, X86_CR4_SMEP, X86_CR4_SMAP, X86_CR4_UMIP, X86_CR4_FSGSBASE
-> > > and X86_CR4_CET flags.
-> > > 
-> > > The new KVM_HC_LOCK_CR_UPDATE hypercall takes two arguments.  The first
-> > > is to identify the control register, and the second is a bit mask to
-> > > pin (i.e. mark as read-only).
-> > > 
-> > > These register flags should already be pinned by Linux guests, but once
-> > > compromised, this self-protection mechanism could be disabled, which is
-> > > not the case with this dedicated hypercall.
-> > > 
-> > > Cc: Borislav Petkov <bp@alien8.de>
-> > > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > > Cc: H. Peter Anvin <hpa@zytor.com>
-> > > Cc: Ingo Molnar <mingo@redhat.com>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > > Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-> > > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > > Cc: Sean Christopherson <seanjc@google.com>
-> > > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > > Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > > Cc: Wanpeng Li <wanpengli@tencent.com>
-> > > Signed-off-by: Mickaël Salaün <mic@digikod.net>
-> > > Link: https://lore.kernel.org/r/20230505152046.6575-6-mic@digikod.net
-> > [...]
-> > >   	hw_cr4 = (cr4_read_shadow() & X86_CR4_MCE) | (cr4 & ~X86_CR4_MCE);
-> > >   	if (is_unrestricted_guest(vcpu))
-> > > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> > > index ffab64d08de3..a529455359ac 100644
-> > > --- a/arch/x86/kvm/x86.c
-> > > +++ b/arch/x86/kvm/x86.c
-> > > @@ -7927,11 +7927,77 @@ static unsigned long emulator_get_cr(struct x86_emulate_ctxt *ctxt, int cr)
-> > >   	return value;
-> > >   }
-> > > +#ifdef CONFIG_HEKI
-> > > +
-> > > +extern unsigned long cr4_pinned_mask;
-> > > +
-> > 
-> > Can this be moved to a header file?
-> 
-> Yep, but I'm not sure which one. Any preference Kees?
+This commit adds a feature bit for virtio vsock to support datagrams.
 
-Uh, er, I was never expecting that mask to be non-static. ;) To that
-end, how about putting it in arch/x86/kvm/x86.h ?
+Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
+---
+ include/uapi/linux/virtio_vsock.h | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
+index 64738838bee5..772487c66f9d 100644
+--- a/include/uapi/linux/virtio_vsock.h
++++ b/include/uapi/linux/virtio_vsock.h
+@@ -40,6 +40,7 @@
+ 
+ /* The feature bitmap for virtio vsock */
+ #define VIRTIO_VSOCK_F_SEQPACKET	1	/* SOCK_SEQPACKET supported */
++#define VIRTIO_VSOCK_F_DGRAM		3	/* Host support dgram vsock */
+ 
+ struct virtio_vsock_config {
+ 	__le64 guest_cid;
 
 -- 
-Kees Cook
+2.30.2
+
