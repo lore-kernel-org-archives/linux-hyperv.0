@@ -2,77 +2,501 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8E9C77B7A
-	for <linux-hyperv@archiver.kernel.org>; Wed,  7 Jun 2023 11:29:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 921EEC7EE25
+	for <linux-hyperv@archiver.kernel.org>; Wed,  7 Jun 2023 16:51:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234932AbjFGL3w (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 7 Jun 2023 07:29:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60272 "EHLO
+        id S230298AbjFGQvq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 7 Jun 2023 12:51:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240337AbjFGL3o (ORCPT
+        with ESMTP id S229529AbjFGQvp (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 7 Jun 2023 07:29:44 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3331993;
-        Wed,  7 Jun 2023 04:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686137383; x=1717673383;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=UwqTTS8un7pHNkC69VKFGHnWNTgBVFRY5wjuGB303Rc=;
-  b=dDr0OsfmrLRQvikbhXF64uOfpYsolGxJpkgxhYgWx8nsmbANBhwCeHJf
-   KuNnBqGc940JizB5mLWY3ALmh81E73Qp/WVLCqX7fVUOs4Rwa22o7Frrn
-   HR5sIBR0lMJ/r+JG86Z9uuxdKWMxy41z+EMrM0v0ke99K3tLklMIxdEaW
-   FgahT7s6GwEE4+mv/X1Iejs/T8k2TJeaqcWa+IxdXkIhIMismpS71wybk
-   3QWmGkDQ10QZr9ggBsTi8SDxZD+beEVysxyY6r416OBg2SBDfjn6/3GmP
-   fPWk4hRgO74oJbaYbS0faHZ+LTyIZdAwDOeVk/VqObK0kIprpu9bfTJxo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="385278967"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="385278967"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 04:29:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="742625613"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="742625613"
-Received: from vsmyers-mobl2.amr.corp.intel.com (HELO [10.212.146.233]) ([10.212.146.233])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 04:27:55 -0700
-Message-ID: <aa9cd68b-645b-d997-e327-dc8335de913e@intel.com>
-Date:   Wed, 7 Jun 2023 04:27:55 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] x86/hyperv: Trace hv_set_register()
-Content-Language: en-US
-To:     Nischala Yelchuri <niyelchu@linux.microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tyler Hicks <code@tyhicks.com>, boqun.feng@gmail.com,
+        Wed, 7 Jun 2023 12:51:45 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1589A1FE5;
+        Wed,  7 Jun 2023 09:51:43 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1b0314f057cso39855215ad.1;
+        Wed, 07 Jun 2023 09:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686156702; x=1688748702;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9HvkrROz2drFh8xFYBPmF+VNzTPGb5WOTqzBg4sKnoM=;
+        b=reo+WQMeLQPt/SsvO9XQxnkV8qphwYlW+o8PILevVu572jDamMEzful0KxjzC6t1P9
+         TafBxuTLkOHxqjuT8uwFiGEXPEMSMpBlRsknucMi0k8Eu2MlRQFeyVcZinKBV97/KYkq
+         iPGaMAHaPrOfSZYmCaL9PCYpL5kMtOXvDdhV3MMDoCjlffG1ERobuCr6XQWv1knU+QtU
+         YS+EHNw0wjLrc0ENoOt0Nl2cjveLvKA9v9pZd+UYk3095YLy+801kfbBMc0qqMlWBleL
+         An5qcmdIoQvO8CpEi9H2PhMnZmuZhNK1TKj90CBx4ep4P3nN2hwEzLSwkfgjEcbYI9zZ
+         NCJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686156702; x=1688748702;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9HvkrROz2drFh8xFYBPmF+VNzTPGb5WOTqzBg4sKnoM=;
+        b=OomGwYWB9gcUR6kQFHEiykMrGBCLkvQI4ariMZ6GWASpdnhahPeV7nGOZ0d/YPd22w
+         A4Ps5LjjtkHrcDtyJnrA8OaKoURjHnsjBOBoQ40/jw3mB5daq5fI12rVvSmwwdkpdbcd
+         wdWNUUwaquhyts3eYIBSXYbkNKD0aBpBqO8NPU5HxtQY+jyP43bmQy5kUCEMbZegkjCQ
+         N3Q0ykLQi+aZrywCRrcX9RvnNy7YVm/52W04+2uMN90punlreinvAWCBgwXQkhs1hNOE
+         R/Up3KVogqMIs5vS3J4sCjODHepBJt4IgbX9fY0IyOo4InznX+RvswAm4HO8grdQ5frn
+         JoIg==
+X-Gm-Message-State: AC+VfDwjsm94wqWJcsl2wSUPmyS/i5nWCLNS/M9HQ6kKQU+UjIllpe3C
+        np6NkefFam46/RxXHcIQkgk=
+X-Google-Smtp-Source: ACHHUZ7tMqgn7UppBe0n1R+zcXc1AuD7MgVV1Rl7wsvMiJteNcAL4yyoJEciphxyfserOSjWbFSPRA==
+X-Received: by 2002:a17:902:c40a:b0:1af:babd:7b6d with SMTP id k10-20020a170902c40a00b001afbabd7b6dmr3776435plk.52.1686156702253;
+        Wed, 07 Jun 2023 09:51:42 -0700 (PDT)
+Received: from localhost (c-67-166-91-86.hsd1.wa.comcast.net. [67.166.91.86])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902ed8c00b001ac7f583f72sm10664727plj.209.2023.06.07.09.51.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 09:51:41 -0700 (PDT)
+Date:   Thu, 1 Jun 2023 07:51:34 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Arseniy Krasnov <avkrasnov@sberdevices.ru>
+Cc:     Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nischala Yelchuri <niyelchu@microsoft.com>
-References: <1686101757-23985-1-git-send-email-niyelchu@linux.microsoft.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <1686101757-23985-1-git-send-email-niyelchu@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Bryan Tan <bryantan@vmware.com>,
+        Vishnu Dasa <vdasa@vmware.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        Krasnov Arseniy <oxffffaa@gmail.com>, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH RFC net-next v3 8/8] tests: add vsock dgram tests
+Message-ID: <ZHhOBrmU7tzSX3zE@bullseye>
+References: <7dbec78e-ea44-4684-6d02-5d6d5051187e@sberdevices.ru>
+ <0bd40fd8-e666-e2a3-04da-501a0e7b97a9@sberdevices.ru>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0bd40fd8-e666-e2a3-04da-501a0e7b97a9@sberdevices.ru>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 6/6/23 18:35, Nischala Yelchuri wrote:
->  void hv_set_register(unsigned int reg, u64 value)
->  {
-> +	trace_hyperv_set_register(reg, value);
-> +
->  	if (hv_nested)
->  		reg = hv_get_nested_reg(reg);
+On Tue, Jun 06, 2023 at 12:34:22PM +0300, Arseniy Krasnov wrote:
+> Sorry, CC mailing lists
+> 
+> On 06.06.2023 12:29, Arseniy Krasnov wrote:
+> > Hello Bobby and Jiang! Small remarks(sorry for this letter layout, I add multiple newline over comments):
+> > 
 
-I can't help but wonder if this is just a patch for people that don't
-know how to set kprobes.
+Hey Arseniy!
+
+> > diff --git a/tools/testing/vsock/util.c b/tools/testing/vsock/util.c
+> > index 01b636d3039a..45e35da48b40 100644
+> > --- a/tools/testing/vsock/util.c
+> > +++ b/tools/testing/vsock/util.c
+> > @@ -260,6 +260,57 @@ void send_byte(int fd, int expected_ret, int flags)
+> >  	}
+> >  }
+> >  
+> > +/* Transmit one byte and check the return value.
+> > + *
+> > + * expected_ret:
+> > + *  <0 Negative errno (for testing errors)
+> > + *   0 End-of-file
+> > + *   1 Success
+> > + */
+> > +void sendto_byte(int fd, const struct sockaddr *dest_addr, int len, int expected_ret,
+> > +		 int flags)
+> > +{
+> > +	const uint8_t byte = 'A';
+> > +	ssize_t nwritten;
+> > +
+> > +	timeout_begin(TIMEOUT);
+> > +	do {
+> > +		nwritten = sendto(fd, &byte, sizeof(byte), flags, dest_addr,
+> > +				  len);
+> > +		timeout_check("write");
+> > +	} while (nwritten < 0 && errno == EINTR);
+> > +	timeout_end();
+> > +
+> > +	if (expected_ret < 0) {
+> > +		if (nwritten != -1) {
+> > +			fprintf(stderr, "bogus sendto(2) return value %zd\n",
+> > +				nwritten);
+> > +			exit(EXIT_FAILURE);
+> > +		}
+> > +		if (errno != -expected_ret) {
+> > +			perror("write");
+> > +			exit(EXIT_FAILURE);
+> > +		}
+> > +		return;
+> > +	}
+> > +
+> > +	if (nwritten < 0) {
+> > +		perror("write");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +	if (nwritten == 0) {
+> > +		if (expected_ret == 0)
+> > +			return;
+> > +
+> > +		fprintf(stderr, "unexpected EOF while sending byte\n");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +	if (nwritten != sizeof(byte)) {
+> > +		fprintf(stderr, "bogus sendto(2) return value %zd\n", nwritten);
+> > +		exit(EXIT_FAILURE);
+> > +
+> > 	}
+> > 
+> > 
+> > 
+> > ^^^
+> > May be short check that 'nwritten' != 'expected_ret' will be enough? Then print expected and
+> > real value. Here and in 'recvfrom_byte()' below.
+> > 
+
+Right now this is really just a copy/paste of the send_byte() that
+stream uses, so that would probably make the two report errors slightly
+different. If desired for some specific reason, I'm open to it.
+
+> > 
+> > 
+> > 
+> > +}
+> > +
+> >  /* Receive one byte and check the return value.
+> >   *
+> >   * expected_ret:
+> > @@ -313,6 +364,60 @@ void recv_byte(int fd, int expected_ret, int flags)
+> >  	}
+> >  }
+> >  
+> > +/* Receive one byte and check the return value.
+> > + *
+> > + * expected_ret:
+> > + *  <0 Negative errno (for testing errors)
+> > + *   0 End-of-file
+> > + *   1 Success
+> > + */
+> > +void recvfrom_byte(int fd, struct sockaddr *src_addr, socklen_t *addrlen,
+> > +		   int expected_ret, int flags)
+> > +{
+> > +	uint8_t byte;
+> > +	ssize_t nread;
+> > +
+> > +	timeout_begin(TIMEOUT);
+> > +	do {
+> > +		nread = recvfrom(fd, &byte, sizeof(byte), flags, src_addr, addrlen);
+> > +		timeout_check("read");
+> > +	} while (nread < 0 && errno == EINTR);
+> > +	timeout_end();
+> > +
+> > +	if (expected_ret < 0) {
+> > +		if (nread != -1) {
+> > +			fprintf(stderr, "bogus recvfrom(2) return value %zd\n",
+> > +				nread);
+> > +			exit(EXIT_FAILURE);
+> > +		}
+> > +		if (errno != -expected_ret) {
+> > +			perror("read");
+> > +			exit(EXIT_FAILURE);
+> > +		}
+> > +		return;
+> > +	}
+> > +
+> > +	if (nread < 0) {
+> > +		perror("read");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +	if (nread == 0) {
+> > +		if (expected_ret == 0)
+> > +			return;
+> > +
+> > +		fprintf(stderr, "unexpected EOF while receiving byte\n");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +	if (nread != sizeof(byte)) {
+> > +		fprintf(stderr, "bogus recvfrom(2) return value %zd\n", nread);
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +	if (byte != 'A') {
+> > +		fprintf(stderr, "unexpected byte read %c\n", byte);
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +}
+> > +
+> >  /* Run test cases.  The program terminates if a failure occurs. */
+> >  void run_tests(const struct test_case *test_cases,
+> >  	       const struct test_opts *opts)
+> > diff --git a/tools/testing/vsock/util.h b/tools/testing/vsock/util.h
+> > index fb99208a95ea..6e5cd610bf05 100644
+> > --- a/tools/testing/vsock/util.h
+> > +++ b/tools/testing/vsock/util.h
+> > @@ -43,7 +43,11 @@ int vsock_seqpacket_accept(unsigned int cid, unsigned int port,
+> >  			   struct sockaddr_vm *clientaddrp);
+> >  void vsock_wait_remote_close(int fd);
+> >  void send_byte(int fd, int expected_ret, int flags);
+> > +void sendto_byte(int fd, const struct sockaddr *dest_addr, int len, int expected_ret,
+> > +		 int flags);
+> >  void recv_byte(int fd, int expected_ret, int flags);
+> > +void recvfrom_byte(int fd, struct sockaddr *src_addr, socklen_t *addrlen,
+> > +		   int expected_ret, int flags);
+> >  void run_tests(const struct test_case *test_cases,
+> >  	       const struct test_opts *opts);
+> >  void list_tests(const struct test_case *test_cases);
+> > diff --git a/tools/testing/vsock/vsock_test.c b/tools/testing/vsock/vsock_test.c
+> > index ac1bd3ac1533..851c3d65178d 100644
+> > --- a/tools/testing/vsock/vsock_test.c
+> > +++ b/tools/testing/vsock/vsock_test.c
+> > @@ -202,6 +202,113 @@ static void test_stream_server_close_server(const struct test_opts *opts)
+> >  	close(fd);
+> >  }
+> >  
+> > +static void test_dgram_sendto_client(const struct test_opts *opts)
+> > +{
+> > +	union {
+> > +		struct sockaddr sa;
+> > +		struct sockaddr_vm svm;
+> > +	} addr = {
+> > +		.svm = {
+> > +			.svm_family = AF_VSOCK,
+> > +			.svm_port = 1234,
+> > +			.svm_cid = opts->peer_cid,
+> > +		},
+> > +	};
+> > +	int fd;
+> > +
+> > +	/* Wait for the server to be ready */
+> > +	control_expectln("BIND");
+> > +
+> > +	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
+> > +	if (fd < 0) {
+> > +		perror("socket");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +
+> > +	sendto_byte(fd, &addr.sa, sizeof(addr.svm), 1, 0);
+> > +
+> > +	/* Notify the server that the client has finished */
+> > +	control_writeln("DONE");
+> > +
+> > +	close(fd);
+> > +}
+> > +
+> > +static void test_dgram_sendto_server(const struct test_opts *opts)
+> > +{
+> > +	union {
+> > +		struct sockaddr sa;
+> > +		struct sockaddr_vm svm;
+> > +	} addr = {
+> > +		.svm = {
+> > +			.svm_family = AF_VSOCK,
+> > +			.svm_port = 1234,
+> > +			.svm_cid = VMADDR_CID_ANY,
+> > +		},
+> > +	};
+> > +	int fd;
+> > +	int len = sizeof(addr.sa);
+> > +
+> > +	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
+> > 
+> > 
+> > 
+> > ^^^
+> > I think we can check 'socket()' return value;
+> > 
+
+Gotcha, I'll add in next rev.
+
+> > 
+> > 
+> > 
+> > +
+> > +	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
+> > +		perror("bind");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +
+> > +	/* Notify the client that the server is ready */
+> > +	control_writeln("BIND");
+> > +
+> > +	recvfrom_byte(fd, &addr.sa, &len, 1, 0);
+> > +
+> > +	/* Wait for the client to finish */
+> > +	control_expectln("DONE");
+> > +
+> > +	close(fd);
+> > +}
+> > +
+> > +static void test_dgram_connect_client(const struct test_opts *opts)
+> > +{
+> > +	union {
+> > +		struct sockaddr sa;
+> > +		struct sockaddr_vm svm;
+> > +	} addr = {
+> > +		.svm = {
+> > +			.svm_family = AF_VSOCK,
+> > +			.svm_port = 1234,
+> > +			.svm_cid = opts->peer_cid,
+> > +		},
+> > +	};
+> > +	int fd;
+> > +	int ret;
+> > +
+> > +	/* Wait for the server to be ready */
+> > +	control_expectln("BIND");
+> > +
+> > +	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
+> > +	if (fd < 0) {
+> > +		perror("bind");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +
+> > +	ret = connect(fd, &addr.sa, sizeof(addr.svm));
+> > +	if (ret < 0) {
+> > +		perror("connect");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +
+> > +	send_byte(fd, 1, 0);
+> > +
+> > +	/* Notify the server that the client has finished */
+> > +	control_writeln("DONE");
+> > +
+> > +	close(fd);
+> > +}
+> > +
+> > +static void test_dgram_connect_server(const struct test_opts *opts)
+> > +{
+> > +	test_dgram_sendto_server(opts);
+> > +}
+> > +
+> >  /* With the standard socket sizes, VMCI is able to support about 100
+> >   * concurrent stream connections.
+> >   */
+> > @@ -255,6 +362,77 @@ static void test_stream_multiconn_server(const struct test_opts *opts)
+> >  		close(fds[i]);
+> >  }
+> >  
+> > +static void test_dgram_multiconn_client(const struct test_opts *opts)
+> > +{
+> > +	int fds[MULTICONN_NFDS];
+> > +	int i;
+> > +	union {
+> > +		struct sockaddr sa;
+> > +		struct sockaddr_vm svm;
+> > +	} addr = {
+> > +		.svm = {
+> > +			.svm_family = AF_VSOCK,
+> > +			.svm_port = 1234,
+> > +			.svm_cid = opts->peer_cid,
+> > +		},
+> > +	};
+> > +
+> > +	/* Wait for the server to be ready */
+> > +	control_expectln("BIND");
+> > +
+> > +	for (i = 0; i < MULTICONN_NFDS; i++) {
+> > +		fds[i] = socket(AF_VSOCK, SOCK_DGRAM, 0);
+> > +		if (fds[i] < 0) {
+> > +			perror("socket");
+> > +			exit(EXIT_FAILURE);
+> > +		}
+> > +	}
+> > +
+> > +	for (i = 0; i < MULTICONN_NFDS; i++)
+> > +		sendto_byte(fds[i], &addr.sa, sizeof(addr.svm), 1, 0);
+> > +
+> > +	/* Notify the server that the client has finished */
+> > +	control_writeln("DONE");
+> > +
+> > +	for (i = 0; i < MULTICONN_NFDS; i++)
+> > +		close(fds[i]);
+> > +}
+> > +
+> > +static void test_dgram_multiconn_server(const struct test_opts *opts)
+> > +{
+> > +	union {
+> > +		struct sockaddr sa;
+> > +		struct sockaddr_vm svm;
+> > +	} addr = {
+> > +		.svm = {
+> > +			.svm_family = AF_VSOCK,
+> > +			.svm_port = 1234,
+> > +			.svm_cid = VMADDR_CID_ANY,
+> > +		},
+> > +	};
+> > +	int fd;
+> > +	int len = sizeof(addr.sa);
+> > +	int i;
+> > +
+> > +	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
+> > 
+> > 
+> > 
+> > ^^^
+> > I think we can check 'socket()' return value;
+> > 
+> > 
+> > 
+> > +
+> > +	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
+> > +		perror("bind");
+> > +		exit(EXIT_FAILURE);
+> > +	}
+> > +
+> > +	/* Notify the client that the server is ready */
+> > +	control_writeln("BIND");
+> > +
+> > +	for (i = 0; i < MULTICONN_NFDS; i++)
+> > +		recvfrom_byte(fd, &addr.sa, &len, 1, 0);
+> > +
+> > +	/* Wait for the client to finish */
+> > +	control_expectln("DONE");
+> > +
+> > +	close(fd);
+> > +}
+> > +
+> >  static void test_stream_msg_peek_client(const struct test_opts *opts)
+> >  {
+> >  	int fd;
+> > @@ -1128,6 +1306,21 @@ static struct test_case test_cases[] = {
+> >  		.run_client = test_stream_virtio_skb_merge_client,
+> >  		.run_server = test_stream_virtio_skb_merge_server,
+> >  	},
+> > +	{
+> > +		.name = "SOCK_DGRAM client close",
+> > +		.run_client = test_dgram_sendto_client,
+> > +		.run_server = test_dgram_sendto_server,
+> > +	},
+> > +	{
+> > +		.name = "SOCK_DGRAM client connect",
+> > +		.run_client = test_dgram_connect_client,
+> > +		.run_server = test_dgram_connect_server,
+> > +	},
+> > +	{
+> > +		.name = "SOCK_DGRAM multiple connections",
+> > +		.run_client = test_dgram_multiconn_client,
+> > +		.run_server = test_dgram_multiconn_server,
+> > +	},
+> > 
+> > 
+> > 
+> > 
+> > SOCK_DGRAM guarantees message bounds, I think it will be good to add such test like in SOCK_SEQPACKET tests.
+
+Agreed, I'll write one for the next rev.
+
+> > 
+> > Thanks, Arseniy
+
+Thanks for the review!
+> > 
+> > 
+> >  	{},
+> >  };
+> >  
+> > 
