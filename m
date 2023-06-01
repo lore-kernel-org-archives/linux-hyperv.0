@@ -2,54 +2,54 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE408C7EE2E
-	for <linux-hyperv@archiver.kernel.org>; Thu,  1 Jun 2023 15:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BFCC77B7E
+	for <linux-hyperv@archiver.kernel.org>; Thu,  1 Jun 2023 15:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234572AbjFAPQj (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 1 Jun 2023 11:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55968 "EHLO
+        id S233499AbjFAPQl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 1 Jun 2023 11:16:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233572AbjFAPQc (ORCPT
+        with ESMTP id S234381AbjFAPQh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 1 Jun 2023 11:16:32 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B1FED1;
-        Thu,  1 Jun 2023 08:16:31 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-64fbfe0d037so1737242b3a.0;
-        Thu, 01 Jun 2023 08:16:31 -0700 (PDT)
+        Thu, 1 Jun 2023 11:16:37 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74792123;
+        Thu,  1 Jun 2023 08:16:33 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-64d4e4598f0so1147692b3a.2;
+        Thu, 01 Jun 2023 08:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685632590; x=1688224590;
+        d=gmail.com; s=20221208; t=1685632593; x=1688224593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JWr3WyAHkAhesFIFgHTox4RvNi85iqkYgnLZQ+E6F+M=;
-        b=XgcPgSjX5N0a7pZH5LlDHaJmBwmaJ/rS3QXHJxYWcFCjmBmj1Ljp5N7knJY6VZ7NF7
-         6A6/cOOSXyt2QVuwL4egH9IrqIu2seTPU8gKCJYJ29dqb92yTpNyFOUxQYf5uxndEYDB
-         zHD1cGUvjzHY80L5MqUcXM7wfLh2QpueDz6G2Mqvnz4IFXcazl03qevSxJVXkTvR+WVO
-         cL3aL5nEjt7QuPuxMF0Zt8I9aejmCQvfotWCJS3GGF3go358eaPzktRNG45P4IW/CaxX
-         qpo6IBiKVx34QnW43EwyvkrSUqCijCOJrdI/I5BgnruKD02TVuqiXPyWN8LZl9EwtOuD
-         Wl1g==
+        bh=clSqwvV8e8hE1TuhQU11+QhpX7lJNDmKO1n9lfx7mM4=;
+        b=OI4ATCIYKZicRB0N0Yt8sJeY2C1usR00xZNQlBWNljmBppiqTm3fuHvV2TvUPLWGVM
+         5/F/XmPbc0A+BIaW2XARN2cb/bzYWd7mtLKERQZVy+ODTG9v8+8tDq3K6F3oksJXxg0F
+         mM11bWWfvJVmTbaygKmhGaQPOdG48kS7eUBbMnxLtqN0O1dlHiBLakNRTcCdZUeIYyfk
+         UoSRPfwYTxhOdE9Rdi/WC279pnApYhoaFfkZw3mA6ejNYL7FAS3GPqWMF09vc+U0Cm8E
+         72SWYUYbZr7bx2ochiodYR1TbiHj4cJXUyCgmuJRCI6dARsBnB/7h0fv/neaQjaPf+bv
+         ogPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685632590; x=1688224590;
+        d=1e100.net; s=20221208; t=1685632593; x=1688224593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JWr3WyAHkAhesFIFgHTox4RvNi85iqkYgnLZQ+E6F+M=;
-        b=T49s6RhZgmqJnt/9ll6jhLrUhU6KalmN8arBB4T4g+Asl4it2XqIeZmzIsbCsLDJ7d
-         LqvEhl1Q8oG6EJRnjreXYrEtxW80WDH27xeTpLX6DDZ3lIYtesZcaMIc2I+Cdi6jJQ9j
-         T8zWotAhIyGwlMOHgxS6HjrWSfrEXKfNhKre+8Wm1VMrt5M3U+k/Lm6GcnXaTWD9HW+w
-         r5rN/pkYFWpN6v9dylM8hLtaF6esgKH4YdO57+G0Z49m9uJ8t6YUjD6ifTIx7UtYcce/
-         6F8c/Y7hQH7azhAiB62Hr46nvXsig29WfvCBJ++7n4D6BO94F1tFNpnIW6sz1m3GI8Bb
-         6S8w==
-X-Gm-Message-State: AC+VfDy0IL/fHY4dY8OXgNwExpvM+lBr/3+9qc8dUsE72RV+7LEcw8G+
-        JD4aCp7oLC8Bxc6d6XqfkrI=
-X-Google-Smtp-Source: ACHHUZ6YtsMT5NDsuLPti0fRSK1tfSNxnoZolcVFNbTsZgRdQA8qimUSAtRvohoqXOmtnhkU9oAfdg==
-X-Received: by 2002:a05:6a20:101a:b0:103:b436:aef7 with SMTP id gs26-20020a056a20101a00b00103b436aef7mr2065466pzc.16.1685632590553;
-        Thu, 01 Jun 2023 08:16:30 -0700 (PDT)
+        bh=clSqwvV8e8hE1TuhQU11+QhpX7lJNDmKO1n9lfx7mM4=;
+        b=VnrGL1LKSzxHL+Lu2XUIEG/TNLlK5ak0pWatrNO3VOanQoIB7aeso17D0l7SziBfPQ
+         VtCJMjEuKjHalJIxx/yssM9aP1H8EzZzpdo29IQCHSQBsCvQfPFu/EwYicgAHSDVhBMY
+         1kGym3dN9UUISjigDlHUAtzyga5kUz6NIcqObTahJK6zRF9U7yeGWXIVujUtD6io7WD3
+         g5DtdpRCxUXNbbll752qVMPuxj3L3UkIh0GVcldi6Tb5OJiTKyXd9OwALCnuCzPeA+Vr
+         feeBiGhoBF5QtJICpkoe2Z+5Jl2R/I1BTbmppSYaloGCO6vyuzUXbnYlIr4Zgzfh8/zG
+         Pw+A==
+X-Gm-Message-State: AC+VfDwpdv+LoeAzfv6DM1g7iJXNaqhZPlfbxKxK9HeytVqGwHR+QTqi
+        5BXW1AMPHzo6t3RigM8vR20=
+X-Google-Smtp-Source: ACHHUZ51GG6uw4brx2GnP4zAGM1DxxWxYJ4G8guSFBHMWFO3VEUjSaaP7bMR7BEbXxRYKzzoln/OqA==
+X-Received: by 2002:a05:6a00:15c7:b0:646:6cc3:4a52 with SMTP id o7-20020a056a0015c700b006466cc34a52mr11759587pfu.3.1685632592889;
+        Thu, 01 Jun 2023 08:16:32 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:9:e0c3:5ec1:4a35:2168])
-        by smtp.gmail.com with ESMTPSA id f3-20020a635543000000b0051b460fd90fsm3282639pgm.8.2023.06.01.08.16.29
+        by smtp.gmail.com with ESMTPSA id f3-20020a635543000000b0051b460fd90fsm3282639pgm.8.2023.06.01.08.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 08:16:30 -0700 (PDT)
+        Thu, 01 Jun 2023 08:16:32 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
@@ -59,9 +59,9 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
 Cc:     Tianyu Lan <tiala@microsoft.com>, linux-arch@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com
-Subject: [PATCH 2/9] x86/hyperv: Set Virtual Trust Level in VMBus init message
-Date:   Thu,  1 Jun 2023 11:16:15 -0400
-Message-Id: <20230601151624.1757616-3-ltykernel@gmail.com>
+Subject: [PATCH 4/9] drivers: hv: Mark shared pages unencrypted in SEV-SNP enlightened guest
+Date:   Thu,  1 Jun 2023 11:16:17 -0400
+Message-Id: <20230601151624.1757616-5-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230601151624.1757616-1-ltykernel@gmail.com>
 References: <20230601151624.1757616-1-ltykernel@gmail.com>
@@ -73,133 +73,181 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-SEV-SNP guest provides vtl(Virtual Trust Level) and
-get it from Hyper-V hvcall via register hvcall HVCALL_
-GET_VP_REGISTERS.
-
-During initialization of VMBus, vtl needs to be set in the
-VMBus init message.
+Hypervisor needs to access iput arg, VMBus synic event and
+message pages. Mask these pages unencrypted in the sev-snp
+guest and free them only if they have been marked encrypted
+successfully.
 
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/hyperv/hv_init.c          | 36 ++++++++++++++++++++++++++++++
- arch/x86/include/asm/hyperv-tlfs.h |  7 ++++++
- drivers/hv/connection.c            |  1 +
- include/asm-generic/mshyperv.h     |  1 +
- include/linux/hyperv.h             |  4 ++--
- 5 files changed, 47 insertions(+), 2 deletions(-)
+ drivers/hv/hv.c        | 57 +++++++++++++++++++++++++++++++++++++++---
+ drivers/hv/hv_common.c | 24 +++++++++++++++++-
+ 2 files changed, 77 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index a5f9474f08e1..b4a2327c823b 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -378,6 +378,40 @@ static void __init hv_get_partition_id(void)
- 	local_irq_restore(flags);
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index de6708dbe0df..94406dbe0df0 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -20,6 +20,7 @@
+ #include <linux/interrupt.h>
+ #include <clocksource/hyperv_timer.h>
+ #include <asm/mshyperv.h>
++#include <linux/set_memory.h>
+ #include "hyperv_vmbus.h"
+ 
+ /* The one and only */
+@@ -78,7 +79,7 @@ int hv_post_message(union hv_connection_id connection_id,
+ 
+ int hv_synic_alloc(void)
+ {
+-	int cpu;
++	int cpu, ret = -ENOMEM;
+ 	struct hv_per_cpu_context *hv_cpu;
+ 
+ 	/*
+@@ -123,26 +124,76 @@ int hv_synic_alloc(void)
+ 				goto err;
+ 			}
+ 		}
++
++		if (hv_isolation_type_en_snp()) {
++			ret = set_memory_decrypted((unsigned long)
++				hv_cpu->synic_message_page, 1);
++			if (ret) {
++				pr_err("Failed to decrypt SYNIC msg page: %d\n", ret);
++				hv_cpu->synic_message_page = NULL;
++
++				/*
++				 * Free the event page here and not encrypt
++				 * the page in hv_synic_free().
++				 */
++				free_page((unsigned long)hv_cpu->synic_event_page);
++				hv_cpu->synic_event_page = NULL;
++				goto err;
++			}
++
++			ret = set_memory_decrypted((unsigned long)
++				hv_cpu->synic_event_page, 1);
++			if (ret) {
++				pr_err("Failed to decrypt SYNIC event page: %d\n", ret);
++				hv_cpu->synic_event_page = NULL;
++				goto err;
++			}
++
++			memset(hv_cpu->synic_message_page, 0, PAGE_SIZE);
++			memset(hv_cpu->synic_event_page, 0, PAGE_SIZE);
++		}
+ 	}
+ 
+ 	return 0;
++
+ err:
+ 	/*
+ 	 * Any memory allocations that succeeded will be freed when
+ 	 * the caller cleans up by calling hv_synic_free()
+ 	 */
+-	return -ENOMEM;
++	return ret;
  }
  
-+static u8 __init get_vtl(void)
-+{
-+	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
-+	struct hv_get_vp_registers_input *input;
-+	struct hv_get_vp_registers_output *output;
-+	u64 vtl = 0;
-+	u64 ret;
-+	unsigned long flags;
+ 
+ void hv_synic_free(void)
+ {
+-	int cpu;
++	int cpu, ret;
+ 
+ 	for_each_present_cpu(cpu) {
+ 		struct hv_per_cpu_context *hv_cpu
+ 			= per_cpu_ptr(hv_context.cpu_context, cpu);
+ 
++		/* It's better to leak the page if the encryption fails. */
++		if (hv_isolation_type_en_snp()) {
++			if (hv_cpu->synic_message_page) {
++				ret = set_memory_encrypted((unsigned long)
++					hv_cpu->synic_message_page, 1);
++				if (ret) {
++					pr_err("Failed to encrypt SYNIC msg page: %d\n", ret);
++					hv_cpu->synic_message_page = NULL;
++				}
++			}
 +
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = (struct hv_get_vp_registers_output *)input;
-+	if (!input) {
-+		local_irq_restore(flags);
-+		goto done;
++			if (hv_cpu->synic_event_page) {
++				ret = set_memory_encrypted((unsigned long)
++					hv_cpu->synic_event_page, 1);
++				if (ret) {
++					pr_err("Failed to encrypt SYNIC event page: %d\n", ret);
++					hv_cpu->synic_event_page = NULL;
++				}
++			}
++		}
++
+ 		free_page((unsigned long)hv_cpu->synic_event_page);
+ 		free_page((unsigned long)hv_cpu->synic_message_page);
+ 	}
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 179bc5f5bf52..bed9aa6ac19a 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -24,6 +24,7 @@
+ #include <linux/kmsg_dump.h>
+ #include <linux/slab.h>
+ #include <linux/dma-map-ops.h>
++#include <linux/set_memory.h>
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/mshyperv.h>
+ 
+@@ -359,6 +360,7 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	u64 msr_vp_index;
+ 	gfp_t flags;
+ 	int pgcount = hv_root_partition ? 2 : 1;
++	int ret;
+ 
+ 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
+ 	flags = irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL;
+@@ -368,6 +370,17 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	if (!(*inputarg))
+ 		return -ENOMEM;
+ 
++	if (hv_isolation_type_en_snp()) {
++		ret = set_memory_decrypted((unsigned long)*inputarg, pgcount);
++		if (ret) {
++			kfree(*inputarg);
++			*inputarg = NULL;
++			return ret;
++		}
++
++		memset(*inputarg, 0x00, pgcount * PAGE_SIZE);
 +	}
 +
-+	memset(input, 0, struct_size(input, element, 1));
-+	input->header.partitionid = HV_PARTITION_ID_SELF;
-+	input->header.vpindex = HV_VP_INDEX_SELF;
-+	input->header.inputvtl = 0;
-+	input->element[0].name0 = HV_X64_REGISTER_VSM_VP_STATUS;
-+
-+	ret = hv_do_hypercall(control, input, output);
-+	if (hv_result_success(ret))
-+		vtl = output->as64.low & HV_X64_VTL_MASK;
-+	else
-+		pr_err("Hyper-V: failed to get VTL! %lld", ret);
-+	local_irq_restore(flags);
-+
-+done:
-+	return vtl;
-+}
-+
- /*
-  * This function is to be invoked early in the boot sequence after the
-  * hypervisor has been detected.
-@@ -506,6 +540,8 @@ void __init hyperv_init(void)
- 	/* Query the VMs extended capability once, so that it can be cached. */
- 	hv_query_ext_cap(0);
+ 	if (hv_root_partition) {
+ 		outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 		*outputarg = (char *)(*inputarg) + HV_HYP_PAGE_SIZE;
+@@ -387,7 +400,9 @@ int hv_common_cpu_die(unsigned int cpu)
+ {
+ 	unsigned long flags;
+ 	void **inputarg, **outputarg;
++	int pgcount = hv_root_partition ? 2 : 1;
+ 	void *mem;
++	int ret;
  
-+	/* Find the VTL */
-+	ms_hyperv.vtl = get_vtl();
- 	return;
+ 	local_irq_save(flags);
  
- clean_guest_os_id:
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index cea95dcd27c2..4bf0b315b0ce 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -301,6 +301,13 @@ enum hv_isolation_type {
- #define HV_X64_MSR_TIME_REF_COUNT	HV_REGISTER_TIME_REF_COUNT
- #define HV_X64_MSR_REFERENCE_TSC	HV_REGISTER_REFERENCE_TSC
+@@ -402,7 +417,14 @@ int hv_common_cpu_die(unsigned int cpu)
  
-+/*
-+ * Registers are only accessible via HVCALL_GET_VP_REGISTERS hvcall and
-+ * there is not associated MSR address.
-+ */
-+#define	HV_X64_REGISTER_VSM_VP_STATUS	0x000D0003
-+#define	HV_X64_VTL_MASK			GENMASK(3, 0)
-+
- /* Hyper-V memory host visibility */
- enum hv_mem_host_visibility {
- 	VMBUS_PAGE_NOT_VISIBLE		= 0,
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 5978e9dbc286..02b54f85dc60 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -98,6 +98,7 @@ int vmbus_negotiate_version(struct vmbus_channel_msginfo *msginfo, u32 version)
- 	 */
- 	if (version >= VERSION_WIN10_V5) {
- 		msg->msg_sint = VMBUS_MESSAGE_SINT;
-+		msg->msg_vtl = ms_hyperv.vtl;
- 		vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID_4;
- 	} else {
- 		msg->interrupt_page = virt_to_phys(vmbus_connection.int_page);
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index d444f831d633..c7a90f91c0d3 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -54,6 +54,7 @@ struct ms_hyperv_info {
- 		};
- 	};
- 	u64 shared_gpa_boundary;
-+	u8 vtl;
- };
- extern struct ms_hyperv_info ms_hyperv;
- extern bool hv_nested;
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index bfbc37ce223b..1f2bfec4abde 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -665,8 +665,8 @@ struct vmbus_channel_initiate_contact {
- 		u64 interrupt_page;
- 		struct {
- 			u8	msg_sint;
--			u8	padding1[3];
--			u32	padding2;
-+			u8	msg_vtl;
-+			u8	reserved[6];
- 		};
- 	};
- 	u64 monitor_page1;
+ 	local_irq_restore(flags);
+ 
+-	kfree(mem);
++	if (hv_isolation_type_en_snp()) {
++		ret = set_memory_encrypted((unsigned long)mem, pgcount);
++		if (ret)
++			pr_warn("Hyper-V: Failed to encrypt input arg on cpu%d: %d\n",
++				cpu, ret);
++		/* It's unsafe to free 'mem'. */
++		return 0;
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
