@@ -2,531 +2,215 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE551C7EE32
-	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Jun 2023 07:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72359C7EE29
+	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Jun 2023 11:57:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234051AbjFBH5T (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 2 Jun 2023 03:57:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
+        id S235140AbjFBL5Q (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 2 Jun 2023 07:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234020AbjFBH5R (ORCPT
+        with ESMTP id S234500AbjFBL5P (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 2 Jun 2023 03:57:17 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79E7019A;
-        Fri,  2 Jun 2023 00:57:15 -0700 (PDT)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 0EC0420FCD58;
-        Fri,  2 Jun 2023 00:57:14 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0EC0420FCD58
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1685692634;
-        bh=8fPyyvKqblHUkuPY4cJq+mGm07Ovx+WZuTbgmnIeS1Q=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=j4TEZHLAPDIdRXoBA+BNSRrXsMsJ6L1k/PUOioRignEjWxg6IVp6YMQZ2fIArZ91i
-         GkPJp/k+hIakBd1jm15Nsz9Fh620aDznwVzSy5KXSSK3fukUEr/DORAzDRMDCxQzgJ
-         XGI4WQCJuS0/eVAOfNLihx8Qh7zjlTlWj0L4veb4=
-From:   Saurabh Sengar <ssengar@linux.microsoft.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, mikelley@microsoft.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-hyperv@vger.kernel.org
-Subject: [PATCH 5/5] Drivers: hv: Remove fcopy driver
-Date:   Fri,  2 Jun 2023 00:57:09 -0700
-Message-Id: <1685692629-31351-6-git-send-email-ssengar@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1685692629-31351-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1685692629-31351-1-git-send-email-ssengar@linux.microsoft.com>
+        Fri, 2 Jun 2023 07:57:15 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73F46E57;
+        Fri,  2 Jun 2023 04:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=TNU/G9TSMeyQi8I5o1Gz1jaa+8f4RLEdgRB4a+ht+Qw=; b=ND0Cui7lGRCITibE4mA3XHf5OL
+        o9n8Wi78YIiyjLwgjWx2Siqy5aDe5ovwgAhLmEh1yrZsD/+fKvUlmc0hhtA1qWXdTnqR5OGv8lX0q
+        XzwjEbJ5Zbe0gdzoPg6I8ya3Fe51qPKL1tgMzor5Uf16y883dDhXuyyzlBVp7Y+hhpwxBNwqIVHdo
+        h5fOsfrBCZrEO8UtvQXSVhchce5sGM3t7NMU/To+fQ1rEujUCw2WPonTcbn6slckHwmrk+IwJt0tB
+        VKQZkKj0qjxSBMYPYEwWhBrlAlPWc9q9g6FhS4lwisAlETMV3g3azsF0NmqKFaO5vWaSbcM5esA1n
+        4+e3EkWg==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1q53Mt-009BAi-Ri; Fri, 02 Jun 2023 11:54:55 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E62313002F0;
+        Fri,  2 Jun 2023 13:54:51 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CA1C924553E74; Fri,  2 Jun 2023 13:54:51 +0200 (CEST)
+Date:   Fri, 2 Jun 2023 13:54:51 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Valentin Schneider <vschneid@redhat.com>
+Cc:     bigeasy@linutronix.de, mark.rutland@arm.com, maz@kernel.org,
+        catalin.marinas@arm.com, will@kernel.org, chenhuacai@kernel.org,
+        kernel@xen0n.name, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, pbonzini@redhat.com, wanpengli@tencent.com,
+        vkuznets@redhat.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, jgross@suse.com, boris.ostrovsky@oracle.com,
+        daniel.lezcano@linaro.org, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        rafael@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
+        pmladek@suse.com, senozhatsky@chromium.org, rostedt@goodmis.org,
+        john.ogness@linutronix.de, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+        jstultz@google.com, sboyd@kernel.org, linux-kernel@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-s390@vger.kernel.org,
+        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 04/13] arm64/arch_timer: Provide noinstr
+ sched_clock_read() functions
+Message-ID: <20230602115451.GG620383@hirez.programming.kicks-ass.net>
+References: <20230519102058.581557770@infradead.org>
+ <20230519102715.435618812@infradead.org>
+ <xhsmho7m9ptrk.mognet@vschneid.remote.csb>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <xhsmho7m9ptrk.mognet@vschneid.remote.csb>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-As the new fcopy driver using uio is introduced, remove obsolete driver.
+On Wed, May 24, 2023 at 05:40:47PM +0100, Valentin Schneider wrote:
+> On 19/05/23 12:21, Peter Zijlstra wrote:
+> > With the intent to provide local_clock_noinstr(), a variant of
+> > local_clock() that's safe to be called from noinstr code (with the
+> > assumption that any such code will already be non-preemptible),
+> > prepare for things by providing a noinstr sched_clock_read() function.
+> >
+> > Specifically, preempt_enable_*() calls out to schedule(), which upsets
+> > noinstr validation efforts.
+> >
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > ---
+> >  arch/arm64/include/asm/arch_timer.h  |    8 ----
+> >  drivers/clocksource/arm_arch_timer.c |   60 ++++++++++++++++++++++++++---------
+> >  2 files changed, 47 insertions(+), 21 deletions(-)
+> >
+> > --- a/arch/arm64/include/asm/arch_timer.h
+> > +++ b/arch/arm64/include/asm/arch_timer.h
+> > @@ -88,13 +88,7 @@ static inline notrace u64 arch_timer_rea
+> >
+> >  #define arch_timer_reg_read_stable(reg)					\
+> >       ({								\
+> > -		u64 _val;						\
+> > -									\
+> > -		preempt_disable_notrace();				\
+> > -		_val = erratum_handler(read_ ## reg)();			\
+> > -		preempt_enable_notrace();				\
+> > -									\
+> > -		_val;							\
+> > +		erratum_handler(read_ ## reg)();			\
+> >       })
+> >
+> >  /*
+> > --- a/drivers/clocksource/arm_arch_timer.c
+> > +++ b/drivers/clocksource/arm_arch_timer.c
+> > @@ -191,22 +191,40 @@ u32 arch_timer_reg_read(int access, enum
+> >       return val;
+> >  }
+> >
+> > -static notrace u64 arch_counter_get_cntpct_stable(void)
+> > +static noinstr u64 _arch_counter_get_cntpct_stable(void)
+> >  {
+> >       return __arch_counter_get_cntpct_stable();
+> >  }
+> >
+> 
+> I tripped over the underscores when reviewing this :( This must be
+> getting close to the symbol length limit, but could we give this a helpful
+> prefix or suffix? raw_* or *_noinstr?
+> 
+> > @@ -1074,6 +1092,13 @@ struct arch_timer_kvm_info *arch_timer_g
+> >
+> >  static void __init arch_counter_register(unsigned type)
+> >  {
+> > +	/*
+> > +	 * Default to cp15 based access because arm64 uses this function for
+> > +	 * sched_clock() before DT is probed and the cp15 method is guaranteed
+> > +	 * to exist on arm64. arm doesn't use this before DT is probed so even
+> > +	 * if we don't have the cp15 accessors we won't have a problem.
+> > +	 */
+> > +	u64 (*scr)(void) = arch_counter_get_cntvct;
+> 
+> So this bit sent me on a little spelunking session :-)
+> 
+> From a control flow perspective the initialization isn't required, but then
+> I looked into the comment and found it comes from the
+> arch_timer_read_counter() definition... Which itself doesn't get used by
+> sched_clock() until the sched_clock_register() below!
+> 
+> So AFAICT that comment was true as of
+> 
+>   220069945b29 ("clocksource: arch_timer: Add support for memory mapped timers")
+> 
+> but not after a commit that came 2 months later:
+> 
+>   65cd4f6c99c1 ("arch_timer: Move to generic sched_clock framework")
+> 
+> which IIUC made arm/arm64 follow the default approach of using the
+> jiffy-based sched_clock() before probing DT/ACPI and registering a "proper"
+> sched_clock.
+> 
+> All of that to say: the comment about arch_timer_read_counter() vs early
+> sched_clock() doesn't apply anymore, but I think we need to keep its
+> initalization around for stuff like get_cycles(). This initialization here
+> should be OK to put to the bin, though.
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Something like the below folded in then?
+
 ---
- drivers/hv/Makefile   |   2 +-
- drivers/hv/hv_fcopy.c | 427 ------------------------------------------
- drivers/hv/hv_util.c  |  12 --
- 3 files changed, 1 insertion(+), 440 deletions(-)
- delete mode 100644 drivers/hv/hv_fcopy.c
-
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index d76df5c8c2a9..b992c0ed182b 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -10,7 +10,7 @@ hv_vmbus-y := vmbus_drv.o \
- 		 hv.o connection.o channel.o \
- 		 channel_mgmt.o ring_buffer.o hv_trace.o
- hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
--hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
-+hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
+--- a/drivers/clocksource/arm_arch_timer.c
++++ b/drivers/clocksource/arm_arch_timer.c
+@@ -191,7 +191,7 @@ u32 arch_timer_reg_read(int access, enum
+ 	return val;
+ }
  
- # Code that must be built-in
- obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
-diff --git a/drivers/hv/hv_fcopy.c b/drivers/hv/hv_fcopy.c
-deleted file mode 100644
-index 922d83eb7ddf..000000000000
---- a/drivers/hv/hv_fcopy.c
-+++ /dev/null
-@@ -1,427 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * An implementation of file copy service.
-- *
-- * Copyright (C) 2014, Microsoft, Inc.
-- *
-- * Author : K. Y. Srinivasan <ksrinivasan@novell.com>
-- */
--
--#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
--
--#include <linux/nls.h>
--#include <linux/workqueue.h>
--#include <linux/hyperv.h>
--#include <linux/sched.h>
--#include <asm/hyperv-tlfs.h>
--
--#include "hyperv_vmbus.h"
--#include "hv_utils_transport.h"
--
--#define WIN8_SRV_MAJOR		1
--#define WIN8_SRV_MINOR		1
--#define WIN8_SRV_VERSION	(WIN8_SRV_MAJOR << 16 | WIN8_SRV_MINOR)
--
--#define FCOPY_VER_COUNT 1
--static const int fcopy_versions[] = {
--	WIN8_SRV_VERSION
--};
--
--#define FW_VER_COUNT 1
--static const int fw_versions[] = {
--	UTIL_FW_VERSION
--};
--
--/*
-- * Global state maintained for transaction that is being processed.
-- * For a class of integration services, including the "file copy service",
-- * the specified protocol is a "request/response" protocol which means that
-- * there can only be single outstanding transaction from the host at any
-- * given point in time. We use this to simplify memory management in this
-- * driver - we cache and process only one message at a time.
-- *
-- * While the request/response protocol is guaranteed by the host, we further
-- * ensure this by serializing packet processing in this driver - we do not
-- * read additional packets from the VMBUs until the current packet is fully
-- * handled.
-- */
--
--static struct {
--	int state;   /* hvutil_device_state */
--	int recv_len; /* number of bytes received. */
--	struct hv_fcopy_hdr  *fcopy_msg; /* current message */
--	struct vmbus_channel *recv_channel; /* chn we got the request */
--	u64 recv_req_id; /* request ID. */
--} fcopy_transaction;
--
--static void fcopy_respond_to_host(int error);
--static void fcopy_send_data(struct work_struct *dummy);
--static void fcopy_timeout_func(struct work_struct *dummy);
--static DECLARE_DELAYED_WORK(fcopy_timeout_work, fcopy_timeout_func);
--static DECLARE_WORK(fcopy_send_work, fcopy_send_data);
--static const char fcopy_devname[] = "vmbus/hv_fcopy";
--static u8 *recv_buffer;
--static struct hvutil_transport *hvt;
--/*
-- * This state maintains the version number registered by the daemon.
-- */
--static int dm_reg_value;
--
--static void fcopy_poll_wrapper(void *channel)
--{
--	/* Transaction is finished, reset the state here to avoid races. */
--	fcopy_transaction.state = HVUTIL_READY;
--	tasklet_schedule(&((struct vmbus_channel *)channel)->callback_event);
--}
--
--static void fcopy_timeout_func(struct work_struct *dummy)
--{
--	/*
--	 * If the timer fires, the user-mode component has not responded;
--	 * process the pending transaction.
--	 */
--	fcopy_respond_to_host(HV_E_FAIL);
--	hv_poll_channel(fcopy_transaction.recv_channel, fcopy_poll_wrapper);
--}
--
--static void fcopy_register_done(void)
--{
--	pr_debug("FCP: userspace daemon registered\n");
--	hv_poll_channel(fcopy_transaction.recv_channel, fcopy_poll_wrapper);
--}
--
--static int fcopy_handle_handshake(u32 version)
--{
--	u32 our_ver = FCOPY_CURRENT_VERSION;
--
--	switch (version) {
--	case FCOPY_VERSION_0:
--		/* Daemon doesn't expect us to reply */
--		dm_reg_value = version;
--		break;
--	case FCOPY_VERSION_1:
--		/* Daemon expects us to reply with our own version */
--		if (hvutil_transport_send(hvt, &our_ver, sizeof(our_ver),
--		    fcopy_register_done))
--			return -EFAULT;
--		dm_reg_value = version;
--		break;
--	default:
--		/*
--		 * For now we will fail the registration.
--		 * If and when we have multiple versions to
--		 * deal with, we will be backward compatible.
--		 * We will add this code when needed.
--		 */
--		return -EINVAL;
--	}
--	pr_debug("FCP: userspace daemon ver. %d connected\n", version);
--	return 0;
--}
--
--static void fcopy_send_data(struct work_struct *dummy)
--{
--	struct hv_start_fcopy *smsg_out = NULL;
--	int operation = fcopy_transaction.fcopy_msg->operation;
--	struct hv_start_fcopy *smsg_in;
--	void *out_src;
--	int rc, out_len;
--
--	/*
--	 * The  strings sent from the host are encoded in
--	 * utf16; convert it to utf8 strings.
--	 * The host assures us that the utf16 strings will not exceed
--	 * the max lengths specified. We will however, reserve room
--	 * for the string terminating character - in the utf16s_utf8s()
--	 * function we limit the size of the buffer where the converted
--	 * string is placed to W_MAX_PATH -1 to guarantee
--	 * that the strings can be properly terminated!
--	 */
--
--	switch (operation) {
--	case START_FILE_COPY:
--		out_len = sizeof(struct hv_start_fcopy);
--		smsg_out = kzalloc(sizeof(*smsg_out), GFP_KERNEL);
--		if (!smsg_out)
--			return;
--
--		smsg_out->hdr.operation = operation;
--		smsg_in = (struct hv_start_fcopy *)fcopy_transaction.fcopy_msg;
--
--		utf16s_to_utf8s((wchar_t *)smsg_in->file_name, W_MAX_PATH,
--				UTF16_LITTLE_ENDIAN,
--				(__u8 *)&smsg_out->file_name, W_MAX_PATH - 1);
--
--		utf16s_to_utf8s((wchar_t *)smsg_in->path_name, W_MAX_PATH,
--				UTF16_LITTLE_ENDIAN,
--				(__u8 *)&smsg_out->path_name, W_MAX_PATH - 1);
--
--		smsg_out->copy_flags = smsg_in->copy_flags;
--		smsg_out->file_size = smsg_in->file_size;
--		out_src = smsg_out;
--		break;
--
--	case WRITE_TO_FILE:
--		out_src = fcopy_transaction.fcopy_msg;
--		out_len = sizeof(struct hv_do_fcopy);
--		break;
--	default:
--		out_src = fcopy_transaction.fcopy_msg;
--		out_len = fcopy_transaction.recv_len;
--		break;
--	}
--
--	fcopy_transaction.state = HVUTIL_USERSPACE_REQ;
--	rc = hvutil_transport_send(hvt, out_src, out_len, NULL);
--	if (rc) {
--		pr_debug("FCP: failed to communicate to the daemon: %d\n", rc);
--		if (cancel_delayed_work_sync(&fcopy_timeout_work)) {
--			fcopy_respond_to_host(HV_E_FAIL);
--			fcopy_transaction.state = HVUTIL_READY;
--		}
--	}
--	kfree(smsg_out);
--}
--
--/*
-- * Send a response back to the host.
-- */
--
--static void
--fcopy_respond_to_host(int error)
--{
--	struct icmsg_hdr *icmsghdr;
--	u32 buf_len;
--	struct vmbus_channel *channel;
--	u64 req_id;
--
--	/*
--	 * Copy the global state for completing the transaction. Note that
--	 * only one transaction can be active at a time. This is guaranteed
--	 * by the file copy protocol implemented by the host. Furthermore,
--	 * the "transaction active" state we maintain ensures that there can
--	 * only be one active transaction at a time.
--	 */
--
--	buf_len = fcopy_transaction.recv_len;
--	channel = fcopy_transaction.recv_channel;
--	req_id = fcopy_transaction.recv_req_id;
--
--	icmsghdr = (struct icmsg_hdr *)
--			&recv_buffer[sizeof(struct vmbuspipe_hdr)];
--
--	if (channel->onchannel_callback == NULL)
--		/*
--		 * We have raced with util driver being unloaded;
--		 * silently return.
--		 */
--		return;
--
--	icmsghdr->status = error;
--	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
--	vmbus_sendpacket(channel, recv_buffer, buf_len, req_id,
--				VM_PKT_DATA_INBAND, 0);
--}
--
--void hv_fcopy_onchannelcallback(void *context)
--{
--	struct vmbus_channel *channel = context;
--	u32 recvlen;
--	u64 requestid;
--	struct hv_fcopy_hdr *fcopy_msg;
--	struct icmsg_hdr *icmsghdr;
--	int fcopy_srv_version;
--
--	if (fcopy_transaction.state > HVUTIL_READY)
--		return;
--
--	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen, &requestid)) {
--		pr_err_ratelimited("Fcopy request received. Could not read into recv buf\n");
--		return;
--	}
--
--	if (!recvlen)
--		return;
--
--	/* Ensure recvlen is big enough to read header data */
--	if (recvlen < ICMSG_HDR) {
--		pr_err_ratelimited("Fcopy request received. Packet length too small: %d\n",
--				   recvlen);
--		return;
--	}
--
--	icmsghdr = (struct icmsg_hdr *)&recv_buffer[
--			sizeof(struct vmbuspipe_hdr)];
--
--	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
--		if (vmbus_prep_negotiate_resp(icmsghdr,
--				recv_buffer, recvlen,
--				fw_versions, FW_VER_COUNT,
--				fcopy_versions, FCOPY_VER_COUNT,
--				NULL, &fcopy_srv_version)) {
--
--			pr_info("FCopy IC version %d.%d\n",
--				fcopy_srv_version >> 16,
--				fcopy_srv_version & 0xFFFF);
--		}
--	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
--		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
--		if (recvlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
--			pr_err_ratelimited("Invalid Fcopy hdr. Packet length too small: %u\n",
--					   recvlen);
--			return;
--		}
--		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[ICMSG_HDR];
--
--		/*
--		 * Stash away this global state for completing the
--		 * transaction; note transactions are serialized.
--		 */
--
--		fcopy_transaction.recv_len = recvlen;
--		fcopy_transaction.recv_req_id = requestid;
--		fcopy_transaction.fcopy_msg = fcopy_msg;
--
--		if (fcopy_transaction.state < HVUTIL_READY) {
--			/* Userspace is not registered yet */
--			fcopy_respond_to_host(HV_E_FAIL);
--			return;
--		}
--		fcopy_transaction.state = HVUTIL_HOSTMSG_RECEIVED;
--
--		/*
--		 * Send the information to the user-level daemon.
--		 */
--		schedule_work(&fcopy_send_work);
--		schedule_delayed_work(&fcopy_timeout_work,
--				      HV_UTIL_TIMEOUT * HZ);
--		return;
--	} else {
--		pr_err_ratelimited("Fcopy request received. Invalid msg type: %d\n",
--				   icmsghdr->icmsgtype);
--		return;
--	}
--	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
--	vmbus_sendpacket(channel, recv_buffer, recvlen, requestid,
--			VM_PKT_DATA_INBAND, 0);
--}
--
--/* Callback when data is received from userspace */
--static int fcopy_on_msg(void *msg, int len)
--{
--	int *val = (int *)msg;
--
--	if (len != sizeof(int))
--		return -EINVAL;
--
--	if (fcopy_transaction.state == HVUTIL_DEVICE_INIT)
--		return fcopy_handle_handshake(*val);
--
--	if (fcopy_transaction.state != HVUTIL_USERSPACE_REQ)
--		return -EINVAL;
--
--	/*
--	 * Complete the transaction by forwarding the result
--	 * to the host. But first, cancel the timeout.
--	 */
--	if (cancel_delayed_work_sync(&fcopy_timeout_work)) {
--		fcopy_transaction.state = HVUTIL_USERSPACE_RECV;
--		fcopy_respond_to_host(*val);
--		hv_poll_channel(fcopy_transaction.recv_channel,
--				fcopy_poll_wrapper);
--	}
--
--	return 0;
--}
--
--static void fcopy_on_reset(void)
--{
--	/*
--	 * The daemon has exited; reset the state.
--	 */
--	fcopy_transaction.state = HVUTIL_DEVICE_INIT;
--
--	if (cancel_delayed_work_sync(&fcopy_timeout_work))
--		fcopy_respond_to_host(HV_E_FAIL);
--}
--
--int hv_fcopy_init(struct hv_util_service *srv)
--{
--	recv_buffer = srv->recv_buffer;
--	fcopy_transaction.recv_channel = srv->channel;
--	fcopy_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
--
--	/*
--	 * When this driver loads, the user level daemon that
--	 * processes the host requests may not yet be running.
--	 * Defer processing channel callbacks until the daemon
--	 * has registered.
--	 */
--	fcopy_transaction.state = HVUTIL_DEVICE_INIT;
--
--	hvt = hvutil_transport_init(fcopy_devname, 0, 0,
--				    fcopy_on_msg, fcopy_on_reset);
--	if (!hvt)
--		return -EFAULT;
--
--	return 0;
--}
--
--static void hv_fcopy_cancel_work(void)
--{
--	cancel_delayed_work_sync(&fcopy_timeout_work);
--	cancel_work_sync(&fcopy_send_work);
--}
--
--int hv_fcopy_pre_suspend(void)
--{
--	struct vmbus_channel *channel = fcopy_transaction.recv_channel;
--	struct hv_fcopy_hdr *fcopy_msg;
--
--	/*
--	 * Fake a CANCEL_FCOPY message for the user space daemon in case the
--	 * daemon is in the middle of copying some file. It doesn't matter if
--	 * there is already a message pending to be delivered to the user
--	 * space since we force fcopy_transaction.state to be HVUTIL_READY, so
--	 * the user space daemon's write() will fail with EINVAL (see
--	 * fcopy_on_msg()), and the daemon will reset the device by closing
--	 * and re-opening it.
--	 */
--	fcopy_msg = kzalloc(sizeof(*fcopy_msg), GFP_KERNEL);
--	if (!fcopy_msg)
--		return -ENOMEM;
--
--	tasklet_disable(&channel->callback_event);
--
--	fcopy_msg->operation = CANCEL_FCOPY;
--
--	hv_fcopy_cancel_work();
--
--	/* We don't care about the return value. */
--	hvutil_transport_send(hvt, fcopy_msg, sizeof(*fcopy_msg), NULL);
--
--	kfree(fcopy_msg);
--
--	fcopy_transaction.state = HVUTIL_READY;
--
--	/* tasklet_enable() will be called in hv_fcopy_pre_resume(). */
--	return 0;
--}
--
--int hv_fcopy_pre_resume(void)
--{
--	struct vmbus_channel *channel = fcopy_transaction.recv_channel;
--
--	tasklet_enable(&channel->callback_event);
--
--	return 0;
--}
--
--void hv_fcopy_deinit(void)
--{
--	fcopy_transaction.state = HVUTIL_DEVICE_DYING;
--
--	hv_fcopy_cancel_work();
--
--	hvutil_transport_destroy(hvt);
--}
-diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
-index 42aec2c5606a..4bf16e58ee50 100644
---- a/drivers/hv/hv_util.c
-+++ b/drivers/hv/hv_util.c
-@@ -154,14 +154,6 @@ static struct hv_util_service util_vss = {
- 	.util_deinit = hv_vss_deinit,
- };
- 
--static struct hv_util_service util_fcopy = {
--	.util_cb = hv_fcopy_onchannelcallback,
--	.util_init = hv_fcopy_init,
--	.util_pre_suspend = hv_fcopy_pre_suspend,
--	.util_pre_resume = hv_fcopy_pre_resume,
--	.util_deinit = hv_fcopy_deinit,
--};
--
- static void perform_shutdown(struct work_struct *dummy)
+-static noinstr u64 _arch_counter_get_cntpct_stable(void)
++static noinstr u64 raw_counter_get_cntpct_stable(void)
  {
- 	orderly_poweroff(true);
-@@ -671,10 +663,6 @@ static const struct hv_vmbus_device_id id_table[] = {
- 	{ HV_VSS_GUID,
- 	  .driver_data = (unsigned long)&util_vss
- 	},
--	/* File copy GUID */
--	{ HV_FCOPY_GUID,
--	  .driver_data = (unsigned long)&util_fcopy
--	},
- 	{ },
- };
+ 	return __arch_counter_get_cntpct_stable();
+ }
+@@ -210,7 +210,7 @@ static noinstr u64 arch_counter_get_cntp
+ 	return __arch_counter_get_cntpct();
+ }
  
--- 
-2.34.1
-
+-static noinstr u64 _arch_counter_get_cntvct_stable(void)
++static noinstr u64 raw_counter_get_cntvct_stable(void)
+ {
+ 	return __arch_counter_get_cntvct_stable();
+ }
+@@ -1092,13 +1092,7 @@ struct arch_timer_kvm_info *arch_timer_g
+ 
+ static void __init arch_counter_register(unsigned type)
+ {
+-	/*
+-	 * Default to cp15 based access because arm64 uses this function for
+-	 * sched_clock() before DT is probed and the cp15 method is guaranteed
+-	 * to exist on arm64. arm doesn't use this before DT is probed so even
+-	 * if we don't have the cp15 accessors we won't have a problem.
+-	 */
+-	u64 (*scr)(void) = arch_counter_get_cntvct;
++	u64 (*scr)(void);
+ 	u64 start_count;
+ 	int width;
+ 
+@@ -1110,7 +1104,7 @@ static void __init arch_counter_register
+ 		    arch_timer_uses_ppi == ARCH_TIMER_VIRT_PPI) {
+ 			if (arch_timer_counter_has_wa()) {
+ 				rd = arch_counter_get_cntvct_stable;
+-				scr = _arch_counter_get_cntvct_stable;
++				scr = raw_counter_get_cntvct_stable;
+ 			} else {
+ 				rd = arch_counter_get_cntvct;
+ 				scr = arch_counter_get_cntvct;
+@@ -1118,7 +1112,7 @@ static void __init arch_counter_register
+ 		} else {
+ 			if (arch_timer_counter_has_wa()) {
+ 				rd = arch_counter_get_cntpct_stable;
+-				scr = _arch_counter_get_cntpct_stable;
++				scr = raw_counter_get_cntpct_stable;
+ 			} else {
+ 				rd = arch_counter_get_cntpct;
+ 				scr = arch_counter_get_cntpct;
