@@ -2,38 +2,38 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A576AC7EE24
-	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Jun 2023 07:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE551C7EE32
+	for <linux-hyperv@archiver.kernel.org>; Fri,  2 Jun 2023 07:57:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234010AbjFBH5S (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 2 Jun 2023 03:57:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52894 "EHLO
+        id S234051AbjFBH5T (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 2 Jun 2023 03:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234003AbjFBH5Q (ORCPT
+        with ESMTP id S234020AbjFBH5R (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 2 Jun 2023 03:57:16 -0400
+        Fri, 2 Jun 2023 03:57:17 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 343BB195;
-        Fri,  2 Jun 2023 00:57:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 79E7019A;
+        Fri,  2 Jun 2023 00:57:15 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id B93ED20FCD4F;
-        Fri,  2 Jun 2023 00:57:13 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B93ED20FCD4F
+        by linux.microsoft.com (Postfix) with ESMTPSA id 0EC0420FCD58;
+        Fri,  2 Jun 2023 00:57:14 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0EC0420FCD58
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1685692633;
-        bh=xGsnXgIXapGzAYyOd4CZp+2i1vjVbQL0gFGaB3QgStE=;
+        s=default; t=1685692634;
+        bh=8fPyyvKqblHUkuPY4cJq+mGm07Ovx+WZuTbgmnIeS1Q=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=G+hX8gcee0nLzvPJWgREBAIxuUkEPEXaJDCPrdRPx6+WMPEK0bjIRPvufSYqSO7Pr
-         BW/ASvplEflNsPi16mjok36JU9xNbLvHnJgNvC/51N3zU0IR64lVISVNOZAMAzIPVR
-         hz90j/GjIJs7pNlzfnP+9f1n/NAieC/YY/8uCsXE=
+        b=j4TEZHLAPDIdRXoBA+BNSRrXsMsJ6L1k/PUOioRignEjWxg6IVp6YMQZ2fIArZ91i
+         GkPJp/k+hIakBd1jm15Nsz9Fh620aDznwVzSy5KXSSK3fukUEr/DORAzDRMDCxQzgJ
+         XGI4WQCJuS0/eVAOfNLihx8Qh7zjlTlWj0L4veb4=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, mikelley@microsoft.com,
         gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH 2/5] tools: hv: Add vmbus_bufring
-Date:   Fri,  2 Jun 2023 00:57:06 -0700
-Message-Id: <1685692629-31351-3-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH 5/5] Drivers: hv: Remove fcopy driver
+Date:   Fri,  2 Jun 2023 00:57:09 -0700
+Message-Id: <1685692629-31351-6-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1685692629-31351-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1685692629-31351-1-git-send-email-ssengar@linux.microsoft.com>
@@ -41,514 +41,492 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Common userspace interface for read/write from VMBus ringbuffer.
-This implementation is open for use by any userspace driver or
-application seeking direct control over VMBus ring buffers.
-A significant  part of this code is borrowed from DPDK.
-Link: https://github.com/DPDK/dpdk/
+As the new fcopy driver using uio is introduced, remove obsolete driver.
 
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
- tools/hv/vmbus_bufring.c | 324 +++++++++++++++++++++++++++++++++++++++
- tools/hv/vmbus_bufring.h | 158 +++++++++++++++++++
- 2 files changed, 482 insertions(+)
- create mode 100644 tools/hv/vmbus_bufring.c
- create mode 100644 tools/hv/vmbus_bufring.h
+ drivers/hv/Makefile   |   2 +-
+ drivers/hv/hv_fcopy.c | 427 ------------------------------------------
+ drivers/hv/hv_util.c  |  12 --
+ 3 files changed, 1 insertion(+), 440 deletions(-)
+ delete mode 100644 drivers/hv/hv_fcopy.c
 
-diff --git a/tools/hv/vmbus_bufring.c b/tools/hv/vmbus_bufring.c
-new file mode 100644
-index 000000000000..eb61042f7605
---- /dev/null
-+++ b/tools/hv/vmbus_bufring.c
-@@ -0,0 +1,324 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2009-2012,2016,2023 Microsoft Corp.
-+ * Copyright (c) 2012 NetApp Inc.
-+ * Copyright (c) 2012 Citrix Inc.
-+ * All rights reserved.
-+ */
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <emmintrin.h>
-+#include <linux/limits.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/uio.h>
-+#include <unistd.h>
-+#include "vmbus_bufring.h"
-+
-+#define	rte_compiler_barrier()	({ asm volatile ("" : : : "memory"); })
-+
-+#define	rte_smp_rwmb()		({ asm volatile ("" : : : "memory"); })
-+
-+#define VMBUS_RQST_ERROR	0xFFFFFFFFFFFFFFFF
-+#define ALIGN(val, align)	((typeof(val))((val) & (~((typeof(val))((align) - 1)))))
-+
-+void *vmbus_uio_map(char *sys_chan_path, char *chan_no, int size)
-+{
-+	void *map;
-+	int fd;
-+	char dirname[PATH_MAX];
-+
-+	snprintf(dirname, sizeof(dirname), "%s/%s/ringbuffer", sys_chan_path, chan_no);
-+	fd = open(dirname, O_RDWR);
-+	if (fd < 0)
-+		return NULL;
-+
-+	map = mmap(NULL, 2 * size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-+	close(fd);
-+	if (map == MAP_FAILED)
-+		return NULL;
-+
-+	return map;
-+}
-+
-+/* Increase bufring index by inc with wraparound */
-+static inline uint32_t vmbus_br_idxinc(uint32_t idx, uint32_t inc, uint32_t sz)
-+{
-+	idx += inc;
-+	if (idx >= sz)
-+		idx -= sz;
-+
-+	return idx;
-+}
-+
-+void vmbus_br_setup(struct vmbus_br *br, void *buf, unsigned int blen)
-+{
-+	br->vbr = buf;
-+	br->windex = br->vbr->windex;
-+	br->dsize = blen - sizeof(struct vmbus_bufring);
-+}
-+
-+static inline __always_inline void
-+rte_smp_mb(void)
-+{
-+	asm volatile("lock addl $0, -128(%%rsp); " ::: "memory");
-+}
-+
-+static inline int
-+rte_atomic32_cmpset(volatile uint32_t *dst, uint32_t exp, uint32_t src)
-+{
-+	uint8_t res;
-+
-+	asm volatile("lock ; "
-+		     "cmpxchgl %[src], %[dst];"
-+		     "sete %[res];"
-+		     : [res] "=a" (res),     /* output */
-+		     [dst] "=m" (*dst)
-+		     : [src] "r" (src),      /* input */
-+		     "a" (exp),
-+		     "m" (*dst)
-+		     : "memory");            /* no-clobber list */
-+	return res;
-+}
-+
-+static inline uint32_t
-+vmbus_txbr_copyto(const struct vmbus_br *tbr, uint32_t windex,
-+		  const void *src0, uint32_t cplen)
-+{
-+	uint8_t *br_data = tbr->vbr->data;
-+	uint32_t br_dsize = tbr->dsize;
-+	const uint8_t *src = src0;
-+
-+	/* XXX use double mapping like Linux kernel? */
-+	if (cplen > br_dsize - windex) {
-+		uint32_t fraglen = br_dsize - windex;
-+
-+		/* Wrap-around detected */
-+		memcpy(br_data + windex, src, fraglen);
-+		memcpy(br_data, src + fraglen, cplen - fraglen);
-+	} else {
-+		memcpy(br_data + windex, src, cplen);
-+	}
-+
-+	return vmbus_br_idxinc(windex, cplen, br_dsize);
-+}
-+
-+/*
-+ * Write scattered channel packet to TX bufring.
-+ *
-+ * The offset of this channel packet is written as a 64bits value
-+ * immediately after this channel packet.
-+ *
-+ * The write goes through three stages:
-+ *  1. Reserve space in ring buffer for the new data.
-+ *     Writer atomically moves priv_write_index.
-+ *  2. Copy the new data into the ring.
-+ *  3. Update the tail of the ring (visible to host) that indicates
-+ *     next read location. Writer updates write_index
-+ */
-+static int
-+vmbus_txbr_write(struct vmbus_br *tbr, const struct iovec iov[], int iovlen,
-+		 bool *need_sig)
-+{
-+	struct vmbus_bufring *vbr = tbr->vbr;
-+	uint32_t ring_size = tbr->dsize;
-+	uint32_t old_windex, next_windex, windex, total;
-+	uint64_t save_windex;
-+	int i;
-+
-+	total = 0;
-+	for (i = 0; i < iovlen; i++)
-+		total += iov[i].iov_len;
-+	total += sizeof(save_windex);
-+
-+	/* Reserve space in ring */
-+	do {
-+		uint32_t avail;
-+
-+		/* Get current free location */
-+		old_windex = tbr->windex;
-+
-+		/* Prevent compiler reordering this with calculation */
-+		rte_compiler_barrier();
-+
-+		avail = vmbus_br_availwrite(tbr, old_windex);
-+
-+		/* If not enough space in ring, then tell caller. */
-+		if (avail <= total)
-+			return -EAGAIN;
-+
-+		next_windex = vmbus_br_idxinc(old_windex, total, ring_size);
-+
-+		/* Atomic update of next write_index for other threads */
-+	} while (!rte_atomic32_cmpset(&tbr->windex, old_windex, next_windex));
-+
-+	/* Space from old..new is now reserved */
-+	windex = old_windex;
-+	for (i = 0; i < iovlen; i++)
-+		windex = vmbus_txbr_copyto(tbr, windex, iov[i].iov_base, iov[i].iov_len);
-+
-+	/* Set the offset of the current channel packet. */
-+	save_windex = ((uint64_t)old_windex) << 32;
-+	windex = vmbus_txbr_copyto(tbr, windex, &save_windex,
-+				   sizeof(save_windex));
-+
-+	/* The region reserved should match region used */
-+	if (windex != next_windex)
-+		return -EINVAL;
-+
-+	/* Ensure that data is available before updating host index */
-+	rte_smp_rwmb();
-+
-+	/* Checkin for our reservation. wait for our turn to update host */
-+	while (!rte_atomic32_cmpset(&vbr->windex, old_windex, next_windex))
-+		_mm_pause();
-+
-+	return 0;
-+}
-+
-+int rte_vmbus_chan_send(struct vmbus_br *txbr, uint16_t type, void *data,
-+			uint32_t dlen, uint32_t flags)
-+{
-+	struct vmbus_chanpkt pkt;
-+	unsigned int pktlen, pad_pktlen;
-+	const uint32_t hlen = sizeof(pkt);
-+	bool send_evt = false;
-+	uint64_t pad = 0;
-+	struct iovec iov[3];
-+	int error;
-+
-+	pktlen = hlen + dlen;
-+	pad_pktlen = ALIGN(pktlen, sizeof(uint64_t));
-+
-+	pkt.hdr.type = type;
-+	pkt.hdr.flags = flags;
-+	pkt.hdr.hlen = hlen >> VMBUS_CHANPKT_SIZE_SHIFT;
-+	pkt.hdr.tlen = pad_pktlen >> VMBUS_CHANPKT_SIZE_SHIFT;
-+	pkt.hdr.xactid = VMBUS_RQST_ERROR;
-+
-+	iov[0].iov_base = &pkt;
-+	iov[0].iov_len = hlen;
-+	iov[1].iov_base = data;
-+	iov[1].iov_len = dlen;
-+	iov[2].iov_base = &pad;
-+	iov[2].iov_len = pad_pktlen - pktlen;
-+
-+	error = vmbus_txbr_write(txbr, iov, 3, &send_evt);
-+
-+	return error;
-+}
-+
-+static inline uint32_t
-+vmbus_rxbr_copyfrom(const struct vmbus_br *rbr, uint32_t rindex,
-+		    void *dst0, size_t cplen)
-+{
-+	const uint8_t *br_data = rbr->vbr->data;
-+	uint32_t br_dsize = rbr->dsize;
-+	uint8_t *dst = dst0;
-+
-+	if (cplen > br_dsize - rindex) {
-+		uint32_t fraglen = br_dsize - rindex;
-+
-+		/* Wrap-around detected. */
-+		memcpy(dst, br_data + rindex, fraglen);
-+		memcpy(dst + fraglen, br_data, cplen - fraglen);
-+	} else {
-+		memcpy(dst, br_data + rindex, cplen);
-+	}
-+
-+	return vmbus_br_idxinc(rindex, cplen, br_dsize);
-+}
-+
-+/* Copy data from receive ring but don't change index */
-+static int
-+vmbus_rxbr_peek(const struct vmbus_br *rbr, void *data, size_t dlen)
-+{
-+	uint32_t avail;
-+
-+	/*
-+	 * The requested data and the 64bits channel packet
-+	 * offset should be there at least.
-+	 */
-+	avail = vmbus_br_availread(rbr);
-+	if (avail < dlen + sizeof(uint64_t))
-+		return -EAGAIN;
-+
-+	vmbus_rxbr_copyfrom(rbr, rbr->vbr->rindex, data, dlen);
-+	return 0;
-+}
-+
-+/*
-+ * Copy data from receive ring and change index
-+ * NOTE:
-+ * We assume (dlen + skip) == sizeof(channel packet).
-+ */
-+static int
-+vmbus_rxbr_read(struct vmbus_br *rbr, void *data, size_t dlen, size_t skip)
-+{
-+	struct vmbus_bufring *vbr = rbr->vbr;
-+	uint32_t br_dsize = rbr->dsize;
-+	uint32_t rindex;
-+
-+	if (vmbus_br_availread(rbr) < dlen + skip + sizeof(uint64_t))
-+		return -EAGAIN;
-+
-+	/* Record where host was when we started read (for debug) */
-+	rbr->windex = rbr->vbr->windex;
-+
-+	/*
-+	 * Copy channel packet from RX bufring.
-+	 */
-+	rindex = vmbus_br_idxinc(rbr->vbr->rindex, skip, br_dsize);
-+	rindex = vmbus_rxbr_copyfrom(rbr, rindex, data, dlen);
-+
-+	/*
-+	 * Discard this channel packet's 64bits offset, which is useless to us.
-+	 */
-+	rindex = vmbus_br_idxinc(rindex, sizeof(uint64_t), br_dsize);
-+
-+	/* Update the read index _after_ the channel packet is fetched.	 */
-+	rte_compiler_barrier();
-+
-+	vbr->rindex = rindex;
-+
-+	return 0;
-+}
-+
-+int rte_vmbus_chan_recv_raw(struct vmbus_br *rxbr,
-+			    void *data, uint32_t *len)
-+{
-+	struct vmbus_chanpkt_hdr pkt;
-+	uint32_t dlen, bufferlen = *len;
-+	int error;
-+
-+	error = vmbus_rxbr_peek(rxbr, &pkt, sizeof(pkt));
-+	if (error)
-+		return error;
-+
-+	if (unlikely(pkt.hlen < VMBUS_CHANPKT_HLEN_MIN))
-+		/* XXX this channel is dead actually. */
-+		return -EIO;
-+
-+	if (unlikely(pkt.hlen > pkt.tlen))
-+		return -EIO;
-+
-+	/* Length are in quad words */
-+	dlen = pkt.tlen << VMBUS_CHANPKT_SIZE_SHIFT;
-+	*len = dlen;
-+
-+	/* If caller buffer is not large enough */
-+	if (unlikely(dlen > bufferlen))
-+		return -ENOBUFS;
-+
-+	/* Read data and skip packet header */
-+	error = vmbus_rxbr_read(rxbr, data, dlen, 0);
-+	if (error)
-+		return error;
-+
-+	/* Return the number of bytes read */
-+	return dlen + sizeof(uint64_t);
-+}
-diff --git a/tools/hv/vmbus_bufring.h b/tools/hv/vmbus_bufring.h
-new file mode 100644
-index 000000000000..5ebe400132cc
---- /dev/null
-+++ b/tools/hv/vmbus_bufring.h
-@@ -0,0 +1,158 @@
-+/* SPDX-License-Identifier: BSD-3-Clause */
-+
-+#ifndef _VMBUS_BUF_H_
-+#define _VMBUS_BUF_H_
-+
-+#include <stdbool.h>
-+#include <stdint.h>
-+
-+#define __packed   __attribute__((__packed__))
-+#define unlikely(x)	__builtin_expect(!!(x), 0)
-+
-+#define ICMSGHDRFLAG_TRANSACTION	1
-+#define ICMSGHDRFLAG_REQUEST		2
-+#define ICMSGHDRFLAG_RESPONSE		4
-+
-+#define IC_VERSION_NEGOTIATION_MAX_VER_COUNT 100
-+#define ICMSG_HDR (sizeof(struct vmbuspipe_hdr) + sizeof(struct icmsg_hdr))
-+#define ICMSG_NEGOTIATE_PKT_SIZE(icframe_vercnt, icmsg_vercnt) \
-+	(ICMSG_HDR + sizeof(struct icmsg_negotiate) + \
-+	 (((icframe_vercnt) + (icmsg_vercnt)) * sizeof(struct ic_version)))
-+
-+/*
-+ * Channel packets
-+ */
-+
-+/* Channel packet flags */
-+#define VMBUS_CHANPKT_TYPE_INBAND	0x0006
-+#define VMBUS_CHANPKT_TYPE_RXBUF	0x0007
-+#define VMBUS_CHANPKT_TYPE_GPA		0x0009
-+#define VMBUS_CHANPKT_TYPE_COMP		0x000b
-+
-+#define VMBUS_CHANPKT_FLAG_NONE		0
-+#define VMBUS_CHANPKT_FLAG_RC		0x0001  /* report completion */
-+
-+#define VMBUS_CHANPKT_SIZE_SHIFT	3
-+#define VMBUS_CHANPKT_SIZE_ALIGN	BIT(VMBUS_CHANPKT_SIZE_SHIFT)
-+#define VMBUS_CHANPKT_HLEN_MIN		\
-+	(sizeof(struct vmbus_chanpkt_hdr) >> VMBUS_CHANPKT_SIZE_SHIFT)
-+
-+/*
-+ * Buffer ring
-+ */
-+struct vmbus_bufring {
-+	volatile uint32_t windex;
-+	volatile uint32_t rindex;
-+
-+	/*
-+	 * Interrupt mask {0,1}
-+	 *
-+	 * For TX bufring, host set this to 1, when it is processing
-+	 * the TX bufring, so that we can safely skip the TX event
-+	 * notification to host.
-+	 *
-+	 * For RX bufring, once this is set to 1 by us, host will not
-+	 * further dispatch interrupts to us, even if there are data
-+	 * pending on the RX bufring.  This effectively disables the
-+	 * interrupt of the channel to which this RX bufring is attached.
-+	 */
-+	volatile uint32_t imask;
-+
-+	/*
-+	 * Win8 uses some of the reserved bits to implement
-+	 * interrupt driven flow management. On the send side
-+	 * we can request that the receiver interrupt the sender
-+	 * when the ring transitions from being full to being able
-+	 * to handle a message of size "pending_send_sz".
-+	 *
-+	 * Add necessary state for this enhancement.
-+	 */
-+	volatile uint32_t pending_send;
-+	uint32_t reserved1[12];
-+
-+	union {
-+		struct {
-+			uint32_t feat_pending_send_sz:1;
-+		};
-+		uint32_t value;
-+	} feature_bits;
-+
-+	/* Pad it to rte_mem_page_size() so that data starts on page boundary */
-+	uint8_t	reserved2[4028];
-+
-+	/*
-+	 * Ring data starts here + RingDataStartOffset
-+	 * !!! DO NOT place any fields below this !!!
-+	 */
-+	uint8_t data[];
-+} __packed;
-+
-+struct vmbus_br {
-+	struct vmbus_bufring *vbr;
-+	uint32_t	dsize;
-+	uint32_t	windex; /* next available location */
-+};
-+
-+struct vmbus_chanpkt_hdr {
-+	uint16_t	type;	/* VMBUS_CHANPKT_TYPE_ */
-+	uint16_t	hlen;	/* header len, in 8 bytes */
-+	uint16_t	tlen;	/* total len, in 8 bytes */
-+	uint16_t	flags;	/* VMBUS_CHANPKT_FLAG_ */
-+	uint64_t	xactid;
-+} __packed;
-+
-+struct vmbus_chanpkt {
-+	struct vmbus_chanpkt_hdr hdr;
-+} __packed;
-+
-+struct vmbuspipe_hdr {
-+	unsigned int flags;
-+	unsigned int msgsize;
-+} __packed;
-+
-+struct ic_version {
-+	unsigned short major;
-+	unsigned short minor;
-+} __packed;
-+
-+struct icmsg_negotiate {
-+	unsigned short icframe_vercnt;
-+	unsigned short icmsg_vercnt;
-+	unsigned int reserved;
-+	struct ic_version icversion_data[]; /* any size array */
-+} __packed;
-+
-+struct icmsg_hdr {
-+	struct ic_version icverframe;
-+	unsigned short icmsgtype;
-+	struct ic_version icvermsg;
-+	unsigned short icmsgsize;
-+	unsigned int status;
-+	unsigned char ictransaction_id;
-+	unsigned char icflags;
-+	unsigned char reserved[2];
-+} __packed;
-+
-+int rte_vmbus_chan_recv_raw(struct vmbus_br *rxbr, void *data, uint32_t *len);
-+int rte_vmbus_chan_send(struct vmbus_br *txbr, uint16_t type, void *data,
-+			uint32_t dlen, uint32_t flags);
-+void vmbus_br_setup(struct vmbus_br *br, void *buf, unsigned int blen);
-+void *vmbus_uio_map(char *sys_dev_path, char *chan_no, int size);
-+
-+/* Amount of space available for write */
-+static inline uint32_t vmbus_br_availwrite(const struct vmbus_br *br, uint32_t windex)
-+{
-+	uint32_t rindex = br->vbr->rindex;
-+
-+	if (windex >= rindex)
-+		return br->dsize - (windex - rindex);
-+	else
-+		return rindex - windex;
-+}
-+
-+static inline uint32_t vmbus_br_availread(const struct vmbus_br *br)
-+{
-+	return br->dsize - vmbus_br_availwrite(br, br->vbr->windex);
-+}
-+
-+#endif	/* !_VMBUS_BUF_H_ */
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index d76df5c8c2a9..b992c0ed182b 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -10,7 +10,7 @@ hv_vmbus-y := vmbus_drv.o \
+ 		 hv.o connection.o channel.o \
+ 		 channel_mgmt.o ring_buffer.o hv_trace.o
+ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+-hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_fcopy.o hv_utils_transport.o
++hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
+ 
+ # Code that must be built-in
+ obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
+diff --git a/drivers/hv/hv_fcopy.c b/drivers/hv/hv_fcopy.c
+deleted file mode 100644
+index 922d83eb7ddf..000000000000
+--- a/drivers/hv/hv_fcopy.c
++++ /dev/null
+@@ -1,427 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * An implementation of file copy service.
+- *
+- * Copyright (C) 2014, Microsoft, Inc.
+- *
+- * Author : K. Y. Srinivasan <ksrinivasan@novell.com>
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/nls.h>
+-#include <linux/workqueue.h>
+-#include <linux/hyperv.h>
+-#include <linux/sched.h>
+-#include <asm/hyperv-tlfs.h>
+-
+-#include "hyperv_vmbus.h"
+-#include "hv_utils_transport.h"
+-
+-#define WIN8_SRV_MAJOR		1
+-#define WIN8_SRV_MINOR		1
+-#define WIN8_SRV_VERSION	(WIN8_SRV_MAJOR << 16 | WIN8_SRV_MINOR)
+-
+-#define FCOPY_VER_COUNT 1
+-static const int fcopy_versions[] = {
+-	WIN8_SRV_VERSION
+-};
+-
+-#define FW_VER_COUNT 1
+-static const int fw_versions[] = {
+-	UTIL_FW_VERSION
+-};
+-
+-/*
+- * Global state maintained for transaction that is being processed.
+- * For a class of integration services, including the "file copy service",
+- * the specified protocol is a "request/response" protocol which means that
+- * there can only be single outstanding transaction from the host at any
+- * given point in time. We use this to simplify memory management in this
+- * driver - we cache and process only one message at a time.
+- *
+- * While the request/response protocol is guaranteed by the host, we further
+- * ensure this by serializing packet processing in this driver - we do not
+- * read additional packets from the VMBUs until the current packet is fully
+- * handled.
+- */
+-
+-static struct {
+-	int state;   /* hvutil_device_state */
+-	int recv_len; /* number of bytes received. */
+-	struct hv_fcopy_hdr  *fcopy_msg; /* current message */
+-	struct vmbus_channel *recv_channel; /* chn we got the request */
+-	u64 recv_req_id; /* request ID. */
+-} fcopy_transaction;
+-
+-static void fcopy_respond_to_host(int error);
+-static void fcopy_send_data(struct work_struct *dummy);
+-static void fcopy_timeout_func(struct work_struct *dummy);
+-static DECLARE_DELAYED_WORK(fcopy_timeout_work, fcopy_timeout_func);
+-static DECLARE_WORK(fcopy_send_work, fcopy_send_data);
+-static const char fcopy_devname[] = "vmbus/hv_fcopy";
+-static u8 *recv_buffer;
+-static struct hvutil_transport *hvt;
+-/*
+- * This state maintains the version number registered by the daemon.
+- */
+-static int dm_reg_value;
+-
+-static void fcopy_poll_wrapper(void *channel)
+-{
+-	/* Transaction is finished, reset the state here to avoid races. */
+-	fcopy_transaction.state = HVUTIL_READY;
+-	tasklet_schedule(&((struct vmbus_channel *)channel)->callback_event);
+-}
+-
+-static void fcopy_timeout_func(struct work_struct *dummy)
+-{
+-	/*
+-	 * If the timer fires, the user-mode component has not responded;
+-	 * process the pending transaction.
+-	 */
+-	fcopy_respond_to_host(HV_E_FAIL);
+-	hv_poll_channel(fcopy_transaction.recv_channel, fcopy_poll_wrapper);
+-}
+-
+-static void fcopy_register_done(void)
+-{
+-	pr_debug("FCP: userspace daemon registered\n");
+-	hv_poll_channel(fcopy_transaction.recv_channel, fcopy_poll_wrapper);
+-}
+-
+-static int fcopy_handle_handshake(u32 version)
+-{
+-	u32 our_ver = FCOPY_CURRENT_VERSION;
+-
+-	switch (version) {
+-	case FCOPY_VERSION_0:
+-		/* Daemon doesn't expect us to reply */
+-		dm_reg_value = version;
+-		break;
+-	case FCOPY_VERSION_1:
+-		/* Daemon expects us to reply with our own version */
+-		if (hvutil_transport_send(hvt, &our_ver, sizeof(our_ver),
+-		    fcopy_register_done))
+-			return -EFAULT;
+-		dm_reg_value = version;
+-		break;
+-	default:
+-		/*
+-		 * For now we will fail the registration.
+-		 * If and when we have multiple versions to
+-		 * deal with, we will be backward compatible.
+-		 * We will add this code when needed.
+-		 */
+-		return -EINVAL;
+-	}
+-	pr_debug("FCP: userspace daemon ver. %d connected\n", version);
+-	return 0;
+-}
+-
+-static void fcopy_send_data(struct work_struct *dummy)
+-{
+-	struct hv_start_fcopy *smsg_out = NULL;
+-	int operation = fcopy_transaction.fcopy_msg->operation;
+-	struct hv_start_fcopy *smsg_in;
+-	void *out_src;
+-	int rc, out_len;
+-
+-	/*
+-	 * The  strings sent from the host are encoded in
+-	 * utf16; convert it to utf8 strings.
+-	 * The host assures us that the utf16 strings will not exceed
+-	 * the max lengths specified. We will however, reserve room
+-	 * for the string terminating character - in the utf16s_utf8s()
+-	 * function we limit the size of the buffer where the converted
+-	 * string is placed to W_MAX_PATH -1 to guarantee
+-	 * that the strings can be properly terminated!
+-	 */
+-
+-	switch (operation) {
+-	case START_FILE_COPY:
+-		out_len = sizeof(struct hv_start_fcopy);
+-		smsg_out = kzalloc(sizeof(*smsg_out), GFP_KERNEL);
+-		if (!smsg_out)
+-			return;
+-
+-		smsg_out->hdr.operation = operation;
+-		smsg_in = (struct hv_start_fcopy *)fcopy_transaction.fcopy_msg;
+-
+-		utf16s_to_utf8s((wchar_t *)smsg_in->file_name, W_MAX_PATH,
+-				UTF16_LITTLE_ENDIAN,
+-				(__u8 *)&smsg_out->file_name, W_MAX_PATH - 1);
+-
+-		utf16s_to_utf8s((wchar_t *)smsg_in->path_name, W_MAX_PATH,
+-				UTF16_LITTLE_ENDIAN,
+-				(__u8 *)&smsg_out->path_name, W_MAX_PATH - 1);
+-
+-		smsg_out->copy_flags = smsg_in->copy_flags;
+-		smsg_out->file_size = smsg_in->file_size;
+-		out_src = smsg_out;
+-		break;
+-
+-	case WRITE_TO_FILE:
+-		out_src = fcopy_transaction.fcopy_msg;
+-		out_len = sizeof(struct hv_do_fcopy);
+-		break;
+-	default:
+-		out_src = fcopy_transaction.fcopy_msg;
+-		out_len = fcopy_transaction.recv_len;
+-		break;
+-	}
+-
+-	fcopy_transaction.state = HVUTIL_USERSPACE_REQ;
+-	rc = hvutil_transport_send(hvt, out_src, out_len, NULL);
+-	if (rc) {
+-		pr_debug("FCP: failed to communicate to the daemon: %d\n", rc);
+-		if (cancel_delayed_work_sync(&fcopy_timeout_work)) {
+-			fcopy_respond_to_host(HV_E_FAIL);
+-			fcopy_transaction.state = HVUTIL_READY;
+-		}
+-	}
+-	kfree(smsg_out);
+-}
+-
+-/*
+- * Send a response back to the host.
+- */
+-
+-static void
+-fcopy_respond_to_host(int error)
+-{
+-	struct icmsg_hdr *icmsghdr;
+-	u32 buf_len;
+-	struct vmbus_channel *channel;
+-	u64 req_id;
+-
+-	/*
+-	 * Copy the global state for completing the transaction. Note that
+-	 * only one transaction can be active at a time. This is guaranteed
+-	 * by the file copy protocol implemented by the host. Furthermore,
+-	 * the "transaction active" state we maintain ensures that there can
+-	 * only be one active transaction at a time.
+-	 */
+-
+-	buf_len = fcopy_transaction.recv_len;
+-	channel = fcopy_transaction.recv_channel;
+-	req_id = fcopy_transaction.recv_req_id;
+-
+-	icmsghdr = (struct icmsg_hdr *)
+-			&recv_buffer[sizeof(struct vmbuspipe_hdr)];
+-
+-	if (channel->onchannel_callback == NULL)
+-		/*
+-		 * We have raced with util driver being unloaded;
+-		 * silently return.
+-		 */
+-		return;
+-
+-	icmsghdr->status = error;
+-	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
+-	vmbus_sendpacket(channel, recv_buffer, buf_len, req_id,
+-				VM_PKT_DATA_INBAND, 0);
+-}
+-
+-void hv_fcopy_onchannelcallback(void *context)
+-{
+-	struct vmbus_channel *channel = context;
+-	u32 recvlen;
+-	u64 requestid;
+-	struct hv_fcopy_hdr *fcopy_msg;
+-	struct icmsg_hdr *icmsghdr;
+-	int fcopy_srv_version;
+-
+-	if (fcopy_transaction.state > HVUTIL_READY)
+-		return;
+-
+-	if (vmbus_recvpacket(channel, recv_buffer, HV_HYP_PAGE_SIZE * 2, &recvlen, &requestid)) {
+-		pr_err_ratelimited("Fcopy request received. Could not read into recv buf\n");
+-		return;
+-	}
+-
+-	if (!recvlen)
+-		return;
+-
+-	/* Ensure recvlen is big enough to read header data */
+-	if (recvlen < ICMSG_HDR) {
+-		pr_err_ratelimited("Fcopy request received. Packet length too small: %d\n",
+-				   recvlen);
+-		return;
+-	}
+-
+-	icmsghdr = (struct icmsg_hdr *)&recv_buffer[
+-			sizeof(struct vmbuspipe_hdr)];
+-
+-	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
+-		if (vmbus_prep_negotiate_resp(icmsghdr,
+-				recv_buffer, recvlen,
+-				fw_versions, FW_VER_COUNT,
+-				fcopy_versions, FCOPY_VER_COUNT,
+-				NULL, &fcopy_srv_version)) {
+-
+-			pr_info("FCopy IC version %d.%d\n",
+-				fcopy_srv_version >> 16,
+-				fcopy_srv_version & 0xFFFF);
+-		}
+-	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
+-		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
+-		if (recvlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
+-			pr_err_ratelimited("Invalid Fcopy hdr. Packet length too small: %u\n",
+-					   recvlen);
+-			return;
+-		}
+-		fcopy_msg = (struct hv_fcopy_hdr *)&recv_buffer[ICMSG_HDR];
+-
+-		/*
+-		 * Stash away this global state for completing the
+-		 * transaction; note transactions are serialized.
+-		 */
+-
+-		fcopy_transaction.recv_len = recvlen;
+-		fcopy_transaction.recv_req_id = requestid;
+-		fcopy_transaction.fcopy_msg = fcopy_msg;
+-
+-		if (fcopy_transaction.state < HVUTIL_READY) {
+-			/* Userspace is not registered yet */
+-			fcopy_respond_to_host(HV_E_FAIL);
+-			return;
+-		}
+-		fcopy_transaction.state = HVUTIL_HOSTMSG_RECEIVED;
+-
+-		/*
+-		 * Send the information to the user-level daemon.
+-		 */
+-		schedule_work(&fcopy_send_work);
+-		schedule_delayed_work(&fcopy_timeout_work,
+-				      HV_UTIL_TIMEOUT * HZ);
+-		return;
+-	} else {
+-		pr_err_ratelimited("Fcopy request received. Invalid msg type: %d\n",
+-				   icmsghdr->icmsgtype);
+-		return;
+-	}
+-	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
+-	vmbus_sendpacket(channel, recv_buffer, recvlen, requestid,
+-			VM_PKT_DATA_INBAND, 0);
+-}
+-
+-/* Callback when data is received from userspace */
+-static int fcopy_on_msg(void *msg, int len)
+-{
+-	int *val = (int *)msg;
+-
+-	if (len != sizeof(int))
+-		return -EINVAL;
+-
+-	if (fcopy_transaction.state == HVUTIL_DEVICE_INIT)
+-		return fcopy_handle_handshake(*val);
+-
+-	if (fcopy_transaction.state != HVUTIL_USERSPACE_REQ)
+-		return -EINVAL;
+-
+-	/*
+-	 * Complete the transaction by forwarding the result
+-	 * to the host. But first, cancel the timeout.
+-	 */
+-	if (cancel_delayed_work_sync(&fcopy_timeout_work)) {
+-		fcopy_transaction.state = HVUTIL_USERSPACE_RECV;
+-		fcopy_respond_to_host(*val);
+-		hv_poll_channel(fcopy_transaction.recv_channel,
+-				fcopy_poll_wrapper);
+-	}
+-
+-	return 0;
+-}
+-
+-static void fcopy_on_reset(void)
+-{
+-	/*
+-	 * The daemon has exited; reset the state.
+-	 */
+-	fcopy_transaction.state = HVUTIL_DEVICE_INIT;
+-
+-	if (cancel_delayed_work_sync(&fcopy_timeout_work))
+-		fcopy_respond_to_host(HV_E_FAIL);
+-}
+-
+-int hv_fcopy_init(struct hv_util_service *srv)
+-{
+-	recv_buffer = srv->recv_buffer;
+-	fcopy_transaction.recv_channel = srv->channel;
+-	fcopy_transaction.recv_channel->max_pkt_size = HV_HYP_PAGE_SIZE * 2;
+-
+-	/*
+-	 * When this driver loads, the user level daemon that
+-	 * processes the host requests may not yet be running.
+-	 * Defer processing channel callbacks until the daemon
+-	 * has registered.
+-	 */
+-	fcopy_transaction.state = HVUTIL_DEVICE_INIT;
+-
+-	hvt = hvutil_transport_init(fcopy_devname, 0, 0,
+-				    fcopy_on_msg, fcopy_on_reset);
+-	if (!hvt)
+-		return -EFAULT;
+-
+-	return 0;
+-}
+-
+-static void hv_fcopy_cancel_work(void)
+-{
+-	cancel_delayed_work_sync(&fcopy_timeout_work);
+-	cancel_work_sync(&fcopy_send_work);
+-}
+-
+-int hv_fcopy_pre_suspend(void)
+-{
+-	struct vmbus_channel *channel = fcopy_transaction.recv_channel;
+-	struct hv_fcopy_hdr *fcopy_msg;
+-
+-	/*
+-	 * Fake a CANCEL_FCOPY message for the user space daemon in case the
+-	 * daemon is in the middle of copying some file. It doesn't matter if
+-	 * there is already a message pending to be delivered to the user
+-	 * space since we force fcopy_transaction.state to be HVUTIL_READY, so
+-	 * the user space daemon's write() will fail with EINVAL (see
+-	 * fcopy_on_msg()), and the daemon will reset the device by closing
+-	 * and re-opening it.
+-	 */
+-	fcopy_msg = kzalloc(sizeof(*fcopy_msg), GFP_KERNEL);
+-	if (!fcopy_msg)
+-		return -ENOMEM;
+-
+-	tasklet_disable(&channel->callback_event);
+-
+-	fcopy_msg->operation = CANCEL_FCOPY;
+-
+-	hv_fcopy_cancel_work();
+-
+-	/* We don't care about the return value. */
+-	hvutil_transport_send(hvt, fcopy_msg, sizeof(*fcopy_msg), NULL);
+-
+-	kfree(fcopy_msg);
+-
+-	fcopy_transaction.state = HVUTIL_READY;
+-
+-	/* tasklet_enable() will be called in hv_fcopy_pre_resume(). */
+-	return 0;
+-}
+-
+-int hv_fcopy_pre_resume(void)
+-{
+-	struct vmbus_channel *channel = fcopy_transaction.recv_channel;
+-
+-	tasklet_enable(&channel->callback_event);
+-
+-	return 0;
+-}
+-
+-void hv_fcopy_deinit(void)
+-{
+-	fcopy_transaction.state = HVUTIL_DEVICE_DYING;
+-
+-	hv_fcopy_cancel_work();
+-
+-	hvutil_transport_destroy(hvt);
+-}
+diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
+index 42aec2c5606a..4bf16e58ee50 100644
+--- a/drivers/hv/hv_util.c
++++ b/drivers/hv/hv_util.c
+@@ -154,14 +154,6 @@ static struct hv_util_service util_vss = {
+ 	.util_deinit = hv_vss_deinit,
+ };
+ 
+-static struct hv_util_service util_fcopy = {
+-	.util_cb = hv_fcopy_onchannelcallback,
+-	.util_init = hv_fcopy_init,
+-	.util_pre_suspend = hv_fcopy_pre_suspend,
+-	.util_pre_resume = hv_fcopy_pre_resume,
+-	.util_deinit = hv_fcopy_deinit,
+-};
+-
+ static void perform_shutdown(struct work_struct *dummy)
+ {
+ 	orderly_poweroff(true);
+@@ -671,10 +663,6 @@ static const struct hv_vmbus_device_id id_table[] = {
+ 	{ HV_VSS_GUID,
+ 	  .driver_data = (unsigned long)&util_vss
+ 	},
+-	/* File copy GUID */
+-	{ HV_FCOPY_GUID,
+-	  .driver_data = (unsigned long)&util_fcopy
+-	},
+ 	{ },
+ };
+ 
 -- 
 2.34.1
 
