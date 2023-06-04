@@ -2,64 +2,133 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F47C7EE2E
-	for <linux-hyperv@archiver.kernel.org>; Sat,  3 Jun 2023 10:19:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE26DC77B73
+	for <linux-hyperv@archiver.kernel.org>; Sun,  4 Jun 2023 02:06:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjFCKTy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Sat, 3 Jun 2023 06:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        id S229637AbjFDCGN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Sat, 3 Jun 2023 22:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjFCKTx (ORCPT
+        with ESMTP id S229469AbjFDCGM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Sat, 3 Jun 2023 06:19:53 -0400
-X-Greylist: delayed 4199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:19:52 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95698132
-        for <linux-hyperv@vger.kernel.org>; Sat,  3 Jun 2023 03:19:52 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id 58A38A385C; Fri,  2 Jun 2023 09:30:45 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685694651;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=MS8QA6uVk3XCxdAJpdV3FDUnFyEbnx074p+/EK8Kf/fNzeFtwREv2E2BzxPeYkNtp
-         lg0nPlfZBf04aTKkCHNh8N65soUhop8qK87MAcncDjnVfkaL+RNv7RTh69uLUuJAyr
-         GeYTk7m+f6sd2e/0LEPPGn+u80FzvntJ3DK4wrfzPPlg1Nvoh6hIO/uYTyrpDCIeuv
-         iBNdkfvi0Pa67uSx/9gMXQyr0gpXWMC1oH3Fm/ti1IceXlgsyG2vgd2ad19qWHfPse
-         UjQb8UZYx6YnkuJ0j83JEHAEomZ/epa/JmD+SkO9NxxyyVpXMdOgq/gtCBcQ/u9BCP
-         G1gvVRjMAcV+A==
-Received: by mail.webtopbits.pl for <linux-hyperv@vger.kernel.org>; Fri,  2 Jun 2023 08:30:38 GMT
-Message-ID: <20230602085530-0.1.8w.5jvv.0.q7pf8yqpvl@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:30:38 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-hyperv@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        Sat, 3 Jun 2023 22:06:12 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F05DD;
+        Sat,  3 Jun 2023 19:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685844370; x=1717380370;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=H17Z52NC1fO7RmCPvzwNM5L0g6cLDt+b4SXw0TWfuCI=;
+  b=l7vZlKjQM9SWBL5qNY9qmbWa2NLooAqUh1omOLqx+exCV67fMETUNpfY
+   VQ/1EVHOTie56hP/9lsX6hk1eNYbMAV8hKsO+vEgonvhPSiKdFN8Fae7A
+   716AFz6XAbzq+XCidGAAw+kswRJIoOo23ACW+b6o6Pc7XYWyNMHSjrM3Q
+   zTAP4DraXJKF0yIkGFPFhb16ztUF32qt+Z6WXeil8cpIK88RnnsqIaggJ
+   6kK0bqdkqM2x7HnRXOkLHQ0sLLP9nOAoLIvF6eKvPMu9MG47W5clye8Zr
+   9ZNlxR0kr7KC3zu8kNFo3lE31Yft0cdCyZFihlGyzLYRMwYO4V1s4R9KJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="359453116"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="359453116"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 19:06:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="852563279"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="852563279"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2023 19:06:07 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q5d8A-0002ER-1R;
+        Sun, 04 Jun 2023 02:06:06 +0000
+Date:   Sun, 4 Jun 2023 10:05:10 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Saurabh Sengar <ssengar@linux.microsoft.com>, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        mikelley@microsoft.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/5] uio: Add hv_vmbus_client driver
+Message-ID: <202306040910.13oLufQd-lkp@intel.com>
+References: <1685692629-31351-2-git-send-email-ssengar@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1685692629-31351-2-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Hi Saurabh,
 
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
+kernel test robot noticed the following build warnings:
 
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.4-rc4 next-20230602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
+url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/uio-Add-hv_vmbus_client-driver/20230602-160029
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/1685692629-31351-2-git-send-email-ssengar%40linux.microsoft.com
+patch subject: [PATCH 1/5] uio: Add hv_vmbus_client driver
+config: i386-randconfig-c001-20230604 (https://download.01.org/0day-ci/archive/20230604/202306040910.13oLufQd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306040910.13oLufQd-lkp@intel.com/
 
+cocci warnings: (new ones prefixed by >>)
+>> drivers/uio/uio_hv_vmbus_client.c:195:1-6: WARNING: invalid free of devm_ allocated data
 
-Pozdrawiam
-Kamil Durjasz
+vim +195 drivers/uio/uio_hv_vmbus_client.c
+
+   158	
+   159	static int uio_hv_vmbus_probe(struct hv_device *dev, const struct hv_vmbus_device_id *dev_id)
+   160	{
+   161		struct uio_hv_vmbus_dev *pdata;
+   162		int ret = 0;
+   163		char *name = NULL;
+   164	
+   165		pdata = devm_kzalloc(&dev->device, sizeof(*pdata), GFP_KERNEL);
+   166		if (!pdata)
+   167			return -ENOMEM;
+   168	
+   169		name = kasprintf(GFP_KERNEL, "%pUl", &dev->dev_instance);
+   170	
+   171		/* Fill general uio info */
+   172		pdata->info.name = name; /* /sys/class/uio/uioX/name */
+   173		pdata->info.version = DRIVER_VERSION;
+   174		pdata->info.irqcontrol = uio_hv_vmbus_irqcontrol;
+   175		pdata->info.open = uio_hv_vmbus_open;
+   176		pdata->info.release = uio_hv_vmbus_release;
+   177		pdata->info.irq = UIO_IRQ_CUSTOM;
+   178		pdata->info.priv = pdata;
+   179		pdata->device = dev;
+   180	
+   181		ret = uio_register_device(&dev->device, &pdata->info);
+   182		if (ret) {
+   183			dev_err(&dev->device, "uio_hv_vmbus register failed\n");
+   184			goto fail;
+   185		}
+   186	
+   187		ret = sysfs_create_file(&dev->device.kobj, &dev_attr_ring_size.attr);
+   188		if (ret)
+   189			dev_notice(&dev->device, "sysfs create ring size file failed; %d\n", ret);
+   190	
+   191		hv_set_drvdata(dev, pdata);
+   192		return 0;
+   193	
+   194	fail:
+ > 195		kfree(pdata);
+   196		return ret;
+   197	}
+   198	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
