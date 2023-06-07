@@ -2,68 +2,86 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE38C7EE43
-	for <linux-hyperv@archiver.kernel.org>; Wed,  7 Jun 2023 08:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A81C7EE23
+	for <linux-hyperv@archiver.kernel.org>; Wed,  7 Jun 2023 08:52:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239480AbjFGIVD (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 7 Jun 2023 04:21:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60822 "EHLO
+        id S238879AbjFGIwN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 7 Jun 2023 04:52:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238564AbjFGIU6 (ORCPT
+        with ESMTP id S235382AbjFGIvf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 7 Jun 2023 04:20:58 -0400
-X-Greylist: delayed 534 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 07 Jun 2023 01:20:35 PDT
-Received: from mail.quaich.pl (mail.quaich.pl [51.38.112.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43357198C
-        for <linux-hyperv@vger.kernel.org>; Wed,  7 Jun 2023 01:20:35 -0700 (PDT)
-Received: by mail.quaich.pl (Postfix, from userid 1002)
-        id 3BBADA3D3F; Wed,  7 Jun 2023 08:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=quaich.pl; s=mail;
-        t=1686125499; bh=wfvwbFJA200jrsHeP2otbNIBGUSi9OMiPBdlGaZSRdc=;
-        h=Date:From:To:Subject:From;
-        b=coPKt3Q20rs5QEo3Y5TTtDWit35rhI7ZlUHbZ1xP3c5BCKK2ojK34L+1kQqZXvTp0
-         txgENxMK7MPGDvmB+wcHO2EwiUWu+lLhqUGMnqqhEDFadoUeEdVyYVsz/+8rSLfdL3
-         DGMSrYu63FW5dT8J5rbylViFtjxv+8x3zYywEsTH5YsF+pGNT1sjxsz7STUIamHN3H
-         /HU0RNkdKl7bBynZr8uonkBAigdiW7OTLalYRRvx+HR6KPPBs4rAl/ROxKJ+w3tI5z
-         U1gGgHrv9o4kDeBkN+FeWgjl18MC5eBfO4YBhT0cj+JjdzJHLAevv304Ibjq3uTe3f
-         YIivEagyb1/Pg==
-Received: by quaich.pl for <linux-hyperv@vger.kernel.org>; Wed,  7 Jun 2023 08:11:28 GMT
-Message-ID: <20230607064500-0.1.8n.jcof.0.yjtoq1nhoa@quaich.pl>
-Date:   Wed,  7 Jun 2023 08:11:28 GMT
-From:   =?UTF-8?Q? "Tomasz_Wiewi=C3=B3r" ?= <tomasz.wiewior@quaich.pl>
-To:     <linux-hyperv@vger.kernel.org>
-Subject: =?UTF-8?Q?Negocjacje-wska=C5=BAnik_skuteczno=C5=9Bci?=
-X-Mailer: mail.quaich.pl
+        Wed, 7 Jun 2023 04:51:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3121FD5;
+        Wed,  7 Jun 2023 01:50:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3FDD160C7B;
+        Wed,  7 Jun 2023 08:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 91267C4339E;
+        Wed,  7 Jun 2023 08:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1686127820;
+        bh=IIyOROjdNjxeEb0UvMyIbTg8b9AVkiKvs6VlFnwoAA0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=QGtNFL5r1UHfGdQy7fmQ66lNZzxZCbzvyyBphKKFIJNo6aJqlc8jQhzkNZtvYKS//
+         B6I8MgPun3S5IeFMowSCl7BHfutTVnKcbFAMDLILZMRsYwqaGhnMcsUGWWnLHBxSsZ
+         +en8bufufAqaAgqfk2mnCA8EOhyEhBt0y17WRsFyGcgAegXCcF4Tqf6cd4gPDrcyBm
+         DUxpXUf2b91/4J6ocT+xMkH+RTltzmtWDihqItZRz72Myyizj3RAMh10Yjd89qPJzN
+         2DaBlz8bHYg87T4HU/Xl36R1gzZn+LHx+5kIltpG1+j7Rpvo0SPGmxY39x9DzwNyEY
+         DouIxM4+LfUnw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 76141E29F3C;
+        Wed,  7 Jun 2023 08:50:20 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6] hv_netvsc: Allocate rx indirection table size dynamically
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168612782047.19677.12670846520240383400.git-patchwork-notify@kernel.org>
+Date:   Wed, 07 Jun 2023 08:50:20 +0000
+References: <1685964606-24690-1-git-send-email-shradhagupta@linux.microsoft.com>
+In-Reply-To: <1685964606-24690-1-git-send-email-shradhagupta@linux.microsoft.com>
+To:     Shradha Gupta <shradhagupta@linux.microsoft.com>
+Cc:     linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        netdev@vger.kernel.org, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, kys@microsoft.com, haiyangz@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
+        mikelley@microsoft.com, davem@davemloft.net,
+        steen.hegelund@microchip.com, simon.horman@corigine.com
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Szanowni Pa=C5=84stwo,
+Hello:
 
-jako specjali=C5=9Bci w dziedzinie badania potrzeb i projektowania progra=
-m=C3=B3w szkoleniowych, wiemy, jak wa=C5=BCne jest zapewnienie odpowiedni=
-ch narz=C4=99dzi i wiedzy, aby skutecznie zwi=C4=99kszy=C4=87 efektywno=C5=
-=9B=C4=87 zespo=C5=82u, szczeg=C3=B3lnie w du=C5=BCych organizacjach.
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-Zamkni=C4=99te szkolenia s=C4=85 najlepszym rozwi=C4=85zaniem dla tych, k=
-t=C3=B3rzy chc=C4=85 skupi=C4=87 si=C4=99 na konkretnych potrzebach i zag=
-adnieniach.=20
+On Mon,  5 Jun 2023 04:30:06 -0700 you wrote:
+> Allocate the size of rx indirection table dynamically in netvsc
+> from the value of size provided by OID_GEN_RECEIVE_SCALE_CAPABILITIES
+> query instead of using a constant value of ITAB_NUM.
+> 
+> Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+> Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+> Tested-on: Ubuntu22 (azure VM, SKU size: Standard_F72s_v2)
+> Testcases:
+> 1. ethtool -x eth0 output
+> 2. LISA testcase:PERF-NETWORK-TCP-THROUGHPUT-MULTICONNECTION-NTTTCP-Synthetic
+> 3. LISA testcase:PERF-NETWORK-TCP-THROUGHPUT-MULTICONNECTION-NTTTCP-SRIOV
+> 
+> [...]
 
-Nasza metodyka opiera si=C4=99 na identyfikacji obszar=C3=B3w, kt=C3=B3re=
- wymagaj=C4=85 poprawy, a nast=C4=99pnie dostarczaniu spersonalizowanych =
-rozwi=C4=85za=C5=84, kt=C3=B3re pomagaj=C4=85 osi=C4=85gn=C4=85=C4=87 cel=
-e biznesowe.
+Here is the summary with links:
+  - [v6] hv_netvsc: Allocate rx indirection table size dynamically
+    https://git.kernel.org/netdev/net-next/c/4cab498f33f7
 
-Z powodzeniem prowadzili=C5=9Bmy projekty szkoleniowe dla renomowanych ma=
-rek, takich jak: PZU, Bank Pekao S.A., PWC, Ronson Development, Gedeon Ri=
-chter i wielu innych.
-
-Mo=C5=BCemy niezobowi=C4=85zuj=C4=85co porozmawia=C4=87 o mo=C5=BCliwo=C5=
-=9Bciach zorganizowania szkolenia dla Pa=C5=84stwa firmy?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Pozdrawiam
-Tomasz Wiewi=C3=B3r
