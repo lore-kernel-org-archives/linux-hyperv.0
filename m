@@ -2,61 +2,62 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D38C7EE2F
-	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jun 2023 00:59:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5403CC7EE2E
+	for <linux-hyperv@archiver.kernel.org>; Sat, 10 Jun 2023 01:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232532AbjFJA7Y (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 9 Jun 2023 20:59:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55240 "EHLO
+        id S232210AbjFJBAE (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 9 Jun 2023 21:00:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233101AbjFJA7O (ORCPT
+        with ESMTP id S232858AbjFJA7f (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 9 Jun 2023 20:59:14 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 269A130FB
-        for <linux-hyperv@vger.kernel.org>; Fri,  9 Jun 2023 17:58:47 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-62613b2c8b7so18787116d6.1
-        for <linux-hyperv@vger.kernel.org>; Fri, 09 Jun 2023 17:58:47 -0700 (PDT)
+        Fri, 9 Jun 2023 20:59:35 -0400
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEADC30F4
+        for <linux-hyperv@vger.kernel.org>; Fri,  9 Jun 2023 17:58:49 -0700 (PDT)
+Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-6261a8bbe5fso18275956d6.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 09 Jun 2023 17:58:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1686358726; x=1688950726;
+        d=bytedance.com; s=google; t=1686358729; x=1688950729;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EPbFW7iZxMvtqbmK4J1z/miwrV0fMapcvT6vEzi4BQ0=;
-        b=eHIaq50noFLOTfklzASCj2kkioU8QAZElobxZznaqVwCR+W0ZXU3bcPNgvc+WQtA4V
-         ZPh99Ldk0TcosIYZJPhQcTKxuga8iR/gP2SlRfSF/FXq8qouuVLQEsvyDEM1zPWWBJkx
-         hn7nWcxMz2c+xwvGdDgizok4EVHbTFiyq5QCVqNCKK6jxRyu1TMqWnnTzsKU8WOvy3+s
-         SctSa77Chu2Ul63vM3KhNb3YEXgAXN6A4L0LtRz+e/cWMr+oRB4J33cwIds5xkVmkNCR
-         6MA/4rN3clrZtTnCTJSBUyzkmkGrwcx3x3L6DJl/fPcZ089lMjkv3tCg+HkV4kISDjXE
-         WTDA==
+        bh=DFrleghhHqJGwyApjTc8QCRKulATYWQc6gIOZoAbxyw=;
+        b=ksml6xPtDkxvZbOyeBnygyfCAoLKD9q0OoR5ThMAuqNWqOyORqD7ip9kezP4rUQ1pn
+         cA3456UR+nvIFDtB4hQkAr9+dKLyOoB0Y8uha3LGNU+M+xhPkSTa7bIVvcuZnFwYP2GC
+         ZeEHzPd5W/3KKUl1LXXn+R864cg8cuPoU6ZDfrh/NKSNdEOSPjKHYDVyE/yjCGrqIXdt
+         7HK2d+ygZZUKxpNeMasEJZ/ytDuYXAYFMacasr+ggsr8KojjvAWg1zXjYgoOPbiETiNr
+         JtnJfhnbIucaihsxy/lQGs/DMMKT+Q9ovj9LdzJEIqHug2Ab3Rtgf2TouE1snzEnh4xG
+         IFqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686358726; x=1688950726;
+        d=1e100.net; s=20221208; t=1686358729; x=1688950729;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EPbFW7iZxMvtqbmK4J1z/miwrV0fMapcvT6vEzi4BQ0=;
-        b=XmpmkyXbciVDl8zebC+tmkgthFesCEOB7noAkCBAXyD1iBauOyQdTVIDm7zXNu6wuK
-         FcsNsYroiiodkeIBOr6zl3JJrHjjZLWMW4/KGHAmz2KEtC5gJbQtQvQffLCyATG9rxLf
-         IJzR+jlo1tVGfSe23pJ8JRnq6SfFfi8+cMfW+xZ7ME4N3XlUm6lIonHGxARBmdU7oQcO
-         +SyjEY6moINzfAIB2ia/abP/3qOhX2YDLErgbrusfiznXMruLGVW2E8/abGNZmkTscC1
-         weq+ZmXsGk96DlSh/+SAJv/1ALqkJYz6vz5PwMjA/Kc8e8fPWhl/lgVtXzKW7vMGWorT
-         0wHw==
-X-Gm-Message-State: AC+VfDzXVi7YhXOg7bZfBLRpTzIS+/0Zv3m4blpn5UsK0w250DtU457P
-        jl3eMHumi54fgXw2e/zNvkbOpg==
-X-Google-Smtp-Source: ACHHUZ4Jsgb36N9GZ4JniC/b/qrfHGSveGUk7BVpmwnK/7J/2seTE4pOmsKxx6vZojSu2m7QHfg5og==
-X-Received: by 2002:a05:6214:509b:b0:625:b3a2:f655 with SMTP id kk27-20020a056214509b00b00625b3a2f655mr3585747qvb.30.1686358726197;
-        Fri, 09 Jun 2023 17:58:46 -0700 (PDT)
+        bh=DFrleghhHqJGwyApjTc8QCRKulATYWQc6gIOZoAbxyw=;
+        b=JEM9GrSOOihdwIJnZZcw3572v38CqFXbVvo9WE7t4t969YuB19Iqm1T1BPISfUvtsZ
+         9eSeiNP154ubI37MDwE8np34qTfSQ+ALKo2g+L+Zlb4FjPS8ntfN+K5zHhtcLGtCwhFz
+         JROukoYuUC9wKPBcd2FGkOkde0H8VD9BHZ1B/G8DqGLYY03AMM5lvIlwLrLSfCyoA39z
+         qUpmGBKzVfKZ7o+uNu3ITTPvqrQfafhnAnQjeQ7k1Y8EbEB9HwHaKxhRxUNQopqwAOoH
+         LzHRQCIyhsTO76eyn0CJnElEnRnXVk4NLs3mQiNClJj2IIQwyaMiTjQ7/fF7E98ZM8q/
+         rPYg==
+X-Gm-Message-State: AC+VfDxeY9sV/S0R9V/uMmaxwAfLQSM/MffkK63xh6ZE8GkZ9COQx4MB
+        rWbytHDzX0ZKVC52yViWOO/nzQ==
+X-Google-Smtp-Source: ACHHUZ5uIEySsxiEOpSX4l8ibj9bXDfnI2ZPrwbwx9nWGpkZhEBWPI0FhN3HTH4aTic7c7flSU8gzw==
+X-Received: by 2002:a05:6214:e87:b0:626:2b44:40c with SMTP id hf7-20020a0562140e8700b006262b44040cmr3491456qvb.59.1686358729039;
+        Fri, 09 Jun 2023 17:58:49 -0700 (PDT)
 Received: from [172.17.0.4] ([130.44.212.126])
-        by smtp.gmail.com with ESMTPSA id x17-20020a0ce251000000b00606750abaf9sm1504075qvl.136.2023.06.09.17.58.45
+        by smtp.gmail.com with ESMTPSA id x17-20020a0ce251000000b00606750abaf9sm1504075qvl.136.2023.06.09.17.58.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jun 2023 17:58:45 -0700 (PDT)
+        Fri, 09 Jun 2023 17:58:48 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Sat, 10 Jun 2023 00:58:29 +0000
-Subject: [PATCH RFC net-next v4 2/8] vsock: refactor transport lookup code
+Date:   Sat, 10 Jun 2023 00:58:32 +0000
+Subject: [PATCH RFC net-next v4 5/8] virtio/vsock: add VIRTIO_VSOCK_F_DGRAM
+ feature bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v4-2-0cebbb2ae899@bytedance.com>
+Message-Id: <20230413-b4-vsock-dgram-v4-5-0cebbb2ae899@bytedance.com>
 References: <20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com>
 In-Reply-To: <20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com>
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
@@ -79,65 +80,33 @@ Cc:     Dan Carpenter <dan.carpenter@linaro.org>,
         Krasnov Arseniy <oxffffaa@gmail.com>, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>
+        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>
 X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Introduce new reusable function vsock_connectible_lookup_transport()
-that performs the transport lookup logic.
+This commit adds a feature bit for virtio vsock to support datagrams.
 
-No functional change intended.
-
+Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- net/vmw_vsock/af_vsock.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ include/uapi/linux/virtio_vsock.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index ffb4dd8b6ea7..74358f0b47fa 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -422,6 +422,22 @@ static void vsock_deassign_transport(struct vsock_sock *vsk)
- 	vsk->transport = NULL;
- }
+diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
+index 64738838bee5..9c25f267bbc0 100644
+--- a/include/uapi/linux/virtio_vsock.h
++++ b/include/uapi/linux/virtio_vsock.h
+@@ -40,6 +40,7 @@
  
-+static const struct vsock_transport *
-+vsock_connectible_lookup_transport(unsigned int cid, __u8 flags)
-+{
-+	const struct vsock_transport *transport;
-+
-+	if (vsock_use_local_transport(cid))
-+		transport = transport_local;
-+	else if (cid <= VMADDR_CID_HOST || !transport_h2g ||
-+		 (flags & VMADDR_FLAG_TO_HOST))
-+		transport = transport_g2h;
-+	else
-+		transport = transport_h2g;
-+
-+	return transport;
-+}
-+
- /* Assign a transport to a socket and call the .init transport callback.
-  *
-  * Note: for connection oriented socket this must be called when vsk->remote_addr
-@@ -462,13 +478,8 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
- 		break;
- 	case SOCK_STREAM:
- 	case SOCK_SEQPACKET:
--		if (vsock_use_local_transport(remote_cid))
--			new_transport = transport_local;
--		else if (remote_cid <= VMADDR_CID_HOST || !transport_h2g ||
--			 (remote_flags & VMADDR_FLAG_TO_HOST))
--			new_transport = transport_g2h;
--		else
--			new_transport = transport_h2g;
-+		new_transport = vsock_connectible_lookup_transport(remote_cid,
-+								   remote_flags);
- 		break;
- 	default:
- 		return -ESOCKTNOSUPPORT;
+ /* The feature bitmap for virtio vsock */
+ #define VIRTIO_VSOCK_F_SEQPACKET	1	/* SOCK_SEQPACKET supported */
++#define VIRTIO_VSOCK_F_DGRAM		3	/* SOCK_DGRAM supported */
+ 
+ struct virtio_vsock_config {
+ 	__le64 guest_cid;
 
 -- 
 2.30.2
