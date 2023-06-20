@@ -2,109 +2,73 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F21EB64D9
-	for <linux-hyperv@archiver.kernel.org>; Mon, 19 Jun 2023 23:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7948BEB64D9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 20 Jun 2023 00:14:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229814AbjFSXnw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 19 Jun 2023 19:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
+        id S229492AbjFTAOp (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 19 Jun 2023 20:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbjFSXnj (ORCPT
+        with ESMTP id S229843AbjFTAOp (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 19 Jun 2023 19:43:39 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E0E01A4;
-        Mon, 19 Jun 2023 16:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687218219; x=1718754219;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=93F5iXdL1aFe8xiqIFZhy89J/IUrk/GxSpjv1QQ9jI0=;
-  b=DTkuV9hSKSVd+wYCSoMEpj6y+gTl+n2bl6SwRvDqN5XgyPeGK7u/dQpV
-   QN2epjFjSSvSrTEb2cR/+RqUo1yZ2BLJlgMgk36irYSRAs6ylEe23Ynie
-   dcijUwfU4tf2hpsRLjOWJ7ltkif/7JSXxnG7Bf9eZOVnY0aAJ4M/PrCqf
-   WbvuEon0uFWeQGzlDh92te5hYgloYHpmBrF+mpcQA4Fnma3Xw7RDPW0II
-   //XRmKtnVxTo26it36Gh5C0V3yy9xmxapiVlNJKPiSrZwgA//3fwG7FvG
-   NmmmOFNmDrGqzBg7m7DipOPV6KWhzpkL4Zt2MLrO80UyGn6a97W3SY2Aj
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="340071499"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="340071499"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 16:43:38 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="747789703"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="747789703"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 19 Jun 2023 16:43:36 -0700
-From:   Xin Li <xin3.li@intel.com>
-To:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        iommu@lists.linux.dev, linux-hyperv@vger.kernel.org,
-        linux-perf-users@vger.kernel.org, x86@kernel.org
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, steve.wahl@hpe.com,
-        mike.travis@hpe.com, dimitri.sivanich@hpe.com,
-        russ.anderson@hpe.com, dvhart@infradead.org, andy@infradead.org,
-        joro@8bytes.org, suravee.suthikulpanit@amd.com, will@kernel.org,
-        robin.murphy@arm.com, kys@microsoft.com, haiyangz@microsoft.com,
-        wei.liu@kernel.org, decui@microsoft.com, dwmw2@infradead.org,
-        baolu.lu@linux.intel.com, peterz@infradead.org, acme@kernel.org,
-        mark.rutland@arm.com, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, irogers@google.com,
-        adrian.hunter@intel.com, xin3.li@intel.com, seanjc@google.com,
-        jiangshanlai@gmail.com, jgg@ziepe.ca, yangtiezhu@loongson.cn
-Subject: [PATCH 3/3] tools: Get rid of IRQ_MOVE_CLEANUP_VECTOR from tools
-Date:   Mon, 19 Jun 2023 16:16:11 -0700
-Message-Id: <20230619231611.2230-4-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230619231611.2230-1-xin3.li@intel.com>
-References: <20230619231611.2230-1-xin3.li@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 19 Jun 2023 20:14:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9469DC0;
+        Mon, 19 Jun 2023 17:14:44 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 28E2B60C96;
+        Tue, 20 Jun 2023 00:14:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88756C433C8;
+        Tue, 20 Jun 2023 00:14:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687220083;
+        bh=VKGVZJgA7H3tlazewHNWf8ivXmAhAf6xrH2yjMpSZ+A=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=mqMP4CDZegZPZAF2M+595/r3PMOK6xtjLAVz7NT+uUh7XOiUAnWhvEFQ7T82F8Rpc
+         I7ZPQcK3Neaxdspp+WBT/z1pWzqBdZifnDbUQxuNjVynpEVrGIUPuJ8mohmPe0dM7s
+         K4ltCzk13GdUUXx7N4i7/VmVfdFi/14vw0ZIshLJopoIW0GqujQ0w1qCTS9acuHbLz
+         HNPgqNjPiZRLwV8I0blsiyoHZDsYzlCqnY/jgmZHYUWAFTBbEm7c/tzmXj+6QbfnTn
+         hwK46VT1oTD2iHEiZbLzmki9C8GHcDp0EwVPKwXOZpEsa2AJjJdnm1IGEKlUliiioN
+         c+9EKOgAZPVPg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 70A72C43168;
+        Tue, 20 Jun 2023 00:14:43 +0000 (UTC)
+Subject: Re: [GIT PULL] Hyper-V fixes for 6.4-rc8
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <ZJDihKX5BT38Rkab@liuwe-devbox-debian-v2>
+References: <ZJDihKX5BT38Rkab@liuwe-devbox-debian-v2>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <ZJDihKX5BT38Rkab@liuwe-devbox-debian-v2>
+X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20230619
+X-PR-Tracked-Commit-Id: 067d6ec7ed5b49380688e06c1e5f883a71bef4fe
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 692b7dc87ca6d55ab254f8259e6f970171dc9d01
+Message-Id: <168722008344.2104.2174728263963004951.pr-tracker-bot@kernel.org>
+Date:   Tue, 20 Jun 2023 00:14:43 +0000
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Wei Liu <wei.liu@kernel.org>,
+        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
+        Linux Kernel List <linux-kernel@vger.kernel.org>,
+        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+        Michael Kelley <mikelley@microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Get rid of IRQ_MOVE_CLEANUP_VECTOR from tools.
+The pull request you sent on Mon, 19 Jun 2023 23:19:32 +0000:
 
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
- tools/arch/x86/include/asm/irq_vectors.h               | 7 -------
- tools/perf/trace/beauty/tracepoints/x86_irq_vectors.sh | 2 +-
- 2 files changed, 1 insertion(+), 8 deletions(-)
+> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20230619
 
-diff --git a/tools/arch/x86/include/asm/irq_vectors.h b/tools/arch/x86/include/asm/irq_vectors.h
-index 43dcb9284208..3a19904c2db6 100644
---- a/tools/arch/x86/include/asm/irq_vectors.h
-+++ b/tools/arch/x86/include/asm/irq_vectors.h
-@@ -35,13 +35,6 @@
-  */
- #define FIRST_EXTERNAL_VECTOR		0x20
- 
--/*
-- * Reserve the lowest usable vector (and hence lowest priority)  0x20 for
-- * triggering cleanup after irq migration. 0x21-0x2f will still be used
-- * for device interrupts.
-- */
--#define IRQ_MOVE_CLEANUP_VECTOR		FIRST_EXTERNAL_VECTOR
--
- #define IA32_SYSCALL_VECTOR		0x80
- 
- /*
-diff --git a/tools/perf/trace/beauty/tracepoints/x86_irq_vectors.sh b/tools/perf/trace/beauty/tracepoints/x86_irq_vectors.sh
-index eed9ce0fcbe6..87dc68c7de0c 100755
---- a/tools/perf/trace/beauty/tracepoints/x86_irq_vectors.sh
-+++ b/tools/perf/trace/beauty/tracepoints/x86_irq_vectors.sh
-@@ -12,7 +12,7 @@ x86_irq_vectors=${arch_x86_header_dir}/irq_vectors.h
- 
- # FIRST_EXTERNAL_VECTOR is not that useful, find what is its number
- # and then replace whatever is using it and that is useful, which at
--# the time of writing of this script was: IRQ_MOVE_CLEANUP_VECTOR.
-+# the time of writing of this script was: 0x20.
- 
- first_external_regex='^#define[[:space:]]+FIRST_EXTERNAL_VECTOR[[:space:]]+(0x[[:xdigit:]]+)$'
- first_external_vector=$(grep -E ${first_external_regex} ${x86_irq_vectors} | sed -r "s/${first_external_regex}/\1/g")
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/692b7dc87ca6d55ab254f8259e6f970171dc9d01
+
+Thank you!
+
 -- 
-2.34.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
