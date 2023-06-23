@@ -2,93 +2,156 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B138C001B0
-	for <linux-hyperv@archiver.kernel.org>; Fri, 23 Jun 2023 21:21:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 130F9EB64D7
+	for <linux-hyperv@archiver.kernel.org>; Fri, 23 Jun 2023 22:09:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232983AbjFWVVu (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 23 Jun 2023 17:21:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56420 "EHLO
+        id S232196AbjFWWJw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 23 Jun 2023 18:09:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232440AbjFWVVV (ORCPT
+        with ESMTP id S232124AbjFWWJv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 23 Jun 2023 17:21:21 -0400
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF8F359D;
-        Fri, 23 Jun 2023 14:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6pln8KBe2ITtf0Rjafl/GtS76k6Cn8LbOnTYdoKfe3I=;
-  b=pKNmqBiygwlNLCzGuSQt/yjs2FsRFeqJtZEf1QiTQmJSp4Fke68U0eM6
-   MjqGe7c1XWHvQYZR8PMOxPokjRn3KFG8EMkHO6Z9TDu+gTL1yvuoFUJVx
-   XTtGe+P9TO7DPba/l6tlQHgJsnQdFj/RZ2EOMJ4okLFBWw40Mu0eNC8LI
-   8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
-   d="scan'208";a="59686180"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:14 +0200
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>
-Cc:     keescook@chromium.org, kernel-janitors@vger.kernel.org,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 22/26] net: mana: use array_size
-Date:   Fri, 23 Jun 2023 23:14:53 +0200
-Message-Id: <20230623211457.102544-23-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230623211457.102544-1-Julia.Lawall@inria.fr>
-References: <20230623211457.102544-1-Julia.Lawall@inria.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 23 Jun 2023 18:09:51 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24F8726B0;
+        Fri, 23 Jun 2023 15:09:50 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 7117D21C254C;
+        Fri, 23 Jun 2023 15:09:49 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7117D21C254C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1687558189;
+        bh=P4xErWASYozmLjfCenVubRSNH18YpbaAas5TwKzt/Y8=;
+        h=From:To:Subject:Date:From;
+        b=RAM32IcyXR5uDlEbHUSBo6PNKfYj2ouJjdOoGBm3LZnHQ6izMkeVmLB+YkNlo61Oa
+         8x3s7oo0TpXlLACnUMTZNFsJhmICh36pP8gRqEaBFaGaX0SjHFmVmB8CJklkjdODxI
+         6AfCoqGZaiLcBObCD3TZgRsv5Uf9Sa/a4ERUOESs=
+From:   Kameron Carr <kameroncarr@linux.microsoft.com>
+To:     arnd@arndb.de, decui@microsoft.com, haiyangz@microsoft.com,
+        kys@microsoft.com, linux-arch@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        wei.liu@kernel.org
+Subject: [PATCH v2] Drivers: hv: Change hv_free_hyperv_page() to take void * argument
+Date:   Fri, 23 Jun 2023 15:09:49 -0700
+Message-Id: <1687558189-19734-1-git-send-email-kameroncarr@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Use array_size to protect against multiplication overflows.
+Currently hv_free_hyperv_page() takes an unsigned long argument, which
+is inconsistent with the void * return value from the corresponding
+hv_alloc_hyperv_page() function and variants. This creates unnecessary
+extra casting.
 
-The changes were done using the following Coccinelle semantic patch:
+Change the hv_free_hyperv_page() argument type to void *.
+Also remove redundant casts from invocations of
+hv_alloc_hyperv_page() and variants.
 
-// <smpl>
-@@
-    expression E1, E2;
-    constant C1, C2;
-    identifier alloc = {vmalloc,vzalloc};
-@@
-    
-(
-      alloc(C1 * C2,...)
-|
-      alloc(
--           (E1) * (E2)
-+           array_size(E1, E2)
-      ,...)
-)
-// </smpl>
-
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
+Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
 ---
- drivers/net/ethernet/microsoft/mana/hw_channel.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+V1 -> V2: Added Signed-off-by
 
-diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-index 9d1507eba5b9..e82c513760f9 100644
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -627,7 +627,7 @@ static int mana_hwc_establish_channel(struct gdma_context *gc, u16 *q_depth,
- 	if (WARN_ON(cq->id >= gc->max_num_cqs))
- 		return -EPROTO;
+ drivers/hv/connection.c        | 13 ++++++-------
+ drivers/hv/hv_common.c         | 10 +++++-----
+ include/asm-generic/mshyperv.h |  2 +-
+ 3 files changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 5978e9d..ebf15f3 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -209,8 +209,7 @@ int vmbus_connect(void)
+ 	 * Setup the vmbus event connection for channel interrupt
+ 	 * abstraction stuff
+ 	 */
+-	vmbus_connection.int_page =
+-	(void *)hv_alloc_hyperv_zeroed_page();
++	vmbus_connection.int_page = hv_alloc_hyperv_zeroed_page();
+ 	if (vmbus_connection.int_page == NULL) {
+ 		ret = -ENOMEM;
+ 		goto cleanup;
+@@ -225,8 +224,8 @@ int vmbus_connect(void)
+ 	 * Setup the monitor notification facility. The 1st page for
+ 	 * parent->child and the 2nd page for child->parent
+ 	 */
+-	vmbus_connection.monitor_pages[0] = (void *)hv_alloc_hyperv_page();
+-	vmbus_connection.monitor_pages[1] = (void *)hv_alloc_hyperv_page();
++	vmbus_connection.monitor_pages[0] = hv_alloc_hyperv_page();
++	vmbus_connection.monitor_pages[1] = hv_alloc_hyperv_page();
+ 	if ((vmbus_connection.monitor_pages[0] == NULL) ||
+ 	    (vmbus_connection.monitor_pages[1] == NULL)) {
+ 		ret = -ENOMEM;
+@@ -333,15 +332,15 @@ void vmbus_disconnect(void)
+ 		destroy_workqueue(vmbus_connection.work_queue);
  
--	gc->cq_table = vzalloc(gc->max_num_cqs * sizeof(struct gdma_queue *));
-+	gc->cq_table = vzalloc(array_size(gc->max_num_cqs, sizeof(struct gdma_queue *)));
- 	if (!gc->cq_table)
- 		return -ENOMEM;
+ 	if (vmbus_connection.int_page) {
+-		hv_free_hyperv_page((unsigned long)vmbus_connection.int_page);
++		hv_free_hyperv_page(vmbus_connection.int_page);
+ 		vmbus_connection.int_page = NULL;
+ 	}
  
+ 	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[0], 1);
+ 	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[1], 1);
+ 
+-	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
+-	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
++	hv_free_hyperv_page(vmbus_connection.monitor_pages[0]);
++	hv_free_hyperv_page(vmbus_connection.monitor_pages[1]);
+ 	vmbus_connection.monitor_pages[0] = NULL;
+ 	vmbus_connection.monitor_pages[1] = NULL;
+ }
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 542a1d5..6a2258f 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -115,12 +115,12 @@ void *hv_alloc_hyperv_zeroed_page(void)
+ }
+ EXPORT_SYMBOL_GPL(hv_alloc_hyperv_zeroed_page);
+ 
+-void hv_free_hyperv_page(unsigned long addr)
++void hv_free_hyperv_page(void *addr)
+ {
+ 	if (PAGE_SIZE == HV_HYP_PAGE_SIZE)
+-		free_page(addr);
++		free_page((unsigned long)addr);
+ 	else
+-		kfree((void *)addr);
++		kfree(addr);
+ }
+ EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
+ 
+@@ -253,7 +253,7 @@ static void hv_kmsg_dump_unregister(void)
+ 	atomic_notifier_chain_unregister(&panic_notifier_list,
+ 					 &hyperv_panic_report_block);
+ 
+-	hv_free_hyperv_page((unsigned long)hv_panic_page);
++	hv_free_hyperv_page(hv_panic_page);
+ 	hv_panic_page = NULL;
+ }
+ 
+@@ -270,7 +270,7 @@ static void hv_kmsg_dump_register(void)
+ 	ret = kmsg_dump_register(&hv_kmsg_dumper);
+ 	if (ret) {
+ 		pr_err("Hyper-V: kmsg dump register error 0x%x\n", ret);
+-		hv_free_hyperv_page((unsigned long)hv_panic_page);
++		hv_free_hyperv_page(hv_panic_page);
+ 		hv_panic_page = NULL;
+ 	}
+ }
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 402a8c1..a8f4b65 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -190,7 +190,7 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
+ 
+ void *hv_alloc_hyperv_page(void);
+ void *hv_alloc_hyperv_zeroed_page(void);
+-void hv_free_hyperv_page(unsigned long addr);
++void hv_free_hyperv_page(void *addr);
+ 
+ /**
+  * hv_cpu_number_to_vp_number() - Map CPU to VP.
+-- 
+1.8.3.1
 
