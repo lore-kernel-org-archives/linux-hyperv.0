@@ -2,165 +2,169 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0867CEB64D9
-	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Jun 2023 16:58:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C0AFEB64D9
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Jun 2023 17:25:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbjF0Q6A (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 27 Jun 2023 12:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38660 "EHLO
+        id S231397AbjF0RZU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 27 Jun 2023 13:25:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbjF0Q57 (ORCPT
+        with ESMTP id S229437AbjF0RZT (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 27 Jun 2023 12:57:59 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3E0B210CF;
-        Tue, 27 Jun 2023 09:57:58 -0700 (PDT)
-Received: from [192.168.0.5] (75-172-40-221.tukw.qwest.net [75.172.40.221])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 8E0AB20AECAD;
-        Tue, 27 Jun 2023 09:57:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8E0AB20AECAD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1687885077;
-        bh=eol4JTI8wX7UZd7+77Z/kmpFdoWKbnYccggCXyonl54=;
-        h=Date:Subject:To:References:From:In-Reply-To:From;
-        b=Rf/SKH6AuhCao/hUPpDgvhXY9tPNBcqsAfto61A7Hi+M6nAYk7+vuM1eFP42las0C
-         Ur/FuwQCc2K2gL63xVM3q8VVOW3pCtdlIsLh8xcsSBn6Ymwg44L5UPXZofizGQzpEG
-         HzVUI/8RCXiQWIBIkKX8BUxzA7DmRy6ICmThIlpQ=
-Message-ID: <df9d5443-b563-c4c8-1038-6a01c132a132@linux.microsoft.com>
-Date:   Tue, 27 Jun 2023 09:58:05 -0700
+        Tue, 27 Jun 2023 13:25:19 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2A326BF;
+        Tue, 27 Jun 2023 10:25:17 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-666edfc50deso66937b3a.0;
+        Tue, 27 Jun 2023 10:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687886717; x=1690478717;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tAy3BdEspJlPeDmEFZs9sE+/cUDTXl7LmDXHAzonOMU=;
+        b=sa7cziA981RYM/ui/S3lmxnf2XasU2ILz8wt9ERWgRTOfDc8m10TTwaKH7tB67XbCH
+         7rsYn6l2vUVOJI8DO/5zIUA7bjt1BkIBwIlVBWeHDk1kLA4bo5oFXyYJZvhzsuFPwVSy
+         oXOGIeJqge+hH5kCXtLNrR+10jqJiDozwyrh9KOvi6GzHFisaFpXGzPPIB3USUZKV6vF
+         WlMT0Hdi5TTsTBtBwE5sUqvglm6w6aDskYJN9dYEAUld5giNWs9PpI97ONnvUQc4ZPu8
+         yeB5G3lkyNtOSOCv5DMaGCx/cINWeGtp4fD2IDF2Y5+K792vy+cAl7n5TOfyTH/rM3VR
+         7rMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687886717; x=1690478717;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tAy3BdEspJlPeDmEFZs9sE+/cUDTXl7LmDXHAzonOMU=;
+        b=jw+S+2djQ9gPIUj1MeRTCtypl/t7/1Bkj+Y81iN95L1z5H8j1rsTEB48/TBTmzTSUW
+         qD+V64OB+d6VIac1Tah9vPJL+e+/c2v8xS3OdECwH8h3rRueFpXaiQ5TOk8xGMkpWOJz
+         u2Us4q8Y2xHtuLRDBwdfvW2KUxN+VkvdPisPVrUZbcWjb7mFUREXVJBR+wYzyt2UbYlL
+         sEEaoJIvYmDiD3FzcIgTwuyk5ChUzcQQzB9JVSaJNoYsosE15TOjru8SAGSDp8XeSyw1
+         dgoh3x6gyAod8lgcySX0uwVtOErG7HdAGflJVMo8PJWCD6uQX8ut/TRLC4v3OmlA80vu
+         odgQ==
+X-Gm-Message-State: AC+VfDzg7TzdDWmTNwYWdH9w235os9CsDjWd1bUqWq9cpZVALzBl1aEG
+        kwSjPMGeFvOq0j8Hfqc98Bg=
+X-Google-Smtp-Source: ACHHUZ7obCo50dBOrmWezxMqSsQT++fExXVdK6D/0djOUDPgv8ohuvHhxmDfmFkzxBZ//Y/o/SZ8ZQ==
+X-Received: by 2002:a05:6a00:b4e:b0:67f:d5e7:4604 with SMTP id p14-20020a056a000b4e00b0067fd5e74604mr744066pfo.13.1687886716976;
+        Tue, 27 Jun 2023 10:25:16 -0700 (PDT)
+Received: from localhost (ec2-54-67-115-33.us-west-1.compute.amazonaws.com. [54.67.115.33])
+        by smtp.gmail.com with ESMTPSA id x21-20020aa793b5000000b00673e652985esm4265097pff.44.2023.06.27.10.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 10:25:16 -0700 (PDT)
+Date:   Tue, 27 Jun 2023 01:19:43 +0000
+From:   Bobby Eshleman <bobbyeshleman@gmail.com>
+To:     Stefano Garzarella <sgarzare@redhat.com>
+Cc:     linux-hyperv@vger.kernel.org,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        virtualization@lists.linux-foundation.org,
+        Eric Dumazet <edumazet@google.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bryan Tan <bryantan@vmware.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Arseniy Krasnov <oxffffaa@gmail.com>,
+        Vishnu Dasa <vdasa@vmware.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH RFC net-next v4 6/8] virtio/vsock: support dgrams
+Message-ID: <ZJo5L+IM1P3kFAhe@bullseye>
+References: <20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com>
+ <20230413-b4-vsock-dgram-v4-6-0cebbb2ae899@bytedance.com>
+ <92b3a6df-ded3-6470-39d1-fe0939441abc@gmail.com>
+ <ppx75eomyyb354knfkwbwin3il2ot7hf5cefwrt6ztpcbc3pps@q736cq5v4bdh>
+ <ZJUho6NbpCgGatap@bullseye>
+ <d53tgo4igvz34pycgs36xikjosrncejlzuvh47bszk55milq52@whcyextsxfka>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.12.0
-Subject: Re: [PATCH v2] Drivers: hv: Change hv_free_hyperv_page() to take void
- * argument
-Content-Language: en-US
-To:     Kameron Carr <kameroncarr@linux.microsoft.com>, arnd@arndb.de,
-        decui@microsoft.com, haiyangz@microsoft.com, kys@microsoft.com,
-        linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, wei.liu@kernel.org
-References: <1687558189-19734-1-git-send-email-kameroncarr@linux.microsoft.com>
-From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
-In-Reply-To: <1687558189-19734-1-git-send-email-kameroncarr@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d53tgo4igvz34pycgs36xikjosrncejlzuvh47bszk55milq52@whcyextsxfka>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Reviewed-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+On Mon, Jun 26, 2023 at 05:03:15PM +0200, Stefano Garzarella wrote:
+> On Fri, Jun 23, 2023 at 04:37:55AM +0000, Bobby Eshleman wrote:
+> > On Thu, Jun 22, 2023 at 06:09:12PM +0200, Stefano Garzarella wrote:
+> > > On Sun, Jun 11, 2023 at 11:49:02PM +0300, Arseniy Krasnov wrote:
+> > > > Hello Bobby!
+> > > >
+> > > > On 10.06.2023 03:58, Bobby Eshleman wrote:
+> > > > > This commit adds support for datagrams over virtio/vsock.
+> > > > >
+> > > > > Message boundaries are preserved on a per-skb and per-vq entry basis.
+> > > >
+> > > > I'm a little bit confused about the following case: let vhost sends 4097 bytes
+> > > > datagram to the guest. Guest uses 4096 RX buffers in it's virtio queue, each
+> > > > buffer has attached empty skb to it. Vhost places first 4096 bytes to the first
+> > > > buffer of guests RX queue, and 1 last byte to the second buffer. Now IIUC guest
+> > > > has two skb in it rx queue, and user in guest wants to read data - does it read
+> > > > 4097 bytes, while guest has two skb - 4096 bytes and 1 bytes? In seqpacket there is
+> > > > special marker in header which shows where message ends, and how it works here?
+> > > 
+> > > I think the main difference is that DGRAM is not connection-oriented, so
+> > > we don't have a stream and we can't split the packet into 2 (maybe we
+> > > could, but we have no guarantee that the second one for example will be
+> > > not discarded because there is no space).
+> > > 
+> > > So I think it is acceptable as a restriction to keep it simple.
+> > > 
+> > > My only doubt is, should we make the RX buffer size configurable,
+> > > instead of always using 4k?
+> > > 
+> > I think that is a really good idea. What mechanism do you imagine?
+> 
+> Some parameter in sysfs?
+> 
 
-On 6/23/2023 3:09 PM, Kameron Carr wrote:
-> Currently hv_free_hyperv_page() takes an unsigned long argument, which
-> is inconsistent with the void * return value from the corresponding
-> hv_alloc_hyperv_page() function and variants. This creates unnecessary
-> extra casting.
-> 
-> Change the hv_free_hyperv_page() argument type to void *.
-> Also remove redundant casts from invocations of
-> hv_alloc_hyperv_page() and variants.
-> 
-> Signed-off-by: Kameron Carr <kameroncarr@linux.microsoft.com>
-> ---
-> V1 -> V2: Added Signed-off-by
-> 
->  drivers/hv/connection.c        | 13 ++++++-------
->  drivers/hv/hv_common.c         | 10 +++++-----
->  include/asm-generic/mshyperv.h |  2 +-
->  3 files changed, 12 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-> index 5978e9d..ebf15f3 100644
-> --- a/drivers/hv/connection.c
-> +++ b/drivers/hv/connection.c
-> @@ -209,8 +209,7 @@ int vmbus_connect(void)
->  	 * Setup the vmbus event connection for channel interrupt
->  	 * abstraction stuff
->  	 */
-> -	vmbus_connection.int_page =
-> -	(void *)hv_alloc_hyperv_zeroed_page();
-> +	vmbus_connection.int_page = hv_alloc_hyperv_zeroed_page();
->  	if (vmbus_connection.int_page == NULL) {
->  		ret = -ENOMEM;
->  		goto cleanup;
-> @@ -225,8 +224,8 @@ int vmbus_connect(void)
->  	 * Setup the monitor notification facility. The 1st page for
->  	 * parent->child and the 2nd page for child->parent
->  	 */
-> -	vmbus_connection.monitor_pages[0] = (void *)hv_alloc_hyperv_page();
-> -	vmbus_connection.monitor_pages[1] = (void *)hv_alloc_hyperv_page();
-> +	vmbus_connection.monitor_pages[0] = hv_alloc_hyperv_page();
-> +	vmbus_connection.monitor_pages[1] = hv_alloc_hyperv_page();
->  	if ((vmbus_connection.monitor_pages[0] == NULL) ||
->  	    (vmbus_connection.monitor_pages[1] == NULL)) {
->  		ret = -ENOMEM;
-> @@ -333,15 +332,15 @@ void vmbus_disconnect(void)
->  		destroy_workqueue(vmbus_connection.work_queue);
->  
->  	if (vmbus_connection.int_page) {
-> -		hv_free_hyperv_page((unsigned long)vmbus_connection.int_page);
-> +		hv_free_hyperv_page(vmbus_connection.int_page);
->  		vmbus_connection.int_page = NULL;
->  	}
->  
->  	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[0], 1);
->  	set_memory_encrypted((unsigned long)vmbus_connection.monitor_pages[1], 1);
->  
-> -	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[0]);
-> -	hv_free_hyperv_page((unsigned long)vmbus_connection.monitor_pages[1]);
-> +	hv_free_hyperv_page(vmbus_connection.monitor_pages[0]);
-> +	hv_free_hyperv_page(vmbus_connection.monitor_pages[1]);
->  	vmbus_connection.monitor_pages[0] = NULL;
->  	vmbus_connection.monitor_pages[1] = NULL;
->  }
-> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-> index 542a1d5..6a2258f 100644
-> --- a/drivers/hv/hv_common.c
-> +++ b/drivers/hv/hv_common.c
-> @@ -115,12 +115,12 @@ void *hv_alloc_hyperv_zeroed_page(void)
->  }
->  EXPORT_SYMBOL_GPL(hv_alloc_hyperv_zeroed_page);
->  
-> -void hv_free_hyperv_page(unsigned long addr)
-> +void hv_free_hyperv_page(void *addr)
->  {
->  	if (PAGE_SIZE == HV_HYP_PAGE_SIZE)
-> -		free_page(addr);
-> +		free_page((unsigned long)addr);
->  	else
-> -		kfree((void *)addr);
-> +		kfree(addr);
->  }
->  EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
->  
-> @@ -253,7 +253,7 @@ static void hv_kmsg_dump_unregister(void)
->  	atomic_notifier_chain_unregister(&panic_notifier_list,
->  					 &hyperv_panic_report_block);
->  
-> -	hv_free_hyperv_page((unsigned long)hv_panic_page);
-> +	hv_free_hyperv_page(hv_panic_page);
->  	hv_panic_page = NULL;
->  }
->  
-> @@ -270,7 +270,7 @@ static void hv_kmsg_dump_register(void)
->  	ret = kmsg_dump_register(&hv_kmsg_dumper);
->  	if (ret) {
->  		pr_err("Hyper-V: kmsg dump register error 0x%x\n", ret);
-> -		hv_free_hyperv_page((unsigned long)hv_panic_page);
-> +		hv_free_hyperv_page(hv_panic_page);
->  		hv_panic_page = NULL;
->  	}
->  }
-> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-> index 402a8c1..a8f4b65 100644
-> --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -190,7 +190,7 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
->  
->  void *hv_alloc_hyperv_page(void);
->  void *hv_alloc_hyperv_zeroed_page(void);
-> -void hv_free_hyperv_page(unsigned long addr);
-> +void hv_free_hyperv_page(void *addr);
->  
->  /**
->   * hv_cpu_number_to_vp_number() - Map CPU to VP.
+I comment more on this below.
 
+> > 
+> > For sendmsg() with buflen > VQ_BUF_SIZE, I think I'd like -ENOBUFS
+> 
+> For the guest it should be easy since it allocates the buffers, but for
+> the host?
+> 
+> Maybe we should add a field in the configuration space that reports some
+> sort of MTU.
+> 
+> Something in addition to what Laura had proposed here:
+> https://markmail.org/message/ymhz7wllutdxji3e
+> 
+
+That sounds good to me.
+
+IIUC vhost exposes the limit via the configuration space, and the guest
+can configure the RX buffer size up to that limit via sysfs?
+
+> > returned even though it is uncharacteristic of Linux sockets.
+> > Alternatively, silently dropping is okay... but seems needlessly
+> > unhelpful.
+> 
+> UDP takes advantage of IP fragmentation, right?
+> But what happens if a fragment is lost?
+> 
+> We should try to behave in a similar way.
+> 
+
+AFAICT in UDP the sending socket will see EHOSTUNREACH on its error
+queue and the packet will be dropped.
+
+For more details:
+- the IP defragmenter will emit an ICMP_TIME_EXCEEDED from ip_expire()
+  if the fragment queue is not completed within time.
+- Upon seeing ICMP_TIME_EXCEEDED, the sending stack will then add
+  EHOSTUNREACH to the socket's error queue, as seen in __udp4_lib_err().
+
+Given some updated man pages I think enqueuing EHOSTUNREACH is okay for
+vsock too. This also reserves ENOBUFS/ENOMEM only for shortage on local
+buffers / mem.
+
+What do you think?
+
+Thanks,
+Bobby
