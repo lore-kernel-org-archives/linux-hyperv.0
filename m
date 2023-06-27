@@ -2,120 +2,103 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 770ABC001DE
-	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Jun 2023 14:46:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E19F9C001DB
+	for <linux-hyperv@archiver.kernel.org>; Tue, 27 Jun 2023 16:40:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232187AbjF0Oqr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 27 Jun 2023 10:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43424 "EHLO
+        id S232412AbjF0Qk1 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 27 Jun 2023 12:40:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231990AbjF0Op6 (ORCPT
+        with ESMTP id S231721AbjF0Qk0 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 27 Jun 2023 10:45:58 -0400
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1548835A6;
-        Tue, 27 Jun 2023 07:45:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=rUzmkjTakIf1l5Hdr1TLtSGZWZezFJIK9Clkpx3VPN4=;
-  b=YU2muZyAimuOaNCN/40I/rQBJ4UKO7cZzX4Ns4xfMNxcNtf60stG8vLV
-   OUQT7SM9PQDqEiNQb+GJRV7tsNdaMhbSut5FfSyOzxaZDsiUfbnN8/yiX
-   zL2fR+ESjZuSBV6CTlVOC54xtEJBTZW28IAqKnqEDsce1t7x/6m+mZ0e+
-   k=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.01,162,1684792800"; 
-   d="scan'208";a="114936345"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 16:43:53 +0200
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     "K. Y. Srinivasan" <kys@microsoft.com>
-Cc:     kernel-janitors@vger.kernel.org, keescook@chromium.org,
-        christophe.jaillet@wanadoo.fr, kuba@kernel.org,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-hyperv@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 22/24] net: mana: use vmalloc_array and vcalloc
-Date:   Tue, 27 Jun 2023 16:43:37 +0200
-Message-Id: <20230627144339.144478-23-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+        Tue, 27 Jun 2023 12:40:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1DDEF4;
+        Tue, 27 Jun 2023 09:40:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 59458611EB;
+        Tue, 27 Jun 2023 16:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D8F0C433C9;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1687884023;
+        bh=Mddr9IEnVSSEtvey/EPFRhLi4YnxlTkalZzmHZ6bmJ8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=XGRGiORnH0FmaQ+kclMjYIsE8aiZt7Gs4g5WBNw+zT0ASSus8daZkKZirfbcgaoBv
+         HsuO0nskJhLaiZxylU7zlINMijGNLl9q7WEg/ms3Lh/IrCmjj2LVp6pXCXh1uqP4W3
+         kOcx2VCa4pIOSzcMTF35giAc72J/A42BnFN7K4h/MvLUE7JXaOanngW1cFFib+5J4v
+         8N2ABirViOcrN32FYcrvP15sAv/TezaSVGJHU9rgp1d1sCUFbyUbMRRUsWjqDMoEYN
+         HlJlhL0V9YgQDqvmqEWLdtvBli6Q5b70JaJ8QNh8cP8DiB/xBCXlUB+GXHpoI+1ee3
+         oj4CRUwtvenNQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B046C64458;
+        Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/24] use vmalloc_array and vcalloc
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168788402349.21860.17350888958370358926.git-patchwork-notify@kernel.org>
+Date:   Tue, 27 Jun 2023 16:40:23 +0000
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+To:     Julia Lawall <julia.lawall@inria.fr>
+Cc:     linux-hyperv@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        keescook@chromium.org, christophe.jaillet@wanadoo.fr,
+        kuba@kernel.org, kasan-dev@googlegroups.com, andreyknvl@gmail.com,
+        dvyukov@google.com, iommu@lists.linux.dev,
+        linux-tegra@vger.kernel.org, robin.murphy@arm.com,
+        vdumpa@nvidia.com, virtualization@lists.linux-foundation.org,
+        xuanzhuo@linux.alibaba.com, linux-scsi@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        jstultz@google.com, Brian.Starkey@arm.com, labbott@redhat.com,
+        lmark@codeaurora.org, benjamin.gaignard@collabora.com,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, shailend@google.com,
+        linux-rdma@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, dave.hansen@linux.intel.com,
+        hpa@zytor.com, linux-sgx@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Use vmalloc_array and vcalloc to protect against
-multiplication overflows.
+Hello:
 
-The changes were done using the following Coccinelle
-semantic patch:
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-// <smpl>
-@initialize:ocaml@
-@@
+On Tue, 27 Jun 2023 16:43:15 +0200 you wrote:
+> The functions vmalloc_array and vcalloc were introduced in
+> 
+> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
+> 
+> but are not used much yet.  This series introduces uses of
+> these functions, to protect against multiplication overflows.
+> 
+> [...]
 
-let rename alloc =
-  match alloc with
-    "vmalloc" -> "vmalloc_array"
-  | "vzalloc" -> "vcalloc"
-  | _ -> failwith "unknown"
+Here is the summary with links:
+  - [v2,02/24] octeon_ep: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/32d462a5c3e5
+  - [v2,04/24] gve: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/a13de901e8d5
+  - [v2,09/24] pds_core: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/906a76cc7645
+  - [v2,11/24] ionic: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/f712c8297e0a
+  - [v2,18/24] net: enetc: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/fa87c54693ae
+  - [v2,22/24] net: mana: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/e9c74f8b8a31
 
-@@
-    size_t e1,e2;
-    constant C1, C2;
-    expression E1, E2, COUNT, x1, x2, x3;
-    typedef u8;
-    typedef __u8;
-    type t = {u8,__u8,char,unsigned char};
-    identifier alloc = {vmalloc,vzalloc};
-    fresh identifier realloc = script:ocaml(alloc) { rename alloc };
-@@
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-(
-      alloc(x1*x2*x3)
-|
-      alloc(C1 * C2)
-|
-      alloc((sizeof(t)) * (COUNT), ...)
-|
--     alloc((e1) * (e2))
-+     realloc(e1, e2)
-|
--     alloc((e1) * (COUNT))
-+     realloc(COUNT, e1)
-|
--     alloc((E1) * (E2))
-+     realloc(E1, E2)
-)
-// </smpl>
-
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
----
-v2: Use vmalloc_array and vcalloc instead of array_size.
-This also leaves a multiplication of a constant by a sizeof
-as is.  Two patches are thus dropped from the series.
-
- drivers/net/ethernet/microsoft/mana/hw_channel.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff -u -p a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/net/ethernet/microsoft/mana/hw_channel.c
---- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
-+++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
-@@ -627,7 +627,7 @@ static int mana_hwc_establish_channel(st
- 	if (WARN_ON(cq->id >= gc->max_num_cqs))
- 		return -EPROTO;
- 
--	gc->cq_table = vzalloc(gc->max_num_cqs * sizeof(struct gdma_queue *));
-+	gc->cq_table = vcalloc(gc->max_num_cqs, sizeof(struct gdma_queue *));
- 	if (!gc->cq_table)
- 		return -ENOMEM;
- 
 
