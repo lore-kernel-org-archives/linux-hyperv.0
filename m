@@ -2,162 +2,179 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6E5C05052
-	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Jun 2023 12:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D091EB64DC
+	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Jun 2023 12:31:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232695AbjF2MUy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 29 Jun 2023 08:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52306 "EHLO
+        id S230456AbjF2Mbf (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Jun 2023 08:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232217AbjF2MUC (ORCPT
+        with ESMTP id S230190AbjF2Mbd (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 29 Jun 2023 08:20:02 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D30951FD8;
-        Thu, 29 Jun 2023 05:19:59 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 066AF2185F;
-        Thu, 29 Jun 2023 12:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1688041198; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
+        Thu, 29 Jun 2023 08:31:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194BD2680
+        for <linux-hyperv@vger.kernel.org>; Thu, 29 Jun 2023 05:30:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1688041844;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=n6CE4eotLwXsvlZXrH5NtI0502wDnDOGFZbV7I5gngY=;
-        b=MIAi+nRQrg/Ge6eax6lpus2Fe5io5yBV8iHETNEefQw9v5hsTuNhmZJeebMxmsLFAlwBhS
-        pO7TNt9tms53aJbJTmVVmamYMonFDjXBqZpUrgsRP2HhwvENuHP3spbLJKhMZmxBxuB6E2
-        Ljm6zTP+iYW/JJQTawD+nJfjriRukK4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1688041198;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=n6CE4eotLwXsvlZXrH5NtI0502wDnDOGFZbV7I5gngY=;
-        b=QtEMlYzXXo8wdFbyP1FH2jzz5MUkEcUCgrio6JnFPAKU6t0ZeGdkmpfMQ0v7TpGMoOM8im
-        x7p7/cuMdcwjb5DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5C07713905;
-        Thu, 29 Jun 2023 12:19:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id cIJ/Fe12nWRlVAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:19:57 +0000
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     arnd@arndb.de, deller@gmx.de, daniel@ffwll.ch, airlied@gmail.com
-Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-arch@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Zi Yan <ziy@nvidia.com>,
-        "Mike Rapoport (IBM)" <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: [PATCH 05/12] arch: Remove trailing whitespaces
-Date:   Thu, 29 Jun 2023 13:45:44 +0200
-Message-ID: <20230629121952.10559-6-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230629121952.10559-1-tzimmermann@suse.de>
-References: <20230629121952.10559-1-tzimmermann@suse.de>
+        bh=lxNJCuGafLKSPeJQnzjiGq0TjYezzEm7bsw6nf+e1Ec=;
+        b=iZobZO2FrTsUgB9U0xDXNe05kHwpioMuHaqeaYnw3iHSR/sJeaAlAmZDPrY0VF/hE04rWC
+        VJfyJaGW8qvL2MK2c/2jcxBAXvuyzJkWhnVo0zBCrEqTFbaP0P9DQxiEP3RERAwAG7ubM2
+        IntVFms7WxDXNGQN3VULjHPHwR0wNqA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-645-XQj4My-rNRujf5FhvIi-5w-1; Thu, 29 Jun 2023 08:30:41 -0400
+X-MC-Unique: XQj4My-rNRujf5FhvIi-5w-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-30793c16c78so922855f8f.3
+        for <linux-hyperv@vger.kernel.org>; Thu, 29 Jun 2023 05:30:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688041840; x=1690633840;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lxNJCuGafLKSPeJQnzjiGq0TjYezzEm7bsw6nf+e1Ec=;
+        b=jdbnkB0I/atyd7uQoZqny0KVsbDp0Z03tcvNdzJDmYgJ3rQaAIPjEdjMKLP8RBHqXy
+         yx28X/Z8rmJfwhjrT9MZB+E0x16PtzvnQPwk2lEX2ZGbpcm5wkGU/LTj8HjXjFyjYG5l
+         xzS5xjoWDJS8u/KtnX+5pdsnj7vf7KgjKpbEclbkfyrX2EfMXbcf7UjwV5pXWFGs2rN1
+         5XvWqixbfPZRg8KG92qYwAl7rQGY2Dn4vqR6iRhXhbtoygiHJumLurk+fS2Z50xO4IfW
+         Xpr6XmfNxz/e+dHX2v8EyszidKAMejXRKwE30OoEhc2SxSZOU2AcYpGJwLKEGxAIY1yv
+         sewg==
+X-Gm-Message-State: AC+VfDygIGvFc/sLHQmO0DmIvvdk/fxAD8vz34ZY20eh3ZEgNodCpKQl
+        oKbrPAKv7j+YSpAOwng0p2wcCKl66fvhkg8v+xaG9Zb7g9lmaXHc9Piq8pmEvaYdmkZaRxtgLF5
+        IgiQDqqrv5itPc1HS9iwPinkr
+X-Received: by 2002:adf:ed8c:0:b0:313:e922:3941 with SMTP id c12-20020adfed8c000000b00313e9223941mr17813866wro.46.1688041840052;
+        Thu, 29 Jun 2023 05:30:40 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ6kHN46tOVkCu1gvmqDPPPR5I5tNgGXFZ/EvKTkOoxsRLh+54YIckn5gW3VqlVkVhLtJAP1ow==
+X-Received: by 2002:adf:ed8c:0:b0:313:e922:3941 with SMTP id c12-20020adfed8c000000b00313e9223941mr17813849wro.46.1688041839681;
+        Thu, 29 Jun 2023 05:30:39 -0700 (PDT)
+Received: from sgarzare-redhat (host-87-11-6-160.retail.telecomitalia.it. [87.11.6.160])
+        by smtp.gmail.com with ESMTPSA id q17-20020a5d6591000000b0030796e103a1sm15964532wru.5.2023.06.29.05.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jun 2023 05:30:38 -0700 (PDT)
+Date:   Thu, 29 Jun 2023 14:30:35 +0200
+From:   Stefano Garzarella <sgarzare@redhat.com>
+To:     Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc:     linux-hyperv@vger.kernel.org,
+        Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+        VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
+        Simon Horman <simon.horman@corigine.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        virtualization@lists.linux-foundation.org,
+        Eric Dumazet <edumazet@google.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+        Bryan Tan <bryantan@vmware.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Arseniy Krasnov <oxffffaa@gmail.com>,
+        Vishnu Dasa <vdasa@vmware.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH RFC net-next v4 6/8] virtio/vsock: support dgrams
+Message-ID: <yzxr4hdhac33gxpaelovlshdywdci2dqbt7fbellldy3zhc24e@hgrfvycmc7h6>
+References: <20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com>
+ <20230413-b4-vsock-dgram-v4-6-0cebbb2ae899@bytedance.com>
+ <92b3a6df-ded3-6470-39d1-fe0939441abc@gmail.com>
+ <ppx75eomyyb354knfkwbwin3il2ot7hf5cefwrt6ztpcbc3pps@q736cq5v4bdh>
+ <ZJUho6NbpCgGatap@bullseye>
+ <d53tgo4igvz34pycgs36xikjosrncejlzuvh47bszk55milq52@whcyextsxfka>
+ <ZJo5L+IM1P3kFAhe@bullseye>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <ZJo5L+IM1P3kFAhe@bullseye>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Fix coding style. No functional changes.
+On Tue, Jun 27, 2023 at 01:19:43AM +0000, Bobby Eshleman wrote:
+>On Mon, Jun 26, 2023 at 05:03:15PM +0200, Stefano Garzarella wrote:
+>> On Fri, Jun 23, 2023 at 04:37:55AM +0000, Bobby Eshleman wrote:
+>> > On Thu, Jun 22, 2023 at 06:09:12PM +0200, Stefano Garzarella wrote:
+>> > > On Sun, Jun 11, 2023 at 11:49:02PM +0300, Arseniy Krasnov wrote:
+>> > > > Hello Bobby!
+>> > > >
+>> > > > On 10.06.2023 03:58, Bobby Eshleman wrote:
+>> > > > > This commit adds support for datagrams over virtio/vsock.
+>> > > > >
+>> > > > > Message boundaries are preserved on a per-skb and per-vq entry basis.
+>> > > >
+>> > > > I'm a little bit confused about the following case: let vhost sends 4097 bytes
+>> > > > datagram to the guest. Guest uses 4096 RX buffers in it's virtio queue, each
+>> > > > buffer has attached empty skb to it. Vhost places first 4096 bytes to the first
+>> > > > buffer of guests RX queue, and 1 last byte to the second buffer. Now IIUC guest
+>> > > > has two skb in it rx queue, and user in guest wants to read data - does it read
+>> > > > 4097 bytes, while guest has two skb - 4096 bytes and 1 bytes? In seqpacket there is
+>> > > > special marker in header which shows where message ends, and how it works here?
+>> > >
+>> > > I think the main difference is that DGRAM is not connection-oriented, so
+>> > > we don't have a stream and we can't split the packet into 2 (maybe we
+>> > > could, but we have no guarantee that the second one for example will be
+>> > > not discarded because there is no space).
+>> > >
+>> > > So I think it is acceptable as a restriction to keep it simple.
+>> > >
+>> > > My only doubt is, should we make the RX buffer size configurable,
+>> > > instead of always using 4k?
+>> > >
+>> > I think that is a really good idea. What mechanism do you imagine?
+>>
+>> Some parameter in sysfs?
+>>
+>
+>I comment more on this below.
+>
+>> >
+>> > For sendmsg() with buflen > VQ_BUF_SIZE, I think I'd like -ENOBUFS
+>>
+>> For the guest it should be easy since it allocates the buffers, but for
+>> the host?
+>>
+>> Maybe we should add a field in the configuration space that reports some
+>> sort of MTU.
+>>
+>> Something in addition to what Laura had proposed here:
+>> https://markmail.org/message/ymhz7wllutdxji3e
+>>
+>
+>That sounds good to me.
+>
+>IIUC vhost exposes the limit via the configuration space, and the guest
+>can configure the RX buffer size up to that limit via sysfs?
+>
+>> > returned even though it is uncharacteristic of Linux sockets.
+>> > Alternatively, silently dropping is okay... but seems needlessly
+>> > unhelpful.
+>>
+>> UDP takes advantage of IP fragmentation, right?
+>> But what happens if a fragment is lost?
+>>
+>> We should try to behave in a similar way.
+>>
+>
+>AFAICT in UDP the sending socket will see EHOSTUNREACH on its error
+>queue and the packet will be dropped.
+>
+>For more details:
+>- the IP defragmenter will emit an ICMP_TIME_EXCEEDED from ip_expire()
+>  if the fragment queue is not completed within time.
+>- Upon seeing ICMP_TIME_EXCEEDED, the sending stack will then add
+>  EHOSTUNREACH to the socket's error queue, as seen in __udp4_lib_err().
+>
+>Given some updated man pages I think enqueuing EHOSTUNREACH is okay for
+>vsock too. This also reserves ENOBUFS/ENOMEM only for shortage on local
+>buffers / mem.
+>
+>What do you think?
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
----
- arch/ia64/Kconfig | 4 ++--
- arch/sh/Kconfig   | 6 +++---
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Yep, makes sense to me!
 
-diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
-index 21fa63ce5ffc0..e79f15e32a451 100644
---- a/arch/ia64/Kconfig
-+++ b/arch/ia64/Kconfig
-@@ -260,7 +260,7 @@ config PERMIT_BSP_REMOVE
- 	default n
- 	help
- 	Say Y here if your platform SAL will support removal of BSP with HOTPLUG_CPU
--	support. 
-+	support.
- 
- config FORCE_CPEI_RETARGET
- 	bool "Force assumption that CPEI can be re-targeted"
-@@ -335,7 +335,7 @@ config IA64_PALINFO
- config IA64_MC_ERR_INJECT
- 	tristate "MC error injection support"
- 	help
--	  Adds support for MC error injection. If enabled, the kernel 
-+	  Adds support for MC error injection. If enabled, the kernel
- 	  will provide a sysfs interface for user applications to
- 	  call MC error injection PAL procedures to inject various errors.
- 	  This is a useful tool for MCA testing.
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 9652d367fc377..04b9550cf0070 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -234,7 +234,7 @@ config CPU_SUBTYPE_SH7201
- 	select CPU_SH2A
- 	select CPU_HAS_FPU
- 	select SYS_SUPPORTS_SH_MTU2
-- 
-+
- config CPU_SUBTYPE_SH7203
- 	bool "Support SH7203 processor"
- 	select CPU_SH2A
-@@ -496,7 +496,7 @@ config CPU_SUBTYPE_SH7366
- endchoice
- 
- source "arch/sh/mm/Kconfig"
-- 
-+
- source "arch/sh/Kconfig.cpu"
- 
- source "arch/sh/boards/Kconfig"
-@@ -647,7 +647,7 @@ config GUSA
- 	  This is the default implementation for both UP and non-ll/sc
- 	  CPUs, and is used by the libc, amongst others.
- 
--	  For additional information, design information can be found 
-+	  For additional information, design information can be found
- 	  in <http://lc.linux.or.jp/lc2002/papers/niibe0919p.pdf>.
- 
- 	  This should only be disabled for special cases where alternate
--- 
-2.41.0
+Stefano
 
