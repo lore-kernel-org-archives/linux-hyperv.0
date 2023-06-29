@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E38DC07CA9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5ACDC19F4F
 	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Jun 2023 12:20:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232167AbjF2MUA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 29 Jun 2023 08:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52230 "EHLO
+        id S232677AbjF2MUw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Jun 2023 08:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232091AbjF2MT6 (ORCPT
+        with ESMTP id S232138AbjF2MUG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 29 Jun 2023 08:19:58 -0400
+        Thu, 29 Jun 2023 08:20:06 -0400
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B052693;
-        Thu, 29 Jun 2023 05:19:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E04359A;
+        Thu, 29 Jun 2023 05:20:03 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id D30A41FD64;
-        Thu, 29 Jun 2023 12:19:55 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 524A81FD69;
+        Thu, 29 Jun 2023 12:20:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1688041195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1688041202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=x4OXpvb/zG5KxleDjQO59blDnCWqFfIAhLgAtrL7NVY=;
-        b=i9tojsqES2QC/qquHYUduiHTvKM/o2z/RvVrScPmnss/Wdpfc1J8AgYAxsShSe/L6fYT9Y
-        7FKNYHoHceSj+8mLJIQHIb+BY/XjPBkp5yhtd0KOIYPXpIqSZ6hSLBi6xqY1JazJYIi+Eb
-        gaKXUb1B5TosrsgCJYwvoV7PpYW+BMc=
+        bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
+        b=ZbROsLIJAkfIR/+jRVLDcd83SvH5cZmugk8kZwgL9JSMI/gKbyQR3HtKCm4o42ShuZpYkk
+        PpOlJkUDBbcOuQ/YbZW1LarrlsmuvA7IRfwyIlPCdp7XjLFZCUf5QkBgkeK4CAQiyu6q+p
+        rHluDhQg1B0za6ZvhP208NqkrxcQvWg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1688041195;
+        s=susede2_ed25519; t=1688041202;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=x4OXpvb/zG5KxleDjQO59blDnCWqFfIAhLgAtrL7NVY=;
-        b=I9+YCVJOZ9ZGuHYgzDJK7LoqYWQPRbVAa5291fSN3Cmi2kbDsJnhF71kCDmXLS5Vh94PSm
-        QiCAtZG1UTuNHQDw==
+        bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
+        b=3Hj6UbEAQMoFiqqs75ilDIpvJONgA2he7Vj193adp37UYAYmUsCXwiE0RCS1+n5Jev4Itq
+        c8ZFL5Xhnj0s4yAQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4D5F813A43;
-        Thu, 29 Jun 2023 12:19:55 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D74B113905;
+        Thu, 29 Jun 2023 12:20:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id CJvwEet2nWRlVAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:19:55 +0000
+        id 8BuiM/F2nWRlVAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:20:01 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     arnd@arndb.de, deller@gmx.de, daniel@ffwll.ch, airlied@gmail.com
 Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
@@ -61,13 +61,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
         linux-staging@lists.linux.dev, linux-arch@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Subject: [PATCH 01/12] efi: Do not include <linux/screen_info.h> from EFI header
-Date:   Thu, 29 Jun 2023 13:45:40 +0200
-Message-ID: <20230629121952.10559-2-tzimmermann@suse.de>
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 11/12] fbdev/core: Protect edid_info with CONFIG_ARCH_HAS_EDID_INFO
+Date:   Thu, 29 Jun 2023 13:45:50 +0200
+Message-ID: <20230629121952.10559-12-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230629121952.10559-1-tzimmermann@suse.de>
 References: <20230629121952.10559-1-tzimmermann@suse.de>
@@ -77,92 +74,42 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The header file <linux/efi.h> does not need anything from
-<linux/screen_info.h>. Declare struct screen_info and remove
-the include statements. Update a number of source files that
-require struct screen_info's definition.
+Guard usage of edid_info with CONFIG_ARCH_HAS_EDID_INFO instead
+of CONFIG_X86. No functional changes.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Randy Dunlap <rdunlap@infradead.org>
 ---
- arch/arm/kernel/efi.c                         | 2 ++
- arch/arm64/kernel/efi.c                       | 1 +
- drivers/firmware/efi/libstub/efi-stub-entry.c | 2 ++
- drivers/firmware/efi/libstub/screen_info.c    | 2 ++
- include/linux/efi.h                           | 3 ++-
- 5 files changed, 9 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/core/fbmon.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/kernel/efi.c b/arch/arm/kernel/efi.c
-index e2b9d2618c672..e94655ef16bb3 100644
---- a/arch/arm/kernel/efi.c
-+++ b/arch/arm/kernel/efi.c
-@@ -5,6 +5,8 @@
+diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
+index 35be4431f649a..9ae063021e431 100644
+--- a/drivers/video/fbdev/core/fbmon.c
++++ b/drivers/video/fbdev/core/fbmon.c
+@@ -1480,17 +1480,19 @@ int fb_validate_mode(const struct fb_var_screeninfo *var, struct fb_info *info)
+ 		-EINVAL : 0;
+ }
  
- #include <linux/efi.h>
- #include <linux/memblock.h>
-+#include <linux/screen_info.h>
-+
- #include <asm/efi.h>
- #include <asm/mach/map.h>
- #include <asm/mmu_context.h>
-diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
-index baab8dd3ead3c..3afbe503b066f 100644
---- a/arch/arm64/kernel/efi.c
-+++ b/arch/arm64/kernel/efi.c
-@@ -9,6 +9,7 @@
+-#if defined(CONFIG_FIRMWARE_EDID) && defined(CONFIG_X86)
++#if defined(CONFIG_FIRMWARE_EDID)
+ const unsigned char *fb_firmware_edid(struct fb_info *info)
+ {
+ 	unsigned char *edid = NULL;
  
- #include <linux/efi.h>
- #include <linux/init.h>
-+#include <linux/screen_info.h>
++#if defined(CONFIG_ARCH_HAS_EDID_INFO)
+ 	/*
+ 	 * We need to ensure that the EDID block is only
+ 	 * returned for the primary graphics adapter.
+ 	 */
+ 	if (fb_is_primary_device(info))
+ 		edid = edid_info.dummy;
++#endif
  
- #include <asm/efi.h>
- #include <asm/stacktrace.h>
-diff --git a/drivers/firmware/efi/libstub/efi-stub-entry.c b/drivers/firmware/efi/libstub/efi-stub-entry.c
-index cc4dcaea67fa6..2f1902e5d4075 100644
---- a/drivers/firmware/efi/libstub/efi-stub-entry.c
-+++ b/drivers/firmware/efi/libstub/efi-stub-entry.c
-@@ -1,6 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include <linux/efi.h>
-+#include <linux/screen_info.h>
-+
- #include <asm/efi.h>
- 
- #include "efistub.h"
-diff --git a/drivers/firmware/efi/libstub/screen_info.c b/drivers/firmware/efi/libstub/screen_info.c
-index 4be1c4d1f922b..a51ec201ca3cb 100644
---- a/drivers/firmware/efi/libstub/screen_info.c
-+++ b/drivers/firmware/efi/libstub/screen_info.c
-@@ -1,6 +1,8 @@
- // SPDX-License-Identifier: GPL-2.0
- 
- #include <linux/efi.h>
-+#include <linux/screen_info.h>
-+
- #include <asm/efi.h>
- 
- #include "efistub.h"
-diff --git a/include/linux/efi.h b/include/linux/efi.h
-index 571d1a6e1b744..360895a5572c0 100644
---- a/include/linux/efi.h
-+++ b/include/linux/efi.h
-@@ -24,10 +24,11 @@
- #include <linux/range.h>
- #include <linux/reboot.h>
- #include <linux/uuid.h>
--#include <linux/screen_info.h>
- 
- #include <asm/page.h>
- 
-+struct screen_info;
-+
- #define EFI_SUCCESS		0
- #define EFI_LOAD_ERROR		( 1 | (1UL << (BITS_PER_LONG-1)))
- #define EFI_INVALID_PARAMETER	( 2 | (1UL << (BITS_PER_LONG-1)))
+ 	return edid;
+ }
 -- 
 2.41.0
 
