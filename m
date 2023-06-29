@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5ACDC19F4F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02821C3DA40
 	for <linux-hyperv@archiver.kernel.org>; Thu, 29 Jun 2023 12:20:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbjF2MUw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 29 Jun 2023 08:20:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52478 "EHLO
+        id S232689AbjF2MUx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 29 Jun 2023 08:20:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232138AbjF2MUG (ORCPT
+        with ESMTP id S232236AbjF2MUD (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 29 Jun 2023 08:20:06 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E04359A;
-        Thu, 29 Jun 2023 05:20:03 -0700 (PDT)
+        Thu, 29 Jun 2023 08:20:03 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7BD5358A;
+        Thu, 29 Jun 2023 05:20:01 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 524A81FD69;
-        Thu, 29 Jun 2023 12:20:02 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 1C0E72186B;
+        Thu, 29 Jun 2023 12:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1688041202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1688041200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
-        b=ZbROsLIJAkfIR/+jRVLDcd83SvH5cZmugk8kZwgL9JSMI/gKbyQR3HtKCm4o42ShuZpYkk
-        PpOlJkUDBbcOuQ/YbZW1LarrlsmuvA7IRfwyIlPCdp7XjLFZCUf5QkBgkeK4CAQiyu6q+p
-        rHluDhQg1B0za6ZvhP208NqkrxcQvWg=
+        bh=cQ3EDeCSnwNHCvqI9o+8mLXg+vNxeu9dqjNgbn6vW64=;
+        b=d/ONtzMHBHfhPFGJZXFbwxLHKekEj3Ck140ZBA9jozx6NZ9IQncD0ogM4FlYnbVbwD45G1
+        SJ8ei5BmHWMBBnBkm9jXuvlD6yHYAuy3e3PYj4Jw61gdgEKEw5UzbK+mo0r3LVmeUysWir
+        EVI14bZZuCFygATwSv7zxT0YU4yItG4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1688041202;
+        s=susede2_ed25519; t=1688041200;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8M3t+sIilpS+dvhDHVydT9EOWn+SooUMabnf/LFMHbo=;
-        b=3Hj6UbEAQMoFiqqs75ilDIpvJONgA2he7Vj193adp37UYAYmUsCXwiE0RCS1+n5Jev4Itq
-        c8ZFL5Xhnj0s4yAQ==
+        bh=cQ3EDeCSnwNHCvqI9o+8mLXg+vNxeu9dqjNgbn6vW64=;
+        b=f3OsHAg+MvgJYkBzRW/rb3tMUgPoqd73LlNMm0j7gkGvTcrmNDsm3dmRC0NYT1egdnRYUJ
+        PNHfPSmv46ciy1AA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D74B113905;
-        Thu, 29 Jun 2023 12:20:01 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 61E3213A43;
+        Thu, 29 Jun 2023 12:19:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id 8BuiM/F2nWRlVAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:20:01 +0000
+        id wFf0Fu92nWRlVAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 29 Jun 2023 12:19:59 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     arnd@arndb.de, deller@gmx.de, daniel@ffwll.ch, airlied@gmail.com
 Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
@@ -61,10 +61,22 @@ Cc:     linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-fbdev@vger.kernel.org,
         linux-staging@lists.linux.dev, linux-arch@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 11/12] fbdev/core: Protect edid_info with CONFIG_ARCH_HAS_EDID_INFO
-Date:   Thu, 29 Jun 2023 13:45:50 +0200
-Message-ID: <20230629121952.10559-12-tzimmermann@suse.de>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Juerg Haefliger <juerg.haefliger@canonical.com>
+Subject: [PATCH 07/12] arch/x86: Declare edid_info in <asm/screen_info.h>
+Date:   Thu, 29 Jun 2023 13:45:46 +0200
+Message-ID: <20230629121952.10559-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230629121952.10559-1-tzimmermann@suse.de>
 References: <20230629121952.10559-1-tzimmermann@suse.de>
@@ -74,42 +86,111 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Guard usage of edid_info with CONFIG_ARCH_HAS_EDID_INFO instead
-of CONFIG_X86. No functional changes.
+The global variable edid_info contains the firmware's EDID information
+as an extension to the regular screen_info on x86. Therefore move it to
+<asm/screen_info.h>.
+
+Add the Kconfig token ARCH_HAS_EDID_INFO to guard against access on
+architectures that don't provide edid_info. Select it on x86.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
 Cc: Helge Deller <deller@gmx.de>
-Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Juerg Haefliger <juerg.haefliger@canonical.com>
 ---
- drivers/video/fbdev/core/fbmon.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/Kconfig                      | 6 ++++++
+ arch/x86/Kconfig                  | 1 +
+ drivers/video/Kconfig             | 3 ---
+ include/asm-generic/screen_info.h | 6 ++++++
+ include/video/edid.h              | 3 ---
+ 5 files changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
-index 35be4431f649a..9ae063021e431 100644
---- a/drivers/video/fbdev/core/fbmon.c
-+++ b/drivers/video/fbdev/core/fbmon.c
-@@ -1480,17 +1480,19 @@ int fb_validate_mode(const struct fb_var_screeninfo *var, struct fb_info *info)
- 		-EINVAL : 0;
- }
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 2f58293fd7bcb..ee9866e4df2b0 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1466,6 +1466,12 @@ config ARCH_HAS_NONLEAF_PMD_YOUNG
+ 	  address translations. Page table walkers that clear the accessed bit
+ 	  may use this capability to reduce their search space.
  
--#if defined(CONFIG_FIRMWARE_EDID) && defined(CONFIG_X86)
-+#if defined(CONFIG_FIRMWARE_EDID)
- const unsigned char *fb_firmware_edid(struct fb_info *info)
- {
- 	unsigned char *edid = NULL;
++config ARCH_HAS_EDID_INFO
++	bool
++	help
++	  Selected by architectures that provide a global instance of
++	  edid_info.
++
+ config ARCH_HAS_SCREEN_INFO
+ 	bool
+ 	help
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index d7c2bf4ee403d..ee81855116be7 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -76,6 +76,7 @@ config X86
+ 	select ARCH_HAS_DEBUG_VM_PGTABLE	if !X86_PAE
+ 	select ARCH_HAS_DEVMEM_IS_ALLOWED
+ 	select ARCH_HAS_EARLY_DEBUG		if KGDB
++	select ARCH_HAS_EDID_INFO
+ 	select ARCH_HAS_ELF_RANDOMIZE
+ 	select ARCH_HAS_FAST_MULTIPLIER
+ 	select ARCH_HAS_FORTIFY_SOURCE
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index d4a72bea56be0..8b2b9ac37c3df 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -21,9 +21,6 @@ config STI_CORE
+ config VIDEO_CMDLINE
+ 	bool
  
+-config ARCH_HAS_SCREEN_INFO
+-	bool
+-
+ config VIDEO_NOMODESET
+ 	bool
+ 	default n
+diff --git a/include/asm-generic/screen_info.h b/include/asm-generic/screen_info.h
+index 6fd0e50fabfcd..5efc99c296b40 100644
+--- a/include/asm-generic/screen_info.h
++++ b/include/asm-generic/screen_info.h
+@@ -5,6 +5,12 @@
+ 
+ #include <uapi/linux/screen_info.h>
+ 
++#include <video/edid.h>
++
 +#if defined(CONFIG_ARCH_HAS_EDID_INFO)
- 	/*
- 	 * We need to ensure that the EDID block is only
- 	 * returned for the primary graphics adapter.
- 	 */
- 	if (fb_is_primary_device(info))
- 		edid = edid_info.dummy;
++extern struct edid_info edid_info;
 +#endif
++
+ #if defined(CONFIG_ARCH_HAS_SCREEN_INFO)
+ extern struct screen_info screen_info;
+ #endif
+diff --git a/include/video/edid.h b/include/video/edid.h
+index f614371e9116a..52aabb7060321 100644
+--- a/include/video/edid.h
++++ b/include/video/edid.h
+@@ -4,7 +4,4 @@
  
- 	return edid;
- }
+ #include <uapi/video/edid.h>
+ 
+-#ifdef CONFIG_X86
+-extern struct edid_info edid_info;
+-#endif
+ #endif /* __linux_video_edid_h__ */
 -- 
 2.41.0
 
