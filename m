@@ -2,58 +2,58 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F746C001B0
-	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Jul 2023 16:27:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69A96EB64D9
+	for <linux-hyperv@archiver.kernel.org>; Tue,  4 Jul 2023 16:28:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbjGDQ10 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 4 Jul 2023 12:27:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37642 "EHLO
+        id S231636AbjGDQ2A (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 4 Jul 2023 12:28:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231627AbjGDQ1O (ORCPT
+        with ESMTP id S231843AbjGDQ1x (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 4 Jul 2023 12:27:14 -0400
+        Tue, 4 Jul 2023 12:27:53 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D7FD10F1
-        for <linux-hyperv@vger.kernel.org>; Tue,  4 Jul 2023 09:25:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F09210F5
+        for <linux-hyperv@vger.kernel.org>; Tue,  4 Jul 2023 09:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688487943;
+        s=mimecast20190719; t=1688488024;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=M8/mkORscNjCU/dvtXt+o+8I4w7Qa8785g4rCe6dq88=;
-        b=F4pduoL8zNsuS+Fr9y607GmkHm2CPtEnaITAcZQ8kvPr4RY0qJ/+12cWQ+bbjWCtyDqQ9k
-        mNBJk0MPWR+1rtrrkrVOMqRY9rLTys9siuPAWlXaBo/nR36KVw01YzaGRpFHLZVe33YKbY
-        dMyv5+R2y1xZz/CrbK92rORrpEO87Y4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=4kQnHD6yHzrEv/r8EzHQhBzLicpYH1qRl0henJBZG6I=;
+        b=IoqvCJX6lE4j+UmnwZA7z72UsV2S3zbHIP+YGKf3IZISnldZ+S+YvM/oWwWGbPjxdGwUm9
+        e3gS7cE5UoYMvY5+mkvxusNW+bm6C7YoKtP5ydBHx/ylP++wrzhLliGjD+XYeQJvfQWsLB
+        GLdRYMAsBRYT9d7SaAdBt8+BiAkEFcA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-18--Txwuh52PSaUrX_yCr4pAQ-1; Tue, 04 Jul 2023 12:25:41 -0400
-X-MC-Unique: -Txwuh52PSaUrX_yCr4pAQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3fbaade0c71so36405055e9.2
-        for <linux-hyperv@vger.kernel.org>; Tue, 04 Jul 2023 09:25:41 -0700 (PDT)
+ us-mta-206-Rs43lXPpPqi0B6cltBu0rQ-1; Tue, 04 Jul 2023 12:27:03 -0400
+X-MC-Unique: Rs43lXPpPqi0B6cltBu0rQ-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3fa8cd898e0so40058905e9.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 04 Jul 2023 09:27:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688487940; x=1691079940;
+        d=1e100.net; s=20221208; t=1688488022; x=1691080022;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M8/mkORscNjCU/dvtXt+o+8I4w7Qa8785g4rCe6dq88=;
-        b=TCyIJlfNPJIMk9UbqoB8vZAsgkNGfmmJH/MWxoi3FRDKKYHBDUzrQ21bI4SAktjDF7
-         QfHJejgHIPOQtGRIWgkt43uMwBbjcrrjTWGlyVs2xkKQ8GKQhpV9d9qtWbcx8K5lyvnS
-         OIYDDqc1U8CR1+Sq6QzAbvO55F5J0SrWXs5R4YJjeD2eUVzMVeux4D81JsWwQfWyd5Bw
-         f/VZWbdlP+e2BeVz3h9ECPUPBMzgyEF2EbFJPhNfIuY06OmQf1+yQDmbaUTuf0JTWqo0
-         VZ824YGGP5DPpJCVcJH2vUiiOueHqb39AQEgr1WhpR2/voqWy/ZaT1yDMqYtnHtqWP94
-         dBew==
-X-Gm-Message-State: AC+VfDwHu++a7O4Jnxi6z5PQ4uT/sAGn/fcKhjjBIvYiW9lK7cCgTbHf
-        CczbCcpGc2HLHga0T3Bl+NONn6NNwsAFjP/Vi1rHpF3XJQ4Bv7vffYRkQEj8RTKwynuGIxrdtK8
-        vohEs9A7BJAk2/0+mQdJw6Ljf
-X-Received: by 2002:a05:600c:c1:b0:3fa:8cd8:9743 with SMTP id u1-20020a05600c00c100b003fa8cd89743mr12082799wmm.19.1688487940449;
-        Tue, 04 Jul 2023 09:25:40 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ5IB6++c8U11SK9oMV+tMdqHs9QUr8ub/i7nSM7HKLee5NlCRabAo+D01Z67Wv3BYjVWg90GQ==
-X-Received: by 2002:a05:600c:c1:b0:3fa:8cd8:9743 with SMTP id u1-20020a05600c00c100b003fa8cd89743mr12082767wmm.19.1688487940180;
-        Tue, 04 Jul 2023 09:25:40 -0700 (PDT)
+        bh=4kQnHD6yHzrEv/r8EzHQhBzLicpYH1qRl0henJBZG6I=;
+        b=V9vaBWf7ur9WpM1EVoOAuiDuNa56DegenGgIr+DHNYVUKz39HMXy7lKPZx0qftEEH3
+         WZVTO3AnlV0jCXAb7JX8oUwlGSkOKAgfya6Fjk9N/Mbeb29+olqkElyPE1lGNZtIES1K
+         n6dYzJUAyKfNTFHrzDy1aRC+kihAX3DP7z5Yn2+PBEKxcogwlcj7NGp2QR5QRLAAtDeZ
+         N+Ap91xyuWP7nAahcn0vgsWkWm9En6AZRaarWjL423tAAzXWXvM8QRvABUqflmPXb93C
+         lub0xWUKd1idmmKLVVlFY6OQsS7b7DjALGgoONx42k48o0FavuF7DVb+CoS4jxt9MepL
+         9Xgw==
+X-Gm-Message-State: AC+VfDzfUZlPGSRAGitMijXFToSnXmTyEcKJ2pXkfMPp9V+ZTRENb4X+
+        LeGVv4Txcs05/OBiHjUi4XSdLf5wRMk8le2puLErCwc8U6ZXPBTKyUVoaePvZX5lRICZLKzzEPT
+        AsgLhQwTCQxtZONEsfqLgFEn+
+X-Received: by 2002:a05:600c:22cc:b0:3fb:40ee:5465 with SMTP id 12-20020a05600c22cc00b003fb40ee5465mr13432844wmg.22.1688488022230;
+        Tue, 04 Jul 2023 09:27:02 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ5NuEVxTetvep8Gr1fgiFutV/xXoEkUhrAhQSPThqJdTuxw2Km/uBAzmwN3pOgdQUZIHRImng==
+X-Received: by 2002:a05:600c:22cc:b0:3fb:40ee:5465 with SMTP id 12-20020a05600c22cc00b003fb40ee5465mr13432831wmg.22.1688488021988;
+        Tue, 04 Jul 2023 09:27:01 -0700 (PDT)
 Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id r8-20020a056000014800b003143b032b7asm4333122wrx.116.2023.07.04.09.25.39
+        by smtp.gmail.com with ESMTPSA id f3-20020a5d58e3000000b00314329f7d8asm7499354wrd.29.2023.07.04.09.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jul 2023 09:25:39 -0700 (PDT)
+        Tue, 04 Jul 2023 09:27:01 -0700 (PDT)
 From:   Javier Martinez Canillas <javierm@redhat.com>
 To:     Thomas Zimmermann <tzimmermann@suse.de>, arnd@arndb.de,
         deller@gmx.de, daniel@ffwll.ch, airlied@gmail.com
@@ -70,12 +70,13 @@ Cc:     linux-arch@vger.kernel.org, linux-hyperv@vger.kernel.org,
         Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         Teddy Wang <teddy.wang@siliconmotion.com>
-Subject: Re: [PATCH 02/12] fbdev/sm712fb: Do not include <linux/screen_info.h>
-In-Reply-To: <20230629121952.10559-3-tzimmermann@suse.de>
+Subject: Re: [PATCH 04/12] staging/sm750fb: Do not include
+ <linux/screen_info.h>
+In-Reply-To: <20230629121952.10559-5-tzimmermann@suse.de>
 References: <20230629121952.10559-1-tzimmermann@suse.de>
- <20230629121952.10559-3-tzimmermann@suse.de>
-Date:   Tue, 04 Jul 2023 18:25:39 +0200
-Message-ID: <87fs63lk3g.fsf@minerva.mail-host-address-is-not-set>
+ <20230629121952.10559-5-tzimmermann@suse.de>
+Date:   Tue, 04 Jul 2023 18:27:01 +0200
+Message-ID: <87a5wblk16.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -84,15 +85,12 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Sm712fb's dependency on <linux/screen_info.h> is artificial in that
-> it only uses struct screen_info for its internals. Replace the use of
-> struct screen_info with a custom data structure and remove the include
-> of <linux/screen_info.h>.
+> The sm750fb driver does not need anything from <linux/screen_info.h>.
+> Remove the include statements.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 > Cc: Teddy Wang <teddy.wang@siliconmotion.com>
-> Cc: Helge Deller <deller@gmx.de>
 > ---
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
