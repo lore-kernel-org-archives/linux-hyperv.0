@@ -2,92 +2,121 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4E7EB64DC
-	for <linux-hyperv@archiver.kernel.org>; Mon, 10 Jul 2023 17:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99FE7EB64DA
+	for <linux-hyperv@archiver.kernel.org>; Mon, 10 Jul 2023 18:04:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbjGJRfN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 10 Jul 2023 13:35:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
+        id S230023AbjGJSEK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 10 Jul 2023 14:04:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231535AbjGJRfM (ORCPT
+        with ESMTP id S230153AbjGJSEJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 10 Jul 2023 13:35:12 -0400
-X-Greylist: delayed 964 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 10 Jul 2023 10:35:11 PDT
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:405::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549CE12B
-        for <linux-hyperv@vger.kernel.org>; Mon, 10 Jul 2023 10:35:11 -0700 (PDT)
+        Mon, 10 Jul 2023 14:04:09 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C84195
+        for <linux-hyperv@vger.kernel.org>; Mon, 10 Jul 2023 11:04:06 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-766fd5f9536so336619485a.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 10 Jul 2023 11:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=rsa1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-        b=CcwAZRGze1nz78tsTeGG31sH+B/tjdH+6ekcCAKy3lsh8Fx6Y+YXCD/TmIei/HlJU/+CjyCRKUyPh
-         4CUMeeNCmxnxg5WnN8WYc+Y/3TRBu3GgBHOLLMWNEmjaKunSp3X6NAJPGuB+DxEkEZX+QnanSr3FYn
-         2wlZ5UBU9Zu+O246GL/D/HneI1rQcFtBUkUV1dNMCwn+vM9M1hVrPjLsgJxFcU87WZ4nq2Vtx30nj9
-         ArzioTOrLCz4P2HsQj4ZOuK/Fmh+TNaxaKUMNXnO1dvheypIb7/oOCjfcrCaYpZhivEpRMotLSbonb
-         DLfigJoJ7elOqxhN67CrfrrG5kpNeWw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-        d=ravnborg.org; s=ed1;
-        h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-         from:date:from;
-        bh=IgD20OUQ8wy5rFFsoBYb/VGqjIM7D6p+vuvVuio9hik=;
-        b=vxQog57Oi39/DPw2NHC1MnZmnCknkQQw5bg9fTJIlcxSuaigVTP3V2Z7GSu+tbSUPTOKht6NYG4oF
-         2pB/Sc4AQ==
-X-HalOne-ID: de71c874-1f45-11ee-b17e-6f01c1d0a443
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-        by mailrelay6 (Halon) with ESMTPSA
-        id de71c874-1f45-11ee-b17e-6f01c1d0a443;
-        Mon, 10 Jul 2023 17:19:05 +0000 (UTC)
-Date:   Mon, 10 Jul 2023 19:19:03 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-fbdev@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
-        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/17] fbdev: Remove FBINFO_DEFAULT and
- FBINFO_FLAG_DEFAULT flags
-Message-ID: <20230710171903.GA14712@ravnborg.org>
-References: <20230710130113.14563-1-tzimmermann@suse.de>
+        d=ziepe.ca; s=google; t=1689012246; x=1691604246;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BT8anRcoBomkCL3eLhDuSMG7VrJUf8etAybJpx2cUmQ=;
+        b=P3qkNZJyr3B9iPQ6tzo+Oph7KFNgQR48WP4GUaBG7LO2uQevnfZqahEoF65sPAugnn
+         MNhWEMJae9jMmX7YMUOhnYiRDETA0ZxJsxaJ3VfekaJodPQ0XE7/CMmAauDvYrE75B7W
+         e6Reiouu8KjXUJZm8YbqiHVuOqgKFmIz9g/N3BOq4+MfXFB+VobVN9UMSj1yq/bM+FvH
+         2vmlEzf/kW7afVr8b6ghNyN0dOyVHo4CIbT0AOP08KVkn04tBq6MnrtyGey8uRxlttek
+         mfECNBxhrEl971vEGY6ftU/fY4U3a2UcgpcCRczCcddHUAy7XCE4ihu65DPMtVkNd2IB
+         CQBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689012246; x=1691604246;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BT8anRcoBomkCL3eLhDuSMG7VrJUf8etAybJpx2cUmQ=;
+        b=MATkB8omBcXfGgoClqceTYy9Z9ZVAUtvk/QX2x48N6wsk2PXbnXTXEs7slfyHvKpef
+         2Rv+/qRAozQlVi0cY/WfWEQACHZ6U1VfftUzyCNyhgOOUFzHtxo95dZ68V+cf8X2SgGy
+         ugOBtmi4pgrWjyfK8KKGvZvRjTzZqXo50EROeB7AyvYENhn+2gP9r63XDF5Z7BUMcRG+
+         zyF8cDc5LyF4gdXeFVkJbEKYIlp/BjUOk0BmflPx0f446qzFiVntc5jX3S0raczdpwPw
+         coFvkL+LobrecvSa4/PUvtny7srBPrH8tKlV2Q8G087SAwhE5mKp1QwLHZaSiA7p4JTG
+         a5gw==
+X-Gm-Message-State: ABy/qLZkiDIBs5WsQI9fRdYD6P9WJRvPlb24zBDFXXzjcyHX9dB5h2ca
+        KdRW8IOrsa0rIi2QO3deZHXISA==
+X-Google-Smtp-Source: APBJJlEkdizBr7UJSHKmwk1Pw53s9bGXZHen90PgCZoTRA4bGUaUV/2iylwD9yRi/UQu94OEzqbZDw==
+X-Received: by 2002:a0c:e108:0:b0:628:6879:ee48 with SMTP id w8-20020a0ce108000000b006286879ee48mr11363899qvk.50.1689012246035;
+        Mon, 10 Jul 2023 11:04:06 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-25-194.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.25.194])
+        by smtp.gmail.com with ESMTPSA id r17-20020a0c8b91000000b006360931c12fsm65717qva.96.2023.07.10.11.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jul 2023 11:04:05 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1qIvEy-0004U3-Vv;
+        Mon, 10 Jul 2023 15:04:04 -0300
+Date:   Mon, 10 Jul 2023 15:04:04 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Haiyang Zhang <haiyangz@microsoft.com>
+Cc:     Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Souradeep Chakrabarti <schakrabarti@microsoft.com>,
+        souradeep chakrabarti <schakrabarti@linux.microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        Long Li <longli@microsoft.com>,
+        Ajay Sharma <sharmaajay@microsoft.com>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "cai.huoqing@linux.dev" <cai.huoqing@linux.dev>,
+        "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
+        "vkuznets@redhat.com" <vkuznets@redhat.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [EXTERNAL] Re: [PATCH V4 net] net: mana: Fix MANA VF unload when
+ host is unresponsive
+Message-ID: <ZKxIFK2nQqV9AvIA@ziepe.ca>
+References: <1688374171-10534-1-git-send-email-schakrabarti@linux.microsoft.com>
+ <83ef6401-8736-8416-c898-2fbbb786726e@intel.com>
+ <PUZP153MB07880E6D692FD5D13C508694CC29A@PUZP153MB0788.APCP153.PROD.OUTLOOK.COM>
+ <7e316b51-be46-96db-84cb-addd28d90b0f@intel.com>
+ <PUZP153MB0788A5F92E65AC9A98AF03AFCC2CA@PUZP153MB0788.APCP153.PROD.OUTLOOK.COM>
+ <c7e4a416-9da4-7ff2-2223-589fd66f557d@intel.com>
+ <PUZP153MB0788C7D2376F3271D77CE826CC2CA@PUZP153MB0788.APCP153.PROD.OUTLOOK.COM>
+ <cd36e39a-ebb9-706a-87c3-2f76de82f7ca@intel.com>
+ <PH7PR21MB311670231963DE8661C2F178CA2CA@PH7PR21MB3116.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230710130113.14563-1-tzimmermann@suse.de>
+In-Reply-To: <PH7PR21MB311670231963DE8661C2F178CA2CA@PH7PR21MB3116.namprd21.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Thomas,
+On Thu, Jul 06, 2023 at 01:54:35PM +0000, Haiyang Zhang wrote:
 
-On Mon, Jul 10, 2023 at 02:50:04PM +0200, Thomas Zimmermann wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
+> > This waiting loop is needed to let the pending Tx packets be sent. If
+> > they weren't sent in 1 second, it most likely makes no sense already
+> > whether they will be sent at all or not -- the destination host won't
+> > wait for them for so long.
+> > You say that it may happen only in case of HW issue. If so, I assume you
+> > need to fix it some way, e.g. do a HW reset or so? If so, why bother
+> > waiting for Tx completions if Tx is hung? You free all skbs later either
+> > way, so there are no leaks.
 > 
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
-> 
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the tokne for struct fb_videomode,
-> which is unrelated.
-> 
-> Patch 17 removes both flag constants from <linux/fb.h>
+> At that point, we don't actually care if the pending packets are sent or not. 
+> But if we free the queues too soon, and the HW is slow for unexpected 
+> reasons, a delayed completion notice will DMA into the freed memory and 
+> cause corruption. That's why we have a longer waiting time.
 
-We have a few more flags that are unused - should they be nuked too?
-FBINFO_HWACCEL_FILLRECT
-FBINFO_HWACCEL_ROTATE
-FBINFO_HWACCEL_XPAN
+Aieiiie that is a horrible HW design to not have a strong fence of DMA.
 
-Unused as in no references from fbdev/core/*
+"just wait and hope the HW doesn't UAF the kernel with DMA" is really
+awful.
 
-I would rather see one series nuke all unused FBINFO flags in one go.
-Assuming my quick grep are right and the above can be dropped.
-
-	Sam
+Jason
