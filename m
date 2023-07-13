@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86862C001DF
-	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:04:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D56EB64DD
+	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:04:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234948AbjGMNEB (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 13 Jul 2023 09:04:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        id S234067AbjGMNEr (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 13 Jul 2023 09:04:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234614AbjGMNDs (ORCPT
+        with ESMTP id S234887AbjGMNDy (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 13 Jul 2023 09:03:48 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48ABB173B;
-        Thu, 13 Jul 2023 06:03:47 -0700 (PDT)
+        Thu, 13 Jul 2023 09:03:54 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6E3173B;
+        Thu, 13 Jul 2023 06:03:51 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id C39291FDC0;
-        Thu, 13 Jul 2023 13:03:45 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id AED3122195;
+        Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689253425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1689253429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YWl4r3MXDzIpXc1GMxrVHAXu9+tdMITd+1eR5phnaTY=;
-        b=04CnQgAmUPY2ofkifWslTbSAmyKg1O57m846gw+qFeonG2ITooKTEGjZQRXt/lMH18xklb
-        NKuHVY7ay1jU9SYlOhxCu3n6Llh0rRDcIVrmHLB28kU0VM7d8zdEG4PHsIlOcAyG7B/TbU
-        bU8XBZ8a/aPVbn8rnEo0Wo+3UFUyuvM=
+        bh=BhF3dZeu/sRgLYS001c8kRsipcWJq/VtROn6MCXX9YY=;
+        b=daj/vSUVGOXQMsWsXdc+Ezaimt8K1JNrFAhTxGzWNIIlcyltS1JZ7L9HTmbYfpLfKmah39
+        ++SGiAxPCteVilbBx7ZxMORu+6/fY818F5BRt6I4Xec64Sdh80+NuEnIVW0hnVJcU/dZGr
+        Zs1E7FQuffTtJHR//mnA7HbWjGqT5JY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689253425;
+        s=susede2_ed25519; t=1689253429;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=YWl4r3MXDzIpXc1GMxrVHAXu9+tdMITd+1eR5phnaTY=;
-        b=ec+5vC3W5H3JZ0nduxOVzPI8ZAUNmttDx3HIfyTxuzCzrHBZIAI5wFmprWo/9JusCuSjUP
-        JKsUEjL+cCwhz7DA==
+        bh=BhF3dZeu/sRgLYS001c8kRsipcWJq/VtROn6MCXX9YY=;
+        b=o0c2teiwOf7OFQ0r9afxe1lhotl2L0LZtSF0FaKNAs7JMdD6urEtIcw/0oan/UIGoPysnY
+        EiveJuQ4bX1ndICA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 60F1313A94;
-        Thu, 13 Jul 2023 13:03:45 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5A42913489;
+        Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id COSxFjH2r2TVPgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:45 +0000
+        id 6M7yFDX2r2TVPgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:49 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, javierm@redhat.com
 Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -60,12 +60,10 @@ Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Robin van der Gracht <robin@protonic.nl>
-Subject: [PATCH v2 09/18] auxdisplay: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
-Date:   Thu, 13 Jul 2023 14:58:29 +0200
-Message-ID: <20230713130338.31086-10-tzimmermann@suse.de>
+        Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH v2 18/18] fbdev: Document that framebuffer_alloc() returns zero'ed data
+Date:   Thu, 13 Jul 2023 14:58:38 +0200
+Message-ID: <20230713130338.31086-19-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -75,50 +73,30 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The flag FBINFO_FLAG_DEFAULT is 0 and has no effect, as struct
-fbinfo.flags has been allocated to zero by framebuffer_alloc(). So do
-not set it.
+Most fbdev drivers depend on framebuffer_alloc() to initialize the
+allocated memory to 0. Document this guarantee.
 
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
-
-v2:
-	* fix commit message (Miguel)
-
+Suggested-by: Miguel Ojeda <ojeda@kernel.org>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: Robin van der Gracht <robin@protonic.nl>
+Cc: Helge Deller <deller@gmx.de>
 ---
- drivers/auxdisplay/cfag12864bfb.c | 1 -
- drivers/auxdisplay/ht16k33.c      | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/video/fbdev/core/fb_info.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/auxdisplay/cfag12864bfb.c b/drivers/auxdisplay/cfag12864bfb.c
-index c2cab7e2b126..729845bcc803 100644
---- a/drivers/auxdisplay/cfag12864bfb.c
-+++ b/drivers/auxdisplay/cfag12864bfb.c
-@@ -79,7 +79,6 @@ static int cfag12864bfb_probe(struct platform_device *device)
- 	info->var = cfag12864bfb_var;
- 	info->pseudo_palette = NULL;
- 	info->par = NULL;
--	info->flags = FBINFO_FLAG_DEFAULT;
- 
- 	if (register_framebuffer(info) < 0)
- 		goto fballoced;
-diff --git a/drivers/auxdisplay/ht16k33.c b/drivers/auxdisplay/ht16k33.c
-index edaf92b7ea77..df3f37651e45 100644
---- a/drivers/auxdisplay/ht16k33.c
-+++ b/drivers/auxdisplay/ht16k33.c
-@@ -646,7 +646,6 @@ static int ht16k33_fbdev_probe(struct device *dev, struct ht16k33_priv *priv,
- 	fbdev->info->var = ht16k33_fb_var;
- 	fbdev->info->bl_dev = bl;
- 	fbdev->info->pseudo_palette = NULL;
--	fbdev->info->flags = FBINFO_FLAG_DEFAULT;
- 	fbdev->info->par = priv;
- 
- 	err = register_framebuffer(fbdev->info);
+diff --git a/drivers/video/fbdev/core/fb_info.c b/drivers/video/fbdev/core/fb_info.c
+index 8bdbefdd4b70..1b7615fc393d 100644
+--- a/drivers/video/fbdev/core/fb_info.c
++++ b/drivers/video/fbdev/core/fb_info.c
+@@ -13,7 +13,8 @@
+  *
+  * Creates a new frame buffer info structure. Also reserves @size bytes
+  * for driver private data (info->par). info->par (if any) will be
+- * aligned to sizeof(long).
++ * aligned to sizeof(long). Both, the instance of struct fb_info and
++ * the driver private data, are cleared to zero.
+  *
+  * Returns the new structure, or NULL if an error occurred.
+  *
 -- 
 2.41.0
 
