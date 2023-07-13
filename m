@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87CCFC04E69
-	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E91CC05053
+	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:03:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234454AbjGMNDq (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 13 Jul 2023 09:03:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40490 "EHLO
+        id S234820AbjGMNDx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 13 Jul 2023 09:03:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234036AbjGMNDp (ORCPT
+        with ESMTP id S234603AbjGMNDs (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 13 Jul 2023 09:03:45 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D90173F;
-        Thu, 13 Jul 2023 06:03:43 -0700 (PDT)
+        Thu, 13 Jul 2023 09:03:48 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D477D1989;
+        Thu, 13 Jul 2023 06:03:46 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 9004E22182;
-        Thu, 13 Jul 2023 13:03:42 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 5CE741FDAF;
+        Thu, 13 Jul 2023 13:03:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689253422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1689253425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CXr4BB0oj6JKkl5nx+4UTwhEgFQBdrO4bA0J1U4BuDM=;
-        b=TP3Ft1hoVQoWddBkpE2J2SCSFH5IimGvZss/HtMlSeFd2Frez83+QgpXSi5pu3Jo/mV8Ad
-        UE/J21qCeceUdDfiuZKjWTBFNxXIuU5SRcFZGdSq/dsYZNp3zHB41D9gXdXsw3WNSOE8Tt
-        s33Dz1y+L78wCPXqROLz5fL+LeMD2jE=
+        bh=N3ShY8nHVy2Uay8SMC7IIP+u11ICJ0kvaU7vZpkeGvw=;
+        b=neEEsF0423ZQegvd/Vl4uWyIfCVcI1SvBw9ly7Ix7PF+lJG0Jv0HzaRv5zSJ/+5NJuZ4bN
+        j/zJane2bcT1dnlOqTJd/fG6MpfCvQEhu8EOC61gY7mzJN07LYl+8LCZEcKPU4xkSX8GJj
+        /1AT+cJf+ciAPBRpproKLug6vUGGm2Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689253422;
+        s=susede2_ed25519; t=1689253425;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CXr4BB0oj6JKkl5nx+4UTwhEgFQBdrO4bA0J1U4BuDM=;
-        b=zW0vRu6Gv9h9CBmoCxryPrBJrgZ0HfCqAN94DOxm0o6uadjic0UFU8RA1lmNvpWnG8glpK
-        5iXyk2TgA1YYoVCA==
+        bh=N3ShY8nHVy2Uay8SMC7IIP+u11ICJ0kvaU7vZpkeGvw=;
+        b=xF3v5U/qkvo9ynqkbndFoJCYE760wJq4nAH1gPFvOoSXNSfFZMU61jYkDMSJN/NEAWGR9n
+        bP72sQTRjiBbTJDg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 25CA513489;
-        Thu, 13 Jul 2023 13:03:42 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E075C13489;
+        Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id ABULCC72r2TVPgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:42 +0000
+        id sJ/jNTD2r2TVPgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:44 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, javierm@redhat.com
 Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -60,10 +60,13 @@ Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 02/18] fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
-Date:   Thu, 13 Jul 2023 14:58:22 +0200
-Message-ID: <20230713130338.31086-3-tzimmermann@suse.de>
+        Sam Ravnborg <sam@ravnborg.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Subject: [PATCH v2 08/18] sh: Assign FB_MODE_IS_UNKNOWN to struct fb_videomode.flag
+Date:   Thu, 13 Jul 2023 14:58:28 +0200
+Message-ID: <20230713130338.31086-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -73,102 +76,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
-has been allocated to zero by a static declaration. So do not set it.
+Assign FB_MODE_IS_UNKNOWN to sh7763fb_videomode.flag instead of
+FBINFO_FLAG_DEFAULT. Both are 0, so the stored value does not change.
 
-Flags should signal differences from the default values. After cleaning
-up all occurrences of FBINFO_DEFAULT, the token will be removed.
+FBINFO_FLAG_DEFAULT is a flag for a framebuffer in struct fb_info.
+Flags for videomodes are prefixed with FB_MODE_.
 
 v2:
-	* fix commit message (Miguel)
+	* assign FB_MODE_IS_UNKNOWN (Adrian)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Helge Deller <deller@gmx.de>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 ---
- drivers/video/fbdev/68328fb.c  | 2 +-
- drivers/video/fbdev/acornfb.c  | 2 +-
- drivers/video/fbdev/g364fb.c   | 2 +-
- drivers/video/fbdev/hpfb.c     | 1 -
- drivers/video/fbdev/macfb.c    | 1 -
- drivers/video/fbdev/maxinefb.c | 1 -
- 6 files changed, 3 insertions(+), 6 deletions(-)
+ arch/sh/boards/mach-sh7763rdp/setup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/68328fb.c b/drivers/video/fbdev/68328fb.c
-index 07d6e8dc686b..956dd2399cc0 100644
---- a/drivers/video/fbdev/68328fb.c
-+++ b/drivers/video/fbdev/68328fb.c
-@@ -448,7 +448,7 @@ static int __init mc68x328fb_init(void)
- 		fb_info.var.red.offset = fb_info.var.green.offset = fb_info.var.blue.offset = 0;
- 	}
- 	fb_info.pseudo_palette = &mc68x328fb_pseudo_palette;
--	fb_info.flags = FBINFO_DEFAULT | FBINFO_HWACCEL_YPAN;
-+	fb_info.flags = FBINFO_HWACCEL_YPAN;
+diff --git a/arch/sh/boards/mach-sh7763rdp/setup.c b/arch/sh/boards/mach-sh7763rdp/setup.c
+index 97e715e4e9b3..e25193001ea0 100644
+--- a/arch/sh/boards/mach-sh7763rdp/setup.c
++++ b/arch/sh/boards/mach-sh7763rdp/setup.c
+@@ -119,7 +119,7 @@ static struct fb_videomode sh7763fb_videomode = {
+ 	.vsync_len = 1,
+ 	.sync = 0,
+ 	.vmode = FB_VMODE_NONINTERLACED,
+-	.flag = FBINFO_FLAG_DEFAULT,
++	.flag = FB_MODE_IS_UNKNOWN,
+ };
  
- 	if (fb_alloc_cmap(&fb_info.cmap, 256, 0))
- 		return -ENOMEM;
-diff --git a/drivers/video/fbdev/acornfb.c b/drivers/video/fbdev/acornfb.c
-index 1b72edc01cfb..8fec21dfca09 100644
---- a/drivers/video/fbdev/acornfb.c
-+++ b/drivers/video/fbdev/acornfb.c
-@@ -694,7 +694,7 @@ static void acornfb_init_fbinfo(void)
- 	first = 0;
- 
- 	fb_info.fbops		= &acornfb_ops;
--	fb_info.flags		= FBINFO_DEFAULT | FBINFO_HWACCEL_YPAN;
-+	fb_info.flags		= FBINFO_HWACCEL_YPAN;
- 	fb_info.pseudo_palette	= current_par.pseudo_palette;
- 
- 	strcpy(fb_info.fix.id, "Acorn");
-diff --git a/drivers/video/fbdev/g364fb.c b/drivers/video/fbdev/g364fb.c
-index c5b7673ddc6c..0825cbde116e 100644
---- a/drivers/video/fbdev/g364fb.c
-+++ b/drivers/video/fbdev/g364fb.c
-@@ -219,7 +219,7 @@ int __init g364fb_init(void)
- 	fb_info.screen_base = (char *) G364_MEM_BASE;	/* virtual kernel address */
- 	fb_info.var = fb_var;
- 	fb_info.fix = fb_fix;
--	fb_info.flags = FBINFO_DEFAULT | FBINFO_HWACCEL_YPAN;
-+	fb_info.flags = FBINFO_HWACCEL_YPAN;
- 
- 	fb_alloc_cmap(&fb_info.cmap, 255, 0);
- 
-diff --git a/drivers/video/fbdev/hpfb.c b/drivers/video/fbdev/hpfb.c
-index 77fbff47b1a8..406c1383cbda 100644
---- a/drivers/video/fbdev/hpfb.c
-+++ b/drivers/video/fbdev/hpfb.c
-@@ -287,7 +287,6 @@ static int hpfb_init_one(unsigned long phys_base, unsigned long virt_base)
- 	else
- 		strcat(fb_info.fix.id, "Catseye");
- 	fb_info.fbops = &hpfb_ops;
--	fb_info.flags = FBINFO_DEFAULT;
- 	fb_info.var   = hpfb_defined;
- 	fb_info.screen_base = (char *)fb_start;
- 
-diff --git a/drivers/video/fbdev/macfb.c b/drivers/video/fbdev/macfb.c
-index 44ff860a3f37..5ca208d992cc 100644
---- a/drivers/video/fbdev/macfb.c
-+++ b/drivers/video/fbdev/macfb.c
-@@ -876,7 +876,6 @@ static int __init macfb_init(void)
- 	fb_info.var		= macfb_defined;
- 	fb_info.fix		= macfb_fix;
- 	fb_info.pseudo_palette	= pseudo_palette;
--	fb_info.flags		= FBINFO_DEFAULT;
- 
- 	err = fb_alloc_cmap(&fb_info.cmap, video_cmap_len, 0);
- 	if (err)
-diff --git a/drivers/video/fbdev/maxinefb.c b/drivers/video/fbdev/maxinefb.c
-index 4e6b05232ae2..0ac1873b2acb 100644
---- a/drivers/video/fbdev/maxinefb.c
-+++ b/drivers/video/fbdev/maxinefb.c
-@@ -155,7 +155,6 @@ int __init maxinefb_init(void)
- 	fb_info.screen_base = (char *)maxinefb_fix.smem_start;
- 	fb_info.var = maxinefb_defined;
- 	fb_info.fix = maxinefb_fix;
--	fb_info.flags = FBINFO_DEFAULT;
- 
- 	fb_alloc_cmap(&fb_info.cmap, 256, 0);
- 
+ static struct sh7760fb_platdata sh7763fb_def_pdata = {
 -- 
 2.41.0
 
