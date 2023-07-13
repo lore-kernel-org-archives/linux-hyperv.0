@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A1BEC001E0
-	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:04:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF93DC18E72
+	for <linux-hyperv@archiver.kernel.org>; Thu, 13 Jul 2023 13:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234969AbjGMNEy (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 13 Jul 2023 09:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40628 "EHLO
+        id S234886AbjGMNEx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 13 Jul 2023 09:04:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234783AbjGMNDw (ORCPT
+        with ESMTP id S234496AbjGMNDq (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 13 Jul 2023 09:03:52 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B04A26B8;
-        Thu, 13 Jul 2023 06:03:50 -0700 (PDT)
+        Thu, 13 Jul 2023 09:03:46 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA208173B;
+        Thu, 13 Jul 2023 06:03:45 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 57D3F1FDE9;
-        Thu, 13 Jul 2023 13:03:49 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 78FA71FDAE;
+        Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689253429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1689253424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
-        b=u0ovCl5n9MXop+Ezot8TRk5lVZ/nQUjpfCQyoMpnD+ml/blTy1EX6KSWhLsu459q0Eq2U8
-        PIw8ttscCXkaHc70J9VBTCXNp6gk69BSsRmnFEDlT3OC5GOGaEaTJ5QqLucyQSlQ4FdI8T
-        A3wuOF50BNKme5ap5wuNSPJD05OxYAM=
+        bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+        b=KrLQ9ExONJd8bhA047RDMVgp8Yiinradv+N78bSluWIDLuNuCjwO2zbgMvNqTm8IS7N250
+        JZ5fXSwfj7hJEuerDqT9D7CxE/s/RJnnrWr1WqXO2CHJ8BE+WyygeHX7RAQ+pL/8CEkAnI
+        a/XIFK0q7OmjfSmwD8XvVXiUP68WINE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689253429;
+        s=susede2_ed25519; t=1689253424;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IsudHL+kPXRnJx5x/UKWrjHzIvsH1WJ679RIcWPHmtc=;
-        b=A51KravctEI4QKJ8lOtnEBJyCx51GonM0INWeFww81on0QVoAdctELm3OeK4Dpwibg0Sv7
-        PgGihZTRQ5YvRaDQ==
+        bh=fHWIv3bHRzrRKcyf/zVidbDkljZLPdxvWwq51ebKJX8=;
+        b=cC+16BmIJtD67C1AxjAYu7NIDMLyAG1Ex+jDKT8ZOZ/w4pvouvA2SEwv/Yx2sRZxBO12WT
+        6pKuARZIpLfJZ7BQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF5D513A94;
-        Thu, 13 Jul 2023 13:03:48 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C65113489;
+        Thu, 13 Jul 2023 13:03:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id 2A2BOTT2r2TVPgAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:48 +0000
+        id cEQTBjD2r2TVPgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Thu, 13 Jul 2023 13:03:44 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, javierm@redhat.com
 Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -60,10 +60,10 @@ Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v2 17/18] fbdev: Remove FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT
-Date:   Thu, 13 Jul 2023 14:58:37 +0200
-Message-ID: <20230713130338.31086-18-tzimmermann@suse.de>
+        Sam Ravnborg <sam@ravnborg.org>, Timur Tabi <timur@kernel.org>
+Subject: [PATCH v2 06/18] fbdev/fsl-diu-fb: Remove flag FBINFO_DEFAULT
+Date:   Thu, 13 Jul 2023 14:58:26 +0200
+Message-ID: <20230713130338.31086-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230713130338.31086-1-tzimmermann@suse.de>
 References: <20230713130338.31086-1-tzimmermann@suse.de>
@@ -73,37 +73,37 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT. No
-functional changes.
+The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
+has been allocated to zero by dmam_alloc_coherent(__GFP_ZERO). So do not
+set it.
+
+Flags should signal differences from the default values. After cleaning
+up all occurrences of FBINFO_DEFAULT, the token will be removed.
+
+v2:
+	* fix commit message (Miguel)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Timur Tabi <timur@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
 ---
- include/linux/fb.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/video/fbdev/fsl-diu-fb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/fb.h b/include/linux/fb.h
-index 1d5c13f34b09..43458f582f35 100644
---- a/include/linux/fb.h
-+++ b/include/linux/fb.h
-@@ -383,7 +383,6 @@ struct fb_tile_ops {
- #endif /* CONFIG_FB_TILEBLITTING */
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index 785eb8a06943..c62b48f27ba9 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -1476,7 +1476,7 @@ static int install_fb(struct fb_info *info)
  
- /* FBINFO_* = fb_info.flags bit flags */
--#define FBINFO_DEFAULT		0
- #define FBINFO_HWACCEL_DISABLED	0x0002
- 	/* When FBINFO_HWACCEL_DISABLED is set:
- 	 *  Hardware acceleration is turned off.  Software implementations
-@@ -504,8 +503,6 @@ struct fb_info {
- 	bool skip_vt_switch; /* no VT switch on suspend/resume required */
- };
+ 	info->var.activate = FB_ACTIVATE_NOW;
+ 	info->fbops = &fsl_diu_ops;
+-	info->flags = FBINFO_DEFAULT | FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
++	info->flags = FBINFO_VIRTFB | FBINFO_PARTIAL_PAN_OK |
+ 		FBINFO_READS_FAST;
+ 	info->pseudo_palette = mfbi->pseudo_palette;
  
--#define FBINFO_FLAG_DEFAULT	FBINFO_DEFAULT
--
- /* This will go away
-  * fbset currently hacks in FB_ACCELF_TEXT into var.accel_flags
-  * when it wants to turn the acceleration engine on.  This is
 -- 
 2.41.0
 
