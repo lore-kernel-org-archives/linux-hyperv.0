@@ -2,120 +2,169 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392D3C001B0
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 10:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F26EB64DA
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 10:24:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235677AbjGNKEW convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Jul 2023 06:04:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50592 "EHLO
+        id S235980AbjGNKYK (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Jul 2023 06:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231584AbjGNKEV (ORCPT
+        with ESMTP id S235413AbjGNKYJ (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Jul 2023 06:04:21 -0400
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C127E1989;
-        Fri, 14 Jul 2023 03:04:20 -0700 (PDT)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1b730eb017bso1347303fac.1;
-        Fri, 14 Jul 2023 03:04:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689329059; x=1691921059;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cbFWyufa2I/dKrp5bYUBMB1ESShCcC04UZ0ziSB/4oc=;
-        b=WfuT62NAV/KEOKYAM9BHIMuHz6YRXnm7xoKdh+sZy9BOPjP8rgufGPlDP3wS4WSFx4
-         h7WbwjM0kI1vmGswHdrRNY5eqObFdrhpyeePmwzSkCxyCGkNNK5apfe0Z3voHsdHJJT7
-         tb6Wg0LNGs25QAQAkX1XSj9Lv613AXcD2pv8ijii7HM/KEiU5vWBLmIpKnDt7TvPxi9j
-         jSRmulr3xPLJCqwO+J5vysW5lDYIzj+df7ZTVf41ctwTsFcqgHpieUKAnTIIAuUgzyEC
-         qS4C0mddn/PtCJYOIsVReiT5jNn1mRz1CkNrgm0WViRn1vCY19+z6c3ymeQehI9SFa8v
-         1S1A==
-X-Gm-Message-State: ABy/qLasugcuzUO4sK3pOfm7xGhSQJ3QJrvNl2FH27Eqqm1CcAc7M6Zu
-        vOT1Owh1jKH/iaOREVbj2jd+9zh/u3Ruvg==
-X-Google-Smtp-Source: APBJJlHiD3v2u63KmBepFncsWakaeIp+xHYTm685RSMvB9XoC7cFtMO4232Sujt30xadpzbv8+Rh9w==
-X-Received: by 2002:a05:6870:b48b:b0:1b0:7078:58ad with SMTP id y11-20020a056870b48b00b001b0707858admr5618059oap.38.1689329059529;
-        Fri, 14 Jul 2023 03:04:19 -0700 (PDT)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
-        by smtp.gmail.com with ESMTPSA id t2-20020a056870e74200b001a697e75260sm3776688oak.58.2023.07.14.03.04.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6b711c3ad1fso1399321a34.0;
-        Fri, 14 Jul 2023 03:04:18 -0700 (PDT)
-X-Received: by 2002:a05:6358:591d:b0:135:43da:b16d with SMTP id
- g29-20020a056358591d00b0013543dab16dmr4868202rwf.11.1689329058168; Fri, 14
- Jul 2023 03:04:18 -0700 (PDT)
+        Fri, 14 Jul 2023 06:24:09 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D532728;
+        Fri, 14 Jul 2023 03:24:08 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id DE2461FD60;
+        Fri, 14 Jul 2023 10:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1689330246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9bB3ajJzlHzH/NCavasHXOu44UGyH8PhtuwbaAsRiUs=;
+        b=ZfVUZTYxKgmlcgDz3AHjqL+8kKqOPlM48so6SAp4bPoDCqqDz+3/+UNtLxmMlKTi7krayp
+        P98fFJUBwfL3/ZEjSpwYWcoFDAWmaSZLprBhqZqP0RU9FZezuOmH3c4Tej5E/gtnnmKjK0
+        9VuzaJtqrKln18Yvq2tUKpEvLJSSsc4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1689330246;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9bB3ajJzlHzH/NCavasHXOu44UGyH8PhtuwbaAsRiUs=;
+        b=i9uyf4NbLjtrEiMsl2L+V6st/ysF7iZUMveLAhVTrl60zcT/tjGmmWLGkqqm4zfDOP/ch4
+        ZMBJeoOcV2Ws7pDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8784513A15;
+        Fri, 14 Jul 2023 10:24:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id s3zkH0YisWS7EgAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 10:24:06 +0000
+Message-ID: <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
+Date:   Fri, 14 Jul 2023 12:24:05 +0200
 MIME-Version: 1.0
-References: <20230714075155.5686-1-tzimmermann@suse.de>
-In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 14 Jul 2023 12:04:03 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
-Message-ID: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
  FBINFO_FLAG_DEFAULT flags
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     deller@gmx.de, javierm@redhat.com, linux-sh@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org,
-        linux-geode@lists.infradead.org, linux-nvidia@lists.surfsouth.com,
-        linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org,
+        deller@gmx.de, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        javierm@redhat.com, dri-devel@lists.freedesktop.org,
+        linux-input@vger.kernel.org, linux-nvidia@lists.surfsouth.com,
+        linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-geode@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20230714075155.5686-1-tzimmermann@suse.de>
+ <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------ytQioUjfc867nfoK1gzl7Kf7"
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Hi Thomas,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------ytQioUjfc867nfoK1gzl7Kf7
+Content-Type: multipart/mixed; boundary="------------e1VN5UoecP2KMs2cwDKg5iZ3";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-sh@vger.kernel.org, deller@gmx.de,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-nvidia@lists.surfsouth.com, linux-omap@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-geode@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Message-ID: <47a3ab8d-5e8c-db2c-fcde-5c2b1bac32aa@suse.de>
+Subject: Re: [PATCH v3 00/18] fbdev: Remove FBINFO_DEFAULT and
+ FBINFO_FLAG_DEFAULT flags
+References: <20230714075155.5686-1-tzimmermann@suse.de>
+ <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
+In-Reply-To: <CAMuHMdWoeyJPAgPgFi545SJFcaVCgZi1-zW2N5cBeU9BnHgo1w@mail.gmail.com>
 
-On Fri, Jul 14, 2023 at 9:53 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Remove the unused flags FBINFO_DEFAULT and FBINFO_FLAG_DEFAULT from
-> fbdev and drivers, as briefly discussed at [1]. Both flags were maybe
-> useful when fbdev had special handling for driver modules. With
-> commit 376b3ff54c9a ("fbdev: Nuke FBINFO_MODULE"), they are both 0
-> and have no further effect.
->
-> Patches 1 to 7 remove FBINFO_DEFAULT from drivers. Patches 2 to 5
-> split this by the way the fb_info struct is being allocated. All flags
-> are cleared to zero during the allocation.
->
-> Patches 8 to 16 do the same for FBINFO_FLAG_DEFAULT. Patch 8 fixes
-> an actual bug in how arch/sh uses the token for struct fb_videomode,
-> which is unrelated.
->
-> Patch 17 removes both flag constants from <linux/fb.h> and patch 18
-> documents the zero'ed memory returned by framebuffer_alloc().
->
-> v3:
->         * sh: include board name in commit message (Adrian)
->         * docs: reword text (Miguel)
+--------------e1VN5UoecP2KMs2cwDKg5iZ3
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thanks for the update!
+SGkNCg0KQW0gMTQuMDcuMjMgdW0gMTI6MDQgc2NocmllYiBHZWVydCBVeXR0ZXJob2V2ZW46
+DQo+IEhpIFRob21hcywNCj4gDQo+IE9uIEZyaSwgSnVsIDE0LCAyMDIzIGF0IDk6NTPigK9B
+TSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+PiBS
+ZW1vdmUgdGhlIHVudXNlZCBmbGFncyBGQklORk9fREVGQVVMVCBhbmQgRkJJTkZPX0ZMQUdf
+REVGQVVMVCBmcm9tDQo+PiBmYmRldiBhbmQgZHJpdmVycywgYXMgYnJpZWZseSBkaXNjdXNz
+ZWQgYXQgWzFdLiBCb3RoIGZsYWdzIHdlcmUgbWF5YmUNCj4+IHVzZWZ1bCB3aGVuIGZiZGV2
+IGhhZCBzcGVjaWFsIGhhbmRsaW5nIGZvciBkcml2ZXIgbW9kdWxlcy4gV2l0aA0KPj4gY29t
+bWl0IDM3NmIzZmY1NGM5YSAoImZiZGV2OiBOdWtlIEZCSU5GT19NT0RVTEUiKSwgdGhleSBh
+cmUgYm90aCAwDQo+PiBhbmQgaGF2ZSBubyBmdXJ0aGVyIGVmZmVjdC4NCj4+DQo+PiBQYXRj
+aGVzIDEgdG8gNyByZW1vdmUgRkJJTkZPX0RFRkFVTFQgZnJvbSBkcml2ZXJzLiBQYXRjaGVz
+IDIgdG8gNQ0KPj4gc3BsaXQgdGhpcyBieSB0aGUgd2F5IHRoZSBmYl9pbmZvIHN0cnVjdCBp
+cyBiZWluZyBhbGxvY2F0ZWQuIEFsbCBmbGFncw0KPj4gYXJlIGNsZWFyZWQgdG8gemVybyBk
+dXJpbmcgdGhlIGFsbG9jYXRpb24uDQo+Pg0KPj4gUGF0Y2hlcyA4IHRvIDE2IGRvIHRoZSBz
+YW1lIGZvciBGQklORk9fRkxBR19ERUZBVUxULiBQYXRjaCA4IGZpeGVzDQo+PiBhbiBhY3R1
+YWwgYnVnIGluIGhvdyBhcmNoL3NoIHVzZXMgdGhlIHRva2VuIGZvciBzdHJ1Y3QgZmJfdmlk
+ZW9tb2RlLA0KPj4gd2hpY2ggaXMgdW5yZWxhdGVkLg0KPj4NCj4+IFBhdGNoIDE3IHJlbW92
+ZXMgYm90aCBmbGFnIGNvbnN0YW50cyBmcm9tIDxsaW51eC9mYi5oPiBhbmQgcGF0Y2ggMTgN
+Cj4+IGRvY3VtZW50cyB0aGUgemVybydlZCBtZW1vcnkgcmV0dXJuZWQgYnkgZnJhbWVidWZm
+ZXJfYWxsb2MoKS4NCj4+DQo+PiB2MzoNCj4+ICAgICAgICAgICogc2g6IGluY2x1ZGUgYm9h
+cmQgbmFtZSBpbiBjb21taXQgbWVzc2FnZSAoQWRyaWFuKQ0KPj4gICAgICAgICAgKiBkb2Nz
+OiByZXdvcmQgdGV4dCAoTWlndWVsKQ0KPiANCj4gVGhhbmtzIGZvciB0aGUgdXBkYXRlIQ0K
+PiANCj4+ICAgIGZiZGV2OiBSZW1vdmUgZmxhZyBGQklORk9fREVGQVVMVCBmcm9tIGZiZGV2
+IGRyaXZlcnMNCj4+ICAgIGZiZGV2OiBSZW1vdmUgZmxhZyBGQklORk9fREVGQVVMVCBmcm9t
+IGZiZGV2IGRyaXZlcnMNCj4+ICAgIGZiZGV2OiBSZW1vdmUgZmxhZyBGQklORk9fREVGQVVM
+VCBmcm9tIGZiZGV2IGRyaXZlcnMNCj4+ICAgIGZiZGV2OiBSZW1vdmUgZmxhZyBGQklORk9f
+REVGQVVMVCBmcm9tIGZiZGV2IGRyaXZlcnMNCg0KSSB3YXNuJ3QgaGFwcHkgYWJvdXQgdGhp
+cyBlaXRoZXIuIEJ1dCBJIGNvdWxkIG5vdCBjb21lIHVwIHdpdGggYSANCmRlc2NyaXB0aW9u
+IHRoYXQgZml0cyBpbnRvIHRoZSA3NC1jaGFyIGxpbWl0IGZvciBlYWNoIGNvbW1pdC4gVGhl
+eSBvbmx5IA0KZGlmZmVyIGluIHRoZSBtZXRob2Qgb2YgbWVtb3J5IGFsbG9jYXRpb24uIERv
+IHlvdSBoYXZlIGFueSBpZGVhcz8NCg0KPiANCj4gRm91ciBwYXRjaGVzIHdpdGggdGhlIGV4
+YWN0IHNhbWUgb25lLWxpbmUgc3VtbWFyeS4gUGxlYXNlIG1ha2UgdGhlbQ0KPiB1bmlxdWUu
+DQo+IA0KPj4gICAgZmJkZXY6IFJlbW92ZSBmbGFnIEZCSU5GT19GTEFHX0RFRkFVTFQgZnJv
+bSBmYmRldiBkcml2ZXJzDQo+PiAgICBmYmRldjogUmVtb3ZlIGZsYWcgRkJJTkZPX0ZMQUdf
+REVGQVVMVCBmcm9tIGZiZGV2IGRyaXZlcnMNCj4gDQo+IFR3byBwYXRjaGVzIHdpdGggdGhl
+IGV4YWN0IHNhbWUgb25lLWxpbmUgc3VtbWFyeS4gUGxlYXNlIG1ha2UgdGhlbQ0KPiB1bmlx
+dWUuDQoNClNhbWUgcHJvYmxlbSBoZXJlLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICBHZWVydA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFu
+a2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3Rl
+diwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJC
+IDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_DEFAULT from fbdev drivers
+--------------e1VN5UoecP2KMs2cwDKg5iZ3--
 
-Four patches with the exact same one-line summary. Please make them
-unique.
+--------------ytQioUjfc867nfoK1gzl7Kf7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
->   fbdev: Remove flag FBINFO_FLAG_DEFAULT from fbdev drivers
+-----BEGIN PGP SIGNATURE-----
 
-Two patches with the exact same one-line summary. Please make them
-unique.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSxIkUFAwAAAAAACgkQlh/E3EQov+A5
+ZBAAlrHgFf58BneZE6hcC+r5o5NXfcPpZXyll0zbPfn6bgz+XFX3WjCIOEeFVAtRj4l1NZP2gLDL
+7XNg57GaZUV+3tu12rPUwqHB/PP8fo4xN1zoUFHh6n/bZ/IPtqK261weN3XdIE0++yBbi9uX0OJw
+sbnYwY9bEjuVCVxhLzZwkvB7OBMd2W4tyY44Dk7zY4Tr5kFLfrU2fPIyaM4i7DDof+JsxDbgeISQ
+lb1J6DuP7jxc23B/dIP1KcbGvuw9IpA6HM5annXZkHPBb0LvAOn5k8RJsCdLsPrMA9csWZO3BPeN
+ilViiWFtO27QGJPFU+vXC/4HWySxkpaAf3fqgFlrLFoQLNg7n37nnIqOdjz+eE3wHkiTd0h2LwVu
+k6gemHqCKMgJwK9bLRFTueMM5lp0GwsC4vpChviNYECfzzTLZKYZHHyWtYeoh/i5VxZezHuk+8io
+i8pcC79dy1b6ahi3hR3yLqwxihfje3jfrNjYPf1woeuEUsMr25eBK2/+mRmIvnFtg19/X14rJbPg
+aipPmZE4z4DiVVhiEbx/6XFlOflHehdn2hw2hyyfXEXNftSgzOV/Jshfga/TCLtbRs3Asg5U81Cd
+l+g39cAV4H0yoCaPnygHuLklnZ7tW2yfrjbwJJoFu65tFJDiV22dChid3jEfYbm9OZJVJPko4Oi7
+y34=
+=brtE
+-----END PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--------------ytQioUjfc867nfoK1gzl7Kf7--
