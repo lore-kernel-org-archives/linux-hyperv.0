@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C65C04E69
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 07:53:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D5F1C10F1A
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 07:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235583AbjGNHwx (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Jul 2023 03:52:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
+        id S235833AbjGNHxJ (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Jul 2023 03:53:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235568AbjGNHwI (ORCPT
+        with ESMTP id S235506AbjGNHwB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Jul 2023 03:52:08 -0400
+        Fri, 14 Jul 2023 03:52:01 -0400
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58523588;
-        Fri, 14 Jul 2023 00:52:05 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1371230DF;
+        Fri, 14 Jul 2023 00:51:58 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 83D7622163;
-        Fri, 14 Jul 2023 07:52:04 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 77648220D0;
+        Fri, 14 Jul 2023 07:51:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1689321124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+        t=1689321117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fjE7evrec+6fTNNO2iEP5O884klzqzhDg9Mgv82xETg=;
-        b=Lh7vIr6ckxc/iABjsJgQyPX2+F649Ga1fLcw+t6ynF0XPltSHJcY7keOXADImMc/dbsXKp
-        xyUOTHFD9ZSU9WbwlNosGPDYqOHjdKPKebwbu8snAFn0N1/u3gpsb9A2fV2S9P5gnWwuAA
-        c11Id3xw4wVOPXXYVUeNCX9YszdHQ3s=
+        bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+        b=FiCxuuRgjeBg/xoExLC9yTE5L7LaBt5SUYCMx34HW12T0/lrXS3LS4llyhoAm+F7pEMHjS
+        PxTLSdY1od69+BJwO8AEtsZJXtoViPo5XWy1ALC6q6CUO0sT0lAwNlWnCGZV2zJPMQ6SnE
+        M563f0p47fey33bA7ioXZDxkJVDYx0o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1689321124;
+        s=susede2_ed25519; t=1689321117;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=fjE7evrec+6fTNNO2iEP5O884klzqzhDg9Mgv82xETg=;
-        b=QGMxHCNv2iIjqPsDqSpcZCEXodf5ZsEvU0z7mPx0TmyWW116Sni3xmSwhsAgfcnLkU6nOS
-        SUzZMqMdOAUlo3Bw==
+        bh=sWCVV7wJiemOx2M9P2wz1m/QXnYnbGSsQYJ48wiDA5o=;
+        b=+Lj70mtCwrt+Zf6K3n0Z5ytQjf8UZK7ETR4Sxgd90QQP8Xm/6hpxMXqHTmzg9On/LFh1x4
+        aRwqDVLFm20VmvCA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2D2A413A15;
-        Fri, 14 Jul 2023 07:52:04 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 152FA13A92;
+        Fri, 14 Jul 2023 07:51:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id sM0TCqT+sGQCQwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:52:04 +0000
+        id UM9jBJ3+sGQCQwAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Fri, 14 Jul 2023 07:51:57 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, javierm@redhat.com
 Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -60,47 +60,96 @@ Cc:     linux-sh@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-hyperv@vger.kernel.org, linux-omap@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH v3 18/18] fbdev: Document that framebuffer_alloc() returns zero'ed data
-Date:   Fri, 14 Jul 2023 09:49:44 +0200
-Message-ID: <20230714075155.5686-19-tzimmermann@suse.de>
+        Sam Ravnborg <sam@ravnborg.org>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Subject: [PATCH v3 01/18] drm: Remove flag FBINFO_DEFAULT from fbdev emulation
+Date:   Fri, 14 Jul 2023 09:49:27 +0200
+Message-ID: <20230714075155.5686-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230714075155.5686-1-tzimmermann@suse.de>
 References: <20230714075155.5686-1-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Most fbdev drivers depend on framebuffer_alloc() to initialize the
-allocated memory to 0. Document this guarantee.
+The flag FBINFO_DEFAULT is 0 and has no effect, as struct fbinfo.flags
+has been allocated to zero by framebuffer_alloc(). So do not set it.
 
-v3:
-	* slightly reword the sentence (Miguel)
+Flags should signal differences from the default values. After cleaning
+up all occurrences of FBINFO_DEFAULT, the token will be removed.
 
-Suggested-by: Miguel Ojeda <ojeda@kernel.org>
+v2:
+	* fix commit message (Miguel)
+
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 ---
- drivers/video/fbdev/core/fb_info.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_fbdev_dma.c       | 1 -
+ drivers/gpu/drm/drm_fbdev_generic.c   | 1 -
+ drivers/gpu/drm/gma500/fbdev.c        | 2 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c | 2 +-
+ 4 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fb_info.c b/drivers/video/fbdev/core/fb_info.c
-index 8bdbefdd4b70..4847ebe50d7d 100644
---- a/drivers/video/fbdev/core/fb_info.c
-+++ b/drivers/video/fbdev/core/fb_info.c
-@@ -13,7 +13,8 @@
-  *
-  * Creates a new frame buffer info structure. Also reserves @size bytes
-  * for driver private data (info->par). info->par (if any) will be
-- * aligned to sizeof(long).
-+ * aligned to sizeof(long). The new instances of struct fb_info and
-+ * the driver private data are both cleared to zero.
-  *
-  * Returns the new structure, or NULL if an error occurred.
-  *
+diff --git a/drivers/gpu/drm/drm_fbdev_dma.c b/drivers/gpu/drm/drm_fbdev_dma.c
+index f9b1f7cd31b7..ee7c265b0585 100644
+--- a/drivers/gpu/drm/drm_fbdev_dma.c
++++ b/drivers/gpu/drm/drm_fbdev_dma.c
+@@ -123,7 +123,6 @@ static int drm_fbdev_dma_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+ 
+ 	info->fbops = &drm_fbdev_dma_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
+ 
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB; /* system memory */
+diff --git a/drivers/gpu/drm/drm_fbdev_generic.c b/drivers/gpu/drm/drm_fbdev_generic.c
+index b9343fb6cf13..a0ea042b1526 100644
+--- a/drivers/gpu/drm/drm_fbdev_generic.c
++++ b/drivers/gpu/drm/drm_fbdev_generic.c
+@@ -109,7 +109,6 @@ static int drm_fbdev_generic_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	drm_fb_helper_fill_info(info, fb_helper, sizes);
+ 
+ 	info->fbops = &drm_fbdev_generic_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
+ 
+ 	/* screen */
+ 	info->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 054426549fc6..be8f5fbd5260 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -215,7 +215,7 @@ static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
+ 
+ 	info->fbops = &psb_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* Accessed stolen memory directly */
+ 	info->screen_base = dev_priv->vram_addr + backing->offset;
+ 	info->screen_size = size;
+diff --git a/drivers/gpu/drm/radeon/radeon_fbdev.c b/drivers/gpu/drm/radeon/radeon_fbdev.c
+index f941e2e7cae6..68c06ac9acce 100644
+--- a/drivers/gpu/drm/radeon/radeon_fbdev.c
++++ b/drivers/gpu/drm/radeon/radeon_fbdev.c
+@@ -253,7 +253,7 @@ static int radeon_fbdev_fb_helper_fb_probe(struct drm_fb_helper *fb_helper,
+ 	}
+ 
+ 	info->fbops = &radeon_fbdev_fb_ops;
+-	info->flags = FBINFO_DEFAULT;
++
+ 	/* radeon resume is fragile and needs a vt switch to help it along */
+ 	info->skip_vt_switch = false;
+ 
 -- 
 2.41.0
 
