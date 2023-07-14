@@ -2,39 +2,39 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EB62C001B0
-	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 10:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3888FC04A6A
+	for <linux-hyperv@archiver.kernel.org>; Fri, 14 Jul 2023 10:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236195AbjGNKZz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 14 Jul 2023 06:25:55 -0400
+        id S236202AbjGNKZ4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Fri, 14 Jul 2023 06:25:56 -0400
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235396AbjGNKZy (ORCPT
+        with ESMTP id S236198AbjGNKZz (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 14 Jul 2023 06:25:54 -0400
+        Fri, 14 Jul 2023 06:25:55 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 835DC2733;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A209B273F;
         Fri, 14 Jul 2023 03:25:52 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id EF38C21C467B;
-        Fri, 14 Jul 2023 03:25:51 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EF38C21C467B
+        by linux.microsoft.com (Postfix) with ESMTPSA id 2D5A821C467E;
+        Fri, 14 Jul 2023 03:25:52 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2D5A821C467E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
         s=default; t=1689330352;
-        bh=ZDb5v3WQfia+d+dhap2V7HLfR4KKKUXFWrCOXXrmaSo=;
+        bh=rS4DsygfSZGVIBVFo/gGi2qxWZfTJ1rWo3mCJ/PNH3M=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=BLDDp0DKfAKFQzcZEvOxAbkdsrw4dThzYL9ncsMvw80PFhoTZO/Mc5ZQlfoFuwxI5
-         KpJGTya4r1Ubs2tP+Pr6i6EXR7NBsKMvwyQDQQhYkWJ57OoJr0ByHM66QBPGltw5Ec
-         lPOchdFSA/Nu/5Fe1k+gje1fAlHUz3jXziwSSTLE=
+        b=F6kU3glT/3DaYLaeyXfSs49CU5zTqwOvXQqQ9MgD1BtdR6cnG33H5jvL7cWJCEuI7
+         JoqmR4HgZEETaQ4eAL1JqiJbRoQKhVRcwXx93UbKGcYlL91ZA3gLArunn53cimYDLD
+         g8xg1oM/8LsXk5fmi8/esS+DcjSdXm8QE1TSJ7So=
 From:   Saurabh Sengar <ssengar@linux.microsoft.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, mikelley@microsoft.com,
         gregkh@linuxfoundation.org, corbet@lwn.net,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
         linux-doc@vger.kernel.org
-Subject: [PATCH v3 1/3] uio: Add hv_vmbus_client driver
-Date:   Fri, 14 Jul 2023 03:25:44 -0700
-Message-Id: <1689330346-5374-2-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v3 3/3] tools: hv: Add new fcopy application based on uio driver
+Date:   Fri, 14 Jul 2023 03:25:46 -0700
+Message-Id: <1689330346-5374-4-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1689330346-5374-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1689330346-5374-1-git-send-email-ssengar@linux.microsoft.com>
@@ -42,392 +42,659 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add a new UIO-based driver that generically supports low speed Hyper-V
-VMBus devices. This driver can be bound to VMBus devices by user space
-drivers that provide device-specific management.
+Implement the file copy service for Linux guests on Hyper-V. This
+permits the host to copy a file (over VMBus) into the guest. This
+facility is part of "guest integration services" supported on the
+Hyper-V platform.
 
-The new driver provides the following core functionality, which is
-suitable for low speed devices:
-* A single VMBus channel for each device
-* Ability to specify the VMBus channel ring buffer size for each device
-* Host notification via a hypercall instead of monitor bits
+Here is a link that provides additional details on this functionality:
+
+http://technet.microsoft.com/en-us/library/dn464282.aspx
+
+This new fcopy application uses uio_hv_vmbus_client driver which
+makes the earlier hv_util based driver and application obsolete.
 
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
 [V3]
-- Removed ringbuffer sysfs entry and used uio framework for mmap
-- Remove ".id_table = NULL"
-- kasprintf -> devm_kasprintf
-- Change global variable ring_size to per device
-- More checks on value which can be set for ring_size
-- Remove driverctl, and used echo command instead for driver documentation
-- Remove unnecessary one time use macros
-- Change kernel version and date for sysfs documentation
-- Update documentation
-- Better commit message
+- Improve cover letter and commit messages
+- Improve debug prints
+- Instead of hardcoded instance id, query from class id sysfs
+- Set the ring_size value from application
+- Update the application to mmap /dev/uio instead of sysfs
+- new application compilation dependent on x86
 
 [V2]
-- Update driver info in Documentation/driver-api/uio-howto.rst
-- Update ring_size sysfs info in Documentation/ABI/stable/sysfs-bus-vmbus
-- Remove DRIVER_VERSION
-- Remove refcnt
-- scnprintf -> sysfs_emit
-- sysfs_create_file -> ATTRIBUTE_GROUPS + ".driver.groups";
-- sysfs_create_bin_file -> device_create_bin_file
-- dev_notice -> dev_err
-- remove MODULE_VERSION
+- simpler sysfs path
 
- Documentation/ABI/stable/sysfs-bus-vmbus |  10 ++
- Documentation/driver-api/uio-howto.rst   |  54 ++++++
- drivers/uio/Kconfig                      |  12 ++
- drivers/uio/Makefile                     |   1 +
- drivers/uio/uio_hv_vmbus_client.c        | 218 +++++++++++++++++++++++
- 5 files changed, 295 insertions(+)
- create mode 100644 drivers/uio/uio_hv_vmbus_client.c
+ tools/hv/Build                 |   1 +
+ tools/hv/Makefile              |  10 +-
+ tools/hv/hv_fcopy_uio_daemon.c | 578 +++++++++++++++++++++++++++++++++
+ 3 files changed, 588 insertions(+), 1 deletion(-)
+ create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
 
-diff --git a/Documentation/ABI/stable/sysfs-bus-vmbus b/Documentation/ABI/stable/sysfs-bus-vmbus
-index 3066feae1d8d..7e77eda77be3 100644
---- a/Documentation/ABI/stable/sysfs-bus-vmbus
-+++ b/Documentation/ABI/stable/sysfs-bus-vmbus
-@@ -153,6 +153,16 @@ Contact:	Stephen Hemminger <sthemmin@microsoft.com>
- Description:	Binary file created by uio_hv_generic for ring buffer
- Users:		Userspace drivers
+diff --git a/tools/hv/Build b/tools/hv/Build
+index 2a667d3d94cb..efcbb74a0d23 100644
+--- a/tools/hv/Build
++++ b/tools/hv/Build
+@@ -2,3 +2,4 @@ hv_kvp_daemon-y += hv_kvp_daemon.o
+ hv_vss_daemon-y += hv_vss_daemon.o
+ hv_fcopy_daemon-y += hv_fcopy_daemon.o
+ vmbus_bufring-y += vmbus_bufring.o
++hv_fcopy_uio_daemon-y += hv_fcopy_uio_daemon.o
+diff --git a/tools/hv/Makefile b/tools/hv/Makefile
+index 33cf488fd20f..678c6c450a53 100644
+--- a/tools/hv/Makefile
++++ b/tools/hv/Makefile
+@@ -21,8 +21,10 @@ override CFLAGS += -O2 -Wall -g -D_GNU_SOURCE -I$(OUTPUT)include
  
-+What:		/sys/bus/vmbus/devices/<UUID>/ring_size
-+Date:		September 2023
-+KernelVersion:	6.6
-+Contact:	Saurabh Sengar <ssengar@microsoft.com>
-+Description:	File created by uio_hv_vmbus_client for setting device ring
-+		buffer size. The value specified within the file denotes the
-+		total memory allocation for the one complete ring buffer, which
-+		includes the ring buffer header, of size PAGE_SIZE.
-+Users:		Userspace drivers
-+
- What:           /sys/bus/vmbus/devices/<UUID>/channels/<N>/intr_in_full
- Date:           February 2019
- KernelVersion:  5.0
-diff --git a/Documentation/driver-api/uio-howto.rst b/Documentation/driver-api/uio-howto.rst
-index 907ffa3b38f5..625c2bda369f 100644
---- a/Documentation/driver-api/uio-howto.rst
-+++ b/Documentation/driver-api/uio-howto.rst
-@@ -722,6 +722,60 @@ For example::
+ ifeq ($(SRCARCH),x86)
+ ALL_LIBS := libvmbus_bufring.a
+-endif
++ALL_TARGETS := hv_kvp_daemon hv_vss_daemon hv_fcopy_daemon hv_fcopy_uio_daemon
++else
+ ALL_TARGETS := hv_kvp_daemon hv_vss_daemon hv_fcopy_daemon
++endif
+ ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS)) $(patsubst %,$(OUTPUT)%,$(ALL_LIBS))
  
- 	/sys/bus/vmbus/devices/3811fe4d-0fa0-4b62-981a-74fc1084c757/channels/21/ring
+ ALL_SCRIPTS := hv_get_dhcp_info.sh hv_get_dns_info.sh hv_set_ifconfig.sh
+@@ -56,6 +58,12 @@ $(HV_FCOPY_DAEMON_IN): FORCE
+ $(OUTPUT)hv_fcopy_daemon: $(HV_FCOPY_DAEMON_IN)
+ 	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $< -o $@
  
-+Generic Hyper-V driver for low speed devices
-+============================================
++HV_FCOPY_UIO_DAEMON_IN := $(OUTPUT)hv_fcopy_uio_daemon-in.o
++$(HV_FCOPY_UIO_DAEMON_IN): FORCE
++	$(Q)$(MAKE) $(build)=hv_fcopy_uio_daemon
++$(OUTPUT)hv_fcopy_uio_daemon: $(HV_FCOPY_UIO_DAEMON_IN) libvmbus_bufring.a
++	$(QUIET_LINK)$(CC) -lm $< -L. -lvmbus_bufring -o $@
 +
-+The generic driver is a kernel module named uio_hv_vmbus_client. It
-+supports slow devices on the Hyper-V VMBus similar to uio_hv_generic
-+for faster devices. This driver also gives flexibility of customized
-+ring buffer sizes.
-+
-+Making the driver recognize the device
-+--------------------------------------
-+
-+Since the driver does not declare any device GUID's, it will not get
-+loaded automatically and will not automatically bind to any devices. You
-+must load it and allocate id to the driver yourself. For example, to use
-+the fcopy device class GUID::
-+
-+        modprobe uio_hv_vmbus_client
-+        echo "34d14be3-dee4-41c8-9ae7-6b174977c192" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/new_id
-+
-+If there already is a hardware specific kernel driver for the device,
-+the generic driver still won't bind to it. In this case if you want to
-+use the generic driver for a userspace library you'll have to manually unbind
-+the hardware specific driver and bind the generic driver, using the device
-+instance GUID like this::
-+
-+          echo "eb765408-105f-49b6-b4aa-c123b64d17d4" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/unbind
-+          echo "eb765408-105f-49b6-b4aa-c123b64d17d4" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/bind
-+
-+You can verify that the device has been bound to the driver by looking
-+for it in sysfs, for example like the following::
-+
-+        ls -l /sys/bus/vmbus/devices/eb765408-105f-49b6-b4aa-c123b64d17d4/driver
-+
-+Which if successful should print::
-+
-+      .../eb765408-105f-49b6-b4aa-c123b64d17d4/driver -> ../../../bus/vmbus/drivers/uio_hv_vmbus_client
-+
-+Things to know about uio_hv_vmbus_client
-+----------------------------------------
-+
-+The uio_hv_vmbus_client driver maps the Hyper-V device ring buffer to userspace
-+and offers an interface to manage it.
-+
-+The userspace API for mapping and performing read/write operations on the device
-+ring buffer is implemented in tools/hv/vmbus_bufring.c. Userspace applications
-+should use this file as a library and build their logic on top of it.
-+
-+Additionally, the uio_hv_vmbus_client driver offers the "ring_size" sysfs entry
-+for setting the device ring buffer size before opening the device.
-+
-+For example::
-+
-+        /sys/bus/vmbus/devices/eb765408-105f-49b6-b4aa-c123b64d17d4/ring_size
-+
- Further information
- ===================
- 
-diff --git a/drivers/uio/Kconfig b/drivers/uio/Kconfig
-index 2e16c5338e5b..bd4d27ecfc9a 100644
---- a/drivers/uio/Kconfig
-+++ b/drivers/uio/Kconfig
-@@ -166,6 +166,18 @@ config UIO_HV_GENERIC
- 
- 	  If you compile this as a module, it will be called uio_hv_generic.
- 
-+config UIO_HV_SLOW_DEVICES
-+	tristate "Generic driver for low speed VMBus devices"
-+	depends on HYPERV
-+	help
-+	  Generic driver that you can dynamically bind to low speed Hyper-V
-+	  VMBus devices to allow a user space driver to manage the device.
-+	  The driver provides a single VMBus channel and uses a hypercall
-+	  instead of monitor bits to interrupt the host. The driver provides
-+	  a configurable per-device ring buffer size.
-+
-+	  If you compile this as a module, it will be called uio_hv_vmbus_client.
-+
- config UIO_DFL
- 	tristate "Generic driver for DFL (Device Feature List) bus"
- 	depends on FPGA_DFL
-diff --git a/drivers/uio/Makefile b/drivers/uio/Makefile
-index f2f416a14228..44be0f96da34 100644
---- a/drivers/uio/Makefile
-+++ b/drivers/uio/Makefile
-@@ -11,4 +11,5 @@ obj-$(CONFIG_UIO_PRUSS)         += uio_pruss.o
- obj-$(CONFIG_UIO_MF624)         += uio_mf624.o
- obj-$(CONFIG_UIO_FSL_ELBC_GPCM)	+= uio_fsl_elbc_gpcm.o
- obj-$(CONFIG_UIO_HV_GENERIC)	+= uio_hv_generic.o
-+obj-$(CONFIG_UIO_HV_SLOW_DEVICES)	+= uio_hv_vmbus_client.o
- obj-$(CONFIG_UIO_DFL)	+= uio_dfl.o
-diff --git a/drivers/uio/uio_hv_vmbus_client.c b/drivers/uio/uio_hv_vmbus_client.c
+ clean:
+ 	rm -f $(ALL_PROGRAMS)
+ 	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
+diff --git a/tools/hv/hv_fcopy_uio_daemon.c b/tools/hv/hv_fcopy_uio_daemon.c
 new file mode 100644
-index 000000000000..778f43b3701d
+index 000000000000..e8618a30dc7e
 --- /dev/null
-+++ b/drivers/uio/uio_hv_vmbus_client.c
-@@ -0,0 +1,218 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/tools/hv/hv_fcopy_uio_daemon.c
+@@ -0,0 +1,578 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * uio_hv_vmbus_client - UIO driver for low speed VMBus devices
++ * An implementation of host to guest copy functionality for Linux.
 + *
-+ * Copyright (c) 2023, Microsoft Corporation.
++ * Copyright (C) 2023, Microsoft, Inc.
 + *
-+ * Authors:
-+ *   Saurabh Sengar <ssengar@microsoft.com>
++ * Author : K. Y. Srinivasan <kys@microsoft.com>
++ * Author : Saurabh Sengar <ssengar@microsoft.com>
 + *
-+ * Since the driver does not declare any device ids, userspace code must
-+ * allocate an id and bind the device to the driver.
-+ *
-+ * For example, to associate the fcopy service with this driver:
-+ * # echo "34d14be3-dee4-41c8-9ae7-6b174977c192" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/new_id
-+ *
-+ * If there already is a hardware specific kernel driver for the device,
-+ * the generic driver still won't bind to it. In this case if you want to
-+ * use the generic driver for a userspace library you'll have to manually unbind
-+ * the hardware specific driver and bind the generic driver, using the device
-+ * instance GUID like this:
-+ * # echo "eb765408-105f-49b6-b4aa-c123b64d17d4" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/unbind
-+ * # echo "eb765408-105f-49b6-b4aa-c123b64d17d4" > /sys/bus/vmbus/drivers/uio_hv_vmbus_client/bind
 + */
 +
-+#include <linux/device.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/uio_driver.h>
++#include <dirent.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <getopt.h>
++#include <locale.h>
++#include <stdbool.h>
++#include <stddef.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <syslog.h>
++#include <unistd.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
 +#include <linux/hyperv.h>
++#include "vmbus_bufring.h"
 +
-+struct uio_hv_vmbus_dev {
-+	struct uio_info info;
-+	struct hv_device *device;
-+	int ring_size;
++#define ICMSGTYPE_NEGOTIATE	0
++#define ICMSGTYPE_FCOPY		7
++
++#define WIN8_SRV_MAJOR		1
++#define WIN8_SRV_MINOR		1
++#define WIN8_SRV_VERSION	(WIN8_SRV_MAJOR << 16 | WIN8_SRV_MINOR)
++
++#define MAX_PATH_LEN		300
++#define MAX_LINE_LEN		40
++#define DEVICES_SYSFS		"/sys/bus/vmbus/devices"
++#define FCOPY_CLASS_ID		"34d14be3-dee4-41c8-9ae7-6b174977c192"
++
++#define FCOPY_VER_COUNT		1
++static const int fcopy_versions[] = {
++	WIN8_SRV_VERSION
 +};
 +
-+/*
-+ * This is the irqcontrol callback to be registered to uio_info.
-+ * It can be used to disable/enable interrupt from user space processes.
-+ *
-+ * @param info
-+ *  pointer to uio_info.
-+ * @param irq_state
-+ *  state value. 1 to enable interrupt.
-+ */
-+static int uio_hv_vmbus_irqcontrol(struct uio_info *info, s32 irq_state)
++#define FW_VER_COUNT		1
++static const int fw_versions[] = {
++	UTIL_FW_VERSION
++};
++
++#define HV_RING_SIZE		(4 * 4096)
++
++unsigned char desc[HV_RING_SIZE];
++
++static int target_fd;
++static char target_fname[PATH_MAX];
++static unsigned long long filesize;
++
++static int hv_fcopy_create_file(char *file_name, char *path_name, __u32 flags)
 +{
-+	struct uio_hv_vmbus_dev *pdata = info->priv;
-+	struct hv_device *hv_dev = pdata->device;
++	int error = HV_E_FAIL;
++	char *q, *p;
 +
-+	/* Issue a full memory barrier before triggering the notification */
-+	virt_mb();
++	filesize = 0;
++	p = (char *)path_name;
++	snprintf(target_fname, sizeof(target_fname), "%s/%s",
++		 (char *)path_name, (char *)file_name);
 +
-+	if (irq_state == 1)
-+		vmbus_setevent(hv_dev->channel);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Callback from vmbus_event when something is in inbound ring.
-+ */
-+static void uio_hv_vmbus_channel_cb(void *context)
-+{
-+	struct uio_hv_vmbus_dev *pdata = context;
-+
-+	/* Issue a full memory barrier before sending the event to userspace */
-+	virt_mb();
-+
-+	uio_event_notify(&pdata->info);
-+}
-+
-+static int uio_hv_vmbus_open(struct uio_info *info, struct inode *inode)
-+{
-+	struct uio_hv_vmbus_dev *pdata = container_of(info, struct uio_hv_vmbus_dev, info);
-+	struct hv_device *hv_dev = pdata->device;
-+	struct vmbus_channel *channel = hv_dev->channel;
-+	void *ring_buffer;
-+	int ret;
-+
-+	ret = vmbus_open(channel, pdata->ring_size, pdata->ring_size, NULL, 0,
-+			 uio_hv_vmbus_channel_cb, pdata);
-+	if (ret) {
-+		dev_err(&hv_dev->device, "error %d when opening the channel\n", ret);
-+		return ret;
++	/*
++	 * Check to see if the path is already in place; if not,
++	 * create if required.
++	 */
++	while ((q = strchr(p, '/')) != NULL) {
++		if (q == p) {
++			p++;
++			continue;
++		}
++		*q = '\0';
++		if (access(path_name, F_OK)) {
++			if (flags & CREATE_PATH) {
++				if (mkdir(path_name, 0755)) {
++					syslog(LOG_ERR, "Failed to create %s",
++					       path_name);
++					goto done;
++				}
++			} else {
++				syslog(LOG_ERR, "Invalid path: %s", path_name);
++				goto done;
++			}
++		}
++		p = q + 1;
++		*q = '/';
 +	}
-+	channel->inbound.ring_buffer->interrupt_mask = 0;
-+	set_channel_read_mode(channel, HV_CALL_ISR);
 +
-+	/* set the mem pointer */
-+	info->mem[0].name = "txrx_rings";
-+	ring_buffer = page_address(channel->ringbuffer_page);
-+	info->mem[0].addr = (uintptr_t)virt_to_phys(ring_buffer);
-+	info->mem[0].size = channel->ringbuffer_pagecount << PAGE_SHIFT;
-+	info->mem[0].memtype = UIO_MEM_IOVA;
++	if (!access(target_fname, F_OK)) {
++		syslog(LOG_INFO, "File: %s exists", target_fname);
++		if (!(flags & OVER_WRITE)) {
++			error = HV_ERROR_ALREADY_EXISTS;
++			goto done;
++		}
++	}
++
++	target_fd = open(target_fname,
++			 O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0744);
++	if (target_fd == -1) {
++		syslog(LOG_INFO, "Open Failed: %s", strerror(errno));
++		goto done;
++	}
++
++	error = 0;
++done:
++	if (error)
++		target_fname[0] = '\0';
++	return error;
++}
++
++static int hv_copy_data(struct hv_do_fcopy *cpmsg)
++{
++	ssize_t bytes_written;
++	int ret = 0;
++
++	bytes_written = pwrite(target_fd, cpmsg->data, cpmsg->size,
++			       cpmsg->offset);
++
++	filesize += cpmsg->size;
++	if (bytes_written != cpmsg->size) {
++		switch (errno) {
++		case ENOSPC:
++			ret = HV_ERROR_DISK_FULL;
++			break;
++		default:
++			ret = HV_E_FAIL;
++			break;
++		}
++		syslog(LOG_ERR, "pwrite failed to write %llu bytes: %ld (%s)",
++		       filesize, (long)bytes_written, strerror(errno));
++	}
 +
 +	return ret;
 +}
 +
-+static int uio_hv_vmbus_release(struct uio_info *info, struct inode *inode)
++/*
++ * Reset target_fname to "" in the two below functions for hibernation: if
++ * the fcopy operation is aborted by hibernation, the daemon should remove the
++ * partially-copied file; to achieve this, the hv_utils driver always fakes a
++ * CANCEL_FCOPY message upon suspend, and later when the VM resumes back,
++ * the daemon calls hv_copy_cancel() to remove the file; if a file is copied
++ * successfully before suspend, hv_copy_finished() must reset target_fname to
++ * avoid that the file can be incorrectly removed upon resume, since the faked
++ * CANCEL_FCOPY message is spurious in this case.
++ */
++static int hv_copy_finished(void)
 +{
-+	struct uio_hv_vmbus_dev *pdata = container_of(info, struct uio_hv_vmbus_dev, info);
-+	struct hv_device *hv_dev = pdata->device;
-+
-+	vmbus_close(hv_dev->channel);
-+
-+	/* restore the mem pointer to its original state */
-+	info->mem[0].name = NULL;
-+	info->mem[0].addr = 0;
-+	info->mem[0].size = 1;
-+	info->mem[0].memtype = UIO_MEM_NONE;
-+
++	close(target_fd);
++	target_fname[0] = '\0';
 +	return 0;
 +}
 +
-+static ssize_t ring_size_show(struct device *dev, struct device_attribute *attr,
-+			      char *buf)
++static void print_usage(char *argv[])
 +{
-+	struct uio_info *info = dev_get_drvdata(dev);
-+	struct uio_hv_vmbus_dev *pdata = container_of(info, struct uio_hv_vmbus_dev, info);
-+
-+	return sysfs_emit(buf, "%d\n", pdata->ring_size);
++	fprintf(stderr, "Usage: %s [options]\n"
++		"Options are:\n"
++		"  -n, --no-daemon        stay in foreground, don't daemonize\n"
++		"  -h, --help             print this help\n", argv[0]);
 +}
 +
-+static ssize_t ring_size_store(struct device *dev, struct device_attribute *attr,
-+			       const char *buf, size_t count)
++static bool vmbus_prep_negotiate_resp(struct icmsg_hdr *icmsghdrp, unsigned char *buf,
++				      unsigned int buflen, const int *fw_version, int fw_vercnt,
++				const int *srv_version, int srv_vercnt,
++				int *nego_fw_version, int *nego_srv_version)
 +{
-+	unsigned int val;
-+	struct uio_info *info = dev_get_drvdata(dev);
-+	struct uio_hv_vmbus_dev *pdata = container_of(info, struct uio_hv_vmbus_dev, info);
++	int icframe_major, icframe_minor;
++	int icmsg_major, icmsg_minor;
++	int fw_major, fw_minor;
++	int srv_major, srv_minor;
++	int i, j;
++	bool found_match = false;
++	struct icmsg_negotiate *negop;
 +
-+	if (kstrtouint(buf, 0, &val) < 0)
-+		return -EINVAL;
++	/* Check that there's enough space for icframe_vercnt, icmsg_vercnt */
++	if (buflen < ICMSG_HDR + offsetof(struct icmsg_negotiate, reserved)) {
++		syslog(LOG_ERR, "Invalid icmsg negotiate");
++		return false;
++	}
 +
-+	if (val < 2 * PAGE_SIZE || val % PAGE_SIZE)
-+		return -EINVAL;
++	icmsghdrp->icmsgsize = 0x10;
++	negop = (struct icmsg_negotiate *)&buf[ICMSG_HDR];
 +
-+	pdata->ring_size = val;
++	icframe_major = negop->icframe_vercnt;
++	icframe_minor = 0;
 +
-+	return count;
++	icmsg_major = negop->icmsg_vercnt;
++	icmsg_minor = 0;
++
++	/* Validate negop packet */
++	if (icframe_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
++	    icmsg_major > IC_VERSION_NEGOTIATION_MAX_VER_COUNT ||
++	    ICMSG_NEGOTIATE_PKT_SIZE(icframe_major, icmsg_major) > buflen) {
++		syslog(LOG_ERR, "Invalid icmsg negotiate - icframe_major: %u, icmsg_major: %u\n",
++		       icframe_major, icmsg_major);
++		goto fw_error;
++	}
++
++	/*
++	 * Select the framework version number we will
++	 * support.
++	 */
++
++	for (i = 0; i < fw_vercnt; i++) {
++		fw_major = (fw_version[i] >> 16);
++		fw_minor = (fw_version[i] & 0xFFFF);
++
++		for (j = 0; j < negop->icframe_vercnt; j++) {
++			if (negop->icversion_data[j].major == fw_major &&
++			    negop->icversion_data[j].minor == fw_minor) {
++				icframe_major = negop->icversion_data[j].major;
++				icframe_minor = negop->icversion_data[j].minor;
++				found_match = true;
++				break;
++			}
++		}
++
++		if (found_match)
++			break;
++	}
++
++	if (!found_match)
++		goto fw_error;
++
++	found_match = false;
++
++	for (i = 0; i < srv_vercnt; i++) {
++		srv_major = (srv_version[i] >> 16);
++		srv_minor = (srv_version[i] & 0xFFFF);
++
++		for (j = negop->icframe_vercnt;
++			(j < negop->icframe_vercnt + negop->icmsg_vercnt);
++			j++) {
++			if (negop->icversion_data[j].major == srv_major &&
++			    negop->icversion_data[j].minor == srv_minor) {
++				icmsg_major = negop->icversion_data[j].major;
++				icmsg_minor = negop->icversion_data[j].minor;
++				found_match = true;
++				break;
++			}
++		}
++
++		if (found_match)
++			break;
++	}
++
++	/*
++	 * Respond with the framework and service
++	 * version numbers we can support.
++	 */
++fw_error:
++	if (!found_match) {
++		negop->icframe_vercnt = 0;
++		negop->icmsg_vercnt = 0;
++	} else {
++		negop->icframe_vercnt = 1;
++		negop->icmsg_vercnt = 1;
++	}
++
++	if (nego_fw_version)
++		*nego_fw_version = (icframe_major << 16) | icframe_minor;
++
++	if (nego_srv_version)
++		*nego_srv_version = (icmsg_major << 16) | icmsg_minor;
++
++	negop->icversion_data[0].major = icframe_major;
++	negop->icversion_data[0].minor = icframe_minor;
++	negop->icversion_data[1].major = icmsg_major;
++	negop->icversion_data[1].minor = icmsg_minor;
++
++	return found_match;
 +}
 +
-+static DEVICE_ATTR_RW(ring_size);
-+
-+static struct attribute *uio_hv_vmbus_client_attrs[] = {
-+	&dev_attr_ring_size.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(uio_hv_vmbus_client);
-+
-+static int uio_hv_vmbus_probe(struct hv_device *dev, const struct hv_vmbus_device_id *dev_id)
++static void wcstoutf8(char *dest, const __u16 *src, size_t dest_size)
 +{
-+	struct uio_hv_vmbus_dev *pdata;
-+	int ret;
-+	char *name = NULL;
++	size_t len = 0;
 +
-+	pdata = devm_kzalloc(&dev->device, sizeof(*pdata), GFP_KERNEL);
-+	if (!pdata)
-+		return -ENOMEM;
++	while (len < dest_size) {
++		if (src[len] < 0x80)
++			dest[len++] = (char)(*src++);
++		else
++			dest[len++] = 'X';
++	}
 +
-+	name = devm_kasprintf(&dev->device, GFP_KERNEL, "%pUl", &dev->dev_instance);
++	dest[len] = '\0';
++}
 +
-+	/* Fill general uio info */
-+	pdata->info.name = name; /* /sys/class/uio/uioX/name */
-+	pdata->info.version = "1";
-+	pdata->info.irqcontrol = uio_hv_vmbus_irqcontrol;
-+	pdata->info.open = uio_hv_vmbus_open;
-+	pdata->info.release = uio_hv_vmbus_release;
-+	pdata->info.irq = UIO_IRQ_CUSTOM;
-+	pdata->info.priv = pdata;
-+	pdata->ring_size = VMBUS_RING_SIZE(3 * HV_HYP_PAGE_SIZE); /* Default ringbuffer size */
-+	pdata->device = dev;
++static int hv_fcopy_start(struct hv_start_fcopy *smsg_in)
++{
++	setlocale(LC_ALL, "en_US.utf8");
++	size_t file_size, path_size;
++	char *file_name, *path_name;
++	char *in_file_name = (char *)smsg_in->file_name;
++	char *in_path_name = (char *)smsg_in->path_name;
 +
-+	/* dummy value to register the mem pointers which will be updated by open */
-+	pdata->info.mem[0].size = 1;
++	file_size = wcstombs(NULL, (const wchar_t *restrict)in_file_name, 0) + 1;
++	path_size = wcstombs(NULL, (const wchar_t *restrict)in_path_name, 0) + 1;
 +
-+	ret = uio_register_device(&dev->device, &pdata->info);
++	file_name = (char *)malloc(file_size * sizeof(char));
++	path_name = (char *)malloc(path_size * sizeof(char));
++
++	wcstoutf8(file_name, (__u16 *)in_file_name, file_size);
++	wcstoutf8(path_name, (__u16 *)in_path_name, path_size);
++
++	return hv_fcopy_create_file(file_name, path_name, smsg_in->copy_flags);
++}
++
++static int hv_fcopy_send_data(struct hv_fcopy_hdr *fcopy_msg, int recvlen)
++{
++	int operation = fcopy_msg->operation;
++
++	/*
++	 * The  strings sent from the host are encoded in
++	 * utf16; convert it to utf8 strings.
++	 * The host assures us that the utf16 strings will not exceed
++	 * the max lengths specified. We will however, reserve room
++	 * for the string terminating character - in the utf16s_utf8s()
++	 * function we limit the size of the buffer where the converted
++	 * string is placed to W_MAX_PATH -1 to guarantee
++	 * that the strings can be properly terminated!
++	 */
++
++	switch (operation) {
++	case START_FILE_COPY:
++		return hv_fcopy_start((struct hv_start_fcopy *)fcopy_msg);
++	case WRITE_TO_FILE:
++		return hv_copy_data((struct hv_do_fcopy *)fcopy_msg);
++	case COMPLETE_FCOPY:
++		return hv_copy_finished();
++	}
++
++	return HV_E_FAIL;
++}
++
++/* process the packet recv from host */
++static int fcopy_pkt_process(struct vmbus_br *txbr)
++{
++	int ret, offset, pktlen;
++	int fcopy_srv_version;
++	const struct vmbus_chanpkt_hdr *pkt;
++	struct hv_fcopy_hdr *fcopy_msg;
++	struct icmsg_hdr *icmsghdr;
++
++	pkt = (const struct vmbus_chanpkt_hdr *)desc;
++	offset = pkt->hlen << 3;
++	pktlen = (pkt->tlen << 3) - offset;
++	icmsghdr = (struct icmsg_hdr *)&desc[offset + sizeof(struct vmbuspipe_hdr)];
++	icmsghdr->status = HV_E_FAIL;
++
++	if (icmsghdr->icmsgtype == ICMSGTYPE_NEGOTIATE) {
++		if (vmbus_prep_negotiate_resp(icmsghdr, desc + offset, pktlen, fw_versions,
++					      FW_VER_COUNT, fcopy_versions, FCOPY_VER_COUNT,
++					      NULL, &fcopy_srv_version)) {
++			syslog(LOG_INFO, "FCopy IC version %d.%d",
++			       fcopy_srv_version >> 16, fcopy_srv_version & 0xFFFF);
++			icmsghdr->status = 0;
++		}
++	} else if (icmsghdr->icmsgtype == ICMSGTYPE_FCOPY) {
++		/* Ensure recvlen is big enough to contain hv_fcopy_hdr */
++		if (pktlen < ICMSG_HDR + sizeof(struct hv_fcopy_hdr)) {
++			syslog(LOG_ERR, "Invalid Fcopy hdr. Packet length too small: %u",
++			       pktlen);
++			return -ENOBUFS;
++		}
++
++		fcopy_msg = (struct hv_fcopy_hdr *)&desc[offset + ICMSG_HDR];
++		icmsghdr->status = hv_fcopy_send_data(fcopy_msg, pktlen);
++	}
++
++	icmsghdr->icflags = ICMSGHDRFLAG_TRANSACTION | ICMSGHDRFLAG_RESPONSE;
++	ret = rte_vmbus_chan_send(txbr, 0x6, desc + offset, pktlen, 0);
 +	if (ret) {
-+		dev_err(&dev->device, "uio_hv_vmbus register failed\n");
++		syslog(LOG_ERR, "Write to ringbuffer failed err: %d", ret);
 +		return ret;
 +	}
 +
-+	hv_set_drvdata(dev, pdata);
-+
 +	return 0;
 +}
 +
-+static void uio_hv_vmbus_remove(struct hv_device *dev)
++static void fcopy_get_first_folder(char *path, char *chan_no)
 +{
-+	struct uio_hv_vmbus_dev *pdata = hv_get_drvdata(dev);
++	DIR *dir = opendir(path);
++	struct dirent *entry;
 +
-+	if (pdata)
-+		uio_unregister_device(&pdata->info);
++	if (!dir) {
++		syslog(LOG_ERR, "Failed to open directory (errno=%s).\n", strerror(errno));
++		return;
++	}
++
++	while ((entry = readdir(dir)) != NULL) {
++		if (entry->d_type == DT_DIR && strcmp(entry->d_name, ".") != 0 &&
++		    strcmp(entry->d_name, "..") != 0) {
++			strcpy(chan_no, entry->d_name);
++			break;
++		}
++	}
++
++	closedir(dir);
 +}
 +
-+static struct hv_driver uio_hv_vmbus_drv = {
-+	.driver.dev_groups = uio_hv_vmbus_client_groups,
-+	.name = "uio_hv_vmbus_client",
-+	.probe = uio_hv_vmbus_probe,
-+	.remove = uio_hv_vmbus_remove,
-+};
-+
-+static int __init uio_hv_vmbus_init(void)
++static void fcopy_set_ring_size(char *path, char *inst, int size)
 +{
-+	return vmbus_driver_register(&uio_hv_vmbus_drv);
++	char ring_size_path[MAX_PATH_LEN] = {0};
++	FILE *fd;
++
++	snprintf(ring_size_path, sizeof(ring_size_path), "%s/%s/%s", path, inst, "ring_size");
++	fd = fopen(ring_size_path, "w");
++	if (!fd) {
++		syslog(LOG_WARNING, "Failed to open ring_size file (errno=%s).\n", strerror(errno));
++		return;
++	}
++	fprintf(fd, "%d", size);
++	fclose(fd);
 +}
 +
-+static void __exit uio_hv_vmbus_exit(void)
++static char *fcopy_read_sysfs(char *path, char *buf, int len)
 +{
-+	vmbus_driver_unregister(&uio_hv_vmbus_drv);
++	FILE *fd;
++	char *ret;
++
++	fd = fopen(path, "r");
++	if (!fd)
++		return NULL;
++
++	ret = fgets(buf, len, fd);
++	fclose(fd);
++
++	return ret;
 +}
 +
-+module_init(uio_hv_vmbus_init);
-+module_exit(uio_hv_vmbus_exit);
++static int fcopy_get_instance_id(char *path, char *class_id, char *inst)
++{
++	DIR *dir = opendir(path);
++	struct dirent *entry;
++	char tmp_path[MAX_PATH_LEN] = {0};
++	char line[MAX_LINE_LEN];
 +
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Saurabh Sengar <ssengar@microsoft.com>");
-+MODULE_DESCRIPTION("Generic UIO driver for low speed VMBus devices");
++	if (!dir) {
++		syslog(LOG_ERR, "Failed to open directory (errno=%s).\n", strerror(errno));
++		return -EINVAL;
++	}
++
++	while ((entry = readdir(dir)) != NULL) {
++		if (entry->d_type == DT_LNK && strcmp(entry->d_name, ".") != 0 &&
++		    strcmp(entry->d_name, "..") != 0) {
++			/* search for the sysfs path with matching class_id */
++			snprintf(tmp_path, sizeof(tmp_path), "%s/%s/%s",
++				 path, entry->d_name, "class_id");
++			if (!fcopy_read_sysfs(tmp_path, line, MAX_LINE_LEN))
++				continue;
++
++			/* class id matches, now fetch the instance id from device_id */
++			if (strstr(line, class_id)) {
++				snprintf(tmp_path, sizeof(tmp_path), "%s/%s/%s",
++					 path, entry->d_name, "device_id");
++				if (!fcopy_read_sysfs(tmp_path, line, MAX_LINE_LEN))
++					continue;
++				/* remove braces */
++				strncpy(inst, line + 1, strlen(line) - 3);
++				break;
++			}
++		}
++	}
++
++	closedir(dir);
++	return 0;
++}
++
++int main(int argc, char *argv[])
++{
++	int fcopy_fd = -1, tmp = 1;
++	int daemonize = 1, long_index = 0, opt, ret = -EINVAL;
++	struct vmbus_br txbr, rxbr;
++	void *ring;
++	uint32_t len = HV_RING_SIZE;
++	char uio_name[10] = {0};
++	char uio_dev_path[15] = {0};
++	char uio_path[MAX_PATH_LEN] = {0};
++	char inst[MAX_LINE_LEN] = {0};
++
++	static struct option long_options[] = {
++		{"help",	no_argument,	   0,  'h' },
++		{"no-daemon",	no_argument,	   0,  'n' },
++		{0,		0,		   0,  0   }
++	};
++
++	while ((opt = getopt_long(argc, argv, "hn", long_options,
++				  &long_index)) != -1) {
++		switch (opt) {
++		case 'n':
++			daemonize = 0;
++			break;
++		case 'h':
++		default:
++			print_usage(argv);
++			exit(EXIT_FAILURE);
++		}
++	}
++
++	if (daemonize && daemon(1, 0)) {
++		syslog(LOG_ERR, "daemon() failed; error: %s", strerror(errno));
++		exit(EXIT_FAILURE);
++	}
++
++	openlog("HV_UIO_FCOPY", 0, LOG_USER);
++	syslog(LOG_INFO, "starting; pid is:%d", getpid());
++
++	/* get instance id */
++	if (fcopy_get_instance_id(DEVICES_SYSFS, FCOPY_CLASS_ID, inst))
++		exit(EXIT_FAILURE);
++
++	/* set ring_size value */
++	fcopy_set_ring_size(DEVICES_SYSFS, inst, HV_RING_SIZE);
++
++	/* get /dev/uioX dev path and open it */
++	snprintf(uio_path, sizeof(uio_path), "%s/%s/%s", DEVICES_SYSFS, inst, "uio");
++	fcopy_get_first_folder(uio_path, uio_name);
++	snprintf(uio_dev_path, sizeof(uio_dev_path), "/dev/%s", uio_name);
++	fcopy_fd = open(uio_dev_path, O_RDWR);
++
++	if (fcopy_fd < 0) {
++		syslog(LOG_ERR, "open %s failed; error: %d %s",
++		       uio_dev_path, errno, strerror(errno));
++		syslog(LOG_ERR, "Please make sure module uio_hv_vmbus_client is loaded and" \
++		       " device is not used by any other application\n");
++		ret = fcopy_fd;
++		exit(EXIT_FAILURE);
++	}
++
++	ring = mmap(NULL, 2 * HV_RING_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fcopy_fd, 0);
++	if (ring == MAP_FAILED) {
++		ret = errno;
++		syslog(LOG_ERR, "mmap ringbuffer failed; error: %d %s", ret, strerror(ret));
++		goto close;
++	}
++	vmbus_br_setup(&txbr, ring, HV_RING_SIZE);
++	vmbus_br_setup(&rxbr, (char *)ring + HV_RING_SIZE, HV_RING_SIZE);
++
++	while (1) {
++		/*
++		 * In this loop we process fcopy messages after the
++		 * handshake is complete.
++		 */
++		ret = pread(fcopy_fd, &tmp, sizeof(int), 0);
++		if (ret < 0) {
++			syslog(LOG_ERR, "pread failed: %s", strerror(errno));
++			continue;
++		}
++
++		len = HV_RING_SIZE;
++		ret = rte_vmbus_chan_recv_raw(&rxbr, desc, &len);
++		if (unlikely(ret <= 0)) {
++			/* This indicates a failure to communicate (or worse) */
++			syslog(LOG_ERR, "VMBus channel recv error: %d", ret);
++		} else {
++			ret = fcopy_pkt_process(&txbr);
++			if (ret < 0)
++				goto close;
++
++			/* Signal host */
++			tmp = 1;
++			if ((write(fcopy_fd, &tmp, sizeof(int))) != sizeof(int)) {
++				ret = errno;
++				syslog(LOG_ERR, "Registration failed: %s\n", strerror(ret));
++				goto close;
++			}
++		}
++	}
++close:
++	close(fcopy_fd);
++	return ret;
++}
 -- 
 2.34.1
 
