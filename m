@@ -2,62 +2,62 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E76EC001DF
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:50:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BEFEB64DC
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:50:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229722AbjGSAuU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:50:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S229780AbjGSAuh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jul 2023 20:50:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbjGSAuT (ORCPT
+        with ESMTP id S229521AbjGSAug (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jul 2023 20:50:19 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30AC61988
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-767b6d6bb87so428668385a.2
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
+        Tue, 18 Jul 2023 20:50:36 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73241996
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-7654e1d83e8so521047485a.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689727812; x=1692319812;
+        d=bytedance.com; s=google; t=1689727813; x=1692319813;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fTdq57d4OfXfe2GYZwwn7VN2X/kQP6RwUR6JDFxPMEE=;
-        b=CwqkbU54GND2d0NRs1umFXWwgm1JIjPjAPvnk1NY83WcuEGBPYkuDQYXZFb7iBYMKA
-         r3O8KmNKOULw1yvMv6pIMstrnYMj7AtDVb4D1Ob0dWGESArGh0wsM8p36Iq0Wib3Vfsa
-         z9zbHt2B6ZRbhDvyRhpQhAsNDvr2JTcfC0Tv44w2+9lc9g6nb1WHD8/tLjH6mxq930JY
-         QDLmg5IZchtTh3E0U79Zezbq6DpAQXO27VkJwNpECv4EmtcxWxYQj+GZNJSUmbsUrfuA
-         M50BWMRsjrJ0p9mKh0R3elh37onXk8adWkQvdzGEvXgSaVvGXMPVmylx1mCqDObk9XFE
-         y+pQ==
+        bh=YVG6/fd8/TheeZKmbnuDQmZdww8fyIwE/W3lpq/H1bc=;
+        b=M1eAJpu3CrxziEpHRP2XtbX8TUaYeVu0Z7OFMz3BDmc+5Zu6FVi4kVgFeg0IMOBIuK
+         CbMVnZLS9QwWEcl2SBAlk6NmUL7L2NI5FNnpakeq9h2XDhWrIj91ZkPueFOVWfrnPRj7
+         3OCUpGxk/hRy2rDb1B6+dyRg1zS+an1cw2SxJJAU30HWMiSrwRDCrU+KAFJDSH0+VmLd
+         PNKfLsyqBT491jiB8zcaZRd6P37+KFR2uOeseT5s+z8dYLH6G7S5tM8Muxl1fR1lzZbQ
+         EKSEQfb1GYzVISzT3tiPw3q9u4FdlVzQ5uihYjuK3rqMwiT5cEbfDayk24sCb0Ct/mD8
+         UncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689727812; x=1692319812;
+        d=1e100.net; s=20221208; t=1689727813; x=1692319813;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fTdq57d4OfXfe2GYZwwn7VN2X/kQP6RwUR6JDFxPMEE=;
-        b=MFNSwM75FmDVSbupxuAR10zCE/nUyxJLC5YFyXs7ZBoXprS4StUJygUMcyvJvQTwrs
-         EAViY4PqveI00u9fhhulg6Kn9I1SKe6hDzNafIs2aR7Y0dH/erqguUCGMUrlcp6KRcVD
-         YxLfygcaxM3v9pYHsN/wK60nQSaINFtcNO3uUcCy54+XgY4M8s3LmMhZt3cvpQJTElsw
-         2kZJiZzrYnPnD8jdGp2Xqu5nYrmTfYE3f/q7g5kz8/MuZr4+kLOWm86hyetd49xy1wvs
-         RKl/f01VItnm2S3O2Z8KLMkX3j/Oa/ROI1np8wVXm1UpB+yw4vBlDskyshJt91LLe91D
-         fakw==
-X-Gm-Message-State: ABy/qLZcnbI2bAlithLbY4BR5YF5jZEVAgUe81kH8DosCiHXFP+pZY4k
-        o9Xlx9iwc6dG3bgxMZljcEuOeg==
-X-Google-Smtp-Source: APBJJlEP9yfXfRZpd82K8uInRNYu+aKr3VaNkJmbmubQt80ddydBcGIs44T6SoEEPEuALM40rCRIFw==
-X-Received: by 2002:a05:620a:2902:b0:767:e73b:d051 with SMTP id m2-20020a05620a290200b00767e73bd051mr1699976qkp.32.1689727811917;
-        Tue, 18 Jul 2023 17:50:11 -0700 (PDT)
+        bh=YVG6/fd8/TheeZKmbnuDQmZdww8fyIwE/W3lpq/H1bc=;
+        b=O+fn/1Ef8p5jJwibQJ1Zhtd44VWgvLhtNQZ1xs2XqcnZjXlvTCbW9dPMl9YJY4vHxj
+         VWU88nRq8405J2bXn900ww9ZqzLOptCxoMv4W1RuD9pE+KdgsWLkSXRRJY2JuQJNM+At
+         vNaiCZhcYU+WkGpvEfv+cNGOQmj9hjd0kNY8qqPprm23vbN5gBetOhOwnriUlcULJI0z
+         6GEdkVH9Kxvn0Y5Y6HHmyHRHWpgArWkdf/L1WOUYPyJW+73CvJF8Z6D4+RlqGQJ/9GbI
+         Pi/XsDcgGYcMFHCvU7FBaGQFye9Qyfmtl3nsbj17AZ9qlpjr9ZDPC6SnYO/zkqPhpeEE
+         kehg==
+X-Gm-Message-State: ABy/qLZf+SvE8FhlYWza6DI+Hxhi4ooD+hiNlNLd70TLFKOwti0pZKIp
+        VCh2XencPvVjKZfXb+UL7rIdsw==
+X-Google-Smtp-Source: APBJJlEdgeIMmEal/enOtz263yYRYOJgRea96+xgnNW5OxmQtleUTPIHOcy9i3mblRLEcUh0PSkGUQ==
+X-Received: by 2002:a05:620a:45ab:b0:766:fa7b:8b20 with SMTP id bp43-20020a05620a45ab00b00766fa7b8b20mr868491qkb.50.1689727813660;
+        Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
 Received: from [172.17.0.7] ([130.44.212.112])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.11
+        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 17:50:11 -0700 (PDT)
+        Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 19 Jul 2023 00:50:07 +0000
-Subject: [PATCH RFC net-next v5 03/14] af_vsock: support multi-transport
- datagrams
+Date:   Wed, 19 Jul 2023 00:50:09 +0000
+Subject: [PATCH RFC net-next v5 05/14] af_vsock: use a separate dgram bind
+ table
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v5-3-581bd37fdb26@bytedance.com>
+Message-Id: <20230413-b4-vsock-dgram-v5-5-581bd37fdb26@bytedance.com>
 References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
@@ -86,368 +86,207 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This patch adds support for multi-transport datagrams.
-
-This includes:
-- Per-packet lookup of transports when using sendto(sockaddr_vm)
-- Selecting H2G or G2H transport using VMADDR_FLAG_TO_HOST and CID in
-  sockaddr_vm
-- rename VSOCK_TRANSPORT_F_DGRAM to VSOCK_TRANSPORT_F_DGRAM_FALLBACK
-- connect() now assigns the transport for (similar to connectible
-  sockets)
-
-To preserve backwards compatibility with VMCI, some important changes
-are made. The "transport_dgram" / VSOCK_TRANSPORT_F_DGRAM is changed to
-be used for dgrams only if there is not yet a g2h or h2g transport that
-has been registered that can transmit the packet. If there is a g2h/h2g
-transport for that remote address, then that transport will be used and
-not "transport_dgram". This essentially makes "transport_dgram" a
-fallback transport for when h2g/g2h has not yet gone online, and so it
-is renamed "transport_dgram_fallback". VMCI implements this transport.
-
-The logic around "transport_dgram" needs to be retained to prevent
-breaking VMCI:
-
-1) VMCI datagrams existed prior to h2g/g2h and so operate under a
-   different paradigm. When the vmci transport comes online, it registers
-   itself with the DGRAM feature, but not H2G/G2H. Only later when the
-   transport has more information about its environment does it register
-   H2G or G2H.  In the case that a datagram socket is created after
-   VSOCK_TRANSPORT_F_DGRAM registration but before G2H/H2G registration,
-   the "transport_dgram" transport is the only registered transport and so
-   needs to be used.
-
-2) VMCI seems to require a special message be sent by the transport when a
-   datagram socket calls bind(). Under the h2g/g2h model, the transport
-   is selected using the remote_addr which is set by connect(). At
-   bind time there is no remote_addr because often no connect() has been
-   called yet: the transport is null. Therefore, with a null transport
-   there doesn't seem to be any good way for a datagram socket to tell the
-   VMCI transport that it has just had bind() called upon it.
-
-With the new fallback logic, after H2G/G2H comes online the socket layer
-will access the VMCI transport via transport_{h2g,g2h}. Prior to H2G/G2H
-coming online, the socket layer will access the VMCI transport via
-"transport_dgram_fallback".
-
-Only transports with a special datagram fallback use-case such as VMCI
-need to register VSOCK_TRANSPORT_F_DGRAM_FALLBACK.
+This commit adds support for bound dgram sockets to be tracked in a
+separate bind table from connectible sockets in order to avoid address
+collisions. With this commit, users can simultaneously bind a dgram
+socket and connectible socket to the same CID and port.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- drivers/vhost/vsock.c                   |  1 -
- include/linux/virtio_vsock.h            |  2 --
- include/net/af_vsock.h                  | 10 +++---
- net/vmw_vsock/af_vsock.c                | 64 ++++++++++++++++++++++++++-------
- net/vmw_vsock/hyperv_transport.c        |  6 ----
- net/vmw_vsock/virtio_transport.c        |  1 -
- net/vmw_vsock/virtio_transport_common.c |  7 ----
- net/vmw_vsock/vmci_transport.c          |  2 +-
- net/vmw_vsock/vsock_loopback.c          |  1 -
- 9 files changed, 58 insertions(+), 36 deletions(-)
+ net/vmw_vsock/af_vsock.c | 103 ++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 76 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
-index ae8891598a48..d5d6a3c3f273 100644
---- a/drivers/vhost/vsock.c
-+++ b/drivers/vhost/vsock.c
-@@ -410,7 +410,6 @@ static struct virtio_transport vhost_transport = {
- 		.cancel_pkt               = vhost_transport_cancel_pkt,
- 
- 		.dgram_enqueue            = virtio_transport_dgram_enqueue,
--		.dgram_bind               = virtio_transport_dgram_bind,
- 		.dgram_allow              = virtio_transport_dgram_allow,
- 
- 		.stream_enqueue           = virtio_transport_stream_enqueue,
-diff --git a/include/linux/virtio_vsock.h b/include/linux/virtio_vsock.h
-index 18cbe8d37fca..7632552bee58 100644
---- a/include/linux/virtio_vsock.h
-+++ b/include/linux/virtio_vsock.h
-@@ -211,8 +211,6 @@ void virtio_transport_notify_buffer_size(struct vsock_sock *vsk, u64 *val);
- u64 virtio_transport_stream_rcvhiwat(struct vsock_sock *vsk);
- bool virtio_transport_stream_is_active(struct vsock_sock *vsk);
- bool virtio_transport_stream_allow(u32 cid, u32 port);
--int virtio_transport_dgram_bind(struct vsock_sock *vsk,
--				struct sockaddr_vm *addr);
- bool virtio_transport_dgram_allow(u32 cid, u32 port);
- 
- int virtio_transport_connect(struct vsock_sock *vsk);
-diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
-index 305d57502e89..f6a0ca9d7c3e 100644
---- a/include/net/af_vsock.h
-+++ b/include/net/af_vsock.h
-@@ -96,13 +96,13 @@ struct vsock_transport_send_notify_data {
- 
- /* Transport features flags */
- /* Transport provides host->guest communication */
--#define VSOCK_TRANSPORT_F_H2G		0x00000001
-+#define VSOCK_TRANSPORT_F_H2G			0x00000001
- /* Transport provides guest->host communication */
--#define VSOCK_TRANSPORT_F_G2H		0x00000002
--/* Transport provides DGRAM communication */
--#define VSOCK_TRANSPORT_F_DGRAM		0x00000004
-+#define VSOCK_TRANSPORT_F_G2H			0x00000002
-+/* Transport provides fallback for DGRAM communication */
-+#define VSOCK_TRANSPORT_F_DGRAM_FALLBACK	0x00000004
- /* Transport provides local (loopback) communication */
--#define VSOCK_TRANSPORT_F_LOCAL		0x00000008
-+#define VSOCK_TRANSPORT_F_LOCAL			0x00000008
- 
- struct vsock_transport {
- 	struct module *module;
 diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index ae5ac5531d96..26c97b33d55a 100644
+index 88100154156c..0895f4c1d340 100644
 --- a/net/vmw_vsock/af_vsock.c
 +++ b/net/vmw_vsock/af_vsock.c
-@@ -139,8 +139,8 @@ struct proto vsock_proto = {
- static const struct vsock_transport *transport_h2g;
- /* Transport used for guest->host communication */
- static const struct vsock_transport *transport_g2h;
--/* Transport used for DGRAM communication */
--static const struct vsock_transport *transport_dgram;
-+/* Transport used as a fallback for DGRAM communication */
-+static const struct vsock_transport *transport_dgram_fallback;
- /* Transport used for local communication */
- static const struct vsock_transport *transport_local;
- static DEFINE_MUTEX(vsock_register_mutex);
-@@ -439,6 +439,18 @@ vsock_connectible_lookup_transport(unsigned int cid, __u8 flags)
- 	return transport;
+@@ -10,18 +10,23 @@
+  * - There are two kinds of sockets: those created by user action (such as
+  * calling socket(2)) and those created by incoming connection request packets.
+  *
+- * - There are two "global" tables, one for bound sockets (sockets that have
+- * specified an address that they are responsible for) and one for connected
+- * sockets (sockets that have established a connection with another socket).
+- * These tables are "global" in that all sockets on the system are placed
+- * within them. - Note, though, that the bound table contains an extra entry
+- * for a list of unbound sockets and SOCK_DGRAM sockets will always remain in
+- * that list. The bound table is used solely for lookup of sockets when packets
+- * are received and that's not necessary for SOCK_DGRAM sockets since we create
+- * a datagram handle for each and need not perform a lookup.  Keeping SOCK_DGRAM
+- * sockets out of the bound hash buckets will reduce the chance of collisions
+- * when looking for SOCK_STREAM sockets and prevents us from having to check the
+- * socket type in the hash table lookups.
++ * - There are three "global" tables, one for bound connectible (stream /
++ * seqpacket) sockets, one for bound datagram sockets, and one for connected
++ * sockets. Bound sockets are sockets that have specified an address that
++ * they are responsible for. Connected sockets are sockets that have
++ * established a connection with another socket. These tables are "global" in
++ * that all sockets on the system are placed within them. - Note, though,
++ * that the bound tables contain an extra entry for a list of unbound
++ * sockets. The bound tables are used solely for lookup of sockets when packets
++ * are received.
++ *
++ * - There are separate bind tables for connectible and datagram sockets to avoid
++ * address collisions between stream/seqpacket sockets and datagram sockets.
++ *
++ * - Transports may elect to NOT use the global datagram bind table by
++ * implementing the ->dgram_bind() callback. If that callback is implemented,
++ * the global bind table is not used and the responsibility of bound datagram
++ * socket tracking is deferred to the transport.
+  *
+  * - Sockets created by user action will either be "client" sockets that
+  * initiate a connection or "server" sockets that listen for connections; we do
+@@ -115,6 +120,7 @@
+ static int __vsock_bind(struct sock *sk, struct sockaddr_vm *addr);
+ static void vsock_sk_destruct(struct sock *sk);
+ static int vsock_queue_rcv_skb(struct sock *sk, struct sk_buff *skb);
++static bool sock_type_connectible(u16 type);
+ 
+ /* Protocol family. */
+ struct proto vsock_proto = {
+@@ -151,21 +157,25 @@ static DEFINE_MUTEX(vsock_register_mutex);
+  * VSocket is stored in the connected hash table.
+  *
+  * Unbound sockets are all put on the same list attached to the end of the hash
+- * table (vsock_unbound_sockets).  Bound sockets are added to the hash table in
+- * the bucket that their local address hashes to (vsock_bound_sockets(addr)
+- * represents the list that addr hashes to).
++ * tables (vsock_unbound_sockets/vsock_unbound_dgram_sockets).  Bound sockets
++ * are added to the hash table in the bucket that their local address hashes to
++ * (vsock_bound_sockets(addr) and vsock_bound_dgram_sockets(addr) represents
++ * the list that addr hashes to).
+  *
+- * Specifically, we initialize the vsock_bind_table array to a size of
+- * VSOCK_HASH_SIZE + 1 so that vsock_bind_table[0] through
+- * vsock_bind_table[VSOCK_HASH_SIZE - 1] are for bound sockets and
+- * vsock_bind_table[VSOCK_HASH_SIZE] is for unbound sockets.  The hash function
+- * mods with VSOCK_HASH_SIZE to ensure this.
++ * Specifically, taking connectible sockets as an example we initialize the
++ * vsock_bind_table array to a size of VSOCK_HASH_SIZE + 1 so that
++ * vsock_bind_table[0] through vsock_bind_table[VSOCK_HASH_SIZE - 1] are for
++ * bound sockets and vsock_bind_table[VSOCK_HASH_SIZE] is for unbound sockets.
++ * The hash function mods with VSOCK_HASH_SIZE to ensure this.
++ * Datagrams and vsock_dgram_bind_table operate in the same way.
+  */
+ #define MAX_PORT_RETRIES        24
+ 
+ #define VSOCK_HASH(addr)        ((addr)->svm_port % VSOCK_HASH_SIZE)
+ #define vsock_bound_sockets(addr) (&vsock_bind_table[VSOCK_HASH(addr)])
++#define vsock_bound_dgram_sockets(addr) (&vsock_dgram_bind_table[VSOCK_HASH(addr)])
+ #define vsock_unbound_sockets     (&vsock_bind_table[VSOCK_HASH_SIZE])
++#define vsock_unbound_dgram_sockets     (&vsock_dgram_bind_table[VSOCK_HASH_SIZE])
+ 
+ /* XXX This can probably be implemented in a better way. */
+ #define VSOCK_CONN_HASH(src, dst)				\
+@@ -181,6 +191,8 @@ struct list_head vsock_connected_table[VSOCK_HASH_SIZE];
+ EXPORT_SYMBOL_GPL(vsock_connected_table);
+ DEFINE_SPINLOCK(vsock_table_lock);
+ EXPORT_SYMBOL_GPL(vsock_table_lock);
++static struct list_head vsock_dgram_bind_table[VSOCK_HASH_SIZE + 1];
++static DEFINE_SPINLOCK(vsock_dgram_table_lock);
+ 
+ /* Autobind this socket to the local address if necessary. */
+ static int vsock_auto_bind(struct vsock_sock *vsk)
+@@ -203,6 +215,9 @@ static void vsock_init_tables(void)
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vsock_connected_table); i++)
+ 		INIT_LIST_HEAD(&vsock_connected_table[i]);
++
++	for (i = 0; i < ARRAY_SIZE(vsock_dgram_bind_table); i++)
++		INIT_LIST_HEAD(&vsock_dgram_bind_table[i]);
  }
  
-+static const struct vsock_transport *
-+vsock_dgram_lookup_transport(unsigned int cid, __u8 flags)
+ static void __vsock_insert_bound(struct list_head *list,
+@@ -270,13 +285,28 @@ static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
+ 	return NULL;
+ }
+ 
+-static void vsock_insert_unbound(struct vsock_sock *vsk)
++static void __vsock_insert_dgram_unbound(struct vsock_sock *vsk)
 +{
-+	const struct vsock_transport *transport;
-+
-+	transport = vsock_connectible_lookup_transport(cid, flags);
-+	if (transport)
-+		return transport;
-+
-+	return transport_dgram_fallback;
++	spin_lock_bh(&vsock_dgram_table_lock);
++	__vsock_insert_bound(vsock_unbound_dgram_sockets, vsk);
++	spin_unlock_bh(&vsock_dgram_table_lock);
 +}
 +
- /* Assign a transport to a socket and call the .init transport callback.
-  *
-  * Note: for connection oriented socket this must be called when vsk->remote_addr
-@@ -475,7 +487,8 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk)
- 
- 	switch (sk->sk_type) {
- 	case SOCK_DGRAM:
--		new_transport = transport_dgram;
-+		new_transport = vsock_dgram_lookup_transport(remote_cid,
-+							     remote_flags);
- 		break;
- 	case SOCK_STREAM:
- 	case SOCK_SEQPACKET:
-@@ -692,6 +705,9 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
- static int __vsock_bind_dgram(struct vsock_sock *vsk,
- 			      struct sockaddr_vm *addr)
++static void __vsock_insert_connectible_unbound(struct vsock_sock *vsk)
  {
-+	if (!vsk->transport || !vsk->transport->dgram_bind)
-+		return -EINVAL;
+ 	spin_lock_bh(&vsock_table_lock);
+ 	__vsock_insert_bound(vsock_unbound_sockets, vsk);
+ 	spin_unlock_bh(&vsock_table_lock);
+ }
+ 
++static void vsock_insert_unbound(struct vsock_sock *vsk)
++{
++	if (sock_type_connectible(sk_vsock(vsk)->sk_type))
++		__vsock_insert_connectible_unbound(vsk);
++	else
++		__vsock_insert_dgram_unbound(vsk);
++}
 +
+ void vsock_insert_connected(struct vsock_sock *vsk)
+ {
+ 	struct list_head *list = vsock_connected_sockets(
+@@ -288,6 +318,14 @@ void vsock_insert_connected(struct vsock_sock *vsk)
+ }
+ EXPORT_SYMBOL_GPL(vsock_insert_connected);
+ 
++static void vsock_remove_dgram_bound(struct vsock_sock *vsk)
++{
++	spin_lock_bh(&vsock_dgram_table_lock);
++	if (__vsock_in_bound_table(vsk))
++		__vsock_remove_bound(vsk);
++	spin_unlock_bh(&vsock_dgram_table_lock);
++}
++
+ void vsock_remove_bound(struct vsock_sock *vsk)
+ {
+ 	spin_lock_bh(&vsock_table_lock);
+@@ -339,7 +377,10 @@ EXPORT_SYMBOL_GPL(vsock_find_connected_socket);
+ 
+ void vsock_remove_sock(struct vsock_sock *vsk)
+ {
+-	vsock_remove_bound(vsk);
++	if (sock_type_connectible(sk_vsock(vsk)->sk_type))
++		vsock_remove_bound(vsk);
++	else
++		vsock_remove_dgram_bound(vsk);
+ 	vsock_remove_connected(vsk);
+ }
+ EXPORT_SYMBOL_GPL(vsock_remove_sock);
+@@ -722,11 +763,19 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
+ 	return vsock_bind_common(vsk, addr, vsock_bind_table, VSOCK_HASH_SIZE + 1);
+ }
+ 
+-static int __vsock_bind_dgram(struct vsock_sock *vsk,
+-			      struct sockaddr_vm *addr)
++static int vsock_bind_dgram(struct vsock_sock *vsk,
++			    struct sockaddr_vm *addr)
+ {
+-	if (!vsk->transport || !vsk->transport->dgram_bind)
+-		return -EINVAL;
++	if (!vsk->transport || !vsk->transport->dgram_bind) {
++		int retval;
++
++		spin_lock_bh(&vsock_dgram_table_lock);
++		retval = vsock_bind_common(vsk, addr, vsock_dgram_bind_table,
++					   VSOCK_HASH_SIZE);
++		spin_unlock_bh(&vsock_dgram_table_lock);
++
++		return retval;
++	}
+ 
  	return vsk->transport->dgram_bind(vsk, addr);
  }
+@@ -757,7 +806,7 @@ static int __vsock_bind(struct sock *sk, struct sockaddr_vm *addr)
+ 		break;
  
-@@ -1162,6 +1178,7 @@ static int vsock_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
- 	struct vsock_sock *vsk;
- 	struct sockaddr_vm *remote_addr;
- 	const struct vsock_transport *transport;
-+	bool module_got = false;
+ 	case SOCK_DGRAM:
+-		retval = __vsock_bind_dgram(vsk, addr);
++		retval = vsock_bind_dgram(vsk, addr);
+ 		break;
  
- 	if (msg->msg_flags & MSG_OOB)
- 		return -EOPNOTSUPP;
-@@ -1173,19 +1190,34 @@ static int vsock_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
- 
- 	lock_sock(sk);
- 
--	transport = vsk->transport;
--
- 	err = vsock_auto_bind(vsk);
- 	if (err)
- 		goto out;
- 
--
- 	/* If the provided message contains an address, use that.  Otherwise
- 	 * fall back on the socket's remote handle (if it has been connected).
- 	 */
- 	if (msg->msg_name &&
- 	    vsock_addr_cast(msg->msg_name, msg->msg_namelen,
- 			    &remote_addr) == 0) {
-+		transport = vsock_dgram_lookup_transport(remote_addr->svm_cid,
-+							 remote_addr->svm_flags);
-+		if (!transport) {
-+			err = -EINVAL;
-+			goto out;
-+		}
-+
-+		if (!try_module_get(transport->module)) {
-+			err = -ENODEV;
-+			goto out;
-+		}
-+
-+		/* When looking up a transport dynamically and acquiring a
-+		 * reference on the module, we need to remember to release the
-+		 * reference later.
-+		 */
-+		module_got = true;
-+
- 		/* Ensure this address is of the right type and is a valid
- 		 * destination.
- 		 */
-@@ -1200,6 +1232,7 @@ static int vsock_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
- 	} else if (sock->state == SS_CONNECTED) {
- 		remote_addr = &vsk->remote_addr;
- 
-+		transport = vsk->transport;
- 		if (remote_addr->svm_cid == VMADDR_CID_ANY)
- 			remote_addr->svm_cid = transport->get_local_cid();
- 
-@@ -1224,6 +1257,8 @@ static int vsock_dgram_sendmsg(struct socket *sock, struct msghdr *msg,
- 	err = transport->dgram_enqueue(vsk, remote_addr, msg, len);
- 
- out:
-+	if (module_got)
-+		module_put(transport->module);
- 	release_sock(sk);
- 	return err;
- }
-@@ -1256,13 +1291,18 @@ static int vsock_dgram_connect(struct socket *sock,
- 	if (err)
- 		goto out;
- 
-+	memcpy(&vsk->remote_addr, remote_addr, sizeof(vsk->remote_addr));
-+
-+	err = vsock_assign_transport(vsk, NULL);
-+	if (err)
-+		goto out;
-+
- 	if (!vsk->transport->dgram_allow(remote_addr->svm_cid,
- 					 remote_addr->svm_port)) {
- 		err = -EINVAL;
- 		goto out;
- 	}
- 
--	memcpy(&vsk->remote_addr, remote_addr, sizeof(vsk->remote_addr));
- 	sock->state = SS_CONNECTED;
- 
- 	/* sock map disallows redirection of non-TCP sockets with sk_state !=
-@@ -2487,7 +2527,7 @@ int vsock_core_register(const struct vsock_transport *t, int features)
- 
- 	t_h2g = transport_h2g;
- 	t_g2h = transport_g2h;
--	t_dgram = transport_dgram;
-+	t_dgram = transport_dgram_fallback;
- 	t_local = transport_local;
- 
- 	if (features & VSOCK_TRANSPORT_F_H2G) {
-@@ -2506,7 +2546,7 @@ int vsock_core_register(const struct vsock_transport *t, int features)
- 		t_g2h = t;
- 	}
- 
--	if (features & VSOCK_TRANSPORT_F_DGRAM) {
-+	if (features & VSOCK_TRANSPORT_F_DGRAM_FALLBACK) {
- 		if (t_dgram) {
- 			err = -EBUSY;
- 			goto err_busy;
-@@ -2524,7 +2564,7 @@ int vsock_core_register(const struct vsock_transport *t, int features)
- 
- 	transport_h2g = t_h2g;
- 	transport_g2h = t_g2h;
--	transport_dgram = t_dgram;
-+	transport_dgram_fallback = t_dgram;
- 	transport_local = t_local;
- 
- err_busy:
-@@ -2543,8 +2583,8 @@ void vsock_core_unregister(const struct vsock_transport *t)
- 	if (transport_g2h == t)
- 		transport_g2h = NULL;
- 
--	if (transport_dgram == t)
--		transport_dgram = NULL;
-+	if (transport_dgram_fallback == t)
-+		transport_dgram_fallback = NULL;
- 
- 	if (transport_local == t)
- 		transport_local = NULL;
-diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
-index 7f1ea434656d..c29000f2612a 100644
---- a/net/vmw_vsock/hyperv_transport.c
-+++ b/net/vmw_vsock/hyperv_transport.c
-@@ -551,11 +551,6 @@ static void hvs_destruct(struct vsock_sock *vsk)
- 	kfree(hvs);
- }
- 
--static int hvs_dgram_bind(struct vsock_sock *vsk, struct sockaddr_vm *addr)
--{
--	return -EOPNOTSUPP;
--}
--
- static int hvs_dgram_enqueue(struct vsock_sock *vsk,
- 			     struct sockaddr_vm *remote, struct msghdr *msg,
- 			     size_t dgram_len)
-@@ -826,7 +821,6 @@ static struct vsock_transport hvs_transport = {
- 	.connect                  = hvs_connect,
- 	.shutdown                 = hvs_shutdown,
- 
--	.dgram_bind               = hvs_dgram_bind,
- 	.dgram_enqueue            = hvs_dgram_enqueue,
- 	.dgram_allow              = hvs_dgram_allow,
- 
-diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-index 66edffdbf303..ac2126c7dac5 100644
---- a/net/vmw_vsock/virtio_transport.c
-+++ b/net/vmw_vsock/virtio_transport.c
-@@ -428,7 +428,6 @@ static struct virtio_transport virtio_transport = {
- 		.shutdown                 = virtio_transport_shutdown,
- 		.cancel_pkt               = virtio_transport_cancel_pkt,
- 
--		.dgram_bind               = virtio_transport_dgram_bind,
- 		.dgram_enqueue            = virtio_transport_dgram_enqueue,
- 		.dgram_allow              = virtio_transport_dgram_allow,
- 
-diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
-index 01ea1402ad40..ffcbdd77feaa 100644
---- a/net/vmw_vsock/virtio_transport_common.c
-+++ b/net/vmw_vsock/virtio_transport_common.c
-@@ -781,13 +781,6 @@ bool virtio_transport_stream_allow(u32 cid, u32 port)
- }
- EXPORT_SYMBOL_GPL(virtio_transport_stream_allow);
- 
--int virtio_transport_dgram_bind(struct vsock_sock *vsk,
--				struct sockaddr_vm *addr)
--{
--	return -EOPNOTSUPP;
--}
--EXPORT_SYMBOL_GPL(virtio_transport_dgram_bind);
--
- bool virtio_transport_dgram_allow(u32 cid, u32 port)
- {
- 	return false;
-diff --git a/net/vmw_vsock/vmci_transport.c b/net/vmw_vsock/vmci_transport.c
-index 0bbbdb222245..857b0461f856 100644
---- a/net/vmw_vsock/vmci_transport.c
-+++ b/net/vmw_vsock/vmci_transport.c
-@@ -2072,7 +2072,7 @@ static int __init vmci_transport_init(void)
- 	/* Register only with dgram feature, other features (H2G, G2H) will be
- 	 * registered when the first host or guest becomes active.
- 	 */
--	err = vsock_core_register(&vmci_transport, VSOCK_TRANSPORT_F_DGRAM);
-+	err = vsock_core_register(&vmci_transport, VSOCK_TRANSPORT_F_DGRAM_FALLBACK);
- 	if (err < 0)
- 		goto err_unsubscribe;
- 
-diff --git a/net/vmw_vsock/vsock_loopback.c b/net/vmw_vsock/vsock_loopback.c
-index 2a59dd177c74..278235ea06c4 100644
---- a/net/vmw_vsock/vsock_loopback.c
-+++ b/net/vmw_vsock/vsock_loopback.c
-@@ -61,7 +61,6 @@ static struct virtio_transport loopback_transport = {
- 		.shutdown                 = virtio_transport_shutdown,
- 		.cancel_pkt               = vsock_loopback_cancel_pkt,
- 
--		.dgram_bind               = virtio_transport_dgram_bind,
- 		.dgram_enqueue            = virtio_transport_dgram_enqueue,
- 		.dgram_allow              = virtio_transport_dgram_allow,
- 
+ 	default:
 
 -- 
 2.30.2
