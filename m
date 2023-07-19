@@ -2,62 +2,62 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A02C001DC
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FC1EB64DC
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbjGSAvC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:51:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
+        id S230245AbjGSAvR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jul 2023 20:51:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbjGSAun (ORCPT
+        with ESMTP id S229984AbjGSAvB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jul 2023 20:50:43 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC86B198A
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id af79cd13be357-765a311a7a9so15019085a.0
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
+        Tue, 18 Jul 2023 20:51:01 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851DD19A3
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:15 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7680e39103bso364058885a.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689727813; x=1692319813;
+        d=bytedance.com; s=google; t=1689727814; x=1692319814;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XE7xx9iLHROSi//2aw1ggMmi4lxgJG8eDx6KZfuDE2w=;
-        b=jbFfw6yWrqm8g/M0Mcm+rEYLs48/1lNS5DfgbjSPZLziZ1zzRSoFeF6UAVq0kp0nF5
-         Cs2hs25n+QV8K9l49XImvLmuUoDjQG6ucRk/M5Ys0kVrVbZ0dXRZ/9agC3Hj6z0TBJ+3
-         6D1woGsbITvafqZe8OjSVxhjUN6E5zS25TjNZo+AAOcg2Pqy6UQRL2n5J2y25oBX9mo6
-         /vaj5R627b1+5VJNai3wzRCLJPlv10FwPHVU6ohOnSErLHaWoVgFC7w+mQxHKT/2DOTL
-         SWBf5dVuwcel47Dkk9qjotggT8IfTLddlywb9KQNSHIYUjxQUlMEe6GtCL58viKLFd+/
-         sUKQ==
+        bh=p5UDtnqRbXOwSk4kv7KpsqiuRSfPeujQxTt7caqoeag=;
+        b=Bzc5QYphkJxBJAAVGcKxoftfnIy9ixoapstjfZaDHt+8ignmoEtHuP1QMFfV/NgdZv
+         3sj5ZjysfQgDx4p0HKOtFfmPSLhf8q9ZrgG0m5jUcvca0sYjsElAG49iWpsKB4o7xNlw
+         uAQ40QIRMt+3ilnWtx70o1O4HaBVrlCrik+wNvo96xyR4+3Q4cUVkFT5sX2tg+JhlBe+
+         hSQ//wu9r44PASXmqG6/Xmmv+nIq7JhrBez2ZRRnULIsZkr3/pE+EpOBNqOpyyWWX28B
+         g5owX/BThJ1OiSg+ZKlYhgtlbmLJZLHH8juDYc38OwYMTHaeoKsA4gvu2ohtJ4f634Uk
+         w1RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689727813; x=1692319813;
+        d=1e100.net; s=20221208; t=1689727814; x=1692319814;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XE7xx9iLHROSi//2aw1ggMmi4lxgJG8eDx6KZfuDE2w=;
-        b=KqgmsCgdCiYMnFG4z4UdGR+RD4vTPkme2/ul9a+Ae++QxBiUmIbKAZzpZVHeoCHotz
-         38m1EVq52wxHqPv8lT457hqPu1pksCnP7CX4bVMgzFnPzHLlobm9rpbX83vm1Wc5CU0x
-         WAhLgrXGykj1kWLWZJao21SXrlx3WeGiuzB0DZB8GAGX1gAAuAQX3n20dGeiyiZBlOeH
-         RnJIEhg+/2q+hvahRnelXa5Rm3NTE+YXgmp4sRhv3dRxRKcGsBQRcd12sQwa4YOykgtm
-         iS13y7Gs5KqZnAyuPg0KTdyvG15wjW5BuUMBFoyAOzomwNYDRbj43qXYCjPpRyvJu6kt
-         kU5Q==
-X-Gm-Message-State: ABy/qLbpZrsLzBLKfe8kQZNbXRrdlH2XnubuFTw5Xwns9ppBDKm/ngjR
-        zU8Sy5yLyNiBkGvJPK+1c87tHg==
-X-Google-Smtp-Source: APBJJlHtNG3Vjvbanag9Ylbtwm71pbwmGv9mx1Yk5a7s0jvHNn9FPB7k7XBcyXavplaBgBmQcaMX+w==
-X-Received: by 2002:a05:620a:2489:b0:766:f9a5:c7ec with SMTP id i9-20020a05620a248900b00766f9a5c7ecmr810938qkn.18.1689727812816;
-        Tue, 18 Jul 2023 17:50:12 -0700 (PDT)
+        bh=p5UDtnqRbXOwSk4kv7KpsqiuRSfPeujQxTt7caqoeag=;
+        b=DstKavSWYt8g9tupObgboDnb54FS6XHRW7G31ZUKCE0/OWZ84cmcSsHdY5YzrK8hzW
+         OtA8/DBkcTjFp0jN1U/8f1jp1U9WLoV3x9eN/OdvjFv23713u6VX5XRJaF3/n9PI7tFr
+         rZ5pUt4wasQmTE2giPi/tfYNvHmcUl7ELauIPrwKWghF07OfPScCkG5QoO5Ib/Z0FvYm
+         4C/rwIV+/Jduy4m6fWT8mYI31LEApgfBORI0UWls/E8PGWBA+pfsVWQTB0WQk2IU9HfA
+         RBaUGjJTxRK1rFOT8/eHItkoqFfG7lXHNWirm/bFUqh/r0ZwsZr4YIIyciJKVk7sMWWq
+         7K5w==
+X-Gm-Message-State: ABy/qLZAjp9OiY9yKK43RD6hbYRhnL9P/KMdf2fBm4q075ne2KyWSef+
+        ob4OQblHUyneLfHPOsI8FgJG6w==
+X-Google-Smtp-Source: APBJJlFOmR0fNEyLgJ+viEMpPBQC9+mqSkp+cSt9WdE1XdGyudW5tKRhGwKsNcl1PUOy43fop5oI/w==
+X-Received: by 2002:a05:620a:400b:b0:767:2a7e:1dbc with SMTP id h11-20020a05620a400b00b007672a7e1dbcmr1924213qko.17.1689727814453;
+        Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
 Received: from [172.17.0.7] ([130.44.212.112])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.12
+        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 17:50:12 -0700 (PDT)
+        Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 19 Jul 2023 00:50:08 +0000
-Subject: [PATCH RFC net-next v5 04/14] af_vsock: generalize bind table
- functions
+Date:   Wed, 19 Jul 2023 00:50:10 +0000
+Subject: [PATCH RFC net-next v5 06/14] virtio/vsock: add
+ VIRTIO_VSOCK_TYPE_DGRAM
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v5-4-581bd37fdb26@bytedance.com>
+Message-Id: <20230413-b4-vsock-dgram-v5-6-581bd37fdb26@bytedance.com>
 References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
@@ -86,107 +86,27 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This commit makes the bind table management functions in vsock usable
-for different bind tables. Future work will introduce a new table for
-datagrams to avoid address collisions, and these functions will be used
-there.
+This commit adds the datagram packet type for inclusion in virtio vsock
+packet headers. It is included here as a standalone commit because
+multiple future but distinct commits depend on it.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- net/vmw_vsock/af_vsock.c | 34 +++++++++++++++++++++++++++-------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+ include/uapi/linux/virtio_vsock.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 26c97b33d55a..88100154156c 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -231,11 +231,12 @@ static void __vsock_remove_connected(struct vsock_sock *vsk)
- 	sock_put(&vsk->sk);
- }
+diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
+index 64738838bee5..331be28b1d30 100644
+--- a/include/uapi/linux/virtio_vsock.h
++++ b/include/uapi/linux/virtio_vsock.h
+@@ -69,6 +69,7 @@ struct virtio_vsock_hdr {
+ enum virtio_vsock_type {
+ 	VIRTIO_VSOCK_TYPE_STREAM = 1,
+ 	VIRTIO_VSOCK_TYPE_SEQPACKET = 2,
++	VIRTIO_VSOCK_TYPE_DGRAM = 3,
+ };
  
--static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
-+static struct sock *vsock_find_bound_socket_common(struct sockaddr_vm *addr,
-+						   struct list_head *bind_table)
- {
- 	struct vsock_sock *vsk;
- 
--	list_for_each_entry(vsk, vsock_bound_sockets(addr), bound_table) {
-+	list_for_each_entry(vsk, bind_table, bound_table) {
- 		if (vsock_addr_equals_addr(addr, &vsk->local_addr))
- 			return sk_vsock(vsk);
- 
-@@ -248,6 +249,11 @@ static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
- 	return NULL;
- }
- 
-+static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
-+{
-+	return vsock_find_bound_socket_common(addr, vsock_bound_sockets(addr));
-+}
-+
- static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
- 						  struct sockaddr_vm *dst)
- {
-@@ -647,12 +653,18 @@ static void vsock_pending_work(struct work_struct *work)
- 
- /**** SOCKET OPERATIONS ****/
- 
--static int __vsock_bind_connectible(struct vsock_sock *vsk,
--				    struct sockaddr_vm *addr)
-+static int vsock_bind_common(struct vsock_sock *vsk,
-+			     struct sockaddr_vm *addr,
-+			     struct list_head *bind_table,
-+			     size_t table_size)
- {
- 	static u32 port;
- 	struct sockaddr_vm new_addr;
- 
-+	if (WARN_ONCE(table_size < VSOCK_HASH_SIZE,
-+		      "table size too small, may cause overflow"))
-+		return -EINVAL;
-+
- 	if (!port)
- 		port = get_random_u32_above(LAST_RESERVED_PORT);
- 
-@@ -668,7 +680,8 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
- 
- 			new_addr.svm_port = port++;
- 
--			if (!__vsock_find_bound_socket(&new_addr)) {
-+			if (!vsock_find_bound_socket_common(&new_addr,
-+							    &bind_table[VSOCK_HASH(addr)])) {
- 				found = true;
- 				break;
- 			}
-@@ -685,7 +698,8 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
- 			return -EACCES;
- 		}
- 
--		if (__vsock_find_bound_socket(&new_addr))
-+		if (vsock_find_bound_socket_common(&new_addr,
-+						   &bind_table[VSOCK_HASH(addr)]))
- 			return -EADDRINUSE;
- 	}
- 
-@@ -697,11 +711,17 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
- 	 * by AF_UNIX.
- 	 */
- 	__vsock_remove_bound(vsk);
--	__vsock_insert_bound(vsock_bound_sockets(&vsk->local_addr), vsk);
-+	__vsock_insert_bound(&bind_table[VSOCK_HASH(&vsk->local_addr)], vsk);
- 
- 	return 0;
- }
- 
-+static int __vsock_bind_connectible(struct vsock_sock *vsk,
-+				    struct sockaddr_vm *addr)
-+{
-+	return vsock_bind_common(vsk, addr, vsock_bind_table, VSOCK_HASH_SIZE + 1);
-+}
-+
- static int __vsock_bind_dgram(struct vsock_sock *vsk,
- 			      struct sockaddr_vm *addr)
- {
+ enum virtio_vsock_op {
 
 -- 
 2.30.2
