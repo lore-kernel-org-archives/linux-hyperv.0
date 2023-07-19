@@ -2,64 +2,64 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7BEFEB64DC
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:50:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FD5EEB64DD
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:50:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbjGSAuh (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:50:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46956 "EHLO
+        id S229819AbjGSAui (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jul 2023 20:50:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229521AbjGSAug (ORCPT
+        with ESMTP id S229705AbjGSAuh (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jul 2023 20:50:36 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73241996
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-7654e1d83e8so521047485a.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
+        Tue, 18 Jul 2023 20:50:37 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF47196
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:10 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-403e7472b28so20684451cf.2
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689727813; x=1692319813;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YVG6/fd8/TheeZKmbnuDQmZdww8fyIwE/W3lpq/H1bc=;
-        b=M1eAJpu3CrxziEpHRP2XtbX8TUaYeVu0Z7OFMz3BDmc+5Zu6FVi4kVgFeg0IMOBIuK
-         CbMVnZLS9QwWEcl2SBAlk6NmUL7L2NI5FNnpakeq9h2XDhWrIj91ZkPueFOVWfrnPRj7
-         3OCUpGxk/hRy2rDb1B6+dyRg1zS+an1cw2SxJJAU30HWMiSrwRDCrU+KAFJDSH0+VmLd
-         PNKfLsyqBT491jiB8zcaZRd6P37+KFR2uOeseT5s+z8dYLH6G7S5tM8Muxl1fR1lzZbQ
-         EKSEQfb1GYzVISzT3tiPw3q9u4FdlVzQ5uihYjuK3rqMwiT5cEbfDayk24sCb0Ct/mD8
-         UncA==
+        d=bytedance.com; s=google; t=1689727809; x=1692319809;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g4MQh0GVYvXxrf88kEVfj3RWJKvjT6rBvWGaToebS1k=;
+        b=OlP5EF+DSJN59SkgdI1UB5eOS4em/1xb1WNYdfgYt2Ukkjivjm+QbZj65DjHzNYEyI
+         QqIAVHDlSwzvNIMiBTfgbHTKBSZcgGY15vdPnsO9PLqnscYrYHchHIhlFLeibW6jejsZ
+         dvyNtltzAvm8e3K49GaTAs/0qElRdNwn7qFGc4P+0Xzw6n746bakT/97EoDhZqkzDjbG
+         F80kiMG6yPyD/JHuq+ejdvIj6wfg6lEFKl4ldHJHejg/bTLxA0CsA8YLiQFrhZ3yvinl
+         e3AVdlCq6NRI5Rai+WUijlbOZNiluE/zuHqd2kOcGLJ+nJKAqlGjmaAcQRcpR5Wk1yCL
+         d6/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689727813; x=1692319813;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YVG6/fd8/TheeZKmbnuDQmZdww8fyIwE/W3lpq/H1bc=;
-        b=O+fn/1Ef8p5jJwibQJ1Zhtd44VWgvLhtNQZ1xs2XqcnZjXlvTCbW9dPMl9YJY4vHxj
-         VWU88nRq8405J2bXn900ww9ZqzLOptCxoMv4W1RuD9pE+KdgsWLkSXRRJY2JuQJNM+At
-         vNaiCZhcYU+WkGpvEfv+cNGOQmj9hjd0kNY8qqPprm23vbN5gBetOhOwnriUlcULJI0z
-         6GEdkVH9Kxvn0Y5Y6HHmyHRHWpgArWkdf/L1WOUYPyJW+73CvJF8Z6D4+RlqGQJ/9GbI
-         Pi/XsDcgGYcMFHCvU7FBaGQFye9Qyfmtl3nsbj17AZ9qlpjr9ZDPC6SnYO/zkqPhpeEE
-         kehg==
-X-Gm-Message-State: ABy/qLZf+SvE8FhlYWza6DI+Hxhi4ooD+hiNlNLd70TLFKOwti0pZKIp
-        VCh2XencPvVjKZfXb+UL7rIdsw==
-X-Google-Smtp-Source: APBJJlEdgeIMmEal/enOtz263yYRYOJgRea96+xgnNW5OxmQtleUTPIHOcy9i3mblRLEcUh0PSkGUQ==
-X-Received: by 2002:a05:620a:45ab:b0:766:fa7b:8b20 with SMTP id bp43-20020a05620a45ab00b00766fa7b8b20mr868491qkb.50.1689727813660;
-        Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689727809; x=1692319809;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g4MQh0GVYvXxrf88kEVfj3RWJKvjT6rBvWGaToebS1k=;
+        b=LJm5of2COHBl6lTImqe3fn31JGcPS59hpnd9WxojOQWyUBg7si1ntQckiH7IBWHRZR
+         moJ3HBJTNbBoQbOsS9V7y6tn6IrrPvdWVfujqKwJnPceJbd8qTPvQsMiwNVxCBAwP3Ni
+         U2b4TJZMsUnYk9xqG62J9jIP1OIVRTWbDD3jQZZiMyE7ink7eWAw6E5qtLdhAWwCkEbt
+         Fg/u0mvk1P5ZbtHu4z+pGYio2IF31sf14eoHmQtbrN/XwW+MtkR2pEptzLntqOSUvA84
+         +LsV+enQPN3otS1WpLapSI8S+TGuulaE9NAR+fKVslbgW9Hghu1fhFtZ9GYuuqR4gy1Z
+         8i0Q==
+X-Gm-Message-State: ABy/qLZcaLCXdo0ie7jw+0vzKZQC6IIAjZEg2hhjH2el2zpOpJePwOjr
+        pPPIiVoD/w0364H9nEIZdufUjw==
+X-Google-Smtp-Source: APBJJlFOdkeHFj6qm5QEEQlrf3UOfope2+h9d9vn4lyQAeDaZ7bAUYWfgXAYgxBXdf2oWu12n4kSdw==
+X-Received: by 2002:ac8:5f0b:0:b0:404:e41c:616f with SMTP id x11-20020ac85f0b000000b00404e41c616fmr151778qta.68.1689727809469;
+        Tue, 18 Jul 2023 17:50:09 -0700 (PDT)
 Received: from [172.17.0.7] ([130.44.212.112])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.12
+        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 17:50:13 -0700 (PDT)
+        Tue, 18 Jul 2023 17:50:08 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 19 Jul 2023 00:50:09 +0000
-Subject: [PATCH RFC net-next v5 05/14] af_vsock: use a separate dgram bind
- table
+Subject: [PATCH RFC net-next v5 00/14] virtio/vsock: support datagrams
+Date:   Wed, 19 Jul 2023 00:50:04 +0000
+Message-Id: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v5-5-581bd37fdb26@bytedance.com>
-References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
-In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
+X-B4-Tracking: v=1; b=H4sIADwzt2QC/32OwQrCMBBEf6Xk7EpNY2s9CYIf4FU8ZNPRBmkqS
+ QmK9N9Ne/Ag6HF2dt7MSwR4iyC22Ut4RBts75JYLzJhWu2uINskLWQui1ytCmJFMfTmRs3V644
+ KLsG61KXCWqQQ6wBir51pp5jDQA6PYbLuHhf7mLtO4njYT7ePf06itWHo/XPeEuX89qs2Ssopr
+ 2pjKgOUEjt+DmhSLZam72ZcVP8RakIYMLPU2NT1N2Icxzf/7ETBHwEAAA==
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
         Stefano Garzarella <sgarzare@redhat.com>,
         "Michael S. Tsirkin" <mst@redhat.com>,
@@ -80,214 +80,154 @@ Cc:     Dan Carpenter <dan.carpenter@linaro.org>,
         Krasnov Arseniy <oxffffaa@gmail.com>, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>
+        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>
 X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This commit adds support for bound dgram sockets to be tracked in a
-separate bind table from connectible sockets in order to avoid address
-collisions. With this commit, users can simultaneously bind a dgram
-socket and connectible socket to the same CID and port.
+Hey all!
+
+This series introduces support for datagrams to virtio/vsock.
+
+It is a spin-off (and smaller version) of this series from the summer:
+  https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
+
+Please note that this is an RFC and should not be merged until
+associated changes are made to the virtio specification, which will
+follow after discussion from this series.
+
+Another aside, the v4 of the series has only been mildly tested with a
+run of tools/testing/vsock/vsock_test. Some code likely needs cleaning
+up, but I'm hoping to get some of the design choices agreed upon before
+spending too much time making it pretty.
+
+This series first supports datagrams in a basic form for virtio, and
+then optimizes the sendpath for all datagram transports.
+
+The result is a very fast datagram communication protocol that
+outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
+of multi-threaded workload samples.
+
+For those that are curious, some summary data comparing UDP and VSOCK
+DGRAM (N=5):
+
+	vCPUS: 16
+	virtio-net queues: 16
+	payload size: 4KB
+	Setup: bare metal + vm (non-nested)
+
+	UDP: 287.59 MB/s
+	VSOCK DGRAM: 509.2 MB/s
+
+Some notes about the implementation...
+
+This datagram implementation forces datagrams to self-throttle according
+to the threshold set by sk_sndbuf. It behaves similar to the credits
+used by streams in its effect on throughput and memory consumption, but
+it is not influenced by the receiving socket as credits are.
+
+The device drops packets silently.
+
+As discussed previously, this series introduces datagrams and defers
+fairness to future work. See discussion in v2 for more context around
+datagrams, fairness, and this implementation.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- net/vmw_vsock/af_vsock.c | 103 ++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 76 insertions(+), 27 deletions(-)
+Changes in v5:
+- teach vhost to drop dgram when a datagram exceeds the receive buffer
+  - now uses MSG_ERRQUEUE and depends on Arseniy's zerocopy patch:
+	"vsock: read from socket's error queue"
+- replace multiple ->dgram_* callbacks with single ->dgram_addr_init()
+  callback
+- refactor virtio dgram skb allocator to reduce conflicts w/ zerocopy series
+- add _fallback/_FALLBACK suffix to dgram transport variables/macros
+- add WARN_ONCE() for table_size / VSOCK_HASH issue
+- add static to vsock_find_bound_socket_common
+- dedupe code in vsock_dgram_sendmsg() using module_got var
+- drop concurrent sendmsg() for dgram and defer to future series
+- Add more tests
+  - test EHOSTUNREACH in errqueue
+  - test stream + dgram address collision
+- improve clarity of dgram msg bounds test code
+- Link to v4: https://lore.kernel.org/r/20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com
 
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index 88100154156c..0895f4c1d340 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -10,18 +10,23 @@
-  * - There are two kinds of sockets: those created by user action (such as
-  * calling socket(2)) and those created by incoming connection request packets.
-  *
-- * - There are two "global" tables, one for bound sockets (sockets that have
-- * specified an address that they are responsible for) and one for connected
-- * sockets (sockets that have established a connection with another socket).
-- * These tables are "global" in that all sockets on the system are placed
-- * within them. - Note, though, that the bound table contains an extra entry
-- * for a list of unbound sockets and SOCK_DGRAM sockets will always remain in
-- * that list. The bound table is used solely for lookup of sockets when packets
-- * are received and that's not necessary for SOCK_DGRAM sockets since we create
-- * a datagram handle for each and need not perform a lookup.  Keeping SOCK_DGRAM
-- * sockets out of the bound hash buckets will reduce the chance of collisions
-- * when looking for SOCK_STREAM sockets and prevents us from having to check the
-- * socket type in the hash table lookups.
-+ * - There are three "global" tables, one for bound connectible (stream /
-+ * seqpacket) sockets, one for bound datagram sockets, and one for connected
-+ * sockets. Bound sockets are sockets that have specified an address that
-+ * they are responsible for. Connected sockets are sockets that have
-+ * established a connection with another socket. These tables are "global" in
-+ * that all sockets on the system are placed within them. - Note, though,
-+ * that the bound tables contain an extra entry for a list of unbound
-+ * sockets. The bound tables are used solely for lookup of sockets when packets
-+ * are received.
-+ *
-+ * - There are separate bind tables for connectible and datagram sockets to avoid
-+ * address collisions between stream/seqpacket sockets and datagram sockets.
-+ *
-+ * - Transports may elect to NOT use the global datagram bind table by
-+ * implementing the ->dgram_bind() callback. If that callback is implemented,
-+ * the global bind table is not used and the responsibility of bound datagram
-+ * socket tracking is deferred to the transport.
-  *
-  * - Sockets created by user action will either be "client" sockets that
-  * initiate a connection or "server" sockets that listen for connections; we do
-@@ -115,6 +120,7 @@
- static int __vsock_bind(struct sock *sk, struct sockaddr_vm *addr);
- static void vsock_sk_destruct(struct sock *sk);
- static int vsock_queue_rcv_skb(struct sock *sk, struct sk_buff *skb);
-+static bool sock_type_connectible(u16 type);
- 
- /* Protocol family. */
- struct proto vsock_proto = {
-@@ -151,21 +157,25 @@ static DEFINE_MUTEX(vsock_register_mutex);
-  * VSocket is stored in the connected hash table.
-  *
-  * Unbound sockets are all put on the same list attached to the end of the hash
-- * table (vsock_unbound_sockets).  Bound sockets are added to the hash table in
-- * the bucket that their local address hashes to (vsock_bound_sockets(addr)
-- * represents the list that addr hashes to).
-+ * tables (vsock_unbound_sockets/vsock_unbound_dgram_sockets).  Bound sockets
-+ * are added to the hash table in the bucket that their local address hashes to
-+ * (vsock_bound_sockets(addr) and vsock_bound_dgram_sockets(addr) represents
-+ * the list that addr hashes to).
-  *
-- * Specifically, we initialize the vsock_bind_table array to a size of
-- * VSOCK_HASH_SIZE + 1 so that vsock_bind_table[0] through
-- * vsock_bind_table[VSOCK_HASH_SIZE - 1] are for bound sockets and
-- * vsock_bind_table[VSOCK_HASH_SIZE] is for unbound sockets.  The hash function
-- * mods with VSOCK_HASH_SIZE to ensure this.
-+ * Specifically, taking connectible sockets as an example we initialize the
-+ * vsock_bind_table array to a size of VSOCK_HASH_SIZE + 1 so that
-+ * vsock_bind_table[0] through vsock_bind_table[VSOCK_HASH_SIZE - 1] are for
-+ * bound sockets and vsock_bind_table[VSOCK_HASH_SIZE] is for unbound sockets.
-+ * The hash function mods with VSOCK_HASH_SIZE to ensure this.
-+ * Datagrams and vsock_dgram_bind_table operate in the same way.
-  */
- #define MAX_PORT_RETRIES        24
- 
- #define VSOCK_HASH(addr)        ((addr)->svm_port % VSOCK_HASH_SIZE)
- #define vsock_bound_sockets(addr) (&vsock_bind_table[VSOCK_HASH(addr)])
-+#define vsock_bound_dgram_sockets(addr) (&vsock_dgram_bind_table[VSOCK_HASH(addr)])
- #define vsock_unbound_sockets     (&vsock_bind_table[VSOCK_HASH_SIZE])
-+#define vsock_unbound_dgram_sockets     (&vsock_dgram_bind_table[VSOCK_HASH_SIZE])
- 
- /* XXX This can probably be implemented in a better way. */
- #define VSOCK_CONN_HASH(src, dst)				\
-@@ -181,6 +191,8 @@ struct list_head vsock_connected_table[VSOCK_HASH_SIZE];
- EXPORT_SYMBOL_GPL(vsock_connected_table);
- DEFINE_SPINLOCK(vsock_table_lock);
- EXPORT_SYMBOL_GPL(vsock_table_lock);
-+static struct list_head vsock_dgram_bind_table[VSOCK_HASH_SIZE + 1];
-+static DEFINE_SPINLOCK(vsock_dgram_table_lock);
- 
- /* Autobind this socket to the local address if necessary. */
- static int vsock_auto_bind(struct vsock_sock *vsk)
-@@ -203,6 +215,9 @@ static void vsock_init_tables(void)
- 
- 	for (i = 0; i < ARRAY_SIZE(vsock_connected_table); i++)
- 		INIT_LIST_HEAD(&vsock_connected_table[i]);
-+
-+	for (i = 0; i < ARRAY_SIZE(vsock_dgram_bind_table); i++)
-+		INIT_LIST_HEAD(&vsock_dgram_bind_table[i]);
- }
- 
- static void __vsock_insert_bound(struct list_head *list,
-@@ -270,13 +285,28 @@ static struct sock *__vsock_find_connected_socket(struct sockaddr_vm *src,
- 	return NULL;
- }
- 
--static void vsock_insert_unbound(struct vsock_sock *vsk)
-+static void __vsock_insert_dgram_unbound(struct vsock_sock *vsk)
-+{
-+	spin_lock_bh(&vsock_dgram_table_lock);
-+	__vsock_insert_bound(vsock_unbound_dgram_sockets, vsk);
-+	spin_unlock_bh(&vsock_dgram_table_lock);
-+}
-+
-+static void __vsock_insert_connectible_unbound(struct vsock_sock *vsk)
- {
- 	spin_lock_bh(&vsock_table_lock);
- 	__vsock_insert_bound(vsock_unbound_sockets, vsk);
- 	spin_unlock_bh(&vsock_table_lock);
- }
- 
-+static void vsock_insert_unbound(struct vsock_sock *vsk)
-+{
-+	if (sock_type_connectible(sk_vsock(vsk)->sk_type))
-+		__vsock_insert_connectible_unbound(vsk);
-+	else
-+		__vsock_insert_dgram_unbound(vsk);
-+}
-+
- void vsock_insert_connected(struct vsock_sock *vsk)
- {
- 	struct list_head *list = vsock_connected_sockets(
-@@ -288,6 +318,14 @@ void vsock_insert_connected(struct vsock_sock *vsk)
- }
- EXPORT_SYMBOL_GPL(vsock_insert_connected);
- 
-+static void vsock_remove_dgram_bound(struct vsock_sock *vsk)
-+{
-+	spin_lock_bh(&vsock_dgram_table_lock);
-+	if (__vsock_in_bound_table(vsk))
-+		__vsock_remove_bound(vsk);
-+	spin_unlock_bh(&vsock_dgram_table_lock);
-+}
-+
- void vsock_remove_bound(struct vsock_sock *vsk)
- {
- 	spin_lock_bh(&vsock_table_lock);
-@@ -339,7 +377,10 @@ EXPORT_SYMBOL_GPL(vsock_find_connected_socket);
- 
- void vsock_remove_sock(struct vsock_sock *vsk)
- {
--	vsock_remove_bound(vsk);
-+	if (sock_type_connectible(sk_vsock(vsk)->sk_type))
-+		vsock_remove_bound(vsk);
-+	else
-+		vsock_remove_dgram_bound(vsk);
- 	vsock_remove_connected(vsk);
- }
- EXPORT_SYMBOL_GPL(vsock_remove_sock);
-@@ -722,11 +763,19 @@ static int __vsock_bind_connectible(struct vsock_sock *vsk,
- 	return vsock_bind_common(vsk, addr, vsock_bind_table, VSOCK_HASH_SIZE + 1);
- }
- 
--static int __vsock_bind_dgram(struct vsock_sock *vsk,
--			      struct sockaddr_vm *addr)
-+static int vsock_bind_dgram(struct vsock_sock *vsk,
-+			    struct sockaddr_vm *addr)
- {
--	if (!vsk->transport || !vsk->transport->dgram_bind)
--		return -EINVAL;
-+	if (!vsk->transport || !vsk->transport->dgram_bind) {
-+		int retval;
-+
-+		spin_lock_bh(&vsock_dgram_table_lock);
-+		retval = vsock_bind_common(vsk, addr, vsock_dgram_bind_table,
-+					   VSOCK_HASH_SIZE);
-+		spin_unlock_bh(&vsock_dgram_table_lock);
-+
-+		return retval;
-+	}
- 
- 	return vsk->transport->dgram_bind(vsk, addr);
- }
-@@ -757,7 +806,7 @@ static int __vsock_bind(struct sock *sk, struct sockaddr_vm *addr)
- 		break;
- 
- 	case SOCK_DGRAM:
--		retval = __vsock_bind_dgram(vsk, addr);
-+		retval = vsock_bind_dgram(vsk, addr);
- 		break;
- 
- 	default:
+Changes in v4:
+- style changes
+  - vsock: use sk_vsock(vsk) in vsock_dgram_recvmsg instead of
+    &sk->vsk
+  - vsock: fix xmas tree declaration
+  - vsock: fix spacing issues
+  - virtio/vsock: virtio_transport_recv_dgram returns void because err
+    unused
+- sparse analysis warnings/errors
+  - virtio/vsock: fix unitialized skerr on destroy
+  - virtio/vsock: fix uninitialized err var on goto out
+  - vsock: fix declarations that need static
+  - vsock: fix __rcu annotation order
+- bugs
+  - vsock: fix null ptr in remote_info code
+  - vsock/dgram: make transport_dgram a fallback instead of first
+    priority
+  - vsock: remove redundant rcu read lock acquire in getname()
+- tests
+  - add more tests (message bounds and more)
+  - add vsock_dgram_bind() helper
+  - add vsock_dgram_connect() helper
 
+Changes in v3:
+- Support multi-transport dgram, changing logic in connect/bind
+  to support VMCI case
+- Support per-pkt transport lookup for sendto() case
+- Fix dgram_allow() implementation
+- Fix dgram feature bit number (now it is 3)
+- Fix binding so dgram and connectible (cid,port) spaces are
+  non-overlapping
+- RCU protect transport ptr so connect() calls never leave
+  a lockless read of the transport and remote_addr are always
+  in sync
+- Link to v2: https://lore.kernel.org/r/20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com
+
+---
+Bobby Eshleman (13):
+      af_vsock: generalize vsock_dgram_recvmsg() to all transports
+      af_vsock: refactor transport lookup code
+      af_vsock: support multi-transport datagrams
+      af_vsock: generalize bind table functions
+      af_vsock: use a separate dgram bind table
+      virtio/vsock: add VIRTIO_VSOCK_TYPE_DGRAM
+      virtio/vsock: add common datagram send path
+      af_vsock: add vsock_find_bound_dgram_socket()
+      virtio/vsock: add common datagram recv path
+      virtio/vsock: add VIRTIO_VSOCK_F_DGRAM feature bit
+      vhost/vsock: implement datagram support
+      vsock/loopback: implement datagram support
+      virtio/vsock: implement datagram support
+
+Jiang Wang (1):
+      test/vsock: add vsock dgram tests
+
+ drivers/vhost/vsock.c                   |  64 ++-
+ include/linux/virtio_vsock.h            |  10 +-
+ include/net/af_vsock.h                  |  14 +-
+ include/uapi/linux/virtio_vsock.h       |   2 +
+ net/vmw_vsock/af_vsock.c                | 281 ++++++++++---
+ net/vmw_vsock/hyperv_transport.c        |  13 -
+ net/vmw_vsock/virtio_transport.c        |  26 +-
+ net/vmw_vsock/virtio_transport_common.c | 190 +++++++--
+ net/vmw_vsock/vmci_transport.c          |  60 +--
+ net/vmw_vsock/vsock_loopback.c          |  10 +-
+ tools/testing/vsock/util.c              | 141 ++++++-
+ tools/testing/vsock/util.h              |   6 +
+ tools/testing/vsock/vsock_test.c        | 680 ++++++++++++++++++++++++++++++++
+ 13 files changed, 1320 insertions(+), 177 deletions(-)
+---
+base-commit: 37cadc266ebdc7e3531111c2b3304fa01b2131e8
+change-id: 20230413-b4-vsock-dgram-3b6eba6a64e5
+
+Best regards,
 -- 
-2.30.2
+Bobby Eshleman <bobby.eshleman@bytedance.com>
 
