@@ -2,62 +2,61 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D79FC001DC
-	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29BF3C001DC
+	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbjGSAvW (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:51:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
+        id S230327AbjGSAvl (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jul 2023 20:51:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbjGSAvE (ORCPT
+        with ESMTP id S230035AbjGSAvG (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 18 Jul 2023 20:51:04 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCFCC1BFC
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:19 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-76714caf466so582920285a.1
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:19 -0700 (PDT)
+        Tue, 18 Jul 2023 20:51:06 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDEB81FD6
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:22 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7680e3910dfso455709385a.0
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689727818; x=1692319818;
+        d=bytedance.com; s=google; t=1689727821; x=1692319821;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sPwhBmtD9OJVg+4DzOYL256xxaoXc/AZRhsCaKboFfQ=;
-        b=Zfsg98WIgY3dgqQOhdM9OAVFqPKJRz3yNitUZviHPLo8OICH8/ZXeMciH1E2lvVC1/
-         WQvvNe6PKKqimbaiIqj3LDH7lfrsKB75ErVF7KEisUxO81NDcKvEP1ksOG0gS0q1uina
-         NKwbA9SMEAQ2Shk1tQNxk3aIFrV6Cb5K3YTvQcaifZDHat7ikr/1J3s/lnHkOZg7/7k0
-         uAqN7l2ohxoCr4PLTpodnRAgI7ZI8bktML3sVuatZHFX0PZII/lQpXB/KCJ69kPptn+Q
-         Y7BvncJSgJ3X7J0wjOrbBcMg96cQK58DPadsZuENr1qj2c7auxRvhplDNYUOWhSiijFv
-         mdew==
+        bh=Zcl4aN/43X4Lf9KimpBG0GZiJLNoqreLRjXoCG4dakY=;
+        b=HoM9cbyI5odaUiKbIqWF35MzV6k1piobOfjvDaSFB9OOJS1Yx4Z+K6kIPk7ETDiTzw
+         d/BEP+F2Vq7VE7SwglxHtkmOyah0R4rKrMTv1WFPOGAxmPlVkkAq9LYs8pnU2hpIYNq3
+         qxE/B+1A89StKhWCZoSo1xIRsAOj3ZfCQoq4j0WopnOueetRbBr0DyiAp/Cdr9i0Nxnv
+         yF/7JsU1pTbRTnncKkWPb+HxalipkEp4pEspbEtwITisOatAEsoM0w55Ax7u7p5i1W9J
+         koCu8uSPpJ4uZbCyo2CCJmHzuUUxbR2MbGgzDJxeC90hDwd2aKcwtx99mSZPUMZwi6ei
+         AIMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689727818; x=1692319818;
+        d=1e100.net; s=20221208; t=1689727821; x=1692319821;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sPwhBmtD9OJVg+4DzOYL256xxaoXc/AZRhsCaKboFfQ=;
-        b=CEjMbNflLxc01rlM3K1/RUGkdTAPOGi60YfHNA3N3P7nuUSEUGRQVl8q+y1STPwFMI
-         DnrkcYUWmylSw4DxjVOeJJSO6ZaVY62DAxK2D1QIMbHDq/BpXmokfBZJglVUp5JDWERc
-         dqleEjRVhdXp2LuvF5h6OgGk2C1ftRcA0G0ZpIflKOg085pMd248ZxIbWrdH252AYwRq
-         tBuwAw2kPXOUi4CB9TDkhouVW3i+S3hP1L41LX6TBC4PplAkahDX+LqjafTJiqBJ6i+9
-         l7lug1bXS2nBA0WGAVNYapf6JT8ggI71g6WqXlzUWGUDpVsPqAZHugg5WmScs2lUzjOG
-         4sxw==
-X-Gm-Message-State: ABy/qLb4FP7zTFGyXCwJTtfeLIYpAmxnxTPJt3WVZ4blKgzFTF+vN3x3
-        D+c9GnIBTzx5IbPrnpXKhQa0xg==
-X-Google-Smtp-Source: APBJJlGXGRD0guPH/Jjx0e35MhLHJF0cvmxP5fhz+u5q+QQsjgsXv0HLDTaM2Pxw5w2Z5rNWOkfgmQ==
-X-Received: by 2002:a05:620a:2447:b0:767:1293:f43e with SMTP id h7-20020a05620a244700b007671293f43emr22685654qkn.49.1689727818622;
-        Tue, 18 Jul 2023 17:50:18 -0700 (PDT)
+        bh=Zcl4aN/43X4Lf9KimpBG0GZiJLNoqreLRjXoCG4dakY=;
+        b=cj6FuaBSM9AI5i8JLyfDzWY/xyXfQh52Nm6ztxJiCyujIRrgwVjm8/iLNIsJHp3wis
+         8wbUF43bwLkrlYu/o2wu6pY5AcFm4q1DTyQ+zkVlKtiMt1cKvJBP8srRZSC8ZOJ6yLFz
+         ZIZkLgr3wjrZG4ugmfJZrsOHrfQjNK5guxQP8ZjL7jVpwN1WSkOsi7kMs8RVI6pKJewe
+         EDKjY9fb44p+JVIgY88ioyzuElxWRexrZnxukz1P2zjv7dOVN4qvnPl5UAGZ9TGVBSpr
+         535ssuJcNNsHTkXTIQY7S9bMQAnlZoOnAtcZaRERDsiZNrJl+WwZxPjaPLM1++1wZZFR
+         LSTw==
+X-Gm-Message-State: ABy/qLYf01Dne5rT5etqiXlNMproTdHGivuYzumjV1u7Ycg6Vy7LODa5
+        fm1PU0EPfgSydV1vNDk1KtHMGQ==
+X-Google-Smtp-Source: APBJJlHIWaVJAEEmSxRjgHP7yBN8AFpmk0bnBtVK/JcEbs1WnCV4LaY70/t+Bpe9TQIrwzq3st5Apg==
+X-Received: by 2002:a05:620a:1a09:b0:767:39c5:652d with SMTP id bk9-20020a05620a1a0900b0076739c5652dmr6310672qkb.64.1689727821151;
+        Tue, 18 Jul 2023 17:50:21 -0700 (PDT)
 Received: from [172.17.0.7] ([130.44.212.112])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.17
+        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 17:50:18 -0700 (PDT)
+        Tue, 18 Jul 2023 17:50:20 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 19 Jul 2023 00:50:15 +0000
-Subject: [PATCH RFC net-next v5 11/14] vhost/vsock: implement datagram
- support
+Date:   Wed, 19 Jul 2023 00:50:18 +0000
+Subject: [PATCH RFC net-next v5 14/14] test/vsock: add vsock dgram tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v5-11-581bd37fdb26@bytedance.com>
+Message-Id: <20230413-b4-vsock-dgram-v5-14-581bd37fdb26@bytedance.com>
 References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
@@ -80,174 +79,941 @@ Cc:     Dan Carpenter <dan.carpenter@linaro.org>,
         Krasnov Arseniy <oxffffaa@gmail.com>, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>
+        bpf@vger.kernel.org, Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Jiang Wang <jiang.wang@bytedance.com>
 X-Mailer: b4 0.12.2
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This commit implements datagram support for vhost/vsock by teaching
-vhost to use the common virtio transport datagram functions.
+From: Jiang Wang <jiang.wang@bytedance.com>
 
-If the virtio RX buffer is too small, then the transmission is
-abandoned, the packet dropped, and EHOSTUNREACH is added to the socket's
-error queue.
+This commit adds tests for vsock datagram.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
+Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
 ---
- drivers/vhost/vsock.c    | 62 +++++++++++++++++++++++++++++++++++++++++++++---
- net/vmw_vsock/af_vsock.c |  5 +++-
- 2 files changed, 63 insertions(+), 4 deletions(-)
+ tools/testing/vsock/util.c       | 141 +++++++-
+ tools/testing/vsock/util.h       |   6 +
+ tools/testing/vsock/vsock_test.c | 680 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 826 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/vhost/vsock.c b/drivers/vhost/vsock.c
-index d5d6a3c3f273..da14260c6654 100644
---- a/drivers/vhost/vsock.c
-+++ b/drivers/vhost/vsock.c
-@@ -8,6 +8,7 @@
+diff --git a/tools/testing/vsock/util.c b/tools/testing/vsock/util.c
+index 01b636d3039a..811e70d7cf1e 100644
+--- a/tools/testing/vsock/util.c
++++ b/tools/testing/vsock/util.c
+@@ -99,7 +99,8 @@ static int vsock_connect(unsigned int cid, unsigned int port, int type)
+ 	int ret;
+ 	int fd;
+ 
+-	control_expectln("LISTENING");
++	if (type != SOCK_DGRAM)
++		control_expectln("LISTENING");
+ 
+ 	fd = socket(AF_VSOCK, type, 0);
+ 
+@@ -130,6 +131,11 @@ int vsock_seqpacket_connect(unsigned int cid, unsigned int port)
+ 	return vsock_connect(cid, port, SOCK_SEQPACKET);
+ }
+ 
++int vsock_dgram_connect(unsigned int cid, unsigned int port)
++{
++	return vsock_connect(cid, port, SOCK_DGRAM);
++}
++
+ /* Listen on <cid, port> and return the first incoming connection.  The remote
+  * address is stored to clientaddrp.  clientaddrp may be NULL.
   */
- #include <linux/miscdevice.h>
- #include <linux/atomic.h>
-+#include <linux/errqueue.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/vmalloc.h>
-@@ -32,7 +33,8 @@
- enum {
- 	VHOST_VSOCK_FEATURES = VHOST_FEATURES |
- 			       (1ULL << VIRTIO_F_ACCESS_PLATFORM) |
--			       (1ULL << VIRTIO_VSOCK_F_SEQPACKET)
-+			       (1ULL << VIRTIO_VSOCK_F_SEQPACKET) |
-+			       (1ULL << VIRTIO_VSOCK_F_DGRAM)
- };
- 
- enum {
-@@ -56,6 +58,7 @@ struct vhost_vsock {
- 	atomic_t queued_replies;
- 
- 	u32 guest_cid;
-+	bool dgram_allow;
- 	bool seqpacket_allow;
- };
- 
-@@ -86,6 +89,32 @@ static struct vhost_vsock *vhost_vsock_get(u32 guest_cid)
- 	return NULL;
+@@ -211,6 +217,34 @@ int vsock_seqpacket_accept(unsigned int cid, unsigned int port,
+ 	return vsock_accept(cid, port, clientaddrp, SOCK_SEQPACKET);
  }
  
-+/* Claims ownership of the skb, do not free the skb after calling! */
-+static void
-+vhost_transport_error(struct sk_buff *skb, int err)
++int vsock_dgram_bind(unsigned int cid, unsigned int port)
 +{
-+	struct sock_exterr_skb *serr;
-+	struct sock *sk = skb->sk;
-+	struct sk_buff *clone;
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = port,
++			.svm_cid = cid,
++		},
++	};
++	int fd;
 +
-+	serr = SKB_EXT_ERR(skb);
-+	memset(serr, 0, sizeof(*serr));
-+	serr->ee.ee_errno = err;
-+	serr->ee.ee_origin = SO_EE_ORIGIN_NONE;
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("socket");
++		exit(EXIT_FAILURE);
++	}
 +
-+	clone = skb_clone(skb, GFP_KERNEL);
-+	if (!clone)
++	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	return fd;
++}
++
+ /* Transmit one byte and check the return value.
+  *
+  * expected_ret:
+@@ -260,6 +294,57 @@ void send_byte(int fd, int expected_ret, int flags)
+ 	}
+ }
+ 
++/* Transmit one byte and check the return value.
++ *
++ * expected_ret:
++ *  <0 Negative errno (for testing errors)
++ *   0 End-of-file
++ *   1 Success
++ */
++void sendto_byte(int fd, const struct sockaddr *dest_addr, int len, int expected_ret,
++		 int flags)
++{
++	const uint8_t byte = 'A';
++	ssize_t nwritten;
++
++	timeout_begin(TIMEOUT);
++	do {
++		nwritten = sendto(fd, &byte, sizeof(byte), flags, dest_addr,
++				  len);
++		timeout_check("write");
++	} while (nwritten < 0 && errno == EINTR);
++	timeout_end();
++
++	if (expected_ret < 0) {
++		if (nwritten != -1) {
++			fprintf(stderr, "bogus sendto(2) return value %zd\n",
++				nwritten);
++			exit(EXIT_FAILURE);
++		}
++		if (errno != -expected_ret) {
++			perror("write");
++			exit(EXIT_FAILURE);
++		}
 +		return;
++	}
 +
-+	if (sock_queue_err_skb(sk, clone))
-+		kfree_skb(clone);
++	if (nwritten < 0) {
++		perror("write");
++		exit(EXIT_FAILURE);
++	}
++	if (nwritten == 0) {
++		if (expected_ret == 0)
++			return;
 +
-+	sk->sk_err = err;
-+	sk_error_report(sk);
-+
-+	kfree_skb(skb);
++		fprintf(stderr, "unexpected EOF while sending byte\n");
++		exit(EXIT_FAILURE);
++	}
++	if (nwritten != sizeof(byte)) {
++		fprintf(stderr, "bogus sendto(2) return value %zd\n", nwritten);
++		exit(EXIT_FAILURE);
++	}
 +}
 +
- static void
- vhost_transport_do_send_pkt(struct vhost_vsock *vsock,
- 			    struct vhost_virtqueue *vq)
-@@ -160,9 +189,15 @@ vhost_transport_do_send_pkt(struct vhost_vsock *vsock,
- 		hdr = virtio_vsock_hdr(skb);
- 
- 		/* If the packet is greater than the space available in the
--		 * buffer, we split it using multiple buffers.
-+		 * buffer, we split it using multiple buffers for connectible
-+		 * sockets and drop the packet for datagram sockets.
- 		 */
- 		if (payload_len > iov_len - sizeof(*hdr)) {
-+			if (le16_to_cpu(hdr->type) == VIRTIO_VSOCK_TYPE_DGRAM) {
-+				vhost_transport_error(skb, EHOSTUNREACH);
-+				continue;
-+			}
-+
- 			payload_len = iov_len - sizeof(*hdr);
- 
- 			/* As we are copying pieces of large packet's buffer to
-@@ -394,6 +429,7 @@ static bool vhost_vsock_more_replies(struct vhost_vsock *vsock)
- 	return val < vq->num;
+ /* Receive one byte and check the return value.
+  *
+  * expected_ret:
+@@ -313,6 +398,60 @@ void recv_byte(int fd, int expected_ret, int flags)
+ 	}
  }
  
-+static bool vhost_transport_dgram_allow(u32 cid, u32 port);
- static bool vhost_transport_seqpacket_allow(u32 remote_cid);
- 
- static struct virtio_transport vhost_transport = {
-@@ -410,7 +446,8 @@ static struct virtio_transport vhost_transport = {
- 		.cancel_pkt               = vhost_transport_cancel_pkt,
- 
- 		.dgram_enqueue            = virtio_transport_dgram_enqueue,
--		.dgram_allow              = virtio_transport_dgram_allow,
-+		.dgram_allow              = vhost_transport_dgram_allow,
-+		.dgram_addr_init          = virtio_transport_dgram_addr_init,
- 
- 		.stream_enqueue           = virtio_transport_stream_enqueue,
- 		.stream_dequeue           = virtio_transport_stream_dequeue,
-@@ -443,6 +480,22 @@ static struct virtio_transport vhost_transport = {
- 	.send_pkt = vhost_transport_send_pkt,
- };
- 
-+static bool vhost_transport_dgram_allow(u32 cid, u32 port)
++/* Receive one byte and check the return value.
++ *
++ * expected_ret:
++ *  <0 Negative errno (for testing errors)
++ *   0 End-of-file
++ *   1 Success
++ */
++void recvfrom_byte(int fd, struct sockaddr *src_addr, socklen_t *addrlen,
++		   int expected_ret, int flags)
 +{
-+	struct vhost_vsock *vsock;
-+	bool dgram_allow = false;
++	uint8_t byte;
++	ssize_t nread;
 +
-+	rcu_read_lock();
-+	vsock = vhost_vsock_get(cid);
++	timeout_begin(TIMEOUT);
++	do {
++		nread = recvfrom(fd, &byte, sizeof(byte), flags, src_addr, addrlen);
++		timeout_check("read");
++	} while (nread < 0 && errno == EINTR);
++	timeout_end();
 +
-+	if (vsock)
-+		dgram_allow = vsock->dgram_allow;
++	if (expected_ret < 0) {
++		if (nread != -1) {
++			fprintf(stderr, "bogus recvfrom(2) return value %zd\n",
++				nread);
++			exit(EXIT_FAILURE);
++		}
++		if (errno != -expected_ret) {
++			perror("read");
++			exit(EXIT_FAILURE);
++		}
++		return;
++	}
 +
-+	rcu_read_unlock();
++	if (nread < 0) {
++		perror("read");
++		exit(EXIT_FAILURE);
++	}
++	if (nread == 0) {
++		if (expected_ret == 0)
++			return;
 +
-+	return dgram_allow;
++		fprintf(stderr, "unexpected EOF while receiving byte\n");
++		exit(EXIT_FAILURE);
++	}
++	if (nread != sizeof(byte)) {
++		fprintf(stderr, "bogus recvfrom(2) return value %zd\n", nread);
++		exit(EXIT_FAILURE);
++	}
++	if (byte != 'A') {
++		fprintf(stderr, "unexpected byte read %c\n", byte);
++		exit(EXIT_FAILURE);
++	}
 +}
 +
- static bool vhost_transport_seqpacket_allow(u32 remote_cid)
+ /* Run test cases.  The program terminates if a failure occurs. */
+ void run_tests(const struct test_case *test_cases,
+ 	       const struct test_opts *opts)
+diff --git a/tools/testing/vsock/util.h b/tools/testing/vsock/util.h
+index fb99208a95ea..a69e128d120c 100644
+--- a/tools/testing/vsock/util.h
++++ b/tools/testing/vsock/util.h
+@@ -37,13 +37,19 @@ void init_signals(void);
+ unsigned int parse_cid(const char *str);
+ int vsock_stream_connect(unsigned int cid, unsigned int port);
+ int vsock_seqpacket_connect(unsigned int cid, unsigned int port);
++int vsock_dgram_connect(unsigned int cid, unsigned int port);
+ int vsock_stream_accept(unsigned int cid, unsigned int port,
+ 			struct sockaddr_vm *clientaddrp);
+ int vsock_seqpacket_accept(unsigned int cid, unsigned int port,
+ 			   struct sockaddr_vm *clientaddrp);
++int vsock_dgram_bind(unsigned int cid, unsigned int port);
+ void vsock_wait_remote_close(int fd);
+ void send_byte(int fd, int expected_ret, int flags);
++void sendto_byte(int fd, const struct sockaddr *dest_addr, int len, int expected_ret,
++		 int flags);
+ void recv_byte(int fd, int expected_ret, int flags);
++void recvfrom_byte(int fd, struct sockaddr *src_addr, socklen_t *addrlen,
++		   int expected_ret, int flags);
+ void run_tests(const struct test_case *test_cases,
+ 	       const struct test_opts *opts);
+ void list_tests(const struct test_case *test_cases);
+diff --git a/tools/testing/vsock/vsock_test.c b/tools/testing/vsock/vsock_test.c
+index ac1bd3ac1533..c9904a3376ce 100644
+--- a/tools/testing/vsock/vsock_test.c
++++ b/tools/testing/vsock/vsock_test.c
+@@ -13,6 +13,7 @@
+ #include <string.h>
+ #include <errno.h>
+ #include <unistd.h>
++#include <linux/errqueue.h>
+ #include <linux/kernel.h>
+ #include <sys/types.h>
+ #include <sys/socket.h>
+@@ -24,6 +25,12 @@
+ #include "control.h"
+ #include "util.h"
+ 
++#ifndef SOL_VSOCK
++#define SOL_VSOCK 287
++#endif
++
++#define DGRAM_MSG_CNT 16
++
+ static void test_stream_connection_reset(const struct test_opts *opts)
  {
- 	struct vhost_vsock *vsock;
-@@ -799,6 +852,9 @@ static int vhost_vsock_set_features(struct vhost_vsock *vsock, u64 features)
- 	if (features & (1ULL << VIRTIO_VSOCK_F_SEQPACKET))
- 		vsock->seqpacket_allow = true;
+ 	union {
+@@ -1053,6 +1060,644 @@ static void test_stream_virtio_skb_merge_server(const struct test_opts *opts)
+ 	close(fd);
+ }
  
-+	if (features & (1ULL << VIRTIO_VSOCK_F_DGRAM))
-+		vsock->dgram_allow = true;
++static void test_dgram_sendto_client(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = opts->peer_cid,
++		},
++	};
++	int fd;
 +
- 	for (i = 0; i < ARRAY_SIZE(vsock->vqs); i++) {
- 		vq = &vsock->vqs[i];
- 		mutex_lock(&vq->mutex);
-diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
-index e73f3b2c52f1..449ed63ac2b0 100644
---- a/net/vmw_vsock/af_vsock.c
-+++ b/net/vmw_vsock/af_vsock.c
-@@ -1427,9 +1427,12 @@ int vsock_dgram_recvmsg(struct socket *sock, struct msghdr *msg,
- 		return prot->recvmsg(sk, msg, len, flags, NULL);
- #endif
- 
--	if (flags & MSG_OOB || flags & MSG_ERRQUEUE)
-+	if (unlikely(flags & MSG_OOB))
- 		return -EOPNOTSUPP;
- 
-+	if (unlikely(flags & MSG_ERRQUEUE))
-+		return sock_recv_errqueue(sk, msg, len, SOL_VSOCK, 0);
++	/* Wait for the server to be ready */
++	control_expectln("BIND");
 +
- 	transport = vsk->transport;
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("socket");
++		exit(EXIT_FAILURE);
++	}
++
++	sendto_byte(fd, &addr.sa, sizeof(addr.svm), 1, 0);
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++
++	close(fd);
++}
++
++static void test_dgram_sendto_server(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = VMADDR_CID_ANY,
++		},
++	};
++	unsigned long sock_buf_size;
++	int len = sizeof(addr.sa);
++	int fd;
++
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("socket");
++		exit(EXIT_FAILURE);
++	}
++
++	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Set receive buffer to maximum */
++	sock_buf_size = -1;
++	if (setsockopt(fd, SOL_SOCKET, SO_RCVBUF,
++		       &sock_buf_size, sizeof(sock_buf_size))) {
++		perror("setsockopt(SO_RECVBUF)");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Notify the client that the server is ready */
++	control_writeln("BIND");
++
++	recvfrom_byte(fd, &addr.sa, &len, 1, 0);
++
++	/* Wait for the client to finish */
++	control_expectln("DONE");
++
++	close(fd);
++}
++
++static void test_dgram_connect_client(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = opts->peer_cid,
++		},
++	};
++	int ret;
++	int fd;
++
++	/* Wait for the server to be ready */
++	control_expectln("BIND");
++
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	ret = connect(fd, &addr.sa, sizeof(addr.svm));
++	if (ret < 0) {
++		perror("connect");
++		exit(EXIT_FAILURE);
++	}
++
++	send_byte(fd, 1, 0);
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++
++	close(fd);
++}
++
++static void test_dgram_connect_server(const struct test_opts *opts)
++{
++	test_dgram_sendto_server(opts);
++}
++
++static void test_dgram_multiconn_sendto_client(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = opts->peer_cid,
++		},
++	};
++	int fds[MULTICONN_NFDS];
++	int i;
++
++	/* Wait for the server to be ready */
++	control_expectln("BIND");
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		fds[i] = socket(AF_VSOCK, SOCK_DGRAM, 0);
++		if (fds[i] < 0) {
++			perror("socket");
++			exit(EXIT_FAILURE);
++		}
++	}
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		sendto_byte(fds[i], &addr.sa, sizeof(addr.svm), 1, 0);
++
++		/* This is here to make explicit the case of the test failing
++		 * due to packet loss. The test fails when recv() times out
++		 * otherwise, which is much more confusing.
++		 */
++		control_expectln("PKTRECV");
++	}
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++
++	for (i = 0; i < MULTICONN_NFDS; i++)
++		close(fds[i]);
++}
++
++static void test_dgram_multiconn_sendto_server(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = VMADDR_CID_ANY,
++		},
++	};
++	int len = sizeof(addr.sa);
++	int fd;
++	int i;
++
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("socket");
++		exit(EXIT_FAILURE);
++	}
++
++	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Notify the client that the server is ready */
++	control_writeln("BIND");
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		recvfrom_byte(fd, &addr.sa, &len, 1, 0);
++		control_writeln("PKTRECV");
++	}
++
++	/* Wait for the client to finish */
++	control_expectln("DONE");
++
++	close(fd);
++}
++
++static void test_dgram_multiconn_send_client(const struct test_opts *opts)
++{
++	int fds[MULTICONN_NFDS];
++	int i;
++
++	/* Wait for the server to be ready */
++	control_expectln("BIND");
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		fds[i] = vsock_dgram_connect(opts->peer_cid, 1234);
++		if (fds[i] < 0) {
++			perror("connect");
++			exit(EXIT_FAILURE);
++		}
++	}
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		send_byte(fds[i], 1, 0);
++		/* This is here to make explicit the case of the test failing
++		 * due to packet loss.
++		 */
++		control_expectln("PKTRECV");
++	}
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++
++	for (i = 0; i < MULTICONN_NFDS; i++)
++		close(fds[i]);
++}
++
++static void test_dgram_multiconn_send_server(const struct test_opts *opts)
++{
++	union {
++		struct sockaddr sa;
++		struct sockaddr_vm svm;
++	} addr = {
++		.svm = {
++			.svm_family = AF_VSOCK,
++			.svm_port = 1234,
++			.svm_cid = VMADDR_CID_ANY,
++		},
++	};
++	unsigned long sock_buf_size;
++	int fd;
++	int i;
++
++	fd = socket(AF_VSOCK, SOCK_DGRAM, 0);
++	if (fd < 0) {
++		perror("socket");
++		exit(EXIT_FAILURE);
++	}
++
++	if (bind(fd, &addr.sa, sizeof(addr.svm)) < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Set receive buffer to maximum */
++	sock_buf_size = -1;
++	if (setsockopt(fd, SOL_SOCKET, SO_RCVBUF,
++		       &sock_buf_size, sizeof(sock_buf_size))) {
++		perror("setsockopt(SO_RECVBUF)");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Notify the client that the server is ready */
++	control_writeln("BIND");
++
++	for (i = 0; i < MULTICONN_NFDS; i++) {
++		recv_byte(fd, 1, 0);
++		control_writeln("PKTRECV");
++	}
++
++	/* Wait for the client to finish */
++	control_expectln("DONE");
++
++	close(fd);
++}
++
++/*
++ * This test is similar to the seqpacket msg bounds tests, but it is unreliable
++ * because it may also fail in the unlikely case that packets are dropped.
++ */
++static void test_dgram_bounds_unreliable_client(const struct test_opts *opts)
++{
++	unsigned long recv_buf_size;
++	unsigned long *hashes;
++	int page_size;
++	int fd;
++	int i;
++
++	fd = vsock_dgram_connect(opts->peer_cid, 1234);
++	if (fd < 0) {
++		perror("connect");
++		exit(EXIT_FAILURE);
++	}
++
++	hashes = malloc(DGRAM_MSG_CNT * sizeof(unsigned long));
++	if (!hashes) {
++		perror("malloc");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Let the server know the client is ready */
++	control_writeln("CLNTREADY");
++
++	/* Wait, until receiver sets buffer size. */
++	control_expectln("SRVREADY");
++
++	recv_buf_size = control_readulong();
++
++	page_size = getpagesize();
++
++	for (i = 0; i < DGRAM_MSG_CNT; i++) {
++		ssize_t send_size;
++		size_t buf_size;
++		void *buf;
++
++		/* Use "small" buffers and "big" buffers. */
++		if (opts->peer_cid <= VMADDR_CID_HOST && (i & 1))
++			buf_size = page_size +
++					(rand() % (MAX_MSG_SIZE - page_size));
++		else
++			buf_size = 1 + (rand() % page_size);
++
++		buf_size = min(buf_size, recv_buf_size);
++
++		buf = malloc(buf_size);
++
++		if (!buf) {
++			perror("malloc");
++			exit(EXIT_FAILURE);
++		}
++
++		memset(buf, rand() & 0xff, buf_size);
++
++		send_size = send(fd, buf, buf_size, 0);
++		if (send_size < 0) {
++			perror("send");
++			exit(EXIT_FAILURE);
++		}
++
++		if (send_size != buf_size) {
++			fprintf(stderr, "Invalid send size\n");
++			exit(EXIT_FAILURE);
++		}
++
++		/* In theory the implementation isn't required to transmit
++		 * these packets in order, so we use this PKTSENT/PKTRECV
++		 * message sequence so that server and client coordinate
++		 * sending and receiving one packet at a time. The client sends
++		 * a packet and waits until it has been received before sending
++		 * another.
++		 *
++		 * Also in theory these packets can be lost and the test will
++		 * fail for that reason.
++		 */
++		control_writeln("PKTSENT");
++		control_expectln("PKTRECV");
++
++		/* Send the server a hash of the packet */
++		hashes[i] = hash_djb2(buf, buf_size);
++		free(buf);
++	}
++
++	control_writeln("SENDDONE");
++	close(fd);
++
++	for (i = 0; i < DGRAM_MSG_CNT; i++) {
++		if (hashes[i] != control_readulong())
++			fprintf(stderr, "broken dgram message bounds or packet loss\n");
++	}
++	free(hashes);
++}
++
++static void test_dgram_bounds_unreliable_server(const struct test_opts *opts)
++{
++	unsigned long hashes[DGRAM_MSG_CNT];
++	unsigned long sock_buf_size;
++	struct msghdr msg = {0};
++	struct iovec iov = {0};
++	char buf[MAX_MSG_SIZE];
++	socklen_t len;
++	int fd;
++	int i;
++
++	fd = vsock_dgram_bind(VMADDR_CID_ANY, 1234);
++	if (fd < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Set receive buffer to maximum */
++	sock_buf_size = -1;
++	if (setsockopt(fd, SOL_SOCKET, SO_RCVBUF,
++		       &sock_buf_size, sizeof(sock_buf_size))) {
++		perror("setsockopt(SO_RECVBUF)");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Retrieve the receive buffer size */
++	len = sizeof(sock_buf_size);
++	if (getsockopt(fd, SOL_SOCKET, SO_RCVBUF,
++		       &sock_buf_size, &len)) {
++		perror("getsockopt(SO_RECVBUF)");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Client ready to receive parameters */
++	control_expectln("CLNTREADY");
++
++	/* Ready to receive data. */
++	control_writeln("SRVREADY");
++
++	if (opts->peer_cid > VMADDR_CID_HOST)
++		control_writeulong(sock_buf_size);
++	else
++		control_writeulong(getpagesize());
++
++	iov.iov_base = buf;
++	iov.iov_len = sizeof(buf);
++	msg.msg_iov = &iov;
++	msg.msg_iovlen = 1;
++
++	for (i = 0; i < DGRAM_MSG_CNT; i++) {
++		ssize_t recv_size;
++
++		control_expectln("PKTSENT");
++		recv_size = recvmsg(fd, &msg, 0);
++		control_writeln("PKTRECV");
++
++		if (!recv_size)
++			break;
++
++		if (recv_size < 0) {
++			perror("recvmsg");
++			exit(EXIT_FAILURE);
++		}
++
++		hashes[i] = hash_djb2(msg.msg_iov[0].iov_base, recv_size);
++	}
++
++	control_expectln("SENDDONE");
++
++	close(fd);
++
++	for (i = 0; i < DGRAM_MSG_CNT; i++)
++		control_writeulong(hashes[i]);
++}
++
++#define POLL_TIMEOUT_MS		1000
++void vsock_recv_error(int fd)
++{
++	struct sock_extended_err *serr;
++	struct msghdr msg = { 0 };
++	struct pollfd fds = { 0 };
++	char cmsg_data[128];
++	struct cmsghdr *cm;
++	ssize_t res;
++
++	fds.fd = fd;
++	fds.events = 0;
++
++	if (poll(&fds, 1, POLL_TIMEOUT_MS) < 0) {
++		perror("poll");
++		exit(EXIT_FAILURE);
++	}
++
++	if (!(fds.revents & POLLERR)) {
++		fprintf(stderr, "POLLERR expected\n");
++		exit(EXIT_FAILURE);
++	}
++
++	msg.msg_control = cmsg_data;
++	msg.msg_controllen = sizeof(cmsg_data);
++
++	res = recvmsg(fd, &msg, MSG_ERRQUEUE);
++	if (res) {
++		fprintf(stderr, "failed to read error queue: %zi\n", res);
++		exit(EXIT_FAILURE);
++	}
++
++	cm = CMSG_FIRSTHDR(&msg);
++	if (!cm) {
++		fprintf(stderr, "cmsg: no cmsg\n");
++		exit(EXIT_FAILURE);
++	}
++
++	if (cm->cmsg_level != SOL_VSOCK) {
++		fprintf(stderr, "cmsg: unexpected 'cmsg_level'\n");
++		exit(EXIT_FAILURE);
++	}
++
++	if (cm->cmsg_type != 0) {
++		fprintf(stderr, "cmsg: unexpected 'cmsg_type'\n");
++		exit(EXIT_FAILURE);
++	}
++
++	serr = (void *)CMSG_DATA(cm);
++	if (serr->ee_origin != 0) {
++		fprintf(stderr, "serr: unexpected 'ee_origin'\n");
++		exit(EXIT_FAILURE);
++	}
++
++	if (serr->ee_errno != EHOSTUNREACH) {
++		fprintf(stderr, "serr: wrong error code: %u\n", serr->ee_errno);
++		exit(EXIT_FAILURE);
++	}
++}
++
++/*
++ * Attempt to send a packet larger than the client's RX buffer. Test that the
++ * packet was dropped and that there is an error in the error queue.
++ */
++static void test_dgram_drop_big_packets_server(const struct test_opts *opts)
++{
++	unsigned long client_rx_buf_size;
++	size_t buf_size;
++	void *buf;
++	int fd;
++
++	if (opts->peer_cid <= VMADDR_CID_HOST) {
++		printf("The server's peer must be a guest (not CID %u), skipped...\n",
++		       opts->peer_cid);
++		return;
++	}
++
++	/* Wait for the server to be ready */
++	control_expectln("READY");
++
++	fd = vsock_dgram_connect(opts->peer_cid, 1234);
++	if (fd < 0) {
++		perror("connect");
++		exit(EXIT_FAILURE);
++	}
++
++	client_rx_buf_size = control_readulong();
++
++	buf_size = client_rx_buf_size + 1;
++	buf = malloc(buf_size);
++	if (!buf) {
++		perror("malloc");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Even though the buffer is exceeded, the send() should still succeed. */
++	if (send(fd, buf, buf_size, 0) < 0) {
++		perror("send");
++		exit(EXIT_FAILURE);
++	}
++
++	vsock_recv_error(fd);
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++
++	close(fd);
++}
++
++static void test_dgram_drop_big_packets_client(const struct test_opts *opts)
++{
++	unsigned long buf_size = getpagesize();
++
++	if (opts->peer_cid > VMADDR_CID_HOST) {
++		printf("The client's peer must be the host (not CID %u), skipped...\n",
++		       opts->peer_cid);
++		return;
++	}
++
++	control_writeln("READY");
++	control_writeulong(buf_size);
++	control_expectln("DONE");
++}
++
++static void test_stream_dgram_address_collision_client(const struct test_opts *opts)
++{
++	int dgram_fd, stream_fd;
++
++	stream_fd = vsock_stream_connect(opts->peer_cid, 1234);
++	if (stream_fd < 0) {
++		perror("connect");
++		exit(EXIT_FAILURE);
++	}
++
++	/* This simply tests if connect() causes address collision client-side.
++	 * Keep in mind that there is no exchange of packets with the
++	 * bound socket on the server.
++	 */
++	dgram_fd = vsock_dgram_connect(opts->peer_cid, 1234);
++	if (dgram_fd < 0) {
++		perror("connect");
++		exit(EXIT_FAILURE);
++	}
++
++	close(stream_fd);
++	close(dgram_fd);
++
++	/* Notify the server that the client has finished */
++	control_writeln("DONE");
++}
++
++static void test_stream_dgram_address_collision_server(const struct test_opts *opts)
++{
++	int dgram_fd, stream_fd;
++	struct sockaddr_vm addr;
++	socklen_t addrlen;
++
++	stream_fd = vsock_stream_accept(VMADDR_CID_ANY, 1234, 0);
++	if (stream_fd < 0) {
++		perror("accept");
++		exit(EXIT_FAILURE);
++	}
++
++	/* Retrieve the CID/port for re-use. */
++	addrlen = sizeof(addr);
++	if (getsockname(stream_fd, (struct sockaddr *)&addr, &addrlen)) {
++		perror("getsockname");
++		exit(EXIT_FAILURE);
++	}
++
++	/* See not in the client function about the pairwise connect call. */
++	dgram_fd = vsock_dgram_bind(addr.svm_cid, addr.svm_port);
++	if (dgram_fd < 0) {
++		perror("bind");
++		exit(EXIT_FAILURE);
++	}
++
++	control_expectln("DONE");
++
++	close(stream_fd);
++	close(dgram_fd);
++}
++
+ static struct test_case test_cases[] = {
+ 	{
+ 		.name = "SOCK_STREAM connection reset",
+@@ -1128,6 +1773,41 @@ static struct test_case test_cases[] = {
+ 		.run_client = test_stream_virtio_skb_merge_client,
+ 		.run_server = test_stream_virtio_skb_merge_server,
+ 	},
++	{
++		.name = "SOCK_DGRAM client sendto",
++		.run_client = test_dgram_sendto_client,
++		.run_server = test_dgram_sendto_server,
++	},
++	{
++		.name = "SOCK_DGRAM client connect",
++		.run_client = test_dgram_connect_client,
++		.run_server = test_dgram_connect_server,
++	},
++	{
++		.name = "SOCK_DGRAM multiple connections using sendto",
++		.run_client = test_dgram_multiconn_sendto_client,
++		.run_server = test_dgram_multiconn_sendto_server,
++	},
++	{
++		.name = "SOCK_DGRAM multiple connections using send",
++		.run_client = test_dgram_multiconn_send_client,
++		.run_server = test_dgram_multiconn_send_server,
++	},
++	{
++		.name = "SOCK_DGRAM msg bounds unreliable",
++		.run_client = test_dgram_bounds_unreliable_client,
++		.run_server = test_dgram_bounds_unreliable_server,
++	},
++	{
++		.name = "SOCK_DGRAM drop big packets",
++		.run_client = test_dgram_drop_big_packets_client,
++		.run_server = test_dgram_drop_big_packets_server,
++	},
++	{
++		.name = "SOCK_STREAM and SOCK_DGRAM address collision",
++		.run_client = test_stream_dgram_address_collision_client,
++		.run_server = test_stream_dgram_address_collision_server,
++	},
+ 	{},
+ };
  
- 	/* Retrieve the head sk_buff from the socket's receive queue. */
 
 -- 
 2.30.2
