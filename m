@@ -2,62 +2,62 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FC1EB64DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E24CAC001DC
 	for <linux-hyperv@archiver.kernel.org>; Wed, 19 Jul 2023 00:51:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230245AbjGSAvR (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 18 Jul 2023 20:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46978 "EHLO
+        id S230261AbjGSAvS (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 18 Jul 2023 20:51:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbjGSAvB (ORCPT
+        with ESMTP id S230146AbjGSAvB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
         Tue, 18 Jul 2023 20:51:01 -0400
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 851DD19A3
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:15 -0700 (PDT)
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-7680e39103bso364058885a.3
-        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:15 -0700 (PDT)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2359E171E
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:16 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-76571dae5feso589566085a.1
+        for <linux-hyperv@vger.kernel.org>; Tue, 18 Jul 2023 17:50:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1689727814; x=1692319814;
+        d=bytedance.com; s=google; t=1689727816; x=1692319816;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p5UDtnqRbXOwSk4kv7KpsqiuRSfPeujQxTt7caqoeag=;
-        b=Bzc5QYphkJxBJAAVGcKxoftfnIy9ixoapstjfZaDHt+8ignmoEtHuP1QMFfV/NgdZv
-         3sj5ZjysfQgDx4p0HKOtFfmPSLhf8q9ZrgG0m5jUcvca0sYjsElAG49iWpsKB4o7xNlw
-         uAQ40QIRMt+3ilnWtx70o1O4HaBVrlCrik+wNvo96xyR4+3Q4cUVkFT5sX2tg+JhlBe+
-         hSQ//wu9r44PASXmqG6/Xmmv+nIq7JhrBez2ZRRnULIsZkr3/pE+EpOBNqOpyyWWX28B
-         g5owX/BThJ1OiSg+ZKlYhgtlbmLJZLHH8juDYc38OwYMTHaeoKsA4gvu2ohtJ4f634Uk
-         w1RQ==
+        bh=2jDdPbzH4onHNW5mQ+nHZzIsBXIDVnlx9OcaE5Mwsjc=;
+        b=eepobj0Vc1efSCz7ybajZtwpgJ5AghKHP5/txHgJFHHyY4FHoRmuQTm5LGfIesiqT/
+         PD2ZTDjYtuPJ8w+SRAsKlf9SW1Ib1pYpdFc84jBiO4Y0y16uLALHKiYXgvuGWkyfqOw2
+         oljI0n/oJhPluX28Ya2d//kILPfh1ZUF/MMYgawk3dKZjJ9oe5nOBGUQyNi8SIIIm7c0
+         DTD5w9IYzqxsaAfBozvvoYSNWWlOsx0KjrDpjNiA32/Tivs28ml9xEjAwGuMBfpc3bKv
+         z6IhJoR+YcKaXykod/FSL6o2Y+i/IWqmY0UulvwuRxY56EXpN3w9sHfLd323IuK7M8Tu
+         AOgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689727814; x=1692319814;
+        d=1e100.net; s=20221208; t=1689727816; x=1692319816;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p5UDtnqRbXOwSk4kv7KpsqiuRSfPeujQxTt7caqoeag=;
-        b=DstKavSWYt8g9tupObgboDnb54FS6XHRW7G31ZUKCE0/OWZ84cmcSsHdY5YzrK8hzW
-         OtA8/DBkcTjFp0jN1U/8f1jp1U9WLoV3x9eN/OdvjFv23713u6VX5XRJaF3/n9PI7tFr
-         rZ5pUt4wasQmTE2giPi/tfYNvHmcUl7ELauIPrwKWghF07OfPScCkG5QoO5Ib/Z0FvYm
-         4C/rwIV+/Jduy4m6fWT8mYI31LEApgfBORI0UWls/E8PGWBA+pfsVWQTB0WQk2IU9HfA
-         RBaUGjJTxRK1rFOT8/eHItkoqFfG7lXHNWirm/bFUqh/r0ZwsZr4YIIyciJKVk7sMWWq
-         7K5w==
-X-Gm-Message-State: ABy/qLZAjp9OiY9yKK43RD6hbYRhnL9P/KMdf2fBm4q075ne2KyWSef+
-        ob4OQblHUyneLfHPOsI8FgJG6w==
-X-Google-Smtp-Source: APBJJlFOmR0fNEyLgJ+viEMpPBQC9+mqSkp+cSt9WdE1XdGyudW5tKRhGwKsNcl1PUOy43fop5oI/w==
-X-Received: by 2002:a05:620a:400b:b0:767:2a7e:1dbc with SMTP id h11-20020a05620a400b00b007672a7e1dbcmr1924213qko.17.1689727814453;
-        Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
+        bh=2jDdPbzH4onHNW5mQ+nHZzIsBXIDVnlx9OcaE5Mwsjc=;
+        b=GVnx5ANCBZQJisagKtxhhD5SVXkELWEbmeV/LCUDI50jbf+FNaH16p/ElEuiWf+QHR
+         d/uMdh2xHHynv2DwtaiMP6CIlZ80ULiHjghOFptflsOxlGhQu6ZyR+f8xUSZFRHHtRir
+         jwGe+MtjcQNwunBOuO1BhI3AMHdlXN5NzInm6kC/LaZyMEcAVRFHhOoMXr7zF0FOhLH8
+         UytEh9MHqZz4Hp5JTru2zPCeJovQR6T5Maev8opWJ6pcEUc7/sBSD77KhD8mtHX5t//g
+         Qas5+3wr3SJ82gIuijkvUZMbchcV1WjRdOelDo/PXu5AOp3nc+UiXTi5WADJrUgrfdwt
+         AtOg==
+X-Gm-Message-State: ABy/qLYB6dPmFgiB3q+r4El9ZSYX4xJsZa08J2m/X9VG7lrrCKRVxZFl
+        +X/90gdJ/AIJxE05WO++xKXboQ==
+X-Google-Smtp-Source: APBJJlFK4k8p+Ccs+dRT+RZiQ+t53CIizMdNsu9Q4x5KgBks0HqA9n612FswA/1ba47aAoZuL7DUyA==
+X-Received: by 2002:a05:620a:3998:b0:767:2f4a:e07a with SMTP id ro24-20020a05620a399800b007672f4ae07amr1182364qkn.68.1689727816119;
+        Tue, 18 Jul 2023 17:50:16 -0700 (PDT)
 Received: from [172.17.0.7] ([130.44.212.112])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.13
+        by smtp.gmail.com with ESMTPSA id c5-20020a05620a11a500b0076738337cd1sm968696qkk.1.2023.07.18.17.50.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 17:50:14 -0700 (PDT)
+        Tue, 18 Jul 2023 17:50:15 -0700 (PDT)
 From:   Bobby Eshleman <bobby.eshleman@bytedance.com>
-Date:   Wed, 19 Jul 2023 00:50:10 +0000
-Subject: [PATCH RFC net-next v5 06/14] virtio/vsock: add
- VIRTIO_VSOCK_TYPE_DGRAM
+Date:   Wed, 19 Jul 2023 00:50:12 +0000
+Subject: [PATCH RFC net-next v5 08/14] af_vsock: add
+ vsock_find_bound_dgram_socket()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230413-b4-vsock-dgram-v5-6-581bd37fdb26@bytedance.com>
+Message-Id: <20230413-b4-vsock-dgram-v5-8-581bd37fdb26@bytedance.com>
 References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
 To:     Stefan Hajnoczi <stefanha@redhat.com>,
@@ -86,27 +86,56 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This commit adds the datagram packet type for inclusion in virtio vsock
-packet headers. It is included here as a standalone commit because
-multiple future but distinct commits depend on it.
+This commit adds vsock_find_bound_dgram_socket() which allows transports
+to find bound dgram sockets in the global dgram bind table. It is
+intended to be used for "routing" incoming packets to the correct
+sockets if the transport uses the global bind table.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- include/uapi/linux/virtio_vsock.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/net/af_vsock.h   |  1 +
+ net/vmw_vsock/af_vsock.c | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
-index 64738838bee5..331be28b1d30 100644
---- a/include/uapi/linux/virtio_vsock.h
-+++ b/include/uapi/linux/virtio_vsock.h
-@@ -69,6 +69,7 @@ struct virtio_vsock_hdr {
- enum virtio_vsock_type {
- 	VIRTIO_VSOCK_TYPE_STREAM = 1,
- 	VIRTIO_VSOCK_TYPE_SEQPACKET = 2,
-+	VIRTIO_VSOCK_TYPE_DGRAM = 3,
- };
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index f6a0ca9d7c3e..ae6b6cdf6a4d 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -215,6 +215,7 @@ void vsock_for_each_connected_socket(struct vsock_transport *transport,
+ 				     void (*fn)(struct sock *sk));
+ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk);
+ bool vsock_find_cid(unsigned int cid);
++struct sock *vsock_find_bound_dgram_socket(struct sockaddr_vm *addr);
  
- enum virtio_vsock_op {
+ /**** TAP ****/
+ 
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index 0895f4c1d340..e73f3b2c52f1 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -264,6 +264,22 @@ static struct sock *vsock_find_bound_socket_common(struct sockaddr_vm *addr,
+ 	return NULL;
+ }
+ 
++struct sock *
++vsock_find_bound_dgram_socket(struct sockaddr_vm *addr)
++{
++	struct sock *sk;
++
++	spin_lock_bh(&vsock_dgram_table_lock);
++	sk = vsock_find_bound_socket_common(addr, vsock_bound_dgram_sockets(addr));
++	if (sk)
++		sock_hold(sk);
++
++	spin_unlock_bh(&vsock_dgram_table_lock);
++
++	return sk;
++}
++EXPORT_SYMBOL_GPL(vsock_find_bound_dgram_socket);
++
+ static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
+ {
+ 	return vsock_find_bound_socket_common(addr, vsock_bound_sockets(addr));
 
 -- 
 2.30.2
