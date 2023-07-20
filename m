@@ -2,145 +2,173 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D49FC04A6A
-	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Jul 2023 19:24:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1AE7C0015E
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Jul 2023 20:34:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbjGTTYN (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Jul 2023 15:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36428 "EHLO
+        id S229616AbjGTUeg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Jul 2023 16:34:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229684AbjGTTYM (ORCPT
+        with ESMTP id S229452AbjGTUef (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Jul 2023 15:24:12 -0400
-Received: from mailout.easymail.ca (mailout.easymail.ca [64.68.200.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC1B7171D;
-        Thu, 20 Jul 2023 12:24:09 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mailout.easymail.ca (Postfix) with ESMTP id 479C0623ED;
-        Thu, 20 Jul 2023 18:48:50 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at emo07-pco.easydns.vpn
-Received: from mailout.easymail.ca ([127.0.0.1])
-        by localhost (emo07-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id YkMMq7FPWqRc; Thu, 20 Jul 2023 18:48:49 +0000 (UTC)
-Received: from mail.gonehiking.org (unknown [38.15.45.1])
-        by mailout.easymail.ca (Postfix) with ESMTPA id C8ABC61E38;
-        Thu, 20 Jul 2023 18:48:49 +0000 (UTC)
-Received: from [192.168.1.4] (internal [192.168.1.4])
-        by mail.gonehiking.org (Postfix) with ESMTP id CC21F3EED6;
-        Thu, 20 Jul 2023 12:48:47 -0600 (MDT)
-Message-ID: <aea82980-358a-863f-d6a0-66f4ce3f87b7@gonehiking.org>
-Date:   Thu, 20 Jul 2023 12:48:47 -0600
+        Thu, 20 Jul 2023 16:34:35 -0400
+Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-centralusazon11020021.outbound.protection.outlook.com [52.101.61.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 862121731;
+        Thu, 20 Jul 2023 13:34:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WzrXYMqNNi+rwUP0uG/yvkom2TBl1aIAQcWqCDmPM2oabPimSnsnyMQNcZ1qvnw1p7rVcSs8BIWn4arr7Azb3MX/Ui58pr9YMMD+qIU7meHwuQkFTKX1QwPx6WhEIcrykmU1/kMc0U6Lv09aNcDS2ZpXLFK6Utt6G71WsLsC73iIKXuli3Z3CLfr9aSagKcLC+hQcH1rYAOtPP6Zv9lO7KO/iDaRkP485hX/uZzPoe9cEH30KjbbvpegNTmgBSlqEcVgsNcu0BYg4Zip+qwph/fJpv5q1Ws9Gh4mIEqFjG4Y65qGh6XFwECQWIIHUsaOsKucisriZ1MMArrST8KpdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AsErRc8q7g4PRs57iAEj54hLYOnhzglg+Hh42DSFbZQ=;
+ b=JD5IHxOinx3ESTjKjwNMzZ3j4vmoXplExUQZF6999nfPQDHQahV2G93XQFHGWNEeJkZSazvfC44eZ3l63dW7D39h0fJxite9yPRyROwNFHxE+ZkiwKssy1zn62ZyZWM6QSTU+FkojUbBBnkkSwH9/AVfusQkN1PnsIBx4Q/pcHR0tpexL0ApF6R7yl8qnMe+jB5FtRmq6GljfO8EPGLszh6CgKws3vCs08Z1PmBovTa5z6p8dvDNW2VDZfsTfVyGqxLB5yBdGtPpMcYfom8BbeeOKpqn0NXlTHFp3OfggmghEbsSzK2VfJY0L1lUJcZyJyZc73dulKxC1OGkY5lU4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AsErRc8q7g4PRs57iAEj54hLYOnhzglg+Hh42DSFbZQ=;
+ b=IfeAXTQ2Z4LJamWMaDueK7v1dOPS5yTPvVOiYx/VYry8e/5LxEH+J0blygysY3Qa1YjW19MdaYZYDeSoyHnkEOUKbL4fJe4KWrQEKgF8ukVOJEppZREvAoetcnSMZd3Jrl2FUl/4Zt8bJjphW02gAuDfLSH6aSWmys94i5XZzu8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+Received: from DM6PR21MB1370.namprd21.prod.outlook.com (2603:10b6:5:16b::28)
+ by LV2PR21MB3372.namprd21.prod.outlook.com (2603:10b6:408:14e::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.8; Thu, 20 Jul
+ 2023 20:34:31 +0000
+Received: from DM6PR21MB1370.namprd21.prod.outlook.com
+ ([fe80::58ed:9fb:47a9:13df]) by DM6PR21MB1370.namprd21.prod.outlook.com
+ ([fe80::58ed:9fb:47a9:13df%7]) with mapi id 15.20.6631.011; Thu, 20 Jul 2023
+ 20:34:31 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+        peterz@infradead.org, x86@kernel.org, linux-kernel@vger.kernel.org,
+        linux-hyperv@vger.kernel.org
+Cc:     mikelley@microsoft.com, stable@vger.kernel.org
+Subject: [PATCH 1/1] x86/hyperv: Disable IBT when hypercall page lacks ENDBR instruction
+Date:   Thu, 20 Jul 2023 13:33:57 -0700
+Message-Id: <1689885237-32662-1-git-send-email-mikelley@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: MW4P222CA0009.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::14) To DM6PR21MB1370.namprd21.prod.outlook.com
+ (2603:10b6:5:16b::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Reply-To: khalid@gonehiking.org
-Subject: Re: [PATCH v2 1/9] vgacon: rework Kconfig dependencies
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Helge Deller <deller@gmx.de>,
-        Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@quicinc.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Airlie <airlied@gmail.com>,
-        Deepak Rawat <drawat.floss@gmail.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guo Ren <guoren@kernel.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        WANG Xuerui <kernel@xen0n.name>, Wei Liu <wei.liu@kernel.org>,
-        Will Deacon <will@kernel.org>, x86@kernel.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-References: <20230719123944.3438363-1-arnd@kernel.org>
- <20230719123944.3438363-2-arnd@kernel.org>
-From:   Khalid Aziz <khalid@gonehiking.org>
-In-Reply-To: <20230719123944.3438363-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR21MB1370:EE_|LV2PR21MB3372:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0676b1c-2d56-49f0-b2a1-08db8960b86e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J82f3JfiRciJEAz6GB7qcUZ5TKCxe565KVitsiyHWgf4zjC0eTwB6qeQwpJGmCMB0e+HKjtt0wosr0mCxqLxTpEBDwiyhOWW/dlwhDt+VSZd+P8GXePNH+gm6iDTNdZ+p9S3Wy6zRjCkPiEp9nhaSQFoxm23t1wMt4xVYpAPKZQryIfhLuz7UUXdcJdh4g6iVNhCG/xvrHYus/YKr2Ku04FD7Wt6Xng77KwLHSfBJay19/3ECvfTHFpgoLeV0d3Du3J66EnHWrPnNHB5NCaMpCXTVVzQezjaPvaiXBtM9KXZ+B9jmHmJI2DwjjCqi4UlItxeTM7aYoE6Pjcf6KephSITwnP38MlJI3U0x3BupTgfbczEHQejXY4k10t5GCHeTlqvef7I+oaT9ZWrjaVUyXxBO/JPMp4/Xvhs0fB0X2jHURpPjmAjBSFtkMUlHQTrUxquDoCEKEQncnG00r7CMf2m73C/MnDd/X2XVGNXYQ0XJ9H3LOInr6V9v2NtiMN1DGELZ4RmCy4HbcuUDRKLjrQs/e8K9QOafWgAN+MYvVmWCap6oIsVKNMwR23A5mmCHEvUQEy7FBAN4zhJtAJlWPD+WDKHYm2/Fsnzik0Pduxf3kUnKaRvsm5ALr+tfvZDz5njP6Q6werKGUL6rLI9ILglxJKkgmDH7jKKCJELDJF7KCQp8W4kktdr5aHr8Qb0
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR21MB1370.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(346002)(39860400002)(376002)(136003)(396003)(451199021)(66556008)(4326008)(66946007)(316002)(38350700002)(38100700002)(5660300002)(7416002)(36756003)(8676002)(41300700001)(8936002)(82960400001)(82950400001)(86362001)(921005)(66476007)(6512007)(6506007)(26005)(2906002)(186003)(10290500003)(478600001)(6666004)(6486002)(52116002)(2616005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NuG83c40c2HCcrQhiS/EmkYyntXSr+fAFSoM0YUWxUch/if3VA3XTZlrdDzK?=
+ =?us-ascii?Q?CDGJUyKzsPJTWisA6u609o7g6I4odk7OGIF1UEKqtfX9kGk2YFPeZ3BaiaGw?=
+ =?us-ascii?Q?SOOokv9eqIxHZ+Dj4n6HtVgj3nCepSkRXzbCYNrOFYqiL2gjNzXQ1E6URclB?=
+ =?us-ascii?Q?MtxK5EYMORRkIYJZWlJKTciv24CXeHN3FiYyJ/shhs29w+XvzaWnZRfXCifH?=
+ =?us-ascii?Q?mwRUhG+5q4H3gS+NzLKMft6HuH8FuO5R5Isk620WvjOeREynOYjinhD9qr+d?=
+ =?us-ascii?Q?3cArWWDy67G5BeltgiZ9OZmHfWJJuNaE1DCARN47Zj9PTFQPKq5d/fwuNSRi?=
+ =?us-ascii?Q?2JJJBtCBI1WlL6pNiOGbqSQRLIP/k0Pttsx8sP8+Ql7PB1hTUNDm65ZJHTQ3?=
+ =?us-ascii?Q?KULB3AbBuqMLmA5ifeBID0cWoEPIGO9ITU1W23Uynj2XmbpIX5fa8pdqrwP4?=
+ =?us-ascii?Q?aNE21C8ygmdiVuNAsja2lhLQ/gOViQkm7u2ite7Lt6iMpMmpHDImh6sfTLow?=
+ =?us-ascii?Q?vHGKda8jg+SOsqlsJRbuhmhADVh88iwTE2rNiUj5uN0ta1pJa0hbAbR33DrL?=
+ =?us-ascii?Q?TpxD4etY/s2zA+4dG6z19iXElj06U6iJ6ehi7Of1bFlObnzemPh6uUNsTiFx?=
+ =?us-ascii?Q?047sNO9uC51ZoSHX0RxY+/R2Jt+OcJbN7Ri4ycjy/sc4pVC0p2wFgEj5bgrt?=
+ =?us-ascii?Q?AzlkGrAVaV4N7lsX9jefU4iDydqAVagUKVfqJqYEpY8akVXDtKBvmOWNt+52?=
+ =?us-ascii?Q?V4JQiKnM4LUOz0ZsJCLznrkb4BucqN7+TM3naFuVHN29ShVJvwgh06LbjoCd?=
+ =?us-ascii?Q?09Wq75Jn61R2YfK3q936yombG5KWNhRVkis2RPeTp2RVoRNPKqHR9/96UiNv?=
+ =?us-ascii?Q?Tn+w5AUuGMiXc+Ro0HcwellV7QFMbZrblDlSBRetKNWgLpdLn9pzPJ16+Qdq?=
+ =?us-ascii?Q?wQYXbqK9UcGisWi6j8fKMXN7DeY4U8Fz6PD4KpSCMdN8pMoXQpkN4JmveCwA?=
+ =?us-ascii?Q?N5ejeqgTr393uIrj9hOTNsW4W5Ja7a7zpdEo3nTojZ9yAK9VRtDk+NCPZvC8?=
+ =?us-ascii?Q?wPOSvKNYgUOh+JIYPwK42L9A8wjLdUjHykwUZ2q6Mj0sah4GiOh6hipPEEr2?=
+ =?us-ascii?Q?uqTjuUBFv66sCiqYlCc0AHLyOg+rBOuRxx2SBWdp04yX4MNzgRCokYWWB7Jt?=
+ =?us-ascii?Q?LmKhMHkdid8NcoMF/YZok2jJByAva0fB1k9G7BeGwtyovrrN8DnHJFt1v7Pd?=
+ =?us-ascii?Q?lhfHrFT1tA0V/tKBUWyd32N8pY3q8hyjjxClEKfgFja3exy1NXjoQE2wiNOx?=
+ =?us-ascii?Q?ceomkEajLu1NtK+frp9xu86wducP4EP0d1BOuFkmLI2SXILesaftPUkMTfue?=
+ =?us-ascii?Q?NOBEp5UtMNEDhPN4iwjKZxg16r5uuWeY+xIscBG2BQeGvkTqN4tOacdnAL+1?=
+ =?us-ascii?Q?n8ycwgGvuBf+GXbNuz6YhyUhCuJaWoWbOvya5H1YVzcX7dOO2McC07W0M+df?=
+ =?us-ascii?Q?+3sK7Brr7QxEGLgNmZnxR8dYiv+RigqPOumDroN3BCXTOvXiaPRKxRP68qpN?=
+ =?us-ascii?Q?7/OJMhDuw7XK193EIuDgNdsXWPwVt7Pf+sPeHp0W?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0676b1c-2d56-49f0-b2a1-08db8960b86e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR21MB1370.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2023 20:34:30.8260
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A+RHfffXSZyvzSLyusr0lOqGj5OnmoGoAAwtQff//vUhmmV6DClL8vHdJoHJKTlW6nLIGA9pFp6zVbVryq4iYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR21MB3372
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 7/19/23 6:39 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The list of dependencies here is phrased as an opt-out, but this is missing
-> a lot of architectures that don't actually support VGA consoles, and some
-> of the entries are stale:
-> 
->   - powerpc used to support VGA consoles in the old arch/ppc codebase, but
->     the merged arch/powerpc never did
-> 
->   - arm lists footbridge, integrator and netwinder, but netwinder is actually
->     part of footbridge, and integrator does not appear to have an actual
->     VGA hardware, or list it in its ATAG or DT.
-> 
->   - mips has a few platforms (malta, sibyte, and sni) that initialize
->     screen_info, on everything else the console is selected but cannot
->     actually work.
-> 
->   - csky, hexgagon, loongarch, nios2, riscv and xtensa are not listed
->     in the opt-out table and declare a screen_info to allow building
->     vga_con, but this cannot work because the console is never selected.
-> 
-> Replace this with an opt-in table that lists only the platforms that
-> remain. This is effectively x86, plus a couple of historic workstation
-> and server machines that reused parts of the x86 system architecture.
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On hardware that supports Indirect Branch Tracking (IBT), Hyper-V VMs
+with ConfigVersion 9.3 or later support IBT in the guest. However,
+current versions of Hyper-V have a bug in that there's not an ENDBR64
+instruction at the beginning of the hypercall page. Since hypercalls are
+made with an indirect call to the hypercall page, all hypercall attempts
+fail with an exception and Linux panics.
 
+A Hyper-V fix is in progress to add ENDBR64. But guard against the Linux
+panic by clearing X86_FEATURE_IBT if the hypercall page doesn't start
+with ENDBR. The VM will boot and run without IBT.
 
-Reviewed-by: Khalid Aziz <khalid@gonehiking.org>
+If future Linux 32-bit kernels were to support IBT, additional hypercall
+page hackery would be needed to make IBT work for such kernels in a
+Hyper-V VM.
 
+Cc: stable@vger.kernel.org
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+---
+ arch/x86/hyperv/hv_init.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-> ---
->   drivers/video/console/Kconfig | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/video/console/Kconfig b/drivers/video/console/Kconfig
-> index 1b5a319971ed0..6af90db6d2da9 100644
-> --- a/drivers/video/console/Kconfig
-> +++ b/drivers/video/console/Kconfig
-> @@ -7,9 +7,9 @@ menu "Console display driver support"
->   
->   config VGA_CONSOLE
->   	bool "VGA text console" if EXPERT || !X86
-> -	depends on !4xx && !PPC_8xx && !SPARC && !M68K && !PARISC &&  !SUPERH && \
-> -		(!ARM || ARCH_FOOTBRIDGE || ARCH_INTEGRATOR || ARCH_NETWINDER) && \
-> -		!ARM64 && !ARC && !MICROBLAZE && !OPENRISC && !S390 && !UML
-> +	depends on ALPHA || IA64 || X86 || \
-> +		(ARM && ARCH_FOOTBRIDGE) || \
-> +		(MIPS && (MIPS_MALTA || SIBYTE_BCM112X || SIBYTE_SB1250 || SIBYTE_BCM1x80 || SNI_RM))
->   	select APERTURE_HELPERS if (DRM || FB || VFIO_PCI_CORE)
->   	default y
->   	help
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 6c04b52..5cbee24 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -14,6 +14,7 @@
+ #include <asm/apic.h>
+ #include <asm/desc.h>
+ #include <asm/sev.h>
++#include <asm/ibt.h>
+ #include <asm/hypervisor.h>
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/mshyperv.h>
+@@ -472,6 +473,26 @@ void __init hyperv_init(void)
+ 	}
+ 
+ 	/*
++	 * Some versions of Hyper-V that provide IBT in guest VMs have a bug
++	 * in that there's no ENDBR64 instruction at the entry to the
++	 * hypercall page. Because hypercalls are invoked via an indirect call
++	 * to the hypercall page, all hypercall attempts fail when IBT is
++	 * enabled, and Linux panics. For such buggy versions, disable IBT.
++	 *
++	 * Fixed versions of Hyper-V always provide ENDBR64 on the hypercall
++	 * page, so if future Linux kernel versions enable IBT for 32-bit
++	 * builds, additional hypercall page hackery will be required here
++	 * to provide an ENDBR32.
++	 */
++#ifdef CONFIG_X86_KERNEL_IBT
++	if (cpu_feature_enabled(X86_FEATURE_IBT) &&
++	    *(u32 *)hv_hypercall_pg != gen_endbr()) {
++		setup_clear_cpu_cap(X86_FEATURE_IBT);
++		pr_info("Hyper-V: Disabling IBT because of Hyper-V bug\n");
++	}
++#endif
++
++	/*
+ 	 * hyperv_init() is called before LAPIC is initialized: see
+ 	 * apic_intr_mode_init() -> x86_platform.apic_post_init() and
+ 	 * apic_bsp_setup() -> setup_local_APIC(). The direct-mode STIMER
+-- 
+1.8.3.1
 
