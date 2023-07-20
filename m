@@ -2,200 +2,384 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43062EB64DA
-	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Jul 2023 13:15:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E24C04E69
+	for <linux-hyperv@archiver.kernel.org>; Thu, 20 Jul 2023 19:09:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231748AbjGTNPm (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 20 Jul 2023 09:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39334 "EHLO
+        id S230153AbjGTTJO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 20 Jul 2023 15:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231738AbjGTNPk (ORCPT
+        with ESMTP id S230140AbjGTTJM (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 20 Jul 2023 09:15:40 -0400
-Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azon11021018.outbound.protection.outlook.com [52.101.57.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88FF2135;
-        Thu, 20 Jul 2023 06:15:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SCKb15USw5N3dvNJwmzCR4/dwVP4uEQYUjbqui8FoLM16HtG/p7qqShcpz9GpQ5fkP8GSOSut+QkL+lKlfWLtcX871KHi5AMIPFJGSmAm97mF7hVj430v4C0ujoQ5axhdC2DDum2Qc4mobT5uCMbh1lZUJn1r4KYdfNxUqx6jVB+BDSdT4HQDRYR2OevWt+3mJ08+HV0+x+1UXrqVgWy4oJTcbwtaTWsD980ntC2dlL01S8eoEljm9fC5DfK9I1MiapICU+YD7p0/ccEu5/2r4tQQiV7uLMk7+GTTv6co2rDJjWrrUuhR6NeAYaG8Q9e9M2ym5TrlGowrAoG9qX/rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1nvSHRY+Yx7GWbszZ+ft1sK85G4C066hui/lJIjOxl4=;
- b=MpqdOdBxOyWNEgbYkOFERUu6Lj8y9YVDS0e6dsYiiuXVY2m3Cf48seLf0wtwpJziPQSit/FeRv2/NEy9QlOoYVyx+5iI1j2qOH/sVnx6wgcjLFYVg/yDE5D35KYhb4ihvYMWhOGKcFNfxwamRejtgKUOY36p2r0XrsL8+P37hACySJg86ol5vmrWTQ8PMxdtQlGZkUwmAtgBVNtB3CHoid44lKE3Xkir3/kh+ABVQ98/o3wCgALXlJRG0333UtlmSUtTaICGPqL6fbUkaeQmSr3WFsON6g9B8wtYunj/pVk/h7netxDHkANEvEWMeyaK+cHTXn5j/ky+DpG6bbfnAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1nvSHRY+Yx7GWbszZ+ft1sK85G4C066hui/lJIjOxl4=;
- b=h/0tlq662Y62GJT1pzS8wGNmv1AyfS9zekyMJIcOCjQ1XPq3a8zRrN05iiWQPg83ovGWFNH2Wz/9J/BBgziH8Je76i7GwNuC425zHLcPEjHg0ZRxlOHnHlYJU/1g3jEgsQk1UZ9LIjFSXXeb8m5YMht5jMyGPpcwxeASll4zMh0=
-Received: from BL1PR21MB3113.namprd21.prod.outlook.com (2603:10b6:208:391::14)
- by LV2PR21MB3372.namprd21.prod.outlook.com (2603:10b6:408:14e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.8; Thu, 20 Jul
- 2023 13:15:36 +0000
-Received: from BL1PR21MB3113.namprd21.prod.outlook.com
- ([fe80::31a5:bfb:41e6:6cdc]) by BL1PR21MB3113.namprd21.prod.outlook.com
- ([fe80::31a5:bfb:41e6:6cdc%4]) with mapi id 15.20.6631.011; Thu, 20 Jul 2023
- 13:15:36 +0000
-From:   Haiyang Zhang <haiyangz@microsoft.com>
-To:     Jakub Kicinski <kuba@kernel.org>
-CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Dexuan Cui <decui@microsoft.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Paul Rosswurm <paulros@microsoft.com>,
-        "olaf@aepfle.de" <olaf@aepfle.de>,
-        "vkuznets@redhat.com" <vkuznets@redhat.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        Long Li <longli@microsoft.com>,
-        "ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "ast@kernel.org" <ast@kernel.org>,
-        Ajay Sharma <sharmaajay@microsoft.com>,
-        "hawk@kernel.org" <hawk@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "shradhagupta@linux.microsoft.com" <shradhagupta@linux.microsoft.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH V2,net-next] net: mana: Add page pool for RX buffers
-Thread-Topic: [PATCH V2,net-next] net: mana: Add page pool for RX buffers
-Thread-Index: Adm5wYXxv9h/LIMj1k64MaVoaiA9DwBAUXeAABJYzjA=
-Date:   Thu, 20 Jul 2023 13:15:36 +0000
-Message-ID: <BL1PR21MB31133BBFFA8C7268175C377DCA3EA@BL1PR21MB3113.namprd21.prod.outlook.com>
-References: <1689716837-22859-1-git-send-email-haiyangz@microsoft.com>
- <20230719212939.6da38bc0@kernel.org>
-In-Reply-To: <20230719212939.6da38bc0@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=f511a1e3-4e19-4c48-adae-2364410d9146;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-07-20T13:14:58Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR21MB3113:EE_|LV2PR21MB3372:EE_
-x-ms-office365-filtering-correlation-id: dba0f956-2893-464a-af9f-08db892367fe
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: b758iFJG4wP9g2RdeuZk6fiRq2TOyAIB4tRuYP4I3P89DcQ4E3vGMqPHLFFg0/zAuoczD5MlwaxAYLbubMte8/V2MEncKz4078SFy72iaONqPTzdWxFji/AujH3BaYiXCzWpSAuBVRf1MRH0zN0qeyk0Ji2qyFTVARqItKx3Ffn0eyagUySX6Z4llguqKXK0oFEb5ZaF1k96eeNQP8GjqzeYNNIlsTxJU4DK/nyxVePzI/IKK/+rh5qiLZH7Zi7QnnfmPGUAkOqiKUUsBTwvFPN6a8HgC6bITkbUIOQvfyvoQHoekBp6D2HwGeoN4Tj1GpuNWvO1bAjF8Jw/4ksfrb7dYsWXLffjMMHf1+vb5flsWR1278kD0Ys9rzSCKDsGiK+8bidD8p6gIaKLrOFX3JrLrZQ4LU5IPmOsPyh/W7pSjz6zDE2FnPb1LDpzFMjfJ/vS//qChPVm0NbYpjxCg02ByhFIs0K/RJuUOAwSuzydUp5g8qohI/AE8C4GoTO+d9u/U8kclxYopSYOjZoByaMzimFWedh4toSyaaH3EhLS+t9fxdCwEMGjS8Xtzk+gUyLP/K8yhPQBa0/0ykT8jGKxFSCvRud/620inJTNIvWX+kkTagKSMEGVg/hIB1Q0ZyU99sFtdwNPphKF8EeB091EZHdUGEMhCfZKQ6zgnB4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR21MB3113.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(396003)(136003)(346002)(376002)(451199021)(66556008)(4326008)(122000001)(66476007)(66946007)(316002)(38100700002)(6916009)(5660300002)(7416002)(66446008)(52536014)(76116006)(41300700001)(8676002)(55016003)(64756008)(8936002)(33656002)(82960400001)(38070700005)(82950400001)(8990500004)(86362001)(9686003)(7696005)(6506007)(26005)(83380400001)(53546011)(2906002)(186003)(10290500003)(478600001)(54906003)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ym1lQ166b/AfHWRhBMnNOAJ6Uj3be4FHaHerZylwFZjEVsGZonxQ9itIGg1V?=
- =?us-ascii?Q?tQv8zfgzu9P1vR1rFwH+pfaABpgC/f+2emN8yBsB76++LJ5pqWgq443VIMLY?=
- =?us-ascii?Q?gKS3dBBHdzdEo9/mX66hzPJwzFpvG1HQfcaUsdPblZSkdCmce9PFICKMXwPu?=
- =?us-ascii?Q?/aWoZ5aGiKfKBJHsPqT1VZZJBIy2NSotKG8J3pcMEguyWl5JfSrYfuKRcUFw?=
- =?us-ascii?Q?wpsT0ujFUMSRV269BUyvs+Q//CQX5Ki6Hwn2074Yr6nLGa6qcl3v13QWO9bi?=
- =?us-ascii?Q?P/jIvR1dUfzWCw8YP28w6AjoXx3edB1tn2m5Y2E/YMZWA5NZJ9IrVfbijXKk?=
- =?us-ascii?Q?5bp3IzbC+D/C/IvippCkxH1OobaMvNFS3OC3oCHp+nX1fTzW8GzKCB8hWCjq?=
- =?us-ascii?Q?rqrklTGPGyOMeHJqjhDknzsrHEtbZN2RmBMF2ZKdJggOZTIaHLQfon1eo3YL?=
- =?us-ascii?Q?TTWPASE9zH4+YjdqhZjY9OIs5R0Axn/lYLCagAgcSScMlrG/jagdA+NkWUeC?=
- =?us-ascii?Q?yMPBmDF3qnDjKtQ6KkMzTkas35BxSEgrI86L0kdwJYK1trUj5J5IXnSQiV89?=
- =?us-ascii?Q?bERExti/+EGbcZK13Z8nmUfr5l54e3uJyUYhmz+LIF+fp+sxgoBra8ZxZA7t?=
- =?us-ascii?Q?YlhMocyP/0Xeq162wLY8PtrBVqqwNhalH3JXdcrHfYP2X5ateDO3subhxYJA?=
- =?us-ascii?Q?bLPwwN+iGN/V6hR7IahKdx51zb5pcl7xAagqWIcKI67w71GN8jDzB+B2E1SG?=
- =?us-ascii?Q?JNvPzoaJVLeOzLTXm5CbF1GzKQdXjo5FTAMrjfIJXiwKJ4uftObafRoXn5j8?=
- =?us-ascii?Q?+C/5JwzzJF3TsBJT6MtYndcwI+hs43rSwT2RxiVDoY3ymdg7/tXM7CBLUCZZ?=
- =?us-ascii?Q?sLpZjWl6+msXsvzly1gbQbjgh/FSa1e6jBG85rWRjUyht6KKayz3bOe71TAF?=
- =?us-ascii?Q?D5TlrM3JtGDC1LYEI59tsOMwhqoh7/BPdZlDVfqqwuwqb0guGKFwy/mCG/Fb?=
- =?us-ascii?Q?q0ZQdA3+elYVcqx+koXCahph++bzLcphzAF0WJCCtOos8BacKmcnJhPbRYlv?=
- =?us-ascii?Q?dyUZjauS4NIUP7FKoDGvGkOjbUv10z0x6/kZFK74VWux9SF4M/rI8oFxnvao?=
- =?us-ascii?Q?yYPwqYxpPDb/acHN7k2FEcN90rLKz8P+5X60pqroXZHOyt1rH9cmxVKTZo12?=
- =?us-ascii?Q?XWl1DjD/7v07RwbXE9Gz5rKB1RkFheK87l0kF/zrq+DjunBpD7vFL14MPw2z?=
- =?us-ascii?Q?Vx2Bw8CrkbHlAGJS1tJq5S3JnBHo9qnLxS7ZLVwW03ZE2EJUAC3LNllhffrA?=
- =?us-ascii?Q?69Dq2a9+Aqcexj/LlxBk89z54ztxlMIZU/cWwYRaKEIuP2ghB+aP/fU6N3Rq?=
- =?us-ascii?Q?RcZjldq6IfkBhhaKJDXEc2SiBj8NE0KwpcWsB2svZt1pt2lOdrEqTDgHlIsu?=
- =?us-ascii?Q?ghAv0kPb/r/MJA76Wzt88rvWBrZ5EWsOkMh5lYKUgeBb3E8Beuv4Ue/4+T/X?=
- =?us-ascii?Q?gvECEhwOEjLnXWai0POOg3F55onNPHpd9AQJzVxen+gPd4F0b99fmrANAYa0?=
- =?us-ascii?Q?SFARayGK1Si8/1tgxTv4un3RrdSX/YXtkq8ZViSb?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 20 Jul 2023 15:09:12 -0400
+X-Greylist: delayed 300 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 20 Jul 2023 12:09:10 PDT
+Received: from mailout.easymail.ca (mailout.easymail.ca [64.68.200.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3C2810E5;
+        Thu, 20 Jul 2023 12:09:09 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mailout.easymail.ca (Postfix) with ESMTP id C590A620B6;
+        Thu, 20 Jul 2023 18:51:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at emo09-pco.easydns.vpn
+Received: from mailout.easymail.ca ([127.0.0.1])
+        by localhost (emo09-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xdAW74Bt-UdA; Thu, 20 Jul 2023 18:51:38 +0000 (UTC)
+Received: from mail.gonehiking.org (unknown [38.15.45.1])
+        by mailout.easymail.ca (Postfix) with ESMTPA id F357A61E5F;
+        Thu, 20 Jul 2023 18:51:37 +0000 (UTC)
+Received: from [192.168.1.4] (internal [192.168.1.4])
+        by mail.gonehiking.org (Postfix) with ESMTP id D5A1F3EED6;
+        Thu, 20 Jul 2023 12:51:35 -0600 (MDT)
+Message-ID: <2517a38e-9a3b-07b1-85ff-270601d52c45@gonehiking.org>
+Date:   Thu, 20 Jul 2023 12:51:35 -0600
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR21MB3113.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dba0f956-2893-464a-af9f-08db892367fe
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2023 13:15:36.4126
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: K7QsHhfrBxRXGyRCmjGrDJdKq7GKQLF7mACOO06k78W6+yqfN+DjgGY8hw9FNdrQlUS7A0Q1z9VsMoaauLb80w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR21MB3372
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Reply-To: khalid@gonehiking.org
+Subject: Re: [PATCH v2 5/9] vgacon: remove screen_info dependency
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@kernel.org>, linux-fbdev@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Helge Deller <deller@gmx.de>,
+        Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@quicinc.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Deepak Rawat <drawat.floss@gmail.com>,
+        Dexuan Cui <decui@microsoft.com>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guo Ren <guoren@kernel.org>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        WANG Xuerui <kernel@xen0n.name>, Wei Liu <wei.liu@kernel.org>,
+        Will Deacon <will@kernel.org>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-efi@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+References: <20230719123944.3438363-1-arnd@kernel.org>
+ <20230719123944.3438363-6-arnd@kernel.org>
+From:   Khalid Aziz <khalid@gonehiking.org>
+In-Reply-To: <20230719123944.3438363-6-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
+On 7/19/23 6:39 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The vga console driver is fairly self-contained, and only used by
+> architectures that explicitly initialize the screen_info settings.
+> 
+> Chance every instance that picks the vga console by setting conswitchp
+> to call a function instead, and pass a reference to the screen_info
+> there.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
+PCDP and ia64 changes look good to me.
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Thursday, July 20, 2023 12:30 AM
-> To: Haiyang Zhang <haiyangz@microsoft.com>
-> Cc: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; Dexuan Cui
-> <decui@microsoft.com>; KY Srinivasan <kys@microsoft.com>; Paul Rosswurm
-> <paulros@microsoft.com>; olaf@aepfle.de; vkuznets@redhat.com;
-> davem@davemloft.net; wei.liu@kernel.org; edumazet@google.com;
-> pabeni@redhat.com; leon@kernel.org; Long Li <longli@microsoft.com>;
-> ssengar@linux.microsoft.com; linux-rdma@vger.kernel.org;
-> daniel@iogearbox.net; john.fastabend@gmail.com; bpf@vger.kernel.org;
-> ast@kernel.org; Ajay Sharma <sharmaajay@microsoft.com>; hawk@kernel.org;
-> tglx@linutronix.de; shradhagupta@linux.microsoft.com; linux-
-> kernel@vger.kernel.org
-> Subject: Re: [PATCH V2,net-next] net: mana: Add page pool for RX buffers
->=20
-> On Tue, 18 Jul 2023 21:48:01 +0000 Haiyang Zhang wrote:
-> > Add page pool for RX buffers for faster buffer cycle and reduce CPU
-> > usage.
-> >
-> > The standard page pool API is used.
->=20
-> > @@ -1437,8 +1437,12 @@ static void mana_rx_skb(void *buf_va, struct
-> mana_rxcomp_oob *cqe,
-> >
-> >  	act =3D mana_run_xdp(ndev, rxq, &xdp, buf_va, pkt_len);
-> >
-> > -	if (act =3D=3D XDP_REDIRECT && !rxq->xdp_rc)
-> > +	if (act =3D=3D XDP_REDIRECT && !rxq->xdp_rc) {
-> > +		if (from_pool)
-> > +			page_pool_release_page(rxq->page_pool,
-> > +					       virt_to_head_page(buf_va));
->=20
->=20
-> IIUC you should pass the page_pool as the last argument to
-> xdp_rxq_info_reg_mem_model() and then the page will be recycled
-> by the core, you shouldn't release it.
->=20
-> Not to mention the potential race in releasing the page _after_
-> giving its ownership to someone else.
->=20
-> > -		page =3D dev_alloc_page();
-> > +		if (is_napi) {
-> > +			page =3D page_pool_dev_alloc_pages(rxq->page_pool);
-> > +			*from_pool =3D true;
-> > +		} else {
-> > +			page =3D dev_alloc_page();
->=20
-> FWIW if you're only calling this outside NAPI during init, when NAPI
-> can't yet run, I _think_ it's okay to use page_pool_dev_alloc..
->=20
-> > +	pprm.pool_size =3D RX_BUFFERS_PER_QUEUE;
-> > +	pprm.napi =3D &cq->napi;
-> > +	pprm.dev =3D gc->dev;
-> > +	pprm.dma_dir =3D DMA_FROM_DEVICE;
->=20
-> If you're not setting PP_FLAG_DMA_MAP you don't have to fill in .dev
-> and .dma_dir
+Acked-by: Khalid Azzi <khalid@gonehiking.org>
 
-Thank you for the comments.
-I will update the patch.
+> ---
+>   arch/alpha/kernel/setup.c      |  2 +-
+>   arch/arm/kernel/setup.c        |  2 +-
+>   arch/ia64/kernel/setup.c       |  2 +-
+>   arch/mips/kernel/setup.c       |  2 +-
+>   arch/x86/kernel/setup.c        |  2 +-
+>   drivers/firmware/pcdp.c        |  2 +-
+>   drivers/video/console/vgacon.c | 68 ++++++++++++++++++++--------------
+>   include/linux/console.h        |  7 ++++
+>   8 files changed, 53 insertions(+), 34 deletions(-)
+> 
+> diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
+> index b4d2297765c02..d73b685fe9852 100644
+> --- a/arch/alpha/kernel/setup.c
+> +++ b/arch/alpha/kernel/setup.c
+> @@ -655,7 +655,7 @@ setup_arch(char **cmdline_p)
+>   
+>   #ifdef CONFIG_VT
+>   #if defined(CONFIG_VGA_CONSOLE)
+> -	conswitchp = &vga_con;
+> +	vgacon_register_screen(&screen_info);
+>   #endif
+>   #endif
+>   
+> diff --git a/arch/arm/kernel/setup.c b/arch/arm/kernel/setup.c
+> index 40326a35a179b..5d8a7fb3eba45 100644
+> --- a/arch/arm/kernel/setup.c
+> +++ b/arch/arm/kernel/setup.c
+> @@ -1192,7 +1192,7 @@ void __init setup_arch(char **cmdline_p)
+>   
+>   #ifdef CONFIG_VT
+>   #if defined(CONFIG_VGA_CONSOLE)
+> -	conswitchp = &vga_con;
+> +	vgacon_register_screen(&screen_info);
+>   #endif
+>   #endif
+>   
+> diff --git a/arch/ia64/kernel/setup.c b/arch/ia64/kernel/setup.c
+> index d2c66efdde560..2c9283fcd3759 100644
+> --- a/arch/ia64/kernel/setup.c
+> +++ b/arch/ia64/kernel/setup.c
+> @@ -619,7 +619,7 @@ setup_arch (char **cmdline_p)
+>   		 * memory so we can avoid this problem.
+>   		 */
+>   		if (efi_mem_type(0xA0000) != EFI_CONVENTIONAL_MEMORY)
+> -			conswitchp = &vga_con;
+> +			vgacon_register_screen(&screen_info);
+>   # endif
+>   	}
+>   #endif
+> diff --git a/arch/mips/kernel/setup.c b/arch/mips/kernel/setup.c
+> index 1aba7dc95132c..6c3fae62a9f6b 100644
+> --- a/arch/mips/kernel/setup.c
+> +++ b/arch/mips/kernel/setup.c
+> @@ -794,7 +794,7 @@ void __init setup_arch(char **cmdline_p)
+>   
+>   #if defined(CONFIG_VT)
+>   #if defined(CONFIG_VGA_CONSOLE)
+> -	conswitchp = &vga_con;
+> +	vgacon_register_screen(&screen_info);
+>   #endif
+>   #endif
+>   
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index fd975a4a52006..b1ea77d504615 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -1293,7 +1293,7 @@ void __init setup_arch(char **cmdline_p)
+>   #ifdef CONFIG_VT
+>   #if defined(CONFIG_VGA_CONSOLE)
+>   	if (!efi_enabled(EFI_BOOT) || (efi_mem_type(0xa0000) != EFI_CONVENTIONAL_MEMORY))
+> -		conswitchp = &vga_con;
+> +		vgacon_register_screen(&screen_info);
+>   #endif
+>   #endif
+>   	x86_init.oem.banner();
+> diff --git a/drivers/firmware/pcdp.c b/drivers/firmware/pcdp.c
+> index 715a45442d1cf..667a595373b2d 100644
+> --- a/drivers/firmware/pcdp.c
+> +++ b/drivers/firmware/pcdp.c
+> @@ -72,7 +72,7 @@ setup_vga_console(struct pcdp_device *dev)
+>   		return -ENODEV;
+>   	}
+>   
+> -	conswitchp = &vga_con;
+> +	vgacon_register_screen(&screen_info);
+>   	printk(KERN_INFO "PCDP: VGA console\n");
+>   	return 0;
+>   #else
+> diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
+> index e25ba523892e5..3d7fedf27ffc1 100644
+> --- a/drivers/video/console/vgacon.c
+> +++ b/drivers/video/console/vgacon.c
+> @@ -97,6 +97,8 @@ static int 		vga_video_font_height;
+>   static int 		vga_scan_lines		__read_mostly;
+>   static unsigned int 	vga_rolled_over; /* last vc_origin offset before wrap */
+>   
+> +static struct screen_info *vga_si;
+> +
+>   static bool vga_hardscroll_enabled;
+>   static bool vga_hardscroll_user_enable = true;
+>   
+> @@ -161,8 +163,9 @@ static const char *vgacon_startup(void)
+>   	u16 saved1, saved2;
+>   	volatile u16 *p;
+>   
+> -	if (screen_info.orig_video_isVGA == VIDEO_TYPE_VLFB ||
+> -	    screen_info.orig_video_isVGA == VIDEO_TYPE_EFI) {
+> +	if (!vga_si ||
+> +	    vga_si->orig_video_isVGA == VIDEO_TYPE_VLFB ||
+> +	    vga_si->orig_video_isVGA == VIDEO_TYPE_EFI) {
+>   	      no_vga:
+>   #ifdef CONFIG_DUMMY_CONSOLE
+>   		conswitchp = &dummy_con;
+> @@ -172,29 +175,29 @@ static const char *vgacon_startup(void)
+>   #endif
+>   	}
+>   
+> -	/* boot_params.screen_info reasonably initialized? */
+> -	if ((screen_info.orig_video_lines == 0) ||
+> -	    (screen_info.orig_video_cols  == 0))
+> +	/* vga_si reasonably initialized? */
+> +	if ((vga_si->orig_video_lines == 0) ||
+> +	    (vga_si->orig_video_cols  == 0))
+>   		goto no_vga;
+>   
+>   	/* VGA16 modes are not handled by VGACON */
+> -	if ((screen_info.orig_video_mode == 0x0D) ||	/* 320x200/4 */
+> -	    (screen_info.orig_video_mode == 0x0E) ||	/* 640x200/4 */
+> -	    (screen_info.orig_video_mode == 0x10) ||	/* 640x350/4 */
+> -	    (screen_info.orig_video_mode == 0x12) ||	/* 640x480/4 */
+> -	    (screen_info.orig_video_mode == 0x6A))	/* 800x600/4 (VESA) */
+> +	if ((vga_si->orig_video_mode == 0x0D) ||	/* 320x200/4 */
+> +	    (vga_si->orig_video_mode == 0x0E) ||	/* 640x200/4 */
+> +	    (vga_si->orig_video_mode == 0x10) ||	/* 640x350/4 */
+> +	    (vga_si->orig_video_mode == 0x12) ||	/* 640x480/4 */
+> +	    (vga_si->orig_video_mode == 0x6A))	/* 800x600/4 (VESA) */
+>   		goto no_vga;
+>   
+> -	vga_video_num_lines = screen_info.orig_video_lines;
+> -	vga_video_num_columns = screen_info.orig_video_cols;
+> +	vga_video_num_lines = vga_si->orig_video_lines;
+> +	vga_video_num_columns = vga_si->orig_video_cols;
+>   	vgastate.vgabase = NULL;
+>   
+> -	if (screen_info.orig_video_mode == 7) {
+> +	if (vga_si->orig_video_mode == 7) {
+>   		/* Monochrome display */
+>   		vga_vram_base = 0xb0000;
+>   		vga_video_port_reg = VGA_CRT_IM;
+>   		vga_video_port_val = VGA_CRT_DM;
+> -		if ((screen_info.orig_video_ega_bx & 0xff) != 0x10) {
+> +		if ((vga_si->orig_video_ega_bx & 0xff) != 0x10) {
+>   			static struct resource ega_console_resource =
+>   			    { .name	= "ega",
+>   			      .flags	= IORESOURCE_IO,
+> @@ -231,12 +234,12 @@ static const char *vgacon_startup(void)
+>   		vga_vram_base = 0xb8000;
+>   		vga_video_port_reg = VGA_CRT_IC;
+>   		vga_video_port_val = VGA_CRT_DC;
+> -		if ((screen_info.orig_video_ega_bx & 0xff) != 0x10) {
+> +		if ((vga_si->orig_video_ega_bx & 0xff) != 0x10) {
+>   			int i;
+>   
+>   			vga_vram_size = 0x8000;
+>   
+> -			if (!screen_info.orig_video_isVGA) {
+> +			if (!vga_si->orig_video_isVGA) {
+>   				static struct resource ega_console_resource =
+>   				    { .name	= "ega",
+>   				      .flags	= IORESOURCE_IO,
+> @@ -327,14 +330,14 @@ static const char *vgacon_startup(void)
+>   	    || vga_video_type == VIDEO_TYPE_VGAC
+>   	    || vga_video_type == VIDEO_TYPE_EGAM) {
+>   		vga_hardscroll_enabled = vga_hardscroll_user_enable;
+> -		vga_default_font_height = screen_info.orig_video_points;
+> -		vga_video_font_height = screen_info.orig_video_points;
+> +		vga_default_font_height = vga_si->orig_video_points;
+> +		vga_video_font_height = vga_si->orig_video_points;
+>   		/* This may be suboptimal but is a safe bet - go with it */
+>   		vga_scan_lines =
+>   		    vga_video_font_height * vga_video_num_lines;
+>   	}
+>   
+> -	vgacon_xres = screen_info.orig_video_cols * VGA_FONTWIDTH;
+> +	vgacon_xres = vga_si->orig_video_cols * VGA_FONTWIDTH;
+>   	vgacon_yres = vga_scan_lines;
+>   
+>   	return display_desc;
+> @@ -379,7 +382,7 @@ static void vgacon_init(struct vc_data *c, int init)
+>   	/* Only set the default if the user didn't deliberately override it */
+>   	if (global_cursor_default == -1)
+>   		global_cursor_default =
+> -			!(screen_info.flags & VIDEO_FLAGS_NOCURSOR);
+> +			!(vga_si->flags & VIDEO_FLAGS_NOCURSOR);
+>   }
+>   
+>   static void vgacon_deinit(struct vc_data *c)
+> @@ -607,7 +610,7 @@ static int vgacon_switch(struct vc_data *c)
+>   {
+>   	int x = c->vc_cols * VGA_FONTWIDTH;
+>   	int y = c->vc_rows * c->vc_cell_height;
+> -	int rows = screen_info.orig_video_lines * vga_default_font_height/
+> +	int rows = vga_si->orig_video_lines * vga_default_font_height/
+>   		c->vc_cell_height;
+>   	/*
+>   	 * We need to save screen size here as it's the only way
+> @@ -627,7 +630,7 @@ static int vgacon_switch(struct vc_data *c)
+>   
+>   		if ((vgacon_xres != x || vgacon_yres != y) &&
+>   		    (!(vga_video_num_columns % 2) &&
+> -		     vga_video_num_columns <= screen_info.orig_video_cols &&
+> +		     vga_video_num_columns <= vga_si->orig_video_cols &&
+>   		     vga_video_num_lines <= rows))
+>   			vgacon_doresize(c, c->vc_cols, c->vc_rows);
+>   	}
+> @@ -1074,13 +1077,13 @@ static int vgacon_resize(struct vc_data *c, unsigned int width,
+>   		 * Ho ho!  Someone (svgatextmode, eh?) may have reprogrammed
+>   		 * the video mode!  Set the new defaults then and go away.
+>   		 */
+> -		screen_info.orig_video_cols = width;
+> -		screen_info.orig_video_lines = height;
+> +		vga_si->orig_video_cols = width;
+> +		vga_si->orig_video_lines = height;
+>   		vga_default_font_height = c->vc_cell_height;
+>   		return 0;
+>   	}
+> -	if (width % 2 || width > screen_info.orig_video_cols ||
+> -	    height > (screen_info.orig_video_lines * vga_default_font_height)/
+> +	if (width % 2 || width > vga_si->orig_video_cols ||
+> +	    height > (vga_si->orig_video_lines * vga_default_font_height)/
+>   	    c->vc_cell_height)
+>   		return -EINVAL;
+>   
+> @@ -1110,8 +1113,8 @@ static void vgacon_save_screen(struct vc_data *c)
+>   		 * console initialization routines.
+>   		 */
+>   		vga_bootup_console = 1;
+> -		c->state.x = screen_info.orig_x;
+> -		c->state.y = screen_info.orig_y;
+> +		c->state.x = vga_si->orig_x;
+> +		c->state.y = vga_si->orig_y;
+>   	}
+>   
+>   	/* We can't copy in more than the size of the video buffer,
+> @@ -1204,4 +1207,13 @@ const struct consw vga_con = {
+>   };
+>   EXPORT_SYMBOL(vga_con);
+>   
+> +void vgacon_register_screen(struct screen_info *si)
+> +{
+> +	if (!si || vga_si)
+> +		return;
+> +
+> +	conswitchp = &vga_con;
+> +	vga_si = si;
+> +}
+> +
+>   MODULE_LICENSE("GPL");
+> diff --git a/include/linux/console.h b/include/linux/console.h
+> index d3195664baa5a..5f900210e689e 100644
+> --- a/include/linux/console.h
+> +++ b/include/linux/console.h
+> @@ -101,6 +101,13 @@ extern const struct consw dummy_con;	/* dummy console buffer */
+>   extern const struct consw vga_con;	/* VGA text console */
+>   extern const struct consw newport_con;	/* SGI Newport console  */
+>   
+> +struct screen_info;
+> +#ifdef CONFIG_VGA_CONSOLE
+> +void vgacon_register_screen(struct screen_info *si);
+> +#else
+> +static inline void vgacon_register_screen(struct screen_info *si) { }
+> +#endif
+> +
+>   int con_is_bound(const struct consw *csw);
+>   int do_unregister_con_driver(const struct consw *csw);
+>   int do_take_over_console(const struct consw *sw, int first, int last, int deflt);
 
-- Haiyang
