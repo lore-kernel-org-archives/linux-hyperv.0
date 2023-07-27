@@ -2,64 +2,67 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F32CC0015E
-	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 07:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B2EC0015E
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 08:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233616AbjG0H5e (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 27 Jul 2023 03:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60376 "EHLO
+        id S233446AbjG0IAD (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 27 Jul 2023 04:00:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233129AbjG0H4l (ORCPT
+        with ESMTP id S233431AbjG0H7i (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 27 Jul 2023 03:56:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1194A6584
-        for <linux-hyperv@vger.kernel.org>; Thu, 27 Jul 2023 00:51:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1690444311;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=XGdpEGuVFC1LjQhQ41rFzUdSqbCmVBU7DHNo6fBlyec=;
-        b=ATVHCB++qcp2V+/zfDln5AkCugWA9QkBq2+bwBDnXpjubLWzkx6FCjYpngx3uGEfWC32ja
-        Nb4y+NTinsldxCBlhyMYjmbjQN2MziR6hXTVksQz/KqgPW+6RUdUCxVPW89xhdWIMEnifF
-        fEos6H9sEL7a3SX+0wjkvJdXP6csnKM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-63-W4tqqEtRPjaSCMmjENs3Eg-1; Thu, 27 Jul 2023 03:51:50 -0400
-X-MC-Unique: W4tqqEtRPjaSCMmjENs3Eg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5226eaba9e9so372620a12.2
-        for <linux-hyperv@vger.kernel.org>; Thu, 27 Jul 2023 00:51:49 -0700 (PDT)
+        Thu, 27 Jul 2023 03:59:38 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E67B91727;
+        Thu, 27 Jul 2023 00:57:09 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2b962c226ceso9081551fa.3;
+        Thu, 27 Jul 2023 00:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1690444627; x=1691049427;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ARhledSl3QTGEGdemUznkguTQvORRBgIePoG3OHZLX0=;
+        b=kAVILpgf9PWEo6kqHSy0GZHW7//7UJo6EeLXQN+jGobCUZGARX96Xr3JspeJIQdO1D
+         hBShEwn6fNCaDTBhGpyJR4L6N62r5xxLzFK+jMdtfztGFupWCBMQbsdhvU/HxZDSJnOy
+         T672KVe7L8Z5Vg0LbBRxCq+lKQdWC6PH73mUf55sxA5aY3GzZ3gIXzCHfXYC899jy1UR
+         3Btuh+iOiKYaEfIK87W/bfaDaBYRbEV6EqFTb8I3oG4RWHyARty+4Q20EzxsxzexWiXt
+         pRiXk2Zqgy52tHG20hJ7ZS2VEVbDFBNskOaR5EhmlFNKwsu/AFeiOW9gJOlj4RpnLVu5
+         Lt/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690444309; x=1691049109;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XGdpEGuVFC1LjQhQ41rFzUdSqbCmVBU7DHNo6fBlyec=;
-        b=Lok7QTckLMVtXE5iWKlN353Krjbq6OlwyF+h8/zeGi+840rHmP/XCCgImVnhqjVOu6
-         GmsfdGrnG2GDsZ34GMDBayU/HleD+4LIxQmOI5UA/Z3e4/fpIzCRne5YtnQzfyPr9w8j
-         Dfg8paxdk/O/Uy/OIliXppHX8dYcTN+WmJNZ8Kl1XhsCtYvtJ+FJIi7mx2vIPc+AV/LY
-         FqgWoCZ48VIuvhM87LUHXnuXH0QFtDO5JmSImDOUxfslwuvvALiddE0h8wKGE0gAsLSJ
-         4NE4X3vOK15z9g2C6b7aDQTwmjVJFppppRgFMFpGghEpy0khQ6ITRHn0GAdA8RSAkgSX
-         EjmQ==
-X-Gm-Message-State: ABy/qLao00CZnqesd2qvgRmMyD1ZVAigm44Pfi+NqfTRGx6+VX9NkTry
-        JfbNQfpOPbgsJ9tk/O36g71r6lrRL7E4qxdN5RgbdaSYYhZJMmxsH9hc4EuVX7EdErey5kBUDwB
-        v07lZUSJ3L6EhxaFETlEYZ7cx
-X-Received: by 2002:aa7:c24c:0:b0:51e:1c18:dd99 with SMTP id y12-20020aa7c24c000000b0051e1c18dd99mr1107587edo.38.1690444308767;
-        Thu, 27 Jul 2023 00:51:48 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlGKXV0ynY8e7V/b42V/35k2Q/0im3idioITFwhBKCnXqViZp+dS2Co3Ki/5u7d7K9vB+MC7cQ==
-X-Received: by 2002:aa7:c24c:0:b0:51e:1c18:dd99 with SMTP id y12-20020aa7c24c000000b0051e1c18dd99mr1107573edo.38.1690444308402;
-        Thu, 27 Jul 2023 00:51:48 -0700 (PDT)
-Received: from redhat.com ([2.52.14.22])
-        by smtp.gmail.com with ESMTPSA id l5-20020aa7d945000000b005223e54d1edsm336234eds.20.2023.07.27.00.51.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jul 2023 00:51:47 -0700 (PDT)
-Date:   Thu, 27 Jul 2023 03:51:42 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Bobby Eshleman <bobby.eshleman@bytedance.com>
-Cc:     Stefan Hajnoczi <stefanha@redhat.com>,
+        d=1e100.net; s=20221208; t=1690444627; x=1691049427;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ARhledSl3QTGEGdemUznkguTQvORRBgIePoG3OHZLX0=;
+        b=YFLEB0YWsLVDyB2jYJ7Kxr+yUZfxEldeYlh2dtnhG5sW2GqS8akMzjOwO8Aw+P8aw9
+         kBWoIlLKE2OFnBxp1L8ZkPIg+n1KfgS5jhO2skmQySC/LxRhb1QlIyZGhFvXaoLJ9Hfv
+         BwqzS/WND02LFNqYMS8s5JQ+OBzDN3g26x4ziP4uiVAgJoZ/DFpqtFObSIm7Rlkn1fSy
+         eF/CMM7k6vcu76f8JsNBWzyF8yvGDkR2eH6kCnN4+AxdWfoQRdi7gJCEiv8LfSfTflkc
+         ZJvULoQaKrBanaeMb29GpKE/UJCGmds0fzaogRS143pT3/TSEjLTf+j5gS28lbziGeRu
+         iQDw==
+X-Gm-Message-State: ABy/qLZFfK7ynw/Fg2dzqJHITKMmTZJ74rxLoqq4Qn/IGNtnApVWNR5X
+        e+U2JKC/iL35MklXYSuTrOQ=
+X-Google-Smtp-Source: APBJJlGUEqszz20wUK1KKNzHsQgmvHQEDGcDX4RSlRskSTOnLFzTpwy3Dn6fyjgMusil+3lP1IwseQ==
+X-Received: by 2002:a2e:b60e:0:b0:2b9:af56:f4b8 with SMTP id r14-20020a2eb60e000000b002b9af56f4b8mr1193635ljn.10.1690444627233;
+        Thu, 27 Jul 2023 00:57:07 -0700 (PDT)
+Received: from [192.168.0.112] ([77.220.140.242])
+        by smtp.gmail.com with ESMTPSA id l14-20020a2e3e0e000000b002b6e13fcedcsm197684lja.122.2023.07.27.00.57.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Jul 2023 00:57:06 -0700 (PDT)
+Message-ID: <dbf36361-8b94-e2e3-8478-c643bab54e43@gmail.com>
+Date:   Thu, 27 Jul 2023 10:57:05 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH RFC net-next v5 07/14] virtio/vsock: add common datagram
+ send path
+Content-Language: en-US
+To:     Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc:     Bobby Eshleman <bobby.eshleman@bytedance.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
         Stefano Garzarella <sgarzare@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
         Jason Wang <jasowang@redhat.com>,
         Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -73,176 +76,165 @@ Cc:     Stefan Hajnoczi <stefanha@redhat.com>,
         Vishnu Dasa <vdasa@vmware.com>,
         VMware PV-Drivers Reviewers <pv-drivers@vmware.com>,
         Dan Carpenter <dan.carpenter@linaro.org>,
-        Simon Horman <simon.horman@corigine.com>,
-        Krasnov Arseniy <oxffffaa@gmail.com>, kvm@vger.kernel.org,
+        Simon Horman <simon.horman@corigine.com>, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        bpf@vger.kernel.org, Jiang Wang <jiang.wang@bytedance.com>
-Subject: Re: [PATCH RFC net-next v5 00/14] virtio/vsock: support datagrams
-Message-ID: <20230727035004-mutt-send-email-mst@kernel.org>
+        bpf@vger.kernel.org
 References: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230413-b4-vsock-dgram-v5-0-581bd37fdb26@bytedance.com>
+ <20230413-b4-vsock-dgram-v5-7-581bd37fdb26@bytedance.com>
+ <051e4091-556c-4592-4a72-4dacf0015da8@gmail.com> <ZMFS+MlAPTso6wjQ@bullseye>
+From:   Arseniy Krasnov <oxffffaa@gmail.com>
+In-Reply-To: <ZMFS+MlAPTso6wjQ@bullseye>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On Wed, Jul 19, 2023 at 12:50:04AM +0000, Bobby Eshleman wrote:
-> Hey all!
-> 
-> This series introduces support for datagrams to virtio/vsock.
-> 
-> It is a spin-off (and smaller version) of this series from the summer:
->   https://lore.kernel.org/all/cover.1660362668.git.bobby.eshleman@bytedance.com/
-> 
-> Please note that this is an RFC and should not be merged until
-> associated changes are made to the virtio specification, which will
-> follow after discussion from this series.
-> 
-> Another aside, the v4 of the series has only been mildly tested with a
-> run of tools/testing/vsock/vsock_test. Some code likely needs cleaning
-> up, but I'm hoping to get some of the design choices agreed upon before
-> spending too much time making it pretty.
-> 
-> This series first supports datagrams in a basic form for virtio, and
-> then optimizes the sendpath for all datagram transports.
-> 
-> The result is a very fast datagram communication protocol that
-> outperforms even UDP on multi-queue virtio-net w/ vhost on a variety
-> of multi-threaded workload samples.
-> 
-> For those that are curious, some summary data comparing UDP and VSOCK
-> DGRAM (N=5):
-> 
-> 	vCPUS: 16
-> 	virtio-net queues: 16
-> 	payload size: 4KB
-> 	Setup: bare metal + vm (non-nested)
-> 
-> 	UDP: 287.59 MB/s
-> 	VSOCK DGRAM: 509.2 MB/s
-> 
-> Some notes about the implementation...
-> 
-> This datagram implementation forces datagrams to self-throttle according
-> to the threshold set by sk_sndbuf. It behaves similar to the credits
-> used by streams in its effect on throughput and memory consumption, but
-> it is not influenced by the receiving socket as credits are.
-> 
-> The device drops packets silently.
-> 
-> As discussed previously, this series introduces datagrams and defers
-> fairness to future work. See discussion in v2 for more context around
-> datagrams, fairness, and this implementation.
-
-it's a big thread - can't you summarize here?
 
 
-> Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
-
-
-could you give a bit more motivation? which applications do
-you have in mind? for example, on localhost loopback datagrams
-are actually reliable and a bunch of apps came to depend
-on that even if they shouldn't.
-
-
-
-> ---
-> Changes in v5:
-> - teach vhost to drop dgram when a datagram exceeds the receive buffer
->   - now uses MSG_ERRQUEUE and depends on Arseniy's zerocopy patch:
-> 	"vsock: read from socket's error queue"
-> - replace multiple ->dgram_* callbacks with single ->dgram_addr_init()
->   callback
-> - refactor virtio dgram skb allocator to reduce conflicts w/ zerocopy series
-> - add _fallback/_FALLBACK suffix to dgram transport variables/macros
-> - add WARN_ONCE() for table_size / VSOCK_HASH issue
-> - add static to vsock_find_bound_socket_common
-> - dedupe code in vsock_dgram_sendmsg() using module_got var
-> - drop concurrent sendmsg() for dgram and defer to future series
-> - Add more tests
->   - test EHOSTUNREACH in errqueue
->   - test stream + dgram address collision
-> - improve clarity of dgram msg bounds test code
-> - Link to v4: https://lore.kernel.org/r/20230413-b4-vsock-dgram-v4-0-0cebbb2ae899@bytedance.com
+On 26.07.2023 20:08, Bobby Eshleman wrote:
+> On Sat, Jul 22, 2023 at 11:16:05AM +0300, Arseniy Krasnov wrote:
+>>
+>>
+>> On 19.07.2023 03:50, Bobby Eshleman wrote:
+>>> This commit implements the common function
+>>> virtio_transport_dgram_enqueue for enqueueing datagrams. It does not add
+>>> usage in either vhost or virtio yet.
+>>>
+>>> Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
+>>> ---
+>>>  net/vmw_vsock/virtio_transport_common.c | 76 ++++++++++++++++++++++++++++++++-
+>>>  1 file changed, 75 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
+>>> index ffcbdd77feaa..3bfaff758433 100644
+>>> --- a/net/vmw_vsock/virtio_transport_common.c
+>>> +++ b/net/vmw_vsock/virtio_transport_common.c
+>>> @@ -819,7 +819,81 @@ virtio_transport_dgram_enqueue(struct vsock_sock *vsk,
+>>>  			       struct msghdr *msg,
+>>>  			       size_t dgram_len)
+>>>  {
+>>> -	return -EOPNOTSUPP;
+>>> +	/* Here we are only using the info struct to retain style uniformity
+>>> +	 * and to ease future refactoring and merging.
+>>> +	 */
+>>> +	struct virtio_vsock_pkt_info info_stack = {
+>>> +		.op = VIRTIO_VSOCK_OP_RW,
+>>> +		.msg = msg,
+>>> +		.vsk = vsk,
+>>> +		.type = VIRTIO_VSOCK_TYPE_DGRAM,
+>>> +	};
+>>> +	const struct virtio_transport *t_ops;
+>>> +	struct virtio_vsock_pkt_info *info;
+>>> +	struct sock *sk = sk_vsock(vsk);
+>>> +	struct virtio_vsock_hdr *hdr;
+>>> +	u32 src_cid, src_port;
+>>> +	struct sk_buff *skb;
+>>> +	void *payload;
+>>> +	int noblock;
+>>> +	int err;
+>>> +
+>>> +	info = &info_stack;
+>>
+>> I think 'info' assignment could be moved below, to the place where it is used
+>> first time.
+>>
+>>> +
+>>> +	if (dgram_len > VIRTIO_VSOCK_MAX_PKT_BUF_SIZE)
+>>> +		return -EMSGSIZE;
+>>> +
+>>> +	t_ops = virtio_transport_get_ops(vsk);
+>>> +	if (unlikely(!t_ops))
+>>> +		return -EFAULT;
+>>> +
+>>> +	/* Unlike some of our other sending functions, this function is not
+>>> +	 * intended for use without a msghdr.
+>>> +	 */
+>>> +	if (WARN_ONCE(!msg, "vsock dgram bug: no msghdr found for dgram enqueue\n"))
+>>> +		return -EFAULT;
+>>
+>> Sorry, but is that possible? I thought 'msg' is always provided by general socket layer (e.g. before
+>> af_vsock.c code) and can't be NULL for DGRAM. Please correct me if i'm wrong.
+>>
+>> Also I see, that in af_vsock.c , 'vsock_dgram_sendmsg()' dereferences 'msg' for checking MSG_OOB without any
+>> checks (before calling transport callback - this function in case of virtio). So I think if we want to keep
+>> this type of check - such check must be placed in af_vsock.c or somewhere before first dereference of this pointer.
+>>
 > 
-> Changes in v4:
-> - style changes
->   - vsock: use sk_vsock(vsk) in vsock_dgram_recvmsg instead of
->     &sk->vsk
->   - vsock: fix xmas tree declaration
->   - vsock: fix spacing issues
->   - virtio/vsock: virtio_transport_recv_dgram returns void because err
->     unused
-> - sparse analysis warnings/errors
->   - virtio/vsock: fix unitialized skerr on destroy
->   - virtio/vsock: fix uninitialized err var on goto out
->   - vsock: fix declarations that need static
->   - vsock: fix __rcu annotation order
-> - bugs
->   - vsock: fix null ptr in remote_info code
->   - vsock/dgram: make transport_dgram a fallback instead of first
->     priority
->   - vsock: remove redundant rcu read lock acquire in getname()
-> - tests
->   - add more tests (message bounds and more)
->   - add vsock_dgram_bind() helper
->   - add vsock_dgram_connect() helper
+> There is some talk about dgram sockets adding additional messages types
+> in the future that help with congestion control. Those messages won't
+> come from the socket layer, so msghdr will be null. Since there is no
+> other function for sending datagrams, it seemed likely that this
+> function would be reworked for that purpose. I felt that adding this
+> check was a direct way to make it explicit that this function is
+> currently designed only for the socket-layer caller.
 > 
-> Changes in v3:
-> - Support multi-transport dgram, changing logic in connect/bind
->   to support VMCI case
-> - Support per-pkt transport lookup for sendto() case
-> - Fix dgram_allow() implementation
-> - Fix dgram feature bit number (now it is 3)
-> - Fix binding so dgram and connectible (cid,port) spaces are
->   non-overlapping
-> - RCU protect transport ptr so connect() calls never leave
->   a lockless read of the transport and remote_addr are always
->   in sync
-> - Link to v2: https://lore.kernel.org/r/20230413-b4-vsock-dgram-v2-0-079cc7cee62e@bytedance.com
-> 
-> ---
-> Bobby Eshleman (13):
->       af_vsock: generalize vsock_dgram_recvmsg() to all transports
->       af_vsock: refactor transport lookup code
->       af_vsock: support multi-transport datagrams
->       af_vsock: generalize bind table functions
->       af_vsock: use a separate dgram bind table
->       virtio/vsock: add VIRTIO_VSOCK_TYPE_DGRAM
->       virtio/vsock: add common datagram send path
->       af_vsock: add vsock_find_bound_dgram_socket()
->       virtio/vsock: add common datagram recv path
->       virtio/vsock: add VIRTIO_VSOCK_F_DGRAM feature bit
->       vhost/vsock: implement datagram support
->       vsock/loopback: implement datagram support
->       virtio/vsock: implement datagram support
-> 
-> Jiang Wang (1):
->       test/vsock: add vsock dgram tests
-> 
->  drivers/vhost/vsock.c                   |  64 ++-
->  include/linux/virtio_vsock.h            |  10 +-
->  include/net/af_vsock.h                  |  14 +-
->  include/uapi/linux/virtio_vsock.h       |   2 +
->  net/vmw_vsock/af_vsock.c                | 281 ++++++++++---
->  net/vmw_vsock/hyperv_transport.c        |  13 -
->  net/vmw_vsock/virtio_transport.c        |  26 +-
->  net/vmw_vsock/virtio_transport_common.c | 190 +++++++--
->  net/vmw_vsock/vmci_transport.c          |  60 +--
->  net/vmw_vsock/vsock_loopback.c          |  10 +-
->  tools/testing/vsock/util.c              | 141 ++++++-
->  tools/testing/vsock/util.h              |   6 +
->  tools/testing/vsock/vsock_test.c        | 680 ++++++++++++++++++++++++++++++++
->  13 files changed, 1320 insertions(+), 177 deletions(-)
-> ---
-> base-commit: 37cadc266ebdc7e3531111c2b3304fa01b2131e8
-> change-id: 20230413-b4-vsock-dgram-3b6eba6a64e5
-> 
-> Best regards,
-> -- 
-> Bobby Eshleman <bobby.eshleman@bytedance.com>
+> Perhaps a comment would suffice?
 
+I see, thanks, it is for future usage. Sorry for dumb question: but if msg is NULL, how
+we will decide what to do in this call? Interface of this callback will be updated or
+some fields of 'vsock_sock' will contain type of such messages ?
+
+Thanks, Arseniy
+
+> 
+>>> +
+>>> +	noblock = msg->msg_flags & MSG_DONTWAIT;
+>>> +
+>>> +	/* Use sock_alloc_send_skb to throttle by sk_sndbuf. This helps avoid
+>>> +	 * triggering the OOM.
+>>> +	 */
+>>> +	skb = sock_alloc_send_skb(sk, dgram_len + VIRTIO_VSOCK_SKB_HEADROOM,
+>>> +				  noblock, &err);
+>>> +	if (!skb)
+>>> +		return err;
+>>> +
+>>> +	skb_reserve(skb, VIRTIO_VSOCK_SKB_HEADROOM);
+>>> +
+>>> +	src_cid = t_ops->transport.get_local_cid();
+>>> +	src_port = vsk->local_addr.svm_port;
+>>> +
+>>> +	hdr = virtio_vsock_hdr(skb);
+>>> +	hdr->type	= cpu_to_le16(info->type);
+>>> +	hdr->op		= cpu_to_le16(info->op);
+>>> +	hdr->src_cid	= cpu_to_le64(src_cid);
+>>> +	hdr->dst_cid	= cpu_to_le64(remote_addr->svm_cid);
+>>> +	hdr->src_port	= cpu_to_le32(src_port);
+>>> +	hdr->dst_port	= cpu_to_le32(remote_addr->svm_port);
+>>> +	hdr->flags	= cpu_to_le32(info->flags);
+>>> +	hdr->len	= cpu_to_le32(dgram_len);
+>>> +
+>>> +	skb_set_owner_w(skb, sk);
+>>> +
+>>> +	payload = skb_put(skb, dgram_len);
+>>> +	err = memcpy_from_msg(payload, msg, dgram_len);
+>>> +	if (err)
+>>> +		return err;
+>>
+>> Do we need free allocated skb here ?
+>>
+> 
+> Yep, thanks.
+> 
+>>> +
+>>> +	trace_virtio_transport_alloc_pkt(src_cid, src_port,
+>>> +					 remote_addr->svm_cid,
+>>> +					 remote_addr->svm_port,
+>>> +					 dgram_len,
+>>> +					 info->type,
+>>> +					 info->op,
+>>> +					 0);
+>>> +
+>>> +	return t_ops->send_pkt(skb);
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(virtio_transport_dgram_enqueue);
+>>>  
+>>>
+>>
+>> Thanks, Arseniy
+> 
+> Thanks for the review!
+> 
+> Best,
+> Bobby
