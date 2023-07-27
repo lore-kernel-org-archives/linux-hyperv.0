@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF10BC001DC
-	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 19:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 790A2C04A94
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 19:55:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232418AbjG0TzM (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 27 Jul 2023 15:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34778 "EHLO
+        id S232433AbjG0TzO (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 27 Jul 2023 15:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232173AbjG0TzB (ORCPT
+        with ESMTP id S231483AbjG0Ty7 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 27 Jul 2023 15:55:01 -0400
+        Thu, 27 Jul 2023 15:54:59 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7A67C2D7D;
-        Thu, 27 Jul 2023 12:55:00 -0700 (PDT)
-Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 8E9832380B36;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 433E72D7D;
         Thu, 27 Jul 2023 12:54:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8E9832380B36
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 8EFD62380B38;
+        Thu, 27 Jul 2023 12:54:56 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8EFD62380B38
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1690487697;
-        bh=0RqjEm3i5C/zl6W/8uePpKIGfaXZdi/kHbnuGmJN4PY=;
+        s=default; t=1690487696;
+        bh=0PJ7eDmDDctHDQnCW9IdU9wuREPSO54L5rkNENDb8ic=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZVGndc+9H5m4frgxsKqJ7FWAOIxrPv7438BrOJgJF0CxzN+hdgV0AnpWxaC2sU660
-         XR1hl8r7567UAEgKi7AMOQRHl3j6V1FT90kQWB+x6B733nLVki41yUY2bmGSnQ6px2
-         OEazc3Sl9qCw3N6pdOWJwCMkvVpurs1owBYGym4A=
+        b=QEAyXocvShHlsEAXQmjrdcPTJd4CA1MUFHuILXlKxFfQwdicxDPCKLE7kV3qUzFm2
+         kZvLsjGsrF4U2kiBRuuTj3HOuMEJZhOklE5hDg7uvGY8XVC2sOCRuW88IH1LobuHup
+         HumZNqPhXcGC2OkywyY94RPSssISUX2H0pShnUh8=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc:     mikelley@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         vkuznets@redhat.com, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
         will@kernel.org, catalin.marinas@arm.com
-Subject: [PATCH 11/15] Drivers: hv: export vmbus_isr, hv_context and hv_post_message
-Date:   Thu, 27 Jul 2023 12:54:46 -0700
-Message-Id: <1690487690-2428-12-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 02/15] mshyperv: Introduce hv_get_hypervisor_version
+Date:   Thu, 27 Jul 2023 12:54:37 -0700
+Message-Id: <1690487690-2428-3-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -48,68 +48,172 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-These will be used by the mshv_vtl driver.
+x86_64 and arm64 implementations to get the hypervisor version
+information.
+Also introduce hv_hypervisor_version_info structure to simplify parsing
+the fields.
+Replace the existing parsing when printing the version numbers.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- drivers/hv/hv.c           | 2 ++
- drivers/hv/hyperv_vmbus.h | 1 +
- drivers/hv/vmbus_drv.c    | 3 ++-
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ arch/arm64/hyperv/mshyperv.c      | 23 +++++++++++-------
+ arch/x86/kernel/cpu/mshyperv.c    | 40 ++++++++++++++++++++-----------
+ include/asm-generic/hyperv-tlfs.h | 23 ++++++++++++++++++
+ include/asm-generic/mshyperv.h    |  2 ++
+ 4 files changed, 66 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index a897951634af..6c64ef8c8aff 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -24,6 +24,7 @@
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index a406454578f0..d44c358ce45c 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -19,10 +19,19 @@
  
- /* The one and only */
- struct hv_context hv_context;
-+EXPORT_SYMBOL_GPL(hv_context);
+ static bool hyperv_initialized;
  
- /*
-  * hv_init - Main initialization routine.
-@@ -80,6 +81,7 @@ int hv_post_message(union hv_connection_id connection_id,
- 
- 	return hv_result(status);
- }
-+EXPORT_SYMBOL_GPL(hv_post_message);
- 
- int hv_synic_alloc(void)
++int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
++{
++	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION,
++			 (struct hv_get_vp_registers_output *)info);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(hv_get_hypervisor_version);
++
+ static int __init hyperv_init(void)
  {
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 55f2086841ae..85f3c08bb42b 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -32,6 +32,7 @@
-  */
- #define HV_UTIL_NEGO_TIMEOUT 55
+-	struct hv_get_vp_registers_output	result;
+-	u32	a, b, c, d;
++	struct hv_get_vp_registers_output result;
++	union hv_hypervisor_version_info version;
+ 	u64	guest_id;
+ 	int	ret;
  
-+void vmbus_isr(void);
+@@ -55,13 +64,11 @@ static int __init hyperv_init(void)
+ 		ms_hyperv.misc_features);
  
- /* Definitions for the monitored notification facility */
- union hv_monitor_trigger_group {
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 4757d8c23ac1..bfd367df7b60 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1286,7 +1286,7 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
+ 	/* Get information about the Hyper-V host version */
+-	hv_get_vpreg_128(HV_REGISTER_HYPERVISOR_VERSION, &result);
+-	a = result.as32.a;
+-	b = result.as32.b;
+-	c = result.as32.c;
+-	d = result.as32.d;
++	hv_get_hypervisor_version(&version);
+ 	pr_info("Hyper-V: Host Build %d.%d.%d.%d-%d-%d\n",
+-		b >> 16, b & 0xFFFF, a,	d & 0xFFFFFF, c, d >> 24);
++		version.major_version, version.minor_version,
++		version.build_number, version.service_number,
++		version.service_pack, version.service_branch);
+ 
+ 	ret = hv_common_init();
+ 	if (ret)
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 57f6a5879b30..e44291e902ae 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -328,13 +328,30 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
+ }
+ #endif
+ 
++int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
++{
++	unsigned int hv_max_functions;
++
++	hv_max_functions = cpuid_eax(HYPERV_CPUID_VENDOR_AND_MAX_FUNCTIONS);
++	if (hv_max_functions < HYPERV_CPUID_VERSION) {
++		pr_err("%s: Could not detect Hyper-V version\n",
++			__func__);
++		return -ENODEV;
++	}
++
++	info->eax = cpuid_eax(HYPERV_CPUID_VERSION);
++	info->ebx = cpuid_ebx(HYPERV_CPUID_VERSION);
++	info->ecx = cpuid_ecx(HYPERV_CPUID_VERSION);
++	info->edx = cpuid_edx(HYPERV_CPUID_VERSION);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(hv_get_hypervisor_version);
++
+ static void __init ms_hyperv_init_platform(void)
+ {
+ 	int hv_max_functions_eax;
+-	int hv_host_info_eax;
+-	int hv_host_info_ebx;
+-	int hv_host_info_ecx;
+-	int hv_host_info_edx;
++	union hv_hypervisor_version_info version;
+ 
+ #ifdef CONFIG_PARAVIRT
+ 	pv_info.name = "Hyper-V";
+@@ -388,16 +405,11 @@ static void __init ms_hyperv_init_platform(void)
+ 	/*
+ 	 * Extract host information.
+ 	 */
+-	if (hv_max_functions_eax >= HYPERV_CPUID_VERSION) {
+-		hv_host_info_eax = cpuid_eax(HYPERV_CPUID_VERSION);
+-		hv_host_info_ebx = cpuid_ebx(HYPERV_CPUID_VERSION);
+-		hv_host_info_ecx = cpuid_ecx(HYPERV_CPUID_VERSION);
+-		hv_host_info_edx = cpuid_edx(HYPERV_CPUID_VERSION);
+-
+-		pr_info("Hyper-V: Host Build %d.%d.%d.%d-%d-%d\n",
+-			hv_host_info_ebx >> 16, hv_host_info_ebx & 0xFFFF,
+-			hv_host_info_eax, hv_host_info_edx & 0xFFFFFF,
+-			hv_host_info_ecx, hv_host_info_edx >> 24);
++	if (hv_get_hypervisor_version(&version) == 0) {
++		pr_info("Hyper-V Host Build:%d-%d.%d-%d-%d.%d\n",
++			version.build_number, version.major_version,
++			version.minor_version, version.service_pack,
++			version.service_branch, version.service_number);
+ 	}
+ 
+ 	if (ms_hyperv.features & HV_ACCESS_FREQUENCY_MSRS &&
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index f4e4cc4f965f..373f26efa18a 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -786,6 +786,29 @@ struct hv_input_unmap_device_interrupt {
+ #define HV_SOURCE_SHADOW_NONE               0x0
+ #define HV_SOURCE_SHADOW_BRIDGE_BUS_RANGE   0x1
+ 
++/*
++ * Version info reported by hypervisor
++ */
++union hv_hypervisor_version_info {
++	struct {
++		u32 build_number;
++
++		u32 minor_version : 16;
++		u32 major_version : 16;
++
++		u32 service_pack;
++
++		u32 service_number : 24;
++		u32 service_branch : 8;
++	};
++	struct {
++		u32 eax;
++		u32 ebx;
++		u32 ecx;
++		u32 edx;
++	};
++};
++
+ /*
+  * The whole argument should fit in a page to be able to pass to the hypervisor
+  * in one hypercall.
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 094c57320ed1..233c976344e5 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -153,6 +153,8 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
  	}
  }
  
--static void vmbus_isr(void)
-+void vmbus_isr(void)
- {
- 	struct hv_per_cpu_context *hv_cpu
- 		= this_cpu_ptr(hv_context.cpu_context);
-@@ -1309,6 +1309,7 @@ static void vmbus_isr(void)
- 
- 	add_interrupt_randomness(vmbus_interrupt);
- }
-+EXPORT_SYMBOL_GPL(vmbus_isr);
- 
- static irqreturn_t vmbus_percpu_isr(int irq, void *dev_id)
- {
++int hv_get_hypervisor_version(union hv_hypervisor_version_info *info);
++
+ void hv_setup_vmbus_handler(void (*handler)(void));
+ void hv_remove_vmbus_handler(void);
+ void hv_setup_stimer0_handler(void (*handler)(void));
 -- 
 2.25.1
 
