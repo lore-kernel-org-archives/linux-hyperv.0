@@ -2,30 +2,30 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C352EB64DD
-	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 19:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28243C05051
+	for <linux-hyperv@archiver.kernel.org>; Thu, 27 Jul 2023 19:55:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232330AbjG0TzG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 27 Jul 2023 15:55:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34734 "EHLO
+        id S232356AbjG0TzI (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 27 Jul 2023 15:55:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbjG0TzA (ORCPT
+        with ESMTP id S232170AbjG0TzB (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 27 Jul 2023 15:55:00 -0400
+        Thu, 27 Jul 2023 15:55:01 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4351930C0;
-        Thu, 27 Jul 2023 12:54:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4E79A30D7;
+        Thu, 27 Jul 2023 12:54:59 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 56CC82380B32;
-        Thu, 27 Jul 2023 12:54:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 56CC82380B32
+        by linux.microsoft.com (Postfix) with ESMTPSA id 227D62383EF1;
+        Thu, 27 Jul 2023 12:54:57 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 227D62383EF1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1690487696;
-        bh=s2PL0i1EvjQgxdXG0JW/YlWSGiRGc/bzYV3J8bL5UoY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ku3myf/PWApZyHGN2DNxiu4GcCRzrHblOUNdsiBFyUDTu/1MlvHqJoDV7Q5FjC07K
-         2gxO5Kf61+pOPg6AfIIVI+TWm9oc7hK+z+fgs4q5OHycsF4mLkzHZxcqvnnSWIY0V7
-         PFKt7slXFee3/0XWhKFZEKOb2qlYPF+MEiaY1cH8=
+        s=default; t=1690487697;
+        bh=bB7Yrx5hsONr5DsJOhTPdfCC2OmO+aqlfbnu4JncvL0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qWlKaObsqlljdywu95eXUQ6I2S8igQVqVbWtFVA9oLh2KgMih1Hrm+W0slm71ZxT0
+         TfknXTkxsmrQnMFmOBkY2TsJ92Kz8bbod1JqnUPedz78hXA3pr+bTeAKJ9JKd9be0S
+         MkgJcOfaV2LGPtQmKoir3OB5XziaMfuXkVgqOkuA=
 From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -38,173 +38,383 @@ Cc:     mikelley@microsoft.com, kys@microsoft.com, wei.liu@kernel.org,
         vkuznets@redhat.com, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
         will@kernel.org, catalin.marinas@arm.com
-Subject: [PATCH 00/15] Introduce /dev/mshv drivers
-Date:   Thu, 27 Jul 2023 12:54:35 -0700
-Message-Id: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH 07/15] Drivers: hv: Move hv_call_deposit_pages and hv_call_create_vp to common code
+Date:   Thu, 27 Jul 2023 12:54:42 -0700
+Message-Id: <1690487690-2428-8-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-This series introduces support for creating and running guest machines
-while running on the Microsoft Hypervisor. [0]
-This is done via an IOCTL interface accessed through /dev/mshv, similar to
-/dev/kvm. Another series introducing this support was previously posted.
-[1]
+These hypercalls are not arch-specific.
+Move them to common code.
 
-These interfaces support VMMs running in:
-1. The root patition - provided in the mshv_root module, and
-2. VTL 2 - provided in the mshv_vtl module [2]
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_proc.c       | 152 --------------------------------
+ arch/x86/include/asm/mshyperv.h |   2 -
+ drivers/hv/hv_common.c          | 147 ++++++++++++++++++++++++++++++
+ include/asm-generic/mshyperv.h  |   2 +
+ 4 files changed, 149 insertions(+), 154 deletions(-)
 
-Patches breakdown
------------------
-The first 7 patches are refactoring and adding some helper functions.
-They provide some benefit on their own and could be applied independently
-as cleanup patches.
-
-The following 5 patches just set things up for the driver code to come.
-These are very small. They are separated so that the remaining patches are
-more self-contained.
-
-The final 3 patches are the meat of the series:
-- Patch 13 contains new header files used by the driver.
-  These are designed to mirror the ABI headers exported by Hyper-V. This is
-  done to avoid polluting hyperv-tlfs.h and help track changes to the ABIs
-  that are still unstable. (See FAQ below).
-- Patch 14 conditionally includes these new header files into mshyperv.h
-  and linux/hyperv.h, in order to be able to use these files in the new
-  drivers while remaining independent from hyperv-tlfs.h.
-- Patch 15 contains the new driver code located in drivers/hv. This is a
-  large amount of code and new files, but it is mostly self-contained and
-  all within drivers/hv - apart from the IOCTL interface itself in uapi.
-
-FAQ on include/uapi/hyperv/*.h
-------------------------------
-Q:
-Why not just add these definitions to hyperv-tlfs.h?
-A:
-The intention of hyperv-tlfs.h is to contain stable definitions documented
-in the public TLFS document. These new definitions don't fit that criteria,
-so they should be separate.
-
-Q:
-Why are these files named hvgdk.h, hvgdk_mini.h, hvhdk.h and hvhdk_mini.h?
-A:
-The precise meaning of the names reflects conventions used internally at
-Microsoft.
-Naming them this way makes it easy to find where particular Hyper-V
-definitions come from, and check their correctness.
-It also facilitates the future work of automatically generating these files.
-
-Q:
-Why are they in uapi?
-A:
-In short, to keep things simple. There are many definitions needed in both
-the kernel and the VMM in userspace. Separating them doesn't serve much
-purpose, and makes it more laborious to import definitions from Hyper-V
-code.
-
-Q:
-The new headers redefine many things that are already in hyperv-tlfs.h - why?
-A:
-Some definitions are extended compared to what is documented in the TLFS.
-In order to avoid adding undocumented or unstable definitions to hyperv-tlfs.h,
-the new headers must compile independently.
-Therefore, the new headers must redefine many things in hyperv-tlfs.h in order
-to compile.
-
---------------------------
-[0] "Hyper-V" is more well-known, but it really refers to the whole stack
-    including the hypervisor and other components that run in Windows
-    kernel and userspace.
-[1] Previous /dev/mshv patch series and discussion:
-    https://lore.kernel.org/linux-hyperv/1632853875-20261-1-git-send-email-nunodasneves@linux.microsoft.com/
-[2] Virtual Secure Mode (VSM) and Virtual Trust Levels (VTL):
-    https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm
-
-Nuno Das Neves (15):
-  hyperv-tlfs: Change shared HV_REGISTER_* defines to HV_MSR_*
-  mshyperv: Introduce hv_get_hypervisor_version
-  mshyperv: Introduce numa_node_to_proximity_domain_info
-  asm-generic/mshyperv: Introduce hv_recommend_using_aeoi()
-  hyperv: Move hv_connection_id to hyperv-tlfs
-  hyperv-tlfs: Introduce hv_status_to_string and hv_status_to_errno
-  Drivers: hv: Move hv_call_deposit_pages and hv_call_create_vp to
-    common code
-  Drivers: hv: Introduce per-cpu event ring tail
-  Drivers: hv: Introduce hv_output_arg_exists in hv_common
-  x86: hyperv: Add mshv_handler irq handler and setup function
-  Drivers: hv: export vmbus_isr, hv_context and hv_post_message
-  Documentation: Reserve ioctl number for mshv driver
-  uapi: hyperv: Add mshv driver headers hvhdk.h, hvhdk_mini.h, hvgdk.h,
-    hvgdk_mini.h
-  asm-generic: hyperv: Use mshv headers conditionally. Add
-    asm-generic/hyperv-defs.h
-  Drivers: hv: Add modules to expose /dev/mshv to VMMs running on
-    Hyper-V
-
- .../userspace-api/ioctl/ioctl-number.rst      |    2 +
- arch/arm64/hyperv/mshyperv.c                  |   23 +-
- arch/arm64/include/asm/hyperv-tlfs.h          |   25 +
- arch/arm64/include/asm/mshyperv.h             |    2 +-
- arch/x86/hyperv/hv_init.c                     |    2 +-
- arch/x86/hyperv/hv_proc.c                     |  166 +-
- arch/x86/include/asm/hyperv-tlfs.h            |  137 +-
- arch/x86/include/asm/mshyperv.h               |   13 +-
- arch/x86/kernel/cpu/mshyperv.c                |   71 +-
- drivers/acpi/numa/srat.c                      |    1 +
- drivers/clocksource/hyperv_timer.c            |   24 +-
- drivers/hv/Kconfig                            |   54 +
- drivers/hv/Makefile                           |   21 +
- drivers/hv/hv.c                               |   46 +-
- drivers/hv/hv_call.c                          |  119 +
- drivers/hv/hv_common.c                        |  225 +-
- drivers/hv/hyperv_vmbus.h                     |    2 +-
- drivers/hv/mshv.h                             |  156 ++
- drivers/hv/mshv_eventfd.c                     |  758 +++++++
- drivers/hv/mshv_eventfd.h                     |   80 +
- drivers/hv/mshv_main.c                        |  208 ++
- drivers/hv/mshv_msi.c                         |  129 ++
- drivers/hv/mshv_portid_table.c                |   84 +
- drivers/hv/mshv_root.h                        |  194 ++
- drivers/hv/mshv_root_hv_call.c                | 1064 +++++++++
- drivers/hv/mshv_root_main.c                   | 1964 +++++++++++++++++
- drivers/hv/mshv_synic.c                       |  689 ++++++
- drivers/hv/mshv_vtl.h                         |   52 +
- drivers/hv/mshv_vtl_main.c                    | 1541 +++++++++++++
- drivers/hv/vmbus_drv.c                        |    3 +-
- drivers/hv/xfer_to_guest.c                    |   28 +
- include/asm-generic/hyperv-defs.h             |   26 +
- include/asm-generic/hyperv-tlfs.h             |   77 +-
- include/asm-generic/mshyperv.h                |   76 +-
- include/linux/hyperv.h                        |   11 +-
- include/uapi/hyperv/hvgdk.h                   |   41 +
- include/uapi/hyperv/hvgdk_mini.h              | 1077 +++++++++
- include/uapi/hyperv/hvhdk.h                   | 1352 ++++++++++++
- include/uapi/hyperv/hvhdk_mini.h              |  164 ++
- include/uapi/linux/mshv.h                     |  298 +++
- 40 files changed, 10653 insertions(+), 352 deletions(-)
- create mode 100644 drivers/hv/hv_call.c
- create mode 100644 drivers/hv/mshv.h
- create mode 100644 drivers/hv/mshv_eventfd.c
- create mode 100644 drivers/hv/mshv_eventfd.h
- create mode 100644 drivers/hv/mshv_main.c
- create mode 100644 drivers/hv/mshv_msi.c
- create mode 100644 drivers/hv/mshv_portid_table.c
- create mode 100644 drivers/hv/mshv_root.h
- create mode 100644 drivers/hv/mshv_root_hv_call.c
- create mode 100644 drivers/hv/mshv_root_main.c
- create mode 100644 drivers/hv/mshv_synic.c
- create mode 100644 drivers/hv/mshv_vtl.h
- create mode 100644 drivers/hv/mshv_vtl_main.c
- create mode 100644 drivers/hv/xfer_to_guest.c
- create mode 100644 include/asm-generic/hyperv-defs.h
- create mode 100644 include/uapi/hyperv/hvgdk.h
- create mode 100644 include/uapi/hyperv/hvgdk_mini.h
- create mode 100644 include/uapi/hyperv/hvhdk.h
- create mode 100644 include/uapi/hyperv/hvhdk_mini.h
- create mode 100644 include/uapi/linux/mshv.h
-
+diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
+index ed80da64649e..0a35cb865427 100644
+--- a/arch/x86/hyperv/hv_proc.c
++++ b/arch/x86/hyperv/hv_proc.c
+@@ -3,7 +3,6 @@
+ #include <linux/vmalloc.h>
+ #include <linux/mm.h>
+ #include <linux/clockchips.h>
+-#include <linux/acpi.h>
+ #include <linux/hyperv.h>
+ #include <linux/slab.h>
+ #include <linux/cpuhotplug.h>
+@@ -14,106 +13,6 @@
+ 
+ #include <asm/trace/hyperv.h>
+ 
+-/*
+- * See struct hv_deposit_memory. The first u64 is partition ID, the rest
+- * are GPAs.
+- */
+-#define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
+-
+-/* Deposits exact number of pages. Must be called with interrupts enabled.  */
+-int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+-{
+-	struct page **pages, *page;
+-	int *counts;
+-	int num_allocations;
+-	int i, j, page_count;
+-	int order;
+-	u64 status;
+-	int ret;
+-	u64 base_pfn;
+-	struct hv_deposit_memory *input_page;
+-	unsigned long flags;
+-
+-	if (num_pages > HV_DEPOSIT_MAX)
+-		return -E2BIG;
+-	if (!num_pages)
+-		return 0;
+-
+-	/* One buffer for page pointers and counts */
+-	page = alloc_page(GFP_KERNEL);
+-	if (!page)
+-		return -ENOMEM;
+-	pages = page_address(page);
+-
+-	counts = kcalloc(HV_DEPOSIT_MAX, sizeof(int), GFP_KERNEL);
+-	if (!counts) {
+-		free_page((unsigned long)pages);
+-		return -ENOMEM;
+-	}
+-
+-	/* Allocate all the pages before disabling interrupts */
+-	i = 0;
+-
+-	while (num_pages) {
+-		/* Find highest order we can actually allocate */
+-		order = 31 - __builtin_clz(num_pages);
+-
+-		while (1) {
+-			pages[i] = alloc_pages_node(node, GFP_KERNEL, order);
+-			if (pages[i])
+-				break;
+-			if (!order) {
+-				ret = -ENOMEM;
+-				num_allocations = i;
+-				goto err_free_allocations;
+-			}
+-			--order;
+-		}
+-
+-		split_page(pages[i], order);
+-		counts[i] = 1 << order;
+-		num_pages -= counts[i];
+-		i++;
+-	}
+-	num_allocations = i;
+-
+-	local_irq_save(flags);
+-
+-	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
+-
+-	input_page->partition_id = partition_id;
+-
+-	/* Populate gpa_page_list - these will fit on the input page */
+-	for (i = 0, page_count = 0; i < num_allocations; ++i) {
+-		base_pfn = page_to_pfn(pages[i]);
+-		for (j = 0; j < counts[i]; ++j, ++page_count)
+-			input_page->gpa_page_list[page_count] = base_pfn + j;
+-	}
+-	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY,
+-				     page_count, 0, input_page, NULL);
+-	local_irq_restore(flags);
+-	if (!hv_result_success(status)) {
+-		pr_err("Failed to deposit pages: %lld\n", status);
+-		ret = hv_result(status);
+-		goto err_free_allocations;
+-	}
+-
+-	ret = 0;
+-	goto free_buf;
+-
+-err_free_allocations:
+-	for (i = 0; i < num_allocations; ++i) {
+-		base_pfn = page_to_pfn(pages[i]);
+-		for (j = 0; j < counts[i]; ++j)
+-			__free_page(pfn_to_page(base_pfn + j));
+-	}
+-
+-free_buf:
+-	free_page((unsigned long)pages);
+-	kfree(counts);
+-	return ret;
+-}
+-
+ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ {
+ 	struct hv_add_logical_processor_in *input;
+@@ -156,54 +55,3 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 	return ret;
+ }
+ 
+-int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+-{
+-	struct hv_create_vp *input;
+-	u64 status;
+-	unsigned long irq_flags;
+-	int ret = HV_STATUS_SUCCESS;
+-	int pxm = node_to_pxm(node);
+-
+-	/* Root VPs don't seem to need pages deposited */
+-	if (partition_id != hv_current_partition_id) {
+-		/* The value 90 is empirically determined. It may change. */
+-		ret = hv_call_deposit_pages(node, partition_id, 90);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	do {
+-		local_irq_save(irq_flags);
+-
+-		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+-
+-		input->partition_id = partition_id;
+-		input->vp_index = vp_index;
+-		input->flags = flags;
+-		input->subnode_type = HvSubnodeAny;
+-		if (node != NUMA_NO_NODE) {
+-			input->proximity_domain_info.domain_id = pxm;
+-			input->proximity_domain_info.flags.reserved = 0;
+-			input->proximity_domain_info.flags.proximity_info_valid = 1;
+-			input->proximity_domain_info.flags.proximity_preferred = 1;
+-		} else {
+-			input->proximity_domain_info.as_uint64 = 0;
+-		}
+-		status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
+-		local_irq_restore(irq_flags);
+-
+-		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
+-			if (!hv_result_success(status)) {
+-				pr_err("%s: vcpu %u, lp %u, %lld\n", __func__,
+-				       vp_index, flags, status);
+-				ret = hv_result(status);
+-			}
+-			break;
+-		}
+-		ret = hv_call_deposit_pages(node, partition_id, 1);
+-
+-	} while (!ret);
+-
+-	return ret;
+-}
+-
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 23cdcf6525dc..1a0655a93672 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -47,9 +47,7 @@ extern u64 hv_current_partition_id;
+ 
+ extern union hv_ghcb * __percpu *hv_ghcb_pg;
+ 
+-int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
+ int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
+-int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
+ 
+ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ {
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 522d57a5e8a0..9f9c3dc89bb2 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -542,3 +542,150 @@ u64 __weak hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_s
+ 	return HV_STATUS_INVALID_PARAMETER;
+ }
+ EXPORT_SYMBOL_GPL(hv_ghcb_hypercall);
++
++int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
++{
++	struct hv_create_vp *input;
++	u64 status;
++	unsigned long irq_flags;
++	int ret = HV_STATUS_SUCCESS;
++
++	/* Root VPs don't seem to need pages deposited */
++	if (partition_id != hv_current_partition_id) {
++		/* The value 90 is empirically determined. It may change. */
++		ret = hv_call_deposit_pages(node, partition_id, 90);
++		if (ret)
++			return ret;
++	}
++
++	do {
++		local_irq_save(irq_flags);
++
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
++
++		input->partition_id = partition_id;
++		input->vp_index = vp_index;
++		input->flags = flags;
++		input->subnode_type = HvSubnodeAny;
++		input->proximity_domain_info =
++			numa_node_to_proximity_domain_info(node);
++		status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
++		local_irq_restore(irq_flags);
++
++		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++			if (!hv_result_success(status)) {
++				pr_err("%s: vcpu %u, lp %u, %s\n", __func__,
++				       vp_index, flags, hv_status_to_string(status));
++				ret = hv_status_to_errno(status);
++			}
++			break;
++		}
++		ret = hv_call_deposit_pages(node, partition_id, 1);
++
++	} while (!ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hv_call_create_vp);
++
++/*
++ * See struct hv_deposit_memory. The first u64 is partition ID, the rest
++ * are GPAs.
++ */
++#define HV_DEPOSIT_MAX (HV_HYP_PAGE_SIZE / sizeof(u64) - 1)
++
++/* Deposits exact number of pages. Must be called with interrupts enabled.  */
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
++{
++	struct page **pages, *page;
++	int *counts;
++	int num_allocations;
++	int i, j, page_count;
++	int order;
++	u64 status;
++	int ret;
++	u64 base_pfn;
++	struct hv_deposit_memory *input_page;
++	unsigned long flags;
++
++	if (num_pages > HV_DEPOSIT_MAX)
++		return -E2BIG;
++	if (!num_pages)
++		return 0;
++
++	/* One buffer for page pointers and counts */
++	page = alloc_page(GFP_KERNEL);
++	if (!page)
++		return -ENOMEM;
++	pages = page_address(page);
++
++	counts = kcalloc(HV_DEPOSIT_MAX, sizeof(int), GFP_KERNEL);
++	if (!counts) {
++		free_page((unsigned long)pages);
++		return -ENOMEM;
++	}
++
++	/* Allocate all the pages before disabling interrupts */
++	i = 0;
++
++	while (num_pages) {
++		/* Find highest order we can actually allocate */
++		order = 31 - __builtin_clz(num_pages);
++
++		while (1) {
++			pages[i] = alloc_pages_node(node, GFP_KERNEL, order);
++			if (pages[i])
++				break;
++			if (!order) {
++				ret = -ENOMEM;
++				num_allocations = i;
++				goto err_free_allocations;
++			}
++			--order;
++		}
++
++		split_page(pages[i], order);
++		counts[i] = 1 << order;
++		num_pages -= counts[i];
++		i++;
++	}
++	num_allocations = i;
++
++	local_irq_save(flags);
++
++	input_page = *this_cpu_ptr(hyperv_pcpu_input_arg);
++
++	input_page->partition_id = partition_id;
++
++	/* Populate gpa_page_list - these will fit on the input page */
++	for (i = 0, page_count = 0; i < num_allocations; ++i) {
++		base_pfn = page_to_pfn(pages[i]);
++		for (j = 0; j < counts[i]; ++j, ++page_count)
++			input_page->gpa_page_list[page_count] = base_pfn + j;
++	}
++	status = hv_do_rep_hypercall(HVCALL_DEPOSIT_MEMORY,
++				     page_count, 0, input_page, NULL);
++	local_irq_restore(flags);
++	if (!hv_result_success(status)) {
++		pr_err("Failed to deposit pages: %s\n", hv_status_to_string(status));
++		ret = hv_status_to_errno(status);
++		goto err_free_allocations;
++	}
++
++	ret = 0;
++	goto free_buf;
++
++err_free_allocations:
++	for (i = 0; i < num_allocations; ++i) {
++		base_pfn = page_to_pfn(pages[i]);
++		for (j = 0; j < counts[i]; ++j)
++			__free_page(pfn_to_page(base_pfn + j));
++	}
++
++free_buf:
++	free_page((unsigned long)pages);
++	kfree(counts);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(hv_call_deposit_pages);
++
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index bf87721828f6..0c94d20b4d44 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -343,6 +343,8 @@ u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size);
+ void hyperv_cleanup(void);
+ bool hv_query_ext_cap(u64 cap_query);
+ void hv_setup_dma_ops(struct device *dev, bool coherent);
++int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
+ #else /* CONFIG_HYPERV */
+ static inline bool hv_is_hyperv_initialized(void) { return false; }
+ static inline bool hv_is_hibernation_supported(void) { return false; }
 -- 
 2.25.1
 
