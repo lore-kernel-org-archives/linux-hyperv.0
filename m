@@ -2,43 +2,43 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E90C001DF
-	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Jul 2023 07:13:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1C22C04FE1
+	for <linux-hyperv@archiver.kernel.org>; Mon, 31 Jul 2023 07:13:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230135AbjGaHNa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 31 Jul 2023 03:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49570 "EHLO
+        id S230298AbjGaHNc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 31 Jul 2023 03:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231382AbjGaHMS (ORCPT
+        with ESMTP id S231348AbjGaHMu (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 31 Jul 2023 03:12:18 -0400
+        Mon, 31 Jul 2023 03:12:50 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B6D359F;
-        Mon, 31 Jul 2023 00:10:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D48834233;
+        Mon, 31 Jul 2023 00:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690787423; x=1722323423;
+  t=1690787442; x=1722323442;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0k0T0+NBS4NOJOU0xtkOh6eqcDmcObEt/EaW35o1kMc=;
-  b=UmQcSKwC3EMO/CubajJwt74gKWtWPL2GtqkG7H0gEJjykDP0/RDhoKYA
-   Yb3RrQ4mtTk4ZLVopP21ijWMa76BBNi91KKFFJwigYbUMfVqRmb/ogTQJ
-   5fg8A/U2G5EMVVTuA53zuJxde8DJYz793K4tL8DCeSHkr4gZJlpmlp16T
-   GabUCG55V92LbT7zldScIL8B+UYHcI62wauioi0k6Q3Y7T4BEJ8IojW7K
-   pm8cq5Em/M5N0TsCXdVMV40h/GxS+xD6LEOMrjwv9I2MacxQ4HD8/XrIs
-   6347JJ8/Kc7x70rx7ISjM15HnXA9ZiwwT7IaIqAh+oVieIpcJQJpFu3XN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="432750163"
+  bh=gEY4ZGGaaQpe3vscglEO/Z/ZNgQa2ejE/Ek77q9vAj0=;
+  b=jPwwv3fJ7pH//o7VOsuljtRrYcYDxNc2+pMYZ40uHoi4AWgNJcrIURWN
+   W5o/nZ0truTZHU4seKuLlTz5s2EJ9isHD3dhJOBvRi9OE3N+lE8qGOhcp
+   IJaziGlvZAozZl3KASINswr9oof0kyn4ODle4D0i/bBXbO2Q+2oAukp3z
+   N1kKebduF0BOCpg8MZMEP8Q05x5TybghaG2kAD7aAwEh4IiA9aDLg6njO
+   a2Cbr/qdJx9O9JqGecnKYp2/TH4qILXY/fX2t3nfAR2rDeoISoh7qGvbs
+   zPQ8sq6kh7Ck6lhpClm7ey3KAcgBpH43Q9lUSYuPKBAewL2Hb9dU3nslh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="432750289"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="432750163"
+   d="scan'208";a="432750289"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:10:13 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2023 00:10:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="798157785"
+X-IronPort-AV: E=McAfee;i="6600,9927,10787"; a="798157816"
 X-IronPort-AV: E=Sophos;i="6.01,244,1684825200"; 
-   d="scan'208";a="798157785"
+   d="scan'208";a="798157816"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 00:10:08 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2023 00:10:14 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -108,9 +108,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH v9 32/36] x86/fred: Export fred_entrypoint_kernel() for handling NMI in NMI induced VM exits
-Date:   Sun, 30 Jul 2023 23:41:29 -0700
-Message-Id: <20230731064133.3881-3-xin3.li@intel.com>
+Subject: [PATCH v9 36/36] x86/fred: Disable FRED by default in its early stage
+Date:   Sun, 30 Jul 2023 23:41:33 -0700
+Message-Id: <20230731064133.3881-7-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230731064133.3881-1-xin3.li@intel.com>
 References: <20230731064133.3881-1-xin3.li@intel.com>
@@ -120,31 +120,65 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Export fred_entrypoint_kernel() for handling NMI in NMI induced VM exits.
+Disable FRED by default in its early stage.
+
+To enable FRED, a new kernel command line option "fred" needs to be added.
 
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/entry/entry_64_fred.S | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
-index d24bf7f10ac8..12063267d2ac 100644
---- a/arch/x86/entry/entry_64_fred.S
-+++ b/arch/x86/entry/entry_64_fred.S
-@@ -4,6 +4,7 @@
-  */
+Changes since v7:
+* Add a log message when FRED is enabled.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 4 ++++
+ arch/x86/kernel/cpu/common.c                    | 3 +++
+ arch/x86/kernel/fred.c                          | 3 +++
+ 3 files changed, 10 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index a1457995fd41..cb12decfcdc0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1513,6 +1513,10 @@
+ 			Warning: use of this parameter will taint the kernel
+ 			and may cause unknown problems.
  
- #include <asm/asm.h>
-+#include <asm/export.h>
- #include <asm/fred.h>
++	fred
++			Forcefully enable flexible return and event delivery,
++			which is otherwise disabled by default.
++
+ 	ftrace=[tracer]
+ 			[FTRACE] will set and start the specified tracer
+ 			as early as possible in order to facilitate early
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index b34a8a138755..38cf4f64a56e 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -1451,6 +1451,9 @@ static void __init cpu_parse_early_param(void)
+ 	char *argptr = arg, *opt;
+ 	int arglen, taint = 0;
  
- #include "calling.h"
-@@ -54,3 +55,4 @@ SYM_CODE_START_NOALIGN(fred_entrypoint_kernel)
- 	FRED_EXIT
- 	ERETS
- SYM_CODE_END(fred_entrypoint_kernel)
-+EXPORT_SYMBOL(fred_entrypoint_kernel)
++	if (!cmdline_find_option_bool(boot_command_line, "fred"))
++		setup_clear_cpu_cap(X86_FEATURE_FRED);
++
+ #ifdef CONFIG_X86_32
+ 	if (cmdline_find_option_bool(boot_command_line, "no387"))
+ #ifdef CONFIG_MATH_EMULATION
+diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
+index 7fdf79c964a8..a4a726ea9fc2 100644
+--- a/arch/x86/kernel/fred.c
++++ b/arch/x86/kernel/fred.c
+@@ -8,6 +8,9 @@
+ 
+ void cpu_init_fred_exceptions(void)
+ {
++	/* When FRED is enabled by default, this log message may not needed */
++	pr_info("Initialize FRED on CPU%d\n", smp_processor_id());
++
+ 	wrmsrl(MSR_IA32_FRED_CONFIG,
+ 	       /* Reserve for CALL emulation */
+ 	       FRED_CONFIG_REDZONE |
 -- 
 2.34.1
 
