@@ -2,43 +2,43 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FFB9C05052
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0196C07E8C
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Aug 2023 09:03:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230209AbjHAJDb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:03:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59754 "EHLO
+        id S232348AbjHAJDc (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:03:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232470AbjHAJCx (ORCPT
+        with ESMTP id S232294AbjHAJCS (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Aug 2023 05:02:53 -0400
+        Tue, 1 Aug 2023 05:02:18 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E40C2738;
-        Tue,  1 Aug 2023 02:02:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C281FE8;
+        Tue,  1 Aug 2023 02:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690880534; x=1722416534;
+  t=1690880522; x=1722416522;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+857ZiZ3kYB9kvyULHXUrCarfExj5Gil+GQ461ib92M=;
-  b=AEO4dPb6LNvajIc+SAF2N5qapMoPSFbj4Ont5NwG8hULoQ2f1xi5fpDK
-   eJ1kVqWEnpqX3kKtWqavUg3/CwENSBAwxiuDGu/FYfPBUAITJwKaN+5Lw
-   gtckd5JNqXr8Fd+8iJDS/GiMR2Djk4CaHq08FiwA81j30X8RzpEWqGm+p
-   Qh29I8ZwvDlo2YKQvxsDU2ZP/urcUa1LgwDWtP9GBDNiFYQmCOi3WuMcb
-   OMjPHDdbcDxEG67F0TjWVgzBPJjfj1puShn5up6qdfr2LmDM0w8R5/4yz
-   STNV/yY15o688PcEY6QvnK1SS0rxun+IQaMmocUBTpoqjehjsdVzqoY06
+  bh=ok7xj4KwdkLOXDJ1J3mT1oirCcERqdhXdoxphTKdFWY=;
+  b=Z/GA7e9S9mVyHvZJD6r8jxliUKjvIYwNrbD4hfrzfCuzPmt5R0+2Kd8e
+   6t64PFtmftmRQBnHLaDFIIjbsaWCAJBMIoiL8QQwGROQT2LOsWihvAp3X
+   XkP2vAROVQz/SeIZy5pVu/+BraXQXy1bhdyWc+ap1rB3Bh+M5wtiOo9lJ
+   ktfo31+bXy/orI/gMDtljDh0BvfC23+FF80IxY0UId7uwGMyI52Z7gZ3h
+   TlX30dU97CXasbD0bbWrdy1jMp+dCmcDiOynsVwGfbBxZvgH0w+2ToXq+
+   hDGNfBM7oYjv9sX9IChD1Qk7ljULGK6Nm61XZnqjHZNDDqdafjDXYKmZx
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082233"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082134"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="433082233"
+   d="scan'208";a="433082134"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:01:56 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:01:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975216976"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975216956"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="975216976"
+   d="scan'208";a="975216956"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:01:55 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:01:53 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -107,9 +107,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH RESEND v9 06/36] x86/objtool: Teach objtool about ERETU and ERETS
-Date:   Tue,  1 Aug 2023 01:32:48 -0700
-Message-Id: <20230801083318.8363-7-xin3.li@intel.com>
+Subject: [PATCH RESEND v9 03/36] x86/fred: Disable FRED support if CONFIG_X86_FRED is disabled
+Date:   Tue,  1 Aug 2023 01:32:45 -0700
+Message-Id: <20230801083318.8363-4-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
 References: <20230801083318.8363-1-xin3.li@intel.com>
@@ -121,46 +121,70 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Update the objtool decoder to know about the ERETU and ERETS
-instructions (type INSN_CONTEXT_SWITCH).
+Add CONFIG_X86_FRED to <asm/disabled-features.h> to make
+cpu_feature_enabled() work correctly with FRED.
 
+Originally-by: Megha Dey <megha.dey@intel.com>
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- tools/objtool/arch/x86/decode.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ arch/x86/include/asm/disabled-features.h       | 8 +++++++-
+ tools/arch/x86/include/asm/disabled-features.h | 8 +++++++-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
-index 2e1caabecb18..a486485cff20 100644
---- a/tools/objtool/arch/x86/decode.c
-+++ b/tools/objtool/arch/x86/decode.c
-@@ -509,11 +509,20 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index fafe9be7a6f4..85fd67c67ce1 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -105,6 +105,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
+ #endif
  
- 		if (op2 == 0x01) {
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED 0
++#else
++# define DISABLE_FRED (1 << (X86_FEATURE_FRED & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -122,7 +128,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
+diff --git a/tools/arch/x86/include/asm/disabled-features.h b/tools/arch/x86/include/asm/disabled-features.h
+index fafe9be7a6f4..85fd67c67ce1 100644
+--- a/tools/arch/x86/include/asm/disabled-features.h
++++ b/tools/arch/x86/include/asm/disabled-features.h
+@@ -105,6 +105,12 @@
+ # define DISABLE_TDX_GUEST	(1 << (X86_FEATURE_TDX_GUEST & 31))
+ #endif
  
--			if (modrm == 0xca)
--				insn->type = INSN_CLAC;
--			else if (modrm == 0xcb)
--				insn->type = INSN_STAC;
--
-+			switch (insn_last_prefix_id(&ins)) {
-+			case INAT_PFX_REPE:
-+			case INAT_PFX_REPNE:
-+				if (modrm == 0xca)
-+					/* eretu/erets */
-+					insn->type = INSN_CONTEXT_SWITCH;
-+				break;
-+			default:
-+				if (modrm == 0xca)
-+					insn->type = INSN_CLAC;
-+				else if (modrm == 0xcb)
-+					insn->type = INSN_STAC;
-+				break;
-+			}
- 		} else if (op2 >= 0x80 && op2 <= 0x8f) {
- 
- 			insn->type = INSN_JUMP_CONDITIONAL;
++#ifdef CONFIG_X86_FRED
++# define DISABLE_FRED 0
++#else
++# define DISABLE_FRED (1 << (X86_FEATURE_FRED & 31))
++#endif
++
+ /*
+  * Make sure to add features to the correct mask
+  */
+@@ -122,7 +128,7 @@
+ #define DISABLED_MASK11	(DISABLE_RETPOLINE|DISABLE_RETHUNK|DISABLE_UNRET| \
+ 			 DISABLE_CALL_DEPTH_TRACKING)
+ #define DISABLED_MASK12	(DISABLE_LAM)
+-#define DISABLED_MASK13	0
++#define DISABLED_MASK13	(DISABLE_FRED)
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
 -- 
 2.34.1
 
