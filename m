@@ -2,43 +2,43 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B99C41513
-	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Aug 2023 09:06:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF66FC04E69
+	for <linux-hyperv@archiver.kernel.org>; Tue,  1 Aug 2023 09:07:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231895AbjHAJGg (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 1 Aug 2023 05:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60306 "EHLO
+        id S232636AbjHAJHA (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 1 Aug 2023 05:07:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232212AbjHAJGA (ORCPT
+        with ESMTP id S232646AbjHAJGb (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 1 Aug 2023 05:06:00 -0400
+        Tue, 1 Aug 2023 05:06:31 -0400
 Received: from mgamail.intel.com (unknown [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B954223;
-        Tue,  1 Aug 2023 02:04:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BC84691;
+        Tue,  1 Aug 2023 02:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1690880662; x=1722416662;
+  t=1690880678; x=1722416678;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=e41GdB5DEWVT44n/+24ZLrn6jlcg49oHxwygKL8Pbqk=;
-  b=ivQaRzX9QKMqLDtyO37fbTr4tKzXpQmb8IyR2LrnTSQZCpkE32Xsa+Ai
-   CRkr4wXZ2i6anXCcuamMPSnwMc5OhG7wrUcsxFhsbQCSES8MREsn6moNV
-   S7H6kup3NYQW2ZVRlvKPCFbQAAfXlNRUnp9a17AkamKO7Ilbzye1Nkrql
-   7WcIzeGix09bq0gmZZqMeV3xTaN2/mdPtCDrDoTeuVfjb9SSGOFSRsvca
-   ty38IzMkgsExwWL8dsREiljGBGg+bLN/wtNGHDeXbgo4L/FBZMUaB6nWr
-   RIBeHmOR4pTD5UwHQWT5scixPL0F6m+elW7d2D8kGbSPC9np80AJ75hVQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082815"
+  bh=X4MZTo9+yUn1bPdeMYVQLWvNe1DyIq6KwUj9R7l5YRg=;
+  b=eY458o0In2rf3CVOo/kK4CY0D7OZEIXnzy7EqlB7BQ8+jRrzCdlhSXsX
+   BTFKYW7AzI5I6exIbjY7LELkwTl3/qFKJkOeeK06MVpE+d0fEozxI8yRs
+   M7ES3PrQ6qJLdYSHeQ5XfKTMJiNJ9+UNeL7OPnsjJDvnW/W0rhwc6Y9r6
+   K9457Yu72MVzTnYyPURX2ImellDlW1OfJihWciWAtzbSzBrvrhRiDJnSt
+   ERV+2X8vZqTutaRxw4dzKtN36CqSMhseJVM7jKtk7v9uieV5R9dW7KNtW
+   H4NecF3OQBsbyEIhoGMr0MlAjXiZtQAnUCVkUdQYTedWJUGBXwSODPLEv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="433082874"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="433082815"
+   d="scan'208";a="433082874"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:12 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2023 02:02:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217082"
+X-IronPort-AV: E=McAfee;i="6600,9927,10788"; a="975217090"
 X-IronPort-AV: E=Sophos;i="6.01,246,1684825200"; 
-   d="scan'208";a="975217082"
+   d="scan'208";a="975217090"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:11 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Aug 2023 02:02:13 -0700
 From:   Xin Li <xin3.li@intel.com>
 To:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-edac@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -107,9 +107,9 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Yantengsi <siyanteng@loongson.cn>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Sathvika Vasireddy <sv@linux.ibm.com>
-Subject: [PATCH RESEND v9 23/36] x86/entry: Remove idtentry_sysvec from entry_{32,64}.S
-Date:   Tue,  1 Aug 2023 01:33:05 -0700
-Message-Id: <20230801083318.8363-24-xin3.li@intel.com>
+Subject: [PATCH RESEND v9 25/36] x86/traps: Add a system interrupt handler table for system interrupt dispatch
+Date:   Tue,  1 Aug 2023 01:33:07 -0700
+Message-Id: <20230801083318.8363-26-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230801083318.8363-1-xin3.li@intel.com>
 References: <20230801083318.8363-1-xin3.li@intel.com>
@@ -119,63 +119,107 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-idtentry_sysvec is really just DECLARE_IDTENTRY defined in
-<asm/idtentry.h>, no need to define it separately.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
+On x86, external interrupts can be categorized into two groups:
+  1) System interrupts
+  2) External device interrupts
+
+All external device interrupts are directed to the common_interrupt(),
+which, in turn, dispatches these external device interrupts using a
+per-CPU external device interrupt dispatch table vector_irq.
+
+To handle system interrupts, a system interrupt handler table needs to
+be introduced. This table enables the direct dispatching of a system
+interrupt to its corresponding handler. As a result, a software-based
+dispatch function will be implemented as:
+
+  void external_interrupt(struct pt_regs *regs)
+  {
+    u8 vector = regs->vector;
+    if (is_system_interrupt(vector))
+      system_interrupt_handlers[vector_to_sysvec(vector)](regs);
+    else /* external device interrupt */
+      common_interrupt(regs);
+  }
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Co-developed-by: Xin Li <xin3.li@intel.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/entry/entry_32.S       | 4 ----
- arch/x86/entry/entry_64.S       | 8 --------
- arch/x86/include/asm/idtentry.h | 2 +-
- 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
-index 6e6af42e044a..e0f22ad8ff7e 100644
---- a/arch/x86/entry/entry_32.S
-+++ b/arch/x86/entry/entry_32.S
-@@ -649,10 +649,6 @@ SYM_CODE_START_LOCAL(asm_\cfunc)
- SYM_CODE_END(asm_\cfunc)
- .endm
+Changes since v8:
+* Remove junk code that assumes no local APIC on x86_64 (Thomas Gleixner).
+
+Changes since v5:
+* Initialize system_interrupt_handlers with dispatch_table_spurious_interrupt()
+  instead of NULL to get rid of any NULL check (Peter Zijlstra).
+---
+ arch/x86/kernel/traps.c | 50 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 49dd92458eb0..e430a8c47931 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -1488,6 +1488,56 @@ DEFINE_IDTENTRY_SW(iret_error)
+ }
+ #endif
  
--.macro idtentry_sysvec vector cfunc
--	idtentry \vector asm_\cfunc \cfunc has_error_code=0
--.endm
--
- /*
-  * Include the defines which emit the idt entries which are shared
-  * shared between 32 and 64 bit and emit the __irqentry_text_* markers
-diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-index 8069151176f2..44f14b990597 100644
---- a/arch/x86/entry/entry_64.S
-+++ b/arch/x86/entry/entry_64.S
-@@ -438,14 +438,6 @@ SYM_CODE_END(\asmsym)
- 	idtentry \vector asm_\cfunc \cfunc has_error_code=1
- .endm
- 
--/*
-- * System vectors which invoke their handlers directly and are not
-- * going through the regular common device interrupt handling code.
-- */
--.macro idtentry_sysvec vector cfunc
--	idtentry \vector asm_\cfunc \cfunc has_error_code=0
--.endm
--
- /**
-  * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
-  * @vector:		Vector number
-diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
-index cd5c10a74071..6817c0f8e323 100644
---- a/arch/x86/include/asm/idtentry.h
-+++ b/arch/x86/include/asm/idtentry.h
-@@ -447,7 +447,7 @@ __visible noinstr void func(struct pt_regs *regs,			\
- 
- /* System vector entries */
- #define DECLARE_IDTENTRY_SYSVEC(vector, func)				\
--	idtentry_sysvec vector func
-+	DECLARE_IDTENTRY(vector, func)
- 
- #ifdef CONFIG_X86_64
- # define DECLARE_IDTENTRY_MCE(vector, func)				\
++#ifdef CONFIG_X86_64
++
++static void dispatch_table_spurious_interrupt(struct pt_regs *regs)
++{
++	dispatch_spurious_interrupt(regs, regs->vector);
++}
++
++#define SYSV(x,y) [(x) - FIRST_SYSTEM_VECTOR] = y
++
++static system_interrupt_handler system_interrupt_handlers[NR_SYSTEM_VECTORS] = {
++	[0 ... NR_SYSTEM_VECTORS-1]		= dispatch_table_spurious_interrupt,
++#ifdef CONFIG_SMP
++	SYSV(RESCHEDULE_VECTOR,			dispatch_table_sysvec_reschedule_ipi),
++	SYSV(CALL_FUNCTION_VECTOR,		dispatch_table_sysvec_call_function),
++	SYSV(CALL_FUNCTION_SINGLE_VECTOR,	dispatch_table_sysvec_call_function_single),
++	SYSV(REBOOT_VECTOR,			dispatch_table_sysvec_reboot),
++#endif
++
++#ifdef CONFIG_X86_THERMAL_VECTOR
++	SYSV(THERMAL_APIC_VECTOR,		dispatch_table_sysvec_thermal),
++#endif
++
++#ifdef CONFIG_X86_MCE_THRESHOLD
++	SYSV(THRESHOLD_APIC_VECTOR,		dispatch_table_sysvec_threshold),
++#endif
++
++#ifdef CONFIG_X86_MCE_AMD
++	SYSV(DEFERRED_ERROR_VECTOR,		dispatch_table_sysvec_deferred_error),
++#endif
++
++#ifdef CONFIG_X86_LOCAL_APIC
++	SYSV(LOCAL_TIMER_VECTOR,		dispatch_table_sysvec_apic_timer_interrupt),
++	SYSV(X86_PLATFORM_IPI_VECTOR,		dispatch_table_sysvec_x86_platform_ipi),
++# ifdef CONFIG_HAVE_KVM
++	SYSV(POSTED_INTR_VECTOR,		dispatch_table_sysvec_kvm_posted_intr_ipi),
++	SYSV(POSTED_INTR_WAKEUP_VECTOR,		dispatch_table_sysvec_kvm_posted_intr_wakeup_ipi),
++	SYSV(POSTED_INTR_NESTED_VECTOR,		dispatch_table_sysvec_kvm_posted_intr_nested_ipi),
++# endif
++# ifdef CONFIG_IRQ_WORK
++	SYSV(IRQ_WORK_VECTOR,			dispatch_table_sysvec_irq_work),
++# endif
++	SYSV(SPURIOUS_APIC_VECTOR,		dispatch_table_sysvec_spurious_apic_interrupt),
++	SYSV(ERROR_APIC_VECTOR,			dispatch_table_sysvec_error_interrupt),
++#endif
++};
++
++#undef SYSV
++
++#endif /* CONFIG_X86_64 */
++
+ void __init trap_init(void)
+ {
+ 	/* Init cpu_entry_area before IST entries are set up */
 -- 
 2.34.1
 
