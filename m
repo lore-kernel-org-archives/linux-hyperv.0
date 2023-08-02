@@ -2,378 +2,398 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B7B5C04A94
-	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Aug 2023 17:48:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69882C001DF
+	for <linux-hyperv@archiver.kernel.org>; Wed,  2 Aug 2023 18:08:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231894AbjHBRs4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 2 Aug 2023 13:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39924 "EHLO
+        id S231463AbjHBSI0 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Wed, 2 Aug 2023 14:08:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234021AbjHBRsX (ORCPT
+        with ESMTP id S234287AbjHBSIH (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 2 Aug 2023 13:48:23 -0400
-Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-centralusazon11020015.outbound.protection.outlook.com [52.101.61.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A7730DB;
-        Wed,  2 Aug 2023 10:48:04 -0700 (PDT)
+        Wed, 2 Aug 2023 14:08:07 -0400
+Received: from BN6PR00CU002.outbound.protection.outlook.com (mail-eastus2azon11021020.outbound.protection.outlook.com [52.101.57.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E90191723;
+        Wed,  2 Aug 2023 11:07:59 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAwk0UeH87QBrsAacK6RFvYAwlnvWyk8MBQfqPJZW78BVA7FxOpLSJgvBXdpu0cFI2DKaOoHvtJeTnwDXGIWluD6lbrABJ6jo1AfL2crvAQXEvPwm341hO6YY6/WXJiWhEunfCld8dzSSlF8jsoDxbARnIaCCDeByS0Al20CoVQ7mHmmHMV+qvfUZ5VEAdaY2Iyy81uLW4O1plnMQOlCxRdi88mEqNip4sifOd5CH03+5PMYWPLU9TNuwD5yS7vSME97aa0b18wCHz0tqjfFp+KGXGUQu4HjkwvO13DhaxIP6DYiiWXWoyVleZvx1dQ5CJtmW8EuDA7CtKlQ/YADig==
+ b=BEdPaU92O5oDKFUuY5gTEp4NIeAJw1K1Y+nyCsiB/GbCtC2lTt0XsNI7j40ZBifQqH4x6+tl2qez5zr6iSrI5laoxC82DvrMrcHmTKjjSVQ3UXyLh5C6Ya5YrAizVyn82ujHaxTq/DOlrvwWnJ3VxZmX2N/HdyXgi8D59zv67baZpYslOdmmyL6oXhnGxTbVjRQKNqdEUmf8SQyhGqSrpnFzjzT79PCrBMbKfcrdwVV5OFO5oyaJ3FwXo+BMUcw19jUeCrHHTy0vMek0ZVRej5WA6CmaVseDCWUra8Cl7kPl7JkR3kXmymfMJcSWXdNKzrQjGzpSmKqjonBLACpi3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yREP1gm3Q+Y4vso1mlc90UnO5BBHwbfTIMM0R/TuDiM=;
- b=L70TzTnNkzkwV68mw2/NNueMNT+4wcN+iORBNvzu0yWMo65iwL6eUjelSiEev/PkFCNItBgm0806IQ42IDDOVB6KA46R5wHne07j8Z8uCYPs8O7Ndw9Vm/iLwbbbCn/wv0B0/A7qE678D4llUwygzaCht1QZiuBxbblF7rf2vgIOJWKnE4VqKtNx39Er1vB7u+wTWfhqX/Iyns1ytsxon/0/rO5/vDqccBLISlLSGAcicY67TRG9oh9GaavUslEP8G5p2LtrDmr56Xzl1dtz40+bEQ4Gme/ED+jYz83ozg21/7BOfs0rZchhg8+bH3L3pqCsgWWkwrNInIN6aX9erg==
+ bh=n9AxyLLZnaS8eET+3kF51hJ9qwUS1osRmPdAd/OL0c4=;
+ b=Lx/Xb2qPg0umyb2CxmC7lDQYC8so2dpxcVVuVWEZRUZwrDgv3isG6XgYyY4sMCcpg2le3q8lifKqhLG8Oaj15LC4tt5iIswztmCXPtkABqJ4pdwh9tzjk+sc1HiIwsnE8oKd/Mj7Fs0fw4SfWPTiQsgI/CdiWlThHHuV9qLWqZ/RFMP/7pIohangeAq9w5o6X4YHValcvnqJ9WJ8uQpllSBa6/MUyEV7Xku4SwZX/WID5RBZxVTU562UJUXskapCBvSvfcKAkwvFKVQDZJVtZCD7lg7/E12nG3YFvYU0P7ILfUopnwsdj5BzLDqh3qlhR2iq+C5V0rN9/iGUwVWOuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yREP1gm3Q+Y4vso1mlc90UnO5BBHwbfTIMM0R/TuDiM=;
- b=KyWAq3/mW/UQm34TLi1K+pJnRYnyTsR16MeVJHAnVcmsD/RB74TkrdkmIMRtueJmMDsu8ghFTukN1ukNIl4J9ODbgVLcFNa21FbdGdE1sWceaoQsejEWDcPXLGsnkC1eUM3i/7uGxwdOlbd27OTkGU+gQTzk9HrD0Y4+0/tEzN8=
-Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
- by PH7PR21MB3946.namprd21.prod.outlook.com (2603:10b6:510:24a::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6678.6; Wed, 2 Aug
- 2023 17:47:55 +0000
-Received: from BYAPR21MB1688.namprd21.prod.outlook.com
- ([fe80::b588:458f:b0dd:8b9f]) by BYAPR21MB1688.namprd21.prod.outlook.com
- ([fe80::b588:458f:b0dd:8b9f%3]) with mapi id 15.20.6652.004; Wed, 2 Aug 2023
- 17:47:55 +0000
-From:   "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-To:     "levymitchell0@gmail.com" <levymitchell0@gmail.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "mikelly@microsoft.com" <mikelly@microsoft.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: RE: [PATCH] hv_balloon: Update the balloon driver to use the SBRM API
-Thread-Topic: [PATCH] hv_balloon: Update the balloon driver to use the SBRM
- API
-Thread-Index: AQHZv1d0yHRwyuNfyUabzxLfRPMEe6/XS4YA
-Date:   Wed, 2 Aug 2023 17:47:55 +0000
-Message-ID: <BYAPR21MB16889DB462CEA394895BEBDBD70BA@BYAPR21MB1688.namprd21.prod.outlook.com>
-References: <20230726-master-v1-1-b2ce6a4538db@gmail.com>
-In-Reply-To: <20230726-master-v1-1-b2ce6a4538db@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=8558535d-1fed-4ed1-b3db-0f9829f2e5fb;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-08-02T17:16:41Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
+ bh=n9AxyLLZnaS8eET+3kF51hJ9qwUS1osRmPdAd/OL0c4=;
+ b=cP4011/E8GdCXVHFITb03TILyoGo43GUtPu2U4HiJCGjMOjVv1OY8OFJOTOUW0/FKOONdv7H7YGG10T80VYbE/rNlSkM/aRZrY/fHgVnHeZ8CfTKKWUGCMnBnKhspcivYrnxWD/wQd1TX+CvIRLsbumcJlSbmCYwTPWVXcz9d2o=
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|PH7PR21MB3946:EE_
-x-ms-office365-filtering-correlation-id: a8fa2baa-76ee-42aa-ec7d-08db93809a21
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IUqZ2ypM3dU0dsW1KuPz94Ep5St5aSJ77o/HqQtir3KDfiCkMPOC2p40oG0kHdRV3Q8Qtm0nj31KsBtnZzq5JZ9N3Q+P+isRyqwTKHnPut74E0IriIxACt9mo63gGnH6RE/F8DxEklZvbkMGEe5bkozVBJOZB0kjjsL7XgwRNFVQ/Mse+YE5ynWb/iFjsdQiKeM0eJ02Y1w20js08lULpM/0gvpBFhTs+Qtwq9yHf/3D6Sxr8PbOwbzzntsaA6tIgyfnvnn2IvSwd1Rvlr9xB4H3bxQCqwGZB5FrK4yxnCOavrH5pcNTrFnPGgiPkognBUs96ES3GLrgC1tRzd1PdHr08/zaKoWaLnJiW852UeDGkWT9LnxzrCGWZq3swR/ToE9NrTSom9PpYdxvvoNvB/g8jORnaZcE1iB10UNw+rx1IfmOyRuNKLpSQPnUanvnCrW/2g2Jv9fMmj4r+DdQLlqTCqSjqCJfbbRa8jDJQvclcD6NViE4wMmI4ZpynmkcPsZsMX0lxMWvGmHxXKuc1qo4j84iTLnARplFPOLcFzGEDFtI2FbZpoHmktCM3Umzt8WV0iOon30FFTAkN/+OEdUrjqZGK7odcpBQhGV11f5suANlAskuH1J4K1vpn+xpZdsUPhomg2GPJF7T2Jzq+Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1688.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(136003)(346002)(39860400002)(376002)(366004)(451199021)(15650500001)(2906002)(66899021)(8990500004)(83380400001)(55016003)(71200400001)(38070700005)(66476007)(76116006)(64756008)(66446008)(66556008)(66946007)(786003)(6636002)(110136005)(54906003)(9686003)(86362001)(33656002)(316002)(10290500003)(4326008)(7696005)(122000001)(478600001)(8676002)(8936002)(966005)(52536014)(5660300002)(38100700002)(41300700001)(82960400001)(82950400001)(6506007)(186003)(26005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Pt61rbIq90FMbQ9V4qYWeDDZoMV/HTj3lJOG4kTYZIxsaB9+I9m/ztb3pNLM?=
- =?us-ascii?Q?D7ISm9m28MKAxSqgISa10xJXclSQbn4hh1KV+WZHKT7Px5Ec3Vs5/p0cKrdC?=
- =?us-ascii?Q?T6mmeAQzmsDuRMBq93xiUs96rE67euT4WVUhhM8xJwa2ewV20PGTR2SlrrAv?=
- =?us-ascii?Q?FFULPxCNll91PFe3Towkxxh22TlaHKARTyW1ayBonz2H+p+3IF91yEaBa7j0?=
- =?us-ascii?Q?BxWR22TGFNo0tRVQuZxfmuiUkDNpAQ9+JbSopqybHoJG4LepCHbq05Q8mikM?=
- =?us-ascii?Q?JrU3Gode0PL6ILT3UTGrVTaj6zHUNseLnl17RP8Eojgvha8GWpb9vGjd+YoH?=
- =?us-ascii?Q?oh3mYMrmjZtF1x4xdW7T5a3oOvPQXOh1r7+sZs2p6aopiSX8WkK4bOTbkX03?=
- =?us-ascii?Q?qHgvWzhcV6ef35UZL7TEVrHRZR6sMcpHEGMbAavSSfixEElWHDpqMvR/Fj1Q?=
- =?us-ascii?Q?6QkFZoNjKrw7OCdIRQ7UKJdrteT7TR6U5nG6Oj4QcZmeQgAWNjPXppfhvUUv?=
- =?us-ascii?Q?Gw12+j3IYyABSkO/1ceykFDRBVFPI+ewncJE6AoQoMXRMFYXlR4PDDbJIebF?=
- =?us-ascii?Q?4pxErxxnIKMB1zO2s03T9DvqzLoHzrJdcgrZE7eJ0AJPcYGA86iihimR+V/M?=
- =?us-ascii?Q?MegTqvrBl13K2f3K931NF9qIgWY/1Uf7FAfJ1qTYmo2V8xDGy7lsQKer1jpk?=
- =?us-ascii?Q?C23vUPh6+MJfbFdF5ZdDeWQkGbHUklDUHRypm0SuuPqVBREM1VPswoW3O/Q9?=
- =?us-ascii?Q?FDJuE75HZQjdxRwbyHyyQ5ntIwwAYyGtKpHNwKStQmLlFu9qnPQvdS2mubV/?=
- =?us-ascii?Q?8MTJNxPsow2Sf+w3IgIdpkefYGqjHTcJnQNm8+Oe68kEG9p6qRmRMF1xeb1m?=
- =?us-ascii?Q?e7r88ypF6IwlxIeT8eCygblBCyUM7YNyk9Bqq5Q2ec+oblHuunOHSQJWnD/L?=
- =?us-ascii?Q?tjAXaiKyipaBDPQsGVcMWq0fihEpNeLccNvz4i+wLcieHoO3hRWuXuq6K/gH?=
- =?us-ascii?Q?1PuGnQwvlcoC7oepIIWLV8an+5g9DbEDvLmGmq0agGki0To0cVxCN16DIwd6?=
- =?us-ascii?Q?Gt6Jbqiaof2x/Tr3xnVu8ygjjtmQYTG9MuyqpdK3U1YQOCRWELt6kuHovqbU?=
- =?us-ascii?Q?dsguJcomDoKVnzxU+NHdvGcxdVdO/bxk06lXXuxefVpfYH8tBo0SQB4ZKoMc?=
- =?us-ascii?Q?2jGHh0/NCptpXtnINZuw0qgpR8trBq5kqOEjAnSQ4gxCT9OQnSJIjVlGTfL5?=
- =?us-ascii?Q?bluitPA7924ytrwecrxfTYse1ornzBLofFt/HX9AHZpiMrlFQFk5cVAiGx8S?=
- =?us-ascii?Q?Or/fEHTXI2bnacf4kj6P+lg7szSzUzPsZRU9KvH2OUMk1a9cdZj/9k+87kR6?=
- =?us-ascii?Q?xLiDUg/YGLUHsKo9dtJxx/Bw5EhJfG8XycjUJavWfJv+cBhSZM1+IfHLtINn?=
- =?us-ascii?Q?2amnBFTQvZ5Kdmr3caxfbbCQv5lAjyJ+zquEm3QQG8qnl1M0KraDscCG4RjE?=
- =?us-ascii?Q?zeV0JWbO62gr9WAbzuNe+ZcokFrslbufHDdu/zjkUiNeYq9dU0rVaQZRa/ee?=
- =?us-ascii?Q?EALO4Ve1ZpOk6VX3YIkrUZnmhjCN8TFapCDoCmgpFcuifb4W9edHo5BIbkgk?=
- =?us-ascii?Q?fg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from BY5PR21MB1443.namprd21.prod.outlook.com (2603:10b6:a03:21f::18)
+ by SJ0PR21MB2022.namprd21.prod.outlook.com (2603:10b6:a03:390::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.5; Wed, 2 Aug
+ 2023 18:07:56 +0000
+Received: from BY5PR21MB1443.namprd21.prod.outlook.com
+ ([fe80::3df1:3a64:3388:9f97]) by BY5PR21MB1443.namprd21.prod.outlook.com
+ ([fe80::3df1:3a64:3388:9f97%6]) with mapi id 15.20.6678.009; Wed, 2 Aug 2023
+ 18:07:56 +0000
+From:   Haiyang Zhang <haiyangz@microsoft.com>
+To:     linux-hyperv@vger.kernel.org, netdev@vger.kernel.org
+Cc:     haiyangz@microsoft.com, decui@microsoft.com, kys@microsoft.com,
+        paulros@microsoft.com, olaf@aepfle.de, vkuznets@redhat.com,
+        davem@davemloft.net, wei.liu@kernel.org, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, leon@kernel.org,
+        longli@microsoft.com, ssengar@linux.microsoft.com,
+        linux-rdma@vger.kernel.org, daniel@iogearbox.net,
+        john.fastabend@gmail.com, bpf@vger.kernel.org, ast@kernel.org,
+        sharmaajay@microsoft.com, hawk@kernel.org, tglx@linutronix.de,
+        shradhagupta@linux.microsoft.com, linux-kernel@vger.kernel.org
+Subject: [PATCH V5,net-next] net: mana: Add page pool for RX buffers
+Date:   Wed,  2 Aug 2023 11:07:30 -0700
+Message-Id: <1690999650-9557-1-git-send-email-haiyangz@microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-ClientProxiedBy: MW4PR04CA0077.namprd04.prod.outlook.com
+ (2603:10b6:303:6b::22) To BY5PR21MB1443.namprd21.prod.outlook.com
+ (2603:10b6:a03:21f::18)
 MIME-Version: 1.0
+Sender: LKML haiyangz <lkmlhyz@microsoft.com>
+X-MS-Exchange-MessageSentRepresentingType: 2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR21MB1443:EE_|SJ0PR21MB2022:EE_
+X-MS-Office365-Filtering-Correlation-Id: 307605ea-7059-46a1-0c5f-08db938365a3
+X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: N5HZFw2qbK9MgOqu0P4EknhH00LoTv/kpdNOExDHQ0gbNirKUM3svtZw0rvkr01/bs5lDOxjHxub8jbd7CceFwRWb8PbCCUkOyWSs8O4eip2dH62pFsRjGvGSgWVX9bMxD4v9KqsLT2Zv4thDWMbn0XBprPABeG4KKThzbTC0cjCGkSrd/giSHaFsu8CrW06z7qBJZZFo5GWV8a/4KLrjgAP7pW0Mhe4K+A7tJcywKnR4HDuigcNwvXBEOVNBTwP/Ri2f3877oznpxLlFw2dqjyVwyvogP9Y3qzYCobYm8DSHeTxxjo/Owygg72IsmejBxkVo2iXap7MZMS4L0tdEmzP+NcgoKn9t0T1qCTAElX/QhovlMccJNcjZncb87eg1YSa3R97B4NdHVGoT+/aP2yVGMOVKKVQD0wGEktx1QtMyEpmtFOx1IH6oe8JrHV+9sqFDJDp3tmrZDjNJ3pT21kyizwLBIlMWRMj7Ch8X7kbeHYPFAVygKnohUs4mqI4i9BzHaAdaeP+5xC2EKCvtyLZ6JKOIABgeWm46Zs8JZMptEGve+7rB/gRNKnQDPJkmArFmXNwj1iGkKt80TDnXThpLNl+9UfpdxMQwrGba/ztsutYSs3kfxu7b0pZFv+TzP0dZXcuhvb79A8TbRsKash4/YZA+1G2vXB7+ILm9jI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR21MB1443.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(346002)(376002)(366004)(136003)(39860400002)(396003)(451199021)(10290500003)(186003)(6512007)(83380400001)(8676002)(26005)(6506007)(66556008)(5660300002)(2906002)(8936002)(41300700001)(66946007)(7846003)(786003)(7416002)(66476007)(6486002)(6666004)(52116002)(4326008)(2616005)(478600001)(316002)(36756003)(38350700002)(38100700002)(82950400001)(82960400001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UMHekO/tZZ6RpfD7e1zw5nRqhPcmuNUqAziCCZ61OLIdIX1lcEMXMGOBZdFL?=
+ =?us-ascii?Q?lPg/hDlKO0q/JNnBX5QuDlsajB0Ocb9/gEYX0ygdUbHgXsKEphxJuFYFuLDk?=
+ =?us-ascii?Q?fSEgFF+49JhmwJVIl/W2AnfZyypAc21zpHC6ca2WFGXahne36OlhRVKPvmS2?=
+ =?us-ascii?Q?2JvS4gQr2F79pXcRdsMWn3Lf96185WXKjriUgFQwY1I7kQEPakuqdbe5PWqp?=
+ =?us-ascii?Q?BIFJd6AIGiJit1E8zV8CHULwdGlc5jJDIHUh+ga2osuzl0U4J+YkIKb5TaTR?=
+ =?us-ascii?Q?zw7cL7wfvegkywkoQjoMCLHlMKI0hltKkDwzeaC/ziFkYEKD7/uT2u9hA13D?=
+ =?us-ascii?Q?revqY9UnX8NLVrAiB9YdkKYtlUC+Kt0z3hG6uPGa8y8RPwa1SGrzRTGYqVnH?=
+ =?us-ascii?Q?m1PZYbm6HYrgnZZJ0GE2gRTizJT9NuccGMFBekicAjbXWIZWufCSoKijKSDE?=
+ =?us-ascii?Q?qYwC09p0CtBCaZazjcoZ/RE0MnN4nZI5qT5mBtiR2YX3XbQhWXWRm8e0HMcX?=
+ =?us-ascii?Q?dnpbn4wLxhaaCk5JHJHPCGH4u9xPDYZ9kvyj9EWK4jbaF04XRwQVwqr74fk1?=
+ =?us-ascii?Q?PGSttnYrA+IvK/afZszn5h0v63xdVQkqObQEyrwP9qzOlfPy+0AdbYwQ4iLo?=
+ =?us-ascii?Q?r7t1Nf7QE7Eoc03W8uc9iCqgEoYzxQ2K9BslBCvDNDunj3oM4crz1pNq6aAi?=
+ =?us-ascii?Q?Xet+T87HmGwe8oEtqPmZ7HqYWElYGT8tT4wbhYrDh9hYlvL8o8OIbwZ76tUh?=
+ =?us-ascii?Q?l7K36G1B7uBR9Nv2WzPornQ5aFs8cgE4MDlcHzJsZuqOuAimssd03bWgL9y9?=
+ =?us-ascii?Q?brK/PtocrlrrucjJvxEDDxdcJVZuYfkp2VDFo6dGFFDkEzuNZf2+dJl6So5y?=
+ =?us-ascii?Q?FXqVasbSGZW45SrkY/4iczn/RA90uGJ44kvCea6riDIq7aVsB6vPcnEPcgNL?=
+ =?us-ascii?Q?BDULnW9GuzNrYHekUlUb9FTCZtKD1u8BOYmv5Er1CmEI2Dshr9YoVShyeEnS?=
+ =?us-ascii?Q?606/altHxyUu+RXqfpgaFbxJT/y2miYjA7mzVSdyE96kanBh1ZQW35bTLVL/?=
+ =?us-ascii?Q?W75DtqFYaIX2+H6VLRgPF6vxZbLsKD33a061EuldWM3shuBEcyN5jxvEhmt1?=
+ =?us-ascii?Q?PSLcCZhjrOcPeaSMR4CDBeaUeISRDDR4QK2MU5i8CZS4SmKuHgc7lTMBw4mw?=
+ =?us-ascii?Q?HMqAKCpOkFA3/KHwpEELA7+sUXw2O1akGrD7xKEC9F9wPB83b8zYKoxSVmxZ?=
+ =?us-ascii?Q?VJcZVOdxT03RqLDrUnweV+G8F+eUNc61qiI3g4VEcKc9j9sFFJDi2dtNlwbZ?=
+ =?us-ascii?Q?Al2oJ0w5L51gQuAOnNExYok72S6GmbGdM3seL99+8+FhLftDya67v/k5n5Bv?=
+ =?us-ascii?Q?f6SrF//OUiGeN2vShtihTXWnuSQgj94TH3TfrWOS0gML6Fozv65VU4zbX1jP?=
+ =?us-ascii?Q?UoYwDwN0AIMnNi1aeq/K14qq3qIo7bhh7SbIiVgBJo+R0ytzra6fOZBE5DpQ?=
+ =?us-ascii?Q?2wFabvqFpwhrqmTYJ//JVq5KXq0FRgrRRaYPD0q+t8mTMdMfbuUNkWRRQ37L?=
+ =?us-ascii?Q?iPLDllHONWF/a1yR+mG17izShAqWUMX2J8dvbI7P?=
 X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 307605ea-7059-46a1-0c5f-08db938365a3
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR21MB1443.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8fa2baa-76ee-42aa-ec7d-08db93809a21
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2023 17:47:55.4017
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2023 18:07:56.1498
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fpNJfrJ6zpxQE0gPQx0wvLD+wOcM+Bh/nAwI/Kcx58WncC+A2Zpl4LYmaNAXGn/NTrV63kZdgQyhAj/sr/AzNohK3X0G0i1hKjM0/WpQzFI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR21MB3946
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q1128oIfRofnTYk3YnQ+dybK1IiK7L1RuZTIovw7qSomnD8HgDghhHFplwMhu9h0X7lnf042VGRdPmNobToZeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR21MB2022
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Mitchell Levy via B4 Relay <devnull+levymitchell0.gmail.com@kernel.or=
-g> Sent: Tuesday, July 25, 2023 5:24 PM
->
-> This patch is intended as a proof-of-concept for the new SBRM
-> machinery[1]. For some brief background, the idea behind SBRM is using
-> the __cleanup__ attribute to automatically unlock locks (or otherwise
-> release resources) when they go out of scope, similar to C++ style RAII.
-> This promises some benefits such as making code simpler (particularly
-> where you have lots of goto fail; type constructs) as well as reducing
-> the surface area for certain kinds of bugs.
->=20
-> The changes in this patch should not result in any difference in how the
-> code actually runs (i.e., it's purely an exercise in this new syntax
-> sugar). In one instance SBRM was not appropriate, so I left that part
-> alone, but all other locking/unlocking is handled automatically in this
-> patch.
->=20
-> Link: https://lore.kernel.org/all/20230626125726.GU4253@hirez.programming=
-.kicks-ass.net/ [1]
+Add page pool for RX buffers for faster buffer cycle and reduce CPU
+usage.
 
-I haven't previously seen the "[1]" footnote-style identifier used with the
-Link: tag.  Usually the "[1]" goes at the beginning of the line with the
-additional information, but that conflicts with the Link: tag.  Maybe I'm
-wrong, but you might either omit the footnote-style identifier, or the Link=
-:
-tag, instead of trying to use them together.
+The standard page pool API is used.
 
-Separately, have you built a kernel for ARM64 with these changes in
-place?  The Hyper-V balloon driver is used on both x86 and ARM64
-architectures.  There's nothing obviously architecture specific here,
-but given that SBRM is new, it might be wise to verify that all is good
-when building and running on ARM64.
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+V5:
+In err path, set page_pool_put_full_page(..., false) as suggested by
+Jakub Kicinski
+V4:
+Add nid setting, remove page_pool_nid_changed(), as suggested by
+Jesper Dangaard Brouer
+V3:
+Update xdp mem model, pool param, alloc as suggested by Jakub Kicinski
+V2:
+Use the standard page pool API as suggested by Jesper Dangaard Brouer
+---
+ drivers/net/ethernet/microsoft/mana/mana_en.c | 90 +++++++++++++++----
+ include/net/mana/mana.h                       |  3 +
+ 2 files changed, 77 insertions(+), 16 deletions(-)
 
->=20
-> Suggested-by: Boqun Feng <boqun.feng@gmail.com>
-> Signed-off-by: "Mitchell Levy (Microsoft)" <levymitchell0@gmail.com>
-> ---
->  drivers/hv/hv_balloon.c | 82 +++++++++++++++++++++++--------------------=
-------
->  1 file changed, 38 insertions(+), 44 deletions(-)
->=20
-> diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
-> index dffcc894f117..2812601e84da 100644
-> --- a/drivers/hv/hv_balloon.c
-> +++ b/drivers/hv/hv_balloon.c
-> @@ -8,6 +8,7 @@
->=20
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->=20
-> +#include <linux/cleanup.h>
->  #include <linux/kernel.h>
->  #include <linux/jiffies.h>
->  #include <linux/mman.h>
-> @@ -646,7 +647,7 @@ static int hv_memory_notifier(struct notifier_block *=
-nb, unsigned long val,
->  			      void *v)
->  {
->  	struct memory_notify *mem =3D (struct memory_notify *)v;
-> -	unsigned long flags, pfn_count;
-> +	unsigned long pfn_count;
->=20
->  	switch (val) {
->  	case MEM_ONLINE:
-> @@ -655,21 +656,22 @@ static int hv_memory_notifier(struct notifier_block=
- *nb, unsigned long val,
->  		break;
->=20
->  	case MEM_OFFLINE:
-> -		spin_lock_irqsave(&dm_device.ha_lock, flags);
-> -		pfn_count =3D hv_page_offline_check(mem->start_pfn,
-> -						  mem->nr_pages);
-> -		if (pfn_count <=3D dm_device.num_pages_onlined) {
-> -			dm_device.num_pages_onlined -=3D pfn_count;
-> -		} else {
-> -			/*
-> -			 * We're offlining more pages than we managed to online.
-> -			 * This is unexpected. In any case don't let
-> -			 * num_pages_onlined wrap around zero.
-> -			 */
-> -			WARN_ON_ONCE(1);
-> -			dm_device.num_pages_onlined =3D 0;
-> +		scoped_guard(spinlock_irqsave, &dm_device.ha_lock) {
-> +			pfn_count =3D hv_page_offline_check(mem->start_pfn,
-> +							  mem->nr_pages);
-> +			if (pfn_count <=3D dm_device.num_pages_onlined) {
-> +				dm_device.num_pages_onlined -=3D pfn_count;
-> +			} else {
-> +				/*
-> +				 * We're offlining more pages than we
-> +				 * managed to online. This is
-> +				 * unexpected. In any case don't let
-> +				 * num_pages_onlined wrap around zero.
-> +				 */
-> +				WARN_ON_ONCE(1);
-> +				dm_device.num_pages_onlined =3D 0;
-> +			}
->  		}
-> -		spin_unlock_irqrestore(&dm_device.ha_lock, flags);
->  		break;
->  	case MEM_GOING_ONLINE:
->  	case MEM_GOING_OFFLINE:
-> @@ -721,24 +723,23 @@ static void hv_mem_hot_add(unsigned long start, uns=
-igned long size,
->  	unsigned long start_pfn;
->  	unsigned long processed_pfn;
->  	unsigned long total_pfn =3D pfn_count;
-> -	unsigned long flags;
->=20
->  	for (i =3D 0; i < (size/HA_CHUNK); i++) {
->  		start_pfn =3D start + (i * HA_CHUNK);
->=20
-> -		spin_lock_irqsave(&dm_device.ha_lock, flags);
-> -		has->ha_end_pfn +=3D  HA_CHUNK;
-> +		scoped_guard(spinlock_irqsave, &dm_device.ha_lock) {
-> +			has->ha_end_pfn +=3D  HA_CHUNK;
->=20
-> -		if (total_pfn > HA_CHUNK) {
-> -			processed_pfn =3D HA_CHUNK;
-> -			total_pfn -=3D HA_CHUNK;
-> -		} else {
-> -			processed_pfn =3D total_pfn;
-> -			total_pfn =3D 0;
-> -		}
-> +			if (total_pfn > HA_CHUNK) {
-> +				processed_pfn =3D HA_CHUNK;
-> +				total_pfn -=3D HA_CHUNK;
-> +			} else {
-> +				processed_pfn =3D total_pfn;
-> +				total_pfn =3D 0;
-> +			}
->=20
-> -		has->covered_end_pfn +=3D  processed_pfn;
-> -		spin_unlock_irqrestore(&dm_device.ha_lock, flags);
-> +			has->covered_end_pfn +=3D  processed_pfn;
-> +		}
->=20
->  		reinit_completion(&dm_device.ol_waitevent);
->=20
-> @@ -758,10 +759,10 @@ static void hv_mem_hot_add(unsigned long start, uns=
-igned long size,
->  				 */
->  				do_hot_add =3D false;
->  			}
-> -			spin_lock_irqsave(&dm_device.ha_lock, flags);
-> -			has->ha_end_pfn -=3D HA_CHUNK;
-> -			has->covered_end_pfn -=3D  processed_pfn;
-> -			spin_unlock_irqrestore(&dm_device.ha_lock, flags);
-> +			scoped_guard(spinlock_irqsave, &dm_device.ha_lock) {
-> +				has->ha_end_pfn -=3D HA_CHUNK;
-> +				has->covered_end_pfn -=3D  processed_pfn;
-> +			}
->  			break;
->  		}
->=20
-> @@ -781,10 +782,9 @@ static void hv_mem_hot_add(unsigned long start, unsi=
-gned long size,
->  static void hv_online_page(struct page *pg, unsigned int order)
->  {
->  	struct hv_hotadd_state *has;
-> -	unsigned long flags;
->  	unsigned long pfn =3D page_to_pfn(pg);
->=20
-> -	spin_lock_irqsave(&dm_device.ha_lock, flags);
-> +	guard(spinlock_irqsave)(&dm_device.ha_lock);
->  	list_for_each_entry(has, &dm_device.ha_region_list, list) {
->  		/* The page belongs to a different HAS. */
->  		if ((pfn < has->start_pfn) ||
-> @@ -794,7 +794,6 @@ static void hv_online_page(struct page *pg, unsigned =
-int order)
->  		hv_bring_pgs_online(has, pfn, 1UL << order);
->  		break;
->  	}
-> -	spin_unlock_irqrestore(&dm_device.ha_lock, flags);
->  }
->=20
->  static int pfn_covered(unsigned long start_pfn, unsigned long pfn_cnt)
-> @@ -803,9 +802,8 @@ static int pfn_covered(unsigned long start_pfn, unsig=
-ned long pfn_cnt)
->  	struct hv_hotadd_gap *gap;
->  	unsigned long residual, new_inc;
->  	int ret =3D 0;
-> -	unsigned long flags;
->=20
-> -	spin_lock_irqsave(&dm_device.ha_lock, flags);
-> +	guard(spinlock_irqsave)(&dm_device.ha_lock);
->  	list_for_each_entry(has, &dm_device.ha_region_list, list) {
->  		/*
->  		 * If the pfn range we are dealing with is not in the current
-> @@ -852,7 +850,6 @@ static int pfn_covered(unsigned long start_pfn, unsig=
-ned long pfn_cnt)
->  		ret =3D 1;
->  		break;
->  	}
-> -	spin_unlock_irqrestore(&dm_device.ha_lock, flags);
->=20
->  	return ret;
->  }
-> @@ -947,7 +944,6 @@ static unsigned long process_hot_add(unsigned long pg=
-_start,
->  {
->  	struct hv_hotadd_state *ha_region =3D NULL;
->  	int covered;
-> -	unsigned long flags;
->=20
->  	if (pfn_cnt =3D=3D 0)
->  		return 0;
-> @@ -979,9 +975,9 @@ static unsigned long process_hot_add(unsigned long pg=
-_start,
->  		ha_region->covered_end_pfn =3D pg_start;
->  		ha_region->end_pfn =3D rg_start + rg_size;
->=20
-> -		spin_lock_irqsave(&dm_device.ha_lock, flags);
-> -		list_add_tail(&ha_region->list, &dm_device.ha_region_list);
-> -		spin_unlock_irqrestore(&dm_device.ha_lock, flags);
-> +		scoped_guard(spinlock_irqsave, &dm_device.ha_lock) {
-> +			list_add_tail(&ha_region->list, &dm_device.ha_region_list);
-> +		}
->  	}
->=20
->  do_pg_range:
-> @@ -2047,7 +2043,6 @@ static void balloon_remove(struct hv_device *dev)
->  	struct hv_dynmem_device *dm =3D hv_get_drvdata(dev);
->  	struct hv_hotadd_state *has, *tmp;
->  	struct hv_hotadd_gap *gap, *tmp_gap;
-> -	unsigned long flags;
->=20
->  	if (dm->num_pages_ballooned !=3D 0)
->  		pr_warn("Ballooned pages: %d\n", dm->num_pages_ballooned);
-> @@ -2073,7 +2068,7 @@ static void balloon_remove(struct hv_device *dev)
->  #endif
->  	}
->=20
-> -	spin_lock_irqsave(&dm_device.ha_lock, flags);
-> +	guard(spinlock_irqsave)(&dm_device.ha_lock);
->  	list_for_each_entry_safe(has, tmp, &dm->ha_region_list, list) {
->  		list_for_each_entry_safe(gap, tmp_gap, &has->gap_list, list) {
->  			list_del(&gap->list);
-> @@ -2082,7 +2077,6 @@ static void balloon_remove(struct hv_device *dev)
->  		list_del(&has->list);
->  		kfree(has);
->  	}
-> -	spin_unlock_irqrestore(&dm_device.ha_lock, flags);
->  }
->=20
->  static int balloon_suspend(struct hv_device *hv_dev)
->=20
-> ---
-> base-commit: 3f01e9fed8454dcd89727016c3e5b2fbb8f8e50c
-> change-id: 20230725-master-bbcd9205758b
->=20
-> Best regards,
-> --
-> Mitchell Levy <levymitchell0@gmail.com>
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_en.c b/drivers/net/ethernet/microsoft/mana/mana_en.c
+index ac2acc9aca9d..1a4ac1c8736e 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_en.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_en.c
+@@ -1414,8 +1414,8 @@ static struct sk_buff *mana_build_skb(struct mana_rxq *rxq, void *buf_va,
+ 	return skb;
+ }
+ 
+-static void mana_rx_skb(void *buf_va, struct mana_rxcomp_oob *cqe,
+-			struct mana_rxq *rxq)
++static void mana_rx_skb(void *buf_va, bool from_pool,
++			struct mana_rxcomp_oob *cqe, struct mana_rxq *rxq)
+ {
+ 	struct mana_stats_rx *rx_stats = &rxq->stats;
+ 	struct net_device *ndev = rxq->ndev;
+@@ -1448,6 +1448,9 @@ static void mana_rx_skb(void *buf_va, struct mana_rxcomp_oob *cqe,
+ 	if (!skb)
+ 		goto drop;
+ 
++	if (from_pool)
++		skb_mark_for_recycle(skb);
++
+ 	skb->dev = napi->dev;
+ 
+ 	skb->protocol = eth_type_trans(skb, ndev);
+@@ -1498,9 +1501,14 @@ static void mana_rx_skb(void *buf_va, struct mana_rxcomp_oob *cqe,
+ 	u64_stats_update_end(&rx_stats->syncp);
+ 
+ drop:
+-	WARN_ON_ONCE(rxq->xdp_save_va);
+-	/* Save for reuse */
+-	rxq->xdp_save_va = buf_va;
++	if (from_pool) {
++		page_pool_recycle_direct(rxq->page_pool,
++					 virt_to_head_page(buf_va));
++	} else {
++		WARN_ON_ONCE(rxq->xdp_save_va);
++		/* Save for reuse */
++		rxq->xdp_save_va = buf_va;
++	}
+ 
+ 	++ndev->stats.rx_dropped;
+ 
+@@ -1508,11 +1516,13 @@ static void mana_rx_skb(void *buf_va, struct mana_rxcomp_oob *cqe,
+ }
+ 
+ static void *mana_get_rxfrag(struct mana_rxq *rxq, struct device *dev,
+-			     dma_addr_t *da, bool is_napi)
++			     dma_addr_t *da, bool *from_pool, bool is_napi)
+ {
+ 	struct page *page;
+ 	void *va;
+ 
++	*from_pool = false;
++
+ 	/* Reuse XDP dropped page if available */
+ 	if (rxq->xdp_save_va) {
+ 		va = rxq->xdp_save_va;
+@@ -1533,17 +1543,22 @@ static void *mana_get_rxfrag(struct mana_rxq *rxq, struct device *dev,
+ 			return NULL;
+ 		}
+ 	} else {
+-		page = dev_alloc_page();
++		page = page_pool_dev_alloc_pages(rxq->page_pool);
+ 		if (!page)
+ 			return NULL;
+ 
++		*from_pool = true;
+ 		va = page_to_virt(page);
+ 	}
+ 
+ 	*da = dma_map_single(dev, va + rxq->headroom, rxq->datasize,
+ 			     DMA_FROM_DEVICE);
+ 	if (dma_mapping_error(dev, *da)) {
+-		put_page(virt_to_head_page(va));
++		if (*from_pool)
++			page_pool_put_full_page(rxq->page_pool, page, false);
++		else
++			put_page(virt_to_head_page(va));
++
+ 		return NULL;
+ 	}
+ 
+@@ -1552,21 +1567,25 @@ static void *mana_get_rxfrag(struct mana_rxq *rxq, struct device *dev,
+ 
+ /* Allocate frag for rx buffer, and save the old buf */
+ static void mana_refill_rx_oob(struct device *dev, struct mana_rxq *rxq,
+-			       struct mana_recv_buf_oob *rxoob, void **old_buf)
++			       struct mana_recv_buf_oob *rxoob, void **old_buf,
++			       bool *old_fp)
+ {
++	bool from_pool;
+ 	dma_addr_t da;
+ 	void *va;
+ 
+-	va = mana_get_rxfrag(rxq, dev, &da, true);
++	va = mana_get_rxfrag(rxq, dev, &da, &from_pool, true);
+ 	if (!va)
+ 		return;
+ 
+ 	dma_unmap_single(dev, rxoob->sgl[0].address, rxq->datasize,
+ 			 DMA_FROM_DEVICE);
+ 	*old_buf = rxoob->buf_va;
++	*old_fp = rxoob->from_pool;
+ 
+ 	rxoob->buf_va = va;
+ 	rxoob->sgl[0].address = da;
++	rxoob->from_pool = from_pool;
+ }
+ 
+ static void mana_process_rx_cqe(struct mana_rxq *rxq, struct mana_cq *cq,
+@@ -1580,6 +1599,7 @@ static void mana_process_rx_cqe(struct mana_rxq *rxq, struct mana_cq *cq,
+ 	struct device *dev = gc->dev;
+ 	void *old_buf = NULL;
+ 	u32 curr, pktlen;
++	bool old_fp;
+ 
+ 	apc = netdev_priv(ndev);
+ 
+@@ -1622,12 +1642,12 @@ static void mana_process_rx_cqe(struct mana_rxq *rxq, struct mana_cq *cq,
+ 	rxbuf_oob = &rxq->rx_oobs[curr];
+ 	WARN_ON_ONCE(rxbuf_oob->wqe_inf.wqe_size_in_bu != 1);
+ 
+-	mana_refill_rx_oob(dev, rxq, rxbuf_oob, &old_buf);
++	mana_refill_rx_oob(dev, rxq, rxbuf_oob, &old_buf, &old_fp);
+ 
+ 	/* Unsuccessful refill will have old_buf == NULL.
+ 	 * In this case, mana_rx_skb() will drop the packet.
+ 	 */
+-	mana_rx_skb(old_buf, oob, rxq);
++	mana_rx_skb(old_buf, old_fp, oob, rxq);
+ 
+ drop:
+ 	mana_move_wq_tail(rxq->gdma_rq, rxbuf_oob->wqe_inf.wqe_size_in_bu);
+@@ -1887,6 +1907,7 @@ static void mana_destroy_rxq(struct mana_port_context *apc,
+ 	struct mana_recv_buf_oob *rx_oob;
+ 	struct device *dev = gc->dev;
+ 	struct napi_struct *napi;
++	struct page *page;
+ 	int i;
+ 
+ 	if (!rxq)
+@@ -1919,10 +1940,18 @@ static void mana_destroy_rxq(struct mana_port_context *apc,
+ 		dma_unmap_single(dev, rx_oob->sgl[0].address,
+ 				 rx_oob->sgl[0].size, DMA_FROM_DEVICE);
+ 
+-		put_page(virt_to_head_page(rx_oob->buf_va));
++		page = virt_to_head_page(rx_oob->buf_va);
++
++		if (rx_oob->from_pool)
++			page_pool_put_full_page(rxq->page_pool, page, false);
++		else
++			put_page(page);
++
+ 		rx_oob->buf_va = NULL;
+ 	}
+ 
++	page_pool_destroy(rxq->page_pool);
++
+ 	if (rxq->gdma_rq)
+ 		mana_gd_destroy_queue(gc, rxq->gdma_rq);
+ 
+@@ -1933,18 +1962,20 @@ static int mana_fill_rx_oob(struct mana_recv_buf_oob *rx_oob, u32 mem_key,
+ 			    struct mana_rxq *rxq, struct device *dev)
+ {
+ 	struct mana_port_context *mpc = netdev_priv(rxq->ndev);
++	bool from_pool = false;
+ 	dma_addr_t da;
+ 	void *va;
+ 
+ 	if (mpc->rxbufs_pre)
+ 		va = mana_get_rxbuf_pre(rxq, &da);
+ 	else
+-		va = mana_get_rxfrag(rxq, dev, &da, false);
++		va = mana_get_rxfrag(rxq, dev, &da, &from_pool, false);
+ 
+ 	if (!va)
+ 		return -ENOMEM;
+ 
+ 	rx_oob->buf_va = va;
++	rx_oob->from_pool = from_pool;
+ 
+ 	rx_oob->sgl[0].address = da;
+ 	rx_oob->sgl[0].size = rxq->datasize;
+@@ -2014,6 +2045,26 @@ static int mana_push_wqe(struct mana_rxq *rxq)
+ 	return 0;
+ }
+ 
++static int mana_create_page_pool(struct mana_rxq *rxq, struct gdma_context *gc)
++{
++	struct page_pool_params pprm = {};
++	int ret;
++
++	pprm.pool_size = RX_BUFFERS_PER_QUEUE;
++	pprm.nid = gc->numa_node;
++	pprm.napi = &rxq->rx_cq.napi;
++
++	rxq->page_pool = page_pool_create(&pprm);
++
++	if (IS_ERR(rxq->page_pool)) {
++		ret = PTR_ERR(rxq->page_pool);
++		rxq->page_pool = NULL;
++		return ret;
++	}
++
++	return 0;
++}
++
+ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 					u32 rxq_idx, struct mana_eq *eq,
+ 					struct net_device *ndev)
+@@ -2043,6 +2094,13 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 	mana_get_rxbuf_cfg(ndev->mtu, &rxq->datasize, &rxq->alloc_size,
+ 			   &rxq->headroom);
+ 
++	/* Create page pool for RX queue */
++	err = mana_create_page_pool(rxq, gc);
++	if (err) {
++		netdev_err(ndev, "Create page pool err:%d\n", err);
++		goto out;
++	}
++
+ 	err = mana_alloc_rx_wqe(apc, rxq, &rq_size, &cq_size);
+ 	if (err)
+ 		goto out;
+@@ -2114,8 +2172,8 @@ static struct mana_rxq *mana_create_rxq(struct mana_port_context *apc,
+ 
+ 	WARN_ON(xdp_rxq_info_reg(&rxq->xdp_rxq, ndev, rxq_idx,
+ 				 cq->napi.napi_id));
+-	WARN_ON(xdp_rxq_info_reg_mem_model(&rxq->xdp_rxq,
+-					   MEM_TYPE_PAGE_SHARED, NULL));
++	WARN_ON(xdp_rxq_info_reg_mem_model(&rxq->xdp_rxq, MEM_TYPE_PAGE_POOL,
++					   rxq->page_pool));
+ 
+ 	napi_enable(&cq->napi);
+ 
+diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
+index 024ad8ddb27e..b12859511839 100644
+--- a/include/net/mana/mana.h
++++ b/include/net/mana/mana.h
+@@ -280,6 +280,7 @@ struct mana_recv_buf_oob {
+ 	struct gdma_wqe_request wqe_req;
+ 
+ 	void *buf_va;
++	bool from_pool; /* allocated from a page pool */
+ 
+ 	/* SGL of the buffer going to be sent has part of the work request. */
+ 	u32 num_sge;
+@@ -330,6 +331,8 @@ struct mana_rxq {
+ 	bool xdp_flush;
+ 	int xdp_rc; /* XDP redirect return code */
+ 
++	struct page_pool *page_pool;
++
+ 	/* MUST BE THE LAST MEMBER:
+ 	 * Each receive buffer has an associated mana_recv_buf_oob.
+ 	 */
+-- 
+2.25.1
 
-These lines at the end of the patch look spurious.  But Boqun has
-already commented on that.
-
-Michael
