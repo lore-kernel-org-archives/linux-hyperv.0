@@ -2,51 +2,50 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D866C001E0
-	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Aug 2023 22:36:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B47C04A6A
+	for <linux-hyperv@archiver.kernel.org>; Wed,  9 Aug 2023 22:36:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232575AbjHIWgo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        id S232593AbjHIWgo (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
         Wed, 9 Aug 2023 18:36:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50358 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232516AbjHIWgn (ORCPT
+        with ESMTP id S229545AbjHIWgo (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 9 Aug 2023 18:36:43 -0400
+        Wed, 9 Aug 2023 18:36:44 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21950DA;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491BFFA;
         Wed,  9 Aug 2023 15:36:43 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AD3786408E;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D30C364B6C;
         Wed,  9 Aug 2023 22:36:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0F0DEC433C8;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3875CC433D9;
         Wed,  9 Aug 2023 22:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1691620602;
-        bh=4BUjLFkJfQA+chP1T8/lb7tqG9vwUxCWszoSKHdT3eE=;
-        h=From:Subject:Date:To:Cc:Reply-To:From;
-        b=uJZl35QXpiVVmR7onXffLiydLTjAzAL1fzvcV3KaK593lRMauMxyKbhL1iBMvUN19
-         6ii2cOb6p2mjNYPK3vqbz1JqHEc/HFofUfi3Sp0j7rlLZ8P6dMLFQLZT8nNhV57yeX
-         8vcrv0Lj8gQ61sIA5XoUJ5vSGJInQm7onv8vR5OoQOXQHv8fHsn1OELmFU6MINpvrm
-         u80/X9h39D7/pUmJgZ1r18DEvNdUdMzZ3Q/TITdqKycsWIomVjpLqYTr0oCSb0ONI3
-         bFatMbtCtWT9ZZWnYgRrUpwMbl913eif6HGpCbiugeezJT9EqjQaVpCiMMaq0BKVaf
-         SaCnTRzdFE3Cw==
+        bh=ysIEP6zY8WtRMOQCWbjyNvF+lCV4WvfxmcWrrcabJF4=;
+        h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+        b=ETJPr+VuvWHyeqatMDuHBVA8v3zqHwaoVxFDUj65t4wVI/iLc1b+xCZHhMG/wT6D3
+         w/cloq0jFdNCXOj7MW9nfZhuKnlgS1h3t6wIzyXz0Rpmuke3RPH2UAsFWoMVToFA2z
+         HkqtYEFxhPKU7meW/ushrqRp1dbbhyzcSqrtsjyKNReSuHmGJ0eFfEC9YqoO9u3ToJ
+         7xLBlMU7L92bRMI4Jo2nV0X6oB9fXIOaOcHxCpG5OPB6/Vjub6lf3uDLQhLh502P+B
+         aFb/MnnwTK+mwsJPHdcoo20ejV+EBN9F/iRDQom9OYHj3N3b8ExzLGPEgvPuBCgsY4
+         O2XjnSrMHFBNg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.lore.kernel.org (Postfix) with ESMTP id DAA22C0015E;
-        Wed,  9 Aug 2023 22:36:41 +0000 (UTC)
+        by smtp.lore.kernel.org (Postfix) with ESMTP id 14B82C04A6A;
+        Wed,  9 Aug 2023 22:36:42 +0000 (UTC)
 From:   Mitchell Levy via B4 Relay 
         <devnull+levymitchell0.gmail.com@kernel.org>
-Subject: [PATCH RFC 0/2] hyperv: Use raw_spinlock_t when not sleepable
-Date:   Wed, 09 Aug 2023 22:36:31 +0000
-Message-Id: <20230809-b4-rt_preempt-fix-v1-0-7283bbdc8b14@gmail.com>
+Date:   Wed, 09 Aug 2023 22:36:33 +0000
+Subject: [PATCH RFC 2/2] Use raw_spinlock_t in vmbus_requestor
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAO8U1GQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2MDCwNz3SQT3aKS+IKi1NTcghLdtMwKXWPTRDPTZEuDZLNkSyWgPqAcUBh
- sZrRSkJuzUmxtLQClwbL1aAAAAA==
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230809-b4-rt_preempt-fix-v1-2-7283bbdc8b14@gmail.com>
+References: <20230809-b4-rt_preempt-fix-v1-0-7283bbdc8b14@gmail.com>
+In-Reply-To: <20230809-b4-rt_preempt-fix-v1-0-7283bbdc8b14@gmail.com>
 To:     "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
@@ -57,11 +56,11 @@ To:     "K. Y. Srinivasan" <kys@microsoft.com>,
 Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pci@vger.kernel.org, Mitchell Levy <levymitchell0@gmail.com>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1691620601; l=1712;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1691620601; l=1927;
  i=levymitchell0@gmail.com; s=20230725; h=from:subject:message-id;
- bh=4BUjLFkJfQA+chP1T8/lb7tqG9vwUxCWszoSKHdT3eE=;
- b=zwEsCCDdslAFmIWp4oNviyDHd5myOXZRtA1QQR2rS9NQGtc/DMRVBWzSi1Pr59mMz36bE6h/v
- PwwMRSmnPQcBjaCXBrPqy1hROOTwu3N5KyJscY76lir1pZb7CmLb6vw
+ bh=EMJGmT0DQG0esS7skhyoOPlaFdOdEE5n0AicQTDKFKM=;
+ b=nzyA2dEaoaRd4dZs3CNTlzbUnk4r4uOA/q8ghaPpY2ha0OZ1ImmjjWga6I4G6m2Hl99JhZWmY
+ cM1WxeA70J1BmGVE6hve2u+KEmeyyz+vYgRNGnObBN7PP3wTJz4DXbT
 X-Developer-Key: i=levymitchell0@gmail.com; a=ed25519;
  pk=o3BLKQtTK7QMnUiW3/7p5JcITesvc3qL/w+Tz19oYeE=
 X-Endpoint-Received: by B4 Relay for levymitchell0@gmail.com/20230725 with auth_id=69
@@ -71,45 +70,61 @@ Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-When compiled with PREEMPT_RT, spinlock_t is sleepable. While I did not
-observe this causing any lockups on my system, it did cause warnings to
-be emitted when compiled with lock debugging. This series fixes some
-instances where spinlock_t is used in non-sleepable contexts, though it
-almost certainly does not find every such instance.
+From: Mitchell Levy <levymitchell0@gmail.com>
 
-An example of the warning raised by lockdep:
-=============================
-[BUG: Invalid wait context ]
-6.5.0-rc1+ #16 Not tainted
------------------------------
-swapper/0/1 is trying to lock:
-ffffa05a014d64c0 (&channel→sched_lock) {...}-{3:3}, at: vmbus_isr+0x179/0x320
-other info that might help us debug this:
-context-{2:2}
-2 locks held by swapper/0/1:
- #0: ffffffff909a9c70 (misc_mtx){+.+.}-{4:4}, at: misc_register+0x34/0x180
- #1: ffffffff9079b4c8 (rcu_read_lock) {...}-{1:3}, at: rcu_lock_acquire+0x0/0x40
-stack backtrace:
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.5.0-rc1+ #16
-Hardware name: Microsoft Corporation Virtual Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 05/09/2022
-
-Signed-off-by: Mitchell Levy <levymitchell0@gmail.com>
+Because hv_pci_onchannelcallback is called with irq disabled in
+hv_compose_msi_msg, any locks held in that function must not be
+sleepable. Therefore, change vmbus_requestor to use raw_spinlock_t.
 ---
-Mitchell Levy (2):
-      Use raw_spinlock_t for vmbus_channel.sched_lock
-      Use raw_spinlock_t in vmbus_requestor
+ drivers/hv/channel.c   | 2 +-
+ include/linux/hyperv.h | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
- drivers/hv/channel.c                | 6 +++---
- drivers/hv/channel_mgmt.c           | 2 +-
- drivers/hv/vmbus_drv.c              | 4 ++--
- drivers/pci/controller/pci-hyperv.c | 6 +++---
- include/linux/hyperv.h              | 8 ++++----
- 5 files changed, 13 insertions(+), 13 deletions(-)
----
-base-commit: 14f9643dc90adea074a0ffb7a17d337eafc6a5cc
-change-id: 20230807-b4-rt_preempt-fix-35a65c90c6c9
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index 00d73ec060ed..08e6bd4a056d 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -635,7 +635,7 @@ static int vmbus_alloc_requestor(struct vmbus_requestor *rqstor, u32 size)
+ 	rqstor->req_bitmap = bitmap;
+ 	rqstor->size = size;
+ 	rqstor->next_request_id = 0;
+-	spin_lock_init(&rqstor->req_lock);
++	raw_spin_lock_init(&rqstor->req_lock);
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 56a1fb1647a4..664c03a78e11 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -787,7 +787,7 @@ struct vmbus_requestor {
+ 	unsigned long *req_bitmap; /* is a given slot available? */
+ 	u32 size;
+ 	u64 next_request_id;
+-	spinlock_t req_lock; /* provides atomicity */
++	raw_spinlock_t req_lock; /* provides atomicity */
+ };
+ 
+ #define VMBUS_NO_RQSTOR U64_MAX
+@@ -1050,7 +1050,7 @@ struct vmbus_channel {
+ do {									\
+ 	struct vmbus_requestor *rqstor = &(channel)->requestor;		\
+ 									\
+-	spin_lock_irqsave(&rqstor->req_lock, flags);			\
++	raw_spin_lock_irqsave(&rqstor->req_lock, flags);		\
+ } while (0)
+ 
+ static __always_inline void unlock_requestor(struct vmbus_channel *channel,
+@@ -1058,7 +1058,7 @@ static __always_inline void unlock_requestor(struct vmbus_channel *channel,
+ {
+ 	struct vmbus_requestor *rqstor = &channel->requestor;
+ 
+-	spin_unlock_irqrestore(&rqstor->req_lock, flags);
++	raw_spin_unlock_irqrestore(&rqstor->req_lock, flags);
+ }
+ 
+ u64 vmbus_next_request_id(struct vmbus_channel *channel, u64 rqst_addr);
 
-Best regards,
 -- 
-Mitchell Levy <levymitchell0@gmail.com>
+2.25.1
 
