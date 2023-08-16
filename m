@@ -2,337 +2,150 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA03C18E72
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Aug 2023 16:00:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0154DC001DF
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Aug 2023 18:01:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344491AbjHPP7i (ORCPT
+        id S1344444AbjHPSBB (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Aug 2023 11:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
+        Wed, 16 Aug 2023 14:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344520AbjHPP7T (ORCPT
+        with ESMTP id S1345343AbjHPSAf (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Aug 2023 11:59:19 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3ED52D4A;
-        Wed, 16 Aug 2023 08:59:03 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1bba48b0bd2so45251965ad.3;
-        Wed, 16 Aug 2023 08:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692201543; x=1692806343;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=edyxZlMDBy/hWpSdjMir1/zkWMoNQWbVpCyIxteeHYI=;
-        b=YKeAX1vL4TvgQsAac85iqiUqLaffd3zpfGC7TdlWAw/eaIXmp7C/H3+RXTIRL5woN6
-         0jUJEk48sgGbixnL72/i3iftb7h1V102p2jg53Zcmuy32Tenew7Sze6UY8w4PipyJHtZ
-         mdH4fRJJyWCZ603KVWAsDLB1PMw/oMgT9sLLEH655OgpglcA9fAG1c0CrWPOESXvISm9
-         dYzv6W1lUdmsko43ghC6vNRANBwmzwqpst41wDUg18d2jrjkgHvA7IFgGnCCGxVnv5OD
-         2mWXtf8+jKR2+zRdVADy2pXJCtHjHIF9Qi3C4YL+cbNyxDAbTb9g/47+YHJbLOaXTmPA
-         4HqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692201543; x=1692806343;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=edyxZlMDBy/hWpSdjMir1/zkWMoNQWbVpCyIxteeHYI=;
-        b=BWf/hg76c6htVdMrOZkCWQNkNY0++hLu6EXy3wXh4SAWvBiO1KgHgQ4TQYJCKiN2eD
-         4xuEBo93Skwwm9HW1/uTyb3wRld9BHoPRamS2is4H1fzlSI0Llq8bvIS9l5SlStqFMKY
-         yJvdkUgPIeUneoZNIP6U42m9zSVWn4C53OCsvbTPmAUweY/BJRiD87h4Y5K1l2sdU9QJ
-         97EcrgRcY9n+c2BMoyLsBkgiQ9btPUlZ5CfrXP/MFMNZCZ6gvxvPbhmTvUEunJfhUl3I
-         wNsIPQV5V9w1xQrfjr9vIfIJxA2/d4lKN1G63SIExPoY77RPohiChpTBJz5v3WH4IdPp
-         jKgw==
-X-Gm-Message-State: AOJu0Yz5DswGcYJ1r9USLeYcrFIDMDY1ZpfOY4Krc/TfCIzEh17Nvfy3
-        bxUTWP/Oivc5yTCcRNyColA=
-X-Google-Smtp-Source: AGHT+IFWl8O1V8EvLbaSYODw78xAGUkzHlb6dvUUrtcZn2Le04EZ1qs22r5iGZQhpXO5A3fVKJIwpQ==
-X-Received: by 2002:a17:902:ec8f:b0:1bd:f378:b1a8 with SMTP id x15-20020a170902ec8f00b001bdf378b1a8mr2449973plg.11.1692201543400;
-        Wed, 16 Aug 2023 08:59:03 -0700 (PDT)
-Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:0:e588:8d80:9ae5:5adc])
-        by smtp.gmail.com with ESMTPSA id h17-20020a170902f7d100b001bc930d4517sm13366973plw.42.2023.08.16.08.59.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 08:59:03 -0700 (PDT)
-From:   Tianyu Lan <ltykernel@gmail.com>
-To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-        decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, daniel.lezcano@linaro.org, arnd@arndb.de,
-        michael.h.kelley@microsoft.com
-Cc:     Tianyu Lan <tiala@microsoft.com>, linux-arch@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        vkuznets@redhat.com, Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH v6 7/8] x86/hyperv: Add smp support for SEV-SNP guest
-Date:   Wed, 16 Aug 2023 11:58:48 -0400
-Message-Id: <20230816155850.1216996-8-ltykernel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230816155850.1216996-1-ltykernel@gmail.com>
-References: <20230816155850.1216996-1-ltykernel@gmail.com>
+        Wed, 16 Aug 2023 14:00:35 -0400
+Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-centralusazon11020027.outbound.protection.outlook.com [52.101.61.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27A12D45;
+        Wed, 16 Aug 2023 11:00:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CIF7xnJ/6ZQw/Ur4twiwQ1BjzM3bghCuCdaBxKhmP3fZY5qCGdZ5zW4yhUmWrBBlVYBbDJd9sAlIBckrJEvrFwlNGqPt9k3Hwwq4zgbKn5XZWuzJoNmjvYXY0rlFImrUQg8NeXhsxCEfkxHSuoMBAWa19fUaPFrbz5QLPs7iKmm8eY7r83F1c/5iSjrfGBgGsO2uf5gD9rbkyAi8tQPkimCZzlYBy0YYJUUtChT5tnE7B9H25KPO3PoPrA9Lr+8lEivmpQICIsm6k27u2mjulY+asoHPoXHwXs1cDquedwPBW1WPU3SNjixIpMuoNy7ua0z/yfkUraS6N1oM7m1OwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=koh5ZnYpXDiyEv0pywSlKhUHQ9hn7pXloCfSnctC4QA=;
+ b=eIOPVZwccZlcdBOisfO3JjCtWnf5C34hopZrow+HtF1afOlcX/G/FOMteoYIYdN0aOH5BNdNd515pOuAC4DF1v2mWgbv/pvHNKdqZunn6uaGaPS4pAnilZWWA7LijobNha7kzRqHyBP8CjPh5FIDL7ny8AjxG4QgPtyANMVYeiDx16FRYl4wzrdKMNnWPAlsFc97t+pMN8F2SENeAkq5iIUQzeg3lbd90Sg75YmITN+nvVMqtYvNpXyIODUWkFqSTIrPgi1TJKAkuae8HMDco95oYXTRHvokDHxRZAuIHJaKRfUrkD5drPKtmxKsnmiAAI9S4viSm63FfWAVSP9T0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=koh5ZnYpXDiyEv0pywSlKhUHQ9hn7pXloCfSnctC4QA=;
+ b=dVV3Xxsne1lnFNlQu6TJXSKP0kxI03IivcQCx80SibVrkeFy23eo3Dxas4W31mQxlSIU502di/8Z6HEh7QitEoYKu6pgU1z9h7qKoIO42AHceFz5ynTtbm6DFyx/9WWkRxyauski9yHSODLA9obP03U7JXjytSAhczL9gnBt7I4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
+ (2603:10b6:207:30::23) by MN2PR21MB1503.namprd21.prod.outlook.com
+ (2603:10b6:208:1f7::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6723.4; Wed, 16 Aug
+ 2023 18:00:16 +0000
+Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
+ ([fe80::b3df:a8e9:52dd:dfad]) by BL0PR2101MB1092.namprd21.prod.outlook.com
+ ([fe80::b3df:a8e9:52dd:dfad%5]) with mapi id 15.20.6723.002; Wed, 16 Aug 2023
+ 18:00:16 +0000
+From:   Dexuan Cui <decui@microsoft.com>
+To:     tglx@linutronix.de, jgg@ziepe.ca, bhelgaas@google.com,
+        haiyangz@microsoft.com, kw@linux.com, kys@microsoft.com,
+        linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
+        lpieralisi@kernel.org, mikelley@microsoft.com, robh@kernel.org,
+        wei.liu@kernel.org, helgaas@kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>
+Subject: [PATCH v2] PCI: hv: Fix a crash in hv_pci_restore_msi_msg() during hibernation
+Date:   Wed, 16 Aug 2023 10:59:39 -0700
+Message-Id: <20230816175939.21566-1-decui@microsoft.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: CY5PR15CA0165.namprd15.prod.outlook.com
+ (2603:10b6:930:81::7) To BL0PR2101MB1092.namprd21.prod.outlook.com
+ (2603:10b6:207:30::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR2101MB1092:EE_|MN2PR21MB1503:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d5f4774-4e64-4290-2eb5-08db9e82a52e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TzPyaK94eyN+lgllalHs/QuEmqXIZ3Iii0jTK+xfjnuq4mz3BfoMlfwvIrxik54IyLPO4p+irW2Uke3rLLNBri69t/17/INeNgdYbKTJw27M3WU7WrPwh+M3jNJeqSG0w7jAsJop8nRYhkKK0+z9DMC0Q4JdwQldOFP9be5Sn2qAZJUl+LPVGuybjEtyJrzynLVtACCFnHpJz90X5E/uYw+2s3VXd83/v+uPnuuhyP0PM1ij+ve8scaDkI+zwrAwpjk/xFNrTz0icHEKl5KrVYAIYZ8fr7RZ/07Z7onFLMvHu9Ivdo4I/R0p40uuquLFeMgggSeiVzjCW69DoR13kNuW8HqI8tagHwYcuZ6RQjTSYMbNBAUQQ0kGUcNMQrwC3tFZKUhIDlUAhEXyGOrNFyq1eiV2m/5it+zysgzEQ2hiXGNEWWGJsEoyr2ulOHafdrg6qd1/LqV+k1ezWeN0pWIbVWqDYMEBHLxVwKqDf6bKNK9Xm3GYLxvCpjm6U3Sw/hukVinuQiRRHxWhv//fWj+lSf7dZNOCS1tvRcjdfslgz8HYtiChNVmdr31SFmGMpe+7TaNKBF5IPuPO3wrtG/3uRJvY6sx6Aq4RDstbzWisgRKP8uFRu+i+oPUdDPy0RsDtjB3KNuOD4kcmAM2lhboXf1N56Oz9QLPmi42mKcSv/flwQaYA3Q63hhNKwPuW
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB1092.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(346002)(376002)(366004)(396003)(1800799009)(186009)(451199024)(12101799020)(107886003)(6506007)(52116002)(316002)(4326008)(86362001)(1076003)(66476007)(2616005)(10290500003)(41300700001)(66946007)(6666004)(66556008)(6512007)(6486002)(38100700002)(921005)(5660300002)(478600001)(82960400001)(2906002)(83380400001)(82950400001)(7416002)(36756003)(8936002)(8676002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m0/cam3NrogI2tZOwA8Bth514oF7ArA4BJJvyxYToQWaz1XUYpefBYgGy6L4?=
+ =?us-ascii?Q?NJ3Xu8Fup2cZfJVFI0PVAEnCLOL0JPn+FMJLUT6SFZhOCRAwF1eCgCxlfasE?=
+ =?us-ascii?Q?mL1RsUckGaVvPbKn3hKuhLfwlcFWV/Z29x/j9blJEpJTTLanYwwBSOqUGa8/?=
+ =?us-ascii?Q?KXQOWnS+SWihZzfCTAQ/lfhnUzClZ7csC6Gix42VwIn+rhiSiClUfSdxhJJO?=
+ =?us-ascii?Q?WrszXbzFKECWdPSfGxrRWN+P+Bvu3YWefuLD3NOtq9IdoM/FufPvDhoKpmR1?=
+ =?us-ascii?Q?VYtIU7LWXVrCI3H04tZol/tTkznNZaomU9rtue5S2mQTg99L4BhNd8f3fu4v?=
+ =?us-ascii?Q?XNWNE+qOTQoRXHq6DXAOJrUWk4qMaZ8HR5bNppaJA12qZEQAekKi3kwik40X?=
+ =?us-ascii?Q?2xHDbq9elOVPpvf/ZuJOtooyAdNi2YW1YFovKDWD6JfVNel1tIvC2wWiRCWs?=
+ =?us-ascii?Q?dpLc3wcFM9vFtcmcKljy517seecaPCkiuJiHz1pFkYXgYo6SOxLDZHnikumT?=
+ =?us-ascii?Q?39+xj/wksiNBe61c+RwhnIfH7NZokkAMQ1Vb6BtOwnVAJplJDvUYOnFlu+LU?=
+ =?us-ascii?Q?yvAOnEh6rvnX7epMB4BmSpJoRZizUKwz8YTBm2pSX9r5snlAFhjnOtAnRUKQ?=
+ =?us-ascii?Q?4Q3Lk9nR8YHsteisEBHbQDzbmfkMD1xBV3i2ChMP7d/spsc7sXIwH+Db35OI?=
+ =?us-ascii?Q?p1pNDDQbtx3t1vCvwzf5OFj8plO7RhOul1A1PhrvwP9bZcdnEq3Z5fCB1HtQ?=
+ =?us-ascii?Q?AKp6adDrk+hTASItE9HyZY7KBOI3yKR5wGUEfgba35Tgfswazfjy11JVFioX?=
+ =?us-ascii?Q?/kcHwPWtEcnLZ2pRw3/yQo5YhhpNaaEWTQwjZkd4k9VFMv2YEoBV0Dk5EgxF?=
+ =?us-ascii?Q?IUX5PoJaRDsegpL2wePJgxuc5AasXRwkD4xuzqMXrUTfgLepIhI9OhDL8N19?=
+ =?us-ascii?Q?9EWGlNMQJ0w9LliGoGpOwrs2PwUoBxdCWcIWkI5XTtLflWNFwk2ZbxlsJm2K?=
+ =?us-ascii?Q?V3pAlLgAyUvUVuensFhJa7wgwcXavpC1NPt2xBGLuXUBnSos0uHcn29MSvfF?=
+ =?us-ascii?Q?MOyp/n40yWp84ZB/kC3VXh0vDaYKv/iHGG3Qnn/mvsqhbEeNgmKLVu0cVoY6?=
+ =?us-ascii?Q?ARDvZcvb74d6N0BrO02A556SRYJchxDbFp84vSkz/6Osuh2hwfF6VyFFOKEe?=
+ =?us-ascii?Q?zbHy3UyUJZN4TdcFChLXb6jE5/VcdFxgIqsV/qBg1O3Cdy0pIe9zEVeW3+T9?=
+ =?us-ascii?Q?ylC4OZY/OVHlcemYjzLknSjEuW6np3jZFbPF41TszxsAehC1hMu2KLsPGQcy?=
+ =?us-ascii?Q?AhbyUtqVpYpkP8zbqdULZHu4f5Q8BsreIiIOS9yxt3oXfWy7Dc3WKV2CxVIq?=
+ =?us-ascii?Q?ZV3WN/kNaJEO8t7xvbNZBrK3LIVKRpE9Z8iacbpnpmvS0uI0QDq+T8gWIFjG?=
+ =?us-ascii?Q?mA9OVnxhT8Em59kKpXy1+jduEu+f2Gv0p+H20v6US/wSEZm3apL4jetNvqgH?=
+ =?us-ascii?Q?Zcp2JbKsMj26PrZjQcMNys5lcjsJpI6ukHjxPfIPCE5hiiRx0VFaWU/xdpZC?=
+ =?us-ascii?Q?ObhlCWiSirA2w6Yl6IoMULSiPYifyrHe/L9gxpuFkl1Q2iUoScpaB4vcGlIs?=
+ =?us-ascii?Q?JUOLVydXxoPz9LcTP9Py8s5CKRx5hB1oJedWrwup/Bw/?=
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d5f4774-4e64-4290-2eb5-08db9e82a52e
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB1092.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2023 18:00:16.1320
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QD6bFM6Y/3rR69YKXA3N8gke09CK5XXppzXxvQBaHUPClaBDP5JqB8vYkNDLuykHjIOpZuTUVOfwsHcFdDsYnw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR21MB1503
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Tianyu Lan <tiala@microsoft.com>
+When a Linux VM with an assigned PCI device runs on Hyper-V, if the PCI
+device driver is not loaded yet (i.e. MSI-X/MSI is not enabled on the
+device yet), doing a VM hibernation triggers a panic in
+hv_pci_restore_msi_msg() -> msi_lock_descs(&pdev->dev), because
+pdev->dev.msi.data is still NULL.
 
-In the AMD SEV-SNP guest, AP needs to be started up via sev es
-save area and Hyper-V requires to call HVCALL_START_VP hypercall
-to pass the gpa of sev es save area with AP's vp index and VTL(Virtual
-trust level) parameters. Override wakeup_secondary_cpu_64 callback
-with hv_snp_boot_ap.
+Avoid the panic by checking if MSI-X/MSI is enabled.
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
-Signed-off-by: Tianyu Lan <tiala@microsoft.com>
+Fixes: dc2b453290c4 ("PCI: hv: Rework MSI handling")
+Signed-off-by: Dexuan Cui <decui@microsoft.com>
 ---
- arch/x86/hyperv/ivm.c             | 138 ++++++++++++++++++++++++++++++
- arch/x86/include/asm/mshyperv.h   |   9 ++
- arch/x86/kernel/cpu/mshyperv.c    |  13 ++-
- include/asm-generic/hyperv-tlfs.h |   1 +
- 4 files changed, 159 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index b2b5cb19fac9..cbbd3af4c3da 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -18,11 +18,20 @@
- #include <asm/mshyperv.h>
- #include <asm/hypervisor.h>
- #include <asm/mtrr.h>
-+#include <asm/coco.h>
-+#include <asm/io_apic.h>
-+#include <asm/sev.h>
-+#include <asm/realmode.h>
-+#include <asm/e820/api.h>
-+#include <asm/desc.h>
+Changes in v2:
+    Replaced the test "if (!pdev->dev.msi.data)" with
+		      "if (!pdev->msi_enabled && !pdev->msix_enabled)".
+      Thanks Michael!
+    Updated the changelog accordingly.
+
+ drivers/pci/controller/pci-hyperv.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 2d93d0c4f10d..bed3cefdaf19 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -3983,6 +3983,9 @@ static int hv_pci_restore_msi_msg(struct pci_dev *pdev, void *arg)
+ 	struct msi_desc *entry;
+ 	int ret = 0;
  
- #ifdef CONFIG_AMD_MEM_ENCRYPT
- 
- #define GHCB_USAGE_HYPERV_CALL	1
- 
-+static u8 ap_start_input_arg[PAGE_SIZE] __bss_decrypted __aligned(PAGE_SIZE);
-+static u8 ap_start_stack[PAGE_SIZE] __aligned(PAGE_SIZE);
++	if (!pdev->msi_enabled && !pdev->msix_enabled)
++		return 0;
 +
- union hv_ghcb {
- 	struct ghcb ghcb;
- 	struct {
-@@ -56,6 +65,8 @@ union hv_ghcb {
- 	} hypercall;
- } __packed __aligned(HV_HYP_PAGE_SIZE);
- 
-+static DEFINE_PER_CPU(struct sev_es_save_area *, hv_sev_vmsa);
-+
- static u16 hv_ghcb_version __ro_after_init;
- 
- u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size)
-@@ -357,6 +368,133 @@ static bool hv_is_private_mmio(u64 addr)
- 	return false;
- }
- 
-+#define hv_populate_vmcb_seg(seg, gdtr_base)			\
-+do {								\
-+	if (seg.selector) {					\
-+		seg.base = 0;					\
-+		seg.limit = HV_AP_SEGMENT_LIMIT;		\
-+		seg.attrib = *(u16 *)(gdtr_base + seg.selector + 5);	\
-+		seg.attrib = (seg.attrib & 0xFF) | ((seg.attrib >> 4) & 0xF00); \
-+	}							\
-+} while (0)							\
-+
-+static int snp_set_vmsa(void *va, bool vmsa)
-+{
-+	u64 attrs;
-+
-+	/*
-+	 * Running at VMPL0 allows the kernel to change the VMSA bit for a page
-+	 * using the RMPADJUST instruction. However, for the instruction to
-+	 * succeed it must target the permissions of a lesser privileged
-+	 * (higher numbered) VMPL level, so use VMPL1 (refer to the RMPADJUST
-+	 * instruction in the AMD64 APM Volume 3).
-+	 */
-+	attrs = 1;
-+	if (vmsa)
-+		attrs |= RMPADJUST_VMSA_PAGE_BIT;
-+
-+	return rmpadjust((unsigned long)va, RMP_PG_SIZE_4K, attrs);
-+}
-+
-+static void snp_cleanup_vmsa(struct sev_es_save_area *vmsa)
-+{
-+	int err;
-+
-+	err = snp_set_vmsa(vmsa, false);
-+	if (err)
-+		pr_err("clear VMSA page failed (%u), leaking page\n", err);
-+	else
-+		free_page((unsigned long)vmsa);
-+}
-+
-+int hv_snp_boot_ap(int cpu, unsigned long start_ip)
-+{
-+	struct sev_es_save_area *vmsa = (struct sev_es_save_area *)
-+		__get_free_page(GFP_KERNEL | __GFP_ZERO);
-+	struct sev_es_save_area *cur_vmsa;
-+	struct desc_ptr gdtr;
-+	u64 ret, retry = 5;
-+	struct hv_enable_vp_vtl *start_vp_input;
-+	unsigned long flags;
-+
-+	if (!vmsa)
-+		return -ENOMEM;
-+
-+	native_store_gdt(&gdtr);
-+
-+	vmsa->gdtr.base = gdtr.address;
-+	vmsa->gdtr.limit = gdtr.size;
-+
-+	asm volatile("movl %%es, %%eax;" : "=a" (vmsa->es.selector));
-+	hv_populate_vmcb_seg(vmsa->es, vmsa->gdtr.base);
-+
-+	asm volatile("movl %%cs, %%eax;" : "=a" (vmsa->cs.selector));
-+	hv_populate_vmcb_seg(vmsa->cs, vmsa->gdtr.base);
-+
-+	asm volatile("movl %%ss, %%eax;" : "=a" (vmsa->ss.selector));
-+	hv_populate_vmcb_seg(vmsa->ss, vmsa->gdtr.base);
-+
-+	asm volatile("movl %%ds, %%eax;" : "=a" (vmsa->ds.selector));
-+	hv_populate_vmcb_seg(vmsa->ds, vmsa->gdtr.base);
-+
-+	vmsa->efer = native_read_msr(MSR_EFER);
-+
-+	asm volatile("movq %%cr4, %%rax;" : "=a" (vmsa->cr4));
-+	asm volatile("movq %%cr3, %%rax;" : "=a" (vmsa->cr3));
-+	asm volatile("movq %%cr0, %%rax;" : "=a" (vmsa->cr0));
-+
-+	vmsa->xcr0 = 1;
-+	vmsa->g_pat = HV_AP_INIT_GPAT_DEFAULT;
-+	vmsa->rip = (u64)secondary_startup_64_no_verify;
-+	vmsa->rsp = (u64)&ap_start_stack[PAGE_SIZE];
-+
-+	/*
-+	 * Set the SNP-specific fields for this VMSA:
-+	 *   VMPL level
-+	 *   SEV_FEATURES (matches the SEV STATUS MSR right shifted 2 bits)
-+	 */
-+	vmsa->vmpl = 0;
-+	vmsa->sev_features = sev_status >> 2;
-+
-+	ret = snp_set_vmsa(vmsa, true);
-+	if (!ret) {
-+		pr_err("RMPADJUST(%llx) failed: %llx\n", (u64)vmsa, ret);
-+		free_page((u64)vmsa);
-+		return ret;
-+	}
-+
-+	local_irq_save(flags);
-+	start_vp_input = (struct hv_enable_vp_vtl *)ap_start_input_arg;
-+	memset(start_vp_input, 0, sizeof(*start_vp_input));
-+	start_vp_input->partition_id = -1;
-+	start_vp_input->vp_index = cpu;
-+	start_vp_input->target_vtl.target_vtl = ms_hyperv.vtl;
-+	*(u64 *)&start_vp_input->vp_context = __pa(vmsa) | 1;
-+
-+	do {
-+		ret = hv_do_hypercall(HVCALL_START_VP,
-+				      start_vp_input, NULL);
-+	} while (hv_result(ret) == HV_STATUS_TIME_OUT && retry--);
-+
-+	local_irq_restore(flags);
-+
-+	if (!hv_result_success(ret)) {
-+		pr_err("HvCallStartVirtualProcessor failed: %llx\n", ret);
-+		snp_cleanup_vmsa(vmsa);
-+		vmsa = NULL;
-+	}
-+
-+	cur_vmsa = per_cpu(hv_sev_vmsa, cpu);
-+	/* Free up any previous VMSA page */
-+	if (cur_vmsa)
-+		snp_cleanup_vmsa(cur_vmsa);
-+
-+	/* Record the current VMSA page */
-+	per_cpu(hv_sev_vmsa, cpu) = vmsa;
-+
-+	return ret;
-+}
-+
- void __init hv_vtom_init(void)
- {
- 	/*
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 8479626cd7cb..ffc419409db7 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -48,6 +48,13 @@ extern u64 hv_current_partition_id;
- 
- extern union hv_ghcb * __percpu *hv_ghcb_pg;
- 
-+/*
-+ * DEFAULT INIT GPAT and SEGMENT LIMIT value in struct VMSA
-+ * to start AP in enlightened SEV guest.
-+ */
-+#define HV_AP_INIT_GPAT_DEFAULT		0x0007040600070406ULL
-+#define HV_AP_SEGMENT_LIMIT		0xffffffff
-+
- int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
- int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
- int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
-@@ -253,12 +260,14 @@ void hv_ghcb_msr_read(u64 msr, u64 *value);
- bool hv_ghcb_negotiate_protocol(void);
- void __noreturn hv_ghcb_terminate(unsigned int set, unsigned int reason);
- void hv_vtom_init(void);
-+int hv_snp_boot_ap(int cpu, unsigned long start_ip);
- #else
- static inline void hv_ghcb_msr_write(u64 msr, u64 value) {}
- static inline void hv_ghcb_msr_read(u64 msr, u64 *value) {}
- static inline bool hv_ghcb_negotiate_protocol(void) { return false; }
- static inline void hv_ghcb_terminate(unsigned int set, unsigned int reason) {}
- static inline void hv_vtom_init(void) {}
-+static int hv_snp_boot_ap(int cpu, unsigned long start_ip) { return 0; }
- #endif
- 
- extern bool hv_isolation_type_snp(void);
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 5398fb2f4d39..c2ccb49b49c2 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -295,6 +295,16 @@ static void __init hv_smp_prepare_cpus(unsigned int max_cpus)
- 
- 	native_smp_prepare_cpus(max_cpus);
- 
-+	/*
-+	 *  Override wakeup_secondary_cpu_64 callback for SEV-SNP
-+	 *  enlightened guest.
-+	 */
-+	if (hv_isolation_type_en_snp())
-+		apic->wakeup_secondary_cpu_64 = hv_snp_boot_ap;
-+
-+	if (!hv_root_partition)
-+		return;
-+
- #ifdef CONFIG_X86_64
- 	for_each_present_cpu(i) {
- 		if (i == 0)
-@@ -502,8 +512,7 @@ static void __init ms_hyperv_init_platform(void)
- 
- # ifdef CONFIG_SMP
- 	smp_ops.smp_prepare_boot_cpu = hv_smp_prepare_boot_cpu;
--	if (hv_root_partition)
--		smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
-+	smp_ops.smp_prepare_cpus = hv_smp_prepare_cpus;
- # endif
- 
- 	/*
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index f4e4cc4f965f..fdac4a1714ec 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -223,6 +223,7 @@ enum HV_GENERIC_SET_FORMAT {
- #define HV_STATUS_INVALID_PORT_ID		17
- #define HV_STATUS_INVALID_CONNECTION_ID		18
- #define HV_STATUS_INSUFFICIENT_BUFFERS		19
-+#define HV_STATUS_TIME_OUT                      120
- #define HV_STATUS_VTL_ALREADY_ENABLED		134
- 
- /*
+ 	msi_lock_descs(&pdev->dev);
+ 	msi_for_each_desc(entry, &pdev->dev, MSI_DESC_ASSOCIATED) {
+ 		irq_data = irq_get_irq_data(entry->irq);
 -- 
 2.25.1
 
