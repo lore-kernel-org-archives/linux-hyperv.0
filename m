@@ -2,55 +2,55 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA91EC07E8D
-	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Aug 2023 16:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FBCAC10F19
+	for <linux-hyperv@archiver.kernel.org>; Wed, 16 Aug 2023 16:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344486AbjHPP7i (ORCPT
+        id S1344477AbjHPP7h (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Wed, 16 Aug 2023 11:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57110 "EHLO
+        Wed, 16 Aug 2023 11:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344506AbjHPP7Q (ORCPT
+        with ESMTP id S1344509AbjHPP7R (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Wed, 16 Aug 2023 11:59:16 -0400
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4792510C1;
-        Wed, 16 Aug 2023 08:59:00 -0700 (PDT)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-6bb07d274feso5744583a34.0;
-        Wed, 16 Aug 2023 08:59:00 -0700 (PDT)
+        Wed, 16 Aug 2023 11:59:17 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84FFB2D48;
+        Wed, 16 Aug 2023 08:59:02 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1bdc19b782aso32873365ad.0;
+        Wed, 16 Aug 2023 08:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692201539; x=1692806339;
+        d=gmail.com; s=20221208; t=1692201542; x=1692806342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0mqb14LBzHQf18FY7xszQiIf830qOZYbv6/JECgr54c=;
-        b=L/ADAfh6ag6T9iVpqT5XCZeRNaG8z9sSejMuM+x/sxqOt8gL2ro9ZYPYlToIOOcoUc
-         NQdadBJIyvWTD5rP2wQIZFeBU2FFCXBJaj4I63kT4EzeMLLhBxc9er7Cuig6XvO1BcW6
-         f1VmwG3YyCfBatc9ldQGesOIUUTzJLMmqKm7+vCGyzCx5QXsJIK0R8MzA0wCKjnjtQ8R
-         O32JtOqYKWHSa15KJefq+4uV34JBH852EID4/BJ0VDMa6pQb5206LbWPRhCzvKVAZV25
-         wEepuI8os+mEc064WtSX2SQ046urlnH+igCifR5xCAO+N3gKq5xlxvsbAIrS+iJGz7sw
-         uv4w==
+        bh=lxyPRx65GPTmM7WIGpMjts/akUWiTXqh+ZFAndUPdXI=;
+        b=PC0/lR53+VCicJ9H0/SQ3Bei+7+HxUxknUVy7UJmPjgmjLSDquQ65V6tGIcPRaKQCO
+         QDZb09dimioLQkIkBApGvGGvk3eZXiaAPVjBZwpII0VC74gluV0vg4+X2SJ94a80rc7G
+         NjEW1utnzuowK+lcRO/310nYDeh3K0dVL2lpCz47eW0PjmFyEU2aiRfxxDFBVwiAFyoz
+         RRDic5t6n7tqZCsAG/vU5bQZ7ebgA4Wega15/5HM5eNNurSLt22hucbNTpkkWSkKhxno
+         N2d0Pou79KaxzT9OU6Zd3PhsnF81/cxtu+kNFwUUX1oeDruVtcFnA9Lj1EsZVyz/mojc
+         bhWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692201539; x=1692806339;
+        d=1e100.net; s=20221208; t=1692201542; x=1692806342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0mqb14LBzHQf18FY7xszQiIf830qOZYbv6/JECgr54c=;
-        b=R4xlD0qAlT6ySbaKNX7GAHHGc6FKbUNQIL626wJH350cIZ64+wHEqCVEBPgE+x9d2o
-         /kiN37ggaM+pAwWVHsrJ501Q2LKgh23Yhm3JhDXOnXeailgNIXLZ7y1mrYVxhdH9ZfVA
-         3t0D/uFWZiSLIt6Jx0/uJB5XRjmFsD69ZY9R4GEPTo47stVoYBXYNGKZQBk9+QJwlFfO
-         ncNgbeOfnUXzl6BtRYsntpj+n6VCSM3+M25ZexkeopcbHMnHvMlwS4r1xyPHqjEi6Qub
-         CEMo1LZf0TmL1vLaZZYo3ZSGf8IluTIIrXXS8G4cfjmKl3Y02JCnk8MuorD6FW4AibcX
-         /O9A==
-X-Gm-Message-State: AOJu0YxEjNHfKQ/jy57iyJ9eNdc93GofGxI/dh6uHY4Rl48CsCLtpOnZ
-        wXAUK7f8zMAyT3N6b66wp7agwPl69Tbcjg==
-X-Google-Smtp-Source: AGHT+IE+JpQI3UVlRMS/Qz6Srd7rheF6LiD5cGbRndQNamPhbuoeEiL6bF1OjbgvUUR5eSoArmcZXA==
-X-Received: by 2002:a05:6870:73c9:b0:1be:dbd9:dd2b with SMTP id a9-20020a05687073c900b001bedbd9dd2bmr3145850oan.54.1692201539567;
-        Wed, 16 Aug 2023 08:58:59 -0700 (PDT)
+        bh=lxyPRx65GPTmM7WIGpMjts/akUWiTXqh+ZFAndUPdXI=;
+        b=B9HIhvw+WmElbvytRNYJsZXPyH9jhZy6NYm3T1PcwgxTspBNNfoln7kXSdzT+72b0z
+         mfc5bzEK8f6A3MoEgYtFKTjyyJuajDQSr9XUcCDnkdVvk209rh/L7vP7G7W0b3+aR+ug
+         t0Y9HzlMIoBJzoUszsx09IBEmfoNstvVRZ0zo0ZIHzQvfNCNbhmb56df5DokFnaUdTl1
+         IUF3yi+iea9IpdEBFWB51a5FNqn+fzxw6KEbfNK86aLA3LUPpbS4QXNaarv+85Nf/5hC
+         xECT1dy9gWH9conzES0fH3uR+VGEZ+UvnzDgeTcKPOyPwv+6PTyy/IL2hZrHphxOQjgj
+         Twtw==
+X-Gm-Message-State: AOJu0Ywbb5Kl07v1m5MIbEiIs0n4Fm0eFbYQa17iyGUU1sqSy27ZgPOn
+        3duF1szf8kntIMVe3a2Cz9c=
+X-Google-Smtp-Source: AGHT+IFyowF8kY/XG+zGsI3RvPoJeXwJ7mX+0CbWQJkqmr7Arxd7sKHrnFy+Y5qLuMR6bsgIZX76ZA==
+X-Received: by 2002:a17:902:d481:b0:1b8:a3a0:d9b3 with SMTP id c1-20020a170902d48100b001b8a3a0d9b3mr2107724plg.47.1692201541988;
+        Wed, 16 Aug 2023 08:59:01 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:0:e588:8d80:9ae5:5adc])
-        by smtp.gmail.com with ESMTPSA id h17-20020a170902f7d100b001bc930d4517sm13366973plw.42.2023.08.16.08.58.58
+        by smtp.gmail.com with ESMTPSA id h17-20020a170902f7d100b001bc930d4517sm13366973plw.42.2023.08.16.08.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Aug 2023 08:58:59 -0700 (PDT)
+        Wed, 16 Aug 2023 08:59:01 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
@@ -60,9 +60,9 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
 Cc:     Tianyu Lan <tiala@microsoft.com>, linux-arch@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com, Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH v6 4/8] drivers: hv: Mark percpu hvcall input arg page unencrypted in SEV-SNP enlightened guest
-Date:   Wed, 16 Aug 2023 11:58:45 -0400
-Message-Id: <20230816155850.1216996-5-ltykernel@gmail.com>
+Subject: [PATCH v6 6/8] clocksource: hyper-v: Mark hyperv tsc page unencrypted in sev-snp enlightened guest
+Date:   Wed, 16 Aug 2023 11:58:47 -0400
+Message-Id: <20230816155850.1216996-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230816155850.1216996-1-ltykernel@gmail.com>
 References: <20230816155850.1216996-1-ltykernel@gmail.com>
@@ -74,156 +74,28 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-Hypervisor needs to access input arg, VMBus synic event and
-message pages. Mark these pages unencrypted in the SEV-SNP
-guest and free them only if they have been marked encrypted
-successfully.
+Hyper-V tsc page is shared with hypervisor and mark the page
+unencrypted in sev-snp enlightened guest when it's used.
 
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- drivers/hv/hv.c        | 57 +++++++++++++++++++++++++++++++++++++++---
- drivers/hv/hv_common.c | 13 ++++++++++
- 2 files changed, 67 insertions(+), 3 deletions(-)
+ drivers/clocksource/hyperv_timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index de6708dbe0df..ec6e35a0d9bf 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -20,6 +20,7 @@
- #include <linux/interrupt.h>
- #include <clocksource/hyperv_timer.h>
- #include <asm/mshyperv.h>
-+#include <linux/set_memory.h>
- #include "hyperv_vmbus.h"
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index e56307a81f4d..8ff7cd4e20bb 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -390,7 +390,7 @@ static __always_inline u64 read_hv_clock_msr(void)
+ static union {
+ 	struct ms_hyperv_tsc_page page;
+ 	u8 reserved[PAGE_SIZE];
+-} tsc_pg __aligned(PAGE_SIZE);
++} tsc_pg __bss_decrypted __aligned(PAGE_SIZE);
  
- /* The one and only */
-@@ -78,7 +79,7 @@ int hv_post_message(union hv_connection_id connection_id,
- 
- int hv_synic_alloc(void)
- {
--	int cpu;
-+	int cpu, ret = -ENOMEM;
- 	struct hv_per_cpu_context *hv_cpu;
- 
- 	/*
-@@ -123,26 +124,76 @@ int hv_synic_alloc(void)
- 				goto err;
- 			}
- 		}
-+
-+		if (hv_isolation_type_en_snp()) {
-+			ret = set_memory_decrypted((unsigned long)
-+				hv_cpu->synic_message_page, 1);
-+			if (ret) {
-+				pr_err("Failed to decrypt SYNIC msg page: %d\n", ret);
-+				hv_cpu->synic_message_page = NULL;
-+
-+				/*
-+				 * Free the event page here so that hv_synic_free()
-+				 * won't later try to re-encrypt it.
-+				 */
-+				free_page((unsigned long)hv_cpu->synic_event_page);
-+				hv_cpu->synic_event_page = NULL;
-+				goto err;
-+			}
-+
-+			ret = set_memory_decrypted((unsigned long)
-+				hv_cpu->synic_event_page, 1);
-+			if (ret) {
-+				pr_err("Failed to decrypt SYNIC event page: %d\n", ret);
-+				hv_cpu->synic_event_page = NULL;
-+				goto err;
-+			}
-+
-+			memset(hv_cpu->synic_message_page, 0, PAGE_SIZE);
-+			memset(hv_cpu->synic_event_page, 0, PAGE_SIZE);
-+		}
- 	}
- 
- 	return 0;
-+
- err:
- 	/*
- 	 * Any memory allocations that succeeded will be freed when
- 	 * the caller cleans up by calling hv_synic_free()
- 	 */
--	return -ENOMEM;
-+	return ret;
- }
- 
- 
- void hv_synic_free(void)
- {
--	int cpu;
-+	int cpu, ret;
- 
- 	for_each_present_cpu(cpu) {
- 		struct hv_per_cpu_context *hv_cpu
- 			= per_cpu_ptr(hv_context.cpu_context, cpu);
- 
-+		/* It's better to leak the page if the encryption fails. */
-+		if (hv_isolation_type_en_snp()) {
-+			if (hv_cpu->synic_message_page) {
-+				ret = set_memory_encrypted((unsigned long)
-+					hv_cpu->synic_message_page, 1);
-+				if (ret) {
-+					pr_err("Failed to encrypt SYNIC msg page: %d\n", ret);
-+					hv_cpu->synic_message_page = NULL;
-+				}
-+			}
-+
-+			if (hv_cpu->synic_event_page) {
-+				ret = set_memory_encrypted((unsigned long)
-+					hv_cpu->synic_event_page, 1);
-+				if (ret) {
-+					pr_err("Failed to encrypt SYNIC event page: %d\n", ret);
-+					hv_cpu->synic_event_page = NULL;
-+				}
-+			}
-+		}
-+
- 		free_page((unsigned long)hv_cpu->synic_event_page);
- 		free_page((unsigned long)hv_cpu->synic_message_page);
- 	}
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 4b4aa53c34c2..2d43ba2bc925 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -24,6 +24,7 @@
- #include <linux/kmsg_dump.h>
- #include <linux/slab.h>
- #include <linux/dma-map-ops.h>
-+#include <linux/set_memory.h>
- #include <asm/hyperv-tlfs.h>
- #include <asm/mshyperv.h>
- 
-@@ -359,6 +360,7 @@ int hv_common_cpu_init(unsigned int cpu)
- 	u64 msr_vp_index;
- 	gfp_t flags;
- 	int pgcount = hv_root_partition ? 2 : 1;
-+	int ret;
- 
- 	/* hv_cpu_init() can be called with IRQs disabled from hv_resume() */
- 	flags = irqs_disabled() ? GFP_ATOMIC : GFP_KERNEL;
-@@ -378,6 +380,17 @@ int hv_common_cpu_init(unsigned int cpu)
- 			outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
- 			*outputarg = (char *)(*inputarg) + HV_HYP_PAGE_SIZE;
- 		}
-+
-+		if (hv_isolation_type_en_snp()) {
-+			ret = set_memory_decrypted((unsigned long)*inputarg, pgcount);
-+			if (ret) {
-+				kfree(*inputarg);
-+				*inputarg = NULL;
-+				return ret;
-+			}
-+
-+			memset(*inputarg, 0x00, pgcount * PAGE_SIZE);
-+		}
- 	}
- 
- 	msr_vp_index = hv_get_register(HV_REGISTER_VP_INDEX);
+ static struct ms_hyperv_tsc_page *tsc_page = &tsc_pg.page;
+ static unsigned long tsc_pfn;
 -- 
 2.25.1
 
