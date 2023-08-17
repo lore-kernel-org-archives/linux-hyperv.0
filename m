@@ -2,235 +2,103 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4122AC3DA6F
-	for <linux-hyperv@archiver.kernel.org>; Thu, 17 Aug 2023 17:57:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 379E6C71131
+	for <linux-hyperv@archiver.kernel.org>; Thu, 17 Aug 2023 22:02:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245203AbjHQR5M (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 17 Aug 2023 13:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
+        id S1355489AbjHQWCU (ORCPT
+        <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 17 Aug 2023 18:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354163AbjHQR5D (ORCPT
+        with ESMTP id S1355498AbjHQWCC (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 17 Aug 2023 13:57:03 -0400
+        Thu, 17 Aug 2023 18:02:02 -0400
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AE971FD;
-        Thu, 17 Aug 2023 10:57:01 -0700 (PDT)
-Received: from [192.168.0.5] (71-212-112-68.tukw.qwest.net [71.212.112.68])
-        by linux.microsoft.com (Postfix) with ESMTPSA id B0B4A211F7B7;
-        Thu, 17 Aug 2023 10:57:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B0B4A211F7B7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E486F30F5;
+        Thu, 17 Aug 2023 15:02:00 -0700 (PDT)
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 445A9211F7CE;
+        Thu, 17 Aug 2023 15:01:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 445A9211F7CE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1692295021;
-        bh=fhtTpFYAMv833lQqJ6qJ8d9Ged09vSUMPZ70BIl7LAo=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=LXHg/W29TS59LwUP3n+sp1QoALQZsTgWtf53m3WQC6VWJ+BJEriZMBWp+B59fzoDS
-         EdkcAAzjZs3w8LRRvpuw1m606KN1KdLQ2LQakAMDHzpDn8nBYpBXk6152pxRRTz1BI
-         /1hWzX4aikb8SKgHS9F7J77r57WfsfR/hwD99Eec=
-Message-ID: <e8d95099-0477-4930-8a87-d4abacd1587f@linux.microsoft.com>
-Date:   Thu, 17 Aug 2023 10:57:01 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/15] Drivers: hv: Add modules to expose /dev/mshv to
- VMMs running on Hyper-V
-Content-Language: en-US
-To:     Wei Liu <wei.liu@kernel.org>
-Cc:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        s=default; t=1692309719;
+        bh=BtQtuAbqXG3JYKbK55ISw9TbDSZuGasp0TD/+YmJshY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bdx3iRrjMkQwrnSP/e3r4MDPxsRvs5Tb9n5S8yRK2ls53hm/cVh4Cbdr81d8MQA7P
+         b2b4jho4RZPop7fbk0Stj85L7vFl9r1OUHHfrHNf15V1SX6mnxY7vFOC3Stvs6uO6y
+         06TuYE2DgM2jw5fQEUotcHf7+Rc0NJ5Z69dPb8UU=
+From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
+To:     linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arch@vger.kernel.org, mikelley@microsoft.com,
-        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com,
+        linux-arch@vger.kernel.org
+Cc:     patches@lists.linux.dev, mikelley@microsoft.com, kys@microsoft.com,
+        wei.liu@kernel.org, haiyangz@microsoft.com, decui@microsoft.com,
+        apais@linux.microsoft.com, Tianyu.Lan@microsoft.com,
         ssengar@linux.microsoft.com, mukeshrathor@microsoft.com,
         stanislav.kinsburskiy@gmail.com, jinankjain@linux.microsoft.com,
-        apais@linux.microsoft.com, Tianyu.Lan@microsoft.com,
         vkuznets@redhat.com, tglx@linutronix.de, mingo@redhat.com,
         bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
         will@kernel.org, catalin.marinas@arm.com
-References: <1690487690-2428-1-git-send-email-nunodasneves@linux.microsoft.com>
- <1690487690-2428-16-git-send-email-nunodasneves@linux.microsoft.com>
- <ZMsBjAmPdqZdNPEF@liuwe-devbox-debian-v2>
-From:   Nuno Das Neves <nunodasneves@linux.microsoft.com>
-In-Reply-To: <ZMsBjAmPdqZdNPEF@liuwe-devbox-debian-v2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v2 05/15] hyperv: Move hv_connection_id to hyperv-tlfs
+Date:   Thu, 17 Aug 2023 15:01:41 -0700
+Message-Id: <1692309711-5573-6-git-send-email-nunodasneves@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1692309711-5573-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1692309711-5573-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 8/2/2023 6:23 PM, Wei Liu wrote:
-> On Thu, Jul 27, 2023 at 12:54:50PM -0700, Nuno Das Neves wrote:
->> Add mshv, mshv_root, and mshv_vtl modules.
->> - mshv provides /dev/mshv and common code, and is the parent module
->> - mshv_root provides APIs for creating and managing child partitions
->> - mshv_vtl provides VTL (Virtual Trust Level) support for VMMs
-> 
-> Please provide a slightly more detailed description of what these
-> modules do. This is huge patch after all. People doing code archaeology
-> will appreciate a better commit message.
-> 
-> For example (please correct if I'm wrong):
-> 
-> Module mshv provides /dev/mshv and common code, and is the parent module
-> to the other two modules. At its core, it implements an eventfd frame
-> work, and defines some helper functions for the other modules.
-> 
-> Module mshv_root provides APIs for creating and managing child
-> partitions. It defines abstractions for vcpus, partitions and other
-> things related to running a guest inside the kernel. It also exposes
-> user space interfaces for the VMMs.
-> 
-> Module mshv_vtl provides VTL (Virtual Trust Level) support for VMMs. It
-> allows the VMM to run in a higher trust level than the guest but still
-> within the same context as the guest. This is a useful feature for in
-> guest emulation for better isolation and performance.
-> 
+The definition conflicts with one added in hvgdk.h as part of the mshv
+driver so must be moved to hyperv-tlfs.h.
 
-Thanks - I will provide some more detail, including what you described.
+This structure should be in hyperv-tlfs.h anyway, since it is part of
+the TLFS document.
 
-I will make a couple of changes - the eventfd framework is in mshv_root,
-not mshv. I will amend the mshv_vtl part a little for clarity.
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+---
+ include/asm-generic/hyperv-tlfs.h | 9 +++++++++
+ include/linux/hyperv.h            | 9 ---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
->>
->> Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
->> ---
->>  drivers/hv/Kconfig             |   54 +
->>  drivers/hv/Makefile            |   21 +
->>  drivers/hv/hv_call.c           |  119 ++
->>  drivers/hv/mshv.h              |  156 +++
->>  drivers/hv/mshv_eventfd.c      |  758 ++++++++++++
->>  drivers/hv/mshv_eventfd.h      |   80 ++
->>  drivers/hv/mshv_main.c         |  208 ++++
->>  drivers/hv/mshv_msi.c          |  129 +++
->>  drivers/hv/mshv_portid_table.c |   84 ++
->>  drivers/hv/mshv_root.h         |  194 ++++
->>  drivers/hv/mshv_root_hv_call.c | 1064 +++++++++++++++++
->>  drivers/hv/mshv_root_main.c    | 1964 ++++++++++++++++++++++++++++++++
->>  drivers/hv/mshv_synic.c        |  689 +++++++++++
->>  drivers/hv/mshv_vtl.h          |   52 +
->>  drivers/hv/mshv_vtl_main.c     | 1541 +++++++++++++++++++++++++
->>  drivers/hv/xfer_to_guest.c     |   28 +
->>  include/uapi/linux/mshv.h      |  298 +++++
->>  17 files changed, 7439 insertions(+)
->>  create mode 100644 drivers/hv/hv_call.c
->>  create mode 100644 drivers/hv/mshv.h
->>  create mode 100644 drivers/hv/mshv_eventfd.c
->>  create mode 100644 drivers/hv/mshv_eventfd.h
->>  create mode 100644 drivers/hv/mshv_main.c
->>  create mode 100644 drivers/hv/mshv_msi.c
->>  create mode 100644 drivers/hv/mshv_portid_table.c
->>  create mode 100644 drivers/hv/mshv_root.h
->>  create mode 100644 drivers/hv/mshv_root_hv_call.c
->>  create mode 100644 drivers/hv/mshv_root_main.c
->>  create mode 100644 drivers/hv/mshv_synic.c
->>  create mode 100644 drivers/hv/mshv_vtl.h
->>  create mode 100644 drivers/hv/mshv_vtl_main.c
->>  create mode 100644 drivers/hv/xfer_to_guest.c
->>  create mode 100644 include/uapi/linux/mshv.h
->>
->> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
->> index 00242107d62e..b150d686e902 100644
->> --- a/drivers/hv/Kconfig
->> +++ b/drivers/hv/Kconfig
->> @@ -54,4 +54,58 @@ config HYPERV_BALLOON
->>  	help
->>  	  Select this option to enable Hyper-V Balloon driver.
->>  
->> +config MSHV
->> +	tristate "Microsoft Hypervisor root partition interfaces: /dev/mshv"
->> +	depends on X86_64 && HYPERV
->> +	select EVENTFD
->> +	select MSHV_VFIO
-> 
-> This is not needed yet, right? I think this is just dead code right now.
-> 
-> It can be introduced when we start upstreaming the VFIO bits.
-> 
-
-Right. Removed, along with config MSHV_VFIO below.
-
->> +	select MSHV_XFER_TO_GUEST_WORK
->> +	help
->> +	  Select this option to enable core functionality for managing guest
->> +	  virtual machines running under the Microsoft Hypervisor.
->> +
->> +	  The interfaces are provided via a device named /dev/mshv.
->> +
->> +	  To compile this as a module, choose M here.
->> +
->> +	  If unsure, say N.
->> +
->> +config MSHV_ROOT
->> +	tristate "Microsoft Hyper-V root partition APIs driver"
->> +	depends on MSHV
->> +	help
->> +	  Select this option to provide /dev/mshv interfaces specific to
->> +	  running as the root partition on Microsoft Hypervisor.
->> +
->> +	  To compile this as a module, choose M here.
->> +
->> +	  If unsure, say N.
->> +
->> +config MSHV_VTL
->> +	tristate "Microsoft Hyper-V VTL driver"
->> +	depends on MSHV
->> +	select HYPERV_VTL_MODE
->> +	select TRANSPARENT_HUGEPAGE
->> +	help
->> +	  Select this option to enable Hyper-V VTL driver.
->> +	  Virtual Secure Mode (VSM) is a set of hypervisor capabilities and
->> +	  enlightenments offered to host and guest partitions which enables
->> +	  the creation and management of new security boundaries within
->> +	  operating system software.
->> +
->> +	  VSM achieves and maintains isolation through Virtual Trust Levels
->> +	  (VTLs). Virtual Trust Levels are hierarchical, with higher levels
->> +	  being more privileged than lower levels. VTL0 is the least privileged
->> +	  level, and currently only other level supported is VTL2.
->> +
->> +	  To compile this as a module, choose M here.
->> +
->> +	  If unsure, say N.
-> 
-> The changes to the function which indicates if output pages are needed
-> should be in this patch.
-> 
-
-Yes - I will add it in this patch.
-
->> +
->> +config MSHV_VFIO
->> +	bool
->> +
->> +config MSHV_XFER_TO_GUEST_WORK
->> +	bool
->> +
->>  endmenu
->> diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
->> index d76df5c8c2a9..113c79cfadb9 100644
->> --- a/drivers/hv/Makefile
->> +++ b/drivers/hv/Makefile
->> @@ -2,10 +2,31 @@
->>  obj-$(CONFIG_HYPERV)		+= hv_vmbus.o
->>  obj-$(CONFIG_HYPERV_UTILS)	+= hv_utils.o
->>  obj-$(CONFIG_HYPERV_BALLOON)	+= hv_balloon.o
->> +obj-$(CONFIG_DXGKRNL)		+= dxgkrnl/
-> 
-> This is not yet upstreamed. It shouldn't be here. Does this not break
-> the build for you?
-> 
-Oops! Nope, it doesn't seem to break the build... Anyway, removed.
-
-> The rest is basically a copy of what was posted many moons before plus
-> some VTL stuff, and new code for the root scheduler and async hypercall
-> support. I've probably gone through some versions of this code already,
-> so I only skim the code.
-> 
-> Since this is a Microsoft only driver, I don't expect to get much review
-> from the community -- the last few rounds were quiet. I will however let
-> this patch series float for a while before taking any further actions
-> just in case.
-> 
-> If people are interested in specific bits of the code in the driver,
-> please let Nuno and I know.
-> 
-> Thanks,
-> Wei.
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index 373f26efa18a..8fc5e5a9d7cb 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -845,4 +845,13 @@ struct hv_mmio_write_input {
+ 	u8 data[HV_HYPERCALL_MMIO_MAX_DATA_LENGTH];
+ } __packed;
+ 
++/* Define connection identifier type. */
++union hv_connection_id {
++	u32 asu32;
++	struct {
++		u32 id:24;
++		u32 reserved:8;
++	} u;
++};
++
+ #endif
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index bfbc37ce223b..f90de5abcd50 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -748,15 +748,6 @@ struct vmbus_close_msg {
+ 	struct vmbus_channel_close_channel msg;
+ };
+ 
+-/* Define connection identifier type. */
+-union hv_connection_id {
+-	u32 asu32;
+-	struct {
+-		u32 id:24;
+-		u32 reserved:8;
+-	} u;
+-};
+-
+ enum vmbus_device_type {
+ 	HV_IDE = 0,
+ 	HV_SCSI,
+-- 
+2.25.1
 
