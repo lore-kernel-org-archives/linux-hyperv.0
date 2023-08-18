@@ -2,55 +2,55 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 027CAC71143
-	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Aug 2023 10:30:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2B7C71148
+	for <linux-hyperv@archiver.kernel.org>; Fri, 18 Aug 2023 10:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359708AbjHRKaA (ORCPT
+        id S1376288AbjHRKaD (ORCPT
         <rfc822;linux-hyperv@archiver.kernel.org>);
-        Fri, 18 Aug 2023 06:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57652 "EHLO
+        Fri, 18 Aug 2023 06:30:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1359618AbjHRK33 (ORCPT
+        with ESMTP id S1359870AbjHRK3d (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Fri, 18 Aug 2023 06:29:29 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F77026A8;
-        Fri, 18 Aug 2023 03:29:28 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1bdbbede5d4so6037485ad.2;
-        Fri, 18 Aug 2023 03:29:28 -0700 (PDT)
+        Fri, 18 Aug 2023 06:29:33 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51BFA13E;
+        Fri, 18 Aug 2023 03:29:32 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1bf078d5f33so6045475ad.3;
+        Fri, 18 Aug 2023 03:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692354568; x=1692959368;
+        d=gmail.com; s=20221208; t=1692354572; x=1692959372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pvSAuyt/NrMOTkfJms1m8PkJx0KwhqwmDNJRjHSleGc=;
-        b=Oz3rKM1lWvWy+AIVc9/yDP1ZjuE+F3I5CsucO0ID3/0mwy4DsPkFQYpbHUoHye+8aM
-         2NxWw2xWYYVNuEjYiNE7DXrjh4MC6wnT9WDeqBN04+QeuuHRYbalXj87B5LhQcXaMWhp
-         JzwXoCIG528tEQX79umhpHD+6C9u9jrs7rv5Wn7et/ZXNIBcuEOb0aq+Y8iCI1MxYxhO
-         PB6JfVv9TZG9asx3LNmB8WfINN4Tu6NN7Keb1OIEtGArViwSe1s9cG+HRE9hVfmfS1QD
-         XMmKhvMBUSeoVFHXQDHFNwrN1EjcXKMWR9XtVlR6H1jXtBDi0Jo1gGl54dMowNixq51o
-         D3iw==
+        bh=jL7XByUAkxNxzGhhDsJfMYj8T25ntV2u1YZ6jozY7u0=;
+        b=l6zq5Uwb8hpOqAjwNnFLwNt/w3QOUcDIxu+hWJsWs9/+ImbGg5c9oH1F9hnaLLkno1
+         3fmeB2MLrp14R8eCTT1Y8iO4NsH0/UDezrvMj/q5rSyGTQIh+aKGqgvztrmMQpqFdJtM
+         M6Bn6EDdGDE1sa/RMumu6DNziGW8rjGoZCZyHGJHBod8jX7QGK9YtXsSCZ8OC/Hd3Vle
+         5KcQG6NIkPC2sCGoeNUqdNzooL4VFhaMfN93CZaSwrY1hwsrjzhgFnnxiTwe74BR3p46
+         +mrDet9RrNeMP4G8CSeTOZP8ya6tT/27050TXjXZbNojLgpEWtmHPtXfIZutNNQCNolP
+         +8gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692354568; x=1692959368;
+        d=1e100.net; s=20221208; t=1692354572; x=1692959372;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pvSAuyt/NrMOTkfJms1m8PkJx0KwhqwmDNJRjHSleGc=;
-        b=BmSMR79T02sZHgzXHuBGRkmWUWRhB7HAon26+6s8oycUW/pDbeyzzt+4yadGwy9myj
-         7DD/GSsHTNqBBVWHXuQIFbWYCl7AGDSYARMw9bMeCPNJesJkST4V1q8Ki7rn77cEs/8c
-         264FH0qmSR8PFzXS3Uf8Q4LzuhISjHAmgPLhY8fo2Q2SPYj/FIit3Kj9DSHefiNi0MiX
-         JW4KjfI1ihslF/pFDK1HCCs5YMORcIVFBdSDYgR0MhpBQdFmnpjjnVH58rWPzJr9Ozs9
-         nHCU+wvqftHmXACc402zXKwLhxM01smSoimRD36Bwdkwxpru+jrfOhdUm0G2oyqReuUQ
-         2Hfg==
-X-Gm-Message-State: AOJu0Yx2k2Fx+RKB9EJO93M1hUhvyyxUduWRMarlO3VEwh3HFKS4wYWl
-        HdDjhwFRx9PFqdKrZ9m8l5oViUnb5rBhfijH
-X-Google-Smtp-Source: AGHT+IHAkOwWF9WSnHVQ9FkpQWycpjwO4WCI2N6V/cm0vEBNFRbNHsf3BeqLlr6n/eN5KhYVRKd8Gg==
-X-Received: by 2002:a17:902:d38d:b0:1bc:16bc:9f66 with SMTP id e13-20020a170902d38d00b001bc16bc9f66mr2157093pld.12.1692354567685;
-        Fri, 18 Aug 2023 03:29:27 -0700 (PDT)
+        bh=jL7XByUAkxNxzGhhDsJfMYj8T25ntV2u1YZ6jozY7u0=;
+        b=NrJfgEPQdEgxwetqzIxZ6OvnbaqB83Jfj4AE5RHgZHzbWmvaZqHY1oJ1fWYaMcZyDs
+         84sxCIDZ6gIz3S5loGitatl5gV8FzMRJhB1HHWcQGw1qwcYNezBQgq3Fz7Bi3acIMxVk
+         d+n5qGVnnPw9/JtVQBlgsxF5xV1pYYfTXqh7qiD5cDpHsOeh3E1B2m/iTcfFnLIEBJUl
+         YJnDCcmNibjNSD/W46YyLJUSEIcPwbe9t56wnxhslFHqvO9DhRxe6m0VOqbTlinPUJ/e
+         yABytc+zRB3Ae7Bug2yTojisHOfIRGXpE0G5jMSXeR56dVWlV3vfdKalDJNEsQiaNHyw
+         tm3Q==
+X-Gm-Message-State: AOJu0YyOQi5b5sddpJ4O+GrB7dNcvyoVeb3Rq5h9xwm/u95XU+EE6fPv
+        pAk4NEW2EBUPIFvykNAy17k=
+X-Google-Smtp-Source: AGHT+IFsJ1auTisyGk/0oOyzXEodqEiFJJTgACFHAReX+myJkECiLn2QEQCSVnCX5JnE1SR08bHtmw==
+X-Received: by 2002:a17:902:ce83:b0:1bb:ffcc:8eba with SMTP id f3-20020a170902ce8300b001bbffcc8ebamr2574028plg.58.1692354571775;
+        Fri, 18 Aug 2023 03:29:31 -0700 (PDT)
 Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:7:4545:4938:97f0:2e1f])
-        by smtp.gmail.com with ESMTPSA id f1-20020a17090274c100b001b9be79729csm1386766plt.165.2023.08.18.03.29.26
+        by smtp.gmail.com with ESMTPSA id f1-20020a17090274c100b001b9be79729csm1386766plt.165.2023.08.18.03.29.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Aug 2023 03:29:27 -0700 (PDT)
+        Fri, 18 Aug 2023 03:29:31 -0700 (PDT)
 From:   Tianyu Lan <ltykernel@gmail.com>
 To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
         decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
@@ -60,9 +60,9 @@ To:     kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
 Cc:     Tianyu Lan <tiala@microsoft.com>, linux-arch@vger.kernel.org,
         linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
         vkuznets@redhat.com, Michael Kelley <mikelley@microsoft.com>
-Subject: [PATCH v7 3/8] x86/hyperv: Mark Hyper-V vp assist page unencrypted in SEV-SNP enlightened guest
-Date:   Fri, 18 Aug 2023 06:29:13 -0400
-Message-Id: <20230818102919.1318039-4-ltykernel@gmail.com>
+Subject: [PATCH v7 6/8] clocksource: hyper-v: Mark hyperv tsc page unencrypted in sev-snp enlightened guest
+Date:   Fri, 18 Aug 2023 06:29:16 -0400
+Message-Id: <20230818102919.1318039-7-ltykernel@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230818102919.1318039-1-ltykernel@gmail.com>
 References: <20230818102919.1318039-1-ltykernel@gmail.com>
@@ -74,51 +74,29 @@ X-Mailing-List: linux-hyperv@vger.kernel.org
 
 From: Tianyu Lan <tiala@microsoft.com>
 
-hv vp assist page needs to be shared between SEV-SNP guest and Hyper-V.
-So mark the page unencrypted in the SEV-SNP guest.
+Hyper-V tsc page is shared with hypervisor and mark the page
+unencrypted in sev-snp enlightened guest when it's used.
 
 Reviewed-by: Dexuan Cui <decui@microsoft.com>
 Reviewed-by: Michael Kelley <mikelley@microsoft.com>
 Signed-off-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/hyperv/hv_init.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/clocksource/hyperv_timer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 318010eb9f9e..bcfbcda8b050 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -18,6 +18,7 @@
- #include <asm/hyperv-tlfs.h>
- #include <asm/mshyperv.h>
- #include <asm/idtentry.h>
-+#include <asm/set_memory.h>
- #include <linux/kexec.h>
- #include <linux/version.h>
- #include <linux/vmalloc.h>
-@@ -106,8 +107,21 @@ static int hv_cpu_init(unsigned int cpu)
- 		 * in hv_cpu_die(), otherwise a CPU may not be stopped in the
- 		 * case of CPU offlining and the VM will hang.
- 		 */
--		if (!*hvp)
-+		if (!*hvp) {
- 			*hvp = __vmalloc(PAGE_SIZE, GFP_KERNEL | __GFP_ZERO);
-+
-+			/*
-+			 * Hyper-V should never specify a VM that is a Confidential
-+			 * VM and also running in the root partition. Root partition
-+			 * is blocked to run in Confidential VM. So only decrypt assist
-+			 * page in non-root partition here.
-+			 */
-+			if (*hvp && hv_isolation_type_en_snp()) {
-+				WARN_ON_ONCE(set_memory_decrypted((unsigned long)(*hvp), 1));
-+				memset(*hvp, 0, PAGE_SIZE);
-+			}
-+		}
-+
- 		if (*hvp)
- 			msr.pfn = vmalloc_to_pfn(*hvp);
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index e56307a81f4d..8ff7cd4e20bb 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -390,7 +390,7 @@ static __always_inline u64 read_hv_clock_msr(void)
+ static union {
+ 	struct ms_hyperv_tsc_page page;
+ 	u8 reserved[PAGE_SIZE];
+-} tsc_pg __aligned(PAGE_SIZE);
++} tsc_pg __bss_decrypted __aligned(PAGE_SIZE);
  
+ static struct ms_hyperv_tsc_page *tsc_page = &tsc_pg.page;
+ static unsigned long tsc_pfn;
 -- 
 2.25.1
 
