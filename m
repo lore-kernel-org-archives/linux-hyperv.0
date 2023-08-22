@@ -2,102 +2,170 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BA0EE4996
-	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Aug 2023 11:34:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD99DEE49A4
+	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Aug 2023 11:49:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235008AbjHVLeE (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 22 Aug 2023 07:34:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48126 "EHLO
+        id S235428AbjHVLtU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 22 Aug 2023 07:49:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234985AbjHVLeC (ORCPT
+        with ESMTP id S235444AbjHVLtS (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 22 Aug 2023 07:34:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD68E59;
-        Tue, 22 Aug 2023 04:33:44 -0700 (PDT)
+        Tue, 22 Aug 2023 07:49:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 336FBCFC;
+        Tue, 22 Aug 2023 04:49:01 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 826616529A;
-        Tue, 22 Aug 2023 11:32:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B61AEC433C8;
-        Tue, 22 Aug 2023 11:31:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692703919;
-        bh=GiTxZ4OKRVhHnF8rRs0NLEZCAYYMH0DjrFcqPcvbtwI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jy05QvNPgSAWzO5BVxgtGfAjdSnVI98U+kthlT2X6RrhMP2c+4TeEkwkrsvtcIS8P
-         NEEIfsHqH2KhzyRFJXIyvnmeFvoyIMMkji7FYYFltG1QXhFENLVy0SrZWSGZwguDLH
-         uywUfFq/U2DrBMY4yqcwZVJkdt0XlfkVg4tcYFjLWey7FOQQCz0JHaTcmP0xKcuhsl
-         2+rDUxEbDFuN4UZJCHBg8iZujU6F3gMtTZWzlKsrt2Fqix+QcrH2pcxKkqI6Mw8SsG
-         tH0jyC0gUHTcxTdXQlakhLPfRJbF2Q9LFW/aJGnJRRJ75V1IkYGknChxZq5VttRHTN
-         eMEHduOTH746g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ani Sinha <anisinha@redhat.com>, Wei Liu <wei.liu@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, kys@microsoft.com,
-        haiyangz@microsoft.com, decui@microsoft.com,
-        linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 2/4] vmbus_testing: fix wrong python syntax for integer value comparison
-Date:   Tue, 22 Aug 2023 07:31:53 -0400
-Message-Id: <20230822113155.3550176-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230822113155.3550176-1-sashal@kernel.org>
-References: <20230822113155.3550176-1-sashal@kernel.org>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 55970648DB;
+        Tue, 22 Aug 2023 11:48:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7AFC433C8;
+        Tue, 22 Aug 2023 11:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1692704886;
+        bh=M+R+3pWKXJqUrPOyQ4zKrKqSO3DUrA/AmLMHVhlP3nI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Bjt8CupKmCYOjx7EYwRS8Rg0MHxXvf8Ogp7gd8WgjA16Iz3PGveIbCbZJ/HRZDajJ
+         6sSv89VdTjgbVV1suOhrA/eIjoCBbtlbi/J4ixXRG3CfRYOtSUiRUmxA+PJpY8UKNf
+         PYnPXg39d1Vi8AnWvd0A8BEHVaJ2dS2OYaytH4UQ=
+Date:   Tue, 22 Aug 2023 13:48:03 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Saurabh Singh Sengar <ssengar@microsoft.com>
+Cc:     Saurabh Sengar <ssengar@linux.microsoft.com>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        "wei.liu@kernel.org" <wei.liu@kernel.org>,
+        Dexuan Cui <decui@microsoft.com>,
+        "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
+ devices
+Message-ID: <2023082246-lumping-rebate-4142@gregkh>
+References: <1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com>
+ <2023081215-canine-fragile-0a69@gregkh>
+ <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.127
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PUZP153MB06350DAEA2384B996519E07EBE1EA@PUZP153MB0635.APCP153.PROD.OUTLOOK.COM>
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-From: Ani Sinha <anisinha@redhat.com>
+On Mon, Aug 21, 2023 at 07:36:18AM +0000, Saurabh Singh Sengar wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Sent: Saturday, August 12, 2023 4:45 PM
+> > To: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > Cc: KY Srinivasan <kys@microsoft.com>; Haiyang Zhang
+> > <haiyangz@microsoft.com>; wei.liu@kernel.org; Dexuan Cui
+> > <decui@microsoft.com>; Michael Kelley (LINUX) <mikelley@microsoft.com>;
+> > corbet@lwn.net; linux-kernel@vger.kernel.org; linux-hyperv@vger.kernel.org;
+> > linux-doc@vger.kernel.org
+> > Subject: [EXTERNAL] Re: [PATCH v4 0/3] UIO driver for low speed Hyper-V
+> > devices
+> > 
+> > On Fri, Aug 04, 2023 at 12:09:53AM -0700, Saurabh Sengar wrote:
+> > > Hyper-V is adding multiple low speed "speciality" synthetic devices.
+> > > Instead of writing a new kernel-level VMBus driver for each device,
+> > > make the devices accessible to user space through a UIO-based
+> > > hv_vmbus_client driver. Each device can then be supported by a user
+> > > space driver. This approach optimizes the development process and
+> > > provides flexibility to user space applications to control the key
+> > > interactions with the VMBus ring buffer.
+> > 
+> > Why is it faster to write userspace drivers here?  Where are those new drivers,
+> > and why can't they be proper kernel drivers?  Are all hyper-v drivers going to
+> > move to userspace now?
+> 
+> Hi Greg,
+> 
+> You are correct; it isn't faster. However, the developers working on these userspace
+> drivers can concentrate entirely on the business logic of these devices. The more
+> intricate aspects of the kernel, such as interrupt management and host communication,
+> can be encapsulated within the uio driver.
 
-[ Upstream commit ed0cf84e9cc42e6310961c87709621f1825c2bb8 ]
+Yes, kernel drivers are hard, we all know that.
 
-It is incorrect in python to compare integer values using the "is" keyword.
-The "is" keyword in python is used to compare references to two objects,
-not their values. Newer version of python3 (version 3.8) throws a warning
-when such incorrect comparison is made. For value comparison, "==" should
-be used.
+But if you do it right, it doesn't have to be, saying "it's too hard for
+our programmers to write good code for our platform" isn't exactly a
+good endorcement of either your programmers, or your platform :)
 
-Fix this in the code and suppress the following warning:
+> The quantity of Hyper-V devices is substantial, and their numbers are consistently
+> increasing. Presently, all of these drivers are in a development/planning phase and
+> rely significantly on the acceptance of this UIO driver as a prerequisite.
 
-/usr/sbin/vmbus_testing:167: SyntaxWarning: "is" with a literal. Did you mean "=="?
+Don't make my acceptance of something that you haven't submitted before
+a business decision that I need to make, that's disenginous.
 
-Signed-off-by: Ani Sinha <anisinha@redhat.com>
-Link: https://lore.kernel.org/r/20230705134408.6302-1-anisinha@redhat.com
-Signed-off-by: Wei Liu <wei.liu@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- tools/hv/vmbus_testing | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Not all hyper-v drivers will move to userspace, but many a new slow Hyperv-V
+> devices will use this framework and will avoid introducing a new kernel driver. We
+> will also plan to remove some of the existing drivers like kvp/vss.
 
-diff --git a/tools/hv/vmbus_testing b/tools/hv/vmbus_testing
-index e7212903dd1d9..4467979d8f699 100755
---- a/tools/hv/vmbus_testing
-+++ b/tools/hv/vmbus_testing
-@@ -164,7 +164,7 @@ def recursive_file_lookup(path, file_map):
- def get_all_devices_test_status(file_map):
- 
-         for device in file_map:
--                if (get_test_state(locate_state(device, file_map)) is 1):
-+                if (get_test_state(locate_state(device, file_map)) == 1):
-                         print("Testing = ON for: {}"
-                               .format(device.split("/")[5]))
-                 else:
-@@ -203,7 +203,7 @@ def write_test_files(path, value):
- def set_test_state(state_path, state_value, quiet):
- 
-         write_test_files(state_path, state_value)
--        if (get_test_state(state_path) is 1):
-+        if (get_test_state(state_path) == 1):
-                 if (not quiet):
-                         print("Testing = ON for device: {}"
-                               .format(state_path.split("/")[5]))
--- 
-2.40.1
+Define "slow" please.
 
+> > > The new synthetic devices are low speed devices that don't support
+> > > VMBus monitor bits, and so they must use vmbus_setevent() to notify
+> > > the host of ring buffer updates. The new driver provides this
+> > > functionality along with a configurable ring buffer size.
+> > >
+> > > Moreover, this series of patches incorporates an update to the fcopy
+> > > application, enabling it to seamlessly utilize the new interface. The
+> > > older fcopy driver and application will be phased out gradually.
+> > > Development of other similar userspace drivers is still underway.
+> > >
+> > > Moreover, this patch series adds a new implementation of the fcopy
+> > > application that uses the new UIO driver. The older fcopy driver and
+> > > application will be phased out gradually. Development of other similar
+> > > userspace drivers is still underway.
+> > 
+> > You are adding a new user api with the "ring buffer" size api, which is odd for
+> > normal UIO drivers as that's not something that UIO was designed for.
+> > 
+> > Why not just make you own generic type uiofs type kernel api if you really
+> > want to do all of this type of thing in userspace instead of in the kernel?
+> 
+> Could you please elaborate more on this suggestion. I couldn't understand it
+> completely.
+
+Why is uio the requirement here?  Why not make your own framework to
+write hv drivers in userspace that fits in better with the overall goal?
+Call it "hvfs" or something like that, much like we have usbfs for
+writing usb drivers in userspace.
+
+Bolting on HV drivers to UIO seems very odd as that is not what this
+framework is supposed to be providing at all.  UIO was to enable "pass
+through" memory-mapped drivers that only wanted an interrupt and access
+to raw memory locations in the hardware.
+
+Now you are adding ring buffer managment and all other sorts of things
+just for your platform.  So make it a real subsystem tuned exactly for
+what you need and NOT try to force it into the UIO interface (which
+should know nothing about ring buffers...)
+
+> > And finally, if this is going to replace the fcopy driver, then it should be part of
+> > this series as well, removing it to show that you really mean it when you say it
+> > will be deleted, otherwise we all know that will never happen.
+> 
+> I was hesitant about disrupting the backward compatibility, but I suppose I could
+> rename the new fcopy daemon to match the old one.
+
+If you can't drop the driver today due to backwards compatibility, then
+you will not be able to drop it in the future either.
+
+Please work to come up with a sane framework if you are going to insist
+on writing drivers in userspace for your platform, that works well and
+it not bolted onto the UIO api.  Consider this a chance to fix the
+issues that the UIO api currently has that we can't change due to
+compatiblity reasons :)
+
+thanks,
+
+greg k-h
