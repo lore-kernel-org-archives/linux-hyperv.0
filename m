@@ -2,53 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20986EE49AC
-	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Aug 2023 11:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16174EE4996
+	for <linux-hyperv@archiver.kernel.org>; Tue, 22 Aug 2023 11:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234843AbjHVLcU (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 22 Aug 2023 07:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59644 "EHLO
+        id S235000AbjHVLdz (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 22 Aug 2023 07:33:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234842AbjHVLcT (ORCPT
+        with ESMTP id S234995AbjHVLdv (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 22 Aug 2023 07:32:19 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37D05E6D;
-        Tue, 22 Aug 2023 04:32:02 -0700 (PDT)
+        Tue, 22 Aug 2023 07:33:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F9E8CEE;
+        Tue, 22 Aug 2023 04:33:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BB91C65247;
-        Tue, 22 Aug 2023 11:31:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13005C433CB;
-        Tue, 22 Aug 2023 11:31:33 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 191D265264;
+        Tue, 22 Aug 2023 11:32:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 459CFC433C7;
+        Tue, 22 Aug 2023 11:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1692703895;
+        s=k20201202; t=1692703931;
         bh=GiTxZ4OKRVhHnF8rRs0NLEZCAYYMH0DjrFcqPcvbtwI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C+dz+OrRzrFog36SBIkFus9Mjj9aU89NcgEX9zt8qmw+l2toAiE2psRao/6yrPJue
-         l/UMFbi2gfL5FCHL8iIX17AzGF6tdHjglOryAq8dlzVVd0M1E64DBjf7/xsj8RQpik
-         pysBIAtF0TQgf7oocvbW5ZoPPbQyonRLfFWUW2fUB4QO+Y7fGaAUG2H2rFpJYdc3Bp
-         sUJPTSYwKx2DPC9o0CaN/6kWXHNHxjDD8pOQ0GqfOhPIDMp4EeHT//jY9tM7emZk9M
-         9rxNK1BR+wTKCyw0DRi62s7ECvj7hhBy2O0Le0ZTiJ5GfwX9BinMxVC4WICBqPml/s
-         BHuVonzRCwprg==
+        b=jx1v1cQkbNIGY1zZsVBFB0fzwj38k93G0SYDz/55d6qUJGd9oWv7+MfBvfzCNszsK
+         4WfD0da+af8sZEehtmmcRghHWU/zM76uaUyNhAzezu3jq2VoEmHh93WRYDpWl2BbMG
+         wqe+XV0GYU/i3COSosUwqU4pROcREQW7IoxpPbyXcx93oiZAEehFkIVBIbQ9vO8e3J
+         Q2bqJiD2M/AV2WvPT7YjLCf929inTvjRgf44epf6/2/Ab9wXb/EBGJTacBKeCaXLZJ
+         n214R2QkZWKMQUaUn5hbqITfNWWTny3VqzCMiqIaDr28MqCyJjmX1OgW7mcZbzLg3A
+         4u/Fg5UizRt1w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ani Sinha <anisinha@redhat.com>, Wei Liu <wei.liu@kernel.org>,
         Sasha Levin <sashal@kernel.org>, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com,
         linux-hyperv@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 2/9] vmbus_testing: fix wrong python syntax for integer value comparison
-Date:   Tue, 22 Aug 2023 07:31:23 -0400
-Message-Id: <20230822113130.3550050-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 2/4] vmbus_testing: fix wrong python syntax for integer value comparison
+Date:   Tue, 22 Aug 2023 07:32:04 -0400
+Message-Id: <20230822113207.3550238-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230822113130.3550050-1-sashal@kernel.org>
-References: <20230822113130.3550050-1-sashal@kernel.org>
+In-Reply-To: <20230822113207.3550238-1-sashal@kernel.org>
+References: <20230822113207.3550238-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.46
+X-stable-base: Linux 5.10.191
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
