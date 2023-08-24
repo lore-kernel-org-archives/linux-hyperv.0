@@ -2,45 +2,45 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFDBC27C40
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7EB5C88CB2
 	for <linux-hyperv@archiver.kernel.org>; Thu, 24 Aug 2023 08:11:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233757AbjHXIKa (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Thu, 24 Aug 2023 04:10:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50356 "EHLO
+        id S236087AbjHXIKb (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Thu, 24 Aug 2023 04:10:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240506AbjHXIKM (ORCPT
+        with ESMTP id S240542AbjHXIKU (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Thu, 24 Aug 2023 04:10:12 -0400
-Received: from DM5PR00CU002.outbound.protection.outlook.com (mail-cusazlp170110003.outbound.protection.outlook.com [IPv6:2a01:111:f403:c111::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F411996;
-        Thu, 24 Aug 2023 01:09:44 -0700 (PDT)
+        Thu, 24 Aug 2023 04:10:20 -0400
+Received: from DM6FTOPR00CU001.outbound.protection.outlook.com (mail-centralusazon11020019.outbound.protection.outlook.com [52.101.61.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F6719AC;
+        Thu, 24 Aug 2023 01:09:53 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UHNJr2VTULa5RAoieo+EsHMB7S1v82xhpOMi7bSK1jot50SL7ZJmyT+g1qcxhN3vDikcAFc/sCu5BJyGquBhtw5SPBpstJ4WR+IRg+7TIEi4Wdti/B4bqatdt2ND+sBLPu1MUAMjkTf2jgQtL92oCMI9cJT8qlT9T5ebzP+uv7pyqu8XHWadNDiiz4k/7wdWJ0hbxiRcwnurAS+Nn1SAkjab98JUu8a36fpK6DxBTsC/8D07JLXo5fX1+48LGmlE1xG/B3IlhyGLay6UOS4a3P6fF1vtsr86jgyK0wcZ0h5XHPCMisvyiDpk3Mpt+IzV6Tt1B/ZMnp3bvhhsZNr0Fw==
+ b=eOVCvzJ+0ucAjfikJdj+Q5KOt5gU8MiyvLc5rsxx9/lv8OjO34/5f8RcoPS1EDVMyBS3xMjK6MuYwZUd7N7QoQ10u7QbS262q+J5n0WI6HYJ9VShpLQZtiFKFw/pcg3j54SP2vdfJiz/J9kXugGSespQaTsKwesJkj1Lyg2dY2gQO4So0wVoCiFxxkLewb8kwRTXg79dbp257qQoEgHYbnsHGDL4V+GqM7UGeRtc9OMSW4rOXLaq+O7TH6Wf5Jr9IYU/PqFMdxZo6LP0mKUDLX1tOufJjQjBjCagG0woLDgRQHLSC/oOpCFpSSpmk8B6qo5Gaps9CGYS3+6FIgJ9nQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sOR0U/hkfJWQyo6zXruH5ZA7YPT3OD8Z9w0mxOjzn1U=;
- b=GLHS9bBstDjU49yBlDaTccmCbaaXZ4w5ijOzAKdq5UfMCZ7qY8tdGekkiuxIXDUB3TbQYC8sUFx+bBI7Bu30orQioOocHN09/X9Ld8YTJ+pbzn9nHY1Jb/IkrJJaSlsoBvYp/+qybJJpzMPaZpB5S7F4n9RCoIbBICGYFYwuXJBAvEW5GMIC4VRnkcyfFH2a+Ax5dZYpQRJSA4VKfh3VOjOhtBj9K4PWOZAlKsD1VZKb2gkzUVPymFN+mQI3gT17IysMDSVDs1dn1OCw9UPP8BzJMYW7dgrevNbLunihxzzWtFRZxHVNgcLw5Qosh0i9ksUUeNlFTXm7WOu88O4h1A==
+ bh=gp++m1rz7QMhIaw8w5ngvgVSlt7AgJlBNmZNhW7QHzM=;
+ b=DZUGmX+xOthLZ/n83Sue4qC308Q8a2TEHqs2DmFn6TCwfB1hVKpjYg2IWy+LWavkOYnOREeCbGm0ALSGYr3d2n3BNcCUAR7Vvuv1pK8/MCUNP4eolkiO6jH2JVu8IMdFEy+Y66/HEJVAPe4+zZDCAh8fiM9LvlveDikvRADhzdXIRCtfUleBGxYf9bfGqvwm2q8Lrt9eIGx6at7s6A0q8XG2VZcAGNHn/AXyQGERrqr2D9ms2KLSqPgcc3eV86LWZ5H6hWPVjvdY5fH6ncS7sKhQLihEPy4sPLxIhNl9fR2yFnwozMTycQHZ5HcDzo7322FNwPZYcvuL202+gFgnbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=microsoft.com; dmarc=pass action=none
  header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOR0U/hkfJWQyo6zXruH5ZA7YPT3OD8Z9w0mxOjzn1U=;
- b=JpmKx1dNHVoPcvDwUx8YGnXd54l4/a3Mfx+i159VmXqLOe5PpXwCZsC5PbHiF48AZxeUP4AU+7GesUso0sMJbCxD9W6D7mTmCt5Qj97IxVuBlgOpbJm4cVVRPegkruJulPDks1a/EUVp2T4nTDSvJXZb0ZxEz0IB5BV6KsqHVB0=
+ bh=gp++m1rz7QMhIaw8w5ngvgVSlt7AgJlBNmZNhW7QHzM=;
+ b=h93XP77Epa6449FkgubZQaTpgwkR6yqPOaJs3q0nKgUGujyv3uoU7JntebCNTsJMZHmBTn2m6SzMnIQzNuQgHO5Ec8U7Z3Peo8dAcxcHs0fnjqvYgSj36VChuGvI/44k3XhcFZ4taeONKTiJ9i57mheJvrR+E49KlDGiWk3l38s=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=microsoft.com;
 Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
  (2603:10b6:207:30::23) by PH8PR21MB3901.namprd21.prod.outlook.com
  (2603:10b6:510:23a::20) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.4; Thu, 24 Aug
- 2023 08:08:00 +0000
+ 2023 08:08:08 +0000
 Received: from BL0PR2101MB1092.namprd21.prod.outlook.com
  ([fe80::b3df:a8e9:52dd:dfad]) by BL0PR2101MB1092.namprd21.prod.outlook.com
  ([fe80::b3df:a8e9:52dd:dfad%5]) with mapi id 15.20.6745.006; Thu, 24 Aug 2023
- 08:08:00 +0000
+ 08:08:08 +0000
 From:   Dexuan Cui <decui@microsoft.com>
 To:     ak@linux.intel.com, arnd@arndb.de, bp@alien8.de,
         brijesh.singh@amd.com, dan.j.williams@intel.com,
@@ -57,9 +57,9 @@ Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
         rick.p.edgecombe@intel.com, andavis@redhat.com, mheslin@redhat.com,
         vkuznets@redhat.com, xiaoyao.li@intel.com,
         Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v3 03/10] Drivers: hv: vmbus: Support fully enlightened TDX guests
-Date:   Thu, 24 Aug 2023 01:07:05 -0700
-Message-Id: <20230824080712.30327-4-decui@microsoft.com>
+Subject: [PATCH v3 06/10] x86/hyperv: Introduce a global variable hyperv_paravisor_present
+Date:   Thu, 24 Aug 2023 01:07:08 -0700
+Message-Id: <20230824080712.30327-7-decui@microsoft.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20230824080712.30327-1-decui@microsoft.com>
 References: <20230824080712.30327-1-decui@microsoft.com>
@@ -71,221 +71,388 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL0PR2101MB1092:EE_|PH8PR21MB3901:EE_
-X-MS-Office365-Filtering-Correlation-Id: c258cfe1-ef4c-4295-d70d-08dba4793b75
+X-MS-Office365-Filtering-Correlation-Id: adf33ea3-ae03-4408-ac32-08dba4794054
 X-LD-Processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vBOAFbLNQUly4idqJpSoThFx8ivPol/49COQD4nqTeKkj6h+g3vWUwD7dr7ZckV8y5NG17SDZVkS2s5FWMraGKojRMSQAPN3gCiHnxIlW0I6/Bz7z0VRhjuZY9v7VQPJ84rujTZdJBcp4kOUo9YcrxRyBESiItgS5e6M98GSIj1699mLrfTOBZyUz8fH6HouKmQG5uzZTEdnre10FV4KVEGB90osFh/xLFqkVg8gPRyP28Pgqif8cZQgHavivRO38GQ+NNpOGfhecb94aFpwVUf9/w6Gzu1miJwzxJGl7M0louoDKa1n8W0PMLPyE8Q71FVqlo0MZmL6HT7x6JB0gDpnaNWsi7dcC7kzGdrpvw+bnyqcptsOeQotTWUqbpeCC3qWYCKLLe5CDG7kBk2QPg2IJ4p1rw/6JJXQfK8ms/Ygx8DQ9nu8BG52dNHhPK8oHtQ2pJlqomuwOCeOVcCUn84fvNHQv1GG0vU6uY1KZUJVvV2zwT/V9lqVMxNQd2NQyonue3sunwxlse3X/TDSvK0WnzobSSIGyozHB8RAwLHEZuf4zuBKLYvIJ4nzl5GoNcHiFe6YVTGavABhXIQtjm+KbSUIsEkRXtxv6L9u2qsMbAsMBodfiF81KVvgA980nCZ0eSalsCNjSWl4WVYGBAUQF1DnNxAU8tACZNECpTuYrSzG54NI1sc+pZtVktSR
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB1092.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(346002)(39860400002)(136003)(451199024)(1800799009)(186009)(12101799020)(478600001)(6486002)(10290500003)(83380400001)(38100700002)(7406005)(82950400001)(921005)(2906002)(52116002)(7416002)(4326008)(1076003)(6506007)(2616005)(107886003)(6512007)(66556008)(36756003)(66476007)(86362001)(82960400001)(5660300002)(316002)(8676002)(8936002)(6636002)(66946007)(41300700001);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: in5/snVR9j7QfwgGeCtVCOpkmneYIjgY6ux7vLRwS9tfPL0jr2uKzc8TpPY9RZL4dAwHmIX68brYNUELiPPOE4jOBSP8sUNN8LKNIGd2Y2CUCeToll/ulfZ0OT3Qxo2Lu9yY0IzIg3XzvByNGrk1v2WOaSmKuutKSvEXDLsR4tnPV4WANBTcKlhUOxYNC+E2e2clNhgr9IEy53msqSA1j6YoxTdzjwpRO2XtiOZcrGfduOizWD2DauS9WhigIm16UCYMI2yTbXos7w36N0O4tdSklt5PddR+uC3tp/JRDknQ0KweNAceDfGqitcgTBUysUd9xz5yEAn5NguGOwdyXyWL6Y/R1MCcWSiZ2OiRn9LZoj1+FifDmqqZGPSuaFjdG/OptdsQZLbPw8ql8KHLqYJn0DdBZ0o/5kE8xBkn3IgrfvvtM9016Jz2f9/6e8lwPYU9QfI9c/0ofaV136aqYBzLQBS0BGD4kij6uswoxEZoFOdPnC016TrccAJpPDbmd6dXXno6ycYlgpTrfQd0n0XptFtv2WTCuAog6eAyDA4rZTFMvA0+p+6fiRRDLmU1Xm2cF2K42O2vIdqmOr/Da6/c6/3/i9A3wKgW3pPG2fKvEhygX3zYOkVYX8KSxpweuBAzINWhJcT6t83x/hNeKSebaAMPfWj6BJmtdyCUkE9Df+6DMDpibOxdNg3bd5OZuZL6c942ZacYxAizr6AkoGSXAbATskae88D8UMvxhSvZUMoy1cXWmCYbVRWSjllD
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR2101MB1092.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(366004)(346002)(39860400002)(136003)(451199024)(1800799009)(186009)(12101799020)(478600001)(6486002)(10290500003)(83380400001)(38100700002)(7406005)(82950400001)(921005)(2906002)(52116002)(7416002)(4326008)(1076003)(6506007)(2616005)(107886003)(6512007)(30864003)(66556008)(36756003)(66476007)(86362001)(82960400001)(5660300002)(316002)(8676002)(8936002)(6636002)(66946007)(41300700001)(334744004)(309714004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dghLLZb7tKANvVdO1GZs2B2j0N9vG1Zp2mnkWmCxxolG1yz5nqT42CHmg8et?=
- =?us-ascii?Q?wqPwub+rHEwZJXZU8cmRI2WvpKmCi+oNpDdwUTX/Zc3vaBmd4iKCvF2fwnT1?=
- =?us-ascii?Q?/5zTOpnKkq/ejPZNw6YpmW4pHbk4e3G1gfZ0xi0hAsZvafAzYIxhCfb4HXp2?=
- =?us-ascii?Q?1nKBEJ33IKtVlCX/4rZTnCGO0NEAYyvKGSdOlFyYAhiL7uHCrXLqg6XLnGW9?=
- =?us-ascii?Q?x2QUvW+eRBCeRkJt7v/wyxxWB4zYdmOH5MqLmYvUUlCcEhDZ2oxsf0iMhchC?=
- =?us-ascii?Q?A5k8pfn4L8GBUaBNfPgJvl5foiaB2BGWp8IOz7XOtKhnaykANqqNetv2P389?=
- =?us-ascii?Q?pWrmGt6l7lUZh6RQWVZUsyf+Am6ziYTNlalrRRflsLsB95RDJ9lzB508QX/w?=
- =?us-ascii?Q?nnQtp6W0sNExQ2KxXwtnghhflJDtM1UvKfRgkRc0xya8GD/1WJFUAyQuyEGt?=
- =?us-ascii?Q?qdRk1qsFfIf74nfsvoGTzk28o4EgFcShTN7YGWSEq6F69cNJ2+zDYElkWmhy?=
- =?us-ascii?Q?rPaFTha919VOGDXIrWAeigjIgXz0Jg8Aqt9USwy1G4JwkC3YZtqgTS9srTmI?=
- =?us-ascii?Q?J1gao3SE0ReHtoBGXsrwuSZeEpWXNr9PWkyPjJZ3hICES7r64VEfy+plQM/A?=
- =?us-ascii?Q?X5a/Z8onk+l8mNEYzJjzIlaVaBgUlCOTwT3mX2O8meMEzzywGrP2CszYuvTX?=
- =?us-ascii?Q?5hzmuiSnrUsm+HNLQHJxQ96QLr/IYF2BrFc0XfOaKNeTwhKLByRiGpLh7ohP?=
- =?us-ascii?Q?MgAUIg1Edaz3nFZnOo00KlY6vM7KyUL+Sot6qUwufkMD3Mfqe0ppcqsYTN/S?=
- =?us-ascii?Q?9CifmjntEZHBzzwNSyhIOZaV6+IukLfkfuZgI7N8q2FFwEyXR9gdIuvfC9Jo?=
- =?us-ascii?Q?ApJXBxm+tPAnyKa7yo5TX7uESRBOWK5WJh0xAmFeXNI5HB8tAdUH2ZFHdXdD?=
- =?us-ascii?Q?cAhblBAbcuTc9hM26/uKwqANwynx2d59kB927nOPEYVkqhSWEZrALkDPVBec?=
- =?us-ascii?Q?+3ut4JAcexFO2MfWpyzGuwXv+87sQHMhUESX70AvAb+3LE0At1xaBARRKtYA?=
- =?us-ascii?Q?CUG+uE5YrxkP9mdLPXF6EealZlogFSJzKPjy1hYwP/zeTmaPAUkN23VpNs79?=
- =?us-ascii?Q?TP/rwykYuQyBeil2S/k8VdG0DzUlIsSQaTSq7jufCrxQFcXcbKRoBeVDZ6wS?=
- =?us-ascii?Q?WzsL3lxDrhSkG/9dlAp+Zn86PwWh6QiZkNQ2otXaNhmbIUvKKawok+1EMMnL?=
- =?us-ascii?Q?ph7OltKxnT7ZhybZiN+QAtjGGB1TNA6sv8KpaWbivmJuo4rhvO64zmGstwDN?=
- =?us-ascii?Q?yl9RwGnVWU1061NJdrXZ09fo2oGvtsVuJSJkEC6gbjRE4mbS6dyJqDQwHs9a?=
- =?us-ascii?Q?svCHCaDnNfT4BnH1no/XT4lsm4UA18D/y8meOV+O1F6c3YScm6tJdJQG4p3y?=
- =?us-ascii?Q?QE7rE96IOQowT+xnaSndgKs1NV4sHCCjjIbdJXndSebvcOGZtxo2e00qJN0D?=
- =?us-ascii?Q?hE8dTVlBz7bDuNJUrrmJfUwdoXUdAmhnkxZhGPayMbuuU+MUvvQ+/fgNtIwr?=
- =?us-ascii?Q?iaLT7TmETZaLsKesD96ngLS2iQlxWOJYky2cmYLi/sK3fnJm2+yqvFKe+42J?=
- =?us-ascii?Q?0RFbobcwgK9Zg7jUd46w3HuUsEmTlKzZHP1UOhGPOI8z?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wXf4iT+l9uRLwV/W2r2zblZu6DEdh9jBVGcFPpGxhw2qvWe5zRgq8iBJzZTh?=
+ =?us-ascii?Q?SBu1tUnSIftd7GCCl12WZWgQOC5NHXQUyr5pOKe6LPRRgmouEaDRXBPDqeZK?=
+ =?us-ascii?Q?E78Anb65jXk6tyj8N5Mb+w85zDUF2dAXykqQbxeXhOlxQjnxsLwbqtx5H8ZB?=
+ =?us-ascii?Q?AjQAfyBEqM6bJhhgRI+nyg5aRoqT7SecAHqXBjR+mYwLt7/y6ivPtYGsh053?=
+ =?us-ascii?Q?olherjmvVeG0idas+YzRN6uZkmM5KK6cP/L2eg06GToA2W/rmPM07nZK11A3?=
+ =?us-ascii?Q?RC+RvvNyYdDu/bS13foJSxslrd320BYiufMo6dhSPcxt7gMWrBy3bi6KPiEW?=
+ =?us-ascii?Q?VnfhuLmzEfLbgmMBfciyeBsIWw64I9Dd47ElJOBYe9GgBCLLqdvNK/ruoff+?=
+ =?us-ascii?Q?asUL4IDgn9OV/lDxXlSOYYu6ceguJGcYowhwxQtho6mbjtJcE+r/h3koX7bM?=
+ =?us-ascii?Q?/BeNh292/AfPBQigC0ckrmV6cHg8TJbuPj3dN7EVaXOdqsyROMbM4WyIJqDQ?=
+ =?us-ascii?Q?WMCKS7PDVKpS80b5Awxsrk3bYSkjHdNWwKJOOy9JjPLFMv0mZIyKKHxwwfPE?=
+ =?us-ascii?Q?IOEnbySYbvdPfrBfMDei/q42YloebupjoRonNf3C/eT8n84HefxTXxNk/Ivr?=
+ =?us-ascii?Q?JWHqGGfG+61BE5UMmNqJ20mkiDo1ZQ1k/PKYknKdWvxa709H6eweYygoaUBz?=
+ =?us-ascii?Q?L1JIqYFmkaoH/9vJihIkGe2ssc8aqoT1LKtwJR+pFnZoXX06ZXbxtGHeuIiQ?=
+ =?us-ascii?Q?rcOsK+oehEC6534Hx5RO0goXrzaDnA21vR1t9zf1MZT9e5TGA2iVDzi7ZsQE?=
+ =?us-ascii?Q?FnpvJiNNCMOO7XQ1sugvGuH4QJHk4P5rYZ5sDuiMOCdF6trHJM7bwkvG2xuR?=
+ =?us-ascii?Q?zyt5bNCYPBDQyL6X3gsi4YNJnk4mb9I2hllU2RUlo0zku8Tkstk1gGnGzg71?=
+ =?us-ascii?Q?kmxnKv3MEeZC99kt/ZKgmtfvuwOuVWa4/Xx4geUnomkdZHQExPjnZHtal5zT?=
+ =?us-ascii?Q?dvUvxKc5LJ69Cry7Lt7A1emw7NWNPyD+koP+Ealzxztd9v08v43b/nOZo4vI?=
+ =?us-ascii?Q?W/sUsZ8QF5VSofqjiHUOL/z0Xd2VWQZ05S9z6CmMOB9bxdnpCaHTHQNlmg+w?=
+ =?us-ascii?Q?d14UOPPr3vZnkoaxLM8duTdkX/E1ZIh7ho10nnN5xVuj1n3rD8f7CVx/Ae6w?=
+ =?us-ascii?Q?5hr6QWZBZX391btMsi8VEdGaWZWaD6/NpURxP1r481x/NodNVBn7hHxX9Dqv?=
+ =?us-ascii?Q?hl3butIFipeer0971yUU94oMJe1xa5f7LnjkcKpcz50oC8hAAZiGvtLt6Ogf?=
+ =?us-ascii?Q?UGiGoIulG587+9Ei3KWpOfilhmILIJrNRe+rbsaOn+nsYb+XhHu6PrH4ww0S?=
+ =?us-ascii?Q?BnUfv8mxOlRTZnAcD7K3gXl/FAFkFe5Q4ytwWIa2RVnV+KMaDI/9pb+bqrnA?=
+ =?us-ascii?Q?EXZheDobMGZfVwsdR2RwW7z7G2hZA5EvGplgNuf4xdzBdcXGfHODI15dgGYw?=
+ =?us-ascii?Q?mLi2QZKXvTy18hHLvsmf195Mp/WpFGmbmUrfVPzwvS1t1Z2F2ZGvFihmW5Ji?=
+ =?us-ascii?Q?lQ5vdNzqLD8FNcQo3puFVAkbkdnQR+YjkQDkwZdS91JrW9jkLPBn7qn3EG0u?=
+ =?us-ascii?Q?Q57ajKSnOt5yS9SiJQjrAQKXgg1KVqQmS++CjnjJNNlQ?=
 X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c258cfe1-ef4c-4295-d70d-08dba4793b75
+X-MS-Exchange-CrossTenant-Network-Message-Id: adf33ea3-ae03-4408-ac32-08dba4794054
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR2101MB1092.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2023 08:08:00.1266
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2023 08:08:08.2751
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iJTLKFvtq8H8E9mh1ul2fEJSdSCB9h9TK4cl3tPajKMbCDh7vfA4zHmgvy2aPj4uOxg3QhAP8wIdIh2Si9uGEw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wf+2ehr+UBHuSqyEkDzZApAAVwberNmev2LOTRNFhtlYdxEAoF4UkUETyGCCFwS1NPCqXZj9b8Uy30r+lUeisA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR21MB3901
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Add Hyper-V specific code so that a fully enlightened TDX guest (i.e.
-without the paravisor) can run on Hyper-V:
-  Don't use hv_vp_assist_page. Use GHCI instead.
-  Don't try to use the unsupported HV_REGISTER_CRASH_CTL.
-  Don't trust (use) Hyper-V's TLB-flushing hypercalls.
-  Don't use lazy EOI.
-  Share the SynIC Event/Message pages with the hypervisor.
-  Don't use the Hyper-V TSC page for now, because non-trivial work is
-    required to share the page with the hypervisor.
+The new variable hyperv_paravisor_present is set only when the VM
+is a SNP/TDX VM with the paravisor running: see ms_hyperv_init_platform().
 
-Reviewed-by: Michael Kelley <mikelley@microsoft.com>
+We introduce hyperv_paravisor_present because we can not use
+ms_hyperv.paravisor_present in arch/x86/include/asm/mshyperv.h:
+
+struct ms_hyperv_info is defined in include/asm-generic/mshyperv.h, which
+is included at the end of arch/x86/include/asm/mshyperv.h, but at the
+beginning of arch/x86/include/asm/mshyperv.h, we would already need to use
+struct ms_hyperv_info in hv_do_hypercall().
+
+We use hyperv_paravisor_present only in include/asm-generic/mshyperv.h,
+and use ms_hyperv.paravisor_present elsewhere. In the future, we'll
+introduce a hypercall function structure for different VM types, and
+at boot time, the right function pointers would be written into the
+structure so that runtime testing of TDX vs. SNP vs. normal will be
+avoided and hyperv_paravisor_present will no longer be needed.
+
+Call hv_vtom_init() when it's a VBS VM or when ms_hyperv.paravisor_present
+is true, i.e. the VM is a SNP VM or TDX VM with the paravisor.
+
+Enhance hv_vtom_init() for a TDX VM with the paravisor.
+
+In hv_common_cpu_init(), don't decrypt the hyperv_pcpu_input_arg
+for a TDX VM with the paravisor, just like we don't decrypt the page
+for a SNP VM with the paravisor.
+
 Signed-off-by: Dexuan Cui <decui@microsoft.com>
 ---
 
 Changes in v2: None
 
 Changes in v3:
-  ms_hyperv_init_platform(): Removed cc_mkdec(0).
-  hv_synic_alloc(), hv_synic_enable_regs():
-    Removed "|= ms_hyperv.shared_gpa_boundary": No longer needed on GA Hyper-V.
+  Improved the changelog
+  Use ms_hyperv.paravisor_present in general and only use
+    hyperv_paravisor_present in arch/x86/include/asm/mshyperv.h
+  Fixed the build when CONFIG_AMD_MEM_ENCRYPT and/or
+     CONFIG_INTEL_TDX_GUEST are not set.
+  Updated arch/x86/include/asm/mshyperv.h accordingly  
+  hv_vtom_init(): Fixed/added the comments
+  Handled the TDX special case directly in vmbus_set_event().
 
- arch/x86/hyperv/hv_apic.c      | 15 ++++++++++++---
- arch/x86/hyperv/hv_init.c      | 19 +++++++++++++++----
- arch/x86/kernel/cpu/mshyperv.c | 14 ++++++++++++++
- drivers/hv/hv.c                |  9 +++++++--
- 4 files changed, 48 insertions(+), 9 deletions(-)
+ arch/x86/hyperv/hv_init.c       |  4 ++--
+ arch/x86/hyperv/ivm.c           | 38 ++++++++++++++++++++++++++++++---
+ arch/x86/include/asm/mshyperv.h | 15 ++++++++-----
+ arch/x86/kernel/cpu/mshyperv.c  |  9 ++++++--
+ drivers/hv/connection.c         | 15 +++++++++----
+ drivers/hv/hv.c                 | 10 ++++-----
+ drivers/hv/hv_common.c          |  3 ++-
+ 7 files changed, 72 insertions(+), 22 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-index 1fbda2f94184..cb7429046d18 100644
---- a/arch/x86/hyperv/hv_apic.c
-+++ b/arch/x86/hyperv/hv_apic.c
-@@ -177,8 +177,11 @@ static bool __send_ipi_mask(const struct cpumask *mask, int vector,
- 	    (exclude_self && weight == 1 && cpumask_test_cpu(this_cpu, mask)))
- 		return true;
- 
--	if (!hv_hypercall_pg)
--		return false;
-+	/* A fully enlightened TDX VM uses GHCI rather than hv_hypercall_pg. */
-+	if (!hv_hypercall_pg) {
-+		if (ms_hyperv.paravisor_present || !hv_isolation_type_tdx())
-+			return false;
-+	}
- 
- 	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
- 		return false;
-@@ -231,9 +234,15 @@ static bool __send_ipi_one(int cpu, int vector)
- 
- 	trace_hyperv_send_ipi_one(cpu, vector);
- 
--	if (!hv_hypercall_pg || (vp == VP_INVAL))
-+	if (vp == VP_INVAL)
- 		return false;
- 
-+	/* A fully enlightened TDX VM uses GHCI rather than hv_hypercall_pg. */
-+	if (!hv_hypercall_pg) {
-+		if (ms_hyperv.paravisor_present || !hv_isolation_type_tdx())
-+			return false;
-+	}
-+
- 	if ((vector < HV_IPI_LOW_VECTOR) || (vector > HV_IPI_HIGH_VECTOR))
- 		return false;
- 
 diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 255e02ec467e..c1c1b4e1502f 100644
+index c1c1b4e1502f..eca5c4b7e3b5 100644
 --- a/arch/x86/hyperv/hv_init.c
 +++ b/arch/x86/hyperv/hv_init.c
-@@ -80,7 +80,7 @@ static int hyperv_init_ghcb(void)
- static int hv_cpu_init(unsigned int cpu)
- {
- 	union hv_vp_assist_msr_contents msr = { 0 };
--	struct hv_vp_assist_page **hvp = &hv_vp_assist_page[cpu];
-+	struct hv_vp_assist_page **hvp;
- 	int ret;
+@@ -658,8 +658,8 @@ bool hv_is_hyperv_initialized(void)
+ 	if (x86_hyper_type != X86_HYPER_MS_HYPERV)
+ 		return false;
  
- 	ret = hv_common_cpu_init(cpu);
-@@ -90,6 +90,7 @@ static int hv_cpu_init(unsigned int cpu)
- 	if (!hv_vp_assist_page)
- 		return 0;
+-	/* A TDX guest uses the GHCI call rather than hv_hypercall_pg. */
+-	if (hv_isolation_type_tdx())
++	/* A TDX VM with no paravisor uses TDX GHCI call rather than hv_hypercall_pg */
++	if (hv_isolation_type_tdx() && !ms_hyperv.paravisor_present)
+ 		return true;
+ 	/*
+ 	 * Verify that earlier initialization succeeded by checking
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index 6c7598d9e68a..7bd0359d5e38 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -248,6 +248,9 @@ void hv_ghcb_msr_read(u64 msr, u64 *value)
+ }
+ EXPORT_SYMBOL_GPL(hv_ghcb_msr_read);
  
-+	hvp = &hv_vp_assist_page[cpu];
- 	if (hv_root_partition) {
- 		/*
- 		 * For root partition we get the hypervisor provided VP assist
-@@ -442,11 +443,21 @@ void __init hyperv_init(void)
- 	if (hv_common_init())
- 		return;
- 
--	hv_vp_assist_page = kcalloc(num_possible_cpus(),
--				    sizeof(*hv_vp_assist_page), GFP_KERNEL);
-+	/*
-+	 * The VP assist page is useless to a TDX guest: the only use we
-+	 * would have for it is lazy EOI, which can not be used with TDX.
-+	 */
-+	if (hv_isolation_type_tdx())
-+		hv_vp_assist_page = NULL;
-+	else
-+		hv_vp_assist_page = kcalloc(num_possible_cpus(),
-+					    sizeof(*hv_vp_assist_page),
-+					    GFP_KERNEL);
- 	if (!hv_vp_assist_page) {
- 		ms_hyperv.hints &= ~HV_X64_ENLIGHTENED_VMCS_RECOMMENDED;
--		goto common_free;
++#endif /* CONFIG_AMD_MEM_ENCRYPT */
 +
-+		if (!hv_isolation_type_tdx())
-+			goto common_free;
- 	}
++#if defined(CONFIG_AMD_MEM_ENCRYPT) || defined(CONFIG_INTEL_TDX_GUEST)
+ /*
+  * hv_mark_gpa_visibility - Set pages visible to host via hvcall.
+  *
+@@ -368,6 +371,10 @@ static bool hv_is_private_mmio(u64 addr)
+ 	return false;
+ }
  
- 	if (hv_isolation_type_snp()) {
++#endif /* defined(CONFIG_AMD_MEM_ENCRYPT) || defined(CONFIG_INTEL_TDX_GUEST) */
++
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++
+ #define hv_populate_vmcb_seg(seg, gdtr_base)			\
+ do {								\
+ 	if (seg.selector) {					\
+@@ -495,15 +502,40 @@ int hv_snp_boot_ap(int cpu, unsigned long start_ip)
+ 	return ret;
+ }
+ 
++#endif /* CONFIG_AMD_MEM_ENCRYPT */
++
++#if defined(CONFIG_AMD_MEM_ENCRYPT) || defined(CONFIG_INTEL_TDX_GUEST)
++
+ void __init hv_vtom_init(void)
+ {
++	enum hv_isolation_type type = hv_get_isolation_type();
++
++	switch (type) {
++	case HV_ISOLATION_TYPE_VBS:
++		fallthrough;
+ 	/*
+ 	 * By design, a VM using vTOM doesn't see the SEV setting,
+ 	 * so SEV initialization is bypassed and sev_status isn't set.
+ 	 * Set it here to indicate a vTOM VM.
++	 *
++	 * Note: if CONFIG_AMD_MEM_ENCRYPT is not set, sev_status is
++	 * defined as 0ULL, to which we can't assigned a value.
+ 	 */
+-	sev_status = MSR_AMD64_SNP_VTOM;
+-	cc_vendor = CC_VENDOR_AMD;
++#ifdef CONFIG_AMD_MEM_ENCRYPT
++	case HV_ISOLATION_TYPE_SNP:
++		sev_status = MSR_AMD64_SNP_VTOM;
++		cc_vendor = CC_VENDOR_AMD;
++		break;
++#endif
++
++	case HV_ISOLATION_TYPE_TDX:
++		cc_vendor = CC_VENDOR_INTEL;
++		break;
++
++	default:
++		panic("hv_vtom_init: unsupported isolation type %d\n", type);
++	}
++
+ 	cc_set_mask(ms_hyperv.shared_gpa_boundary);
+ 	physical_mask &= ms_hyperv.shared_gpa_boundary - 1;
+ 
+@@ -516,7 +548,7 @@ void __init hv_vtom_init(void)
+ 	mtrr_overwrite_state(NULL, 0, MTRR_TYPE_WRBACK);
+ }
+ 
+-#endif /* CONFIG_AMD_MEM_ENCRYPT */
++#endif /* defined(CONFIG_AMD_MEM_ENCRYPT) || defined(CONFIG_INTEL_TDX_GUEST) */
+ 
+ enum hv_isolation_type hv_get_isolation_type(void)
+ {
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 6a9e00c4730b..a9f453c39371 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -42,6 +42,7 @@ static inline unsigned char hv_get_nmi_reason(void)
+ 
+ #if IS_ENABLED(CONFIG_HYPERV)
+ extern int hyperv_init_cpuhp;
++extern bool hyperv_paravisor_present;
+ 
+ extern void *hv_hypercall_pg;
+ 
+@@ -75,7 +76,7 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ 	u64 hv_status;
+ 
+ #ifdef CONFIG_X86_64
+-	if (hv_isolation_type_tdx())
++	if (hv_isolation_type_tdx() && !hyperv_paravisor_present)
+ 		return hv_tdx_hypercall(control, input_address, output_address);
+ 
+ 	if (hv_isolation_type_en_snp()) {
+@@ -131,7 +132,7 @@ static inline u64 _hv_do_fast_hypercall8(u64 control, u64 input1)
+ 	u64 hv_status;
+ 
+ #ifdef CONFIG_X86_64
+-	if (hv_isolation_type_tdx())
++	if (hv_isolation_type_tdx() && !hyperv_paravisor_present)
+ 		return hv_tdx_hypercall(control, input1, 0);
+ 
+ 	if (hv_isolation_type_en_snp()) {
+@@ -185,7 +186,7 @@ static inline u64 _hv_do_fast_hypercall16(u64 control, u64 input1, u64 input2)
+ 	u64 hv_status;
+ 
+ #ifdef CONFIG_X86_64
+-	if (hv_isolation_type_tdx())
++	if (hv_isolation_type_tdx() && !hyperv_paravisor_present)
+ 		return hv_tdx_hypercall(control, input1, input2);
+ 
+ 	if (hv_isolation_type_en_snp()) {
+@@ -278,19 +279,23 @@ void hv_ghcb_msr_write(u64 msr, u64 value);
+ void hv_ghcb_msr_read(u64 msr, u64 *value);
+ bool hv_ghcb_negotiate_protocol(void);
+ void __noreturn hv_ghcb_terminate(unsigned int set, unsigned int reason);
+-void hv_vtom_init(void);
+ int hv_snp_boot_ap(int cpu, unsigned long start_ip);
+ #else
+ static inline void hv_ghcb_msr_write(u64 msr, u64 value) {}
+ static inline void hv_ghcb_msr_read(u64 msr, u64 *value) {}
+ static inline bool hv_ghcb_negotiate_protocol(void) { return false; }
+ static inline void hv_ghcb_terminate(unsigned int set, unsigned int reason) {}
+-static inline void hv_vtom_init(void) {}
+ static inline int hv_snp_boot_ap(int cpu, unsigned long start_ip) { return 0; }
+ #endif
+ 
+ extern bool hv_isolation_type_snp(void);
+ 
++#if defined(CONFIG_AMD_MEM_ENCRYPT) || defined(CONFIG_INTEL_TDX_GUEST)
++void hv_vtom_init(void);
++#else
++static inline void hv_vtom_init(void) {}
++#endif
++
+ static inline bool hv_is_synic_reg(unsigned int reg)
+ {
+ 	return (reg >= HV_REGISTER_SCONTROL) &&
 diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index 63093870ec33..ff3d9c5de19c 100644
+index fe5393d759d3..4c5a174935ca 100644
 --- a/arch/x86/kernel/cpu/mshyperv.c
 +++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -420,6 +420,20 @@ static void __init ms_hyperv_init_platform(void)
- 				static_branch_enable(&isolation_type_en_snp);
- 		} else if (hv_get_isolation_type() == HV_ISOLATION_TYPE_TDX) {
- 			static_branch_enable(&isolation_type_tdx);
-+
-+			/* A TDX VM must use x2APIC and doesn't use lazy EOI. */
-+			ms_hyperv.hints &= ~HV_X64_APIC_ACCESS_RECOMMENDED;
-+
-+			if (!ms_hyperv.paravisor_present) {
-+				/* To be supported: more work is required.  */
-+				ms_hyperv.features &= ~HV_MSR_REFERENCE_TSC_AVAILABLE;
-+
-+				/* HV_REGISTER_CRASH_CTL is unsupported. */
-+				ms_hyperv.misc_features &= ~HV_FEATURE_GUEST_CRASH_MSR_AVAILABLE;
-+
-+				/* Don't trust Hyper-V's TLB-flushing hypercalls. */
-+				ms_hyperv.hints &= ~HV_X64_REMOTE_TLB_FLUSH_RECOMMENDED;
-+			}
- 		}
- 	}
+@@ -40,6 +40,10 @@ bool hv_root_partition;
+ bool hv_nested;
+ struct ms_hyperv_info ms_hyperv;
  
++/* Used in modules via hv_do_hypercall(): see arch/x86/include/asm/mshyperv.h */
++bool hyperv_paravisor_present __ro_after_init;
++EXPORT_SYMBOL_GPL(hyperv_paravisor_present);
++
+ #if IS_ENABLED(CONFIG_HYPERV)
+ static inline unsigned int hv_get_nested_reg(unsigned int reg)
+ {
+@@ -429,6 +433,8 @@ static void __init ms_hyperv_init_platform(void)
+ 			ms_hyperv.shared_gpa_boundary =
+ 				BIT_ULL(ms_hyperv.shared_gpa_boundary_bits);
+ 
++		hyperv_paravisor_present = !!ms_hyperv.paravisor_present;
++
+ 		pr_info("Hyper-V: Isolation Config: Group A 0x%x, Group B 0x%x\n",
+ 			ms_hyperv.isolation_config_a, ms_hyperv.isolation_config_b);
+ 
+@@ -526,8 +532,7 @@ static void __init ms_hyperv_init_platform(void)
+ 
+ #if IS_ENABLED(CONFIG_HYPERV)
+ 	if ((hv_get_isolation_type() == HV_ISOLATION_TYPE_VBS) ||
+-	    ((hv_get_isolation_type() == HV_ISOLATION_TYPE_SNP) &&
+-	    ms_hyperv.paravisor_present))
++	    ms_hyperv.paravisor_present)
+ 		hv_vtom_init();
+ 	/*
+ 	 * Setup the hook to get control post apic initialization.
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 02b54f85dc60..2dd972ca85dd 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -484,10 +484,17 @@ void vmbus_set_event(struct vmbus_channel *channel)
+ 
+ 	++channel->sig_events;
+ 
+-	if (hv_isolation_type_snp())
+-		hv_ghcb_hypercall(HVCALL_SIGNAL_EVENT, &channel->sig_event,
+-				NULL, sizeof(channel->sig_event));
+-	else
++	if (ms_hyperv.paravisor_present) {
++		if (hv_isolation_type_snp())
++			hv_ghcb_hypercall(HVCALL_SIGNAL_EVENT, &channel->sig_event,
++					  NULL, sizeof(channel->sig_event));
++		else if (hv_isolation_type_tdx())
++			hv_tdx_hypercall(HVCALL_SIGNAL_EVENT | HV_HYPERCALL_FAST_BIT,
++					 channel->sig_event, 0);
++		else
++			WARN_ON_ONCE(1);
++	} else {
+ 		hv_do_fast_hypercall8(HVCALL_SIGNAL_EVENT, channel->sig_event);
++	}
+ }
+ EXPORT_SYMBOL_GPL(vmbus_set_event);
 diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index ec6e35a0d9bf..d1064118a72f 100644
+index d1064118a72f..48b1623112f0 100644
 --- a/drivers/hv/hv.c
 +++ b/drivers/hv/hv.c
-@@ -121,11 +121,15 @@ int hv_synic_alloc(void)
+@@ -109,7 +109,7 @@ int hv_synic_alloc(void)
+ 		 * Synic message and event pages are allocated by paravisor.
+ 		 * Skip these pages allocation here.
+ 		 */
+-		if (!hv_isolation_type_snp() && !hv_root_partition) {
++		if (!ms_hyperv.paravisor_present && !hv_root_partition) {
+ 			hv_cpu->synic_message_page =
  				(void *)get_zeroed_page(GFP_ATOMIC);
- 			if (hv_cpu->synic_event_page == NULL) {
- 				pr_err("Unable to allocate SYNIC event page\n");
-+
-+				free_page((unsigned long)hv_cpu->synic_message_page);
-+				hv_cpu->synic_message_page = NULL;
- 				goto err;
- 			}
+ 			if (hv_cpu->synic_message_page == NULL) {
+@@ -226,7 +226,7 @@ void hv_synic_enable_regs(unsigned int cpu)
+ 	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
+ 	simp.simp_enabled = 1;
+ 
+-	if (hv_isolation_type_snp() || hv_root_partition) {
++	if (ms_hyperv.paravisor_present || hv_root_partition) {
+ 		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
+ 		u64 base = (simp.base_simp_gpa << HV_HYP_PAGE_SHIFT) &
+ 				~ms_hyperv.shared_gpa_boundary;
+@@ -245,7 +245,7 @@ void hv_synic_enable_regs(unsigned int cpu)
+ 	siefp.as_uint64 = hv_get_register(HV_REGISTER_SIEFP);
+ 	siefp.siefp_enabled = 1;
+ 
+-	if (hv_isolation_type_snp() || hv_root_partition) {
++	if (ms_hyperv.paravisor_present || hv_root_partition) {
+ 		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
+ 		u64 base = (siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT) &
+ 				~ms_hyperv.shared_gpa_boundary;
+@@ -328,7 +328,7 @@ void hv_synic_disable_regs(unsigned int cpu)
+ 	 * addresses.
+ 	 */
+ 	simp.simp_enabled = 0;
+-	if (hv_isolation_type_snp() || hv_root_partition) {
++	if (ms_hyperv.paravisor_present || hv_root_partition) {
+ 		iounmap(hv_cpu->synic_message_page);
+ 		hv_cpu->synic_message_page = NULL;
+ 	} else {
+@@ -340,7 +340,7 @@ void hv_synic_disable_regs(unsigned int cpu)
+ 	siefp.as_uint64 = hv_get_register(HV_REGISTER_SIEFP);
+ 	siefp.siefp_enabled = 0;
+ 
+-	if (hv_isolation_type_snp() || hv_root_partition) {
++	if (ms_hyperv.paravisor_present || hv_root_partition) {
+ 		iounmap(hv_cpu->synic_event_page);
+ 		hv_cpu->synic_event_page = NULL;
+ 	} else {
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 4c858e1636da..e62d64753902 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -382,7 +382,8 @@ int hv_common_cpu_init(unsigned int cpu)
+ 			*outputarg = (char *)mem + HV_HYP_PAGE_SIZE;
  		}
  
--		if (hv_isolation_type_en_snp()) {
+-		if (hv_isolation_type_en_snp() || hv_isolation_type_tdx()) {
 +		if (!ms_hyperv.paravisor_present &&
 +		    (hv_isolation_type_en_snp() || hv_isolation_type_tdx())) {
- 			ret = set_memory_decrypted((unsigned long)
- 				hv_cpu->synic_message_page, 1);
+ 			ret = set_memory_decrypted((unsigned long)mem, pgcount);
  			if (ret) {
-@@ -174,7 +178,8 @@ void hv_synic_free(void)
- 			= per_cpu_ptr(hv_context.cpu_context, cpu);
- 
- 		/* It's better to leak the page if the encryption fails. */
--		if (hv_isolation_type_en_snp()) {
-+		if (!ms_hyperv.paravisor_present &&
-+		    (hv_isolation_type_en_snp() || hv_isolation_type_tdx())) {
- 			if (hv_cpu->synic_message_page) {
- 				ret = set_memory_encrypted((unsigned long)
- 					hv_cpu->synic_message_page, 1);
+ 				/* It may be unsafe to free 'mem' */
 -- 
 2.25.1
 
