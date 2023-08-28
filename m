@@ -2,52 +2,52 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA109C83F19
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Aug 2023 13:22:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C9DC83F1E
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Aug 2023 13:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbjH1NWF (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:22:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53400 "EHLO
+        id S231299AbjH1NWE (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231652AbjH1NVl (ORCPT
+        with ESMTP id S231641AbjH1NVj (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 28 Aug 2023 09:21:41 -0400
+        Mon, 28 Aug 2023 09:21:39 -0400
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62236126;
-        Mon, 28 Aug 2023 06:21:37 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF18128;
+        Mon, 28 Aug 2023 06:21:36 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 1CF611FD6A;
-        Mon, 28 Aug 2023 13:21:36 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id 8A6E21FD60;
+        Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1693228896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1693228895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=np2n/3f7wv/S/kDMs5Rr9B6sjnw66d5OMm93AjkRpsU=;
-        b=QTVm6bOR3zmH+CIzbHsZ6TD4HZJv9H1pvQNI3uu5Azh9W7cFKXR8V7ttRK5YIPYwk4R17h
-        8oL3RkBAlZt5Vwv8hQaXQsP8+1LFyCU8foIDzkvYxxcom7O5hvft6BeWGq6COER8t/TJ8/
-        HK4aNy59hCXaWBCnqN6ikoCLy8DPNqo=
+        bh=SEjIfU5qkBkLS6zCELI50VsWPShlN/pL6jvMkczxRoU=;
+        b=LT2rFmi1XWFhXlVBekdYnBO4HjgbLNLN27jqTKW3v6l05aOeqA5R5TpJ2vC7zXWBJw2Gt1
+        qlKVa9noO6GN9/Pc8zIfE+vPsiQXMqpdUE0IL3ipJWGkEOw7ElJnWhmGWBxzN1P5r82mjH
+        UUvpntqPuA+PV61KXCBWyrpJ732HHKI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1693228896;
+        s=susede2_ed25519; t=1693228895;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=np2n/3f7wv/S/kDMs5Rr9B6sjnw66d5OMm93AjkRpsU=;
-        b=oruP81rNuoPU/F8cTR/cz+qD79elKgaUAaF+BY+nIMhTDgxnF2ERlZjC8W6iCkAwLp9qAZ
-        65P1RRo+4yPipcCg==
+        bh=SEjIfU5qkBkLS6zCELI50VsWPShlN/pL6jvMkczxRoU=;
+        b=Q6E7Oj5b9gd6mmeJUJYGRCsRKQFlT8CC+/Ap3Hu7rBLJJfdk5NNwxZOX+tN4ezXjugxNWZ
+        GUKWv3LadH1XexBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA19E13A1C;
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4F09013A1C;
         Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id YPtpMF+f7GTyOAAAMHmgww
+        id EKZkEl+f7GTyOAAAMHmgww
         (envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:35 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
@@ -56,12 +56,10 @@ Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
         linux-input@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH 4/8] fbdev/hyperv_fb: Use fb_ops helpers for deferred I/O
-Date:   Mon, 28 Aug 2023 15:14:20 +0200
-Message-ID: <20230828132131.29295-5-tzimmermann@suse.de>
+        Bernie Thompson <bernie@plugable.com>
+Subject: [PATCH 2/8] fbdev/udlfb: Use fb_ops helpers for deferred I/O
+Date:   Mon, 28 Aug 2023 15:14:18 +0200
+Message-ID: <20230828132131.29295-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20230828132131.29295-1-tzimmermann@suse.de>
 References: <20230828132131.29295-1-tzimmermann@suse.de>
@@ -72,117 +70,125 @@ List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
 Generate callback functions for struct fb_ops with the fbdev macro
-FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(). Initialize struct fb_ops to
+FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(). Initialize struct fb_ops to
 the generated functions with fbdev initializer macros.
 
-The hyperv_fb driver is incomplete in its handling of deferred I/O
-and damage framebuffers. Write operations do no trigger damage handling.
-Fixing this is beyond the scope of this patch.
-
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
+Cc: Bernie Thompson <bernie@plugable.com>
 ---
- drivers/video/fbdev/Kconfig     |  5 +---
- drivers/video/fbdev/hyperv_fb.c | 48 ++++++++++-----------------------
- 2 files changed, 15 insertions(+), 38 deletions(-)
+ drivers/video/fbdev/udlfb.c | 89 +++++++++----------------------------
+ 1 file changed, 22 insertions(+), 67 deletions(-)
 
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 79b1e4e542e7..4455bfd57f0e 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -1905,11 +1905,8 @@ config FB_BROADSHEET
- config FB_HYPERV
- 	tristate "Microsoft Hyper-V Synthetic Video support"
- 	depends on FB && HYPERV
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
--	select FB_DEFERRED_IO
- 	select DMA_CMA if HAVE_DMA_CONTIGUOUS && CMA
-+	select FB_IOMEM_HELPERS_DEFERRED
- 	select VIDEO_NOMODESET
- 	help
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index b9965cbdd764..2e27c6bd8044 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -848,58 +848,38 @@ static int hvfb_blank(int blank, struct fb_info *info)
- 	return 1;	/* get fb_blank to set the colormap to all black */
+diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
+index b70762ead13c..2460ff4ac86b 100644
+--- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -715,68 +715,6 @@ static void dlfb_offload_damage(struct dlfb_data *dlfb, int x, int y, int width,
+ 	schedule_work(&dlfb->damage_work);
  }
  
--static void hvfb_cfb_fillrect(struct fb_info *p,
--			      const struct fb_fillrect *rect)
-+static void hvfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
- {
--	struct hvfb_par *par = p->par;
--
--	cfb_fillrect(p, rect);
--	if (par->synchronous_fb)
--		synthvid_update(p, 0, 0, INT_MAX, INT_MAX);
--	else
--		hvfb_ondemand_refresh_throttle(par, rect->dx, rect->dy,
--					       rect->width, rect->height);
-+	/* TODO: implement damage handling */
- }
- 
--static void hvfb_cfb_copyarea(struct fb_info *p,
--			      const struct fb_copyarea *area)
-+static void hvfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
- {
--	struct hvfb_par *par = p->par;
-+	struct hvfb_par *par = info->par;
- 
--	cfb_copyarea(p, area);
- 	if (par->synchronous_fb)
--		synthvid_update(p, 0, 0, INT_MAX, INT_MAX);
-+		synthvid_update(info, 0, 0, INT_MAX, INT_MAX);
- 	else
--		hvfb_ondemand_refresh_throttle(par, area->dx, area->dy,
--					       area->width, area->height);
-+		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
- }
- 
--static void hvfb_cfb_imageblit(struct fb_info *p,
--			       const struct fb_image *image)
+-/*
+- * Path triggered by usermode clients who write to filesystem
+- * e.g. cat filename > /dev/fb1
+- * Not used by X Windows or text-mode console. But useful for testing.
+- * Slow because of extra copy and we must assume all pixels dirty.
+- */
+-static ssize_t dlfb_ops_write(struct fb_info *info, const char __user *buf,
+-			  size_t count, loff_t *ppos)
 -{
--	struct hvfb_par *par = p->par;
+-	ssize_t result;
+-	struct dlfb_data *dlfb = info->par;
+-	u32 offset = (u32) *ppos;
 -
--	cfb_imageblit(p, image);
--	if (par->synchronous_fb)
--		synthvid_update(p, 0, 0, INT_MAX, INT_MAX);
--	else
--		hvfb_ondemand_refresh_throttle(par, image->dx, image->dy,
--					       image->width, image->height);
+-	result = fb_sys_write(info, buf, count, ppos);
+-
+-	if (result > 0) {
+-		int start = max((int)(offset / info->fix.line_length), 0);
+-		int lines = min((u32)((result / info->fix.line_length) + 1),
+-				(u32)info->var.yres);
+-
+-		dlfb_handle_damage(dlfb, 0, start, info->var.xres,
+-			lines);
+-	}
+-
+-	return result;
 -}
-+/*
-+ * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
-+ *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
-+ */
-+FB_GEN_DEFAULT_DEFERRED_IOMEM_OPS(hvfb_ops,
-+				  hvfb_ops_damage_range,
-+				  hvfb_ops_damage_area)
- 
- static const struct fb_ops hvfb_ops = {
- 	.owner = THIS_MODULE,
-+	FB_DEFAULT_DEFERRED_OPS(hvfb_ops),
- 	.fb_check_var = hvfb_check_var,
- 	.fb_set_par = hvfb_set_par,
- 	.fb_setcolreg = hvfb_setcolreg,
--	.fb_fillrect = hvfb_cfb_fillrect,
--	.fb_copyarea = hvfb_cfb_copyarea,
--	.fb_imageblit = hvfb_cfb_imageblit,
- 	.fb_blank = hvfb_blank,
--	.fb_mmap = fb_deferred_io_mmap,
- };
- 
 -
- /* Get options from kernel paramenter "video=" */
- static void hvfb_get_option(struct fb_info *info)
- {
+-/* hardware has native COPY command (see libdlo), but not worth it for fbcon */
+-static void dlfb_ops_copyarea(struct fb_info *info,
+-				const struct fb_copyarea *area)
+-{
+-
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_copyarea(info, area);
+-
+-	dlfb_offload_damage(dlfb, area->dx, area->dy,
+-			area->width, area->height);
+-}
+-
+-static void dlfb_ops_imageblit(struct fb_info *info,
+-				const struct fb_image *image)
+-{
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_imageblit(info, image);
+-
+-	dlfb_offload_damage(dlfb, image->dx, image->dy,
+-			image->width, image->height);
+-}
+-
+-static void dlfb_ops_fillrect(struct fb_info *info,
+-			  const struct fb_fillrect *rect)
+-{
+-	struct dlfb_data *dlfb = info->par;
+-
+-	sys_fillrect(info, rect);
+-
+-	dlfb_offload_damage(dlfb, rect->dx, rect->dy, rect->width,
+-			      rect->height);
+-}
+-
+ /*
+  * NOTE: fb_defio.c is holding info->fbdefio.mutex
+  *   Touching ANY framebuffer memory that triggers a page fault
+@@ -1186,14 +1124,31 @@ static int dlfb_ops_blank(int blank_mode, struct fb_info *info)
+ 	return 0;
+ }
+ 
++static void dlfb_ops_damage_range(struct fb_info *info, off_t off, size_t len)
++{
++	struct dlfb_data *dlfb = info->par;
++	int start = max((int)(off / info->fix.line_length), 0);
++	int lines = min((u32)((len / info->fix.line_length) + 1), (u32)info->var.yres);
++
++	dlfb_handle_damage(dlfb, 0, start, info->var.xres, lines);
++}
++
++static void dlfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width, u32 height)
++{
++	struct dlfb_data *dlfb = info->par;
++
++	dlfb_offload_damage(dlfb, x, y, width, height);
++}
++
++FB_GEN_DEFAULT_DEFERRED_SYSMEM_OPS(dlfb_ops,
++				   dlfb_ops_damage_range,
++				   dlfb_ops_damage_area)
++
+ static const struct fb_ops dlfb_ops = {
+ 	.owner = THIS_MODULE,
+-	.fb_read = fb_sys_read,
+-	.fb_write = dlfb_ops_write,
++	__FB_DEFAULT_DEFERRED_OPS_RDWR(dlfb_ops),
+ 	.fb_setcolreg = dlfb_ops_setcolreg,
+-	.fb_fillrect = dlfb_ops_fillrect,
+-	.fb_copyarea = dlfb_ops_copyarea,
+-	.fb_imageblit = dlfb_ops_imageblit,
++	__FB_DEFAULT_DEFERRED_OPS_DRAW(dlfb_ops),
+ 	.fb_mmap = dlfb_ops_mmap,
+ 	.fb_ioctl = dlfb_ops_ioctl,
+ 	.fb_open = dlfb_ops_open,
 -- 
 2.41.0
 
