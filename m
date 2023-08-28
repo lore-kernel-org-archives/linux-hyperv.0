@@ -2,51 +2,53 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8479CC83F12
-	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Aug 2023 13:22:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DFABC83F1F
+	for <linux-hyperv@archiver.kernel.org>; Mon, 28 Aug 2023 13:22:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231267AbjH1NWC (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Mon, 28 Aug 2023 09:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53396 "EHLO
+        id S231622AbjH1NWG (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Mon, 28 Aug 2023 09:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231642AbjH1NVj (ORCPT
+        with ESMTP id S231656AbjH1NVm (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Mon, 28 Aug 2023 09:21:39 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A48D4124;
-        Mon, 28 Aug 2023 06:21:36 -0700 (PDT)
+        Mon, 28 Aug 2023 09:21:42 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33CBD130;
+        Mon, 28 Aug 2023 06:21:37 -0700 (PDT)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 0C0C8219E6;
+        by smtp-out2.suse.de (Postfix) with ESMTPS id C42601FD69;
         Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
         t=1693228895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=pnwZ65nZK9qeQ06lv/Mt+cgcaEzXDu6AFEyAEI4AnZk=;
-        b=fPBDEz9qgFehf6BuZhp2iHjeAXo/bJTGn1MR05cIllGWQEwYt12OohQ7V/SV5rPR3DRSgS
-        +D+xZOWIOPYd5gMN9NtONvBFEh8OoNGl25Uvy02zsnXSDCv2DVVB67QOgcZnp3qmoyQWgs
-        L5SEUTRtXCtetol+ZjGd5hSUQQiXIxY=
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NML8iokhOzgcRUuPruaBldkgErx0VDUQPo56b5aaTOQ=;
+        b=kwuJ2Oe4vJFUSEopXOctZfhG5lFgxIJv3guXKfU9q+3aBJbYw1bTpWHwMt1T2TQPQsqCX4
+        mEpvdyIHuEE0JbIKc+8OmI5qFEqq7s3Mb/N4CuUWvGMEBZmitc8wWpnQOjAvuLPPssR0sB
+        7tjrcQPZfN+wdpDjKRIdLts8Fhgzzh0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
         s=susede2_ed25519; t=1693228895;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=pnwZ65nZK9qeQ06lv/Mt+cgcaEzXDu6AFEyAEI4AnZk=;
-        b=wGiy3UgLSj9rxu9VhhXasfT7LMsu/Be88DValn/yjpnAOHvrGmKm0T6IVTQzl+NB5CHtUL
-        GuLsL4b/7iaRxtDA==
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NML8iokhOzgcRUuPruaBldkgErx0VDUQPo56b5aaTOQ=;
+        b=7agvQZb3zEebD56+O+FjRInFJ/aN/5SlHCxXknurvmqDBNgafHfl7aoSqutH5Emq1EVKcS
+        gp3M/YTEhDQCkuBw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C699213A11;
-        Mon, 28 Aug 2023 13:21:34 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8F95F13A11;
+        Mon, 28 Aug 2023 13:21:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id Mx11L16f7GTyOAAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:34 +0000
+        id uB4WIl+f7GTyOAAAMHmgww
+        (envelope-from <tzimmermann@suse.de>); Mon, 28 Aug 2023 13:21:35 +0000
 From:   Thomas Zimmermann <tzimmermann@suse.de>
 To:     deller@gmx.de, daniel@ffwll.ch, sam@ravnborg.org,
         javierm@redhat.com
@@ -54,53 +56,44 @@ Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-staging@lists.linux.dev, linux-hyperv@vger.kernel.org,
         linux-input@vger.kernel.org,
         Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 0/8] fbdev: Use helpers for deferred I/O
-Date:   Mon, 28 Aug 2023 15:14:16 +0200
-Message-ID: <20230828132131.29295-1-tzimmermann@suse.de>
+Subject: [PATCH 3/8] fbdev: Add Kconfig macro FB_IOMEM_HELPERS_DEFERRED
+Date:   Mon, 28 Aug 2023 15:14:19 +0200
+Message-ID: <20230828132131.29295-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230828132131.29295-1-tzimmermann@suse.de>
+References: <20230828132131.29295-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-Here's another patchset for deferred-I/O helpers. Update a number
-of fbdev drivers with deferred I/O to use fbdev's helper macros and
-Kconfig tokens.
+The new Kconfig macro FB_IOMEM_HELPERS_DEFERRED selects fbdev's
+helpers for device I/O memory and deferred I/O. Drivers should
+use it if they perform damage updates on device I/O memory.
 
-Generating and initializing via helpers macros will later allow for
-a fine-grained setup, depending on Kconfig options. For example, it
-will be possible to leave out file I/O if FB_DEVICE has not been set.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/video/fbdev/core/Kconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Each driver in special in its own way. The smscufx and udlfb drivers
-support file I/O without damage updates. (That probably doesn't work
-correctly.) So they provide their own mmap code. The hyperv_fb driver
-sometimes operates on memory in I/O address spaces and fails to do
-damage handling correctly for write operations. The picolcd and fbtft
-drivers are outside of fbdev.
-
-Thomas Zimmermann (8):
-  fbdev/smscufx: Use fb_ops helpers for deferred I/O
-  fbdev/udlfb: Use fb_ops helpers for deferred I/O
-  fbdev: Add Kconfig macro FB_IOMEM_HELPERS_DEFERRED
-  fbdev/hyperv_fb: Use fb_ops helpers for deferred I/O
-  hid: Remove trailing whitespace
-  hid/picolcd: Use fb_ops helpers for deferred I/O
-  staging/fbtft: Initialize fb_op struct as static const
-  staging/fbtft: Use fb_ops helpers for deferred I/O
-
- drivers/hid/Kconfig                |  8 +--
- drivers/hid/hid-picolcd_fb.c       | 73 ++++++----------------
- drivers/staging/fbtft/Kconfig      |  6 +-
- drivers/staging/fbtft/fbtft-core.c | 99 ++++++++----------------------
- drivers/video/fbdev/Kconfig        |  5 +-
- drivers/video/fbdev/core/Kconfig   |  6 ++
- drivers/video/fbdev/hyperv_fb.c    | 48 +++++----------
- drivers/video/fbdev/smscufx.c      | 85 +++++++------------------
- drivers/video/fbdev/udlfb.c        | 89 +++++++--------------------
- 9 files changed, 114 insertions(+), 305 deletions(-)
-
+diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
+index baf7e852c75b..e80d6429f76a 100644
+--- a/drivers/video/fbdev/core/Kconfig
++++ b/drivers/video/fbdev/core/Kconfig
+@@ -151,6 +151,12 @@ config FB_IOMEM_HELPERS
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_IMAGEBLIT
+ 
++config FB_IOMEM_HELPERS_DEFERRED
++	bool
++	depends on FB_CORE
++	select FB_DEFERRED_IO
++	select FB_IOMEM_HELPERS
++
+ config FB_SYSMEM_HELPERS
+ 	bool
+ 	depends on FB_CORE
 -- 
 2.41.0
 
