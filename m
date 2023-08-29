@@ -2,94 +2,100 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AFFC83F14
-	for <linux-hyperv@archiver.kernel.org>; Tue, 29 Aug 2023 07:48:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F60C83F22
+	for <linux-hyperv@archiver.kernel.org>; Tue, 29 Aug 2023 13:34:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbjH2Hr4 (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 29 Aug 2023 03:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34130 "EHLO
+        id S236172AbjH2Ndv (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 29 Aug 2023 09:33:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231462AbjH2HrX (ORCPT
+        with ESMTP id S236260AbjH2Ndk (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 29 Aug 2023 03:47:23 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FAD8132;
-        Tue, 29 Aug 2023 00:47:20 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bf078d5f33so32449645ad.3;
-        Tue, 29 Aug 2023 00:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693295240; x=1693900040;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wjk+FpfUelxVelibnKbEkl69qBJN6BFpdKQWHtxAsVE=;
-        b=g40ObASf0pgcyiV9W8yW2e0ImFv5tHz8ftNt59C8NfJptPg77pYhoWEpEMYR8HI2Rb
-         Bpk3owu+9nUt1xD2kFRFdRT5yugyPE0v9DrwDsQxmz1IVYcqry9M+qlPirMav5rKr//B
-         cHeqxLX/U2ASSFP8E2N1XEgKmxFo476P5fWESL5uo2M7xm3tLJOgmmR2fWU9ZYCze0o7
-         o/Gjk2FiFKLs5ygkQDD91pnwuA1aqcAlvIrrI/DhPzUg+q87DPTyTGiYTidDc8VY1T7U
-         694cjnroUQWaxseFLzXd6i0sOIpH8vjLvt8YY5cmyGOwojnKq3PBO7MCgc7O9NlbEK8a
-         cVVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693295240; x=1693900040;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wjk+FpfUelxVelibnKbEkl69qBJN6BFpdKQWHtxAsVE=;
-        b=HnCgPv6EflVY78eZVQa5Ahs6ti6COwg6+rJ7jM8gNyKavsuA/couqaEKQ0Rk2owxgM
-         FbX8zSAWbXJYo1XbB0Wv1FyWKrMa+ZB0wCKJKJYm9LviC7lH6a560Pp2wAbd8wafrc6p
-         bVK9xFOPsKX8yYVv2aXAyGymwAYuc3Flj5mH+9wf4Jt55fcUwVGMEh809jclr40yUhGs
-         JaWGUQeV6YKPjQMvJYTzDqxozIUXELpl7bJa0uLVenL8+1UbalLDjU/rA7BisiXdxgGu
-         3zjqSFSRCwW+nl1JNaVUc22klUHAmPfZT6kl63qMkgUTrI37xAZ4Rqj9kULCir5/66B0
-         9mcQ==
-X-Gm-Message-State: AOJu0YwqW+zYNsbCfLwEJpSxF/QUm/hYUCoBuluB+brtNX8kr2Nl9tSv
-        b3jkr9iTYvYrjihQTBaEQnY=
-X-Google-Smtp-Source: AGHT+IGw54N/EbGI0oaZtyO8Gk5wcuxmUksLmpq7UNV2yDhMyCl7lrE7QumeCWn0XaSEDyQz3depfg==
-X-Received: by 2002:a17:90a:ca14:b0:268:15f5:9191 with SMTP id x20-20020a17090aca1400b0026815f59191mr25533177pjt.36.1693295240008;
-        Tue, 29 Aug 2023 00:47:20 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:18:efec::75b])
-        by smtp.gmail.com with ESMTPSA id i9-20020a17090332c900b001b03f208323sm8642247plr.64.2023.08.29.00.47.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Aug 2023 00:47:19 -0700 (PDT)
-Message-ID: <836d554b-64a2-cc16-a361-29ce5cdd07e7@gmail.com>
-Date:   Tue, 29 Aug 2023 15:47:09 +0800
+        Tue, 29 Aug 2023 09:33:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B786518F;
+        Tue, 29 Aug 2023 06:33:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7FC1B6574C;
+        Tue, 29 Aug 2023 13:33:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69AFC433CA;
+        Tue, 29 Aug 2023 13:33:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693316011;
+        bh=HCVLYfwmsFOx6DMwkwareHpii+9vZn00GcDegrjZt7Q=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=p4sVmDvQFGmmX+Nyk77+RStBs9ars1iQ1uSsw/adz30+R+250LKjH9ga7Piowu1bt
+         ADMo596+0ug/0zAW+m0VrvLnXaJkjjDfdcv3Blbd41cilTYa7wdc6wq/JVQe/tCWh6
+         a/+NesafDbrK/Y90GKHcwBBoDmdZS2wq55EsqaUlRyNAoeVsr0B1qfj1gK0A77WY0S
+         F7NMUjCixW+d+M5sRo5oY71tY3xm1jypqrp8ZN2U0I6JW0XsFhBD9aCWD95npLeY9O
+         eKDJLdN3FdmowVBOeCkzt0FDof2/btbbWHV9lzU96zIu/QxevBKY2g/lG+/Sndq5xy
+         JBP9kyaqQzmqw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Michael Kelley <mikelley@microsoft.com>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Sasha Levin <sashal@kernel.org>, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        jejb@linux.ibm.com, linux-hyperv@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 7/9] scsi: storvsc: Always set no_report_opcodes
+Date:   Tue, 29 Aug 2023 09:33:14 -0400
+Message-Id: <20230829133316.520410-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230829133316.520410-1-sashal@kernel.org>
+References: <20230829133316.520410-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH v2 10/15] x86: hyperv: Add mshv_handler irq handler and
- setup function
-To:     Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-arch@vger.kernel.org
-Cc:     patches@lists.linux.dev, mikelley@microsoft.com, kys@microsoft.com,
-        wei.liu@kernel.org, haiyangz@microsoft.com, decui@microsoft.com,
-        apais@linux.microsoft.com, Tianyu.Lan@microsoft.com,
-        ssengar@linux.microsoft.com, mukeshrathor@microsoft.com,
-        stanislav.kinsburskiy@gmail.com, jinankjain@linux.microsoft.com,
-        vkuznets@redhat.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        will@kernel.org, catalin.marinas@arm.com
-References: <1692309711-5573-1-git-send-email-nunodasneves@linux.microsoft.com>
- <1692309711-5573-11-git-send-email-nunodasneves@linux.microsoft.com>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <1692309711-5573-11-git-send-email-nunodasneves@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 5.15.128
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
 X-Mailing-List: linux-hyperv@vger.kernel.org
 
-On 8/18/2023 6:01 AM, Nuno Das Neves wrote:
-> This will handle SYNIC interrupts such as intercepts, doorbells, and
-> scheduling messages intended for the mshv driver.
-> 
-> Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-> Reviewed-by: Wei Liu <wei.liu@kernel.org>
-> ---
->   arch/x86/kernel/cpu/mshyperv.c | 9 +++++++++
->   drivers/hv/hv_common.c         | 5 +++++
->   include/asm-generic/mshyperv.h | 2 ++
->   3 files changed, 16 insertions(+)
+From: Michael Kelley <mikelley@microsoft.com>
 
-Reviewed-by: Tianyu Lan <tiala@microsoft.com>
+[ Upstream commit 31d16e712bdcaee769de4780f72ff8d6cd3f0589 ]
+
+Hyper-V synthetic SCSI devices do not support the MAINTENANCE_IN SCSI
+command, so scsi_report_opcode() always fails, resulting in messages like
+this:
+
+hv_storvsc <guid>: tag#205 cmd 0xa3 status: scsi 0x2 srb 0x86 hv 0xc0000001
+
+The recently added support for command duration limits calls
+scsi_report_opcode() four times as each device comes online, which
+significantly increases the number of messages logged in a system with many
+disks.
+
+Fix the problem by always marking Hyper-V synthetic SCSI devices as not
+supporting scsi_report_opcode(). With this setting, the MAINTENANCE_IN SCSI
+command is not issued and no messages are logged.
+
+Signed-off-by: Michael Kelley <mikelley@microsoft.com>
+Link: https://lore.kernel.org/r/1686343101-18930-1-git-send-email-mikelley@microsoft.com
+Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/scsi/storvsc_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+index c9b1500c2ab87..98db7bcbe2af1 100644
+--- a/drivers/scsi/storvsc_drv.c
++++ b/drivers/scsi/storvsc_drv.c
+@@ -1626,6 +1626,8 @@ static int storvsc_device_configure(struct scsi_device *sdevice)
+ {
+ 	blk_queue_rq_timeout(sdevice->request_queue, (storvsc_timeout * HZ));
+ 
++	/* storvsc devices don't support MAINTENANCE_IN SCSI cmd */
++	sdevice->no_report_opcodes = 1;
+ 	sdevice->no_write_same = 1;
+ 
+ 	/*
+-- 
+2.40.1
 
