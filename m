@@ -2,37 +2,37 @@ Return-Path: <linux-hyperv-owner@vger.kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE70C83F26
-	for <linux-hyperv@archiver.kernel.org>; Tue, 29 Aug 2023 13:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EBA3C83F1A
+	for <linux-hyperv@archiver.kernel.org>; Tue, 29 Aug 2023 13:35:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236179AbjH2Ndw (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
-        Tue, 29 Aug 2023 09:33:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59850 "EHLO
+        id S234410AbjH2Net (ORCPT <rfc822;linux-hyperv@archiver.kernel.org>);
+        Tue, 29 Aug 2023 09:34:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236241AbjH2Ndi (ORCPT
+        with ESMTP id S236268AbjH2Nd6 (ORCPT
         <rfc822;linux-hyperv@vger.kernel.org>);
-        Tue, 29 Aug 2023 09:33:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E981A2;
-        Tue, 29 Aug 2023 06:33:31 -0700 (PDT)
+        Tue, 29 Aug 2023 09:33:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA73CDB;
+        Tue, 29 Aug 2023 06:33:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C506165792;
-        Tue, 29 Aug 2023 13:33:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05538C433A9;
-        Tue, 29 Aug 2023 13:33:04 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 9B59A657A4;
+        Tue, 29 Aug 2023 13:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1DC9C433CA;
+        Tue, 29 Aug 2023 13:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693315986;
-        bh=qSg8oxRImI7wiR+LJOra+W979iKWf4zYpHivilpS3WA=;
+        s=k20201202; t=1693316030;
+        bh=zjCyClAbSddK0G/BsujVzB6NcEfzr6b4xukEH0rpEhg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Y5TX4GWXnC6TmE5V5Fffds471GP7ozMggbWkZx7G7HlYfFcHzgmyjd0FdqOYv9wX+
-         +bXKS5U9stZcDPR4N5i5DtcK2SqdOhFFNBE82gI9fsgPbOOSzQCIVHnxd8470A3ksh
-         fIEjtqNAgpyhyDTDlVFgIvWUU4x5VRgwp2WTzQaq4KLotbeef/plIL6zh27QmIjjHP
-         Tto4iOjNR79t46+7yCzy1bHx9b+4lGtsw+ZpcnlLPn7yumpduinTHB8oU+RVwvWFiH
-         dsR55Me8ffWEFvcBnJGVmLeDkFcMrg/YEO+1aHsEJ/urrg8x2BRguyJnlV/ragcs2z
-         AWLCP7UUqwLDA==
+        b=pPP+a8PjayANZ9nOo7drcW0lStOzlatWV/ilPhjOaKvKehamQ+ii4uLqbOAP637as
+         NQDENekLR5Jivegd6PSe5cZaQ7Xt5jqxZasHhEXQRBm4/ea3ozNgGs7Lrc2o/S3qtd
+         sEla08r8z46aKunL11MJoof1lbBVU7jvVo/wmeaQGU4Wvk0+9eIE6Wi8FihzoKBxzY
+         +1l0EDRSfAagzd4nMJZbg6/ir3gkcVvF7wLrJyoSokdaMubaCQNe1j3eP94/wP+pha
+         tNNFazptMqcJLf0eLjWOTQysy30IJfhtgpfHM8dHIafa55QcPGeaJs/H3QnKTaR00g
+         BFd/YUMfqJzGw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Michael Kelley <mikelley@microsoft.com>,
@@ -41,16 +41,16 @@ Cc:     Michael Kelley <mikelley@microsoft.com>,
         haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
         jejb@linux.ibm.com, linux-hyperv@vger.kernel.org,
         linux-scsi@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 11/15] scsi: storvsc: Always set no_report_opcodes
-Date:   Tue, 29 Aug 2023 09:32:41 -0400
-Message-Id: <20230829133245.520176-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 6/7] scsi: storvsc: Always set no_report_opcodes
+Date:   Tue, 29 Aug 2023 09:33:35 -0400
+Message-Id: <20230829133336.520573-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20230829133245.520176-1-sashal@kernel.org>
-References: <20230829133245.520176-1-sashal@kernel.org>
+In-Reply-To: <20230829133336.520573-1-sashal@kernel.org>
+References: <20230829133336.520573-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.49
+X-stable-base: Linux 5.10.192
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hyperv.vger.kernel.org>
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 5284f9a0b826e..167f4d112a5f9 100644
+index 70b4868fe2f7d..17efb6c9e21f4 100644
 --- a/drivers/scsi/storvsc_drv.c
 +++ b/drivers/scsi/storvsc_drv.c
-@@ -1567,6 +1567,8 @@ static int storvsc_device_configure(struct scsi_device *sdevice)
+@@ -1537,6 +1537,8 @@ static int storvsc_device_configure(struct scsi_device *sdevice)
  {
  	blk_queue_rq_timeout(sdevice->request_queue, (storvsc_timeout * HZ));
  
