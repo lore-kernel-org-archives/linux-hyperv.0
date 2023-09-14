@@ -1,232 +1,221 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BFE6108
-	for <linux-hyperv@vger.kernel.org>; Thu, 14 Sep 2023 05:19:28 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49F052681;
-	Wed, 13 Sep 2023 22:19:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1694668768; x=1726204768;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=oAURox5d3DpugMW7F8/nDRZuIjZAXrI53V5n3V05JaY=;
-  b=R5bbsZAMbaSVWWfaY8eQtTCgn2QRM6lA9doXlheyDlTRT8Mgtg74tAgl
-   3/fS47hLSvJia6NBuJOh9T+QDKYjCHbLprlvD01csojLNLZWZYrTgM8cq
-   4fRlRwuVbvi16AxU2daRdn5c/fkj/h/OXyAnD8dDxWk+EygOIHR5OLBEb
-   u9yKW3SnLCIXdFH6Lcl96ikRq6jMu6g9Yx5GV6E4gRdS6Fplcjx6D37jY
-   GsBQaKY3j0ZhINVMi9ltD8bAXU1oAuXdqm2BZV0sf8OY0hkA8YMhNe2Lt
-   86afIAHXNq1/s+M/JE7X9YIJx797xoDQyPP2/rQm3tXAfr7DRZmfEvCrt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="382661549"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="382661549"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2023 22:17:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10832"; a="779488850"
-X-IronPort-AV: E=Sophos;i="6.02,145,1688454000"; 
-   d="scan'208";a="779488850"
-Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orsmga001.jf.intel.com with ESMTP; 13 Sep 2023 22:17:48 -0700
-From: Xin Li <xin3.li@intel.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org
-Cc: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	luto@kernel.org,
-	pbonzini@redhat.com,
-	seanjc@google.com,
-	peterz@infradead.org,
-	jgross@suse.com,
-	ravi.v.shankar@intel.com,
-	mhiramat@kernel.org,
-	andrew.cooper3@citrix.com,
-	jiangshanlai@gmail.com
-Subject: [PATCH v10 37/38] x86/fred: Add FRED initialization functions
-Date: Wed, 13 Sep 2023 21:48:04 -0700
-Message-Id: <20230914044805.301390-38-xin3.li@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230914044805.301390-1-xin3.li@intel.com>
-References: <20230914044805.301390-1-xin3.li@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AF5250FD
+	for <linux-hyperv@vger.kernel.org>; Thu, 14 Sep 2023 06:02:40 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03CD5DF;
+	Wed, 13 Sep 2023 23:02:39 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7BBAE2185C;
+	Thu, 14 Sep 2023 06:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1694671358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=UN6sspPIx39466fl+yxO68tXlqE24fawTHIm37vhBn4=;
+	b=mpJlx73uIZL2iN/jToOMnMFHb3itmckBlbd98AVqtO/PjC685eTRNtoGXki7SrCtuYG/wl
+	KFgBeLmgoOsergPrfZfQXOmFXQ1z8bJydFm5YA5NCOWuZjxxK+6mXGcW9gHW0bak2+SbbE
+	73hNUuUUYyvZGa29XszOIaFStQNmoXc=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D58E213580;
+	Thu, 14 Sep 2023 06:02:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id NLO+Mv2hAmUEWwAAMHmgww
+	(envelope-from <jgross@suse.com>); Thu, 14 Sep 2023 06:02:37 +0000
+Message-ID: <48d312f4-50cd-468d-af70-51314796b0d8@suse.com>
+Date: Thu, 14 Sep 2023 08:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+Content-Language: en-US
+To: Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+ ravi.v.shankar@intel.com, mhiramat@kernel.org, andrew.cooper3@citrix.com,
+ jiangshanlai@gmail.com
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+From: Juergen Gross <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <20230914044805.301390-4-xin3.li@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VvzgLc0ddY8y20w2PeqS1wNo"
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VvzgLc0ddY8y20w2PeqS1wNo
+Content-Type: multipart/mixed; boundary="------------OCPddz9Em9L06c0hebIM6Gc4";
+ protected-headers="v1"
+From: Juergen Gross <jgross@suse.com>
+To: Xin Li <xin3.li@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+ pbonzini@redhat.com, seanjc@google.com, peterz@infradead.org,
+ ravi.v.shankar@intel.com, mhiramat@kernel.org, andrew.cooper3@citrix.com,
+ jiangshanlai@gmail.com
+Message-ID: <48d312f4-50cd-468d-af70-51314796b0d8@suse.com>
+Subject: Re: [PATCH v10 03/38] x86/msr: Add the WRMSRNS instruction support
+References: <20230914044805.301390-1-xin3.li@intel.com>
+ <20230914044805.301390-4-xin3.li@intel.com>
+In-Reply-To: <20230914044805.301390-4-xin3.li@intel.com>
 
-Add cpu_init_fred_exceptions() to:
-  - Set FRED entrypoints for events happening in ring 0 and 3.
-  - Specify the stack level for IRQs occurred ring 0.
-  - Specify dedicated event stacks for #DB/NMI/#MCE/#DF.
-  - Enable FRED and invalidtes IDT.
-  - Force 32-bit system calls to use "int $0x80" only.
+--------------OCPddz9Em9L06c0hebIM6Gc4
+Content-Type: multipart/mixed; boundary="------------cb9RlJPV0piuYa8dnn0zZdi9"
 
-Add fred_complete_exception_setup() to:
-  - Initialize system_vectors as done for IDT systems.
-  - Set unused sysvec_table entries to fred_handle_spurious_interrupt().
+--------------cb9RlJPV0piuYa8dnn0zZdi9
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-Co-developed-by: Xin Li <xin3.li@intel.com>
-Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Xin Li <xin3.li@intel.com>
----
+T24gMTQuMDkuMjMgMDY6NDcsIFhpbiBMaSB3cm90ZToNCj4gQWRkIGFuIGFsd2F5cyBpbmxp
+bmUgQVBJIF9fd3Jtc3JucygpIHRvIGVtYmVkIHRoZSBXUk1TUk5TIGluc3RydWN0aW9uDQo+
+IGludG8gdGhlIGNvZGUuDQo+IA0KPiBUZXN0ZWQtYnk6IFNoYW4gS2FuZyA8c2hhbi5rYW5n
+QGludGVsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogWGluIExpIDx4aW4zLmxpQGludGVsLmNv
+bT4NCg0KSW4gb3JkZXIgdG8gYXZvaWQgaGF2aW5nIHRvIGFkZCBwYXJhdmlydCBzdXBwb3J0
+IGZvciBXUk1TUk5TIEkgdGhpbmsNCnhlbl9pbml0X2NhcGFiaWxpdGllcygpIHNob3VsZCBn
+YWluOg0KDQorCXNldHVwX2NsZWFyX2NwdV9jYXAoWDg2X0ZFQVRVUkVfV1JNU1JOUyk7DQoN
+Cg0KSnVlcmdlbg0KDQo+IC0tLQ0KPiAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL21zci5oIHwg
+MTggKysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlv
+bnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tc3IuaCBi
+L2FyY2gveDg2L2luY2x1ZGUvYXNtL21zci5oDQo+IGluZGV4IDY1ZWMxOTY1Y2QyOC4uYzI4
+NGZmOWViZTY3IDEwMDY0NA0KPiAtLS0gYS9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tc3IuaA0K
+PiArKysgYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9tc3IuaA0KPiBAQCAtOTcsNiArOTcsMTkg
+QEAgc3RhdGljIF9fYWx3YXlzX2lubGluZSB2b2lkIF9fd3Jtc3IodW5zaWduZWQgaW50IG1z
+ciwgdTMyIGxvdywgdTMyIGhpZ2gpDQo+ICAgCQkgICAgIDogOiAiYyIgKG1zciksICJhIihs
+b3cpLCAiZCIgKGhpZ2gpIDogIm1lbW9yeSIpOw0KPiAgIH0NCj4gICANCj4gKy8qDQo+ICsg
+KiBXUk1TUk5TIGJlaGF2ZXMgZXhhY3RseSBsaWtlIFdSTVNSIHdpdGggdGhlIG9ubHkgZGlm
+ZmVyZW5jZSBiZWluZw0KPiArICogdGhhdCBpdCBpcyBub3QgYSBzZXJpYWxpemluZyBpbnN0
+cnVjdGlvbiBieSBkZWZhdWx0Lg0KPiArICovDQo+ICtzdGF0aWMgX19hbHdheXNfaW5saW5l
+IHZvaWQgX193cm1zcm5zKHUzMiBtc3IsIHUzMiBsb3csIHUzMiBoaWdoKQ0KPiArew0KPiAr
+CS8qIEluc3RydWN0aW9uIG9wY29kZSBmb3IgV1JNU1JOUzsgc3VwcG9ydGVkIGluIGJpbnV0
+aWxzID49IDIuNDAuICovDQo+ICsJYXNtIHZvbGF0aWxlKCIxOiAuYnl0ZSAweDBmLDB4MDEs
+MHhjNlxuIg0KPiArCQkgICAgICIyOlxuIg0KPiArCQkgICAgIF9BU01fRVhUQUJMRV9UWVBF
+KDFiLCAyYiwgRVhfVFlQRV9XUk1TUikNCj4gKwkJICAgICA6IDogImMiIChtc3IpLCAiYSIo
+bG93KSwgImQiIChoaWdoKSk7DQo+ICt9DQo+ICsNCj4gICAjZGVmaW5lIG5hdGl2ZV9yZG1z
+cihtc3IsIHZhbDEsIHZhbDIpCQkJXA0KPiAgIGRvIHsJCQkJCQkJXA0KPiAgIAl1NjQgX192
+YWwgPSBfX3JkbXNyKChtc3IpKTsJCQlcDQo+IEBAIC0yOTcsNiArMzEwLDExIEBAIGRvIHsJ
+CQkJCQkJXA0KPiAgIA0KPiAgICNlbmRpZgkvKiAhQ09ORklHX1BBUkFWSVJUX1hYTCAqLw0K
+PiAgIA0KPiArc3RhdGljIF9fYWx3YXlzX2lubGluZSB2b2lkIHdybXNybnModTMyIG1zciwg
+dTY0IHZhbCkNCj4gK3sNCj4gKwlfX3dybXNybnMobXNyLCB2YWwsIHZhbCA+PiAzMik7DQo+
+ICt9DQo+ICsNCj4gICAvKg0KPiAgICAqIDY0LWJpdCB2ZXJzaW9uIG9mIHdybXNyX3NhZmUo
+KToNCj4gICAgKi8NCg0K
+--------------cb9RlJPV0piuYa8dnn0zZdi9
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Changes since v9:
-* Set unused sysvec table entries to fred_handle_spurious_interrupt()
-  in fred_complete_exception_setup() (Thomas Gleixner).
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Changes since v5:
-* Add a comment for FRED stack level settings (Lai Jiangshan).
-* Define NMI/#DB/#MCE/#DF stack levels using macros.
----
- arch/x86/entry/entry_fred.c | 21 +++++++++++++
- arch/x86/include/asm/fred.h |  5 ++++
- arch/x86/kernel/Makefile    |  1 +
- arch/x86/kernel/fred.c      | 59 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 86 insertions(+)
- create mode 100644 arch/x86/kernel/fred.c
+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
+jR/i1DG86lem3iBDXzXsZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
 
-diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
-index f8774611af80..7d507f59315d 100644
---- a/arch/x86/entry/entry_fred.c
-+++ b/arch/x86/entry/entry_fred.c
-@@ -140,6 +140,27 @@ void __init fred_install_sysvec(unsigned int sysvec, idtentry_t handler)
- 		 sysvec_table[sysvec - FIRST_SYSTEM_VECTOR] = handler;
- }
- 
-+static noinstr void fred_handle_spurious_interrupt(struct pt_regs *regs)
-+{
-+	spurious_interrupt(regs, regs->fred_ss.vector);
-+}
-+
-+void __init fred_complete_exception_setup(void)
-+{
-+	unsigned int vector;
-+
-+	for (vector = 0; vector < FIRST_EXTERNAL_VECTOR; vector++)
-+		set_bit(vector, system_vectors);
-+
-+	for (vector = 0; vector < NR_SYSTEM_VECTORS; vector++) {
-+		if (sysvec_table[vector])
-+			set_bit(vector + FIRST_SYSTEM_VECTOR, system_vectors);
-+		else
-+			sysvec_table[vector] = fred_handle_spurious_interrupt;
-+	}
-+	fred_setup_done = true;
-+}
-+
- static noinstr void fred_extint(struct pt_regs *regs)
- {
- 	unsigned int vector = regs->fred_ss.vector;
-diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index 2fa9f34e5c95..e86c7ba32435 100644
---- a/arch/x86/include/asm/fred.h
-+++ b/arch/x86/include/asm/fred.h
-@@ -83,8 +83,13 @@ static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int
- 	asm_fred_entry_from_kvm(ss);
- }
- 
-+void cpu_init_fred_exceptions(void);
-+void fred_complete_exception_setup(void);
-+
- #else /* CONFIG_X86_FRED */
- static __always_inline unsigned long fred_event_data(struct pt_regs *regs) { return 0; }
-+static inline void cpu_init_fred_exceptions(void) { }
-+static inline void fred_complete_exception_setup(void) { }
- static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector) { }
- #endif /* CONFIG_X86_FRED */
- #endif /* !__ASSEMBLY__ */
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 3269a0e23d3a..8dfdae4111bb 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -47,6 +47,7 @@ obj-y			+= platform-quirks.o
- obj-y			+= process_$(BITS).o signal.o signal_$(BITS).o
- obj-y			+= traps.o idt.o irq.o irq_$(BITS).o dumpstack_$(BITS).o
- obj-y			+= time.o ioport.o dumpstack.o nmi.o
-+obj-$(CONFIG_X86_FRED)	+= fred.o
- obj-$(CONFIG_MODIFY_LDT_SYSCALL)	+= ldt.o
- obj-$(CONFIG_X86_KERNEL_IBT)		+= ibt_selftest.o
- obj-y			+= setup.o x86_init.o i8259.o irqinit.o
-diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
-new file mode 100644
-index 000000000000..4bcd8791ad96
---- /dev/null
-+++ b/arch/x86/kernel/fred.c
-@@ -0,0 +1,59 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#include <linux/kernel.h>
-+
-+#include <asm/desc.h>
-+#include <asm/fred.h>
-+#include <asm/tlbflush.h>
-+#include <asm/traps.h>
-+
-+/* #DB in the kernel would imply the use of a kernel debugger. */
-+#define FRED_DB_STACK_LEVEL		1UL
-+#define FRED_NMI_STACK_LEVEL		2UL
-+#define FRED_MC_STACK_LEVEL		2UL
-+/*
-+ * #DF is the highest level because a #DF means "something went wrong
-+ * *while delivering an exception*." The number of cases for which that
-+ * can happen with FRED is drastically reduced and basically amounts to
-+ * "the stack you pointed me to is broken." Thus, always change stacks
-+ * on #DF, which means it should be at the highest level.
-+ */
-+#define FRED_DF_STACK_LEVEL		3UL
-+
-+#define FRED_STKLVL(vector, lvl)	((lvl) << (2 * (vector)))
-+
-+void cpu_init_fred_exceptions(void)
-+{
-+	/* When FRED is enabled by default, remove this log message */
-+	pr_info("Initialize FRED on CPU%d\n", smp_processor_id());
-+
-+	wrmsrl(MSR_IA32_FRED_CONFIG,
-+	       /* Reserve for CALL emulation */
-+	       FRED_CONFIG_REDZONE |
-+	       FRED_CONFIG_INT_STKLVL(0) |
-+	       FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
-+
-+	/*
-+	 * The purpose of separate stacks for NMI, #DB and #MC *in the kernel*
-+	 * (remember that user space faults are always taken on stack level 0)
-+	 * is to avoid overflowing the kernel stack.
-+	 */
-+	wrmsrl(MSR_IA32_FRED_STKLVLS,
-+	       FRED_STKLVL(X86_TRAP_DB,  FRED_DB_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_NMI, FRED_NMI_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_MC,  FRED_MC_STACK_LEVEL) |
-+	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
-+
-+	/* The FRED equivalents to IST stacks... */
-+	wrmsrl(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(DB));
-+	wrmsrl(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(NMI));
-+	wrmsrl(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(DF));
-+
-+	/* Enable FRED */
-+	cr4_set_bits(X86_CR4_FRED);
-+	/* Any further IDT use is a bug */
-+	idt_invalidate();
-+
-+	/* Use int $0x80 for 32-bit system calls in FRED mode */
-+	setup_clear_cpu_cap(X86_FEATURE_SYSENTER32);
-+	setup_clear_cpu_cap(X86_FEATURE_SYSCALL32);
-+}
--- 
-2.34.1
+--------------cb9RlJPV0piuYa8dnn0zZdi9--
 
+--------------OCPddz9Em9L06c0hebIM6Gc4--
+
+--------------VvzgLc0ddY8y20w2PeqS1wNo
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmUCof0FAwAAAAAACgkQsN6d1ii/Ey/Z
+Ygf/fFOAgiGHRKwhq+fiBtmitqjuCWlNXY8uP2C+It97gt1yyUr3t1R2km3a7rHjTKgRdMjP4uW3
+JWbkKaWAjFGVfodq6EF3h1zPEmGuXuGdQTscEEXjUoebhPeUbggLr5//p5g0BLbQYOn84RFRpVkD
+EF0pSEz3DTx8ZA4p+UupIFbUGC4IxJM53COI38mMoplsRcDAbwo+IrTsuK5BGSnmOa3/JKYflJBE
+NL6WB9YcFm5atMMlgjkMPIH9lb0eWyrh8PLl1Q+rfx7EcFA7K+q1eoFRcsKJNoX8Ox6CP+sEFBgf
+ZzsjTmX/1IFmS3F9Y5Q/hsPnTHQ0SZ4fBgRCKmxv3g==
+=d8Tq
+-----END PGP SIGNATURE-----
+
+--------------VvzgLc0ddY8y20w2PeqS1wNo--
