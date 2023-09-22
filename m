@@ -1,87 +1,85 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB9F44479
-	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 17:53:20 +0000 (UTC)
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C05826A5
-	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 10:52:59 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2746ab05409so1792963a91.0
-        for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 10:52:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3973745F4E
+	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 18:18:11 +0000 (UTC)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFA65AF
+	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 11:18:08 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1c0c6d4d650so22675365ad.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 11:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695405179; x=1696009979; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R6n/dIamPeUMVNuFW4cdEBQ5hVxUiI5G+G4L0zhGFPQ=;
-        b=Zkx7sA+8UIosoEu+ylBRpTK1i5PtoHGq8oXWeXSVq53apmr+B5J8IFiq2l0HEfOIEq
-         v9z2KT99HS0eHYprPyDrzzDuvEH8FUi9DkX/eTSmqj7BuGefJ/sdHzlohxqvQ3C1YA5Y
-         a7l0wPZTnJFtMwLVEUMqf7Pr7c/Rc0veVi/v4=
+        d=chromium.org; s=google; t=1695406688; x=1696011488; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4T/fTfBwkAD/muqS7Lm7m+/C+nhl1XGVqC9ttPy9eA=;
+        b=MGEnSZ5DvLoOIcKKMbU6bsWVx1QGxFDEfjRso+SeDZ1c0ST9rD35Hw1u3cdnEFlO95
+         a85vrPMSDS90VVCy7DbU/JrVvf5SLAfy4IEpnG7XOJfrl5j2yDPYOhSUrOa/pfA2WQJ4
+         C4WQbFy+bg3FkEs/NOyLd8UBmheBFHOE7j/qU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695405179; x=1696009979;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R6n/dIamPeUMVNuFW4cdEBQ5hVxUiI5G+G4L0zhGFPQ=;
-        b=UjJATLe6C/p7In9/y27l46LLs1hJ1PNmZx8lVbddlfYDGRpvCn9zb4bzmrTaIEZrnw
-         dIOHI+yt8GSQ5rb5cYhBoWIB6zwGVcaZJaJPFXU9Qc7OfPiuVsNlcW4Gzg/yD+HI6zvx
-         5ZIrxNSVSdhz7TmxePIxDnPHniBM8lWhmoN1IZYTlcY9T1wExClFVKmXaDv/rQIbP2Wq
-         5wt26m/pvHpJr6kiEgwM0Sdc7e1yjzEDiKgNmNrPRd+P8NCAMBxQppo4zpb4bASl6jhj
-         eRv6wMBvdPa26xCSmsYGF6EU4xVjw9lRwtZzU/QWdMvZBQmRiFfp3d2JYaJ7vsmNV8Le
-         0xkg==
-X-Gm-Message-State: AOJu0YxPQ7cl6RcE/rTMXGjpfGIjRCaI0lvSoZZ3w/ArxYWdClMUaTUi
-	XUD9XDfAAHC8G4yVwplTBgeXng==
-X-Google-Smtp-Source: AGHT+IHs/kWRYrx0882mgjeumpR6xf+dWnB3lwAWwCO7lNvryszSCtcH04kTeCrZkbhmP/XPZZVTRg==
-X-Received: by 2002:a17:90b:fca:b0:273:f848:7da2 with SMTP id gd10-20020a17090b0fca00b00273f8487da2mr391578pjb.45.1695405179414;
-        Fri, 22 Sep 2023 10:52:59 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695406688; x=1696011488;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l4T/fTfBwkAD/muqS7Lm7m+/C+nhl1XGVqC9ttPy9eA=;
+        b=N0wCJEtrXJTcvik0nszmniE3MPRff7pbPm+QKrlIT43ImrsFO9ugGOGi/d9F+DJ/5r
+         1eFJ6ksnSjEdgh2qe5lG1KKX7+RV3H3IjrUm/KymaFqrLzdoi4tDBUMjHotGGqz14xms
+         BOJRAFuKKpMJVkhRH9T8KXblDHsllUf6+B/BdudnyBnXeoAbEzWsSffbAhCAVwsdl+kR
+         /Sg25STnjE4oI4MczWuQDnbNyFceUOFnVkXhQHlrDVJ+3HbAHH83ZHTFIKmKnpP8MC9p
+         ZVkdDjr0YzBVZPkjX6qk40p22H/8rb1dhDUQiD25BeGox4PiIhqBVGk1yi3pPO2OpvIT
+         Qm3w==
+X-Gm-Message-State: AOJu0Yx40oNcCCAeW+AK7HzHimW0QRx5H+LXlM0emiNOni1O5RRUkxUW
+	V7DfdWP1sI4yEfyQcTsIk3mqQg==
+X-Google-Smtp-Source: AGHT+IH5/bxePU0F2RoHuDHcwpnFv3qhRHMIDj1hzz6KjFthqubQPCi6uc81wCdHv55oKzyGphjbaA==
+X-Received: by 2002:a17:902:d48f:b0:1c3:6d97:e89e with SMTP id c15-20020a170902d48f00b001c36d97e89emr297047plg.58.1695406688329;
+        Fri, 22 Sep 2023 11:18:08 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id lt22-20020a17090b355600b00276d039aecasm3613376pjb.13.2023.09.22.10.52.58
+        by smtp.gmail.com with ESMTPSA id e3-20020a17090301c300b001b531e8a000sm3797390plh.157.2023.09.22.11.18.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 10:52:58 -0700 (PDT)
+        Fri, 22 Sep 2023 11:18:07 -0700 (PDT)
+Date: Fri, 22 Sep 2023 11:18:07 -0700
 From: Kees Cook <keescook@chromium.org>
-To: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Kees Cook <keescook@chromium.org>,
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-pci@vger.kernel.org,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Ajay Sharma <sharmaajay@microsoft.com>,
+	Alex Elder <elder@kernel.org>, Pravin B Shelar <pshelar@ovn.org>,
+	Shaokun Zhang <zhangshaokun@hisilicon.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>, Simon Horman <horms@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-rdma@vger.kernel.org, dev@openvswitch.org,
+	linux-parisc@vger.kernel.org, llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH] PCI: hv: Annotate struct hv_dr_state with __counted_by
-Date: Fri, 22 Sep 2023 10:52:57 -0700
-Message-Id: <20230922175257.work.900-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH 14/14] net: sched: Annotate struct tc_pedit with
+ __counted_by
+Message-ID: <202309221117.160257BAB@keescook>
+References: <20230922172449.work.906-kees@kernel.org>
+ <20230922172858.3822653-14-keescook@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1513; i=keescook@chromium.org;
- h=from:subject:message-id; bh=HwvhrIzwS1OngYd5h25a5+mvpp+30OatzAtcoVNIjeY=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdR5RsFIE1XK7abVppH8HIyRHCNnXLkIt/UkZ
- OCZ2BX0XXmJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3UeQAKCRCJcvTf3G3A
- JncDD/46utmowUFXG6KoCyjTSlzv++ojxe1IcbrO+gufqTuw+Zx9r3xXs4QIoyKi0eoj4jJJ2+/
- 3G3V1RQtSXyo2+80fzGYwvGjiAxWZFUqpdWP89olIkZkeSRr4BZb3gPdRtaf3z5yqnYeFB7Ziw1
- 7zEQEML3k5dIZKlwVoX6voveJFbeZA18/d7KXyr/+YM2bpBa4rhYjLYPc5zqZKU0pMUgRK18NyM
- sXIRpCsfnMA7Pv5Wpl/MfhbaUYg8DL6+1Lc1nyv2pcoXpAj6UDyOsPbVS2oISWnG0syC/qeiz3y
- 6fhUJJv1t5jR2Fy4i25bMMqUIROm3k9XEmdslvlFRhVi5pejG2ExMka2HTOsamwrf2ckt+FLkDG
- 66GyvAsPqpuOsIpO8IlKusDoYNyHAcN3PJZ/dQJHjyEwClZUOC8XxxJrmdT8PZqsU5pzBxzXfun
- fTkpKGSLKCXIidLcdyXyKD2bZtgS9DiKYIdZ+Pdis2gpsl7RS/cCOMdfmHUeddFhXkNtca9K7Od
- 4/maxSa3KshNdnfJ0J1lxw+j3JMSjksAybCVgcQujf2TFW4p3cuG4n2P+9b4FfsyqCFgV2Fm6aH
- YQa8Y6HUI5fH7IAPonRww1YpCuZugNBdNzDh24gdEPiNlYqOl5sTEs9jIEtOcLrrd+NZFj2CmuD
- mOQAEY6 dJELRjrw==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230922172858.3822653-14-keescook@chromium.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
 	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
@@ -89,44 +87,55 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Prepare for the coming implementation by GCC and Clang of the __counted_by
-attribute. Flexible array members annotated with __counted_by can have
-their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-functions).
+On Fri, Sep 22, 2023 at 10:28:56AM -0700, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct tc_pedit.
+> Additionally, since the element count member must be set before accessing
+> the annotated flexible array member, move its initialization earlier.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+> Cc: Cong Wang <xiyou.wangcong@gmail.com>
+> Cc: Jiri Pirko <jiri@resnulli.us>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  net/sched/act_pedit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/sched/act_pedit.c b/net/sched/act_pedit.c
+> index 1ef8fcfa9997..77c407eff3b0 100644
+> --- a/net/sched/act_pedit.c
+> +++ b/net/sched/act_pedit.c
+> @@ -515,11 +515,11 @@ static int tcf_pedit_dump(struct sk_buff *skb, struct tc_action *a,
+>  		spin_unlock_bh(&p->tcf_lock);
+>  		return -ENOBUFS;
+>  	}
+> +	opt->nkeys = parms->tcfp_nkeys;
+>  
+>  	memcpy(opt->keys, parms->tcfp_keys,
+>  	       flex_array_size(opt, keys, parms->tcfp_nkeys));
+>  	opt->index = p->tcf_index;
+> -	opt->nkeys = parms->tcfp_nkeys;
+>  	opt->flags = parms->tcfp_flags;
+>  	opt->action = p->tcf_action;
+>  	opt->refcnt = refcount_read(&p->tcf_refcnt) - ref;
+> -- 
+> 2.34.1
 
-As found with Coccinelle[1], add __counted_by for struct hv_dr_state.
+Gustavo pointed out that the annotation half of this patch in missing.
+My mistake! I will figure out where it went. :P Ah, the joys of
+splitting up a treewide patch series...
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: "Krzysztof Wilczyński" <kw@linux.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-hyperv@vger.kernel.org
-Cc: linux-pci@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/pci/controller/pci-hyperv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
-index bed3cefdaf19..30c7dfeccb16 100644
---- a/drivers/pci/controller/pci-hyperv.c
-+++ b/drivers/pci/controller/pci-hyperv.c
-@@ -545,7 +545,7 @@ struct hv_pcidev_description {
- struct hv_dr_state {
- 	struct list_head list_entry;
- 	u32 device_count;
--	struct hv_pcidev_description func[];
-+	struct hv_pcidev_description func[] __counted_by(device_count);
- };
- 
- struct hv_pci_dev {
 -- 
-2.34.1
-
+Kees Cook
