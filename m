@@ -1,22 +1,22 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C8941E23
-	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 18:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAD141776
+	for <linux-hyperv@vger.kernel.org>; Fri, 22 Sep 2023 18:38:45 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id B3DDBB7;
-	Fri, 22 Sep 2023 11:38:41 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A4BFCA;
+	Fri, 22 Sep 2023 11:38:43 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 2AF50212C5D2;
+	by linux.microsoft.com (Postfix) with ESMTPSA id D1C7C212C5CF;
 	Fri, 22 Sep 2023 11:38:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2AF50212C5D2
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D1C7C212C5CF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1695407921;
-	bh=MKa+JmKM3e3p5195TvJLc+j4786CSagh61v3508iSU8=;
+	bh=cwj9fix3EwPTsj2jgOlURtKuqXv0kbtpiSQT3yeAd5U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZKSbFwRP8Q1U1u1avWKnyiIgY1flSIU+1V4BPU/t9+tRrPrPt5qx2cht4uwmkF3aU
-	 NVqs9k5EBpfLZPfrCLpe0GTsuPGHKZKNif3SekZublr5ZBydDXfsnpUPoOanP606Z3
-	 W+IL9tC4Mk1W0Bvdq3xqWrR4DUuHnmiG8Q1ccXp8=
+	b=bDV1/EccyZmYnhMw8Pm3GCPS4nTyOqW7fgvhu24SAWYdnus3W1XJIdVj03GbdAjvl
+	 z/xSPNWPoBQxFHSu3cS47VO6sH2GXnDak8E8Rg06I/03ahhRFus1qaA5f44kie6LQB
+	 aEbD9TImzqZn4CjgjPYcekPJ8ccctFR5TAVij1AY=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: patches@lists.linux.dev,
 	hpa@zytor.com,
 	will@kernel.org,
 	catalin.marinas@arm.com
-Subject: [PATCH v3 03/15] mshyperv: Introduce numa_node_to_proximity_domain_info
-Date: Fri, 22 Sep 2023 11:38:23 -0700
-Message-Id: <1695407915-12216-4-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 09/15] Drivers: hv: Introduce hv_output_arg_exists in hv_common.c
+Date: Fri, 22 Sep 2023 11:38:29 -0700
+Message-Id: <1695407915-12216-10-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1695407915-12216-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1695407915-12216-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -62,130 +62,72 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Factor out logic for converting numa node to proximity domain info into
-a helper function, and export it.
-
-Change hv_proximity_domain_info to a struct to simplify the code.
+This is a more flexible approach for determining whether to allocate the
+output page.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Reviewed-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/x86/hyperv/hv_proc.c         |  8 ++------
- drivers/acpi/numa/srat.c          |  1 +
- include/asm-generic/hyperv-tlfs.h | 14 +++++---------
- include/asm-generic/mshyperv.h    | 15 +++++++++++++++
- 4 files changed, 23 insertions(+), 15 deletions(-)
+ drivers/hv/hv_common.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
-index 68a0843d4750..5ba5ca1b2089 100644
---- a/arch/x86/hyperv/hv_proc.c
-+++ b/arch/x86/hyperv/hv_proc.c
-@@ -121,7 +121,6 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 	u64 status;
- 	unsigned long flags;
- 	int ret = HV_STATUS_SUCCESS;
--	int pxm = node_to_pxm(node);
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index d346ce6adf00..89f5c1fb2a35 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -58,6 +58,14 @@ EXPORT_SYMBOL_GPL(hyperv_pcpu_input_arg);
+ void * __percpu *hyperv_pcpu_output_arg;
+ EXPORT_SYMBOL_GPL(hyperv_pcpu_output_arg);
  
- 	/*
- 	 * When adding a logical processor, the hypervisor may return
-@@ -137,11 +136,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 
- 		input->lp_index = lp_index;
- 		input->apic_id = apic_id;
--		input->flags = 0;
--		input->proximity_domain_info.domain_id = pxm;
--		input->proximity_domain_info.flags.reserved = 0;
--		input->proximity_domain_info.flags.proximity_info_valid = 1;
--		input->proximity_domain_info.flags.proximity_preferred = 1;
-+		input->proximity_domain_info =
-+			numa_node_to_proximity_domain_info(node);
- 		status = hv_do_hypercall(HVCALL_ADD_LOGICAL_PROCESSOR,
- 					 input, output);
- 		local_irq_restore(flags);
-diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
-index 1f4fc5f8a819..0cf9f0574495 100644
---- a/drivers/acpi/numa/srat.c
-+++ b/drivers/acpi/numa/srat.c
-@@ -48,6 +48,7 @@ int node_to_pxm(int node)
- 		return PXM_INVAL;
- 	return node_to_pxm_map[node];
- }
-+EXPORT_SYMBOL(node_to_pxm);
- 
- static void __acpi_map_pxm_to_node(int pxm, int node)
- {
-diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index f63b3704d89e..a6dffb346bf2 100644
---- a/include/asm-generic/hyperv-tlfs.h
-+++ b/include/asm-generic/hyperv-tlfs.h
-@@ -512,13 +512,9 @@ struct hv_proximity_domain_flags {
- 	u32 proximity_info_valid : 1;
- } __packed;
- 
--/* Not a union in windows but useful for zeroing */
--union hv_proximity_domain_info {
--	struct {
--		u32 domain_id;
--		struct hv_proximity_domain_flags flags;
--	};
--	u64 as_uint64;
-+struct hv_proximity_domain_info {
-+	u32 domain_id;
-+	struct hv_proximity_domain_flags flags;
- } __packed;
- 
- struct hv_lp_startup_status {
-@@ -535,7 +531,7 @@ struct hv_lp_startup_status {
- struct hv_add_logical_processor_in {
- 	u32 lp_index;
- 	u32 apic_id;
--	union hv_proximity_domain_info proximity_domain_info;
-+	struct hv_proximity_domain_info proximity_domain_info;
- 	u64 flags;
- } __packed;
- 
-@@ -560,7 +556,7 @@ struct hv_create_vp {
- 	u8 padding[3];
- 	u8 subnode_type;
- 	u64 subnode_id;
--	union hv_proximity_domain_info proximity_domain_info;
-+	struct hv_proximity_domain_info proximity_domain_info;
- 	u64 flags;
- } __packed;
- 
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index 5b3512e5a72e..e16557523b6e 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -21,6 +21,7 @@
- #include <linux/types.h>
- #include <linux/atomic.h>
- #include <linux/bitops.h>
-+#include <acpi/acpi_numa.h>
- #include <linux/cpumask.h>
- #include <linux/nmi.h>
- #include <asm/ptrace.h>
-@@ -28,6 +29,20 @@
- 
- #define VTPM_BASE_ADDRESS 0xfed40000
- 
-+static inline struct hv_proximity_domain_info
-+numa_node_to_proximity_domain_info(int node)
++/*
++ * Determine whether output arg is needed
++ */
++static inline bool hv_output_arg_exists(void)
 +{
-+	struct hv_proximity_domain_info proximity_domain_info = {};
-+
-+	if (node != NUMA_NO_NODE) {
-+		proximity_domain_info.domain_id = node_to_pxm(node);
-+		proximity_domain_info.flags.proximity_info_valid = 1;
-+		proximity_domain_info.flags.proximity_preferred = 1;
-+	}
-+
-+	return proximity_domain_info;
++	return hv_root_partition ? true : false;
 +}
 +
- struct ms_hyperv_info {
- 	u32 features;
- 	u32 priv_high;
+ static void hv_kmsg_dump_unregister(void);
+ 
+ static struct ctl_table_header *hv_ctl_table_hdr;
+@@ -342,10 +350,12 @@ int __init hv_common_init(void)
+ 	hyperv_pcpu_input_arg = alloc_percpu(void  *);
+ 	BUG_ON(!hyperv_pcpu_input_arg);
+ 
+-	/* Allocate the per-CPU state for output arg for root */
+-	if (hv_root_partition) {
++	if (hv_output_arg_exists()) {
+ 		hyperv_pcpu_output_arg = alloc_percpu(void *);
+ 		BUG_ON(!hyperv_pcpu_output_arg);
++	}
++
++	if (hv_root_partition) {
+ 		hv_synic_eventring_tail = alloc_percpu(u8 *);
+ 		BUG_ON(hv_synic_eventring_tail == NULL);
+ 	}
+@@ -375,7 +385,7 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	u8 **synic_eventring_tail;
+ 	u64 msr_vp_index;
+ 	gfp_t flags;
+-	int pgcount = hv_root_partition ? 2 : 1;
++	int pgcount = hv_output_arg_exists() ? 2 : 1;
+ 	void *mem;
+ 	int ret;
+ 
+@@ -393,9 +403,12 @@ int hv_common_cpu_init(unsigned int cpu)
+ 		if (!mem)
+ 			return -ENOMEM;
+ 
+-		if (hv_root_partition) {
++		if (hv_output_arg_exists()) {
+ 			outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 			*outputarg = (char *)mem + HV_HYP_PAGE_SIZE;
++		}
++
++		if (hv_root_partition) {
+ 			synic_eventring_tail = (u8 **)this_cpu_ptr(hv_synic_eventring_tail);
+ 			*synic_eventring_tail = kcalloc(HV_SYNIC_SINT_COUNT, sizeof(u8),
+ 							flags);
 -- 
 2.25.1
 
