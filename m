@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E847710A14
-	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF2010A18
+	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:47 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F40911A6;
-	Sat, 23 Sep 2023 03:11:44 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D56719E;
+	Sat, 23 Sep 2023 03:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1695463905; x=1726999905;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=yFOHuHE47yU8Pv3f7vyK1KueQKaw2/ZJmrjuiwmDzLE=;
-  b=IWnaelHWYToj5baMKtpTQf5PGC4D4ZkLwsJuf4tIlpR4E2dRfo2PUUgK
-   egi3BREtFGAyWH9jlzI4T43jwfpSkka/BU1osR/pcNLe6+T2OiBJFwVKb
-   nOGvGX4tRNdnvDC333dBFaKZIYExqD9nNmzGutw8LfDt+6qpZqJv6JqVM
-   v22xOdDh+y/rSszfoEnzEjTYX9+IBBj6d6nd8wbvu1I99k98dNOODwsaS
-   9G53qj4YmgGkNaAdMaBkPs/fx1PahXV7g7KiyOrf1Q7js6CvIS7KJU6/0
-   3z8Y9x3DzTl+NkfvSlJl2qcAc8gVDWmvZX0KKycxQp3Y774y0Gx0BCcvS
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492252"
+  bh=SbR2wCTkousO/IPIjdDUqT7zLHmXpw3IGG9LN/Z2MXU=;
+  b=eJd5ydBbkRSEEfxYp+oXjchgGCVniK65y84AMrB2vikSANZOheEuNk/Z
+   vzTXsfRQiqeUwP8HWPaJLSfXP+mzioMWHUS52QNMmpyYFiJubkLBhBe0n
+   Ncrx35Oq5TL4ByhqwrmhBiqjBAS8k2+CqQSuVRlbqiQo7IY8E2UaZrp3x
+   T4rg1MytM/mK0pQR1SaTZ6sGVTlKb0V0pSd6HOqBRmgLzYUbkCOxq0eZI
+   taq2TfzsGAuIxPqH95ebEv8eJrykq2mqwFG4FUcGVXyzFNxd/GBK7IPlh
+   8ZrOYodVZwJbhM+1wDQ7T0HAohLLGp9q8gZYx9y210hmUzh6OBlb8NoGo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492277"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492252"
+   d="scan'208";a="447492277"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:43 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388151"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388157"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388151"
+   d="scan'208";a="813388157"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:43 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:44 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v11 15/37] x86/ptrace: Cleanup the definition of the pt_regs structure
-Date: Sat, 23 Sep 2023 02:41:50 -0700
-Message-Id: <20230923094212.26520-16-xin3.li@intel.com>
+Subject: [PATCH v11 17/37] x86/fred: Add a new header file for FRED definitions
+Date: Sat, 23 Sep 2023 02:41:52 -0700
+Message-Id: <20230923094212.26520-18-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -72,129 +72,96 @@ X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-struct pt_regs is hard to read because the member or section related
-comments are not aligned with the members.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-The 'cs' and 'ss' members of pt_regs are type of 'unsigned long' while
-in reality they are only 16-bit wide. This works so far as the
-remaining space is unused, but FRED will use the remaining bits for
-other purposes.
-
-To prepare for FRED:
-
-  - Cleanup the formatting
-  - Convert 'cs' and 'ss' to u16 and embed them into an union
-    with a u64
-  - Fixup the related printk() format strings
+Add a header file for FRED prototypes and definitions.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/entry/vsyscall/vsyscall_64.c |  2 +-
- arch/x86/include/asm/ptrace.h         | 44 +++++++++++++++++++--------
- arch/x86/kernel/process_64.c          |  2 +-
- 3 files changed, 33 insertions(+), 15 deletions(-)
 
-diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
-index e0ca8120aea8..a3c0df11d0e6 100644
---- a/arch/x86/entry/vsyscall/vsyscall_64.c
-+++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-@@ -76,7 +76,7 @@ static void warn_bad_vsyscall(const char *level, struct pt_regs *regs,
- 	if (!show_unhandled_signals)
- 		return;
- 
--	printk_ratelimited("%s%s[%d] %s ip:%lx cs:%lx sp:%lx ax:%lx si:%lx di:%lx\n",
-+	printk_ratelimited("%s%s[%d] %s ip:%lx cs:%x sp:%lx ax:%lx si:%lx di:%lx\n",
- 			   level, current->comm, task_pid_nr(current),
- 			   message, regs->ip, regs->cs,
- 			   regs->sp, regs->ax, regs->si, regs->di);
-diff --git a/arch/x86/include/asm/ptrace.h b/arch/x86/include/asm/ptrace.h
-index f4db78b09c8f..f08ea073edd6 100644
---- a/arch/x86/include/asm/ptrace.h
-+++ b/arch/x86/include/asm/ptrace.h
-@@ -57,17 +57,19 @@ struct pt_regs {
- #else /* __i386__ */
- 
- struct pt_regs {
--/*
-- * C ABI says these regs are callee-preserved. They aren't saved on kernel entry
-- * unless syscall needs a complete, fully filled "struct pt_regs".
-- */
-+	/*
-+	 * C ABI says these regs are callee-preserved. They aren't saved on
-+	 * kernel entry unless syscall needs a complete, fully filled
-+	 * "struct pt_regs".
-+	 */
- 	unsigned long r15;
- 	unsigned long r14;
- 	unsigned long r13;
- 	unsigned long r12;
- 	unsigned long bp;
- 	unsigned long bx;
--/* These regs are callee-clobbered. Always saved on kernel entry. */
+Changes since v6:
+* Replace pt_regs csx flags prefix FRED_CSL_ with FRED_CSX_.
+---
+ arch/x86/include/asm/fred.h | 68 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 arch/x86/include/asm/fred.h
+
+diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
+new file mode 100644
+index 000000000000..f514fdb5a39f
+--- /dev/null
++++ b/arch/x86/include/asm/fred.h
+@@ -0,0 +1,68 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Macros for Flexible Return and Event Delivery (FRED)
++ */
 +
-+	/* These regs are callee-clobbered. Always saved on kernel entry. */
- 	unsigned long r11;
- 	unsigned long r10;
- 	unsigned long r9;
-@@ -77,18 +79,34 @@ struct pt_regs {
- 	unsigned long dx;
- 	unsigned long si;
- 	unsigned long di;
--/*
-- * On syscall entry, this is syscall#. On CPU exception, this is error code.
-- * On hw interrupt, it's IRQ number:
-- */
++#ifndef ASM_X86_FRED_H
++#define ASM_X86_FRED_H
 +
-+	/*
-+	 * orig_ax is used on entry for:
-+	 * - the syscall number (syscall, sysenter, int80)
-+	 * - error_code stored by the CPU on traps and exceptions
-+	 * - the interrupt number for device interrupts
-+	 */
- 	unsigned long orig_ax;
--/* Return frame for iretq */
++#include <linux/const.h>
 +
-+	/* The IRETQ return frame starts here */
- 	unsigned long ip;
--	unsigned long cs;
++#include <asm/asm.h>
 +
-+	union {
-+		u64	csx;	// The full 64-bit data slot containing CS
-+		u16	cs;	// CS selector
-+	};
++/*
++ * FRED event return instruction opcodes for ERET{S,U}; supported in
++ * binutils >= 2.41.
++ */
++#define ERETS			_ASM_BYTES(0xf2,0x0f,0x01,0xca)
++#define ERETU			_ASM_BYTES(0xf3,0x0f,0x01,0xca)
 +
- 	unsigned long flags;
- 	unsigned long sp;
--	unsigned long ss;
--/* top of stack page */
++/*
++ * RSP is aligned to a 64-byte boundary before used to push a new stack frame
++ */
++#define FRED_STACK_FRAME_RSP_MASK	_AT(unsigned long, (~0x3f))
 +
-+	union {
-+		u64	ssx;	// The full 64-bit data slot containing SS
-+		u16	ss;	// SS selector
-+	};
++/*
++ * Used for the return address for call emulation during code patching,
++ * and measured in 64-byte cache lines.
++ */
++#define FRED_CONFIG_REDZONE_AMOUNT	1
++#define FRED_CONFIG_REDZONE		(_AT(unsigned long, FRED_CONFIG_REDZONE_AMOUNT) << 6)
++#define FRED_CONFIG_INT_STKLVL(l)	(_AT(unsigned long, l) << 9)
++#define FRED_CONFIG_ENTRYPOINT(p)	_AT(unsigned long, (p))
 +
-+	/*
-+	 * Top of stack on IDT systems.
-+	 */
- };
- 
- #endif /* !__i386__ */
-diff --git a/arch/x86/kernel/process_64.c b/arch/x86/kernel/process_64.c
-index 33b268747bb7..0f78b58021bb 100644
---- a/arch/x86/kernel/process_64.c
-+++ b/arch/x86/kernel/process_64.c
-@@ -117,7 +117,7 @@ void __show_regs(struct pt_regs *regs, enum show_regs_mode mode,
- 
- 	printk("%sFS:  %016lx(%04x) GS:%016lx(%04x) knlGS:%016lx\n",
- 	       log_lvl, fs, fsindex, gs, gsindex, shadowgs);
--	printk("%sCS:  %04lx DS: %04x ES: %04x CR0: %016lx\n",
-+	printk("%sCS:  %04x DS: %04x ES: %04x CR0: %016lx\n",
- 		log_lvl, regs->cs, ds, es, cr0);
- 	printk("%sCR2: %016lx CR3: %016lx CR4: %016lx\n",
- 		log_lvl, cr2, cr3, cr4);
++#ifndef __ASSEMBLY__
++
++#ifdef CONFIG_X86_FRED
++#include <linux/kernel.h>
++
++#include <asm/ptrace.h>
++
++struct fred_info {
++	/* Event data: CR2, DR6, ... */
++	unsigned long edata;
++	unsigned long resv;
++};
++
++/* Full format of the FRED stack frame */
++struct fred_frame {
++	struct pt_regs   regs;
++	struct fred_info info;
++};
++
++static __always_inline struct fred_info *fred_info(struct pt_regs *regs)
++{
++	return &container_of(regs, struct fred_frame, regs)->info;
++}
++
++static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
++{
++	return fred_info(regs)->edata;
++}
++
++#else /* CONFIG_X86_FRED */
++static __always_inline unsigned long fred_event_data(struct pt_regs *regs) { return 0; }
++#endif /* CONFIG_X86_FRED */
++#endif /* !__ASSEMBLY__ */
++
++#endif /* ASM_X86_FRED_H */
 -- 
 2.34.1
 
