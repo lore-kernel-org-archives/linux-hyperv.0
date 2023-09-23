@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801310A17
-	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB10110A15
+	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:41 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63BB61A8;
-	Sat, 23 Sep 2023 03:11:41 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186B41A6;
+	Sat, 23 Sep 2023 03:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463901; x=1726999901;
+  t=1695463900; x=1726999900;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bNeoh4I4zABONAQfik1sKjrzvYgDVMEQH0uLYFn+NlU=;
-  b=b+PTUHAqEW3mlhCqgSdINZV9ulURcmqLC6nJ1W/SzATjFjtYG9IkL0oB
-   cY4Rb7msf449jdB2O37nwjOHI+MeqYaaqzx5w4hS1WcuIV2Qv1lLntHTN
-   b7A+B5QkJnAsxrwNrFeCxVYfh/JXYJnSWh6at1CVoIk4r1oBs20Zecbv5
-   cpVSJ6QjF6V1kN8zDtD71HkQvftEU7oOpi/13m2fovRZf0rXJGTiesQxl
-   SQFirxaMpIK2X2uzBogeBq5RdXpvt6Lxe69gjIF3d9U/DLSAXhQooSxn+
-   iIJUASph2rfUIQ56p4TD5y+ie9nUOBtl/yhGI+uQ2WOXeoiNB3E1y84Fl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492143"
+  bh=IuyTaHxTCpXU3koACAwE/wPTCk5NNVb2w/wLiweVXto=;
+  b=JxYKJ9uZpHaXO5FTA7j/6SAW6gdREbxrzFswoFTUh26w26T8OhAXdBw3
+   aVOxQNiZTsix/uoGj4p5Fa0uW3N/1DwknozHSAlvOkeXmjIt3zAQawzIc
+   SRPJBVV0cDkqwIK6Al2Ii5m7jHdsGbavZ1JLqPp36JkLO+8GLsFmtwuY2
+   1SXAyC+ECGG1rtxjbizXI1MQDKkL+CS8fnrbzq3IRPNKqgs5B+gY8GCJa
+   5LjPrS2jnzW+f9tJPC/XriBTwZACZmab96thJnwKGpsvZm4K0o0q0U1DP
+   RxfCTfyatyDtVS7C0QIehx0RnxFt/CM2NROiVJIoDRGQ2gjg+a5f4vZv/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492119"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492143"
+   d="scan'208";a="447492119"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:39 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388120"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388110"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388120"
+   d="scan'208";a="813388110"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:38 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:37 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v11 06/37] Documentation/x86/64: Add a documentation for FRED
-Date: Sat, 23 Sep 2023 02:41:41 -0700
-Message-Id: <20230923094212.26520-7-xin3.li@intel.com>
+Subject: [PATCH v11 04/37] x86/entry: Remove idtentry_sysvec from entry_{32,64}.S
+Date: Sat, 23 Sep 2023 02:41:39 -0700
+Message-Id: <20230923094212.26520-5-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -65,7 +65,6 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -73,130 +72,64 @@ X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Briefly introduce FRED, and its advantages compared to IDT.
+idtentry_sysvec is really just DECLARE_IDTENTRY defined in
+<asm/idtentry.h>, no need to define it separately.
 
+Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ arch/x86/entry/entry_32.S       | 4 ----
+ arch/x86/entry/entry_64.S       | 8 --------
+ arch/x86/include/asm/idtentry.h | 2 +-
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-Changes since v10:
-* Reword a sentence to improve readability (Nikolay Borisov).
----
- Documentation/arch/x86/x86_64/fred.rst  | 96 +++++++++++++++++++++++++
- Documentation/arch/x86/x86_64/index.rst |  1 +
- 2 files changed, 97 insertions(+)
- create mode 100644 Documentation/arch/x86/x86_64/fred.rst
-
-diff --git a/Documentation/arch/x86/x86_64/fred.rst b/Documentation/arch/x86/x86_64/fred.rst
-new file mode 100644
-index 000000000000..9f57e7b91f7e
---- /dev/null
-+++ b/Documentation/arch/x86/x86_64/fred.rst
-@@ -0,0 +1,96 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=========================================
-+Flexible Return and Event Delivery (FRED)
-+=========================================
-+
-+Overview
-+========
-+
-+The FRED architecture defines simple new transitions that change
-+privilege level (ring transitions). The FRED architecture was
-+designed with the following goals:
-+
-+1) Improve overall performance and response time by replacing event
-+   delivery through the interrupt descriptor table (IDT event
-+   delivery) and event return by the IRET instruction with lower
-+   latency transitions.
-+
-+2) Improve software robustness by ensuring that event delivery
-+   establishes the full supervisor context and that event return
-+   establishes the full user context.
-+
-+The new transitions defined by the FRED architecture are FRED event
-+delivery and, for returning from events, two FRED return instructions.
-+FRED event delivery can effect a transition from ring 3 to ring 0, but
-+it is used also to deliver events incident to ring 0. One FRED
-+instruction (ERETU) effects a return from ring 0 to ring 3, while the
-+other (ERETS) returns while remaining in ring 0. Collectively, FRED
-+event delivery and the FRED return instructions are FRED transitions.
-+
-+In addition to these transitions, the FRED architecture defines a new
-+instruction (LKGS) for managing the state of the GS segment register.
-+The LKGS instruction can be used by 64-bit operating systems that do
-+not use the new FRED transitions.
-+
-+Furthermore, the FRED architecture is easy to extend for future CPU
-+architectures.
-+
-+Software based event dispatching
-+================================
-+
-+FRED operates differently from IDT in terms of event handling. Instead
-+of directly dispatching an event to its handler based on the event
-+vector, FRED requires the software to dispatch an event to its handler
-+based on both the event's type and vector. Therefore, an event dispatch
-+framework must be implemented to facilitate the event-to-handler
-+dispatch process. The FRED event dispatch framework takes control
-+once an event is delivered, and employs a two-level dispatch.
-+
-+The first level dispatching is event type based, and the second level
-+dispatching is event vector based.
-+
-+Full supervisor/user context
-+============================
-+
-+FRED event delivery atomically save and restore full supervisor/user
-+context upon event delivery and return. Thus it avoids the problem of
-+transient states due to %cr2 and/or %dr6, and it is no longer needed
-+to handle all the ugly corner cases caused by half baked entry states.
-+
-+FRED allows explicit unblock of NMI with new event return instructions
-+ERETS/ERETU, avoiding the mess caused by IRET which unconditionally
-+unblocks NMI, e.g., when an exception happens during NMI handling.
-+
-+FRED always restores the full value of %rsp, thus ESPFIX is no longer
-+needed when FRED is enabled.
-+
-+LKGS
-+====
-+
-+LKGS behaves like the MOV to GS instruction except that it loads the
-+base address into the IA32_KERNEL_GS_BASE MSR instead of the GS
-+segment’s descriptor cache. With LKGS, it ends up with avoiding
-+mucking with kernel GS, i.e., an operating system can always operate
-+with its own GS base address.
-+
-+Because FRED event delivery from ring 3 and ERETU both swap the value
-+of the GS base address and that of the IA32_KERNEL_GS_BASE MSR, plus
-+the introduction of LKGS instruction, the SWAPGS instruction is no
-+longer needed when FRED is enabled, thus is disallowed (#UD).
-+
-+Stack levels
-+============
-+
-+4 stack levels 0~3 are introduced to replace the nonreentrant IST for
-+event handling, and each stack level should be configured to use a
-+dedicated stack.
-+
-+The current stack level could be unchanged or go higher upon FRED
-+event delivery. If unchanged, the CPU keeps using the current event
-+stack. If higher, the CPU switches to a new event stack specified by
-+the MSR of the new stack level, i.e., MSR_IA32_FRED_RSP[123].
-+
-+Only execution of a FRED return instruction ERET[US], could lower the
-+current stack level, causing the CPU to switch back to the stack it was
-+on before a previous event delivery that promoted the stack level.
-diff --git a/Documentation/arch/x86/x86_64/index.rst b/Documentation/arch/x86/x86_64/index.rst
-index a56070fc8e77..ad15e9bd623f 100644
---- a/Documentation/arch/x86/x86_64/index.rst
-+++ b/Documentation/arch/x86/x86_64/index.rst
-@@ -15,3 +15,4 @@ x86_64 Support
-    cpu-hotplug-spec
-    machinecheck
-    fsgs
-+   fred
+diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+index 6e6af42e044a..e0f22ad8ff7e 100644
+--- a/arch/x86/entry/entry_32.S
++++ b/arch/x86/entry/entry_32.S
+@@ -649,10 +649,6 @@ SYM_CODE_START_LOCAL(asm_\cfunc)
+ SYM_CODE_END(asm_\cfunc)
+ .endm
+ 
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /*
+  * Include the defines which emit the idt entries which are shared
+  * shared between 32 and 64 bit and emit the __irqentry_text_* markers
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index f71664dea1a3..179e08d34eb6 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -432,14 +432,6 @@ SYM_CODE_END(\asmsym)
+ 	idtentry \vector asm_\cfunc \cfunc has_error_code=1
+ .endm
+ 
+-/*
+- * System vectors which invoke their handlers directly and are not
+- * going through the regular common device interrupt handling code.
+- */
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /**
+  * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
+  * @vector:		Vector number
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index 05fd175cec7d..cfca68f6cb84 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -447,7 +447,7 @@ __visible noinstr void func(struct pt_regs *regs,			\
+ 
+ /* System vector entries */
+ #define DECLARE_IDTENTRY_SYSVEC(vector, func)				\
+-	idtentry_sysvec vector func
++	DECLARE_IDTENTRY(vector, func)
+ 
+ #ifdef CONFIG_X86_64
+ # define DECLARE_IDTENTRY_MCE(vector, func)				\
 -- 
 2.34.1
 
