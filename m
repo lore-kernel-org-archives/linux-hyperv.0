@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B57E10A14
-	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C8F101E6
+	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:11:42 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E4919F;
-	Sat, 23 Sep 2023 03:11:39 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17B81A7;
+	Sat, 23 Sep 2023 03:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463900; x=1726999900;
+  t=1695463901; x=1726999901;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MxQyQabDuj01hP6xHQ5mL2MlMceZ5LcTb8ReoP3KjJA=;
-  b=BOWIf2SpfJr6iLdJd0Xqs9+FUlG3ec+F83l72YCiH9JMcu84LClq+cUi
-   6+6c8NJjDv8ueRmaKJaGAkV/hEiPUlhLAnIl2ya1fD6kpqmHjknkplnSb
-   /iHUqJcFEYHQ6tD0ekdGDZ8wOrCBeZ3//wTmcgAfTbhTJSUyNy/wXNf51
-   gwuzOyzhmGCIk93VLAzRq4HqhXQhr6AsI8qfJHLo38LTSy/EGjQb2y5u5
-   tHlpQWouedRvEdW719IPdWJke1rxdSFLQwd9mEfCJFpnv/1pdM6PVbhvn
-   YUfl+Yq0WRpmLHYxaUH1Uk6cbIdOsTN+TAimUDyOkgrPR/CwJYodzQy1h
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492105"
+  bh=peVjyb58aU5czBXdVg55hBuRdCD6fg7woOPGVcAZ2Yw=;
+  b=M3hVEUI5h1b5or0ZOjQT37Alr/yWGcnLCC0SVFIpBOePGgTr+FkgUxOR
+   0lNy9ETXkMMsRDQSWQFAIFkoXzAZ2EPlhF4EqQ4hmU4jgaZY4Cz2rVvC8
+   Y7U07bT0GSN4lKVXwwj1reeGTJ34n5K2Phdjgy7YH1hdd7Vc+NrEyauEv
+   je8+lInI6ENeh5WbTFJe1ASUE2IjARkyolXZvoNxCxrFmOyVToI4GDq1q
+   iD/CZKEkUZqNQqcM1hI4e92tErF4NOMEjCko6iypGv0KjKDbEHcOvswMT
+   Bsce3/5MbEcfj0Y8oPx2rOcpE7itJr2SabV33B1xBtICuGS9R6YQDOvJH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492132"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492105"
+   d="scan'208";a="447492132"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:37 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388103"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388115"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388103"
+   d="scan'208";a="813388115"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:36 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:38 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v11 02/37] x86/opcode: Add the WRMSRNS instruction to the x86 opcode map
-Date: Sat, 23 Sep 2023 02:41:37 -0700
-Message-Id: <20230923094212.26520-3-xin3.li@intel.com>
+Subject: [PATCH v11 05/37] x86/trapnr: Add event type macros to <asm/trapnr.h>
+Date: Sat, 23 Sep 2023 02:41:40 -0700
+Message-Id: <20230923094212.26520-6-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -72,43 +72,83 @@ X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add the opcode used by WRMSRNS, which is the non-serializing version of
-WRMSR and may replace it to improve performance, to the x86 opcode map.
+Intel VT-x classifies events into eight different types, which is
+inherited by FRED for event identification. As such, event type
+becomes a common x86 concept, and should be defined in a common x86
+header.
 
+Add event type macros to <asm/trapnr.h>, and use it in <asm/vmx.h>.
+
+Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- arch/x86/lib/x86-opcode-map.txt       | 2 +-
- tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/arch/x86/lib/x86-opcode-map.txt
-+++ b/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
+Changes since v10:
+* A few comment fixes and improvements (Andrew Cooper).
+---
+ arch/x86/include/asm/trapnr.h | 12 ++++++++++++
+ arch/x86/include/asm/vmx.h    | 17 +++++++++--------
+ 2 files changed, 21 insertions(+), 8 deletions(-)
+
+diff --git a/arch/x86/include/asm/trapnr.h b/arch/x86/include/asm/trapnr.h
+index f5d2325aa0b7..8d1154cdf787 100644
+--- a/arch/x86/include/asm/trapnr.h
++++ b/arch/x86/include/asm/trapnr.h
+@@ -2,6 +2,18 @@
+ #ifndef _ASM_X86_TRAPNR_H
+ #define _ASM_X86_TRAPNR_H
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
-diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/tools/arch/x86/lib/x86-opcode-map.txt
-+++ b/tools/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
++/*
++ * Event type codes used by FRED, Intel VT-x and AMD SVM
++ */
++#define EVENT_TYPE_EXTINT	0	// External interrupt
++#define EVENT_TYPE_RESERVED	1
++#define EVENT_TYPE_NMI		2	// NMI
++#define EVENT_TYPE_HWEXC	3	// Hardware originated traps, exceptions
++#define EVENT_TYPE_SWINT	4	// INT n
++#define EVENT_TYPE_PRIV_SWEXC	5	// INT1
++#define EVENT_TYPE_SWEXC	6	// INTO, INT3
++#define EVENT_TYPE_OTHER	7	// FRED SYSCALL/SYSENTER, VT-x MTF
++
+ /* Interrupts/Exceptions */
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
+ #define X86_TRAP_DE		 0	/* Divide-by-zero */
+diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
+index 0e73616b82f3..4dba17363008 100644
+--- a/arch/x86/include/asm/vmx.h
++++ b/arch/x86/include/asm/vmx.h
+@@ -17,6 +17,7 @@
+ #include <linux/types.h>
+ 
+ #include <uapi/asm/vmx.h>
++#include <asm/trapnr.h>
+ #include <asm/vmxfeatures.h>
+ 
+ #define VMCS_CONTROL_BIT(x)	BIT(VMX_FEATURE_##x & 0x1f)
+@@ -374,14 +375,14 @@ enum vmcs_field {
+ #define VECTORING_INFO_DELIVER_CODE_MASK    	INTR_INFO_DELIVER_CODE_MASK
+ #define VECTORING_INFO_VALID_MASK       	INTR_INFO_VALID_MASK
+ 
+-#define INTR_TYPE_EXT_INTR              (0 << 8) /* external interrupt */
+-#define INTR_TYPE_RESERVED              (1 << 8) /* reserved */
+-#define INTR_TYPE_NMI_INTR		(2 << 8) /* NMI */
+-#define INTR_TYPE_HARD_EXCEPTION	(3 << 8) /* processor exception */
+-#define INTR_TYPE_SOFT_INTR             (4 << 8) /* software interrupt */
+-#define INTR_TYPE_PRIV_SW_EXCEPTION	(5 << 8) /* ICE breakpoint - undocumented */
+-#define INTR_TYPE_SOFT_EXCEPTION	(6 << 8) /* software exception */
+-#define INTR_TYPE_OTHER_EVENT           (7 << 8) /* other event */
++#define INTR_TYPE_EXT_INTR		(EVENT_TYPE_EXTINT << 8)	/* external interrupt */
++#define INTR_TYPE_RESERVED		(EVENT_TYPE_RESERVED << 8)	/* reserved */
++#define INTR_TYPE_NMI_INTR		(EVENT_TYPE_NMI << 8)		/* NMI */
++#define INTR_TYPE_HARD_EXCEPTION	(EVENT_TYPE_HWEXC << 8)		/* processor exception */
++#define INTR_TYPE_SOFT_INTR		(EVENT_TYPE_SWINT << 8)		/* software interrupt */
++#define INTR_TYPE_PRIV_SW_EXCEPTION	(EVENT_TYPE_PRIV_SWEXC << 8)	/* ICE breakpoint */
++#define INTR_TYPE_SOFT_EXCEPTION	(EVENT_TYPE_SWEXC << 8)		/* software exception */
++#define INTR_TYPE_OTHER_EVENT		(EVENT_TYPE_OTHER << 8)		/* other event */
+ 
+ /* GUEST_INTERRUPTIBILITY_INFO flags. */
+ #define GUEST_INTR_STATE_STI		0x00000001
 -- 
 2.34.1
 
