@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4712710A13
-	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48B010A08
+	for <linux-hyperv@vger.kernel.org>; Sat, 23 Sep 2023 10:12:12 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE05E5C;
-	Sat, 23 Sep 2023 03:11:56 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13B34E72;
+	Sat, 23 Sep 2023 03:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695463917; x=1726999917;
+  t=1695463919; x=1726999919;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=I/WDYuAd3nxCrdi9nQ03uROwALnkbrNhAERS8D1SLLE=;
-  b=Tx3TkyCCjCVXjf0rj3Nz5YDTdSS+WvV9vLsawe+1ZSMGtqvqmb8jCFjZ
-   Fa87W//jst/MhetknBuAWx7Q3GcCWek+PU1hXzpKU6UouWUr6uDDqYLTC
-   oZeASKT7ieA/xBgriDLLVm4GeFL9oNFlXOAMmfMmLgWI8uYcbNsMRc7le
-   RCyVyFt+nCwuLN0G1Rz4D0FKPReKfNS/DeOV3DYM9j3+Dug2GVgGHV6DN
-   O68TiXGlvq1bvT6H6E0KxRT+xe6YX/yC2dEaM6aN4oASflIW9Ju1YTukK
-   HhWNmia4XMfG7R/aU1ahyf+I80fGHkFlOwlk5QZhkDyOIJ6sMPEfSOIvJ
+  bh=VloAwH9oCchhYDbjf1WOu4unTMxJzsUhKvR9qovigv0=;
+  b=DDr4Dn5EqMyEjPKKPHGR9jDilr8ZHsqMCPmaoQVv3YhHRf5rkJVrdXTM
+   4uuys24hV7Gq/G7FcC+Qpl6ND+45jaCGz/2zwYdaI7QpdP7bJR7ntDy6y
+   NaV/bGqA4BEDdzLbry7n6PCXJMdmRw54NXTo2BkqdIno6Sn/ABTZN3zru
+   uQgBOoHueXUpGM7bgkUF0EtZsWqt0aGd5cLCOTZ/+wUOfUJYcy2TPNpvC
+   pZhAk2aIMYq+KrI1jSzbhsjK9Svgucfkolv6W9yPQT3usESw6kSs3fj4i
+   PZjCQAIcoK/lJZWZqYNGqDN+4cf6dOzqjrtc4i8VDcgjTAdWnh3FMaap6
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="447492473"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="447492448"
+   d="scan'208";a="447492473"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:51 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2023 03:11:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10841"; a="813388218"
 X-IronPort-AV: E=Sophos;i="6.03,171,1694761200"; 
-   d="scan'208";a="813388209"
+   d="scan'208";a="813388218"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:51 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 Sep 2023 03:11:52 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v11 31/37] x86/fred: Fixup fault on ERETU by jumping to fred_entrypoint_user
-Date: Sat, 23 Sep 2023 02:42:06 -0700
-Message-Id: <20230923094212.26520-32-xin3.li@intel.com>
+Subject: [PATCH v11 33/37] x86/entry: Add fred_entry_from_kvm() for VMX to handle IRQ/NMI
+Date: Sat, 23 Sep 2023 02:42:08 -0700
+Message-Id: <20230923094212.26520-34-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230923094212.26520-1-xin3.li@intel.com>
 References: <20230923094212.26520-1-xin3.li@intel.com>
@@ -72,179 +72,205 @@ X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-If the stack frame contains an invalid user context (e.g. due to invalid SS,
-a non-canonical RIP, etc.) the ERETU instruction will trap (#SS or #GP).
+In IRQ/NMI induced VM exits, KVM VMX needs to execute the respective
+handlers, which requires the software to create a FRED stack frame,
+and use it to invoke the handlers. Add fred_irq_entry_from_kvm() for
+this job.
 
-From a Linux point of view, this really should be considered a user space
-failure, so use the standard fault fixup mechanism to intercept the fault,
-fix up the exception frame, and redirect execution to fred_entrypoint_user.
-The end result is that it appears just as if the hardware had taken the
-exception immediately after completing the transition to user space.
+Export fred_entry_from_kvm() because VMX can be compiled as a module.
 
-Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Suggested-by: Sean Christopherson <seanjc@google.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
+Changes since v10:
+* Better explain the reason why no need to check current stack level
+  (Paolo Bonzini).
+
+Changes since v9:
+* Shove the whole thing into arch/x86/entry/entry_64_fred.S for invoking
+  external_interrupt() and fred_exc_nmi() (Sean Christopherson).
+* Correct and improve a few comments (Sean Christopherson).
+* Merge the two IRQ/NMI asm entries into one as it's fine to invoke
+  noinstr code from regular code (Thomas Gleixner).
+* Setup the long mode and NMI flags in the augmented SS field of FRED
+  stack frame in C instead of asm (Thomas Gleixner).
+* Add UNWIND_HINT_{SAVE,RESTORE} to get rid of the warning: "objtool:
+  asm_fred_entry_from_kvm+0x0: unreachable instruction" (Peter Zijlstra).
+
 Changes since v8:
-* Reflect the FRED spec 5.0 change that ERETS and ERETU add 8 to %rsp
-  before popping the return context from the stack.
-
-Changes since v6:
-* Add a comment to explain why it is safe to write to the previous FRED stack
-  frame. (Lai Jiangshan).
-
-Changes since v5:
-* Move the NMI bit from an invalid stack frame, which caused ERETU to fault,
-  to the fault handler's stack frame, thus to unblock NMI ASAP if NMI is blocked
-  (Lai Jiangshan).
+* Add a new macro VMX_DO_FRED_EVENT_IRQOFF for FRED instead of
+  refactoring VMX_DO_EVENT_IRQOFF (Sean Christopherson).
+* Do NOT use a trampoline, just LEA+PUSH the return RIP, PUSH the error
+  code, and jump to the FRED kernel entry point for NMI or call
+  external_interrupt() for IRQs (Sean Christopherson).
+* Call external_interrupt() only when FRED is enabled, and convert the
+  non-FRED handling to external_interrupt() after FRED lands (Sean
+  Christopherson).
 ---
- arch/x86/entry/entry_64_fred.S             |  5 +-
- arch/x86/include/asm/extable_fixup_types.h |  4 +-
- arch/x86/mm/extable.c                      | 79 ++++++++++++++++++++++
- 3 files changed, 86 insertions(+), 2 deletions(-)
+ arch/x86/entry/entry_64_fred.S | 76 ++++++++++++++++++++++++++++++++++
+ arch/x86/entry/entry_fred.c    | 14 +++++++
+ arch/x86/include/asm/fred.h    | 18 ++++++++
+ 3 files changed, 108 insertions(+)
 
 diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
-index 5781c3411b44..d1c2fc4af8ae 100644
+index d1c2fc4af8ae..9917b4ea1543 100644
 --- a/arch/x86/entry/entry_64_fred.S
 +++ b/arch/x86/entry/entry_64_fred.S
-@@ -3,6 +3,7 @@
-  * The actual FRED entry points.
+@@ -4,7 +4,9 @@
   */
  
-+#include <asm/asm.h>
+ #include <asm/asm.h>
++#include <asm/export.h>
  #include <asm/fred.h>
++#include <asm/segment.h>
  
  #include "calling.h"
-@@ -34,7 +35,9 @@ SYM_CODE_START_NOALIGN(asm_fred_entrypoint_user)
- 	call	fred_entry_from_user
- SYM_INNER_LABEL(asm_fred_exit_user, SYM_L_GLOBAL)
+ 
+@@ -54,3 +56,77 @@ SYM_CODE_START_NOALIGN(asm_fred_entrypoint_kernel)
  	FRED_EXIT
--	ERETU
-+1:	ERETU
+ 	ERETS
+ SYM_CODE_END(asm_fred_entrypoint_kernel)
 +
-+	_ASM_EXTABLE_TYPE(1b, asm_fred_entrypoint_user, EX_TYPE_ERETU)
- SYM_CODE_END(asm_fred_entrypoint_user)
- 
- .fill asm_fred_entrypoint_kernel - ., 1, 0xcc
-diff --git a/arch/x86/include/asm/extable_fixup_types.h b/arch/x86/include/asm/extable_fixup_types.h
-index 991e31cfde94..1585c798a02f 100644
---- a/arch/x86/include/asm/extable_fixup_types.h
-+++ b/arch/x86/include/asm/extable_fixup_types.h
-@@ -64,6 +64,8 @@
- #define	EX_TYPE_UCOPY_LEN4		(EX_TYPE_UCOPY_LEN | EX_DATA_IMM(4))
- #define	EX_TYPE_UCOPY_LEN8		(EX_TYPE_UCOPY_LEN | EX_DATA_IMM(8))
- 
--#define EX_TYPE_ZEROPAD			20 /* longword load with zeropad on fault */
-+#define	EX_TYPE_ZEROPAD			20 /* longword load with zeropad on fault */
++#if IS_ENABLED(CONFIG_KVM_INTEL)
++SYM_FUNC_START(asm_fred_entry_from_kvm)
++	push %rbp
++	mov %rsp, %rbp
 +
-+#define	EX_TYPE_ERETU			21
- 
- #endif
-diff --git a/arch/x86/mm/extable.c b/arch/x86/mm/extable.c
-index 271dcb2deabc..bc7af7e8587b 100644
---- a/arch/x86/mm/extable.c
-+++ b/arch/x86/mm/extable.c
-@@ -6,6 +6,7 @@
- #include <xen/xen.h>
- 
- #include <asm/fpu/api.h>
-+#include <asm/fred.h>
- #include <asm/sev.h>
- #include <asm/traps.h>
- #include <asm/kdebug.h>
-@@ -223,6 +224,80 @@ static bool ex_handler_ucopy_len(const struct exception_table_entry *fixup,
- 	return ex_handler_uaccess(fixup, regs, trapnr, fault_address);
++	UNWIND_HINT_SAVE
++
++	/*
++	 * Both IRQ and NMI from VMX can be handled on current task stack
++	 * because there is no need to protect from reentrancy and the call
++	 * stack leading to this helper is effectively constant and shallow
++	 * (relatively speaking). Do the same when FRED is active, i.e., no
++	 * need to check current stack level for a stack switch.
++	 *
++	 * Emulate the FRED-defined redzone and stack alignment.
++	 */
++	sub $(FRED_CONFIG_REDZONE_AMOUNT << 6), %rsp
++	and $FRED_STACK_FRAME_RSP_MASK, %rsp
++
++	/*
++	 * Start to push a FRED stack frame, which is always 64 bytes:
++	 *
++	 * +--------+-----------------+
++	 * | Bytes  | Usage           |
++	 * +--------+-----------------+
++	 * | 63:56  | Reserved        |
++	 * | 55:48  | Event Data      |
++	 * | 47:40  | SS + Event Info |
++	 * | 39:32  | RSP             |
++	 * | 31:24  | RFLAGS          |
++	 * | 23:16  | CS + Aux Info   |
++	 * |  15:8  | RIP             |
++	 * |   7:0  | Error Code      |
++	 * +--------+-----------------+
++	 */
++	push $0				/* Reserved, must be 0 */
++	push $0				/* Event data, 0 for IRQ/NMI */
++	push %rdi			/* fred_ss handed in by the caller */
++	push %rbp
++	pushf
++	mov $__KERNEL_CS, %rax
++	push %rax
++
++	/*
++	 * Unlike the IDT event delivery, FRED _always_ pushes an error code
++	 * after pushing the return RIP, thus the CALL instruction CANNOT be
++	 * used here to push the return RIP, otherwise there is no chance to
++	 * push an error code before invoking the IRQ/NMI handler.
++	 *
++	 * Use LEA to get the return RIP and push it, then push an error code.
++	 */
++	lea 1f(%rip), %rax
++	push %rax				/* Return RIP */
++	push $0					/* Error code, 0 for IRQ/NMI */
++
++	PUSH_AND_CLEAR_REGS clear_bp=0 unwind_hint=0
++	movq %rsp, %rdi				/* %rdi -> pt_regs */
++	call __fred_entry_from_kvm		/* Call the C entry point */
++	POP_REGS
++	ERETS
++1:
++	/*
++	 * Objtool doesn't understand what ERETS does, this hint tells it that
++	 * yes, we'll reach here and with what stack state. A save/restore pair
++	 * isn't strictly needed, but it's the simplest form.
++	 */
++	UNWIND_HINT_RESTORE
++	pop %rbp
++	RET
++
++SYM_FUNC_END(asm_fred_entry_from_kvm)
++EXPORT_SYMBOL_GPL(asm_fred_entry_from_kvm);
++#endif
+diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
+index 97e2552d6951..4c0398010e04 100644
+--- a/arch/x86/entry/entry_fred.c
++++ b/arch/x86/entry/entry_fred.c
+@@ -242,3 +242,17 @@ __visible noinstr void fred_entry_from_kernel(struct pt_regs *regs)
+ 		return fred_bad_type(regs, error_code);
+ 	}
  }
- 
-+#ifdef CONFIG_X86_FRED
-+static bool ex_handler_eretu(const struct exception_table_entry *fixup,
-+			     struct pt_regs *regs, unsigned long error_code)
++
++#if IS_ENABLED(CONFIG_KVM_INTEL)
++__visible noinstr void __fred_entry_from_kvm(struct pt_regs *regs)
 +{
-+	struct pt_regs *uregs = (struct pt_regs *)
-+		(regs->sp - offsetof(struct pt_regs, orig_ax));
-+	unsigned short ss = uregs->ss;
-+	unsigned short cs = uregs->cs;
-+
-+	/*
-+	 * Move the NMI bit from the invalid stack frame, which caused ERETU
-+	 * to fault, to the fault handler's stack frame, thus to unblock NMI
-+	 * with the fault handler's ERETS instruction ASAP if NMI is blocked.
-+	 */
-+	regs->fred_ss.nmi = uregs->fred_ss.nmi;
-+
-+	/*
-+	 * Sync event information to uregs, i.e., the ERETU return frame, but
-+	 * is it safe to write to the ERETU return frame which is just above
-+	 * current event stack frame?
-+	 *
-+	 * The RSP used by FRED to push a stack frame is not the value in %rsp,
-+	 * it is calculated from %rsp with the following 2 steps:
-+	 * 1) RSP = %rsp - (IA32_FRED_CONFIG & 0x1c0)	// Reserve N*64 bytes
-+	 * 2) RSP = RSP & ~0x3f		// Align to a 64-byte cache line
-+	 * when an event delivery doesn't trigger a stack level change.
-+	 *
-+	 * Here is an example with N*64 (N=1) bytes reserved:
-+	 *
-+	 *  64-byte cache line ==>  ______________
-+	 *                         |___Reserved___|
-+	 *                         |__Event_data__|
-+	 *                         |_____SS_______|
-+	 *                         |_____RSP______|
-+	 *                         |_____FLAGS____|
-+	 *                         |_____CS_______|
-+	 *                         |_____IP_______|
-+	 *  64-byte cache line ==> |__Error_code__| <== ERETU return frame
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *  64-byte cache line ==> |______________| <== RSP after step 1) and 2)
-+	 *                         |___Reserved___|
-+	 *                         |__Event_data__|
-+	 *                         |_____SS_______|
-+	 *                         |_____RSP______|
-+	 *                         |_____FLAGS____|
-+	 *                         |_____CS_______|
-+	 *                         |_____IP_______|
-+	 *  64-byte cache line ==> |__Error_code__| <== ERETS return frame
-+	 *
-+	 * Thus a new FRED stack frame will always be pushed below a previous
-+	 * FRED stack frame ((N*64) bytes may be reserved between), and it is
-+	 * safe to write to a previous FRED stack frame as they never overlap.
-+	 */
-+	fred_info(uregs)->edata = fred_event_data(regs);
-+	uregs->ssx = regs->ssx;
-+	uregs->fred_ss.ss = ss;
-+	/* The NMI bit was moved away above */
-+	uregs->fred_ss.nmi = 0;
-+	uregs->csx = regs->csx;
-+	uregs->sl = 0;
-+	uregs->wfe = 0;
-+	uregs->cs = cs;
-+	uregs->orig_ax = error_code;
-+
-+	return ex_handler_default(fixup, regs);
++	switch (regs->fred_ss.type) {
++	case EVENT_TYPE_EXTINT:
++		return fred_extint(regs);
++	case EVENT_TYPE_NMI:
++		return fred_exc_nmi(regs);
++	default:
++		WARN_ON_ONCE(1);
++	}
 +}
 +#endif
+diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
+index 16a64ffecbf8..2fa9f34e5c95 100644
+--- a/arch/x86/include/asm/fred.h
++++ b/arch/x86/include/asm/fred.h
+@@ -9,6 +9,7 @@
+ #include <linux/const.h>
+ 
+ #include <asm/asm.h>
++#include <asm/trapnr.h>
+ 
+ /*
+  * FRED event return instruction opcodes for ERET{S,U}; supported in
+@@ -62,12 +63,29 @@ static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
+ 
+ void asm_fred_entrypoint_user(void);
+ void asm_fred_entrypoint_kernel(void);
++void asm_fred_entry_from_kvm(struct fred_ss);
+ 
+ __visible void fred_entry_from_user(struct pt_regs *regs);
+ __visible void fred_entry_from_kernel(struct pt_regs *regs);
++__visible void __fred_entry_from_kvm(struct pt_regs *regs);
 +
- int ex_get_fixup_type(unsigned long ip)
- {
- 	const struct exception_table_entry *e = search_exception_tables(ip);
-@@ -300,6 +375,10 @@ int fixup_exception(struct pt_regs *regs, int trapnr, unsigned long error_code,
- 		return ex_handler_ucopy_len(e, regs, trapnr, fault_addr, reg, imm);
- 	case EX_TYPE_ZEROPAD:
- 		return ex_handler_zeropad(e, regs, fault_addr);
-+#ifdef CONFIG_X86_FRED
-+	case EX_TYPE_ERETU:
-+		return ex_handler_eretu(e, regs, error_code);
-+#endif
- 	}
- 	BUG();
- }
++/* Can be called from noinstr code, thus __always_inline */
++static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector)
++{
++	struct fred_ss ss = {
++		.ss     =__KERNEL_DS,
++		.type   = type,
++		.vector = vector,
++		.nmi    = type == EVENT_TYPE_NMI,
++		.lm     = 1,
++	};
++
++	asm_fred_entry_from_kvm(ss);
++}
+ 
+ #else /* CONFIG_X86_FRED */
+ static __always_inline unsigned long fred_event_data(struct pt_regs *regs) { return 0; }
++static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector) { }
+ #endif /* CONFIG_X86_FRED */
+ #endif /* !__ASSEMBLY__ */
+ 
 -- 
 2.34.1
 
