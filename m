@@ -1,22 +1,22 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6646667B
-	for <linux-hyperv@vger.kernel.org>; Fri, 29 Sep 2023 18:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C4866678
+	for <linux-hyperv@vger.kernel.org>; Fri, 29 Sep 2023 18:02:04 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 71F5DCC2;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 707E4CC0;
 	Fri, 29 Sep 2023 11:01:57 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6025C20B74C1;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 9759C20B74C5;
 	Fri, 29 Sep 2023 11:01:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6025C20B74C1
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9759C20B74C5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1696010516;
-	bh=8rqkfXSamHLxJ8YNLcEnA8vp7ezejQRBh2J49PP0ET8=;
+	bh=3fBbVBD2uKgvoquqz27ACQRB2O2cWkvCr1Y5+xe6PMQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=b4hPLY4qaiv1lbdpFB+Dj0S4nm5yJEnXAG7cZiSa/0dEwlR6FZH0FZKj3tny8OAgm
-	 WycLkwnptBuNGhkPLbgtaT1saBfTyHNW3gSjQrYSCDzxGGIIKOcO4TmCn910lBuMcC
-	 x7/MmgB6VRKEzh7YKS7CRuOI+g0INoJhvlhZqvxI=
+	b=TVzDnXd53dpojCdgNZ5GSAI//ZFMoeAD646kLVWXYHL7HjKqKyHska0roEu9A8e06
+	 48THBjuWo+E3tP8M0Lca97fbz4zZJfSDJeqq+ebFnchVaWQ2KK1Bdbh1NlVkc25n6r
+	 kkk0+eDGORRWw+MIk77oxZqmF5pLRWnzrB45aqAI=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: patches@lists.linux.dev,
 	hpa@zytor.com,
 	will@kernel.org,
 	catalin.marinas@arm.com
-Subject: [PATCH v4 01/15] hyperv-tlfs: Change shared HV_REGISTER_* defines to HV_MSR_*
-Date: Fri, 29 Sep 2023 11:01:27 -0700
-Message-Id: <1696010501-24584-2-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v4 03/15] mshyperv: Introduce numa_node_to_proximity_domain_info
+Date: Fri, 29 Sep 2023 11:01:29 -0700
+Message-Id: <1696010501-24584-4-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1696010501-24584-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1696010501-24584-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -62,581 +62,130 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-In x86 hyperv-tlfs, HV_REGISTER_ prefix is used to indicate MSRs
-accessed via rdmsrl/wrmsrl. But in ARM64, HV_REGISTER_ instead indicates
-VP registers accessed via get/set vp registers hypercall.
+Factor out logic for converting numa node to proximity domain info into
+a helper function, and export it.
 
-This is due to HV_REGISTER_* names being used by hv_set/get_register,
-with the arch-specific version delegating to the appropriate mechanism.
-
-The problem is, using prefix HV_REGISTER_ for MSRs will conflict with
-VP registers when they are introduced for x86 in future.
-
-This patch solves the issue by:
-
-1. Defining all the x86 MSRs with a consistent prefix: HV_X64_MSR_.
-   This is so HV_REGISTER_ can be reserved for VP registers.
-
-2. Change the non-arch-specific alias used by hv_set/get_register to
-   HV_MSR_. This is also happens to be the same name Hyper-V uses for this
-   purpose.
+Change hv_proximity_domain_info to a struct to simplify the code.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Reviewed-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/arm64/include/asm/hyperv-tlfs.h |  25 +++++
- arch/x86/include/asm/hyperv-tlfs.h   | 137 +++++++++++++--------------
- arch/x86/include/asm/mshyperv.h      |   8 +-
- arch/x86/kernel/cpu/mshyperv.c       |  22 ++---
- drivers/clocksource/hyperv_timer.c   |  24 ++---
- drivers/hv/hv.c                      |  36 +++----
- drivers/hv/hv_common.c               |  18 ++--
- include/asm-generic/mshyperv.h       |   2 +-
- 8 files changed, 148 insertions(+), 124 deletions(-)
+ arch/x86/hyperv/hv_proc.c         |  8 ++------
+ drivers/acpi/numa/srat.c          |  1 +
+ include/asm-generic/hyperv-tlfs.h | 14 +++++---------
+ include/asm-generic/mshyperv.h    | 15 +++++++++++++++
+ 4 files changed, 23 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm64/include/asm/hyperv-tlfs.h b/arch/arm64/include/asm/hyperv-tlfs.h
-index bc6c7ac934a1..a6e852c2fc3a 100644
---- a/arch/arm64/include/asm/hyperv-tlfs.h
-+++ b/arch/arm64/include/asm/hyperv-tlfs.h
-@@ -64,6 +64,31 @@
- #define HV_REGISTER_STIMER0_CONFIG	0x000B0000
- #define HV_REGISTER_STIMER0_COUNT	0x000B0001
- 
-+/*
-+ * To support non-arch-specific code calling hv_set/get_register:
-+ * - On x86, HV_MSR_ indicates an MSR accessed via rdmsrl/wrmsrl
-+ * - On ARM, HV_MSR_ indicates a VP register accessed via hypercall
-+ */
-+#define HV_MSR_VP_INDEX		(HV_REGISTER_VP_INDEX)
-+#define HV_MSR_TIME_REF_COUNT	(HV_REGISTER_TIME_REF_COUNT)
-+#define HV_MSR_REFERENCE_TS	(HV_REGISTER_REFERENCE_TSC)
-+
-+#define HV_MSR_STIMER0_CONFIG	(HV_REGISTER_STIMER0_CONFIG)
-+#define HV_MSR_STIMER0_COUNT	(HV_REGISTER_STIMER0_COUNT)
-+
-+#define HV_MSR_SCONTROL		(HV_REGISTER_SCONTROL)
-+#define HV_MSR_SIEFP		(HV_REGISTER_SIEFP)
-+#define HV_MSR_SIMP		(HV_REGISTER_SIMP)
-+#define HV_MSR_EOM		(HV_REGISTER_EOM)
-+#define HV_MSR_SINT0		(HV_REGISTER_SINT0)
-+
-+#define HV_MSR_CRASH_P0		(HV_REGISTER_CRASH_P0)
-+#define HV_MSR_CRASH_P1		(HV_REGISTER_CRASH_P1)
-+#define HV_MSR_CRASH_P2		(HV_REGISTER_CRASH_P2)
-+#define HV_MSR_CRASH_P3		(HV_REGISTER_CRASH_P3)
-+#define HV_MSR_CRASH_P4		(HV_REGISTER_CRASH_P4)
-+#define HV_MSR_CRASH_CTL	(HV_REGISTER_CRASH_CTL)
-+
- union hv_msi_entry {
- 	u64 as_uint64[2];
- 	struct {
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 2ff26f53cd62..058c5c8dc382 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -182,7 +182,7 @@ enum hv_isolation_type {
- #define HV_X64_MSR_HYPERCALL			0x40000001
- 
- /* MSR used to provide vcpu index */
--#define HV_REGISTER_VP_INDEX			0x40000002
-+#define HV_X64_MSR_VP_INDEX			0x40000002
- 
- /* MSR used to reset the guest OS. */
- #define HV_X64_MSR_RESET			0x40000003
-@@ -191,10 +191,10 @@ enum hv_isolation_type {
- #define HV_X64_MSR_VP_RUNTIME			0x40000010
- 
- /* MSR used to read the per-partition time reference counter */
--#define HV_REGISTER_TIME_REF_COUNT		0x40000020
-+#define HV_X64_MSR_TIME_REF_COUNT		0x40000020
- 
- /* A partition's reference time stamp counter (TSC) page */
--#define HV_REGISTER_REFERENCE_TSC		0x40000021
-+#define HV_X64_MSR_REFERENCE_TSC		0x40000021
- 
- /* MSR used to retrieve the TSC frequency */
- #define HV_X64_MSR_TSC_FREQUENCY		0x40000022
-@@ -209,61 +209,61 @@ enum hv_isolation_type {
- #define HV_X64_MSR_VP_ASSIST_PAGE		0x40000073
- 
- /* Define synthetic interrupt controller model specific registers. */
--#define HV_REGISTER_SCONTROL			0x40000080
--#define HV_REGISTER_SVERSION			0x40000081
--#define HV_REGISTER_SIEFP			0x40000082
--#define HV_REGISTER_SIMP			0x40000083
--#define HV_REGISTER_EOM				0x40000084
--#define HV_REGISTER_SINT0			0x40000090
--#define HV_REGISTER_SINT1			0x40000091
--#define HV_REGISTER_SINT2			0x40000092
--#define HV_REGISTER_SINT3			0x40000093
--#define HV_REGISTER_SINT4			0x40000094
--#define HV_REGISTER_SINT5			0x40000095
--#define HV_REGISTER_SINT6			0x40000096
--#define HV_REGISTER_SINT7			0x40000097
--#define HV_REGISTER_SINT8			0x40000098
--#define HV_REGISTER_SINT9			0x40000099
--#define HV_REGISTER_SINT10			0x4000009A
--#define HV_REGISTER_SINT11			0x4000009B
--#define HV_REGISTER_SINT12			0x4000009C
--#define HV_REGISTER_SINT13			0x4000009D
--#define HV_REGISTER_SINT14			0x4000009E
--#define HV_REGISTER_SINT15			0x4000009F
-+#define HV_X64_MSR_SCONTROL			0x40000080
-+#define HV_X64_MSR_SVERSION			0x40000081
-+#define HV_X64_MSR_SIEFP			0x40000082
-+#define HV_X64_MSR_SIMP				0x40000083
-+#define HV_X64_MSR_EOM				0x40000084
-+#define HV_X64_MSR_SINT0			0x40000090
-+#define HV_X64_MSR_SINT1			0x40000091
-+#define HV_X64_MSR_SINT2			0x40000092
-+#define HV_X64_MSR_SINT3			0x40000093
-+#define HV_X64_MSR_SINT4			0x40000094
-+#define HV_X64_MSR_SINT5			0x40000095
-+#define HV_X64_MSR_SINT6			0x40000096
-+#define HV_X64_MSR_SINT7			0x40000097
-+#define HV_X64_MSR_SINT8			0x40000098
-+#define HV_X64_MSR_SINT9			0x40000099
-+#define HV_X64_MSR_SINT10			0x4000009A
-+#define HV_X64_MSR_SINT11			0x4000009B
-+#define HV_X64_MSR_SINT12			0x4000009C
-+#define HV_X64_MSR_SINT13			0x4000009D
-+#define HV_X64_MSR_SINT14			0x4000009E
-+#define HV_X64_MSR_SINT15			0x4000009F
- 
- /*
-  * Define synthetic interrupt controller model specific registers for
-  * nested hypervisor.
-  */
--#define HV_REGISTER_NESTED_SCONTROL            0x40001080
--#define HV_REGISTER_NESTED_SVERSION            0x40001081
--#define HV_REGISTER_NESTED_SIEFP               0x40001082
--#define HV_REGISTER_NESTED_SIMP                0x40001083
--#define HV_REGISTER_NESTED_EOM                 0x40001084
--#define HV_REGISTER_NESTED_SINT0               0x40001090
-+#define HV_X64_MSR_NESTED_SCONTROL		0x40001080
-+#define HV_X64_MSR_NESTED_SVERSION		0x40001081
-+#define HV_X64_MSR_NESTED_SIEFP			0x40001082
-+#define HV_X64_MSR_NESTED_SIMP			0x40001083
-+#define HV_X64_MSR_NESTED_EOM			0x40001084
-+#define HV_X64_MSR_NESTED_SINT0			0x40001090
- 
- /*
-  * Synthetic Timer MSRs. Four timers per vcpu.
-  */
--#define HV_REGISTER_STIMER0_CONFIG		0x400000B0
--#define HV_REGISTER_STIMER0_COUNT		0x400000B1
--#define HV_REGISTER_STIMER1_CONFIG		0x400000B2
--#define HV_REGISTER_STIMER1_COUNT		0x400000B3
--#define HV_REGISTER_STIMER2_CONFIG		0x400000B4
--#define HV_REGISTER_STIMER2_COUNT		0x400000B5
--#define HV_REGISTER_STIMER3_CONFIG		0x400000B6
--#define HV_REGISTER_STIMER3_COUNT		0x400000B7
-+#define HV_X64_MSR_STIMER0_CONFIG		0x400000B0
-+#define HV_X64_MSR_STIMER0_COUNT		0x400000B1
-+#define HV_X64_MSR_STIMER1_CONFIG		0x400000B2
-+#define HV_X64_MSR_STIMER1_COUNT		0x400000B3
-+#define HV_X64_MSR_STIMER2_CONFIG		0x400000B4
-+#define HV_X64_MSR_STIMER2_COUNT		0x400000B5
-+#define HV_X64_MSR_STIMER3_CONFIG		0x400000B6
-+#define HV_X64_MSR_STIMER3_COUNT		0x400000B7
- 
- /* Hyper-V guest idle MSR */
- #define HV_X64_MSR_GUEST_IDLE			0x400000F0
- 
- /* Hyper-V guest crash notification MSR's */
--#define HV_REGISTER_CRASH_P0			0x40000100
--#define HV_REGISTER_CRASH_P1			0x40000101
--#define HV_REGISTER_CRASH_P2			0x40000102
--#define HV_REGISTER_CRASH_P3			0x40000103
--#define HV_REGISTER_CRASH_P4			0x40000104
--#define HV_REGISTER_CRASH_CTL			0x40000105
-+#define HV_X64_MSR_CRASH_P0			0x40000100
-+#define HV_X64_MSR_CRASH_P1			0x40000101
-+#define HV_X64_MSR_CRASH_P2			0x40000102
-+#define HV_X64_MSR_CRASH_P3			0x40000103
-+#define HV_X64_MSR_CRASH_P4			0x40000104
-+#define HV_X64_MSR_CRASH_CTL			0x40000105
- 
- /* TSC emulation after migration */
- #define HV_X64_MSR_REENLIGHTENMENT_CONTROL	0x40000106
-@@ -276,31 +276,30 @@ enum hv_isolation_type {
- /* HV_X64_MSR_TSC_INVARIANT_CONTROL bits */
- #define HV_EXPOSE_INVARIANT_TSC		BIT_ULL(0)
- 
--/* Register name aliases for temporary compatibility */
--#define HV_X64_MSR_STIMER0_COUNT	HV_REGISTER_STIMER0_COUNT
--#define HV_X64_MSR_STIMER0_CONFIG	HV_REGISTER_STIMER0_CONFIG
--#define HV_X64_MSR_STIMER1_COUNT	HV_REGISTER_STIMER1_COUNT
--#define HV_X64_MSR_STIMER1_CONFIG	HV_REGISTER_STIMER1_CONFIG
--#define HV_X64_MSR_STIMER2_COUNT	HV_REGISTER_STIMER2_COUNT
--#define HV_X64_MSR_STIMER2_CONFIG	HV_REGISTER_STIMER2_CONFIG
--#define HV_X64_MSR_STIMER3_COUNT	HV_REGISTER_STIMER3_COUNT
--#define HV_X64_MSR_STIMER3_CONFIG	HV_REGISTER_STIMER3_CONFIG
--#define HV_X64_MSR_SCONTROL		HV_REGISTER_SCONTROL
--#define HV_X64_MSR_SVERSION		HV_REGISTER_SVERSION
--#define HV_X64_MSR_SIMP			HV_REGISTER_SIMP
--#define HV_X64_MSR_SIEFP		HV_REGISTER_SIEFP
--#define HV_X64_MSR_VP_INDEX		HV_REGISTER_VP_INDEX
--#define HV_X64_MSR_EOM			HV_REGISTER_EOM
--#define HV_X64_MSR_SINT0		HV_REGISTER_SINT0
--#define HV_X64_MSR_SINT15		HV_REGISTER_SINT15
--#define HV_X64_MSR_CRASH_P0		HV_REGISTER_CRASH_P0
--#define HV_X64_MSR_CRASH_P1		HV_REGISTER_CRASH_P1
--#define HV_X64_MSR_CRASH_P2		HV_REGISTER_CRASH_P2
--#define HV_X64_MSR_CRASH_P3		HV_REGISTER_CRASH_P3
--#define HV_X64_MSR_CRASH_P4		HV_REGISTER_CRASH_P4
--#define HV_X64_MSR_CRASH_CTL		HV_REGISTER_CRASH_CTL
--#define HV_X64_MSR_TIME_REF_COUNT	HV_REGISTER_TIME_REF_COUNT
--#define HV_X64_MSR_REFERENCE_TSC	HV_REGISTER_REFERENCE_TSC
-+/*
-+ * To support non-arch-specific code calling hv_set/get_register:
-+ * - On x86, HV_MSR_ indicates an MSR accessed via rdmsrl/wrmsrl
-+ * - On ARM, HV_MSR_ indicates a VP register accessed via hypercall
-+ */
-+#define HV_MSR_VP_INDEX		(HV_X64_MSR_VP_INDEX)
-+#define HV_MSR_TIME_REF_COUNT	(HV_X64_MSR_TIME_REF_COUNT)
-+#define HV_MSR_REFERENCE_TSC	(HV_X64_MSR_REFERENCE_TSC)
-+
-+#define HV_MSR_STIMER0_CONFIG	(HV_X64_MSR_STIMER0_CONFIG)
-+#define HV_MSR_STIMER0_COUNT	(HV_X64_MSR_STIMER0_COUNT)
-+
-+#define HV_MSR_SCONTROL		(HV_X64_MSR_SCONTROL)
-+#define HV_MSR_SIEFP		(HV_X64_MSR_SIEFP)
-+#define HV_MSR_SIMP		(HV_X64_MSR_SIMP)
-+#define HV_MSR_EOM		(HV_X64_MSR_EOM)
-+#define HV_MSR_SINT0		(HV_X64_MSR_SINT0)
-+
-+#define HV_MSR_CRASH_P0		(HV_X64_MSR_CRASH_P0)
-+#define HV_MSR_CRASH_P1		(HV_X64_MSR_CRASH_P1)
-+#define HV_MSR_CRASH_P2		(HV_X64_MSR_CRASH_P2)
-+#define HV_MSR_CRASH_P3		(HV_X64_MSR_CRASH_P3)
-+#define HV_MSR_CRASH_P4		(HV_X64_MSR_CRASH_P4)
-+#define HV_MSR_CRASH_CTL	(HV_X64_MSR_CRASH_CTL)
- 
- /*
-  * Registers are only accessible via HVCALL_GET_VP_REGISTERS hvcall and
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 033b53f993c6..e918b4132de8 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -295,14 +295,14 @@ static inline void hv_ivm_msr_read(u64 msr, u64 *value) {}
- 
- static inline bool hv_is_synic_reg(unsigned int reg)
- {
--	return (reg >= HV_REGISTER_SCONTROL) &&
--	       (reg <= HV_REGISTER_SINT15);
-+	return (reg >= HV_X64_MSR_SCONTROL) &&
-+	       (reg <= HV_X64_MSR_SINT15);
- }
- 
- static inline bool hv_is_sint_reg(unsigned int reg)
- {
--	return (reg >= HV_REGISTER_SINT0) &&
--	       (reg <= HV_REGISTER_SINT15);
-+	return (reg >= HV_X64_MSR_SINT0) &&
-+	       (reg <= HV_X64_MSR_SINT15);
- }
- 
- u64 hv_get_register(unsigned int reg);
-diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
-index e6bba12c759c..d85a8e2a10c9 100644
---- a/arch/x86/kernel/cpu/mshyperv.c
-+++ b/arch/x86/kernel/cpu/mshyperv.c
-@@ -48,19 +48,19 @@ EXPORT_SYMBOL_GPL(hyperv_paravisor_present);
- static inline unsigned int hv_get_nested_reg(unsigned int reg)
- {
- 	if (hv_is_sint_reg(reg))
--		return reg - HV_REGISTER_SINT0 + HV_REGISTER_NESTED_SINT0;
-+		return reg - HV_X64_MSR_SINT0 + HV_X64_MSR_NESTED_SINT0;
- 
- 	switch (reg) {
--	case HV_REGISTER_SIMP:
--		return HV_REGISTER_NESTED_SIMP;
--	case HV_REGISTER_SIEFP:
--		return HV_REGISTER_NESTED_SIEFP;
--	case HV_REGISTER_SVERSION:
--		return HV_REGISTER_NESTED_SVERSION;
--	case HV_REGISTER_SCONTROL:
--		return HV_REGISTER_NESTED_SCONTROL;
--	case HV_REGISTER_EOM:
--		return HV_REGISTER_NESTED_EOM;
-+	case HV_X64_MSR_SIMP:
-+		return HV_X64_MSR_NESTED_SIMP;
-+	case HV_X64_MSR_SIEFP:
-+		return HV_X64_MSR_NESTED_SIEFP;
-+	case HV_X64_MSR_SVERSION:
-+		return HV_X64_MSR_NESTED_SVERSION;
-+	case HV_X64_MSR_SCONTROL:
-+		return HV_X64_MSR_NESTED_SCONTROL;
-+	case HV_X64_MSR_EOM:
-+		return HV_X64_MSR_NESTED_EOM;
- 	default:
- 		return reg;
- 	}
-diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
-index 8ff7cd4e20bb..40832043dd21 100644
---- a/drivers/clocksource/hyperv_timer.c
-+++ b/drivers/clocksource/hyperv_timer.c
-@@ -81,14 +81,14 @@ static int hv_ce_set_next_event(unsigned long delta,
- 
- 	current_tick = hv_read_reference_counter();
- 	current_tick += delta;
--	hv_set_register(HV_REGISTER_STIMER0_COUNT, current_tick);
-+	hv_set_register(HV_MSR_STIMER0_COUNT, current_tick);
- 	return 0;
- }
- 
- static int hv_ce_shutdown(struct clock_event_device *evt)
- {
--	hv_set_register(HV_REGISTER_STIMER0_COUNT, 0);
--	hv_set_register(HV_REGISTER_STIMER0_CONFIG, 0);
-+	hv_set_register(HV_MSR_STIMER0_COUNT, 0);
-+	hv_set_register(HV_MSR_STIMER0_CONFIG, 0);
- 	if (direct_mode_enabled && stimer0_irq >= 0)
- 		disable_percpu_irq(stimer0_irq);
- 
-@@ -119,7 +119,7 @@ static int hv_ce_set_oneshot(struct clock_event_device *evt)
- 		timer_cfg.direct_mode = 0;
- 		timer_cfg.sintx = stimer0_message_sint;
- 	}
--	hv_set_register(HV_REGISTER_STIMER0_CONFIG, timer_cfg.as_uint64);
-+	hv_set_register(HV_MSR_STIMER0_CONFIG, timer_cfg.as_uint64);
- 	return 0;
- }
- 
-@@ -373,10 +373,10 @@ static __always_inline u64 read_hv_clock_msr(void)
- 	 * nanosecond units.
- 	 *
- 	 * Use hv_raw_get_register() because this function is used from
--	 * noinstr. Notable; while HV_REGISTER_TIME_REF_COUNT is a synthetic
-+	 * noinstr. Notable; while HV_MSR_TIME_REF_COUNT is a synthetic
- 	 * register it doesn't need the GHCB path.
- 	 */
--	return hv_raw_get_register(HV_REGISTER_TIME_REF_COUNT);
-+	return hv_raw_get_register(HV_MSR_TIME_REF_COUNT);
- }
- 
- /*
-@@ -439,9 +439,9 @@ static void suspend_hv_clock_tsc(struct clocksource *arg)
- 	union hv_reference_tsc_msr tsc_msr;
- 
- 	/* Disable the TSC page */
--	tsc_msr.as_uint64 = hv_get_register(HV_REGISTER_REFERENCE_TSC);
-+	tsc_msr.as_uint64 = hv_get_register(HV_MSR_REFERENCE_TSC);
- 	tsc_msr.enable = 0;
--	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr.as_uint64);
-+	hv_set_register(HV_MSR_REFERENCE_TSC, tsc_msr.as_uint64);
- }
- 
- 
-@@ -450,10 +450,10 @@ static void resume_hv_clock_tsc(struct clocksource *arg)
- 	union hv_reference_tsc_msr tsc_msr;
- 
- 	/* Re-enable the TSC page */
--	tsc_msr.as_uint64 = hv_get_register(HV_REGISTER_REFERENCE_TSC);
-+	tsc_msr.as_uint64 = hv_get_register(HV_MSR_REFERENCE_TSC);
- 	tsc_msr.enable = 1;
- 	tsc_msr.pfn = tsc_pfn;
--	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr.as_uint64);
-+	hv_set_register(HV_MSR_REFERENCE_TSC, tsc_msr.as_uint64);
- }
- 
- #ifdef HAVE_VDSO_CLOCKMODE_HVCLOCK
-@@ -555,14 +555,14 @@ static void __init hv_init_tsc_clocksource(void)
- 	 * thus TSC clocksource will work even without the real TSC page
- 	 * mapped.
- 	 */
--	tsc_msr.as_uint64 = hv_get_register(HV_REGISTER_REFERENCE_TSC);
-+	tsc_msr.as_uint64 = hv_get_register(HV_MSR_REFERENCE_TSC);
- 	if (hv_root_partition)
- 		tsc_pfn = tsc_msr.pfn;
- 	else
- 		tsc_pfn = HVPFN_DOWN(virt_to_phys(tsc_page));
- 	tsc_msr.enable = 1;
- 	tsc_msr.pfn = tsc_pfn;
--	hv_set_register(HV_REGISTER_REFERENCE_TSC, tsc_msr.as_uint64);
-+	hv_set_register(HV_MSR_REFERENCE_TSC, tsc_msr.as_uint64);
- 
- 	clocksource_register_hz(&hyperv_cs_tsc, NSEC_PER_SEC/100);
- 
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 51e5018ac9b2..5ea104c61fa7 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -270,7 +270,7 @@ void hv_synic_enable_regs(unsigned int cpu)
- 	union hv_synic_scontrol sctrl;
- 
- 	/* Setup the Synic's message page */
--	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
-+	simp.as_uint64 = hv_get_register(HV_MSR_SIMP);
- 	simp.simp_enabled = 1;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
-@@ -286,10 +286,10 @@ void hv_synic_enable_regs(unsigned int cpu)
- 			>> HV_HYP_PAGE_SHIFT;
- 	}
- 
--	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
-+	hv_set_register(HV_MSR_SIMP, simp.as_uint64);
- 
- 	/* Setup the Synic's event page */
--	siefp.as_uint64 = hv_get_register(HV_REGISTER_SIEFP);
-+	siefp.as_uint64 = hv_get_register(HV_MSR_SIEFP);
- 	siefp.siefp_enabled = 1;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
-@@ -305,12 +305,12 @@ void hv_synic_enable_regs(unsigned int cpu)
- 			>> HV_HYP_PAGE_SHIFT;
- 	}
- 
--	hv_set_register(HV_REGISTER_SIEFP, siefp.as_uint64);
-+	hv_set_register(HV_MSR_SIEFP, siefp.as_uint64);
- 
- 	/* Setup the shared SINT. */
- 	if (vmbus_irq != -1)
- 		enable_percpu_irq(vmbus_irq, 0);
--	shared_sint.as_uint64 = hv_get_register(HV_REGISTER_SINT0 +
-+	shared_sint.as_uint64 = hv_get_register(HV_MSR_SINT0 +
- 					VMBUS_MESSAGE_SINT);
- 
- 	shared_sint.vector = vmbus_interrupt;
-@@ -326,14 +326,14 @@ void hv_synic_enable_regs(unsigned int cpu)
- #else
- 	shared_sint.auto_eoi = 0;
- #endif
--	hv_set_register(HV_REGISTER_SINT0 + VMBUS_MESSAGE_SINT,
--				shared_sint.as_uint64);
-+	hv_set_register(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT,
-+			shared_sint.as_uint64);
- 
- 	/* Enable the global synic bit */
--	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
-+	sctrl.as_uint64 = hv_get_register(HV_MSR_SCONTROL);
- 	sctrl.enable = 1;
- 
--	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
-+	hv_set_register(HV_MSR_SCONTROL, sctrl.as_uint64);
- }
- 
- int hv_synic_init(unsigned int cpu)
-@@ -357,17 +357,17 @@ void hv_synic_disable_regs(unsigned int cpu)
- 	union hv_synic_siefp siefp;
- 	union hv_synic_scontrol sctrl;
- 
--	shared_sint.as_uint64 = hv_get_register(HV_REGISTER_SINT0 +
-+	shared_sint.as_uint64 = hv_get_register(HV_MSR_SINT0 +
- 					VMBUS_MESSAGE_SINT);
- 
- 	shared_sint.masked = 1;
- 
- 	/* Need to correctly cleanup in the case of SMP!!! */
- 	/* Disable the interrupt */
--	hv_set_register(HV_REGISTER_SINT0 + VMBUS_MESSAGE_SINT,
--				shared_sint.as_uint64);
-+	hv_set_register(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT,
-+			shared_sint.as_uint64);
- 
--	simp.as_uint64 = hv_get_register(HV_REGISTER_SIMP);
-+	simp.as_uint64 = hv_get_register(HV_MSR_SIMP);
- 	/*
- 	 * In Isolation VM, sim and sief pages are allocated by
- 	 * paravisor. These pages also will be used by kdump
-@@ -382,9 +382,9 @@ void hv_synic_disable_regs(unsigned int cpu)
- 		simp.base_simp_gpa = 0;
- 	}
- 
--	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
-+	hv_set_register(HV_MSR_SIMP, simp.as_uint64);
- 
--	siefp.as_uint64 = hv_get_register(HV_REGISTER_SIEFP);
-+	siefp.as_uint64 = hv_get_register(HV_MSR_SIEFP);
- 	siefp.siefp_enabled = 0;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition) {
-@@ -394,12 +394,12 @@ void hv_synic_disable_regs(unsigned int cpu)
- 		siefp.base_siefp_gpa = 0;
- 	}
- 
--	hv_set_register(HV_REGISTER_SIEFP, siefp.as_uint64);
-+	hv_set_register(HV_MSR_SIEFP, siefp.as_uint64);
- 
- 	/* Disable the global synic bit */
--	sctrl.as_uint64 = hv_get_register(HV_REGISTER_SCONTROL);
-+	sctrl.as_uint64 = hv_get_register(HV_MSR_SCONTROL);
- 	sctrl.enable = 0;
--	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
-+	hv_set_register(HV_MSR_SCONTROL, sctrl.as_uint64);
- 
- 	if (vmbus_irq != -1)
- 		disable_percpu_irq(vmbus_irq);
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index ccad7bca3fd3..0be3fbec52dd 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -228,17 +228,17 @@ static void hv_kmsg_dump(struct kmsg_dumper *dumper,
- 	 * contain the size of the panic data in that page. Rest of the
- 	 * registers are no-op when the NOTIFY_MSG flag is set.
- 	 */
--	hv_set_register(HV_REGISTER_CRASH_P0, 0);
--	hv_set_register(HV_REGISTER_CRASH_P1, 0);
--	hv_set_register(HV_REGISTER_CRASH_P2, 0);
--	hv_set_register(HV_REGISTER_CRASH_P3, virt_to_phys(hv_panic_page));
--	hv_set_register(HV_REGISTER_CRASH_P4, bytes_written);
-+	hv_set_register(HV_MSR_CRASH_P0, 0);
-+	hv_set_register(HV_MSR_CRASH_P1, 0);
-+	hv_set_register(HV_MSR_CRASH_P2, 0);
-+	hv_set_register(HV_MSR_CRASH_P3, virt_to_phys(hv_panic_page));
-+	hv_set_register(HV_MSR_CRASH_P4, bytes_written);
+diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
+index 68a0843d4750..5ba5ca1b2089 100644
+--- a/arch/x86/hyperv/hv_proc.c
++++ b/arch/x86/hyperv/hv_proc.c
+@@ -121,7 +121,6 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 	u64 status;
+ 	unsigned long flags;
+ 	int ret = HV_STATUS_SUCCESS;
+-	int pxm = node_to_pxm(node);
  
  	/*
- 	 * Let Hyper-V know there is crash data available along with
- 	 * the panic message.
- 	 */
--	hv_set_register(HV_REGISTER_CRASH_CTL,
-+	hv_set_register(HV_MSR_CRASH_CTL,
- 			(HV_CRASH_CTL_CRASH_NOTIFY |
- 			 HV_CRASH_CTL_CRASH_NOTIFY_MSG));
+ 	 * When adding a logical processor, the hypervisor may return
+@@ -137,11 +136,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 
+ 		input->lp_index = lp_index;
+ 		input->apic_id = apic_id;
+-		input->flags = 0;
+-		input->proximity_domain_info.domain_id = pxm;
+-		input->proximity_domain_info.flags.reserved = 0;
+-		input->proximity_domain_info.flags.proximity_info_valid = 1;
+-		input->proximity_domain_info.flags.proximity_preferred = 1;
++		input->proximity_domain_info =
++			numa_node_to_proximity_domain_info(node);
+ 		status = hv_do_hypercall(HVCALL_ADD_LOGICAL_PROCESSOR,
+ 					 input, output);
+ 		local_irq_restore(flags);
+diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
+index 1f4fc5f8a819..0cf9f0574495 100644
+--- a/drivers/acpi/numa/srat.c
++++ b/drivers/acpi/numa/srat.c
+@@ -48,6 +48,7 @@ int node_to_pxm(int node)
+ 		return PXM_INVAL;
+ 	return node_to_pxm_map[node];
  }
-@@ -311,7 +311,7 @@ int __init hv_common_init(void)
- 		 * Register for panic kmsg callback only if the right
- 		 * capability is supported by the hypervisor.
- 		 */
--		hyperv_crash_ctl = hv_get_register(HV_REGISTER_CRASH_CTL);
-+		hyperv_crash_ctl = hv_get_register(HV_MSR_CRASH_CTL);
- 		if (hyperv_crash_ctl & HV_CRASH_CTL_CRASH_NOTIFY_MSG)
- 			hv_kmsg_dump_register();
++EXPORT_SYMBOL(node_to_pxm);
  
-@@ -410,7 +410,7 @@ int hv_common_cpu_init(unsigned int cpu)
- 		*inputarg = mem;
- 	}
- 
--	msr_vp_index = hv_get_register(HV_REGISTER_VP_INDEX);
-+	msr_vp_index = hv_get_register(HV_MSR_VP_INDEX);
- 
- 	hv_vp_index[cpu] = msr_vp_index;
- 
-@@ -507,7 +507,7 @@ EXPORT_SYMBOL_GPL(hv_is_hibernation_supported);
-  */
- static u64 __hv_read_ref_counter(void)
+ static void __acpi_map_pxm_to_node(int pxm, int node)
  {
--	return hv_get_register(HV_REGISTER_TIME_REF_COUNT);
-+	return hv_get_register(HV_MSR_TIME_REF_COUNT);
- }
+diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
+index f63b3704d89e..a6dffb346bf2 100644
+--- a/include/asm-generic/hyperv-tlfs.h
++++ b/include/asm-generic/hyperv-tlfs.h
+@@ -512,13 +512,9 @@ struct hv_proximity_domain_flags {
+ 	u32 proximity_info_valid : 1;
+ } __packed;
  
- u64 (*hv_read_reference_counter)(void) = __hv_read_ref_counter;
+-/* Not a union in windows but useful for zeroing */
+-union hv_proximity_domain_info {
+-	struct {
+-		u32 domain_id;
+-		struct hv_proximity_domain_flags flags;
+-	};
+-	u64 as_uint64;
++struct hv_proximity_domain_info {
++	u32 domain_id;
++	struct hv_proximity_domain_flags flags;
+ } __packed;
+ 
+ struct hv_lp_startup_status {
+@@ -535,7 +531,7 @@ struct hv_lp_startup_status {
+ struct hv_add_logical_processor_in {
+ 	u32 lp_index;
+ 	u32 apic_id;
+-	union hv_proximity_domain_info proximity_domain_info;
++	struct hv_proximity_domain_info proximity_domain_info;
+ 	u64 flags;
+ } __packed;
+ 
+@@ -560,7 +556,7 @@ struct hv_create_vp {
+ 	u8 padding[3];
+ 	u8 subnode_type;
+ 	u64 subnode_id;
+-	union hv_proximity_domain_info proximity_domain_info;
++	struct hv_proximity_domain_info proximity_domain_info;
+ 	u64 flags;
+ } __packed;
+ 
 diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index cecd2b7bd033..56f4a447a178 100644
+index 9f2c06c9d5d1..8cc7b0e316d7 100644
 --- a/include/asm-generic/mshyperv.h
 +++ b/include/asm-generic/mshyperv.h
-@@ -157,7 +157,7 @@ static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
- 		 * possibly deliver another msg from the
- 		 * hypervisor
- 		 */
--		hv_set_register(HV_REGISTER_EOM, 0);
-+		hv_set_register(HV_MSR_EOM, 0);
- 	}
- }
+@@ -21,6 +21,7 @@
+ #include <linux/types.h>
+ #include <linux/atomic.h>
+ #include <linux/bitops.h>
++#include <acpi/acpi_numa.h>
+ #include <linux/cpumask.h>
+ #include <linux/nmi.h>
+ #include <asm/ptrace.h>
+@@ -28,6 +29,20 @@
  
+ #define VTPM_BASE_ADDRESS 0xfed40000
+ 
++static inline struct hv_proximity_domain_info
++numa_node_to_proximity_domain_info(int node)
++{
++	struct hv_proximity_domain_info proximity_domain_info = {};
++
++	if (node != NUMA_NO_NODE) {
++		proximity_domain_info.domain_id = node_to_pxm(node);
++		proximity_domain_info.flags.proximity_info_valid = 1;
++		proximity_domain_info.flags.proximity_preferred = 1;
++	}
++
++	return proximity_domain_info;
++}
++
+ struct ms_hyperv_info {
+ 	u32 features;
+ 	u32 priv_high;
 -- 
 2.25.1
 
