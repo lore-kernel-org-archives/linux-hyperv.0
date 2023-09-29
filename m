@@ -1,22 +1,22 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C4866678
-	for <linux-hyperv@vger.kernel.org>; Fri, 29 Sep 2023 18:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683EE66663
+	for <linux-hyperv@vger.kernel.org>; Fri, 29 Sep 2023 18:02:09 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 707E4CC0;
-	Fri, 29 Sep 2023 11:01:57 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id D6A24CDB;
+	Fri, 29 Sep 2023 11:02:04 -0700 (PDT)
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9759C20B74C5;
+	by linux.microsoft.com (Postfix) with ESMTPSA id CFED520B74C9;
 	Fri, 29 Sep 2023 11:01:56 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9759C20B74C5
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CFED520B74C9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1696010516;
-	bh=3fBbVBD2uKgvoquqz27ACQRB2O2cWkvCr1Y5+xe6PMQ=;
+	bh=xJGY+bah0gwBYOay/k4WwIaIF48jMplDAD7CUwqn29o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TVzDnXd53dpojCdgNZ5GSAI//ZFMoeAD646kLVWXYHL7HjKqKyHska0roEu9A8e06
-	 48THBjuWo+E3tP8M0Lca97fbz4zZJfSDJeqq+ebFnchVaWQ2KK1Bdbh1NlVkc25n6r
-	 kkk0+eDGORRWw+MIk77oxZqmF5pLRWnzrB45aqAI=
+	b=SRKCEotxzqxM77dFcLBc3LFUXRh/RgWdwXM3wpbZMbUr7EpOQsK89TtTDYpO1GyAX
+	 tr3zU26hwroCbF7Db0vQSFTMcNMe/RHoqX+RMijIWQrLDPhllTyoq3Egjv+erUkDBg
+	 xaPsWV5G9nhsrMxwrLOFey4xI3azorzii20eDLmA=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -44,9 +44,9 @@ Cc: patches@lists.linux.dev,
 	hpa@zytor.com,
 	will@kernel.org,
 	catalin.marinas@arm.com
-Subject: [PATCH v4 03/15] mshyperv: Introduce numa_node_to_proximity_domain_info
-Date: Fri, 29 Sep 2023 11:01:29 -0700
-Message-Id: <1696010501-24584-4-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v4 05/15] hyperv: Move hv_connection_id to hyperv-tlfs
+Date: Fri, 29 Sep 2023 11:01:31 -0700
+Message-Id: <1696010501-24584-6-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1696010501-24584-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1696010501-24584-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -62,130 +62,57 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Factor out logic for converting numa node to proximity domain info into
-a helper function, and export it.
+The definition conflicts with one added in hvgdk.h as part of the mshv
+driver so must be moved to hyperv-tlfs.h.
 
-Change hv_proximity_domain_info to a struct to simplify the code.
+This structure should be in hyperv-tlfs.h anyway, since it is part of
+the TLFS document.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Reviewed-by: Wei Liu <wei.liu@kernel.org>
+Acked-by: Wei Liu <wei.liu@kernel.org>
 ---
- arch/x86/hyperv/hv_proc.c         |  8 ++------
- drivers/acpi/numa/srat.c          |  1 +
- include/asm-generic/hyperv-tlfs.h | 14 +++++---------
- include/asm-generic/mshyperv.h    | 15 +++++++++++++++
- 4 files changed, 23 insertions(+), 15 deletions(-)
+ include/asm-generic/hyperv-tlfs.h | 9 +++++++++
+ include/linux/hyperv.h            | 9 ---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
-index 68a0843d4750..5ba5ca1b2089 100644
---- a/arch/x86/hyperv/hv_proc.c
-+++ b/arch/x86/hyperv/hv_proc.c
-@@ -121,7 +121,6 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 	u64 status;
- 	unsigned long flags;
- 	int ret = HV_STATUS_SUCCESS;
--	int pxm = node_to_pxm(node);
- 
- 	/*
- 	 * When adding a logical processor, the hypervisor may return
-@@ -137,11 +136,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
- 
- 		input->lp_index = lp_index;
- 		input->apic_id = apic_id;
--		input->flags = 0;
--		input->proximity_domain_info.domain_id = pxm;
--		input->proximity_domain_info.flags.reserved = 0;
--		input->proximity_domain_info.flags.proximity_info_valid = 1;
--		input->proximity_domain_info.flags.proximity_preferred = 1;
-+		input->proximity_domain_info =
-+			numa_node_to_proximity_domain_info(node);
- 		status = hv_do_hypercall(HVCALL_ADD_LOGICAL_PROCESSOR,
- 					 input, output);
- 		local_irq_restore(flags);
-diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
-index 1f4fc5f8a819..0cf9f0574495 100644
---- a/drivers/acpi/numa/srat.c
-+++ b/drivers/acpi/numa/srat.c
-@@ -48,6 +48,7 @@ int node_to_pxm(int node)
- 		return PXM_INVAL;
- 	return node_to_pxm_map[node];
- }
-+EXPORT_SYMBOL(node_to_pxm);
- 
- static void __acpi_map_pxm_to_node(int pxm, int node)
- {
 diff --git a/include/asm-generic/hyperv-tlfs.h b/include/asm-generic/hyperv-tlfs.h
-index f63b3704d89e..a6dffb346bf2 100644
+index a6dffb346bf2..1316584983c1 100644
 --- a/include/asm-generic/hyperv-tlfs.h
 +++ b/include/asm-generic/hyperv-tlfs.h
-@@ -512,13 +512,9 @@ struct hv_proximity_domain_flags {
- 	u32 proximity_info_valid : 1;
+@@ -842,4 +842,13 @@ struct hv_mmio_write_input {
+ 	u8 data[HV_HYPERCALL_MMIO_MAX_DATA_LENGTH];
  } __packed;
  
--/* Not a union in windows but useful for zeroing */
--union hv_proximity_domain_info {
++/* Define connection identifier type. */
++union hv_connection_id {
++	u32 asu32;
++	struct {
++		u32 id:24;
++		u32 reserved:8;
++	} u;
++};
++
+ #endif
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 2b00faf98017..4d5a5e39d76c 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -748,15 +748,6 @@ struct vmbus_close_msg {
+ 	struct vmbus_channel_close_channel msg;
+ };
+ 
+-/* Define connection identifier type. */
+-union hv_connection_id {
+-	u32 asu32;
 -	struct {
--		u32 domain_id;
--		struct hv_proximity_domain_flags flags;
--	};
--	u64 as_uint64;
-+struct hv_proximity_domain_info {
-+	u32 domain_id;
-+	struct hv_proximity_domain_flags flags;
- } __packed;
- 
- struct hv_lp_startup_status {
-@@ -535,7 +531,7 @@ struct hv_lp_startup_status {
- struct hv_add_logical_processor_in {
- 	u32 lp_index;
- 	u32 apic_id;
--	union hv_proximity_domain_info proximity_domain_info;
-+	struct hv_proximity_domain_info proximity_domain_info;
- 	u64 flags;
- } __packed;
- 
-@@ -560,7 +556,7 @@ struct hv_create_vp {
- 	u8 padding[3];
- 	u8 subnode_type;
- 	u64 subnode_id;
--	union hv_proximity_domain_info proximity_domain_info;
-+	struct hv_proximity_domain_info proximity_domain_info;
- 	u64 flags;
- } __packed;
- 
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index 9f2c06c9d5d1..8cc7b0e316d7 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -21,6 +21,7 @@
- #include <linux/types.h>
- #include <linux/atomic.h>
- #include <linux/bitops.h>
-+#include <acpi/acpi_numa.h>
- #include <linux/cpumask.h>
- #include <linux/nmi.h>
- #include <asm/ptrace.h>
-@@ -28,6 +29,20 @@
- 
- #define VTPM_BASE_ADDRESS 0xfed40000
- 
-+static inline struct hv_proximity_domain_info
-+numa_node_to_proximity_domain_info(int node)
-+{
-+	struct hv_proximity_domain_info proximity_domain_info = {};
-+
-+	if (node != NUMA_NO_NODE) {
-+		proximity_domain_info.domain_id = node_to_pxm(node);
-+		proximity_domain_info.flags.proximity_info_valid = 1;
-+		proximity_domain_info.flags.proximity_preferred = 1;
-+	}
-+
-+	return proximity_domain_info;
-+}
-+
- struct ms_hyperv_info {
- 	u32 features;
- 	u32 priv_high;
+-		u32 id:24;
+-		u32 reserved:8;
+-	} u;
+-};
+-
+ enum vmbus_device_type {
+ 	HV_IDE = 0,
+ 	HV_SCSI,
 -- 
 2.25.1
 
