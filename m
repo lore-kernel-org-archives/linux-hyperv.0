@@ -1,26 +1,26 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F546C14B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CE8C2F9
 	for <linux-hyperv@vger.kernel.org>; Mon,  2 Oct 2023 08:53:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F0009C32785;
-	Mon,  2 Oct 2023 08:53:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 233BCC32791;
+	Mon,  2 Oct 2023 08:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1696236796;
-	bh=BSn//RwfVMrvPoAKalhFYY/8mhovHq+kd6dT13gD9k8=;
+	bh=CWlJL9Lw1/ldMKMXIXxw/hUhoDe/0uo8LXE4rcCIDvg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=SSaI6BvxQjmcs4GEFZYC3EtPh56M5+I3SEdeEvMdmsRlgOl0/nTzwWXn3SVikiv79
-	 1ayAq0JLHvsOpnFr5pG6EjoOpv9TTpuf0rPByflnwmE3lod1nOxMPklWlhHWdlkOwB
-	 JxkBU8vSXXU2NXqSZvSYKDdDiKqUqYs7wzdyJfEl6qERmKKcNKalyNcXpDOswSgooA
-	 5c+BntKi8u8CTorQZd0u0T3GHtZMlIV3DN6PTFtcnuw7TGDWyFGWM4dENwf+CLDzQv
-	 Qkb7Cgk905aYCAcBgsqVot56xdPAlCTn26GtrBXNC8z8OXh3gWOgnhgFrHh2wT1dB/
-	 xtNJm+wd4VwCw==
+	b=dr780/9OgUcsdtC82ja0MVSV0MPcrkXtIHn1pfiy0bouUWxiebn11JLyTjawcIz1B
+	 ACtOMw8UJL7kZBt4+Lypa11r9YIbBL2pUR4tV7r3QIOnCIuJuaBBW/9q4JfKHjx1rO
+	 6DzPgfGQxmcnE3sD8DWla26vXCXsl+oyLhwVGCFiYwBOrRxzVfX7ROfuVdzYIv7UN4
+	 DLxNvEoWgw3dN2cyVkNUBQeJlZ7BFF4dfqBAUktV8qF7Fxq4p/dDrq364NaHDDdMbT
+	 HPQK4lMcdLy+TTpsVeHkfkPs0w8oUjzfHoz+Rpqcu+CKTvTQz3xFFRsIiD83pD1xv0
+	 sGtUhoGU9ETOw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF8C0E7849A;
-	Mon,  2 Oct 2023 08:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF3CE784B4;
+	Mon,  2 Oct 2023 08:53:16 +0000 (UTC)
 From: Joel Granados via B4 Relay <devnull+j.granados.samsung.com@kernel.org>
-Date: Mon, 02 Oct 2023 10:55:29 +0200
-Subject: [PATCH v2 12/15] fw loader: Remove the now superfluous sentinel
+Date: Mon, 02 Oct 2023 10:55:31 +0200
+Subject: [PATCH v2 14/15] Drivers: hv: Remove now superfluous sentinel
  element from ctl_table array
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -31,7 +31,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Message-Id: =?utf-8?q?=3C20231002-jag-sysctl=5Fremove=5Fempty=5Felem=5Fdrive?=
- =?utf-8?q?rs-v2-12-02dd0d46f71e=40samsung=2Ecom=3E?=
+ =?utf-8?q?rs-v2-14-02dd0d46f71e=40samsung=2Ecom=3E?=
 References:
  <20231002-jag-sysctl_remove_empty_elem_drivers-v2-0-02dd0d46f71e@samsung.com>
 In-Reply-To:
@@ -72,18 +72,17 @@ Cc: Joel Granados <j.granados@samsung.com>, linux-kernel@vger.kernel.org,
  linux-hyperv@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
  dri-devel@lists.freedesktop.org
 X-Mailer: b4 0.13-dev-86aa5
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1030;
- i=j.granados@samsung.com; h=from:subject:message-id;
- bh=dSbsqoYM5F0forI6JAxGBllYsHihbal0Nnr9OSk3MCA=;
- b=owEB7QES/pANAwAKAbqXzVK3lkFPAcsmYgBlGoV/KvOoFfWIcmAF/sCqbEzd0ciPPa7ANRQeV
- 5eLgFZ3QDOJAbMEAAEKAB0WIQSuRwlXJeYxJc7LJ5C6l81St5ZBTwUCZRqFfwAKCRC6l81St5ZB
- T2T1C/0Ue0/pX8RJDJSDBCMCjQ3HVnnkiI6/qCOH0fnL8+CWShqnWrkdXO6K5PzvyZvto0MaV1O
- qwtKHF0/he5rQjfT19MmMeap2SqXGkznWmnHlVdYtjAcu+eKD7lgElb+2YoOSxzCgrp66NaIHCT
- Rfn9REm0zsNr40oIeungH2jJmzpq48UW91InfOQrc8fNEs7gvVBWFN8x5lsPbgIfzkO0O9Sne0t
- o3E8YDJU+2PoW4qWEeuUOmAVROIwT110ScNs32qOQ+hWxeSXnH5vPTVt651tV9nJinTWPuPoNo8
- GklO6k76kbbl3rN3a4pHNPp5JUfxThANZaFjTs4M54UNA6XL/KY4YSE9kXWGJrE4tWHAMbXYX8M
- 1wY9+Tla39Vmi6M2EY0kVNR6xj+LTfD8Qz0P5E2FqXUCFRuwdg5vabCaSNTAdr1FH077BSkS4Z3
- sTt6P68liUw7QyehRCrWLRyiEE4yxcGT9ADxewgJ9bZe1CfP0Y8NhVrZg6/OlaRWYBziM=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=895; i=j.granados@samsung.com;
+ h=from:subject:message-id; bh=aRo7NVdYCvLdNgGSBgQ6l0+E6oBOdQJH07rUCLQlR94=;
+ b=owEB7QES/pANAwAKAbqXzVK3lkFPAcsmYgBlGoV/RVrZ++DlZt66bGmFv2tACCjFtyc9bKCyt
+ Xh72+xBYa2JAbMEAAEKAB0WIQSuRwlXJeYxJc7LJ5C6l81St5ZBTwUCZRqFfwAKCRC6l81St5ZB
+ T9wCC/9S9uDWtQoaUtTyJySq/BwgMLnAny2OrneSlhO0UKqMZFvbOgUuQGiJNs8VyC7IlWrxHVm
+ 2gbT3WD/mQhI9WX/B0z4TarGuU+BJmzwoPPun5D3G6oUedf0JdyIZLs9TJwZyL4KbQHIhVQ8skt
+ 9d2ELBqWveNmV8f+e8MKgjsdagi/9I77W0Dlj2eujgXgyIiPLQ/ZS+2g+heBSUicyN16ibHEu82
+ LllVj4x/NiItYuyLOncHEA6dI2/PYrOmYAHIkg5yUqWOhwDEKS4RmcYq0Y0lzUl8APdk06uQkJb
+ FFdVwsBnc3/rIeI8WobAqGTPjJ+p7k6APq5wq2IG+SuGmix2X7nozc7PdKVDApIkihzXIqIdVzt
+ YXt3lgmdjZI5hmlPt6RyTPvW/lX88Ru+QtyDLF7HtMgyQnjyq5zqqu1URjGJnly2oy19F7wlilb
+ AGIwY7o8qjN9C7sQC6yGWy2cGGyxw/g56tiwhVyVidw8uSz1wSXK/WM5kW7C0TiW0R8hQ=
 X-Developer-Key: i=j.granados@samsung.com; a=openpgp;
  fpr=F1F8E46D30F0F6C4A45FF4465895FAAC338C6E77
 X-Endpoint-Received:
@@ -99,25 +98,25 @@ will reduce the overall build time size of the kernel and run time
 memory bloat by ~64 bytes per sentinel (further information Link :
 https://lore.kernel.org/all/ZO5Yx5JFogGi%2FcBo@bombadil.infradead.org/)
 
-Remove sentinel from firmware_config_table
+Remove sentinel from hv_ctl_table
 
 Signed-off-by: Joel Granados <j.granados@samsung.com>
 ---
- drivers/base/firmware_loader/fallback_table.c | 1 -
+ drivers/hv/hv_common.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/base/firmware_loader/fallback_table.c b/drivers/base/firmware_loader/fallback_table.c
-index e5ac098d0742..8432ab2c3b3c 100644
---- a/drivers/base/firmware_loader/fallback_table.c
-+++ b/drivers/base/firmware_loader/fallback_table.c
-@@ -44,7 +44,6 @@ static struct ctl_table firmware_config_table[] = {
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index ccad7bca3fd3..4372f5d146ab 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -148,7 +148,6 @@ static struct ctl_table hv_ctl_table[] = {
  		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
+ 		.extra2		= SYSCTL_ONE
  	},
--	{ }
+-	{}
  };
  
- static struct ctl_table_header *firmware_config_sysct_table_header;
+ static int hv_die_panic_notify_crash(struct notifier_block *self,
 
 -- 
 2.30.2
