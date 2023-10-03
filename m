@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F4FD266
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Oct 2023 06:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40504D267
+	for <linux-hyperv@vger.kernel.org>; Tue,  3 Oct 2023 06:54:45 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13473CC;
-	Mon,  2 Oct 2023 23:54:40 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5263E0;
+	Mon,  2 Oct 2023 23:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696316080; x=1727852080;
+  t=1696316083; x=1727852083;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Z2I9XuVKzLs7Gkjt7VvwoncwktLr23Bll2CpTX5dzXE=;
-  b=jj8jn6NLWISoGg9tlcdry69aCf4bXOncovk15oc39cK88nM0DjAt/wAt
-   GmP6IqapgBtcXIRRrue3oLcDq7eXROfSG4ImWNnFbLGmElY6lNBNIcMU2
-   lzGRtEIwyxOtkc6BQ/z26BZUh91TNuzldMoP1fFYA/5Eemq8kSMLhTGBM
-   48ecJngS2R1wG5e5+zvthqg8sQ88SxrrkliwAUGAV9XxuPBzTOd7b/mlo
-   Kzzv7kASOq56mu4CR/3IC63jLfCRv1ljVJJFU9YW+URsMRuSY1WPIT/s9
-   OylOTVQwwdcAdRNOxSD9i708ws+O60SmFPpaher0f3L01Hn7bX6oH5fY1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367857978"
+  bh=nnaiSfOR32UqURagnGQyKATdoHKyxN7QZzCa/h9+/jY=;
+  b=mYQJghx5+ZYjU99/6b9cpAIhI0Tl1nLjZX+DvnvVmRCeSjQiM46n61mW
+   ZtMAww0b1iCTbl77/f0GrDod8pW0K7TeU82cIZFaHraSAt8Sg+BQJaX/r
+   pBiiAck3vQ99pHtvApiT/qccBB/oi30R/LHtG/BlbR29GdZASkIhSN+Q5
+   Qj6AMrDuGWuk89PN4GdHBzZYSnpXYNXGY4d9I+X7kXlS2LUlU7Y39YSpU
+   qrMxWdFM0wAGC14ReXwoDJIc5h8OCwzRGrz2yuHU48C6uErBQbpHUjg7+
+   T1UH4WZqgolVCLZicYfxLlLYfyHUyRJAGcSraUvtJqp6PuDGXUV/7Ot42
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367858039"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367857978"
+   d="scan'208";a="367858039"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:38 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900931"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081900916"
+   d="scan'208";a="1081900931"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:37 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:40 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v12 07/37] x86/fred: Add Kconfig option for FRED (CONFIG_X86_FRED)
-Date: Mon,  2 Oct 2023 23:24:28 -0700
-Message-Id: <20231003062458.23552-8-xin3.li@intel.com>
+Subject: [PATCH v12 12/37] x86/objtool: Teach objtool about ERET[US]
+Date: Mon,  2 Oct 2023 23:24:33 -0700
+Message-Id: <20231003062458.23552-13-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
 References: <20231003062458.23552-1-xin3.li@intel.com>
@@ -75,35 +75,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Add the configuration option CONFIG_X86_FRED to enable FRED.
+Update the objtool decoder to know about the ERET[US] instructions
+(type INSN_CONTEXT_SWITCH).
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/Kconfig | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tools/objtool/arch/x86/decode.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 433f5e1906d1..5ef2f6fe0681 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -496,6 +496,15 @@ config X86_CPU_RESCTRL
+diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
+index c0f25d00181e..6999f478c155 100644
+--- a/tools/objtool/arch/x86/decode.c
++++ b/tools/objtool/arch/x86/decode.c
+@@ -509,11 +509,20 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
  
- 	  Say N if unsure.
+ 		if (op2 == 0x01) {
  
-+config X86_FRED
-+	bool "Flexible Return and Event Delivery"
-+	depends on X86_64
-+	help
-+	  When enabled, try to use Flexible Return and Event Delivery
-+	  instead of the legacy SYSCALL/SYSENTER/IDT architecture for
-+	  ring transitions and exception/interrupt handling if the
-+	  system supports.
-+
- if X86_32
- config X86_BIGSMP
- 	bool "Support for big SMP systems with more than 8 CPUs"
+-			if (modrm == 0xca)
+-				insn->type = INSN_CLAC;
+-			else if (modrm == 0xcb)
+-				insn->type = INSN_STAC;
+-
++			switch (insn_last_prefix_id(&ins)) {
++			case INAT_PFX_REPE:
++			case INAT_PFX_REPNE:
++				if (modrm == 0xca)
++					/* eretu/erets */
++					insn->type = INSN_CONTEXT_SWITCH;
++				break;
++			default:
++				if (modrm == 0xca)
++					insn->type = INSN_CLAC;
++				else if (modrm == 0xcb)
++					insn->type = INSN_STAC;
++				break;
++			}
+ 		} else if (op2 >= 0x80 && op2 <= 0x8f) {
+ 
+ 			insn->type = INSN_JUMP_CONDITIONAL;
 -- 
 2.34.1
 
