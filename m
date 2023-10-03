@@ -1,35 +1,35 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AE5CA77
-	for <linux-hyperv@vger.kernel.org>; Tue,  3 Oct 2023 06:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957DBCA66
+	for <linux-hyperv@vger.kernel.org>; Tue,  3 Oct 2023 06:54:40 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 706DBB0;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1CB8BD;
 	Mon,  2 Oct 2023 23:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1696316078; x=1727852078;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=MxQyQabDuj01hP6xHQ5mL2MlMceZ5LcTb8ReoP3KjJA=;
-  b=CK2YHIt64IFZMDSZcLtcvQbtNWV6boBIUHO5BCPyx5gQoucfbLkf/cKJ
-   M2QrakQRx5f9NGJSEP7TyN1RkMl5SpLKpo4zExT8jb4IBIkFE7LHnB0FZ
-   119e8MAKWhM327DajLEA7Z7AkDzBELL1vFtPdidJ3QYFr5j6rgkNhZhhs
-   PnYgjzRUObzrkDTpwo9IJY2E9ytrUq1r0YVcmWkb+kCTADOvOwd7jr2rp
-   60rzqAtrF+M6Na0iHk18QPikkraLtf2tH2zun+vVKPdJI8dDD7vsiq7c5
-   dHt/Bp/oYvgJqzHIyHZzivyXiDmPEbuQkXA0x1Um8EzeHoqYJtNWpDfEZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367857913"
+  bh=IaxeoNWuhGDXlIm0wMB8nNslGvpF2+LIDATl0KgTQLA=;
+  b=ec4QYHFK1qDLdwGykgsn+IpRBDuEfHgaL/mEVGzp249u8UG7WZWUCKF8
+   u0SSJIS+s/8ffX+/OumM6wdTa3obUpzB/U9QigXORmy75Bh9LZVMsQBi7
+   MBPmug/tnm7BYBGFrnAUUuQ7rH85JXdQNhVB3pKtix+G1MyBGobN3CD0e
+   3YZRgPLQNGGg3hVg8arJyL1kqioy3ZOImOfvQZ1CMsJTcdAifQYkO0kXu
+   Lsnlfi2XKFWBneBjFtgNRfrJeVO+ojSoZlzfa4UU0giV4rzOp+5buVzQQ
+   9TjHSJ9oWd6VBIhzmO5YsriBlC1GZwePskARDLdV28B8QbN1vITgQ+kBA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="367857938"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="367857913"
+   d="scan'208";a="367857938"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:35 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2023 23:54:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900898"
+X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="1081900906"
 X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="1081900898"
+   d="scan'208";a="1081900906"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:35 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2023 23:54:36 -0700
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: tglx@linutronix.de,
 	andrew.cooper3@citrix.com,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com
-Subject: [PATCH v12 02/37] x86/opcode: Add the WRMSRNS instruction to the x86 opcode map
-Date: Mon,  2 Oct 2023 23:24:23 -0700
-Message-Id: <20231003062458.23552-3-xin3.li@intel.com>
+Subject: [PATCH v12 04/37] x86/entry: Remove idtentry_sysvec from entry_{32,64}.S
+Date: Mon,  2 Oct 2023 23:24:25 -0700
+Message-Id: <20231003062458.23552-5-xin3.li@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231003062458.23552-1-xin3.li@intel.com>
 References: <20231003062458.23552-1-xin3.li@intel.com>
@@ -73,43 +73,64 @@ X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
 	lindbergh.monkeyblade.net
 
-Add the opcode used by WRMSRNS, which is the non-serializing version of
-WRMSR and may replace it to improve performance, to the x86 opcode map.
+idtentry_sysvec is really just DECLARE_IDTENTRY defined in
+<asm/idtentry.h>, no need to define it separately.
 
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- arch/x86/lib/x86-opcode-map.txt       | 2 +-
- tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/x86/entry/entry_32.S       | 4 ----
+ arch/x86/entry/entry_64.S       | 8 --------
+ arch/x86/include/asm/idtentry.h | 2 +-
+ 3 files changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/arch/x86/lib/x86-opcode-map.txt
-+++ b/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
+diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+index 6e6af42e044a..e0f22ad8ff7e 100644
+--- a/arch/x86/entry/entry_32.S
++++ b/arch/x86/entry/entry_32.S
+@@ -649,10 +649,6 @@ SYM_CODE_START_LOCAL(asm_\cfunc)
+ SYM_CODE_END(asm_\cfunc)
+ .endm
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
-diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
-index 5168ee0360b2..1efe1d9bf5ce 100644
---- a/tools/arch/x86/lib/x86-opcode-map.txt
-+++ b/tools/arch/x86/lib/x86-opcode-map.txt
-@@ -1051,7 +1051,7 @@ GrpTable: Grp6
- EndTable
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /*
+  * Include the defines which emit the idt entries which are shared
+  * shared between 32 and 64 bit and emit the __irqentry_text_* markers
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 9b4b512f2a75..aa4214703091 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -432,14 +432,6 @@ SYM_CODE_END(\asmsym)
+ 	idtentry \vector asm_\cfunc \cfunc has_error_code=1
+ .endm
  
- GrpTable: Grp7
--0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B)
-+0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
- 1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
- 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
- 3: LIDT Ms
+-/*
+- * System vectors which invoke their handlers directly and are not
+- * going through the regular common device interrupt handling code.
+- */
+-.macro idtentry_sysvec vector cfunc
+-	idtentry \vector asm_\cfunc \cfunc has_error_code=0
+-.endm
+-
+ /**
+  * idtentry_mce_db - Macro to generate entry stubs for #MC and #DB
+  * @vector:		Vector number
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index 05fd175cec7d..cfca68f6cb84 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -447,7 +447,7 @@ __visible noinstr void func(struct pt_regs *regs,			\
+ 
+ /* System vector entries */
+ #define DECLARE_IDTENTRY_SYSVEC(vector, func)				\
+-	idtentry_sysvec vector func
++	DECLARE_IDTENTRY(vector, func)
+ 
+ #ifdef CONFIG_X86_64
+ # define DECLARE_IDTENTRY_MCE(vector, func)				\
 -- 
 2.34.1
 
