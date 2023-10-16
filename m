@@ -1,1036 +1,223 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53EE38F98;
-	Mon, 16 Oct 2023 22:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631FB381DC;
+	Mon, 16 Oct 2023 22:15:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b="JhHcQI0L"
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7E898D9;
-	Mon, 16 Oct 2023 15:12:06 -0700 (PDT)
-Received: by linux.microsoft.com (Postfix, from userid 1174)
-	id 1980820B74C1; Mon, 16 Oct 2023 15:12:06 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1980820B74C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-	s=default; t=1697494326;
-	bh=/w/RfJYYGaDkTTqsJT0DtsNeRzshY0xXz3nmfJPBdZs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JhHcQI0Le0rq9PmV+KaqUKvv3fLazqOGtg+Ggn9kV84vDXZP5K5C1eTMBP1KgwCLa
-	 E9T1MFMuX6cDdgqHN+d2ou1TX2O7zJnox+eWiRAVt3cjfmoS2NSgHFkbF8VweXhNby
-	 2tklDOozeH7qhoUGmpnp8FR0Md5sD4iIfRzIyNjA=
-From: sharmaajay@linuxonhyperv.com
-To: Long Li <longli@microsoft.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: linux-rdma@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ajay Sharma <sharmaajay@microsoft.com>
-Subject: [Patch v7 1/5] RDMA/mana_ib: Rename all mana_ib_dev type variables to mib_dev
-Date: Mon, 16 Oct 2023 15:11:58 -0700
-Message-Id: <1697494322-26814-2-git-send-email-sharmaajay@linuxonhyperv.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1697494322-26814-1-git-send-email-sharmaajay@linuxonhyperv.com>
-References: <1697494322-26814-1-git-send-email-sharmaajay@linuxonhyperv.com>
-X-Spam-Status: No, score=-9.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,USER_IN_DEF_SPF_WL
-	autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-	lindbergh.monkeyblade.net
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="c6b3blgn"
+Received: from BN3PR00CU001.outbound.protection.outlook.com (mail-eastus2azon11020002.outbound.protection.outlook.com [52.101.56.2])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26E4A2;
+	Mon, 16 Oct 2023 15:15:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LadLmPxpnatzF9kUQy9N+e4VFgGq1Du5lhEE+2qHoGTwvjdtRks6nd5oJgMghVjc5iBrvzddCqkzsBvOI0sy6YggDZDfvE300yI/4amDiss5oNm59T1t8DfLG7V3yhjSx0gKfAt2bQdryKuivvaAFwsytqb4YrXqAhUC74Hn9kEx1johHqCC3Wlxr/9v19Cwjlr9Am8zXNZtemtP7z6LkEOyE37w6USMPOs9i7urFoGsIi5Ez6A4itdEvo7tO9hNMVPO9RFUhmBsy3ZwTsraVMjGU8/L3cCU0dSf0LNsxA1rv8axWjjqMiQRRwSlyJGngDDA8OAVkTMSNZUn4mzV4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ip7n+95UzoDUnRcOjWrhe72PlcCv8H6YiBzonA8zdbc=;
+ b=EFpBQbCoUK6zaWnGWK5MkrFOjEOd5kdQBFqaOp4YAADFgnZfbnmZrjcsDv8yLBG6YtTkA5lvLzPEqMcggWv7xKGvV7Ol19lwGLkVT0CTn3fxkTbYvQtBOAeXxIs+TMy1QaZcnR0cooFgUcoETDzzlaBxkrtEsZmuqAnxUb+qTLYeM3bGqHRV0Hd4DCt0KMMTa7rr5cxcMbr5lhvf0+Sbf82lQxg59vE7+Kcx5GKEPwtCbfHC9wvQ6jITZxlvXpjK/f9Zs5HBalA/znXxPyIxnYRSxkxLdhpShWwsfhRvKXcmkppuFOAZtuRRRBQF974CbiUnh2dlvjv4kDw2oROH/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ip7n+95UzoDUnRcOjWrhe72PlcCv8H6YiBzonA8zdbc=;
+ b=c6b3blgnF/Kb8lPZk+FifGNzU6Otr1M8y+oE1GHuhpF1Sb+LaCV715nU/J1lJnU6+K9wLu/5xPEh80HA/tTr/rvTdO9JVfghnKSmRZ1XDmFKAARxYrKA+4kdonM9h+PyQnh25ViOyKqAVAg7/a+NmTAfNYD+jOd3n+iMiNHcL0g=
+Received: from MN0PR21MB3606.namprd21.prod.outlook.com (2603:10b6:208:3d1::17)
+ by MN0PR21MB3532.namprd21.prod.outlook.com (2603:10b6:208:3d3::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.3; Mon, 16 Oct
+ 2023 22:15:18 +0000
+Received: from MN0PR21MB3606.namprd21.prod.outlook.com
+ ([fe80::a2b3:122e:e242:3d3]) by MN0PR21MB3606.namprd21.prod.outlook.com
+ ([fe80::a2b3:122e:e242:3d3%4]) with mapi id 15.20.6933.003; Mon, 16 Oct 2023
+ 22:15:18 +0000
+From: Ajay Sharma <sharmaajay@microsoft.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: "sharmaajay@linuxonhyperv.com" <sharmaajay@linuxonhyperv.com>, Long Li
+	<longli@microsoft.com>, Jason Gunthorpe <jgg@ziepe.ca>, Dexuan Cui
+	<decui@microsoft.com>, Wei Liu <wei.liu@kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Ajay Sharma
+	<sharmaajay@microsoft.com>
+Subject: RE: [EXTERNAL] Re: [Patch v5 0/5] RDMA/mana_ib
+Thread-Topic: [EXTERNAL] Re: [Patch v5 0/5] RDMA/mana_ib
+Thread-Index: AQHZ5KwOjzbv5vFcSU2j0jIgYOlpn7AV+Q7QgApR9oCALOdL8A==
+Date: Mon, 16 Oct 2023 22:15:18 +0000
+Message-ID:
+ <MN0PR21MB3606BE5B57AF1FEE85915F3AD6D7A@MN0PR21MB3606.namprd21.prod.outlook.com>
+References: <1694105559-9465-1-git-send-email-sharmaajay@linuxonhyperv.com>
+ <20230911123231.GB19469@unreal>
+ <BY5PR21MB1394F62601FEFE734181FFF7D6F2A@BY5PR21MB1394.namprd21.prod.outlook.com>
+ <20230918082903.GC13757@unreal>
+In-Reply-To: <20230918082903.GC13757@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=ab46e44e-b795-4f92-bf6c-b3e64e313885;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-10-16T22:12:18Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN0PR21MB3606:EE_|MN0PR21MB3532:EE_
+x-ms-office365-filtering-correlation-id: 23da5cd2-4368-4194-b4b4-08dbce9561af
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 91qiIhbGtiNzv0+A9+fbCqb4FTwxORdm6TMLlCx17rs10F/Y5X20aS9WPIBipTpcRFolhoMPBsCbNABY86Hk7oQb6pyxnqoOeTEtkFEla+lwsBQhYeyZkA6MIZ8XEbmZj0Us7ZmAIit3GuasPVYmEIFfzOfVnBh2/+GiRUO83sREVX0TMeicdPIvZt7nGzqiQAmljxXgUpBDYpTWUOgxQC/GJ9m4gBUhBnim0p+VKM9fOp7aGiBaCZUgwl9G43L2XCuDi3upbtKjFshd+bhmoGowBbpn8V+sUctGUXeEPpfX66TFnGlQf7uiCV8GL4ya5GqlaLWR3Vv3WTF67YQEdJw3e9UBhOY0ACdHPP5rzkRa7sRjlNpteUAN9lMpjf1eL2z76yyD2IngrfGfaUBe9KWYiSSzJTWQmaEMIRJrjBtkt7oX63n9/nLaxVWPJbUlVtIw+kq4diG5/Ls2mlkdfLCwBBaXnkgmW4P+kgnzwdP20XAYk0SCOlYqUYV0k5Tchxt52bNQnCSNI2AZud9TfyKDdGtTv7IMLxXFR6hCqsVH++hTAjTxlcAKsPg+FLQhwA/bgwp39fdJujSM9vr/iGzT204rmAGyT3odW+FVxLtEj46du0Se2QSdJ+h0JaSud6wnymm6EFC57VAN+q6H2kgQBnQ4/mvRReDPsn54+Xc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR21MB3606.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(396003)(346002)(376002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(7416002)(2906002)(316002)(8936002)(54906003)(64756008)(41300700001)(8676002)(66446008)(66476007)(6916009)(52536014)(66556008)(66946007)(5660300002)(76116006)(4326008)(55016003)(8990500004)(86362001)(38100700002)(83380400001)(33656002)(82950400001)(38070700005)(122000001)(82960400001)(71200400001)(7696005)(53546011)(6506007)(10290500003)(9686003)(478600001)(107886003)(26005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?cWdrSENBUDhBOHJ5V0lFdFQyQUFtbDA4NkV6MnJZQXhxSVZwS2VhUVJqVytv?=
+ =?utf-8?B?L0Y2RVJSWkcyR1JvV09LT3RwQXFOdVh3aC8zencrSFJHV2xaMjZFM1FzRUV2?=
+ =?utf-8?B?dGhaTlloVVozelowSGZ3bWl0MlU1MDRQN3JLUzl3YTMyMWNKWE5SOXZsVXAy?=
+ =?utf-8?B?Vm04WTM5cDFMYTFVblBNc3ROWDF5elNpa0wyMlgzTk1pc1ZEY0RXQUZnTWtn?=
+ =?utf-8?B?VTEyb3JzSzRHcGo5RUc2RjhPQVpYcDlvV1M0c2l1a0c1UkhBWmFQRklLWDZP?=
+ =?utf-8?B?dFhWYm8yRlJkRXRDR3ZzcllvVUUyWUhKemFmSktZeDNldnhCUWU5andQRXV5?=
+ =?utf-8?B?aW5kL003eGhVbkU3enQ3Z2RIZnQwYk9hVW44TkdpaU9taWJydWV2aGlkbG53?=
+ =?utf-8?B?OVF1VlVmOGdTSlRPbmNaNXRMM0lWOUtxVkdZcmVseWZ2ZHVicnF1ZkJadEk0?=
+ =?utf-8?B?Ui9yaFAzUCtqYUhJeDZYMFZNUDNzbkpkbFpWUi9SWmdFMU10dlhmSTNyNVNr?=
+ =?utf-8?B?bkN5dEFoSHdpMUx5UDlmcE9yT1BLamhIRVJYUk5ZRkVvRmo1ekJJU01tUU9C?=
+ =?utf-8?B?a0ZmUUFDdjA4cVN5YStKblg0UGIrY1JReHEva2pVM2NoOWh3NTQzL1Jyejdz?=
+ =?utf-8?B?YUtmajNOcVNDSG8zRi9VRXNVZEZjZDA0UXBYUDdGSmhoUzMySld0aUtTR2Nu?=
+ =?utf-8?B?eVlKUW5CWklYZVZNUWx1Qy9oMTk4ZHd6d2txOG04emU1KzVDSWNpamM5dEVm?=
+ =?utf-8?B?QTRycHJ2dGJhRGV6QURRQ0J5NFRYdExWMmpXKzlYajRzOWdHcTNvb3B0a1B6?=
+ =?utf-8?B?Njd2QlBWeGhpNFlra1VCTW8xRDdweEJTeEcwc2lUU1RseWNGdXhIcHdvYVQ1?=
+ =?utf-8?B?NTIwV3o2bW1GUHJwU2NXRVZ0RGZ3aHBxRkpqNG15Y1ZYTkdtMlVDN0xNb2Jr?=
+ =?utf-8?B?Zjl3YzVVa1YrclplbzVhMUNTRmVkSlBhcExDMVQrcHlHVHM3WGU5bnhjNVBi?=
+ =?utf-8?B?eUo3bjdIQ0U1VmsvMWhyQU5ydTJnQytTTmdXMWJqTjBQTG5GOWNWamcxdnpp?=
+ =?utf-8?B?YmRNY25GSkFHUEc0ZEVVWnhMK1BpT0tsMG50M05ic3dQbExIZXFzQXF2VFFN?=
+ =?utf-8?B?VlZjT0czV3cweUlLWTVSWnJSZmFoSGVnb0FQNG12QjFyMkwrUFFHdVV4Q3Z5?=
+ =?utf-8?B?dEFDMUF0MC9aZFdpUGx5OWNaL0NmalVDdTVCNFd3MnpjL3dVZTRWVlZ2clg4?=
+ =?utf-8?B?a1FqcGRHSzVHVmFJeERiaTBodnlRTklUZUc1OVl5bG5Pa2NoUklxckZMbm5T?=
+ =?utf-8?B?aGhxRkRzYnB1a0orc05IcXNxUU9MSG1PMlNkOUZOZU1OVHNTSlBaSmhMSHpj?=
+ =?utf-8?B?Yy9VMndobVc3MGxEUExvZ0tveXFQaWNBa0JocU9nZUdSTjd0S1ZVNFlKby9a?=
+ =?utf-8?B?WVB2M1R1OXRML2hob0NXMVh5dXRwY1dUMW9UZ3hRR3F3elhRTFlmUjEzYjVG?=
+ =?utf-8?B?bisxa3pFTG9BZWFHd1kySkdzZkllMjJ0UWM4MWZvVUJQaDVacjNMRE9vZWtN?=
+ =?utf-8?B?NjJXQzM3WmFuWmIxQ2FOVGNiNHBieWRPUWhVZWNlem5hZktHbUx1ZFZIbGFO?=
+ =?utf-8?B?SWpBcWdURlNvcHJxd2xXcUNJMGZDY1YrSlhDNnJrek9tM05MdnpjenZkeTBV?=
+ =?utf-8?B?UWNGYnZyYWRXWXJqRDlheWNGMEo4M3JwOUhZaithVGtuWm1pa29MTWRtanJE?=
+ =?utf-8?B?MWNYcW9oVi9ubDUwc0F5UnBUdTErenB0Z3V4WlQ5NDlmeVpUeS9wZ2JNVXE1?=
+ =?utf-8?B?ZVVnV1JOMEIxb0ZkVXU3RkJnL3NvajJPUkNjbUw2MFlEbW1seERZVXNYU1l5?=
+ =?utf-8?B?c09VNnFzRFpTWkRVRHVSeVhUdnV2eHB4YkViL2tiWlJZMFA1eWJHRVNwMDU3?=
+ =?utf-8?B?QjRvTU1sdjdVS1BMRFlVMER1ejNiejh1bWo4NU5hcExacFV4UE4yNlFwYXNI?=
+ =?utf-8?B?N0c1blVvWjBlMWxWc21HZGF0bWZZb2pRdHArZ00ycUhVWnJxRTNUcUw1QTdG?=
+ =?utf-8?Q?qBEFKo?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR21MB3606.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23da5cd2-4368-4194-b4b4-08dbce9561af
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2023 22:15:18.7091
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oysbtvEgLFkCpPb/QE7QqLKWRaG/mxuc578dVJqrtSH/yb+SuTVAOqom5P0UMkF5zid7wBNTSkNGVQ6BMQfLwexZ4KkN1bgxPwAOl+H5Xcc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR21MB3532
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+	RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+	autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+	lindbergh.monkeyblade.net
 
-From: Ajay Sharma <sharmaajay@microsoft.com>
-
-This patch does not introduce any functional changes. It
-creates naming convention to distinguish especially when
-used in the same function.Renaming all mana_ib_dev type
-variables to mib_dev to have clean separation between
-eth dev and ibdev variables.
-
-Signed-off-by: Ajay Sharma <sharmaajay@microsoft.com>
----
- drivers/infiniband/hw/mana/cq.c      | 12 ++--
- drivers/infiniband/hw/mana/device.c  | 34 +++++------
- drivers/infiniband/hw/mana/main.c    | 87 ++++++++++++++--------------
- drivers/infiniband/hw/mana/mana_ib.h |  9 +--
- drivers/infiniband/hw/mana/mr.c      | 29 +++++-----
- drivers/infiniband/hw/mana/qp.c      | 84 +++++++++++++--------------
- drivers/infiniband/hw/mana/wq.c      | 21 +++----
- 7 files changed, 141 insertions(+), 135 deletions(-)
-
-diff --git a/drivers/infiniband/hw/mana/cq.c b/drivers/infiniband/hw/mana/cq.c
-index d141cab8a1e6..1aed4e6360ba 100644
---- a/drivers/infiniband/hw/mana/cq.c
-+++ b/drivers/infiniband/hw/mana/cq.c
-@@ -11,10 +11,10 @@ int mana_ib_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
- 	struct mana_ib_cq *cq = container_of(ibcq, struct mana_ib_cq, ibcq);
- 	struct ib_device *ibdev = ibcq->device;
- 	struct mana_ib_create_cq ucmd = {};
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 	int err;
- 
--	mdev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
- 
- 	if (udata->inlen < sizeof(ucmd))
- 		return -EINVAL;
-@@ -41,7 +41,7 @@ int mana_ib_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
- 		return err;
- 	}
- 
--	err = mana_ib_gd_create_dma_region(mdev, cq->umem, &cq->gdma_region);
-+	err = mana_ib_gd_create_dma_region(mib_dev, cq->umem, &cq->gdma_region);
- 	if (err) {
- 		ibdev_dbg(ibdev,
- 			  "Failed to create dma region for create cq, %d\n",
-@@ -68,11 +68,11 @@ int mana_ib_destroy_cq(struct ib_cq *ibcq, struct ib_udata *udata)
- {
- 	struct mana_ib_cq *cq = container_of(ibcq, struct mana_ib_cq, ibcq);
- 	struct ib_device *ibdev = ibcq->device;
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 
--	mdev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
- 
--	mana_ib_gd_destroy_dma_region(mdev, cq->gdma_region);
-+	mana_ib_gd_destroy_dma_region(mib_dev, cq->gdma_region);
- 	ib_umem_release(cq->umem);
- 
- 	return 0;
-diff --git a/drivers/infiniband/hw/mana/device.c b/drivers/infiniband/hw/mana/device.c
-index d4541b8707e4..083f27246ba8 100644
---- a/drivers/infiniband/hw/mana/device.c
-+++ b/drivers/infiniband/hw/mana/device.c
-@@ -51,51 +51,51 @@ static int mana_ib_probe(struct auxiliary_device *adev,
- {
- 	struct mana_adev *madev = container_of(adev, struct mana_adev, adev);
- 	struct gdma_dev *mdev = madev->mdev;
-+	struct mana_ib_dev *mib_dev;
- 	struct mana_context *mc;
--	struct mana_ib_dev *dev;
- 	int ret;
- 
- 	mc = mdev->driver_data;
- 
--	dev = ib_alloc_device(mana_ib_dev, ib_dev);
--	if (!dev)
-+	mib_dev = ib_alloc_device(mana_ib_dev, ib_dev);
-+	if (!mib_dev)
- 		return -ENOMEM;
- 
--	ib_set_device_ops(&dev->ib_dev, &mana_ib_dev_ops);
-+	ib_set_device_ops(&mib_dev->ib_dev, &mana_ib_dev_ops);
- 
--	dev->ib_dev.phys_port_cnt = mc->num_ports;
-+	mib_dev->ib_dev.phys_port_cnt = mc->num_ports;
- 
--	ibdev_dbg(&dev->ib_dev, "mdev=%p id=%d num_ports=%d\n", mdev,
--		  mdev->dev_id.as_uint32, dev->ib_dev.phys_port_cnt);
-+	ibdev_dbg(&mib_dev->ib_dev, "mdev=%p id=%d num_ports=%d\n", mdev,
-+		  mdev->dev_id.as_uint32, mib_dev->ib_dev.phys_port_cnt);
- 
--	dev->gdma_dev = mdev;
--	dev->ib_dev.node_type = RDMA_NODE_IB_CA;
-+	mib_dev->gdma_dev = mdev;
-+	mib_dev->ib_dev.node_type = RDMA_NODE_IB_CA;
- 
- 	/*
- 	 * num_comp_vectors needs to set to the max MSIX index
- 	 * when interrupts and event queues are implemented
- 	 */
--	dev->ib_dev.num_comp_vectors = 1;
--	dev->ib_dev.dev.parent = mdev->gdma_context->dev;
-+	mib_dev->ib_dev.num_comp_vectors = 1;
-+	mib_dev->ib_dev.dev.parent = mdev->gdma_context->dev;
- 
--	ret = ib_register_device(&dev->ib_dev, "mana_%d",
-+	ret = ib_register_device(&mib_dev->ib_dev, "mana_%d",
- 				 mdev->gdma_context->dev);
- 	if (ret) {
--		ib_dealloc_device(&dev->ib_dev);
-+		ib_dealloc_device(&mib_dev->ib_dev);
- 		return ret;
- 	}
- 
--	dev_set_drvdata(&adev->dev, dev);
-+	dev_set_drvdata(&adev->dev, mib_dev);
- 
- 	return 0;
- }
- 
- static void mana_ib_remove(struct auxiliary_device *adev)
- {
--	struct mana_ib_dev *dev = dev_get_drvdata(&adev->dev);
-+	struct mana_ib_dev *mib_dev = dev_get_drvdata(&adev->dev);
- 
--	ib_unregister_device(&dev->ib_dev);
--	ib_dealloc_device(&dev->ib_dev);
-+	ib_unregister_device(&mib_dev->ib_dev);
-+	ib_dealloc_device(&mib_dev->ib_dev);
- }
- 
- static const struct auxiliary_device_id mana_id_table[] = {
-diff --git a/drivers/infiniband/hw/mana/main.c b/drivers/infiniband/hw/mana/main.c
-index 7be4c3adb4e2..189e774cdab6 100644
---- a/drivers/infiniband/hw/mana/main.c
-+++ b/drivers/infiniband/hw/mana/main.c
-@@ -5,10 +5,10 @@
- 
- #include "mana_ib.h"
- 
--void mana_ib_uncfg_vport(struct mana_ib_dev *dev, struct mana_ib_pd *pd,
-+void mana_ib_uncfg_vport(struct mana_ib_dev *mib_dev, struct mana_ib_pd *pd,
- 			 u32 port)
- {
--	struct gdma_dev *gd = dev->gdma_dev;
-+	struct gdma_dev *gd = mib_dev->gdma_dev;
- 	struct mana_port_context *mpc;
- 	struct net_device *ndev;
- 	struct mana_context *mc;
-@@ -28,10 +28,11 @@ void mana_ib_uncfg_vport(struct mana_ib_dev *dev, struct mana_ib_pd *pd,
- 	mutex_unlock(&pd->vport_mutex);
- }
- 
--int mana_ib_cfg_vport(struct mana_ib_dev *dev, u32 port, struct mana_ib_pd *pd,
-+int mana_ib_cfg_vport(struct mana_ib_dev *mib_dev, u32 port,
-+		      struct mana_ib_pd *pd,
- 		      u32 doorbell_id)
- {
--	struct gdma_dev *mdev = dev->gdma_dev;
-+	struct gdma_dev *mdev = mib_dev->gdma_dev;
- 	struct mana_port_context *mpc;
- 	struct mana_context *mc;
- 	struct net_device *ndev;
-@@ -45,7 +46,7 @@ int mana_ib_cfg_vport(struct mana_ib_dev *dev, u32 port, struct mana_ib_pd *pd,
- 
- 	pd->vport_use_count++;
- 	if (pd->vport_use_count > 1) {
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Skip as this PD is already configured vport\n");
- 		mutex_unlock(&pd->vport_mutex);
- 		return 0;
-@@ -56,7 +57,8 @@ int mana_ib_cfg_vport(struct mana_ib_dev *dev, u32 port, struct mana_ib_pd *pd,
- 		pd->vport_use_count--;
- 		mutex_unlock(&pd->vport_mutex);
- 
--		ibdev_dbg(&dev->ib_dev, "Failed to configure vPort %d\n", err);
-+		ibdev_dbg(&mib_dev->ib_dev, "Failed to configure vPort %d\n",
-+			  err);
- 		return err;
- 	}
- 
-@@ -65,7 +67,7 @@ int mana_ib_cfg_vport(struct mana_ib_dev *dev, u32 port, struct mana_ib_pd *pd,
- 	pd->tx_shortform_allowed = mpc->tx_shortform_allowed;
- 	pd->tx_vp_offset = mpc->tx_vp_offset;
- 
--	ibdev_dbg(&dev->ib_dev, "vport handle %llx pdid %x doorbell_id %x\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "vport handle %llx pdid %x doorbell_id %x\n",
- 		  mpc->port_handle, pd->pdn, doorbell_id);
- 
- 	return 0;
-@@ -78,12 +80,12 @@ int mana_ib_alloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
- 	struct gdma_create_pd_resp resp = {};
- 	struct gdma_create_pd_req req = {};
- 	enum gdma_pd_flags flags = 0;
--	struct mana_ib_dev *dev;
-+	struct mana_ib_dev *mib_dev;
- 	struct gdma_dev *mdev;
- 	int err;
- 
--	dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
--	mdev = dev->gdma_dev;
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mdev = mib_dev->gdma_dev;
- 
- 	mana_gd_init_req_hdr(&req.hdr, GDMA_CREATE_PD, sizeof(req),
- 			     sizeof(resp));
-@@ -93,7 +95,7 @@ int mana_ib_alloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
- 				   sizeof(resp), &resp);
- 
- 	if (err || resp.hdr.status) {
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to get pd_id err %d status %u\n", err,
- 			  resp.hdr.status);
- 		if (!err)
-@@ -104,7 +106,7 @@ int mana_ib_alloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
- 
- 	pd->pd_handle = resp.pd_handle;
- 	pd->pdn = resp.pd_id;
--	ibdev_dbg(&dev->ib_dev, "pd_handle 0x%llx pd_id %d\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "pd_handle 0x%llx pd_id %d\n",
- 		  pd->pd_handle, pd->pdn);
- 
- 	mutex_init(&pd->vport_mutex);
-@@ -118,12 +120,12 @@ int mana_ib_dealloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
- 	struct ib_device *ibdev = ibpd->device;
- 	struct gdma_destory_pd_resp resp = {};
- 	struct gdma_destroy_pd_req req = {};
--	struct mana_ib_dev *dev;
-+	struct mana_ib_dev *mib_dev;
- 	struct gdma_dev *mdev;
- 	int err;
- 
--	dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
--	mdev = dev->gdma_dev;
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mdev = mib_dev->gdma_dev;
- 
- 	mana_gd_init_req_hdr(&req.hdr, GDMA_DESTROY_PD, sizeof(req),
- 			     sizeof(resp));
-@@ -133,7 +135,7 @@ int mana_ib_dealloc_pd(struct ib_pd *ibpd, struct ib_udata *udata)
- 				   sizeof(resp), &resp);
- 
- 	if (err || resp.hdr.status) {
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to destroy pd_handle 0x%llx err %d status %u",
- 			  pd->pd_handle, err, resp.hdr.status);
- 		if (!err)
-@@ -204,14 +206,14 @@ int mana_ib_alloc_ucontext(struct ib_ucontext *ibcontext,
- 	struct mana_ib_ucontext *ucontext =
- 		container_of(ibcontext, struct mana_ib_ucontext, ibucontext);
- 	struct ib_device *ibdev = ibcontext->device;
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 	struct gdma_context *gc;
- 	struct gdma_dev *dev;
- 	int doorbell_page;
- 	int ret;
- 
--	mdev = container_of(ibdev, struct mana_ib_dev, ib_dev);
--	dev = mdev->gdma_dev;
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	dev = mib_dev->gdma_dev;
- 	gc = dev->gdma_context;
- 
- 	/* Allocate a doorbell page index */
-@@ -233,12 +235,12 @@ void mana_ib_dealloc_ucontext(struct ib_ucontext *ibcontext)
- 	struct mana_ib_ucontext *mana_ucontext =
- 		container_of(ibcontext, struct mana_ib_ucontext, ibucontext);
- 	struct ib_device *ibdev = ibcontext->device;
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 	struct gdma_context *gc;
- 	int ret;
- 
--	mdev = container_of(ibdev, struct mana_ib_dev, ib_dev);
--	gc = mdev->gdma_dev->gdma_context;
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	gc = mib_dev->gdma_dev->gdma_context;
- 
- 	ret = mana_gd_destroy_doorbell_page(gc, mana_ucontext->doorbell);
- 	if (ret)
-@@ -246,7 +248,7 @@ void mana_ib_dealloc_ucontext(struct ib_ucontext *ibcontext)
- }
- 
- static int
--mana_ib_gd_first_dma_region(struct mana_ib_dev *dev,
-+mana_ib_gd_first_dma_region(struct mana_ib_dev *mib_dev,
- 			    struct gdma_context *gc,
- 			    struct gdma_create_dma_region_req *create_req,
- 			    size_t num_pages, mana_handle_t *gdma_region,
-@@ -263,7 +265,7 @@ mana_ib_gd_first_dma_region(struct mana_ib_dev *dev,
- 	err = mana_gd_send_request(gc, create_req_msg_size, create_req,
- 				   sizeof(create_resp), &create_resp);
- 	if (err || create_resp.hdr.status != expected_status) {
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to create DMA region: %d, 0x%x\n",
- 			  err, create_resp.hdr.status);
- 		if (!err)
-@@ -273,14 +275,14 @@ mana_ib_gd_first_dma_region(struct mana_ib_dev *dev,
- 	}
- 
- 	*gdma_region = create_resp.dma_region_handle;
--	ibdev_dbg(&dev->ib_dev, "Created DMA region handle 0x%llx\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "Created DMA region handle 0x%llx\n",
- 		  *gdma_region);
- 
- 	return 0;
- }
- 
- static int
--mana_ib_gd_add_dma_region(struct mana_ib_dev *dev, struct gdma_context *gc,
-+mana_ib_gd_add_dma_region(struct mana_ib_dev *mib_dev, struct gdma_context *gc,
- 			  struct gdma_dma_region_add_pages_req *add_req,
- 			  unsigned int num_pages, u32 expected_status)
- {
-@@ -296,7 +298,7 @@ mana_ib_gd_add_dma_region(struct mana_ib_dev *dev, struct gdma_context *gc,
- 	err = mana_gd_send_request(gc, add_req_msg_size, add_req,
- 				   sizeof(add_resp), &add_resp);
- 	if (err || add_resp.hdr.status != expected_status) {
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to create DMA region: %d, 0x%x\n",
- 			  err, add_resp.hdr.status);
- 
-@@ -309,7 +311,8 @@ mana_ib_gd_add_dma_region(struct mana_ib_dev *dev, struct gdma_context *gc,
- 	return 0;
- }
- 
--int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
-+int mana_ib_gd_create_dma_region(struct mana_ib_dev *mib_dev,
-+				 struct ib_umem *umem,
- 				 mana_handle_t *gdma_region)
- {
- 	struct gdma_dma_region_add_pages_req *add_req = NULL;
-@@ -329,14 +332,14 @@ int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
- 	void *request_buf;
- 	int err;
- 
--	mdev = dev->gdma_dev;
-+	mdev = mib_dev->gdma_dev;
- 	gc = mdev->gdma_context;
- 	hwc = gc->hwc.driver_data;
- 
- 	/* Hardware requires dma region to align to chosen page size */
- 	page_sz = ib_umem_find_best_pgsz(umem, PAGE_SZ_BM, 0);
- 	if (!page_sz) {
--		ibdev_dbg(&dev->ib_dev, "failed to find page size.\n");
-+		ibdev_dbg(&mib_dev->ib_dev, "failed to find page size.\n");
- 		return -ENOMEM;
- 	}
- 	num_pages_total = ib_umem_num_dma_blocks(umem, page_sz);
-@@ -362,13 +365,13 @@ int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
- 	create_req->gdma_page_type = order_base_2(page_sz) - PAGE_SHIFT;
- 	create_req->page_count = num_pages_total;
- 
--	ibdev_dbg(&dev->ib_dev, "size_dma_region %lu num_pages_total %lu\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "size_dma_region %lu num_pages_total %lu\n",
- 		  umem->length, num_pages_total);
- 
--	ibdev_dbg(&dev->ib_dev, "page_sz %lu offset_in_page %u\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "page_sz %lu offset_in_page %u\n",
- 		  page_sz, create_req->offset_in_page);
- 
--	ibdev_dbg(&dev->ib_dev, "num_pages_to_handle %lu, gdma_page_type %u",
-+	ibdev_dbg(&mib_dev->ib_dev, "num_pages_to_handle %lu, gdma_page_type %u",
- 		  num_pages_to_handle, create_req->gdma_page_type);
- 
- 	page_addr_list = create_req->page_addr_list;
-@@ -385,7 +388,7 @@ int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
- 
- 		if (!num_pages_processed) {
- 			/* First create message */
--			err = mana_ib_gd_first_dma_region(dev, gc, create_req,
-+			err = mana_ib_gd_first_dma_region(mib_dev, gc, create_req,
- 							  tail, gdma_region,
- 							  expected_status);
- 			if (err)
-@@ -400,7 +403,7 @@ int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
- 			page_addr_list = add_req->page_addr_list;
- 		} else {
- 			/* Subsequent create messages */
--			err = mana_ib_gd_add_dma_region(dev, gc, add_req, tail,
-+			err = mana_ib_gd_add_dma_region(mib_dev, gc, add_req, tail,
- 							expected_status);
- 			if (err)
- 				break;
-@@ -417,20 +420,20 @@ int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
- 	}
- 
- 	if (err)
--		mana_ib_gd_destroy_dma_region(dev, *gdma_region);
-+		mana_ib_gd_destroy_dma_region(mib_dev, *gdma_region);
- 
- out:
- 	kfree(request_buf);
- 	return err;
- }
- 
--int mana_ib_gd_destroy_dma_region(struct mana_ib_dev *dev, u64 gdma_region)
-+int mana_ib_gd_destroy_dma_region(struct mana_ib_dev *mib_dev, u64 gdma_region)
- {
--	struct gdma_dev *mdev = dev->gdma_dev;
-+	struct gdma_dev *mdev = mib_dev->gdma_dev;
- 	struct gdma_context *gc;
- 
- 	gc = mdev->gdma_context;
--	ibdev_dbg(&dev->ib_dev, "destroy dma region 0x%llx\n", gdma_region);
-+	ibdev_dbg(&mib_dev->ib_dev, "destroy dma region 0x%llx\n", gdma_region);
- 
- 	return mana_gd_destroy_dma_region(gc, gdma_region);
- }
-@@ -440,14 +443,14 @@ int mana_ib_mmap(struct ib_ucontext *ibcontext, struct vm_area_struct *vma)
- 	struct mana_ib_ucontext *mana_ucontext =
- 		container_of(ibcontext, struct mana_ib_ucontext, ibucontext);
- 	struct ib_device *ibdev = ibcontext->device;
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 	struct gdma_context *gc;
- 	phys_addr_t pfn;
- 	pgprot_t prot;
- 	int ret;
- 
--	mdev = container_of(ibdev, struct mana_ib_dev, ib_dev);
--	gc = mdev->gdma_dev->gdma_context;
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	gc = mib_dev->gdma_dev->gdma_context;
- 
- 	if (vma->vm_pgoff != 0) {
- 		ibdev_dbg(ibdev, "Unexpected vm_pgoff %lu\n", vma->vm_pgoff);
-diff --git a/drivers/infiniband/hw/mana/mana_ib.h b/drivers/infiniband/hw/mana/mana_ib.h
-index 502cc8672eef..ee4efd0af278 100644
---- a/drivers/infiniband/hw/mana/mana_ib.h
-+++ b/drivers/infiniband/hw/mana/mana_ib.h
-@@ -92,10 +92,11 @@ struct mana_ib_rwq_ind_table {
- 	struct ib_rwq_ind_table ib_ind_table;
- };
- 
--int mana_ib_gd_create_dma_region(struct mana_ib_dev *dev, struct ib_umem *umem,
-+int mana_ib_gd_create_dma_region(struct mana_ib_dev *mib_dev,
-+				 struct ib_umem *umem,
- 				 mana_handle_t *gdma_region);
- 
--int mana_ib_gd_destroy_dma_region(struct mana_ib_dev *dev,
-+int mana_ib_gd_destroy_dma_region(struct mana_ib_dev *mib_dev,
- 				  mana_handle_t gdma_region);
- 
- struct ib_wq *mana_ib_create_wq(struct ib_pd *pd,
-@@ -129,9 +130,9 @@ int mana_ib_modify_qp(struct ib_qp *ibqp, struct ib_qp_attr *attr,
- 
- int mana_ib_destroy_qp(struct ib_qp *ibqp, struct ib_udata *udata);
- 
--int mana_ib_cfg_vport(struct mana_ib_dev *dev, u32 port_id,
-+int mana_ib_cfg_vport(struct mana_ib_dev *mib_dev, u32 port_id,
- 		      struct mana_ib_pd *pd, u32 doorbell_id);
--void mana_ib_uncfg_vport(struct mana_ib_dev *dev, struct mana_ib_pd *pd,
-+void mana_ib_uncfg_vport(struct mana_ib_dev *mib_dev, struct mana_ib_pd *pd,
- 			 u32 port);
- 
- int mana_ib_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
-diff --git a/drivers/infiniband/hw/mana/mr.c b/drivers/infiniband/hw/mana/mr.c
-index 351207c60eb6..f6a53906204d 100644
---- a/drivers/infiniband/hw/mana/mr.c
-+++ b/drivers/infiniband/hw/mana/mr.c
-@@ -25,12 +25,13 @@ mana_ib_verbs_to_gdma_access_flags(int access_flags)
- 	return flags;
- }
- 
--static int mana_ib_gd_create_mr(struct mana_ib_dev *dev, struct mana_ib_mr *mr,
-+static int mana_ib_gd_create_mr(struct mana_ib_dev *mib_dev,
-+				struct mana_ib_mr *mr,
- 				struct gdma_create_mr_params *mr_params)
- {
-+	struct gdma_dev *mdev = mib_dev->gdma_dev;
- 	struct gdma_create_mr_response resp = {};
- 	struct gdma_create_mr_request req = {};
--	struct gdma_dev *mdev = dev->gdma_dev;
- 	struct gdma_context *gc;
- 	int err;
- 
-@@ -49,7 +50,7 @@ static int mana_ib_gd_create_mr(struct mana_ib_dev *dev, struct mana_ib_mr *mr,
- 		break;
- 
- 	default:
--		ibdev_dbg(&dev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "invalid param (GDMA_MR_TYPE) passed, type %d\n",
- 			  req.mr_type);
- 		return -EINVAL;
-@@ -58,7 +59,7 @@ static int mana_ib_gd_create_mr(struct mana_ib_dev *dev, struct mana_ib_mr *mr,
- 	err = mana_gd_send_request(gc, sizeof(req), &req, sizeof(resp), &resp);
- 
- 	if (err || resp.hdr.status) {
--		ibdev_dbg(&dev->ib_dev, "Failed to create mr %d, %u", err,
-+		ibdev_dbg(&mib_dev->ib_dev, "Failed to create mr %d, %u", err,
- 			  resp.hdr.status);
- 		if (!err)
- 			err = -EPROTO;
-@@ -73,11 +74,11 @@ static int mana_ib_gd_create_mr(struct mana_ib_dev *dev, struct mana_ib_mr *mr,
- 	return 0;
- }
- 
--static int mana_ib_gd_destroy_mr(struct mana_ib_dev *dev, u64 mr_handle)
-+static int mana_ib_gd_destroy_mr(struct mana_ib_dev *mib_dev, u64 mr_handle)
- {
- 	struct gdma_destroy_mr_response resp = {};
-+	struct gdma_dev *mdev = mib_dev->gdma_dev;
- 	struct gdma_destroy_mr_request req = {};
--	struct gdma_dev *mdev = dev->gdma_dev;
- 	struct gdma_context *gc;
- 	int err;
- 
-@@ -107,12 +108,12 @@ struct ib_mr *mana_ib_reg_user_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 	struct mana_ib_pd *pd = container_of(ibpd, struct mana_ib_pd, ibpd);
- 	struct gdma_create_mr_params mr_params = {};
- 	struct ib_device *ibdev = ibpd->device;
--	struct mana_ib_dev *dev;
-+	struct mana_ib_dev *mib_dev;
- 	struct mana_ib_mr *mr;
- 	u64 dma_region_handle;
- 	int err;
- 
--	dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
- 
- 	ibdev_dbg(ibdev,
- 		  "start 0x%llx, iova 0x%llx length 0x%llx access_flags 0x%x",
-@@ -133,7 +134,7 @@ struct ib_mr *mana_ib_reg_user_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 		goto err_free;
- 	}
- 
--	err = mana_ib_gd_create_dma_region(dev, mr->umem, &dma_region_handle);
-+	err = mana_ib_gd_create_dma_region(mib_dev, mr->umem, &dma_region_handle);
- 	if (err) {
- 		ibdev_dbg(ibdev, "Failed create dma region for user-mr, %d\n",
- 			  err);
-@@ -151,7 +152,7 @@ struct ib_mr *mana_ib_reg_user_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 	mr_params.gva.access_flags =
- 		mana_ib_verbs_to_gdma_access_flags(access_flags);
- 
--	err = mana_ib_gd_create_mr(dev, mr, &mr_params);
-+	err = mana_ib_gd_create_mr(mib_dev, mr, &mr_params);
- 	if (err)
- 		goto err_dma_region;
- 
-@@ -164,7 +165,7 @@ struct ib_mr *mana_ib_reg_user_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 	return &mr->ibmr;
- 
- err_dma_region:
--	mana_gd_destroy_dma_region(dev->gdma_dev->gdma_context,
-+	mana_gd_destroy_dma_region(mib_dev->gdma_dev->gdma_context,
- 				   dma_region_handle);
- 
- err_umem:
-@@ -179,12 +180,12 @@ int mana_ib_dereg_mr(struct ib_mr *ibmr, struct ib_udata *udata)
- {
- 	struct mana_ib_mr *mr = container_of(ibmr, struct mana_ib_mr, ibmr);
- 	struct ib_device *ibdev = ibmr->device;
--	struct mana_ib_dev *dev;
-+	struct mana_ib_dev *mib_dev;
- 	int err;
- 
--	dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
-+	mib_dev = container_of(ibdev, struct mana_ib_dev, ib_dev);
- 
--	err = mana_ib_gd_destroy_mr(dev, mr->mr_handle);
-+	err = mana_ib_gd_destroy_mr(mib_dev, mr->mr_handle);
- 	if (err)
- 		return err;
- 
-diff --git a/drivers/infiniband/hw/mana/qp.c b/drivers/infiniband/hw/mana/qp.c
-index 4b3b5b274e84..3540bf5bb497 100644
---- a/drivers/infiniband/hw/mana/qp.c
-+++ b/drivers/infiniband/hw/mana/qp.c
-@@ -5,7 +5,7 @@
- 
- #include "mana_ib.h"
- 
--static int mana_ib_cfg_vport_steering(struct mana_ib_dev *dev,
-+static int mana_ib_cfg_vport_steering(struct mana_ib_dev *mib_dev,
- 				      struct net_device *ndev,
- 				      mana_handle_t default_rxobj,
- 				      mana_handle_t ind_table[],
-@@ -21,7 +21,7 @@ static int mana_ib_cfg_vport_steering(struct mana_ib_dev *dev,
- 	u32 req_buf_size;
- 	int i, err;
- 
--	mdev = dev->gdma_dev;
-+	mdev = mib_dev->gdma_dev;
- 	gc = mdev->gdma_context;
- 
- 	req_buf_size =
-@@ -55,10 +55,10 @@ static int mana_ib_cfg_vport_steering(struct mana_ib_dev *dev,
- 	 * MANA_INDIRECT_TABLE_SIZE entries. Adjust the verb
- 	 * ind_table to MANA_INDIRECT_TABLE_SIZE if required
- 	 */
--	ibdev_dbg(&dev->ib_dev, "ind table size %u\n", 1 << log_ind_tbl_size);
-+	ibdev_dbg(&mib_dev->ib_dev, "ind table size %u\n", 1 << log_ind_tbl_size);
- 	for (i = 0; i < MANA_INDIRECT_TABLE_SIZE; i++) {
- 		req_indir_tab[i] = ind_table[i % (1 << log_ind_tbl_size)];
--		ibdev_dbg(&dev->ib_dev, "index %u handle 0x%llx\n", i,
-+		ibdev_dbg(&mib_dev->ib_dev, "index %u handle 0x%llx\n", i,
- 			  req_indir_tab[i]);
- 	}
- 
-@@ -68,7 +68,7 @@ static int mana_ib_cfg_vport_steering(struct mana_ib_dev *dev,
- 	else
- 		netdev_rss_key_fill(req->hashkey, MANA_HASH_KEY_SIZE);
- 
--	ibdev_dbg(&dev->ib_dev, "vport handle %llu default_rxobj 0x%llx\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "vport handle %llu default_rxobj 0x%llx\n",
- 		  req->vport, default_rxobj);
- 
- 	err = mana_gd_send_request(gc, req_buf_size, req, sizeof(resp), &resp);
-@@ -97,19 +97,19 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 				 struct ib_udata *udata)
- {
- 	struct mana_ib_qp *qp = container_of(ibqp, struct mana_ib_qp, ibqp);
--	struct mana_ib_dev *mdev =
-+	struct mana_ib_dev *mib_dev =
- 		container_of(pd->device, struct mana_ib_dev, ib_dev);
- 	struct ib_rwq_ind_table *ind_tbl = attr->rwq_ind_tbl;
- 	struct mana_ib_create_qp_rss_resp resp = {};
-+	struct gdma_dev *gd = mib_dev->gdma_dev;
- 	struct mana_ib_create_qp_rss ucmd = {};
--	struct gdma_dev *gd = mdev->gdma_dev;
- 	mana_handle_t *mana_ind_table;
- 	struct mana_port_context *mpc;
-+	unsigned int ind_tbl_size;
- 	struct mana_context *mc;
- 	struct net_device *ndev;
- 	struct mana_ib_cq *cq;
- 	struct mana_ib_wq *wq;
--	unsigned int ind_tbl_size;
- 	struct ib_cq *ibcq;
- 	struct ib_wq *ibwq;
- 	int i = 0;
-@@ -123,21 +123,21 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 
- 	ret = ib_copy_from_udata(&ucmd, udata, min(sizeof(ucmd), udata->inlen));
- 	if (ret) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed copy from udata for create rss-qp, err %d\n",
- 			  ret);
- 		return ret;
- 	}
- 
- 	if (attr->cap.max_recv_wr > MAX_SEND_BUFFERS_PER_QUEUE) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Requested max_recv_wr %d exceeding limit\n",
- 			  attr->cap.max_recv_wr);
- 		return -EINVAL;
- 	}
- 
- 	if (attr->cap.max_recv_sge > MAX_RX_WQE_SGL_ENTRIES) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Requested max_recv_sge %d exceeding limit\n",
- 			  attr->cap.max_recv_sge);
- 		return -EINVAL;
-@@ -145,14 +145,14 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 
- 	ind_tbl_size = 1 << ind_tbl->log_ind_tbl_size;
- 	if (ind_tbl_size > MANA_INDIRECT_TABLE_SIZE) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Indirect table size %d exceeding limit\n",
- 			  ind_tbl_size);
- 		return -EINVAL;
- 	}
- 
- 	if (ucmd.rx_hash_function != MANA_IB_RX_HASH_FUNC_TOEPLITZ) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "RX Hash function is not supported, %d\n",
- 			  ucmd.rx_hash_function);
- 		return -EINVAL;
-@@ -161,14 +161,14 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 	/* IB ports start with 1, MANA start with 0 */
- 	port = ucmd.port;
- 	if (port < 1 || port > mc->num_ports) {
--		ibdev_dbg(&mdev->ib_dev, "Invalid port %u in creating qp\n",
-+		ibdev_dbg(&mib_dev->ib_dev, "Invalid port %u in creating qp\n",
- 			  port);
- 		return -EINVAL;
- 	}
- 	ndev = mc->ports[port - 1];
- 	mpc = netdev_priv(ndev);
- 
--	ibdev_dbg(&mdev->ib_dev, "rx_hash_function %d port %d\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "rx_hash_function %d port %d\n",
- 		  ucmd.rx_hash_function, port);
- 
- 	mana_ind_table = kcalloc(ind_tbl_size, sizeof(mana_handle_t),
-@@ -210,7 +210,7 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 		wq->id = wq_spec.queue_index;
- 		cq->id = cq_spec.queue_index;
- 
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "ret %d rx_object 0x%llx wq id %llu cq id %llu\n",
- 			  ret, wq->rx_object, wq->id, cq->id);
- 
-@@ -221,7 +221,7 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 	}
- 	resp.num_entries = i;
- 
--	ret = mana_ib_cfg_vport_steering(mdev, ndev, wq->rx_object,
-+	ret = mana_ib_cfg_vport_steering(mib_dev, ndev, wq->rx_object,
- 					 mana_ind_table,
- 					 ind_tbl->log_ind_tbl_size,
- 					 ucmd.rx_hash_key_len,
-@@ -231,7 +231,7 @@ static int mana_ib_create_qp_rss(struct ib_qp *ibqp, struct ib_pd *pd,
- 
- 	ret = ib_copy_to_udata(udata, &resp, sizeof(resp));
- 	if (ret) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to copy to udata create rss-qp, %d\n",
- 			  ret);
- 		goto fail;
-@@ -259,7 +259,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- {
- 	struct mana_ib_pd *pd = container_of(ibpd, struct mana_ib_pd, ibpd);
- 	struct mana_ib_qp *qp = container_of(ibqp, struct mana_ib_qp, ibqp);
--	struct mana_ib_dev *mdev =
-+	struct mana_ib_dev *mib_dev =
- 		container_of(ibpd->device, struct mana_ib_dev, ib_dev);
- 	struct mana_ib_cq *send_cq =
- 		container_of(attr->send_cq, struct mana_ib_cq, ibcq);
-@@ -267,7 +267,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 		rdma_udata_to_drv_context(udata, struct mana_ib_ucontext,
- 					  ibucontext);
- 	struct mana_ib_create_qp_resp resp = {};
--	struct gdma_dev *gd = mdev->gdma_dev;
-+	struct gdma_dev *gd = mib_dev->gdma_dev;
- 	struct mana_ib_create_qp ucmd = {};
- 	struct mana_obj_spec wq_spec = {};
- 	struct mana_obj_spec cq_spec = {};
-@@ -285,7 +285,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 
- 	err = ib_copy_from_udata(&ucmd, udata, min(sizeof(ucmd), udata->inlen));
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to copy from udata create qp-raw, %d\n", err);
- 		return err;
- 	}
-@@ -296,14 +296,14 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 		return -EINVAL;
- 
- 	if (attr->cap.max_send_wr > MAX_SEND_BUFFERS_PER_QUEUE) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Requested max_send_wr %d exceeding limit\n",
- 			  attr->cap.max_send_wr);
- 		return -EINVAL;
- 	}
- 
- 	if (attr->cap.max_send_sge > MAX_TX_WQE_SGL_ENTRIES) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Requested max_send_sge %d exceeding limit\n",
- 			  attr->cap.max_send_sge);
- 		return -EINVAL;
-@@ -311,38 +311,38 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 
- 	ndev = mc->ports[port - 1];
- 	mpc = netdev_priv(ndev);
--	ibdev_dbg(&mdev->ib_dev, "port %u ndev %p mpc %p\n", port, ndev, mpc);
-+	ibdev_dbg(&mib_dev->ib_dev, "port %u ndev %p mpc %p\n", port, ndev, mpc);
- 
--	err = mana_ib_cfg_vport(mdev, port - 1, pd, mana_ucontext->doorbell);
-+	err = mana_ib_cfg_vport(mib_dev, port - 1, pd, mana_ucontext->doorbell);
- 	if (err)
- 		return -ENODEV;
- 
- 	qp->port = port;
- 
--	ibdev_dbg(&mdev->ib_dev, "ucmd sq_buf_addr 0x%llx port %u\n",
-+	ibdev_dbg(&mib_dev->ib_dev, "ucmd sq_buf_addr 0x%llx port %u\n",
- 		  ucmd.sq_buf_addr, ucmd.port);
- 
- 	umem = ib_umem_get(ibpd->device, ucmd.sq_buf_addr, ucmd.sq_buf_size,
- 			   IB_ACCESS_LOCAL_WRITE);
- 	if (IS_ERR(umem)) {
- 		err = PTR_ERR(umem);
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to get umem for create qp-raw, err %d\n",
- 			  err);
- 		goto err_free_vport;
- 	}
- 	qp->sq_umem = umem;
- 
--	err = mana_ib_gd_create_dma_region(mdev, qp->sq_umem,
-+	err = mana_ib_gd_create_dma_region(mib_dev, qp->sq_umem,
- 					   &qp->sq_gdma_region);
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to create dma region for create qp-raw, %d\n",
- 			  err);
- 		goto err_release_umem;
- 	}
- 
--	ibdev_dbg(&mdev->ib_dev,
-+	ibdev_dbg(&mib_dev->ib_dev,
- 		  "mana_ib_gd_create_dma_region ret %d gdma_region 0x%llx\n",
- 		  err, qp->sq_gdma_region);
- 
-@@ -358,7 +358,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 	err = mana_create_wq_obj(mpc, mpc->port_handle, GDMA_SQ, &wq_spec,
- 				 &cq_spec, &qp->tx_object);
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to create wq for create raw-qp, err %d\n",
- 			  err);
- 		goto err_destroy_dma_region;
-@@ -371,7 +371,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 	qp->sq_id = wq_spec.queue_index;
- 	send_cq->id = cq_spec.queue_index;
- 
--	ibdev_dbg(&mdev->ib_dev,
-+	ibdev_dbg(&mib_dev->ib_dev,
- 		  "ret %d qp->tx_object 0x%llx sq id %llu cq id %llu\n", err,
- 		  qp->tx_object, qp->sq_id, send_cq->id);
- 
-@@ -381,7 +381,7 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 
- 	err = ib_copy_to_udata(udata, &resp, sizeof(resp));
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed copy udata for create qp-raw, %d\n",
- 			  err);
- 		goto err_destroy_wq_obj;
-@@ -393,13 +393,13 @@ static int mana_ib_create_qp_raw(struct ib_qp *ibqp, struct ib_pd *ibpd,
- 	mana_destroy_wq_obj(mpc, GDMA_SQ, qp->tx_object);
- 
- err_destroy_dma_region:
--	mana_ib_gd_destroy_dma_region(mdev, qp->sq_gdma_region);
-+	mana_ib_gd_destroy_dma_region(mib_dev, qp->sq_gdma_region);
- 
- err_release_umem:
- 	ib_umem_release(umem);
- 
- err_free_vport:
--	mana_ib_uncfg_vport(mdev, pd, port - 1);
-+	mana_ib_uncfg_vport(mib_dev, pd, port - 1);
- 
- 	return err;
- }
-@@ -435,9 +435,9 @@ static int mana_ib_destroy_qp_rss(struct mana_ib_qp *qp,
- 				  struct ib_rwq_ind_table *ind_tbl,
- 				  struct ib_udata *udata)
- {
--	struct mana_ib_dev *mdev =
-+	struct mana_ib_dev *mib_dev =
- 		container_of(qp->ibqp.device, struct mana_ib_dev, ib_dev);
--	struct gdma_dev *gd = mdev->gdma_dev;
-+	struct gdma_dev *gd = mib_dev->gdma_dev;
- 	struct mana_port_context *mpc;
- 	struct mana_context *mc;
- 	struct net_device *ndev;
-@@ -452,7 +452,7 @@ static int mana_ib_destroy_qp_rss(struct mana_ib_qp *qp,
- 	for (i = 0; i < (1 << ind_tbl->log_ind_tbl_size); i++) {
- 		ibwq = ind_tbl->ind_tbl[i];
- 		wq = container_of(ibwq, struct mana_ib_wq, ibwq);
--		ibdev_dbg(&mdev->ib_dev, "destroying wq->rx_object %llu\n",
-+		ibdev_dbg(&mib_dev->ib_dev, "destroying wq->rx_object %llu\n",
- 			  wq->rx_object);
- 		mana_destroy_wq_obj(mpc, GDMA_RQ, wq->rx_object);
- 	}
-@@ -462,9 +462,9 @@ static int mana_ib_destroy_qp_rss(struct mana_ib_qp *qp,
- 
- static int mana_ib_destroy_qp_raw(struct mana_ib_qp *qp, struct ib_udata *udata)
- {
--	struct mana_ib_dev *mdev =
-+	struct mana_ib_dev *mib_dev =
- 		container_of(qp->ibqp.device, struct mana_ib_dev, ib_dev);
--	struct gdma_dev *gd = mdev->gdma_dev;
-+	struct gdma_dev *gd = mib_dev->gdma_dev;
- 	struct ib_pd *ibpd = qp->ibqp.pd;
- 	struct mana_port_context *mpc;
- 	struct mana_context *mc;
-@@ -479,11 +479,11 @@ static int mana_ib_destroy_qp_raw(struct mana_ib_qp *qp, struct ib_udata *udata)
- 	mana_destroy_wq_obj(mpc, GDMA_SQ, qp->tx_object);
- 
- 	if (qp->sq_umem) {
--		mana_ib_gd_destroy_dma_region(mdev, qp->sq_gdma_region);
-+		mana_ib_gd_destroy_dma_region(mib_dev, qp->sq_gdma_region);
- 		ib_umem_release(qp->sq_umem);
- 	}
- 
--	mana_ib_uncfg_vport(mdev, pd, qp->port - 1);
-+	mana_ib_uncfg_vport(mib_dev, pd, qp->port - 1);
- 
- 	return 0;
- }
-diff --git a/drivers/infiniband/hw/mana/wq.c b/drivers/infiniband/hw/mana/wq.c
-index 372d361510e0..56bc2b8b6690 100644
---- a/drivers/infiniband/hw/mana/wq.c
-+++ b/drivers/infiniband/hw/mana/wq.c
-@@ -9,7 +9,7 @@ struct ib_wq *mana_ib_create_wq(struct ib_pd *pd,
- 				struct ib_wq_init_attr *init_attr,
- 				struct ib_udata *udata)
- {
--	struct mana_ib_dev *mdev =
-+	struct mana_ib_dev *mib_dev =
- 		container_of(pd->device, struct mana_ib_dev, ib_dev);
- 	struct mana_ib_create_wq ucmd = {};
- 	struct mana_ib_wq *wq;
-@@ -21,7 +21,7 @@ struct ib_wq *mana_ib_create_wq(struct ib_pd *pd,
- 
- 	err = ib_copy_from_udata(&ucmd, udata, min(sizeof(ucmd), udata->inlen));
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to copy from udata for create wq, %d\n", err);
- 		return ERR_PTR(err);
- 	}
-@@ -30,13 +30,14 @@ struct ib_wq *mana_ib_create_wq(struct ib_pd *pd,
- 	if (!wq)
- 		return ERR_PTR(-ENOMEM);
- 
--	ibdev_dbg(&mdev->ib_dev, "ucmd wq_buf_addr 0x%llx\n", ucmd.wq_buf_addr);
-+	ibdev_dbg(&mib_dev->ib_dev, "ucmd wq_buf_addr 0x%llx\n",
-+		  ucmd.wq_buf_addr);
- 
- 	umem = ib_umem_get(pd->device, ucmd.wq_buf_addr, ucmd.wq_buf_size,
- 			   IB_ACCESS_LOCAL_WRITE);
- 	if (IS_ERR(umem)) {
- 		err = PTR_ERR(umem);
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to get umem for create wq, err %d\n", err);
- 		goto err_free_wq;
- 	}
-@@ -46,15 +47,15 @@ struct ib_wq *mana_ib_create_wq(struct ib_pd *pd,
- 	wq->wq_buf_size = ucmd.wq_buf_size;
- 	wq->rx_object = INVALID_MANA_HANDLE;
- 
--	err = mana_ib_gd_create_dma_region(mdev, wq->umem, &wq->gdma_region);
-+	err = mana_ib_gd_create_dma_region(mib_dev, wq->umem, &wq->gdma_region);
- 	if (err) {
--		ibdev_dbg(&mdev->ib_dev,
-+		ibdev_dbg(&mib_dev->ib_dev,
- 			  "Failed to create dma region for create wq, %d\n",
- 			  err);
- 		goto err_release_umem;
- 	}
- 
--	ibdev_dbg(&mdev->ib_dev,
-+	ibdev_dbg(&mib_dev->ib_dev,
- 		  "mana_ib_gd_create_dma_region ret %d gdma_region 0x%llx\n",
- 		  err, wq->gdma_region);
- 
-@@ -82,11 +83,11 @@ int mana_ib_destroy_wq(struct ib_wq *ibwq, struct ib_udata *udata)
- {
- 	struct mana_ib_wq *wq = container_of(ibwq, struct mana_ib_wq, ibwq);
- 	struct ib_device *ib_dev = ibwq->device;
--	struct mana_ib_dev *mdev;
-+	struct mana_ib_dev *mib_dev;
- 
--	mdev = container_of(ib_dev, struct mana_ib_dev, ib_dev);
-+	mib_dev = container_of(ib_dev, struct mana_ib_dev, ib_dev);
- 
--	mana_ib_gd_destroy_dma_region(mdev, wq->gdma_region);
-+	mana_ib_gd_destroy_dma_region(mib_dev, wq->gdma_region);
- 	ib_umem_release(wq->umem);
- 
- 	kfree(wq);
--- 
-2.25.1
-
+SSBoYXZlIHNlbnQgdjcgcGF0Y2ggc2VyaWVzIHdpdGggdGhlIHNwYWNlIHJlbW92ZWQgDQoNCj4g
+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGVvbiBSb21hbm92c2t5IDxsZW9u
+QGtlcm5lbC5vcmc+DQo+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDE4LCAyMDIzIDE6MjkgQU0N
+Cj4gVG86IEFqYXkgU2hhcm1hIDxzaGFybWFhamF5QG1pY3Jvc29mdC5jb20+DQo+IENjOiBzaGFy
+bWFhamF5QGxpbnV4b25oeXBlcnYuY29tOyBMb25nIExpIDxsb25nbGlAbWljcm9zb2Z0LmNvbT47
+IEphc29uDQo+IEd1bnRob3JwZSA8amdnQHppZXBlLmNhPjsgRGV4dWFuIEN1aSA8ZGVjdWlAbWlj
+cm9zb2Z0LmNvbT47IFdlaSBMaXUNCj4gPHdlaS5saXVAa2VybmVsLm9yZz47IERhdmlkIFMuIE1p
+bGxlciA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD47IEVyaWMgRHVtYXpldA0KPiA8ZWR1bWF6ZXRAZ29v
+Z2xlLmNvbT47IEpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+OyBQYW9sbyBBYmVuaQ0K
+PiA8cGFiZW5pQHJlZGhhdC5jb20+OyBsaW51eC1yZG1hQHZnZXIua2VybmVsLm9yZzsgbGludXgt
+DQo+IGh5cGVydkB2Z2VyLmtlcm5lbC5vcmc7IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4
+LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtFWFRFUk5BTF0gUmU6IFtQ
+YXRjaCB2NSAwLzVdIFJETUEvbWFuYV9pYg0KPiANCj4gT24gTW9uLCBTZXAgMTEsIDIwMjMgYXQg
+MDY6NTc6MjFQTSArMDAwMCwgQWpheSBTaGFybWEgd3JvdGU6DQo+ID4gSSBoYXZlIHVwZGF0ZWQg
+dGhlIGxhc3QgcGF0Y2ggdG8gdXNlIHhhcnJheSwgd2lsbCBwb3N0IHRoZSB1cGRhdGUgcGF0Y2gu
+IFdlDQo+IGN1cnJlbnRseSB1c2UgYXV4IGJ1cyBmb3IgaWIgZGV2aWNlLiBHZF9yZWdpc3Rlcl9k
+ZXZpY2UgaXMgZmlybXdhcmUgc3BlY2lmaWMuIEFsbA0KPiB0aGUgcGF0Y2hlcyB1c2UgUkRNQS9t
+YW5hX2liIGZvcm1hdCB3aGljaCBpcyBhbGlnbmVkIHdpdGgNCj4gZHJpdmVycy9pbmZpbmliYW5k
+L2h3L21hbmEvIC4NCj4gDQo+IOKenCAga2VybmVsIGdpdDood2lwL2xlb24tZm9yLXJjKSBnaXQg
+bCAtLW5vLW1lcmdlcyBkcml2ZXJzL2luZmluaWJhbmQvaHcvbWFuYS8NCj4gMjE0NTMyODUxNWM4
+IFJETUEvbWFuYV9pYjogVXNlIHYyIHZlcnNpb24gb2YgY2ZnX3J4X3N0ZWVyX3JlcSB0byBlbmFi
+bGUNCj4gUlggY29hbGVzY2luZw0KPiA4OWQ0MmI4Yzg1YjQgUkRNQS9tYW5hX2liOiBGaXggYSBi
+dWcgd2hlbiB0aGUgUEYgaW5kaWNhdGVzIG1vcmUgZW50cmllcw0KPiBmb3IgcmVnaXN0ZXJpbmcg
+bWVtb3J5IG9uIGZpcnN0IHBhY2tldA0KPiA1NjNjYTBlOWVhYjggUkRNQS9tYW5hX2liOiBQcmV2
+ZW50IGFycmF5IHVuZGVyZmxvdyBpbg0KPiBtYW5hX2liX2NyZWF0ZV9xcF9yYXcoKQ0KPiAzNTc0
+Y2ZkY2EyODUgUkRNQS9tYW5hOiBSZW1vdmUgcmVkZWZpbml0aW9uIG9mIGJhc2ljIHU2NCB0eXBl
+DQo+IDAyNjZhMTc3NjMxZCBSRE1BL21hbmFfaWI6IEFkZCBhIGRyaXZlciBmb3IgTWljcm9zb2Z0
+IEF6dXJlIE5ldHdvcmsNCj4gQWRhcHRlcg0KPiANCj4gSXQgaXMgZGlmZmVyZW50IGZvcm1hdCBm
+cm9tIHByZXNlbnRlZCBoZXJlLiBZb3UgYWRkZWQgZXh0cmEgc3BhY2UgYmVmb3JlICI6Ig0KPiBh
+bmQgdGhlcmUgaXMgZG91YmxlIHNwYWNlIGluIG9uZSBvZiB0aGUgdGl0bGVzLg0KPiANCkkgaGF2
+ZSByZW1vdmVkIHRoZSBzcGFjZQ0KDQo+IFJlZ2FyZGluZyBhdXgsIEkgc2VlIGl0LCBidXQgd2hh
+dCBjb25mdXNlcyBtZSBpcyBwcm9saWZlcmF0aW9uIG9mIHRlcm1zIGFuZA0KPiB2YXJpb3VzIGNh
+bGxzOiBkZXZpY2UsIGNsaWVudCwgYWRhcHRlci4gTXkgZXhwZWN0YXRpb24gaXMgdG8gc2VlIG1v
+cmUgdW5pZm9ybQ0KPiBtZXRob2RvbG9neSB3aGVyZSBJQiBpcyByZXByZXNlbnRlZCBhcyBkZXZp
+Y2UuDQo+IA0KDQpUaGUgYWRhcHRlciBpcyBhIHNvZnR3YXJlIGNvbnN0cnVjdC4gSXQgaXMgdXNl
+ZCBhcyBhIGNvbnRhaW5lciBmb3IgcmVzb3VyY2VzLiBDbGllbnQgaXMgdXNlZCB0byBkaXN0aW5n
+dWlzaCBiZXR3ZWVuIGV0aCBhbmQgaWIuICBQbGVhc2Ugbm90ZSB0aGF0IHRoZXNlIGFyZSB0ZXJt
+cyB1c2VkIGZvciBkaWZmZXJlbnQgcHVycG9zZXMgb24gdGhlIG1hbmFnZW1lbnQgc2lkZS4gDQoN
+Cj4gVGhhbmtzDQo+IA0KPiA+DQo+ID4gVGhhbmtzDQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBMZW9uIFJvbWFub3Zza3kgPGxlb25Aa2VybmVsLm9y
+Zz4NCj4gPiA+IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDExLCAyMDIzIDc6MzMgQU0NCj4gPiA+
+IFRvOiBzaGFybWFhamF5QGxpbnV4b25oeXBlcnYuY29tDQo+ID4gPiBDYzogTG9uZyBMaSA8bG9u
+Z2xpQG1pY3Jvc29mdC5jb20+OyBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT47DQo+ID4g
+PiBEZXh1YW4gQ3VpIDxkZWN1aUBtaWNyb3NvZnQuY29tPjsgV2VpIExpdSA8d2VpLmxpdUBrZXJu
+ZWwub3JnPjsNCj4gPiA+IERhdmlkIFMuIE1pbGxlciA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5ldD47IEVy
+aWMgRHVtYXpldA0KPiA+ID4gPGVkdW1hemV0QGdvb2dsZS5jb20+OyBKYWt1YiBLaWNpbnNraSA8
+a3ViYUBrZXJuZWwub3JnPjsgUGFvbG8gQWJlbmkNCj4gPiA+IDxwYWJlbmlAcmVkaGF0LmNvbT47
+IGxpbnV4LSByZG1hQHZnZXIua2VybmVsLm9yZzsNCj4gPiA+IGxpbnV4LWh5cGVydkB2Z2VyLmtl
+cm5lbC5vcmc7IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4gPiBsaW51eC1rZXJuZWxAdmdl
+ci5rZXJuZWwub3JnOyBBamF5IFNoYXJtYSA8c2hhcm1hYWpheUBtaWNyb3NvZnQuY29tPg0KPiA+
+ID4gU3ViamVjdDogW0VYVEVSTkFMXSBSZTogW1BhdGNoIHY1IDAvNV0gUkRNQS9tYW5hX2liDQo+
+ID4gPg0KPiA+ID4gT24gVGh1LCBTZXAgMDcsIDIwMjMgYXQgMDk6NTI6MzRBTSAtMDcwMCwNCj4g
+PiA+IHNoYXJtYWFqYXlAbGludXhvbmh5cGVydi5jb20NCj4gPiA+IHdyb3RlOg0KPiA+ID4gPiBG
+cm9tOiBBamF5IFNoYXJtYSA8c2hhcm1hYWpheUBtaWNyb3NvZnQuY29tPg0KPiA+ID4gPg0KPiA+
+ID4gPiBDaGFuZ2UgZnJvbSB2NDoNCj4gPiA+ID4gU2VuZCBxcCBmYXRhbCBlcnJvciBldmVudCB0
+byB0aGUgY29udGV4dCB0aGF0IGNyZWF0ZWQgdGhlIHFwLiBBZGQNCj4gPiA+ID4gbG9va3VwIHRh
+YmxlIGZvciBxcC4NCj4gPiA+ID4NCj4gPiA+ID4gQWpheSBTaGFybWEgKDUpOg0KPiA+ID4gPiAg
+IFJETUEvbWFuYV9pYiA6IFJlbmFtZSBhbGwgbWFuYV9pYl9kZXYgdHlwZSB2YXJpYWJsZXMgdG8g
+bWliX2Rldg0KPiA+ID4gPiAgIFJETUEvbWFuYV9pYiA6IFJlZ2lzdGVyIE1hbmEgSUIgIGRldmlj
+ZSB3aXRoIE1hbmFnZW1lbnQgU1cNCj4gPiA+ID4gICBSRE1BL21hbmFfaWIgOiBDcmVhdGUgYWRh
+cHRlciBhbmQgQWRkIGVycm9yIGVxDQo+ID4gPiA+ICAgUkRNQS9tYW5hX2liIDogUXVlcnkgYWRh
+cHRlciBjYXBhYmlsaXRpZXMNCj4gPiA+ID4gICBSRE1BL21hbmFfaWIgOiBTZW5kIGV2ZW50IHRv
+IHFwDQo+ID4gPg0KPiA+ID4gSSBkaWRuJ3QgbG9vayB2ZXJ5IGRlZXAgaW50byB0aGUgc2VyaWVz
+IGFuZCBoYXMgdGhyZWUgdmVyeSBpbml0aWFsIGNvbW1lbnRzLg0KPiA+ID4gMS4gUGxlYXNlIGRv
+IGdpdCBsb2cgZHJpdmVycy9pbmZpbmliYW5kL2h3L21hbmEvIGFuZCB1c2Ugc2FtZSBmb3JtYXQN
+Cj4gPiA+IGZvciBjb21taXQgbWVzc2FnZXMuDQo+ID4gPiAyLiBEb24ndCBpbnZlbnQgeW91ciBv
+d24gaW5kZXgtdG8tcXAgcXVlcnkgbWVjaGFuaXNtIGluIGxhc3QgcGF0Y2gNCj4gPiA+IGFuZCB1
+c2UgeGFycmF5Lg0KPiA+ID4gMy4gT25jZSB5b3UgZGVjaWRlZCB0byBleHBvcnQgbWFuYV9nZF9y
+ZWdpc3Rlcl9kZXZpY2UsIGl0IGhpbnRlZCBtZQ0KPiA+ID4gdGhhdCBpdCBpcyB0aW1lIHRvIG1v
+dmUgdG8gYXV4YnVzIGluZnJhc3RydWN0dXJlLg0KPiA+ID4NCj4gPiA+IFRoYW5rcw0KPiA+ID4N
+Cj4gPiA+ID4NCj4gPiA+ID4gIGRyaXZlcnMvaW5maW5pYmFuZC9ody9tYW5hL2NxLmMgICAgICAg
+ICAgICAgICB8ICAxMiArLQ0KPiA+ID4gPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L21hbmEvZGV2
+aWNlLmMgICAgICAgICAgIHwgIDgxICsrKy0tDQo+ID4gPiA+ICBkcml2ZXJzL2luZmluaWJhbmQv
+aHcvbWFuYS9tYWluLmMgICAgICAgICAgICAgfCAyODggKysrKysrKysrKysrKy0tLS0tDQo+ID4g
+PiA+ICBkcml2ZXJzL2luZmluaWJhbmQvaHcvbWFuYS9tYW5hX2liLmggICAgICAgICAgfCAxMDIg
+KysrKysrLQ0KPiA+ID4gPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L21hbmEvbXIuYyAgICAgICAg
+ICAgICAgIHwgIDQyICsrLQ0KPiA+ID4gPiAgZHJpdmVycy9pbmZpbmliYW5kL2h3L21hbmEvcXAu
+YyAgICAgICAgICAgICAgIHwgIDg2ICsrKy0tLQ0KPiA+ID4gPiAgZHJpdmVycy9pbmZpbmliYW5k
+L2h3L21hbmEvd3EuYyAgICAgICAgICAgICAgIHwgIDIxICstDQo+ID4gPiA+ICAuLi4vbmV0L2V0
+aGVybmV0L21pY3Jvc29mdC9tYW5hL2dkbWFfbWFpbi5jICAgfCAxNTIgKysrKystLS0tDQo+ID4g
+PiA+ICBkcml2ZXJzL25ldC9ldGhlcm5ldC9taWNyb3NvZnQvbWFuYS9tYW5hX2VuLmMgfCAgIDMg
+Kw0KPiA+ID4gPiAgaW5jbHVkZS9uZXQvbWFuYS9nZG1hLmggICAgICAgICAgICAgICAgICAgICAg
+IHwgIDE2ICstDQo+ID4gPiA+ICAxMCBmaWxlcyBjaGFuZ2VkLCA1NDUgaW5zZXJ0aW9ucygrKSwg
+MjU4IGRlbGV0aW9ucygtKQ0KPiA+ID4gPg0KPiA+ID4gPiAtLQ0KPiA+ID4gPiAyLjI1LjENCj4g
+PiA+ID4NCg==
