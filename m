@@ -1,37 +1,37 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3623343118
-	for <linux-hyperv@vger.kernel.org>; Tue, 17 Oct 2023 20:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1B043115
+	for <linux-hyperv@vger.kernel.org>; Tue, 17 Oct 2023 20:25:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Um+2RAUy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAwYhPFD"
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB2110F;
-	Tue, 17 Oct 2023 13:25:37 -0700 (PDT)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273F8118;
+	Tue, 17 Oct 2023 13:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697574337; x=1729110337;
+  t=1697574339; x=1729110339;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xSf/vP0NH+csMyG/vIllMJkrSA3cYI1t+FXhK7zth7Y=;
-  b=Um+2RAUycHg4eO51TJWq4jYMYZ6sC8BRA31uq0cfcE7e/l2kMDKlCic+
-   XXbJWSGe/0QxqaqPMuEFCrlu32xJ1yPAxbJ7PB7pb9OdP7xXDHWoy02s+
-   ZgLnqmBz6NdOqZLxWy+uS9iDfBz+/EzJ9gs9uuEa5AKYBdGkZBmLx4aq1
-   qNTxNpFhF+rxvwnuUXS0TctXsQWuEK4Nx2EeDyVZYsgqSpaJubi4Dksjf
-   8BxRN8SyEAJueIixOnv+Vg39pppoDdUzYkjnvWwH3VoM+PM+ihlz80IjU
-   GukS1tRaIzt1FdHk2VegNZuk3AC3Wc2MQHcJxCjxjneFjggAHcLAGjrTh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7429585"
+  bh=acK3P8RbFbLJ3Y/qsHvg8A7W0ea+PDycu9fLk45ERVg=;
+  b=bAwYhPFDDn2o4/g5Fs2i2s5um2j26EQWQIyBaZJ2aaH4c46DESSmKzjG
+   m8qgnDnrDqfr9zfj/plTmMMnQ9zukuTursZT/jQ40fKZMUrMtz/at8UjB
+   2l4v9tWYfqrSphZ+M3Cau2AbRLqI7cmk5duZAgPeY3kh5iehrPes69QO8
+   jBjP+2X9WgAAlW4iqXjd8rIbUUlrF8lLVOJR7htbOzfKiGP3cWF0qEI1e
+   21/snBiup9feaslOPp3z2p9HInLQpMahJKFB49EzoOfCu4atkY9+5wd+O
+   Yaa8lCqGFJg1pF8Gipjp5bndl2kLgoWjnStIFm212TwtidEDXcPnrKg6U
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="7429610"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="7429585"
+   d="scan'208";a="7429610"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:25:37 -0700
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:25:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="900040471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10866"; a="900040478"
 X-IronPort-AV: E=Sophos;i="6.03,233,1694761200"; 
-   d="scan'208";a="900040471"
+   d="scan'208";a="900040478"
 Received: from rtdinh-mobl1.amr.corp.intel.com (HELO rpedgeco-desk4.intel.com) ([10.212.150.155])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:23:33 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 13:23:35 -0700
 From: Rick Edgecombe <rick.p.edgecombe@intel.com>
 To: x86@kernel.org,
 	tglx@linutronix.de,
@@ -57,9 +57,9 @@ Cc: rick.p.edgecombe@intel.com,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	linux-hyperv@vger.kernel.org
-Subject: [RFC 08/10] hv: Track decrypted status in vmbus_gpadl
-Date: Tue, 17 Oct 2023 13:25:03 -0700
-Message-Id: <20231017202505.340906-9-rick.p.edgecombe@intel.com>
+Subject: [RFC 10/10] uio_hv_generic: Don't free decrypted memory
+Date: Tue, 17 Oct 2023 13:25:05 -0700
+Message-Id: <20231017202505.340906-11-rick.p.edgecombe@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231017202505.340906-1-rick.p.edgecombe@intel.com>
 References: <20231017202505.340906-1-rick.p.edgecombe@intel.com>
@@ -82,11 +82,11 @@ error is returned and the resulting memory is shared. Callers need to take
 care to handle these errors to avoid returning decrypted (shared) memory to
 the page allocator, which could lead to functional or security issues.
 
-In order to make sure caller's of vmbus_establish_gpadl() and
-vmbus_teardown_gpadl() don't return decrypted/shared pages to
-allocators, add a field in struct vmbus_gpadl to keep track of the
-decryption status of the buffer's. This will allow the callers to
-know if they should free or leak the pages.
+uio_hv_generic could free decrypted/shared pages if
+set_memory_decrypted() fails.
+
+Check the decrypted field in the gpadl before freeing in order to not
+leak the memory.
 
 Only compile tested.
 
@@ -97,65 +97,50 @@ Cc: Dexuan Cui <decui@microsoft.com>
 Cc: linux-hyperv@vger.kernel.org
 Signed-off-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 ---
- drivers/hv/channel.c   | 11 ++++++++---
- include/linux/hyperv.h |  1 +
- 2 files changed, 9 insertions(+), 3 deletions(-)
+ drivers/uio/uio_hv_generic.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 1ad8f7fabe06..0a7dcbb48140 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -479,6 +479,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	ret = set_memory_decrypted((unsigned long)kbuffer,
- 				   PFN_UP(size));
+diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+index 20d9762331bd..6be3462b109f 100644
+--- a/drivers/uio/uio_hv_generic.c
++++ b/drivers/uio/uio_hv_generic.c
+@@ -181,12 +181,14 @@ hv_uio_cleanup(struct hv_device *dev, struct hv_uio_private_data *pdata)
+ {
+ 	if (pdata->send_gpadl.gpadl_handle) {
+ 		vmbus_teardown_gpadl(dev->channel, &pdata->send_gpadl);
+-		vfree(pdata->send_buf);
++		if (!pdata->send_gpadl.decrypted)
++			vfree(pdata->send_buf);
+ 	}
+ 
+ 	if (pdata->recv_gpadl.gpadl_handle) {
+ 		vmbus_teardown_gpadl(dev->channel, &pdata->recv_gpadl);
+-		vfree(pdata->recv_buf);
++		if (!pdata->recv_gpadl.decrypted)
++			vfree(pdata->recv_buf);
+ 	}
+ }
+ 
+@@ -295,7 +297,8 @@ hv_uio_probe(struct hv_device *dev,
+ 	ret = vmbus_establish_gpadl(channel, pdata->recv_buf,
+ 				    RECV_BUFFER_SIZE, &pdata->recv_gpadl);
  	if (ret) {
-+		gpadl->decrypted = false;
- 		dev_warn(&channel->device_obj->device,
- 			 "Failed to set host visibility for new GPADL %d.\n",
- 			 ret);
-@@ -551,6 +552,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	gpadl->gpadl_handle = gpadlmsg->gpadl;
- 	gpadl->buffer = kbuffer;
- 	gpadl->size = size;
-+	gpadl->decrypted = true;
+-		vfree(pdata->recv_buf);
++		if (!pdata->recv_gpadl.decrypted)
++			vfree(pdata->recv_buf);
+ 		goto fail_close;
+ 	}
  
+@@ -317,7 +320,8 @@ hv_uio_probe(struct hv_device *dev,
+ 	ret = vmbus_establish_gpadl(channel, pdata->send_buf,
+ 				    SEND_BUFFER_SIZE, &pdata->send_gpadl);
+ 	if (ret) {
+-		vfree(pdata->send_buf);
++		if (!pdata->send_gpadl.decrypted)
++			vfree(pdata->send_buf);
+ 		goto fail_close;
+ 	}
  
- cleanup:
-@@ -564,9 +566,10 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 
- 	kfree(msginfo);
- 
--	if (ret)
--		set_memory_encrypted((unsigned long)kbuffer,
--				     PFN_UP(size));
-+	if (ret) {
-+		if (set_memory_encrypted((unsigned long)kbuffer, PFN_UP(size)))
-+			gpadl->decrypted = false;
-+	}
- 
- 	return ret;
- }
-@@ -887,6 +890,8 @@ int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct vmbus_gpadl *gpad
- 	if (ret)
- 		pr_warn("Fail to set mem host visibility in GPADL teardown %d.\n", ret);
- 
-+	gpadl->decrypted = ret;
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 2b00faf98017..5bac136c268c 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -812,6 +812,7 @@ struct vmbus_gpadl {
- 	u32 gpadl_handle;
- 	u32 size;
- 	void *buffer;
-+	bool decrypted;
- };
- 
- struct vmbus_channel {
 -- 
 2.34.1
 
