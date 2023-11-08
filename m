@@ -1,42 +1,42 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ACF15E96;
-	Wed,  8 Nov 2023 11:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EA315E89;
+	Wed,  8 Nov 2023 11:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="oopPMrgK"
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FBE01BE7;
-	Wed,  8 Nov 2023 03:21:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="sNm8tk4b"
+Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A721BE1;
+	Wed,  8 Nov 2023 03:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1699442476; x=1730978476;
+  t=1699442507; x=1730978507;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WNkxJnNlKH45HLgy7MuxT0PXy6Pk8Rwqfkx/NFZb78M=;
-  b=oopPMrgK3huNH+S58PID/PJGmaZuTodV0aPjByLPAEF84pnf67QPYUyS
-   e2U3hibcw/NpOZdGuV6JX4r0FkStxP/wdkDa+cAJsbnsk71MQuiA5Iqhx
-   r8+EiaDXiDXcjOWtGkKmnbmHTK7aoGUXnZFEehEMICMccuKFru1ijXDmK
-   o=;
+  bh=iycFoTQhbiLFSko2vQExEp1NsC8B9ilkhIKK0YicW+o=;
+  b=sNm8tk4bdiSv9RcK/p31fYA5P8oPP9zXu7plXO17n8vzt3AEhJxPRgaG
+   HpxMQtnznovUjHqlU4klh8y3Yh5f0cMHfyTFUPpGHvsH5W41JUc8qY1Qf
+   SsuE9Ar5H845RLHucxk3HM+TLuFPWUIMhBV/09vgIKnWKDEPWauz9kkEb
+   k=;
 X-IronPort-AV: E=Sophos;i="6.03,286,1694736000"; 
-   d="scan'208";a="618316123"
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1d-m6i4x-b404fda3.us-east-1.amazon.com) ([10.43.8.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:21:15 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
-	by email-inbound-relay-iad-1d-m6i4x-b404fda3.us-east-1.amazon.com (Postfix) with ESMTPS id CC42F80587;
-	Wed,  8 Nov 2023 11:21:02 +0000 (UTC)
-Received: from EX19MTAEUA002.ant.amazon.com [10.0.17.79:44839]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.22.222:2525] with esmtp (Farcaster)
- id 18ea7cc4-781f-406b-ba74-c06699172525; Wed, 8 Nov 2023 11:21:00 +0000 (UTC)
-X-Farcaster-Flow-ID: 18ea7cc4-781f-406b-ba74-c06699172525
+   d="scan'208";a="375131996"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com) ([10.25.36.214])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:21:40 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan3.iad.amazon.com [10.32.235.38])
+	by email-inbound-relay-iad-1e-m6i4x-529f0975.us-east-1.amazon.com (Postfix) with ESMTPS id BA00148E12;
+	Wed,  8 Nov 2023 11:21:36 +0000 (UTC)
+Received: from EX19MTAEUC002.ant.amazon.com [10.0.17.79:28792]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.4.34:2525] with esmtp (Farcaster)
+ id cc98cadf-a052-4f23-b472-377eb7ac99f7; Wed, 8 Nov 2023 11:21:35 +0000 (UTC)
+X-Farcaster-Flow-ID: cc98cadf-a052-4f23-b472-377eb7ac99f7
 Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
+ EX19MTAEUC002.ant.amazon.com (10.252.51.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Wed, 8 Nov 2023 11:21:00 +0000
+ 15.2.1118.39; Wed, 8 Nov 2023 11:21:34 +0000
 Received: from dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com (10.13.235.138)
  by EX19D004EUC001.ant.amazon.com (10.252.51.190) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Wed, 8 Nov 2023 11:20:55 +0000
+ 15.2.1118.39; Wed, 8 Nov 2023 11:21:29 +0000
 From: Nicolas Saenz Julienne <nsaenz@amazon.com>
 To: <kvm@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
@@ -45,9 +45,9 @@ CC: <linux-kernel@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
 	<jgowans@amazon.com>, <corbert@lwn.net>, <kys@microsoft.com>,
 	<haiyangz@microsoft.com>, <decui@microsoft.com>, <x86@kernel.org>,
 	<linux-doc@vger.kernel.org>, Nicolas Saenz Julienne <nsaenz@amazon.com>
-Subject: [RFC 13/33] KVM: Allow polling vCPUs for events
-Date: Wed, 8 Nov 2023 11:17:46 +0000
-Message-ID: <20231108111806.92604-14-nsaenz@amazon.com>
+Subject: [RFC 15/33] KVM: x86/mmu: Introduce infrastructure to handle non-executable faults
+Date: Wed, 8 Nov 2023 11:17:48 +0000
+Message-ID: <20231108111806.92604-16-nsaenz@amazon.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231108111806.92604-1-nsaenz@amazon.com>
 References: <20231108111806.92604-1-nsaenz@amazon.com>
@@ -60,141 +60,92 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.13.235.138]
-X-ClientProxiedBy: EX19D040UWA001.ant.amazon.com (10.13.139.22) To
+X-ClientProxiedBy: EX19D043UWA003.ant.amazon.com (10.13.139.31) To
  EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-A number of use cases have surfaced where it'd be beneficial to have a
-vCPU stop its execution in user-space, as opposed to having it sleep
-in-kernel. Be it in order to make better use of the pCPU's time while
-the vCPU is halted, or to implement security features like Hyper-V's
-VSM.
+The upcoming per-VTL memory protections support needs to fault in
+non-executable memory. Introduce a new attribute in struct
+kvm_page_fault, map_executable, to control whether the gfn range should
+be mapped as executable.
 
-A problem with this approach is that user-space has no way of knowing
-whether the vCPU has pending events (interrupts, timers, etc...), so we
-need a new interface to query if they are. poll() turned out to be a
-very good fit.
-
-So enable polling vCPUs. The poll() interface considers a vCPU has a
-pending event if it didn't enter the guest since being kicked by an
-event source (being kicked forces a guest exit). Kicking a vCPU that has
-pollers wakes up the polling threads.
-
-NOTES:
- - There is a race between the 'vcpu->kicked' check in the polling
-   thread and the vCPU thread re-entering the guest. This hardly affects
-   the use-cases stated above, but needs to be fixed.
-
- - This was tested alongside a WIP Hyper-V Virtual Trust Level
-   implementation which makes ample use of the poll() interface.
+No functional change intended.
 
 Signed-off-by: Nicolas Saenz Julienne <nsaenz@amazon.com>
 ---
- arch/x86/kvm/x86.c       |  2 ++
- include/linux/kvm_host.h |  2 ++
- virt/kvm/kvm_main.c      | 30 ++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+)
+ arch/x86/kvm/mmu/mmu.c          | 6 +++++-
+ arch/x86/kvm/mmu/mmu_internal.h | 2 ++
+ arch/x86/kvm/mmu/tdp_mmu.c      | 8 ++++++--
+ 3 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 57f9c58e1e32..bf4891bc044e 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -10788,6 +10788,8 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
- 		goto cancel_injection;
- 	}
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 2afef86863fb..4e02d506cc25 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -3245,6 +3245,7 @@ static int direct_map(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+ 	struct kvm_mmu_page *sp;
+ 	int ret;
+ 	gfn_t base_gfn = fault->gfn;
++	unsigned access = ACC_ALL;
  
-+	WRITE_ONCE(vcpu->kicked, false);
-+
- 	if (req_immediate_exit) {
- 		kvm_make_request(KVM_REQ_EVENT, vcpu);
- 		static_call(kvm_x86_request_immediate_exit)(vcpu);
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 687589ce9f63..71e1e8cf8936 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -336,6 +336,7 @@ struct kvm_vcpu {
- #endif
- 	int mode;
- 	u64 requests;
-+	bool kicked;
- 	unsigned long guest_debug;
+ 	kvm_mmu_hugepage_adjust(vcpu, fault);
  
- 	struct mutex mutex;
-@@ -395,6 +396,7 @@ struct kvm_vcpu {
- 	 */
- 	struct kvm_memory_slot *last_used_slot;
- 	u64 last_used_slot_gen;
-+	wait_queue_head_t wqh;
- };
+@@ -3274,7 +3275,10 @@ static int direct_map(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+ 	if (WARN_ON_ONCE(it.level != fault->goal_level))
+ 		return -EFAULT;
  
- /*
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index ad9aab898a0c..fde004a0ac46 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -497,12 +497,14 @@ static void kvm_vcpu_init(struct kvm_vcpu *vcpu, struct kvm *kvm, unsigned id)
- 	kvm_vcpu_set_dy_eligible(vcpu, false);
- 	vcpu->preempted = false;
- 	vcpu->ready = false;
-+	vcpu->kicked = false;
- 	preempt_notifier_init(&vcpu->preempt_notifier, &kvm_preempt_ops);
- 	vcpu->last_used_slot = NULL;
+-	ret = mmu_set_spte(vcpu, fault->slot, it.sptep, ACC_ALL,
++	if (!fault->map_executable)
++		access &= ~ACC_EXEC_MASK;
++
++	ret = mmu_set_spte(vcpu, fault->slot, it.sptep, access,
+ 			   base_gfn, fault->pfn, fault);
+ 	if (ret == RET_PF_SPURIOUS)
+ 		return ret;
+diff --git a/arch/x86/kvm/mmu/mmu_internal.h b/arch/x86/kvm/mmu/mmu_internal.h
+index b66a7d47e0e4..bd62c4d5d5f1 100644
+--- a/arch/x86/kvm/mmu/mmu_internal.h
++++ b/arch/x86/kvm/mmu/mmu_internal.h
+@@ -239,6 +239,7 @@ struct kvm_page_fault {
+ 	kvm_pfn_t pfn;
+ 	hva_t hva;
+ 	bool map_writable;
++	bool map_executable;
  
- 	/* Fill the stats id string for the vcpu */
- 	snprintf(vcpu->stats_id, sizeof(vcpu->stats_id), "kvm-%d/vcpu-%d",
- 		 task_pid_nr(current), id);
-+	init_waitqueue_head(&vcpu->wqh);
- }
+ 	/*
+ 	 * Indicates the guest is trying to write a gfn that contains one or
+@@ -298,6 +299,7 @@ static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+ 		.req_level = PG_LEVEL_4K,
+ 		.goal_level = PG_LEVEL_4K,
+ 		.is_private = kvm_mem_is_private(vcpu->kvm, cr2_or_gpa >> PAGE_SHIFT),
++		.map_executable = true,
+ 	};
+ 	int r;
  
- static void kvm_vcpu_destroy(struct kvm_vcpu *vcpu)
-@@ -3970,6 +3972,10 @@ void kvm_vcpu_kick(struct kvm_vcpu *vcpu)
- 		if (cpu != me && (unsigned)cpu < nr_cpu_ids && cpu_online(cpu))
- 			smp_send_reschedule(cpu);
- 	}
-+
-+	if (!cmpxchg(&vcpu->kicked, false, true))
-+		wake_up_interruptible(&vcpu->wqh);
-+
- out:
- 	put_cpu();
- }
-@@ -4174,6 +4180,29 @@ static int kvm_vcpu_mmap(struct file *file, struct vm_area_struct *vma)
- 	return 0;
- }
+diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+index 6cd4dd631a2f..46f3e72ab770 100644
+--- a/arch/x86/kvm/mmu/tdp_mmu.c
++++ b/arch/x86/kvm/mmu/tdp_mmu.c
+@@ -957,14 +957,18 @@ static int tdp_mmu_map_handle_target_level(struct kvm_vcpu *vcpu,
+ 	u64 new_spte;
+ 	int ret = RET_PF_FIXED;
+ 	bool wrprot = false;
++	unsigned access = ACC_ALL;
  
-+static __poll_t kvm_vcpu_poll(struct file *file, poll_table *wait)
-+{
-+	struct kvm_vcpu *vcpu = file->private_data;
+ 	if (WARN_ON_ONCE(sp->role.level != fault->goal_level))
+ 		return RET_PF_RETRY;
+ 
++	if (!fault->map_executable)
++		access &= ~ACC_EXEC_MASK;
 +
-+	poll_wait(file, &vcpu->wqh, wait);
-+
-+	/*
-+	 * Make sure we read vcpu->kicked after adding the vcpu into
-+	 * the waitqueue list. Otherwise we might have the following race:
-+	 *
-+	 *   READ_ONCE(vcpu->kicked)
-+	 *					cmpxchg(&vcpu->kicked, false, true))
-+	 *					wake_up_interruptible(&vcpu->wqh)
-+	 *   list_add_tail(wait, &vcpu->wqh)
-+	 */
-+	smp_mb();
-+	if (READ_ONCE(vcpu->kicked)) {
-+		return EPOLLIN;
-+	}
-+
-+	return 0;
-+}
-+
- static int kvm_vcpu_release(struct inode *inode, struct file *filp)
- {
- 	struct kvm_vcpu *vcpu = filp->private_data;
-@@ -4186,6 +4215,7 @@ static const struct file_operations kvm_vcpu_fops = {
- 	.release        = kvm_vcpu_release,
- 	.unlocked_ioctl = kvm_vcpu_ioctl,
- 	.mmap           = kvm_vcpu_mmap,
-+	.poll		= kvm_vcpu_poll,
- 	.llseek		= noop_llseek,
- 	KVM_COMPAT(kvm_vcpu_compat_ioctl),
- };
+ 	if (unlikely(!fault->slot))
+-		new_spte = make_mmio_spte(vcpu, iter->gfn, ACC_ALL);
++		new_spte = make_mmio_spte(vcpu, iter->gfn, access);
+ 	else
+-		wrprot = make_spte(vcpu, sp, fault->slot, ACC_ALL, iter->gfn,
++		wrprot = make_spte(vcpu, sp, fault->slot, access, iter->gfn,
+ 					 fault->pfn, iter->old_spte, fault->prefetch, true,
+ 					 fault->map_writable, &new_spte);
+ 
 -- 
 2.40.1
 
