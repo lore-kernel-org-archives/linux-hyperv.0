@@ -1,23 +1,23 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF9374DC;
-	Wed,  8 Nov 2023 22:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A315B36AE6;
+	Wed,  8 Nov 2023 22:57:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b="q/0i7DvF"
+	dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b="gmeLGiqv"
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 97B87B4;
-	Wed,  8 Nov 2023 14:06:28 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 15CDD2593;
+	Wed,  8 Nov 2023 14:57:02 -0800 (PST)
 Received: by linux.microsoft.com (Postfix, from userid 1004)
-	id 01F8A20B74C0; Wed,  8 Nov 2023 14:06:28 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 01F8A20B74C0
+	id 7869120B74C0; Wed,  8 Nov 2023 14:57:01 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7869120B74C0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-	s=default; t=1699481188;
-	bh=9XdLVz2db7rfFcQe7ydvfN6yR+cFs5DgiBaH3dFhqe0=;
+	s=default; t=1699484221;
+	bh=7KYB4AGHIgeUyjEG3r33fMLYHpsuUr24nqIpPaxvALs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=q/0i7DvFkAU9jaANRYw/QGHvJB7DnbNDBYo36YbgGK63T0kzWjXvLzcfJb4GIQV75
-	 i7wj8+jahcnorcv+paMcpCAw3CxnIA/Q3rrVe+uTh97FBeZFrpQ0qTN7yley5gGPgi
-	 GQyiYntLZgG1P+tYyS3Cb+OkD3W3owBtSKC4ReA8=
+	b=gmeLGiqvhMbZMueKyf0oZCuXCNcMPao+Y5KJTtTUBNXAMeus2JyaCLqJCmxtbhl+a
+	 Z6zVoiq70QfWZeOqFrj7qvAbSrRGn95H3lxjcIFrI6RN+/rWsX10ALLVxBXsj3Zkji
+	 9HjAqZFCeNKWJ1o5oVINYSAxbRUvmzU+GNyiv/jY=
 From: longli@linuxonhyperv.com
 To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -31,9 +31,9 @@ To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Long Li <longli@microsoft.com>
-Subject: [PATCH net v3] hv_netvsc: Mark VF as slave before exposing it to user-mode
-Date: Wed,  8 Nov 2023 14:06:20 -0800
-Message-Id: <1699481180-17511-1-git-send-email-longli@linuxonhyperv.com>
+Subject: [PATCH net-next v4] hv_netvsc: Mark VF as slave before exposing it to user-mode
+Date: Wed,  8 Nov 2023 14:56:52 -0800
+Message-Id: <1699484212-24079-1-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -64,6 +64,9 @@ Use a new function to handle NETDEV_POST_INIT.
 
 Change since v2:
 Add "net" in subject. Add more details on the user-mode program behavior.
+
+Change since v3:
+Change target to net-next.
 
  drivers/net/hyperv/netvsc_drv.c | 24 +++++++++++++++++-------
  1 file changed, 17 insertions(+), 7 deletions(-)
