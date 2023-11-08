@@ -1,116 +1,187 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBEE3032C
-	for <linux-hyperv@vger.kernel.org>; Wed,  8 Nov 2023 18:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BA432C88;
+	Wed,  8 Nov 2023 19:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ag/sekfg"
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BFFC210A
-	for <linux-hyperv@vger.kernel.org>; Wed,  8 Nov 2023 10:35:03 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40790b0a224so53676255e9.0
-        for <linux-hyperv@vger.kernel.org>; Wed, 08 Nov 2023 10:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699468502; x=1700073302; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=n9ZiV2Esj98CTfgH59OBDcgahkXqDMdEC5lhTkmlSa0=;
-        b=Ag/sekfgYdN+QO2qNzC+r6BzqCMo9dzcsxvOu4xJN0ribyHewu9zogJx6FWNSomfI9
-         4Sjlt/qA4mplNZMnvot6/g+6cmnze23j+AP62wX8o67Qahuu0IX9K7PX266zjkQY/wRe
-         hNpOh576uhk6o2F1atbxeeQelw6dBU2ObOSQ9yQGCGBdBys3mjvoiuXA1WEspYXM7dqL
-         8or59NUpDHRURUG6WDvo92ajLicd3w5fF4NJHO6NtHIf4rNDQeB2t6EQLDVDKgiNAp4S
-         f8GgfhkHm4K6E2W6wIdOxZzpJIJC9NgohDiD7zD6auJ87yEubapy07YfOPudCdJ85XuR
-         nD9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699468502; x=1700073302;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=n9ZiV2Esj98CTfgH59OBDcgahkXqDMdEC5lhTkmlSa0=;
-        b=HLMf3Nu3ndwo9FdyiOfz0o0cqxc1wM8OyYVwO98+PNR3Urvqwthg+rvPDQwufcu8eb
-         VvYCMmSG3CmmeS02x8Ijdqkt7DcXEQcT/07ORW6WXO3fn+35/N+BW/QGMrfqjYZqSO6T
-         RKhFsMYJQgwOXpYwQ+paRroHipAyTyj1jTOs8B+vm8grvcLs8/+UOAJDcYh/YVoHUTxF
-         9dAmAwajflMsxqk1UCAgv+Sm52l0viqkxg07ms7N2V6fF8A6tVSWLmQt3joooWYHaEqM
-         J5eSXNCckbdz2jHlFJDFS7J7KpvVrWBJBtn0uIV2C/T2+mt06T8daOVUN7TDRkIDWkPK
-         B30Q==
-X-Gm-Message-State: AOJu0Ywg1bbrKbwx06GFi0uYrBu0CJNJqX+gzj6NqVGBuX1qlu8m4SdN
-	taW2dYWQsXC4OrkRUtFjTwAKBg==
-X-Google-Smtp-Source: AGHT+IEerzRoblFu8LqWqAyQVzl32Dow78v7sZDoe2sPpmQgBWRRfSrEcftCpyNmsXV1yimnvtHQ6A==
-X-Received: by 2002:a05:600c:190e:b0:405:1c19:b747 with SMTP id j14-20020a05600c190e00b004051c19b747mr2262734wmq.15.1699468501866;
-        Wed, 08 Nov 2023 10:35:01 -0800 (PST)
-Received: from salami.lan ([80.111.64.44])
-        by smtp.gmail.com with ESMTPSA id g4-20020a05600c310400b004068e09a70bsm20156528wmo.31.2023.11.08.10.34.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 10:35:00 -0800 (PST)
-Message-ID: <d6664edcccd81edc5caa54e8da43b5c571a3ea76.camel@linaro.org>
-Subject: Re: [PATCH RFC 00/17] Solve iommu probe races around iommu_fwspec
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Zhenhua Huang <quic_zhenhuah@quicinc.com>, 
- acpica-devel@lists.linuxfoundation.org, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>,  Albert Ou <aou@eecs.berkeley.edu>,
- asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>,  Catalin
- Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
- devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>, Frank
- Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>, Haiyang
- Zhang <haiyangz@microsoft.com>, Christoph Hellwig <hch@lst.de>,
- iommu@lists.linux.dev, Jean-Philippe Brucker <jean-philippe@linaro.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, "K.
- Y. Srinivasan" <kys@microsoft.com>,  Len Brown <lenb@kernel.org>,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org, 
- linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>, Lorenzo
- Pieralisi <lpieralisi@kernel.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Hector Martin <marcan@marcan.st>, Palmer
- Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Robert Moore
- <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Suravee
- Suthikulpanit <suravee.suthikulpanit@amd.com>, Sven Peter
- <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>,  Krishna Reddy
- <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>, 
- virtualization@lists.linux-foundation.org, Wei Liu <wei.liu@kernel.org>,
- Will Deacon <will@kernel.org>
-Date: Wed, 08 Nov 2023 18:34:58 +0000
-In-Reply-To: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1-1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iacNhMBM"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158B1210A;
+	Wed,  8 Nov 2023 11:00:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699470019; x=1731006019;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CGCl93jPHfMwJ3CMMd312/g/vAJzCAfUxs25Pz0yXYY=;
+  b=iacNhMBM1AZFukoBREiqp8uoFR3SlcyNYVtxRDS4CJKa9jYYHalJqSE5
+   GmXzQvf0RH2KxBctzzJ1DCxbPx95gTfQkeJQjTjpUBVdFk3VHjDGhlrGU
+   FmJojx3CK1iYj1WjX9MfZADGZa+bFpNpownBc4jgaqb5DWkq/7DTaAbDe
+   CZpDm8gH+imhAb5jfd8VXTRXSbSRV2BEpnqilE7+bsC2A1CszHzZTYJgU
+   CoWtpIPzow+nY0pTpg/+yba+dCKEmgmjCKZQKJ1web45dTCZjr/lJiHLL
+   7llCaK/5ugeEyeG/NtFjCwxC07i1SIdVanYBx7MsbeE100/Z8LiccDHil
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486198"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="8486198"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="10892400"
+Received: from unknown (HELO fred..) ([172.25.112.68])
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:14 -0800
+From: Xin Li <xin3.li@intel.com>
+To: kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: seanjc@google.com,
+	pbonzini@redhat.com,
+	corbet@lwn.net,
+	kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	vkuznets@redhat.com,
+	peterz@infradead.org,
+	ravi.v.shankar@intel.com
+Subject: [PATCH v1 00/23] Enable FRED with KVM VMX
+Date: Wed,  8 Nov 2023 10:29:40 -0800
+Message-ID: <20231108183003.5981-1-xin3.li@intel.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Jason,
+This patch set enables the Intel flexible return and event delivery
+(FRED) architecture with KVM VMX to allow guests to utilize FRED.
 
-On Fri, 2023-11-03 at 13:44 -0300, Jason Gunthorpe wrote:
-> This is a more complete solution that the first attempt here:
-> https://lore.kernel.org/r/1698825902-10685-1-git-send-email-quic_zhenhuah=
-@quicinc.com
->=20
-> I haven't been able to test this on any HW that touches these paths, so i=
-f
-> some people with HW can help get it in shape it can become non-RFC.
+The FRED architecture defines simple new transitions that change
+privilege level (ring transitions). The FRED architecture was
+designed with the following goals:
 
-Thank you for this series.
+1) Improve overall performance and response time by replacing event
+   delivery through the interrupt descriptor table (IDT event
+   delivery) and event return by the IRET instruction with lower
+   latency transitions.
 
-Please note that we're also observing this issue on 6.1.
-I think this series is a good candidate for a back port (slightly complicat=
-ed by
-the fact that various refactors have happened since).
+2) Improve software robustness by ensuring that event delivery
+   establishes the full supervisor context and that event return
+   establishes the full user context.
 
-For me, it's working fine so far on master, and I've also done my own back =
-port
-to 6.1 and am currently testing both. An official back port once finalised
-could be useful, though :-)
+The new transitions defined by the FRED architecture are FRED event
+delivery and, for returning from events, two FRED return instructions.
+FRED event delivery can effect a transition from ring 3 to ring 0, but
+it is used also to deliver events incident to ring 0. One FRED
+instruction (ERETU) effects a return from ring 0 to ring 3, while the
+other (ERETS) returns while remaining in ring 0. Collectively, FRED
+event delivery and the FRED return instructions are FRED transitions.
+
+Intel VMX architecture is extended to run FRED guests, and the changes
+are majorly:
+
+1) New VMCS fields for FRED context management, which includes two new
+event data VMCS fields, eight new guest FRED context VMCS fields and
+eight new host FRED context VMCS fields.
+
+2) VMX nested-Exception support for proper virtualization of stack
+levels introduced with FRED architecture.
+
+Search for the latest FRED spec in most search engines with this search pattern:
+
+  site:intel.com FRED (flexible return and event delivery) specification
+
+We want to send out the FRED VMX patch set for review while the FRED
+native patch set v12 is being reviewed @
+https://lkml.kernel.org/kvm/20231003062458.23552-1-xin3.li@intel.com/.
+For easier review, I have set up a base tree with the latest FRED native
+patch set on top of tip tree in the 'fred_v12' branch of repo
+    https://github.com/xinli-intel/linux-fred-public.git.
+
+Patch 1-2 are cleanups to VMX basic and misc MSRs, which were sent
+out earlier as a preparation for FRED changes:
+https://lore.kernel.org/kvm/20231030233940.438233-1-xin@zytor.com/.
+
+Patch 3-14 add FRED support to VMX.
+Patch 15-18 add FRED support to nested VMX.
+Patch 19 exposes FRED to KVM guests to complete the enabling.
+Patch 20-23 adds FRED selftests.
 
 
-Cheers,
-Andre'
+Shan Kang (1):
+  KVM: selftests: Add fred exception tests
+
+Xin Li (22):
+  KVM: VMX: Cleanup VMX basic information defines and usages
+  KVM: VMX: Cleanup VMX misc information defines and usages
+  KVM: VMX: Add support for the secondary VM exit controls
+  KVM: x86: Mark CR4.FRED as not reserved
+  KVM: VMX: Initialize FRED VM entry/exit controls in vmcs_config
+  KVM: VMX: Defer enabling FRED MSRs save/load until after set CPUID
+  KVM: VMX: Disable intercepting FRED MSRs
+  KVM: VMX: Initialize VMCS FRED fields
+  KVM: VMX: Switch FRED RSP0 between host and guest
+  KVM: VMX: Add support for FRED context save/restore
+  KVM: x86: Add kvm_is_fred_enabled()
+  KVM: VMX: Handle FRED event data
+  KVM: VMX: Handle VMX nested exception for FRED
+  KVM: VMX: Dump FRED context in dump_vmcs()
+  KVM: nVMX: Add support for the secondary VM exit controls
+  KVM: nVMX: Add FRED VMCS fields
+  KVM: nVMX: Add support for VMX FRED controls
+  KVM: nVMX: Add VMCS FRED states checking
+  KVM: x86: Allow FRED/LKGS/WRMSRNS to be exposed to guests
+  KVM: selftests: Add FRED VMCS fields to evmcs
+  KVM: selftests: Run debug_regs test with FRED enabled
+  KVM: selftests: Add a new VM guest mode to run user level code
+
+ Documentation/virt/kvm/x86/nested-vmx.rst     |  19 +
+ arch/x86/include/asm/hyperv-tlfs.h            |  19 +
+ arch/x86/include/asm/kvm_host.h               |   9 +-
+ arch/x86/include/asm/msr-index.h              |  15 +-
+ arch/x86/include/asm/vmx.h                    |  57 ++-
+ arch/x86/kvm/cpuid.c                          |   4 +-
+ arch/x86/kvm/kvm_cache_regs.h                 |  10 +
+ arch/x86/kvm/svm/svm.c                        |   4 +-
+ arch/x86/kvm/vmx/capabilities.h               |  20 +-
+ arch/x86/kvm/vmx/hyperv.c                     |  61 ++-
+ arch/x86/kvm/vmx/nested.c                     | 315 ++++++++++++--
+ arch/x86/kvm/vmx/nested.h                     |   2 +-
+ arch/x86/kvm/vmx/vmcs.h                       |   1 +
+ arch/x86/kvm/vmx/vmcs12.c                     |  19 +
+ arch/x86/kvm/vmx/vmcs12.h                     |  38 ++
+ arch/x86/kvm/vmx/vmcs_shadow_fields.h         |   6 +-
+ arch/x86/kvm/vmx/vmx.c                        | 404 ++++++++++++++++--
+ arch/x86/kvm/vmx/vmx.h                        |  14 +-
+ arch/x86/kvm/x86.c                            |  55 ++-
+ arch/x86/kvm/x86.h                            |   5 +-
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/include/kvm_util_base.h     |   1 +
+ .../selftests/kvm/include/x86_64/evmcs.h      | 146 +++++++
+ .../selftests/kvm/include/x86_64/processor.h  |  33 ++
+ .../selftests/kvm/include/x86_64/vmx.h        |  20 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |   5 +-
+ .../selftests/kvm/lib/x86_64/processor.c      |  15 +-
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   4 +-
+ .../testing/selftests/kvm/x86_64/debug_regs.c |  50 ++-
+ .../testing/selftests/kvm/x86_64/fred_test.c  | 262 ++++++++++++
+ 30 files changed, 1464 insertions(+), 150 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
+
+
+base-commit: d49b86c24e836941c85c4906e9519fca9426a6e0
+-- 
+2.42.0
 
