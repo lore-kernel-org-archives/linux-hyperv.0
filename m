@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCA23716F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA051374C6;
 	Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RY9WRLbQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajcAuu0G"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06D0212D;
-	Wed,  8 Nov 2023 11:00:24 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 593B1213D;
+	Wed,  8 Nov 2023 11:00:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470025; x=1731006025;
+  t=1699470029; x=1731006029;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0wosoEajlgVEljBzAln/5/tYc2HmZ/1IYFDCYq6/OQ4=;
-  b=RY9WRLbQJm4ItEazgHn2DA8474bwUtdE8UdDixmOfPGzfOlqI/smFCsj
-   ql8SVEY7nCCW08X7m011oqU+AvVbj/H+yWwqLzOSW6i6nQs+NSsho3oxi
-   ItKp6EZtjaDwC1MPNu9OkuGwnGoaA23A8hvfUU4dxaDcUtsomAlyJoNSh
-   CRSrArbMW76mD21NFXRbw4vmNSr/M2QiqXuiccba91I37wGoFydV9vxXw
-   8VxdpDJRkQXSRqh1Y6Wdzof0+r9M+nkTHZjYEb6ec0JcXVfUu1GZ0sJxr
-   abXJZYQ5zogFfGilNRnH6sfKU1s7PEkQDtZjs/m+lrwYsz53FiOdeCttd
+  bh=Ze9yHJfjDYrnDYjpHoXVOqA9CFbTZQF3q6E6RV+EKNU=;
+  b=ajcAuu0GP+h2NuPBedt2fQCQQCy9HCQRcGkijDMQqcfGE5OybX3sPs7p
+   nqa0PIUQPg2r4eksHL9L5v+0lTGuHjNUR+1DmGbkAUvlN11L2UJtOAV8u
+   ox9I/KyG3yh/mArk18arK7cJKPoOXMsxxfG7xZlVwla/rodddMSskv1/4
+   zDE/Eh8iXmSPlG++Jgh+WUzs5TcBeTClwa4EOlHTdKCXJ+LdgXHdY1sYN
+   zpivHYgWILHCFqB+/vRYNhwKimetf6T8a47XHqYdlooIlskqvycMFyXGr
+   9BwgCvulVL/jaBzboWJm7wmXE2pQ8/+FFVzWvEISelCTuskwK4If4Tyvn
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486394"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486466"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486394"
+   d="scan'208";a="8486466"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:25 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892491"
+   d="scan'208";a="10892519"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:27 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 16/23] KVM: nVMX: Add FRED VMCS fields
-Date: Wed,  8 Nov 2023 10:29:56 -0800
-Message-ID: <20231108183003.5981-17-xin3.li@intel.com>
+Subject: [PATCH v1 22/23] KVM: selftests: Add a new VM guest mode to run user level code
+Date: Wed,  8 Nov 2023 10:30:02 -0800
+Message-ID: <20231108183003.5981-23-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,567 +67,143 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add FRED VMCS fields to nested VMX context management.
+Add a new VM guest mode VM_MODE_PXXV48_4K_USER to set the user bit of
+guest page table entries, thus allow user level code to run in guests.
 
-Tested-by: Shan Kang <shan.kang@intel.com>
+Suggested-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- Documentation/virt/kvm/x86/nested-vmx.rst |  18 +++
- arch/x86/include/asm/hyperv-tlfs.h        |  18 +++
- arch/x86/kvm/vmx/hyperv.c                 |  38 ++++++
- arch/x86/kvm/vmx/nested.c                 | 154 ++++++++++++++++++++--
- arch/x86/kvm/vmx/vmcs12.c                 |  18 +++
- arch/x86/kvm/vmx/vmcs12.h                 |  36 +++++
- arch/x86/kvm/vmx/vmcs_shadow_fields.h     |   6 +-
- 7 files changed, 274 insertions(+), 14 deletions(-)
+ .../testing/selftests/kvm/include/kvm_util_base.h |  1 +
+ tools/testing/selftests/kvm/lib/kvm_util.c        |  5 ++++-
+ .../testing/selftests/kvm/lib/x86_64/processor.c  | 15 ++++++++++-----
+ tools/testing/selftests/kvm/lib/x86_64/vmx.c      |  4 ++--
+ 4 files changed, 17 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/virt/kvm/x86/nested-vmx.rst b/Documentation/virt/kvm/x86/nested-vmx.rst
-index e64ef231f310..87fa9f3877ab 100644
---- a/Documentation/virt/kvm/x86/nested-vmx.rst
-+++ b/Documentation/virt/kvm/x86/nested-vmx.rst
-@@ -218,6 +218,24 @@ struct shadow_vmcs is ever changed.
- 		u16 host_gs_selector;
- 		u16 host_tr_selector;
- 		u64 secondary_vm_exit_controls;
-+		u64 guest_ia32_fred_config;
-+		u64 guest_ia32_fred_rsp1;
-+		u64 guest_ia32_fred_rsp2;
-+		u64 guest_ia32_fred_rsp3;
-+		u64 guest_ia32_fred_stklvls;
-+		u64 guest_ia32_fred_ssp1;
-+		u64 guest_ia32_fred_ssp2;
-+		u64 guest_ia32_fred_ssp3;
-+		u64 host_ia32_fred_config;
-+		u64 host_ia32_fred_rsp1;
-+		u64 host_ia32_fred_rsp2;
-+		u64 host_ia32_fred_rsp3;
-+		u64 host_ia32_fred_stklvls;
-+		u64 host_ia32_fred_ssp1;
-+		u64 host_ia32_fred_ssp2;
-+		u64 host_ia32_fred_ssp3;
-+		u64 injected_event_data;
-+		u64 original_event_data;
+diff --git a/tools/testing/selftests/kvm/include/kvm_util_base.h b/tools/testing/selftests/kvm/include/kvm_util_base.h
+index a18db6a7b3cf..1d2922447978 100644
+--- a/tools/testing/selftests/kvm/include/kvm_util_base.h
++++ b/tools/testing/selftests/kvm/include/kvm_util_base.h
+@@ -185,6 +185,7 @@ enum vm_guest_mode {
+ 	VM_MODE_P36V48_16K,
+ 	VM_MODE_P36V48_64K,
+ 	VM_MODE_P36V47_16K,
++	VM_MODE_PXXV48_4K_USER,	/* For 48bits VA but ANY bits PA with USER bit set */
+ 	NUM_VM_MODES,
+ };
+ 
+diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/selftests/kvm/lib/kvm_util.c
+index 7a8af1821f5d..36f2acb378b6 100644
+--- a/tools/testing/selftests/kvm/lib/kvm_util.c
++++ b/tools/testing/selftests/kvm/lib/kvm_util.c
+@@ -162,6 +162,7 @@ const char *vm_guest_mode_string(uint32_t i)
+ 		[VM_MODE_P36V48_16K]	= "PA-bits:36,  VA-bits:48, 16K pages",
+ 		[VM_MODE_P36V48_64K]	= "PA-bits:36,  VA-bits:48, 64K pages",
+ 		[VM_MODE_P36V47_16K]	= "PA-bits:36,  VA-bits:47, 16K pages",
++		[VM_MODE_PXXV48_4K_USER]	= "PA-bits:ANY, VA-bits:48,  4K user pages",
  	};
- 
- 
-diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
-index 299554708e37..269dbf73b63f 100644
---- a/arch/x86/include/asm/hyperv-tlfs.h
-+++ b/arch/x86/include/asm/hyperv-tlfs.h
-@@ -617,6 +617,24 @@ struct hv_enlightened_vmcs {
- 	u64 host_ia32_int_ssp_table_addr;
- 	u64 padding64_6;
- 	u64 secondary_vm_exit_controls;
-+	u64 guest_ia32_fred_config;
-+	u64 guest_ia32_fred_rsp1;
-+	u64 guest_ia32_fred_rsp2;
-+	u64 guest_ia32_fred_rsp3;
-+	u64 guest_ia32_fred_stklvls;
-+	u64 guest_ia32_fred_ssp1;
-+	u64 guest_ia32_fred_ssp2;
-+	u64 guest_ia32_fred_ssp3;
-+	u64 host_ia32_fred_config;
-+	u64 host_ia32_fred_rsp1;
-+	u64 host_ia32_fred_rsp2;
-+	u64 host_ia32_fred_rsp3;
-+	u64 host_ia32_fred_stklvls;
-+	u64 host_ia32_fred_ssp1;
-+	u64 host_ia32_fred_ssp2;
-+	u64 host_ia32_fred_ssp3;
-+	u64 injected_event_data;
-+	u64 original_event_data;
- } __packed;
- 
- #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
-diff --git a/arch/x86/kvm/vmx/hyperv.c b/arch/x86/kvm/vmx/hyperv.c
-index b8cd53601a00..b12ef8fd76c9 100644
---- a/arch/x86/kvm/vmx/hyperv.c
-+++ b/arch/x86/kvm/vmx/hyperv.c
-@@ -243,6 +243,8 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
- 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
- 	EVMCS1_FIELD(TSC_MULTIPLIER, tsc_multiplier,
- 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
-+	EVMCS1_FIELD(INJECTED_EVENT_DATA, injected_event_data,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_EVENT),
- 	/*
- 	 * Not used by KVM:
- 	 *
-@@ -262,11 +264,47 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
- 	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
- 	 */
- 
-+	/* FRED guest and host context */
-+	EVMCS1_FIELD(GUEST_IA32_FRED_CONFIG, guest_ia32_fred_config,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_RSP1, guest_ia32_fred_rsp1,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_RSP2, guest_ia32_fred_rsp2,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_RSP3, guest_ia32_fred_rsp3,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_STKLVLS, guest_ia32_fred_stklvls,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_SSP1, guest_ia32_fred_ssp1,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_SSP2, guest_ia32_fred_ssp2,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(GUEST_IA32_FRED_SSP3, guest_ia32_fred_ssp3,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
-+	EVMCS1_FIELD(HOST_IA32_FRED_CONFIG, host_ia32_fred_config,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_RSP1, host_ia32_fred_rsp1,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_RSP2, host_ia32_fred_rsp2,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_RSP3, host_ia32_fred_rsp3,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_STKLVLS, host_ia32_fred_stklvls,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_SSP1, host_ia32_fred_ssp1,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_SSP2, host_ia32_fred_ssp2,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+	EVMCS1_FIELD(HOST_IA32_FRED_SSP3, host_ia32_fred_ssp3,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
-+
- 	/* 64 bit read only */
- 	EVMCS1_FIELD(GUEST_PHYSICAL_ADDRESS, guest_physical_address,
- 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
- 	EVMCS1_FIELD(EXIT_QUALIFICATION, exit_qualification,
- 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
-+	EVMCS1_FIELD(ORIGINAL_EVENT_DATA, original_event_data,
-+		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
- 	/*
- 	 * Not defined in KVM:
- 	 *
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index d6341845df43..af616c4a3491 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -83,7 +83,18 @@ static void init_vmcs_shadow_fields(void)
- 			pr_err("Missing field from shadow_read_only_field %x\n",
- 			       field + 1);
- 
-+		switch (field) {
-+		case ORIGINAL_EVENT_DATA:
-+		case ORIGINAL_EVENT_DATA_HIGH:
-+			if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+				continue;
-+			break;
-+		default:
-+			break;
-+		}
-+
- 		clear_bit(field, vmx_vmread_bitmap);
-+
- 		if (field & 1)
- #ifdef CONFIG_X86_64
- 			continue;
-@@ -126,6 +137,11 @@ static void init_vmcs_shadow_fields(void)
- 			if (!cpu_has_vmx_apicv())
- 				continue;
- 			break;
-+		case INJECTED_EVENT_DATA:
-+		case INJECTED_EVENT_DATA_HIGH:
-+			if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+				continue;
-+			break;
- 		default:
- 			break;
- 		}
-@@ -650,6 +666,9 @@ static inline bool nested_vmx_prepare_msr_bitmap(struct kvm_vcpu *vcpu,
- 
- 	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
- 					 MSR_KERNEL_GS_BASE, MSR_TYPE_RW);
-+
-+	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
-+					 MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
+ 	_Static_assert(sizeof(strings)/sizeof(char *) == NUM_VM_MODES,
+ 		       "Missing new mode strings?");
+@@ -187,6 +188,7 @@ const struct vm_guest_mode_params vm_guest_mode_params[] = {
+ 	[VM_MODE_P36V48_16K]	= { 36, 48,  0x4000, 14 },
+ 	[VM_MODE_P36V48_64K]	= { 36, 48, 0x10000, 16 },
+ 	[VM_MODE_P36V47_16K]	= { 36, 47,  0x4000, 14 },
++	[VM_MODE_PXXV48_4K_USER]	= {  0,  0,  0x1000, 12 },
+ };
+ _Static_assert(sizeof(vm_guest_mode_params)/sizeof(struct vm_guest_mode_params) == NUM_VM_MODES,
+ 	       "Missing new mode params?");
+@@ -260,6 +262,7 @@ struct kvm_vm *____vm_create(enum vm_guest_mode mode)
+ 		vm->pgtable_levels = 3;
+ 		break;
+ 	case VM_MODE_PXXV48_4K:
++	case VM_MODE_PXXV48_4K_USER:
+ #ifdef __x86_64__
+ 		kvm_get_cpu_address_width(&vm->pa_bits, &vm->va_bits);
+ 		/*
+@@ -275,7 +278,7 @@ struct kvm_vm *____vm_create(enum vm_guest_mode mode)
+ 		vm->pgtable_levels = 4;
+ 		vm->va_bits = 48;
+ #else
+-		TEST_FAIL("VM_MODE_PXXV48_4K not supported on non-x86 platforms");
++		TEST_FAIL("VM_MODE_PXXV48_4K(_USER) not supported on non-x86 platforms");
  #endif
- 	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
- 					 MSR_IA32_SPEC_CTRL, MSR_TYPE_RW);
-@@ -1565,6 +1584,17 @@ static void copy_shadow_to_vmcs12(struct vcpu_vmx *vmx)
+ 		break;
+ 	case VM_MODE_P47V64_4K:
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+index d8288374078e..a8e60641df53 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+@@ -124,8 +124,8 @@ bool kvm_is_tdp_enabled(void)
  
- 	for (i = 0; i < max_shadow_read_write_fields; i++) {
- 		field = shadow_read_write_fields[i];
-+
-+		switch (field.encoding) {
-+		case INJECTED_EVENT_DATA:
-+		case INJECTED_EVENT_DATA_HIGH:
-+			if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+				continue;
-+			break;
-+		default:
-+			break;
-+		}
-+
- 		val = __vmcs_readl(field.encoding);
- 		vmcs12_write_any(vmcs12, field.encoding, field.offset, val);
- 	}
-@@ -1599,6 +1629,19 @@ static void copy_vmcs12_to_shadow(struct vcpu_vmx *vmx)
- 	for (q = 0; q < ARRAY_SIZE(fields); q++) {
- 		for (i = 0; i < max_fields[q]; i++) {
- 			field = fields[q][i];
-+
-+			switch (field.encoding) {
-+			case INJECTED_EVENT_DATA:
-+			case INJECTED_EVENT_DATA_HIGH:
-+			case ORIGINAL_EVENT_DATA:
-+			case ORIGINAL_EVENT_DATA_HIGH:
-+				if (!cpu_feature_enabled(X86_FEATURE_FRED))
-+					continue;
-+				break;
-+			default:
-+				break;
-+			}
-+
- 			val = vmcs12_read_any(vmcs12, field.encoding,
- 					      field.offset);
- 			__vmcs_writel(field.encoding, val);
-@@ -1660,6 +1703,8 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 			evmcs->vm_entry_intr_info_field;
- 		vmcs12->vm_entry_exception_error_code =
- 			evmcs->vm_entry_exception_error_code;
-+		vmcs12->injected_event_data =
-+			evmcs->injected_event_data;
- 		vmcs12->vm_entry_instruction_len =
- 			evmcs->vm_entry_instruction_len;
- 	}
-@@ -1725,6 +1770,14 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->guest_tr_base = evmcs->guest_tr_base;
- 		vmcs12->guest_gdtr_base = evmcs->guest_gdtr_base;
- 		vmcs12->guest_idtr_base = evmcs->guest_idtr_base;
-+		vmcs12->guest_ia32_fred_config = evmcs->guest_ia32_fred_config;
-+		vmcs12->guest_ia32_fred_rsp1 = evmcs->guest_ia32_fred_rsp1;
-+		vmcs12->guest_ia32_fred_rsp2 = evmcs->guest_ia32_fred_rsp2;
-+		vmcs12->guest_ia32_fred_rsp3 = evmcs->guest_ia32_fred_rsp3;
-+		vmcs12->guest_ia32_fred_stklvls = evmcs->guest_ia32_fred_stklvls;
-+		vmcs12->guest_ia32_fred_ssp1 = evmcs->guest_ia32_fred_ssp1;
-+		vmcs12->guest_ia32_fred_ssp2 = evmcs->guest_ia32_fred_ssp2;
-+		vmcs12->guest_ia32_fred_ssp3 = evmcs->guest_ia32_fred_ssp3;
- 		vmcs12->guest_es_limit = evmcs->guest_es_limit;
- 		vmcs12->guest_cs_limit = evmcs->guest_cs_limit;
- 		vmcs12->guest_ss_limit = evmcs->guest_ss_limit;
-@@ -1781,6 +1834,14 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 		vmcs12->host_tr_base = evmcs->host_tr_base;
- 		vmcs12->host_gdtr_base = evmcs->host_gdtr_base;
- 		vmcs12->host_idtr_base = evmcs->host_idtr_base;
-+		vmcs12->host_ia32_fred_config = evmcs->host_ia32_fred_config;
-+		vmcs12->host_ia32_fred_rsp1 = evmcs->host_ia32_fred_rsp1;
-+		vmcs12->host_ia32_fred_rsp2 = evmcs->host_ia32_fred_rsp2;
-+		vmcs12->host_ia32_fred_rsp3 = evmcs->host_ia32_fred_rsp3;
-+		vmcs12->host_ia32_fred_stklvls = evmcs->host_ia32_fred_stklvls;
-+		vmcs12->host_ia32_fred_ssp1 = evmcs->host_ia32_fred_ssp1;
-+		vmcs12->host_ia32_fred_ssp2 = evmcs->host_ia32_fred_ssp2;
-+		vmcs12->host_ia32_fred_ssp3 = evmcs->host_ia32_fred_ssp3;
- 		vmcs12->host_rsp = evmcs->host_rsp;
- 	}
+ void virt_arch_pgd_alloc(struct kvm_vm *vm)
+ {
+-	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
+-		"unknown or unsupported guest mode, mode: 0x%x", vm->mode);
++	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
++		"Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
  
-@@ -1840,6 +1901,7 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
- 	 * vmcs12->vm_exit_intr_error_code = evmcs->vm_exit_intr_error_code;
- 	 * vmcs12->idt_vectoring_info_field = evmcs->idt_vectoring_info_field;
- 	 * vmcs12->idt_vectoring_error_code = evmcs->idt_vectoring_error_code;
-+	 * vmcs12->original_event_data = evmcs->original_event_data;
- 	 * vmcs12->vm_exit_instruction_len = evmcs->vm_exit_instruction_len;
- 	 * vmcs12->vmx_instruction_info = evmcs->vmx_instruction_info;
- 	 * vmcs12->exit_qualification = evmcs->exit_qualification;
-@@ -1975,6 +2037,14 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
- 	evmcs->guest_tr_base = vmcs12->guest_tr_base;
- 	evmcs->guest_gdtr_base = vmcs12->guest_gdtr_base;
- 	evmcs->guest_idtr_base = vmcs12->guest_idtr_base;
-+	evmcs->guest_ia32_fred_config = vmcs12->guest_ia32_fred_config;
-+	evmcs->guest_ia32_fred_rsp1 = vmcs12->guest_ia32_fred_rsp1;
-+	evmcs->guest_ia32_fred_rsp2 = vmcs12->guest_ia32_fred_rsp2;
-+	evmcs->guest_ia32_fred_rsp3 = vmcs12->guest_ia32_fred_rsp3;
-+	evmcs->guest_ia32_fred_stklvls = vmcs12->guest_ia32_fred_stklvls;
-+	evmcs->guest_ia32_fred_ssp1 = vmcs12->guest_ia32_fred_ssp1;
-+	evmcs->guest_ia32_fred_ssp2 = vmcs12->guest_ia32_fred_ssp2;
-+	evmcs->guest_ia32_fred_ssp3 = vmcs12->guest_ia32_fred_ssp3;
+ 	/* If needed, create page map l4 table. */
+ 	if (!vm->pgd_created) {
+@@ -159,6 +159,8 @@ static uint64_t *virt_create_upper_pte(struct kvm_vm *vm,
  
- 	evmcs->guest_ia32_pat = vmcs12->guest_ia32_pat;
- 	evmcs->guest_ia32_efer = vmcs12->guest_ia32_efer;
-@@ -2005,6 +2075,7 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
- 	evmcs->vm_exit_intr_error_code = vmcs12->vm_exit_intr_error_code;
- 	evmcs->idt_vectoring_info_field = vmcs12->idt_vectoring_info_field;
- 	evmcs->idt_vectoring_error_code = vmcs12->idt_vectoring_error_code;
-+	evmcs->original_event_data = vmcs12->original_event_data;
- 	evmcs->vm_exit_instruction_len = vmcs12->vm_exit_instruction_len;
- 	evmcs->vmx_instruction_info = vmcs12->vmx_instruction_info;
+ 	if (!(*pte & PTE_PRESENT_MASK)) {
+ 		*pte = PTE_PRESENT_MASK | PTE_WRITABLE_MASK;
++		if (vm->mode == VM_MODE_PXXV48_4K_USER)
++			*pte |= PTE_USER_MASK;
+ 		if (current_level == target_level)
+ 			*pte |= PTE_LARGE_MASK | (paddr & PHYSICAL_PAGE_MASK);
+ 		else
+@@ -185,7 +187,7 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr, int level)
+ 	uint64_t *pml4e, *pdpe, *pde;
+ 	uint64_t *pte;
  
-@@ -2021,6 +2092,7 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
- 	evmcs->vm_entry_intr_info_field = vmcs12->vm_entry_intr_info_field;
- 	evmcs->vm_entry_exception_error_code =
- 		vmcs12->vm_entry_exception_error_code;
-+	evmcs->injected_event_data = vmcs12->injected_event_data;
- 	evmcs->vm_entry_instruction_len = vmcs12->vm_entry_instruction_len;
+-	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K,
++	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
+ 		    "Unknown or unsupported guest mode, mode: 0x%x", vm->mode);
  
- 	evmcs->guest_rip = vmcs12->guest_rip;
-@@ -2435,6 +2507,8 @@ static void prepare_vmcs02_early(struct vcpu_vmx *vmx, struct loaded_vmcs *vmcs0
- 			     vmcs12->vm_entry_instruction_len);
- 		vmcs_write32(GUEST_INTERRUPTIBILITY_INFO,
- 			     vmcs12->guest_interruptibility_info);
-+		if (cpu_feature_enabled(X86_FEATURE_FRED))
-+			vmcs_write64(INJECTED_EVENT_DATA, vmcs12->injected_event_data);
- 		vmx->loaded_vmcs->nmi_known_unmasked =
- 			!(vmcs12->guest_interruptibility_info & GUEST_INTR_STATE_NMI);
- 	} else {
-@@ -2485,6 +2559,17 @@ static void prepare_vmcs02_rare(struct vcpu_vmx *vmx, struct vmcs12 *vmcs12)
- 		vmcs_writel(GUEST_GDTR_BASE, vmcs12->guest_gdtr_base);
- 		vmcs_writel(GUEST_IDTR_BASE, vmcs12->guest_idtr_base);
- 
-+		if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+			vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->guest_ia32_fred_config);
-+			vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->guest_ia32_fred_rsp1);
-+			vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->guest_ia32_fred_rsp2);
-+			vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->guest_ia32_fred_rsp3);
-+			vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->guest_ia32_fred_stklvls);
-+			vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->guest_ia32_fred_ssp1);
-+			vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->guest_ia32_fred_ssp2);
-+			vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->guest_ia32_fred_ssp3);
-+		}
-+
- 		vmx->segment_cache.bitmask = 0;
- 	}
- 
-@@ -3765,6 +3850,22 @@ vmcs12_guest_cr4(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12)
- 			vcpu->arch.cr4_guest_owned_bits));
+ 	TEST_ASSERT((vaddr % pg_size) == 0,
+@@ -222,6 +224,8 @@ void __virt_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr, int level)
+ 	TEST_ASSERT(!(*pte & PTE_PRESENT_MASK),
+ 		    "PTE already present for 4k page at vaddr: 0x%lx\n", vaddr);
+ 	*pte = PTE_PRESENT_MASK | PTE_WRITABLE_MASK | (paddr & PHYSICAL_PAGE_MASK);
++	if (vm->mode == VM_MODE_PXXV48_4K_USER)
++		*pte |= PTE_USER_MASK;
  }
  
-+static inline unsigned long
-+nested_vmx_get_event_data(struct kvm_vcpu *vcpu, bool for_ex_vmexit)
-+{
-+	struct kvm_queued_exception *ex = for_ex_vmexit ?
-+		&vcpu->arch.exception_vmexit : &vcpu->arch.exception;
-+
-+	if (ex->has_payload)
-+		return ex->payload;
-+	else if (ex->vector == PF_VECTOR)
-+		return vcpu->arch.cr2;
-+	else if (ex->vector == DB_VECTOR)
-+		return (vcpu->arch.dr6 & ~DR6_BT) ^ DR6_ACTIVE_LOW;
-+	else
-+		return 0;
-+}
-+
- static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
- 				      struct vmcs12 *vmcs12,
- 				      u32 vm_exit_reason, u32 exit_intr_info)
-@@ -3772,6 +3873,8 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
- 	u32 idt_vectoring;
- 	unsigned int nr;
+ void virt_arch_pg_map(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr)
+@@ -268,8 +272,8 @@ uint64_t *__vm_get_page_table_entry(struct kvm_vm *vm, uint64_t vaddr,
+ 	TEST_ASSERT(*level >= PG_LEVEL_NONE && *level < PG_LEVEL_NUM,
+ 		    "Invalid PG_LEVEL_* '%d'", *level);
  
-+	vmcs12->original_event_data = 0;
-+
- 	/*
- 	 * Per the SDM, VM-Exits due to double and triple faults are never
- 	 * considered to occur during event delivery, even if the double/triple
-@@ -3810,6 +3913,12 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
- 				vcpu->arch.exception.error_code;
- 		}
+-	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
+-		"unknown or unsupported guest mode, mode: 0x%x", vm->mode);
++	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
++		"Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
+ 	TEST_ASSERT(sparsebit_is_set(vm->vpages_valid,
+ 		(vaddr >> vm->page_shift)),
+ 		"Invalid virtual address, vaddr: 0x%lx",
+@@ -536,6 +540,7 @@ static void vcpu_setup(struct kvm_vm *vm, struct kvm_vcpu *vcpu)
  
-+		idt_vectoring |= vcpu->arch.exception.nested ?
-+				INTR_INFO_NESTED_EXCEPTION_MASK : 0;
-+
-+		vmcs12->original_event_data =
-+			nested_vmx_get_event_data(vcpu, false);
-+
- 		vmcs12->idt_vectoring_info_field = idt_vectoring;
- 	} else if (vcpu->arch.nmi_injected) {
- 		vmcs12->idt_vectoring_info_field =
-@@ -3900,19 +4009,7 @@ static void nested_vmx_inject_exception_vmexit(struct kvm_vcpu *vcpu)
- 	struct kvm_queued_exception *ex = &vcpu->arch.exception_vmexit;
- 	u32 intr_info = ex->vector | INTR_INFO_VALID_MASK;
- 	struct vmcs12 *vmcs12 = get_vmcs12(vcpu);
--	unsigned long exit_qual;
--
--	if (ex->has_payload) {
--		exit_qual = ex->payload;
--	} else if (ex->vector == PF_VECTOR) {
--		exit_qual = vcpu->arch.cr2;
--	} else if (ex->vector == DB_VECTOR) {
--		exit_qual = vcpu->arch.dr6;
--		exit_qual &= ~DR6_BT;
--		exit_qual ^= DR6_ACTIVE_LOW;
--	} else {
--		exit_qual = 0;
--	}
-+	unsigned long exit_qual = nested_vmx_get_event_data(vcpu, true);
+ 	switch (vm->mode) {
+ 	case VM_MODE_PXXV48_4K:
++	case VM_MODE_PXXV48_4K_USER:
+ 		sregs.cr0 = X86_CR0_PE | X86_CR0_NE | X86_CR0_PG;
+ 		sregs.cr4 |= X86_CR4_PAE | X86_CR4_OSFXSR;
+ 		sregs.efer |= (EFER_LME | EFER_LMA | EFER_NX);
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/vmx.c b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+index 59d97531c9b1..65147de6f9c0 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/vmx.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/vmx.c
+@@ -403,8 +403,8 @@ void __nested_pg_map(struct vmx_pages *vmx, struct kvm_vm *vm,
+ 	struct eptPageTableEntry *pt = vmx->eptp_hva, *pte;
+ 	uint16_t index;
  
- 	/*
- 	 * Unlike AMD's Paged Real Mode, which reports an error code on #PF
-@@ -4282,6 +4379,14 @@ static bool is_vmcs12_ext_field(unsigned long field)
- 	case GUEST_TR_BASE:
- 	case GUEST_GDTR_BASE:
- 	case GUEST_IDTR_BASE:
-+	case GUEST_IA32_FRED_CONFIG:
-+	case GUEST_IA32_FRED_RSP1:
-+	case GUEST_IA32_FRED_RSP2:
-+	case GUEST_IA32_FRED_RSP3:
-+	case GUEST_IA32_FRED_STKLVLS:
-+	case GUEST_IA32_FRED_SSP1:
-+	case GUEST_IA32_FRED_SSP2:
-+	case GUEST_IA32_FRED_SSP3:
- 	case GUEST_PENDING_DBG_EXCEPTIONS:
- 	case GUEST_BNDCFGS:
- 		return true;
-@@ -4331,6 +4436,18 @@ static void sync_vmcs02_to_vmcs12_rare(struct kvm_vcpu *vcpu,
- 	vmcs12->guest_tr_base = vmcs_readl(GUEST_TR_BASE);
- 	vmcs12->guest_gdtr_base = vmcs_readl(GUEST_GDTR_BASE);
- 	vmcs12->guest_idtr_base = vmcs_readl(GUEST_IDTR_BASE);
-+
-+	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+		vmcs12->guest_ia32_fred_config = vmcs_read64(GUEST_IA32_FRED_CONFIG);
-+		vmcs12->guest_ia32_fred_rsp1 = vmcs_read64(GUEST_IA32_FRED_RSP1);
-+		vmcs12->guest_ia32_fred_rsp2 = vmcs_read64(GUEST_IA32_FRED_RSP2);
-+		vmcs12->guest_ia32_fred_rsp3 = vmcs_read64(GUEST_IA32_FRED_RSP3);
-+		vmcs12->guest_ia32_fred_stklvls = vmcs_read64(GUEST_IA32_FRED_STKLVLS);
-+		vmcs12->guest_ia32_fred_ssp1 = vmcs_read64(GUEST_IA32_FRED_SSP1);
-+		vmcs12->guest_ia32_fred_ssp2 = vmcs_read64(GUEST_IA32_FRED_SSP2);
-+		vmcs12->guest_ia32_fred_ssp3 = vmcs_read64(GUEST_IA32_FRED_SSP3);
-+	}
-+
- 	vmcs12->guest_pending_dbg_exceptions =
- 		vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS);
+-	TEST_ASSERT(vm->mode == VM_MODE_PXXV48_4K, "Attempt to use "
+-		    "unknown or unsupported guest mode, mode: 0x%x", vm->mode);
++	TEST_ASSERT((vm->mode == VM_MODE_PXXV48_4K) || (vm->mode == VM_MODE_PXXV48_4K_USER),
++		    "Attempt to use unknown or unsupported guest mode, mode: 0x%x", vm->mode);
  
-@@ -4555,6 +4672,17 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
- 	vmcs_write32(GUEST_IDTR_LIMIT, 0xFFFF);
- 	vmcs_write32(GUEST_GDTR_LIMIT, 0xFFFF);
- 
-+	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+		vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->host_ia32_fred_config);
-+		vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->host_ia32_fred_rsp1);
-+		vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->host_ia32_fred_rsp2);
-+		vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->host_ia32_fred_rsp3);
-+		vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->host_ia32_fred_stklvls);
-+		vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->host_ia32_fred_ssp1);
-+		vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->host_ia32_fred_ssp2);
-+		vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->host_ia32_fred_ssp3);
-+	}
-+
- 	/* If not VM_EXIT_CLEAR_BNDCFGS, the L2 value propagates to L1.  */
- 	if (vmcs12->vm_exit_controls & VM_EXIT_CLEAR_BNDCFGS)
- 		vmcs_write64(GUEST_BNDCFGS, 0);
-diff --git a/arch/x86/kvm/vmx/vmcs12.c b/arch/x86/kvm/vmx/vmcs12.c
-index 98457d7b2b23..59f17fdfad11 100644
---- a/arch/x86/kvm/vmx/vmcs12.c
-+++ b/arch/x86/kvm/vmx/vmcs12.c
-@@ -80,6 +80,7 @@ const unsigned short vmcs12_field_offsets[] = {
- 	FIELD(VM_ENTRY_MSR_LOAD_COUNT, vm_entry_msr_load_count),
- 	FIELD(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field),
- 	FIELD(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code),
-+	FIELD(INJECTED_EVENT_DATA, injected_event_data),
- 	FIELD(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len),
- 	FIELD(TPR_THRESHOLD, tpr_threshold),
- 	FIELD(SECONDARY_VM_EXEC_CONTROL, secondary_vm_exec_control),
-@@ -89,6 +90,7 @@ const unsigned short vmcs12_field_offsets[] = {
- 	FIELD(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code),
- 	FIELD(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field),
- 	FIELD(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code),
-+	FIELD(ORIGINAL_EVENT_DATA, original_event_data),
- 	FIELD(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len),
- 	FIELD(VMX_INSTRUCTION_INFO, vmx_instruction_info),
- 	FIELD(GUEST_ES_LIMIT, guest_es_limit),
-@@ -152,5 +154,21 @@ const unsigned short vmcs12_field_offsets[] = {
- 	FIELD(HOST_IA32_SYSENTER_EIP, host_ia32_sysenter_eip),
- 	FIELD(HOST_RSP, host_rsp),
- 	FIELD(HOST_RIP, host_rip),
-+	FIELD(GUEST_IA32_FRED_CONFIG, guest_ia32_fred_config),
-+	FIELD(GUEST_IA32_FRED_RSP1, guest_ia32_fred_rsp1),
-+	FIELD(GUEST_IA32_FRED_RSP2, guest_ia32_fred_rsp2),
-+	FIELD(GUEST_IA32_FRED_RSP3, guest_ia32_fred_rsp3),
-+	FIELD(GUEST_IA32_FRED_STKLVLS, guest_ia32_fred_stklvls),
-+	FIELD(GUEST_IA32_FRED_SSP1, guest_ia32_fred_ssp1),
-+	FIELD(GUEST_IA32_FRED_SSP2, guest_ia32_fred_ssp2),
-+	FIELD(GUEST_IA32_FRED_SSP3, guest_ia32_fred_ssp3),
-+	FIELD(HOST_IA32_FRED_CONFIG, host_ia32_fred_config),
-+	FIELD(HOST_IA32_FRED_RSP1, host_ia32_fred_rsp1),
-+	FIELD(HOST_IA32_FRED_RSP2, host_ia32_fred_rsp2),
-+	FIELD(HOST_IA32_FRED_RSP3, host_ia32_fred_rsp3),
-+	FIELD(HOST_IA32_FRED_STKLVLS, host_ia32_fred_stklvls),
-+	FIELD(HOST_IA32_FRED_SSP1, host_ia32_fred_ssp1),
-+	FIELD(HOST_IA32_FRED_SSP2, host_ia32_fred_ssp2),
-+	FIELD(HOST_IA32_FRED_SSP3, host_ia32_fred_ssp3),
- };
- const unsigned int nr_vmcs12_fields = ARRAY_SIZE(vmcs12_field_offsets);
-diff --git a/arch/x86/kvm/vmx/vmcs12.h b/arch/x86/kvm/vmx/vmcs12.h
-index f50f897b9b5f..edf7fcef8ccf 100644
---- a/arch/x86/kvm/vmx/vmcs12.h
-+++ b/arch/x86/kvm/vmx/vmcs12.h
-@@ -186,6 +186,24 @@ struct __packed vmcs12 {
- 	u16 host_tr_selector;
- 	u16 guest_pml_index;
- 	u64 secondary_vm_exit_controls;
-+	u64 guest_ia32_fred_config;
-+	u64 guest_ia32_fred_rsp1;
-+	u64 guest_ia32_fred_rsp2;
-+	u64 guest_ia32_fred_rsp3;
-+	u64 guest_ia32_fred_stklvls;
-+	u64 guest_ia32_fred_ssp1;
-+	u64 guest_ia32_fred_ssp2;
-+	u64 guest_ia32_fred_ssp3;
-+	u64 host_ia32_fred_config;
-+	u64 host_ia32_fred_rsp1;
-+	u64 host_ia32_fred_rsp2;
-+	u64 host_ia32_fred_rsp3;
-+	u64 host_ia32_fred_stklvls;
-+	u64 host_ia32_fred_ssp1;
-+	u64 host_ia32_fred_ssp2;
-+	u64 host_ia32_fred_ssp3;
-+	u64 injected_event_data;
-+	u64 original_event_data;
- };
- 
- /*
-@@ -360,6 +378,24 @@ static inline void vmx_check_vmcs12_offsets(void)
- 	CHECK_OFFSET(host_tr_selector, 994);
- 	CHECK_OFFSET(guest_pml_index, 996);
- 	CHECK_OFFSET(secondary_vm_exit_controls, 998);
-+	CHECK_OFFSET(guest_ia32_fred_config, 1006);
-+	CHECK_OFFSET(guest_ia32_fred_rsp1, 1014);
-+	CHECK_OFFSET(guest_ia32_fred_rsp2, 1022);
-+	CHECK_OFFSET(guest_ia32_fred_rsp3, 1030);
-+	CHECK_OFFSET(guest_ia32_fred_stklvls, 1038);
-+	CHECK_OFFSET(guest_ia32_fred_ssp1, 1046);
-+	CHECK_OFFSET(guest_ia32_fred_ssp2, 1054);
-+	CHECK_OFFSET(guest_ia32_fred_ssp3, 1062);
-+	CHECK_OFFSET(host_ia32_fred_config, 1070);
-+	CHECK_OFFSET(host_ia32_fred_rsp1, 1078);
-+	CHECK_OFFSET(host_ia32_fred_rsp2, 1086);
-+	CHECK_OFFSET(host_ia32_fred_rsp3, 1094);
-+	CHECK_OFFSET(host_ia32_fred_stklvls, 1102);
-+	CHECK_OFFSET(host_ia32_fred_ssp1, 1110);
-+	CHECK_OFFSET(host_ia32_fred_ssp2, 1118);
-+	CHECK_OFFSET(host_ia32_fred_ssp3, 1126);
-+	CHECK_OFFSET(injected_event_data, 1134);
-+	CHECK_OFFSET(original_event_data, 1142);
- }
- 
- extern const unsigned short vmcs12_field_offsets[];
-diff --git a/arch/x86/kvm/vmx/vmcs_shadow_fields.h b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-index cad128d1657b..33c3e2a06e41 100644
---- a/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-+++ b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-@@ -41,9 +41,9 @@ SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector)
- SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason)
- SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info)
- SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len)
-+SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
- SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field)
- SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code)
--SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
- SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes)
- SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes)
- SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control)
-@@ -74,6 +74,10 @@ SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base)
- /* 64-bit */
- SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address)
- SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address)
-+SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA, original_event_data)
-+SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA_HIGH, original_event_data)
-+SHADOW_FIELD_RW(INJECTED_EVENT_DATA, injected_event_data)
-+SHADOW_FIELD_RW(INJECTED_EVENT_DATA_HIGH, injected_event_data)
- 
- #undef SHADOW_FIELD_RO
- #undef SHADOW_FIELD_RW
+ 	TEST_ASSERT((nested_paddr >> 48) == 0,
+ 		    "Nested physical address 0x%lx requires 5-level paging",
 -- 
 2.42.0
 
