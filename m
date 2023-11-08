@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F68237154;
-	Wed,  8 Nov 2023 19:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B32E36B0F;
+	Wed,  8 Nov 2023 19:00:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8yVVUro"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eX3fdQK8"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85902120;
-	Wed,  8 Nov 2023 11:00:23 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52DB2115;
+	Wed,  8 Nov 2023 11:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470024; x=1731006024;
+  t=1699470020; x=1731006020;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=GwKLz6J+vhNUrl92YuZODBJvo2w/QYuJfFdLp7RB0zs=;
-  b=h8yVVUro4QQ7VYMc6Fnwhe+80j81ppGAHBmsshftaYpa/CR6fvaLdykO
-   1CKcJJrr3WUVrAZyh0XnwENriOjsgxP952J7kegtvJPAbDb3Hu/0b0SSZ
-   bES8FfhxnMXSsG2RtkxpxjMXukfbJXn3mGOpTxIwtGrzwCww+68z8MvUo
-   /DDERBN5fo8I+KP9Z17KsYab+/GHhGMpNh9aFppBIQ1hBqjQE7/plgUJn
-   DgpOADdL57HRh7viaWB1jtvq3QunS4PfXwbCe5m7fhm9Qwx7ibOZ8yn5A
-   /knhVf5T/N4BNsucL0T2JAKEJTDkfScwJrutrJ+0sK3ceplwNEm01drw2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486370"
+  bh=IRPQ5ioteqwh4CfCqIjfG/Rnvw8uAQhRAapN4CI6IQw=;
+  b=eX3fdQK8JsApP9z8bxI4pPxxR05RM8YyOiRfWXbjw2rJEqxlm7zRdp9W
+   pQbg8cgk1w2aSDFDt5Y4anHI8VTAaBNkINTyhDQb/1mE+LlI8/TzxAfab
+   GcHEJgtZTmsFsgDJ74D8FrD7720XbMkvK2pNziOaqqiYfvo7KQ+c6+ZAo
+   06tssZmc1nDnA3IQAvb7maZv28mcRfP0B7eIOzcT/aDpfeX3JaRsUWD0y
+   uQYc0Y3h7d7v+D7RTtTxkal8uOfy9RKjxXpDSuDPe0UHamVYQhigFf+/4
+   HixVkH5BZq+xFt5qkdY89sd433ufE0dX1ansoz59eZeHG/a+AhtPv+QvK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486267"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486370"
+   d="scan'208";a="8486267"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:24 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:19 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892483"
+   d="scan'208";a="10892433"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:23 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:18 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 14/23] KVM: VMX: Dump FRED context in dump_vmcs()
-Date: Wed,  8 Nov 2023 10:29:54 -0800
-Message-ID: <20231108183003.5981-15-xin3.li@intel.com>
+Subject: [PATCH v1 06/23] KVM: VMX: Defer enabling FRED MSRs save/load until after set CPUID
+Date: Wed,  8 Nov 2023 10:29:46 -0800
+Message-ID: <20231108183003.5981-7-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,114 +67,86 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add FRED related VMCS fields to dump_vmcs() to have it dump FRED context.
+Clear FRED VM entry/exit controls when initializing a vCPU, and set
+these controls only if FRED is enumerated after set CPUID.
+
+FRED VM entry/exit controls need to be set to establish context
+sufficient to support FRED event delivery immediately after VM entry
+and exit.  However it is not required to save/load FRED MSRs for
+a non-FRED guest, which aren't supposed to access FRED MSRs.
+
+A non-FRED guest should get #GP upon accessing FRED MSRs, otherwise
+it corrupts host FRED MSRs.
 
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 48 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 7 deletions(-)
+ arch/x86/kvm/vmx/vmx.c | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 518e68ee5a0d..b826dc188fc7 100644
+index 9186f41974ab..5d4786812664 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -6429,7 +6429,7 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
+@@ -4423,6 +4423,9 @@ static u32 vmx_vmentry_ctrl(void)
+ 	if (cpu_has_perf_global_ctrl_bug())
+ 		vmentry_ctrl &= ~VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL;
+ 
++	/* Whether to load guest FRED MSRs is deferred until after set CPUID */
++	vmentry_ctrl &= ~VM_ENTRY_LOAD_IA32_FRED;
++
+ 	return vmentry_ctrl;
+ }
+ 
+@@ -4458,7 +4461,13 @@ static u32 vmx_vmexit_ctrl(void)
+ 
+ static u64 vmx_secondary_vmexit_ctrl(void)
+ {
+-	return vmcs_config.secondary_vmexit_ctrl;
++	u64 secondary_vmexit_ctrl = vmcs_config.secondary_vmexit_ctrl;
++
++	/* Whether to save/load FRED MSRs is deferred until after set CPUID */
++	secondary_vmexit_ctrl &= ~(SECONDARY_VM_EXIT_SAVE_IA32_FRED |
++				   SECONDARY_VM_EXIT_LOAD_IA32_FRED);
++
++	return secondary_vmexit_ctrl;
+ }
+ 
+ static void vmx_refresh_apicv_exec_ctrl(struct kvm_vcpu *vcpu)
+@@ -7785,10 +7794,33 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
+ 		vmx->pt_desc.ctl_bitmask &= ~(0xfULL << (32 + i * 4));
+ }
+ 
++static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_vmx *vmx = to_vmx(vcpu);
++
++	if (!cpu_feature_enabled(X86_FEATURE_FRED) ||
++	    !guest_cpuid_has(vcpu, X86_FEATURE_FRED))
++		return;
++
++	/* Enable loading guest FRED MSRs from VMCS */
++	vm_entry_controls_setbit(vmx, VM_ENTRY_LOAD_IA32_FRED);
++
++	/*
++	 * Enable saving guest FRED MSRs into VMCS and loading host FRED MSRs
++	 * from VMCS.
++	 */
++	vm_exit_controls_setbit(vmx, VM_EXIT_ACTIVATE_SECONDARY_CONTROLS);
++	secondary_vm_exit_controls_setbit(vmx,
++					  SECONDARY_VM_EXIT_SAVE_IA32_FRED |
++					  SECONDARY_VM_EXIT_LOAD_IA32_FRED);
++}
++
+ static void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+ {
  	struct vcpu_vmx *vmx = to_vmx(vcpu);
- 	u32 vmentry_ctl, vmexit_ctl;
- 	u32 cpu_based_exec_ctrl, pin_based_exec_ctrl, secondary_exec_control;
--	u64 tertiary_exec_control;
-+	u64 tertiary_exec_control, secondary_vmexit_ctl;
- 	unsigned long cr4;
- 	int efer_slot;
  
-@@ -6440,6 +6440,8 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
- 
- 	vmentry_ctl = vmcs_read32(VM_ENTRY_CONTROLS);
- 	vmexit_ctl = vmcs_read32(VM_EXIT_CONTROLS);
-+	secondary_vmexit_ctl = cpu_has_secondary_vmexit_ctrls() ?
-+			       vmcs_read64(SECONDARY_VM_EXIT_CONTROLS) : 0;
- 	cpu_based_exec_ctrl = vmcs_read32(CPU_BASED_VM_EXEC_CONTROL);
- 	pin_based_exec_ctrl = vmcs_read32(PIN_BASED_VM_EXEC_CONTROL);
- 	cr4 = vmcs_readl(GUEST_CR4);
-@@ -6486,6 +6488,19 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
- 	vmx_dump_sel("LDTR:", GUEST_LDTR_SELECTOR);
- 	vmx_dump_dtsel("IDTR:", GUEST_IDTR_LIMIT);
- 	vmx_dump_sel("TR:  ", GUEST_TR_SELECTOR);
-+#ifdef CONFIG_X86_64
-+	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+		pr_err("FRED guest: config=0x%016llx, stack levels=0x%016llx\n"
-+		       "RSP0=0x%016lx, RSP1=0x%016llx\n"
-+		       "RSP2=0x%016llx, RSP3=0x%016llx\n",
-+		       vmcs_read64(GUEST_IA32_FRED_CONFIG),
-+		       vmcs_read64(GUEST_IA32_FRED_STKLVLS),
-+		       read_msr(MSR_IA32_FRED_RSP0),
-+		       vmcs_read64(GUEST_IA32_FRED_RSP1),
-+		       vmcs_read64(GUEST_IA32_FRED_RSP2),
-+		       vmcs_read64(GUEST_IA32_FRED_RSP3));
-+	}
-+#endif
- 	efer_slot = vmx_find_loadstore_msr_slot(&vmx->msr_autoload.guest, MSR_EFER);
- 	if (vmentry_ctl & VM_ENTRY_LOAD_IA32_EFER)
- 		pr_err("EFER= 0x%016llx\n", vmcs_read64(GUEST_IA32_EFER));
-@@ -6533,6 +6548,19 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
- 	       vmcs_readl(HOST_TR_BASE));
- 	pr_err("GDTBase=%016lx IDTBase=%016lx\n",
- 	       vmcs_readl(HOST_GDTR_BASE), vmcs_readl(HOST_IDTR_BASE));
-+#ifdef CONFIG_X86_64
-+	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
-+		pr_err("FRED host: config=0x%016llx, stack levels=0x%016llx\n"
-+		       "RSP0=0x%016llx, RSP1=0x%016llx\n"
-+		       "RSP2=0x%016llx, RSP3=0x%016llx\n",
-+		       vmcs_read64(HOST_IA32_FRED_CONFIG),
-+		       vmcs_read64(HOST_IA32_FRED_STKLVLS),
-+		       vmx->msr_host_fred_rsp0,
-+		       vmcs_read64(HOST_IA32_FRED_RSP1),
-+		       vmcs_read64(HOST_IA32_FRED_RSP2),
-+		       vmcs_read64(HOST_IA32_FRED_RSP3));
-+	}
-+#endif
- 	pr_err("CR0=%016lx CR3=%016lx CR4=%016lx\n",
- 	       vmcs_readl(HOST_CR0), vmcs_readl(HOST_CR3),
- 	       vmcs_readl(HOST_CR4));
-@@ -6554,25 +6582,31 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
- 	pr_err("*** Control State ***\n");
- 	pr_err("CPUBased=0x%08x SecondaryExec=0x%08x TertiaryExec=0x%016llx\n",
- 	       cpu_based_exec_ctrl, secondary_exec_control, tertiary_exec_control);
--	pr_err("PinBased=0x%08x EntryControls=%08x ExitControls=%08x\n",
--	       pin_based_exec_ctrl, vmentry_ctl, vmexit_ctl);
-+	pr_err("PinBased=0x%08x EntryControls=0x%08x\n",
-+	       pin_based_exec_ctrl, vmentry_ctl);
-+	pr_err("ExitControls=0x%08x SecondaryExitControls=0x%016llx\n",
-+	       vmexit_ctl, secondary_vmexit_ctl);
- 	pr_err("ExceptionBitmap=%08x PFECmask=%08x PFECmatch=%08x\n",
- 	       vmcs_read32(EXCEPTION_BITMAP),
- 	       vmcs_read32(PAGE_FAULT_ERROR_CODE_MASK),
- 	       vmcs_read32(PAGE_FAULT_ERROR_CODE_MATCH));
--	pr_err("VMEntry: intr_info=%08x errcode=%08x ilen=%08x\n",
-+	pr_err("VMEntry: intr_info=%08x errcode=%08x ilen=%08x event data=%016llx\n",
- 	       vmcs_read32(VM_ENTRY_INTR_INFO_FIELD),
- 	       vmcs_read32(VM_ENTRY_EXCEPTION_ERROR_CODE),
--	       vmcs_read32(VM_ENTRY_INSTRUCTION_LEN));
-+	       vmcs_read32(VM_ENTRY_INSTRUCTION_LEN),
-+	       cpu_feature_enabled(X86_FEATURE_FRED) ?
-+	       vmcs_read64(INJECTED_EVENT_DATA) : 0);
- 	pr_err("VMExit: intr_info=%08x errcode=%08x ilen=%08x\n",
- 	       vmcs_read32(VM_EXIT_INTR_INFO),
- 	       vmcs_read32(VM_EXIT_INTR_ERROR_CODE),
- 	       vmcs_read32(VM_EXIT_INSTRUCTION_LEN));
- 	pr_err("        reason=%08x qualification=%016lx\n",
- 	       vmcs_read32(VM_EXIT_REASON), vmcs_readl(EXIT_QUALIFICATION));
--	pr_err("IDTVectoring: info=%08x errcode=%08x\n",
-+	pr_err("IDTVectoring: info=%08x errcode=%08x event data=%016llx\n",
- 	       vmcs_read32(IDT_VECTORING_INFO_FIELD),
--	       vmcs_read32(IDT_VECTORING_ERROR_CODE));
-+	       vmcs_read32(IDT_VECTORING_ERROR_CODE),
-+	       cpu_feature_enabled(X86_FEATURE_FRED) ?
-+	       vmcs_read64(ORIGINAL_EVENT_DATA) : 0);
- 	pr_err("TSC Offset = 0x%016llx\n", vmcs_read64(TSC_OFFSET));
- 	if (secondary_exec_control & SECONDARY_EXEC_TSC_SCALING)
- 		pr_err("TSC Multiplier = 0x%016llx\n",
++	vmx_vcpu_config_fred_after_set_cpuid(vcpu);
++
+ 	/*
+ 	 * XSAVES is effectively enabled if and only if XSAVE is also exposed
+ 	 * to the guest.  XSAVES depends on CR4.OSXSAVE, and CR4.OSXSAVE can be
 -- 
 2.42.0
 
