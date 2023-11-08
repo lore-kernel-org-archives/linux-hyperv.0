@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E7D358A2;
-	Wed,  8 Nov 2023 19:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828936AEA;
+	Wed,  8 Nov 2023 19:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jh8feKaL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmA3uMpd"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA524210E;
-	Wed,  8 Nov 2023 11:00:18 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680662113;
+	Wed,  8 Nov 2023 11:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470019; x=1731006019;
+  t=1699470020; x=1731006020;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QfMz9C2KeVUd51LirDmeyeSpcRfMGUSn7faCKNIe7JM=;
-  b=jh8feKaL0FJGiHL+G8jGg4vJd5Of+WyMN9cP9Pa2vI7im7w9PXgLhz6f
-   E3OcjPEMzTbRw9DGY7RdEpNRuNbhFsVIC+ILVfA0jrfvqG4bx7PSqBC0A
-   plVBSWgNtMtcv5znCCW+ESRXkUA18qC6N7ERmtqEKg9TQh6sfAztw5+uC
-   6HhBLc4ABAgkTTjHrWI9gU+5Iv0pKRDxPExckLK6ybxIsU/tn2v+BXH3H
-   t+qX69/bZbZwTjvZSyInF/O+vAY2HQTHF+Q9w09WX6SUrkAkRl/U6sJpT
-   esS/GH/gyJTRmcaX3ZITWvEWIwqDrviQZBIyUhgjnK4T0YMx/qG7rBNeY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486214"
+  bh=rCbwUfMzO+liEHyZodOi1IhBeNPZRjESLG3vbmyapcg=;
+  b=dmA3uMpdJGZW08ZGITmKQKfRaxswnpCsOGyARhbQZFDtHYrZdl7ycfGT
+   rBCmRsctZrVLDOtrw/zSkx3fRr4f3JLdawp1jmlPL1T08sF7SHzjZe0Mc
+   B0ml3F7DhsBzWrwsl5AlR8ar3m7yf99O40M0MEv3nRVAfGOxwVYxqq+Qf
+   H9BKfI78iRoF53y7+W3cY/e723YGQUX/O2r7RWxh2E/GJwynJc1G6fO0e
+   UBqVLHBeGSribsr3vA3pTG2IsqgQwiEbKG9gWO4S4vgcazboCMwQt03sT
+   ijP2CjxadKK2iOFRSf7f9kRKtSD5qADidDCbQQXdHvW54nW11QnaIMmk6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486238"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486214"
+   d="scan'208";a="8486238"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892406"
+   d="scan'208";a="10892419"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:15 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:16 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 01/23] KVM: VMX: Cleanup VMX basic information defines and usages
-Date: Wed,  8 Nov 2023 10:29:41 -0800
-Message-ID: <20231108183003.5981-2-xin3.li@intel.com>
+Subject: [PATCH v1 03/23] KVM: VMX: Add support for the secondary VM exit controls
+Date: Wed,  8 Nov 2023 10:29:43 -0800
+Message-ID: <20231108183003.5981-4-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,285 +67,189 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Define VMX basic information fields with BIT_ULL()/GENMASK_ULL(), and
-replace hardcoded VMX basic numbers with these field macros.
+Enable the secondary VM exit controls to prepare for FRED enabling.
 
-Per Sean's ask, save the full/raw value of MSR_IA32_VMX_BASIC in the
-global vmcs_config as type u64 to get rid of the hi/lo crud, and then
-use VMX_BASIC helpers to extract info as needed.
+The activation of the secondary VM exit controls is off now, and it
+will be switched on when a VMX feature needing it is enabled.
 
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
-
-Changes since v2:
-* Simply save the full/raw value of MSR_IA32_VMX_BASIC in the global
-  vmcs_config, and then use the helpers to extract info from it as
-  needed (Sean Christopherson).
-* Move all VMX_MISC related changes to the second patch (Kai Huang).
-* Commonize memory type definitions used in the VMX files, as memory
-  types are architectural.
-
-Changes since v1:
-* Don't add field shift macros unless it's really needed, extra layer
-  of indirect makes it harder to read (Sean Christopherson).
-* Add a static_assert() to ensure that VMX_BASIC_FEATURES_MASK doesn't
-  overlap with VMX_BASIC_RESERVED_BITS (Sean Christopherson).
-* read MSR_IA32_VMX_BASIC into an u64 rather than 2 u32 (Sean
-  Christopherson).
-* Add 2 new functions for extracting fields from VMX basic (Sean
-  Christopherson).
-* Drop the tools header update (Sean Christopherson).
-* Move VMX basic field macros to arch/x86/include/asm/vmx.h.
----
- arch/x86/include/asm/msr-index.h |  9 ---------
- arch/x86/include/asm/vmx.h       | 15 +++++++++++++--
- arch/x86/kvm/vmx/capabilities.h  |  6 ++----
- arch/x86/kvm/vmx/nested.c        | 31 +++++++++++++++++++++----------
- arch/x86/kvm/vmx/vmx.c           | 24 ++++++++++--------------
- 5 files changed, 46 insertions(+), 39 deletions(-)
+ arch/x86/include/asm/msr-index.h |  1 +
+ arch/x86/include/asm/vmx.h       |  3 +++
+ arch/x86/kvm/vmx/capabilities.h  |  9 ++++++++-
+ arch/x86/kvm/vmx/vmcs.h          |  1 +
+ arch/x86/kvm/vmx/vmx.c           | 28 +++++++++++++++++++++++++---
+ arch/x86/kvm/vmx/vmx.h           |  7 ++++++-
+ 6 files changed, 44 insertions(+), 5 deletions(-)
 
 diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index d1d6b3c3e6bd..68c75c299300 100644
+index d7d4eace5dae..c95ed288aa5d 100644
 --- a/arch/x86/include/asm/msr-index.h
 +++ b/arch/x86/include/asm/msr-index.h
-@@ -1110,15 +1110,6 @@
+@@ -1109,6 +1109,7 @@
+ #define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
  #define MSR_IA32_VMX_VMFUNC             0x00000491
  #define MSR_IA32_VMX_PROCBASED_CTLS3	0x00000492
++#define MSR_IA32_VMX_EXIT_CTLS2		0x00000493
  
--/* VMX_BASIC bits and bitmasks */
--#define VMX_BASIC_VMCS_SIZE_SHIFT	32
--#define VMX_BASIC_TRUE_CTLS		(1ULL << 55)
--#define VMX_BASIC_64		0x0001000000000000LLU
--#define VMX_BASIC_MEM_TYPE_SHIFT	50
--#define VMX_BASIC_MEM_TYPE_MASK	0x003c000000000000LLU
--#define VMX_BASIC_MEM_TYPE_WB	6LLU
--#define VMX_BASIC_INOUT		0x0040000000000000LLU
--
  /* Resctrl MSRs: */
  /* - Intel: */
- #define MSR_IA32_L3_QOS_CFG		0xc81
 diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 4dba17363008..273960225a3b 100644
+index 5771c5751e7e..4d4177ec802c 100644
 --- a/arch/x86/include/asm/vmx.h
 +++ b/arch/x86/include/asm/vmx.h
-@@ -121,6 +121,14 @@
+@@ -105,6 +105,7 @@
+ #define VM_EXIT_CLEAR_BNDCFGS                   0x00800000
+ #define VM_EXIT_PT_CONCEAL_PIP			0x01000000
+ #define VM_EXIT_CLEAR_IA32_RTIT_CTL		0x02000000
++#define VM_EXIT_ACTIVATE_SECONDARY_CONTROLS	0x80000000
  
- #define VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR	0x000011ff
+ #define VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR	0x00036dff
  
-+/* x86 memory types, explicitly used in VMX only */
-+#define MEM_TYPE_WB				0x6ULL
-+#define MEM_TYPE_UC				0x0ULL
-+
-+/* VMX_BASIC bits and bitmasks */
-+#define VMX_BASIC_32BIT_PHYS_ADDR_ONLY		BIT_ULL(48)
-+#define VMX_BASIC_INOUT				BIT_ULL(54)
-+
- #define VMX_MISC_PREEMPTION_TIMER_RATE_MASK	0x0000001f
- #define VMX_MISC_SAVE_EFER_LMA			0x00000020
- #define VMX_MISC_ACTIVITY_HLT			0x00000040
-@@ -144,6 +152,11 @@ static inline u32 vmx_basic_vmcs_size(u64 vmx_basic)
- 	return (vmx_basic & GENMASK_ULL(44, 32)) >> 32;
- }
- 
-+static inline u32 vmx_basic_vmcs_mem_type(u64 vmx_basic)
-+{
-+	return (vmx_basic & GENMASK_ULL(53, 50)) >> 50;
-+}
-+
- static inline int vmx_misc_preemption_timer_rate(u64 vmx_misc)
- {
- 	return vmx_misc & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
-@@ -506,8 +519,6 @@ enum vmcs_field {
- #define VMX_EPTP_PWL_5				0x20ull
- #define VMX_EPTP_AD_ENABLE_BIT			(1ull << 6)
- #define VMX_EPTP_MT_MASK			0x7ull
--#define VMX_EPTP_MT_WB				0x6ull
--#define VMX_EPTP_MT_UC				0x0ull
- #define VMX_EPT_READABLE_MASK			0x1ull
- #define VMX_EPT_WRITABLE_MASK			0x2ull
- #define VMX_EPT_EXECUTABLE_MASK			0x4ull
+@@ -247,6 +248,8 @@ enum vmcs_field {
+ 	TERTIARY_VM_EXEC_CONTROL_HIGH	= 0x00002035,
+ 	PID_POINTER_TABLE		= 0x00002042,
+ 	PID_POINTER_TABLE_HIGH		= 0x00002043,
++	SECONDARY_VM_EXIT_CONTROLS	= 0x00002044,
++	SECONDARY_VM_EXIT_CONTROLS_HIGH	= 0x00002045,
+ 	GUEST_PHYSICAL_ADDRESS          = 0x00002400,
+ 	GUEST_PHYSICAL_ADDRESS_HIGH     = 0x00002401,
+ 	VMCS_LINK_POINTER               = 0x00002800,
 diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
-index 41a4533f9989..86ce8bb96bed 100644
+index cb6588238f46..e8f3ad0f79ee 100644
 --- a/arch/x86/kvm/vmx/capabilities.h
 +++ b/arch/x86/kvm/vmx/capabilities.h
-@@ -54,9 +54,7 @@ struct nested_vmx_msrs {
- };
- 
- struct vmcs_config {
--	int size;
--	u32 basic_cap;
--	u32 revision_id;
-+	u64 basic;
- 	u32 pin_based_exec_ctrl;
+@@ -59,8 +59,9 @@ struct vmcs_config {
  	u32 cpu_based_exec_ctrl;
  	u32 cpu_based_2nd_exec_ctrl;
-@@ -76,7 +74,7 @@ extern struct vmx_capability vmx_capability __ro_after_init;
- 
- static inline bool cpu_has_vmx_basic_inout(void)
- {
--	return	(((u64)vmcs_config.basic_cap << 32) & VMX_BASIC_INOUT);
-+	return	vmcs_config.basic & VMX_BASIC_INOUT;
+ 	u64 cpu_based_3rd_exec_ctrl;
+-	u32 vmexit_ctrl;
+ 	u32 vmentry_ctrl;
++	u32 vmexit_ctrl;
++	u64 secondary_vmexit_ctrl;
+ 	u64 misc;
+ 	struct nested_vmx_msrs nested;
+ };
+@@ -136,6 +137,12 @@ static inline bool cpu_has_tertiary_exec_ctrls(void)
+ 		CPU_BASED_ACTIVATE_TERTIARY_CONTROLS;
  }
  
- static inline bool cpu_has_virtual_nmis(void)
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index c5ec0ef51ff7..23704f8d9035 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1201,23 +1201,34 @@ static bool is_bitwise_subset(u64 superset, u64 subset, u64 mask)
- 	return (superset | subset) == superset;
- }
- 
-+#define VMX_BASIC_VMCS_SIZE_SHIFT		32
-+#define VMX_BASIC_DUAL_MONITOR_TREATMENT	BIT_ULL(49)
-+#define VMX_BASIC_MEM_TYPE_SHIFT		50
-+#define VMX_BASIC_TRUE_CTLS			BIT_ULL(55)
++static inline bool cpu_has_secondary_vmexit_ctrls(void)
++{
++	return vmcs_config.vmexit_ctrl &
++		VM_EXIT_ACTIVATE_SECONDARY_CONTROLS;
++}
 +
-+#define VMX_BASIC_FEATURES_MASK			\
-+	(VMX_BASIC_DUAL_MONITOR_TREATMENT |	\
-+	 VMX_BASIC_INOUT |			\
-+	 VMX_BASIC_TRUE_CTLS)
-+
-+#define VMX_BASIC_RESERVED_BITS			\
-+	(GENMASK_ULL(63, 56) | GENMASK_ULL(47, 45) | BIT_ULL(31))
-+
- static int vmx_restore_vmx_basic(struct vcpu_vmx *vmx, u64 data)
+ static inline bool cpu_has_vmx_virtualize_apic_accesses(void)
  {
--	const u64 feature_and_reserved =
--		/* feature (except bit 48; see below) */
--		BIT_ULL(49) | BIT_ULL(54) | BIT_ULL(55) |
--		/* reserved */
--		BIT_ULL(31) | GENMASK_ULL(47, 45) | GENMASK_ULL(63, 56);
- 	u64 vmx_basic = vmcs_config.nested.basic;
- 
--	if (!is_bitwise_subset(vmx_basic, data, feature_and_reserved))
-+	static_assert(!(VMX_BASIC_FEATURES_MASK & VMX_BASIC_RESERVED_BITS));
-+
-+	if (!is_bitwise_subset(vmx_basic, data,
-+			       VMX_BASIC_FEATURES_MASK | VMX_BASIC_RESERVED_BITS))
- 		return -EINVAL;
- 
- 	/*
- 	 * KVM does not emulate a version of VMX that constrains physical
- 	 * addresses of VMX structures (e.g. VMCS) to 32-bits.
- 	 */
--	if (data & BIT_ULL(48))
-+	if (data & VMX_BASIC_32BIT_PHYS_ADDR_ONLY)
- 		return -EINVAL;
- 
- 	if (vmx_basic_vmcs_revision_id(vmx_basic) !=
-@@ -2690,11 +2701,11 @@ static bool nested_vmx_check_eptp(struct kvm_vcpu *vcpu, u64 new_eptp)
- 
- 	/* Check for memory type validity */
- 	switch (new_eptp & VMX_EPTP_MT_MASK) {
--	case VMX_EPTP_MT_UC:
-+	case MEM_TYPE_UC:
- 		if (CC(!(vmx->nested.msrs.ept_caps & VMX_EPTP_UC_BIT)))
- 			return false;
- 		break;
--	case VMX_EPTP_MT_WB:
-+	case MEM_TYPE_WB:
- 		if (CC(!(vmx->nested.msrs.ept_caps & VMX_EPTP_WB_BIT)))
- 			return false;
- 		break;
-@@ -6964,7 +6975,7 @@ static void nested_vmx_setup_basic(struct nested_vmx_msrs *msrs)
- 		VMCS12_REVISION |
- 		VMX_BASIC_TRUE_CTLS |
- 		((u64)VMCS12_SIZE << VMX_BASIC_VMCS_SIZE_SHIFT) |
--		(VMX_BASIC_MEM_TYPE_WB << VMX_BASIC_MEM_TYPE_SHIFT);
-+		(MEM_TYPE_WB << VMX_BASIC_MEM_TYPE_SHIFT);
- 
- 	if (cpu_has_vmx_basic_inout())
- 		msrs->basic |= VMX_BASIC_INOUT;
+ 	return vmcs_config.cpu_based_2nd_exec_ctrl &
+diff --git a/arch/x86/kvm/vmx/vmcs.h b/arch/x86/kvm/vmx/vmcs.h
+index 7c1996b433e2..7d45a6504200 100644
+--- a/arch/x86/kvm/vmx/vmcs.h
++++ b/arch/x86/kvm/vmx/vmcs.h
+@@ -47,6 +47,7 @@ struct vmcs_host_state {
+ struct vmcs_controls_shadow {
+ 	u32 vm_entry;
+ 	u32 vm_exit;
++	u64 secondary_vm_exit;
+ 	u32 pin;
+ 	u32 exec;
+ 	u32 secondary_exec;
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index ba5cd26137e0..6b3b2df11cea 100644
+index 396a806bf2b2..df769207cbe0 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2569,13 +2569,13 @@ static u64 adjust_vmx_controls64(u64 ctl_opt, u32 msr)
- static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 			     struct vmx_capability *vmx_cap)
- {
--	u32 vmx_msr_low, vmx_msr_high;
- 	u32 _pin_based_exec_control = 0;
- 	u32 _cpu_based_exec_control = 0;
+@@ -2574,6 +2574,7 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
  	u32 _cpu_based_2nd_exec_control = 0;
  	u64 _cpu_based_3rd_exec_control = 0;
  	u32 _vmexit_control = 0;
++	u64 _secondary_vmexit_control = 0;
  	u32 _vmentry_control = 0;
-+	u64 basic_msr;
- 	u64 misc_msr;
+ 	u64 basic_msr;
  	int i;
- 
-@@ -2694,29 +2694,25 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+@@ -2693,6 +2694,11 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
  		_vmexit_control &= ~x_ctrl;
  	}
  
--	rdmsr(MSR_IA32_VMX_BASIC, vmx_msr_low, vmx_msr_high);
-+	rdmsrl(MSR_IA32_VMX_BASIC, basic_msr);
++	if (_vmexit_control & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
++		_secondary_vmexit_control =
++			adjust_vmx_controls64(KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS,
++					      MSR_IA32_VMX_EXIT_CTLS2);
++
+ 	rdmsrl(MSR_IA32_VMX_BASIC, basic_msr);
  
  	/* IA-32 SDM Vol 3B: VMCS size is never greater than 4kB. */
--	if ((vmx_msr_high & 0x1fff) > PAGE_SIZE)
-+	if ((vmx_basic_vmcs_size(basic_msr) > PAGE_SIZE))
- 		return -EIO;
- 
- #ifdef CONFIG_X86_64
- 	/* IA-32 SDM Vol 3B: 64-bit CPUs always have VMX_BASIC_MSR[48]==0. */
--	if (vmx_msr_high & (1u<<16))
-+	if (basic_msr & VMX_BASIC_32BIT_PHYS_ADDR_ONLY)
- 		return -EIO;
- #endif
- 
- 	/* Require Write-Back (WB) memory type for VMCS accesses. */
--	if (((vmx_msr_high >> 18) & 15) != 6)
-+	if (vmx_basic_vmcs_mem_type(basic_msr) != MEM_TYPE_WB)
- 		return -EIO;
- 
- 	rdmsrl(MSR_IA32_VMX_MISC, misc_msr);
- 
--	vmcs_conf->size = vmx_msr_high & 0x1fff;
--	vmcs_conf->basic_cap = vmx_msr_high & ~0x1fff;
--
--	vmcs_conf->revision_id = vmx_msr_low;
--
-+	vmcs_conf->basic = basic_msr;
- 	vmcs_conf->pin_based_exec_ctrl = _pin_based_exec_control;
+@@ -2714,8 +2720,9 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
  	vmcs_conf->cpu_based_exec_ctrl = _cpu_based_exec_control;
  	vmcs_conf->cpu_based_2nd_exec_ctrl = _cpu_based_2nd_exec_control;
-@@ -2866,13 +2862,13 @@ struct vmcs *alloc_vmcs_cpu(bool shadow, int cpu, gfp_t flags)
- 	if (!pages)
- 		return NULL;
- 	vmcs = page_address(pages);
--	memset(vmcs, 0, vmcs_config.size);
-+	memset(vmcs, 0, vmx_basic_vmcs_size(vmcs_config.basic));
+ 	vmcs_conf->cpu_based_3rd_exec_ctrl = _cpu_based_3rd_exec_control;
+-	vmcs_conf->vmexit_ctrl         = _vmexit_control;
+ 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
++	vmcs_conf->vmexit_ctrl         = _vmexit_control;
++	vmcs_conf->secondary_vmexit_ctrl   = _secondary_vmexit_control;
  
- 	/* KVM supports Enlightened VMCS v1 only */
- 	if (kvm_is_using_evmcs())
- 		vmcs->hdr.revision_id = KVM_EVMCS_VERSION;
- 	else
--		vmcs->hdr.revision_id = vmcs_config.revision_id;
-+		vmcs->hdr.revision_id = vmx_basic_vmcs_revision_id(vmcs_config.basic);
+ 	rdmsrl(MSR_IA32_VMX_MISC, vmcs_conf->misc);
  
- 	if (shadow)
- 		vmcs->hdr.shadow_vmcs = 1;
-@@ -2965,7 +2961,7 @@ static __init int alloc_kvm_area(void)
- 		 * physical CPU.
- 		 */
- 		if (kvm_is_using_evmcs())
--			vmcs->hdr.revision_id = vmcs_config.revision_id;
-+			vmcs->hdr.revision_id = vmx_basic_vmcs_revision_id(vmcs_config.basic);
+@@ -4420,9 +4427,21 @@ static u32 vmx_vmexit_ctrl(void)
+ 	if (cpu_has_perf_global_ctrl_bug())
+ 		vmexit_ctrl &= ~VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
  
- 		per_cpu(vmxarea, cpu) = vmcs;
- 	}
-@@ -3367,7 +3363,7 @@ static int vmx_get_max_ept_level(void)
+-	/* Loading of EFER and PERF_GLOBAL_CTRL are toggled dynamically */
++	/*
++	 * The following features are toggled dynamically:
++	 * - Loading of PERF_GLOBAL_CTRL
++	 * - Loading of EFER
++	 * - Activating of SECONDARY_CONTROLS
++	 */
+ 	return vmexit_ctrl &
+-		~(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL | VM_EXIT_LOAD_IA32_EFER);
++		~(VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL |
++		  VM_EXIT_LOAD_IA32_EFER |
++		  VM_EXIT_ACTIVATE_SECONDARY_CONTROLS);
++}
++
++static u64 vmx_secondary_vmexit_ctrl(void)
++{
++	return vmcs_config.secondary_vmexit_ctrl;
+ }
  
- u64 construct_eptp(struct kvm_vcpu *vcpu, hpa_t root_hpa, int root_level)
- {
--	u64 eptp = VMX_EPTP_MT_WB;
-+	u64 eptp = MEM_TYPE_WB;
+ static void vmx_refresh_apicv_exec_ctrl(struct kvm_vcpu *vcpu)
+@@ -4770,6 +4789,9 @@ static void init_vmcs(struct vcpu_vmx *vmx)
  
- 	eptp |= (root_level == 5) ? VMX_EPTP_PWL_5 : VMX_EPTP_PWL_4;
+ 	vm_exit_controls_set(vmx, vmx_vmexit_ctrl());
  
++	if (cpu_has_secondary_vmexit_ctrls())
++		secondary_vm_exit_controls_set(vmx, vmx_secondary_vmexit_ctrl());
++
+ 	/* 22.2.1, 20.8.1 */
+ 	vm_entry_controls_set(vmx, vmx_vmentry_ctrl());
+ 
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index c2130d2c8e24..99a0f6783085 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -502,7 +502,11 @@ static inline u8 vmx_get_rvi(void)
+ 	       VM_EXIT_LOAD_IA32_EFER |					\
+ 	       VM_EXIT_CLEAR_BNDCFGS |					\
+ 	       VM_EXIT_PT_CONCEAL_PIP |					\
+-	       VM_EXIT_CLEAR_IA32_RTIT_CTL)
++	       VM_EXIT_CLEAR_IA32_RTIT_CTL |				\
++	       VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
++
++#define KVM_REQUIRED_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
++#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
+ 
+ #define KVM_REQUIRED_VMX_PIN_BASED_VM_EXEC_CONTROL			\
+ 	(PIN_BASED_EXT_INTR_MASK |					\
+@@ -606,6 +610,7 @@ static __always_inline void lname##_controls_clearbit(struct vcpu_vmx *vmx, u##b
+ }
+ BUILD_CONTROLS_SHADOW(vm_entry, VM_ENTRY_CONTROLS, 32)
+ BUILD_CONTROLS_SHADOW(vm_exit, VM_EXIT_CONTROLS, 32)
++BUILD_CONTROLS_SHADOW(secondary_vm_exit, SECONDARY_VM_EXIT_CONTROLS, 64)
+ BUILD_CONTROLS_SHADOW(pin, PIN_BASED_VM_EXEC_CONTROL, 32)
+ BUILD_CONTROLS_SHADOW(exec, CPU_BASED_VM_EXEC_CONTROL, 32)
+ BUILD_CONTROLS_SHADOW(secondary_exec, SECONDARY_VM_EXEC_CONTROL, 32)
 -- 
 2.42.0
 
