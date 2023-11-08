@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08CB374CA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B89B374D2;
 	Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ycn0Ro25"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDc9GfIy"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA72213C;
-	Wed,  8 Nov 2023 11:00:28 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BDD2125;
+	Wed,  8 Nov 2023 11:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470029; x=1731006029;
+  t=1699470030; x=1731006030;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=f/CpZWB+KHZLSvqt26TggdKx4NNWrmqcMmgPoU9+LJM=;
-  b=Ycn0Ro25JI8o5xAG9w+wR0NrFzDdkBzImNyZXz/bk4btqnPPUt1pvyVC
-   kNGJKIb/weUCRa09u1HJGatN//Kt/gkmN/4FuMKJknIg0dhU4GuX38H/w
-   S1VtDj1iCSBG2WMUvxsSFzWD3yuAW9e9dI0CfzJb4MbgX8tbRKkK0VLW8
-   qtehg2+cJJWCk+/5oRg8X/Ucczf53njUbRE0vxMuPjFvi3J+DWPfTewvI
-   P8WX4Vm0E7CUd4St1KLyhv1QJhXXOjErRnyKRzk6Lcpsi0svJC+7n8LZV
-   vpmjkEx5ysBC1AgBconP6rUSvoSkkdm7wrxM21yOj2cS2FjGcSud/CDfX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486456"
+  bh=WncAUid6KO1Ivbzdf2tCq4CfgWTAb6KTypc2P94NIhE=;
+  b=KDc9GfIymhcVTqwrY9TVJlJj9eScoUCT6lrh6K35oBCrWidV9QyypQJj
+   s1Kkiha9B3U9kh2dxasEK1vU/Z6tWxFUoThAs6SLr05XHqHJ4mBUiYK9i
+   Ey0q3LsRWNSFewdpse/O6kEeG5mhOw0wZizByZVRJTBAx/MdvMJea523b
+   fOnDfQb7jtSndVgeXwmpK9g6TiWZvQm0Nyh1xwSGcuypWsiA2xZo/+mva
+   8cc4nSiZ4J9jc7BQnd+7akMS0hOh+9GldHFsWuzmUe1Bj+w/gtV9hZn9I
+   EKa1PTjJsSDP/NAEtuuH9abrZ+m5uJon1kODytrvhHIp58W/mXFWl8ce1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486478"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486456"
+   d="scan'208";a="8486478"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:28 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:29 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892515"
+   d="scan'208";a="10892522"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:27 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:28 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 21/23] KVM: selftests: Run debug_regs test with FRED enabled
-Date: Wed,  8 Nov 2023 10:30:01 -0800
-Message-ID: <20231108183003.5981-22-xin3.li@intel.com>
+Subject: [PATCH v1 23/23] KVM: selftests: Add fred exception tests
+Date: Wed,  8 Nov 2023 10:30:03 -0800
+Message-ID: <20231108183003.5981-24-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,132 +67,349 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Run another round of debug_regs test with FRED enabled if FRED is
-available.
+From: Shan Kang <shan.kang@intel.com>
 
+Add tests for FRED event data and VMX nested-exception.
+
+FRED is designed to save a complete event context in its stack frame,
+e.g., FRED saves the faulting linear address of a #PF into a 64-bit
+event data field defined in FRED stack frame.  As such, FRED VMX adds
+event data handling during VMX transitions.
+
+FRED introduces event stack levels to dispatch an event handler onto a
+stack baesd on current stack level and stack levels defined in
+IA32_FRED_STKLVLS MSR for each exception vector.  VMX nested-exception
+support ensures a correct event stack level is chosen when a VM entry
+injects a nested exception, which is "regarded" as occurred in ring 0.
+
+Signed-off-by: Shan Kang <shan.kang@intel.com>
+Co-developed-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- .../selftests/kvm/include/x86_64/processor.h  |  4 ++
- .../testing/selftests/kvm/x86_64/debug_regs.c | 50 ++++++++++++++-----
- 2 files changed, 41 insertions(+), 13 deletions(-)
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/include/x86_64/processor.h  |  29 ++
+ .../testing/selftests/kvm/x86_64/fred_test.c  | 262 ++++++++++++++++++
+ 3 files changed, 292 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
 
+diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
+index a5963ab9215b..06d16e59aa3c 100644
+--- a/tools/testing/selftests/kvm/Makefile
++++ b/tools/testing/selftests/kvm/Makefile
+@@ -76,6 +76,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
+ TEST_GEN_PROGS_x86_64 += x86_64/exit_on_emulation_failure_test
+ TEST_GEN_PROGS_x86_64 += x86_64/fix_hypercall_test
+ TEST_GEN_PROGS_x86_64 += x86_64/hwcr_msr_test
++TEST_GEN_PROGS_x86_64 += x86_64/fred_test
+ TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
+ TEST_GEN_PROGS_x86_64 += x86_64/hyperv_cpuid
+ TEST_GEN_PROGS_x86_64 += x86_64/hyperv_evmcs
 diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-index 25bc61dac5fb..165d21fd1577 100644
+index 165d21fd1577..9c26705aa320 100644
 --- a/tools/testing/selftests/kvm/include/x86_64/processor.h
 +++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-@@ -47,6 +47,7 @@ extern bool host_cpu_is_amd;
- #define X86_CR4_SMEP		(1ul << 20)
- #define X86_CR4_SMAP		(1ul << 21)
- #define X86_CR4_PKE		(1ul << 22)
-+#define X86_CR4_FRED		(1ul << 32)
+@@ -1260,4 +1260,33 @@ void virt_map_level(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
+ #define PFERR_GUEST_PAGE_MASK	BIT_ULL(PFERR_GUEST_PAGE_BIT)
+ #define PFERR_IMPLICIT_ACCESS	BIT_ULL(PFERR_IMPLICIT_ACCESS_BIT)
  
- struct xstate_header {
- 	u64				xstate_bv;
-@@ -163,6 +164,9 @@ struct kvm_x86_cpu_feature {
- #define	X86_FEATURE_SPEC_CTRL		KVM_X86_CPU_FEATURE(0x7, 0, EDX, 26)
- #define	X86_FEATURE_ARCH_CAPABILITIES	KVM_X86_CPU_FEATURE(0x7, 0, EDX, 29)
- #define	X86_FEATURE_PKS			KVM_X86_CPU_FEATURE(0x7, 0, ECX, 31)
-+#define	X86_FEATURE_FRED		KVM_X86_CPU_FEATURE(0x7, 1, EAX, 17)
-+#define	X86_FEATURE_LKGS		KVM_X86_CPU_FEATURE(0x7, 1, EAX, 18)
-+#define	X86_FEATURE_WRMSRNS		KVM_X86_CPU_FEATURE(0x7, 1, EAX, 19)
- #define	X86_FEATURE_XTILECFG		KVM_X86_CPU_FEATURE(0xD, 0, EAX, 17)
- #define	X86_FEATURE_XTILEDATA		KVM_X86_CPU_FEATURE(0xD, 0, EAX, 18)
- #define	X86_FEATURE_XSAVES		KVM_X86_CPU_FEATURE(0xD, 1, EAX, 3)
-diff --git a/tools/testing/selftests/kvm/x86_64/debug_regs.c b/tools/testing/selftests/kvm/x86_64/debug_regs.c
-index f6b295e0b2d2..69055e764f15 100644
---- a/tools/testing/selftests/kvm/x86_64/debug_regs.c
-+++ b/tools/testing/selftests/kvm/x86_64/debug_regs.c
-@@ -20,7 +20,7 @@ uint32_t guest_value;
- 
- extern unsigned char sw_bp, hw_bp, write_data, ss_start, bd_start;
- 
--static void guest_code(void)
-+static void guest_test_code(void)
- {
- 	/* Create a pending interrupt on current vCPU */
- 	x2apic_enable();
-@@ -61,6 +61,15 @@ static void guest_code(void)
- 
- 	/* DR6.BD test */
- 	asm volatile("bd_start: mov %%dr0, %%rax" : : : "rax");
++/*
++ * FRED related data structures and functions
++ */
++struct fred_stack {
++	u64 r15;
++	u64 r14;
++	u64 r13;
++	u64 r12;
++	u64 bp;
++	u64 bx;
++	u64 r11;
++	u64 r10;
++	u64 r9;
++	u64 r8;
++	u64 ax;
++	u64 cx;
++	u64 dx;
++	u64 si;
++	u64 di;
++	u64 error_code;
++	u64 ip;
++	u64 csx;
++	u64 flags;
++	u64 sp;
++	u64 ssx;
++	u64 event_data;
++	u64 reserved;
++};
++
+ #endif /* SELFTEST_KVM_PROCESSOR_H */
+diff --git a/tools/testing/selftests/kvm/x86_64/fred_test.c b/tools/testing/selftests/kvm/x86_64/fred_test.c
+new file mode 100644
+index 000000000000..ed117db017cd
+--- /dev/null
++++ b/tools/testing/selftests/kvm/x86_64/fred_test.c
+@@ -0,0 +1,262 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * FRED nested exception tests
++ *
++ * Copyright (C) 2023, Intel, Inc.
++ */
++#define _GNU_SOURCE /* for program_invocation_short_name */
++#include <fcntl.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <asm/msr-index.h>
++
++#include "kvm_util.h"
++#include "test_util.h"
++#include "guest_modes.h"
++#include "processor.h"
++
++#define FRED_STKLVL(v,l)		(_AT(unsigned long, l) << (2 * (v)))
++#define FRED_CONFIG_ENTRYPOINT(p)	_AT(unsigned long, (p))
++
++/* This address is already mapped in guest page table. */
++#define FRED_VALID_RSP			0x8000
++
++/*
++ * The following addresses are not yet mapped in both EPT and guest page
++ * tables at the beginning.  As a result, it causes an EPT violation VM
++ * exit with an original guest #PF to access any of them for the first
++ * time.
++ *
++ * Use these addresses as guest FRED RSP0 to generate nested #PFs to test
++ * if event data are properly virtualized.
++ */
++static unsigned long fred_invalid_rsp[4] = {
++	0x0,
++	0xf0000000,
++	0xe0000000,
++	0xd0000000,
++};
++
++extern char asm_user_wrmsr[];
++extern char asm_user_ud[];
++extern char asm_done_fault[];
++
++extern void asm_test_fault(int test);
++
++/*
++ * user level code for triggering faults.
++ */
++asm(".pushsection .text\n"
++    ".type asm_user_wrmsr, @function\n"
++    ".align 4096\n"
++    "asm_user_wrmsr:\n"
++    /* Trigger a #GP */
++    "wrmsr\n"
++
++    ".fill asm_user_ud - ., 1, 0xcc\n"
++
++    ".type asm_user_ud, @function\n"
++    ".org asm_user_wrmsr + 16\n"
++    "asm_user_ud:\n"
++    /* Trigger a #UD */
++    "ud2\n"
++
++    ".align 4096, 0xcc\n"
++    ".popsection");
++
++/* Send current stack level and #PF address */
++#define GUEST_SYNC_CSL_FA(__stage, __pf_address)		\
++	GUEST_SYNC_ARGS(__stage, __pf_address, 0, 0, 0)
++
++void fred_entry_from_user(struct fred_stack *stack)
++{
++	u32 current_stack_level = rdmsr(MSR_IA32_FRED_CONFIG) & 0x3;
++
++	GUEST_SYNC_CSL_FA(current_stack_level, stack->event_data);
++
++	/* Do NOT go back to user level, continue the next test instead */
++	stack->ssx = 0x18;
++	stack->csx = 0x10;
++	stack->ip = (u64)&asm_done_fault;
 +}
++
++void fred_entry_from_kernel(struct fred_stack *stack)
++{
++	TEST_FAIL("kernel events not allowed in FRED tests.");
++}
++
++#define PUSH_REGS	\
++	"push %rdi\n"	\
++	"push %rsi\n"	\
++	"push %rdx\n"	\
++	"push %rcx\n"	\
++	"push %rax\n"	\
++	"push %r8\n"	\
++	"push %r9\n"	\
++	"push %r10\n"	\
++	"push %r11\n"	\
++	"push %rbx\n"	\
++	"push %rbp\n"	\
++	"push %r12\n"	\
++	"push %r13\n"	\
++	"push %r14\n"	\
++	"push %r15\n"
++
++#define POP_REGS	\
++	"pop %r15\n"	\
++	"pop %r14\n"	\
++	"pop %r13\n"	\
++	"pop %r12\n"	\
++	"pop %rbp\n"	\
++	"pop %rbx\n"	\
++	"pop %r11\n"	\
++	"pop %r10\n"	\
++	"pop %r9\n"	\
++	"pop %r8\n"	\
++	"pop %rax\n"	\
++	"pop %rcx\n"	\
++	"pop %rdx\n"	\
++	"pop %rsi\n"	\
++	"pop %rdi\n"
++
++/*
++ * FRED entry points.
++ */
++asm(".pushsection .text\n"
++    ".type asm_fred_entrypoint_user, @function\n"
++    ".align 4096\n"
++    "asm_fred_entrypoint_user:\n"
++    "endbr64\n"
++    PUSH_REGS
++    "movq %rsp, %rdi\n"
++    "call fred_entry_from_user\n"
++    POP_REGS
++    /* Do NOT go back to user level, continue the next test instead */
++    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
++
++    ".fill asm_fred_entrypoint_kernel - ., 1, 0xcc\n"
++
++    ".type asm_fred_entrypoint_kernel, @function\n"
++    ".org asm_fred_entrypoint_user + 256\n"
++    "asm_fred_entrypoint_kernel:\n"
++    "endbr64\n"
++    PUSH_REGS
++    "movq %rsp, %rdi\n"
++    "call fred_entry_from_kernel\n"
++    POP_REGS
++    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
++    ".align 4096, 0xcc\n"
++    ".popsection");
++
++extern char asm_fred_entrypoint_user[];
++
++/*
++ * Prepare a FRED stack frame for ERETU to run user level code, WRMSR or UD,
++ * which causes a #GP or #UD.  However because FRED RSP0 is not yet mapped
++ * in guest page table, the delivery of the #GP or #UD causes a nested #PF,
++ * which is then delivered on FRED RSPx (x is 1, 2 or 3, determinated by MSR
++ * FRED_STKLVL(PF_VECTOR)).
++ *
++ * If FRED RSPx is also not yet mapped in guest page table, a triple fault is
++ * generated.
++ */
++asm(".pushsection .text\n"
++    ".type asm_test_fault, @function\n"
++    ".align 4096\n"
++    "asm_test_fault:\n"
++    "endbr64\n"
++    "push %rbp\n"
++    "mov %rsp, %rbp\n"
++    "and $(~0x3f), %rsp\n"
++    "push $0\n"
++    "push $0\n"
++    "mov $0x2b, %rax\n"
++    "bts $57, %rax\n"
++    "push %rax\n"
++    /* The FRED user level test code does NOT need a stack. */
++    "push $0\n"
++    "pushf\n"
++    "mov $0x33, %rax\n"
++    "push %rax\n"
++    "cmp $0, %edi\n"
++    "jne 1f\n"
++    "lea asm_user_wrmsr(%rip), %rax\n"
++    "jmp 2f\n"
++    "1: lea asm_user_ud(%rip), %rax\n"
++    "2: push %rax\n"
++    "push $0\n"
++    /* ERETU to user level code to generate a fault immediately */
++    ".byte 0xf3,0x0f,0x01,0xca\n"
++    "asm_done_fault:\n"
++    "mov %rbp, %rsp\n"
++    "pop %rbp\n"
++    "ret\n"
++    ".align 4096, 0xcc\n"
++    ".popsection");
 +
 +static void guest_code(void)
 +{
-+	guest_test_code();
++	wrmsr(MSR_IA32_FRED_CONFIG,
++	      FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
 +
-+	if (get_cr4() & X86_CR4_FRED)
-+		guest_test_code();
++	wrmsr(MSR_IA32_FRED_RSP1, FRED_VALID_RSP);
++	wrmsr(MSR_IA32_FRED_RSP2, FRED_VALID_RSP);
++	wrmsr(MSR_IA32_FRED_RSP3, FRED_VALID_RSP);
 +
- 	GUEST_DONE();
- }
- 
-@@ -75,19 +84,15 @@ static void vcpu_skip_insn(struct kvm_vcpu *vcpu, int insn_len)
- 	vcpu_regs_set(vcpu, &regs);
- }
- 
--int main(void)
-+void run_test(struct kvm_vcpu *vcpu)
- {
- 	struct kvm_guest_debug debug;
-+	struct kvm_run *run = vcpu->run;
- 	unsigned long long target_dr6, target_rip;
--	struct kvm_vcpu *vcpu;
--	struct kvm_run *run;
--	struct kvm_vm *vm;
--	struct ucall uc;
--	uint64_t cmd;
- 	int i;
- 	/* Instruction lengths starting at ss_start */
- 	int ss_size[6] = {
--		1,		/* sti*/
-+		1,		/* sti */
- 		2,		/* xor */
- 		2,		/* cpuid */
- 		5,		/* mov */
-@@ -95,11 +100,6 @@ int main(void)
- 		1,		/* cli */
- 	};
- 
--	TEST_REQUIRE(kvm_has_cap(KVM_CAP_SET_GUEST_DEBUG));
--
--	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
--	run = vcpu->run;
--
- 	/* Test software BPs - int3 */
- 	memset(&debug, 0, sizeof(debug));
- 	debug.control = KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_USE_SW_BP;
-@@ -202,6 +202,30 @@ int main(void)
- 	/* Disable all debug controls, run to the end */
- 	memset(&debug, 0, sizeof(debug));
- 	vcpu_guest_debug_set(vcpu, &debug);
++	/* Enable FRED */
++	set_cr4(get_cr4() | X86_CR4_FRED);
++
++	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 1));
++	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[1]);
++	/* 0: wrmsr to generate #GP */
++	asm_test_fault(0);
++
++	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 2));
++	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[2]);
++	/* 1: ud2 to generate #UD */
++	asm_test_fault(1);
++
++	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 3));
++	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[3]);
++	/* 0: wrmsr to generate #GP */
++	asm_test_fault(0);
++
++	GUEST_DONE();
 +}
 +
-+int main(void)
++int main(int argc, char *argv[])
 +{
 +	struct kvm_vcpu *vcpu;
 +	struct kvm_vm *vm;
 +	struct ucall uc;
-+	uint64_t cmd;
++	uint64_t expected_current_stack_level = 1;
 +
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_SET_GUEST_DEBUG));
++	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_FRED));
 +
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
++	vm = __vm_create_with_vcpus(VM_MODE_PXXV48_4K_USER, 1, 0,
++				    guest_code, &vcpu);
 +
-+	run_test(vcpu);
++	while (true) {
++		uint64_t r;
 +
-+	if (kvm_cpu_has(X86_FEATURE_FRED)) {
-+		struct kvm_sregs sregs;
++		vcpu_run(vcpu);
 +
-+		vcpu_sregs_get(vcpu, &sregs);
-+		sregs.cr4 |= X86_CR4_FRED;
-+		vcpu_sregs_set(vcpu, &sregs);
++		r = get_ucall(vcpu, &uc);
 +
-+		run_test(vcpu);
++		if (r == UCALL_DONE)
++			break;
++
++		if (r == UCALL_SYNC) {
++			TEST_ASSERT((uc.args[1] == expected_current_stack_level) &&
++				    (uc.args[2] == fred_invalid_rsp[expected_current_stack_level] - 1),
++				    "Incorrect stack level %lx and #PF address %lx\n",
++				    uc.args[1], uc.args[2]);
++			expected_current_stack_level++;
++		}
 +	}
- 
- 	vcpu_run(vcpu);
- 	TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
++
++	kvm_vm_free(vm);
++	return 0;
++}
 -- 
 2.42.0
 
