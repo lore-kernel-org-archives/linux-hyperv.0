@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BA432C88;
-	Wed,  8 Nov 2023 19:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E3434CFD;
+	Wed,  8 Nov 2023 19:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iacNhMBM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPWI7BFk"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158B1210A;
-	Wed,  8 Nov 2023 11:00:17 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1148B2110;
+	Wed,  8 Nov 2023 11:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470019; x=1731006019;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CGCl93jPHfMwJ3CMMd312/g/vAJzCAfUxs25Pz0yXYY=;
-  b=iacNhMBM1AZFukoBREiqp8uoFR3SlcyNYVtxRDS4CJKa9jYYHalJqSE5
-   GmXzQvf0RH2KxBctzzJ1DCxbPx95gTfQkeJQjTjpUBVdFk3VHjDGhlrGU
-   FmJojx3CK1iYj1WjX9MfZADGZa+bFpNpownBc4jgaqb5DWkq/7DTaAbDe
-   CZpDm8gH+imhAb5jfd8VXTRXSbSRV2BEpnqilE7+bsC2A1CszHzZTYJgU
-   CoWtpIPzow+nY0pTpg/+yba+dCKEmgmjCKZQKJ1web45dTCZjr/lJiHLL
-   7llCaK/5ugeEyeG/NtFjCwxC07i1SIdVanYBx7MsbeE100/Z8LiccDHil
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486198"
+  t=1699470020; x=1731006020;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=fdY+4UiWU7txxIIX8tQBBVkqeGakHWhQSqAUgojOiL0=;
+  b=RPWI7BFk37C/2hEoMC9bqzVfePnZfCWyRbG6RYrcI7MteDYIcu3JxDG0
+   952orTVp6ckzlMi9ZM/CITecWeapafsJ1hec4bPn7K0LOcnrEi/8RCKy4
+   5lWc31tEPmfTgVwLVoufOBodXZhOpvVyUWXuUPes25CeMKqTLaCDu64eI
+   9y/SDQ8XZnFdu5QWzT61i4Is2N+MCwmDG+b2DIdqgthUQ08GVlbvNna+P
+   yn8xmzVHIZcZl4Dh6PHuauXBm7XdOGswRmH/2OjKm3725jFySbnOdjX5h
+   VcR53C50EhthdCAy1fCVqF4t6k60QZM6xTwkSp+Zetu/a5G3WZ4tKD8qI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486227"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486198"
+   d="scan'208";a="8486227"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:17 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:18 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892400"
+   d="scan'208";a="10892415"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:14 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:15 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,10 +53,12 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 00/23] Enable FRED with KVM VMX
-Date: Wed,  8 Nov 2023 10:29:40 -0800
-Message-ID: <20231108183003.5981-1-xin3.li@intel.com>
+Subject: [PATCH v1 02/23] KVM: VMX: Cleanup VMX misc information defines and usages
+Date: Wed,  8 Nov 2023 10:29:42 -0800
+Message-ID: <20231108183003.5981-3-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
+References: <20231108183003.5981-1-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -65,123 +67,205 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch set enables the Intel flexible return and event delivery
-(FRED) architecture with KVM VMX to allow guests to utilize FRED.
+Define VMX misc information fields with BIT_ULL()/GENMASK_ULL(), and move
+VMX misc field macros to vmx.h if used in multiple files or where they are
+used only once.
 
-The FRED architecture defines simple new transitions that change
-privilege level (ring transitions). The FRED architecture was
-designed with the following goals:
+Signed-off-by: Xin Li <xin3.li@intel.com>
+---
+ arch/x86/include/asm/msr-index.h |  5 -----
+ arch/x86/include/asm/vmx.h       | 12 +++++------
+ arch/x86/kvm/vmx/capabilities.h  |  4 ++--
+ arch/x86/kvm/vmx/nested.c        | 34 ++++++++++++++++++++++++--------
+ arch/x86/kvm/vmx/nested.h        |  2 +-
+ arch/x86/kvm/vmx/vmx.c           |  8 +++-----
+ 6 files changed, 37 insertions(+), 28 deletions(-)
 
-1) Improve overall performance and response time by replacing event
-   delivery through the interrupt descriptor table (IDT event
-   delivery) and event return by the IRET instruction with lower
-   latency transitions.
-
-2) Improve software robustness by ensuring that event delivery
-   establishes the full supervisor context and that event return
-   establishes the full user context.
-
-The new transitions defined by the FRED architecture are FRED event
-delivery and, for returning from events, two FRED return instructions.
-FRED event delivery can effect a transition from ring 3 to ring 0, but
-it is used also to deliver events incident to ring 0. One FRED
-instruction (ERETU) effects a return from ring 0 to ring 3, while the
-other (ERETS) returns while remaining in ring 0. Collectively, FRED
-event delivery and the FRED return instructions are FRED transitions.
-
-Intel VMX architecture is extended to run FRED guests, and the changes
-are majorly:
-
-1) New VMCS fields for FRED context management, which includes two new
-event data VMCS fields, eight new guest FRED context VMCS fields and
-eight new host FRED context VMCS fields.
-
-2) VMX nested-Exception support for proper virtualization of stack
-levels introduced with FRED architecture.
-
-Search for the latest FRED spec in most search engines with this search pattern:
-
-  site:intel.com FRED (flexible return and event delivery) specification
-
-We want to send out the FRED VMX patch set for review while the FRED
-native patch set v12 is being reviewed @
-https://lkml.kernel.org/kvm/20231003062458.23552-1-xin3.li@intel.com/.
-For easier review, I have set up a base tree with the latest FRED native
-patch set on top of tip tree in the 'fred_v12' branch of repo
-    https://github.com/xinli-intel/linux-fred-public.git.
-
-Patch 1-2 are cleanups to VMX basic and misc MSRs, which were sent
-out earlier as a preparation for FRED changes:
-https://lore.kernel.org/kvm/20231030233940.438233-1-xin@zytor.com/.
-
-Patch 3-14 add FRED support to VMX.
-Patch 15-18 add FRED support to nested VMX.
-Patch 19 exposes FRED to KVM guests to complete the enabling.
-Patch 20-23 adds FRED selftests.
-
-
-Shan Kang (1):
-  KVM: selftests: Add fred exception tests
-
-Xin Li (22):
-  KVM: VMX: Cleanup VMX basic information defines and usages
-  KVM: VMX: Cleanup VMX misc information defines and usages
-  KVM: VMX: Add support for the secondary VM exit controls
-  KVM: x86: Mark CR4.FRED as not reserved
-  KVM: VMX: Initialize FRED VM entry/exit controls in vmcs_config
-  KVM: VMX: Defer enabling FRED MSRs save/load until after set CPUID
-  KVM: VMX: Disable intercepting FRED MSRs
-  KVM: VMX: Initialize VMCS FRED fields
-  KVM: VMX: Switch FRED RSP0 between host and guest
-  KVM: VMX: Add support for FRED context save/restore
-  KVM: x86: Add kvm_is_fred_enabled()
-  KVM: VMX: Handle FRED event data
-  KVM: VMX: Handle VMX nested exception for FRED
-  KVM: VMX: Dump FRED context in dump_vmcs()
-  KVM: nVMX: Add support for the secondary VM exit controls
-  KVM: nVMX: Add FRED VMCS fields
-  KVM: nVMX: Add support for VMX FRED controls
-  KVM: nVMX: Add VMCS FRED states checking
-  KVM: x86: Allow FRED/LKGS/WRMSRNS to be exposed to guests
-  KVM: selftests: Add FRED VMCS fields to evmcs
-  KVM: selftests: Run debug_regs test with FRED enabled
-  KVM: selftests: Add a new VM guest mode to run user level code
-
- Documentation/virt/kvm/x86/nested-vmx.rst     |  19 +
- arch/x86/include/asm/hyperv-tlfs.h            |  19 +
- arch/x86/include/asm/kvm_host.h               |   9 +-
- arch/x86/include/asm/msr-index.h              |  15 +-
- arch/x86/include/asm/vmx.h                    |  57 ++-
- arch/x86/kvm/cpuid.c                          |   4 +-
- arch/x86/kvm/kvm_cache_regs.h                 |  10 +
- arch/x86/kvm/svm/svm.c                        |   4 +-
- arch/x86/kvm/vmx/capabilities.h               |  20 +-
- arch/x86/kvm/vmx/hyperv.c                     |  61 ++-
- arch/x86/kvm/vmx/nested.c                     | 315 ++++++++++++--
- arch/x86/kvm/vmx/nested.h                     |   2 +-
- arch/x86/kvm/vmx/vmcs.h                       |   1 +
- arch/x86/kvm/vmx/vmcs12.c                     |  19 +
- arch/x86/kvm/vmx/vmcs12.h                     |  38 ++
- arch/x86/kvm/vmx/vmcs_shadow_fields.h         |   6 +-
- arch/x86/kvm/vmx/vmx.c                        | 404 ++++++++++++++++--
- arch/x86/kvm/vmx/vmx.h                        |  14 +-
- arch/x86/kvm/x86.c                            |  55 ++-
- arch/x86/kvm/x86.h                            |   5 +-
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/include/kvm_util_base.h     |   1 +
- .../selftests/kvm/include/x86_64/evmcs.h      | 146 +++++++
- .../selftests/kvm/include/x86_64/processor.h  |  33 ++
- .../selftests/kvm/include/x86_64/vmx.h        |  20 +
- tools/testing/selftests/kvm/lib/kvm_util.c    |   5 +-
- .../selftests/kvm/lib/x86_64/processor.c      |  15 +-
- tools/testing/selftests/kvm/lib/x86_64/vmx.c  |   4 +-
- .../testing/selftests/kvm/x86_64/debug_regs.c |  50 ++-
- .../testing/selftests/kvm/x86_64/fred_test.c  | 262 ++++++++++++
- 30 files changed, 1464 insertions(+), 150 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
-
-
-base-commit: d49b86c24e836941c85c4906e9519fca9426a6e0
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 68c75c299300..d7d4eace5dae 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -1126,11 +1126,6 @@
+ #define MSR_IA32_SMBA_BW_BASE		0xc0000280
+ #define MSR_IA32_EVT_CFG_BASE		0xc0000400
+ 
+-/* MSR_IA32_VMX_MISC bits */
+-#define MSR_IA32_VMX_MISC_INTEL_PT                 (1ULL << 14)
+-#define MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS (1ULL << 29)
+-#define MSR_IA32_VMX_MISC_PREEMPTION_TIMER_SCALE   0x1F
+-
+ /* AMD-V MSRs */
+ #define MSR_VM_CR                       0xc0010114
+ #define MSR_VM_IGNNE                    0xc0010115
+diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
+index 273960225a3b..5771c5751e7e 100644
+--- a/arch/x86/include/asm/vmx.h
++++ b/arch/x86/include/asm/vmx.h
+@@ -129,12 +129,10 @@
+ #define VMX_BASIC_32BIT_PHYS_ADDR_ONLY		BIT_ULL(48)
+ #define VMX_BASIC_INOUT				BIT_ULL(54)
+ 
+-#define VMX_MISC_PREEMPTION_TIMER_RATE_MASK	0x0000001f
+-#define VMX_MISC_SAVE_EFER_LMA			0x00000020
+-#define VMX_MISC_ACTIVITY_HLT			0x00000040
+-#define VMX_MISC_ACTIVITY_WAIT_SIPI		0x00000100
+-#define VMX_MISC_ZERO_LEN_INS			0x40000000
+-#define VMX_MISC_MSR_LIST_MULTIPLIER		512
++/* VMX_MISC bits and bitmasks */
++#define VMX_MISC_INTEL_PT			BIT_ULL(14)
++#define VMX_MISC_VMWRITE_SHADOW_RO_FIELDS	BIT_ULL(29)
++#define VMX_MISC_ZERO_LEN_INS			BIT_ULL(30)
+ 
+ /* VMFUNC functions */
+ #define VMFUNC_CONTROL_BIT(x)	BIT((VMX_FEATURE_##x & 0x1f) - 28)
+@@ -159,7 +157,7 @@ static inline u32 vmx_basic_vmcs_mem_type(u64 vmx_basic)
+ 
+ static inline int vmx_misc_preemption_timer_rate(u64 vmx_misc)
+ {
+-	return vmx_misc & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
++	return vmx_misc & GENMASK_ULL(4, 0);
+ }
+ 
+ static inline int vmx_misc_cr3_count(u64 vmx_misc)
+diff --git a/arch/x86/kvm/vmx/capabilities.h b/arch/x86/kvm/vmx/capabilities.h
+index 86ce8bb96bed..cb6588238f46 100644
+--- a/arch/x86/kvm/vmx/capabilities.h
++++ b/arch/x86/kvm/vmx/capabilities.h
+@@ -223,7 +223,7 @@ static inline bool cpu_has_vmx_vmfunc(void)
+ static inline bool cpu_has_vmx_shadow_vmcs(void)
+ {
+ 	/* check if the cpu supports writing r/o exit information fields */
+-	if (!(vmcs_config.misc & MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
++	if (!(vmcs_config.misc & VMX_MISC_VMWRITE_SHADOW_RO_FIELDS))
+ 		return false;
+ 
+ 	return vmcs_config.cpu_based_2nd_exec_ctrl &
+@@ -365,7 +365,7 @@ static inline bool cpu_has_vmx_invvpid_global(void)
+ 
+ static inline bool cpu_has_vmx_intel_pt(void)
+ {
+-	return (vmcs_config.misc & MSR_IA32_VMX_MISC_INTEL_PT) &&
++	return (vmcs_config.misc & VMX_MISC_INTEL_PT) &&
+ 		(vmcs_config.cpu_based_2nd_exec_ctrl & SECONDARY_EXEC_PT_USE_GPA) &&
+ 		(vmcs_config.vmentry_ctrl & VM_ENTRY_LOAD_IA32_RTIT_CTL);
+ }
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index 23704f8d9035..ff07d6e736a2 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -886,6 +886,8 @@ static int nested_vmx_store_msr_check(struct kvm_vcpu *vcpu,
+ 	return 0;
+ }
+ 
++#define VMX_MISC_MSR_LIST_MULTIPLIER	512
++
+ static u32 nested_vmx_max_atomic_switch_msrs(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+@@ -1295,18 +1297,34 @@ vmx_restore_control_msr(struct vcpu_vmx *vmx, u32 msr_index, u64 data)
+ 	return 0;
+ }
+ 
++#define VMX_MISC_SAVE_EFER_LMA		BIT_ULL(5)
++#define VMX_MISC_ACTIVITY_STATE_BITMAP	GENMASK_ULL(8, 6)
++#define VMX_MISC_ACTIVITY_HLT		BIT_ULL(6)
++#define VMX_MISC_ACTIVITY_WAIT_SIPI	BIT_ULL(8)
++#define VMX_MISC_RDMSR_IN_SMM		BIT_ULL(15)
++#define VMX_MISC_VMXOFF_BLOCK_SMI	BIT_ULL(28)
++
++#define VMX_MISC_FEATURES_MASK			\
++	(VMX_MISC_SAVE_EFER_LMA |		\
++	 VMX_MISC_ACTIVITY_STATE_BITMAP |	\
++	 VMX_MISC_INTEL_PT |			\
++	 VMX_MISC_RDMSR_IN_SMM |		\
++	 VMX_MISC_VMXOFF_BLOCK_SMI |		\
++	 VMX_MISC_VMWRITE_SHADOW_RO_FIELDS |	\
++	 VMX_MISC_ZERO_LEN_INS)
++
++#define VMX_MISC_RESERVED_BITS			\
++	(BIT_ULL(31) | GENMASK_ULL(13, 9))
++
+ static int vmx_restore_vmx_misc(struct vcpu_vmx *vmx, u64 data)
+ {
+-	const u64 feature_and_reserved_bits =
+-		/* feature */
+-		BIT_ULL(5) | GENMASK_ULL(8, 6) | BIT_ULL(14) | BIT_ULL(15) |
+-		BIT_ULL(28) | BIT_ULL(29) | BIT_ULL(30) |
+-		/* reserved */
+-		GENMASK_ULL(13, 9) | BIT_ULL(31);
+ 	u64 vmx_misc = vmx_control_msr(vmcs_config.nested.misc_low,
+ 				       vmcs_config.nested.misc_high);
+ 
+-	if (!is_bitwise_subset(vmx_misc, data, feature_and_reserved_bits))
++	static_assert(!(VMX_MISC_FEATURES_MASK & VMX_MISC_RESERVED_BITS));
++
++	if (!is_bitwise_subset(vmx_misc, data,
++			       VMX_MISC_FEATURES_MASK | VMX_MISC_RESERVED_BITS))
+ 		return -EINVAL;
+ 
+ 	if ((vmx->nested.msrs.pinbased_ctls_high &
+@@ -6956,7 +6974,7 @@ static void nested_vmx_setup_misc_data(struct vmcs_config *vmcs_conf,
+ {
+ 	msrs->misc_low = (u32)vmcs_conf->misc & VMX_MISC_SAVE_EFER_LMA;
+ 	msrs->misc_low |=
+-		MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS |
++		VMX_MISC_VMWRITE_SHADOW_RO_FIELDS |
+ 		VMX_MISC_EMULATED_PREEMPTION_TIMER_RATE |
+ 		VMX_MISC_ACTIVITY_HLT |
+ 		VMX_MISC_ACTIVITY_WAIT_SIPI;
+diff --git a/arch/x86/kvm/vmx/nested.h b/arch/x86/kvm/vmx/nested.h
+index b4b9d51438c6..24ff4df509b6 100644
+--- a/arch/x86/kvm/vmx/nested.h
++++ b/arch/x86/kvm/vmx/nested.h
+@@ -108,7 +108,7 @@ static inline unsigned nested_cpu_vmx_misc_cr3_count(struct kvm_vcpu *vcpu)
+ static inline bool nested_cpu_has_vmwrite_any_field(struct kvm_vcpu *vcpu)
+ {
+ 	return to_vmx(vcpu)->nested.msrs.misc_low &
+-		MSR_IA32_VMX_MISC_VMWRITE_SHADOW_RO_FIELDS;
++		VMX_MISC_VMWRITE_SHADOW_RO_FIELDS;
+ }
+ 
+ static inline bool nested_cpu_has_zero_length_injection(struct kvm_vcpu *vcpu)
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 6b3b2df11cea..396a806bf2b2 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -2576,7 +2576,6 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	u32 _vmexit_control = 0;
+ 	u32 _vmentry_control = 0;
+ 	u64 basic_msr;
+-	u64 misc_msr;
+ 	int i;
+ 
+ 	/*
+@@ -2710,8 +2709,6 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	if (vmx_basic_vmcs_mem_type(basic_msr) != MEM_TYPE_WB)
+ 		return -EIO;
+ 
+-	rdmsrl(MSR_IA32_VMX_MISC, misc_msr);
+-
+ 	vmcs_conf->basic = basic_msr;
+ 	vmcs_conf->pin_based_exec_ctrl = _pin_based_exec_control;
+ 	vmcs_conf->cpu_based_exec_ctrl = _cpu_based_exec_control;
+@@ -2719,7 +2716,8 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
+ 	vmcs_conf->cpu_based_3rd_exec_ctrl = _cpu_based_3rd_exec_control;
+ 	vmcs_conf->vmexit_ctrl         = _vmexit_control;
+ 	vmcs_conf->vmentry_ctrl        = _vmentry_control;
+-	vmcs_conf->misc	= misc_msr;
++
++	rdmsrl(MSR_IA32_VMX_MISC, vmcs_conf->misc);
+ 
+ #if IS_ENABLED(CONFIG_HYPERV)
+ 	if (enlightened_vmcs)
+@@ -8555,7 +8553,7 @@ static __init int hardware_setup(void)
+ 		u64 use_timer_freq = 5000ULL * 1000 * 1000;
+ 
+ 		cpu_preemption_timer_multi =
+-			vmcs_config.misc & VMX_MISC_PREEMPTION_TIMER_RATE_MASK;
++			vmx_misc_preemption_timer_rate(vmcs_config.misc);
+ 
+ 		if (tsc_khz)
+ 			use_timer_freq = (u64)tsc_khz * 1000;
 -- 
 2.42.0
 
