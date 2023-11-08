@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B89B374D2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCA23716F;
 	Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDc9GfIy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RY9WRLbQ"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BDD2125;
-	Wed,  8 Nov 2023 11:00:29 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F06D0212D;
+	Wed,  8 Nov 2023 11:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470030; x=1731006030;
+  t=1699470025; x=1731006025;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WncAUid6KO1Ivbzdf2tCq4CfgWTAb6KTypc2P94NIhE=;
-  b=KDc9GfIymhcVTqwrY9TVJlJj9eScoUCT6lrh6K35oBCrWidV9QyypQJj
-   s1Kkiha9B3U9kh2dxasEK1vU/Z6tWxFUoThAs6SLr05XHqHJ4mBUiYK9i
-   Ey0q3LsRWNSFewdpse/O6kEeG5mhOw0wZizByZVRJTBAx/MdvMJea523b
-   fOnDfQb7jtSndVgeXwmpK9g6TiWZvQm0Nyh1xwSGcuypWsiA2xZo/+mva
-   8cc4nSiZ4J9jc7BQnd+7akMS0hOh+9GldHFsWuzmUe1Bj+w/gtV9hZn9I
-   EKa1PTjJsSDP/NAEtuuH9abrZ+m5uJon1kODytrvhHIp58W/mXFWl8ce1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486478"
+  bh=0wosoEajlgVEljBzAln/5/tYc2HmZ/1IYFDCYq6/OQ4=;
+  b=RY9WRLbQJm4ItEazgHn2DA8474bwUtdE8UdDixmOfPGzfOlqI/smFCsj
+   ql8SVEY7nCCW08X7m011oqU+AvVbj/H+yWwqLzOSW6i6nQs+NSsho3oxi
+   ItKp6EZtjaDwC1MPNu9OkuGwnGoaA23A8hvfUU4dxaDcUtsomAlyJoNSh
+   CRSrArbMW76mD21NFXRbw4vmNSr/M2QiqXuiccba91I37wGoFydV9vxXw
+   8VxdpDJRkQXSRqh1Y6Wdzof0+r9M+nkTHZjYEb6ec0JcXVfUu1GZ0sJxr
+   abXJZYQ5zogFfGilNRnH6sfKU1s7PEkQDtZjs/m+lrwYsz53FiOdeCttd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486394"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486478"
+   d="scan'208";a="8486394"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:29 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:25 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892522"
+   d="scan'208";a="10892491"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:28 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:24 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 23/23] KVM: selftests: Add fred exception tests
-Date: Wed,  8 Nov 2023 10:30:03 -0800
-Message-ID: <20231108183003.5981-24-xin3.li@intel.com>
+Subject: [PATCH v1 16/23] KVM: nVMX: Add FRED VMCS fields
+Date: Wed,  8 Nov 2023 10:29:56 -0800
+Message-ID: <20231108183003.5981-17-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,349 +67,567 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Shan Kang <shan.kang@intel.com>
+Add FRED VMCS fields to nested VMX context management.
 
-Add tests for FRED event data and VMX nested-exception.
-
-FRED is designed to save a complete event context in its stack frame,
-e.g., FRED saves the faulting linear address of a #PF into a 64-bit
-event data field defined in FRED stack frame.  As such, FRED VMX adds
-event data handling during VMX transitions.
-
-FRED introduces event stack levels to dispatch an event handler onto a
-stack baesd on current stack level and stack levels defined in
-IA32_FRED_STKLVLS MSR for each exception vector.  VMX nested-exception
-support ensures a correct event stack level is chosen when a VM entry
-injects a nested exception, which is "regarded" as occurred in ring 0.
-
-Signed-off-by: Shan Kang <shan.kang@intel.com>
-Co-developed-by: Xin Li <xin3.li@intel.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/include/x86_64/processor.h  |  29 ++
- .../testing/selftests/kvm/x86_64/fred_test.c  | 262 ++++++++++++++++++
- 3 files changed, 292 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/fred_test.c
+ Documentation/virt/kvm/x86/nested-vmx.rst |  18 +++
+ arch/x86/include/asm/hyperv-tlfs.h        |  18 +++
+ arch/x86/kvm/vmx/hyperv.c                 |  38 ++++++
+ arch/x86/kvm/vmx/nested.c                 | 154 ++++++++++++++++++++--
+ arch/x86/kvm/vmx/vmcs12.c                 |  18 +++
+ arch/x86/kvm/vmx/vmcs12.h                 |  36 +++++
+ arch/x86/kvm/vmx/vmcs_shadow_fields.h     |   6 +-
+ 7 files changed, 274 insertions(+), 14 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index a5963ab9215b..06d16e59aa3c 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -76,6 +76,7 @@ TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
- TEST_GEN_PROGS_x86_64 += x86_64/exit_on_emulation_failure_test
- TEST_GEN_PROGS_x86_64 += x86_64/fix_hypercall_test
- TEST_GEN_PROGS_x86_64 += x86_64/hwcr_msr_test
-+TEST_GEN_PROGS_x86_64 += x86_64/fred_test
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_cpuid
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_evmcs
-diff --git a/tools/testing/selftests/kvm/include/x86_64/processor.h b/tools/testing/selftests/kvm/include/x86_64/processor.h
-index 165d21fd1577..9c26705aa320 100644
---- a/tools/testing/selftests/kvm/include/x86_64/processor.h
-+++ b/tools/testing/selftests/kvm/include/x86_64/processor.h
-@@ -1260,4 +1260,33 @@ void virt_map_level(struct kvm_vm *vm, uint64_t vaddr, uint64_t paddr,
- #define PFERR_GUEST_PAGE_MASK	BIT_ULL(PFERR_GUEST_PAGE_BIT)
- #define PFERR_IMPLICIT_ACCESS	BIT_ULL(PFERR_IMPLICIT_ACCESS_BIT)
+diff --git a/Documentation/virt/kvm/x86/nested-vmx.rst b/Documentation/virt/kvm/x86/nested-vmx.rst
+index e64ef231f310..87fa9f3877ab 100644
+--- a/Documentation/virt/kvm/x86/nested-vmx.rst
++++ b/Documentation/virt/kvm/x86/nested-vmx.rst
+@@ -218,6 +218,24 @@ struct shadow_vmcs is ever changed.
+ 		u16 host_gs_selector;
+ 		u16 host_tr_selector;
+ 		u64 secondary_vm_exit_controls;
++		u64 guest_ia32_fred_config;
++		u64 guest_ia32_fred_rsp1;
++		u64 guest_ia32_fred_rsp2;
++		u64 guest_ia32_fred_rsp3;
++		u64 guest_ia32_fred_stklvls;
++		u64 guest_ia32_fred_ssp1;
++		u64 guest_ia32_fred_ssp2;
++		u64 guest_ia32_fred_ssp3;
++		u64 host_ia32_fred_config;
++		u64 host_ia32_fred_rsp1;
++		u64 host_ia32_fred_rsp2;
++		u64 host_ia32_fred_rsp3;
++		u64 host_ia32_fred_stklvls;
++		u64 host_ia32_fred_ssp1;
++		u64 host_ia32_fred_ssp2;
++		u64 host_ia32_fred_ssp3;
++		u64 injected_event_data;
++		u64 original_event_data;
+ 	};
  
-+/*
-+ * FRED related data structures and functions
-+ */
-+struct fred_stack {
-+	u64 r15;
-+	u64 r14;
-+	u64 r13;
-+	u64 r12;
-+	u64 bp;
-+	u64 bx;
-+	u64 r11;
-+	u64 r10;
-+	u64 r9;
-+	u64 r8;
-+	u64 ax;
-+	u64 cx;
-+	u64 dx;
-+	u64 si;
-+	u64 di;
-+	u64 error_code;
-+	u64 ip;
-+	u64 csx;
-+	u64 flags;
-+	u64 sp;
-+	u64 ssx;
-+	u64 event_data;
-+	u64 reserved;
-+};
+ 
+diff --git a/arch/x86/include/asm/hyperv-tlfs.h b/arch/x86/include/asm/hyperv-tlfs.h
+index 299554708e37..269dbf73b63f 100644
+--- a/arch/x86/include/asm/hyperv-tlfs.h
++++ b/arch/x86/include/asm/hyperv-tlfs.h
+@@ -617,6 +617,24 @@ struct hv_enlightened_vmcs {
+ 	u64 host_ia32_int_ssp_table_addr;
+ 	u64 padding64_6;
+ 	u64 secondary_vm_exit_controls;
++	u64 guest_ia32_fred_config;
++	u64 guest_ia32_fred_rsp1;
++	u64 guest_ia32_fred_rsp2;
++	u64 guest_ia32_fred_rsp3;
++	u64 guest_ia32_fred_stklvls;
++	u64 guest_ia32_fred_ssp1;
++	u64 guest_ia32_fred_ssp2;
++	u64 guest_ia32_fred_ssp3;
++	u64 host_ia32_fred_config;
++	u64 host_ia32_fred_rsp1;
++	u64 host_ia32_fred_rsp2;
++	u64 host_ia32_fred_rsp3;
++	u64 host_ia32_fred_stklvls;
++	u64 host_ia32_fred_ssp1;
++	u64 host_ia32_fred_ssp2;
++	u64 host_ia32_fred_ssp3;
++	u64 injected_event_data;
++	u64 original_event_data;
+ } __packed;
+ 
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE			0
+diff --git a/arch/x86/kvm/vmx/hyperv.c b/arch/x86/kvm/vmx/hyperv.c
+index b8cd53601a00..b12ef8fd76c9 100644
+--- a/arch/x86/kvm/vmx/hyperv.c
++++ b/arch/x86/kvm/vmx/hyperv.c
+@@ -243,6 +243,8 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
+ 	EVMCS1_FIELD(TSC_MULTIPLIER, tsc_multiplier,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2),
++	EVMCS1_FIELD(INJECTED_EVENT_DATA, injected_event_data,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_EVENT),
+ 	/*
+ 	 * Not used by KVM:
+ 	 *
+@@ -262,11 +264,47 @@ const struct evmcs_field vmcs_field_to_evmcs_1[] = {
+ 	 *	     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_GRP1),
+ 	 */
+ 
++	/* FRED guest and host context */
++	EVMCS1_FIELD(GUEST_IA32_FRED_CONFIG, guest_ia32_fred_config,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_RSP1, guest_ia32_fred_rsp1,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_RSP2, guest_ia32_fred_rsp2,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_RSP3, guest_ia32_fred_rsp3,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_STKLVLS, guest_ia32_fred_stklvls,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_SSP1, guest_ia32_fred_ssp1,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_SSP2, guest_ia32_fred_ssp2,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(GUEST_IA32_FRED_SSP3, guest_ia32_fred_ssp3,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2),
++	EVMCS1_FIELD(HOST_IA32_FRED_CONFIG, host_ia32_fred_config,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_RSP1, host_ia32_fred_rsp1,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_RSP2, host_ia32_fred_rsp2,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_RSP3, host_ia32_fred_rsp3,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_STKLVLS, host_ia32_fred_stklvls,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_SSP1, host_ia32_fred_ssp1,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_SSP2, host_ia32_fred_ssp2,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
++	EVMCS1_FIELD(HOST_IA32_FRED_SSP3, host_ia32_fred_ssp3,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER),
 +
- #endif /* SELFTEST_KVM_PROCESSOR_H */
-diff --git a/tools/testing/selftests/kvm/x86_64/fred_test.c b/tools/testing/selftests/kvm/x86_64/fred_test.c
-new file mode 100644
-index 000000000000..ed117db017cd
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/fred_test.c
-@@ -0,0 +1,262 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * FRED nested exception tests
-+ *
-+ * Copyright (C) 2023, Intel, Inc.
-+ */
-+#define _GNU_SOURCE /* for program_invocation_short_name */
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <asm/msr-index.h>
-+
-+#include "kvm_util.h"
-+#include "test_util.h"
-+#include "guest_modes.h"
-+#include "processor.h"
-+
-+#define FRED_STKLVL(v,l)		(_AT(unsigned long, l) << (2 * (v)))
-+#define FRED_CONFIG_ENTRYPOINT(p)	_AT(unsigned long, (p))
-+
-+/* This address is already mapped in guest page table. */
-+#define FRED_VALID_RSP			0x8000
-+
-+/*
-+ * The following addresses are not yet mapped in both EPT and guest page
-+ * tables at the beginning.  As a result, it causes an EPT violation VM
-+ * exit with an original guest #PF to access any of them for the first
-+ * time.
-+ *
-+ * Use these addresses as guest FRED RSP0 to generate nested #PFs to test
-+ * if event data are properly virtualized.
-+ */
-+static unsigned long fred_invalid_rsp[4] = {
-+	0x0,
-+	0xf0000000,
-+	0xe0000000,
-+	0xd0000000,
-+};
-+
-+extern char asm_user_wrmsr[];
-+extern char asm_user_ud[];
-+extern char asm_done_fault[];
-+
-+extern void asm_test_fault(int test);
-+
-+/*
-+ * user level code for triggering faults.
-+ */
-+asm(".pushsection .text\n"
-+    ".type asm_user_wrmsr, @function\n"
-+    ".align 4096\n"
-+    "asm_user_wrmsr:\n"
-+    /* Trigger a #GP */
-+    "wrmsr\n"
-+
-+    ".fill asm_user_ud - ., 1, 0xcc\n"
-+
-+    ".type asm_user_ud, @function\n"
-+    ".org asm_user_wrmsr + 16\n"
-+    "asm_user_ud:\n"
-+    /* Trigger a #UD */
-+    "ud2\n"
-+
-+    ".align 4096, 0xcc\n"
-+    ".popsection");
-+
-+/* Send current stack level and #PF address */
-+#define GUEST_SYNC_CSL_FA(__stage, __pf_address)		\
-+	GUEST_SYNC_ARGS(__stage, __pf_address, 0, 0, 0)
-+
-+void fred_entry_from_user(struct fred_stack *stack)
-+{
-+	u32 current_stack_level = rdmsr(MSR_IA32_FRED_CONFIG) & 0x3;
-+
-+	GUEST_SYNC_CSL_FA(current_stack_level, stack->event_data);
-+
-+	/* Do NOT go back to user level, continue the next test instead */
-+	stack->ssx = 0x18;
-+	stack->csx = 0x10;
-+	stack->ip = (u64)&asm_done_fault;
-+}
-+
-+void fred_entry_from_kernel(struct fred_stack *stack)
-+{
-+	TEST_FAIL("kernel events not allowed in FRED tests.");
-+}
-+
-+#define PUSH_REGS	\
-+	"push %rdi\n"	\
-+	"push %rsi\n"	\
-+	"push %rdx\n"	\
-+	"push %rcx\n"	\
-+	"push %rax\n"	\
-+	"push %r8\n"	\
-+	"push %r9\n"	\
-+	"push %r10\n"	\
-+	"push %r11\n"	\
-+	"push %rbx\n"	\
-+	"push %rbp\n"	\
-+	"push %r12\n"	\
-+	"push %r13\n"	\
-+	"push %r14\n"	\
-+	"push %r15\n"
-+
-+#define POP_REGS	\
-+	"pop %r15\n"	\
-+	"pop %r14\n"	\
-+	"pop %r13\n"	\
-+	"pop %r12\n"	\
-+	"pop %rbp\n"	\
-+	"pop %rbx\n"	\
-+	"pop %r11\n"	\
-+	"pop %r10\n"	\
-+	"pop %r9\n"	\
-+	"pop %r8\n"	\
-+	"pop %rax\n"	\
-+	"pop %rcx\n"	\
-+	"pop %rdx\n"	\
-+	"pop %rsi\n"	\
-+	"pop %rdi\n"
-+
-+/*
-+ * FRED entry points.
-+ */
-+asm(".pushsection .text\n"
-+    ".type asm_fred_entrypoint_user, @function\n"
-+    ".align 4096\n"
-+    "asm_fred_entrypoint_user:\n"
-+    "endbr64\n"
-+    PUSH_REGS
-+    "movq %rsp, %rdi\n"
-+    "call fred_entry_from_user\n"
-+    POP_REGS
-+    /* Do NOT go back to user level, continue the next test instead */
-+    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
-+
-+    ".fill asm_fred_entrypoint_kernel - ., 1, 0xcc\n"
-+
-+    ".type asm_fred_entrypoint_kernel, @function\n"
-+    ".org asm_fred_entrypoint_user + 256\n"
-+    "asm_fred_entrypoint_kernel:\n"
-+    "endbr64\n"
-+    PUSH_REGS
-+    "movq %rsp, %rdi\n"
-+    "call fred_entry_from_kernel\n"
-+    POP_REGS
-+    ".byte 0xf2,0x0f,0x01,0xca\n"	/* ERETS */
-+    ".align 4096, 0xcc\n"
-+    ".popsection");
-+
-+extern char asm_fred_entrypoint_user[];
-+
-+/*
-+ * Prepare a FRED stack frame for ERETU to run user level code, WRMSR or UD,
-+ * which causes a #GP or #UD.  However because FRED RSP0 is not yet mapped
-+ * in guest page table, the delivery of the #GP or #UD causes a nested #PF,
-+ * which is then delivered on FRED RSPx (x is 1, 2 or 3, determinated by MSR
-+ * FRED_STKLVL(PF_VECTOR)).
-+ *
-+ * If FRED RSPx is also not yet mapped in guest page table, a triple fault is
-+ * generated.
-+ */
-+asm(".pushsection .text\n"
-+    ".type asm_test_fault, @function\n"
-+    ".align 4096\n"
-+    "asm_test_fault:\n"
-+    "endbr64\n"
-+    "push %rbp\n"
-+    "mov %rsp, %rbp\n"
-+    "and $(~0x3f), %rsp\n"
-+    "push $0\n"
-+    "push $0\n"
-+    "mov $0x2b, %rax\n"
-+    "bts $57, %rax\n"
-+    "push %rax\n"
-+    /* The FRED user level test code does NOT need a stack. */
-+    "push $0\n"
-+    "pushf\n"
-+    "mov $0x33, %rax\n"
-+    "push %rax\n"
-+    "cmp $0, %edi\n"
-+    "jne 1f\n"
-+    "lea asm_user_wrmsr(%rip), %rax\n"
-+    "jmp 2f\n"
-+    "1: lea asm_user_ud(%rip), %rax\n"
-+    "2: push %rax\n"
-+    "push $0\n"
-+    /* ERETU to user level code to generate a fault immediately */
-+    ".byte 0xf3,0x0f,0x01,0xca\n"
-+    "asm_done_fault:\n"
-+    "mov %rbp, %rsp\n"
-+    "pop %rbp\n"
-+    "ret\n"
-+    ".align 4096, 0xcc\n"
-+    ".popsection");
-+
-+static void guest_code(void)
-+{
-+	wrmsr(MSR_IA32_FRED_CONFIG,
-+	      FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
-+
-+	wrmsr(MSR_IA32_FRED_RSP1, FRED_VALID_RSP);
-+	wrmsr(MSR_IA32_FRED_RSP2, FRED_VALID_RSP);
-+	wrmsr(MSR_IA32_FRED_RSP3, FRED_VALID_RSP);
-+
-+	/* Enable FRED */
-+	set_cr4(get_cr4() | X86_CR4_FRED);
-+
-+	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 1));
-+	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[1]);
-+	/* 0: wrmsr to generate #GP */
-+	asm_test_fault(0);
-+
-+	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 2));
-+	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[2]);
-+	/* 1: ud2 to generate #UD */
-+	asm_test_fault(1);
-+
-+	wrmsr(MSR_IA32_FRED_STKLVLS, FRED_STKLVL(PF_VECTOR, 3));
-+	wrmsr(MSR_IA32_FRED_RSP0, fred_invalid_rsp[3]);
-+	/* 0: wrmsr to generate #GP */
-+	asm_test_fault(0);
-+
-+	GUEST_DONE();
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+	uint64_t expected_current_stack_level = 1;
-+
-+	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_FRED));
-+
-+	vm = __vm_create_with_vcpus(VM_MODE_PXXV48_4K_USER, 1, 0,
-+				    guest_code, &vcpu);
-+
-+	while (true) {
-+		uint64_t r;
-+
-+		vcpu_run(vcpu);
-+
-+		r = get_ucall(vcpu, &uc);
-+
-+		if (r == UCALL_DONE)
+ 	/* 64 bit read only */
+ 	EVMCS1_FIELD(GUEST_PHYSICAL_ADDRESS, guest_physical_address,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
+ 	EVMCS1_FIELD(EXIT_QUALIFICATION, exit_qualification,
+ 		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
++	EVMCS1_FIELD(ORIGINAL_EVENT_DATA, original_event_data,
++		     HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE),
+ 	/*
+ 	 * Not defined in KVM:
+ 	 *
+diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+index d6341845df43..af616c4a3491 100644
+--- a/arch/x86/kvm/vmx/nested.c
++++ b/arch/x86/kvm/vmx/nested.c
+@@ -83,7 +83,18 @@ static void init_vmcs_shadow_fields(void)
+ 			pr_err("Missing field from shadow_read_only_field %x\n",
+ 			       field + 1);
+ 
++		switch (field) {
++		case ORIGINAL_EVENT_DATA:
++		case ORIGINAL_EVENT_DATA_HIGH:
++			if (!cpu_feature_enabled(X86_FEATURE_FRED))
++				continue;
 +			break;
-+
-+		if (r == UCALL_SYNC) {
-+			TEST_ASSERT((uc.args[1] == expected_current_stack_level) &&
-+				    (uc.args[2] == fred_invalid_rsp[expected_current_stack_level] - 1),
-+				    "Incorrect stack level %lx and #PF address %lx\n",
-+				    uc.args[1], uc.args[2]);
-+			expected_current_stack_level++;
++		default:
++			break;
 +		}
++
+ 		clear_bit(field, vmx_vmread_bitmap);
++
+ 		if (field & 1)
+ #ifdef CONFIG_X86_64
+ 			continue;
+@@ -126,6 +137,11 @@ static void init_vmcs_shadow_fields(void)
+ 			if (!cpu_has_vmx_apicv())
+ 				continue;
+ 			break;
++		case INJECTED_EVENT_DATA:
++		case INJECTED_EVENT_DATA_HIGH:
++			if (!cpu_feature_enabled(X86_FEATURE_FRED))
++				continue;
++			break;
+ 		default:
+ 			break;
+ 		}
+@@ -650,6 +666,9 @@ static inline bool nested_vmx_prepare_msr_bitmap(struct kvm_vcpu *vcpu,
+ 
+ 	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+ 					 MSR_KERNEL_GS_BASE, MSR_TYPE_RW);
++
++	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
++					 MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
+ #endif
+ 	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+ 					 MSR_IA32_SPEC_CTRL, MSR_TYPE_RW);
+@@ -1565,6 +1584,17 @@ static void copy_shadow_to_vmcs12(struct vcpu_vmx *vmx)
+ 
+ 	for (i = 0; i < max_shadow_read_write_fields; i++) {
+ 		field = shadow_read_write_fields[i];
++
++		switch (field.encoding) {
++		case INJECTED_EVENT_DATA:
++		case INJECTED_EVENT_DATA_HIGH:
++			if (!cpu_feature_enabled(X86_FEATURE_FRED))
++				continue;
++			break;
++		default:
++			break;
++		}
++
+ 		val = __vmcs_readl(field.encoding);
+ 		vmcs12_write_any(vmcs12, field.encoding, field.offset, val);
+ 	}
+@@ -1599,6 +1629,19 @@ static void copy_vmcs12_to_shadow(struct vcpu_vmx *vmx)
+ 	for (q = 0; q < ARRAY_SIZE(fields); q++) {
+ 		for (i = 0; i < max_fields[q]; i++) {
+ 			field = fields[q][i];
++
++			switch (field.encoding) {
++			case INJECTED_EVENT_DATA:
++			case INJECTED_EVENT_DATA_HIGH:
++			case ORIGINAL_EVENT_DATA:
++			case ORIGINAL_EVENT_DATA_HIGH:
++				if (!cpu_feature_enabled(X86_FEATURE_FRED))
++					continue;
++				break;
++			default:
++				break;
++			}
++
+ 			val = vmcs12_read_any(vmcs12, field.encoding,
+ 					      field.offset);
+ 			__vmcs_writel(field.encoding, val);
+@@ -1660,6 +1703,8 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
+ 			evmcs->vm_entry_intr_info_field;
+ 		vmcs12->vm_entry_exception_error_code =
+ 			evmcs->vm_entry_exception_error_code;
++		vmcs12->injected_event_data =
++			evmcs->injected_event_data;
+ 		vmcs12->vm_entry_instruction_len =
+ 			evmcs->vm_entry_instruction_len;
+ 	}
+@@ -1725,6 +1770,14 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
+ 		vmcs12->guest_tr_base = evmcs->guest_tr_base;
+ 		vmcs12->guest_gdtr_base = evmcs->guest_gdtr_base;
+ 		vmcs12->guest_idtr_base = evmcs->guest_idtr_base;
++		vmcs12->guest_ia32_fred_config = evmcs->guest_ia32_fred_config;
++		vmcs12->guest_ia32_fred_rsp1 = evmcs->guest_ia32_fred_rsp1;
++		vmcs12->guest_ia32_fred_rsp2 = evmcs->guest_ia32_fred_rsp2;
++		vmcs12->guest_ia32_fred_rsp3 = evmcs->guest_ia32_fred_rsp3;
++		vmcs12->guest_ia32_fred_stklvls = evmcs->guest_ia32_fred_stklvls;
++		vmcs12->guest_ia32_fred_ssp1 = evmcs->guest_ia32_fred_ssp1;
++		vmcs12->guest_ia32_fred_ssp2 = evmcs->guest_ia32_fred_ssp2;
++		vmcs12->guest_ia32_fred_ssp3 = evmcs->guest_ia32_fred_ssp3;
+ 		vmcs12->guest_es_limit = evmcs->guest_es_limit;
+ 		vmcs12->guest_cs_limit = evmcs->guest_cs_limit;
+ 		vmcs12->guest_ss_limit = evmcs->guest_ss_limit;
+@@ -1781,6 +1834,14 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
+ 		vmcs12->host_tr_base = evmcs->host_tr_base;
+ 		vmcs12->host_gdtr_base = evmcs->host_gdtr_base;
+ 		vmcs12->host_idtr_base = evmcs->host_idtr_base;
++		vmcs12->host_ia32_fred_config = evmcs->host_ia32_fred_config;
++		vmcs12->host_ia32_fred_rsp1 = evmcs->host_ia32_fred_rsp1;
++		vmcs12->host_ia32_fred_rsp2 = evmcs->host_ia32_fred_rsp2;
++		vmcs12->host_ia32_fred_rsp3 = evmcs->host_ia32_fred_rsp3;
++		vmcs12->host_ia32_fred_stklvls = evmcs->host_ia32_fred_stklvls;
++		vmcs12->host_ia32_fred_ssp1 = evmcs->host_ia32_fred_ssp1;
++		vmcs12->host_ia32_fred_ssp2 = evmcs->host_ia32_fred_ssp2;
++		vmcs12->host_ia32_fred_ssp3 = evmcs->host_ia32_fred_ssp3;
+ 		vmcs12->host_rsp = evmcs->host_rsp;
+ 	}
+ 
+@@ -1840,6 +1901,7 @@ static void copy_enlightened_to_vmcs12(struct vcpu_vmx *vmx, u32 hv_clean_fields
+ 	 * vmcs12->vm_exit_intr_error_code = evmcs->vm_exit_intr_error_code;
+ 	 * vmcs12->idt_vectoring_info_field = evmcs->idt_vectoring_info_field;
+ 	 * vmcs12->idt_vectoring_error_code = evmcs->idt_vectoring_error_code;
++	 * vmcs12->original_event_data = evmcs->original_event_data;
+ 	 * vmcs12->vm_exit_instruction_len = evmcs->vm_exit_instruction_len;
+ 	 * vmcs12->vmx_instruction_info = evmcs->vmx_instruction_info;
+ 	 * vmcs12->exit_qualification = evmcs->exit_qualification;
+@@ -1975,6 +2037,14 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
+ 	evmcs->guest_tr_base = vmcs12->guest_tr_base;
+ 	evmcs->guest_gdtr_base = vmcs12->guest_gdtr_base;
+ 	evmcs->guest_idtr_base = vmcs12->guest_idtr_base;
++	evmcs->guest_ia32_fred_config = vmcs12->guest_ia32_fred_config;
++	evmcs->guest_ia32_fred_rsp1 = vmcs12->guest_ia32_fred_rsp1;
++	evmcs->guest_ia32_fred_rsp2 = vmcs12->guest_ia32_fred_rsp2;
++	evmcs->guest_ia32_fred_rsp3 = vmcs12->guest_ia32_fred_rsp3;
++	evmcs->guest_ia32_fred_stklvls = vmcs12->guest_ia32_fred_stklvls;
++	evmcs->guest_ia32_fred_ssp1 = vmcs12->guest_ia32_fred_ssp1;
++	evmcs->guest_ia32_fred_ssp2 = vmcs12->guest_ia32_fred_ssp2;
++	evmcs->guest_ia32_fred_ssp3 = vmcs12->guest_ia32_fred_ssp3;
+ 
+ 	evmcs->guest_ia32_pat = vmcs12->guest_ia32_pat;
+ 	evmcs->guest_ia32_efer = vmcs12->guest_ia32_efer;
+@@ -2005,6 +2075,7 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
+ 	evmcs->vm_exit_intr_error_code = vmcs12->vm_exit_intr_error_code;
+ 	evmcs->idt_vectoring_info_field = vmcs12->idt_vectoring_info_field;
+ 	evmcs->idt_vectoring_error_code = vmcs12->idt_vectoring_error_code;
++	evmcs->original_event_data = vmcs12->original_event_data;
+ 	evmcs->vm_exit_instruction_len = vmcs12->vm_exit_instruction_len;
+ 	evmcs->vmx_instruction_info = vmcs12->vmx_instruction_info;
+ 
+@@ -2021,6 +2092,7 @@ static void copy_vmcs12_to_enlightened(struct vcpu_vmx *vmx)
+ 	evmcs->vm_entry_intr_info_field = vmcs12->vm_entry_intr_info_field;
+ 	evmcs->vm_entry_exception_error_code =
+ 		vmcs12->vm_entry_exception_error_code;
++	evmcs->injected_event_data = vmcs12->injected_event_data;
+ 	evmcs->vm_entry_instruction_len = vmcs12->vm_entry_instruction_len;
+ 
+ 	evmcs->guest_rip = vmcs12->guest_rip;
+@@ -2435,6 +2507,8 @@ static void prepare_vmcs02_early(struct vcpu_vmx *vmx, struct loaded_vmcs *vmcs0
+ 			     vmcs12->vm_entry_instruction_len);
+ 		vmcs_write32(GUEST_INTERRUPTIBILITY_INFO,
+ 			     vmcs12->guest_interruptibility_info);
++		if (cpu_feature_enabled(X86_FEATURE_FRED))
++			vmcs_write64(INJECTED_EVENT_DATA, vmcs12->injected_event_data);
+ 		vmx->loaded_vmcs->nmi_known_unmasked =
+ 			!(vmcs12->guest_interruptibility_info & GUEST_INTR_STATE_NMI);
+ 	} else {
+@@ -2485,6 +2559,17 @@ static void prepare_vmcs02_rare(struct vcpu_vmx *vmx, struct vmcs12 *vmcs12)
+ 		vmcs_writel(GUEST_GDTR_BASE, vmcs12->guest_gdtr_base);
+ 		vmcs_writel(GUEST_IDTR_BASE, vmcs12->guest_idtr_base);
+ 
++		if (cpu_feature_enabled(X86_FEATURE_FRED)) {
++			vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->guest_ia32_fred_config);
++			vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->guest_ia32_fred_rsp1);
++			vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->guest_ia32_fred_rsp2);
++			vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->guest_ia32_fred_rsp3);
++			vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->guest_ia32_fred_stklvls);
++			vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->guest_ia32_fred_ssp1);
++			vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->guest_ia32_fred_ssp2);
++			vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->guest_ia32_fred_ssp3);
++		}
++
+ 		vmx->segment_cache.bitmask = 0;
+ 	}
+ 
+@@ -3765,6 +3850,22 @@ vmcs12_guest_cr4(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12)
+ 			vcpu->arch.cr4_guest_owned_bits));
+ }
+ 
++static inline unsigned long
++nested_vmx_get_event_data(struct kvm_vcpu *vcpu, bool for_ex_vmexit)
++{
++	struct kvm_queued_exception *ex = for_ex_vmexit ?
++		&vcpu->arch.exception_vmexit : &vcpu->arch.exception;
++
++	if (ex->has_payload)
++		return ex->payload;
++	else if (ex->vector == PF_VECTOR)
++		return vcpu->arch.cr2;
++	else if (ex->vector == DB_VECTOR)
++		return (vcpu->arch.dr6 & ~DR6_BT) ^ DR6_ACTIVE_LOW;
++	else
++		return 0;
++}
++
+ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+ 				      struct vmcs12 *vmcs12,
+ 				      u32 vm_exit_reason, u32 exit_intr_info)
+@@ -3772,6 +3873,8 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+ 	u32 idt_vectoring;
+ 	unsigned int nr;
+ 
++	vmcs12->original_event_data = 0;
++
+ 	/*
+ 	 * Per the SDM, VM-Exits due to double and triple faults are never
+ 	 * considered to occur during event delivery, even if the double/triple
+@@ -3810,6 +3913,12 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+ 				vcpu->arch.exception.error_code;
+ 		}
+ 
++		idt_vectoring |= vcpu->arch.exception.nested ?
++				INTR_INFO_NESTED_EXCEPTION_MASK : 0;
++
++		vmcs12->original_event_data =
++			nested_vmx_get_event_data(vcpu, false);
++
+ 		vmcs12->idt_vectoring_info_field = idt_vectoring;
+ 	} else if (vcpu->arch.nmi_injected) {
+ 		vmcs12->idt_vectoring_info_field =
+@@ -3900,19 +4009,7 @@ static void nested_vmx_inject_exception_vmexit(struct kvm_vcpu *vcpu)
+ 	struct kvm_queued_exception *ex = &vcpu->arch.exception_vmexit;
+ 	u32 intr_info = ex->vector | INTR_INFO_VALID_MASK;
+ 	struct vmcs12 *vmcs12 = get_vmcs12(vcpu);
+-	unsigned long exit_qual;
+-
+-	if (ex->has_payload) {
+-		exit_qual = ex->payload;
+-	} else if (ex->vector == PF_VECTOR) {
+-		exit_qual = vcpu->arch.cr2;
+-	} else if (ex->vector == DB_VECTOR) {
+-		exit_qual = vcpu->arch.dr6;
+-		exit_qual &= ~DR6_BT;
+-		exit_qual ^= DR6_ACTIVE_LOW;
+-	} else {
+-		exit_qual = 0;
+-	}
++	unsigned long exit_qual = nested_vmx_get_event_data(vcpu, true);
+ 
+ 	/*
+ 	 * Unlike AMD's Paged Real Mode, which reports an error code on #PF
+@@ -4282,6 +4379,14 @@ static bool is_vmcs12_ext_field(unsigned long field)
+ 	case GUEST_TR_BASE:
+ 	case GUEST_GDTR_BASE:
+ 	case GUEST_IDTR_BASE:
++	case GUEST_IA32_FRED_CONFIG:
++	case GUEST_IA32_FRED_RSP1:
++	case GUEST_IA32_FRED_RSP2:
++	case GUEST_IA32_FRED_RSP3:
++	case GUEST_IA32_FRED_STKLVLS:
++	case GUEST_IA32_FRED_SSP1:
++	case GUEST_IA32_FRED_SSP2:
++	case GUEST_IA32_FRED_SSP3:
+ 	case GUEST_PENDING_DBG_EXCEPTIONS:
+ 	case GUEST_BNDCFGS:
+ 		return true;
+@@ -4331,6 +4436,18 @@ static void sync_vmcs02_to_vmcs12_rare(struct kvm_vcpu *vcpu,
+ 	vmcs12->guest_tr_base = vmcs_readl(GUEST_TR_BASE);
+ 	vmcs12->guest_gdtr_base = vmcs_readl(GUEST_GDTR_BASE);
+ 	vmcs12->guest_idtr_base = vmcs_readl(GUEST_IDTR_BASE);
++
++	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
++		vmcs12->guest_ia32_fred_config = vmcs_read64(GUEST_IA32_FRED_CONFIG);
++		vmcs12->guest_ia32_fred_rsp1 = vmcs_read64(GUEST_IA32_FRED_RSP1);
++		vmcs12->guest_ia32_fred_rsp2 = vmcs_read64(GUEST_IA32_FRED_RSP2);
++		vmcs12->guest_ia32_fred_rsp3 = vmcs_read64(GUEST_IA32_FRED_RSP3);
++		vmcs12->guest_ia32_fred_stklvls = vmcs_read64(GUEST_IA32_FRED_STKLVLS);
++		vmcs12->guest_ia32_fred_ssp1 = vmcs_read64(GUEST_IA32_FRED_SSP1);
++		vmcs12->guest_ia32_fred_ssp2 = vmcs_read64(GUEST_IA32_FRED_SSP2);
++		vmcs12->guest_ia32_fred_ssp3 = vmcs_read64(GUEST_IA32_FRED_SSP3);
 +	}
 +
-+	kvm_vm_free(vm);
-+	return 0;
-+}
+ 	vmcs12->guest_pending_dbg_exceptions =
+ 		vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS);
+ 
+@@ -4555,6 +4672,17 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
+ 	vmcs_write32(GUEST_IDTR_LIMIT, 0xFFFF);
+ 	vmcs_write32(GUEST_GDTR_LIMIT, 0xFFFF);
+ 
++	if (cpu_feature_enabled(X86_FEATURE_FRED)) {
++		vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->host_ia32_fred_config);
++		vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->host_ia32_fred_rsp1);
++		vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->host_ia32_fred_rsp2);
++		vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->host_ia32_fred_rsp3);
++		vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->host_ia32_fred_stklvls);
++		vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->host_ia32_fred_ssp1);
++		vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->host_ia32_fred_ssp2);
++		vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->host_ia32_fred_ssp3);
++	}
++
+ 	/* If not VM_EXIT_CLEAR_BNDCFGS, the L2 value propagates to L1.  */
+ 	if (vmcs12->vm_exit_controls & VM_EXIT_CLEAR_BNDCFGS)
+ 		vmcs_write64(GUEST_BNDCFGS, 0);
+diff --git a/arch/x86/kvm/vmx/vmcs12.c b/arch/x86/kvm/vmx/vmcs12.c
+index 98457d7b2b23..59f17fdfad11 100644
+--- a/arch/x86/kvm/vmx/vmcs12.c
++++ b/arch/x86/kvm/vmx/vmcs12.c
+@@ -80,6 +80,7 @@ const unsigned short vmcs12_field_offsets[] = {
+ 	FIELD(VM_ENTRY_MSR_LOAD_COUNT, vm_entry_msr_load_count),
+ 	FIELD(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field),
+ 	FIELD(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code),
++	FIELD(INJECTED_EVENT_DATA, injected_event_data),
+ 	FIELD(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len),
+ 	FIELD(TPR_THRESHOLD, tpr_threshold),
+ 	FIELD(SECONDARY_VM_EXEC_CONTROL, secondary_vm_exec_control),
+@@ -89,6 +90,7 @@ const unsigned short vmcs12_field_offsets[] = {
+ 	FIELD(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code),
+ 	FIELD(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field),
+ 	FIELD(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code),
++	FIELD(ORIGINAL_EVENT_DATA, original_event_data),
+ 	FIELD(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len),
+ 	FIELD(VMX_INSTRUCTION_INFO, vmx_instruction_info),
+ 	FIELD(GUEST_ES_LIMIT, guest_es_limit),
+@@ -152,5 +154,21 @@ const unsigned short vmcs12_field_offsets[] = {
+ 	FIELD(HOST_IA32_SYSENTER_EIP, host_ia32_sysenter_eip),
+ 	FIELD(HOST_RSP, host_rsp),
+ 	FIELD(HOST_RIP, host_rip),
++	FIELD(GUEST_IA32_FRED_CONFIG, guest_ia32_fred_config),
++	FIELD(GUEST_IA32_FRED_RSP1, guest_ia32_fred_rsp1),
++	FIELD(GUEST_IA32_FRED_RSP2, guest_ia32_fred_rsp2),
++	FIELD(GUEST_IA32_FRED_RSP3, guest_ia32_fred_rsp3),
++	FIELD(GUEST_IA32_FRED_STKLVLS, guest_ia32_fred_stklvls),
++	FIELD(GUEST_IA32_FRED_SSP1, guest_ia32_fred_ssp1),
++	FIELD(GUEST_IA32_FRED_SSP2, guest_ia32_fred_ssp2),
++	FIELD(GUEST_IA32_FRED_SSP3, guest_ia32_fred_ssp3),
++	FIELD(HOST_IA32_FRED_CONFIG, host_ia32_fred_config),
++	FIELD(HOST_IA32_FRED_RSP1, host_ia32_fred_rsp1),
++	FIELD(HOST_IA32_FRED_RSP2, host_ia32_fred_rsp2),
++	FIELD(HOST_IA32_FRED_RSP3, host_ia32_fred_rsp3),
++	FIELD(HOST_IA32_FRED_STKLVLS, host_ia32_fred_stklvls),
++	FIELD(HOST_IA32_FRED_SSP1, host_ia32_fred_ssp1),
++	FIELD(HOST_IA32_FRED_SSP2, host_ia32_fred_ssp2),
++	FIELD(HOST_IA32_FRED_SSP3, host_ia32_fred_ssp3),
+ };
+ const unsigned int nr_vmcs12_fields = ARRAY_SIZE(vmcs12_field_offsets);
+diff --git a/arch/x86/kvm/vmx/vmcs12.h b/arch/x86/kvm/vmx/vmcs12.h
+index f50f897b9b5f..edf7fcef8ccf 100644
+--- a/arch/x86/kvm/vmx/vmcs12.h
++++ b/arch/x86/kvm/vmx/vmcs12.h
+@@ -186,6 +186,24 @@ struct __packed vmcs12 {
+ 	u16 host_tr_selector;
+ 	u16 guest_pml_index;
+ 	u64 secondary_vm_exit_controls;
++	u64 guest_ia32_fred_config;
++	u64 guest_ia32_fred_rsp1;
++	u64 guest_ia32_fred_rsp2;
++	u64 guest_ia32_fred_rsp3;
++	u64 guest_ia32_fred_stklvls;
++	u64 guest_ia32_fred_ssp1;
++	u64 guest_ia32_fred_ssp2;
++	u64 guest_ia32_fred_ssp3;
++	u64 host_ia32_fred_config;
++	u64 host_ia32_fred_rsp1;
++	u64 host_ia32_fred_rsp2;
++	u64 host_ia32_fred_rsp3;
++	u64 host_ia32_fred_stklvls;
++	u64 host_ia32_fred_ssp1;
++	u64 host_ia32_fred_ssp2;
++	u64 host_ia32_fred_ssp3;
++	u64 injected_event_data;
++	u64 original_event_data;
+ };
+ 
+ /*
+@@ -360,6 +378,24 @@ static inline void vmx_check_vmcs12_offsets(void)
+ 	CHECK_OFFSET(host_tr_selector, 994);
+ 	CHECK_OFFSET(guest_pml_index, 996);
+ 	CHECK_OFFSET(secondary_vm_exit_controls, 998);
++	CHECK_OFFSET(guest_ia32_fred_config, 1006);
++	CHECK_OFFSET(guest_ia32_fred_rsp1, 1014);
++	CHECK_OFFSET(guest_ia32_fred_rsp2, 1022);
++	CHECK_OFFSET(guest_ia32_fred_rsp3, 1030);
++	CHECK_OFFSET(guest_ia32_fred_stklvls, 1038);
++	CHECK_OFFSET(guest_ia32_fred_ssp1, 1046);
++	CHECK_OFFSET(guest_ia32_fred_ssp2, 1054);
++	CHECK_OFFSET(guest_ia32_fred_ssp3, 1062);
++	CHECK_OFFSET(host_ia32_fred_config, 1070);
++	CHECK_OFFSET(host_ia32_fred_rsp1, 1078);
++	CHECK_OFFSET(host_ia32_fred_rsp2, 1086);
++	CHECK_OFFSET(host_ia32_fred_rsp3, 1094);
++	CHECK_OFFSET(host_ia32_fred_stklvls, 1102);
++	CHECK_OFFSET(host_ia32_fred_ssp1, 1110);
++	CHECK_OFFSET(host_ia32_fred_ssp2, 1118);
++	CHECK_OFFSET(host_ia32_fred_ssp3, 1126);
++	CHECK_OFFSET(injected_event_data, 1134);
++	CHECK_OFFSET(original_event_data, 1142);
+ }
+ 
+ extern const unsigned short vmcs12_field_offsets[];
+diff --git a/arch/x86/kvm/vmx/vmcs_shadow_fields.h b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
+index cad128d1657b..33c3e2a06e41 100644
+--- a/arch/x86/kvm/vmx/vmcs_shadow_fields.h
++++ b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
+@@ -41,9 +41,9 @@ SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector)
+ SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason)
+ SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info)
+ SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len)
++SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
+ SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field)
+ SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code)
+-SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
+ SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes)
+ SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes)
+ SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control)
+@@ -74,6 +74,10 @@ SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base)
+ /* 64-bit */
+ SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address)
+ SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address)
++SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA, original_event_data)
++SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA_HIGH, original_event_data)
++SHADOW_FIELD_RW(INJECTED_EVENT_DATA, injected_event_data)
++SHADOW_FIELD_RW(INJECTED_EVENT_DATA_HIGH, injected_event_data)
+ 
+ #undef SHADOW_FIELD_RO
+ #undef SHADOW_FIELD_RW
 -- 
 2.42.0
 
