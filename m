@@ -1,36 +1,36 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDB037178;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E17374C1;
 	Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FMrSpenn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5HDVAPI"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 614D2211E;
-	Wed,  8 Nov 2023 11:00:25 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5628E213A;
+	Wed,  8 Nov 2023 11:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699470026; x=1731006026;
+  t=1699470028; x=1731006028;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=NQGmW+oXxSwWf91UKmGPw4FUojRiOmEbKecD33BDx8s=;
-  b=FMrSpenntVH30An5xopafTniXl/3jP3iRcSaMKO0Mzr1BujQRTiNmLbR
-   Dmhlg0wPEZ2X+0DbuizNig7bpFbccpSUBh2RIYSvqsUABwvGgkwYo/l04
-   T8TtsAobwNFWcCGlfMdL+0C0f+DUS++1lR5OXxhTRxGQtQ1lgjDv4n0q7
-   2nHmqg+tFhNOLIWBX/AsAui4iQDOPzfg8qqpHYH3O2usJJov01ldudbPz
-   wIobGzceEHGM9l2Vy8M7xI0VheMCJ1kXEy46FGU9nZQb7nyKiyb6AyN30
-   +SnkK8Wnexmlan30lGO4YCTzwZss3bnlz9VStLgpvEKZx3/+Y8QabIMHQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486408"
+  bh=Omys/p1vZU2MObsmFP/k7tn3rHgMvIXZh2s5EOOQwfw=;
+  b=H5HDVAPIUntwZZLjoABK03jw3kGSImM1uNzHwdOKNp70dAN1XsXc7/cE
+   smzcFeOXBN5fmLiSYlyyE3CD1Ifg21gDgvTIX01V7n5IhumtlR87fnVX4
+   oFpBLRL6kaWiBxJOfThIcR5dKw0OUmF3OAkotcj0vnkC/jYq12a4e1sCd
+   zhxRjZKjxczXNxYOojDU4FXqC9glU0zE5OpBryWXY6Bag+mw28fMGfFQ/
+   z1flIylXCVdBeVmA75oHW//pu1nduld7o0Si3UQsEzP1tMe0N+BoMo9Df
+   wObm309vQjm71uayA+B/iRhkvbred87M23QaK8UjOTmlRYIhAqLPME4vw
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8486444"
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="8486408"
+   d="scan'208";a="8486444"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:25 -0800
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 11:00:27 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="10892494"
+   d="scan'208";a="10892510"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2023 11:00:26 -0800
 From: Xin Li <xin3.li@intel.com>
 To: kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org,
@@ -53,9 +53,9 @@ Cc: seanjc@google.com,
 	vkuznets@redhat.com,
 	peterz@infradead.org,
 	ravi.v.shankar@intel.com
-Subject: [PATCH v1 17/23] KVM: nVMX: Add support for VMX FRED controls
-Date: Wed,  8 Nov 2023 10:29:57 -0800
-Message-ID: <20231108183003.5981-18-xin3.li@intel.com>
+Subject: [PATCH v1 20/23] KVM: selftests: Add FRED VMCS fields to evmcs
+Date: Wed,  8 Nov 2023 10:30:00 -0800
+Message-ID: <20231108183003.5981-21-xin3.li@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231108183003.5981-1-xin3.li@intel.com>
 References: <20231108183003.5981-1-xin3.li@intel.com>
@@ -67,97 +67,259 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add VMX FRED controls to nested VMX controls and set the VMX
-nested-exception support bit (bit 58) in the nested IA32_VMX_BASIC MSR
-when FRED is enabled.
+Add FRED VMCS fields to evmcs.
 
-Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/kvm/vmx/hyperv.c |  7 +++++--
- arch/x86/kvm/vmx/nested.c | 14 ++++++++++----
- arch/x86/kvm/vmx/vmx.c    |  3 +++
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ .../selftests/kvm/include/x86_64/evmcs.h      | 146 ++++++++++++++++++
+ .../selftests/kvm/include/x86_64/vmx.h        |  20 +++
+ 2 files changed, 166 insertions(+)
 
-diff --git a/arch/x86/kvm/vmx/hyperv.c b/arch/x86/kvm/vmx/hyperv.c
-index b12ef8fd76c9..28fca62f3887 100644
---- a/arch/x86/kvm/vmx/hyperv.c
-+++ b/arch/x86/kvm/vmx/hyperv.c
-@@ -106,7 +106,9 @@
- 	 VM_EXIT_CLEAR_IA32_RTIT_CTL |					\
- 	 VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
- 
--#define EVMCS1_SUPPORTED_VMEXIT_CTRL2 (0ULL)
-+#define EVMCS1_SUPPORTED_VMEXIT_CTRL2					\
-+	(SECONDARY_VM_EXIT_SAVE_IA32_FRED |				\
-+	 SECONDARY_VM_EXIT_LOAD_IA32_FRED)
- 
- #define EVMCS1_SUPPORTED_VMENTRY_CTRL					\
- 	(VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR |				\
-@@ -117,7 +119,8 @@
- 	 VM_ENTRY_LOAD_IA32_EFER |					\
- 	 VM_ENTRY_LOAD_BNDCFGS |					\
- 	 VM_ENTRY_PT_CONCEAL_PIP |					\
--	 VM_ENTRY_LOAD_IA32_RTIT_CTL)
-+	 VM_ENTRY_LOAD_IA32_RTIT_CTL |					\
-+	 VM_ENTRY_LOAD_IA32_FRED)
- 
- #define EVMCS1_SUPPORTED_VMFUNC (0)
- 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index af616c4a3491..b85cd5c0ec98 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1230,10 +1230,12 @@ static bool is_bitwise_subset(u64 superset, u64 subset, u64 mask)
- #define VMX_BASIC_FEATURES_MASK			\
- 	(VMX_BASIC_DUAL_MONITOR_TREATMENT |	\
- 	 VMX_BASIC_INOUT |			\
--	 VMX_BASIC_TRUE_CTLS)
-+	 VMX_BASIC_TRUE_CTLS |			\
-+	 VMX_BASIC_NESTED_EXCEPTION)
- 
--#define VMX_BASIC_RESERVED_BITS			\
--	(GENMASK_ULL(63, 56) | GENMASK_ULL(47, 45) | BIT_ULL(31))
-+#define VMX_BASIC_RESERVED_BITS				\
-+	(GENMASK_ULL(63, 59) | GENMASK_ULL(57, 56) |	\
-+	 GENMASK_ULL(47, 45) | BIT_ULL(31))
- 
- static int vmx_restore_vmx_basic(struct vcpu_vmx *vmx, u64 data)
- {
-@@ -6985,7 +6987,8 @@ static void nested_vmx_setup_entry_ctls(struct vmcs_config *vmcs_conf,
- #ifdef CONFIG_X86_64
- 		VM_ENTRY_IA32E_MODE |
- #endif
--		VM_ENTRY_LOAD_IA32_PAT | VM_ENTRY_LOAD_BNDCFGS;
-+		VM_ENTRY_LOAD_IA32_PAT | VM_ENTRY_LOAD_BNDCFGS |
-+		VM_ENTRY_LOAD_IA32_FRED;
- 	msrs->entry_ctls_high |=
- 		(VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR | VM_ENTRY_LOAD_IA32_EFER |
- 		 VM_ENTRY_LOAD_IA32_PERF_GLOBAL_CTRL);
-@@ -7141,6 +7144,9 @@ static void nested_vmx_setup_basic(struct nested_vmx_msrs *msrs)
- 
- 	if (cpu_has_vmx_basic_inout())
- 		msrs->basic |= VMX_BASIC_INOUT;
+diff --git a/tools/testing/selftests/kvm/include/x86_64/evmcs.h b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+index 901caf0e0939..afd35f0c34fd 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/evmcs.h
++++ b/tools/testing/selftests/kvm/include/x86_64/evmcs.h
+@@ -216,6 +216,27 @@ struct hv_enlightened_vmcs {
+ 	u64 host_ssp;
+ 	u64 host_ia32_int_ssp_table_addr;
+ 	u64 padding64_6;
 +
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		msrs->basic |= VMX_BASIC_NESTED_EXCEPTION;
- }
- 
- static void nested_vmx_setup_cr_fixed(struct nested_vmx_msrs *msrs)
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index b826dc188fc7..3353fd6615a2 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -7970,6 +7970,9 @@ static void nested_vmx_cr_fixed1_bits_update(struct kvm_vcpu *vcpu)
- 	cr4_fixed1_update(X86_CR4_UMIP,       ecx, feature_bit(UMIP));
- 	cr4_fixed1_update(X86_CR4_LA57,       ecx, feature_bit(LA57));
- 
-+	entry = kvm_find_cpuid_entry_index(vcpu, 0x7, 1);
-+	cr4_fixed1_update(X86_CR4_FRED,       eax, feature_bit(FRED));
++	u64 host_ia32_fred_config;
++	u64 host_ia32_fred_rsp1;
++	u64 host_ia32_fred_rsp2;
++	u64 host_ia32_fred_rsp3;
++	u64 host_ia32_fred_stklvls;
++	u64 host_ia32_fred_ssp1;
++	u64 host_ia32_fred_ssp2;
++	u64 host_ia32_fred_ssp3;
 +
- #undef cr4_fixed1_update
- }
++	u64 guest_ia32_fred_config;
++	u64 guest_ia32_fred_rsp1;
++	u64 guest_ia32_fred_rsp2;
++	u64 guest_ia32_fred_rsp3;
++	u64 guest_ia32_fred_stklvls;
++	u64 guest_ia32_fred_ssp1;
++	u64 guest_ia32_fred_ssp2;
++	u64 guest_ia32_fred_ssp3;
++
++	u64 injected_event_data;
++	u64 original_event_data;
+ } __packed;
  
+ #define HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE                     0
+@@ -450,6 +471,9 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
+ 	case GUEST_LINEAR_ADDRESS:
+ 		*value = current_evmcs->guest_linear_address;
+ 		break;
++	case ORIGINAL_EVENT_DATA:
++		*value = current_evmcs->original_event_data;
++		break;
+ 	case VM_EXIT_MSR_STORE_ADDR:
+ 		*value = current_evmcs->vm_exit_msr_store_addr;
+ 		break;
+@@ -492,6 +516,9 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
+ 	case VM_ENTRY_EXCEPTION_ERROR_CODE:
+ 		*value = current_evmcs->vm_entry_exception_error_code;
+ 		break;
++	case INJECTED_EVENT_DATA:
++		*value = current_evmcs->injected_event_data;
++		break;
+ 	case VM_ENTRY_INSTRUCTION_LEN:
+ 		*value = current_evmcs->vm_entry_instruction_len;
+ 		break;
+@@ -669,6 +696,54 @@ static inline int evmcs_vmread(uint64_t encoding, uint64_t *value)
+ 	case TSC_MULTIPLIER:
+ 		*value = current_evmcs->tsc_multiplier;
+ 		break;
++	case HOST_IA32_FRED_CONFIG:
++		*value = current_evmcs->host_ia32_fred_config;
++		break;
++	case HOST_IA32_FRED_RSP1:
++		*value = current_evmcs->host_ia32_fred_rsp1;
++		break;
++	case HOST_IA32_FRED_RSP2:
++		*value = current_evmcs->host_ia32_fred_rsp2;
++		break;
++	case HOST_IA32_FRED_RSP3:
++		*value = current_evmcs->host_ia32_fred_rsp3;
++		break;
++	case HOST_IA32_FRED_STKLVLS:
++		*value = current_evmcs->host_ia32_fred_stklvls;
++		break;
++	case HOST_IA32_FRED_SSP1:
++		*value = current_evmcs->host_ia32_fred_ssp1;
++		break;
++	case HOST_IA32_FRED_SSP2:
++		*value = current_evmcs->host_ia32_fred_ssp2;
++		break;
++	case HOST_IA32_FRED_SSP3:
++		*value = current_evmcs->host_ia32_fred_ssp3;
++		break;
++	case GUEST_IA32_FRED_CONFIG:
++		*value = current_evmcs->guest_ia32_fred_config;
++		break;
++	case GUEST_IA32_FRED_RSP1:
++		*value = current_evmcs->guest_ia32_fred_rsp1;
++		break;
++	case GUEST_IA32_FRED_RSP2:
++		*value = current_evmcs->guest_ia32_fred_rsp2;
++		break;
++	case GUEST_IA32_FRED_RSP3:
++		*value = current_evmcs->guest_ia32_fred_rsp3;
++		break;
++	case GUEST_IA32_FRED_STKLVLS:
++		*value = current_evmcs->guest_ia32_fred_stklvls;
++		break;
++	case GUEST_IA32_FRED_SSP1:
++		*value = current_evmcs->guest_ia32_fred_ssp1;
++		break;
++	case GUEST_IA32_FRED_SSP2:
++		*value = current_evmcs->guest_ia32_fred_ssp2;
++		break;
++	case GUEST_IA32_FRED_SSP3:
++		*value = current_evmcs->guest_ia32_fred_ssp3;
++		break;
+ 	default: return 1;
+ 	}
+ 
+@@ -906,6 +981,10 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
+ 		current_evmcs->guest_linear_address = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE;
+ 		break;
++	case ORIGINAL_EVENT_DATA:
++		current_evmcs->original_event_data = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_NONE;
++		break;
+ 	case VM_EXIT_MSR_STORE_ADDR:
+ 		current_evmcs->vm_exit_msr_store_addr = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_ALL;
+@@ -962,6 +1041,10 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
+ 		current_evmcs->vm_entry_exception_error_code = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_EVENT;
+ 		break;
++	case INJECTED_EVENT_DATA:
++		current_evmcs->injected_event_data = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_EVENT;
++		break;
+ 	case VM_ENTRY_INSTRUCTION_LEN:
+ 		current_evmcs->vm_entry_instruction_len = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_EVENT;
+@@ -1198,6 +1281,69 @@ static inline int evmcs_vmwrite(uint64_t encoding, uint64_t value)
+ 		current_evmcs->tsc_multiplier = value;
+ 		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_CONTROL_GRP2;
+ 		break;
++	case HOST_IA32_FRED_CONFIG:
++		current_evmcs->host_ia32_fred_config = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_RSP1:
++		current_evmcs->host_ia32_fred_rsp1 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_RSP2:
++		current_evmcs->host_ia32_fred_rsp2 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_RSP3:
++		current_evmcs->host_ia32_fred_rsp3 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_STKLVLS:
++		current_evmcs->host_ia32_fred_stklvls = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_SSP1:
++		current_evmcs->host_ia32_fred_ssp1 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_SSP2:
++		current_evmcs->host_ia32_fred_ssp2 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case HOST_IA32_FRED_SSP3:
++		current_evmcs->host_ia32_fred_ssp3 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_HOST_POINTER;
++		break;
++	case GUEST_IA32_FRED_CONFIG:
++		current_evmcs->guest_ia32_fred_config = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++	case GUEST_IA32_FRED_RSP1:
++		current_evmcs->guest_ia32_fred_rsp1 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_RSP2:
++		current_evmcs->guest_ia32_fred_rsp2 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_RSP3:
++		current_evmcs->guest_ia32_fred_rsp3 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_STKLVLS:
++		current_evmcs->guest_ia32_fred_stklvls = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_SSP1:
++		current_evmcs->guest_ia32_fred_ssp1 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_SSP2:
++		current_evmcs->guest_ia32_fred_ssp2 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
++	case GUEST_IA32_FRED_SSP3:
++		current_evmcs->guest_ia32_fred_ssp3 = value;
++		current_evmcs->hv_clean_fields &= ~HV_VMX_ENLIGHTENED_CLEAN_FIELD_GUEST_GRP2;
++		break;
+ 	default: return 1;
+ 	}
+ 
+diff --git a/tools/testing/selftests/kvm/include/x86_64/vmx.h b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+index 5f0c0a29c556..e1fdbc293af7 100644
+--- a/tools/testing/selftests/kvm/include/x86_64/vmx.h
++++ b/tools/testing/selftests/kvm/include/x86_64/vmx.h
+@@ -165,8 +165,12 @@ enum vmcs_field {
+ 	ENCLS_EXITING_BITMAP_HIGH	= 0x0000202F,
+ 	TSC_MULTIPLIER			= 0x00002032,
+ 	TSC_MULTIPLIER_HIGH		= 0x00002033,
++	INJECTED_EVENT_DATA		= 0x00002052,
++	INJECTED_EVENT_DATA_HIGH	= 0x00002053,
+ 	GUEST_PHYSICAL_ADDRESS		= 0x00002400,
+ 	GUEST_PHYSICAL_ADDRESS_HIGH	= 0x00002401,
++	ORIGINAL_EVENT_DATA		= 0x00002404,
++	ORIGINAL_EVENT_DATA_HIGH	= 0x00002405,
+ 	VMCS_LINK_POINTER		= 0x00002800,
+ 	VMCS_LINK_POINTER_HIGH		= 0x00002801,
+ 	GUEST_IA32_DEBUGCTL		= 0x00002802,
+@@ -187,12 +191,28 @@ enum vmcs_field {
+ 	GUEST_PDPTR3_HIGH		= 0x00002811,
+ 	GUEST_BNDCFGS			= 0x00002812,
+ 	GUEST_BNDCFGS_HIGH		= 0x00002813,
++	GUEST_IA32_FRED_CONFIG		= 0x0000281a,
++	GUEST_IA32_FRED_RSP1		= 0x0000281c,
++	GUEST_IA32_FRED_RSP2		= 0x0000281e,
++	GUEST_IA32_FRED_RSP3		= 0x00002820,
++	GUEST_IA32_FRED_STKLVLS		= 0x00002822,
++	GUEST_IA32_FRED_SSP1		= 0x00002824,
++	GUEST_IA32_FRED_SSP2		= 0x00002826,
++	GUEST_IA32_FRED_SSP3		= 0x00002828,
+ 	HOST_IA32_PAT			= 0x00002c00,
+ 	HOST_IA32_PAT_HIGH		= 0x00002c01,
+ 	HOST_IA32_EFER			= 0x00002c02,
+ 	HOST_IA32_EFER_HIGH		= 0x00002c03,
+ 	HOST_IA32_PERF_GLOBAL_CTRL	= 0x00002c04,
+ 	HOST_IA32_PERF_GLOBAL_CTRL_HIGH	= 0x00002c05,
++	HOST_IA32_FRED_CONFIG		= 0x00002c08,
++	HOST_IA32_FRED_RSP1		= 0x00002c0a,
++	HOST_IA32_FRED_RSP2		= 0x00002c0c,
++	HOST_IA32_FRED_RSP3		= 0x00002c0e,
++	HOST_IA32_FRED_STKLVLS		= 0x00002c10,
++	HOST_IA32_FRED_SSP1		= 0x00002c12,
++	HOST_IA32_FRED_SSP2		= 0x00002c14,
++	HOST_IA32_FRED_SSP3		= 0x00002c16,
+ 	PIN_BASED_VM_EXEC_CONTROL	= 0x00004000,
+ 	CPU_BASED_VM_EXEC_CONTROL	= 0x00004002,
+ 	EXCEPTION_BITMAP		= 0x00004004,
 -- 
 2.42.0
 
