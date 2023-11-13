@@ -1,26 +1,25 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D6A1643E
-	for <linux-hyperv@vger.kernel.org>; Mon, 13 Nov 2023 02:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0340818628
+	for <linux-hyperv@vger.kernel.org>; Mon, 13 Nov 2023 02:32:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="K6v5KJH9"
-X-Greylist: delayed 506 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 12 Nov 2023 18:32:28 PST
-Received: from smtp-bc08.mail.infomaniak.ch (smtp-bc08.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc08])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB60109
-	for <linux-hyperv@vger.kernel.org>; Sun, 12 Nov 2023 18:32:28 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="vrln9/b4"
+Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [IPv6:2001:1600:4:17::190a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA381BC0
+	for <linux-hyperv@vger.kernel.org>; Sun, 12 Nov 2023 18:32:29 -0800 (PST)
 Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4STCtf4t44zMpvd2;
-	Mon, 13 Nov 2023 02:24:42 +0000 (UTC)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4STCtd2zG3zMpnPr;
-	Mon, 13 Nov 2023 03:24:41 +0100 (CET)
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4STCtJ0ZdVzMpvZk;
+	Mon, 13 Nov 2023 02:24:24 +0000 (UTC)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4STCtG6J2GzMpnPd;
+	Mon, 13 Nov 2023 03:24:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1699842282;
-	bh=hEzwbKiCPTVRprt7TA2n5SNi5zwGnb2iVWTsgeipVHE=;
+	s=20191114; t=1699842263;
+	bh=oVoPkAWjPfqZGemyyPZ53MkaSuuZZCG0BkbPtJbgAiE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K6v5KJH9jR6IiLGfGMDtfMvhMpsRKAlNdnYP3VLP1tQYDJsD9yOa1l7BiqESRCqDJ
-	 cmZYiFVvTDYPtiXd2tBOhB0CrMCZj3y2+qczeM+o9M04Idv7FHkodSM7IbhjzC/hXd
-	 PiK+ofD1UU5HDgZ8vthIvlYSVcyE4os40daGAPbA=
+	b=vrln9/b46q/IyvbLiM7gr/pjSy6nNAlaXyCcWrkwCHL76184CKYv4PInqVYTmM3XU
+	 usQOOb2erA5xMR73/PzeYEi/AVI+wGVine2Q4AcSnr9lSM8X4meSz+MPB7uM5eZm7x
+	 SS5OjADjVFHRajKr3cVBhD/5XC7T3gtprqTK5mks=
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
@@ -61,9 +60,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	virtualization@lists.linux-foundation.org,
 	x86@kernel.org,
 	xen-devel@lists.xenproject.org
-Subject: [RFC PATCH v2 13/19] heki: Implement a kernel page table walker
-Date: Sun, 12 Nov 2023 21:23:20 -0500
-Message-ID: <20231113022326.24388-14-mic@digikod.net>
+Subject: [RFC PATCH v2 08/19] KVM: x86: Extend kvm_vm_set_mem_attributes() with a mask
+Date: Sun, 12 Nov 2023 21:23:15 -0500
+Message-ID: <20231113022326.24388-9-mic@digikod.net>
 In-Reply-To: <20231113022326.24388-1-mic@digikod.net>
 References: <20231113022326.24388-1-mic@digikod.net>
 Precedence: bulk
@@ -76,230 +75,140 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-From: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
+Enable to only update a subset of attributes.
 
-The Heki feature needs to do the following:
+This is needed to be able to use the XArray for different use cases and
+make sure they don't interfere (see a following commit).
 
-- Find kernel mappings.
-
-- Determine the permissions associated with each mapping.
-
-- Determine the collective permissions for a guest physical page across
-  all of its mappings.
-
-This way, a guest physical page can reflect only the required
-permissions in the EPT thanks to the KVM_HC_PROTECT_MEMORY hypercall..
-
-Implement a kernel page table walker that walks all of the kernel
-mappings and calls a callback function for each mapping.
-
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>
 Cc: Kees Cook <keescook@chromium.org>
 Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>
-Co-developed-by: Mickaël Salaün <mic@digikod.net>
+Cc: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Signed-off-by: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
 ---
 
-Change since v1:
-* New patch and new file: virt/heki/walk.c
+Changes since v1:
+* New patch
 ---
- include/linux/heki.h |  16 +++++
- virt/heki/Makefile   |   1 +
- virt/heki/walk.c     | 140 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 157 insertions(+)
- create mode 100644 virt/heki/walk.c
+ arch/x86/kvm/mmu/mmu.c   |  2 +-
+ include/linux/kvm_host.h |  2 +-
+ virt/kvm/kvm_main.c      | 27 +++++++++++++++++++--------
+ 3 files changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/heki.h b/include/linux/heki.h
-index 9b0c966c50d1..a7ae0b387dfe 100644
---- a/include/linux/heki.h
-+++ b/include/linux/heki.h
-@@ -61,6 +61,22 @@ struct heki {
- 	struct heki_hypervisor *hypervisor;
- };
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 4d378d308762..d7010e09440d 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -7283,7 +7283,7 @@ static bool hugepage_has_attrs(struct kvm *kvm, struct kvm_memory_slot *slot,
  
-+/*
-+ * The kernel page table is walked to locate kernel mappings. For each
-+ * mapping, a callback function is called. The table walker passes information
-+ * about the mapping to the callback using this structure.
-+ */
-+struct heki_args {
-+	/* Information passed by the table walker to the callback. */
-+	unsigned long va;
-+	phys_addr_t pa;
-+	size_t size;
-+	unsigned long flags;
-+};
-+
-+/* Callback function called by the table walker. */
-+typedef void (*heki_func_t)(struct heki_args *args);
-+
- extern struct heki heki;
- extern bool heki_enabled;
+ 	for (gfn = start; gfn < end; gfn += KVM_PAGES_PER_HPAGE(level - 1)) {
+ 		if (hugepage_test_mixed(slot, gfn, level - 1) ||
+-		    attrs != kvm_get_memory_attributes(kvm, gfn))
++		    !(attrs & kvm_get_memory_attributes(kvm, gfn)))
+ 			return false;
+ 	}
+ 	return true;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 85b8648fd892..de68390ab0f2 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -2397,7 +2397,7 @@ bool kvm_arch_pre_set_memory_attributes(struct kvm *kvm,
+ bool kvm_arch_post_set_memory_attributes(struct kvm *kvm,
+ 					 struct kvm_gfn_range *range);
+ int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+-			      unsigned long attributes);
++			      unsigned long attributes, unsigned long mask);
  
-diff --git a/virt/heki/Makefile b/virt/heki/Makefile
-index 354e567df71c..a5daa4ff7a4f 100644
---- a/virt/heki/Makefile
-+++ b/virt/heki/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
+ static inline bool kvm_mem_is_private(struct kvm *kvm, gfn_t gfn)
+ {
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 0096ccfbb609..e2c178db17d5 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2436,7 +2436,7 @@ static int kvm_vm_ioctl_clear_dirty_log(struct kvm *kvm,
+ #ifdef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
+ /*
+  * Returns true if _all_ gfns in the range [@start, @end) have attributes
+- * matching @attrs.
++ * matching the @attrs bitmask.
+  */
+ bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+ 				     unsigned long attrs)
+@@ -2459,7 +2459,8 @@ bool kvm_range_has_memory_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+ 			entry = xas_next(&xas);
+ 		} while (xas_retry(&xas, entry));
  
- obj-y += main.o
-+obj-y += walk.o
-diff --git a/virt/heki/walk.c b/virt/heki/walk.c
-new file mode 100644
-index 000000000000..e10b54226fcc
---- /dev/null
-+++ b/virt/heki/walk.c
-@@ -0,0 +1,140 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Hypervisor Enforced Kernel Integrity (Heki) - Kernel page table walker.
-+ *
-+ * Copyright © 2023 Microsoft Corporation
-+ *
-+ * Cf. arch/x86/mm/init_64.c
-+ */
+-		if (xas.xa_index != index || xa_to_value(entry) != attrs) {
++		if (xas.xa_index != index ||
++		    (xa_to_value(entry) & attrs) != attrs) {
+ 			has_attrs = false;
+ 			break;
+ 		}
+@@ -2553,7 +2554,7 @@ static bool kvm_pre_set_memory_attributes(struct kvm *kvm,
+ 
+ /* Set @attributes for the gfn range [@start, @end). */
+ int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+-				     unsigned long attributes)
++			      unsigned long attributes, unsigned long mask)
+ {
+ 	struct kvm_mmu_notifier_range pre_set_range = {
+ 		.start = start,
+@@ -2572,11 +2573,8 @@ int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+ 		.may_block = true,
+ 	};
+ 	unsigned long i;
+-	void *entry;
+ 	int r = 0;
+ 
+-	entry = attributes ? xa_mk_value(attributes) : NULL;
+-
+ 	lockdep_assert_held(&kvm->slots_arch_lock);
+ 
+ 	/* Nothing to do if the entire range as the desired attributes. */
+@@ -2596,6 +2594,16 @@ int kvm_vm_set_mem_attributes(struct kvm *kvm, gfn_t start, gfn_t end,
+ 	kvm_handle_gfn_range(kvm, &pre_set_range);
+ 
+ 	for (i = start; i < end; i++) {
++		unsigned long value = 0;
++		void *entry;
 +
-+#include <linux/heki.h>
-+#include <linux/pgtable.h>
++		entry = xa_load(&kvm->mem_attr_array, i);
++		if (xa_is_value(entry))
++			value = xa_to_value(entry) & ~mask;
 +
-+static void heki_walk_pte(pmd_t *pmd, unsigned long va, unsigned long va_end,
-+			  heki_func_t func, struct heki_args *args)
-+{
-+	pte_t *pte;
-+	unsigned long next_va;
++		value |= attributes & mask;
++		entry = value ? xa_mk_value(value) : NULL;
 +
-+	for (pte = pte_offset_kernel(pmd, va); va < va_end;
-+	     va = next_va, pte++) {
-+		next_va = (va + PAGE_SIZE) & PAGE_MASK;
-+
-+		if (next_va > va_end)
-+			next_va = va_end;
-+
-+		if (!pte_present(*pte))
-+			continue;
-+
-+		args->va = va;
-+		args->pa = pte_pfn(*pte) << PAGE_SHIFT;
-+		args->size = PAGE_SIZE;
-+		args->flags = pte_flags(*pte);
-+
-+		func(args);
-+	}
-+}
-+
-+static void heki_walk_pmd(pud_t *pud, unsigned long va, unsigned long va_end,
-+			  heki_func_t func, struct heki_args *args)
-+{
-+	pmd_t *pmd;
-+	unsigned long next_va;
-+
-+	for (pmd = pmd_offset(pud, va); va < va_end; va = next_va, pmd++) {
-+		next_va = pmd_addr_end(va, va_end);
-+
-+		if (!pmd_present(*pmd))
-+			continue;
-+
-+		if (pmd_large(*pmd)) {
-+			args->va = va;
-+			args->pa = pmd_pfn(*pmd) << PAGE_SHIFT;
-+			args->pa += va & (PMD_SIZE - 1);
-+			args->size = next_va - va;
-+			args->flags = pmd_flags(*pmd);
-+
-+			func(args);
-+		} else {
-+			heki_walk_pte(pmd, va, next_va, func, args);
-+		}
-+	}
-+}
-+
-+static void heki_walk_pud(p4d_t *p4d, unsigned long va, unsigned long va_end,
-+			  heki_func_t func, struct heki_args *args)
-+{
-+	pud_t *pud;
-+	unsigned long next_va;
-+
-+	for (pud = pud_offset(p4d, va); va < va_end; va = next_va, pud++) {
-+		next_va = pud_addr_end(va, va_end);
-+
-+		if (!pud_present(*pud))
-+			continue;
-+
-+		if (pud_large(*pud)) {
-+			args->va = va;
-+			args->pa = pud_pfn(*pud) << PAGE_SHIFT;
-+			args->pa += va & (PUD_SIZE - 1);
-+			args->size = next_va - va;
-+			args->flags = pud_flags(*pud);
-+
-+			func(args);
-+		} else {
-+			heki_walk_pmd(pud, va, next_va, func, args);
-+		}
-+	}
-+}
-+
-+static void heki_walk_p4d(pgd_t *pgd, unsigned long va, unsigned long va_end,
-+			  heki_func_t func, struct heki_args *args)
-+{
-+	p4d_t *p4d;
-+	unsigned long next_va;
-+
-+	for (p4d = p4d_offset(pgd, va); va < va_end; va = next_va, p4d++) {
-+		next_va = p4d_addr_end(va, va_end);
-+
-+		if (!p4d_present(*p4d))
-+			continue;
-+
-+		if (p4d_large(*p4d)) {
-+			args->va = va;
-+			args->pa = p4d_pfn(*p4d) << PAGE_SHIFT;
-+			args->pa += va & (P4D_SIZE - 1);
-+			args->size = next_va - va;
-+			args->flags = p4d_flags(*p4d);
-+
-+			func(args);
-+		} else {
-+			heki_walk_pud(p4d, va, next_va, func, args);
-+		}
-+	}
-+}
-+
-+void heki_walk(unsigned long va, unsigned long va_end, heki_func_t func,
-+	       struct heki_args *args)
-+{
-+	pgd_t *pgd;
-+	unsigned long next_va;
-+
-+	for (pgd = pgd_offset_k(va); va < va_end; va = next_va, pgd++) {
-+		next_va = pgd_addr_end(va, va_end);
-+
-+		if (!pgd_present(*pgd))
-+			continue;
-+
-+		if (pgd_large(*pgd)) {
-+			args->va = va;
-+			args->pa = pgd_pfn(*pgd) << PAGE_SHIFT;
-+			args->pa += va & (PGDIR_SIZE - 1);
-+			args->size = next_va - va;
-+			args->flags = pgd_flags(*pgd);
-+
-+			func(args);
-+		} else {
-+			heki_walk_p4d(pgd, va, next_va, func, args);
-+		}
-+	}
-+}
+ 		r = xa_err(xa_store(&kvm->mem_attr_array, i, entry,
+ 				    GFP_KERNEL_ACCOUNT));
+ 		KVM_BUG_ON(r, kvm);
+@@ -2609,12 +2617,14 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+ 					   struct kvm_memory_attributes *attrs)
+ {
+ 	int r;
++	unsigned long attrs_mask;
+ 	gfn_t start, end;
+ 
+ 	/* flags is currently not used. */
+ 	if (attrs->flags)
+ 		return -EINVAL;
+-	if (attrs->attributes & ~kvm_supported_mem_attributes(kvm))
++	attrs_mask = kvm_supported_mem_attributes(kvm);
++	if (attrs->attributes & ~attrs_mask)
+ 		return -EINVAL;
+ 	if (attrs->size == 0 || attrs->address + attrs->size < attrs->address)
+ 		return -EINVAL;
+@@ -2632,7 +2642,8 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
+ 	BUILD_BUG_ON(sizeof(attrs->attributes) != sizeof(unsigned long));
+ 
+ 	mutex_lock(&kvm->slots_arch_lock);
+-	r = kvm_vm_set_mem_attributes(kvm, start, end, attrs->attributes);
++	r = kvm_vm_set_mem_attributes(kvm, start, end, attrs->attributes,
++				      attrs_mask);
+ 	mutex_unlock(&kvm->slots_arch_lock);
+ 	return r;
+ }
 -- 
 2.42.1
 
