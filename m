@@ -1,25 +1,25 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0917D1B285
-	for <linux-hyperv@vger.kernel.org>; Mon, 13 Nov 2023 02:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5176E1A5A1
+	for <linux-hyperv@vger.kernel.org>; Mon, 13 Nov 2023 02:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="lCCpGzLo"
-Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [IPv6:2001:1600:4:17::8faa])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E0B218B
-	for <linux-hyperv@vger.kernel.org>; Sun, 12 Nov 2023 18:32:29 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="jIruH5wh"
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 359F4115
+	for <linux-hyperv@vger.kernel.org>; Sun, 12 Nov 2023 18:32:28 -0800 (PST)
 Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4STCsy1PsbzMpvSP;
-	Mon, 13 Nov 2023 02:24:06 +0000 (UTC)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4STCsw4qBmzMpnPj;
-	Mon, 13 Nov 2023 03:24:04 +0100 (CET)
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4STCtk62jlzMpvbR;
+	Mon, 13 Nov 2023 02:24:46 +0000 (UTC)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4STCtj3BHpzMpnPj;
+	Mon, 13 Nov 2023 03:24:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1699842246;
-	bh=14gESsZbdf4eGyL7ckyTON/9RCrFW/bTzWgKvh9Y1QM=;
+	s=20191114; t=1699842286;
+	bh=cKEtzyAn6nu6IgS2HwQtrr3Q0FdnoNCxsjW/LjtBy3Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lCCpGzLomRxznCOR/eHwVydQZR5isgftfHk7I92gfDtAO6CX5RswyL7i2tobhTzAE
-	 apr2Ceo33clgylfofcyYQRC+1ikfzHy4nOQYn3bmJlbss06S6fk2V+z1J7nyoxgujZ
-	 p/uhukd50aRDJnnIXpcjdg1Yj4GNzxC2Wp5ETI6s=
+	b=jIruH5whNlSM69bid+qC3QXUvSlkIk75w7vIB/z+Qo7hEu+vNgXjfS7u+hLyxFvJh
+	 GvNxrzuFYdFr4xGhRvANkM2xckqutIUrO++9D0gm+yBcTUiZrahZ5H3unv9L5ngWMM
+	 D6Za9ta9LWpEPpfa0MoQWkvjZSapc+FeceMFwMpo=
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Borislav Petkov <bp@alien8.de>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
@@ -60,9 +60,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	virtualization@lists.linux-foundation.org,
 	x86@kernel.org,
 	xen-devel@lists.xenproject.org
-Subject: [RFC PATCH v2 03/19] KVM: x86: Add notifications for Heki policy configuration and violation
-Date: Sun, 12 Nov 2023 21:23:10 -0500
-Message-ID: <20231113022326.24388-4-mic@digikod.net>
+Subject: [RFC PATCH v2 14/19] heki: x86: Initialize permissions counters for pages mapped into KVA
+Date: Sun, 12 Nov 2023 21:23:21 -0500
+Message-ID: <20231113022326.24388-15-mic@digikod.net>
 In-Reply-To: <20231113022326.24388-1-mic@digikod.net>
 References: <20231113022326.24388-1-mic@digikod.net>
 Precedence: bulk
@@ -75,23 +75,25 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Add an interface for user space to be notified about guests' Heki policy
-and related violations.
+From: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
 
-Extend the KVM_ENABLE_CAP IOCTL with KVM_CAP_HEKI_CONFIGURE and
-KVM_CAP_HEKI_DENIAL. Each one takes a bitmask as first argument that can
-contains KVM_HEKI_EXIT_REASON_CR0 and KVM_HEKI_EXIT_REASON_CR4. The
-returned value is the bitmask of known Heki exit reasons, for now:
-KVM_HEKI_EXIT_REASON_CR0 and KVM_HEKI_EXIT_REASON_CR4.
+Define a permissions counters structure that contains a counter for
+read, write and execute. Each mapped guest page will be allocated a
+permissions counters structure.
 
-If KVM_CAP_HEKI_CONFIGURE is set, a VM exit will be triggered for each
-KVM_HC_LOCK_CR_UPDATE hypercalls according to the requested control
-register. This enables to enlighten the VMM with the guest
-auto-restrictions.
+During kernel boot, walk the kernel address space, locate all the
+mappings, create permissions counters for each mapped guest page and
+update the counters to reflect the collective permissions for each page
+across all of its mappings.
 
-If KVM_CAP_HEKI_DENIAL is set, a VM exit will be triggered for each
-pinned CR violation. This enables the VMM to react to a policy
-violation.
+The collective permissions will be applied in the EPT in a following
+commit.
+
+We might want to move these counters to a safer place (e.g., KVM) to
+protect it from tampering by the guest kernel itself.
+
+We should note that walking through all mappings might be slow if KASAN
+is enabled.
 
 Cc: Borislav Petkov <bp@alien8.de>
 Cc: Dave Hansen <dave.hansen@linux.intel.com>
@@ -99,336 +101,382 @@ Cc: H. Peter Anvin <hpa@zytor.com>
 Cc: Ingo Molnar <mingo@redhat.com>
 Cc: Kees Cook <keescook@chromium.org>
 Cc: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
+Cc: Mickaël Salaün <mic@digikod.net>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Sean Christopherson <seanjc@google.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
 Cc: Wanpeng Li <wanpengli@tencent.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
+Suggested-by: Mickaël Salaün <mic@digikod.net>
+Signed-off-by: Madhavan T. Venkataraman <madvenka@linux.microsoft.com>
 ---
 
 Changes since v1:
-* New patch. Making user space aware of Heki properties was requested by
-  Sean Christopherson.
+* New patch and new files: arch/x86/mm/heki.c and virt/heki/counters.c
 ---
- arch/x86/kvm/vmx/vmx.c   |   5 +-
- arch/x86/kvm/x86.c       | 114 +++++++++++++++++++++++++++++++++++----
- arch/x86/kvm/x86.h       |   7 +--
- include/linux/kvm_host.h |   2 +
- include/uapi/linux/kvm.h |  22 ++++++++
- 5 files changed, 136 insertions(+), 14 deletions(-)
+ arch/x86/mm/Makefile |   2 +
+ arch/x86/mm/heki.c   |  56 +++++++++++++++++
+ include/linux/heki.h |  32 ++++++++++
+ virt/heki/Kconfig    |   2 +
+ virt/heki/Makefile   |   1 +
+ virt/heki/counters.c | 147 +++++++++++++++++++++++++++++++++++++++++++
+ virt/heki/main.c     |  13 ++++
+ 7 files changed, 253 insertions(+)
+ create mode 100644 arch/x86/mm/heki.c
+ create mode 100644 virt/heki/counters.c
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index f487bf16dd96..b631b1d7ba30 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -5444,6 +5444,7 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 	int reg;
- 	int err;
- 	int ret;
-+	bool exit = false;
+diff --git a/arch/x86/mm/Makefile b/arch/x86/mm/Makefile
+index c80febc44cd2..2998eaac0dbb 100644
+--- a/arch/x86/mm/Makefile
++++ b/arch/x86/mm/Makefile
+@@ -67,3 +67,5 @@ obj-$(CONFIG_AMD_MEM_ENCRYPT)	+= mem_encrypt_amd.o
  
- 	exit_qualification = vmx_get_exit_qual(vcpu);
- 	cr = exit_qualification & 15;
-@@ -5453,8 +5454,8 @@ static int handle_cr(struct kvm_vcpu *vcpu)
- 		val = kvm_register_read(vcpu, reg);
- 		trace_kvm_cr_write(cr, val);
- 
--		ret = heki_check_cr(vcpu, cr, val);
--		if (ret)
-+		ret = heki_check_cr(vcpu, cr, val, &exit);
-+		if (exit)
- 			return ret;
- 
- 		switch (cr) {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 4e6c4c21f12c..43c28a6953bf 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -119,6 +119,10 @@ static u64 __read_mostly cr4_reserved_bits = CR4_RESERVED_BITS;
- 
- #define KVM_CAP_PMU_VALID_MASK KVM_PMU_CAP_DISABLE
- 
-+#define KVM_HEKI_EXIT_REASON_VALID_MASK ( \
-+	KVM_HEKI_EXIT_REASON_CR0 | \
-+	KVM_HEKI_EXIT_REASON_CR4)
+ obj-$(CONFIG_AMD_MEM_ENCRYPT)	+= mem_encrypt_identity.o
+ obj-$(CONFIG_AMD_MEM_ENCRYPT)	+= mem_encrypt_boot.o
 +
- #define KVM_X2APIC_API_VALID_FLAGS (KVM_X2APIC_API_USE_32BIT_IDS | \
-                                     KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK)
- 
-@@ -4644,6 +4648,10 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		if (kvm_is_vm_type_supported(KVM_X86_SW_PROTECTED_VM))
- 			r |= BIT(KVM_X86_SW_PROTECTED_VM);
- 		break;
-+	case KVM_CAP_HEKI_CONFIGURE:
-+	case KVM_CAP_HEKI_DENIAL:
-+		r = KVM_HEKI_EXIT_REASON_VALID_MASK;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -6518,6 +6526,22 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		}
- 		mutex_unlock(&kvm->lock);
- 		break;
-+#ifdef CONFIG_HEKI
-+	case KVM_CAP_HEKI_CONFIGURE:
-+		r = -EINVAL;
-+		if (cap->args[0] & ~KVM_HEKI_EXIT_REASON_VALID_MASK)
-+			break;
-+		kvm->heki_configure_exit_reason = cap->args[0];
-+		r = 0;
-+		break;
-+	case KVM_CAP_HEKI_DENIAL:
-+		r = -EINVAL;
-+		if (cap->args[0] & ~KVM_HEKI_EXIT_REASON_VALID_MASK)
-+			break;
-+		kvm->heki_denial_exit_reason = cap->args[0];
-+		r = 0;
-+		break;
++obj-$(CONFIG_HEKI)		+= heki.o
+diff --git a/arch/x86/mm/heki.c b/arch/x86/mm/heki.c
+new file mode 100644
+index 000000000000..c495df0d8772
+--- /dev/null
++++ b/arch/x86/mm/heki.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Hypervisor Enforced Kernel Integrity (Heki) - Arch specific.
++ *
++ * Copyright © 2023 Microsoft Corporation
++ */
++
++#include <linux/heki.h>
++#include <linux/kvm_mem_attr.h>
++
++#ifdef pr_fmt
++#undef pr_fmt
 +#endif
- 	default:
- 		r = -EINVAL;
- 		break;
-@@ -8056,11 +8080,60 @@ static unsigned long emulator_get_cr(struct x86_emulate_ctxt *ctxt, int cr)
- 
- #ifdef CONFIG_HEKI
- 
-+static int complete_heki_configure_exit(struct kvm_vcpu *const vcpu)
++
++#define pr_fmt(fmt) "heki-guest: " fmt
++
++static unsigned long kernel_va;
++static unsigned long kernel_end;
++static unsigned long direct_map_va;
++static unsigned long direct_map_end;
++
++__init void heki_arch_early_init(void)
 +{
-+	kvm_rax_write(vcpu, 0);
-+	++vcpu->stat.hypercalls;
-+	return kvm_skip_emulated_instruction(vcpu);
-+}
-+
-+static int complete_heki_denial_exit(struct kvm_vcpu *const vcpu)
-+{
-+	kvm_inject_gp(vcpu, 0);
-+	return 1;
-+}
-+
-+/* Returns true if the @exit_reason is handled by @vcpu->kvm. */
-+static bool heki_exit_cr(struct kvm_vcpu *const vcpu, const __u32 exit_reason,
-+			 const u64 heki_reason, unsigned long value)
-+{
-+	switch (exit_reason) {
-+	case KVM_EXIT_HEKI_CONFIGURE:
-+		if (!(vcpu->kvm->heki_configure_exit_reason & heki_reason))
-+			return false;
-+
-+		vcpu->run->heki_configure.reason = heki_reason;
-+		memset(vcpu->run->heki_configure.reserved, 0,
-+		       sizeof(vcpu->run->heki_configure.reserved));
-+		vcpu->run->heki_configure.cr_pinned = value;
-+		vcpu->arch.complete_userspace_io = complete_heki_configure_exit;
-+		break;
-+	case KVM_EXIT_HEKI_DENIAL:
-+		if (!(vcpu->kvm->heki_denial_exit_reason & heki_reason))
-+			return false;
-+
-+		vcpu->run->heki_denial.reason = heki_reason;
-+		memset(vcpu->run->heki_denial.reserved, 0,
-+		       sizeof(vcpu->run->heki_denial.reserved));
-+		vcpu->run->heki_denial.cr_value = value;
-+		vcpu->arch.complete_userspace_io = complete_heki_denial_exit;
-+		break;
-+	default:
-+		WARN_ON_ONCE(1);
-+		return false;
++	/* Kernel virtual address space range, not yet compatible with KASLR. */
++	if (pgtable_l5_enabled()) {
++		kernel_va = 0xff00000000000000UL;
++		kernel_end = 0xffffffffffe00000UL;
++		direct_map_va = 0xff11000000000000UL;
++		direct_map_end = 0xff91000000000000UL;
++	} else {
++		kernel_va = 0xffff800000000000UL;
++		kernel_end = 0xffffffffffe00000UL;
++		direct_map_va = 0xffff888000000000UL;
++		direct_map_end = 0xffffc88000000000UL;
 +	}
 +
-+	vcpu->run->exit_reason = exit_reason;
-+	return true;
++	/*
++	 * Initialize the counters for all existing kernel mappings except
++	 * for direct map.
++	 */
++	heki_map(kernel_va, direct_map_va);
++	heki_map(direct_map_end, kernel_end);
 +}
 +
- #define HEKI_ABI_VERSION 1
- 
- static int heki_lock_cr(struct kvm_vcpu *const vcpu, const unsigned long cr,
--			unsigned long pin, unsigned long flags)
-+			unsigned long pin, unsigned long flags, bool *exit)
- {
-+	*exit = false;
++unsigned long heki_flags_to_permissions(unsigned long flags)
++{
++	unsigned long permissions;
 +
- 	if (flags) {
- 		if ((flags == KVM_LOCK_CR_UPDATE_VERSION) && !cr && !pin)
- 			return HEKI_ABI_VERSION;
-@@ -8080,6 +8153,8 @@ static int heki_lock_cr(struct kvm_vcpu *const vcpu, const unsigned long cr,
- 			return -KVM_EINVAL;
++	permissions = MEM_ATTR_READ | MEM_ATTR_EXEC;
++	if (flags & _PAGE_RW)
++		permissions |= MEM_ATTR_WRITE;
++	if (flags & _PAGE_NX)
++		permissions &= ~MEM_ATTR_EXEC;
++
++	return permissions;
++}
+diff --git a/include/linux/heki.h b/include/linux/heki.h
+index a7ae0b387dfe..86c787d121e0 100644
+--- a/include/linux/heki.h
++++ b/include/linux/heki.h
+@@ -19,6 +19,16 @@
  
- 		atomic_long_or(pin, &vcpu->kvm->heki_pinned_cr0);
-+		*exit = heki_exit_cr(vcpu, KVM_EXIT_HEKI_CONFIGURE,
-+				     KVM_HEKI_EXIT_REASON_CR0, pin);
- 		return 0;
- 	case 4:
- 		/* Checks for irrelevant bits. */
-@@ -8089,24 +8164,37 @@ static int heki_lock_cr(struct kvm_vcpu *const vcpu, const unsigned long cr,
- 		/* Ignores bits not present in host. */
- 		pin &= __read_cr4();
- 		atomic_long_or(pin, &vcpu->kvm->heki_pinned_cr4);
-+		*exit = heki_exit_cr(vcpu, KVM_EXIT_HEKI_CONFIGURE,
-+				     KVM_HEKI_EXIT_REASON_CR4, pin);
- 		return 0;
- 	}
- 	return -KVM_EINVAL;
- }
+ #ifdef CONFIG_HEKI
  
 +/*
-+ * Sets @exit to true if the caller must exit (i.e. denied access) with the
-+ * returned value:
-+ * - 0 when kvm_run is configured;
-+ * - 1 when there is no user space handler.
++ * This structure keeps track of the collective permissions for a guest page
++ * across all of its mappings.
 + */
- int heki_check_cr(struct kvm_vcpu *const vcpu, const unsigned long cr,
--		  const unsigned long val)
-+		  const unsigned long val, bool *exit)
- {
- 	unsigned long pinned;
- 
-+	*exit = false;
++struct heki_counters {
++	int read;
++	int write;
++	int execute;
++};
 +
- 	switch (cr) {
- 	case 0:
- 		pinned = atomic_long_read(&vcpu->kvm->heki_pinned_cr0);
- 		if ((val & pinned) != pinned) {
- 			pr_warn_ratelimited(
- 				"heki: Blocked CR0 update: 0x%lx\n", val);
--			kvm_inject_gp(vcpu, 0);
--			return 1;
-+			*exit = true;
-+			if (heki_exit_cr(vcpu, KVM_EXIT_HEKI_DENIAL,
-+					 KVM_HEKI_EXIT_REASON_CR0, val))
-+				return 0;
-+			return complete_heki_denial_exit(vcpu);
- 		}
- 		return 0;
- 	case 4:
-@@ -8114,8 +8202,11 @@ int heki_check_cr(struct kvm_vcpu *const vcpu, const unsigned long cr,
- 		if ((val & pinned) != pinned) {
- 			pr_warn_ratelimited(
- 				"heki: Blocked CR4 update: 0x%lx\n", val);
--			kvm_inject_gp(vcpu, 0);
--			return 1;
-+			*exit = true;
-+			if (heki_exit_cr(vcpu, KVM_EXIT_HEKI_DENIAL,
-+					 KVM_HEKI_EXIT_REASON_CR4, val))
-+				return 0;
-+			return complete_heki_denial_exit(vcpu);
- 		}
- 		return 0;
+ /*
+  * This structure contains a guest physical range and its permissions (RWX).
+  */
+@@ -56,9 +66,17 @@ struct heki_hypervisor {
+ /*
+  * If the active hypervisor supports Heki, it will plug its heki_hypervisor
+  * pointer into this heki structure.
++ *
++ * During guest kernel boot, permissions counters for each guest page are
++ * initialized based on the page's current permissions.
+  */
+ struct heki {
+ 	struct heki_hypervisor *hypervisor;
++	struct mem_table *counters;
++};
++
++enum heki_cmd {
++	HEKI_MAP,
+ };
+ 
+ /*
+@@ -72,6 +90,9 @@ struct heki_args {
+ 	phys_addr_t pa;
+ 	size_t size;
+ 	unsigned long flags;
++
++	/* Command passed by caller. */
++	enum heki_cmd cmd;
+ };
+ 
+ /* Callback function called by the table walker. */
+@@ -84,6 +105,14 @@ extern bool __read_mostly enable_mbec;
+ 
+ void heki_early_init(void);
+ void heki_late_init(void);
++void heki_counters_init(void);
++void heki_walk(unsigned long va, unsigned long va_end, heki_func_t func,
++	       struct heki_args *args);
++void heki_map(unsigned long va, unsigned long end);
++
++/* Arch-specific functions. */
++void heki_arch_early_init(void);
++unsigned long heki_flags_to_permissions(unsigned long flags);
+ 
+ #else /* !CONFIG_HEKI */
+ 
+@@ -93,6 +122,9 @@ static inline void heki_early_init(void)
+ static inline void heki_late_init(void)
+ {
+ }
++static inline void heki_map(unsigned long va, unsigned long end)
++{
++}
+ 
+ #endif /* CONFIG_HEKI */
+ 
+diff --git a/virt/heki/Kconfig b/virt/heki/Kconfig
+index 75a784653e31..6d956eb9d04b 100644
+--- a/virt/heki/Kconfig
++++ b/virt/heki/Kconfig
+@@ -6,6 +6,8 @@ config HEKI
+ 	bool "Hypervisor Enforced Kernel Integrity (Heki)"
+ 	depends on ARCH_SUPPORTS_HEKI && HYPERVISOR_SUPPORTS_HEKI
+ 	select KVM_GENERIC_MEMORY_ATTRIBUTES
++	depends on !X86_16BIT
++	select SPARSEMEM
+ 	help
+ 	  This feature enhances guest virtual machine security by taking
+ 	  advantage of security features provided by the hypervisor for guests.
+diff --git a/virt/heki/Makefile b/virt/heki/Makefile
+index a5daa4ff7a4f..564f92faa9d8 100644
+--- a/virt/heki/Makefile
++++ b/virt/heki/Makefile
+@@ -2,3 +2,4 @@
+ 
+ obj-y += main.o
+ obj-y += walk.o
++obj-y += counters.o
+diff --git a/virt/heki/counters.c b/virt/heki/counters.c
+new file mode 100644
+index 000000000000..7067449cabca
+--- /dev/null
++++ b/virt/heki/counters.c
+@@ -0,0 +1,147 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Hypervisor Enforced Kernel Integrity (Heki) - Permissions counters.
++ *
++ * Copyright © 2023 Microsoft Corporation
++ */
++
++#include <linux/heki.h>
++#include <linux/kvm_mem_attr.h>
++#include <linux/mem_table.h>
++
++#include "common.h"
++
++DEFINE_MUTEX(heki_lock);
++
++static void heki_update_counters(struct heki_counters *counters,
++				 unsigned long perm, unsigned long set,
++				 unsigned long clear)
++{
++	if (WARN_ON_ONCE(!counters))
++		return;
++
++	if ((clear & MEM_ATTR_READ) && (perm & MEM_ATTR_READ))
++		counters->read--;
++	if ((clear & MEM_ATTR_WRITE) && (perm & MEM_ATTR_WRITE))
++		counters->write--;
++	if ((clear & MEM_ATTR_EXEC) && (perm & MEM_ATTR_EXEC))
++		counters->execute--;
++
++	if ((set & MEM_ATTR_READ) && !(perm & MEM_ATTR_READ))
++		counters->read++;
++	if ((set & MEM_ATTR_WRITE) && !(perm & MEM_ATTR_WRITE))
++		counters->write++;
++	if ((set & MEM_ATTR_EXEC) && !(perm & MEM_ATTR_EXEC))
++		counters->execute++;
++}
++
++static struct heki_counters *heki_create_counters(struct mem_table *table,
++						  phys_addr_t pa)
++{
++	struct heki_counters *counters;
++	void **entry;
++
++	entry = mem_table_create(table, pa);
++	if (WARN_ON(!entry))
++		return NULL;
++
++	counters = kzalloc(sizeof(*counters), GFP_KERNEL);
++	if (WARN_ON(!counters))
++		return NULL;
++
++	*entry = counters;
++	return counters;
++}
++
++void heki_callback(struct heki_args *args)
++{
++	/* The VA is only for debug. It is not really used in this function. */
++	unsigned long va;
++	phys_addr_t pa, pa_end;
++	unsigned long permissions;
++	void **entry;
++	struct heki_counters *counters;
++	unsigned int ignore;
++
++	if (!pfn_valid(args->pa >> PAGE_SHIFT))
++		return;
++
++	permissions = heki_flags_to_permissions(args->flags);
++
++	/*
++	 * Handle counters for a leaf entry in the kernel page table.
++	 */
++	pa_end = args->pa + args->size;
++	for (pa = args->pa, va = args->va; pa < pa_end;
++	     pa += PAGE_SIZE, va += PAGE_SIZE) {
++		entry = mem_table_find(heki.counters, pa, &ignore);
++		if (entry)
++			counters = *entry;
++		else
++			counters = NULL;
++
++		switch (args->cmd) {
++		case HEKI_MAP:
++			if (!counters)
++				counters =
++					heki_create_counters(heki.counters, pa);
++			heki_update_counters(counters, 0, permissions, 0);
++			break;
++
++		default:
++			WARN_ON_ONCE(1);
++			break;
++		}
++	}
++}
++
++static void heki_func(unsigned long va, unsigned long end,
++		      struct heki_args *args)
++{
++	if (!heki.counters || va >= end)
++		return;
++
++	va = ALIGN_DOWN(va, PAGE_SIZE);
++	end = ALIGN(end, PAGE_SIZE);
++
++	mutex_lock(&heki_lock);
++
++	heki_walk(va, end, heki_callback, args);
++
++	mutex_unlock(&heki_lock);
++}
++
++/*
++ * Find the mappings in the given range and initialize permission counters for
++ * them.
++ */
++void heki_map(unsigned long va, unsigned long end)
++{
++	struct heki_args args = {
++		.cmd = HEKI_MAP,
++	};
++
++	heki_func(va, end, &args);
++}
++
++/*
++ * Permissions counters are associated with each guest page using the
++ * Memory Table feature. Initialize the permissions counters here.
++ * Note that we don't support large page entries for counters because
++ * it is difficult to merge/split counters for large pages.
++ */
++
++static void heki_counters_free(void *counters)
++{
++	kfree(counters);
++}
++
++static struct mem_table_ops heki_counters_ops = {
++	.free = heki_counters_free,
++};
++
++__init void heki_counters_init(void)
++{
++	heki.counters = mem_table_alloc(&heki_counters_ops);
++	WARN_ON(!heki.counters);
++}
+diff --git a/virt/heki/main.c b/virt/heki/main.c
+index ff1937e1c946..0ab7de659e6f 100644
+--- a/virt/heki/main.c
++++ b/virt/heki/main.c
+@@ -21,6 +21,16 @@ __init void heki_early_init(void)
+ 		pr_warn("Heki is not enabled\n");
+ 		return;
  	}
-@@ -8129,9 +8220,10 @@ static int emulator_set_cr(struct x86_emulate_ctxt *ctxt, int cr, ulong val)
- {
- 	struct kvm_vcpu *vcpu = emul_to_vcpu(ctxt);
- 	int res = 0;
-+	bool exit = false;
- 
--	res = heki_check_cr(vcpu, cr, val);
--	if (res)
-+	res = heki_check_cr(vcpu, cr, val, &exit);
-+	if (exit)
- 		return res;
- 
- 	switch (cr) {
-@@ -9998,7 +10090,11 @@ int kvm_emulate_hypercall(struct kvm_vcpu *vcpu)
- 		if (a0 > U32_MAX) {
- 			ret = -KVM_EINVAL;
- 		} else {
--			ret = heki_lock_cr(vcpu, a0, a1, a2);
-+			bool exit = false;
 +
-+			ret = heki_lock_cr(vcpu, a0, a1, a2, &exit);
-+			if (exit)
-+				return ret;
- 		}
- 		break;
- #endif /* CONFIG_HEKI */
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index 193093112b55..f8f5c32bedd9 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -292,18 +292,19 @@ static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
++	/*
++	 * Static addresses (see heki_arch_early_init) are not compatible with
++	 * KASLR. This will be handled in a next patch series.
++	 */
++	if (IS_ENABLED(CONFIG_RANDOMIZE_BASE)) {
++		pr_warn("Heki is disabled because KASLR is not supported yet\n");
++		return;
++	}
++
+ 	pr_warn("Heki is enabled\n");
  
- #ifdef CONFIG_HEKI
- 
--int heki_check_cr(struct kvm_vcpu *vcpu, unsigned long cr, unsigned long val);
-+int heki_check_cr(struct kvm_vcpu *vcpu, unsigned long cr, unsigned long val,
-+		  bool *exit);
- 
- #else /* CONFIG_HEKI */
- 
- static inline int heki_check_cr(struct kvm_vcpu *vcpu, unsigned long cr,
--				unsigned long val)
-+				unsigned long val, bool *exit)
- {
- 	return 0;
+ 	if (!heki.hypervisor) {
+@@ -29,6 +39,9 @@ __init void heki_early_init(void)
+ 		return;
+ 	}
+ 	pr_warn("Heki is supported by the active Hypervisor\n");
++
++	heki_counters_init();
++	heki_arch_early_init();
  }
  
- static inline int heki_lock_cr(struct kvm_vcpu *const vcpu, unsigned long cr,
--			       unsigned long pin)
-+			       unsigned long pin, bool *exit)
- {
- 	return 0;
- }
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 6864c80ff936..ec32af17add8 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -838,6 +838,8 @@ struct kvm {
- #ifdef CONFIG_HEKI
- 	atomic_long_t heki_pinned_cr0;
- 	atomic_long_t heki_pinned_cr4;
-+	u64 heki_configure_exit_reason;
-+	u64 heki_denial_exit_reason;
- #endif /* CONFIG_HEKI */
- 
- #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 5b5820d19e71..2477b4a16126 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -279,6 +279,8 @@ struct kvm_xen_exit {
- #define KVM_EXIT_RISCV_CSR        36
- #define KVM_EXIT_NOTIFY           37
- #define KVM_EXIT_MEMORY_FAULT     38
-+#define KVM_EXIT_HEKI_CONFIGURE   39
-+#define KVM_EXIT_HEKI_DENIAL      40
- 
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -532,6 +534,24 @@ struct kvm_run {
- 			__u64 gpa;
- 			__u64 size;
- 		} memory_fault;
-+		/* KVM_EXIT_HEKI_CONFIGURE */
-+		struct {
-+#define KVM_HEKI_EXIT_REASON_CR0	(1ULL << 0)
-+#define KVM_HEKI_EXIT_REASON_CR4	(1ULL << 1)
-+			__u64 reason;
-+			union {
-+				__u64 cr_pinned;
-+				__u64 reserved[7]; /* ignored */
-+			};
-+		} heki_configure;
-+		/* KVM_EXIT_HEKI_DENIAL */
-+		struct {
-+			__u64 reason;
-+			union {
-+				__u64 cr_value;
-+				__u64 reserved[7]; /* ignored */
-+			};
-+		} heki_denial;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
-@@ -1219,6 +1239,8 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_MEMORY_ATTRIBUTES 232
- #define KVM_CAP_GUEST_MEMFD 233
- #define KVM_CAP_VM_TYPES 234
-+#define KVM_CAP_HEKI_CONFIGURE 235
-+#define KVM_CAP_HEKI_DENIAL 236
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
+ /*
 -- 
 2.42.1
 
