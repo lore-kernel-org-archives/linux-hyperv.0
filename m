@@ -1,28 +1,28 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402C5208CA;
-	Wed, 15 Nov 2023 14:06:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6582770E;
+	Wed, 15 Nov 2023 14:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IVhPFLV5"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RJKRAEyU"
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88A4011D;
-	Wed, 15 Nov 2023 06:06:18 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1ECEE1;
+	Wed, 15 Nov 2023 06:06:19 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e77UutjJtK2uoNSL0JhrSh09GOFve/uwDy0qY7X9ugyGfO18F+HChWT2Yd1ySwxWtRcaw/de5HehtXd5BmZbCM9kpnKyxPCfbJ6+2g0oe4tyGhk1X+vUw6DQf30PoUhpV4p35sGgkRABVIsqQKLwHAhjLm+r4pQfKByIiuDfc7Kgf4pxu96aq2vKKkOv49ZYg9awAp+cz/ZZejkefORaTGeGYnu18iNlsQ0AnmL5976GCEUi7Ew10N4xcZE5XiEMM3tf8bgqzOEqAflsJihrXfyFRpnuc/RgKvd5kuhNumFsWMm59E/aF7pPgYsbsx2SNgUTcbleEn8CyXndDgoqKw==
+ b=j6ZKNyTOenZy/QS7V0tcVx8L1FlVCHzHZke536PW/nE792ULEWn9GaJBcA3iz9dKgvGNYgQ1xz4h4f8uQ9ycHGXpbbAz9szglhhLqs4IV4xMclzsIieghTkV3xZ58Pw5HpQ0bCnJAsx5u4+AxrP+jUU4GcsgSrOiKvpx/P8ZtW99pu39qk5IDV8GHHkNThshuOLPOTftGWu/K30jsKMfXSbwFnhRFV3d0XiKjSz0WswzrAJ2/1bKP0CF4mwx4I6SoVMV7yxuYc8sa0AMH5Xyf6NzmIE4BEq3z7Ps3ZkE/2DtFxGXjb4t0d5RhLUx453sYtwMUKir3O/XXHOjzwClyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h1GujaaPcQbdHtiaRGjCcNI83AftjT8Nj3eA/aJbfRg=;
- b=OK4pHeuKIoow80ktkUWHf5j449fMsilxNZPy+z62rLg7Fh5p6aAr+Sv+kLvsV9e5gstWkWap9ZW7VvoVdocgl/0PegQNqKuU8UWkTF9Rq32mS5QkXeghueRIzXUR3elkC1vQEGA+nAPTZk+LWZBWdPXuWNhXPzeWoKTqzPiqNtfjYRO+NPuG9hskZOlUVUNrHXdCt4U+lF+8NIBiOUFqz+mbJMax974lhMcw8/m+5TX6MbIIiwNcLFZI+jtORl3ctQ2l6ixFLW6c/2rDsBj5OdGRzX4RWyhTqBJ2NqfdeaG0wXm5DrYBwV3JRO0Ifxi+u6JsgqMHHYpXnV5gmV4wyg==
+ bh=Bir3wJ5bE5oIcXCPzV6/tu0r5Jc8YZAdkGwzn/DI8Bw=;
+ b=RiG0WdEhNMO/dRkuJt4iYzW0NFYWw4DvtIImbZzeZKbr09q/+zqJUcIxh97iVcumJB7FgTGphReb2qStPVqWVgK2XFgCfZi/rn95Fc2+KGKNX9pDpHs23bBqjq4TaLmkFzZnxUiameJUdro5eVDC/Mw9jvB5ORLA+6eCRaPxNlTFroUOP6NuaRqz3VpX1jujRJ1HiBm6sOm/3oyl4JLd9QWIYH+3cfIAHJRFB1WwWaXC/jwRV4udrSSm05dF5XYRux1jZz9aD4oyQ4/qpi9ekISvUHROhpWC4Kidpxvbp28roMsxkgbk6t0oRRL1hSnJAHAlWDMvSWb7jtpBrHPzlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h1GujaaPcQbdHtiaRGjCcNI83AftjT8Nj3eA/aJbfRg=;
- b=IVhPFLV5h8oQ5RHN73YYWym7TYHqgqfaFf8F+evXaQuwk0Ue6o3NwXlPvFLnnsqDGYHxnC1+uRZBnlY888mvsOpWO1OAmynwQVyDtwA3MmvdRcMPstLqlyeEP2OFvhUP+YRguV4RlznuAaLPxCj0Fc8KncMa/33Nzudd1rlJerMIO+WVMoPAISxB+s1uja8hl6TNPC8qDiQUJrmVTwiUPFB+y+EzmIr5JtamtvYSKKXTP+mg31KSexGZ9VMCpca3xkcBnN2wU4qpkSj34RrMjSrUpm+Mt9QhxQPsucaYnC0TuXOafoC07MdvHKs5ZIrsj5qbsj9muBbUoNyWWRn7AQ==
+ bh=Bir3wJ5bE5oIcXCPzV6/tu0r5Jc8YZAdkGwzn/DI8Bw=;
+ b=RJKRAEyULc2Fj3ShwMj2r/X7/onN1J3KtH6k1gn2RCz/KZnD2AjQG3EzsgCGRTwK0v9O5BsBXHvAS2b4iIO6i4agzsP1COcv8b+I+tdPZicIp+GShbC7Zv+0LLw+XmrxuIQjrDC5hdOK1u6/OupY8xE4gFEH6Lwlv4NmvezUhXB5Ld12byQel6Fb/7DM08yE0uTdQ4SQ9B94U+tyLsT+qBbusLnV19CQFVonJP8RlxNHsGqfvep2hpsKbR6wcLkgeRD/JfD83YXBM81mxrWJXLSCf1xCFvReVBZcxytvw7kkDeEJLLbF0zCnqk74lJVSM+c81exAQ+cRsV81mxuULw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
@@ -88,15 +88,15 @@ Cc: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
 	Zhenhua Huang <quic_zhenhuah@quicinc.com>,
 	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 17/17] iommu: Mark dev_iommu_priv_set() with a lockdep
-Date: Wed, 15 Nov 2023 10:06:08 -0400
-Message-ID: <17-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+Subject: [PATCH v2 13/17] iommu: Remove dev_iommu_fwspec_set()
+Date: Wed, 15 Nov 2023 10:06:04 -0400
+Message-ID: <13-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 In-Reply-To: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 References:
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR11CA0028.namprd11.prod.outlook.com
- (2603:10b6:208:23b::33) To LV2PR12MB5869.namprd12.prod.outlook.com
+X-ClientProxiedBy: BLAPR03CA0113.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::28) To LV2PR12MB5869.namprd12.prod.outlook.com
  (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -106,199 +106,96 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|PH8PR12MB6916:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f8cf913-e808-4457-e104-08dbe5e4051b
+X-MS-Office365-Filtering-Correlation-Id: cd89d7f4-a005-4189-2ded-08dbe5e40549
 X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	NBnV+3+sCeD6bpEZFjODNEbAsY7ndRKIQKbI/7waKsRhxVYz6miBgl2fhZJMAe/RXYfts7OYc7KTGyTtFSD1F6wUB0subQxNM58t59M9zcUd4Ff5GZ/0V0HCbXXN/tMw7jXWuRbxfzBNztSGFfDoXobpFTioFHaJviptZkOyr/Xq3PEmvoir8zeaFzVH9B/mpY2qm27K1ZL9VckFYShtbyAr0dz+e/mJcMA7GbINB48PizlS27YzFzKVVlSD/WiSwWllmx3JvUnxCkdQGD5MvKVRfMLBVYYhRLeNytTpNxMq3Tkc2mPZz1mLJfwTyO1TrU5CN/txqvVFFFm7aijEPPnNlCO0iAofQR60GrDDk4U0opPjUBrOpRcTSOt0xF0Rup1Je1obygi2reRgArHm246GqPyAXEvoxj+lC15zzZrSF9lXwpXS1iBQygQVic3KoEORNdzU3PLawfg8i/1STn8SQ81cyl9l6n9zbIGbKsoDwjB/iZKwL3mmhXotfdAwph2P1k2w8KOP0CW8Xl0vP4MVf6TRp2OjZ91OzvHL7/wCIwdw8/mhp81sPCyC3yHiPvfnQHR4BUDbOzHBUvFxcNOwNxicfqOysq4LWEI9NaQ=
+	eRsF/Dt4+HJ45bmYjKY9aho5heb5YUbg+V6U5kyIBLb6LHovnzZ34SDbOJTAJBZuLvaubWeNHh2M4ABzp0o2asxHRJ9OxX9Bf/sxG15jmpbgmPh7XGCi5F/sjpli03dAxP9JlXcfCsdt6JT9kWw+lTTV9f/4v4y4HFClZZKq8lHm8IAg03PTtWSNOmCbKxQiF0ddQxInRAPAhYw0AdxkW+3AofwTL4u1J4zELwitQeE6Lcwj50zwvUYMe2DJd7Js7T9PYDYZNaymQgkFHbMn9LgA8s7/aCjW/3pySx9mvwMWwza9xKgTccTcdqDDsvdTchMrs65mXmUMHoj+4FnZ1b3RjkqXBoA+tI15j2AO2YkKFM1A3zfIo7mZJGZ9X9PuV+60nI30bHeZHghdNpwq2dZcw0VLWyXxeX8zu3tNq0g5SiHvYQ68Wc7eGjykUv3EoaZeO+FT/+LphB2Nf3d5moUH//tMbcN9JKQSyl25g0IwnruyaASTyhY5yiRQ4gIbJImdGizFaeokUVJWai5lEKiCddQM1ukmwMhIg/c2BmLHKpiWr+mhEHqFseaU8hDIlwxSxlDzgV1l9f154Fe29ttRFbF4sKYiTuMaMwtpgL8=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(396003)(366004)(136003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(110136005)(316002)(66946007)(54906003)(66476007)(66556008)(6486002)(478600001)(6666004)(7366002)(86362001)(5660300002)(7406005)(7416002)(921008)(41300700001)(2906002)(36756003)(8676002)(4326008)(8936002)(2616005)(38100700002)(26005)(83380400001)(6506007)(6512007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e0if6SP1GlB9PDzgRPtOZWHLnGvb/YeRiMRnt0KYqynBMhSZen24QMDVcB0q?=
- =?us-ascii?Q?fbxQoLAYuEMleO3c+u4yfxHV/tfbSc6HGSoqapW3ohxGJnPdeoht7LPak3Xm?=
- =?us-ascii?Q?GGtse7Aa7eX3J/faF3NP/wJS+nCKgBumkTSojcT8vrZDuPlThmw69K441S/s?=
- =?us-ascii?Q?44c29mqjIYMKzQvOA6RS36ljUkhTTXvc2h9y0uLloa1W8eoaV8KGxT0tmdru?=
- =?us-ascii?Q?FJXDCCFC44V/0C+slM66e9qBW39/QlrNF5KtUcW0NfHYHRrZNMSWu8mxr/KN?=
- =?us-ascii?Q?WphEHgfj10Rsrxg73ZMHpf4dGSo8ELaCgXjXwSIiM7OTUs1ac1mFV5ReZ6Ju?=
- =?us-ascii?Q?gObpR+y8FjH9szIw7wdumL8cL0wxG4tppkqUUZIEtDfvqc0333yDnOA6RE+a?=
- =?us-ascii?Q?HKQczKLM1PTm83DeZicz0oVtBgR49GiyZnohvYpvjKL1jYuwWxqK1/crPqwJ?=
- =?us-ascii?Q?6KscOFIjsyQV3yzE1YcHgPiOySjSMsJAtOGVCcWgu5sY8Id0JvkOwLUs7YQX?=
- =?us-ascii?Q?bgNmFRJB08cTL0VxEudjLJ59hWvYvVDmCyJjYZ4EtFgNSN9ozyiXMk7cRJHc?=
- =?us-ascii?Q?TZQSB6fxrjTLL0kxk4XKU2oeVz0ptFAuqEk/L7B8rsK5QdBrOaLtcjWstGlB?=
- =?us-ascii?Q?twfxSfrdJOoPzUHSxAmwSNcZR7Ly3fs6Pe6CZygsL7cBzx2Kwu7PhNynN69o?=
- =?us-ascii?Q?WE+WnZr3NdJvZb0mIHw+68stfW6x4YB78xpmz30s1XgBmJJlDsRSdPolU/+i?=
- =?us-ascii?Q?Ndh1rVSSuLHYzG9oJSLUNUklwYen7YuXpVRop57mRfymBvTnI0f2J/iyQe5r?=
- =?us-ascii?Q?AW6QOaRlm7orfmnN11/yUoYurBf3VWkytDCPzEe/SVf8wg9MKA0nbvv8PWuP?=
- =?us-ascii?Q?fxaNnHFha5WiwJSIVBHvGR5/05cmH7QUeLSC7aXYTwuGEWcUilxojfiJMwJi?=
- =?us-ascii?Q?RgBB3ZfLlp2GWLO5VrXusF62I34S/7aVavn78SLAQO+Aljpsls+vkMRZNyRQ?=
- =?us-ascii?Q?XS5B1fGJ+NZSMxHI6Vpux3Mg3QaKj/2Rp12dj5x+EG1zXaHJfCCVbrgoHWYh?=
- =?us-ascii?Q?4IlJ/MzhWCKEXK5vmvtta8/NjIZJS4AuT1pvmnELyQJaYZmuBbZ/XD9XrmKH?=
- =?us-ascii?Q?iYTfYY8OhQ07mwWon6r/iyWTgt3aobYvL14ztjM686zxFGM1IWegljBK+PyZ?=
- =?us-ascii?Q?if9r957gvTASIGKubBpylxDWdzHqq1xhh4Z2O88jne2HxolChUYt30kjkrK/?=
- =?us-ascii?Q?0iGjbwurSkcjyZsBhB37677N4acK1jJ0eGQjQP6iNTywPFnwS0yX8KksDrLv?=
- =?us-ascii?Q?HF0BB6OdKZWG1prHYQ7FccUamti7RXtKhRRGzO943AyYQMsabQnCmJ/pecSd?=
- =?us-ascii?Q?X+brAtv7knvU2dU9Mo86475/oaKnIwi4aS7hP/Rt/FAz+MBoOF+BnfIjeZkK?=
- =?us-ascii?Q?slSX2HXKHSmW9QwMxrHnfk5UL6vNk9mvDLq2u+K/EGC0dCCVA7+w4SOLUSm0?=
- =?us-ascii?Q?24vCbbXWHHOP/4MFXqS0G8xOqvLOGSuXJ/lYGJwXiKOdNboIGfc0prtCDjg+?=
- =?us-ascii?Q?OwX+nXxIdgvh1TK97Ps=3D?=
+	=?us-ascii?Q?c/8zn0V4WhrkbUndJSfWrc/9uOTwc12pIBG8vkm6KPQa14TPV5PosFq4zIE9?=
+ =?us-ascii?Q?PfGLNSgsBKF9X4ae9rsMJkrHigqOb9WdH0s9wT2g1DYMAOPvHnJn1okSGaPe?=
+ =?us-ascii?Q?pxbDC2kKPGV5K+H8KWwelcnRPzvNBXhreNoO74Z3eo+N7XE6FqamMMH0HYXW?=
+ =?us-ascii?Q?LUwKH2colznhNMwcV4BYQ1TmtAGwAapRkXehUuGySlyTBZWvngMb0P8xknPF?=
+ =?us-ascii?Q?YyipIqDBCw/wl2GYlb3h+ocARwKAT8/cK2Cyq8mFM30zBONAW/NSrGfNYDOE?=
+ =?us-ascii?Q?dHUmknbLc44m0as1Vgc2e8MG5LfUVr9vg4++yVO++wOMK3qM68zJB+DEuHmF?=
+ =?us-ascii?Q?OMaROfb4iqLBmbaZ9rNzYZ72OU0kO2bPnWjuozw8gUv9rUlcC6F7TFKbjMtE?=
+ =?us-ascii?Q?99OMhKTVvhZ6pNmFCnhfUq+Nh9+g5lXegDvurCWi3pot80nrAbuxDWs4wFqy?=
+ =?us-ascii?Q?HKy7MGLMiTnO8A+ZvLWcWU9WIdLpgAPx3iXHJTayVRTLI0bUS5lOf1b/CqyX?=
+ =?us-ascii?Q?OPbdMbTP78rHtEKc+OMW0Be2NTlu5ssOiEwuKf0jACVENPR08iTUh0bEzrkT?=
+ =?us-ascii?Q?fem7ENP5S1GsdmGT2XW3g48iZk0hyTnzmkjErK4yEdvBDCIMvbZbZIE2v5VH?=
+ =?us-ascii?Q?wNlfDP/0NI2gaYhvHZ93JcGbedOwr0VFHfyE/N5UqNeALKKFcupWDaUvtHaV?=
+ =?us-ascii?Q?IFxCgcReIqB429Z8+8dmW3vHHVn/gcKtjQGzU68H9nIi1IxnVRPG4wmYjRb7?=
+ =?us-ascii?Q?Asm62I5iXMeu46cu0PkDqUl/tgiwUrxUmjkIUXg39TOiJIsF8AImppOqn8jr?=
+ =?us-ascii?Q?dqA//Xb4Bb1qP1T4IWPFZVWaAZTX1bmS9VZ34h1DS5lZ7DYUsn7RhMmgIzJb?=
+ =?us-ascii?Q?r7Ge3j08267xRt2fTvHc80gMQj45ilx9UM4jahcvqaV2EbAir6HdrtqsjiK7?=
+ =?us-ascii?Q?mtTyrn67ISL3COpXDe/3N5hGq5tmEUjm8GFMPG+aHTRYCYtyvvTOyTS+eFfI?=
+ =?us-ascii?Q?g5i5geRku2UyV2TCR7PXPevGbv7JV4dXjk4PTvovGHYd8vi2RFt9zUpqM+tQ?=
+ =?us-ascii?Q?oQ6g+n/7CJhWEKxjotPg2QO85V0hHsio/TXAWmSKDc69sX9tAkKm6Ebq3/0E?=
+ =?us-ascii?Q?ljMm6ayVA3nQEBsiIf3C+oU+YPV0jS6QA7eRSaVYOH5/Wgt0RCjc+oIqdj6R?=
+ =?us-ascii?Q?514z7ugxOSE0ppGRuhQM9ZLcXAIxeH8dHgBl7+Z/JJVwLG9yLsx630PSv396?=
+ =?us-ascii?Q?Qr3Jq16vqa3ZILfeSa0eZsfsHDn0YYNnVqOWnIW/NwRg2ebz/D5hju6+jzGg?=
+ =?us-ascii?Q?4aySaF8dYsW0sZwQc3eaaAqbuEskz9U3Y8A5StdaJiVoh5dA0NWK65T9dyBl?=
+ =?us-ascii?Q?/t5QW9/U/a85l+2rd8mSLowq953wvS8/wVOxy4O7Ki4Kbkyb8GY9Bn02YdUZ?=
+ =?us-ascii?Q?qcmBnPbY+vamfJwaLwOTUFntPI8dAk9EnimawN9l8WJ7qQZlBV/PjY9Jor3P?=
+ =?us-ascii?Q?9n7YVUc9wCEyEPLTKTvZfWTR8+ySrGWi9x3upPO63Xbqo27GyrMZvBzgfnHF?=
+ =?us-ascii?Q?aeiv/9bm0oKHtvvRXhA=3D?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8cf913-e808-4457-e104-08dbe5e4051b
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd89d7f4-a005-4189-2ded-08dbe5e40549
 X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 14:06:10.6128
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 14:06:10.8975
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jYB4zXZxebzO9WEXDZ4ZJaJRplN3TWVB05TDh50kBnIo457V1UZKTVQEx6vynJQn
+X-MS-Exchange-CrossTenant-UserPrincipalName: zgeO7tGFptytqnbpGROYfI+//vuQKlJcj8GG14hT8X/d5Xj1dLhtNx9cUmz4898w
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6916
 
-A perfect driver would only call dev_iommu_priv_set() from its probe
-callback. We've made it functionally correct to call it from the of_xlate
-by adding a lock around that call.
+This is only used internally to iommu.c now, get rid of it to discourage
+things outside iommu.c from trying to manipulate dev->iommu->fwspec.
 
-lockdep assert that iommu_probe_device_lock is held to discourage misuse.
-
-Exclude PPC kernels with CONFIG_FSL_PAMU turned on because FSL_PAMU uses a
-global static for its priv and abuses priv for its domain.
-
-Remove the pointless stores of NULL, all these are on paths where the core
-code will free dev->iommu after the op returns.
-
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/iommu/amd/iommu.c                   | 2 --
- drivers/iommu/apple-dart.c                  | 1 -
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 1 -
- drivers/iommu/arm/arm-smmu/arm-smmu.c       | 1 -
- drivers/iommu/intel/iommu.c                 | 2 --
- drivers/iommu/iommu.c                       | 9 +++++++++
- drivers/iommu/omap-iommu.c                  | 1 -
- include/linux/iommu.h                       | 5 +----
- 8 files changed, 10 insertions(+), 12 deletions(-)
+ drivers/iommu/iommu.c | 2 +-
+ include/linux/iommu.h | 6 ------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index fcc987f5d4edc3..8199c678c2dc2a 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -551,8 +551,6 @@ static void amd_iommu_uninit_device(struct device *dev)
- 	if (dev_data->domain)
- 		detach_device(dev);
- 
--	dev_iommu_priv_set(dev, NULL);
--
- 	/*
- 	 * We keep dev_data around for unplugged devices and reuse it when the
- 	 * device is re-plugged - not doing so would introduce a ton of races.
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index ee05f4824bfad1..56cfc33042e0b5 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -740,7 +740,6 @@ static void apple_dart_release_device(struct device *dev)
- {
- 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
- 
--	dev_iommu_priv_set(dev, NULL);
- 	kfree(cfg);
- }
- 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-index b1309f04ebc0d9..df81fcd25a75b0 100644
---- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-@@ -2698,7 +2698,6 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
- 
- err_free_master:
- 	kfree(master);
--	dev_iommu_priv_set(dev, NULL);
- 	return ERR_PTR(ret);
- }
- 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index 8c4a60d8e5d522..6fc040a4168aa3 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1423,7 +1423,6 @@ static void arm_smmu_release_device(struct device *dev)
- 
- 	arm_smmu_rpm_put(cfg->smmu);
- 
--	dev_iommu_priv_set(dev, NULL);
- 	kfree(cfg);
- }
- 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 3531b956556c7d..4a5792888e6433 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4457,7 +4457,6 @@ static struct iommu_device *intel_iommu_probe_device(struct device *dev)
- 		ret = intel_pasid_alloc_table(dev);
- 		if (ret) {
- 			dev_err(dev, "PASID table allocation failed\n");
--			dev_iommu_priv_set(dev, NULL);
- 			kfree(info);
- 			return ERR_PTR(ret);
- 		}
-@@ -4475,7 +4474,6 @@ static void intel_iommu_release_device(struct device *dev)
- 	dmar_remove_one_dev_info(dev);
- 	intel_pasid_free_table(dev);
- 	intel_iommu_debugfs_remove_dev(info);
--	dev_iommu_priv_set(dev, NULL);
- 	kfree(info);
- 	set_dma_ops(dev, NULL);
- }
 diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 34c4b07a6aafae..fbfb9ba4da0ee2 100644
+index ea6aede326131e..8fc3d0ff881260 100644
 --- a/drivers/iommu/iommu.c
 +++ b/drivers/iommu/iommu.c
-@@ -387,6 +387,15 @@ static u32 dev_iommu_get_max_pasids(struct device *dev)
- 	return min_t(u32, max_pasids, dev->iommu->iommu_dev->max_pasids);
+@@ -3051,7 +3051,7 @@ int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
+ 		return ret;
+ 	}
+ 
+-	dev_iommu_fwspec_set(dev, fwspec);
++	dev->iommu->fwspec = fwspec;
+ 	return 0;
  }
- 
-+void dev_iommu_priv_set(struct device *dev, void *priv)
-+{
-+	/* FSL_PAMU does something weird */
-+	if (!IS_ENABLED(CONFIG_FSL_PAMU))
-+		lockdep_assert_held(&iommu_probe_device_lock);
-+	dev->iommu->priv = priv;
-+}
-+EXPORT_SYMBOL_GPL(dev_iommu_priv_set);
-+
- /*
-  * Init the dev->iommu and dev->iommu_group in the struct device and get the
-  * driver probed. Take ownership of fwspec, it always freed on error
-diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-index c66b070841dd41..c9528065a59afa 100644
---- a/drivers/iommu/omap-iommu.c
-+++ b/drivers/iommu/omap-iommu.c
-@@ -1719,7 +1719,6 @@ static void omap_iommu_release_device(struct device *dev)
- 	if (!dev->of_node || !arch_data)
- 		return;
- 
--	dev_iommu_priv_set(dev, NULL);
- 	kfree(arch_data);
- 
- }
+ EXPORT_SYMBOL_GPL(iommu_fwspec_init);
 diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 3495db0c3e4631..8be153a54c8ca2 100644
+index 05c5ad6bad6339..352070c3ab3126 100644
 --- a/include/linux/iommu.h
 +++ b/include/linux/iommu.h
-@@ -852,10 +852,7 @@ static inline void *dev_iommu_priv_get(struct device *dev)
+@@ -841,12 +841,6 @@ static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct device *dev)
  		return NULL;
  }
  
--static inline void dev_iommu_priv_set(struct device *dev, void *priv)
+-static inline void dev_iommu_fwspec_set(struct device *dev,
+-					struct iommu_fwspec *fwspec)
 -{
--	dev->iommu->priv = priv;
+-	dev->iommu->fwspec = fwspec;
 -}
-+void dev_iommu_priv_set(struct device *dev, void *priv);
- 
- int iommu_probe_device_fwspec(struct device *dev, struct iommu_fwspec *fwspec);
- static inline int iommu_probe_device(struct device *dev)
+-
+ static inline void *dev_iommu_priv_get(struct device *dev)
+ {
+ 	if (dev->iommu)
 -- 
 2.42.0
 
