@@ -1,237 +1,238 @@
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9533179AC;
-	Wed, 15 Nov 2023 13:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118D3200DE;
+	Wed, 15 Nov 2023 14:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="A3ku9EjR"
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 396ECAC;
-	Wed, 15 Nov 2023 05:49:03 -0800 (PST)
-Received: by linux.microsoft.com (Postfix, from userid 1099)
-	id A779420B74C1; Wed, 15 Nov 2023 05:49:02 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A779420B74C1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1700056142;
-	bh=6bm+G+2Har0LNkfawvlVKFLAqfQ3KYMWeofqY6dFb2o=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A3ku9EjRqyGx9ZmVJgN5tBccal2hOoVgWTxA4gsPfgo4V14RrsGMkp5wUovzA1a1p
-	 hrzJPr3fIGjfPN4Z427qL8K/U6IMadBHXfaciuHRSzwa3qfh0R1H6oHixCHPiEURwO
-	 2IJlAvMaj1IbFM8NCOSV3lOYfxCxE0YCtNaq393c=
-From: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>
-To: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	longli@microsoft.com,
-	sharmaajay@microsoft.com,
-	leon@kernel.org,
-	cai.huoqing@linux.dev,
-	ssengar@linux.microsoft.com,
-	vkuznets@redhat.com,
-	tglx@linutronix.de,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gw/2BqJh"
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98C40B3;
+	Wed, 15 Nov 2023 06:06:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T2m3n1lAzivhQlx99aJdx8OKn0X5RfjZFcdS6VhdsmpHLsiaUlJ0Bdde4++CPvs8+laAAZWslyZ+JNTocLBuwWxu8vAFthSMryHF3f5i2YDzsdhJ44x7q4uN6blVI/DlkkgXth3r0cbbOqF2VS1VKcyBr+aURPWLj9lAjwNCKTHhLoQPayD3bbNwJjrPeap5c9oXgFSOGENJ+P+ggiVIMXSuZpVTgqrBmwE2Mob+zIeqeiDUgRL/JafA5APrr4TVd96P3sMST8vrmqzXatx+Mig23pdUAL0/NQIsAWB4eInNUhTJsygcZGEua8aat2Q35yFU6e5/0zLqsLPUYskE6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Cg0L7AKccOs0U4ZynPRAV7esL8tk+X5jnUDyQcs/B8=;
+ b=Cs8DAY0SiTOzKhKB2P+jAWgffrKr/syAe9YnBPugk/CoC5R7U6REnoA+TbEZctwz69M/pRP9uwrDrLlWvpbM5C0oIkN54TRv/mg6LawbdLQya2t/t6kmAkfPDhaJ5YX4CRuxlfxcCEpRkkFRpwV1y4WnixkqTdztL8usAxbJIQPUx82qj6cTvFjCg2KSV4Yo2ya6MjdnoiBTTZWvCI7axugfhGEhjxiZoHzeY0NkrJCxv0+JGMyvTY3MvbLjXHmHxkvTzJfPhw7G9aewQ1mgBMX/h9ID0A7gcmx/dCM6z9O5S0Y9X7HiQoxP07UIPetr1FkCzpokCI8VWFh5nEBwSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Cg0L7AKccOs0U4ZynPRAV7esL8tk+X5jnUDyQcs/B8=;
+ b=gw/2BqJhTByyrCGvW46kx8CVO//kuFJFfUC9RFW+tYgx+/yw2zWpykJ7i0pz95DmAsO42eCXjFYFAmMmJr9G+F58K+U2dzvYW0i9yLMfJU/PQWEzPsd/PYg8tFKgSkGBXuPgT5puGSXZlYrDCGWKtm2K5vLXxC8cQbpXlpQSj3CcGhmiMq7ryk0AArWcRh3JXH+dUVbm8VFZgPigEgH06zM/MzQT2eRL+uyOdALE+8NcroFOu2sABz8D7iammWfSn5zS8+a1pBiI5AfqMENqqmUAa0aU+NwFOeiG46wdjCbSFlnMFFId8NRdaAOqEADwVZXFvieAloxkFLpv4MJeGg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by SJ0PR12MB7007.namprd12.prod.outlook.com (2603:10b6:a03:486::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 14:06:10 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 14:06:09 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: acpica-devel@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	asahi@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	devicetree@vger.kernel.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	iommu@lists.linux.dev,
+	Jean-Philippe Brucker <jean-philippe@linaro.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Len Brown <lenb@kernel.org>,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: schakrabarti@microsoft.com,
-	paulros@microsoft.com,
-	Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>
-Subject: [PATCH net-next] net: mana: Assigning IRQ affinity on HT cores
-Date: Wed, 15 Nov 2023 05:48:45 -0800
-Message-Id: <1700056125-29358-1-git-send-email-schakrabarti@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+	linux-mips@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	Russell King <linux@armlinux.org.uk>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Hector Martin <marcan@marcan.st>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	patches@lists.linux.dev,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Robert Moore <robert.moore@intel.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	virtualization@lists.linux.dev,
+	Wei Liu <wei.liu@kernel.org>,
+	Will Deacon <will@kernel.org>
+Cc: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Jerry Snitselaar <jsnitsel@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Zhenhua Huang <quic_zhenhuah@quicinc.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 04/17] acpi: Do not return struct iommu_ops from acpi_iommu_configure_id()
+Date: Wed, 15 Nov 2023 10:05:55 -0400
+Message-ID: <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+In-Reply-To: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+References:
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR03CA0117.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::32) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|SJ0PR12MB7007:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf7309fe-f1c9-4419-4a9f-08dbe5e40483
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ePTi3F+oZbUMQCUcsp2v6wREhVh00swp1NKNuUMA+WByeY6evt7aCVb5o7P+kKM+17tuVIcqtnhkfc/s9UviyPhvZjIGoq+dVwV3dSnIX/mAhnHLgbWFHX4aUcs/ikXVaDRVzhFRZSSjViTy1KYNYtvzAVrwPYThjo3EblJVfb6X+w8cCbzBh8Q9jIC3btPT0DqCAQ4SCHzkOBEESoBI+vjIcAU5Rp8QZ2eeVGHQOqz4/tLeAe+bFTtTq/LTq3rlfE8P4RKFg+58FUYpOAnzKS1VLTk8ARWSSs31+zZbCCiK/UPlH1XFKRBcETqDyzb3JNaX6FKbe6sgRpdIg2D3EFulaqE/9ICeNLdVoGpdiHK/6nW+8nA5uRXPG0Gs+w60xK6xgyI+R2SpRWF2Uq/9xcSLeHDLwH18JwWIVFtVcjpe0wmMoGFnCJTzH+7fIYP3aj1gtVhETh9V2svW9ui/0unvRrDbxndthSrMFiQ2Y0jZP1mARSgiAE+Wp3lhwcrt6EJibDEryo4PpXFTmpsIhI3/nvt3PNu8DTp/FJGy4eOUbUlEPfsjo4kCyASFVUECQy8nlW+ufAsQHB9BsYiBt5aO+MsPNEanlUSsdmNTNouA4AV9k8ArzArid/Bys72z
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(366004)(39860400002)(396003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(7406005)(6666004)(6506007)(2616005)(6512007)(83380400001)(7416002)(41300700001)(8676002)(5660300002)(4326008)(7366002)(8936002)(478600001)(2906002)(6486002)(66476007)(54906003)(110136005)(66946007)(66556008)(316002)(86362001)(36756003)(38100700002)(26005)(921008)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?YRGOVSeiGcR8haEtk0a6r13M2MCGQQsWdOny4DOIvVSG9ekISERiqrl+BlI1?=
+ =?us-ascii?Q?Ae+gJE8O1HTogKTeSHzE6OTE0p2AkumI8sIcY+iTSTITfyLr7lVSpVUSbBMy?=
+ =?us-ascii?Q?C6H87OGYuQmjc8EYjrzoAJScq09BHnia1WL45L8MZSyUfEJ0hu8xwnh+pqRE?=
+ =?us-ascii?Q?KcmYbiEjG//ahYcTUgBo7uGGI26okf0sUM8+3+pDA6pImrzgxPgLOkWwKaR/?=
+ =?us-ascii?Q?a/0MR83StkkZd4ihyV4sqT4TcqJdFdSHo+25KBvLMX4Kq6KoTaZB36LpOrEw?=
+ =?us-ascii?Q?3XSlkFwiML4H0hdmmwoeOtiO3YIwYPy56yJRtF/a5VOIIS0Bm5nwGmdwQidE?=
+ =?us-ascii?Q?8g6VnqJTc1n2DdCFVsZdCQeWpcd1x3Y8OA+W2geb4DMNuz26atSMxDcEwEzf?=
+ =?us-ascii?Q?S5r/GP84o1pCWe6E2awafcnCvNIxXt1SkhTW3Yq2ISnG6Hu2QzGb7X2u5kzd?=
+ =?us-ascii?Q?23wV+HO698CtKN+31tUtypC1YPkGKEvBwplgwKOH+Mwidxx4BKL1D0YNhn+o?=
+ =?us-ascii?Q?pephCQmnNRTEbITJAPig09IKMMvz9uT4A7DNaDZDy/gTGqtQo4QU3qmGABAg?=
+ =?us-ascii?Q?d4MtLW81p8xMmX+HEtwlogNS8LdtfxeKf0VCfMXblq11+wfrsFOVJ1rJN3/S?=
+ =?us-ascii?Q?tH4ENxSXoh4M9k1rkm5WCPnydV+mghKHpp3R1eGpkpo6hbAjjapQAWuhX/7H?=
+ =?us-ascii?Q?McF5EHUC4G+jcl+/KSf7TWUAyse243nOgFaa9D43GXy/CaHwJbYXv3BoegqB?=
+ =?us-ascii?Q?qQQlE0Y319KErjlvD1tGDyKrfAFyP3fgTiwXfEXTxV+bGa3S7EvihU/WPPXd?=
+ =?us-ascii?Q?gBdX/2HH0DMzV7yny3tOqZLR7TgYq3uv68McslMtdU6CJbVP7Vn/HiP7QL8A?=
+ =?us-ascii?Q?5d7QJhf6a0RJqrnmga+kPimv/aOsY6WUSciPxevPUH+bBwm74k35PfG2bQfN?=
+ =?us-ascii?Q?A0nbr1J6Jjx3ONzS6oY9OPtSnywOLZLaW/g9XcYmNBSBEP099YYLpwBAEltq?=
+ =?us-ascii?Q?s3Xl/vInVXNbge40xVHxbHnE6azBbHSVtow2A0lBnSkNN30oawDIDxtuwL9F?=
+ =?us-ascii?Q?3EWcugJ1y42MiNBCN2TwsKKlhUbC1079un9s5gZpFNiBjVnDTZ1X0WlEiftb?=
+ =?us-ascii?Q?JpZGFmO19fVaXmkjexrUbC20yQI4Rv/2TWGFgP6WmZUITxwYEAaRssI62nU5?=
+ =?us-ascii?Q?W+HLDJa6eRv1xvH4ay+4GSZ7MXB61Wa6raAXbRslTAKSuERkoDDxDN/mZT1S?=
+ =?us-ascii?Q?tAfxd0Fhln8mOK9i9cBGT+Or4AjCI8/upadts+ETqz8PA0/RcRDZFqJAe1c5?=
+ =?us-ascii?Q?lalq0t2Rc9P+2U8jwgUBGeqk20B842DwLzyvDjXs89oLnNdR1yfEYjZaxyh/?=
+ =?us-ascii?Q?S2NE+pwBFXUXUNRpaz44ddQ2Um94KcnKCiMtLJtS9lUDEiQZkLlNDr0M92O0?=
+ =?us-ascii?Q?kR5uC55ICGSocsKBCDQ9lvUq99D3cPWBfcupepb/diJlN8CZ/l5NJQqfJRyC?=
+ =?us-ascii?Q?ZX6diU345QGBnl5QYvH7LFOdyKC647XMVcUpNrdpSaDNfj8eQfO/jH81usxX?=
+ =?us-ascii?Q?F+LlrXAdBO0HJ7DGb+4=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf7309fe-f1c9-4419-4a9f-08dbe5e40483
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 14:06:09.6989
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lYuiPds6pWGE/2wRJv4qtFqt3GYu5J5zYrSN0uxlcZZflI5NSJ/YZMpaAd6xWKg9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7007
 
-Existing MANA design assigns IRQ affinity to every sibling CPUs, which causes
-IRQ coalescing and may reduce the network performance with RSS.
+Nothing needs this pointer. Return a normal error code with the usual
+IOMMU semantic that ENODEV means 'there is no IOMMU driver'.
 
-Improve the performance by adhering the configuration for RSS, which prioritise
-IRQ affinity on HT cores.
-
-Signed-off-by: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- .../net/ethernet/microsoft/mana/gdma_main.c   | 126 ++++++++++++++++--
- 1 file changed, 117 insertions(+), 9 deletions(-)
+ drivers/acpi/scan.c | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/ethernet/microsoft/mana/gdma_main.c b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-index 6367de0c2c2e..839be819d46e 100644
---- a/drivers/net/ethernet/microsoft/mana/gdma_main.c
-+++ b/drivers/net/ethernet/microsoft/mana/gdma_main.c
-@@ -1243,13 +1243,115 @@ void mana_gd_free_res_map(struct gdma_resource *r)
- 	r->size = 0;
+diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+index 9682291188c49c..d171d193f2a51c 100644
+--- a/drivers/acpi/scan.c
++++ b/drivers/acpi/scan.c
+@@ -1562,8 +1562,7 @@ static inline const struct iommu_ops *acpi_iommu_fwspec_ops(struct device *dev)
+ 	return fwspec ? fwspec->ops : NULL;
  }
  
-+static void cpu_mask_set(cpumask_var_t *filter_mask, cpumask_var_t **filter_mask_list)
-+{
-+	unsigned int core_count = 0, cpu;
-+	cpumask_var_t *filter_mask_list_tmp;
-+
-+	BUG_ON(!filter_mask || !filter_mask_list);
-+	filter_mask_list_tmp = *filter_mask_list;
-+	cpumask_copy(*filter_mask, cpu_online_mask);
-+	/* for each core create a cpumask lookup table,
-+	 * which stores all the corresponding siblings
-+	 */
-+	for_each_cpu(cpu, *filter_mask) {
-+		BUG_ON(!alloc_cpumask_var(&filter_mask_list_tmp[core_count], GFP_KERNEL));
-+		cpumask_or(filter_mask_list_tmp[core_count], filter_mask_list_tmp[core_count],
-+			   topology_sibling_cpumask(cpu));
-+		cpumask_andnot(*filter_mask, *filter_mask, topology_sibling_cpumask(cpu));
-+		core_count++;
-+	}
-+}
-+
-+static int irq_setup(int *irqs, int nvec)
-+{
-+	cpumask_var_t filter_mask;
-+	cpumask_var_t *filter_mask_list;
-+	unsigned int cpu_first, cpu, irq_start, cores = 0;
-+	int i, core_count = 0, numa_node, cpu_count = 0, err = 0;
-+
-+	BUG_ON(!alloc_cpumask_var(&filter_mask, GFP_KERNEL));
-+	cpus_read_lock();
-+	cpumask_copy(filter_mask, cpu_online_mask);
-+	/* count the number of cores
-+	 */
-+	for_each_cpu(cpu, filter_mask) {
-+		cpumask_andnot(filter_mask, filter_mask, topology_sibling_cpumask(cpu));
-+		cores++;
-+	}
-+	filter_mask_list = kcalloc(cores, sizeof(cpumask_var_t), GFP_KERNEL);
-+	if (!filter_mask_list) {
-+		err = -ENOMEM;
-+		goto free_irq;
-+	}
-+	/* if number of cpus are equal to max_queues per port, then
-+	 * one extra interrupt for the hardware channel communication.
-+	 */
-+	if (nvec - 1 == num_online_cpus()) {
-+		irq_start = 1;
-+		cpu_first = cpumask_first(cpu_online_mask);
-+		irq_set_affinity_and_hint(irqs[0], cpumask_of(cpu_first));
-+	} else {
-+		irq_start = 0;
-+	}
-+	/* reset the core_count and num_node to 0.
-+	 */
-+	core_count = 0;
-+	numa_node = 0;
-+	cpu_mask_set(&filter_mask, &filter_mask_list);
-+	/* for each interrupt find the cpu of a particular
-+	 * sibling set and if it belongs to the specific numa
-+	 * then assign irq to it and clear the cpu bit from
-+	 * the corresponding sibling list from filter_mask_list.
-+	 * Increase the cpu_count for that node.
-+	 * Once all cpus for a numa node is assigned, then
-+	 * move to different numa node and continue the same.
-+	 */
-+	for (i = irq_start; i < nvec; ) {
-+		cpu_first = cpumask_first(filter_mask_list[core_count]);
-+		if (cpu_first < nr_cpu_ids && cpu_to_node(cpu_first) == numa_node) {
-+			irq_set_affinity_and_hint(irqs[i], cpumask_of(cpu_first));
-+			cpumask_clear_cpu(cpu_first, filter_mask_list[core_count]);
-+			cpu_count = cpu_count + 1;
-+			i = i + 1;
-+			/* checking if all the cpus are used from the
-+			 * particular node.
-+			 */
-+			if (cpu_count == nr_cpus_node(numa_node)) {
-+				numa_node = numa_node + 1;
-+				if (numa_node == num_online_nodes()) {
-+					cpu_mask_set(&filter_mask, &filter_mask_list);
-+					numa_node = 0;
-+				}
-+				cpu_count = 0;
-+				core_count = 0;
-+				continue;
-+			}
-+		}
-+		if ((core_count + 1) % cores == 0)
-+			core_count = 0;
-+		else
-+			core_count++;
-+	}
-+free_irq:
-+	cpus_read_unlock();
-+	if (filter_mask)
-+		free_cpumask_var(filter_mask);
-+	if (filter_mask_list) {
-+		for (core_count = 0; core_count < cores; core_count++)
-+			free_cpumask_var(filter_mask_list[core_count]);
-+		kfree(filter_mask_list);
-+	}
-+	return err;
-+}
-+
- static int mana_gd_setup_irqs(struct pci_dev *pdev)
+-static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
+-						       const u32 *id_in)
++static int acpi_iommu_configure_id(struct device *dev, const u32 *id_in)
  {
- 	unsigned int max_queues_per_port = num_online_cpus();
- 	struct gdma_context *gc = pci_get_drvdata(pdev);
- 	struct gdma_irq_context *gic;
--	unsigned int max_irqs, cpu;
--	int nvec, irq;
-+	unsigned int max_irqs;
-+	int nvec, *irqs, irq;
- 	int err, i = 0, j;
+ 	int err;
+ 	const struct iommu_ops *ops;
+@@ -1574,7 +1573,7 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
+ 	 */
+ 	ops = acpi_iommu_fwspec_ops(dev);
+ 	if (ops)
+-		return ops;
++		return 0;
  
- 	if (max_queues_per_port > MANA_MAX_NUM_QUEUES)
-@@ -1261,6 +1363,11 @@ static int mana_gd_setup_irqs(struct pci_dev *pdev)
- 	nvec = pci_alloc_irq_vectors(pdev, 2, max_irqs, PCI_IRQ_MSIX);
- 	if (nvec < 0)
- 		return nvec;
-+	irqs = kmalloc_array(nvec, sizeof(int), GFP_KERNEL);
-+	if (!irqs) {
-+		err = -ENOMEM;
-+		goto free_irq_vector;
-+	}
+ 	err = iort_iommu_configure_id(dev, id_in);
+ 	if (err && err != -EPROBE_DEFER)
+@@ -1589,12 +1588,14 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
  
- 	gc->irq_contexts = kcalloc(nvec, sizeof(struct gdma_irq_context),
- 				   GFP_KERNEL);
-@@ -1281,20 +1388,20 @@ static int mana_gd_setup_irqs(struct pci_dev *pdev)
- 			snprintf(gic->name, MANA_IRQ_NAME_SZ, "mana_q%d@pci:%s",
- 				 i - 1, pci_name(pdev));
- 
--		irq = pci_irq_vector(pdev, i);
--		if (irq < 0) {
--			err = irq;
-+		irqs[i] = pci_irq_vector(pdev, i);
-+		if (irqs[i] < 0) {
-+			err = irqs[i];
- 			goto free_irq;
- 		}
- 
--		err = request_irq(irq, mana_gd_intr, 0, gic->name, gic);
-+		err = request_irq(irqs[i], mana_gd_intr, 0, gic->name, gic);
- 		if (err)
- 			goto free_irq;
--
--		cpu = cpumask_local_spread(i, gc->numa_node);
--		irq_set_affinity_and_hint(irq, cpumask_of(cpu));
+ 	/* Ignore all other errors apart from EPROBE_DEFER */
+ 	if (err == -EPROBE_DEFER) {
+-		return ERR_PTR(err);
++		return err;
+ 	} else if (err) {
+ 		dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
+-		return NULL;
++		return -ENODEV;
  	}
+-	return acpi_iommu_fwspec_ops(dev);
++	if (!acpi_iommu_fwspec_ops(dev))
++		return -ENODEV;
++	return 0;
+ }
  
-+	err = irq_setup(irqs, nvec);
-+	if (err)
-+		goto free_irq;
- 	err = mana_gd_alloc_res_map(nvec, &gc->msix_resource);
- 	if (err)
- 		goto free_irq;
-@@ -1314,6 +1421,7 @@ static int mana_gd_setup_irqs(struct pci_dev *pdev)
- 	}
+ #else /* !CONFIG_IOMMU_API */
+@@ -1623,7 +1624,7 @@ static const struct iommu_ops *acpi_iommu_configure_id(struct device *dev,
+ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
+ 			  const u32 *input_id)
+ {
+-	const struct iommu_ops *iommu;
++	int ret;
  
- 	kfree(gc->irq_contexts);
-+	kfree(irqs);
- 	gc->irq_contexts = NULL;
- free_irq_vector:
- 	pci_free_irq_vectors(pdev);
+ 	if (attr == DEV_DMA_NOT_SUPPORTED) {
+ 		set_dma_ops(dev, &dma_dummy_ops);
+@@ -1632,10 +1633,15 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
+ 
+ 	acpi_arch_dma_setup(dev);
+ 
+-	iommu = acpi_iommu_configure_id(dev, input_id);
+-	if (PTR_ERR(iommu) == -EPROBE_DEFER)
++	ret = acpi_iommu_configure_id(dev, input_id);
++	if (ret == -EPROBE_DEFER)
+ 		return -EPROBE_DEFER;
+ 
++	/*
++	 * Historically this routine doesn't fail driver probing due to errors
++	 * in acpi_iommu_configure_id()
++	 */
++
+ 	arch_setup_dma_ops(dev, 0, U64_MAX, attr == DEV_DMA_COHERENT);
+ 
+ 	return 0;
 -- 
-2.34.1
+2.42.0
 
