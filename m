@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RKi0KaG6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmQd/MWO"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54EC81BE;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F77ED40;
 	Tue,  5 Dec 2023 03:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701775294; x=1733311294;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=c4v54mG+yNciVv+S7CXnyMniWVPMoCmWvn//znfwVvI=;
-  b=RKi0KaG6kZ07KQRsyWeNp2IrDHcpvAcd7Dd43b+itMswe2rco+BjVeJS
-   oLSlg+EZpU8Kgg3o6wKTZR7SckKUt5zzwPlrHaKRFrqUrOoYTWEbwzDWo
-   ePpve5KwcDz4SwmLDwjxphywbZ4OFkrZlZ5tPNkLLiwW2F1HtOYfE1V2+
-   zuSDREmBrbaxYXmtmFCvDaUrk6IQLTyt7U8iPQ/R1F7PH0Tej9nxsY/dg
-   BxWOZ6cALa/Bp5NhOhNu7RYubsd5lydARYTqfWDxLehlQHBOnKVmxQ457
-   iJwzCkwbScpAPPiFfwRmHUAfDgTxW9d4yukFbQi62fDcYKbJVMnPPMc3v
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942675"
+  bh=P4BKwwxZjNA35zXhN23eflIGEejxxbnos06jsBzXQIU=;
+  b=fmQd/MWOf2yr54gYCJz8lqjAbfRMOSn01XTOx/FR7MIWJwlq2ahqKsOs
+   p0sJVGUR9cy2woYwfMLfRzDQ29zapTMfKC/VR9NLA/jrNhyL/93GYSxAp
+   DCOjQ8jOecVRcuE/EJNKHDh+DgxHrdIYXl0lcPFMVvOXz0jY4HpXBKSbR
+   esIYviaTm1YYDXW5YR4L8ShCcr87SOeHvdMyj0VP/5g7SXDY1+HtabXLl
+   VCByCcp4MJbwrC3ot8VBGg3rbmmV5NJxq5cezlxi4O5wkYt2FY4en4qy7
+   Y4neG8xfcfqguIoyXFZz1oxE/sPolQcAH4G9NIUWWMUXdZyBNMlPs4ykZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942643"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942675"
+   d="scan'208";a="942643"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193002"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192995"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018193002"
+   d="scan'208";a="1018192995"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:25 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:24 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 29/35] x86/fred: Fixup fault on ERETU by jumping to fred_entrypoint_user
-Date: Tue,  5 Dec 2023 02:50:18 -0800
-Message-ID: <20231205105030.8698-30-xin3.li@intel.com>
+Subject: [PATCH v13 27/35] x86/traps: Add sysvec_install() to install a system interrupt handler
+Date: Tue,  5 Dec 2023 02:50:16 -0800
+Message-ID: <20231205105030.8698-28-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,179 +65,184 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the stack frame contains an invalid user context (e.g. due to invalid SS,
-a non-canonical RIP, etc.) the ERETU instruction will trap (#SS or #GP).
+Add sysvec_install() to install a system interrupt handler into the IDT
+or the FRED system interrupt handler table.
 
-From a Linux point of view, this really should be considered a user space
-failure, so use the standard fault fixup mechanism to intercept the fault,
-fix up the exception frame, and redirect execution to fred_entrypoint_user.
-The end result is that it appears just as if the hardware had taken the
-exception immediately after completing the transition to user space.
-
-Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
 Changes since v8:
-* Reflect the FRED spec 5.0 change that ERETS and ERETU add 8 to %rsp
-  before popping the return context from the stack.
-
-Changes since v6:
-* Add a comment to explain why it is safe to write to the previous FRED stack
-  frame. (Lai Jiangshan).
-
-Changes since v5:
-* Move the NMI bit from an invalid stack frame, which caused ERETU to fault,
-  to the fault handler's stack frame, thus to unblock NMI ASAP if NMI is blocked
-  (Lai Jiangshan).
+* Introduce a macro sysvec_install() to derive the asm handler name from
+  a C handler, which simplifies the code and avoids an ugly typecast
+  (Thomas Gleixner).
 ---
- arch/x86/entry/entry_64_fred.S             |  5 +-
- arch/x86/include/asm/extable_fixup_types.h |  4 +-
- arch/x86/mm/extable.c                      | 79 ++++++++++++++++++++++
- 3 files changed, 86 insertions(+), 2 deletions(-)
+ arch/x86/entry/entry_fred.c      | 14 ++++++++++++++
+ arch/x86/include/asm/desc.h      |  2 --
+ arch/x86/include/asm/idtentry.h  | 15 +++++++++++++++
+ arch/x86/kernel/cpu/acrn.c       |  4 ++--
+ arch/x86/kernel/cpu/mshyperv.c   | 15 +++++++--------
+ arch/x86/kernel/idt.c            |  4 ++--
+ arch/x86/kernel/kvm.c            |  2 +-
+ drivers/xen/events/events_base.c |  2 +-
+ 8 files changed, 42 insertions(+), 16 deletions(-)
 
-diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
-index 5781c3411b44..d1c2fc4af8ae 100644
---- a/arch/x86/entry/entry_64_fred.S
-+++ b/arch/x86/entry/entry_64_fred.S
-@@ -3,6 +3,7 @@
-  * The actual FRED entry points.
-  */
+diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
+index 215883e90f94..e80e3efbc057 100644
+--- a/arch/x86/entry/entry_fred.c
++++ b/arch/x86/entry/entry_fred.c
+@@ -126,6 +126,20 @@ static idtentry_t sysvec_table[NR_SYSTEM_VECTORS] __ro_after_init = {
+ 	SYSVEC(POSTED_INTR_NESTED_VECTOR,	kvm_posted_intr_nested_ipi),
+ };
  
-+#include <asm/asm.h>
- #include <asm/fred.h>
- 
- #include "calling.h"
-@@ -34,7 +35,9 @@ SYM_CODE_START_NOALIGN(asm_fred_entrypoint_user)
- 	call	fred_entry_from_user
- SYM_INNER_LABEL(asm_fred_exit_user, SYM_L_GLOBAL)
- 	FRED_EXIT
--	ERETU
-+1:	ERETU
++static bool fred_setup_done __initdata;
 +
-+	_ASM_EXTABLE_TYPE(1b, asm_fred_entrypoint_user, EX_TYPE_ERETU)
- SYM_CODE_END(asm_fred_entrypoint_user)
- 
- .fill asm_fred_entrypoint_kernel - ., 1, 0xcc
-diff --git a/arch/x86/include/asm/extable_fixup_types.h b/arch/x86/include/asm/extable_fixup_types.h
-index 991e31cfde94..1585c798a02f 100644
---- a/arch/x86/include/asm/extable_fixup_types.h
-+++ b/arch/x86/include/asm/extable_fixup_types.h
-@@ -64,6 +64,8 @@
- #define	EX_TYPE_UCOPY_LEN4		(EX_TYPE_UCOPY_LEN | EX_DATA_IMM(4))
- #define	EX_TYPE_UCOPY_LEN8		(EX_TYPE_UCOPY_LEN | EX_DATA_IMM(8))
- 
--#define EX_TYPE_ZEROPAD			20 /* longword load with zeropad on fault */
-+#define	EX_TYPE_ZEROPAD			20 /* longword load with zeropad on fault */
-+
-+#define	EX_TYPE_ERETU			21
- 
- #endif
-diff --git a/arch/x86/mm/extable.c b/arch/x86/mm/extable.c
-index 271dcb2deabc..fc40a4e12f3a 100644
---- a/arch/x86/mm/extable.c
-+++ b/arch/x86/mm/extable.c
-@@ -6,6 +6,7 @@
- #include <xen/xen.h>
- 
- #include <asm/fpu/api.h>
-+#include <asm/fred.h>
- #include <asm/sev.h>
- #include <asm/traps.h>
- #include <asm/kdebug.h>
-@@ -223,6 +224,80 @@ static bool ex_handler_ucopy_len(const struct exception_table_entry *fixup,
- 	return ex_handler_uaccess(fixup, regs, trapnr, fault_address);
- }
- 
-+#ifdef CONFIG_X86_FRED
-+static bool ex_handler_eretu(const struct exception_table_entry *fixup,
-+			     struct pt_regs *regs, unsigned long error_code)
++void __init fred_install_sysvec(unsigned int sysvec, idtentry_t handler)
 +{
-+	struct pt_regs *uregs = (struct pt_regs *)
-+		(regs->sp - offsetof(struct pt_regs, orig_ax));
-+	unsigned short ss = uregs->ss;
-+	unsigned short cs = uregs->cs;
++	if (WARN_ON_ONCE(sysvec < FIRST_SYSTEM_VECTOR))
++		return;
 +
-+	/*
-+	 * Move the NMI bit from the invalid stack frame, which caused ERETU
-+	 * to fault, to the fault handler's stack frame, thus to unblock NMI
-+	 * with the fault handler's ERETS instruction ASAP if NMI is blocked.
-+	 */
-+	regs->fred_ss.nmi = uregs->fred_ss.nmi;
++	if (WARN_ON_ONCE(fred_setup_done))
++		return;
 +
-+	/*
-+	 * Sync event information to uregs, i.e., the ERETU return frame, but
-+	 * is it safe to write to the ERETU return frame which is just above
-+	 * current event stack frame?
-+	 *
-+	 * The RSP used by FRED to push a stack frame is not the value in %rsp,
-+	 * it is calculated from %rsp with the following 2 steps:
-+	 * 1) RSP = %rsp - (IA32_FRED_CONFIG & 0x1c0)	// Reserve N*64 bytes
-+	 * 2) RSP = RSP & ~0x3f		// Align to a 64-byte cache line
-+	 * when an event delivery doesn't trigger a stack level change.
-+	 *
-+	 * Here is an example with N*64 (N=1) bytes reserved:
-+	 *
-+	 *  64-byte cache line ==>  ______________
-+	 *                         |___Reserved___|
-+	 *                         |__Event_data__|
-+	 *                         |_____SS_______|
-+	 *                         |_____RSP______|
-+	 *                         |_____FLAGS____|
-+	 *                         |_____CS_______|
-+	 *                         |_____IP_______|
-+	 *  64-byte cache line ==> |__Error_code__| <== ERETU return frame
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *                         |______________|
-+	 *  64-byte cache line ==> |______________| <== RSP after step 1) and 2)
-+	 *                         |___Reserved___|
-+	 *                         |__Event_data__|
-+	 *                         |_____SS_______|
-+	 *                         |_____RSP______|
-+	 *                         |_____FLAGS____|
-+	 *                         |_____CS_______|
-+	 *                         |_____IP_______|
-+	 *  64-byte cache line ==> |__Error_code__| <== ERETS return frame
-+	 *
-+	 * Thus a new FRED stack frame will always be pushed below a previous
-+	 * FRED stack frame ((N*64) bytes may be reserved between), and it is
-+	 * safe to write to a previous FRED stack frame as they never overlap.
-+	 */
-+	fred_info(uregs)->edata = fred_event_data(regs);
-+	uregs->ssx = regs->ssx;
-+	uregs->fred_ss.ss = ss;
-+	/* The NMI bit was moved away above */
-+	uregs->fred_ss.nmi = 0;
-+	uregs->csx = regs->csx;
-+	uregs->fred_cs.sl = 0;
-+	uregs->fred_cs.wfe = 0;
-+	uregs->cs = cs;
-+	uregs->orig_ax = error_code;
-+
-+	return ex_handler_default(fixup, regs);
++	if (!WARN_ON_ONCE(sysvec_table[sysvec - FIRST_SYSTEM_VECTOR]))
++		 sysvec_table[sysvec - FIRST_SYSTEM_VECTOR] = handler;
 +}
++
+ static noinstr void fred_extint(struct pt_regs *regs)
+ {
+ 	unsigned int vector = regs->fred_ss.vector;
+diff --git a/arch/x86/include/asm/desc.h b/arch/x86/include/asm/desc.h
+index ab97b22ac04a..ec95fe44fa3a 100644
+--- a/arch/x86/include/asm/desc.h
++++ b/arch/x86/include/asm/desc.h
+@@ -402,8 +402,6 @@ static inline void set_desc_limit(struct desc_struct *desc, unsigned long limit)
+ 	desc->limit1 = (limit >> 16) & 0xf;
+ }
+ 
+-void alloc_intr_gate(unsigned int n, const void *addr);
+-
+ static inline void init_idt_data(struct idt_data *data, unsigned int n,
+ 				 const void *addr)
+ {
+diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
+index 4f26ee9b8b74..650c98160152 100644
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -459,6 +459,21 @@ __visible noinstr void func(struct pt_regs *regs,			\
+ #define DEFINE_FREDENTRY_DEBUG		DEFINE_FREDENTRY_RAW
+ #endif
+ 
++void idt_install_sysvec(unsigned int n, const void *function);
++
++#ifdef CONFIG_X86_FRED
++void fred_install_sysvec(unsigned int vector, const idtentry_t function);
++#else
++static inline void fred_install_sysvec(unsigned int vector, const idtentry_t function) { }
 +#endif
 +
- int ex_get_fixup_type(unsigned long ip)
++#define sysvec_install(vector, function) {				\
++	if (cpu_feature_enabled(X86_FEATURE_FRED))			\
++		fred_install_sysvec(vector, function);			\
++	else								\
++		idt_install_sysvec(vector, asm_##function);		\
++}
++
+ #else /* !__ASSEMBLY__ */
+ 
+ /*
+diff --git a/arch/x86/kernel/cpu/acrn.c b/arch/x86/kernel/cpu/acrn.c
+index bfeb18fad63f..2c5b51aad91a 100644
+--- a/arch/x86/kernel/cpu/acrn.c
++++ b/arch/x86/kernel/cpu/acrn.c
+@@ -26,8 +26,8 @@ static u32 __init acrn_detect(void)
+ 
+ static void __init acrn_init_platform(void)
  {
- 	const struct exception_table_entry *e = search_exception_tables(ip);
-@@ -300,6 +375,10 @@ int fixup_exception(struct pt_regs *regs, int trapnr, unsigned long error_code,
- 		return ex_handler_ucopy_len(e, regs, trapnr, fault_addr, reg, imm);
- 	case EX_TYPE_ZEROPAD:
- 		return ex_handler_zeropad(e, regs, fault_addr);
-+#ifdef CONFIG_X86_FRED
-+	case EX_TYPE_ERETU:
-+		return ex_handler_eretu(e, regs, error_code);
-+#endif
+-	/* Setup the IDT for ACRN hypervisor callback */
+-	alloc_intr_gate(HYPERVISOR_CALLBACK_VECTOR, asm_sysvec_acrn_hv_callback);
++	/* Install system interrupt handler for ACRN hypervisor callback */
++	sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_acrn_hv_callback);
+ 
+ 	x86_platform.calibrate_tsc = acrn_get_tsc_khz;
+ 	x86_platform.calibrate_cpu = acrn_get_tsc_khz;
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 01fa06dd06b6..45e0e70e238c 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -539,19 +539,18 @@ static void __init ms_hyperv_init_platform(void)
+ 	 */
+ 	x86_platform.apic_post_init = hyperv_init;
+ 	hyperv_setup_mmu_ops();
+-	/* Setup the IDT for hypervisor callback */
+-	alloc_intr_gate(HYPERVISOR_CALLBACK_VECTOR, asm_sysvec_hyperv_callback);
+ 
+-	/* Setup the IDT for reenlightenment notifications */
++	/* Install system interrupt handler for hypervisor callback */
++	sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_hyperv_callback);
++
++	/* Install system interrupt handler for reenlightenment notifications */
+ 	if (ms_hyperv.features & HV_ACCESS_REENLIGHTENMENT) {
+-		alloc_intr_gate(HYPERV_REENLIGHTENMENT_VECTOR,
+-				asm_sysvec_hyperv_reenlightenment);
++		sysvec_install(HYPERV_REENLIGHTENMENT_VECTOR, sysvec_hyperv_reenlightenment);
  	}
- 	BUG();
+ 
+-	/* Setup the IDT for stimer0 */
++	/* Install system interrupt handler for stimer0 */
+ 	if (ms_hyperv.misc_features & HV_STIMER_DIRECT_MODE_AVAILABLE) {
+-		alloc_intr_gate(HYPERV_STIMER0_VECTOR,
+-				asm_sysvec_hyperv_stimer0);
++		sysvec_install(HYPERV_STIMER0_VECTOR, sysvec_hyperv_stimer0);
+ 	}
+ 
+ # ifdef CONFIG_SMP
+diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
+index 8857abc706e4..2b734927eec1 100644
+--- a/arch/x86/kernel/idt.c
++++ b/arch/x86/kernel/idt.c
+@@ -337,7 +337,7 @@ void idt_invalidate(void)
+ 	load_idt(&idt);
  }
+ 
+-void __init alloc_intr_gate(unsigned int n, const void *addr)
++void __init idt_install_sysvec(unsigned int n, const void *function)
+ {
+ 	if (WARN_ON(n < FIRST_SYSTEM_VECTOR))
+ 		return;
+@@ -346,5 +346,5 @@ void __init alloc_intr_gate(unsigned int n, const void *addr)
+ 		return;
+ 
+ 	if (!WARN_ON(test_and_set_bit(n, system_vectors)))
+-		set_intr_gate(n, addr);
++		set_intr_gate(n, function);
+ }
+diff --git a/arch/x86/kernel/kvm.c b/arch/x86/kernel/kvm.c
+index 0ddb3bd0f1aa..70d3aa717a29 100644
+--- a/arch/x86/kernel/kvm.c
++++ b/arch/x86/kernel/kvm.c
+@@ -829,7 +829,7 @@ static void __init kvm_guest_init(void)
+ 
+ 	if (kvm_para_has_feature(KVM_FEATURE_ASYNC_PF_INT) && kvmapf) {
+ 		static_branch_enable(&kvm_async_pf_enabled);
+-		alloc_intr_gate(HYPERVISOR_CALLBACK_VECTOR, asm_sysvec_kvm_asyncpf_interrupt);
++		sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_kvm_asyncpf_interrupt);
+ 	}
+ 
+ #ifdef CONFIG_SMP
+diff --git a/drivers/xen/events/events_base.c b/drivers/xen/events/events_base.c
+index b8cfea7812d6..e2813bac92d4 100644
+--- a/drivers/xen/events/events_base.c
++++ b/drivers/xen/events/events_base.c
+@@ -2216,7 +2216,7 @@ static __init void xen_alloc_callback_vector(void)
+ 		return;
+ 
+ 	pr_info("Xen HVM callback vector for event delivery is enabled\n");
+-	alloc_intr_gate(HYPERVISOR_CALLBACK_VECTOR, asm_sysvec_xen_hvm_callback);
++	sysvec_install(HYPERVISOR_CALLBACK_VECTOR, sysvec_xen_hvm_callback);
+ }
+ #else
+ void xen_setup_callback_vector(void) {}
 -- 
 2.43.0
 
