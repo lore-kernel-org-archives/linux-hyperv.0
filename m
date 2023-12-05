@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyLhGL09"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwkvqmyD"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA358129;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B889112C;
 	Tue,  5 Dec 2023 03:21:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701775283; x=1733311283;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=XAJxKoMf+2QJIK9eDHNvPpRiHTb0PPLqXWearFjnRKA=;
-  b=XyLhGL09gZgHLgZZm9EK6ExUcP3UunRgFMZEq8oGi4Wgdy7H/jeirlHt
-   1EBLhlxGKdsk4ECFc6Ii53KugrWkQTo6Pa/pF+tP7OqZw0EJnSc3LLJU1
-   oTqxLvKwLBdn571GaTq71FmATEC+PF5JfRtxYyX+J5svJVOIfq+GJYn0O
-   XdJabtApFa6CNZAIc9sm+tnL2QO86pE6beulgTHzAhF54OdYh/jzermf2
-   g+WR16MFz7u27aCFAyK4pepUY2gkdO84sdFuchWRANlcwtmjO0CTuqBjZ
-   is8yoZkvt7NOixlR250hrdFgmr3NBXrkiJubpfVEJSTv99QcH9K4JN+zI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942396"
+  bh=at3P90/0BHfZm4A3RDkp4mmTPKN/FQQ6JC7gRORtMwU=;
+  b=UwkvqmyDNKYpEWiRyVAg/oyEluqxzF+5xd8tdrj5rz3cLRdkzTQUeD8D
+   fV614pYbCBAzknlX/Y7GiwXYgekDrc6CmLevy9c+0pAFcp8hDHzJFNiz6
+   rDV7nS08BQMz89XkDsbTulXB3brd2tPQZpF+ILafzY0NRNB9fTBr824SP
+   BDK+kIIrdL/7FEzS9tWHFl5ccRtfbgOteBago4Q2DyEsxymOa9OCfU7tb
+   rL4yVXqn5UCD1W9TdoIZOFv75lOGP1Gnr1Sit2AiV2Z3t4lObifuhFJO2
+   nuPHVcw9zrKio9+U4Ajma+np4C1r4V19ECv1iYdvBwx7UUVcaO6Bmb4SW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942404"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942396"
+   d="scan'208";a="942404"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192924"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192916"
+   d="scan'208";a="1018192924"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:17 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:18 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 06/35] x86/cpufeatures: Add the CPU feature bit for FRED
-Date: Tue,  5 Dec 2023 02:49:55 -0800
-Message-ID: <20231205105030.8698-7-xin3.li@intel.com>
+Subject: [PATCH v13 08/35] x86/fred: Disable FRED by default in its early stage
+Date: Tue,  5 Dec 2023 02:49:57 -0800
+Message-ID: <20231205105030.8698-9-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -63,67 +63,45 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+To enable FRED, a new kernel command line option "fred" needs to be added.
 
-Any FRED CPU will always have the following features as its baseline:
-  1) LKGS, load attributes of the GS segment but the base address into
-     the IA32_KERNEL_GS_BASE MSR instead of the GS segment’s descriptor
-     cache.
-  2) WRMSRNS, non-serializing WRMSR for faster MSR writes.
-
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ Documentation/admin-guide/kernel-parameters.txt | 3 +++
+ arch/x86/kernel/cpu/common.c                    | 3 +++
+ 2 files changed, 6 insertions(+)
 
-Change since v12:
-* s/cpu/CPU/g (Borislav Petkov).
----
- arch/x86/include/asm/cpufeatures.h       | 1 +
- arch/x86/kernel/cpu/cpuid-deps.c         | 2 ++
- tools/arch/x86/include/asm/cpufeatures.h | 1 +
- 3 files changed, 4 insertions(+)
-
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index a903fc130e49..fef95d190054 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -324,6 +324,7 @@
- #define X86_FEATURE_FZRM		(12*32+10) /* "" Fast zero-length REP MOVSB */
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
-+#define X86_FEATURE_FRED		(12*32+17) /* Flexible Return and Event Delivery */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
- #define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-serializing WRMSR */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
-diff --git a/arch/x86/kernel/cpu/cpuid-deps.c b/arch/x86/kernel/cpu/cpuid-deps.c
-index e462c1d3800a..b7174209d855 100644
---- a/arch/x86/kernel/cpu/cpuid-deps.c
-+++ b/arch/x86/kernel/cpu/cpuid-deps.c
-@@ -82,6 +82,8 @@ static const struct cpuid_dep cpuid_deps[] = {
- 	{ X86_FEATURE_XFD,			X86_FEATURE_XGETBV1   },
- 	{ X86_FEATURE_AMX_TILE,			X86_FEATURE_XFD       },
- 	{ X86_FEATURE_SHSTK,			X86_FEATURE_XSAVES    },
-+	{ X86_FEATURE_FRED,			X86_FEATURE_LKGS      },
-+	{ X86_FEATURE_FRED,			X86_FEATURE_WRMSRNS   },
- 	{}
- };
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 65731b060e3f..6992b392e8d3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1526,6 +1526,9 @@
+ 			Warning: use of this parameter will taint the kernel
+ 			and may cause unknown problems.
  
-diff --git a/tools/arch/x86/include/asm/cpufeatures.h b/tools/arch/x86/include/asm/cpufeatures.h
-index 26a73ae18a86..f433e9f61354 100644
---- a/tools/arch/x86/include/asm/cpufeatures.h
-+++ b/tools/arch/x86/include/asm/cpufeatures.h
-@@ -321,6 +321,7 @@
- #define X86_FEATURE_FZRM		(12*32+10) /* "" Fast zero-length REP MOVSB */
- #define X86_FEATURE_FSRS		(12*32+11) /* "" Fast short REP STOSB */
- #define X86_FEATURE_FSRC		(12*32+12) /* "" Fast short REP {CMPSB,SCASB} */
-+#define X86_FEATURE_FRED		(12*32+17) /* Flexible Return and Event Delivery */
- #define X86_FEATURE_LKGS		(12*32+18) /* "" Load "kernel" (userspace) GS */
- #define X86_FEATURE_WRMSRNS		(12*32+19) /* "" Non-serializing WRMSR */
- #define X86_FEATURE_AMX_FP16		(12*32+21) /* "" AMX fp16 Support */
++	fred		[X86-64]
++			Enable flexible return and event delivery
++
+ 	ftrace=[tracer]
+ 			[FTRACE] will set and start the specified tracer
+ 			as early as possible in order to facilitate early
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 4d4b87c6885d..68102acd63b0 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -1491,6 +1491,9 @@ static void __init cpu_parse_early_param(void)
+ 	char *argptr = arg, *opt;
+ 	int arglen, taint = 0;
+ 
++	if (!cmdline_find_option_bool(boot_command_line, "fred"))
++		setup_clear_cpu_cap(X86_FEATURE_FRED);
++
+ #ifdef CONFIG_X86_32
+ 	if (cmdline_find_option_bool(boot_command_line, "no387"))
+ #ifdef CONFIG_MATH_EMULATION
 -- 
 2.43.0
 
