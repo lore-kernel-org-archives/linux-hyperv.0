@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zkyjk2Qh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vfpjlelj"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D0B136;
-	Tue,  5 Dec 2023 03:21:24 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10889E;
+	Tue,  5 Dec 2023 03:21:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775286; x=1733311286;
+  t=1701775284; x=1733311284;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ednaCMmFl3XJWL+gfBq22HioBkuQBmZA1PVTbNrlGWM=;
-  b=Zkyjk2Qh3C1j5MtjdpZlauv5fW2BZWqKW+awQMxAZwgbcjDs4YZEaDgu
-   /If7C/vd/aRimMTkxfsvoDjAGfN4RJNHSL8QEC8oHZAuRURIgKQlVA4jq
-   2pCepSxTtKJjokeOyMNwCcxU1p+UKz/COu8VLJpkZQ1pnCal7bJDmFzPW
-   GcCpZ2lY2OkZ2ZXaFuL6W3kj46DecXlS+mAtdyH2DX/7iVb5azW0La6ax
-   0fA07Ki3q5utQfs6AEucBHjBS2p0wlIe21HOsv+xKovVaTSigpCEXrZkB
-   tKxEXhqwClBVMXAHLGfOUl8vFSHTBJPbkc4GkByEoXh5T1ExHJzQc2/JA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942445"
+  bh=fBLiRRcKVyAMRaXpDMNfuo7m3LN99KBaGmZAQi3QyEY=;
+  b=VfpjleljAFWtaDLRDNNOdR2EpV1CMB3p/qdRTZr8HppEokE4vzfs742q
+   w6GV1ksS641Eg9pNEBltx0tAxfzrezAQ5ZkHZYuqJ/vvI+0r2uobTJaUM
+   5S2kJFutEy8fAanJB3P83QNSBsXj20P85u6MCywvW5bM+csX7XA8LlPx4
+   b+cWfclQv3v4FKjxKD7UyJO2Xqv9obmpVtxRxhD+38rOcHX97XrneVxHH
+   1J4d5JsORbxDwUfbTM2ZiFb638KIjLxzvY7/+JIOqU/OCFDpzL/5HeivU
+   QkefSoaLeNQ+vZoHhRK6fYZH6Bl0VQ4FwLgSUA6YQZ/G1KGjV5mFpm5Lr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942413"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942445"
+   d="scan'208";a="942413"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192936"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192928"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192936"
+   d="scan'208";a="1018192928"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:19 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:18 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 11/35] x86/cpu: Add X86_CR4_FRED macro
-Date: Tue,  5 Dec 2023 02:50:00 -0800
-Message-ID: <20231205105030.8698-12-xin3.li@intel.com>
+Subject: [PATCH v13 09/35] x86/opcode: Add ERET[US] instructions to the x86 opcode map
+Date: Tue,  5 Dec 2023 02:49:58 -0800
+Message-ID: <20231205105030.8698-10-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -67,56 +67,47 @@ Content-Transfer-Encoding: 8bit
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Add X86_CR4_FRED macro for the FRED bit in %cr4. This bit must not be
-changed after initialization, so add it to the pinned CR4 bits.
+ERETU returns from an event handler while making a transition to ring 3,
+and ERETS returns from an event handler while staying in ring 0.
+
+Add instruction opcodes used by ERET[US] to the x86 opcode map; opcode
+numbers are per FRED spec v5.0.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ arch/x86/lib/x86-opcode-map.txt       | 2 +-
+ tools/arch/x86/lib/x86-opcode-map.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v9:
-* Avoid a type cast by defining X86_CR4_FRED as 0 on 32-bit (Thomas
-  Gleixner).
----
- arch/x86/include/uapi/asm/processor-flags.h | 7 +++++++
- arch/x86/kernel/cpu/common.c                | 5 ++---
- 2 files changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
-index d898432947ff..f1a4adc78272 100644
---- a/arch/x86/include/uapi/asm/processor-flags.h
-+++ b/arch/x86/include/uapi/asm/processor-flags.h
-@@ -139,6 +139,13 @@
- #define X86_CR4_LAM_SUP_BIT	28 /* LAM for supervisor pointers */
- #define X86_CR4_LAM_SUP		_BITUL(X86_CR4_LAM_SUP_BIT)
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index 1efe1d9bf5ce..12af572201a2 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
  
-+#ifdef __x86_64__
-+#define X86_CR4_FRED_BIT	32 /* enable FRED kernel entry */
-+#define X86_CR4_FRED		_BITUL(X86_CR4_FRED_BIT)
-+#else
-+#define X86_CR4_FRED		(0)
-+#endif
-+
- /*
-  * x86-64 Task Priority Register, CR8
-  */
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 68102acd63b0..132f41f7c27f 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -389,9 +389,8 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- }
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
+diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+index 1efe1d9bf5ce..12af572201a2 100644
+--- a/tools/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/arch/x86/lib/x86-opcode-map.txt
+@@ -1052,7 +1052,7 @@ EndTable
  
- /* These bits should not change their value after CPU init is finished. */
--static const unsigned long cr4_pinned_mask =
--	X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
--	X86_CR4_FSGSBASE | X86_CR4_CET;
-+static const unsigned long cr4_pinned_mask = X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_UMIP |
-+					     X86_CR4_FSGSBASE | X86_CR4_CET | X86_CR4_FRED;
- static DEFINE_STATIC_KEY_FALSE_RO(cr_pinning);
- static unsigned long cr4_pinned_bits __ro_after_init;
- 
+ GrpTable: Grp7
+ 0: SGDT Ms | VMCALL (001),(11B) | VMLAUNCH (010),(11B) | VMRESUME (011),(11B) | VMXOFF (100),(11B) | PCONFIG (101),(11B) | ENCLV (000),(11B) | WRMSRNS (110),(11B)
+-1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B)
++1: SIDT Ms | MONITOR (000),(11B) | MWAIT (001),(11B) | CLAC (010),(11B) | STAC (011),(11B) | ENCLS (111),(11B) | ERETU (F3),(010),(11B) | ERETS (F2),(010),(11B)
+ 2: LGDT Ms | XGETBV (000),(11B) | XSETBV (001),(11B) | VMFUNC (100),(11B) | XEND (101)(11B) | XTEST (110)(11B) | ENCLU (111),(11B)
+ 3: LIDT Ms
+ 4: SMSW Mw/Rv
 -- 
 2.43.0
 
