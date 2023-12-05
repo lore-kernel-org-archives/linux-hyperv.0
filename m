@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6iNEMia"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OlibKuwE"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E10ED4C;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6B0D4F;
 	Tue,  5 Dec 2023 03:21:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1701775297; x=1733311297;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=uIZltVBi8wI2fdlt/Uk1Bni3bjv6/HHLxi0uq5CIvWc=;
-  b=i6iNEMiaEK0spK+TcD7AUm/WImr6AQexme4vVfpnpURZ9KS+JllcbghF
-   EPJEdVnbUuUELT4PkDH9sXmQOvLyhn0AZjc6vtKK9eFmBY03si7DEo5/o
-   T913qVfd4L1//WaI1WxrNcZmIDbsE69WB0fiP4cVbQwkMp6pe4cMXwF/6
-   gn1TANM9FRil97Xl8q/GXxTosYPTll6/Ovhe1HojiBGUI3RAUUBA2XtIM
-   KHovAw4lBsf58xYLTfYKVW/dYtxZb+raIGVobfVduaX1F2fuubPUt0eoe
-   Ahy4OpCP1ylI+0Rj2KQf6INyQdjgP+3xhh6LdNaTgvQwwMI5pXK8g5st2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942693"
+  bh=SQLskgfezeMmMUQK7hRm+in8U5EG93C8+IUmjWFkZJ4=;
+  b=OlibKuwEy+FIpwvCBCGs+hWByLFWCrEdYyxCLxmuOIaVvDNP73o4CRR4
+   rolX/+63VpPr7pTHYRG8d4crgG0FBeVAFdfScFiDMparkTpkfigk10Bju
+   iBip5D6Yfu6JAFG0E8wi890/2x08MLIKtmfU2VBuEjho1EEFUFzzpRETX
+   6+vzpc1Wdf409bqbNeaCRWvxtg6jKI8ApaUTn6m/yCqyk8CiAYfZVmuZl
+   BXIP1MbQ8WU0K6NdcQf2Bb8h/fhmOB7HnSFFTYs6K4DxoRRx1Vmmmi0O8
+   V+9mqmj/hR9q48R1s6rRxsa+x6EXC7WqAFHkT6n8vGwVZnJSD3fMpJe2n
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942718"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942693"
+   d="scan'208";a="942718"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:27 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193005"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193012"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018193005"
+   d="scan'208";a="1018193012"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:25 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:26 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 30/35] x86/entry/calling: Allow PUSH_AND_CLEAR_REGS being used beyond actual entry code
-Date: Tue,  5 Dec 2023 02:50:19 -0800
-Message-ID: <20231205105030.8698-31-xin3.li@intel.com>
+Subject: [PATCH v13 32/35] KVM: VMX: Call fred_entry_from_kvm() for IRQ/NMI handling
+Date: Tue,  5 Dec 2023 02:50:21 -0800
+Message-ID: <20231205105030.8698-33-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,74 +65,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+When FRED is enabled, call fred_entry_from_kvm() to handle IRQ/NMI in
+IRQ/NMI induced VM exits.
 
-PUSH_AND_CLEAR_REGS could be used besides actual entry code; in that case
-%rbp shouldn't be cleared (otherwise the frame pointer is destroyed) and
-UNWIND_HINT shouldn't be added.
-
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- arch/x86/entry/calling.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ arch/x86/kvm/vmx/vmx.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/entry/calling.h b/arch/x86/entry/calling.h
-index e59d3073e7cf..a023d9a97cd2 100644
---- a/arch/x86/entry/calling.h
-+++ b/arch/x86/entry/calling.h
-@@ -65,7 +65,7 @@ For 32-bit we have the following conventions - kernel is built with
-  * for assembly code:
-  */
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index be20a60047b1..ba5cd26137e0 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -38,6 +38,7 @@
+ #include <asm/desc.h>
+ #include <asm/fpu/api.h>
+ #include <asm/fpu/xstate.h>
++#include <asm/fred.h>
+ #include <asm/idtentry.h>
+ #include <asm/io.h>
+ #include <asm/irq_remapping.h>
+@@ -6962,14 +6963,16 @@ static void handle_external_interrupt_irqoff(struct kvm_vcpu *vcpu)
+ {
+ 	u32 intr_info = vmx_get_intr_info(vcpu);
+ 	unsigned int vector = intr_info & INTR_INFO_VECTOR_MASK;
+-	gate_desc *desc = (gate_desc *)host_idt_base + vector;
  
--.macro PUSH_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0
-+.macro PUSH_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 unwind_hint=1
- 	.if \save_ret
- 	pushq	%rsi		/* pt_regs->si */
- 	movq	8(%rsp), %rsi	/* temporarily store the return address in %rsi */
-@@ -87,14 +87,17 @@ For 32-bit we have the following conventions - kernel is built with
- 	pushq	%r13		/* pt_regs->r13 */
- 	pushq	%r14		/* pt_regs->r14 */
- 	pushq	%r15		/* pt_regs->r15 */
-+
-+	.if \unwind_hint
- 	UNWIND_HINT_REGS
-+	.endif
+ 	if (KVM_BUG(!is_external_intr(intr_info), vcpu->kvm,
+ 	    "unexpected VM-Exit interrupt info: 0x%x", intr_info))
+ 		return;
  
- 	.if \save_ret
- 	pushq	%rsi		/* return address on top of stack */
- 	.endif
- .endm
+ 	kvm_before_interrupt(vcpu, KVM_HANDLING_IRQ);
+-	vmx_do_interrupt_irqoff(gate_offset(desc));
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		fred_entry_from_kvm(EVENT_TYPE_EXTINT, vector);
++	else
++		vmx_do_interrupt_irqoff(gate_offset((gate_desc *)host_idt_base + vector));
+ 	kvm_after_interrupt(vcpu);
  
--.macro CLEAR_REGS
-+.macro CLEAR_REGS clear_bp=1
- 	/*
- 	 * Sanitize registers of values that a speculation attack might
- 	 * otherwise want to exploit. The lower registers are likely clobbered
-@@ -109,7 +112,9 @@ For 32-bit we have the following conventions - kernel is built with
- 	xorl	%r10d, %r10d	/* nospec r10 */
- 	xorl	%r11d, %r11d	/* nospec r11 */
- 	xorl	%ebx,  %ebx	/* nospec rbx */
-+	.if \clear_bp
- 	xorl	%ebp,  %ebp	/* nospec rbp */
-+	.endif
- 	xorl	%r12d, %r12d	/* nospec r12 */
- 	xorl	%r13d, %r13d	/* nospec r13 */
- 	xorl	%r14d, %r14d	/* nospec r14 */
-@@ -117,9 +122,9 @@ For 32-bit we have the following conventions - kernel is built with
+ 	vcpu->arch.at_instruction_boundary = true;
+@@ -7262,7 +7265,10 @@ static noinstr void vmx_vcpu_enter_exit(struct kvm_vcpu *vcpu,
+ 	if ((u16)vmx->exit_reason.basic == EXIT_REASON_EXCEPTION_NMI &&
+ 	    is_nmi(vmx_get_intr_info(vcpu))) {
+ 		kvm_before_interrupt(vcpu, KVM_HANDLING_NMI);
+-		vmx_do_nmi_irqoff();
++		if (cpu_feature_enabled(X86_FEATURE_FRED))
++			fred_entry_from_kvm(EVENT_TYPE_NMI, NMI_VECTOR);
++		else
++			vmx_do_nmi_irqoff();
+ 		kvm_after_interrupt(vcpu);
+ 	}
  
- .endm
- 
--.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0
--	PUSH_REGS rdx=\rdx, rcx=\rcx, rax=\rax, save_ret=\save_ret
--	CLEAR_REGS
-+.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 clear_bp=1 unwind_hint=1
-+	PUSH_REGS rdx=\rdx, rcx=\rcx, rax=\rax, save_ret=\save_ret unwind_hint=\unwind_hint
-+	CLEAR_REGS clear_bp=\clear_bp
- .endm
- 
- .macro POP_REGS pop_rdi=1
 -- 
 2.43.0
 
