@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sy/QCuNn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ez7Sozwr"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DD59D4B;
-	Tue,  5 Dec 2023 03:21:35 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A577F9A;
+	Tue,  5 Dec 2023 03:21:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775297; x=1733311297;
+  t=1701775298; x=1733311298;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=p+DpQXfFjluhEPpBgGqFegRQUmj2AdYX7lnZ9lGR9vg=;
-  b=Sy/QCuNn8YJvHU02oZH7r0cpO+kn0IbqX9koWatYzTBHu74GQdrwThCV
-   x07gjG34kg4PvFVtjgJ0odpuhF9jLre9LvP0eCCGXoRL++8b39+73vX7D
-   7JuLt1VHRlP4wVgpDRLfTLjvSVPdrKpQUvGtZFRVl6t6EAcb57sk2xrfX
-   5FW5IsYFd6bX51WS/AwfEGHslvIUpGtfMnqYB0/RZIba8cmLVULXaIkHy
-   GwjZlxI3kb/OMTulkj+MIfqTq8ZL50dIOy8S8Ma8gsz748cieKyD4N5Ge
-   2+IKl1AOjnAFoKTpZmYFdHZOXzlBjrIGg/hoC0rPhaUC3kdVOZNsUK3GU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942717"
+  bh=hUnJXd4Og3bi9hMQPhy7/57sMPohL9ggwF5nLer6ATE=;
+  b=ez7SozwrQ0xyUHZhi698J8930S41b5SMBVmvFfwB0AsbgjLmt90vWNQr
+   D8fwCzVK47GLD987hgXyD1g2mCu6ma0PbLmU04wCbhzOrXU3sMaHQ7rpa
+   2TmKshPfhDYKuyCRZa67EQhQ2Nxxi+dnCU2pT1o+8vCRAoFbAxulsYy6Z
+   y5kP/nzNF30v+N4YfOBrwMPKTiV/bLgK5Cx21/+sFgyUNi099I/HxAu6O
+   pt9ccW4KdB7/1wB5+vkoT7feVSijxpHRLsZ4KItocc+v2nrMVpEUb56Ho
+   FZ44fhOSxpFDf+NgH1c2kxI53JBRFEEHxrfB0CGldVfJ6OmAqBtcDFiH/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942741"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942717"
+   d="scan'208";a="942741"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:27 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:28 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193009"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018193019"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018193009"
+   d="scan'208";a="1018193019"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:25 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:26 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 31/35] x86/entry: Add fred_entry_from_kvm() for VMX to handle IRQ/NMI
-Date: Tue,  5 Dec 2023 02:50:20 -0800
-Message-ID: <20231205105030.8698-32-xin3.li@intel.com>
+Subject: [PATCH v13 34/35] x86/fred: Add FRED initialization functions
+Date: Tue,  5 Dec 2023 02:50:23 -0800
+Message-ID: <20231205105030.8698-35-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,207 +65,167 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In IRQ/NMI induced VM exits, KVM VMX needs to execute the respective
-handlers, which requires the software to create a FRED stack frame,
-and use it to invoke the handlers. Add fred_irq_entry_from_kvm() for
-this job.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Export fred_entry_from_kvm() because VMX can be compiled as a module.
+Add cpu_init_fred_exceptions() to:
+  - Set FRED entrypoints for events happening in ring 0 and 3.
+  - Specify the stack level for IRQs occurred ring 0.
+  - Specify dedicated event stacks for #DB/NMI/#MCE/#DF.
+  - Enable FRED and invalidtes IDT.
+  - Force 32-bit system calls to use "int $0x80" only.
 
-Suggested-by: Sean Christopherson <seanjc@google.com>
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Add fred_complete_exception_setup() to:
+  - Initialize system_vectors as done for IDT systems.
+  - Set unused sysvec_table entries to fred_handle_spurious_interrupt().
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
+Co-developed-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
-Changes since v10:
-* Better explain the reason why no need to check current stack level
-  (Paolo Bonzini).
-
 Changes since v9:
-* Shove the whole thing into arch/x86/entry/entry_64_fred.S for invoking
-  external_interrupt() and fred_exc_nmi() (Sean Christopherson).
-* Correct and improve a few comments (Sean Christopherson).
-* Merge the two IRQ/NMI asm entries into one as it's fine to invoke
-  noinstr code from regular code (Thomas Gleixner).
-* Setup the long mode and NMI flags in the augmented SS field of FRED
-  stack frame in C instead of asm (Thomas Gleixner).
-* Add UNWIND_HINT_{SAVE,RESTORE} to get rid of the warning: "objtool:
-  asm_fred_entry_from_kvm+0x0: unreachable instruction" (Peter Zijlstra).
+* Set unused sysvec table entries to fred_handle_spurious_interrupt()
+  in fred_complete_exception_setup() (Thomas Gleixner).
 
-Changes since v8:
-* Add a new macro VMX_DO_FRED_EVENT_IRQOFF for FRED instead of
-  refactoring VMX_DO_EVENT_IRQOFF (Sean Christopherson).
-* Do NOT use a trampoline, just LEA+PUSH the return RIP, PUSH the error
-  code, and jump to the FRED kernel entry point for NMI or call
-  external_interrupt() for IRQs (Sean Christopherson).
-* Call external_interrupt() only when FRED is enabled, and convert the
-  non-FRED handling to external_interrupt() after FRED lands (Sean
-  Christopherson).
+Changes since v5:
+* Add a comment for FRED stack level settings (Lai Jiangshan).
+* Define NMI/#DB/#MCE/#DF stack levels using macros.
 ---
- arch/x86/entry/entry_64_fred.S | 77 ++++++++++++++++++++++++++++++++++
- arch/x86/entry/entry_fred.c    | 14 +++++++
- arch/x86/include/asm/fred.h    | 18 ++++++++
- 3 files changed, 109 insertions(+)
+ arch/x86/entry/entry_fred.c | 21 +++++++++++++
+ arch/x86/include/asm/fred.h |  5 ++++
+ arch/x86/kernel/Makefile    |  1 +
+ arch/x86/kernel/fred.c      | 59 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 86 insertions(+)
+ create mode 100644 arch/x86/kernel/fred.c
 
-diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
-index d1c2fc4af8ae..eedf98de7538 100644
---- a/arch/x86/entry/entry_64_fred.S
-+++ b/arch/x86/entry/entry_64_fred.S
-@@ -3,8 +3,11 @@
-  * The actual FRED entry points.
-  */
- 
-+#include <linux/export.h>
-+
- #include <asm/asm.h>
- #include <asm/fred.h>
-+#include <asm/segment.h>
- 
- #include "calling.h"
- 
-@@ -54,3 +57,77 @@ SYM_CODE_START_NOALIGN(asm_fred_entrypoint_kernel)
- 	FRED_EXIT
- 	ERETS
- SYM_CODE_END(asm_fred_entrypoint_kernel)
-+
-+#if IS_ENABLED(CONFIG_KVM_INTEL)
-+SYM_FUNC_START(asm_fred_entry_from_kvm)
-+	push %rbp
-+	mov %rsp, %rbp
-+
-+	UNWIND_HINT_SAVE
-+
-+	/*
-+	 * Both IRQ and NMI from VMX can be handled on current task stack
-+	 * because there is no need to protect from reentrancy and the call
-+	 * stack leading to this helper is effectively constant and shallow
-+	 * (relatively speaking). Do the same when FRED is active, i.e., no
-+	 * need to check current stack level for a stack switch.
-+	 *
-+	 * Emulate the FRED-defined redzone and stack alignment.
-+	 */
-+	sub $(FRED_CONFIG_REDZONE_AMOUNT << 6), %rsp
-+	and $FRED_STACK_FRAME_RSP_MASK, %rsp
-+
-+	/*
-+	 * Start to push a FRED stack frame, which is always 64 bytes:
-+	 *
-+	 * +--------+-----------------+
-+	 * | Bytes  | Usage           |
-+	 * +--------+-----------------+
-+	 * | 63:56  | Reserved        |
-+	 * | 55:48  | Event Data      |
-+	 * | 47:40  | SS + Event Info |
-+	 * | 39:32  | RSP             |
-+	 * | 31:24  | RFLAGS          |
-+	 * | 23:16  | CS + Aux Info   |
-+	 * |  15:8  | RIP             |
-+	 * |   7:0  | Error Code      |
-+	 * +--------+-----------------+
-+	 */
-+	push $0				/* Reserved, must be 0 */
-+	push $0				/* Event data, 0 for IRQ/NMI */
-+	push %rdi			/* fred_ss handed in by the caller */
-+	push %rbp
-+	pushf
-+	mov $__KERNEL_CS, %rax
-+	push %rax
-+
-+	/*
-+	 * Unlike the IDT event delivery, FRED _always_ pushes an error code
-+	 * after pushing the return RIP, thus the CALL instruction CANNOT be
-+	 * used here to push the return RIP, otherwise there is no chance to
-+	 * push an error code before invoking the IRQ/NMI handler.
-+	 *
-+	 * Use LEA to get the return RIP and push it, then push an error code.
-+	 */
-+	lea 1f(%rip), %rax
-+	push %rax				/* Return RIP */
-+	push $0					/* Error code, 0 for IRQ/NMI */
-+
-+	PUSH_AND_CLEAR_REGS clear_bp=0 unwind_hint=0
-+	movq %rsp, %rdi				/* %rdi -> pt_regs */
-+	call __fred_entry_from_kvm		/* Call the C entry point */
-+	POP_REGS
-+	ERETS
-+1:
-+	/*
-+	 * Objtool doesn't understand what ERETS does, this hint tells it that
-+	 * yes, we'll reach here and with what stack state. A save/restore pair
-+	 * isn't strictly needed, but it's the simplest form.
-+	 */
-+	UNWIND_HINT_RESTORE
-+	pop %rbp
-+	RET
-+
-+SYM_FUNC_END(asm_fred_entry_from_kvm)
-+EXPORT_SYMBOL_GPL(asm_fred_entry_from_kvm);
-+#endif
 diff --git a/arch/x86/entry/entry_fred.c b/arch/x86/entry/entry_fred.c
-index e80e3efbc057..3e33a4ab4624 100644
+index 3e33a4ab4624..abe66d65fa2d 100644
 --- a/arch/x86/entry/entry_fred.c
 +++ b/arch/x86/entry/entry_fred.c
-@@ -242,3 +242,17 @@ __visible noinstr void fred_entry_from_kernel(struct pt_regs *regs)
- 		return fred_bad_type(regs, error_code);
- 	}
+@@ -140,6 +140,27 @@ void __init fred_install_sysvec(unsigned int sysvec, idtentry_t handler)
+ 		 sysvec_table[sysvec - FIRST_SYSTEM_VECTOR] = handler;
  }
-+
-+#if IS_ENABLED(CONFIG_KVM_INTEL)
-+__visible noinstr void __fred_entry_from_kvm(struct pt_regs *regs)
+ 
++static noinstr void fred_handle_spurious_interrupt(struct pt_regs *regs)
 +{
-+	switch (regs->fred_ss.type) {
-+	case EVENT_TYPE_EXTINT:
-+		return fred_extint(regs);
-+	case EVENT_TYPE_NMI:
-+		return fred_exc_nmi(regs);
-+	default:
-+		WARN_ON_ONCE(1);
-+	}
++	spurious_interrupt(regs, regs->fred_ss.vector);
 +}
-+#endif
++
++void __init fred_complete_exception_setup(void)
++{
++	unsigned int vector;
++
++	for (vector = 0; vector < FIRST_EXTERNAL_VECTOR; vector++)
++		set_bit(vector, system_vectors);
++
++	for (vector = 0; vector < NR_SYSTEM_VECTORS; vector++) {
++		if (sysvec_table[vector])
++			set_bit(vector + FIRST_SYSTEM_VECTOR, system_vectors);
++		else
++			sysvec_table[vector] = fred_handle_spurious_interrupt;
++	}
++	fred_setup_done = true;
++}
++
+ static noinstr void fred_extint(struct pt_regs *regs)
+ {
+ 	unsigned int vector = regs->fred_ss.vector;
 diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index 16a64ffecbf8..2fa9f34e5c95 100644
+index 2fa9f34e5c95..e86c7ba32435 100644
 --- a/arch/x86/include/asm/fred.h
 +++ b/arch/x86/include/asm/fred.h
-@@ -9,6 +9,7 @@
- #include <linux/const.h>
+@@ -83,8 +83,13 @@ static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int
+ 	asm_fred_entry_from_kvm(ss);
+ }
  
- #include <asm/asm.h>
-+#include <asm/trapnr.h>
- 
- /*
-  * FRED event return instruction opcodes for ERET{S,U}; supported in
-@@ -62,12 +63,29 @@ static __always_inline unsigned long fred_event_data(struct pt_regs *regs)
- 
- void asm_fred_entrypoint_user(void);
- void asm_fred_entrypoint_kernel(void);
-+void asm_fred_entry_from_kvm(struct fred_ss);
- 
- __visible void fred_entry_from_user(struct pt_regs *regs);
- __visible void fred_entry_from_kernel(struct pt_regs *regs);
-+__visible void __fred_entry_from_kvm(struct pt_regs *regs);
++void cpu_init_fred_exceptions(void);
++void fred_complete_exception_setup(void);
 +
-+/* Can be called from noinstr code, thus __always_inline */
-+static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector)
-+{
-+	struct fred_ss ss = {
-+		.ss     =__KERNEL_DS,
-+		.type   = type,
-+		.vector = vector,
-+		.nmi    = type == EVENT_TYPE_NMI,
-+		.lm     = 1,
-+	};
-+
-+	asm_fred_entry_from_kvm(ss);
-+}
- 
  #else /* CONFIG_X86_FRED */
  static __always_inline unsigned long fred_event_data(struct pt_regs *regs) { return 0; }
-+static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector) { }
++static inline void cpu_init_fred_exceptions(void) { }
++static inline void fred_complete_exception_setup(void) { }
+ static __always_inline void fred_entry_from_kvm(unsigned int type, unsigned int vector) { }
  #endif /* CONFIG_X86_FRED */
  #endif /* !__ASSEMBLY__ */
- 
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 0000325ab98f..0dcbfc1a4c41 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -48,6 +48,7 @@ obj-y			+= platform-quirks.o
+ obj-y			+= process_$(BITS).o signal.o signal_$(BITS).o
+ obj-y			+= traps.o idt.o irq.o irq_$(BITS).o dumpstack_$(BITS).o
+ obj-y			+= time.o ioport.o dumpstack.o nmi.o
++obj-$(CONFIG_X86_FRED)	+= fred.o
+ obj-$(CONFIG_MODIFY_LDT_SYSCALL)	+= ldt.o
+ obj-$(CONFIG_X86_KERNEL_IBT)		+= ibt_selftest.o
+ obj-y			+= setup.o x86_init.o i8259.o irqinit.o
+diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
+new file mode 100644
+index 000000000000..4bcd8791ad96
+--- /dev/null
++++ b/arch/x86/kernel/fred.c
+@@ -0,0 +1,59 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#include <linux/kernel.h>
++
++#include <asm/desc.h>
++#include <asm/fred.h>
++#include <asm/tlbflush.h>
++#include <asm/traps.h>
++
++/* #DB in the kernel would imply the use of a kernel debugger. */
++#define FRED_DB_STACK_LEVEL		1UL
++#define FRED_NMI_STACK_LEVEL		2UL
++#define FRED_MC_STACK_LEVEL		2UL
++/*
++ * #DF is the highest level because a #DF means "something went wrong
++ * *while delivering an exception*." The number of cases for which that
++ * can happen with FRED is drastically reduced and basically amounts to
++ * "the stack you pointed me to is broken." Thus, always change stacks
++ * on #DF, which means it should be at the highest level.
++ */
++#define FRED_DF_STACK_LEVEL		3UL
++
++#define FRED_STKLVL(vector, lvl)	((lvl) << (2 * (vector)))
++
++void cpu_init_fred_exceptions(void)
++{
++	/* When FRED is enabled by default, remove this log message */
++	pr_info("Initialize FRED on CPU%d\n", smp_processor_id());
++
++	wrmsrl(MSR_IA32_FRED_CONFIG,
++	       /* Reserve for CALL emulation */
++	       FRED_CONFIG_REDZONE |
++	       FRED_CONFIG_INT_STKLVL(0) |
++	       FRED_CONFIG_ENTRYPOINT(asm_fred_entrypoint_user));
++
++	/*
++	 * The purpose of separate stacks for NMI, #DB and #MC *in the kernel*
++	 * (remember that user space faults are always taken on stack level 0)
++	 * is to avoid overflowing the kernel stack.
++	 */
++	wrmsrl(MSR_IA32_FRED_STKLVLS,
++	       FRED_STKLVL(X86_TRAP_DB,  FRED_DB_STACK_LEVEL) |
++	       FRED_STKLVL(X86_TRAP_NMI, FRED_NMI_STACK_LEVEL) |
++	       FRED_STKLVL(X86_TRAP_MC,  FRED_MC_STACK_LEVEL) |
++	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
++
++	/* The FRED equivalents to IST stacks... */
++	wrmsrl(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(DB));
++	wrmsrl(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(NMI));
++	wrmsrl(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(DF));
++
++	/* Enable FRED */
++	cr4_set_bits(X86_CR4_FRED);
++	/* Any further IDT use is a bug */
++	idt_invalidate();
++
++	/* Use int $0x80 for 32-bit system calls in FRED mode */
++	setup_clear_cpu_cap(X86_FEATURE_SYSENTER32);
++	setup_clear_cpu_cap(X86_FEATURE_SYSCALL32);
++}
 -- 
 2.43.0
 
