@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5Tq47ey"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8vPfu5C"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E43A1187;
-	Tue,  5 Dec 2023 03:21:28 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E080B197;
+	Tue,  5 Dec 2023 03:21:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775290; x=1733311290;
+  t=1701775291; x=1733311291;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hPsnAnmRCEio5pl6T3lxKlJogXHr45sRU/QYYYLaUzw=;
-  b=Z5Tq47eyrDr7px0HUR8QJ/kdeHe4FPlpSIQsmaYVWUagXRI0BdbByvIq
-   oy+sQ45WJeh6vfSAWHGANk5CfpJ8Np7dOJatmUPfZd37ikfMg76YVjuLy
-   qM+LNt8E6yDHk1C4Zc2pNCONnJphCt4m2wWrIHq2nKyiwgfCLxD+5IpkY
-   1tYkVhCSx0eOTJca0d4Add/RzTiV0lChojtB9K5/r4hD4ZS5K0BR1v7ID
-   K/KvRl28/1fiDspkHf2TS30ck8tb1ge9+BNw5KGl+OJC55kmmqU7fUIQP
-   Apj8NOHYo/3nTG9+tLRxAuF2Q3m7VAyEcTxB+xrULoGY5dKgQ2gDo3CVJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942530"
+  bh=0MXczFK3xOQViMofjzuL8bjmZe4faEq58HCGtZP2g9c=;
+  b=k8vPfu5C+ebCBXTQxHaQ5fm2tXhaANd4s5q49TtYRYJArFdmec8KC9G8
+   b1rskdHKFrJRL6m0F59FeVRz2u2u0HhdKctLP5hgNCEH/JVgRASrzcWz+
+   jj0g+bt8Q4A4Qi+FEPt4wf+GHjTEBWoycF7FKGPAX7qGBHh/f0TWxLiNi
+   CBs6gDCDrSBdCo/I7YE8L7iWXIkvatkiz8D/ilDe8dBYEt/aXmQbwxJ6f
+   7w0xYz0T6ilOmGxixO4YYZAjw5jgquWWXnoA7qzgNikSx759gLw1gxmqw
+   RYD/HMAtg/Y8vlCPTkXomNIErwOw7fi+QNVAf0B8Vb++UmoA7I4TV69TR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942555"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942530"
+   d="scan'208";a="942555"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192972"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192965"
+   d="scan'208";a="1018192972"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:21 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:22 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 19/35] x86/fred: No ESPFIX needed when FRED is enabled
-Date: Tue,  5 Dec 2023 02:50:08 -0800
-Message-ID: <20231205105030.8698-20-xin3.li@intel.com>
+Subject: [PATCH v13 21/35] x86/fred: Make exc_page_fault() work for FRED
+Date: Tue,  5 Dec 2023 02:50:10 -0800
+Message-ID: <20231205105030.8698-22-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -67,42 +67,45 @@ Content-Transfer-Encoding: 8bit
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-Because FRED always restores the full value of %rsp, ESPFIX is
-no longer needed when it's enabled.
+On a FRED system, the faulting address (CR2) is passed on the stack,
+to avoid the problem of transient state.  Thus the page fault address
+is read from the FRED stack frame instead of CR2 when FRED is enabled.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/kernel/espfix_64.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/kernel/espfix_64.c b/arch/x86/kernel/espfix_64.c
-index 16f9814c9be0..6726e0473d0b 100644
---- a/arch/x86/kernel/espfix_64.c
-+++ b/arch/x86/kernel/espfix_64.c
-@@ -106,6 +106,10 @@ void __init init_espfix_bsp(void)
- 	pgd_t *pgd;
- 	p4d_t *p4d;
+Change since v12:
+* No "we" in a commit message, use passive voice (Borislav Petkov).
+---
+ arch/x86/mm/fault.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index ab778eac1952..7675bc067153 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -34,6 +34,7 @@
+ #include <asm/kvm_para.h>		/* kvm_handle_async_pf		*/
+ #include <asm/vdso.h>			/* fixup_vdso_exception()	*/
+ #include <asm/irq_stack.h>
++#include <asm/fred.h>
  
-+	/* FRED systems always restore the full value of %rsp */
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		return;
-+
- 	/* Install the espfix pud into the kernel page directory */
- 	pgd = &init_top_pgt[pgd_index(ESPFIX_BASE_ADDR)];
- 	p4d = p4d_alloc(&init_mm, pgd, ESPFIX_BASE_ADDR);
-@@ -129,6 +133,10 @@ void init_espfix_ap(int cpu)
- 	void *stack_page;
- 	pteval_t ptemask;
+ #define CREATE_TRACE_POINTS
+ #include <asm/trace/exceptions.h>
+@@ -1516,8 +1517,10 @@ handle_page_fault(struct pt_regs *regs, unsigned long error_code,
  
-+	/* FRED systems always restore the full value of %rsp */
-+	if (cpu_feature_enabled(X86_FEATURE_FRED))
-+		return;
+ DEFINE_IDTENTRY_RAW_ERRORCODE(exc_page_fault)
+ {
+-	unsigned long address = read_cr2();
+ 	irqentry_state_t state;
++	unsigned long address;
 +
- 	/* We only have to do this once... */
- 	if (likely(per_cpu(espfix_stack, cpu)))
- 		return;		/* Already initialized */
++	address = cpu_feature_enabled(X86_FEATURE_FRED) ? fred_event_data(regs) : read_cr2();
+ 
+ 	prefetchw(&current->mm->mmap_lock);
+ 
 -- 
 2.43.0
 
