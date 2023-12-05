@@ -1,30 +1,30 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y57+k4cT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIRaaP4a"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 542691AA;
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4D3A1B3;
 	Tue,  5 Dec 2023 03:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775292; x=1733311292;
+  t=1701775293; x=1733311293;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=k2EFvyDZMYbQ2fXvfAoaFsJLuhPG//kHzGw1Pxarr6c=;
-  b=Y57+k4cTuyds4UhLuiv8ehRoWCtBpNMvYI789irrnD4+v+nWUk/pXkZ+
-   7rp5SzZPIBE+9srf3iGmmaWYcBN9LAAP0K/eALJNjW1ogYmOnGoeTXfUg
-   6m3QTgIiHFwAc6sxknq5I5AEbYUSj2R73RXNtz1EnsxSqpJDjyoGYRa6+
-   f6fCjRhaLAPbZHlOz7VkRxQIKJKjGH9KW/OG9j+YjfE+v20TmqFYwZ2/0
-   1GL/IMrGOxA17nh2Ez7nzHOIX7OCOwGpv0qev04L+r1u3xaNOB+MjcAET
-   Mcxd15B1PpI6KfOG6SRRkakIhpXf6I83fKHG9hdnJ9ljv0vUkKEwVieEP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942582"
+  bh=9l8F1WmhlJ7jRL54JQMm6v1HYP6GXYsOB2qRuf6ZAIU=;
+  b=QIRaaP4ai5nU0yfEW7NPpKlu303fM6X7aecv/i6NhDYravKCctIv55lE
+   FO/Gcu5T/LeC80K53qiG8I07J4H/+ZbebLSaybD0VVEiz+YI6gCdkplkZ
+   h9iRXiXqjape/Nn2kIurZ0t6VAqzncA/tQba3nn7CbXDjG8p6/DJi6u5J
+   dKaGOfoY0aFq0ok5QlprrGSYQqQRIQNDNNDpyE8HFN8uSFQKL/hyJqwhH
+   SqbWhw8FnWzSypeC7l42SB6N2O5EGPXBLK8rvPOvhGIKNnjy94X5Q4gLL
+   KmlVMbvUSPwOFXScPdRN/z2+W4oFNTvsnJE82WgRo2VTMwhMBewL51Ceg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942607"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942582"
+   d="scan'208";a="942607"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:24 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192988"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192980"
+   d="scan'208";a="1018192988"
 Received: from unknown (HELO fred..) ([172.25.112.68])
   by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:23 -0800
 From: Xin Li <xin3.li@intel.com>
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 23/35] x86/fred: Add a debug fault entry stub for FRED
-Date: Tue,  5 Dec 2023 02:50:12 -0800
-Message-ID: <20231205105030.8698-24-xin3.li@intel.com>
+Subject: [PATCH v13 25/35] x86/fred: Add a machine check entry stub for FRED
+Date: Tue,  5 Dec 2023 02:50:14 -0800
+Message-ID: <20231205105030.8698-26-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,131 +65,69 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
+Like #DB, when occurred on different ring level, i.e., from user or kernel
+context, #MCE needs to be handled on different stack: User #MCE on current
+task stack, while kernel #MCE on a dedicated stack.
 
-When occurred on different ring level, i.e., from user or kernel context,
-#DB needs to be handled on different stack: User #DB on current task
-stack, while kernel #DB on a dedicated stack. This is exactly how FRED
-event delivery invokes an exception handler: ring 3 event on level 0
-stack, i.e., current task stack; ring 0 event on the #DB dedicated stack
-specified in the IA32_FRED_STKLVLS MSR. So unlike IDT, the FRED debug
-exception entry stub doesn't do stack switch.
+This is exactly how FRED event delivery invokes an exception handler: ring
+3 event on level 0 stack, i.e., current task stack; ring 0 event on the
+#MCE dedicated stack specified in the IA32_FRED_STKLVLS MSR. So unlike IDT,
+the FRED machine check entry stub doesn't do stack switch.
 
-On a FRED system, the debug trap status information (DR6) is passed on
-the stack, to avoid the problem of transient state. Furthermore, FRED
-transitions avoid a lot of ugly corner cases the handling of which can,
-and should be, skipped.
-
-The FRED debug trap status information saved on the stack differs from
-DR6 in both stickiness and polarity; it is exactly in the format which
-debug_read_clear_dr6() returns for the IDT entry points.
-
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
 
-Changes since v9:
-* Disable #DB to avoid endless recursion and stack overflow when a
-  watchpoint/breakpoint is set in the code path which is executed by
-  #DB handler (Thomas Gleixner).
-
-Changes since v1:
-* call irqentry_nmi_{enter,exit}() in both IDT and FRED debug fault kernel
-  handler (Peter Zijlstra).
+Changes since v5:
+* Disallow #DB inside #MCE for robustness sake (Peter Zijlstra).
 ---
- arch/x86/kernel/traps.c | 43 ++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 38 insertions(+), 5 deletions(-)
+ arch/x86/kernel/cpu/mce/core.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index c876f1d36a81..848c85208a57 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -50,6 +50,7 @@
- #include <asm/ftrace.h>
- #include <asm/traps.h>
- #include <asm/desc.h>
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 1642018dd6c9..d524eb87f76c 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -53,6 +53,7 @@
+ #include <asm/mce.h>
+ #include <asm/msr.h>
+ #include <asm/reboot.h>
 +#include <asm/fred.h>
- #include <asm/fpu/api.h>
- #include <asm/cpu.h>
- #include <asm/cpu_entry_area.h>
-@@ -934,8 +935,7 @@ static bool notify_debug(struct pt_regs *regs, unsigned long *dr6)
- 	return false;
- }
  
--static __always_inline void exc_debug_kernel(struct pt_regs *regs,
--					     unsigned long dr6)
-+static noinstr void exc_debug_kernel(struct pt_regs *regs, unsigned long dr6)
- {
- 	/*
- 	 * Disable breakpoints during exception handling; recursive exceptions
-@@ -947,6 +947,11 @@ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
- 	 *
- 	 * Entry text is excluded for HW_BP_X and cpu_entry_area, which
- 	 * includes the entry stack is excluded for everything.
-+	 *
-+	 * For FRED, nested #DB should just work fine. But when a watchpoint or
-+	 * breakpoint is set in the code path which is executed by #DB handler,
-+	 * it results in an endless recursion and stack overflow. Thus we stay
-+	 * with the IDT approach, i.e., save DR7 and disable #DB.
- 	 */
- 	unsigned long dr7 = local_db_save();
- 	irqentry_state_t irq_state = irqentry_nmi_enter(regs);
-@@ -976,7 +981,8 @@ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
- 	 * Catch SYSENTER with TF set and clear DR_STEP. If this hit a
- 	 * watchpoint at the same time then that will still be handled.
- 	 */
--	if ((dr6 & DR_STEP) && is_sysenter_singlestep(regs))
-+	if (!cpu_feature_enabled(X86_FEATURE_FRED) &&
-+	    (dr6 & DR_STEP) && is_sysenter_singlestep(regs))
- 		dr6 &= ~DR_STEP;
+ #include "internal.h"
  
- 	/*
-@@ -1008,8 +1014,7 @@ static __always_inline void exc_debug_kernel(struct pt_regs *regs,
+@@ -2150,6 +2151,31 @@ DEFINE_IDTENTRY_MCE_USER(exc_machine_check)
+ 	exc_machine_check_user(regs);
  	local_db_restore(dr7);
- }
- 
--static __always_inline void exc_debug_user(struct pt_regs *regs,
--					   unsigned long dr6)
-+static noinstr void exc_debug_user(struct pt_regs *regs, unsigned long dr6)
- {
- 	bool icebp;
- 
-@@ -1093,6 +1098,34 @@ DEFINE_IDTENTRY_DEBUG_USER(exc_debug)
- {
- 	exc_debug_user(regs, debug_read_clear_dr6());
  }
 +
 +#ifdef CONFIG_X86_FRED
 +/*
 + * When occurred on different ring level, i.e., from user or kernel
-+ * context, #DB needs to be handled on different stack: User #DB on
-+ * current task stack, while kernel #DB on a dedicated stack.
++ * context, #MCE needs to be handled on different stack: User #MCE
++ * on current task stack, while kernel #MCE on a dedicated stack.
 + *
 + * This is exactly how FRED event delivery invokes an exception
 + * handler: ring 3 event on level 0 stack, i.e., current task stack;
-+ * ring 0 event on the #DB dedicated stack specified in the
-+ * IA32_FRED_STKLVLS MSR. So unlike IDT, the FRED debug exception
-+ * entry stub doesn't do stack switch.
++ * ring 0 event on the #MCE dedicated stack specified in the
++ * IA32_FRED_STKLVLS MSR. So unlike IDT, the FRED machine check entry
++ * stub doesn't do stack switch.
 + */
-+DEFINE_FREDENTRY_DEBUG(exc_debug)
++DEFINE_FREDENTRY_MCE(exc_machine_check)
 +{
-+	/*
-+	 * FRED #DB stores DR6 on the stack in the format which
-+	 * debug_read_clear_dr6() returns for the IDT entry points.
-+	 */
-+	unsigned long dr6 = fred_event_data(regs);
++	unsigned long dr7;
 +
++	dr7 = local_db_save();
 +	if (user_mode(regs))
-+		exc_debug_user(regs, dr6);
++		exc_machine_check_user(regs);
 +	else
-+		exc_debug_kernel(regs, dr6);
++		exc_machine_check_kernel(regs);
++	local_db_restore(dr7);
 +}
-+#endif /* CONFIG_X86_FRED */
-+
++#endif
  #else
- /* 32 bit does not have separate entry points. */
- DEFINE_IDTENTRY_RAW(exc_debug)
+ /* 32bit unified entry point */
+ DEFINE_IDTENTRY_RAW(exc_machine_check)
 -- 
 2.43.0
 
