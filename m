@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g4EsLdSj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/OK1cUy"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A05F81A6;
-	Tue,  5 Dec 2023 03:21:30 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BCE129;
+	Tue,  5 Dec 2023 03:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775292; x=1733311292;
+  t=1701775294; x=1733311294;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=0d3DQGm/I5ml9Pn9RDXaRIVibuYwsK2Hzyh1Rbxiqo8=;
-  b=g4EsLdSjtIj+YHoEqhXj51NKOGBEKipU5n8PGwGRp9qPCphb83Nb7zuj
-   keCM6KUMqRdCPTRgDgescGcN0gkTHx2VUiDklES37mtUiU0e2JHkmf3AG
-   W0QKZtm+VpQoflM8M/L3hSTAnzjcPnyMcmVYF/Gz5QzHkiBVayiyF04j0
-   1HdhgdESeBVTr01HJvynAhW2IFNVWffYLfoGF9mlTG8iTt6S2W7oWwUpn
-   JbqOiJHBeNG+tiCBKplaCQtZqOEp6Id9H9oy/vycisE5zhUeo6P8ROkxH
-   N+R5kvi51MFzoxPcEPljBHn7YKqL9MBx87Vzmxs42mDriEm8zRw38RMPv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942569"
+  bh=WNry4Fzy15Ftidcudz/wq0ei+oIMjP7Ry/4o5mJqLAU=;
+  b=T/OK1cUyrWa6Hvq2uNLy0GxZgCSaHa4oOwNCFT9CdaSnQ6zoTbwFASH9
+   lxELjIt/MVUOM5MhVBPx/wTlZ5re76MjF0fBCTlf7LgavKQPuUQjqaAlW
+   gMlXJ0690Tl3MZeLI3ntJ3ZZZhWoaOkb6aoPmjXahC209fW+ed+M0toEk
+   fFbjG2+EKQh2sFgxnNTYn/d+GmXceHH2PGPRhy8PsJKm8hPTZbcmenHVk
+   v8rphlWeKsv13ih3J2eurKveE+uB4hQ0KujKdQWQt1YapmCkYQoZUQvTO
+   nBxFN39cVdWh3J/cudKr2kr4lMsUUaKR6CCY6iw0YAn+DKsjI+1hZqhed
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942645"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942569"
+   d="scan'208";a="942645"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:24 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192976"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192998"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192976"
+   d="scan'208";a="1018192998"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:22 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:24 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 22/35] x86/idtentry: Incorporate definitions/declarations of the FRED entries
-Date: Tue,  5 Dec 2023 02:50:11 -0800
-Message-ID: <20231205105030.8698-23-xin3.li@intel.com>
+Subject: [PATCH v13 28/35] x86/fred: Let ret_from_fork_asm() jmp to asm_fred_exit_user when FRED is enabled
+Date: Tue,  5 Dec 2023 02:50:17 -0800
+Message-ID: <20231205105030.8698-29-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,221 +65,49 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-FRED and IDT can share most of the definitions and declarations so
-that in the majority of cases the actual handler implementation is the
-same.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-The differences are the exceptions where FRED stores exception related
-information on the stack and the sysvec implementations as FRED can
-handle irqentry/exit() in the dispatcher instead of having it in each
-handler.
+Let ret_from_fork_asm() jmp to asm_fred_exit_user when FRED is enabled,
+otherwise the existing IDT code is chosen.
 
-Also add stub defines for vectors which are not used due to Kconfig
-decisions to spare the ifdeffery in the actual FRED dispatch code.
-
-Suggested-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
+ arch/x86/entry/entry_64.S      | 6 ++++++
+ arch/x86/entry/entry_64_fred.S | 1 +
+ 2 files changed, 7 insertions(+)
 
-Change since v9:
-* Except NMI/#DB/#MCE, FRED really should share the exception handlers
-  with IDT (Thomas Gleixner).
-
-Change since v8:
-* Put IDTENTRY changes in a separate patch (Thomas Gleixner).
----
- arch/x86/include/asm/idtentry.h | 71 +++++++++++++++++++++++++++++----
- 1 file changed, 63 insertions(+), 8 deletions(-)
-
-diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
-index cfca68f6cb84..4f26ee9b8b74 100644
---- a/arch/x86/include/asm/idtentry.h
-+++ b/arch/x86/include/asm/idtentry.h
-@@ -13,15 +13,18 @@
- 
- #include <asm/irq_stack.h>
- 
-+typedef void (*idtentry_t)(struct pt_regs *regs);
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index 5a1660701623..87d817296dcb 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -247,7 +247,13 @@ SYM_CODE_START(ret_from_fork_asm)
+ 	 * and unwind should work normally.
+ 	 */
+ 	UNWIND_HINT_REGS
 +
- /**
-  * DECLARE_IDTENTRY - Declare functions for simple IDT entry points
-  *		      No error code pushed by hardware
-  * @vector:	Vector number (ignored for C)
-  * @func:	Function name of the entry point
-  *
-- * Declares three functions:
-+ * Declares four functions:
-  * - The ASM entry point: asm_##func
-  * - The XEN PV trap entry point: xen_##func (maybe unused)
-+ * - The C handler called from the FRED event dispatcher (maybe unused)
-  * - The C handler called from the ASM entry point
-  *
-  * Note: This is the C variant of DECLARE_IDTENTRY(). As the name says it
-@@ -31,6 +34,7 @@
- #define DECLARE_IDTENTRY(vector, func)					\
- 	asmlinkage void asm_##func(void);				\
- 	asmlinkage void xen_asm_##func(void);				\
-+	void fred_##func(struct pt_regs *regs);				\
- 	__visible void func(struct pt_regs *regs)
- 
- /**
-@@ -137,6 +141,17 @@ static __always_inline void __##func(struct pt_regs *regs,		\
- #define DEFINE_IDTENTRY_RAW(func)					\
- __visible noinstr void func(struct pt_regs *regs)
- 
-+/**
-+ * DEFINE_FREDENTRY_RAW - Emit code for raw FRED entry points
-+ * @func:	Function name of the entry point
-+ *
-+ * @func is called from the FRED event dispatcher with interrupts disabled.
-+ *
-+ * See @DEFINE_IDTENTRY_RAW for further details.
-+ */
-+#define DEFINE_FREDENTRY_RAW(func)					\
-+noinstr void fred_##func(struct pt_regs *regs)
-+
- /**
-  * DECLARE_IDTENTRY_RAW_ERRORCODE - Declare functions for raw IDT entry points
-  *				    Error code pushed by hardware
-@@ -233,17 +248,27 @@ static noinline void __##func(struct pt_regs *regs, u32 vector)
- #define DEFINE_IDTENTRY_SYSVEC(func)					\
- static void __##func(struct pt_regs *regs);				\
- 									\
-+static __always_inline void instr_##func(struct pt_regs *regs)		\
-+{									\
-+	kvm_set_cpu_l1tf_flush_l1d();					\
-+	run_sysvec_on_irqstack_cond(__##func, regs);			\
-+}									\
-+									\
- __visible noinstr void func(struct pt_regs *regs)			\
- {									\
- 	irqentry_state_t state = irqentry_enter(regs);			\
- 									\
- 	instrumentation_begin();					\
--	kvm_set_cpu_l1tf_flush_l1d();					\
--	run_sysvec_on_irqstack_cond(__##func, regs);			\
-+	instr_##func (regs);						\
- 	instrumentation_end();						\
- 	irqentry_exit(regs, state);					\
- }									\
- 									\
-+void fred_##func(struct pt_regs *regs)					\
-+{									\
-+	instr_##func (regs);						\
-+}									\
-+									\
- static noinline void __##func(struct pt_regs *regs)
- 
- /**
-@@ -260,19 +285,29 @@ static noinline void __##func(struct pt_regs *regs)
- #define DEFINE_IDTENTRY_SYSVEC_SIMPLE(func)				\
- static __always_inline void __##func(struct pt_regs *regs);		\
- 									\
--__visible noinstr void func(struct pt_regs *regs)			\
-+static __always_inline void instr_##func(struct pt_regs *regs)		\
- {									\
--	irqentry_state_t state = irqentry_enter(regs);			\
--									\
--	instrumentation_begin();					\
- 	__irq_enter_raw();						\
- 	kvm_set_cpu_l1tf_flush_l1d();					\
- 	__##func (regs);						\
- 	__irq_exit_raw();						\
-+}									\
-+									\
-+__visible noinstr void func(struct pt_regs *regs)			\
-+{									\
-+	irqentry_state_t state = irqentry_enter(regs);			\
-+									\
-+	instrumentation_begin();					\
-+	instr_##func (regs);						\
- 	instrumentation_end();						\
- 	irqentry_exit(regs, state);					\
- }									\
- 									\
-+void fred_##func(struct pt_regs *regs)					\
-+{									\
-+	instr_##func (regs);						\
-+}									\
-+									\
- static __always_inline void __##func(struct pt_regs *regs)
- 
- /**
-@@ -410,15 +445,18 @@ __visible noinstr void func(struct pt_regs *regs,			\
- /* C-Code mapping */
- #define DECLARE_IDTENTRY_NMI		DECLARE_IDTENTRY_RAW
- #define DEFINE_IDTENTRY_NMI		DEFINE_IDTENTRY_RAW
-+#define DEFINE_FREDENTRY_NMI		DEFINE_FREDENTRY_RAW
- 
- #ifdef CONFIG_X86_64
- #define DECLARE_IDTENTRY_MCE		DECLARE_IDTENTRY_IST
- #define DEFINE_IDTENTRY_MCE		DEFINE_IDTENTRY_IST
- #define DEFINE_IDTENTRY_MCE_USER	DEFINE_IDTENTRY_NOIST
-+#define DEFINE_FREDENTRY_MCE		DEFINE_FREDENTRY_RAW
- 
- #define DECLARE_IDTENTRY_DEBUG		DECLARE_IDTENTRY_IST
- #define DEFINE_IDTENTRY_DEBUG		DEFINE_IDTENTRY_IST
- #define DEFINE_IDTENTRY_DEBUG_USER	DEFINE_IDTENTRY_NOIST
-+#define DEFINE_FREDENTRY_DEBUG		DEFINE_FREDENTRY_RAW
- #endif
- 
- #else /* !__ASSEMBLY__ */
-@@ -651,23 +689,36 @@ DECLARE_IDTENTRY(RESCHEDULE_VECTOR,			sysvec_reschedule_ipi);
- DECLARE_IDTENTRY_SYSVEC(REBOOT_VECTOR,			sysvec_reboot);
- DECLARE_IDTENTRY_SYSVEC(CALL_FUNCTION_SINGLE_VECTOR,	sysvec_call_function_single);
- DECLARE_IDTENTRY_SYSVEC(CALL_FUNCTION_VECTOR,		sysvec_call_function);
++#ifdef CONFIG_X86_FRED
++	ALTERNATIVE "jmp swapgs_restore_regs_and_return_to_usermode", \
++		    "jmp asm_fred_exit_user", X86_FEATURE_FRED
 +#else
-+# define fred_sysvec_reschedule_ipi			NULL
-+# define fred_sysvec_reboot				NULL
-+# define fred_sysvec_call_function_single		NULL
-+# define fred_sysvec_call_function			NULL
- #endif
+ 	jmp	swapgs_restore_regs_and_return_to_usermode
++#endif
+ SYM_CODE_END(ret_from_fork_asm)
+ .popsection
  
- #ifdef CONFIG_X86_LOCAL_APIC
- # ifdef CONFIG_X86_MCE_THRESHOLD
- DECLARE_IDTENTRY_SYSVEC(THRESHOLD_APIC_VECTOR,		sysvec_threshold);
-+# else
-+# define fred_sysvec_threshold				NULL
- # endif
- 
- # ifdef CONFIG_X86_MCE_AMD
- DECLARE_IDTENTRY_SYSVEC(DEFERRED_ERROR_VECTOR,		sysvec_deferred_error);
-+# else
-+# define fred_sysvec_deferred_error			NULL
- # endif
- 
- # ifdef CONFIG_X86_THERMAL_VECTOR
- DECLARE_IDTENTRY_SYSVEC(THERMAL_APIC_VECTOR,		sysvec_thermal);
-+# else
-+# define fred_sysvec_thermal				NULL
- # endif
- 
- # ifdef CONFIG_IRQ_WORK
- DECLARE_IDTENTRY_SYSVEC(IRQ_WORK_VECTOR,		sysvec_irq_work);
-+# else
-+# define fred_sysvec_irq_work				NULL
- # endif
- #endif
- 
-@@ -675,12 +726,16 @@ DECLARE_IDTENTRY_SYSVEC(IRQ_WORK_VECTOR,		sysvec_irq_work);
- DECLARE_IDTENTRY_SYSVEC(POSTED_INTR_VECTOR,		sysvec_kvm_posted_intr_ipi);
- DECLARE_IDTENTRY_SYSVEC(POSTED_INTR_WAKEUP_VECTOR,	sysvec_kvm_posted_intr_wakeup_ipi);
- DECLARE_IDTENTRY_SYSVEC(POSTED_INTR_NESTED_VECTOR,	sysvec_kvm_posted_intr_nested_ipi);
-+#else
-+# define fred_sysvec_kvm_posted_intr_ipi		NULL
-+# define fred_sysvec_kvm_posted_intr_wakeup_ipi		NULL
-+# define fred_sysvec_kvm_posted_intr_nested_ipi		NULL
- #endif
- 
- #if IS_ENABLED(CONFIG_HYPERV)
- DECLARE_IDTENTRY_SYSVEC(HYPERVISOR_CALLBACK_VECTOR,	sysvec_hyperv_callback);
- DECLARE_IDTENTRY_SYSVEC(HYPERV_REENLIGHTENMENT_VECTOR,	sysvec_hyperv_reenlightenment);
--DECLARE_IDTENTRY_SYSVEC(HYPERV_STIMER0_VECTOR,	sysvec_hyperv_stimer0);
-+DECLARE_IDTENTRY_SYSVEC(HYPERV_STIMER0_VECTOR,		sysvec_hyperv_stimer0);
- #endif
- 
- #if IS_ENABLED(CONFIG_ACRN_GUEST)
+diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
+index 37a1dd5e8ace..5781c3411b44 100644
+--- a/arch/x86/entry/entry_64_fred.S
++++ b/arch/x86/entry/entry_64_fred.S
+@@ -32,6 +32,7 @@
+ SYM_CODE_START_NOALIGN(asm_fred_entrypoint_user)
+ 	FRED_ENTER
+ 	call	fred_entry_from_user
++SYM_INNER_LABEL(asm_fred_exit_user, SYM_L_GLOBAL)
+ 	FRED_EXIT
+ 	ERETU
+ SYM_CODE_END(asm_fred_entrypoint_user)
 -- 
 2.43.0
 
