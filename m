@@ -1,30 +1,30 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwkvqmyD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PisZ+4BE"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B889112C;
-	Tue,  5 Dec 2023 03:21:22 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A54B4135;
+	Tue,  5 Dec 2023 03:21:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775283; x=1733311283;
+  t=1701775285; x=1733311285;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=at3P90/0BHfZm4A3RDkp4mmTPKN/FQQ6JC7gRORtMwU=;
-  b=UwkvqmyDNKYpEWiRyVAg/oyEluqxzF+5xd8tdrj5rz3cLRdkzTQUeD8D
-   fV614pYbCBAzknlX/Y7GiwXYgekDrc6CmLevy9c+0pAFcp8hDHzJFNiz6
-   rDV7nS08BQMz89XkDsbTulXB3brd2tPQZpF+ILafzY0NRNB9fTBr824SP
-   BDK+kIIrdL/7FEzS9tWHFl5ccRtfbgOteBago4Q2DyEsxymOa9OCfU7tb
-   rL4yVXqn5UCD1W9TdoIZOFv75lOGP1Gnr1Sit2AiV2Z3t4lObifuhFJO2
-   nuPHVcw9zrKio9+U4Ajma+np4C1r4V19ECv1iYdvBwx7UUVcaO6Bmb4SW
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942404"
+  bh=8zwQaI6Tk7f8mb2xHC28eOqgRd27v5i+M1zjLpRj75Y=;
+  b=PisZ+4BE2m9zWBVoo8xuTuXLh11Hg+UBXSSvCouiqe1VmyGTwho3LH5i
+   n3E4mOYYnlHV116Yk8ESWRyK3moYDF2XMRTeyKAEqBY5tACy24RyRystt
+   DN+KK+3pXK5QitLncIvVOLFIHcwnPqvoScoJe6hIYv/4aFo5GHugeO7nu
+   eLaBu8idXTDpu/LP/tXWx9Bogw6v8/HRc/K20UUeIVgRmmdYOfWR4m+1j
+   6h+/QAGJz0GSIqVEwFgoT4xnJGP7zDQCey9GjERcP6kjZbroNvSZQON5n
+   AHSqGyotZLO2ciKoUEkEg5CuU4qiwGYTCC5i3lV4CyYzzNw7Aq465SiGx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942432"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942404"
+   d="scan'208";a="942432"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:19 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192924"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192932"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192924"
+   d="scan'208";a="1018192932"
 Received: from unknown (HELO fred..) ([172.25.112.68])
   by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:18 -0800
 From: Xin Li <xin3.li@intel.com>
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 08/35] x86/fred: Disable FRED by default in its early stage
-Date: Tue,  5 Dec 2023 02:49:57 -0800
-Message-ID: <20231205105030.8698-9-xin3.li@intel.com>
+Subject: [PATCH v13 10/35] x86/objtool: Teach objtool about ERET[US]
+Date: Tue,  5 Dec 2023 02:49:59 -0800
+Message-ID: <20231205105030.8698-11-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -65,43 +65,48 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To enable FRED, a new kernel command line option "fred" needs to be added.
+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
+Update the objtool decoder to know about the ERET[US] instructions
+(type INSN_CONTEXT_SWITCH).
+
+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/x86/kernel/cpu/common.c                    | 3 +++
- 2 files changed, 6 insertions(+)
+ tools/objtool/arch/x86/decode.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 65731b060e3f..6992b392e8d3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1526,6 +1526,9 @@
- 			Warning: use of this parameter will taint the kernel
- 			and may cause unknown problems.
+diff --git a/tools/objtool/arch/x86/decode.c b/tools/objtool/arch/x86/decode.c
+index e327cd827135..3a1d80a7878d 100644
+--- a/tools/objtool/arch/x86/decode.c
++++ b/tools/objtool/arch/x86/decode.c
+@@ -509,11 +509,20 @@ int arch_decode_instruction(struct objtool_file *file, const struct section *sec
  
-+	fred		[X86-64]
-+			Enable flexible return and event delivery
-+
- 	ftrace=[tracer]
- 			[FTRACE] will set and start the specified tracer
- 			as early as possible in order to facilitate early
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 4d4b87c6885d..68102acd63b0 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -1491,6 +1491,9 @@ static void __init cpu_parse_early_param(void)
- 	char *argptr = arg, *opt;
- 	int arglen, taint = 0;
+ 		if (op2 == 0x01) {
  
-+	if (!cmdline_find_option_bool(boot_command_line, "fred"))
-+		setup_clear_cpu_cap(X86_FEATURE_FRED);
-+
- #ifdef CONFIG_X86_32
- 	if (cmdline_find_option_bool(boot_command_line, "no387"))
- #ifdef CONFIG_MATH_EMULATION
+-			if (modrm == 0xca)
+-				insn->type = INSN_CLAC;
+-			else if (modrm == 0xcb)
+-				insn->type = INSN_STAC;
+-
++			switch (insn_last_prefix_id(&ins)) {
++			case INAT_PFX_REPE:
++			case INAT_PFX_REPNE:
++				if (modrm == 0xca)
++					/* eretu/erets */
++					insn->type = INSN_CONTEXT_SWITCH;
++				break;
++			default:
++				if (modrm == 0xca)
++					insn->type = INSN_CLAC;
++				else if (modrm == 0xcb)
++					insn->type = INSN_STAC;
++				break;
++			}
+ 		} else if (op2 >= 0x80 && op2 <= 0x8f) {
+ 
+ 			insn->type = INSN_JUMP_CONDITIONAL;
 -- 
 2.43.0
 
