@@ -1,32 +1,32 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1aVsqjW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z5Tq47ey"
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A69185;
-	Tue,  5 Dec 2023 03:21:27 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E43A1187;
+	Tue,  5 Dec 2023 03:21:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701775289; x=1733311289;
+  t=1701775290; x=1733311290;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rAnyLosJqaaOHxof3xhnPHEJruwr0RNdRmdgUfbYES8=;
-  b=a1aVsqjWKJrXZxmEKu7tyrPUQBTMMKFZmE/78Geg/SG33ZNL1N3S575S
-   VpSV6oWcP/dyuRkMHw0JxC98Q/0S0JnZhcah2eLHVqne2QXt6Nb6ANUZF
-   oIm/z19giGR0ttF+oVe5O0HSj4N8bJ/AAhKd8pHl6jkqzYjyIP9S7HBZ8
-   W5cYiubukxERasNgGxwvFmuT6Se+mvWbYp4sy1z+MJ/mNVe0nbKGQA47v
-   Wguk8G8xFFtS817uYwTPAfiSM6mmE2ICkMGhFHD2csdoLrVfawuOOptqS
-   IUSqQgLzv/emaRU+Squkotw1i+kPHBxQDH67MFpNl3tmhrZVXdJYt/IAo
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942508"
+  bh=hPsnAnmRCEio5pl6T3lxKlJogXHr45sRU/QYYYLaUzw=;
+  b=Z5Tq47eyrDr7px0HUR8QJ/kdeHe4FPlpSIQsmaYVWUagXRI0BdbByvIq
+   oy+sQ45WJeh6vfSAWHGANk5CfpJ8Np7dOJatmUPfZd37ikfMg76YVjuLy
+   qM+LNt8E6yDHk1C4Zc2pNCONnJphCt4m2wWrIHq2nKyiwgfCLxD+5IpkY
+   1tYkVhCSx0eOTJca0d4Add/RzTiV0lChojtB9K5/r4hD4ZS5K0BR1v7ID
+   K/KvRl28/1fiDspkHf2TS30ck8tb1ge9+BNw5KGl+OJC55kmmqU7fUIQP
+   Apj8NOHYo/3nTG9+tLRxAuF2Q3m7VAyEcTxB+xrULoGY5dKgQ2gDo3CVJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="942530"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="942508"
+   d="scan'208";a="942530"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:22 -0800
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:21:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192953"
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="1018192965"
 X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
-   d="scan'208";a="1018192953"
+   d="scan'208";a="1018192965"
 Received: from unknown (HELO fred..) ([172.25.112.68])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:20 -0800
+  by fmsmga006.fm.intel.com with ESMTP; 05 Dec 2023 03:21:21 -0800
 From: Xin Li <xin3.li@intel.com>
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de,
 	jiangshanlai@gmail.com,
 	nik.borisov@suse.com,
 	shan.kang@intel.com
-Subject: [PATCH v13 16/35] x86/fred: Reserve space for the FRED stack frame
-Date: Tue,  5 Dec 2023 02:50:05 -0800
-Message-ID: <20231205105030.8698-17-xin3.li@intel.com>
+Subject: [PATCH v13 19/35] x86/fred: No ESPFIX needed when FRED is enabled
+Date: Tue,  5 Dec 2023 02:50:08 -0800
+Message-ID: <20231205105030.8698-20-xin3.li@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231205105030.8698-1-xin3.li@intel.com>
 References: <20231205105030.8698-1-xin3.li@intel.com>
@@ -67,46 +67,42 @@ Content-Transfer-Encoding: 8bit
 
 From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
 
-When using FRED, reserve space at the top of the stack frame, just
-like i386 does.
+Because FRED always restores the full value of %rsp, ESPFIX is
+no longer needed when it's enabled.
 
 Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 Signed-off-by: Xin Li <xin3.li@intel.com>
 ---
- arch/x86/include/asm/thread_info.h | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ arch/x86/kernel/espfix_64.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/x86/include/asm/thread_info.h b/arch/x86/include/asm/thread_info.h
-index d63b02940747..12da7dfd5ef1 100644
---- a/arch/x86/include/asm/thread_info.h
-+++ b/arch/x86/include/asm/thread_info.h
-@@ -31,7 +31,9 @@
-  * In vm86 mode, the hardware frame is much longer still, so add 16
-  * bytes to make room for the real-mode segments.
-  *
-- * x86_64 has a fixed-length stack frame.
-+ * x86-64 has a fixed-length stack frame, but it depends on whether
-+ * or not FRED is enabled. Future versions of FRED might make this
-+ * dynamic, but for now it is always 2 words longer.
-  */
- #ifdef CONFIG_X86_32
- # ifdef CONFIG_VM86
-@@ -39,8 +41,12 @@
- # else
- #  define TOP_OF_KERNEL_STACK_PADDING 8
- # endif
--#else
--# define TOP_OF_KERNEL_STACK_PADDING 0
-+#else /* x86-64 */
-+# ifdef CONFIG_X86_FRED
-+#  define TOP_OF_KERNEL_STACK_PADDING (2 * 8)
-+# else
-+#  define TOP_OF_KERNEL_STACK_PADDING 0
-+# endif
- #endif
+diff --git a/arch/x86/kernel/espfix_64.c b/arch/x86/kernel/espfix_64.c
+index 16f9814c9be0..6726e0473d0b 100644
+--- a/arch/x86/kernel/espfix_64.c
++++ b/arch/x86/kernel/espfix_64.c
+@@ -106,6 +106,10 @@ void __init init_espfix_bsp(void)
+ 	pgd_t *pgd;
+ 	p4d_t *p4d;
  
- /*
++	/* FRED systems always restore the full value of %rsp */
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		return;
++
+ 	/* Install the espfix pud into the kernel page directory */
+ 	pgd = &init_top_pgt[pgd_index(ESPFIX_BASE_ADDR)];
+ 	p4d = p4d_alloc(&init_mm, pgd, ESPFIX_BASE_ADDR);
+@@ -129,6 +133,10 @@ void init_espfix_ap(int cpu)
+ 	void *stack_page;
+ 	pteval_t ptemask;
+ 
++	/* FRED systems always restore the full value of %rsp */
++	if (cpu_feature_enabled(X86_FEATURE_FRED))
++		return;
++
+ 	/* We only have to do this once... */
+ 	if (likely(per_cpu(espfix_stack, cpu)))
+ 		return;		/* Already initialized */
 -- 
 2.43.0
 
