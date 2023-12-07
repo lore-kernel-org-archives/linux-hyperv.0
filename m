@@ -1,221 +1,137 @@
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hV8r7sog"
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B6D10DE;
-	Thu,  7 Dec 2023 10:03:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hGhq2dr4HkZTioEHK6JRRysaSdmW7o7g+RWXbApo4mue8FC2+hsNuiOCHDdvOCO4doyNFbmbO6wr2uCMoxQ9yjmgod5eeUV9GRrTUqsB5iSilbXUEL32wLRzFAuMuuK95C9deSwHWWynltmgjUrgd8qKzUiW0EQybhdHLmXfGmTzzuf5wmF7oq8mV5+4TtaRfBnOFZL3iaj0fMy1Ir9gTSnEksoNkwaSc/YQJZW6lSRLq6CGBwTBMOzBbFGrIBSLq7vXXyZs+bejr+b5C5kZKvk5zmmr1a1jpg2+bwH5cYopovstPuF/M1YKpobaNEleSsB+WhpqjwOTDY85r7R01A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jtbACD0KyEnnKp4nvelyRe6WqB57167ZgHeXi882HwQ=;
- b=AwMZBm2O3lteoUktinnjfizcC69dGRUi1KQ6CY5dvw+COa1hyIZupXM+2uCg64WLUYTx9mbCphNBqBRFPtyrVXbJtgRXc1+SE9nGB6CziKZxFSfv75gb3+AFJknK5yNafigIq+M8COHWbLxUUJLjayCPFpB1kB6eGok6pX+EG6jz90A2Hv+X5qtAsVs0Og9IhAvz4qBapG03J3d1NNuFrBabawPrVB/56MgPEgJA3hFnGFULqFT63wcmaFyyraMBu63ysD5CcjPw3BwnAp2bBSerUwRTrUDv0llsLPIF9KekTx0JGAH9/XYPOzybpJadCyhYyJrbyaOkyAaA6D/3Kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jtbACD0KyEnnKp4nvelyRe6WqB57167ZgHeXi882HwQ=;
- b=hV8r7sogOqrRFpg46x1a3xp18hqjpxOntAQCEf3c6LhB9vrrXefnQo02W8lKUL9renamcru5qEIOaaZYsXcBU9hBhTIMyZ816pxXeATcxRyY/0GGEReZFynq7ar5G0GH9t/X5s2fkCIrMPRfVJsLKxM9P8+AHlAPMYNqy1fdA3dZcfAY0WHB+cKKIT20nDFu6/7N9FSyEDFOq0i33SLoVcUFHcQb5ZFapUP7ZjQpCp0NLkDxJhxZhacfv5n+9WbHheUHym6r6ZyInTpkzIESyqw/tZwB4W+5cLwiKzqlT4SuGRTUIYNIHWua99HhjeJn3r7Rl5wqNpdYcqk1LUB0cg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by CH3PR12MB7667.namprd12.prod.outlook.com (2603:10b6:610:14f::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Thu, 7 Dec
- 2023 18:03:18 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7046.038; Thu, 7 Dec 2023
- 18:03:18 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: David Airlie <airlied@gmail.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	asahi@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Danilo Krummrich <dakr@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Dexuan Cui <decui@microsoft.com>,
-	devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	iommu@lists.linux.dev,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Karol Herbst <kherbst@redhat.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>,
-	Lyude Paul <lyude@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	nouveau@lists.freedesktop.org,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Vineet Gupta <vgupta@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>,
-	Will Deacon <will@kernel.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>,
-	Christoph Hellwig <hch@lst.de>,
-	Jerry Snitselaar <jsnitsel@redhat.com>,
-	Hector Martin <marcan@marcan.st>,
-	Moritz Fischer <mdf@kernel.org>,
-	Moritz Fischer <moritzf@google.com>,
-	patches@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thierry Reding <treding@nvidia.com>
-Subject: [PATCH v2 0/7] IOMMU related FW parsing cleanup
-Date: Thu,  7 Dec 2023 14:03:07 -0400
-Message-ID: <0-v2-16e4def25ebb+820-iommu_fwspec_p1_jgg@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1P221CA0004.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:2c5::15) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SEnV+pY3"
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C964171E;
+	Thu,  7 Dec 2023 11:35:43 -0800 (PST)
+Received: from [192.168.178.49] (dynamic-adsl-84-220-28-122.clienti.tiscali.it [84.220.28.122])
+	by linux.microsoft.com (Postfix) with ESMTPSA id D2D7220B74C0;
+	Thu,  7 Dec 2023 11:35:36 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D2D7220B74C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1701977742;
+	bh=6BiLByj3fZjdf+BfxwCzcTu0LXWFgvJe9QuEPuRxeO4=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=SEnV+pY3cHBgbDr+d8z34kVMryVfuOl0+dMA8g20vqAM6ROcn3YJik6DRDuaoaCrW
+	 o2NybIL15Y5hBMXjaHTTLdcdy5S6Zub8nYIoEXmJCrRs4B+hxlG6vwTh028qtBZlSe
+	 mrDfw2y5fPDOreaJkDjkztR0iF2R4Gq0Kvc6eR6U=
+Message-ID: <6ec6b73e-c3f6-4952-9835-0dbc4b7c199f@linux.microsoft.com>
+Date: Thu, 7 Dec 2023 20:35:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH3PR12MB7667:EE_
-X-MS-Office365-Filtering-Correlation-Id: 285be75a-f859-4f0e-3cfe-08dbf74ec9e6
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	3X5VVxjDwhiUlBSrgzeHhdzMHSXQifgBKRat8fV83G36N2R40qY1ZBmkT3DmI1lMOPyesxmDxRAzZ945RSCoSEk3lY43tE2pG4Ikmuemu9JCrsqK9ItwjD+wZbSCrqQmX9H/F/uR/zcI/S1M2LdM+xP0OxzlesH1GF7cSJEdluaYsdDLV//bMkiHM46WH2bno3GOwywNFexcpUciBwRN2CWb9bvBla5WsKCZql2+31uPNlbHiQIkbCofrHuS73nsCv4nLfR85DQhoBTmBiiOSAg5eHiZxlDask7Hw+KsG6My+r8+VU9zZayMKwxmICSVCVh59kB961/O/CMi78yxlpnJay79pia/Jpr6ulKfWSZbx7XNXOlRn3qwlT91xjanpVMVH2fhXTuplE8UDQxe6JJ8sBvCMJ8bkHnX1o46d2RrIEigh8vTwndn+xe26XgFRc7Lcu4PNwm1X5RHZ5uuD5opynraz33q9R2qf/WOGLiZo0vunUhka0EVzfCSCEPhr/EWp1r05H46mhpR9zQsX9PrnEQ1uW5SaS0thpna/8NBbaPuHVapnwgujYRhW/Ybta6l+mfZecKw6BU+FKgI7ynABVvjCOqvoNbyBXnZHSmY2HbavQRDr5Pxd1xL3foPTw627xM6UmURWh89sGX0Dw0ymFeziwtc95vm5R49h6s5ur3bO97A8LhlHBaNeyqX4XR+2RpkLSY4RP8N5o+/XQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(346002)(136003)(396003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(7366002)(7416002)(2906002)(7406005)(5660300002)(41300700001)(86362001)(8676002)(4326008)(8936002)(36756003)(316002)(66946007)(66556008)(66476007)(54906003)(110136005)(921008)(38100700002)(6486002)(966005)(478600001)(107886003)(66574015)(83380400001)(6666004)(6506007)(26005)(6512007)(2616005)(4216001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?okcoPJ0XqOI1ipzg/sb0cxp8/YZrP+8ayzxab131skY2FgmnVBl8yi2qqhip?=
- =?us-ascii?Q?MomIx5z7qAMNZdwKNAmfWLp7Mpf5pf8w3SUCGWrqi1g2GhZA4sHffi1V+Nk6?=
- =?us-ascii?Q?StogYPt+MHw+/gls/N8i7eaXSFSMsf0zCqK+7B/WwQQhkoWjadxZgneWT79r?=
- =?us-ascii?Q?2G2FWnNhYbUcfaoryH4aQI5do0kf7ewuNRkkvLt/WMP1p5iGP5pHj1mArts+?=
- =?us-ascii?Q?s6mQdK14u6E/EjjdzMVFtl0hAzz/SGcESL6o8uD2nkeUnmjkfYluKy4cWVS2?=
- =?us-ascii?Q?P8NlndnfIMUIB/Mm9t71b+uFNXxidf7H90dt83DbltIfmqhWIw969A2mEdgy?=
- =?us-ascii?Q?mEiDS8RcextioEaNbyfkKsxDfzASuCPEusMPoFPA29eQke67rLiALUDdKUeH?=
- =?us-ascii?Q?SMm8/kDm/0tQs19NV6Sopj5eC6w8DQZCzJK4w4kosw+hqjMMwBZ2N5VFjgsD?=
- =?us-ascii?Q?UAMF+GPmQVYDNVDg6WpQDiWXQbojYHeiWDcZnC/RS/2AQJnldm7lp6EPSYz2?=
- =?us-ascii?Q?YPFCNO7AoinbRWMB8KmRZHi7tvNGJeDGxnehfHqVehMBXAvadg2ZkisD1t+A?=
- =?us-ascii?Q?iwvLH2t5Pn6NCgkEs4z7mhJL0PGJSmXiaukPShOpwSQmNgoyOCccxriarD1h?=
- =?us-ascii?Q?xFMXr3+nICfaNjdLxoDQqO4/+Xvj0UuAfL8i+6UnOmap3FAAnfMFHSPkFqbr?=
- =?us-ascii?Q?evjj8XSvsKYJFQc96bohYnyKBwpDg2IIQSRqEAYSyfhTS8z+giTyH++sBdq9?=
- =?us-ascii?Q?AqsApMhalfJp739h2Z1T0IRJ3B0oKMpahg7P6aQ2rAofJbtUlRNjVcvDCB9I?=
- =?us-ascii?Q?qqyvspBKVgcO46QoCKDcC6y5kOA3eCxz/Wb09SshdRBl+a22d7qG299pvI4F?=
- =?us-ascii?Q?+ACLQ2fhgEDBGz5+VOCBl6Yv8oH5XX5jcAZ3gqAnprgAL3dJkboO7VVwr5k+?=
- =?us-ascii?Q?hizpH84qH5riooWSJMTF+1m/77hVK7OCa7G5lieBGnu1FRhNbIgQ0MYZwoE6?=
- =?us-ascii?Q?vcEaiLgsmx3fccF+n15Ik/U1ZlKWIqpc4dDTqH5VgrjKPyjCgCOA6Hwd4vdl?=
- =?us-ascii?Q?VV59OZ+9Z0Sjhk/VGO0doMPipIgjmBt+oBBUNfQTkPtY8kGd3cLuSobFU7G1?=
- =?us-ascii?Q?C5dx9Z28614eSkDrduu7I4nJWjVHtUcp4tFR/tDDguUGQNEYPSH/4jYiQ8Zw?=
- =?us-ascii?Q?T6ofNgMIzIvawsszq4ANIVyR5YFE005P1CTbi1syzeJDMRUy5D9M4aAp5ZQX?=
- =?us-ascii?Q?j6dU6L4D85O+qFCLTJK/3LGJH4uqPv6T9MsbqlyOhmxV3kj3qrXYNQxx0/SC?=
- =?us-ascii?Q?eLPXKHvmT133/oDFOxhRC6vXuNoPqqgaJgfE3938ngDvIOJoTx5fzcOvHwDo?=
- =?us-ascii?Q?mxbvwnluRhnqsGw5/jmofNEU0YCYPl9+Dx7W4zfOXWus2sWmmmPutxA9YhSw?=
- =?us-ascii?Q?zVptHaDMQv/Mcmdxd8c5IUooz7pHJMRnrJKqIpUn0oMtpL5gN0ZbKnkzqYmR?=
- =?us-ascii?Q?wSeCy15SXIndHimQYH/aGdCjCX5jP0gu2+KyTBQiTqfVH8YbOKAJBrWGJWdt?=
- =?us-ascii?Q?7IFeq3jCPiZ2rIokx51sR/k/AFTcWOePDR7xvxGv?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 285be75a-f859-4f0e-3cfe-08dbf74ec9e6
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 18:03:17.1151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KydOSEXXbTDZ0HhJjoCqDQZzi+V5aqI07sOgi9Sj45BYVzLt2wKWz7VKySZ8wMMN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7667
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/3] x86/tdx: Check for TDX partitioning during early
+ TDX init
+Content-Language: en-US
+From: Jeremi Piotrowski <jpiotrowski@linux.microsoft.com>
+To: "Huang, Kai" <kai.huang@intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "mhkelley58@gmail.com" <mhkelley58@gmail.com>,
+ "Cui, Dexuan" <decui@microsoft.com>,
+ "Reshetova, Elena" <elena.reshetova@intel.com>,
+ Borislav Petkov <bp@alien8.de>
+Cc: "cascardo@canonical.com" <cascardo@canonical.com>,
+ "tim.gardner@canonical.com" <tim.gardner@canonical.com>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+ "roxana.nicolescu@canonical.com" <roxana.nicolescu@canonical.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "mingo@redhat.com" <mingo@redhat.com>, "kys@microsoft.com"
+ <kys@microsoft.com>, "stefan.bader@canonical.com"
+ <stefan.bader@canonical.com>, "nik.borisov@suse.com" <nik.borisov@suse.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "hpa@zytor.com" <hpa@zytor.com>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "sashal@kernel.org" <sashal@kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>
+References: <20231122170106.270266-1-jpiotrowski@linux.microsoft.com>
+ <20231123135846.pakk44rqbbi7njmb@box.shutemov.name>
+ <9f550947-9d13-479c-90c4-2e3f7674afee@linux.microsoft.com>
+ <20231124104337.gjfyasjmo5pp666l@box.shutemov.name>
+ <58c82110-45b2-4e23-9a82-90e1f3fa43c2@linux.microsoft.com>
+ <20231124133358.sdhomfs25seki3lg@box.shutemov.name>
+ <6f27610f-afc4-4356-b297-13253bb0a232@linux.microsoft.com>
+ <ffcc8c550d5ba6122b201d8170b42ee581826d47.camel@intel.com>
+ <02e079e8-cc72-49d8-9191-8a753526eb18@linux.microsoft.com>
+ <7b725783f1f9102c176737667bfec12f75099961.camel@intel.com>
+ <fa86fbd1-998b-456b-971f-a5a94daeca28@linux.microsoft.com>
+ <59bdfee24a9c0f7656f7c83e65789d72ab203edc.camel@intel.com>
+ <8362bf44-f933-4a7e-9e56-a7c425a2ba5a@linux.microsoft.com>
+In-Reply-To: <8362bf44-f933-4a7e-9e56-a7c425a2ba5a@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-These are the patches from the from the prior series without the "fwspec
-polishing":
- https://lore.kernel.org/r/0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com
+On 07/12/2023 18:21, Jeremi Piotrowski wrote:
+> On 07/12/2023 13:58, Huang, Kai wrote:
+>>>
+>>> That's how it currently works - all the enlightenments are in hypervisor/paravisor
+>>> specific code in arch/x86/hyperv and drivers/hv and the vm is not marked with
+>>> X86_FEATURE_TDX_GUEST.
+>>
+>> And I believe there's a reason that the VM is not marked as TDX guest.
+> Yes, as Elena said:
+> """
+> OK, so in your case it is a decision of L1 VMM not to set the TDX_CPUID_LEAF_ID
+> to reflect that it is a tdx guest and it is on purpose because you want to 
+> drop into a special tdx guest, i.e. partitioned guest. 
+> """
+> TDX does not provide a means to let the partitioned guest know that it needs to
+> cooperate with the paravisor (e.g. because TDVMCALLs are routed to L0) so this is
+> exposed in a paravisor specific way (cpuids in patch 1).
+> 
+>>
+>>>
+>>> But without X86_FEATURE_TDX_GUEST userspace has no unified way to discover that an
+>>> environment is protected by TDX and also the VM gets classified as "AMD SEV" in dmesg.
+>>> This is due to CC_ATTR_GUEST_MEM_ENCRYPT being set but X86_FEATURE_TDX_GUEST not.
+>>
+>> Can you provide more information about what does _userspace_ do here?
+> 
+> I gave one usecase in a different email. A workload scheduler like Kubernetes might want to
+> place a workload in a confidential environment, and needs a way to determine that a VM is
+> TDX protected (or SNP protected) to make that placement decision.
+> 
+>>
+>> What's the difference if it sees a TDX guest or a normal non-coco guest in
+>> /proc/cpuinfo?
+>>
+>> Looks the whole purpose of this series is to make userspace happy by advertising
+>> TDX guest to /proc/cpuinfo.  But if we do that we will have bad side-effect in
+>> the kernel so that we need to do things in your patch 2/3.
+>>
+> 
+> Yes, exactly. It's unifying the two approaches so that userspace doesn't have to
+> care.
+> 
+>> That doesn't seem very convincing.
+> 
+> Why not? 
+> The whole point of the kernel is to provide a unified interface to userspace and
+> abstract away these small differences. Yes it requires some kernel code to do,
+> thats not a reason to force every userspace to implement its own logic. This is
+> what the flags in /proc/cpuinfo are for.
+> 
 
-Does a few things to prepare for the next:
+So I feel like we're finally getting to the gist of the disagreements in this thread.
 
-- Clean up the call chains around dma_configure so the iommu_ops isn't being
-  exposed.
+Here's something I think we should all agree on (both a) and b)). X86_FEATURE_TDX_GUEST:
+a) is visible to userspace and not just some kernel-only construct
+b) means "this is a guest running in an Intel TDX Trust Domain, and said guest is aware
+   of TDX"
 
-- Add additional lockdep annotations now that we can.
+a) is obvious but I think needs restating. b) is what userspace expects, and excludes legacy
+(/unmodified) guests running in a TD. That's a reasonable definition.
 
-- Fix some missed places that need to call tegra_dev_iommu_get_stream_id()
+For kernel only checks we can rely on platform-specific CC_ATTRS checked through
+intel_cc_platform_has.
 
-Based on Joerg's for-next with Robin's bus changes.
+@Borislav: does that sound reasonable to you?
+@Kai, @Kirill, @Elena: can I get you to agree with this compromise, for userspace' sake?
 
-Robin's dma_base/size cleanup squashes the first patch, but we can't do
-the ops removal in the other parts without it, so let's keep it
-unsquashed.
-
-v2:
- - Remove comments and bracket around tegra_dev_iommu_get_stream_id()
-   in gp10b.c
- - Remove WARN_ON() in tegra186_mc_client_sid_override(), just return 0
- - Push the locking change to a later series
- - Drop the COMPILE_TEST improvement, not important enough to argue.
-v1: https://lore.kernel.org/r/0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com
-
-Jason Gunthorpe (7):
-  iommu: Remove struct iommu_ops *iommu from arch_setup_dma_ops()
-  iommmu/of: Do not return struct iommu_ops from of_iommu_configure()
-  iommu/of: Use -ENODEV consistently in of_iommu_configure()
-  iommu: Mark dev_iommu_get() with lockdep
-  iommu: Mark dev_iommu_priv_set() with a lockdep
-  acpi: Do not return struct iommu_ops from acpi_iommu_configure_id()
-  iommu/tegra: Use tegra_dev_iommu_get_stream_id() in the remaining
-    places
-
- arch/arc/mm/dma.c                             |  2 +-
- arch/arm/mm/dma-mapping-nommu.c               |  2 +-
- arch/arm/mm/dma-mapping.c                     | 10 +--
- arch/arm64/mm/dma-mapping.c                   |  4 +-
- arch/mips/mm/dma-noncoherent.c                |  2 +-
- arch/riscv/mm/dma-noncoherent.c               |  2 +-
- drivers/acpi/scan.c                           | 32 ++++++----
- drivers/dma/tegra186-gpc-dma.c                |  8 +--
- .../gpu/drm/nouveau/nvkm/subdev/ltc/gp10b.c   |  9 +--
- drivers/hv/hv_common.c                        |  2 +-
- drivers/iommu/amd/iommu.c                     |  2 -
- drivers/iommu/apple-dart.c                    |  1 -
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |  1 -
- drivers/iommu/arm/arm-smmu/arm-smmu.c         |  1 -
- drivers/iommu/intel/iommu.c                   |  2 -
- drivers/iommu/iommu.c                         | 11 ++++
- drivers/iommu/of_iommu.c                      | 64 ++++++++-----------
- drivers/iommu/omap-iommu.c                    |  1 -
- drivers/memory/tegra/tegra186.c               | 14 ++--
- drivers/of/device.c                           | 24 ++++---
- include/linux/dma-map-ops.h                   |  4 +-
- include/linux/iommu.h                         |  5 +-
- include/linux/of_iommu.h                      | 13 ++--
- 23 files changed, 105 insertions(+), 111 deletions(-)
-
-
-base-commit: 173ff345925a394284250bfa6e47d231e62031c7
--- 
-2.43.0
-
+Jeremi
