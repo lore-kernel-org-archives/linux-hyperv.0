@@ -1,161 +1,190 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACA529AD;
-	Tue, 16 Jan 2024 02:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698DBD524;
+	Tue, 16 Jan 2024 06:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZCykdmhL"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d5dfda4319so2686595ad.0;
-        Mon, 15 Jan 2024 18:20:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705371630; x=1705976430; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WMHKxJ/T5Ct44oYlSE+LYrzOvXToXwBp+RoVB/ApQnM=;
-        b=ZCykdmhLScgfeqb281iOMeUrZMW4PUe2S+xqz/V10DHHmGI+QWxsmEY6eHMIErddtC
-         SquMAIRSHz9auI0PWAOyfZ9g2GqO2TtBDhE06EvyEU0+mbCZj7QwVxRWXVAks91dN41b
-         5dElEkitgj1l5QFdfB8VsT/173ACtlBN2PnP3v0Gb0KL7dBO2GLDhrxiqlwlV30tjjjn
-         G+BjUgKIlEeXNb34BHZO/dyjjmCoWoDjfdyR6Wf2ipQnjfI8mmob8vtvhu0oaNrPxD6H
-         xnt/iUg9uFHBvC6I0+IptHhEMMFep73VdkmRNlVVGaulGjbnyEPaKL/xwAehdiAbAXNq
-         eByw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705371630; x=1705976430;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WMHKxJ/T5Ct44oYlSE+LYrzOvXToXwBp+RoVB/ApQnM=;
-        b=sNAvadX+4ztSUX1+veRcMetXfB6jkVy1nTouuHODuLMiVCD/bBTopPm2827YwQWxif
-         QlU5gx7M6eJhKHot5qKFannoXAdackSW95Zdolqf+q2eatsHciiRcacwUmGZjkqIndB+
-         cx6D63l0HUi8N4OYbhlNhGHkS3Q/KFVup0N2E7xENvy6E91Gewj+5FfIU+af+oXVsZ8O
-         H9h/oresRuzjO6IGj9v9YrKGZyiwWxw0IIV2B6I41nTeW7ZqfC5nGbnzuzZ08HtopJpF
-         cWxIpS3SV8ruzefBIJImfX1Lfo2duu5rhAEezl1vPVlvyqFO7DnGX2m3k9AhdkUdmhUi
-         kefQ==
-X-Gm-Message-State: AOJu0YyfRLiZuKgE1bGkwbDtI2arpyMPwxreQpLR8KRtxWwJq3DDQb13
-	sL12w/VGCR1kBR3oCWTWUBg=
-X-Google-Smtp-Source: AGHT+IGKhIpxJK9risAw80iB9x8SFXIfFEzqHrHFHgbziciGN/6OZbZls+x7EV8Jy+UwtVv+JbHLlQ==
-X-Received: by 2002:a17:903:2808:b0:1d4:75c6:9560 with SMTP id kp8-20020a170903280800b001d475c69560mr2742635plb.59.1705371630377;
-        Mon, 15 Jan 2024 18:20:30 -0800 (PST)
-Received: from localhost.localdomain (c-73-254-87-52.hsd1.wa.comcast.net. [73.254.87.52])
-        by smtp.gmail.com with ESMTPSA id kn14-20020a170903078e00b001d1d1ef8be5sm8193379plb.173.2024.01.15.18.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 18:20:30 -0800 (PST)
-From: mhkelley58@gmail.com
-X-Google-Original-From: mhklinux@outlook.com
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	kirill.shutemov@linux.intel.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	luto@kernel.org,
-	peterz@infradead.org,
-	akpm@linux-foundation.org,
-	urezki@gmail.com,
-	hch@infradead.org,
-	lstoakes@gmail.com,
-	thomas.lendacky@amd.com,
-	ardb@kernel.org,
-	jroedel@suse.de,
-	seanjc@google.com,
-	rick.p.edgecombe@intel.com,
-	sathyanarayanan.kuppuswamy@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	linux-hyperv@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v4 1/3] x86/hyperv: Use slow_virt_to_phys() in page transition hypervisor callback
-Date: Mon, 15 Jan 2024 18:20:06 -0800
-Message-Id: <20240116022008.1023398-2-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240116022008.1023398-1-mhklinux@outlook.com>
-References: <20240116022008.1023398-1-mhklinux@outlook.com>
-Reply-To: mhklinux@outlook.com
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EyUib51X"
+Received: by linux.microsoft.com (Postfix, from userid 1099)
+	id D700B20DEEA1; Mon, 15 Jan 2024 22:13:43 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D700B20DEEA1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1705385623;
+	bh=5ClNWrdqiymwS8WaekmLGaesEdlzKLamfgXZ/1HrL9s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EyUib51Xay3y7x0HFYZ+7k3pLh3rxBVlSFUnvPx+rIwFiR5QRjJ3XXbmPKXd1OotS
+	 KaFdK/p+mNtsFTOpBK6ERkkjBz8VSuAugAoBoUCu6y5kszyHcF9H2FimjDsfqMqAjU
+	 FlCgJrLHIjDz/55qwrimfy2a8HnmZ3KWka+N4Igg=
+Date: Mon, 15 Jan 2024 22:13:43 -0800
+From: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: Michael Kelley <mhklinux@outlook.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	KY Srinivasan <kys@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	Long Li <longli@microsoft.com>, "leon@kernel.org" <leon@kernel.org>,
+	"cai.huoqing@linux.dev" <cai.huoqing@linux.dev>,
+	"ssengar@linux.microsoft.com" <ssengar@linux.microsoft.com>,
+	"vkuznets@redhat.com" <vkuznets@redhat.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	Souradeep Chakrabarti <schakrabarti@microsoft.com>,
+	Paul Rosswurm <paulros@microsoft.com>
+Subject: Re: [PATCH 3/4 net-next] net: mana: add a function to spread IRQs
+ per CPUs
+Message-ID: <20240116061343.GA24925@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1704797478-32377-4-git-send-email-schakrabarti@linux.microsoft.com>
+ <SN6PR02MB4157CB3CB55A17255AE61BF6D46A2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ZZ3Wsxq8rHShTUdA@yury-ThinkPad>
+ <SN6PR02MB415704D36B82D5793CC4558FD4692@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <20240111061319.GC5436@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <SN6PR02MB4157234176238D6C1F35B90BD46F2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <DS1PEPF00012A5F513F916690B9F94D3262CA6F2@DS1PEPF00012A5F.namprd21.prod.outlook.com>
+ <20240113063038.GD5436@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <SN6PR02MB4157372CF70059E8E35D5545D46E2@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ZaLgdn53bBoYyT/h@yury-ThinkPad>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZaLgdn53bBoYyT/h@yury-ThinkPad>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-From: Michael Kelley <mhklinux@outlook.com>
+On Sat, Jan 13, 2024 at 11:11:50AM -0800, Yury Norov wrote:
+> On Sat, Jan 13, 2024 at 04:20:31PM +0000, Michael Kelley wrote:
+> > From: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com> Sent: Friday, January 12, 2024 10:31 PM
+> > 
+> > > On Fri, Jan 12, 2024 at 06:30:44PM +0000, Haiyang Zhang wrote:
+> > > >
+> > > > > -----Original Message-----
+> > > > From: Michael Kelley <mhklinux@outlook.com> Sent: Friday, January 12, 2024 11:37 AM
+> > > > >
+> > > > > From: Souradeep Chakrabarti <schakrabarti@linux.microsoft.com> Sent:
+> > > > > Wednesday, January 10, 2024 10:13 PM
+> > > > > >
+> > > > > > The test topology was used to check the performance between
+> > > > > > cpu_local_spread() and the new approach is :
+> > > > > > Case 1
+> > > > > > IRQ     Nodes  Cores CPUs
+> > > > > > 0       1      0     0-1
+> > > > > > 1       1      1     2-3
+> > > > > > 2       1      2     4-5
+> > > > > > 3       1      3     6-7
+> > > > > >
+> > > > > > and with existing cpu_local_spread()
+> > > > > > Case 2
+> > > > > > IRQ    Nodes  Cores CPUs
+> > > > > > 0      1      0     0
+> > > > > > 1      1      0     1
+> > > > > > 2      1      1     2
+> > > > > > 3      1      1     3
+> > > > > >
+> > > > > > Total 4 channels were used, which was set up by ethtool.
+> > > > > > case 1 with ntttcp has given 15 percent better performance, than
+> > > > > > case 2. During the test irqbalance was disabled as well.
+> > > > > >
+> > > > > > Also you are right, with 64CPU system this approach will spread
+> > > > > > the irqs like the cpu_local_spread() but in the future we will offer
+> > > > > > MANA nodes, with more than 64 CPUs. There it this new design will
+> > > > > > give better performance.
+> > > > > >
+> > > > > > I will add this performance benefit details in commit message of
+> > > > > > next version.
+> > > > >
+> > > > > Here are my concerns:
+> > > > >
+> > > > > 1.  The most commonly used VMs these days have 64 or fewer
+> > > > > vCPUs and won't see any performance benefit.
+> > > > >
+> > > > > 2.  Larger VMs probably won't see the full 15% benefit because
+> > > > > all vCPUs in the local NUMA node will be assigned IRQs.  For
+> > > > > example, in a VM with 96 vCPUs and 2 NUMA nodes, all 48
+> > > > > vCPUs in NUMA node 0 will all be assigned IRQs.  The remaining
+> > > > > 16 IRQs will be spread out on the 48 CPUs in NUMA node 1
+> > > > > in a way that avoids sharing a core.  But overall the means
+> > > > > that 75% of the IRQs will still be sharing a core and
+> > > > > presumably not see any perf benefit.
+> > > > >
+> > > > > 3.  Your experiment was on a relatively small scale:   4 IRQs
+> > > > > spread across 2 cores vs. across 4 cores.  Have you run any
+> > > > > experiments on VMs with 128 vCPUs (for example) where
+> > > > > most of the IRQs are not sharing a core?  I'm wondering if
+> > > > > the results with 4 IRQs really scale up to 64 IRQs.  A lot can
+> > > > > be different in a VM with 64 cores and 2 NUMA nodes vs.
+> > > > > 4 cores in a single node.
+> > > > >
+> > > > > 4.  The new algorithm prefers assigning to all vCPUs in
+> > > > > each NUMA hop over assigning to separate cores.  Are there
+> > > > > experiments showing that is the right tradeoff?  What
+> > > > > are the results if assigning to separate cores is preferred?
+> > > >
+> > > > I remember in a customer case, putting the IRQs on the same
+> > > > NUMA node has better perf. But I agree, this should be re-tested
+> > > > on MANA nic.
+> > >
+> > > 1) and 2) The change will not decrease the existing performance, but for
+> > > system with high number of CPU, will be benefited after this.
+> > > 
+> > > 3) The result has shown around 6 percent improvement.
+> > > 
+> > > 4)The test result has shown around 10 percent difference when IRQs are
+> > > spread on multiple numa nodes.
+> > 
+> > OK, this looks pretty good.  Make clear in the commit messages what
+> > the tradeoffs are, and what the real-world benefits are expected to be.
+> > Some future developer who wants to understand why IRQs are assigned
+> > this way will thank you. :-)
+> 
+> I agree with Michael, this needs to be spoken aloud.
+> 
+> >From the above, is that correct that the best performance is achieved
+> when the # of IRQs is half the nubmer of CPUs in the 1st node, because
+> this configuration allows to spread IRQs across cores the most optimal
+> way?  And if we have more or less than that, it hurts performance, at
+> least for MANA networking?
+It does not decrease the performance from current cpu_local_spread(),
+but optimum performance comes when node has CPUs double that of number
+of IRQs (considering SMT==2). 
 
-In preparation for temporarily marking pages not present during a
-transition between encrypted and decrypted, use slow_virt_to_phys()
-in the hypervisor callback. As long as the PFN is correct,
-slow_virt_to_phys() works even if the leaf PTE is not present.
-The existing functions that depend on vmalloc_to_page() all
-require that the leaf PTE be marked present, so they don't work.
+Now only if the number of CPUs are same that of number of IRQs,
+(that is num of CPUs <= 64) then, we see same performance like existing
+design with cpu_local_spread().
 
-Update the comments for slow_virt_to_phys() to note this broader usage
-and the requirement to work even if the PTE is not marked present.
-
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
----
- arch/x86/hyperv/ivm.c        | 12 +++++++++++-
- arch/x86/mm/pat/set_memory.c | 12 ++++++++----
- 2 files changed, 19 insertions(+), 5 deletions(-)
-
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 02e55237d919..851107c77f4d 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -515,6 +515,8 @@ static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bo
- 	enum hv_mem_host_visibility visibility = enc ?
- 			VMBUS_PAGE_NOT_VISIBLE : VMBUS_PAGE_VISIBLE_READ_WRITE;
- 	u64 *pfn_array;
-+	phys_addr_t paddr;
-+	void *vaddr;
- 	int ret = 0;
- 	bool result = true;
- 	int i, pfn;
-@@ -524,7 +526,15 @@ static bool hv_vtom_set_host_visibility(unsigned long kbuffer, int pagecount, bo
- 		return false;
- 
- 	for (i = 0, pfn = 0; i < pagecount; i++) {
--		pfn_array[pfn] = virt_to_hvpfn((void *)kbuffer + i * HV_HYP_PAGE_SIZE);
-+		/*
-+		 * Use slow_virt_to_phys() because the PRESENT bit has been
-+		 * temporarily cleared in the PTEs.  slow_virt_to_phys() works
-+		 * without the PRESENT bit while virt_to_hvpfn() or similar
-+		 * does not.
-+		 */
-+		vaddr = (void *)kbuffer + (i * HV_HYP_PAGE_SIZE);
-+		paddr = slow_virt_to_phys(vaddr);
-+		pfn_array[pfn] = paddr >> HV_HYP_PAGE_SHIFT;
- 		pfn++;
- 
- 		if (pfn == HV_MAX_MODIFY_GPA_REP_COUNT || i == pagecount - 1) {
-diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-index bda9f129835e..e76ac64b516e 100644
---- a/arch/x86/mm/pat/set_memory.c
-+++ b/arch/x86/mm/pat/set_memory.c
-@@ -755,10 +755,14 @@ pmd_t *lookup_pmd_address(unsigned long address)
-  * areas on 32-bit NUMA systems.  The percpu areas can
-  * end up in this kind of memory, for instance.
-  *
-- * This could be optimized, but it is only intended to be
-- * used at initialization time, and keeping it
-- * unoptimized should increase the testing coverage for
-- * the more obscure platforms.
-+ * Note that as long as the PTEs are well-formed with correct PFNs, this
-+ * works without checking the PRESENT bit in the leaf PTE.  This is unlike
-+ * the similar vmalloc_to_page() and derivatives.  Callers may depend on
-+ * this behavior.
-+ *
-+ * This could be optimized, but it is only used in paths that are not perf
-+ * sensitive, and keeping it unoptimized should increase the testing coverage
-+ * for the more obscure platforms.
-  */
- phys_addr_t slow_virt_to_phys(void *__virt_addr)
- {
--- 
-2.25.1
-
+If node has more CPUs than 64, then we get better performance than 
+cpu_local_spread().
+> 
+> So, the B|A performance chart may look like this, right?
+> 
+>   irq     nodes     cores     cpus      perf
+>   0       1 | 1     0 | 0     0 | 0-1      0%
+>   1       1 | 1     0 | 1     1 | 2-3     +5%
+>   2       1 | 1     1 | 2     2 | 4-5    +10%
+>   3       1 | 1     1 | 3     3 | 6-7    +15%
+>   4       1 | 1     0 | 4     3 | 0-1    +12%
+>   ...       |         |         |
+>   7       1 | 1     1 | 7     3 | 6-7      0%
+>   ...
+>  15       2 | 2     3 | 3    15 | 14-15    0%
+> 
+> Souradeep, can you please confirm that my understanding is correct?
+> 
+> In v5, can you add a table like the above with real performance
+> numbers for your driver? I think that it would help people to
+> configure their VMs better when networking is a bottleneck.
+> 
+I will share a chart on next version of patch 3.
+Thanks for the suggestion.
+> Thanks,
+> Yury
