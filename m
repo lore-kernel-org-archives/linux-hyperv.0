@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA657E0E8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7D37D3F6;
 	Sat, 17 Feb 2024 18:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708193075; cv=none; b=HnV0mZQcBEyQi019l+6xF2v/elyGE5OX3VN14vlmgVUOCAz8Db9IK8o0Eecd1e60FbO4IoB6Ko5cavyt31qdcAlvnYQzORA+5LyxDSjbgXaLyeqoFfjgb9SaBoi8ZJYotrIdm01WYf9zxl5fp/dBZ4+ggdr9YG7oeDpxkq1uHfM=
+	t=1708193075; cv=none; b=VSr7IMw/C280XxXkCnYB3cyHGdJX0F+Hi/5UkLOsD0KXqt3X/ZuuQoJ5LA6BPIlLHBk6F3nNXrtz6A7ZP23NjXGRv1dB2kGx0AEdRy51V0HS8Es7Is13EmUOZMRn/xp9Iy1iQ1GdhbS9sXVbnJSmg+ZHaS1m27QModaGwynS+uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708193075; c=relaxed/simple;
-	bh=9gFRgA13psCGDaamYy1yk/uid7sHT5ksidFhges0LWw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=eBMR7xqeASJjIZmkOjRojmp828lsz1qjO8N/M2vvmzqNMwRlqcbuTHRXWrQHiTRdmiAjNBccypzPzgHMm5d6kXmOLzResfkfX7vpFTFHvml3v0VCUyHprfXYaFrYhmDkPzFmHAEe+GzIoMXZ8dvSITd6Xd6imkmm6Qk6DXe6qnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FcIPDeiF; arc=none smtp.client-ip=13.77.154.182
+	bh=eEQdEhkRhTvXLDK0ExelfFMrd3JVa1/jnkj41RfY3Ho=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=qwjg2ZQPw0OYrqHvLbCnnKL1mEDLueM0jHx2AiWE1BEkVOskU/JD16MFKhYbLh3XZDgUJ5XTUJbAfGW/oiMozw2CEA83zPrB1HDNWfeGh+YcN9fK1NGLOtq3FaQIVJB75duzMhv887KYThWHGYvNG6yuRx7MK027e4E99B+ZuPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pL8d8Dux; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FcIPDeiF"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pL8d8Dux"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B4C39207FD49;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6CB1A207FD2C;
 	Sat, 17 Feb 2024 10:04:27 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B4C39207FD49
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6CB1A207FD2C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1708193067;
-	bh=QBtsjdEGN94B96UiZJhGgodffs4T5EuudK94U0CDlHY=;
+	bh=u7XIjROBZmicmyXMY8w3Cxhx4ZbeH5xu95iiNnPZkuo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FcIPDeiF5EEYhG0RvzdK2QQgQtwg0rDXeexdVqBNDIy4A1uHc76izapUlYRe/yvZ7
-	 kEW/hoB5EOQsaoDRqm7Li4mg/Am4fvysfNnxFtabLwFCfGl5PDTrNMeBOXE8gQAZSM
-	 24AFzLRqvtExB7hEWhevS/C4dSrySfb4/wosRKz0=
+	b=pL8d8DuxzHRTdH9ugapQhVN8aVGBA/ZxfXsRmiv5lSJi2dptyyvtmNo/vwAFRVzWu
+	 qfJAVc/B7oUGx4YEnra+xzf1oNvtVnzqofFViSPfeyYEL7aq13rLSFVH5Bm2m9GJZn
+	 1UhdihCFR6WE2jaNKPfESu6MuiLMfV/sJjAam7Jo=
 From: Saurabh Sengar <ssengar@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -33,9 +33,9 @@ To: kys@microsoft.com,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: ssengar@microsoft.com
-Subject: [PATCH 4/6] tools: hv: Add vmbus_bufring
-Date: Sat, 17 Feb 2024 10:03:38 -0800
-Message-Id: <1708193020-14740-5-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH 1/6] Drivers: hv: vmbus: Add utility function for querying ring size
+Date: Sat, 17 Feb 2024 10:03:35 -0800
+Message-Id: <1708193020-14740-2-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1708193020-14740-1-git-send-email-ssengar@linux.microsoft.com>
 References: <1708193020-14740-1-git-send-email-ssengar@linux.microsoft.com>
@@ -45,507 +45,73 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Common userspace interface for read/write from VMBus ringbuffer.
-This implementation is open for use by any userspace driver or
-application seeking direct control over VMBus ring buffers.
-A significant  part of this code is borrowed from DPDK.
-Link: https://github.com/DPDK/dpdk/
+Add a function to query for the preferred ring buffer size of VMBus
+device.
 
-Signed-off-by: Mary Hardy <maryhardy@microsoft.com>
 Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
- tools/hv/vmbus_bufring.c | 316 +++++++++++++++++++++++++++++++++++++++
- tools/hv/vmbus_bufring.h | 158 ++++++++++++++++++++
- 2 files changed, 474 insertions(+)
- create mode 100644 tools/hv/vmbus_bufring.c
- create mode 100644 tools/hv/vmbus_bufring.h
+ drivers/hv/channel_mgmt.c | 7 +++++--
+ drivers/hv/hyperv_vmbus.h | 5 +++++
+ include/linux/hyperv.h    | 1 +
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/tools/hv/vmbus_bufring.c b/tools/hv/vmbus_bufring.c
-new file mode 100644
-index 000000000000..b74b56283bc5
---- /dev/null
-+++ b/tools/hv/vmbus_bufring.c
-@@ -0,0 +1,316 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2009-2012,2016,2023 Microsoft Corp.
-+ * Copyright (c) 2012 NetApp Inc.
-+ * Copyright (c) 2012 Citrix Inc.
-+ * All rights reserved.
-+ */
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <emmintrin.h>
-+#include <linux/limits.h>
-+#include <stdbool.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <string.h>
-+#include <sys/mman.h>
-+#include <sys/uio.h>
-+#include <unistd.h>
-+#include "vmbus_bufring.h"
-+
-+#define	rte_compiler_barrier()	({ asm volatile ("" : : : "memory"); })
-+
-+#define	rte_smp_rwmb()		({ asm volatile ("" : : : "memory"); })
-+
-+#define VMBUS_RQST_ERROR	0xFFFFFFFFFFFFFFFF
-+#define ALIGN(val, align)	((typeof(val))((val) & (~((typeof(val))((align) - 1)))))
-+
-+void *vmbus_uio_map(int *fd, int size)
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 2f4d09ce027a..7ea444d72f9f 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -120,7 +120,8 @@ const struct vmbus_device vmbus_devs[] = {
+ 	},
+ 
+ 	/* File copy */
+-	{ .dev_type = HV_FCOPY,
++	{ .pref_ring_size = 0x4000,
++	  .dev_type = HV_FCOPY,
+ 	  HV_FCOPY_GUID,
+ 	  .perf_device = false,
+ 	  .allowed_in_isolated = false,
+@@ -141,11 +142,13 @@ const struct vmbus_device vmbus_devs[] = {
+ 	},
+ 
+ 	/* Unknown GUID */
+-	{ .dev_type = HV_UNKNOWN,
++	{ .pref_ring_size = 0x11000,
++	  .dev_type = HV_UNKNOWN,
+ 	  .perf_device = false,
+ 	  .allowed_in_isolated = false,
+ 	},
+ };
++EXPORT_SYMBOL_GPL(vmbus_devs);
+ 
+ static const struct {
+ 	guid_t guid;
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index f6b1e710f805..76ac5185a01a 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -417,6 +417,11 @@ static inline bool hv_is_perf_channel(struct vmbus_channel *channel)
+ 	return vmbus_devs[channel->device_id].perf_device;
+ }
+ 
++static inline size_t hv_dev_ring_size(struct vmbus_channel *channel)
 +{
-+	void *map;
-+
-+	map = mmap(NULL, 2 * size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
-+	if (map == MAP_FAILED)
-+		return NULL;
-+
-+	return map;
++	return vmbus_devs[channel->device_id].pref_ring_size;
 +}
 +
-+/* Increase bufring index by inc with wraparound */
-+static inline uint32_t vmbus_br_idxinc(uint32_t idx, uint32_t inc, uint32_t sz)
-+{
-+	idx += inc;
-+	if (idx >= sz)
-+		idx -= sz;
-+
-+	return idx;
-+}
-+
-+void vmbus_br_setup(struct vmbus_br *br, void *buf, unsigned int blen)
-+{
-+	br->vbr = buf;
-+	br->windex = br->vbr->windex;
-+	br->dsize = blen - sizeof(struct vmbus_bufring);
-+}
-+
-+static inline __always_inline void
-+rte_smp_mb(void)
-+{
-+	asm volatile("lock addl $0, -128(%%rsp); " ::: "memory");
-+}
-+
-+static inline int
-+rte_atomic32_cmpset(volatile uint32_t *dst, uint32_t exp, uint32_t src)
-+{
-+	uint8_t res;
-+
-+	asm volatile("lock ; "
-+		     "cmpxchgl %[src], %[dst];"
-+		     "sete %[res];"
-+		     : [res] "=a" (res),     /* output */
-+		     [dst] "=m" (*dst)
-+		     : [src] "r" (src),      /* input */
-+		     "a" (exp),
-+		     "m" (*dst)
-+		     : "memory");            /* no-clobber list */
-+	return res;
-+}
-+
-+static inline uint32_t
-+vmbus_txbr_copyto(const struct vmbus_br *tbr, uint32_t windex,
-+		  const void *src0, uint32_t cplen)
-+{
-+	uint8_t *br_data = tbr->vbr->data;
-+	uint32_t br_dsize = tbr->dsize;
-+	const uint8_t *src = src0;
-+
-+	/* XXX use double mapping like Linux kernel? */
-+	if (cplen > br_dsize - windex) {
-+		uint32_t fraglen = br_dsize - windex;
-+
-+		/* Wrap-around detected */
-+		memcpy(br_data + windex, src, fraglen);
-+		memcpy(br_data, src + fraglen, cplen - fraglen);
-+	} else {
-+		memcpy(br_data + windex, src, cplen);
-+	}
-+
-+	return vmbus_br_idxinc(windex, cplen, br_dsize);
-+}
-+
-+/*
-+ * Write scattered channel packet to TX bufring.
-+ *
-+ * The offset of this channel packet is written as a 64bits value
-+ * immediately after this channel packet.
-+ *
-+ * The write goes through three stages:
-+ *  1. Reserve space in ring buffer for the new data.
-+ *     Writer atomically moves priv_write_index.
-+ *  2. Copy the new data into the ring.
-+ *  3. Update the tail of the ring (visible to host) that indicates
-+ *     next read location. Writer updates write_index
-+ */
-+static int
-+vmbus_txbr_write(struct vmbus_br *tbr, const struct iovec iov[], int iovlen,
-+		 bool *need_sig)
-+{
-+	struct vmbus_bufring *vbr = tbr->vbr;
-+	uint32_t ring_size = tbr->dsize;
-+	uint32_t old_windex, next_windex, windex, total;
-+	uint64_t save_windex;
-+	int i;
-+
-+	total = 0;
-+	for (i = 0; i < iovlen; i++)
-+		total += iov[i].iov_len;
-+	total += sizeof(save_windex);
-+
-+	/* Reserve space in ring */
-+	do {
-+		uint32_t avail;
-+
-+		/* Get current free location */
-+		old_windex = tbr->windex;
-+
-+		/* Prevent compiler reordering this with calculation */
-+		rte_compiler_barrier();
-+
-+		avail = vmbus_br_availwrite(tbr, old_windex);
-+
-+		/* If not enough space in ring, then tell caller. */
-+		if (avail <= total)
-+			return -EAGAIN;
-+
-+		next_windex = vmbus_br_idxinc(old_windex, total, ring_size);
-+
-+		/* Atomic update of next write_index for other threads */
-+	} while (!rte_atomic32_cmpset(&tbr->windex, old_windex, next_windex));
-+
-+	/* Space from old..new is now reserved */
-+	windex = old_windex;
-+	for (i = 0; i < iovlen; i++)
-+		windex = vmbus_txbr_copyto(tbr, windex, iov[i].iov_base, iov[i].iov_len);
-+
-+	/* Set the offset of the current channel packet. */
-+	save_windex = ((uint64_t)old_windex) << 32;
-+	windex = vmbus_txbr_copyto(tbr, windex, &save_windex,
-+				   sizeof(save_windex));
-+
-+	/* The region reserved should match region used */
-+	if (windex != next_windex)
-+		return -EINVAL;
-+
-+	/* Ensure that data is available before updating host index */
-+	rte_smp_rwmb();
-+
-+	/* Checkin for our reservation. wait for our turn to update host */
-+	while (!rte_atomic32_cmpset(&vbr->windex, old_windex, next_windex))
-+		_mm_pause();
-+
-+	return 0;
-+}
-+
-+int rte_vmbus_chan_send(struct vmbus_br *txbr, uint16_t type, void *data,
-+			uint32_t dlen, uint32_t flags)
-+{
-+	struct vmbus_chanpkt pkt;
-+	unsigned int pktlen, pad_pktlen;
-+	const uint32_t hlen = sizeof(pkt);
-+	bool send_evt = false;
-+	uint64_t pad = 0;
-+	struct iovec iov[3];
-+	int error;
-+
-+	pktlen = hlen + dlen;
-+	pad_pktlen = ALIGN(pktlen, sizeof(uint64_t));
-+
-+	pkt.hdr.type = type;
-+	pkt.hdr.flags = flags;
-+	pkt.hdr.hlen = hlen >> VMBUS_CHANPKT_SIZE_SHIFT;
-+	pkt.hdr.tlen = pad_pktlen >> VMBUS_CHANPKT_SIZE_SHIFT;
-+	pkt.hdr.xactid = VMBUS_RQST_ERROR;
-+
-+	iov[0].iov_base = &pkt;
-+	iov[0].iov_len = hlen;
-+	iov[1].iov_base = data;
-+	iov[1].iov_len = dlen;
-+	iov[2].iov_base = &pad;
-+	iov[2].iov_len = pad_pktlen - pktlen;
-+
-+	error = vmbus_txbr_write(txbr, iov, 3, &send_evt);
-+
-+	return error;
-+}
-+
-+static inline uint32_t
-+vmbus_rxbr_copyfrom(const struct vmbus_br *rbr, uint32_t rindex,
-+		    void *dst0, size_t cplen)
-+{
-+	const uint8_t *br_data = rbr->vbr->data;
-+	uint32_t br_dsize = rbr->dsize;
-+	uint8_t *dst = dst0;
-+
-+	if (cplen > br_dsize - rindex) {
-+		uint32_t fraglen = br_dsize - rindex;
-+
-+		/* Wrap-around detected. */
-+		memcpy(dst, br_data + rindex, fraglen);
-+		memcpy(dst + fraglen, br_data, cplen - fraglen);
-+	} else {
-+		memcpy(dst, br_data + rindex, cplen);
-+	}
-+
-+	return vmbus_br_idxinc(rindex, cplen, br_dsize);
-+}
-+
-+/* Copy data from receive ring but don't change index */
-+static int
-+vmbus_rxbr_peek(const struct vmbus_br *rbr, void *data, size_t dlen)
-+{
-+	uint32_t avail;
-+
-+	/*
-+	 * The requested data and the 64bits channel packet
-+	 * offset should be there at least.
-+	 */
-+	avail = vmbus_br_availread(rbr);
-+	if (avail < dlen + sizeof(uint64_t))
-+		return -EAGAIN;
-+
-+	vmbus_rxbr_copyfrom(rbr, rbr->vbr->rindex, data, dlen);
-+	return 0;
-+}
-+
-+/*
-+ * Copy data from receive ring and change index
-+ * NOTE:
-+ * We assume (dlen + skip) == sizeof(channel packet).
-+ */
-+static int
-+vmbus_rxbr_read(struct vmbus_br *rbr, void *data, size_t dlen, size_t skip)
-+{
-+	struct vmbus_bufring *vbr = rbr->vbr;
-+	uint32_t br_dsize = rbr->dsize;
-+	uint32_t rindex;
-+
-+	if (vmbus_br_availread(rbr) < dlen + skip + sizeof(uint64_t))
-+		return -EAGAIN;
-+
-+	/* Record where host was when we started read (for debug) */
-+	rbr->windex = rbr->vbr->windex;
-+
-+	/*
-+	 * Copy channel packet from RX bufring.
-+	 */
-+	rindex = vmbus_br_idxinc(rbr->vbr->rindex, skip, br_dsize);
-+	rindex = vmbus_rxbr_copyfrom(rbr, rindex, data, dlen);
-+
-+	/*
-+	 * Discard this channel packet's 64bits offset, which is useless to us.
-+	 */
-+	rindex = vmbus_br_idxinc(rindex, sizeof(uint64_t), br_dsize);
-+
-+	/* Update the read index _after_ the channel packet is fetched.	 */
-+	rte_compiler_barrier();
-+
-+	vbr->rindex = rindex;
-+
-+	return 0;
-+}
-+
-+int rte_vmbus_chan_recv_raw(struct vmbus_br *rxbr,
-+			    void *data, uint32_t *len)
-+{
-+	struct vmbus_chanpkt_hdr pkt;
-+	uint32_t dlen, bufferlen = *len;
-+	int error;
-+
-+	error = vmbus_rxbr_peek(rxbr, &pkt, sizeof(pkt));
-+	if (error)
-+		return error;
-+
-+	if (unlikely(pkt.hlen < VMBUS_CHANPKT_HLEN_MIN))
-+		/* XXX this channel is dead actually. */
-+		return -EIO;
-+
-+	if (unlikely(pkt.hlen > pkt.tlen))
-+		return -EIO;
-+
-+	/* Length are in quad words */
-+	dlen = pkt.tlen << VMBUS_CHANPKT_SIZE_SHIFT;
-+	*len = dlen;
-+
-+	/* If caller buffer is not large enough */
-+	if (unlikely(dlen > bufferlen))
-+		return -ENOBUFS;
-+
-+	/* Read data and skip packet header */
-+	error = vmbus_rxbr_read(rxbr, data, dlen, 0);
-+	if (error)
-+		return error;
-+
-+	/* Return the number of bytes read */
-+	return dlen + sizeof(uint64_t);
-+}
-diff --git a/tools/hv/vmbus_bufring.h b/tools/hv/vmbus_bufring.h
-new file mode 100644
-index 000000000000..6e7caacfff57
---- /dev/null
-+++ b/tools/hv/vmbus_bufring.h
-@@ -0,0 +1,158 @@
-+/* SPDX-License-Identifier: BSD-3-Clause */
-+
-+#ifndef _VMBUS_BUF_H_
-+#define _VMBUS_BUF_H_
-+
-+#include <stdbool.h>
-+#include <stdint.h>
-+
-+#define __packed   __attribute__((__packed__))
-+#define unlikely(x)	__builtin_expect(!!(x), 0)
-+
-+#define ICMSGHDRFLAG_TRANSACTION	1
-+#define ICMSGHDRFLAG_REQUEST		2
-+#define ICMSGHDRFLAG_RESPONSE		4
-+
-+#define IC_VERSION_NEGOTIATION_MAX_VER_COUNT 100
-+#define ICMSG_HDR (sizeof(struct vmbuspipe_hdr) + sizeof(struct icmsg_hdr))
-+#define ICMSG_NEGOTIATE_PKT_SIZE(icframe_vercnt, icmsg_vercnt) \
-+	(ICMSG_HDR + sizeof(struct icmsg_negotiate) + \
-+	 (((icframe_vercnt) + (icmsg_vercnt)) * sizeof(struct ic_version)))
-+
-+/*
-+ * Channel packets
-+ */
-+
-+/* Channel packet flags */
-+#define VMBUS_CHANPKT_TYPE_INBAND	0x0006
-+#define VMBUS_CHANPKT_TYPE_RXBUF	0x0007
-+#define VMBUS_CHANPKT_TYPE_GPA		0x0009
-+#define VMBUS_CHANPKT_TYPE_COMP		0x000b
-+
-+#define VMBUS_CHANPKT_FLAG_NONE		0
-+#define VMBUS_CHANPKT_FLAG_RC		0x0001  /* report completion */
-+
-+#define VMBUS_CHANPKT_SIZE_SHIFT	3
-+#define VMBUS_CHANPKT_SIZE_ALIGN	BIT(VMBUS_CHANPKT_SIZE_SHIFT)
-+#define VMBUS_CHANPKT_HLEN_MIN		\
-+	(sizeof(struct vmbus_chanpkt_hdr) >> VMBUS_CHANPKT_SIZE_SHIFT)
-+
-+/*
-+ * Buffer ring
-+ */
-+struct vmbus_bufring {
-+	volatile uint32_t windex;
-+	volatile uint32_t rindex;
-+
-+	/*
-+	 * Interrupt mask {0,1}
-+	 *
-+	 * For TX bufring, host set this to 1, when it is processing
-+	 * the TX bufring, so that we can safely skip the TX event
-+	 * notification to host.
-+	 *
-+	 * For RX bufring, once this is set to 1 by us, host will not
-+	 * further dispatch interrupts to us, even if there are data
-+	 * pending on the RX bufring.  This effectively disables the
-+	 * interrupt of the channel to which this RX bufring is attached.
-+	 */
-+	volatile uint32_t imask;
-+
-+	/*
-+	 * Win8 uses some of the reserved bits to implement
-+	 * interrupt driven flow management. On the send side
-+	 * we can request that the receiver interrupt the sender
-+	 * when the ring transitions from being full to being able
-+	 * to handle a message of size "pending_send_sz".
-+	 *
-+	 * Add necessary state for this enhancement.
-+	 */
-+	volatile uint32_t pending_send;
-+	uint32_t reserved1[12];
-+
-+	union {
-+		struct {
-+			uint32_t feat_pending_send_sz:1;
-+		};
-+		uint32_t value;
-+	} feature_bits;
-+
-+	/* Pad it to rte_mem_page_size() so that data starts on page boundary */
-+	uint8_t	reserved2[4028];
-+
-+	/*
-+	 * Ring data starts here + RingDataStartOffset
-+	 * !!! DO NOT place any fields below this !!!
-+	 */
-+	uint8_t data[];
-+} __packed;
-+
-+struct vmbus_br {
-+	struct vmbus_bufring *vbr;
-+	uint32_t	dsize;
-+	uint32_t	windex; /* next available location */
-+};
-+
-+struct vmbus_chanpkt_hdr {
-+	uint16_t	type;	/* VMBUS_CHANPKT_TYPE_ */
-+	uint16_t	hlen;	/* header len, in 8 bytes */
-+	uint16_t	tlen;	/* total len, in 8 bytes */
-+	uint16_t	flags;	/* VMBUS_CHANPKT_FLAG_ */
-+	uint64_t	xactid;
-+} __packed;
-+
-+struct vmbus_chanpkt {
-+	struct vmbus_chanpkt_hdr hdr;
-+} __packed;
-+
-+struct vmbuspipe_hdr {
-+	unsigned int flags;
-+	unsigned int msgsize;
-+} __packed;
-+
-+struct ic_version {
-+	unsigned short major;
-+	unsigned short minor;
-+} __packed;
-+
-+struct icmsg_negotiate {
-+	unsigned short icframe_vercnt;
-+	unsigned short icmsg_vercnt;
-+	unsigned int reserved;
-+	struct ic_version icversion_data[]; /* any size array */
-+} __packed;
-+
-+struct icmsg_hdr {
-+	struct ic_version icverframe;
-+	unsigned short icmsgtype;
-+	struct ic_version icvermsg;
-+	unsigned short icmsgsize;
-+	unsigned int status;
-+	unsigned char ictransaction_id;
-+	unsigned char icflags;
-+	unsigned char reserved[2];
-+} __packed;
-+
-+int rte_vmbus_chan_recv_raw(struct vmbus_br *rxbr, void *data, uint32_t *len);
-+int rte_vmbus_chan_send(struct vmbus_br *txbr, uint16_t type, void *data,
-+			uint32_t dlen, uint32_t flags);
-+void vmbus_br_setup(struct vmbus_br *br, void *buf, unsigned int blen);
-+void *vmbus_uio_map(int *fd, int size);
-+
-+/* Amount of space available for write */
-+static inline uint32_t vmbus_br_availwrite(const struct vmbus_br *br, uint32_t windex)
-+{
-+	uint32_t rindex = br->vbr->rindex;
-+
-+	if (windex >= rindex)
-+		return br->dsize - (windex - rindex);
-+	else
-+		return rindex - windex;
-+}
-+
-+static inline uint32_t vmbus_br_availread(const struct vmbus_br *br)
-+{
-+	return br->dsize - vmbus_br_availwrite(br, br->vbr->windex);
-+}
-+
-+#endif	/* !_VMBUS_BUF_H_ */
+ static inline bool hv_is_allocated_cpu(unsigned int cpu)
+ {
+ 	struct vmbus_channel *channel, *sc;
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 2b00faf98017..5951c7bb5712 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -800,6 +800,7 @@ struct vmbus_requestor {
+ #define VMBUS_RQST_RESET (U64_MAX - 3)
+ 
+ struct vmbus_device {
++	size_t pref_ring_size;
+ 	u16  dev_type;
+ 	guid_t guid;
+ 	bool perf_device;
 -- 
 2.34.1
 
