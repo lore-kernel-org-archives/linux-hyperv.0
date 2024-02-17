@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8437E0E3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8057D414;
 	Sat, 17 Feb 2024 18:04:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708193075; cv=none; b=Lqige/dc7Oved9c5g4WQDkYS9uKMok9kXv6AsALw1kInAe4PESPEcD5+0VSs4N53urmmfGwWwpIPLgHeZ8H6xQicEOWhfE0RnBKDLQT87t2emq87PzedJmbIaUUzFXLTktU5OihGOdWOsOzgL1bflCGC1vHqdZaCEdC1bFa8tG8=
+	t=1708193075; cv=none; b=Mh9jnz/sVc532wUz2FNOsptzhb3XQSmA3pnfv17FfqKYL6ffv9CQmCKigqANyE36CjUqmNErRYG95Y0maZ4SO2NSWJXnbjBZea7zufieKJNuJ80aU0pHh1zQdRTHG/Xji9EskChar+kxh4m4QX6AKhbbyxphUUWdbh40PThkTjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1708193075; c=relaxed/simple;
-	bh=aQYHlXV7kN6BYqhUEYWn7DqoPucn2DTrXeCBMweMa6A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=MvA0/eBiSKMb2IXykgaFxjAsslPJrOGB2G7lpzyGCLo6jlItprTOF2rKT9HQmrs5NlNnt7w7HGxkQCCx/bb9P+gdRgH4B7kaboc9yxoXYgqzXD5oF2lj7+/TNXcCHGjfhYfzvafQJuwgktfwmXNfcBvGFi1IzJB9A26NSjWxvR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JESdnY/x; arc=none smtp.client-ip=13.77.154.182
+	bh=fklp+eyYWX9Fo/GEKVCDaXngLiUmi5JBAtthR4Q1kP4=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=JhHoghN7uksaqB9/IsC+r2rQ0Kx9HqwnF0eSWXI0kKMB8bROpHJBbw3qjlCPr/LKr8tdRKjw/lJY5Y1INyoyWXtI/1HRGeXw5lYBXJvNwK1dCsqHmio+67P8oVH5z5lndN6avSRm8O+eYwGvMRCrvkWOe3lK6Od7arz9prl2xP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BQtdT+8h; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JESdnY/x"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BQtdT+8h"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9CBEC207FD2F;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 536BC207FD29;
 	Sat, 17 Feb 2024 10:04:27 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9CBEC207FD2F
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 536BC207FD29
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1708193067;
-	bh=IJXczuiy25vcEMZMajrYQPcvnxC/NI9o3yOT9PmVG/A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JESdnY/xusHyCYTZjvMI+irpL1MF8p4TXWKvlq5nMVj8KBuOJYjRCF2iZ8cnLHKWb
-	 G9ZH6wuypj9BmnmEL2fd2VDS44CUb76vZ4UMxXrXD4OaBdVEmB9JSATudM18ywWD1/
-	 ybR6i3Dq8B4SmWMeZc/5Iu8Tiwv8GAgIQul1pBDM=
+	bh=/mwh7BUNN6hVP+Q7Cbl+W954u6dPawCLv2iDZVI1u+I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BQtdT+8hwyc6VxrbOrCRcE/lUMlBDTjDF7Abn3UHikJxOmR1mmDmYnFs7stVAYvoV
+	 u0NTTGhsgSI/Ql7s2fB23QFTI8PoiKKW2wBm7OJ/67Yu4gE1c/iRMgqyCr2u5jcA9Z
+	 SzCn5hqzpVSgXiHMHYug+ACisQ+uV3dzfGJgx6Vc=
 From: Saurabh Sengar <ssengar@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -33,57 +33,70 @@ To: kys@microsoft.com,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: ssengar@microsoft.com
-Subject: [PATCH 3/6] uio_hv_generic: Enable interrupt for low speed VMBus devices
-Date: Sat, 17 Feb 2024 10:03:37 -0800
-Message-Id: <1708193020-14740-4-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH 0/6] Low speed Hyper-V devices support
+Date: Sat, 17 Feb 2024 10:03:34 -0800
+Message-Id: <1708193020-14740-1-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1708193020-14740-1-git-send-email-ssengar@linux.microsoft.com>
-References: <1708193020-14740-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Hyper-V is adding some "specialty" synthetic devices. Instead of writing
-new kernel-level VMBus drivers for these devices, the devices will be
-presented to user space via this existing Hyper-V generic UIO driver, so
-that a user space driver can handle the device. Since these new synthetic
-devices are low speed devices, they don't support monitor bits and we must
-use vmbus_setevent() to enable interrupts from the host.
+Hyper-V is adding multiple low speed "speciality" synthetic devices.
+Instead of writing a new kernel-level VMBus driver for each device,
+make the devices accessible to user space through UIO-based
+uio_hv_generic driver. Each device can then be supported by a user
+space driver. This approach optimizes the development process and
+provides flexibility to user space applications to control the key
+interactions with the VMBus ring buffer.
 
-Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
----
- drivers/uio/uio_hv_generic.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+The new synthetic devices are low speed devices that don't support
+VMBus monitor bits, and so they must use vmbus_setevent() to notify
+the host of ring buffer updates. These new devices also have smaller
+ring buffer sizes which requires to add support for variable ring buffer
+sizes.
 
-diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-index 4bda6b52e49e..289611c7dfd7 100644
---- a/drivers/uio/uio_hv_generic.c
-+++ b/drivers/uio/uio_hv_generic.c
-@@ -84,6 +84,9 @@ hv_uio_irqcontrol(struct uio_info *info, s32 irq_state)
- 	dev->channel->inbound.ring_buffer->interrupt_mask = !irq_state;
- 	virt_mb();
- 
-+	if (!dev->channel->offermsg.monitor_allocated && irq_state)
-+		vmbus_setevent(dev->channel);
-+
- 	return 0;
- }
- 
-@@ -240,12 +243,6 @@ hv_uio_probe(struct hv_device *dev,
- 	int ret;
- 	size_t ring_size = hv_dev_ring_size(channel);
- 
--	/* Communicating with host has to be via shared memory not hypercall */
--	if (!channel->offermsg.monitor_allocated) {
--		dev_err(&dev->device, "vmbus channel requires hypercall\n");
--		return -ENOTSUPP;
--	}
--
- 	if (!ring_size)
- 		ring_size = HV_RING_SIZE * PAGE_SIZE;
- 
+Moreover, this patch series adds a new implementation of the fcopy
+application that uses the new UIO driver. The older fcopy driver and
+application will be phased out gradually. Development of other similar
+userspace drivers is still underway.
+
+
+Efforts have been made previously to implement this solution earlier.
+Here are the discussions related to those attempts:
+https://lore.kernel.org/lkml/1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com/
+https://lore.kernel.org/lkml/1665575806-27990-1-git-send-email-ssengar@linux.microsoft.com/
+https://lore.kernel.org/lkml/1665685754-13971-1-git-send-email-ssengar@linux.microsoft.com/
+
+Saurabh Sengar (6):
+  Drivers: hv: vmbus: Add utility function for querying ring size
+  uio_hv_generic: Query the ringbuffer size for device
+  uio_hv_generic: Enable interrupt for low speed VMBus devices
+  tools: hv: Add vmbus_bufring
+  tools: hv: Add new fcopy application based on uio driver
+  Drivers: hv: Remove fcopy driver
+
+ drivers/hv/Makefile            |   2 +-
+ drivers/hv/channel_mgmt.c      |   7 +-
+ drivers/hv/hv_fcopy.c          | 427 -----------------------------
+ drivers/hv/hv_util.c           |  12 -
+ drivers/hv/hyperv_vmbus.h      |   5 +
+ drivers/uio/uio_hv_generic.c   |  14 +-
+ include/linux/hyperv.h         |   1 +
+ tools/hv/Build                 |   3 +-
+ tools/hv/Makefile              |  10 +-
+ tools/hv/hv_fcopy_daemon.c     | 266 ------------------
+ tools/hv/hv_fcopy_uio_daemon.c | 488 +++++++++++++++++++++++++++++++++
+ tools/hv/vmbus_bufring.c       | 316 +++++++++++++++++++++
+ tools/hv/vmbus_bufring.h       | 158 +++++++++++
+ 13 files changed, 988 insertions(+), 721 deletions(-)
+ delete mode 100644 drivers/hv/hv_fcopy.c
+ delete mode 100644 tools/hv/hv_fcopy_daemon.c
+ create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
+ create mode 100644 tools/hv/vmbus_bufring.c
+ create mode 100644 tools/hv/vmbus_bufring.h
+
 -- 
 2.34.1
 
