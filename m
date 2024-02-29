@@ -1,32 +1,33 @@
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [185.125.25.15])
+Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [45.157.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5199141C77
-	for <linux-hyperv@vger.kernel.org>; Thu, 29 Feb 2024 17:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACFF4AED2
+	for <linux-hyperv@vger.kernel.org>; Thu, 29 Feb 2024 17:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709226276; cv=none; b=Fg3QRARNcP2srsDxmKPau6VGKfrrDn2V0EfxcURiIMwf15uHtyPjpzkET0Yt3dMh5e0NBRFVgIaTm8W4SobqsTdgT6uKc0p2WRJ1DRDagUJn+3LiaUPsLoUDh1FdZ9nEMyr4KbqbHvcwL3dhUhbnSQose4Zmn9XicJGN214g0U8=
+	t=1709226277; cv=none; b=UtFs6HwO4HqMfuXBFeL7ijerc5la8VCGsbswt67qQ5vOWKhNnrh9v14JDSHfmVTJkXLfPRfCD3W6NvxFx8qhsZ5YxWeKMlvMjUMD/69NRaxtAG8bLXmRt62DxGsVYC9Umcp2uaYyaolZWEZd2NDYzxgH3AOZZ2qOFSVWx8JnnFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709226276; c=relaxed/simple;
-	bh=4wDdbt4I56G5n6LSUJ2u1jaEVBMsm/64WWZPbsYi9U0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bQE7NajQSZBmp49NEGNSLgTBZuSy4twdNVOzq/qJfXvgSogv2Ic0tStrb1o6G/RgAtuPMt9HT4OAyxpXwbKdGLBrWsZqtT1kUvPBjZqvItwR+w5KIUd7dF60Q8CwlTnLSQ0tDPKR6b6IleACpsGm+lU90ezByRIqgN4eawk2Uuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=nlVkoodR; arc=none smtp.client-ip=185.125.25.15
+	s=arc-20240116; t=1709226277; c=relaxed/simple;
+	bh=iEMsEf9vHd9/SI1OU/FMhsYF3Xf0RZ6zSUY0txBsePY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a4kr20MooM1EXk/lvpKBQy8kYIM8l/TqHvM6m8S6DC/gydqj5r/YsyZ/qj62hfS7KWBBMH2A1KnYRgcZOF22cxaz9Dp3dvojcY65V405L8z6fEF12X++ZLmY495Dh8W57rmxx1CY3q8TXWZqbIvXEDdn7ESuBdMvNFIMXnPHExE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=mt5sEYwZ; arc=none smtp.client-ip=45.157.188.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="nlVkoodR"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TlyHp6JJMz5wk;
-	Thu, 29 Feb 2024 18:04:22 +0100 (CET)
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TlyHm47S2zYBH;
-	Thu, 29 Feb 2024 18:04:20 +0100 (CET)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="mt5sEYwZ"
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TlyHs3xr2zMrktf;
+	Thu, 29 Feb 2024 18:04:25 +0100 (CET)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TlyHr5l81zsG;
+	Thu, 29 Feb 2024 18:04:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1709226262;
-	bh=4wDdbt4I56G5n6LSUJ2u1jaEVBMsm/64WWZPbsYi9U0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nlVkoodRGG/+JH60co6QTYI+j/xS/kAvzRqTk/xdhkVfSSC5JtD7P7treNBKoqd0u
-	 U5gu49lO236cmDqZAiQi+oFIZbE1jszXjS2h0mslolmhNqIG4IKa/drMCKvMRTmYRX
-	 pKXV1VkrqQbG3nE+oEnjraDdG3Vrknapc8Mb93bc=
+	s=20191114; t=1709226265;
+	bh=iEMsEf9vHd9/SI1OU/FMhsYF3Xf0RZ6zSUY0txBsePY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mt5sEYwZdJqMXsg2RNP3sZk7FXe2d42pQAwMlKqEqVeZoUnZxWKILpymJr3/osTy1
+	 HATdiX6VsrwoP0gD2blvTb19qjeTYzsRp4SafqrsoXPddY8xyBu1Qc8e4S1DueQbzl
+	 Gv250bTvI44E66febWNikJHzk267euM4+x5fW+J8=
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Brendan Higgins <brendanhiggins@google.com>,
 	David Gow <davidgow@google.com>,
@@ -58,9 +59,11 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-security-module@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	x86@kernel.org
-Subject: [PATCH v1 0/8] Run KUnit tests late and handle faults
-Date: Thu, 29 Feb 2024 18:04:01 +0100
-Message-ID: <20240229170409.365386-1-mic@digikod.net>
+Subject: [PATCH v1 2/8] kunit: Handle thread creation error
+Date: Thu, 29 Feb 2024 18:04:03 +0100
+Message-ID: <20240229170409.365386-3-mic@digikod.net>
+In-Reply-To: <20240229170409.365386-1-mic@digikod.net>
+References: <20240229170409.365386-1-mic@digikod.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -71,49 +74,33 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Hi,
+Previously, if a thread creation failed (e.g. -ENOMEM), the function was
+called (kunit_catch_run_case or kunit_catch_run_case_cleanup) without
+marking the test as failed.  Instead, fill try_result with the error
+code returned by kthread_run(), which will mark the test as failed and
+print "internal error occurred...".
 
-This patch series moves KUnit test execution at the very end of kernel
-initialization, just before launching the init process.  This opens the
-way to test any kernel code in its normal state (i.e. fully
-initialized).
+Cc: Brendan Higgins <brendanhiggins@google.com>
+Cc: David Gow <davidgow@google.com>
+Cc: Rae Moar <rmoar@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Mickaël Salaün <mic@digikod.net>
+---
+ lib/kunit/try-catch.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This patch series also teaches KUnit to handle kthread faults as errors,
-and it brings a few related fixes and improvements.
-
-New tests check NULL pointer dereference and read-only memory, which
-wasn't possible before.
-
-This is useful to test current kernel self-protection mechanisms or
-future ones such as Heki: https://github.com/heki-linux
-
-Regards,
-
-Mickaël Salaün (8):
-  kunit: Run tests when the kernel is fully setup
-  kunit: Handle thread creation error
-  kunit: Fix kthread reference
-  kunit: Fix timeout message
-  kunit: Handle test faults
-  kunit: Fix KUNIT_SUCCESS() calls in iov_iter tests
-  kunit: Print last test location on fault
-  kunit: Add tests for faults
-
- include/kunit/test.h                |  24 +++++-
- include/kunit/try-catch.h           |   3 -
- init/main.c                         |   4 +-
- lib/bitfield_kunit.c                |   8 +-
- lib/checksum_kunit.c                |   2 +-
- lib/kunit/executor.c                |  81 ++++++++++++++------
- lib/kunit/kunit-example-test.c      |   6 +-
- lib/kunit/kunit-test.c              | 115 +++++++++++++++++++++++++++-
- lib/kunit/try-catch.c               |  33 +++++---
- lib/kunit_iov_iter.c                |  70 ++++++++---------
- tools/testing/kunit/kunit_kernel.py |   6 +-
- 11 files changed, 261 insertions(+), 91 deletions(-)
-
-
-base-commit: d206a76d7d2726f3b096037f2079ce0bd3ba329b
+diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+index f7825991d576..a5cb2ef70a25 100644
+--- a/lib/kunit/try-catch.c
++++ b/lib/kunit/try-catch.c
+@@ -69,6 +69,7 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ 				  try_catch,
+ 				  "kunit_try_catch_thread");
+ 	if (IS_ERR(task_struct)) {
++		try_catch->try_result = PTR_ERR(task_struct);
+ 		try_catch->catch(try_catch->context);
+ 		return;
+ 	}
 -- 
 2.44.0
 
