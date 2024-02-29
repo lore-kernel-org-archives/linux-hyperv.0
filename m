@@ -1,33 +1,33 @@
-Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [45.157.188.13])
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0677A139
-	for <linux-hyperv@vger.kernel.org>; Thu, 29 Feb 2024 17:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D7E41C77
+	for <linux-hyperv@vger.kernel.org>; Thu, 29 Feb 2024 17:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709226283; cv=none; b=qU7o6/5NBLub77p6iJp0rOGsmEmS5M11j0RKnRmElld/hzxjiptH5ZAvV26YyERnJ0Lgbj4PYOwCmeDXLRF0MKDykgxlao7FOq6D1tmhMYjNTVg7ahkLrrlrevzv4Z3RiFY/EKTBHZO1d2SuCBLxED3LklY4sbL+3m/Yw6aFZQo=
+	t=1709226612; cv=none; b=OiV4UgXiZk+S2yLA/ATKomM1O2Q/C3ZKM1oOG4EEgIm1yH5kg2TMNLghVKy61J39AHZ0RQjQZiD9axrDCWCJ+5awhXSUN7c4zDcu15EYJmqqki76lm5GLqlS1uQHagoZhQsv1KSBBpzG/2fG11TEKFBSG36n0fznrI8saBc2sYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709226283; c=relaxed/simple;
-	bh=jgxgVIds0Uq+q7sp2eMMdlRM5SUWajSTadOwGNRm2Fs=;
+	s=arc-20240116; t=1709226612; c=relaxed/simple;
+	bh=Y3qACsJqLhysHNo72GvJJ9/ipSm5FWvUJD/HQrH2Nac=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VgyeuUZ/+ldQwycJ88VIROtWT14dlgkdwH1TXwDCbpQ0cXcIp+Y4Vt6xLHzL/KsmGUVGEzVjNlPL0vynKjQ0tVFMHkyRJBJKPxbCCL+D3g4fbzGAcRXcONbZVqw5tMNZtTOTeER8+OmYnrf4el4HcMsvtD8HvHl895brRI3snes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=O7SkJiHr; arc=none smtp.client-ip=45.157.188.13
+	 MIME-Version:Content-Type; b=o+wl7E6MMYiBWE4mZzNRgWvTWtSMXnHR9V7Fo4VDcdIAG7mMYTY3Ixcq8yy9ICUxyLiKbSiMrGnjQ1TrZch18RektUqsmsKP4RBKw33HllnFKSdaTk6yQg6EJOIQratjuq5V4vDbYc2njKWzDEo+OL80MSubQ1Abu1ZsGVjNnWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=I5diwHoF; arc=none smtp.client-ip=185.125.25.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="O7SkJiHr"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TlyJ06NtNz23G;
-	Thu, 29 Feb 2024 18:04:32 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4TlyJ01KS6z3c;
-	Thu, 29 Feb 2024 18:04:32 +0100 (CET)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="I5diwHoF"
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TlyHx0XD1zMrkvK;
+	Thu, 29 Feb 2024 18:04:29 +0100 (CET)
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4TlyHw2tVRzMpnPj;
+	Thu, 29 Feb 2024 18:04:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1709226272;
-	bh=jgxgVIds0Uq+q7sp2eMMdlRM5SUWajSTadOwGNRm2Fs=;
+	s=20191114; t=1709226268;
+	bh=Y3qACsJqLhysHNo72GvJJ9/ipSm5FWvUJD/HQrH2Nac=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O7SkJiHrACJveUBYih6KHS2MoK6Y4pu39o0bmrh+/H6EdBfY1u3VZX8uGsKFJXi+a
-	 WByMKyxBUC+h89F9ItJ41Svn8x0gBISiaYBOEAxH4PZonYP3aTFWiPtMTboZgZYUP1
-	 9KoOsvsJogUIH9wR1oxyIDnWxnLfeIr+w9ncsLKQ=
+	b=I5diwHoFMOe7e+VCX9Kpc4Al+7OLJ05syQxgO2eEWWeYFE3i8xxvjPFVksjKES4Ar
+	 RnEM/+1JzGqSBFIyaugTPitDZeybVukdsrcbU1APqTnUmUjFjQPZxwWwCDq4fU/Q2L
+	 IWKprJuZaq2OiK0trID+Wsx8+VnPmd7Z4Vh5Y+G0=
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Brendan Higgins <brendanhiggins@google.com>,
 	David Gow <davidgow@google.com>,
@@ -59,9 +59,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-security-module@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	x86@kernel.org
-Subject: [PATCH v1 8/8] kunit: Add tests for faults
-Date: Thu, 29 Feb 2024 18:04:09 +0100
-Message-ID: <20240229170409.365386-9-mic@digikod.net>
+Subject: [PATCH v1 5/8] kunit: Handle test faults
+Date: Thu, 29 Feb 2024 18:04:06 +0100
+Message-ID: <20240229170409.365386-6-mic@digikod.net>
 In-Reply-To: <20240229170409.365386-1-mic@digikod.net>
 References: <20240229170409.365386-1-mic@digikod.net>
 Precedence: bulk
@@ -74,18 +74,22 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-The first test checks NULL pointer dereference and make sure it would
-result as a failed test.
+Previously, when a kernel test thread crashed (e.g. NULL pointer
+dereference, general protection fault), the KUnit test hanged for 30
+seconds and exited with a timeout error.
 
-The second and third tests check that read-only data is indeed read-only
-and trying to modify it would result as a failed test.
+Fix this issue by waiting on task_struct->vfork_done instead of the
+custom kunit_try_catch.try_completion, and track the execution state by
+initially setting try_result with -EFAULT and only setting it to 0 if
+the test passed.
 
-This kunit_x86_fault test suite is marked as skipped when run on a
-non-x86 native architecture.  It is then skipped on UML because such
-test would result to a kernel panic.
+Fix kunit_generic_run_threadfn_adapter() signature by returning 0
+instead of calling kthread_complete_and_exit().  Because thread's exit
+code is never checked, always set it to 0 to make it clear.
 
-Tested with:
-./tools/testing/kunit/kunit.py run --arch x86_64 kunit_x86_fault
+Fix the -EINTR error message, which couldn't be reached until now.
+
+This is tested with a following patch.
 
 Cc: Brendan Higgins <brendanhiggins@google.com>
 Cc: David Gow <davidgow@google.com>
@@ -93,148 +97,96 @@ Cc: Rae Moar <rmoar@google.com>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
 ---
- lib/kunit/kunit-test.c | 115 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 114 insertions(+), 1 deletion(-)
+ include/kunit/try-catch.h |  3 ---
+ lib/kunit/try-catch.c     | 14 +++++++-------
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
-index f7980ef236a3..57d8eff00c66 100644
---- a/lib/kunit/kunit-test.c
-+++ b/lib/kunit/kunit-test.c
-@@ -10,6 +10,7 @@
- #include <kunit/test-bug.h>
+diff --git a/include/kunit/try-catch.h b/include/kunit/try-catch.h
+index c507dd43119d..7c966a1adbd3 100644
+--- a/include/kunit/try-catch.h
++++ b/include/kunit/try-catch.h
+@@ -14,13 +14,11 @@
  
- #include <linux/device.h>
-+#include <linux/init.h>
- #include <kunit/device.h>
+ typedef void (*kunit_try_catch_func_t)(void *);
  
- #include "string-stream.h"
-@@ -109,6 +110,117 @@ static struct kunit_suite kunit_try_catch_test_suite = {
- 	.test_cases = kunit_try_catch_test_cases,
- };
+-struct completion;
+ struct kunit;
  
-+#ifdef CONFIG_X86
-+
-+static void kunit_test_null_dereference(void *data)
-+{
-+	struct kunit *test = data;
-+	int *null = NULL;
-+
-+	*null = 0;
-+
-+	KUNIT_FAIL(test, "This line should never be reached\n");
-+}
-+
-+static void kunit_test_fault_null_dereference(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch,
-+			     test,
-+			     kunit_test_null_dereference,
-+			     kunit_test_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_EQ(test, try_catch->try_result, -EINTR);
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+#if defined(CONFIG_STRICT_KERNEL_RWX) || defined(CONFIG_STRICT_MODULE_RWX)
-+
-+const int test_const = 1;
-+
-+static void kunit_test_const(void *data)
-+{
-+	struct kunit *test = data;
-+	/* Bypasses compiler check. */
-+	int *ptr = (int *)&test_const;
-+
-+	KUNIT_EXPECT_EQ(test, test_const, 1);
-+	*ptr = 2;
-+
-+	KUNIT_FAIL(test, "This line should never be reached\n");
-+}
-+
-+static void kunit_test_fault_const(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	kunit_try_catch_init(try_catch, test, kunit_test_const,
-+			     kunit_test_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_EQ(test, test_const, 1);
-+	KUNIT_EXPECT_EQ(test, try_catch->try_result, -EINTR);
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+static int test_rodata __ro_after_init = 1;
-+
-+static void kunit_test_rodata(void *data)
-+{
-+	struct kunit *test = data;
-+
-+	KUNIT_EXPECT_EQ(test, test_rodata, 1);
-+	test_rodata = 2;
-+
-+	KUNIT_FAIL(test, "This line should never be reached\n");
-+}
-+
-+static void kunit_test_fault_rodata(struct kunit *test)
-+{
-+	struct kunit_try_catch_test_context *ctx = test->priv;
-+	struct kunit_try_catch *try_catch = ctx->try_catch;
-+
-+	if (!rodata_enabled)
-+		kunit_skip(test, "Strict RWX is not enabled");
-+
-+	kunit_try_catch_init(try_catch, test, kunit_test_rodata,
-+			     kunit_test_catch);
-+	kunit_try_catch_run(try_catch, test);
-+
-+	KUNIT_EXPECT_EQ(test, test_rodata, 1);
-+	KUNIT_EXPECT_EQ(test, try_catch->try_result, -EINTR);
-+	KUNIT_EXPECT_TRUE(test, ctx->function_called);
-+}
-+
-+#else /* defined(CONFIG_STRICT_KERNEL_RWX) || defined(CONFIG_STRICT_MODULE_RWX) */
-+
-+static void kunit_test_fault_rodata(struct kunit *test)
-+{
-+	kunit_skip(test, "Strict RWX is not supported");
-+}
-+
-+#endif /* defined(CONFIG_STRICT_KERNEL_RWX) || defined(CONFIG_STRICT_MODULE_RWX) */
-+#endif /* CONFIG_X86 */
-+
-+static struct kunit_case kunit_x86_fault_test_cases[] = {
-+#ifdef CONFIG_X86
-+	KUNIT_CASE(kunit_test_fault_null_dereference),
-+	KUNIT_CASE(kunit_test_fault_const),
-+	KUNIT_CASE(kunit_test_fault_rodata),
-+#endif /* CONFIG_X86 */
-+	{}
-+};
-+
-+static struct kunit_suite kunit_x86_fault_test_suite = {
-+	.name = "kunit_x86_fault",
-+	.init = kunit_try_catch_test_init,
-+	.test_cases = kunit_x86_fault_test_cases,
-+};
-+
- /*
-  * Context for testing test managed resources
-  * is_resource_initialized is used to test arbitrary resources
-@@ -826,6 +938,7 @@ static struct kunit_suite kunit_current_test_suite = {
+ /**
+  * struct kunit_try_catch - provides a generic way to run code which might fail.
+  * @test: The test case that is currently being executed.
+- * @try_completion: Completion that the control thread waits on while test runs.
+  * @try_result: Contains any errno obtained while running test case.
+  * @try: The function, the test case, to attempt to run.
+  * @catch: The function called if @try bails out.
+@@ -46,7 +44,6 @@ struct kunit;
+ struct kunit_try_catch {
+ 	/* private: internal use only. */
+ 	struct kunit *test;
+-	struct completion *try_completion;
+ 	int try_result;
+ 	kunit_try_catch_func_t try;
+ 	kunit_try_catch_func_t catch;
+diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
+index cab8b24b5d5a..c6ee4db0b3bd 100644
+--- a/lib/kunit/try-catch.c
++++ b/lib/kunit/try-catch.c
+@@ -18,7 +18,7 @@
+ void __noreturn kunit_try_catch_throw(struct kunit_try_catch *try_catch)
+ {
+ 	try_catch->try_result = -EFAULT;
+-	kthread_complete_and_exit(try_catch->try_completion, -EFAULT);
++	kthread_exit(0);
+ }
+ EXPORT_SYMBOL_GPL(kunit_try_catch_throw);
  
- kunit_test_suites(&kunit_try_catch_test_suite, &kunit_resource_test_suite,
- 		  &kunit_log_test_suite, &kunit_status_test_suite,
--		  &kunit_current_test_suite, &kunit_device_test_suite);
-+		  &kunit_current_test_suite, &kunit_device_test_suite,
-+		  &kunit_x86_fault_test_suite);
+@@ -26,9 +26,12 @@ static int kunit_generic_run_threadfn_adapter(void *data)
+ {
+ 	struct kunit_try_catch *try_catch = data;
  
- MODULE_LICENSE("GPL v2");
++	try_catch->try_result = -EINTR;
+ 	try_catch->try(try_catch->context);
++	if (try_catch->try_result == -EINTR)
++		try_catch->try_result = 0;
+ 
+-	kthread_complete_and_exit(try_catch->try_completion, 0);
++	return 0;
+ }
+ 
+ static unsigned long kunit_test_timeout(void)
+@@ -58,13 +61,11 @@ static unsigned long kunit_test_timeout(void)
+ 
+ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ {
+-	DECLARE_COMPLETION_ONSTACK(try_completion);
+ 	struct kunit *test = try_catch->test;
+ 	struct task_struct *task_struct;
+ 	int exit_code, time_remaining;
+ 
+ 	try_catch->context = context;
+-	try_catch->try_completion = &try_completion;
+ 	try_catch->try_result = 0;
+ 	task_struct = kthread_create(kunit_generic_run_threadfn_adapter,
+ 				     try_catch, "kunit_try_catch_thread");
+@@ -75,8 +76,7 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ 	}
+ 	get_task_struct(task_struct);
+ 	wake_up_process(task_struct);
+-
+-	time_remaining = wait_for_completion_timeout(&try_completion,
++	time_remaining = wait_for_completion_timeout(task_struct->vfork_done,
+ 						     kunit_test_timeout());
+ 	if (time_remaining == 0) {
+ 		try_catch->try_result = -ETIMEDOUT;
+@@ -92,7 +92,7 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
+ 	if (exit_code == -EFAULT)
+ 		try_catch->try_result = 0;
+ 	else if (exit_code == -EINTR)
+-		kunit_err(test, "wake_up_process() was never called\n");
++		kunit_err(test, "try faulted\n");
+ 	else if (exit_code == -ETIMEDOUT)
+ 		kunit_err(test, "try timed out\n");
+ 	else if (exit_code)
 -- 
 2.44.0
 
