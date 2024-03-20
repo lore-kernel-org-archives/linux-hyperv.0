@@ -1,187 +1,134 @@
-Received: from smtp-8faf.mail.infomaniak.ch (smtp-8faf.mail.infomaniak.ch [83.166.143.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6854A7E56F
-	for <linux-hyperv@vger.kernel.org>; Tue, 19 Mar 2024 10:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.175
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC703D970;
+	Wed, 20 Mar 2024 10:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710845740; cv=none; b=CQc9H8IxeVhqvjHL0Q3YZHtNUD1bUz2mFePrX1NuWOU4aZTf0qLAiJsh3ZqL/RdG99sK+CBV4AnP5nJRokIhGPYB8VmM9aClkRpNiewUBiFob+GQhkdsuBqEnoxqgc7dzwfGGsYobtKuFM4WKp8rXH50QhXzA+68vY4fRKOG1mk=
+	t=1710930589; cv=none; b=cFiuzp4rUYxkmcy6u4lIWx75s/C8GnFTFfu8VZLfCvWj7KrI6gnZuZOkf4tdt2mhW72sEe396HNilUskZqhyKbCemafBDxR1QBoeF/5hzpmj0iIJ0kK9DsWDZkO8GS1DdETxb+8lBbP/NuakHJ+KdSmwCsjakqr6A1mDzzPvV3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710845740; c=relaxed/simple;
-	bh=b6/DRUF/Rej8WDS7Bj3R2nQv56pPXANLpZULDArZAX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ndg9JVX59egjiwtHZ3aoGqZGOCPlkihME5w/hbG3E2xB7Z82CS4j4T2ZMOn4HmMAiMVGM+ib3KeYk/8Qws6R5RU3iyAtAECih7IC5lIDrODUP3iMbD+GlKrN2hxuUOMDhjEqXN7B6Eo2XFvO2mvyZeBidWw9LFw/w16papOA/CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=dt6Wd9v9; arc=none smtp.client-ip=83.166.143.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1710930589; c=relaxed/simple;
+	bh=JvItBV8S7Y31HMTBenjNqg15k1PnGv+HzKdN7fwkC+Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=oJy/ZspA7NMdBxojeqx7qtSIsmNOltxvNnFGf3KF1EPlH1cD/sbg3CF1b5WGGgbUxW7JL9Ed9qTgE2Lsm4mmlregxUY8wB+qjrpjd2zXvAKUGwtCcI+LV9NgME7w2mbIZ7ZYmYwWunOUeRWuQ5DgJQDb06siadFes26YVlvSC/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GZlTSItI; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="dt6Wd9v9"
-Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4TzT4N1nM1zKyh;
-	Tue, 19 Mar 2024 11:49:24 +0100 (CET)
-Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4TzT4M2rN3zMppDq;
-	Tue, 19 Mar 2024 11:49:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1710845364;
-	bh=b6/DRUF/Rej8WDS7Bj3R2nQv56pPXANLpZULDArZAX8=;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GZlTSItI"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0FB4420B74C1;
+	Wed, 20 Mar 2024 03:29:48 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0FB4420B74C1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1710930588;
+	bh=BtKE7O5OWVM7SyPdRoHlAAnjh2otvkVJidlO3O/WDfU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dt6Wd9v9s7y2a0+SICu9bRRW5ZYPFD8oy+ZMCaCtsDYCSZ772nsFkAmsLbvW9vagO
-	 +DYD6TNXy2wutdveoSRAxgdxsaIN64tLPy9SgQkojHLXaCU6C93LMlilcvWuZ8zKuk
-	 fiHo+SHrG/SK0M1I8pU7gd8w30m8uUqDYk5YZ4CM=
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Brendan Higgins <brendanhiggins@google.com>,
-	David Gow <davidgow@google.com>,
-	Rae Moar <rmoar@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Kees Cook <keescook@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Marco Pagani <marpagan@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thara Gopinath <tgopinath@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wanpeng Li <wanpengli@tencent.com>,
-	Zahra Tarkhani <ztarkhani@microsoft.com>,
-	kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
+	b=GZlTSItIwWHGgMiPlUxG/3JoY7ecboMtleAyJDeOHnNeNygG5C+/0dyHdocD/qyOa
+	 /y64qEL1WttEJkk9kAY9uTDHnbg3mPQJqrMv0LRAs1oOq5+zYCd7U/NPVAjeDdNSCr
+	 bZv5t5hbLvmrfVu59RU6b94UXXrKOZZqp4Gz9TlY=
+From: Saurabh Sengar <ssengar@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	x86@kernel.org
-Subject: [PATCH v3 5/7] kunit: Fix KUNIT_SUCCESS() calls in iov_iter tests
-Date: Tue, 19 Mar 2024 11:48:55 +0100
-Message-ID: <20240319104857.70783-6-mic@digikod.net>
-In-Reply-To: <20240319104857.70783-1-mic@digikod.net>
-References: <20240319104857.70783-1-mic@digikod.net>
+	linux-hyperv@vger.kernel.org
+Cc: longli@microsoft.com,
+	ssengar@microsoft.com
+Subject: [PATCH v2 1/7] Drivers: hv: vmbus: Add utility function for querying ring size
+Date: Wed, 20 Mar 2024 03:29:38 -0700
+Message-Id: <1710930584-31180-2-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
 
-Fix KUNIT_SUCCESS() calls to pass a test argument.
+Add a function to query for the preferred ring buffer size of VMBus
+device. This will allow the drivers (eg. UIO) to allocate the most
+optimized ring buffer size for devices.
 
-This is a no-op for now because this macro does nothing, but it will be
-required for the next commit.
-
-Cc: Brendan Higgins <brendanhiggins@google.com>
-Cc: Rae Moar <rmoar@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: David Gow <davidgow@google.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20240319104857.70783-6-mic@digikod.net
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Reviewed-by: Long Li <longli@microsoft.com>
 ---
+[V2]
+- Added more details in commit message.
+- Added comments for preferred ring sizes and there values.
+- Added reviewed-by from Long Li.
 
-Changes since v2:
-* Add David's Reviewed-by.
+ drivers/hv/channel_mgmt.c | 15 ++++++++++++---
+ drivers/hv/hyperv_vmbus.h |  5 +++++
+ include/linux/hyperv.h    |  2 ++
+ 3 files changed, 19 insertions(+), 3 deletions(-)
 
-Changes since v1:
-* Add Kees's Reviewed-by.
----
- lib/kunit_iov_iter.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/lib/kunit_iov_iter.c b/lib/kunit_iov_iter.c
-index 859b67c4d697..27e0c8ee71d8 100644
---- a/lib/kunit_iov_iter.c
-+++ b/lib/kunit_iov_iter.c
-@@ -139,7 +139,7 @@ static void __init iov_kunit_copy_to_kvec(struct kunit *test)
- 			return;
- 	}
+diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+index 2f4d09ce027a..3c6011a48dab 100644
+--- a/drivers/hv/channel_mgmt.c
++++ b/drivers/hv/channel_mgmt.c
+@@ -120,7 +120,9 @@ const struct vmbus_device vmbus_devs[] = {
+ 	},
  
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
+ 	/* File copy */
+-	{ .dev_type = HV_FCOPY,
++	/* fcopy always uses 16KB ring buffer size and is working well for last many years */
++	{ .pref_ring_size = 0x4000,
++	  .dev_type = HV_FCOPY,
+ 	  HV_FCOPY_GUID,
+ 	  .perf_device = false,
+ 	  .allowed_in_isolated = false,
+@@ -140,12 +142,19 @@ const struct vmbus_device vmbus_devs[] = {
+ 	  .allowed_in_isolated = false,
+ 	},
+ 
+-	/* Unknown GUID */
+-	{ .dev_type = HV_UNKNOWN,
++	/*
++	 * Unknown GUID
++	 * 64 KB ring buffer + 4 KB header should be sufficient size for any Hyper-V device apart
++	 * from HV_NIC and HV_SCSI. This case avoid the fallback for unknown devices to allocate
++	 * much bigger (2 MB) of ring size.
++	 */
++	{ .pref_ring_size = 0x11000,
++	  .dev_type = HV_UNKNOWN,
+ 	  .perf_device = false,
+ 	  .allowed_in_isolated = false,
+ 	},
+ };
++EXPORT_SYMBOL_GPL(vmbus_devs);
+ 
+ static const struct {
+ 	guid_t guid;
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index f6b1e710f805..76ac5185a01a 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -417,6 +417,11 @@ static inline bool hv_is_perf_channel(struct vmbus_channel *channel)
+ 	return vmbus_devs[channel->device_id].perf_device;
  }
  
- /*
-@@ -194,7 +194,7 @@ static void __init iov_kunit_copy_from_kvec(struct kunit *test)
- 			return;
- 	}
++static inline size_t hv_dev_ring_size(struct vmbus_channel *channel)
++{
++	return vmbus_devs[channel->device_id].pref_ring_size;
++}
++
+ static inline bool hv_is_allocated_cpu(unsigned int cpu)
+ {
+ 	struct vmbus_channel *channel, *sc;
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index 6ef0557b4bff..7de9f90d3f95 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -820,6 +820,8 @@ struct vmbus_requestor {
+ #define VMBUS_RQST_RESET (U64_MAX - 3)
  
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- struct bvec_test_range {
-@@ -302,7 +302,7 @@ static void __init iov_kunit_copy_to_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -359,7 +359,7 @@ static void __init iov_kunit_copy_from_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static void iov_kunit_destroy_xarray(void *data)
-@@ -453,7 +453,7 @@ static void __init iov_kunit_copy_to_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -516,7 +516,7 @@ static void __init iov_kunit_copy_from_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -596,7 +596,7 @@ static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -674,7 +674,7 @@ static void __init iov_kunit_extract_pages_bvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -753,7 +753,7 @@ static void __init iov_kunit_extract_pages_xarray(struct kunit *test)
- 	}
- 
- stop:
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static struct kunit_case __refdata iov_kunit_cases[] = {
+ struct vmbus_device {
++	/* preferred ring buffer size in KB, 0 means no preferred size for this device */
++	size_t pref_ring_size;
+ 	u16  dev_type;
+ 	guid_t guid;
+ 	bool perf_device;
 -- 
-2.44.0
+2.34.1
 
