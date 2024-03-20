@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC313D961;
-	Wed, 20 Mar 2024 10:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36CD340C0C;
+	Wed, 20 Mar 2024 10:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710930591; cv=none; b=rRiZUzbZNAOJg0+0lW5rkaEFqGPfB4dl+39y1Vq6PoUOcReBeTgcIKWJlrDHI7w3yx996h8qFw2xIoXFJA5/PweOIoOWBrIYtVbC+zFFwt2veTnygMr/EJC5V16eQ5xmCqaKZdQh1ITdbL0umEfCh0iT7sLn7tt+0gpYTATvOfQ=
+	t=1710930591; cv=none; b=k1boej/Ee0f0ukkHX5o0ST3FeI392VhFMJW+TDGR7UCT97jEferzsin7n3+95Jpkq107nsT9ReZeQjOY5XDO5IxyfK4I4S5u7aMcPpV6mhpQL2GPsiYaw3BTnKrPkjtovCvDQrj+PP7hX1rfzhg+FoTwjzNHnIgJuBitz7LJRms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1710930591; c=relaxed/simple;
-	bh=geAsHSgeoAGhC8U08DTF8rjrCr2+aPCGWcsh9myfgNc=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=TPUfICOT1/2W5hqxFKJ9N46TmizDDlFjuZ0D4WJ6G8Ub1PcgKOUpay97baRZ7nmE2CRkPXYOfMXirTAC9CVjUlVHZpP5hKklgcZ42WQBjZsCXhW9TqMiGIYAYPoGt9RTXGy6koQQeNDdgHvkTZOeB0cmVlVQ73hDaNfzkG3/Z6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Dsv+Xf4p; arc=none smtp.client-ip=13.77.154.182
+	bh=9653XaZCccTvubxzAH7uMrWyexERHI5ZBOzhYW1iEPE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=eaCKUEgWlaFzU+kI7VZPKParEnbC3OJQ99rucxt7k0DdLnaO6617RG3YCS5g3HaHgXiDnI3GjCoMLwSeoV8NKmNtu/3w4Jup0Vy1Gb3NcRY5Qg2250wtLSn1f4IzlpcgYnb1X7pyqj+ZFz4dJ2GZq4RgtwvQqUl2Jt+HuB6DK10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LGwo4rz+; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Dsv+Xf4p"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LGwo4rz+"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EB0ED20B74C0;
-	Wed, 20 Mar 2024 03:29:47 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EB0ED20B74C0
+	by linux.microsoft.com (Postfix) with ESMTPSA id A0A8420B74C7;
+	Wed, 20 Mar 2024 03:29:48 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A0A8420B74C7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1710930588;
-	bh=1+6DqdSL8zTYy13g+Zh/YVDiL5MLBwy/pU0R6IovjBU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Dsv+Xf4pkeaucoCXAC4tzMtQuTxroWZt/sWPJvKnrM6U6ty7kLrkhheX5uMeiT7zR
-	 CiGsAX02rA34y8j6HK8l1Lv7Ct1v3ycR9XaAj6cMaOrVIAl4VMW6q0WAA7gF6gggfD
-	 yBX+k4v2VTlc6Mnb5EUR9PYn1JUIgzB5ZEI1BepM=
+	bh=olYvZHNXlz3AXQeX5LfF8FHqGubxvfHVp6D6F2JpFFs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LGwo4rz+Y+5fnAPonE4TCWUlWUQZcDLLcseguFzS4p9Wqge+UX2xSqunoIe3TrXsF
+	 e3uGH6Xn978q3jUDkYamwuSMCeqtmxWnkPQEAgoSPBpHpBQ+z4wA87Kf5uRwzA/98s
+	 9L61oFtSUGs6eyXsgeRUdhLVBYeggeqc4Fpa3EM8=
 From: Saurabh Sengar <ssengar@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -34,92 +34,67 @@ To: kys@microsoft.com,
 	linux-hyperv@vger.kernel.org
 Cc: longli@microsoft.com,
 	ssengar@microsoft.com
-Subject: [PATCH v2 0/7] Low speed Hyper-V devices support
-Date: Wed, 20 Mar 2024 03:29:37 -0700
-Message-Id: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v2 7/7] uio_hv_generic: Remove use of PAGE_SIZE
+Date: Wed, 20 Mar 2024 03:29:44 -0700
+Message-Id: <1710930584-31180-8-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Hyper-V is adding multiple low speed "speciality" synthetic devices.
-Instead of writing a new kernel-level VMBus driver for each device,
-make the devices accessible to user space through UIO-based
-uio_hv_generic driver. Each device can then be supported by a user
-space driver. This approach optimizes the development process and
-provides flexibility to user space applications to control the key
-interactions with the VMBus ring buffer.
+Remove use of PAGE_SIZE for device ring buffer size calculation, as
+there is no dependency on device ring buffer size for linux kernel's
+PAGE_SIZE. Use the absolute value of 2 MB instead.
 
-The new synthetic devices are low speed devices that don't support
-VMBus monitor bits, and so they must use vmbus_setevent() to notify
-the host of ring buffer updates. These new devices also have smaller
-ring buffer sizes which requires to add support for variable ring buffer
-sizes.
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Reviewed-by: Long Li <longli@microsoft.com>
+---
+ drivers/uio/uio_hv_generic.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-Moreover, this patch series adds a new implementation of the fcopy
-application that uses the new UIO driver. The older fcopy driver and
-application will be phased out gradually. Development of other similar
-userspace drivers is still underway.
-
-Efforts have been made previously to implement this solution earlier.
-Here are the discussions related to those attempts:
-Attempt 1: Upgrade uio_hv_generic to cater to Underhill slow devices. But this was rejected due
-to use of module parameters.
-https://lore.kernel.org/lkml/1665575806-27990-1-git-send-email-ssengar@linux.microsoft.com/
-
-Attempt 2: Enable interrupt for low speed VMBus devices in uio_hv_generic and was rejected due to
-unavailability of userspace driver for it.
-https://lore.kernel.org/lkml/Y05bdCWBs0miLjOu@kroah.com/
-
-Attempt 3: Wrote a new UIO driver but was rejected due to its complexity.
-https://lore.kernel.org/lkml/1691132996-11706-1-git-send-email-ssengar@linux.microsoft.com/
-
-
-[V2]
-- Went through internal review, got few reviewed-by from Long Li.
-- Added more details in cover letter for previous attempts.
-- Added more details in commit messages.
-- Added comments for preferred ring sizes and there values.
-- Removed need_sign arg from vmbus_txbr_write
-- Change (4 * 4096) to 0x4000 for ring buffer size.
-- Removed some unnecessary type casting.
-- Removed rte_smp_rwmb as its duplicate of rte_compiler_barrier.
-- Added more comment for rte_compiler_barrierx.
-- Mentioned in file copyright header that this code is copied.
-- Changed the print from "Registration failed" to "Signal to host failed".
-- Fixed mask for rx buffer interrupt to 0 before waiting for interrupt.
-
-Saurabh Sengar (7):
-  Drivers: hv: vmbus: Add utility function for querying ring size
-  uio_hv_generic: Query the ringbuffer size for device
-  uio_hv_generic: Enable interrupt for low speed VMBus devices
-  tools: hv: Add vmbus_bufring
-  tools: hv: Add new fcopy application based on uio driver
-  Drivers: hv: Remove fcopy driver
-  uio_hv_generic: Remove use of PAGE_SIZE
-
- drivers/hv/Makefile            |   2 +-
- drivers/hv/channel_mgmt.c      |  15 +-
- drivers/hv/hv_fcopy.c          | 427 ----------------------------
- drivers/hv/hv_util.c           |  12 -
- drivers/hv/hyperv_vmbus.h      |   5 +
- drivers/uio/uio_hv_generic.c   |  19 +-
- include/linux/hyperv.h         |   2 +
- tools/hv/Build                 |   3 +-
- tools/hv/Makefile              |  10 +-
- tools/hv/hv_fcopy_daemon.c     | 266 ------------------
- tools/hv/hv_fcopy_uio_daemon.c | 490 +++++++++++++++++++++++++++++++++
- tools/hv/vmbus_bufring.c       | 318 +++++++++++++++++++++
- tools/hv/vmbus_bufring.h       | 158 +++++++++++
- 13 files changed, 1002 insertions(+), 725 deletions(-)
- delete mode 100644 drivers/hv/hv_fcopy.c
- delete mode 100644 tools/hv/hv_fcopy_daemon.c
- create mode 100644 tools/hv/hv_fcopy_uio_daemon.c
- create mode 100644 tools/hv/vmbus_bufring.c
- create mode 100644 tools/hv/vmbus_bufring.h
-
+diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+index 289611c7dfd7..015ddbddd6e1 100644
+--- a/drivers/uio/uio_hv_generic.c
++++ b/drivers/uio/uio_hv_generic.c
+@@ -36,7 +36,6 @@
+ #define DRIVER_AUTHOR	"Stephen Hemminger <sthemmin at microsoft.com>"
+ #define DRIVER_DESC	"Generic UIO driver for VMBus devices"
+ 
+-#define HV_RING_SIZE	 512	/* pages */
+ #define SEND_BUFFER_SIZE (16 * 1024 * 1024)
+ #define RECV_BUFFER_SIZE (31 * 1024 * 1024)
+ 
+@@ -146,7 +145,7 @@ static const struct bin_attribute ring_buffer_bin_attr = {
+ 		.name = "ring",
+ 		.mode = 0600,
+ 	},
+-	.size = 2 * HV_RING_SIZE * PAGE_SIZE,
++	.size = 2 * SZ_2M,
+ 	.mmap = hv_uio_ring_mmap,
+ };
+ 
+@@ -156,7 +155,7 @@ hv_uio_new_channel(struct vmbus_channel *new_sc)
+ {
+ 	struct hv_device *hv_dev = new_sc->primary_channel->device_obj;
+ 	struct device *device = &hv_dev->device;
+-	const size_t ring_bytes = HV_RING_SIZE * PAGE_SIZE;
++	const size_t ring_bytes = SZ_2M;
+ 	int ret;
+ 
+ 	/* Create host communication ring */
+@@ -244,7 +243,7 @@ hv_uio_probe(struct hv_device *dev,
+ 	size_t ring_size = hv_dev_ring_size(channel);
+ 
+ 	if (!ring_size)
+-		ring_size = HV_RING_SIZE * PAGE_SIZE;
++		ring_size = SZ_2M;
+ 
+ 	pdata = devm_kzalloc(&dev->device, sizeof(*pdata), GFP_KERNEL);
+ 	if (!pdata)
 -- 
 2.34.1
 
