@@ -1,33 +1,33 @@
-Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [45.157.188.9])
+Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [84.16.66.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE685D734
-	for <linux-hyperv@vger.kernel.org>; Tue, 26 Mar 2024 10:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51456027D
+	for <linux-hyperv@vger.kernel.org>; Tue, 26 Mar 2024 10:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711447238; cv=none; b=g3ibyz3kPBwddGQWd40AFGC4QJzqLBBCKt/bBd3zyjW6HzUqV69y2laHG2gue1MmHudoA0MhGSAXXB2GmPE+qC/kAGgLpPhPq1h361KImzMskOvEDXfUYgiGoJx8isYhp/Jhqa1wHFENAvxgPdcWWyPCn6E75UW5BWvRygiiysc=
+	t=1711447239; cv=none; b=G5YUOGpPHLv0YS5nZ4MPcERsgg8/dT7922As1hZgT9bZw36Oxyp5M2a+2JiTcbGvkNPUe091m4M4PS/n/2ryoEc5mvL51eVv0Y9MKP4cTXanDMMVVAcVCwsJ+vRsARuuXyH+JNJSQto593Eq9tadfB7GwZCz8FGqTTuDAyipc9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711447238; c=relaxed/simple;
-	bh=pBMis6waGtJRvazqv7DmqZ/uoc/dd8l3LTTdLpiJnSE=;
+	s=arc-20240116; t=1711447239; c=relaxed/simple;
+	bh=Y/Fe2nuAfbquShRDARDpQDHohV/57OtC56bvtHvFkQU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fVKGfBOBpXvTkOYrF5fBk1emIe258nY8Z8EogT1iiqfftnx5ekMg2alqyp457Qd3UxZfzePrBJE1udXsBcguqeIM64y0CsBUgrIgPxu3ncwQFz1PTqR+UwQA17Fw3/ejWPwkqSEMeOrBgbWZq214u4Bv+slQH6kalXqPcjy3sAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=lcTiXieD; arc=none smtp.client-ip=45.157.188.9
+	 MIME-Version:Content-Type; b=lGMaN7Ba/X3AllhNsgvr3haGuL2ZIEpx1gPFzTUVnHUGdEkFshIJK3iWLpi4vo7yI9KFA3RdiqYHRtTJtA8wR6VTl8vj1+UhTnxuzu2WrSS8ssrMveyj8CD5Y0tMRHp7WVm8z1hpyHp+2F8wR2Z4mjuX/nxpr0TfbBWDJwcTbvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=1AtP0dK4; arc=none smtp.client-ip=84.16.66.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="lcTiXieD"
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4V3lST28FvzNkr;
-	Tue, 26 Mar 2024 10:51:37 +0100 (CET)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1AtP0dK4"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4V3lSX6rTmzdbd;
+	Tue, 26 Mar 2024 10:51:40 +0100 (CET)
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4V3lSX10Q6zr3;
+	Tue, 26 Mar 2024 10:51:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1711446697;
-	bh=pBMis6waGtJRvazqv7DmqZ/uoc/dd8l3LTTdLpiJnSE=;
+	s=20191114; t=1711446700;
+	bh=Y/Fe2nuAfbquShRDARDpQDHohV/57OtC56bvtHvFkQU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lcTiXieDNEC8hrQOmhiQwYuzDC/abUeUVkm+eGtlEKIbs1DqKddPBomjStsLx5Pof
-	 +GBBH894Fathn8a8uU0APDC9BeGyyIuewqaT5TjDoEJ8faSPu6yb5HQvClE1zGYZwF
-	 rSYthP6yna4iQmxh7yqy/TZhYY1Oi2PuTwNzpp1U=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4V3lSS4QkWzJRS;
-	Tue, 26 Mar 2024 10:51:36 +0100 (CET)
+	b=1AtP0dK4lGWiJBWrC6gdBjuStkRbjbhImxROzZHC0nMwtvBS2EpG7j8RN9dDDPUhi
+	 53sMgMi/qpmTJ9qkmUels/+60Noy+K7HUN9LGdqs5dXy4/BATJOPIdSXgBvwQsqp4Y
+	 +1lmwy7NXcJ+NFlwsTRhftchRgJF3iUi4KPspEck=
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Brendan Higgins <brendanhiggins@google.com>,
 	David Gow <davidgow@google.com>,
@@ -59,9 +59,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-security-module@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	x86@kernel.org
-Subject: [PATCH v4 2/7] kunit: Fix kthread reference
-Date: Tue, 26 Mar 2024 10:51:13 +0100
-Message-ID: <20240326095118.126696-3-mic@digikod.net>
+Subject: [PATCH v4 5/7] kunit: Fix KUNIT_SUCCESS() calls in iov_iter tests
+Date: Tue, 26 Mar 2024 10:51:16 +0100
+Message-ID: <20240326095118.126696-6-mic@digikod.net>
 In-Reply-To: <20240326095118.126696-1-mic@digikod.net>
 References: <20240326095118.126696-1-mic@digikod.net>
 Precedence: bulk
@@ -74,68 +74,114 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-There is a race condition when a kthread finishes after the deadline and
-before the call to kthread_stop(), which may lead to use after free.
+Fix KUNIT_SUCCESS() calls to pass a test argument.
+
+This is a no-op for now because this macro does nothing, but it will be
+required for the next commit.
 
 Cc: Brendan Higgins <brendanhiggins@google.com>
+Cc: Rae Moar <rmoar@google.com>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
 Reviewed-by: Kees Cook <keescook@chromium.org>
-Fixes: adf505457032 ("kunit: fix UAF when run kfence test case test_gfpzero")
 Reviewed-by: David Gow <davidgow@google.com>
-Reviewed-by: Rae Moar <rmoar@google.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20240326095118.126696-3-mic@digikod.net
+Link: https://lore.kernel.org/r/20240326095118.126696-6-mic@digikod.net
 ---
 
 Changes since v2:
-* Add Fixes tag as suggested by David.
-* Add David's and Rae's Reviewed-by.
+* Add David's Reviewed-by.
 
 Changes since v1:
 * Add Kees's Reviewed-by.
 ---
- lib/kunit/try-catch.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ lib/kunit_iov_iter.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
-index a5cb2ef70a25..73f5007f20ea 100644
---- a/lib/kunit/try-catch.c
-+++ b/lib/kunit/try-catch.c
-@@ -11,6 +11,7 @@
- #include <linux/completion.h>
- #include <linux/kernel.h>
- #include <linux/kthread.h>
-+#include <linux/sched/task.h>
- 
- #include "try-catch-impl.h"
- 
-@@ -65,14 +66,15 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
- 	try_catch->context = context;
- 	try_catch->try_completion = &try_completion;
- 	try_catch->try_result = 0;
--	task_struct = kthread_run(kunit_generic_run_threadfn_adapter,
--				  try_catch,
--				  "kunit_try_catch_thread");
-+	task_struct = kthread_create(kunit_generic_run_threadfn_adapter,
-+				     try_catch, "kunit_try_catch_thread");
- 	if (IS_ERR(task_struct)) {
- 		try_catch->try_result = PTR_ERR(task_struct);
- 		try_catch->catch(try_catch->context);
- 		return;
- 	}
-+	get_task_struct(task_struct);
-+	wake_up_process(task_struct);
- 
- 	time_remaining = wait_for_completion_timeout(&try_completion,
- 						     kunit_test_timeout());
-@@ -82,6 +84,7 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
- 		kthread_stop(task_struct);
+diff --git a/lib/kunit_iov_iter.c b/lib/kunit_iov_iter.c
+index 859b67c4d697..27e0c8ee71d8 100644
+--- a/lib/kunit_iov_iter.c
++++ b/lib/kunit_iov_iter.c
+@@ -139,7 +139,7 @@ static void __init iov_kunit_copy_to_kvec(struct kunit *test)
+ 			return;
  	}
  
-+	put_task_struct(task_struct);
- 	exit_code = try_catch->try_result;
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
  
- 	if (!exit_code)
+ /*
+@@ -194,7 +194,7 @@ static void __init iov_kunit_copy_from_kvec(struct kunit *test)
+ 			return;
+ 	}
+ 
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ struct bvec_test_range {
+@@ -302,7 +302,7 @@ static void __init iov_kunit_copy_to_bvec(struct kunit *test)
+ 			return;
+ 	}
+ 
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ /*
+@@ -359,7 +359,7 @@ static void __init iov_kunit_copy_from_bvec(struct kunit *test)
+ 			return;
+ 	}
+ 
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ static void iov_kunit_destroy_xarray(void *data)
+@@ -453,7 +453,7 @@ static void __init iov_kunit_copy_to_xarray(struct kunit *test)
+ 			return;
+ 	}
+ 
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ /*
+@@ -516,7 +516,7 @@ static void __init iov_kunit_copy_from_xarray(struct kunit *test)
+ 			return;
+ 	}
+ 
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ /*
+@@ -596,7 +596,7 @@ static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
+ stop:
+ 	KUNIT_EXPECT_EQ(test, size, 0);
+ 	KUNIT_EXPECT_EQ(test, iter.count, 0);
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ /*
+@@ -674,7 +674,7 @@ static void __init iov_kunit_extract_pages_bvec(struct kunit *test)
+ stop:
+ 	KUNIT_EXPECT_EQ(test, size, 0);
+ 	KUNIT_EXPECT_EQ(test, iter.count, 0);
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ /*
+@@ -753,7 +753,7 @@ static void __init iov_kunit_extract_pages_xarray(struct kunit *test)
+ 	}
+ 
+ stop:
+-	KUNIT_SUCCEED();
++	KUNIT_SUCCEED(test);
+ }
+ 
+ static struct kunit_case __refdata iov_kunit_cases[] = {
 -- 
 2.44.0
 
