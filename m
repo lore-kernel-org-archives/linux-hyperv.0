@@ -1,187 +1,113 @@
-Received: from smtp-42ab.mail.infomaniak.ch (smtp-42ab.mail.infomaniak.ch [84.16.66.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51456027D
-	for <linux-hyperv@vger.kernel.org>; Tue, 26 Mar 2024 10:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.171
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2024F23763;
+	Wed, 27 Mar 2024 03:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711447239; cv=none; b=G5YUOGpPHLv0YS5nZ4MPcERsgg8/dT7922As1hZgT9bZw36Oxyp5M2a+2JiTcbGvkNPUe091m4M4PS/n/2ryoEc5mvL51eVv0Y9MKP4cTXanDMMVVAcVCwsJ+vRsARuuXyH+JNJSQto593Eq9tadfB7GwZCz8FGqTTuDAyipc9c=
+	t=1711510839; cv=none; b=SYoyMloI0rnB1J9Lum4wAKiKCHm9S42ntqiPenID/RlYEnA9+JOQopZxHeCwtEkvHrB1QzgHHZiRTBoms4Ng9p0TSxqKAv10aqvt8sNS2CyvbD5sA0UZjan75857WepcYy3Jr85iw7h87jM5CZPu+QiOmOC3YaUc8PTdqETyE8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711447239; c=relaxed/simple;
-	bh=Y/Fe2nuAfbquShRDARDpQDHohV/57OtC56bvtHvFkQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lGMaN7Ba/X3AllhNsgvr3haGuL2ZIEpx1gPFzTUVnHUGdEkFshIJK3iWLpi4vo7yI9KFA3RdiqYHRtTJtA8wR6VTl8vj1+UhTnxuzu2WrSS8ssrMveyj8CD5Y0tMRHp7WVm8z1hpyHp+2F8wR2Z4mjuX/nxpr0TfbBWDJwcTbvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=1AtP0dK4; arc=none smtp.client-ip=84.16.66.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1711510839; c=relaxed/simple;
+	bh=Qy9jNwoADlloXLB/O/YDSRWz34f2X4WLlvwpB0CLSKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=psiGWiuv74xW2BcisIbYtPkwLI+L8H4DbjlO8pjl+N4SIFNMbXF72mez0VOmkPkRtYsqpHZb7lSIjslPu53VrBBFMkBYFYoSjpZsiXirq2rsBDyiz7ujpCXbWcKtMOaF/rk5qmlaW9fz8e3atlfO/bIVsu/esQ6GmnYOGg94et8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=KH+PR2NJ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="1AtP0dK4"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4V3lSX6rTmzdbd;
-	Tue, 26 Mar 2024 10:51:40 +0100 (CET)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4V3lSX10Q6zr3;
-	Tue, 26 Mar 2024 10:51:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1711446700;
-	bh=Y/Fe2nuAfbquShRDARDpQDHohV/57OtC56bvtHvFkQU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=1AtP0dK4lGWiJBWrC6gdBjuStkRbjbhImxROzZHC0nMwtvBS2EpG7j8RN9dDDPUhi
-	 53sMgMi/qpmTJ9qkmUels/+60Noy+K7HUN9LGdqs5dXy4/BATJOPIdSXgBvwQsqp4Y
-	 +1lmwy7NXcJ+NFlwsTRhftchRgJF3iUi4KPspEck=
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Brendan Higgins <brendanhiggins@google.com>,
-	David Gow <davidgow@google.com>,
-	Rae Moar <rmoar@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Kees Cook <keescook@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Marco Pagani <marpagan@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thara Gopinath <tgopinath@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Zahra Tarkhani <ztarkhani@microsoft.com>,
-	kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	x86@kernel.org
-Subject: [PATCH v4 5/7] kunit: Fix KUNIT_SUCCESS() calls in iov_iter tests
-Date: Tue, 26 Mar 2024 10:51:16 +0100
-Message-ID: <20240326095118.126696-6-mic@digikod.net>
-In-Reply-To: <20240326095118.126696-1-mic@digikod.net>
-References: <20240326095118.126696-1-mic@digikod.net>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="KH+PR2NJ"
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+	id 820E7208444F; Tue, 26 Mar 2024 20:40:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 820E7208444F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1711510837;
+	bh=4WwOkF9QcocRskGPQZaISh5gvanICY1Ewo+yRt6ITI4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KH+PR2NJT9MAI9WHMxn7DG+mfgYB4OiJWsDUCRNM/0e1hq7N/Q9iYajobG1DJH04m
+	 x7zHhawGfqygZbnDkrYZB8OAnz63zhnSRkeodlvJ/Nf/CWNlcTUMUlBBqseJanUmJw
+	 hyOo4nLVdBVKIkPnXe9B+FgpZZqYFFFlCLUsw7NM=
+Date: Tue, 26 Mar 2024 20:40:37 -0700
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Long Li <longli@microsoft.com>
+Cc: KY Srinivasan <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	Saurabh Singh Sengar <ssengar@microsoft.com>
+Subject: Re: [PATCH v2 5/7] tools: hv: Add new fcopy application based on uio
+ driver
+Message-ID: <20240327034037.GA22340@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1710930584-31180-1-git-send-email-ssengar@linux.microsoft.com>
+ <1710930584-31180-6-git-send-email-ssengar@linux.microsoft.com>
+ <SJ1PR21MB3457E5B4D852A914CD691E53CE322@SJ1PR21MB3457.namprd21.prod.outlook.com>
+ <20240321180705.GA12387@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240321180705.GA12387@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-Fix KUNIT_SUCCESS() calls to pass a test argument.
+On Thu, Mar 21, 2024 at 11:07:06AM -0700, Saurabh Singh Sengar wrote:
+> On Thu, Mar 21, 2024 at 04:42:44PM +0000, Long Li wrote:
+> > > Subject: [PATCH v2 5/7] tools: hv: Add new fcopy application based on uio driver
+> > > 
+> > > New fcopy application using uio_hv_generic driver. This application copies file
+> > > from Hyper-V host to guest VM.
+> > > 
+> > > A big part of this code is copied from tools/hv/hv_fcopy_daemon.c which this new
+> > > application is replacing.
+> > > 
+> > > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+> > > ---
+> > > [V2]
+> > > - Improve commit message.
+> > > - Change (4 * 4096) to 0x4000 for ring buffer size
+> > > - Removed some unnecessary type casting.
+> > > - Mentioned in file copy right header that this code is copied.
+> > > - Changed the print from "Registration failed" to "Signal to host failed".
+> > > - Fixed mask for rx buffer interrupt to 0 before waiting for interrupt.
+> > > 
+> > >  tools/hv/Build                 |   3 +-
+> > >  tools/hv/Makefile              |  10 +-
+> > >  tools/hv/hv_fcopy_uio_daemon.c | 490
+> > > +++++++++++++++++++++++++++++++++
+> > >  3 files changed, 497 insertions(+), 6 deletions(-)  create mode 100644
+> > > tools/hv/hv_fcopy_uio_daemon.c
+> > > 
+> > > diff --git a/tools/hv/Build b/tools/hv/Build index 6cf51fa4b306..7d1f1698069b
+> > > 100644
+> > > --- a/tools/hv/Build
+> > > +++ b/tools/hv/Build
+> > > @@ -1,3 +1,4 @@
+> > >  hv_kvp_daemon-y += hv_kvp_daemon.o
+> > >  hv_vss_daemon-y += hv_vss_daemon.o
+> > > -hv_fcopy_daemon-y += hv_fcopy_daemon.o
+> > > +hv_fcopy_uio_daemon-y += hv_fcopy_uio_daemon.o hv_fcopy_uio_daemon-y
+> > > +=
+> > > +vmbus_bufring.o
+> > > diff --git a/tools/hv/Makefile b/tools/hv/Makefile index
+> > > fe770e679ae8..944180cf916e 100644
+> > > --- a/tools/hv/Makefile
+> > > +++ b/tools/hv/Makefile
+> > 
+> > I'm not sure if vmbus_bufring will compile on ARM.
+> > If it's not supported, can use some flags in Makefile to not build this.
+> 
+> You are right, this is not supported on ARM64. I can query uname in Makefile
+> and compile this only for arch != aarch64.
+> I will add this info in commit message as well.
+> 
+> - Saurabh
 
-This is a no-op for now because this macro does nothing, but it will be
-required for the next commit.
+Greg/Long,
 
-Cc: Brendan Higgins <brendanhiggins@google.com>
-Cc: Rae Moar <rmoar@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: David Gow <davidgow@google.com>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20240326095118.126696-6-mic@digikod.net
----
+I will be sending the V3 fixing above comment. Hope there are no
+further comments.
 
-Changes since v2:
-* Add David's Reviewed-by.
-
-Changes since v1:
-* Add Kees's Reviewed-by.
----
- lib/kunit_iov_iter.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/lib/kunit_iov_iter.c b/lib/kunit_iov_iter.c
-index 859b67c4d697..27e0c8ee71d8 100644
---- a/lib/kunit_iov_iter.c
-+++ b/lib/kunit_iov_iter.c
-@@ -139,7 +139,7 @@ static void __init iov_kunit_copy_to_kvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -194,7 +194,7 @@ static void __init iov_kunit_copy_from_kvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- struct bvec_test_range {
-@@ -302,7 +302,7 @@ static void __init iov_kunit_copy_to_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -359,7 +359,7 @@ static void __init iov_kunit_copy_from_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static void iov_kunit_destroy_xarray(void *data)
-@@ -453,7 +453,7 @@ static void __init iov_kunit_copy_to_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -516,7 +516,7 @@ static void __init iov_kunit_copy_from_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -596,7 +596,7 @@ static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -674,7 +674,7 @@ static void __init iov_kunit_extract_pages_bvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -753,7 +753,7 @@ static void __init iov_kunit_extract_pages_xarray(struct kunit *test)
- 	}
- 
- stop:
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static struct kunit_case __refdata iov_kunit_cases[] = {
--- 
-2.44.0
-
+- Saurabh
