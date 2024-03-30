@@ -1,49 +1,94 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC418881F;
-	Sat, 30 Mar 2024 05:09:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE03E1364;
+	Sat, 30 Mar 2024 08:52:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711775378; cv=none; b=J2To2Lhq85ZFojmngbf9Rd2Mj5ms+UidEaAhID5Cls5jfirY140/4ZcQBVSb9MCI8BR7lpsuHlvIKNporBK++aQ1G2FYDH8uw9Gsh/HMDWLDhcRwhwHgGawg5QumxaRy4MdTjBwlzYu4ZsZ2Q4Eu8YyRyCKhgMeXX2DzA2pRxMA=
+	t=1711788731; cv=none; b=EvdGK8rQAv0xH/3LVZnj4AhC+ToPZnlnNjy+NMSpHdQlmCk8JwnGqmRsA8hVqG4SuIauwu6eynKJSrH1mHhkd4haYtZ2H5ujkWw5KPomrTBImBqADotE+w0MtmVC0oVUTslxah5zJpmngBJt82I2lz3W2IFpIGllzT5CAtbE/Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711775378; c=relaxed/simple;
-	bh=zzAqp9Ee+PZWq3o6G8bBQOO7w1V18fOd0hRGiHxocjM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IvLrsm3253zO6lsnivfHwU5sz8s2E3/pRW3gCaOm7HRHnCOLHyXFnBXOYtRwJc2VOgjAuRDEPBw59BxyRkUawJpau/Aad/loPZkWw3xUM2eYVmxSSyTGnIWixZAQGbARWucOMD953Yq4pyulziZbSx0BTh1EdaCGyIt9lPgtlQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fGoORLSH; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1711788731; c=relaxed/simple;
+	bh=OtlHloyPyeniToJMbwKNtvJXxZeJasCcJsQXkoFTzzc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=lQdvK8aYM0oueftR9+xePz0aNk07P9RL6ksUaU+2h5c4PUD2cH7B2+VH79q3VJpZPvdd37rLoeJkW2bhIVrB3slFJ82MK/24HPBzqgU90IA66or9Df5OcHEXlIzgx0LgopNGjF6xzqdHjRjPWgJjyqkJPDApZQLgTrZt028sMQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=D54BZHR2; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fGoORLSH"
-Received: by linux.microsoft.com (Postfix, from userid 1127)
-	id 45AFB20E702E; Fri, 29 Mar 2024 22:09:36 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 45AFB20E702E
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="D54BZHR2"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7342A20E703E;
+	Sat, 30 Mar 2024 01:52:08 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7342A20E703E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1711775376;
-	bh=zzAqp9Ee+PZWq3o6G8bBQOO7w1V18fOd0hRGiHxocjM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fGoORLSH0PfgHwBBc+y1Rs7/mSMc2FA+Uy+DfDUipLxf21MpyO8vsL8zpktekHrWN
-	 ppDuDxQskgRcqF+pU81UrwDP0tDlbwzZ2BbhDfywpA5cXSbz9uWy6FSStRCglfM4sQ
-	 RkBaks1XhMCntEJHDGxWc8AEziXZepKpJoJIQrk8=
-Date: Fri, 29 Mar 2024 22:09:36 -0700
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Aditya Nagesh <adityanagesh@linux.microsoft.com>
-Cc: adityanagesh@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com,
-	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Drivers: hv: Fix Issues reported by checkpatch.pl script
-Message-ID: <20240330050936.GA11602@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1711432061-30952-1-git-send-email-adityanagesh@linux.microsoft.com>
+	s=default; t=1711788728;
+	bh=8sNJLDeO3//ygBsBaKWyExrUSf4lpQZ7TMC4jMog21w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=D54BZHR26li1e814c33xIfuMPgNRUlm5b1WrYcx2IFBwAF7pvLS8ttcsTINmxRBsZ
+	 scD/buIbapJklPb7yHT1hBvs0zUlypEktfGkAl6ZFSL2BY8Ej9bTtrkfgHg2UQwDxb
+	 5BiD2TcQKEgASKQzO3nR8ZWmqgrt6zFVsGtTCbsc=
+From: Saurabh Sengar <ssengar@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org
+Cc: longli@microsoft.com,
+	ssengar@microsoft.com
+Subject: [PATCH v3 3/7] uio_hv_generic: Enable interrupt for low speed VMBus devices
+Date: Sat, 30 Mar 2024 01:51:59 -0700
+Message-Id: <1711788723-8593-4-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1711788723-8593-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1711788723-8593-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1711432061-30952-1-git-send-email-adityanagesh@linux.microsoft.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 
-no mention of checkptach.pl in subject line please
+Hyper-V is adding some "specialty" synthetic devices. Instead of writing
+new kernel-level VMBus drivers for these devices, the devices will be
+presented to user space via this existing Hyper-V generic UIO driver, so
+that a user space driver can handle the device. Since these new synthetic
+devices are low speed devices, they don't support monitor bits and we must
+use vmbus_setevent() to enable interrupts from the host.
 
-- Saurabh
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+Reviewed-by: Long Li <longli@microsoft.com>
+---
+[V2]
+- Added Reviewed-by form Long Li
+
+ drivers/uio/uio_hv_generic.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+index 4bda6b52e49e..289611c7dfd7 100644
+--- a/drivers/uio/uio_hv_generic.c
++++ b/drivers/uio/uio_hv_generic.c
+@@ -84,6 +84,9 @@ hv_uio_irqcontrol(struct uio_info *info, s32 irq_state)
+ 	dev->channel->inbound.ring_buffer->interrupt_mask = !irq_state;
+ 	virt_mb();
+ 
++	if (!dev->channel->offermsg.monitor_allocated && irq_state)
++		vmbus_setevent(dev->channel);
++
+ 	return 0;
+ }
+ 
+@@ -240,12 +243,6 @@ hv_uio_probe(struct hv_device *dev,
+ 	int ret;
+ 	size_t ring_size = hv_dev_ring_size(channel);
+ 
+-	/* Communicating with host has to be via shared memory not hypercall */
+-	if (!channel->offermsg.monitor_allocated) {
+-		dev_err(&dev->device, "vmbus channel requires hypercall\n");
+-		return -ENOTSUPP;
+-	}
+-
+ 	if (!ring_size)
+ 		ring_size = HV_RING_SIZE * PAGE_SIZE;
+ 
+-- 
+2.34.1
+
