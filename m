@@ -1,123 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D7B84A52;
-	Tue,  2 Apr 2024 13:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 771A813958B;
+	Tue,  2 Apr 2024 14:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712063487; cv=none; b=Ab+4DOG88HjoOiv4xBM47NxBmgiUFTY3Hy9u7A04HCzOSu5NaXU36utXhJrr9XqYteA58Vepp88PWfxm6gwz+AkPWWY6MSEYgos95d9h2owMCb5CDLtcG02ywQd3NJT2J8z8KmBjuZNtjiGNR8lguydLm74MZtOuQ/1o9cukWos=
+	t=1712068835; cv=none; b=IVLQW/lwC3rRFBCccXoWimsgJBQGQXVUd124ZogdclQ4vVgYqNt2NNOsxDQwXb3wr5rBImygfNhLAOxPT8KUb9PgrwCJC+pElpvgFZsWpucBr2OXUdw0loWi31cAAXVtBt2O/CNdX5AHG8NN+BF/WYCNEu/G7NYPq2lKkUgP9/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712063487; c=relaxed/simple;
-	bh=9zAsnZKUtdaB+0oUBoSFWoiBkfOWRDSb/L5GPa9FOno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YxBMH/vw9BRleuY+Tgiarjh9bwd72GPxFeu0mmPcJREbnWAJBZN/yKpfG4Kaaw+TbuiZXI9i0CP5GUV3A+mByQFFdOpijlcJdW5RjXrn4OVvBEWp4ZFd+dDZ7/Uk5W0BYB24fbqwaTmKHhiEhGZq2SnC/vrbfUdgjDel2Xq/w7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLBmLWbF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712068835; c=relaxed/simple;
+	bh=1hJbsqhoLnBielyur7kmAgd+m/zUyjW+WQucPoT35FI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=sDwH5af8Rj9/yuYB7cYk6OyApWmg+Dib7DA4LAUM8iKvsmumvzObZreHtMw8xdTt1PTrusLr83TBxORhppuVeIMySpa1W5PyUixczeXdup2jqagbSnNeQt7TVgthUcHJ7u4IhK3eBou8iRltJ7/XSisop7FdETaPN/7Nij6hy+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=L4r7T8rm; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLBmLWbF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE50C433F1;
-	Tue,  2 Apr 2024 13:11:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712063486;
-	bh=9zAsnZKUtdaB+0oUBoSFWoiBkfOWRDSb/L5GPa9FOno=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pLBmLWbFq8b7R4iZ1CSvRnROpQc318dtdynLw3zTplx/2SSnxsPhnBaGB0KWLxJLw
-	 gtTVGsvy4tfXtBGJpBXwq9+p3MCPwkvK/hDkMvCwjFUh5usnZu6XFTibfhvcKn+2H6
-	 bNq+gdNLc+F4UpxqMWgGKmEwi+KPVyCSJwAIqsT2U4GGmN/LnMTaAplp/AjMnXlBu3
-	 Ft/ordeAQQOyjQYy8NAB2+7Nq/5pKWCsboYnCGnNR1VKTyBFWEf/lcch7254rsWnWE
-	 MLVvNT3x0cyP38rdvhtkwlombEcbUi6JLHcn3CjFq0MSnQTG+8Cf+UPPNEYFD7jwHP
-	 CjyG1mwKRgoUQ==
-Date: Tue, 2 Apr 2024 18:41:22 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	tj@kernel.org, keescook@chromium.org, marcan@marcan.st,
-	sven@svenpeter.dev, florian.fainelli@broadcom.com,
-	rjui@broadcom.com, sbranden@broadcom.com, paul@crapouillou.net,
-	Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
-	vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
-	zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	andersson@kernel.org, konrad.dybcio@linaro.org, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	patrice.chotard@foss.st.com, wens@csie.org,
-	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, jassisinghbrar@gmail.com, mchehab@kernel.org,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	ulf.hansson@linaro.org, manuel.lauss@gmail.com,
-	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-	brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
-	duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
-Message-ID: <ZgwD-iScEb9zzB8H@matsya>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-3-apais@linux.microsoft.com>
- <CACRpkdaSBGe0EFm1gK-7qPK4e6T2H1dxFXjhJqO2hWCm1-bNdA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="L4r7T8rm"
+Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1858020E8BDC;
+	Tue,  2 Apr 2024 07:40:34 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1858020E8BDC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1712068834;
+	bh=0DUB2Rr6vStJKVui5qUb+UVcqr9kyUH/Bvk23LcaMYk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=L4r7T8rmdmyf6sHV+mcELv1sGeEjohTE64/mG/b9xla015hLstlbhSV+3nGYWOvdR
+	 NFibaKw4Nsz/S6zkHlw+yL7DMKSZWSZQvF8K9Ib6hlVKX7XWHFNV2uvCw5DQtNtupp
+	 jsbToVf62PzwwlHJUHkn3zeYlJZFTavttIZy/e9c=
+From: Saurabh Sengar <ssengar@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	peterz@infradead.org,
+	sboyd@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org
+Cc: ssengar@microsoft.com
+Subject: [PATCH v2 1/4] x86/hyperv/vtl: Correct parse_smp_cfg assignment
+Date: Tue,  2 Apr 2024 07:40:27 -0700
+Message-Id: <1712068830-4513-2-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1712068830-4513-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1712068830-4513-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdaSBGe0EFm1gK-7qPK4e6T2H1dxFXjhJqO2hWCm1-bNdA@mail.gmail.com>
 
-On 02-04-24, 14:25, Linus Walleij wrote:
-> Hi Allen,
-> 
-> thanks for your patch!
-> 
-> On Wed, Mar 27, 2024 at 5:03 PM Allen Pais <apais@linux.microsoft.com> wrote:
-> 
-> > The only generic interface to execute asynchronously in the BH context is
-> > tasklet; however, it's marked deprecated and has some design flaws. To
-> > replace tasklets, BH workqueue support was recently added. A BH workqueue
-> > behaves similarly to regular workqueues except that the queued work items
-> > are executed in the BH context.
-> >
-> > This patch converts drivers/dma/* from tasklet to BH workqueue.
-> >
-> > Based on the work done by Tejun Heo <tj@kernel.org>
-> > Branch: git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> >
-> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> (...)
-> > diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
-> (...)
-> >         if (d40c->pending_tx)
-> > -               tasklet_schedule(&d40c->tasklet);
-> > +               queue_work(system_bh_wq, &d40c->work);
-> 
-> Why is "my" driver not allowed to use system_bh_highpri_wq?
-> 
-> I can't see the reasoning between some drivers using system_bh_wq
-> and others being highpri?
-> 
-> Given the DMA usecase I would expect them all to be high prio.
+VTL platform uses DeviceTree for fetching SMP configuration, assign
+the correct parsing function 'x86_dtb_parse_smp_config' for it to
+parse_smp_cfg.
 
-It didnt use tasklet_hi_schedule(), I guess Allen has done the
-conversion of tasklet_schedule -> system_bh_wq and tasklet_hi_schedule
--> system_bh_highpri_wq
+Fixes: c22e19cd2c8a ("x86/hyperv/vtl: Prepare for separate mpparse callbacks")
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_vtl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Anyway, we are going to use a dma queue so should be better performance
-
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 5c7de79423b8..3efd0e03b916 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -34,7 +34,7 @@ void __init hv_vtl_init_platform(void)
+ 	/* Avoid searching for BIOS MP tables */
+ 	x86_init.mpparse.find_mptable = x86_init_noop;
+ 	x86_init.mpparse.early_parse_smp_cfg = x86_init_noop;
+-	x86_init.mpparse.parse_smp_cfg = x86_init_noop;
++	x86_init.mpparse.parse_smp_cfg = x86_dtb_parse_smp_config;
+ 
+ 	x86_platform.get_wallclock = get_rtc_noop;
+ 	x86_platform.set_wallclock = set_rtc_noop;
 -- 
-~Vinod
+2.34.1
+
