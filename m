@@ -1,33 +1,33 @@
-Received: from smtp-190a.mail.infomaniak.ch (smtp-190a.mail.infomaniak.ch [185.125.25.10])
+Received: from smtp-8faa.mail.infomaniak.ch (smtp-8faa.mail.infomaniak.ch [83.166.143.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AA23A1A2
-	for <linux-hyperv@vger.kernel.org>; Mon,  8 Apr 2024 07:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A524F20A
+	for <linux-hyperv@vger.kernel.org>; Mon,  8 Apr 2024 07:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.166.143.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712562428; cv=none; b=KWw6zh1GdoQx/BqWHaoyTWAHOdBZ5lkPmKH1yySwvQnwXfCSa3iRh2YYgZO8AoGKl05txCUizXdgz+vfhWoDkpT14aqj5yk0UpdBTujX1DsVNoIG0H7VIxv+DbShQLQYmF4OT7p2NWCvWX6UpwVwhQVUfreFrEL518jKqZnQ548=
+	t=1712562430; cv=none; b=cgmz/pq7iDfmzwPa5pOjPLwby3wP9eOw/T8frtMwggKG0h5t9YkD/1nyCi24AcLGPwXTHHrHORVEXTSjK5Xb7TaankTAKbtgaWNI5C82mzOqB2pBELV8jxZ1c6qyR42FIRNc0AXiWQot0WNarmhawahxRiH36KAzt/YjItexdT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712562428; c=relaxed/simple;
-	bh=g0OJqBJvqd+2I5FizdlSOhG5NQKxDPvB2u6ov1eaMnc=;
+	s=arc-20240116; t=1712562430; c=relaxed/simple;
+	bh=bZ6LYvtmVQg7V+57TeHLNvjsThrxUvXCCbMFN4WIJOA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B3khp0a36IUCmoo5vOcUGIRN4G4G9aQPnEzB1iNKKoPZ0Gk6npcRqY4Q9OVraLa4iNK9pjz9um4FMJnh7mWj4gwixQS00Fkp85c2UB/CtPLnDybyYfLkFp5QazrIQ50U3DQfeLO3Sh7PdyAsXL258dsteh1v1EX6IikO8TGxIy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=L7Ik5Nr9; arc=none smtp.client-ip=185.125.25.10
+	 MIME-Version:Content-Type; b=RivYaAH4N2OyzKgwpYLYTe0jo78o8RHZkvngajEgErhH09auPLqfMA4GrLx+Pld3M8rwUy0CvRq+JklAM68ao7H4EC6+J/kudC3nkjP2QPrVEDtgMXxiTGoQPPVHHNIi88+xQFb66T8IW4uDHECuyk5fLc51sNaPJK+xbXPAn/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=irilo2Ty; arc=none smtp.client-ip=83.166.143.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="L7Ik5Nr9"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4VCh4d3WYzzNSJ;
-	Mon,  8 Apr 2024 09:46:57 +0200 (CEST)
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="irilo2Ty"
+Received: from smtp-3-0001.mail.infomaniak.ch (smtp-3-0001.mail.infomaniak.ch [10.4.36.108])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4VCh4g4LNJzDj5;
+	Mon,  8 Apr 2024 09:46:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1712562417;
-	bh=g0OJqBJvqd+2I5FizdlSOhG5NQKxDPvB2u6ov1eaMnc=;
+	s=20191114; t=1712562419;
+	bh=bZ6LYvtmVQg7V+57TeHLNvjsThrxUvXCCbMFN4WIJOA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L7Ik5Nr963cU/3FO4wvol+yWjal/E+rl9Ui+vQg8boC+1r26cJLnsQYMxGLdMWlv7
-	 JvZEThlHTn8xtdPmB0PDMcFVLUbLpOulam4ft5TkOg1ADfG0IAN1d9R9NvhvQaGJJ/
-	 Pen1LCs95LGu/Z9XrmAfUBFGYPta1BKtUPFo8Fiw=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4VCh4c4wCnzcNL;
-	Mon,  8 Apr 2024 09:46:56 +0200 (CEST)
+	b=irilo2TyXHxH1HmjWzd5ma96hKDCpOPWki4uN2ph3nDS7pWaaIj92Q972R3WxyM6k
+	 XhwQ1VQbAPWBHBxCkKYmZbAOk+BD/75YzXVGHjteeuVW09LgY1gkf0LC1mK7inHsp9
+	 qFr9Bj6/nr68DCEodak6KjYhKUJEH+So8MYTUDr8=
+Received: from unknown by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4VCh4f732zzS7b;
+	Mon,  8 Apr 2024 09:46:58 +0200 (CEST)
 From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
 To: Brendan Higgins <brendanhiggins@google.com>,
 	David Gow <davidgow@google.com>,
@@ -61,9 +61,9 @@ Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
 	linux-security-module@vger.kernel.org,
 	linux-um@lists.infradead.org,
 	x86@kernel.org
-Subject: [PATCH v4 RESEND 5/7] kunit: Fix KUNIT_SUCCESS() calls in iov_iter tests
-Date: Mon,  8 Apr 2024 09:46:23 +0200
-Message-ID: <20240408074625.65017-6-mic@digikod.net>
+Subject: [PATCH v4 RESEND 7/7] kunit: Add tests for fault
+Date: Mon,  8 Apr 2024 09:46:25 +0200
+Message-ID: <20240408074625.65017-8-mic@digikod.net>
 In-Reply-To: <20240408074625.65017-1-mic@digikod.net>
 References: <20240408074625.65017-1-mic@digikod.net>
 Precedence: bulk
@@ -76,114 +76,98 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Infomaniak-Routing: alpha
 
-Fix KUNIT_SUCCESS() calls to pass a test argument.
+Add a test case to check NULL pointer dereference and make sure it would
+result as a failed test.
 
-This is a no-op for now because this macro does nothing, but it will be
-required for the next commit.
+The full kunit_fault test suite is marked as skipped when run on UML
+because it would result to a kernel panic.
+
+Tested with:
+./tools/testing/kunit/kunit.py run --arch x86_64 kunit_fault
+./tools/testing/kunit/kunit.py run --arch arm64 \
+  --cross_compile=aarch64-linux-gnu- kunit_fault
 
 Cc: Brendan Higgins <brendanhiggins@google.com>
 Cc: Rae Moar <rmoar@google.com>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
 Reviewed-by: David Gow <davidgow@google.com>
 Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20240408074625.65017-6-mic@digikod.net
+Link: https://lore.kernel.org/r/20240408074625.65017-8-mic@digikod.net
 ---
 
 Changes since v2:
 * Add David's Reviewed-by.
 
 Changes since v1:
-* Add Kees's Reviewed-by.
+* Remove the rodata and const test cases for now.
+* Replace CONFIG_X86 check with !CONFIG_UML, and remove the "_x86"
+  references.
 ---
- lib/kunit_iov_iter.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ lib/kunit/kunit-test.c | 45 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/lib/kunit_iov_iter.c b/lib/kunit_iov_iter.c
-index 859b67c4d697..27e0c8ee71d8 100644
---- a/lib/kunit_iov_iter.c
-+++ b/lib/kunit_iov_iter.c
-@@ -139,7 +139,7 @@ static void __init iov_kunit_copy_to_kvec(struct kunit *test)
- 			return;
- 	}
+diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
+index f7980ef236a3..0fdca5fffaec 100644
+--- a/lib/kunit/kunit-test.c
++++ b/lib/kunit/kunit-test.c
+@@ -109,6 +109,48 @@ static struct kunit_suite kunit_try_catch_test_suite = {
+ 	.test_cases = kunit_try_catch_test_cases,
+ };
  
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
++#ifndef CONFIG_UML
++
++static void kunit_test_null_dereference(void *data)
++{
++	struct kunit *test = data;
++	int *null = NULL;
++
++	*null = 0;
++
++	KUNIT_FAIL(test, "This line should never be reached\n");
++}
++
++static void kunit_test_fault_null_dereference(struct kunit *test)
++{
++	struct kunit_try_catch_test_context *ctx = test->priv;
++	struct kunit_try_catch *try_catch = ctx->try_catch;
++
++	kunit_try_catch_init(try_catch,
++			     test,
++			     kunit_test_null_dereference,
++			     kunit_test_catch);
++	kunit_try_catch_run(try_catch, test);
++
++	KUNIT_EXPECT_EQ(test, try_catch->try_result, -EINTR);
++	KUNIT_EXPECT_TRUE(test, ctx->function_called);
++}
++
++#endif /* !CONFIG_UML */
++
++static struct kunit_case kunit_fault_test_cases[] = {
++#ifndef CONFIG_UML
++	KUNIT_CASE(kunit_test_fault_null_dereference),
++#endif /* !CONFIG_UML */
++	{}
++};
++
++static struct kunit_suite kunit_fault_test_suite = {
++	.name = "kunit_fault",
++	.init = kunit_try_catch_test_init,
++	.test_cases = kunit_fault_test_cases,
++};
++
  /*
-@@ -194,7 +194,7 @@ static void __init iov_kunit_copy_from_kvec(struct kunit *test)
- 			return;
- 	}
+  * Context for testing test managed resources
+  * is_resource_initialized is used to test arbitrary resources
+@@ -826,6 +868,7 @@ static struct kunit_suite kunit_current_test_suite = {
  
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
+ kunit_test_suites(&kunit_try_catch_test_suite, &kunit_resource_test_suite,
+ 		  &kunit_log_test_suite, &kunit_status_test_suite,
+-		  &kunit_current_test_suite, &kunit_device_test_suite);
++		  &kunit_current_test_suite, &kunit_device_test_suite,
++		  &kunit_fault_test_suite);
  
- struct bvec_test_range {
-@@ -302,7 +302,7 @@ static void __init iov_kunit_copy_to_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -359,7 +359,7 @@ static void __init iov_kunit_copy_from_bvec(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static void iov_kunit_destroy_xarray(void *data)
-@@ -453,7 +453,7 @@ static void __init iov_kunit_copy_to_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -516,7 +516,7 @@ static void __init iov_kunit_copy_from_xarray(struct kunit *test)
- 			return;
- 	}
- 
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -596,7 +596,7 @@ static void __init iov_kunit_extract_pages_kvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -674,7 +674,7 @@ static void __init iov_kunit_extract_pages_bvec(struct kunit *test)
- stop:
- 	KUNIT_EXPECT_EQ(test, size, 0);
- 	KUNIT_EXPECT_EQ(test, iter.count, 0);
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- /*
-@@ -753,7 +753,7 @@ static void __init iov_kunit_extract_pages_xarray(struct kunit *test)
- 	}
- 
- stop:
--	KUNIT_SUCCEED();
-+	KUNIT_SUCCEED(test);
- }
- 
- static struct kunit_case __refdata iov_kunit_cases[] = {
+ MODULE_LICENSE("GPL v2");
 -- 
 2.44.0
 
