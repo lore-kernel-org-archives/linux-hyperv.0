@@ -1,226 +1,166 @@
-Received: from smtp-42aa.mail.infomaniak.ch (smtp-42aa.mail.infomaniak.ch [84.16.66.170])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4D32C85F
-	for <linux-hyperv@vger.kernel.org>; Mon,  8 Apr 2024 08:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBA46FBF;
+	Mon,  8 Apr 2024 09:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712563391; cv=none; b=UDoHT0womCgMTb5Zv37D/JKPmLwE+PKd8/thSuZaWExDxjNbEEs1RD3QHY5GJy9BgyAiZxuS5qaefHNJ/e/V0irtHrzaUTHGbSqB3ixfzyGzh/bQm9jLcxg+EZz9g6MidT9DU6anNKPCIIsMcTHKdjACNt80n1UwJgGfLPk3kvs=
+	t=1712568877; cv=none; b=moryqkQcdiLEyK5K/K0brse4E7NuIOAIs72Vcr2hRccHwapNo0bVxf/LooN+Is6OPV4/XGfRpFOkqExVOASIKK7XkFVtW9I4aroRLKfXD6WO/VisXs2O3AAvI/5RHGWEmrDlXvLEIu5JscDxzs5SPYYrkiE/dFCszzL2xLhhiKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712563391; c=relaxed/simple;
-	bh=DSVedLN/9sNq/HBRK05msQLVmLdeU8WEsK5nC9gm8+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tOP9BCIGx5RrjQWF3qVE2YX0Xozqq8aLpuk8rjuxFSFFkjV0XKWP+fTly92eSTVxRp+Bia7Cr1iHMhaed0qB5cAw5E8sxz8DdA21Dhn/Sjjrd6F+jE/Z97CmQeST9Tdu0nO2hCi2hYY0TQxuDjc55dSaAj6MEVcxaPLrJfgrQFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=plIrvCaC; arc=none smtp.client-ip=84.16.66.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+	s=arc-20240116; t=1712568877; c=relaxed/simple;
+	bh=frFJy5Iffrice8TATlhPSbyjdDx4lsgbTrENNwTKGyA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=i8XH5rCxRcD6cvrNJh51X1W+DFIp+m0dwXIkt1nQpdW44mpJQb9LtDJVWUF8xXk7ptt0DkJKhmNmC/emYf+cvuln0Yt8aSa37tx6AX6EvBIOfaEf/4NbQdHJQAYLxeC32T4Iy+oxwGxmyI1NrK5hnle7lKvHcv5TXF7H71XzDdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=HAJzuBNs; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="plIrvCaC"
-Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4VCh4f4XSKzLMs;
-	Mon,  8 Apr 2024 09:46:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-	s=20191114; t=1712562418;
-	bh=DSVedLN/9sNq/HBRK05msQLVmLdeU8WEsK5nC9gm8+E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=plIrvCaCTl2uB50gN84HYodD7H8HQiFSINSoCXMjfQl23eukDoU30Y0Idn6p2DtOa
-	 UtzO+MtiJhZ11JPAf8m+J3QpBv/lbHe6RBXHHBM/x0vzZOnTf3s+YTiEkAD1OWFQlN
-	 UPGcS4zYrQFY+7jxFjh0nXgSV9ariQbyvbEbcdT4=
-Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4VCh4d6Rnlzgq4;
-	Mon,  8 Apr 2024 09:46:57 +0200 (CEST)
-From: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To: Brendan Higgins <brendanhiggins@google.com>,
-	David Gow <davidgow@google.com>,
-	Rae Moar <rmoar@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	Alan Maguire <alan.maguire@oracle.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"Eric W . Biederman" <ebiederm@xmission.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Morris <jamorris@linux.microsoft.com>,
-	Kees Cook <keescook@chromium.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	"Madhavan T . Venkataraman" <madvenka@linux.microsoft.com>,
-	Marco Pagani <marpagan@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Thara Gopinath <tgopinath@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Zahra Tarkhani <ztarkhani@microsoft.com>,
-	kunit-dev@googlegroups.com,
-	kvm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	x86@kernel.org
-Subject: [PATCH v4 RESEND 6/7] kunit: Print last test location on fault
-Date: Mon,  8 Apr 2024 09:46:24 +0200
-Message-ID: <20240408074625.65017-7-mic@digikod.net>
-In-Reply-To: <20240408074625.65017-1-mic@digikod.net>
-References: <20240408074625.65017-1-mic@digikod.net>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="HAJzuBNs"
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4389674X018763;
+	Mon, 8 Apr 2024 09:33:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=HRb08lOvL/RkQcGPtpnIO47HiV3JbnaC5Kla4WlkdPg=;
+ b=HAJzuBNsO2JwyXcSUPA5KKjMXoa85ATgDBDMdlUVrWrD4LTczUD9Nzq1exAuSBYIXiod
+ e0MbeFjiTJ8BhZHNrUhGGDzWKY8EITc7XduqdLDZ5GctKya+kVyoKq/IkOu0SedUx2z5
+ pQp8LeJGmQfs2CM+LTbmD/KJRvxg9VmuuBuJ1NKV4C1xxrojFpma6UqwA03Fy2zslw5J
+ vQkdyyQm/5xiBkjpSpVWZG0r2JfzA51m5ovZNnFXMysbeE8Tuv+bGvb6/0yFAENxHcVu
+ qAKQ1mFWZTC2QuNZ6UtiF13rTIvo2INwrArwDWHsJE6MYCmUQBSAMU8Fvb7Q48Tb74E1 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageb0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:21 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4389WAD8027701;
+	Mon, 8 Apr 2024 09:33:20 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3xcahageav-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:20 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4388CHai022664;
+	Mon, 8 Apr 2024 09:33:19 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3xbhqnqanr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 Apr 2024 09:33:19 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4389XFRb40632662
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 Apr 2024 09:33:17 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E7ADC2004B;
+	Mon,  8 Apr 2024 09:33:14 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 43F2D20040;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Received: from osiris (unknown [9.171.19.167])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  8 Apr 2024 09:33:11 +0000 (GMT)
+Date: Mon, 8 Apr 2024 11:33:09 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org,
+        vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
+        florian.fainelli@broadcom.com, rjui@broadcom.com,
+        sbranden@broadcom.com, paul@crapouillou.net,
+        Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
+        vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
+        zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
+        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+        afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
+        haojian.zhuang@gmail.com, robert.jarzmik@free.fr, andersson@kernel.org,
+        konrad.dybcio@linaro.org, orsonzhai@gmail.com,
+        baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+        patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
+        jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com,
+        haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+        jassisinghbrar@gmail.com, mchehab@kernel.org,
+        maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
+        ulf.hansson@linaro.org, manuel.lauss@gmail.com,
+        mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
+        hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+        brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
+        duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
+        openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
+Message-ID: <20240408093309.9447-A-hca@linux.ibm.com>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-8-apais@linux.microsoft.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327160314.9982-8-apais@linux.microsoft.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: iEx_GL3tt0mvzHnM4XY0RznJTIWn8Sle
+X-Proofpoint-GUID: YubKogQl91W9lviSSqhJG7ZeEe8HfK38
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-08_07,2024-04-05_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1011 phishscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=816 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2404010000 definitions=main-2404080073
 
-This helps identify the location of test faults with opportunistic calls
-to _KUNIT_SAVE_LOC().  This can be useful while writing tests or
-debugging them.  It is possible to call KUNIT_SUCCESS() to explicit save
-last location.
+On Wed, Mar 27, 2024 at 04:03:12PM +0000, Allen Pais wrote:
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
+> 
+> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> 
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 
-Cc: Brendan Higgins <brendanhiggins@google.com>
-Cc: David Gow <davidgow@google.com>
-Cc: Rae Moar <rmoar@google.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Mickaël Salaün <mic@digikod.net>
-Link: https://lore.kernel.org/r/20240408074625.65017-7-mic@digikod.net
----
+I guess this dependency is a hard requirement due to commit 134874e2eee9
+("workqueue: Allow cancel_work_sync() and disable_work() from atomic contexts
+on BH work items")?
 
-Changes since v3:
-* Improve the try-fault error message as suggested by David.
+> ---
+>  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
+>  drivers/s390/block/dasd_int.h          | 10 +++---
+>  drivers/s390/char/con3270.c            | 27 ++++++++--------
+>  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
+>  drivers/s390/crypto/ap_bus.h           |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
+>  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
+>  drivers/s390/net/ctcm_fsms.c           |  4 +--
+>  drivers/s390/net/ctcm_main.c           | 15 ++++-----
+>  drivers/s390/net/ctcm_main.h           |  5 +--
+>  drivers/s390/net/ctcm_mpc.c            | 12 +++----
+>  drivers/s390/net/ctcm_mpc.h            |  7 ++--
+>  drivers/s390/net/lcs.c                 | 26 +++++++--------
+>  drivers/s390/net/lcs.h                 |  2 +-
+>  drivers/s390/net/qeth_core_main.c      |  2 +-
+>  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
+>  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
+>  17 files changed, 117 insertions(+), 121 deletions(-)
 
-Changes since v2:
-* Extend the commit message according to discussion with David.
+I'm asking since this patch comes with multiple compile errors. Probably due
+to lack of cross compiler tool chain on your side.
 
-Changes since v1:
-* Add Kees's Reviewed-by.
----
- include/kunit/test.h  | 24 +++++++++++++++++++++---
- lib/kunit/try-catch.c | 10 +++++++---
- 2 files changed, 28 insertions(+), 6 deletions(-)
-
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index fcb4a4940ace..f3aa66eb0087 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -301,6 +301,8 @@ struct kunit {
- 	struct list_head resources; /* Protected by lock. */
- 
- 	char status_comment[KUNIT_STATUS_COMMENT_SIZE];
-+	/* Saves the last seen test. Useful to help with faults. */
-+	struct kunit_loc last_seen;
- };
- 
- static inline void kunit_set_failure(struct kunit *test)
-@@ -567,6 +569,15 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
- #define kunit_err(test, fmt, ...) \
- 	kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
- 
-+/*
-+ * Must be called at the beginning of each KUNIT_*_ASSERTION().
-+ * Cf. KUNIT_CURRENT_LOC.
-+ */
-+#define _KUNIT_SAVE_LOC(test) do {					       \
-+	WRITE_ONCE(test->last_seen.file, __FILE__);			       \
-+	WRITE_ONCE(test->last_seen.line, __LINE__);			       \
-+} while (0)
-+
- /**
-  * KUNIT_SUCCEED() - A no-op expectation. Only exists for code clarity.
-  * @test: The test context object.
-@@ -575,7 +586,7 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
-  * words, it does nothing and only exists for code clarity. See
-  * KUNIT_EXPECT_TRUE() for more information.
-  */
--#define KUNIT_SUCCEED(test) do {} while (0)
-+#define KUNIT_SUCCEED(test) _KUNIT_SAVE_LOC(test)
- 
- void __noreturn __kunit_abort(struct kunit *test);
- 
-@@ -601,14 +612,16 @@ void __kunit_do_failed_assertion(struct kunit *test,
- } while (0)
- 
- 
--#define KUNIT_FAIL_ASSERTION(test, assert_type, fmt, ...)		       \
-+#define KUNIT_FAIL_ASSERTION(test, assert_type, fmt, ...) do {		       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	_KUNIT_FAILED(test,						       \
- 		      assert_type,					       \
- 		      kunit_fail_assert,				       \
- 		      kunit_fail_assert_format,				       \
- 		      {},						       \
- 		      fmt,						       \
--		      ##__VA_ARGS__)
-+		      ##__VA_ARGS__);					       \
-+} while (0)
- 
- /**
-  * KUNIT_FAIL() - Always causes a test to fail when evaluated.
-@@ -637,6 +650,7 @@ void __kunit_do_failed_assertion(struct kunit *test,
- 			      fmt,					       \
- 			      ...)					       \
- do {									       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	if (likely(!!(condition_) == !!expected_true_))			       \
- 		break;							       \
- 									       \
-@@ -698,6 +712,7 @@ do {									       \
- 		.right_text = #right,					       \
- 	};								       \
- 									       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	if (likely(__left op __right))					       \
- 		break;							       \
- 									       \
-@@ -758,6 +773,7 @@ do {									       \
- 		.right_text = #right,					       \
- 	};								       \
- 									       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	if (likely((__left) && (__right) && (strcmp(__left, __right) op 0)))   \
- 		break;							       \
- 									       \
-@@ -791,6 +807,7 @@ do {									       \
- 		.right_text = #right,					       \
- 	};								       \
- 									       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	if (likely(__left && __right))					       \
- 		if (likely(memcmp(__left, __right, __size) op 0))	       \
- 			break;						       \
-@@ -815,6 +832,7 @@ do {									       \
- do {									       \
- 	const typeof(ptr) __ptr = (ptr);				       \
- 									       \
-+	_KUNIT_SAVE_LOC(test);						       \
- 	if (!IS_ERR_OR_NULL(__ptr))					       \
- 		break;							       \
- 									       \
-diff --git a/lib/kunit/try-catch.c b/lib/kunit/try-catch.c
-index 7a3910dd78a6..fa687278ccc9 100644
---- a/lib/kunit/try-catch.c
-+++ b/lib/kunit/try-catch.c
-@@ -96,9 +96,13 @@ void kunit_try_catch_run(struct kunit_try_catch *try_catch, void *context)
- 
- 	if (exit_code == -EFAULT)
- 		try_catch->try_result = 0;
--	else if (exit_code == -EINTR)
--		kunit_err(test, "try faulted\n");
--	else if (exit_code == -ETIMEDOUT)
-+	else if (exit_code == -EINTR) {
-+		if (test->last_seen.file)
-+			kunit_err(test, "try faulted: last line seen %s:%d\n",
-+				  test->last_seen.file, test->last_seen.line);
-+		else
-+			kunit_err(test, "try faulted\n");
-+	} else if (exit_code == -ETIMEDOUT)
- 		kunit_err(test, "try timed out\n");
- 	else if (exit_code)
- 		kunit_err(test, "Unknown error: %d\n", exit_code);
--- 
-2.44.0
-
+If the above wouldn't be a hard dependency I'd say we could take those parts
+of your patch which are fine into the s390 tree for 6.10, fix the rest, and
+schedule that as well for 6.10 via the s390 tree.
