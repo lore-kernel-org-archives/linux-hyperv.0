@@ -1,44 +1,41 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBBB013440D;
-	Fri, 19 Apr 2024 16:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D1FA13848D;
+	Fri, 19 Apr 2024 16:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713545515; cv=none; b=O3s2UpdNx9ShML5LoKIq7+KedGYRuhtHcTEy8JmOyzYZJgT5Q90k8cN6ME55ht4K7Ep616Kjo5af4GWrbkqn17VhCLRi85VGM5cFqSjzDrSaJpWDONLHLJAtVZ060va23mWy/zgXgp26bqbAMXcs3eCs7MaZpRCCIJa0F3TWtt8=
+	t=1713545675; cv=none; b=AjZlOJJoTLCgdxIhQaWBJCafIusrVxnzA7gPHtvr9qnSOmOQonDkTXB1ZZO+9FT0A6Kd80JP+Rz0dAG6tK5teTGl5/Jl93uHZpiMGdCe4q6lXWwbG6fEJh8WiBaPj90ZNI5MQ8O7bXhW2ZW1QjDImJzVCGXwAMZq1CTFRnsbPiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713545515; c=relaxed/simple;
-	bh=j/jThASF8d8a9C8RQn0/PXMX20ZPjp4VCqzBH3FMIqQ=;
+	s=arc-20240116; t=1713545675; c=relaxed/simple;
+	bh=p+AhksF9UH47nFYw6ev3EzJCJllx/nP7dwMICYgHVhk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KzGzGjImcLk6abIwkfC/laP10NByhjgtnxP+Tr6bADSsODA0Ot7frcPDvJzY6zzbZrqXtcq9Qd5qPVHdXwQ5t8Oj9b18Ktf4dOXL/R6sy5BHiDtzWwW+CPD21jTqarG16MXeImVWwGxN1+/RjFDSYYULXuccW+PzKz04kxvzJLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OAeZKrbc; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=VJMx33vh6tjR5L3lvLcpOOg8FU5NIzCeIUOyiW4jS/gysNciDq3Rlu6OYyab5WcHEqBz2wNDiyVNnCDP7tXXmwIPQ0obyJ8X/F26ySjgiobD9IgTjVnzYxg+v2iIXEP79seb3GRXDP09nu0Gn1y0sn281UzSwFepjEp/Oi7n+4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nlQyy1jL; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OAeZKrbc"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nlQyy1jL"
 Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id 6A77C20FDC2A; Fri, 19 Apr 2024 09:51:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6A77C20FDC2A
+	id C187420FDC2A; Fri, 19 Apr 2024 09:54:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C187420FDC2A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1713545512;
-	bh=tBiWsCxlemIvt3Kib9vCfit8vou7Xjxn6NdQft3XT2U=;
+	s=default; t=1713545673;
+	bh=s8RrX6fyZ456/LIZpdM4fzLm/GVjoSvdhiXZUDPzgVk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OAeZKrbcjYwhY4jM4Vk9sAWErM5jpz1cDRBgo1xyikMgPGyrw2EsE2MBvkbjoRaXJ
-	 gPXGFTtpT8NH43MLBLdN2kKrUwJpa8JbaHHgJI+pAj21jV43erURxm5kKR0h6RpuVn
-	 SU5LbMhiXoh+xuUsAo8W2T5E/DM1hYN5YRk4UqsI=
-Date: Fri, 19 Apr 2024 09:51:52 -0700
+	b=nlQyy1jLlnLNQEOEIA6b4Dplj9u0w+B4PIHV3L2viFaJ2aZ5OSTWUzTSqqj+4qpry
+	 IDYXooy6rJ8rlXqB/QHWJGq5JjXyxShX7iionnfftDz/7k25mfjwABak38PwiJYIlw
+	 NBHoSvS17ygympnMnxLbeJdB+tO/bNtlQhB+4PTM=
+Date: Fri, 19 Apr 2024 09:54:33 -0700
 From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Ani Sinha <anisinha@redhat.com>, KY Srinivasan <kys@microsoft.com>,
+To: Ani Sinha <anisinha@redhat.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	eahariha@linux.microsoft.com, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] Add a header in ifcfg and nm keyfiles describing the
  owner of the files
-Message-ID: <20240419165152.GA506@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+Message-ID: <20240419165433.GB506@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
 References: <20240418120549.59018-1-anisinha@redhat.com>
- <19df975d-167f-424a-92ce-5135cbeb8a07@linux.microsoft.com>
- <CY5PR21MB3759203A552E72B7F2669FACBF0E2@CY5PR21MB3759.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,27 +44,57 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CY5PR21MB3759203A552E72B7F2669FACBF0E2@CY5PR21MB3759.namprd21.prod.outlook.com>
+In-Reply-To: <20240418120549.59018-1-anisinha@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 
-On Thu, Apr 18, 2024 at 07:01:20PM +0000, Dexuan Cui wrote:
-> > From: Easwar Hariharan <eahariha@linux.microsoft.com>
-> > Sent: Thursday, April 18, 2024 9:16 AM
-> > 
-> > On 4/18/2024 5:05 AM, Ani Sinha wrote:
-> > > A comment describing the source of writing the contents of the ifcfg and
-> > > network manager keyfiles (hyperv kvp daemon) is useful. It is valuable
+On Thu, Apr 18, 2024 at 05:35:49PM +0530, Ani Sinha wrote:
+> A comment describing the source of writing the contents of the ifcfg and
+> network manager keyfiles (hyperv kvp daemon) is useful. It is valuable both
+> for debugging as well as for preventing users from modifying them.
 > 
-> s/hyperv/Hyper-V/
+> CC: shradhagupta@linux.microsoft.com
+> CC: eahariha@linux.microsoft.com
+> CC: wei.liu@kernel.org
+> Signed-off-by: Ani Sinha <anisinha@redhat.com>
+> ---
+>  tools/hv/hv_kvp_daemon.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> > > +#define CFG_HEADER "# Generated by hyperv key-value pair daemon.
-> > Please do not modify.\n"
+> changelog:
+> v2: simplify and fix issues with error handling.
 > 
-> s/hyperv/Hyper-V/
-> 
-> > Looks good to me, I'll defer to other folks on the recipient list on whether
-> > "hyperv" should be capitalized as HyperV or other such feedback.
-> 
-> It's recommended to use "Hyper-V". Wei can help fix this so I guess
-> there is no need to resend the patch :-)
-Sounds good!
+> diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
+> index ae57bf69ad4a..014e45be6981 100644
+> --- a/tools/hv/hv_kvp_daemon.c
+> +++ b/tools/hv/hv_kvp_daemon.c
+> @@ -94,6 +94,8 @@ static char *lic_version = "Unknown version";
+>  static char full_domain_name[HV_KVP_EXCHANGE_MAX_VALUE_SIZE];
+>  static struct utsname uts_buf;
+>  
+> +#define CFG_HEADER "# Generated by hyperv key-value pair daemon. Please do not modify.\n"
+> +
+>  /*
+>   * The location of the interface configuration file.
+>   */
+> @@ -1435,6 +1437,18 @@ static int kvp_set_ip_info(char *if_name, struct hv_kvp_ipaddr_value *new_val)
+>  		return HV_E_FAIL;
+>  	}
+>  
+> +	/* Write the config file headers */
+> +	error = fprintf(ifcfg_file, CFG_HEADER);
+> +	if (error < 0) {
+> +		error = HV_E_FAIL;
+> +		goto setval_error;
+> +	}
+> +	error = fprintf(nmfile, CFG_HEADER);
+> +	if (error < 0) {
+> +		error = HV_E_FAIL;
+> +		goto setval_error;
+> +	}
+> +
+>  	/*
+>  	 * First write out the MAC address.
+>  	 */
+> -- 
+> 2.42.0
+Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
