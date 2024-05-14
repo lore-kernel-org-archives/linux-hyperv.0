@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A751DDEE;
-	Tue, 14 May 2024 22:45:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B983181D1B;
+	Tue, 14 May 2024 22:45:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715726728; cv=none; b=k4Lgo8KlKKCTmjCjQJuMg3GQc50enuUlWzhK0LJ+FaxIALlojDirH1ME++96ax/T4n10YzVSuzWifkffE9C2mdHLk0FxOKIyCOG5qvHsMcht0PDS7Xakv8KziGQPit4Tu5HtnrACTdvySTgqooctJBv/00GM/RW1bdMBghbzwq0=
+	t=1715726728; cv=none; b=K1zCeqN4W+xpk3tjTEFFELyuSnB7fAqvy+1IywGYxSXErgvLXQEKOJuIfI+xgZqHtO1CxGKN4BriyhnzBvJO6Sr8/55ai2yQzMozz49Cyu8P1T24QXjVWswo7w9AOMQ5kCrkWTjT3C1vVDsYt35xi55VNHHAAh34ypN3da9LllY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1715726728; c=relaxed/simple;
-	bh=HHDHLSCUcDkXx2uqLNf9uPS83M7l1vBf2On96gJLrfg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j1vrtLNWT2bDERDzsIpzXWxHPQLC1+tBf8yA5GVrp9nVe+IUEdLilGNuPbaWGj/zcHp+n7pjlYau6UYPB60mOntGW+8HnPMkP69lbwEG9zBqtXFndFjtuml9vPbG+kF7sTJeAwjrYiGS4V02HKattkGT5tXB/IJpxRsdFs1B9uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hxA4XCe8; arc=none smtp.client-ip=13.77.154.182
+	bh=WakItw23tStfr+6wb4ZT4IxnE2d/1msBu5yJn9iUY9E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iV7QAxZd7nubyFWgX77j59740j0pzRn5Nt9hYGDr3mvkE7w5SM4GkGuxIi1uG9mMvKotK2XRHBVbDeoI3fVHLCyhm4qhdKj/R3G12vxxNTJviEbTO6fVhX+trW3HdDj3JXMhO31MZ+UsyN7a3rZL+0FrGWReavijPdEzESzLwqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GhPZZCx2; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hxA4XCe8"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GhPZZCx2"
 Received: from xps-8930.corp.microsoft.com (unknown [131.107.160.48])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8524D2095D0A;
-	Tue, 14 May 2024 15:45:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8524D2095D0A
+	by linux.microsoft.com (Postfix) with ESMTPSA id 242E52095D0C;
+	Tue, 14 May 2024 15:45:21 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 242E52095D0C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1715726720;
-	bh=qxYAU41ufrcEuk5MBvISwhpcVtWEJqX1bSnGVnSsBJA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hxA4XCe8Juhir+FZZpJrKKh+6AgX5CJywj6GV8Xi/9mMDaSuTJADZOUG6chVjOeoI
-	 iFIa6Lspd7PVMua/OJlt8zSCUs/T4QbGvSO/XjtyBlWqNOG/FKHivMiM5m2YwtLVoM
-	 Dmgp84jtkEDkxqeGm8kbKFXVtvJqijFdODzWecY0=
+	s=default; t=1715726721;
+	bh=tNavMrInayINex2Ss/cK7mDsEK6d64ATDiDMkzKu5sg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GhPZZCx25j1r3g9Qxj5sQshhjQP4zOxyEb0DkzPHh2OgJell4GEYhEhrxd5lQ07VS
+	 ZpjZGEU64DQy5pvIJsG9vN0gbPuZ4ol7NCDvJ82AzDG0bpfRcaZFe36AtMWmTQVyUe
+	 TYhGMjRt6PKFrKID6RyoMRIpSPezk3XrzaufVW58=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bhelgaas@google.com,
@@ -54,10 +55,12 @@ To: arnd@arndb.de,
 Cc: ssengar@microsoft.com,
 	sunilmut@microsoft.com,
 	vdso@hexbites.dev
-Subject: [PATCH v2 0/6] arm64/hyperv: Support Virtual Trust Level Boot
-Date: Tue, 14 May 2024 15:43:47 -0700
-Message-ID: <20240514224508.212318-1-romank@linux.microsoft.com>
+Subject: [PATCH v2 2/6] drivers/hv: Enable VTL mode for arm64
+Date: Tue, 14 May 2024 15:43:49 -0700
+Message-ID: <20240514224508.212318-3-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.45.0
+In-Reply-To: <20240514224508.212318-1-romank@linux.microsoft.com>
+References: <20240514224508.212318-1-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -67,43 +70,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch set enables the Hyper-V code to boot on ARM64 inside a Virtual Trust
-Level. These levels are a part of the Virtual Secure Mode documented in the
-Top-Level Functional Specification available at
-https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/vsm
+Kconfig dependencies for arm64 guests on Hyper-V require that be ACPI enabled,
+and limit VTL mode to x86/x64. To enable VTL mode on arm64 as well, update the
+dependencies. Since VTL mode requires DeviceTree instead of ACPI, don’t require
+arm64 guests on Hyper-V to have ACPI.
 
-[V2]
-    - Decreased number of #ifdef's
-    - Updated the wording in the commit messages to adhere to the guidlines
-    - Sending to the correct set of maintainers and mail lists
+Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+---
+ drivers/hv/Kconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Roman Kisel (6):
-  arm64/hyperv: Support DeviceTree
-  drivers/hv: Enable VTL mode for arm64
-  drivers/hv: arch-neutral implementation of get_vtl()
-  arm64/hyperv: Boot in a Virtual Trust Level
-  drivers/hv/vmbus: Get the irq number from DeviceTree
-  drivers/pci/hyperv/arm64: vPCI MSI IRQ domain from DT
-
- arch/arm64/hyperv/Makefile          |  1 +
- arch/arm64/hyperv/hv_vtl.c          | 19 +++++++++++++
- arch/arm64/hyperv/mshyperv.c        | 40 +++++++++++++++++++++++----
- arch/arm64/include/asm/mshyperv.h   |  8 ++++++
- arch/x86/hyperv/hv_init.c           | 34 -----------------------
- arch/x86/hyperv/hv_vtl.c            |  2 +-
- arch/x86/include/asm/hyperv-tlfs.h  |  7 -----
- drivers/hv/Kconfig                  |  6 ++--
- drivers/hv/hv_common.c              | 43 +++++++++++++++++++++++++++++
- drivers/hv/vmbus_drv.c              | 37 +++++++++++++++++++++++++
- drivers/pci/controller/pci-hyperv.c | 13 +++++++--
- include/asm-generic/hyperv-tlfs.h   |  7 +++++
- include/asm-generic/mshyperv.h      |  6 ++++
- include/linux/acpi.h                |  9 ++++++
- 14 files changed, 179 insertions(+), 53 deletions(-)
- create mode 100644 arch/arm64/hyperv/hv_vtl.c
-
-
-base-commit: f2580a907e5c0e8fc9354fd095b011301c64f949
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 862c47b191af..a5cd1365e248 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -5,7 +5,7 @@ menu "Microsoft Hyper-V guest support"
+ config HYPERV
+ 	tristate "Microsoft Hyper-V client drivers"
+ 	depends on (X86 && X86_LOCAL_APIC && HYPERVISOR_GUEST) \
+-		|| (ACPI && ARM64 && !CPU_BIG_ENDIAN)
++		|| (ARM64 && !CPU_BIG_ENDIAN)
+ 	select PARAVIRT
+ 	select X86_HV_CALLBACK_VECTOR if X86
+ 	select OF_EARLY_FLATTREE if OF
+@@ -15,7 +15,7 @@ config HYPERV
+ 
+ config HYPERV_VTL_MODE
+ 	bool "Enable Linux to boot in VTL context"
+-	depends on X86_64 && HYPERV
++	depends on HYPERV
+ 	depends on SMP
+ 	default n
+ 	help
+@@ -31,7 +31,7 @@ config HYPERV_VTL_MODE
+ 
+ 	  Select this option to build a Linux kernel to run at a VTL other than
+ 	  the normal VTL0, which currently is only VTL2.  This option
+-	  initializes the x86 platform for VTL2, and adds the ability to boot
++	  initializes the kernel to run in VTL2, and adds the ability to boot
+ 	  secondary CPUs directly into 64-bit context as required for VTLs other
+ 	  than 0.  A kernel built with this option must run at VTL2, and will
+ 	  not run as a normal guest.
 -- 
 2.45.0
 
