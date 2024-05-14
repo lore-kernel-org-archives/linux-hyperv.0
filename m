@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F421182C8F;
-	Tue, 14 May 2024 22:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B93D181D08;
+	Tue, 14 May 2024 22:45:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715726729; cv=none; b=pW3lhX5bJdFZm67wRtG/Wc6NdLzRoWtu1xNxxq700LzGLkpfEFoqwhpzZnHz8VaYDXiLTkp0mCpmsV23TOpOpuvktMTfKJVqwiRQAaCL5Y7zvaopVrXrwlVGdWDTWa9VPKq593x2aOzF3ozzxvAEwZcAsV75zQk3Rpwftr/XHZQ=
+	t=1715726730; cv=none; b=Ico4/m1RTYbgJMjvrlRG7q2Zp8gG+RGFqzoKC+D9GUHKlZnmuY4LRHPBU1pOAVmzHq95Limu26i+cv2Ayi2zvvoX6wub7ZneFP+Vc/tOpDBIEDUBXBkXn9iXgx7ngbhtJKH24+NkblC+IEc/WgPz5FR4CPaBEx/TXIQS3BUpkB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715726729; c=relaxed/simple;
-	bh=tvR97zZr6ZpbcFlWZfk14uab1KuXwUvFLoCdkyuH8rA=;
+	s=arc-20240116; t=1715726730; c=relaxed/simple;
+	bh=LxzjesEa2yrOp7NiBZaeavpLyG8UmGpbdareqGavSSM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EktDpIJKc/rZWajZPbNFxt3L3kHVzmzoo0OG37uWFLUv9rBNTQBf4ln/XnxGm3JNwdkXikz+zfhSKen98e9bBdpkWAHToNhX4ttTcnf7hBD2+6wBBjk0UAKEa4ev0ZPiaUcYRDfeQXuDwFvclSFC2ZHYJJdrLD8O545xycErveY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rHUMfKWH; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=iAHtQP4VRfigbWOysbdqf+CIS3i1J64P7uWuoCzsZ3AbDjJ2aAmBBrdY4R8MQtpm6zGTJRos7XjpFe1StYgorWV0QXxz/IUvhig0ZBFxt44Av5CNISZNbqu+7CAsrtMQZZVL5Ni05bU0SlbY4QKuCcVL3McbKyDbvgaRNDZrCsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kkK+sB9O; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rHUMfKWH"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kkK+sB9O"
 Received: from xps-8930.corp.microsoft.com (unknown [131.107.160.48])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0F1B92095D0F;
-	Tue, 14 May 2024 15:45:22 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0F1B92095D0F
+	by linux.microsoft.com (Postfix) with ESMTPSA id CEA242095D0B;
+	Tue, 14 May 2024 15:45:20 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CEA242095D0B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1715726722;
-	bh=WAvNrAUPvRAs95ycwbUis/ZRyivQ+QBcctDpVBVOD60=;
+	s=default; t=1715726721;
+	bh=gy5I6n1XdVqSkd/zdu3TEf1Kw11JgiudWXaTRTptXPI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rHUMfKWHs+d7tiJ3YyQ5OkPlGTa5/+H9H1p/7QEryXhFD85oSOk2uETsgSV9nmzhw
-	 ftp8xQhziw6Ba9H8GNpI2OBe6IsCv6LZkmNxQHu3Zi/ANeiyY5CChzUetgkL8LKDhB
-	 9qFCek/0QptJF7l+FYMiMSDHstH0isF+hOWUtb/0=
+	b=kkK+sB9Ob6YQYJHnZe+I7bfizHzznTUhZEzNZYosbYY9NSZiLEGrYc+XgvtsCC65p
+	 ZeXmurF1PgbwOg9frqVYVBYJNQXp8OPnu+2+qge5d/vDvBkEW9yj3wY/CduAq4tscq
+	 5f2yr0cYzCE254biGL/prCEZ2KvXAIOrOSNILTf4=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bhelgaas@google.com,
@@ -55,9 +55,9 @@ To: arnd@arndb.de,
 Cc: ssengar@microsoft.com,
 	sunilmut@microsoft.com,
 	vdso@hexbites.dev
-Subject: [PATCH v2 5/6] drivers/hv/vmbus: Get the irq number from DeviceTree
-Date: Tue, 14 May 2024 15:43:52 -0700
-Message-ID: <20240514224508.212318-6-romank@linux.microsoft.com>
+Subject: [PATCH v2 1/6] arm64/hyperv: Support DeviceTree
+Date: Tue, 14 May 2024 15:43:48 -0700
+Message-ID: <20240514224508.212318-2-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.45.0
 In-Reply-To: <20240514224508.212318-1-romank@linux.microsoft.com>
 References: <20240514224508.212318-1-romank@linux.microsoft.com>
@@ -69,86 +69,76 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vmbus driver uses ACPI for interrupt assignment on
-arm64 hence it won't function in the VTL mode where only
-DeviceTree can be used.
-
-Update the vmbus driver to discover interrupt configuration
-via DeviceTree.
+The Virtual Trust Level platforms rely on DeviceTree, and the
+arm64/hyperv code supports ACPI only. Update the logic to
+support DeviceTree on boot as well as ACPI.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 ---
- drivers/hv/vmbus_drv.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ arch/arm64/hyperv/mshyperv.c | 34 +++++++++++++++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index e25223cee3ab..52f01bd1c947 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -36,6 +36,7 @@
- #include <linux/syscore_ops.h>
- #include <linux/dma-map-ops.h>
- #include <linux/pci.h>
-+#include <linux/of_irq.h>
- #include <clocksource/hyperv_timer.h>
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index b1a4de4eee29..208a3bcb9686 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -15,6 +15,9 @@
+ #include <linux/errno.h>
+ #include <linux/version.h>
+ #include <linux/cpuhotplug.h>
++#include <linux/libfdt.h>
++#include <linux/of.h>
++#include <linux/of_fdt.h>
  #include <asm/mshyperv.h>
- #include "hyperv_vmbus.h"
-@@ -2316,6 +2317,34 @@ static int vmbus_acpi_add(struct platform_device *pdev)
- }
- #endif
  
-+static int __maybe_unused vmbus_of_set_irq(struct device_node *np)
+ static bool hyperv_initialized;
+@@ -27,6 +30,29 @@ int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
+ 	return 0;
+ }
+ 
++static bool hyperv_detect_fdt(void)
 +{
-+	struct irq_desc *desc;
-+	int irq;
++#ifdef CONFIG_OF
++	const unsigned long hyp_node = of_get_flat_dt_subnode_by_name(
++			of_get_flat_dt_root(), "hypervisor");
 +
-+	irq = of_irq_get(np, 0);
-+	if (irq == 0) {
-+		pr_err("VMBus interrupt mapping failure\n");
-+		return -EINVAL;
-+	}
-+	if (irq < 0) {
-+		pr_err("VMBus interrupt data can't be read from DeviceTree, error %d\n", irq);
-+		return irq;
-+	}
-+
-+	desc = irq_to_desc(irq);
-+	if (!desc) {
-+		pr_err("VMBus interrupt description can't be found for virq %d\n", irq);
-+		return -ENODEV;
-+	}
-+
-+	vmbus_irq = irq;
-+	vmbus_interrupt = desc->irq_data.hwirq;
-+	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
-+
-+	return 0;
++	return (hyp_node != -FDT_ERR_NOTFOUND) &&
++			of_flat_dt_is_compatible(hyp_node, "microsoft,hyperv");
++#else
++	return false;
++#endif
 +}
 +
- static int vmbus_device_add(struct platform_device *pdev)
- {
- 	struct resource **cur_res = &hyperv_mmio;
-@@ -2324,12 +2353,20 @@ static int vmbus_device_add(struct platform_device *pdev)
- 	struct device_node *np = pdev->dev.of_node;
- 	int ret;
- 
-+	pr_debug("VMBus is present in DeviceTree\n");
-+
- 	hv_dev = &pdev->dev;
- 
- 	ret = of_range_parser_init(&parser, np);
- 	if (ret)
- 		return ret;
- 
-+#ifndef HYPERVISOR_CALLBACK_VECTOR
-+	ret = vmbus_of_set_irq(np);
-+	if (ret)
-+		return ret;
++static bool hyperv_detect_acpi(void)
++{
++#ifdef CONFIG_ACPI
++	return !acpi_disabled &&
++			!strncmp((char *)&acpi_gbl_FADT.hypervisor_id, "MsHyperV", 8);
++#else
++	return false;
 +#endif
++}
 +
- 	for_each_of_range(&parser, &range) {
- 		struct resource *res;
+ static int __init hyperv_init(void)
+ {
+ 	struct hv_get_vp_registers_output	result;
+@@ -35,13 +61,11 @@ static int __init hyperv_init(void)
  
+ 	/*
+ 	 * Allow for a kernel built with CONFIG_HYPERV to be running in
+-	 * a non-Hyper-V environment, including on DT instead of ACPI.
++	 * a non-Hyper-V environment.
++	 *
+ 	 * In such cases, do nothing and return success.
+ 	 */
+-	if (acpi_disabled)
+-		return 0;
+-
+-	if (strncmp((char *)&acpi_gbl_FADT.hypervisor_id, "MsHyperV", 8))
++	if (!hyperv_detect_fdt() && !hyperv_detect_acpi())
+ 		return 0;
+ 
+ 	/* Setup the guest ID */
 -- 
 2.45.0
 
