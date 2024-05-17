@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EA165189;
-	Fri, 17 May 2024 14:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C806A353;
+	Fri, 17 May 2024 14:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715955603; cv=none; b=E5mMhO5ugIjVmi9h1D5OjB+21qq54X4J9osPCeAI3ndzPJlPNXzKlGWvPtPmPnN9gXfw3pDsaanTnQcz4n5XFQ2GLL9s2uZb0YBmdlnf6Jci2KK97JHDut6+ixifYRrKzOEs/h7nDe1v1qs3lhCiFYdFmJvuUSTUuJmwJx/tRcE=
+	t=1715955604; cv=none; b=Jw4iFfoetF3gKlnVE2adUlbe5sJkx1KGVNrHCyQpoENLlSCWXhRc8RWWyGHOo6SYw9s7Ey2ENCXtDrtATVYgCDoN3/SLw27Gq1UQ9OEBE0eOBR06hPHIe58/lBMWzuCeMpA92HaF6s5WKCgVzVNtjsIBn0vLTKCnynYXd6BJ3CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715955603; c=relaxed/simple;
-	bh=CcujIUVW1JuDql5JHxHA+AIa8M0XntpfPmL9/r3uwTE=;
+	s=arc-20240116; t=1715955604; c=relaxed/simple;
+	bh=mwZWrFqPlAATgrpluzFmNP8LOZ2SkfC+w1PDY7N0GkI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jHuqPEkyN6p+BP1OnwGbgA8U1tMswwKGoB4SVmf7k2ZBhWk81o2dw9uMRYsSEP/tLe7092SslE7G+Zpi/KsskDZZDGX5z4FyvTqOrBTMbTNyhyDXnexyc4oXEY44+gGB/tqMDAg/lGth+PWzRMWOboVXfO2drxcElAO0O7IzKB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nApBNqp0; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=fJe13V1JFvkOIBGnPbDnGXl8Lhdub9oYxSBDnfvmJBtpPT30W0QujV97oTb+x6JolY5JsdWlNxok475P57VpMuxUSr0j8BPXRTQxH7oj7dPUQZF9hk/9zbSHrJpoR2ADqs0yWPHXTluVLt7rEUFxW0dbwr6ENgJ6Sm5Jv4JudlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5jGO0Pw; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nApBNqp0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5jGO0Pw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715955601; x=1747491601;
+  t=1715955603; x=1747491603;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CcujIUVW1JuDql5JHxHA+AIa8M0XntpfPmL9/r3uwTE=;
-  b=nApBNqp0+GlOPdZLvn6cE696oBdlX3yrlq+7lUsSJdUGsPtlXfDhAF9n
-   OL3rBrtBe1z1M1mtWSHimm5L9f1NnXniFHB1UJVICWFr1nbmdYlLR79hx
-   U9aC09ww6oEKh9DOB5S9xFdZisXRYzdarNA1orIJlkyOKB3UoiKALYThh
-   mSWsW6Gd+K9voDtVRgAWPgOGsWd4K1ra/99XOg6DR9lEeRTdm4Bzr9sDM
-   adeF3Q3pWmGPgovfqb9VVGL4d1sFwZc7UA3fENnBBB4RP4vTuACCQALMl
-   xTm2hPHGqBuRlrcMRPwq5PZ1dFq+hBFYSZSmZ3aIREZpbPNt8TFiPJDZi
-   g==;
-X-CSE-ConnectionGUID: SOBTzdVRSq2bDFaFWiT/0A==
-X-CSE-MsgGUID: Lx/P0NlGRfu3CNklrWwDRg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="22808642"
+  bh=mwZWrFqPlAATgrpluzFmNP8LOZ2SkfC+w1PDY7N0GkI=;
+  b=b5jGO0Pwvig4hkqyQ8EH7jMxAQwjZWo2Nb9Lr2kp0M6a4G+Zr7hGD2Tl
+   q2dWa5mfSbX6Vl93vNAv3tq5k/BBQ5cunhGVOZryO5JreOffTDKX8reUl
+   1KRycxXkTvy7MYnfCVl5BbcVWMe/bZpml2KF/gCG1sOv4kkvJ0qxI6MX7
+   L22BWBvOM/EwP1qIXaTCeTxFnkbNYm98kgQ7Hh68/2NfiaP88xcEH3tYy
+   Qtq+Mk2Vhx2/YH3QGUmu6Lg5k9VbpvwF7Unhr4nBMynoybNQ+aCvWm+MZ
+   euDp8i4dINuWxDITb+9XACNfYwE1WYggKXG8Zi59G+fvaCThWewI0/duU
+   A==;
+X-CSE-ConnectionGUID: srDpFdgbRD2LdUQDHIQsEw==
+X-CSE-MsgGUID: C1vK2izGQJeDCi4sTCX51w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="22808661"
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="22808642"
+   d="scan'208";a="22808661"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 07:20:00 -0700
-X-CSE-ConnectionGUID: IOisXNc3SImubkKPm9L17Q==
-X-CSE-MsgGUID: tE0r8QJERR+mBnF5pQKlxA==
+X-CSE-ConnectionGUID: u/UyLr5SQ0md6MvEb5xcUw==
+X-CSE-MsgGUID: Lot0qZVdQp6wzxYOJB6H/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="69253385"
+   d="scan'208";a="69253383"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orviesa001.jf.intel.com with ESMTP; 17 May 2024 07:19:56 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 4D265AD3; Fri, 17 May 2024 17:19:50 +0300 (EEST)
+	id EEF7CD0D; Fri, 17 May 2024 17:19:49 +0300 (EEST)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -64,9 +64,9 @@ Cc: linux-coco@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH 13/20] x86/tdx: Rewrite hv_tdx_hypercall() without __tdx_hypercall()
-Date: Fri, 17 May 2024 17:19:31 +0300
-Message-ID: <20240517141938.4177174-14-kirill.shutemov@linux.intel.com>
+Subject: [PATCH 07/20] x86/tdx: Convert CPUID handling to use new TDVMCALL_4()
+Date: Fri, 17 May 2024 17:19:25 +0300
+Message-ID: <20240517141938.4177174-8-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240517141938.4177174-1-kirill.shutemov@linux.intel.com>
 References: <20240517141938.4177174-1-kirill.shutemov@linux.intel.com>
@@ -78,86 +78,59 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rewrite hv_tdx_hypercall() in assembly to remove one more
-__tdx_hypercall() user.
+Use newly introduced TDVMCALL_4() instead of __tdx_hypercall() to handle
+CPUID instruction emulation.
 
-tdvmcall_trampoline() cannot be used here as Hyper-V uses R8 and RDX to
-pass down parameters which is incompatible with tdvmcall_trampoline()
-
-The rewrite cuts code bloat substantially:
+It cuts code bloat substantially:
 
 Function                                     old     new   delta
-hv_tdx_hypercall                             171      42    -129
+tdx_handle_virt_exception                   1819    1747     -72
 
 Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 ---
- arch/x86/coco/tdx/tdcall.S | 30 ++++++++++++++++++++++++++++++
- arch/x86/hyperv/ivm.c      | 14 --------------
- 2 files changed, 30 insertions(+), 14 deletions(-)
+ arch/x86/coco/tdx/tdx.c | 20 ++------------------
+ 1 file changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/arch/x86/coco/tdx/tdcall.S b/arch/x86/coco/tdx/tdcall.S
-index 269e5789672a..5b60b9c8799f 100644
---- a/arch/x86/coco/tdx/tdcall.S
-+++ b/arch/x86/coco/tdx/tdcall.S
-@@ -138,3 +138,33 @@ SYM_FUNC_START(tdvmcall_report_fatal_error)
+diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
+index f59a2b3500db..c436cab355e0 100644
+--- a/arch/x86/coco/tdx/tdx.c
++++ b/arch/x86/coco/tdx/tdx.c
+@@ -414,13 +414,6 @@ static int write_msr(struct pt_regs *regs, struct ve_info *ve)
  
- 	ud2
- SYM_FUNC_END(tdvmcall_report_fatal_error)
-+
-+#ifdef CONFIG_HYPERV
-+/*
-+ * hv_tdx_hypercall() - Issue Hyper-V hypercall
-+ *
-+ * RDI - Hypercall ID
-+ * RSI - Parameter 1
-+ * RCX - Parameter 2
-+ */
-+SYM_FUNC_START(hv_tdx_hypercall)
-+	movq	%rdi, %r10
-+	movq    %rsi, %rdx
-+	movq    %rcx, %r8
-+
-+	movq	$TDG_VP_VMCALL, %rax
-+	movq    $(TDX_R8 | TDX_R10 | TDX_RDX), %rcx
-+
-+	tdcall
-+
-+	/* TDG.VP.VMCALL never fails on correct use. Panic if it fails. */
-+	testq   %rax, %rax
-+	jnz	.Lpanic_hv
-+
-+	movq	%r11, %rax
-+
-+	RET
-+.Lpanic_hv:
-+	ud2
-+SYM_FUNC_END(hv_tdx_hypercall)
-+#endif
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 18d0892d9fc4..562980e19d68 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -401,20 +401,6 @@ static void hv_tdx_msr_read(u64 msr, u64 *val)
- 	if (WARN_ONCE(ret, "Failed to emulate MSR read: %lld\n", ret))
- 		*val = 0;
+ static int handle_cpuid(struct pt_regs *regs, struct ve_info *ve)
+ {
+-	struct tdx_module_args args = {
+-		.r10 = TDX_HYPERCALL_STANDARD,
+-		.r11 = hcall_func(EXIT_REASON_CPUID),
+-		.r12 = regs->ax,
+-		.r13 = regs->cx,
+-	};
+-
+ 	/*
+ 	 * Only allow VMM to control range reserved for hypervisor
+ 	 * communication.
+@@ -438,19 +431,10 @@ static int handle_cpuid(struct pt_regs *regs, struct ve_info *ve)
+ 	 * ABI can be found in TDX Guest-Host-Communication Interface
+ 	 * (GHCI), section titled "VP.VMCALL<Instruction.CPUID>".
+ 	 */
+-	if (__tdx_hypercall(&args))
++	if (TDVMCALL_4(EXIT_REASON_CPUID, regs->ax, regs->cx, 0, 0,
++		       regs->ax, regs->bx, regs->cx, regs->dx))
+ 		return -EIO;
+ 
+-	/*
+-	 * As per TDX GHCI CPUID ABI, r12-r15 registers contain contents of
+-	 * EAX, EBX, ECX, EDX registers after the CPUID instruction execution.
+-	 * So copy the register contents back to pt_regs.
+-	 */
+-	regs->ax = args.r12;
+-	regs->bx = args.r13;
+-	regs->cx = args.r14;
+-	regs->dx = args.r15;
+-
+ 	return ve_instr_len(ve);
  }
--
--u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
--{
--	struct tdx_module_args args = { };
--
--	args.r10 = control;
--	args.rdx = param1;
--	args.r8  = param2;
--
--	(void)__tdx_hypercall(&args);
--
--	return args.r11;
--}
--
- #else
- static inline void hv_tdx_msr_write(u64 msr, u64 value) {}
- static inline void hv_tdx_msr_read(u64 msr, u64 *value) {}
+ 
 -- 
 2.43.0
 
