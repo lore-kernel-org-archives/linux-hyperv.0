@@ -1,49 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BF15B1E9;
-	Fri, 17 May 2024 14:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90975C61C;
+	Fri, 17 May 2024 14:19:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715955597; cv=none; b=gceHemCFQL61eGNNgcoywFSYcA7GDPtAV6CuRMYAr0PM0qjlUpVQEYqT9eCAd5K8McZ6vKUYSaGNQ5dkW38tBzdbc3uWKEowg85t02uxBNPGVDtWlmx1fts4Vq3Dx/Nj0pTo0AOPqWRyJnpXlQUiTCd5lKJqyreXmLcazG++muU=
+	t=1715955599; cv=none; b=sQm8paT+0BpK7Zmi/s0DB2qmbZblBePJMFzEP+io+Sgevh9k2vhWQuL+otD81cwv//RgJdblPXYU49SyROZxSFiLdwFrRNj6ezyQfbeyfr9v+kr/PDvc+tTwzxwNwfMF//WYaCQinPlsVIkSNtEj5Rmybd70FbKbZHB/GJ+GGg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715955597; c=relaxed/simple;
-	bh=qdA+03KUUXrXT1TuR3oQCBn2z6vx7qFJuNLOGkZcBqs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZInZ50UZ9ww6hhHDG0ZqmnRydybz+fPxfPRXAJmVVc9tEmn91c06i7Za+A2ArIJ+5mDDSNdwrt8flidydYAJeWz8JpdLJYO+W2iPPelL8VgFF6BLJQRDyiLqU+lS4l2FyCGmbt4mMnW7Qx/GwNcwtUQhodIM37eI2P8Xvh0MfWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtCvrHL3; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1715955599; c=relaxed/simple;
+	bh=gUQwV2IPZDrjdWlz6cSzIXD3iiQavq2X5QqqGPE9TCs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BthUPtmib0yGSclx0X9/be+jYMcwAWn/J4JA8rh7BxOJeTlsuWkQz4SGH/isAaR66t0b26Fdtr57yWNsZMzUDGvAh06JYOYl9xQJBA0KdHxoZo2Ic2HVHSaueUxzq3l4CYRPXLrBrZFi51OfyhlfyoWlpDQsuNEE+GRnlxv9cMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3PbA2Jc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtCvrHL3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3PbA2Jc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715955595; x=1747491595;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qdA+03KUUXrXT1TuR3oQCBn2z6vx7qFJuNLOGkZcBqs=;
-  b=FtCvrHL3GQYmxWI0MPCBgfkDxoS3O6ceuAD8wOJdkgG6AlIoKr5/itOf
-   NL0FTpe8H0uw4ovB+5SFd4sYAhfIEW0iGJp4QJAaZLH4t+6/hsNb7pcR/
-   Pcr7/hcsvn4hnOujDE4Di0rPoV3FWkOuEcXuSWFx9XVJfTgeITJaMU6Tl
-   iI5DZFWOg/3c1neOihhYzTETxa4wiwHSSpVU1G5254D+yxgu28hj+DPzi
-   3731sz4WfEkZDCfbOglwOTAh4S3Sb/I1PgndZ8C25E+PVD9a8UyjR+TeC
-   uUz61FPjiKiD5KEBTZu0DAi8TxhTPmnp8gfE1+W55xvFA3QxraeDOPiT7
-   g==;
-X-CSE-ConnectionGUID: /Esa/iugTg2Ciqgi6JjTAw==
-X-CSE-MsgGUID: nFPruNq6SJ+L4aBwPEG9gQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="22808550"
+  t=1715955598; x=1747491598;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=gUQwV2IPZDrjdWlz6cSzIXD3iiQavq2X5QqqGPE9TCs=;
+  b=Y3PbA2JcX/DXkFNLBQ/5p9L92wx6q0WSjxd5QpBvqpoeL9YZ5sr7vjot
+   3/hxSM9IbqdNtOlZhc3ZIC/CcGgku/8s8/GkPkctaW/IHFnJcy79JXSWC
+   s6CZY2svQlM3iYN7G6WirzWNRy+0/uwgt07xyj1lUCPaTZ0GZWRrV7ukP
+   yhUH5A2nGQyV2F8NH88nsSrsGsEtl3VXyT/xUml3zHX8Mkji8exie/ivP
+   j+TNo6p2N4O12PcEyAvr0AaMktnRqiHbN3mF3FIs+ZADSi5ssm2df+EXm
+   +zAPL73GToaCuRrVNMGMNj9yeW3owWcG3ktpLxrDUKhPuOJ6OU5N0ZqqR
+   Q==;
+X-CSE-ConnectionGUID: O3PJM71dQoWEce1tQEwS3w==
+X-CSE-MsgGUID: mLaoq83mTpqqFla74z4+4Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="22808563"
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="22808550"
+   d="scan'208";a="22808563"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 07:19:55 -0700
-X-CSE-ConnectionGUID: pUPJyHyVRUGTE9+FDhsMig==
-X-CSE-MsgGUID: mfRJ+xSfS/+hypUxdYOegA==
+X-CSE-ConnectionGUID: o5lTv1OzQjC7OWiR8ekdMA==
+X-CSE-MsgGUID: fb+T84JAQ2+KBcIRl2f4eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="31944605"
+   d="scan'208";a="31944606"
 Received: from black.fi.intel.com ([10.237.72.28])
   by orviesa009.jf.intel.com with ESMTP; 17 May 2024 07:19:51 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 83A2319E; Fri, 17 May 2024 17:19:49 +0300 (EEST)
+	id C299BAFB; Fri, 17 May 2024 17:19:49 +0300 (EEST)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -63,10 +64,12 @@ Cc: linux-coco@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-hyperv@vger.kernel.org,
 	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH 00/20] x86/tdx: Rewrite TDCALL wrappers
-Date: Fri, 17 May 2024 17:19:18 +0300
-Message-ID: <20240517141938.4177174-1-kirill.shutemov@linux.intel.com>
+Subject: [PATCH 04/20] x86/tdx: Convert HLT handling to use new TDVMCALL_0()
+Date: Fri, 17 May 2024 17:19:22 +0300
+Message-ID: <20240517141938.4177174-5-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240517141938.4177174-1-kirill.shutemov@linux.intel.com>
+References: <20240517141938.4177174-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -75,57 +78,81 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Sean noticing that the TDCALL wrappers were generating a lot of awful
-code.
+Use newly introduced TDVMCALL_0() instead of __tdx_hypercall() to handle
+HLT instruction emulation.
 
-TDCALL calls are centralized into a few megawrappers that take the
-struct tdx_module_args as input. Most of the call sites only use a few
-arguments, but they have to zero out unused fields in the structure to
-avoid data leaks to the VMM. This leads to the compiler generating
-inefficient code: dozens of instructions per call site to clear unused
-fields of the structure.
+It cuts code bloat substantially:
 
-This issue can be avoided by using more targeted wrappers.
+Function                                     old     new   delta
+tdx_safe_halt                                 58      88     +30
+tdx_handle_virt_exception                   2023    2052     +29
+__pfx___halt                                  16       -     -16
+__halt                                       171       -    -171
+Total: Before=6350, After=6222, chg -2.02%
 
-After the rewrite code size is cut by ~3K:
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+---
+ arch/x86/coco/tdx/tdx.c | 29 ++++++-----------------------
+ 1 file changed, 6 insertions(+), 23 deletions(-)
 
-add/remove: 7/15 grow/shrink: 1/17 up/down: 212/-3502 (-3290)
-
-Please take a look. I would appreciate any feedback.
-
-Kirill A. Shutemov (20):
-  x86/tdx: Introduce tdvmcall_trampoline()
-  x86/tdx: Add macros to generate TDVMCALL wrappers
-  x86/tdx: Convert port I/O handling to use new TDVMCALL macros
-  x86/tdx: Convert HLT handling to use new TDVMCALL_0()
-  x86/tdx: Convert MSR read handling to use new TDVMCALL_1()
-  x86/tdx: Convert MSR write handling to use new TDVMCALL_0()
-  x86/tdx: Convert CPUID handling to use new TDVMCALL_4()
-  x86/tdx: Convert MMIO handling to use new TDVMCALL macros
-  x86/tdx: Convert MAP_GPA hypercall to use new TDVMCALL macros
-  x86/tdx: Convert GET_QUOTE hypercall to use new TDVMCALL macros
-  x86/tdx: Rewrite tdx_panic() without __tdx_hypercall()
-  x86/tdx: Rewrite tdx_kvm_hypercall() without __tdx_hypercall()
-  x86/tdx: Rewrite hv_tdx_hypercall() without __tdx_hypercall()
-  x86/tdx: Add macros to generate TDCALL wrappers
-  x86/tdx: Convert PAGE_ACCEPT tdcall to use new TDCALL_0() macro
-  x86/tdx: Convert VP_INFO tdcall to use new TDCALL_5() macro
-  x86/tdx: Convert VM_RD/VM_WR tdcalls to use new TDCALL macros
-  x86/tdx: Convert VP_VEINFO_GET tdcall to use new TDCALL_5() macro
-  x86/tdx: Convert MR_REPORT tdcall to use new TDCALL_0() macro
-  x86/tdx: Remove old TDCALL wrappers
-
- arch/x86/boot/compressed/tdx.c    |  32 +---
- arch/x86/coco/tdx/tdcall.S        | 145 ++++++++++-----
- arch/x86/coco/tdx/tdx-shared.c    |  26 +--
- arch/x86/coco/tdx/tdx.c           | 298 ++++++++----------------------
- arch/x86/hyperv/ivm.c             |  33 +---
- arch/x86/include/asm/shared/tdx.h | 159 +++++++++++-----
- arch/x86/include/asm/tdx.h        |   2 +
- arch/x86/virt/vmx/tdx/tdxcall.S   |  29 +--
- tools/objtool/noreturns.h         |   2 +-
- 9 files changed, 322 insertions(+), 404 deletions(-)
-
+diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
+index 6e0e5648ebd1..dce7d6f9f895 100644
+--- a/arch/x86/coco/tdx/tdx.c
++++ b/arch/x86/coco/tdx/tdx.c
+@@ -350,18 +350,12 @@ static int ve_instr_len(struct ve_info *ve)
+ 	}
+ }
+ 
+-static u64 __cpuidle __halt(const bool irq_disabled)
++static int handle_halt(struct ve_info *ve)
+ {
+-	struct tdx_module_args args = {
+-		.r10 = TDX_HYPERCALL_STANDARD,
+-		.r11 = hcall_func(EXIT_REASON_HLT),
+-		.r12 = irq_disabled,
+-	};
+-
+ 	/*
+ 	 * Emulate HLT operation via hypercall. More info about ABI
+ 	 * can be found in TDX Guest-Host-Communication Interface
+-	 * (GHCI), section 3.8 TDG.VP.VMCALL<Instruction.HLT>.
++	 * (GHCI), section TDG.VP.VMCALL<Instruction.HLT>.
+ 	 *
+ 	 * The VMM uses the "IRQ disabled" param to understand IRQ
+ 	 * enabled status (RFLAGS.IF) of the TD guest and to determine
+@@ -370,14 +364,7 @@ static u64 __cpuidle __halt(const bool irq_disabled)
+ 	 * can keep the vCPU in virtual HLT, even if an IRQ is
+ 	 * pending, without hanging/breaking the guest.
+ 	 */
+-	return __tdx_hypercall(&args);
+-}
+-
+-static int handle_halt(struct ve_info *ve)
+-{
+-	const bool irq_disabled = irqs_disabled();
+-
+-	if (__halt(irq_disabled))
++	if (TDVMCALL_0(hcall_func(EXIT_REASON_HLT), irqs_disabled(), 0, 0, 0))
+ 		return -EIO;
+ 
+ 	return ve_instr_len(ve);
+@@ -385,13 +372,9 @@ static int handle_halt(struct ve_info *ve)
+ 
+ void __cpuidle tdx_safe_halt(void)
+ {
+-	const bool irq_disabled = false;
+-
+-	/*
+-	 * Use WARN_ONCE() to report the failure.
+-	 */
+-	if (__halt(irq_disabled))
+-		WARN_ONCE(1, "HLT instruction emulation failed\n");
++	/* See comment in handle_halt() */
++	WARN_ONCE(TDVMCALL_0(hcall_func(EXIT_REASON_HLT), false, 0, 0, 0),
++		  "HLT instruction emulation failed");
+ }
+ 
+ static int read_msr(struct pt_regs *regs, struct ve_info *ve)
 -- 
 2.43.0
 
