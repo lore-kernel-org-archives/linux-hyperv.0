@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB7D16D9C8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC5F16D9DA;
 	Tue, 28 May 2024 09:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716890156; cv=none; b=h+uZWPfWL0ap3YxOu++br/ZzS79HgV4qc42ajkSMUkUIbtkVnPFYDyivUeBBvjcrGDDWNK++m0AyacryMEsyIFElDWRPfEYcP+xDRf2VH9rSTD99OlsQAfMnYrjW6391TLTQm8EDuQJsTxGMrZfD2K8kDGktQGzCCWg1O9aTbxQ=
+	t=1716890157; cv=none; b=fP0FvmPVC6M/F6wYeYjHooEru4V7SXLb2/P2oYDdBeEdd5Ca/kodZw0cM3DL2wU8ILuK4EJxZ2DIEi44a9rY/ppdiuQtERtOjXzakH+XiUeeFxc6SR/6ADPtr2Wb+P/nj9QUxhgqtxoKBQ7UxAv2f7W0eFecGaLDs56PszezIpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716890156; c=relaxed/simple;
-	bh=ggOF5UziCfkAXFWyu9AjZBbe749R0vOnMDQfmgr6Dec=;
+	s=arc-20240116; t=1716890157; c=relaxed/simple;
+	bh=ooehCP2CqaQsm8Y5n6o6IXL6w/UgTt+BI7m7NlJA8lI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=osAY1S9zuKJcycRtRjaV16c/d9RltTIQSlyUTpSEraIPKmvdDIe+b87mjXjR/PxWpUZiz+Pem+8+kR6Mdn78WBDbRqQ2ssdJ4gn481xYgO54rA1d9TS10a/5KmpJVCoV9VvwQeGZQVoKkeLAOac2qGDvAeHUyJ3lF+PN5jcbSPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxqgJFHn; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=Beuyf5r/SHjLaIojDEUzX/msbOC7oMqQ6vWdfjKx0F9pftCRsisc73ASYQnSUFVpVbypo48nBKryq3Ra5LCtUnV9gL8Q7vkPVbDMs3GTzsqpwjc5X1otzZ9r/jRqpUSQNvYF79d0owDlGOZYndwlqfrGDn0e7YiQ7o8jFAD6wUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B36AZkAS; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxqgJFHn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B36AZkAS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1716890156; x=1748426156;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ggOF5UziCfkAXFWyu9AjZBbe749R0vOnMDQfmgr6Dec=;
-  b=MxqgJFHnLtBBREofd9QtLC4uJL4QWYz/YH142ejkWEhLDHKOVnZG4vE1
-   BmUbJaDlzBgiJMIdBoHLlNvqBSDeylM+FHpQOF8SwNanmQn+Hbtq8US73
-   fnwdshO0Vqy7sIORqi+j2BPwBoPWPa+Rx4lAmWZph5xAPghtZAvA7OxO7
-   cUWMAtgHNwkqtOuBE1SZb2ZJJAVHXU6qPeBLmDObSVM4RG4z0YlxAotgj
-   GWCGux3+8AqulQYb1kzwU2R8dVjJiGIg3DPYrlbUD+pB1XVBrrft13u1f
-   H1onWvrQ/MV67O0dByaBnVDTXwb+BISRVXt3aS/edu/7Gj7R+hZjocP/g
+  bh=ooehCP2CqaQsm8Y5n6o6IXL6w/UgTt+BI7m7NlJA8lI=;
+  b=B36AZkAS02El1vb3yLToeT+uChZLIpDOrrANQxhztNYoe/pqKbET3fnV
+   QUGK6gVfxEZfPI3oSRkZwS++8s1aXsYwh0TIfWU+sifXLqCUKAi+rlhIN
+   orpNGJZz5dKcEGq9QXsHderaB2hM/1RexAHKo9brUmKxAbAuZZkM+m/kZ
+   i3Pjxy3B+UGK5+6YAGEvz9+7HZfmceZIhXo7K7ieCRQl1Pkyf8gNqbIez
+   zj+1dFdl8/Ta1fC6jN84NJVMgPKrUnXrKwYENWL9P/qEVH8RZbBpVWkAL
+   iEDs4vy1+XYr4wQiOVS2HojLXqPsfSK+KSNjWbYk+lZtbxwW0bq7HFQeD
    w==;
-X-CSE-ConnectionGUID: 9DFki978SnqCXMdo8TLCwA==
-X-CSE-MsgGUID: Rm2i719qQtWVkxc5eNH+TA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13172186"
+X-CSE-ConnectionGUID: YQI9ZXaiRyG/fZo4ACtCLw==
+X-CSE-MsgGUID: qftspoKSQg+9Mct2byXodQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="13097841"
 X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="13172186"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 02:55:41 -0700
-X-CSE-ConnectionGUID: J1NSLEg5Q4us7sdnT0LpJA==
-X-CSE-MsgGUID: lwOD5fg7R4aE5sJChWCTtw==
+   d="scan'208";a="13097841"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2024 02:55:47 -0700
+X-CSE-ConnectionGUID: aBCmtDE0Qn2B/uaPQ11WMA==
+X-CSE-MsgGUID: BwiFw+EoSmadD7OOsHmOIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
-   d="scan'208";a="39984750"
+   d="scan'208";a="34951832"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa004.jf.intel.com with ESMTP; 28 May 2024 02:55:34 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 28 May 2024 02:55:41 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id AA54977C; Tue, 28 May 2024 12:55:26 +0300 (EEST)
+	id 473F0B6D; Tue, 28 May 2024 12:55:27 +0300 (EEST)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -74,9 +74,9 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
 	linux-coco@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tao Liu <ltao@redhat.com>
-Subject: [PATCHv11 09/19] x86/tdx: Account shared memory
-Date: Tue, 28 May 2024 12:55:12 +0300
-Message-ID: <20240528095522.509667-10-kirill.shutemov@linux.intel.com>
+Subject: [PATCHv11 19/19] ACPI: tables: Print MULTIPROC_WAKEUP when MADT is parsed
+Date: Tue, 28 May 2024 12:55:22 +0300
+Message-ID: <20240528095522.509667-20-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240528095522.509667-1-kirill.shutemov@linux.intel.com>
 References: <20240528095522.509667-1-kirill.shutemov@linux.intel.com>
@@ -88,49 +88,46 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kernel will convert all shared memory back to private during kexec.
-The direct mapping page tables will provide information on which memory
-is shared.
+When MADT is parsed, print MULTIPROC_WAKEUP information:
 
-It is extremely important to convert all shared memory. If a page is
-missed, it will cause the second kernel to crash when it accesses it.
+ACPI: MP Wakeup (version[1], mailbox[0x7fffd000], reset[0x7fffe068])
 
-Keep track of the number of shared pages. This will allow for
-cross-checking against the shared information in the direct mapping and
-reporting if the shared bit is lost.
+This debug information will be very helpful during bring up.
 
 Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Reviewed-by: Kai Huang <kai.huang@intel.com>
+Reviewed-by: Baoquan He <bhe@redhat.com>
+Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+Acked-by: Kai Huang <kai.huang@intel.com>
 Tested-by: Tao Liu <ltao@redhat.com>
 ---
- arch/x86/coco/tdx/tdx.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/acpi/tables.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/arch/x86/coco/tdx/tdx.c b/arch/x86/coco/tdx/tdx.c
-index 26fa47db5782..979891e97d83 100644
---- a/arch/x86/coco/tdx/tdx.c
-+++ b/arch/x86/coco/tdx/tdx.c
-@@ -38,6 +38,8 @@
+diff --git a/drivers/acpi/tables.c b/drivers/acpi/tables.c
+index b976e5fc3fbc..9e1b01c35070 100644
+--- a/drivers/acpi/tables.c
++++ b/drivers/acpi/tables.c
+@@ -198,6 +198,20 @@ void acpi_table_print_madt_entry(struct acpi_subtable_header *header)
+ 		}
+ 		break;
  
- #define TDREPORT_SUBTYPE_0	0
- 
-+static atomic_long_t nr_shared;
++	case ACPI_MADT_TYPE_MULTIPROC_WAKEUP:
++		{
++			struct acpi_madt_multiproc_wakeup *p =
++				(struct acpi_madt_multiproc_wakeup *)header;
++			u64 reset_vector = 0;
 +
- /* Called from __tdx_hypercall() for unrecoverable failure */
- noinstr void __noreturn __tdx_hypercall_failed(void)
- {
-@@ -821,6 +823,11 @@ static int tdx_enc_status_change_finish(unsigned long vaddr, int numpages,
- 	if (!enc && !tdx_enc_status_changed(vaddr, numpages, enc))
- 		return -EIO;
- 
-+	if (enc)
-+		atomic_long_sub(numpages, &nr_shared);
-+	else
-+		atomic_long_add(numpages, &nr_shared);
++			if (p->version >= ACPI_MADT_MP_WAKEUP_VERSION_V1)
++				reset_vector = p->reset_vector;
 +
- 	return 0;
- }
- 
++			pr_debug("MP Wakeup (version[%d], mailbox[%#llx], reset[%#llx])\n",
++				 p->version, p->mailbox_address, reset_vector);
++		}
++		break;
++
+ 	case ACPI_MADT_TYPE_CORE_PIC:
+ 		{
+ 			struct acpi_madt_core_pic *p = (struct acpi_madt_core_pic *)header;
 -- 
 2.43.0
 
