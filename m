@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE26412F5A0;
-	Fri, 14 Jun 2024 09:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB108195FF0;
+	Fri, 14 Jun 2024 09:59:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718359164; cv=none; b=j0cnwwbJoDKFSWmqPDxP1IJ+RiB6guhab/bH5rPZevOdJ9eCAp0BUFhOfOqCi2VXOvve/xqKS5S2AH/qfAcIzYWhmCGwiF4FtzvOzEQJ2XptCpeinT4uJajQBUyUd2GBH6+Kz14PHXI28qCbLv4StQhivovRAiWFIkVT+FX2b3A=
+	t=1718359165; cv=none; b=GmugZ4j1+IRXAJbyTkOXV5BeUQ656fhc/1iymI46mLLijaZ1GUE+qHgCIUvf2HjM96snZLTSvGqelSClpAHhu1qbHRNe46DlW6Dt2cjj1T6c79xjTm1x3pq2/wQWJgr0wgf3w33vzFNxqQ7G8XfvpuDW8NFn0JI0od7kT5V8RJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718359164; c=relaxed/simple;
-	bh=TPVYWp6K4eYFN3ECeVkCGPve1U6kGjk/ZQY722Hu1c0=;
+	s=arc-20240116; t=1718359165; c=relaxed/simple;
+	bh=iLfKKiSk3QwOSaKGHDKAXV6IdTXtC5sh1KcXVbMH51s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YK0Y3XHh8rCFBOKiECm9bkPPI9e1Zh7/QAEW6hhEkBfAcl45zbQvVV1m4cQ3cJj+PjLha53zmQtm9sNJ76vSn7K4jQ8ilS9jy+++yo365ug4mnUEWF/kuLxSwcjo96mAHTfbBop16fFDiu32FlJOzs4OdvqmfHbOhj7Wv4Yu43k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDERvxc5; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=Vc6HK8nuqgiYC+wXaRpJxFa0rF7E486wmi1nZSOJMGfWP0sXHqcNB121DSDIicjWxijjSo5pmMu2NBzFH7wGUlQCvTTP4C90IpN6kQwjPiAFY77x3uCr+dLq/Y8nvUNkbVrB3bTKYQCOVDECoAAcvsXeGGfemeVXmMZBgkldccI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krbnoqtf; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDERvxc5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krbnoqtf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718359163; x=1749895163;
+  t=1718359164; x=1749895164;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TPVYWp6K4eYFN3ECeVkCGPve1U6kGjk/ZQY722Hu1c0=;
-  b=bDERvxc5MdbAjnv9Og0Vh08cgLJ9q5poVMvSG7ZrPCVgGMvSkrg404LD
-   X1XBWfifqu9AXpWdR8FiSzhEDlEUmXKmv060n1SukmJR0z7pA9lbpLwME
-   ZhlPElZEX8UTP/fwuyiAgGYbjTflgXBlWt/+Pjugl1tIjw3ByC/LMnBt+
-   IrUvGQGPFpPAY2mAYELNhdOlzcQ+QOs5GieNWCP3KjcLa5xsjRmLAuFzz
-   beLDVmwkBJzNQihzTpCxHLyqqxZ9G6iSi0iMWAeEHyrAO6ed95FKzXZn4
-   rIUCTK0W32GaXgTMSaoP3sbaFlPq3kfNBGvGjrAHK9nYx1n8EHsT/DIgr
-   A==;
-X-CSE-ConnectionGUID: v0NfnZomRqe6czWNs/GNDw==
-X-CSE-MsgGUID: B6M0fEgvRruispo08Cs4Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="12072350"
+  bh=iLfKKiSk3QwOSaKGHDKAXV6IdTXtC5sh1KcXVbMH51s=;
+  b=krbnoqtf002flHh8Etj63pQj6g/xB5+dxWr+lJEAqL5MTGBoi9tMuerZ
+   V/GPFRmFsQN5dh6NegaUbO85S3UsYxkKkmKLWw/IqpkHtcngHo7TW48GG
+   1Jkps4kmnBRIjeLZHzpBTvhXZ8iLYM1WfcTxxUzBQMbom5pLQiHkFPuuL
+   D9vVFNeJKieplGbpx5wHjLBwR0UGlu+LjevW/605IIHIjZqBqWGuWwzeq
+   FYKH8Lfj47Jf68wq1+IOk4nhYqaXE9ZLS+tt6SVxwqM9v3LpbUqbnG5tv
+   M+e/kO6zBx+FssS7l0ONEGNjOBtUf98bZsbTsSWFH7r7CsGawYc1whnfm
+   g==;
+X-CSE-ConnectionGUID: zIiH/n2GTsmVJUkKAX6LHQ==
+X-CSE-MsgGUID: uG8AEFi5TjqVbbXH5hBw9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="12072371"
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="12072350"
+   d="scan'208";a="12072371"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 02:59:22 -0700
-X-CSE-ConnectionGUID: Yn96X/ZzS26geW8DkbHADA==
-X-CSE-MsgGUID: TDAG2v6KTmm206OkgymmAQ==
+X-CSE-ConnectionGUID: u1AKBD73T6mMb7/iEQPz1A==
+X-CSE-MsgGUID: QBHg/BtkSV6xFT2qjVmKQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="scan'208";a="44995836"
+   d="scan'208";a="44995845"
 Received: from black.fi.intel.com ([10.237.72.28])
   by fmviesa004.fm.intel.com with ESMTP; 14 Jun 2024 02:59:16 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id B7E102998; Fri, 14 Jun 2024 12:59:08 +0300 (EEST)
+	id DF1602A36; Fri, 14 Jun 2024 12:59:08 +0300 (EEST)
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -72,10 +72,12 @@ Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
 	linux-hyperv@vger.kernel.org,
 	linux-acpi@vger.kernel.org,
 	linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCHv12 05/19] x86/relocate_kernel: Use named labels for less confusion
-Date: Fri, 14 Jun 2024 12:58:50 +0300
-Message-ID: <20240614095904.1345461-6-kirill.shutemov@linux.intel.com>
+	linux-kernel@vger.kernel.org,
+	Dave Hansen <dave.hansen@intel.com>,
+	Tao Liu <ltao@redhat.com>
+Subject: [PATCHv12 08/19] x86/mm: Return correct level from lookup_address() if pte is none
+Date: Fri, 14 Jun 2024 12:58:53 +0300
+Message-ID: <20240614095904.1345461-9-kirill.shutemov@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240614095904.1345461-1-kirill.shutemov@linux.intel.com>
 References: <20240614095904.1345461-1-kirill.shutemov@linux.intel.com>
@@ -87,68 +89,132 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Borislav Petkov <bp@alien8.de>
+Currently, lookup_address() returns two things:
+  1. A "pte_t" (which might be a p[g4um]d_t)
+  2. The 'level' of the page tables where the "pte_t" was found
+     (returned via a pointer)
 
-That identity_mapped() functions was loving that "1" label to the point
-of completely confusing its readers.
+If no pte_t is found, 'level' is essentially garbage.
 
-Use named labels in each place for clarity.
+Always fill out the level.  For NULL "pte_t"s, fill in the level where
+the p*d_none() entry was found mirroring the "found" behavior.
 
-No functional changes.
+Always filling out the level allows using lookup_address() to precisely
+skip over holes when walking kernel page tables.
 
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Add one more entry into enum pg_level to indicate the size of the VA
+covered by one PGD entry in 5-level paging mode.
+
+Update comments for lookup_address() and lookup_address_in_pgd() to
+reflect changes in the interface.
+
 Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
+Reviewed-by: Baoquan He <bhe@redhat.com>
+Reviewed-by: Dave Hansen <dave.hansen@intel.com>
+Tested-by: Tao Liu <ltao@redhat.com>
 ---
- arch/x86/kernel/relocate_kernel_64.S | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ arch/x86/include/asm/pgtable_types.h |  1 +
+ arch/x86/mm/pat/set_memory.c         | 21 ++++++++++-----------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/kernel/relocate_kernel_64.S b/arch/x86/kernel/relocate_kernel_64.S
-index 54e620021c7e..8b8922de3765 100644
---- a/arch/x86/kernel/relocate_kernel_64.S
-+++ b/arch/x86/kernel/relocate_kernel_64.S
-@@ -148,9 +148,10 @@ SYM_CODE_START_LOCAL_NOALIGN(identity_mapped)
- 	 */
- 	movl	$X86_CR4_PAE, %eax
- 	testq	$X86_CR4_LA57, %r13
--	jz	1f
-+	jz	.Lno_la57
- 	orl	$X86_CR4_LA57, %eax
--1:
-+.Lno_la57:
-+
- 	movq	%rax, %cr4
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index b78644962626..2f321137736c 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -549,6 +549,7 @@ enum pg_level {
+ 	PG_LEVEL_2M,
+ 	PG_LEVEL_1G,
+ 	PG_LEVEL_512G,
++	PG_LEVEL_256T,
+ 	PG_LEVEL_NUM
+ };
  
- 	/* Flush the TLB (needed?) */
-@@ -162,9 +163,9 @@ SYM_CODE_START_LOCAL_NOALIGN(identity_mapped)
- 	 * used by kexec. Flush the caches before copying the kernel.
- 	 */
- 	testq	%r12, %r12
--	jz 1f
-+	jz .Lsme_off
- 	wbinvd
--1:
-+.Lsme_off:
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index 498812f067cd..a7a7a6c6a3fb 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -662,8 +662,9 @@ static inline pgprot_t verify_rwx(pgprot_t old, pgprot_t new, unsigned long star
  
- 	movq	%rcx, %r11
- 	call	swap_pages
-@@ -184,7 +185,7 @@ SYM_CODE_START_LOCAL_NOALIGN(identity_mapped)
- 	 */
+ /*
+  * Lookup the page table entry for a virtual address in a specific pgd.
+- * Return a pointer to the entry, the level of the mapping, and the effective
+- * NX and RW bits of all page table levels.
++ * Return a pointer to the entry (or NULL if the entry does not exist),
++ * the level of the entry, and the effective NX and RW bits of all
++ * page table levels.
+  */
+ pte_t *lookup_address_in_pgd_attr(pgd_t *pgd, unsigned long address,
+ 				  unsigned int *level, bool *nx, bool *rw)
+@@ -672,13 +673,14 @@ pte_t *lookup_address_in_pgd_attr(pgd_t *pgd, unsigned long address,
+ 	pud_t *pud;
+ 	pmd_t *pmd;
  
- 	testq	%r11, %r11
--	jnz 1f
-+	jnz .Lrelocate
- 	xorl	%eax, %eax
- 	xorl	%ebx, %ebx
- 	xorl    %ecx, %ecx
-@@ -205,7 +206,7 @@ SYM_CODE_START_LOCAL_NOALIGN(identity_mapped)
- 	ret
- 	int3
+-	*level = PG_LEVEL_NONE;
++	*level = PG_LEVEL_256T;
+ 	*nx = false;
+ 	*rw = true;
  
--1:
-+.Lrelocate:
- 	popq	%rdx
- 	leaq	PAGE_SIZE(%r10), %rsp
- 	ANNOTATE_RETPOLINE_SAFE
+ 	if (pgd_none(*pgd))
+ 		return NULL;
+ 
++	*level = PG_LEVEL_512G;
+ 	*nx |= pgd_flags(*pgd) & _PAGE_NX;
+ 	*rw &= pgd_flags(*pgd) & _PAGE_RW;
+ 
+@@ -686,10 +688,10 @@ pte_t *lookup_address_in_pgd_attr(pgd_t *pgd, unsigned long address,
+ 	if (p4d_none(*p4d))
+ 		return NULL;
+ 
+-	*level = PG_LEVEL_512G;
+ 	if (p4d_leaf(*p4d) || !p4d_present(*p4d))
+ 		return (pte_t *)p4d;
+ 
++	*level = PG_LEVEL_1G;
+ 	*nx |= p4d_flags(*p4d) & _PAGE_NX;
+ 	*rw &= p4d_flags(*p4d) & _PAGE_RW;
+ 
+@@ -697,10 +699,10 @@ pte_t *lookup_address_in_pgd_attr(pgd_t *pgd, unsigned long address,
+ 	if (pud_none(*pud))
+ 		return NULL;
+ 
+-	*level = PG_LEVEL_1G;
+ 	if (pud_leaf(*pud) || !pud_present(*pud))
+ 		return (pte_t *)pud;
+ 
++	*level = PG_LEVEL_2M;
+ 	*nx |= pud_flags(*pud) & _PAGE_NX;
+ 	*rw &= pud_flags(*pud) & _PAGE_RW;
+ 
+@@ -708,15 +710,13 @@ pte_t *lookup_address_in_pgd_attr(pgd_t *pgd, unsigned long address,
+ 	if (pmd_none(*pmd))
+ 		return NULL;
+ 
+-	*level = PG_LEVEL_2M;
+ 	if (pmd_leaf(*pmd) || !pmd_present(*pmd))
+ 		return (pte_t *)pmd;
+ 
++	*level = PG_LEVEL_4K;
+ 	*nx |= pmd_flags(*pmd) & _PAGE_NX;
+ 	*rw &= pmd_flags(*pmd) & _PAGE_RW;
+ 
+-	*level = PG_LEVEL_4K;
+-
+ 	return pte_offset_kernel(pmd, address);
+ }
+ 
+@@ -736,9 +736,8 @@ pte_t *lookup_address_in_pgd(pgd_t *pgd, unsigned long address,
+  * Lookup the page table entry for a virtual address. Return a pointer
+  * to the entry and the level of the mapping.
+  *
+- * Note: We return pud and pmd either when the entry is marked large
+- * or when the present bit is not set. Otherwise we would return a
+- * pointer to a nonexisting mapping.
++ * Note: the function returns p4d, pud or pmd either when the entry is marked
++ * large or when the present bit is not set. Otherwise it returns NULL.
+  */
+ pte_t *lookup_address(unsigned long address, unsigned int *level)
+ {
 -- 
 2.43.0
 
