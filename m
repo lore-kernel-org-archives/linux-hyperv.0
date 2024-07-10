@@ -1,57 +1,57 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17F814B943;
-	Wed, 10 Jul 2024 21:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60379156238;
+	Wed, 10 Jul 2024 21:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720646763; cv=none; b=N2IEf7ZwvAOOcYr4Q1h61hxdVsKB0eXcLnnqbFRFWPz1F+U237WmYtS/m/1KbYtitoxCHuljvXRBA7ClpeqaR3wrPDb2kdA1qXFR/RNEwBoDCKCitdck+3+BvYeUoXKHc+R5wbBBtq+W33nLfVM5U9pmcq+ZdTww3fDNaw+Nx2Q=
+	t=1720646765; cv=none; b=DwcillEvtuVhXf+pkAJGa5zOSMqRFBRyUj2PauNjTU2vjB+59HYGOSh1salDLi0uxtvFSlbwn1qSSU938RbsdddS9O6sSjMkwBjWtalkGY75p5gSivH6+M6rnITizULzW723IVn+It2+s1Ic0RKTOKIxHyfGjaSjz36Z7CRWVvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720646763; c=relaxed/simple;
-	bh=UfwlPBtk149XzS/tcMuqUXOpP079VnWFi28qU26z4ck=;
+	s=arc-20240116; t=1720646765; c=relaxed/simple;
+	bh=J/OYaM6+jTGguEhL1pMHM9vGNQQe8xO7deLzLD0Zrlw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jcdLL/TOaz7o6XYgK5lHEh4oF8YlApVmC/PTjacrgkTWs9AGvSoOfLU4oaf9VDHvE0T4q61j81SvJO3+5NAgThEhbqDQmXAhc2zcDRoDQWSZI5lBnC9z+ab6nsIChjEvNdGxJpvjFk/6vP+FPTmfmKnm0/oKXO/yJnZutMpNoqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hREZIi62; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=sk9hROwv5BqPOpRhsg7/HYYlRU29CkzHTBAcpabeZglLJxcFOYZtR+V5yJlkE3djGGpCPBrhK8L+cdxKkOtPpdUIqTcFG4i/UgsHq+4uXE9MxkqvEDkOkwdt0qXyyHrAJP1NpPkCllOHYHN/772nLX4t58KLn+M6ze32RLs2LLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j1WwWfhD; arc=none smtp.client-ip=209.85.167.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hREZIi62"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7a05b7c8e38so15094085a.0;
-        Wed, 10 Jul 2024 14:26:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j1WwWfhD"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3d9bcb47182so149574b6e.3;
+        Wed, 10 Jul 2024 14:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720646761; x=1721251561; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720646762; x=1721251562; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BJWi8Leq2jo3M3Yc8XcwnzkcrKsxdOFNGRCXzkErj3E=;
-        b=hREZIi62+exxFbPdFihwK7zhI1JD35yBcnGfImJNcyYmsDZCZxWBu00lxjr4WTkEbM
-         X//gdNVT4JBmwrww60uspbZkVYl1fXkbbWsSzt1c3aYj1D2OBobFxu7suadKXXq1WlY0
-         AjXBKLq7LjSnxeDfZrDoTjvhOEOBglUQAh6aagoxaYDec2YRFULy+K/7qLaA6VtqNxn3
-         VMpBKaMyWtdcRkAsF3VMXcglgkgQygS2GNjJAoPa+pg+PWXZjWSPgpogVFvawq+39Y3r
-         vMyz6xXzGOEn1PvnmpZCsOnZZe+i1onYiBegZtuLEcBB9cs0vb6ZCjXd09rP186sZp23
-         mBGg==
+        bh=IZum7xcXnx/YZciY9jm1etfeGDFDR11AzV+Fk8UpldY=;
+        b=j1WwWfhDliyfqk7jkdNBFvxXeOzqA1npLhw6UgLs6h/JJLhRavoMeQUSfMWNc/y63Z
+         9Zd7utwewuW/TKx7TRnVBt1IVDefMPXFvss8zRYDafgF+poWvNvVaFYSzCFQNT/EWWOx
+         9oWodGlIvnhWlCpXSBHBO+sbYpram2krMDQQr0co3HJVvFn9C+MdADp8XFVev6B0TQEw
+         q5ZOLPvww5UZalCFMFmIKGI5JtUuPovvKuxEQ5ny087BXA4j90VsaYJY3vLXk/aqmwdX
+         /OlwQ+RLYnXIxex5gqXQAbTSDII4K30o0X1HUWm73ZUPfEj3j6b1eC8v+S7x9GLNNCex
+         Rndg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720646761; x=1721251561;
+        d=1e100.net; s=20230601; t=1720646762; x=1721251562;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BJWi8Leq2jo3M3Yc8XcwnzkcrKsxdOFNGRCXzkErj3E=;
-        b=sTMG2yFjSp1NnrTwriIGk2LWCPWY2EPnEczBZCYnevFVYcssV55OluAn9raMrhrBrX
-         Ds8A2eHw8WbAwgg40cyNmUyUmY+eGdR4uIaUeYs+65zHmouTUgFrPtqS0uJd00H2Ouyr
-         TQLn2JtrU3pd+PK7c1ytGu/c827pxHe1trdiaV1OzBgeTtJbAD3L+7FENi3vSW5GAuLY
-         4gAkaICj3ZCzxJEMSXwbDX+uU7rU46ClaXZFVbqKW3DX9qTJaVNcQYuw1jW5cboROQjI
-         MuyVenW/EOkTAkQsszawsQK5743j1cOt5KdxA9Wtu9YpqnOysm855KikJD123RXyxIby
-         rnNg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk2XCuOWQUhEQ9TXuVAd/KyXRpuTiESGMq1f/GADsgO4xM853gtCx8bcxO8MxT4LwK2s1VsO8ow0K0llKDE2egLvLGVi+NGuZfpg1NgZVHoJxXDNg8fHFUr6Odw5LUHGGpLkSExzTSpAJbEZ2rHb2P7g15dACC3V4j+yHsLdakrZtaFEj5/T8GfyuH2Eo/eyoB4NFisVY51I8pL/ydxcFPwf7f5MuUp2S7QzMs
-X-Gm-Message-State: AOJu0Ywg5jRlGeU49WOPw66yDbnHbVfbSVYI65BgLFzmAtRAWzwqgy9K
-	TAcPI5TzmWifM0/rmNX1hzNUyn+4tg/Vtzkh6LIzR8gdSuXld1cG
-X-Google-Smtp-Source: AGHT+IEeRGnHtiCEw+KM2q98xiDSRuWiiJOOgf2jpC5OHvHQB6LFE7ca10rhiE0Y5d3kMoOxfyhvtw==
-X-Received: by 2002:a05:620a:2186:b0:79c:119e:2b44 with SMTP id af79cd13be357-79f19a51d7fmr733112885a.3.1720646760834;
-        Wed, 10 Jul 2024 14:26:00 -0700 (PDT)
+        bh=IZum7xcXnx/YZciY9jm1etfeGDFDR11AzV+Fk8UpldY=;
+        b=l36AfmQJ5R/KgyRTDKku7VAXwe75FrtZO9iWy6UyON4s+vYoLQxbHCibPLqZqHa9oL
+         1RpY8KtDe3pmSLkpvwhoHOYIzB9C3u9nfek1yMAQscxgu10qgb9I/7tInMYInax+ukh8
+         kSuWyu7jeEYbqv/D55e8Su8YAYk2RD70FnR5v4F6j+a465yeg8fzXjtNVIvhuTkQV4xw
+         diqD7mgQZDjhii+KCV45wOL5ajoPNkyuoF+gKp/rudrt0iF7n8849yvxJp9ysI89ZqTQ
+         5m2f4qLnsBbRyL+6DZBYRmdW7aD6K7pSRStb5cPiQWUdraM1U3lCrNddisc4YrVw7v2T
+         pLOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVna4Fr2sBTijJdYB3EKGiJwuphZlFDXysQ9WGE2tl37+X8KcBj5alQtGFROeDJpSAp8R21sLzxx2Zt4FdCNae6l+qbGv6lfHt5BY/5mw4nceyj7qmy+yCMjl4y+6Zn48kGBW785s1QdHP4XzBYqXqKAPD1hjz+gpNJOK12MbJ34M5tPlE19+154NshaP0PIjkd6crLNOZ2ahQDKKXIylVxus/0dmeLriMY6KKH
+X-Gm-Message-State: AOJu0YwYfN7A+5E1wXt1HUiaHZvri9ndjoqG/jHTH4dBlW6BdDtwFhJ6
+	uEuG7SD/+puF7BOEDeYFK3XJLnjMeCupxqqJTA+IWT3Vh+4mQYOR
+X-Google-Smtp-Source: AGHT+IEwAeV+NVV9eWvJ41Uh/5eeH740eMks+WRw93+ZS4FZF5Q7SDWMuOErRunlQoY//g+dgPPf/A==
+X-Received: by 2002:a05:6808:1455:b0:3d9:2925:cd37 with SMTP id 5614622812f47-3d93bddf767mr8767261b6e.2.1720646762507;
+        Wed, 10 Jul 2024 14:26:02 -0700 (PDT)
 Received: from n36-183-057.byted.org ([130.44.215.118])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190b0af1sm228791885a.122.2024.07.10.14.26.00
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-79f190b0af1sm228791885a.122.2024.07.10.14.26.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 14:26:00 -0700 (PDT)
+        Wed, 10 Jul 2024 14:26:02 -0700 (PDT)
 From: Amery Hung <ameryhung@gmail.com>
 X-Google-Original-From: Amery Hung <amery.hung@bytedance.com>
 To: stefanha@redhat.com,
@@ -84,9 +84,9 @@ Cc: dan.carpenter@linaro.org,
 	amery.hung@bytedance.com,
 	ameryhung@gmail.com,
 	xiyou.wangcong@gmail.com
-Subject: [RFC PATCH net-next v6 06/14] virtio/vsock: add VIRTIO_VSOCK_TYPE_DGRAM
-Date: Wed, 10 Jul 2024 21:25:47 +0000
-Message-Id: <20240710212555.1617795-7-amery.hung@bytedance.com>
+Subject: [RFC PATCH net-next v6 08/14] af_vsock: add vsock_find_bound_dgram_socket()
+Date: Wed, 10 Jul 2024 21:25:49 +0000
+Message-Id: <20240710212555.1617795-9-amery.hung@bytedance.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20240710212555.1617795-1-amery.hung@bytedance.com>
 References: <20240710212555.1617795-1-amery.hung@bytedance.com>
@@ -100,27 +100,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Bobby Eshleman <bobby.eshleman@bytedance.com>
 
-This commit adds the datagram packet type for inclusion in virtio vsock
-packet headers. It is included here as a standalone commit because
-multiple future but distinct commits depend on it.
+This commit adds vsock_find_bound_dgram_socket() which allows transports
+to find bound dgram sockets in the global dgram bind table. It is
+intended to be used for "routing" incoming packets to the correct
+sockets if the transport uses the global bind table.
 
 Signed-off-by: Bobby Eshleman <bobby.eshleman@bytedance.com>
 ---
- include/uapi/linux/virtio_vsock.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/net/af_vsock.h   |  1 +
+ net/vmw_vsock/af_vsock.c | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/include/uapi/linux/virtio_vsock.h b/include/uapi/linux/virtio_vsock.h
-index 64738838bee5..331be28b1d30 100644
---- a/include/uapi/linux/virtio_vsock.h
-+++ b/include/uapi/linux/virtio_vsock.h
-@@ -69,6 +69,7 @@ struct virtio_vsock_hdr {
- enum virtio_vsock_type {
- 	VIRTIO_VSOCK_TYPE_STREAM = 1,
- 	VIRTIO_VSOCK_TYPE_SEQPACKET = 2,
-+	VIRTIO_VSOCK_TYPE_DGRAM = 3,
- };
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index 6e97d344ac75..9d0882b82bfa 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -218,6 +218,7 @@ int vsock_assign_transport(struct vsock_sock *vsk, struct vsock_sock *psk);
+ bool vsock_find_cid(unsigned int cid);
+ const struct vsock_transport *vsock_dgram_lookup_transport(unsigned int cid,
+ 							   __u8 flags);
++struct sock *vsock_find_bound_dgram_socket(struct sockaddr_vm *addr);
  
- enum virtio_vsock_op {
+ struct vsock_skb_cb {
+ 	unsigned int src_cid;
+diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+index f83b655fdbe9..f0e5db0eb43a 100644
+--- a/net/vmw_vsock/af_vsock.c
++++ b/net/vmw_vsock/af_vsock.c
+@@ -265,6 +265,22 @@ static struct sock *vsock_find_bound_socket_common(struct sockaddr_vm *addr,
+ 	return NULL;
+ }
+ 
++struct sock *
++vsock_find_bound_dgram_socket(struct sockaddr_vm *addr)
++{
++	struct sock *sk;
++
++	spin_lock_bh(&vsock_dgram_table_lock);
++	sk = vsock_find_bound_socket_common(addr, vsock_bound_dgram_sockets(addr));
++	if (sk)
++		sock_hold(sk);
++
++	spin_unlock_bh(&vsock_dgram_table_lock);
++
++	return sk;
++}
++EXPORT_SYMBOL_GPL(vsock_find_bound_dgram_socket);
++
+ static struct sock *__vsock_find_bound_socket(struct sockaddr_vm *addr)
+ {
+ 	return vsock_find_bound_socket_common(addr, vsock_bound_sockets(addr));
 -- 
 2.20.1
 
