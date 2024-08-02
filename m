@@ -1,158 +1,92 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD2D1E4875;
-	Fri,  2 Aug 2024 13:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C93D2101A7
+	for <linux-hyperv@vger.kernel.org>; Fri,  2 Aug 2024 14:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722606974; cv=none; b=VSmeHBoSTpQne4oMRh/YLydYxNuv0VcNx8henEYEIJC45WoOM0OuUvVqXrBI1FI+P2P97UuBDSiGHjdzdyXcjFoo0Um9/dWBuYxFge0tL6mU7PYpd6y/l+E+CPmjAsITZ3nHQ2HFY25M4NZLnZYW4Wa7WKOJyJI8zjfr7+0tq+U=
+	t=1722610521; cv=none; b=lX3kjc9SPFeDrWk+ZXeSW0dP6UShmrpWvKnF/Haglct3nAfnioON7BaBqOmjjsXrdaAXMQLKOm/cqkuiNYQcPlJcLADutrrW+7PLUMtXHsF2VqLn8dFa/Y4dioWQa9j2p0fJU/TMWhZuwHMg6nJd//oLafrtwY5KDuUq8bi+g28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722606974; c=relaxed/simple;
-	bh=VmKErhGLNPdSvFCfFfKzw5bcu6Dk7oPwizBjKNpfpMI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bidWhMkOxu4tQ1wQX1Dty83Z9eNfkMTJwxsGYLCbWWPBPHabJ51oadd2huCaD6rOr7DCRY8nAkhaH2W9wCnca6+TtW9mpMCak64JGNcJxhxZUAbZFNKNkwNQAAzITgzcK9vXIp1K8W57HLdynbvSEA+tkBSOrhcUUGYcnC0+lRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BbAwCzb+; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1722610521; c=relaxed/simple;
+	bh=sIShp8PygITE34fsiiaEoyWsB81wo/QAF8+dAxPe14o=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=AJhczeSI+qxzeGb02rjfvCuuLGmwrsV+xNqAReFXxonqmkfSx6eYgSWPk67waNm5Kw8lKWVo/NnUH4vHBUxZ6YeRMTYCdhT5TLhPOeKWAW9PF7giC9KqWbfpk9/doJcAQ1w6QXqh1fuAbNWHTEvee/zNO+7i4Qw1XHoxBHLMTE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GU/nwbpI; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BbAwCzb+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=YygvPNTpQv1mbf3Vhp9DhrD9o1CnlYqQvU0rIy6TD7c=; b=BbAwCzb+Ns3supSKyRYxGP8DCm
-	SeB9WatSqxJhC7+NHsYbR3pKyv42HNyaeArtLt2lBTfr/MkGuqg8hqZVRob93CplaBDJieEFbhoqJ
-	udJwff3isYe8rMLN0zKKgI8c0juRwjnOLDWUEEnNnuQMFOwWSMpligRfIkqMkqh2XxGxYYGFn47tY
-	kPCz0zDECS++Inn6aITXgdt+Eo+n+jUrzsOH8+4vq4HMxHdcX8XgOuW2jka6nWauLvPoA+oZbHbTW
-	Pqkfn+nPZDmDIi9SbPk5aZAng2rsJMPN8pjInomblfGC/ktlRvqWYKeTUxgSSjCK/LKLNcHOq7tlr
-	3zQV3S9g==;
-Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZslB-00000005ioL-1mjV;
-	Fri, 02 Aug 2024 13:55:57 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sZsl9-00000002My8-38T7;
-	Fri, 02 Aug 2024 14:55:55 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: tglx@linuxtronix.de,
-	x86@kernel.org
-Cc: lirongqing@baidu.com,
-	seanjc@google.com,
-	kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Michael Kelley <mhklinux@outlook.com>
-Subject: [PATCH 1/2] i8253: Disable PIT timer 0 when not in use
-Date: Fri,  2 Aug 2024 14:55:54 +0100
-Message-ID: <20240802135555.564941-1-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GU/nwbpI"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1fc6db23c74so82639465ad.0
+        for <linux-hyperv@vger.kernel.org>; Fri, 02 Aug 2024 07:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722610519; x=1723215319; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k+EldIAhaXOwZDf7ZBJIgAZ18Tox4DVTl3CjOfhylXA=;
+        b=GU/nwbpIgiPDQEkalaSYlSdVPA+ZpobhY3uLDVUw7axazg66zLw5yRQKAGkePQz6Un
+         6JNP/BvJz4FF9PH0SnuQ2qBsHVRE18tfwk0Loq6pkKLQKVU9pOcc1vUN/Z1+2KqtbPCX
+         LWkFx94ZHojsQdICGWaWfO7SthC9T9oU4TRgnKdzqrNAhwkwXlSRXHXpfrWnwsxL0bNZ
+         qU9q251+6vASx13p7I2qH55A6XHnJUEkkzWmzlRYaD/JjNHvEvxb3br640wV11hbKECx
+         1If2IFtgmTDz3IV9d2bVkRDXLcpMTq9FuyWMFuDaUKxm0SO29AxoC0gm4TkXoWGwIWm0
+         b+hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722610519; x=1723215319;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k+EldIAhaXOwZDf7ZBJIgAZ18Tox4DVTl3CjOfhylXA=;
+        b=wT21tk+50z9T377wFlXmSnEGjuZM5Y+0qH2Uq4HMNvs2CzCrnS6A09csSlF+D/4Qxl
+         HXT9oDB87rVx+xcyqbduAKT/3QN3JclZeRbrNnSQauFXXu4EYQ1d7bENVXm+3aXL9pO8
+         OIw7PxLOF60d4z1/aKQSD0ZoMUg7Bxgh9YU68rQx7w/SmGbfR0BR/bxRb1v1WXDn+g3H
+         Tju1H1cZjpFkRGI5uLtxpFX1qU9iuIPg/AT7wfGXad/4NCjBsBWVN7ZMPuXn+uxH+04R
+         5bLRNHbYraVIaEaOKfKIQ1Cz7/MGaCKArInyGxvxlwItrX4eopOxXHz4aqdudmTQUhwF
+         fM9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVlgCQUKx5NFqY/PIDB2qxgrTdmNlEamF9txk3/8TaPCLOfJ2Eag9tR+ozuRcYoi9l3AlZ8gZ//S+KtY0/3EmgFQ9yjA7TDW02vubuu
+X-Gm-Message-State: AOJu0YzIIgz6YjCiIExObED2R4yaGxo25KVlvP9+1R1yUmMtBqxGi/1L
+	CrVBv4AuuyH0I4sC3twQoPL63hzs7VaPhmNme98yu/fyNNd7nqFDzZx5dZWynxV14lhjUV63Rqo
+	wjA==
+X-Google-Smtp-Source: AGHT+IGDrBHggFrxqDLcgkFZ6IvfF7sYOmSA66OWPSAnanySGoaTtmAM8Sq2VGr1qCWq8rCIKRKN7O0JKj0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:903:1ce:b0:1fa:d491:a4a0 with SMTP id
+ d9443c01a7336-1ff57291ca7mr3689455ad.2.1722610519056; Fri, 02 Aug 2024
+ 07:55:19 -0700 (PDT)
+Date: Fri, 2 Aug 2024 07:55:17 -0700
+In-Reply-To: <30eb7680b3c7ae5370dfbf7510e664181f38b80e.camel@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0
+References: <1675732476-14401-1-git-send-email-lirongqing@baidu.com>
+ <87ttg42uju.ffs@tglx> <SN6PR02MB41571AE611E7D249DABFE56DD4B22@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <87o76c2hw2.ffs@tglx> <30eb7680b3c7ae5370dfbf7510e664181f38b80e.camel@infradead.org>
+Message-ID: <ZqzzVRQYCmUwD0OL@google.com>
+Subject: Re: [PATCH] clockevents/drivers/i8253: Do not zero timer counter in shutdown
+From: Sean Christopherson <seanjc@google.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Michael Kelley <mhklinux@outlook.com>, 
+	"lirongqing@baidu.com" <lirongqing@baidu.com>, "kys@microsoft.com" <kys@microsoft.com>, 
+	"haiyangz@microsoft.com" <haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>, 
+	"decui@microsoft.com" <decui@microsoft.com>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>, 
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Fri, Aug 02, 2024, David Woodhouse wrote:
+> On Thu, 2024-08-01 at 20:54 +0200, Thomas Gleixner wrote:
+> > On Thu, Aug 01 2024 at 16:14, Michael Kelley wrote:
+> > > I don't have a convenient way to test my sequence on KVM.
+> > 
+> > But still fails in KVM
+> 
+> By KVM you mean the in-kernel one that we want to kill because everyone
+> should be using userspace IRQ chips these days?
 
-Leaving the PIT interrupt running can cause noticeable steal time for
-virtual guests. The VMM generally has a timer which toggles the IRQ input
-to the PIC and I/O APIC, which takes CPU time away from the guest. Even
-on real hardware, running the counter may use power needlessly (albeit
-not much).
+What exactly do you want to kill?  In-kernel local APIC obviously needs to stay
+for APICv/AVIC.
 
-Make sure it's turned off if it isn't going to be used.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- arch/x86/kernel/i8253.c     | 11 +++++++++--
- drivers/clocksource/i8253.c | 13 +++++++++----
- include/linux/i8253.h       |  1 +
- 3 files changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/arch/x86/kernel/i8253.c b/arch/x86/kernel/i8253.c
-index 2b7999a1a50a..80e262bb627f 100644
---- a/arch/x86/kernel/i8253.c
-+++ b/arch/x86/kernel/i8253.c
-@@ -8,6 +8,7 @@
- #include <linux/timex.h>
- #include <linux/i8253.h>
- 
-+#include <asm/hypervisor.h>
- #include <asm/apic.h>
- #include <asm/hpet.h>
- #include <asm/time.h>
-@@ -39,9 +40,15 @@ static bool __init use_pit(void)
- 
- bool __init pit_timer_init(void)
- {
--	if (!use_pit())
-+	if (!use_pit()) {
-+		/*
-+		 * Don't just ignore the PIT. Ensure it's stopped, because
-+		 * VMMs otherwise steal CPU time just to pointlessly waggle
-+		 * the (masked) IRQ.
-+		 */
-+		clockevent_i8253_disable();
- 		return false;
--
-+	}
- 	clockevent_i8253_init(true);
- 	global_clock_event = &i8253_clockevent;
- 	return true;
-diff --git a/drivers/clocksource/i8253.c b/drivers/clocksource/i8253.c
-index d4350bb10b83..cb215e6f2e83 100644
---- a/drivers/clocksource/i8253.c
-+++ b/drivers/clocksource/i8253.c
-@@ -108,11 +108,8 @@ int __init clocksource_i8253_init(void)
- #endif
- 
- #ifdef CONFIG_CLKEVT_I8253
--static int pit_shutdown(struct clock_event_device *evt)
-+void clockevent_i8253_disable(void)
- {
--	if (!clockevent_state_oneshot(evt) && !clockevent_state_periodic(evt))
--		return 0;
--
- 	raw_spin_lock(&i8253_lock);
- 
- 	outb_p(0x30, PIT_MODE);
-@@ -123,6 +120,14 @@ static int pit_shutdown(struct clock_event_device *evt)
- 	}
- 
- 	raw_spin_unlock(&i8253_lock);
-+}
-+
-+static int pit_shutdown(struct clock_event_device *evt)
-+{
-+	if (!clockevent_state_oneshot(evt) && !clockevent_state_periodic(evt))
-+		return 0;
-+
-+	clockevent_i8253_disable();
- 	return 0;
- }
- 
-diff --git a/include/linux/i8253.h b/include/linux/i8253.h
-index 8336b2f6f834..bf169cfef7f1 100644
---- a/include/linux/i8253.h
-+++ b/include/linux/i8253.h
-@@ -24,6 +24,7 @@ extern raw_spinlock_t i8253_lock;
- extern bool i8253_clear_counter_on_shutdown;
- extern struct clock_event_device i8253_clockevent;
- extern void clockevent_i8253_init(bool oneshot);
-+extern void clockevent_i8253_disable(void);
- 
- extern void setup_pit_timer(void);
- 
--- 
-2.44.0
-
+And IMO, encouraging userspace I/O APIC emulation is a net negative for KVM and
+the community as a whole, as the number of VMMs in use these days results in a
+decent amount of duplicated work in userspace VMMs, especially when accounting
+for hardware and software quirks.
