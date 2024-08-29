@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F45148FE6;
-	Thu, 29 Aug 2024 07:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECEA16C86D;
+	Thu, 29 Aug 2024 07:13:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724915613; cv=none; b=q+PppZJIN1aMKOzZOzrvnL8ngQggr5s4z/mMXMY/kt9JzSOBWPHbNHvrX1lr2OgMSxHQz5HRpRxygUBL+p6wG+b+fMN4bFMgxUc6ETIpQqUN70kC3pEf2YmpIb9YSBEae1OkN+lKgP5EEMqBntg6+Jrk6mMSYtaQJ78Se0IR+mQ=
+	t=1724915614; cv=none; b=QMDwB/vTshJgP5KhjoJYeq53QcJxmiPnsj/XwRoTQVqo2hyvGUA0BRGJiXXsR9hgKXygi29dMJba8CQbw3jBI3swHH3hDRZ+DTHtjdMTtWUbVQUHinnKGK+5rc1mwLb5/nGhSqckuWdlTvngxGVOUv8bcHtocbpAnvswWpMfNaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724915613; c=relaxed/simple;
-	bh=tEcFevNw0oxFUtM+m+yNRDsYTyi6M9vgmLnz8D58eGk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fR+RqTMWDCw4XzreoUTlW7+Ej2AtEHxPAmJIjIraVrtMBziVIsjLD5Xcj/mfn2JV/tJamm+mwOvvFmVso+TVwZwyIZyL+tpAz2icUMh1Ro/ZI0JNumsuinXnduzUambE1CvNkhfIpIPPYbIJdtbZ/jkjShOowyAF9kMZIY864ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=V6gJL+PA; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1724915614; c=relaxed/simple;
+	bh=s1/4HKit9dSyhZkSL0rQTHpnyOYZ9xWwZEfcXsLqo6c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jZ7ZH32GCzXauX56MBox3Sp/QQMFQHboVIFM5DLReSwFExuJ2MFRHCg2Oo1OLHPncDqALc5njal6WqDhelGczX9AVMiW7QN50QljfQIbFP6WxnCtbbrQ/aq/Hxm9H5O46AcscL8JGfXKE+3uEpU1tUH5CMwXpUsMmw/AWjpqFLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NHbKXNN3; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="V6gJL+PA"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NHbKXNN3"
 Received: from namjain-Virtual-Machine.mshome.net (unknown [167.220.238.141])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0AB2220B7165;
-	Thu, 29 Aug 2024 00:13:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0AB2220B7165
+	by linux.microsoft.com (Postfix) with ESMTPSA id AA3EA20B712C;
+	Thu, 29 Aug 2024 00:13:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AA3EA20B712C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1724915605;
-	bh=owDMFqb60QTXkwAjqxDHIGatU4U3fCR07MmwPLmBwSw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=V6gJL+PAiP+P1QkmaWAoipM/lfCIbzOddAAW3zyTPNwBYSdHSftYoqgX3u7UCfy2e
-	 TUxS1Vl6GMe+gsAHW0Rd6QiQPSRatkMqNXhufFeCacPToqhBMZi0rx1u1cVLpPX66e
-	 pXLifIiBTHZneyby20VRmiEjwEGFgcmFFAioekH8=
+	s=default; t=1724915612;
+	bh=6GoNotYZxN8p/FiKL5H0w/+Gi4edkJwlbdA1lxuTIjg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NHbKXNN3iTzzgYKTziTbCrbqh3viV52L0e/ZV6Fu8P+r+LGtkbFEKCjMIOO1MmPEL
+	 OxLuMFYagVrP7V/UzoirbJFCMRspve+f8thGDqUHgGpuen5de9hUFzNzjKsb8cyY5T
+	 BbtfC0i6DCuZr4Sy5PIgh44SAVd4WKJWvmioWCdQ=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: "K . Y . Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -37,10 +38,12 @@ Cc: linux-hyperv@vger.kernel.org,
 	Saurabh Sengar <ssengar@linux.microsoft.com>,
 	Naman Jain <namjain@linux.microsoft.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 0/2] Drivers: vmbus: Fix rescind handling in uio_hv_generic
-Date: Thu, 29 Aug 2024 12:43:10 +0530
-Message-Id: <20240829071312.1595-1-namjain@linux.microsoft.com>
+Subject: [PATCH v2 2/2] Drivers: hv: vmbus: Fix rescind handling in uio_hv_generic
+Date: Thu, 29 Aug 2024 12:43:12 +0530
+Message-Id: <20240829071312.1595-3-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240829071312.1595-1-namjain@linux.microsoft.com>
+References: <20240829071312.1595-1-namjain@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -49,35 +52,55 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix a few issues in rescind handling in uio_hv_generic driver.
-Patches are based on latest linux-next tip.
+Rescind offer handling relies on rescind callbacks for some of the
+resources cleanup, if they are registered. It does not unregister
+vmbus device for the primary channel closure, when callback is
+registered. Without it, next onoffer does not come, rescind flag
+remains set and device goes to unusable state.
 
-Steps to reproduce issue:
-* Probe uio_hv_generic driver and create channels to use fcopy
-* Disable the guest service on host and then Enable it.
-or
-* repeatedly do cat "/dev/uioX" on the device created for fcopy.
+Add logic to unregister vmbus for the primary channel in rescind callback
+to ensure channel removal and relid release, and to ensure that next
+onoffer can be received and handled properly.
 
-Changes since v1:
-https://lore.kernel.org/all/20240822110912.13735-1-namjain@linux.microsoft.com/
-* Added stable kernel list to cc
-* Updated commit messages for more information
-* Explicitly handle rescind callback for primary channel only, and add
-  comment: Saurabh, Michael.
-* Rebase to latest tip.
+Cc: stable@vger.kernel.org
+Fixes: ca3cda6fcf1e ("uio_hv_generic: add rescind support")
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+---
+ drivers/hv/vmbus_drv.c       | 1 +
+ drivers/uio/uio_hv_generic.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-Naman Jain (1):
-  Drivers: hv: vmbus: Fix rescind handling in uio_hv_generic
-
-Saurabh Sengar (1):
-  uio_hv_generic: Fix kernel NULL pointer dereference in hv_uio_rescind
-
- drivers/hv/vmbus_drv.c       |  1 +
- drivers/uio/uio_hv_generic.c | 11 ++++++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
-
-
-base-commit: 195a402a75791e6e0d96d9da27ca77671bc656a8
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 7242c4920427..c405295b930a 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -1980,6 +1980,7 @@ void vmbus_device_unregister(struct hv_device *device_obj)
+ 	 */
+ 	device_unregister(&device_obj->device);
+ }
++EXPORT_SYMBOL_GPL(vmbus_device_unregister);
+ 
+ #ifdef CONFIG_ACPI
+ /*
+diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
+index e3e66a3e85a8..870409599411 100644
+--- a/drivers/uio/uio_hv_generic.c
++++ b/drivers/uio/uio_hv_generic.c
+@@ -121,6 +121,14 @@ static void hv_uio_rescind(struct vmbus_channel *channel)
+ 
+ 	/* Wake up reader */
+ 	uio_event_notify(&pdata->info);
++
++	/*
++	 * With rescind callback registered, rescind path will not unregister the device
++	 * from vmbus when the primary channel is rescinded.
++	 * Without it, rescind handling is incomplete and next onoffer msg does not come.
++	 * Unregister the device from vmbus here.
++	 */
++	vmbus_device_unregister(channel->device_obj);
+ }
+ 
+ /* Sysfs API to allow mmap of the ring buffers
 -- 
 2.34.1
 
