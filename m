@@ -1,54 +1,48 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EDABE57;
-	Mon, 30 Sep 2024 03:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C2B013B288;
+	Mon, 30 Sep 2024 05:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727667886; cv=none; b=HRZwFsc4UHfIGmkSAybm8YcKHHxmuoSW6eKMWq4CyoidnbruRYISYa1eRKThI3KuMT/DIt4grnngLLigmSn6Bt8BrofgUDZxNqQYedVD8JK31sXqRztZTykIyN4yzAn+R9g+ApyvpE3cfysJLS+oQVSYb1kpW/+/pqMARrh7cZk=
+	t=1727674938; cv=none; b=SeaTiVAcMuuoZQg10RhxeV9zDEXjoCI0VXw3SgXeoD9uBc4i1/qZ4pJDYhtkN6TUnBEI6zxkf8oxszX0VxoW7afDXE0xi/munyADN7cU2wx5ukQHVzN9p192+UygCwlx9YEg1Nzjmm0yROYkDhEIcdeoqbKbKhnt3pzcmizhRPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727667886; c=relaxed/simple;
-	bh=WUanhzUipgf9Xx58h9HGW7RxWIfMBupKERxcEE3dxn8=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=qHCGuyp3w2NA3SmuEl6QNclAbImzm8SGK1DWPoIMXRa7Lm38NVH9hnY2vpHMDptXzk9jnoT9/ARBA+HxJWiQjy0Bh8Kf6NYGWYEZjuwOR/apoWxhHh6K1oOXCZrpVtbzODLUzdtdR8Q50ALQHRRpz3wXvB9rOrqllRF0b6wQiKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ozGwaJTN; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1727674938; c=relaxed/simple;
+	bh=VBBKALegdhR59CYTd2UllHzTLDvAds0WaiDy8WW2DKM=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=hQngRhuS70Pco2WhECQNGKzDCkuIAGt+NnAg+plgL9JbJlk/SMz+p5M6ab0a/nyC8+Hjjv/7GJnKqb8bw616rirodTcoOSCQWXfV3yfRxGpPhUbcTIWwLpFX0zvyOyW91G9mF71s3jqG3mztT2BIBEvbJxiqZTImGxp1i06Zo5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qGGDOKpk; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ozGwaJTN"
-Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id 4068020C8BCA; Sun, 29 Sep 2024 20:44:38 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4068020C8BCA
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qGGDOKpk"
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id E2F8120C8BD1; Sun, 29 Sep 2024 22:42:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E2F8120C8BD1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1727667878;
-	bh=nTZTPPBLPVY/ck3Jvqe99y3y3QEEBrVsRAXs8TQJSF0=;
+	s=default; t=1727674936;
+	bh=BpdSP4DAHYZuzbODydBsRdZaeOFwXuLS3KrCe9Oaq38=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ozGwaJTNm/G+K4u7j3R+vd6UKIgdoGL0ATTFWoJvGDEe85cvg7A5b/4LEKjwnlxud
-	 liEpGJI0I1jY9rzIzJzzrBwIFvShvduMzaNQanQ6GGOTD6HLJ9EGD9OWuBCOf5kqvc
-	 4cQzSWROlPSMO+TEIXi4oY6P9VyMmZ79GXzwjZdU=
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
+	b=qGGDOKpkCZ7Lutc2RCMRNAb8WIP87y7qp0kQdme7n7NEALFnhJShNitWkbP5qpWsR
+	 qs8TQ3UzM8xlQwwrqMcke6HRKvKnsRbOD9IK96bInKj9XflMEFQI5wL3Q0N89Uj2Lg
+	 cxBnGO+ROoXL3zYNZdCXClho6yWk/uUIXWc9fHbQ=
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: kys@microsoft.com,
+	haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	shradhagupta@linux.microsoft.com,
+	leon@kernel.org,
+	colin.i.king@gmail.com,
+	ahmed.zaki@intel.com,
+	linux-hyperv@vger.kernel.org,
 	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Long Li <longli@microsoft.com>,
-	Simon Horman <horms@kernel.org>,
-	Konstantin Taranov <kotaranov@microsoft.com>,
-	Souradeep Chakrabarti <schakrabarti@linux.microsoft.com>,
-	Erick Archer <erick.archer@outlook.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Shradha Gupta <shradhagupta@microsoft.com>
-Subject: [PATCH net-next RESEND] net: mana: Increase the DEF_RX_BUFFERS_PER_QUEUE to 1024
-Date: Sun, 29 Sep 2024 20:44:35 -0700
-Message-Id: <1727667875-29908-1-git-send-email-shradhagupta@linux.microsoft.com>
+	linux-kernel@vger.kernel.org
+Cc: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Subject: [PATCH net-next v2] net: mana: Add get_link and get_link_ksettings in ethtool
+Date: Sun, 29 Sep 2024 22:42:14 -0700
+Message-Id: <1727674934-12130-1-git-send-email-ernis@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -56,53 +50,71 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Through some experiments, we found out that increasing the default
-RX buffers count from 512 to 1024, gives slightly better throughput
-and significantly reduces the no_wqe_rx errs on the receiver side.
-Along with these, other parameters like cpu usage, retrans seg etc
-also show some improvement with 1024 value.
+Add support for the ethtool get_link and get_link_ksettings
+operations. Display standard port information using ethtool.
 
-Following are some snippets from the experiments
+Before the change:
+$ethtool enP30832s1
+> No data available
 
-ntttcp tests with 512 Rx buffers
----------------------------------------
-connections|  throughput|  no_wqe errs|
----------------------------------------
-1          |  40.93Gbps | 123,211     |
-16         | 180.15Gbps | 190,120     |
-128        | 180.20Gbps | 173,508     |
-256        | 180.27Gbps | 189,884     |
+After the change:
+$ethtool enP30832s1
+> Settings for enP30832s1:
+        Supported ports: [  ]
+        Supported link modes:   Not reported
+        Supported pause frame use: No
+        Supports auto-negotiation: No
+        Supported FEC modes: Not reported
+        Advertised link modes:  Not reported
+        Advertised pause frame use: No
+        Advertised auto-negotiation: No
+        Advertised FEC modes: Not reported
+        Speed: Unknown!
+        Duplex: Full
+        Auto-negotiation: off
+        Port: Other
+        PHYAD: 0
+        Transceiver: internal
+        Link detected: yes
 
-ntttcp tests with 1024 Rx buffers
----------------------------------------
-connections|  throughput|  no_wqe errs|
----------------------------------------
-1          |  44.22Gbps | 19,864      |
-16         | 180.19Gbps | 4,430       |
-128        | 180.21Gbps | 2,560       |
-256        | 180.29Gbps | 1,529       |
-
-So, increasing the default RX buffers per queue count to 1024
-
-Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Signed-off-by: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
 Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
+Reviewed-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
 ---
- include/net/mana/mana.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+* Remove support for displaying auto-negotiation details
+* Change PORT_DA to PORT_OTHER
+---
+ drivers/net/ethernet/microsoft/mana/mana_ethtool.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/include/net/mana/mana.h b/include/net/mana/mana.h
-index f2a5200d8a0f..9b0faa24b758 100644
---- a/include/net/mana/mana.h
-+++ b/include/net/mana/mana.h
-@@ -43,7 +43,7 @@ enum TRI_STATE {
-  * size beyond this value gets rejected by __alloc_page() call.
-  */
- #define MAX_RX_BUFFERS_PER_QUEUE 8192
--#define DEF_RX_BUFFERS_PER_QUEUE 512
-+#define DEF_RX_BUFFERS_PER_QUEUE 1024
- #define MIN_RX_BUFFERS_PER_QUEUE 128
+diff --git a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+index dc3864377538..349f11bf8e64 100644
+--- a/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
++++ b/drivers/net/ethernet/microsoft/mana/mana_ethtool.c
+@@ -443,6 +443,15 @@ static int mana_set_ringparam(struct net_device *ndev,
+ 	return err;
+ }
  
- /* This max value for TX buffers is derived as the maximum allocatable
++static int mana_get_link_ksettings(struct net_device *ndev,
++				   struct ethtool_link_ksettings *cmd)
++{
++	cmd->base.duplex = DUPLEX_FULL;
++	cmd->base.port = PORT_OTHER;
++
++	return 0;
++}
++
+ const struct ethtool_ops mana_ethtool_ops = {
+ 	.get_ethtool_stats	= mana_get_ethtool_stats,
+ 	.get_sset_count		= mana_get_sset_count,
+@@ -456,4 +465,6 @@ const struct ethtool_ops mana_ethtool_ops = {
+ 	.set_channels		= mana_set_channels,
+ 	.get_ringparam          = mana_get_ringparam,
+ 	.set_ringparam          = mana_set_ringparam,
++	.get_link_ksettings	= mana_get_link_ksettings,
++	.get_link		= ethtool_op_get_link,
+ };
 -- 
 2.34.1
 
