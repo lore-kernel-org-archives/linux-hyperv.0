@@ -1,29 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C20179BD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F54218028;
 	Fri, 18 Oct 2024 11:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729252699; cv=none; b=Am+a/0jqOhxQE7SugJ5r8RJqjoWxG70+hpLfYsw5nRArBxnGg3bPHq67l0nM8dzYTBr5AR089QN5PZUZjX6aA3BBm/aQXczA6w4bV/vmanAibRS3vLbIdc5lOIYmrg0ECQdXZM51BvfVN9CJwjp0n92lbuQD1FlCs1t2ZOcewyw=
+	t=1729252699; cv=none; b=GEbnLvst88FGoPQV9hqaJ1ySHZOBiWy2xfkklwnHVc06h2+6A7YR6/OWpcNPz0DO0R5J/aKtjf22lWmeUEGZitrsaegdrnACIJjOJMkLJG4LfLwmHOI/nl5xB5QbsLBKeWTAjoFagbyRZ0dBbe3YNQMw6VP82K06h/Jd4ZqYp/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729252699; c=relaxed/simple;
-	bh=FoVY3P+dkyEn1SWQ9ZUM9aCshtQ1vE7jS0OV3E2b8x0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F8aC96+2ScMl0XYnavuRSkqxs6ICHRVbAeVQdDTcZyXrXgTkUBQnTzIehUnAH3377wG8mgnS2k+7XdL5ZVmCfvLsRq3snx5JQyN1FPK0Ikql2DiUyRjdZOwuuplWU2R6AonCn+zmx51/i0dhsvo7VYEe3/+CCvTxUdEWUnltK6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=HpnAXpUJ; arc=none smtp.client-ip=13.77.154.182
+	bh=V7l0PvQcRAyt31Veefu5777dqgXNHKMi1nxNw1VdZ0s=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=p8JeWHL24AsJbAxfZFroufdSHKSpVSgxaMdUInNxhm/YSfXRHKYgEqG3ES2FRSTvmLrsXKdFYSiZSIayUP0DwBEE4LLz6NxpwZsfar8wRZDwDCWw6u9Gx5OMLH9N48Z4bhDn/4YiOL/Rc7iprh1licYZihSBJ5ZzUJln3Wrv+tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qIpl0s3B; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="HpnAXpUJ"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qIpl0s3B"
 Received: from namjain-Virtual-Machine.corp.microsoft.com (unknown [131.107.147.150])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D8F0C20CECAC;
-	Fri, 18 Oct 2024 04:58:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D8F0C20CECAC
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3358220FE9B9;
+	Fri, 18 Oct 2024 04:58:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3358220FE9B9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1729252697;
-	bh=dtC0uJaKntPOoglRd28A23lF01Ckdn3wHUspz7OqR/w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HpnAXpUJWq6fakJSAigCKmTywxfCYC24HG2Rz2WcbxWRDo+cYuQPeqBn8HLeFoY4p
-	 YD36byegJ2nQqk99RjlUSG3hqkJqYG5m4/25aO9RJmM5GJbSwAsjmHpLfsn3vV7IVJ
-	 ZP92X7rE/S0D1UjC6HkONZR3qwPjgf1H9jn2367M=
+	s=default; t=1729252698;
+	bh=AgkvXZDH7v1BFpc7/7o0bMtbqPdIJtAQPe1CUK+wbLo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qIpl0s3BkG1bDpFcsFn13Y47VOv7Z+PlB8pvGEYmWW9Y5nYX5PXVHFrrIb6Glx6Bn
+	 Gw4pKyIPeCW8Vgxyt1ja/50KioS0Hr6shaCJ3VUnSumATV54SQQlKzMPqeaP+YPVZn
+	 vYHpYbWB5pr03/CYhlhR1lih/rexTpDgrsivsTJM=
 From: Naman Jain <namjain@linux.microsoft.com>
 To: "K . Y . Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -35,10 +36,12 @@ Cc: linux-hyperv@vger.kernel.org,
 	John Starks <jostarks@microsoft.com>,
 	jacob.pan@linux.microsoft.com,
 	Easwar Hariharan <eahariha@linux.microsoft.com>
-Subject: [PATCH 0/2] Drivers: hv: vmbus: Wait for offers and log missing offers
-Date: Fri, 18 Oct 2024 04:58:09 -0700
-Message-Id: <20241018115811.5530-1-namjain@linux.microsoft.com>
+Subject: [PATCH 2/2] Drivers: hv: vmbus: Log on missing offers
+Date: Fri, 18 Oct 2024 04:58:11 -0700
+Message-Id: <20241018115811.5530-3-namjain@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241018115811.5530-1-namjain@linux.microsoft.com>
+References: <20241018115811.5530-1-namjain@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -47,37 +50,52 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After VM requests for channel offers during boot or resume from
-hibernation, host offers the available channels and then sends a
-separate message when all offers are delivered. Wait for this
-message to make this offers request and receipt process synchronous.
+From: John Starks <jostarks@microsoft.com>
 
-This is to support user mode (VTL0) in OpenHCL (A Linux based
-paravisor for Confidential VMs) to ensure that all channel offers
-are present when init begins in VTL0, and it knows which channels
-the host has offered and which it has not.
+When resuming from hibernation, log any channels that were present
+before hibernation but now are gone.
 
-This is in analogy to a PCI bus not returning from probe until it has
-scanned all devices on the bus.
+Signed-off-by: John Starks <jostarks@microsoft.com>
+Co-developed-by: Naman Jain <namjain@linux.microsoft.com>
+Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+---
+ drivers/hv/vmbus_drv.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-As part of this implementation, some code cleanup is also done for the
-logic which becomes redundant due to this change.
-
-Second patch prints the channels which are not offered when resume
-happens from hibernation to supply more information to the end user.
-
-John Starks (1):
-  Drivers: hv: vmbus: Log on missing offers
-
-Naman Jain (1):
-  Drivers: hv: vmbus: Wait for offers during boot
-
- drivers/hv/channel_mgmt.c | 38 +++++++++++++++++++++++---------------
- drivers/hv/connection.c   |  4 ++--
- drivers/hv/hyperv_vmbus.h | 14 +++-----------
- drivers/hv/vmbus_drv.c    | 30 +++++++++++++++---------------
- 4 files changed, 43 insertions(+), 43 deletions(-)
-
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index bd3fc41dc06b..1f56d138210e 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2462,6 +2462,7 @@ static int vmbus_bus_suspend(struct device *dev)
+ 
+ static int vmbus_bus_resume(struct device *dev)
+ {
++	struct vmbus_channel *channel;
+ 	struct vmbus_channel_msginfo *msginfo;
+ 	size_t msgsize;
+ 	int ret;
+@@ -2494,6 +2495,21 @@ static int vmbus_bus_resume(struct device *dev)
+ 
+ 	vmbus_request_offers();
+ 
++	mutex_lock(&vmbus_connection.channel_mutex);
++	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
++		if (channel->offermsg.child_relid != INVALID_RELID)
++			continue;
++
++		/* hvsock channels are not expected to be present. */
++		if (is_hvsock_channel(channel))
++			continue;
++
++		pr_err("channel %pUl/%pUl not present after resume.\n",
++			&channel->offermsg.offer.if_type,
++			&channel->offermsg.offer.if_instance);
++	}
++	mutex_unlock(&vmbus_connection.channel_mutex);
++
+ 	/* Reset the event for the next suspend. */
+ 	reinit_completion(&vmbus_connection.ready_for_suspend_event);
+ 
 -- 
 2.34.1
 
