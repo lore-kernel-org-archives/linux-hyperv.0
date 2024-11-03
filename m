@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65FE18BBA1;
-	Sun,  3 Nov 2024 17:04:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FCF18BBBE;
+	Sun,  3 Nov 2024 17:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730653486; cv=none; b=cUDeNTu3GzWbAC/7JFyJi0jlEO2Jl01LvH3pfFaY+CHN743HcUSiz7Ox7J5FK/27gCNMovHPSapHs1a6dV8YSnWeg7br36iCcxfC6MAP+oMwzZxW9554fa8BHmHyWtQbVB7LV8G5PaSJwUjtjVHY0GlQZZ1T2IIq+NiRGhydnSI=
+	t=1730653487; cv=none; b=dYCDO+Zr6pfBthXRTAN/92sJISsITjdQcJwfiOcLe+O+bSwjluo96vKul/Pbjb9n7v8t87XseB0uP93UE+Eox71BJhA2sJNW7g2ldStvhCpiTPTHhhgQCxqy7QxdVDAW009D3TGpHHHYTsw8YplpMU1m/XBXVfPqV5gxDyKx38s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730653486; c=relaxed/simple;
-	bh=HJxCu3XdHEjI8+lqBeecXqpkPvzbQYLMTL9gfIshZu0=;
+	s=arc-20240116; t=1730653487; c=relaxed/simple;
+	bh=nl79rluqUz7qDqQxR9i496RKtXejrl6t02e4QH5qPJI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GfIBYTTlPJrgVJufegvukqEaItkzQnYktNyfbOo/Ev1GhlF9kO4pcuu3m/c8kjAk5kg6yoj/Us8bCGTR/zQ6MfV0+SGu5Ub1FGkKrO4KbCD/Sjx/fhA0XwcldNFqPmdKkS5ba3h+KQ5P/j2suW7unBv+PvnWFL1jddSCpf0HnL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=eJ/MCRqo; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=t2A3KPgMISsbmJV3VcdQlDZlx3Jxa9oOK2zM0ZWW/WcUOkp/vaBcmYTX3pQXPtRf+7TnJXYcfKRaHzyGjo4pTurhOqxCSQPhHhkuYXfah4AH2hlqGMlLmVoX1Qh5pr9e8xkL/OJ9eHISiPMj220lRgE57yR3pJlk1X0nLJPGZOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=MrPXyPkE; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="eJ/MCRqo"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="MrPXyPkE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1730653478;
-	bh=HJxCu3XdHEjI8+lqBeecXqpkPvzbQYLMTL9gfIshZu0=;
+	s=mail; t=1730653480;
+	bh=nl79rluqUz7qDqQxR9i496RKtXejrl6t02e4QH5qPJI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=eJ/MCRqoF9Rqe3KaW2ShUA9/IYs2ictVXaJRROkHjxolYm/HneFO9JpZW0gFLD5sq
-	 eJMWG+muBZiQNKpeD5GYOx57gwIVygWUhDQpNmatBQN/rfCMWVgd8Ig2F+0Qb7gccl
-	 lHL/yru1/vu3kEMje+fV5ituej+a5j8n8Omi4eU4=
+	b=MrPXyPkEuWuLaArcS1YGVn5YlgOUjnhynRsRbFHftaoVetXelMVaxQkJe+EiL6woE
+	 S+0agGULjab2y5uR+7KKalE5m4IP94H8VkjxsjakcHAZy5VaYR9a0QZZyYQRSiHv+/
+	 ysKDYkOHxRTXhv0Lf2m/q/BbJ0blHSQyXutxkMIo=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 03 Nov 2024 17:03:34 +0000
-Subject: [PATCH v2 05/10] sysfs: treewide: constify attribute callback of
- bin_is_visible()
+Date: Sun, 03 Nov 2024 17:03:38 +0000
+Subject: [PATCH v2 09/10] sysfs: bin_attribute: add const read/write
+ callback variants
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
+Message-Id: <20241103-sysfs-const-bin_attr-v2-9-71110628844c@weissschuh.net>
 References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 In-Reply-To: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -80,231 +80,138 @@ Cc: Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=10037;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730653468; l=4652;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=HJxCu3XdHEjI8+lqBeecXqpkPvzbQYLMTL9gfIshZu0=;
- b=q526adB7X5IWu5oD3aHXgNapKbQ68pIt0vtJJys1mqg9dJ5C24gfhoXCe8E0XMtccXzh7sleK
- t+OZuYX5ZorAZD3oVis4dvraeO9iEpIZNu3TrJnncQ08r3TMeL2GZ7J
+ bh=nl79rluqUz7qDqQxR9i496RKtXejrl6t02e4QH5qPJI=;
+ b=zRu/d/VZWP3doJBfzxqs7giw29YYNYi0iPXD2I6CuiN9W2SIlp8gheE3GiOLS245JLYo+Bia3
+ qTMMFVAORK0D7GC1EfyiEnv7178teL6JXj2G6JdQ8X2UySjLYA2oPsa
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The is_bin_visible() callbacks should not modify the struct
-bin_attribute passed as argument.
-Enforce this by marking the argument as const.
+To make it possible to put struct bin_attribute into read-only memory,
+the sysfs core has to stop passing mutable pointers to the read() and
+write() callbacks.
+As there are numerous implementors of these callbacks throughout the
+tree it's not possible to change all of them at once.
+To enable a step-by-step transition, add new variants of the read() and
+write() callbacks which differ only in the constness of the struct
+bin_attribute argument.
 
-As there are not many callback implementers perform this change
-throughout the tree at once.
+As most binary attributes are defined through macros, extend these
+macros to transparently handle both variants of callbacks to minimize
+the churn during the transition.
+As soon as all handlers are switch to the const variant, the non-const
+one can be removed together with the transition machinery.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/cxl/port.c                      |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c |  2 +-
- drivers/infiniband/hw/qib/qib_sysfs.c   |  2 +-
- drivers/mtd/spi-nor/sysfs.c             |  2 +-
- drivers/nvmem/core.c                    |  3 ++-
- drivers/pci/pci-sysfs.c                 |  2 +-
- drivers/pci/vpd.c                       |  2 +-
- drivers/platform/x86/amd/hsmp.c         |  2 +-
- drivers/platform/x86/intel/sdsi.c       |  2 +-
- drivers/scsi/scsi_sysfs.c               |  2 +-
- drivers/usb/core/sysfs.c                |  2 +-
- include/linux/sysfs.h                   | 30 +++++++++++++++---------------
- 12 files changed, 27 insertions(+), 26 deletions(-)
+ fs/sysfs/file.c       | 22 +++++++++++++++++-----
+ include/linux/sysfs.h | 25 +++++++++++++++++++++++--
+ 2 files changed, 40 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/cxl/port.c b/drivers/cxl/port.c
-index 9dc394295e1fcd1610813837b2f515b66995eb25..24041cf85cfbe6c54c467ac325e48c775562b938 100644
---- a/drivers/cxl/port.c
-+++ b/drivers/cxl/port.c
-@@ -173,7 +173,7 @@ static ssize_t CDAT_read(struct file *filp, struct kobject *kobj,
- static BIN_ATTR_ADMIN_RO(CDAT, 0);
+diff --git a/fs/sysfs/file.c b/fs/sysfs/file.c
+index 6d39696b43069010b0ad0bdaadcf9002cb70c92c..785408861c01c89fc84c787848243a13c1338367 100644
+--- a/fs/sysfs/file.c
++++ b/fs/sysfs/file.c
+@@ -91,9 +91,12 @@ static ssize_t sysfs_kf_bin_read(struct kernfs_open_file *of, char *buf,
+ 			count = size - pos;
+ 	}
  
- static umode_t cxl_port_bin_attr_is_visible(struct kobject *kobj,
--					    struct bin_attribute *attr, int i)
-+					    const struct bin_attribute *attr, int i)
- {
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct cxl_port *port = to_cxl_port(dev);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-index 0b28b2cf1517d130da01989df70b9dff6433edc4..c1c329eb920b52af100a93bdf00df450e25608c4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
-@@ -3999,7 +3999,7 @@ static umode_t amdgpu_flash_attr_is_visible(struct kobject *kobj, struct attribu
+-	if (!battr->read)
++	if (!battr->read && !battr->read_new)
+ 		return -EIO;
+ 
++	if (battr->read_new)
++		return battr->read_new(of->file, kobj, battr, buf, pos, count);
++
+ 	return battr->read(of->file, kobj, battr, buf, pos, count);
  }
  
- static umode_t amdgpu_bin_flash_attr_is_visible(struct kobject *kobj,
--						struct bin_attribute *attr,
-+						const struct bin_attribute *attr,
- 						int idx)
- {
- 	struct device *dev = kobj_to_dev(kobj);
-diff --git a/drivers/infiniband/hw/qib/qib_sysfs.c b/drivers/infiniband/hw/qib/qib_sysfs.c
-index 53ec7510e4ebfb144e79884ca7dd7d0c873bd8a7..ba2cd68b53e6c240f1afc65c64012c75ccf488e0 100644
---- a/drivers/infiniband/hw/qib/qib_sysfs.c
-+++ b/drivers/infiniband/hw/qib/qib_sysfs.c
-@@ -283,7 +283,7 @@ static struct bin_attribute *port_ccmgta_attributes[] = {
- };
+@@ -152,9 +155,12 @@ static ssize_t sysfs_kf_bin_write(struct kernfs_open_file *of, char *buf,
+ 	if (!count)
+ 		return 0;
  
- static umode_t qib_ccmgta_is_bin_visible(struct kobject *kobj,
--				 struct bin_attribute *attr, int n)
-+				 const struct bin_attribute *attr, int n)
- {
- 	struct qib_pportdata *ppd = qib_get_pportdata_kobj(kobj);
+-	if (!battr->write)
++	if (!battr->write && !battr->write_new)
+ 		return -EIO;
  
-diff --git a/drivers/mtd/spi-nor/sysfs.c b/drivers/mtd/spi-nor/sysfs.c
-index 96064e4babf01f6950c81586764386e7671cbf97..5e9eb268073d18e0a46089000f18a3200b4bf13d 100644
---- a/drivers/mtd/spi-nor/sysfs.c
-+++ b/drivers/mtd/spi-nor/sysfs.c
-@@ -87,7 +87,7 @@ static umode_t spi_nor_sysfs_is_visible(struct kobject *kobj,
++	if (battr->write_new)
++		return battr->write_new(of->file, kobj, battr, buf, pos, count);
++
+ 	return battr->write(of->file, kobj, battr, buf, pos, count);
  }
  
- static umode_t spi_nor_sysfs_is_bin_visible(struct kobject *kobj,
--					    struct bin_attribute *attr, int n)
-+					    const struct bin_attribute *attr, int n)
- {
- 	struct spi_device *spi = to_spi_device(kobj_to_dev(kobj));
- 	struct spi_mem *spimem = spi_get_drvdata(spi);
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 63370c76394ee9b8d514da074779617cef67c311..73e44d724f90f4cd8fe8cafb9fa0c0fb23078e61 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -298,7 +298,8 @@ static umode_t nvmem_bin_attr_get_umode(struct nvmem_device *nvmem)
- }
+@@ -323,13 +329,19 @@ int sysfs_add_bin_file_mode_ns(struct kernfs_node *parent,
+ 	const struct kernfs_ops *ops;
+ 	struct kernfs_node *kn;
  
- static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
--					 struct bin_attribute *attr, int i)
-+					 const struct bin_attribute *attr,
-+					 int i)
- {
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct nvmem_device *nvmem = to_nvmem_device(dev);
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 040f01b2b999175e8d98b05851edc078bbabbe0d..13912940ed2bb66c0086e5bea9a3cb6417ac14dd 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -1326,7 +1326,7 @@ static struct bin_attribute *pci_dev_rom_attrs[] = {
- };
- 
- static umode_t pci_dev_rom_attr_is_visible(struct kobject *kobj,
--					   struct bin_attribute *a, int n)
-+					   const struct bin_attribute *a, int n)
- {
- 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
- 
-diff --git a/drivers/pci/vpd.c b/drivers/pci/vpd.c
-index e4300f5f304f3ca55a657fd25a1fa5ed919737a7..a469bcbc0da7f7677485c7f999f8dfb58b8ae8a3 100644
---- a/drivers/pci/vpd.c
-+++ b/drivers/pci/vpd.c
-@@ -325,7 +325,7 @@ static struct bin_attribute *vpd_attrs[] = {
- };
- 
- static umode_t vpd_attr_is_visible(struct kobject *kobj,
--				   struct bin_attribute *a, int n)
-+				   const struct bin_attribute *a, int n)
- {
- 	struct pci_dev *pdev = to_pci_dev(kobj_to_dev(kobj));
- 
-diff --git a/drivers/platform/x86/amd/hsmp.c b/drivers/platform/x86/amd/hsmp.c
-index 8fcf38eed7f00ee01aade6e3e55e20402458d5aa..8f00850c139fa8d419bc1c140c1832bf84b2c3bd 100644
---- a/drivers/platform/x86/amd/hsmp.c
-+++ b/drivers/platform/x86/amd/hsmp.c
-@@ -620,7 +620,7 @@ static int hsmp_get_tbl_dram_base(u16 sock_ind)
- }
- 
- static umode_t hsmp_is_sock_attr_visible(struct kobject *kobj,
--					 struct bin_attribute *battr, int id)
-+					 const struct bin_attribute *battr, int id)
- {
- 	if (plat_dev.proto_ver == HSMP_PROTO_VER6)
- 		return battr->attr.mode;
-diff --git a/drivers/platform/x86/intel/sdsi.c b/drivers/platform/x86/intel/sdsi.c
-index 9d137621f0e6e7a23be0e0bbc6175c51c403169f..33f33b1070fdc949c1373251c3bca4234d9da119 100644
---- a/drivers/platform/x86/intel/sdsi.c
-+++ b/drivers/platform/x86/intel/sdsi.c
-@@ -541,7 +541,7 @@ static struct bin_attribute *sdsi_bin_attrs[] = {
- };
- 
- static umode_t
--sdsi_battr_is_visible(struct kobject *kobj, struct bin_attribute *attr, int n)
-+sdsi_battr_is_visible(struct kobject *kobj, const struct bin_attribute *attr, int n)
- {
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct sdsi_priv *priv = dev_get_drvdata(dev);
-diff --git a/drivers/scsi/scsi_sysfs.c b/drivers/scsi/scsi_sysfs.c
-index 32f94db6d6bf5d2bd289c1a121da7ffc6a7cb2ff..f3a1ecb42128a2b221ca5c362e041eb59dba0f20 100644
---- a/drivers/scsi/scsi_sysfs.c
-+++ b/drivers/scsi/scsi_sysfs.c
-@@ -1274,7 +1274,7 @@ static umode_t scsi_sdev_attr_is_visible(struct kobject *kobj,
- }
- 
- static umode_t scsi_sdev_bin_attr_is_visible(struct kobject *kobj,
--					     struct bin_attribute *attr, int i)
-+					     const struct bin_attribute *attr, int i)
- {
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct scsi_device *sdev = to_scsi_device(dev);
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index 61b6d978892c799e213018bed22d9fb12a19d429..b4cba23831acd2d7d395b9f7683cd3ee3a8623c8 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -925,7 +925,7 @@ static struct bin_attribute *dev_bin_attrs[] = {
- };
- 
- static umode_t dev_bin_attrs_are_visible(struct kobject *kobj,
--		struct bin_attribute *a, int n)
-+		const struct bin_attribute *a, int n)
- {
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct usb_device *udev = to_usb_device(dev);
++	if (battr->read && battr->read_new)
++		return -EINVAL;
++
++	if (battr->write && battr->write_new)
++		return -EINVAL;
++
+ 	if (battr->mmap)
+ 		ops = &sysfs_bin_kfops_mmap;
+-	else if (battr->read && battr->write)
++	else if ((battr->read || battr->read_new) && (battr->write || battr->write_new))
+ 		ops = &sysfs_bin_kfops_rw;
+-	else if (battr->read)
++	else if (battr->read || battr->read_new)
+ 		ops = &sysfs_bin_kfops_ro;
+-	else if (battr->write)
++	else if (battr->write || battr->write_new)
+ 		ops = &sysfs_bin_kfops_wo;
+ 	else
+ 		ops = &sysfs_file_kfops_empty;
 diff --git a/include/linux/sysfs.h b/include/linux/sysfs.h
-index 4746cccb95898b24df6f53de9421ea7649b5568f..d1b22d56198b55ee39fe4c4fc994f5b753641992 100644
+index d17c473c1ef292875475bf3bdf62d07241c13882..d713a6445a6267145a7014f308df3bb25b8c3287 100644
 --- a/include/linux/sysfs.h
 +++ b/include/linux/sysfs.h
-@@ -101,7 +101,7 @@ struct attribute_group {
- 	umode_t			(*is_visible)(struct kobject *,
- 					      struct attribute *, int);
- 	umode_t			(*is_bin_visible)(struct kobject *,
--						  struct bin_attribute *, int);
-+						  const struct bin_attribute *, int);
- 	size_t			(*bin_size)(struct kobject *,
- 					    const struct bin_attribute *,
- 					    int);
-@@ -199,22 +199,22 @@ struct attribute_group {
-  * attributes, the group visibility is determined by the function
-  * specified to is_visible() not is_bin_visible()
+@@ -305,8 +305,12 @@ struct bin_attribute {
+ 	struct address_space *(*f_mapping)(void);
+ 	ssize_t (*read)(struct file *, struct kobject *, struct bin_attribute *,
+ 			char *, loff_t, size_t);
++	ssize_t (*read_new)(struct file *, struct kobject *, const struct bin_attribute *,
++			    char *, loff_t, size_t);
+ 	ssize_t (*write)(struct file *, struct kobject *, struct bin_attribute *,
+ 			 char *, loff_t, size_t);
++	ssize_t (*write_new)(struct file *, struct kobject *,
++			     const struct bin_attribute *, char *, loff_t, size_t);
+ 	loff_t (*llseek)(struct file *, struct kobject *, const struct bin_attribute *,
+ 			 loff_t, int);
+ 	int (*mmap)(struct file *, struct kobject *, const struct bin_attribute *attr,
+@@ -325,11 +329,28 @@ struct bin_attribute {
   */
--#define DEFINE_SYSFS_BIN_GROUP_VISIBLE(name)                             \
--	static inline umode_t sysfs_group_visible_##name(                \
--		struct kobject *kobj, struct bin_attribute *attr, int n) \
--	{                                                                \
--		if (n == 0 && !name##_group_visible(kobj))               \
--			return SYSFS_GROUP_INVISIBLE;                    \
--		return name##_attr_visible(kobj, attr, n);               \
-+#define DEFINE_SYSFS_BIN_GROUP_VISIBLE(name)                                   \
-+	static inline umode_t sysfs_group_visible_##name(                      \
-+		struct kobject *kobj, const struct bin_attribute *attr, int n) \
-+	{                                                                      \
-+		if (n == 0 && !name##_group_visible(kobj))                     \
-+			return SYSFS_GROUP_INVISIBLE;                          \
-+		return name##_attr_visible(kobj, attr, n);                     \
- 	}
+ #define sysfs_bin_attr_init(bin_attr) sysfs_attr_init(&(bin_attr)->attr)
  
--#define DEFINE_SIMPLE_SYSFS_BIN_GROUP_VISIBLE(name)                   \
--	static inline umode_t sysfs_group_visible_##name(             \
--		struct kobject *kobj, struct bin_attribute *a, int n) \
--	{                                                             \
--		if (n == 0 && !name##_group_visible(kobj))            \
--			return SYSFS_GROUP_INVISIBLE;                 \
--		return a->mode;                                       \
-+#define DEFINE_SIMPLE_SYSFS_BIN_GROUP_VISIBLE(name)                         \
-+	static inline umode_t sysfs_group_visible_##name(                   \
-+		struct kobject *kobj, const struct bin_attribute *a, int n) \
-+	{                                                                   \
-+		if (n == 0 && !name##_group_visible(kobj))                  \
-+			return SYSFS_GROUP_INVISIBLE;                       \
-+		return a->mode;                                             \
- 	}
++typedef ssize_t __sysfs_bin_rw_handler_new(struct file *, struct kobject *,
++					   const struct bin_attribute *, char *, loff_t, size_t);
++
+ /* macros to create static binary attributes easier */
+ #define __BIN_ATTR(_name, _mode, _read, _write, _size) {		\
+ 	.attr = { .name = __stringify(_name), .mode = _mode },		\
+-	.read	= _read,						\
+-	.write	= _write,						\
++	.read = _Generic(_read,						\
++		__sysfs_bin_rw_handler_new * : NULL,			\
++		default : _read						\
++	),								\
++	.read_new = _Generic(_read,					\
++		__sysfs_bin_rw_handler_new * : _read,			\
++		default : NULL						\
++	),								\
++	.write = _Generic(_write,					\
++		__sysfs_bin_rw_handler_new * : NULL,			\
++		default : _write					\
++	),								\
++	.write_new = _Generic(_write,					\
++		__sysfs_bin_rw_handler_new * : _write,			\
++		default : NULL						\
++	),								\
+ 	.size	= _size,						\
+ }
  
- #define SYSFS_GROUP_VISIBLE(fn) sysfs_group_visible_##fn
 
 -- 
 2.47.0
