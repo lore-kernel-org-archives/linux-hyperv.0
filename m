@@ -1,255 +1,391 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD8E18028
-	for <linux-hyperv@vger.kernel.org>; Tue,  5 Nov 2024 01:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730769985; cv=fail; b=tZE4Lbe5CfN8oKIRkXYnA3xlNA/Vp++3pY0+o4WfIKYJ7RLEDH3VAFzOyRyUAprfNjTU7/UrOBDRiug3d8Qs6i98dvmFriuGCzxG46bZDhh2FbkxlT/Vm+KzbcorJh73i0iBcQnJSIL02oaDbhFWUv5gkR9dIlDLYsfyPTtasWg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730769985; c=relaxed/simple;
-	bh=y7F3fkEMejeZ0PxevVforkm7UhlJoyr1UHEZv5rFMRI=;
-	h=To:Cc:Subject:From:In-Reply-To:Message-ID:References:Date:
-	 Content-Type:MIME-Version; b=LcxyPDKP1vTC7AlP41m0a3h6VMoO0zC18N7pHJGtHO4gceu5/Tsg3zhAH7OjLjw1zVcKboDdoRLdAdNq3cZWZbD9IY4h/hiB1x7YFCcXPV2BiUQT+ORlVDHHkQ3TkEnhYNIoLUtuhnUN4P2B39I1W4eHh+JEFUVJRF6/8Pkvpuw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XQERhgit; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=IIS/g3HP; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E459926AEC;
+	Tue,  5 Nov 2024 05:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730785260; cv=none; b=MC0JuQJA4B7hFaYbZNPJ4Fl3Ki34r8nQRNS3drio7Z/0X4uCF3AxTil6Lawmw3l6l3YHVqa3aIDUtqwJJknSvmpM4Y/ARIouDvUBALpOidnPCC3DttNGSvsi6D1lOhVSMFv8CdmfupKWwYZco4NmVSTzS8g6+gRCXHpFrRXEhmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730785260; c=relaxed/simple;
+	bh=F4KJAkIxNOEvyGRCPeehtU28j2d6jBhighKIcng/28U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TdBDDExEh/PzIsv8hLQqUGJQ98TOEnGMIOAmdcIBI4FUB0OSvRVRWThqt0ifG9cdTob3q/1YLGCq1/cTTIMZwtHFeRJL1lU3X2jZHZgWEVr8BGL+ENvIan4ghkxOnCZP3T6bJMC5Xr6UyCHqgOD8SGumaUapXSqPw97ZD+gBylY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Csl69V5D; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XQERhgit";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="IIS/g3HP"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A50g7vi015189;
-	Tue, 5 Nov 2024 01:26:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=gGzgFNZRE/uuzsqIr/
-	e2RBNFNS7HhUAa8z1wQ0CXDVk=; b=XQERhgitiGxjjsSehzKrQFPH7DfJrEnH0W
-	V12SuwqVCXPRWg8RHq5aApoPXzzLmeaWnpMB0PQRcOKg9/l5HOuU3+TN4CPgZHFI
-	dc4cv5WvB3KzFuKlN/zvz5385fLDkwUr+yHjYQSVIgHL6A5wEHtljKSAmGZsquQA
-	GomivjhkQBeqqM3ySkjKFRuQPDLGQccBGaAVqiIiCMFuS7F/wZNQsN3aiSDgrI/H
-	PjYu8ieyxFMOigsvrLgONK3AxhoJ8FegafJdhyHoo973qTiUBAImsdETTQSxKnKO
-	ixk0PbBRC2g0wLEK7DfyPC7wWa1rofunmm5KNM3C45RGAux2hLhQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42ncmt4650-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Nov 2024 01:26:08 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 4A4N96EL008674;
-	Tue, 5 Nov 2024 01:26:07 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42nah6hgt2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 05 Nov 2024 01:26:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eQHT2coXiBsJxlPN9qP92BqxzCF4f7A9L59D/mwXbXkBP0DPjRLjwCZFdvdwcF/Rydoyd68b/R+MQ2vWEgK6DZWr9qS4VhxW4V/zPqV+cL7mo/aa0HImUY35ktbSLEUW7Ai3hjTl4jbjno6WTQqmmxJxaaBSg1NlCG4lVGHLapTsFPpQfHPPPBWXqbZ6h0ESobfFzdvCY/sFffPIr7+3Vc3oWa3pn79h+4u+Pffwyeqgk0WR/0wBcyPN4Et4kkdiVfYdgTYqnlD8htWSgZVWZNBT+fPfiXAmk4xCLv9xhbNBtXNoa8dlyZ9LSp/y+Rk0SAH644uo+kWTfP/cYth9gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gGzgFNZRE/uuzsqIr/e2RBNFNS7HhUAa8z1wQ0CXDVk=;
- b=xzOZC/gt/MbVgfKO2GW0ajYlFSlQQIIxK8mVmFnNXSwzyQqGJSNT7JPZ9jUeYrRi0WTgggSc0N7HrvZwi0aWwOzylZ5tkcBT+jlJ3luaPVb+tSGh4lfRnSoat4tHItjPPFtMW/TV7Hi0rNP+U3ZWZ9+Ii6TmUpk2hY2pveomY1T1FMZQXb93prLQ7W+CPSFo8UWz37MvA525sTeSqhAYTyFTj9+nohqgUEt1jFun5ib29giOJgRkIONiIycUMp6rv51ezpyuzz9mEUqTKI67I6mr2t3wzuH/jbJ7Ul/moyRyQLZsaXiss688Ek/eJ0UdAWBMsSocWhhhqTe1X9RaWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gGzgFNZRE/uuzsqIr/e2RBNFNS7HhUAa8z1wQ0CXDVk=;
- b=IIS/g3HPunVBWHHcE7Mdr4xYD3frkSJ3zgPBPpUebkPwfZ4avBPodlJF7lnlkfzzMMOra+rIRIjwv95+XSUH7c+RjNIgVdYrl3ChfvdOXHRZU/lo0QS0PDWmz+FqNOuiw1AMPDbjs7kuy150cGmQTG6VZBvaLCGuUqO1eu74IEQ=
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com (2603:10b6:805:cb::19)
- by DM4PR10MB7451.namprd10.prod.outlook.com (2603:10b6:8:18e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
- 2024 01:26:01 +0000
-Received: from SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c]) by SN6PR10MB2957.namprd10.prod.outlook.com
- ([fe80::72ff:b8f4:e34b:18c%4]) with mapi id 15.20.8114.015; Tue, 5 Nov 2024
- 01:26:01 +0000
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki"
- <rafael@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>,
-        Davidlohr Bueso
- <dave@stgolabs.net>,
-        Jonathan Cameron <jonathan.cameron@huawei.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        Alison Schofield
- <alison.schofield@intel.com>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Alex Deucher
- <alexander.deucher@amd.com>,
-        Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
-        Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
-        Simona Vetter <simona@ffwll.ch>,
-        Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>,
-        Jason Gunthorpe
- <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-        Tudor Ambarus
- <tudor.ambarus@linaro.org>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Michael Walle <mwalle@kernel.org>,
-        Miquel Raynal
- <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Naveen Krishna Chatradhi
- <naveenkrishna.chatradhi@amd.com>,
-        Carlos Bilbao
- <carlos.bilbao.osdev@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        "David E.
- Box"
- <david.e.box@linux.intel.com>,
-        "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,
-        "Martin K. Petersen"
- <martin.petersen@oracle.com>,
-        Richard Henderson
- <richard.henderson@linaro.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Andrew Donnellan
- <ajd@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>,
-        Logan Gunthorpe
- <logang@deltatee.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang
- Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
-        Dexuan Cui
- <decui@microsoft.com>,
-        Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-cxl@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-mtd@lists.infradead.org,
-        platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 05/10] sysfs: treewide: constify attribute callback
- of bin_is_visible()
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-In-Reply-To: <20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
-	("Thomas =?utf-8?Q?Wei=C3=9Fschuh=22's?= message of "Sun, 03 Nov 2024
- 17:03:34 +0000")
-Organization: Oracle Corporation
-Message-ID: <yq1h68m5v5q.fsf@ca-mkp.ca.oracle.com>
-References: <20241103-sysfs-const-bin_attr-v2-0-71110628844c@weissschuh.net>
-	<20241103-sysfs-const-bin_attr-v2-5-71110628844c@weissschuh.net>
-Date: Mon, 04 Nov 2024 20:25:59 -0500
-Content-Type: text/plain
-X-ClientProxiedBy: BN8PR03CA0017.namprd03.prod.outlook.com
- (2603:10b6:408:94::30) To SN6PR10MB2957.namprd10.prod.outlook.com
- (2603:10b6:805:cb::19)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Csl69V5D"
+Received: from [192.168.0.102] (unknown [49.205.243.117])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 27DA42126CA5;
+	Mon,  4 Nov 2024 21:40:54 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 27DA42126CA5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1730785258;
+	bh=OXyd1BsUuFsVYrlgfx/Fk3FA9zC/6KEyFTj+MHyQR/U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Csl69V5DX0nObUas6XhvbBrK3DiM32dIwmnqQJW+6rXQ9EMIJSTNFRFtUfOxZPFhL
+	 m51EZL92j8cq+PTtkG4cSSXkbsyuk9JrxGjrO4zJMjsb8MLL9V6RzVf+C0qcb0XzQU
+	 F9a6zGZBnNOEz8bcCD2yno7pOOnk9raAA6N43I6Q=
+Message-ID: <33061e3f-d1a8-4240-ad7e-d6ddc089f61c@linux.microsoft.com>
+Date: Tue, 5 Nov 2024 11:10:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2957:EE_|DM4PR10MB7451:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1115d897-72b8-4026-8afd-08dcfd38cf02
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8JlNNHxUgQOOx/wGCPnA8kRl/YI2u5+wqohNareR/E5DeLjDCWMIrSNp/foS?=
- =?us-ascii?Q?9jLcQJsdC4Z56feldh5nydh5DtUjLPHtOgXrNAXm5z99NqyBgx1pkMtEkMkF?=
- =?us-ascii?Q?KbcWr+C9WzyQqYa1fgV7v3laI4wxUlqonVzpQZaT+iLogTIcEe2XHxVsHIWX?=
- =?us-ascii?Q?If27VrXVPxqJJ4xACw3jQFd3i7wWsp7JZl9OCmCdwlUVvNIBuVpy+3g+x6+N?=
- =?us-ascii?Q?fn2gJEe8g5V0bVffGlDHkYwrMSVHk6t712Wr8iNQHi1/NfWRoUXyF2RFZj2T?=
- =?us-ascii?Q?EX/1+zVwiehEZV2kqjbKD2qL4SYtuY+6gIkbcnIGwReTENdXhgQNMVgXj6oP?=
- =?us-ascii?Q?ChucY6GquqFqxuXYvgnddYrsxgeOqztgmNQXfvmpnD/PyN8+HWLg+UN6fw8Q?=
- =?us-ascii?Q?yelnNf9YOhR7MKwH9LGxEZP+NM63sfKCUjEm+OKM4H90kYfe3cftFcIkk7h+?=
- =?us-ascii?Q?Ulf8+7TT7FyCekSsC1fkqz5MVtc/WUJqFcCl7TixSNIDvmskZWtWoB+MOT3Z?=
- =?us-ascii?Q?pZ6I0HsUDPltZvLNeqDFpN59lzoysYAwa5swihyn4qd37M120xq3dn5wfS/E?=
- =?us-ascii?Q?Q140B/Heis486A7Y5QtpirTZoJFmmE7YBISlyCopOPcNo2X27AK0JkuDLkFJ?=
- =?us-ascii?Q?GtgGl2MOzD4e+lH8AihaJ/ksT4qPiig0ZQ+nFCgeHKqZyoNIBWZ+PXEW+894?=
- =?us-ascii?Q?OIl0/a9BJfxUXXoyro5RUMIEkFdD4pgzqV6azp5H8zpEhvplf3D3vYSzNG+U?=
- =?us-ascii?Q?jXv5O4uxvuOFsqGLl2P1IbjGxpkhZt8IY1wRwT3I8oAFSdbL1hfG9zjXaDUq?=
- =?us-ascii?Q?eO+zv17HNITR0z1cbzQLcpAqojE9hZgR0okQsqtXRxy7p6d8KLmu+Uh8QDhz?=
- =?us-ascii?Q?vB5/LQ1G8MhOg8nwEbxT7px2tc9Jp9RzPhJHQJBDiByz0CioQAwMU7lmSB7H?=
- =?us-ascii?Q?SpZiWe/LiWP3LkXh2OkINp4JZeaaM2sWwhQY5TnSPZNUXORnSWegwzqy2Rds?=
- =?us-ascii?Q?paFgezM7dDe6WVopE4TFd0s9TUE85StI4fDAWh/m1cTJ6jzPuazVN0tURmpt?=
- =?us-ascii?Q?wd0teH2RxHcJ2dNCwl+cICfIHxNwCjAgeR6NhX1oqnmCtvq18e+4xRFhjnuA?=
- =?us-ascii?Q?hUVIQSmNzoSrCtcxpncZVdL08eFgEawjQr203U+K79jDQWKybIJH+7Sv7mlp?=
- =?us-ascii?Q?rVwW6zKr+I4dOVehgOoHRi2Y6PDQAr9kl0wpo0vxjUkGyK3XIzmNe5gKRR+j?=
- =?us-ascii?Q?k/11E5xJqqAe6/GnGv9Tl0f/2yVHhyNkXDYRSitOeeFt3AXGlmwhv4iFbuQJ?=
- =?us-ascii?Q?wbDCCrPMq6MU4m2ZYnUxAGsk?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB2957.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wAzTCY7NmgkQEkBp+rPfMWsogGaOcF2jk0MwN2tNerE6T69LdgpRxJ/kGvRc?=
- =?us-ascii?Q?FRA9ZikaVmPTdndgt2DacZB8gY3Vf7zjLuf0vpNSZ+BCNCw28XE+/xB6nVgt?=
- =?us-ascii?Q?ipDHNkEmGZvGKWFZnc2Q1sBoUojWjSiynB5PufPp7P3d12TCS+JH1A+jRSVU?=
- =?us-ascii?Q?WEGFWbNkTvUkmyO3zCZbjJnzVpauqosvuLDRW63GqxnpxnEw9wI2qpDkcN6C?=
- =?us-ascii?Q?G1zpdPwKPUHUouQLQGJnw1q2pOg/+pDDBEpIZikQ5Yq5UYJDAjhYAHzT5nUy?=
- =?us-ascii?Q?SR5hXktkXIWCAwy0+OOuteeioSj1F7ZJ+HP2glnh0/HXkIc7kPG0eP8AIyDX?=
- =?us-ascii?Q?PGtrPXg3ys2F7lvXSZj+fWI6EqR9DCbInkC570Rg6iVCnA0Ggfj2aGsEuzd7?=
- =?us-ascii?Q?AXFzxdOjQQG5VOWfgLIR03LWoKYF6n6/3ysjFlCwua3y22YUNHdnXCyjWBRj?=
- =?us-ascii?Q?8iwvRFOIBEUQFTXF8RuS1MDFeefRe0q+LgIQwYA1nZPj0lEQ6zKRifh9Kyqm?=
- =?us-ascii?Q?2mrPQPasgpzbyLRamQUIFkUcZcy2z5Oioadl9ARwtx+LLIQG5wd+lRWDh3SK?=
- =?us-ascii?Q?zSDjMlX9IKB9YTxO7MNtn+Vyd08Gf7SMWMO75upVk5ickm7xJeGQXmeK5KVz?=
- =?us-ascii?Q?urPgOGD3cjN20r/E18OpBa70fqxyjJfDhjy6jx1EpkdouEouIghxjW7tl6zO?=
- =?us-ascii?Q?7tqKJP+HtvBguhMlgXdXLNcGE15BxkYMXLnUbQoIwU+NTVLtpHDcQaRnJ9gV?=
- =?us-ascii?Q?wEFZGbv3FB0WynMMjwYK26OUfGIkcnHiUtNFJDt4S3EhZwpxyI8qPWCOKzyo?=
- =?us-ascii?Q?eC/8VlzGN23AFuKoZM28AO9iAmewzQSh9hUyt1fkv6DXc2fRPYKWSVYe7LiJ?=
- =?us-ascii?Q?fueFSpJv+KKDMYEtvsrFMrurtQGlv/5/p4Us6SREx7KxM4h4UVYDDoCSRGeZ?=
- =?us-ascii?Q?b+oTXCZWL3OT/5WLUPCQONVgG+udmNhTFI+Gp47cgY/gwtCHpiuY1ri59wrC?=
- =?us-ascii?Q?w6ePA/E4z1lCbcSRDt+wA/DZ6q8l99/4kOu9PbOeh3SLRkCDKma0SVG47Y8H?=
- =?us-ascii?Q?olkY7iA43nNQ6SJGrpHxL0SecdDp1DqY/sj6AqMV81kQ8XZucawxUFy2qr+6?=
- =?us-ascii?Q?aomzD6X7s7gost44eLc7qamx8TbmsXGMK4xaZZQEMr8e90ZuPilsaq6zjoKG?=
- =?us-ascii?Q?w8YZNYm9/SSJLP2PCJJeecGUj3eZyrbULR8criP+4vm9sYQWUZzWGKC6SAgY?=
- =?us-ascii?Q?ryvkyv5W5TS5AVjgj0Ueqiki6dTNZ0aBPRpxUaJK49UVi4kdaUwB63IIpjMz?=
- =?us-ascii?Q?uEK1Uk8m+MBaZ9G6iAJNbKdhS+12IoyXBaRS4aB0c5/49dQRZcVbzL6yB8/4?=
- =?us-ascii?Q?+KLGcrAXuVzoKBYeo2C8SzMJ3FrAGe+mmz5Mz21vafx7PGG6IzFFg2NHiH0M?=
- =?us-ascii?Q?RjM7DUyVcwX2tfL8ekdBzD8yOzUT9qhiD3lfAH3ImzMLT2vy94Tp1mghVsz1?=
- =?us-ascii?Q?Oj+GgAooX79rZ1pp1huKhGG+CI0bKOz8N25Y/DASM0vG84dQvsG86rX/fOWk?=
- =?us-ascii?Q?uGTfYhAUk+7uacfFk0DcjpGuSh7TiXZgllurc2J6J8PxBwn7/kQGyLFrJUrl?=
- =?us-ascii?Q?KA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	lktBQ6ttR2/pY3qLvBGVLCLGDAn4LJMtzYnZfoW3YluovouaAuJbvx+GMECsTFZCGMKYDEG4I9fOnwgP3/YP2z7brfoqpp9HrPXN//yyz8xEd22YW2lA3M7beSs5Z4/BlCxZ3T4ZPxTvaWnh266W+cZ5+S1jYSR9kPVB3mEDbNIClYSpo2LvqgMZ1JsK8s/Q+W9KIkXllYWGyBUWwAXp8slPdZl7Ucgp3UCrKiC0hs7x5rn0RytSwQ3tbH0Aae/cWW4r2VSoLRdJ7VcDCDkrxUExOmC/s0H9NdGniL4oZNSpivM3Rdx+P8SzOywglk7jUllEzfoBE9FfdhOTQYexF0t8iDRAixxsMejkHtYPuOc+3nSxo0uZLwi/cvz+M48LzX9qnLEE+q0jXUq656FkpGRcn+ap6vWhGP008BuPma4RKBccEPITaGhOXAgXugwaoLiMToE7QPmZUdHEGWIhxOIze8lMhf0lEcDMzAE+Z95rGD7mW/WyuqSWruPkuUlvNZkjNcWXDrUNlvtYow+OaklMUr9cdmgY2MV4LNLEvnsdLByCPq1NDtut7tXhN3E2ur1w3HQ5KJGME65Ot2ppKoEbi2kXNobaRRUwSBfNWWk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1115d897-72b8-4026-8afd-08dcfd38cf02
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB2957.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 01:26:01.4181
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VLeACfNSIrXc0SHxglPRfCmk42fYbWaal4s2idGcoau2yPDF1mQqvgB3dHbD6AXvwWl01pufXK0/JRkagpdTOFnlEGQ1t2RUBvrvcePJbTw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB7451
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-04_22,2024-11-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 spamscore=0
- adultscore=0 phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
- definitions=main-2411050009
-X-Proofpoint-GUID: w6Kn371-Qb2H67acQ4h2VkDWDRtLMG2R
-X-Proofpoint-ORIG-GUID: w6Kn371-Qb2H67acQ4h2VkDWDRtLMG2R
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] Drivers: hv: vmbus: Wait for offers during boot
+To: Michael Kelley <mhklinux@outlook.com>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ John Starks <jostarks@microsoft.com>,
+ "jacob.pan@linux.microsoft.com" <jacob.pan@linux.microsoft.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+References: <20241029080147.52749-1-namjain@linux.microsoft.com>
+ <20241029080147.52749-2-namjain@linux.microsoft.com>
+ <SN6PR02MB4157726CAAFB3F9FC8B682A4D4552@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Naman Jain <namjain@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157726CAAFB3F9FC8B682A4D4552@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Thomas,
 
-> The is_bin_visible() callbacks should not modify the struct
-> bin_attribute passed as argument. Enforce this by marking the argument
-> as const.
+On 11/1/2024 12:43 AM, Michael Kelley wrote:
+> From: Naman Jain <namjain@linux.microsoft.com> Sent: Tuesday, October 29, 2024 1:02 AM
+>>
+>> Channel offers are requested during VMBus initialization and resume
+>> from hibernation. Add support to wait for all channel offers to be
+> 
+> Given the definition of ALLOFFERS_DELIVERED, maybe change to:
+> 
+> " wait for all boot-time channel offers"
+
+Thanks for reviewing, acked.
+
+> 
+>> delivered and processed before returning from vmbus_request_offers.
+>>
+>> This is in analogy to a PCI bus not returning from probe until it has
+>> scanned all devices on the bus.
+>>
+>> Without this, user mode can race with VMBus initialization and miss
+>> channel offers. User mode has no way to work around this other than
+>> sleeping for a while, since there is no way to know when VMBus has
+>> finished processing offers.
+> 
+> "finished processing boot-time offers."
 >
-> As there are not many callback implementers perform this change
-> throughout the tree at once.
 
-For scsi:
+Acked.
 
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+>>
+>> With this added functionality, remove earlier logic which keeps track
+>> of count of offered channels post resume from hibernation. Once all
+>> offers delivered message is received, no further offers are going to
+>> be received.
+> 
+> "no further boot-time offers"
+
+Acked.
+
+> 
+>> Consequently, logic to prevent suspend from happening
+>> after previous resume had missing offers, is also removed.
+>>
+>> Co-developed-by: John Starks <jostarks@microsoft.com>
+>> Signed-off-by: John Starks <jostarks@microsoft.com>
+>> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
+>> Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+>> ---
+>> Changes since v1:
+>> https://lore.kernel.org/all/20241018115811.5530-1-namjain@linux.microsoft.com/
+>> * Added Easwar's Reviewed-By tag
+>> * Addressed Michael's comments:
+>>    * Added explanation of all offers delivered message in comments
+>>    * Removed infinite wait for offers logic, and changed it wait once.
+>>    * Removed sub channel workqueue flush logic
+>>    * Added comments on why MLX device offer is not expected as part of
+>>      this essential boot offer list. I refrained from adding too many
+> 
+> You've used slightly different phrasing here ("essential boot offer list").
+> Potential confusion can be avoided if the terminology is super consistent.
+> I'm good with "boot-time offers" (or something else if you prefer). I'm not
+> sure what "essential" means here, unless it refers to offers for VFs from
+> SR-IOV NICs (like Mellanox) being excluded. But it should be fine to
+> use something short like "boot-time offers" and then note the VF
+> exception in the code comments as you've done.
+
+By essential, I meant the ones that the VM is configured with.
+I'll stick with "boot-time offers".
+
+> 
+>> details on it as it felt like it is beyond the scope of this patch
+>> series and may not be relevant to this. However, please let me know if
+>>      something needs to be added.
+>> * Addressed Saurabh's comments:
+>>    * Changed timeout value to 10000 ms instead of 10*10000
+>>    * Changed commit msg as per suggestions
+>>    * Added a comment for warning case of wait_for_completion timeout
+>> ---
+>>   drivers/hv/channel_mgmt.c | 55 ++++++++++++++++++++++++++++-----------
+>>   drivers/hv/connection.c   |  4 +--
+>>   drivers/hv/hyperv_vmbus.h | 14 +++-------
+>>   drivers/hv/vmbus_drv.c    | 16 ------------
+>>   4 files changed, 45 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
+>> index 3c6011a48dab..a2e9ebe5bf72 100644
+>> --- a/drivers/hv/channel_mgmt.c
+>> +++ b/drivers/hv/channel_mgmt.c
+>> @@ -944,16 +944,6 @@ void vmbus_initiate_unload(bool crash)
+>>   		vmbus_wait_for_unload();
+>>   }
+>>
+>> -static void check_ready_for_resume_event(void)
+>> -{
+>> -	/*
+>> -	 * If all the old primary channels have been fixed up, then it's safe
+>> -	 * to resume.
+>> -	 */
+>> -	if (atomic_dec_and_test(&vmbus_connection.nr_chan_fixup_on_resume))
+>> -		complete(&vmbus_connection.ready_for_resume_event);
+>> -}
+>> -
+>>   static void vmbus_setup_channel_state(struct vmbus_channel *channel,
+>>   				      struct vmbus_channel_offer_channel *offer)
+>>   {
+>> @@ -1109,8 +1099,6 @@ static void vmbus_onoffer(struct vmbus_channel_message_header *hdr)
+>>
+>>   		/* Add the channel back to the array of channels. */
+>>   		vmbus_channel_map_relid(oldchannel);
+>> -		check_ready_for_resume_event();
+>> -
+>>   		mutex_unlock(&vmbus_connection.channel_mutex);
+>>   		return;
+>>   	}
+>> @@ -1296,13 +1284,22 @@
+>> EXPORT_SYMBOL_GPL(vmbus_hvsock_device_unregister);
+>>
+>>   /*
+>>    * vmbus_onoffers_delivered -
+>> - * This is invoked when all offers have been delivered.
+>> + * CHANNELMSG_ALLOFFERS_DELIVERED message arrives after all the essential
+> 
+> Again, I would drop "essential" here, as its meaning in this context isn't
+> defined anywhere.
+> 
+
+Acked.
+
+>> + * boot-time offers are delivered. Other channels can be hot added
+>> + * or removed later, even immediately after the all-offers-delivered
+>> + * message. A boot-time offer will be any of the virtual hardware the
+>> + * VM is configured with at boot.
+> 
+> This is good to have a definition of "boot-time offer".  But I think some
+> additional specification is appropriate.  Let me suggest the following:
+> 
+> The CHANNELMSG_ALLOFFERS_DELIVERED message arrives after all
+> boot-time offers are delivered. A boot-time offer is for the primary channel
+> for any virtual hardware configured in the VM at the time it boots.
+> Boot-time offers include offers for physical devices assigned to the VM
+> via Hyper-V's Discrete Device Assignment (DDA) functionality that are
+> handled as virtual PCI devices in Linux (e.g., NVMe devices and GPUs).
+> Boot-time offers do not include offers for VMBus sub-channels. Because
+> devices can be hot-added to the VM after it is booted, additional channel
+> offers that aren't boot-time offers can be received at any time after the
+> all-offers-delivered message.
+> 
+> SR-IOV NIC Virtual Functions (VFs) assigned to a VM are not considered
+> to be assigned to the VM at boot-time, and offers for VFs may occur after
+> the all-offers-delivered message. VFs are optional accelerators to the
+> synthetic VMBus NIC and are effectively hot-added only after the VMBus
+> NIC channel is opened (once it knows the guest can support it, via the
+> sriov bit in the netvsc protocol).
+> 
+> [Please confirm that my suggested wording is correct!]
+
+This explains really well. I'll rephrase the code comments. Thanks.
+
+> 
+>>    */
+>>   static void vmbus_onoffers_delivered(
+>>   			struct vmbus_channel_message_header *hdr)
+>>   {
+>> +	complete(&vmbus_connection.all_offers_delivered_event);
+>>   }
+>>
+>>   /*
+>> @@ -1578,7 +1575,8 @@ void vmbus_onmessage(struct vmbus_channel_message_header *hdr)
+>>   }
+>>
+>>   /*
+>> - * vmbus_request_offers - Send a request to get all our pending offers.
+>> + * vmbus_request_offers - Send a request to get all our pending offers
+>> + * and wait for all offers to arrive.
+>>    */
+>>   int vmbus_request_offers(void)
+>>   {
+>> @@ -1596,6 +1594,10 @@ int vmbus_request_offers(void)
+>>
+>>   	msg->msgtype = CHANNELMSG_REQUESTOFFERS;
+>>
+>> +	/*
+>> +	 * This REQUESTOFFERS message will result in the host sending an all
+>> +	 * offers delivered message.
+>> +	 */
+>>   	ret = vmbus_post_msg(msg, sizeof(struct vmbus_channel_message_header),
+>>   			     true);
+>>
+>> @@ -1607,6 +1609,29 @@ int vmbus_request_offers(void)
+>>   		goto cleanup;
+>>   	}
+>>
+>> +	/*
+>> +	 * Wait for the host to send all offers.
+>> +	 * Keeping it as a best-effort mechanism, where a warning is
+>> +	 * printed if a timeout occurs, and execution is resumed.
+>> +	 */
+>> +	if (!wait_for_completion_timeout(
+>> +		&vmbus_connection.all_offers_delivered_event, msecs_to_jiffies(10000))) {
+>> +		pr_warn("timed out waiting for all offers to be delivered...\n");
+>> +	}
+>> +
+>> +	/*
+>> +	 * Flush handling of offer messages (which may initiate work on
+>> +	 * other work queues).
+>> +	 */
+>> +	flush_workqueue(vmbus_connection.work_queue);
+>> +
+>> +	/*
+>> +	 * Flush workqueues for processing the incoming offers. Subchannel
+> 
+> s/workqueues/workqueue/
+
+Acked.
+
+> 
+>> +	 * offers and processing can happen later, so there is no need to
+>> +	 * flush those workqueues here.
+> 
+> s/those workqueues/that workqueue/
+
+Acked.
+
+> 
+>> +	 */
+>> +	flush_workqueue(vmbus_connection.handle_primary_chan_wq);
+>> +
+>>   cleanup:
+>>   	kfree(msginfo);
+>>
+>> diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+>> index f001ae880e1d..8351360bba16 100644
+>> --- a/drivers/hv/connection.c
+>> +++ b/drivers/hv/connection.c
+>> @@ -34,8 +34,8 @@ struct vmbus_connection vmbus_connection = {
+>>
+>>   	.ready_for_suspend_event = COMPLETION_INITIALIZER(
+>>   				  vmbus_connection.ready_for_suspend_event),
+>> -	.ready_for_resume_event	= COMPLETION_INITIALIZER(
+>> -				  vmbus_connection.ready_for_resume_event),
+>> +	.all_offers_delivered_event = COMPLETION_INITIALIZER(
+>> +				  vmbus_connection.all_offers_delivered_event),
+>>   };
+>>   EXPORT_SYMBOL_GPL(vmbus_connection);
+>>
+>> diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+>> index d2856023d53c..80cc65dac740 100644
+>> --- a/drivers/hv/hyperv_vmbus.h
+>> +++ b/drivers/hv/hyperv_vmbus.h
+>> @@ -287,18 +287,10 @@ struct vmbus_connection {
+>>   	struct completion ready_for_suspend_event;
+>>
+>>   	/*
+>> -	 * The number of primary channels that should be "fixed up"
+>> -	 * upon resume: these channels are re-offered upon resume, and some
+>> -	 * fields of the channel offers (i.e. child_relid and connection_id)
+>> -	 * can change, so the old offermsg must be fixed up, before the resume
+>> -	 * callbacks of the VSC drivers start to further touch the channels.
+>> +	 * Completed once the host has offered all channels. Note that
+> 
+> "all boot-time channels"
+
+Acked.
+
+> 
+> 
+>> +	 * some channels may still be being process on a work queue.
+>>   	 */
+>> -	atomic_t nr_chan_fixup_on_resume;
+>> -	/*
+>> -	 * vmbus_bus_resume() waits for "nr_chan_fixup_on_resume" to
+>> -	 * drop to zero.
+>> -	 */
+>> -	struct completion ready_for_resume_event;
+>> +	struct completion all_offers_delivered_event;
+>>   };
+>>
+>>
+>> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+>> index 9b15f7daf505..bd3fc41dc06b 100644
+>> --- a/drivers/hv/vmbus_drv.c
+>> +++ b/drivers/hv/vmbus_drv.c
+>> @@ -2427,11 +2427,6 @@ static int vmbus_bus_suspend(struct device *dev)
+>>   	if (atomic_read(&vmbus_connection.nr_chan_close_on_suspend) > 0)
+>>   		wait_for_completion(&vmbus_connection.ready_for_suspend_event);
+>>
+>> -	if (atomic_read(&vmbus_connection.nr_chan_fixup_on_resume) != 0) {
+>> -		pr_err("Can not suspend due to a previous failed resuming\n");
+>> -		return -EBUSY;
+>> -	}
+>> -
+>>   	mutex_lock(&vmbus_connection.channel_mutex);
+>>
+>>   	list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
+>> @@ -2456,17 +2451,12 @@ static int vmbus_bus_suspend(struct device *dev)
+>>   			pr_err("Sub-channel not deleted!\n");
+>>   			WARN_ON_ONCE(1);
+>>   		}
+>> -
+>> -		atomic_inc(&vmbus_connection.nr_chan_fixup_on_resume);
+>>   	}
+>>
+>>   	mutex_unlock(&vmbus_connection.channel_mutex);
+>>
+>>   	vmbus_initiate_unload(false);
+>>
+>> -	/* Reset the event for the next resume. */
+>> -	reinit_completion(&vmbus_connection.ready_for_resume_event);
+>> -
+>>   	return 0;
+>>   }
+>>
+>> @@ -2502,14 +2492,8 @@ static int vmbus_bus_resume(struct device *dev)
+>>   	if (ret != 0)
+>>   		return ret;
+>>
+>> -	WARN_ON(atomic_read(&vmbus_connection.nr_chan_fixup_on_resume) == 0);
+>> -
+>>   	vmbus_request_offers();
+>>
+>> -	if (wait_for_completion_timeout(
+>> -		&vmbus_connection.ready_for_resume_event, 10 * HZ) == 0)
+>> -		pr_err("Some vmbus device is missing after suspending?\n");
+>> -
+>>   	/* Reset the event for the next suspend. */
+>>   	reinit_completion(&vmbus_connection.ready_for_suspend_event);
+>>
+>> --
+>> 2.34.1
+
+
+Thanks,
+Naman
