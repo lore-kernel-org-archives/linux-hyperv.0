@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34B832194A6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3498B21949D;
 	Thu,  7 Nov 2024 22:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731018759; cv=none; b=HlLt9PNEcNkanV/ObtH5eiDtOtB8jt58aJkOof/Ohc1AoqIc6URtKUnM0UpIGzz5JOZOj7Y1HfeYbmwu49R0SJ5T/cKbfKYNrH7rwSvEpEctBqYUTyrS61zfC+g62WvuVN+R+KMN3/xl1t1SZyshsL0qqIkjyd8OiTfZKYHXnKg=
+	t=1731018759; cv=none; b=uRv4YYk9J3pqPxOf9qpNk/z5PimFKcvH72JFLEjtbA1fH0k9Z1+mJ0rsAaAsCglyUDpA2R7pQ0IqbV6gptkPSezJ+CrILfT+mIbvpz85feoexSHj67A2lpNNfNbqPwfbsQp0rpLsqI/m8PG9kwWlUnq2Vye64D4e0pnAQYc0XkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731018759; c=relaxed/simple;
-	bh=3axHTgWvPaJXU6x/HwYNyCImPTdzE7DJqPuDZ6F6AzE=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=fXJr0IiAV0cpTIlsanSD2sh+/NW+SL9MLqf3Y+HxDssH74J2LWCiaq0vv7TojBwx3z0ZawPrjiuNjvxtEvd82K+HYPkDiPwETQ3tnfKnllAvu67wmRbpaiHjfH2t5CJLHbGnGo0rLKgQddLgYpdkT5hme3bowV+UjoX/8L64+Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=E85Vpx1X; arc=none smtp.client-ip=13.77.154.182
+	bh=r3108wtGeWB3urxqS2Mk2Aj6a5OFx8DrBZR9aUYNRgc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ARAnErsH6edd1y9/yd3nxzx77XGtCWM8XZelRooj966xXC/eo3FvEV9hPSUplE6zniexOjX0PmgndzYoLbkqUxf2+q9dTCG73yoPFeXujtlx4jbOH9pQKZthxI/Fevyv66512kGb/FMnv6fTEWsTzQnbRVvGOwkqftSEtdSzeqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=GL5L+XWB; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="E85Vpx1X"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="GL5L+XWB"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id A7369212C4BF;
+	by linux.microsoft.com (Postfix) with ESMTPSA id E7B68212D516;
 	Thu,  7 Nov 2024 14:32:30 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7369212C4BF
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E7B68212D516
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1731018750;
-	bh=dXEOtZcKhs1OyrLOGbwwuM7yb0GGsFy0HJU2nlATJVM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=E85Vpx1XKF/7gIXBsoZOI6XnWD4pHDLIv62Hmm0sqgJpnOf8/Cgg8V/QCKee3Vppr
-	 ry4FPI40feJ1miQYl+Dx+/AvjsAcrxqUrJygt4jVjT3OJnYKE30CU4CoZ3KZny5GG9
-	 XD4lpSNQQEk/X8UUGLdqFqJ/fa8hg8d9V2jWrOLw=
+	s=default; t=1731018751;
+	bh=oHc+xQlGELt4En+c+7A/3z04pCZMqJzqUOIthFcFkJE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GL5L+XWBdQN0CU0yQzh/oq0vV6hbhcS/bNEnSQdxzEaESNw65fptL+NJKgM1Gen28
+	 c3bykADGMex7+FRS3+DS62C4YYb9jk/FI0g7R/Hr86yKUJuqwQbcSXbVexHGykm8JI
+	 t0alQ+hR1JEoU5hMKNS3j4wBN4/qb9DzOk3FwcMo=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -71,99 +71,143 @@ Cc: kys@microsoft.com,
 	vkuznets@redhat.com,
 	ssengar@linux.microsoft.com,
 	apais@linux.microsoft.com
-Subject: [PATCH v2 0/4] Add new headers for Hyper-V Dom0
-Date: Thu,  7 Nov 2024 14:32:22 -0800
-Message-Id: <1731018746-25914-1-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v2 2/4] hyperv: Clean up unnecessary #includes
+Date: Thu,  7 Nov 2024 14:32:24 -0800
+Message-Id: <1731018746-25914-3-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1731018746-25914-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1731018746-25914-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-To support Hyper-V Dom0 (aka Linux as root partition), many new
-definitions are required.
+Remove includes of linux/hyperv.h, mshyperv.h, and hyperv-tlfs.h where
+they are not used.
 
-The plan going forward is to directly import definitions from
-Hyper-V code without waiting for them to land in the TLFS document.
-This is a quicker and more maintainable way to import definitions,
-and is a step toward the eventual goal of exporting headers directly
-from Hyper-V for use in Linux.
-
-This patch series introduces new headers (hvhdk.h, hvgdk.h, etc,
-see patch #3) derived directly from Hyper-V code. hyperv-tlfs.h is
-replaced with hvhdk.h (which includes the other new headers)
-everywhere.
-
-No functional change is expected.
-
-Summary:
-Patch 1-2: Minor cleanup patches
-Patch 3: Add the new headers (hvhdk.h, etc..) in include/hyperv/
-Patch 4: Switch to the new headers
-
+Acked-by: Wei Liu <wei.liu@kernel.org>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
-Changelog:
-v2:
-- Rework the series to simply use the new headers everywhere
-  instead of fiddling around to keep hyperv-tlfs.h used in some
-  places, suggested by Michael Kelley and Easwar Hariharan
-- Fix compilation errors with some configs by adding missing
-  definitions and changing some names, thanks to Simon Horman for
-  catching those
-- Add additional definitions to the new headers to support them now
-  replacing hyperv-tlfs.h everywhere
-- Add additional context in the commit messages for patches #3 and #4
-- In patch #2, don't remove indirect includes. Only remove includes
-  which truly aren't used, suggested by Michael Kelley
+ arch/arm64/hyperv/hv_core.c     | 1 -
+ arch/x86/hyperv/hv_apic.c       | 1 -
+ arch/x86/hyperv/hv_init.c       | 1 -
+ arch/x86/hyperv/hv_proc.c       | 1 -
+ arch/x86/hyperv/ivm.c           | 1 -
+ arch/x86/hyperv/mmu.c           | 1 -
+ arch/x86/include/asm/kvm_host.h | 1 -
+ arch/x86/include/asm/mshyperv.h | 1 -
+ arch/x86/mm/pat/set_memory.c    | 2 --
+ 9 files changed, 10 deletions(-)
 
----
-Nuno Das Neves (4):
-  hyperv: Move hv_connection_id to hyperv-tlfs.h
-  hyperv: Clean up unnecessary #includes
-  hyperv: Add new Hyper-V headers in include/hyperv
-  hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h
-
- arch/arm64/hyperv/hv_core.c        |    3 +-
- arch/arm64/hyperv/mshyperv.c       |    4 +-
- arch/arm64/include/asm/mshyperv.h  |    2 +-
- arch/x86/hyperv/hv_apic.c          |    1 -
- arch/x86/hyperv/hv_init.c          |   21 +-
- arch/x86/hyperv/hv_proc.c          |    3 +-
- arch/x86/hyperv/ivm.c              |    1 -
- arch/x86/hyperv/mmu.c              |    1 -
- arch/x86/hyperv/nested.c           |    2 +-
- arch/x86/include/asm/kvm_host.h    |    3 +-
- arch/x86/include/asm/mshyperv.h    |    3 +-
- arch/x86/include/asm/svm.h         |    2 +-
- arch/x86/kernel/cpu/mshyperv.c     |    2 +-
- arch/x86/kvm/vmx/hyperv_evmcs.h    |    2 +-
- arch/x86/kvm/vmx/vmx_onhyperv.h    |    2 +-
- arch/x86/mm/pat/set_memory.c       |    2 -
- drivers/clocksource/hyperv_timer.c |    2 +-
- drivers/hv/hv_balloon.c            |    4 +-
- drivers/hv/hv_common.c             |    2 +-
- drivers/hv/hv_kvp.c                |    2 +-
- drivers/hv/hv_snapshot.c           |    2 +-
- drivers/hv/hyperv_vmbus.h          |    2 +-
- include/asm-generic/hyperv-tlfs.h  |    9 +
- include/asm-generic/mshyperv.h     |    2 +-
- include/clocksource/hyperv_timer.h |    2 +-
- include/hyperv/hvgdk.h             |  303 +++++++
- include/hyperv/hvgdk_ext.h         |   46 +
- include/hyperv/hvgdk_mini.h        | 1295 ++++++++++++++++++++++++++++
- include/hyperv/hvhdk.h             |  733 ++++++++++++++++
- include/hyperv/hvhdk_mini.h        |  310 +++++++
- include/linux/hyperv.h             |   11 +-
- net/vmw_vsock/hyperv_transport.c   |    2 +-
- 32 files changed, 2729 insertions(+), 52 deletions(-)
- create mode 100644 include/hyperv/hvgdk.h
- create mode 100644 include/hyperv/hvgdk_ext.h
- create mode 100644 include/hyperv/hvgdk_mini.h
- create mode 100644 include/hyperv/hvhdk.h
- create mode 100644 include/hyperv/hvhdk_mini.h
-
+diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
+index f1ebc025e1df..7a746a5a6b42 100644
+--- a/arch/arm64/hyperv/hv_core.c
++++ b/arch/arm64/hyperv/hv_core.c
+@@ -11,7 +11,6 @@
+ #include <linux/types.h>
+ #include <linux/export.h>
+ #include <linux/mm.h>
+-#include <linux/hyperv.h>
+ #include <linux/arm-smccc.h>
+ #include <linux/module.h>
+ #include <asm-generic/bug.h>
+diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
+index 0569f579338b..f022d5f64fb6 100644
+--- a/arch/x86/hyperv/hv_apic.c
++++ b/arch/x86/hyperv/hv_apic.c
+@@ -23,7 +23,6 @@
+ #include <linux/vmalloc.h>
+ #include <linux/mm.h>
+ #include <linux/clockchips.h>
+-#include <linux/hyperv.h>
+ #include <linux/slab.h>
+ #include <linux/cpuhotplug.h>
+ #include <asm/hypervisor.h>
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 17a71e92a343..1a6354b3e582 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -27,7 +27,6 @@
+ #include <linux/version.h>
+ #include <linux/vmalloc.h>
+ #include <linux/mm.h>
+-#include <linux/hyperv.h>
+ #include <linux/slab.h>
+ #include <linux/kernel.h>
+ #include <linux/cpuhotplug.h>
+diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
+index 3fa1f2ee7b0d..b74c06c04ff1 100644
+--- a/arch/x86/hyperv/hv_proc.c
++++ b/arch/x86/hyperv/hv_proc.c
+@@ -3,7 +3,6 @@
+ #include <linux/vmalloc.h>
+ #include <linux/mm.h>
+ #include <linux/clockchips.h>
+-#include <linux/hyperv.h>
+ #include <linux/slab.h>
+ #include <linux/cpuhotplug.h>
+ #include <linux/minmax.h>
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index 60fc3ed72830..b56d70612734 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -7,7 +7,6 @@
+  */
+ 
+ #include <linux/bitfield.h>
+-#include <linux/hyperv.h>
+ #include <linux/types.h>
+ #include <linux/slab.h>
+ #include <asm/svm.h>
+diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
+index 1cc113200ff5..cc8c3bd0e7c2 100644
+--- a/arch/x86/hyperv/mmu.c
++++ b/arch/x86/hyperv/mmu.c
+@@ -1,6 +1,5 @@
+ #define pr_fmt(fmt)  "Hyper-V: " fmt
+ 
+-#include <linux/hyperv.h>
+ #include <linux/log2.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 4a68cb3eba78..3627eab994a3 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -24,7 +24,6 @@
+ #include <linux/pvclock_gtod.h>
+ #include <linux/clocksource.h>
+ #include <linux/irqbypass.h>
+-#include <linux/hyperv.h>
+ #include <linux/kfifo.h>
+ 
+ #include <asm/apic.h>
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 390c4d13956d..47ca48062547 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -9,7 +9,6 @@
+ #include <asm/hyperv-tlfs.h>
+ #include <asm/nospec-branch.h>
+ #include <asm/paravirt.h>
+-#include <asm/mshyperv.h>
+ 
+ /*
+  * Hyper-V always provides a single IO-APIC at this MMIO address.
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index 44f7b2ea6a07..85fa0d4509f0 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -32,8 +32,6 @@
+ #include <asm/pgalloc.h>
+ #include <asm/proto.h>
+ #include <asm/memtype.h>
+-#include <asm/hyperv-tlfs.h>
+-#include <asm/mshyperv.h>
+ 
+ #include "../mm_internal.h"
+ 
 -- 
 2.34.1
 
