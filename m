@@ -1,122 +1,263 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46EC17DFFC;
-	Wed, 13 Nov 2024 08:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41870175D38;
+	Wed, 13 Nov 2024 08:47:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731487635; cv=none; b=SYfai05BJqcd+mzd9rHgS+H8rny3yfNfCU9D4PDS8ehfC50CJPLxHPvVhMTrQpHagcaicNrgcJVNEExekyTSAy6MAdMnFY8ZnZFVH7IcXo2JsSsVXtNbKJ8SVVNASO22Lal8sEUNBSz4IXTiixcl0PdYDqPRNbGv7u7KOid+GMc=
+	t=1731487642; cv=none; b=F90w5L6Oo3yJ9+iyXkO30agLFE0r28me9HZNTDMfnaB4YQ6W1Z+S9/8DOYIBJFWBuzeN3lZ97+I/gvUlkSbYV+ZEVeH5my32bNvcbr6XI0clzZ+j4mcAGv26DvWWzJc5UPs3p231SXQoGfGQR3xMmPbHMrlGbVpVR/Od4gY6HJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731487635; c=relaxed/simple;
-	bh=dj2j/+GbeBebCExsmXp6+KgVP0ieIsa2ZQqlwQLxk4E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PPuBQjENK91yRIFqe99B1AixCOb5vCAIDeS/q23hksTP8afTL3MF+bc8VqicuIb3O+A4Xw+et3hRXA9Q9gay4PK9+r6Mur8nWtX46/w65p9vehwJUL1Vkg7AxFH3LQ/eUmKHhCd0RRl8PgtBjjgHcPCl/WI5b8eYDFwIieQ4xmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=a3783b2q; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1731487642; c=relaxed/simple;
+	bh=VZAgZ9kqqoB5/D8VJxtRpit6Ayl9TwWmktGv+iiqCqE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=MaP11aMSRErgM3FEFFyQTGotxk+juEtW3APlGUfOuE/N0bpm2ZxpRSBDc8sum8Bua1bbe3SV9cehnw3m8MqLF9Vv1Bp9jISc2jmHSUe2V/N5bEiUIYtbWbCWy7uOvXjDL89411ueW3ORiXC0JRvcy6aw+sWeKToOFGELYPqOeg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=OkEZm9Un; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="a3783b2q"
-Received: from namjain-Virtual-Machine.corp.microsoft.com (unknown [131.107.147.150])
-	by linux.microsoft.com (Postfix) with ESMTPSA id F01B120BEBCC;
-	Wed, 13 Nov 2024 00:47:06 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F01B120BEBCC
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OkEZm9Un"
+Received: from [100.79.98.145] (unknown [4.194.122.170])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C0CEE20BEBCC;
+	Wed, 13 Nov 2024 00:47:17 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C0CEE20BEBCC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1731487627;
-	bh=5ekCycVyIGv7lPjAwHwoxDtRYgLgAEMMdZsg+X4GV8w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=a3783b2qyvXTCv9ME+bN9JwSeMquHS+hW2SuaqWC559eWmvJgllhVfG7bg0HJcW0l
-	 RAOHxQ9/tpbEeKO1oC8fncnA5QsXMAtrWLrmgYLutisuJ3uZub+AZLwlPS63jooq8h
-	 yNlKt0S/ksa9XSw8en0wSFzDA5VoukP9UZECEyYw=
-From: Naman Jain <namjain@linux.microsoft.com>
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>
-Cc: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Naman Jain <namjain@linux.microsoft.com>,
-	John Starks <jostarks@microsoft.com>,
-	jacob.pan@linux.microsoft.com,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-Subject: [PATCH v3 0/2] Drivers: hv: vmbus: Wait for boot-time offers and log missing offers
-Date: Wed, 13 Nov 2024 00:46:58 -0800
-Message-Id: <20241113084700.2940-1-namjain@linux.microsoft.com>
-X-Mailer: git-send-email 2.34.1
+	s=default; t=1731487641;
+	bh=SPS+paqcIyB/AfQjvCGpueAi/m4/2CY3K6MBc4wtwOo=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=OkEZm9Unt8DFFP3kp5+/iYNckQ/hawsOHy2X3Aqg6uohl0/at8m6VNLFc1Adq8LXr
+	 HXP38jZ1FsK9PZpCSl6qe8ky5yhfI82wIbbW6tpu2jjRuib23RO1LdJiaSQ5Qrs2rd
+	 gJ4CAeJXuVhY4GpOT3j1eTO8J8y3iBkPinp7czCU=
+Message-ID: <dc5b1aaf-62cc-49ea-9fc7-c07b3afbd714@linux.microsoft.com>
+Date: Wed, 13 Nov 2024 14:17:15 +0530
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Naman Jain <namjain@linux.microsoft.com>
+Subject: Re: [PATCH v2 2/2] Drivers: hv: vmbus: Log on missing offers
+To: Michael Kelley <mhklinux@outlook.com>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ John Starks <jostarks@microsoft.com>,
+ "jacob.pan@linux.microsoft.com" <jacob.pan@linux.microsoft.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+References: <20241029080147.52749-1-namjain@linux.microsoft.com>
+ <20241029080147.52749-3-namjain@linux.microsoft.com>
+ <SN6PR02MB4157D7212FE3F0F50FAB0592D4552@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <4c9e670b-eb37-4bdb-adcf-a4ebbebcefab@linux.microsoft.com>
+ <dc8f4e45-c89e-4e2d-82ac-58dd6e9c9884@linux.microsoft.com>
+ <SN6PR02MB4157BB5A5F5EDFAC24D594DED4592@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+In-Reply-To: <SN6PR02MB4157BB5A5F5EDFAC24D594DED4592@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-After VM requests for channel offers during boot or resume from
-hibernation, host offers the devices that the VM is configured with and
-then sends a separate message indicating that all the boot-time channel
-offers are delivered. Wait for this message to make this boot-time offers
-request and receipt process synchronous.
-
-Without this, user mode can race with VMBus initialization and miss
-channel offers. User mode has no way to work around this other than
-sleeping for a while, since there is no way to know when VMBus has
-finished processing boot-time offers.
-
-This is in analogy to a PCI bus not returning from probe until it has
-scanned all devices on the bus.
-
-As part of this implementation, some code cleanup is also done for the
-logic which becomes redundant due to this change.
-
-Second patch prints the channels which are not offered when resume
-happens from hibernation to supply more information to the end user.
-
-Changes since v2:
-https://lore.kernel.org/all/20241029080147.52749-1-namjain@linux.microsoft.com/
-* Incorporated Easwar's suggestion to use secs_to_jiffies() as his
-  changes are now merged.
-* Addressed Michael's comments:
-  * Used boot-time offers/channels/devices to maintain consistency
-  * Rephrased CHANNELMSG_ALLOFFERS_DELIVERED handler function comments
-    for better explanation. Thanks for sharing the write-up.
-  * Changed commit msg and other things as per suggestions
-* Addressed Dexuan's comments, which came up in offline discussion:
-  * Changed timeout for waiting for all offers delivered msg to 60s instead of 10s.
-    Reason being, the host can experience some servicing events or diagnostics events,
-    which may take a long time and hence may fail to offer all the devices within 10s.
-  * Minor additions in commit subject of both patches
-* Rebased on latest linux-next master tip
-
-Changes since v1:
-https://lore.kernel.org/all/20241018115811.5530-1-namjain@linux.microsoft.com/
-* Added Easwar's Reviewed-By tag
-* Addressed Michael's comments:
-  * Added explanation of all offers delivered message in comments
-  * Removed infinite wait for offers logic, and changed it wait once.
-  * Removed sub channel workqueue flush logic
-  * Added comments on why MLX device offer is not expected as part of
-    this essential boot offer list. I refrained from adding too many
-    details on it as it felt like it is beyond the scope of this patch
-    series and may not be relevant to this. However, please let me know if
-    something needs to be added.
-* Addressed Saurabh's comments:
-  * Changed timeout value to 10000 ms instead of 10*1000
-  * Changed commit msg as per suggestions
-  * Added a comment for warning case of wait_for_completion timeout
-  * Added a note for missing channel cleanup in comments and commit msg
-
-John Starks (1):
-  Drivers: hv: vmbus: Log on missing offers if any
-
-Naman Jain (1):
-  Drivers: hv: vmbus: Wait for boot-time offers during boot and resume
-
- drivers/hv/channel_mgmt.c | 61 +++++++++++++++++++++++++++++----------
- drivers/hv/connection.c   |  4 +--
- drivers/hv/hyperv_vmbus.h | 14 ++-------
- drivers/hv/vmbus_drv.c    | 31 ++++++++++----------
- 4 files changed, 67 insertions(+), 43 deletions(-)
 
 
-base-commit: 28955f4fa2823e39f1ecfb3a37a364563527afbc
--- 
-2.34.1
+On 11/12/2024 8:43 AM, Michael Kelley wrote:
+> From: Naman Jain <namjain@linux.microsoft.com> Sent: Sunday, November 10, 2024 9:44 PM
+>>
+>> On 11/7/2024 11:14 AM, Naman Jain wrote:
+>>>
+>>> On 11/1/2024 12:44 AM, Michael Kelley wrote:
+>>>> From: Naman Jain <namjain@linux.microsoft.com> Sent: Tuesday, October 29, 2024 1:02 AM
+>>>>>
+> 
+> [snip]
+> 
+>>>>> @@ -2494,6 +2495,22 @@ static int vmbus_bus_resume(struct device *dev)
+>>>>>
+>>>>>        vmbus_request_offers();
+>>>>>
+>>>>> +    mutex_lock(&vmbus_connection.channel_mutex);
+>>>>> +    list_for_each_entry(channel, &vmbus_connection.chn_list, listentry) {
+>>>>> +        if (channel->offermsg.child_relid != INVALID_RELID)
+>>>>> +            continue;
+>>>>> +
+>>>>> +        /* hvsock channels are not expected to be present. */
+>>>>> +        if (is_hvsock_channel(channel))
+>>>>> +            continue;
+>>>>> +
+>>>>> +        pr_err("channel %pUl/%pUl not present after resume.\n",
+>>>>> +            &channel->offermsg.offer.if_type,
+>>>>> +            &channel->offermsg.offer.if_instance);
+>>>>> +        /* ToDo: Cleanup these channels here */
+>>>>> +    }
+>>>>> +    mutex_unlock(&vmbus_connection.channel_mutex);
+>>>>> +
+>>>>
+>>>> Dexuan and John have explained how in Azure VMs, there should not be
+>>>> any VFs assigned to the VM at the time of hibernation. So the above
+>>>> check for missing offers does not trigger an error message due to
+>>>> VF offers coming after the all-offers-received message.
+>>>>
+>>>> But what about the case of a VM running on a local Hyper-V? I'm not
+>>>> completely clear, but in that case I don't think any VFs are removed
+>>>> before the hibernation, especially for VM-initiated hibernation. It's
+>>>
+>>> I am not sure about this behavior. I have requested Dexuan offline
+>>> for a comment.
+>>>
+>>>> a reasonable scenario to later resume that same VM, with the same
+>>>> VF assigned to the VM. Because of the way current code counts
+>>>> the offers, vmbus_bus_resume() waits for the VF to be offered again,
+>>>> and all the channels get correct post-resume relids. But the changes
+>>>> in this patch set break that scenario. Since vmbus_bus_resume() now
+>>>> proceeds before the VF offer arrives, hv_pci_resume() calling
+>>>> vmbus_open() could use the pre-hibernation relid for the VF and break
+>>>> things. Certainly the "not present after resume" error message would
+>>>> be spurious.
+>>>>
+>>>> Maybe the focus here is Azure, and it's tolerable for the local Hyper-V
+>>>> case with a VF to not work pending later fixes. But I thought I'd call
+>>>> out the potential issue (assuming my thinking is correct).
+>>>>
+>>>> Michael
+>>>
+>>> IIUC, below scenarios can happen based on your comment-
+>>>
+>>> Case 1:
+>>> VF channel offer is received in time before hv_pci_resume() and there
+>>> are no problems.
+>>>
+>>> Case 2:
+>>> Resume proceeds just after getting ALLOFFERS_DELIVERED msg and a warning
+>>> is printed that this VF channel is not present after resume.
+>>> Then two scenarios can happen:
+>>>     Case 2.1:
+>>>     VF channel offer is received before hv_pci_resume() and things work
+>>>     fine. Warning printed is spurious.
+>>>     Case 2.2:
+>>>     VM channel offer is not received before hv_pci_resume() and relid is
+>>>     not yet restored by onoffer. This is a problem. Warning is printed in
+>>>     this case for missing offer.
+>>>
+>>> I think it all depends on whether or not VFs are removed in local
+>>> HyperV VMs. I'll try to get this information. Thanks for pointing this
+>>> out.
+>>>
+>>> Regards,
+>>> Naman
+>>>
+>>
+>> Hi Michael,
+>> I discussed with Dexuan and we tried these scenarios. Here are the
+>> observations:
+>>
+>> For the two ways of host initiated hibernation:
+>>
+>> #1: Invoke-Hibernate $vm -Device (Uses the guest shutdown component)
+>> OR
+>> #2: Invoke-Hibernate $vm -ComputerSystem (Uses the RequestStateChange
+>> ability)
+> 
+> Question:  What Powershell module provides "Invoke-Hibernate"? It's not
+> present on my Windows 11 system that is running Hyper-V, and I can't
+> find any documentation about it on the web.  Or maybe Invoke-Hibernate
+> is a Powershell *script*?
 
+Powertest is one of the internal packages, which has some commands to
+trigger host-initiated hibernation. I should probably have mentioned
+that in my original comment.
+
+> 
+>>
+>> #1 does not remove the VF before sending the hibernate message to the VM
+>> via hv_utils, but #2 does.
+>>
+>> With both #1 and #2, during resume, the host offers the vPCI vmbus
+>> device before the vmbus_onoffers_delivered() is called. Whether or not
+>> VFs are removed doesn't matter here, because during resume the first
+>> fresh kernel always requests the VF device, meaning it has become a
+>> boot-time device when the 'old' kernel is resuming back. So the issue we
+>> are discussing will not happen in practice and the patch won't break
+>> things and won't print spurious warnings. If its OK, please let me know,
+>> I'll then proceed with v3.
+>>
+> 
+> Ah, this is interesting. I'm assuming these are the details:
+> 
+> 1)  VM boots with the intent of resuming from hibernation (though
+> Hyper-V doesn't know about that intent)
+> 2)  Original fresh kernel is loaded and begins initialization
+> 3)  VMBus offers come in for boot-time devices, which excludes SR-IOV VFs.
+> 4)  ALLOFFERS_DELIVERED message comes in
+> 5)  The storvsc driver initializes for the virtual disks on the VM
+> 6)  Kernel initialization code finds and reads the swap space to see if a
+> hibernation image is present. If so, it reads in the hibernation image.
+> 7)  The suspend sequence is initiated (just like during hibernation)
+> to shutdown the VMBus devices and terminate the VMBus connection.
+> 8)  Control is transferred to the previously read-in hibernation image
+> 9)  The hibernation image runs the resume sequence, which
+> initiates a new VMBus connection and requests offers
+> 10) VMBus offers come in for whatever VMBus devices were present
+> when Step 7 initiated the suspend sequence. If a VF device was present
+> at that time, an offer for that VF device will come in and will match up
+> with the VF that was present in the VM at the time of hibernation.
+> 11) ALLOFFERS_DELIVERED message comes in again for the
+> newly initiated VMBus connection.
+> 
+
+3), 4) works differently IMO. There is no request_for_offers, or 
+ALLOFFERS_DELIVERED for fresh kernel. Otherwise on adding the prints in
+kernel, we should have seen these function calls *twice* in one 
+hibernation-resume cycle. But that is not the case.
+
+When the older/original kernel boots up, and requests offers, it gets 
+those VF offers again as part of boot time offers, and then
+ALLOFFERS_DELIVERED msg comes. I'm still trying to figure out how fresh
+kernel requests for VF offers or if it gets those offers automatically
+from the host. I will update my findings so that it can be put up in
+documentation which you mentioned.
+
+> The netvsc driver gets initialized *after* step 4, but we don't know
+> exactly *when* relative to the storvsc driver. The netvsc driver must
+> tell Hyper-V that it can handle an SR-IOV VF, and the VF offer is sent
+> sometime after that. While this netvsc/VF sequence is happening, the
+> storvsc driver is reading the hibernation image from swap (Step 6).
+> 
+
+Maybe this is how fresh kernel gets the offers for VF devices.
+
+> I think the sequence you describe works when reading the
+> hibernation image from swap takes 10's of seconds, or even several
+> minutes in an Azure VM with a remote disk. That gives plenty
+> of time for the VF to get initialized and be fully present when Step 7
+> starts. But there's no *guarantee* that the VF is initialized by then.
+> It's also not clear to me what action by the guest causes Hyper-V to
+> treat the VF as "added to the VM" so that in Step 10 the VF offer is
+> sent before ALLOFFERS_DELIVERED.
+> 
+> The sequence you describe also happens in an Azure VM, even if
+> the VF is removed before hibernation. When the VF offer arrives
+> during Step 10, it doesn't match with any VFs that were in the VM
+> at the time of hibernation. It's treated as a new device, just like it
+> would be if the offer arrived after ALLOFFERS_DELIVERED.
+> 
+> But it seems like there's still the risk of having a fast swap disk
+> and a small hibernation image that can be read in a shorter amount
+> of time than it takes to initialize the VF to the point that Hyper-V
+> treats it as added to the VM. Without knowing what that point is,
+> it's hard to assess the likelihood of that happening. Or maybe there's
+> an interlock I'm not aware of that ensures Step 7 can't proceed
+> while the netvsc/VF sequence is in progress.
+> 
+> So maybe it's best to proceed with this patch, and deal with the
+> risk later when/if it becomes reality. I'm OK if you want to do
+> that. This has been an interesting discussion that I'll try to capture
+> in some high-level documentation about how Linux guests on
+> Hyper-V do hibernation!
+> 
+> Michael
+
+
+
+I have sent v3 with the changes we discussed.
+
+Regards,
+Naman
