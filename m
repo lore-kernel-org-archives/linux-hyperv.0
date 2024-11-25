@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 655831CD2C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141FD194C8B;
 	Mon, 25 Nov 2024 23:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732577091; cv=none; b=gdR+LuluhPQvBdlCHbjN/tX2KumMybZKWz4mEzAenXXStSX1a7usufCqkuLqFrj1J905kuc4E0qvf2tlfVXccrQBObzR3kwrH1hWeYaC7LfsBDmqrcKrM/TQkiZN1wLN9+N+FNGbPxXl9bM0t0UPCQS0BkL29za6UfiqAITrW7Y=
+	t=1732577091; cv=none; b=codPqICD8MpyXIR5XmSO/IfyTClQTXwhjSwrDdzMORmlk12KUn6Im2BbDXMuKUM/KEZPWiHrGzcnkII1L8nYTKAMl4r0tmVZh44wSVKF4vZ1ag/vXYmAG29f/HerbT7KTTMUCpoLhboZL9N19UfiYstkyLKakvx0Z56Oz10DyWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732577091; c=relaxed/simple;
-	bh=8ET40aUJBPF8KJ8l/GdaeBQwZGILcXnZdbZXTC2/+wo=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=WyM6z7TbGSGmhOAr1EJTNjJ95tejQxMuAGaGTQH0t1tG5ZeEPxEqgkSfARqXXb1n3UmQR8GiYt/97gnqZJV8oeVxMvdBbGAMm5rHFnW75ONgCgno4KgWU0P+Hqv1FQcdVHz2+eEXXrxX2i4xkicDQDKYhsZRPtQsYuzVEWfIdq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=I/c1RYN4; arc=none smtp.client-ip=13.77.154.182
+	bh=RUe7LYKTRQEazCAW4kdsUvfb831dV1tyPwmwQGhHIHU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=UGIfeRkXypTkNoDDaSAnJNwPo6057U5R2gf7B9c8TG38P190czW+hq60p7CI85YPRCjb6M3AN3R+vKE1mfuo9QM6GOMLt42FjdM5+7ELFMhXGqqoItN+jAzMcOIr3pekJouM1F+u3EmEUbC/M8G8ayZiz+ZgqM4JtPwkh1hSYjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=k/BTg3sD; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="I/c1RYN4"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="k/BTg3sD"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id BC82A2054597;
-	Mon, 25 Nov 2024 15:24:47 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BC82A2054597
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4EF0B20545A2;
+	Mon, 25 Nov 2024 15:24:48 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4EF0B20545A2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1732577087;
-	bh=KKxzMh07QCmMgY5ntlRx+0kcO0k3u6+fBgf1JWSRuQE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=I/c1RYN4dA+qUthGeQv6gh+TFPvdHoVYWtoz34qRQbODr8muisW07fzsKSq76FBqv
-	 1BCkJQS3BlZ9hGDfV01s1HkGv7AmIwADtJFS/+xlNHCCr8+Wp4Mlu9ORXlWtyOGYtw
-	 mTe9Uqf7okrDn8wYD+oN2pLQubME821KC1+zxfm8=
+	s=default; t=1732577088;
+	bh=+ZUBgfn/rgPsUR5HZKGJtyuIovuDjkngqu0F5dQSNOM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=k/BTg3sDGbiE5t96dO8rwKRCR+lyGmOaRzUCW8l0W78/XGdLev+2d4chhhI3VjVOh
+	 gmq4+9XJUVCiWjVlFDThVL8CatxbMRaByRl+HaXXUydPNigj+X/HJGWXTJl7bO+Tku
+	 f7Vb5WOWUOU+Nz6sI1OyYE/++hc3B1WPyx69BCnk=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -73,118 +73,429 @@ Cc: kys@microsoft.com,
 	apais@linux.microsoft.com,
 	eahariha@linux.microsoft.com,
 	horms@kernel.org
-Subject: [PATCH v3 0/5] Introduce new headers for Hyper-V
-Date: Mon, 25 Nov 2024 15:24:39 -0800
-Message-Id: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 4/5] hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h
+Date: Mon, 25 Nov 2024 15:24:43 -0800
+Message-Id: <1732577084-2122-5-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-To support Linux as root partition[1] on Hyper-V many new definitions
-are required.
+Switch to using hvhdk.h everywhere in the kernel. This header
+includes all the new Hyper-V headers in include/hyperv, which form a
+superset of the definitions found in hyperv-tlfs.h.
 
-The plan going forward is to directly import definitions from
-Hyper-V code without waiting for them to land in the TLFS document.
-This is a quicker and more maintainable way to import definitions,
-and is a step toward the eventual goal of exporting the headers
-directly from Hyper-V for use in Linux.
+This makes it easier to add new Hyper-V interfaces without being
+restricted to those in the TLFS doc (reflected in hyperv-tlfs.h).
 
-This patch series introduces new headers (hvhdk.h, hvgdk.h, etc,
-see patch #3) derived directly from Hyper-V code. hyperv-tlfs.h is
-replaced with hvhdk.h (which includes the other new headers)
-everywhere.
+To be more consistent with the original Hyper-V code, the names of
+some definitions are changed slightly. Update those where needed.
 
-No functional change is expected.
-
-Summary:
-Patch 1-2: Minor cleanup patches
-Patch 3: Add the new headers (hvhdk.h, etc..) in include/hyperv/
-Patch 4: Switch to the new headers
-Patch 5: Delete hyperv-tlfs.h files
+Update comments in mshyperv.h files to point to include/hyperv for
+adding new definitions.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
-Changelog:
-v3:
-- Add patch (#5) to delete the hyperv-tlfs.h files, suggested by
-  Michael Kelley and Easwar Hariharan
-- Reword commit message on patch #3 to improve clarity, suggested
-  by Michael Kelley
-- Clarify "Dom0" terminology, suggested by Michael Kelley
-v2:
-- Rework the series to simply use the new headers everywhere,
-  instead of fiddling around to keep hyperv-tlfs.h in some areas,
-  suggested by Michael Kelley and Easwar Hariharan
-- Fix compilation issues with some configs by adding missing
-  definitions and changing some names, thanks to Simon Horman for
-  catching those
-- Add additional definitions to the new headers due to them now being
-  used everywhere
-- Don't remove indirect includes in patch #2, only remove those which
-  truly aren't used, suggested by Michael Kelley
+ arch/arm64/hyperv/hv_core.c        |  2 +-
+ arch/arm64/hyperv/mshyperv.c       |  4 ++--
+ arch/arm64/include/asm/mshyperv.h  |  7 +++----
+ arch/x86/hyperv/hv_init.c          | 20 ++++++++++----------
+ arch/x86/hyperv/hv_proc.c          |  2 +-
+ arch/x86/hyperv/nested.c           |  2 +-
+ arch/x86/include/asm/kvm_host.h    |  2 +-
+ arch/x86/include/asm/mshyperv.h    |  2 +-
+ arch/x86/include/asm/svm.h         |  2 +-
+ arch/x86/kernel/cpu/mshyperv.c     |  2 +-
+ arch/x86/kvm/vmx/hyperv_evmcs.h    |  2 +-
+ arch/x86/kvm/vmx/vmx_onhyperv.h    |  2 +-
+ drivers/clocksource/hyperv_timer.c |  2 +-
+ drivers/hv/hv_balloon.c            |  4 ++--
+ drivers/hv/hv_common.c             |  2 +-
+ drivers/hv/hv_kvp.c                |  2 +-
+ drivers/hv/hv_snapshot.c           |  2 +-
+ drivers/hv/hyperv_vmbus.h          |  2 +-
+ include/asm-generic/mshyperv.h     |  7 +++----
+ include/clocksource/hyperv_timer.h |  2 +-
+ include/linux/hyperv.h             |  2 +-
+ net/vmw_vsock/hyperv_transport.c   |  6 +++---
+ 22 files changed, 39 insertions(+), 41 deletions(-)
 
----
-Footnotes:
-[1] Linux as root partition on Hyper-V is sometimes referred to as
-    "Dom0", borrowing the terminology from Xen. Although they are
-    conceptually similar, note that "Hyper-V Dom0" has nothing to do
-    with Xen.
-
-Nuno Das Neves (5):
-  hyperv: Move hv_connection_id to hyperv-tlfs.h
-  hyperv: Clean up unnecessary #includes
-  hyperv: Add new Hyper-V headers in include/hyperv
-  hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h
-  hyperv: Remove the now unused hyperv-tlfs.h files
-
- MAINTAINERS                          |    8 +-
- arch/arm64/hyperv/hv_core.c          |    3 +-
- arch/arm64/hyperv/mshyperv.c         |    4 +-
- arch/arm64/include/asm/hyperv-tlfs.h |   71 --
- arch/arm64/include/asm/mshyperv.h    |    7 +-
- arch/x86/hyperv/hv_apic.c            |    1 -
- arch/x86/hyperv/hv_init.c            |   21 +-
- arch/x86/hyperv/hv_proc.c            |    3 +-
- arch/x86/hyperv/ivm.c                |    1 -
- arch/x86/hyperv/mmu.c                |    1 -
- arch/x86/hyperv/nested.c             |    2 +-
- arch/x86/include/asm/hyperv-tlfs.h   |  811 ----------------
- arch/x86/include/asm/kvm_host.h      |    3 +-
- arch/x86/include/asm/mshyperv.h      |    3 +-
- arch/x86/include/asm/svm.h           |    2 +-
- arch/x86/kernel/cpu/mshyperv.c       |    2 +-
- arch/x86/kvm/vmx/hyperv_evmcs.h      |    2 +-
- arch/x86/kvm/vmx/vmx_onhyperv.h      |    2 +-
- arch/x86/mm/pat/set_memory.c         |    2 -
- drivers/clocksource/hyperv_timer.c   |    2 +-
- drivers/hv/hv_balloon.c              |    4 +-
- drivers/hv/hv_common.c               |    2 +-
- drivers/hv/hv_kvp.c                  |    2 +-
- drivers/hv/hv_snapshot.c             |    2 +-
- drivers/hv/hyperv_vmbus.h            |    2 +-
- include/asm-generic/hyperv-tlfs.h    |  874 -----------------
- include/asm-generic/mshyperv.h       |    7 +-
- include/clocksource/hyperv_timer.h   |    2 +-
- include/hyperv/hvgdk.h               |  308 ++++++
- include/hyperv/hvgdk_ext.h           |   46 +
- include/hyperv/hvgdk_mini.h          | 1306 ++++++++++++++++++++++++++
- include/hyperv/hvhdk.h               |  733 +++++++++++++++
- include/hyperv/hvhdk_mini.h          |  311 ++++++
- include/linux/hyperv.h               |   11 +-
- net/vmw_vsock/hyperv_transport.c     |    6 +-
- 35 files changed, 2748 insertions(+), 1819 deletions(-)
- delete mode 100644 arch/arm64/include/asm/hyperv-tlfs.h
- delete mode 100644 arch/x86/include/asm/hyperv-tlfs.h
- delete mode 100644 include/asm-generic/hyperv-tlfs.h
- create mode 100644 include/hyperv/hvgdk.h
- create mode 100644 include/hyperv/hvgdk_ext.h
- create mode 100644 include/hyperv/hvgdk_mini.h
- create mode 100644 include/hyperv/hvhdk.h
- create mode 100644 include/hyperv/hvhdk_mini.h
-
+diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
+index 7a746a5a6b42..69004f619c57 100644
+--- a/arch/arm64/hyperv/hv_core.c
++++ b/arch/arm64/hyperv/hv_core.c
+@@ -14,7 +14,7 @@
+ #include <linux/arm-smccc.h>
+ #include <linux/module.h>
+ #include <asm-generic/bug.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ 
+ /*
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index b1a4de4eee29..fc49949b7df6 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -49,12 +49,12 @@ static int __init hyperv_init(void)
+ 	hv_set_vpreg(HV_REGISTER_GUEST_OS_ID, guest_id);
+ 
+ 	/* Get the features and hints from Hyper-V */
+-	hv_get_vpreg_128(HV_REGISTER_FEATURES, &result);
++	hv_get_vpreg_128(HV_REGISTER_PRIVILEGES_AND_FEATURES_INFO, &result);
+ 	ms_hyperv.features = result.as32.a;
+ 	ms_hyperv.priv_high = result.as32.b;
+ 	ms_hyperv.misc_features = result.as32.c;
+ 
+-	hv_get_vpreg_128(HV_REGISTER_ENLIGHTENMENTS, &result);
++	hv_get_vpreg_128(HV_REGISTER_FEATURES_INFO, &result);
+ 	ms_hyperv.hints = result.as32.a;
+ 
+ 	pr_info("Hyper-V: privilege flags low 0x%x, high 0x%x, hints 0x%x, misc 0x%x\n",
+diff --git a/arch/arm64/include/asm/mshyperv.h b/arch/arm64/include/asm/mshyperv.h
+index a975e1a689dd..2e2f83bafcfb 100644
+--- a/arch/arm64/include/asm/mshyperv.h
++++ b/arch/arm64/include/asm/mshyperv.h
+@@ -6,9 +6,8 @@
+  * the ARM64 architecture.  See include/asm-generic/mshyperv.h for
+  * definitions are that architecture independent.
+  *
+- * Definitions that are specified in the Hyper-V Top Level Functional
+- * Spec (TLFS) should not go in this file, but should instead go in
+- * hyperv-tlfs.h.
++ * Definitions that are derived from Hyper-V code or headers should not go in
++ * this file, but should instead go in the relevant files in include/hyperv.
+  *
+  * Copyright (C) 2021, Microsoft, Inc.
+  *
+@@ -20,7 +19,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/arm-smccc.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ /*
+  * Declare calls to get and set Hyper-V VP register values on ARM64, which
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 3562826915f9..3cf2a227d666 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -19,7 +19,7 @@
+ #include <asm/sev.h>
+ #include <asm/ibt.h>
+ #include <asm/hypervisor.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ #include <asm/idtentry.h>
+ #include <asm/set_memory.h>
+@@ -415,24 +415,24 @@ static void __init hv_get_partition_id(void)
+ static u8 __init get_vtl(void)
+ {
+ 	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
+-	struct hv_get_vp_registers_input *input;
+-	struct hv_get_vp_registers_output *output;
++	struct hv_input_get_vp_registers *input;
++	struct hv_register_assoc *output;
+ 	unsigned long flags;
+ 	u64 ret;
+ 
+ 	local_irq_save(flags);
+ 	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+-	output = (struct hv_get_vp_registers_output *)input;
++	output = (struct hv_register_assoc *)input;
+ 
+-	memset(input, 0, struct_size(input, element, 1));
+-	input->header.partitionid = HV_PARTITION_ID_SELF;
+-	input->header.vpindex = HV_VP_INDEX_SELF;
+-	input->header.inputvtl = 0;
+-	input->element[0].name0 = HV_X64_REGISTER_VSM_VP_STATUS;
++	memset(input, 0, struct_size(input, names, 1));
++	input->partition_id = HV_PARTITION_ID_SELF;
++	input->vp_index = HV_VP_INDEX_SELF;
++	input->input_vtl.as_uint8 = 0;
++	input->names[0] = HV_REGISTER_VSM_VP_STATUS;
+ 
+ 	ret = hv_do_hypercall(control, input, output);
+ 	if (hv_result_success(ret)) {
+-		ret = output->as64.low & HV_X64_VTL_MASK;
++		ret = output->value.reg8 & HV_X64_VTL_MASK;
+ 	} else {
+ 		pr_err("Failed to get VTL(error: %lld) exiting...\n", ret);
+ 		BUG();
+diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
+index b74c06c04ff1..ac4c834d4435 100644
+--- a/arch/x86/hyperv/hv_proc.c
++++ b/arch/x86/hyperv/hv_proc.c
+@@ -176,7 +176,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+ 		input->partition_id = partition_id;
+ 		input->vp_index = vp_index;
+ 		input->flags = flags;
+-		input->subnode_type = HvSubnodeAny;
++		input->subnode_type = HV_SUBNODE_ANY;
+ 		input->proximity_domain_info = hv_numa_node_to_pxm_info(node);
+ 		status = hv_do_hypercall(HVCALL_CREATE_VP, input, NULL);
+ 		local_irq_restore(irq_flags);
+diff --git a/arch/x86/hyperv/nested.c b/arch/x86/hyperv/nested.c
+index 9dc259fa322e..1083dc8646f9 100644
+--- a/arch/x86/hyperv/nested.c
++++ b/arch/x86/hyperv/nested.c
+@@ -11,7 +11,7 @@
+ 
+ 
+ #include <linux/types.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ #include <asm/tlbflush.h>
+ 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 46f354b12488..e8aeb4b4f868 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -35,8 +35,8 @@
+ #include <asm/asm.h>
+ #include <asm/kvm_page_track.h>
+ #include <asm/kvm_vcpu_regs.h>
+-#include <asm/hyperv-tlfs.h>
+ #include <asm/reboot.h>
++#include <hyperv/hvhdk.h>
+ 
+ #define __KVM_HAVE_ARCH_VCPU_DEBUGFS
+ 
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 6f866fb9ffee..f91ab1e75f9f 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -6,9 +6,9 @@
+ #include <linux/nmi.h>
+ #include <linux/msi.h>
+ #include <linux/io.h>
+-#include <asm/hyperv-tlfs.h>
+ #include <asm/nospec-branch.h>
+ #include <asm/paravirt.h>
++#include <hyperv/hvhdk.h>
+ 
+ /*
+  * Hyper-V always provides a single IO-APIC at this MMIO address.
+diff --git a/arch/x86/include/asm/svm.h b/arch/x86/include/asm/svm.h
+index 2b59b9951c90..77704eddba54 100644
+--- a/arch/x86/include/asm/svm.h
++++ b/arch/x86/include/asm/svm.h
+@@ -5,7 +5,7 @@
+ #include <uapi/asm/svm.h>
+ #include <uapi/asm/kvm.h>
+ 
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ /*
+  * 32-bit intercept words in the VMCB Control Area, starting
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index d18078834ded..fc13bdebf360 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -19,7 +19,7 @@
+ #include <linux/random.h>
+ #include <asm/processor.h>
+ #include <asm/hypervisor.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ #include <asm/desc.h>
+ #include <asm/idtentry.h>
+diff --git a/arch/x86/kvm/vmx/hyperv_evmcs.h b/arch/x86/kvm/vmx/hyperv_evmcs.h
+index a543fccfc574..6536290f4274 100644
+--- a/arch/x86/kvm/vmx/hyperv_evmcs.h
++++ b/arch/x86/kvm/vmx/hyperv_evmcs.h
+@@ -6,7 +6,7 @@
+ #ifndef __KVM_X86_VMX_HYPERV_EVMCS_H
+ #define __KVM_X86_VMX_HYPERV_EVMCS_H
+ 
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #include "capabilities.h"
+ #include "vmcs12.h"
+diff --git a/arch/x86/kvm/vmx/vmx_onhyperv.h b/arch/x86/kvm/vmx/vmx_onhyperv.h
+index bba24ed99ee6..cdf8cbb69209 100644
+--- a/arch/x86/kvm/vmx/vmx_onhyperv.h
++++ b/arch/x86/kvm/vmx/vmx_onhyperv.h
+@@ -3,7 +3,7 @@
+ #ifndef __ARCH_X86_KVM_VMX_ONHYPERV_H__
+ #define __ARCH_X86_KVM_VMX_ONHYPERV_H__
+ 
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ 
+ #include <linux/jump_label.h>
+diff --git a/drivers/clocksource/hyperv_timer.c b/drivers/clocksource/hyperv_timer.c
+index 99177835cade..b5f78abd447e 100644
+--- a/drivers/clocksource/hyperv_timer.c
++++ b/drivers/clocksource/hyperv_timer.c
+@@ -23,7 +23,7 @@
+ #include <linux/acpi.h>
+ #include <linux/hyperv.h>
+ #include <clocksource/hyperv_timer.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ 
+ static struct clock_event_device __percpu *hv_clock_event;
+diff --git a/drivers/hv/hv_balloon.c b/drivers/hv/hv_balloon.c
+index c38dcdfcb914..d792df113962 100644
+--- a/drivers/hv/hv_balloon.c
++++ b/drivers/hv/hv_balloon.c
+@@ -28,7 +28,7 @@
+ #include <linux/sizes.h>
+ 
+ #include <linux/hyperv.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #include <asm/mshyperv.h>
+ 
+@@ -1585,7 +1585,7 @@ static int hv_free_page_report(struct page_reporting_dev_info *pr_dev_info,
+ 		return -ENOSPC;
+ 	}
+ 
+-	hint->type = HV_EXT_MEMORY_HEAT_HINT_TYPE_COLD_DISCARD;
++	hint->heat_type = HV_EXTMEM_HEAT_HINT_COLD_DISCARD;
+ 	hint->reserved = 0;
+ 	for_each_sg(sgl, sg, nents, i) {
+ 		union hv_gpa_page_range *range;
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 7a35c82976e0..c4fd07d9bf1a 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -28,7 +28,7 @@
+ #include <linux/slab.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/set_memory.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ #include <asm/mshyperv.h>
+ 
+ /*
+diff --git a/drivers/hv/hv_kvp.c b/drivers/hv/hv_kvp.c
+index d35b60c06114..bfb7a518b4ed 100644
+--- a/drivers/hv/hv_kvp.c
++++ b/drivers/hv/hv_kvp.c
+@@ -27,7 +27,7 @@
+ #include <linux/connector.h>
+ #include <linux/workqueue.h>
+ #include <linux/hyperv.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #include "hyperv_vmbus.h"
+ #include "hv_utils_transport.h"
+diff --git a/drivers/hv/hv_snapshot.c b/drivers/hv/hv_snapshot.c
+index 0d2184be1691..097ebd58f14e 100644
+--- a/drivers/hv/hv_snapshot.c
++++ b/drivers/hv/hv_snapshot.c
+@@ -12,7 +12,7 @@
+ #include <linux/connector.h>
+ #include <linux/workqueue.h>
+ #include <linux/hyperv.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #include "hyperv_vmbus.h"
+ #include "hv_utils_transport.h"
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index d2856023d53c..6e2b87456300 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -15,10 +15,10 @@
+ #include <linux/list.h>
+ #include <linux/bitops.h>
+ #include <asm/sync_bitops.h>
+-#include <asm/hyperv-tlfs.h>
+ #include <linux/atomic.h>
+ #include <linux/hyperv.h>
+ #include <linux/interrupt.h>
++#include <hyperv/hvhdk.h>
+ 
+ #include "hv_trace.h"
+ 
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 8fe7aaab2599..a7bbe504e4f3 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -6,9 +6,8 @@
+  * independent. See arch/<arch>/include/asm/mshyperv.h for definitions
+  * that are specific to architecture <arch>.
+  *
+- * Definitions that are specified in the Hyper-V Top Level Functional
+- * Spec (TLFS) should not go in this file, but should instead go in
+- * hyperv-tlfs.h.
++ * Definitions that are derived from Hyper-V code or headers should not go in
++ * this file, but should instead go in the relevant files in include/hyperv.
+  *
+  * Copyright (C) 2019, Microsoft, Inc.
+  *
+@@ -25,7 +24,7 @@
+ #include <linux/cpumask.h>
+ #include <linux/nmi.h>
+ #include <asm/ptrace.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #define VTPM_BASE_ADDRESS 0xfed40000
+ 
+diff --git a/include/clocksource/hyperv_timer.h b/include/clocksource/hyperv_timer.h
+index 6cdc873ac907..a4c81a60f53d 100644
+--- a/include/clocksource/hyperv_timer.h
++++ b/include/clocksource/hyperv_timer.h
+@@ -15,7 +15,7 @@
+ 
+ #include <linux/clocksource.h>
+ #include <linux/math64.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #define HV_MAX_MAX_DELTA_TICKS 0xffffffff
+ #define HV_MIN_DELTA_TICKS 1
+diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+index d0893ec488ae..ed65b20defea 100644
+--- a/include/linux/hyperv.h
++++ b/include/linux/hyperv.h
+@@ -24,7 +24,7 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/interrupt.h>
+ #include <linux/reciprocal_div.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ #define MAX_PAGE_BUFFER_COUNT				32
+ #define MAX_MULTIPAGE_BUFFER_COUNT			32 /* 128K */
+diff --git a/net/vmw_vsock/hyperv_transport.c b/net/vmw_vsock/hyperv_transport.c
+index 56c232cf5b0f..31342ab502b4 100644
+--- a/net/vmw_vsock/hyperv_transport.c
++++ b/net/vmw_vsock/hyperv_transport.c
+@@ -13,12 +13,12 @@
+ #include <linux/hyperv.h>
+ #include <net/sock.h>
+ #include <net/af_vsock.h>
+-#include <asm/hyperv-tlfs.h>
++#include <hyperv/hvhdk.h>
+ 
+ /* Older (VMBUS version 'VERSION_WIN10' or before) Windows hosts have some
+  * stricter requirements on the hv_sock ring buffer size of six 4K pages.
+- * hyperv-tlfs defines HV_HYP_PAGE_SIZE as 4K. Newer hosts don't have this
+- * limitation; but, keep the defaults the same for compat.
++ * HV_HYP_PAGE_SIZE is defined as 4K. Newer hosts don't have this limitation;
++ * but, keep the defaults the same for compat.
+  */
+ #define RINGBUFFER_HVS_RCV_SIZE (HV_HYP_PAGE_SIZE * 6)
+ #define RINGBUFFER_HVS_SND_SIZE (HV_HYP_PAGE_SIZE * 6)
 -- 
 2.34.1
 
