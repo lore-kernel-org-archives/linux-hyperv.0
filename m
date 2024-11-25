@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F05A1946C3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 655831CD2C;
 	Mon, 25 Nov 2024 23:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732577090; cv=none; b=mQ8lyKWfk1rS91dRuwVfGpKWh5QFCyD8FHPZGJDDt+C15Ifb8+7P1r7l6tezz6IqWtLGjOBwCXNvWwU7xd0vMUHEBjWmt7JAYJAHMXPkfWYl+1wmVfUljbDyFPZMPlWZLVvfkFma/RA2UwTo96oNFF5A6Bda+Hlvo9iZ/7jDjQs=
+	t=1732577091; cv=none; b=gdR+LuluhPQvBdlCHbjN/tX2KumMybZKWz4mEzAenXXStSX1a7usufCqkuLqFrj1J905kuc4E0qvf2tlfVXccrQBObzR3kwrH1hWeYaC7LfsBDmqrcKrM/TQkiZN1wLN9+N+FNGbPxXl9bM0t0UPCQS0BkL29za6UfiqAITrW7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732577090; c=relaxed/simple;
-	bh=UVWJMNMJnOI1SS0qcTDTj8boSwJyZB4CTpRaJODuI4s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QeYZ5s1yZl2F1YkrCpiI3dO9Hkf1DAeMJmSSC7R0IppYmd4bMEQcRhKGZG3I5QZS+oAvGfTEbZqGtTsQpBeIxWMg5jO0Obe/Eaqq6UTk7DV1LKCwKuyrix9Jr99trdmJ5KiskLRFgrDKBzZqJJLPHRO7jaJq6YfpH7MMWf6PIIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=s2arBio/; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1732577091; c=relaxed/simple;
+	bh=8ET40aUJBPF8KJ8l/GdaeBQwZGILcXnZdbZXTC2/+wo=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=WyM6z7TbGSGmhOAr1EJTNjJ95tejQxMuAGaGTQH0t1tG5ZeEPxEqgkSfARqXXb1n3UmQR8GiYt/97gnqZJV8oeVxMvdBbGAMm5rHFnW75ONgCgno4KgWU0P+Hqv1FQcdVHz2+eEXXrxX2i4xkicDQDKYhsZRPtQsYuzVEWfIdq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=I/c1RYN4; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="s2arBio/"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="I/c1RYN4"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0CC61205459E;
-	Mon, 25 Nov 2024 15:24:48 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0CC61205459E
+	by linux.microsoft.com (Postfix) with ESMTPSA id BC82A2054597;
+	Mon, 25 Nov 2024 15:24:47 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BC82A2054597
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1732577088;
-	bh=OHKKLJ+dashHMTJsp9vYfQeMGkpF69ZLXCLtBTMnDzQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=s2arBio/1XcnR749uDCDchArPfFvUxhCSHHEkyoBSIL+JQ8zHFCsQen1n17O64fcA
-	 NhmiZDm03zTPnKFT7d2uP07+kK8JLm3sNmmrvbjSfpSWtxbSJJ+8taobUCEuaqfp3G
-	 eO+EX/Et4oTU+9o4kDY3NLxunUGOGcm6X5L5bwNw=
+	s=default; t=1732577087;
+	bh=KKxzMh07QCmMgY5ntlRx+0kcO0k3u6+fBgf1JWSRuQE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=I/c1RYN4dA+qUthGeQv6gh+TFPvdHoVYWtoz34qRQbODr8muisW07fzsKSq76FBqv
+	 1BCkJQS3BlZ9hGDfV01s1HkGv7AmIwADtJFS/+xlNHCCr8+Wp4Mlu9ORXlWtyOGYtw
+	 mTe9Uqf7okrDn8wYD+oN2pLQubME821KC1+zxfm8=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -73,145 +73,118 @@ Cc: kys@microsoft.com,
 	apais@linux.microsoft.com,
 	eahariha@linux.microsoft.com,
 	horms@kernel.org
-Subject: [PATCH v3 2/5] hyperv: Clean up unnecessary #includes
-Date: Mon, 25 Nov 2024 15:24:41 -0800
-Message-Id: <1732577084-2122-3-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 0/5] Introduce new headers for Hyper-V
+Date: Mon, 25 Nov 2024 15:24:39 -0800
+Message-Id: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
-References: <1732577084-2122-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Remove includes of linux/hyperv.h, mshyperv.h, and hyperv-tlfs.h where
-they are not used.
+To support Linux as root partition[1] on Hyper-V many new definitions
+are required.
 
-Acked-by: Wei Liu <wei.liu@kernel.org>
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+The plan going forward is to directly import definitions from
+Hyper-V code without waiting for them to land in the TLFS document.
+This is a quicker and more maintainable way to import definitions,
+and is a step toward the eventual goal of exporting the headers
+directly from Hyper-V for use in Linux.
+
+This patch series introduces new headers (hvhdk.h, hvgdk.h, etc,
+see patch #3) derived directly from Hyper-V code. hyperv-tlfs.h is
+replaced with hvhdk.h (which includes the other new headers)
+everywhere.
+
+No functional change is expected.
+
+Summary:
+Patch 1-2: Minor cleanup patches
+Patch 3: Add the new headers (hvhdk.h, etc..) in include/hyperv/
+Patch 4: Switch to the new headers
+Patch 5: Delete hyperv-tlfs.h files
+
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- arch/arm64/hyperv/hv_core.c     | 1 -
- arch/x86/hyperv/hv_apic.c       | 1 -
- arch/x86/hyperv/hv_init.c       | 1 -
- arch/x86/hyperv/hv_proc.c       | 1 -
- arch/x86/hyperv/ivm.c           | 1 -
- arch/x86/hyperv/mmu.c           | 1 -
- arch/x86/include/asm/kvm_host.h | 1 -
- arch/x86/include/asm/mshyperv.h | 1 -
- arch/x86/mm/pat/set_memory.c    | 2 --
- 9 files changed, 10 deletions(-)
+Changelog:
+v3:
+- Add patch (#5) to delete the hyperv-tlfs.h files, suggested by
+  Michael Kelley and Easwar Hariharan
+- Reword commit message on patch #3 to improve clarity, suggested
+  by Michael Kelley
+- Clarify "Dom0" terminology, suggested by Michael Kelley
+v2:
+- Rework the series to simply use the new headers everywhere,
+  instead of fiddling around to keep hyperv-tlfs.h in some areas,
+  suggested by Michael Kelley and Easwar Hariharan
+- Fix compilation issues with some configs by adding missing
+  definitions and changing some names, thanks to Simon Horman for
+  catching those
+- Add additional definitions to the new headers due to them now being
+  used everywhere
+- Don't remove indirect includes in patch #2, only remove those which
+  truly aren't used, suggested by Michael Kelley
 
-diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
-index f1ebc025e1df..7a746a5a6b42 100644
---- a/arch/arm64/hyperv/hv_core.c
-+++ b/arch/arm64/hyperv/hv_core.c
-@@ -11,7 +11,6 @@
- #include <linux/types.h>
- #include <linux/export.h>
- #include <linux/mm.h>
--#include <linux/hyperv.h>
- #include <linux/arm-smccc.h>
- #include <linux/module.h>
- #include <asm-generic/bug.h>
-diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-index 0569f579338b..f022d5f64fb6 100644
---- a/arch/x86/hyperv/hv_apic.c
-+++ b/arch/x86/hyperv/hv_apic.c
-@@ -23,7 +23,6 @@
- #include <linux/vmalloc.h>
- #include <linux/mm.h>
- #include <linux/clockchips.h>
--#include <linux/hyperv.h>
- #include <linux/slab.h>
- #include <linux/cpuhotplug.h>
- #include <asm/hypervisor.h>
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index 95eada2994e1..3562826915f9 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -27,7 +27,6 @@
- #include <linux/version.h>
- #include <linux/vmalloc.h>
- #include <linux/mm.h>
--#include <linux/hyperv.h>
- #include <linux/slab.h>
- #include <linux/kernel.h>
- #include <linux/cpuhotplug.h>
-diff --git a/arch/x86/hyperv/hv_proc.c b/arch/x86/hyperv/hv_proc.c
-index 3fa1f2ee7b0d..b74c06c04ff1 100644
---- a/arch/x86/hyperv/hv_proc.c
-+++ b/arch/x86/hyperv/hv_proc.c
-@@ -3,7 +3,6 @@
- #include <linux/vmalloc.h>
- #include <linux/mm.h>
- #include <linux/clockchips.h>
--#include <linux/hyperv.h>
- #include <linux/slab.h>
- #include <linux/cpuhotplug.h>
- #include <linux/minmax.h>
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 60fc3ed72830..b56d70612734 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -7,7 +7,6 @@
-  */
- 
- #include <linux/bitfield.h>
--#include <linux/hyperv.h>
- #include <linux/types.h>
- #include <linux/slab.h>
- #include <asm/svm.h>
-diff --git a/arch/x86/hyperv/mmu.c b/arch/x86/hyperv/mmu.c
-index 1cc113200ff5..cc8c3bd0e7c2 100644
---- a/arch/x86/hyperv/mmu.c
-+++ b/arch/x86/hyperv/mmu.c
-@@ -1,6 +1,5 @@
- #define pr_fmt(fmt)  "Hyper-V: " fmt
- 
--#include <linux/hyperv.h>
- #include <linux/log2.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index e159e44a6a1b..46f354b12488 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -24,7 +24,6 @@
- #include <linux/pvclock_gtod.h>
- #include <linux/clocksource.h>
- #include <linux/irqbypass.h>
--#include <linux/hyperv.h>
- #include <linux/kfifo.h>
- #include <linux/sched/vhost_task.h>
- 
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 5f0bc6a6d025..6f866fb9ffee 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -9,7 +9,6 @@
- #include <asm/hyperv-tlfs.h>
- #include <asm/nospec-branch.h>
- #include <asm/paravirt.h>
--#include <asm/mshyperv.h>
- 
- /*
-  * Hyper-V always provides a single IO-APIC at this MMIO address.
-diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
-index 069e421c2247..128e3448ae4f 100644
---- a/arch/x86/mm/pat/set_memory.c
-+++ b/arch/x86/mm/pat/set_memory.c
-@@ -32,8 +32,6 @@
- #include <asm/pgalloc.h>
- #include <asm/proto.h>
- #include <asm/memtype.h>
--#include <asm/hyperv-tlfs.h>
--#include <asm/mshyperv.h>
- 
- #include "../mm_internal.h"
- 
+---
+Footnotes:
+[1] Linux as root partition on Hyper-V is sometimes referred to as
+    "Dom0", borrowing the terminology from Xen. Although they are
+    conceptually similar, note that "Hyper-V Dom0" has nothing to do
+    with Xen.
+
+Nuno Das Neves (5):
+  hyperv: Move hv_connection_id to hyperv-tlfs.h
+  hyperv: Clean up unnecessary #includes
+  hyperv: Add new Hyper-V headers in include/hyperv
+  hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h
+  hyperv: Remove the now unused hyperv-tlfs.h files
+
+ MAINTAINERS                          |    8 +-
+ arch/arm64/hyperv/hv_core.c          |    3 +-
+ arch/arm64/hyperv/mshyperv.c         |    4 +-
+ arch/arm64/include/asm/hyperv-tlfs.h |   71 --
+ arch/arm64/include/asm/mshyperv.h    |    7 +-
+ arch/x86/hyperv/hv_apic.c            |    1 -
+ arch/x86/hyperv/hv_init.c            |   21 +-
+ arch/x86/hyperv/hv_proc.c            |    3 +-
+ arch/x86/hyperv/ivm.c                |    1 -
+ arch/x86/hyperv/mmu.c                |    1 -
+ arch/x86/hyperv/nested.c             |    2 +-
+ arch/x86/include/asm/hyperv-tlfs.h   |  811 ----------------
+ arch/x86/include/asm/kvm_host.h      |    3 +-
+ arch/x86/include/asm/mshyperv.h      |    3 +-
+ arch/x86/include/asm/svm.h           |    2 +-
+ arch/x86/kernel/cpu/mshyperv.c       |    2 +-
+ arch/x86/kvm/vmx/hyperv_evmcs.h      |    2 +-
+ arch/x86/kvm/vmx/vmx_onhyperv.h      |    2 +-
+ arch/x86/mm/pat/set_memory.c         |    2 -
+ drivers/clocksource/hyperv_timer.c   |    2 +-
+ drivers/hv/hv_balloon.c              |    4 +-
+ drivers/hv/hv_common.c               |    2 +-
+ drivers/hv/hv_kvp.c                  |    2 +-
+ drivers/hv/hv_snapshot.c             |    2 +-
+ drivers/hv/hyperv_vmbus.h            |    2 +-
+ include/asm-generic/hyperv-tlfs.h    |  874 -----------------
+ include/asm-generic/mshyperv.h       |    7 +-
+ include/clocksource/hyperv_timer.h   |    2 +-
+ include/hyperv/hvgdk.h               |  308 ++++++
+ include/hyperv/hvgdk_ext.h           |   46 +
+ include/hyperv/hvgdk_mini.h          | 1306 ++++++++++++++++++++++++++
+ include/hyperv/hvhdk.h               |  733 +++++++++++++++
+ include/hyperv/hvhdk_mini.h          |  311 ++++++
+ include/linux/hyperv.h               |   11 +-
+ net/vmw_vsock/hyperv_transport.c     |    6 +-
+ 35 files changed, 2748 insertions(+), 1819 deletions(-)
+ delete mode 100644 arch/arm64/include/asm/hyperv-tlfs.h
+ delete mode 100644 arch/x86/include/asm/hyperv-tlfs.h
+ delete mode 100644 include/asm-generic/hyperv-tlfs.h
+ create mode 100644 include/hyperv/hvgdk.h
+ create mode 100644 include/hyperv/hvgdk_ext.h
+ create mode 100644 include/hyperv/hvgdk_mini.h
+ create mode 100644 include/hyperv/hvhdk.h
+ create mode 100644 include/hyperv/hvhdk_mini.h
+
 -- 
 2.34.1
 
