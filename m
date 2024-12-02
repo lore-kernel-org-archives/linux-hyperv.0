@@ -1,76 +1,76 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.218])
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B041FECA7;
-	Mon,  2 Dec 2024 12:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D551FE469;
+	Mon,  2 Dec 2024 12:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733141278; cv=pass; b=c1UWhfGw+vqCaz909ts7V4/7ygaFT1cXrgV+W1rvaM6cSlJGlxCSk6Dwet5lK11N3VYq6+vrXgs5rbFKXRe8A88oRzaAMSH31Mv9QKHd+uh/sVx5ITXOt89IZ2r8EuEhGD/hmuXSdPrfzWauImXcJLFZCTO8NEF0ExLeI9s90Xs=
+	t=1733143462; cv=pass; b=L0xDj2crFREwJUJN2yPEXKl/vgslKfNIiVyF9OZ2BM6R9JJXyGd38P/gH6YSu7osAZlPxiTowNeI37XSFdHGkY93uYb/alCc3Ufmd0QpysKsUYGINeF+h9LKhZ1R/QG4YQWnW2e1sxEGYOGxvS3MbIxsJ5vVu5qW8UnnHKTPS3I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733141278; c=relaxed/simple;
-	bh=o7Ud+cvNPHrey1c8b1YKen0TsLIn4c3OMSNkknvUDAA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=huwmBWkFURxogtaQWjETv3L5GcLBW/vzZFTXnoVB+uhuvxn6ygf0wMfmaWeRk6d055apQkcCBlq2tSuWWjpjTG+xk5bn3T3ICL1M+I2CTbymwxIlYmDEjAWyAZdbDuYrUg6sHFH3LKQWs7wyHsRwMdslr/GagObXTE6buKmq6Rg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aepfle.de; spf=pass smtp.mailfrom=aepfle.de; dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=MEM65gzR; dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=YJwBR9Bx; arc=pass smtp.client-ip=81.169.146.218
+	s=arc-20240116; t=1733143462; c=relaxed/simple;
+	bh=hqMvhVoV6pTnNIwNDDid8c0CMEInYZ8cVKpjy83HMQM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XXx9yWGzNFyv5KCCd9qZMwDcKHHV6yIPKRjBNVKSu1pCZS4nZBieI4uV82LeQJTVKWr/48eLCBG76pZTGel2WshQ69iGSjxM63eYI85T/ChtiE5j4Mg6X7bF/cIZSnhaAvjcxFsQl166oJfgA4Z1FxgtsI2bqsvgQH5daNXgT5U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aepfle.de; spf=pass smtp.mailfrom=aepfle.de; dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=XGa4ceBG; dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=yhmHVrRV; arc=pass smtp.client-ip=85.215.255.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aepfle.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aepfle.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="MEM65gzR";
-	dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="YJwBR9Bx"
-ARC-Seal: i=1; a=rsa-sha256; t=1733141075; cv=none;
+	dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="XGa4ceBG";
+	dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="yhmHVrRV"
+ARC-Seal: i=1; a=rsa-sha256; t=1733143269; cv=none;
     d=strato.com; s=strato-dkim-0002;
-    b=XdxiNT3hqmNu4SV5FmQIzXx4zpCH07NFkqsxwroJ8tnOOXSiNHnT2dKPjJgTUcJsoa
-    UGFZ+KhUB+cIIDD1BPad7pKWBfkkel82X0CuNwYGds++pphGjtj6IqaUdSg3t54A1xWu
-    Zqcvbx6CbHwn4AeqX8k61Mp8kIV/8971PbktJaEJdVlt0zJNfMi2sW5ZIL7b9KBRx0rK
-    FYeQyqaafBC6TJaKyxg36ay/7WF6J3r/ww05wDoU0tIJ/6tVzq7P9qiSRxd7DKp5/8oD
-    Osp3xvqItTpj8bWbKulIH5pvhDIfoIm4OdjNu2s5GDxluT6Wd7C1ONnKQkivoV205d82
-    RcnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1733141075;
+    b=tjAtsdHVDrtIfy3qHQKrQfFPeXm4zRLBx5ycuGn6UdG/7HbWOPDz7ebzA5TjrRoKxd
+    ZTWlXS29sfkNqFokkKcA6mBMyOWtp4xAw+u3+50q1wm8d4rMAVJyhz7TUBNTZDVOYZ0p
+    Y3TMxHF0EOMiqvqiZkWDJpUZDYuqZKslfDEe7TIl9KiwQiybb5ghs7eoWhKY4xYcj/KY
+    56hxT+iGZCeUIkd8qgXgsxNLUmMqQ1m53DF9VyHisdyao7eTnTtxZUMv21mSXuDY9PyX
+    M0Bfhq/+v+Ko2RUxhzqzWfCP5S31uWHUmwx4SQ0jiCT6/uZkYKSW3cTtvNeJtnkjI0g2
+    uoBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1733143269;
     s=strato-dkim-0002; d=strato.com;
     h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=buCPLxYTTnHGIbnaGtY5EBfZCa2VAiJd04VS0YcqUWc=;
-    b=bnontD8WtsIgeuLCcEvMrEz7OxGh5ZtbUvmHcxrdOB1eGT/rhRO/tCunmxzbTpNezo
-    4iG5GDGMq/tV6iRvOPbFv4PufrYV0q5RswX6MVxodAMmgjKomqh4k1zZJiQZKtRIHxCP
-    xITt2UNBHn1c+HgX+dBJ4U18MfYcQ7r72Enm95p340k/4RkO8kOWZITDNbzod4r1+7H1
-    G/VhrLn9OtZnPTLHwMgxbDElsg7zGnAvK9J9Eu391+C0elIJb1JXw77FWXawws9nHpUP
-    noU3x7lvZbXvIzb6xeB3Yyf2zAXUGrb4xoqPt+VUaSGGkujJiLJZomSS5DxW5G3E+2li
-    C4KA==
+    bh=hqMvhVoV6pTnNIwNDDid8c0CMEInYZ8cVKpjy83HMQM=;
+    b=fN5eOejOFi/+zHk6GJq/+Wjq/jkNSHxDxPTYPIGOanocGeMneEMbXF++DbBV3BHanU
+    AH4stPaOq6CHZzLTpHy/Z+KeXTAE7CRCX79ZvWNLqnsD9r4Zk13tYVlXMHjc0ReC1f6T
+    0bv8eFSY/QYXvys7MXBkN7vGu5F3+f8yTMBL9XNcntZOI5gJqehwulTqlQ/trougayYG
+    vSus9NCb4CyIIR093nzpYHMT0R0urFWnIC/cHl/yJ1UQTc2tVI9NwkaKOCdV+TDBcYsg
+    e32Y3tlCmFP/mU6kCT4XYllsBd6PKWYMESD9pFI57Hm0+yqD2HbLR2UBBcEbzCanlnYP
+    g/Og==
 ARC-Authentication-Results: i=1; strato.com;
     arc=none;
     dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1733141075;
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1733143269;
     s=strato-dkim-0002; d=aepfle.de;
     h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=buCPLxYTTnHGIbnaGtY5EBfZCa2VAiJd04VS0YcqUWc=;
-    b=MEM65gzRgBD11TfWqgFq8TSZe79aA0YqDOqzDlc898A9VaCbht/jLuQfx+tcf/khP8
-    wAeqkge7H706oCMSPH3lMjSNtpDIpAe9z1OpWLy/9MYF/a+LUP8X1gMgaBEzC1NitzrI
-    zBRC6WVVMHXl6xTbTMkDvvpLycaFezXiAhjH4XsoWDbKP/R6pMs5KggaJG55iGvdb1rt
-    B4eDvHREh8iMjN0NHQinKSnzoIq1pi+q/8HqRhRonhwQeBk5bkqopVXiUsPELjqbxxCT
-    bCA9dUmrEaO6sj7fwO4WnfZliSNqXdDrrXXq9psXGMNTv0km1JST1HAafJvgIOQ98XqR
-    0C8Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1733141075;
+    bh=hqMvhVoV6pTnNIwNDDid8c0CMEInYZ8cVKpjy83HMQM=;
+    b=XGa4ceBGVPE+anc9GEx5xCSs24D6ddN8lJbxGNsyAK/JsLLzf+yx1DBK/aRhRjnk21
+    Sgp4BhtWNCmaAXOJfkcNom9ClaNnXpobl1GsGi+kV3LC2MwsVOQNAHaOVRRVce3fI4HV
+    yVNgTOAJdmlRzvuQFwjpiCr2Zi117d6z8XQ77ja6GNGGDUl8nxOsEQloat4Pl/vZiVub
+    pm+lnjNbe5KRbL9wKtBW03U1J9/0JNgqz7RojVPrd5KzpeGhnj+XpEZdUF6VGLPMxRQg
+    SH1RIQyfIVwducQ5KK8nQQrvM156PMrYMQTdL90W85MkNymjefcd+CW728TjENgUUGPb
+    IoOA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1733143269;
     s=strato-dkim-0003; d=aepfle.de;
     h=Message-ID:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=buCPLxYTTnHGIbnaGtY5EBfZCa2VAiJd04VS0YcqUWc=;
-    b=YJwBR9BxF0uA+i431cnA4iLhrbOtiKmfcD8yeYr+9HPpR8VdnbK4iyMuO+TbrFKuWo
-    S8HPvTF25zSPkH0sF5Ag==
+    bh=hqMvhVoV6pTnNIwNDDid8c0CMEInYZ8cVKpjy83HMQM=;
+    b=yhmHVrRVYgvxampNUjW1NyuThtSJT9dwf3erK9mPTSmXqcksJb68FZPq55rB5t25nq
+    ylBApWdr17s9ELxoE2Cg==
 X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzpIG0uv8ZofWaSUMjanMCZmxMwm2OGJkumVDfIDOsNMxne61spO"
 Received: from sender
     by smtp.strato.de (RZmta 51.2.11 AUTH)
-    with ESMTPSA id Dd65250B2C4ZpJ2
+    with ESMTPSA id Dd65250B2Cf9pXH
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
 	(Client did not present a certificate);
-    Mon, 2 Dec 2024 13:04:35 +0100 (CET)
+    Mon, 2 Dec 2024 13:41:09 +0100 (CET)
 From: Olaf Hering <olaf@aepfle.de>
-To: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+To: linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org
 Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>
-Subject: [PATCH v1] tools/hv: reduce resouce usage in hv_get_dns_info helper
-Date: Mon,  2 Dec 2024 13:04:10 +0100
-Message-ID: <20241202120432.21115-1-olaf@aepfle.de>
+Subject: [PATCH v1] tools/hv: add a .gitignore file
+Date: Mon,  2 Dec 2024 13:40:52 +0100
+Message-ID: <20241202124107.28650-1-olaf@aepfle.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -81,27 +81,20 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="us-ascii"
 
-Remove the usage of cat. Replace the shell process with awk with 'exec'.
-Also use a generic shell because no bash specific features will be used.
+Remove generated files from 'git status' output after 'make -C tools/hv'.
 
 Signed-off-by: Olaf Hering <olaf@aepfle.de>
 ---
- tools/hv/hv_get_dns_info.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tools/hv/.gitignore | 3 +++
+ 1 file changed, 3 insertions(+)
+ create mode 100644 tools/hv/.gitignore
 
-diff --git a/tools/hv/hv_get_dns_info.sh b/tools/hv/hv_get_dns_info.sh
-index 058c17b46ffc..268521234d4b 100755
---- a/tools/hv/hv_get_dns_info.sh
-+++ b/tools/hv/hv_get_dns_info.sh
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/bin/sh
- 
- # This example script parses /etc/resolv.conf to retrive DNS information.
- # In the interest of keeping the KVP daemon code free of distro specific
-@@ -10,4 +10,4 @@
- # this script can be based on the Network Manager APIs for retrieving DNS
- # entries.
- 
--cat /etc/resolv.conf 2>/dev/null | awk '/^nameserver/ { print $2 }'
-+exec awk '/^nameserver/ { print $2 }' /etc/resolv.conf 2>/dev/null
+diff --git a/tools/hv/.gitignore b/tools/hv/.gitignore
+new file mode 100644
+index 000000000000..0c5bc15d602f
+--- /dev/null
++++ b/tools/hv/.gitignore
+@@ -0,0 +1,3 @@
++hv_fcopy_uio_daemon
++hv_kvp_daemon
++hv_vss_daemon
