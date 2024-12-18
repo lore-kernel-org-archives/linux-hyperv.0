@@ -1,63 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3BE1FBEB9;
-	Wed, 18 Dec 2024 20:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71CFB1FAC51;
+	Wed, 18 Dec 2024 20:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734552667; cv=none; b=eprZlfgDkvj5ldLazPOpZyegvMXyy0a7cOzuH1cA/p6ODF0Slgnf9UvRQWWNB1ix66aHYhYQB9III7xdrVvEggJrzueakHypvdvm9JOQZiP6O2xRYnBM9dqaljaOvk+uDXafOzmdKF+DumYOcnfMkWLohz1x1n49w4gm9ek9PmA=
+	t=1734555269; cv=none; b=jr3QCAjE5vMJufoW9TgxyqDTGiLfSKQx7lgPHDHlrrFJqxf9mmrOHeJL3xEs1aEu1tRn9C1aI4XwFFAXzsbU2qAYyqt38e04rIGfblPjL+NSbrB7jou2R7D5ChA6rKq8Ev4wIQm9+rSSDiwCMFYILUmVs3F9SF2vZLLZt8NF8G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734552667; c=relaxed/simple;
-	bh=e5GD0DDdXugwsbt8woTcDGpvAaArbJjDKbnwdKXFULk=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Y+LGLUnfb0hO+TmK/w0BfV+/9tdD5oqBvhpby3VWXgbwimPgH6BWAxSgHadOlBXzB9sVs1UPRTsUDZ7Jo4Y98+NyJ+7POsbkt1EgVI9AY9eb9EoD4LqaS6vjCxcw+94VZk4yN6zXP0m9EdWWh1clT++72+H29IH0KP0rM3L5Gig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vnt94Pg1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734555269; c=relaxed/simple;
+	bh=ZzZ2JnZrtb2YILFB+pA8XMn7AYhsHZXoHmORZCcgv2E=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZlLYJZoxy/49lSkoWqGsbLoioJvWBxIP2dG3VInJwRhM//xL6piLoc4DjstWzKbxgMM38KZVTwfZMeiiGQotT4z4nkG1/Ih5Ss5/IiEF5/zpauPI1FyBFLR+QbtD1w6sHM4gsLOdlwvMuJFkaiVcU5GEoyGi1Azdw6pmeHtbc3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=gxiuyBeo; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vnt94Pg1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45C93C4CECD;
-	Wed, 18 Dec 2024 20:11:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734552667;
-	bh=e5GD0DDdXugwsbt8woTcDGpvAaArbJjDKbnwdKXFULk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Vnt94Pg1Dd5bGP3dvJ4bzQJNeBbaQBCfOVKFSC8/Z+rErboT+Oue5uYEZ8h9lXvkX
-	 AR5Uh00skT5d6WgWlEX5l7XStUt8RpUzeOU7rbWBXjekkRGGDq6CxbQGnahLx94n8P
-	 7eIeXh/BlYsZSv/utyXXSEwRd04M/ZVwIXE76a74qH0yZibFhoIpU6BT8Vy313Cj/8
-	 1L3dhhAoPfQsse1Icp41EekKTzgsIVxsggRZVogLt7vA+SQcaSu60Gj7V0Gt/JUPs0
-	 Z9xCTG9lpw0gG5s0O+jS6JbA/YJCxzRoHxjsgiO5QqSAUNjgvCTWNg4Caa/KyFYswB
-	 x06VZxMfxsi4A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB1153805DB1;
-	Wed, 18 Dec 2024 20:11:25 +0000 (UTC)
-Subject: Re: [GIT PULL] Hyperv-fixes for v6.13-rc4
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <Z2HJB0qky91FHC7C@liuwe-devbox-debian-v2>
-References: <Z2HJB0qky91FHC7C@liuwe-devbox-debian-v2>
-X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Z2HJB0qky91FHC7C@liuwe-devbox-debian-v2>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20241217
-X-PR-Tracked-Commit-Id: 175c71c2aceef173ae6d3dceb41edfc2ac0d5937
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 37cb0c76ac6c3bf3d82d25a7c95950f2dac3ca41
-Message-Id: <173455268442.1720125.11162183801615803364.pr-tracker-bot@kernel.org>
-Date: Wed, 18 Dec 2024 20:11:24 +0000
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="gxiuyBeo"
+Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2C6D1203FC79;
+	Wed, 18 Dec 2024 12:54:22 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2C6D1203FC79
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1734555262;
+	bh=heA/ZhQfNHWsYkvUc/EtILHKIXM4xEYeSsoa0DWJKGU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=gxiuyBeoObFXF/a5M0MyCBBSFAAAZfRO7XBU8t7CyOOFC9nXSDw3BNu/tCbKEv0Yd
+	 mr/3/xxiK+gfsjPoB++zN2CkxQ2GaPYcWDZbTs4Iw9fLYWgO/TfoW5RmRZUokPE6Xv
+	 M4rQTKCIRhpS9KKLFt8YLlQvw5nDQM6+GUd0rtNs=
+From: Roman Kisel <romank@linux.microsoft.com>
+To: hpa@zytor.com,
+	kys@microsoft.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	decui@microsoft.com,
+	eahariha@linux.microsoft.com,
+	haiyangz@microsoft.com,
+	mingo@redhat.com,
+	mhklinux@outlook.com,
+	nunodasneves@linux.microsoft.com,
+	tglx@linutronix.de,
+	tiala@microsoft.com,
+	wei.liu@kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Cc: apais@microsoft.com,
+	benhill@microsoft.com,
+	ssengar@microsoft.com,
+	sunilmut@microsoft.com,
+	vdso@hexbites.dev
+Subject: [PATCH 1/2] hyperv: Fix pointer type for the output of the hypercall in get_vtl(void)
+Date: Wed, 18 Dec 2024 12:54:20 -0800
+Message-Id: <20241218205421.319969-2-romank@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241218205421.319969-1-romank@linux.microsoft.com>
+References: <20241218205421.319969-1-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Tue, 17 Dec 2024 18:55:03 +0000:
+Commit bc905fa8b633 ("hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h")
+changed the type of the output pointer to `struct hv_register_assoc` from
+`struct hv_get_vp_registers_output`. That leads to an incorrect computation,
+and leaves the system broken.
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20241217
+Use the correct pointer type for the output of the GetVpRegisters hypercall.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/37cb0c76ac6c3bf3d82d25a7c95950f2dac3ca41
+Fixes: bc905fa8b633 ("hyperv: Switch from hyperv-tlfs.h to hyperv/hvhdk.h")
+Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_init.c   | 6 +++---
+ include/hyperv/hvgdk_mini.h | 3 ---
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
-Thank you!
-
+diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+index 3cf2a227d666..c7185c6a290b 100644
+--- a/arch/x86/hyperv/hv_init.c
++++ b/arch/x86/hyperv/hv_init.c
+@@ -416,13 +416,13 @@ static u8 __init get_vtl(void)
+ {
+ 	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
+ 	struct hv_input_get_vp_registers *input;
+-	struct hv_register_assoc *output;
++	struct hv_get_vp_registers_output *output;
+ 	unsigned long flags;
+ 	u64 ret;
+ 
+ 	local_irq_save(flags);
+ 	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
+-	output = (struct hv_register_assoc *)input;
++	output = (struct hv_get_vp_registers_output *)input;
+ 
+ 	memset(input, 0, struct_size(input, names, 1));
+ 	input->partition_id = HV_PARTITION_ID_SELF;
+@@ -432,7 +432,7 @@ static u8 __init get_vtl(void)
+ 
+ 	ret = hv_do_hypercall(control, input, output);
+ 	if (hv_result_success(ret)) {
+-		ret = output->value.reg8 & HV_X64_VTL_MASK;
++		ret = output->as64.low & HV_X64_VTL_MASK;
+ 	} else {
+ 		pr_err("Failed to get VTL(error: %lld) exiting...\n", ret);
+ 		BUG();
+diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
+index db3d1aaf7330..0b1a10828f33 100644
+--- a/include/hyperv/hvgdk_mini.h
++++ b/include/hyperv/hvgdk_mini.h
+@@ -1107,7 +1107,6 @@ union hv_register_value {
+ 	union hv_x64_pending_interruption_register pending_interruption;
+ };
+ 
+-#if defined(CONFIG_ARM64)
+ /* HvGetVpRegisters returns an array of these output elements */
+ struct hv_get_vp_registers_output {
+ 	union {
+@@ -1124,8 +1123,6 @@ struct hv_get_vp_registers_output {
+ 	};
+ };
+ 
+-#endif /* CONFIG_ARM64 */
+-
+ struct hv_register_assoc {
+ 	u32 name;			/* enum hv_register_name */
+ 	u32 reserved1;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
