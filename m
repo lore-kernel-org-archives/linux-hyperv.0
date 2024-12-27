@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608FE1F3D3F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A313B1F8693;
 	Fri, 27 Dec 2024 18:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735324318; cv=none; b=kUDEiDp7W2ts8WuOkIFvyrrkYJ6eI/ku/bSq0pHj/1eKrx8iXZvtbw2ajHavMYjB2dwG4wBpoluDbzCkvzPufaAXfFc+4rlsNZhM4a1wOBsk6+XNJVTH/mNnvwT9bkwwiDJMgG0QMUSepK6WPZrYl2HWnar9pno0D1tiovxm590=
+	t=1735324319; cv=none; b=ERANNn/sT5DVWNbL/nLG4NY0tIRCi04FC5ORfWD4uu+9cf9CIGBNvoBkN2C2dPZyTInWLU5khwIWq9yWp+FrKGsHpPrPbF9Ls9wFFRfXAKbe9iei7EAanrqW4S2adNTpJQ14uesM2Jt+QqCBzlWsYUr9LQDvmLWAwpqHSRL46mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735324318; c=relaxed/simple;
-	bh=4Jyuc+ffyw2DPcfTMSQ1RAZin8tjZuGQZQsUwjg4JRM=;
+	s=arc-20240116; t=1735324319; c=relaxed/simple;
+	bh=EQ8qFQw69BNvqk+V1uNigvZI2v/00r9VxWFjPaIcGIk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mZl8NuqnOkd0sgkY2cYejZAr0BdBMKLTQeIgJm3+ocJ1kcT6Ap4zsy6ICDbxMOXals6li2gMR4J9NOBtYIzRpkhemWRCS+oh91ItOi+7awYM8LrYwanJd2vQRA6v46YSIpjBOo3fEXeHkdH/SNMq2VzIO+eN5WBmOPh+5ZOBZ8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kJ0UAyzL; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=OqCQrPItSo+XmeIbJNa76D4uY540R8ZbSUjhYyWxOHRrAfdJPZSl/gUPkYOXqXLoJfFEILjrplyDmdBWFe8cJAGJj3WnLgY4IPu7G8Qm1+zpLIfXLynhmOnSINbYwqmDgkWFGFcviKPqb3miNNb3uAgt8EfH7YGbhiiMHr87jaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BhngCs8g; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kJ0UAyzL"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BhngCs8g"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id ABEDE203EC3C;
-	Fri, 27 Dec 2024 10:31:56 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com ABEDE203EC3C
+	by linux.microsoft.com (Postfix) with ESMTPSA id 377B6203EC3E;
+	Fri, 27 Dec 2024 10:31:57 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 377B6203EC3E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1735324316;
-	bh=/ype7uZEpe5xHc678iTj/2AT9nHkiZEOccSLzIQb1I4=;
+	s=default; t=1735324317;
+	bh=VeuGFw7q+Hc9N0d/4qq8GlAi1foElxnJ5LOQzooRJZE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kJ0UAyzLCLcvujCLicUTafOri7Ih75fzDkcMoWY7zEZ4usZFibh+1wm8CIgH/uCnv
-	 SUHMbr5oTyt+tgMKlyUXhfQJsm7AZT7JwZPit0FlBfWKUTvH0jLOJQVcN7NGf3irBE
-	 q1698ABSjfOcovYfSvMloLgtoj9Ql9bQxCBxNgVw=
+	b=BhngCs8gX58ll6YdEPAPAtnJ7AcuOTllcmC0l38vT9n+i5i6HnOdw8mZ2pHy87Pyd
+	 bbvm9CxmK65oGyM3M1pVkWTPrMekd9PZ0xBmaORXIgr5WVCFI6Ce17+rFI1HDSVjQJ
+	 SWIGgoP2ieizgFx7F2lLCzpg4ssdWiho05YBx7wg=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: hpa@zytor.com,
 	kys@microsoft.com,
@@ -47,9 +47,9 @@ Cc: apais@microsoft.com,
 	ssengar@microsoft.com,
 	sunilmut@microsoft.com,
 	vdso@hexbites.dev
-Subject: [PATCH v4 1/5] hyperv: Define struct hv_output_get_vp_registers
-Date: Fri, 27 Dec 2024 10:31:51 -0800
-Message-Id: <20241227183155.122827-2-romank@linux.microsoft.com>
+Subject: [PATCH v4 3/5] hyperv: Enable the hypercall output page for the VTL mode
+Date: Fri, 27 Dec 2024 10:31:53 -0800
+Message-Id: <20241227183155.122827-4-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241227183155.122827-1-romank@linux.microsoft.com>
 References: <20241227183155.122827-1-romank@linux.microsoft.com>
@@ -61,130 +61,48 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is no definition of the output structure for the
-GetVpRegisters hypercall. Hence, using the hypercall
-is not possible when the output value has some structure
-to it. Even getting a datum of a primitive type reads
-as ad-hoc without that definition.
+Due to the hypercall page not being allocated in the VTL mode,
+the code resorts to using a part of the input page.
 
-Define struct hv_output_get_vp_registers to enable using
-the GetVpRegisters hypercall. Make provisions for all
-supported architectures. No functional changes.
+Allocate the hypercall output page in the VTL mode thus enabling
+it to use it for output and share code with dom0.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 ---
- include/hyperv/hvgdk_mini.h | 65 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 63 insertions(+), 2 deletions(-)
+ drivers/hv/hv_common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index db3d1aaf7330..c2f5cc231dce 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -781,6 +781,8 @@ struct hv_timer_message_payload {
- 	__u64 delivery_time;	/* When the message was delivered */
- } __packed;
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index c6ed3ba4bf61..c983cfd4d6c0 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -340,7 +340,7 @@ int __init hv_common_init(void)
+ 	BUG_ON(!hyperv_pcpu_input_arg);
  
-+#if defined(CONFIG_X86)
-+
- struct hv_x64_segment_register {
- 	u64 base;
- 	u32 limit;
-@@ -807,6 +809,8 @@ struct hv_x64_table_register {
- 	u64 base;
- } __packed;
+ 	/* Allocate the per-CPU state for output arg for root */
+-	if (hv_root_partition) {
++	if (hv_root_partition || IS_ENABLED(CONFIG_HYPERV_VTL_MODE)) {
+ 		hyperv_pcpu_output_arg = alloc_percpu(void *);
+ 		BUG_ON(!hyperv_pcpu_output_arg);
+ 	}
+@@ -435,7 +435,7 @@ int hv_common_cpu_init(unsigned int cpu)
+ 	void **inputarg, **outputarg;
+ 	u64 msr_vp_index;
+ 	gfp_t flags;
+-	int pgcount = hv_root_partition ? 2 : 1;
++	const int pgcount = (hv_root_partition || IS_ENABLED(CONFIG_HYPERV_VTL_MODE)) ? 2 : 1;
+ 	void *mem;
+ 	int ret;
  
-+#endif
-+
- union hv_input_vtl {
- 	u8 as_uint8;
- 	struct {
-@@ -1068,6 +1072,41 @@ union hv_dispatch_suspend_register {
- 	} __packed;
- };
+@@ -453,7 +453,7 @@ int hv_common_cpu_init(unsigned int cpu)
+ 		if (!mem)
+ 			return -ENOMEM;
  
-+#if defined(CONFIG_ARM64)
-+
-+union hv_arm64_pending_interruption_register {
-+	u64 as_uint64;
-+	struct {
-+		u64 interruption_pending : 1;
-+		u64 interruption_type : 1;
-+		u64 reserved : 30;
-+		u32 error_code;
-+	} __packed;
-+};
-+
-+union hv_arm64_interrupt_state_register {
-+	u64 as_uint64;
-+	struct {
-+		u64 interrupt_shadow : 1;
-+		u64 reserved : 63;
-+	} __packed;
-+};
-+
-+union hv_arm64_pending_synthetic_exception_event {
-+	u64 as_uint64[2];
-+	struct {
-+		u32 event_pending : 1;
-+		u32 event_type : 3;
-+		u32 reserved : 4;
-+		u32 exception_type;
-+		u64 context;
-+	} __packed;
-+};
-+
-+#endif
-+
-+#if defined(CONFIG_X86)
-+
- union hv_x64_interrupt_state_register {
- 	u64 as_uint64;
- 	struct {
-@@ -1091,6 +1130,8 @@ union hv_x64_pending_interruption_register {
- 	} __packed;
- };
- 
-+#endif
-+
- union hv_register_value {
- 	struct hv_u128 reg128;
- 	u64 reg64;
-@@ -1098,13 +1139,33 @@ union hv_register_value {
- 	u16 reg16;
- 	u8 reg8;
- 
--	struct hv_x64_segment_register segment;
--	struct hv_x64_table_register table;
- 	union hv_explicit_suspend_register explicit_suspend;
- 	union hv_intercept_suspend_register intercept_suspend;
- 	union hv_dispatch_suspend_register dispatch_suspend;
-+#if defined(CONFIG_X86)
-+	struct hv_x64_segment_register segment;
-+	struct hv_x64_table_register table;
- 	union hv_x64_interrupt_state_register interrupt_state;
- 	union hv_x64_pending_interruption_register pending_interruption;
-+#endif
-+#if defined(CONFIG_ARM64)
-+	union hv_arm64_pending_interruption_register pending_interruption;
-+	union hv_arm64_interrupt_state_register interrupt_state;
-+	union hv_arm64_pending_synthetic_exception_event pending_synthetic_exception_event;
-+#endif
-+};
-+
-+/*
-+ * NOTE: Linux helper struct - NOT from Hyper-V code.
-+ * DECLARE_FLEX_ARRAY() needs to be wrapped into
-+ * a structure and have at least one more member besides
-+ * DECLARE_FLEX_ARRAY.
-+ */
-+struct hv_output_get_vp_registers {
-+	struct {
-+		DECLARE_FLEX_ARRAY(union hv_register_value, values);
-+		struct {} values_end;
-+	};
- };
- 
- #if defined(CONFIG_ARM64)
+-		if (hv_root_partition) {
++		if (hv_root_partition || IS_ENABLED(CONFIG_HYPERV_VTL_MODE)) {
+ 			outputarg = (void **)this_cpu_ptr(hyperv_pcpu_output_arg);
+ 			*outputarg = (char *)mem + HV_HYP_PAGE_SIZE;
+ 		}
 -- 
 2.34.1
 
