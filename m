@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F252AF07;
-	Thu,  9 Jan 2025 19:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BA11F9ED1;
+	Thu,  9 Jan 2025 20:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736449767; cv=none; b=gGMZcwTZgeUZwL4/GmB8iNKiETyn546wieOlBUNeQuJDZtiV6nU8HL/24uUcE/Na4PFiWb+Zuc2Q7k8694bjCqtgqunWEecYyS/0SfPs4YSjBmIXJg8YRZl1K+p7HRauOZ39Azr2Xrfb7cROc/oJnnNNmUh9oKBgyR7f8vkUgHQ=
+	t=1736453883; cv=none; b=MhaNcICkb1olT/JLZpj92ybtbP7opHie9dCTJfCRXt3ScjMUku79p6+RlqHRADJN/2W2wZ2FRye8bYXlWYjPgKu8OumOiy2+aNF7i7qfE0Nyz+IfFgM3ti86RwyOfQ9eindKXiNBLrjNfng6Eo4zacnzR+gonelzlu/RZsA+mM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736449767; c=relaxed/simple;
-	bh=4gP+yApHZt7UH8Dfs1iEcV2O1G2/j94cfLvnstqIEvc=;
+	s=arc-20240116; t=1736453883; c=relaxed/simple;
+	bh=fuxxKjqSod6XoGgBtWH7MSjsb0PEYcT+4CZp0A0fWtA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmhnAO2FOP7GbZoCRj4J4W/uOg+hr13LlLV9s3/3z0u1wGmI/KLrv5g09rPP1ONSIT2Q6/zC6W1pt49lEpN5F4ND+igpejKzxT2Mr7KjfWcsc8gtvhN8quI/ltY9deYfCQjd6Q3KR0KQRWMKEUcWuh0hr57eVn/KCYO8KyMcTS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XbTjiOEB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnDXVu+3P80mxj1wHR2nkj5UPeM//Or4WI3zNTQqzMRFwbemW/hgPyKq8tsCIaQ7QMdTGneKIT5Gu8KAZd5gFPH5ayAY9at2sSPOuUzKADq5Y7hYzyiF2CKdTkdoMcWskejHH95G+egFAwz39lxybU0Cz2qE2Ztd0SK0c9dqkmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=roTsdMqz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XbTjiOEB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC663C4CED2;
-	Thu,  9 Jan 2025 19:09:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="roTsdMqz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D5EBC4CED2;
+	Thu,  9 Jan 2025 20:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736449766;
-	bh=4gP+yApHZt7UH8Dfs1iEcV2O1G2/j94cfLvnstqIEvc=;
+	s=k20201202; t=1736453883;
+	bh=fuxxKjqSod6XoGgBtWH7MSjsb0PEYcT+4CZp0A0fWtA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XbTjiOEBG6ML/in8Eujx2woi3MuXq0HGHjk1sZoNvteH5D+JdIgpXjuLJaImnkrMl
-	 MN45u+roBlOmytM7PL/pDlaIm+J7YRNnupOJGKoFPp/Pt/EobDY1ziESiKvt6dWlR7
-	 FCSDPCX7dwfTH/R2vbCqd6z6PpOquvha4XloYZNWstm5RO77/LcKYgnsKUzcX6ydHt
-	 MJml7AZ3yfsJq9Tes2fQYJRHYrpU2lwKXSYjEUJ8qfvO5vSu7dBX7nAs5cruC2+GaA
-	 xQqbsHe1JKds2bUc2GhfZLUjVXSvNaA6LwyGhXYe/yTEdzVOeZFxkNU2X3FOuXlIYh
-	 jnNDl/6LUzg6A==
-Date: Thu, 9 Jan 2025 19:09:24 +0000
+	b=roTsdMqzW4NGQPtyKmh44UxVR4dI+UjrmlQBoaTOq95k4R01zrbJ3+WfTfaD7SsgL
+	 0Yv1DMher7ytcoWbtdF1VKR8QiUVSPiu2HKeTrWyxZ/AiUzmdiNjIkINkomhAHJzqy
+	 c/C4Ma02elQCop3IRmdC5tGYeuxb2OStR2Qvyr4KyfZJXoapBqbHdkKKoKUxzddcv5
+	 Gobp0tzzNkrJaFirl/eCiAyPZfgI+6qOkCJsjEDkdE/tpiWRAfHVpu8zwYYtlJZ6ZY
+	 hTJKVWNnUpZtBSAnACOjtUorzeIPdbYWycer+PxaLMdGse8tebondhFrS+ZslV6YNF
+	 vE77GgUqTlDiQ==
+Date: Thu, 9 Jan 2025 20:18:01 +0000
 From: Wei Liu <wei.liu@kernel.org>
 To: Roman Kisel <romank@linux.microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>, hpa@zytor.com,
-	kys@microsoft.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	decui@microsoft.com, eahariha@linux.microsoft.com,
-	haiyangz@microsoft.com, mingo@redhat.com, mhklinux@outlook.com,
-	tglx@linutronix.de, tiala@microsoft.com,
+Cc: hpa@zytor.com, kys@microsoft.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, decui@microsoft.com,
+	eahariha@linux.microsoft.com, haiyangz@microsoft.com,
+	mingo@redhat.com, mhklinux@outlook.com,
+	nunodasneves@linux.microsoft.com, tglx@linutronix.de,
+	tiala@microsoft.com, wei.liu@kernel.org,
 	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
 	x86@kernel.org, apais@microsoft.com, benhill@microsoft.com,
 	ssengar@microsoft.com, sunilmut@microsoft.com, vdso@hexbites.dev
-Subject: Re: [PATCH v6 1/5] hyperv: Define struct hv_output_get_vp_registers
-Message-ID: <Z4Ae5AVbjiSl821h@liuwe-devbox-debian-v2>
+Subject: Re: [PATCH v6 0/5] hyperv: Fixes for get_vtl(),
+ hv_vtl_apicid_to_vp_id()
+Message-ID: <Z4Au-chfvfXCt-zq@liuwe-devbox-debian-v2>
 References: <20250108222138.1623703-1-romank@linux.microsoft.com>
- <20250108222138.1623703-2-romank@linux.microsoft.com>
- <d5fb5c9b-a477-4043-8438-aff29dbd96bb@linux.microsoft.com>
- <Z39jvq4CsBjurJ1v@liuwe-devbox-debian-v2>
- <2102df2f-117c-4c35-b727-cd9865c0e31d@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -53,35 +50,19 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2102df2f-117c-4c35-b727-cd9865c0e31d@linux.microsoft.com>
+In-Reply-To: <20250108222138.1623703-1-romank@linux.microsoft.com>
 
-On Thu, Jan 09, 2025 at 09:25:58AM -0800, Roman Kisel wrote:
-> 
-> 
-> On 1/8/2025 9:50 PM, Wei Liu wrote:
-> > On Wed, Jan 08, 2025 at 03:25:22PM -0800, Nuno Das Neves wrote:
-> > > On 1/8/2025 2:21 PM, Roman Kisel wrote:
-> 
-> [...]
-> 
-> > > 
-> > 
-> > I can fix this when I commit the change . This patch will be folded into
-> > your old one anyway.
-> > 
-> Nuno, thank you very much for spotting that! Wei, appreciate that!
-> Didn't mean to create more work for you, sorry about that.
+On Wed, Jan 08, 2025 at 02:21:33PM -0800, Roman Kisel wrote:
+[...]
+> Roman Kisel (5):
+>   hyperv: Define struct hv_output_get_vp_registers
+>   hyperv: Fix pointer type in get_vtl(void)
+>   hyperv: Enable the hypercall output page for the VTL mode
+>   hyperv: Do not overlap the hvcall IO areas in get_vtl()
+>   hyperv: Do not overlap the hvcall IO areas in hv_vtl_apicid_to_vp_id()
 
-No problem at all. I'm happy to help.
+The patches have been pushed to hyperv-next. Roman and Nuno, please
+check the tree for correctness.
 
+Thanks,
 Wei.
-
-> 
-> > Thanks,
-> > Wei.
-> 
-> -- 
-> Thank you,
-> Roman
-> 
-> 
