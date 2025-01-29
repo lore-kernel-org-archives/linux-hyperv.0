@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077A8152160;
-	Wed, 29 Jan 2025 14:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03127130A7D;
+	Wed, 29 Jan 2025 14:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738159284; cv=none; b=HRSOXG4WIJLtJ4LT8Q//ldgux8Ua+l3CdD1t0gDfnvT1TvtTOX9yQ6Vm1Z1HK6MGZtp6ba9WVHyvrp0l5Htio+KnWieDp5apJTa+vUpADy9p3nWGnt7SBuXa2aGthaW3sx0e9FrcVNt0/ItPpe1mtYgpF6iNTlgODQBbd+DTVpk=
+	t=1738159300; cv=none; b=uDl9V53g6bXgARIzVLx2rGsNNgXYcnNPrx89NmGoh00chD/Amz7kUJF2+a1EoMEf2UadFvEitLNOZD50zFwVpIA0AXAYcC6ELHWj6rmDAMEjYIPlz5zXUWVRVZL3rgOS7donP1iSicNeoZAX+EQdcAgyDxZf9L0coaY8QdKxXP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738159284; c=relaxed/simple;
+	s=arc-20240116; t=1738159300; c=relaxed/simple;
 	bh=of+qFZwyz1ljoL5PX10TFoOn09zYGwhGgo6csFa5igc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=e5qG2KGTeIYI7zuBDNNKfoxotANVmpG55aq+O3E7XyyZWgzN1U07AhGFnbHd0ASeFo4VBDMQ712nTcuRgENoKl462Jg0cqCmaI67o5PMtDDTQcS/f1u8TD414KqD1nmw6zG6oqbzkt0oR0gIiF1FlEbSx2Gxok6NQ7hwl92S3FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/x1loR8; arc=none smtp.client-ip=10.30.226.201
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iuQ0LbHlvgSOiuv50YUcXwYDTwEeDJFqwfcMDIK23pxAHg5DO9bzbtKza+PhwNzwlQdJZ8ZwIvQuTOJunWfzg/4e+9/w0Usk5K65nf2/6to4Bz7qvLTMSByGluwHh7sO1xu8kdbZa4THQF09Vg46QWluej4K2V4nn9RH0mGUzww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXcHq36K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/x1loR8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC5E9C4CED1;
-	Wed, 29 Jan 2025 14:01:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXcHq36K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881B0C4CED3;
+	Wed, 29 Jan 2025 14:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738159283;
+	s=k20201202; t=1738159299;
 	bh=of+qFZwyz1ljoL5PX10TFoOn09zYGwhGgo6csFa5igc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=F/x1loR8qon5Juj/4WYr2kH9hZkvzcQkGFW+XiZM5HYK33MZNqDgUbRKBplvFsDpY
-	 PgbLFAWt8RQbdL+r34hvCcLF45MP+g/ADiPuup+E78lW7RjBsYmU3JJLSRTQHdMphp
-	 dsB0GSyiMlJON4qzu91AwmaJR2TNTlbkNmmooVV9w21N67A1x7HcdPzGbN3ve0NLVm
-	 oBsHrrW3lo9dCOoOJDlzjteU2XJYnQtn6c7OWbIO+SCeaAycIqyO/5ILpOfJOE48+h
-	 PX5tD0K8pTJJvxHy/fDl3Iz0bBrYg4xYweKx/+fVdXt8Yu4pR9H3dq4oB3i9jv133r
-	 1PWTwTeLwqudQ==
+	b=DXcHq36K+6SCeBVsjafQbYjfEhhL4R2p85/VRCF/Y9WYj6+zIBy7CuAvJrd5UsJp5
+	 VGQ6azOEexy1N0w4bqOHUwLsoT5QgqZMn2sQcZtk+m2nyss98OgRCLfDZmDamGBagJ
+	 3oMf9CL0cxKpm7l6CM0y4Q3HS4UH/2wdsqfdqmJKtLKFCTle1O9OkZ1PWN+4qDiGuu
+	 v3xCWMVx6UOCqOBf1DKTsIpq9joUnvX62b8mM37G/Ik/KiQ1pinseY7Yk2C9JIFh70
+	 j7e3LXWs7HJlNFt+VieWl8XA0lVHfnlgQpsiWccteWyEo/Z969cPDzxtTYYXPqA6jl
+	 cydlTyDdwdcoA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
 	James.Bottomley@HansenPartnership.com,
 	linux-hyperv@vger.kernel.org,
 	linux-scsi@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 1/4] scsi: storvsc: Ratelimit warning logs to prevent VM denial of service
-Date: Wed, 29 Jan 2025 07:57:38 -0500
-Message-Id: <20250129125741.1272609-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 1/4] scsi: storvsc: Ratelimit warning logs to prevent VM denial of service
+Date: Wed, 29 Jan 2025 07:57:54 -0500
+Message-Id: <20250129125757.1272713-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.11
+X-stable-base: Linux 6.6.74
 Content-Transfer-Encoding: 8bit
 
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
