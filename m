@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6576253354;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D64253350;
 	Fri, 21 Feb 2025 19:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740167805; cv=none; b=fiij7tVdr94OPDqY2/liaFzMN1l10JJdbeEXMWj8Mqrwo7FcmDrl9v4vgu4Jec56wNe59cKUttTTJtQvdyAkE3WTwXGLSt64dmHqFJ/0slKO5ycExqzt4/OUMYM7m4YFhQDXuJFnNlKbMfZHeVUMjnOT+oko3Ydy/wUC2fqqe74=
+	t=1740167806; cv=none; b=MeANPiTnE0eL8L46TMEbDzP4gtgDRY8f1K2P4KTmoLp9OUkrN9IdDjDUhAoy/fjrvwB3OstvKlUd8VxYDaYFb7ytLNsxIjpQ9E2jjKzxP/CH9w6skex9s8IrYht9T0EVR2eVe3mgD9R/vmQ4Kh5kMSNmORXVB+jh0e8XC7CWqRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740167805; c=relaxed/simple;
-	bh=RDoc0eKLwe8AEp+qJFXCY1D7mJKbdwue2dXhTDdRuq4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cRPkc9RJjK9ch97sRBGOV+flRqkv+IT2fD6AsYAwDQvqdxRDJT1DQsixmCkZ4Or5vS6/Pk4xo67Q9WTBm2nUU732vhMZjXyjqiYjtarnA+55UAGR+AGW9f8d5QoOILCHhZr3AxXmWzuTAiN4OGrde7baMsjvdCuWQU0Dm4gct7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mW3rffXN; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1740167806; c=relaxed/simple;
+	bh=wWKHwzQiqoRogydSZWFXtt6QHJDP2XaIpTA5O8in9ac=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=DedWCa2dXh/b6m+rMj+o0QqHqULIi3zPCV4qyF3rqMYE0zn1bc9rc/JjHdAxQ4gXtPCJUhsfLsj9p8HaVUm1ijiUkq/DWoQd6/sSgJlFyPeO+fXB/cjCNrT1BniQ1Bvefz2yeQMan1THau/UFcrJ+AHePXIz39ahYQZhfB3hhoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EoFXGQgY; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mW3rffXN"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EoFXGQgY"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 15BFA205367B;
-	Fri, 21 Feb 2025 11:56:43 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 15BFA205367B
+	by linux.microsoft.com (Postfix) with ESMTPSA id D47A6204E5BF;
+	Fri, 21 Feb 2025 11:56:42 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D47A6204E5BF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740167803;
-	bh=4gopo8p3LUJrB8DWqw9iqVed8qBTy2vgRbFIk0fXLIk=;
+	s=default; t=1740167802;
+	bh=zPLYD2dRfopSrN03kgPi4Tmd+omXF28zRCncg1mhesI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mW3rffXNvkpoJ5hFKcQPEodHXaNV1KedZAOxSZI92MIKF9Fs4wWfCnEQXRhh45eMa
-	 zzARADBeSCIko0eI9mLPybE0qITzAAxPdUCDXO1aXwNRnwjrWM2OPDTldxA6EYo8v8
-	 CyZgawwICMNL4L0ZnYlZX4I6o7HaXdidSAe+NzeM=
+	b=EoFXGQgYbxRJpv9vDOiDKvPXyEMr653hI1a07XSa+dDu6nOu4SgjC1Eo0NnpKgcKp
+	 513mZc5/seGYCpJSW4vYnHLKhGwyAW1KKH8HywHzxhs3aUNOiPxtKkjUNAjmsLipbO
+	 +4OsnbWNnfLwNqNcyBgPdnuNqqow7tzGkIxmGJf4=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -52,9 +52,9 @@ Cc: kys@microsoft.com,
 	jinankjain@linux.microsoft.com,
 	muminulrussell@gmail.com,
 	skinsburskii@linux.microsoft.com
-Subject: [PATCH v3 3/3] hyperv: Add CONFIG_MSHV_ROOT to gate root partition support
-Date: Fri, 21 Feb 2025 11:56:35 -0800
-Message-Id: <1740167795-13296-4-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 1/3] hyperv: Convert hypercall statuses to linux error codes
+Date: Fri, 21 Feb 2025 11:56:33 -0800
+Message-Id: <1740167795-13296-2-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1740167795-13296-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1740167795-13296-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -64,126 +64,124 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-CONFIG_MSHV_ROOT allows kernels built to run as a normal Hyper-V guest
-to exclude the root partition code, which is expected to grow
-significantly over time.
+Return linux-friendly error codes from hypercall helper functions,
+which allows them to be used more flexibly.
 
-This option is a tristate so future driver code can be built as a
-(m)odule, allowing faster development iteration cycles.
-
-If CONFIG_MSHV_ROOT is disabled, don't compile hv_proc.c, and stub
-hv_root_partition() to return false unconditionally. This allows the
-compiler to optimize away root partition code blocks since they will
-be disabled at compile time.
-
-In the case of booting as root partition *without* CONFIG_MSHV_ROOT
-enabled, print a critical error (the kernel will likely crash).
+Introduce hv_result_to_errno() for this purpose, which also handles
+the special value U64_MAX returned from hv_do_hypercall().
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/Kconfig             | 16 ++++++++++++++++
- drivers/hv/Makefile            |  3 ++-
- drivers/hv/hv_common.c         |  5 ++++-
- include/asm-generic/mshyperv.h | 24 ++++++++++++++++++++----
- 4 files changed, 42 insertions(+), 6 deletions(-)
+ drivers/hv/hv_common.c         | 34 ++++++++++++++++++++++++++++++++++
+ drivers/hv/hv_proc.c           | 10 +++++-----
+ include/asm-generic/mshyperv.h |  1 +
+ 3 files changed, 40 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index 862c47b191af..794e88e9dc6b 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -55,4 +55,20 @@ config HYPERV_BALLOON
- 	help
- 	  Select this option to enable Hyper-V Balloon driver.
- 
-+config MSHV_ROOT
-+	tristate "Microsoft Hyper-V root partition support"
-+	depends on HYPERV
-+	depends on !HYPERV_VTL_MODE
-+	# The hypervisor interface operates on 4k pages. Enforcing it here
-+	# simplifies many assumptions in the root partition code.
-+	# e.g. When withdrawing memory, the hypervisor gives back 4k pages in
-+	# no particular order, making it impossible to reassemble larger pages
-+	depends on PAGE_SIZE_4KB
-+	default n
-+	help
-+	  Select this option to enable support for booting and running as root
-+	  partition on Microsoft Hyper-V.
-+
-+	  If unsure, say N.
-+
- endmenu
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 9afcabb3fbd2..2b8dc954b350 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -13,4 +13,5 @@ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
- hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
- 
- # Code that must be built-in
--obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o hv_proc.o
-+obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
-+obj-$(subst m,y,$(CONFIG_MSHV_ROOT)) += hv_proc.o
 diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 3d9cfcfbc854..9804adb4cc56 100644
+index ee3083937b4f..5cf9894b9e79 100644
 --- a/drivers/hv/hv_common.c
 +++ b/drivers/hv/hv_common.c
-@@ -734,6 +734,9 @@ void hv_identify_partition_type(void)
- 	    (ms_hyperv.priv_high & HV_CPU_MANAGEMENT) &&
- 	    !(ms_hyperv.priv_high & HV_ISOLATION)) {
- 		pr_info("Hyper-V: running as root partition\n");
--		hv_curr_partition_type = HV_PARTITION_TYPE_ROOT;
-+		if (IS_ENABLED(CONFIG_MSHV_ROOT))
-+			hv_curr_partition_type = HV_PARTITION_TYPE_ROOT;
-+		else
-+			pr_crit("Hyper-V: CONFIG_MSHV_ROOT not enabled!\n");
- 	}
+@@ -683,3 +683,37 @@ u64 __weak hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
+ 	return HV_STATUS_INVALID_PARAMETER;
  }
+ EXPORT_SYMBOL_GPL(hv_tdx_hypercall);
++
++/* Convert a hypercall result into a linux-friendly error code. */
++int hv_result_to_errno(u64 status)
++{
++	/* hv_do_hypercall() may return U64_MAX, hypercalls aren't possible */
++	if (unlikely(status == U64_MAX))
++		return -EOPNOTSUPP;
++	/*
++	 * A failed hypercall is usually only recoverable (or loggable) near
++	 * the call site where the HV_STATUS_* code is known. So the errno
++	 * it gets converted to is not too useful further up the stack.
++	 * Provide a few mappings that could be useful, and revert to -EIO
++	 * as a fallback.
++	 */
++	switch (hv_result(status)) {
++	case HV_STATUS_SUCCESS:
++		return 0;
++	case HV_STATUS_INVALID_HYPERCALL_CODE:
++	case HV_STATUS_INVALID_HYPERCALL_INPUT:
++	case HV_STATUS_INVALID_PARAMETER:
++	case HV_STATUS_INVALID_PARTITION_ID:
++	case HV_STATUS_INVALID_VP_INDEX:
++	case HV_STATUS_INVALID_PORT_ID:
++	case HV_STATUS_INVALID_CONNECTION_ID:
++	case HV_STATUS_INVALID_LP_INDEX:
++	case HV_STATUS_INVALID_REGISTER_VALUE:
++		return -EINVAL;
++	case HV_STATUS_INSUFFICIENT_MEMORY:
++		return -ENOMEM;
++	default:
++		break;
++	}
++	return -EIO;
++}
+diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
+index 3e410489f480..2fae18e4f7d2 100644
+--- a/drivers/hv/hv_proc.c
++++ b/drivers/hv/hv_proc.c
+@@ -88,7 +88,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
+ 	local_irq_restore(flags);
+ 	if (!hv_result_success(status)) {
+ 		pr_err("Failed to deposit pages: %lld\n", status);
+-		ret = hv_result(status);
++		ret = hv_result_to_errno(status);
+ 		goto err_free_allocations;
+ 	}
+ 
+@@ -114,7 +114,7 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 	struct hv_output_add_logical_processor *output;
+ 	u64 status;
+ 	unsigned long flags;
+-	int ret = HV_STATUS_SUCCESS;
++	int ret = 0;
+ 
+ 	/*
+ 	 * When adding a logical processor, the hypervisor may return
+@@ -139,7 +139,7 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+ 			if (!hv_result_success(status)) {
+ 				pr_err("%s: cpu %u apic ID %u, %lld\n", __func__,
+ 				       lp_index, apic_id, status);
+-				ret = hv_result(status);
++				ret = hv_result_to_errno(status);
+ 			}
+ 			break;
+ 		}
+@@ -154,7 +154,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+ 	struct hv_create_vp *input;
+ 	u64 status;
+ 	unsigned long irq_flags;
+-	int ret = HV_STATUS_SUCCESS;
++	int ret = 0;
+ 
+ 	/* Root VPs don't seem to need pages deposited */
+ 	if (partition_id != hv_current_partition_id) {
+@@ -181,7 +181,7 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
+ 			if (!hv_result_success(status)) {
+ 				pr_err("%s: vcpu %u, lp %u, %lld\n", __func__,
+ 				       vp_index, flags, status);
+-				ret = hv_result(status);
++				ret = hv_result_to_errno(status);
+ 			}
+ 			break;
+ 		}
 diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index 54ebd630e72c..b13b0cda4ac8 100644
+index 7adc10a4fa3e..3f115e2bcdaa 100644
 --- a/include/asm-generic/mshyperv.h
 +++ b/include/asm-generic/mshyperv.h
-@@ -223,10 +223,6 @@ void *hv_alloc_hyperv_page(void);
- void *hv_alloc_hyperv_zeroed_page(void);
- void hv_free_hyperv_page(void *addr);
- 
--int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
--int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
--int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
--
- /**
-  * hv_cpu_number_to_vp_number() - Map CPU to VP.
-  * @cpu_number: CPU number in Linux terms
-@@ -327,9 +323,29 @@ static inline enum hv_isolation_type hv_get_isolation_type(void)
+@@ -297,6 +297,7 @@ static inline int cpumask_to_vpset_skip(struct hv_vpset *vpset,
+ 	return __cpumask_to_vpset(vpset, cpus, func);
  }
- #endif /* CONFIG_HYPERV */
  
-+#if IS_ENABLED(CONFIG_MSHV_ROOT)
- static inline bool hv_root_partition(void)
- {
- 	return hv_curr_partition_type == HV_PARTITION_TYPE_ROOT;
- }
-+int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
-+int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
-+int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
-+
-+#else /* CONFIG_MSHV_ROOT */
-+static inline bool hv_root_partition(void) { return false; }
-+static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id)
-+{
-+	return -EOPNOTSUPP;
-+}
-+static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif /* CONFIG_MSHV_ROOT */
- 
- #endif
++int hv_result_to_errno(u64 status);
+ void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
+ bool hv_is_hyperv_initialized(void);
+ bool hv_is_hibernation_supported(void);
 -- 
 2.34.1
 
