@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446EA1FF1BD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6576253354;
 	Fri, 21 Feb 2025 19:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740167804; cv=none; b=h6adcWImPGrby3RGQA/TyoorFLG4mtRq6kwLbMIphvxAxfWP6f11Pe84SuckCt0Y1Fe2a3cPf2lBKRQTpJYMcIlWvkKS9Qi0A9OBrHFlFxtOqDqJkym3C/OHl2uoid7DNwb+jr4RwEBEzLP+Ojw2eOwyya0g2Z9H/bquDHv7VR4=
+	t=1740167805; cv=none; b=fiij7tVdr94OPDqY2/liaFzMN1l10JJdbeEXMWj8Mqrwo7FcmDrl9v4vgu4Jec56wNe59cKUttTTJtQvdyAkE3WTwXGLSt64dmHqFJ/0slKO5ycExqzt4/OUMYM7m4YFhQDXuJFnNlKbMfZHeVUMjnOT+oko3Ydy/wUC2fqqe74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740167804; c=relaxed/simple;
-	bh=cK5ZkX8ixBppP4FPmLCm8+Ao5vnaEUpf9lYimO9zlWk=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=evF4/UKic0vp9JksYUZMN2StsATGaW7m+KBYbSc+m8V1sdZoWUXGDcV3FOe5Dd74o9wz19hC6CfQMzCCUx47cjUPpCt9iXZ6zEXGe8l7Kw1wrqk8/cuPZxmXM8K6GhJHcianmRm22Sg0fLaswgKmkhEsQ4nKVsjNvXhZBu758VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LlJcvvQO; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1740167805; c=relaxed/simple;
+	bh=RDoc0eKLwe8AEp+qJFXCY1D7mJKbdwue2dXhTDdRuq4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cRPkc9RJjK9ch97sRBGOV+flRqkv+IT2fD6AsYAwDQvqdxRDJT1DQsixmCkZ4Or5vS6/Pk4xo67Q9WTBm2nUU732vhMZjXyjqiYjtarnA+55UAGR+AGW9f8d5QoOILCHhZr3AxXmWzuTAiN4OGrde7baMsjvdCuWQU0Dm4gct7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=mW3rffXN; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LlJcvvQO"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mW3rffXN"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B6B57204E5BC;
-	Fri, 21 Feb 2025 11:56:42 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B6B57204E5BC
+	by linux.microsoft.com (Postfix) with ESMTPSA id 15BFA205367B;
+	Fri, 21 Feb 2025 11:56:43 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 15BFA205367B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740167802;
-	bh=DXWUYYhpDF9cbvi+OP+J5thVCYC8+IMsDBUcsoZlY8E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=LlJcvvQOgZJVX/Q2UUmFgjRVcib/5LYeSbCdU4Zbdhu4HAApNkZgNkHXz9Jrx1nZ6
-	 MryWgCW5svmFC9BEHwNZRdQGNVrTMSnT0pNorXrYQvcVL52PRKF8rWic1hWlsT8hP/
-	 b6O/RTJ2oaU7gllhyjwO7VBYtZBjNVSNyrI+fOKM=
+	s=default; t=1740167803;
+	bh=4gopo8p3LUJrB8DWqw9iqVed8qBTy2vgRbFIk0fXLIk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mW3rffXNvkpoJ5hFKcQPEodHXaNV1KedZAOxSZI92MIKF9Fs4wWfCnEQXRhh45eMa
+	 zzARADBeSCIko0eI9mLPybE0qITzAAxPdUCDXO1aXwNRnwjrWM2OPDTldxA6EYo8v8
+	 CyZgawwICMNL4L0ZnYlZX4I6o7HaXdidSAe+NzeM=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -52,76 +52,138 @@ Cc: kys@microsoft.com,
 	jinankjain@linux.microsoft.com,
 	muminulrussell@gmail.com,
 	skinsburskii@linux.microsoft.com
-Subject: [PATCH v2 0/3] Introduce CONFIG_MSHV_ROOT for root partition code
-Date: Fri, 21 Feb 2025 11:56:32 -0800
-Message-Id: <1740167795-13296-1-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 3/3] hyperv: Add CONFIG_MSHV_ROOT to gate root partition support
+Date: Fri, 21 Feb 2025 11:56:35 -0800
+Message-Id: <1740167795-13296-4-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1740167795-13296-1-git-send-email-nunodasneves@linux.microsoft.com>
+References: <1740167795-13296-1-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Running in the root partition is a unique and specialized case that
-requires additional code. CONFIG_MSHV_ROOT allows Hyper-V guest kernels
-to exclude this code, which is important since significant additional code
-specific to the root partition is expected to be added over time.
+CONFIG_MSHV_ROOT allows kernels built to run as a normal Hyper-V guest
+to exclude the root partition code, which is expected to grow
+significantly over time.
 
-To do this, change hv_root_partition to be a function which is stubbed out
-to return false if CONFIG_MSHV_ROOT=n, and don't compile hv_proc.c at all,
-stubbing out those functions with inline versions.
+This option is a tristate so future driver code can be built as a
+(m)odule, allowing faster development iteration cycles.
 
-Store the partition type (guest or root) in an enum hv_curr_partition_type,
-which can be extended beyond just guest and root partition.
+If CONFIG_MSHV_ROOT is disabled, don't compile hv_proc.c, and stub
+hv_root_partition() to return false unconditionally. This allows the
+compiler to optimize away root partition code blocks since they will
+be disabled at compile time.
 
-While at it, introduce hv_result_to_errno() to convert Hyper-V status codes
-to regular linux errors. This is useful because the caller of a hypercall
-helper function (such as those in hv_proc.c) usually can't and doesn't
-interpret the Hyper-V status, so it is better to convert it to an error code
-and reduce the possibility of misinterpreting it. This also alows the stubbed
-versions of the hv_proc.c functions to just return a linux error code.
+In the case of booting as root partition *without* CONFIG_MSHV_ROOT
+enabled, print a critical error (the kernel will likely crash).
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
-Changes in v3:
-* Fix a typo [Easwar Hariharan]
-* Fix ret being initialized to HV_STATUS_SUCCESS in some hypercall helpers
-  [Michael Kelley]
-* Fix CONFIG_MSHV_ROOT being used in patch 2, before it is defined [Michael
-  Kelley]
-* Shorten hv_current_partition_type to hv_curr_partition_type [Mukesh Rathor]
+ drivers/hv/Kconfig             | 16 ++++++++++++++++
+ drivers/hv/Makefile            |  3 ++-
+ drivers/hv/hv_common.c         |  5 ++++-
+ include/asm-generic/mshyperv.h | 24 ++++++++++++++++++++----
+ 4 files changed, 42 insertions(+), 6 deletions(-)
 
-Changes in v2:
-* Add patch to convert hypercall statuses to linux error codes [Easwar
-  Hariharan]
-* While at it, split the original patch into two logical pieces, one to change
-  hv_root_partition into a function, and one to introduce MSHV_CONFIG_ROOT
-* Improve the clarity of and add an error message to
-  hv_identify_partition_type() [Easwar Hariharan] [Michael Kelley]
-* Better explain *why* the patches are useful, in the commit messages [Michael
-  Kelley]
-* Add a Kconfig comment explaining why PAGE_SIZE_4KB is needed [Michael Kelley]
-* Minor style and typo fixes
-
-Nuno Das Neves (3):
-  hyperv: Convert hypercall statuses to linux error codes
-  hyperv: Change hv_root_partition into a function
-  hyperv: Add CONFIG_MSHV_ROOT to gate root partition support
-
- arch/arm64/hyperv/mshyperv.c       |  2 +
- arch/x86/hyperv/hv_init.c          | 10 ++---
- arch/x86/kernel/cpu/mshyperv.c     | 24 +----------
- drivers/clocksource/hyperv_timer.c |  4 +-
- drivers/hv/Kconfig                 | 16 +++++++
- drivers/hv/Makefile                |  3 +-
- drivers/hv/hv.c                    | 10 ++---
- drivers/hv/hv_common.c             | 69 +++++++++++++++++++++++++++---
- drivers/hv/hv_proc.c               | 10 ++---
- drivers/hv/vmbus_drv.c             |  2 +-
- drivers/iommu/hyperv-iommu.c       |  4 +-
- include/asm-generic/mshyperv.h     | 40 ++++++++++++++---
- 12 files changed, 139 insertions(+), 55 deletions(-)
-
+diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
+index 862c47b191af..794e88e9dc6b 100644
+--- a/drivers/hv/Kconfig
++++ b/drivers/hv/Kconfig
+@@ -55,4 +55,20 @@ config HYPERV_BALLOON
+ 	help
+ 	  Select this option to enable Hyper-V Balloon driver.
+ 
++config MSHV_ROOT
++	tristate "Microsoft Hyper-V root partition support"
++	depends on HYPERV
++	depends on !HYPERV_VTL_MODE
++	# The hypervisor interface operates on 4k pages. Enforcing it here
++	# simplifies many assumptions in the root partition code.
++	# e.g. When withdrawing memory, the hypervisor gives back 4k pages in
++	# no particular order, making it impossible to reassemble larger pages
++	depends on PAGE_SIZE_4KB
++	default n
++	help
++	  Select this option to enable support for booting and running as root
++	  partition on Microsoft Hyper-V.
++
++	  If unsure, say N.
++
+ endmenu
+diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
+index 9afcabb3fbd2..2b8dc954b350 100644
+--- a/drivers/hv/Makefile
++++ b/drivers/hv/Makefile
+@@ -13,4 +13,5 @@ hv_vmbus-$(CONFIG_HYPERV_TESTING)	+= hv_debugfs.o
+ hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
+ 
+ # Code that must be built-in
+-obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o hv_proc.o
++obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
++obj-$(subst m,y,$(CONFIG_MSHV_ROOT)) += hv_proc.o
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 3d9cfcfbc854..9804adb4cc56 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -734,6 +734,9 @@ void hv_identify_partition_type(void)
+ 	    (ms_hyperv.priv_high & HV_CPU_MANAGEMENT) &&
+ 	    !(ms_hyperv.priv_high & HV_ISOLATION)) {
+ 		pr_info("Hyper-V: running as root partition\n");
+-		hv_curr_partition_type = HV_PARTITION_TYPE_ROOT;
++		if (IS_ENABLED(CONFIG_MSHV_ROOT))
++			hv_curr_partition_type = HV_PARTITION_TYPE_ROOT;
++		else
++			pr_crit("Hyper-V: CONFIG_MSHV_ROOT not enabled!\n");
+ 	}
+ }
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 54ebd630e72c..b13b0cda4ac8 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -223,10 +223,6 @@ void *hv_alloc_hyperv_page(void);
+ void *hv_alloc_hyperv_zeroed_page(void);
+ void hv_free_hyperv_page(void *addr);
+ 
+-int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
+-int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
+-int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
+-
+ /**
+  * hv_cpu_number_to_vp_number() - Map CPU to VP.
+  * @cpu_number: CPU number in Linux terms
+@@ -327,9 +323,29 @@ static inline enum hv_isolation_type hv_get_isolation_type(void)
+ }
+ #endif /* CONFIG_HYPERV */
+ 
++#if IS_ENABLED(CONFIG_MSHV_ROOT)
+ static inline bool hv_root_partition(void)
+ {
+ 	return hv_curr_partition_type == HV_PARTITION_TYPE_ROOT;
+ }
++int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages);
++int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id);
++int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags);
++
++#else /* CONFIG_MSHV_ROOT */
++static inline bool hv_root_partition(void) { return false; }
++static inline int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
++{
++	return -EOPNOTSUPP;
++}
++static inline int hv_call_add_logical_proc(int node, u32 lp_index, u32 acpi_id)
++{
++	return -EOPNOTSUPP;
++}
++static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
++{
++	return -EOPNOTSUPP;
++}
++#endif /* CONFIG_MSHV_ROOT */
+ 
+ #endif
 -- 
 2.34.1
 
