@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28DA41C6FF1;
-	Wed, 26 Feb 2025 23:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98BF925BAC2;
+	Wed, 26 Feb 2025 23:09:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740611341; cv=none; b=ofPJ35Mg9xWe58uvc0g8cLaMoHexBaHzKKixCXzzn52W+LvnBsIwQ6vRBhqMTXv/wW3NbARZ7rBlNAft6I9XOyTxME2VOqoNVX1yfBJnrUHKnTD4Cxasd+ngMc0+vGNFcDFs8LKmkv/Xqzmm3xNaR5TyXwS+/wfi5wBNVB9i7vQ=
+	t=1740611342; cv=none; b=SMU5WpIDme21eIz9ZMmGploOW6eAEisxLtEBTbnKq9t6Q3fTwC3ui+USOfaNmer2qRw07gVxsyKwckrZ3bfDHvguib1rxed4DxDHw1HhlD0Rkro+KnvY/up2c6yLeBLApRwspI4Af5BlOhxrhIU/s8YVqQYwyFENxleecI3xQCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740611341; c=relaxed/simple;
-	bh=se8xPJh9ifrXytq1K1xqCf/FiD0K5jz05hbJQTotQww=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cbKgbT/+iGLCP+6onJ/ySk8T1dhAtzco6Y7FMDbH115G6G4yOGLQ9QiF8zxkqetNHeZoYOYxXDlMpCpUJ14gEt85mX8SMG3yv6sh1/WYyeGZSIWVNOedV72sfrATVnpzFMbup0oglFvYDlPn2eTu+eALN5YmW1lJyvZcx3i2x+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AV3Efyp2; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1740611342; c=relaxed/simple;
+	bh=Tjiwlomon09lvMY1LOgu+AFKsitGDCDqrTT8GCnHQ5Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Jmi5SLhkXwpSTssjc9BA6h7klsQ1FoMBHzd1oep9fJtEBExHvl3OVa3d0XrhoFdDicwRasC0yvmLuCDVNzJHuui6wVFEUHMlhSHnfpulyShhrWrEzCYO1hh4qMnt9JZAKLnnXi2jk7lkJ527Ps25ZWB5oI6oE/4/CepMdEsBbyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hVsQQQTQ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AV3Efyp2"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hVsQQQTQ"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 93ABE210EAC3;
-	Wed, 26 Feb 2025 15:08:58 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 93ABE210EAC3
+	by linux.microsoft.com (Postfix) with ESMTPSA id 134C7210EACB;
+	Wed, 26 Feb 2025 15:08:59 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 134C7210EACB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740611338;
-	bh=jCprf6m6V/RVFEkrjK2ZIkjoEDCOU2UlWDGLVJXKEkg=;
+	s=default; t=1740611339;
+	bh=yjD84+39ofH8LlqfBUgCcc45h/R6E9HXWRzoiTskxns=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AV3Efyp2O59YTtjwzWU+O9Wq6+cFvOyZ+rKo2Fd/hqgwefW2KANMlF7jVWafRYUJn
-	 cHXs9J9Te3GbK1v91/SlogkBSAsXheJOXNGiHC3RrxtwUIDCXlWiKUXEvO3g98FtS1
-	 9kxoXPeXrv24zBnRfTZazvkgQXEH1LGG1Gm847bU=
+	b=hVsQQQTQShvLTt+iFCAH3+/5ieAFs0xpdePBg5Q6XGjSVNMJ9N5p/SEJdcPGstlzL
+	 K4n5E+5TClLzMxltTzwjOCz7XkEE4lvlUzkEqtaE/N4HxV0Y4cjHE8GcZPScM1jZiE
+	 aMFrMKJeC63snJEoptkg9QrXB9pto0JG5J4byyY4=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
@@ -63,9 +63,9 @@ Cc: kys@microsoft.com,
 	rafael@kernel.org,
 	lenb@kernel.org,
 	corbet@lwn.net
-Subject: [PATCH v5 01/10] hyperv: Convert Hyper-V status codes to strings
-Date: Wed, 26 Feb 2025 15:07:55 -0800
-Message-Id: <1740611284-27506-2-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v5 05/10] acpi: numa: Export node_to_pxm()
+Date: Wed, 26 Feb 2025 15:07:59 -0800
+Message-Id: <1740611284-27506-6-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1740611284-27506-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1740611284-27506-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -75,139 +75,27 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Introduce hv_result_to_string() for this purpose. This allows
-hypercall failures to be debugged more easily with dmesg.
+node_to_pxm() is used by hv_numa_node_to_pxm_info().
+That helper will be used by Hyper-V root partition module code
+when CONFIG_MSHV_ROOT=m.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- drivers/hv/hv_common.c         | 65 ++++++++++++++++++++++++++++++++++
- drivers/hv/hv_proc.c           | 13 ++++---
- include/asm-generic/mshyperv.h |  1 +
- 3 files changed, 74 insertions(+), 5 deletions(-)
+ drivers/acpi/numa/srat.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 9804adb4cc56..ce20818688fe 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -740,3 +740,68 @@ void hv_identify_partition_type(void)
- 			pr_crit("Hyper-V: CONFIG_MSHV_ROOT not enabled!\n");
- 	}
+diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
+index 00ac0d7bb8c9..ce815d7cb8f6 100644
+--- a/drivers/acpi/numa/srat.c
++++ b/drivers/acpi/numa/srat.c
+@@ -51,6 +51,7 @@ int node_to_pxm(int node)
+ 		return PXM_INVAL;
+ 	return node_to_pxm_map[node];
  }
-+
-+const char *hv_result_to_string(u64 hv_status)
-+{
-+	switch (hv_result(hv_status)) {
-+	case HV_STATUS_SUCCESS:
-+		return "HV_STATUS_SUCCESS";
-+	case HV_STATUS_INVALID_HYPERCALL_CODE:
-+		return "HV_STATUS_INVALID_HYPERCALL_CODE";
-+	case HV_STATUS_INVALID_HYPERCALL_INPUT:
-+		return "HV_STATUS_INVALID_HYPERCALL_INPUT";
-+	case HV_STATUS_INVALID_ALIGNMENT:
-+		return "HV_STATUS_INVALID_ALIGNMENT";
-+	case HV_STATUS_INVALID_PARAMETER:
-+		return "HV_STATUS_INVALID_PARAMETER";
-+	case HV_STATUS_ACCESS_DENIED:
-+		return "HV_STATUS_ACCESS_DENIED";
-+	case HV_STATUS_INVALID_PARTITION_STATE:
-+		return "HV_STATUS_INVALID_PARTITION_STATE";
-+	case HV_STATUS_OPERATION_DENIED:
-+		return "HV_STATUS_OPERATION_DENIED";
-+	case HV_STATUS_UNKNOWN_PROPERTY:
-+		return "HV_STATUS_UNKNOWN_PROPERTY";
-+	case HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE:
-+		return "HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE";
-+	case HV_STATUS_INSUFFICIENT_MEMORY:
-+		return "HV_STATUS_INSUFFICIENT_MEMORY";
-+	case HV_STATUS_INVALID_PARTITION_ID:
-+		return "HV_STATUS_INVALID_PARTITION_ID";
-+	case HV_STATUS_INVALID_VP_INDEX:
-+		return "HV_STATUS_INVALID_VP_INDEX";
-+	case HV_STATUS_NOT_FOUND:
-+		return "HV_STATUS_NOT_FOUND";
-+	case HV_STATUS_INVALID_PORT_ID:
-+		return "HV_STATUS_INVALID_PORT_ID";
-+	case HV_STATUS_INVALID_CONNECTION_ID:
-+		return "HV_STATUS_INVALID_CONNECTION_ID";
-+	case HV_STATUS_INSUFFICIENT_BUFFERS:
-+		return "HV_STATUS_INSUFFICIENT_BUFFERS";
-+	case HV_STATUS_NOT_ACKNOWLEDGED:
-+		return "HV_STATUS_NOT_ACKNOWLEDGED";
-+	case HV_STATUS_INVALID_VP_STATE:
-+		return "HV_STATUS_INVALID_VP_STATE";
-+	case HV_STATUS_NO_RESOURCES:
-+		return "HV_STATUS_NO_RESOURCES";
-+	case HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED:
-+		return "HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED";
-+	case HV_STATUS_INVALID_LP_INDEX:
-+		return "HV_STATUS_INVALID_LP_INDEX";
-+	case HV_STATUS_INVALID_REGISTER_VALUE:
-+		return "HV_STATUS_INVALID_REGISTER_VALUE";
-+	case HV_STATUS_OPERATION_FAILED:
-+		return "HV_STATUS_OPERATION_FAILED";
-+	case HV_STATUS_TIME_OUT:
-+		return "HV_STATUS_TIME_OUT";
-+	case HV_STATUS_CALL_PENDING:
-+		return "HV_STATUS_CALL_PENDING";
-+	case HV_STATUS_VTL_ALREADY_ENABLED:
-+		return "HV_STATUS_VTL_ALREADY_ENABLED";
-+	default:
-+		return "Unknown";
-+	};
-+	return "Unknown";
-+}
-+EXPORT_SYMBOL_GPL(hv_result_to_string);
-+
-diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 2fae18e4f7d2..8fc30f509fa7 100644
---- a/drivers/hv/hv_proc.c
-+++ b/drivers/hv/hv_proc.c
-@@ -87,7 +87,8 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
- 				     page_count, 0, input_page, NULL);
- 	local_irq_restore(flags);
- 	if (!hv_result_success(status)) {
--		pr_err("Failed to deposit pages: %lld\n", status);
-+		pr_err("%s: Failed to deposit pages: %s\n", __func__,
-+		       hv_result_to_string(status));
- 		ret = hv_result_to_errno(status);
- 		goto err_free_allocations;
- 	}
-@@ -137,8 +138,9 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
++EXPORT_SYMBOL_GPL(node_to_pxm);
  
- 		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
- 			if (!hv_result_success(status)) {
--				pr_err("%s: cpu %u apic ID %u, %lld\n", __func__,
--				       lp_index, apic_id, status);
-+				pr_err("%s: cpu %u apic ID %u, %s\n",
-+				       __func__, lp_index, apic_id,
-+				       hv_result_to_string(status));
- 				ret = hv_result_to_errno(status);
- 			}
- 			break;
-@@ -179,8 +181,9 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 
- 		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
- 			if (!hv_result_success(status)) {
--				pr_err("%s: vcpu %u, lp %u, %lld\n", __func__,
--				       vp_index, flags, status);
-+				pr_err("%s: vcpu %u, lp %u, %s\n",
-+				       __func__, vp_index, flags,
-+				       hv_result_to_string(status));
- 				ret = hv_result_to_errno(status);
- 			}
- 			break;
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index b13b0cda4ac8..dc4729dba9ef 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -298,6 +298,7 @@ static inline int cpumask_to_vpset_skip(struct hv_vpset *vpset,
- 	return __cpumask_to_vpset(vpset, cpus, func);
- }
- 
-+const char *hv_result_to_string(u64 hv_status);
- int hv_result_to_errno(u64 status);
- void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
- bool hv_is_hyperv_initialized(void);
+ static void __acpi_map_pxm_to_node(int pxm, int node)
+ {
 -- 
 2.34.1
 
