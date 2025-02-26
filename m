@@ -1,31 +1,31 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23ABA25FA23;
-	Wed, 26 Feb 2025 23:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464BE217667;
+	Wed, 26 Feb 2025 23:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740612698; cv=none; b=j/1uHQakBj8wcUsoUg3N8RREXUPT8oo47UI5rcHHZduX84/DZYpf0HjfAp/jgnDS4+6ei0LM5BdyxOJxKW/JlsjqdrfEfbkz/zW4VCh9e/KjRJXhH2YKi7OKk5Ca5lTg/tkXzikvwxNKAfp3EYp8YjDmVZiX1SGM1Rer5v+4epk=
+	t=1740612770; cv=none; b=TjQe+T06zWARf3j+47YM41nclZwstu19chWU1YwWM+wUvS1gBKN9fHTG6pkvIZ8cf8vhI1ZnL1ft1WIC8JgNGiLbztfWdfCfvxq2Ajdm47se5+T72fxuzc8J8g6iL6679lwhSpejXQXvN2AX/qDlKt4w2KuWK2u1IrfViIPFrHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740612698; c=relaxed/simple;
-	bh=ta9421UjHvWIHjdsl6MGoh7QrZef/XCE0ZzA4+ffJjk=;
+	s=arc-20240116; t=1740612770; c=relaxed/simple;
+	bh=bh7f0dYdsZzBaHum1wV2hy0VFCZvaqSQOizZ5NKFsHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8ilbSUC8R89KU7ELNfugY6bBhcFNKBHep41lbM1xyHkYHBM14a2I6P7VmkRh4N7VUPn/MAr4jZgCKYI3dGDDGJzPeHSMxfThow7PQurqbqEDwR8lVYy8OX6CAG+GP4zLSP0rfTfc3E7Y66fGSTH8qb528B0qcE2wTtc5pMwWrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=D9icv2Oe; arc=none smtp.client-ip=13.77.154.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dv6AHXrdGLSSE2iQDKtow1TpFIQ529vPDMnuNnVZr6zcyjcUGF81YXxTwPn3azPV6WpOmqXukL/UvDU1YtDCZdPIOkfuu+jmvrpewbp1bj6oR9NqEYt1pBmuJI33e6jJSNvebuSsVvwWdpKlGmpExeW+qfOHv/GVh7PJnz/UkaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=d8bNHDOi; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="D9icv2Oe"
-Received: from skinsburskii. (unknown [20.236.10.120])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9C950210EACC;
-	Wed, 26 Feb 2025 15:31:35 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9C950210EACC
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="d8bNHDOi"
+Received: from skinsburskii. (unknown [20.236.11.29])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 223BD210EACA;
+	Wed, 26 Feb 2025 15:32:47 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 223BD210EACA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740612696;
-	bh=smjit/QOli8nDcBTnlq+IXvVJxQjsbEgJ6Aw5iXyn/0=;
+	s=default; t=1740612768;
+	bh=UEoVyBpUX3lFNfnp2cCHlhOnrwe2QxwgEqIvC2X/3iA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D9icv2OehF8C4IQm6v8VGElOql6Tl2Byga40BAnvuJFcSL21kP6EiJAZapo85yaEv
-	 0z+DfrPz+nWW/C92EgQK94mRa2xtr+gXgtV7CR0P6fCXsYd3zisGZxIkHJ9S+LQo/Y
-	 Fxf2YP+gaMG+c+MaB8mm2wGgwpFRD+e7/0qmWEYc=
-Date: Wed, 26 Feb 2025 15:31:33 -0800
+	b=d8bNHDOiYxdhtkrKYYPEHNFQaugrm+RMCXnNNSdB2RRQ/3V5aZ3xAM0koem6RCFog
+	 XFnYZAwbK6QiyU9Vz7GUQsFS6+VK8cfImWj+EAswlp23akzSKX+WKDelQ3BKFQAL1F
+	 aBaVrx3PzGTFxsRWJxIicYnnv4RjcyTmGvoHGjrw=
+Date: Wed, 26 Feb 2025 15:32:45 -0800
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 To: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Cc: linux-hyperv@vger.kernel.org, x86@kernel.org,
@@ -44,10 +44,11 @@ Cc: linux-hyperv@vger.kernel.org, x86@kernel.org,
 	prapal@linux.microsoft.com, muislam@microsoft.com,
 	anrayabh@linux.microsoft.com, rafael@kernel.org, lenb@kernel.org,
 	corbet@lwn.net
-Subject: Re: [PATCH v5 05/10] acpi: numa: Export node_to_pxm()
-Message-ID: <Z7-kVXsMrhhNV17S@skinsburskii.>
+Subject: Re: [PATCH v5 06/10] Drivers/hv: Export some functions for use by
+ root partition module
+Message-ID: <Z7-knarBxqxRIqVE@skinsburskii.>
 References: <1740611284-27506-1-git-send-email-nunodasneves@linux.microsoft.com>
- <1740611284-27506-6-git-send-email-nunodasneves@linux.microsoft.com>
+ <1740611284-27506-7-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -56,12 +57,12 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1740611284-27506-6-git-send-email-nunodasneves@linux.microsoft.com>
+In-Reply-To: <1740611284-27506-7-git-send-email-nunodasneves@linux.microsoft.com>
 
-On Wed, Feb 26, 2025 at 03:07:59PM -0800, Nuno Das Neves wrote:
-> node_to_pxm() is used by hv_numa_node_to_pxm_info().
-> That helper will be used by Hyper-V root partition module code
-> when CONFIG_MSHV_ROOT=m.
+On Wed, Feb 26, 2025 at 03:08:00PM -0800, Nuno Das Neves wrote:
+> get_hypervisor_version, hv_call_deposit_pages, hv_call_create_vp,
+> hv_call_deposit_pages, and hv_call_create_vp are all needed in module
+> with CONFIG_MSHV_ROOT=m.
 > 
 
-Reviewed-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Reviewed-by: Stanislav Kinsburskii <skinsburskii@microsoft.linux.com>
