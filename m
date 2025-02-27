@@ -1,175 +1,127 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234841A9B2A;
-	Thu, 27 Feb 2025 21:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 878EE27181C;
+	Thu, 27 Feb 2025 21:47:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740690477; cv=none; b=uLGtpX99c+tpnYZNo/NMCcpM7UvKVG1c2ewLHK29UmKFd2/MSyFo/Ro7+mDFcDdgKWpAtVuCD8Ntu66A8x+uVHH0HeK5pKLu3baqfxKsrKidHBU5oa9cDYBCsp1j6wZoEysOGaPMe4heksxjvHvNx3EHpQy9hD0w+Pbsy1/shag=
+	t=1740692851; cv=none; b=BS9vkcrl/KDJ2H+4/ltmM3GNi9oMskpLPSi9WJYs2a9Ir0nxF7+RnUkzkZGm/RhN8k/Z3A7hynHUmqYEBoj24B3YoGUAinFIft+MTzgdW99T8xI91dyzi29YuKCfApaCwUWrkiBhObNmUKa22KsegC37O07GtgB7eVLmRB5f6HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740690477; c=relaxed/simple;
-	bh=Fi9jUvZvCG6GYfCZYsMhxN2ciNunPlLnqb2YNjzyTxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HA13rNBCaMA09OGHnMvPN8uCRkJHerJsd3PQ+O7FEzlJ1Ph3RBz3B1eriPd2Fwpc9XCEiSdKRwMcCZ1Wy+2UtS+1SHt75fZq7VZDmqzS9BTbMiieGBIjRH/AEMZDOWWHiJw+JYZfZLYHFfFXkuFQAbZLE8pv2ZhvuQ222sn5xpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Q38XJ4wZ; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1740692851; c=relaxed/simple;
+	bh=WySDr8RJ9iCLor9PMBDB1y+NCIU0CrhEp2pDvg0Fxyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qRVp7/WJiz4t2Rrpr0n2hUW9qhL5aPDKln9NgZVhj89H2ifTc38sGWC+RNvzXAB21ZHMt71NL9NeXvUNRHkLPyynfPEz/NlMfjIsr9vJFQ8RIErv4Tfs1BZPlY0lPVjNt5YiazAfJrgDCWHhSqh2crX+leb9NyQyEukUx/kiaPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=CPtbNjbY; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Q38XJ4wZ"
-Received: from [10.0.0.114] (c-67-182-156-199.hsd1.wa.comcast.net [67.182.156.199])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 518E7210EAC0;
-	Thu, 27 Feb 2025 13:07:55 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 518E7210EAC0
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="CPtbNjbY"
+Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E74CC210EAC2;
+	Thu, 27 Feb 2025 13:47:29 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E74CC210EAC2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740690475;
-	bh=IEOL6HLjW56dyRwoK8KUsakrGDoqCPmIDIIxo6mrB6I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q38XJ4wZRq9Fo2GurqKMAPPkl8c/pMalRVlMHGZxAmjQWoqIUJAo8a0eFrjdMAP/1
-	 1xWAqfiUzuB+FK7m0Zb/RwE/h7fSFEMZtWduLM9DmfY9fCMcM3pFe8oZToEOqrqZJ9
-	 RFeTRHQAIZfc7yjf01FCLdFT20j5DihGKRJD1iH4=
-Message-ID: <f9b3d2b7-59d6-42b7-b0eb-d26be3405b22@linux.microsoft.com>
-Date: Thu, 27 Feb 2025 13:07:54 -0800
+	s=default; t=1740692850;
+	bh=s3v611mj9neOZEEDQBmvrzVPT6h/ZL3vkxwXr7kCv58=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CPtbNjbYUG3bYxCW8gfwP1wQq74PCAZUa65DuX8Trtd2vyGokSj0v1R1J50MrDtEO
+	 B7XHRom2pFp7sEheXbWuuDj/gESJpE7mQcPhod6solvor+LjwBLuDZsD6e17p9CJMq
+	 SN63NDFXZMjXgR84Hg1pTYpHw6RTWjsmg0NZgXuc=
+From: Roman Kisel <romank@linux.microsoft.com>
+To: bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	decui@microsoft.com,
+	haiyangz@microsoft.com,
+	hpa@zytor.com,
+	kys@microsoft.com,
+	mingo@redhat.com,
+	ssengar@linux.microsoft.com,
+	tglx@linutronix.de,
+	wei.liu@kernel.org,
+	x86@kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: apais@microsoft.com,
+	benhill@microsoft.com,
+	sunilmut@microsoft.com
+Subject: [PATCH hyperv-next v3 1/2] x86/hyperv: Add VTL mode emergency restart callback
+Date: Thu, 27 Feb 2025 13:47:27 -0800
+Message-ID: <20250227214728.15672-2-romank@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250227214728.15672-1-romank@linux.microsoft.com>
+References: <20250227214728.15672-1-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] x86/hyperv: Use hv_hvcall_*() to set up hypercall
- arguments -- part 1
-To: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
- lpieralisi@kernel.org, kw@linux.com, manivannan.sadhasivam@linaro.org,
- robh@kernel.org, bhelgaas@google.com, arnd@arndb.de
-Cc: x86@kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-arch@vger.kernel.org
-References: <20250226200612.2062-1-mhklinux@outlook.com>
- <20250226200612.2062-4-mhklinux@outlook.com>
-Content-Language: en-US
-From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-In-Reply-To: <20250226200612.2062-4-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/26/2025 12:06 PM, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
-> 
-> Update hypercall call sites to use the new hv_hvcall_*() functions
-> to set up hypercall arguments. Since these functions zero the
-> fixed portion of input memory, remove now redundant calls to memset()
-> and explicit zero'ing of input fields.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> ---
->  arch/x86/hyperv/hv_apic.c   |  6 ++----
->  arch/x86/hyperv/hv_init.c   |  5 +----
->  arch/x86/hyperv/hv_vtl.c    |  8 ++------
->  arch/x86/hyperv/irqdomain.c | 10 ++++------
->  4 files changed, 9 insertions(+), 20 deletions(-)
-> 
-> diff --git a/arch/x86/hyperv/hv_apic.c b/arch/x86/hyperv/hv_apic.c
-> index f022d5f64fb6..c16f81dd36fc 100644
-> --- a/arch/x86/hyperv/hv_apic.c
-> +++ b/arch/x86/hyperv/hv_apic.c
-> @@ -115,14 +115,12 @@ static bool __send_ipi_mask_ex(const struct cpumask *mask, int vector,
->  		return false;
->  
->  	local_irq_save(flags);
-> -	ipi_arg = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> -
-> +	hv_hvcall_in_array(&ipi_arg, sizeof(*ipi_arg),
-> +				sizeof(ipi_arg->vp_set.bank_contents[0]));
-I think the returned "batch size" should be checked to ensure it is not too small to hold the
-variable-sized part of the header.
+By default, X86(-64) systems use the emergecy restart routine
+in the course of which the code unconditionally writes to
+the physical address of 0x472 to indicate the boot mode
+to the firmware (BIOS or UEFI).
 
->  	if (unlikely(!ipi_arg))
->  		goto ipi_mask_ex_done;
->  
-While here, is this check really needed? If so, maybe a check for the percpu page(s) could be
-baked into hv_hvcall_inout_array()?
+When the kernel itself runs as a firmware in the VTL mode,
+that write corrupts the memory of the guest upon emergency
+restarting. Preserving the state intact in that situation
+is important for debugging, at least.
 
->  	ipi_arg->vector = vector;
-> -	ipi_arg->reserved = 0;
-> -	ipi_arg->vp_set.valid_bank_mask = 0;
->  
->  	/*
->  	 * Use HV_GENERIC_SET_ALL and avoid converting cpumask to VP_SET
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index ddeb40930bc8..c5c9511cb7ed 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -400,13 +400,10 @@ static u8 __init get_vtl(void)
->  	u64 ret;
->  
->  	local_irq_save(flags);
-> -	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> -	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
->  
-> -	memset(input, 0, struct_size(input, names, 1));
-> +	hv_hvcall_inout(&input, sizeof(*input), &output, sizeof(*output));
+Define the specialized machine callback to avoid that write
+and use the triple fault to perform emergency restart.
 
-This doesn't look right, this is a rep hypercall taking an array of register names
-and outputting an array of register values.
+Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+---
+ arch/x86/hyperv/hv_vtl.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-hv_hvcall_inout_array() should be fully utilized (input and output arrays) here.
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 4e1b1e3b5658..4421b75ad9a9 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -12,6 +12,7 @@
+ #include <asm/i8259.h>
+ #include <asm/mshyperv.h>
+ #include <asm/realmode.h>
++#include <asm/reboot.h>
+ #include <../kernel/smpboot.h>
+ 
+ extern struct boot_params boot_params;
+@@ -22,6 +23,27 @@ static bool __init hv_vtl_msi_ext_dest_id(void)
+ 	return true;
+ }
+ 
++/*
++ * The `native_machine_emergency_restart` function from `reboot.c` writes
++ * to the physical address 0x472 to indicate the type of reboot for the
++ * firmware. We cannot have that in VSM as the memory composition might
++ * be more generic, and such write effectively corrupts the memory thus
++ * making diagnostics harder at the very least.
++ */
++static void  __noreturn hv_vtl_emergency_restart(void)
++{
++	/*
++	 * Cause a triple fault and the immediate reset. Here the code does not run
++	 * on the top of any firmware, whereby cannot reach out to its services.
++	 * The inifinite loop is for the improbable case that the triple fault does
++	 * not work and have to preserve the state intact for debugging.
++	 */
++	for (;;) {
++		idt_invalidate();
++		__asm__ __volatile__("int3");
++	}
++}
++
+ void __init hv_vtl_init_platform(void)
+ {
+ 	pr_info("Linux runs in Hyper-V Virtual Trust Level\n");
+@@ -235,6 +257,7 @@ static int hv_vtl_wakeup_secondary_cpu(u32 apicid, unsigned long start_eip)
+ 
+ int __init hv_vtl_early_init(void)
+ {
++	machine_ops.emergency_restart = hv_vtl_emergency_restart;
+ 	/*
+ 	 * `boot_cpu_has` returns the runtime feature support,
+ 	 * and here is the earliest it can be used.
+-- 
+2.43.0
 
-The current code may actually work, but it will overlap the input and output!
-
->  	input->partition_id = HV_PARTITION_ID_SELF;
->  	input->vp_index = HV_VP_INDEX_SELF;
-> -	input->input_vtl.as_uint8 = 0;
->  	input->names[0] = HV_REGISTER_VSM_VP_STATUS;
->  
->  	ret = hv_do_hypercall(control, input, output);
-> diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
-> index 3f4e20d7b724..3dd27d548db6 100644
-> --- a/arch/x86/hyperv/hv_vtl.c
-> +++ b/arch/x86/hyperv/hv_vtl.c
-<snip>
-> @@ -185,13 +184,10 @@ static int hv_vtl_apicid_to_vp_id(u32 apic_id)
->  
->  	local_irq_save(irq_flags);
->  
-> -	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> -	memset(input, 0, sizeof(*input));
-> +	hv_hvcall_inout(&input, sizeof(*input), &output, sizeof(*output));
-This has the same issue as above - it is a rep hypercall so needs hv_hvcall_inout_array()
-
->  	input->partition_id = HV_PARTITION_ID_SELF;
->  	input->apic_ids[0] = apic_id;
->  
-> -	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
-> -
->  	control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_ID_FROM_APIC_ID;
->  	status = hv_do_hypercall(control, input, output);
->  	ret = output[0];
-> diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-> index 64b921360b0f..803b1a945c5c 100644
-> --- a/arch/x86/hyperv/irqdomain.c
-> +++ b/arch/x86/hyperv/irqdomain.c
-> @@ -24,11 +24,11 @@ static int hv_map_interrupt(union hv_device_id device_id, bool level,
->  
->  	local_irq_save(flags);
->  
-> -	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-> -	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
-> +	hv_hvcall_inout_array(&input, sizeof(*input),
-> +			sizeof(input->interrupt_descriptor.target.vp_set.bank_contents[0]),
-> +			&output, sizeof(*output), 0);
-As noted before I think the batch size should be checked to ensure it is large enough.
-
-Side note - it seems in this hypercall, nr_banks + 1 is used as the varhead size, which
-counts the vp valid mask, but this is not the case in __send_ipi_mask_ex(). Do you happen
-to know why that might be?
-
-Thanks,
-Nuno
-
->  
->  	intr_desc = &input->interrupt_descriptor;
-> -	memset(input, 0, sizeof(*input));
->  	input->partition_id = hv_current_partition_id;
->  	input->device_id = device_id.as_uint64;
->  	intr_desc->interrupt_type = HV_X64_INTERRUPT_TYPE_FIXED;
-<snip>
