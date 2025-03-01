@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 798FD2CA8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA6E1D90B3;
 	Sat,  1 Mar 2025 16:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740845800; cv=none; b=Qb8+J3vFpIfommZsjIHEw/mlvqYpPdD0phXkktkn8MY1YicYlJqN4PTy9MXkmqNa/oYZWxfaSuDR2mN3P5pTunU/SPWOASM0fb5KHY8zWt2YvoiWF3MOaKw2O9sR2o9YulOQuAcQ48CVW9VV+UZbt2zKmFai/Inen/BdqYC5Nx4=
+	t=1740845801; cv=none; b=DZhxPSCLTMiqZ0ZbnkiQ71drSVdqJw9BWJXZ6aNuztHXX805BiwfLwY8n/phnl+scCZIvr38KQMoXIQQdoJZvALuYRyl+ddGtq58eaKuiGA6Oe5BX6yBShD9wN6qmwpAiDG4SN8UJh49CvXMNfda1DOHEnRJTwjkELurXoDlt9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740845800; c=relaxed/simple;
-	bh=fgj8BWOyEI+YEMg+NBuRHMnmsl4uGmFu/x1CXxeKwEs=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=L37OHzU5dOZRdeFRuRY7XnsieK6SoL0cTRgYHY8DXWQlZzyfxXGxzXQ1YQgpgnZkeMeofK6Iu9Af3402nAp7Vd+bVt/h84yyBSfirt48zk4TetMDw1FmZ7pZnGjVNrPFAFUKb5v0JuG9lADyVNKi0nU2stu5gb2MO0Ti3bou1Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ICWxcXXJ; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1740845801; c=relaxed/simple;
+	bh=ThW6x6jEbi3YwvsTGyO9W7L6HPAXyomQaT9YP7neygM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=KrjkUy2w1w8OAkcYkxmQmYZRbsMyxRlXtJYWMdp67VRX2Jv7jqgr8YhbNN2PnurLuI6g5dipPCMBdp7QB79vkzCDsq6wz+vY67VpHihkOSeAfTH22DXm6I8ZuPTpxRLxuY/eGZ82RnN4OeOFECRPNogE8yAJTWzCYUIKDy/DLaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hadrIRIn; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ICWxcXXJ"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hadrIRIn"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id DDEF72038A3D;
-	Sat,  1 Mar 2025 08:16:38 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DDEF72038A3D
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1C4E72038A40;
+	Sat,  1 Mar 2025 08:16:39 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1C4E72038A40
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1740845798;
-	bh=sf8ttahzm+9GqpA9ajwAW7LpDIvZye2F3bcdngIic6g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ICWxcXXJHGq8jS1KvB/OX7qhnCv1s6h85Cg++CKY/Nfvxjd/argKjPyfUOOyAfjWV
-	 +bjOb4nAYp1ddkFX5onJexMY8Z7zo7446B8VRRTIOJRTlfUQs8+R8swk7cvOlD0iUV
-	 cSPcuUziRh8GrmqWq+FfT764yzlqkfrAdcFpdxXA=
+	s=default; t=1740845799;
+	bh=8gqAcMLnchdt5cB0aO9gsMnZQpWztt0YAxo1ANaGVKM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hadrIRIn2gZ30Xw12Fa87w8bx4DQEfoRmfgICzUQYqP9zX4vdO9IhVDkXKnilYRBE
+	 EI/B/wuXhZTdzADIPNIAb8ANnWYE5g2e2PN+eg/7JqWTTSm/yVSjmGjq7f2gZB1uUp
+	 +WZ13FEXqGGxHhNjEC/t8+aKNYcLksQJAMHUcTME=
 From: Saurabh Sengar <ssengar@linux.microsoft.com>
 To: kys@microsoft.com,
 	haiyangz@microsoft.com,
@@ -37,39 +37,120 @@ To: kys@microsoft.com,
 	linux-kernel@vger.kernel.org
 Cc: ssengar@microsoft.com,
 	mhklinux@outlook.com
-Subject: [PATCH v3 0/2] fbdev: hyperv_fb: framebuffer release cleanup
-Date: Sat,  1 Mar 2025 08:16:29 -0800
-Message-Id: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
+Subject: [PATCH v3 2/2] fbdev: hyperv_fb: Allow graceful removal of framebuffer
+Date: Sat,  1 Mar 2025 08:16:31 -0800
+Message-Id: <1740845791-19977-3-git-send-email-ssengar@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
+References: <1740845791-19977-1-git-send-email-ssengar@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-This patch series addresses an issue in the unbind path of the hyperv_fb
-driver, which is resolved in the second patch of this series.
+When a Hyper-V framebuffer device is unbind, hyperv_fb driver tries to
+release the framebuffer forcefully. If this framebuffer is in use it
+produce the following WARN and hence this framebuffer is never released.
 
-While working on this fix, it was observed that hvfb_putmem() and its
-child functions could be cleaned up first to simplify the movement of
-hvfb_putmem(). This cleanup is done in the first patch.
+[   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
+< snip >
+[   44.111289] Call Trace:
+[   44.111290]  <TASK>
+[   44.111291]  ? show_regs+0x6c/0x80
+[   44.111295]  ? __warn+0x8d/0x150
+[   44.111298]  ? framebuffer_release+0x2c/0x40
+[   44.111300]  ? report_bug+0x182/0x1b0
+[   44.111303]  ? handle_bug+0x6e/0xb0
+[   44.111306]  ? exc_invalid_op+0x18/0x80
+[   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
+[   44.111311]  ? framebuffer_release+0x2c/0x40
+[   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
+[   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
+[   44.111323]  device_remove+0x40/0x80
+[   44.111325]  device_release_driver_internal+0x20b/0x270
+[   44.111327]  ? bus_find_device+0xb3/0xf0
 
-Although hvfb_getmem() could also be cleaned up, it depends on
-vmbus_allocate_mmio(), which is used by multiple other drivers. Since
-addressing hvfb_getmem() is independent of this fix, it will be handled
-in a separate patch series.
+Fix this by moving the release of framebuffer and assosiated memory
+to fb_ops.fb_destroy function, so that framebuffer framework handles
+it gracefully.
 
+While we fix this, also replace manual registrations/unregistration of
+framebuffer with devm_register_framebuffer.
+
+Fixes: 68a2d20b79b1 ("drivers/video: add Hyper-V Synthetic Video Frame Buffer Driver")
+
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+---
 [V3]
- - Add a patch 1 for cleanup of hvfb_putmem()
- - Use the simplified hvfb_putmem()
+ - using simplified hvfb_putmem()
 
-Saurabh Sengar (2):
-  fbdev: hyperv_fb: Simplify hvfb_putmem
-  fbdev: hyperv_fb: Allow graceful removal of framebuffer
+ drivers/video/fbdev/hyperv_fb.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
- drivers/video/fbdev/hyperv_fb.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
+index 09fb025477f7..76a42379c8df 100644
+--- a/drivers/video/fbdev/hyperv_fb.c
++++ b/drivers/video/fbdev/hyperv_fb.c
+@@ -282,6 +282,8 @@ static uint screen_depth;
+ static uint screen_fb_size;
+ static uint dio_fb_size; /* FB size for deferred IO */
+ 
++static void hvfb_putmem(struct fb_info *info);
++
+ /* Send message to Hyper-V host */
+ static inline int synthvid_send(struct hv_device *hdev,
+ 				struct synthvid_msg *msg)
+@@ -862,6 +864,17 @@ static void hvfb_ops_damage_area(struct fb_info *info, u32 x, u32 y, u32 width,
+ 		hvfb_ondemand_refresh_throttle(par, x, y, width, height);
+ }
+ 
++/*
++ * fb_ops.fb_destroy is called by the last put_fb_info() call at the end
++ * of unregister_framebuffer() or fb_release(). Do any cleanup related to
++ * framebuffer here.
++ */
++static void hvfb_destroy(struct fb_info *info)
++{
++	hvfb_putmem(info);
++	framebuffer_release(info);
++}
++
+ /*
+  * TODO: GEN1 codepaths allocate from system or DMA-able memory. Fix the
+  *       driver to use the _SYSMEM_ or _DMAMEM_ helpers in these cases.
+@@ -877,6 +890,7 @@ static const struct fb_ops hvfb_ops = {
+ 	.fb_set_par = hvfb_set_par,
+ 	.fb_setcolreg = hvfb_setcolreg,
+ 	.fb_blank = hvfb_blank,
++	.fb_destroy	= hvfb_destroy,
+ };
+ 
+ /* Get options from kernel paramenter "video=" */
+@@ -1172,7 +1186,7 @@ static int hvfb_probe(struct hv_device *hdev,
+ 	if (ret)
+ 		goto error;
+ 
+-	ret = register_framebuffer(info);
++	ret = devm_register_framebuffer(&hdev->device, info);
+ 	if (ret) {
+ 		pr_err("Unable to register framebuffer\n");
+ 		goto error;
+@@ -1220,14 +1234,10 @@ static void hvfb_remove(struct hv_device *hdev)
+ 
+ 	fb_deferred_io_cleanup(info);
+ 
+-	unregister_framebuffer(info);
+ 	cancel_delayed_work_sync(&par->dwork);
+ 
+ 	vmbus_close(hdev->channel);
+ 	hv_set_drvdata(hdev, NULL);
+-
+-	hvfb_putmem(info);
+-	framebuffer_release(info);
+ }
+ 
+ static int hvfb_suspend(struct hv_device *hdev)
 -- 
 2.43.0
 
