@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC81420459A;
-	Fri, 14 Mar 2025 19:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495E4204F8C;
+	Fri, 14 Mar 2025 19:29:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741980567; cv=none; b=T5Y23mauDpdBL5nH5Bw+EVgmSJ98lbbfBxu6NgMMPde/Z8fGYdVTyX+8eWAwVPW9kIu0OZaSujE2EzlKSzVNFNnDt+sV+KdWeD7zjPCjV8KyXHo6tlHiPzZZdfZdiX4qr4HrewhFAp0iXCmt3aJYprCTEi1ngL1yHYo9Xe/s5UE=
+	t=1741980567; cv=none; b=iN+kxkkg+ZebIxn05H+2tpqzOBAahpXcafbKAzFPQ/GU+IUyDi9TvSmejDBxDlWLBtUfzDtNoR8pE0uBT5IyT1g30GBCZ4DiagUlQrwpF016E2r10DFpC6MjH0hiweVSUUkUMRku4GbcBV03wd0V9o9OL5FyP8b2/nNqhwwCgOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741980567; c=relaxed/simple;
-	bh=2DgA+WxtMeS5xEPea+yQ2oWUrQWJOpxLAqfjtUxE8zo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ZifGWoUeQfkZXrKp6fPltu0+f5misOzheCmPWF11TtUoFTV+LDZsPcUuvlZoM+U9w3nviiL9ueFH/e9+SXkXneWEHgH+2cJcUk4lu3MU4kbF2vg+rkS8/u9NI4PRYbUmr4LmL7kIlU9SUZKhK5lLcBwGh7+ZZCJzxzvFJ5hn1rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QgsX3nal; arc=none smtp.client-ip=13.77.154.182
+	bh=/NPjWqFiZUBA9kZVHML09VsP99vtNRasLwzaTdQCo0c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=oH+qI4NK/xZdm+QuHsfcTv2YaXS4TuChH6oir21wkbOu3yAaq7DhHBQhahOybUx9lw22xl/MyjL+86irpCQV2RvUtmxMAOHQ2xdvYK6ovhq4qsqqznFXI3AZnD62rwq55KDm3L6ijXVsEhHtHOedVb4TgHo1W6DD1eJzieuaMKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=PQ9z6eCq; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QgsX3nal"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PQ9z6eCq"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5DAC22033459;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 972EE2033456;
 	Fri, 14 Mar 2025 12:29:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5DAC22033459
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 972EE2033456
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1741980564;
-	bh=kQpDXagoqiBnz1ULF4xuJAkhLPjv+oLVEWalqIw1Byo=;
+	bh=FUdDLeTcFv7peeEsvlaUqyHqo41x8jGlZj8eHhigyuc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QgsX3nal9IDsR2TJGB/RRIgqwXlA1XJAcEFtFir/jWdb0FV+lxfTqCBlPUIFANd3e
-	 Vc6uZgDGxORP3rIneNmC1gyNtfyTIg+OL8ArNcTFcoLWqp//OtwVhCq7tPae3e10I1
-	 oGTCxEimeV33kN0de0MCS5Snl2CS0w1KGYaSPRZI=
+	b=PQ9z6eCqIupiYkGG5TlmdH1mNJebiDCLhXL8ck324lwF7H/kECeYM8nAzuTF0QAKi
+	 spwx2HjSI8QiRV0nMwmoCtwMrd0Ola9VV1TnE9i2o/oV3BIR5HfTYVFmOXTI+hceBy
+	 7XdeOQ7VyEHc/nMraIzqQsieqDfk4Lri6rwM1rpY=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
@@ -64,9 +64,9 @@ Cc: kys@microsoft.com,
 	rafael@kernel.org,
 	lenb@kernel.org,
 	corbet@lwn.net
-Subject: [PATCH v6 03/10] arm64/hyperv: Add some missing functions to arm64
-Date: Fri, 14 Mar 2025 12:28:49 -0700
-Message-Id: <1741980536-3865-4-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v6 05/10] acpi: numa: Export node_to_pxm()
+Date: Fri, 14 Mar 2025 12:28:51 -0700
+Message-Id: <1741980536-3865-6-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1741980536-3865-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1741980536-3865-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -76,91 +76,31 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-These non-nested msr and fast hypercall functions are present in x86,
-but they must be available in both architectures for the root partition
-driver code.
-
-While at it, remove the redundant 'extern' keywords from the
-hv_do_hypercall() variants in asm-generic/mshyperv.h.
+node_to_pxm() is used by hv_numa_node_to_pxm_info().
+That helper will be used by Hyper-V root partition module code
+when CONFIG_MSHV_ROOT=m.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Reviewed-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Reviewed-by: Roman Kisel <romank@linux.microsoft.com>
+Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Reviewed-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/arm64/hyperv/hv_core.c       | 17 +++++++++++++++++
- arch/arm64/include/asm/mshyperv.h | 13 +++++++++++++
- include/asm-generic/mshyperv.h    |  6 ++++--
- 3 files changed, 34 insertions(+), 2 deletions(-)
+ drivers/acpi/numa/srat.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/hyperv/hv_core.c b/arch/arm64/hyperv/hv_core.c
-index 69004f619c57..e33a9e3c366a 100644
---- a/arch/arm64/hyperv/hv_core.c
-+++ b/arch/arm64/hyperv/hv_core.c
-@@ -53,6 +53,23 @@ u64 hv_do_fast_hypercall8(u16 code, u64 input)
+diff --git a/drivers/acpi/numa/srat.c b/drivers/acpi/numa/srat.c
+index 00ac0d7bb8c9..ce815d7cb8f6 100644
+--- a/drivers/acpi/numa/srat.c
++++ b/drivers/acpi/numa/srat.c
+@@ -51,6 +51,7 @@ int node_to_pxm(int node)
+ 		return PXM_INVAL;
+ 	return node_to_pxm_map[node];
  }
- EXPORT_SYMBOL_GPL(hv_do_fast_hypercall8);
++EXPORT_SYMBOL_GPL(node_to_pxm);
  
-+/*
-+ * hv_do_fast_hypercall16 -- Invoke the specified hypercall
-+ * with arguments in registers instead of physical memory.
-+ * Avoids the overhead of virt_to_phys for simple hypercalls.
-+ */
-+u64 hv_do_fast_hypercall16(u16 code, u64 input1, u64 input2)
-+{
-+	struct arm_smccc_res	res;
-+	u64			control;
-+
-+	control = (u64)code | HV_HYPERCALL_FAST_BIT;
-+
-+	arm_smccc_1_1_hvc(HV_FUNC_ID, control, input1, input2, &res);
-+	return res.a0;
-+}
-+EXPORT_SYMBOL_GPL(hv_do_fast_hypercall16);
-+
- /*
-  * Set a single VP register to a 64-bit value.
-  */
-diff --git a/arch/arm64/include/asm/mshyperv.h b/arch/arm64/include/asm/mshyperv.h
-index 2e2f83bafcfb..b721d3134ab6 100644
---- a/arch/arm64/include/asm/mshyperv.h
-+++ b/arch/arm64/include/asm/mshyperv.h
-@@ -40,6 +40,19 @@ static inline u64 hv_get_msr(unsigned int reg)
- 	return hv_get_vpreg(reg);
- }
- 
-+/*
-+ * Nested is not supported on arm64
-+ */
-+static inline void hv_set_non_nested_msr(unsigned int reg, u64 value)
-+{
-+	hv_set_msr(reg, value);
-+}
-+
-+static inline u64 hv_get_non_nested_msr(unsigned int reg)
-+{
-+	return hv_get_msr(reg);
-+}
-+
- /* SMCCC hypercall parameters */
- #define HV_SMCCC_FUNC_NUMBER	1
- #define HV_FUNC_ID	ARM_SMCCC_CALL_VAL(			\
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index c8043efabf5a..c3697bc0598d 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -70,8 +70,10 @@ extern enum hv_partition_type hv_curr_partition_type;
- extern void * __percpu *hyperv_pcpu_input_arg;
- extern void * __percpu *hyperv_pcpu_output_arg;
- 
--extern u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
--extern u64 hv_do_fast_hypercall8(u16 control, u64 input8);
-+u64 hv_do_hypercall(u64 control, void *inputaddr, void *outputaddr);
-+u64 hv_do_fast_hypercall8(u16 control, u64 input8);
-+u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64 input2);
-+
- bool hv_isolation_type_snp(void);
- bool hv_isolation_type_tdx(void);
- 
+ static void __acpi_map_pxm_to_node(int pxm, int node)
+ {
 -- 
 2.34.1
 
