@@ -1,29 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F36713F43B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14319204F65;
 	Fri, 14 Mar 2025 19:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741980566; cv=none; b=qmLexIKXa10wPTuAsXmZaSiBH/w+F35N8PQoYcYhgyWRtXhLJqtwQImorVQ9ODiSbVuNZ2iM9ICGUFeh668Pp+jeRV/kiUIf7IdPSXKR4wcFMc8hPJvC2Q+vy5pzBmvXIiCA6MsC/DxY0RnwT3zLzHfvenqwpX75eJ/ifhdJp6Q=
+	t=1741980566; cv=none; b=TMUr4GrlS3yVoVr6WowvISqx4l62n+jKzDafcL0XS542NRtIA4rpXKhHYlKngtHhXYwuLhHm2DV+P8XicJYrlxCMYJONN4Nfxq+F/8Uis1Iyl5AYJJePxxiwwdpBa87AA66fpBUrbUUStbKsqWXG6Y8Yxd/c53DRazak2smKFAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741980566; c=relaxed/simple;
-	bh=9zqwn8ck48SYk53c1HhJHf5d4K3sKajIk9ispWfilnM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=GL6tt86aCBg5IcPPPL+I9C3PF0cYzDHUqNAQ8gY/Ie3uaFcOoicxcmWVL6PJEt4NQ7JaBsJlzEtIjzeo4tTxHqH+iyi2aMnYh59+1E0G7OwbynViDv91g7+jLJUF4x707lIxiPIniIPlUbvYcze9oMVfcJ73sw6lreRldFNVGxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Spvkn1HI; arc=none smtp.client-ip=13.77.154.182
+	bh=V6/a/l1LIEQDtZUWC3im2eRpM0YRTiouLsYlGTsKSss=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=K+dsbx4HhRFwQW0mAVn8z+laZbUWQJ+UGPeRBQdmqWsETr3ADzY+mi8W2FzQtO1koe7Kd0/Q5g6r6dDtSqe5At/k/w5eV1lHEU39h8K0mBsk9HRRvNrwhbPEDCAbH0EgIZcgYwwjrWur4He29zSfVFycgqaD0ShHcHGHZQvG2QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=LJHeMn5y; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Spvkn1HI"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LJHeMn5y"
 Received: from linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net (linux.microsoft.com [13.77.154.182])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 0DDA22033455;
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7AC4F203345B;
 	Fri, 14 Mar 2025 12:29:24 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0DDA22033455
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7AC4F203345B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1741980564;
-	bh=Rg8QzT0gYO9ulLt5P+kHC5Rffwmr7DIIcXzpfblm82s=;
+	bh=utJMkJZ9Gl5P1DrxVDG/0o+Zv8qkpo1fMxwwRlX4UR4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Spvkn1HI8y97mzQU7blE6mpC0TN0J/iDXb0TWEIbaVGX45hg/0mPQkeZGu2d0GTpZ
-	 u2RqZvyTT+wp7n0KeG0rmZw7mXdcvitXniQ45DqyPRM9lGS0FRNTJlXncL5z+EPFkD
-	 qDIGj3P5DNt28Y5+HufZ5h2hProyYapv1sc2EfhQ=
+	b=LJHeMn5yTvvBeQxzdXDTwSuQizpptvJ+Kxp/xmBk/lsEbzFRS7ETcGe8ZOP744RJ+
+	 XEelsIIyeM2OzNUwiSuNWnVnmcDVt/YIGUPlmgXjMjIUyk3NOYuCbk3rUkXKFozzRg
+	 l0j5z1FyepIE2G2v6FP0NcaDSOUzzfOwovKQeIsM=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	x86@kernel.org,
@@ -64,9 +64,9 @@ Cc: kys@microsoft.com,
 	rafael@kernel.org,
 	lenb@kernel.org,
 	corbet@lwn.net
-Subject: [PATCH v6 01/10] hyperv: Log hypercall status codes as strings
-Date: Fri, 14 Mar 2025 12:28:47 -0700
-Message-Id: <1741980536-3865-2-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v6 04/10] hyperv: Introduce hv_recommend_using_aeoi()
+Date: Fri, 14 Mar 2025 12:28:50 -0700
+Message-Id: <1741980536-3865-5-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1741980536-3865-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1741980536-3865-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -76,282 +76,68 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-Introduce hv_status_printk() macros as a convenience to log hypercall
-errors, formatting them with the status code (HV_STATUS_*) as a raw hex
-value and also as a string, which saves some time while debugging.
+Factor out the check for enabling auto eoi, to be reused in root
+partition code.
 
-Create a table of HV_STATUS_ codes with strings and mapped errnos, and
-use it for hv_result_to_string() and hv_result_to_errno().
-
-Use the new hv_status_printk()s in hv_proc.c, hyperv-iommu.c, and
-irqdomain.c hypercalls to aid debugging in the root partition.
+No functional changes.
 
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 Reviewed-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+Reviewed-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/hyperv/irqdomain.c    |   6 +-
- drivers/hv/hv_common.c         | 129 ++++++++++++++++++++++++---------
- drivers/hv/hv_proc.c           |  10 +--
- drivers/iommu/hyperv-iommu.c   |   4 +-
- include/asm-generic/mshyperv.h |  13 ++++
- 5 files changed, 118 insertions(+), 44 deletions(-)
+ drivers/hv/hv.c                | 12 +-----------
+ include/asm-generic/mshyperv.h | 13 +++++++++++++
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/hyperv/irqdomain.c b/arch/x86/hyperv/irqdomain.c
-index 64b921360b0f..31f0d29cbc5e 100644
---- a/arch/x86/hyperv/irqdomain.c
-+++ b/arch/x86/hyperv/irqdomain.c
-@@ -64,7 +64,7 @@ static int hv_map_interrupt(union hv_device_id device_id, bool level,
- 	local_irq_restore(flags);
+diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
+index a38f84548bc2..308c8f279df8 100644
+--- a/drivers/hv/hv.c
++++ b/drivers/hv/hv.c
+@@ -313,17 +313,7 @@ void hv_synic_enable_regs(unsigned int cpu)
  
- 	if (!hv_result_success(status))
--		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+		hv_status_err(status, "\n");
- 
- 	return hv_result(status);
- }
-@@ -224,7 +224,7 @@ static void hv_irq_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- 		kfree(stored_entry);
- 
- 		if (status != HV_STATUS_SUCCESS) {
--			pr_debug("%s: failed to unmap, status %lld", __func__, status);
-+			hv_status_debug(status, "failed to unmap\n");
- 			return;
- 		}
- 	}
-@@ -273,7 +273,7 @@ static void hv_teardown_msi_irq(struct pci_dev *dev, struct irq_data *irqd)
- 	status = hv_unmap_msi_interrupt(dev, &old_entry);
- 
- 	if (status != HV_STATUS_SUCCESS)
--		pr_err("%s: hypercall failed, status %lld\n", __func__, status);
-+		hv_status_err(status, "\n");
- }
- 
- static void hv_msi_free_irq(struct irq_domain *domain,
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index 9804adb4cc56..885bbc3d86d8 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -684,40 +684,6 @@ u64 __weak hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
- }
- EXPORT_SYMBOL_GPL(hv_tdx_hypercall);
- 
--/* Convert a hypercall result into a linux-friendly error code. */
--int hv_result_to_errno(u64 status)
--{
--	/* hv_do_hypercall() may return U64_MAX, hypercalls aren't possible */
--	if (unlikely(status == U64_MAX))
--		return -EOPNOTSUPP;
--	/*
--	 * A failed hypercall is usually only recoverable (or loggable) near
--	 * the call site where the HV_STATUS_* code is known. So the errno
--	 * it gets converted to is not too useful further up the stack.
--	 * Provide a few mappings that could be useful, and revert to -EIO
--	 * as a fallback.
--	 */
--	switch (hv_result(status)) {
--	case HV_STATUS_SUCCESS:
--		return 0;
--	case HV_STATUS_INVALID_HYPERCALL_CODE:
--	case HV_STATUS_INVALID_HYPERCALL_INPUT:
--	case HV_STATUS_INVALID_PARAMETER:
--	case HV_STATUS_INVALID_PARTITION_ID:
--	case HV_STATUS_INVALID_VP_INDEX:
--	case HV_STATUS_INVALID_PORT_ID:
--	case HV_STATUS_INVALID_CONNECTION_ID:
--	case HV_STATUS_INVALID_LP_INDEX:
--	case HV_STATUS_INVALID_REGISTER_VALUE:
--		return -EINVAL;
--	case HV_STATUS_INSUFFICIENT_MEMORY:
--		return -ENOMEM;
--	default:
--		break;
--	}
--	return -EIO;
--}
+ 	shared_sint.vector = vmbus_interrupt;
+ 	shared_sint.masked = false;
 -
- void hv_identify_partition_type(void)
- {
- 	/* Assume guest role */
-@@ -740,3 +706,98 @@ void hv_identify_partition_type(void)
- 			pr_crit("Hyper-V: CONFIG_MSHV_ROOT not enabled!\n");
- 	}
- }
-+
-+struct hv_status_info {
-+	char *string;
-+	int errno;
-+	u16 code;
-+};
-+
-+/*
-+ * Note on the errno mappings:
-+ * A failed hypercall is usually only recoverable (or loggable) near
-+ * the call site where the HV_STATUS_* code is known. So the errno
-+ * it gets converted to is not too useful further up the stack.
-+ * Provide a few mappings that could be useful, and revert to -EIO
-+ * as a fallback.
-+ */
-+static const struct hv_status_info hv_status_infos[] = {
-+#define _STATUS_INFO(status, errno) { #status, (errno), (status) }
-+	_STATUS_INFO(HV_STATUS_SUCCESS,				0),
-+	_STATUS_INFO(HV_STATUS_INVALID_HYPERCALL_CODE,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_HYPERCALL_INPUT,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_ALIGNMENT,		-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_PARAMETER,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_ACCESS_DENIED,			-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_PARTITION_STATE,		-EIO),
-+	_STATUS_INFO(HV_STATUS_OPERATION_DENIED,		-EIO),
-+	_STATUS_INFO(HV_STATUS_UNKNOWN_PROPERTY,		-EIO),
-+	_STATUS_INFO(HV_STATUS_PROPERTY_VALUE_OUT_OF_RANGE,	-EIO),
-+	_STATUS_INFO(HV_STATUS_INSUFFICIENT_MEMORY,		-ENOMEM),
-+	_STATUS_INFO(HV_STATUS_INVALID_PARTITION_ID,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_VP_INDEX,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_NOT_FOUND,			-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_PORT_ID,			-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_CONNECTION_ID,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INSUFFICIENT_BUFFERS,		-EIO),
-+	_STATUS_INFO(HV_STATUS_NOT_ACKNOWLEDGED,		-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_VP_STATE,		-EIO),
-+	_STATUS_INFO(HV_STATUS_NO_RESOURCES,			-EIO),
-+	_STATUS_INFO(HV_STATUS_PROCESSOR_FEATURE_NOT_SUPPORTED,	-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_LP_INDEX,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_REGISTER_VALUE,		-EINVAL),
-+	_STATUS_INFO(HV_STATUS_INVALID_LP_INDEX,		-EIO),
-+	_STATUS_INFO(HV_STATUS_INVALID_REGISTER_VALUE,		-EIO),
-+	_STATUS_INFO(HV_STATUS_OPERATION_FAILED,		-EIO),
-+	_STATUS_INFO(HV_STATUS_TIME_OUT,			-EIO),
-+	_STATUS_INFO(HV_STATUS_CALL_PENDING,			-EIO),
-+	_STATUS_INFO(HV_STATUS_VTL_ALREADY_ENABLED,		-EIO),
-+#undef _STATUS_INFO
-+};
-+
-+static inline const struct hv_status_info *find_hv_status_info(u64 hv_status)
-+{
-+	int i;
-+	u16 code = hv_result(hv_status);
-+
-+	for (i = 0; i < ARRAY_SIZE(hv_status_infos); ++i) {
-+		const struct hv_status_info *info = &hv_status_infos[i];
-+
-+		if (info->code == code)
-+			return info;
-+	}
-+
-+	return NULL;
-+}
-+
-+/* Convert a hypercall result into a linux-friendly error code. */
-+int hv_result_to_errno(u64 status)
-+{
-+	const struct hv_status_info *info;
-+
-+	/* hv_do_hypercall() may return U64_MAX, hypercalls aren't possible */
-+	if (unlikely(status == U64_MAX))
-+		return -EOPNOTSUPP;
-+
-+	info = find_hv_status_info(status);
-+	if (info)
-+		return info->errno;
-+
-+	return -EIO;
-+}
-+EXPORT_SYMBOL_GPL(hv_result_to_errno);
-+
-+const char *hv_result_to_string(u64 status)
-+{
-+	const struct hv_status_info *info;
-+
-+	if (unlikely(status == U64_MAX))
-+		return "Hypercall page missing!";
-+
-+	info = find_hv_status_info(status);
-+	if (info)
-+		return info->string;
-+
-+	return "Unknown";
-+}
-+EXPORT_SYMBOL_GPL(hv_result_to_string);
-diff --git a/drivers/hv/hv_proc.c b/drivers/hv/hv_proc.c
-index 2fae18e4f7d2..605999f10e17 100644
---- a/drivers/hv/hv_proc.c
-+++ b/drivers/hv/hv_proc.c
-@@ -87,7 +87,7 @@ int hv_call_deposit_pages(int node, u64 partition_id, u32 num_pages)
- 				     page_count, 0, input_page, NULL);
- 	local_irq_restore(flags);
- 	if (!hv_result_success(status)) {
--		pr_err("Failed to deposit pages: %lld\n", status);
-+		hv_status_err(status, "\n");
- 		ret = hv_result_to_errno(status);
- 		goto err_free_allocations;
- 	}
-@@ -137,8 +137,8 @@ int hv_call_add_logical_proc(int node, u32 lp_index, u32 apic_id)
+-	/*
+-	 * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
+-	 * it doesn't provide a recommendation flag and AEOI must be disabled.
+-	 */
+-#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
+-	shared_sint.auto_eoi =
+-			!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
+-#else
+-	shared_sint.auto_eoi = 0;
+-#endif
++	shared_sint.auto_eoi = hv_recommend_using_aeoi();
+ 	hv_set_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT, shared_sint.as_uint64);
  
- 		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
- 			if (!hv_result_success(status)) {
--				pr_err("%s: cpu %u apic ID %u, %lld\n", __func__,
--				       lp_index, apic_id, status);
-+				hv_status_err(status, "cpu %u apic ID: %u\n",
-+					      lp_index, apic_id);
- 				ret = hv_result_to_errno(status);
- 			}
- 			break;
-@@ -179,8 +179,8 @@ int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u32 flags)
- 
- 		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
- 			if (!hv_result_success(status)) {
--				pr_err("%s: vcpu %u, lp %u, %lld\n", __func__,
--				       vp_index, flags, status);
-+				hv_status_err(status, "vcpu: %u, lp: %u\n",
-+					      vp_index, flags);
- 				ret = hv_result_to_errno(status);
- 			}
- 			break;
-diff --git a/drivers/iommu/hyperv-iommu.c b/drivers/iommu/hyperv-iommu.c
-index 53e4b37716af..761ab647f372 100644
---- a/drivers/iommu/hyperv-iommu.c
-+++ b/drivers/iommu/hyperv-iommu.c
-@@ -217,7 +217,7 @@ hyperv_root_ir_compose_msi_msg(struct irq_data *irq_data, struct msi_msg *msg)
- 		status = hv_unmap_ioapic_interrupt(ioapic_id, &entry);
- 
- 		if (status != HV_STATUS_SUCCESS)
--			pr_debug("%s: unexpected unmap status %lld\n", __func__, status);
-+			hv_status_debug(status, "failed to unmap\n");
- 
- 		data->entry.ioapic_rte.as_uint64 = 0;
- 		data->entry.source = 0; /* Invalid source */
-@@ -228,7 +228,7 @@ hyperv_root_ir_compose_msi_msg(struct irq_data *irq_data, struct msi_msg *msg)
- 					vector, &entry);
- 
- 	if (status != HV_STATUS_SUCCESS) {
--		pr_err("%s: map hypercall failed, status %lld\n", __func__, status);
-+		hv_status_err(status, "map failed\n");
- 		return;
- 	}
- 
+ 	/* Enable the global synic bit */
 diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index b13b0cda4ac8..250c65236919 100644
+index c3697bc0598d..8519b8ec8e9d 100644
 --- a/include/asm-generic/mshyperv.h
 +++ b/include/asm-generic/mshyperv.h
-@@ -298,6 +298,19 @@ static inline int cpumask_to_vpset_skip(struct hv_vpset *vpset,
- 	return __cpumask_to_vpset(vpset, cpus, func);
- }
+@@ -77,6 +77,19 @@ u64 hv_do_fast_hypercall16(u16 control, u64 input1, u64 input2);
+ bool hv_isolation_type_snp(void);
+ bool hv_isolation_type_tdx(void);
  
-+#define _hv_status_fmt(fmt) "%s: Hyper-V status: %#x = %s: " fmt
-+#define hv_status_printk(level, status, fmt, ...) \
-+do { \
-+	u64 __status = (status); \
-+	pr_##level(_hv_status_fmt(fmt), __func__, hv_result(__status), \
-+		   hv_result_to_string(__status), ##__VA_ARGS__); \
-+} while (0)
-+#define hv_status_err(status, fmt, ...) \
-+	hv_status_printk(err, status, fmt, ##__VA_ARGS__)
-+#define hv_status_debug(status, fmt, ...) \
-+	hv_status_printk(debug, status, fmt, ##__VA_ARGS__)
++/*
++ * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
++ * it doesn't provide a recommendation flag and AEOI must be disabled.
++ */
++static inline bool hv_recommend_using_aeoi(void)
++{
++#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
++	return !(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
++#else
++	return false;
++#endif
++}
 +
-+const char *hv_result_to_string(u64 hv_status);
- int hv_result_to_errno(u64 status);
- void hyperv_report_panic(struct pt_regs *regs, long err, bool in_die);
- bool hv_is_hyperv_initialized(void);
+ static inline struct hv_proximity_domain_info hv_numa_node_to_pxm_info(int node)
+ {
+ 	struct hv_proximity_domain_info pxm_info = {};
 -- 
 2.34.1
 
