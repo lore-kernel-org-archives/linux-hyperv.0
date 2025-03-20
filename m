@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEF32AE6A;
-	Thu, 20 Mar 2025 21:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7F62AE6A;
+	Thu, 20 Mar 2025 21:40:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742506719; cv=none; b=t7Ht1GMCk44g9JQ1DCd6I/YuuAop4s6e9nkDyHqAca4U7O+l4S/jUC22+836OtesBFc+VnBILTcF0tMfL6rmbcaHlloOXlFaQ4jdhCAcyubmIFHKX1Q2DcsFHBBUMRdHJ18AY26SZmYEy3SChpB1ANrY1jEf3Oca2EjvkfNr1yg=
+	t=1742506808; cv=none; b=neMyEFrIrvli9Gz6y32+JWsCPpA5mA572p0dXDg/DOc9qpj6hIsV489IpLkjsA4nNeuV5gq2IL59jmkaFEcrpkwsrlfEFA78LPF9YU9Xnvx1qCDaaY5XsXQ+NHVvbHbdZ/bPnTJIv0ZiKtTYfsvYFe3g9SLLSjIQjPR8haHfZLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742506719; c=relaxed/simple;
-	bh=cz3gi+SRF276xSiDrq/mSPKMDz6ayn8/HESiEH/4Df0=;
+	s=arc-20240116; t=1742506808; c=relaxed/simple;
+	bh=WHV0+xLhNNBk2yS3YlO7vsfFfNbFoq8Y8smv0FadZ1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSnITQxUFQ+fB+OrwaxTpGj4MUrMd+XGIZtupgfS39O7+at1UiWyK4dXBCPb/kWtIjiObRLcxbfxWAr+n6vHhdCXVxA7/o9vMsN9+kmSc96oHUpyyVPsa8SUhtVN/tcjLqA9dlNPo0UvzbFOhsLsbuV6ZH4cFhkUAtWMKQdcb9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WUAgt+gt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EIIvk3XQjtJ1zn0Z1Mp8XhpYIUorP0XR8V1R7zYf7/TvIrls7wUv+QOKNR9Mh2z9lts9UsL9UrgN+rI/vmKIbxNN9/bMdP6u3dnCWOu0NhjjCdshTMnUJpYdqfsxFTGlWpcAr1Y0r3eAdgU1exiz4GOFBrFWBntV2d2oIyR3lE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pce6A3hW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WUAgt+gt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E316C4CEDD;
-	Thu, 20 Mar 2025 21:38:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pce6A3hW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E73C4CEDD;
+	Thu, 20 Mar 2025 21:40:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742506719;
-	bh=cz3gi+SRF276xSiDrq/mSPKMDz6ayn8/HESiEH/4Df0=;
+	s=k20201202; t=1742506807;
+	bh=WHV0+xLhNNBk2yS3YlO7vsfFfNbFoq8Y8smv0FadZ1E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WUAgt+gtsfQV2xd8bTPvGHkdgPBfxlRH5v6rKeY+8WuF0YgPquQVnY5U3G0s+dNID
-	 cmqWQgJIIi/ZFD0GFCbxkLW5QotYa+34IZmnOI0hHesG12XcT/PsLkK2fL5rc5ZVMX
-	 cwPGwjP4geZANM1C4E0XkEqyocxG+Nlcw2a0JN45ogs3iJsmwZCPZF3lcmEMyG08d9
-	 T7Ym3mz/cBdGnTTBLVmttX67YmwhV1Zf3ujtUTgC08SVfIebmhWn2W312VTWRkQ+Jp
-	 LC8ckTnE0Y2CtnIGiPOynLjzTmwJXkaRfyuGyo/ubW7kAkzjQt1TDEEnfOR1D/ELqD
-	 MBDWzVZZtx6OA==
-Date: Thu, 20 Mar 2025 21:38:37 +0000
+	b=pce6A3hWOQR21UfWQWSa+T5gpHs+muP4dQLFYBUzjB5z8DQ9XOQ9wUFC6z2UIFnYU
+	 +EVy+12LOe0IbovHxnSsBR3Iw8CnETDJn0p7pwaNIicEpB43cPkpTVoN2VM7XjtI44
+	 mFkX6mj7UqTcg+F8PocRGmTxnld4BK9/jcEcoAYzwZYU8i+uUomcU4JCr72ZyDUhGp
+	 3bby3uJ9kkPggMrLA8EOD35x7gjliKkF7KBkALMMLozEXb/prAd3Lk91XU5Dfj/qDC
+	 9y72WtIjt5wJbOODpxHEgzpD9UWRdXHoVT7gqMzneTrvvTQ4gc3R5IaDoVnXuuqnX+
+	 o9ocEA3d4aL9Q==
+Date: Thu, 20 Mar 2025 21:40:05 +0000
 From: Wei Liu <wei.liu@kernel.org>
-To: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	wei.liu@kernel.org, mhklinux@outlook.com, kys@microsoft.com,
-	haiyangz@microsoft.com, decui@microsoft.com
-Subject: Re: [PATCH] fixup! Drivers: hv: Introduce mshv_root module to expose
- /dev/mshv to VMMs
-Message-ID: <Z9yK3R26oNIH5Kox@liuwe-devbox-ubuntu-v2.lamzopl0uupeniq2etz1fddiyg.xx.internal.cloudapp.net>
-References: <1742492693-21960-1-git-send-email-nunodasneves@linux.microsoft.com>
+To: mhklinux@outlook.com
+Cc: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, tglx@linutronix.de, mingo@redhat.com,
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+	hpa@zytor.com, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] x86/hyperv: Add comments about hv_vpset and var size
+ hypercall input args
+Message-ID: <Z9yLNUEEutvjD6HZ@liuwe-devbox-ubuntu-v2.lamzopl0uupeniq2etz1fddiyg.xx.internal.cloudapp.net>
+References: <20250318214919.958953-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -44,9 +46,25 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1742492693-21960-1-git-send-email-nunodasneves@linux.microsoft.com>
+In-Reply-To: <20250318214919.958953-1-mhklinux@outlook.com>
 
-On Thu, Mar 20, 2025 at 10:44:53AM -0700, Nuno Das Neves wrote:
-> Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
+On Tue, Mar 18, 2025 at 02:49:19PM -0700, mhkelley58@gmail.com wrote:
+> From: Michael Kelley <mhklinux@outlook.com>
+> 
+> Current code varies in how the size of the variable size input header
+> for hypercalls is calculated when the input contains struct hv_vpset.
+> Surprisingly, this variation is correct, as different hypercalls make
+> different choices for what portion of struct hv_vpset is treated as part
+> of the variable size input header. The Hyper-V TLFS is silent on these
+> details, but the behavior has been confirmed with Hyper-V developers.
+> 
+> To avoid future confusion about these differences, add comments to
+> struct hv_vpset, and to hypercall call sites with input that contains
+> a struct hv_vpset. The comments describe the overall situation and
+> the calculation that should be used at each particular call site.
+> 
+> No functional change as only comments are updated.
+> 
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 
-Thanks. I squashed this patch into the one that introduced the driver.
+Applied to hyperv-next.	Thanks.
