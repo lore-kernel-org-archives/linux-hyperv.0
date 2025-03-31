@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F9F1D88D7;
-	Mon, 31 Mar 2025 08:24:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2986C41AAC;
+	Mon, 31 Mar 2025 08:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743409454; cv=none; b=RpfdXxbc4bPh4Hcsm12patcrihjZ4hfyT9nWIy83sdRDnPpkHBBvMFt3ZTopZbazJJv5ChW3kE7UGEQfJ2jBJzFDdQOjbcwoFlVOLnWMA1qpFPBBI8hatGj0X4Lkf7L6KNckDS1xGBOQXUz4jCdnRFJqLcKxhF0dpk/1+O49pbQ=
+	t=1743409456; cv=none; b=mi3Zx2aE/ASD/VCwNlT97SoMiMZreK7klhiV7+h7Jnl1YPt8Nx1da+eFubkP65DjUcv3Jcu/EyEv49rE07kTVUyxigtAjw/yu0Ikn4IDnpdaMDAe8xCT1hEl7zTFt9p1wQWPNgRE8MjRsNJvbl3qrmuBBPvnw0nkft5OPwi69r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743409454; c=relaxed/simple;
-	bh=gbh0m3B09/512sJ59MDydTRVOSmVcP06GMLUAWGZ7us=;
+	s=arc-20240116; t=1743409456; c=relaxed/simple;
+	bh=BmINf9YXq0zwgNkhB9uzoU9LYnCfIvTtplUzvx0otZ8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hVV/xFBIgjkbBEuOQMPu5tN8CcrSx1LZPuT9Pf4Y5ZGjeMLglD/L2DVrhYCozktoEAKDtIJn4BQoedasytke4B4fpA+FMI/veDilGuuZGXjE9YXbMYEnyUGQ65yRYvnpAGpTQocOv3AIH6ZpZD58rH+ncAdfh5vRY5Syparxses=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=D7JCbMeX; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=r8BVYpueX0/HcRm+t31YJ2rLhGgjyUmPB//An8duFl6moR4el/DGQjFTe6U5wzQq/mK8arGJLyXl7qLL6DzbVL4Yy038Zosb7uTALTD0hozQuFh9gLJRtQASY/EWWgilBZ10SL/yviPn+sw2RMNw3FIGbVJ9SL2JABYJz0ZcNWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=GMjpnnYX; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="D7JCbMeX"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="GMjpnnYX"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp0E3171319
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp023171319
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 31 Mar 2025 01:23:26 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp0E3171319
+	Mon, 31 Mar 2025 01:23:02 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp023171319
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743409408;
-	bh=tIAU2yy9AOedAvkyMYNrk111yRXguMSruNF4FMMzeHg=;
+	s=2025032001; t=1743409384;
+	bh=m4M8UGMKKd7tRa3nJstnKZwTxnwNx/YpFEKHVX35S1M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D7JCbMeXqweNh4pJPPw3+DgPKkMbuFPHUf0gRRzqUD2N/ecx68NbyfGuhSjPaQoWY
-	 mPmtnI1wTz8QnIJupt2R52o2elidYMFxQqTBQit0V10L9BDFmClZT/ppYUt5in2qs4
-	 e9j2ZDUURdepMNCTtW+l4EcDMhlQH5vFCF5V7jlR9s/o3tpqLx+Hqmm4jgFgtPgYf1
-	 eoMDOqWoJNnyPqToiT5yyUynx2AtKyvNZcR+n2ZUNik3Ln6pveOKPIJCouqGM6x74X
-	 1pVyDGySW5ixXeseTIbyEzgsxuHGPcgoTg9cznUx900NH2wgPPUTESijAYougzG4f5
-	 SiD+uPwm/kYOQ==
+	b=GMjpnnYXMYpU67NGz93c7h9ws4Z3p3rE979fcI5Xs1NdNl+Td/mpmwbnPiYulmfj8
+	 b8fSVsdt2ad5j0QSex3qUA/BNF0M8ziPcP4Mkz38x3S+XUwD4rvbU8+eDWfUPxnO7E
+	 Y70mhL72N7fvX3WqwqaTorgtiRS94zS/fVo8nOEjFVs9kCAUlFTEOFTIKmdPh072el
+	 C2aXZqY89xdoTLHuywMC03Z51D76GbRxilkwQRwDPUqIeAdLHWceDRXcmPCxXB7B88
+	 vzqb8gdBtHAv76CahwdMT05nUSEwKm9KaXVsW8BCSDJ3odt76mR0w6Fy90TxcG4WqJ
+	 QtAekxEcU2fGw==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
         linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
@@ -49,9 +49,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
         seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
         kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
-Subject: [RFC PATCH v1 14/15] x86/extable: Add support for the immediate form MSR instructions
-Date: Mon, 31 Mar 2025 01:22:50 -0700
-Message-ID: <20250331082251.3171276-15-xin@zytor.com>
+Subject: [RFC PATCH v1 02/15] x86/msr: Replace __rdmsr() with native_rdmsrl()
+Date: Mon, 31 Mar 2025 01:22:38 -0700
+Message-ID: <20250331082251.3171276-3-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
 References: <20250331082251.3171276-1-xin@zytor.com>
@@ -63,102 +63,204 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+__rdmsr() is the lowest level primitive MSR read API, and its direct
+use is NOT preferred.  Use its wrapper function native_rdmsrl() instead.
+
+No functional change intended.
+
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
- arch/x86/mm/extable.c | 59 ++++++++++++++++++++++++++++++-------------
- 1 file changed, 41 insertions(+), 18 deletions(-)
+ arch/x86/coco/sev/core.c                  | 2 +-
+ arch/x86/events/amd/brs.c                 | 2 +-
+ arch/x86/hyperv/hv_vtl.c                  | 4 ++--
+ arch/x86/hyperv/ivm.c                     | 2 +-
+ arch/x86/include/asm/mshyperv.h           | 2 +-
+ arch/x86/include/asm/msr.h                | 5 +++++
+ arch/x86/kernel/cpu/common.c              | 2 +-
+ arch/x86/kernel/cpu/mce/core.c            | 4 ++--
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 2 +-
+ arch/x86/kvm/vmx/vmx.c                    | 4 ++--
+ arch/x86/mm/mem_encrypt_identity.c        | 4 ++--
+ 11 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/arch/x86/mm/extable.c b/arch/x86/mm/extable.c
-index eb9331240a88..56138c0762b7 100644
---- a/arch/x86/mm/extable.c
-+++ b/arch/x86/mm/extable.c
-@@ -164,31 +164,54 @@ static bool ex_handler_uaccess(const struct exception_table_entry *fixup,
- 	return ex_handler_default(fixup, regs);
- }
+diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
+index b0c1a7a57497..d38e6f0ff9c4 100644
+--- a/arch/x86/coco/sev/core.c
++++ b/arch/x86/coco/sev/core.c
+@@ -276,7 +276,7 @@ static noinstr struct ghcb *__sev_get_ghcb(struct ghcb_state *state)
  
-+#ifdef CONFIG_X86_64
-+static const u8 msr_imm_insn_prefix[] = { 0xc4, 0xe7 };
-+#endif
-+
- static bool ex_handler_msr(const struct exception_table_entry *fixup,
--			   struct pt_regs *regs, bool wrmsr, bool safe, int reg)
-+			   struct pt_regs *regs, bool wrmsr, bool safe)
+ static inline u64 sev_es_rd_ghcb_msr(void)
  {
-+	/*
-+	 * To ensure consistency with the existing RDMSR and WRMSR(NS), the register
-+	 * operand of the immediate form MSR access instructions is ALWAYS encoded as
-+	 * RAX in <asm/msr.h> for the MSR value to be written or read.
-+	 *
-+	 * Full decoder for the immediate form MSR access instructions looks overkill.
-+	 */
-+	bool is_imm_insn;
-+	u32 msr;
-+	u64 msr_val;
-+
-+#ifdef CONFIG_X86_64
-+	is_imm_insn = !memcmp((void *)regs->ip, msr_imm_insn_prefix, sizeof(msr_imm_insn_prefix));
-+#else
-+	is_imm_insn = false;
-+#endif
-+
-+	if (is_imm_insn) {
-+		u8 *insn = (u8 *)regs->ip;
-+
-+		msr = insn[5] | (insn[6] << 8) | (insn[7] << 16) | (insn[8] << 24);
-+	} else {
-+		msr = (u32)regs->cx;
-+	}
-+
- 	if (__ONCE_LITE_IF(!safe && wrmsr)) {
--		pr_warn("unchecked MSR access error: WRMSR to 0x%x (tried to write 0x%08x%08x) at rIP: 0x%lx (%pS)\n",
--			(unsigned int)regs->cx, (unsigned int)regs->dx,
--			(unsigned int)regs->ax,  regs->ip, (void *)regs->ip);
-+		msr_val = regs->ax;
-+		if (!is_imm_insn)
-+			msr_val |= (u64)regs->dx << 32;
-+
-+		pr_warn("unchecked MSR access error: WRMSR to 0x%x (tried to write 0x%016llx) at rIP: 0x%lx (%pS)\n",
-+			msr, msr_val, regs->ip, (void *)regs->ip);
- 		show_stack_regs(regs);
- 	}
- 
- 	if (__ONCE_LITE_IF(!safe && !wrmsr)) {
- 		pr_warn("unchecked MSR access error: RDMSR from 0x%x at rIP: 0x%lx (%pS)\n",
--			(unsigned int)regs->cx, regs->ip, (void *)regs->ip);
-+			msr, regs->ip, (void *)regs->ip);
- 		show_stack_regs(regs);
- 	}
- 
--	if (!wrmsr) {
--		/* Pretend that the read succeeded and returned 0. */
--		regs->ax = 0;
--		regs->dx = 0;
--	}
--
--	if (safe)
--		*pt_regs_nr(regs, reg) = -EIO;
--
- 	return ex_handler_default(fixup, regs);
+-	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
++	return native_rdmsrl(MSR_AMD64_SEV_ES_GHCB);
  }
  
-@@ -366,13 +389,13 @@ int fixup_exception(struct pt_regs *regs, int trapnr, unsigned long error_code,
- 		case EX_TYPE_BPF:
- 			return ex_handler_bpf(e, regs);
- 		case EX_TYPE_WRMSR:
--			return ex_handler_msr(e, regs, true, false, reg);
-+			return ex_handler_msr(e, regs, true, false);
- 		case EX_TYPE_RDMSR:
--			return ex_handler_msr(e, regs, false, false, reg);
-+			return ex_handler_msr(e, regs, false, false);
- 		case EX_TYPE_WRMSR_SAFE:
--			return ex_handler_msr(e, regs, true, true, reg);
-+			return ex_handler_msr(e, regs, true, true);
- 		case EX_TYPE_RDMSR_SAFE:
--			return ex_handler_msr(e, regs, false, true, reg);
-+			return ex_handler_msr(e, regs, false, true);
- 		case EX_TYPE_WRMSR_IN_MCE:
- 			ex_handler_msr_mce(regs, true);
- 			break;
+ static __always_inline void sev_es_wr_ghcb_msr(u64 val)
+diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
+index 4a47f3c108de..3ad7d87b5403 100644
+--- a/arch/x86/events/amd/brs.c
++++ b/arch/x86/events/amd/brs.c
+@@ -49,7 +49,7 @@ static __always_inline void set_debug_extn_cfg(u64 val)
+ 
+ static __always_inline u64 get_debug_extn_cfg(void)
+ {
+-	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
++	return native_rdmsrl(MSR_AMD_DBG_EXTN_CFG);
+ }
+ 
+ static bool __init amd_brs_detect(void)
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 13242ed8ff16..4a27e475d35f 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -149,11 +149,11 @@ static int hv_vtl_bringup_vcpu(u32 target_vp_index, int cpu, u64 eip_ignored)
+ 	input->vp_context.rip = rip;
+ 	input->vp_context.rsp = rsp;
+ 	input->vp_context.rflags = 0x0000000000000002;
+-	input->vp_context.efer = __rdmsr(MSR_EFER);
++	input->vp_context.efer = native_rdmsrl(MSR_EFER);
+ 	input->vp_context.cr0 = native_read_cr0();
+ 	input->vp_context.cr3 = __native_read_cr3();
+ 	input->vp_context.cr4 = native_read_cr4();
+-	input->vp_context.msr_cr_pat = __rdmsr(MSR_IA32_CR_PAT);
++	input->vp_context.msr_cr_pat = native_rdmsrl(MSR_IA32_CR_PAT);
+ 	input->vp_context.idtr.limit = idt_ptr.size;
+ 	input->vp_context.idtr.base = idt_ptr.address;
+ 	input->vp_context.gdtr.limit = gdt_ptr.size;
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index 77bf05f06b9e..95cf2113a72a 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -110,7 +110,7 @@ u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size)
+ 
+ static inline u64 rd_ghcb_msr(void)
+ {
+-	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
++	return native_rdmsrl(MSR_AMD64_SEV_ES_GHCB);
+ }
+ 
+ static inline void wr_ghcb_msr(u64 val)
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index bab5ccfc60a7..2ca6ef89530d 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -304,7 +304,7 @@ void hv_set_non_nested_msr(unsigned int reg, u64 value);
+ 
+ static __always_inline u64 hv_raw_get_msr(unsigned int reg)
+ {
+-	return __rdmsr(reg);
++	return native_rdmsrl(reg);
+ }
+ 
+ #else /* CONFIG_HYPERV */
+diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+index 27ea8793705d..fb3d7c4cb774 100644
+--- a/arch/x86/include/asm/msr.h
++++ b/arch/x86/include/asm/msr.h
+@@ -106,6 +106,11 @@ do {							\
+ 	(void)((val2) = (u32)(__val >> 32));		\
+ } while (0)
+ 
++static __always_inline u64 native_rdmsrl(const u32 msr)
++{
++	return __rdmsr(msr);
++}
++
+ #define native_wrmsr(msr, low, high)			\
+ 	__wrmsr(msr, low, high)
+ 
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 12126adbc3a9..a268db71d944 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -164,7 +164,7 @@ static void ppin_init(struct cpuinfo_x86 *c)
+ 
+ 	/* Is the enable bit set? */
+ 	if (val & 2UL) {
+-		c->ppin = __rdmsr(info->msr_ppin);
++		c->ppin = native_rdmsrl(info->msr_ppin);
+ 		set_cpu_cap(c, info->feature);
+ 		return;
+ 	}
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 0eaeaba12df2..0e050af723f5 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -121,7 +121,7 @@ void mce_prep_record_common(struct mce *m)
+ {
+ 	m->cpuid	= cpuid_eax(1);
+ 	m->cpuvendor	= boot_cpu_data.x86_vendor;
+-	m->mcgcap	= __rdmsr(MSR_IA32_MCG_CAP);
++	m->mcgcap	= native_rdmsrl(MSR_IA32_MCG_CAP);
+ 	/* need the internal __ version to avoid deadlocks */
+ 	m->time		= __ktime_get_real_seconds();
+ }
+@@ -1298,7 +1298,7 @@ static noinstr bool mce_check_crashing_cpu(void)
+ 	    (crashing_cpu != -1 && crashing_cpu != cpu)) {
+ 		u64 mcgstatus;
+ 
+-		mcgstatus = __rdmsr(MSR_IA32_MCG_STATUS);
++		mcgstatus = native_rdmsrl(MSR_IA32_MCG_STATUS);
+ 
+ 		if (boot_cpu_data.x86_vendor == X86_VENDOR_ZHAOXIN) {
+ 			if (mcgstatus & MCG_STATUS_LMCES)
+diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+index 55536120c8d1..675fd9f93e33 100644
+--- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
++++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
+@@ -480,7 +480,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
+ 	 * the buffer and evict pseudo-locked memory read earlier from the
+ 	 * cache.
+ 	 */
+-	saved_msr = __rdmsr(MSR_MISC_FEATURE_CONTROL);
++	saved_msr = native_rdmsrl(MSR_MISC_FEATURE_CONTROL);
+ 	native_wrmsrl(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
+ 	closid_p = this_cpu_read(pqr_state.cur_closid);
+ 	rmid_p = this_cpu_read(pqr_state.cur_rmid);
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 5c5766467a61..2a24060397cd 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -380,7 +380,7 @@ static __always_inline void vmx_disable_fb_clear(struct vcpu_vmx *vmx)
+ 	if (!vmx->disable_fb_clear)
+ 		return;
+ 
+-	msr = __rdmsr(MSR_IA32_MCU_OPT_CTRL);
++	msr = native_rdmsrl(MSR_IA32_MCU_OPT_CTRL);
+ 	msr |= FB_CLEAR_DIS;
+ 	native_wrmsrl(MSR_IA32_MCU_OPT_CTRL, msr);
+ 	/* Cache the MSR value to avoid reading it later */
+@@ -7307,7 +7307,7 @@ void noinstr vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx,
+ 		return;
+ 
+ 	if (flags & VMX_RUN_SAVE_SPEC_CTRL)
+-		vmx->spec_ctrl = __rdmsr(MSR_IA32_SPEC_CTRL);
++		vmx->spec_ctrl = native_rdmsrl(MSR_IA32_SPEC_CTRL);
+ 
+ 	/*
+ 	 * If the guest/host SPEC_CTRL values differ, restore the host value.
+diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
+index 5eecdd92da10..3005b07a0016 100644
+--- a/arch/x86/mm/mem_encrypt_identity.c
++++ b/arch/x86/mm/mem_encrypt_identity.c
+@@ -526,7 +526,7 @@ void __head sme_enable(struct boot_params *bp)
+ 	me_mask = 1UL << (ebx & 0x3f);
+ 
+ 	/* Check the SEV MSR whether SEV or SME is enabled */
+-	RIP_REL_REF(sev_status) = msr = __rdmsr(MSR_AMD64_SEV);
++	RIP_REL_REF(sev_status) = msr = native_rdmsrl(MSR_AMD64_SEV);
+ 	feature_mask = (msr & MSR_AMD64_SEV_ENABLED) ? AMD_SEV_BIT : AMD_SME_BIT;
+ 
+ 	/*
+@@ -557,7 +557,7 @@ void __head sme_enable(struct boot_params *bp)
+ 			return;
+ 
+ 		/* For SME, check the SYSCFG MSR */
+-		msr = __rdmsr(MSR_AMD64_SYSCFG);
++		msr = native_rdmsrl(MSR_AMD64_SYSCFG);
+ 		if (!(msr & MSR_AMD64_SYSCFG_MEM_ENCRYPT))
+ 			return;
+ 	}
 -- 
 2.49.0
 
