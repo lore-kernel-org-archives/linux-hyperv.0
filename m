@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A511EA7D7;
-	Mon, 31 Mar 2025 08:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C4D1EB5CA;
+	Mon, 31 Mar 2025 08:24:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743409465; cv=none; b=qRVE1pZPaIBYHTJ+0DOcGy9L5vPOJs4jXsd0IgqyMe78rm7Z8vPTLvkL4EcRQWXLX7ne07EmF1/yY6njGtkSzWcnTum+HoXBMGo32lVydD/uBToirjJ1HkDpgHU//R8nJLl8gSK+rCMB8V1XY2w7EgJFyWt5n2fXfLX7QXsLHMo=
+	t=1743409466; cv=none; b=u5f6pP53XCtskYLwDh4x7r02vYZOFStTcl1mXs/nvwnJ5jPcUD0mqHlYVZVlRaonfAE3HPz/hFqGRoq3kW1bebYWt//djE3viHTSrQHBTXwHOTlE6E/GUXJlPF85TMN9T0QPIOMD7aggyF9kuXkwKnrTwDle0zn9aE3L3tbg/LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743409465; c=relaxed/simple;
-	bh=a/q0kPgNYF3+FXDewvszN3tEL/ZiGdovN3OV/WHf8Rc=;
+	s=arc-20240116; t=1743409466; c=relaxed/simple;
+	bh=FN5g8giJJxRRxCOVXKjUG367o7XXihVRjnOAVof1uB0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BehquKuiQFeIRuSVX2Ccc1YqoIJBh7OejEYGfIL0ivQalJFaHFBJa0Ck7nw5Y9v2I/aqNJyvvM4Q5hQjOdrcqJ70S6rwDSHbWqiltxgjvw/HQp5M/osx2u+VjicGcbSkOJ2o+0vwYo/wvGquINpEae4pULA6wGyMnpK7gYE0NuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fYJJM8Xj; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=WSa83U4b6t0/eOTnBjucFOxOxCDUgTxSlT0C+Mp6OecvukFNRzH5yjLMvdAhmDQ75eVVcXcxhyCBojDRK8j5v8FjND5/ygsoo0BrUglwdBurlfhzNnhEI7QmKlGLUKrik+KoujYT2WnmDUt36zBleJzdOjekAWEcWs7M/00sDKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=jg4QkVHW; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fYJJM8Xj"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="jg4QkVHW"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp0A3171319
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp083171319
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 31 Mar 2025 01:23:18 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp0A3171319
+	Mon, 31 Mar 2025 01:23:14 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp083171319
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743409400;
-	bh=K1q53eo/E11QGaBNCmuuiEewoEjYIhJFKtCNyzdMWfk=;
+	s=2025032001; t=1743409396;
+	bh=LUf6J4OHKn6Yqz/cuiPFW5gyz7UWQzJR/hPRWef8Heg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fYJJM8Xj8oLRQMrpq1oZ9Rnts/L5sB1pkc/gbLLiuGLqwOG9qwxAGu/4BG68QY0E9
-	 wfBdSwh4eQvvh2/Y3Z6WaX7t7pE5x/AyF9EYYVoeYUsrgjy5aQsLhKl3r8wbyqsS8o
-	 qh1pRd13tdt4PmpmLxqluvo/m8RcpuW2x76HH/JRrb1yV8WiUIE4hCpEtDNED/Yh+6
-	 sNVHvloh/CyqgKztI+Tc3MQqU27RJiZ6HQl+pwJmYWKADo2kfVmQTIr7agdhUDKEDb
-	 anOJ6HwZplUeZ1KVIk1BWCIusZV2JYQ1KiyYhKxPqQ6qOrnhQXCF8X6edaiE7NigVe
-	 yW2IFXjim5dUQ==
+	b=jg4QkVHWmuNxTSaNr3aLQCDAx0pfc5MzZ6zHM+wqM8DSTcQ3v/RsKHxoUQpqWtNbJ
+	 m458JdmtvOkoM5D9ageqtKl9oHpcXzkGBie1zx4Z64jnAGFmPZKoyTrDoCRBO1dSLT
+	 mR0rsGe9H8URcFY2CBgpai+T0h9txzTfzfHRjKd6U95Ungph1Kwv+yEPzL4fhScW5l
+	 Ab8OKE5fJ02Tagt2yFWbB7GGJh/377QIshI1xuLWxMSYTo8yAwJfG0LGkBemhVlVjc
+	 tTZHvLjVyjNvdRXxd7vUQNm4YDAIWKVIT4qPZoTRRR4mD09RG0QuehmydgeXZydpxd
+	 2Z/C61/mQ2MUw==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
         linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
@@ -49,9 +49,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
         seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
         kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
-Subject: [RFC PATCH v1 10/15] KVM: VMX: Use WRMSRNS or its immediate form when available
-Date: Mon, 31 Mar 2025 01:22:46 -0700
-Message-ID: <20250331082251.3171276-11-xin@zytor.com>
+Subject: [RFC PATCH v1 08/15] x86/cpufeatures: Add a CPU feature bit for MSR immediate form instructions
+Date: Mon, 31 Mar 2025 01:22:44 -0700
+Message-ID: <20250331082251.3171276-9-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
 References: <20250331082251.3171276-1-xin@zytor.com>
@@ -63,73 +63,62 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+The immediate form of MSR access instructions are primarily motivated
+by performance, not code size: by having the MSR number in an immediate,
+it is available *much* earlier in the pipeline, which allows the
+hardware much more leeway about how a particular MSR is handled.
+
+Use a scattered CPU feature bit for MSR immediate form instructions.
+
+Suggested-by: Borislav Petkov <bp@alien8.de>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
- arch/x86/include/asm/msr-index.h |  6 ++++++
- arch/x86/kvm/vmx/vmenter.S       | 28 ++++++++++++++++++++++++----
- 2 files changed, 30 insertions(+), 4 deletions(-)
+ arch/x86/include/asm/cpufeatures.h | 19 ++++++++++---------
+ arch/x86/kernel/cpu/scattered.c    |  1 +
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index e6134ef2263d..04244c3ba374 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -1226,4 +1226,10 @@
- 						* a #GP
- 						*/
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 6c2c152d8a67..a742a3d34712 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -472,15 +472,16 @@
+  *
+  * Reuse free bits when adding new feature flags!
+  */
+-#define X86_FEATURE_AMD_LBR_PMC_FREEZE	(21*32+ 0) /* "amd_lbr_pmc_freeze" AMD LBR and PMC Freeze */
+-#define X86_FEATURE_CLEAR_BHB_LOOP	(21*32+ 1) /* Clear branch history at syscall entry using SW loop */
+-#define X86_FEATURE_BHI_CTRL		(21*32+ 2) /* BHI_DIS_S HW control available */
+-#define X86_FEATURE_CLEAR_BHB_HW	(21*32+ 3) /* BHI_DIS_S HW control enabled */
+-#define X86_FEATURE_CLEAR_BHB_LOOP_ON_VMEXIT (21*32+ 4) /* Clear branch history at vmexit using SW loop */
+-#define X86_FEATURE_AMD_FAST_CPPC	(21*32 + 5) /* Fast CPPC */
+-#define X86_FEATURE_AMD_HETEROGENEOUS_CORES (21*32 + 6) /* Heterogeneous Core Topology */
+-#define X86_FEATURE_AMD_WORKLOAD_CLASS	(21*32 + 7) /* Workload Classification */
+-#define X86_FEATURE_PREFER_YMM		(21*32 + 8) /* Avoid ZMM registers due to downclocking */
++#define X86_FEATURE_AMD_LBR_PMC_FREEZE		(21*32+ 0) /* "amd_lbr_pmc_freeze" AMD LBR and PMC Freeze */
++#define X86_FEATURE_CLEAR_BHB_LOOP		(21*32+ 1) /* Clear branch history at syscall entry using SW loop */
++#define X86_FEATURE_BHI_CTRL			(21*32+ 2) /* BHI_DIS_S HW control available */
++#define X86_FEATURE_CLEAR_BHB_HW		(21*32+ 3) /* BHI_DIS_S HW control enabled */
++#define X86_FEATURE_CLEAR_BHB_LOOP_ON_VMEXIT	(21*32+ 4) /* Clear branch history at vmexit using SW loop */
++#define X86_FEATURE_AMD_FAST_CPPC		(21*32+ 5) /* Fast CPPC */
++#define X86_FEATURE_AMD_HETEROGENEOUS_CORES	(21*32+ 6) /* Heterogeneous Core Topology */
++#define X86_FEATURE_AMD_WORKLOAD_CLASS		(21*32+ 7) /* Workload Classification */
++#define X86_FEATURE_PREFER_YMM			(21*32+ 8) /* Avoid ZMM registers due to downclocking */
++#define X86_FEATURE_MSR_IMM			(21*32+ 9) /* MSR immediate form instructions */
  
-+/* Instruction opcode for WRMSRNS supported in binutils >= 2.40 */
-+#define ASM_WRMSRNS		_ASM_BYTES(0x0f,0x01,0xc6)
-+
-+/* Instruction opcode for the immediate form RDMSR/WRMSRNS */
-+#define ASM_WRMSRNS_RAX		_ASM_BYTES(0xc4,0xe7,0x7a,0xf6,0xc0)
-+
- #endif /* _ASM_X86_MSR_INDEX_H */
-diff --git a/arch/x86/kvm/vmx/vmenter.S b/arch/x86/kvm/vmx/vmenter.S
-index f6986dee6f8c..9fae43723c44 100644
---- a/arch/x86/kvm/vmx/vmenter.S
-+++ b/arch/x86/kvm/vmx/vmenter.S
-@@ -64,6 +64,29 @@
- 	RET
- .endm
- 
-+/*
-+ * Write EAX to MSR_IA32_SPEC_CTRL.
-+ *
-+ * Choose the best WRMSR instruction based on availability.
-+ *
-+ * Replace with 'wrmsrns' and 'wrmsrns %rax, $MSR_IA32_SPEC_CTRL' once binutils support them.
-+ */
-+.macro WRITE_EAX_TO_MSR_IA32_SPEC_CTRL
-+	ALTERNATIVE_2 __stringify(mov $MSR_IA32_SPEC_CTRL, %ecx;		\
-+				  xor %edx, %edx;				\
-+				  mov %edi, %eax;				\
-+				  ds wrmsr),					\
-+		      __stringify(mov $MSR_IA32_SPEC_CTRL, %ecx;		\
-+				  xor %edx, %edx;				\
-+				  mov %edi, %eax;				\
-+				  ASM_WRMSRNS),					\
-+		      X86_FEATURE_WRMSRNS,					\
-+		      __stringify(xor %_ASM_AX, %_ASM_AX;			\
-+				  mov %edi, %eax;				\
-+				  ASM_WRMSRNS_RAX; .long MSR_IA32_SPEC_CTRL),	\
-+		      X86_FEATURE_MSR_IMM
-+.endm
-+
- .section .noinstr.text, "ax"
- 
- /**
-@@ -123,10 +146,7 @@ SYM_FUNC_START(__vmx_vcpu_run)
- 	movl PER_CPU_VAR(x86_spec_ctrl_current), %esi
- 	cmp %edi, %esi
- 	je .Lspec_ctrl_done
--	mov $MSR_IA32_SPEC_CTRL, %ecx
--	xor %edx, %edx
--	mov %edi, %eax
--	wrmsr
-+	WRITE_EAX_TO_MSR_IA32_SPEC_CTRL
- 
- .Lspec_ctrl_done:
- 
+ /*
+  * BUG word(s)
+diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+index 16f3ca30626a..9eda656e9793 100644
+--- a/arch/x86/kernel/cpu/scattered.c
++++ b/arch/x86/kernel/cpu/scattered.c
+@@ -27,6 +27,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+ 	{ X86_FEATURE_APERFMPERF,		CPUID_ECX,  0, 0x00000006, 0 },
+ 	{ X86_FEATURE_EPB,			CPUID_ECX,  3, 0x00000006, 0 },
+ 	{ X86_FEATURE_INTEL_PPIN,		CPUID_EBX,  0, 0x00000007, 1 },
++	{ X86_FEATURE_MSR_IMM,			CPUID_ECX,  5, 0x00000007, 1 },
+ 	{ X86_FEATURE_RRSBA_CTRL,		CPUID_EDX,  2, 0x00000007, 2 },
+ 	{ X86_FEATURE_BHI_CTRL,			CPUID_EDX,  4, 0x00000007, 2 },
+ 	{ X86_FEATURE_CQM_LLC,			CPUID_EDX,  1, 0x0000000f, 0 },
 -- 
 2.49.0
 
