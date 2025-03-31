@@ -1,249 +1,137 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF3D273F9;
-	Mon, 31 Mar 2025 06:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298B215624D;
+	Mon, 31 Mar 2025 08:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743401691; cv=none; b=FoL4qHy/hSWKAZ1HHF+kOPs8Veyguwlg5c5Zn4Ada1oWzOnkc+OzrSQ11quuR2Xeo7h2Re3Y/WyJKgZzncGzCDyv+jpS395NRjVIG6NozCt2UuNYS1Vpa0apNQEn8WaAh0ejXwV5YO7lBPo8v75eaVlv/VbsWBHYJoSxMPhu2D8=
+	t=1743409454; cv=none; b=NvxnjxFZkujXxJj4T043/f+JkekR4VRwz9E0GkdljnxIwA/FjUeBXcLxK+q/hKd4xNPy8Ri7EazyV2VlT0iWmfkoBXMQh06S7Faq+uowv+OA1yEANneonkU7dWT2ZhCkjaM25MnuWYh+KLpA7hL/7TCrMEtAvt7dN8KwZC56hGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743401691; c=relaxed/simple;
-	bh=OwwpOitkg48CtLBrxIGOwMiIEwZRNT8nD4QL9XiRclk=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=RT78ou/RZ3PqqpBHB5b+6RD7h8MZV0XatGL05dvMKAHxvDq6AHCibD2HlINKxYG3ebInQfVCYwxsiYQMPU3wf8wezx190mS0cIs6pkbcbRQ6hknZQf6UQVbBIMQNFTRApwg7sFTzc5hmTyoYkVUBIpO3hCHZAvW9/PB6ZdEyTsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=p6SEC91M; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1743409454; c=relaxed/simple;
+	bh=MlzZP2PcWDZrFa9hDnXv30fqYMM04NkLvN5K6Ig/4KA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=exGMydajc7kaCtwk5Oy+QFAR2wOShgW/Q1+m3uC+iWvj39z0eW1zMljZ9XrOVDf3cnDfY1034rtzFKEThammFXytTUs+jv5UVbUaNe4NL5wlOd9IOp8HJixs5tk/vvtOWUufC1pYoQ3tEQtgaJIuzUwhcbxOmdpOzMw0nqzvfsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=m3OGyhoJ; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="p6SEC91M"
-Received: by linux.microsoft.com (Postfix, from userid 1134)
-	id D3184211251D; Sun, 30 Mar 2025 23:14:49 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D3184211251D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1743401689;
-	bh=bGKOKa9F8eNWrGg8tv+FBjjf0mVGzQFU1uMT7463nBI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=p6SEC91M3coGJJg3bR6nVytVawOqy12NKihmtpKK6wSr5/SqnMWM6A3RXqu30mNnW
-	 zjGIhdKQFIyqXJF9pGOcp4hCTD3q/8kEZ1cvHlkNMTPqxkTbqWrUt8CrYVweK/XFFJ
-	 Gt83dm8ViklIsxR67udRtBV7zpgmqtKcgFNYdXe4=
-From: Shradha Gupta <shradhagupta@linux.microsoft.com>
-To: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Shradha Gupta <shradhagupta@microsoft.com>
-Subject: [PATCH v2] hv/hv_kvp_daemon: Enable debug logs for hv_kvp_daemon
-Date: Sun, 30 Mar 2025 23:14:48 -0700
-Message-Id: <1743401688-1573-1-git-send-email-shradhagupta@linux.microsoft.com>
-X-Mailer: git-send-email 1.8.3.1
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="m3OGyhoJ"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp093171319
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 31 Mar 2025 01:23:16 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp093171319
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025032001; t=1743409398;
+	bh=XaAm3SgdeuQpqxiLf3TgiBnvvEMb/sqRjazcaLW8DyU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m3OGyhoJNr0Zsep5p1ViUs89IdqwpoEtbWuo2OsC8y9JAzzZbZXvjUjaRqzx5AUYK
+	 lJcmsGoVuGakNOlQ489XYhpn7UoCG2qfRQMcP3vMYw+NnWAKYOXHRdzMSDVDxQLIJJ
+	 kKOmdnvGQYVe7ioNqEmxq2m51haFE/snyyuHDZ7lhQTKPP3O+McTy73wS5FrEXpbEA
+	 GSpcgMRq/tDS9ikpfmvoHA9qWJyh5e7k4bNtkTdyO72QoWkxhdrF5ZM+BjwqxGvb8o
+	 Fxagag3lgbW6Apcxom4HGKuHb9Jh6FSWSc4zA4lH3CcX3khjRVDzEBBBmSENC1+wB9
+	 70W8KGHT8R63g==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+        linux-edac@vger.kernel.org, kvm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-ide@vger.kernel.org,
+        linux-pm@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
+        acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
+        wei.liu@kernel.org, ajay.kaher@broadcom.com,
+        alexey.amakhalov@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+        tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
+        seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
+        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
+Subject: [RFC PATCH v1 09/15] x86/opcode: Add immediate form MSR instructions to x86-opcode-map
+Date: Mon, 31 Mar 2025 01:22:45 -0700
+Message-ID: <20250331082251.3171276-10-xin@zytor.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
+References: <20250331082251.3171276-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Allow the KVP daemon to log the KVP updates triggered in the VM
-with a new debug flag(-d).
-When the daemon is started with this flag, it logs updates and debug
-information in syslog with loglevel LOG_DEBUG. This information comes
-in handy for debugging issues where the key-value pairs for certain
-pools show mismatch/incorrect values.
-The distro-vendors can further consume these changes and modify the
-respective service files to redirect the logs to specific files as
-needed.
+Add the instruction opcodes used by the immediate form WRMSRNS/RDMSR
+to x86-opcode-map.
 
-Signed-off-by: Shradha Gupta <shradhagupta@linux.microsoft.com>
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
- Changes in v2:
- * log the debug logs in syslog(debug) instead of a seperate file that
-   we will have to maintain.
- * fix the commit message to indicate the same.
----
- tools/hv/hv_kvp_daemon.c | 80 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 72 insertions(+), 8 deletions(-)
+ arch/x86/lib/x86-opcode-map.txt       | 5 +++--
+ tools/arch/x86/lib/x86-opcode-map.txt | 5 +++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/tools/hv/hv_kvp_daemon.c b/tools/hv/hv_kvp_daemon.c
-index 04ba035d67e9..2ff34c2f6a8d 100644
---- a/tools/hv/hv_kvp_daemon.c
-+++ b/tools/hv/hv_kvp_daemon.c
-@@ -41,6 +41,7 @@
- #include <net/if.h>
- #include <limits.h>
- #include <getopt.h>
-+#include <time.h>
+diff --git a/arch/x86/lib/x86-opcode-map.txt b/arch/x86/lib/x86-opcode-map.txt
+index caedb3ef6688..e64f52321d6d 100644
+--- a/arch/x86/lib/x86-opcode-map.txt
++++ b/arch/x86/lib/x86-opcode-map.txt
+@@ -839,7 +839,7 @@ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+ f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSSD/Q My,Gy (66)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy | RDMSR Rq,Gq (F2),(11B) | WRMSRNS Gq,Rq (F3),(11B)
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ f8: MOVDIR64B Gv,Mdqq (66) | ENQCMD Gv,Mdqq (F2) | ENQCMDS Gv,Mdqq (F3) | URDMSR Rq,Gq (F2),(11B) | UWRMSR Gq,Rq (F3),(11B)
+ f9: MOVDIRI My,Gy
+@@ -1014,7 +1014,7 @@ f1: CRC32 Gy,Ey (es) | CRC32 Gy,Ey (66),(es) | INVVPID Gy,Mdq (F3),(ev)
+ f2: INVPCID Gy,Mdq (F3),(ev)
+ f4: TZCNT Gv,Ev (es) | TZCNT Gv,Ev (66),(es)
+ f5: LZCNT Gv,Ev (es) | LZCNT Gv,Ev (66),(es)
+-f6: Grp3_1 Eb (1A),(ev)
++f6: Grp3_1 Eb (1A),(ev) | RDMSR Rq,Gq (F2),(11B),(ev) | WRMSRNS Gq,Rq (F3),(11B),(ev)
+ f7: Grp3_2 Ev (1A),(es)
+ f8: MOVDIR64B Gv,Mdqq (66),(ev) | ENQCMD Gv,Mdqq (F2),(ev) | ENQCMDS Gv,Mdqq (F3),(ev) | URDMSR Rq,Gq (F2),(11B),(ev) | UWRMSR Gq,Rq (F3),(11B),(ev)
+ f9: MOVDIRI My,Gy (ev)
+@@ -1103,6 +1103,7 @@ EndTable
+ Table: VEX map 7
+ Referrer:
+ AVXcode: 7
++f6: RDMSR Rq,Id (F2),(v1),(11B) | WRMSRNS Id,Rq (F3),(v1),(11B)
+ f8: URDMSR Rq,Id (F2),(v1),(11B) | UWRMSR Id,Rq (F3),(v1),(11B)
+ EndTable
  
- /*
-  * KVP protocol: The user mode component first registers with the
-@@ -83,6 +84,7 @@ enum {
- };
+diff --git a/tools/arch/x86/lib/x86-opcode-map.txt b/tools/arch/x86/lib/x86-opcode-map.txt
+index caedb3ef6688..e64f52321d6d 100644
+--- a/tools/arch/x86/lib/x86-opcode-map.txt
++++ b/tools/arch/x86/lib/x86-opcode-map.txt
+@@ -839,7 +839,7 @@ f1: MOVBE My,Gy | MOVBE Mw,Gw (66) | CRC32 Gd,Ey (F2) | CRC32 Gd,Ew (66&F2)
+ f2: ANDN Gy,By,Ey (v)
+ f3: Grp17 (1A)
+ f5: BZHI Gy,Ey,By (v) | PEXT Gy,By,Ey (F3),(v) | PDEP Gy,By,Ey (F2),(v) | WRUSSD/Q My,Gy (66)
+-f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy
++f6: ADCX Gy,Ey (66) | ADOX Gy,Ey (F3) | MULX By,Gy,rDX,Ey (F2),(v) | WRSSD/Q My,Gy | RDMSR Rq,Gq (F2),(11B) | WRMSRNS Gq,Rq (F3),(11B)
+ f7: BEXTR Gy,Ey,By (v) | SHLX Gy,Ey,By (66),(v) | SARX Gy,Ey,By (F3),(v) | SHRX Gy,Ey,By (F2),(v)
+ f8: MOVDIR64B Gv,Mdqq (66) | ENQCMD Gv,Mdqq (F2) | ENQCMDS Gv,Mdqq (F3) | URDMSR Rq,Gq (F2),(11B) | UWRMSR Gq,Rq (F3),(11B)
+ f9: MOVDIRI My,Gy
+@@ -1014,7 +1014,7 @@ f1: CRC32 Gy,Ey (es) | CRC32 Gy,Ey (66),(es) | INVVPID Gy,Mdq (F3),(ev)
+ f2: INVPCID Gy,Mdq (F3),(ev)
+ f4: TZCNT Gv,Ev (es) | TZCNT Gv,Ev (66),(es)
+ f5: LZCNT Gv,Ev (es) | LZCNT Gv,Ev (66),(es)
+-f6: Grp3_1 Eb (1A),(ev)
++f6: Grp3_1 Eb (1A),(ev) | RDMSR Rq,Gq (F2),(11B),(ev) | WRMSRNS Gq,Rq (F3),(11B),(ev)
+ f7: Grp3_2 Ev (1A),(es)
+ f8: MOVDIR64B Gv,Mdqq (66),(ev) | ENQCMD Gv,Mdqq (F2),(ev) | ENQCMDS Gv,Mdqq (F3),(ev) | URDMSR Rq,Gq (F2),(11B),(ev) | UWRMSR Gq,Rq (F3),(11B),(ev)
+ f9: MOVDIRI My,Gy (ev)
+@@ -1103,6 +1103,7 @@ EndTable
+ Table: VEX map 7
+ Referrer:
+ AVXcode: 7
++f6: RDMSR Rq,Id (F2),(v1),(11B) | WRMSRNS Id,Rq (F3),(v1),(11B)
+ f8: URDMSR Rq,Id (F2),(v1),(11B) | UWRMSR Id,Rq (F3),(v1),(11B)
+ EndTable
  
- static int in_hand_shake;
-+static int debug_enabled;
- 
- static char *os_name = "";
- static char *os_major = "";
-@@ -153,6 +155,16 @@ static void kvp_release_lock(int pool)
- 	}
- }
- 
-+static void convert_tm_to_string(char *tm_str, size_t tm_str_size)
-+{
-+	struct tm tm;
-+	time_t t;
-+
-+	time(&t);
-+	gmtime_r(&t, &tm);
-+	strftime(tm_str, tm_str_size, "%Y-%m-%dT%H:%M:%S", &tm);
-+}
-+
- static void kvp_update_file(int pool)
- {
- 	FILE *filep;
-@@ -183,6 +195,23 @@ static void kvp_update_file(int pool)
- 	kvp_release_lock(pool);
- }
- 
-+static void kvp_dump_initial_pools(int pool)
-+{
-+	char tm_str[50];
-+	int i;
-+
-+	convert_tm_to_string(tm_str, sizeof(tm_str));
-+
-+	syslog(LOG_DEBUG, "===Start dumping the contents of pool %d ===\n",
-+	       pool);
-+
-+	for (i = 0; i < kvp_file_info[pool].num_records; i++)
-+		syslog(LOG_DEBUG, "[%s]: pool: %d, %d/%d key=%s val=%s\n",
-+		       tm_str, pool, i, kvp_file_info[pool].num_records,
-+		       kvp_file_info[pool].records[i].key,
-+		       kvp_file_info[pool].records[i].value);
-+}
-+
- static void kvp_update_mem_state(int pool)
- {
- 	FILE *filep;
-@@ -270,6 +299,8 @@ static int kvp_file_init(void)
- 			return 1;
- 		kvp_file_info[i].num_records = 0;
- 		kvp_update_mem_state(i);
-+		if (debug_enabled)
-+			kvp_dump_initial_pools(i);
- 	}
- 
- 	return 0;
-@@ -321,14 +352,28 @@ static int kvp_key_delete(int pool, const __u8 *key, int key_size)
- static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 				 const __u8 *value, int value_size)
- {
--	int i;
--	int num_records;
- 	struct kvp_record *record;
-+	int num_records;
-+	char tm_str[50];
- 	int num_blocks;
-+	int i;
-+
-+	if (debug_enabled) {
-+		convert_tm_to_string(tm_str, sizeof(tm_str));
-+		syslog(LOG_DEBUG, "[%s]:%s: got a KVP: pool=%d key=%s val=%s",
-+		       tm_str, __func__, pool, key, value);
-+	}
- 
- 	if ((key_size > HV_KVP_EXCHANGE_MAX_KEY_SIZE) ||
--		(value_size > HV_KVP_EXCHANGE_MAX_VALUE_SIZE))
-+		(value_size > HV_KVP_EXCHANGE_MAX_VALUE_SIZE)) {
-+		syslog(LOG_ERR, "Got a too long key or value: key=%s, val=%s",
-+		       key, value);
-+
-+		if (debug_enabled)
-+			syslog(LOG_DEBUG, "[%s]:[%s]: Got a too long key or value: pool=%d, key=%s, val=%s",
-+			       tm_str, __func__, pool, key, value);
- 		return 1;
-+	}
- 
- 	/*
- 	 * First update the in-memory state.
-@@ -348,6 +393,9 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 		 */
- 		memcpy(record[i].value, value, value_size);
- 		kvp_update_file(pool);
-+		if (debug_enabled)
-+			syslog(LOG_DEBUG, "[%s]:%s: updated: pool=%d key=%s val=%s",
-+			       tm_str, __func__, pool, key, value);
- 		return 0;
- 	}
- 
-@@ -359,8 +407,10 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 		record = realloc(record, sizeof(struct kvp_record) *
- 			 ENTRIES_PER_BLOCK * (num_blocks + 1));
- 
--		if (record == NULL)
-+		if (!record) {
-+			syslog(LOG_ERR, "%s: Memory alloc failure", __func__);
- 			return 1;
-+		}
- 		kvp_file_info[pool].num_blocks++;
- 
- 	}
-@@ -368,6 +418,11 @@ static int kvp_key_add_or_modify(int pool, const __u8 *key, int key_size,
- 	memcpy(record[i].key, key, key_size);
- 	kvp_file_info[pool].records = record;
- 	kvp_file_info[pool].num_records++;
-+
-+	if (debug_enabled)
-+		syslog(LOG_DEBUG, "[%s]:%s: added: pool=%d key=%s val=%s",
-+		       tm_str, __func__, pool, key, value);
-+
- 	kvp_update_file(pool);
- 	return 0;
- }
-@@ -1662,6 +1717,7 @@ void print_usage(char *argv[])
- 	fprintf(stderr, "Usage: %s [options]\n"
- 		"Options are:\n"
- 		"  -n, --no-daemon        stay in foreground, don't daemonize\n"
-+		"  -d, --debug-enabled    Enable debug logs(syslog debug by default)\n"
- 		"  -h, --help             print this help\n", argv[0]);
- }
- 
-@@ -1681,12 +1737,13 @@ int main(int argc, char *argv[])
- 	int daemonize = 1, long_index = 0, opt;
- 
- 	static struct option long_options[] = {
--		{"help",	no_argument,	   0,  'h' },
--		{"no-daemon",	no_argument,	   0,  'n' },
--		{0,		0,		   0,  0   }
-+		{"help",		no_argument,	   0,  'h' },
-+		{"no-daemon",		no_argument,	   0,  'n' },
-+		{"debug-enabled",	no_argument,	   0,  'd' },
-+		{0,			0,		   0,  0   }
- 	};
- 
--	while ((opt = getopt_long(argc, argv, "hn", long_options,
-+	while ((opt = getopt_long(argc, argv, "hnd", long_options,
- 				  &long_index)) != -1) {
- 		switch (opt) {
- 		case 'n':
-@@ -1695,6 +1752,9 @@ int main(int argc, char *argv[])
- 		case 'h':
- 			print_usage(argv);
- 			exit(0);
-+		case 'd':
-+			debug_enabled = 1;
-+			break;
- 		default:
- 			print_usage(argv);
- 			exit(EXIT_FAILURE);
-@@ -1717,6 +1777,9 @@ int main(int argc, char *argv[])
- 	 */
- 	kvp_get_domain_name(full_domain_name, sizeof(full_domain_name));
- 
-+	if (debug_enabled)
-+		syslog(LOG_INFO, "Logging debug info in syslog(debug)");
-+
- 	if (kvp_file_init()) {
- 		syslog(LOG_ERR, "Failed to initialize the pools");
- 		exit(EXIT_FAILURE);
 -- 
-2.34.1
+2.49.0
 
