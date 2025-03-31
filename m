@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2986C41AAC;
-	Mon, 31 Mar 2025 08:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA25E1DD889;
+	Mon, 31 Mar 2025 08:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743409456; cv=none; b=mi3Zx2aE/ASD/VCwNlT97SoMiMZreK7klhiV7+h7Jnl1YPt8Nx1da+eFubkP65DjUcv3Jcu/EyEv49rE07kTVUyxigtAjw/yu0Ikn4IDnpdaMDAe8xCT1hEl7zTFt9p1wQWPNgRE8MjRsNJvbl3qrmuBBPvnw0nkft5OPwi69r0=
+	t=1743409456; cv=none; b=ZlbanS14LpovZnFu+skJ8b9iaERJ7dQ5c+zOqTNCB2HptwBGWqSEW0f8aceFuYnsisAv/dlTbBhYz2A+aeO9Hix7Bdf5ilDb4AmuYdx+q8XSILgoZAwWWLPzE9CLGPc8ztgEcdN9D+gyXrRknFgLyz5yYhQHVR4K3CJ+cAes/Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1743409456; c=relaxed/simple;
-	bh=BmINf9YXq0zwgNkhB9uzoU9LYnCfIvTtplUzvx0otZ8=;
+	bh=qU9mZV/Ilpao3OzuBn2p54VPGVrfDdtWqmvb8dbK1/U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r8BVYpueX0/HcRm+t31YJ2rLhGgjyUmPB//An8duFl6moR4el/DGQjFTe6U5wzQq/mK8arGJLyXl7qLL6DzbVL4Yy038Zosb7uTALTD0hozQuFh9gLJRtQASY/EWWgilBZ10SL/yviPn+sw2RMNw3FIGbVJ9SL2JABYJz0ZcNWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=GMjpnnYX; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=UohaNP3efj+4OsRBuJjlrGiBqfIaitP/UM73hFgvC50aajU5wIKxA55dHRvC6WfUmUqp3pfGWGO4jqpW6RnwAK9W3XJJ00ql97kZvusJJ6Flm3JR/21GWx5Ubm5eUqbLpdjfWzW15Rup7CGQ56vtXWTPq2iHEV1J4t6sUG10U68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=YZ0iWw1g; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="GMjpnnYX"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="YZ0iWw1g"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp023171319
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp0D3171319
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 31 Mar 2025 01:23:02 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp023171319
+	Mon, 31 Mar 2025 01:23:24 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp0D3171319
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743409384;
-	bh=m4M8UGMKKd7tRa3nJstnKZwTxnwNx/YpFEKHVX35S1M=;
+	s=2025032001; t=1743409406;
+	bh=MTNAHE0XoF/3VfQI20ic/94siCvLM4yHxZJbzupiGV4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GMjpnnYXMYpU67NGz93c7h9ws4Z3p3rE979fcI5Xs1NdNl+Td/mpmwbnPiYulmfj8
-	 b8fSVsdt2ad5j0QSex3qUA/BNF0M8ziPcP4Mkz38x3S+XUwD4rvbU8+eDWfUPxnO7E
-	 Y70mhL72N7fvX3WqwqaTorgtiRS94zS/fVo8nOEjFVs9kCAUlFTEOFTIKmdPh072el
-	 C2aXZqY89xdoTLHuywMC03Z51D76GbRxilkwQRwDPUqIeAdLHWceDRXcmPCxXB7B88
-	 vzqb8gdBtHAv76CahwdMT05nUSEwKm9KaXVsW8BCSDJ3odt76mR0w6Fy90TxcG4WqJ
-	 QtAekxEcU2fGw==
+	b=YZ0iWw1g3Cln5AvXjilDQAKtaaSHfwJ+OM5wjPktUJyEqApfbUfhM09OIuU8QP2ZZ
+	 mYIqHTSj9WbWaRawl1ndfEI99/JZFReL4cHv2Bb1eaQsckThi+Yd7S/58DdR7MADp7
+	 brFPhnzRo2b4ImK45TMad4AgaT1rzmLAJjkaQzPMD0yRdou+z3xLfMDvndeKh03uRp
+	 /+zHv3a4TGJZ32AoXQQXNfLWD3AqlBnWwlZqVKdNR8IVx0jW2LdzRYxxK+IYI7jo1X
+	 8Jzz5y7bJekuTfQ2vMotkE1uZCAR+Ikj1SSqu1wAmeaafKH5SDC3fXFrxE045okmoi
+	 kvDiyWI69VGjg==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
         linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
@@ -49,9 +49,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
         seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
         kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
-Subject: [RFC PATCH v1 02/15] x86/msr: Replace __rdmsr() with native_rdmsrl()
-Date: Mon, 31 Mar 2025 01:22:38 -0700
-Message-ID: <20250331082251.3171276-3-xin@zytor.com>
+Subject: [RFC PATCH v1 13/15] x86/msr: Use the alternatives mechanism to read MSR
+Date: Mon, 31 Mar 2025 01:22:49 -0700
+Message-ID: <20250331082251.3171276-14-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
 References: <20250331082251.3171276-1-xin@zytor.com>
@@ -63,204 +63,588 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__rdmsr() is the lowest level primitive MSR read API, and its direct
-use is NOT preferred.  Use its wrapper function native_rdmsrl() instead.
+Also add support for the immediate form MSR read support.
 
-No functional change intended.
-
+Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
- arch/x86/coco/sev/core.c                  | 2 +-
- arch/x86/events/amd/brs.c                 | 2 +-
- arch/x86/hyperv/hv_vtl.c                  | 4 ++--
- arch/x86/hyperv/ivm.c                     | 2 +-
- arch/x86/include/asm/mshyperv.h           | 2 +-
- arch/x86/include/asm/msr.h                | 5 +++++
- arch/x86/kernel/cpu/common.c              | 2 +-
- arch/x86/kernel/cpu/mce/core.c            | 4 ++--
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 2 +-
- arch/x86/kvm/vmx/vmx.c                    | 4 ++--
- arch/x86/mm/mem_encrypt_identity.c        | 4 ++--
- 11 files changed, 19 insertions(+), 14 deletions(-)
+ arch/x86/include/asm/msr.h            | 274 ++++++++++++++++++++------
+ arch/x86/include/asm/paravirt.h       |  40 ----
+ arch/x86/include/asm/paravirt_types.h |   9 -
+ arch/x86/kernel/paravirt.c            |   2 -
+ arch/x86/xen/enlighten_pv.c           |  45 ++---
+ arch/x86/xen/xen-asm.S                |  34 ++++
+ arch/x86/xen/xen-ops.h                |   7 +
+ 7 files changed, 276 insertions(+), 135 deletions(-)
 
-diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
-index b0c1a7a57497..d38e6f0ff9c4 100644
---- a/arch/x86/coco/sev/core.c
-+++ b/arch/x86/coco/sev/core.c
-@@ -276,7 +276,7 @@ static noinstr struct ghcb *__sev_get_ghcb(struct ghcb_state *state)
- 
- static inline u64 sev_es_rd_ghcb_msr(void)
- {
--	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
-+	return native_rdmsrl(MSR_AMD64_SEV_ES_GHCB);
- }
- 
- static __always_inline void sev_es_wr_ghcb_msr(u64 val)
-diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
-index 4a47f3c108de..3ad7d87b5403 100644
---- a/arch/x86/events/amd/brs.c
-+++ b/arch/x86/events/amd/brs.c
-@@ -49,7 +49,7 @@ static __always_inline void set_debug_extn_cfg(u64 val)
- 
- static __always_inline u64 get_debug_extn_cfg(void)
- {
--	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
-+	return native_rdmsrl(MSR_AMD_DBG_EXTN_CFG);
- }
- 
- static bool __init amd_brs_detect(void)
-diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
-index 13242ed8ff16..4a27e475d35f 100644
---- a/arch/x86/hyperv/hv_vtl.c
-+++ b/arch/x86/hyperv/hv_vtl.c
-@@ -149,11 +149,11 @@ static int hv_vtl_bringup_vcpu(u32 target_vp_index, int cpu, u64 eip_ignored)
- 	input->vp_context.rip = rip;
- 	input->vp_context.rsp = rsp;
- 	input->vp_context.rflags = 0x0000000000000002;
--	input->vp_context.efer = __rdmsr(MSR_EFER);
-+	input->vp_context.efer = native_rdmsrl(MSR_EFER);
- 	input->vp_context.cr0 = native_read_cr0();
- 	input->vp_context.cr3 = __native_read_cr3();
- 	input->vp_context.cr4 = native_read_cr4();
--	input->vp_context.msr_cr_pat = __rdmsr(MSR_IA32_CR_PAT);
-+	input->vp_context.msr_cr_pat = native_rdmsrl(MSR_IA32_CR_PAT);
- 	input->vp_context.idtr.limit = idt_ptr.size;
- 	input->vp_context.idtr.base = idt_ptr.address;
- 	input->vp_context.gdtr.limit = gdt_ptr.size;
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 77bf05f06b9e..95cf2113a72a 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -110,7 +110,7 @@ u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size)
- 
- static inline u64 rd_ghcb_msr(void)
- {
--	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
-+	return native_rdmsrl(MSR_AMD64_SEV_ES_GHCB);
- }
- 
- static inline void wr_ghcb_msr(u64 val)
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index bab5ccfc60a7..2ca6ef89530d 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -304,7 +304,7 @@ void hv_set_non_nested_msr(unsigned int reg, u64 value);
- 
- static __always_inline u64 hv_raw_get_msr(unsigned int reg)
- {
--	return __rdmsr(reg);
-+	return native_rdmsrl(reg);
- }
- 
- #else /* CONFIG_HYPERV */
 diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 27ea8793705d..fb3d7c4cb774 100644
+index 066cde11254a..fc93c2601853 100644
 --- a/arch/x86/include/asm/msr.h
 +++ b/arch/x86/include/asm/msr.h
-@@ -106,6 +106,11 @@ do {							\
- 	(void)((val2) = (u32)(__val >> 32));		\
- } while (0)
+@@ -74,6 +74,8 @@ static inline void do_trace_rdpmc(unsigned int msr, u64 val, int failed) {}
+ #endif
  
-+static __always_inline u64 native_rdmsrl(const u32 msr)
-+{
-+	return __rdmsr(msr);
+ #ifdef CONFIG_CC_IS_GCC
++#define ASM_RDMSR_IMM			\
++	" .insn VEX.128.F2.M7.W0 0xf6 /0, %[msr]%{:u32}, %[val]\n\t"
+ #define ASM_WRMSRNS_IMM			\
+ 	" .insn VEX.128.F3.M7.W0 0xf6 /0, %[val], %[msr]%{:u32}\n\t"
+ #endif
+@@ -85,10 +87,17 @@ static inline void do_trace_rdpmc(unsigned int msr, u64 val, int failed) {}
+  * The register operand is encoded as %rax because all uses of the immediate
+  * form MSR access instructions reference %rax as the register operand.
+  */
++#define ASM_RDMSR_IMM			\
++	" .byte 0xc4,0xe7,0x7b,0xf6,0xc0; .long %c[msr]"
+ #define ASM_WRMSRNS_IMM			\
+ 	" .byte 0xc4,0xe7,0x7a,0xf6,0xc0; .long %c[msr]"
+ #endif
+ 
++#define RDMSR_AND_SAVE_RESULT		\
++	"rdmsr\n\t"			\
++	"shl $0x20, %%rdx\n\t"		\
++	"or %%rdx, %[val]\n\t"
++
+ #define PREPARE_RDX_FOR_WRMSR		\
+ 	"mov %%rax, %%rdx\n\t"		\
+ 	"shr $0x20, %%rdx\n\t"
+@@ -142,6 +151,7 @@ static __always_inline enum pv_msr_action get_pv_msr_action(const u32 msr)
+ 	}
+ }
+ 
++extern void asm_xen_read_msr(void);
+ extern void asm_xen_write_msr(void);
+ #else
+ static __always_inline enum pv_msr_action get_pv_msr_action(const u32 msr)
+@@ -150,35 +160,95 @@ static __always_inline enum pv_msr_action get_pv_msr_action(const u32 msr)
+ }
+ #endif
+ 
+-static __always_inline unsigned long long __rdmsr(unsigned int msr)
++static __always_inline bool __native_rdmsr_variable(const u32 msr, u64 *val, const int type)
+ {
+-	DECLARE_ARGS(val, low, high);
++#ifdef CONFIG_X86_64
++	BUILD_BUG_ON(__builtin_constant_p(msr));
+ 
+-	asm volatile("1: rdmsr\n"
+-		     "2:\n"
+-		     _ASM_EXTABLE_TYPE(1b, 2b, EX_TYPE_RDMSR)
+-		     : EAX_EDX_RET(val, low, high) : "c" (msr));
++	asm_inline volatile goto(
++		"1:\n"
++		RDMSR_AND_SAVE_RESULT
++		_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For RDMSR */
+ 
+-	return EAX_EDX_VAL(val, low, high);
++		: [val] "=a" (*val)
++		: "c" (msr), [type] "i" (type)
++		: "memory", "rdx"
++		: badmsr);
++#else
++	asm_inline volatile goto(
++		"1: rdmsr\n\t"
++		_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For RDMSR */
++
++		: "=A" (*val)
++		: "c" (msr), [type] "i" (type)
++		: "memory"
++		: badmsr);
++#endif
++
++	return false;
++
++badmsr:
++	return true;
 +}
 +
- #define native_wrmsr(msr, low, high)			\
- 	__wrmsr(msr, low, high)
- 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 12126adbc3a9..a268db71d944 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -164,7 +164,7 @@ static void ppin_init(struct cpuinfo_x86 *c)
- 
- 	/* Is the enable bit set? */
- 	if (val & 2UL) {
--		c->ppin = __rdmsr(info->msr_ppin);
-+		c->ppin = native_rdmsrl(info->msr_ppin);
- 		set_cpu_cap(c, info->feature);
- 		return;
- 	}
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 0eaeaba12df2..0e050af723f5 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -121,7 +121,7 @@ void mce_prep_record_common(struct mce *m)
- {
- 	m->cpuid	= cpuid_eax(1);
- 	m->cpuvendor	= boot_cpu_data.x86_vendor;
--	m->mcgcap	= __rdmsr(MSR_IA32_MCG_CAP);
-+	m->mcgcap	= native_rdmsrl(MSR_IA32_MCG_CAP);
- 	/* need the internal __ version to avoid deadlocks */
- 	m->time		= __ktime_get_real_seconds();
++#ifdef CONFIG_X86_64
++static __always_inline bool __native_rdmsr_constant(const u32 msr, u64 *val, const int type)
++{
++	BUILD_BUG_ON(!__builtin_constant_p(msr));
++
++	asm_inline volatile goto(
++		"1:\n"
++		ALTERNATIVE("mov %[msr], %%ecx\n\t"
++			    "2:\n"
++			    RDMSR_AND_SAVE_RESULT,
++			    ASM_RDMSR_IMM,
++			    X86_FEATURE_MSR_IMM)
++		_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For RDMSR immediate */
++		_ASM_EXTABLE_TYPE(2b, %l[badmsr], %c[type])	/* For RDMSR */
++
++		: [val] "=a" (*val)
++		: [msr] "i" (msr), [type] "i" (type)
++		: "memory", "ecx", "rdx"
++		: badmsr);
++
++	return false;
++
++badmsr:
++	return true;
++}
++#endif
++
++static __always_inline bool __native_rdmsr(const u32 msr, u64 *val, const int type)
++{
++#ifdef CONFIG_X86_64
++	if (__builtin_constant_p(msr))
++		return __native_rdmsr_constant(msr, val, type);
++#endif
++
++	return __native_rdmsr_variable(msr, val, type);
  }
-@@ -1298,7 +1298,7 @@ static noinstr bool mce_check_crashing_cpu(void)
- 	    (crashing_cpu != -1 && crashing_cpu != cpu)) {
- 		u64 mcgstatus;
  
--		mcgstatus = __rdmsr(MSR_IA32_MCG_STATUS);
-+		mcgstatus = native_rdmsrl(MSR_IA32_MCG_STATUS);
+-#define native_rdmsr(msr, val1, val2)			\
++#define native_rdmsr(msr, low, high)			\
+ do {							\
+-	u64 __val = __rdmsr((msr));			\
+-	(void)((val1) = (u32)__val);			\
+-	(void)((val2) = (u32)(__val >> 32));		\
++	u64 __val = 0;					\
++	__native_rdmsr((msr), &__val, EX_TYPE_RDMSR);	\
++	(void)((low) = (u32)__val);			\
++	(void)((high) = (u32)(__val >> 32));		\
+ } while (0)
  
- 		if (boot_cpu_data.x86_vendor == X86_VENDOR_ZHAOXIN) {
- 			if (mcgstatus & MCG_STATUS_LMCES)
-diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-index 55536120c8d1..675fd9f93e33 100644
---- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-+++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-@@ -480,7 +480,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
- 	 * the buffer and evict pseudo-locked memory read earlier from the
- 	 * cache.
- 	 */
--	saved_msr = __rdmsr(MSR_MISC_FEATURE_CONTROL);
-+	saved_msr = native_rdmsrl(MSR_MISC_FEATURE_CONTROL);
- 	native_wrmsrl(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
- 	closid_p = this_cpu_read(pqr_state.cur_closid);
- 	rmid_p = this_cpu_read(pqr_state.cur_rmid);
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 5c5766467a61..2a24060397cd 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -380,7 +380,7 @@ static __always_inline void vmx_disable_fb_clear(struct vcpu_vmx *vmx)
- 	if (!vmx->disable_fb_clear)
- 		return;
+ static __always_inline u64 native_rdmsrl(const u32 msr)
+ {
+-	return __rdmsr(msr);
++	u64 val = 0;
++
++	__native_rdmsr(msr, &val, EX_TYPE_RDMSR);
++	return val;
+ }
  
--	msr = __rdmsr(MSR_IA32_MCU_OPT_CTRL);
-+	msr = native_rdmsrl(MSR_IA32_MCU_OPT_CTRL);
- 	msr |= FB_CLEAR_DIS;
- 	native_wrmsrl(MSR_IA32_MCU_OPT_CTRL, msr);
- 	/* Cache the MSR value to avoid reading it later */
-@@ -7307,7 +7307,7 @@ void noinstr vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx,
- 		return;
+-static inline unsigned long long native_read_msr(unsigned int msr)
++static inline u64 native_read_msr(const u32 msr)
+ {
+-	unsigned long long val;
++	u64 val = 0;
  
- 	if (flags & VMX_RUN_SAVE_SPEC_CTRL)
--		vmx->spec_ctrl = __rdmsr(MSR_IA32_SPEC_CTRL);
-+		vmx->spec_ctrl = native_rdmsrl(MSR_IA32_SPEC_CTRL);
+-	val = __rdmsr(msr);
++	__native_rdmsr(msr, &val, EX_TYPE_RDMSR);
  
- 	/*
- 	 * If the guest/host SPEC_CTRL values differ, restore the host value.
-diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
-index 5eecdd92da10..3005b07a0016 100644
---- a/arch/x86/mm/mem_encrypt_identity.c
-+++ b/arch/x86/mm/mem_encrypt_identity.c
-@@ -526,7 +526,7 @@ void __head sme_enable(struct boot_params *bp)
- 	me_mask = 1UL << (ebx & 0x3f);
+ 	if (tracepoint_enabled(read_msr))
+ 		do_trace_read_msr(msr, val, 0);
+@@ -186,19 +256,139 @@ static inline unsigned long long native_read_msr(unsigned int msr)
+ 	return val;
+ }
  
- 	/* Check the SEV MSR whether SEV or SME is enabled */
--	RIP_REL_REF(sev_status) = msr = __rdmsr(MSR_AMD64_SEV);
-+	RIP_REL_REF(sev_status) = msr = native_rdmsrl(MSR_AMD64_SEV);
- 	feature_mask = (msr & MSR_AMD64_SEV_ENABLED) ? AMD_SEV_BIT : AMD_SME_BIT;
+-static inline unsigned long long native_read_msr_safe(unsigned int msr,
+-						      int *err)
++static inline u64 native_read_msr_safe(const u32 msr, int *err)
+ {
+-	DECLARE_ARGS(val, low, high);
++	u64 val = 0;
++
++	*err = __native_rdmsr(msr, &val, EX_TYPE_RDMSR_SAFE) ? -EIO : 0;
  
- 	/*
-@@ -557,7 +557,7 @@ void __head sme_enable(struct boot_params *bp)
- 			return;
+-	asm volatile("1: rdmsr ; xor %[err],%[err]\n"
+-		     "2:\n\t"
+-		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
+-		     : [err] "=r" (*err), EAX_EDX_RET(val, low, high)
+-		     : "c" (msr));
+ 	if (tracepoint_enabled(read_msr))
+-		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), *err);
+-	return EAX_EDX_VAL(val, low, high);
++		do_trace_read_msr(msr, val, *err);
++
++	return val;
++}
++
++static __always_inline bool __rdmsr_variable(const u32 msr, u64 *val, const int type)
++{
++#ifdef CONFIG_X86_64
++	BUILD_BUG_ON(__builtin_constant_p(msr));
++
++	asm_inline volatile goto(
++		"1:\n"
++		ALTERNATIVE(RDMSR_AND_SAVE_RESULT,
++			    "call asm_xen_read_msr\n\t",
++			    X86_FEATURE_XENPV)
++		_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For RDMSR and CALL */
++
++		: [val] "=a" (*val), ASM_CALL_CONSTRAINT
++		: "c" (msr), [type] "i" (type)
++		: "memory", "rdx"
++		: badmsr);
++
++	return false;
++
++badmsr:
++	return true;
++#else
++	return __native_rdmsr_variable(msr, val, type);
++#endif
++}
++
++static __always_inline bool __rdmsr_variable_all(const u32 msr, u64 *val, const int type)
++{
++	const enum pv_msr_action action = get_pv_msr_action(msr);
++
++	if (action == PV_MSR_PV) {
++		return __rdmsr_variable(msr, val, type);
++	} else if (action == PV_MSR_IGNORE) {
++		if (cpu_feature_enabled(X86_FEATURE_XENPV))
++			return false;
++	}
++
++	return __native_rdmsr_variable(msr, val, type);
++}
++
++#ifdef CONFIG_X86_64
++static __always_inline bool __rdmsr_constant(const u32 msr, u64 *val, const int type)
++{
++	BUILD_BUG_ON(!__builtin_constant_p(msr));
++
++	asm_inline volatile goto(
++		"1:\n"
++		ALTERNATIVE_2("mov %[msr], %%ecx\n\t"
++			      "2:\n"
++			      RDMSR_AND_SAVE_RESULT,
++			      ASM_RDMSR_IMM,
++			      X86_FEATURE_MSR_IMM,
++			      "mov %[msr], %%ecx\n\t"
++			      "call asm_xen_read_msr\n\t",
++			      X86_FEATURE_XENPV)
++		_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For RDMSR immediate */
++		_ASM_EXTABLE_TYPE(2b, %l[badmsr], %c[type])	/* For RDMSR and CALL */
++
++		: [val] "=a" (*val), ASM_CALL_CONSTRAINT
++		: [msr] "i" (msr), [type] "i" (type)
++		: "memory", "ecx", "rdx"
++		: badmsr);
++
++	return false;
++
++badmsr:
++	return true;
++}
++
++static __always_inline bool __rdmsr_constant_all(const u32 msr, u64 *val, const int type)
++{
++	const enum pv_msr_action action = get_pv_msr_action(msr);
++
++	if (action == PV_MSR_PV) {
++		return __rdmsr_constant(msr, val, type);
++	} else if (action == PV_MSR_IGNORE) {
++		if (cpu_feature_enabled(X86_FEATURE_XENPV))
++			return false;
++	}
++
++	return __native_rdmsr_constant(msr, val, type);
++}
++#endif
++
++static __always_inline bool __rdmsr(const u32 msr, u64 *val, const int type)
++{
++#ifdef CONFIG_X86_64
++	if (__builtin_constant_p(msr))
++		return __rdmsr_constant_all(msr, val, type);
++#endif
++
++	return __rdmsr_variable_all(msr, val, type);
++}
++
++#define rdmsr(msr, low, high)				\
++do {							\
++	u64 __val = 0;					\
++	__rdmsr((msr), &__val, EX_TYPE_RDMSR);		\
++	(void)((low) = (u32)__val);			\
++	(void)((high) = (u32)(__val >> 32));		\
++} while (0)
++
++#define rdmsrl(msr, val)				\
++do {							\
++	u64 __val = 0;					\
++	__rdmsr((msr), &__val, EX_TYPE_RDMSR);		\
++	(val) = __val;					\
++} while (0)
++
++#define rdmsr_safe(msr, low, high)						\
++({										\
++	u64 __val = 0;								\
++	int __err = __rdmsr((msr), &__val, EX_TYPE_RDMSR_SAFE) ? -EIO : 0;	\
++	(*low) = (u32)__val;							\
++	(*high) = (u32)(__val >> 32);						\
++	__err;									\
++})
++
++static __always_inline int rdmsrl_safe(const u32 msr, u64 *val)
++{
++	return __rdmsr(msr, val, EX_TYPE_RDMSR_SAFE) ? -EIO : 0;
+ }
  
- 		/* For SME, check the SYSCFG MSR */
--		msr = __rdmsr(MSR_AMD64_SYSCFG);
-+		msr = native_rdmsrl(MSR_AMD64_SYSCFG);
- 		if (!(msr & MSR_AMD64_SYSCFG_MEM_ENCRYPT))
- 			return;
+ /*
+@@ -503,40 +693,6 @@ static inline unsigned long long native_read_pmc(int counter)
+  * Note: the rd* operations modify the parameters directly (without using
+  * pointer indirection), this allows gcc to optimize better
+  */
+-
+-#define rdmsr(msr, low, high)					\
+-do {								\
+-	u64 __val = native_read_msr((msr));			\
+-	(void)((low) = (u32)__val);				\
+-	(void)((high) = (u32)(__val >> 32));			\
+-} while (0)
+-
+-#define rdmsrl(msr, val)			\
+-	((val) = native_read_msr((msr)))
+-
+-static inline void wrmsrl(u32 msr, u64 val)
+-{
+-	native_write_msr(msr, val);
+-}
+-
+-/* rdmsr with exception handling */
+-#define rdmsr_safe(msr, low, high)				\
+-({								\
+-	int __err;						\
+-	u64 __val = native_read_msr_safe((msr), &__err);	\
+-	(*low) = (u32)__val;					\
+-	(*high) = (u32)(__val >> 32);				\
+-	__err;							\
+-})
+-
+-static inline int rdmsrl_safe(unsigned int msr, unsigned long long *p)
+-{
+-	int err;
+-
+-	*p = native_read_msr_safe(msr, &err);
+-	return err;
+-}
+-
+ #define rdpmc(counter, low, high)			\
+ do {							\
+ 	u64 _l = native_read_pmc((counter));		\
+diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+index 351feb890ab0..7ddb71ed9d0c 100644
+--- a/arch/x86/include/asm/paravirt.h
++++ b/arch/x86/include/asm/paravirt.h
+@@ -175,46 +175,6 @@ static inline void __write_cr4(unsigned long x)
+ 	PVOP_VCALL1(cpu.write_cr4, x);
+ }
+ 
+-static inline u64 paravirt_read_msr(unsigned msr)
+-{
+-	return PVOP_CALL1(u64, cpu.read_msr, msr);
+-}
+-
+-static inline u64 paravirt_read_msr_safe(unsigned msr, int *err)
+-{
+-	return PVOP_CALL2(u64, cpu.read_msr_safe, msr, err);
+-}
+-
+-#define rdmsr(msr, val1, val2)			\
+-do {						\
+-	u64 _l = paravirt_read_msr(msr);	\
+-	val1 = (u32)_l;				\
+-	val2 = _l >> 32;			\
+-} while (0)
+-
+-#define rdmsrl(msr, val)			\
+-do {						\
+-	val = paravirt_read_msr(msr);		\
+-} while (0)
+-
+-/* rdmsr with exception handling */
+-#define rdmsr_safe(msr, a, b)				\
+-({							\
+-	int _err;					\
+-	u64 _l = paravirt_read_msr_safe(msr, &_err);	\
+-	(*a) = (u32)_l;					\
+-	(*b) = _l >> 32;				\
+-	_err;						\
+-})
+-
+-static inline int rdmsrl_safe(unsigned msr, unsigned long long *p)
+-{
+-	int err;
+-
+-	*p = paravirt_read_msr_safe(msr, &err);
+-	return err;
+-}
+-
+ static inline unsigned long long paravirt_read_pmc(int counter)
+ {
+ 	return PVOP_CALL1(u64, cpu.read_pmc, counter);
+diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
+index 8a563576d70e..5c57e6e4115f 100644
+--- a/arch/x86/include/asm/paravirt_types.h
++++ b/arch/x86/include/asm/paravirt_types.h
+@@ -90,15 +90,6 @@ struct pv_cpu_ops {
+ 	void (*cpuid)(unsigned int *eax, unsigned int *ebx,
+ 		      unsigned int *ecx, unsigned int *edx);
+ 
+-	/* Unsafe MSR operations.  These will warn or panic on failure. */
+-	u64 (*read_msr)(unsigned int msr);
+-
+-	/*
+-	 * Safe MSR operations.
+-	 * read sets err to 0 or -EIO.  write returns 0 or -EIO.
+-	 */
+-	u64 (*read_msr_safe)(unsigned int msr, int *err);
+-
+ 	u64 (*read_pmc)(int counter);
+ 
+ 	void (*start_context_switch)(struct task_struct *prev);
+diff --git a/arch/x86/kernel/paravirt.c b/arch/x86/kernel/paravirt.c
+index ffb04445f97e..e3d4f9869779 100644
+--- a/arch/x86/kernel/paravirt.c
++++ b/arch/x86/kernel/paravirt.c
+@@ -128,8 +128,6 @@ struct paravirt_patch_template pv_ops = {
+ 	.cpu.read_cr0		= native_read_cr0,
+ 	.cpu.write_cr0		= native_write_cr0,
+ 	.cpu.write_cr4		= native_write_cr4,
+-	.cpu.read_msr		= native_read_msr,
+-	.cpu.read_msr_safe	= native_read_msr_safe,
+ 	.cpu.read_pmc		= native_read_pmc,
+ 	.cpu.load_tr_desc	= native_load_tr_desc,
+ 	.cpu.set_ldt		= native_set_ldt,
+diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
+index d02f55bfa869..e49f16278487 100644
+--- a/arch/x86/xen/enlighten_pv.c
++++ b/arch/x86/xen/enlighten_pv.c
+@@ -1087,19 +1087,26 @@ static void xen_write_cr4(unsigned long cr4)
+ 	native_write_cr4(cr4);
+ }
+ 
+-static u64 xen_do_read_msr(unsigned int msr, int *err)
++/*
++ * Return true in xen_rdmsr_ret_type to indicate the requested MSR read has
++ * been done successfully.
++ */
++struct xen_rdmsr_ret_type xen_do_read_msr(u32 msr)
+ {
+-	u64 val = 0;	/* Avoid uninitialized value for safe variant. */
+-	bool emulated;
++	struct xen_rdmsr_ret_type ret;
+ 
+-	if (pmu_msr_chk_emulated(msr, &val, true, &emulated) && emulated)
+-		return val;
++	ret.done = true;
+ 
+-	if (err)
+-		val = native_read_msr_safe(msr, err);
+-	else
+-		val = native_read_msr(msr);
++	if (pmu_msr_chk_emulated(msr, &ret.val, true, &ret.done) && ret.done)
++		return ret;
++
++	ret.val = 0;
++	ret.done = false;
++	return ret;
++}
+ 
++u64 xen_do_read_msr_fixup(u32 msr, u64 val)
++{
+ 	switch (msr) {
+ 	case MSR_IA32_APICBASE:
+ 		val &= ~X2APIC_ENABLE;
+@@ -1108,7 +1115,11 @@ static u64 xen_do_read_msr(unsigned int msr, int *err)
+ 		else
+ 			val &= ~MSR_IA32_APICBASE_BSP;
+ 		break;
++
++	default:
++		break;
  	}
++
+ 	return val;
+ }
+ 
+@@ -1160,18 +1171,6 @@ bool xen_do_write_msr(u32 msr, u64 val)
+ 	}
+ }
+ 
+-static u64 xen_read_msr_safe(unsigned int msr, int *err)
+-{
+-	return xen_do_read_msr(msr, err);
+-}
+-
+-static u64 xen_read_msr(unsigned int msr)
+-{
+-	int err;
+-
+-	return xen_do_read_msr(msr, xen_msr_safe ? &err : NULL);
+-}
+-
+ /* This is called once we have the cpu_possible_mask */
+ void __init xen_setup_vcpu_info_placement(void)
+ {
+@@ -1206,10 +1205,6 @@ static const typeof(pv_ops) xen_cpu_ops __initconst = {
+ 
+ 		.write_cr4 = xen_write_cr4,
+ 
+-		.read_msr = xen_read_msr,
+-
+-		.read_msr_safe = xen_read_msr_safe,
+-
+ 		.read_pmc = xen_read_pmc,
+ 
+ 		.load_tr_desc = paravirt_nop,
+diff --git a/arch/x86/xen/xen-asm.S b/arch/x86/xen/xen-asm.S
+index e672632b1cc0..6e7a9daa03d4 100644
+--- a/arch/x86/xen/xen-asm.S
++++ b/arch/x86/xen/xen-asm.S
+@@ -399,3 +399,37 @@ SYM_CODE_END(xen_entry_SYSCALL_compat)
+ 	RET
+ SYM_FUNC_END(asm_xen_write_msr)
+ EXPORT_SYMBOL_GPL(asm_xen_write_msr)
++
++/*
++ * The prototype of the Xen C code:
++ * 	struct { u64 val, bool done } xen_do_read_msr(u32 msr)
++ */
++SYM_FUNC_START(asm_xen_read_msr)
++	ENDBR
++	FRAME_BEGIN
++	XEN_SAVE_CALLEE_REGS_FOR_MSR
++	mov %ecx, %edi		/* MSR number */
++	call xen_do_read_msr
++	test %dl, %dl		/* %dl=1, i.e., ZF=0, meaning successfully done */
++	XEN_RESTORE_CALLEE_REGS_FOR_MSR
++	jnz 2f
++
++1:	rdmsr
++	_ASM_EXTABLE_FUNC_REWIND(1b, -5, FRAME_OFFSET / (BITS_PER_LONG / 8))
++	shl $0x20, %rdx
++	or %rdx, %rax
++	/*
++	 * The top of the stack points directly at the return address;
++	 * back up by 5 bytes from the return address.
++	 */
++
++	XEN_SAVE_CALLEE_REGS_FOR_MSR
++	mov %ecx, %edi
++	mov %rax, %rsi
++	call xen_do_read_msr_fixup
++	XEN_RESTORE_CALLEE_REGS_FOR_MSR
++
++2:	FRAME_END
++	RET
++SYM_FUNC_END(asm_xen_read_msr)
++EXPORT_SYMBOL_GPL(asm_xen_read_msr)
+diff --git a/arch/x86/xen/xen-ops.h b/arch/x86/xen/xen-ops.h
+index fc3c55871037..46efeaa4bbd3 100644
+--- a/arch/x86/xen/xen-ops.h
++++ b/arch/x86/xen/xen-ops.h
+@@ -146,7 +146,14 @@ __visible unsigned long xen_read_cr2_direct(void);
+ /* These are not functions, and cannot be called normally */
+ __visible void xen_iret(void);
+ 
++struct xen_rdmsr_ret_type {
++	u64 val;
++	bool done;
++};
++
+ extern bool xen_do_write_msr(u32 msr, u64 val);
++extern struct xen_rdmsr_ret_type xen_do_read_msr(u32 msr);
++extern u64 xen_do_read_msr_fixup(u32 msr, u64 val);
+ 
+ extern int xen_panic_handler_init(void);
+ 
 -- 
 2.49.0
 
