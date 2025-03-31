@@ -1,199 +1,81 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E9B1F03C9;
-	Mon, 31 Mar 2025 08:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1FD81D63D8;
+	Mon, 31 Mar 2025 09:08:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743409470; cv=none; b=fdYw+R82rqsVQVM+WEr1N8Yr/L4qGW48pgyXMQkdX6mQW8Ea+nOHzPXiuuBxs6e6LgKIJp40bJkFXsZQbh1tFz2SSghfuJ+dyZE3yLdLIq9s/XmRz+KPQ08kD4zYtnkFJd7x5YAru7Zx0aZxetT5Nccz9RWQAh01rY0bZg0WYVo=
+	t=1743412104; cv=none; b=S5YCb4epuL6iKWl4r3kQo0XAmwuyYItiDtdsrH4G7PUJ/XzRXopLHk5fzdw3jOs6Fbf0F2YUiwTPojqBIBvvViFAOfJi4HZV1TUinAm1MTkZFCC7arN605NVCVCVLHv8xSwos5uHswoES5dqDq55B7Yiy77/+9q4YZYqVrS+B0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743409470; c=relaxed/simple;
-	bh=oYmM0CCry6cTlflAhfomz2ZkehnIFifV1gvK1EPpSk8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y7gySEXhbix7tjkWBUsXuhH5bPqKngVeqAaCEfQlrWNPfr318XDxM7S0iCcRYvNAH6cpuQZHiFfclMC67kQrJBJ5/ak5Hfed3DgE8FE7qXwAzmoZNZNF56dIelNHb/ZdOS5S7GM0i/YVZ2+sX9PiJQemWoRk8FEspSx+xtsWOFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=EVNNysVl; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1743412104; c=relaxed/simple;
+	bh=wj8xpmWgK5yX9tmvccKgarihUFYI3+6qfieaV0vte8A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dmlVFqFVMIQ+7yRNIuD8oKBcTpT59BeNf9Il2gplybcY5CvXoWYvqU0yCuD/XRf+ubS4g/BthWgFWB3kcmq3dtMReZgZfRlz7wsSanyW0UJow3j9x/Sq4DLpSNGmXl1EKkXX+06zMhp26ixmuVhN4wNKxiJgCDrvEObFqHVA2p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=G0UXm+E5; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="EVNNysVl"
-Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52V8Mp073171319
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Mon, 31 Mar 2025 01:23:12 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52V8Mp073171319
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743409394;
-	bh=4oMqi/mNiX/dP3yUNXOh0KHKk5eO4mtyZ/S9nY+rYCU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EVNNysVl8UKZVEUX8F7MbPFwX2epn0yrpmH2w+9q6c8158NF8qnthafY3Pkh8Ilxh
-	 9M0ASaWQUpbHnDRwUDQa7VXHXLDjd40aeBCbAqUiExQtgZ+wsRgJSE1VkqGpirm+UR
-	 5prXvLiFohME5Rh9uOv5Cw+cBYozzUd9b4kenjhMrVaaMr45h9Bi4/VNNbAxT8bv2/
-	 Z8Dx3/k762OqkBR7GvNLYD2WZ0BEYXT78x4FpDvDc8rCAR5k7TIawz4/K3bBBGMueL
-	 W/Wh/zFdQkonvF67LZZkVO833IcrPosTMqlS6T0maUanzmLHMlKbYhc9HxoZ+xAFPV
-	 Y0GoucFLKizNQ==
-From: "Xin Li (Intel)" <xin@zytor.com>
-To: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-        linux-edac@vger.kernel.org, kvm@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-ide@vger.kernel.org,
-        linux-pm@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        jgross@suse.com, andrew.cooper3@citrix.com, peterz@infradead.org,
-        acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com,
-        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-        irogers@google.com, adrian.hunter@intel.com, kan.liang@linux.intel.com,
-        wei.liu@kernel.org, ajay.kaher@broadcom.com,
-        alexey.amakhalov@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-        tony.luck@intel.com, pbonzini@redhat.com, vkuznets@redhat.com,
-        seanjc@google.com, luto@kernel.org, boris.ostrovsky@oracle.com,
-        kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com
-Subject: [RFC PATCH v1 07/15] x86/msr: Remove pmu_msr_{read,write}()
-Date: Mon, 31 Mar 2025 01:22:43 -0700
-Message-ID: <20250331082251.3171276-8-xin@zytor.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250331082251.3171276-1-xin@zytor.com>
-References: <20250331082251.3171276-1-xin@zytor.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="G0UXm+E5"
+Received: by linux.microsoft.com (Postfix, from userid 1173)
+	id 3F07D211251B; Mon, 31 Mar 2025 02:08:22 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3F07D211251B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1743412102;
+	bh=fABQHcWYZ8fxGq7/i5KjcTNIPf7v1OtIahvQKBq53HY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G0UXm+E5pJvBajFQAcgChgjbeLApGtSbrxm9PWAclRtmiFjZyrAzZfd6CDJl13g1m
+	 I76jORF5O8NDRWT/5uzAmJHGD8H2GDyt0Ig6fpcSuPIZrnPaZ7D4/nfUQl/udaVP3R
+	 j+BsyYfKaJaGYkuAQjd3kUS0nwRLhWXkOO3pxoGs=
+Date: Mon, 31 Mar 2025 02:08:22 -0700
+From: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Haiyang Zhang <haiyangz@microsoft.com>,
+	Jakub Kicinski <kuba@kernel.org>, KY Srinivasan <kys@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	Long Li <longli@microsoft.com>,
+	Konstantin Taranov <kotaranov@microsoft.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"brett.creeley@amd.com" <brett.creeley@amd.com>,
+	"surenb@google.com" <surenb@google.com>,
+	"schakrabarti@linux.microsoft.com" <schakrabarti@linux.microsoft.com>,
+	"kent.overstreet@linux.dev" <kent.overstreet@linux.dev>,
+	"shradhagupta@linux.microsoft.com" <shradhagupta@linux.microsoft.com>,
+	"erick.archer@outlook.com" <erick.archer@outlook.com>,
+	"rosenp@gmail.com" <rosenp@gmail.com>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	Paul Rosswurm <paulros@microsoft.com>
+Subject: Re: [EXTERNAL] Re: [PATCH 2/3] net: mana: Implement
+ set_link_ksettings in ethtool for speed
+Message-ID: <20250331090822.GA22061@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1742473341-15262-1-git-send-email-ernis@linux.microsoft.com>
+ <1742473341-15262-3-git-send-email-ernis@linux.microsoft.com>
+ <fb6b544f-f683-4307-8adf-82d37540c556@lunn.ch>
+ <20250325170955.GB23398@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+ <adaaa2b0-c161-4d4f-8199-921002355d05@lunn.ch>
+ <20250325122135.14ffa389@kernel.org>
+ <MN0PR21MB3437DA2C43930B08036BB146CAA72@MN0PR21MB3437.namprd21.prod.outlook.com>
+ <6396c1f7-756d-476a-833e-7ea35ae41da8@lunn.ch>
+ <MN0PR21MB34376199FAFAE4901EF18E75CAA72@MN0PR21MB3437.namprd21.prod.outlook.com>
+ <f2619b80-8d5d-4484-a154-18f902d43d63@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2619b80-8d5d-4484-a154-18f902d43d63@lunn.ch>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-Now pmu_msr_{read,write}() just do pmu_msr_chk_emulated(), so remove
-them and call pmu_msr_chk_emulated() directly.
+Thank you Andrew, Jakub for pointing out all the available options. 
 
-Suggested-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
----
- arch/x86/xen/enlighten_pv.c | 17 ++++++++++-------
- arch/x86/xen/pmu.c          | 24 ++++--------------------
- arch/x86/xen/xen-ops.h      |  3 +--
- 3 files changed, 15 insertions(+), 29 deletions(-)
-
-diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
-index 7401cce19939..a047dadf4511 100644
---- a/arch/x86/xen/enlighten_pv.c
-+++ b/arch/x86/xen/enlighten_pv.c
-@@ -1090,8 +1090,9 @@ static void xen_write_cr4(unsigned long cr4)
- static u64 xen_do_read_msr(unsigned int msr, int *err)
- {
- 	u64 val = 0;	/* Avoid uninitialized value for safe variant. */
-+	bool emulated;
- 
--	if (pmu_msr_read(msr, &val, err))
-+	if (pmu_msr_chk_emulated(msr, &val, true, &emulated) && emulated)
- 		return val;
- 
- 	if (err)
-@@ -1134,6 +1135,7 @@ static void xen_do_write_msr(unsigned int msr, unsigned int low,
- 			     unsigned int high, int *err)
- {
- 	u64 val;
-+	bool emulated;
- 
- 	switch (msr) {
- 	case MSR_FS_BASE:
-@@ -1163,12 +1165,13 @@ static void xen_do_write_msr(unsigned int msr, unsigned int low,
- 	default:
- 		val = (u64)high << 32 | low;
- 
--		if (!pmu_msr_write(msr, val)) {
--			if (err)
--				*err = native_write_msr_safe(msr, val);
--			else
--				native_write_msr(msr, val);
--		}
-+		if (pmu_msr_chk_emulated(msr, &val, false, &emulated) && emulated)
-+			return;
-+
-+		if (err)
-+			*err = native_write_msr_safe(msr, val);
-+		else
-+			native_write_msr(msr, val);
- 	}
- }
- 
-diff --git a/arch/x86/xen/pmu.c b/arch/x86/xen/pmu.c
-index 1364cd3fb3ef..4d20503430dd 100644
---- a/arch/x86/xen/pmu.c
-+++ b/arch/x86/xen/pmu.c
-@@ -128,7 +128,7 @@ static inline uint32_t get_fam15h_addr(u32 addr)
- 	return addr;
- }
- 
--static inline bool is_amd_pmu_msr(unsigned int msr)
-+static bool is_amd_pmu_msr(u32 msr)
- {
- 	if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD &&
- 	    boot_cpu_data.x86_vendor != X86_VENDOR_HYGON)
-@@ -194,8 +194,7 @@ static bool is_intel_pmu_msr(u32 msr_index, int *type, int *index)
- 	}
- }
- 
--static bool xen_intel_pmu_emulate(unsigned int msr, u64 *val, int type,
--				  int index, bool is_read)
-+static bool xen_intel_pmu_emulate(u32 msr, u64 *val, int type, int index, bool is_read)
- {
- 	uint64_t *reg = NULL;
- 	struct xen_pmu_intel_ctxt *ctxt;
-@@ -257,7 +256,7 @@ static bool xen_intel_pmu_emulate(unsigned int msr, u64 *val, int type,
- 	return false;
- }
- 
--static bool xen_amd_pmu_emulate(unsigned int msr, u64 *val, bool is_read)
-+static bool xen_amd_pmu_emulate(u32 msr, u64 *val, bool is_read)
- {
- 	uint64_t *reg = NULL;
- 	int i, off = 0;
-@@ -298,8 +297,7 @@ static bool xen_amd_pmu_emulate(unsigned int msr, u64 *val, bool is_read)
- 	return false;
- }
- 
--static bool pmu_msr_chk_emulated(unsigned int msr, uint64_t *val, bool is_read,
--				 bool *emul)
-+bool pmu_msr_chk_emulated(u32 msr, u64 *val, bool is_read, bool *emul)
- {
- 	int type, index = 0;
- 
-@@ -313,20 +311,6 @@ static bool pmu_msr_chk_emulated(unsigned int msr, uint64_t *val, bool is_read,
- 	return true;
- }
- 
--bool pmu_msr_read(u32 msr, u64 *val, int *err)
--{
--	bool emulated;
--
--	return pmu_msr_chk_emulated(msr, val, true, &emulated) && emulated;
--}
--
--bool pmu_msr_write(u32 msr, u64 val)
--{
--	bool emulated;
--
--	return pmu_msr_chk_emulated(msr, &val, false, &emulated) && emulated;
--}
--
- static unsigned long long xen_amd_read_pmc(int counter)
- {
- 	struct xen_pmu_amd_ctxt *ctxt;
-diff --git a/arch/x86/xen/xen-ops.h b/arch/x86/xen/xen-ops.h
-index 4a0a1d73d8b8..6545661010ce 100644
---- a/arch/x86/xen/xen-ops.h
-+++ b/arch/x86/xen/xen-ops.h
-@@ -274,8 +274,7 @@ void xen_pmu_finish(int cpu);
- static inline void xen_pmu_init(int cpu) {}
- static inline void xen_pmu_finish(int cpu) {}
- #endif
--bool pmu_msr_read(u32 msr, u64 *val, int *err);
--bool pmu_msr_write(u32 msr, u64 val);
-+bool pmu_msr_chk_emulated(u32 msr, u64 *val, bool is_read, bool *emul);
- int pmu_apic_update(uint32_t reg);
- unsigned long long xen_read_pmc(int counter);
- 
--- 
-2.49.0
-
+We are currently investigating their feasibility based on our use case.
+Would update the thread/get in touch, about our findings before sending
+out the next version.
