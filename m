@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77299221DBC;
-	Mon,  7 Apr 2025 20:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E81F223301;
+	Mon,  7 Apr 2025 20:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744056828; cv=none; b=otJJsXykwANBoIDITT0QVILa9O5iKlMQ4WzynMBpfOSsEwa3Z+qurv08JRoTTHqLQDfP7gHaS6IsABG7VxUi68gvn0Qp10bqfrqvt8IOVVXonYP924b0sUVU/EtDbdBaQFJp0YEGuAiIvtHAXmwGhI3p4YmcfLTGg9Y6thGUzaw=
+	t=1744056829; cv=none; b=BcikpkUaCUa9DgOXcyh+45DaaA1z1rDSDlNBnBF9sUbtwLY09kU3SINs30d66Xb646weQrjnFHVhIFwbyU6l6uBZ0sk/4YQ6BZN5zDn4fv+GXmw9AebKqA9hyqVOEuu/a5ZBeLP4NX2jGT1LOHKqiPItvwFVjGy7rnzmoCWxsrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744056828; c=relaxed/simple;
-	bh=ZGj2gtP/71btjW24CORT0GYhvKO65Q8hKKLGYbAtFkY=;
+	s=arc-20240116; t=1744056829; c=relaxed/simple;
+	bh=yyeCOwTtD22c7lWwDL8rT+3NYpBmdivd0mRGeBs8v1M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hj/EtLCuemIopKzYBE0+f+yeMOkL7TxJL5fOUK+DPpxR9blnFasDxwK+FZ/MASvofiIJ9Aql8aDuqcOP8xCINvc0+cROs/SXvm++oLMQCFlT11lvDK6ofu1eZ0epECDJv8UgRGlSsrCqgosdFsBpAQZxKmACce1rr4uU8ExBZi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rlJew+pC; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=YOQjJ8O+OM6UoprLmgGGzQOGeZgMjyyrTa0mT68GEOXX8iW/Q27+LzEKw+f7W30VNhsVOMtqwe1EUBS+oU5/8FGW7nOePo/d2N1p7gj0qWsAD7BJhChZ6VkEO4Gy13UnFbYR9VXHe4rDmflJHNSENM6z8UfUzilr1k3wiD3jZ/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=EHi+eNCM; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rlJew+pC"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="EHi+eNCM"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8A3C72113E80;
-	Mon,  7 Apr 2025 13:13:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8A3C72113E80
+	by linux.microsoft.com (Postfix) with ESMTPSA id 54B862113E88;
+	Mon,  7 Apr 2025 13:13:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 54B862113E88
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744056820;
-	bh=EiWYoHUyjXVwkeFT7aCipcb1kNdkuvJlZrw4+O5x91w=;
+	s=default; t=1744056821;
+	bh=y7usvJbWdzao6Cpj0TdEPzfAZnIHMs9Jb/NJTFyO0qY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rlJew+pCEAMAblBos5cUaZBK6FKYFaxcs04yrXFuct3w6xqmKjYZA36rsuov3EMQ/
-	 oYjtfnce66ifmDsZfd+J96isC9P31jB3RzYVN7BhlmEdU9oWWfPYii+boWnCdhEXn5
-	 YpKE82W2b45+KZBAAkFlKywWLsD0U1wKtlrEjmDI=
+	b=EHi+eNCM61h7pcU0C55egc10Rg40Cvcy6Ih35fIv/1RsKF9JPtRNv7yhXKGfHqsyL
+	 ikM/4E2A0i93AFZsf4k9usi61d7e3AkCo+xLigqbb5BwwPafyDGNBT7FOLbbavgBmJ
+	 vKSkrPu3BEIHIzFj0BWtz64ATsqoxCs4BlMKicQs=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bhelgaas@google.com,
@@ -70,9 +70,9 @@ Cc: apais@microsoft.com,
 	benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v7 06/11] arm64, x86: hyperv: Report the VTL the system boots in
-Date: Mon,  7 Apr 2025 13:13:31 -0700
-Message-ID: <20250407201336.66913-7-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v7 08/11] Drivers: hv: vmbus: Get the IRQ number from DeviceTree
+Date: Mon,  7 Apr 2025 13:13:33 -0700
+Message-ID: <20250407201336.66913-9-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250407201336.66913-1-romank@linux.microsoft.com>
 References: <20250407201336.66913-1-romank@linux.microsoft.com>
@@ -84,48 +84,67 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The hyperv guest code might run in various Virtual Trust Levels.
+The VMBus driver uses ACPI for interrupt assignment on
+arm64 hence it won't function in the VTL mode where only
+DeviceTree can be used.
 
-Report the level when the kernel boots in the non-default (0)
-one.
+Update the VMBus driver to discover interrupt configuration
+from DT.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- arch/arm64/hyperv/mshyperv.c | 2 ++
- arch/x86/hyperv/hv_vtl.c     | 7 ++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/hv/vmbus_drv.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-index 43f422a7ef34..4fdc26ade1d7 100644
---- a/arch/arm64/hyperv/mshyperv.c
-+++ b/arch/arm64/hyperv/mshyperv.c
-@@ -118,6 +118,8 @@ static int __init hyperv_init(void)
- 	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
- 		hv_get_partition_id();
- 	ms_hyperv.vtl = get_vtl();
-+	if (ms_hyperv.vtl > 0) /* non default VTL */
-+		pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
+diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
+index 22afebfc28ff..e8f2c3e92d1f 100644
+--- a/drivers/hv/vmbus_drv.c
++++ b/drivers/hv/vmbus_drv.c
+@@ -2345,6 +2345,31 @@ static int vmbus_acpi_add(struct platform_device *pdev)
+ }
+ #endif
  
- 	ms_hyperv_late_init();
- 
-diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
-index 582fe820e29c..038c896fdd60 100644
---- a/arch/x86/hyperv/hv_vtl.c
-+++ b/arch/x86/hyperv/hv_vtl.c
-@@ -55,7 +55,12 @@ static void  __noreturn hv_vtl_restart(char __maybe_unused *cmd)
- 
- void __init hv_vtl_init_platform(void)
++static int vmbus_set_irq(struct platform_device *pdev)
++{
++	struct irq_data *data;
++	int irq;
++	irq_hw_number_t hwirq;
++
++	irq = platform_get_irq(pdev, 0);
++	/* platform_get_irq() may not return 0. */
++	if (irq < 0)
++		return irq;
++
++	data = irq_get_irq_data(irq);
++	if (!data) {
++		pr_err("No interrupt data for VMBus virq %d\n", irq);
++		return -ENODEV;
++	}
++	hwirq = irqd_to_hwirq(data);
++
++	vmbus_irq = irq;
++	vmbus_interrupt = hwirq;
++	pr_debug("VMBus virq %d, hwirq %d\n", vmbus_irq, vmbus_interrupt);
++
++	return 0;
++}
++
+ static int vmbus_device_add(struct platform_device *pdev)
  {
--	pr_info("Linux runs in Hyper-V Virtual Trust Level\n");
-+	/*
-+	 * This function is a no-op if the VTL mode is not enabled.
-+	 * If it is, this function runs if and only if the kernel boots in
-+	 * VTL2 which the x86 hv initialization path makes sure of.
-+	 */
-+	pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
+ 	struct resource **cur_res = &hyperv_mmio;
+@@ -2359,6 +2384,11 @@ static int vmbus_device_add(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
  
- 	x86_platform.realmode_reserve = x86_init_noop;
- 	x86_platform.realmode_init = x86_init_noop;
++	if (!__is_defined(HYPERVISOR_CALLBACK_VECTOR))
++		ret = vmbus_set_irq(pdev);
++	if (ret)
++		return ret;
++
+ 	for_each_of_range(&parser, &range) {
+ 		struct resource *res;
+ 
 -- 
 2.43.0
 
