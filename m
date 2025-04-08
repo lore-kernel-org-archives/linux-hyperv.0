@@ -1,201 +1,127 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 812AB223300;
-	Mon,  7 Apr 2025 20:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744056831; cv=none; b=DNlhoVagHlKmeop+k7B6qby7wUjy4YAhtiAM2f+Aw71XTib+y57I3G9gvsmkYv1E2aWZB4fHkvjd7sFSaLHq25Jv1XkMVOLD0mrFrfAaunbAQyCiHcZyXeQTyxaLMijOPJ45cbj0zK9yMsukhxPSDFGVDxUMbXpN8oP4xp2xEdM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744056831; c=relaxed/simple;
-	bh=QUapfEldpyCw648cR7hTfLhDYfYdHNw9I24sIY3wewA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A4WDUAu4oBi7G3BNlWGcw2qZz4ca7gVpPXuJBOQX/vZt8VvrKexd7MLsyWSQDp7fRCUe/WOe97NUk4xqOpv8ZXYBH4gHRs6y7JG5Ta0dZSWleORYCj6X1FlqY3/bb2QzuHrEsLzW7yM25daSOsLqqNyffOKMdkjnLFkwR+irBX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=E0MkSuc4; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [85.215.255.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7549B198E91
+	for <linux-hyperv@vger.kernel.org>; Tue,  8 Apr 2025 04:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744086265; cv=pass; b=U6BG2npuP960g+p+1DKhxDBzQHCVy7FUwzGdTqpBIPSRL5/UcqzqGkEyatQmCH70XGQNc1JvdmGvMMP0HmlQnprBQibN1P10yoGOtAKwORmb9xQ8Zyspm2vA0m69tAzrc4UDVTotOYtTGL/5mRGOfFTnBm8r2NVtAfMTvKN67Dk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744086265; c=relaxed/simple;
+	bh=w5RwJZ7m5XXuJp7EFh6fCENVkJaa5gkg0Z2MXXFHdvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lrLEwRadNKtyYEVe4AK/QdCwQ9dM+m1ylf/p8uqx1Mxmt5lPLic6r9rQAGDhjWSEyBME+QLvdxbkjIysP/INsT9a7+yFzMZSPRpHrTagvzpdAincMb8oyiwYw44S+wygKsJ0CiqGpAuEolIUDGMdQsvPfRcTsT+M7pMIk55aAWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aepfle.de; spf=pass smtp.mailfrom=aepfle.de; dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=cLzK2pwU; dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b=4jXtGW83; arc=pass smtp.client-ip=85.215.255.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aepfle.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aepfle.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="E0MkSuc4"
-Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B47742113E7B;
-	Mon,  7 Apr 2025 13:13:41 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B47742113E7B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744056822;
-	bh=k4K++fqiP84qacsZ/10/m3tNXa1bo+IGgMpwd09KRMY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=E0MkSuc4AWTZBbrsulJffigv5JiHduEwoVUmHpE7ydw/fwD0EiuNP8mZS9B0OLUu6
-	 LmxgxlugN67qHgG7dz65ki2/ijUW7lvX1HJAfkPMu41fVQSvRluuwIu2mMT9Yqm9bR
-	 AIBXIm7ohm/LIRhXEEulGwsLpV5FlDJIadD9ks7s=
-From: Roman Kisel <romank@linux.microsoft.com>
-To: arnd@arndb.de,
-	bhelgaas@google.com,
-	bp@alien8.de,
-	catalin.marinas@arm.com,
-	conor+dt@kernel.org,
-	dan.carpenter@linaro.org,
-	dave.hansen@linux.intel.com,
-	decui@microsoft.com,
-	haiyangz@microsoft.com,
-	hpa@zytor.com,
-	joey.gouly@arm.com,
-	krzk+dt@kernel.org,
-	kw@linux.com,
-	kys@microsoft.com,
-	lenb@kernel.org,
-	lpieralisi@kernel.org,
-	manivannan.sadhasivam@linaro.org,
-	mark.rutland@arm.com,
-	maz@kernel.org,
-	mingo@redhat.com,
-	oliver.upton@linux.dev,
-	rafael@kernel.org,
-	robh@kernel.org,
-	rafael.j.wysocki@intel.com,
-	ssengar@linux.microsoft.com,
-	sudeep.holla@arm.com,
-	suzuki.poulose@arm.com,
-	tglx@linutronix.de,
-	wei.liu@kernel.org,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	devicetree@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-acpi@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	x86@kernel.org
-Cc: apais@microsoft.com,
-	benhill@microsoft.com,
-	bperkins@microsoft.com,
-	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v7 09/11] Drivers: hv: vmbus: Introduce hv_get_vmbus_root_device()
-Date: Mon,  7 Apr 2025 13:13:34 -0700
-Message-ID: <20250407201336.66913-10-romank@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250407201336.66913-1-romank@linux.microsoft.com>
-References: <20250407201336.66913-1-romank@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="cLzK2pwU";
+	dkim=permerror (0-bit key) header.d=aepfle.de header.i=@aepfle.de header.b="4jXtGW83"
+ARC-Seal: i=1; a=rsa-sha256; t=1744086073; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=VXwPbrCsLTBHcAjXxycIhklXPk8uwnyWc5WDl8M8VA0e4CQcgeHZ4bliwqcpqTsOJS
+    aMROFIIQ2cV5RsfAHxRJHGEV7YVqetA/5ZVFKZC/tZdZbzVZJ6BtcCrjQ4Khq57xuKSI
+    YlDhfjr+5Ljvzisp3mUfPr/NEObIQDC80Xbk7TT+oevPPgJophn/8qGs+pUTkCTepvEl
+    M2wnEbpab4IWzi++9MBhjlMR0pOz3vIC7AqSMNepalwBiAvsZr05P4pmuy1p+sbOEMI4
+    qKFVsmVdmf/5Joy39uiSaebXzcnhyjsPsrsm/fLHtNUxysWEmVIuL/X2Uj8gr9b4986M
+    1QXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1744086073;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=crJkZ+qUuEJuaRsVavYmXqUmXjBavHJMVzb7XFS/MmI=;
+    b=ISTINnUr8yPUq6JB0sMv/1oVkcr30RBIjtiAL6wiWHrvgg3mYi/lV1RF2fmdDGpvtm
+    ZxuBFfKgbyI0rOSUdvuf+20ijCABXD2kYg7k3G68YDvwa5W+ogS6G9lw11dDXDaFLdPe
+    URJB9KjJlby8qPhMrrWcCfKkt55kzJVw+854KzmZsC/0QQYbOvbeKbYp2OLsii7EZyFy
+    fdiOZTiB0ekaT9KK0jeaoj646sqs0qZRetTMl4CLYRSiJL2XiGQ1xDqIMa3dHBao06Xz
+    9WyMFKeNIESUjMqv+ZdYFGyeyzbiRsDC7ysfAbMUjF27Iwj1u5ft64wlsVW1t2rGX3w6
+    G29Q==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1744086073;
+    s=strato-dkim-0002; d=aepfle.de;
+    h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=crJkZ+qUuEJuaRsVavYmXqUmXjBavHJMVzb7XFS/MmI=;
+    b=cLzK2pwUp80ov1x3ryv/LW8yGHKK6xeQ9/kHpB3/Myv3UBjxGMZXVhSGn5yZGpqFz0
+    OLs9Rmgnhs4rvNEVIK9gGCRE9Ex2UqMHMRXy5rCSfMUd7SK9JGo0eN5ZPSs8LQOr5A8N
+    R3SX/SWdTXo7t6xI3dCr+c2InXD9VwcnTZ55TzE37k4AyMQTJQlktKKC/pKjaCD4jGsN
+    sT3MODv5zstNpNtYXOXrFfdEOOdZeHZxKY5unObrZ3vmWP8AI7tGjNiGUh7/z1uKwFHK
+    RN9fKsRk4DGVlTt9rbTbmN990qJ+JwcPjuzCPSxH/a/3qPxyxr8cGL5+GmTRDPARqpjW
+    azBA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1744086073;
+    s=strato-dkim-0003; d=aepfle.de;
+    h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=crJkZ+qUuEJuaRsVavYmXqUmXjBavHJMVzb7XFS/MmI=;
+    b=4jXtGW834vPmoaXQ/NLy9aUVA7l2KJfle7f96HcwFCm74qXI7KR5WntHkNBX9PbDu9
+    q78mVca3Fe5lCNzWn1Bw==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDX3y/OmD4uXd0fmxSoJ8/RK6b07KGriu4yBf+6JptMSdiuOzXC/d"
+Received: from sender
+    by smtp.strato.de (RZmta 51.3.0 AUTH)
+    with ESMTPSA id D1c4dd1384LCOkS
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Tue, 8 Apr 2025 06:21:12 +0200 (CEST)
+Date: Tue, 8 Apr 2025 06:20:57 +0200
+From: Olaf Hering <olaf@aepfle.de>
+To: linux-hyperv@vger.kernel.org
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
+ <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+ <decui@microsoft.com>
+Subject: Re: [PATCH v1] tools/hv: update route parsing in kvp daemon
+Message-ID: <20250408062057.6f5812d3.olaf@aepfle.de>
+In-Reply-To: <20241202102235.9701-1-olaf@aepfle.de>
+References: <20241202102235.9701-1-olaf@aepfle.de>
+X-Mailer: Claws Mail (olh) 20240408T134401.7adfa8f7 hat ein Softwareproblem, kann man nichts machen.
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/QJapevxT==4ySCMrXSj.IiG";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 7bit
 
-The ARM64 PCI code for hyperv needs to know the VMBus root
-device, and it is private.
+--Sig_/QJapevxT==4ySCMrXSj.IiG
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Provide a function that returns it. Rename it from "hv_dev"
-as "hv_dev" as a symbol is very overloaded. No functional
-changes.
+Mon,  2 Dec 2024 11:19:55 +0100 Olaf Hering <olaf@aepfle.de>:
 
-Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
----
- drivers/hv/vmbus_drv.c | 23 +++++++++++++++--------
- include/linux/hyperv.h |  2 ++
- 2 files changed, 17 insertions(+), 8 deletions(-)
+> After recent changes in the VM network stack, the host fails to
+> display the IP addresses of the VM. As a result the "IP Addresses"
+> column in the "Networking" tab in the Windows Hyper-V Manager is
+> empty.
 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index e8f2c3e92d1f..df18b4070b01 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -45,7 +45,8 @@ struct vmbus_dynid {
- 	struct hv_vmbus_device_id id;
- };
- 
--static struct device  *hv_dev;
-+/* VMBus Root Device */
-+static struct device  *vmbus_root_device;
- 
- static int hyperv_cpuhp_online;
- 
-@@ -80,9 +81,15 @@ static struct resource *fb_mmio;
- static struct resource *hyperv_mmio;
- static DEFINE_MUTEX(hyperv_mmio_lock);
- 
-+struct device *hv_get_vmbus_root_device(void)
-+{
-+	return vmbus_root_device;
-+}
-+EXPORT_SYMBOL_GPL(hv_get_vmbus_root_device);
-+
- static int vmbus_exists(void)
- {
--	if (hv_dev == NULL)
-+	if (vmbus_root_device == NULL)
- 		return -ENODEV;
- 
- 	return 0;
-@@ -861,7 +868,7 @@ static int vmbus_dma_configure(struct device *child_device)
- 	 * On x86/x64 coherence is assumed and these calls have no effect.
- 	 */
- 	hv_setup_dma_ops(child_device,
--		device_get_dma_attr(hv_dev) == DEV_DMA_COHERENT);
-+		device_get_dma_attr(vmbus_root_device) == DEV_DMA_COHERENT);
- 	return 0;
- }
- 
-@@ -1930,7 +1937,7 @@ int vmbus_device_register(struct hv_device *child_device_obj)
- 		     &child_device_obj->channel->offermsg.offer.if_instance);
- 
- 	child_device_obj->device.bus = &hv_bus;
--	child_device_obj->device.parent = hv_dev;
-+	child_device_obj->device.parent = vmbus_root_device;
- 	child_device_obj->device.release = vmbus_device_release;
- 
- 	child_device_obj->device.dma_parms = &child_device_obj->dma_parms;
-@@ -2292,7 +2299,7 @@ static int vmbus_acpi_add(struct platform_device *pdev)
- 	struct acpi_device *ancestor;
- 	struct acpi_device *device = ACPI_COMPANION(&pdev->dev);
- 
--	hv_dev = &device->dev;
-+	vmbus_root_device = &device->dev;
- 
- 	/*
- 	 * Older versions of Hyper-V for ARM64 fail to include the _CCA
-@@ -2378,7 +2385,7 @@ static int vmbus_device_add(struct platform_device *pdev)
- 	struct device_node *np = pdev->dev.of_node;
- 	int ret;
- 
--	hv_dev = &pdev->dev;
-+	vmbus_root_device = &pdev->dev;
- 
- 	ret = of_range_parser_init(&parser, np);
- 	if (ret)
-@@ -2696,7 +2703,7 @@ static int __init hv_acpi_init(void)
- 	if (ret)
- 		return ret;
- 
--	if (!hv_dev) {
-+	if (!vmbus_root_device) {
- 		ret = -ENODEV;
- 		goto cleanup;
- 	}
-@@ -2727,7 +2734,7 @@ static int __init hv_acpi_init(void)
- 
- cleanup:
- 	platform_driver_unregister(&vmbus_platform_driver);
--	hv_dev = NULL;
-+	vmbus_root_device = NULL;
- 	return ret;
- }
- 
-diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
-index 675959fb97ba..1f310fbbc4f9 100644
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1277,6 +1277,8 @@ static inline void *hv_get_drvdata(struct hv_device *dev)
- 	return dev_get_drvdata(&dev->device);
- }
- 
-+struct device *hv_get_vmbus_root_device(void);
-+
- struct hv_ring_buffer_debug_info {
- 	u32 current_interrupt_mask;
- 	u32 current_read_index;
--- 
-2.43.0
+Did anyone had time to address this issue?
 
+
+Olaf
+
+
+--Sig_/QJapevxT==4ySCMrXSj.IiG
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmf0pCkACgkQ86SN7mm1
+DoACRA//cBXW7YJW5yuqs81dzunHGzzyvM5AbCHvhK7AAO2yNEiyjGM56kMmulyv
+3JFwSKqKzsjnmn9pukCVy6wM5qABirwAoz1GG7f+5yt7uS41Kvge98DCRlCCxSaC
+0zgMromn9iO7Ho/5kJNHMOCymCiwjc3QDCIdkwj4K9rrg2kbI7CkcwX9YA71ADx+
+TFmcB5PJacFDMgcKXZsn1ILsgdMH5LeOu28MV3WhMPiLQJwnw+LCBFcuI+gHBLjf
+LKftZ/GHjFlNYWRcUQWsa7C+y2fsn0Z1W/lzu7QiP1WVI+4dezwMDyonqtn/5+wD
+uMGfwGeHhm7NvCN/EpF/0B4e5Xdy2iU0c4Kz7Wg3uIwKZxjzQNCy5lXEK7TYdf0B
+mPJQnyHbCkRX+2H7zYtlXddaK3TskNrF6hFb4Zt4Hcu6a+nNj3s2xlTflzI5k9C5
+gFQ8i/P7QwB5Nicd5DjlKF4aMlCDAcBn8xzQjLmsG9ys7mVHHH8Fiw+Aksqb6t5E
+Quxa7myVeB96Vp3N5Y//WonBRO9t+JwTBRFITvAlmV8KeDxw4PApxaVEoI/u6xD3
+FHKZm88auJRMw1fvnNxewPAGd2qaHbwBlfu0N2CgChJWuX+IJ+wtBgamg8dgYUun
+dWaiQllSo1+bQwtIAFY5bfazuRYMLNuEUTeQB6eftjq1AqVEqts=
+=P8yw
+-----END PGP SIGNATURE-----
+
+--Sig_/QJapevxT==4ySCMrXSj.IiG--
