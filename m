@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9961F3B8D;
-	Mon, 14 Apr 2025 22:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A9C1F4612;
+	Mon, 14 Apr 2025 22:47:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744670839; cv=none; b=slaL+xzODWO3vyHVsV0tM+KuCsLObn0oEugNRmLKY4gPGN8UqoxZbyFhT80q8wvvKQBfE/D4y4oRurQJNFT4/BPdttBbgtxkHwLj61TbuS7To0bitTVQB2xM6eaprSikTdQobDQfAsDO8dpK3cHW+D0rmsnLPbHrM/cqWs2el6M=
+	t=1744670839; cv=none; b=Kf9VPMJ0N3Bv86UNH7rPcKCaTgYAkaWrQI/qIX1l6Ij7FfVARx6YqIoDeynOeoxtqkgBOs7Eos9VSiuT2S80Xu/+MqPcc5Z+7ewhDTr/uCKDPY0olOUPLNHkCgiQvnWJgi2WSknoXF8e6n0/D7PbevWJVNStLfzc2pp4Ye9hLm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744670839; c=relaxed/simple;
-	bh=qMdX+OYxCd+405CKynjk8lSsHu591NwkBTr5jpSPm0o=;
+	bh=c+/j/2pboRhj9Sr9Wq7w4Fvl1hw1Q8cVfjYg/TpnhbM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rOSlqskzG97cZRogaSy19XDIB8ePTw7mdZQWwYLUvUkJHwFAN/rN5WS+juLGA3jfVz43pSi1yKmSWVW3oWQmhy3Jk9+whG8ee8PlF7JXgnwR73mh3hfuCYvtKZirRPWIlQdVtB65H5ndKGbrjRCOu3gCpVOedNAuun+f1yfIrAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=FOZ335NE; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=HGx+1Bs35Mok9BktHRSbcJyvh3ebG8s3zelRkZMhijMExgF2Z45Ya7/7xRLaq12xhp/EK8IIPmEBoFIfwoTCsfS/m9t8SCGrBumdrt61IVBhiEVkgFFGtZe9TALSVQrQLgVqXc4nW00zqMvD2D/KrRPviijTD9rkkDbZqhQVKHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QyTTM/5q; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FOZ335NE"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QyTTM/5q"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.159.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 9D7CF210C42D;
-	Mon, 14 Apr 2025 15:47:15 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9D7CF210C42D
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2CF3D210C432;
+	Mon, 14 Apr 2025 15:47:17 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2CF3D210C432
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744670835;
-	bh=NYi43WhtS1hVthbgtuaLVNWnlw3+yXhxoNWNK/Qb6Jg=;
+	s=default; t=1744670837;
+	bh=vzZkIFRMD2hQLh9+VvUPueZXLrCeW93f5raMLcL3650=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FOZ335NEPx1NnMrhoMAyeAlWfWIw/LtKYiNBBk0X0NRof/x+k37UKIbRtvWAiV88R
-	 6s6uqWrG6LuFFUR2ekZSO9z0fgE9DMa5B4gAwBqGAjVzP7mecGMmYJ1qjp12aZORE7
-	 3tXtmvohB+dh4XBKgmZUN2qIFOilUz00BouvElAk=
+	b=QyTTM/5qZBzDtsTacZnj7FmSTNxoQeBAH+Np8Jn4ipweWDspLjOdKgg33R2x7We61
+	 YVk1HzbS5LzdvN+t4I1PzvjJKkVE1Dhh9BVtcYTq4GSrWn8DzN+6oI4aaeKMpQK1Am
+	 4MRsLDysJIU63hY/S3MFq2UkuomqAZEHvJ2nhm6g=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bhelgaas@google.com,
@@ -70,9 +70,9 @@ Cc: apais@microsoft.com,
 	benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v8 02/11] arm64: hyperv: Use SMCCC to detect hypervisor presence
-Date: Mon, 14 Apr 2025 15:47:04 -0700
-Message-ID: <20250414224713.1866095-3-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v8 06/11] arm64, x86: hyperv: Report the VTL the system boots in
+Date: Mon, 14 Apr 2025 15:47:08 -0700
+Message-ID: <20250414224713.1866095-7-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250414224713.1866095-1-romank@linux.microsoft.com>
 References: <20250414224713.1866095-1-romank@linux.microsoft.com>
@@ -84,89 +84,48 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The arm64 Hyper-V startup path relies on ACPI to detect
-running under a Hyper-V compatible hypervisor. That
-doesn't work on non-ACPI systems.
+The hyperv guest code might run in various Virtual Trust Levels.
 
-Hoist the ACPI detection logic into a separate function. Then
-use the vendor-specific hypervisor service call (implemented
-recently in Hyper-V) via SMCCC in the non-ACPI case.
+Report the level when the kernel boots in the non-default (0)
+one.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 ---
- arch/arm64/hyperv/mshyperv.c | 50 ++++++++++++++++++++++++++++++++----
- 1 file changed, 45 insertions(+), 5 deletions(-)
+ arch/arm64/hyperv/mshyperv.c | 2 ++
+ arch/x86/hyperv/hv_vtl.c     | 7 ++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
-index 4e27cc29c79e..21458b6338aa 100644
+index 43f422a7ef34..4fdc26ade1d7 100644
 --- a/arch/arm64/hyperv/mshyperv.c
 +++ b/arch/arm64/hyperv/mshyperv.c
-@@ -28,6 +28,48 @@ int hv_get_hypervisor_version(union hv_hypervisor_version_info *info)
- }
- EXPORT_SYMBOL_GPL(hv_get_hypervisor_version);
+@@ -118,6 +118,8 @@ static int __init hyperv_init(void)
+ 	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
+ 		hv_get_partition_id();
+ 	ms_hyperv.vtl = get_vtl();
++	if (ms_hyperv.vtl > 0) /* non default VTL */
++		pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
  
-+#ifdef CONFIG_ACPI
-+
-+static bool __init hyperv_detect_via_acpi(void)
-+{
-+	if (acpi_disabled)
-+		return false;
-+	/*
-+	 * Hypervisor ID is only available in ACPI v6+, and the
-+	 * structure layout was extended in v6 to accommodate that
-+	 * new field.
-+	 *
-+	 * At the very minimum, this check makes sure not to read
-+	 * past the FADT structure.
-+	 *
-+	 * It is also needed to catch running in some unknown
-+	 * non-Hyper-V environment that has ACPI 5.x or less.
-+	 * In such a case, it can't be Hyper-V.
-+	 */
-+	if (acpi_gbl_FADT.header.revision < 6)
-+		return false;
-+	return strncmp((char *)&acpi_gbl_FADT.hypervisor_id, "MsHyperV", 8) == 0;
-+}
-+
-+#else
-+
-+static bool __init hyperv_detect_via_acpi(void)
-+{
-+	return false;
-+}
-+
-+#endif
-+
-+static bool __init hyperv_detect_via_smccc(void)
-+{
-+	uuid_t hyperv_uuid = UUID_INIT(
-+		0x58ba324d, 0x6447, 0x24cd,
-+		0x75, 0x6c, 0xef, 0x8e,
-+		0x24, 0x70, 0x59, 0x16);
-+
-+	return arm_smccc_hypervisor_has_uuid(&hyperv_uuid);
-+}
-+
- static int __init hyperv_init(void)
+ 	ms_hyperv_late_init();
+ 
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 582fe820e29c..038c896fdd60 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -55,7 +55,12 @@ static void  __noreturn hv_vtl_restart(char __maybe_unused *cmd)
+ 
+ void __init hv_vtl_init_platform(void)
  {
- 	struct hv_get_vp_registers_output	result;
-@@ -36,13 +78,11 @@ static int __init hyperv_init(void)
+-	pr_info("Linux runs in Hyper-V Virtual Trust Level\n");
++	/*
++	 * This function is a no-op if the VTL mode is not enabled.
++	 * If it is, this function runs if and only the kernel boots in
++	 * VTL2 which the x86 hv initialization path makes sure of.
++	 */
++	pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
  
- 	/*
- 	 * Allow for a kernel built with CONFIG_HYPERV to be running in
--	 * a non-Hyper-V environment, including on DT instead of ACPI.
-+	 * a non-Hyper-V environment.
-+	 *
- 	 * In such cases, do nothing and return success.
- 	 */
--	if (acpi_disabled)
--		return 0;
--
--	if (strncmp((char *)&acpi_gbl_FADT.hypervisor_id, "MsHyperV", 8))
-+	if (!hyperv_detect_via_acpi() && !hyperv_detect_via_smccc())
- 		return 0;
- 
- 	/* Setup the guest ID */
+ 	x86_platform.realmode_reserve = x86_init_noop;
+ 	x86_platform.realmode_init = x86_init_noop;
 -- 
 2.43.0
 
