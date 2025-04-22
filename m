@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A1F26B0BC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A8026E160;
 	Tue, 22 Apr 2025 08:24:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745310245; cv=none; b=uofMgKtXYbQgNYQGY0PSBDRa7ocbzbG02Z4B6/OPIX/H9zARtqnRuwRcDL2PzlRJlX51tkZcfwhnqVzSucROJfTg6PYvRiw9DtvePUdtDObCrGm1thV/dtu6HzEPVK/uVcYViSaDCipkMzljE/MvZTxIbgzgiNMkJI3vpLrRcos=
+	t=1745310245; cv=none; b=WhZqLcr0UPLbImoaLZd1TjLTZYmtVBNuES/50wKjpYgawihnqjnwULgRGWBKyq4gsoZFMtSeEIsVI2wdCvE1mDggQHrV19AuBelCKQGsPNxjv5J/wRgvqw94tmLVI3RwOZm+Gpp3j0zv3r3DZFqGhLkd6OiPnxT+IJs8dezwA2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745310245; c=relaxed/simple;
-	bh=rBfOQlwczZmZz/bZo7jau3XZh39bCYgaHzOQMyakGrY=;
+	bh=aWr+xmLoTKg2tDQZaCGwz9J/S4J+P9FdT8tCeINTuvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LgH8GnTXPwuHebQ9ECWhqE4LresHizxAuqtmaCewF5vHmoP9TyObXb+4T8n0NGHobc096R81B4GETh0I5AGP11ppDiMTCQo1wlgWfu+26qmmUFoAnz4nvG5UhnDIK0GDnRD/eIzixyi4KBhyETvRdng7zBuzvRZDYn1Bc8eEkRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Jy0JHc0d; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=acAugUCEI627UEKOGB8B9AHRxr83yv4JH5DkB4Eunn0X5U9wjwGsKagQtQX3V050BhrR9aTmh3BD2jsYLOi0f55pdIuh1/+pYuJI1vTXjN/Q19JzeeUGINf7kq9yri4LfuP7nP+6Wa1Qn9GCN/dFAl9Dt/ztnYdpj0f+0L+LXWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=JnWtZCem; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Jy0JHc0d"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="JnWtZCem"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53M8MG9V1954391
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53M8MG9j1954391
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Tue, 22 Apr 2025 01:22:55 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53M8MG9V1954391
+	Tue, 22 Apr 2025 01:23:24 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53M8MG9j1954391
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745310176;
-	bh=vxOJJAeQ3QVhVHFsGY7fwS1GjjJpZ7N17Khlb3T0KJ4=;
+	s=2025042001; t=1745310205;
+	bh=PfH0d70H/awMl+pIfi176SABhujHw41azze32+OJXmk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Jy0JHc0dkXPO6+PoCsc/ghqsBA98GapdHusalbDHv2JvwwmKYBCTsptia25WKTvJ0
-	 DCpTD+oAXTIPBb7rYWih1BxLvxPo48WMKJkz4pfTLESRumk2xbAyq93d1bV+CH+Ghy
-	 4kZiCKbITI8t79BKx4lgQegjLXupqHXLtB9UVMI5Hqy0yqQAIiuEwWktp8HJ4Sok5I
-	 X9gUdMcrA4RUi3L2Nz/snJKwMnjwlvFWMUDDQqbAcUI0GovT4A6cTbBKIrdrGnZwvg
-	 RaaXcFf0yDxPeY+VwJFXb56xtFUYandu9CX0IvawELRbNE0SssJXJp8G8FEpbxN/2x
-	 hmBOaqa2bEMnA==
+	b=JnWtZCemkFX6NCD7mP/s8qoAFT3h3Gb+Fvc+J5Mk02eaVtZrWyrmVnlpXwmVAvy41
+	 houfWnQz9wGOKn2yRaZanE3IjEltuS0f/5cW2rlJmBwVly9l6LLAqVurtWi3thuZcM
+	 ji5BPEgLgOQkXAsMX4hjSxG1dqBUP9qrDSURde+feL4tlBBsfHS0nQPq1ugkmkwkBm
+	 Qf94NiRrS85WPrGN0VWgL6mlH/GHv4SGGPAIIC3MsntY56esV8EU1L6d8KeTVhVlvC
+	 nqDxaHuS3Och/kSL44qglJbmmo1kO2jM0JXyCV2y6tezwHqg8Wal5lhgPQfwgfhBGG
+	 UQBpBNOph9P0Q==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -50,9 +50,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         pbonzini@redhat.com, vkuznets@redhat.com, seanjc@google.com,
         luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com
-Subject: [RFC PATCH v2 17/34] x86/cpufeatures: Add a CPU feature bit for MSR immediate form instructions
-Date: Tue, 22 Apr 2025 01:21:58 -0700
-Message-ID: <20250422082216.1954310-18-xin@zytor.com>
+Subject: [RFC PATCH v2 31/34] x86/msr: Rename native_read_msr() to native_rdmsrq()
+Date: Tue, 22 Apr 2025 01:22:12 -0700
+Message-ID: <20250422082216.1954310-32-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250422082216.1954310-1-xin@zytor.com>
 References: <20250422082216.1954310-1-xin@zytor.com>
@@ -64,44 +64,47 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The immediate form of MSR access instructions are primarily motivated
-by performance, not code size: by having the MSR number in an immediate,
-it is available *much* earlier in the pipeline, which allows the
-hardware much more leeway about how a particular MSR is handled.
-
-Use a scattered CPU feature bit for MSR immediate form instructions.
-
-Suggested-by: Borislav Petkov (AMD) <bp@alien8.de>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 ---
- arch/x86/include/asm/cpufeatures.h | 1 +
- arch/x86/kernel/cpu/scattered.c    | 1 +
- 2 files changed, 2 insertions(+)
+ arch/x86/hyperv/ivm.c      | 2 +-
+ arch/x86/include/asm/msr.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 7642310276a8..1dc6dc794018 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -482,6 +482,7 @@
- #define X86_FEATURE_AMD_WORKLOAD_CLASS	(21*32+ 7) /* Workload Classification */
- #define X86_FEATURE_PREFER_YMM		(21*32+ 8) /* Avoid ZMM registers due to downclocking */
- #define X86_FEATURE_APX			(21*32+ 9) /* Advanced Performance Extensions */
-+#define X86_FEATURE_MSR_IMM		(21*32+10) /* MSR immediate form instructions */
+diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
+index dfddf522e838..8860c6c0f013 100644
+--- a/arch/x86/hyperv/ivm.c
++++ b/arch/x86/hyperv/ivm.c
+@@ -319,7 +319,7 @@ int hv_snp_boot_ap(u32 cpu, unsigned long start_ip)
+ 	asm volatile("movl %%ds, %%eax;" : "=a" (vmsa->ds.selector));
+ 	hv_populate_vmcb_seg(vmsa->ds, vmsa->gdtr.base);
  
- /*
-  * BUG word(s)
-diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
-index dbf6d71bdf18..c63ddbf35a71 100644
---- a/arch/x86/kernel/cpu/scattered.c
-+++ b/arch/x86/kernel/cpu/scattered.c
-@@ -27,6 +27,7 @@ static const struct cpuid_bit cpuid_bits[] = {
- 	{ X86_FEATURE_APERFMPERF,		CPUID_ECX,  0, 0x00000006, 0 },
- 	{ X86_FEATURE_EPB,			CPUID_ECX,  3, 0x00000006, 0 },
- 	{ X86_FEATURE_INTEL_PPIN,		CPUID_EBX,  0, 0x00000007, 1 },
-+	{ X86_FEATURE_MSR_IMM,			CPUID_ECX,  5, 0x00000007, 1 },
- 	{ X86_FEATURE_APX,			CPUID_EDX, 21, 0x00000007, 1 },
- 	{ X86_FEATURE_RRSBA_CTRL,		CPUID_EDX,  2, 0x00000007, 2 },
- 	{ X86_FEATURE_BHI_CTRL,			CPUID_EDX,  4, 0x00000007, 2 },
+-	vmsa->efer = native_read_msr(MSR_EFER);
++	vmsa->efer = native_rdmsrq(MSR_EFER);
+ 
+ 	vmsa->cr4 = native_read_cr4();
+ 	vmsa->cr3 = __native_read_cr3();
+diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+index dfaac42b6258..4c7aa9e7fbac 100644
+--- a/arch/x86/include/asm/msr.h
++++ b/arch/x86/include/asm/msr.h
+@@ -160,7 +160,7 @@ static __always_inline bool is_msr_imm_insn(void *ip)
+  *        native_rdmsrq_no_trace()    native_read_msr_safe()         |
+  *                   /      \                                        |
+  *                  /        \                                       |
+- * native_rdmsr_no_trace()    native_read_msr()                      |
++ * native_rdmsr_no_trace()    native_rdmsrq()                        |
+  *                                                                   |
+  *                                                                   |
+  *                                                                   |
+@@ -263,7 +263,7 @@ do {							\
+ 	(void)((high) = (u32)(__val >> 32));		\
+ } while (0)
+ 
+-static inline u64 native_read_msr(u32 msr)
++static inline u64 native_rdmsrq(u32 msr)
+ {
+ 	u64 val = native_rdmsrq_no_trace(msr);
+ 
 -- 
 2.49.0
 
