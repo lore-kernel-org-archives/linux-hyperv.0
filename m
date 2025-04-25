@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E2C22ACF3;
-	Fri, 25 Apr 2025 08:35:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0435A2356A0;
+	Fri, 25 Apr 2025 08:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745570140; cv=none; b=QjX2d88tyRLzilPcDykaGIm2eHf1QQzDuQrLiBvd8GTPDPO/cUG5SBTVgXw9ODm7ts99L2fl4GnUm+rWIoa3P2Wg7npsXqUSoEviQ0Q5pKJw7TKccT7wmDHK/w7LDmc1fBpVLvkxrw+OqtSk4ANIg+Er21LOkjyXoaC5wYoxhLs=
+	t=1745570140; cv=none; b=d9uieEp2sIK7MkWRxwSNLQm8naqGlQvm/p2ECk6MBFSniavqJ+SPORfJP1qZRRMO7R2lhuWZzEOicOz/GJ8U8VNrWwtxveTVJdP6oIJmEdHggqhmDALRQCeUxUnC1QFGTPjEFI/odqamtExbBNAHGePFUneH1d7YQ9ooqghPeHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745570140; c=relaxed/simple;
-	bh=qUuc4oOweRn55tsIyWC4WVxLKK9LCZ9yAv/+et/s6qk=;
+	bh=9K2KSphgIQx02PiiI/SH96Z5yewxzBM0i0luq8Npa2s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oAdn/i0QBrGvXbS3wM4hK9XW8wCuXSs6+LDMRysvPefbQ/AR2wvbio3Shjj7NSQHFxTOTEQ3BF7nqwxrSqMTLI3mbPqjhcsYoVn81AqmODRCxQnIty4+40tDf6DqGoZZc6BqjW5LV0bpI+EX8ormCvTfYEv8Su+X1LmmVrcuWL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=D6ykqhIW; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=rIxfI2PX0JltsdbR53fP8AMPeQR9YEH4YvZMECGpUb1sS3wriTshuKe0p5qdYY/SrssZaoduORfTZ6G3/6UhUdb7bF4AOqbSLRg0TB2lAr8wWlNdQm741vfOrmLjQ0eNyqKr3cCb3DioQwRZlk0ijqt9wOgth366wu2hp64KUQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=NtTy3lTZ; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="D6ykqhIW"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="NtTy3lTZ"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53P8Yg5S2390085
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53P8Yg5U2390085
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 25 Apr 2025 01:34:55 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53P8Yg5S2390085
+	Fri, 25 Apr 2025 01:34:59 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53P8Yg5U2390085
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745570097;
-	bh=ubV3mxjb0pTABxeIf2EwXNL4ptnwNX7V+DrJijW3VC0=;
+	s=2025042001; t=1745570101;
+	bh=9LPiQNEsSgyXuY3TdJWu1S/JZqK6CgIYEh3wNKfcnqQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D6ykqhIW5txRLYZYcwQ42AvATqG8/xptzO4imIXAdEWMalWy8M3glva32nGrtHFei
-	 /gddxrxOgYkWsZPqUTIOJB8fVcRs87dV1EYsgGms4d1AT1hJXOnUELWuX6EZmYis/C
-	 RrF79OsPNKYQGXYtJ0+NXOxxQFb2mJWjrqo3spKq+zLzZ6F3FBTuEApP1qK7t3erln
-	 1xVgD0alMjSlqAP4c4CuGpPQcPiPoaZe0p3Pibky5/UWjvZOzZSch7ann3MW9QUXc2
-	 uf3MCVYJWYwCuA/ksmn2VQvV8q1rdBJnM1x7JxX6Ac6qWnwFJeisgLXSXxBQytavQw
-	 IDmwLyJ4IdHng==
+	b=NtTy3lTZvcUVKuxblDw/9pQnMdDCCPzsj+em2YmbG06S63s8kvmLbWeIgADvpTxVL
+	 gUfohRsmah0vJatqonhkjw3ZtvHh4iPAqTKO/v6a4oNngW7ek2u/o/ITTKsxUpnGOB
+	 BNU8depWSYMORZ6O4ou8cgCF7Ulk0gf3vCPnFUmA+ACFuvYZS3BNRhz32q6+wmEw2n
+	 lLRBuJiD3Y5+OCA4814z7RT6rHKgIll+/J0OpGtYfmbFIm5nYHlpP1UwCE+ECMTsCb
+	 sDvB45B6CnI3T6KydDeDgjjaOcr2xEZ7xVPZNmVlXI+mBExVzQtFCo/NzTUJDL/fNO
+	 AhvQe69UUJ1jg==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com,
         dapeng1.mi@linux.intel.com
-Subject: [PATCH v3 04/14] x86/msr: Convert the rdpmc() macro into an always inline function
-Date: Fri, 25 Apr 2025 01:34:27 -0700
-Message-ID: <20250425083442.2390017-5-xin@zytor.com>
+Subject: [PATCH v3 06/14] x86/msr: Convert __wrmsr() uses to native_wrmsr{,q}() uses
+Date: Fri, 25 Apr 2025 01:34:29 -0700
+Message-ID: <20250425083442.2390017-7-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250425083442.2390017-1-xin@zytor.com>
 References: <20250425083442.2390017-1-xin@zytor.com>
@@ -65,160 +65,135 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Functions offer type safety and better readability compared to macros.
-Additionally, always inline functions can match the performance of
-macros.  Converting the rdpmc() macro into an always inline function
-is simple and straightforward, so just make the change.
+__wrmsr() is the lowest level MSR write API, with native_wrmsr()
+and native_wrmsrq() serving as higher-level wrappers around it:
 
-Moreover, the read result is now the returned value, further enhancing
-readability.
+  #define native_wrmsr(msr, low, high)                    \
+          __wrmsr(msr, low, high)
+
+  #define native_wrmsrl(msr, val)                         \
+          __wrmsr((msr), (u32)((u64)(val)),               \
+                         (u32)((u64)(val) >> 32))
+
+However, __wrmsr() continues to be utilized in various locations.
+
+MSR APIs are designed for different scenarios, such as native or
+pvops, with or without trace, and safe or non-safe.  Unfortunately,
+the current MSR API names do not adequately reflect these factors,
+making it challenging to select the most appropriate API for
+various situations.
+
+To pave the way for improving MSR API names, convert __wrmsr()
+uses to native_wrmsr{,q}() to ensure consistent usage.  Later,
+these APIs can be renamed to better reflect their implications,
+such as native or pvops, with or without trace, and safe or
+non-safe.
+
+No functional change intended.
 
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
 ---
 
-Change in v3:
-*) Add a changelog even it's obvious (Dave Hansen).
+Change in v2:
+* Use native_wrmsr() where natural [rmid_p, closid_p] high/lo parameters
+  can be used, without the shift-uglification (Ingo).
 ---
- arch/x86/events/amd/uncore.c              |  2 +-
- arch/x86/events/core.c                    |  2 +-
- arch/x86/events/intel/core.c              |  4 ++--
- arch/x86/events/intel/ds.c                |  2 +-
- arch/x86/include/asm/msr.h                |  5 ++++-
- arch/x86/include/asm/paravirt.h           |  4 +---
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 12 ++++++------
- 7 files changed, 16 insertions(+), 15 deletions(-)
+ arch/x86/events/amd/brs.c                 | 2 +-
+ arch/x86/include/asm/apic.h               | 2 +-
+ arch/x86/include/asm/msr.h                | 6 ++++--
+ arch/x86/kernel/cpu/mce/core.c            | 2 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 6 +++---
+ 5 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/events/amd/uncore.c b/arch/x86/events/amd/uncore.c
-index 42c833cf9d98..13c4cea545c5 100644
---- a/arch/x86/events/amd/uncore.c
-+++ b/arch/x86/events/amd/uncore.c
-@@ -108,7 +108,7 @@ static void amd_uncore_read(struct perf_event *event)
- 	if (hwc->event_base_rdpmc < 0)
- 		rdmsrq(hwc->event_base, new);
- 	else
--		rdpmc(hwc->event_base_rdpmc, new);
-+		new = rdpmc(hwc->event_base_rdpmc);
+diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
+index ec4e8a4cace4..3f5ecfd80d1e 100644
+--- a/arch/x86/events/amd/brs.c
++++ b/arch/x86/events/amd/brs.c
+@@ -44,7 +44,7 @@ static inline unsigned int brs_to(int idx)
+ static __always_inline void set_debug_extn_cfg(u64 val)
+ {
+ 	/* bits[4:3] must always be set to 11b */
+-	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
++	native_wrmsrq(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
+ }
  
- 	local64_set(&hwc->prev_count, new);
- 	delta = (new << COUNTER_SHIFT) - (prev << COUNTER_SHIFT);
-diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
-index ea618dd8a678..d8634446684e 100644
---- a/arch/x86/events/core.c
-+++ b/arch/x86/events/core.c
-@@ -134,7 +134,7 @@ u64 x86_perf_event_update(struct perf_event *event)
- 	 */
- 	prev_raw_count = local64_read(&hwc->prev_count);
- 	do {
--		rdpmc(hwc->event_base_rdpmc, new_raw_count);
-+		new_raw_count = rdpmc(hwc->event_base_rdpmc);
- 	} while (!local64_try_cmpxchg(&hwc->prev_count,
- 				      &prev_raw_count, new_raw_count));
+ static __always_inline u64 get_debug_extn_cfg(void)
+diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
+index 1c136f54651c..0174dd548327 100644
+--- a/arch/x86/include/asm/apic.h
++++ b/arch/x86/include/asm/apic.h
+@@ -214,7 +214,7 @@ static inline void native_apic_msr_write(u32 reg, u32 v)
  
-diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
-index 8ac7a03ae4e9..9fa94b6e4e74 100644
---- a/arch/x86/events/intel/core.c
-+++ b/arch/x86/events/intel/core.c
-@@ -2724,12 +2724,12 @@ static u64 intel_update_topdown_event(struct perf_event *event, int metric_end,
+ static inline void native_apic_msr_eoi(void)
+ {
+-	__wrmsr(APIC_BASE_MSR + (APIC_EOI >> 4), APIC_EOI_ACK, 0);
++	native_wrmsrq(APIC_BASE_MSR + (APIC_EOI >> 4), APIC_EOI_ACK);
+ }
  
- 	if (!val) {
- 		/* read Fixed counter 3 */
--		rdpmc((3 | INTEL_PMC_FIXED_RDPMC_BASE), slots);
-+		slots = rdpmc(3 | INTEL_PMC_FIXED_RDPMC_BASE);
- 		if (!slots)
- 			return 0;
- 
- 		/* read PERF_METRICS */
--		rdpmc(INTEL_PMC_FIXED_RDPMC_METRICS, metrics);
-+		metrics = rdpmc(INTEL_PMC_FIXED_RDPMC_METRICS);
- 	} else {
- 		slots = val[0];
- 		metrics = val[1];
-diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
-index be05e93b48e7..a093cb485278 100644
---- a/arch/x86/events/intel/ds.c
-+++ b/arch/x86/events/intel/ds.c
-@@ -2274,7 +2274,7 @@ intel_pmu_save_and_restart_reload(struct perf_event *event, int count)
- 	WARN_ON(this_cpu_read(cpu_hw_events.enabled));
- 
- 	prev_raw_count = local64_read(&hwc->prev_count);
--	rdpmc(hwc->event_base_rdpmc, new_raw_count);
-+	new_raw_count = rdpmc(hwc->event_base_rdpmc);
- 	local64_set(&hwc->prev_count, new_raw_count);
- 
- 	/*
+ static inline u32 native_apic_msr_read(u32 reg)
 diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index ae96d35e0621..73d44081e597 100644
+index 73d44081e597..82a908125b20 100644
 --- a/arch/x86/include/asm/msr.h
 +++ b/arch/x86/include/asm/msr.h
-@@ -234,7 +234,10 @@ static inline int rdmsrq_safe(u32 msr, u64 *p)
- 	return err;
- }
- 
--#define rdpmc(counter, val) ((val) = native_read_pmc(counter))
-+static __always_inline u64 rdpmc(int counter)
-+{
-+	return native_read_pmc(counter);
-+}
- 
- #endif	/* !CONFIG_PARAVIRT_XXL */
- 
-diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
-index faa0713553b1..f272c4bd3d5b 100644
---- a/arch/x86/include/asm/paravirt.h
-+++ b/arch/x86/include/asm/paravirt.h
-@@ -239,13 +239,11 @@ static inline int rdmsrq_safe(unsigned msr, u64 *p)
- 	return err;
- }
- 
--static inline u64 paravirt_read_pmc(int counter)
-+static __always_inline u64 rdpmc(int counter)
+@@ -144,10 +144,12 @@ static inline u64 native_read_msr_safe(u32 msr, int *err)
+ static inline void notrace
+ native_write_msr(u32 msr, u32 low, u32 high)
  {
- 	return PVOP_CALL1(u64, cpu.read_pmc, counter);
+-	__wrmsr(msr, low, high);
++	u64 val = (u64)high << 32 | low;
++
++	native_wrmsrq(msr, val);
+ 
+ 	if (tracepoint_enabled(write_msr))
+-		do_trace_write_msr(msr, ((u64)high << 32 | low), 0);
++		do_trace_write_msr(msr, val, 0);
  }
  
--#define rdpmc(counter, val) ((val) = paravirt_read_pmc(counter))
--
- static inline void paravirt_alloc_ldt(struct desc_struct *ldt, unsigned entries)
- {
- 	PVOP_VCALL2(cpu.alloc_ldt, ldt, entries);
+ /* Can be uninlined because referenced by paravirt */
+diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
+index 255927f0284e..1ae75ec7ac95 100644
+--- a/arch/x86/kernel/cpu/mce/core.c
++++ b/arch/x86/kernel/cpu/mce/core.c
+@@ -1306,7 +1306,7 @@ static noinstr bool mce_check_crashing_cpu(void)
+ 		}
+ 
+ 		if (mcgstatus & MCG_STATUS_RIPV) {
+-			__wrmsr(MSR_IA32_MCG_STATUS, 0, 0);
++			native_wrmsrq(MSR_IA32_MCG_STATUS, 0);
+ 			return true;
+ 		}
+ 	}
 diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-index 15ff62d83bd8..61d762555a79 100644
+index 61d762555a79..6e5edd76086e 100644
 --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
 +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-@@ -1019,8 +1019,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
- 	 * used in L1 cache, second to capture accurate value that does not
- 	 * include cache misses incurred because of instruction loads.
+@@ -483,7 +483,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
+ 	 * cache.
  	 */
--	rdpmc(hit_pmcnum, hits_before);
--	rdpmc(miss_pmcnum, miss_before);
-+	hits_before = rdpmc(hit_pmcnum);
-+	miss_before = rdpmc(miss_pmcnum);
- 	/*
- 	 * From SDM: Performing back-to-back fast reads are not guaranteed
- 	 * to be monotonic.
-@@ -1028,8 +1028,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
- 	 * before proceeding.
+ 	saved_msr = __rdmsr(MSR_MISC_FEATURE_CONTROL);
+-	__wrmsr(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits, 0x0);
++	native_wrmsrq(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
+ 	closid_p = this_cpu_read(pqr_state.cur_closid);
+ 	rmid_p = this_cpu_read(pqr_state.cur_rmid);
+ 	mem_r = plr->kmem;
+@@ -495,7 +495,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
+ 	 * pseudo-locked followed by reading of kernel memory to load it
+ 	 * into the cache.
  	 */
- 	rmb();
--	rdpmc(hit_pmcnum, hits_before);
--	rdpmc(miss_pmcnum, miss_before);
-+	hits_before = rdpmc(hit_pmcnum);
-+	miss_before = rdpmc(miss_pmcnum);
+-	__wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
++	native_wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
+ 
  	/*
- 	 * Use LFENCE to ensure all previous instructions are retired
- 	 * before proceeding.
-@@ -1051,8 +1051,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
- 	 * before proceeding.
+ 	 * Cache was flushed earlier. Now access kernel memory to read it
+@@ -532,7 +532,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
+ 	 * Critical section end: restore closid with capacity bitmask that
+ 	 * does not overlap with pseudo-locked region.
  	 */
- 	rmb();
--	rdpmc(hit_pmcnum, hits_after);
--	rdpmc(miss_pmcnum, miss_after);
-+	hits_after = rdpmc(hit_pmcnum);
-+	miss_after = rdpmc(miss_pmcnum);
- 	/*
- 	 * Use LFENCE to ensure all previous instructions are retired
- 	 * before proceeding.
+-	__wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, closid_p);
++	native_wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, closid_p);
+ 
+ 	/* Re-enable the hardware prefetcher(s) */
+ 	wrmsrq(MSR_MISC_FEATURE_CONTROL, saved_msr);
 -- 
 2.49.0
 
