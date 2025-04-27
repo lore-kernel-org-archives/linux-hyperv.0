@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB36F25DB1A;
-	Sun, 27 Apr 2025 09:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188BD24BC04;
+	Sun, 27 Apr 2025 09:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745745705; cv=none; b=evlMsn6ChGAGZyMBPD20GIPgAwpgWMJmEQSDlWxOuYUOmB18g1eTQxif4Cfj52HLLoxsnKfk8rBjlycn17Wb8Vz0SJFAasgk6vnKvf6pWd7LHx1cpYBjWuI89OVpOP6ac2NQqXU5PzBquDWbAFkG3mkr0PKG+65+a4Sxs0DyWv0=
+	t=1745745713; cv=none; b=Gei6h5Wuz043ybx9AxliftVcjL+Q8yUCxpV6HDF8OY0xgnAa+Wq12Z0jJx8wRqP+4TjByjmGaiYslLgp2Pv0yK+5k8puIv9eaNc5f5nkqHlBO6zcBTorHXgla7siHsz9YrLV0nEGmL5H2rtWVmc+cK9gxLg7vwkj50HGEUnTvUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745745705; c=relaxed/simple;
-	bh=POeWP1OeCKuZRSOpQsm5z1482Z4JAEDNnoL556x+v5k=;
+	s=arc-20240116; t=1745745713; c=relaxed/simple;
+	bh=2k0DYE5illlSQCHkv/Tu11WIf7E+rV8RKhjq1oPU1B4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ejLkiLOw4PraEyFADSZfRpjYeGhFOkxnQp2/2RyQATYah9sdyuLRXPzC7ojBOdsa7aRrXJUGDbaUpba2fTQCwIlOQHfo/YfSvBQZDX5odTA4wIi/0usVlWgJVfKZeERC3ZiWmwCljOC588V2gyLrXSG8T//nLPdHtMu2+2Ri/CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=VNmo3uia; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=UObIYxqKprl1JTOsPPB4OcelCdMpHfSziIBquOwYVl0MRdQGN2OqFyy9RLHdhIRpLv4hyZLxYo6bVbkFfwkbn8yWLU1ASqCPKxJKtw5nmXybvSdIfyXRS4LmkQJshSfpGV2Pld6jsZDLjEGVm4MkKojhzU3SDE3f8q9oIMbZfFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=c1dcCL8y; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="VNmo3uia"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="c1dcCL8y"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRRx1598826
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRSC1598826
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 27 Apr 2025 02:20:36 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRRx1598826
+	Sun, 27 Apr 2025 02:21:03 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRSC1598826
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745745637;
-	bh=+pVPbNpNJhKlbxpDgv7RbZVuTFqKjEBhcRqOVxNg35M=;
+	s=2025042001; t=1745745665;
+	bh=iRLOK69Mef4+A+S2gj/43H5GwXdynIeVCT6ycfI9j18=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VNmo3uiak1noYpKTG/jLw/iJPvxthCPJphOG7oNxfBB0fU/ujY4AM6rt1iCWNcVmB
-	 PkVpItnEGcCeGnjVW5id6u8fewAPR6ih7c46JrOyu+ctmHJXDsx5VdOvDr14TGh/Lb
-	 PgF26Pfs59jrRsEMvx/lql25UmR2CqpIshcSLlVH4fSW899RlSygMuGqkK3a74Z/tx
-	 uGL4GxEX0OQ097TNxvCv7jEIzqA5H4lGqzh2IIybrBnLRjIlIfRghl6fcpAklhsDbS
-	 7pEx8/ly1QrIWFMPItt5SnDpgkaS83vH3Hk/09/rsrMY16LPtDhd0EBO4KSIszK85N
-	 GhEnY34L8vjHg==
+	b=c1dcCL8yycJUuI1QDknvyiQoGu91h+bu3N+Rph9ep6kISU1bh63T/+FllB4DyX8UO
+	 yyURbI4Y77d+dHN+Zqrhyou2De2xRRl3siSLfKXTUF8WX+bGVjOOWOt3Ei+rqBTkAq
+	 VXY6Luh9+0YlsTHBhoxZZlIOsD7SvxBKxk686SsD3VhfWcsy1SECX5uMqX/8K6tRFC
+	 Vm2IrEH/4mcXTZRnPbvEgOCcw7BD4EcMGVnELCpwLUmOlNCvQWs0VkCLF6QJ4f4SXv
+	 Ji4EkwoQMvAMTShdrFoS/5wPxq7dMefQPYfDXCOLMRwWHuVFoadvhu7cCw7av2oDUu
+	 J/L6YjvBl6/iQ==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com,
         dapeng1.mi@linux.intel.com, ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v4 02/15] x86/msr: Move rdtsc{,_ordered}() to <asm/tsc.h>
-Date: Sun, 27 Apr 2025 02:20:14 -0700
-Message-ID: <20250427092027.1598740-3-xin@zytor.com>
+Subject: [PATCH v4 15/15] x86/msr: Change the function type of native_read_msr_safe()
+Date: Sun, 27 Apr 2025 02:20:27 -0700
+Message-ID: <20250427092027.1598740-16-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250427092027.1598740-1-xin@zytor.com>
 References: <20250427092027.1598740-1-xin@zytor.com>
@@ -63,182 +63,306 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-For some reason, there are some TSC-related functions in the MSR
-header even though there is a tsc.h header.
+Modify the function type of native_read_msr_safe() to:
 
-Relocate rdtsc{,_ordered}() from <asm/msr.h> to <asm/tsc.h>, and
-subsequently remove the inclusion of <asm/msr.h> in <asm/tsc.h>.
+    int native_read_msr_safe(u32 msr, u64 *val)
+
+This change makes the function return an error code instead of the
+MSR value, aligning it with the type of native_write_msr_safe().
+Consequently, their callers can check the results in the same way.
+
+While at it, convert leftover MSR data type "unsigned int" to u32.
 
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
-
-Change in v4:
-*) Add missing includes in a different patch (Ilpo Järvinen).
-
-Change in v3:
-* Add a problem statement to the changelog (Dave Hansen).
----
- arch/x86/include/asm/msr.h | 54 ---------------------------
- arch/x86/include/asm/tsc.h | 76 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 75 insertions(+), 55 deletions(-)
+ arch/x86/include/asm/msr.h            | 21 +++++++++++----------
+ arch/x86/include/asm/paravirt.h       | 19 ++++++++-----------
+ arch/x86/include/asm/paravirt_types.h |  6 +++---
+ arch/x86/kvm/svm/svm.c                | 19 +++++++------------
+ arch/x86/xen/enlighten_pv.c           | 13 ++++++++-----
+ arch/x86/xen/pmu.c                    | 14 ++++++++------
+ 6 files changed, 45 insertions(+), 47 deletions(-)
 
 diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 72a9ebc99078..2caa13830e11 100644
+index 0392b9596107..e7ee51ccd82e 100644
 --- a/arch/x86/include/asm/msr.h
 +++ b/arch/x86/include/asm/msr.h
-@@ -170,60 +170,6 @@ native_write_msr_safe(u32 msr, u32 low, u32 high)
- extern int rdmsr_safe_regs(u32 regs[8]);
- extern int wrmsr_safe_regs(u32 regs[8]);
+@@ -130,18 +130,22 @@ static inline u64 native_read_msr(u32 msr)
+ 	return val;
+ }
  
--/**
-- * rdtsc() - returns the current TSC without ordering constraints
-- *
-- * rdtsc() returns the result of RDTSC as a 64-bit integer.  The
-- * only ordering constraint it supplies is the ordering implied by
-- * "asm volatile": it will put the RDTSC in the place you expect.  The
-- * CPU can and will speculatively execute that RDTSC, though, so the
-- * results can be non-monotonic if compared on different CPUs.
-- */
--static __always_inline u64 rdtsc(void)
--{
--	DECLARE_ARGS(val, low, high);
--
--	asm volatile("rdtsc" : EAX_EDX_RET(val, low, high));
--
--	return EAX_EDX_VAL(val, low, high);
--}
--
--/**
-- * rdtsc_ordered() - read the current TSC in program order
-- *
-- * rdtsc_ordered() returns the result of RDTSC as a 64-bit integer.
-- * It is ordered like a load to a global in-memory counter.  It should
-- * be impossible to observe non-monotonic rdtsc_unordered() behavior
-- * across multiple CPUs as long as the TSC is synced.
-- */
--static __always_inline u64 rdtsc_ordered(void)
--{
--	DECLARE_ARGS(val, low, high);
--
--	/*
--	 * The RDTSC instruction is not ordered relative to memory
--	 * access.  The Intel SDM and the AMD APM are both vague on this
--	 * point, but empirically an RDTSC instruction can be
--	 * speculatively executed before prior loads.  An RDTSC
--	 * immediately after an appropriate barrier appears to be
--	 * ordered as a normal load, that is, it provides the same
--	 * ordering guarantees as reading from a global memory location
--	 * that some other imaginary CPU is updating continuously with a
--	 * time stamp.
--	 *
--	 * Thus, use the preferred barrier on the respective CPU, aiming for
--	 * RDTSCP as the default.
--	 */
--	asm volatile(ALTERNATIVE_2("rdtsc",
--				   "lfence; rdtsc", X86_FEATURE_LFENCE_RDTSC,
--				   "rdtscp", X86_FEATURE_RDTSCP)
--			: EAX_EDX_RET(val, low, high)
--			/* RDTSCP clobbers ECX with MSR_TSC_AUX. */
--			:: "ecx");
--
--	return EAX_EDX_VAL(val, low, high);
--}
--
- static inline u64 native_read_pmc(int counter)
+-static inline u64 native_read_msr_safe(u32 msr, int *err)
++static inline int native_read_msr_safe(u32 msr, u64 *p)
  {
++	int err;
  	DECLARE_ARGS(val, low, high);
-diff --git a/arch/x86/include/asm/tsc.h b/arch/x86/include/asm/tsc.h
-index 94408a784c8e..13335a130edf 100644
---- a/arch/x86/include/asm/tsc.h
-+++ b/arch/x86/include/asm/tsc.h
-@@ -7,7 +7,81 @@
  
- #include <asm/cpufeature.h>
- #include <asm/processor.h>
--#include <asm/msr.h>
+ 	asm volatile("1: rdmsr ; xor %[err],%[err]\n"
+ 		     "2:\n\t"
+ 		     _ASM_EXTABLE_TYPE_REG(1b, 2b, EX_TYPE_RDMSR_SAFE, %[err])
+-		     : [err] "=r" (*err), EAX_EDX_RET(val, low, high)
++		     : [err] "=r" (err), EAX_EDX_RET(val, low, high)
+ 		     : "c" (msr));
+ 	if (tracepoint_enabled(read_msr))
+-		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), *err);
+-	return EAX_EDX_VAL(val, low, high);
++		do_trace_read_msr(msr, EAX_EDX_VAL(val, low, high), err);
 +
-+/*
-+ * both i386 and x86_64 returns 64-bit value in edx:eax, but gcc's "A"
-+ * constraint has different meanings. For i386, "A" means exactly
-+ * edx:eax, while for x86_64 it doesn't mean rdx:rax or edx:eax. Instead,
-+ * it means rax *or* rdx.
-+ */
-+#ifdef CONFIG_X86_64
-+/* Using 64-bit values saves one instruction clearing the high half of low */
-+#define DECLARE_ARGS(val, low, high)	unsigned long low, high
-+#define EAX_EDX_VAL(val, low, high)	((low) | (high) << 32)
-+#define EAX_EDX_RET(val, low, high)	"=a" (low), "=d" (high)
-+#else
-+#define DECLARE_ARGS(val, low, high)	u64 val
-+#define EAX_EDX_VAL(val, low, high)	(val)
-+#define EAX_EDX_RET(val, low, high)	"=A" (val)
-+#endif
++	*p = EAX_EDX_VAL(val, low, high);
 +
-+/**
-+ * rdtsc() - returns the current TSC without ordering constraints
-+ *
-+ * rdtsc() returns the result of RDTSC as a 64-bit integer.  The
-+ * only ordering constraint it supplies is the ordering implied by
-+ * "asm volatile": it will put the RDTSC in the place you expect.  The
-+ * CPU can and will speculatively execute that RDTSC, though, so the
-+ * results can be non-monotonic if compared on different CPUs.
-+ */
-+static __always_inline u64 rdtsc(void)
-+{
-+	DECLARE_ARGS(val, low, high);
-+
-+	asm volatile("rdtsc" : EAX_EDX_RET(val, low, high));
-+
-+	return EAX_EDX_VAL(val, low, high);
-+}
-+
-+/**
-+ * rdtsc_ordered() - read the current TSC in program order
-+ *
-+ * rdtsc_ordered() returns the result of RDTSC as a 64-bit integer.
-+ * It is ordered like a load to a global in-memory counter.  It should
-+ * be impossible to observe non-monotonic rdtsc_unordered() behavior
-+ * across multiple CPUs as long as the TSC is synced.
-+ */
-+static __always_inline u64 rdtsc_ordered(void)
-+{
-+	DECLARE_ARGS(val, low, high);
-+
-+	/*
-+	 * The RDTSC instruction is not ordered relative to memory
-+	 * access.  The Intel SDM and the AMD APM are both vague on this
-+	 * point, but empirically an RDTSC instruction can be
-+	 * speculatively executed before prior loads.  An RDTSC
-+	 * immediately after an appropriate barrier appears to be
-+	 * ordered as a normal load, that is, it provides the same
-+	 * ordering guarantees as reading from a global memory location
-+	 * that some other imaginary CPU is updating continuously with a
-+	 * time stamp.
-+	 *
-+	 * Thus, use the preferred barrier on the respective CPU, aiming for
-+	 * RDTSCP as the default.
-+	 */
-+	asm volatile(ALTERNATIVE_2("rdtsc",
-+				   "lfence; rdtsc", X86_FEATURE_LFENCE_RDTSC,
-+				   "rdtscp", X86_FEATURE_RDTSCP)
-+			: EAX_EDX_RET(val, low, high)
-+			/* RDTSCP clobbers ECX with MSR_TSC_AUX. */
-+			:: "ecx");
-+
-+	return EAX_EDX_VAL(val, low, high);
-+}
-+
-+#undef DECLARE_ARGS
-+#undef EAX_EDX_VAL
-+#undef EAX_EDX_RET
++	return err;
+ }
  
- /*
-  * Standard way to access the cycle counter.
+ /* Can be uninlined because referenced by paravirt */
+@@ -221,8 +225,8 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
+ /* rdmsr with exception handling */
+ #define rdmsr_safe(msr, low, high)				\
+ ({								\
+-	int __err;						\
+-	u64 __val = native_read_msr_safe((msr), &__err);	\
++	u64 __val;						\
++	int __err = native_read_msr_safe((msr), &__val);	\
+ 	(*low) = (u32)__val;					\
+ 	(*high) = (u32)(__val >> 32);				\
+ 	__err;							\
+@@ -230,10 +234,7 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
+ 
+ static inline int rdmsrq_safe(u32 msr, u64 *p)
+ {
+-	int err;
+-
+-	*p = native_read_msr_safe(msr, &err);
+-	return err;
++	return native_read_msr_safe(msr, p);
+ }
+ 
+ static __always_inline u64 rdpmc(int counter)
+diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+index edf23bde367e..03f680d1057a 100644
+--- a/arch/x86/include/asm/paravirt.h
++++ b/arch/x86/include/asm/paravirt.h
+@@ -175,7 +175,7 @@ static inline void __write_cr4(unsigned long x)
+ 	PVOP_VCALL1(cpu.write_cr4, x);
+ }
+ 
+-static inline u64 paravirt_read_msr(unsigned msr)
++static inline u64 paravirt_read_msr(u32 msr)
+ {
+ 	return PVOP_CALL1(u64, cpu.read_msr, msr);
+ }
+@@ -185,9 +185,9 @@ static inline void paravirt_write_msr(u32 msr, u64 val)
+ 	PVOP_VCALL2(cpu.write_msr, msr, val);
+ }
+ 
+-static inline u64 paravirt_read_msr_safe(unsigned msr, int *err)
++static inline int paravirt_read_msr_safe(u32 msr, u64 *val)
+ {
+-	return PVOP_CALL2(u64, cpu.read_msr_safe, msr, err);
++	return PVOP_CALL2(int, cpu.read_msr_safe, msr, val);
+ }
+ 
+ static inline int paravirt_write_msr_safe(u32 msr, u64 val)
+@@ -225,19 +225,16 @@ static inline int wrmsrq_safe(u32 msr, u64 val)
+ /* rdmsr with exception handling */
+ #define rdmsr_safe(msr, a, b)				\
+ ({							\
+-	int _err;					\
+-	u64 _l = paravirt_read_msr_safe(msr, &_err);	\
++	u64 _l;						\
++	int _err = paravirt_read_msr_safe((msr), &_l);	\
+ 	(*a) = (u32)_l;					\
+-	(*b) = _l >> 32;				\
++	(*b) = (u32)(_l >> 32);				\
+ 	_err;						\
+ })
+ 
+-static inline int rdmsrq_safe(unsigned msr, u64 *p)
++static __always_inline int rdmsrq_safe(u32 msr, u64 *p)
+ {
+-	int err;
+-
+-	*p = paravirt_read_msr_safe(msr, &err);
+-	return err;
++	return paravirt_read_msr_safe(msr, p);
+ }
+ 
+ static __always_inline u64 rdpmc(int counter)
+diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
+index 78777b78da12..b08b9d3122d6 100644
+--- a/arch/x86/include/asm/paravirt_types.h
++++ b/arch/x86/include/asm/paravirt_types.h
+@@ -91,14 +91,14 @@ struct pv_cpu_ops {
+ 		      unsigned int *ecx, unsigned int *edx);
+ 
+ 	/* Unsafe MSR operations.  These will warn or panic on failure. */
+-	u64 (*read_msr)(unsigned int msr);
++	u64 (*read_msr)(u32 msr);
+ 	void (*write_msr)(u32 msr, u64 val);
+ 
+ 	/*
+ 	 * Safe MSR operations.
+-	 * read sets err to 0 or -EIO.  write returns 0 or -EIO.
++	 * Returns 0 or -EIO.
+ 	 */
+-	u64 (*read_msr_safe)(unsigned int msr, int *err);
++	int (*read_msr_safe)(u32 msr, u64 *val);
+ 	int (*write_msr_safe)(u32 msr, u64 val);
+ 
+ 	u64 (*read_pmc)(int counter);
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 4ef9978dce70..838606f784c9 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -475,15 +475,13 @@ static void svm_inject_exception(struct kvm_vcpu *vcpu)
+ 
+ static void svm_init_erratum_383(void)
+ {
+-	int err;
+ 	u64 val;
+ 
+ 	if (!static_cpu_has_bug(X86_BUG_AMD_TLB_MMATCH))
+ 		return;
+ 
+ 	/* Use _safe variants to not break nested virtualization */
+-	val = native_read_msr_safe(MSR_AMD64_DC_CFG, &err);
+-	if (err)
++	if (native_read_msr_safe(MSR_AMD64_DC_CFG, &val))
+ 		return;
+ 
+ 	val |= (1ULL << 47);
+@@ -648,13 +646,12 @@ static int svm_enable_virtualization_cpu(void)
+ 	 * erratum is present everywhere).
+ 	 */
+ 	if (cpu_has(&boot_cpu_data, X86_FEATURE_OSVW)) {
+-		uint64_t len, status = 0;
++		u64 len, status = 0;
+ 		int err;
+ 
+-		len = native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &err);
++		err = native_read_msr_safe(MSR_AMD64_OSVW_ID_LENGTH, &len);
+ 		if (!err)
+-			status = native_read_msr_safe(MSR_AMD64_OSVW_STATUS,
+-						      &err);
++			err = native_read_msr_safe(MSR_AMD64_OSVW_STATUS, &status);
+ 
+ 		if (err)
+ 			osvw_status = osvw_len = 0;
+@@ -2145,14 +2142,13 @@ static int ac_interception(struct kvm_vcpu *vcpu)
+ 
+ static bool is_erratum_383(void)
+ {
+-	int err, i;
++	int i;
+ 	u64 value;
+ 
+ 	if (!erratum_383_found)
+ 		return false;
+ 
+-	value = native_read_msr_safe(MSR_IA32_MC0_STATUS, &err);
+-	if (err)
++	if (native_read_msr_safe(MSR_IA32_MC0_STATUS, &value))
+ 		return false;
+ 
+ 	/* Bit 62 may or may not be set for this mce */
+@@ -2165,8 +2161,7 @@ static bool is_erratum_383(void)
+ 	for (i = 0; i < 6; ++i)
+ 		native_write_msr_safe(MSR_IA32_MCx_STATUS(i), 0);
+ 
+-	value = native_read_msr_safe(MSR_IA32_MCG_STATUS, &err);
+-	if (!err) {
++	if (!native_read_msr_safe(MSR_IA32_MCG_STATUS, &value)) {
+ 		value &= ~(1ULL << 2);
+ 		native_write_msr_safe(MSR_IA32_MCG_STATUS, value);
+ 	}
+diff --git a/arch/x86/xen/enlighten_pv.c b/arch/x86/xen/enlighten_pv.c
+index c067d1e8a39c..0b2f5e679026 100644
+--- a/arch/x86/xen/enlighten_pv.c
++++ b/arch/x86/xen/enlighten_pv.c
+@@ -1086,7 +1086,7 @@ static void xen_write_cr4(unsigned long cr4)
+ 	native_write_cr4(cr4);
+ }
+ 
+-static u64 xen_do_read_msr(unsigned int msr, int *err)
++static u64 xen_do_read_msr(u32 msr, int *err)
+ {
+ 	u64 val = 0;	/* Avoid uninitialized value for safe variant. */
+ 
+@@ -1094,7 +1094,7 @@ static u64 xen_do_read_msr(unsigned int msr, int *err)
+ 		return val;
+ 
+ 	if (err)
+-		val = native_read_msr_safe(msr, err);
++		*err = native_read_msr_safe(msr, &val);
+ 	else
+ 		val = native_read_msr(msr);
+ 
+@@ -1159,9 +1159,12 @@ static void xen_do_write_msr(u32 msr, u64 val, int *err)
+ 	}
+ }
+ 
+-static u64 xen_read_msr_safe(unsigned int msr, int *err)
++static int xen_read_msr_safe(u32 msr, u64 *val)
+ {
+-	return xen_do_read_msr(msr, err);
++	int err;
++
++	*val = xen_do_read_msr(msr, &err);
++	return err;
+ }
+ 
+ static int xen_write_msr_safe(u32 msr, u64 val)
+@@ -1173,7 +1176,7 @@ static int xen_write_msr_safe(u32 msr, u64 val)
+ 	return err;
+ }
+ 
+-static u64 xen_read_msr(unsigned int msr)
++static u64 xen_read_msr(u32 msr)
+ {
+ 	int err;
+ 
+diff --git a/arch/x86/xen/pmu.c b/arch/x86/xen/pmu.c
+index 5f3d2a6c70f1..d308147cd368 100644
+--- a/arch/x86/xen/pmu.c
++++ b/arch/x86/xen/pmu.c
+@@ -318,11 +318,12 @@ static u64 xen_amd_read_pmc(int counter)
+ 	uint8_t xenpmu_flags = get_xenpmu_flags();
+ 
+ 	if (!xenpmu_data || !(xenpmu_flags & XENPMU_IRQ_PROCESSING)) {
+-		uint32_t msr;
+-		int err;
++		u32 msr;
++		u64 val;
+ 
+ 		msr = amd_counters_base + (counter * amd_msr_step);
+-		return native_read_msr_safe(msr, &err);
++		native_read_msr_safe(msr, &val);
++		return val;
+ 	}
+ 
+ 	ctxt = &xenpmu_data->pmu.c.amd;
+@@ -339,15 +340,16 @@ static u64 xen_intel_read_pmc(int counter)
+ 	uint8_t xenpmu_flags = get_xenpmu_flags();
+ 
+ 	if (!xenpmu_data || !(xenpmu_flags & XENPMU_IRQ_PROCESSING)) {
+-		uint32_t msr;
+-		int err;
++		u32 msr;
++		u64 val;
+ 
+ 		if (counter & (1 << INTEL_PMC_TYPE_SHIFT))
+ 			msr = MSR_CORE_PERF_FIXED_CTR0 + (counter & 0xffff);
+ 		else
+ 			msr = MSR_IA32_PERFCTR0 + counter;
+ 
+-		return native_read_msr_safe(msr, &err);
++		native_read_msr_safe(msr, &val);
++		return val;
+ 	}
+ 
+ 	ctxt = &xenpmu_data->pmu.c.intel;
 -- 
 2.49.0
 
