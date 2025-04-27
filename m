@@ -1,37 +1,36 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FB322FE0F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E4122D4FF;
 	Sun, 27 Apr 2025 09:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745745693; cv=none; b=talEvxKUoRSejDK1bzhO3IBsifHM/dvE7PNput0Pzq0JqOfr+YmvbiNrS3RDBYPjZpALu+9xXHHHAUv7U7XbZyXJXCLNC8/iuqO2WyrUBe2OQGCa5iEnDCnJJACzIAaqm8JnFP45f/dIA44CQjawz5uIlJrDfp7QzBO5w8vJ1pg=
+	t=1745745694; cv=none; b=JPkmomVfWl2skuId5/fVAMz8jDYE9Pmjx0h1kOJACpReBvWRGAINW0//gUHxwofon/8oVGYGx5BpHx8l9tYB3WqRb10b9Ktm5KsU4iJlyZZzLvak5DG8TVh90l7M0AbrCx0JuixbZKQhgpLd6IXN3OK6kdDsx3IoypM3gcEYvYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745745693; c=relaxed/simple;
-	bh=gAVsBqYmphdvteioDhpuIyj96UEEG6AI5Pdex3LqtTc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qVvq8yOgb6o3EhvJ+oj+9Tm+6PNCPDIhk5k3stFEr7iZQRHMhY6T3dXNkjZo333G+t9cB80b/ITu5INdYWgVvrMezn1Mt6995a5UwoOPuSa7pFvIYi8KCRj7AN1PJMGuV+RTdTtws55MzhLLMqqOkRF8ZuhEFFZHOE7McibGd6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fwYDpBGx; arc=none smtp.client-ip=198.137.202.136
+	s=arc-20240116; t=1745745694; c=relaxed/simple;
+	bh=sAwmHzM5BuZaF2+SHHsnyyh62JrNU6fREWCA/ZhKmV8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lTHC9iF/c7HURUkq2JmhYs2wkxV2XC9iYFJRULkVi/FkhQXbQo5cffa/C8h+bdbC9/HkBwsysYlWm764XapjbeKeGp6Po7o+57VxXWStqhpXOxoKnCgt0cj3EfVOd9lPsnJhADr3XmXY3BML4+LflMHlUUWcTqz9iba0sOm8dBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=KGPKbjRG; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fwYDpBGx"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="KGPKbjRG"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRS41598826
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRRv1598826
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 27 Apr 2025 02:20:46 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRS41598826
+	Sun, 27 Apr 2025 02:20:31 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRRv1598826
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745745648;
-	bh=JLxtRAmbQOgcf+M8hxrL2QlzJtGODft8UGEAzChuz28=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fwYDpBGxLzic3FzktMZu088OT7qviO5RyC/sSXV9swDqg9u0JnEOY6gP9xd27UU6L
-	 8fjDXB/+sr13tTQBMtui/nKBSyh6LgBbxNYR41Y0kmejN7K8U19iykP1H4HvDWR1bW
-	 HUhr2EGWiPELwFcI2i3+QEGYcX80J7gG6IDB/sJ5cbtNqeVgoUpJwybjbmkTu8wY57
-	 ATV4buqAHapa7PAYwwE1VPp+KBAPgwpY71DARYvEe+pKfgx6w7AMZwidH+QawtvXLs
-	 3yVR2UkuiKUkY1pokl/y47pYxIH+lehWKhSxIjy8JXZM/lNvbWm317ieXxVArTA9UX
-	 1n78tWsCn26Ww==
+	s=2025042001; t=1745745633;
+	bh=qSfXCrg4qMgrCCN/nBzwbznIDzcGPiftIKltZswFgIE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KGPKbjRGgpHgFU0cY/ACUzxlHFjWDOeiPp9By/ChtzbJZIweuQ+iTo89wAU0iNihQ
+	 SKEyvJHImJNQXBkUZWIdvyDCu6QoEPA8rITFD0DzOFnJQDU+Kzfi3F/wVVPJtaasOz
+	 tp9WXAiFowdLbVcAn52sxpFAE0019Qh9Ohma3zzykO4s2ncruEhapesrBun7C7nbu/
+	 4XCH6DGZYk0OeujJJD/cl152iPZUttGL/t3z+ARRTRK4pCAey7AUYR4wEKwxvjBg97
+	 nHT/eL7JBioWUo9OkjJnkhRi5NlEgkrstADaj6ZDGDUs2C9E+9FUj4IM8BNmXhLIe2
+	 IL5Z9UXy1PO/Q==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -51,150 +50,147 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com,
         dapeng1.mi@linux.intel.com, ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v4 07/15] x86/msr: Convert __wrmsr() uses to native_wrmsr{,q}() uses
-Date: Sun, 27 Apr 2025 02:20:19 -0700
-Message-ID: <20250427092027.1598740-8-xin@zytor.com>
+Subject: [PATCH v4 00/15] MSR code cleanup part one
+Date: Sun, 27 Apr 2025 02:20:12 -0700
+Message-ID: <20250427092027.1598740-1-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250427092027.1598740-1-xin@zytor.com>
-References: <20250427092027.1598740-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-__wrmsr() is the lowest level MSR write API, with native_wrmsr()
-and native_wrmsrq() serving as higher-level wrappers around it:
+This patch set is the first part of the patch set:
 
-  #define native_wrmsr(msr, low, high)                    \
-          __wrmsr(msr, low, high)
+  MSR refactor with new MSR instructions support
 
-  #define native_wrmsrl(msr, val)                         \
-          __wrmsr((msr), (u32)((u64)(val)),               \
-                         (u32)((u64)(val) >> 32))
+@ https://lore.kernel.org/lkml/20250422082216.1954310-1-xin@zytor.com/T/#m5a34be7d4ed55f0baca965cb65452a08e9ad7c8a
 
-However, __wrmsr() continues to be utilized in various locations.
 
-MSR APIs are designed for different scenarios, such as native or
-pvops, with or without trace, and safe or non-safe.  Unfortunately,
-the current MSR API names do not adequately reflect these factors,
-making it challenging to select the most appropriate API for
-various situations.
+It's getting *WAY* too big, and whether to zap the pv_ops MSR APIs is
+still under argument.  Dave Hansen suggested to focus on rename stuff
+first, most of which he acked.
 
-To pave the way for improving MSR API names, convert __wrmsr()
-uses to native_wrmsr{,q}() to ensure consistent usage.  Later,
-these APIs can be renamed to better reflect their implications,
-such as native or pvops, with or without trace, and safe or
-non-safe.
+Jürgen Groß also gave his RBs to the Xen MSR cleanup patches.
 
-No functional change intended.
+So here comes the first MSR cleanup patch set with version 4.
 
-Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
----
 
-Change in v2:
-* Use native_wrmsr() where natural [rmid_p, closid_p] high/lo parameters
-  can be used, without the shift-uglification (Ingo).
----
- arch/x86/events/amd/brs.c                 | 2 +-
- arch/x86/include/asm/apic.h               | 2 +-
- arch/x86/include/asm/msr.h                | 6 ++++--
- arch/x86/kernel/cpu/mce/core.c            | 2 +-
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 6 +++---
- 5 files changed, 10 insertions(+), 8 deletions(-)
+Changes in v4:
+1) Add missing includes in a different patch (Ilpo Järvinen).
+2) Add all necessary direct inclusions for msr.h (Ilpo Järvinen).
+3) Remove two "else" that no longer make sense (Juergen Gross).
+4) Collect RBs from Jürgen Groß and ABs from Peter Zijlstra.
 
-diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
-index ec4e8a4cace4..3f5ecfd80d1e 100644
---- a/arch/x86/events/amd/brs.c
-+++ b/arch/x86/events/amd/brs.c
-@@ -44,7 +44,7 @@ static inline unsigned int brs_to(int idx)
- static __always_inline void set_debug_extn_cfg(u64 val)
- {
- 	/* bits[4:3] must always be set to 11b */
--	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
-+	native_wrmsrq(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
- }
- 
- static __always_inline u64 get_debug_extn_cfg(void)
-diff --git a/arch/x86/include/asm/apic.h b/arch/x86/include/asm/apic.h
-index 1c136f54651c..0174dd548327 100644
---- a/arch/x86/include/asm/apic.h
-+++ b/arch/x86/include/asm/apic.h
-@@ -214,7 +214,7 @@ static inline void native_apic_msr_write(u32 reg, u32 v)
- 
- static inline void native_apic_msr_eoi(void)
- {
--	__wrmsr(APIC_BASE_MSR + (APIC_EOI >> 4), APIC_EOI_ACK, 0);
-+	native_wrmsrq(APIC_BASE_MSR + (APIC_EOI >> 4), APIC_EOI_ACK);
- }
- 
- static inline u32 native_apic_msr_read(u32 reg)
-diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
-index 73d44081e597..82a908125b20 100644
---- a/arch/x86/include/asm/msr.h
-+++ b/arch/x86/include/asm/msr.h
-@@ -144,10 +144,12 @@ static inline u64 native_read_msr_safe(u32 msr, int *err)
- static inline void notrace
- native_write_msr(u32 msr, u32 low, u32 high)
- {
--	__wrmsr(msr, low, high);
-+	u64 val = (u64)high << 32 | low;
-+
-+	native_wrmsrq(msr, val);
- 
- 	if (tracepoint_enabled(write_msr))
--		do_trace_write_msr(msr, ((u64)high << 32 | low), 0);
-+		do_trace_write_msr(msr, val, 0);
- }
- 
- /* Can be uninlined because referenced by paravirt */
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 255927f0284e..1ae75ec7ac95 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -1306,7 +1306,7 @@ static noinstr bool mce_check_crashing_cpu(void)
- 		}
- 
- 		if (mcgstatus & MCG_STATUS_RIPV) {
--			__wrmsr(MSR_IA32_MCG_STATUS, 0, 0);
-+			native_wrmsrq(MSR_IA32_MCG_STATUS, 0);
- 			return true;
- 		}
- 	}
-diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-index 61d762555a79..6e5edd76086e 100644
---- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-+++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-@@ -483,7 +483,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
- 	 * cache.
- 	 */
- 	saved_msr = __rdmsr(MSR_MISC_FEATURE_CONTROL);
--	__wrmsr(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits, 0x0);
-+	native_wrmsrq(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
- 	closid_p = this_cpu_read(pqr_state.cur_closid);
- 	rmid_p = this_cpu_read(pqr_state.cur_rmid);
- 	mem_r = plr->kmem;
-@@ -495,7 +495,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
- 	 * pseudo-locked followed by reading of kernel memory to load it
- 	 * into the cache.
- 	 */
--	__wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
-+	native_wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, plr->closid);
- 
- 	/*
- 	 * Cache was flushed earlier. Now access kernel memory to read it
-@@ -532,7 +532,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
- 	 * Critical section end: restore closid with capacity bitmask that
- 	 * does not overlap with pseudo-locked region.
- 	 */
--	__wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, closid_p);
-+	native_wrmsr(MSR_IA32_PQR_ASSOC, rmid_p, closid_p);
- 
- 	/* Re-enable the hardware prefetcher(s) */
- 	wrmsrq(MSR_MISC_FEATURE_CONTROL, saved_msr);
+
+Link to the previous v3 patch set:
+https://lore.kernel.org/lkml/20250425083442.2390017-1-xin@zytor.com/
+
+
+This patch series is based on:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/msr
+
+
+Xin Li (Intel) (15):
+  x86/msr: Add missing includes of <asm/msr.h>
+  x86/msr: Move rdtsc{,_ordered}() to <asm/tsc.h>
+  x86/msr: Remove rdpmc()
+  x86/msr: Rename rdpmcl() to rdpmc()
+  x86/msr: Convert the rdpmc() macro into an always inline function
+  x86/xen/msr: Return u64 consistently in Xen PMC read functions
+  x86/msr: Convert __wrmsr() uses to native_wrmsr{,q}() uses
+  x86/msr: Add the native_rdmsrq() helper
+  x86/msr: Convert __rdmsr() uses to native_rdmsrq() uses
+  x86/xen/msr: Remove calling native_{read,write}_msr{,_safe}() in
+    pmu_msr_{read,write}()
+  x86/xen/msr: Remove pmu_msr_{read,write}()
+  x86/xen/msr: Remove the error pointer argument from set_seg()
+  x86/pvops/msr: refactor pv_cpu_ops.write_msr{,_safe}()
+  x86/msr: Replace wrmsr(msr, low, 0) with wrmsrq(msr, low)
+  x86/msr: Change the function type of native_read_msr_safe()
+
+ arch/x86/coco/sev/core.c                      |   2 +-
+ arch/x86/events/amd/brs.c                     |   4 +-
+ arch/x86/events/amd/uncore.c                  |   2 +-
+ arch/x86/events/core.c                        |   2 +-
+ arch/x86/events/intel/core.c                  |   4 +-
+ arch/x86/events/intel/ds.c                    |   2 +-
+ arch/x86/events/msr.c                         |   3 +
+ arch/x86/events/perf_event.h                  |   1 +
+ arch/x86/events/probe.c                       |   2 +
+ arch/x86/hyperv/hv_apic.c                     |   6 +-
+ arch/x86/hyperv/hv_vtl.c                      |   4 +-
+ arch/x86/hyperv/ivm.c                         |   3 +-
+ arch/x86/include/asm/apic.h                   |   4 +-
+ arch/x86/include/asm/fred.h                   |   1 +
+ arch/x86/include/asm/microcode.h              |   2 +
+ arch/x86/include/asm/mshyperv.h               |   3 +-
+ arch/x86/include/asm/msr.h                    | 130 +++++-------------
+ arch/x86/include/asm/paravirt.h               |  57 ++++----
+ arch/x86/include/asm/paravirt_types.h         |  10 +-
+ arch/x86/include/asm/suspend_32.h             |   1 +
+ arch/x86/include/asm/suspend_64.h             |   1 +
+ arch/x86/include/asm/switch_to.h              |   4 +-
+ arch/x86/include/asm/tsc.h                    |  76 +++++++++-
+ arch/x86/kernel/cpu/amd.c                     |   2 +-
+ arch/x86/kernel/cpu/common.c                  |  10 +-
+ arch/x86/kernel/cpu/mce/core.c                |   6 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c     |  25 ++--
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |   2 +-
+ arch/x86/kernel/cpu/umwait.c                  |   4 +-
+ arch/x86/kernel/fpu/xstate.h                  |   1 +
+ arch/x86/kernel/hpet.c                        |   1 +
+ arch/x86/kernel/kvm.c                         |   2 +-
+ arch/x86/kernel/kvmclock.c                    |   2 +-
+ arch/x86/kernel/process_64.c                  |   1 +
+ arch/x86/kernel/trace_clock.c                 |   2 +-
+ arch/x86/kernel/tsc_sync.c                    |   1 +
+ arch/x86/kvm/svm/svm.c                        |  34 ++---
+ arch/x86/kvm/vmx/vmx.c                        |   4 +-
+ arch/x86/lib/kaslr.c                          |   2 +-
+ arch/x86/mm/mem_encrypt_identity.c            |   5 +-
+ arch/x86/realmode/init.c                      |   1 +
+ arch/x86/xen/enlighten_pv.c                   |  58 ++++----
+ arch/x86/xen/pmu.c                            |  72 +++-------
+ arch/x86/xen/xen-ops.h                        |   5 +-
+ drivers/acpi/acpi_extlog.c                    |   1 +
+ drivers/acpi/processor_perflib.c              |   1 +
+ drivers/acpi/processor_throttling.c           |   3 +-
+ drivers/char/agp/nvidia-agp.c                 |   1 +
+ drivers/cpufreq/amd-pstate-ut.c               |   2 +
+ drivers/crypto/ccp/sev-dev.c                  |   1 +
+ drivers/edac/amd64_edac.c                     |   1 +
+ drivers/edac/ie31200_edac.c                   |   1 +
+ drivers/edac/mce_amd.c                        |   1 +
+ drivers/hwmon/hwmon-vid.c                     |   4 +
+ drivers/idle/intel_idle.c                     |   1 +
+ drivers/misc/cs5535-mfgpt.c                   |   1 +
+ drivers/net/vmxnet3/vmxnet3_drv.c             |   4 +
+ drivers/platform/x86/intel/ifs/core.c         |   1 +
+ drivers/platform/x86/intel/ifs/load.c         |   1 +
+ drivers/platform/x86/intel/ifs/runtest.c      |   1 +
+ drivers/platform/x86/intel/pmc/cnp.c          |   1 +
+ .../intel/speed_select_if/isst_if_common.c    |   1 +
+ .../intel/speed_select_if/isst_if_mbox_msr.c  |   1 +
+ .../intel/speed_select_if/isst_tpmi_core.c    |   1 +
+ drivers/platform/x86/intel/turbo_max_3.c      |   1 +
+ .../intel/uncore-frequency/uncore-frequency.c |   1 +
+ drivers/powercap/intel_rapl_common.c          |   1 +
+ drivers/powercap/intel_rapl_msr.c             |   1 +
+ .../processor_thermal_device.c                |   1 +
+ drivers/thermal/intel/intel_tcc_cooling.c     |   1 +
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |   1 +
+ drivers/video/fbdev/geode/display_gx.c        |   1 +
+ drivers/video/fbdev/geode/gxfb_core.c         |   1 +
+ drivers/video/fbdev/geode/lxfb_ops.c          |   1 +
+ 74 files changed, 308 insertions(+), 295 deletions(-)
+
+
+base-commit: a5447e92e169dafaf02fd653500105c7186d7128
 -- 
 2.49.0
 
