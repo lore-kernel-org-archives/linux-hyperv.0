@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3520C252284;
-	Sun, 27 Apr 2025 09:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6993252900;
+	Sun, 27 Apr 2025 09:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745745696; cv=none; b=R6EfeHYgB7UBFopdf5FoF5+4+5Mus0yoWhJQxkoHRSSy/s+z6/MXIpSbg9a1wC9W5C57YRHwimVvCss1EumWMerSFgRhjL8aB6/9w5yOAz/NbIZ/sc2Ev8TVNO2A1hFr9bJg1s4JDfsxlM3br5okGuybsAcqQnMZOw4MHTLoMjA=
+	t=1745745697; cv=none; b=eNUJshIdSGGnYc2fwdLL/JOT7dMw3KPwtdJsPYgRnoRF7uwYeIiX2VQqsbdZiUS3PlYseDbGmBl3e2IYpgyA6D0NJLjNYQFoh9TkODqoqeTXWhxifSD4xqLDRMIwvXZhgNsxNkPdE0lt71SVT4ARRSnAfcpo+3oxQ9cR8dRaADA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745745696; c=relaxed/simple;
-	bh=hQFcyg6ck5ZfZZPMtnMoJVZzp8jCqcfXXH3x+Fwnlcs=;
+	s=arc-20240116; t=1745745697; c=relaxed/simple;
+	bh=+vAkAmxzXYdQ7DHyzTYgczxeCtY6E6PCVIeemR8f2UE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mp9bxSRRSd+ist0c/j1pWjxtvQylfZWCLdBH8yloOtOu6kxgMv0SWLB4HfxAszb3NfHZ5QnpHMnLdhCeFSeaEbZINWiiRVUgPtismHCEkDisCGCi7dQkNQLd5V7+UjUAOCHkZtOPF4H6gK3Dg0tzigZholjp3y1eILZ1pssVIKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bnNIe3Sc; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=I4QS30/SElKaYm53DpW/PghHArE6AAnHMrk+o7yNP7qyy1RqoVWo0vOFgk5JfB4u/DDQrPY9jPAdCmL0bKkSJ6v6bHyfucnWp1ft8vSgge3fv6jhMV7G/tNISrk/Euw4TDZb4aB4fQ96xPMCvdgdDugVVWqLxT33QTd5HikhDJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Nqa5qcgm; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bnNIe3Sc"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Nqa5qcgm"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRS61598826
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53R9KRS11598826
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 27 Apr 2025 02:20:50 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRS61598826
+	Sun, 27 Apr 2025 02:20:40 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53R9KRS11598826
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745745652;
-	bh=96MYN68NJt8wFTIurIsjp/tKuKs+pZs6JdTIOMXstR0=;
+	s=2025042001; t=1745745642;
+	bh=p8ppX0g6LR5uDE4H5rP+F1T7auiPTWqUYddLIkJbPBw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bnNIe3ScYvjueYrWDqZUD8C/s3FUxlDMbWcnKbvvYV3qFHKV6juB2gRw4ChuBe22F
-	 gZ2426c+8J3MKPtO83mhVLXky2bwa2P5c6/z4zzgq9rz6KPfWFG0mjm8QhHAVYCnMa
-	 Dr9/R5cAIWRehyCDo0NOaEbp7VNp4KRLuQ87/AdlUf2F9NVOdszQ2USwuI5eXcLfGx
-	 zczpJopfo/P9g+FcG6GpvyOgh7k/ISR+10fjIDi+PItN4Em2+bwm8soFSHjJJ8H3Y3
-	 OlYn0FhGpRAU6sM4KCbMjxbaYSdsorZK6QMdD4g0XY67aiMBcz6fVaYiwR1Z1NbAra
-	 4c8WchoA8KvVg==
+	b=Nqa5qcgm1xt2cbOzPOOE5NTQDSJVVDFWZs7ob5S90pzNOZfMWVzZfhzHCfPnW8k7H
+	 zGpTUYIqhLXK8edV6yOy5p8PVMegfBJ1AMwHGn3Wa6T8BFhC5IEyjwLALmMZVQHZvj
+	 FeAbywJiMCctZCYsrmeOmeRizPkCyPvpQqB4s20r9z+1KwReqSF0DU+LNVxkOYQyxN
+	 AIOC2xb33NMVp462kdpe7gascdkGx9CtJomG+ik64uXcr/WH65c56t948uSi/JqPTJ
+	 iYcnejO0EO5nB8HlBGaTzztJpKwC4CTb1LA+IrTBxA5vlEjmvH3lhGeW1IdF6DrQFD
+	 0gDpuTZqKjvRQ==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
         linux-perf-users@vger.kernel.org, linux-hyperv@vger.kernel.org,
@@ -51,9 +51,9 @@ Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         luto@kernel.org, boris.ostrovsky@oracle.com, kys@microsoft.com,
         haiyangz@microsoft.com, decui@microsoft.com,
         dapeng1.mi@linux.intel.com, ilpo.jarvinen@linux.intel.com
-Subject: [PATCH v4 09/15] x86/msr: Convert __rdmsr() uses to native_rdmsrq() uses
-Date: Sun, 27 Apr 2025 02:20:21 -0700
-Message-ID: <20250427092027.1598740-10-xin@zytor.com>
+Subject: [PATCH v4 04/15] x86/msr: Rename rdpmcl() to rdpmc()
+Date: Sun, 27 Apr 2025 02:20:16 -0700
+Message-ID: <20250427092027.1598740-5-xin@zytor.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250427092027.1598740-1-xin@zytor.com>
 References: <20250427092027.1598740-1-xin@zytor.com>
@@ -65,213 +65,149 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__rdmsr() is the lowest level MSR write API, with native_rdmsr()
-and native_rdmsrq() serving as higher-level wrappers around it.
-
-  #define native_rdmsr(msr, val1, val2)                   \
-  do {                                                    \
-          u64 __val = __rdmsr((msr));                     \
-          (void)((val1) = (u32)__val);                    \
-          (void)((val2) = (u32)(__val >> 32));            \
-  } while (0)
-
-  static __always_inline u64 native_rdmsrq(u32 msr)
-  {
-          return __rdmsr(msr);
-  }
-
-However, __rdmsr() continues to be utilized in various locations.
-
-MSR APIs are designed for different scenarios, such as native or
-pvops, with or without trace, and safe or non-safe.  Unfortunately,
-the current MSR API names do not adequately reflect these factors,
-making it challenging to select the most appropriate API for
-various situations.
-
-To pave the way for improving MSR API names, convert __rdmsr()
-uses to native_rdmsrq() to ensure consistent usage.  Later, these
-APIs can be renamed to better reflect their implications, such as
-native or pvops, with or without trace, and safe or non-safe.
-
-No functional change intended.
+Now that rdpmc() is gone, i.e. rdpmcl() is the sole PMC read helper,
+simply rename rdpmcl() to rdpmc().
 
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
 Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/coco/sev/core.c                  | 2 +-
- arch/x86/events/amd/brs.c                 | 2 +-
- arch/x86/hyperv/hv_vtl.c                  | 4 ++--
- arch/x86/hyperv/ivm.c                     | 2 +-
- arch/x86/include/asm/mshyperv.h           | 2 +-
- arch/x86/kernel/cpu/common.c              | 2 +-
- arch/x86/kernel/cpu/mce/core.c            | 4 ++--
- arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 2 +-
- arch/x86/kvm/vmx/vmx.c                    | 4 ++--
- arch/x86/mm/mem_encrypt_identity.c        | 4 ++--
- 10 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
-index b18a33fe8dd3..c4137c94678d 100644
---- a/arch/x86/coco/sev/core.c
-+++ b/arch/x86/coco/sev/core.c
-@@ -276,7 +276,7 @@ static noinstr struct ghcb *__sev_get_ghcb(struct ghcb_state *state)
+Changes in v3:
+*) Explain the reason of the renaming in the changelog (Dave Hansen).
+*) Use shorter name rdpmc() instead of rdpmcq() as the name of the
+   sole PMC read helper (Sean Christopherson).
+---
+ arch/x86/events/amd/uncore.c              |  2 +-
+ arch/x86/events/core.c                    |  2 +-
+ arch/x86/events/intel/core.c              |  4 ++--
+ arch/x86/events/intel/ds.c                |  2 +-
+ arch/x86/include/asm/msr.h                |  2 +-
+ arch/x86/include/asm/paravirt.h           |  2 +-
+ arch/x86/kernel/cpu/resctrl/pseudo_lock.c | 12 ++++++------
+ 7 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/arch/x86/events/amd/uncore.c b/arch/x86/events/amd/uncore.c
+index 2a3259df619a..42c833cf9d98 100644
+--- a/arch/x86/events/amd/uncore.c
++++ b/arch/x86/events/amd/uncore.c
+@@ -108,7 +108,7 @@ static void amd_uncore_read(struct perf_event *event)
+ 	if (hwc->event_base_rdpmc < 0)
+ 		rdmsrq(hwc->event_base, new);
+ 	else
+-		rdpmcl(hwc->event_base_rdpmc, new);
++		rdpmc(hwc->event_base_rdpmc, new);
  
- static inline u64 sev_es_rd_ghcb_msr(void)
- {
--	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
-+	return native_rdmsrq(MSR_AMD64_SEV_ES_GHCB);
+ 	local64_set(&hwc->prev_count, new);
+ 	delta = (new << COUNTER_SHIFT) - (prev << COUNTER_SHIFT);
+diff --git a/arch/x86/events/core.c b/arch/x86/events/core.c
+index 85b55c1dc162..ea618dd8a678 100644
+--- a/arch/x86/events/core.c
++++ b/arch/x86/events/core.c
+@@ -134,7 +134,7 @@ u64 x86_perf_event_update(struct perf_event *event)
+ 	 */
+ 	prev_raw_count = local64_read(&hwc->prev_count);
+ 	do {
+-		rdpmcl(hwc->event_base_rdpmc, new_raw_count);
++		rdpmc(hwc->event_base_rdpmc, new_raw_count);
+ 	} while (!local64_try_cmpxchg(&hwc->prev_count,
+ 				      &prev_raw_count, new_raw_count));
+ 
+diff --git a/arch/x86/events/intel/core.c b/arch/x86/events/intel/core.c
+index 394fa83b537b..8ac7a03ae4e9 100644
+--- a/arch/x86/events/intel/core.c
++++ b/arch/x86/events/intel/core.c
+@@ -2724,12 +2724,12 @@ static u64 intel_update_topdown_event(struct perf_event *event, int metric_end,
+ 
+ 	if (!val) {
+ 		/* read Fixed counter 3 */
+-		rdpmcl((3 | INTEL_PMC_FIXED_RDPMC_BASE), slots);
++		rdpmc((3 | INTEL_PMC_FIXED_RDPMC_BASE), slots);
+ 		if (!slots)
+ 			return 0;
+ 
+ 		/* read PERF_METRICS */
+-		rdpmcl(INTEL_PMC_FIXED_RDPMC_METRICS, metrics);
++		rdpmc(INTEL_PMC_FIXED_RDPMC_METRICS, metrics);
+ 	} else {
+ 		slots = val[0];
+ 		metrics = val[1];
+diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
+index 410a8975d1b9..be05e93b48e7 100644
+--- a/arch/x86/events/intel/ds.c
++++ b/arch/x86/events/intel/ds.c
+@@ -2274,7 +2274,7 @@ intel_pmu_save_and_restart_reload(struct perf_event *event, int count)
+ 	WARN_ON(this_cpu_read(cpu_hw_events.enabled));
+ 
+ 	prev_raw_count = local64_read(&hwc->prev_count);
+-	rdpmcl(hwc->event_base_rdpmc, new_raw_count);
++	rdpmc(hwc->event_base_rdpmc, new_raw_count);
+ 	local64_set(&hwc->prev_count, new_raw_count);
+ 
+ 	/*
+diff --git a/arch/x86/include/asm/msr.h b/arch/x86/include/asm/msr.h
+index e05466e486fc..ae96d35e0621 100644
+--- a/arch/x86/include/asm/msr.h
++++ b/arch/x86/include/asm/msr.h
+@@ -234,7 +234,7 @@ static inline int rdmsrq_safe(u32 msr, u64 *p)
+ 	return err;
  }
  
- static __always_inline void sev_es_wr_ghcb_msr(u64 val)
-diff --git a/arch/x86/events/amd/brs.c b/arch/x86/events/amd/brs.c
-index 3f5ecfd80d1e..06f35a6b58a5 100644
---- a/arch/x86/events/amd/brs.c
-+++ b/arch/x86/events/amd/brs.c
-@@ -49,7 +49,7 @@ static __always_inline void set_debug_extn_cfg(u64 val)
+-#define rdpmcl(counter, val) ((val) = native_read_pmc(counter))
++#define rdpmc(counter, val) ((val) = native_read_pmc(counter))
  
- static __always_inline u64 get_debug_extn_cfg(void)
- {
--	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
-+	return native_rdmsrq(MSR_AMD_DBG_EXTN_CFG);
+ #endif	/* !CONFIG_PARAVIRT_XXL */
+ 
+diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+index c4dedb984735..faa0713553b1 100644
+--- a/arch/x86/include/asm/paravirt.h
++++ b/arch/x86/include/asm/paravirt.h
+@@ -244,7 +244,7 @@ static inline u64 paravirt_read_pmc(int counter)
+ 	return PVOP_CALL1(u64, cpu.read_pmc, counter);
  }
  
- static bool __init amd_brs_detect(void)
-diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
-index 13242ed8ff16..c6343e699154 100644
---- a/arch/x86/hyperv/hv_vtl.c
-+++ b/arch/x86/hyperv/hv_vtl.c
-@@ -149,11 +149,11 @@ static int hv_vtl_bringup_vcpu(u32 target_vp_index, int cpu, u64 eip_ignored)
- 	input->vp_context.rip = rip;
- 	input->vp_context.rsp = rsp;
- 	input->vp_context.rflags = 0x0000000000000002;
--	input->vp_context.efer = __rdmsr(MSR_EFER);
-+	input->vp_context.efer = native_rdmsrq(MSR_EFER);
- 	input->vp_context.cr0 = native_read_cr0();
- 	input->vp_context.cr3 = __native_read_cr3();
- 	input->vp_context.cr4 = native_read_cr4();
--	input->vp_context.msr_cr_pat = __rdmsr(MSR_IA32_CR_PAT);
-+	input->vp_context.msr_cr_pat = native_rdmsrq(MSR_IA32_CR_PAT);
- 	input->vp_context.idtr.limit = idt_ptr.size;
- 	input->vp_context.idtr.base = idt_ptr.address;
- 	input->vp_context.gdtr.limit = gdt_ptr.size;
-diff --git a/arch/x86/hyperv/ivm.c b/arch/x86/hyperv/ivm.c
-index 8209de792388..09a165a3c41e 100644
---- a/arch/x86/hyperv/ivm.c
-+++ b/arch/x86/hyperv/ivm.c
-@@ -111,7 +111,7 @@ u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size)
+-#define rdpmcl(counter, val) ((val) = paravirt_read_pmc(counter))
++#define rdpmc(counter, val) ((val) = paravirt_read_pmc(counter))
  
- static inline u64 rd_ghcb_msr(void)
+ static inline void paravirt_alloc_ldt(struct desc_struct *ldt, unsigned entries)
  {
--	return __rdmsr(MSR_AMD64_SEV_ES_GHCB);
-+	return native_rdmsrq(MSR_AMD64_SEV_ES_GHCB);
- }
- 
- static inline void wr_ghcb_msr(u64 val)
-diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
-index 15d00dace70f..778444310cfb 100644
---- a/arch/x86/include/asm/mshyperv.h
-+++ b/arch/x86/include/asm/mshyperv.h
-@@ -305,7 +305,7 @@ void hv_set_non_nested_msr(unsigned int reg, u64 value);
- 
- static __always_inline u64 hv_raw_get_msr(unsigned int reg)
- {
--	return __rdmsr(reg);
-+	return native_rdmsrq(reg);
- }
- 
- #else /* CONFIG_HYPERV */
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 079ded4eeb86..cefc99990bde 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -164,7 +164,7 @@ static void ppin_init(struct cpuinfo_x86 *c)
- 
- 	/* Is the enable bit set? */
- 	if (val & 2UL) {
--		c->ppin = __rdmsr(info->msr_ppin);
-+		c->ppin = native_rdmsrq(info->msr_ppin);
- 		set_cpu_cap(c, info->feature);
- 		return;
- 	}
-diff --git a/arch/x86/kernel/cpu/mce/core.c b/arch/x86/kernel/cpu/mce/core.c
-index 1ae75ec7ac95..32286bad75e6 100644
---- a/arch/x86/kernel/cpu/mce/core.c
-+++ b/arch/x86/kernel/cpu/mce/core.c
-@@ -121,7 +121,7 @@ void mce_prep_record_common(struct mce *m)
- {
- 	m->cpuid	= cpuid_eax(1);
- 	m->cpuvendor	= boot_cpu_data.x86_vendor;
--	m->mcgcap	= __rdmsr(MSR_IA32_MCG_CAP);
-+	m->mcgcap	= native_rdmsrq(MSR_IA32_MCG_CAP);
- 	/* need the internal __ version to avoid deadlocks */
- 	m->time		= __ktime_get_real_seconds();
- }
-@@ -1298,7 +1298,7 @@ static noinstr bool mce_check_crashing_cpu(void)
- 	    (crashing_cpu != -1 && crashing_cpu != cpu)) {
- 		u64 mcgstatus;
- 
--		mcgstatus = __rdmsr(MSR_IA32_MCG_STATUS);
-+		mcgstatus = native_rdmsrq(MSR_IA32_MCG_STATUS);
- 
- 		if (boot_cpu_data.x86_vendor == X86_VENDOR_ZHAOXIN) {
- 			if (mcgstatus & MCG_STATUS_LMCES)
 diff --git a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-index 6e5edd76086e..324bd4919300 100644
+index 26c354bdea07..15ff62d83bd8 100644
 --- a/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
 +++ b/arch/x86/kernel/cpu/resctrl/pseudo_lock.c
-@@ -482,7 +482,7 @@ int resctrl_arch_pseudo_lock_fn(void *_plr)
- 	 * the buffer and evict pseudo-locked memory read earlier from the
- 	 * cache.
+@@ -1019,8 +1019,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
+ 	 * used in L1 cache, second to capture accurate value that does not
+ 	 * include cache misses incurred because of instruction loads.
  	 */
--	saved_msr = __rdmsr(MSR_MISC_FEATURE_CONTROL);
-+	saved_msr = native_rdmsrq(MSR_MISC_FEATURE_CONTROL);
- 	native_wrmsrq(MSR_MISC_FEATURE_CONTROL, prefetch_disable_bits);
- 	closid_p = this_cpu_read(pqr_state.cur_closid);
- 	rmid_p = this_cpu_read(pqr_state.cur_rmid);
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index cd0d6c1fcf9c..68c8bb247fc4 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -380,7 +380,7 @@ static __always_inline void vmx_disable_fb_clear(struct vcpu_vmx *vmx)
- 	if (!vmx->disable_fb_clear)
- 		return;
- 
--	msr = __rdmsr(MSR_IA32_MCU_OPT_CTRL);
-+	msr = native_rdmsrq(MSR_IA32_MCU_OPT_CTRL);
- 	msr |= FB_CLEAR_DIS;
- 	native_wrmsrq(MSR_IA32_MCU_OPT_CTRL, msr);
- 	/* Cache the MSR value to avoid reading it later */
-@@ -7307,7 +7307,7 @@ void noinstr vmx_spec_ctrl_restore_host(struct vcpu_vmx *vmx,
- 		return;
- 
- 	if (flags & VMX_RUN_SAVE_SPEC_CTRL)
--		vmx->spec_ctrl = __rdmsr(MSR_IA32_SPEC_CTRL);
-+		vmx->spec_ctrl = native_rdmsrq(MSR_IA32_SPEC_CTRL);
- 
+-	rdpmcl(hit_pmcnum, hits_before);
+-	rdpmcl(miss_pmcnum, miss_before);
++	rdpmc(hit_pmcnum, hits_before);
++	rdpmc(miss_pmcnum, miss_before);
  	/*
- 	 * If the guest/host SPEC_CTRL values differ, restore the host value.
-diff --git a/arch/x86/mm/mem_encrypt_identity.c b/arch/x86/mm/mem_encrypt_identity.c
-index afda349db35b..32af1cc378e4 100644
---- a/arch/x86/mm/mem_encrypt_identity.c
-+++ b/arch/x86/mm/mem_encrypt_identity.c
-@@ -527,7 +527,7 @@ void __head sme_enable(struct boot_params *bp)
- 	me_mask = 1UL << (ebx & 0x3f);
- 
- 	/* Check the SEV MSR whether SEV or SME is enabled */
--	RIP_REL_REF(sev_status) = msr = __rdmsr(MSR_AMD64_SEV);
-+	RIP_REL_REF(sev_status) = msr = native_rdmsrq(MSR_AMD64_SEV);
- 	feature_mask = (msr & MSR_AMD64_SEV_ENABLED) ? AMD_SEV_BIT : AMD_SME_BIT;
- 
+ 	 * From SDM: Performing back-to-back fast reads are not guaranteed
+ 	 * to be monotonic.
+@@ -1028,8 +1028,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
+ 	 * before proceeding.
+ 	 */
+ 	rmb();
+-	rdpmcl(hit_pmcnum, hits_before);
+-	rdpmcl(miss_pmcnum, miss_before);
++	rdpmc(hit_pmcnum, hits_before);
++	rdpmc(miss_pmcnum, miss_before);
  	/*
-@@ -558,7 +558,7 @@ void __head sme_enable(struct boot_params *bp)
- 			return;
- 
- 		/* For SME, check the SYSCFG MSR */
--		msr = __rdmsr(MSR_AMD64_SYSCFG);
-+		msr = native_rdmsrq(MSR_AMD64_SYSCFG);
- 		if (!(msr & MSR_AMD64_SYSCFG_MEM_ENCRYPT))
- 			return;
- 	}
+ 	 * Use LFENCE to ensure all previous instructions are retired
+ 	 * before proceeding.
+@@ -1051,8 +1051,8 @@ static int measure_residency_fn(struct perf_event_attr *miss_attr,
+ 	 * before proceeding.
+ 	 */
+ 	rmb();
+-	rdpmcl(hit_pmcnum, hits_after);
+-	rdpmcl(miss_pmcnum, miss_after);
++	rdpmc(hit_pmcnum, hits_after);
++	rdpmc(miss_pmcnum, miss_after);
+ 	/*
+ 	 * Use LFENCE to ensure all previous instructions are retired
+ 	 * before proceeding.
 -- 
 2.49.0
 
