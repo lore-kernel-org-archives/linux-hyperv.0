@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7A8204583;
-	Mon, 28 Apr 2025 21:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C9420E000;
+	Mon, 28 Apr 2025 21:07:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745874467; cv=none; b=JKkenKLAxnskGc5jhL8fmfQ6fVrYglMzPPK9Vmb/g0kJsUaWOtzi2tzpEHklyScam5ydKI8p3oznaV5gUtT/f94lnMNSpWFnZ0Vp2pPq5xnfURQDuemW2t1Bckvv06wQ8m9ViWwg6yXQnGhZafnI3qh5/r5TB7Q4VEK4omlZ2R8=
+	t=1745874469; cv=none; b=CjZzUg1AYIAbBk6IIhbKD5FYeoc0zuqW9/q8DCEHJrOZUWo7elzhZOcjDo/Wf25JFcnXPsoylRx81wFCXB63a8NdUHrC2kx+i89tQC/8mBvjGf5M0BYmEJAD3I8j/vMeWXMYevm/vMU5UAQrTSPBrt6flTGCKNkpcFAcM5lfb1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745874467; c=relaxed/simple;
-	bh=UcmLYbsa9r73IqCYZoADAB833ARZG7Fhj2v89xNGJhQ=;
+	s=arc-20240116; t=1745874469; c=relaxed/simple;
+	bh=I3CEwKjiOw/f7nFmYsNkksTJaqqOcfPtnDq3c6iskUw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DhHZFylCT2qv3OOakdhTTe6Bu+OiOj1dFVETcNRYxPi8EAMonD8gzkxXucJjvSMsI6Nm19BhCcn3ZPvTEWU1rQHtt5tjMiPlZVx7EZXuhbJ3fxYiZZL6LizG9B+UPgdENhNWFfKqaIlRBL5jtOGxc+ZQaSKMc0Sb6OFfjqG6jLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NbmLTb0r; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=YWY/qLeqJ0ehT+7GKuam7OhLluRFR/W4SyV2tj2f4rc1gMTTUmlbx9OmaaClfBSY7mIsesurYnyQWb5hZBnMfQGos+a1pICuUfcIlaOK3asWc2HEpeSyxydRr8Z/KF1T/dKGAalzGtAlnZppDY5oEjA0EO1DzeAZdicqKvClxH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ILeQxzGc; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NbmLTb0r"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ILeQxzGc"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 50DA7211AD26;
-	Mon, 28 Apr 2025 14:07:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 50DA7211AD26
+	by linux.microsoft.com (Postfix) with ESMTPSA id 06B0A211AD28;
+	Mon, 28 Apr 2025 14:07:46 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 06B0A211AD28
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1745874465;
-	bh=aQvs5PM1gpfyo8zFdbVtMefzo4Lv3nxL51EfMSsyelE=;
+	s=default; t=1745874466;
+	bh=xt1rbRXU40eBeYFqn5S5410daeID7AsrUbw+WPHynno=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NbmLTb0r0rHGwGK2xB0H1U8bn048I5hkWjnFOkoV7D3qykI5rUF0xvX/weI2hrTXG
-	 c5AvE7XEbPplTqUuQQrRpRHhUJ1BhGU9fSafYrC8F2d6ClQx6IKDTrbBDtOMyP5Fku
-	 tGZrSfHKxllfTj+Wvk9QVtXkvIzvbEgrFD8N91RQ=
+	b=ILeQxzGcrqOI4PpdKoj7u5guh0X0UX9/VyUrwB0JxYD13NsGVGsLZHHEMhXrkz1XI
+	 T1m7CheHstc2Y2+zmY8+VfPt0ye9i1Hv2lytSJggpw039jJ4ClPFk/GxeLHaKmFhPC
+	 X8uoP1iwndOfYCt6dIZggjhIHT+M1l89I3vcvyzU=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bhelgaas@google.com,
@@ -68,9 +68,9 @@ Cc: apais@microsoft.com,
 	benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v9 04/11] Drivers: hv: Provide arch-neutral implementation of get_vtl()
-Date: Mon, 28 Apr 2025 14:07:35 -0700
-Message-ID: <20250428210742.435282-5-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v9 06/11] arm64, x86: hyperv: Report the VTL the system boots in
+Date: Mon, 28 Apr 2025 14:07:37 -0700
+Message-ID: <20250428210742.435282-7-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250428210742.435282-1-romank@linux.microsoft.com>
 References: <20250428210742.435282-1-romank@linux.microsoft.com>
@@ -82,139 +82,49 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To run in the VTL mode, Hyper-V drivers have to know what
-VTL the system boots in, and the arm64/hyperv code does not
-have the means to compute that.
+The hyperv guest code might run in various Virtual Trust Levels.
 
-Refactor the code to hoist the function that detects VTL,
-make it arch-neutral to be able to employ it to get the VTL
-on arm64.
+Report the level when the kernel boots in the non-default (0)
+one.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Reviewed-by: Tianyu Lan <tiala@microsoft.com>
 ---
- arch/x86/hyperv/hv_init.c      | 34 ----------------------------------
- drivers/hv/hv_common.c         | 31 +++++++++++++++++++++++++++++++
- include/asm-generic/mshyperv.h |  6 ++++++
- include/hyperv/hvgdk_mini.h    |  2 +-
- 4 files changed, 38 insertions(+), 35 deletions(-)
+ arch/arm64/hyperv/mshyperv.c | 2 ++
+ arch/x86/hyperv/hv_vtl.c     | 7 ++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-index ddeb40930bc8..3b569291dfed 100644
---- a/arch/x86/hyperv/hv_init.c
-+++ b/arch/x86/hyperv/hv_init.c
-@@ -390,40 +390,6 @@ static void __init hv_stimer_setup_percpu_clockev(void)
- 		old_setup_percpu_clockev();
- }
+diff --git a/arch/arm64/hyperv/mshyperv.c b/arch/arm64/hyperv/mshyperv.c
+index 43f422a7ef34..4fdc26ade1d7 100644
+--- a/arch/arm64/hyperv/mshyperv.c
++++ b/arch/arm64/hyperv/mshyperv.c
+@@ -118,6 +118,8 @@ static int __init hyperv_init(void)
+ 	if (ms_hyperv.priv_high & HV_ACCESS_PARTITION_ID)
+ 		hv_get_partition_id();
+ 	ms_hyperv.vtl = get_vtl();
++	if (ms_hyperv.vtl > 0) /* non default VTL */
++		pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
  
--#if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
--static u8 __init get_vtl(void)
--{
--	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
--	struct hv_input_get_vp_registers *input;
--	struct hv_output_get_vp_registers *output;
--	unsigned long flags;
--	u64 ret;
--
--	local_irq_save(flags);
--	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
--	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
--
--	memset(input, 0, struct_size(input, names, 1));
--	input->partition_id = HV_PARTITION_ID_SELF;
--	input->vp_index = HV_VP_INDEX_SELF;
--	input->input_vtl.as_uint8 = 0;
--	input->names[0] = HV_REGISTER_VSM_VP_STATUS;
--
--	ret = hv_do_hypercall(control, input, output);
--	if (hv_result_success(ret)) {
--		ret = output->values[0].reg8 & HV_X64_VTL_MASK;
--	} else {
--		pr_err("Failed to get VTL(error: %lld) exiting...\n", ret);
--		BUG();
--	}
--
--	local_irq_restore(flags);
--	return ret;
--}
--#else
--static inline u8 get_vtl(void) { return 0; }
--#endif
--
- /*
-  * This function is to be invoked early in the boot sequence after the
-  * hypervisor has been detected.
-diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-index b3b11be11650..1ece6721c486 100644
---- a/drivers/hv/hv_common.c
-+++ b/drivers/hv/hv_common.c
-@@ -317,6 +317,37 @@ void __init hv_get_partition_id(void)
- 		pr_err("Hyper-V: failed to get partition ID: %#x\n",
- 		       hv_result(status));
- }
-+#if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
-+u8 __init get_vtl(void)
-+{
-+	u64 control = HV_HYPERCALL_REP_COMP_1 | HVCALL_GET_VP_REGISTERS;
-+	struct hv_input_get_vp_registers *input;
-+	struct hv_output_get_vp_registers *output;
-+	unsigned long flags;
-+	u64 ret;
-+
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
-+
-+	memset(input, 0, struct_size(input, names, 1));
-+	input->partition_id = HV_PARTITION_ID_SELF;
-+	input->vp_index = HV_VP_INDEX_SELF;
-+	input->input_vtl.as_uint8 = 0;
-+	input->names[0] = HV_REGISTER_VSM_VP_STATUS;
-+
-+	ret = hv_do_hypercall(control, input, output);
-+	if (hv_result_success(ret)) {
-+		ret = output->values[0].reg8 & HV_VTL_MASK;
-+	} else {
-+		pr_err("Failed to get VTL(error: %lld) exiting...\n", ret);
-+		BUG();
-+	}
-+
-+	local_irq_restore(flags);
-+	return ret;
-+}
-+#endif
+ 	ms_hyperv_late_init();
  
- int __init hv_common_init(void)
+diff --git a/arch/x86/hyperv/hv_vtl.c b/arch/x86/hyperv/hv_vtl.c
+index 582fe820e29c..038c896fdd60 100644
+--- a/arch/x86/hyperv/hv_vtl.c
++++ b/arch/x86/hyperv/hv_vtl.c
+@@ -55,7 +55,12 @@ static void  __noreturn hv_vtl_restart(char __maybe_unused *cmd)
+ 
+ void __init hv_vtl_init_platform(void)
  {
-diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
-index ccccb1cbf7df..6c51a25ed7b5 100644
---- a/include/asm-generic/mshyperv.h
-+++ b/include/asm-generic/mshyperv.h
-@@ -378,4 +378,10 @@ static inline int hv_call_create_vp(int node, u64 partition_id, u32 vp_index, u3
- }
- #endif /* CONFIG_MSHV_ROOT */
+-	pr_info("Linux runs in Hyper-V Virtual Trust Level\n");
++	/*
++	 * This function is a no-op if the VTL mode is not enabled.
++	 * If it is, this function runs if and only the kernel boots in
++	 * VTL2 which the x86 hv initialization path makes sure of.
++	 */
++	pr_info("Linux runs in Hyper-V Virtual Trust Level %d\n", ms_hyperv.vtl);
  
-+#if IS_ENABLED(CONFIG_HYPERV_VTL_MODE)
-+u8 __init get_vtl(void);
-+#else
-+static inline u8 get_vtl(void) { return 0; }
-+#endif
-+
- #endif
-diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index abf0bd76e370..cf0923dc727d 100644
---- a/include/hyperv/hvgdk_mini.h
-+++ b/include/hyperv/hvgdk_mini.h
-@@ -1228,7 +1228,7 @@ struct hv_send_ipi {	 /* HV_INPUT_SEND_SYNTHETIC_CLUSTER_IPI */
- 	u64 cpu_mask;
- } __packed;
- 
--#define	HV_X64_VTL_MASK			GENMASK(3, 0)
-+#define	HV_VTL_MASK			GENMASK(3, 0)
- 
- /* Hyper-V memory host visibility */
- enum hv_mem_host_visibility {
+ 	x86_platform.realmode_reserve = x86_init_noop;
+ 	x86_platform.realmode_init = x86_init_noop;
 -- 
 2.43.0
 
