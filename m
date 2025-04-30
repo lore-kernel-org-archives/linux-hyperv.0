@@ -1,28 +1,28 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3374E22331C;
-	Wed, 30 Apr 2025 22:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2429922370A;
+	Wed, 30 Apr 2025 22:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746050765; cv=none; b=fR2UpaTW4fR16C3GJNlDbvktuJHtU+3cKU/PpnUD2qkQ9iXeAyr0lPicqxTRg0Kzqba4rjBSJ8VWORdPIAIsI0dJQuqVn8XdbQIZMUt+BbGwZ2FoQ92KM4mwR9fYdW+ej/QujjpSidf4IR43rdbd1KxP0pb0HXJfwi8g+QO0ZD0=
+	t=1746050766; cv=none; b=Ec/GY+MZycOZ5IYOtv1cNSKndn5PM0n/ndDN4hGoR9gcDnx5CTrZlTS4lSsbd+uzLkE6U9RAq2BxxyM3mY/9euVqrcHdQ2bDltan2E+wCX3VBMrh/sGoztWjLQxg7GH1QNUD4dWBIQ5YjyMec2RQ6XMBUpqDGlE9jjqLFn7Bn/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746050765; c=relaxed/simple;
-	bh=CcTWI7FuPMWJcnrhBbCO+CeRY9DtaORQiOzNsDkNitc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cO5wUkcOxOzuhCMPorzS/rGU14Du1JIA+fHDEc21s4HTqcTaSr11j+c52S6jTB5NVC5aSsGJMArVScqxmvdy2vgPRVKESeTR2M9OZFKacTj4h7yQQhqq4V3yqQokYBZLWxLcbFC+NXRhQl17hLnHq0acXJiiXtNRb/2DEHMJW0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxonhyperv.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b=a2mpgc2X; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1746050766; c=relaxed/simple;
+	bh=Ip8kCIs/NCxhLce9W0wi+ojRYSwPsFGesZ5pyNqongM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=V0gxJS7R3p5o1E63+805kV8QHfHKsLY27oCvScp5TmtycqlKt5ZivGcE2gnDfjEdcbJJ47WJrIaURxOtNuJmGU0s8PRPo+9zFkmsxZaXPJjj/xaNaNxyZMVTeMV36HlBd/8at5bbczVMLi23COvr27nP+6j2Hes7Yf96GYC1ccI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxonhyperv.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b=ATtOmQef; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxonhyperv.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b="a2mpgc2X"
+	dkim=pass (1024-bit key) header.d=linuxonhyperv.com header.i=@linuxonhyperv.com header.b="ATtOmQef"
 Received: by linux.microsoft.com (Postfix, from userid 1202)
-	id D3D6F204E7FD; Wed, 30 Apr 2025 15:06:01 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D3D6F204E7FD
+	id C526021130A4; Wed, 30 Apr 2025 15:06:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C526021130A4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxonhyperv.com;
-	s=default; t=1746050761;
-	bh=Tv99LGSGPSCu8e4+xjFTlVcnfQVc8DLTvncQgdvLHFI=;
+	s=default; t=1746050763;
+	bh=oEUBSZ8NILqC1QUWEk7J5DCevmeOgK9HDP3Grif/Ql8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a2mpgc2XJgLHFUTTxEns3eEN2FCDa6f/4gn0EFkCO7zuF/6nG0scerSL0jE908ewf
-	 v90IqT/BD7mBctbrBFKZ7okYtrCRmwaB6tTNVPGgdOYpMAh/IGjEeBioObQfFqn1Ja
-	 TfHgYO5cqTOLVK4KJE4tlypehLN+PSGTGyaowjPM=
+	b=ATtOmQefJCnNfY+URkn72qohw97BvneZDHlZ2fTk3PYu6CMVsqYOU8MbHanRKhlCD
+	 qnErqWnZpWDes6gdMonAMAoN1G78LulTcm56cBGd5HyQ5bnwsYykhUsAR+h33CMjNx
+	 o9X2sNajZGpSBacvyA7JXQUEbPhuC4LOhuL7/qPs=
 From: longli@linuxonhyperv.com
 To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
@@ -31,11 +31,10 @@ To: "K. Y. Srinivasan" <kys@microsoft.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Long Li <longli@microsoft.com>,
-	stable@vger.kernel.org
-Subject: [Patch v2 2/4] uio_hv_generic: Use correct size for interrupt and monitor pages
-Date: Wed, 30 Apr 2025 15:05:56 -0700
-Message-Id: <1746050758-6829-3-git-send-email-longli@linuxonhyperv.com>
+Cc: Long Li <longli@microsoft.com>
+Subject: [Patch v2 4/4] Drivers: hv: Remove hv_free/alloc_* helpers
+Date: Wed, 30 Apr 2025 15:05:58 -0700
+Message-Id: <1746050758-6829-5-git-send-email-longli@linuxonhyperv.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1746050758-6829-1-git-send-email-longli@linuxonhyperv.com>
 References: <1746050758-6829-1-git-send-email-longli@linuxonhyperv.com>
@@ -47,40 +46,129 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
 From: Long Li <longli@microsoft.com>
 
-Interrupt and monitor pages should be in Hyper-V page size (4k bytes).
-This can be different to the system page size.
+Those helpers are simply wrappers for page allocations.
 
-This size is read and used by the user-mode program to determine the
-mapped data region. An example of such user-mode program is the VMBUS
-driver in DPDK.
-
-Cc: stable@vger.kernel.org
-Fixes: 95096f2fbd10 ("uio-hv-generic: new userspace i/o driver for VMBus")
 Signed-off-by: Long Li <longli@microsoft.com>
 ---
- drivers/uio/uio_hv_generic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hv/connection.c        | 23 +++++++++++++++++------
+ drivers/hv/hv_common.c         | 24 ------------------------
+ include/asm-generic/mshyperv.h |  4 ----
+ 3 files changed, 17 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/uio/uio_hv_generic.c b/drivers/uio/uio_hv_generic.c
-index 1b19b5647495..08385b04c4ab 100644
---- a/drivers/uio/uio_hv_generic.c
-+++ b/drivers/uio/uio_hv_generic.c
-@@ -287,13 +287,13 @@ hv_uio_probe(struct hv_device *dev,
- 	pdata->info.mem[INT_PAGE_MAP].name = "int_page";
- 	pdata->info.mem[INT_PAGE_MAP].addr
- 		= (uintptr_t)vmbus_connection.int_page;
--	pdata->info.mem[INT_PAGE_MAP].size = PAGE_SIZE;
-+	pdata->info.mem[INT_PAGE_MAP].size = HV_HYP_PAGE_SIZE;
- 	pdata->info.mem[INT_PAGE_MAP].memtype = UIO_MEM_LOGICAL;
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index 8351360bba16..a0160b73b593 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -206,11 +206,20 @@ int vmbus_connect(void)
+ 	INIT_LIST_HEAD(&vmbus_connection.chn_list);
+ 	mutex_init(&vmbus_connection.channel_mutex);
  
- 	pdata->info.mem[MON_PAGE_MAP].name = "monitor_page";
- 	pdata->info.mem[MON_PAGE_MAP].addr
- 		= (uintptr_t)vmbus_connection.monitor_pages[1];
--	pdata->info.mem[MON_PAGE_MAP].size = PAGE_SIZE;
-+	pdata->info.mem[MON_PAGE_MAP].size = HV_HYP_PAGE_SIZE;
- 	pdata->info.mem[MON_PAGE_MAP].memtype = UIO_MEM_LOGICAL;
++	/*
++	 * The following Hyper-V interrupt and monitor pages can be used by
++	 * UIO for mapping to user-space, it should always be allocated on
++	 * system page boundaries. We use page allocation functions to allocate
++	 * those pages. We assume system page be bigger than Hyper-v page.
++	 */
++	BUILD_BUG_ON(PAGE_SIZE < HV_HYP_PAGE_SIZE);
++
+ 	/*
+ 	 * Setup the vmbus event connection for channel interrupt
+ 	 * abstraction stuff
+ 	 */
+-	vmbus_connection.int_page = hv_alloc_hyperv_zeroed_page();
++	vmbus_connection.int_page =
++		(void *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
+ 	if (vmbus_connection.int_page == NULL) {
+ 		ret = -ENOMEM;
+ 		goto cleanup;
+@@ -225,8 +234,8 @@ int vmbus_connect(void)
+ 	 * Setup the monitor notification facility. The 1st page for
+ 	 * parent->child and the 2nd page for child->parent
+ 	 */
+-	vmbus_connection.monitor_pages[0] = hv_alloc_hyperv_page();
+-	vmbus_connection.monitor_pages[1] = hv_alloc_hyperv_page();
++	vmbus_connection.monitor_pages[0] = (void *)__get_free_page(GFP_KERNEL);
++	vmbus_connection.monitor_pages[1] = (void *)__get_free_page(GFP_KERNEL);
+ 	if ((vmbus_connection.monitor_pages[0] == NULL) ||
+ 	    (vmbus_connection.monitor_pages[1] == NULL)) {
+ 		ret = -ENOMEM;
+@@ -342,21 +351,23 @@ void vmbus_disconnect(void)
+ 		destroy_workqueue(vmbus_connection.work_queue);
  
- 	if (channel->device_id == HV_NIC) {
+ 	if (vmbus_connection.int_page) {
+-		hv_free_hyperv_page(vmbus_connection.int_page);
++		free_page((unsigned long)vmbus_connection.int_page);
+ 		vmbus_connection.int_page = NULL;
+ 	}
+ 
+ 	if (vmbus_connection.monitor_pages[0]) {
+ 		if (!set_memory_encrypted(
+ 			(unsigned long)vmbus_connection.monitor_pages[0], 1))
+-			hv_free_hyperv_page(vmbus_connection.monitor_pages[0]);
++			free_page((unsigned long)
++				vmbus_connection.monitor_pages[0]);
+ 		vmbus_connection.monitor_pages[0] = NULL;
+ 	}
+ 
+ 	if (vmbus_connection.monitor_pages[1]) {
+ 		if (!set_memory_encrypted(
+ 			(unsigned long)vmbus_connection.monitor_pages[1], 1))
+-			hv_free_hyperv_page(vmbus_connection.monitor_pages[1]);
++			free_page((unsigned long)
++				vmbus_connection.monitor_pages[1]);
+ 		vmbus_connection.monitor_pages[1] = NULL;
+ 	}
+ }
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index 297ccd7d4997..421376cea17e 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -105,30 +105,6 @@ void __init hv_common_free(void)
+ 	hv_synic_eventring_tail = NULL;
+ }
+ 
+-/*
+- * A Hyper-V page can be used by UIO for mapping to user-space, it should
+- * always be allocated on system page boundaries.
+- */
+-void *hv_alloc_hyperv_page(void)
+-{
+-	BUILD_BUG_ON(PAGE_SIZE < HV_HYP_PAGE_SIZE);
+-	return (void *)__get_free_page(GFP_KERNEL);
+-}
+-EXPORT_SYMBOL_GPL(hv_alloc_hyperv_page);
+-
+-void *hv_alloc_hyperv_zeroed_page(void)
+-{
+-	BUILD_BUG_ON(PAGE_SIZE < HV_HYP_PAGE_SIZE);
+-	return (void *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
+-}
+-EXPORT_SYMBOL_GPL(hv_alloc_hyperv_zeroed_page);
+-
+-void hv_free_hyperv_page(void *addr)
+-{
+-	free_page((unsigned long)addr);
+-}
+-EXPORT_SYMBOL_GPL(hv_free_hyperv_page);
+-
+ static void *hv_panic_page;
+ 
+ /*
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index ccccb1cbf7df..4033508fbb11 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -236,10 +236,6 @@ int hv_common_cpu_init(unsigned int cpu);
+ int hv_common_cpu_die(unsigned int cpu);
+ void hv_identify_partition_type(void);
+ 
+-void *hv_alloc_hyperv_page(void);
+-void *hv_alloc_hyperv_zeroed_page(void);
+-void hv_free_hyperv_page(void *addr);
+-
+ /**
+  * hv_cpu_number_to_vp_number() - Map CPU to VP.
+  * @cpu_number: CPU number in Linux terms
 -- 
 2.34.1
 
