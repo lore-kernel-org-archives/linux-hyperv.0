@@ -1,39 +1,40 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8A723C4F0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2E6246795;
 	Wed, 30 Apr 2025 11:26:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746012409; cv=none; b=HNlfjX1U1loqj01jqHTfKVC7r3cOt0KQQTLF+3FTwwSrwpeGXDC+VuetNDTtbeov5STw9/1mbx107d4Gogr5TJDP4J0Yqo8nG8HW1rjaT9IZi4KWD9G1KSDzstq9LpBJnKCjbeUbavLAI36UrmXCrJSbuJL585wO43dP/zoblh4=
+	t=1746012410; cv=none; b=K4uvLOI+GDICxAS51UrBDFfPxaT+lyXS6tn7/0/923eDgHv50ixiyssCy1RrTjw1CiYGQifIGKZmwrw22PwfUS4lH8Eul1DC6gjRSl1NyyYvUFrWeNCCyVX+2iEfvK7XGm9P0BGhvLgga4XjZHN+KkYVncDpgfotOwwDN27vS1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746012409; c=relaxed/simple;
-	bh=eQzveos7V6YekhCNUJfmy5Uijw7pmb96pIGn739anLw=;
-	h=Message-ID:Date:From:To:Cc:Subject; b=j6NS93PTWIxj8AIuGG166DrRzCzgLlnmstgKJyoKPN/XNd/3Z1mlK0eTQV+tZ1SUg7RG55y4BhjhIhKZqEld9UQzaxNFv2XMXiAjkkgUQ6kaHrEyFZeZtFlSFQKNdY5PtjjpT4kqkzZcBSO9UDogE4cAPWBoSKnp0TrO3vcLK9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kf2Oa9Fk; arc=none smtp.client-ip=90.155.92.199
+	s=arc-20240116; t=1746012410; c=relaxed/simple;
+	bh=mg8jKvSmgfVVHoZ7hw5hkCmvXf95pqqRq6UeCwgAa34=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type; b=YbRVvgFADiLOJ/4v1LcRSPFPzelb947s2+8kLeQiTkDlHbkjYCDdBhfaAfcun3aHFo1rHehJcn3e3Ro+fHapvXqwrwi46/L/imESXhI03bKDAcBBSjMA3/Ph4dr5gGEY9H/MilbnwbLeYLRsqS9LdLG4nREpMjBfGKGTDUgEx1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NRChl+xy; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kf2Oa9Fk"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NRChl+xy"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Subject:Cc:To:From:Date:Message-ID:
-	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=2AJlI4hzJH/YytxNxCOspektBE6YxRuMLZiq6cwSDVg=; b=kf2Oa9FkSEyPf7OHxa3qWIYnYu
-	OtU+aaa4qwZFCpkv6BTN+P6kY6sYG0CLTWu85Bswwe8UO3U9qV3RCCDRTkvkTDuVyCX5IHgZxibjO
-	TdCi8zE85z33z8I6Oiy0h7yK5iDCoHE0Fbblz8smDRcK7CAcZiEtNNBCd8NPs2zMvYMvPP/OZ9AP/
-	lD7I4N/5SlB4Tp1rV2H2pSXnP8JpCG0zCK1ClMFFVG8b7S/Ke/NGIC9ZoGNQgL9Mqq68vTWv1gP/H
-	wOzINGON7MGnM59SffHiB71LhutClbLqXrfa00qsj4s3tAITI7jpGT906EmVV029i8DOd2N509sqc
-	siTJixtw==;
+	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
+	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To;
+	bh=a3oTVFV42BAnlcjOkQsl89vvtKHMlPa0kSRiVt7oMbc=; b=NRChl+xyv1Fb8q6cvEUds9mj+r
+	XKE1uCDILG+/gdVWShdljUZ6z4/vQHLeKrkQJPptSDFFdHsc+JMtyj2mK+kbFcQfcE5NfSZ5ykNCe
+	5i1B8N5S3/PhRQS5e3kNfBbTq89pyhz7AQwLZyjUNleAmlCWurTepxvEByCqAfb8p/x7VagcYeuJL
+	4TOG3Cm5GMF5DewNfQiasHh6aN94LGcEQZwG2cV32yRNfo8i7xI909lgl+k7pLkSTVv+zoDL6ZRCw
+	cxQUF+NbK/MoEQ/bq6zzimTrFkHUYnfP1xvmxv/khd9cd+R9nA5r8QZIM+nBWrarLN6LPoxXQu25r
+	eP4/EiWA==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uA5aG-0000000Dm7m-17XA;
-	Wed, 30 Apr 2025 11:26:36 +0000
+	id 1uA5aH-0000000Dm7y-06eH;
+	Wed, 30 Apr 2025 11:26:37 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
-	id C62F4300642; Wed, 30 Apr 2025 13:26:35 +0200 (CEST)
-Message-ID: <20250430110734.392235199@infradead.org>
+	id E478F307FAE; Wed, 30 Apr 2025 13:26:35 +0200 (CEST)
+Message-ID: <20250430112349.855046292@infradead.org>
 User-Agent: quilt/0.66
-Date: Wed, 30 Apr 2025 13:07:34 +0200
+Date: Wed, 30 Apr 2025 13:07:42 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: x86@kernel.org
 Cc: kys@microsoft.com,
@@ -59,56 +60,81 @@ Cc: kys@microsoft.com,
  linux-efi@vger.kernel.org,
  samitolvanen@google.com,
  ojeda@kernel.org
-Subject: [PATCH v2 00/13] objtool: Detect and warn about indirect calls in __nocfi functions
+Subject: [PATCH v2 08/13] x86/kvm/emulate: Introduce COP3WCL
+References: <20250430110734.392235199@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 
-Hi!
+Replace the FASTOP3WCL instructions.
 
-On kCFI (CONFIG_CFI_CLANG=y) builds all indirect calls should have the CFI
-check on (with very few exceptions). Not having the CFI checks undermines the
-protection provided by CFI and will make these sites candidates for people
-wanting to steal your cookies.
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ arch/x86/kvm/emulate.c |   25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-Specifically the ABI changes are so that doing indirect calls without the CFI
-magic, to a CFI adorned function is not compatible (although it happens to work
-for some setups, it very much does not for FineIBT).
+--- a/arch/x86/kvm/emulate.c
++++ b/arch/x86/kvm/emulate.c
+@@ -302,6 +302,9 @@ static int em_##op(struct x86_emulate_ct
+ #define COP_ASM2(op, dst, src) \
+ 		COP_ASM(#op " %%" #src ", %%" #dst " \n\t")
+ 
++#define COP_ASM3(op, dst, src, src2) \
++		COP_ASM(#op " %%" #src2 ", %%" #src ", %%" #dst " \n\t")
++
+ #define COP_END \
+ 	} \
+ 	ctxt->eflags = (ctxt->eflags & ~EFLAGS_MASK) | (flags & EFLAGS_MASK); \
+@@ -371,6 +374,16 @@ static int em_##op(struct x86_emulate_ct
+ 	ON64(case 8: COP_ASM2(op##q, rax, cl); break;) \
+ 	COP_END
+ 
++/* 3-operand, using "a" (dst), "d" (src) and CL (src2) */
++#define COP3WCL(op) \
++	COP_START(op) \
++	case 1: break; \
++	case 2: COP_ASM3(op##w, ax, dx, cl); break; \
++	case 4: COP_ASM3(op##l, eax, edx, cl); break; \
++	ON64(case 8: COP_ASM3(op##q, rax, rdx, cl); break;) \
++	COP_END
++
++
+ /*
+  * fastop functions have a special calling convention:
+  *
+@@ -1097,8 +1110,8 @@ COP1SRC2(imul, imul_ex);
+ COP1SRC2EX(div, div_ex);
+ COP1SRC2EX(idiv, idiv_ex);
+ 
+-FASTOP3WCL(shld);
+-FASTOP3WCL(shrd);
++COP3WCL(shld);
++COP3WCL(shrd);
+ 
+ COP2W(imul);
+ 
+@@ -4496,14 +4509,14 @@ static const struct opcode twobyte_table
+ 	I(Stack | Src2FS, em_push_sreg), I(Stack | Src2FS, em_pop_sreg),
+ 	II(ImplicitOps, em_cpuid, cpuid),
+ 	I(DstMem | SrcReg | ModRM | BitOp | NoWrite, em_bt),
+-	F(DstMem | SrcReg | Src2ImmByte | ModRM, em_shld),
+-	F(DstMem | SrcReg | Src2CL | ModRM, em_shld), N, N,
++	I(DstMem | SrcReg | Src2ImmByte | ModRM, em_shld),
++	I(DstMem | SrcReg | Src2CL | ModRM, em_shld), N, N,
+ 	/* 0xA8 - 0xAF */
+ 	I(Stack | Src2GS, em_push_sreg), I(Stack | Src2GS, em_pop_sreg),
+ 	II(EmulateOnUD | ImplicitOps, em_rsm, rsm),
+ 	I(DstMem | SrcReg | ModRM | BitOp | Lock | PageTable, em_bts),
+-	F(DstMem | SrcReg | Src2ImmByte | ModRM, em_shrd),
+-	F(DstMem | SrcReg | Src2CL | ModRM, em_shrd),
++	I(DstMem | SrcReg | Src2ImmByte | ModRM, em_shrd),
++	I(DstMem | SrcReg | Src2CL | ModRM, em_shrd),
+ 	GD(0, &group15), I(DstReg | SrcMem | ModRM, em_imul),
+ 	/* 0xB0 - 0xB7 */
+ 	I2bv(DstMem | SrcReg | ModRM | Lock | PageTable | SrcWrite, em_cmpxchg),
 
-Rust people tripped over this the other day, since their 'core' happened to
-have some no_sanitize(kcfi) bits in, which promptly exploded when ran with
-FineIBT on.
-
-Since this is very much not a supported model -- on purpose, have objtool
-detect and warn about such constructs.
-
-This effort [1] found all existing [2] non-cfi indirect calls in the kernel.
-
-Notably the KVM fastop emulation stuff -- which I've completely rewritten for
-this version -- the generated code doesn't look horrific, but is slightly more
-verbose. I'm running on the assumption that instruction emulation is not super
-performance critical these days of zero VM-exit VMs etc.
-
-KVM has another; the VMX interrupt injection stuff calls the IDT handler
-directly.  Is there an alternative? Can we keep a table of Linux functions
-slighly higher up the call stack (asm_\cfunc ?) and add CFI to those?
-
-HyperV hypercall page stuff, which I've previously suggested use direct calls,
-and which I've now converted (after getting properly annoyed with that code).
-
-Also available at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/core
-
-Changes since v1:
-
- - complete rewrite of the fastop stuff
- - HyperV tweaks (Michael)
- - objtool changes (Josh)
-
-
-[1] https://lkml.kernel.org/r/20250410154556.GB9003@noisy.programming.kicks-ass.net
-[2] https://lkml.kernel.org/r/20250410194334.GA3248459@google.com
 
