@@ -1,140 +1,214 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B5F76FC5;
-	Wed,  7 May 2025 11:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E63A214A82;
+	Wed,  7 May 2025 11:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746617449; cv=none; b=Pa6KQAfW1qa3ezgx6yCr11ckmsTes7iUFarrOVCa1elJiKPqnDfQ0br6Rt8l2LKs9lLhm9gOrSUGMu+446pGtGzKiUCNf2WCXx0s8Ej6xKhMuhhQAbGqLwTff/jhuboCCXZfYOsek00P4r7iS0bCvppUSPFhJ+QsyR+fZH2zd3s=
+	t=1746618235; cv=none; b=PPV1fP9U5OUQmt4zQZ4443y2iLzymfdglC5wVxgIgXaReDWA7lLNtEX7u5ZaafpPi15zQW34ZDft6/d6fLrkUNG6mrft0zmR8nkNxpktubJ37kGEirzKg5gEv4SPnHkEmfLflJTrbA71YrYL/ZA/L7gVKa56lFauVyDy1Sd039w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746617449; c=relaxed/simple;
-	bh=BT5flKrqdULW+U+spcOhTaxlNK6ECqi3PjYzjthRMyM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BENMtcagZ1fW5Et6iUtDbhVVd1Pui0ltCc2xbSwNNihCYB4Dy5LXtgE9SLtr9SyZZBzYC3yLZhCc79qTDZggX003PxcUrGyHswUiO9N9TfabRsRxZUC+yXeHfwYM7II4v47SAj1aAl1BDv/LoeSFW+E3birFCtfRfNhXEcDCpJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bPXDLx8j; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1746618235; c=relaxed/simple;
+	bh=YGUKIY6MsniKGGoVznlGheoqVG6lXYDoidfAZzwwlgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XdNMx7Lg8N0OrfW+s54eI3orNBTdUR7qjLLwCfOPrBWxwp/td8mAxHKuaW3wIqeH0OByF4f7fMuiUPmt1NeTN6KfUFRmlcGPvwen/u9Wa/UlIUdeUN+Tysz2pNS1XSBdtvHO6zsLjD1QBk+qkW72QkOdAaBerp5ePtOdcIiZmd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFgsvQb8; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bPXDLx8j"
-Received: from [100.79.218.35] (unknown [4.194.122.170])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E944E21180CA;
-	Wed,  7 May 2025 04:21:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E944E21180CA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1746616916;
-	bh=YqDRKtZG+1qSllTV6hrI3N5y77O1WF8OhkPzBs8Ho3A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bPXDLx8jx7FJJIDSCZ7NsGBFopGHWZmbDslW+Q7oSJR9Gro2OQosggYFSZ7uNaIcr
-	 KeG8tJHb2PO6dKajP7Lxseu72h6RVyd0Z95E24sQNYIxXep4bSdskBlDXbj9eYpVgj
-	 Jci8uIVErP+W+D1/HJJIvNN0Gl38fMCUW83SRRcE=
-Message-ID: <be04a26f-866d-43e6-9a0b-15b91405503e@linux.microsoft.com>
-Date: Wed, 7 May 2025 16:51:50 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFgsvQb8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746618233; x=1778154233;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=YGUKIY6MsniKGGoVznlGheoqVG6lXYDoidfAZzwwlgY=;
+  b=VFgsvQb8QVl94CYkk5VEn8cifHSpaUVH6tunzHEOO3Pv3kmPJlKBrsL/
+   6Qy+3bj9xbT9GDENTpGsJe2DkgdSWjJC96mtzMGwDoUj/7pUyW+OGcHRb
+   iKx3mkyEXQWeEtSDj1EjGUSmR9EnXJ4XpRVsw1qR7eHQk28woHmTSr+pc
+   c0KKggPS6CKOQE3G9dBCH0RtVsZIwP+2Djq9NZjYwqVR6Qd/W6LcB7tsF
+   7ldUnPfq77A2gumvrmpkXyk8wA5kKVsPbYnl3QpbEFs+GNygbhXnhtNk4
+   VAJ3UkQ5lGuwfyV45uajrbsD0nDgSlcC4UDfcEXcECSnt6bgP3Jho4Lff
+   g==;
+X-CSE-ConnectionGUID: JaqzB9JBRN+fBQki3EGYSg==
+X-CSE-MsgGUID: XOqrkm62Q82LXNQ9p8CRcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47442143"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="47442143"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:43:52 -0700
+X-CSE-ConnectionGUID: oPY4ZS6MTq6rF9bnZTWGCw==
+X-CSE-MsgGUID: Oo1duMMwShKiM1ihegtnEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="136945496"
+Received: from ranerica-svr.sc.intel.com ([172.25.110.23])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:43:51 -0700
+Date: Wed, 7 May 2025 04:48:57 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: x86@kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>, devicetree@vger.kernel.org,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	Chris Oo <cho@microsoft.com>, linux-hyperv@vger.kernel.org,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+	Ricardo Neri <ricardo.neri@intel.com>
+Subject: Re: [PATCH v3 06/13] dt-bindings: reserved-memory: Wakeup Mailbox
+ for Intel processors
+Message-ID: <20250507114857.GB27839@ranerica-svr.sc.intel.com>
+References: <20250503191515.24041-1-ricardo.neri-calderon@linux.intel.com>
+ <20250503191515.24041-7-ricardo.neri-calderon@linux.intel.com>
+ <CAJZ5v0j262Jorbb5--WY6KedR7CWvdTTYP10ZRZTqXhTNJ1GiA@mail.gmail.com>
+ <20250506055054.GG25533@ranerica-svr.sc.intel.com>
+ <CAJZ5v0gC8p1kwVpd8vZkWKoyVaT7Udzj0X5ux03TdJ3=2b8gyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Drivers: hv: Introduce mshv_vtl driver
-To: Saurabh Singh Sengar <ssengar@microsoft.com>,
- KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>
-Cc: Roman Kisel <romank@linux.microsoft.com>,
- Anirudh Rayabharam <anrayabh@linux.microsoft.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>,
- Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
- Nuno Das Neves <nunodasneves@linux.microsoft.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-References: <20250506084937.624680-1-namjain@linux.microsoft.com>
- <KUZP153MB1444BE7FD66EA9CA9B4B9A97BE88A@KUZP153MB1444.APCP153.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <KUZP153MB1444BE7FD66EA9CA9B4B9A97BE88A@KUZP153MB1444.APCP153.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0gC8p1kwVpd8vZkWKoyVaT7Udzj0X5ux03TdJ3=2b8gyg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-
-
-On 5/7/2025 3:49 PM, Saurabh Singh Sengar wrote:
->> Provide an interface for Virtual Machine Monitor like OpenVMM and its
->> use as OpenHCL paravisor to control VTL0 (Virtual trust Level).
->> Expose devices and support IOCTLs for features like VTL creation,
->> VTL0 memory management, context switch, making hypercalls,
->> mapping VTL0 address space to VTL2 userspace, getting new VMBus
->> messages and channel events in VTL2 etc.
->>
->> Co-developed-by: Roman Kisel <romank@linux.microsoft.com>
->> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
->> Co-developed-by: Saurabh Sengar <ssengar@linux.microsoft.com>
->> Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
->> Signed-off-by: Naman Jain <namjain@linux.microsoft.com>
->> ---
->>
->> OpenVMM :
->> https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fopenv
->> mm.dev%2Fguide%2F&data=05%7C02%7Cssengar%40microsoft.com%7Ce3b
->> 0a61c2c72423aa33408dd8c7af2e9%7C72f988bf86f141af91ab2d7cd011db47%
->> 7C1%7C0%7C638821181946438191%7CUnknown%7CTWFpbGZsb3d8eyJFbXB
->> 0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFp
->> bCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=uYUgaqKTazf0BL8ukdeUEor
->> d9hN8NidMLwE19NdprlE%3D&reserved=0
->>
->> ---
-
-<snip>
-
->> +		return -EINVAL;
->> +	if (copy_from_user(payload, (void __user *)message.payload_ptr,
->> +			   message.payload_size))
->> +		return -EFAULT;
->> +
->> +	return hv_post_message((union
+On Tue, May 06, 2025 at 04:00:56PM +0200, Rafael J. Wysocki wrote:
+> On Tue, May 6, 2025 at 7:46 AM Ricardo Neri
+> <ricardo.neri-calderon@linux.intel.com> wrote:
+> >
+> > On Mon, May 05, 2025 at 03:07:43PM +0200, Rafael J. Wysocki wrote:
+> > > On Sat, May 3, 2025 at 9:10 PM Ricardo Neri
+> > > <ricardo.neri-calderon@linux.intel.com> wrote:
+> > > >
+> > > > Add DeviceTree bindings for the wakeup mailbox used on Intel processors.
+> > > >
+> > > > x86 platforms commonly boot secondary CPUs using an INIT assert, de-assert
+> > > > followed by Start-Up IPI messages. The wakeup mailbox can be used when this
+> > > > mechanism unavailable.
+> > > >
+> > > > The wakeup mailbox offers more control to the operating system to boot
+> > > > secondary CPUs than a spin-table. It allows the reuse of same wakeup vector
+> > > > for all CPUs while maintaining control over which CPUs to boot and when.
+> > > > While it is possible to achieve the same level of control using a spin-
+> > > > table, it would require to specify a separate cpu-release-addr for each
+> > > > secondary CPU.
+> > > >
+> > > > Originally-by: Yunhong Jiang <yunhong.jiang@linux.intel.com>
+> > > > Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+> > > > ---
+> > > > Changes since v2:
+> > > >  - Implemented the mailbox as a reserved-memory node. Add to it a
+> > > >    `compatible` property. (Krzysztof)
+> > > >  - Explained the relationship between the mailbox and the `enable-mehod`
+> > > >    property of the CPU nodes.
+> > > >  - Expanded the documentation of the binding.
+> > > >
+> > > > Changes since v1:
+> > > >  - Added more details to the description of the binding.
+> > > >  - Added requirement a new requirement for cpu@N nodes to add an
+> > > >    `enable-method`.
+> > > > ---
+> > > >  .../reserved-memory/intel,wakeup-mailbox.yaml | 87 +++++++++++++++++++
+> > > >  1 file changed, 87 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml b/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..d97755b4673d
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/reserved-memory/intel,wakeup-mailbox.yaml
+> > > > @@ -0,0 +1,87 @@
+> > > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/reserved-memory/intel,wakeup-mailbox.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Wakeup Mailbox for Intel processors
+> > > > +
+> > > > +description: |
+> > > > +  The Wakeup Mailbox provides a mechanism for the operating system to wake up
+> > > > +  secondary CPUs on Intel processors. It is an alternative to the INIT-!INIT-
+> > > > +  SIPI sequence used on most x86 systems.
+> > > > +
+> > > > +  Firmware must define the enable-method property in the CPU nodes as
+> > > > +  "intel,wakeup-mailbox" to use the mailbox.
+> > > > +
+> > > > +  Firmware implements the wakeup mailbox as a 4KB-aligned memory region of size
+> > > > +  of 4KB. It is memory that the firmware reserves so that each secondary CPU can
+> > > > +  have the operating system send a single message to them. The firmware is
+> > > > +  responsible for putting the secondary CPUs in a state to check the mailbox.
+> > > > +
+> > > > +  The structure of the mailbox is as follows:
+> > > > +
+> > > > +  Field           Byte   Byte  Description
+> > > > +                 Length Offset
+> > > > +  ------------------------------------------------------------------------------
+> > > > +  Command          2      0    Command to wake up the secondary CPU:
+> > > > +                                        0: Noop
+> > > > +                                        1: Wakeup: Jump to the wakeup_vector
+> > > > +                                        2-0xFFFF: Reserved:
+> > > > +  Reserved         2      2    Must be 0.
+> > > > +  APIC_ID          4      4    APIC ID of the secondary CPU to wake up.
+> > > > +  Wakeup_Vector    8      8    The wakeup address for the secondary CPU.
+> > > > +  ReservedForOs 2032     16    Reserved for OS use.
+> > > > +  ReservedForFW 2048   2048    Reserved for firmware use.
+> > > > +  ------------------------------------------------------------------------------
+> > > > +
+> > > > +  To wake up a secondary CPU, the operating system 1) prepares the wakeup
+> > > > +  routine; 2) populates the address of the wakeup routine address into the
+> > > > +  Wakeup_Vector field; 3) populates the APIC_ID field with the APIC ID of the
+> > > > +  secondary CPU; 4) writes Wakeup in the Command field. Upon receiving the
+> > > > +  Wakeup command, the secondary CPU acknowledges the command by writing Noop in
+> > > > +  the Command field and jumps to the Wakeup_Vector. The operating system can
+> > > > +  send the next command only after the Command field is changed to Noop.
+> > > > +
+> > > > +  The secondary CPU will no longer check the mailbox after waking up. The
+> > > > +  secondary CPU must ignore the command if its APIC_ID written in the mailbox
+> > > > +  does not match its own.
+> > > > +
+> > > > +  When entering the Wakeup_Vector, interrupts must be disabled and 64-bit
+> > > > +  addressing mode must be enabled. Paging mode must be enabled. The virtual
+> > > > +  address of the Wakeup_Vector page must be equal to its physical address.
+> > > > +  Segment selectors are not used.
+> > >
+> > > This interface is defined in the ACPI specification and all of the
+> > > above information is present there.
+> > >
+> > > Why are you copying it without acknowledging the source of it instead
+> > > of just saying where this interface is defined and pointing to its
+> > > definition?
+> >
+> > There was a discussion in the past about preferring a full description of
+> > the mailbox instead of references to ACPI [1]. I am happy to acknowledge
+> > the source in the changeset description. I explicitly acknowledge the ACPI
+> > specification in the cover letter.
+> >
+> > [1]. https://lore.kernel.org/all/20240809232928.GB25056@yjiang5-mobl.amr.corp.intel.com/
 > 
-> This function definition is in separate file which can be build as independent module, this will cause
-> problem while linking . Try building with CONFIG_HYPERV=m and check.
+> In which I clearly was not involved.
 > 
-> - Saurabh
+> Acknowledgement in the cover letter is fine, but insufficient.
 
-Thanks for reviewing Saurabh. As CONFIG_HYPERV can be set to 'm'
-and CONFIG_MSHV_VTL depends on it, changing CONFIG_MSHV_VTL to tristate
-and a few tweaks in Makefile will fix this issue. This will ensure that
-mshv_vtl is also built as a module when hyperv is built as a module.
+I see.
 
-I'll take care of this in next version.
+> 
+> Also, there is the question regarding what happens when the ASWG
+> decides to update this part of the ACPI specification.  Is the DT
+> binding going to be updated too?
 
-here is the diff for reference:
-diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-index 57dcfcb69b88..c7f21b483377 100644
---- a/drivers/hv/Kconfig
-+++ b/drivers/hv/Kconfig
-@@ -73,7 +73,7 @@ config MSHV_ROOT
-           If unsure, say N.
+That was my plan. The ACPI Multiprocessor Wakeup Structure has a version
+field that I could have used.
 
-  config MSHV_VTL
--       bool "Microsoft Hyper-V VTL driver"
-+       tristate "Microsoft Hyper-V VTL driver"
-         depends on HYPERV && X86_64
-         depends on TRANSPARENT_HUGEPAGE
-         depends on OF
-diff --git a/drivers/hv/Makefile b/drivers/hv/Makefile
-index 5e785dae08cc..c53a0df746b7 100644
---- a/drivers/hv/Makefile
-+++ b/drivers/hv/Makefile
-@@ -15,9 +15,11 @@ hv_vmbus-$(CONFIG_HYPERV_TESTING)    += hv_debugfs.o
-  hv_utils-y := hv_util.o hv_kvp.o hv_snapshot.o hv_utils_transport.o
-  mshv_root-y := mshv_root_main.o mshv_synic.o mshv_eventfd.o mshv_irq.o \
-                mshv_root_hv_call.o mshv_portid_table.o
-+mshv_vtl-y := mshv_vtl_main.o
+But, it looks like these bindings will not be needed after all.
 
-  # Code that must be built-in
-  obj-$(subst m,y,$(CONFIG_HYPERV)) += hv_common.o
--obj-$(subst m,y,$(CONFIG_MSHV_ROOT)) += hv_proc.o mshv_common.o
--
--mshv_vtl-y := mshv_vtl_main.o mshv_common.o
-+obj-$(subst m,y,$(CONFIG_MSHV_ROOT)) += hv_proc.o
-+ifneq ($(CONFIG_MSHV_ROOT) $(CONFIG_MSHV_VTL),)
-+    obj-y += mshv_common.o
-+endif
+I will drop this patch.
 
-Regards,
-Naman
+Thanks and BR,
+Ricardo
