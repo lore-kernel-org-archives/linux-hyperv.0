@@ -1,170 +1,318 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA35192B81;
-	Thu,  5 Jun 2025 14:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993C019D092
+	for <linux-hyperv@vger.kernel.org>; Thu,  5 Jun 2025 15:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749134068; cv=none; b=nOSCNfEK4JEbh9BUYXLO9P1iGPojZp+axffjczEjclDUPTr77SdlWnqvpjBR0RVucWnf3ivoAN88Clgs7e9+gDK1YsvJEVJ08Fb6yk8yH4fJ20rdgMVq7u8KPd9XsHlvbNinPslAw8Xri+99M3ldC4604y2maH6UdBgfPlCDsFU=
+	t=1749137421; cv=none; b=YSnWjMyH0qrNL44QBsK4fslDIOL+YvwESdrIXsyTw2qXzW0nrkyc+GbBwp3gZQ7tL+Ntlj4FIFQdyuC0FS9XuadHK87OZgdaOgRR+pM0YVswQjqss6sf2E0NTi1M4eVind1v0jU3fdJtaMKueQoGwCYbEN+y8gRyUgpM5qXVrjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749134068; c=relaxed/simple;
-	bh=AquVpugqfTpDN5OnPZ7ing+SKPkefdN5dcXWX2z9viU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=blYlowCeJ7n40MbIxKKr45mT3CvK5jRkpdzrNwL3BVuLc5oXdamQDS0AyBSqrYg4xPHlX3F9DkpN6qv8NhbxGjQ/5OpadxnrU8FtsFTeyq225P+cH2lnSdmI5fvoNZuC1vzww2DrV2rQOwgE5SmyAvu7dk8LMCLEr1+rAjJPS9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rVVyD0JJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749137421; c=relaxed/simple;
+	bh=O1vAIoG9rCkD4pCbKfb4aGVef6MegoSl2hDLN4Xtymo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Wl1yy/1H31UXKKNqSy9ZbAHDV1D/dSgUf9OmoUoFJ54HfAj5ue5l+c/vQ3Dtwgqr6hxuDSd7+74M7q0e2t/xdIkL8GD6/Baf9CjtxlYbde+MBX1+znEyDvk5pV4e1C9ORvUGQbQSObP5KuGrnBQdfjhDaBkb4459r7fzi3K1Jec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0P++UBLj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dtzAqonv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0P++UBLj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dtzAqonv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rVVyD0JJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 976B9C4CEEB;
-	Thu,  5 Jun 2025 14:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749134068;
-	bh=AquVpugqfTpDN5OnPZ7ing+SKPkefdN5dcXWX2z9viU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rVVyD0JJQOk7yQ4SmWacrM763xpPFnyPSX+QaWQsQcQxqrzlsV6nkfA731b25PsMd
-	 f3PR/anqaHSaWKncDHgeRF5wz+PDgubPdnhc4GxZQOajacTzaEMFzjsvAxj/tfKsEr
-	 2cWVU6hhzwqFcOV40KpWiPt7F4+gu1Ep+SHgEnYqZ8Nzz3TvEAR87hBXohAyriuc4P
-	 Pd5X1v6S1HG7wvT1dzitAzWOgwftdZSYjqkvhSvug8Dns4n1nzaAdTyqxf2tXl+zBG
-	 6uH+hoyjSENyynbaQ6LrATfM06QnpeyK6Zid5OM6CqHPCm3zrAlDyRoIbH0xuEj9cO
-	 aXUfT+QRPGcBA==
-Message-ID: <19df7e9a-d5a9-42e2-a29e-3ab57311a685@kernel.org>
-Date: Thu, 5 Jun 2025 16:34:24 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0P++UBLj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dtzAqonv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0P++UBLj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dtzAqonv"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B5CD91F78B;
+	Thu,  5 Jun 2025 15:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749137417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rxp7mTDR5t3sXpbj7Uxo/kpi0WkiXh+O5jsVwFeT1v8=;
+	b=0P++UBLjEtXGF4Uy5q9AGYF+BQVcOF27JiaKVIP+o2adxw9ocjLADhbEK5OwSZzjVMmMpj
+	6FcrH84qB6LXYR5VE1uk2N9/EAnCTrUWSLK+7R3FOQGgR0gqVsHCcATRTLz53tmytDKoha
+	0v/YjHhqBe6tPXVQIEe/GiQk0cLDZvQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749137417;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rxp7mTDR5t3sXpbj7Uxo/kpi0WkiXh+O5jsVwFeT1v8=;
+	b=dtzAqonvXUU4czTXKFOKBtoRupLBWIpqhwKi+/hWx9Y/VEqEaU+WxGr9BnBVv20bcVdUe8
+	GtwDPxUxA0bjWqCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749137417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rxp7mTDR5t3sXpbj7Uxo/kpi0WkiXh+O5jsVwFeT1v8=;
+	b=0P++UBLjEtXGF4Uy5q9AGYF+BQVcOF27JiaKVIP+o2adxw9ocjLADhbEK5OwSZzjVMmMpj
+	6FcrH84qB6LXYR5VE1uk2N9/EAnCTrUWSLK+7R3FOQGgR0gqVsHCcATRTLz53tmytDKoha
+	0v/YjHhqBe6tPXVQIEe/GiQk0cLDZvQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749137417;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rxp7mTDR5t3sXpbj7Uxo/kpi0WkiXh+O5jsVwFeT1v8=;
+	b=dtzAqonvXUU4czTXKFOKBtoRupLBWIpqhwKi+/hWx9Y/VEqEaU+WxGr9BnBVv20bcVdUe8
+	GtwDPxUxA0bjWqCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DE07139CB;
+	Thu,  5 Jun 2025 15:30:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QGrGEQm4QWj3XwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 05 Jun 2025 15:30:17 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: mhklinux@outlook.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	drawat.floss@gmail.com,
+	javierm@redhat.com,
+	kraxel@redhat.com,
+	louis.chauvet@bootlin.com,
+	hamohammed.sa@gmail.com,
+	melissa.srw@gmail.com,
+	fvogt@suse.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-hyperv@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 1/6] drm/vblank: Add vblank timer
+Date: Thu,  5 Jun 2025 17:24:39 +0200
+Message-ID: <20250605152637.98493-2-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250605152637.98493-1-tzimmermann@suse.de>
+References: <20250605152637.98493-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] vmbus: retrieve connection-id from DeviceTree
-To: Hardik Garg <hargar@linux.microsoft.com>, kys@microsoft.com,
- haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- ssengar@microsoft.com
-Cc: romank@linux.microsoft.com, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@kernel.org, apais@microsoft.com
-References: <6a92ca86-ad6b-4d49-af6e-1ed7651b8ab8@linux.microsoft.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <6a92ca86-ad6b-4d49-af6e-1ed7651b8ab8@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
+X-Spamd-Result: default: False [-1.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[outlook.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,redhat.com,bootlin.com,suse.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com]
+X-Spam-Level: 
 
-On 05/06/2025 08:09, Hardik Garg wrote:
-> The connection-id determines which hypervisor communication channel the
-> guest should use to talk to the VMBus host. This patch adds support to
-> read this value from the DeviceTree where it exists as a property under
-> the vmbus node with the compatible ID "microsoft,message-connection-id".
-> The property name follows the format <vendor>,<field> where
-> "vendor": "microsoft" and "field": "message-connection-id"
-> 
-> Reading from DeviceTree allows platforms to specify their preferred
-> communication channel, making it more flexible. If the property is
-> not found in the DeviceTree, use the default connection ID
-> (VMBUS_MESSAGE_CONNECTION_ID or VMBUS_MESSAGE_CONNECTION_ID_4
-> based on protocol version).
-> 
-> Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
-> ---
-> v3:
-> - Added documentation for the new property in DeviceTree bindings
+The vblank timer simulates a vblank interrupt for hardware without
+support. Rate-limits the display update frequency.
 
-Please run scripts/checkpatch.pl on the patches and fix reported
-warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-patches and (probably) fix more warnings. Some warnings can be ignored,
-especially from --strict run, but the code here looks like it needs a
-fix. Feel free to get in touch if the warning is not clear.
+DRM drivers for hardware without vblank support apply display updates
+ASAP. A vblank event informs DRM clients of the completed update.
 
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+Userspace compositors immediately schedule the next update, which
+creates significant load on virtualization outputs. Display updates
+are usually fast on virtualization outputs, as their framebuffers are
+in regular system memory and there's no hardware vblank interrupt to
+throttle the update rate.
 
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
+The vblank timer is a HR timer that signals the vblank in software.
+It limits the update frequency of a DRM driver similar to a hardware
+vblank interrupt. The timer is not synchronized to the actual vblank
+interval of the display.
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
+The code has been adopted from vkms, which added the funtionality
+in commit 3a0709928b17 ("drm/vkms: Add vblank events simulated by
+hrtimers").
 
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/Makefile           |   3 +-
+ drivers/gpu/drm/drm_vblank_timer.c | 100 +++++++++++++++++++++++++++++
+ include/drm/drm_vblank_timer.h     |  26 ++++++++
+ 3 files changed, 128 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/drm_vblank_timer.c
+ create mode 100644 include/drm/drm_vblank_timer.h
 
-> 
-> v2: 
-> https://lore.kernel.org/all/096edaf7-cc90-42b6-aff4-c5f088574e1e@linux.microsoft.com/
-> 
-> v1: 
-> https://lore.kernel.org/all/6acee4bf-cb04-43b9-9476-e8d811d26dfd@linux.microsoft.com/
-> ---
->   .../devicetree/bindings/bus/microsoft,vmbus.yaml    |  8 ++++++++
->   drivers/hv/connection.c                             |  6 ++++--
->   drivers/hv/vmbus_drv.c                              | 13 +++++++++++++
->   3 files changed, 25 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/bus/microsoft,vmbus.yaml 
-> b/Documentation/devicetree/bindings/bus/microsoft,vmbus.yaml
-> index 0bea4f5287ce..729ca6defec6 100644
-> --- a/Documentation/devicetree/bindings/bus/microsoft,vmbus.yaml
-> +++ b/Documentation/devicetree/bindings/bus/microsoft,vmbus.yaml
-> @@ -17,6 +17,14 @@ properties:
->     compatible:
->       const: microsoft,vmbus
-> 
-> +  microsoft,message-connection-id:
-> +    description:
-> +      VMBus message connection ID to be used for communication between 
-> host and
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index b5d5561bbe5f..6722e2d1aa7e 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -146,7 +146,8 @@ drm_kms_helper-y := \
+ 	drm_plane_helper.o \
+ 	drm_probe_helper.o \
+ 	drm_self_refresh_helper.o \
+-	drm_simple_kms_helper.o
++	drm_simple_kms_helper.o \
++	drm_vblank_timer.o
+ drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
+ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+ obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
+diff --git a/drivers/gpu/drm/drm_vblank_timer.c b/drivers/gpu/drm/drm_vblank_timer.c
+new file mode 100644
+index 000000000000..be46d3135c8e
+--- /dev/null
++++ b/drivers/gpu/drm/drm_vblank_timer.c
+@@ -0,0 +1,100 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++#include <linux/hrtimer.h>
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_print.h>
++#include <drm/drm_vblank.h>
++#include <drm/drm_vblank_timer.h>
++
++static enum hrtimer_restart drm_vblank_timer_function(struct hrtimer *timer)
++{
++	struct drm_vblank_timer *vtimer = container_of(timer, struct drm_vblank_timer, timer);
++	struct drm_crtc *crtc = vtimer->crtc;
++	struct drm_device *dev = crtc->dev;
++	u64 ret_overrun;
++	bool succ;
++
++	ret_overrun = hrtimer_forward_now(&vtimer->timer, vtimer->period_ns);
++	if (ret_overrun != 1)
++		drm_warn(dev, "vblank timer overrun\n");
++
++	if (vtimer->crtc_handle_vblank)
++		succ = vtimer->crtc_handle_vblank(crtc);
++	else
++		succ = drm_crtc_handle_vblank(crtc);
++	if (!succ)
++		return HRTIMER_NORESTART;
++
++	return HRTIMER_RESTART;
++}
++
++static void drmm_vblank_timer_release(struct drm_device *dev, void *res)
++{
++	struct drm_vblank_timer *vtimer = res;
++
++	hrtimer_cancel(&vtimer->timer);
++}
++
++int drmm_vblank_timer_init(struct drm_vblank_timer *vtimer, struct drm_crtc *crtc,
++			   bool (*crtc_handle_vblank)(struct drm_crtc *crtc))
++{
++	struct hrtimer *timer = &vtimer->timer;
++
++	vtimer->crtc = crtc;
++	vtimer->crtc_handle_vblank = crtc_handle_vblank;
++
++	hrtimer_setup(timer, drm_vblank_timer_function, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++
++	return drmm_add_action_or_reset(crtc->dev, drmm_vblank_timer_release, vtimer);
++}
++EXPORT_SYMBOL(drmm_vblank_timer_init);
++
++void drm_vblank_timer_start(struct drm_vblank_timer *vtimer)
++{
++	struct drm_crtc *crtc = vtimer->crtc;
++	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++
++	drm_calc_timestamping_constants(crtc, &crtc->mode);
++
++	vtimer->period_ns = ktime_set(0, vblank->framedur_ns);
++	hrtimer_start(&vtimer->timer, vtimer->period_ns, HRTIMER_MODE_REL);
++}
++EXPORT_SYMBOL(drm_vblank_timer_start);
++
++void drm_vblank_timer_cancel(struct drm_vblank_timer *vtimer)
++{
++	hrtimer_cancel(&vtimer->timer);
++}
++EXPORT_SYMBOL(drm_vblank_timer_cancel);
++
++bool drm_vblank_timer_get_vblank_timestamp(struct drm_vblank_timer *vtimer,
++					   int *max_error, ktime_t *vblank_time,
++					   bool in_vblank_irq)
++{
++	struct drm_crtc *crtc = vtimer->crtc;
++	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++
++	if (!READ_ONCE(vblank->enabled)) {
++		*vblank_time = ktime_get();
++		return true;
++	}
++
++	*vblank_time = READ_ONCE(vtimer->timer.node.expires);
++
++	if (WARN_ON(*vblank_time == vblank->time))
++		return true;
++
++	/*
++	 * To prevent races we roll the hrtimer forward before we do any
++	 * interrupt processing - this is how real hw works (the interrupt is
++	 * only generated after all the vblank registers are updated) and what
++	 * the vblank core expects. Therefore we need to always correct the
++	 * timestampe by one frame.
++	 */
++	*vblank_time -= vtimer->period_ns;
++
++	return true;
++}
++EXPORT_SYMBOL(drm_vblank_timer_get_vblank_timestamp);
+diff --git a/include/drm/drm_vblank_timer.h b/include/drm/drm_vblank_timer.h
+new file mode 100644
+index 000000000000..0b827ff1f59c
+--- /dev/null
++++ b/include/drm/drm_vblank_timer.h
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#ifndef _DRM_VBLANK_TIMER_H_
++#define _DRM_VBLANK_TIMER_H_
++
++#include <linux/hrtimer_types.h>
++#include <linux/types.h>
++
++struct drm_crtc;
++
++struct drm_vblank_timer {
++	struct drm_crtc *crtc;
++	bool (*crtc_handle_vblank)(struct drm_crtc *crtc);
++	ktime_t period_ns;
++	struct hrtimer timer;
++};
++
++int drmm_vblank_timer_init(struct drm_vblank_timer *vtimer, struct drm_crtc *crtc,
++			   bool (*handle_vblank)(struct drm_crtc *crtc));
++void drm_vblank_timer_start(struct drm_vblank_timer *vtimer);
++void drm_vblank_timer_cancel(struct drm_vblank_timer *vtimer);
++bool drm_vblank_timer_get_vblank_timestamp(struct drm_vblank_timer *vtimer,
++					   int *max_error, ktime_t *vblank_time,
++					   bool in_vblank_irq);
++
++#endif
+-- 
+2.49.0
 
-
-Malformed email patch. Don't use Microsoft tools to send emails... They
-don't work outside of Microsoft. :/
-
-Best regards,
-Krzysztof
