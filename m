@@ -1,314 +1,216 @@
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D252857F0
-	for <linux-hyperv@vger.kernel.org>; Fri,  6 Jun 2025 09:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AC62C3242;
+	Fri,  6 Jun 2025 10:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749201699; cv=none; b=Tx9S2Ncu/qPXxwcLxdM+UORilrXTJyU27MuT0AqLvQcoGmHrr8qJJGeOFss1cdSe8ppcmLohFdFLw5ExnQp4/bS9yBS1Esw3RQKS0n5ldevcdwBGJMbYxQC+8PlUroB2df8BeyQ6QgcO/eJZsV4wflVat1B7EVZNg1OtpExph7U=
+	t=1749207005; cv=none; b=DD4bDpOW8zw5AGm683hlNZTdrPVgbhXOBzuBH1QwtmGfpL03FZh90PH/0vADWIgpiH9sVGQqo9JhAwszk6ZmLP9zCscs2tP9X6Fcc3QpFGuzcGf4ctA7lSy718naAKxjo8r7jFTQ8Oj6rYCw3PNNuMqQfHXV8nXXj3ucpEnkpiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749201699; c=relaxed/simple;
-	bh=AD3F1uCOospGi0AVFbWwuhvCaJiwBa7lzwgWiY85oEs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZRSLA5whhTXW827TaYysvQvnpIN5fs7eHG9kh1iG94YBIvuZYnDR0Fx5UMDGC5afbk6JG+ePJmZn4uS56ewC9Q7IC9Ko5mxnG0HdvFewl9dgQrGcBsJdl1u5VwN7RpGV3xMZe25xNylQJre20BhFL0D3osmG7AT0zxMBI/fcZl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gXQ+7TKP; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1749207005; c=relaxed/simple;
+	bh=oVChse1wLr1LatGOtuMGq5IMy2U8hxvfsamh2B8qz9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=egNAsMWaGt+tkRvNT6XBKbJEFYDd7xZNFiqgtPD6wqaySV4/2waL5zi8d2pXUdlyZ+vF80Cpn2KlNDBJMZstraismxvxZnrV83y3QHjdtQv357iDZScVxgIm9oIeDcXwL+iVEBBDGO8O5ze/8zFPtkL4qgSNnqkwZ4l4UnHJ/Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Torlej3I; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gXQ+7TKP"
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 5ED64586919
-	for <linux-hyperv@vger.kernel.org>; Fri,  6 Jun 2025 08:44:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A701943254;
-	Fri,  6 Jun 2025 08:43:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1749199440;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=q3ourGZ4/eF/wP4FAzyNQcrYbyPbro92UlX3xfEO8k0=;
-	b=gXQ+7TKPPvXs0/gc5pLifV9BLs0ND3fNTDfU+2t1ytzLfLwoOu0dWJrJmaq4JEiF2cporV
-	K6Ot6wk4LT/NHCRFxuc/UOYoW4Rv+KNQ6hic/Jm1iqdtrTPVu+xA7SvIHfuSylACWbsQ2e
-	Z4xw+wc/wvdd+z6TOfbZ9zR5zQlfjBRd9kDPSjW0z55jKQNyLk6JfkOWHbDxziHubNtTMW
-	YuDh15QY7/R/cPcJRWWTlfoGo1UNKZiBH3mcLUDg8R153S8WcWkfNoBRZWZtdL+PF4LoPn
-	Qz+PzOHbS+9Pu47LMUOQtR4GkBXcgoXJrvxbnJrlRCrjxaE5Dlwq980k2tpl4A==
-Message-ID: <b6b43b7f-f3bd-442a-9174-97d3ada0f695@bootlin.com>
-Date: Fri, 6 Jun 2025 10:43:53 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Torlej3I"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=RgB6+Le5gZuvkTyuy9hjeapQkiI3tD5aj0y4LFHCOn0=; b=Torlej3I0MsK1FluWphWjPqhsU
+	dYVV1Iq3HXQwbpZ4GJPpspOkLrHMdyGDEmocb19R4VBLitr0DShyV9gUU1KA0nO2o8qHQ4oj2+Mea
+	ZkYT8kN2mdJyfPOZoEcG1LqGibuuMfFVE8slw+g9N1tF9P4ndbI00fCWneAVBZjhgnSKacWOXwuVZ
+	dvHSKONQ7BrU9xHYFYpVaKe8XVMmWNFrs7Co/CWhtFD3jWbnSEaN8tJD6YfV8XfTLZbPZz8HGoADB
+	pz4Lo1m4tNt4yClsbpq3GMlZp8yEd2XAfRqjsD60qUBJfGi4UHjU6iCxBzPcPmt7PloO4J0n2f17N
+	9SpAdLhQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uNUdu-00000001GGo-2krp;
+	Fri, 06 Jun 2025 10:49:47 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 8F36B3005AF; Fri,  6 Jun 2025 12:49:45 +0200 (CEST)
+Date: Fri, 6 Jun 2025 12:49:45 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Sean Christopherson <seanjc@google.com>,
+	"H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, pbonzini@redhat.com, ardb@kernel.org,
+	kees@kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	gregkh@linuxfoundation.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-efi@vger.kernel.org, samitolvanen@google.com,
+	ojeda@kernel.org, xin@zytor.com
+Subject: Re: [PATCH v2 00/13] objtool: Detect and warn about indirect calls
+ in __nocfi functions
+Message-ID: <20250606104945.GY39944@noisy.programming.kicks-ass.net>
+References: <20250506073100.GG4198@noisy.programming.kicks-ass.net>
+ <20250506133234.GH4356@noisy.programming.kicks-ass.net>
+ <vukrlmb4kbpcol6rtest3tsw4y6obopbrwi5hcb5iwzogsopgt@sokysuzxvehi>
+ <20250528074452.GU39944@noisy.programming.kicks-ass.net>
+ <20250528163035.GH31726@noisy.programming.kicks-ass.net>
+ <20250528163557.GI31726@noisy.programming.kicks-ass.net>
+ <20250529093017.GJ31726@noisy.programming.kicks-ass.net>
+ <fp5amaygv37wxr6bglagljr325rsagllbabb62ow44kl3mznb6@gzk6nuukjgwv>
+ <eegs5wq4eoqpu5yqlzug7icptiwzusracrp3nlmjkxwfywzvez@jngbkb3xqj6o>
+ <4z4fhaqesjlevwiugiqpnxdths5qkkj7vd4q3wgdosu4p24ppl@nb6c2gybuwe5>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] drm/vblank: Add vblank timer
-To: Thomas Zimmermann <tzimmermann@suse.de>, mhklinux@outlook.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, drawat.floss@gmail.com, javierm@redhat.com,
- kraxel@redhat.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- fvogt@suse.com
-Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- virtualization@lists.linux.dev
-References: <20250605152637.98493-1-tzimmermann@suse.de>
- <20250605152637.98493-2-tzimmermann@suse.de>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- xsFNBGCG5KEBEAD1yQ5C7eS4rxD0Wj7JRYZ07UhWTbBpbSjHjYJQWx/qupQdzzxe6sdrxYSY
- 5K81kIWbtQX91pD/wH5UapRF4kwMXTAqof8+m3XfYcEDVG31Kf8QkJTG/gLBi1UfJgGBahbY
- hjP40kuUR/mr7M7bKoBP9Uh0uaEM+DuKl6bSXMSrJ6fOtEPOtnfBY0xVPmqIKfLFEkjh800v
- jD1fdwWKtAIXf+cQtC9QWvcdzAmQIwmyFBmbg+ccqao1OIXTgu+qMAHfgKDjYctESvo+Szmb
- DFBZudPbyTAlf2mVKpoHKMGy3ndPZ19RboKUP0wjrF+Snif6zRFisHK7D/mqpgUftoV4HjEH
- bQO9bTJZXIoPJMSb+Lyds0m83/LYfjcWP8w889bNyD4Lzzzu+hWIu/OObJeGEQqY01etOLMh
- deuSuCG9tFr0DY6l37d4VK4dqq4Snmm87IRCb3AHAEMJ5SsO8WmRYF8ReLIk0tJJPrALv8DD
- lnLnwadBJ9H8djZMj24+GC6MJjN8dDNWctpBXgGZKuCM7Ggaex+RLHP/+14Vl+lSLdFiUb3U
- ljBXuc9v5/9+D8fWlH03q+NCa1dVgUtsP2lpolOV3EE85q1HdMyt5K91oB0hLNFdTFYwn1bW
- WJ2FaRhiC1yV4kn/z8g7fAp57VyIb6lQfS1Wwuj5/53XYjdipQARAQABzSlMb3VpcyBDaGF1
- dmV0IDxsb3Vpcy5jaGF1dmV0QGJvb3RsaW4uY29tPsLBlAQTAQgAPgIbAwULCQgHAgYVCgkI
- CwIEFgIDAQIeAQIXgBYhBItxBK6aJy1mk/Un8uwYg/VeC0ClBQJmlnw+BQkH8MsdAAoJEOwY
- g/VeC0ClyhwP/Ra6H+5F2NEW6/IMVHeXmhuly8CcZ3kyoKeGNowghIcTBo59dFh0atGCvr+y
- K9YD5Pyg9aX4Ropw1R1RVIMrWoUNZUKebRTu6iNHkE6tmURJaKLzR+9la+789jznQvbV+9gM
- YTBppX4/0cWY58jiDiDV4aJ77JDo7aWNK4hz8mZsB+Y7ezMuS4jy2r4b7dZ+YL/T9/k3/emO
- PkAuFkVhkNhytMEyOBsT7SjL4IUBeYWvOw9MIaXEl4qW/5HLGtMuNhS94NsviDXZquoOHOby
- 2uuRAI0bLz1qcsnY90yyPlDJ0pMuJHbi0DBzPTIYkyuwoyplfWxnUPp1wfsjiy/B6mRKTbdE
- a/K6jNzdVC1LLjTD4EjwnCE8IZBRWH1NVC1suOkw3Sr1FYcHFSYqNDrrzO+RKtR1JMrIe8/3
- Xhe2/UNUhppsK3SaFaIsu98mVQY3bA/Xn9wYcuAAzRzhEHgrbp8LPzYdi6Qtlqpt4HcPV3Ya
- H9BkCacgyLHcdeQbBXaup9JbF5oqbdtwev3waAmNfhWhrQeqQ0tkrpJ46l9slEGEdao5Dcct
- QDRjmJz7Gx/rKJngQrbboOQz+rhiHPoJc/n75lgOqtHRePNEf9xmtteHYpiAXh/YNooXJvdA
- tgR1jAsCsxuXZnW2DpVClm1WSHNfLSWona8cTkcoSTeYCrnXzsFNBGCG6KUBEADZhvm9TZ25
- JZa7wbKMOpvSH36K8wl74FhuVuv7ykeFPKH2oC7zmP1oqs1IF1UXQQzNkCHsBpIZq+TSE74a
- mG4sEhZP0irrG/w3JQ9Vbxds7PzlQzDarJ1WJvS2KZ4AVnwc/ucirNuxinAuAmmNBUNF8w6o
- Y97sdgFuIZUP6h972Tby5bu7wmy1hWL3+2QV+LEKmRpr0D9jDtJrKfm25sLwoHIojdQtGv2g
- JbQ9Oh9+k3QG9Kh6tiQoOrzgJ9pNjamYsnti9M2XHhlX489eXq/E6bWOBRa0UmD0tuQKNgK1
- n8EDmFPW3L0vEnytAl4QyZEzPhO30GEcgtNkaJVQwiXtn4FMw4R5ncqXVvzR7rnEuXwyO9RF
- tjqhwxsfRlORo6vMKqvDxFfgIkVnlc2KBa563qDNARB6caG6kRaLVcy0pGVlCiHLjl6ygP+G
- GCNfoh/PADQz7gaobN2WZzXbsVS5LDb9w/TqskSRhkgXpxt6k2rqNgdfeyomlkQnruvkIIjs
- Sk2X68nwHJlCjze3IgSngS2Gc0NC/DDoUBMblP6a2LJwuF/nvaW+QzPquy5KjKUO2UqIO9y+
- movZqE777uayqmMeIy4cd/gg/yTBBcGvWVm0Dh7dE6G6WXJUhWIUtXCzxKMmkvSmZy+gt1rN
- OyCd65HgUXPBf+hioCzGVFSoqQARAQABwsOyBBgBCAAmAhsuFiEEi3EErponLWaT9Sfy7BiD
- 9V4LQKUFAmaWfGYFCQfwx0ECQAkQ7BiD9V4LQKXBdCAEGQEIAB0WIQRPj7g/vng8MQxQWQQg
- rS7GWxAs4gUCYIbopQAKCRAgrS7GWxAs4gfGEACcA0XVNesbVIyvs5SJpJy+6csrH4yy233o
- GclX2P7pcCls55wiV6ywCtRaXWFjztYmklQieaZ/zq+pUuUDtBZo95rUP20E56gYV2XFB18W
- YeekTwH5d2d/j++60iHExWTB+sgMEv3CEGikUBj7iaMX2KtaB1k9K+3K6dx/s1KWxOClFkbJ
- EV/tmeq7Ta8LiytQM9b4yY550tzC0pEEeFcLFXo1m5KcJauYnAqrlOVY48NFpFUd9oAZf/Pz
- p3oEs+zn/8zK2PBrZZCD6AhrbotRy7irE5eimhxcsFm1+MG5ufnaQUWHrRYXVuFhvkSoqZ8j
- GPgPEpFor4NjRyX/PMLglQ7S5snkvKcr3Lun44aybXEHq/1FTzW2kOh6kFHFFOPbMv1voJKM
- IzrmDoDS+xANt/La7OwpCylCgF6t9oHHTTGfAfwtfYZbiepC66FDe/Jt/QLwkIXeIoeSS1O4
- 6rJdGWG2kHthUM+uIbUbaRJW8AkJpzP1Mz7TieR/9jO4YPeUm9tGL5kP2yyNtzFilcoOeox1
- NSFNAPz+zPcovVmxAaSDGcSzhQVJVlk8xPib8g4fnI8qJ3Gj7xyw8D9dzxhCR2DIFmZL84En
- N7Rj+k4VIGY7M/cVvxL81jlbMGMERMmb96Cua9z1ROviGA1He2gbHOcp6qmLNu3nprleG8PL
- ZRNdEAC0iZapoyiXlVCKLFIwUPnxUz5iarqIfQU8sa1VXYYd/AAAFI6Wv3zfNtGicjgHP8rN
- CIegqm2Av1939XXGZJVI9f3hEoUn04rvxCgcDcUvn7I0WTZ4JB9G5qAGvQLXeXK6Byu77qTx
- eC7PUIIEKN3X47e8xTSj2reVTlanDr8yeqZhxpKHaS0laF8RbD85geZtAK67qEByX2KC9DUo
- eHBFuXpYMzGQnf2SG105ePI2f4h5iAfbTW9VWH989fx4f2hVlDwTe08/NhPdwq/Houov9f/+
- uPpYEMlHCNwE8GRV7aEjd/dvu87PQPm4zFtC3jgQaUKCbYYlHmYYRlrLQenX3QSorrQNPbfz
- uQkNLDVcjgD2fxBpemT7EhHYBz+ugsfbtdsH+4jVCo5WLb/HxE6o5zvSIkXknWh1DhFj/qe9
- Zb9PGmfp8T8Ty+c/hjE5x6SrkRCX8qPXIvfSWLlb8M0lpcpFK+tB+kZlu5I3ycQDNLTk3qmf
- PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
- ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
- qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <20250605152637.98493-2-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdduvddruddthedrudehtddrvdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvuddvrddutdehrdduhedtrddvhedvpdhhvghloheplgduledvrdduieekrdeiledrvdefudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehmhhhklhhinhhugiesohhuthhlohhokhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhor
- hhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepughrrgifrghtrdhflhhoshhssehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgrvhhivghrmhesrhgvughhrghtrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4z4fhaqesjlevwiugiqpnxdths5qkkj7vd4q3wgdosu4p24ppl@nb6c2gybuwe5>
 
+On Thu, Jun 05, 2025 at 10:19:41AM -0700, Josh Poimboeuf wrote:
 
+> diff --git a/arch/x86/entry/calling.h b/arch/x86/entry/calling.h
+> index d83236b96f22..e680afbf65b6 100644
+> --- a/arch/x86/entry/calling.h
+> +++ b/arch/x86/entry/calling.h
+> @@ -99,7 +99,7 @@ For 32-bit we have the following conventions - kernel is built with
+>  	.endif
+>  .endm
+>  
+> -.macro CLEAR_REGS clear_bp=1
+> +.macro CLEAR_REGS clear_callee=1
+>  	/*
+>  	 * Sanitize registers of values that a speculation attack might
+>  	 * otherwise want to exploit. The lower registers are likely clobbered
+> @@ -113,20 +113,19 @@ For 32-bit we have the following conventions - kernel is built with
+>  	xorl	%r9d,  %r9d	/* nospec r9  */
+>  	xorl	%r10d, %r10d	/* nospec r10 */
+>  	xorl	%r11d, %r11d	/* nospec r11 */
+> +	.if \clear_callee
+>  	xorl	%ebx,  %ebx	/* nospec rbx */
+> -	.if \clear_bp
+>  	xorl	%ebp,  %ebp	/* nospec rbp */
+> -	.endif
+>  	xorl	%r12d, %r12d	/* nospec r12 */
+>  	xorl	%r13d, %r13d	/* nospec r13 */
+>  	xorl	%r14d, %r14d	/* nospec r14 */
+>  	xorl	%r15d, %r15d	/* nospec r15 */
+> -
+> +	.endif
+>  .endm
+>  
+> -.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 clear_bp=1 unwind_hint=1
+> +.macro PUSH_AND_CLEAR_REGS rdx=%rdx rcx=%rcx rax=%rax save_ret=0 clear_callee=1 unwind_hint=1
+>  	PUSH_REGS rdx=\rdx, rcx=\rcx, rax=\rax, save_ret=\save_ret unwind_hint=\unwind_hint
+> -	CLEAR_REGS clear_bp=\clear_bp
+> +	CLEAR_REGS clear_callee=\clear_callee
+>  .endm
+>  
+>  .macro POP_REGS pop_rdi=1
 
-Le 05/06/2025 à 17:24, Thomas Zimmermann a écrit :
-> The vblank timer simulates a vblank interrupt for hardware without
-> support. Rate-limits the display update frequency.
-> 
-> DRM drivers for hardware without vblank support apply display updates
-> ASAP. A vblank event informs DRM clients of the completed update.
-> 
-> Userspace compositors immediately schedule the next update, which
-> creates significant load on virtualization outputs. Display updates
-> are usually fast on virtualization outputs, as their framebuffers are
-> in regular system memory and there's no hardware vblank interrupt to
-> throttle the update rate.
-> 
-> The vblank timer is a HR timer that signals the vblank in software.
-> It limits the update frequency of a DRM driver similar to a hardware
-> vblank interrupt. The timer is not synchronized to the actual vblank
-> interval of the display.
-> 
-> The code has been adopted from vkms, which added the funtionality
-> in commit 3a0709928b17 ("drm/vkms: Add vblank events simulated by
-> hrtimers").
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Nice. So that leaves the callee-clobbered, extra caller-saved and return
+registers cleared, and preserves the callee-saved regs.
 
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
+> index 29c5c32c16c3..5d1eef193b79 100644
+> --- a/arch/x86/entry/entry_64_fred.S
+> +++ b/arch/x86/entry/entry_64_fred.S
+> @@ -112,11 +112,12 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
+>  	push %rax				/* Return RIP */
+>  	push $0					/* Error code, 0 for IRQ/NMI */
+>  
+> -	PUSH_AND_CLEAR_REGS clear_bp=0 unwind_hint=0
+> +	PUSH_AND_CLEAR_REGS clear_callee=0 unwind_hint=0
+>  	movq %rsp, %rdi				/* %rdi -> pt_regs */
+>  	call __fred_entry_from_kvm		/* Call the C entry point */
+> -	POP_REGS
+> -	ERETS
+> +	addq $C_PTREGS_SIZE, %rsp
+> +
+> +	ALTERNATIVE "mov %rbp, %rsp", __stringify(ERETS), X86_FEATURE_FRED
 
-> ---
->   drivers/gpu/drm/Makefile           |   3 +-
->   drivers/gpu/drm/drm_vblank_timer.c | 100 +++++++++++++++++++++++++++++
->   include/drm/drm_vblank_timer.h     |  26 ++++++++
->   3 files changed, 128 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/drm_vblank_timer.c
->   create mode 100644 include/drm/drm_vblank_timer.h
-> 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index b5d5561bbe5f..6722e2d1aa7e 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -146,7 +146,8 @@ drm_kms_helper-y := \
->   	drm_plane_helper.o \
->   	drm_probe_helper.o \
->   	drm_self_refresh_helper.o \
-> -	drm_simple_kms_helper.o
-> +	drm_simple_kms_helper.o \
-> +	drm_vblank_timer.o
->   drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
->   drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
->   obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
-> diff --git a/drivers/gpu/drm/drm_vblank_timer.c b/drivers/gpu/drm/drm_vblank_timer.c
-> new file mode 100644
-> index 000000000000..be46d3135c8e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_vblank_timer.c
-> @@ -0,0 +1,100 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <linux/hrtimer.h>
-> +
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_managed.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_vblank.h>
-> +#include <drm/drm_vblank_timer.h>
-> +
-> +static enum hrtimer_restart drm_vblank_timer_function(struct hrtimer *timer)
-> +{
-> +	struct drm_vblank_timer *vtimer = container_of(timer, struct drm_vblank_timer, timer);
-> +	struct drm_crtc *crtc = vtimer->crtc;
-> +	struct drm_device *dev = crtc->dev;
-> +	u64 ret_overrun;
-> +	bool succ;
-> +
-> +	ret_overrun = hrtimer_forward_now(&vtimer->timer, vtimer->period_ns);
-> +	if (ret_overrun != 1)
-> +		drm_warn(dev, "vblank timer overrun\n");
-> +
-> +	if (vtimer->crtc_handle_vblank)
-> +		succ = vtimer->crtc_handle_vblank(crtc);
-> +	else
-> +		succ = drm_crtc_handle_vblank(crtc);
-> +	if (!succ)
-> +		return HRTIMER_NORESTART;
-> +
-> +	return HRTIMER_RESTART;
-> +}
-> +
-> +static void drmm_vblank_timer_release(struct drm_device *dev, void *res)
-> +{
-> +	struct drm_vblank_timer *vtimer = res;
-> +
-> +	hrtimer_cancel(&vtimer->timer);
-> +}
-> +
-> +int drmm_vblank_timer_init(struct drm_vblank_timer *vtimer, struct drm_crtc *crtc,
-> +			   bool (*crtc_handle_vblank)(struct drm_crtc *crtc))
-> +{
-> +	struct hrtimer *timer = &vtimer->timer;
-> +
-> +	vtimer->crtc = crtc;
-> +	vtimer->crtc_handle_vblank = crtc_handle_vblank;
-> +
-> +	hrtimer_setup(timer, drm_vblank_timer_function, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +
-> +	return drmm_add_action_or_reset(crtc->dev, drmm_vblank_timer_release, vtimer);
-> +}
-> +EXPORT_SYMBOL(drmm_vblank_timer_init);
-> +
-> +void drm_vblank_timer_start(struct drm_vblank_timer *vtimer)
-> +{
-> +	struct drm_crtc *crtc = vtimer->crtc;
-> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> +
-> +	drm_calc_timestamping_constants(crtc, &crtc->mode);
-> +
-> +	vtimer->period_ns = ktime_set(0, vblank->framedur_ns);
-> +	hrtimer_start(&vtimer->timer, vtimer->period_ns, HRTIMER_MODE_REL);
-> +}
-> +EXPORT_SYMBOL(drm_vblank_timer_start);
-> +
-> +void drm_vblank_timer_cancel(struct drm_vblank_timer *vtimer)
-> +{
-> +	hrtimer_cancel(&vtimer->timer);
-> +}
-> +EXPORT_SYMBOL(drm_vblank_timer_cancel);
-> +
-> +bool drm_vblank_timer_get_vblank_timestamp(struct drm_vblank_timer *vtimer,
-> +					   int *max_error, ktime_t *vblank_time,
-> +					   bool in_vblank_irq)
-> +{
-> +	struct drm_crtc *crtc = vtimer->crtc;
-> +	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-> +
-> +	if (!READ_ONCE(vblank->enabled)) {
-> +		*vblank_time = ktime_get();
-> +		return true;
-> +	}
-> +
-> +	*vblank_time = READ_ONCE(vtimer->timer.node.expires);
-> +
-> +	if (WARN_ON(*vblank_time == vblank->time))
-> +		return true;
-> +
-> +	/*
-> +	 * To prevent races we roll the hrtimer forward before we do any
-> +	 * interrupt processing - this is how real hw works (the interrupt is
-> +	 * only generated after all the vblank registers are updated) and what
-> +	 * the vblank core expects. Therefore we need to always correct the
-> +	 * timestampe by one frame.
-> +	 */
-> +	*vblank_time -= vtimer->period_ns;
-> +
-> +	return true;
-> +}
-> +EXPORT_SYMBOL(drm_vblank_timer_get_vblank_timestamp);
-> diff --git a/include/drm/drm_vblank_timer.h b/include/drm/drm_vblank_timer.h
-> new file mode 100644
-> index 000000000000..0b827ff1f59c
-> --- /dev/null
-> +++ b/include/drm/drm_vblank_timer.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +
-> +#ifndef _DRM_VBLANK_TIMER_H_
-> +#define _DRM_VBLANK_TIMER_H_
-> +
-> +#include <linux/hrtimer_types.h>
-> +#include <linux/types.h>
-> +
-> +struct drm_crtc;
-> +
-> +struct drm_vblank_timer {
-> +	struct drm_crtc *crtc;
-> +	bool (*crtc_handle_vblank)(struct drm_crtc *crtc);
-> +	ktime_t period_ns;
-> +	struct hrtimer timer;
-> +};
-> +
-> +int drmm_vblank_timer_init(struct drm_vblank_timer *vtimer, struct drm_crtc *crtc,
-> +			   bool (*handle_vblank)(struct drm_crtc *crtc));
-> +void drm_vblank_timer_start(struct drm_vblank_timer *vtimer);
-> +void drm_vblank_timer_cancel(struct drm_vblank_timer *vtimer);
-> +bool drm_vblank_timer_get_vblank_timestamp(struct drm_vblank_timer *vtimer,
-> +					   int *max_error, ktime_t *vblank_time,
-> +					   bool in_vblank_irq);
-> +
-> +#endif
+So... I was wondering.. do we actually ever need the ERETS? AFAICT this
+will only ever 'inject' external interrupts, and those are not supposed
+to change the exception frame, like ever. Only exceptions get to change
+the exception frame, but those are explicitly excluded in fred_extint().
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+As such, it should always be correct to just do:
 
+	leave;
+	RET;
+
+at this point, and call it a day, no? Just completely forget about all
+this sillyness with alternatives and funky stack state.
+
+Only problem seems to be that if we do this, then
+has_modified_stack_frame() has a fit, because of the register state.
+
+The first to complain is bx, the push %rbx modifies the CFI state to
+track where on the stack its saved, and that's not what initial_func_cfi
+has.
+
+We can stomp on that with UNWIND_HINT_FUNC right before RET. It's all a
+bit magical, but should work, right?
+
+So keeping your CLEAR_REGS changes, I've ended up with the below:
+
+---
+diff --git a/arch/x86/entry/entry_64_fred.S b/arch/x86/entry/entry_64_fred.S
+index 29c5c32c16c3..8c03d04ea69d 100644
+--- a/arch/x86/entry/entry_64_fred.S
++++ b/arch/x86/entry/entry_64_fred.S
+@@ -62,8 +62,6 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
+ 	push %rbp
+ 	mov %rsp, %rbp
+ 
+-	UNWIND_HINT_SAVE
+-
+ 	/*
+ 	 * Both IRQ and NMI from VMX can be handled on current task stack
+ 	 * because there is no need to protect from reentrancy and the call
+@@ -112,19 +110,35 @@ SYM_FUNC_START(asm_fred_entry_from_kvm)
+ 	push %rax				/* Return RIP */
+ 	push $0					/* Error code, 0 for IRQ/NMI */
+ 
+-	PUSH_AND_CLEAR_REGS clear_bp=0 unwind_hint=0
++	PUSH_AND_CLEAR_REGS clear_callee=0 unwind_hint=0
+ 	movq %rsp, %rdi				/* %rdi -> pt_regs */
++
++	/*
++	 * At this point: {rdi, rsi, rdx, rcx, r8, r9}, {r10, r11}, {rax, rdx}
++	 * are clobbered, which corresponds to: arguments, extra caller-saved
++	 * and return. All registers a C function is allowed to clobber.
++	 *
++	 * Notably, the callee-saved registers: {rbx, r12, r13, r14, r15}
++	 * are untouched, with the exception of rbp, which carries the stack
++	 * frame and will be restored before exit.
++	 *
++	 * Further calling another C function will not alter this state.
++	 */
+ 	call __fred_entry_from_kvm		/* Call the C entry point */
+-	POP_REGS
+-	ERETS
+-1:
++
++1:	/*
++	 * Therefore, all that remains to be done at this point is restore the
++	 * stack and frame pointer register.
++	 */
++	leave
+ 	/*
+-	 * Objtool doesn't understand what ERETS does, this hint tells it that
+-	 * yes, we'll reach here and with what stack state. A save/restore pair
+-	 * isn't strictly needed, but it's the simplest form.
++	 * Objtool gets confused by the cfi register state; this doesn't match
++	 * initial_func_cfi because of PUSH_REGS, where it tracks where those
++	 * registers are on the stack.
++	 *
++	 * Forcefully make it forget this before returning.
+ 	 */
+-	UNWIND_HINT_RESTORE
+-	pop %rbp
++	UNWIND_HINT_FUNC
+ 	RET
+ 
+ SYM_FUNC_END(asm_fred_entry_from_kvm)
