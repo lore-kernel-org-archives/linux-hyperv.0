@@ -1,81 +1,37 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785BB1BF58
-	for <linux-hyperv@vger.kernel.org>; Fri,  6 Jun 2025 07:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A90286410
+	for <linux-hyperv@vger.kernel.org>; Fri,  6 Jun 2025 09:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749193510; cv=none; b=ufDnts10Iuue/b1RL9Xwiq/Dl5GMQ0vGMWJ0xR7agXNl2ROA72wAq1Fs/m4flWCkyHfqO4sRLF7VIHMfOI+iXc+tjr4zsT78yZCB9l5RYKfzwRde6ZLUORQPiitPJoeuWeqrWVKAwCIGe8Jz9tqR3zhmFbOuYfR2UEYz4769ogI=
+	t=1749201303; cv=none; b=NpxT2sXttq+s2fKYxwp1RVp6GKlxTnV9u7alJDzePhJbb6R3Hh+vNuJLaej8p6jUcyAchlEmQjj6hzw/sBRbIN+CzWYa5gYK846Eu/IpoKQbn6hHNYX9vVFjwDPxRobDkF/s0cL7I0v3lXiJvrVO1rpMV/wwMq4NX53+hvYzUIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749193510; c=relaxed/simple;
-	bh=tC//mIrfAJjU7WfUsuOw9mvVsuwgq7xskNKiRRyR8bA=;
+	s=arc-20240116; t=1749201303; c=relaxed/simple;
+	bh=6RPQ2Nd+OgmfHkE/uaB2eVN6k36aq7OnmrR4xh/BK/k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PcFYcMzMZLlUCmehi1CVVZiQmhpKsvVMcz5QhZ+2KFdNNjmBE6U3DTJDZpqjCnXRPeidDAwdIcf8bFrrxbGOKvQsuWdI1ZRrdrF7pF/zvXaAwLJC5qDUJAg4iAnBUmJLmwmqfGVQ+IMc8LWKzNbQnFDyV09xbQgEgN0WxihpNC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mso8S6Go; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LxrEBdxm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mso8S6Go; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LxrEBdxm; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=Fwoc4LW1VqOl0PBaRV8d+CwAt8HRuqgydRUPwVtvtpQAEQ9Vxk5jSTwyA2Cc5VJD73zNmMqjwEXR28V/KqaQE+a/HLwg36l4lxWW0QzwdQUXBedeXey2+/wKED8cX4bZeFz2j3F7Mw/ipcfYXCBGml4PCWJjxFuZV/cpWs1Yy1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WjrH7X6r; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mso8S6Go";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LxrEBdxm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mso8S6Go";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LxrEBdxm"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 783AD33698;
-	Fri,  6 Jun 2025 07:05:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749193505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WjrH7X6r"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E87F81FD31;
+	Fri,  6 Jun 2025 09:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1749201298;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=k2KtpshqGTjOkV+lUEfg3uZCqBTXw5lieXqPBdNVp1g=;
-	b=mso8S6Gok2dLZQNjeDNICwcHsC3OUwLXGktjoEbiTOTMMsspYjQkqrJKoA0N5Tpmv/P3Op
-	JySGQIyDsI3kq32H2jfxO1WekPZPExkTY+4eEV78qXN7+9smu1dDBSnn+C67v2Sa5EG+pm
-	QEF4Xh5D9EvYcs5liWaPQGi5HAeSGRg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749193505;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=k2KtpshqGTjOkV+lUEfg3uZCqBTXw5lieXqPBdNVp1g=;
-	b=LxrEBdxm55dQcTQCMKtS/h7h44wFx3HhWJoLzUqd6GtWwYuelIfi/qgsitS5hjye5jchSk
-	l/fgatD5LeIVyHBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mso8S6Go;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LxrEBdxm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749193505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=k2KtpshqGTjOkV+lUEfg3uZCqBTXw5lieXqPBdNVp1g=;
-	b=mso8S6Gok2dLZQNjeDNICwcHsC3OUwLXGktjoEbiTOTMMsspYjQkqrJKoA0N5Tpmv/P3Op
-	JySGQIyDsI3kq32H2jfxO1WekPZPExkTY+4eEV78qXN7+9smu1dDBSnn+C67v2Sa5EG+pm
-	QEF4Xh5D9EvYcs5liWaPQGi5HAeSGRg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749193505;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=k2KtpshqGTjOkV+lUEfg3uZCqBTXw5lieXqPBdNVp1g=;
-	b=LxrEBdxm55dQcTQCMKtS/h7h44wFx3HhWJoLzUqd6GtWwYuelIfi/qgsitS5hjye5jchSk
-	l/fgatD5LeIVyHBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0DF481336F;
-	Fri,  6 Jun 2025 07:05:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zKnSASGTQmhoaAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 06 Jun 2025 07:05:05 +0000
-Message-ID: <575e098d-ef9f-4431-bef9-bfc8070a0dfd@suse.de>
-Date: Fri, 6 Jun 2025 09:05:04 +0200
+	bh=qWW0a985Z35LZphmza6JcdJpxc4kHyGa4JehGQh2SEM=;
+	b=WjrH7X6rxh0IHR0u0d1e5uVK1xAeV8Rsiis7243nGxc3/fdkLD6RhMebSrplwCo/wnAo/+
+	wKYhXQRcoNykKew7c4K6+120la7xACSRzrWsrTqtg4yRlNfMvMOyprr53PIFYuQPkG6JOa
+	7besYjGw/oM2ZyNut/wuC5NysswfYudg28mEzPU9vBQzFkoXaPhxtUQVr8OK69ZxEsM90/
+	tMKS26PXEXENGp4Z8mQi6VaJr7YjA+cH1hcLYwTYMRF3DLZcSB+4jsJJicsAAyKMVALd+3
+	RwrSKSNOGGaUZxYWiF60+9AcbaxcQDMKiB8mijJfmYm6wXtNnUpqpMTfD1femQ==
+Message-ID: <137fa3b9-a771-4e9b-89d0-b6e560e0bd05@bootlin.com>
+Date: Fri, 6 Jun 2025 11:14:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -83,147 +39,238 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] fbdev/deferred-io: Support contiguous kernel
- memory framebuffers
-To: Michael Kelley <mhklinux@outlook.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: David Hildenbrand <david@redhat.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "deller@gmx.de" <deller@gmx.de>,
- "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "kys@microsoft.com" <kys@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "weh@microsoft.com" <weh@microsoft.com>, "hch@lst.de" <hch@lst.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>
-References: <20250523161522.409504-1-mhklinux@outlook.com>
- <20250523161522.409504-4-mhklinux@outlook.com>
- <de0f2cb8-aed6-436f-b55e-d3f7b3fe6d81@redhat.com>
- <SN6PR02MB41573C075152ECD8428CAF5ED46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <c0b91a50-d3e7-44f9-b9c5-9c3b29639428@suse.de>
- <SN6PR02MB4157871127ED95AD24EDF96DD46DA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <9a93813c-4d7c-45ef-b5a2-0ad37e7a078a@suse.de>
- <aEBcCjMWZJgbsRas@phenom.ffwll.local>
- <SN6PR02MB415702B00D6D52B0EE962C98D46CA@SN6PR02MB4157.namprd02.prod.outlook.com>
- <154aa365-0e27-458c-b801-62fd1cbfa169@suse.de>
- <SN6PR02MB4157F630284939E084486AFED46FA@SN6PR02MB4157.namprd02.prod.outlook.com>
+Subject: Re: [PATCH 2/6] drm/vkms: Use vblank timer
+To: Thomas Zimmermann <tzimmermann@suse.de>, mhklinux@outlook.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, drawat.floss@gmail.com, javierm@redhat.com,
+ kraxel@redhat.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ fvogt@suse.com
+Cc: dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ virtualization@lists.linux.dev
+References: <20250605152637.98493-1-tzimmermann@suse.de>
+ <20250605152637.98493-3-tzimmermann@suse.de>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <SN6PR02MB4157F630284939E084486AFED46FA@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250605152637.98493-3-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 783AD33698
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-6.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_TO(0.00)[outlook.com,ffwll.ch];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmx.de,outlook.com];
-	FREEMAIL_CC(0.00)[redhat.com,ffwll.ch,gmx.de,microsoft.com,kernel.org,linux-foundation.org,lst.de,lists.freedesktop.org,vger.kernel.org,kvack.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -6.51
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegkeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekieevtdefgedtkeehteehtddttdefhffhgeejleejjeeluddvhfdugedvkeehveenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdduvddruddthedrudehtddrvdehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvuddvrddutdehrdduhedtrddvhedvpdhhvghloheplgduledvrdduieekrdeiledrvdefudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudehpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehmhhhklhhinhhugiesohhuthhlohhokhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhor
+ hhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepughrrgifrghtrdhflhhoshhssehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgrvhhivghrmhesrhgvughhrghtrdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Hi
 
-Am 05.06.25 um 19:38 schrieb Michael Kelley:
-[...]
->> I try to address the problem with the patches at
->>
->> https://lore.kernel.org/dri-devel/20250605152637.98493-1-tzimmermann@suse.de/
->>
->> Testing and feedback is much appreciated.
->>
-> Nice!
->
-> I ran the same test case with your patches, and everything works well. The
-> hyperv_drm numbers are now pretty much the same as the hyperv_fb
-> numbers for both elapsed time and system CPU time -- within a few percent.
-> For hyperv_drm, there's no longer a gap in the elapsed time and system
-> CPU time. No errors due to the guest-to-host ring buffer being full. Total
-> messages to Hyper-V for hyperv_drm are now a few hundred instead of 3M.
 
-Sounds great. Credit also goes to the vkms devs, which already have the 
-software vblank in their driver.
+Le 05/06/2025 à 17:24, Thomas Zimmermann a écrit :
+> Replace vkms' vblank timer with the DRM implementation. The DRM
+> code is mostly identical.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-This might need better support for cases where display updates take 
-exceptionally long, but I can see this being merged as a DRM feature.
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Tested-by: Louis Chauvet <louis.chauvet@bootlin>
 
-> The hyperv_drm message count is still a little higher than for hyperv_fb,
-> presumably because the simulated vblank rate in hyperv_drm is higher than
-> the 20 Hz rate used by hyperv_fb deferred I/O. But the overall numbers are
-> small enough that the difference is in the noise. Question: what is the default
-> value for the simulated vblank rate? Just curious ...
-
-As with a hardware interrupt, the vblank rate comes from the programmed 
-display mode, so most likely 60 Hz. The difference in the update 
-frequency could explain the remaining differences to hyperv_fb.
-
-Best regards
-Thomas
-
->
-> Michael
+> ---
+>   drivers/gpu/drm/vkms/vkms_crtc.c | 49 +++++++-------------------------
+>   drivers/gpu/drm/vkms/vkms_drv.h  |  6 ++--
+>   2 files changed, 15 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
+> index 8c9898b9055d..5b7829e8c900 100644
+> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
+> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
+> @@ -10,22 +10,14 @@
+>   
+>   #include "vkms_drv.h"
+>   
+> -static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+> +static bool vkms_crtc_handle_vblank(struct drm_crtc *crtc)
+>   {
+> -	struct vkms_output *output = container_of(timer, struct vkms_output,
+> -						  vblank_hrtimer);
+> -	struct drm_crtc *crtc = &output->crtc;
+> +	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
+>   	struct vkms_crtc_state *state;
+> -	u64 ret_overrun;
+>   	bool ret, fence_cookie;
+>   
+>   	fence_cookie = dma_fence_begin_signalling();
+>   
+> -	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
+> -					  output->period_ns);
+> -	if (ret_overrun != 1)
+> -		pr_warn("%s: vblank timer overrun\n", __func__);
+> -
+>   	spin_lock(&output->lock);
+>   	ret = drm_crtc_handle_vblank(crtc);
+>   	if (!ret)
+> @@ -57,18 +49,14 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
+>   
+>   	dma_fence_end_signalling(fence_cookie);
+>   
+> -	return HRTIMER_RESTART;
+> +	return true;
+>   }
+>   
+>   static int vkms_enable_vblank(struct drm_crtc *crtc)
+>   {
+> -	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+>   	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>   
+> -	hrtimer_setup(&out->vblank_hrtimer, &vkms_vblank_simulate, CLOCK_MONOTONIC,
+> -		      HRTIMER_MODE_REL);
+> -	out->period_ns = ktime_set(0, vblank->framedur_ns);
+> -	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
+> +	drm_vblank_timer_start(&out->vtimer);
+>   
+>   	return 0;
+>   }
+> @@ -77,7 +65,7 @@ static void vkms_disable_vblank(struct drm_crtc *crtc)
+>   {
+>   	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>   
+> -	hrtimer_cancel(&out->vblank_hrtimer);
+> +	drm_vblank_timer_cancel(&out->vtimer);
+>   }
+>   
+>   static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+> @@ -85,28 +73,9 @@ static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
+>   				      bool in_vblank_irq)
+>   {
+>   	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
+> -	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
+> -
+> -	if (!READ_ONCE(vblank->enabled)) {
+> -		*vblank_time = ktime_get();
+> -		return true;
+> -	}
+> -
+> -	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
+>   
+> -	if (WARN_ON(*vblank_time == vblank->time))
+> -		return true;
+> -
+> -	/*
+> -	 * To prevent races we roll the hrtimer forward before we do any
+> -	 * interrupt processing - this is how real hw works (the interrupt is
+> -	 * only generated after all the vblank registers are updated) and what
+> -	 * the vblank core expects. Therefore we need to always correct the
+> -	 * timestampe by one frame.
+> -	 */
+> -	*vblank_time -= output->period_ns;
+> -
+> -	return true;
+> +	return drm_vblank_timer_get_vblank_timestamp(&output->vtimer, max_error,
+> +						     vblank_time, in_vblank_irq);
+>   }
+>   
+>   static struct drm_crtc_state *
+> @@ -274,6 +243,7 @@ struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *pri
+>   {
+>   	struct vkms_output *vkms_out;
+>   	struct drm_crtc *crtc;
+> +	struct drm_vblank_timer *vtimer;
+>   	int ret;
+>   
+>   	vkms_out = drmm_crtc_alloc_with_planes(dev, struct vkms_output, crtc,
+> @@ -285,6 +255,7 @@ struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *pri
+>   	}
+>   
+>   	crtc = &vkms_out->crtc;
+> +	vtimer = &vkms_out->vtimer;
+>   
+>   	drm_crtc_helper_add(crtc, &vkms_crtc_helper_funcs);
+>   
+> @@ -305,5 +276,7 @@ struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *pri
+>   	if (!vkms_out->composer_workq)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> +	drmm_vblank_timer_init(vtimer, crtc, vkms_crtc_handle_vblank);
+> +
+>   	return vkms_out;
+>   }
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index a74a7fc3a056..126016898285 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -10,6 +10,7 @@
+>   #include <drm/drm_gem.h>
+>   #include <drm/drm_gem_atomic_helper.h>
+>   #include <drm/drm_encoder.h>
+> +#include <drm/drm_vblank_timer.h>
+>   #include <drm/drm_writeback.h>
+>   
+>   #define DEFAULT_DEVICE_NAME "vkms"
+> @@ -180,8 +181,9 @@ struct vkms_output {
+>   	struct drm_crtc crtc;
+>   	struct drm_writeback_connector wb_connector;
+>   	struct drm_encoder wb_encoder;
+> -	struct hrtimer vblank_hrtimer;
+> -	ktime_t period_ns;
+> +	struct drm_vblank_timer vtimer;
+> +	struct drm_pending_vblank_event *event;
+> +	/* ordered wq for composer_work */
+>   	struct workqueue_struct *composer_workq;
+>   	spinlock_t lock;
+>   
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
