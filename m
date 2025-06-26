@@ -1,58 +1,84 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D7C2E975D;
-	Thu, 26 Jun 2025 14:47:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34364289E2D;
+	Thu, 26 Jun 2025 14:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750949265; cv=none; b=gdr/FqpYng8zQR+obTGq1MvOf4k5rns6rohW8dXxaiz0tr11vjNm8RPguzP1PpnlDBKR0tVBTisFgdRn6qAO84/v/hJulDEUHtHMfkE8rgm8Cd072wNYRK+rQ6SJfJgHV1W1+Dm9QrvFZ03t53lx1m6/RnWZaeSgY8qpxLE6Xn8=
+	t=1750949319; cv=none; b=ZRO/i497b0OQw8Yqyv8Sqi7yfmEfuscA+YcIO2wedEFaRTfDgebJ8S3FEm0GUybhgG2KPmLst1XP2Az06zJwph3u04HG8+dna7lQMoaTxcZG2fDYlDFSxWYaAXY56DUlHXbgjv8cpkrVTIJTbfjDyZ+MA7Zjk/U3adWmhE5NUNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750949265; c=relaxed/simple;
-	bh=l0Bjx6xeOY6vGLeKE2AfugFCBPsz6BZ9iRZpai6riIY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=caJpES829hr3VzpJpKu4MuTsRwGF26qiDESXa0lxsyVAWUUKkZc9wU74pZdBTtd4od1icTuEIDPUAVaNGCD7tNcrZUUOO59MmK7wu/vPTyIxLtKUEzvWBqzhxt+7LQ0pqhyOrzXSzUIIV0H7ubjYxbrMNxusN+68diQeGEGJopc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ew3SQMSn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AaEH+CvS; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1750949319; c=relaxed/simple;
+	bh=Q6UqfwCyC3mZxxR1Ap+fUonqEOHiafoq86ph9bdqlzY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dSJjbzpEVvMMQPx9mrn3v9ZIm3SAH+yNLCEGeGiRoiRTorCjw981Fd3kgjbrtYyQ0UFu6T2U+1r2MGkijLWH/6LRrdXbgAg/5aVWclg1Nhh4Hrk3vZegtXUO4QGo8Uyca88JlfKMNEpAsZT2MaPSc31KSY41Vn6nPmg5tRrynIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gaz8seox; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2Fd2QlwC; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ew3SQMSn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AaEH+CvS"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gaz8seox";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2Fd2QlwC"
 From: Nam Cao <namcao@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750949261;
+	s=2020; t=1750949315;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=6h/qxlxsCx80YdkBcq5sLfuMZS799e4CgM5xDqcKOBQ=;
-	b=Ew3SQMSn5PpxPPFaq0LrkNgaY4LmWYsH5ODz9BxLBwnW5n7SP9v68qJU03f68qCKHhDPHp
-	EJHMPDucsLXZqeebKndB2X8IEtomgKJTiavPY4D5eKI4CUWBPZwPTwgryjYZVS50s/zjq2
-	8k4SfgHmjUUCO00Rq3Rh24bQNXqdZbn1fYFzqSDxrovsynUPAxRr58LvTjvHQDpiNJq8mD
-	aLNwT81AY6D7C1D89UkqDV02U3N95bvLlH9YouGuRa7F1dm1q/Y6olORWCX+Y1mI4ELS90
-	Wh06fx2GbJUyXGg/Z/Z2Ah8WQAwS00LyMfmEvtgamXm2u97ner/0BYkD/qKiSQ==
+	bh=rjC7u1O4n6Y4m8ek4mHKb90DC8/HUd+eWzj/alvKcAs=;
+	b=gaz8seoxSEVBxG9MHSd/AdwK73Yt7mu+jsV0LollTAaxssib7A4849xAQcipwOrC0G9Uo6
+	tfcpM3NA0RSjqxu0umLrggdwkuZprE9ZwTlt2NmwRBzYiIZCm08nVH+UnkZ0EnbA6P62GY
+	EMXRpjYh17PCc/lq+dgoXu5/F1jNr1dlYdgHPUeTsmGcnf9w4zD+DE7HpX4cEjGptshy/p
+	w4PI4JWiylFe9B7TBc5EvKJT8Mtcd9gghG+JfYB2lLP/7I3Z8AFNN3FHXBd1vOClFpd9Jf
+	R/pJjIJu3RZtZRM+rgdUOc/gAlcAwUivOqN82fssj7UtXrwKa2IhcAQj3EH/0A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750949261;
+	s=2020e; t=1750949315;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=6h/qxlxsCx80YdkBcq5sLfuMZS799e4CgM5xDqcKOBQ=;
-	b=AaEH+CvShNcQvC0sAVIo2Q4AbhZJdRiawI54QYpBEq7uH8PeJWY8N9XyVCTvbF1/L3odBw
-	oOXMQvGtaPh1MoBg==
-To: "K . Y . Srinivasan" <kys@microsoft.com>,
-	Marc Zyngier <maz@kernel.org>,
+	bh=rjC7u1O4n6Y4m8ek4mHKb90DC8/HUd+eWzj/alvKcAs=;
+	b=2Fd2QlwCInXViIVIZOCcuzIq4mcR7BYBUaVg4a+xf1NiSgmL30ly5tfX4sxMHPRjXMMy7w
+	sdMGjflSZJvHVtAQ==
+To: Marc Zyngier <maz@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+	Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
 	Haiyang Zhang <haiyangz@microsoft.com>,
 	Wei Liu <wei.liu@kernel.org>,
 	Dexuan Cui <decui@microsoft.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
+	Joyce Ooi <joyce.ooi@intel.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Nirmal Patel <nirmal.patel@linux.intel.com>,
+	Jonathan Derrick <jonathan.derrick@linux.dev>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
 Cc: Nam Cao <namcao@linutronix.de>
-Subject: [PATCH 0/1] x86/hyperv: MSI parent domain conversion
-Date: Thu, 26 Jun 2025 16:47:25 +0200
-Message-Id: <cover.1750947640.git.namcao@linutronix.de>
+Subject: [PATCH 00/16] PCI: MSI parent domain conversion
+Date: Thu, 26 Jun 2025 16:47:50 +0200
+Message-Id: <cover.1750858083.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -83,11 +109,33 @@ The solution is implementing per device MSI domains, this means the
 entities which provide global PCI/MSI domain so far have to implement MSI
 parent domain functionality instead.
 
-This series converts the x86 hyperv driver to implement MSI parent domain.
+This series converts the PCI controller drivers to implement MSI parent
+domain.
 
- arch/x86/hyperv/irqdomain.c | 107 ++++++++++++++++++++++++------------
- drivers/hv/Kconfig          |   1 +
- 2 files changed, 73 insertions(+), 35 deletions(-)
+ drivers/pci/Kconfig                           |   1 +
+ drivers/pci/controller/Kconfig                |  11 +
+ drivers/pci/controller/dwc/Kconfig            |   1 +
+ .../pci/controller/dwc/pcie-designware-host.c |  68 ++----
+ drivers/pci/controller/dwc/pcie-designware.h  |   1 -
+ drivers/pci/controller/mobiveil/Kconfig       |   1 +
+ .../controller/mobiveil/pcie-mobiveil-host.c  |  42 ++--
+ .../pci/controller/mobiveil/pcie-mobiveil.h   |   1 -
+ drivers/pci/controller/pci-aardvark.c         |  59 ++---
+ drivers/pci/controller/pci-hyperv.c           |  98 ++++++--
+ drivers/pci/controller/pcie-altera-msi.c      |  44 ++--
+ drivers/pci/controller/pcie-brcmstb.c         |  44 ++--
+ drivers/pci/controller/pcie-iproc-msi.c       |  45 ++--
+ drivers/pci/controller/pcie-mediatek-gen3.c   |  67 ++---
+ drivers/pci/controller/pcie-mediatek.c        |  46 ++--
+ drivers/pci/controller/pcie-rcar-host.c       |  69 ++----
+ drivers/pci/controller/pcie-xilinx-dma-pl.c   |  48 ++--
+ drivers/pci/controller/pcie-xilinx-nwl.c      |  45 ++--
+ drivers/pci/controller/pcie-xilinx.c          |  55 +++--
+ drivers/pci/controller/plda/Kconfig           |   1 +
+ drivers/pci/controller/plda/pcie-plda-host.c  |  44 ++--
+ drivers/pci/controller/plda/pcie-plda.h       |   1 -
+ drivers/pci/controller/vmd.c                  | 229 +++++++++---------
+ 23 files changed, 504 insertions(+), 517 deletions(-)
 
 --=20
 2.39.5
