@@ -1,43 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549D616DEB1
-	for <linux-hyperv@vger.kernel.org>; Wed,  9 Jul 2025 23:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7F1E55B;
+	Wed,  9 Jul 2025 23:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752102167; cv=none; b=cLOuSpi0Cio5s6XwA3QTtx0yCEMoNTUUpf5pt0dpJcQyHNr7dwjhb2KvXtm61bwhOzwovwRxIyCyf/1JMta3/bxobMaxZeBwceyOeGOm/57AZsSqR8KyNms5Ou/kKXRJzQBIegMMSrBI5TrhdeODTi8LH3cVh3G9mE5atSqpeQQ=
+	t=1752103400; cv=none; b=g+6hvgPkdjQ5v4ZvUOIps1/sYBf4kQTdvmnitWQbXIDaeqIZ4jckFIGBs1/WhoSalU1FkKiULLTPAN85ERbjzwcF9EDc3acKaq9meuhmWZfahS4CODNAxEUSFIynxwqngyqad6nl3SQELl4554+jwuuDF1gwj6I6lgTJnKSL4Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752102167; c=relaxed/simple;
-	bh=HbTINc76TFz2DxjE24fE1+zFNZNnYW/92B5YQe2ethg=;
+	s=arc-20240116; t=1752103400; c=relaxed/simple;
+	bh=bCV+LA15f6mlZ/QEVHI8ShEaF8U5+pTpFavarhgTyII=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QkUlbo4/aqZoaaL5WTtGewGuxkpPOX9+Vl4d01+SMVb7JiB7nw1V6koj5P9N8gz5mdXwP7O1WGxDWnc6mEN4pQby0NKZks8CRoMvP0wVfUs6u+TpHBrqC3LIoiZzqUadm336PXzCc8Tew5bLLVUFthsgUXIVW98nNnAQq4iMILU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgfhfhLi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJzT4m/finUse/JgGh2pcTdHnkliwgrX0SDRb8HNLZL0dIDgDPuTi/lPtj+ReKjKVlwOZi8wzQGPO3P8uLaqPOCoFNojk22tZYHrR41yBzR15HRT2WcqrSZUnF+dsadqAtoD3siRboa4DVcvF0//cfy5gYDzXm9SKVlLkEkKhvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c+zxMFKp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgfhfhLi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2833C4CEEF;
-	Wed,  9 Jul 2025 23:02:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c+zxMFKp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9122CC4CEEF;
+	Wed,  9 Jul 2025 23:23:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752102166;
-	bh=HbTINc76TFz2DxjE24fE1+zFNZNnYW/92B5YQe2ethg=;
+	s=k20201202; t=1752103398;
+	bh=bCV+LA15f6mlZ/QEVHI8ShEaF8U5+pTpFavarhgTyII=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TgfhfhLiKCk7AtaiCzouNlZacxsw4xR8p040/G2IAYjfzSVeaGxbC30Jor61xaTvH
-	 ceeIfz/Q0aCrjWmpyWyie/2XMQQPDxNv1bwCQyC88f+hYvUpbmOix0QGux/KKBuawI
-	 sEg8dro4iheszrr7rxXvCyI45p0XRcmgVLWegKrMBp699bd4+532jJ2jBSMd82ozmp
-	 2djKEOJAXTeGv16UJmxvN77Enjlk76psfilZH8d2jpAOm+H/AYRPoLGcOuCL2PSnKe
-	 +GBKGoD8TmT6PZejAlf+7IRrdIQ0F3DoaKHo9t1a0VSrxAXSgYn1vq1IHLVh2K4+PK
-	 07meVUqx0pwNA==
-Date: Wed, 9 Jul 2025 23:02:45 +0000
+	b=c+zxMFKpkli/jgyFaThavQyBVDB/5UvbL7D242K2RWsPNEhL+oriRrD5Oo+PvWpdI
+	 ERuh4BY6lw+zGM8xtx8wpoLxcgPZudq5njNzWtryJQtgegUUnDf05RJ3JmYwhkWguW
+	 JHKZrbQ+tpAleOND4ozNXDBpQRbMdrgJDx0U4Ds9lgX/hUc228hnU9K1JEMFPBWWHo
+	 XunAc+qZloL292ny0zgbrMjOWNFZ0vHSFooyM+nyXy3juF7yT1qHQ9Vnqxqkx+/mHd
+	 PoL3zzXuFrSVJePfVeWGXvo03t7L/uMjtTuvQAre0zWGxsskVGE6rKHgUfo12BDyzR
+	 /dXAI84cHqO9w==
+Date: Wed, 9 Jul 2025 23:23:17 +0000
 From: Wei Liu <wei.liu@kernel.org>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: yasuenag@gmail.com, eahariha@linux.microsoft.com, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	linux-hyperv@vger.kernel.org, ssengar@linux.microsoft.com
-Subject: Re: [PATCH v5 1/1] tools/hv: fcopy: Fix incorrect file path
- conversion
-Message-ID: <aG71FVGjuBYSvuHD@liuwe-devbox-ubuntu-v2.lamzopl0uupeniq2etz1fddiyg.xx.internal.cloudapp.net>
-References: <20250628022217.1514-1-yasuenag@gmail.com>
- <20250628022217.1514-2-yasuenag@gmail.com>
- <f71d33bb-65e5-4a92-b08b-9d706e74e745@linux.microsoft.com>
+To: Xuewei Niu <niuxuewei.nxw@antgroup.com>
+Cc: "K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, linux-hyperv@vger.kernel.org,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, niuxuewei97@gmail.com
+Subject: Re: [PATCH net-next v6 1/4] hv_sock: Return the readable bytes in
+ hvs_stream_has_data()
+Message-ID: <aG755Yx-FVKIkHzH@liuwe-devbox-ubuntu-v2.lamzopl0uupeniq2etz1fddiyg.xx.internal.cloudapp.net>
+References: <20250708-siocinq-v6-0-3775f9a9e359@antgroup.com>
+ <20250708-siocinq-v6-1-3775f9a9e359@antgroup.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,31 +52,36 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f71d33bb-65e5-4a92-b08b-9d706e74e745@linux.microsoft.com>
+In-Reply-To: <20250708-siocinq-v6-1-3775f9a9e359@antgroup.com>
 
-On Tue, Jul 01, 2025 at 03:06:08PM +0530, Naman Jain wrote:
+On Tue, Jul 08, 2025 at 02:36:11PM +0800, Xuewei Niu wrote:
+> From: Dexuan Cui <decui@microsoft.com>
 > 
+> When hv_sock was originally added, __vsock_stream_recvmsg() and
+> vsock_stream_has_data() actually only needed to know whether there
+> is any readable data or not, so hvs_stream_has_data() was written to
+> return 1 or 0 for simplicity.
 > 
-> On 6/28/2025 7:52 AM, yasuenag@gmail.com wrote:
-> > From: Yasumasa Suenaga <yasuenag@gmail.com>
-> > 
-> > The hv_fcopy_uio_daemon fails to correctly handle file copy requests
-> > from Windows hosts (e.g. via Copy-VMFile) due to wchar_t size
-> > differences between Windows and Linux. On Linux, wchar_t is 32 bit,
-> > whereas Windows uses 16 bit wide characters.
-> > 
-> > Fix this by ensuring that file transfers from host to Linux guest
-> > succeed with correctly decoded file names and paths.
-> > 
-> > - Treats file name and path as __u16 arrays, not wchar_t*.
-> > - Allocates fixed-size buffers (W_MAX_PATH) for converted strings
-> >    instead of using malloc.
-> > - Adds a check for target path length to prevent snprintf() buffer
-> >    overflow.
-> > 
-> > Fixes: 82b0945ce2c2 ("tools: hv: Add new fcopy application based on uio driver")
-> > Signed-off-by: Yasumasa Suenaga <yasuenag@gmail.com>
-[...]
-> Reviewed-by: Naman Jain <namjain@linux.microsoft.com>
+> However, now hvs_stream_has_data() should return the readable bytes
+> because vsock_data_ready() -> vsock_stream_has_data() needs to know the
+> actual bytes rather than a boolean value of 1 or 0.
+> 
+> The SIOCINQ ioctl support also needs hvs_stream_has_data() to return
+> the readable bytes.
+> 
+> Let hvs_stream_has_data() return the readable bytes of the payload in
+> the next host-to-guest VMBus hv_sock packet.
+> 
+> Note: there may be multiple incoming hv_sock packets pending in the
+> VMBus channel's ringbuffer, but so far there is not a VMBus API that
+> allows us to know all the readable bytes in total without reading and
+> caching the payload of the multiple packets, so let's just return the
+> readable bytes of the next single packet. In the future, we'll either
+> add a VMBus API that allows us to know the total readable bytes without
+> touching the data in the ringbuffer, or the hv_sock driver needs to
+> understand the VMBus packet format and parse the packets directly.
+> 
+> Signed-off-by: Dexuan Cui <decui@microsoft.com>
+> Signed-off-by: Xuewei Niu <niuxuewei.nxw@antgroup.com>
 
-Applied to hyperv-fixes. Thank you both for the patch and the review!
+Acked-by: Wei Liu <wei.liu@kernel.org>
