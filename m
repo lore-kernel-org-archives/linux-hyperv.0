@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FBD0279910;
-	Mon, 14 Jul 2025 22:15:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A39427AC2A;
+	Mon, 14 Jul 2025 22:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752531355; cv=none; b=cMQ93vwodensz2lvDH7p95UUuLG3mzvuBKXkkGO0vzBFD7B/rWrZlb262afiOR+AjPvYnKdC/9Yn4q7uQ4CSydKBTMHpfR4fYhwgCQy/mehxnDN24wUxON/XXn6+DUu6wPO8Rd452UdFQFUSXVZYQIwSNxR6H9cpeOrKHf0MiBw=
+	t=1752531355; cv=none; b=tsF7qMJlthFbeYZjnAJHr8nBbvxVWcuUvO1ZEzHHGH+iywRPE7qOplds8Hk1e+XvEKgmK4PO5fVqbk8bASuG+rX3ttbV9EXZrw38Ora1y9FnmTl2NeuysVef4QGjZuHYSiLw/tLnzFUQp2tmvUIy58x3QwQ1fz++h5lMFbBcmhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1752531355; c=relaxed/simple;
-	bh=nY7Uk25eXZ9CPEhq+dyPOCFpcECMFILdyIxZJrORP78=;
+	bh=qu5wrCRGckFddgOVao5M+PQvlTFUez7DHz4TBUqUopY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kmxhw7d81fs/PLqBOk/iZwK80UD8xmDiSigi+0P5OTDwBgRZxrxHt2yQCxFbartMW7EE3YOysuLlISpba4mxry62UTLpx8keEENrvOOIO01tmEzgtm3yVY5HGzqBVrUCGQmzG3oCjrmEa/mJYCVcyC+N+7uAkWBHXWVKce+2tF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=jNBpM4Dr; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=M0k41xp8jP/MLTFtxRPtN/OGPyf5eqGuYsmX5WQQ7TMAHR4CEuWQLy0rFDK9e5qnRGCEhbjmaWFNrGMUyT2On/hz8qKcbJf0WSFUHzBeN7jmHe62CsVImc65RaUnXTmuuPVIUVneaucwNMN2BVhqmzbVUvi+2cwBgTHZXT3rPRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=e3/IvBo+; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jNBpM4Dr"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="e3/IvBo+"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 793BB201A4B1;
-	Mon, 14 Jul 2025 15:15:50 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 793BB201A4B1
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4BB0E201B1DA;
+	Mon, 14 Jul 2025 15:15:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4BB0E201B1DA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1752531350;
-	bh=pT4iPwLX5Hd9PCSn3JAM0vAmXvwVMyakn8rD4WQrInY=;
+	s=default; t=1752531351;
+	bh=5NILQvH5aX9tvrOJMwj2GLYW/SEBrWgpZjSjwN/upug=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jNBpM4DrcoEA9sgu9QlkBKL7tQixnDlRM+9ZWYVLN8uj2NB8NP02cFs9sBREnZSq1
-	 k33hzO/oAfNtIZjkgbC+aeiEzS9A2C+RbPIJkl2SAzSyO6SSwMIRvNp+T0QJNx4Pa0
-	 gzw+EFOsOoxR8s9xD/uLg7iGI340LV6VdL2sTsEI=
+	b=e3/IvBo+FS2asdg6lPj8x9+n0F7es6nrk0eOJEmD4n/TOXw9A/m2CG03AS7J4XWoD
+	 zZW7fqoRLaENo+goNyOOJuf6yus3qNHqg0cPvCN24VYiKXmEWY9EDx6jEGbNaPHZEm
+	 JpPdjGniblXqEnyQCjGTsLH7TlUtQcgpIbpNYEAA=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: alok.a.tiwari@oracle.com,
 	arnd@arndb.de,
@@ -51,9 +51,9 @@ Cc: apais@microsoft.com,
 	benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com
-Subject: [PATCH hyperv-next v4 13/16] Drivers: hv: Free msginfo when the buffer fails to decrypt
-Date: Mon, 14 Jul 2025 15:15:42 -0700
-Message-ID: <20250714221545.5615-14-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v4 16/16] Drivers: hv: Set the default VMBus version to 6.0
+Date: Mon, 14 Jul 2025 15:15:45 -0700
+Message-ID: <20250714221545.5615-17-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250714221545.5615-1-romank@linux.microsoft.com>
 References: <20250714221545.5615-1-romank@linux.microsoft.com>
@@ -65,84 +65,38 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The early failure path in __vmbus_establish_gpadl() doesn't deallocate
-msginfo if the buffer fails to decrypt.
+The confidential VMBus is supported by the protocol version
+6.0 onwards.
 
-Fix the leak by breaking out the cleanup code into a separate function
-and calling it where required.
+Attempt to establish the VMBus 6.0 connection thus enabling
+the confidential VMBus features when available.
 
-Fixes: d4dccf353db80 ("Drivers: hv: vmbus: Mark vmbus ring buffer visible to host in Isolation VM")
-Reported-by: Michael Kelly <mkhlinux@outlook.com>
-Closes: https://lore.kernel.org/linux-hyperv/SN6PR02MB41573796F9787F67E0E97049D472A@SN6PR02MB4157.namprd02.prod.outlook.com
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 ---
- drivers/hv/channel.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+ drivers/hv/connection.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
-index 051eeba800f2..0eb300b940db 100644
---- a/drivers/hv/channel.c
-+++ b/drivers/hv/channel.c
-@@ -409,6 +409,25 @@ static int create_gpadl_header(enum hv_gpadl_type type, void *kbuffer,
- 	return 0;
- }
+diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
+index eeb472019d69..7cd43463f969 100644
+--- a/drivers/hv/connection.c
++++ b/drivers/hv/connection.c
+@@ -51,6 +51,7 @@ EXPORT_SYMBOL_GPL(vmbus_proto_version);
+  * Linux guests and are not listed.
+  */
+ static __u32 vmbus_versions[] = {
++	VERSION_WIN10_V6_0,
+ 	VERSION_WIN10_V5_3,
+ 	VERSION_WIN10_V5_2,
+ 	VERSION_WIN10_V5_1,
+@@ -65,7 +66,7 @@ static __u32 vmbus_versions[] = {
+  * Maximal VMBus protocol version guests can negotiate.  Useful to cap the
+  * VMBus version for testing and debugging purpose.
+  */
+-static uint max_version = VERSION_WIN10_V5_3;
++static uint max_version = VERSION_WIN10_V6_0;
  
-+static void vmbus_free_channel_msginfo(struct vmbus_channel_msginfo *msginfo)
-+{
-+	unsigned long flags;
-+	struct vmbus_channel_msginfo *submsginfo, *tmp;
-+
-+	if (!msginfo)
-+		return;
-+
-+	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
-+	list_del(&msginfo->msglistentry);
-+	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
-+	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
-+				 msglistentry) {
-+		kfree(submsginfo);
-+	}
-+
-+	kfree(msginfo);
-+}
-+
- /*
-  * __vmbus_establish_gpadl - Establish a GPADL for a buffer or ringbuffer
-  *
-@@ -428,7 +447,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 	struct vmbus_channel_gpadl_header *gpadlmsg;
- 	struct vmbus_channel_gpadl_body *gpadl_body;
- 	struct vmbus_channel_msginfo *msginfo = NULL;
--	struct vmbus_channel_msginfo *submsginfo, *tmp;
-+	struct vmbus_channel_msginfo *submsginfo;
- 	struct list_head *curr;
- 	u32 next_gpadl_handle;
- 	unsigned long flags;
-@@ -458,6 +477,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 			dev_warn(&channel->device_obj->device,
- 				"Failed to set host visibility for new GPADL %d.\n",
- 				ret);
-+			vmbus_free_channel_msginfo(msginfo);
- 			return ret;
- 		}
- 	}
-@@ -531,15 +551,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
- 
- 
- cleanup:
--	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
--	list_del(&msginfo->msglistentry);
--	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
--	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
--				 msglistentry) {
--		kfree(submsginfo);
--	}
--
--	kfree(msginfo);
-+	vmbus_free_channel_msginfo(msginfo);
- 
- 	if (ret) {
- 		/*
+ module_param(max_version, uint, S_IRUGO);
+ MODULE_PARM_DESC(max_version,
 -- 
 2.43.0
 
