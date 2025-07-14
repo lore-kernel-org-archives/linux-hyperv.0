@@ -1,40 +1,40 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13ADF2472BD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7978C1DF26A;
 	Mon, 14 Jul 2025 10:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752489910; cv=none; b=Yt7d5ed49T3pAEAlkbM5f0zuxevFmZSKtY0M7zv0VKMUwmSEjaToyVYjl/dspkAdxJU5OktRTfANHJc0iko0ieGFNsP9LzFyFwaFiHP6vng6Ww0YiDv3hIGpy5TZoVtTM0/WtyHxP3R0ojz9DMLJbgo/LtmABQCjMp0dvNlDSQk=
+	t=1752489911; cv=none; b=d56ldEGJbWbcq5+d0WVVD+3SbOLIysyaTtS355g99WL1jB818a0bLitg80Kpj+gNRdsTsZMJMwlpcx+6Z5VDregKshJHMcUnTKGl+ILU7cY3eWL6aPnEMpUFwhOub5iM7+aZyjwRVm5agegsB80M5mXrMKBsNiFMRIlki+/9oF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752489910; c=relaxed/simple;
-	bh=fTgYF2PsGCwY0Pjg20fnmDCk2omHnQd0aXz+zTQIPzU=;
+	s=arc-20240116; t=1752489911; c=relaxed/simple;
+	bh=bkHFi5EFOP73EpSepmQZ4Q9VkRfFvaXax+LB6lsSbCM=;
 	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=dsFTrctb+weXUWKL8sTldZDy88ACMXtaZ7sgClTZKjMxLEji0o8bUPWmB97YdfTddL5pNRN3fMeKUWwlrsDGupnhDtVDpIhv2xWVkLgu62OsCv+GED1hD56lZbC2/2Oyp5hKj+x9fQTYGsIElXxqVMHh2WC7tOtfLgI0rZDGYeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WmbNuKXm; arc=none smtp.client-ip=90.155.92.199
+	 Content-Type; b=k1irD7ozCp3A6u2M6+IPE0v24hVjkvK2SyhBMzG9/OdI0m2ZlvTNoY74XvFpD+pwZiU+E1DbGy6Vtfq/nbul/6qqLDIzvfBqktMymO5Df3KfG+r0VVbYzYg70BabLtcUFTPWS2KMSOCjNCFkKrtcAiOPoHruw2FqWiFqRlLNzpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dZXGedzz; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WmbNuKXm"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dZXGedzz"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
 	Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
 	Content-ID:Content-Description:In-Reply-To;
-	bh=I75Per9iZErX40IGaiBRNDtT7hqKwKBYiyZ5s6JY19U=; b=WmbNuKXmKkjgJlREf8zjge3ONa
-	/p38PPMwiE1NMuDJSHVKMuVz2y+l0qRh9YdzfavyRnS7Q/2fWjjYCxBQgHuRNs6LXytpDf4ZMvl+S
-	pfTfENAlx0xazbtkZTKm+TrYnViW5Hb6HgGSYJXux4EjcaDJAxy69K2rWj6YfFOZi1id/durWwrdv
-	Hyq+EDOBKTf1e0e+gHoVWnBwjxUC2tyKTxcky/lFqHMJ5ICxmADDLIdf1eRvgFuhQVPqT8PW+MTK5
-	8ruOW2sZgtUHMCTR+bQUT7vxQJ1pLlgTfUzaCQlEHo4Y9MhI4l2/itkWGgaIbXcTR2M0/ts/l/BHn
-	xPgZRk+g==;
+	bh=WIJjzE7IhtYykmJnVpMemXxfCZI1nRxY9Sjvw5cW+qs=; b=dZXGedzzBh/fghEtWOpO+lNJMl
+	D8A2lujEejAlY0c9KFQpHgzgdUFlv7SFXkvIIy5g0Hvh9+HtIyNQ9shvhQVhk81+uE6faieRn9lPI
+	H2ni3JWuNGXeePTfCXwkrlljP8xxMezV6McXMd51WhRUgGDIWWwxGMo/LCg7PxEMRcm9C6+Lk6K6L
+	RQ7LEOaJbdseIHRixZbf2ke3w87fvWl74LmdphVdMd788Kxti7kM3MSAL6dQs0veAXnHt8KoTfBXe
+	zKIlnWAO40HaAdLEd1ac/srXtkBEBal/Hr2e7Yo7/lsem3RsOBXAtO185jFhcUn+bD+cS7QMs6SKE
+	txJBVI9w==;
 Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ubGfz-00000009kca-3A1l;
-	Mon, 14 Jul 2025 10:44:51 +0000
+	id 1ubGg1-00000009kcp-0z61;
+	Mon, 14 Jul 2025 10:44:53 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 0)
-	id D613F300DD3; Mon, 14 Jul 2025 12:44:50 +0200 (CEST)
-Message-ID: <20250714103439.903697475@infradead.org>
+	id 2101F302D9C; Mon, 14 Jul 2025 12:44:51 +0200 (CEST)
+Message-ID: <20250714103441.121251108@infradead.org>
 User-Agent: quilt/0.68
-Date: Mon, 14 Jul 2025 12:20:14 +0200
+Date: Mon, 14 Jul 2025 12:20:24 +0200
 From: Peter Zijlstra <peterz@infradead.org>
 To: x86@kernel.org
 Cc: kys@microsoft.com,
@@ -60,7 +60,7 @@ Cc: kys@microsoft.com,
  linux-efi@vger.kernel.org,
  samitolvanen@google.com,
  ojeda@kernel.org
-Subject: [PATCH v3 03/16] x86/kvm/emulate: Introduce EM_ASM_2
+Subject: [PATCH v3 13/16] x86/fred: Install system vector handlers even if FRED isnt fully enabled
 References: <20250714102011.758008629@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
@@ -70,212 +70,58 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 
-Replace the FASTOP2 instructions.
+From: Sean Christopherson <seanjc@google.com>
 
+Install the system vector IRQ handlers for FRED even if FRED isn't fully
+enabled in hardware.  This will allow KVM to use the FRED IRQ path even
+on non-FRED hardware, which in turn will eliminate a non-CFI indirect CALL
+(KVM currently invokes the IRQ handler via an IDT lookup on the vector).
+
+[sean: extract from diff, drop stub, write changelog]
+Signed-off-by: Sean Christopherson <seanjc@google.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/x86/kvm/emulate.c |   85 +++++++++++++++++++++++++++----------------------
- 1 file changed, 47 insertions(+), 38 deletions(-)
+ arch/x86/include/asm/idtentry.h |    9 ++-------
+ arch/x86/kernel/irqinit.c       |    6 ++++--
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -317,6 +317,15 @@ static int em_##op(struct x86_emulate_ct
- 	ON64(case 8: __EM_ASM_1(op##q, rax); break;) \
- 	EM_ASM_END
+--- a/arch/x86/include/asm/idtentry.h
++++ b/arch/x86/include/asm/idtentry.h
+@@ -460,17 +460,12 @@ __visible noinstr void func(struct pt_re
+ #endif
  
-+/* 2-operand, using "a" (dst), "d" (src) */
-+#define EM_ASM_2(op) \
-+	EM_ASM_START(op) \
-+	case 1: __EM_ASM_2(op##b, al, dl); break; \
-+	case 2: __EM_ASM_2(op##w, ax, dx); break; \
-+	case 4: __EM_ASM_2(op##l, eax, edx); break; \
-+	ON64(case 8: __EM_ASM_2(op##q, rax, rdx); break;) \
-+	EM_ASM_END
+ void idt_install_sysvec(unsigned int n, const void *function);
+-
+-#ifdef CONFIG_X86_FRED
+ void fred_install_sysvec(unsigned int vector, const idtentry_t function);
+-#else
+-static inline void fred_install_sysvec(unsigned int vector, const idtentry_t function) { }
+-#endif
+ 
+ #define sysvec_install(vector, function) {				\
+-	if (cpu_feature_enabled(X86_FEATURE_FRED))			\
++	if (IS_ENABLED(CONFIG_X86_FRED))				\
+ 		fred_install_sysvec(vector, function);			\
+-	else								\
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))			\
+ 		idt_install_sysvec(vector, asm_##function);		\
+ }
+ 
+--- a/arch/x86/kernel/irqinit.c
++++ b/arch/x86/kernel/irqinit.c
+@@ -97,9 +97,11 @@ void __init native_init_IRQ(void)
+ 	/* Execute any quirks before the call gates are initialised: */
+ 	x86_init.irqs.pre_vector_init();
+ 
+-	if (cpu_feature_enabled(X86_FEATURE_FRED))
++	/* FRED's IRQ path may be used even if FRED isn't fully enabled. */
++	if (IS_ENABLED(CONFIG_X86_FRED))
+ 		fred_complete_exception_setup();
+-	else
 +
- /*
-  * fastop functions have a special calling convention:
-  *
-@@ -1027,15 +1036,16 @@ static int read_descriptor(struct x86_em
- 	return rc;
- }
++	if (!cpu_feature_enabled(X86_FEATURE_FRED))
+ 		idt_setup_apic_and_irq_gates();
  
--FASTOP2(add);
--FASTOP2(or);
--FASTOP2(adc);
--FASTOP2(sbb);
--FASTOP2(and);
--FASTOP2(sub);
--FASTOP2(xor);
--FASTOP2(cmp);
--FASTOP2(test);
-+EM_ASM_2(add);
-+EM_ASM_2(or);
-+EM_ASM_2(adc);
-+EM_ASM_2(sbb);
-+EM_ASM_2(and);
-+EM_ASM_2(sub);
-+EM_ASM_2(xor);
-+EM_ASM_2(cmp);
-+EM_ASM_2(test);
-+EM_ASM_2(xadd);
- 
- FASTOP1SRC2(mul, mul_ex);
- FASTOP1SRC2(imul, imul_ex);
-@@ -1067,7 +1077,6 @@ FASTOP2W(bts);
- FASTOP2W(btr);
- FASTOP2W(btc);
- 
--FASTOP2(xadd);
- 
- FASTOP2R(cmp, cmp_r);
- 
-@@ -2304,7 +2313,7 @@ static int em_cmpxchg(struct x86_emulate
- 	ctxt->dst.val = reg_read(ctxt, VCPU_REGS_RAX);
- 	ctxt->src.orig_val = ctxt->src.val;
- 	ctxt->src.val = ctxt->dst.orig_val;
--	fastop(ctxt, em_cmp);
-+	em_cmp(ctxt);
- 
- 	if (ctxt->eflags & X86_EFLAGS_ZF) {
- 		/* Success: write back to memory; no update of EAX */
-@@ -3069,7 +3078,7 @@ static int em_das(struct x86_emulate_ctx
- 	ctxt->src.type = OP_IMM;
- 	ctxt->src.val = 0;
- 	ctxt->src.bytes = 1;
--	fastop(ctxt, em_or);
-+	em_or(ctxt);
- 	ctxt->eflags &= ~(X86_EFLAGS_AF | X86_EFLAGS_CF);
- 	if (cf)
- 		ctxt->eflags |= X86_EFLAGS_CF;
-@@ -3095,7 +3104,7 @@ static int em_aam(struct x86_emulate_ctx
- 	ctxt->src.type = OP_IMM;
- 	ctxt->src.val = 0;
- 	ctxt->src.bytes = 1;
--	fastop(ctxt, em_or);
-+	em_or(ctxt);
- 
- 	return X86EMUL_CONTINUE;
- }
-@@ -3113,7 +3122,7 @@ static int em_aad(struct x86_emulate_ctx
- 	ctxt->src.type = OP_IMM;
- 	ctxt->src.val = 0;
- 	ctxt->src.bytes = 1;
--	fastop(ctxt, em_or);
-+	em_or(ctxt);
- 
- 	return X86EMUL_CONTINUE;
- }
-@@ -3998,9 +4007,9 @@ static int check_perm_out(struct x86_emu
- #define I2bvIP(_f, _e, _i, _p) \
- 	IIP((_f) | ByteOp, _e, _i, _p), IIP(_f, _e, _i, _p)
- 
--#define F6ALU(_f, _e) F2bv((_f) | DstMem | SrcReg | ModRM, _e),		\
--		F2bv(((_f) | DstReg | SrcMem | ModRM) & ~Lock, _e),	\
--		F2bv(((_f) & ~Lock) | DstAcc | SrcImm, _e)
-+#define I6ALU(_f, _e) I2bv((_f) | DstMem | SrcReg | ModRM, _e),		\
-+		I2bv(((_f) | DstReg | SrcMem | ModRM) & ~Lock, _e),	\
-+		I2bv(((_f) & ~Lock) | DstAcc | SrcImm, _e)
- 
- static const struct opcode group7_rm0[] = {
- 	N,
-@@ -4038,14 +4047,14 @@ static const struct opcode group7_rm7[]
- };
- 
- static const struct opcode group1[] = {
--	F(Lock, em_add),
--	F(Lock | PageTable, em_or),
--	F(Lock, em_adc),
--	F(Lock, em_sbb),
--	F(Lock | PageTable, em_and),
--	F(Lock, em_sub),
--	F(Lock, em_xor),
--	F(NoWrite, em_cmp),
-+	I(Lock, em_add),
-+	I(Lock | PageTable, em_or),
-+	I(Lock, em_adc),
-+	I(Lock, em_sbb),
-+	I(Lock | PageTable, em_and),
-+	I(Lock, em_sub),
-+	I(Lock, em_xor),
-+	I(NoWrite, em_cmp),
- };
- 
- static const struct opcode group1A[] = {
-@@ -4064,8 +4073,8 @@ static const struct opcode group2[] = {
- };
- 
- static const struct opcode group3[] = {
--	F(DstMem | SrcImm | NoWrite, em_test),
--	F(DstMem | SrcImm | NoWrite, em_test),
-+	I(DstMem | SrcImm | NoWrite, em_test),
-+	I(DstMem | SrcImm | NoWrite, em_test),
- 	I(DstMem | SrcNone | Lock, em_not),
- 	I(DstMem | SrcNone | Lock, em_neg),
- 	F(DstXacc | Src2Mem, em_mul_ex),
-@@ -4258,29 +4267,29 @@ static const struct instr_dual instr_dua
- 
- static const struct opcode opcode_table[256] = {
- 	/* 0x00 - 0x07 */
--	F6ALU(Lock, em_add),
-+	I6ALU(Lock, em_add),
- 	I(ImplicitOps | Stack | No64 | Src2ES, em_push_sreg),
- 	I(ImplicitOps | Stack | No64 | Src2ES, em_pop_sreg),
- 	/* 0x08 - 0x0F */
--	F6ALU(Lock | PageTable, em_or),
-+	I6ALU(Lock | PageTable, em_or),
- 	I(ImplicitOps | Stack | No64 | Src2CS, em_push_sreg),
- 	N,
- 	/* 0x10 - 0x17 */
--	F6ALU(Lock, em_adc),
-+	I6ALU(Lock, em_adc),
- 	I(ImplicitOps | Stack | No64 | Src2SS, em_push_sreg),
- 	I(ImplicitOps | Stack | No64 | Src2SS, em_pop_sreg),
- 	/* 0x18 - 0x1F */
--	F6ALU(Lock, em_sbb),
-+	I6ALU(Lock, em_sbb),
- 	I(ImplicitOps | Stack | No64 | Src2DS, em_push_sreg),
- 	I(ImplicitOps | Stack | No64 | Src2DS, em_pop_sreg),
- 	/* 0x20 - 0x27 */
--	F6ALU(Lock | PageTable, em_and), N, N,
-+	I6ALU(Lock | PageTable, em_and), N, N,
- 	/* 0x28 - 0x2F */
--	F6ALU(Lock, em_sub), N, I(ByteOp | DstAcc | No64, em_das),
-+	I6ALU(Lock, em_sub), N, I(ByteOp | DstAcc | No64, em_das),
- 	/* 0x30 - 0x37 */
--	F6ALU(Lock, em_xor), N, N,
-+	I6ALU(Lock, em_xor), N, N,
- 	/* 0x38 - 0x3F */
--	F6ALU(NoWrite, em_cmp), N, N,
-+	I6ALU(NoWrite, em_cmp), N, N,
- 	/* 0x40 - 0x4F */
- 	X8(I(DstReg, em_inc)), X8(I(DstReg, em_dec)),
- 	/* 0x50 - 0x57 */
-@@ -4306,7 +4315,7 @@ static const struct opcode opcode_table[
- 	G(DstMem | SrcImm, group1),
- 	G(ByteOp | DstMem | SrcImm | No64, group1),
- 	G(DstMem | SrcImmByte, group1),
--	F2bv(DstMem | SrcReg | ModRM | NoWrite, em_test),
-+	I2bv(DstMem | SrcReg | ModRM | NoWrite, em_test),
- 	I2bv(DstMem | SrcReg | ModRM | Lock | PageTable, em_xchg),
- 	/* 0x88 - 0x8F */
- 	I2bv(DstMem | SrcReg | ModRM | Mov | PageTable, em_mov),
-@@ -4329,7 +4338,7 @@ static const struct opcode opcode_table[
- 	I2bv(SrcSI | DstDI | Mov | String | TwoMemOp, em_mov),
- 	F2bv(SrcSI | DstDI | String | NoWrite | TwoMemOp, em_cmp_r),
- 	/* 0xA8 - 0xAF */
--	F2bv(DstAcc | SrcImm | NoWrite, em_test),
-+	I2bv(DstAcc | SrcImm | NoWrite, em_test),
- 	I2bv(SrcAcc | DstDI | Mov | String, em_mov),
- 	I2bv(SrcSI | DstAcc | Mov | String, em_mov),
- 	F2bv(SrcAcc | DstDI | String | NoWrite, em_cmp_r),
-@@ -4467,7 +4476,7 @@ static const struct opcode twobyte_table
- 	I(DstReg | SrcMem | ModRM, em_bsr_c),
- 	D(DstReg | SrcMem8 | ModRM | Mov), D(DstReg | SrcMem16 | ModRM | Mov),
- 	/* 0xC0 - 0xC7 */
--	F2bv(DstMem | SrcReg | ModRM | SrcWrite | Lock, em_xadd),
-+	I2bv(DstMem | SrcReg | ModRM | SrcWrite | Lock, em_xadd),
- 	N, ID(0, &instr_dual_0f_c3),
- 	N, N, N, GD(0, &group9),
- 	/* 0xC8 - 0xCF */
+ 	lapic_assign_system_vectors();
 
 
