@@ -1,69 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFD11E04AD
-	for <linux-hyperv@vger.kernel.org>; Mon,  1 Sep 2025 11:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D7920DD48
+	for <linux-hyperv@vger.kernel.org>; Mon,  1 Sep 2025 11:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756725332; cv=none; b=e1qgHkTqi/2faJe803FrMyWUYeXy73HzwcrbQujxfdd+55codUmnAECyOHrY6EomsV8iryRxYcRyblKCUzVl4F3ffEU/D6DYSdYXlQjGLmv74t4nVWX+Y0CvjNztS2FsgKPggslqOwuakDfVkJd374BOf7Jxuq9JZvrEC0BbF6Q=
+	t=1756725333; cv=none; b=c4yhKfqh9ojFUfE93SFfpOf74tHSI1L/bdqbwGxXNfmNHNMqqYgwSN145HmMzC5jm7nYt2+Qeto+0dh39rwsNVzj3GCF4N+oTSX2yRqfJ0iRdKxginoOIeUZEJzyDOaojXshMMX15gUEfqRAs8SyQjjLhBH6fPh+zrmZqJWqnnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756725332; c=relaxed/simple;
-	bh=rLZaPGmff/2wGsTEIN77kt7nFvTO1l5VfQxFNqJTKz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EFXQFnsQV2nOOZe45IdZtrgObOqaOcdZoqsP4cyox0E1vSKAOdKL0cZ4hp/4uWgkQti6s+XfPx5c5gc01qmc7wsqg6lQPOntCzdmkqaMZ+6AkK9WtOTi7bIB7vzh2HeChYp7Bbiyv8IPg7MfWNn1Zwow/8I5Bq5ne9IZSz2t0j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u3ueMhwG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pXj9H/pl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u3ueMhwG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pXj9H/pl; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1756725333; c=relaxed/simple;
+	bh=/+A6qgYmJ0zFqISCUlnZcBUJDGjb6VkXcVlh/G5P1rQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IxMRux7n12hAU0RLVpOLH6LE1wZL2Q4ghwyK88HHCRxr8J9ELT0lWTbmqXhLEk2phw1QXIiQ2DQT6bbkrGEdJHsZuMnNCk9VT7MkSw9Aif/KTU8B09Jj7B+nGf6AbhdPqfAQHqkex+JPPDSTlykSKug3aYjWkNv2FuaqkKYeJvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1mFQQ4pn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PqcahHCN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1mFQQ4pn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PqcahHCN; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3ueMhwG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pXj9H/pl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u3ueMhwG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pXj9H/pl"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1mFQQ4pn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PqcahHCN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1mFQQ4pn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PqcahHCN"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9CA481F7FD;
-	Mon,  1 Sep 2025 11:15:28 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3323521186;
+	Mon,  1 Sep 2025 11:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756725328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0tJn6Vz+3D+Iz+2Tqo9jg2TopzlQTPWlBW3ykeigvRk=;
-	b=u3ueMhwGSsrD5B2VIwHEDM6NB1fSWONB/kbtf2aKkA67YM7HZMy255bGzRpKjXp6a28uE4
-	KJVfm2tyZvpdj5xMkgO4zbFx3YiqPZwoSSS2/FCsSvSXkfIB+FzqD7PBmN+pKz2d4eVWSm
-	BRUBQsP/f6p8AAoy0IB2kogq1qeLO+Y=
+	t=1756725330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3iPFv9Z+q9QlqNS7P5EKo+4odSakiuxynMImEIuimc=;
+	b=1mFQQ4pnsbakjAQN3A0bk8i6QPX4tF8b03y/ekMdlYLu0c72Tr7o/smFga8bhIQD13Ja+q
+	FFXl182Ongurb8BhIK6no/CHA9ugbZN9SyhMHUB5uWzcOV7cCkeioZEXNJKIdD3jcahF7S
+	SCwdNtltIiTpuk0Twt01sHHPXr7o9X8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756725328;
+	s=susede2_ed25519; t=1756725330;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0tJn6Vz+3D+Iz+2Tqo9jg2TopzlQTPWlBW3ykeigvRk=;
-	b=pXj9H/plr5/ws6R70b5+7yVUJ7DbuRqitpulpcPHsC/tDSastV8JE7wvrB04fifXqP2LyS
-	OI2O3lhOCbqwcfAQ==
-Authentication-Results: smtp-out2.suse.de;
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3iPFv9Z+q9QlqNS7P5EKo+4odSakiuxynMImEIuimc=;
+	b=PqcahHCNzJ7UNojkNJIOUKukchUOHcP5gSYFg7elSKVIhPJg6WWMNhKzVyG3OTN370hNra
+	I9BfYiCb9PGAqvCQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756725328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0tJn6Vz+3D+Iz+2Tqo9jg2TopzlQTPWlBW3ykeigvRk=;
-	b=u3ueMhwGSsrD5B2VIwHEDM6NB1fSWONB/kbtf2aKkA67YM7HZMy255bGzRpKjXp6a28uE4
-	KJVfm2tyZvpdj5xMkgO4zbFx3YiqPZwoSSS2/FCsSvSXkfIB+FzqD7PBmN+pKz2d4eVWSm
-	BRUBQsP/f6p8AAoy0IB2kogq1qeLO+Y=
+	t=1756725330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3iPFv9Z+q9QlqNS7P5EKo+4odSakiuxynMImEIuimc=;
+	b=1mFQQ4pnsbakjAQN3A0bk8i6QPX4tF8b03y/ekMdlYLu0c72Tr7o/smFga8bhIQD13Ja+q
+	FFXl182Ongurb8BhIK6no/CHA9ugbZN9SyhMHUB5uWzcOV7cCkeioZEXNJKIdD3jcahF7S
+	SCwdNtltIiTpuk0Twt01sHHPXr7o9X8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756725328;
+	s=susede2_ed25519; t=1756725330;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0tJn6Vz+3D+Iz+2Tqo9jg2TopzlQTPWlBW3ykeigvRk=;
-	b=pXj9H/plr5/ws6R70b5+7yVUJ7DbuRqitpulpcPHsC/tDSastV8JE7wvrB04fifXqP2LyS
-	OI2O3lhOCbqwcfAQ==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=h3iPFv9Z+q9QlqNS7P5EKo+4odSakiuxynMImEIuimc=;
+	b=PqcahHCNzJ7UNojkNJIOUKukchUOHcP5gSYFg7elSKVIhPJg6WWMNhKzVyG3OTN370hNra
+	I9BfYiCb9PGAqvCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D09BC1378C;
-	Mon,  1 Sep 2025 11:15:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71C631378C;
+	Mon,  1 Sep 2025 11:15:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id s8dyMU+AtWj8EAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 01 Sep 2025 11:15:27 +0000
+	id wMlMGlGAtWj8EAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 01 Sep 2025 11:15:29 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: louis.chauvet@bootlin.com,
 	drawat.floss@gmail.com,
@@ -76,10 +85,12 @@ To: louis.chauvet@bootlin.com,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-hyperv@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 0/4] drm: Add vblank timers for devices without interrupts
-Date: Mon,  1 Sep 2025 13:06:57 +0200
-Message-ID: <20250901111241.233875-1-tzimmermann@suse.de>
+Subject: [PATCH v2 2/4] drm/vblank: Add CRTC helpers for simple use cases
+Date: Mon,  1 Sep 2025 13:06:59 +0200
+Message-ID: <20250901111241.233875-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250901111241.233875-1-tzimmermann@suse.de>
+References: <20250901111241.233875-1-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -87,7 +98,8 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.30 / 50.00];
+X-Spamd-Result: default: False [-5.30 / 50.00];
+	REPLY(-4.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -95,63 +107,181 @@ X-Spamd-Result: default: False [-1.30 / 50.00];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[bootlin.com,gmail.com,outlook.com,ffwll.ch,linux.intel.com];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_RATELIMIT(0.00)[to_ip_from(RLgb6padn6wcu17bxtda1k7h6p)];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[bootlin.com,gmail.com,outlook.com,ffwll.ch,linux.intel.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
 	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -1.30
+X-Spam-Score: -5.30
 
-Compositors often depend on vblanks to limit their display-update
-rate. Without, they see vblank events ASAP, which breaks the rate-
-limit feature. This creates high CPU overhead. It is especially a
-problem with virtual devices with fast framebuffer access.
+Implement atomic_flush, atomic_enable and atomic_disable of struct
+drm_crtc_helper_funcs for vblank handling. Driver with no further
+requirements can use these functions instead of adding their own.
+Also simplifies the use of vblank timers.
 
-The series moves vkms' vblank timer to DRM and converts the hyperv
-DRM driver. An earlier version of this series contains examples of
-other updated drivers. In principle, any DRM driver without vblank
-hardware can use the timer.
+v2:
+- fix docs
 
-The series has been motivated by a recent discussion about hypervdrm [1]
-and other long-standing bug reports. [2][3]
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_vblank_helper.c | 80 +++++++++++++++++++++++++++++
+ include/drm/drm_vblank_helper.h     | 23 +++++++++
+ 2 files changed, 103 insertions(+)
 
-[1] https://lore.kernel.org/dri-devel/20250523161522.409504-1-mhklinux@outlook.com/T/#ma2ebb52b60bfb0325879349377738fadcd7cb7ef
-[2] https://bugzilla.suse.com/show_bug.cgi?id=1189174
-[3] https://invent.kde.org/plasma/kwin/-/merge_requests/1229#note_284606
-
-Thomas Zimmermann (4):
-  drm/vblank: Add vblank timer
-  drm/vblank: Add CRTC helpers for simple use cases
-  drm/vkms: Convert to DRM's vblank timer
-  drm/hypervdrm: Use vblank timer
-
- Documentation/gpu/drm-kms-helpers.rst       |  12 ++
- drivers/gpu/drm/Makefile                    |   3 +-
- drivers/gpu/drm/drm_vblank.c                | 122 +++++++++++++-
- drivers/gpu/drm/drm_vblank_helper.c         | 176 ++++++++++++++++++++
- drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  11 ++
- drivers/gpu/drm/vkms/vkms_crtc.c            |  83 +--------
- drivers/gpu/drm/vkms/vkms_drv.h             |   2 -
- include/drm/drm_modeset_helper_vtables.h    |  12 ++
- include/drm/drm_vblank.h                    |  28 ++++
- include/drm/drm_vblank_helper.h             |  56 +++++++
- 10 files changed, 424 insertions(+), 81 deletions(-)
- create mode 100644 drivers/gpu/drm/drm_vblank_helper.c
- create mode 100644 include/drm/drm_vblank_helper.h
-
+diff --git a/drivers/gpu/drm/drm_vblank_helper.c b/drivers/gpu/drm/drm_vblank_helper.c
+index f94d1e706191..a04a6ba1b0ca 100644
+--- a/drivers/gpu/drm/drm_vblank_helper.c
++++ b/drivers/gpu/drm/drm_vblank_helper.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: MIT
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_modeset_helper_vtables.h>
+@@ -17,6 +18,12 @@
+  * Drivers enable support for vblank timers by setting the vblank callbacks
+  * in struct &drm_crtc_funcs to the helpers provided by this library. The
+  * initializer macro DRM_CRTC_VBLANK_TIMER_FUNCS does this conveniently.
++ * The driver further has to send the VBLANK event from its atomic_flush
++ * callback and control vblank from the CRTC's atomic_enable and atomic_disable
++ * callbacks. The callbacks are located in struct &drm_crtc_helper_funcs.
++ * The vblank helper library provides implementations of these callbacks
++ * for drivers without further requirements. The initializer macro
++ * DRM_CRTC_HELPER_VBLANK_FUNCS sets them coveniently.
+  *
+  * Once the driver enables vblank support with drm_vblank_init(), each
+  * CRTC's vblank timer fires according to the programmed display mode. By
+@@ -25,6 +32,79 @@
+  * struct &drm_crtc_helper_funcs.handle_vblank_timeout.
+  */
+ 
++/*
++ * VBLANK helpers
++ */
++
++/**
++ * drm_crtc_vblank_atomic_flush -
++ *	Implements struct &drm_crtc_helper_funcs.atomic_flush
++ * @crtc: The CRTC
++ * @state: The atomic state to apply
++ *
++ * The helper drm_crtc_vblank_atomic_flush() implements atomic_flush of
++ * struct drm_crtc_helper_funcs for CRTCs that only need to send out a
++ * VBLANK event.
++ *
++ * See also struct &drm_crtc_helper_funcs.atomic_flush.
++ */
++void drm_crtc_vblank_atomic_flush(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state)
++{
++	struct drm_device *dev = crtc->dev;
++	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	struct drm_pending_vblank_event *event;
++
++	spin_lock_irq(&dev->event_lock);
++
++	event = crtc_state->event;
++	crtc_state->event = NULL;
++
++	if (event) {
++		if (drm_crtc_vblank_get(crtc) == 0)
++			drm_crtc_arm_vblank_event(crtc, event);
++		else
++			drm_crtc_send_vblank_event(crtc, event);
++	}
++
++	spin_unlock_irq(&dev->event_lock);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_atomic_flush);
++
++/**
++ * drm_crtc_vblank_atomic_enable - Implements struct &drm_crtc_helper_funcs.atomic_enable
++ * @crtc: The CRTC
++ * @state: The atomic state
++ *
++ * The helper drm_crtc_vblank_atomic_enable() implements atomic_enable
++ * of struct drm_crtc_helper_funcs for CRTCs the only need to enable VBLANKs.
++ *
++ * See also struct &drm_crtc_helper_funcs.atomic_enable.
++ */
++void drm_crtc_vblank_atomic_enable(struct drm_crtc *crtc,
++				   struct drm_atomic_state *state)
++{
++	drm_crtc_vblank_on(crtc);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_atomic_enable);
++
++/**
++ * drm_crtc_vblank_atomic_disable - Implements struct &drm_crtc_helper_funcs.atomic_disable
++ * @crtc: The CRTC
++ * @state: The atomic state
++ *
++ * The helper drm_crtc_vblank_atomic_disable() implements atomic_disable
++ * of struct drm_crtc_helper_funcs for CRTCs the only need to disable VBLANKs.
++ *
++ * See also struct &drm_crtc_funcs.atomic_disable.
++ */
++void drm_crtc_vblank_atomic_disable(struct drm_crtc *crtc,
++				    struct drm_atomic_state *state)
++{
++	drm_crtc_vblank_off(crtc);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_atomic_disable);
++
+ /*
+  * VBLANK timer
+  */
+diff --git a/include/drm/drm_vblank_helper.h b/include/drm/drm_vblank_helper.h
+index 74a971d0cfba..fcd8a9b35846 100644
+--- a/include/drm/drm_vblank_helper.h
++++ b/include/drm/drm_vblank_helper.h
+@@ -6,8 +6,31 @@
+ #include <linux/hrtimer_types.h>
+ #include <linux/types.h>
+ 
++struct drm_atomic_state;
+ struct drm_crtc;
+ 
++/*
++ * VBLANK helpers
++ */
++
++void drm_crtc_vblank_atomic_flush(struct drm_crtc *crtc,
++				  struct drm_atomic_state *state);
++void drm_crtc_vblank_atomic_enable(struct drm_crtc *crtc,
++				   struct drm_atomic_state *state);
++void drm_crtc_vblank_atomic_disable(struct drm_crtc *crtc,
++				    struct drm_atomic_state *crtc_state);
++
++/**
++ * DRM_CRTC_HELPER_VBLANK_FUNCS - Default implementation for VBLANK helpers
++ *
++ * This macro initializes struct &drm_crtc_helper_funcs to default helpers
++ * for VBLANK handling.
++ */
++#define DRM_CRTC_HELPER_VBLANK_FUNCS \
++	.atomic_flush = drm_crtc_vblank_atomic_flush, \
++	.atomic_enable = drm_crtc_vblank_atomic_enable, \
++	.atomic_disable = drm_crtc_vblank_atomic_disable
++
+ /*
+  * VBLANK timer
+  */
 -- 
 2.50.1
 
