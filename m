@@ -1,180 +1,167 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330B8222562;
-	Thu,  4 Sep 2025 02:10:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A8991EB1A4;
+	Thu,  4 Sep 2025 02:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756951836; cv=none; b=ucpDpq1aT+QIrsCVoSSqZqV72TUy99sL7DgdObjHBIZmVAg6lYo8Fp+zJzqm7vtLmTCHtL+rYBLJi7yTwV1AlR6XFJdSkmJ3FSS6WfpGOWVqz/PYph7tLSKqRlMEcKu5F4qtRvWp3V/TskBDlTFdhRx38U1ky8jzw1syXPxe6HU=
+	t=1756952201; cv=none; b=Xg5GxgvqUT1kDRRmycwFt8soKzTEmxMKjQry7Xifj3XDsZbXXxiYahU3lO/Fpc2YrIWQvCfxLMZU8oCG1JEDfDq/t4/Z7aVO/1xuhmc5Xv/A/SaqjPRoIpSSyW+tmLZEkTK3zWoPCATVlQTQ3fuiA3YMnTK8Pdtf/YdhNfSCY9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756951836; c=relaxed/simple;
-	bh=oLLMwzrMLXSLW95vozDwnb0XG7ooiPrzw9LYquS6Jug=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mEzaUaYljimBEj8H5STfasNRkjNCRki6XDs8Hqeg9bHQkDSK//NUdI9I8hxM630iIv6+UYW1Cak9lJQx2ypPV+OlAsfOHoO12ynDv/Ad2ZJ0Suz75haZcxldRaejqdoRPron3eyI73g1Z06X7y5u+kKNz7fXnzbglZIIpWPwNRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Gz8jNN08; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1756952201; c=relaxed/simple;
+	bh=WzRgIr8Nsc96FYUeTDhPpbd74zf/aBMieYBWKFYK56Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RHOhL0M3mio8FsfiDv8f0zk+gkcSWGS/JWXSALvcp2mbK4Ymn0mJdOwK2kPvqPIzsi+5GQZ1qQOzgm+f9WIXYoCqkTyukZPPwoKBmPNTPviA3lDXIkKRPys21E8Z7o6UKXPhYkHAghIUwtHqdASabBSTmlR3P7kXrVZrD9OjiiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=i90ZRoOq; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Gz8jNN08"
-Received: from mrdev.corp.microsoft.com (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 793402119CB4;
-	Wed,  3 Sep 2025 19:10:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 793402119CB4
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="i90ZRoOq"
+Received: from [192.168.0.88] (192-184-212-33.fiber.dynamic.sonic.net [192.184.212.33])
+	by linux.microsoft.com (Postfix) with ESMTPSA id AF272211938F;
+	Wed,  3 Sep 2025 19:16:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AF272211938F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1756951827;
-	bh=I7IIpGsNGiDoW5HHLeajv3vfQX9/aNbIhtpof41eY7E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gz8jNN08/d8Jc/oPO8oRIRzXB3z6WO/HS9UNnL7dQVwaVkGyzn/AvbOLpGtUr1Lsp
-	 vBjY3EntEmYeqmxo2ViVYonG9Hq1DnpuYdBYNFlcN0lBy3tBnpNbMxme1fjaYbOyig
-	 zuPIbVjvN2yEHW+drfbSVqhvqZiWvZnca+OIA2sA=
-From: Mukesh Rathor <mrathor@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Cc: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	arnd@arndb.de
-Subject: [PATCH v0 4/6] x86/hyperv: Add trampoline asm code to transition from hypervisor
-Date: Wed,  3 Sep 2025 19:10:15 -0700
-Message-Id: <20250904021017.1628993-5-mrathor@linux.microsoft.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
-In-Reply-To: <20250904021017.1628993-1-mrathor@linux.microsoft.com>
-References: <20250904021017.1628993-1-mrathor@linux.microsoft.com>
+	s=default; t=1756952198;
+	bh=a4jumFB4PVokJK1dGa5tFvFLYvH7VS3Usw/M76NBjRw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=i90ZRoOq/9PHAR3KCaZxigllW/rJt9761pZoVNcSfG2k0k8yrrQjtXGtzTjhqKYEa
+	 vk3MOSjtKtSM1u/8MB2oA8JfxdfTkQF7vk0FOKgSHEWKbplGhjLGN+714eXuU+OkHP
+	 v0DqC9hBYEPhR1bpYXVDvxoNQqd7OQ09twpOLTno=
+Message-ID: <ff4c58f1-564d-ddfa-bdff-48ffee6e0d72@linux.microsoft.com>
+Date: Wed, 3 Sep 2025 19:16:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH V0 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+Content-Language: en-US
+To: Michael Kelley <mhklinux@outlook.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "virtualization@lists.linux.dev" <virtualization@lists.linux.dev>
+Cc: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "jikos@kernel.org" <jikos@kernel.org>,
+ "bentiss@kernel.org" <bentiss@kernel.org>,
+ "kys@microsoft.com" <kys@microsoft.com>,
+ "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>,
+ "decui@microsoft.com" <decui@microsoft.com>,
+ "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+ "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
+ "James.Bottomley@HansenPartnership.com"
+ <James.Bottomley@HansenPartnership.com>,
+ "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "deller@gmx.de" <deller@gmx.de>, "arnd@arndb.de" <arnd@arndb.de>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>,
+ "horms@kernel.org" <horms@kernel.org>
+References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
+ <SN6PR02MB4157917D84D00DBDAF54BD69D406A@SN6PR02MB4157.namprd02.prod.outlook.com>
+From: Mukesh R <mrathor@linux.microsoft.com>
+In-Reply-To: <SN6PR02MB4157917D84D00DBDAF54BD69D406A@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This commit introduces a small asm stub to transition from the hypervisor
-to linux upon devirtualization. At a high level, during panic of either
-the hypervisor or the dom0 (aka root), the nmi handler asks hypervisor
-to devirtualize. As part of that, the arguments include the entry point
-to return to linux. This asm stub implements the entry point.
+On 9/2/25 07:42, Michael Kelley wrote:
+> From: Mukesh Rathor <mrathor@linux.microsoft.com> Sent: Wednesday, August 27, 2025 6:00 PM
+>>
+>> At present, drivers/Makefile will subst =m to =y for CONFIG_HYPERV for hv
+>> subdir. Also, drivers/hv/Makefile replaces =m to =y to build in
+>> hv_common.c that is needed for the drivers. Moreover, vmbus driver is
+>> built if CONFIG_HYPER is set, either loadable or builtin.
+>>
+>> This is not a good approach. CONFIG_HYPERV is really an umbrella config that
+>> encompasses builtin code and various other things and not a dedicated config
+>> option for VMBUS. Vmbus should really have a config option just like
+>> CONFIG_HYPERV_BALLOON etc. This small series introduces CONFIG_HYPERV_VMBUS
+>> to build VMBUS driver and make that distinction explicit. With that
+>> CONFIG_HYPERV could be changed to bool.
+> 
+> Separating the core hypervisor support (CONFIG_HYPERV) from the VMBus
+> support (CONFIG_HYPERV_VMBUS) makes sense to me. Overall the code
+> is already mostly in separate source files code, though there's some
+> entanglement in the handling of VMBus interrupts, which could be
+> improved later.
+> 
+> However, I have a compatibility concern. Consider this scenario:
+> 
+> 1) Assume running in a Hyper-V VM with a current Linux kernel version
+>     built with CONFIG_HYPERV=m.
+> 2) Grab a new version of kernel source code that contains this patch set.
+> 3) Run 'make olddefconfig' to create the .config file for the new kernel.
+> 4) Build the new kernel. This succeeds.
+> 5) Install and run the new kernel in the Hyper-V VM. This fails.
+> 
+> The failure occurs because CONFIG_HYPERV=m is no longer legal,
+> so the .config file created in Step 3 has CONFIG_HYPERV=n. The
+> newly built kernel has no Hyper-V support and won't run in a
+> Hyper-V VM.
+> 
+> As a second issue, if in Step 1 the current kernel was built with
+> CONFIG_HYPERV=y, then the .config file for the new kernel will have
+> CONFIG_HYPERV=y, which is better. But CONFIG_HYPERV_VMBUS
+> defaults to 'n', so the new kernel doesn't have any VMBus drivers
+> and won't run in a typical Hyper-V VM.
+> 
+> The second issue could be fixed by assigning CONFIG_HYPERV_VMBUS
+> a default value, such as whatever CONFIG_HYPERV is set to. But
+> I'm not sure how to fix the first issue, except by continuing to
+> allow CONFIG_HYPERV=m. 
 
-The stub is entered in protected mode, uses temporary gdt and page table
-to enable long mode and get to kernel entry point to restore full kernel
-context to resume execution to kexec.
+To certain extent, imo, users are expected to check config files
+for changes when moving to new versions/releases, so it would be a 
+one time burden. CONFIG_HYPERV=m is just broken imo as one sees that
+in .config but magically symbols in drivers/hv are in kerenel.
 
-Signed-off-by: Mukesh Rathor <mrathor@linux.microsoft.com>
----
- arch/x86/hyperv/hv_trampoline.S | 99 +++++++++++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
- create mode 100644 arch/x86/hyperv/hv_trampoline.S
+Thanks,
+-Mukesh
 
-diff --git a/arch/x86/hyperv/hv_trampoline.S b/arch/x86/hyperv/hv_trampoline.S
-new file mode 100644
-index 000000000000..307663c8891e
---- /dev/null
-+++ b/arch/x86/hyperv/hv_trampoline.S
-@@ -0,0 +1,99 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * X86 specific Hyper-V kdump/crash related code.
-+ *
-+ * Copyright (C) 2025, Microsoft, Inc.
-+ *
-+ */
-+#include <linux/linkage.h>
-+#include <asm/alternative.h>
-+#include <asm/msr.h>
-+#include <asm/processor-flags.h>
-+#include <asm/nospec-branch.h>
-+
-+/*
-+ * void noreturn hv_crash_asm32(arg1)
-+ *    arg1 == edi == 32bit PA of struct hv_crash_trdata
-+ *
-+ * The hypervisor jumps here upon devirtualization in protected mode. This
-+ * code gets copied to a page in the low 4G ie, 32bit space so it can run
-+ * in the protected mode. Hence we cannot use any compile/link time offsets or
-+ * addresses. It restores long mode via temporary gdt and page tables and
-+ * eventually jumps to kernel code entry at HV_CRASHDATA_OFFS_C_entry.
-+ *
-+ * PreCondition (ie, Hypervisor call back ABI):
-+ *  o CR0 is set to 0x0021: PE(prot mode) and NE are set, paging is disabled
-+ *  o CR4 is set to 0x0
-+ *  o IA32_EFER is set to 0x901 (SCE and NXE are set)
-+ *  o EDI is set to the Arg passed to HVCALL_DISABLE_HYP_EX.
-+ *  o CS, DS, ES, FS, GS are all initialized with a base of 0 and limit 0xFFFF
-+ *  o IDTR, TR and GDTR are initialized with a base of 0 and limit of 0xFFFF
-+ *  o LDTR is initialized as invalid (limit of 0)
-+ *  o MSR PAT is power on default.
-+ *  o Other state/registers are cleared. All TLBs flushed.
-+ *
-+ * See Intel SDM 10.8.5
-+ */
-+
-+#define HV_CRASHDATA_OFFS_TRAMPCR3    0x0    /*	 0 */
-+#define HV_CRASHDATA_OFFS_KERNCR3     0x8    /*	 8 */
-+#define HV_CRASHDATA_OFFS_GDTRLIMIT  0x12    /* 18 */
-+#define HV_CRASHDATA_OFFS_CS_JMPTGT  0x28    /* 40 */
-+#define HV_CRASHDATA_OFFS_C_entry    0x30    /* 48 */
-+#define HV_CRASHDATA_TRAMPOLINE_CS    0x8
-+
-+	.text
-+	.code32
-+
-+SYM_CODE_START(hv_crash_asm32)
-+	movl	$X86_CR4_PAE, %ecx
-+	movl	%ecx, %cr4
-+
-+	movl %edi, %ebx
-+	add $HV_CRASHDATA_OFFS_TRAMPCR3, %ebx
-+	movl %cs:(%ebx), %eax
-+	movl %eax, %cr3
-+
-+	# Setup EFER for long mode now.
-+	movl	$MSR_EFER, %ecx
-+	rdmsr
-+	btsl	$_EFER_LME, %eax
-+	wrmsr
-+
-+	# Turn paging on using the temp 32bit trampoline page table.
-+	movl %cr0, %eax
-+	orl $(X86_CR0_PG), %eax
-+	movl %eax, %cr0
-+
-+	/* since kernel cr3 could be above 4G, we need to be in the long mode
-+	 * before we can load 64bits of the kernel cr3. We use a temp gdt for
-+	 * that with CS.L=1 and CS.D=0 */
-+	mov %edi, %eax
-+	add $HV_CRASHDATA_OFFS_GDTRLIMIT, %eax
-+	lgdtl %cs:(%eax)
-+
-+	/* not done yet, restore CS now to switch to CS.L=1 */
-+	mov %edi, %eax
-+	add $HV_CRASHDATA_OFFS_CS_JMPTGT, %eax
-+	ljmp %cs:*(%eax)
-+
-+	/* we now run in full 64bit IA32-e long mode, CS.L=1 and CS.D=0 */
-+	.code64
-+	.balign 8
-+SYM_INNER_LABEL(hv_crash_asm64_lbl, SYM_L_GLOBAL)
-+	/* restore kernel page tables so we can jump to kernel code */
-+	mov %edi, %eax
-+	add $HV_CRASHDATA_OFFS_KERNCR3, %eax
-+	movq %cs:(%eax), %rbx
-+	movq %rbx, %cr3
-+
-+	mov %edi, %eax
-+	add $HV_CRASHDATA_OFFS_C_entry, %eax
-+	movq %cs:(%eax), %rbx
-+	ANNOTATE_RETPOLINE_SAFE
-+	jmp *%rbx
-+
-+	int $3
-+
-+SYM_INNER_LABEL(hv_crash_asm32_end, SYM_L_GLOBAL)
-+SYM_CODE_END(hv_crash_asm32)
--- 
-2.36.1.vfs.0.0
+
+> See additional minor comments in Patches 1 and 2.
+> 
+> Michael
+> 
+>>
+>> For now, hv_common.c is left as is to reduce conflicts for upcoming patches,
+>> but once merges are mostly done, that and some others should be moved to
+>> virt/hyperv directory.
+>>
+>> Mukesh Rathor (2):
+>>   hyper-v: Add CONFIG_HYPERV_VMBUS option
+>>   hyper-v: Make CONFIG_HYPERV bool
+>>
+>>  drivers/Makefile               |  2 +-
+>>  drivers/gpu/drm/Kconfig        |  2 +-
+>>  drivers/hid/Kconfig            |  2 +-
+>>  drivers/hv/Kconfig             | 14 ++++++++++----
+>>  drivers/hv/Makefile            |  4 ++--
+>>  drivers/input/serio/Kconfig    |  4 ++--
+>>  drivers/net/hyperv/Kconfig     |  2 +-
+>>  drivers/pci/Kconfig            |  2 +-
+>>  drivers/scsi/Kconfig           |  2 +-
+>>  drivers/uio/Kconfig            |  2 +-
+>>  drivers/video/fbdev/Kconfig    |  2 +-
+>>  include/asm-generic/mshyperv.h |  8 +++++---
+>>  net/vmw_vsock/Kconfig          |  2 +-
+>>  13 files changed, 28 insertions(+), 20 deletions(-)
+>>
+>> --
+>> 2.36.1.vfs.0.0
+>>
 
