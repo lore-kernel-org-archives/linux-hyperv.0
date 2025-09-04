@@ -1,299 +1,244 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10olkn2017.outbound.protection.outlook.com [40.92.41.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E721339B1
-	for <linux-hyperv@vger.kernel.org>; Thu,  4 Sep 2025 15:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756998085; cv=none; b=A8Vg3n+Ks1rmJmePM68tievX4owDK3XSgF4O1VeR6hUrACmGnZtqJG+6vvaxeXt5Aryp9t2mcSKg+8k3EJOiIUNRJIlZU/gCrqgqf3ESWMnwMUOGTaxNT0igZsCMqPQSpAGgYp8bzNv+U+W+cLRUlw49Z08S4tUbnnbDWGBmZIo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756998085; c=relaxed/simple;
-	bh=YBITMrT9XfEv/0++DAlsV9a8Rtx02hLh5N9gAbRmZvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZzC+3/mwLmTQpXYtB3awUT+OCfQrRQNuAaqHmE5gRiB1E5tscYFfxSdWECPayG0yYJhxDWMQH/XJu2fl5LBSKUHw+K68oVPoc5vR4Ug6U75VPW5RvfHmkmBk5wx7pg1gUGS7cc/153jK6rUTu9sBwBPVBYr/2f+kXvOLnDd7AK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XXVL22nZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W6Rj4ot0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RkqIUYuw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O9JT50yR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D8A23278D;
+	Thu,  4 Sep 2025 16:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.41.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757003227; cv=fail; b=ZCQZPlkOepGooOww0+MT/oCLolIsg2i9KjS30JKUKJVxLVt/LmVqrxnKaq03+fFXgm+yYY/V85QgR4aGTyTx4J1GqmXRjQWU+9Si1LajnmvXFrX8+MWV9uIasHTsXmLCZHX8cSINC96/ERBdtOrKAW0pSOFZbKQ3A/kLHZuOAOQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757003227; c=relaxed/simple;
+	bh=+0L3JpoX3zzHAZ6OVWwTNziUegN88CqQZOcSK9StIM8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=RyEUwbwjOYb1Z0N4RBf349dO8GS/jImsXDuQ94mmXgHk89Hl8YDNtN2C8f0blC+8o7VbifGRYCbMUpdnQdk4lbwZlW04pEDWkr8C3WBinsQGeJVavK9VIjCBfJFkhp4pQQFm1T3zL2StORP8DFN0EeRG4Eu8DWQdGoeO16FbWh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=lnq7SL95; arc=fail smtp.client-ip=40.92.41.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XXVL22nZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W6Rj4ot0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RkqIUYuw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O9JT50yR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BA8F3742E;
-	Thu,  4 Sep 2025 15:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756998059; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8tGLwM7MCNpxU9fEOmfo6YSHlTd3zTsYI1iLjEUNh6o=;
-	b=XXVL22nZaVFJ2p19bMWTLqXP4c+wGtPyv5EPg2iNiEc3Lxq7Xr3rQvKdqGipq2lyeDS9H4
-	iKY3S9sVOzKubmWM7kE5l3A80jsFINls52j2zgETASVYKfOIyDK7MrZftS9B2vgjTMJg2R
-	5HVgMa3ADv3eOVoMOc75ixdbthINeI4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756998059;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8tGLwM7MCNpxU9fEOmfo6YSHlTd3zTsYI1iLjEUNh6o=;
-	b=W6Rj4ot03YC6A3ukFJ8bv5zI90fq7breGyNpD5sfNPjHnR6E7/+xDDUa/fNhk4P4zn52S/
-	nKQA6XHj/a1qwPCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1756998054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8tGLwM7MCNpxU9fEOmfo6YSHlTd3zTsYI1iLjEUNh6o=;
-	b=RkqIUYuwl4LXTsHo11QTSD9T5TRYXpI8UUoxCypWOLNhxqft3TmSZQeAFcOfMKl2M2Wa8m
-	Jo+F/qaj1AHWcA8ybHN5yqdatz62B/B5RonjeYZzx9/Z/VdvkSe81IFwo3L/uGcBkEW8uQ
-	FUd4huy47L9Aw8+cw+QCd6cllIrpYVw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1756998054;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8tGLwM7MCNpxU9fEOmfo6YSHlTd3zTsYI1iLjEUNh6o=;
-	b=O9JT50yRTxwi/Cofu0YUB6bf3e5T0OQDynIzvbVMFlgpe08nJlrzL0k/0Wgq3ljoigI3bn
-	zj9862dEcOjRUfCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A70EC13ACB;
-	Thu,  4 Sep 2025 15:00:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +LtgJ6WpuWgcBAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Thu, 04 Sep 2025 15:00:53 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: louis.chauvet@bootlin.com,
-	drawat.floss@gmail.com,
-	hamohammed.sa@gmail.com,
-	melissa.srw@gmail.com,
-	mhklinux@outlook.com,
-	simona@ffwll.ch,
-	airlied@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	ville.syrjala@linux.intel.com,
-	lyude@redhat.com,
-	javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	linux-hyperv@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 3/4] drm/vkms: Convert to DRM's vblank timer
-Date: Thu,  4 Sep 2025 16:56:24 +0200
-Message-ID: <20250904145806.430568-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250904145806.430568-1-tzimmermann@suse.de>
-References: <20250904145806.430568-1-tzimmermann@suse.de>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="lnq7SL95"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Qltr8uj+wqKMcbB2awVPXSHfTMh3ONWUkdycIveZbgG6x0cDhdF35YruXf9WoplZI2XVDnY5ckqnU8hwZH/Ur1LvTqSdR3VjcleYHUwVOJeSRZZoU62MNotShCe6fLag0Ldrfnb6csiseFQUgvI+GdofOMmiI/76VJHB0x9Z08Js5Mw7kyBlXGPz7lrFZcIjpGb6cxyQlaVtSS5nFhlRBjweCNdehel84VcNIYiXgoPrphOlA7noBareNbX+107k1tYXvIdX/T17tzqWive0NFEfJj6Lr4/uXTKCEAKsk84Qtmq+A2ssDdsmrMn2TnxU9lmMmGroMZwsINoOZPzYMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+0L3JpoX3zzHAZ6OVWwTNziUegN88CqQZOcSK9StIM8=;
+ b=hozq0CMe+34JyD/E3/tMjJ6zWZZAQTNTDNGPdOY6lzJ6kmxJl8s6UPlePldYm/jlFqmIWuTeZ/5wTCqdnI09ZIoF8qFQ5TfGD6YNPlGmLEU5UWRrLM3IJ/6N5FTjBdBWO8VNpzaC+XMET/mguPLCvancLupeg9dBxm+MK80AGn1wCjQQ1qWfaJtgCidQVAeFndjU2lQmq1tImGElehDGu6gxkdjzJQXxeejA0o8pOn3uNI/XlpH3kuJ5Zfl4M4WaSPKuhFyjHMaVEBQok0HjXYmZmbfJ814VT0FDtOLdWqjSODEzPFhjxoNh5ozD5AlAZ0dXAh9zQidgg6u7L9Oqdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+0L3JpoX3zzHAZ6OVWwTNziUegN88CqQZOcSK9StIM8=;
+ b=lnq7SL95EZhtlZfMaGQ9l/BR6sTWMmTO1e+yZALQ0czPZEPaGV3VVT4C113b4a8W6hwzkV9xH/gSM/9WcJoGrAUCY56Bni7DnVNuDX6UJzHfKB/Ay7kARn6cp5vvV8IlD64Ol0UdbG66dwBL599XjnxOe1tRsqVNUHFdKkIwzxxDZK6tMxqSsTXJWaYZ3jEg1ah8aGmEzTc3fE6LmpYdlZpcTvZU1k/SBZeIRG8M20krDnCrOdJ7xYSKXBk+Z33726BPoqvTMjKt7VTIy8SfZBs0oAYIHYyUHL4/VqWE6PMSS526pCng6RdOkcUcemmXyKz8Eu8iPAY9PC+/Toe6nw==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by PH0PR02MB9306.namprd02.prod.outlook.com (2603:10b6:510:287::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.18; Thu, 4 Sep
+ 2025 16:26:59 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.9052.027; Thu, 4 Sep 2025
+ 16:26:59 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Mukesh R <mrathor@linux.microsoft.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "linux-fbdev@vger.kernel.org"
+	<linux-fbdev@vger.kernel.org>, "linux-arch@vger.kernel.org"
+	<linux-arch@vger.kernel.org>, "virtualization@lists.linux.dev"
+	<virtualization@lists.linux.dev>
+CC: "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+	<tzimmermann@suse.de>, "airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>, "jikos@kernel.org" <jikos@kernel.org>,
+	"bentiss@kernel.org" <bentiss@kernel.org>, "kys@microsoft.com"
+	<kys@microsoft.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
+	<decui@microsoft.com>, "dmitry.torokhov@gmail.com"
+	<dmitry.torokhov@gmail.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "bhelgaas@google.com"
+	<bhelgaas@google.com>, "James.Bottomley@HansenPartnership.com"
+	<James.Bottomley@HansenPartnership.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "deller@gmx.de" <deller@gmx.de>,
+	"arnd@arndb.de" <arnd@arndb.de>, "sgarzare@redhat.com" <sgarzare@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>
+Subject: RE: [PATCH V0 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+Thread-Topic: [PATCH V0 0/2] Fix CONFIG_HYPERV and vmbus related anamoly
+Thread-Index: AQHcF7c4ZH9DwegJF0iLCVnaUNUDXbR7UfGggAcCgoCAAOY3YA==
+Date: Thu, 4 Sep 2025 16:26:59 +0000
+Message-ID:
+ <SN6PR02MB41573C5451F21286667C5441D400A@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20250828005952.884343-1-mrathor@linux.microsoft.com>
+ <SN6PR02MB4157917D84D00DBDAF54BD69D406A@SN6PR02MB4157.namprd02.prod.outlook.com>
+ <ff4c58f1-564d-ddfa-bdff-48ffee6e0d72@linux.microsoft.com>
+In-Reply-To: <ff4c58f1-564d-ddfa-bdff-48ffee6e0d72@linux.microsoft.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|PH0PR02MB9306:EE_
+x-ms-office365-filtering-correlation-id: 7003f448-682c-490c-1fa0-08ddebcfdf7c
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|31061999003|461199028|13091999003|15080799012|8062599012|8060799015|19110799012|40105399003|3412199025|440099028|102099032|56899033;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?K1p1cXdla2JqdkQ3ZXg3Z1BZdTdxZ2ZvOG9DdkF5ajBnMTBYZlhjZW8rZzcy?=
+ =?utf-8?B?bFVrdUZIRFN2VWlqVk9RcGZmZ3pzdmp5ZGJuSzI4dkZOYVFXT0U0N0lXV0hN?=
+ =?utf-8?B?c0ZEWUZCYXhMekZnNXJoTy9BSTFLY1lYaFZjSDJ0Ri9RTi93d2QrOUp4QjZy?=
+ =?utf-8?B?RXF3aVNqNFhLQTAwa2ZaQk0wOWhjZDFWK080UWljbzhBTzV5TFlQUVhYd1Vq?=
+ =?utf-8?B?eGZPbTJsZjQvb292U1lUbjJ0NWJKVkFXVnhhUjNrRWU2d3QxbFRFa2VDbVVx?=
+ =?utf-8?B?Zm1RMW9CM2ZLS2dabFhPQVdXNk1TN2hSb2xXdk8vc2JVTERobFc0WDJmSWJU?=
+ =?utf-8?B?NHl5V0lQWUZRcGd1VVRqcWk0a3ljb1N0VFE1RkZPdlNWSjdDeXRyV25BZ0Ny?=
+ =?utf-8?B?NGVWZTExd1drUmh6N20zM25vaGZzQlROK2R2RlM0N3RRUml5VTVlOWNHT3hY?=
+ =?utf-8?B?cXlsc0cxOG5ORG1Kdko2OHRNTXkyUm85bjVqMzNxcDc2NU5wQnlDQlNmN09z?=
+ =?utf-8?B?cDExYmhKR0xiU2JjcUFEbStPUEh2OE5xV0JyYjE5Y1R2NnpKd1dPNXNGN2RN?=
+ =?utf-8?B?T2toQ2J6eFdDNzlVUGZwRlE3cmg2WWdNZ1ZKYi85U0lvQ0tUYmZhU2lXWTdy?=
+ =?utf-8?B?Vk5LQk5XYm1QL3A5Wis2K3Z1Y3FUcjJxQzJBQmZrWlZ1ZTZ6YUw0RlYxTWRB?=
+ =?utf-8?B?aGR4MWQ5UnhDZVIzOU9pbWduLzkvWlNuRzRzM1BYRndqRW1CWXBXSVVRdHU1?=
+ =?utf-8?B?c2ozRE44ajRFWHlaMFNzYnhlUW5oTklOWEo4cElWRllScVNheHorQjZUQVFr?=
+ =?utf-8?B?QkFreVZCNU5uK1puOUtkVm5EUUZMR2t3aVRZR0Z6am5XWjc2d3pFbXlpSHZM?=
+ =?utf-8?B?b1hWLzNKSFR1dU1tdWpnZERKd3VHYmM3ZmJtclYvc0F4RUU5NWVEUVRuRmxw?=
+ =?utf-8?B?WUt1RkV6YnQzR3dOSWxxR05GTjczYWl2aGh3MG1BcGU1RjhDQ1JnNy9abDFC?=
+ =?utf-8?B?cm5BRmUrSjZsWmlralhyVFo5S3lwdW93MFoyaTBjMG9qWnA0MFlrSUdNd3lq?=
+ =?utf-8?B?eDRKWEdKbTF5UEhPcWZoVkFqMVltd3NNemd3ZDlnS2cvNUVBR0VuSkFORXN3?=
+ =?utf-8?B?anVEWkx6elA3cnNWWDNiZUxWaWs3RUVnMW1RMm5pNTVnYS84bjNFSkJ2WHNO?=
+ =?utf-8?B?UEV1Mm5WZW9GSGxrcmRsMmhVNzI0V2xaeUtwK0plMHpOZUtuRWx2V2IyQXhG?=
+ =?utf-8?B?WE1EQXh1VEhUZ3puZUNlc2tBU3B2d0VYWHp6blJMd3RZL0FwSGt5VzhNNVBM?=
+ =?utf-8?B?cHREOVhtMVNQaGhZLys2RDlORWlLREJkNnA4ZEFXaXZTd2toem9KN2c5OGVI?=
+ =?utf-8?B?d1JlSXY0VDBGRGF1MjN0VVQwYTJqcVhJcFFKaTlOb0QxS0I4QVJoSXEwR21N?=
+ =?utf-8?B?MUxhMmd5aDNTVDIxR1c2cE12dnZybkI2eXJjeVdjSjR6ZkM5cmtmZnlSaTFN?=
+ =?utf-8?B?THEwUnJJWlNjdXMwcnd4NklUYWJ6ZDhOMzhwQTB6MTFKM2psWHo3d1hyOUpk?=
+ =?utf-8?Q?aDHqpcRr8Ug2Fj5ja+dPbhmbE=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?WjM4ZGR6ZTdMM2hMR2VEV1BiKzRVR2wvR0RCTlRQWU5JSWg4K3gySU1tY2x5?=
+ =?utf-8?B?T29HQmJzQ2RkcitVV1AwaWpmODc0SjliSldON0d0QXNBK2JacndoeW1kSTQw?=
+ =?utf-8?B?QVFkQ1JMcXpNYjhoYmxucldGM2hoK3FZUnFoOU9ERVJkR3orSGxPNmNEMjZT?=
+ =?utf-8?B?di8zdWRiaStoSHcvZ3lFQUlLV3ZqQlpyY2RFdFgveEtZeit6ZzArb3c1dkc3?=
+ =?utf-8?B?OGF2RDJVNmhpYWVJTmhKbTBMa2dkRldDMGxXUUoyaDZSZEpzTjRJd3dNcWhI?=
+ =?utf-8?B?QnpyNDZhdlZ0dWxzUXF5aURqUHBCZGNSbXM1Z2Y1WVBraVI4Ykl1S1pJV0pi?=
+ =?utf-8?B?S0hqV0JjQ3BUb1R4R3FNSW1ybmxtbGNaUTNabEcxb0NwM3lvUThvdFM1ZmRo?=
+ =?utf-8?B?NEQxSUt2MDVTWDI5WURtV3hMV2tLRDBZZ2VxbUJia3dURjBqa1phSzhYY3Iy?=
+ =?utf-8?B?RGtYeUJpMU5kd0lncE5KakhmdnlWQmVjMDNGY3JZNDNMQWsxTmR3eDRqbzJl?=
+ =?utf-8?B?VUpoSXFOeUM2STJISUJDUDdPREpFUGFzRE01dWJCMlE2VnplT3BMNUJNcEZG?=
+ =?utf-8?B?azA3YlZaVjFFSmVYbWtHTnB2QlVjVWVONzkyQ3dLZ3RBUUt5eHZLaWt2QWtB?=
+ =?utf-8?B?WXdtTkRVakdTcUVQTDl3S3pvMUs5cEN6NzZoNmRnUFpYKzB0eHJISXQvRTVS?=
+ =?utf-8?B?REZRZU5hdkJuT0ZJK0h6cXRwTkZQOEVqZXRSVmJMUXowQUdrVDhBZGVjQVBx?=
+ =?utf-8?B?UVVLTkZQQnh6elFCbkRyWXRJR0ZhZGpBNThwTmc0WXc2bzlJNzJ2Y3NpOU5S?=
+ =?utf-8?B?RGk4VXI0ejRvZVNIcmUxTnJZRnN6UXhoQWFudmU2eFM5L1Y4L3FPTnZWL2Ny?=
+ =?utf-8?B?S28xNm5pdkZmYjM4S3o3bk1oYjBia1pHcWlZN243ektENVlxcDBKeUczNEth?=
+ =?utf-8?B?aFpIcWF6VjFTM0F1T1RNV3VCL2dRcGhUOWVLbk1nWk1tVlcwK2VwSkdzRTQ4?=
+ =?utf-8?B?NGxTY05VLzVQanVFRXdiZEFsakpsL1lDUHRtbCthRUc1SUN5T0ZyTkRwNEht?=
+ =?utf-8?B?MEZ6UytYR053QjJDMkpSQS9qMXc3Z0pWQTcrM3NJWTBEdUo3WG9RSFZ1S3hX?=
+ =?utf-8?B?WStTTlZ3QTk2R29BTDdxcXZxeEZYRkYrR0UxejZSKzQyUXFuVEUwUFdCZEhR?=
+ =?utf-8?B?VTMvS0Y1VFJnNGFBNFh4TEl1ZkM0eGNHVDVKZVNmenpMamF2c1IvTms4dTBI?=
+ =?utf-8?B?L09LR28rN0tjVVY3UDlhN0tGZWJkaXUvQldsQTMwRCtTam1hdU9TakhKQ09Q?=
+ =?utf-8?B?QWlYSm1hNU5jcTRtdXZYV1UxSVMyYUhFMlN3Z0pZNEt3UlFwQS9TaHp3TStQ?=
+ =?utf-8?B?STlOWnNwT3VScU83ZG9Nc2NCTmcxaStpSE1uMzUxZXoyazdWcFdSZ0IySzNR?=
+ =?utf-8?B?NDI5YWFRRkQyb3ZWV0JIdTRxMjBsSUdhcVI4T01nZzdCMWFsMXMrSldIT2RX?=
+ =?utf-8?B?RTViTE0welEvN2Q2NnhKTW1VRUZNMlU1NFhZR285QWliQWF1UjJGS0lrVHQ3?=
+ =?utf-8?B?N3BKMWthQ1d2VlgzRnZNY1NaY1ljeUxONWpuSHhhRURGVXFmdUxoR1I5bXFv?=
+ =?utf-8?Q?56sK2RyqJj9dJn/FE5hEnx+yiEAY85AdUebJRJYgKl3E=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[bootlin.com,gmail.com,outlook.com,ffwll.ch,linux.intel.com,redhat.com];
-	RSPAMD_URIBL_FAIL(0.00)[bootlin.com:query timed out];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[tzimmermann.suse.de:query timed out,louis.chauvet.bootlin.com:query timed out];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLgb6padn6wcu17bxtda1k7h6p)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7003f448-682c-490c-1fa0-08ddebcfdf7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2025 16:26:59.6389
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB9306
 
-Replace vkms' vblank timer with the DRM implementation. The DRM
-code is identical in concept, but differs in implementation.
-
-Vblank timers are covered in vblank helpers and initializer macros,
-so remove the corresponding hrtimer in struct vkms_output. The
-vblank timer calls vkms' custom timeout code via handle_vblank_timeout
-in struct drm_crtc_helper_funcs.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/vkms/vkms_crtc.c | 83 +++-----------------------------
- drivers/gpu/drm/vkms/vkms_drv.h  |  2 -
- 2 files changed, 7 insertions(+), 78 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index e60573e0f3e9..bd79f24686dc 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -7,25 +7,18 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_vblank_helper.h>
- 
- #include "vkms_drv.h"
- 
--static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
-+static bool vkms_crtc_handle_vblank_timeout(struct drm_crtc *crtc)
- {
--	struct vkms_output *output = container_of(timer, struct vkms_output,
--						  vblank_hrtimer);
--	struct drm_crtc *crtc = &output->crtc;
-+	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
- 	struct vkms_crtc_state *state;
--	u64 ret_overrun;
- 	bool ret, fence_cookie;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
--	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
--					  output->period_ns);
--	if (ret_overrun != 1)
--		pr_warn("%s: vblank timer overrun\n", __func__);
--
- 	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
-@@ -57,55 +50,6 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 
- 	dma_fence_end_signalling(fence_cookie);
- 
--	return HRTIMER_RESTART;
--}
--
--static int vkms_enable_vblank(struct drm_crtc *crtc)
--{
--	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--
--	hrtimer_setup(&out->vblank_hrtimer, &vkms_vblank_simulate, CLOCK_MONOTONIC,
--		      HRTIMER_MODE_REL);
--	out->period_ns = ktime_set(0, vblank->framedur_ns);
--	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
--
--	return 0;
--}
--
--static void vkms_disable_vblank(struct drm_crtc *crtc)
--{
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--
--	hrtimer_cancel(&out->vblank_hrtimer);
--}
--
--static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
--				      int *max_error, ktime_t *vblank_time,
--				      bool in_vblank_irq)
--{
--	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
--	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
--
--	if (!READ_ONCE(vblank->enabled)) {
--		*vblank_time = ktime_get();
--		return true;
--	}
--
--	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
--
--	if (WARN_ON(*vblank_time == vblank->time))
--		return true;
--
--	/*
--	 * To prevent races we roll the hrtimer forward before we do any
--	 * interrupt processing - this is how real hw works (the interrupt is
--	 * only generated after all the vblank registers are updated) and what
--	 * the vblank core expects. Therefore we need to always correct the
--	 * timestampe by one frame.
--	 */
--	*vblank_time -= output->period_ns;
--
- 	return true;
- }
- 
-@@ -159,9 +103,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
- 	.reset                  = vkms_atomic_crtc_reset,
- 	.atomic_duplicate_state = vkms_atomic_crtc_duplicate_state,
- 	.atomic_destroy_state   = vkms_atomic_crtc_destroy_state,
--	.enable_vblank		= vkms_enable_vblank,
--	.disable_vblank		= vkms_disable_vblank,
--	.get_vblank_timestamp	= vkms_get_vblank_timestamp,
-+	DRM_CRTC_VBLANK_TIMER_FUNCS,
- 	.get_crc_sources	= vkms_get_crc_sources,
- 	.set_crc_source		= vkms_set_crc_source,
- 	.verify_crc_source	= vkms_verify_crc_source,
-@@ -213,18 +155,6 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 	return 0;
- }
- 
--static void vkms_crtc_atomic_enable(struct drm_crtc *crtc,
--				    struct drm_atomic_state *state)
--{
--	drm_crtc_vblank_on(crtc);
--}
--
--static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
--				     struct drm_atomic_state *state)
--{
--	drm_crtc_vblank_off(crtc);
--}
--
- static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- 	__acquires(&vkms_output->lock)
-@@ -265,8 +195,9 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_check	= vkms_crtc_atomic_check,
- 	.atomic_begin	= vkms_crtc_atomic_begin,
- 	.atomic_flush	= vkms_crtc_atomic_flush,
--	.atomic_enable	= vkms_crtc_atomic_enable,
--	.atomic_disable	= vkms_crtc_atomic_disable,
-+	.atomic_enable	= drm_crtc_vblank_atomic_enable,
-+	.atomic_disable	= drm_crtc_vblank_atomic_disable,
-+	.handle_vblank_timeout = vkms_crtc_handle_vblank_timeout,
- };
- 
- struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *primary,
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 8013c31efe3b..fb9711e1c6fb 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -215,8 +215,6 @@ struct vkms_output {
- 	struct drm_crtc crtc;
- 	struct drm_writeback_connector wb_connector;
- 	struct drm_encoder wb_encoder;
--	struct hrtimer vblank_hrtimer;
--	ktime_t period_ns;
- 	struct workqueue_struct *composer_workq;
- 	spinlock_t lock;
- 
--- 
-2.50.1
-
+RnJvbTogTXVrZXNoIFIgPG1yYXRob3JAbGludXgubWljcm9zb2Z0LmNvbT4gU2VudDogV2VkbmVz
+ZGF5LCBTZXB0ZW1iZXIgMywgMjAyNSA3OjE3IFBNDQo+IA0KPiBPbiA5LzIvMjUgMDc6NDIsIE1p
+Y2hhZWwgS2VsbGV5IHdyb3RlOg0KPiA+IEZyb206IE11a2VzaCBSYXRob3IgPG1yYXRob3JAbGlu
+dXgubWljcm9zb2Z0LmNvbT4gU2VudDogV2VkbmVzZGF5LCBBdWd1c3QgMjcsIDIwMjUgNjowMCBQ
+TQ0KPiA+Pg0KPiA+PiBBdCBwcmVzZW50LCBkcml2ZXJzL01ha2VmaWxlIHdpbGwgc3Vic3QgPW0g
+dG8gPXkgZm9yIENPTkZJR19IWVBFUlYgZm9yIGh2DQo+ID4+IHN1YmRpci4gQWxzbywgZHJpdmVy
+cy9odi9NYWtlZmlsZSByZXBsYWNlcyA9bSB0byA9eSB0byBidWlsZCBpbg0KPiA+PiBodl9jb21t
+b24uYyB0aGF0IGlzIG5lZWRlZCBmb3IgdGhlIGRyaXZlcnMuIE1vcmVvdmVyLCB2bWJ1cyBkcml2
+ZXIgaXMNCj4gPj4gYnVpbHQgaWYgQ09ORklHX0hZUEVSIGlzIHNldCwgZWl0aGVyIGxvYWRhYmxl
+IG9yIGJ1aWx0aW4uDQo+ID4+DQo+ID4+IFRoaXMgaXMgbm90IGEgZ29vZCBhcHByb2FjaC4gQ09O
+RklHX0hZUEVSViBpcyByZWFsbHkgYW4gdW1icmVsbGEgY29uZmlnIHRoYXQNCj4gPj4gZW5jb21w
+YXNzZXMgYnVpbHRpbiBjb2RlIGFuZCB2YXJpb3VzIG90aGVyIHRoaW5ncyBhbmQgbm90IGEgZGVk
+aWNhdGVkIGNvbmZpZw0KPiA+PiBvcHRpb24gZm9yIFZNQlVTLiBWbWJ1cyBzaG91bGQgcmVhbGx5
+IGhhdmUgYSBjb25maWcgb3B0aW9uIGp1c3QgbGlrZQ0KPiA+PiBDT05GSUdfSFlQRVJWX0JBTExP
+T04gZXRjLiBUaGlzIHNtYWxsIHNlcmllcyBpbnRyb2R1Y2VzIENPTkZJR19IWVBFUlZfVk1CVVMN
+Cj4gPj4gdG8gYnVpbGQgVk1CVVMgZHJpdmVyIGFuZCBtYWtlIHRoYXQgZGlzdGluY3Rpb24gZXhw
+bGljaXQuIFdpdGggdGhhdA0KPiA+PiBDT05GSUdfSFlQRVJWIGNvdWxkIGJlIGNoYW5nZWQgdG8g
+Ym9vbC4NCj4gPg0KPiA+IFNlcGFyYXRpbmcgdGhlIGNvcmUgaHlwZXJ2aXNvciBzdXBwb3J0IChD
+T05GSUdfSFlQRVJWKSBmcm9tIHRoZSBWTUJ1cw0KPiA+IHN1cHBvcnQgKENPTkZJR19IWVBFUlZf
+Vk1CVVMpIG1ha2VzIHNlbnNlIHRvIG1lLiBPdmVyYWxsIHRoZSBjb2RlDQo+ID4gaXMgYWxyZWFk
+eSBtb3N0bHkgaW4gc2VwYXJhdGUgc291cmNlIGZpbGVzIGNvZGUsIHRob3VnaCB0aGVyZSdzIHNv
+bWUNCj4gPiBlbnRhbmdsZW1lbnQgaW4gdGhlIGhhbmRsaW5nIG9mIFZNQnVzIGludGVycnVwdHMs
+IHdoaWNoIGNvdWxkIGJlDQo+ID4gaW1wcm92ZWQgbGF0ZXIuDQo+ID4NCj4gPiBIb3dldmVyLCBJ
+IGhhdmUgYSBjb21wYXRpYmlsaXR5IGNvbmNlcm4uIENvbnNpZGVyIHRoaXMgc2NlbmFyaW86DQo+
+ID4NCj4gPiAxKSBBc3N1bWUgcnVubmluZyBpbiBhIEh5cGVyLVYgVk0gd2l0aCBhIGN1cnJlbnQg
+TGludXgga2VybmVsIHZlcnNpb24NCj4gPiAgICAgYnVpbHQgd2l0aCBDT05GSUdfSFlQRVJWPW0u
+DQo+ID4gMikgR3JhYiBhIG5ldyB2ZXJzaW9uIG9mIGtlcm5lbCBzb3VyY2UgY29kZSB0aGF0IGNv
+bnRhaW5zIHRoaXMgcGF0Y2ggc2V0Lg0KPiA+IDMpIFJ1biAnbWFrZSBvbGRkZWZjb25maWcnIHRv
+IGNyZWF0ZSB0aGUgLmNvbmZpZyBmaWxlIGZvciB0aGUgbmV3IGtlcm5lbC4NCj4gPiA0KSBCdWls
+ZCB0aGUgbmV3IGtlcm5lbC4gVGhpcyBzdWNjZWVkcy4NCj4gPiA1KSBJbnN0YWxsIGFuZCBydW4g
+dGhlIG5ldyBrZXJuZWwgaW4gdGhlIEh5cGVyLVYgVk0uIFRoaXMgZmFpbHMuDQo+ID4NCj4gPiBU
+aGUgZmFpbHVyZSBvY2N1cnMgYmVjYXVzZSBDT05GSUdfSFlQRVJWPW0gaXMgbm8gbG9uZ2VyIGxl
+Z2FsLA0KPiA+IHNvIHRoZSAuY29uZmlnIGZpbGUgY3JlYXRlZCBpbiBTdGVwIDMgaGFzIENPTkZJ
+R19IWVBFUlY9bi4gVGhlDQo+ID4gbmV3bHkgYnVpbHQga2VybmVsIGhhcyBubyBIeXBlci1WIHN1
+cHBvcnQgYW5kIHdvbid0IHJ1biBpbiBhDQo+ID4gSHlwZXItViBWTS4NCj4gPg0KPiA+IEFzIGEg
+c2Vjb25kIGlzc3VlLCBpZiBpbiBTdGVwIDEgdGhlIGN1cnJlbnQga2VybmVsIHdhcyBidWlsdCB3
+aXRoDQo+ID4gQ09ORklHX0hZUEVSVj15LCB0aGVuIHRoZSAuY29uZmlnIGZpbGUgZm9yIHRoZSBu
+ZXcga2VybmVsIHdpbGwgaGF2ZQ0KPiA+IENPTkZJR19IWVBFUlY9eSwgd2hpY2ggaXMgYmV0dGVy
+LiBCdXQgQ09ORklHX0hZUEVSVl9WTUJVUw0KPiA+IGRlZmF1bHRzIHRvICduJywgc28gdGhlIG5l
+dyBrZXJuZWwgZG9lc24ndCBoYXZlIGFueSBWTUJ1cyBkcml2ZXJzDQo+ID4gYW5kIHdvbid0IHJ1
+biBpbiBhIHR5cGljYWwgSHlwZXItViBWTS4NCj4gPg0KPiA+IFRoZSBzZWNvbmQgaXNzdWUgY291
+bGQgYmUgZml4ZWQgYnkgYXNzaWduaW5nIENPTkZJR19IWVBFUlZfVk1CVVMNCj4gPiBhIGRlZmF1
+bHQgdmFsdWUsIHN1Y2ggYXMgd2hhdGV2ZXIgQ09ORklHX0hZUEVSViBpcyBzZXQgdG8uIEJ1dA0K
+PiA+IEknbSBub3Qgc3VyZSBob3cgdG8gZml4IHRoZSBmaXJzdCBpc3N1ZSwgZXhjZXB0IGJ5IGNv
+bnRpbnVpbmcgdG8NCj4gPiBhbGxvdyBDT05GSUdfSFlQRVJWPW0uDQo+IA0KPiBUbyBjZXJ0YWlu
+IGV4dGVudCwgaW1vLCB1c2VycyBhcmUgZXhwZWN0ZWQgdG8gY2hlY2sgY29uZmlnIGZpbGVzDQo+
+IGZvciBjaGFuZ2VzIHdoZW4gbW92aW5nIHRvIG5ldyB2ZXJzaW9ucy9yZWxlYXNlcywgc28gaXQg
+d291bGQgYmUgYQ0KPiBvbmUgdGltZSBidXJkZW4uIA0KDQpJJ20gbm90IHNvIHNhbmd1aW5lIGFi
+b3V0IHRoZSBpbXBhY3QuIEZvciB0aG9zZSBvZiB1cyB3aG8gd29yayB3aXRoDQpIeXBlci1WIGZy
+ZXF1ZW50bHksIHllcywgaXQncyBwcm9iYWJseSBub3QgdGhhdCBiaWcgb2YgYW4gaXNzdWUgLS0g
+d2UgY2FuDQpmaWd1cmUgaXQgb3V0LiBCdXQgYSBsb3Qgb2YgQXp1cmUvSHlwZXItViB1c2VycyBh
+cmVuJ3QgdGhhdCBmYW1pbGlhciB3aXRoDQp0aGUgZGV0YWlscyBvZiBob3cgdGhlIEtjb25maWcg
+ZmlsZXMgYXJlIHB1dCB0b2dldGhlci4gQW5kIHRoZSBpc3N1ZSBvY2N1cnMNCndpdGggbm8gZXJy
+b3IgbWVzc2FnZXMgdGhhdCBzb21ldGhpbmcgaGFzIGdvbmUgd3JvbmcgaW4gYnVpbGRpbmcNCnRo
+ZSBrZXJuZWwsIGV4Y2VwdCB0aGF0IGl0IHdvbid0IGJvb3QuIEp1c3QgcnVubmluZyAibWFrZSBv
+bGRkZWZjb25maWciDQpoYXMgd29ya2VkIGluIHRoZSBwYXN0LCBzbyBzb21lIHVzZXJzIHdpbGwg
+YmUgYmVmdWRkbGVkIGFuZCBlbmQgdXANCmdlbmVyYXRpbmcgQXp1cmUgc3VwcG9ydCBpbmNpZGVu
+dHMuIEkgYWxzbyB3b25kZXIgYWJvdXQgYnJlYWtpbmcNCmF1dG9tYXRlZCB0ZXN0IHN1aXRlcyBm
+b3IgbmV3IGtlcm5lbHMsIGFzIHRoZXkgYXJlIGxpa2VseSB0byBiZSBydW5uaW5nDQoibWFrZSBv
+bGRkZWZjb25maWciIG9yIHNvbWV0aGluZyBzaW1pbGFyIGFzIHBhcnQgb2YgdGhlIGF1dG9tYXRp
+b24uDQoNCj4gQ09ORklHX0hZUEVSVj1tIGlzIGp1c3QgYnJva2VuIGltbyBhcyBvbmUgc2VlcyB0
+aGF0DQo+IGluIC5jb25maWcgYnV0IG1hZ2ljYWxseSBzeW1ib2xzIGluIGRyaXZlcnMvaHYgYXJl
+IGluIGtlcmVuZWwuDQo+IA0KDQpJIGFncmVlIHRoYXQncyBub3QgaWRlYWwuIEJ1dCBub3RlIHRo
+YXQgc29tZSBIeXBlci1WIGNvZGUgYW5kIHN5bWJvbHMNCmxpa2UgbXNfaHlwZXJ2X2luaXRfcGxh
+dGZvcm0oKSBhbmQgcmVsYXRlZCBmdW5jdGlvbnMgc2hvdyB1cCB3aGVuDQpDT05GSUdfSFlQRVJW
+SVNPUl9HVUVTVD15LCBldmVuIGlmIENPTkZJR19IWVBFUlY9bi4gVGhhdCdzDQp0aGUgY29kZSBp
+biBhcmNoL3g4Ni9rZXJuZWwvY3B1L21zaHlwZXJ2LmMgYW5kIGl0J3MgYmVjYXVzZSBIeXBlci1W
+DQppcyBvbmUgb2YgdGhlIHJlY29nbml6ZWQgYW5kIHNvbWV3aGF0IGhhcmR3aXJlZCBoeXBlcnZp
+c29ycyAobGlrZQ0KVk13YXJlLCBmb3IgZXhhbXBsZSkuDQoNCkZpbmFsbHksIHRoZXJlIGFyZSBh
+Ym91dCBhIGRvemVuIG90aGVyIHBsYWNlcyBpbiB0aGUga2VybmVsIHRoYXQgdXNlDQp0aGUgc2Ft
+ZSBNYWtlZmlsZSBjb25zdHJ1Y3QgdG8gbWFrZSBzb21lIGNvZGUgYnVpbHQtaW4gZXZlbiB0aG91
+Z2gNCnRoZSBDT05GSUcgb3B0aW9uIGlzIHNldCB0byAibSIuIFRoYXQgbWF5IG5vdCBiZSBlbm91
+Z2ggb2NjdXJyZW5jZXMNCnRvIG1ha2UgaXQgc3RhbmRhcmQgcHJhY3RpY2UsIGJ1dCBIeXBlci1W
+IGd1ZXN0cyBhcmUgY2VydGFpbmx5IG5vdCB0aGUNCm9ubHkgY2FzZS4NCg0KSW4gbXkgbWluZCwg
+dGhpcyBpcyBqdWRnbWVudCBjYWxsIHdpdGggbm8gYWJzb2x1dGUgcmlnaHQgYW5zd2VyLiBXaGF0
+DQpkbyBvdGhlcnMgdGhpbmsgYWJvdXQgdGhlIHRyYWRlb2Zmcz8NCg0KTWljaGFlbA0K
