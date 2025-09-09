@@ -1,44 +1,44 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10olkn2016.outbound.protection.outlook.com [40.92.42.16])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2078.outbound.protection.outlook.com [40.92.23.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA56225A65A;
-	Tue,  9 Sep 2025 03:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.42.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15442609FC;
+	Tue,  9 Sep 2025 03:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.23.78
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757387511; cv=fail; b=QeEhtLZeO48P4ECE06Gx+GgNohN15cHumKSAwuNPeSgx6K0bJ68EQtI/wGydyFgULFzFPsVmWGY0ETkpwcipHVp1MYY+mr0DkbUV87/vUYWghyuh5cLQ55UXWKqrWaKLGEM7QXqWFGFkCaBa6bimC3gYLHfHLpyvcNy45p0O7Ro=
+	t=1757387698; cv=fail; b=V04nws6ckTBTRLudMMeR6xJ3LiDVAFDkriYhv5ovoahSWleiaxFWKjY+ZAU6lweVUG295pOZrICe/NJSGYPklJJ1KYeBEP3t8JXmKv/Px2M0E8HxkYrBkGaH6FxedCZv5g1mr+4DlrHFxPxr4QUDJIVICqSbjhg8c2DwYwALjVM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757387511; c=relaxed/simple;
-	bh=Z2kBqe40GWEIfdKDc6xatzI0Yx03Wu5Wh7VTZUUxN8U=;
+	s=arc-20240116; t=1757387698; c=relaxed/simple;
+	bh=U1dPdGq6xnBQHwy3MVbkrMtMAsfZmcbS3Y9NjhBuphA=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LOTT+aCmgbH8tSL+gguM/lBZY9oC278//onioP2nmlC5VcMmNXI44/D5P5+YucCnIfn0+Z/2/TvLbym0tVzZJF4SXar8WvktsDvS3J2tho9UEg5mdR+iOE5WHignghDOvz5CO2wvlWc/0u5Ag3qmvApCL0r4GRSac8q4P5wIhI8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=jPMnAM4Z; arc=fail smtp.client-ip=40.92.42.16
+	 Content-Type:MIME-Version; b=eI8+bgucZ1qtOwiDJoFgSvHqNfbcmCgTqjNcwuPa+hRPCOu4DdK5q8uZADqOYlw9qXhvV3Buyq7RlbQeO8YXmjcVT2fhPJyfaqlXTb6EmsA6Cflh62B7h/PM7UdskTsX85ifTvsVmMaqDmC33h1j7LHt0iYjf1gjsRGRFduRM6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=E9JzcE3K; arc=fail smtp.client-ip=40.92.23.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="jPMnAM4Z"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="E9JzcE3K"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pmdChvtMGYq6JDAbwUrVwj+4IANjrteGYPXnaom50BSAPIrktTG/EGle1tXGZ7aKyp82JZpZH0wxDb/ar+u65G45tkF9XKEjIe+nVMd2tlXTNuuOh+NdjOqtEfxzG42BhfJTy5eNm22kQIqxQIu/gWpmZOWsCT9y+5sF6+Jx9dH4kd3gE89KZzP5img6q/uxPyOTDsQh3uSBoio40sxCS3WWlGneGd9XZVfxBtu4gBg/Qc2PvczhcFOUMw80+gbhJo62hXGarBLAikqWqh9tMmTYy1OTNrcbFB9U/sVRKrbNcbON9U/duCbKVpkyzjfOE7BDFqvSU2HCwNwnywJORQ==
+ b=Z+0m02JbfkgnU9TJyzBlLqQ5qa3ojAumykMfkxMLnKyrldsewwKZ6t454HSbEcnwItT1n8GLJLKa5t1YglK0bUJ+BVenQPYWI9JzmtyxdUDIWnkUCxLcXOmTA2Kbcw4OiWg6pc0LPNnbdyaJDaYxJhBqApRZzXf6AsBe+m5Ysj0MU9vseuP18RYlXOyiDVQMN4L0DDGxmWljuG9AhValNh1z3jheoaLe+QLJf2znLk93gAyL8TPDrmtdkvyHjYDYg7lKR/LSsBvV5NLtuY1c+MBFg+tQo+PNovvDFv++VTrX18ymrjGOh88FbQToE93IigZLrns2kzdq8H4Dm0xehg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YrMiSSee1J0jK1QHghSXtVZODSQP4Hf7v+ul4pEoAHQ=;
- b=eYpnpkXmR+iF2U3TEhMtn5kJfpk7YqvhVmpZhZUyQYz/zq0Yhy5Z2Z5q1ZEq1w8K12jrqNwDUBE24byw5AUMQan3qkefXxY0ddlh+ITKRSPzZWSxOnfvaxVOMuUS+5N0h4WN1gz+scAoI+zC+p12cz5arPLr9oEs/71QSIJ2B9DMX+3FI9Uid0jUKCv3AyKMe8v4qWA6yQwHZhc/Pnsx7cckXPb6LBKM3Z/0fLZI9yt/YuMrLoXnlUv5VXrhEt1G6N2DFFNnWNqq9yyW/i2peAYIB/GIkwCfUClSWTYFAbG9CdFSzsWfAC3QMwB5i9Bm6TFQopIOxLZJaIndkWEX0g==
+ bh=15mi+BSxRy2HFNzDLIVuGx48tlhAUoQVL3fJP6w5G4g=;
+ b=dru6zYZKKtnEkxHIt4DGcmVBwfLzbbGfPg9SOVmc2+hsV/7+/Uu0xYp64ycHWWnyn0wrkZI3Vqu295V1wAsMMw14u1fEE1l/x5R2nFf/d4edlbtJPpZOQ858NKu4Sr+DOE/pVWY9ROb33tAFYnibvL7DcY54D7qND/0JHiTW3NMXkkVKRUFYteGhyUDYAxRkgi9EE/iDU1tX+qOj1kX24x2pf+vkeLoXtQBqC6u/3drND9SpCB59VhUl/ju+JVvULMSZjkGQIp1rtGEB1+QlYVb8cV9EKOhHrcyqU7NKVv7mffB+Z5ctHKAvksspuRjRFjyN63dWquNY0+QzT9l5GA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YrMiSSee1J0jK1QHghSXtVZODSQP4Hf7v+ul4pEoAHQ=;
- b=jPMnAM4Z3HkjWwmLHNNpdc3D63UgR8GWRjoFT3Jb0ChfDjLAnCI85BbCkV/sz1GSGzkDQdIgsrF0j7zTweY8BnWsLlrtoy9b1RAosIV9p2fvabeZbGRczpR5XpUQ2JysiksaLjS1+RxGJtdDkIfchVZNkYFxSA5sEipgLrB2+EtXBghWd63AgmoUzCDESWs5MBNTS2pM2OjuuGxDjpEblUyxwpM66A/qke81+4m4IYWohaL14+F0+ez1BHxKInKalJyCr06kAVkDG/y91hN1GYd7J+sy8qMj0/OCE8eSnV5zYt6uDRWqQoIGmXzkp8WeYbi6iqEt9F59KRXApvsZPA==
+ bh=15mi+BSxRy2HFNzDLIVuGx48tlhAUoQVL3fJP6w5G4g=;
+ b=E9JzcE3KtUlVZAbT1/vqy/HviEJ90dAMedndl6OgPG+tebbjvDNpCA95GXdtSLlb07mktMlO96Ef7ICmfAcoDQRYhie8gXelw8L2kUih0EsygZlglI2JMEr762jvs30lTeY66vb3WTjBFspa4jbh6n/NejUCUZ5jAuqeky4sufIgvk9yzaJm8Uvj81PizqZQcjKNDGh7y3pwco7G+ZTjXlyLjmGKBDnDfgnW/gU254AGClMzWqmJo7hzv7C3Z9TSw1gfu+nHH/4JKTitZHSDN58ek3/mdMRxG4EZAvYEt9N4Gp1v5qh5LOsRHWe2O6n121rPbSTCfqU8D8I3mVcpjQ==
 Received: from BN7PR02MB4148.namprd02.prod.outlook.com (2603:10b6:406:f6::17)
  by SJ0PR02MB8484.namprd02.prod.outlook.com (2603:10b6:a03:3fd::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.29; Tue, 9 Sep
- 2025 03:11:47 +0000
+ 2025 03:14:48 +0000
 Received: from BN7PR02MB4148.namprd02.prod.outlook.com
  ([fe80::6007:d1a1:bcf9:58ef]) by BN7PR02MB4148.namprd02.prod.outlook.com
  ([fe80::6007:d1a1:bcf9:58ef%4]) with mapi id 15.20.9094.018; Tue, 9 Sep 2025
- 03:11:47 +0000
+ 03:14:48 +0000
 From: Michael Kelley <mhklinux@outlook.com>
 To: Roman Kisel <romank@linux.microsoft.com>, "arnd@arndb.de" <arnd@arndb.de>,
 	"bp@alien8.de" <bp@alien8.de>, "corbet@lwn.net" <corbet@lwn.net>,
@@ -56,73 +56,76 @@ To: Roman Kisel <romank@linux.microsoft.com>, "arnd@arndb.de" <arnd@arndb.de>,
 	<linux-arch@vger.kernel.org>
 CC: "benhill@microsoft.com" <benhill@microsoft.com>, "bperkins@microsoft.com"
 	<bperkins@microsoft.com>, "sunilmut@microsoft.com" <sunilmut@microsoft.com>
-Subject: RE: [PATCH hyperv-next v5 04/16] arch/x86: mshyperv: Trap on access
- for some synthetic MSRs
-Thread-Topic: [PATCH hyperv-next v5 04/16] arch/x86: mshyperv: Trap on access
- for some synthetic MSRs
-Thread-Index: AQHcF7gUnPp8XYPKGEqgKM8N/rTiL7SJ9BZQ
-Date: Tue, 9 Sep 2025 03:11:47 +0000
+Subject: RE: [PATCH hyperv-next v5 13/16] Drivers: hv: Free msginfo when the
+ buffer fails to decrypt
+Thread-Topic: [PATCH hyperv-next v5 13/16] Drivers: hv: Free msginfo when the
+ buffer fails to decrypt
+Thread-Index: AQHcF7hZDpvsnLYxm0SLy+ITASeRBrSKP7tw
+Date: Tue, 9 Sep 2025 03:14:48 +0000
 Message-ID:
- <BN7PR02MB414878837D34F40D23DB9506D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
+ <BN7PR02MB41485581F33D416E019A54C9D40FA@BN7PR02MB4148.namprd02.prod.outlook.com>
 References: <20250828010557.123869-1-romank@linux.microsoft.com>
- <20250828010557.123869-5-romank@linux.microsoft.com>
-In-Reply-To: <20250828010557.123869-5-romank@linux.microsoft.com>
+ <20250828010557.123869-14-romank@linux.microsoft.com>
+In-Reply-To: <20250828010557.123869-14-romank@linux.microsoft.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: BN7PR02MB4148:EE_|SJ0PR02MB8484:EE_
-x-ms-office365-filtering-correlation-id: cc69b9cb-4ff8-4413-9c60-08ddef4e9cb1
+x-ms-office365-filtering-correlation-id: 22b0df93-836a-4c15-90b6-08ddef4f08b6
 x-ms-exchange-slblob-mailprops:
- znQPCv1HvwUykhYCLh9DY9coCVULpTnXUDO3VEcqtlHWJAuvPD+kBSMLeZbgV8PBpDew1I56yxLoRRn5gCwK8orL1XSmdq9WoeIbeU2ImtBlVM/Esh2hgL4PiPSBSkwElh/jthzEsmYg833z7RTIaNIdkDc68WNrDLBBWblOSScMRYxs2xbmWkBTdkX3ceozwYl4LvBAjwGVcwz4PAvbhf8aUlWYC37SZx1ZAmoMFfaKY7v8ayRV9/NxFoYyhBZi1zB5DG6FBMy/BcQq6KGd5Q/PGKsFtAf7ybtcWHxqwfHtNm/mhnYZzD/rDRM3hQgO5yjPDk+9cnnz1Woo2wBJ7ZTtnf3CqTu/d63I8YX+2wD/09WwUWh+TL2g1POi1lHOOAjPp480E7kqWcPSDf+cNG/EXite+h8nLDKa0P34fvN53hiF4/ZfnfZUSS19BjM9olexIHTCGpfbobWfNsu3Tqgx3PVZ55Vmg5hZ6ola454f62193ZG6Y15iJNdmYfRlv0spVOREO2sha2bfwxJE1aylj+Vd53Tur+W19lVV2NCUuLtvD0pYCVdUzcbo+7R+FRH4rZDII1lBjAIoWnhYTdNLGvzUrVpdfFBB2wf4rpr3kJPp0L2EbOAYLyfRGQjGBcYzEHI+BWE37luVooaBeDzCklfjiWkNRy0vSZujUOEN8gZF/vJklhI0aWnkp8nna+Hf2SIWKarMsI+jDoS2q10/ciNuyCioLMHdCesnU/CJ+3izTygtMTc+yWKXh5tBr8oh3YAacaQ=
+ Z68gl6A5j294JuRJ8WqUlwRTErf/quLvUeg/DO6oiOSCDDiqh5F6cCaGD2kLWndGtgLrFJpWmLGZRNroTJioXvPA1oax9fnh8MULQoFAkqz+MiYEZ2phnyY2ftvqf6pnedztEqdlPGBGV0N7ASlKnSCooSqZIb694avPeNz+uiocprZ/xudbkGRRIwbzUlk2QVkR0yeZTPY86YlMrWFhJtDUB4yeCuUvKxLNxrQzKDk8jXbyM0kENclPmKHqgnVgZ1xSu6STjSYKs0yFvxrG5JyO9Aj5baQesM8dwAtUUwISvvsz/k9PmrhZFwJlx+AcJ7Ld5tScXC19t+OYDmPzkzOIeQH1i+eHeWFhSWiZZlh+HVwap6W3Zjl81nZDMzrzKnqKCLVewUK1imh5IaeujY/MDnyozgT874ZBvyC4MGN4kUWayeJmg3DUKYzqcJ/I+HNx7O/L5TPnzjCumoTFKBT4ak8Bvgv0HUUNG0z4LU2SHvQF2VGL07dQgHb+eQfYiciFzlX+c7WUz4cw2EzDaywhHCzIsoFmkT2st1OVJn+n6f2QLA7X/hWVGggXJ3ZffYA1ER7kTwv5kX9vro77B8Q6a1a83syvHki29lsz+nEVKuIUCraUSRZvTiGma4+n0tuBTKCivrreqH/56sWg0tIS3wMI1dyQ1not1LnZ5RnP62G2Db2XwHcn6l/1qb25vZA+wJtoBeVz9bBVO6qGnXS296BGPfCe+kii+U9yN1tzaV07srPBMKISHrPwL0eW5Nzf2rtTb6VvWXEMSIaSAQZY7KebXiXecZGp2S6fDtnz6ZejVIb4ODOWc7wcQu7T
 x-microsoft-antispam:
- BCL:0;ARA:14566002|13091999003|8060799015|8062599012|31061999003|461199028|15080799012|41001999006|19110799012|440099028|40105399003|3412199025|102099032;
+ BCL:0;ARA:14566002|13091999003|8060799015|8062599012|31061999003|461199028|15080799012|41001999006|19110799012|56899033|1602099012|4302099013|440099028|40105399003|3412199025|10035399007|102099032|12091999003|11031999003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?yh97SNBuJOi5IokBLb4V1Gc/tkoWz8X9oy+7SEYTQe9eP6p2Bv0v9ACLQc2d?=
- =?us-ascii?Q?FSvp+Tp/G1mBpTqWV2OApKKTAq5UX2RGijtOD4tG/tS3U6nhqa15MvjaOLUS?=
- =?us-ascii?Q?DdLUPrpanH7tAGe5liaRVeEna3LRJYIwm0Ui7rsUj09gwR24qKStrarLItRs?=
- =?us-ascii?Q?cUJy6TSxp5FwYVLUURlwOgfUAD96qQgsi5WhQIiTkPJgM5Yp1ZED0UMRmGE8?=
- =?us-ascii?Q?yeaS3b/UECE+OEUZH7FZMtpDWpUqLZI4HcfoPtf8iEWIVz7AJo6Mb4qoHgci?=
- =?us-ascii?Q?BLal44y0rre+jLCYTw7/j5v5TtCs2XiV6F6yISXtPKWaw3hVJ5hPDu4WVv24?=
- =?us-ascii?Q?kNPKKC0Dm84nDTA1zCnO3d1iXiV9yaqbXDL5HyUhP7G+cFMHJMgQ9Gs6l1Cg?=
- =?us-ascii?Q?l/DLnmPrzwBcXU9U+IkeuARM28LAPWiBDUxlhENp/LvCjMA+9N29lZFQd25T?=
- =?us-ascii?Q?nNVqm62xPqUEXWCCiu/qPGXX+8T3vIOPw0y/FtHd8O64/Cib7LohHjBxqe6t?=
- =?us-ascii?Q?eVkL7LepBK0SiCxKFrxw08huFStw9LCQ9W3z8JXrtOlyW6AHCIdbpqE1pPx7?=
- =?us-ascii?Q?wsxg5LHXT3qFegsoheSLbAMNib0e8QvNYzQ2wI53G7qfyBDz37vQuesmCEn3?=
- =?us-ascii?Q?bBL8cyOlfxl+aQyVb6g1mhDqyMjSf/kHKeLWx3HEZ+TjyPUCxyCgHW+Uas5P?=
- =?us-ascii?Q?xSMeoFxe82pySnp2bIihCoejX7tVVgP/9mUiJe7oHfju/gmJwhxChT4gWlNM?=
- =?us-ascii?Q?VLu5/5YY0JehIAlYS5NSA6Ai1kQp0DHpwVi1EW0G3fQFChFsQ79MgPRASkCF?=
- =?us-ascii?Q?KHvLAb3Rav1LVCuwQKRfGQtcmI99uY/dw4Gms381sKDddq+PQFq8fpGoHbBC?=
- =?us-ascii?Q?IMpEZuPvrJF6WzcG7/hbeEJYn6ksrFPLwDhAFucDx7KkboBdtb3U23XKQ3/u?=
- =?us-ascii?Q?0x58aGT2FD+hBaBEOWxrdpsX+9wg4rKVAFSuCTqBxIWJW1RPXqY3lopqVch7?=
- =?us-ascii?Q?9H/q+3qXlodaOHmTc3/pYKcPNpuy9iCgSVbrQVdkYo3r/N+7sj5xr2s6+uiI?=
- =?us-ascii?Q?b8TZbmk6BmFQ39RlIs9WKMF54ecT7hlA7C1LIRYcFOiA/0RDdSw+4HZvt4Nv?=
- =?us-ascii?Q?ljRiFi6j46MZaBv+XX+0cSa7d/4D5utsxE4q7hxpOUS5YIeTt+ATaWGu8BoN?=
- =?us-ascii?Q?PMvH91M199L6Vxsn4vnS6O/ndz9NdTcsxH4nOg=3D=3D?=
+ =?us-ascii?Q?u9CIkYGJeGN+leDy3o7Bb6H15WDb0tWA/QWLj2xM+Z8+Fy0IAwE/AZxiL/Wr?=
+ =?us-ascii?Q?0yJXNJ7Q+JNCIN0NxjizDPCIKnDd5GJdNMiqS632vue/MWQeIKdYRyYs5Gdn?=
+ =?us-ascii?Q?xksVt2JHPjxavFpWc6KPVvdJlk6McDw//shCEBN/T98m9gsz7D1pgxeGao2h?=
+ =?us-ascii?Q?IdaT6Z2IwanocEJSQsKhNUU8ms4MOxJ4zz9tD0FzRY3mcqB/uNom84eMuYBM?=
+ =?us-ascii?Q?Hetw3Ks0cQif1QnV6WV2nBCCt5aU0DS3tCwD0X5tgnlivp0iWI7HqLE29Z86?=
+ =?us-ascii?Q?e37JRXUG03M8UKeLSxW6BrmpvHypT7rocZ0kk9D60Ml3ugP79/drxuOsZAHa?=
+ =?us-ascii?Q?vCzvig0d/q7d168L07JjY2yp/0c7vSycMSokN9uKxaPUkCLxd8iA+jKUWoDx?=
+ =?us-ascii?Q?k5lg9vXRDWl5tuJzvWBrCGHohHqmdt22STiTNFH3B2l5dF0P97n4px652wWL?=
+ =?us-ascii?Q?6g39IJjmyQvzMKKMhgq4EkqRzG0kASYGHngZ0zRZHrPVdCNYfaupl2hElhJo?=
+ =?us-ascii?Q?kCpT89+3sOm7dnU3b8J0j04Ve9Fm93vFdCtviD/gPyj+ORFmquIrAlhHpg4u?=
+ =?us-ascii?Q?OYzRn3nJf75w0TbEm7qq8mzinxEjmKSMkIg2PMHDlbxahu6xvZE7F1wFji5s?=
+ =?us-ascii?Q?WDRpgGlgr7pUBdC/yDwFVTy3u8AHc6oQrCTUvcoVJlAG+0eMuKpx11S8eT4j?=
+ =?us-ascii?Q?T5QIglN3fZYd+xHhbf9QEp64oWp0KlcrEHYFrZu3oRGkKnmcOyhdr4Yp39Tz?=
+ =?us-ascii?Q?HrilZ+/E0w08tqEhFQC1SWe3mwjOSIPe9wUUdc/Ff76BFWlblT1YVx2T+saf?=
+ =?us-ascii?Q?R8Ckm7Dtj302ZOOU+f8tCYLVlmE2A0Hympupltljrw2Yt8Xae8ykt1js21aq?=
+ =?us-ascii?Q?15f0P/DzdjR1rGLPJMkRRRlNb+P0ZfckHZFyY9gP/5YaL0KIIoHxxeroOqEW?=
+ =?us-ascii?Q?fDZjz08MDd4tbVIXg38qFPax2JYmmNF7/WQ/X7Ud/D6fRzmotTRvNhqdDDp2?=
+ =?us-ascii?Q?xKxgPt9mbkYA4Cu7wKRq9ywVudoHFi3Z4i1jMFZW9ZX/snZnAeK1M+a58vKH?=
+ =?us-ascii?Q?bqtvN9dUF9oq2JnSyI3fODq2baK40PjsCUQNoBRC+mcsRZr91123QEP0dOp0?=
+ =?us-ascii?Q?nwmljrd/a3waSXnm198spq5rv2UMxTXIbJ34jI4eOW5MrTGbWfNVFr0vxfGs?=
+ =?us-ascii?Q?aevn8bPoM9JGJFmZw6a9diDIRvKLiy5Lrx83sWyso1KR1/q2I8I9BHJ9DCJR?=
+ =?us-ascii?Q?6c1YLqD8kevjZdojb205Ilr5m0ZPeTBxXvmrsC/HrUKYW7qAWhAuSzZCnbl/?=
+ =?us-ascii?Q?dx9bV5/Ha7FI2iYLJeaiTiBzj64E3E+MNW/tWDN1I0Db07UmZowHWiQ6mP1C?=
+ =?us-ascii?Q?9NzXiTA=3D?=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?9/N8dtSuDni7WHGxiEC9/+izKW04LG3Rv+3vuoY6YIn+xbip3OXYq7nZ9oP2?=
- =?us-ascii?Q?C8R7l3fBZ4sfNZnvOdRrX4FSzjUyfOWFVpigfefdWELpgQoAxgdflwJHjZZA?=
- =?us-ascii?Q?T+M6AdQG2v8H9lrJCOICxY8XQvdod3CAw56jvxIJL/b53Pc4dJlS0qTShF+5?=
- =?us-ascii?Q?3RgX5nTpANycn2c4T/t3nDLfuF90bwktXE4OphtDHref2V4IIstxT/ZCLv4P?=
- =?us-ascii?Q?PANRoXObARGsvwKmQTzPYqTOiMUh3vpfjk0AjYH2biUD/b8S8hV9rlcMP8mO?=
- =?us-ascii?Q?uC8Dj2BxcGSHakCW4Tne4kRIX2zri2OB1lq2usiLIa8iEMUqNap6b/2zFdbm?=
- =?us-ascii?Q?70qudd312jvxAbT0RrHDREcugCZffnXHAq/MqpEHDfDidxCqS9GlfyGC4ZxF?=
- =?us-ascii?Q?mVxIqyv9msS2tANsttwXTWYepZp4DoMGv30o9Ui42OoP4Dy9k8+wSV+K7BdI?=
- =?us-ascii?Q?yoCZSXFcmxy9OH8Wzcdga+HzpW+LwfhHhF00zwyd8fwcsbTq6LMCMhJq6z66?=
- =?us-ascii?Q?dFTvQi/yw4tYSx5aJUqG+xrVbNjprE/vVOVPeZgjzL9Au1QN8rWF6bCs2yAO?=
- =?us-ascii?Q?9sQQQ8J9uqC5YvP0tWUez0ifBRiE3F8ZvzOVZAEftM/z7GVRul+0dRMOh8wg?=
- =?us-ascii?Q?iRq5ZRIdIl8oJ9/1SYq4Xy8/YkgGxrgll/eNCFRFwC8OjrZFZ84h1L2x2cYv?=
- =?us-ascii?Q?BbhvUegN2AjmCmo959tV68c/8nXFshgnpLXbz+BEPjQlqTiwb1+a7Lsj4F/p?=
- =?us-ascii?Q?KAEeCOJLBVaN4H536d/Eprq6P45fAB+Wx7jYoKhfDxNN1lxub6b1sJPQjowl?=
- =?us-ascii?Q?ZNYgTUnlkAtoWJHjeVvAbAsWlj3M6eCxH3CgZ3dY0b8QOX0WG9PkKYoZPdfT?=
- =?us-ascii?Q?YVUkMxmii2pxDs9xCCmLtyQINGm4Y9O3GX/2OFvGBxEKRRQmvQtegzSMnAx6?=
- =?us-ascii?Q?GtHLwGr9rXvUJDKojrr4DyHmwt+M5uRCflbtYrZ/Gfbs7Cb/tJZEAiSWNUPa?=
- =?us-ascii?Q?fJOIe4awB6fb22HET2EZKiy48AVWvFDH+U4+vY3r1OX91nxFlHJukGf+J+Id?=
- =?us-ascii?Q?TaAkweKQ0byAQkk9hNYEQjwGADUI4tnMxHN2tg+IK9RwFUcj7Ebw1nJh7pr0?=
- =?us-ascii?Q?yO/C+EwzrawBYCBqh9r1Ruu9gNdxlRaazVoJciPWoIrx9EHL/4la+hXeYrAM?=
- =?us-ascii?Q?sb8rwjGAWNRwNH58SJa/hVOtOi+2tpXmitBNk2VtutJQcZjsTXHxZBiTR5k?=
+ =?us-ascii?Q?gr5zt71tvcxiPhZAc3j7B+HG/zk+4DxzGPLtksBuRMEkdofRmhLqEi6eovjr?=
+ =?us-ascii?Q?JHNKRLe7SF1ZeNvKCyl2+TGZ/Pgd8mvCI+YFbJsjXkMfa0dGN18z4ejGpnQD?=
+ =?us-ascii?Q?gVmqDjEe0SGD0rdmW6lYi9M3EnBV5eI0ujUm0d8RJFcKyQJrL4eb6AL+jHdm?=
+ =?us-ascii?Q?Z41BGiWEloLec72tBBLH/ajNZcMxqDD0Js+41z9+u7YR4A7kCvST4y/JBcc4?=
+ =?us-ascii?Q?CQPhxMstNThJnAH+NhRWZaxwNuWE4DwT1sw/UV8e2Thd5ci9+29POLqLgEke?=
+ =?us-ascii?Q?PLyngkQvr//7F1LTwhWv8gHDfXdNVRGqN5wkCvIrmxrMWY2vlN46Grt/gcyE?=
+ =?us-ascii?Q?6OD5Ne88oyDZCB/+YRDnHj07aSsPwdO6cWz+Tjc8UeAp+8h5OA/rRxv57Opq?=
+ =?us-ascii?Q?nmeVZXILP4g+VlThHllBkiED1o+Eft5clMTPeZA2Ha/GEjr+dgW7tYvy9+6P?=
+ =?us-ascii?Q?Y+46n0VHDkOk/Scjt+ZDSEKfm7noE+5ptEbUnu2tBE6vn21YdqJYBLMrQgXV?=
+ =?us-ascii?Q?kor7wk/JCP9qkTXmXi3IVzRjJqcXzruVcjd3S7YnIUNHNyFX2lF0gpDTMzEe?=
+ =?us-ascii?Q?F38dPuu+UFfyyahHzySJmHV0XnaeuUwhfA2i8un2xtmO1XJ/lasV2Y61R4mM?=
+ =?us-ascii?Q?vx0RbQRubBbLtqEYzmZXADnS9c4orYR7vdl0Abha5LLktjB0tdtVPxLEJs9m?=
+ =?us-ascii?Q?Kn1mvpmjmNYYhSsibPITNa7NJ+vZVG83Rf2ERv1qgBzqjT/0IS5ghygZo/ki?=
+ =?us-ascii?Q?wav/rWnaHK9KIZfhrvdaiZeWLG959bA02x7SOeMY8Gx1l9kygwNuOcTeKTOz?=
+ =?us-ascii?Q?rifdepEangfZLV6TwKwUWABhwOogk0IO0gL+mStb7txPhgpmgXttgFeVNRQ/?=
+ =?us-ascii?Q?+iJI5S38vO7084g/EpPssWX1u090wPgV6raSchMgSSwPkGAaA5xUyABy7vA4?=
+ =?us-ascii?Q?V04/7yjVOKGCq7OZ91fKjMPBpcZ97nbEI5+Nidk+g9DfQwPOr5u/IxivUWGE?=
+ =?us-ascii?Q?ZPec+N1XZZ4dhiXrxKx7doUPeFYCSDNrEqWmRucRF/1yd35Oy/kYzDBKDNJ0?=
+ =?us-ascii?Q?v0pZTwVS93j2ez3nVWbKEYTQp481dQ3lfozUpwlajoaZQY8yJNPlNq18SMtg?=
+ =?us-ascii?Q?tTsWr3C2SV+m6rL2/dF6dnpryuDnE4E3ABRe814N6C8z+cjhr/k90slj4LOX?=
+ =?us-ascii?Q?AdorunrCRrLIr4+csogzAPtQ8Vh+aCd2zu11Amcq301V3ad+mBThU4UqVno?=
  =?us-ascii?Q?=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -136,8 +139,8 @@ X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN7PR02MB4148.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc69b9cb-4ff8-4413-9c60-08ddef4e9cb1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2025 03:11:47.0809
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22b0df93-836a-4c15-90b6-08ddef4f08b6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2025 03:14:48.4007
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -147,153 +150,89 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB8484
 From: Roman Kisel <romank@linux.microsoft.com> Sent: Wednesday, August 27, =
 2025 6:06 PM
 >=20
-> hv_set_non_nested_msr() has special handling for SINT MSRs
-> when a paravisor is present. In addition to updating the MSR on the
-> host, the mirror MSR in the paravisor is updated, including with the
-> proxy bit. But with Confidential VMBus, the proxy bit must not be
-> used, so add a special case to skip it.
+> The early failure path in __vmbus_establish_gpadl() doesn't deallocate
+> msginfo if the buffer fails to decrypt.
 >=20
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> Reviewed-by: Tianyu Lan <tiala@microsoft.com>
+> Fix the leak by breaking out the cleanup code into a separate function
+> and calling it where required.
+>=20
+> Fixes: d4dccf353db80 ("Drivers: hv: vmbus: Mark vmbus ring buffer visible=
+ to host in Isolation VM")
+> Reported-by: Michael Kelley <mkhlinux@outlook.com>
+> Closes: https://lore.kernel.org/linux-hyperv/SN6PR02MB41573796F9787F67E0E=
+97049D472A@SN6PR02MB4157.namprd02.prod.outlook.com/ > Signed-off-by: Roman =
+Kisel <romank@linux.microsoft.com>
+
+Reviewed-by: Michael Kelley <mhklinux@outlook.com>
+
 > ---
->  arch/x86/include/asm/mshyperv.h |  2 ++
->  arch/x86/kernel/cpu/mshyperv.c  | 28 +++++++++++++++++++++++++---
->  drivers/hv/hv_common.c          |  5 +++++
->  include/asm-generic/mshyperv.h  |  1 +
->  4 files changed, 33 insertions(+), 3 deletions(-)
+>  drivers/hv/channel.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyp=
-erv.h
-> index abc4659f5809..4905343c246e 100644
-> --- a/arch/x86/include/asm/mshyperv.h
-> +++ b/arch/x86/include/asm/mshyperv.h
-> @@ -42,6 +42,8 @@ static inline unsigned char hv_get_nmi_reason(void)
->  #if IS_ENABLED(CONFIG_HYPERV)
->  extern bool hyperv_paravisor_present;
->=20
-> +extern u64 hyperv_sint_proxy_mask;
-> +
-
-hyperv_sint_proxy_mask is never declared or referenced anywhere, so this
-"extern" seems spurious.
-
->  extern void *hv_hypercall_pg;
->=20
->  extern union hv_ghcb * __percpu *hv_ghcb_pg;
-> diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyper=
-v.c
-> index a619b661275b..5e2c6fd637d2 100644
-> --- a/arch/x86/kernel/cpu/mshyperv.c
-> +++ b/arch/x86/kernel/cpu/mshyperv.c
-> @@ -28,6 +28,7 @@
->  #include <asm/apic.h>
->  #include <asm/timer.h>
->  #include <asm/reboot.h>
-> +#include <asm/msr.h>
->  #include <asm/nmi.h>
->  #include <clocksource/hyperv_timer.h>
->  #include <asm/msr.h>
-> @@ -38,6 +39,16 @@
->  bool hv_nested;
->  struct ms_hyperv_info ms_hyperv;
->=20
-> +#define HYPERV_SINT_PROXY_ENABLE	BIT(20)
-> +#define HYPERV_SINT_PROXY_DISABLE	0
-
-Seems like these definitions belong in hvgdk_mini.h together with
-the definition of "union hv_synic_sint". Since that union already
-defines the "proxy" field, the definitions really should be in terms
-of that field (though I'd have to fiddle with the code to figure out
-if there's a reasonable way to do that).
-
-> +
-> +/*
-> + * When running with the paravisor, proxy the synthetic interrupts from =
-the host
-> + * by default
-> + */
-> +u64 hv_para_sint_proxy =3D HYPERV_SINT_PROXY_ENABLE;
-> +EXPORT_SYMBOL_GPL(hv_para_sint_proxy);
-
-This variable is not referenced outside this module, nor should it be.=20
-It can be "static" and the EXPORT can be dropped.
-
-Also, does it need to be initialized? From what I can see,=20
-hv_para_set_sint_proxy() is always called before any SynIC
-MSRs are set. Initializing it doesn't hurt, but it begs the question
-"why?"
-
-> +
->  /* Used in modules via hv_do_hypercall(): see arch/x86/include/asm/mshyp=
-erv.h */
->  bool hyperv_paravisor_present __ro_after_init;
->  EXPORT_SYMBOL_GPL(hyperv_paravisor_present);
-> @@ -79,13 +90,14 @@ EXPORT_SYMBOL_GPL(hv_get_non_nested_msr);
->  void hv_set_non_nested_msr(unsigned int reg, u64 value)
->  {
->  	if (hv_is_synic_msr(reg) && ms_hyperv.paravisor_present) {
-> +		/* The hypervisor will get the intercept. */
->  		hv_ivm_msr_write(reg, value);
->=20
-> -		/* Write proxy bit via wrmsl instruction */
-> +		/* Using wrmsrq so the following goes to the paravisor. */
->  		if (hv_is_sint_msr(reg))
-> -			wrmsrq(reg, value | 1 << 20);
-> +			native_wrmsrq(reg, value | hv_para_sint_proxy);
->  	} else {
-> -		wrmsrq(reg, value);
-> +		native_wrmsrq(reg, value);
->  	}
->  }
->  EXPORT_SYMBOL_GPL(hv_set_non_nested_msr);
-> @@ -109,6 +121,16 @@ bool hv_confidential_vmbus_available(void)
->  	return eax & HYPERV_VS_PROPERTIES_EAX_CONFIDENTIAL_VMBUS_AVAILABLE;
+> diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+> index 1621b95263a5..70270202209b 100644
+> --- a/drivers/hv/channel.c
+> +++ b/drivers/hv/channel.c
+> @@ -410,6 +410,21 @@ static int create_gpadl_header(enum hv_gpadl_type ty=
+pe,
+> void *kbuffer,
+>  	return 0;
 >  }
 >=20
-> +/*
-> + * Enable or disable proxying synthetic interrupts
-> + * to the paravisor.
-> + */
-> +void hv_para_set_sint_proxy(bool enable)
+> +static void vmbus_free_channel_msginfo(struct vmbus_channel_msginfo *msg=
+info)
 > +{
-> +	hv_para_sint_proxy =3D
-> +		enable ? HYPERV_SINT_PROXY_ENABLE : HYPERV_SINT_PROXY_DISABLE;
+> +	struct vmbus_channel_msginfo *submsginfo, *tmp;
+> +
+> +	if (!msginfo)
+> +		return;
+> +
+> +	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
+> +				 msglistentry) {
+> +		kfree(submsginfo);
+> +	}
+> +
+> +	kfree(msginfo);
 > +}
 > +
 >  /*
->   * Attempt to get the SynIC register value from the paravisor.
+>   * __vmbus_establish_gpadl - Establish a GPADL for a buffer or ringbuffe=
+r
 >   *
-> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
-> index 8285ba005a71..eabd582240a3 100644
-> --- a/drivers/hv/hv_common.c
-> +++ b/drivers/hv/hv_common.c
-> @@ -722,6 +722,11 @@ bool __weak hv_confidential_vmbus_available(void)
->  }
->  EXPORT_SYMBOL_GPL(hv_confidential_vmbus_available);
+> @@ -429,7 +444,7 @@ static int __vmbus_establish_gpadl(struct vmbus_chann=
+el *channel,
+>  	struct vmbus_channel_gpadl_header *gpadlmsg;
+>  	struct vmbus_channel_gpadl_body *gpadl_body;
+>  	struct vmbus_channel_msginfo *msginfo =3D NULL;
+> -	struct vmbus_channel_msginfo *submsginfo, *tmp;
+> +	struct vmbus_channel_msginfo *submsginfo;
+>  	struct list_head *curr;
+>  	u32 next_gpadl_handle;
+>  	unsigned long flags;
+> @@ -459,6 +474,7 @@ static int __vmbus_establish_gpadl(struct vmbus_chann=
+el *channel,
+>  			dev_warn(&channel->device_obj->device,
+>  				"Failed to set host visibility for new GPADL %d.\n",
+>  				ret);
+> +			vmbus_free_channel_msginfo(msginfo);
+>  			return ret;
+>  		}
+>  	}
+> @@ -535,12 +551,8 @@ static int __vmbus_establish_gpadl(struct vmbus_chan=
+nel *channel,
+>  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
+>  	list_del(&msginfo->msglistentry);
+>  	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
+> -	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
+> -				 msglistentry) {
+> -		kfree(submsginfo);
+> -	}
 >=20
-> +void __weak hv_para_set_sint_proxy(bool enable)
-> +{
-> +}
-> +EXPORT_SYMBOL_GPL(hv_para_set_sint_proxy);
-> +
->  int __weak hv_para_get_synic_register(unsigned int reg, u64 *val)
->  {
->  	*val =3D ~0ULL;
-> diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyper=
-v.h
-> index 4b0b05faef70..bc4e3862a3f9 100644
-> --- a/include/asm-generic/mshyperv.h
-> +++ b/include/asm-generic/mshyperv.h
-> @@ -300,6 +300,7 @@ bool hv_isolation_type_snp(void);
->  bool hv_confidential_vmbus_available(void);
->  u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_=
-size);
->  u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2);
-> +void hv_para_set_sint_proxy(bool enable);
->  int hv_para_get_synic_register(unsigned int reg, u64 *val);
->  int hv_para_set_synic_register(unsigned int reg, u64 val);
->  void hyperv_cleanup(void);
+> -	kfree(msginfo);
+> +	vmbus_free_channel_msginfo(msginfo);
+>=20
+>  	if (ret) {
+>  		/*
 > --
 > 2.43.0
 >=20
