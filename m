@@ -1,78 +1,78 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C754527935A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4D8199939
 	for <linux-hyperv@vger.kernel.org>; Tue, 16 Sep 2025 08:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758012079; cv=none; b=rpbtQQOxge+gvHylC0ZHdl+tGJ/8Aq8ubvtYw5rCkvCF+RHj+uP32aCy4f4GwQvI0aQBUB8yQ6K8dbVsjpBXQeq9U7tC+qLgLEuDiHroqvf8DFobBcnZa+kQEBdnccvZZ042qU+EvXutW+ytZMHub3uAQHOugE12Da+pTHXfEtU=
+	t=1758012080; cv=none; b=dwZ7zIg8eYr7wjiT3fldu7U9eUt4qoZ65MEPbm5HrY1YVQEwz36vWByMVqJIFUmyHDtqKmKitwyvgJ/WObmC6dO0h6DMamA6QkP/AoyrTFci3wsPUwhhRKaXfZR1IAWtp46xOGR+KwGu++ylVVRleF5obAc14r4jFjVOgaqcS5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758012079; c=relaxed/simple;
-	bh=17kqQX81jQ/xVC9S+K9AVchMLsOwM0ooM2pdJdq6dpo=;
+	s=arc-20240116; t=1758012080; c=relaxed/simple;
+	bh=1qJUHNztxP2643p4JkOxslQFC/cqeG11HrmaYH0cmsg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eM5seypoueYuIlrTwUZ+S2VREc/HTgdTjhyzWyYlLXS7DPNj9pjqye9Z9WcSLl9FnIDfMWwXMJ4aCESCwPLPFDX1Gfx48r/yLXr5qN9vGYACSYvgpguicIMYw5s1bb2rDC2m26qaOEzYn5kb2yZcvAEXLo6CGjBa95z9e/a63Pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kjTifZVw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZkFkjO2u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kjTifZVw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZkFkjO2u; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=padrynHm+7krOMEwf9ktDIG7Hr8Zmk8lMrr5GqSJn+2Qea/hlLZ0OSMCCRFBi2DBG18r1Lu+ms2dK2JI1jgCbsqTzWJy9djLXE0ZNkKQMkGIQdeh2e73M4FXgnHc8DVpc+dqw/rCWbcrzMTnjHpzcyWP0aHH6+8VEMJEu8ME55c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wXR2Wo9S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O0DE7QnV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wXR2Wo9S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O0DE7QnV; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kjTifZVw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZkFkjO2u";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kjTifZVw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZkFkjO2u"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wXR2Wo9S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O0DE7QnV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wXR2Wo9S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O0DE7QnV"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7F5FB228C8;
-	Tue, 16 Sep 2025 08:41:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B01F01FB3B;
+	Tue, 16 Sep 2025 08:41:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758012070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758012069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p9KN1Q7cA7sBVv7gO6HER7GXRuOAkJIz4IPyWdUj6LE=;
-	b=kjTifZVw5fwrCqxaRT3MZ+1RIwSYdTtsV4Avvy3XbrqgmY6Nl/Mmuktif1qyog3ZLLm6zL
-	/dgel+Uy/BWOBVT6Hj4JA7f7cXfhYPyGnfCXCBQr6xNJPc9BdfUtDUnGapGHZeulaoZfrY
-	BjNzwhRu6ejrJ3SyR3QCl1wtb2mvxSU=
+	bh=eGnz+ZESuCrS9+zxsWWIKQW2W58D6sdTFo7lc0x+WZ8=;
+	b=wXR2Wo9StzSr82whCjWRTduLbbknAHtKTI3veRlH+n66YCgjQVMUhrdwHdFwEIHO2XZIJD
+	xwQG/kW4ivGH94XRIHfMBgK4UJLnFoz0J029VpaXfhYYann0Dg1cDJ5/3R6GUkpnfIMNnU
+	wLwsBUezDRpQfwhK5B+jAdZewIx6qQE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758012070;
+	s=susede2_ed25519; t=1758012069;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p9KN1Q7cA7sBVv7gO6HER7GXRuOAkJIz4IPyWdUj6LE=;
-	b=ZkFkjO2uOA1VgBRYolarO+uVdOtyasQ188fuiLVZyyGAMdM0yXLPsVV8lkvr2q3dJewvSD
-	fD6Gv3NebD0nmcAA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=eGnz+ZESuCrS9+zxsWWIKQW2W58D6sdTFo7lc0x+WZ8=;
+	b=O0DE7QnVbYoNf8QjnsdV8CZWvisx5cQcTPJ7v2zPRP5x+vmkK5vKRn6DwEeHFKTHJ3u24C
+	N3ALgrJaCrsfZlDA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1758012070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1758012069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p9KN1Q7cA7sBVv7gO6HER7GXRuOAkJIz4IPyWdUj6LE=;
-	b=kjTifZVw5fwrCqxaRT3MZ+1RIwSYdTtsV4Avvy3XbrqgmY6Nl/Mmuktif1qyog3ZLLm6zL
-	/dgel+Uy/BWOBVT6Hj4JA7f7cXfhYPyGnfCXCBQr6xNJPc9BdfUtDUnGapGHZeulaoZfrY
-	BjNzwhRu6ejrJ3SyR3QCl1wtb2mvxSU=
+	bh=eGnz+ZESuCrS9+zxsWWIKQW2W58D6sdTFo7lc0x+WZ8=;
+	b=wXR2Wo9StzSr82whCjWRTduLbbknAHtKTI3veRlH+n66YCgjQVMUhrdwHdFwEIHO2XZIJD
+	xwQG/kW4ivGH94XRIHfMBgK4UJLnFoz0J029VpaXfhYYann0Dg1cDJ5/3R6GUkpnfIMNnU
+	wLwsBUezDRpQfwhK5B+jAdZewIx6qQE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1758012070;
+	s=susede2_ed25519; t=1758012069;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p9KN1Q7cA7sBVv7gO6HER7GXRuOAkJIz4IPyWdUj6LE=;
-	b=ZkFkjO2uOA1VgBRYolarO+uVdOtyasQ188fuiLVZyyGAMdM0yXLPsVV8lkvr2q3dJewvSD
-	fD6Gv3NebD0nmcAA==
+	bh=eGnz+ZESuCrS9+zxsWWIKQW2W58D6sdTFo7lc0x+WZ8=;
+	b=O0DE7QnVbYoNf8QjnsdV8CZWvisx5cQcTPJ7v2zPRP5x+vmkK5vKRn6DwEeHFKTHJ3u24C
+	N3ALgrJaCrsfZlDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 21F5B13AA4;
-	Tue, 16 Sep 2025 08:41:10 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FF0A13AA4;
+	Tue, 16 Sep 2025 08:41:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EHccB6YiyWgvJAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 16 Sep 2025 08:41:10 +0000
+	id CMMTEqUiyWgvJAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 16 Sep 2025 08:41:09 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: louis.chauvet@bootlin.com,
 	drawat.floss@gmail.com,
@@ -89,9 +89,9 @@ To: louis.chauvet@bootlin.com,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-hyperv@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 3/4] drm/vkms: Convert to DRM's vblank timer
-Date: Tue, 16 Sep 2025 10:36:21 +0200
-Message-ID: <20250916083816.30275-4-tzimmermann@suse.de>
+Subject: [PATCH v4 1/4] drm/vblank: Add vblank timer
+Date: Tue, 16 Sep 2025 10:36:19 +0200
+Message-ID: <20250916083816.30275-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250916083816.30275-1-tzimmermann@suse.de>
 References: <20250916083816.30275-1-tzimmermann@suse.de>
@@ -102,7 +102,6 @@ List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
 X-Spamd-Result: default: False [-1.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -111,187 +110,548 @@ X-Spamd-Result: default: False [-1.30 / 50.00];
 	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	TAGGED_RCPT(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[bootlin.com,gmail.com,outlook.com,linux.microsoft.com,ffwll.ch,linux.intel.com,redhat.com];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLgb6padn6wcu17bxtda1k7h6p)];
+	TO_DN_SOME(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com]
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spam-Score: -1.30
 
-Replace vkms' vblank timer with the DRM implementation. The DRM
-code is identical in concept, but differs in implementation.
+The vblank timer simulates a vblank interrupt for hardware without
+support. Rate-limits the display update frequency.
 
-Vblank timers are covered in vblank helpers and initializer macros,
-so remove the corresponding hrtimer in struct vkms_output. The
-vblank timer calls vkms' custom timeout code via handle_vblank_timeout
-in struct drm_crtc_helper_funcs.
+DRM drivers for hardware without vblank support apply display updates
+ASAP. A vblank event informs DRM clients of the completed update.
+Userspace compositors immediately schedule the next update, which
+creates significant load on virtualization outputs. Display updates
+are usually fast on virtualization outputs, as their framebuffers are
+in regular system memory and there's no hardware vblank interrupt to
+throttle the update rate.
+
+The vblank timer is a HR timer that signals the vblank in software.
+It limits the update frequency of a DRM driver similar to a hardware
+vblank interrupt. The timer is not synchronized to the actual vblank
+interval of the display.
+
+The code has been adopted from vkms, which added the funtionality
+in commit 3a0709928b17 ("drm/vkms: Add vblank events simulated by
+hrtimers").
+
+The new implementation is part of the existing vblank support,
+which sets up the timer automatically. Drivers only have to start
+and cancel the vblank timer as part of enabling and disabling the
+CRTC. The new vblank helper library provides callbacks for struct
+drm_crtc_funcs.
+
+The standard way for handling vblank is to call drm_crtc_handle_vblank().
+Drivers that require additional processing, such as vkms, can init
+handle_vblank_timeout in struct drm_crtc_helper_funcs to refer to
+their timeout handler.
+
+There's a possible deadlock between drm_crtc_handle_vblank() and
+hrtimer_cancel(). [1] The implementation avoids to call hrtimer_cancel()
+directly and instead signals to the timer function to not restart
+itself.
+
+v4:
+- fix possible race condition between timeout and atomic commit (Michael)
+v3:
+- avoid deadlock when cancelling timer (Ville, Lyude)
+v2:
+- implement vblank timer entirely in vblank helpers
+- downgrade overrun warning to debug
+- fix docs
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested-by: Michael Kelley <mhklinux@outlook.com>
+Link: https://lore.kernel.org/all/20250510094757.4174662-1-zengheng4@huawei.com/ # [1]
 ---
- drivers/gpu/drm/vkms/vkms_crtc.c | 83 +++-----------------------------
- drivers/gpu/drm/vkms/vkms_drv.h  |  2 -
- 2 files changed, 7 insertions(+), 78 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst    |  12 ++
+ drivers/gpu/drm/Makefile                 |   3 +-
+ drivers/gpu/drm/drm_vblank.c             | 172 ++++++++++++++++++++++-
+ drivers/gpu/drm/drm_vblank_helper.c      |  96 +++++++++++++
+ include/drm/drm_modeset_helper_vtables.h |  12 ++
+ include/drm/drm_vblank.h                 |  32 +++++
+ include/drm/drm_vblank_helper.h          |  33 +++++
+ 7 files changed, 357 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_vblank_helper.c
+ create mode 100644 include/drm/drm_vblank_helper.h
 
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index e60573e0f3e9..bd79f24686dc 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -7,25 +7,18 @@
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index 5139705089f2..781129f78b06 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -92,6 +92,18 @@ GEM Atomic Helper Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_gem_atomic_helper.c
+    :export:
+ 
++VBLANK Helper Reference
++-----------------------
++
++.. kernel-doc:: drivers/gpu/drm/drm_vblank_helper.c
++   :doc: overview
++
++.. kernel-doc:: include/drm/drm_vblank_helper.h
++   :internal:
++
++.. kernel-doc:: drivers/gpu/drm/drm_vblank_helper.c
++   :export:
++
+ Simple KMS Helper Reference
+ ===========================
+ 
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 4b2f7d794275..c2672f369aed 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -150,7 +150,8 @@ drm_kms_helper-y := \
+ 	drm_plane_helper.o \
+ 	drm_probe_helper.o \
+ 	drm_self_refresh_helper.o \
+-	drm_simple_kms_helper.o
++	drm_simple_kms_helper.o \
++	drm_vblank_helper.o
+ drm_kms_helper-$(CONFIG_DRM_PANEL_BRIDGE) += bridge/panel.o
+ drm_kms_helper-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fb_helper.o
+ obj-$(CONFIG_DRM_KMS_HELPER) += drm_kms_helper.o
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 46f59883183d..61e211fd3c9c 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -136,8 +136,17 @@
+  * vblanks after a timer has expired, which can be configured through the
+  * ``vblankoffdelay`` module parameter.
+  *
+- * Drivers for hardware without support for vertical-blanking interrupts
+- * must not call drm_vblank_init(). For such drivers, atomic helpers will
++ * Drivers for hardware without support for vertical-blanking interrupts can
++ * use DRM vblank timers to send vblank events at the rate of the current
++ * display mode's refresh. While not synchronized to the hardware's
++ * vertical-blanking regions, the timer helps DRM clients and compositors to
++ * adapt their update cycle to the display output. Drivers should set up
++ * vblanking as usual, but call drm_crtc_vblank_start_timer() and
++ * drm_crtc_vblank_cancel_timer() as part of their atomic mode setting.
++ * See also DRM vblank helpers for more information.
++ *
++ * Drivers without support for vertical-blanking interrupts nor timers must
++ * not call drm_vblank_init(). For these drivers, atomic helpers will
+  * automatically generate fake vblank events as part of the display update.
+  * This functionality also can be controlled by the driver by enabling and
+  * disabling struct drm_crtc_state.no_vblank.
+@@ -508,6 +517,9 @@ static void drm_vblank_init_release(struct drm_device *dev, void *ptr)
+ 	drm_WARN_ON(dev, READ_ONCE(vblank->enabled) &&
+ 		    drm_core_check_feature(dev, DRIVER_MODESET));
+ 
++	if (vblank->vblank_timer.crtc)
++		hrtimer_cancel(&vblank->vblank_timer.timer);
++
+ 	drm_vblank_destroy_worker(vblank);
+ 	timer_delete_sync(&vblank->disable_timer);
+ }
+@@ -2162,3 +2174,159 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+ 	return ret;
+ }
+ 
++/*
++ * VBLANK timer
++ */
++
++static enum hrtimer_restart drm_vblank_timer_function(struct hrtimer *timer)
++{
++	struct drm_vblank_crtc_timer *vtimer =
++		container_of(timer, struct drm_vblank_crtc_timer, timer);
++	struct drm_crtc *crtc = vtimer->crtc;
++	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
++	struct drm_device *dev = crtc->dev;
++	unsigned long flags;
++	ktime_t interval;
++	u64 ret_overrun;
++	bool succ;
++
++	spin_lock_irqsave(&vtimer->interval_lock, flags);
++	interval = vtimer->interval;
++	spin_unlock_irqrestore(&vtimer->interval_lock, flags);
++
++	if (!interval)
++		return HRTIMER_NORESTART;
++
++	ret_overrun = hrtimer_forward_now(&vtimer->timer, interval);
++	if (ret_overrun != 1)
++		drm_dbg_vbl(dev, "vblank timer overrun\n");
++
++	if (crtc_funcs->handle_vblank_timeout)
++		succ = crtc_funcs->handle_vblank_timeout(crtc);
++	else
++		succ = drm_crtc_handle_vblank(crtc);
++	if (!succ)
++		return HRTIMER_NORESTART;
++
++	return HRTIMER_RESTART;
++}
++
++/**
++ * drm_crtc_vblank_start_timer - Starts the vblank timer on the given CRTC
++ * @crtc: the CRTC
++ *
++ * Drivers should call this function from their CRTC's enable_vblank
++ * function to start a vblank timer. The timer will fire after the duration
++ * of a full frame. drm_crtc_vblank_cancel_timer() disables a running timer.
++ *
++ * Returns:
++ * 0 on success, or a negative errno code otherwise.
++ */
++int drm_crtc_vblank_start_timer(struct drm_crtc *crtc)
++{
++	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++	struct drm_vblank_crtc_timer *vtimer = &vblank->vblank_timer;
++	unsigned long flags;
++
++	if (!vtimer->crtc) {
++		/*
++		 * Set up the data structures on the first invocation.
++		 */
++		vtimer->crtc = crtc;
++		spin_lock_init(&vtimer->interval_lock);
++		hrtimer_setup(&vtimer->timer, drm_vblank_timer_function,
++			      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	} else {
++		/*
++		 * Timer should not be active. If it is, wait for the
++		 * previous cancel operations to finish.
++		 */
++		while (hrtimer_active(&vtimer->timer))
++			hrtimer_try_to_cancel(&vtimer->timer);
++	}
++
++	drm_calc_timestamping_constants(crtc, &crtc->mode);
++
++	spin_lock_irqsave(&vtimer->interval_lock, flags);
++	vtimer->interval = ns_to_ktime(vblank->framedur_ns);
++	spin_unlock_irqrestore(&vtimer->interval_lock, flags);
++
++	hrtimer_start(&vtimer->timer, vtimer->interval, HRTIMER_MODE_REL);
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_crtc_vblank_start_timer);
++
++/**
++ * drm_crtc_vblank_start_timer - Cancels the given CRTC's vblank timer
++ * @crtc: the CRTC
++ *
++ * Drivers should call this function from their CRTC's disable_vblank
++ * function to stop a vblank timer.
++ */
++void drm_crtc_vblank_cancel_timer(struct drm_crtc *crtc)
++{
++	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++	struct drm_vblank_crtc_timer *vtimer = &vblank->vblank_timer;
++	unsigned long flags;
++
++	/*
++	 * Calling hrtimer_cancel() can result in a deadlock with DRM's
++	 * vblank_time_lime_lock and hrtimers' softirq_expiry_lock. So
++	 * clear interval and indicate cancellation. The timer function
++	 * will cancel itself on the next invocation.
++	 */
++
++	spin_lock_irqsave(&vtimer->interval_lock, flags);
++	vtimer->interval = 0;
++	spin_unlock_irqrestore(&vtimer->interval_lock, flags);
++
++	hrtimer_try_to_cancel(&vtimer->timer);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_cancel_timer);
++
++/**
++ * drm_crtc_vblank_get_vblank_timeout - Returns the vblank timeout
++ * @crtc: The CRTC
++ * @vblank_time: Returns the next vblank timestamp
++ *
++ * The helper drm_crtc_vblank_get_vblank_timeout() returns the next vblank
++ * timestamp of the CRTC's vblank timer according to the timer's expiry
++ * time.
++ */
++void drm_crtc_vblank_get_vblank_timeout(struct drm_crtc *crtc, ktime_t *vblank_time)
++{
++	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++	struct drm_vblank_crtc_timer *vtimer = &vblank->vblank_timer;
++	u64 cur_count;
++	ktime_t cur_time;
++
++	if (!READ_ONCE(vblank->enabled)) {
++		*vblank_time = ktime_get();
++		return;
++	}
++
++	/*
++	 * A concurrent vblank timeout could update the expires field before
++	 * we compare it with the vblank time. Hence we'd compare the old
++	 * expiry time to the new vblank time; deducing the timer had already
++	 * expired. Reread until we get consistent values from both fields.
++	 */
++	do {
++		cur_count = drm_crtc_vblank_count_and_time(crtc, &cur_time);
++		*vblank_time = READ_ONCE(vtimer->timer.node.expires);
++	} while (cur_count != drm_crtc_vblank_count_and_time(crtc, &cur_time));
++
++	if (drm_WARN_ON(crtc->dev, !ktime_compare(*vblank_time, cur_time)))
++		return; /* Already expired */
++
++	/*
++	 * To prevent races we roll the hrtimer forward before we do any
++	 * interrupt processing - this is how real hw works (the interrupt
++	 * is only generated after all the vblank registers are updated)
++	 * and what the vblank core expects. Therefore we need to always
++	 * correct the timestamp by one frame.
++	 */
++	*vblank_time = ktime_sub(*vblank_time, vtimer->interval);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_get_vblank_timeout);
+diff --git a/drivers/gpu/drm/drm_vblank_helper.c b/drivers/gpu/drm/drm_vblank_helper.c
+new file mode 100644
+index 000000000000..f94d1e706191
+--- /dev/null
++++ b/drivers/gpu/drm/drm_vblank_helper.c
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: MIT
++
++#include <drm/drm_crtc.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_print.h>
++#include <drm/drm_vblank.h>
 +#include <drm/drm_vblank_helper.h>
- 
- #include "vkms_drv.h"
- 
--static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
-+static bool vkms_crtc_handle_vblank_timeout(struct drm_crtc *crtc)
- {
--	struct vkms_output *output = container_of(timer, struct vkms_output,
--						  vblank_hrtimer);
--	struct drm_crtc *crtc = &output->crtc;
-+	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
- 	struct vkms_crtc_state *state;
--	u64 ret_overrun;
- 	bool ret, fence_cookie;
- 
- 	fence_cookie = dma_fence_begin_signalling();
- 
--	ret_overrun = hrtimer_forward_now(&output->vblank_hrtimer,
--					  output->period_ns);
--	if (ret_overrun != 1)
--		pr_warn("%s: vblank timer overrun\n", __func__);
--
- 	spin_lock(&output->lock);
- 	ret = drm_crtc_handle_vblank(crtc);
- 	if (!ret)
-@@ -57,55 +50,6 @@ static enum hrtimer_restart vkms_vblank_simulate(struct hrtimer *timer)
- 
- 	dma_fence_end_signalling(fence_cookie);
- 
--	return HRTIMER_RESTART;
--}
--
--static int vkms_enable_vblank(struct drm_crtc *crtc)
--{
--	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--
--	hrtimer_setup(&out->vblank_hrtimer, &vkms_vblank_simulate, CLOCK_MONOTONIC,
--		      HRTIMER_MODE_REL);
--	out->period_ns = ktime_set(0, vblank->framedur_ns);
--	hrtimer_start(&out->vblank_hrtimer, out->period_ns, HRTIMER_MODE_REL);
--
--	return 0;
--}
--
--static void vkms_disable_vblank(struct drm_crtc *crtc)
--{
--	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
--
--	hrtimer_cancel(&out->vblank_hrtimer);
--}
--
--static bool vkms_get_vblank_timestamp(struct drm_crtc *crtc,
--				      int *max_error, ktime_t *vblank_time,
--				      bool in_vblank_irq)
--{
--	struct vkms_output *output = drm_crtc_to_vkms_output(crtc);
--	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
--
--	if (!READ_ONCE(vblank->enabled)) {
--		*vblank_time = ktime_get();
--		return true;
--	}
--
--	*vblank_time = READ_ONCE(output->vblank_hrtimer.node.expires);
--
--	if (WARN_ON(*vblank_time == vblank->time))
--		return true;
--
--	/*
--	 * To prevent races we roll the hrtimer forward before we do any
--	 * interrupt processing - this is how real hw works (the interrupt is
--	 * only generated after all the vblank registers are updated) and what
--	 * the vblank core expects. Therefore we need to always correct the
--	 * timestampe by one frame.
--	 */
--	*vblank_time -= output->period_ns;
--
- 	return true;
- }
- 
-@@ -159,9 +103,7 @@ static const struct drm_crtc_funcs vkms_crtc_funcs = {
- 	.reset                  = vkms_atomic_crtc_reset,
- 	.atomic_duplicate_state = vkms_atomic_crtc_duplicate_state,
- 	.atomic_destroy_state   = vkms_atomic_crtc_destroy_state,
--	.enable_vblank		= vkms_enable_vblank,
--	.disable_vblank		= vkms_disable_vblank,
--	.get_vblank_timestamp	= vkms_get_vblank_timestamp,
-+	DRM_CRTC_VBLANK_TIMER_FUNCS,
- 	.get_crc_sources	= vkms_get_crc_sources,
- 	.set_crc_source		= vkms_set_crc_source,
- 	.verify_crc_source	= vkms_verify_crc_source,
-@@ -213,18 +155,6 @@ static int vkms_crtc_atomic_check(struct drm_crtc *crtc,
- 	return 0;
- }
- 
--static void vkms_crtc_atomic_enable(struct drm_crtc *crtc,
--				    struct drm_atomic_state *state)
--{
--	drm_crtc_vblank_on(crtc);
--}
--
--static void vkms_crtc_atomic_disable(struct drm_crtc *crtc,
--				     struct drm_atomic_state *state)
--{
--	drm_crtc_vblank_off(crtc);
--}
--
- static void vkms_crtc_atomic_begin(struct drm_crtc *crtc,
- 				   struct drm_atomic_state *state)
- 	__acquires(&vkms_output->lock)
-@@ -265,8 +195,9 @@ static const struct drm_crtc_helper_funcs vkms_crtc_helper_funcs = {
- 	.atomic_check	= vkms_crtc_atomic_check,
- 	.atomic_begin	= vkms_crtc_atomic_begin,
- 	.atomic_flush	= vkms_crtc_atomic_flush,
--	.atomic_enable	= vkms_crtc_atomic_enable,
--	.atomic_disable	= vkms_crtc_atomic_disable,
-+	.atomic_enable	= drm_crtc_vblank_atomic_enable,
-+	.atomic_disable	= drm_crtc_vblank_atomic_disable,
-+	.handle_vblank_timeout = vkms_crtc_handle_vblank_timeout,
++
++/**
++ * DOC: overview
++ *
++ * The vblank helper library provides functions for supporting vertical
++ * blanking in DRM drivers.
++ *
++ * For vblank timers, several callback implementations are available.
++ * Drivers enable support for vblank timers by setting the vblank callbacks
++ * in struct &drm_crtc_funcs to the helpers provided by this library. The
++ * initializer macro DRM_CRTC_VBLANK_TIMER_FUNCS does this conveniently.
++ *
++ * Once the driver enables vblank support with drm_vblank_init(), each
++ * CRTC's vblank timer fires according to the programmed display mode. By
++ * default, the vblank timer invokes drm_crtc_handle_vblank(). Drivers with
++ * more specific requirements can set their own handler function in
++ * struct &drm_crtc_helper_funcs.handle_vblank_timeout.
++ */
++
++/*
++ * VBLANK timer
++ */
++
++/**
++ * drm_crtc_vblank_helper_enable_vblank_timer - Implements struct &drm_crtc_funcs.enable_vblank
++ * @crtc: The CRTC
++ *
++ * The helper drm_crtc_vblank_helper_enable_vblank_timer() implements
++ * enable_vblank of struct drm_crtc_helper_funcs for CRTCs that require
++ * a VBLANK timer. It sets up the timer on the first invocation. The
++ * started timer expires after the current frame duration. See struct
++ * &drm_vblank_crtc.framedur_ns.
++ *
++ * See also struct &drm_crtc_helper_funcs.enable_vblank.
++ *
++ * Returns:
++ * 0 on success, or a negative errno code otherwise.
++ */
++int drm_crtc_vblank_helper_enable_vblank_timer(struct drm_crtc *crtc)
++{
++	return drm_crtc_vblank_start_timer(crtc);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_helper_enable_vblank_timer);
++
++/**
++ * drm_crtc_vblank_helper_disable_vblank_timer - Implements struct &drm_crtc_funcs.disable_vblank
++ * @crtc: The CRTC
++ *
++ * The helper drm_crtc_vblank_helper_disable_vblank_timer() implements
++ * disable_vblank of struct drm_crtc_funcs for CRTCs that require a
++ * VBLANK timer.
++ *
++ * See also struct &drm_crtc_helper_funcs.disable_vblank.
++ */
++void drm_crtc_vblank_helper_disable_vblank_timer(struct drm_crtc *crtc)
++{
++	drm_crtc_vblank_cancel_timer(crtc);
++}
++EXPORT_SYMBOL(drm_crtc_vblank_helper_disable_vblank_timer);
++
++/**
++ * drm_crtc_vblank_helper_get_vblank_timestamp_from_timer -
++ *	Implements struct &drm_crtc_funcs.get_vblank_timestamp
++ * @crtc: The CRTC
++ * @max_error: Maximum acceptable error
++ * @vblank_time: Returns the next vblank timestamp
++ * @in_vblank_irq: True is called from drm_crtc_handle_vblank()
++ *
++ * The helper drm_crtc_helper_get_vblank_timestamp_from_timer() implements
++ * get_vblank_timestamp of struct drm_crtc_funcs for CRTCs that require a
++ * VBLANK timer. It returns the timestamp according to the timer's expiry
++ * time.
++ *
++ * See also struct &drm_crtc_funcs.get_vblank_timestamp.
++ *
++ * Returns:
++ * True on success, or false otherwise.
++ */
++bool drm_crtc_vblank_helper_get_vblank_timestamp_from_timer(struct drm_crtc *crtc,
++							    int *max_error,
++							    ktime_t *vblank_time,
++							    bool in_vblank_irq)
++{
++	drm_crtc_vblank_get_vblank_timeout(crtc, vblank_time);
++
++	return true;
++}
++EXPORT_SYMBOL(drm_crtc_vblank_helper_get_vblank_timestamp_from_timer);
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index ce7c7aeac887..fe32854b7ffe 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -490,6 +490,18 @@ struct drm_crtc_helper_funcs {
+ 				     bool in_vblank_irq, int *vpos, int *hpos,
+ 				     ktime_t *stime, ktime_t *etime,
+ 				     const struct drm_display_mode *mode);
++
++	/**
++	 * @handle_vblank_timeout: Handles timeouts of the vblank timer.
++	 *
++	 * Called by CRTC's the vblank timer on each timeout. Semantics is
++	 * equivalient to drm_crtc_handle_vblank(). Implementations should
++	 * invoke drm_crtc_handle_vblank() as part of processing the timeout.
++	 *
++	 * This callback is optional. If unset, the vblank timer invokes
++	 * drm_crtc_handle_vblank() directly.
++	 */
++	bool (*handle_vblank_timeout)(struct drm_crtc *crtc);
  };
  
- struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *primary,
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 8013c31efe3b..fb9711e1c6fb 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -215,8 +215,6 @@ struct vkms_output {
- 	struct drm_crtc crtc;
- 	struct drm_writeback_connector wb_connector;
- 	struct drm_encoder wb_encoder;
--	struct hrtimer vblank_hrtimer;
--	ktime_t period_ns;
- 	struct workqueue_struct *composer_workq;
- 	spinlock_t lock;
+ /**
+diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+index 151ab1e85b1b..ffa564d79638 100644
+--- a/include/drm/drm_vblank.h
++++ b/include/drm/drm_vblank.h
+@@ -25,6 +25,7 @@
+ #define _DRM_VBLANK_H_
  
+ #include <linux/seqlock.h>
++#include <linux/hrtimer.h>
+ #include <linux/idr.h>
+ #include <linux/poll.h>
+ #include <linux/kthread.h>
+@@ -103,6 +104,28 @@ struct drm_vblank_crtc_config {
+ 	bool disable_immediate;
+ };
+ 
++/**
++ * struct drm_vblank_crtc_timer - vblank timer for a CRTC
++ */
++struct drm_vblank_crtc_timer {
++	/**
++	 * @timer: The vblank's high-resolution timer
++	 */
++	struct hrtimer timer;
++	/**
++	 * @interval_lock: Protects @interval
++	 */
++	spinlock_t interval_lock;
++	/**
++	 * @interval: Duration between two vblanks
++	 */
++	ktime_t interval;
++	/**
++	 * @crtc: The timer's CRTC
++	 */
++	struct drm_crtc *crtc;
++};
++
+ /**
+  * struct drm_vblank_crtc - vblank tracking for a CRTC
+  *
+@@ -254,6 +277,11 @@ struct drm_vblank_crtc {
+ 	 * cancelled.
+ 	 */
+ 	wait_queue_head_t work_wait_queue;
++
++	/**
++	 * @vblank_timer: Holds the state of the vblank timer
++	 */
++	struct drm_vblank_crtc_timer vblank_timer;
+ };
+ 
+ struct drm_vblank_crtc *drm_crtc_vblank_crtc(struct drm_crtc *crtc);
+@@ -290,6 +318,10 @@ wait_queue_head_t *drm_crtc_vblank_waitqueue(struct drm_crtc *crtc);
+ void drm_crtc_set_max_vblank_count(struct drm_crtc *crtc,
+ 				   u32 max_vblank_count);
+ 
++int drm_crtc_vblank_start_timer(struct drm_crtc *crtc);
++void drm_crtc_vblank_cancel_timer(struct drm_crtc *crtc);
++void drm_crtc_vblank_get_vblank_timeout(struct drm_crtc *crtc, ktime_t *vblank_time);
++
+ /*
+  * Helpers for struct drm_crtc_funcs
+  */
+diff --git a/include/drm/drm_vblank_helper.h b/include/drm/drm_vblank_helper.h
+new file mode 100644
+index 000000000000..74a971d0cfba
+--- /dev/null
++++ b/include/drm/drm_vblank_helper.h
+@@ -0,0 +1,33 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#ifndef _DRM_VBLANK_HELPER_H_
++#define _DRM_VBLANK_HELPER_H_
++
++#include <linux/hrtimer_types.h>
++#include <linux/types.h>
++
++struct drm_crtc;
++
++/*
++ * VBLANK timer
++ */
++
++int drm_crtc_vblank_helper_enable_vblank_timer(struct drm_crtc *crtc);
++void drm_crtc_vblank_helper_disable_vblank_timer(struct drm_crtc *crtc);
++bool drm_crtc_vblank_helper_get_vblank_timestamp_from_timer(struct drm_crtc *crtc,
++							    int *max_error,
++							    ktime_t *vblank_time,
++							    bool in_vblank_irq);
++
++/**
++ * DRM_CRTC_VBLANK_TIMER_FUNCS - Default implementation for VBLANK timers
++ *
++ * This macro initializes struct &drm_crtc_funcs to default helpers for
++ * VBLANK timers.
++ */
++#define DRM_CRTC_VBLANK_TIMER_FUNCS \
++	.enable_vblank = drm_crtc_vblank_helper_enable_vblank_timer, \
++	.disable_vblank = drm_crtc_vblank_helper_disable_vblank_timer, \
++	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp_from_timer
++
++#endif
 -- 
 2.51.0
 
