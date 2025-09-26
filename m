@@ -1,28 +1,28 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901F1242D9A;
-	Fri, 26 Sep 2025 16:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E99925A321;
+	Fri, 26 Sep 2025 16:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758903806; cv=none; b=WCTqSD3+w3hCjSuQOtLFPtkLlYsxRGOrTAjjwkjQMrQdBis4+CI/CpDs10YwjaZ/1wC8eXxOC5a1q0JkGHRvOGPIsZPz2kgXkRlWjs6skn5Tp6J32hi8TH3tt9pfd/mh7dTC4kmUiWWY6aA9NkO1svU5/4ChIJZH7aoi/Bd2tR4=
+	t=1758903806; cv=none; b=RQC8Bct9mPzY0RbhTPwoXEEMShXnyU62hBFUev3IUGNtRtIhkWKt/jQptwzQ6Is0hOg5NF4Kr0ckrTyOGkZIFnS3Si2WUcMjEVBa1NA2np4DdODNvuvZHXQ/gF2XiVT9agmUPEMi7DudTLYJRiGSU37mGG1nH6eFiE76iIEkK3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758903806; c=relaxed/simple;
-	bh=or5HMkx4q0+qqf1D8OJk+Tcq74so2REwqX3cpc+EdQ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=D6ct6lRYETK9d4BfT1UIz/rpuLGTAwADDuzg0PNR2tKCS7+goxnYu+8hK90wnCNNVH+2qDl5VkuAE/AKDElzwy85PdIVipB/6t3nUP49wgJ/ujRFrEWtllX89Lx00JaBQ4SVvWoQutLwuuM6Qwq8UsY3yx7t0UbByVojwjFvLoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ofONJa5l; arc=none smtp.client-ip=13.77.154.182
+	bh=BG86/Zyw7kwF/mFOVfV4WPnWX+4pHkFABpA3DzaR3bg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=MGRcMRlVn5rkOYN+WIpj3XZTueEhnVmYqtsVAej2BEQrN6moMawuFCsvYUU3+lxIcvB7IOxyxPwcaQvOwMjYSHEFJxtKk7LueMgKav1VSrzzMIVxX0AiDAKvhZxJq6BQEwMDRhDl6X0S4pklm/DbOS/2GDoSgATMoZaC1PXuZuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=l6x3PhFf; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ofONJa5l"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="l6x3PhFf"
 Received: by linux.microsoft.com (Postfix, from userid 1032)
-	id 5B79C2124F6E; Fri, 26 Sep 2025 09:23:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5B79C2124F6E
+	id C7B142124F71; Fri, 26 Sep 2025 09:23:19 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C7B142124F71
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1758903798;
-	bh=INxFKw2g84IfSr0fVT/YacqWKKnwrFP/fuSuADIQ4sA=;
+	s=default; t=1758903799;
+	bh=nYV/xMz2PBn7RHh+hUxjg7aOhJc8qFivxfQtehhjku0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ofONJa5lIwcDAWhw6Yaxe0lZMnbif49uj6hGwCU6kvpF/yJAWokJJJxSdCaWgJEuH
-	 swMf6RSA0WuUCG6laKIiuFOWaEC4IolmbRTuxpduUQ8mthPM8IJ0NMYCtBb/S1joVg
-	 Ht7nwrimFP2XTfFRCrCiRJpKbN7q+tMcE+3NuYyw=
+	b=l6x3PhFf8TKPPKA8E2sRloSjrV+yF0FeqHNCkViLUlmwos78I+EB7/rS6qpzUtvbh
+	 0DyaH6qUOFhRsi6of/ZdmW3NaSRhB0s2l3o8BhSaWOpUaeM3AgYa26iRwVmkneeqep
+	 ll+iQSb4NlyLC2k6Jf/NYv9cyiToIucSMbobVrfU=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -36,10 +36,11 @@ Cc: kys@microsoft.com,
 	haiyangz@microsoft.com,
 	wei.liu@kernel.org,
 	decui@microsoft.com,
+	Jinank Jain <jinankjain@linux.microsoft.com>,
 	Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: [PATCH v4 2/5] mshv: Add the HVCALL_GET_PARTITION_PROPERTY_EX hypercall
-Date: Fri, 26 Sep 2025 09:23:12 -0700
-Message-Id: <1758903795-18636-3-git-send-email-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v4 5/5] mshv: Introduce new hypercall to map stats page for L1VH partitions
+Date: Fri, 26 Sep 2025 09:23:15 -0700
+Message-Id: <1758903795-18636-6-git-send-email-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1758903795-18636-1-git-send-email-nunodasneves@linux.microsoft.com>
 References: <1758903795-18636-1-git-send-email-nunodasneves@linux.microsoft.com>
@@ -49,184 +50,273 @@ List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 
-From: Purna Pavan Chandra Aekkaladevi <paekkaladevi@linux.microsoft.com>
+From: Jinank Jain <jinankjain@linux.microsoft.com>
 
-This hypercall can be used to fetch extended properties of a
-partition. Extended properties are properties with values larger than
-a u64. Some of these also need additional input arguments.
+Introduce HVCALL_MAP_STATS_PAGE2 which provides a map location (GPFN)
+to map the stats to. This hypercall is required for L1VH partitions,
+depending on the hypervisor version. This uses the same check as the
+state page map location; mshv_use_overlay_gpfn().
 
-Add helper function for using the hypercall in the mshv_root driver.
+Add mshv_map_vp_state_page() helpers to use this new hypercall or the
+old one depending on availability.
 
-Signed-off-by: Purna Pavan Chandra Aekkaladevi <paekkaladevi@linux.microsoft.com>
+For unmapping, the original HVCALL_UNMAP_STATS_PAGE works for both
+cases.
+
+Signed-off-by: Jinank Jain <jinankjain@linux.microsoft.com>
 Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Reviewed-by: Anirudh Rayabharam <anirudh@anirudhrb.com>
-Reviewed-by: Praveen K Paladugu <prapal@linux.microsoft.com>
 Reviewed-by: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
 ---
- drivers/hv/mshv_root.h         |  2 ++
- drivers/hv/mshv_root_hv_call.c | 31 ++++++++++++++++++++++++++
+ drivers/hv/mshv_root.h         | 10 ++--
+ drivers/hv/mshv_root_hv_call.c | 93 ++++++++++++++++++++++++++++++++--
+ drivers/hv/mshv_root_main.c    | 22 ++++----
  include/hyperv/hvgdk_mini.h    |  1 +
- include/hyperv/hvhdk.h         | 40 ++++++++++++++++++++++++++++++++++
- include/hyperv/hvhdk_mini.h    | 26 ++++++++++++++++++++++
- 5 files changed, 100 insertions(+)
+ include/hyperv/hvhdk_mini.h    |  7 +++
+ 5 files changed, 113 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index e3931b0f1269..4aeb03bea6b6 100644
+index dbe2d1d0b22f..0dfccfbe6123 100644
 --- a/drivers/hv/mshv_root.h
 +++ b/drivers/hv/mshv_root.h
-@@ -303,6 +303,8 @@ int hv_call_unmap_stat_page(enum hv_stats_object_type type,
+@@ -297,11 +297,11 @@ int hv_call_connect_port(u64 port_partition_id, union hv_port_id port_id,
+ int hv_call_disconnect_port(u64 connection_partition_id,
+ 			    union hv_connection_id connection_id);
+ int hv_call_notify_port_ring_empty(u32 sint_index);
+-int hv_call_map_stat_page(enum hv_stats_object_type type,
+-			  const union hv_stats_object_identity *identity,
+-			  void **addr);
+-int hv_call_unmap_stat_page(enum hv_stats_object_type type,
+-			    const union hv_stats_object_identity *identity);
++int hv_map_stats_page(enum hv_stats_object_type type,
++		      const union hv_stats_object_identity *identity,
++		      void **addr);
++int hv_unmap_stats_page(enum hv_stats_object_type type, void *page_addr,
++			const union hv_stats_object_identity *identity);
  int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
  				   u64 page_struct_count, u32 host_access,
  				   u32 flags, u8 acquire);
-+int hv_call_get_partition_property_ex(u64 partition_id, u64 property_code, u64 arg,
-+				      void *property_value, size_t property_value_sz);
- 
- extern struct mshv_root mshv_root;
- extern enum hv_scheduler_type hv_scheduler_type;
 diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index c9c274f29c3c..3fd3cce23f69 100644
+index 98c6278ff151..5a805b3dec0b 100644
 --- a/drivers/hv/mshv_root_hv_call.c
 +++ b/drivers/hv/mshv_root_hv_call.c
-@@ -590,6 +590,37 @@ int hv_call_unmap_vp_state_page(u64 partition_id, u32 vp_index, u32 type,
+@@ -804,9 +804,51 @@ hv_call_notify_port_ring_empty(u32 sint_index)
  	return hv_result_to_errno(status);
  }
  
-+int hv_call_get_partition_property_ex(u64 partition_id, u64 property_code,
-+				      u64 arg, void *property_value,
-+				      size_t property_value_sz)
+-int hv_call_map_stat_page(enum hv_stats_object_type type,
+-			  const union hv_stats_object_identity *identity,
+-			  void **addr)
++static int hv_call_map_stats_page2(enum hv_stats_object_type type,
++				   const union hv_stats_object_identity *identity,
++				   u64 map_location)
 +{
-+	u64 status;
 +	unsigned long flags;
-+	struct hv_input_get_partition_property_ex *input;
-+	struct hv_output_get_partition_property_ex *output;
++	struct hv_input_map_stats_page2 *input;
++	u64 status;
++	int ret;
 +
-+	local_irq_save(flags);
-+	input = *this_cpu_ptr(hyperv_pcpu_input_arg);
-+	output = *this_cpu_ptr(hyperv_pcpu_output_arg);
++	if (!map_location || !mshv_use_overlay_gpfn())
++		return -EINVAL;
 +
-+	memset(input, 0, sizeof(*input));
-+	input->partition_id = partition_id;
-+	input->property_code = property_code;
-+	input->arg = arg;
-+	status = hv_do_hypercall(HVCALL_GET_PARTITION_PROPERTY_EX, input, output);
++	do {
++		local_irq_save(flags);
++		input = *this_cpu_ptr(hyperv_pcpu_input_arg);
 +
-+	if (!hv_result_success(status)) {
-+		hv_status_debug(status, "\n");
++		memset(input, 0, sizeof(*input));
++		input->type = type;
++		input->identity = *identity;
++		input->map_location = map_location;
++
++		status = hv_do_hypercall(HVCALL_MAP_STATS_PAGE2, input, NULL);
++
 +		local_irq_restore(flags);
-+		return hv_result_to_errno(status);
-+	}
-+	memcpy(property_value, &output->property_value, property_value_sz);
 +
-+	local_irq_restore(flags);
++		ret = hv_result_to_errno(status);
 +
-+	return 0;
++		if (!ret)
++			break;
++
++		if (hv_result(status) != HV_STATUS_INSUFFICIENT_MEMORY) {
++			hv_status_debug(status, "\n");
++			break;
++		}
++
++		ret = hv_call_deposit_pages(NUMA_NO_NODE,
++					    hv_current_partition_id, 1);
++	} while (!ret);
++
++	return ret;
 +}
 +
- int
- hv_call_clear_virtual_interrupt(u64 partition_id)
++static int hv_call_map_stats_page(enum hv_stats_object_type type,
++				  const union hv_stats_object_identity *identity,
++				  void **addr)
  {
+ 	unsigned long flags;
+ 	struct hv_input_map_stats_page *input;
+@@ -845,8 +887,36 @@ int hv_call_map_stat_page(enum hv_stats_object_type type,
+ 	return ret;
+ }
+ 
+-int hv_call_unmap_stat_page(enum hv_stats_object_type type,
+-			    const union hv_stats_object_identity *identity)
++int hv_map_stats_page(enum hv_stats_object_type type,
++		      const union hv_stats_object_identity *identity,
++		      void **addr)
++{
++	int ret;
++	struct page *allocated_page = NULL;
++
++	if (!addr)
++		return -EINVAL;
++
++	if (mshv_use_overlay_gpfn()) {
++		allocated_page = alloc_page(GFP_KERNEL);
++		if (!allocated_page)
++			return -ENOMEM;
++
++		ret = hv_call_map_stats_page2(type, identity,
++					      page_to_pfn(allocated_page));
++		*addr = page_address(allocated_page);
++	} else {
++		ret = hv_call_map_stats_page(type, identity, addr);
++	}
++
++	if (ret && allocated_page)
++		__free_page(allocated_page);
++
++	return ret;
++}
++
++static int hv_call_unmap_stats_page(enum hv_stats_object_type type,
++				    const union hv_stats_object_identity *identity)
+ {
+ 	unsigned long flags;
+ 	struct hv_input_unmap_stats_page *input;
+@@ -865,6 +935,19 @@ int hv_call_unmap_stat_page(enum hv_stats_object_type type,
+ 	return hv_result_to_errno(status);
+ }
+ 
++int hv_unmap_stats_page(enum hv_stats_object_type type, void *page_addr,
++			const union hv_stats_object_identity *identity)
++{
++	int ret;
++
++	ret = hv_call_unmap_stats_page(type, identity);
++
++	if (mshv_use_overlay_gpfn() && page_addr)
++		__free_page(virt_to_page(page_addr));
++
++	return ret;
++}
++
+ int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
+ 				   u64 page_struct_count, u32 host_access,
+ 				   u32 flags, u8 acquire)
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index 2d0ad17acde6..71a8ab5db3b8 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -841,7 +841,8 @@ mshv_vp_release(struct inode *inode, struct file *filp)
+ 	return 0;
+ }
+ 
+-static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index)
++static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
++				void *stats_pages[])
+ {
+ 	union hv_stats_object_identity identity = {
+ 		.vp.partition_id = partition_id,
+@@ -849,10 +850,10 @@ static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index)
+ 	};
+ 
+ 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
+-	hv_call_unmap_stat_page(HV_STATS_OBJECT_VP, &identity);
++	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
+ 
+ 	identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
+-	hv_call_unmap_stat_page(HV_STATS_OBJECT_VP, &identity);
++	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
+ }
+ 
+ static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
+@@ -865,14 +866,14 @@ static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
+ 	int err;
+ 
+ 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
+-	err = hv_call_map_stat_page(HV_STATS_OBJECT_VP, &identity,
+-				    &stats_pages[HV_STATS_AREA_SELF]);
++	err = hv_map_stats_page(HV_STATS_OBJECT_VP, &identity,
++				&stats_pages[HV_STATS_AREA_SELF]);
+ 	if (err)
+ 		return err;
+ 
+ 	identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
+-	err = hv_call_map_stat_page(HV_STATS_OBJECT_VP, &identity,
+-				    &stats_pages[HV_STATS_AREA_PARENT]);
++	err = hv_map_stats_page(HV_STATS_OBJECT_VP, &identity,
++				&stats_pages[HV_STATS_AREA_PARENT]);
+ 	if (err)
+ 		goto unmap_self;
+ 
+@@ -880,7 +881,7 @@ static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
+ 
+ unmap_self:
+ 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
+-	hv_call_unmap_stat_page(HV_STATS_OBJECT_VP, &identity);
++	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
+ 	return err;
+ }
+ 
+@@ -988,7 +989,7 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+ 	kfree(vp);
+ unmap_stats_pages:
+ 	if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
+-		mshv_vp_stats_unmap(partition->pt_id, args.vp_index);
++		mshv_vp_stats_unmap(partition->pt_id, args.vp_index, stats_pages);
+ unmap_ghcb_page:
+ 	if (mshv_partition_encrypted(partition) && is_ghcb_mapping_available())
+ 		hv_unmap_vp_state_page(partition->pt_id, args.vp_index,
+@@ -1740,7 +1741,8 @@ static void destroy_partition(struct mshv_partition *partition)
+ 				continue;
+ 
+ 			if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
+-				mshv_vp_stats_unmap(partition->pt_id, vp->vp_index);
++				mshv_vp_stats_unmap(partition->pt_id, vp->vp_index,
++						    (void **)vp->vp_stats_pages);
+ 
+ 			if (vp->vp_register_page) {
+ 				(void)hv_unmap_vp_state_page(partition->pt_id,
 diff --git a/include/hyperv/hvgdk_mini.h b/include/hyperv/hvgdk_mini.h
-index 1be7f6a02304..ff4325fb623a 100644
+index ff4325fb623a..f66565106d21 100644
 --- a/include/hyperv/hvgdk_mini.h
 +++ b/include/hyperv/hvgdk_mini.h
-@@ -490,6 +490,7 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
- #define HVCALL_GET_VP_STATE				0x00e3
- #define HVCALL_SET_VP_STATE				0x00e4
- #define HVCALL_GET_VP_CPUID_VALUES			0x00f4
-+#define HVCALL_GET_PARTITION_PROPERTY_EX		0x0101
+@@ -493,6 +493,7 @@ union hv_vp_assist_msr_contents {	 /* HV_REGISTER_VP_ASSIST_PAGE */
+ #define HVCALL_GET_PARTITION_PROPERTY_EX		0x0101
  #define HVCALL_MMIO_READ				0x0106
  #define HVCALL_MMIO_WRITE				0x0107
++#define HVCALL_MAP_STATS_PAGE2				0x0131
  
-diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
-index b4067ada02cf..416c0d45b793 100644
---- a/include/hyperv/hvhdk.h
-+++ b/include/hyperv/hvhdk.h
-@@ -376,6 +376,46 @@ struct hv_input_set_partition_property {
- 	u64 property_value;
- } __packed;
- 
-+union hv_partition_property_arg {
-+	u64 as_uint64;
-+	struct {
-+		union {
-+			u32 arg;
-+			u32 vp_index;
-+		};
-+		u16 reserved0;
-+		u8 reserved1;
-+		u8 object_type;
-+	} __packed;
-+};
-+
-+struct hv_input_get_partition_property_ex {
-+	u64 partition_id;
-+	u32 property_code; /* enum hv_partition_property_code */
-+	u32 padding;
-+	union {
-+		union hv_partition_property_arg arg_data;
-+		u64 arg;
-+	};
-+} __packed;
-+
-+/*
-+ * NOTE: Should use hv_input_set_partition_property_ex_header to compute this
-+ * size, but hv_input_get_partition_property_ex is identical so it suffices
-+ */
-+#define HV_PARTITION_PROPERTY_EX_MAX_VAR_SIZE \
-+	(HV_HYP_PAGE_SIZE - sizeof(struct hv_input_get_partition_property_ex))
-+
-+union hv_partition_property_ex {
-+	u8 buffer[HV_PARTITION_PROPERTY_EX_MAX_VAR_SIZE];
-+	struct hv_partition_property_vmm_capabilities vmm_capabilities;
-+	/* More fields to be filled in when needed */
-+};
-+
-+struct hv_output_get_partition_property_ex {
-+	union hv_partition_property_ex property_value;
-+} __packed;
-+
- enum hv_vp_state_page_type {
- 	HV_VP_STATE_PAGE_REGISTERS = 0,
- 	HV_VP_STATE_PAGE_INTERCEPT_MESSAGE = 1,
+ /* HV_HYPERCALL_INPUT */
+ #define HV_HYPERCALL_RESULT_MASK	GENMASK_ULL(15, 0)
 diff --git a/include/hyperv/hvhdk_mini.h b/include/hyperv/hvhdk_mini.h
-index 858f6a3925b3..bf2ce27dfcc5 100644
+index bf2ce27dfcc5..064bf735cab6 100644
 --- a/include/hyperv/hvhdk_mini.h
 +++ b/include/hyperv/hvhdk_mini.h
-@@ -96,8 +96,34 @@ enum hv_partition_property_code {
- 	HV_PARTITION_PROPERTY_XSAVE_STATES                      = 0x00060007,
- 	HV_PARTITION_PROPERTY_MAX_XSAVE_DATA_SIZE		= 0x00060008,
- 	HV_PARTITION_PROPERTY_PROCESSOR_CLOCK_FREQUENCY		= 0x00060009,
-+
-+	/* Extended properties with larger property values */
-+	HV_PARTITION_PROPERTY_VMM_CAPABILITIES			= 0x00090007,
- };
+@@ -177,6 +177,13 @@ struct hv_input_map_stats_page {
+ 	union hv_stats_object_identity identity;
+ } __packed;
  
-+#define HV_PARTITION_VMM_CAPABILITIES_BANK_COUNT		1
-+#define HV_PARTITION_VMM_CAPABILITIES_RESERVED_BITFIELD_COUNT	59
-+
-+struct hv_partition_property_vmm_capabilities {
-+	u16 bank_count;
-+	u16 reserved[3];
-+	union {
-+		u64 as_uint64[HV_PARTITION_VMM_CAPABILITIES_BANK_COUNT];
-+		struct {
-+			u64 map_gpa_preserve_adjustable: 1;
-+			u64 vmm_can_provide_overlay_gpfn: 1;
-+			u64 vp_affinity_property: 1;
-+#if IS_ENABLED(CONFIG_ARM64)
-+			u64 vmm_can_provide_gic_overlay_locations: 1;
-+#else
-+			u64 reservedbit3: 1;
-+#endif
-+			u64 assignable_synthetic_proc_features: 1;
-+			u64 reserved0: HV_PARTITION_VMM_CAPABILITIES_RESERVED_BITFIELD_COUNT;
-+		} __packed;
-+	};
++struct hv_input_map_stats_page2 {
++	u32 type; /* enum hv_stats_object_type */
++	u32 padding;
++	union hv_stats_object_identity identity;
++	u64 map_location;
 +} __packed;
 +
- enum hv_snp_status {
- 	HV_SNP_STATUS_NONE = 0,
- 	HV_SNP_STATUS_AVAILABLE = 1,
+ struct hv_output_map_stats_page {
+ 	u64 map_location;
+ } __packed;
 -- 
 2.34.1
 
