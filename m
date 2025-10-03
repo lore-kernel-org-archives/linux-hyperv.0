@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5184A27A10F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3DAB27B4E5;
 	Fri,  3 Oct 2025 22:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759530445; cv=none; b=hHbKCS7EG/siRIy0jeBnedgFzHjHVkSPLi1QuShrqxP2S3ZrKiNc6ngVN2wFGOlHNrA578HgnLHoMD6pG15N+Gc3enOwq8bpAEygWr8YIUHUUmQjTcmtstPprq0SEvQQ8rXiu6H2Pf6y1ZVphe0kDk4DwvAzennJIlMPKNtscEE=
+	t=1759530445; cv=none; b=U/a/4+oyewAEZN/whYZMYpG2w2OqLrqgmV5BJVJHwxwRa54OOAGw00xLeDhlXcK3C/u1z1eM+4XKv2cCKAqMdifOE0tVB8F5N00G7wAXJsjeXKYJbb3WcT5CzQmhvIonOmxsf8EmZE6rJa4zbQdhcMtBEhq2Epn1SSzWs4gR7ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759530445; c=relaxed/simple;
-	bh=3sYrfbLh1No9MnApa8e+Dzrxl59vkJn6AMXDBVfJh5U=;
+	bh=Fkn/javTiww3cFoTkMbsTMJizV3BWu9Hp9OMgATsTkM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wmw/w/8AX43avzDPBYpSPvOEUW4oO0jtLTkNlXRn6ohux0PCfl5H5yNKn6Np8M5GOk4HWWYLS4CNj54xnR+YDtX7E+J31YEfNccOfFVIufb/k9t5ZAk1V2mfcm7SNZf5fg+k83bdhpafQgkWmBYT1aUmWoRw9ahyf0QLfMQ07YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=re5b4fEH; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=BetrW3MaOWn3Q7p6cwzoTkOib8ApUGjdmrmZJHMeRuT1xZ1H1YDKphWhOYNzy3PjUsmlqsmrSJtl8lZF2sYWk0GOGMVQAGtUp6p1Y7VuK/Y8m5JvGRla9y3B0c09syONWLAvImUJX0fwp/9ULpxq01cqxtoIgwHDZKf5fxa6pfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=skGNtAaH; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="re5b4fEH"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="skGNtAaH"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7B15B211C27E;
-	Fri,  3 Oct 2025 15:27:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7B15B211C27E
+	by linux.microsoft.com (Postfix) with ESMTPSA id 148E1211C27F;
+	Fri,  3 Oct 2025 15:27:23 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 148E1211C27F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759530441;
-	bh=U/V7LAyJxRAC6jWs2mHF+EcmxCXjONzJ+HhJb3jU37A=;
+	s=default; t=1759530443;
+	bh=KOeZVTeTzRHNYVd4hRy4Pl2r3BRcW7MVMnUEOSxzTv8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=re5b4fEHBg9/GGThcQz9eP9kpl8eMWtI7ovCEhVD8JIMYCjIdawmWUfBFA7K1I+He
-	 svycoF/cqxnVIs/yKEzr3BL72VZiEwP/BrpN/Ft3HWnQDCHMhqZ2UAl59UP8cOru9P
-	 nuydr2De9XuIH/XyqlRF6U5OiA6GGQVxMckc2cC4=
+	b=skGNtAaHOaCpeay5u6LSqN2AnKr0jPNhmYCorB9ZcOOETtmkl9Mk0nrEocN2vv726
+	 vcfTaPaaQqIl36uWX2Kwq9Ri+HucteE7M3NZm1AG27aymCDhvO78Fj9dUKtdFXYaZx
+	 tGuGhzRaOjw9JEjPL5vhx2cb6+wxLSO3fyP4BMJ0=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bp@alien8.de,
@@ -48,9 +48,9 @@ Cc: benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com,
 	romank@linux.microsoft.com
-Subject: [PATCH hyperv-next v6 12/17] Drivers: hv: Functions for setting up and tearing down the paravisor SynIC
-Date: Fri,  3 Oct 2025 15:27:05 -0700
-Message-ID: <20251003222710.6257-13-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v6 14/17] Drivers: hv: Free msginfo when the buffer fails to decrypt
+Date: Fri,  3 Oct 2025 15:27:07 -0700
+Message-ID: <20251003222710.6257-15-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251003222710.6257-1-romank@linux.microsoft.com>
 References: <20251003222710.6257-1-romank@linux.microsoft.com>
@@ -62,250 +62,78 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The confidential VMBus runs with the paravisor SynIC and requires
-configuring it with the paravisor.
+The early failure path in __vmbus_establish_gpadl() doesn't deallocate
+msginfo if the buffer fails to decrypt.
 
-Add the functions for configuring the paravisor SynIC. Update
-overall SynIC initialization logic to initialize the SynIC if it
-is present. Finally, break out SynIC interrupt enable/disable
-code into separate functions so that SynIC interrupts can be
-enabled or disabled via the paravisor instead of the hypervisor
-if the paravisor SynIC is present.
+Fix the leak by breaking out the cleanup code into a separate function
+and calling it where required.
 
+Fixes: d4dccf353db80 ("Drivers: hv: vmbus: Mark vmbus ring buffer visible to host in Isolation VM")
+Reported-by: Michael Kelley <mkhlinux@outlook.com>
+Closes: https://lore.kernel.org/linux-hyperv/SN6PR02MB41573796F9787F67E0E97049D472A@SN6PR02MB4157.namprd02.prod.outlook.com
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/hv.c | 138 +++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 126 insertions(+), 12 deletions(-)
+ drivers/hv/channel.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 76138ebe7c0c..5789b41be76c 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -278,9 +278,8 @@ void hv_hyp_synic_enable_regs(unsigned int cpu)
- 	union hv_synic_simp simp;
- 	union hv_synic_siefp siefp;
- 	union hv_synic_sint shared_sint;
--	union hv_synic_scontrol sctrl;
- 
--	/* Setup the Synic's message page */
-+	/* Setup the Synic's message page with the hypervisor. */
- 	simp.as_uint64 = hv_get_msr(HV_MSR_SIMP);
- 	simp.simp_enabled = 1;
- 
-@@ -299,7 +298,7 @@ void hv_hyp_synic_enable_regs(unsigned int cpu)
- 
- 	hv_set_msr(HV_MSR_SIMP, simp.as_uint64);
- 
--	/* Setup the Synic's event page */
-+	/* Setup the Synic's event page with the hypervisor. */
- 	siefp.as_uint64 = hv_get_msr(HV_MSR_SIEFP);
- 	siefp.siefp_enabled = 1;
- 
-@@ -327,6 +326,11 @@ void hv_hyp_synic_enable_regs(unsigned int cpu)
- 	shared_sint.masked = false;
- 	shared_sint.auto_eoi = hv_recommend_using_aeoi();
- 	hv_set_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT, shared_sint.as_uint64);
-+}
-+
-+static void hv_hyp_synic_enable_interrupts(void)
-+{
-+	union hv_synic_scontrol sctrl;
- 
- 	/* Enable the global synic bit */
- 	sctrl.as_uint64 = hv_get_msr(HV_MSR_SCONTROL);
-@@ -335,9 +339,59 @@ void hv_hyp_synic_enable_regs(unsigned int cpu)
- 	hv_set_msr(HV_MSR_SCONTROL, sctrl.as_uint64);
+diff --git a/drivers/hv/channel.c b/drivers/hv/channel.c
+index d69713201bef..88485d255a42 100644
+--- a/drivers/hv/channel.c
++++ b/drivers/hv/channel.c
+@@ -410,6 +410,21 @@ static int create_gpadl_header(enum hv_gpadl_type type, void *kbuffer,
+ 	return 0;
  }
  
-+static void hv_para_synic_enable_regs(unsigned int cpu)
++static void vmbus_free_channel_msginfo(struct vmbus_channel_msginfo *msginfo)
 +{
-+	union hv_synic_simp simp;
-+	union hv_synic_siefp siefp;
-+	struct hv_per_cpu_context *hv_cpu
-+		= per_cpu_ptr(hv_context.cpu_context, cpu);
++	struct vmbus_channel_msginfo *submsginfo, *tmp;
 +
-+	/* Setup the Synic's message page with the paravisor. */
-+	simp.as_uint64 = hv_para_get_synic_register(HV_MSR_SIMP);
-+	simp.simp_enabled = 1;
-+	simp.base_simp_gpa = virt_to_phys(hv_cpu->para_synic_message_page)
-+			>> HV_HYP_PAGE_SHIFT;
-+	hv_para_set_synic_register(HV_MSR_SIMP, simp.as_uint64);
++	if (!msginfo)
++		return;
 +
-+	/* Setup the Synic's event page with the paravisor. */
-+	siefp.as_uint64 = hv_para_get_synic_register(HV_MSR_SIEFP);
-+	siefp.siefp_enabled = 1;
-+	siefp.base_siefp_gpa = virt_to_phys(hv_cpu->para_synic_event_page)
-+			>> HV_HYP_PAGE_SHIFT;
-+	hv_para_set_synic_register(HV_MSR_SIEFP, siefp.as_uint64);
-+}
-+
-+static void hv_para_synic_enable_interrupts(void)
-+{
-+	union hv_synic_scontrol sctrl;
-+
-+	/* Enable the global synic bit */
-+	sctrl.as_uint64 = hv_para_get_synic_register(HV_MSR_SCONTROL);
-+	sctrl.enable = 1;
-+	hv_para_set_synic_register(HV_MSR_SCONTROL, sctrl.as_uint64);
-+}
-+
- int hv_synic_init(unsigned int cpu)
- {
-+	if (vmbus_is_confidential())
-+		hv_para_synic_enable_regs(cpu);
-+
-+	/*
-+	 * The SINT is set in hv_hyp_synic_enable_regs() by calling
-+	 * hv_set_msr(). hv_set_msr() in turn has special case code for the
-+	 * SINT MSRs that write to the hypervisor version of the MSR *and*
-+	 * the paravisor version of the MSR (but *without* the proxy bit when
-+	 * VMBus is confidential).
-+	 *
-+	 * Then enable interrupts via the paravisor if VMBus is confidential,
-+	 * and otherwise via the hypervisor.
-+	 */
-+
- 	hv_hyp_synic_enable_regs(cpu);
-+	if (vmbus_is_confidential())
-+		hv_para_synic_enable_interrupts();
-+	else
-+		hv_hyp_synic_enable_interrupts();
- 
- 	hv_stimer_legacy_init(cpu, VMBUS_MESSAGE_SINT);
- 
-@@ -351,7 +405,6 @@ void hv_hyp_synic_disable_regs(unsigned int cpu)
- 	union hv_synic_sint shared_sint;
- 	union hv_synic_simp simp;
- 	union hv_synic_siefp siefp;
--	union hv_synic_scontrol sctrl;
- 
- 	shared_sint.as_uint64 = hv_get_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT);
- 
-@@ -363,7 +416,7 @@ void hv_hyp_synic_disable_regs(unsigned int cpu)
- 
- 	simp.as_uint64 = hv_get_msr(HV_MSR_SIMP);
- 	/*
--	 * In Isolation VM, sim and sief pages are allocated by
-+	 * In Isolation VM, simp and sief pages are allocated by
- 	 * paravisor. These pages also will be used by kdump
- 	 * kernel. So just reset enable bit here and keep page
- 	 * addresses.
-@@ -393,14 +446,42 @@ void hv_hyp_synic_disable_regs(unsigned int cpu)
- 	}
- 
- 	hv_set_msr(HV_MSR_SIEFP, siefp.as_uint64);
-+}
-+
-+static void hv_hyp_synic_disable_interrupts(void)
-+{
-+	union hv_synic_scontrol sctrl;
- 
- 	/* Disable the global synic bit */
- 	sctrl.as_uint64 = hv_get_msr(HV_MSR_SCONTROL);
- 	sctrl.enable = 0;
- 	hv_set_msr(HV_MSR_SCONTROL, sctrl.as_uint64);
-+}
- 
--	if (vmbus_irq != -1)
--		disable_percpu_irq(vmbus_irq);
-+static void hv_para_synic_disable_regs(unsigned int cpu)
-+{
-+	union hv_synic_simp simp;
-+	union hv_synic_siefp siefp;
-+
-+	/* Disable SynIC's message page in the paravisor. */
-+	simp.as_uint64 = hv_para_get_synic_register(HV_MSR_SIMP);
-+	simp.simp_enabled = 0;
-+	hv_para_set_synic_register(HV_MSR_SIMP, simp.as_uint64);
-+
-+	/* Disable SynIC's event page in the paravisor. */
-+	siefp.as_uint64 = hv_para_get_synic_register(HV_MSR_SIEFP);
-+	siefp.siefp_enabled = 0;
-+	hv_para_set_synic_register(HV_MSR_SIEFP, siefp.as_uint64);
-+}
-+
-+static void hv_para_synic_disable_interrupts(void)
-+{
-+	union hv_synic_scontrol sctrl;
-+
-+	/* Disable the global synic bit */
-+	sctrl.as_uint64 = hv_para_get_synic_register(HV_MSR_SCONTROL);
-+	sctrl.enable = 0;
-+	hv_para_set_synic_register(HV_MSR_SCONTROL, sctrl.as_uint64);
- }
- 
- #define HV_MAX_TRIES 3
-@@ -413,16 +494,18 @@ void hv_hyp_synic_disable_regs(unsigned int cpu)
-  * that the normal interrupt handling mechanism will find and process the channel interrupt
-  * "very soon", and in the process clear the bit.
-  */
--static bool hv_synic_event_pending(void)
-+static bool __hv_synic_event_pending(union hv_synic_event_flags *event, int sint)
- {
--	struct hv_per_cpu_context *hv_cpu = this_cpu_ptr(hv_context.cpu_context);
--	union hv_synic_event_flags *event =
--		(union hv_synic_event_flags *)hv_cpu->hyp_synic_event_page + VMBUS_MESSAGE_SINT;
--	unsigned long *recv_int_page = event->flags; /* assumes VMBus version >= VERSION_WIN8 */
-+	unsigned long *recv_int_page;
- 	bool pending;
- 	u32 relid;
- 	int tries = 0;
- 
-+	if (!event)
-+		return false;
-+
-+	event += sint;
-+	recv_int_page = event->flags; /* assumes VMBus version >= VERSION_WIN8 */
- retry:
- 	pending = false;
- 	for_each_set_bit(relid, recv_int_page, HV_EVENT_FLAGS_COUNT) {
-@@ -439,6 +522,17 @@ static bool hv_synic_event_pending(void)
- 	return pending;
- }
- 
-+static bool hv_synic_event_pending(void)
-+{
-+	struct hv_per_cpu_context *hv_cpu = this_cpu_ptr(hv_context.cpu_context);
-+	union hv_synic_event_flags *hyp_synic_event_page = hv_cpu->hyp_synic_event_page;
-+	union hv_synic_event_flags *para_synic_event_page = hv_cpu->para_synic_event_page;
-+
-+	return
-+		__hv_synic_event_pending(hyp_synic_event_page, VMBUS_MESSAGE_SINT) ||
-+		__hv_synic_event_pending(para_synic_event_page, VMBUS_MESSAGE_SINT);
-+}
-+
- static int hv_pick_new_cpu(struct vmbus_channel *channel)
- {
- 	int ret = -EBUSY;
-@@ -531,7 +625,27 @@ int hv_synic_cleanup(unsigned int cpu)
- always_cleanup:
- 	hv_stimer_legacy_cleanup(cpu);
- 
-+	/*
-+	 * First, disable the event and message pages
-+	 * used for communicating with the host, and then
-+	 * disable the host interrupts if VMBus is not
-+	 * confidential.
-+	 */
- 	hv_hyp_synic_disable_regs(cpu);
-+	if (!vmbus_is_confidential())
-+		hv_hyp_synic_disable_interrupts();
-+
-+	/*
-+	 * Perform the same steps for the Confidential VMBus.
-+	 * The sequencing provides the guarantee that no data
-+	 * may be posted for processing before disabling interrupts.
-+	 */
-+	if (vmbus_is_confidential()) {
-+		hv_para_synic_disable_regs(cpu);
-+		hv_para_synic_disable_interrupts();
++	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
++				 msglistentry) {
++		kfree(submsginfo);
 +	}
-+	if (vmbus_irq != -1)
-+		disable_percpu_irq(vmbus_irq);
++
++	kfree(msginfo);
++}
++
+ /*
+  * __vmbus_establish_gpadl - Establish a GPADL for a buffer or ringbuffer
+  *
+@@ -429,7 +444,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	struct vmbus_channel_gpadl_header *gpadlmsg;
+ 	struct vmbus_channel_gpadl_body *gpadl_body;
+ 	struct vmbus_channel_msginfo *msginfo = NULL;
+-	struct vmbus_channel_msginfo *submsginfo, *tmp;
++	struct vmbus_channel_msginfo *submsginfo;
+ 	struct list_head *curr;
+ 	u32 next_gpadl_handle;
+ 	unsigned long flags;
+@@ -459,6 +474,7 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 			dev_warn(&channel->device_obj->device,
+ 				"Failed to set host visibility for new GPADL %d.\n",
+ 				ret);
++			vmbus_free_channel_msginfo(msginfo);
+ 			return ret;
+ 		}
+ 	}
+@@ -535,12 +551,8 @@ static int __vmbus_establish_gpadl(struct vmbus_channel *channel,
+ 	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
+ 	list_del(&msginfo->msglistentry);
+ 	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags);
+-	list_for_each_entry_safe(submsginfo, tmp, &msginfo->submsglist,
+-				 msglistentry) {
+-		kfree(submsginfo);
+-	}
  
- 	return ret;
- }
+-	kfree(msginfo);
++	vmbus_free_channel_msginfo(msginfo);
+ 
+ 	if (ret) {
+ 		/*
 -- 
 2.43.0
 
