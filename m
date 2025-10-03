@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E601276024;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6450F274B44;
 	Fri,  3 Oct 2025 22:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759530444; cv=none; b=tnxqcktnzR4TR0g+ELvRlAnIFpZwULaRw4jnNMrDSyN0MJIa4peFEy/Y1HvScTniHomoSZEHbdIOfWE60fiSZaPilOcE+Qv7RPBYpMvRI+HqdMt7gVGybe86aSxV8JN9SlIrJDn02si2px3LI8s9KQyXgBbPXmsoGWYWit/WKWI=
+	t=1759530444; cv=none; b=RfXJ2f7bltT3/x4Ji3uysAXYT9UrV4+Z/nfEr8FaBlWpxL1MpDgZW6GOF1MvZGtrIoLPmI+qGX9Tt0QivU8LgT4rf1rnvTqtl3/lQarL+vCT1WNtb2TjdwWlEWK0ANtNnbZpNH33LSPgEqtw9kJxSWCL+Pj4pAzqV0Rgoxo6hcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759530444; c=relaxed/simple;
-	bh=QrjgDhfUYEiE2JmDWJqZFzILCDgpPrTC9WtUjLJlBAw=;
+	bh=cyDr5I7iXMv1WYt5xncj5fSI+68lwvx6K0dyTWcHBg4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VUOptfg75TUjEpWp2I6sYZ3RtfYkKQ/Xl+rGvzFvRJiWSR96tAC75gaw4Dnkt2DA25UIMjt8klUGWhYZW9UaS3kaOLTiQaRcD1baSNi+11pEltSTsl5T9qedUMRG2O1a1yv3lvwU3j8qM6byoLk4dR6quoYXTVUS7Bqt3iYxHAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UyBGTywJ; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=PUaYgUuoEdWoLTe3Q4alBEWcRdB9YGVOqVWXBaF4I6sfkbcd3h0rhn3vWBiRc49RpApKWM5iwk47NCaD4X+5CVwwGQOG1aAu+BVm60U74KRl5HQmNUEqDs9UbMCQs1qwYXw8tSupmXilr6utZFadet+zILa6jCqnKXy9GvlKTSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=iIIvDp49; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UyBGTywJ"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="iIIvDp49"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id F05DC211C277;
-	Fri,  3 Oct 2025 15:27:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F05DC211C277
+	by linux.microsoft.com (Postfix) with ESMTPSA id A4F37211C272;
+	Fri,  3 Oct 2025 15:27:15 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A4F37211C272
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759530439;
-	bh=zA4+/A3eGa9jS47gg2tblmQ4Wwt0MSCKxw5bVUpv0k0=;
+	s=default; t=1759530435;
+	bh=8W+5HDLzBlLq6Vdch6raMO3k9vQvcmFeqa68xKouQCs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UyBGTywJXqGPNzCrkHM6zEWC/qsNqzzoh2zysfgRi9qbJdq3JXqcCqp2IMkV+Fn8X
-	 rlZy8R14O/GLl17gQx/dFvNHUwVFSefZvQxcyif2Ay8OeqFX4gvIJJ9k6iDW2+VurU
-	 FnnGfZCTVLzPy++0CWopQM59cgQb6bn2AgK2VF6w=
+	b=iIIvDp49tU/mw4TM1NlAvFs6KLWqhX1opUBe6FmLk2AH0y62AMoGgt2Byf0UnCjVz
+	 WwQHTfzMlJHDkSqmitW1UhUIPchop8nvJJFOo+0qIkT5eYmiiz3OE69B+Y0RNGjqr8
+	 U3GzF0WfTf5pNULfBtLSX7ioqkO8jlanPC9J+OfA=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bp@alien8.de,
@@ -48,9 +48,9 @@ Cc: benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com,
 	romank@linux.microsoft.com
-Subject: [PATCH hyperv-next v6 08/17] Drivers: hv: Post messages through the confidential VMBus if available
-Date: Fri,  3 Oct 2025 15:27:01 -0700
-Message-ID: <20251003222710.6257-9-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v6 04/17] arch: hyperv: Get/set SynIC synth.registers via paravisor
+Date: Fri,  3 Oct 2025 15:26:57 -0700
+Message-ID: <20251003222710.6257-5-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251003222710.6257-1-romank@linux.microsoft.com>
 References: <20251003222710.6257-1-romank@linux.microsoft.com>
@@ -62,48 +62,203 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the confidential VMBus is available, the guest should post
-messages to the paravisor.
+The existing Hyper-V wrappers for getting and setting MSRs are
+hv_get/set_msr(). Via hv_get/set_non_nested_msr(), they detect
+when running in a CoCo VM with a paravisor, and use the TDX or
+SNP guest-host communication protocol to bypass the paravisor
+and go directly to the host hypervisor for SynIC MSRs. The "set"
+function also implements the required special handling for the
+SINT MSRs.
 
-Update hv_post_message() to post messages to the paravisor rather than
-through GHCB or TD calls.
+Provide functions that allow manipulating the SynIC registers
+through the paravisor. Move vmbus_signal_eom() to a more
+appropriate location (which also avoids breaking KVM).
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-Reviewed-by: Tianyu Lan <tiala@microsoft.com>
+Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/hv.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/mshyperv.c | 20 ++++++++++++++++
+ drivers/hv/hv_common.c         | 11 +++++++++
+ drivers/hv/hyperv_vmbus.h      | 44 ++++++++++++++++++++++++++++++++++
+ include/asm-generic/mshyperv.h | 42 ++------------------------------
+ 4 files changed, 77 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index 90db1e17582d..b1085473778c 100644
---- a/drivers/hv/hv.c
-+++ b/drivers/hv/hv.c
-@@ -74,7 +74,11 @@ int hv_post_message(union hv_connection_id connection_id,
- 	aligned_msg->payload_size = payload_size;
- 	memcpy((void *)aligned_msg->payload, payload, payload_size);
+diff --git a/arch/x86/kernel/cpu/mshyperv.c b/arch/x86/kernel/cpu/mshyperv.c
+index 57163c7a000f..af5a3bbbca9f 100644
+--- a/arch/x86/kernel/cpu/mshyperv.c
++++ b/arch/x86/kernel/cpu/mshyperv.c
+@@ -90,6 +90,26 @@ void hv_set_non_nested_msr(unsigned int reg, u64 value)
+ }
+ EXPORT_SYMBOL_GPL(hv_set_non_nested_msr);
  
--	if (ms_hyperv.paravisor_present) {
-+	if (ms_hyperv.paravisor_present && !vmbus_is_confidential()) {
++/*
++ * Get the SynIC register value from the paravisor.
++ */
++u64 hv_para_get_synic_register(unsigned int reg)
++{
++	if (WARN_ON(!ms_hyperv.paravisor_present || !hv_is_synic_msr(reg)))
++		return ~0ULL;
++	return native_read_msr(reg);
++}
++
++/*
++ * Set the SynIC register value with the paravisor.
++ */
++void hv_para_set_synic_register(unsigned int reg, u64 val)
++{
++	if (WARN_ON(!ms_hyperv.paravisor_present || !hv_is_synic_msr(reg)))
++		return;
++	native_write_msr(reg, val);
++}
++
+ u64 hv_get_msr(unsigned int reg)
+ {
+ 	if (hv_nested)
+diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+index e109a620c83f..8756ca834546 100644
+--- a/drivers/hv/hv_common.c
++++ b/drivers/hv/hv_common.c
+@@ -716,6 +716,17 @@ u64 __weak hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
+ }
+ EXPORT_SYMBOL_GPL(hv_tdx_hypercall);
+ 
++u64 __weak hv_para_get_synic_register(unsigned int reg)
++{
++	return ~0ULL;
++}
++EXPORT_SYMBOL_GPL(hv_para_get_synic_register);
++
++void __weak hv_para_set_synic_register(unsigned int reg, u64 val)
++{
++}
++EXPORT_SYMBOL_GPL(hv_para_set_synic_register);
++
+ void hv_identify_partition_type(void)
+ {
+ 	/* Assume guest role */
+diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
+index 4a01797d4851..9ac6f5520287 100644
+--- a/drivers/hv/hyperv_vmbus.h
++++ b/drivers/hv/hyperv_vmbus.h
+@@ -15,6 +15,7 @@
+ #include <linux/list.h>
+ #include <linux/bitops.h>
+ #include <asm/sync_bitops.h>
++#include <asm/mshyperv.h>
+ #include <linux/atomic.h>
+ #include <linux/hyperv.h>
+ #include <linux/interrupt.h>
+@@ -335,6 +336,49 @@ extern const struct vmbus_channel_message_table_entry
+ 
+ bool vmbus_is_confidential(void);
+ 
++#if IS_ENABLED(CONFIG_HYPERV_VMBUS)
++/* Free the message slot and signal end-of-message if required */
++static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
++{
++	/*
++	 * On crash we're reading some other CPU's message page and we need
++	 * to be careful: this other CPU may already had cleared the header
++	 * and the host may already had delivered some other message there.
++	 * In case we blindly write msg->header.message_type we're going
++	 * to lose it. We can still lose a message of the same type but
++	 * we count on the fact that there can only be one
++	 * CHANNELMSG_UNLOAD_RESPONSE and we don't care about other messages
++	 * on crash.
++	 */
++	if (cmpxchg(&msg->header.message_type, old_msg_type,
++		    HVMSG_NONE) != old_msg_type)
++		return;
++
++	/*
++	 * The cmxchg() above does an implicit memory barrier to
++	 * ensure the write to MessageType (ie set to
++	 * HVMSG_NONE) happens before we read the
++	 * MessagePending and EOMing. Otherwise, the EOMing
++	 * will not deliver any more messages since there is
++	 * no empty slot
++	 */
++	if (msg->header.message_flags.msg_pending) {
 +		/*
-+		 * If the VMBus isn't confidential, use the CoCo-specific
-+		 * mechanism to communicate with the hypervisor.
++		 * This will cause message queue rescan to
++		 * possibly deliver another msg from the
++		 * hypervisor
 +		 */
- 		if (hv_isolation_type_tdx())
- 			status = hv_tdx_hypercall(HVCALL_POST_MESSAGE,
- 						  virt_to_phys(aligned_msg), 0);
-@@ -88,6 +92,11 @@ int hv_post_message(union hv_connection_id connection_id,
- 		u64 control = HVCALL_POST_MESSAGE;
++		if (vmbus_is_confidential())
++			hv_para_set_synic_register(HV_MSR_EOM, 0);
++		else
++			hv_set_msr(HV_MSR_EOM, 0);
++	}
++}
++
++extern int vmbus_interrupt;
++extern int vmbus_irq;
++#endif /* CONFIG_HYPERV_VMBUS */
++
+ struct hv_device *vmbus_device_create(const guid_t *type,
+ 				      const guid_t *instance,
+ 				      struct vmbus_channel *channel);
+diff --git a/include/asm-generic/mshyperv.h b/include/asm-generic/mshyperv.h
+index 9049a9617324..c010059f1518 100644
+--- a/include/asm-generic/mshyperv.h
++++ b/include/asm-generic/mshyperv.h
+@@ -165,46 +165,6 @@ static inline u64 hv_generate_guest_id(u64 kernel_version)
+ 	return guest_id;
+ }
  
- 		control |= hv_nested ? HV_HYPERCALL_NESTED : 0;
-+		/*
-+		 * If there is no paravisor, this will go to the hypervisor.
-+		 * In the Confidential VMBus case, there is the paravisor
-+		 * to which this will trap.
-+		 */
- 		status = hv_do_hypercall(control, aligned_msg, NULL);
- 	}
+-#if IS_ENABLED(CONFIG_HYPERV_VMBUS)
+-/* Free the message slot and signal end-of-message if required */
+-static inline void vmbus_signal_eom(struct hv_message *msg, u32 old_msg_type)
+-{
+-	/*
+-	 * On crash we're reading some other CPU's message page and we need
+-	 * to be careful: this other CPU may already had cleared the header
+-	 * and the host may already had delivered some other message there.
+-	 * In case we blindly write msg->header.message_type we're going
+-	 * to lose it. We can still lose a message of the same type but
+-	 * we count on the fact that there can only be one
+-	 * CHANNELMSG_UNLOAD_RESPONSE and we don't care about other messages
+-	 * on crash.
+-	 */
+-	if (cmpxchg(&msg->header.message_type, old_msg_type,
+-		    HVMSG_NONE) != old_msg_type)
+-		return;
+-
+-	/*
+-	 * The cmxchg() above does an implicit memory barrier to
+-	 * ensure the write to MessageType (ie set to
+-	 * HVMSG_NONE) happens before we read the
+-	 * MessagePending and EOMing. Otherwise, the EOMing
+-	 * will not deliver any more messages since there is
+-	 * no empty slot
+-	 */
+-	if (msg->header.message_flags.msg_pending) {
+-		/*
+-		 * This will cause message queue rescan to
+-		 * possibly deliver another msg from the
+-		 * hypervisor
+-		 */
+-		hv_set_msr(HV_MSR_EOM, 0);
+-	}
+-}
+-
+-extern int vmbus_interrupt;
+-extern int vmbus_irq;
+-#endif /* CONFIG_HYPERV_VMBUS */
+-
+ int hv_get_hypervisor_version(union hv_hypervisor_version_info *info);
  
+ void hv_setup_vmbus_handler(void (*handler)(void));
+@@ -338,6 +298,8 @@ bool hv_is_isolation_supported(void);
+ bool hv_isolation_type_snp(void);
+ u64 hv_ghcb_hypercall(u64 control, void *input, void *output, u32 input_size);
+ u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2);
++u64 hv_para_get_synic_register(unsigned int reg);
++void hv_para_set_synic_register(unsigned int reg, u64 val);
+ void hyperv_cleanup(void);
+ bool hv_query_ext_cap(u64 cap_query);
+ void hv_setup_dma_ops(struct device *dev, bool coherent);
 -- 
 2.43.0
 
