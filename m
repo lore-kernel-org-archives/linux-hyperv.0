@@ -1,30 +1,30 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF6EB2727E3;
-	Fri,  3 Oct 2025 22:27:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E601276024;
+	Fri,  3 Oct 2025 22:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759530443; cv=none; b=Ks+Pb8m5bdbYelt1Q3EX9kIU4+x6Y5fQojOxLgHhlUXP9CnXnDBCAlTqMW9FXucmOKgJraUuelcK2Vaffgw4aN2SI2ex4GEtHRImUhCR5XrgRW3cAahzcDHiXXTNjAoZ4r00rUBT0MtX8bFPONfF3EX69FWJUs3Y7uZFji0Dcp4=
+	t=1759530444; cv=none; b=tnxqcktnzR4TR0g+ELvRlAnIFpZwULaRw4jnNMrDSyN0MJIa4peFEy/Y1HvScTniHomoSZEHbdIOfWE60fiSZaPilOcE+Qv7RPBYpMvRI+HqdMt7gVGybe86aSxV8JN9SlIrJDn02si2px3LI8s9KQyXgBbPXmsoGWYWit/WKWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759530443; c=relaxed/simple;
-	bh=w6eBcbCBg83KK16MixPSnTYi2YgGONo2iUXGQvGoybs=;
+	s=arc-20240116; t=1759530444; c=relaxed/simple;
+	bh=QrjgDhfUYEiE2JmDWJqZFzILCDgpPrTC9WtUjLJlBAw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NmM7v6xq2LjAFbL7C2zpLaXi2nK0loc/fB/qtwY7U3c77Xw/ksuIC8ZwC1wRcMG5jn2bV5CAas8WBiSqwt39syxICcZn/tLFcNjm4lEm03yKqVqu/pl60TKTwvABrM83Tr0oWfXWU2IO40IqtJdhOprJmKtDtJDPyJb6sKiIgcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BX6hDh3r; arc=none smtp.client-ip=13.77.154.182
+	 MIME-Version; b=VUOptfg75TUjEpWp2I6sYZ3RtfYkKQ/Xl+rGvzFvRJiWSR96tAC75gaw4Dnkt2DA25UIMjt8klUGWhYZW9UaS3kaOLTiQaRcD1baSNi+11pEltSTsl5T9qedUMRG2O1a1yv3lvwU3j8qM6byoLk4dR6quoYXTVUS7Bqt3iYxHAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UyBGTywJ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BX6hDh3r"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UyBGTywJ"
 Received: from romank-3650.corp.microsoft.com (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 133F1211C274;
-	Fri,  3 Oct 2025 15:27:17 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 133F1211C274
+	by linux.microsoft.com (Postfix) with ESMTPSA id F05DC211C277;
+	Fri,  3 Oct 2025 15:27:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F05DC211C277
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759530437;
-	bh=89Wu0GLHW4v0p3+AxQWhCDJatbg72b6BoQ6TL9uJTcM=;
+	s=default; t=1759530439;
+	bh=zA4+/A3eGa9jS47gg2tblmQ4Wwt0MSCKxw5bVUpv0k0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BX6hDh3riHsHEj58970yNsyrAnrRHeH+NnNqlZrjcFLbkbVMoaTSXLXKSOCOkSUBS
-	 0FVnrKalghHPl+3eSGm1frDZtkZUOyzPyMDMsZVU2M1+bZkda6KcTyFmPHS4m+Qi+V
-	 ur+ZdwJsqKW2S4OvvRsNBkLDVaz9UYVhwBBOtYo8=
+	b=UyBGTywJXqGPNzCrkHM6zEWC/qsNqzzoh2zysfgRi9qbJdq3JXqcCqp2IMkV+Fn8X
+	 rlZy8R14O/GLl17gQx/dFvNHUwVFSefZvQxcyif2Ay8OeqFX4gvIJJ9k6iDW2+VurU
+	 FnnGfZCTVLzPy++0CWopQM59cgQb6bn2AgK2VF6w=
 From: Roman Kisel <romank@linux.microsoft.com>
 To: arnd@arndb.de,
 	bp@alien8.de,
@@ -48,9 +48,9 @@ Cc: benhill@microsoft.com,
 	bperkins@microsoft.com,
 	sunilmut@microsoft.com,
 	romank@linux.microsoft.com
-Subject: [PATCH hyperv-next v6 06/17] Drivers: hv: Rename fields for SynIC message and event pages
-Date: Fri,  3 Oct 2025 15:26:59 -0700
-Message-ID: <20251003222710.6257-7-romank@linux.microsoft.com>
+Subject: [PATCH hyperv-next v6 08/17] Drivers: hv: Post messages through the confidential VMBus if available
+Date: Fri,  3 Oct 2025 15:27:01 -0700
+Message-ID: <20251003222710.6257-9-romank@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251003222710.6257-1-romank@linux.microsoft.com>
 References: <20251003222710.6257-1-romank@linux.microsoft.com>
@@ -62,318 +62,48 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Confidential VMBus requires interacting with two SynICs -- one
-provided by the host hypervisor, and one provided by the paravisor.
-Each SynIC requires its own message and event pages.
+When the confidential VMBus is available, the guest should post
+messages to the paravisor.
 
-Rename the existing host-accessible SynIC message and event pages
-with the "hyp_" prefix to clearly distinguish them from the paravisor
-ones. The field name is also changed in mshv_root.* for consistency.
-
-No functional changes.
+Update hv_post_message() to post messages to the paravisor rather than
+through GHCB or TD calls.
 
 Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
 Reviewed-by: Tianyu Lan <tiala@microsoft.com>
 Reviewed-by: Michael Kelley <mhklinux@outlook.com>
 ---
- drivers/hv/channel_mgmt.c |  6 ++--
- drivers/hv/hv.c           | 66 +++++++++++++++++++--------------------
- drivers/hv/hyperv_vmbus.h |  4 +--
- drivers/hv/mshv_root.h    |  2 +-
- drivers/hv/mshv_synic.c   |  6 ++--
- drivers/hv/vmbus_drv.c    |  6 ++--
- 6 files changed, 45 insertions(+), 45 deletions(-)
+ drivers/hv/hv.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hv/channel_mgmt.c b/drivers/hv/channel_mgmt.c
-index 65dd299e2944..1a33c6944b3c 100644
---- a/drivers/hv/channel_mgmt.c
-+++ b/drivers/hv/channel_mgmt.c
-@@ -844,14 +844,14 @@ static void vmbus_wait_for_unload(void)
- 				= per_cpu_ptr(hv_context.cpu_context, cpu);
- 
- 			/*
--			 * In a CoCo VM the synic_message_page is not allocated
-+			 * In a CoCo VM the hyp_synic_message_page is not allocated
- 			 * in hv_synic_alloc(). Instead it is set/cleared in
- 			 * hv_synic_enable_regs() and hv_synic_disable_regs()
- 			 * such that it is set only when the CPU is online. If
- 			 * not all present CPUs are online, the message page
- 			 * might be NULL, so skip such CPUs.
- 			 */
--			page_addr = hv_cpu->synic_message_page;
-+			page_addr = hv_cpu->hyp_synic_message_page;
- 			if (!page_addr)
- 				continue;
- 
-@@ -892,7 +892,7 @@ static void vmbus_wait_for_unload(void)
- 		struct hv_per_cpu_context *hv_cpu
- 			= per_cpu_ptr(hv_context.cpu_context, cpu);
- 
--		page_addr = hv_cpu->synic_message_page;
-+		page_addr = hv_cpu->hyp_synic_message_page;
- 		if (!page_addr)
- 			continue;
- 
 diff --git a/drivers/hv/hv.c b/drivers/hv/hv.c
-index b14c5f9e0ef2..b7419d0fad1d 100644
+index 90db1e17582d..b1085473778c 100644
 --- a/drivers/hv/hv.c
 +++ b/drivers/hv/hv.c
-@@ -147,20 +147,20 @@ int hv_synic_alloc(void)
- 		 * Skip these pages allocation here.
- 		 */
- 		if (!ms_hyperv.paravisor_present && !hv_root_partition()) {
--			hv_cpu->synic_message_page =
-+			hv_cpu->hyp_synic_message_page =
- 				(void *)get_zeroed_page(GFP_ATOMIC);
--			if (!hv_cpu->synic_message_page) {
-+			if (!hv_cpu->hyp_synic_message_page) {
- 				pr_err("Unable to allocate SYNIC message page\n");
- 				goto err;
- 			}
+@@ -74,7 +74,11 @@ int hv_post_message(union hv_connection_id connection_id,
+ 	aligned_msg->payload_size = payload_size;
+ 	memcpy((void *)aligned_msg->payload, payload, payload_size);
  
--			hv_cpu->synic_event_page =
-+			hv_cpu->hyp_synic_event_page =
- 				(void *)get_zeroed_page(GFP_ATOMIC);
--			if (!hv_cpu->synic_event_page) {
-+			if (!hv_cpu->hyp_synic_event_page) {
- 				pr_err("Unable to allocate SYNIC event page\n");
+-	if (ms_hyperv.paravisor_present) {
++	if (ms_hyperv.paravisor_present && !vmbus_is_confidential()) {
++		/*
++		 * If the VMBus isn't confidential, use the CoCo-specific
++		 * mechanism to communicate with the hypervisor.
++		 */
+ 		if (hv_isolation_type_tdx())
+ 			status = hv_tdx_hypercall(HVCALL_POST_MESSAGE,
+ 						  virt_to_phys(aligned_msg), 0);
+@@ -88,6 +92,11 @@ int hv_post_message(union hv_connection_id connection_id,
+ 		u64 control = HVCALL_POST_MESSAGE;
  
--				free_page((unsigned long)hv_cpu->synic_message_page);
--				hv_cpu->synic_message_page = NULL;
-+				free_page((unsigned long)hv_cpu->hyp_synic_message_page);
-+				hv_cpu->hyp_synic_message_page = NULL;
- 				goto err;
- 			}
- 		}
-@@ -168,30 +168,30 @@ int hv_synic_alloc(void)
- 		if (!ms_hyperv.paravisor_present &&
- 		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
- 			ret = set_memory_decrypted((unsigned long)
--				hv_cpu->synic_message_page, 1);
-+				hv_cpu->hyp_synic_message_page, 1);
- 			if (ret) {
- 				pr_err("Failed to decrypt SYNIC msg page: %d\n", ret);
--				hv_cpu->synic_message_page = NULL;
-+				hv_cpu->hyp_synic_message_page = NULL;
- 
- 				/*
- 				 * Free the event page here so that hv_synic_free()
- 				 * won't later try to re-encrypt it.
- 				 */
--				free_page((unsigned long)hv_cpu->synic_event_page);
--				hv_cpu->synic_event_page = NULL;
-+				free_page((unsigned long)hv_cpu->hyp_synic_event_page);
-+				hv_cpu->hyp_synic_event_page = NULL;
- 				goto err;
- 			}
- 
- 			ret = set_memory_decrypted((unsigned long)
--				hv_cpu->synic_event_page, 1);
-+				hv_cpu->hyp_synic_event_page, 1);
- 			if (ret) {
- 				pr_err("Failed to decrypt SYNIC event page: %d\n", ret);
--				hv_cpu->synic_event_page = NULL;
-+				hv_cpu->hyp_synic_event_page = NULL;
- 				goto err;
- 			}
- 
--			memset(hv_cpu->synic_message_page, 0, PAGE_SIZE);
--			memset(hv_cpu->synic_event_page, 0, PAGE_SIZE);
-+			memset(hv_cpu->hyp_synic_message_page, 0, PAGE_SIZE);
-+			memset(hv_cpu->hyp_synic_event_page, 0, PAGE_SIZE);
- 		}
+ 		control |= hv_nested ? HV_HYPERCALL_NESTED : 0;
++		/*
++		 * If there is no paravisor, this will go to the hypervisor.
++		 * In the Confidential VMBus case, there is the paravisor
++		 * to which this will trap.
++		 */
+ 		status = hv_do_hypercall(control, aligned_msg, NULL);
  	}
  
-@@ -227,28 +227,28 @@ void hv_synic_free(void)
- 
- 		if (!ms_hyperv.paravisor_present &&
- 		    (hv_isolation_type_snp() || hv_isolation_type_tdx())) {
--			if (hv_cpu->synic_message_page) {
-+			if (hv_cpu->hyp_synic_message_page) {
- 				ret = set_memory_encrypted((unsigned long)
--					hv_cpu->synic_message_page, 1);
-+					hv_cpu->hyp_synic_message_page, 1);
- 				if (ret) {
- 					pr_err("Failed to encrypt SYNIC msg page: %d\n", ret);
--					hv_cpu->synic_message_page = NULL;
-+					hv_cpu->hyp_synic_message_page = NULL;
- 				}
- 			}
- 
--			if (hv_cpu->synic_event_page) {
-+			if (hv_cpu->hyp_synic_event_page) {
- 				ret = set_memory_encrypted((unsigned long)
--					hv_cpu->synic_event_page, 1);
-+					hv_cpu->hyp_synic_event_page, 1);
- 				if (ret) {
- 					pr_err("Failed to encrypt SYNIC event page: %d\n", ret);
--					hv_cpu->synic_event_page = NULL;
-+					hv_cpu->hyp_synic_event_page = NULL;
- 				}
- 			}
- 		}
- 
- 		free_page((unsigned long)hv_cpu->post_msg_page);
--		free_page((unsigned long)hv_cpu->synic_event_page);
--		free_page((unsigned long)hv_cpu->synic_message_page);
-+		free_page((unsigned long)hv_cpu->hyp_synic_event_page);
-+		free_page((unsigned long)hv_cpu->hyp_synic_message_page);
- 	}
- 
- 	kfree(hv_context.hv_numa_map);
-@@ -278,12 +278,12 @@ void hv_synic_enable_regs(unsigned int cpu)
- 		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
- 		u64 base = (simp.base_simp_gpa << HV_HYP_PAGE_SHIFT) &
- 				~ms_hyperv.shared_gpa_boundary;
--		hv_cpu->synic_message_page =
-+		hv_cpu->hyp_synic_message_page =
- 			(void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
--		if (!hv_cpu->synic_message_page)
-+		if (!hv_cpu->hyp_synic_message_page)
- 			pr_err("Fail to map synic message page.\n");
- 	} else {
--		simp.base_simp_gpa = virt_to_phys(hv_cpu->synic_message_page)
-+		simp.base_simp_gpa = virt_to_phys(hv_cpu->hyp_synic_message_page)
- 			>> HV_HYP_PAGE_SHIFT;
- 	}
- 
-@@ -297,12 +297,12 @@ void hv_synic_enable_regs(unsigned int cpu)
- 		/* Mask out vTOM bit. ioremap_cache() maps decrypted */
- 		u64 base = (siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT) &
- 				~ms_hyperv.shared_gpa_boundary;
--		hv_cpu->synic_event_page =
-+		hv_cpu->hyp_synic_event_page =
- 			(void *)ioremap_cache(base, HV_HYP_PAGE_SIZE);
--		if (!hv_cpu->synic_event_page)
-+		if (!hv_cpu->hyp_synic_event_page)
- 			pr_err("Fail to map synic event page.\n");
- 	} else {
--		siefp.base_siefp_gpa = virt_to_phys(hv_cpu->synic_event_page)
-+		siefp.base_siefp_gpa = virt_to_phys(hv_cpu->hyp_synic_event_page)
- 			>> HV_HYP_PAGE_SHIFT;
- 	}
- 
-@@ -360,8 +360,8 @@ void hv_synic_disable_regs(unsigned int cpu)
- 	 */
- 	simp.simp_enabled = 0;
- 	if (ms_hyperv.paravisor_present || hv_root_partition()) {
--		iounmap(hv_cpu->synic_message_page);
--		hv_cpu->synic_message_page = NULL;
-+		iounmap(hv_cpu->hyp_synic_message_page);
-+		hv_cpu->hyp_synic_message_page = NULL;
- 	} else {
- 		simp.base_simp_gpa = 0;
- 	}
-@@ -372,8 +372,8 @@ void hv_synic_disable_regs(unsigned int cpu)
- 	siefp.siefp_enabled = 0;
- 
- 	if (ms_hyperv.paravisor_present || hv_root_partition()) {
--		iounmap(hv_cpu->synic_event_page);
--		hv_cpu->synic_event_page = NULL;
-+		iounmap(hv_cpu->hyp_synic_event_page);
-+		hv_cpu->hyp_synic_event_page = NULL;
- 	} else {
- 		siefp.base_siefp_gpa = 0;
- 	}
-@@ -403,7 +403,7 @@ static bool hv_synic_event_pending(void)
- {
- 	struct hv_per_cpu_context *hv_cpu = this_cpu_ptr(hv_context.cpu_context);
- 	union hv_synic_event_flags *event =
--		(union hv_synic_event_flags *)hv_cpu->synic_event_page + VMBUS_MESSAGE_SINT;
-+		(union hv_synic_event_flags *)hv_cpu->hyp_synic_event_page + VMBUS_MESSAGE_SINT;
- 	unsigned long *recv_int_page = event->flags; /* assumes VMBus version >= VERSION_WIN8 */
- 	bool pending;
- 	u32 relid;
-diff --git a/drivers/hv/hyperv_vmbus.h b/drivers/hv/hyperv_vmbus.h
-index 9ac6f5520287..d593af45a5b2 100644
---- a/drivers/hv/hyperv_vmbus.h
-+++ b/drivers/hv/hyperv_vmbus.h
-@@ -121,8 +121,8 @@ enum {
-  * Per cpu state for channel handling
-  */
- struct hv_per_cpu_context {
--	void *synic_message_page;
--	void *synic_event_page;
-+	void *hyp_synic_message_page;
-+	void *hyp_synic_event_page;
- 
- 	/*
- 	 * The page is only used in hv_post_message() for a TDX VM (with the
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index e3931b0f1269..db6b42db2fdc 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -169,7 +169,7 @@ struct mshv_girq_routing_table {
- };
- 
- struct hv_synic_pages {
--	struct hv_message_page *synic_message_page;
-+	struct hv_message_page *hyp_synic_message_page;
- 	struct hv_synic_event_flags_page *synic_event_flags_page;
- 	struct hv_synic_event_ring_page *synic_event_ring_page;
- };
-diff --git a/drivers/hv/mshv_synic.c b/drivers/hv/mshv_synic.c
-index e6b6381b7c36..f8b0337cdc82 100644
---- a/drivers/hv/mshv_synic.c
-+++ b/drivers/hv/mshv_synic.c
-@@ -394,7 +394,7 @@ mshv_intercept_isr(struct hv_message *msg)
- void mshv_isr(void)
- {
- 	struct hv_synic_pages *spages = this_cpu_ptr(mshv_root.synic_pages);
--	struct hv_message_page **msg_page = &spages->synic_message_page;
-+	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
- 	struct hv_message *msg;
- 	bool handled;
- 
-@@ -456,7 +456,7 @@ int mshv_synic_init(unsigned int cpu)
- #endif
- 	union hv_synic_scontrol sctrl;
- 	struct hv_synic_pages *spages = this_cpu_ptr(mshv_root.synic_pages);
--	struct hv_message_page **msg_page = &spages->synic_message_page;
-+	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
- 	struct hv_synic_event_flags_page **event_flags_page =
- 			&spages->synic_event_flags_page;
- 	struct hv_synic_event_ring_page **event_ring_page =
-@@ -550,7 +550,7 @@ int mshv_synic_cleanup(unsigned int cpu)
- 	union hv_synic_sirbp sirbp;
- 	union hv_synic_scontrol sctrl;
- 	struct hv_synic_pages *spages = this_cpu_ptr(mshv_root.synic_pages);
--	struct hv_message_page **msg_page = &spages->synic_message_page;
-+	struct hv_message_page **msg_page = &spages->hyp_synic_message_page;
- 	struct hv_synic_event_flags_page **event_flags_page =
- 		&spages->synic_event_flags_page;
- 	struct hv_synic_event_ring_page **event_ring_page =
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 3c414560fa5f..e12f0ba0701f 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -1060,7 +1060,7 @@ static void vmbus_onmessage_work(struct work_struct *work)
- void vmbus_on_msg_dpc(unsigned long data)
- {
- 	struct hv_per_cpu_context *hv_cpu = (void *)data;
--	void *page_addr = hv_cpu->synic_message_page;
-+	void *page_addr = hv_cpu->hyp_synic_message_page;
- 	struct hv_message msg_copy, *msg = (struct hv_message *)page_addr +
- 				  VMBUS_MESSAGE_SINT;
- 	struct vmbus_channel_message_header *hdr;
-@@ -1244,7 +1244,7 @@ static void vmbus_chan_sched(struct hv_per_cpu_context *hv_cpu)
- 	 * The event page can be directly checked to get the id of
- 	 * the channel that has the interrupt pending.
- 	 */
--	void *page_addr = hv_cpu->synic_event_page;
-+	void *page_addr = hv_cpu->hyp_synic_event_page;
- 	union hv_synic_event_flags *event
- 		= (union hv_synic_event_flags *)page_addr +
- 					 VMBUS_MESSAGE_SINT;
-@@ -1327,7 +1327,7 @@ static void vmbus_isr(void)
- 
- 	vmbus_chan_sched(hv_cpu);
- 
--	page_addr = hv_cpu->synic_message_page;
-+	page_addr = hv_cpu->hyp_synic_message_page;
- 	msg = (struct hv_message *)page_addr + VMBUS_MESSAGE_SINT;
- 
- 	/* Check if there are actual msgs to be processed */
 -- 
 2.43.0
 
