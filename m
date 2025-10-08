@@ -1,37 +1,37 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 672B31E25F9;
-	Wed,  8 Oct 2025 22:42:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB9791E25F9;
+	Wed,  8 Oct 2025 22:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759963335; cv=none; b=fK3x4FA4ZwouLQFHaNerMbOehnbR6gBns1gCXpPKBOMvoM4H5+QfplyYRMmlj6IgLR3p2Ly0yOY10VuE4QtzRmzT3kznZsDeeQdsg5hSTRpZskgX9brgb7E2vP727LiBf1QIeLaT0vE+nA8XfIawVjAQuPrvcF5Ms2iGN4CbXOk=
+	t=1759963411; cv=none; b=BhmbP8a1FUOYNBLRLRRAdAij9sxNSX5Trge1FxiYEH6hLpctgHVuMCTOkdLSEgCzrBJl/5am6xPJDg7dJU3PXk1InjlFKKyCacya3E+RiBt9VpsTZmF4FAmI5stL3GeKeo3YEqgMylC7BNlWyjp/lXDSCdTg2asB24G5v5iRlMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759963335; c=relaxed/simple;
+	s=arc-20240116; t=1759963411; c=relaxed/simple;
 	bh=4FrMUDcGUMvsqwXazXahedVwFjEFXGbW1XJeTBDqcUE=;
-	h=Subject:From:Cc:Date:Message-ID:MIME-Version:Content-Type; b=RLrlLKWRRcKjSHw81HRp69ezlsjkPc/oe9sfFdQ5cV2M6KkEvl0j0J5ESD7FeRqKUrDbjg2ZC9C8rWVBzLO+7/YblWKsacABTOk9u7HcMyjZKaiHyYZ31T/Ba3lzUbcMklA8SmIFi+51AzrtRsuQ1FyIxsIx504wUmrDQZgg79M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pevA0W1z; arc=none smtp.client-ip=13.77.154.182
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=nTsgZ0UKpzPvKEIEZo3sds5a++RUjuqvrtOJrV2FUzD4YWJxwYOR10DqaER3Cy7plBjig4njl6KlIRE57JCQ2OB5Gb57Nkj9GzOo8j6LI5uAbBXIV/oN3bnUUN/AMq71LL8fs5Mh8eweoi+4+j9keigRNvpOf3H8JcJPlU1J2BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TxefJhlQ; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pevA0W1z"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TxefJhlQ"
 Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E2B472078630;
-	Wed,  8 Oct 2025 15:42:13 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E2B472078630
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5DCF12038B7E;
+	Wed,  8 Oct 2025 15:43:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5DCF12038B7E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1759963333;
+	s=default; t=1759963409;
 	bh=LErNskLjh4BZ+2o5s0bJXU/v5paXrsipcOc4cy6keb4=;
-	h=Subject:From:Cc:Date:From;
-	b=pevA0W1zklh746AmazmUN3cDxs9i27cYfasLTyY+61GrbJEx6rhe/GJ/RhfhnA/tN
-	 XKmyvnWnCRK982P2550h88JREk38aKx0WMwUz1JbXWnSl1K1BhdsjScwsgaaE4lPuM
-	 YNAOu3BbvNY5Ou882MNkPTXXOw4gSy7KSTphRsag=
-Subject: [RFC PATCH
- --to=kys@microsoft.com,haiyangz@microsoft.com,wei.liu@kernel.org,decui@microsoft.com]
- Drivers: hv: Resolve ambiguity in hypervisor version log
+	h=Subject:From:To:Cc:Date:From;
+	b=TxefJhlQ0iIUOwb0h+BwMU69pfxKyiNIT5/k2iUNuTXaTlHOG82Rf88wydZRtV3fb
+	 u8C8D4fjtK8Qs4nygs4zH492hVaEizZsuMrrmvlI+KHxSbyHSTJQtIwhCbj5RFakC3
+	 pV08+/zTT/iaJiTtYpBGYZ5BHi1L5tZSbXWavpW4=
+Subject: [RFC PATCH] Drivers: hv: Resolve ambiguity in hypervisor version log
 From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com
 Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 08 Oct 2025 22:42:13 +0000
+Date: Wed, 08 Oct 2025 22:43:29 +0000
 Message-ID: 
- <175996333379.107949.887881974668560955.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <175996340003.108050.17652201410306711595.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
 User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
