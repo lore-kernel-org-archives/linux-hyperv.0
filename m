@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E965E405F7;
-	Fri, 31 Oct 2025 18:31:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F46405F7;
+	Fri, 31 Oct 2025 18:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761935471; cv=none; b=O8/zge0fbj9XonqpNCiPXBtxnBgCuAEta8kjsfrxaIEzS4pKQwiXM+fiqPFGY/MRYppDBTKliGWYSLQiAIAHUwETU+yjAgCBm8+a4XooFv3ejfOpGdtyqFDHbD8BVqQE2Y2hfD+R28HA3Ffoo94Guc7D6BgNjErhqwUiK5czHUE=
+	t=1761935526; cv=none; b=iycnpC06vO3tElLwI1eZJiDi5TxjnzMhbJ1XyaO0LF5SnYhd74cmTERiKBvYOLV7Irz/hZ7TSf1UMOCVav/kKQZIM+bz9oVPfSuL4qEH4Vc+kt2Z7FLPtqXK2HJPY67ciwJp4ItlLVkwlEZKKqK9PuC/2ZAr9gaZa3QTAfYj0bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761935471; c=relaxed/simple;
-	bh=zYuZsmVAveIzaZzGHayeZuxJiEGHcbpgQtlHJ5Bzb9I=;
+	s=arc-20240116; t=1761935526; c=relaxed/simple;
+	bh=iOhbO4RNyVZThupm0wb+eZKrenQeZqXijyy1/H+MvUU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uZC4MDzF3fRvC+grGhvhxARcXA6QnAMyVq92LVZu9+RHZqcZjUSH7rfVo5Zsx10T4X5XezvI7+xxo4B5pRuH8qM3ibhQcPEMfhe5+DymCubb2N6RFNqoVTpn6zNoYgE8PwlBAssPkh6/gBuucRZE4Fy92HYZPYY89/BVYOs0dyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=se15O2SR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=prLi7S2iI6Zr20S3/Q8VQq0nyEfKzWbc/cEsz782ATHFYFN1t8PJnElfwhjpFcJEliIoXtn84NU+bU9KcayiWtSntnmToIDurG20vOsPfbLiV2N630PY4GTHLKOo0pAmcLaBRJ/ED7ErtJNtji6FVECR1oOb0/DFZd06X+Ei/1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ujP33nn9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="se15O2SR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9305FC4CEE7;
-	Fri, 31 Oct 2025 18:31:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujP33nn9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A619C4CEF1;
+	Fri, 31 Oct 2025 18:32:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761935470;
-	bh=zYuZsmVAveIzaZzGHayeZuxJiEGHcbpgQtlHJ5Bzb9I=;
+	s=k20201202; t=1761935525;
+	bh=iOhbO4RNyVZThupm0wb+eZKrenQeZqXijyy1/H+MvUU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=se15O2SRovbVlggwRb9+ha+9m6L0oUYw6G+3DUESVPHQ2yDPfnCJ4DjR3qShCQWG8
-	 xZ0Hi0YcTr9pf9WCzHooPcs0AyGhXhpb7730svle9QqsmP4S3BCuGQeGzO3A2AMzfx
-	 hQcyNihaVFvF8h+FTtVLVqU/oTmllzLeDpRq6RO+DlK62HJKycfpFEBJTVrsLBFHkg
-	 0qFo2KoJ6cTIf2lqebYEpEcgMEd2OXMAIj87OqH0Sl9UiKct8ReimBUpciq3ClxDoo
-	 +hWKIfOMiUX2bB24QzWZ7K2A9Z1kgMpZQfHsyagGA7L8aH39gU+qp/wyq/KtP0vhVp
-	 cPZzkq+d+oQkw==
-Date: Fri, 31 Oct 2025 18:31:09 +0000
+	b=ujP33nn9EgoAJ1KwZYdTn1mTg/dEeRIAz3gO4H1uwN7KMl6xWiQEu6wEjF4bE+NDy
+	 3t5x0qmdjxIiGcuJnPgSX3kGPZ7f0Vz8vKpDth/h3xDkjze5xNvRp4BJpBwLdRKQM9
+	 FlIogTv8Rk9Gv99KZIHtwxLUiEKa2Ch7VGYdLe1mvRaMvmGeZyPFL7tV4rq+RGRdZ8
+	 XKONB79Xy2MnzOfQ1VeX2vzRKpgP+4Ch2HJlLogVvdd00dJcOV4efT3Y9GeSz+gypZ
+	 8HeI5GOjb6yvxeVf1DcsH9fdR8n4JSnBulyQkMDkXJHAShp1VMvrmvwfgfoxJKHpLL
+	 wNjggCjv1Y/IQ==
+Date: Fri, 31 Oct 2025 18:32:03 +0000
 From: Wei Liu <wei.liu@kernel.org>
 To: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-	muislam@microsoft.com, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com, longli@microsoft.com,
-	mhklinux@outlook.com, skinsburskii@linux.microsoft.com,
-	romank@linux.microsoft.com, Jinank Jain <jinankjain@microsoft.com>
-Subject: Re: [PATCH v2] mshv: Extend create partition ioctl to support cpu
- features
-Message-ID: <20251031183109.GC2612078@liuwe-devbox-debian-v2.local>
-References: <1761860431-11208-1-git-send-email-nunodasneves@linux.microsoft.com>
+Cc: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
+	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] Drivers: hv: Resolve ambiguity in hypervisor version
+ log
+Message-ID: <20251031183203.GD2612078@liuwe-devbox-debian-v2.local>
+References: <175996340003.108050.17652201410306711595.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+ <fa14e8f8-fe92-4636-9565-a6174edcea71@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -46,43 +46,47 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1761860431-11208-1-git-send-email-nunodasneves@linux.microsoft.com>
+In-Reply-To: <fa14e8f8-fe92-4636-9565-a6174edcea71@linux.microsoft.com>
 
-On Thu, Oct 30, 2025 at 02:40:31PM -0700, Nuno Das Neves wrote:
-> From: Muminul Islam <muislam@microsoft.com>
+On Fri, Oct 10, 2025 at 03:49:17PM -0700, Nuno Das Neves wrote:
+> On 10/8/2025 3:43 PM, Stanislav Kinsburskii wrote:
+> > Update the log message in hv_common_init to explicitly state that the
+> > reported version is for the Microsoft Hypervisor, not the host OS.
+> > 
+> > Previously, this message was accurate for guests running on Windows
+> > hosts, where the host and hypervisor versions matched. With support for
+> > Linux hosts running the Hyper-V hypervisor, the host OS and hypervisor
+> > versions may differ.
+> > 
+> > This change avoids confusion by making it clear that the version refers to
+> > the Microsoft Hypervisor regardless of the host operating system.
+> > 
+> > Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+> > ---
+> >  drivers/hv/hv_common.c |    4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+> > index e109a620c83fc..0289ee4ed5ebf 100644
+> > --- a/drivers/hv/hv_common.c
+> > +++ b/drivers/hv/hv_common.c
+> > @@ -315,9 +315,9 @@ int __init hv_common_init(void)
+> >  	int i;
+> >  	union hv_hypervisor_version_info version;
+> >  
+> > -	/* Get information about the Hyper-V host version */
+> > +	/* Get information about the Microsoft Hypervisor version */
+> >  	if (!hv_get_hypervisor_version(&version))
+> > -		pr_info("Hyper-V: Host Build %d.%d.%d.%d-%d-%d\n",
+> > +		pr_info("Hyper-V: Hypervisor Build %d.%d.%d.%d-%d-%d\n",
+> >  			version.major_version, version.minor_version,
+> >  			version.build_number, version.service_number,
+> >  			version.service_pack, version.service_branch);
+> > 
+> > 
 > 
-> The existing mshv create partition ioctl does not provide a way to
-> specify which cpu features are enabled in the guest. This was done
-> to reduce unnecessary complexity in the API.
+> Looks like a good idea.
 > 
-> However, some new scenarios require fine-grained control over the
-> cpu feature bits.
-> 
-> Define a new mshv_create_partition_v2 structure which supports passing
-> through the disabled cpu flags and xsave flags to the hypervisor
-> directly.
-> 
-> When these are not specified (pt_num_cpu_fbanks == 0) or the old
-> structure is used, define a set of default flags which cover most
-> cases.
-> 
-> Retain backward compatibility with the old structure via a new flag
-> MSHV_PT_BIT_CPU_AND_XSAVE_FEATURES which enables the new struct.
-> 
-> Co-developed-by: Jinank Jain <jinankjain@microsoft.com>
-> Signed-off-by: Jinank Jain <jinankjain@microsoft.com>
-> Signed-off-by: Muminul Islam <muislam@microsoft.com>
-> Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-> ---
-> Changes in v2:
-> - Fix compilation issues [kernel test robot]
-> 
-> ---
->  drivers/hv/mshv_root_main.c | 176 ++++++++++++++++++++++++++++++++----
->  include/hyperv/hvhdk.h      |  86 +++++++++++++++++-
+> Reviewed-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 
-There is no mention of updating hvhdk.h in the commit message.
-
-Can you split out this part to a separate commit? 
-
-Wei
+Applied to hyperv-next.
