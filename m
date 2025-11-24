@@ -1,51 +1,51 @@
 Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00244306D5E;
-	Mon, 24 Nov 2025 13:39:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651492A1C7;
+	Mon, 24 Nov 2025 14:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763991572; cv=none; b=M/ZSYsA+99U7SpIw8l1WXakiu/6ML5Y+mpDwnMQn/CdwtK0qmurqUWbNsxR42ySSMMiCd6PfJlYR/kMEPdEGZKBpVrCQ82UBotmRcqspo2sRbuWGq1iXLOivrXwaAHeD49BJFb4+l7Ofey2Cw2NzufQiE0gwWouAlhET792emJc=
+	t=1763994422; cv=none; b=l7fln1wvD/+2vif9k8ysJ++IV3Kf5E5DDquNyB885t83hJHG7Q3+rk2ORk0aiP4QItRiuwk0kAxw+3u6Ndt2EJ475gn1/pQS8xb3gYAdrFtp9+fMPsu/rqzOi9D5dr5jC7i9euYdyGDb7gjC8TsQJwZsY1DSOD/flxSleksx/os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763991572; c=relaxed/simple;
-	bh=UWohL7EuY2gQ//kBRbT7Z0ufXg3Oaz+dCgIlTlPdQE8=;
+	s=arc-20240116; t=1763994422; c=relaxed/simple;
+	bh=4UIPEDUAUfsCUc1xjbcehHrqus8JV1c1pg4GnddHqGk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=etkjK/Ktj1QW8KJE6Cbccf74/zTLxbtagOEQ9i2YTMLGAI8Xd1Fy6OWQYnrfQtE+OX16dYjTDSMkEySB5/aNIqNBu3PJPxluW8s0qwedgKpGI6sY0FwME74+jEIO7oaHhWxHgLN+L5UE7z38KtERdWAupd33RaoZ06BFWKL5QMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ifXA1bY3 reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
+	 Content-Type:Content-Disposition:In-Reply-To; b=rZlljieE2VbBOh+I637+CW5ccULUVOC1/0Za2qpeYhvT4k3p0oRv+4UX5cMoBSss40zJEG6VztdaI8EYIcldE6BzVbcnM9t+EljKJ40ElehiEEs7jo7MHcoadYYMAk8IvCWB6ejh/HgnplL+mak5ZCT441NTu4U8q3wPto6Y1G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=PSuvSCTQ reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ifXA1bY3"
+	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="PSuvSCTQ"
 Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 33F8C40E016C;
-	Mon, 24 Nov 2025 13:39:27 +0000 (UTC)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id F0B2B40E015B;
+	Mon, 24 Nov 2025 14:26:56 +0000 (UTC)
 X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
 Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
 	reason="fail (body has been altered)" header.d=alien8.de
 Received: from mail.alien8.de ([127.0.0.1])
 	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id dUX_2TyVOwvg; Mon, 24 Nov 2025 13:39:23 +0000 (UTC)
+	with ESMTP id 6hd_SPf9teGA; Mon, 24 Nov 2025 14:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1763991561; bh=xMHHbvFeagw1OXMRREZidPFJD/S6z/TheDKCK1dG36Q=;
+	t=1763994411; bh=K73tGsspNcQNjXp1GDxJaedqiCyrMTjCuAwDj5AV9xk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ifXA1bY3AIdKdV1RAnJe9hR1HoTJK2HQxoKq4XpkqyoEZF0P+j1J+7ZcN7rBWUDcm
-	 oYIJpyHEwvEgbBhN4SUbwy9M3rPtz8mZ9KIHA+4XWKlZM9sJg4Netd7by8HO/WfwU+
-	 izUQ49pOfE2WCVKQEme59LDaN1qKCPhLWMfPc9dqBXeYjNNbtk4PEeDe4UKe8r3jcX
-	 cGgQWdXyE14McksoYKJh8aEd3dTE+0KDYzV2heqjB5matuLT2+0zE2pfxQlwvNiTjo
-	 /IEVNfKmQgtVmArwa//GOT0te7zCWkVDbmmzyyFyrHqtrPyJNxOw485KFnaoXcBoHR
-	 VXZDdCWu7U72JPGhB3GL4+0WjVSu5w57ooBqcfE6Y0VkGE1VlprxFjxUH5acKEERbH
-	 VfQSlXVSFmv6+ISkviWPAt+y481hRdqsTVQxNnzVyAQthZpHMmlvDjFGUeDrY5OeUh
-	 xgGDNbXeLdQBp+FbNXuYLrpUp9WEv6YKuJec/ShIgGMUZrIFh/N/cV3lLIrV3Kq7TW
-	 2LeL5VLaje2ETKAQfBeqVSK6ALMPmXJr4dKdD/ORNUCXoOtytmAO8sJb2/JPTs9BuI
-	 kYDPV8yWq0yD6+ZWREKiz8EOBe8+QAIHM8A+OVhvh+bLylBPTIo1lBQIKyu0MJXEcM
-	 vakOICMeaSVGLRtHz7pTfGAY=
+	b=PSuvSCTQfki/FSMspTsX0cMA9GJXD7sTek76M8Wwmc3KWHpbfqx0UlPkS4wDDKo3N
+	 R627iwOmt/Rq8lnHcBbOup2sF9kyGk/Ft0/Sh/Qes6knQK2EJJDY9flgKZkzH+0WAA
+	 o1BTyaYuXffcOHtuFlhtEq+t/nfdgCO323IGpyn4yDsNU8MASjLow4jU9YVvbjq/Qa
+	 x3b1t35iN78Od62FRf3PKY7kbNuGVkZU7HINQhBXVnDlDZ3TSKy7l3P/BvX3yDFDh9
+	 HzEeFAPhZWk3YTwJbgmz0lyV1OFJox5DVj+uHX274tBrj7HRDDV3LZbXn0H6iUQ0qL
+	 I24O1YeKhmcW/pVTn1DTg8KPy5ToVyzf/6FhD8m0DcQ8QRHNYcD1dIKOmKFUiO1wGg
+	 Eo+If8ImIJzCrOwQaNulcgK6dYS4/b3FSnrXBOgklacMcQlTdNJ6DvGONFjPaP/71G
+	 9s6Wn+RKxqyRlNWwG+qldoaQsNH/RZMxB4xs+KJ2cJ0sqxn2CbIIglgqXLHOu+fLF/
+	 wXlUwsTlr6/x6fefNVKq2IeIdXOvfpN3qpo8asYqm9ryZ2jL1LJYTZII/L4y8upkIg
+	 Z/YHai85Sp8DD7JdNa55F1/faAJW5EmujlKyyDijIsymtxaexgztuX7WIKQ2cDio5F
+	 8XvbZiwJinmT2xvUxk6YpJ3Y=
 Received: from zn.tnic (p57969402.dip0.t-ipconnect.de [87.150.148.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 4C08F40E015B;
-	Mon, 24 Nov 2025 13:38:59 +0000 (UTC)
-Date: Mon, 24 Nov 2025 14:38:58 +0100
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 3E11C40E0219;
+	Mon, 24 Nov 2025 14:26:29 +0000 (UTC)
+Date: Mon, 24 Nov 2025 15:26:23 +0100
 From: Borislav Petkov <bp@alien8.de>
 To: Juergen Gross <jgross@suse.com>
 Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
@@ -66,9 +66,10 @@ Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
 	xen-devel@lists.xenproject.org
 Subject: Re: [PATCH v3 01/21] x86/paravirt: Remove not needed includes of
  paravirt.h
-Message-ID: <20251124133858.GFaSRf8rU6w3Tf3wU_@fat_crate.local>
+Message-ID: <20251124142623.GGaSRrD-N15vnJY0DJ@fat_crate.local>
 References: <20251006074606.1266-1-jgross@suse.com>
  <20251006074606.1266-2-jgross@suse.com>
+ <20251124133858.GFaSRf8rU6w3Tf3wU_@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -77,30 +78,43 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251006074606.1266-2-jgross@suse.com>
+In-Reply-To: <20251124133858.GFaSRf8rU6w3Tf3wU_@fat_crate.local>
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 06, 2025 at 09:45:46AM +0200, Juergen Gross wrote:
-> In some places asm/paravirt.h is included without really being needed.
-
-Except they are:
-
-$ make allnoconfig
-$ rebuild-kernel.sh
-...
-
-arch/x86/kernel/x86_init.c:90:43: error: =E2=80=98default_banner=E2=80=99=
+On Mon, Nov 24, 2025 at 02:38:58PM +0100, Borislav Petkov wrote:
+> On Mon, Oct 06, 2025 at 09:45:46AM +0200, Juergen Gross wrote:
+> > In some places asm/paravirt.h is included without really being needed=
+.
+>=20
+> Except they are:
+>=20
+> $ make allnoconfig
+> $ rebuild-kernel.sh
+> ...
+>=20
+> arch/x86/kernel/x86_init.c:90:43: error: =E2=80=98default_banner=E2=80=99=
  undeclared here (not in a function)
-   90 |                 .banner                 =3D default_banner,
-      |                                           ^~~~~~~~~~~~~~
-make[4]: *** [scripts/Makefile.build:287: arch/x86/kernel/x86_init.o] Err=
-or 1
-make[4]: *** Waiting for unfinished jobs....
-make[3]: *** [scripts/Makefile.build:556: arch/x86/kernel] Error 2
-make[2]: *** [scripts/Makefile.build:556: arch/x86] Error 2
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/mnt/kernel/kernel/linux/Makefile:2010: .] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
+>    90 |                 .banner                 =3D default_banner,
+>       |                                           ^~~~~~~~~~~~~~
+> make[4]: *** [scripts/Makefile.build:287: arch/x86/kernel/x86_init.o] E=
+rror 1
+> make[4]: *** Waiting for unfinished jobs....
+> make[3]: *** [scripts/Makefile.build:556: arch/x86/kernel] Error 2
+> make[2]: *** [scripts/Makefile.build:556: arch/x86] Error 2
+> make[2]: *** Waiting for unfinished jobs....
+> make[1]: *** [/mnt/kernel/kernel/linux/Makefile:2010: .] Error 2
+> make: *** [Makefile:248: __sub-make] Error 2
+
+Before you submit the first 12 next time, please build-test each patch wi=
+th:
+
+SMOKE_CONFIGS=3D("allnoconfig" "defconfig" "allmodconfig" "allyesconfig")
+
+and those architectures:
+
+ARCHES=3D('x86_64' 'i386')
+
+Thx.
 
 --=20
 Regards/Gruss,
