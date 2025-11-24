@@ -1,175 +1,175 @@
-Received: from sender3-of-o52.zoho.com (sender3-of-o52.zoho.com [136.143.184.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A244830FF2A;
-	Mon, 24 Nov 2025 14:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763994517; cv=pass; b=RqCYd16OiP+EXhrTacRpgGHhuTUqxMMVwD3ESaMnD6pHKooqmoNj/bpb/ZOVenScIw4hzR9wuOB73+iPPRyYVEvCSqNIj+8Tf60uhKO9XeCX7ZqjHDHuGhthhfNieL2WxlIqKJYz15eqhvj47229UGuhVWXpyciJaXzpBWtu4VE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763994517; c=relaxed/simple;
-	bh=Uv+D5bejqgGtRZ1q/k10U5LkV31Dmo2quTF8crqPa6A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iD3XU+MdtEIeNR6kaA/xXD96ortHCNdi+AAKvA1O6WKqnw8jaPIol4xaqH/tPMq1u3PReQqieNYZtVaoa2eCJfW3CBLRIyXrugen7MXXNbUrD2Tr2lxHQ5EbI8LDx7KxaVzAlyKUHCRNwXhclBGbNBBEuTklEVCKS3HyKTBMSVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com; spf=pass smtp.mailfrom=anirudhrb.com; dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b=h/kRgFW3; arc=pass smtp.client-ip=136.143.184.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=anirudhrb.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711D5283CBF
+	for <linux-hyperv@vger.kernel.org>; Mon, 24 Nov 2025 16:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764000083; cv=none; b=LlgMpAEa+ymEDYVujM/GR6RDl1UTKT9odGPeTLLmtIleTJ8z4DqVFFQvQK/qwNJ2tW2yTdnaz3GqYw0HfcpwCZUnJ6n7etZHYqJe5GxwbPXeOPO63UrvMrrgYVgQndsb+c24vVela0sthZJPSzCnD3aB+pzOO/P7yD0eJ7DJfyU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764000083; c=relaxed/simple;
+	bh=BxNg8gs7WNaoKvLGFRKTqLXUTtsfWM5hG3yIT0h6Ccc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vtqvxhzvk8HQToMVJZ4agNxiJS0wCDP5HPm5gmOSLQi1o7lQQvYUA9gSbIL3v+oI135hQPKxbzNgPjftxgq+5iNlwR61Pvko9lyEK+2LgCYthSRkmFYexXxlKQYLtUHLKCFFMAYEPz+hfhCx17mnkpn5Dq5fRipLyCqF/gF5Y9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fAA428Cq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=anirudhrb.com header.i=anirudh@anirudhrb.com header.b="h/kRgFW3"
-ARC-Seal: i=1; a=rsa-sha256; t=1763994503; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Sg6CvJBtD7l0fZfMycnh8zSsLz7RvUGjKGzuxfrvGpN1icTq+vZ6jTnBzHD8G/8Ltj68OK6qsUYnOD6G+RV7b0YJOFrxWqE7o7cMHpgNlOkRr0IlocvXQr3q/sgl4tNJyqA+/MsU8YLlT9W8+rK6P7MyEHvqvQDiwe1ALtqPaTM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1763994503; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=RHmWuy7eVPC+v6RgdWqttCrJVkN8JE86hU+CLwssC4M=; 
-	b=HLE22IaQHmU0VKhugehToHCMGcMbfd65XUdHgaO9dBUrfu7thJSrCTDmQC+pyB0Kw6S6xwWrc3zDrdPnuSORcB4xOYN42LKsQOMmdRr+ttqp9uw7jzKP0bXhQCTY96bYgA4cj9IlJ1rGQiGYFPZ2VMlNxD1KPfqMn4TZp/usAEw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=anirudhrb.com;
-	spf=pass  smtp.mailfrom=anirudh@anirudhrb.com;
-	dmarc=pass header.from=<anirudh@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763994503;
-	s=zoho; d=anirudhrb.com; i=anirudh@anirudhrb.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=RHmWuy7eVPC+v6RgdWqttCrJVkN8JE86hU+CLwssC4M=;
-	b=h/kRgFW39kz6VGpI13w/xsnru/0HvntuLzTcgy+SEoDrW7nGaGMG0O9SfKHW+ry2
-	o0G326iNCcLjf+JWJQ7Fiv2sDNMiX3ldXOq3bqiB7Z6W2D1WJKztI5jaMZQCcm4P165
-	+LDglyUu0T99sdA/Q2vuz7KjMe32TbmY67SGjNls=
-Received: by mx.zohomail.com with SMTPS id 1763994501730359.25266046070635;
-	Mon, 24 Nov 2025 06:28:21 -0800 (PST)
-From: Anirudh Rayabharam <anirudh@anirudhrb.com>
-To: "K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>
-Cc: anirudh@anirudhrb.com,
-	linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH] Drivers: hv: adjust interrupt control structure for ARM64
-Date: Mon, 24 Nov 2025 14:25:59 +0000
-Message-Id: <20251124142600.2112608-1-anirudh@anirudhrb.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fAA428Cq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F024C2BC86
+	for <linux-hyperv@vger.kernel.org>; Mon, 24 Nov 2025 16:01:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1764000083;
+	bh=BxNg8gs7WNaoKvLGFRKTqLXUTtsfWM5hG3yIT0h6Ccc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fAA428Cq8fABOVJq0VpMm0c57ytXlW/e61UozuRE0IDDII4Bn/sWmrozVTyYHTXFX
+	 KMFtCzOgkqNQ1OEL4lY2p1W23MqolBBCazFWioabUybV4ZafndUEHy3ErjpjZ2uc7c
+	 idpMExGQnv9P9LDbby2sRcoVRpNRLKJaJBAQjrekgofMRMY84Mo9WGhvzSQW5vV3XH
+	 vX33KkrJ6mS2LhIwGweTtefxUMLUm66AdUn4lFhOU3IrtCOO0iDJ9Vg/u4S9nx/oST
+	 Fe1/yvkMObmdTYHzVVaVfvNADOuUP17JdHOPIpGdwG7iB0glTojIgG/oCBaZKD6X9n
+	 spLTvIRKb7w7w==
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-65760bbd866so621657eaf.3
+        for <linux-hyperv@vger.kernel.org>; Mon, 24 Nov 2025 08:01:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU1Y371S5DWwNRt4zyOQXIBTX1pS9EagWH7rRG2v1y4W3Ko8iLxEEL0QAl921oVQW2kMHStXkw3mK64asQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+QEeW7EcElc+O62QPwCR1SZDNwd8PQZB/TOaA7UPEMiib6GOs
+	iiw2S5L5PcWMolo9wjdNZ+uPNQjpH8f5g+BxtA/qZ/lgeBWMoNuX2gLBfrnEefB+C8Jvf/4q4u+
+	S5GInod+D5+rIKbIL/JEYOYA7Dnv4jlM=
+X-Google-Smtp-Source: AGHT+IEvm2FWxa2fcKAG3q3fnxyGT9utxHEMot9Bx/M+VGHVwX7ZA+SGpfVh77Zi4cGoL8rb3JZFFIMv0u2FP8+7mDY=
+X-Received: by 2002:a05:6820:4cc7:b0:657:5723:76c8 with SMTP id
+ 006d021491bc7-657925458ecmr4757740eaf.6.1764000082175; Mon, 24 Nov 2025
+ 08:01:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20251117-rneri-wakeup-mailbox-v7-0-4a8b82ab7c2c@linux.intel.com> <20251117-rneri-wakeup-mailbox-v7-1-4a8b82ab7c2c@linux.intel.com>
+In-Reply-To: <20251117-rneri-wakeup-mailbox-v7-1-4a8b82ab7c2c@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 24 Nov 2025 17:01:11 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0gd_6b6s4aEpSvdfb4-+AULTWkqQqM3OE1eg5XzYaxQFQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bm4sOABo--PUFLL3Fnx287B9QjmRWcdT31tXqkGzNeqhEPx9y0Ws0-iwLc
+Message-ID: <CAJZ5v0gd_6b6s4aEpSvdfb4-+AULTWkqQqM3OE1eg5XzYaxQFQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] x86/acpi: Add functions to setup and access the
+ wakeup mailbox
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Cc: x86@kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Rob Herring <robh@kernel.org>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Michael Kelley <mhklinux@outlook.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Saurabh Sengar <ssengar@linux.microsoft.com>, 
+	Chris Oo <cho@microsoft.com>, "Kirill A. Shutemov" <kas@kernel.org>, linux-hyperv@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Ricardo Neri <ricardo.neri@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jinank Jain <jinankjain@microsoft.com>
+On Mon, Nov 17, 2025 at 6:04=E2=80=AFPM Ricardo Neri
+<ricardo.neri-calderon@linux.intel.com> wrote:
+>
+> Systems that describe hardware using DeviceTree graphs may enumerate and
+> implement the wakeup mailbox as defined in the ACPI specification but do
+> not otherwise depend on ACPI. Expose functions to setup and access the
+> location of the wakeup mailbox from outside ACPI code.
+>
+> The function acpi_setup_mp_wakeup_mailbox() stores the physical address o=
+f
+> the mailbox and updates the wakeup_secondary_cpu_64() APIC callback.
+>
+> The function acpi_madt_multiproc_wakeup_mailbox() returns a pointer to th=
+e
+> mailbox.
+>
+> Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 
-Interrupt control structure (union hv_interupt_control) has different
-fields when it comes to x86 vs ARM64. Bring in the correct structure
-from HyperV header files and adjust the existing interrupt routing
-code accordingly.
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-Signed-off-by: Jinank Jain <jinankjain@microsoft.com>
-Signed-off-by: Anirudh Rayabharam (Microsoft) <anirudh@anirudhrb.com>
----
- drivers/hv/mshv_eventfd.c      | 6 ++++++
- drivers/hv/mshv_irq.c          | 4 ++++
- drivers/hv/mshv_root_hv_call.c | 6 ++++++
- include/hyperv/hvhdk.h         | 6 ++++++
- 4 files changed, 22 insertions(+)
-
-diff --git a/drivers/hv/mshv_eventfd.c b/drivers/hv/mshv_eventfd.c
-index 2a80af1d610a..d93a18f09c76 100644
---- a/drivers/hv/mshv_eventfd.c
-+++ b/drivers/hv/mshv_eventfd.c
-@@ -163,8 +163,10 @@ static int mshv_try_assert_irq_fast(struct mshv_irqfd *irqfd)
- 	if (hv_scheduler_type != HV_SCHEDULER_TYPE_ROOT)
- 		return -EOPNOTSUPP;
- 
-+#if IS_ENABLED(CONFIG_X86)
- 	if (irq->lapic_control.logical_dest_mode)
- 		return -EOPNOTSUPP;
-+#endif
- 
- 	vp = partition->pt_vp_array[irq->lapic_apic_id];
- 
-@@ -196,8 +198,10 @@ static void mshv_assert_irq_slow(struct mshv_irqfd *irqfd)
- 	unsigned int seq;
- 	int idx;
- 
-+#if IS_ENABLED(CONFIG_X86)
- 	WARN_ON(irqfd->irqfd_resampler &&
- 		!irq->lapic_control.level_triggered);
-+#endif
- 
- 	idx = srcu_read_lock(&partition->pt_irq_srcu);
- 	if (irqfd->irqfd_girq_ent.guest_irq_num) {
-@@ -469,6 +473,7 @@ static int mshv_irqfd_assign(struct mshv_partition *pt,
- 	init_poll_funcptr(&irqfd->irqfd_polltbl, mshv_irqfd_queue_proc);
- 
- 	spin_lock_irq(&pt->pt_irqfds_lock);
-+#if IS_ENABLED(CONFIG_X86)
- 	if (args->flags & BIT(MSHV_IRQFD_BIT_RESAMPLE) &&
- 	    !irqfd->irqfd_lapic_irq.lapic_control.level_triggered) {
- 		/*
-@@ -479,6 +484,7 @@ static int mshv_irqfd_assign(struct mshv_partition *pt,
- 		ret = -EINVAL;
- 		goto fail;
- 	}
-+#endif
- 	ret = 0;
- 	hlist_for_each_entry(tmp, &pt->pt_irqfds_list, irqfd_hnode) {
- 		if (irqfd->irqfd_eventfd_ctx != tmp->irqfd_eventfd_ctx)
-diff --git a/drivers/hv/mshv_irq.c b/drivers/hv/mshv_irq.c
-index d0fb9ef734f4..798e7e1ab06e 100644
---- a/drivers/hv/mshv_irq.c
-+++ b/drivers/hv/mshv_irq.c
-@@ -119,6 +119,10 @@ void mshv_copy_girq_info(struct mshv_guest_irq_ent *ent,
- 	lirq->lapic_vector = ent->girq_irq_data & 0xFF;
- 	lirq->lapic_apic_id = (ent->girq_addr_lo >> 12) & 0xFF;
- 	lirq->lapic_control.interrupt_type = (ent->girq_irq_data & 0x700) >> 8;
-+#if IS_ENABLED(CONFIG_X86)
- 	lirq->lapic_control.level_triggered = (ent->girq_irq_data >> 15) & 0x1;
- 	lirq->lapic_control.logical_dest_mode = (ent->girq_addr_lo >> 2) & 0x1;
-+#elif IS_ENABLED(CONFIG_ARM64)
-+	lirq->lapic_control.asserted = 1;
-+#endif
- }
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index caf02cfa49c9..598eaff4ff29 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -388,7 +388,13 @@ int hv_call_assert_virtual_interrupt(u64 partition_id, u32 vector,
- 	memset(input, 0, sizeof(*input));
- 	input->partition_id = partition_id;
- 	input->vector = vector;
-+	/*
-+	 * NOTE: dest_addr only needs to be provided while asserting an
-+	 * interrupt on x86 platform
-+	 */
-+#if IS_ENABLED(CONFIG_X86)
- 	input->dest_addr = dest_addr;
-+#endif
- 	input->control = control;
- 	status = hv_do_hypercall(HVCALL_ASSERT_VIRTUAL_INTERRUPT, input, NULL);
- 	local_irq_restore(flags);
-diff --git a/include/hyperv/hvhdk.h b/include/hyperv/hvhdk.h
-index 416c0d45b793..469186df7826 100644
---- a/include/hyperv/hvhdk.h
-+++ b/include/hyperv/hvhdk.h
-@@ -579,9 +579,15 @@ union hv_interrupt_control {
- 	u64 as_uint64;
- 	struct {
- 		u32 interrupt_type; /* enum hv_interrupt_type */
-+#if IS_ENABLED(CONFIG_X86)
- 		u32 level_triggered : 1;
- 		u32 logical_dest_mode : 1;
- 		u32 rsvd : 30;
-+#elif IS_ENABLED(CONFIG_ARM64)
-+		u32 rsvd1 : 2;
-+		u32 asserted : 1;
-+		u32 rsvd2 : 29;
-+#endif
- 	} __packed;
- };
- 
-
-base-commit: db7df69995ffbe806d60ad46d5fb9d959da9e549
--- 
-2.34.1
-
+> ---
+> Changes in v7:
+>  - Moved function declarations to arch/x86/include/asm/acpi.h
+>  - Added stubs for !CONFIG_ACPI.
+>  - Do not use these new functions in madt_wakeup.c.
+>  - Dropped Acked-by and Reviewed-by tags from Rafael and Dexuan as this
+>    patch changed.
+>
+> Changes in v6:
+>  - Fixed grammar error in the subject of the patch. (Rafael)
+>  - Added Acked-by tag from Rafael. Thanks!
+>  - Added Reviewed-by tag from Dexuan. Thanks!
+>
+> Changes in v5:
+>  - None
+>
+> Changes in v4:
+>  - Squashed the two first patches of the series into one, both introduce
+>    helper functions. (Rafael)
+>  - Renamed setup_mp_wakeup_mailbox() as acpi_setup_mp_wakeup_mailbox().
+>    (Rafael)
+>  - Dropped the function prototype for !CONFIG_X86_64. (Rafael)
+>
+> Changes in v3:
+>  - Introduced this patch.
+>
+> Changes in v2:
+>  - N/A
+> ---
+>  arch/x86/include/asm/acpi.h        | 10 ++++++++++
+>  arch/x86/kernel/acpi/madt_wakeup.c | 11 +++++++++++
+>  2 files changed, 21 insertions(+)
+>
+> diff --git a/arch/x86/include/asm/acpi.h b/arch/x86/include/asm/acpi.h
+> index a03aa6f999d1..820df375df79 100644
+> --- a/arch/x86/include/asm/acpi.h
+> +++ b/arch/x86/include/asm/acpi.h
+> @@ -182,6 +182,9 @@ void __iomem *x86_acpi_os_ioremap(acpi_physical_addre=
+ss phys, acpi_size size);
+>  #define acpi_os_ioremap acpi_os_ioremap
+>  #endif
+>
+> +void acpi_setup_mp_wakeup_mailbox(u64 addr);
+> +struct acpi_madt_multiproc_wakeup_mailbox *acpi_get_mp_wakeup_mailbox(vo=
+id);
+> +
+>  #else /* !CONFIG_ACPI */
+>
+>  #define acpi_lapic 0
+> @@ -200,6 +203,13 @@ static inline u64 x86_default_get_root_pointer(void)
+>         return 0;
+>  }
+>
+> +static inline void acpi_setup_mp_wakeup_mailbox(u64 addr) { }
+> +
+> +static inline struct acpi_madt_multiproc_wakeup_mailbox *acpi_get_mp_wak=
+eup_mailbox(void)
+> +{
+> +       return NULL;
+> +}
+> +
+>  #endif /* !CONFIG_ACPI */
+>
+>  #define ARCH_HAS_POWER_INIT    1
+> diff --git a/arch/x86/kernel/acpi/madt_wakeup.c b/arch/x86/kernel/acpi/ma=
+dt_wakeup.c
+> index 6d7603511f52..82caf44b45e3 100644
+> --- a/arch/x86/kernel/acpi/madt_wakeup.c
+> +++ b/arch/x86/kernel/acpi/madt_wakeup.c
+> @@ -247,3 +247,14 @@ int __init acpi_parse_mp_wake(union acpi_subtable_he=
+aders *header,
+>
+>         return 0;
+>  }
+> +
+> +void __init acpi_setup_mp_wakeup_mailbox(u64 mailbox_paddr)
+> +{
+> +       acpi_mp_wake_mailbox_paddr =3D mailbox_paddr;
+> +       apic_update_callback(wakeup_secondary_cpu_64, acpi_wakeup_cpu);
+> +}
+> +
+> +struct acpi_madt_multiproc_wakeup_mailbox *acpi_get_mp_wakeup_mailbox(vo=
+id)
+> +{
+> +       return acpi_mp_wake_mailbox;
+> +}
+>
+> --
+> 2.43.0
+>
