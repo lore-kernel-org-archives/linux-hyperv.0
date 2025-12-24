@@ -1,124 +1,279 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CEC32F12C9;
-	Tue, 23 Dec 2025 23:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A08C1EA7DF
+	for <linux-hyperv@vger.kernel.org>; Wed, 24 Dec 2025 00:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766531368; cv=none; b=L7d2Ck5Z7H6E8UdtLbykNWfdZguRMR3/E/NpA6yerF/DD8tcJiBsV5vVeVjlqdZTJ+qEtACLIdgABk/Hx1JjS2LGHpP7cY25O7iJSizniC0XUx87Kezx3uMcLDSK828xZozv/69o1L3vEAcnMPloEs2WO+5m6g/CicsSkbtBoT0=
+	t=1766536139; cv=none; b=LloLBf7ei+EGkS0Ckqh0oDr2nv4XWv2+QXd7geDEbPvP0V23/OrrGJRI10qti8kZSdIgRfR8mgGn2Dr5+vgztver66kG8n18dCJfKt2eTURlsgykPZqHamc+sLDAtD+6MZ5Gt0ut3l0XjJ6xojIdKLQBTyACqfb2YgLqN3kITpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766531368; c=relaxed/simple;
-	bh=sAwwy2sio6lkc47FDsReM8SoyBwcC4MIdfRDutt5yKw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RHYMImCGobNis2Pegz2LLkEabB9xvLD9m3bex+wKsR8OtipMPy0y3AtKlo/2/T9dpm5AkFRFcSM8tIb2wowbh31ceZBdKN5cm96XfnMkisHfbJRsPaCAqfuHOlE5l5FaUwsEfIAn4LkvMJ8giu/8rRFxMifDZcuCJBeCGS5sHXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=llDbrej8; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1766536139; c=relaxed/simple;
+	bh=7wDYgNx+BgqVnuE0T2X8agHCrv8JLpc6NaCVH5tP4l0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TnuE2TQW2GsuAfaZdwhHDDMkdoaJdKZsRXZAYrF1hTJPf3W6823ODZnaqshuTokJclommEYdiPUI4VnTXr5vqmZsXbmuSsHZeiaAU70KwOxi18QacHTxP2Q/o9lucIr6AMSQU9hyrfZCMEmccVZgmJa2wNaG2Sv4ZoO4awDkS0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CWh3lOE+; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="llDbrej8"
-Received: from [100.65.0.124] (unknown [20.236.11.102])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4D2A1212A423;
-	Tue, 23 Dec 2025 15:09:26 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4D2A1212A423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1766531366;
-	bh=sAwwy2sio6lkc47FDsReM8SoyBwcC4MIdfRDutt5yKw=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=llDbrej8RnKs7HiCXtYol6Xr74gRhUTQrEcaA/KKSG+N+Sh20qp6TGcYvt3bBlCN2
-	 0wCGNwfDaGB/0eCKtBuNaBLT8jlI36puukcIoq/Um4aRmh5Ai88d/bRPQST+bVbl1Z
-	 i6H3r7qWW4HPJOlfCXGHrhiVESPFH+bwwaFodIEc=
-Message-ID: <10482c90-50c8-4e72-ba40-1d0e6e722128@linux.microsoft.com>
-Date: Tue, 23 Dec 2025 15:09:24 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CWh3lOE+"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7baf61be569so5884649b3a.3
+        for <linux-hyperv@vger.kernel.org>; Tue, 23 Dec 2025 16:28:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766536136; x=1767140936; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1idDMvZTSBBVNr5LBgZDXh7c7n41TkvVwZ0J4jmyayA=;
+        b=CWh3lOE+nnquhJ6m0WJ/7svTap0DUEs+RT3Knkla5u85yK06YmHw4g3Zpsl57lpQEU
+         2FO3AvfWrxmqFrtbIkGYW8jAOOe6atIp8AF40SSipgsbvi73MOUf8OgUAwajLpPPylgN
+         37DjAf3PBUTyWV69KYgDl2NEEjXZgfxgmLklrBk2GsUsoSml8yoEvmwhEi8R29wZX3fl
+         tjsTRKJjeMQqfNOn9jGPRRQlg1zotuX/Q6YRgIKK4H2ltTK9SV0eto4cpqrEpVIW/XXd
+         aQJqNFH5P9aX0FMmAAewYLTRbyZ3jQj7NtGfSYjxuKwyAnwbpLHSb/w1U+26JJRUDTAO
+         R35Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766536136; x=1767140936;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1idDMvZTSBBVNr5LBgZDXh7c7n41TkvVwZ0J4jmyayA=;
+        b=fnpwW+3XcAOliha/hbzW6vXko7EF0TrutLM05twsbzNIn2Xr9LzyWgyj5JPyGq54Jp
+         Wr9t4ag9+sdz42sj4boNMGriI2q+BdTL6YoHnGOD80Qc/QVAMT+Y5qevfs2+vqnQuyPq
+         OuDNfOxxnIu0ndDOjRG+y5nW4Scm/lW2fI9pIYZyUnzvRkuPFFiVVQSbulk9svzzAaqN
+         4CDgOcO2skxaragt2J75fufDJ2nq3gAnMzqbSr2w26+6ns4BvWLBC9+5ws5lIi2h+nBC
+         B/8Gcv/ztTAJw/TGKTtmQzYhUzkVycAMEcKH5hbwcSwZoBMVPNJz8Yldsms07FQjWhKx
+         uctg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjlyGbAdUs7CQjsO51c4PB/IXcGq3H2yj6xB5E7yODX/qIO0zc+uIXmK10xWss7gdZnEjZQYxANnMbyKw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA27DwELbok+ciGK+Lqkx66nLiFWEJt8iYmF2sBFL9TJkChS/3
+	jFGkpMqHORfijrrlEmCdH+95DdBb5+VdqrQhJSqdDVIIjXGZSFISpl6+ODqaQg==
+X-Gm-Gg: AY/fxX5+Sc6jv1DPhCKa9IjOSVCJjsyqSu+Xs0ZM97VTJE4ewXhyJ2BtTZ0dM2jB4Lx
+	MqUgHtg0Z2WzWU6jX+qB5omEBcWUWOWmz1qu/94cP7Jij8EEMwczsZVXLFyZ99BbJ9uEnD8YEHg
+	R2kOSvCPEmzY0I3HJa6zvw7+9tqbv9K1Dmkf8WjxxOhpK5sSGuK3ALT6sUEoWOmcDlqTDxKMtN2
+	a0KzVdbFg31V0yQ6VMF+k7ganWQ/7/pFdtlGo6KD5dFscMJnvIw94lSBMZq9SnlblxYYh6RAgFH
+	wzn9aK3/5RvEuee7yc/GtE434Npj1NOuOy3iq7lIzfUAyJGOhTWRQseEaNtKTg6Nb594axMKnYz
+	GxDyUkXfWCuupn4t2zNQyMErAeSuAJZwWNAIePldf628REXXGj21EhI9HcAe2JY+tsX7x22iyLa
+	p4CiP7Fm1aLEHRu9vC/Bc=
+X-Google-Smtp-Source: AGHT+IFf9PGpVgIYi53KgiXyi1OO/xQjeYSDD1E1/gFj625d4hHvxV/oBQyq3/8jVDfT3E7MmlVH9w==
+X-Received: by 2002:a05:6a00:8013:b0:7e8:4471:ae61 with SMTP id d2e1a72fcca58-7ff67654e35mr13734006b3a.45.1766536136203;
+        Tue, 23 Dec 2025 16:28:56 -0800 (PST)
+Received: from localhost ([2a03:2880:2ff:6::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e8947a1sm14718466b3a.67.2025.12.23.16.28.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 16:28:55 -0800 (PST)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Date: Tue, 23 Dec 2025 16:28:35 -0800
+Subject: [PATCH RFC net-next v13 01/13] vsock: add per-net vsock NS mode
+ state
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v5 2/2] Drivers: hv: vmbus: retrieve connection-id from
- DeviceTree
-From: Hardik Garg <hargar@linux.microsoft.com>
-To: kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, krzk+dt@kernel.org, robh@kernel.org,
- conor+dt@kernel.org, mhklinux@outlook.com
-Cc: devicetree@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, ssengar@linux.microsoft.com,
- longli@microsoft.com, Naman Jain <namjain@linux.microsoft.com>,
- hargar@microsoft.com
-References: <58cb22cb-b0c8-4694-b9e4-971aa7f0f972@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <58cb22cb-b0c8-4694-b9e4-971aa7f0f972@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com>
+References: <20251223-vsock-vmtest-v13-0-9d6db8e7c80b@meta.com>
+In-Reply-To: <20251223-vsock-vmtest-v13-0-9d6db8e7c80b@meta.com>
+To: Stefano Garzarella <sgarzare@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Bryan Tan <bryan-bt.tan@broadcom.com>, 
+ Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>
+Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+ netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, berrange@redhat.com, 
+ Sargun Dhillon <sargun@sargun.me>, Bobby Eshleman <bobbyeshleman@gmail.com>, 
+ Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 
-The connection-id determines which hypervisor communication channel
-the guest should use to talk to the VMBus host. Add steps to read
-this value from the DeviceTree. When this property is not present,
-the driver selects the connection ID based on the protocol version
-(4 for VERSION_WIN10_V5 and newer, or 1 for older versions).
+From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Signed-off-by: Hardik Garg <hargar@linux.microsoft.com>
+Add the per-net vsock NS mode state. This only adds the structure for
+holding the mode and some of the functions for setting/getting and
+checking the mode, but does not integrate the functionality yet.
+
+Future patches add the uAPI and transport-specific usage of these
+structures and helpers.
+
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-v4:
-https://lore.kernel.org/all/1750374395-14615-3-git-send-email-hargar@linux.microsoft.com
-v3:
-https://lore.kernel.org/all/6a92ca86-ad6b-4d49-af6e-1ed7651b8ab8@linux.microsoft.com
-v2:
-https://lore.kernel.org/all/096edaf7-cc90-42b6-aff4-c5f088574e1e@linux.microsoft.com
-v1:
-https://lore.kernel.org/all/6acee4bf-cb04-43b9-9476-e8d811d26dfd@linux.microsoft.com
+Changes in v13:
+- remove net_mode because net->vsock.mode becomes immutable, no need to
+  save the mode when vsocks are created.
+- add the new helpers for child_ns_mode to support ns_mode inheriting
+  the mode from child_ns_mode.
+- because ns_mode is immutable and child_ns_mode can be changed multiple
+  times, remove the write-once lock.
+- simplify vsock_net_check_mode() to no longer take mode arguments since
+  the mode can be accessed via the net pointers without fear of the mode
+  changing.
+- add logic in vsock_net_check_mode() to infer VSOCK_NET_MODE_GLOBAL
+  from NULL namespaces in order to allow only net pointers to be passed
+  to vsock_net_check_mode(), while still allowing namespace-unaware
+  transports to force global mode.
+
+Changes in v10:
+- change mode_locked to int (Stefano)
+
+Changes in v9:
+- use xchg(), WRITE_ONCE(), READ_ONCE() for mode and mode_locked (Stefano)
+- clarify mode0/mode1 meaning in vsock_net_check_mode() comment
+- remove spin lock in net->vsock (not used anymore)
+- change mode from u8 to enum vsock_net_mode in vsock_net_write_mode()
+
+Changes in v7:
+- clarify vsock_net_check_mode() comments
+- change to `orig_net_mode == VSOCK_NET_MODE_GLOBAL && orig_net_mode == vsk->orig_net_mode`
+- remove extraneous explanation of `orig_net_mode`
+- rename `written` to `mode_locked`
+- rename `vsock_hdr` to `sysctl_hdr`
+- change `orig_net_mode` to `net_mode`
+- make vsock_net_check_mode() more generic by taking just net pointers
+  and modes, instead of a vsock_sock ptr, for reuse by transports
+  (e.g., vhost_vsock)
+
+Changes in v6:
+- add orig_net_mode to store mode at creation time which will be used to
+  avoid breakage when namespace changes mode during socket/VM lifespan
+
+Changes in v5:
+- use /proc/sys/net/vsock/ns_mode instead of /proc/net/vsock_ns_mode
+- change from net->vsock.ns_mode to net->vsock.mode
+- change vsock_net_set_mode() to vsock_net_write_mode()
+- vsock_net_write_mode() returns bool for write success to avoid
+  need to use vsock_net_mode_can_set()
+- remove vsock_net_mode_can_set()
 ---
- drivers/hv/connection.c |  7 +++++--
- drivers/hv/vmbus_drv.c  |  8 ++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ MAINTAINERS                 |  1 +
+ include/net/af_vsock.h      | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/net/net_namespace.h |  4 ++++
+ include/net/netns/vsock.h   | 17 +++++++++++++++++
+ 4 files changed, 64 insertions(+)
 
-diff --git a/drivers/hv/connection.c b/drivers/hv/connection.c
-index 5d9cb5bf2d62..660cad3886f5 100644
---- a/drivers/hv/connection.c
-+++ b/drivers/hv/connection.c
-@@ -100,12 +100,15 @@ int vmbus_negotiate_version(struct
-vmbus_channel_msginfo *msginfo, u32 version)
-     if (version >= VERSION_WIN10_V5) {
-         msg->msg_sint = VMBUS_MESSAGE_SINT;
-         msg->msg_vtl = ms_hyperv.vtl;
--        vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID_4;
-     } else {
-         msg->interrupt_page = virt_to_phys(vmbus_connection.int_page);
--        vmbus_connection.msg_conn_id = VMBUS_MESSAGE_CONNECTION_ID;
-     }
- 
-+    /* Set default connection ID if not provided via DeviceTree */
-+    if (!vmbus_connection.msg_conn_id)
-+        vmbus_connection.msg_conn_id = (version >= VERSION_WIN10_V5) ?
-+            VMBUS_MESSAGE_CONNECTION_ID_4 : VMBUS_MESSAGE_CONNECTION_ID;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 454b8ed119e9..38d24e5a957c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -27516,6 +27516,7 @@ L:	netdev@vger.kernel.org
+ S:	Maintained
+ F:	drivers/vhost/vsock.c
+ F:	include/linux/virtio_vsock.h
++F:	include/net/netns/vsock.h
+ F:	include/uapi/linux/virtio_vsock.h
+ F:	net/vmw_vsock/virtio_transport.c
+ F:	net/vmw_vsock/virtio_transport_common.c
+diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+index d40e978126e3..6f5bc9dbefa5 100644
+--- a/include/net/af_vsock.h
++++ b/include/net/af_vsock.h
+@@ -10,6 +10,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/workqueue.h>
++#include <net/netns/vsock.h>
+ #include <net/sock.h>
+ #include <uapi/linux/vm_sockets.h>
+ 
+@@ -256,4 +257,45 @@ static inline bool vsock_msgzerocopy_allow(const struct vsock_transport *t)
+ {
+ 	return t->msgzerocopy_allow && t->msgzerocopy_allow();
+ }
 +
-     if (vmbus_is_confidential() && version >= VERSION_WIN10_V6_0)
-         msg->feature_flags = VMBUS_FEATURE_FLAG_CONFIDENTIAL_CHANNELS;
- 
-diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-index 47fcab38398a..f8c0594ab85f 100644
---- a/drivers/hv/vmbus_drv.c
-+++ b/drivers/hv/vmbus_drv.c
-@@ -2600,10 +2600,18 @@ static int vmbus_device_add(struct
-platform_device *pdev)
-     struct of_range range;
-     struct of_range_parser parser;
-     struct device_node *np = pdev->dev.of_node;
-+   unsigned int conn_id;
-     int ret;
- 
-     vmbus_root_device = &pdev->dev;
- 
-+    /* Read connection ID from DeviceTree */
-+    if (!of_property_read_u32(np, "microsoft,message-connection-id",
-+                  &conn_id)) {
-+        pr_info("VMBus message connection ID: %u\n", conn_id);
-+        vmbus_connection.msg_conn_id = conn_id;
-+    }
++static inline enum vsock_net_mode vsock_net_mode(struct net *net)
++{
++	return READ_ONCE(net->vsock.mode);
++}
 +
-     ret = of_range_parser_init(&parser, np);
-     if (ret)
-         return ret;
--- 
-2.34.1
++static inline void vsock_net_set_child_mode(struct net *net,
++					    enum vsock_net_mode mode)
++{
++	WRITE_ONCE(net->vsock.child_ns_mode, mode);
++}
++
++static inline enum vsock_net_mode vsock_net_child_mode(struct net *net)
++{
++	return READ_ONCE(net->vsock.child_ns_mode);
++}
++
++/* Return true if two namespaces pass the mode rules. Otherwise, return false.
++ *
++ * A NULL namespace is treated as VSOCK_NET_MODE_GLOBAL.
++ *
++ * Read more about modes in the comment header of net/vmw_vsock/af_vsock.c.
++ */
++static inline bool vsock_net_check_mode(struct net *ns0, struct net *ns1)
++{
++	enum vsock_net_mode mode0, mode1;
++
++	/* Any vsocks within the same network namespace are always reachable,
++	 * regardless of the mode.
++	 */
++	if (net_eq(ns0, ns1))
++		return true;
++
++	mode0 = ns0 ? vsock_net_mode(ns0) : VSOCK_NET_MODE_GLOBAL;
++	mode1 = ns1 ? vsock_net_mode(ns1) : VSOCK_NET_MODE_GLOBAL;
++
++	/* Different namespaces are only reachable if they are both
++	 * global mode.
++	 */
++	return mode0 == VSOCK_NET_MODE_GLOBAL && mode0 == mode1;
++}
+ #endif /* __AF_VSOCK_H__ */
+diff --git a/include/net/net_namespace.h b/include/net/net_namespace.h
+index cb664f6e3558..66d3de1d935f 100644
+--- a/include/net/net_namespace.h
++++ b/include/net/net_namespace.h
+@@ -37,6 +37,7 @@
+ #include <net/netns/smc.h>
+ #include <net/netns/bpf.h>
+ #include <net/netns/mctp.h>
++#include <net/netns/vsock.h>
+ #include <net/net_trackers.h>
+ #include <linux/ns_common.h>
+ #include <linux/idr.h>
+@@ -196,6 +197,9 @@ struct net {
+ 	/* Move to a better place when the config guard is removed. */
+ 	struct mutex		rtnl_mutex;
+ #endif
++#if IS_ENABLED(CONFIG_VSOCKETS)
++	struct netns_vsock	vsock;
++#endif
+ } __randomize_layout;
+ 
+ #include <linux/seq_file_net.h>
+diff --git a/include/net/netns/vsock.h b/include/net/netns/vsock.h
+new file mode 100644
+index 000000000000..e2325e2d6ec5
+--- /dev/null
++++ b/include/net/netns/vsock.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __NET_NET_NAMESPACE_VSOCK_H
++#define __NET_NET_NAMESPACE_VSOCK_H
++
++#include <linux/types.h>
++
++enum vsock_net_mode {
++	VSOCK_NET_MODE_GLOBAL,
++	VSOCK_NET_MODE_LOCAL,
++};
++
++struct netns_vsock {
++	struct ctl_table_header *sysctl_hdr;
++	enum vsock_net_mode mode;
++	enum vsock_net_mode child_ns_mode;
++};
++#endif /* __NET_NET_NAMESPACE_VSOCK_H */
 
+-- 
+2.47.3
 
