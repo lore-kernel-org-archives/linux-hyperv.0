@@ -1,63 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F371361FFE;
-	Tue, 13 Jan 2026 18:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14255350D62
+	for <linux-hyperv@vger.kernel.org>; Tue, 13 Jan 2026 22:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768328121; cv=none; b=ZojeB0vQ/mPZfctnaabtDpuSSAXeRqYsLzrl4DmyS3B1rrKoUJYiHDJK9+dMZkaM74KH/acDVU4YSWjk0Fp2Fgqm1vHEe9tdOZ60xDdVWMroTu13fWT+DtpNSAqutj9QLbu7NJfyMds4kTvtR6jTAQzBeOwKLmXIuftehgKQvJE=
+	t=1768341864; cv=none; b=RbAPNUZCQMXxJc783ENNa7PIO9o5wxmlw7g7SCgR9Vsr5qHoRhigGlxliAEz0ymrrze3kFFmnIpQ9weCi3uo0A9HBh1nQQb9/KzvCIlEGsyQPRIejPO+V0nS55Cfq5aJT0j/EfVbSE/u7fUvw2AtyLp+krvkKixb2gOKlzjgFas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768328121; c=relaxed/simple;
-	bh=PHdcHEb0yfs0bWiRcvT5UdXECVv/XRr375avuR2e1GU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=UBuM4+Fw0Q/CG/uSZd6/20o3pjXxgacbZ/fmMoSvq8Nf44L0iQYGyvni30WrrITjFjhNATM14OaMwcA0lb+bCxq3BvQV9XdtQwOCqssfc4LQ9Dx1+BghUxikPZG7zc80Kylkdm4uuE8u4EylIsR0Cbgh2D0pZ0WiNG0hVHOZOmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MboLO2bD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768341864; c=relaxed/simple;
+	bh=h+UznknjOhsgpxn2WvyaKZdy+E01z3xst2FqiSOZMS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QoJI5GUumgHSPk/wR6vRqKTy552DFeZQvt2rkLf0LBwW2+fqdlVWMOU58IJ+QUpU8FtK1MsdAmKkhfFRjYUgdDw8+LDKsHVFnkv/Ek3OwwdXASoUwtABUp8lHboZGNCeNDRB/dwYZk5OcU+tipT2JEVyTHQczTxxqpQrMZ9fAD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dOKH27+b; arc=none smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MboLO2bD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16E2C116C6;
-	Tue, 13 Jan 2026 18:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768328120;
-	bh=PHdcHEb0yfs0bWiRcvT5UdXECVv/XRr375avuR2e1GU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=MboLO2bDuw+VT9GRWb4WgwQVHAAeZAXWbIYIxin+6Oz24fkU7pd/fczvNYKhtgDAP
-	 dPDenRqQKC6qkgXMXSiTAiWC4o/Ph0p3D292mhtroGkZ2m/NBd+iVZx0LACuy7RZu9
-	 7UhJiTkCSNQ5ERHVRh7w81BjfxVSQYfXrAiSMiy8tEXTN6aVqwb5HNcuc53DA1k81W
-	 oRKnt3lOY+92clCeCThBpjhUYSWfDS78Mprvz3yUqMrxqz9poQpSX1mxWgBKhO5YKt
-	 8CD//w9fZ3HMloFrVHGpdmPqvP4gCZJJTfm8I+AO8Htf6EULHfSbDC7hJVxSwc/QFg
-	 lI3f7wV8mzimA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3BC5F3808200;
-	Tue, 13 Jan 2026 18:11:55 +0000 (UTC)
-Subject: Re: [GIT PULL] Hyper-V fixes for v6.19-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20260113064709.GA3099059@liuwe-devbox-debian-v2.local>
-References: <20260113064709.GA3099059@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-List-Id: <linux-hyperv.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20260113064709.GA3099059@liuwe-devbox-debian-v2.local>
-X-PR-Tracked-Remote: ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20260112
-X-PR-Tracked-Commit-Id: 173d6f64f9558ff022a777a72eb8669b6cdd2649
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: afd12f914c8f733a9660c97bdbe539aee88e742b
-Message-Id: <176832791372.2405565.16367155426627830359.pr-tracker-bot@kernel.org>
-Date: Tue, 13 Jan 2026 18:11:53 +0000
-To: Wei Liu <wei.liu@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Wei Liu <wei.liu@kernel.org>, Linux on Hyper-V List <linux-hyperv@vger.kernel.org>, Linux Kernel List <linux-kernel@vger.kernel.org>, kys@microsoft.com, haiyangz@microsoft.com, decui@microsoft.com, longli@microsoft.com
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dOKH27+b"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8b2d32b9777so1211683385a.2
+        for <linux-hyperv@vger.kernel.org>; Tue, 13 Jan 2026 14:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768341862; x=1768946662; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QzIlW73SYpRCgsFT6C0OFykRPA/kKAr4bQkErotYYOY=;
+        b=dOKH27+bYD+a9m3c/8V5ZfVjyJUMB77yTlc1CE/A3urRpZ5GLqTlArSsjlQTIGnVz2
+         mAtrGWpNwjdT8OIh4h10EJWWEkpgbbHSRGsNzGDeW7GWsN3Mkx1CsguZvCw9xrhBYoYX
+         MxSPa7IFfFDJNC0uvLYl/MmrtuKUonuJpQKhBBW22gB+Fcj3oVV21oDUNZinTcLYDKgR
+         5HNhBEDqSM21JAIJ7frcz3GXC+uXin23qpdkICzQhh38ogCUGxKCLgwk76D8DTYo9LWt
+         PLo2W1vTDmeD6ICJxFdzPC35uHUgGQ3k1ZSAzrMGL6wmQ1uWGa2qEV6odtzyovMpWLyJ
+         mE5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768341862; x=1768946662;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QzIlW73SYpRCgsFT6C0OFykRPA/kKAr4bQkErotYYOY=;
+        b=NM8eKKtJsf774RoiR6W5f5JbHec4kgYlHjQxY8SzM7G3vRBlKJxB6wd0WAAisNWTNK
+         8zC0dpqVqlGi/Z4FUlmVmdPBH/+/3vH5YTDkLs1gJqcA7eXOXbZRWHeywlAamad60wwo
+         g2LfT5u/xBObyEBL+emQbEvhUG4TQY/eK1470MhuvUNpA2kvBvo3V5RbuhPt4OBSPvg5
+         sxqIxeXXJSQsyteTr5facM4kMWQGUpUJ8DO+TlL/lSKWxcgDGet9oT48dvbzFgI81N7D
+         krof50exGiq51T616J9KombPwoXNuC3Y72utgG8t+ZRWu+W/llwLT24n9n71ZLWz7F3J
+         zAQw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbOdExRSqNJ8CI801fcIhXhuXfCJia4j33Ix+ODMDVCuNDph6SHRPaWvHN2Q3EkhpJO5GmJUl/7Asq7fc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywom+4dSy6jtcA3+ucs1wxa5aVb39CoOZKH/njncNNttGnbbWky
+	liXo3+SkhDhVwrTY/zbrerbDqwfVn+gK4ORQDr27voimCQMyJ8xs/7ZFQp3djw==
+X-Gm-Gg: AY/fxX6j/vo4POIdCfNe1w4Puy0UvP5bPSNsyE7/ng5e93f9okswuV5PKwc0riD+Nwj
+	UsmT7NmrGaY/iE5CZFfgvf5cvni2zdpv4e4EnHlqIwq8VCaO+upeNJpnTyQrEjE8haQc/QtWyU2
+	7ETY2TTRSN9GkCXFmwr3SRZSdbzDFcHBwcD82jjK2oPqhLqx1MGFIPKFDJUKdADu03prFPIw4vR
+	KYkfvXW+ck9zL2sedQyKn/osHwMlnT6tljxocaZ7NjnSP8IEGyr1bmFl5TeCIHvxaRT/SSuhOcF
+	qbR5sODiJf1m8HDJd4kXI4+OmBaPU2BU9eSlPgq09FN/bwbKG0ZM9YNuzcXK39CAqPAWyPCj3ET
+	PuZQ9LesQ+1V2e4YZg28OfSzlrFJqicalvdv/1AquyEOMBqtRmdrR4zpgqMmvCso9jUnQjL/0oi
+	zeg5VhwGDOVEanD/Hlrmp1at75/BQnirw/s0Q=
+X-Received: by 2002:a05:690c:c85:b0:78f:f3e2:35e0 with SMTP id 00721157ae682-793a1d4bad1mr1649307b3.42.1768336120080;
+        Tue, 13 Jan 2026 12:28:40 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:4a::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-790b1be88dcsm77661627b3.47.2026.01.13.12.28.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 12:28:39 -0800 (PST)
+Date: Tue, 13 Jan 2026 12:28:38 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Bryan Tan <bryan-bt.tan@broadcom.com>,
+	Vishnu Dasa <vishnu.dasa@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	netdev@vger.kernel.org, kvm@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v14 01/12] vsock: add netns to vsock core
+Message-ID: <aWaq9vbBJGqg9+DU@devvm11784.nha0.facebook.com>
+References: <20260112-vsock-vmtest-v14-0-a5c332db3e2b@meta.com>
+ <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
+ <20260113024503-mutt-send-email-mst@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113024503-mutt-send-email-mst@kernel.org>
 
-The pull request you sent on Tue, 13 Jan 2026 06:47:09 +0000:
+On Tue, Jan 13, 2026 at 02:45:32AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Jan 12, 2026 at 07:11:10PM -0800, Bobby Eshleman wrote:
+> > From: Bobby Eshleman <bobbyeshleman@meta.com>
+> > 
+> > Add netns logic to vsock core. Additionally, modify transport hook
+> > prototypes to be used by later transport-specific patches (e.g.,
+> > *_seqpacket_allow()).
+> > 
+> > Namespaces are supported primarily by changing socket lookup functions
+> > (e.g., vsock_find_connected_socket()) to take into account the socket
+> > namespace and the namespace mode before considering a candidate socket a
+> > "match".
+> > 
+> > This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
+> > report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
+> > for new namespaces.
+> > 
+> > Add netns functionality (initialization, passing to transports, procfs,
+> > etc...) to the af_vsock socket layer. Later patches that add netns
+> > support to transports depend on this patch.
+> > 
+> > dgram_allow(), stream_allow(), and seqpacket_allow() callbacks are
+> > modified to take a vsk in order to perform logic on namespace modes. In
+> > future patches, the net will also be used for socket
+> > lookups in these functions.
+> > 
+> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> > ---
+> > Changes in v14:
+> > - include linux/sysctl.h in af_vsock.c
+> > - squash patch 'vsock: add per-net vsock NS mode state' into this patch
+> >   (prior version can be found here):
+> >   https://lore.kernel.org/all/20251223-vsock-vmtest-v13-1-9d6db8e7c80b@meta.com/)
+> 
+> So, about the static port, are you going to address it in
+> the next version then?
 
-> ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/hyperv/linux.git tags/hyperv-fixes-signed-20260112
+Yes, just wanted to get the rebase out to unblock review of the
+child_ns_mode changes.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/afd12f914c8f733a9660c97bdbe539aee88e742b
+I should have mentioned the static port was a known issue and still
+under discussion.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+- Bobby
