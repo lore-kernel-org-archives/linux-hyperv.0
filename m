@@ -1,28 +1,29 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4343793BF;
-	Wed, 14 Jan 2026 21:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB412378D84;
+	Wed, 14 Jan 2026 21:38:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426720; cv=none; b=C9+YyC8qVwbChrmIvS6OSzyoq6LddbP+ZwBpqMMBcaFvrGIVAJoyk52B5bN9jM19Ou6LsCyrmlyYkrzyqDsTAq00unt8/icLEB5og2NtM/XtsfOhD6mI2r6guw9VamVer4IFc3cntU1F4ZxsBpEZ9QqgcbnhmH3BV+xI1ISJW5A=
+	t=1768426722; cv=none; b=Ai+sZ0ujbJAFceA9mZlh2ldbMqIWqDpC1OsX6nYMgnZxQpQ/EPkZQsVz8DUUgoNlQV4kseitRxe+llYt0xLu/iL/xwf2hD1pV3SmXKy57l34PBJJT+50VKng5bJUhEnbX9HqXR15ow0HEGaCtMISrIBHh8c//VQ07cVuinakIQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426720; c=relaxed/simple;
-	bh=Ud9CO7xK3C6FIHXGrUVPSXdkbGzlwdZeUQL/ELqGItY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oFSft+7t4VepgAyr2TMqaM/I8WRa7QDDf1kOmZmEF3/g7uky/dvTtERCZEr1TopCpgpXU3KUYnARGOx8D9PRHiAE1S4S0UdNhfbATO+7g5qLPIpb6MPgF3Uc2lIxw1F9byqNZdOCOxwvgVdpwriuMYBalwsU1qfA/BhJxhlRhFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kh1GoLPU; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1768426722; c=relaxed/simple;
+	bh=L4E1wo8/6fKvJEozXW8vtzU2hTEpjK6jREA7Bfv0oJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mPZrd5PLW7XqGgBp2QCw8mwGy2pa0y3iuVV2A9x65LiVFL7K7uLTWuQMVzIEuhiMB+ExGOaI78rYigzDaiJabgUupsW/bZxZ4pwbxzW64XfE9gxcJmj2yjTxjJZNL7BE8maxZpKTw27PVppoT4/k8yKS4rmt+LOSpSlV+CjGDZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Zi1ZLZDX; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kh1GoLPU"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Zi1ZLZDX"
 Received: by linux.microsoft.com (Postfix, from userid 1032)
-	id 7FCBA20B7165; Wed, 14 Jan 2026 13:38:06 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7FCBA20B7165
+	id 333DE20B7170; Wed, 14 Jan 2026 13:38:08 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 333DE20B7170
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1768426686;
-	bh=3FPKL6RKZS3PAfmJj/ndI52aBJ1Zr63x+RcAackQQO0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kh1GoLPU0fsRrcvTx+MFGHYHpnW0h6HWITifRMu82LApikQM2wqMYexVJUaPKNqIC
-	 /x2cWYFvPVClknzenMmsVYDavTCbyUjGhER3oL/rCOz3bVbZ/Qd/GG80/20IE7aRf0
-	 5mzelCXNuuZg0JZYGSzt4L4Is5SSQrpDDoUmK1SU=
+	s=default; t=1768426688;
+	bh=uE6yNFSdJktjcXi31tIk+NXAAyXVgXT3CJcMYC5oQGk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Zi1ZLZDXIpo7o8UftS5FupdR5zX+31AiUiJfVeGfAsuJ1Y1IiPE54hl/8PRSUiuHp
+	 HegJs8eqFLBuzf+i+SeIeHUpYTJaUpPZS7KKgl8+XfvS8xwE7VZuIEs3nfxRTKwNJS
+	 Ipzfu8h8nAiM03DYrHp4tC68bfQYW15M0/iXjLdQ=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -37,10 +38,12 @@ Cc: kys@microsoft.com,
 	mrathor@linux.microsoft.com,
 	paekkaladevi@linux.microsoft.com,
 	Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: [PATCH v3 0/6] mshv: Debugfs interface for mshv_root
-Date: Wed, 14 Jan 2026 13:37:57 -0800
-Message-ID: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 4/6] mshv: Always map child vp stats pages regardless of scheduler type
+Date: Wed, 14 Jan 2026 13:38:01 -0800
+Message-ID: <20260114213803.143486-5-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
+References: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -49,65 +52,80 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expose hypervisor, logical processor, partition, and virtual processor
-statistics via debugfs. These are provided by mapping 'stats' pages via
-hypercall.
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
 
-Patch #1: Update hv_call_map_stats_page() to return success when
-          HV_STATS_AREA_PARENT is unavailable, which is the case on some
-          hypervisor versions, where it can fall back to HV_STATS_AREA_SELF
-Patch #2: Use struct hv_stats_page pointers instead of void *
-Patch #3: Make mshv_vp_stats_map/unmap() more flexible to use with debugfs code
-Patch #4: Always map vp stats page regardless of scheduler, to reuse in debugfs
-Patch #5: Introduce the definitions needed for the various stats pages
-Patch #6: Add mshv_debugfs.c, and integrate it with the mshv_root driver to
-          expose the partition and VP stats.
+Currently vp->vp_stats_pages is only used by the root scheduler for fast
+interrupt injection.
 
+Soon, vp_stats_pages will also be needed for exposing child VP stats to
+userspace via debugfs. Mapping the pages a second time to a different
+address causes an error on L1VH.
+
+Remove the scheduler requirement and always map the vp stats pages.
+
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
-Changes in v3:
-- Add 3 small refactor/cleanup patches (patches 2,3,4) from Stanislav. These
-  simplify some of the debugfs code, and fix issues with mapping VP stats on
-  L1VH.
-- Fix cleanup of parent stats dentries on module removal (via squashing some
-  internal patches into patch #6) [Praveen]
-- Remove unused goto label [Stanislav, kernel bot]
-- Use struct hv_stats_page * instead of void * in mshv_debugfs.c [Stanislav]
-- Remove some redundant variables [Stanislav]
-- Rename debugfs dentry fields for brevity [Stanislav]
-- Use ERR_CAST() for the dentry error pointer returned from
-  lp_debugfs_stats_create() [Stanislav]
-- Fix leak of pages allocated for lp stats mappings by storing them in an array
-  [Michael]
-- Add comments to clarify PARENT vs SELF usage and edge cases [Michael]
-- Add VpLoadAvg for x86 and print the stat [Michael]
-- Add NUM_STATS_AREAS for array sizing in mshv_debugfs.c [Michael]
+ drivers/hv/mshv_root_main.c | 25 ++++++++-----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-Changes in v2:
-- Remove unnecessary pr_debug_once() in patch 1 [Stanislav Kinsburskii]
-- CONFIG_X86 -> CONFIG_X86_64 in patch 2 [Stanislav Kinsburskii]
-
----
-Nuno Das Neves (2):
-  mshv: Add definitions for stats pages
-  mshv: Add debugfs to view hypervisor statistics
-
-Purna Pavan Chandra Aekkaladevi (1):
-  mshv: Ignore second stats page map result failure
-
-Stanislav Kinsburskii (3):
-  mshv: Use typed hv_stats_page pointers
-  mshv: Improve mshv_vp_stats_map/unmap(), add them to mshv_root.h
-  mshv: Always map child vp stats pages regardless of scheduler type
-
- drivers/hv/Makefile            |    1 +
- drivers/hv/mshv_debugfs.c      | 1103 ++++++++++++++++++++++++++++++++
- drivers/hv/mshv_root.h         |   49 +-
- drivers/hv/mshv_root_hv_call.c |   64 +-
- drivers/hv/mshv_root_main.c    |  130 ++--
- include/hyperv/hvhdk.h         |  437 +++++++++++++
- 6 files changed, 1721 insertions(+), 63 deletions(-)
- create mode 100644 drivers/hv/mshv_debugfs.c
-
+diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
+index faca3cc63e79..fbfc9e7d9fa4 100644
+--- a/drivers/hv/mshv_root_main.c
++++ b/drivers/hv/mshv_root_main.c
+@@ -1077,16 +1077,10 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+ 			goto unmap_register_page;
+ 	}
+ 
+-	/*
+-	 * This mapping of the stats page is for detecting if dispatch thread
+-	 * is blocked - only relevant for root scheduler
+-	 */
+-	if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT) {
+-		ret = mshv_vp_stats_map(partition->pt_id, args.vp_index,
+-					stats_pages);
+-		if (ret)
+-			goto unmap_ghcb_page;
+-	}
++	ret = mshv_vp_stats_map(partition->pt_id, args.vp_index,
++				stats_pages);
++	if (ret)
++		goto unmap_ghcb_page;
+ 
+ 	vp = kzalloc(sizeof(*vp), GFP_KERNEL);
+ 	if (!vp)
+@@ -1110,8 +1104,7 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+ 	if (mshv_partition_encrypted(partition) && is_ghcb_mapping_available())
+ 		vp->vp_ghcb_page = page_to_virt(ghcb_page);
+ 
+-	if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
+-		memcpy(vp->vp_stats_pages, stats_pages, sizeof(stats_pages));
++	memcpy(vp->vp_stats_pages, stats_pages, sizeof(stats_pages));
+ 
+ 	/*
+ 	 * Keep anon_inode_getfd last: it installs fd in the file struct and
+@@ -1133,8 +1126,7 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
+ free_vp:
+ 	kfree(vp);
+ unmap_stats_pages:
+-	if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
+-		mshv_vp_stats_unmap(partition->pt_id, args.vp_index, stats_pages);
++	mshv_vp_stats_unmap(partition->pt_id, args.vp_index, stats_pages);
+ unmap_ghcb_page:
+ 	if (mshv_partition_encrypted(partition) && is_ghcb_mapping_available())
+ 		hv_unmap_vp_state_page(partition->pt_id, args.vp_index,
+@@ -1754,9 +1746,8 @@ static void destroy_partition(struct mshv_partition *partition)
+ 			if (!vp)
+ 				continue;
+ 
+-			if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
+-				mshv_vp_stats_unmap(partition->pt_id, vp->vp_index,
+-						    vp->vp_stats_pages);
++			mshv_vp_stats_unmap(partition->pt_id, vp->vp_index,
++					    vp->vp_stats_pages);
+ 
+ 			if (vp->vp_register_page) {
+ 				(void)hv_unmap_vp_state_page(partition->pt_id,
 -- 
 2.34.1
 
