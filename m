@@ -1,29 +1,28 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A9E376BE0;
-	Wed, 14 Jan 2026 21:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4343793BF;
+	Wed, 14 Jan 2026 21:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426711; cv=none; b=L6t+I0iL6/9yAlTFQ6VH5VJYfN8FRnWJoVVWsONFvJRTb1R613Q5NCoxhTKFTO5wbT7LAtD8nUjZ+pphqjk0k8Xc49Togj6A8w6QHdUtkQ+E3UWE5zmIQiHSSYFxKmm9jmmCvjNUNK74MNaZyiWsUgCn1pAWLCWAsCwF7NIZbW0=
+	t=1768426720; cv=none; b=C9+YyC8qVwbChrmIvS6OSzyoq6LddbP+ZwBpqMMBcaFvrGIVAJoyk52B5bN9jM19Ou6LsCyrmlyYkrzyqDsTAq00unt8/icLEB5og2NtM/XtsfOhD6mI2r6guw9VamVer4IFc3cntU1F4ZxsBpEZ9QqgcbnhmH3BV+xI1ISJW5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426711; c=relaxed/simple;
-	bh=2s9lIeHsh8FM2pqJpMLaCsT4ujORbpAFNEZIFfRk+Y0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m9davsyvrJu7kPHq1tZwERtUBdY9rmLss1ydtOWNSZfmed3XYTfXu59fI/4nW0N0KfYDW6N9/qmWi8Q6W5CYhxmpJ3Y1edlIwIQf4Uc5oTXNZEYMqBPgZxObW5Jm8N61YvjfURb+vQYWQPTJCAl5OT1Qbuyf97O1rEqqE9N84Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nyU+Qy9l; arc=none smtp.client-ip=13.77.154.182
+	s=arc-20240116; t=1768426720; c=relaxed/simple;
+	bh=Ud9CO7xK3C6FIHXGrUVPSXdkbGzlwdZeUQL/ELqGItY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oFSft+7t4VepgAyr2TMqaM/I8WRa7QDDf1kOmZmEF3/g7uky/dvTtERCZEr1TopCpgpXU3KUYnARGOx8D9PRHiAE1S4S0UdNhfbATO+7g5qLPIpb6MPgF3Uc2lIxw1F9byqNZdOCOxwvgVdpwriuMYBalwsU1qfA/BhJxhlRhFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kh1GoLPU; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nyU+Qy9l"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kh1GoLPU"
 Received: by linux.microsoft.com (Postfix, from userid 1032)
-	id C717120B716F; Wed, 14 Jan 2026 13:38:07 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C717120B716F
+	id 7FCBA20B7165; Wed, 14 Jan 2026 13:38:06 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7FCBA20B7165
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1768426687;
-	bh=9BzoOa0wVBQB143I2PH957+WYxTAU/R3jKcGrn898r4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nyU+Qy9lRs3B3IHUrKpqNzFjQJVArUl1umBg9d/QhAZwQQytIDFmaItqwRHsmYZ0b
-	 jmnIvbNr9nLYeRkJ4APZcrQAFxE48My5UlIU65d9LV83bF9AWtCTcvY5j/Mx3M/Tdf
-	 MO0iU4MmSz1ildRA39dVGdjA80PSSnI9ufgILtXM=
+	s=default; t=1768426686;
+	bh=3FPKL6RKZS3PAfmJj/ndI52aBJ1Zr63x+RcAackQQO0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kh1GoLPU0fsRrcvTx+MFGHYHpnW0h6HWITifRMu82LApikQM2wqMYexVJUaPKNqIC
+	 /x2cWYFvPVClknzenMmsVYDavTCbyUjGhER3oL/rCOz3bVbZ/Qd/GG80/20IE7aRf0
+	 5mzelCXNuuZg0JZYGSzt4L4Is5SSQrpDDoUmK1SU=
 From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 To: linux-hyperv@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
@@ -38,12 +37,10 @@ Cc: kys@microsoft.com,
 	mrathor@linux.microsoft.com,
 	paekkaladevi@linux.microsoft.com,
 	Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: [PATCH v3 3/6] mshv: Improve mshv_vp_stats_map/unmap(), add them to mshv_root.h
-Date: Wed, 14 Jan 2026 13:38:00 -0800
-Message-ID: <20260114213803.143486-4-nunodasneves@linux.microsoft.com>
+Subject: [PATCH v3 0/6] mshv: Debugfs interface for mshv_root
+Date: Wed, 14 Jan 2026 13:37:57 -0800
+Message-ID: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
-References: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
@@ -52,144 +49,65 @@ List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+Expose hypervisor, logical processor, partition, and virtual processor
+statistics via debugfs. These are provided by mapping 'stats' pages via
+hypercall.
 
-These functions are currently only used to map child partition VP stats,
-on root partition. However, they will soon be used on L1VH, and and also
-used for mapping the host's own VP stats.
+Patch #1: Update hv_call_map_stats_page() to return success when
+          HV_STATS_AREA_PARENT is unavailable, which is the case on some
+          hypervisor versions, where it can fall back to HV_STATS_AREA_SELF
+Patch #2: Use struct hv_stats_page pointers instead of void *
+Patch #3: Make mshv_vp_stats_map/unmap() more flexible to use with debugfs code
+Patch #4: Always map vp stats page regardless of scheduler, to reuse in debugfs
+Patch #5: Introduce the definitions needed for the various stats pages
+Patch #6: Add mshv_debugfs.c, and integrate it with the mshv_root driver to
+          expose the partition and VP stats.
 
-Introduce a helper is_l1vh_parent() to determine whether we are mapping
-our own VP stats. In this case, do not attempt to map the PARENT area.
-Note this is a different case than mapping PARENT on an older hypervisor
-where it is not available at all, so must be handled separately.
-
-On unmap, pass the stats pages since on L1VH the kernel allocates them
-and they must be freed in hv_unmap_stats_page().
-
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
 ---
- drivers/hv/mshv_root.h      | 10 ++++++
- drivers/hv/mshv_root_main.c | 61 ++++++++++++++++++++++++++-----------
- 2 files changed, 54 insertions(+), 17 deletions(-)
+Changes in v3:
+- Add 3 small refactor/cleanup patches (patches 2,3,4) from Stanislav. These
+  simplify some of the debugfs code, and fix issues with mapping VP stats on
+  L1VH.
+- Fix cleanup of parent stats dentries on module removal (via squashing some
+  internal patches into patch #6) [Praveen]
+- Remove unused goto label [Stanislav, kernel bot]
+- Use struct hv_stats_page * instead of void * in mshv_debugfs.c [Stanislav]
+- Remove some redundant variables [Stanislav]
+- Rename debugfs dentry fields for brevity [Stanislav]
+- Use ERR_CAST() for the dentry error pointer returned from
+  lp_debugfs_stats_create() [Stanislav]
+- Fix leak of pages allocated for lp stats mappings by storing them in an array
+  [Michael]
+- Add comments to clarify PARENT vs SELF usage and edge cases [Michael]
+- Add VpLoadAvg for x86 and print the stat [Michael]
+- Add NUM_STATS_AREAS for array sizing in mshv_debugfs.c [Michael]
 
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 05ba1f716f9e..e4912b0618fa 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -254,6 +254,16 @@ struct mshv_partition *mshv_partition_get(struct mshv_partition *partition);
- void mshv_partition_put(struct mshv_partition *partition);
- struct mshv_partition *mshv_partition_find(u64 partition_id) __must_hold(RCU);
- 
-+static inline bool is_l1vh_parent(u64 partition_id)
-+{
-+	return hv_l1vh_partition() && (partition_id == HV_PARTITION_ID_SELF);
-+}
-+
-+int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
-+		      struct hv_stats_page **stats_pages);
-+void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
-+			 struct hv_stats_page **stats_pages);
-+
- /* hypercalls */
- 
- int hv_call_withdraw_memory(u64 count, int node, u64 partition_id);
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index be5ad0fbfbee..faca3cc63e79 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -956,23 +956,36 @@ mshv_vp_release(struct inode *inode, struct file *filp)
- 	return 0;
- }
- 
--static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
--				struct hv_stats_page *stats_pages[])
-+void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
-+			 struct hv_stats_page *stats_pages[])
- {
- 	union hv_stats_object_identity identity = {
- 		.vp.partition_id = partition_id,
- 		.vp.vp_index = vp_index,
- 	};
-+	int err;
- 
- 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
--	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
--
--	identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
--	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
-+	err = hv_unmap_stats_page(HV_STATS_OBJECT_VP,
-+				  stats_pages[HV_STATS_AREA_SELF],
-+				  &identity);
-+	if (err)
-+		pr_err("%s: failed to unmap partition %llu vp %u self stats, err: %d\n",
-+		       __func__, partition_id, vp_index, err);
-+
-+	if (stats_pages[HV_STATS_AREA_PARENT] != stats_pages[HV_STATS_AREA_SELF]) {
-+		identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
-+		err = hv_unmap_stats_page(HV_STATS_OBJECT_VP,
-+					  stats_pages[HV_STATS_AREA_PARENT],
-+					  &identity);
-+		if (err)
-+			pr_err("%s: failed to unmap partition %llu vp %u parent stats, err: %d\n",
-+			       __func__, partition_id, vp_index, err);
-+	}
- }
- 
--static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
--			     struct hv_stats_page *stats_pages[])
-+int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
-+		      struct hv_stats_page *stats_pages[])
- {
- 	union hv_stats_object_identity identity = {
- 		.vp.partition_id = partition_id,
-@@ -983,23 +996,37 @@ static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
- 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
- 	err = hv_map_stats_page(HV_STATS_OBJECT_VP, &identity,
- 				&stats_pages[HV_STATS_AREA_SELF]);
--	if (err)
-+	if (err) {
-+		pr_err("%s: failed to map partition %llu vp %u self stats, err: %d\n",
-+		       __func__, partition_id, vp_index, err);
- 		return err;
-+	}
- 
--	identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
--	err = hv_map_stats_page(HV_STATS_OBJECT_VP, &identity,
--				&stats_pages[HV_STATS_AREA_PARENT]);
--	if (err)
--		goto unmap_self;
--
--	if (!stats_pages[HV_STATS_AREA_PARENT])
-+	/*
-+	 * L1VH partition cannot access its vp stats in parent area.
-+	 */
-+	if (is_l1vh_parent(partition_id)) {
- 		stats_pages[HV_STATS_AREA_PARENT] = stats_pages[HV_STATS_AREA_SELF];
-+	} else {
-+		identity.vp.stats_area_type = HV_STATS_AREA_PARENT;
-+		err = hv_map_stats_page(HV_STATS_OBJECT_VP, &identity,
-+					&stats_pages[HV_STATS_AREA_PARENT]);
-+		if (err) {
-+			pr_err("%s: failed to map partition %llu vp %u parent stats, err: %d\n",
-+			       __func__, partition_id, vp_index, err);
-+			goto unmap_self;
-+		}
-+		if (!stats_pages[HV_STATS_AREA_PARENT])
-+			stats_pages[HV_STATS_AREA_PARENT] = stats_pages[HV_STATS_AREA_SELF];
-+	}
- 
- 	return 0;
- 
- unmap_self:
- 	identity.vp.stats_area_type = HV_STATS_AREA_SELF;
--	hv_unmap_stats_page(HV_STATS_OBJECT_VP, NULL, &identity);
-+	hv_unmap_stats_page(HV_STATS_OBJECT_VP,
-+			    stats_pages[HV_STATS_AREA_SELF],
-+			    &identity);
- 	return err;
- }
- 
+Changes in v2:
+- Remove unnecessary pr_debug_once() in patch 1 [Stanislav Kinsburskii]
+- CONFIG_X86 -> CONFIG_X86_64 in patch 2 [Stanislav Kinsburskii]
+
+---
+Nuno Das Neves (2):
+  mshv: Add definitions for stats pages
+  mshv: Add debugfs to view hypervisor statistics
+
+Purna Pavan Chandra Aekkaladevi (1):
+  mshv: Ignore second stats page map result failure
+
+Stanislav Kinsburskii (3):
+  mshv: Use typed hv_stats_page pointers
+  mshv: Improve mshv_vp_stats_map/unmap(), add them to mshv_root.h
+  mshv: Always map child vp stats pages regardless of scheduler type
+
+ drivers/hv/Makefile            |    1 +
+ drivers/hv/mshv_debugfs.c      | 1103 ++++++++++++++++++++++++++++++++
+ drivers/hv/mshv_root.h         |   49 +-
+ drivers/hv/mshv_root_hv_call.c |   64 +-
+ drivers/hv/mshv_root_main.c    |  130 ++--
+ include/hyperv/hvhdk.h         |  437 +++++++++++++
+ 6 files changed, 1721 insertions(+), 63 deletions(-)
+ create mode 100644 drivers/hv/mshv_debugfs.c
+
 -- 
 2.34.1
 
