@@ -1,165 +1,97 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268D236D50C;
-	Wed, 14 Jan 2026 21:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1331F21771B;
+	Thu, 15 Jan 2026 02:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426747; cv=none; b=Q90Ywy+DdAc8oCcynDnP3fcvw4+Hxe/zLM0T/qSqjWOtKx6ICxOCoWJwGfK1dRgFBZBT2fXEgohnysCNuJ/GhuvE7n/Lqq3DzWEVMdpNW8f464huNGCkJ4fGxweSxlhLQrANQHQ0PklR2COvuTUdMbVb3HUjJxslUhRjmamek6s=
+	t=1768445693; cv=none; b=cJEX3MnY11s5ID+AH+kbLsRS/9OveRKbDvE/FkbdnFs0rZn4aVlpMVzJDXIYouJsSxY4bQOhEN3TwXZi8Pv3aM8Y9C9mUEvbSdhmxQc7PwKu41+h6KN7pJYAMk/pnIbiJqUvdS7lvNR6unxbbAP4rG+8mQRAZNESZBUzM+OQAHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426747; c=relaxed/simple;
-	bh=HFNNVSweFvuB84DU2B4ROhCi6CUVW6aVVK9SMK14epw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sBb4LjdqiheTef+FPxL9NygMe56cdUmTQAEBU1EpFxhKLcsLdPIYai9vBLgO27WuxZ/kQDV0cuMl47h5OXGD7YroVCkMkrjfJ0+Kjv+5ewjeXAfwAEiC8f1uhGDAwn5bJCdjQ0p6mqQpNDE8ABQJdq4byQpRhGikzM2lvunOqpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZITdm43C; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1768445693; c=relaxed/simple;
+	bh=ReE9y3cpx7nfrJ/EI3c/BSACDpTiFZ3k4jBkHJnx2zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DFgrJ3bOx2cfcHPiccwRcn+zMfmu/dT00+RBQWNGkY0pKEeDIZKY6ml2iyTLQGl/hm8CmkTnGAu5Gd/TSQKu5OgpmfW3ZsB5huTlN25HtHjXeIPf786sfIDkuJjbjAIDq1sNwoZcF8P66Fn/zEKAEVN7SEaxtH+zXqQz3Gt9ZpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tNvy7nvT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZITdm43C"
-Received: by linux.microsoft.com (Postfix, from userid 1032)
-	id 7368D20B716E; Wed, 14 Jan 2026 13:38:07 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7368D20B716E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1768426687;
-	bh=ARHwRQoJMl3xBLyBPZgcJm/EEXDHa34ijHjF+rMvoPE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZITdm43CISdgM+IH5lO97309apB8Pi6IPlQM8StHzE26qTnfc1fXFqKbSmq260ZZx
-	 Sg6PoVZhl88Mff/sk85nrXOFe1R8j7UNN8+2jkxSdBPNlXdVqACnHBPBb602UeU2N/
-	 yZKMfwjUwrlbmZfQ592TvQ6x1hoRZ7WWLhUEXk4M=
-From: Nuno Das Neves <nunodasneves@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mhklinux@outlook.com,
-	skinsburskii@linux.microsoft.com
-Cc: kys@microsoft.com,
-	haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	longli@microsoft.com,
-	prapal@linux.microsoft.com,
-	mrathor@linux.microsoft.com,
-	paekkaladevi@linux.microsoft.com,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>
-Subject: [PATCH v3 2/6] mshv: Use typed hv_stats_page pointers
-Date: Wed, 14 Jan 2026 13:37:59 -0800
-Message-ID: <20260114213803.143486-3-nunodasneves@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
-References: <20260114213803.143486-1-nunodasneves@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tNvy7nvT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC87C4CEF7;
+	Thu, 15 Jan 2026 02:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768445692;
+	bh=ReE9y3cpx7nfrJ/EI3c/BSACDpTiFZ3k4jBkHJnx2zs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tNvy7nvTbYt57gDannbLvJRPECjFoYh5ylkqlUn7uvPmKR+JRLmipLhPkOcPCjf7z
+	 uHP5V57EckjsdxmTzP9KixXv5M1rZN/aoCUIk3PM2Rnel5NgMkiw+0lC3vLzk3YoyB
+	 lIz7/MSisKT7bGNYR9Blu2Eg8Hz7YGsvd1x1J1wp2lANoW+G2BfZDOoIQMAQ4xgYwS
+	 MCVFwMasCZh/3XSVlen24lA5Wxi2KZ6P3jQzRl1JOn48ATEJli21atm3WOU27PnaLG
+	 W2p/8N1CAGWkWbVlBEQ0dfsODueziN/13j5PGbuvLM7FHFsG7En6hmVPySbJwG/ORA
+	 RCnHRYBtxMxQQ==
+Date: Wed, 14 Jan 2026 18:54:50 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Haiyang Zhang <haiyangz@microsoft.com>
+Cc: Haiyang Zhang <haiyangz@linux.microsoft.com>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>, KY Srinivasan
+ <kys@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+ <DECUI@microsoft.com>, Long Li <longli@microsoft.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Konstantin
+ Taranov <kotaranov@microsoft.com>, Simon Horman <horms@kernel.org>, Erni
+ Sri Satya Vennela <ernis@linux.microsoft.com>, Shradha Gupta
+ <shradhagupta@linux.microsoft.com>, Saurabh Sengar
+ <ssengar@linux.microsoft.com>, Aditya Garg
+ <gargaditya@linux.microsoft.com>, Dipayaan Roy
+ <dipayanroy@linux.microsoft.com>, Shiraz Saleem
+ <shirazsaleem@microsoft.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+ <linux-rdma@vger.kernel.org>, Paul Rosswurm <paulros@microsoft.com>
+Subject: Re: [EXTERNAL] Re: [PATCH V2,net-next, 1/2] net: mana: Add support
+ for coalesced RX packets on CQE
+Message-ID: <20260114185450.58db5a6d@kernel.org>
+In-Reply-To: <SA3PR21MB38676C98AA702F212CE391E2CA8FA@SA3PR21MB3867.namprd21.prod.outlook.com>
+References: <1767732407-12389-1-git-send-email-haiyangz@linux.microsoft.com>
+	<1767732407-12389-2-git-send-email-haiyangz@linux.microsoft.com>
+	<20260109175610.0eb69acb@kernel.org>
+	<SA3PR21MB3867BAD6022A1CAE2AC9E202CA81A@SA3PR21MB3867.namprd21.prod.outlook.com>
+	<20260112172146.04b4a70f@kernel.org>
+	<SA3PR21MB3867B36A9565AB01B0114D3ACA8EA@SA3PR21MB3867.namprd21.prod.outlook.com>
+	<SA3PR21MB3867A54AA709CEE59F610943CA8EA@SA3PR21MB3867.namprd21.prod.outlook.com>
+	<20260113170948.1d6fbdaf@kernel.org>
+	<SA3PR21MB38676C98AA702F212CE391E2CA8FA@SA3PR21MB3867.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+On Wed, 14 Jan 2026 18:27:50 +0000 Haiyang Zhang wrote:
+> > > And, the coalescing can add up to 2 microseconds into one-way latency.  
+> > 
+> > I am asking you how the _device_ (hypervisor?) decides when to coalesce
+> > and when to send a partial CQE (<4 packets in 4 pkt CQE). You are using
+> > the coalescing uAPI, so I'm trying to make sure this is the correct API.
+> > CQE configuration can also be done via ringparam.  
+> 
+> When coalescing is enabled, the device waits for packets which can 
+> have the CQE coalesced with previous packet(s). That coalescing process 
+> is finished (and a CQE written to the appropriate CQ) when the CQE is 
+> filled with 4 pkts, or time expired, or other device specific logic is 
+> satisfied.
 
-Refactor all relevant functions to use struct hv_stats_page pointers
-instead of void pointers for stats page mapping and unmapping thus
-improving type safety and code clarity across the Hyper-V stats mapping
-APIs.
+See, what I'm afraid is happening here is that you are enabling
+completion coalescing (how long the device keeps the CQE pending). 
+Which is _not_ what rx_max_coalesced_frames controls for most NICs.
+For most NICs rx_max_coalesced_frames controls IRQ generation logic.
 
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
-Signed-off-by: Nuno Das Neves <nunodasneves@linux.microsoft.com>
----
- drivers/hv/mshv_root.h         |  5 +++--
- drivers/hv/mshv_root_hv_call.c | 12 +++++++-----
- drivers/hv/mshv_root_main.c    |  8 ++++----
- 3 files changed, 14 insertions(+), 11 deletions(-)
+The NIC first buffers up CQEs for typically single digit usecs, and
+then once CQE timer exipred and writeback happened it starts an IRQ
+coalescing timer. Once the IRQ coalescing timer expires IRQ is
+triggered, which schedules NAPI. (broad strokes, obviously many
+differences and optimizations exist)
 
-diff --git a/drivers/hv/mshv_root.h b/drivers/hv/mshv_root.h
-index 3c1d88b36741..05ba1f716f9e 100644
---- a/drivers/hv/mshv_root.h
-+++ b/drivers/hv/mshv_root.h
-@@ -307,8 +307,9 @@ int hv_call_disconnect_port(u64 connection_partition_id,
- int hv_call_notify_port_ring_empty(u32 sint_index);
- int hv_map_stats_page(enum hv_stats_object_type type,
- 		      const union hv_stats_object_identity *identity,
--		      void **addr);
--int hv_unmap_stats_page(enum hv_stats_object_type type, void *page_addr,
-+		      struct hv_stats_page **addr);
-+int hv_unmap_stats_page(enum hv_stats_object_type type,
-+			struct hv_stats_page *page_addr,
- 			const union hv_stats_object_identity *identity);
- int hv_call_modify_spa_host_access(u64 partition_id, struct page **pages,
- 				   u64 page_struct_count, u32 host_access,
-diff --git a/drivers/hv/mshv_root_hv_call.c b/drivers/hv/mshv_root_hv_call.c
-index 1f93b94d7580..daee036e48bc 100644
---- a/drivers/hv/mshv_root_hv_call.c
-+++ b/drivers/hv/mshv_root_hv_call.c
-@@ -890,9 +890,10 @@ hv_stats_get_area_type(enum hv_stats_object_type type,
-  * caller should check for this case and instead fallback to the SELF area
-  * alone.
-  */
--static int hv_call_map_stats_page(enum hv_stats_object_type type,
--				  const union hv_stats_object_identity *identity,
--				  void **addr)
-+static int
-+hv_call_map_stats_page(enum hv_stats_object_type type,
-+		       const union hv_stats_object_identity *identity,
-+		       struct hv_stats_page **addr)
- {
- 	unsigned long flags;
- 	struct hv_input_map_stats_page *input;
-@@ -942,7 +943,7 @@ static int hv_call_map_stats_page(enum hv_stats_object_type type,
- 
- int hv_map_stats_page(enum hv_stats_object_type type,
- 		      const union hv_stats_object_identity *identity,
--		      void **addr)
-+		      struct hv_stats_page **addr)
- {
- 	int ret;
- 	struct page *allocated_page = NULL;
-@@ -990,7 +991,8 @@ static int hv_call_unmap_stats_page(enum hv_stats_object_type type,
- 	return hv_result_to_errno(status);
- }
- 
--int hv_unmap_stats_page(enum hv_stats_object_type type, void *page_addr,
-+int hv_unmap_stats_page(enum hv_stats_object_type type,
-+			struct hv_stats_page *page_addr,
- 			const union hv_stats_object_identity *identity)
- {
- 	int ret;
-diff --git a/drivers/hv/mshv_root_main.c b/drivers/hv/mshv_root_main.c
-index 1777778f84b8..be5ad0fbfbee 100644
---- a/drivers/hv/mshv_root_main.c
-+++ b/drivers/hv/mshv_root_main.c
-@@ -957,7 +957,7 @@ mshv_vp_release(struct inode *inode, struct file *filp)
- }
- 
- static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
--				void *stats_pages[])
-+				struct hv_stats_page *stats_pages[])
- {
- 	union hv_stats_object_identity identity = {
- 		.vp.partition_id = partition_id,
-@@ -972,7 +972,7 @@ static void mshv_vp_stats_unmap(u64 partition_id, u32 vp_index,
- }
- 
- static int mshv_vp_stats_map(u64 partition_id, u32 vp_index,
--			     void *stats_pages[])
-+			     struct hv_stats_page *stats_pages[])
- {
- 	union hv_stats_object_identity identity = {
- 		.vp.partition_id = partition_id,
-@@ -1010,7 +1010,7 @@ mshv_partition_ioctl_create_vp(struct mshv_partition *partition,
- 	struct mshv_create_vp args;
- 	struct mshv_vp *vp;
- 	struct page *intercept_msg_page, *register_page, *ghcb_page;
--	void *stats_pages[2];
-+	struct hv_stats_page *stats_pages[2];
- 	long ret;
- 
- 	if (copy_from_user(&args, arg, sizeof(args)))
-@@ -1729,7 +1729,7 @@ static void destroy_partition(struct mshv_partition *partition)
- 
- 			if (hv_scheduler_type == HV_SCHEDULER_TYPE_ROOT)
- 				mshv_vp_stats_unmap(partition->pt_id, vp->vp_index,
--						    (void **)vp->vp_stats_pages);
-+						    vp->vp_stats_pages);
- 
- 			if (vp->vp_register_page) {
- 				(void)hv_unmap_vp_state_page(partition->pt_id,
--- 
-2.34.1
+Is my guess correct? Are you controlling CQE coalescing>
 
+Can you control the timeout instead of the frame count?
