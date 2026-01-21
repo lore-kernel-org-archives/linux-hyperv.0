@@ -1,246 +1,167 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011018.outbound.protection.outlook.com [52.101.62.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BA6397ABB;
-	Wed, 21 Jan 2026 16:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769014170; cv=fail; b=ptsYPMKFuTxrfjnpwPo8pbsZlnvFd+vBAfys1WQYjvP8fFeTm/nHGLFvZzZfDphXwgDni90Fa8Is3/UqIfS0xxjNWT96C7hRYq0tVsgbX3Zq1ho9s9mf424HtioOdIBo/ws2egdmHuJDh6w+Jzf05rQQqS6IQoOpkvHPzjN82xs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769014170; c=relaxed/simple;
-	bh=/jUSNX99l+X4I8FiCRJQmYBFU5PolTacXM8k6tjdtNc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tKuQjNhlkzCF8b3Klq7V4i0LGzX3vPz8vQ/F4sz7fTGUmsAekVEh8ehH752C6Cp25h2ppfVtzUQSjRmKVMUaY4GhwQv4g1NuRkfkP8vPt/yrP8aYrV9IjkSFkU1DBypAr8JAX/DQTlirjmPMXnKQY4bY1vcBnMLY17Ubn6Nly7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=gs3PyHrJ; arc=fail smtp.client-ip=52.101.62.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="gs3PyHrJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MrfgBfU5HrCBYbHeXu2gt1Abn5+0nBZxThPjfqyUak5GO+e8NIelDnc7R84fmUZb1+mNz/PGaqHJkGO8yCtBXSs7Z7aLmJpv/RIPoiV2jjJ1jHCSa6nZ/ypZi7vQ0qfoFugvhd7iYdAW7l+IC32ySUgxMwVkR58XOChHRuhHhCvwPE97GBKHAaOoxbVIahhPKV2CbV2rPsxzS8Taf5B1PYlCMy4fB5LXSHAUQJqvYfKlTOYX11gXis7tg/HwWEyfDbi3lbSXvWhKttcDyiCx7uFF9UD/Bu9gPw/5PiwsuVBsQ5ZlmL9i9EtHb9Eq45mY8wwwuRYFFmMRlhZUtnswtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZZCqxqY/zfM3qLfWMT47rl8oOw7lbVp9FlXzYKhzKOE=;
- b=F+PvWV6k4Nz3d12ESth6RGmyNVYC4Nkow//wHKgVW7M8CLgSzkhgiibVagbhxE/ELlPgG0kD4yfj82G11uJwCnHEZ96qv4dBC/wKUHfXSJcTNhxKwPGNxXxhA2duYsGLGghVp1jTGVZG70W3fhA3v2MIG6KrMxGzurt4TDtite/KBwIRR8XqBlTWRZpbAA3qzBtxT5wXqfs31TkbTygucdMFcu0FjGgDe71NJgwHE0phfm1LlTvHx9BZGzbaISPJPdAFLuh8bLl26ibp8m59e3oedHr5i3AUqocZbWUZpw4nwfqTLbFakZdDMRYEQXWCQB1GITdB3tRUV1PYe/xTJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZZCqxqY/zfM3qLfWMT47rl8oOw7lbVp9FlXzYKhzKOE=;
- b=gs3PyHrJnEc4FW2j/B1QOL6uL00eWbwxhCsbJ6Hbxv63x9pfuktSHqxRB2FFZ81zSSWwwOFqj7jPfe23Ff1irTBoWsPop4c77ETcrTyLj/p1Zu7ug7oI5SrUpiv3KZSUqeeSp+6lXrM+1at2YcmNemlMJrFbdvQI1VloiBi5LPQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH0PR12MB7982.namprd12.prod.outlook.com (2603:10b6:510:28d::5)
- by MN0PR12MB6077.namprd12.prod.outlook.com (2603:10b6:208:3cb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.10; Wed, 21 Jan
- 2026 16:49:26 +0000
-Received: from PH0PR12MB7982.namprd12.prod.outlook.com
- ([fe80::4eda:ca5:8634:5b27]) by PH0PR12MB7982.namprd12.prod.outlook.com
- ([fe80::4eda:ca5:8634:5b27%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
- 16:49:26 +0000
-Message-ID: <4daf0901-20a6-4c9b-9b56-32efef24e5e5@amd.com>
-Date: Wed, 21 Jan 2026 08:49:23 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/9] net: atlantic: convert to use
- .get_rx_ring_count
-To: Breno Leitao <leitao@debian.org>,
- Ajit Khaparde <ajit.khaparde@broadcom.com>,
- Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>,
- Somnath Kotur <somnath.kotur@broadcom.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Igor Russkikh <irusskikh@marvell.com>, Simon Horman <horms@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
- Edward Cree <ecree.xilinx@gmail.com>, Brett Creeley <brett.creeley@amd.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- oss-drivers@corigine.com, linux-hyperv@vger.kernel.org,
- linux-net-drivers@amd.com
-References: <20260121-grxring_big_v4-v1-0-07655be56bcf@debian.org>
- <20260121-grxring_big_v4-v1-2-07655be56bcf@debian.org>
-Content-Language: en-US
-From: "Creeley, Brett" <bcreeley@amd.com>
-In-Reply-To: <20260121-grxring_big_v4-v1-2-07655be56bcf@debian.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0174.namprd03.prod.outlook.com
- (2603:10b6:a03:338::29) To PH0PR12MB7982.namprd12.prod.outlook.com
- (2603:10b6:510:28d::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4983164A1
+	for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 17:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769016994; cv=none; b=CJXanHbkS5sxQg8zEnzo5gDeAZxFzArf2E8wig1VradeyAwRCkQt4RZfp2GryeZo/flqgR36/389O9Dypj12+kSUdEonhiNQS1Cw/iCHIQKf/csA7FVj8oEcXXbRBum6apZ5D3abptRWK0eY0FaaCsMoJrKUWsWxgp0vGtaA0eI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769016994; c=relaxed/simple;
+	bh=N89ZNW3oha+wxXG+OHPJcmDoXFbropcF/evfEsV90xs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sJCPhcRC+OIrdRCm8jd91JZMNnKjYl2vG98DAaCbYhoYPyXicUEynjeIuNz1SK7WionHrsotlukZhSAM1YEL9mhnJ+XVy1EsS7QTVU75/EbDZaNEBSwru8LBVzpUa3ANN2+97Maeim3mrP25n0ih3ddEZDE+qYTs+ff+j9H22tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c5389c3d4cso7902485a.3
+        for <linux-hyperv@vger.kernel.org>; Wed, 21 Jan 2026 09:36:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769016991; x=1769621791;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EE3io2YTVlpYr6JqBHdH0n+Tgy3q9xeBQJGveVd5U2M=;
+        b=XzEWBv3hNhFBvgJ8aZkR+YRGrFyjhp5CIhiRwHTFhk9eLdB5Ivyg8SFTl6PiQ2vWBd
+         kLbPfHfUhJQoxAEOpQfmu5GXZbWD0qmiB29ydbHOr5c/+Tb3wFtcaAlGRr7g4rjEuIoM
+         jYMC+PvtCb/Ca1gHVWtUZjD0OntkN6wYpAiIEJHi1wsF3OUME5p37lLY0tYS7oZ2vRFJ
+         6I4qhEnPWRv+iYgrRijENCn8Z3JvAH7gQnWajyHtsWadALTjoBewb23eQuwq8CZY9U4X
+         Ei8uuoQT8rcTsxLv6OOtQzPhwkmR3KcoppAQPsW8iUcemVWeIa8fkooEZUe5QUFg1sQG
+         xdUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVPH6IJLeUjzavrYH+AWlVYMJtPTNNTO06CFKvlyPDjwhzJF+Mx/LWEIG6xGB/m0d5IHKZwGVgI4o9ZC9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8GbajIUB2Mzh6LVR8Vn8IdAE/YVTCumXMu8/chHqsPOGqA7RE
+	ni01pwdx+pPoHq3EoBW/HKi8pzBik2wwUGAIks+1ZYYLzNNf2FXLLniu4Srp+w==
+X-Gm-Gg: AZuq6aIj9vInfwajjRPkU+28fhlql532kX4vvbrUjRHaRt/fAWQ/YANu9zVbHgCD565
+	gmDTDaQgd76QJ+8BjYTLhTJH1WQUOHoiXdw1QBj0HQS/Qgq9psCF3d2WjXU1ErlR8zNtPXtozKG
+	Em7tzJi6+h5WjSQywypRJWZfwQQkTRj9UTd/Xp8t1lc2/Sunh8dKwmvthjMkgNTHg0QXlzlriHH
+	uBM6COZY7WhXWZrAObE/UupuOazA8+5nf6x9qIpuekCEWPYlEnJmcWzcGB3Jp+1v+qAVTYDmOU1
+	Ij2lWz/4Y2p8OvqHrPQiFnkhtGIhoJYprAmQS/n625oqRaOE4/31MpI2/zX8IxLQ73ovFfttfxQ
+	b5Qt57RD2OXiICMX/cbxXTeGNlyLCsQcAo5HSNLcFppyKTq/X7aInmnb14mAdTBETgfmok33ySv
+	4l
+X-Received: by 2002:a05:6830:6d2f:b0:7cf:dc2d:8508 with SMTP id 46e09a7af769-7cfded3d668mr9124127a34.1.1769010979642;
+        Wed, 21 Jan 2026 07:56:19 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:6::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7cfdf0e94b2sm10676020a34.7.2026.01.21.07.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jan 2026 07:56:19 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH net-next 0/9] net: convert drivers to .get_rx_ring_count
+ (last part)
+Date: Wed, 21 Jan 2026 07:54:37 -0800
+Message-Id: <20260121-grxring_big_v4-v1-0-07655be56bcf@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-hyperv@vger.kernel.org
 List-Id: <linux-hyperv.vger.kernel.org>
 List-Subscribe: <mailto:linux-hyperv+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hyperv+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR12MB7982:EE_|MN0PR12MB6077:EE_
-X-MS-Office365-Filtering-Correlation-Id: 77ca92d9-d757-44eb-6dd0-08de590d0944
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VEtuSzQ3bXZSRzBZVEVWcEdxODM5UUs1TCtYU0w4Z1lxZEFNZWNFMDVuM0la?=
- =?utf-8?B?WVFPbXN6WFNCS201TEdwRlVpdUVHYmJQcmVKZ1o3c28zRncyT0lxZ3pkNFV2?=
- =?utf-8?B?b3hKdlRvK0pqUklYMitVMkE3L3hQK0hVTU9vRVRMK0I3cXhnT2VOdmNkeGor?=
- =?utf-8?B?cnRDYWIrMnVKSFkrTURBTzlRMEtSY2MxUmh4VE9YUmcwQkxhRFMvVWN5UldB?=
- =?utf-8?B?QWtTY1lCVHRLbVJxNWQ1MDl2RW9zY1BYWnVqMXlRb0dKQnBmc01SSTNWZ3lZ?=
- =?utf-8?B?S0hqTG8rOHp0U1RscGFiWVVNQXN0cVUzc2lrMDFlTVV6NU9EQjN5RW1CM21z?=
- =?utf-8?B?QjZENHhoWmR4aGE2YVIvY0p1V0ovK09iK25pWXdqSXJSVVhNQ0xQWnE1MTV2?=
- =?utf-8?B?ZmdzR1AraDltTGhFWjhldDdnOWlDQUdObk1SSk54Qlg1OVFTRlhmUVRnaU5U?=
- =?utf-8?B?RzNEOG1jYzRnMHhsbktTbVU5S0g5cHBBNnNUZmxKRGhVQzIzdGNyak45VEhi?=
- =?utf-8?B?WDBlUk9RY2IzUE1ObHdTcXNyNXVLR1Y3MkNRQTNET3F2M2RGZTd1b1RTR3gx?=
- =?utf-8?B?TXdCMURjcytYdDRVU3F2THJ6bUtEcEI4MFV4ajZ0RUpLT1g0WEgxdVByOU1i?=
- =?utf-8?B?bDVpeWZReFIvdWxvRDNQQ1puN1p1Y2JkcWxmSUVDbDl4Z3psUkRXSnBlcDZq?=
- =?utf-8?B?Tml6UXFpeDZOWmxoQStDYkNtWThuSnZRd1BqZ3F3R1huMVo5Qkw2ZTBXM1pB?=
- =?utf-8?B?QjNpaHp0QnA0OG5idExUb0VGQmZHREVHWWtTaEdzNG5CVVhXZXVnRDdDOU5D?=
- =?utf-8?B?K0lMeUZ5Y1RqR05sYkJFSW9qaXhNbTQySjlucmRKQkduNlBzM053L2dPM0VT?=
- =?utf-8?B?N3hWNElsWFJhSlNHWXpKeG9QWHJUWTIzeVVKVGNxbnIzVm9PZ0t1WGlQQVpM?=
- =?utf-8?B?ZGY2Vk1UNnJiYThMSmxMcEgxL1VTSDhQeXBVdjU0eEk1d0kyTnNURWpSODhq?=
- =?utf-8?B?eG5POWd0akdESSt5Vk9OaGRldmpuYUt1ZUoySWZOcDdVbTJFTXZUM3dHS3RX?=
- =?utf-8?B?RnR1cVZ1WC9kenBkczc1R1ZZcWtpdjNOZ0tYcnprKzJJcTdKRWE4Njl4Mmtz?=
- =?utf-8?B?WnhZTDExNDk0VkJ1Q1BJKzJTcWIzWFhKTnNzV0dmY1hVWVFhNFcwNXRoQWtX?=
- =?utf-8?B?cmdGVDFNQ0J1MnFIY1dyNTdvV3pWTVl2RFovazc5ME9kMHdRUWtNdWhNZVFv?=
- =?utf-8?B?bmxyTFFYMVhBRWk5OGFxTTUvT0wxNit1cGtpSDh0d1VEMjhSN3FwM0F6TWha?=
- =?utf-8?B?aytqSTU4SFc0SEhVK0ZNYmh6QkdwTXlBQ0JkVjcvWnR6RUJEcWtiaGN6YURm?=
- =?utf-8?B?czNwYmlOT3RPK05Oelp3L3pVMFhibUJiUUpsSkpKR0xOR1VIcVRyQldsZDNo?=
- =?utf-8?B?WE9UQkZ4T2t2SERDbW9IOUZhcWl4LzF1d0lEc3JLMno3YmlwZ21NT3dzRWs3?=
- =?utf-8?B?VFdxdXFXcC84dE5mTTg5cGxuZzQ5VEVwQm1qc0xoeHRiMXNGZkF4dTIrS1B0?=
- =?utf-8?B?WkdyMDJON1MrdlRkOUtPZXJId012UzlkWU5Zc2lseFllRGcwK0tIN2xNSUxz?=
- =?utf-8?B?SWdhbmdDZ3lIenhmVTB5bzFLRVo1SzFrRzBmR0N4S2tVb0NZaHcrUC9ER0dw?=
- =?utf-8?B?OEQwRzJMenJiNzFrR1pHb0lCQ2dTUDVtcG1Cc0Z1N0MveC9lNkZ2ZWpsSG5y?=
- =?utf-8?B?RmxzRlhWY3pvdGdZdVJ5RGxCQUpLY0tkUURhdi95UjlZMkE5aWJtbTlWVzkr?=
- =?utf-8?B?VG9kRW5VRFVTNzJQUmJCUUViM0dDQ3ZtcWxQN2RIM3Ivc0dKdnJZVm5lb1NO?=
- =?utf-8?B?anUvV2FlaUtGOEtneklVL3g3a0Z4ME9DQXEvdzhOem9pd2FHa2hXczlDOXh6?=
- =?utf-8?B?TUIzYlNqS0FCMVdRTmtaeTBqWVRxTFYyekRJeFlhZVZ0SFBRbWsyQjRkd3Ir?=
- =?utf-8?B?dXlnTkU3RHV1bVMrbytVV25JZ3cvak5PY3k3VDZBQjBKK3ZzQU5hZDM1SzBM?=
- =?utf-8?B?TEhKYW1EYlg1T1YwYm5vZFlsWmo4MkRid1FLL0hYblRjdU1ETGt5QWdqcUxp?=
- =?utf-8?B?WUFzOWN1UVp4MXlnaHhBNnM1NldhR0UwWWRsZUhrUWFVSmhRcGdUVzZLRkhJ?=
- =?utf-8?B?U1E9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7982.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RjBvMnN4Y3dhak9YTGE0YS9yV1dyVElBSU5PQ3I1MFd3WlJjL3dDaVllRGxZ?=
- =?utf-8?B?azF4ZGVkMUxRWkhjczFtZWxrYWdBZHA1di9HdytoNXRHcmRKV3NFWlVHWTRO?=
- =?utf-8?B?YzR6TTJlQ1NhNEFyL0RZRzR5Z2lzSllpalJVSFlHYzFwWUdUOFBiYnRpWUUr?=
- =?utf-8?B?OTNidXEwZlU5Z2UzR0Qvc3lMWEgrRUt0bEYwaGJjTmtGaVdoQ0I1MWYzYUs4?=
- =?utf-8?B?WEVvRkw3RkZVUXVYZnFrWHRhclR5b3ROOHFCbU9qUWlLc2wxM3U2aGJNR0Uw?=
- =?utf-8?B?WVdnZWxFL1ZIemdUeGlaUXJxbDBqbm1HWHk1OTl1eVROdWVlNEN5UGo1cE5X?=
- =?utf-8?B?cGcxa1llcUN2MHVxellqMjk5TGR6WmZSME4zeHdCK2RycEhEbkxZcGE0ZC82?=
- =?utf-8?B?VWpmT21lcnExMm5vZFdmblFwd2VucWJnN0JsMXZGalpDUmNhZDFjWmFlWEJi?=
- =?utf-8?B?cTk4MkRLNHc3MHRGZXBWQ25DZVFOWnF0ZWxMQVhhT1Bid3dnczZVM0V1dGpk?=
- =?utf-8?B?ZlNqVnF6OVZnbU9INjFpeC85d2RqcVp1Yno3Q2pYVFRUSllaUWtyTVhRYkxB?=
- =?utf-8?B?SDVQOTZ2aHoyMi93L20velJhZmZEV0kvVFZLNmwvMnJPU3pnOEo1QXpST04x?=
- =?utf-8?B?cGxqaERWcDZXVjBYem1oRTVwWWo3OUl2YkwyV1g5cTFoZVJ5SUpBSGRhbUJ4?=
- =?utf-8?B?TjFMTWlMNk9udjN3SFVXM0QyN0RPQWhFVkFIa3BENUU0VXNVTzkvNmtWUlVJ?=
- =?utf-8?B?M3FpYm93MGNmVStuOFhBdGxIQ0VLaDkraWVnbUZKSDZWNVhOTUU0YkYrK1k1?=
- =?utf-8?B?bzJlNDhwR1pXTmFjcWxqUUVDcmczTytET1RSbElmdWYyTFRPdXloOXJBaFdh?=
- =?utf-8?B?c3NNYXcxLzN3RnFDK0lheFp3Ky9zV1BIQ2dBMlViaUxyVGk0M3VXVng5MCsw?=
- =?utf-8?B?cERod1pJVmV1b0RKU2V4MWtXWDBWUlV0WHZUc0lGVjVwbzdDeGhOMGczcDRL?=
- =?utf-8?B?UzBPcFFxclhQd3FmWlE2RU82UkhQdGhDMitOVGpVRytHUnk1RlVrdDJ2YUhE?=
- =?utf-8?B?T0pEVlFpOWhvMno0MTlFZFl4VzlWaHUxSWRhQ3Z6R3IvUmRGMW1CRlBEUGpq?=
- =?utf-8?B?VnkyUE55SVluQlNuMVNJWVExUXFvVzBoSWkrQ3hSTUlQaEdPWk5VTFJBU0tT?=
- =?utf-8?B?TjRFQ0VhZDN2MTNoaWMxbDFpNGltUENCQWNlRjBGczdTZUtQMnFpZGJEQ0cv?=
- =?utf-8?B?bWp0VzF6OXovQ0JzRm5iQzhUUnh1bkVCdG9QV0tqWU9LRW1KMSt1TDJ2VWFY?=
- =?utf-8?B?M1FBRGxXc09PeHJNanpwT0JzT2YyMExJQ3JscFNhL25NeTFLTU9LTE15cFVa?=
- =?utf-8?B?ek9yUkNSanB0SEwyZHRwSmdIQXBGN0VIYzIzbmdHOUVWVm1hV2tCZzFWbDBC?=
- =?utf-8?B?VGRweWNmbCtQMDMxczA5azRjb2liMmhNSW1VN1lUWkdJc1d2ZnZWdE9odHY4?=
- =?utf-8?B?OFMrM3h4dW41UlMralEzaE1wNGRDWTlsbW02clpJZVZRMEZVb091ejBOUFdX?=
- =?utf-8?B?Y3h2dDMxaEUvTXpvRVRxdzhVcTdnbVA3a1dQODU0eVlZZ0RRTFA1Unl5ejhs?=
- =?utf-8?B?aFlJOTc5MTk5V0xxOHpVeUdnNThmdHBOTEQxL3NFZkhoUHZxamEweExQVnVj?=
- =?utf-8?B?RnhtRjZmbXRmZ285a2x4Z0ZtdTdTbWlQSFFjUDd6UmdlOGZ3cldhSUNOQXVO?=
- =?utf-8?B?Y2hjQkJRRHJtRnRhYnhTNk1PNjZ0YnRBUlViQW9EUUdhY25ja1N4UmFmTlh2?=
- =?utf-8?B?TFJDdnRUZnJFeVc3S3BhMGdRVStaMTBTOVFBeWlyNVhmeUtCd05qaFNEQmEz?=
- =?utf-8?B?bXEzOU1HOFRoVmpvazk4RWp3MEZqVk1oSUNmVk56d0xZbG5JQzQxdi82OEhE?=
- =?utf-8?B?QmRaVEN5eG5HaDdtQW9ZUFZ4YUFnSWdLWmVaZjQwcUtJMzhYbG1iUkd1RVY5?=
- =?utf-8?B?ekorY3Y3NVVycHJvZjBQRFJybVVKZ1NYOWVPVlJ2SitUT2FNZy81UUlLRWlm?=
- =?utf-8?B?dkFFN0lXa0tUM1F2ZjltVGZxeEZ0MWpBaldRNFoxOHFWUUJVVVlRc0VhL3NH?=
- =?utf-8?B?L0hJTjhocktGbHNiTXBLZDh6bUVTeXd1MGlRU3RGb1FjYzVhM3Q1VXJNakNl?=
- =?utf-8?B?R3B0NWpvMituZTkxOTBOd29MUmNKSlRJS0l6MiszNy8vQVpDNVNONXZpQnpL?=
- =?utf-8?B?SGYvVHkrS1J2d3o4T0RFZmM5cEs2UFNuamp0ZGJVWjhTeENEL0Z4bm9ZYmI4?=
- =?utf-8?B?RVdPZkJUQjZRQnBRQnRWT1UrSS9FN2o1VDBzZWt4TzJSZDFHU0IzZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77ca92d9-d757-44eb-6dd0-08de590d0944
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7982.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 16:49:26.0755
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UVNJ/rG4/qYj4fOEJaPvXur72WlZBvis5jvoN4lPVOWroRQqRhmMcNXfM5oMv2eogoRV2kRkzNKpWqt3Ul01JA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6077
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL72cGkC/yXMQQrCMBAF0KuEv25gEq1iriJSbJ3GcTHKJJZA6
+ d1FXT94KwqbcEFyK4wXKfJUJBc6h+l+1cxebkgOkeKBQgw+WzPRPIySh2Xv+552x/nERIHROby
+ MZ2m/8Azl6pVbxeUv5T0+eKrfD9v2ARa7w8J8AAAA
+X-Change-ID: 20260121-grxring_big_v4-55037f9e001e
+To: Ajit Khaparde <ajit.khaparde@broadcom.com>, 
+ Sriharsha Basavapatna <sriharsha.basavapatna@broadcom.com>, 
+ Somnath Kotur <somnath.kotur@broadcom.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Igor Russkikh <irusskikh@marvell.com>, Simon Horman <horms@kernel.org>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, 
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+ Edward Cree <ecree.xilinx@gmail.com>, Brett Creeley <brett.creeley@amd.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ oss-drivers@corigine.com, linux-hyperv@vger.kernel.org, 
+ linux-net-drivers@amd.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-47773
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2946; i=leitao@debian.org;
+ h=from:subject:message-id; bh=N89ZNW3oha+wxXG+OHPJcmDoXFbropcF/evfEsV90xs=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpcPchSzyXwKpYKmrtStXXlYiOFQV06V6flIEsp
+ V13f4iNEbSJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaXD3IQAKCRA1o5Of/Hh3
+ bXJ6D/9MmdJjsBDbGE5s0Wi+gUPjhQoACGhQ1fm3nWmR25mSJXYc+1q91NUYVChe7Ioijf3riCL
+ LHid4f0+jK3sG+DTCeYkqdtOF06Sy9OYKWV4GDVma4Fj6RP9WHbMJ76vzY2FVIC9vVuycBcJLgK
+ WajuohiDWm+VgLGgNTjknQOLKLwurgRc243N8LmC6Cvc/K8a3O0ych9LHU4A/qKUYAZckIPzZJ2
+ azRwIqTp+jCSY4x/Gqgi7iaUNcrnEECUg47Suy+iyhoNIsFySTQRfeTnb6Nj/4H0gkuYgZaro9/
+ HEGvXeZcjs6tBDh0HOl2xprm1bOejXb+sdCFhHa1eTqv58UmS6epqghbb/CZFXznK8TbadYPpoI
+ 3402GeTyqJiQ3Qw+gwUHe7DDFME2/D7KGarvIjY8dOwxGPG1jTmlISRiqYQTLpBiPekgHkCKDy0
+ Fox4887rNMIkWutGmQtIVSQp8DcHJjsYO7FSxrPOS8xJ3II6rdVTwd54db+pGDfgF/46DSmxu64
+ xNQvbZiIlTOczPxbiZgBZmu/khVPhIpWLbxRhz8Xay3ufdj5IvGm0r5sbVsid+3ircyjp6Q9EHp
+ tlfYc/AiI76cdz61YBvVXeKeIHCNR6G9AX7pINrAUX0Ib232YzewPl0QxGA9KmYFJENo2gFZ+Oe
+ yQqJD//nhBo8VFg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
+Commit 84eaf4359c36 ("net: ethtool: add get_rx_ring_count callback to
+optimize RX ring queries") added specific support for GRXRINGS callback,
+simplifying .get_rxnfc.
 
+Remove the handling of GRXRINGS in .get_rxnfc() by moving it to the new
+.get_rx_ring_count().
 
-On 1/21/2026 7:54 AM, Breno Leitao wrote:
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->
->
-> Use the newly introduced .get_rx_ring_count ethtool ops callback instead
-> of handling ETHTOOL_GRXRINGS directly in .get_rxnfc().
->
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c | 15 +++++++++------
->   1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c b/drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c
-> index 6fef47ba0a59b..d8b5491c9cb2b 100644
-> --- a/drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c
-> +++ b/drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c
-> @@ -500,20 +500,22 @@ static int aq_ethtool_set_rss(struct net_device *netdev,
->          return err;
->   }
->
-> +static u32 aq_ethtool_get_rx_ring_count(struct net_device *ndev)
-> +{
-> +       struct aq_nic_s *aq_nic = netdev_priv(ndev);
-> +       struct aq_nic_cfg_s *cfg = aq_nic_get_cfg(aq_nic);
-> +
-> +       return cfg->vecs;
-> +}
-> +
+This simplifies the RX ring count retrieval and aligns the following
+drivers with the new ethtool API for querying RX ring parameters.
 
-Tiny nit, but RCT ordering is not maintained.
+ * sfc
+ * ionic
+ * sfc/siena
+ * sfc/ef100
+ * fbnic
+ * mana
+ * nfp
+ * atlantic
+ * benet (this is v2 in fact, where v1 had some discussions that
+   required a v2). See link [0]
 
-Thanks,
+Link: https://lore.kernel.org/all/20260119094514.5b12a097@kernel.org/ [0]
 
-Brett
->   static int aq_ethtool_get_rxnfc(struct net_device *ndev,
->                                  struct ethtool_rxnfc *cmd,
->                                  u32 *rule_locs)
->   {
->          struct aq_nic_s *aq_nic = netdev_priv(ndev);
-> -       struct aq_nic_cfg_s *cfg;
->          int err = 0;
->
-> -       cfg = aq_nic_get_cfg(aq_nic);
-> -
->          switch (cmd->cmd) {
-> -       case ETHTOOL_GRXRINGS:
-> -               cmd->data = cfg->vecs;
-> -               break;
->          case ETHTOOL_GRXCLSRLCNT:
->                  cmd->rule_cnt = aq_get_rxnfc_count_all_rules(aq_nic);
->                  break;
-> @@ -1072,6 +1074,7 @@ const struct ethtool_ops aq_ethtool_ops = {
->          .set_rxfh            = aq_ethtool_set_rss,
->          .get_rxnfc           = aq_ethtool_get_rxnfc,
->          .set_rxnfc           = aq_ethtool_set_rxnfc,
-> +       .get_rx_ring_count   = aq_ethtool_get_rx_ring_count,
->          .get_msglevel        = aq_get_msg_level,
->          .set_msglevel        = aq_set_msg_level,
->          .get_sset_count      = aq_ethtool_get_sset_count,
->
-> --
-> 2.47.3
->
+This is covering the last drivers, and as soon as this lands, I will
+change the ethtool framework to avoid calling .get_rx_ring_count for
+ETHTOOL_GRXRINGS, simplifying the ethtool core framework.
+
+Part 1 is already merged in net-next and can be seen in
+https://lore.kernel.org/all/20260109-grxring_big_v1-v1-0-a0f77f732006@debian.org/
+
+Part 2 is already merged in net-next except benet driver, which is now included
+in here
+https://lore.kernel.org/all/20260115-grxring_big_v2-v1-0-b3e1b58bced5@debian.org/
+
+PS: all of these change were compile-tested only.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (9):
+      net: benet: convert to use .get_rx_ring_count
+      net: atlantic: convert to use .get_rx_ring_count
+      net: nfp: convert to use .get_rx_ring_count
+      net: mana: convert to use .get_rx_ring_count
+      net: fbnic: convert to use .get_rx_ring_count
+      net: ionic: convert to use .get_rx_ring_count
+      net: sfc: efx: convert to use .get_rx_ring_count
+      net: sfc: siena: convert to use .get_rx_ring_count
+      net: sfc: falcon: convert to use .get_rx_ring_count
+
+ .../net/ethernet/aquantia/atlantic/aq_ethtool.c    | 15 +++++----
+ drivers/net/ethernet/emulex/benet/be_ethtool.c     | 37 ++++++++--------------
+ drivers/net/ethernet/meta/fbnic/fbnic_ethtool.c    | 12 ++++---
+ drivers/net/ethernet/microsoft/mana/mana_ethtool.c | 13 ++------
+ .../net/ethernet/netronome/nfp/nfp_net_ethtool.c   | 11 +++++--
+ .../net/ethernet/pensando/ionic/ionic_ethtool.c    | 18 ++---------
+ drivers/net/ethernet/sfc/ef100_ethtool.c           |  1 +
+ drivers/net/ethernet/sfc/ethtool.c                 |  1 +
+ drivers/net/ethernet/sfc/ethtool_common.c          | 11 ++++---
+ drivers/net/ethernet/sfc/ethtool_common.h          |  1 +
+ drivers/net/ethernet/sfc/falcon/ethtool.c          | 12 ++++---
+ drivers/net/ethernet/sfc/siena/ethtool.c           |  1 +
+ drivers/net/ethernet/sfc/siena/ethtool_common.c    | 11 ++++---
+ drivers/net/ethernet/sfc/siena/ethtool_common.h    |  1 +
+ 14 files changed, 72 insertions(+), 73 deletions(-)
+---
+base-commit: d8f87aa5fa0a4276491fa8ef436cd22605a3f9ba
+change-id: 20260121-grxring_big_v4-55037f9e001e
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
